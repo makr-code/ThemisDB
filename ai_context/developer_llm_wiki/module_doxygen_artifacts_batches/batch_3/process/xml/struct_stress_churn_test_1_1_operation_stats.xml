@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_stress_churn_test_1_1_operation_stats" kind="struct" language="C++" prot="protected">
+    <compoundname>StressChurnTest::OperationStats</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_stress_churn_test_1_1_operation_stats_1a69dfaaa9f3f159faf0ef5151a84b4492" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t StressChurnTest::OperationStats::total_operations</definition>
+        <argsstring></argsstring>
+        <name>total_operations</name>
+        <qualifiedname>StressChurnTest::OperationStats::total_operations</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_stress_churn_focused.cpp" line="42" column="17" bodyfile="tests/process/test_process_stress_churn_focused.cpp" bodystart="42" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_stress_churn_test_1_1_operation_stats_1a0b09d7240ea1046944aea096837e83e5" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds StressChurnTest::OperationStats::total_time_ms</definition>
+        <argsstring></argsstring>
+        <name>total_time_ms</name>
+        <qualifiedname>StressChurnTest::OperationStats::total_time_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_stress_churn_focused.cpp" line="43" column="35" bodyfile="tests/process/test_process_stress_churn_focused.cpp" bodystart="43" bodyend="43"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_stress_churn_test_1_1_operation_stats_1a7e26aa09bc4ac91711656246fb2b0914" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double StressChurnTest::OperationStats::ops_per_sec</definition>
+        <argsstring>() const</argsstring>
+        <name>ops_per_sec</name>
+        <qualifiedname>StressChurnTest::OperationStats::ops_per_sec</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_stress_churn_focused.cpp" line="45" column="16" bodyfile="tests/process/test_process_stress_churn_focused.cpp" bodystart="45" bodyend="50"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/process/test_process_stress_churn_focused.cpp" line="41" column="5" bodyfile="tests/process/test_process_stress_churn_focused.cpp" bodystart="41" bodyend="51"/>
+    <listofallmembers>
+      <member refid="struct_stress_churn_test_1_1_operation_stats_1a7e26aa09bc4ac91711656246fb2b0914" prot="public" virt="non-virtual"><scope>StressChurnTest::OperationStats</scope><name>ops_per_sec</name></member>
+      <member refid="struct_stress_churn_test_1_1_operation_stats_1a69dfaaa9f3f159faf0ef5151a84b4492" prot="public" virt="non-virtual"><scope>StressChurnTest::OperationStats</scope><name>total_operations</name></member>
+      <member refid="struct_stress_churn_test_1_1_operation_stats_1a0b09d7240ea1046944aea096837e83e5" prot="public" virt="non-virtual"><scope>StressChurnTest::OperationStats</scope><name>total_time_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

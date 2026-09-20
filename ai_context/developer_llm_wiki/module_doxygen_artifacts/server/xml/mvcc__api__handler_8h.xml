@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="mvcc__api__handler_8h" kind="file" language="C++">
+    <compoundname>mvcc_api_handler.h</compoundname>
+    <includes local="yes">storage/mvcc_store.h</includes>
+    <includes local="yes">sharding/prometheus_metrics.h</includes>
+    <includes local="no">httplib.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includedby refid="http__server_8cpp" local="yes">src/server/http_server.cpp</includedby>
+    <includedby refid="mvcc__api__handler_8cpp" local="yes">src/server/mvcc_api_handler.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/server/mvcc_api_handler.h</label>
+        <link refid="mvcc__api__handler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>httplib.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="3">
+        <label>sharding/prometheus_metrics.h</label>
+      </node>
+      <node id="2">
+        <label>storage/mvcc_store.h</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/server/mvcc_api_handler.h</label>
+        <link refid="mvcc__api__handler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/server/http_server.cpp</label>
+        <link refid="http__server_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/server/mvcc_api_handler.cpp</label>
+        <link refid="mvcc__api__handler_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1server_1_1_mvcc_api_handler" prot="public">themis::server::MvccApiHandler</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1server">themis::server</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>2025<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Licensed<sp/>under<sp/>MIT<sp/>License</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/mvcc_store.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;sharding/prometheus_metrics.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;httplib.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1server" kindref="compound">server</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="classthemis_1_1server_1_1_mvcc_api_handler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1server_1_1_mvcc_api_handler_1a2212ee18e550fa4c40e88791ac5bf3b7" kindref="member">MvccApiHandler</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_mvcc_api_handler_1a2212ee18e550fa4c40e88791ac5bf3b7" kindref="member">MvccApiHandler</ref>(</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;MVCCStore&gt;<sp/>store,</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;sharding::PrometheusMetrics&gt;<sp/>metrics<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="classthemis_1_1server_1_1_mvcc_api_handler_1ae2736aff398aace5e1f6b0727d232914" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_mvcc_api_handler_1ae2736aff398aace5e1f6b0727d232914" kindref="member">~MvccApiHandler</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="classthemis_1_1server_1_1_mvcc_api_handler_1aace96f8b3209cb9797290e8f758514fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_mvcc_api_handler_1aace96f8b3209cb9797290e8f758514fe" kindref="member">MvccApiHandler</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_mvcc_api_handler_1a2212ee18e550fa4c40e88791ac5bf3b7" kindref="member">MvccApiHandler</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="39" refid="classthemis_1_1server_1_1_mvcc_api_handler_1acfbfde50aab6133b56db3a7a62518826" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_mvcc_api_handler_1a2212ee18e550fa4c40e88791ac5bf3b7" kindref="member">MvccApiHandler</ref>&amp;<sp/><ref refid="classthemis_1_1server_1_1_mvcc_api_handler_1acfbfde50aab6133b56db3a7a62518826" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_mvcc_api_handler_1a2212ee18e550fa4c40e88791ac5bf3b7" kindref="member">MvccApiHandler</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40" refid="classthemis_1_1server_1_1_mvcc_api_handler_1a9c62cf247202bb38a60f49cdd3c2c5e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_mvcc_api_handler_1a9c62cf247202bb38a60f49cdd3c2c5e6" kindref="member">MvccApiHandler</ref>(<ref refid="classthemis_1_1server_1_1_mvcc_api_handler_1a2212ee18e550fa4c40e88791ac5bf3b7" kindref="member">MvccApiHandler</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="41" refid="classthemis_1_1server_1_1_mvcc_api_handler_1ab6d59abdeca1b3bd111432b9a3fb3cfe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_mvcc_api_handler_1a2212ee18e550fa4c40e88791ac5bf3b7" kindref="member">MvccApiHandler</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1server_1_1_mvcc_api_handler_1a2212ee18e550fa4c40e88791ac5bf3b7" kindref="member">MvccApiHandler</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_mvcc_api_handler_1ab1e4faf3a3a2addb73c675f95386714e" kindref="member">registerRoutes</ref>(<ref refid="namespacehttplib" kindref="compound">httplib</ref>::Server&amp;<sp/><ref refid="namespacethemis_1_1server" kindref="compound">server</ref>);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_mvcc_api_handler_1a42b81b0447e0486a80532a56599f07e9" kindref="member">handleGetKey</ref>(const<sp/><ref refid="namespacehttplib" kindref="compound">httplib</ref>::<ref refid="structthemis_1_1server_1_1_request" kindref="compound">Request</ref>&amp;<sp/>req,<sp/><ref refid="namespacehttplib" kindref="compound">httplib</ref>::<ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>&amp;<sp/>res);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_mvcc_api_handler_1ab9ec3a2e3d2eff1d146f098009b1807a" kindref="member">handlePutKey</ref>(const<sp/><ref refid="namespacehttplib" kindref="compound">httplib</ref>::<ref refid="structthemis_1_1server_1_1_request" kindref="compound">Request</ref>&amp;<sp/>req,<sp/><ref refid="namespacehttplib" kindref="compound">httplib</ref>::<ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>&amp;<sp/>res);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_mvcc_api_handler_1a3f4d69a174aaa15a38763bc881404d11" kindref="member">handleListVersions</ref>(const<sp/><ref refid="namespacehttplib" kindref="compound">httplib</ref>::<ref refid="structthemis_1_1server_1_1_request" kindref="compound">Request</ref>&amp;<sp/>req,<sp/><ref refid="namespacehttplib" kindref="compound">httplib</ref>::<ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>&amp;<sp/>res);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_mvcc_api_handler_1ae993d3a01ab1dd49071359b6e8a6b604" kindref="member">handleGcVersions</ref>(const<sp/><ref refid="namespacehttplib" kindref="compound">httplib</ref>::<ref refid="structthemis_1_1server_1_1_request" kindref="compound">Request</ref>&amp;<sp/>req,<sp/><ref refid="namespacehttplib" kindref="compound">httplib</ref>::<ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>&amp;<sp/>res);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_mvcc_api_handler_1a246d6a7bcb913763a83b4c64aa6062d0" kindref="member">handleGetClock</ref>(const<sp/><ref refid="namespacehttplib" kindref="compound">httplib</ref>::<ref refid="structthemis_1_1server_1_1_request" kindref="compound">Request</ref>&amp;<sp/>req,<sp/><ref refid="namespacehttplib" kindref="compound">httplib</ref>::<ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>&amp;<sp/>res);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_mvcc_api_handler_1ac2d30575c0a8724e9057445026631f42" kindref="member">handleGetStats</ref>(const<sp/><ref refid="namespacehttplib" kindref="compound">httplib</ref>::<ref refid="structthemis_1_1server_1_1_request" kindref="compound">Request</ref>&amp;<sp/>req,<sp/><ref refid="namespacehttplib" kindref="compound">httplib</ref>::<ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>&amp;<sp/>res);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;MVCCStore&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>store_;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;<ref refid="namespacethemis_1_1sharding" kindref="compound">sharding</ref>::PrometheusMetrics&gt;<sp/>metrics_;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Accumulated<sp/>stats<sp/>(for<sp/>/stats<sp/>endpoint)<sp/>─────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>writes_total_{0};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>reads_latest_total_{0};</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>reads_snapshot_total_{0};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>gc_runs_total_{0};</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>gc_versions_deleted_total_{0};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>sendError(httplib::Response&amp;<sp/>res,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>status_code,</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>sendJson(httplib::Response&amp;<sp/>res,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref>&amp;<sp/>data,</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>status_code<sp/>=<sp/>200)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>extractKey(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>httplib::Request&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>valueToString(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>v);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/>stringToValue(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>s);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>server</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/server/mvcc_api_handler.h"/>
+  </compounddef>
+</doxygen>

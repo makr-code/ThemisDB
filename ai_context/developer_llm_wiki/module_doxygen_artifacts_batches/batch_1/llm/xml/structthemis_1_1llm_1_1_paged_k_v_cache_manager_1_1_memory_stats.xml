@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_memory_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::PagedKVCacheManager::MemoryStats</compoundname>
+    <includes refid="paged__kv__cache__manager_8h" local="no">paged_kv_cache_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_memory_stats_1abd82bd88b6b5cb6080d5889c74a946f2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::PagedKVCacheManager::MemoryStats::total_blocks</definition>
+        <argsstring></argsstring>
+        <name>total_blocks</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::MemoryStats::total_blocks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="81" column="16" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_memory_stats_1ab7e7dc8977cf9c8a9fcfd5a4984b4232" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::PagedKVCacheManager::MemoryStats::used_blocks</definition>
+        <argsstring></argsstring>
+        <name>used_blocks</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::MemoryStats::used_blocks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="82" column="16" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_memory_stats_1a4c3d9d4f8eec93dcf5696b78be76804d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::PagedKVCacheManager::MemoryStats::free_blocks</definition>
+        <argsstring></argsstring>
+        <name>free_blocks</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::MemoryStats::free_blocks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="83" column="16" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_memory_stats_1a70641fed8a89f93af59dce1ab8fcd878" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::PagedKVCacheManager::MemoryStats::num_sequences</definition>
+        <argsstring></argsstring>
+        <name>num_sequences</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::MemoryStats::num_sequences</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="84" column="16" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_memory_stats_1ad584a5fcf9369e8295920eadc453d5a0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::PagedKVCacheManager::MemoryStats::fragmentation_rate</definition>
+        <argsstring></argsstring>
+        <name>fragmentation_rate</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::MemoryStats::fragmentation_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="85" column="16" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_memory_stats_1ab5bff779903d1f0948e64eb2f357fe95" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::PagedKVCacheManager::MemoryStats::shared_blocks</definition>
+        <argsstring></argsstring>
+        <name>shared_blocks</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::MemoryStats::shared_blocks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="86" column="16" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_memory_stats_1a6fe6e01a628bb8792f7e1c40989d8d10" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::PagedKVCacheManager::MemoryStats::prefix_sharing_ratio</definition>
+        <argsstring></argsstring>
+        <name>prefix_sharing_ratio</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::MemoryStats::prefix_sharing_ratio</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="87" column="16" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_memory_stats_1a22d1b7157625de6fe452e5d94e48af88" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::PagedKVCacheManager::MemoryStats::bytes_per_block</definition>
+        <argsstring></argsstring>
+        <name>bytes_per_block</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::MemoryStats::bytes_per_block</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="88" column="16" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_memory_stats_1a434863089c29ff737c8e3fddb75f0b3a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::PagedKVCacheManager::MemoryStats::total_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_memory_bytes</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::MemoryStats::total_memory_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="89" column="16" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_memory_stats_1afbebb003bdf0d4219039cc94d34ec492" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::PagedKVCacheManager::MemoryStats::used_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>used_memory_bytes</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::MemoryStats::used_memory_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="90" column="16" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/paged_kv_cache_manager.h" line="80" column="5" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="80" bodyend="91"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_memory_stats_1a22d1b7157625de6fe452e5d94e48af88" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager::MemoryStats</scope><name>bytes_per_block</name></member>
+      <member refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_memory_stats_1ad584a5fcf9369e8295920eadc453d5a0" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager::MemoryStats</scope><name>fragmentation_rate</name></member>
+      <member refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_memory_stats_1a4c3d9d4f8eec93dcf5696b78be76804d" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager::MemoryStats</scope><name>free_blocks</name></member>
+      <member refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_memory_stats_1a70641fed8a89f93af59dce1ab8fcd878" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager::MemoryStats</scope><name>num_sequences</name></member>
+      <member refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_memory_stats_1a6fe6e01a628bb8792f7e1c40989d8d10" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager::MemoryStats</scope><name>prefix_sharing_ratio</name></member>
+      <member refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_memory_stats_1ab5bff779903d1f0948e64eb2f357fe95" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager::MemoryStats</scope><name>shared_blocks</name></member>
+      <member refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_memory_stats_1abd82bd88b6b5cb6080d5889c74a946f2" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager::MemoryStats</scope><name>total_blocks</name></member>
+      <member refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_memory_stats_1a434863089c29ff737c8e3fddb75f0b3a" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager::MemoryStats</scope><name>total_memory_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_memory_stats_1ab7e7dc8977cf9c8a9fcfd5a4984b4232" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager::MemoryStats</scope><name>used_blocks</name></member>
+      <member refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_memory_stats_1afbebb003bdf0d4219039cc94d34ec492" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager::MemoryStats</scope><name>used_memory_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

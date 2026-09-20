@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_live_migration_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::LiveMigrationResult</compoundname>
+    <includes refid="data__migrator_8h" local="no">data_migrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_live_migration_result_1a310523546f776fff7d8729a296b18cc1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::LiveMigrationResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::sharding::LiveMigrationResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="95" column="10" bodyfile="include/sharding/data_migrator.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_live_migration_result_1a367eb4e2c72e23e42c7eb76dfefd8083" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_migration_result" kindref="compound">MigrationResult</ref></type>
+        <definition>MigrationResult themis::sharding::LiveMigrationResult::bulk_migration</definition>
+        <argsstring></argsstring>
+        <name>bulk_migration</name>
+        <qualifiedname>themis::sharding::LiveMigrationResult::bulk_migration</qualifiedname>
+        <briefdescription>
+<para>Result of the initial bulk data copy phase. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="98" column="21" bodyfile="include/sharding/data_migrator.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_live_migration_result_1ad6506db73a307cb5403f6a83ec94c45c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::LiveMigrationResult::wal_entries_applied</definition>
+        <argsstring></argsstring>
+        <name>wal_entries_applied</name>
+        <qualifiedname>themis::sharding::LiveMigrationResult::wal_entries_applied</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of WAL entries applied during the catchup phase. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="101" column="14" bodyfile="include/sharding/data_migrator.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_live_migration_result_1acaf1d08406865c243226f056a4b2ab1c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::LiveMigrationResult::final_wal_lag_bytes</definition>
+        <argsstring></argsstring>
+        <name>final_wal_lag_bytes</name>
+        <qualifiedname>themis::sharding::LiveMigrationResult::final_wal_lag_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Final WAL lag at cutover time (0 means fully caught up). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="104" column="14" bodyfile="include/sharding/data_migrator.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_live_migration_result_1ab92959934f685fda7e9c05c5a91359fd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::LiveMigrationResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::sharding::LiveMigrationResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="106" column="17" bodyfile="include/sharding/data_migrator.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_live_migration_result_1adf8952119be8bd005f75f50bfc897891" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::LiveMigrationResult::migration_id</definition>
+        <argsstring></argsstring>
+        <name>migration_id</name>
+        <qualifiedname>themis::sharding::LiveMigrationResult::migration_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/data_migrator.h" line="107" column="17" bodyfile="include/sharding/data_migrator.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a dual-write live migration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::sharding::LiveMigrationResult</label>
+        <link refid="structthemis_1_1sharding_1_1_live_migration_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>bulk_migration</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::sharding::MigrationResult</label>
+        <link refid="structthemis_1_1sharding_1_1_migration_result"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/data_migrator.h" line="94" column="1" bodyfile="include/sharding/data_migrator.h" bodystart="94" bodyend="108"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_live_migration_result_1a367eb4e2c72e23e42c7eb76dfefd8083" prot="public" virt="non-virtual"><scope>themis::sharding::LiveMigrationResult</scope><name>bulk_migration</name></member>
+      <member refid="structthemis_1_1sharding_1_1_live_migration_result_1ab92959934f685fda7e9c05c5a91359fd" prot="public" virt="non-virtual"><scope>themis::sharding::LiveMigrationResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1sharding_1_1_live_migration_result_1acaf1d08406865c243226f056a4b2ab1c" prot="public" virt="non-virtual"><scope>themis::sharding::LiveMigrationResult</scope><name>final_wal_lag_bytes</name></member>
+      <member refid="structthemis_1_1sharding_1_1_live_migration_result_1adf8952119be8bd005f75f50bfc897891" prot="public" virt="non-virtual"><scope>themis::sharding::LiveMigrationResult</scope><name>migration_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_live_migration_result_1a310523546f776fff7d8729a296b18cc1" prot="public" virt="non-virtual"><scope>themis::sharding::LiveMigrationResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1sharding_1_1_live_migration_result_1ad6506db73a307cb5403f6a83ec94c45c" prot="public" virt="non-virtual"><scope>themis::sharding::LiveMigrationResult</scope><name>wal_entries_applied</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

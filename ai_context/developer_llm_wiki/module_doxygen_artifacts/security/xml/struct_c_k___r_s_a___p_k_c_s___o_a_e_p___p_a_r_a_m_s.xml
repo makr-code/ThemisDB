@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_c_k___r_s_a___p_k_c_s___o_a_e_p___p_a_r_a_m_s" kind="struct" language="C++" prot="public">
+    <compoundname>CK_RSA_PKCS_OAEP_PARAMS</compoundname>
+    <includes refid="pkcs11__minimal_8h" local="no">pkcs11_minimal.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_c_k___r_s_a___p_k_c_s___o_a_e_p___p_a_r_a_m_s_1a50f3f7245751552d3b572875bd7c04f3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t CK_RSA_PKCS_OAEP_PARAMS::hashAlg</definition>
+        <argsstring></argsstring>
+        <name>hashAlg</name>
+        <qualifiedname>CK_RSA_PKCS_OAEP_PARAMS::hashAlg</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="116" column="28" bodyfile="include/security/pkcs11_minimal.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___r_s_a___p_k_c_s___o_a_e_p___p_a_r_a_m_s_1ad315447d7714ea28f1a920a4b65c0c22" prot="public" static="no" mutable="no">
+        <type><ref refid="pkcs11__minimal_8h_1a13aa58274109327ae0734d9348900769" kindref="member">CK_RSA_PKCS_MGF_TYPE</ref></type>
+        <definition>CK_RSA_PKCS_MGF_TYPE CK_RSA_PKCS_OAEP_PARAMS::mgf</definition>
+        <argsstring></argsstring>
+        <name>mgf</name>
+        <qualifiedname>CK_RSA_PKCS_OAEP_PARAMS::mgf</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="117" column="28" bodyfile="include/security/pkcs11_minimal.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___r_s_a___p_k_c_s___o_a_e_p___p_a_r_a_m_s_1a9e3d19a611b80dd8e9c20d94428d90eb" prot="public" static="no" mutable="no">
+        <type><ref refid="pkcs11__minimal_8h_1afebc6fbe690821a6a16b8697e736c46b" kindref="member">CK_RSA_PKCS_OAEP_SOURCE_TYPE</ref></type>
+        <definition>CK_RSA_PKCS_OAEP_SOURCE_TYPE CK_RSA_PKCS_OAEP_PARAMS::source</definition>
+        <argsstring></argsstring>
+        <name>source</name>
+        <qualifiedname>CK_RSA_PKCS_OAEP_PARAMS::source</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="118" column="34" bodyfile="include/security/pkcs11_minimal.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___r_s_a___p_k_c_s___o_a_e_p___p_a_r_a_m_s_1a24f6c02ef0cc7e933ff5dab17a5f62d8" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* CK_RSA_PKCS_OAEP_PARAMS::pSourceData</definition>
+        <argsstring></argsstring>
+        <name>pSourceData</name>
+        <qualifiedname>CK_RSA_PKCS_OAEP_PARAMS::pSourceData</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="119" column="27" bodyfile="include/security/pkcs11_minimal.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___r_s_a___p_k_c_s___o_a_e_p___p_a_r_a_m_s_1ad292b329d2fa340bb1523547addcd9ec" prot="public" static="no" mutable="no">
+        <type><ref refid="pkcs11__minimal_8h_1a2a6d76d34570b008ae8b5dc2a2485588" kindref="member">CK_ULONG</ref></type>
+        <definition>CK_ULONG CK_RSA_PKCS_OAEP_PARAMS::ulSourceDataLen</definition>
+        <argsstring></argsstring>
+        <name>ulSourceDataLen</name>
+        <qualifiedname>CK_RSA_PKCS_OAEP_PARAMS::ulSourceDataLen</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="120" column="28" bodyfile="include/security/pkcs11_minimal.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/pkcs11_minimal.h" line="115" column="1" bodyfile="include/security/pkcs11_minimal.h" bodystart="115" bodyend="121"/>
+    <listofallmembers>
+      <member refid="struct_c_k___r_s_a___p_k_c_s___o_a_e_p___p_a_r_a_m_s_1a50f3f7245751552d3b572875bd7c04f3" prot="public" virt="non-virtual"><scope>CK_RSA_PKCS_OAEP_PARAMS</scope><name>hashAlg</name></member>
+      <member refid="struct_c_k___r_s_a___p_k_c_s___o_a_e_p___p_a_r_a_m_s_1ad315447d7714ea28f1a920a4b65c0c22" prot="public" virt="non-virtual"><scope>CK_RSA_PKCS_OAEP_PARAMS</scope><name>mgf</name></member>
+      <member refid="struct_c_k___r_s_a___p_k_c_s___o_a_e_p___p_a_r_a_m_s_1a24f6c02ef0cc7e933ff5dab17a5f62d8" prot="public" virt="non-virtual"><scope>CK_RSA_PKCS_OAEP_PARAMS</scope><name>pSourceData</name></member>
+      <member refid="struct_c_k___r_s_a___p_k_c_s___o_a_e_p___p_a_r_a_m_s_1a9e3d19a611b80dd8e9c20d94428d90eb" prot="public" virt="non-virtual"><scope>CK_RSA_PKCS_OAEP_PARAMS</scope><name>source</name></member>
+      <member refid="struct_c_k___r_s_a___p_k_c_s___o_a_e_p___p_a_r_a_m_s_1ad292b329d2fa340bb1523547addcd9ec" prot="public" virt="non-virtual"><scope>CK_RSA_PKCS_OAEP_PARAMS</scope><name>ulSourceDataLen</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

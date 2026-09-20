@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test" kind="page">
+    <compoundname>test</compoundname>
+    <title>Test List</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Member <ref refid="test__server__phase5__hardening_8cpp_1a8f428a7941d5c1c099af51477979b8e3" kindref="member">TEST_F</ref>  (<ref refid="class_wire_retry_test" kindref="compound">WireRetryTest</ref>, WSR01_SingleTransientFailure_RetrySucceeds)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000001"/>WSR-01: Single transient failure — retry succeeds on second attempt.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__server__phase5__hardening_8cpp_1adf943f8ae6645fdef4292a8058b6fa90" kindref="member">TEST_F</ref>  (<ref refid="class_wire_retry_test" kindref="compound">WireRetryTest</ref>, WSR02_TwoConsecutiveFailures_SucceedsOnThird)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000002"/>WSR-02: Two consecutive failures — succeeds on third attempt.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__server__phase5__hardening_8cpp_1a32164128317299ea0aca4d023d820831" kindref="member">TEST_F</ref>  (<ref refid="class_wire_retry_test" kindref="compound">WireRetryTest</ref>, WSR03_ThreeConsecutiveFailures_ReturnsFailure)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000003"/>WSR-03: Three consecutive failures — returns failure after exhausting retries.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__server__phase5__hardening_8cpp_1a2a3fb7bb1406c262a133f6921c746cc0" kindref="member">TEST_F</ref>  (<ref refid="class_wire_retry_test" kindref="compound">WireRetryTest</ref>, WSR04_ExponentialBackoff_IntervalsStrictlyIncreasing)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000004"/>WSR-04: Exponential backoff intervals are strictly increasing (1×, 2×, 4× base).  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__server__phase5__hardening_8cpp_1abd9a5f07d6c78951fb3feb348548babc" kindref="member">TEST_F</ref>  (<ref refid="class_wire_retry_test" kindref="compound">WireRetryTest</ref>, WSR05_TotalRetryDuration_WithinBudget)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000005"/>WSR-05: Total retry duration stays within configured max_retry_time budget.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__server__phase5__hardening_8cpp_1ab55d40fafac1c94e48501d23ed88e86f" kindref="member">TEST_F</ref>  (<ref refid="class_wire_retry_test" kindref="compound">WireRetryTest</ref>, WSR06_SuccessfulFirstAttempt_ZeroRetries)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000006"/>WSR-06: Successful first attempt records zero retries.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__server__phase5__hardening_8cpp_1a11860fab11626511a5e694005806decd" kindref="member">TEST_F</ref>  (<ref refid="class_wire_retry_test" kindref="compound">WireRetryTest</ref>, WSR07_JitterMode_NonDeterministicIntervals)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000007"/>WSR-07: Jitter mode produces non-deterministic intervals (variance &gt; 0 across 10 independent runs with different seeds).  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__server__phase5__hardening_8cpp_1ae65e62b0a82654987eed2d855ab9fd6d" kindref="member">TEST_F</ref>  (<ref refid="class_wire_retry_test" kindref="compound">WireRetryTest</ref>, WSR08_NonRetryableCodes_FailImmediately)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000008"/>WSR-08: Retry is only triggered for retryable codes; kFatal and kInvalidArg must fail immediately without retrying.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__server__phase5__hardening_8cpp_1a468ad71180a363bc1b11d696740985f8" kindref="member">TEST_F</ref>  (<ref refid="class_wire_retry_test" kindref="compound">WireRetryTest</ref>, WSR09_ConcurrentRetrySessions_NoInterference)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000009"/>WSR-09: Concurrent retry sessions do not interfere (2 threads × 8 retries each, all must reach kOk).  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__server__phase5__hardening_8cpp_1a56df155e1bdf4dd28b5a7e0c08f509a2" kindref="member">TEST_F</ref>  (<ref refid="class_wire_retry_test" kindref="compound">WireRetryTest</ref>, WSR10_RetryCounter_ResetAfterSuccess)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000010"/>WSR-10: Retry counter is reset after a successful request.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__server__phase5__hardening_8cpp_1abdd305f5a0d9adfc53faf1a817bf566c" kindref="member">TEST_F</ref>  (<ref refid="class_wire_retry_test" kindref="compound">WireRetryTest</ref>, WSR11_ZeroRetryConfig_ImmediateFailure)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000011"/>WSR-11: Zero-retry config returns immediately on first failure.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__server__phase5__hardening_8cpp_1a19adc17340a56397fb303a5fd73b757c" kindref="member">TEST_F</ref>  (<ref refid="class_wire_retry_test" kindref="compound">WireRetryTest</ref>, WSR12_MaxRetriesOne_ExactlyOneRetry)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000012"/>WSR-12: Max-retries=1 allows exactly one retry attempt.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__server__phase5__hardening_8cpp_1a9483fd4160020214a46ad6c174aef015" kindref="member">TEST_F</ref>  (<ref refid="class_wire_retry_test" kindref="compound">WireRetryTest</ref>, WSR13_RetryCallback_InvokedOncePerAttempt)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000013"/>WSR-13: Retry callback is invoked exactly once per retry attempt.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__server__phase5__hardening_8cpp_1a5faadbc7ede5933d4e17638fe0842aa0" kindref="member">TEST_F</ref>  (<ref refid="class_wire_retry_test" kindref="compound">WireRetryTest</ref>, WSR14_RequestMetadata_PreservedAcrossRetries)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000014"/>WSR-14: Request metadata (headers, body) is preserved across retries. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__server__phase5__hardening_8cpp_1abae1ca9ba3119ad2ecc64bef3474b935" kindref="member">TEST_F</ref>  (<ref refid="class_wire_retry_test" kindref="compound">WireRetryTest</ref>, WSR15_ExceptionInCallable_HandledGracefully)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000015"/>WSR-15: Retry logic converts callable exceptions into fatal results.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__server__phase5__hardening_8cpp_1a3f0a967c5d977335a91152652b55e897" kindref="member">TEST_F</ref>  (<ref refid="class_wire_retry_test" kindref="compound">WireRetryTest</ref>, WSR16_SelfCheck_AllAssertionsPass)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000016"/>WSR-16: Retry gate self-check — passes when all 16 WSR assertions are satisfied. Counter must equal 1.0.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__server__phase5__hardening_8cpp_1ab34a7e4ac95d3c933eba087b179b0226" kindref="member">TEST_F</ref>  (<ref refid="class_http_shutdown_test" kindref="compound">HttpShutdownTest</ref>, HST01_RequestExceedingDeadline_ReturnsTimedOut)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000017"/>HST-01: Request exceeding deadline is cancelled and returns kTimedOut.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__server__phase5__hardening_8cpp_1aa066c1eeb7b7a198ade2240e2a94513d" kindref="member">TEST_F</ref>  (<ref refid="class_http_shutdown_test" kindref="compound">HttpShutdownTest</ref>, HST02_RequestWithinDeadline_Succeeds)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000018"/>HST-02: Request completing within deadline succeeds normally.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__server__phase5__hardening_8cpp_1aa210514221b13a1be62f8fbe374f1fed" kindref="member">TEST_F</ref>  (<ref refid="class_http_shutdown_test" kindref="compound">HttpShutdownTest</ref>, HST03_ZeroTimeoutConfig_RejectsImmediately)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000019"/>HST-03: Zero-timeout config rejects immediately.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__server__phase5__hardening_8cpp_1a59551c28f3d66e86fcc6e66f1d0ee6fe" kindref="member">TEST_F</ref>  (<ref refid="class_http_shutdown_test" kindref="compound">HttpShutdownTest</ref>, HST04_GracefulShutdown_DrainsInFlightRequests)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000020"/>HST-04: Graceful shutdown drains in-flight requests before terminating.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__server__phase5__hardening_8cpp_1a5e233a58f0a88533c0ff4dc478b09927" kindref="member">TEST_F</ref>  (<ref refid="class_http_shutdown_test" kindref="compound">HttpShutdownTest</ref>, HST05_NewConnectionsRejected_AfterShutdown)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000021"/>HST-05: New connections rejected after shutdown is initiated.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__server__phase5__hardening_8cpp_1ae52b62c34bbb817cb362560f682aa381" kindref="member">TEST_F</ref>  (<ref refid="class_http_shutdown_test" kindref="compound">HttpShutdownTest</ref>, HST06_IdleConnections_ClosedWithinIdleTimeout)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000022"/>HST-06: Idle connections are closed within configured idle_timeout. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__server__phase5__hardening_8cpp_1a2032d02d6ad8c71065b0e01997b9e88b" kindref="member">TEST_F</ref>  (<ref refid="class_http_shutdown_test" kindref="compound">HttpShutdownTest</ref>, HST07_ActiveConnection_NotForcedClosedDuringShutdown)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000023"/>HST-07: Active connection is not forcibly closed during graceful shutdown window.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__server__phase5__hardening_8cpp_1aadd12320f7961dd0b31d65ec152e6ff4" kindref="member">TEST_F</ref>  (<ref refid="class_http_shutdown_test" kindref="compound">HttpShutdownTest</ref>, HST08_Shutdown_CompletesWithinMaxDuration)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000024"/>HST-08: Shutdown completes within configured max_shutdown_duration.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__server__phase5__hardening_8cpp_1ad5e1676685c14479fd9829e4ec8da6bd" kindref="member">TEST_F</ref>  (<ref refid="class_http_shutdown_test" kindref="compound">HttpShutdownTest</ref>, HST09_ConcurrentTimeoutRequests_NoDeadlock)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000025"/>HST-09: Multiple concurrent timeout requests complete without deadlock.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__server__phase5__hardening_8cpp_1a3737f0a02cb7fb9eb976489abe67bb22" kindref="member">TEST_F</ref>  (<ref refid="class_http_shutdown_test" kindref="compound">HttpShutdownTest</ref>, HST10_Timeout_NoResourceLeak)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000026"/>HST-10: Timeout does not leak resources (in-flight counter returns to zero after timed-out request).  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__server__phase5__hardening_8cpp_1a6c6c5ad27934ab47a8192ac3a6cda80f" kindref="member">TEST_F</ref>  (<ref refid="class_http_shutdown_test" kindref="compound">HttpShutdownTest</ref>, HST11_KeepaliveTimeout_RecyclesConnectionAfterInactivity)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000027"/>HST-11: Keepalive timeout recycles connection after inactivity.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__server__phase5__hardening_8cpp_1ad2b79f35d0108e6aed07bbab75ec4a28" kindref="member">TEST_F</ref>  (<ref refid="class_http_shutdown_test" kindref="compound">HttpShutdownTest</ref>, HST12_SelfCheck_AllAssertionsPass)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000028"/>HST-12: Shutdown gate self-check — counter = 1.0 when all 12 HST assertions pass. </para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+    <location file="test"/>
+  </compounddef>
+</doxygen>

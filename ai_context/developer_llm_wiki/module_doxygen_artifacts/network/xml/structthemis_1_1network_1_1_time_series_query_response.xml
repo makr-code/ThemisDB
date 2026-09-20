@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_time_series_query_response" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::TimeSeriesQueryResponse</compoundname>
+    <includes refid="wire__protocol__helpers_8h" local="no">wire_protocol_helpers.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_time_series_query_response_1a0d4a317ef7f2598d3c96c183cf81b5bd" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1network_1_1_time_series_bucket" kindref="compound">TimeSeriesBucket</ref> &gt;</type>
+        <definition>std::vector&lt;TimeSeriesBucket&gt; themis::network::TimeSeriesQueryResponse::buckets</definition>
+        <argsstring></argsstring>
+        <name>buckets</name>
+        <qualifiedname>themis::network::TimeSeriesQueryResponse::buckets</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="161" column="17" bodyfile="include/network/wire_protocol_helpers.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_time_series_query_response_1a919ac74a000d7993c8be080a16a850a2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::TimeSeriesQueryResponse::query_time_us</definition>
+        <argsstring></argsstring>
+        <name>query_time_us</name>
+        <qualifiedname>themis::network::TimeSeriesQueryResponse::query_time_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="162" column="14" bodyfile="include/network/wire_protocol_helpers.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_time_series_query_response_1a568a653b7e9da3f2193abe19ea6673eb" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1network_1_1_time_series_stats" kindref="compound">TimeSeriesStats</ref></type>
+        <definition>TimeSeriesStats themis::network::TimeSeriesQueryResponse::stats</definition>
+        <argsstring></argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::network::TimeSeriesQueryResponse::stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="163" column="21" bodyfile="include/network/wire_protocol_helpers.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1network_1_1_time_series_query_response_1afdce166d01dfced192301cef8d090be3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::network::TimeSeriesQueryResponse::serialize</definition>
+        <argsstring>() const</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themis::network::TimeSeriesQueryResponse::serialize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="166" column="17" bodyfile="src/network/wire_protocol_helpers.cpp" bodystart="406" bodyend="430"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::network::TimeSeriesQueryResponse</label>
+        <link refid="structthemis_1_1network_1_1_time_series_query_response"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>stats</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::network::TimeSeriesStats</label>
+        <link refid="structthemis_1_1network_1_1_time_series_stats"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/network/wire_protocol_helpers.h" line="160" column="1" bodyfile="include/network/wire_protocol_helpers.h" bodystart="160" bodyend="167"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_time_series_query_response_1a0d4a317ef7f2598d3c96c183cf81b5bd" prot="public" virt="non-virtual"><scope>themis::network::TimeSeriesQueryResponse</scope><name>buckets</name></member>
+      <member refid="structthemis_1_1network_1_1_time_series_query_response_1a919ac74a000d7993c8be080a16a850a2" prot="public" virt="non-virtual"><scope>themis::network::TimeSeriesQueryResponse</scope><name>query_time_us</name></member>
+      <member refid="structthemis_1_1network_1_1_time_series_query_response_1afdce166d01dfced192301cef8d090be3" prot="public" virt="non-virtual"><scope>themis::network::TimeSeriesQueryResponse</scope><name>serialize</name></member>
+      <member refid="structthemis_1_1network_1_1_time_series_query_response_1a568a653b7e9da3f2193abe19ea6673eb" prot="public" virt="non-virtual"><scope>themis::network::TimeSeriesQueryResponse</scope><name>stats</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

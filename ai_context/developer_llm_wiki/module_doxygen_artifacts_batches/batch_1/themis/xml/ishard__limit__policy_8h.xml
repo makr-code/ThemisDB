@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="ishard__limit__policy_8h" kind="file" language="C++">
+    <compoundname>ishard_limit_policy.h</compoundname>
+    <includes local="no">string</includes>
+    <includedby refid="edition__manager_8h" local="yes">include/themis/edition_manager.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/themis/sharding/ishard_limit_policy.h</label>
+        <link refid="ishard__limit__policy_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/themis/edition_manager.h</label>
+        <link refid="edition__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/themis/sharding/ishard_limit_policy.h</label>
+        <link refid="ishard__limit__policy_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/themis/edition_manager.cpp</label>
+        <link refid="edition__manager_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/themis/test_themis_integration.cpp</label>
+        <link refid="test__themis__integration_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1sharding_1_1_i_shard_limit_policy" prot="public">themis::sharding::IShardLimitPolicy</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1sharding">themis::sharding</innernamespace>
+    <briefdescription>
+<para>Abstract shard-node admission and accounting policy for ThemisDB distributed clustering. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Defines the policy contract that governs how many shard nodes the runtime is allowed to operate concurrently. Analogous to IVRAMPolicy for GPU memory budgets — both interfaces feed into EditionManager&apos;s resource-limit checks and can be installed at runtime by signed edition-upgrade plugins. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="16" refid="namespacethemis_1_1sharding" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding" kindref="compound">sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="classthemis_1_1sharding_1_1_i_shard_limit_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a3f3f02b0514789d11a447efe3833a4dd" kindref="member">IShardLimitPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="43" refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a3c422e5bf1a403b7c7fcd53a0cc0069b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a3c422e5bf1a403b7c7fcd53a0cc0069b" kindref="member">~IShardLimitPolicy</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>non-movable<sp/>by<sp/>default.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a3f3f02b0514789d11a447efe3833a4dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a3f3f02b0514789d11a447efe3833a4dd" kindref="member">IShardLimitPolicy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a3f3f02b0514789d11a447efe3833a4dd" kindref="member">IShardLimitPolicy</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47" refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a0ff3743a762cc546736af73dd3b05a69" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a3f3f02b0514789d11a447efe3833a4dd" kindref="member">IShardLimitPolicy</ref>&amp;<sp/><ref refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a0ff3743a762cc546736af73dd3b05a69" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a3f3f02b0514789d11a447efe3833a4dd" kindref="member">IShardLimitPolicy</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a2eae8a65e8dc419ab2c7e2ac72523498" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a2eae8a65e8dc419ab2c7e2ac72523498" kindref="member">maxNodes</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a4395c2cc7bf10b7764f90dc1e70aec6d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a4395c2cc7bf10b7764f90dc1e70aec6d" kindref="member">canExpand</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>requested_total)<sp/>const<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a80c72138a5fc0a83d363f69e46f351bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>virtual<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a80c72138a5fc0a83d363f69e46f351bc" kindref="member">onNodeAdded</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>shard_id)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a9e6e28374e68b5c9393a177ebd1663d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>virtual<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a9e6e28374e68b5c9393a177ebd1663d3" kindref="member">onNodeRemoved</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>shard_id)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1ac9658ac0ff214c8e73d2f2ae84c9c5dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1ac9658ac0ff214c8e73d2f2ae84c9c5dd" kindref="member">activeNodeCount</ref>()<sp/>const<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a2d97e345b3fe409f94e5237db92f3fea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a2d97e345b3fe409f94e5237db92f3fea" kindref="member">isShardingEnabled</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal">protected:</highlight></codeline>
+<codeline lineno="108" refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1af6022d52adcd799748bb57b8c889c537" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a3f3f02b0514789d11a447efe3833a4dd" kindref="member">IShardLimitPolicy</ref>()<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="109" refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a7cc401fb72262cb36c12cce3d0806e6b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a3f3f02b0514789d11a447efe3833a4dd" kindref="member">IShardLimitPolicy</ref>(<ref refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a3f3f02b0514789d11a447efe3833a4dd" kindref="member">IShardLimitPolicy</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="110" refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1af34f2fcb5a7fcf1063ef18ba26333079" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a3f3f02b0514789d11a447efe3833a4dd" kindref="member">IShardLimitPolicy</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a3f3f02b0514789d11a447efe3833a4dd" kindref="member">IShardLimitPolicy</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>sharding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/themis/sharding/ishard_limit_policy.h"/>
+  </compounddef>
+</doxygen>

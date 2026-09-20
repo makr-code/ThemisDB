@@ -1,0 +1,302 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="i__logger_8h" kind="file" language="C++">
+    <compoundname>i_logger.h</compoundname>
+    <includes refid="lifecycle_8h" local="yes">core/concerns/lifecycle.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">map</includes>
+    <includes local="no">utility</includes>
+    <includedby refid="concerns__context_8h" local="yes">include/core/concerns/concerns_context.h</includedby>
+    <includedby refid="i__async__logger_8h" local="yes">include/core/concerns/i_async_logger.h</includedby>
+    <includedby refid="i__context_8h" local="yes">include/core/concerns/i_context.h</includedby>
+    <includedby refid="noop__implementations_8h" local="yes">include/core/concerns/noop_implementations.h</includedby>
+    <includedby refid="spdlog__logger__adapter_8h" local="yes">include/core/concerns/spdlog_logger_adapter.h</includedby>
+    <includedby refid="zero__copy__logger_8h" local="yes">include/core/concerns/zero_copy_logger.h</includedby>
+    <includedby refid="i__logger_8cpp" local="yes">src/core/concerns/i_logger.cpp</includedby>
+    <includedby refid="test__core__smoke_8cpp" local="yes">tests/core/test_core_smoke.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/core/concerns/i_logger.h</label>
+        <link refid="i__logger_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>core/concerns/lifecycle.h</label>
+        <link refid="lifecycle_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>utility</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/core/concerns/concerns_context.h</label>
+        <link refid="concerns__context_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/core/concerns/context_propagation.h</label>
+        <link refid="context__propagation_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/core/concerns/i_async_logger.h</label>
+        <link refid="i__async__logger_8h"/>
+      </node>
+      <node id="6">
+        <label>include/core/concerns/i_context.h</label>
+        <link refid="i__context_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/core/concerns/i_logger.h</label>
+        <link refid="i__logger_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>include/core/concerns/noop_implementations.h</label>
+        <link refid="noop__implementations_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>include/core/concerns/spdlog_logger_adapter.h</label>
+        <link refid="spdlog__logger__adapter_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>include/core/concerns/w3c_trace_context_propagator.h</label>
+        <link refid="w3c__trace__context__propagator_8h"/>
+      </node>
+      <node id="14">
+        <label>include/core/concerns/zero_copy_logger.h</label>
+        <link refid="zero__copy__logger_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/core/concerns/concerns_context.cpp</label>
+        <link refid="concerns__context_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/core/concerns/context_propagation.cpp</label>
+        <link refid="context__propagation_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/core/concerns/i_logger.cpp</label>
+        <link refid="i__logger_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/core/concerns/zero_copy_logger.cpp</label>
+        <link refid="zero__copy__logger_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/core/test_circuit_breaker_focused.cpp</label>
+        <link refid="test__circuit__breaker__focused_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/core/test_concerns_context_focused.cpp</label>
+        <link refid="test__concerns__context__focused_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/core/test_core_smoke.cpp</label>
+        <link refid="test__core__smoke_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1core_1_1concerns_1_1_trace_context" prot="public">themis::core::concerns::TraceContext</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_i_logger" prot="public">themis::core::concerns::ILogger</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1core">themis::core</innernamespace>
+    <innernamespace refid="namespacethemis_1_1core_1_1concerns">themis::core::concerns</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 88/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lifecycle_8h" kindref="compound">core/concerns/lifecycle.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>ERROR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#undef<sp/>ERROR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1core" kindref="compound">core</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1core_1_1concerns" kindref="compound">concerns</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1core_1_1concerns_1_1_trace_context" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1core_1_1concerns_1_1_trace_context" kindref="compound">TraceContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1core_1_1concerns_1_1_trace_context_1ab0e95a56e2b016974e8789ee047b254d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_trace_context_1ab0e95a56e2b016974e8789ee047b254d" kindref="member">trace_id</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1core_1_1concerns_1_1_trace_context_1a0db355dd240dc384216f95b7a968e2d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_trace_context_1a0db355dd240dc384216f95b7a968e2d0" kindref="member">span_id</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1core_1_1concerns_1_1_trace_context_1aecc909f4f3a009aa2e6d8ccbeb2ea5f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_trace_context_1aecc909f4f3a009aa2e6d8ccbeb2ea5f5" kindref="member">request_id</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1core_1_1concerns_1_1_trace_context_1a8a945c4a35cf98c68577b2f46f69ef73" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_trace_context_1a8a945c4a35cf98c68577b2f46f69ef73" kindref="member">empty</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_trace_context_1ab0e95a56e2b016974e8789ee047b254d" kindref="member">trace_id</ref>.empty()<sp/>&amp;&amp;<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_trace_context_1a0db355dd240dc384216f95b7a968e2d0" kindref="member">span_id</ref>.empty()<sp/>&amp;&amp;<sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_trace_context_1aecc909f4f3a009aa2e6d8ccbeb2ea5f5" kindref="member">request_id</ref>.empty();</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="classthemis_1_1core_1_1concerns_1_1_i_logger" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger" kindref="compound">ILogger</ref><sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="39" refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a7e409e2eff508738d84906f03b9a2650" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a7e409e2eff508738d84906f03b9a2650" kindref="member">Fields</ref><sp/>=<sp/>std::map&lt;std::string,<sp/>std::string&gt;;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" kindref="member">Level</ref><sp/>{</highlight></codeline>
+<codeline lineno="42" refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7a2d3e4144aa384b18849ab9a8abad74d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7a2d3e4144aa384b18849ab9a8abad74d6" kindref="member">TRACE</ref>,</highlight></codeline>
+<codeline lineno="43" refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7adc30ec20708ef7b0f641ef78b7880a15" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7adc30ec20708ef7b0f641ef78b7880a15" kindref="member">DEBUG</ref>,</highlight></codeline>
+<codeline lineno="44" refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7a551b723eafd6a31d444fcb2f5920fbd3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7a551b723eafd6a31d444fcb2f5920fbd3" kindref="member">INFO</ref>,</highlight></codeline>
+<codeline lineno="45" refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7a32bd8a1db2275458673903bdb84cb277" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7a32bd8a1db2275458673903bdb84cb277" kindref="member">WARN</ref>,</highlight></codeline>
+<codeline lineno="46" refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7abb1ca97ec761fc37101737ba0aa2e7c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7abb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">ERROR</ref>,</highlight></codeline>
+<codeline lineno="47" refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7a99cd1c61610c76a57cb8d10d6df6b870" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7a99cd1c61610c76a57cb8d10d6df6b870" kindref="member">CRITICAL</ref></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a4449e4e4226d7c424496828cd120c498" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a4449e4e4226d7c424496828cd120c498" kindref="member">~ILogger</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Core<sp/>logging<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a3cbb94ad1481ea5b7e98ad520a1a97fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a3cbb94ad1481ea5b7e98ad520a1a97fb" kindref="member">log</ref>(<ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" kindref="member">Level</ref><sp/>level,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a3b15536718a2c1ceb3ea0ac93982400c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a3b15536718a2c1ceb3ea0ac93982400c" kindref="member">trace</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a02a28dc1041e6ef6a9040c3c22109e4d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a02a28dc1041e6ef6a9040c3c22109e4d" kindref="member">debug</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a2dac2d96344e01cb6ee307713805f75b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a2dac2d96344e01cb6ee307713805f75b" kindref="member">info</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1acbfce41c2de5ad245dcb8f9bc1839b99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1acbfce41c2de5ad245dcb8f9bc1839b99" kindref="member">warn</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a98af42df2ab45c06e7f19a4cf758bd77" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a98af42df2ab45c06e7f19a4cf758bd77" kindref="member">error</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a74c91729ce0cf5ec240198a6a6e1613f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a74c91729ce0cf5ec240198a6a6e1613f" kindref="member">critical</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1ade28b8d3e27ba1f168c62afa7cc1b09e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1ade28b8d3e27ba1f168c62afa7cc1b09e" kindref="member">logStructured</ref>(<ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" kindref="member">Level</ref><sp/>level,</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message,</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a7e409e2eff508738d84906f03b9a2650" kindref="member">Fields</ref>&amp;<sp/>fields<sp/>=<sp/>{})<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fields.empty())<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a3cbb94ad1481ea5b7e98ad520a1a97fb" kindref="member">log</ref>(level,<sp/>message);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>full_msg<sp/>=<sp/>message;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>kv<sp/>:<sp/>fields)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>full_msg<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>kv.first<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;=&quot;</highlight><highlight class="normal"><sp/>+<sp/>kv.second;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a3cbb94ad1481ea5b7e98ad520a1a97fb" kindref="member">log</ref>(level,<sp/>full_msg);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1aee543d2fa572acb5e1927b6b1234abd1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1aee543d2fa572acb5e1927b6b1234abd1" kindref="member">logWithContext</ref>(<ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" kindref="member">Level</ref><sp/>level,</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message,</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_trace_context" kindref="compound">TraceContext</ref>&amp;<sp/>ctx,</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a7e409e2eff508738d84906f03b9a2650" kindref="member">Fields</ref>&amp;<sp/>fields<sp/>=<sp/>{})<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a7e409e2eff508738d84906f03b9a2650" kindref="member">Fields</ref><sp/>merged<sp/>=<sp/>fields;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!ctx.<ref refid="structthemis_1_1core_1_1concerns_1_1_trace_context_1ab0e95a56e2b016974e8789ee047b254d" kindref="member">trace_id</ref>.empty())<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>merged[</highlight><highlight class="stringliteral">&quot;trace_id&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/>=<sp/>ctx.<ref refid="structthemis_1_1core_1_1concerns_1_1_trace_context_1ab0e95a56e2b016974e8789ee047b254d" kindref="member">trace_id</ref>;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!ctx.<ref refid="structthemis_1_1core_1_1concerns_1_1_trace_context_1a0db355dd240dc384216f95b7a968e2d0" kindref="member">span_id</ref>.empty())<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>merged[</highlight><highlight class="stringliteral">&quot;span_id&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/>=<sp/>ctx.<ref refid="structthemis_1_1core_1_1concerns_1_1_trace_context_1a0db355dd240dc384216f95b7a968e2d0" kindref="member">span_id</ref>;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!ctx.<ref refid="structthemis_1_1core_1_1concerns_1_1_trace_context_1aecc909f4f3a009aa2e6d8ccbeb2ea5f5" kindref="member">request_id</ref>.empty())<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>merged[</highlight><highlight class="stringliteral">&quot;request_id&quot;</highlight><highlight class="normal">]<sp/>=<sp/>ctx.<ref refid="structthemis_1_1core_1_1concerns_1_1_trace_context_1aecc909f4f3a009aa2e6d8ccbeb2ea5f5" kindref="member">request_id</ref>;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1ade28b8d3e27ba1f168c62afa7cc1b09e" kindref="member">logStructured</ref>(level,<sp/>message,<sp/>merged);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a2b633b28775590ef129aef091de16a08" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a2b633b28775590ef129aef091de16a08" kindref="member">setLevel</ref>(<ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" kindref="member">Level</ref><sp/>level)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1abb3373117236c57a6d905fc959c976f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" kindref="member">Level</ref><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1abb3373117236c57a6d905fc959c976f8" kindref="member">getLevel</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1aaab9e858ed3d1bb39ac08baf18ca1c50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1aaab9e858ed3d1bb39ac08baf18ca1c50" kindref="member">setPattern</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>pattern)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lifecycle<sp/>hooks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153" refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a8638ec5d5d5a91ccfb78f6d659a06b1c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a8638ec5d5d5a91ccfb78f6d659a06b1c" kindref="member">flush</ref>()<sp/>noexcept<sp/>{}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1af0d99633502a4f1eb497c3feddbf63d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1af0d99633502a4f1eb497c3feddbf63d7" kindref="member">shutdown</ref>()<sp/>noexcept<sp/>{}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1aadf51ad97e545469e7adf1da0ed81d2f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result" kindref="compound">ProbeResult</ref><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1aadf51ad97e545469e7adf1da0ed81d2f" kindref="member">isHealthy</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result_1a4f42b3f92136b5cc21102002e1271d25" kindref="member">ProbeResult::healthy</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" kindref="member">Level</ref><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1afed30568fb21bc6e89370ef3336ef472" kindref="member">levelFromString</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>level);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a3e3a77f56de7d4c1e09951b87f46c963" kindref="member">levelToString</ref>(<ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" kindref="member">Level</ref><sp/>level);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>concerns</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>core</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/core/concerns/i_logger.h"/>
+  </compounddef>
+</doxygen>

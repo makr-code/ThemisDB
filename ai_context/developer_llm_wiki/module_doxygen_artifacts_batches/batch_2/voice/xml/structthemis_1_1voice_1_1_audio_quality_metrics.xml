@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_audio_quality_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::AudioQualityMetrics</compoundname>
+    <includes refid="voice__batch__processor_8h" local="no">voice_batch_processor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_audio_quality_metrics_1adc5a88210dcf134cc7b39a1b6a4b1164" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::AudioQualityMetrics::pesq_mos</definition>
+        <argsstring></argsstring>
+        <name>pesq_mos</name>
+        <qualifiedname>themis::voice::AudioQualityMetrics::pesq_mos</qualifiedname>
+        <initializer>= -1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="78" column="11" bodyfile="include/voice/voice_batch_processor.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_audio_quality_metrics_1a5f86d1e575fce81432f0f2612f19f5f7" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::AudioQualityMetrics::wer</definition>
+        <argsstring></argsstring>
+        <name>wer</name>
+        <qualifiedname>themis::voice::AudioQualityMetrics::wer</qualifiedname>
+        <initializer>= -1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="79" column="11" bodyfile="include/voice/voice_batch_processor.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_audio_quality_metrics_1a30bfd71a051aaf06e7490e5403dd26a0" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::AudioQualityMetrics::snr_db</definition>
+        <argsstring></argsstring>
+        <name>snr_db</name>
+        <qualifiedname>themis::voice::AudioQualityMetrics::snr_db</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="80" column="11" bodyfile="include/voice/voice_batch_processor.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_audio_quality_metrics_1a015852f297e10fdd37d935453f5be710" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::AudioQualityMetrics::rms_energy</definition>
+        <argsstring></argsstring>
+        <name>rms_energy</name>
+        <qualifiedname>themis::voice::AudioQualityMetrics::rms_energy</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="81" column="11" bodyfile="include/voice/voice_batch_processor.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_audio_quality_metrics_1ac804a78f8e52f58c3ce149e4802f9d30" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::AudioQualityMetrics::clipping_ratio</definition>
+        <argsstring></argsstring>
+        <name>clipping_ratio</name>
+        <qualifiedname>themis::voice::AudioQualityMetrics::clipping_ratio</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="82" column="11" bodyfile="include/voice/voice_batch_processor.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_audio_quality_metrics_1aa2b8593ec2d1cb58ccbdd5533fb6bb41" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::AudioQualityMetrics::quality_label</definition>
+        <argsstring></argsstring>
+        <name>quality_label</name>
+        <qualifiedname>themis::voice::AudioQualityMetrics::quality_label</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="83" column="17" bodyfile="include/voice/voice_batch_processor.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_batch_processor.h" line="77" column="1" bodyfile="include/voice/voice_batch_processor.h" bodystart="77" bodyend="84"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_audio_quality_metrics_1ac804a78f8e52f58c3ce149e4802f9d30" prot="public" virt="non-virtual"><scope>themis::voice::AudioQualityMetrics</scope><name>clipping_ratio</name></member>
+      <member refid="structthemis_1_1voice_1_1_audio_quality_metrics_1adc5a88210dcf134cc7b39a1b6a4b1164" prot="public" virt="non-virtual"><scope>themis::voice::AudioQualityMetrics</scope><name>pesq_mos</name></member>
+      <member refid="structthemis_1_1voice_1_1_audio_quality_metrics_1aa2b8593ec2d1cb58ccbdd5533fb6bb41" prot="public" virt="non-virtual"><scope>themis::voice::AudioQualityMetrics</scope><name>quality_label</name></member>
+      <member refid="structthemis_1_1voice_1_1_audio_quality_metrics_1a015852f297e10fdd37d935453f5be710" prot="public" virt="non-virtual"><scope>themis::voice::AudioQualityMetrics</scope><name>rms_energy</name></member>
+      <member refid="structthemis_1_1voice_1_1_audio_quality_metrics_1a30bfd71a051aaf06e7490e5403dd26a0" prot="public" virt="non-virtual"><scope>themis::voice::AudioQualityMetrics</scope><name>snr_db</name></member>
+      <member refid="structthemis_1_1voice_1_1_audio_quality_metrics_1a5f86d1e575fce81432f0f2612f19f5f7" prot="public" virt="non-virtual"><scope>themis::voice::AudioQualityMetrics</scope><name>wer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,321 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="merge__api__handler_8cpp" kind="file" language="C++">
+    <compoundname>merge_api_handler.cpp</compoundname>
+    <includes refid="merge__api__handler_8h" local="yes">server/merge_api_handler.h</includes>
+    <includes local="no">spdlog/spdlog.h</includes>
+    <includes local="no">fmt/format.h</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="yes">utils/tracing.h</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>server/merge_api_handler.h</label>
+        <link refid="merge__api__handler_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/server/merge_api_handler.cpp</label>
+        <link refid="merge__api__handler_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>fmt/format.h</label>
+      </node>
+      <node id="7">
+        <label>httplib.h</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="8">
+        <label>spdlog/spdlog.h</label>
+      </node>
+      <node id="10">
+        <label>stdexcept</label>
+      </node>
+      <node id="3">
+        <label>transaction/merge_engine.h</label>
+      </node>
+      <node id="4">
+        <label>transaction/snapshot_manager.h</label>
+      </node>
+      <node id="11">
+        <label>utils/tracing.h</label>
+      </node>
+    </incdepgraph>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="merge__api__handler_8h" kindref="compound">server/merge_api_handler.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;spdlog/spdlog.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fmt/format.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/tracing.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_HTTP_SERVER</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1server" kindref="compound">server</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><ref refid="classthemis_1_1server_1_1_merge_api_handler_1a69972002293f29b9f7c6a3b28de5dde8" kindref="member">MergeApiHandler::MergeApiHandler</ref>(</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>transaction::MergeEngine&amp;<sp/>merge_engine,</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>transaction::SnapshotManager&amp;<sp/>snapshot_manager)</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/>merge_engine_(merge_engine),</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>snapshot_manager_(snapshot_manager)<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>MergeApiHandler::registerRoutes(httplib::Server&amp;<sp/>server)<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>POST<sp/>/api/v1/merge<sp/>-<sp/>Perform<sp/>three-way<sp/>merge</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>server.Post(</highlight><highlight class="stringliteral">&quot;/api/v1/merge&quot;</highlight><highlight class="normal">,<sp/>[</highlight><highlight class="keyword">this</highlight><highlight class="normal">](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>httplib::Request&amp;<sp/>req,<sp/>httplib::Response&amp;<sp/>res)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handleMerge(req,<sp/>res);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>POST<sp/>/api/v1/merge/preview<sp/>-<sp/>Preview<sp/>merge<sp/>without<sp/>applying</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>server.Post(</highlight><highlight class="stringliteral">&quot;/api/v1/merge/preview&quot;</highlight><highlight class="normal">,<sp/>[</highlight><highlight class="keyword">this</highlight><highlight class="normal">](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>httplib::Request&amp;<sp/>req,<sp/>httplib::Response&amp;<sp/>res)<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handleMergePreview(req,<sp/>res);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>POST<sp/>/api/v1/merge/by-tag<sp/>-<sp/>Merge<sp/>using<sp/>snapshot<sp/>tags</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>server.Post(</highlight><highlight class="stringliteral">&quot;/api/v1/merge/by-tag&quot;</highlight><highlight class="normal">,<sp/>[</highlight><highlight class="keyword">this</highlight><highlight class="normal">](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>httplib::Request&amp;<sp/>req,<sp/>httplib::Response&amp;<sp/>res)<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handleMergeByTag(req,<sp/>res);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GET<sp/>/api/v1/merge/can-fast-forward<sp/>-<sp/>Check<sp/>if<sp/>fast-forward<sp/>is<sp/>possible</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>server.Get(</highlight><highlight class="stringliteral">&quot;/api/v1/merge/can-fast-forward&quot;</highlight><highlight class="normal">,<sp/>[</highlight><highlight class="keyword">this</highlight><highlight class="normal">](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>httplib::Request&amp;<sp/>req,<sp/>httplib::Response&amp;<sp/>res)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handleCanFastForward(req,<sp/>res);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>spdlog::info(</highlight><highlight class="stringliteral">&quot;Merge<sp/>API<sp/>routes<sp/>registered&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>MergeApiHandler::handleMerge(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>httplib::Request&amp;<sp/>req,<sp/>httplib::Response&amp;<sp/>res)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>span<sp/>=<sp/>Tracer::startSpan(</highlight><highlight class="stringliteral">&quot;handleMerge&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Parse<sp/>request<sp/>body</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>request_body<sp/>=<sp/>json::parse(req.body);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!request_body.contains(</highlight><highlight class="stringliteral">&quot;base_sequence&quot;</highlight><highlight class="normal">)<sp/>||</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>!request_body.contains(</highlight><highlight class="stringliteral">&quot;source_sequence&quot;</highlight><highlight class="normal">)<sp/>||</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>!request_body.contains(</highlight><highlight class="stringliteral">&quot;target_sequence&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sendError(res,<sp/>400,<sp/></highlight><highlight class="stringliteral">&quot;Missing<sp/>required<sp/>fields:<sp/>base_sequence,<sp/>source_sequence,<sp/>target_sequence&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>base_sequence<sp/>=<sp/>request_body[</highlight><highlight class="stringliteral">&quot;base_sequence&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>source_sequence<sp/>=<sp/>request_body[</highlight><highlight class="stringliteral">&quot;source_sequence&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>target_sequence<sp/>=<sp/>request_body[</highlight><highlight class="stringliteral">&quot;target_sequence&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>options<sp/>=<sp/>parseMergeOptions(request_body);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>spdlog::info(</highlight><highlight class="stringliteral">&quot;Performing<sp/>merge:<sp/>base={},<sp/>source={},<sp/>target={}&quot;</highlight><highlight class="normal">,<sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>base_sequence,<sp/>source_sequence,<sp/>target_sequence);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Perform<sp/>merge</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>merge_engine_.merge(base_sequence,<sp/>source_sequence,<sp/>target_sequence,<sp/>options);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Return<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sendJson(res,<sp/>result.toJson());</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>json::parse_error&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sendError(res,<sp/>400,<sp/>fmt::format(</highlight><highlight class="stringliteral">&quot;Invalid<sp/>JSON:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>e.what()));</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>spdlog::error(</highlight><highlight class="stringliteral">&quot;Error<sp/>handling<sp/>merge<sp/>request:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>e.what());</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sendError(res,<sp/>500,<sp/>fmt::format(</highlight><highlight class="stringliteral">&quot;Internal<sp/>error:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>e.what()));</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>MergeApiHandler::handleMergePreview(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>httplib::Request&amp;<sp/>req,<sp/>httplib::Response&amp;<sp/>res)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>span<sp/>=<sp/>Tracer::startSpan(</highlight><highlight class="stringliteral">&quot;handleMergePreview&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>request_body<sp/>=<sp/>json::parse(req.body);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!request_body.contains(</highlight><highlight class="stringliteral">&quot;base_sequence&quot;</highlight><highlight class="normal">)<sp/>||</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>!request_body.contains(</highlight><highlight class="stringliteral">&quot;source_sequence&quot;</highlight><highlight class="normal">)<sp/>||</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>!request_body.contains(</highlight><highlight class="stringliteral">&quot;target_sequence&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sendError(res,<sp/>400,<sp/></highlight><highlight class="stringliteral">&quot;Missing<sp/>required<sp/>fields:<sp/>base_sequence,<sp/>source_sequence,<sp/>target_sequence&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>base_sequence<sp/>=<sp/>request_body[</highlight><highlight class="stringliteral">&quot;base_sequence&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>source_sequence<sp/>=<sp/>request_body[</highlight><highlight class="stringliteral">&quot;source_sequence&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>target_sequence<sp/>=<sp/>request_body[</highlight><highlight class="stringliteral">&quot;target_sequence&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>spdlog::info(</highlight><highlight class="stringliteral">&quot;Previewing<sp/>merge:<sp/>base={},<sp/>source={},<sp/>target={}&quot;</highlight><highlight class="normal">,<sp/></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>base_sequence,<sp/>source_sequence,<sp/>target_sequence);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>merge_engine_.previewMerge(base_sequence,<sp/>source_sequence,<sp/>target_sequence);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sendJson(res,<sp/>result.toJson());</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>json::parse_error&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sendError(res,<sp/>400,<sp/>fmt::format(</highlight><highlight class="stringliteral">&quot;Invalid<sp/>JSON:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>e.what()));</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>spdlog::error(</highlight><highlight class="stringliteral">&quot;Error<sp/>handling<sp/>merge<sp/>preview<sp/>request:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>e.what());</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sendError(res,<sp/>500,<sp/>fmt::format(</highlight><highlight class="stringliteral">&quot;Internal<sp/>error:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>e.what()));</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>MergeApiHandler::handleMergeByTag(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>httplib::Request&amp;<sp/>req,<sp/>httplib::Response&amp;<sp/>res)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>span<sp/>=<sp/>Tracer::startSpan(</highlight><highlight class="stringliteral">&quot;handleMergeByTag&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>request_body<sp/>=<sp/>json::parse(req.body);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!request_body.contains(</highlight><highlight class="stringliteral">&quot;base_tag&quot;</highlight><highlight class="normal">)<sp/>||</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>!request_body.contains(</highlight><highlight class="stringliteral">&quot;source_tag&quot;</highlight><highlight class="normal">)<sp/>||</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>!request_body.contains(</highlight><highlight class="stringliteral">&quot;target_tag&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sendError(res,<sp/>400,<sp/></highlight><highlight class="stringliteral">&quot;Missing<sp/>required<sp/>fields:<sp/>base_tag,<sp/>source_tag,<sp/>target_tag&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>base_tag<sp/>=<sp/>request_body[</highlight><highlight class="stringliteral">&quot;base_tag&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>source_tag<sp/>=<sp/>request_body[</highlight><highlight class="stringliteral">&quot;source_tag&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>target_tag<sp/>=<sp/>request_body[</highlight><highlight class="stringliteral">&quot;target_tag&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>options<sp/>=<sp/>parseMergeOptions(request_body);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>spdlog::info(</highlight><highlight class="stringliteral">&quot;Merging<sp/>by<sp/>tags:<sp/>base={},<sp/>source={},<sp/>target={}&quot;</highlight><highlight class="normal">,<sp/></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>base_tag,<sp/>source_tag,<sp/>target_tag);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>merge_engine_.mergeByTag(base_tag,<sp/>source_tag,<sp/>target_tag,<sp/>options);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sendJson(res,<sp/>result.toJson());</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>json::parse_error&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sendError(res,<sp/>400,<sp/>fmt::format(</highlight><highlight class="stringliteral">&quot;Invalid<sp/>JSON:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>e.what()));</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>spdlog::error(</highlight><highlight class="stringliteral">&quot;Error<sp/>handling<sp/>merge<sp/>by<sp/>tag<sp/>request:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>e.what());</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sendError(res,<sp/>500,<sp/>fmt::format(</highlight><highlight class="stringliteral">&quot;Internal<sp/>error:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>e.what()));</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>MergeApiHandler::handleCanFastForward(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>httplib::Request&amp;<sp/>req,<sp/>httplib::Response&amp;<sp/>res)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>span<sp/>=<sp/>Tracer::startSpan(</highlight><highlight class="stringliteral">&quot;handleCanFastForward&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!req.has_param(</highlight><highlight class="stringliteral">&quot;base_sequence&quot;</highlight><highlight class="normal">)<sp/>||</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>!req.has_param(</highlight><highlight class="stringliteral">&quot;source_sequence&quot;</highlight><highlight class="normal">)<sp/>||</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>!req.has_param(</highlight><highlight class="stringliteral">&quot;target_sequence&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sendError(res,<sp/>400,<sp/></highlight><highlight class="stringliteral">&quot;Missing<sp/>required<sp/>parameters:<sp/>base_sequence,<sp/>source_sequence,<sp/>target_sequence&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>base_sequence<sp/>=<sp/>std::stoull(req.get_param_value(</highlight><highlight class="stringliteral">&quot;base_sequence&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>source_sequence<sp/>=<sp/>std::stoull(req.get_param_value(</highlight><highlight class="stringliteral">&quot;source_sequence&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>target_sequence<sp/>=<sp/>std::stoull(req.get_param_value(</highlight><highlight class="stringliteral">&quot;target_sequence&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>can_ff<sp/>=<sp/>merge_engine_.canFastForward(base_sequence,<sp/>source_sequence,<sp/>target_sequence);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>response;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>response[</highlight><highlight class="stringliteral">&quot;can_fast_forward&quot;</highlight><highlight class="normal">]<sp/>=<sp/>can_ff;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>response[</highlight><highlight class="stringliteral">&quot;base_sequence&quot;</highlight><highlight class="normal">]<sp/>=<sp/>base_sequence;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>response[</highlight><highlight class="stringliteral">&quot;source_sequence&quot;</highlight><highlight class="normal">]<sp/>=<sp/>source_sequence;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>response[</highlight><highlight class="stringliteral">&quot;target_sequence&quot;</highlight><highlight class="normal">]<sp/>=<sp/>target_sequence;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sendJson(res,<sp/>response);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::invalid_argument&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sendError(res,<sp/>400,<sp/>fmt::format(</highlight><highlight class="stringliteral">&quot;Invalid<sp/>parameter:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>e.what()));</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>spdlog::error(</highlight><highlight class="stringliteral">&quot;Error<sp/>checking<sp/>fast-forward:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>e.what());</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sendError(res,<sp/>500,<sp/>fmt::format(</highlight><highlight class="stringliteral">&quot;Internal<sp/>error:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>e.what()));</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal">transaction::MergeEngine::MergeOptions<sp/>MergeApiHandler::parseMergeOptions(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>json&amp;<sp/>body)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>transaction::MergeEngine::MergeOptions<sp/>options;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Parse<sp/>strategy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(body.contains(</highlight><highlight class="stringliteral">&quot;strategy&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>strategy<sp/>=<sp/>body[</highlight><highlight class="stringliteral">&quot;strategy&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(strategy<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;ours&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>options.strategy<sp/>=<sp/>transaction::MergeEngine::MergeStrategy::OURS;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(strategy<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;theirs&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>options.strategy<sp/>=<sp/>transaction::MergeEngine::MergeStrategy::THEIRS;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(strategy<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;fast_forward&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>options.strategy<sp/>=<sp/>transaction::MergeEngine::MergeStrategy::FAST_FORWARD;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(strategy<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;manual&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>options.strategy<sp/>=<sp/>transaction::MergeEngine::MergeStrategy::MANUAL;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Parse<sp/>other<sp/>options</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(body.contains(</highlight><highlight class="stringliteral">&quot;fail_on_conflict&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>options.fail_on_conflict<sp/>=<sp/>body[</highlight><highlight class="stringliteral">&quot;fail_on_conflict&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Parse<sp/>manual<sp/>resolutions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(body.contains(</highlight><highlight class="stringliteral">&quot;manual_resolutions&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>res_json<sp/>:<sp/>body[</highlight><highlight class="stringliteral">&quot;manual_resolutions&quot;</highlight><highlight class="normal">])<sp/>{</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>transaction::MergeEngine::ConflictResolution<sp/>resolution;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resolution.key<sp/>=<sp/>res_json[</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(res_json.contains(</highlight><highlight class="stringliteral">&quot;resolved_value&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resolution.resolved_value<sp/>=<sp/>res_json[</highlight><highlight class="stringliteral">&quot;resolved_value&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;();</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>options.manual_resolutions.push_back(resolution);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>options;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>MergeApiHandler::sendError(httplib::Response&amp;<sp/>res,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>status_code,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>error_response;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>error_response[</highlight><highlight class="stringliteral">&quot;success&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>error_response[</highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">]<sp/>=<sp/>message;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>res.status<sp/>=<sp/>status_code;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>res.set_content(error_response.dump(),<sp/></highlight><highlight class="stringliteral">&quot;application/json&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>MergeApiHandler::sendJson(httplib::Response&amp;<sp/>res,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>json&amp;<sp/>data,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>status_code)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>res.status<sp/>=<sp/>status_code;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>res.set_content(<ref refid="namespacethemis_1_1server_1_1perf_1_1test_1a7837f3a94d4342eacfc85b0e98a0bd78" kindref="member">data</ref>.dump(),<sp/></highlight><highlight class="stringliteral">&quot;application/json&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>server</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>THEMIS_ENABLE_HTTP_SERVER</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/server/merge_api_handler.cpp"/>
+  </compounddef>
+</doxygen>

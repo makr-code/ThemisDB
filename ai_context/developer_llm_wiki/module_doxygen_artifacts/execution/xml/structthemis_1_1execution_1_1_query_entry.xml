@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1execution_1_1_query_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::execution::QueryEntry</compoundname>
+    <includes refid="query__scheduler_8h" local="no">query_scheduler.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="structthemis_1_1execution_1_1_query_entry_1ad6d013f26dd0be2d5b9c0599661b48c4" prot="public" static="no">
+        <type>std::function&lt; void()&gt;</type>
+        <definition>using themis::execution::QueryEntry::ExecuteFn = std::function&lt;void()&gt;</definition>
+        <argsstring></argsstring>
+        <name>ExecuteFn</name>
+        <qualifiedname>themis::execution::QueryEntry::ExecuteFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/query_scheduler.h" line="63" column="5" bodyfile="include/execution/query_scheduler.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1execution_1_1_query_entry_1a2d23720cf336c00bc3d6ba93e038ff5e" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::execution::QueryEntry::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::execution::QueryEntry::id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Unique monotonically-increasing query ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/query_scheduler.h" line="65" column="19" bodyfile="include/execution/query_scheduler.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1execution_1_1_query_entry_1a9fd09b3a811edee20c9c9d8cc464cb0b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1execution_1ad77b308ef16821603c859aeb999ef738" kindref="member">SLAPriority</ref></type>
+        <definition>SLAPriority themis::execution::QueryEntry::priority</definition>
+        <argsstring></argsstring>
+        <name>priority</name>
+        <qualifiedname>themis::execution::QueryEntry::priority</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1execution_1ad77b308ef16821603c859aeb999ef738ac87f3be66ffc3c0d4249f1c2cc5f3cce" kindref="member">SLAPriority::MEDIUM</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/query_scheduler.h" line="66" column="19" bodyfile="include/execution/query_scheduler.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1execution_1_1_query_entry_1a7bc6121b0975d92ddb0bff372a08a7b4" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::execution::QueryEntry::deadline</definition>
+        <argsstring></argsstring>
+        <name>deadline</name>
+        <qualifiedname>themis::execution::QueryEntry::deadline</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+<para>Absolute deadline. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/query_scheduler.h" line="67" column="43" bodyfile="include/execution/query_scheduler.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1execution_1_1_query_entry_1a02a456d6f699d506b7f7b29dad00527d" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::execution::QueryEntry::enqueue_time</definition>
+        <argsstring></argsstring>
+        <name>enqueue_time</name>
+        <qualifiedname>themis::execution::QueryEntry::enqueue_time</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/query_scheduler.h" line="68" column="43" bodyfile="include/execution/query_scheduler.h" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1execution_1_1_query_entry_1a2f4c3350ef354fe7a729d3294e52a14f" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1execution_1_1_query_entry_1ad6d013f26dd0be2d5b9c0599661b48c4" kindref="member">ExecuteFn</ref></type>
+        <definition>ExecuteFn themis::execution::QueryEntry::execute</definition>
+        <argsstring></argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::execution::QueryEntry::execute</qualifiedname>
+        <briefdescription>
+<para>The query thunk. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/query_scheduler.h" line="69" column="19" bodyfile="include/execution/query_scheduler.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1execution_1_1_query_entry_1a65eda371f6a1e24a059f9db14989792f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::execution::QueryEntry::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::execution::QueryEntry::name</qualifiedname>
+        <briefdescription>
+<para>Optional diagnostic name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/query_scheduler.h" line="70" column="19" bodyfile="include/execution/query_scheduler.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/execution/query_scheduler.h" line="62" column="1" bodyfile="include/execution/query_scheduler.h" bodystart="62" bodyend="71"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1execution_1_1_query_entry_1a7bc6121b0975d92ddb0bff372a08a7b4" prot="public" virt="non-virtual"><scope>themis::execution::QueryEntry</scope><name>deadline</name></member>
+      <member refid="structthemis_1_1execution_1_1_query_entry_1a02a456d6f699d506b7f7b29dad00527d" prot="public" virt="non-virtual"><scope>themis::execution::QueryEntry</scope><name>enqueue_time</name></member>
+      <member refid="structthemis_1_1execution_1_1_query_entry_1a2f4c3350ef354fe7a729d3294e52a14f" prot="public" virt="non-virtual"><scope>themis::execution::QueryEntry</scope><name>execute</name></member>
+      <member refid="structthemis_1_1execution_1_1_query_entry_1ad6d013f26dd0be2d5b9c0599661b48c4" prot="public" virt="non-virtual"><scope>themis::execution::QueryEntry</scope><name>ExecuteFn</name></member>
+      <member refid="structthemis_1_1execution_1_1_query_entry_1a2d23720cf336c00bc3d6ba93e038ff5e" prot="public" virt="non-virtual"><scope>themis::execution::QueryEntry</scope><name>id</name></member>
+      <member refid="structthemis_1_1execution_1_1_query_entry_1a65eda371f6a1e24a059f9db14989792f" prot="public" virt="non-virtual"><scope>themis::execution::QueryEntry</scope><name>name</name></member>
+      <member refid="structthemis_1_1execution_1_1_query_entry_1a9fd09b3a811edee20c9c9d8cc464cb0b" prot="public" virt="non-virtual"><scope>themis::execution::QueryEntry</scope><name>priority</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

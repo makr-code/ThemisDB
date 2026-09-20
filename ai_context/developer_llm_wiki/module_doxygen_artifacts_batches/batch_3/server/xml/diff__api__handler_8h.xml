@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="diff__api__handler_8h" kind="file" language="C++">
+    <compoundname>diff_api_handler.h</compoundname>
+    <includes local="yes">analytics/diff_engine.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">httplib.h</includes>
+    <includedby refid="diff__api__handler_8cpp" local="yes">src/server/diff_api_handler.cpp</includedby>
+    <includedby refid="http__server_8cpp" local="yes">src/server/http_server.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/server/diff_api_handler.h</label>
+        <link refid="diff__api__handler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>analytics/diff_engine.h</label>
+      </node>
+      <node id="5">
+        <label>httplib.h</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="4">
+        <label>nlohmann/json.hpp</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/server/diff_api_handler.h</label>
+        <link refid="diff__api__handler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/server/diff_api_handler.cpp</label>
+        <link refid="diff__api__handler_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/server/http_server.cpp</label>
+        <link refid="http__server_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1server_1_1_diff_api_handler" prot="public">themis::server::DiffApiHandler</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1server">themis::server</innernamespace>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="diff__api__handler_8h_1a255eeeb2615da0696894ab1311d3603d" prot="public" static="no">
+        <name>THEMIS_ENABLE_HTTP_SERVER</name>
+        <initializer>1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/diff_api_handler.h" line="15" column="9" bodyfile="include/server/diff_api_handler.h" bodystart="15" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_ENABLE_HTTP_SERVER</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15" refid="diff__api__handler_8h_1a255eeeb2615da0696894ab1311d3603d" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_ENABLE_HTTP_SERVER<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;analytics/diff_engine.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_HTTP_SERVER</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;httplib.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">server<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="classthemis_1_1server_1_1_diff_api_handler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1server_1_1_diff_api_handler_1a615a5a3031b4c94c83695677af000842" kindref="member">DiffApiHandler</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_diff_api_handler_1a615a5a3031b4c94c83695677af000842" kindref="member">DiffApiHandler</ref>(analytics::DiffEngine&amp;<sp/>diff_engine);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="classthemis_1_1server_1_1_diff_api_handler_1ad38344a8a830fb5c3f02b4a890fa145d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_diff_api_handler_1ad38344a8a830fb5c3f02b4a890fa145d" kindref="member">~DiffApiHandler</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy,<sp/>allow<sp/>move</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="classthemis_1_1server_1_1_diff_api_handler_1a513860823d48c76256406a01504fc753" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_diff_api_handler_1a513860823d48c76256406a01504fc753" kindref="member">DiffApiHandler</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_diff_api_handler_1a615a5a3031b4c94c83695677af000842" kindref="member">DiffApiHandler</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44" refid="classthemis_1_1server_1_1_diff_api_handler_1af02ba4d312d3018f4d4fa03465f8f6f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_diff_api_handler_1a615a5a3031b4c94c83695677af000842" kindref="member">DiffApiHandler</ref>&amp;<sp/><ref refid="classthemis_1_1server_1_1_diff_api_handler_1af02ba4d312d3018f4d4fa03465f8f6f9" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_diff_api_handler_1a615a5a3031b4c94c83695677af000842" kindref="member">DiffApiHandler</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45" refid="classthemis_1_1server_1_1_diff_api_handler_1a0e7dc11f1dbfb8a78b2ac40849184fbc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_diff_api_handler_1a0e7dc11f1dbfb8a78b2ac40849184fbc" kindref="member">DiffApiHandler</ref>(<ref refid="classthemis_1_1server_1_1_diff_api_handler_1a615a5a3031b4c94c83695677af000842" kindref="member">DiffApiHandler</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="46" refid="classthemis_1_1server_1_1_diff_api_handler_1a8b014ba4ae3113a9c9c11276e9ecd893" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_diff_api_handler_1a615a5a3031b4c94c83695677af000842" kindref="member">DiffApiHandler</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1server_1_1_diff_api_handler_1a615a5a3031b4c94c83695677af000842" kindref="member">DiffApiHandler</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_HTTP_SERVER</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_diff_api_handler_1a5d6b6a089cd80eb485c95ebb8a2400b3" kindref="member">registerRoutes</ref>(httplib::Server&amp;<sp/><ref refid="namespacethemis_1_1server" kindref="compound">server</ref>);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="56" refid="classthemis_1_1server_1_1_diff_api_handler_1a2f9bfc1d3ce14410f28cf63df25936cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>analytics::DiffEngine&amp;<sp/><ref refid="classthemis_1_1server_1_1_diff_api_handler_1a2f9bfc1d3ce14410f28cf63df25936cf" kindref="member">diff_engine_</ref>;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_diff_api_handler_1ac87579a1e2a341ae16186ad3e9be75cf" kindref="member">handleGetDiff</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>httplib::Request&amp;<sp/>req,<sp/>httplib::Response&amp;<sp/>res);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_diff_api_handler_1ae41df2ba19ae4c52fc8cdf27c13d7573" kindref="member">handleGetCacheStats</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>httplib::Request&amp;<sp/>req,<sp/>httplib::Response&amp;<sp/>res);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_diff_api_handler_1a1408df812ee0720c8d093676730828bf" kindref="member">handleClearCache</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>httplib::Request&amp;<sp/>req,<sp/>httplib::Response&amp;<sp/>res);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>analytics::DiffEngine::DiffOptions<sp/>parseOptions(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>httplib::Request&amp;<sp/>req)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>parseTimestamp(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>str)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isSequenceNumber(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>str)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>sendError(httplib::Response&amp;<sp/>res,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>status_code,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>sendJson(httplib::Response&amp;<sp/>res,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref>&amp;<sp/>data,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>status_code<sp/>=<sp/>200)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>analytics::DiffEngine&amp;<sp/><ref refid="classthemis_1_1server_1_1_diff_api_handler_1a2f9bfc1d3ce14410f28cf63df25936cf" kindref="member">diff_engine_</ref>;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>server</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/server/diff_api_handler.h"/>
+  </compounddef>
+</doxygen>

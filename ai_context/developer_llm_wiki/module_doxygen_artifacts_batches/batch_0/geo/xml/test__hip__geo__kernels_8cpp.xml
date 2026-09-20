@@ -1,0 +1,424 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__hip__geo__kernels_8cpp" kind="file" language="C++">
+    <compoundname>test_hip_geo_kernels.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">acceleration/compute_backend.h</includes>
+    <includes local="yes">acceleration/kernel_invocation.h</includes>
+    <includes refid="gpu__kernel__dispatcher_8h" local="yes">geo/gpu_kernel_dispatcher.h</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="5">
+        <label>geo/gpu_kernel_dispatcher.h</label>
+        <link refid="gpu__kernel__dispatcher_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/geo/test_hip_geo_kernels.cpp</label>
+        <link refid="test__hip__geo__kernels_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>acceleration/compute_backend.h</label>
+      </node>
+      <node id="4">
+        <label>acceleration/kernel_invocation.h</label>
+      </node>
+      <node id="10">
+        <label>cmath</label>
+      </node>
+      <node id="6">
+        <label>cstddef</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_hip_geo_kernel_dispatcher_test" prot="public">HipGeoKernelDispatcherTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__hip__geo__kernels_8cpp_1a90e66461d3827787c694ac451e880a95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HipGeoKernels, GeoDispatchTable_AllNullWhenHipDisabled)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HipGeoKernels</type>
+        </param>
+        <param>
+          <type>GeoDispatchTable_AllNullWhenHipDisabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_hip_geo_kernels.cpp" line="71" column="1" bodyfile="tests/geo/test_hip_geo_kernels.cpp" bodystart="71" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hip__geo__kernels_8cpp_1a1bb2b6b01acbd704ad3e6fcd74a651fa" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>static std::vector&lt; double &gt; makeSquarePoly</definition>
+        <argsstring>(double lat0, double lon0, double lat1, double lon1)</argsstring>
+        <name>makeSquarePoly</name>
+        <param>
+          <type>double</type>
+          <declname>lat0</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lon0</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lat1</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lon1</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_hip_geo_kernels.cpp" line="84" column="20" bodyfile="tests/geo/test_hip_geo_kernels.cpp" bodystart="84" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hip__geo__kernels_8cpp_1a9a6bd4736b8008859f4117de3b3ec8db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HipGeoKernelDispatcherTest, EmptyTable_IsNotAvailable)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_hip_geo_kernel_dispatcher_test" kindref="compound">HipGeoKernelDispatcherTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyTable_IsNotAvailable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_hip_geo_kernels.cpp" line="96" column="1" bodyfile="tests/geo/test_hip_geo_kernels.cpp" bodystart="96" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hip__geo__kernels_8cpp_1a16a32f59208e8cb07da0b252dc8f9f43" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HipGeoKernelDispatcherTest, EmptyTable_ContainmentReturnsNotDispatched)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_hip_geo_kernel_dispatcher_test" kindref="compound">HipGeoKernelDispatcherTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyTable_ContainmentReturnsNotDispatched</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_hip_geo_kernels.cpp" line="100" column="1" bodyfile="tests/geo/test_hip_geo_kernels.cpp" bodystart="100" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hip__geo__kernels_8cpp_1adc2104dda059e8b40f4b2022fe224d9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HipGeoKernelDispatcherTest, EmptyTable_DistanceReturnsNotDispatched)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_hip_geo_kernel_dispatcher_test" kindref="compound">HipGeoKernelDispatcherTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyTable_DistanceReturnsNotDispatched</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_hip_geo_kernels.cpp" line="108" column="1" bodyfile="tests/geo/test_hip_geo_kernels.cpp" bodystart="108" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hip__geo__kernels_8cpp_1ab4cc3fcef389bf50540f5b7c791d5d25" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HipGeoKernelDispatcherTest, NullInputs_ContainmentReturnsNotDispatched)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_hip_geo_kernel_dispatcher_test" kindref="compound">HipGeoKernelDispatcherTest</ref></type>
+        </param>
+        <param>
+          <type>NullInputs_ContainmentReturnsNotDispatched</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_hip_geo_kernels.cpp" line="116" column="1" bodyfile="tests/geo/test_hip_geo_kernels.cpp" bodystart="116" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hip__geo__kernels_8cpp_1a87ca800a02378ea3977940af5427c917" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HipGeoKernelDispatcherTest, ZeroPoints_ContainmentReturnsNotDispatched)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_hip_geo_kernel_dispatcher_test" kindref="compound">HipGeoKernelDispatcherTest</ref></type>
+        </param>
+        <param>
+          <type>ZeroPoints_ContainmentReturnsNotDispatched</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_hip_geo_kernels.cpp" line="121" column="1" bodyfile="tests/geo/test_hip_geo_kernels.cpp" bodystart="121" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hip__geo__kernels_8cpp_1aa65051b991ee8972f95b881a23aa4f2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HipGeoKernelDispatcherTest, TooFewPolygonVertices_ContainmentReturnsNotDispatched)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_hip_geo_kernel_dispatcher_test" kindref="compound">HipGeoKernelDispatcherTest</ref></type>
+        </param>
+        <param>
+          <type>TooFewPolygonVertices_ContainmentReturnsNotDispatched</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_hip_geo_kernels.cpp" line="127" column="1" bodyfile="tests/geo/test_hip_geo_kernels.cpp" bodystart="127" bodyend="132"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>test_hip_geo_kernels.cpp<sp/>—<sp/>Tests<sp/>for<sp/>ROCm/HIP<sp/>geo<sp/>kernel<sp/>dispatch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Validates<sp/>the<sp/>HIP/ROCm<sp/>geospatial<sp/>kernel<sp/>dispatch<sp/>implemented<sp/>in</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>src/acceleration/hip/geo_kernels.hip<sp/>and<sp/>the<sp/>HIPGeoBackend<sp/>wired<sp/>in</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>src/acceleration/hip_backend.cpp.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>structural<sp/>tests<sp/>run<sp/>on<sp/>any<sp/>platform<sp/>(no<sp/>AMD<sp/>GPU<sp/>required).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Hardware-dependent<sp/>paths<sp/>are<sp/>gracefully<sp/>skipped<sp/>when<sp/>HIP<sp/>is<sp/>unavailable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;acceleration/compute_backend.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;acceleration/kernel_invocation.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gpu__kernel__dispatcher_8h" kindref="compound">geo/gpu_kernel_dispatcher.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_HIP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;acceleration/hip_backend.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1acceleration" kindref="compound">themis::acceleration</ref>;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1geo" kindref="compound">themis::geo</ref>;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Structural<sp/>/<sp/>compile-time<sp/>tests<sp/>(no<sp/>GPU<sp/>required)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_HIP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><ref refid="test__hip__geo__kernels_8cpp_1a90e66461d3827787c694ac451e880a95" kindref="member">TEST</ref>(HipGeoKernels,<sp/>GeoDispatchTable_AllSlotsPopulated)<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>HIPGeoBackend<sp/>backend;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoKernelDispatch<sp/>d<sp/>=<sp/>backend.populateGeoDispatch();</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Under<sp/>THEMIS_ENABLE_HIP<sp/>every<sp/>slot<sp/>must<sp/>be<sp/>non-null;<sp/>no<sp/>GPU<sp/>required.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(d.launchDistance,<sp/><sp/><sp/><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(d.launchContainment,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><ref refid="test__hip__geo__kernels_8cpp_1a90e66461d3827787c694ac451e880a95" kindref="member">TEST</ref>(HipGeoKernels,<sp/>GeoDispatchTable_NotAvailableWhenNotInitialized)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>populateGeoDispatch()<sp/>must<sp/>return<sp/>valid<sp/>function<sp/>pointers<sp/>even<sp/>before</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>initialize()<sp/>is<sp/>called.<sp/><sp/>The<sp/>isAvailable()<sp/>check<sp/>governs<sp/>dispatch,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>not<sp/>the<sp/>presence<sp/>of<sp/>function<sp/>pointers.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>HIPGeoBackend<sp/>backend;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoKernelDispatch<sp/>d<sp/>=<sp/>backend.populateGeoDispatch();</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(d.launchDistance,<sp/><sp/><sp/><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(d.launchContainment,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><ref refid="test__hip__geo__kernels_8cpp_1a90e66461d3827787c694ac451e880a95" kindref="member">TEST</ref>(HipGeoKernels,<sp/>GeoDispatchTableName_IsHIP)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>HIPGeoBackend<sp/>backend;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(backend.name(),<sp/></highlight><highlight class="stringliteral">&quot;HIP&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><ref refid="test__hip__geo__kernels_8cpp_1a90e66461d3827787c694ac451e880a95" kindref="member">TEST</ref>(HipGeoKernels,<sp/>GeoDispatchTableType_IsHIP)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>HIPGeoBackend<sp/>backend;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(backend.type(),<sp/>BackendType::HIP);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><ref refid="test__hip__geo__kernels_8cpp_1a90e66461d3827787c694ac451e880a95" kindref="member">TEST</ref>(HipGeoKernels,<sp/>Capabilities_SupportsGeoOpsAndBatch)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>HIPGeoBackend<sp/>backend;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>BackendCapabilities<sp/>caps<sp/>=<sp/>backend.getCapabilities();</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(caps.supportsGeoOps);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(caps.supportsBatchProcessing);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="preprocessor">#else<sp/></highlight><highlight class="comment">//<sp/>!THEMIS_ENABLE_HIP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>When<sp/>HIP<sp/>is<sp/>not<sp/>enabled<sp/>the<sp/>dispatch<sp/>table<sp/>is<sp/>all-null.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><ref refid="test__hip__geo__kernels_8cpp_1a90e66461d3827787c694ac451e880a95" kindref="member">TEST</ref>(HipGeoKernels,<sp/>GeoDispatchTable_AllNullWhenHipDisabled)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoKernelDispatch<sp/>d;<sp/><sp/></highlight><highlight class="comment">//<sp/>zero-initialized<sp/>(all<sp/>nullptr)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(d.launchDistance,<sp/><sp/><sp/><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(d.launchContainment,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>THEMIS_ENABLE_HIP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GpuKernelDispatcher<sp/>interface<sp/>tests<sp/>(THEMIS_GEO_HIP<sp/>path)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper:<sp/>build<sp/>a<sp/>square<sp/>polygon<sp/>as<sp/>interleaved<sp/>[lat,<sp/>lon]<sp/>×<sp/>4<sp/>vertices.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;<sp/>makeSquarePoly(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lat0,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lon0,</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lat1,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lon1)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{lat0,<sp/>lon0,<sp/>lat0,<sp/>lon1,<sp/>lat1,<sp/>lon1,<sp/>lat1,<sp/>lon0};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="class_hip_geo_kernel_dispatcher_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_hip_geo_kernel_dispatcher_test" kindref="compound">HipGeoKernelDispatcherTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Empty<sp/>dispatch<sp/>table<sp/>—<sp/>always<sp/>uses<sp/>the<sp/>CPU<sp/>stub<sp/>path.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoKernelDispatch<sp/><ref refid="class_hip_geo_kernel_dispatcher_test_1a327b70687d673b9efa4f56b69e3a0652" kindref="member">empty_table_</ref>{};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_gpu_kernel_dispatcher" kindref="compound">GpuKernelDispatcher</ref><sp/><ref refid="class_hip_geo_kernel_dispatcher_test_1a41ae1ec426e2c6c8506a93abf42cacf6" kindref="member">dispatcher_</ref>{<ref refid="class_hip_geo_kernel_dispatcher_test_1a327b70687d673b9efa4f56b69e3a0652" kindref="member">empty_table_</ref>};</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="test__hip__geo__kernels_8cpp_1a9a6bd4736b8008859f4117de3b3ec8db" kindref="member">TEST_F</ref>(<ref refid="class_hip_geo_kernel_dispatcher_test" kindref="compound">HipGeoKernelDispatcherTest</ref>,<sp/>EmptyTable_IsNotAvailable)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(dispatcher_.isAvailable());</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><ref refid="test__hip__geo__kernels_8cpp_1a9a6bd4736b8008859f4117de3b3ec8db" kindref="member">TEST_F</ref>(<ref refid="class_hip_geo_kernel_dispatcher_test" kindref="compound">HipGeoKernelDispatcherTest</ref>,<sp/>EmptyTable_ContainmentReturnsNotDispatched)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lat<sp/>=<sp/>1.0,<sp/>lon<sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>poly<sp/>=<sp/>makeSquarePoly(0.0,<sp/>0.0,<sp/>2.0,<sp/>2.0);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>dispatcher_.dispatchContainment(&amp;lat,<sp/>&amp;lon,<sp/>1,<sp/>poly.data(),<sp/>4);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(res.dispatched);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(res.mask.empty());</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><ref refid="test__hip__geo__kernels_8cpp_1a9a6bd4736b8008859f4117de3b3ec8db" kindref="member">TEST_F</ref>(<ref refid="class_hip_geo_kernel_dispatcher_test" kindref="compound">HipGeoKernelDispatcherTest</ref>,<sp/>EmptyTable_DistanceReturnsNotDispatched)<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lat1<sp/>=<sp/>0.0,<sp/>lon1<sp/>=<sp/>0.0,<sp/>lat2<sp/>=<sp/>1.0,<sp/>lon2<sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>dispatcher_.dispatchDistance(&amp;lat1,<sp/>&amp;lon1,<sp/>&amp;lat2,<sp/>&amp;lon2,<sp/>1,</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GeoDistanceFormula::HAVERSINE);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(res.dispatched);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(res.distances_km.empty());</highlight></codeline>
+<codeline lineno="114"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><ref refid="test__hip__geo__kernels_8cpp_1a9a6bd4736b8008859f4117de3b3ec8db" kindref="member">TEST_F</ref>(<ref refid="class_hip_geo_kernel_dispatcher_test" kindref="compound">HipGeoKernelDispatcherTest</ref>,<sp/>NullInputs_ContainmentReturnsNotDispatched)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>dispatcher_.dispatchContainment(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>1,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>3);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(res.dispatched);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><ref refid="test__hip__geo__kernels_8cpp_1a9a6bd4736b8008859f4117de3b3ec8db" kindref="member">TEST_F</ref>(<ref refid="class_hip_geo_kernel_dispatcher_test" kindref="compound">HipGeoKernelDispatcherTest</ref>,<sp/>ZeroPoints_ContainmentReturnsNotDispatched)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>poly_data[]<sp/>=<sp/>{0,<sp/>0,<sp/>0,<sp/>1,<sp/>1,<sp/>0};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>dispatcher_.dispatchContainment(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>0,<sp/>poly_data,<sp/>3);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(res.dispatched);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><ref refid="test__hip__geo__kernels_8cpp_1a9a6bd4736b8008859f4117de3b3ec8db" kindref="member">TEST_F</ref>(<ref refid="class_hip_geo_kernel_dispatcher_test" kindref="compound">HipGeoKernelDispatcherTest</ref>,<sp/>TooFewPolygonVertices_ContainmentReturnsNotDispatched)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lat<sp/>=<sp/>0.5,<sp/>lon<sp/>=<sp/>0.5;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>poly[]<sp/>=<sp/>{0,<sp/>0,<sp/>1,<sp/>0};<sp/><sp/></highlight><highlight class="comment">//<sp/>only<sp/>2<sp/>vertices<sp/>—<sp/>invalid<sp/>polygon</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>dispatcher_.dispatchContainment(&amp;lat,<sp/>&amp;lon,<sp/>1,<sp/>poly,<sp/>2);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(res.dispatched);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>THEMIS_GEO_HIP<sp/>—<sp/>populate<sp/>dispatch<sp/>table<sp/>from<sp/>HIP<sp/>backend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(THEMIS_GEO_HIP)<sp/>&amp;&amp;<sp/>defined(THEMIS_ENABLE_HIP)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><ref refid="test__hip__geo__kernels_8cpp_1a90e66461d3827787c694ac451e880a95" kindref="member">TEST</ref>(HipGeoKernelDispatch,<sp/>WithHipTable_IsAvailable)<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>HIPGeoBackend<sp/>backend;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoKernelDispatch<sp/>d<sp/>=<sp/>backend.populateGeoDispatch();</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_gpu_kernel_dispatcher" kindref="compound">GpuKernelDispatcher</ref><sp/>dispatcher(d);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(dispatcher.isAvailable());</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><ref refid="test__hip__geo__kernels_8cpp_1a90e66461d3827787c694ac451e880a95" kindref="member">TEST</ref>(HipGeoKernelDispatch,<sp/>WithHipTable_ContainmentReturnsNotDispatchedWithoutDevice)<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>On<sp/>a<sp/>machine<sp/>without<sp/>an<sp/>AMD<sp/>GPU,<sp/>dispatch<sp/>falls<sp/>back<sp/>through<sp/>the<sp/>circuit-</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>breaker.<sp/><sp/>On<sp/>a<sp/>machine<sp/>WITH<sp/>a<sp/>GPU<sp/>this<sp/>test<sp/>must<sp/>be<sp/>skipped<sp/>or<sp/>adapted.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>HIPGeoBackend<sp/>backend<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(backend.isAvailable())<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;capability:no_hip_device_path_exercisable=false;reason=amd_gpu_present&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoKernelDispatch<sp/>d<sp/>=<sp/>backend.populateGeoDispatch();</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_gpu_kernel_dispatcher" kindref="compound">GpuKernelDispatcher</ref><sp/>dispatcher(d);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lat<sp/>=<sp/>1.0,<sp/>lon<sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>poly<sp/>=<sp/>makeSquarePoly(0.0,<sp/>0.0,<sp/>2.0,<sp/>2.0);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>dispatcher.dispatchContainment(&amp;lat,<sp/>&amp;lon,<sp/>1,<sp/>poly.data(),<sp/>4);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Without<sp/>a<sp/>real<sp/>HIP<sp/>device<sp/>hipMalloc<sp/>fails<sp/>→<sp/>dispatched=false<sp/>is<sp/>expected.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(res.dispatched);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><ref refid="test__hip__geo__kernels_8cpp_1a90e66461d3827787c694ac451e880a95" kindref="member">TEST</ref>(HipGeoKernelDispatch,<sp/>WithHipTable_DistanceReturnsNotDispatchedWithoutDevice)<sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>HIPGeoBackend<sp/>backend<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(backend.isAvailable())<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;capability:no_hip_device_path_exercisable=false;reason=amd_gpu_present&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoKernelDispatch<sp/>d<sp/>=<sp/>backend.populateGeoDispatch();</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_gpu_kernel_dispatcher" kindref="compound">GpuKernelDispatcher</ref><sp/>dispatcher(d);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lat1<sp/>=<sp/>0.0,<sp/>lon1<sp/>=<sp/>0.0,<sp/>lat2<sp/>=<sp/>1.0,<sp/>lon2<sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>dispatcher.dispatchDistance(&amp;lat1,<sp/>&amp;lon1,<sp/>&amp;lat2,<sp/>&amp;lon2,<sp/>1,</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GeoDistanceFormula::HAVERSINE);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(res.dispatched);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>THEMIS_GEO_HIP<sp/>&amp;&amp;<sp/>THEMIS_ENABLE_HIP</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/geo/test_hip_geo_kernels.cpp"/>
+  </compounddef>
+</doxygen>

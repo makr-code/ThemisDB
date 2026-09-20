@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_n_u_m_a_memory_manager_1_1_alloc_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::performance::NUMAMemoryManager::AllocEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_n_u_m_a_memory_manager_1_1_alloc_entry_1abb72ac11637cd879c7355e3838ddc7cb" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::performance::NUMAMemoryManager::AllocEntry::node</definition>
+        <argsstring></argsstring>
+        <name>node</name>
+        <qualifiedname>themis::performance::NUMAMemoryManager::AllocEntry::node</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="210" column="25" bodyfile="include/performance/numa_memory_manager.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_n_u_m_a_memory_manager_1_1_alloc_entry_1a603210a119937da55736d54b6ce8854c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::NUMAMemoryManager::AllocEntry::size</definition>
+        <argsstring></argsstring>
+        <name>size</name>
+        <qualifiedname>themis::performance::NUMAMemoryManager::AllocEntry::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/numa_memory_manager.h" line="210" column="37" bodyfile="include/performance/numa_memory_manager.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/numa_memory_manager.h" line="210" column="5" bodyfile="include/performance/numa_memory_manager.h" bodystart="210" bodyend="210"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_n_u_m_a_memory_manager_1_1_alloc_entry_1abb72ac11637cd879c7355e3838ddc7cb" prot="public" virt="non-virtual"><scope>themis::performance::NUMAMemoryManager::AllocEntry</scope><name>node</name></member>
+      <member refid="structthemis_1_1performance_1_1_n_u_m_a_memory_manager_1_1_alloc_entry_1a603210a119937da55736d54b6ce8854c" prot="public" virt="non-virtual"><scope>themis::performance::NUMAMemoryManager::AllocEntry</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

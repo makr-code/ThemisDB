@@ -1,0 +1,216 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_loaded_module" kind="struct" language="C++" prot="public">
+    <compoundname>themis::modules::LoadedModule</compoundname>
+    <includes refid="module__loader_8h" local="no">module_loader.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_loaded_module_1a8dc8fe425c78d2fdfaee9c7cdd3af88b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::LoadedModule::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::modules::LoadedModule::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="322" column="17" bodyfile="include/themis/base/module_loader.h" bodystart="322" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_loaded_module_1a62dc610b748c51ad2eabcbc1e2ce5eb1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::LoadedModule::path</definition>
+        <argsstring></argsstring>
+        <name>path</name>
+        <qualifiedname>themis::modules::LoadedModule::path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="323" column="17" bodyfile="include/themis/base/module_loader.h" bodystart="323" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_loaded_module_1a3cbf15b616020ae30a7e787278f5b5bd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::LoadedModule::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::modules::LoadedModule::version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="324" column="17" bodyfile="include/themis/base/module_loader.h" bodystart="324" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_loaded_module_1ad893f8da883da391a17b6cfa3b675b29" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::LoadedModule::fileHash</definition>
+        <argsstring></argsstring>
+        <name>fileHash</name>
+        <qualifiedname>themis::modules::LoadedModule::fileHash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="325" column="17" bodyfile="include/themis/base/module_loader.h" bodystart="325" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_loaded_module_1aa1e5ca7630c76c2e7384f0a1f54cc558" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::modules::LoadedModule::handle</definition>
+        <argsstring></argsstring>
+        <name>handle</name>
+        <qualifiedname>themis::modules::LoadedModule::handle</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="326" column="10" bodyfile="include/themis/base/module_loader.h" bodystart="326" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_loaded_module_1a07314a0c34022cb8d8b3b248187bdb1b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::modules::LoadedModule::verified</definition>
+        <argsstring></argsstring>
+        <name>verified</name>
+        <qualifiedname>themis::modules::LoadedModule::verified</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="327" column="10" bodyfile="include/themis/base/module_loader.h" bodystart="327" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_loaded_module_1a6a6b61f7aa917a76184bfab3687a0ce3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::LoadedModule::loadTime</definition>
+        <argsstring></argsstring>
+        <name>loadTime</name>
+        <qualifiedname>themis::modules::LoadedModule::loadTime</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="328" column="14" bodyfile="include/themis/base/module_loader.h" bodystart="328" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_loaded_module_1a86139e39c648cd45d0a59725e7aaea51" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::LoadedModule::loadDurationMs</definition>
+        <argsstring></argsstring>
+        <name>loadDurationMs</name>
+        <qualifiedname>themis::modules::LoadedModule::loadDurationMs</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="329" column="14" bodyfile="include/themis/base/module_loader.h" bodystart="329" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_loaded_module_1aa6e0935f02c04efb7c413aceb212b83d" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1modules_1_1_module_metadata" kindref="compound">ModuleMetadata</ref></type>
+        <definition>ModuleMetadata themis::modules::LoadedModule::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::modules::LoadedModule::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="330" column="20" bodyfile="include/themis/base/module_loader.h" bodystart="330" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_loaded_module_1acc185760ca230744c7d3438da93a3b8b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1modules_1a69b3d03cad22e237a2a7220befd57fed" kindref="member">LoadStage</ref></type>
+        <definition>LoadStage themis::modules::LoadedModule::currentStage</definition>
+        <argsstring></argsstring>
+        <name>currentStage</name>
+        <qualifiedname>themis::modules::LoadedModule::currentStage</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1modules_1a69b3d03cad22e237a2a7220befd57feda795b8a51556d0b2cf4fbc11a896f6269" kindref="member">LoadStage::UNLOADED</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="331" column="15" bodyfile="include/themis/base/module_loader.h" bodystart="331" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_loaded_module_1a25777b5400b797fbf35b9c287a79500e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1modules_1_1_health_check_result" kindref="compound">HealthCheckResult</ref> &gt;</type>
+        <definition>std::vector&lt;HealthCheckResult&gt; themis::modules::LoadedModule::healthChecks</definition>
+        <argsstring></argsstring>
+        <name>healthChecks</name>
+        <qualifiedname>themis::modules::LoadedModule::healthChecks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="332" column="17" bodyfile="include/themis/base/module_loader.h" bodystart="332" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_loaded_module_1a124b85492544aa36e7b1cd1438e43139" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::modules::LoadedModule::fullyActivated</definition>
+        <argsstring></argsstring>
+        <name>fullyActivated</name>
+        <qualifiedname>themis::modules::LoadedModule::fullyActivated</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="333" column="10" bodyfile="include/themis/base/module_loader.h" bodystart="333" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Loaded module information. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::modules::LoadedModule</label>
+        <link refid="structthemis_1_1modules_1_1_loaded_module"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>metadata</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::modules::ModuleMetadata</label>
+        <link refid="structthemis_1_1modules_1_1_module_metadata"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/themis/base/module_loader.h" line="321" column="1" bodyfile="include/themis/base/module_loader.h" bodystart="321" bodyend="334"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_loaded_module_1acc185760ca230744c7d3438da93a3b8b" prot="public" virt="non-virtual"><scope>themis::modules::LoadedModule</scope><name>currentStage</name></member>
+      <member refid="structthemis_1_1modules_1_1_loaded_module_1ad893f8da883da391a17b6cfa3b675b29" prot="public" virt="non-virtual"><scope>themis::modules::LoadedModule</scope><name>fileHash</name></member>
+      <member refid="structthemis_1_1modules_1_1_loaded_module_1a124b85492544aa36e7b1cd1438e43139" prot="public" virt="non-virtual"><scope>themis::modules::LoadedModule</scope><name>fullyActivated</name></member>
+      <member refid="structthemis_1_1modules_1_1_loaded_module_1aa1e5ca7630c76c2e7384f0a1f54cc558" prot="public" virt="non-virtual"><scope>themis::modules::LoadedModule</scope><name>handle</name></member>
+      <member refid="structthemis_1_1modules_1_1_loaded_module_1a25777b5400b797fbf35b9c287a79500e" prot="public" virt="non-virtual"><scope>themis::modules::LoadedModule</scope><name>healthChecks</name></member>
+      <member refid="structthemis_1_1modules_1_1_loaded_module_1a86139e39c648cd45d0a59725e7aaea51" prot="public" virt="non-virtual"><scope>themis::modules::LoadedModule</scope><name>loadDurationMs</name></member>
+      <member refid="structthemis_1_1modules_1_1_loaded_module_1a6a6b61f7aa917a76184bfab3687a0ce3" prot="public" virt="non-virtual"><scope>themis::modules::LoadedModule</scope><name>loadTime</name></member>
+      <member refid="structthemis_1_1modules_1_1_loaded_module_1aa6e0935f02c04efb7c413aceb212b83d" prot="public" virt="non-virtual"><scope>themis::modules::LoadedModule</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1modules_1_1_loaded_module_1a8dc8fe425c78d2fdfaee9c7cdd3af88b" prot="public" virt="non-virtual"><scope>themis::modules::LoadedModule</scope><name>name</name></member>
+      <member refid="structthemis_1_1modules_1_1_loaded_module_1a62dc610b748c51ad2eabcbc1e2ce5eb1" prot="public" virt="non-virtual"><scope>themis::modules::LoadedModule</scope><name>path</name></member>
+      <member refid="structthemis_1_1modules_1_1_loaded_module_1a07314a0c34022cb8d8b3b248187bdb1b" prot="public" virt="non-virtual"><scope>themis::modules::LoadedModule</scope><name>verified</name></member>
+      <member refid="structthemis_1_1modules_1_1_loaded_module_1a3cbf15b616020ae30a7e787278f5b5bd" prot="public" virt="non-virtual"><scope>themis::modules::LoadedModule</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

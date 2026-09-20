@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::AQLParserServiceImpl::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1_1_impl_1a936730d58c9eac6a7fe142978f8ed04e" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1_a_q_l_parser" kindref="compound">AQLParser</ref></type>
+        <definition>AQLParser themis::query::AQLParserServiceImpl::Impl::parser_</definition>
+        <argsstring></argsstring>
+        <name>parser_</name>
+        <qualifiedname>themis::query::AQLParserServiceImpl::Impl::parser_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser_service.cpp" line="31" column="15" bodyfile="src/query/aql_parser_service.cpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1_1_impl_1a999ba132f16547de2f2d46b8837bb348" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::AQLParserServiceImpl::Impl::enable_mutations_</definition>
+        <argsstring></argsstring>
+        <name>enable_mutations_</name>
+        <qualifiedname>themis::query::AQLParserServiceImpl::Impl::enable_mutations_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser_service.cpp" line="32" column="10" bodyfile="src/query/aql_parser_service.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1_1_impl_1a9e87a2147cf23a57a7cb42dc558b8c22" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::AQLParserServiceImpl::Impl::enable_ddl_</definition>
+        <argsstring></argsstring>
+        <name>enable_ddl_</name>
+        <qualifiedname>themis::query::AQLParserServiceImpl::Impl::enable_ddl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser_service.cpp" line="33" column="10" bodyfile="src/query/aql_parser_service.cpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1_1_impl_1ad8a3241b7c5d28579603dcd71c9dcd37" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::AQLParserServiceImpl::Impl::enable_geospatial_</definition>
+        <argsstring></argsstring>
+        <name>enable_geospatial_</name>
+        <qualifiedname>themis::query::AQLParserServiceImpl::Impl::enable_geospatial_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser_service.cpp" line="34" column="10" bodyfile="src/query/aql_parser_service.cpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1_1_impl_1a5e7d75c86dff288ec45db65044e6834d" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::AQLParserServiceImpl::Impl::Impl</definition>
+        <argsstring>(bool enable_mutations=false, bool enable_ddl=false, bool enable_geospatial=true)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::query::AQLParserServiceImpl::Impl::Impl</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enable_mutations</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>enable_ddl</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>enable_geospatial</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser_service.cpp" line="21" column="14" bodyfile="src/query/aql_parser_service.cpp" bodystart="21" bodyend="29"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::query::AQLParser</label>
+        <link refid="classthemis_1_1query_1_1_a_q_l_parser"/>
+      </node>
+      <node id="1">
+        <label>themis::query::AQLParserServiceImpl::Impl</label>
+        <link refid="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>parser_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/query/aql_parser_service.cpp" line="19" column="1" bodyfile="src/query/aql_parser_service.cpp" bodystart="19" bodyend="35"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1_1_impl_1a9e87a2147cf23a57a7cb42dc558b8c22" prot="public" virt="non-virtual"><scope>themis::query::AQLParserServiceImpl::Impl</scope><name>enable_ddl_</name></member>
+      <member refid="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1_1_impl_1ad8a3241b7c5d28579603dcd71c9dcd37" prot="public" virt="non-virtual"><scope>themis::query::AQLParserServiceImpl::Impl</scope><name>enable_geospatial_</name></member>
+      <member refid="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1_1_impl_1a999ba132f16547de2f2d46b8837bb348" prot="public" virt="non-virtual"><scope>themis::query::AQLParserServiceImpl::Impl</scope><name>enable_mutations_</name></member>
+      <member refid="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1_1_impl_1a5e7d75c86dff288ec45db65044e6834d" prot="public" virt="non-virtual"><scope>themis::query::AQLParserServiceImpl::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1_1_impl_1a936730d58c9eac6a7fe142978f8ed04e" prot="public" virt="non-virtual"><scope>themis::query::AQLParserServiceImpl::Impl</scope><name>parser_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

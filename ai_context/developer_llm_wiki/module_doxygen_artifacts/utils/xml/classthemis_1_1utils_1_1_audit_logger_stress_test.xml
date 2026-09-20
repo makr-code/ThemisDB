@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_audit_logger_stress_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::AuditLoggerStressTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_audit_logger_stress_test_1a9d839e0d451b1ea1dc9e15368dca7470" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path themis::utils::AuditLoggerStressTest::tmp_dir</definition>
+        <argsstring></argsstring>
+        <name>tmp_dir</name>
+        <qualifiedname>themis::utils::AuditLoggerStressTest::tmp_dir</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_audit_logger_stress_concurrent_writers.cpp" line="35" column="14" bodyfile="tests/utils/test_utils_audit_logger_stress_concurrent_writers.cpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_audit_logger_stress_test_1aa3eb0046b028775c3dfbd2ea2b98f48b" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::AuditLoggerStressTest::log_path</definition>
+        <argsstring></argsstring>
+        <name>log_path</name>
+        <qualifiedname>themis::utils::AuditLoggerStressTest::log_path</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_audit_logger_stress_concurrent_writers.cpp" line="36" column="17" bodyfile="tests/utils/test_utils_audit_logger_stress_concurrent_writers.cpp" bodystart="36" bodyend="36"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_stress_test_1ac348b2c3328596aac24833e729bae073" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::AuditLoggerStressTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::utils::AuditLoggerStressTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_audit_logger_stress_concurrent_writers.cpp" line="38" column="10" bodyfile="tests/utils/test_utils_audit_logger_stress_concurrent_writers.cpp" bodystart="38" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_stress_test_1af59ed1ec7b7a3a6c1697497b8e35a037" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::AuditLoggerStressTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::utils::AuditLoggerStressTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_audit_logger_stress_concurrent_writers.cpp" line="47" column="10" bodyfile="tests/utils/test_utils_audit_logger_stress_concurrent_writers.cpp" bodystart="47" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_stress_test_1ae4f652668291015f2facc2dbfe985626" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1utils_1_1_audit_logger_config" kindref="compound">AuditLoggerConfig</ref></type>
+        <definition>AuditLoggerConfig themis::utils::AuditLoggerStressTest::makeConfig</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>makeConfig</name>
+        <qualifiedname>themis::utils::AuditLoggerStressTest::makeConfig</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_audit_logger_stress_concurrent_writers.cpp" line="53" column="23" bodyfile="tests/utils/test_utils_audit_logger_stress_concurrent_writers.cpp" bodystart="53" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::utils::AuditLoggerStressTest</label>
+        <link refid="classthemis_1_1utils_1_1_audit_logger_stress_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::utils::AuditLoggerStressTest</label>
+        <link refid="classthemis_1_1utils_1_1_audit_logger_stress_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/utils/test_utils_audit_logger_stress_concurrent_writers.cpp" line="33" column="1" bodyfile="tests/utils/test_utils_audit_logger_stress_concurrent_writers.cpp" bodystart="33" bodyend="62"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_stress_test_1aa3eb0046b028775c3dfbd2ea2b98f48b" prot="protected" virt="non-virtual"><scope>themis::utils::AuditLoggerStressTest</scope><name>log_path</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_stress_test_1ae4f652668291015f2facc2dbfe985626" prot="protected" virt="non-virtual"><scope>themis::utils::AuditLoggerStressTest</scope><name>makeConfig</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_stress_test_1ac348b2c3328596aac24833e729bae073" prot="protected" virt="non-virtual"><scope>themis::utils::AuditLoggerStressTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_stress_test_1af59ed1ec7b7a3a6c1697497b8e35a037" prot="protected" virt="non-virtual"><scope>themis::utils::AuditLoggerStressTest</scope><name>TearDown</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_stress_test_1a9d839e0d451b1ea1dc9e15368dca7470" prot="protected" virt="non-virtual"><scope>themis::utils::AuditLoggerStressTest</scope><name>tmp_dir</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

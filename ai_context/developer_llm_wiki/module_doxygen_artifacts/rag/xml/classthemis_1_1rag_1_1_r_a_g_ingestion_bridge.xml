@@ -1,0 +1,836 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::RAGIngestionBridge</compoundname>
+    <includes refid="rag__ingestion__bridge_8h" local="no">rag_ingestion_bridge.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a187b17690995294f3fcae367566dc18e" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; toolbox::IngestionToolbox &gt;</type>
+        <definition>std::shared_ptr&lt;toolbox::IngestionToolbox&gt; themis::rag::RAGIngestionBridge::toolbox_</definition>
+        <argsstring></argsstring>
+        <name>toolbox_</name>
+        <qualifiedname>themis::rag::RAGIngestionBridge::toolbox_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_ingestion_bridge.h" line="351" column="21" bodyfile="include/rag/rag_ingestion_bridge.h" bodystart="351" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a451130872c898bb473c3a923b6b95606" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; ingestion::IVectorWriter &gt;</type>
+        <definition>std::shared_ptr&lt;ingestion::IVectorWriter&gt; themis::rag::RAGIngestionBridge::vector_writer_</definition>
+        <argsstring></argsstring>
+        <name>vector_writer_</name>
+        <qualifiedname>themis::rag::RAGIngestionBridge::vector_writer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_ingestion_bridge.h" line="352" column="22" bodyfile="include/rag/rag_ingestion_bridge.h" bodystart="352" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1ad443ceba2b96b6b22f22f4e7a416f1a7" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; ingestion::IGraphWriter &gt;</type>
+        <definition>std::shared_ptr&lt;ingestion::IGraphWriter&gt; themis::rag::RAGIngestionBridge::graph_writer_</definition>
+        <argsstring></argsstring>
+        <name>graph_writer_</name>
+        <qualifiedname>themis::rag::RAGIngestionBridge::graph_writer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_ingestion_bridge.h" line="353" column="23" bodyfile="include/rag/rag_ingestion_bridge.h" bodystart="353" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a4166fc91b0f1a5083291f9d082940661" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::RAGIngestionBridge::RAGIngestionBridge</definition>
+        <argsstring>(std::shared_ptr&lt; toolbox::IngestionToolbox &gt; toolbox, std::shared_ptr&lt; ingestion::IVectorWriter &gt; vector_writer=nullptr, std::shared_ptr&lt; ingestion::IGraphWriter &gt; graph_writer=nullptr)</argsstring>
+        <name>RAGIngestionBridge</name>
+        <qualifiedname>themis::rag::RAGIngestionBridge::RAGIngestionBridge</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; toolbox::IngestionToolbox &gt;</type>
+          <declname>toolbox</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; ingestion::IVectorWriter &gt;</type>
+          <declname>vector_writer</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; ingestion::IGraphWriter &gt;</type>
+          <declname>graph_writer</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Construct a bridge backed by <computeroutput>toolbox</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>toolbox</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared toolbox instance; must not be null. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>vector_writer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional vector-store sink. When provided, <computeroutput><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a1b93f02d1d5e763bf76d1aadb9c44fc1" kindref="member">indexDocument()</ref></computeroutput> writes extracted vector chunks to the vector index. Pass <computeroutput>nullptr</computeroutput> to skip vector writes (useful for pure NER use-cases). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>graph_writer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional graph-store sink. When provided, <computeroutput><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a1b93f02d1d5e763bf76d1aadb9c44fc1" kindref="member">indexDocument()</ref></computeroutput> writes extracted entities and relations to the graph store. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_ingestion_bridge.h" line="128" column="14" bodyfile="src/rag/rag_ingestion_bridge.cpp" bodystart="95" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1aaab9162ae669c83b9c2e50beb2e39364" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::RAGIngestionBridge::~RAGIngestionBridge</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~RAGIngestionBridge</name>
+        <qualifiedname>themis::rag::RAGIngestionBridge::~RAGIngestionBridge</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_ingestion_bridge.h" line="134" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a05274fced6c6d6c3885d918f73b62d5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::RAGIngestionBridge::RAGIngestionBridge</definition>
+        <argsstring>(const RAGIngestionBridge &amp;)=delete</argsstring>
+        <name>RAGIngestionBridge</name>
+        <qualifiedname>themis::rag::RAGIngestionBridge::RAGIngestionBridge</qualifiedname>
+        <param>
+          <type>const RAGIngestionBridge &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_ingestion_bridge.h" line="137" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a4c345fa833e13ddfd025e57cda2ffa0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a4166fc91b0f1a5083291f9d082940661" kindref="member">RAGIngestionBridge</ref> &amp;</type>
+        <definition>RAGIngestionBridge &amp; themis::rag::RAGIngestionBridge::operator=</definition>
+        <argsstring>(const RAGIngestionBridge &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::RAGIngestionBridge::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a4166fc91b0f1a5083291f9d082940661" kindref="member">RAGIngestionBridge</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_ingestion_bridge.h" line="138" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a19e98f49751cc1473b7336cf13bfbbe4" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::RAGIngestionBridge::RAGIngestionBridge</definition>
+        <argsstring>(RAGIngestionBridge &amp;&amp;) noexcept</argsstring>
+        <name>RAGIngestionBridge</name>
+        <qualifiedname>themis::rag::RAGIngestionBridge::RAGIngestionBridge</qualifiedname>
+        <param>
+          <type>RAGIngestionBridge &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_ingestion_bridge.h" line="139" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a7628295383d7a460663a26f06e643f4e" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a4166fc91b0f1a5083291f9d082940661" kindref="member">RAGIngestionBridge</ref> &amp;</type>
+        <definition>RAGIngestionBridge &amp; themis::rag::RAGIngestionBridge::operator=</definition>
+        <argsstring>(RAGIngestionBridge &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::RAGIngestionBridge::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a4166fc91b0f1a5083291f9d082940661" kindref="member">RAGIngestionBridge</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_ingestion_bridge.h" line="140" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a1b93f02d1d5e763bf76d1aadb9c44fc1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_index_result" kindref="compound">IndexResult</ref></type>
+        <definition>IndexResult themis::rag::RAGIngestionBridge::indexDocument</definition>
+        <argsstring>(const std::string &amp;text, const std::string &amp;collection=&quot;default&quot;, const std::string &amp;mime=&quot;text/plain&quot;, const std::string &amp;filename=&quot;document.txt&quot;)</argsstring>
+        <name>indexDocument</name>
+        <qualifiedname>themis::rag::RAGIngestionBridge::indexDocument</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+          <defval>&quot;default&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime</declname>
+          <defval>&quot;text/plain&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+          <defval>&quot;document.txt&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Index a document by running the full ingestion workflow and writing extracted chunks and entities to the configured sinks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Thread-Safe: captures local copies of member pointers before use.</para>
+<sect1 id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1autotoc_md17_1s1"><sect2 id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1autotoc_md17">
+<title>Workflow</title><para><orderedlist>
+<listitem><para>Validates input size (text &lt;= kMaxDocumentChars, collection &lt;= kMaxCollectionChars).</para>
+</listitem><listitem><para>Runs <computeroutput>WorkflowEngine::execute()</computeroutput> on the text to produce a <computeroutput>BaseEntitySet</computeroutput> (NER nodes, vector chunks, quality score). If workflow execution is unavailable or fails, a minimal fallback entity set is generated from direct entity extraction plus one canonical retrieval chunk so indexing remains usable.</para>
+</listitem><listitem><para>Writes all <computeroutput>VectorRecord</computeroutput> chunks to the <computeroutput>IVectorWriter</computeroutput> sink (if configured).</para>
+</listitem><listitem><para>Writes all <computeroutput>BaseEntity</computeroutput> nodes and <computeroutput>EntityRelation</computeroutput> edges to the <computeroutput>IGraphWriter</computeroutput> sink (if configured).</para>
+</listitem><listitem><para>Returns an <computeroutput><ref refid="structthemis_1_1rag_1_1_index_result" kindref="compound">IndexResult</ref></computeroutput> describing the outcome.</para>
+</listitem></orderedlist>
+</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1autotoc_md18_1s1"><sect2 id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1autotoc_md18">
+<title>Idempotency</title><para>The returned <computeroutput>doc_id</computeroutput> has the form <computeroutput>"&lt;collection&gt;/&lt;doc_hash&gt;"</computeroutput> where <computeroutput>doc_hash</computeroutput> is a stable 16-character hex digest of the input text. Re-indexing the same text produces the same <computeroutput>doc_id</computeroutput> and overwrite previous records in the vector and graph sinks.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UTF-8 text to index. Empty text is rejected with <computeroutput><ref refid="structthemis_1_1rag_1_1_index_result" kindref="compound">IndexResult</ref>{.ok=false, .error="empty input"}</computeroutput>. Text larger than kMaxDocumentChars (5 MiB) is rejected. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical collection name (e.g. &quot;legal-docs&quot;, &quot;default&quot;). Must be &lt;= kMaxCollectionChars (256 chars). Default: &quot;default&quot;. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>MIME type hint for workflow routing (e.g. &quot;text/plain&quot;, &quot;text/html&quot;). Default: &quot;text/plain&quot;. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Filename hint for workflow routing (e.g. &quot;document.txt&quot;). Default: &quot;document.txt&quot;.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1rag_1_1_index_result" kindref="compound">IndexResult</ref> with:<itemizedlist>
+<listitem><para>ok: true on success, false on failure (validation, I/O, etc.)</para>
+</listitem><listitem><para>doc_id: assigned document identifier (format: &quot;&lt;collection&gt;/&lt;hash&gt;&quot;)</para>
+</listitem><listitem><para>collection: echoed collection name</para>
+</listitem><listitem><para>entity_count: number of NER entities extracted</para>
+</listitem><listitem><para>vector_count: number of vector chunks written</para>
+</listitem><listitem><para>error: human-readable error message when ok == false</para>
+</listitem></itemizedlist>
+</para>
+</simplesect>
+<simplesect kind="pre"><para>toolbox must not be null (checked in constructor) </para>
+</simplesect>
+<simplesect kind="pre"><para>text.size() &lt;= kMaxDocumentChars (5 MiB) </para>
+</simplesect>
+<simplesect kind="pre"><para>collection.size() &lt;= kMaxCollectionChars (256 chars)</para>
+</simplesect>
+<simplesect kind="post"><para>if ok == true: doc_id is non-empty and deterministic from text </para>
+</simplesect>
+<simplesect kind="post"><para>if ok == false: error message is non-empty and human-readable </para>
+</simplesect>
+<simplesect kind="post"><para>vector_count reflects records written to vector_writer (0 if null) </para>
+</simplesect>
+<simplesect kind="post"><para>entity_count reflects records written to graph_writer (0 if null)</para>
+</simplesect>
+<simplesect kind="note"><para>Does not throw: empty text returns <ref refid="structthemis_1_1rag_1_1_index_result" kindref="compound">IndexResult</ref>{ok=false, error=&quot;empty input&quot;}</para>
+</simplesect>
+<simplesect kind="note"><para>Complexity: O(m * e) where m = text.size(), e = extraction overhead </para>
+</simplesect>
+<simplesect kind="note"><para>Thread-safe: no mutable shared state modified </para>
+</simplesect>
+<simplesect kind="note"><para>Fail-closed: malformed input returns <ref refid="structthemis_1_1rag_1_1_index_result_1a060583b241f295151177e09774d0b196" kindref="member">IndexResult.ok</ref>=false, not exception</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Complexity: O(m * e) where m = text.size(), e = entity extraction overhead Failure modes handled (all return ok=false with descriptive error): - Empty text: rejected with error=&quot;empty input&quot; - Text &gt; kMaxDocumentChars (5 MiB): rejected with error=&quot;input too large&quot; - Invalid collection name (empty, &gt;256 chars, control chars): rejected - Invalid mime type (empty, &gt;128 chars, control chars): rejected - Invalid filename (empty, &gt;512 chars, control chars): rejected - Workflow engine unavailable: falls back to direct entity extraction (fail-open) - Vector writer failure: logged, partial result returned (vector_count=0) - Graph writer failure: logged, indexing continues without graph writes All validation errors are logged at WARN level; I/O errors at WARN level. Doc ID is deterministic from text hash (idempotent re-indexing). Fallback workflow ensures partial indexing succeeds even without full pipeline. </para>
+</sect2></sect1>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_ingestion_bridge.h" line="201" column="17" bodyfile="src/rag/rag_ingestion_bridge.cpp" bodystart="128" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a034eda296a41fd6dc7f3fe000121bc01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_index_result" kindref="compound">IndexResult</ref></type>
+        <definition>IndexResult themis::rag::RAGIngestionBridge::indexOptimizerLog</definition>
+        <argsstring>(const std::string &amp;query_id, const std::string &amp;plan_json, double latency_ms, const std::string &amp;collection=&quot;optimizer-logs&quot;)</argsstring>
+        <name>indexOptimizerLog</name>
+        <qualifiedname>themis::rag::RAGIngestionBridge::indexOptimizerLog</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plan_json</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+          <defval>&quot;optimizer-logs&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Index an optimizer-log entry from a query execution for RAG retrieval. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── <ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a034eda296a41fd6dc7f3fe000121bc01" kindref="member">RAGIngestionBridge::indexOptimizerLog</ref> (IMPL-A2 Phase 2) ─────────────────────────────────────────────────────────────────────────────</para>
+<para>Formats the optimizer-log entry as a structured text document and passes it through <computeroutput><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a1b93f02d1d5e763bf76d1aadb9c44fc1" kindref="member">indexDocument()</ref></computeroutput> so that the RAG pipeline can retrieve past optimizer decisions during Loop 1–3 context assembly.</para>
+<para>The formatted document contains: <computeroutput>query_id</computeroutput>, <computeroutput>latency_ms</computeroutput>, and the <computeroutput>explain_plan_json</computeroutput> snippet (first 2 048 chars to stay within chunk budget).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Stable query fingerprint / request-id. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>plan_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JSON-serialised EXPLAIN / BaoOptimizer plan. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Observed end-to-end query latency in milliseconds. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target collection (default: <computeroutput>"optimizer-logs"</computeroutput>). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput><ref refid="structthemis_1_1rag_1_1_index_result" kindref="compound">IndexResult</ref></computeroutput> from the underlying <computeroutput><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a1b93f02d1d5e763bf76d1aadb9c44fc1" kindref="member">indexDocument()</ref></computeroutput> call.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">plan_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_ingestion_bridge.h" line="224" column="17" bodyfile="src/rag/rag_ingestion_bridge.cpp" bodystart="568" bodyend="587"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a9ca70e872bf2b978ac29d250ec9327e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::RAGIngestionBridge::enrichRetrievedDocuments</definition>
+        <argsstring>(std::vector&lt; judge::RetrievedDocument &gt; &amp;docs)</argsstring>
+        <name>enrichRetrievedDocuments</name>
+        <qualifiedname>themis::rag::RAGIngestionBridge::enrichRetrievedDocuments</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">judge::RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>docs</declname>
+        </param>
+        <briefdescription>
+<para>Enrich a list of retrieved documents with NER entity context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Enrich Retrieved Documents.</para>
+<sect1 id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1autotoc_md19_1s1"><sect2 id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1autotoc_md19">
+<title>Processing</title><para>For each document in <computeroutput>docs:</computeroutput> <orderedlist>
+<listitem><para>Canonicalizes retrieval metadata:<itemizedlist>
+<listitem><para>Sets <computeroutput>metadata["content"]</computeroutput> from <computeroutput>RetrievedDocument::content</computeroutput> (if empty)</para>
+</listitem><listitem><para>Sets <computeroutput>metadata["source"]</computeroutput> from <computeroutput>RetrievedDocument::id</computeroutput> (if empty)</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para>Runs <computeroutput><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a561ecef77aab58a1af48e1fd71320856" kindref="member">extractEntitiesForContext()</ref></computeroutput> on the document content</para>
+</listitem><listitem><para>If entities are found, appends a compact entity context string to <computeroutput>metadata["_entities"]</computeroutput> for downstream re-rankers and prompt builders</para>
+</listitem></orderedlist>
+</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1autotoc_md20_1s1"><sect2 id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1autotoc_md20">
+<title>Failure Handling (Fail-Closed)</title><para>Documents without content or stable id are skipped (not modified). Documents that yield no entities still retain the canonical <computeroutput>content</computeroutput>/<computeroutput>source</computeroutput> metadata backfill. This operation is safe to call on an empty vector (no-op).</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1autotoc_md21_1s1"><sect2 id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1autotoc_md21">
+<title>Complexity</title><para><itemizedlist>
+<listitem><para><bold>Time</bold>: O(d * e) where d = docs.size(), e = entity extraction overhead</para>
+</listitem><listitem><para><bold>Space</bold>: O(1) auxiliary (modifies docs in-place)</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>docs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retrieved documents to enrich (modified in-place). Safe to pass empty vector (no-op).</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of documents that received at least one entity. (Note: all documents may still be enriched with content/source metadata)</para>
+</simplesect>
+<simplesect kind="pre"><para>docs not null (vector, not pointer) </para>
+</simplesect>
+<simplesect kind="post"><para>docs[i].metadata[&quot;content&quot;] is set if previously empty </para>
+</simplesect>
+<simplesect kind="post"><para>docs[i].metadata[&quot;source&quot;] is set if previously empty </para>
+</simplesect>
+<simplesect kind="post"><para>docs[i].metadata[&quot;_entities&quot;] is set if entities were found</para>
+</simplesect>
+<simplesect kind="note"><para>Complexity: O(d * e) where d = docs.size(), e = extraction overhead </para>
+</simplesect>
+<simplesect kind="note"><para>Thread-safe: each document processed independently </para>
+</simplesect>
+<simplesect kind="note"><para>Fail-closed: documents without content/id are silently skipped</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">docs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+</sect2></sect1>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_ingestion_bridge.h" line="267" column="17" bodyfile="src/rag/rag_ingestion_bridge.cpp" bodystart="374" bodyend="435"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a561ecef77aab58a1af48e1fd71320856" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; ingestion::BaseEntity &gt;</type>
+        <definition>std::vector&lt; ingestion::BaseEntity &gt; themis::rag::RAGIngestionBridge::extractEntitiesForContext</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>extractEntitiesForContext</name>
+        <qualifiedname>themis::rag::RAGIngestionBridge::extractEntitiesForContext</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Extract entities from <computeroutput>text</computeroutput> for use as RAG prompt context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Thin wrapper around <computeroutput>IngestionToolbox::extractEntities()</computeroutput>. Runs Named Entity Recognition on the text and returns normalized entity nodes.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UTF-8 text to process. Empty text is handled gracefully and returns an empty vector (no error).</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Extracted and normalised entity nodes; empty vector when:<itemizedlist>
+<listitem><para>text is empty</para>
+</listitem><listitem><para>extraction yields no results</para>
+</listitem><listitem><para>extraction fails (fail-closed)</para>
+</listitem></itemizedlist>
+</para>
+</simplesect>
+<simplesect kind="note"><para>Complexity: O(t) where t = text.size() </para>
+</simplesect>
+<simplesect kind="note"><para>Thread-safe: stateless delegation to IngestionToolbox </para>
+</simplesect>
+<simplesect kind="note"><para>Fail-closed: extraction failures return empty vector, not exception</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a18687006b56034044e8d397bfb81bb7a" kindref="member">buildEntityContext()</ref> to format entities into LLM prompt context </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_ingestion_bridge.h" line="291" column="17" bodyfile="src/rag/rag_ingestion_bridge.cpp" bodystart="438" bodyend="449"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a7f16c982ed55cbdb724ae9990ec2bead" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; toolbox::IngestionToolbox &gt;</type>
+        <definition>std::shared_ptr&lt; toolbox::IngestionToolbox &gt; themis::rag::RAGIngestionBridge::toolbox</definition>
+        <argsstring>() const</argsstring>
+        <name>toolbox</name>
+        <qualifiedname>themis::rag::RAGIngestionBridge::toolbox</qualifiedname>
+        <briefdescription>
+<para>Return the backing <computeroutput>IngestionToolbox</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_ingestion_bridge.h" line="338" column="21" bodyfile="src/rag/rag_ingestion_bridge.cpp" bodystart="545" bodyend="547"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a747d79ea70749eb09b6a12b681f43166" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; ingestion::IVectorWriter &gt;</type>
+        <definition>std::shared_ptr&lt; ingestion::IVectorWriter &gt; themis::rag::RAGIngestionBridge::vectorWriter</definition>
+        <argsstring>() const</argsstring>
+        <name>vectorWriter</name>
+        <qualifiedname>themis::rag::RAGIngestionBridge::vectorWriter</qualifiedname>
+        <briefdescription>
+<para>Return the configured vector-writer sink (may be null). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_ingestion_bridge.h" line="343" column="21" bodyfile="src/rag/rag_ingestion_bridge.cpp" bodystart="550" bodyend="552"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1ae89b93cfd3500b49308d300ab49971dc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; ingestion::IGraphWriter &gt;</type>
+        <definition>std::shared_ptr&lt; ingestion::IGraphWriter &gt; themis::rag::RAGIngestionBridge::graphWriter</definition>
+        <argsstring>() const</argsstring>
+        <name>graphWriter</name>
+        <qualifiedname>themis::rag::RAGIngestionBridge::graphWriter</qualifiedname>
+        <briefdescription>
+<para>Return the configured graph-writer sink (may be null). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_ingestion_bridge.h" line="348" column="21" bodyfile="src/rag/rag_ingestion_bridge.cpp" bodystart="555" bodyend="557"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a18687006b56034044e8d397bfb81bb7a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::RAGIngestionBridge::buildEntityContext</definition>
+        <argsstring>(const std::vector&lt; ingestion::BaseEntity &gt; &amp;entities)</argsstring>
+        <name>buildEntityContext</name>
+        <qualifiedname>themis::rag::RAGIngestionBridge::buildEntityContext</qualifiedname>
+        <param>
+          <type>const std::vector&lt; ingestion::BaseEntity &gt; &amp;</type>
+          <declname>entities</declname>
+        </param>
+        <briefdescription>
+<para>Build a compact LLM context string from a list of entities. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Build Entity Context.</para>
+<para>Formats the entity list as a single line for injection into an LLM prompt. Each entity is formatted as <computeroutput>TYPE display_name:entity_id</computeroutput>.</para>
+<sect1 id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1autotoc_md22_1s1"><sect2 id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1autotoc_md22">
+<title>Format Example</title><para><programlisting><codeline><highlight class="stringliteral">&quot;Extracted<sp/>entities:<sp/>LEGAL_PROVISION<sp/>law:BGB:§823<sp/>|<sp/>ORGANIZATION<sp/>org:abc12&quot;</highlight></codeline>
+</programlisting></para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1autotoc_md23_1s1"><sect2 id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1autotoc_md23">
+<title>Behavior</title><para><itemizedlist>
+<listitem><para>Empty entity list returns empty string (no &quot;Extracted entities:&quot; prefix)</para>
+</listitem><listitem><para>Single entity: prefix + entity</para>
+</listitem><listitem><para>Multiple entities: prefix + entity1 | entity2 | ...</para>
+</listitem><listitem><para>Used by downstream re-rankers and prompt builders</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1autotoc_md24_1s1"><sect2 id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1autotoc_md24">
+<title>Complexity</title><para><itemizedlist>
+<listitem><para><bold>Time</bold>: O(n) where n = entities.size()</para>
+</listitem><listitem><para><bold>Space</bold>: O(n) for output string</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>entities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Entities to summarise. Empty vector returns empty string.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Formatted context string suitable for LLM prompt injection; empty string when entities is empty or contains no displayable entities.</para>
+</simplesect>
+<simplesect kind="note"><para>Complexity: O(n) where n = entities.size() </para>
+</simplesect>
+<simplesect kind="note"><para>Stateless function (no mutable state) </para>
+</simplesect>
+<simplesect kind="note"><para>Thread-safe: pure function, no concurrency issues </para>
+</simplesect>
+<simplesect kind="note"><para>Fail-closed: malformed entities result in skipping that entity, not error</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a9ca70e872bf2b978ac29d250ec9327e6" kindref="member">enrichRetrievedDocuments()</ref> uses this to populate metadata[&quot;_entities&quot;] </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a561ecef77aab58a1af48e1fd71320856" kindref="member">extractEntitiesForContext()</ref> to extract entities before calling this</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+</sect2></sect1>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_ingestion_bridge.h" line="329" column="24" bodyfile="src/rag/rag_ingestion_bridge.cpp" bodystart="460" bodyend="482"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1af101054f3e13ab479a95b71d5d169c93" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::RAGIngestionBridge::computeDocHash</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>computeDocHash</name>
+        <qualifiedname>themis::rag::RAGIngestionBridge::computeDocHash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Compute a stable 16-character hex doc hash from text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute Doc Hash.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), substr(), std::setfill(), std::setw(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_ingestion_bridge.h" line="356" column="24" bodyfile="src/rag/rag_ingestion_bridge.cpp" bodystart="490" bodyend="505"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a035f731783c8824fbb8921efba8bfd54" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::RAGIngestionBridge::entityTypeName</definition>
+        <argsstring>(ingestion::EntityType et)</argsstring>
+        <name>entityTypeName</name>
+        <qualifiedname>themis::rag::RAGIngestionBridge::entityTypeName</qualifiedname>
+        <param>
+          <type>ingestion::EntityType</type>
+          <declname>et</declname>
+        </param>
+        <briefdescription>
+<para>Map an EntityType enum value to a short display string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Entity Type Name.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">et</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements entityTypeName without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_ingestion_bridge.h" line="359" column="24" bodyfile="src/rag/rag_ingestion_bridge.cpp" bodystart="513" bodyend="538"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Bridge that connects the <computeroutput>toolbox::IngestionToolbox</computeroutput> to the RAG pipeline, enabling document indexing and entity-enriched retrieval. </para>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1autotoc_md11_1s1"><sect2 id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1autotoc_md11">
+<title>Thread Safety</title><para>All public methods are <bold>thread-safe</bold>. The bridge holds no mutable state beyond constructor-injected shared pointers (toolbox, vector_writer, graph_writer). Concurrent calls to <ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a1b93f02d1d5e763bf76d1aadb9c44fc1" kindref="member">indexDocument()</ref>, <ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a9ca70e872bf2b978ac29d250ec9327e6" kindref="member">enrichRetrievedDocuments()</ref>, or <ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a561ecef77aab58a1af48e1fd71320856" kindref="member">extractEntitiesForContext()</ref> are safe and do not race.</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1autotoc_md12_1s1"><sect2 id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1autotoc_md12">
+<title>Complexity Analysis</title><para><itemizedlist>
+<listitem><para><bold><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a1b93f02d1d5e763bf76d1aadb9c44fc1" kindref="member">indexDocument()</ref></bold>: O(m * e) where m = text.size(), e = entity extraction overhead<itemizedlist>
+<listitem><para>Delegates to IngestionToolbox (typically linear in document length)</para>
+</listitem><listitem><para>IVectorWriter and IGraphWriter sinks are O(1) per chunk/entity</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para><bold><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a9ca70e872bf2b978ac29d250ec9327e6" kindref="member">enrichRetrievedDocuments()</ref></bold>: O(d * e) where d = docs.size(), e = entity extraction<itemizedlist>
+<listitem><para>Single pass over document list</para>
+</listitem><listitem><para>Entity extraction per document</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para><bold><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a561ecef77aab58a1af48e1fd71320856" kindref="member">extractEntitiesForContext()</ref></bold>: O(t) where t = text.size()<itemizedlist>
+<listitem><para>Direct delegation to IngestionToolbox::extractEntities()</para>
+</listitem></itemizedlist>
+</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1autotoc_md13_1s1"><sect2 id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1autotoc_md13">
+<title>Motivation</title><para><computeroutput>AQLIngestionBridge</computeroutput> enriches in-flight AQL <computeroutput>INSERT</computeroutput> payloads at query time. <computeroutput><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge" kindref="compound">RAGIngestionBridge</ref></computeroutput> addresses the complementary use case: indexing documents <emphasis>before</emphasis> retrieval so that the RAG pipeline can locate them.</para>
+<para><orderedlist>
+<listitem><para><bold><computeroutput><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a1b93f02d1d5e763bf76d1aadb9c44fc1" kindref="member">indexDocument()</ref></computeroutput></bold> — runs the full ingestion workflow on a text blob, writes extracted vector chunks to an <computeroutput>IVectorWriter</computeroutput> sink, optionally writes NER graph nodes/edges to an <computeroutput>IGraphWriter</computeroutput> sink, and returns a structured <computeroutput><ref refid="structthemis_1_1rag_1_1_index_result" kindref="compound">IndexResult</ref></computeroutput> that callers can use to track the document.</para>
+</listitem><listitem><para><bold><computeroutput><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a561ecef77aab58a1af48e1fd71320856" kindref="member">extractEntitiesForContext()</ref></computeroutput></bold> — delegate to <computeroutput>IngestionToolbox::extractEntities()</computeroutput> for use in re-ranking and prompt-context construction.</para>
+</listitem><listitem><para><bold><computeroutput><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a18687006b56034044e8d397bfb81bb7a" kindref="member">buildEntityContext()</ref></computeroutput></bold> — converts a <computeroutput>BaseEntity</computeroutput> list to a compact string for injection into an LLM prompt, exactly mirroring the <computeroutput>AQLIngestionBridge::buildEntityContext()</computeroutput> API.</para>
+</listitem><listitem><para><bold><computeroutput><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a9ca70e872bf2b978ac29d250ec9327e6" kindref="member">enrichRetrievedDocuments()</ref></computeroutput></bold> — for each document in a retrieved set, extracts NER entities from the document content and attaches them to the document&apos;s metadata map under the key <computeroutput>"_entities"</computeroutput> (compact string) so that downstream re-rankers and prompt builders can use them.</para>
+</listitem></orderedlist>
+</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1autotoc_md14_1s1"><sect2 id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1autotoc_md14">
+<title>Dependency direction</title><para><programlisting><codeline><highlight class="normal">rag/<sp/><sp/>→<sp/><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a7f16c982ed55cbdb724ae9990ec2bead" kindref="member">toolbox</ref>/<sp/><sp/>→<sp/><sp/>ingestion/</highlight></codeline>
+</programlisting> <computeroutput>ingestion/</computeroutput> never imports <computeroutput>rag/</computeroutput> or <computeroutput>toolbox/</computeroutput> headers.</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1autotoc_md15_1s1"><sect2 id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1autotoc_md15">
+<title>Deduplication</title><para><computeroutput><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a1b93f02d1d5e763bf76d1aadb9c44fc1" kindref="member">indexDocument()</ref></computeroutput> derives a stable <computeroutput>doc_id</computeroutput> from <computeroutput>collection + "/" + SHA-1-like prefix of the text</computeroutput> (deterministic hash). When the same document is re-indexed, the <computeroutput>IVectorWriter</computeroutput> sink replaces existing records keyed by <computeroutput>chunk_id</computeroutput>, making the operation idempotent.</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1autotoc_md16_1s1"><sect2 id="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1autotoc_md16">
+<title>Usage</title><para><programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a7f16c982ed55cbdb724ae9990ec2bead" kindref="member">toolbox</ref><sp/>=<sp/>themis::toolbox::IngestionToolbox::createDefault();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bridge<sp/><sp/>=<sp/>std::make_shared&lt;RAGIngestionBridge&gt;(<ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a7f16c982ed55cbdb724ae9990ec2bead" kindref="member">toolbox</ref>,<sp/>vector_writer);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Index<sp/>a<sp/>document</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>bridge-&gt;indexDocument(</highlight><highlight class="stringliteral">&quot;This<sp/>is<sp/>the<sp/>document<sp/>text.&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;legal-docs&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!result.ok)<sp/>{<sp/>LOG_ERROR(</highlight><highlight class="stringliteral">&quot;index<sp/>failed:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>result.error);<sp/>}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Enrich<sp/>retrieved<sp/>documents<sp/>before<sp/>re-ranking</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">bridge-&gt;enrichRetrievedDocuments(retrieved_docs);</highlight></codeline>
+</programlisting> </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/rag/rag_ingestion_bridge.h" line="114" column="1" bodyfile="include/rag/rag_ingestion_bridge.h" bodystart="114" bodyend="360"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a18687006b56034044e8d397bfb81bb7a" prot="public" virt="non-virtual"><scope>themis::rag::RAGIngestionBridge</scope><name>buildEntityContext</name></member>
+      <member refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1af101054f3e13ab479a95b71d5d169c93" prot="private" virt="non-virtual"><scope>themis::rag::RAGIngestionBridge</scope><name>computeDocHash</name></member>
+      <member refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a9ca70e872bf2b978ac29d250ec9327e6" prot="public" virt="non-virtual"><scope>themis::rag::RAGIngestionBridge</scope><name>enrichRetrievedDocuments</name></member>
+      <member refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a035f731783c8824fbb8921efba8bfd54" prot="private" virt="non-virtual"><scope>themis::rag::RAGIngestionBridge</scope><name>entityTypeName</name></member>
+      <member refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a561ecef77aab58a1af48e1fd71320856" prot="public" virt="non-virtual"><scope>themis::rag::RAGIngestionBridge</scope><name>extractEntitiesForContext</name></member>
+      <member refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1ad443ceba2b96b6b22f22f4e7a416f1a7" prot="private" virt="non-virtual"><scope>themis::rag::RAGIngestionBridge</scope><name>graph_writer_</name></member>
+      <member refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1ae89b93cfd3500b49308d300ab49971dc" prot="public" virt="non-virtual"><scope>themis::rag::RAGIngestionBridge</scope><name>graphWriter</name></member>
+      <member refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a1b93f02d1d5e763bf76d1aadb9c44fc1" prot="public" virt="non-virtual"><scope>themis::rag::RAGIngestionBridge</scope><name>indexDocument</name></member>
+      <member refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a034eda296a41fd6dc7f3fe000121bc01" prot="public" virt="non-virtual"><scope>themis::rag::RAGIngestionBridge</scope><name>indexOptimizerLog</name></member>
+      <member refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a4c345fa833e13ddfd025e57cda2ffa0e" prot="public" virt="non-virtual"><scope>themis::rag::RAGIngestionBridge</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a7628295383d7a460663a26f06e643f4e" prot="public" virt="non-virtual"><scope>themis::rag::RAGIngestionBridge</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a4166fc91b0f1a5083291f9d082940661" prot="public" virt="non-virtual"><scope>themis::rag::RAGIngestionBridge</scope><name>RAGIngestionBridge</name></member>
+      <member refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a05274fced6c6d6c3885d918f73b62d5e" prot="public" virt="non-virtual"><scope>themis::rag::RAGIngestionBridge</scope><name>RAGIngestionBridge</name></member>
+      <member refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a19e98f49751cc1473b7336cf13bfbbe4" prot="public" virt="non-virtual"><scope>themis::rag::RAGIngestionBridge</scope><name>RAGIngestionBridge</name></member>
+      <member refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a7f16c982ed55cbdb724ae9990ec2bead" prot="public" virt="non-virtual"><scope>themis::rag::RAGIngestionBridge</scope><name>toolbox</name></member>
+      <member refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a187b17690995294f3fcae367566dc18e" prot="private" virt="non-virtual"><scope>themis::rag::RAGIngestionBridge</scope><name>toolbox_</name></member>
+      <member refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a451130872c898bb473c3a923b6b95606" prot="private" virt="non-virtual"><scope>themis::rag::RAGIngestionBridge</scope><name>vector_writer_</name></member>
+      <member refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a747d79ea70749eb09b6a12b681f43166" prot="public" virt="non-virtual"><scope>themis::rag::RAGIngestionBridge</scope><name>vectorWriter</name></member>
+      <member refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1aaab9162ae669c83b9c2e50beb2e39364" prot="public" virt="non-virtual"><scope>themis::rag::RAGIngestionBridge</scope><name>~RAGIngestionBridge</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

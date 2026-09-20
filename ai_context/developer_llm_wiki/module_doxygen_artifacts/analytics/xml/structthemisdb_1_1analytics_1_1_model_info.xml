@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_model_info" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::ModelInfo</compoundname>
+    <includes refid="model__serving_8h" local="no">model_serving.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_model_info_1a915ba66359f8c3f41341b7e0ceadfba2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::ModelInfo::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themisdb::analytics::ModelInfo::name</qualifiedname>
+        <briefdescription>
+<para>Logical model name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/model_serving.h" line="92" column="20" bodyfile="include/analytics/model_serving.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_model_info_1a343f88a61a84b4e51c946960f5607779" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::ModelInfo::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themisdb::analytics::ModelInfo::version</qualifiedname>
+        <briefdescription>
+<para>Version string (e.g. &quot;1.0&quot;, &quot;2024-01&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/model_serving.h" line="93" column="20" bodyfile="include/analytics/model_serving.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_model_info_1a933bbe24c4ad64b2bdb711293b497adb" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1analytics_1af6afc7787e1073b79d3daed1b1b27029" kindref="member">AutoMLTask</ref></type>
+        <definition>AutoMLTask themisdb::analytics::ModelInfo::task</definition>
+        <argsstring></argsstring>
+        <name>task</name>
+        <qualifiedname>themisdb::analytics::ModelInfo::task</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1analytics_1af6afc7787e1073b79d3daed1b1b27029a7a249cdff24e60e2ee42699a02026a89" kindref="member">AutoMLTask::CLASSIFICATION</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/model_serving.h" line="94" column="20" bodyfile="include/analytics/model_serving.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_model_info_1ad5d078c2b316edde3934dfa0da411555" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177" kindref="member">ModelAlgorithm</ref></type>
+        <definition>ModelAlgorithm themisdb::analytics::ModelInfo::algorithm</definition>
+        <argsstring></argsstring>
+        <name>algorithm</name>
+        <qualifiedname>themisdb::analytics::ModelInfo::algorithm</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177a50951d8269614400bb32419b705bc3ca" kindref="member">ModelAlgorithm::DECISION_TREE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/model_serving.h" line="95" column="20" bodyfile="include/analytics/model_serving.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_model_info_1a450324cddf8dbfe3a70c1ebe7b6e1442" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_eval_metrics" kindref="compound">EvalMetrics</ref></type>
+        <definition>EvalMetrics themisdb::analytics::ModelInfo::metrics</definition>
+        <argsstring></argsstring>
+        <name>metrics</name>
+        <qualifiedname>themisdb::analytics::ModelInfo::metrics</qualifiedname>
+        <briefdescription>
+<para>CV metrics from training. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/model_serving.h" line="96" column="20" bodyfile="include/analytics/model_serving.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_model_info_1ab19e26692aba79714bc5a8a71edbc9c3" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::analytics::ModelInfo::registered_at_ms</definition>
+        <argsstring></argsstring>
+        <name>registered_at_ms</name>
+        <qualifiedname>themisdb::analytics::ModelInfo::registered_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Unix epoch (ms) when model was registered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/model_serving.h" line="97" column="20" bodyfile="include/analytics/model_serving.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_model_info_1a12550750ba224fef949aafaf09230350" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::ModelInfo::is_active</definition>
+        <argsstring></argsstring>
+        <name>is_active</name>
+        <qualifiedname>themisdb::analytics::ModelInfo::is_active</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/model_serving.h" line="98" column="20" bodyfile="include/analytics/model_serving.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themisdb::analytics::EvalMetrics</label>
+        <link refid="structthemisdb_1_1analytics_1_1_eval_metrics"/>
+      </node>
+      <node id="1">
+        <label>themisdb::analytics::ModelInfo</label>
+        <link refid="structthemisdb_1_1analytics_1_1_model_info"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>metrics</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/analytics/model_serving.h" line="91" column="1" bodyfile="include/analytics/model_serving.h" bodystart="91" bodyend="99"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_model_info_1ad5d078c2b316edde3934dfa0da411555" prot="public" virt="non-virtual"><scope>themisdb::analytics::ModelInfo</scope><name>algorithm</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_model_info_1a12550750ba224fef949aafaf09230350" prot="public" virt="non-virtual"><scope>themisdb::analytics::ModelInfo</scope><name>is_active</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_model_info_1a450324cddf8dbfe3a70c1ebe7b6e1442" prot="public" virt="non-virtual"><scope>themisdb::analytics::ModelInfo</scope><name>metrics</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_model_info_1a915ba66359f8c3f41341b7e0ceadfba2" prot="public" virt="non-virtual"><scope>themisdb::analytics::ModelInfo</scope><name>name</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_model_info_1ab19e26692aba79714bc5a8a71edbc9c3" prot="public" virt="non-virtual"><scope>themisdb::analytics::ModelInfo</scope><name>registered_at_ms</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_model_info_1a933bbe24c4ad64b2bdb711293b497adb" prot="public" virt="non-virtual"><scope>themisdb::analytics::ModelInfo</scope><name>task</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_model_info_1a343f88a61a84b4e51c946960f5607779" prot="public" virt="non-virtual"><scope>themisdb::analytics::ModelInfo</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

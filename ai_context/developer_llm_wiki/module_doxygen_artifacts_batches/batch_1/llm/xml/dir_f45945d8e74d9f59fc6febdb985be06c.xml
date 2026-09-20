@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_f45945d8e74d9f59fc6febdb985be06c" kind="dir">
+    <compoundname>include/llm/lora_framework</compoundname>
+    <innerfile refid="adapter__consistency__checker_8h">adapter_consistency_checker.h</innerfile>
+    <innerfile refid="adapter__sync__manager_8h">adapter_sync_manager.h</innerfile>
+    <innerfile refid="adaptive__batcher_8h">adaptive_batcher.h</innerfile>
+    <innerfile refid="base__model__adapter_8h">base_model_adapter.h</innerfile>
+    <innerfile refid="cpu__fused__kernels_8h">cpu_fused_kernels.h</innerfile>
+    <innerfile refid="cuda__bf16__kernels_8h">cuda_bf16_kernels.h</innerfile>
+    <innerfile refid="cuda__flash__lora__kernels_8h">cuda_flash_lora_kernels.h</innerfile>
+    <innerfile refid="cuda__fp16__kernels_8h">cuda_fp16_kernels.h</innerfile>
+    <innerfile refid="cuda__fused__kernels_8h">cuda_fused_kernels.h</innerfile>
+    <innerfile refid="cuda__kernels_8h">cuda_kernels.h</innerfile>
+    <innerfile refid="custom__allreduce_8h">custom_allreduce.h</innerfile>
+    <innerfile refid="data__loader_8h">data_loader.h</innerfile>
+    <innerfile refid="directx__buffer_8h">directx_buffer.h</innerfile>
+    <innerfile refid="directx__context_8h">directx_context.h</innerfile>
+    <innerfile refid="directx__descriptors_8h">directx_descriptors.h</innerfile>
+    <innerfile refid="directx__kernels_8h">directx_kernels.h</innerfile>
+    <innerfile refid="directx__pipeline_8h">directx_pipeline.h</innerfile>
+    <innerfile refid="directx__shader_8h">directx_shader.h</innerfile>
+    <innerfile refid="directx__shader__utils_8h">directx_shader_utils.h</innerfile>
+    <innerfile refid="distributed__dataloader_8h">distributed_dataloader.h</innerfile>
+    <innerfile refid="distributed__trainer_8h">distributed_trainer.h</innerfile>
+    <innerfile refid="embedding__provider_8h">embedding_provider.h</innerfile>
+    <innerfile refid="feedback__plugin_8h">feedback_plugin.h</innerfile>
+    <innerfile refid="flash__lora_8h">flash_lora.h</innerfile>
+    <innerfile refid="gguf__converter_8h">gguf_converter.h</innerfile>
+    <innerfile refid="gpu__data__loader_8h">gpu_data_loader.h</innerfile>
+    <innerfile refid="gpu__embedding__layer_8h">gpu_embedding_layer.h</innerfile>
+    <innerfile refid="gpu__lora__layers_8h">gpu_lora_layers.h</innerfile>
+    <innerfile refid="gpu__memory_8h">gpu_memory.h</innerfile>
+    <innerfile refid="gpu__tensor_8h">gpu_tensor.h</innerfile>
+    <innerfile refid="gpu__training__loop_8h">gpu_training_loop.h</innerfile>
+    <innerfile refid="gpu__utilization__monitor_8h">gpu_utilization_monitor.h</innerfile>
+    <innerfile refid="gradient__checkpointing_8h">gradient_checkpointing.h</innerfile>
+    <innerfile refid="gradient__utils_8h">gradient_utils.h</innerfile>
+    <innerfile refid="hip__fused__kernels_8h">hip_fused_kernels.h</innerfile>
+    <innerfile refid="hip__kernels_8h">hip_kernels.h</innerfile>
+    <innerfile refid="llama__tokenizer_8h">llama_tokenizer.h</innerfile>
+    <innerfile refid="lora__audit__logger_8h">lora_audit_logger.h</innerfile>
+    <innerfile refid="lora__checkpoint__manager_8h">lora_checkpoint_manager.h</innerfile>
+    <innerfile refid="lora__config_8h">lora_config.h</innerfile>
+    <innerfile refid="lora__feedback_8h">lora_feedback.h</innerfile>
+    <innerfile refid="lora__feedback__storage_8h">lora_feedback_storage.h</innerfile>
+    <innerfile refid="lora__graph_8h">lora_graph.h</innerfile>
+    <innerfile refid="lora__layers_8h">lora_layers.h</innerfile>
+    <innerfile refid="lora__metrics_8h">lora_metrics.h</innerfile>
+    <innerfile refid="lora__orchestrator_8h">lora_orchestrator.h</innerfile>
+    <innerfile refid="lora__package__provenance_8h">lora_package_provenance.h</innerfile>
+    <innerfile refid="lora__provenance_8h">lora_provenance.h</innerfile>
+    <innerfile refid="lora__storage__service_8h">lora_storage_service.h</innerfile>
+    <innerfile refid="lora__training__config_8h">lora_training_config.h</innerfile>
+    <innerfile refid="lora__training__service_8h">lora_training_service.h</innerfile>
+    <innerfile refid="lr__scheduler_8h">lr_scheduler.h</innerfile>
+    <innerfile refid="mixed__precision_8h">mixed_precision.h</innerfile>
+    <innerfile refid="model__compatibility_8h">model_compatibility.h</innerfile>
+    <innerfile refid="multi__gpu_8h">multi_gpu.h</innerfile>
+    <innerfile refid="multi__gpu__lora__layer_8h">multi_gpu_lora_layer.h</innerfile>
+    <innerfile refid="multi__gpu__trainer_8h">multi_gpu_trainer.h</innerfile>
+    <innerfile refid="nccl__backend_8h">nccl_backend.h</innerfile>
+    <innerfile refid="paged__memory__manager_8h">paged_memory_manager.h</innerfile>
+    <innerfile refid="paged__optimizer_8h">paged_optimizer.h</innerfile>
+    <innerfile refid="quantization_8h">quantization.h</innerfile>
+    <innerfile refid="quantization__kernels_8h">quantization_kernels.h</innerfile>
+    <innerfile refid="quantized__model_8h">quantized_model.h</innerfile>
+    <innerfile refid="rccl__backend_8h">rccl_backend.h</innerfile>
+    <innerfile refid="resource__profiler_8h">resource_profiler.h</innerfile>
+    <innerfile refid="sequence__packer_8h">sequence_packer.h</innerfile>
+    <innerfile refid="tensor__dtype_8h">tensor_dtype.h</innerfile>
+    <innerfile refid="training__service__registry_8h">training_service_registry.h</innerfile>
+    <innerfile refid="vram__allocator_8h">vram_allocator.h</innerfile>
+    <innerfile refid="vulkan__buffer_8h">vulkan_buffer.h</innerfile>
+    <innerfile refid="vulkan__context_8h">vulkan_context.h</innerfile>
+    <innerfile refid="vulkan__kernels_8h">vulkan_kernels.h</innerfile>
+    <innerfile refid="vulkan__pipeline_8h">vulkan_pipeline.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/"/>
+  </compounddef>
+</doxygen>

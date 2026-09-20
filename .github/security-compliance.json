@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.0",
+  "description": "Security policy requirements for ThemisDB GitHub operations.",
+  "scope": "security",
+  "policy": {
+    "security_policy_url": "https://github.com/makr-code/ThemisDB/security/policy",
+    "responsible_disclosure_required": true,
+    "no_hardcoded_secrets": true,
+    "no_private_credentials_in_community_or_minimal_workflows": true,
+    "require_oauth_oidc_for_registry_auth": true,
+    "must_use_private_plugin_submodules_only_for_private_implementation": true
+  },
+  "required_controls": {
+    "sast": [
+      "CodeQL",
+      "build-time static analysis"
+    ],
+    "dependency_audit": [
+      "dependency review",
+      "SBOM generation"
+    ],
+    "secret_scanning": [
+      "secret scanning",
+      "push protection"
+    ],
+    "vulnerability_reporting": [
+      "security advisory workflow",
+      "responsible disclosure path"
+    ]
+  },
+  "labels": {
+    "required_for_security_issues": [
+      "security",
+      "priority/high"
+    ],
+    "accepted_types": [
+      "security",
+      "vulnerability",
+      "compliance",
+      "dependency"
+    ]
+  },
+  "forbidden_patterns": [
+    "AKIA[0-9A-Z]{16}",
+    "ghp_[A-Za-z0-9]{36}",
+    "github_pat_[A-Za-z0-9_]+",
+    "BEGIN PRIVATE KEY",
+    "BEGIN PGP PRIVATE KEY BLOCK",
+    "-----BEGIN OPENSSH PRIVATE KEY-----",
+    "password\s*[:=]\s*['\"]?[A-Za-z0-9!@#$%^&*()_+=-]{8,}"
+  ],
+  "enforcement": {
+    "required_for_all_releases": true,
+    "required_for_security_related_prs": true,
+    "required_for_all_protected_branches": true,
+    "reviewer_role": "maintainers"
+  }
+}

@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1judge_1_1_quality_pipeline_factory" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::judge::QualityPipelineFactory</compoundname>
+    <includes refid="quality__control__pipeline_8h" local="no">quality_control_pipeline.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_quality_pipeline_factory_1a3bf7048d39f4283c79ce0bb29a3c94a3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline" kindref="compound">QualityControlPipeline</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; QualityControlPipeline &gt; themis::rag::judge::QualityPipelineFactory::createFast</definition>
+        <argsstring>()</argsstring>
+        <name>createFast</name>
+        <qualifiedname>themis::rag::judge::QualityPipelineFactory::createFast</qualifiedname>
+        <briefdescription>
+<para>Create fast pipeline (screening only). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ <ref refid="classthemis_1_1rag_1_1judge_1_1_quality_pipeline_factory" kindref="compound">QualityPipelineFactory</ref> Implementation ═══════════════════════════════════════════════════════════</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createFast without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="312" column="28" bodyfile="src/rag/quality_control_pipeline.cpp" bodystart="664" bodyend="672"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_quality_pipeline_factory_1a8acf6a5adf6e733ef7079519fac8551d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline" kindref="compound">QualityControlPipeline</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; QualityControlPipeline &gt; themis::rag::judge::QualityPipelineFactory::createBalanced</definition>
+        <argsstring>()</argsstring>
+        <name>createBalanced</name>
+        <qualifiedname>themis::rag::judge::QualityPipelineFactory::createBalanced</qualifiedname>
+        <briefdescription>
+<para>Create balanced pipeline (fast + balanced stages). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Balanced.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createBalanced without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="317" column="28" bodyfile="src/rag/quality_control_pipeline.cpp" bodystart="679" bodyend="687"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_quality_pipeline_factory_1a218a17a570a1d28b358d2a6cbcd3e0b2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline" kindref="compound">QualityControlPipeline</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; QualityControlPipeline &gt; themis::rag::judge::QualityPipelineFactory::createThorough</definition>
+        <argsstring>()</argsstring>
+        <name>createThorough</name>
+        <qualifiedname>themis::rag::judge::QualityPipelineFactory::createThorough</qualifiedname>
+        <briefdescription>
+<para>Create thorough pipeline (all stages). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Thorough.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createThorough without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="322" column="28" bodyfile="src/rag/quality_control_pipeline.cpp" bodystart="694" bodyend="702"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_quality_pipeline_factory_1a78a5288ce95be3b72682d82ed4e2d7a8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline" kindref="compound">QualityControlPipeline</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; QualityControlPipeline &gt; themis::rag::judge::QualityPipelineFactory::createProduction</definition>
+        <argsstring>()</argsstring>
+        <name>createProduction</name>
+        <qualifiedname>themis::rag::judge::QualityPipelineFactory::createProduction</qualifiedname>
+        <briefdescription>
+<para>Create production pipeline with learning feedback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Production.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createProduction without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="327" column="28" bodyfile="src/rag/quality_control_pipeline.cpp" bodystart="709" bodyend="718"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Quality control pipeline factory. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/quality_control_pipeline.h" line="307" column="1" bodyfile="include/rag/quality_control_pipeline.h" bodystart="307" bodyend="328"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_quality_pipeline_factory_1a8acf6a5adf6e733ef7079519fac8551d" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityPipelineFactory</scope><name>createBalanced</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_quality_pipeline_factory_1a3bf7048d39f4283c79ce0bb29a3c94a3" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityPipelineFactory</scope><name>createFast</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_quality_pipeline_factory_1a78a5288ce95be3b72682d82ed4e2d7a8" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityPipelineFactory</scope><name>createProduction</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_quality_pipeline_factory_1a218a17a570a1d28b358d2a6cbcd3e0b2" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityPipelineFactory</scope><name>createThorough</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

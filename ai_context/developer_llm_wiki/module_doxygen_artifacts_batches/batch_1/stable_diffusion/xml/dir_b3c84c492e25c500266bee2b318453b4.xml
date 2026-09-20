@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_b3c84c492e25c500266bee2b318453b4" kind="dir">
+    <compoundname>tests/stable_diffusion</compoundname>
+    <innerfile refid="test__stable__diffusion__highcardinality__stress_8cpp">test_stable_diffusion_highcardinality_stress.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/stable_diffusion/"/>
+  </compounddef>
+</doxygen>

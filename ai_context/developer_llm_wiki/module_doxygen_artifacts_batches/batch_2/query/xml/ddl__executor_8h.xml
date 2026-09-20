@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="ddl__executor_8h" kind="file" language="C++">
+    <compoundname>ddl_executor.h</compoundname>
+    <includes refid="aql__parser_8h" local="yes">query/aql_parser.h</includes>
+    <includes local="yes">utils/expected.h</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="ddl__executor_8cpp" local="yes">src/query/ddl_executor.cpp</includedby>
+    <includedby refid="test__aql__ddl__phase2_8cpp" local="yes">tests/query/test_aql_ddl_phase2.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>query/aql_parser.h</label>
+        <link refid="aql__parser_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/query/ddl_executor.h</label>
+        <link refid="ddl__executor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>set</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>unordered_map</label>
+      </node>
+      <node id="8">
+        <label>unordered_set</label>
+      </node>
+      <node id="10">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="6">
+        <label>variant</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/query/ddl_executor.h</label>
+        <link refid="ddl__executor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/query/ddl_executor.cpp</label>
+        <link refid="ddl__executor_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/query/test_aql_ddl_phase2.cpp</label>
+        <link refid="test__aql__ddl__phase2_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1query_1_1_schema_registry" prot="public">themis::query::SchemaRegistry</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_d_d_l_executor" prot="public">themis::query::DDLExecutor</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <briefdescription>
+<para>DDL executor interface for AQL Schema DDL Phase 2. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides:<itemizedlist>
+<listitem><para>SchemaRegistry — thread-safe in-memory catalog of collections, indexes, and views.</para>
+</listitem><listitem><para>DDLExecutor — executes SchemaDDL AST nodes against a SchemaRegistry, enforcing DDL semantics (duplicate detection, existence checks, etc.).</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="note"><para>This is the development-phase in-memory implementation. Production integration with the storage-engine catalog will replace the in-memory maps in a future phase.</para>
+</simplesect>
+<simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="aql__parser_8h" kindref="compound">query/aql_parser.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/expected.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SchemaRegistry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="classthemis_1_1query_1_1_schema_registry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_schema_registry_1a1c4392355c697af58d78093e5870e6e1" kindref="member">SchemaRegistry</ref><sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="38" refid="classthemis_1_1query_1_1_schema_registry_1a1c4392355c697af58d78093e5870e6e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_schema_registry_1a1c4392355c697af58d78093e5870e6e1" kindref="member">SchemaRegistry</ref>()<sp/><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="39" refid="classthemis_1_1query_1_1_schema_registry_1a9db50394f3da69aad6700214254c9e52" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_schema_registry_1a9db50394f3da69aad6700214254c9e52" kindref="member">~SchemaRegistry</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="classthemis_1_1query_1_1_schema_registry_1a0fd52eb356bf3ef2b27a8eb5af5b6487" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_schema_registry_1a0fd52eb356bf3ef2b27a8eb5af5b6487" kindref="member">SchemaRegistry</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_schema_registry_1a1c4392355c697af58d78093e5870e6e1" kindref="member">SchemaRegistry</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43" refid="classthemis_1_1query_1_1_schema_registry_1a8f58068fc8b2c87b23491f354eb4a23f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_schema_registry_1a1c4392355c697af58d78093e5870e6e1" kindref="member">SchemaRegistry</ref>&amp;<sp/><ref refid="classthemis_1_1query_1_1_schema_registry_1a8f58068fc8b2c87b23491f354eb4a23f" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_schema_registry_1a1c4392355c697af58d78093e5870e6e1" kindref="member">SchemaRegistry</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44" refid="classthemis_1_1query_1_1_schema_registry_1a95700c0c1bbe82dcb9cd13078f9b7126" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_schema_registry_1a95700c0c1bbe82dcb9cd13078f9b7126" kindref="member">SchemaRegistry</ref>(<ref refid="classthemis_1_1query_1_1_schema_registry_1a1c4392355c697af58d78093e5870e6e1" kindref="member">SchemaRegistry</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="45" refid="classthemis_1_1query_1_1_schema_registry_1a9a1060557ca89fa82f7cdafa620d87d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_schema_registry_1a1c4392355c697af58d78093e5870e6e1" kindref="member">SchemaRegistry</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1query_1_1_schema_registry_1a1c4392355c697af58d78093e5870e6e1" kindref="member">SchemaRegistry</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Query<sp/>────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_schema_registry_1a81aadc3833a97652ed3e902039f5b44d" kindref="member">hasCollection</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>name)<sp/>const;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_schema_registry_1a0184d3620ad2cbd75e4c9c5550c9d1d2" kindref="member">hasIndex</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>collection,</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>index_name)<sp/>const;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_schema_registry_1aaba99428efcbe74a23b6ce96dd511c88" kindref="member">hasView</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>name)<sp/>const;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>nlohmann::json<sp/><ref refid="classthemis_1_1query_1_1_schema_registry_1a2c8c4694af22af8e9ad2a6eedca81605" kindref="member">collectionOptions</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>name)<sp/>const;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;<sp/><ref refid="classthemis_1_1query_1_1_schema_registry_1a09daa684919cc238f459bbef5e51c039" kindref="member">collections</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;<sp/><ref refid="classthemis_1_1query_1_1_schema_registry_1a31af9eb99695f2cc7942c2055faf966b" kindref="member">views</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Mutate<sp/>───────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_schema_registry_1a756dc577594b7353be0c5f3d3cbb8611" kindref="member">addCollection</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>name,<sp/>const<sp/>nlohmann::json&amp;<sp/>options<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_schema_registry_1a7a4bbbb96200af80b864abc673b4cce2" kindref="member">dropCollection</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_schema_registry_1a72e740fe8aebbe3b6c45b5f1a8bb61f1" kindref="member">addIndex</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_index_def" kindref="compound">IndexDef</ref>&amp;<sp/>def);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_schema_registry_1a6bfad26382b4abcb4db368253043fb79" kindref="member">dropIndex</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>index_name);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_schema_registry_1ab0ce67f7771c6c86209598e0297fbdc6" kindref="member">addView</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>body);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_schema_registry_1ac8e7554a5643ff7ef1db9a4ca5185ec9" kindref="member">dropView</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_schema_registry_1a5d12930795dd8aad237e4d4a184c116d" kindref="member">alterCollection</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>options);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mu_;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>nlohmann::json&gt;<sp/>collections_;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>IndexDef&gt;&gt;<sp/>indexes_;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/>views_;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DDLExecutor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="classthemis_1_1query_1_1_d_d_l_executor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_d_d_l_executor_1ae61be9c4c01f44daa7b3cc6865ada66f" kindref="member">DDLExecutor</ref><sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_d_d_l_executor_1ae61be9c4c01f44daa7b3cc6865ada66f" kindref="member">DDLExecutor</ref>(<ref refid="classthemis_1_1query_1_1_schema_registry" kindref="compound">SchemaRegistry</ref>&amp;<sp/>registry);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="classthemis_1_1query_1_1_d_d_l_executor_1aa96809db0f3a042c689411979ab5978b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_d_d_l_executor_1aa96809db0f3a042c689411979ab5978b" kindref="member">DDLExecutor</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_d_d_l_executor_1ae61be9c4c01f44daa7b3cc6865ada66f" kindref="member">DDLExecutor</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131" refid="classthemis_1_1query_1_1_d_d_l_executor_1a6ec80da7135893e315c2a92aa8da5253" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_d_d_l_executor_1ae61be9c4c01f44daa7b3cc6865ada66f" kindref="member">DDLExecutor</ref>&amp;<sp/><ref refid="classthemis_1_1query_1_1_d_d_l_executor_1a6ec80da7135893e315c2a92aa8da5253" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_d_d_l_executor_1ae61be9c4c01f44daa7b3cc6865ada66f" kindref="member">DDLExecutor</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>Result&lt;bool&gt;<sp/><ref refid="classthemis_1_1query_1_1_d_d_l_executor_1a57dc291f621a0db21c9e99c9bfc9dceb" kindref="member">execute</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_schema_d_d_l" kindref="compound">SchemaDDL</ref>&amp;<sp/>ddl);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_schema_registry" kindref="compound">SchemaRegistry</ref>&amp;<sp/>registry_;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Per-type<sp/>dispatch<sp/>helpers<sp/>─────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>Result&lt;bool&gt;<sp/>execCreateCollection(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_schema_d_d_l" kindref="compound">SchemaDDL</ref>&amp;<sp/>ddl);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>Result&lt;bool&gt;<sp/>execDropCollection(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_schema_d_d_l" kindref="compound">SchemaDDL</ref>&amp;<sp/>ddl);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>Result&lt;bool&gt;<sp/>execCreateIndex(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_schema_d_d_l" kindref="compound">SchemaDDL</ref>&amp;<sp/>ddl);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>Result&lt;bool&gt;<sp/>execDropIndex(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_schema_d_d_l" kindref="compound">SchemaDDL</ref>&amp;<sp/>ddl);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>Result&lt;bool&gt;<sp/>execCreateView(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_schema_d_d_l" kindref="compound">SchemaDDL</ref>&amp;<sp/>ddl);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>Result&lt;bool&gt;<sp/>execDropView(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_schema_d_d_l" kindref="compound">SchemaDDL</ref>&amp;<sp/>ddl);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>Result&lt;bool&gt;<sp/>execAlterCollection(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_schema_d_d_l" kindref="compound">SchemaDDL</ref>&amp;<sp/>ddl);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/query/ddl_executor.h"/>
+  </compounddef>
+</doxygen>

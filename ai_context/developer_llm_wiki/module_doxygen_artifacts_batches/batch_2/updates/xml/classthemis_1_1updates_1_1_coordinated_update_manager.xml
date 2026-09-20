@@ -1,0 +1,1039 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1_coordinated_update_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::updates::CoordinatedUpdateManager</compoundname>
+    <includes refid="coordinated__update__manager_8h" local="no">coordinated_update_manager.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1updates_1_1_coordinated_update_manager_1af624f6f0e6c16c98c7f75c4ac36b7d47" prot="public" static="no">
+        <type>std::function&lt; bool(const std::string &amp;prev_node_id, std::chrono::milliseconds timeout)&gt;</type>
+        <definition>using themis::updates::CoordinatedUpdateManager::WaitForPreviousFunc = 
+std::function&lt;bool(const std::string&amp; prev_node_id,
+                   std::chrono::milliseconds timeout)&gt;</definition>
+        <argsstring></argsstring>
+        <name>WaitForPreviousFunc</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateManager::WaitForPreviousFunc</qualifiedname>
+        <briefdescription>
+<para>Callback invoked to wait for the previous node in the sequence to complete its update before this node may proceed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prev_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node ID of the preceding node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum time to wait (zero = wait indefinitely). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when the previous node has completed successfully. </para>
+</simplesect>
+<simplesect kind="return"><para>false on timeout or when the previous node failed. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="183" column="5" bodyfile="include/updates/coordinated_update_manager.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1updates_1_1_coordinated_update_manager_1a54e5f89e8addd8b35075ee52aa7d5090" prot="public" static="no">
+        <type>std::function&lt; void(const std::string &amp;local_node_id, bool success)&gt;</type>
+        <definition>using themis::updates::CoordinatedUpdateManager::SignalReadyFunc = 
+std::function&lt;void(const std::string&amp; local_node_id, bool success)&gt;</definition>
+        <argsstring></argsstring>
+        <name>SignalReadyFunc</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateManager::SignalReadyFunc</qualifiedname>
+        <briefdescription>
+<para>Callback invoked after this node&apos;s update attempt to signal the next node in the sequence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>local_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node ID of this node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>true when the update succeeded; false on failure. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="194" column="5" bodyfile="include/updates/coordinated_update_manager.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1updates_1_1_coordinated_update_manager_1a6169e1448edf2901d33aae58220a4e59" prot="public" static="no">
+        <type>std::function&lt; void(uint32_t nodes_done, uint32_t nodes_total, const std::string &amp;message)&gt;</type>
+        <definition>using themis::updates::CoordinatedUpdateManager::ProgressCallback = 
+std::function&lt;void(uint32_t nodes_done,
+                   uint32_t nodes_total,
+                   const std::string&amp; message)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ProgressCallback</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateManager::ProgressCallback</qualifiedname>
+        <briefdescription>
+<para>Callback for progress reporting. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>nodes_done</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of nodes whose update is complete. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nodes_total</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total nodes in the sequence. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable status message. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="204" column="5" bodyfile="include/updates/coordinated_update_manager.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_coordinated_update_manager_1a008fd3deb6a786fef7e370701ae01425" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::updates::CoordinatedUpdateManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="365" column="24" bodyfile="include/updates/coordinated_update_manager.h" bodystart="365" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_coordinated_update_manager_1ab5e87541f4f99c71b87963f3d14239b6" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1updates_1_1_hot_reload_engine" kindref="compound">HotReloadEngine</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;HotReloadEngine&gt; themis::updates::CoordinatedUpdateManager::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateManager::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="367" column="21" bodyfile="include/updates/coordinated_update_manager.h" bodystart="367" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_coordinated_update_manager_1a8351045d51d3a09a0d6a2def48304acd" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1updates_1_1_coordinated_update_config" kindref="compound">CoordinatedUpdateConfig</ref></type>
+        <definition>CoordinatedUpdateConfig themis::updates::CoordinatedUpdateManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="368" column="29" bodyfile="include/updates/coordinated_update_manager.h" bodystart="368" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_coordinated_update_manager_1aa74f48fc338485afd00d97c7d593eaf6" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1updates_1_1_node_descriptor" kindref="compound">NodeDescriptor</ref> &gt;</type>
+        <definition>std::vector&lt;NodeDescriptor&gt; themis::updates::CoordinatedUpdateManager::sorted_nodes_</definition>
+        <argsstring></argsstring>
+        <name>sorted_nodes_</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateManager::sorted_nodes_</qualifiedname>
+        <briefdescription>
+<para>Sorted (by sequence_number) node descriptors. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="371" column="17" bodyfile="include/updates/coordinated_update_manager.h" bodystart="371" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_coordinated_update_manager_1a2a0ec142a8e8f4e7d890a0f5b570ef8e" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1updates_1_1_node_update_status" kindref="compound">NodeUpdateStatus</ref> &gt;</type>
+        <definition>std::vector&lt;NodeUpdateStatus&gt; themis::updates::CoordinatedUpdateManager::node_statuses_</definition>
+        <argsstring></argsstring>
+        <name>node_statuses_</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateManager::node_statuses_</qualifiedname>
+        <briefdescription>
+<para>Per-node status (same order as sorted_nodes_). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="374" column="17" bodyfile="include/updates/coordinated_update_manager.h" bodystart="374" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_coordinated_update_manager_1a608e8aa3a24b255c03bec65bd5af1a40" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::CoordinatedUpdateManager::local_rollback_id_</definition>
+        <argsstring></argsstring>
+        <name>local_rollback_id_</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateManager::local_rollback_id_</qualifiedname>
+        <briefdescription>
+<para>Rollback ID for the local update (set after a successful apply). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="377" column="17" bodyfile="include/updates/coordinated_update_manager.h" bodystart="377" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_coordinated_update_manager_1a8fae6543fdde7787ce9248dc11d92be3" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::CoordinatedUpdateManager::is_rolled_back_</definition>
+        <argsstring></argsstring>
+        <name>is_rolled_back_</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateManager::is_rolled_back_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>True once <ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1af3442f7313fcf08bafc7d9881b2f7c59" kindref="member">rollback()</ref> has been called. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="380" column="10" bodyfile="include/updates/coordinated_update_manager.h" bodystart="380" bodyend="380"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_coordinated_update_manager_1a83c17a769820b6f80aa0cf788bb92efc" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::updates::CoordinatedUpdateManager::isolated_nodes_</definition>
+        <argsstring></argsstring>
+        <name>isolated_nodes_</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateManager::isolated_nodes_</qualifiedname>
+        <briefdescription>
+<para>Track nodes isolated due to rollback failures. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="383" column="17" bodyfile="include/updates/coordinated_update_manager.h" bodystart="383" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_coordinated_update_manager_1aa37373c78b9d68e67003b1beb22a0af3" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1af624f6f0e6c16c98c7f75c4ac36b7d47" kindref="member">WaitForPreviousFunc</ref></type>
+        <definition>WaitForPreviousFunc themis::updates::CoordinatedUpdateManager::wait_for_previous_fn_</definition>
+        <argsstring></argsstring>
+        <name>wait_for_previous_fn_</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateManager::wait_for_previous_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="385" column="25" bodyfile="include/updates/coordinated_update_manager.h" bodystart="385" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_coordinated_update_manager_1a977c004937e9990d252904fe21f667d1" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a54e5f89e8addd8b35075ee52aa7d5090" kindref="member">SignalReadyFunc</ref></type>
+        <definition>SignalReadyFunc themis::updates::CoordinatedUpdateManager::signal_ready_fn_</definition>
+        <argsstring></argsstring>
+        <name>signal_ready_fn_</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateManager::signal_ready_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="386" column="25" bodyfile="include/updates/coordinated_update_manager.h" bodystart="386" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_coordinated_update_manager_1a4da588691614823893420669383f321c" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a6169e1448edf2901d33aae58220a4e59" kindref="member">ProgressCallback</ref></type>
+        <definition>ProgressCallback themis::updates::CoordinatedUpdateManager::progress_cb_</definition>
+        <argsstring></argsstring>
+        <name>progress_cb_</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateManager::progress_cb_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="387" column="25" bodyfile="include/updates/coordinated_update_manager.h" bodystart="387" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_coordinated_update_manager_1a86907ae4fcb0c64f169e7648e542f2a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::CoordinatedUpdateManager::CoordinatedUpdateManager</definition>
+        <argsstring>(std::shared_ptr&lt; HotReloadEngine &gt; engine, const CoordinatedUpdateConfig &amp;config)</argsstring>
+        <name>CoordinatedUpdateManager</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateManager::CoordinatedUpdateManager</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1updates_1_1_hot_reload_engine" kindref="compound">HotReloadEngine</ref> &gt;</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_coordinated_update_config" kindref="compound">CoordinatedUpdateConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct a coordinated update manager for the local node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared hot-reload engine (must outlive this object). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Session configuration including the full node list. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if engine is null, local_node_id is unknown, or the node list is empty. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="217" column="5" bodyfile="src/updates/coordinated_update_manager.cpp" bodystart="30" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_coordinated_update_manager_1a4ac6ae06ce98a5223268e92bc84db027" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::CoordinatedUpdateManager::~CoordinatedUpdateManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~CoordinatedUpdateManager</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateManager::~CoordinatedUpdateManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="220" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_coordinated_update_manager_1a358e98da3d0205426ceafc2a7a670e1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::CoordinatedUpdateManager::CoordinatedUpdateManager</definition>
+        <argsstring>(const CoordinatedUpdateManager &amp;)=delete</argsstring>
+        <name>CoordinatedUpdateManager</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateManager::CoordinatedUpdateManager</qualifiedname>
+        <param>
+          <type>const CoordinatedUpdateManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="223" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_coordinated_update_manager_1a4053fdc27988d6af177f971fd0bb9764" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a86907ae4fcb0c64f169e7648e542f2a5" kindref="member">CoordinatedUpdateManager</ref> &amp;</type>
+        <definition>CoordinatedUpdateManager &amp; themis::updates::CoordinatedUpdateManager::operator=</definition>
+        <argsstring>(const CoordinatedUpdateManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a86907ae4fcb0c64f169e7648e542f2a5" kindref="member">CoordinatedUpdateManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="224" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_coordinated_update_manager_1acd19aaa92355c06f7a17dbf9ef77c543" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1updates_1_1_coordinated_update_result" kindref="compound">CoordinatedUpdateResult</ref></type>
+        <definition>CoordinatedUpdateResult themis::updates::CoordinatedUpdateManager::applyLocalUpdate</definition>
+        <argsstring>()</argsstring>
+        <name>applyLocalUpdate</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateManager::applyLocalUpdate</qualifiedname>
+        <briefdescription>
+<para>Wait for this node&apos;s turn in the sequence and apply the update. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Apply Local Update.</para>
+<para>Steps:<orderedlist>
+<listitem><para>If this is not the first node, invoke <ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1af624f6f0e6c16c98c7f75c4ac36b7d47" kindref="member">WaitForPreviousFunc</ref> to block until the preceding node completes.</para>
+</listitem><listitem><para>Apply the update via <ref refid="classthemis_1_1updates_1_1_hot_reload_engine_1a035c22b0954f4d2bbc06536215bd034d" kindref="member">HotReloadEngine::applyHotReload</ref>.</para>
+</listitem><listitem><para>Invoke <ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a54e5f89e8addd8b35075ee52aa7d5090" kindref="member">SignalReadyFunc</ref> to unblock the next node.</para>
+</listitem><listitem><para>On failure, optionally rollback via <ref refid="classthemis_1_1updates_1_1_hot_reload_engine_1a7edab47678434d4b06f8845fac42ee6a" kindref="member">HotReloadEngine::rollback</ref>.</para>
+</listitem></orderedlist>
+</para>
+<para><simplesect kind="return"><para>Overall result including per-node status snapshot.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), <ref refid="batch5__safety__helpers_8h_1add82efa459e0af380b68522c29b9fd44" kindref="member">LOG_WARN()</ref>, localStatus(), predecessorDescriptor(), <ref refid="batch5__safety__helpers_8h_1a378e28bfcb78d17285210d6bbb70a083" kindref="member">LOG_INFO()</ref>, reportProgress(), wait_fn(), <ref refid="batch5__safety__helpers_8h_1ad4a9117ce894e3319e903142347a0f63" kindref="member">LOG_ERROR()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="240" column="29" bodyfile="src/updates/coordinated_update_manager.cpp" bodystart="207" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_coordinated_update_manager_1af3442f7313fcf08bafc7d9881b2f7c59" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::CoordinatedUpdateManager::rollback</definition>
+        <argsstring>(const std::string &amp;reason=&quot;&quot;)</argsstring>
+        <name>rollback</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateManager::rollback</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Rollback the update previously applied by <ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1acd19aaa92355c06f7a17dbf9ef77c543" kindref="member">applyLocalUpdate()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Rollback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable reason (optional). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the rollback succeeded (or no rollback was needed).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), <ref refid="batch5__safety__helpers_8h_1add82efa459e0af380b68522c29b9fd44" kindref="member">LOG_WARN()</ref>, localStatus(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="248" column="10" bodyfile="src/updates/coordinated_update_manager.cpp" bodystart="342" bodyend="376"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_coordinated_update_manager_1aa61665e4930c28617c7beafa6d9bb40d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::CoordinatedUpdateManager::coordinatedRollback</definition>
+        <argsstring>(const std::string &amp;reason=&quot;&quot;)</argsstring>
+        <name>coordinatedRollback</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateManager::coordinatedRollback</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Perform coordinated rollback across all nodes in reverse sequence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Coordinated Rollback.</para>
+<para>The leader node rolls back first (reverse of the update order), then replicas in reverse sequence. This prevents replication skew during rollback.</para>
+<para>Uses implicit retry logic when intermediate node rollbacks fail; collects per-node results and returns aggregate success.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable reason for rollback </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if all nodes rolled back successfully; false if any failed </para>
+</simplesect>
+<simplesect kind="since"><para>1.8.1</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="batch5__safety__helpers_8h_1a378e28bfcb78d17285210d6bbb70a083" kindref="member">LOG_INFO()</ref>, lock(), rbegin(), rend(), performNodeRollback(), <ref refid="batch5__safety__helpers_8h_1ad4a9117ce894e3319e903142347a0f63" kindref="member">LOG_ERROR()</ref>, reportProgress(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="266" column="10" bodyfile="src/updates/coordinated_update_manager.cpp" bodystart="504" bodyend="524"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_coordinated_update_manager_1acfe4eb67bbd491059686f68676d0efca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1updates_1_1_coordinated_update_result" kindref="compound">CoordinatedUpdateResult</ref></type>
+        <definition>CoordinatedUpdateResult themis::updates::CoordinatedUpdateManager::coordinatedRollbackWithIsolation</definition>
+        <argsstring>(const std::string &amp;reason=&quot;&quot;)</argsstring>
+        <name>coordinatedRollbackWithIsolation</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateManager::coordinatedRollbackWithIsolation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Perform coordinated rollback with isolation on per-node failures. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Coordinated Rollback With Isolation.</para>
+<para>When a replica fails to rollback, that node is isolated (marked FAILED) and the rollback continues with remaining nodes. No cascading failures.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable reason for rollback </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1updates_1_1_coordinated_update_result" kindref="compound">CoordinatedUpdateResult</ref> with per-node status and aggregate result </para>
+</simplesect>
+<simplesect kind="since"><para>1.8.1</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="batch5__safety__helpers_8h_1a378e28bfcb78d17285210d6bbb70a083" kindref="member">LOG_INFO()</ref>, lock(), std::reverse(), begin(), end(), performNodeRollback(), isolateNode(), <ref refid="batch5__safety__helpers_8h_1add82efa459e0af380b68522c29b9fd44" kindref="member">LOG_WARN()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="278" column="29" bodyfile="src/updates/coordinated_update_manager.cpp" bodystart="532" bodyend="575"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_coordinated_update_manager_1a6bef58ec2ca5a6d560cfd1392ea91c88" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::CoordinatedUpdateManager::hasIsolatedNodes</definition>
+        <argsstring>() const</argsstring>
+        <name>hasIsolatedNodes</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateManager::hasIsolatedNodes</qualifiedname>
+        <briefdescription>
+<para>Check if any node is isolated due to rollback failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When <ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1acfe4eb67bbd491059686f68676d0efca" kindref="member">coordinatedRollbackWithIsolation()</ref> encounters a failure, that node remains isolated to prevent cascade. This method checks if any nodes are in that state.</para>
+<para><simplesect kind="return"><para>true if at least one node is isolated </para>
+</simplesect>
+<simplesect kind="since"><para>1.8.1 </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="290" column="10" bodyfile="src/updates/coordinated_update_manager.cpp" bodystart="577" bodyend="585"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_coordinated_update_manager_1ab31a173c0c5ca51dacd556e64ca95bbf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::updates::CoordinatedUpdateManager::isolatedNodeCount</definition>
+        <argsstring>() const</argsstring>
+        <name>isolatedNodeCount</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateManager::isolatedNodeCount</qualifiedname>
+        <briefdescription>
+<para>Return count of nodes that failed rollback and are isolated. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Number of isolated nodes </para>
+</simplesect>
+<simplesect kind="since"><para>1.8.1 </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="298" column="14" bodyfile="src/updates/coordinated_update_manager.cpp" bodystart="587" bodyend="595"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_coordinated_update_manager_1af789b1613cf8a398ec009cd371b4589b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::updates::CoordinatedUpdateManager::localSequenceNumber</definition>
+        <argsstring>() const</argsstring>
+        <name>localSequenceNumber</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateManager::localSequenceNumber</qualifiedname>
+        <briefdescription>
+<para>Return the sequence number assigned to the local node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="305" column="14" bodyfile="src/updates/coordinated_update_manager.cpp" bodystart="382" bodyend="385"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_coordinated_update_manager_1a2ba1e7e8a78f308cc5daa113796eceac" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::updates::CoordinatedUpdateManager::totalNodes</definition>
+        <argsstring>() const</argsstring>
+        <name>totalNodes</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateManager::totalNodes</qualifiedname>
+        <briefdescription>
+<para>Return the total number of nodes in the update sequence. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="310" column="14" bodyfile="src/updates/coordinated_update_manager.cpp" bodystart="387" bodyend="389"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_coordinated_update_manager_1a177e813f78597d93bee40d0a2c585c75" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::CoordinatedUpdateManager::isLeader</definition>
+        <argsstring>() const</argsstring>
+        <name>isLeader</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateManager::isLeader</qualifiedname>
+        <briefdescription>
+<para>Return true when the local node is the replication leader. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="315" column="10" bodyfile="src/updates/coordinated_update_manager.cpp" bodystart="391" bodyend="394"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_coordinated_update_manager_1a16d58b3573b6e5135dd2ce9092540abb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1updates_1_1_node_update_status" kindref="compound">NodeUpdateStatus</ref> &gt;</type>
+        <definition>std::vector&lt; NodeUpdateStatus &gt; themis::updates::CoordinatedUpdateManager::nodeStatuses</definition>
+        <argsstring>() const</argsstring>
+        <name>nodeStatuses</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateManager::nodeStatuses</qualifiedname>
+        <briefdescription>
+<para>Return a snapshot of all known node statuses. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="320" column="17" bodyfile="src/updates/coordinated_update_manager.cpp" bodystart="396" bodyend="404"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_coordinated_update_manager_1a3a41c559bc3e29377eb191f0fb7c040b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::CoordinatedUpdateManager::setWaitForPreviousFunc</definition>
+        <argsstring>(WaitForPreviousFunc fn)</argsstring>
+        <name>setWaitForPreviousFunc</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateManager::setWaitForPreviousFunc</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1af624f6f0e6c16c98c7f75c4ac36b7d47" kindref="member">WaitForPreviousFunc</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Register the callback used to wait on the preceding node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Wait For Previous Func.</para>
+<para>When not set, the manager assumes it is the first node in the sequence (or that there is no predecessor) and proceeds immediately.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="330" column="10" bodyfile="src/updates/coordinated_update_manager.cpp" bodystart="415" bodyend="418"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_coordinated_update_manager_1abebd4eda747a7605a566588adf38bd64" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::CoordinatedUpdateManager::setSignalReadyFunc</definition>
+        <argsstring>(SignalReadyFunc fn)</argsstring>
+        <name>setSignalReadyFunc</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateManager::setSignalReadyFunc</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a54e5f89e8addd8b35075ee52aa7d5090" kindref="member">SignalReadyFunc</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Register the callback used to signal the next node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Signal Ready Func.</para>
+<para>When not set, signalling is a no-op (useful when this is the last node).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="337" column="10" bodyfile="src/updates/coordinated_update_manager.cpp" bodystart="425" bodyend="428"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_coordinated_update_manager_1ac5a48ba108da5c13d61e4ec28308793e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::CoordinatedUpdateManager::setProgressCallback</definition>
+        <argsstring>(ProgressCallback fn)</argsstring>
+        <name>setProgressCallback</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateManager::setProgressCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a6169e1448edf2901d33aae58220a4e59" kindref="member">ProgressCallback</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Register a progress callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Progress Callback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="342" column="10" bodyfile="src/updates/coordinated_update_manager.cpp" bodystart="435" bodyend="438"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_coordinated_update_manager_1a42cdf9d901d3c0d1f61308256bee02da" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1updates_1_1_node_update_status" kindref="compound">NodeUpdateStatus</ref> *</type>
+        <definition>NodeUpdateStatus * themis::updates::CoordinatedUpdateManager::localStatus</definition>
+        <argsstring>()</argsstring>
+        <name>localStatus</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateManager::localStatus</qualifiedname>
+        <briefdescription>
+<para>Local Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a pointer to the local node&apos;s status entry (never null after successful construction).</para>
+<para><simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Implements localStatus without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="347" column="22" bodyfile="src/updates/coordinated_update_manager.cpp" bodystart="128" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_coordinated_update_manager_1a156a81beae9b00815f81295d3a42a966" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1updates_1_1_node_update_status" kindref="compound">NodeUpdateStatus</ref> *</type>
+        <definition>const NodeUpdateStatus * themis::updates::CoordinatedUpdateManager::localStatus</definition>
+        <argsstring>() const</argsstring>
+        <name>localStatus</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateManager::localStatus</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="348" column="28" bodyfile="src/updates/coordinated_update_manager.cpp" bodystart="137" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_coordinated_update_manager_1ab56407864e33b899c1f9309f069d17c9" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1updates_1_1_node_descriptor" kindref="compound">NodeDescriptor</ref> *</type>
+        <definition>const NodeDescriptor * themis::updates::CoordinatedUpdateManager::localDescriptor</definition>
+        <argsstring>() const</argsstring>
+        <name>localDescriptor</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateManager::localDescriptor</qualifiedname>
+        <briefdescription>
+<para>Returns the node descriptor for the local node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="351" column="26" bodyfile="src/updates/coordinated_update_manager.cpp" bodystart="146" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_coordinated_update_manager_1a27cf7eb62d71cf202533a4ce3492b76d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1updates_1_1_node_descriptor" kindref="compound">NodeDescriptor</ref> *</type>
+        <definition>const NodeDescriptor * themis::updates::CoordinatedUpdateManager::predecessorDescriptor</definition>
+        <argsstring>() const</argsstring>
+        <name>predecessorDescriptor</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateManager::predecessorDescriptor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the node descriptor for the predecessor of the local node, or nullptr when the local node is first in the sequence. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="355" column="26" bodyfile="src/updates/coordinated_update_manager.cpp" bodystart="155" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_coordinated_update_manager_1ab7b0d8b9bc328bb89e2f14d47fd1fa72" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::CoordinatedUpdateManager::performNodeRollback</definition>
+        <argsstring>(const NodeDescriptor &amp;node, const std::string &amp;reason)</argsstring>
+        <name>performNodeRollback</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateManager::performNodeRollback</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_node_descriptor" kindref="compound">NodeDescriptor</ref> &amp;</type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Helper for coordinated rollback in reverse sequence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> Coordinated rollback enhancements (v1.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+8.1 – Q3 2026) ------------------------------------------------------------------------<mdash/> Calls: <ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1af3442f7313fcf08bafc7d9881b2f7c59" kindref="member">rollback()</ref>, <ref refid="batch5__safety__helpers_8h_1a378e28bfcb78d17285210d6bbb70a083" kindref="member">LOG_INFO()</ref>, <ref refid="batch5__safety__helpers_8h_1ad4a9117ce894e3319e903142347a0f63" kindref="member">LOG_ERROR()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="358" column="10" bodyfile="src/updates/coordinated_update_manager.cpp" bodystart="448" bodyend="468"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_coordinated_update_manager_1aa888ca6833baaa40803b227402723bab" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::CoordinatedUpdateManager::isolateNode</definition>
+        <argsstring>(const std::string &amp;node_id, const std::string &amp;reason)</argsstring>
+        <name>isolateNode</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateManager::isolateNode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Mark a node as isolated due to rollback failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Isolate Node.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::find(), begin(), end(), push_back(), <ref refid="batch5__safety__helpers_8h_1add82efa459e0af380b68522c29b9fd44" kindref="member">LOG_WARN()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="361" column="10" bodyfile="src/updates/coordinated_update_manager.cpp" bodystart="476" bodyend="496"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_coordinated_update_manager_1a43c9b53959d1b2abc71ca731115d36c4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::CoordinatedUpdateManager::reportProgress</definition>
+        <argsstring>(const std::string &amp;message)</argsstring>
+        <name>reportProgress</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateManager::reportProgress</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Report Progress. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), cb(), size(), <ref refid="batch5__safety__helpers_8h_1add82efa459e0af380b68522c29b9fd44" kindref="member">LOG_WARN()</ref>, what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="363" column="10" bodyfile="src/updates/coordinated_update_manager.cpp" bodystart="174" bodyend="196"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Manages the coordinated, replication-safe update of a single node within a multi-node ThemisDB cluster. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Each node in the cluster runs its own <ref refid="classthemis_1_1updates_1_1_coordinated_update_manager" kindref="compound">CoordinatedUpdateManager</ref> instance. Nodes update in a deterministic, ascending sequence so that replicas are always updated before the replication leader, preventing version skew.</para>
+<para>Inter-node synchronisation is injected via two callbacks:<itemizedlist>
+<listitem><para><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1af624f6f0e6c16c98c7f75c4ac36b7d47" kindref="member">WaitForPreviousFunc</ref>: blocks until the preceding node signals readiness.</para>
+</listitem><listitem><para><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a54e5f89e8addd8b35075ee52aa7d5090" kindref="member">SignalReadyFunc</ref>: notifies the next node that this node has completed.</para>
+</listitem></itemizedlist>
+</para>
+<para>This design keeps the class transport-agnostic and easy to unit-test.</para>
+<para>Usage example: <programlisting><codeline><highlight class="normal">CoordinatedUpdateConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.version<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.7.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">cfg.local_node_id<sp/><sp/>=<sp/>hostname;</highlight></codeline>
+<codeline><highlight class="normal">cfg.nodes<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>{<sp/>{</highlight><highlight class="stringliteral">&quot;node-a&quot;</highlight><highlight class="normal">,<sp/>0,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;node-b&quot;</highlight><highlight class="normal">,<sp/>1,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;node-c&quot;</highlight><highlight class="normal">,<sp/>2,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}<sp/>};<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>node-c<sp/>is<sp/>leader</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a86907ae4fcb0c64f169e7648e542f2a5" kindref="member">CoordinatedUpdateManager</ref><sp/>mgr(hot_reload_engine,<sp/>cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">mgr.setWaitForPreviousFunc([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prev_id,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>timeout)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cluster_bus.waitForNodeReady(prev_id,<sp/>timeout);</highlight></codeline>
+<codeline><highlight class="normal">});</highlight></codeline>
+<codeline><highlight class="normal">mgr.setSignalReadyFunc([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>local_id,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>cluster_bus.signalReady(local_id,<sp/>ok);</highlight></codeline>
+<codeline><highlight class="normal">});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr.applyLocalUpdate();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!result.success)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="batch5__safety__helpers_8h_1ad4a9117ce894e3319e903142347a0f63" kindref="member">LOG_ERROR</ref>(</highlight><highlight class="stringliteral">&quot;Coordinated<sp/>update<sp/>failed:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>result.error_message);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/updates/coordinated_update_manager.h" line="172" column="1" bodyfile="include/updates/coordinated_update_manager.h" bodystart="172" bodyend="388"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1updates_1_1_coordinated_update_manager_1acd19aaa92355c06f7a17dbf9ef77c543" prot="public" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateManager</scope><name>applyLocalUpdate</name></member>
+      <member refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a8351045d51d3a09a0d6a2def48304acd" prot="private" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1updates_1_1_coordinated_update_manager_1aa61665e4930c28617c7beafa6d9bb40d" prot="public" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateManager</scope><name>coordinatedRollback</name></member>
+      <member refid="classthemis_1_1updates_1_1_coordinated_update_manager_1acfe4eb67bbd491059686f68676d0efca" prot="public" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateManager</scope><name>coordinatedRollbackWithIsolation</name></member>
+      <member refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a86907ae4fcb0c64f169e7648e542f2a5" prot="public" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateManager</scope><name>CoordinatedUpdateManager</name></member>
+      <member refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a358e98da3d0205426ceafc2a7a670e1d" prot="public" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateManager</scope><name>CoordinatedUpdateManager</name></member>
+      <member refid="classthemis_1_1updates_1_1_coordinated_update_manager_1ab5e87541f4f99c71b87963f3d14239b6" prot="private" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateManager</scope><name>engine_</name></member>
+      <member refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a6bef58ec2ca5a6d560cfd1392ea91c88" prot="public" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateManager</scope><name>hasIsolatedNodes</name></member>
+      <member refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a8fae6543fdde7787ce9248dc11d92be3" prot="private" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateManager</scope><name>is_rolled_back_</name></member>
+      <member refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a177e813f78597d93bee40d0a2c585c75" prot="public" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateManager</scope><name>isLeader</name></member>
+      <member refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a83c17a769820b6f80aa0cf788bb92efc" prot="private" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateManager</scope><name>isolated_nodes_</name></member>
+      <member refid="classthemis_1_1updates_1_1_coordinated_update_manager_1ab31a173c0c5ca51dacd556e64ca95bbf" prot="public" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateManager</scope><name>isolatedNodeCount</name></member>
+      <member refid="classthemis_1_1updates_1_1_coordinated_update_manager_1aa888ca6833baaa40803b227402723bab" prot="private" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateManager</scope><name>isolateNode</name></member>
+      <member refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a608e8aa3a24b255c03bec65bd5af1a40" prot="private" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateManager</scope><name>local_rollback_id_</name></member>
+      <member refid="classthemis_1_1updates_1_1_coordinated_update_manager_1ab56407864e33b899c1f9309f069d17c9" prot="private" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateManager</scope><name>localDescriptor</name></member>
+      <member refid="classthemis_1_1updates_1_1_coordinated_update_manager_1af789b1613cf8a398ec009cd371b4589b" prot="public" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateManager</scope><name>localSequenceNumber</name></member>
+      <member refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a42cdf9d901d3c0d1f61308256bee02da" prot="private" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateManager</scope><name>localStatus</name></member>
+      <member refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a156a81beae9b00815f81295d3a42a966" prot="private" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateManager</scope><name>localStatus</name></member>
+      <member refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a008fd3deb6a786fef7e370701ae01425" prot="private" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a2a0ec142a8e8f4e7d890a0f5b570ef8e" prot="private" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateManager</scope><name>node_statuses_</name></member>
+      <member refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a16d58b3573b6e5135dd2ce9092540abb" prot="public" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateManager</scope><name>nodeStatuses</name></member>
+      <member refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a4053fdc27988d6af177f971fd0bb9764" prot="public" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1updates_1_1_coordinated_update_manager_1ab7b0d8b9bc328bb89e2f14d47fd1fa72" prot="private" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateManager</scope><name>performNodeRollback</name></member>
+      <member refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a27cf7eb62d71cf202533a4ce3492b76d" prot="private" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateManager</scope><name>predecessorDescriptor</name></member>
+      <member refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a4da588691614823893420669383f321c" prot="private" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateManager</scope><name>progress_cb_</name></member>
+      <member refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a6169e1448edf2901d33aae58220a4e59" prot="public" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateManager</scope><name>ProgressCallback</name></member>
+      <member refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a43c9b53959d1b2abc71ca731115d36c4" prot="private" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateManager</scope><name>reportProgress</name></member>
+      <member refid="classthemis_1_1updates_1_1_coordinated_update_manager_1af3442f7313fcf08bafc7d9881b2f7c59" prot="public" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateManager</scope><name>rollback</name></member>
+      <member refid="classthemis_1_1updates_1_1_coordinated_update_manager_1ac5a48ba108da5c13d61e4ec28308793e" prot="public" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateManager</scope><name>setProgressCallback</name></member>
+      <member refid="classthemis_1_1updates_1_1_coordinated_update_manager_1abebd4eda747a7605a566588adf38bd64" prot="public" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateManager</scope><name>setSignalReadyFunc</name></member>
+      <member refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a3a41c559bc3e29377eb191f0fb7c040b" prot="public" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateManager</scope><name>setWaitForPreviousFunc</name></member>
+      <member refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a977c004937e9990d252904fe21f667d1" prot="private" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateManager</scope><name>signal_ready_fn_</name></member>
+      <member refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a54e5f89e8addd8b35075ee52aa7d5090" prot="public" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateManager</scope><name>SignalReadyFunc</name></member>
+      <member refid="classthemis_1_1updates_1_1_coordinated_update_manager_1aa74f48fc338485afd00d97c7d593eaf6" prot="private" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateManager</scope><name>sorted_nodes_</name></member>
+      <member refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a2ba1e7e8a78f308cc5daa113796eceac" prot="public" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateManager</scope><name>totalNodes</name></member>
+      <member refid="classthemis_1_1updates_1_1_coordinated_update_manager_1aa37373c78b9d68e67003b1beb22a0af3" prot="private" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateManager</scope><name>wait_for_previous_fn_</name></member>
+      <member refid="classthemis_1_1updates_1_1_coordinated_update_manager_1af624f6f0e6c16c98c7f75c4ac36b7d47" prot="public" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateManager</scope><name>WaitForPreviousFunc</name></member>
+      <member refid="classthemis_1_1updates_1_1_coordinated_update_manager_1a4ac6ae06ce98a5223268e92bc84db027" prot="public" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateManager</scope><name>~CoordinatedUpdateManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

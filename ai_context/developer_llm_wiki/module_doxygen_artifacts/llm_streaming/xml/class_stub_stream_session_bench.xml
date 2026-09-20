@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_stream_session_bench" kind="class" language="C++" prot="public">
+    <compoundname>StubStreamSessionBench</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_stream_session_bench_1a88b3059cef312004fdbd3707984ac171" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t StubStreamSessionBench::id_</definition>
+        <argsstring></argsstring>
+        <name>id_</name>
+        <qualifiedname>StubStreamSessionBench::id_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" line="83" column="14" bodyfile="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" bodystart="83" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_stream_session_bench_1a6382b7b4e0e5a77ba0bdb1103ec7bb17" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubStreamSessionBench::open</definition>
+        <argsstring>(uint64_t id)</argsstring>
+        <name>open</name>
+        <qualifiedname>StubStreamSessionBench::open</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" line="80" column="10" bodyfile="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" bodystart="80" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_stream_session_bench_1a269e061037efc2ae0161e82e1161d0bf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubStreamSessionBench::close</definition>
+        <argsstring>()</argsstring>
+        <name>close</name>
+        <qualifiedname>StubStreamSessionBench::close</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" line="81" column="10" bodyfile="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" bodystart="81" bodyend="81"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" line="78" column="1" bodyfile="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" bodystart="78" bodyend="84"/>
+    <listofallmembers>
+      <member refid="class_stub_stream_session_bench_1a269e061037efc2ae0161e82e1161d0bf" prot="public" virt="non-virtual"><scope>StubStreamSessionBench</scope><name>close</name></member>
+      <member refid="class_stub_stream_session_bench_1a88b3059cef312004fdbd3707984ac171" prot="private" virt="non-virtual"><scope>StubStreamSessionBench</scope><name>id_</name></member>
+      <member refid="class_stub_stream_session_bench_1a6382b7b4e0e5a77ba0bdb1103ec7bb17" prot="public" virt="non-virtual"><scope>StubStreamSessionBench</scope><name>open</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

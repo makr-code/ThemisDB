@@ -1,0 +1,214 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm__wiki_1_1_workspace_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm_wiki::WorkspaceStatus</compoundname>
+    <includes refid="workspace__state__manager_8h" local="no">workspace_state_manager.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edc" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Code</name>
+        <qualifiedname>themis::llm_wiki::WorkspaceStatus::Code</qualifiedname>
+        <enumvalue id="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edcaa60852f204ed8028c1c58808b746d115" prot="public">
+          <name>Ok</name>
+          <briefdescription>
+<para>Operation succeeded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edca902b0d55fddef6f8d651fe1035b7d4bd" prot="public">
+          <name>Error</name>
+          <briefdescription>
+<para>Generic failure. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edca27551f1033382ea4b027e79402e18c7a" prot="public">
+          <name>CorruptState</name>
+          <briefdescription>
+<para>State file is corrupted (checksum mismatch). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edca4f67c44b93cc62755fee6051885d5e5a" prot="public">
+          <name>InvalidJson</name>
+          <briefdescription>
+<para>JSON parse error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edca2767828026039e8ba7b38973cbb701f2" prot="public">
+          <name>FileNotFound</name>
+          <briefdescription>
+<para>State file doesn&apos;t exist. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edcaf2b0e5c3d94c2f5b19d679412a1953cb" prot="public">
+          <name>WriteFailure</name>
+          <briefdescription>
+<para>Failed to write state. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edca23cd86e43512932a4bc975552c8d17fd" prot="public">
+          <name>ChecksumMismatch</name>
+          <briefdescription>
+<para>SHA-256 checksum validation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/workspace_state_manager.h" line="62" column="5" bodyfile="include/llm_wiki/workspace_state_manager.h" bodystart="62" bodyend="70"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm__wiki_1_1_workspace_status_1a53433b9f1375b0da354f90a5e3f5e5de" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edc" kindref="member">Code</ref></type>
+        <definition>Code themis::llm_wiki::WorkspaceStatus::code</definition>
+        <argsstring></argsstring>
+        <name>code</name>
+        <qualifiedname>themis::llm_wiki::WorkspaceStatus::code</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edcaa60852f204ed8028c1c58808b746d115" kindref="member">Code::Ok</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/workspace_state_manager.h" line="72" column="17" bodyfile="include/llm_wiki/workspace_state_manager.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm__wiki_1_1_workspace_status_1afc455196a06c97611f4b97b5294dfd93" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm_wiki::WorkspaceStatus::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::llm_wiki::WorkspaceStatus::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/workspace_state_manager.h" line="73" column="17" bodyfile="include/llm_wiki/workspace_state_manager.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm__wiki_1_1_workspace_status_1acb470b5a540916709fd0f4ff1bbbe9fd" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm_wiki::WorkspaceStatus::ok</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::llm_wiki::WorkspaceStatus::ok</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/workspace_state_manager.h" line="75" column="11" bodyfile="include/llm_wiki/workspace_state_manager.h" bodystart="75" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm__wiki_1_1_workspace_status_1afb5b412f97c84218b677114304213df6" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status" kindref="compound">WorkspaceStatus</ref></type>
+        <definition>static WorkspaceStatus themis::llm_wiki::WorkspaceStatus::Ok</definition>
+        <argsstring>()</argsstring>
+        <name>Ok</name>
+        <qualifiedname>themis::llm_wiki::WorkspaceStatus::Ok</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/workspace_state_manager.h" line="77" column="29" bodyfile="include/llm_wiki/workspace_state_manager.h" bodystart="77" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm__wiki_1_1_workspace_status_1ac0813b014bf96f5c9dbdef9a93d28c68" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status" kindref="compound">WorkspaceStatus</ref></type>
+        <definition>static WorkspaceStatus themis::llm_wiki::WorkspaceStatus::Error</definition>
+        <argsstring>(std::string msg)</argsstring>
+        <name>Error</name>
+        <qualifiedname>themis::llm_wiki::WorkspaceStatus::Error</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/workspace_state_manager.h" line="81" column="29" bodyfile="include/llm_wiki/workspace_state_manager.h" bodystart="81" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm__wiki_1_1_workspace_status_1a8fd1d72f832500ed348ebd0d0adebb32" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status" kindref="compound">WorkspaceStatus</ref></type>
+        <definition>static WorkspaceStatus themis::llm_wiki::WorkspaceStatus::CorruptState</definition>
+        <argsstring>(std::string msg)</argsstring>
+        <name>CorruptState</name>
+        <qualifiedname>themis::llm_wiki::WorkspaceStatus::CorruptState</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/workspace_state_manager.h" line="85" column="29" bodyfile="include/llm_wiki/workspace_state_manager.h" bodystart="85" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm__wiki_1_1_workspace_status_1ad4c8f78e446e89e5e5628b0ee165ea15" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status" kindref="compound">WorkspaceStatus</ref></type>
+        <definition>static WorkspaceStatus themis::llm_wiki::WorkspaceStatus::ChecksumMismatch</definition>
+        <argsstring>(std::string expected, std::string actual)</argsstring>
+        <name>ChecksumMismatch</name>
+        <qualifiedname>themis::llm_wiki::WorkspaceStatus::ChecksumMismatch</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>expected</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>actual</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/workspace_state_manager.h" line="89" column="29" bodyfile="include/llm_wiki/workspace_state_manager.h" bodystart="89" bodyend="93"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result type for workspace state operations. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm_wiki/workspace_state_manager.h" line="61" column="1" bodyfile="include/llm_wiki/workspace_state_manager.h" bodystart="61" bodyend="94"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm__wiki_1_1_workspace_status_1ad4c8f78e446e89e5e5628b0ee165ea15" prot="public" virt="non-virtual"><scope>themis::llm_wiki::WorkspaceStatus</scope><name>ChecksumMismatch</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_workspace_status_1af61e02465edc3762dad3118faa709edc" prot="public" virt="non-virtual"><scope>themis::llm_wiki::WorkspaceStatus</scope><name>Code</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_workspace_status_1a53433b9f1375b0da354f90a5e3f5e5de" prot="public" virt="non-virtual"><scope>themis::llm_wiki::WorkspaceStatus</scope><name>code</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_workspace_status_1a8fd1d72f832500ed348ebd0d0adebb32" prot="public" virt="non-virtual"><scope>themis::llm_wiki::WorkspaceStatus</scope><name>CorruptState</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_workspace_status_1ac0813b014bf96f5c9dbdef9a93d28c68" prot="public" virt="non-virtual"><scope>themis::llm_wiki::WorkspaceStatus</scope><name>Error</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_workspace_status_1afc455196a06c97611f4b97b5294dfd93" prot="public" virt="non-virtual"><scope>themis::llm_wiki::WorkspaceStatus</scope><name>message</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_workspace_status_1afb5b412f97c84218b677114304213df6" prot="public" virt="non-virtual"><scope>themis::llm_wiki::WorkspaceStatus</scope><name>Ok</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_workspace_status_1acb470b5a540916709fd0f4ff1bbbe9fd" prot="public" virt="non-virtual"><scope>themis::llm_wiki::WorkspaceStatus</scope><name>ok</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

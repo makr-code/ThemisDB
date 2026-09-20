@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::DistributedCoordinator::CoordinatorTask</compoundname>
+    <includes refid="distributed__coordinator_8h" local="no">distributed_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a87819076cf42608cf17a8df684759093" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::DistributedCoordinator::CoordinatorTask::task_id</definition>
+        <argsstring></argsstring>
+        <name>task_id</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::CoordinatorTask::task_id</qualifiedname>
+        <briefdescription>
+<para>Unique task identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="47" column="21" bodyfile="include/sharding/distributed_coordinator.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1ae38c6d1d57e8de3943323ae7e93aba36" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a2b9ef6cb297b3b43527e95073db6c768" kindref="member">TaskType</ref></type>
+        <definition>TaskType themis::sharding::DistributedCoordinator::CoordinatorTask::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::CoordinatorTask::type</qualifiedname>
+        <briefdescription>
+<para>Task category. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="48" column="18" bodyfile="include/sharding/distributed_coordinator.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1ae3477b8d7034a75154d15c5d841a616b" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::DistributedCoordinator::CoordinatorTask::payload</definition>
+        <argsstring></argsstring>
+        <name>payload</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::CoordinatorTask::payload</qualifiedname>
+        <briefdescription>
+<para>Task-specific payload. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="49" column="24" bodyfile="include/sharding/distributed_coordinator.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a870ed1bd1a7c28524adf5c0003e050cf" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::sharding::DistributedCoordinator::CoordinatorTask::ttl</definition>
+        <argsstring></argsstring>
+        <name>ttl</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::CoordinatorTask::ttl</qualifiedname>
+        <initializer>{600}</initializer>
+        <briefdescription>
+<para>Task time-to-live (default 10 min). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="50" column="30" bodyfile="include/sharding/distributed_coordinator.h" bodystart="50" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1ad9b985c0823642f9e677fcaa7e6f3b84" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::sharding::DistributedCoordinator::CoordinatorTask::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::CoordinatorTask::created_at</qualifiedname>
+        <briefdescription>
+<para>Task creation timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="51" column="47" bodyfile="include/sharding/distributed_coordinator.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a269628d0dbb3d645fe40f9c683032d97" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::sharding::DistributedCoordinator::CoordinatorTask::started_at</definition>
+        <argsstring></argsstring>
+        <name>started_at</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::CoordinatorTask::started_at</qualifiedname>
+        <briefdescription>
+<para>Task execution start timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="52" column="47" bodyfile="include/sharding/distributed_coordinator.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a92be3da54ed01728e91a7e7e54d12c93" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::DistributedCoordinator::CoordinatorTask::assigned_leader</definition>
+        <argsstring></argsstring>
+        <name>assigned_leader</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::CoordinatorTask::assigned_leader</qualifiedname>
+        <briefdescription>
+<para>Leader responsible for execution. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="53" column="21" bodyfile="include/sharding/distributed_coordinator.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a716da07227124d6d89ce67c95cfb4b36" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::DistributedCoordinator::CoordinatorTask::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::CoordinatorTask::toJson</qualifiedname>
+        <briefdescription>
+<para>Serialize task into JSON payload. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="56" column="24" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="39" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a1e78fadd9fb3f48f157f594b97ff99cd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task" kindref="compound">CoordinatorTask</ref></type>
+        <definition>DistributedCoordinator::CoordinatorTask themis::sharding::DistributedCoordinator::CoordinatorTask::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::CoordinatorTask::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Deserialize task from JSON payload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>From Json.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(), nlohmann::json::object(), std::chrono::seconds(), std::chrono::system_clock::time_point(), std::chrono::milliseconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="58" column="32" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="59" bodyend="77"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Serializable unit of leader-coordinated work. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/distributed_coordinator.h" line="46" column="5" bodyfile="include/sharding/distributed_coordinator.h" bodystart="46" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a92be3da54ed01728e91a7e7e54d12c93" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator::CoordinatorTask</scope><name>assigned_leader</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1ad9b985c0823642f9e677fcaa7e6f3b84" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator::CoordinatorTask</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a1e78fadd9fb3f48f157f594b97ff99cd" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator::CoordinatorTask</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1ae3477b8d7034a75154d15c5d841a616b" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator::CoordinatorTask</scope><name>payload</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a269628d0dbb3d645fe40f9c683032d97" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator::CoordinatorTask</scope><name>started_at</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a87819076cf42608cf17a8df684759093" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator::CoordinatorTask</scope><name>task_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a716da07227124d6d89ce67c95cfb4b36" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator::CoordinatorTask</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1a870ed1bd1a7c28524adf5c0003e050cf" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator::CoordinatorTask</scope><name>ttl</name></member>
+      <member refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task_1ae38c6d1d57e8de3943323ae7e93aba36" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator::CoordinatorTask</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tbb_1_1task__arena" kind="class" language="C++" prot="public">
+    <compoundname>themis::tbb::task_arena</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tbb_1_1task__arena_1a64b334258c0ae70a7d569a98343a66a6" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::tbb::task_arena::task_arena</definition>
+        <argsstring>(int)</argsstring>
+        <name>task_arena</name>
+        <qualifiedname>themis::tbb::task_arena::task_arena</qualifiedname>
+        <param>
+          <type>int</type>
+        </param>
+        <briefdescription>
+<para>Task arena. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">int</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements <ref refid="classthemis_1_1tbb_1_1task__arena" kindref="compound">task_arena</ref> without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/parallel_executor.cpp" line="97" column="14" bodyfile="src/query/parallel_executor.cpp" bodystart="97" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tbb_1_1task__arena_1a28b0bae6eefecd449abae4e3a1a76971" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename F</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void themis::tbb::task_arena::execute</definition>
+        <argsstring>(F &amp;&amp;f)</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::tbb::task_arena::execute</qualifiedname>
+        <param>
+          <type>F &amp;&amp;</type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+<para>Execute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">f</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements execute without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/parallel_executor.cpp" line="105" column="10" bodyfile="src/query/parallel_executor.cpp" bodystart="105" bodyend="107"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/query/parallel_executor.cpp" line="89" column="1" bodyfile="src/query/parallel_executor.cpp" bodystart="89" bodyend="108"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tbb_1_1task__arena_1a28b0bae6eefecd449abae4e3a1a76971" prot="public" virt="non-virtual"><scope>themis::tbb::task_arena</scope><name>execute</name></member>
+      <member refid="classthemis_1_1tbb_1_1task__arena_1a64b334258c0ae70a7d569a98343a66a6" prot="public" virt="non-virtual"><scope>themis::tbb::task_arena</scope><name>task_arena</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

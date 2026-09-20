@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_a_q_l_annotation" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::AQLAnnotation</compoundname>
+    <includes refid="aql__syntax__highlighter_8h" local="no">aql_syntax_highlighter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_annotation_1aa809febc7887edb070623ab456c0308b" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::aql::AQLAnnotation::line</definition>
+        <argsstring></argsstring>
+        <name>line</name>
+        <qualifiedname>themis::aql::AQLAnnotation::line</qualifiedname>
+        <briefdescription>
+<para>1-based line where the error starts </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_syntax_highlighter.h" line="42" column="17" bodyfile="include/aql/aql_syntax_highlighter.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_annotation_1a3aa8e2f422d25062966b9aaeafc744ec" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::aql::AQLAnnotation::column</definition>
+        <argsstring></argsstring>
+        <name>column</name>
+        <qualifiedname>themis::aql::AQLAnnotation::column</qualifiedname>
+        <briefdescription>
+<para>1-based column where the error starts </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_syntax_highlighter.h" line="43" column="17" bodyfile="include/aql/aql_syntax_highlighter.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_annotation_1a415839525c3c156c928a55c99098c566" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLAnnotation::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::aql::AQLAnnotation::message</qualifiedname>
+        <briefdescription>
+<para>Human-readable description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_syntax_highlighter.h" line="44" column="17" bodyfile="include/aql/aql_syntax_highlighter.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_syntax_highlighter.h" line="41" column="1" bodyfile="include/aql/aql_syntax_highlighter.h" bodystart="41" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_annotation_1a3aa8e2f422d25062966b9aaeafc744ec" prot="public" virt="non-virtual"><scope>themis::aql::AQLAnnotation</scope><name>column</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_annotation_1aa809febc7887edb070623ab456c0308b" prot="public" virt="non-virtual"><scope>themis::aql::AQLAnnotation</scope><name>line</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_annotation_1a415839525c3c156c928a55c99098c566" prot="public" virt="non-virtual"><scope>themis::aql::AQLAnnotation</scope><name>message</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

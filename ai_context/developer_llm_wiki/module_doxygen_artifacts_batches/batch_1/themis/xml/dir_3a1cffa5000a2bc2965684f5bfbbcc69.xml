@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_3a1cffa5000a2bc2965684f5bfbbcc69" kind="dir">
+    <compoundname>include/themis/sharding</compoundname>
+    <innerfile refid="ishard__limit__policy_8h">ishard_limit_policy.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/sharding/"/>
+  </compounddef>
+</doxygen>

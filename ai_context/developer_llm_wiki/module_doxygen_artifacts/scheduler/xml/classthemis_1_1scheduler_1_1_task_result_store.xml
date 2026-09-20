@@ -1,0 +1,356 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1scheduler_1_1_task_result_store" kind="class" language="C++" prot="public">
+    <compoundname>themis::scheduler::TaskResultStore</compoundname>
+    <includes refid="task__result__store_8h" local="no">task_result_store.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1scheduler_1_1_task_result_store_1ae8e23d79f10c4bd0c1d9c0a41b3ca095" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::scheduler::TaskResultStore::kKeyPrefix</definition>
+        <argsstring></argsstring>
+        <name>kKeyPrefix</name>
+        <qualifiedname>themis::scheduler::TaskResultStore::kKeyPrefix</qualifiedname>
+        <initializer>= &quot;_sched_result/&quot;</initializer>
+        <briefdescription>
+<para>Key prefix used for all result entries (visible for testing/tooling). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_result_store.h" line="106" column="33" bodyfile="include/scheduler/task_result_store.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1scheduler_1_1_task_result_store_1a7e77f2340de16466d046f0e7ab3295d0" prot="private" static="no" mutable="no">
+        <type>RocksDBWrapper &amp;</type>
+        <definition>RocksDBWrapper&amp; themis::scheduler::TaskResultStore::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>themis::scheduler::TaskResultStore::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_result_store.h" line="109" column="20" bodyfile="include/scheduler/task_result_store.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scheduler_1_1_task_result_store_1aedfee48fa58b69969a1b6fb409f750ac" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::scheduler::TaskResultStore::max_per_task_</definition>
+        <argsstring></argsstring>
+        <name>max_per_task_</name>
+        <qualifiedname>themis::scheduler::TaskResultStore::max_per_task_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_result_store.h" line="110" column="21" bodyfile="include/scheduler/task_result_store.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scheduler_1_1_task_result_store_1a79581d4e8d7f8bc79714757d1b44bdd2" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::scheduler::TaskResultStore::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::scheduler::TaskResultStore::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_result_store.h" line="111" column="31" bodyfile="include/scheduler/task_result_store.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_result_store_1a5c46a06bbf06c462571dff23487f4fa5" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scheduler::TaskResultStore::TaskResultStore</definition>
+        <argsstring>(RocksDBWrapper &amp;storage, size_t max_per_task=100)</argsstring>
+        <name>TaskResultStore</name>
+        <qualifiedname>themis::scheduler::TaskResultStore::TaskResultStore</qualifiedname>
+        <param>
+          <type>RocksDBWrapper &amp;</type>
+          <declname>storage</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_per_task</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+<para>Construct a result store backed by the supplied RocksDB instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>storage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Open RocksDB wrapper. Must outlive this object. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_per_task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of results to retain per task. Oldest records are pruned when the cap is exceeded. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_result_store.h" line="65" column="14" bodyfile="src/scheduler/task_result_store.cpp" bodystart="27" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_result_store_1ae01063b0d9be0617d10d5a592dd5a9f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1" kindref="member">SchedulerError</ref></type>
+        <definition>SchedulerError themis::scheduler::TaskResultStore::store</definition>
+        <argsstring>(const TaskExecutionResult &amp;result)</argsstring>
+        <name>store</name>
+        <qualifiedname>themis::scheduler::TaskResultStore::store</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1scheduler_1_1_task_execution_result" kindref="compound">TaskExecutionResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Append an execution result for a task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Store.</para>
+<para>Enforces retention limits BEFORE writing the new result. If the store is at capacity (max_per_task entries), returns kRetentionLimitExceeded without storing the result.</para>
+<para>On success, stores the result and performs FIFO pruning to maintain the retention limit (oldest entries deleted first).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Execution record to persist. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>kSuccess on successful storage, kRetentionLimitExceeded if at capacity, kInternalError on storage failure.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), makeTaskPrefix(), scanPrefix(), emplace_back(), size(), THEMIS_WARN(), empty(), front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_result_store.h" line="82" column="20" bodyfile="src/scheduler/task_result_store.cpp" bodystart="61" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_result_store_1a6b0f2bcc7c67880ec01dd1fe742c3353" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1scheduler_1_1_task_execution_result" kindref="compound">TaskExecutionResult</ref> &gt;</type>
+        <definition>std::vector&lt; TaskExecutionResult &gt; themis::scheduler::TaskResultStore::getResults</definition>
+        <argsstring>(const std::string &amp;task_id, size_t limit=10) const</argsstring>
+        <name>getResults</name>
+        <qualifiedname>themis::scheduler::TaskResultStore::getResults</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>Retrieve the most-recent execution results for a task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Results are returned newest-first.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Task identifier to query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of records to return (default: 10). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of results (may be empty if none are stored). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/scheduler/task_result_store.h" line="93" column="17" bodyfile="src/scheduler/task_result_store.cpp" bodystart="138" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_result_store_1a1c2d2cc3ad660ebcdd5e2f304aa9a38a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1scheduler_1_1_task_execution_result" kindref="compound">TaskExecutionResult</ref> &gt;</type>
+        <definition>std::optional&lt; TaskExecutionResult &gt; themis::scheduler::TaskResultStore::getLatestResult</definition>
+        <argsstring>(const std::string &amp;task_id) const</argsstring>
+        <name>getLatestResult</name>
+        <qualifiedname>themis::scheduler::TaskResultStore::getLatestResult</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <briefdescription>
+<para>Return the most-recent execution result for a task, if any. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Task identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Most-recent result, or std::nullopt if no results are stored. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/scheduler/task_result_store.h" line="102" column="19" bodyfile="src/scheduler/task_result_store.cpp" bodystart="172" bodyend="201"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_result_store_1a430e6f21f124eb32297a5ec01ced47e3" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::TaskResultStore::makeKey</definition>
+        <argsstring>(const std::string &amp;task_id, int64_t timestamp_ms)</argsstring>
+        <name>makeKey</name>
+        <qualifiedname>themis::scheduler::TaskResultStore::makeKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>timestamp_ms</declname>
+        </param>
+        <briefdescription>
+<para>Build the full RocksDB key for a result record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Build a zero-padded 20-digit decimal timestamp so keys sort chronologically.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timestamp_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::setw(), std::setfill(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_result_store.h" line="114" column="24" bodyfile="src/scheduler/task_result_store.cpp" bodystart="37" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_result_store_1a9193443e3fb3282f813953f0e66a0faa" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::TaskResultStore::makeTaskPrefix</definition>
+        <argsstring>(const std::string &amp;task_id)</argsstring>
+        <name>makeTaskPrefix</name>
+        <qualifiedname>themis::scheduler::TaskResultStore::makeTaskPrefix</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <briefdescription>
+<para>Build the prefix used to scan all results for a task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Make Task Prefix.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_result_store.h" line="117" column="24" bodyfile="src/scheduler/task_result_store.cpp" bodystart="51" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stores and retrieves scheduled task execution results in ThemisDB. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Key layout in RocksDB: <computeroutput>_sched_result/&lt;task_id&gt;/&lt;timestamp_ms_zero_padded_20&gt;</computeroutput></para>
+<para>This ordering lets us scan all results for a task via a prefix scan and retrieve the most-recent N entries with a reverse scan capped at <computeroutput>limit</computeroutput>. </para>
+    </detaileddescription>
+    <location file="include/scheduler/task_result_store.h" line="57" column="1" bodyfile="include/scheduler/task_result_store.h" bodystart="57" bodyend="118"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1scheduler_1_1_task_result_store_1a1c2d2cc3ad660ebcdd5e2f304aa9a38a" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskResultStore</scope><name>getLatestResult</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_result_store_1a6b0f2bcc7c67880ec01dd1fe742c3353" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskResultStore</scope><name>getResults</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_result_store_1ae8e23d79f10c4bd0c1d9c0a41b3ca095" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskResultStore</scope><name>kKeyPrefix</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_result_store_1a430e6f21f124eb32297a5ec01ced47e3" prot="private" virt="non-virtual"><scope>themis::scheduler::TaskResultStore</scope><name>makeKey</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_result_store_1a9193443e3fb3282f813953f0e66a0faa" prot="private" virt="non-virtual"><scope>themis::scheduler::TaskResultStore</scope><name>makeTaskPrefix</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_result_store_1aedfee48fa58b69969a1b6fb409f750ac" prot="private" virt="non-virtual"><scope>themis::scheduler::TaskResultStore</scope><name>max_per_task_</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_result_store_1a79581d4e8d7f8bc79714757d1b44bdd2" prot="private" virt="non-virtual"><scope>themis::scheduler::TaskResultStore</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_result_store_1a7e77f2340de16466d046f0e7ab3295d0" prot="private" virt="non-virtual"><scope>themis::scheduler::TaskResultStore</scope><name>storage_</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_result_store_1ae01063b0d9be0617d10d5a592dd5a9f7" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskResultStore</scope><name>store</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_result_store_1a5c46a06bbf06c462571dff23487f4fa5" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskResultStore</scope><name>TaskResultStore</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

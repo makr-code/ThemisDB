@@ -1,0 +1,967 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_timestamp_authority" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::TimestampAuthority</compoundname>
+    <includes refid="timestamp__authority_8h" local="no">timestamp_authority.h</includes>
+    <innerclass refid="classthemis_1_1security_1_1_timestamp_authority_1_1_impl" prot="public">themis::security::TimestampAuthority::Impl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1security_1_1_timestamp_authority_1ac0e896f11a8d47b41b0385be44f31c88" prot="public" static="no">
+        <type>std::function&lt; <ref refid="structthemis_1_1security_1_1_timestamp_token" kindref="compound">TimestampToken</ref>(const std::vector&lt; uint8_t &gt; &amp;hash, const <ref refid="structthemis_1_1security_1_1_t_s_a_config" kindref="compound">TSAConfig</ref> &amp;config)&gt;</type>
+        <definition>using themis::security::TimestampAuthority::GetTimestampForHashFn = 
+std::function&lt;TimestampToken(const std::vector&lt;uint8_t&gt;&amp; hash,
+                             const TSAConfig&amp; config)&gt;</definition>
+        <argsstring></argsstring>
+        <name>GetTimestampForHashFn</name>
+        <qualifiedname>themis::security::TimestampAuthority::GetTimestampForHashFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="147" column="5" bodyfile="include/security/timestamp_authority.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1security_1_1_timestamp_authority_1af22219079a4481e0fbb0144343525283" prot="public" static="no">
+        <type>std::function&lt; bool(const std::vector&lt; uint8_t &gt; &amp;hash, const <ref refid="structthemis_1_1security_1_1_timestamp_token" kindref="compound">TimestampToken</ref> &amp;token, const <ref refid="structthemis_1_1security_1_1_t_s_a_config" kindref="compound">TSAConfig</ref> &amp;config)&gt;</type>
+        <definition>using themis::security::TimestampAuthority::VerifyTimestampForHashFn = 
+std::function&lt;bool(const std::vector&lt;uint8_t&gt;&amp; hash,
+                   const TimestampToken&amp; token,
+                   const TSAConfig&amp; config)&gt;</definition>
+        <argsstring></argsstring>
+        <name>VerifyTimestampForHashFn</name>
+        <qualifiedname>themis::security::TimestampAuthority::VerifyTimestampForHashFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="150" column="5" bodyfile="include/security/timestamp_authority.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_timestamp_authority_1a8221c0b2c38a312f7612f56d0412a1d7" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1security_1_1_timestamp_authority_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::security::TimestampAuthority::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::security::TimestampAuthority::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="299" column="21" bodyfile="include/security/timestamp_authority.h" bodystart="299" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_timestamp_authority_1aa2110fbed993edcb3d64034a365afbca" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1security_1_1_t_s_a_config" kindref="compound">TSAConfig</ref></type>
+        <definition>TSAConfig themis::security::TimestampAuthority::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::security::TimestampAuthority::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="300" column="15" bodyfile="include/security/timestamp_authority.h" bodystart="300" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_timestamp_authority_1a890a4974d6dd24508ba146b87e7852a8" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::TimestampAuthority::last_error_</definition>
+        <argsstring></argsstring>
+        <name>last_error_</name>
+        <qualifiedname>themis::security::TimestampAuthority::last_error_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="301" column="17" bodyfile="include/security/timestamp_authority.h" bodystart="301" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_timestamp_authority_1a57447f6806e9ce9b3f550171b242f0a5" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::security::TimestampAuthority::cached_tsa_cert_</definition>
+        <argsstring></argsstring>
+        <name>cached_tsa_cert_</name>
+        <qualifiedname>themis::security::TimestampAuthority::cached_tsa_cert_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="302" column="17" bodyfile="include/security/timestamp_authority.h" bodystart="302" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_timestamp_authority_1ac54ebd7564f80cd6134f19e6bcbf2ebc" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::TimestampAuthority::TimestampAuthority</definition>
+        <argsstring>(TSAConfig config)</argsstring>
+        <name>TimestampAuthority</name>
+        <qualifiedname>themis::security::TimestampAuthority::TimestampAuthority</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1security_1_1_t_s_a_config" kindref="compound">TSAConfig</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Timestamp Authority. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="160" column="14" bodyfile="src/security/timestamp_authority.cpp" bodystart="156" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_timestamp_authority_1aaba9c90d3a071a26e66a6bc0a6628ac5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::TimestampAuthority::~TimestampAuthority</definition>
+        <argsstring>()</argsstring>
+        <name>~TimestampAuthority</name>
+        <qualifiedname>themis::security::TimestampAuthority::~TimestampAuthority</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="161" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_timestamp_authority_1ac89da96e008997ae8863847ae0ec00f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::TimestampAuthority::TimestampAuthority</definition>
+        <argsstring>(const TimestampAuthority &amp;)=delete</argsstring>
+        <name>TimestampAuthority</name>
+        <qualifiedname>themis::security::TimestampAuthority::TimestampAuthority</qualifiedname>
+        <param>
+          <type>const TimestampAuthority &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="164" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_timestamp_authority_1a43f3da068ecb41370bda2c9f856cc863" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_timestamp_authority_1ac54ebd7564f80cd6134f19e6bcbf2ebc" kindref="member">TimestampAuthority</ref> &amp;</type>
+        <definition>TimestampAuthority &amp; themis::security::TimestampAuthority::operator=</definition>
+        <argsstring>(const TimestampAuthority &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::security::TimestampAuthority::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1security_1_1_timestamp_authority_1ac54ebd7564f80cd6134f19e6bcbf2ebc" kindref="member">TimestampAuthority</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="165" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_timestamp_authority_1a83f535bff41c5d4fe130c01a4ad1834c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::TimestampAuthority::TimestampAuthority</definition>
+        <argsstring>(TimestampAuthority &amp;&amp;) noexcept</argsstring>
+        <name>TimestampAuthority</name>
+        <qualifiedname>themis::security::TimestampAuthority::TimestampAuthority</qualifiedname>
+        <param>
+          <type>TimestampAuthority &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="168" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_timestamp_authority_1a17a3d3e818a5eadd9e0889265cd0400b" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_timestamp_authority_1ac54ebd7564f80cd6134f19e6bcbf2ebc" kindref="member">TimestampAuthority</ref> &amp;</type>
+        <definition>TimestampAuthority &amp; themis::security::TimestampAuthority::operator=</definition>
+        <argsstring>(TimestampAuthority &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::security::TimestampAuthority::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1_timestamp_authority_1ac54ebd7564f80cd6134f19e6bcbf2ebc" kindref="member">TimestampAuthority</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="169" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_timestamp_authority_1adfe78c398cf1dceb41a3f65dfbad9ca7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_timestamp_token" kindref="compound">TimestampToken</ref></type>
+        <definition>TimestampToken themis::security::TimestampAuthority::getTimestamp</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>getTimestamp</name>
+        <qualifiedname>themis::security::TimestampAuthority::getTimestamp</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Get Timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get timestamp for data <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Data to timestamp (will be hashed internally) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Timestamp token</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), THEMIS_ERROR(), isProductionMode(), isStubAllowed(), makeProductionError(), THEMIS_WARN(), <ref refid="classthemis_1_1security_1_1_timestamp_authority_1ae78d37ceed776c860b9f77afba8bbc37" kindref="member">getTimestampForHash()</ref>, computeHash(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="177" column="20" bodyfile="src/security/timestamp_authority.cpp" bodystart="169" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_timestamp_authority_1ae78d37ceed776c860b9f77afba8bbc37" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_timestamp_token" kindref="compound">TimestampToken</ref></type>
+        <definition>TimestampToken themis::security::TimestampAuthority::getTimestampForHash</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;hash)</argsstring>
+        <name>getTimestampForHash</name>
+        <qualifiedname>themis::security::TimestampAuthority::getTimestampForHash</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>hash</declname>
+        </param>
+        <briefdescription>
+<para>Get Timestamp For Hash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get timestamp for pre-computed hash <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pre-computed hash (e.g., SHA-256) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Timestamp token</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), THEMIS_ERROR(), isProductionMode(), isStubAllowed(), makeProductionError(), lk(), TimestampAuthority::getTimestampForHashFnMutex(), TimestampAuthority::getTimestampForHashFnStorage(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="185" column="20" bodyfile="src/security/timestamp_authority.cpp" bodystart="198" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_timestamp_authority_1a08d44f4bbeec37d7051d830513d2af6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::TimestampAuthority::verifyTimestamp</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, const TimestampToken &amp;token)</argsstring>
+        <name>verifyTimestamp</name>
+        <qualifiedname>themis::security::TimestampAuthority::verifyTimestamp</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1security_1_1_timestamp_token" kindref="compound">TimestampToken</ref> &amp;</type>
+          <declname>token</declname>
+        </param>
+        <briefdescription>
+<para>Verify Timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify timestamp token against data <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original data </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Timestamp token to verify </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if valid, false otherwise</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), THEMIS_ERROR(), <ref refid="classthemis_1_1security_1_1_timestamp_authority_1af2d11b6d5fcdf18d2e0c5b03a3d41021" kindref="member">verifyTimestampForHash()</ref>, computeHash(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="194" column="10" bodyfile="src/security/timestamp_authority.cpp" bodystart="266" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_timestamp_authority_1af2d11b6d5fcdf18d2e0c5b03a3d41021" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::TimestampAuthority::verifyTimestampForHash</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;hash, const TimestampToken &amp;token)</argsstring>
+        <name>verifyTimestampForHash</name>
+        <qualifiedname>themis::security::TimestampAuthority::verifyTimestampForHash</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>hash</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1security_1_1_timestamp_token" kindref="compound">TimestampToken</ref> &amp;</type>
+          <declname>token</declname>
+        </param>
+        <briefdescription>
+<para>Verify Timestamp For Hash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify timestamp token against hash <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pre-computed hash </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Timestamp token to verify </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if valid, false otherwise</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), THEMIS_ERROR(), lk(), TimestampAuthority::verifyTimestampForHashFnMutex(), TimestampAuthority::verifyTimestampForHashFnStorage(), fn(), what(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="204" column="10" bodyfile="src/security/timestamp_authority.cpp" bodystart="281" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_timestamp_authority_1abdafbe3243351df3508420c7c87b8fb9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_timestamp_token" kindref="compound">TimestampToken</ref></type>
+        <definition>TimestampToken themis::security::TimestampAuthority::parseToken</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;token_data)</argsstring>
+        <name>parseToken</name>
+        <qualifiedname>themis::security::TimestampAuthority::parseToken</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>token_data</declname>
+        </param>
+        <briefdescription>
+<para>Parse Token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Parse timestamp token from DER or Base64 <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>token_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Token in DER format or Base64 string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Parsed timestamp token</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), THEMIS_WARN(), std::string(), hex(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="213" column="20" bodyfile="src/security/timestamp_authority.cpp" bodystart="312" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_timestamp_authority_1a61326e57dd5bf3e9e33a67289ecbb6c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_timestamp_token" kindref="compound">TimestampToken</ref></type>
+        <definition>TimestampToken themis::security::TimestampAuthority::parseToken</definition>
+        <argsstring>(const std::string &amp;token_b64)</argsstring>
+        <name>parseToken</name>
+        <qualifiedname>themis::security::TimestampAuthority::parseToken</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>token_b64</declname>
+        </param>
+        <briefdescription>
+<para>Parse Token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token_b64</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token_b64</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="219" column="20" bodyfile="src/security/timestamp_authority.cpp" bodystart="332" bodyend="343"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_timestamp_authority_1a84e78162b3a7f6ed01786942422c603f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::security::TimestampAuthority::getTSACertificate</definition>
+        <argsstring>()</argsstring>
+        <name>getTSACertificate</name>
+        <qualifiedname>themis::security::TimestampAuthority::getTSACertificate</qualifiedname>
+        <briefdescription>
+<para>Get TSACertificate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get TSA certificate <simplesect kind="return"><para>TSA certificate in PEM format, or empty optional if not available</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), isProductionMode(), isStubAllowed(), THEMIS_ERROR(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="226" column="19" bodyfile="src/security/timestamp_authority.cpp" bodystart="350" bodyend="362"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_timestamp_authority_1afb03f3f1d89f65b47c467b14e90fafec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::TimestampAuthority::isAvailable</definition>
+        <argsstring>()</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::security::TimestampAuthority::isAvailable</qualifiedname>
+        <briefdescription>
+<para>Is Available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if TSA is reachable <simplesect kind="return"><para>true if TSA responds, false otherwise</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements isAvailable without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="233" column="10" bodyfile="src/security/timestamp_authority.cpp" bodystart="368" bodyend="368"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_timestamp_authority_1a718476776b8c8cf860aabc3596cd09e2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::TimestampAuthority::getLastError</definition>
+        <argsstring>() const</argsstring>
+        <name>getLastError</name>
+        <qualifiedname>themis::security::TimestampAuthority::getLastError</qualifiedname>
+        <briefdescription>
+<para>Get Last Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get last error message <simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="240" column="17" bodyfile="src/security/timestamp_authority.cpp" bodystart="369" bodyend="369"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_timestamp_authority_1aaf4b39f7a41d0d41c39278fc174d544f" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::security::TimestampAuthority::setGetTimestampForHashFn</definition>
+        <argsstring>(GetTimestampForHashFn fn)</argsstring>
+        <name>setGetTimestampForHashFn</name>
+        <qualifiedname>themis::security::TimestampAuthority::setGetTimestampForHashFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1_timestamp_authority_1ac0e896f11a8d47b41b0385be44f31c88" kindref="member">GetTimestampForHashFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Register a stamping bridge for non-OpenSSL TSA builds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Thread-safe; pass an empty function to restore the deterministic fallback. Calls: lk(), getTimestampForHashFnMutex(), getTimestampForHashFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="247" column="17" bodyfile="include/security/timestamp_authority.h" bodystart="247" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_timestamp_authority_1af1f3adfed10c1791397208eb6868fe8b" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::security::TimestampAuthority::setVerifyTimestampForHashFn</definition>
+        <argsstring>(VerifyTimestampForHashFn fn)</argsstring>
+        <name>setVerifyTimestampForHashFn</name>
+        <qualifiedname>themis::security::TimestampAuthority::setVerifyTimestampForHashFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1_timestamp_authority_1af22219079a4481e0fbb0144343525283" kindref="member">VerifyTimestampForHashFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Register a verification bridge for non-OpenSSL TSA builds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Thread-safe; pass an empty function to restore the built-in fallback. Calls: lk(), verifyTimestampForHashFnMutex(), verifyTimestampForHashFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="256" column="17" bodyfile="include/security/timestamp_authority.h" bodystart="256" bodyend="259"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_timestamp_authority_1a57d505ed3c075b69851b68abdb8b4add" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::security::TimestampAuthority::getTimestampForHashFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>getTimestampForHashFnMutex</name>
+        <qualifiedname>themis::security::TimestampAuthority::getTimestampForHashFnMutex</qualifiedname>
+        <briefdescription>
+<para>Get Timestamp For Hash Fn Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getTimestampForHashFnMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="267" column="23" bodyfile="include/security/timestamp_authority.h" bodystart="267" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_timestamp_authority_1a29a833d19670adb55cc5e7f0068549e4" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_timestamp_authority_1ac0e896f11a8d47b41b0385be44f31c88" kindref="member">GetTimestampForHashFn</ref> &amp;</type>
+        <definition>static GetTimestampForHashFn &amp; themis::security::TimestampAuthority::getTimestampForHashFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>getTimestampForHashFnStorage</name>
+        <qualifiedname>themis::security::TimestampAuthority::getTimestampForHashFnStorage</qualifiedname>
+        <briefdescription>
+<para>Get Timestamp For Hash Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getTimestampForHashFnStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="276" column="34" bodyfile="include/security/timestamp_authority.h" bodystart="276" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_timestamp_authority_1aba316e4e42e292b643c8fc888624f298" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::security::TimestampAuthority::verifyTimestampForHashFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>verifyTimestampForHashFnMutex</name>
+        <qualifiedname>themis::security::TimestampAuthority::verifyTimestampForHashFnMutex</qualifiedname>
+        <briefdescription>
+<para>Verify Timestamp For Hash Fn Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements verifyTimestampForHashFnMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="285" column="23" bodyfile="include/security/timestamp_authority.h" bodystart="285" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_timestamp_authority_1a1525bcd97a05a3756e83ad4ade9b49e2" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_timestamp_authority_1af22219079a4481e0fbb0144343525283" kindref="member">VerifyTimestampForHashFn</ref> &amp;</type>
+        <definition>static VerifyTimestampForHashFn &amp; themis::security::TimestampAuthority::verifyTimestampForHashFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>verifyTimestampForHashFnStorage</name>
+        <qualifiedname>themis::security::TimestampAuthority::verifyTimestampForHashFnStorage</qualifiedname>
+        <briefdescription>
+<para>Verify Timestamp For Hash Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements verifyTimestampForHashFnStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="294" column="37" bodyfile="include/security/timestamp_authority.h" bodystart="294" bodyend="297"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_timestamp_authority_1a49e3261d97a9d925ebb7fa1f0d8e2bf9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::security::TimestampAuthority::createTSPRequest</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;hash, const std::vector&lt; uint8_t &gt; &amp;nonce)</argsstring>
+        <name>createTSPRequest</name>
+        <qualifiedname>themis::security::TimestampAuthority::createTSPRequest</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>hash</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>nonce</declname>
+        </param>
+        <briefdescription>
+<para>Helper: Create TSP request (RFC 3161). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create TSPRequest.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">nonce</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createTSPRequest without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="310" column="17" bodyfile="src/security/timestamp_authority.cpp" bodystart="379" bodyend="379"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_timestamp_authority_1ae5ccdaab52b2611b13bf0d02fa79fda0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_timestamp_token" kindref="compound">TimestampToken</ref></type>
+        <definition>TimestampToken themis::security::TimestampAuthority::parseTSPResponse</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;response)</argsstring>
+        <name>parseTSPResponse</name>
+        <qualifiedname>themis::security::TimestampAuthority::parseTSPResponse</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Helper: Parse TSP response. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Parse TSPResponse.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements parseTSPResponse without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="318" column="20" bodyfile="src/security/timestamp_authority.cpp" bodystart="386" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_timestamp_authority_1a8f32b0a3fee9dc57d3574387d22a56f5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::security::TimestampAuthority::sendTSPRequest</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;request)</argsstring>
+        <name>sendTSPRequest</name>
+        <qualifiedname>themis::security::TimestampAuthority::sendTSPRequest</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Helper: Send HTTP request to TSA. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Send TSPRequest.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements sendTSPRequest without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="325" column="17" bodyfile="src/security/timestamp_authority.cpp" bodystart="393" bodyend="393"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_timestamp_authority_1a09088efa47215fa0b56a7fc477c3c849" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::security::TimestampAuthority::generateNonce</definition>
+        <argsstring>(size_t bytes=8)</argsstring>
+        <name>generateNonce</name>
+        <qualifiedname>themis::security::TimestampAuthority::generateNonce</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+          <defval>8</defval>
+        </param>
+        <briefdescription>
+<para>Generate Nonce. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: max(), THEMIS_ERROR(), n(), RAND_bytes(), data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="328" column="17" bodyfile="src/security/timestamp_authority.cpp" bodystart="400" bodyend="424"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_timestamp_authority_1aa6eae2de32a32b3ac277d0c7d9dfb4f3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::security::TimestampAuthority::computeHash</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>computeHash</name>
+        <qualifiedname>themis::security::TimestampAuthority::computeHash</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Helper: Compute hash of data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute Hash.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: pseudo_hash(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="335" column="17" bodyfile="src/security/timestamp_authority.cpp" bodystart="431" bodyend="431"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Timestamp Authority Client</para>
+<para>Implements RFC 3161 Time-Stamp Protocol for obtaining cryptographic timestamps. </para>
+    </detaileddescription>
+    <location file="include/security/timestamp_authority.h" line="145" column="1" bodyfile="include/security/timestamp_authority.h" bodystart="145" bodyend="336"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_timestamp_authority_1a57447f6806e9ce9b3f550171b242f0a5" prot="private" virt="non-virtual"><scope>themis::security::TimestampAuthority</scope><name>cached_tsa_cert_</name></member>
+      <member refid="classthemis_1_1security_1_1_timestamp_authority_1aa6eae2de32a32b3ac277d0c7d9dfb4f3" prot="private" virt="non-virtual"><scope>themis::security::TimestampAuthority</scope><name>computeHash</name></member>
+      <member refid="classthemis_1_1security_1_1_timestamp_authority_1aa2110fbed993edcb3d64034a365afbca" prot="private" virt="non-virtual"><scope>themis::security::TimestampAuthority</scope><name>config_</name></member>
+      <member refid="classthemis_1_1security_1_1_timestamp_authority_1a49e3261d97a9d925ebb7fa1f0d8e2bf9" prot="private" virt="non-virtual"><scope>themis::security::TimestampAuthority</scope><name>createTSPRequest</name></member>
+      <member refid="classthemis_1_1security_1_1_timestamp_authority_1a09088efa47215fa0b56a7fc477c3c849" prot="private" virt="non-virtual"><scope>themis::security::TimestampAuthority</scope><name>generateNonce</name></member>
+      <member refid="classthemis_1_1security_1_1_timestamp_authority_1a718476776b8c8cf860aabc3596cd09e2" prot="public" virt="non-virtual"><scope>themis::security::TimestampAuthority</scope><name>getLastError</name></member>
+      <member refid="classthemis_1_1security_1_1_timestamp_authority_1adfe78c398cf1dceb41a3f65dfbad9ca7" prot="public" virt="non-virtual"><scope>themis::security::TimestampAuthority</scope><name>getTimestamp</name></member>
+      <member refid="classthemis_1_1security_1_1_timestamp_authority_1ae78d37ceed776c860b9f77afba8bbc37" prot="public" virt="non-virtual"><scope>themis::security::TimestampAuthority</scope><name>getTimestampForHash</name></member>
+      <member refid="classthemis_1_1security_1_1_timestamp_authority_1ac0e896f11a8d47b41b0385be44f31c88" prot="public" virt="non-virtual"><scope>themis::security::TimestampAuthority</scope><name>GetTimestampForHashFn</name></member>
+      <member refid="classthemis_1_1security_1_1_timestamp_authority_1a57d505ed3c075b69851b68abdb8b4add" prot="private" virt="non-virtual"><scope>themis::security::TimestampAuthority</scope><name>getTimestampForHashFnMutex</name></member>
+      <member refid="classthemis_1_1security_1_1_timestamp_authority_1a29a833d19670adb55cc5e7f0068549e4" prot="private" virt="non-virtual"><scope>themis::security::TimestampAuthority</scope><name>getTimestampForHashFnStorage</name></member>
+      <member refid="classthemis_1_1security_1_1_timestamp_authority_1a84e78162b3a7f6ed01786942422c603f" prot="public" virt="non-virtual"><scope>themis::security::TimestampAuthority</scope><name>getTSACertificate</name></member>
+      <member refid="classthemis_1_1security_1_1_timestamp_authority_1a8221c0b2c38a312f7612f56d0412a1d7" prot="private" virt="non-virtual"><scope>themis::security::TimestampAuthority</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1security_1_1_timestamp_authority_1afb03f3f1d89f65b47c467b14e90fafec" prot="public" virt="non-virtual"><scope>themis::security::TimestampAuthority</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1security_1_1_timestamp_authority_1a890a4974d6dd24508ba146b87e7852a8" prot="private" virt="non-virtual"><scope>themis::security::TimestampAuthority</scope><name>last_error_</name></member>
+      <member refid="classthemis_1_1security_1_1_timestamp_authority_1a43f3da068ecb41370bda2c9f856cc863" prot="public" virt="non-virtual"><scope>themis::security::TimestampAuthority</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1security_1_1_timestamp_authority_1a17a3d3e818a5eadd9e0889265cd0400b" prot="public" virt="non-virtual"><scope>themis::security::TimestampAuthority</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1security_1_1_timestamp_authority_1abdafbe3243351df3508420c7c87b8fb9" prot="public" virt="non-virtual"><scope>themis::security::TimestampAuthority</scope><name>parseToken</name></member>
+      <member refid="classthemis_1_1security_1_1_timestamp_authority_1a61326e57dd5bf3e9e33a67289ecbb6c2" prot="public" virt="non-virtual"><scope>themis::security::TimestampAuthority</scope><name>parseToken</name></member>
+      <member refid="classthemis_1_1security_1_1_timestamp_authority_1ae5ccdaab52b2611b13bf0d02fa79fda0" prot="private" virt="non-virtual"><scope>themis::security::TimestampAuthority</scope><name>parseTSPResponse</name></member>
+      <member refid="classthemis_1_1security_1_1_timestamp_authority_1a8f32b0a3fee9dc57d3574387d22a56f5" prot="private" virt="non-virtual"><scope>themis::security::TimestampAuthority</scope><name>sendTSPRequest</name></member>
+      <member refid="classthemis_1_1security_1_1_timestamp_authority_1aaf4b39f7a41d0d41c39278fc174d544f" prot="public" virt="non-virtual"><scope>themis::security::TimestampAuthority</scope><name>setGetTimestampForHashFn</name></member>
+      <member refid="classthemis_1_1security_1_1_timestamp_authority_1af1f3adfed10c1791397208eb6868fe8b" prot="public" virt="non-virtual"><scope>themis::security::TimestampAuthority</scope><name>setVerifyTimestampForHashFn</name></member>
+      <member refid="classthemis_1_1security_1_1_timestamp_authority_1ac54ebd7564f80cd6134f19e6bcbf2ebc" prot="public" virt="non-virtual"><scope>themis::security::TimestampAuthority</scope><name>TimestampAuthority</name></member>
+      <member refid="classthemis_1_1security_1_1_timestamp_authority_1ac89da96e008997ae8863847ae0ec00f7" prot="public" virt="non-virtual"><scope>themis::security::TimestampAuthority</scope><name>TimestampAuthority</name></member>
+      <member refid="classthemis_1_1security_1_1_timestamp_authority_1a83f535bff41c5d4fe130c01a4ad1834c" prot="public" virt="non-virtual"><scope>themis::security::TimestampAuthority</scope><name>TimestampAuthority</name></member>
+      <member refid="classthemis_1_1security_1_1_timestamp_authority_1a08d44f4bbeec37d7051d830513d2af6e" prot="public" virt="non-virtual"><scope>themis::security::TimestampAuthority</scope><name>verifyTimestamp</name></member>
+      <member refid="classthemis_1_1security_1_1_timestamp_authority_1af2d11b6d5fcdf18d2e0c5b03a3d41021" prot="public" virt="non-virtual"><scope>themis::security::TimestampAuthority</scope><name>verifyTimestampForHash</name></member>
+      <member refid="classthemis_1_1security_1_1_timestamp_authority_1af22219079a4481e0fbb0144343525283" prot="public" virt="non-virtual"><scope>themis::security::TimestampAuthority</scope><name>VerifyTimestampForHashFn</name></member>
+      <member refid="classthemis_1_1security_1_1_timestamp_authority_1aba316e4e42e292b643c8fc888624f298" prot="private" virt="non-virtual"><scope>themis::security::TimestampAuthority</scope><name>verifyTimestampForHashFnMutex</name></member>
+      <member refid="classthemis_1_1security_1_1_timestamp_authority_1a1525bcd97a05a3756e83ad4ade9b49e2" prot="private" virt="non-virtual"><scope>themis::security::TimestampAuthority</scope><name>verifyTimestampForHashFnStorage</name></member>
+      <member refid="classthemis_1_1security_1_1_timestamp_authority_1aaba9c90d3a071a26e66a6bc0a6628ac5" prot="public" virt="non-virtual"><scope>themis::security::TimestampAuthority</scope><name>~TimestampAuthority</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

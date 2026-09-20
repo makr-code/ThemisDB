@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_p_i_i_redaction_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::PIIRedactionResult</compoundname>
+    <includes refid="pii__redactor_8h" local="no">pii_redactor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_p_i_i_redaction_result_1a3a0141bcd66682e9f02a7428e2e87d14" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::PIIRedactionResult::redacted_text</definition>
+        <argsstring></argsstring>
+        <name>redacted_text</name>
+        <qualifiedname>themis::content::PIIRedactionResult::redacted_text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pii_redactor.h" line="82" column="26" bodyfile="include/content/pii_redactor.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_p_i_i_redaction_result_1a76212ffd9e7199c520fe025c058cf801" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1_p_i_i_match" kindref="compound">PIIMatch</ref> &gt;</type>
+        <definition>std::vector&lt;PIIMatch&gt; themis::content::PIIRedactionResult::detected</definition>
+        <argsstring></argsstring>
+        <name>detected</name>
+        <qualifiedname>themis::content::PIIRedactionResult::detected</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pii_redactor.h" line="83" column="17" bodyfile="include/content/pii_redactor.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_p_i_i_redaction_result_1a8e28ffc8888d2b7fa648f819092afb01" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::PIIRedactionResult::redaction_count</definition>
+        <argsstring></argsstring>
+        <name>redaction_count</name>
+        <qualifiedname>themis::content::PIIRedactionResult::redaction_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pii_redactor.h" line="84" column="26" bodyfile="include/content/pii_redactor.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/pii_redactor.h" line="81" column="1" bodyfile="include/content/pii_redactor.h" bodystart="81" bodyend="85"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_p_i_i_redaction_result_1a76212ffd9e7199c520fe025c058cf801" prot="public" virt="non-virtual"><scope>themis::content::PIIRedactionResult</scope><name>detected</name></member>
+      <member refid="structthemis_1_1content_1_1_p_i_i_redaction_result_1a3a0141bcd66682e9f02a7428e2e87d14" prot="public" virt="non-virtual"><scope>themis::content::PIIRedactionResult</scope><name>redacted_text</name></member>
+      <member refid="structthemis_1_1content_1_1_p_i_i_redaction_result_1a8e28ffc8888d2b7fa648f819092afb01" prot="public" virt="non-virtual"><scope>themis::content::PIIRedactionResult</scope><name>redaction_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

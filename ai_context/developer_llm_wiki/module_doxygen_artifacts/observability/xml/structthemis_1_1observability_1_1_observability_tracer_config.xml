@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_observability_tracer_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::ObservabilityTracerConfig</compoundname>
+    <includes refid="tracer_8h" local="no">tracer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_observability_tracer_config_1a32c8a3242f858baf396997d9a0dd7107" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::ObservabilityTracerConfig::service_name</definition>
+        <argsstring></argsstring>
+        <name>service_name</name>
+        <qualifiedname>themis::observability::ObservabilityTracerConfig::service_name</qualifiedname>
+        <initializer>= &quot;themisdb&quot;</initializer>
+        <briefdescription>
+<para>Logical service name embedded in every span (e.g. &quot;themisdb&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tracer.h" line="42" column="17" bodyfile="include/observability/tracer.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_observability_tracer_config_1a929b9a6aaddec3adfe7688eef73f5750" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::ObservabilityTracerConfig::endpoint</definition>
+        <argsstring></argsstring>
+        <name>endpoint</name>
+        <qualifiedname>themis::observability::ObservabilityTracerConfig::endpoint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>OTLP/HTTP exporter endpoint (e.g. &quot;http://otel-collector:4318&quot;). An empty string disables remote export; spans are tracked in-process only. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tracer.h" line="46" column="17" bodyfile="include/observability/tracer.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_observability_tracer_config_1a9e9c7d01f5851326a1295776d097c412" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::ObservabilityTracerConfig::sample_rate</definition>
+        <argsstring></argsstring>
+        <name>sample_rate</name>
+        <qualifiedname>themis::observability::ObservabilityTracerConfig::sample_rate</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+<para>Fraction of spans to sample [0.0, 1.0]. 1.0 = always-on. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tracer.h" line="49" column="12" bodyfile="include/observability/tracer.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_observability_tracer_config_1a9a2ec329523453001ad371e124c63efa" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::ObservabilityTracerConfig::max_retained_spans</definition>
+        <argsstring></argsstring>
+        <name>max_retained_spans</name>
+        <qualifiedname>themis::observability::ObservabilityTracerConfig::max_retained_spans</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of completed span records to retain in the in-process ring buffer. 0 disables in-process retention. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tracer.h" line="53" column="12" bodyfile="include/observability/tracer.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_observability_tracer_config_1a6f26409ae427752163f60b33b7532ebd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::ObservabilityTracerConfig::publish_metrics</definition>
+        <argsstring></argsstring>
+        <name>publish_metrics</name>
+        <qualifiedname>themis::observability::ObservabilityTracerConfig::publish_metrics</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>When true, publish span counters to <ref refid="classthemis_1_1observability_1_1_metrics_collector" kindref="compound">MetricsCollector</ref> on each startSpan. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tracer.h" line="56" column="10" bodyfile="include/observability/tracer.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_observability_tracer_config_1a5e2dcd82badc91cd1225b95f9447d6e9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::ObservabilityTracerConfig::attach_profile_on_span_end</definition>
+        <argsstring></argsstring>
+        <name>attach_profile_on_span_end</name>
+        <qualifiedname>themis::observability::ObservabilityTracerConfig::attach_profile_on_span_end</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When true and <computeroutput>profiler</computeroutput> is set, capture a CPU profile snapshot when a span ends. The snapshot&apos;s folded-stacks text is attached to the <ref refid="structthemis_1_1observability_1_1_span_record" kindref="compound">SpanRecord</ref> under the &quot;profile.cpu_folded&quot; attribute key so that flame graphs can be correlated with individual trace spans. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tracer.h" line="62" column="10" bodyfile="include/observability/tracer.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_observability_tracer_config_1a97d3fb31bec4f58e650d6bc852d33a97" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1observability_1_1_continuous_profiler" kindref="compound">ContinuousProfiler</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ContinuousProfiler&gt; themis::observability::ObservabilityTracerConfig::profiler</definition>
+        <argsstring></argsstring>
+        <name>profiler</name>
+        <qualifiedname>themis::observability::ObservabilityTracerConfig::profiler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Optional profiler that the tracer notifies on span end so that profiler snapshots can be correlated with trace spans. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tracer.h" line="66" column="21" bodyfile="include/observability/tracer.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1observability_1_1_observability_tracer" kindref="compound">ObservabilityTracer</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/tracer.h" line="40" column="1" bodyfile="include/observability/tracer.h" bodystart="40" bodyend="67"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_observability_tracer_config_1a5e2dcd82badc91cd1225b95f9447d6e9" prot="public" virt="non-virtual"><scope>themis::observability::ObservabilityTracerConfig</scope><name>attach_profile_on_span_end</name></member>
+      <member refid="structthemis_1_1observability_1_1_observability_tracer_config_1a929b9a6aaddec3adfe7688eef73f5750" prot="public" virt="non-virtual"><scope>themis::observability::ObservabilityTracerConfig</scope><name>endpoint</name></member>
+      <member refid="structthemis_1_1observability_1_1_observability_tracer_config_1a9a2ec329523453001ad371e124c63efa" prot="public" virt="non-virtual"><scope>themis::observability::ObservabilityTracerConfig</scope><name>max_retained_spans</name></member>
+      <member refid="structthemis_1_1observability_1_1_observability_tracer_config_1a97d3fb31bec4f58e650d6bc852d33a97" prot="public" virt="non-virtual"><scope>themis::observability::ObservabilityTracerConfig</scope><name>profiler</name></member>
+      <member refid="structthemis_1_1observability_1_1_observability_tracer_config_1a6f26409ae427752163f60b33b7532ebd" prot="public" virt="non-virtual"><scope>themis::observability::ObservabilityTracerConfig</scope><name>publish_metrics</name></member>
+      <member refid="structthemis_1_1observability_1_1_observability_tracer_config_1a9e9c7d01f5851326a1295776d097c412" prot="public" virt="non-virtual"><scope>themis::observability::ObservabilityTracerConfig</scope><name>sample_rate</name></member>
+      <member refid="structthemis_1_1observability_1_1_observability_tracer_config_1a32c8a3242f858baf396997d9a0dd7107" prot="public" virt="non-virtual"><scope>themis::observability::ObservabilityTracerConfig</scope><name>service_name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

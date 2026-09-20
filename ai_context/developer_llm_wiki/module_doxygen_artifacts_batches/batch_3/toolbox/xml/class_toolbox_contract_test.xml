@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_toolbox_contract_test" kind="class" language="C++" prot="public">
+    <compoundname>ToolboxContractTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_toolbox_contract_test_1aeb5e53ffb2c71d77ecb88fa6bca1dc69" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ToolboxContractTest::kSeed</definition>
+        <argsstring></argsstring>
+        <name>kSeed</name>
+        <qualifiedname>ToolboxContractTest::kSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_contract_hardening_focused.cpp" line="22" column="31" bodyfile="tests/toolbox/test_toolbox_contract_hardening_focused.cpp" bodystart="22" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_toolbox_contract_test_1ac1265f858a6b88c4990882ec302f1200" prot="protected" static="no" mutable="no">
+        <type>std::mt19937</type>
+        <definition>std::mt19937 ToolboxContractTest::rng_</definition>
+        <argsstring></argsstring>
+        <name>rng_</name>
+        <qualifiedname>ToolboxContractTest::rng_</qualifiedname>
+        <initializer>{<ref refid="class_toolbox_contract_test_1aeb5e53ffb2c71d77ecb88fa6bca1dc69" kindref="member">kSeed</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_contract_hardening_focused.cpp" line="23" column="18" bodyfile="tests/toolbox/test_toolbox_contract_hardening_focused.cpp" bodystart="23" bodyend="23"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ToolboxContractTest</label>
+        <link refid="class_toolbox_contract_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ToolboxContractTest</label>
+        <link refid="class_toolbox_contract_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/toolbox/test_toolbox_contract_hardening_focused.cpp" line="20" column="1" bodyfile="tests/toolbox/test_toolbox_contract_hardening_focused.cpp" bodystart="20" bodyend="24"/>
+    <listofallmembers>
+      <member refid="class_toolbox_contract_test_1aeb5e53ffb2c71d77ecb88fa6bca1dc69" prot="protected" virt="non-virtual"><scope>ToolboxContractTest</scope><name>kSeed</name></member>
+      <member refid="class_toolbox_contract_test_1ac1265f858a6b88c4990882ec302f1200" prot="protected" virt="non-virtual"><scope>ToolboxContractTest</scope><name>rng_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

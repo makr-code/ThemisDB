@@ -1,0 +1,354 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__server__dedicated__gates_8cpp" kind="file" language="C++">
+    <compoundname>bench_server_dedicated_gates.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">random</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/server/bench_server_dedicated_gates.cpp</label>
+        <link refid="bench__server__dedicated__gates_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>random</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>unordered_map</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_route_table" prot="public">themis::bench::srv_dg::BenchRouteTable</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_token_bucket" prot="public">themis::bench::srv_dg::BenchTokenBucket</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_wasm_sandbox" prot="public">themis::bench::srv_dg::BenchWasmSandbox</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_auth_validator" prot="public">themis::bench::srv_dg::BenchAuthValidator</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_auth_validator_1_1_token_claims" prot="public">themis::bench::srv_dg::BenchAuthValidator::TokenClaims</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1bench">themis::bench</innernamespace>
+    <innernamespace refid="namespacethemis_1_1bench_1_1srv__dg">themis::bench::srv_dg</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__server__dedicated__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_MAIN</definition>
+        <argsstring>()</argsstring>
+        <name>BENCHMARK_MAIN</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="242" column="1" declfile="benchmarks/server/bench_server_dedicated_gates.cpp" declline="242" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Wave D dedicated benchmark gates for the server module (SRV-BM-01..04). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides reproducible p95/p99 latency measurements for the four server paths identified as Wave D operability hardening targets in src/server/ROADMAP.md. All benchmarks use in-process stubs — no real network sockets are required.</para>
+<sect1 id="bench__server__dedicated__gates_8cpp_1autotoc_md0_1s1"><sect2 id="bench__server__dedicated__gates_8cpp_1autotoc_md0">
+<title>Gate table</title><para><table rows="5" cols="3"><row>
+<entry thead="yes"><para>Gate ID  </para>
+</entry><entry thead="yes"><para>Benchmark  </para>
+</entry><entry thead="yes"><para>Threshold  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>SRV-BM-01  </para>
+</entry><entry thead="no"><para>Route-dispatch overhead  </para>
+</entry><entry thead="no"><para>p95 ≤ 10 µs  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>SRV-BM-02  </para>
+</entry><entry thead="no"><para>Rate-limit check (per-client bucket)  </para>
+</entry><entry thead="no"><para>p95 ≤ 5 µs  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>SRV-BM-03  </para>
+</entry><entry thead="no"><para>WASM sandbox invoke (stub, no JIT)  </para>
+</entry><entry thead="no"><para>p99 ≤ 100 µs  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>SRV-BM-04  </para>
+</entry><entry thead="no"><para>Auth-token structural validation  </para>
+</entry><entry thead="no"><para>p95 ≤ 20 µs  </para>
+</entry></row>
+</table>
+</para>
+<para>All benchmarks:<itemizedlist>
+<listitem><para>Use kSrvDgSeed = 42 for deterministic data generation.</para>
+</listitem><listitem><para>Run with Repetitions(5) to capture variance.</para>
+</listitem><listitem><para>No real I/O, no real crypto — structural overhead only.</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para>src/server/ROADMAP.md — Wave D Contribution </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1bench" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1bench" kindref="compound">bench</ref><sp/>{</highlight></codeline>
+<codeline lineno="42" refid="namespacethemis_1_1bench_1_1srv__dg" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1bench_1_1srv__dg" kindref="compound">srv_dg</ref><sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::uint64_t<sp/>kSrvDgSeed<sp/><sp/><sp/><sp/><sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>kRepetitions<sp/><sp/><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>kRouteCount<sp/><sp/><sp/><sp/>=<sp/>1024;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>kClientCount<sp/><sp/><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>kWasmSlots<sp/><sp/><sp/><sp/><sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Stub:<sp/>route<sp/>table</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_route_table" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_route_table_1a170771273f6edaf3c9ccd45a18090c94" kindref="member">BenchRouteTable</ref><sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_route_table_1a170771273f6edaf3c9ccd45a18090c94" kindref="member">BenchRouteTable</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>table_.reserve(kRouteCount);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kRouteCount;<sp/>++i)</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>table_[</highlight><highlight class="stringliteral">&quot;route_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)]<sp/>=<sp/>i;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_route_table_1abce64222ab110a0cd4aded69e78b7349" kindref="member">lookup</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>r)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>table_.find(r)<sp/>!=<sp/>table_.end();</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>int&gt;<sp/>table_;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Stub:<sp/>per-client<sp/>token<sp/>bucket</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_token_bucket" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_token_bucket_1a4c9c6bfb5ba11cb5c4f43a44155b2180" kindref="member">BenchTokenBucket</ref><sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_token_bucket_1a4c9c6bfb5ba11cb5c4f43a44155b2180" kindref="member">BenchTokenBucket</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>cap)<sp/>:<sp/>cap_(cap),<sp/>tokens_(cap)<sp/>{}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_token_bucket_1a1ed4e038b93c5bb9e94c606c965a6426" kindref="member">consume</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(tokens_<sp/>&lt;=<sp/>0)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>--tokens_;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_token_bucket_1a1b26ffc5628e79954ddf12c4c8194c99" kindref="member">refill</ref>()<sp/>{<sp/>tokens_<sp/>=<sp/>cap_;<sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>cap_;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>tokens_;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Stub:<sp/>WASM<sp/>sandbox<sp/>(no<sp/>JIT<sp/>—<sp/>structural<sp/>dispatch<sp/>overhead<sp/>only)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_wasm_sandbox" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_wasm_sandbox" kindref="compound">BenchWasmSandbox</ref><sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_wasm_sandbox_1a0a3481fa4fa48eb111444b2673176ada" kindref="member">invoke</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>op_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/></highlight><highlight class="comment">/*data*/</highlight><highlight class="normal">,<sp/>std::size_t<sp/></highlight><highlight class="comment">/*len*/</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Structural<sp/>overhead:<sp/>bound-check<sp/>+<sp/>counter<sp/>update</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(op_id<sp/>&lt;<sp/>0<sp/>||<sp/>op_id<sp/>&gt;<sp/>255)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++calls_;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_wasm_sandbox_1a5597e7a774c8b57fa8aa3abce87c63b4" kindref="member">calls</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>calls_.load(std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;long&gt;<sp/>calls_{0};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Stub:<sp/>auth-token<sp/>structural<sp/>validator<sp/>(no<sp/>signature<sp/>crypto)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_auth_validator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_auth_validator" kindref="compound">BenchAuthValidator</ref><sp/>{</highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_auth_validator_1_1_token_claims" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_auth_validator_1_1_token_claims" kindref="compound">TokenClaims</ref><sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_auth_validator_1_1_token_claims_1ad93dd8c0ed9f234859a62318f5c8532d" kindref="member">sub</ref>;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_auth_validator_1_1_token_claims_1aec2bb22e8fd12101270033613b5e121e" kindref="member">iss</ref>;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::int64_t<sp/><ref refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_auth_validator_1_1_token_claims_1a0f2e0efc98142095f089a6e32dd75cb2" kindref="member">exp</ref>{0};</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_auth_validator_1_1_token_claims_1a7cb549125cbe03db53083328b318852c" kindref="member">valid</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_auth_validator_1_1_token_claims" kindref="compound">TokenClaims</ref><sp/><ref refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_auth_validator_1a7822e5abc35ac075dec9e8e1a5e740c4" kindref="member">validate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>token)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_auth_validator_1_1_token_claims" kindref="compound">TokenClaims</ref><sp/>c;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(token.size()<sp/>&lt;<sp/>10)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>c;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Structural<sp/>check:<sp/>three-segment<sp/>JWT<sp/>shape<sp/>(header.payload.sig)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>p1<sp/>=<sp/>token.find(</highlight><highlight class="charliteral">&apos;.&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>p2<sp/>=<sp/>(p1<sp/>!=<sp/>std::string::npos)<sp/>?<sp/>token.find(</highlight><highlight class="charliteral">&apos;.&apos;</highlight><highlight class="normal">,<sp/>p1<sp/>+<sp/>1)<sp/>:<sp/>std::string::npos;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(p1<sp/>==<sp/>std::string::npos<sp/>||<sp/>p2<sp/>==<sp/>std::string::npos)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>c;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_auth_validator_1_1_token_claims_1ad93dd8c0ed9f234859a62318f5c8532d" kindref="member">sub</ref><sp/><sp/><sp/>=<sp/>token.substr(0,<sp/>p1);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_auth_validator_1_1_token_claims_1aec2bb22e8fd12101270033613b5e121e" kindref="member">iss</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themis&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_auth_validator_1_1_token_claims_1a0f2e0efc98142095f089a6e32dd75cb2" kindref="member">exp</ref><sp/><sp/><sp/>=<sp/>9999999999LL;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_auth_validator_1_1_token_claims_1a7cb549125cbe03db53083328b318852c" kindref="member">valid</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>c;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixture<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>BenchRouteTable<sp/><sp/>g_routes;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>BenchWasmSandbox<sp/>g_sandbox;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>BenchAuthValidator<sp/>g_auth;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/>make_route_keys()<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng(kSrvDgSeed);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uniform_int_distribution&lt;int&gt;<sp/>dist(0,<sp/>kRouteCount<sp/>-<sp/>1);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>keys(1024);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>k<sp/>:<sp/>keys)<sp/>k<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;route_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(dist(rng));</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>keys;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/>g_route_keys<sp/>=<sp/>make_route_keys();</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;BenchTokenBucket&gt;<sp/>make_buckets()<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;BenchTokenBucket&gt;<sp/>b;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>b.reserve(kClientCount);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kClientCount;<sp/>++i)<sp/>b.emplace_back(100);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>b;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;BenchTokenBucket&gt;<sp/>g_buckets<sp/>=<sp/>make_buckets();</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/>make_tokens()<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>t(256);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>256;<sp/>++i)</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>t[</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i)]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;header_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.payload_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.signature_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>t;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/>g_tokens<sp/>=<sp/>make_tokens();</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SRV-BM-01<sp/>—<sp/>Route-dispatch<sp/>p95<sp/>≤<sp/>10<sp/>µs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_SRV_BM_01_RouteDispatch(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng(kSrvDgSeed<sp/>+<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1server_1_1perf_1_1test_1a5c004bd441643440e3b9c1acd292ec82" kindref="member">state</ref>.thread_index()));</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uniform_int_distribution&lt;std::size_t&gt;<sp/>dist(0,<sp/>g_route_keys.size()<sp/>-<sp/>1);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found<sp/>=<sp/>g_routes.lookup(g_route_keys[dist(rng)]);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(found);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1_1perf_1_1test_1a5c004bd441643440e3b9c1acd292ec82" kindref="member">state</ref>.SetLabel(</highlight><highlight class="stringliteral">&quot;SRV-BM-01:<sp/>route-dispatch<sp/>p95<sp/>gate<sp/>≤10µs&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><ref refid="bench__api__endpoints_8cpp_1a9dcb1088d0e7014ad8abbaed338bfe93" kindref="member">BENCHMARK</ref>(BM_SRV_BM_01_RouteDispatch)</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Threads(1);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SRV-BM-02<sp/>—<sp/>Rate-limit<sp/>check<sp/>p95<sp/>≤<sp/>5<sp/>µs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_SRV_BM_02_RateLimitCheck(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng(kSrvDgSeed<sp/>+<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1server_1_1perf_1_1test_1a5c004bd441643440e3b9c1acd292ec82" kindref="member">state</ref>.thread_index())<sp/>+<sp/>100);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uniform_int_distribution&lt;std::size_t&gt;<sp/>dist(0,<sp/>g_buckets.size()<sp/>-<sp/>1);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>iter<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Periodically<sp/>refill<sp/>to<sp/>keep<sp/>the<sp/>benchmark<sp/>exercising<sp/>both<sp/>branches</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((++iter<sp/>%<sp/>50)<sp/>==<sp/>0)<sp/>g_buckets[dist(rng)].refill();</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>g_buckets[dist(rng)].consume();</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(ok);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1_1perf_1_1test_1a5c004bd441643440e3b9c1acd292ec82" kindref="member">state</ref>.SetLabel(</highlight><highlight class="stringliteral">&quot;SRV-BM-02:<sp/>rate-limit<sp/>check<sp/>p95<sp/>gate<sp/>≤5µs&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><ref refid="bench__api__endpoints_8cpp_1a9dcb1088d0e7014ad8abbaed338bfe93" kindref="member">BENCHMARK</ref>(BM_SRV_BM_02_RateLimitCheck)</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Threads(1);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SRV-BM-03<sp/>—<sp/>WASM<sp/>sandbox<sp/>invoke<sp/>p99<sp/>≤<sp/>100<sp/>µs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_SRV_BM_03_WASMInvoke(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng(kSrvDgSeed<sp/>+<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1server_1_1perf_1_1test_1a5c004bd441643440e3b9c1acd292ec82" kindref="member">state</ref>.thread_index())<sp/>+<sp/>200);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uniform_int_distribution&lt;int&gt;<sp/>op_dist(0,<sp/>255);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/>kPayload(64,<sp/>0xAB);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>g_sandbox.invoke(op_dist(rng),<sp/>kPayload.data(),<sp/>kPayload.size());</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(ok);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1_1perf_1_1test_1a5c004bd441643440e3b9c1acd292ec82" kindref="member">state</ref>.SetLabel(</highlight><highlight class="stringliteral">&quot;SRV-BM-03:<sp/>WASM<sp/>invoke<sp/>p99<sp/>gate<sp/>≤100µs&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><ref refid="bench__api__endpoints_8cpp_1a9dcb1088d0e7014ad8abbaed338bfe93" kindref="member">BENCHMARK</ref>(BM_SRV_BM_03_WASMInvoke)</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Threads(1);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SRV-BM-04<sp/>—<sp/>Auth-token<sp/>validate<sp/>p95<sp/>≤<sp/>20<sp/>µs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_SRV_BM_04_AuthTokenValidate(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng(kSrvDgSeed<sp/>+<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1server_1_1perf_1_1test_1a5c004bd441643440e3b9c1acd292ec82" kindref="member">state</ref>.thread_index())<sp/>+<sp/>300);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uniform_int_distribution&lt;std::size_t&gt;<sp/>dist(0,<sp/>g_tokens.size()<sp/>-<sp/>1);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>claims<sp/>=<sp/>g_auth.validate(g_tokens[dist(rng)]);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(claims.valid);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1_1perf_1_1test_1a5c004bd441643440e3b9c1acd292ec82" kindref="member">state</ref>.SetLabel(</highlight><highlight class="stringliteral">&quot;SRV-BM-04:<sp/>auth-token<sp/>validate<sp/>p95<sp/>gate<sp/>≤20µs&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><ref refid="bench__api__endpoints_8cpp_1a9dcb1088d0e7014ad8abbaed338bfe93" kindref="member">BENCHMARK</ref>(BM_SRV_BM_04_AuthTokenValidate)</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Threads(1);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>srv_dg</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>bench</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><ref refid="bench__server__dedicated__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kindref="member">BENCHMARK_MAIN</ref>();</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/server/bench_server_dedicated_gates.cpp"/>
+  </compounddef>
+</doxygen>

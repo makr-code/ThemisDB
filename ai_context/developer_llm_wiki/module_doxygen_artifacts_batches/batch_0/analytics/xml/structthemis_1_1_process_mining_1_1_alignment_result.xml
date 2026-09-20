@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_process_mining_1_1_alignment_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ProcessMining::AlignmentResult</compoundname>
+    <includes refid="process__mining_8h" local="no">process_mining.h</includes>
+    <innerclass refid="structthemis_1_1_process_mining_1_1_alignment_result_1_1_move" prot="public">themis::ProcessMining::AlignmentResult::Move</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_process_mining_1_1_alignment_result_1a3b09742a520dd5e84f274fed9fddb33b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ProcessMining::AlignmentResult::fitness</definition>
+        <argsstring></argsstring>
+        <name>fitness</name>
+        <qualifiedname>themis::ProcessMining::AlignmentResult::fitness</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="295" column="16" bodyfile="include/analytics/process_mining.h" bodystart="295" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_mining_1_1_alignment_result_1a52414d30b2b36b38f1cded0303ed4b22" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ProcessMining::AlignmentResult::precision</definition>
+        <argsstring></argsstring>
+        <name>precision</name>
+        <qualifiedname>themis::ProcessMining::AlignmentResult::precision</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="296" column="16" bodyfile="include/analytics/process_mining.h" bodystart="296" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_mining_1_1_alignment_result_1a0053d783c94c8ef337e45c8bcd29dca5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; <ref refid="structthemis_1_1_process_mining_1_1_alignment_result_1_1_move" kindref="compound">Move</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;Move&gt; &gt; themis::ProcessMining::AlignmentResult::alignments</definition>
+        <argsstring></argsstring>
+        <name>alignments</name>
+        <qualifiedname>themis::ProcessMining::AlignmentResult::alignments</qualifiedname>
+        <briefdescription>
+<para>Pro <ref refid="namespacethemis_1a48cf98b69027205b343edcec46ad6e7c" kindref="member">Trace</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="303" column="21" bodyfile="include/analytics/process_mining.h" bodystart="303" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/process_mining.h" line="294" column="5" bodyfile="include/analytics/process_mining.h" bodystart="294" bodyend="304"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_process_mining_1_1_alignment_result_1a0053d783c94c8ef337e45c8bcd29dca5" prot="public" virt="non-virtual"><scope>themis::ProcessMining::AlignmentResult</scope><name>alignments</name></member>
+      <member refid="structthemis_1_1_process_mining_1_1_alignment_result_1a3b09742a520dd5e84f274fed9fddb33b" prot="public" virt="non-virtual"><scope>themis::ProcessMining::AlignmentResult</scope><name>fitness</name></member>
+      <member refid="structthemis_1_1_process_mining_1_1_alignment_result_1a52414d30b2b36b38f1cded0303ed4b22" prot="public" virt="non-virtual"><scope>themis::ProcessMining::AlignmentResult</scope><name>precision</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

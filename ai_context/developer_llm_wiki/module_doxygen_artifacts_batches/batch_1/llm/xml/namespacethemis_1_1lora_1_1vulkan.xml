@@ -1,0 +1,2359 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1lora_1_1vulkan" kind="namespace" language="C++">
+    <compoundname>themis::lora::vulkan</compoundname>
+    <innerclass refid="structthemis_1_1lora_1_1vulkan_1_1_elementwise_push_constants" prot="public">themis::lora::vulkan::ElementwisePushConstants</innerclass>
+    <innerclass refid="structthemis_1_1lora_1_1vulkan_1_1_fused_backward_buffer_cache" prot="public">themis::lora::vulkan::FusedBackwardBufferCache</innerclass>
+    <innerclass refid="structthemis_1_1lora_1_1vulkan_1_1_fused_forward_buffer_cache" prot="public">themis::lora::vulkan::FusedForwardBufferCache</innerclass>
+    <innerclass refid="structthemis_1_1lora_1_1vulkan_1_1_matmul_push_constants" prot="public">themis::lora::vulkan::MatmulPushConstants</innerclass>
+    <innerclass refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_buffer" prot="public">themis::lora::vulkan::VulkanBuffer</innerclass>
+    <innerclass refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_compute_pipeline" prot="public">themis::lora::vulkan::VulkanComputePipeline</innerclass>
+    <innerclass refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_context" prot="public">themis::lora::vulkan::VulkanContext</innerclass>
+    <innerclass refid="structthemis_1_1lora_1_1vulkan_1_1_vulkan_state" prot="public">themis::lora::vulkan::VulkanState</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1lora_1_1vulkan_1a93b28ec7607438b13a1190c2b4af41f6" prot="public" static="yes" mutable="no">
+        <type><ref refid="structthemis_1_1lora_1_1vulkan_1_1_vulkan_state" kindref="compound">VulkanState</ref></type>
+        <definition>VulkanState themis::lora::vulkan::g_vulkan_state</definition>
+        <argsstring></argsstring>
+        <name>g_vulkan_state</name>
+        <qualifiedname>themis::lora::vulkan::g_vulkan_state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="49" column="20" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1lora_1_1vulkan_1ab53a12a06b681f66306088192f037b0b" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::lora::vulkan::kVulkanStateLockTimeout</definition>
+        <argsstring></argsstring>
+        <name>kVulkanStateLockTimeout</name>
+        <qualifiedname>themis::lora::vulkan::kVulkanStateLockTimeout</qualifiedname>
+        <initializer>= std::chrono::seconds(30)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="50" column="16" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1lora_1_1vulkan_1a7bb15bd2f830bfcc216f21dc2ac3c113" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::lora::vulkan::kVulkanKernelWaitTimeoutNs</definition>
+        <argsstring></argsstring>
+        <name>kVulkanKernelWaitTimeoutNs</name>
+        <qualifiedname>themis::lora::vulkan::kVulkanKernelWaitTimeoutNs</qualifiedname>
+        <initializer>= 30000000000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="51" column="20" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1lora_1_1vulkan_1a66e0147a00bcb3641ca49fce69259c5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::lora::vulkan::initialize_vulkan_lora</definition>
+        <argsstring>(int device_id)</argsstring>
+        <name>initialize_vulkan_lora</name>
+        <qualifiedname>themis::lora::vulkan::initialize_vulkan_lora</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>device_id</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Initialize vulkan lora. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">device_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the device. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock_vulkan_state_or_throw(), initialize(), reset(), device_properties(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="423" column="6" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="423" bodyend="460" declfile="include/llm/lora_framework/vulkan_kernels.h" declline="22" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1lora_1_1vulkan_1ac9cb55969e6a7d4fe75afc538b9c0371" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::lora::vulkan::cleanup_vulkan_lora</definition>
+        <argsstring>()</argsstring>
+        <name>cleanup_vulkan_lora</name>
+        <qualifiedname>themis::lora::vulkan::cleanup_vulkan_lora</qualifiedname>
+        <briefdescription>
+<para>Cleanup vulkan lora. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock_vulkan_state_or_throw(), clear(), cleanup(), reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="466" column="6" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="466" bodyend="484" declfile="include/llm/lora_framework/vulkan_kernels.h" declline="27" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1lora_1_1vulkan_1a2cbf4c51d4abcd3b68cbfa7238f6a73d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::lora::vulkan::is_vulkan_available</definition>
+        <argsstring>()</argsstring>
+        <name>is_vulkan_available</name>
+        <qualifiedname>themis::lora::vulkan::is_vulkan_available</qualifiedname>
+        <briefdescription>
+<para>Is vulkan available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_context_1ae9194b5ef9b58c3801873801b8c5c916" kindref="member">VulkanContext::is_available()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="491" column="6" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="491" bodyend="493" declfile="include/llm/lora_framework/vulkan_kernels.h" declline="33" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1lora_1_1vulkan_1a4941a8f802b02bee34fd6f97ca9fd1bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::lora::vulkan::launch_matmul_shader</definition>
+        <argsstring>(const float *A, const float *B, float *C, int M, int N, int K, float alpha)</argsstring>
+        <name>launch_matmul_shader</name>
+        <qualifiedname>themis::lora::vulkan::launch_matmul_shader</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>B</declname>
+        </param>
+        <param>
+          <type>float *</type>
+          <declname>C</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>M</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>N</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>K</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>alpha</declname>
+          <defval>1.0f</defval>
+        </param>
+        <briefdescription>
+<para>Launch matmul shader. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">C</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">M</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">N</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">alpha</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock_vulkan_state_or_throw(), get_context_or_throw(), get_pipeline(), checked_float_bytes_2d(), buf_A(), buf_B(), buf_C(), upload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="619" column="6" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="619" bodyend="662" declfile="include/llm/lora_framework/vulkan_kernels.h" declline="35" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1lora_1_1vulkan_1a8ef18f1a1fc0ad29c2762bc7be8db7a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::lora::vulkan::launch_add_shader</definition>
+        <argsstring>(const float *A, const float *B, float *C, size_t size)</argsstring>
+        <name>launch_add_shader</name>
+        <qualifiedname>themis::lora::vulkan::launch_add_shader</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>B</declname>
+        </param>
+        <param>
+          <type>float *</type>
+          <declname>C</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Launch add shader. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">C</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">C</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock_vulkan_state_or_throw(), get_context_or_throw(), checked_u32_size(), get_pipeline(), checked_mul_size(), buf_A(), buf_B(), buf_C(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="673" column="6" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="673" bodyend="721" declfile="include/llm/lora_framework/vulkan_kernels.h" declline="46" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1lora_1_1vulkan_1ab67066ce6dd37169f1974b1ef484e4b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::lora::vulkan::launch_multiply_shader</definition>
+        <argsstring>(const float *A, const float *B, float *C, size_t size)</argsstring>
+        <name>launch_multiply_shader</name>
+        <qualifiedname>themis::lora::vulkan::launch_multiply_shader</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>B</declname>
+        </param>
+        <param>
+          <type>float *</type>
+          <declname>C</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Launch multiply shader. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">C</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">C</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock_vulkan_state_or_throw(), get_context_or_throw(), checked_u32_size(), get_pipeline(), checked_mul_size(), buf_A(), buf_B(), buf_C(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="732" column="6" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="732" bodyend="778" declfile="include/llm/lora_framework/vulkan_kernels.h" declline="55" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1lora_1_1vulkan_1a3f4be94aba7f128331e67d270072d232" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::lora::vulkan::launch_scalar_multiply_shader</definition>
+        <argsstring>(const float *A, float *B, float scalar, size_t size)</argsstring>
+        <name>launch_scalar_multiply_shader</name>
+        <qualifiedname>themis::lora::vulkan::launch_scalar_multiply_shader</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type>float *</type>
+          <declname>B</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>scalar</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Launch scalar multiply shader. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scalar</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scalar</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock_vulkan_state_or_throw(), get_context_or_throw(), std::isfinite(), checked_u32_size(), get_pipeline(), checked_mul_size(), buf_A(), buf_B(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="789" column="6" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="789" bodyend="837" declfile="include/llm/lora_framework/vulkan_kernels.h" declline="64" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1lora_1_1vulkan_1a43a728f3219595af5451f4542798537c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::lora::vulkan::launch_transpose_shader</definition>
+        <argsstring>(const float *input, float *output, int rows, int cols)</argsstring>
+        <name>launch_transpose_shader</name>
+        <qualifiedname>themis::lora::vulkan::launch_transpose_shader</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>float *</type>
+          <declname>output</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>rows</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>cols</declname>
+        </param>
+        <briefdescription>
+<para>Launch transpose shader. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cols</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cols</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock_vulkan_state_or_throw(), get_context_or_throw(), checked_mul_size(), checked_u32_size(), get_pipeline(), buf_input(), buf_output(), upload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="848" column="6" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="848" bodyend="894" declfile="include/llm/lora_framework/vulkan_kernels.h" declline="73" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1lora_1_1vulkan_1aeca963b601f6798dfdb7836dcd9bbc4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::lora::vulkan::launch_lora_grad_A_shader</definition>
+        <argsstring>(const float *h, const float *grad_output, float *grad_A, int M, int K, int N, float scaling)</argsstring>
+        <name>launch_lora_grad_A_shader</name>
+        <qualifiedname>themis::lora::vulkan::launch_lora_grad_A_shader</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>h</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>grad_output</declname>
+        </param>
+        <param>
+          <type>float *</type>
+          <declname>grad_A</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>M</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>K</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>N</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>scaling</declname>
+        </param>
+        <briefdescription>
+<para>Launch lora grad A shader. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">h</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">grad_output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">grad_A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">M</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">N</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scaling</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">h</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">grad_output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">grad_A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">M</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">N</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scaling</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock_vulkan_state_or_throw(), get_context_or_throw(), std::isfinite(), get_pipeline(), checked_float_bytes_2d(), buf_h(), buf_grad_output(), buf_grad_A(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="908" column="6" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="908" bodyend="972" declfile="include/llm/lora_framework/vulkan_kernels.h" declline="85" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1lora_1_1vulkan_1adef57e06655d033997dd2dbfd11540fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::lora::vulkan::launch_lora_grad_B_shader</definition>
+        <argsstring>(const float *input, const float *grad_h, float *grad_B, int M, int D, int K)</argsstring>
+        <name>launch_lora_grad_B_shader</name>
+        <qualifiedname>themis::lora::vulkan::launch_lora_grad_B_shader</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>grad_h</declname>
+        </param>
+        <param>
+          <type>float *</type>
+          <declname>grad_B</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>M</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>D</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>K</declname>
+        </param>
+        <briefdescription>
+<para>Launch lora grad B shader. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">grad_h</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">grad_B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">M</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">D</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">grad_h</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">grad_B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">M</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">D</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock_vulkan_state_or_throw(), get_context_or_throw(), get_pipeline(), checked_float_bytes_2d(), buf_input(), buf_grad_h(), buf_grad_B(), upload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="985" column="6" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="985" bodyend="1045" declfile="include/llm/lora_framework/vulkan_kernels.h" declline="98" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1lora_1_1vulkan_1afb52696b3cb4837c56742c907cc61d77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::lora::vulkan::launch_embedding_lookup_shader</definition>
+        <argsstring>(float *output, const float *token_ids, const float *embedding_weights, int batch_size, int seq_len, int hidden_dim, int vocab_size)</argsstring>
+        <name>launch_embedding_lookup_shader</name>
+        <qualifiedname>themis::lora::vulkan::launch_embedding_lookup_shader</qualifiedname>
+        <param>
+          <type>float *</type>
+          <declname>output</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>token_ids</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>embedding_weights</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>batch_size</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>seq_len</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>hidden_dim</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>vocab_size</declname>
+        </param>
+        <briefdescription>
+<para>Launch embedding lookup shader. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">token_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">embedding_weights</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">seq_len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hidden_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vocab_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">token_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">embedding_weights</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">seq_len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hidden_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vocab_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock_vulkan_state_or_throw(), get_context_or_throw(), checked_mul_size(), checked_u32_size(), get_pipeline(), buf_token_ids(), buf_embedding_weights(), buf_output(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="1059" column="6" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="1059" bodyend="1112" declfile="include/llm/lora_framework/vulkan_kernels.h" declline="112" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1lora_1_1vulkan_1a6d90d75886c51e45a399bf5fcf032aa2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::lora::vulkan::launch_sequence_mean_shader</definition>
+        <argsstring>(float *output, const float *input, int batch_size, int seq_len, int hidden_dim)</argsstring>
+        <name>launch_sequence_mean_shader</name>
+        <qualifiedname>themis::lora::vulkan::launch_sequence_mean_shader</qualifiedname>
+        <param>
+          <type>float *</type>
+          <declname>output</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>batch_size</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>seq_len</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>hidden_dim</declname>
+        </param>
+        <briefdescription>
+<para>Launch sequence mean shader. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">seq_len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hidden_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">seq_len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hidden_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock_vulkan_state_or_throw(), get_context_or_throw(), checked_mul_size(), checked_u32_size(), get_pipeline(), buf_input(), buf_output(), upload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="1124" column="6" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="1124" bodyend="1173" declfile="include/llm/lora_framework/vulkan_kernels.h" declline="129" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1lora_1_1vulkan_1a1103f6274b85b23c13049f741b9575e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::lora::vulkan::launch_fused_lora_forward</definition>
+        <argsstring>(const float *input, const float *B, const float *A, float *output, size_t batch_size, size_t in_dim, size_t rank, size_t out_dim, float scaling)</argsstring>
+        <name>launch_fused_lora_forward</name>
+        <qualifiedname>themis::lora::vulkan::launch_fused_lora_forward</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>B</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type>float *</type>
+          <declname>output</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>batch_size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>in_dim</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>rank</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>out_dim</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>scaling</declname>
+        </param>
+        <briefdescription>
+<para>============================================================================ Fused LoRA Kernels (Phase 4: Vulkan Backend) ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Launch fused lora forward.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">in_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rank</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">out_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scaling</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">in_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rank</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">out_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scaling</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::overflow_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock_vulkan_state_or_throw(), get_context_or_throw(), std::isfinite(), max(), checked_float_bytes_2d(), get_pipeline(), ensure(), upload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="1190" column="6" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="1190" bodyend="1250" declfile="include/llm/lora_framework/vulkan_kernels.h" declline="148" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1lora_1_1vulkan_1ab05b48188df7765192c24e54a66e4fb7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::lora::vulkan::launch_fused_lora_backward</definition>
+        <argsstring>(const float *input, const float *B, const float *A, const float *grad_output, float *grad_A, float *grad_B, float *grad_input, size_t batch_size, size_t in_dim, size_t rank, size_t out_dim, float scaling)</argsstring>
+        <name>launch_fused_lora_backward</name>
+        <qualifiedname>themis::lora::vulkan::launch_fused_lora_backward</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>B</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>grad_output</declname>
+        </param>
+        <param>
+          <type>float *</type>
+          <declname>grad_A</declname>
+        </param>
+        <param>
+          <type>float *</type>
+          <declname>grad_B</declname>
+        </param>
+        <param>
+          <type>float *</type>
+          <declname>grad_input</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>batch_size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>in_dim</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>rank</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>out_dim</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>scaling</declname>
+        </param>
+        <briefdescription>
+<para>Launch fused lora backward. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">grad_output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">grad_A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">grad_B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">grad_input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">in_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rank</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">out_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scaling</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">grad_output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">grad_A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">grad_B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">grad_input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">in_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rank</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">out_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scaling</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::overflow_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock_vulkan_state_or_throw(), get_context_or_throw(), std::isfinite(), max(), checked_float_bytes_2d(), get_pipeline(), ensure(), upload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="1270" column="6" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="1270" bodyend="1371" declfile="include/llm/lora_framework/vulkan_kernels.h" declline="175" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1lora_1_1vulkan_1a334960af76a18cb48dc24d2223b9ff1e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_lock&lt; std::recursive_timed_mutex &gt;</type>
+        <definition>static std::unique_lock&lt; std::recursive_timed_mutex &gt; themis::lora::vulkan::lock_vulkan_state_or_throw</definition>
+        <argsstring>()</argsstring>
+        <name>lock_vulkan_state_or_throw</name>
+        <qualifiedname>themis::lora::vulkan::lock_vulkan_state_or_throw</qualifiedname>
+        <briefdescription>
+<para>Lock vulkan state or throw. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), try_lock_for(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="59" column="25" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="59" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1lora_1_1vulkan_1accd81788427d24acc3bc9cda7b643816" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_context" kindref="compound">VulkanContext</ref> &amp;</type>
+        <definition>static VulkanContext &amp; themis::lora::vulkan::get_context_or_throw</definition>
+        <argsstring>()</argsstring>
+        <name>get_context_or_throw</name>
+        <qualifiedname>themis::lora::vulkan::get_context_or_throw</qualifiedname>
+        <briefdescription>
+<para>Get context or throw. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements get_context_or_throw without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="73" column="22" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="73" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1lora_1_1vulkan_1af80d6fb3b84cdb2498643191d2b53b97" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>static size_t themis::lora::vulkan::checked_mul_size</definition>
+        <argsstring>(size_t lhs, size_t rhs, const char *context)</argsstring>
+        <name>checked_mul_size</name>
+        <qualifiedname>themis::lora::vulkan::checked_mul_size</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>lhs</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>rhs</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Checked mul size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lhs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rhs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::overflow_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: max(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="89" column="15" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="89" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1lora_1_1vulkan_1afd5ee14989de4393796f5491ed431c6b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>static size_t themis::lora::vulkan::checked_float_bytes_2d</definition>
+        <argsstring>(size_t rows, size_t cols, const char *context)</argsstring>
+        <name>checked_float_bytes_2d</name>
+        <qualifiedname>themis::lora::vulkan::checked_float_bytes_2d</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>rows</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>cols</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Checked float bytes 2d. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cols</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: checked_mul_size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="104" column="15" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="104" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1lora_1_1vulkan_1a74bfb95b99e22a358600b44070b643ab" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>static uint32_t themis::lora::vulkan::checked_u32_size</definition>
+        <argsstring>(size_t value, const char *context)</argsstring>
+        <name>checked_u32_size</name>
+        <qualifiedname>themis::lora::vulkan::checked_u32_size</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Checked u32 size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::overflow_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: max(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="117" column="17" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="117" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1lora_1_1vulkan_1a7b55ce3744417056ca99671d329cf73a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::lora::vulkan::wait_for_pipeline_or_throw</definition>
+        <argsstring>(VulkanComputePipeline *pipeline, const char *context)</argsstring>
+        <name>wait_for_pipeline_or_throw</name>
+        <qualifiedname>themis::lora::vulkan::wait_for_pipeline_or_throw</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_compute_pipeline" kindref="compound">VulkanComputePipeline</ref> *</type>
+          <declname>pipeline</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Wait for pipeline or throw. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">pipeline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::string(), wait(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="132" column="13" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="132" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1lora_1_1vulkan_1ad960857a328efe111155bb363af8530a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>static uint32_t themis::lora::vulkan::float_to_bits</definition>
+        <argsstring>(float value)</argsstring>
+        <name>float_to_bits</name>
+        <qualifiedname>themis::lora::vulkan::float_to_bits</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Float to bits. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::memcpy(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="340" column="17" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="340" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1lora_1_1vulkan_1af0a236254764178f4655b463fd843240" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::lora::vulkan::get_shader_path</definition>
+        <argsstring>(const std::string &amp;shader_name)</argsstring>
+        <name>get_shader_path</name>
+        <qualifiedname>themis::lora::vulkan::get_shader_path</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shader_name</declname>
+        </param>
+        <briefdescription>
+<para>Helper function to get shader path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shader_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the shader. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::getenv(), push_back(), insert(), begin(), std::string(), file(), good(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="353" column="20" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="353" bodyend="415"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1lora_1_1vulkan_1abe2d39a9dd05494fac9fd923114366ff" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_compute_pipeline" kindref="compound">VulkanComputePipeline</ref> *</type>
+        <definition>static VulkanComputePipeline * themis::lora::vulkan::get_pipeline</definition>
+        <argsstring>(const std::string &amp;name, size_t push_constant_size)</argsstring>
+        <name>get_pipeline</name>
+        <qualifiedname>themis::lora::vulkan::get_pipeline</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>push_constant_size</declname>
+        </param>
+        <briefdescription>
+<para>Helper to get or create pipeline. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">push_constant_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock_vulkan_state_or_throw(), find(), end(), get(), get_shader_path(), create(), std::move(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="503" column="30" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="503" bodyend="534"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1lora_1_1vulkan_1a2b6e86cd9bc507326e1b7120a5ada7f6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::lora::vulkan::dispatch_matmul_device</definition>
+        <argsstring>(VulkanComputePipeline *pipeline, const VulkanBuffer &amp;buf_A, const VulkanBuffer &amp;buf_B, const VulkanBuffer &amp;buf_C, uint32_t M, uint32_t N, uint32_t K, float alpha)</argsstring>
+        <name>dispatch_matmul_device</name>
+        <qualifiedname>themis::lora::vulkan::dispatch_matmul_device</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_compute_pipeline" kindref="compound">VulkanComputePipeline</ref> *</type>
+          <declname>pipeline</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_buffer" kindref="compound">VulkanBuffer</ref> &amp;</type>
+          <declname>buf_A</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_buffer" kindref="compound">VulkanBuffer</ref> &amp;</type>
+          <declname>buf_B</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_buffer" kindref="compound">VulkanBuffer</ref> &amp;</type>
+          <declname>buf_C</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>M</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>N</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>K</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>alpha</declname>
+        </param>
+        <briefdescription>
+<para>Dispatch matmul device. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">pipeline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">buf_A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">buf_B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">buf_C</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">M</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">N</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">alpha</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: float_to_bits(), bind_buffer(), set_push_constants(), dispatch(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="548" column="13" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="548" bodyend="572"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1lora_1_1vulkan_1a2f6a9069cd9c106778df8d5d91bb9ed9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::lora::vulkan::dispatch_transpose_device</definition>
+        <argsstring>(VulkanComputePipeline *pipeline, const VulkanBuffer &amp;buf_input, const VulkanBuffer &amp;buf_output, uint32_t rows, uint32_t cols)</argsstring>
+        <name>dispatch_transpose_device</name>
+        <qualifiedname>themis::lora::vulkan::dispatch_transpose_device</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_compute_pipeline" kindref="compound">VulkanComputePipeline</ref> *</type>
+          <declname>pipeline</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_buffer" kindref="compound">VulkanBuffer</ref> &amp;</type>
+          <declname>buf_input</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_buffer" kindref="compound">VulkanBuffer</ref> &amp;</type>
+          <declname>buf_output</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>rows</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>cols</declname>
+        </param>
+        <briefdescription>
+<para>Dispatch transpose device. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">pipeline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">buf_input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">buf_output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cols</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: bind_buffer(), set_push_constants(), dispatch(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="583" column="13" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="583" bodyend="605"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/vulkan_buffer.h" line="111" column="1"/>
+  </compounddef>
+</doxygen>

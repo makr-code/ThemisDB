@@ -1,0 +1,271 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_kernel_timeout_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::KernelTimeoutGuard</compoundname>
+    <includes refid="gpu__safe__raii_8h" local="no">gpu_safe_raii.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_kernel_timeout_guard_1a68a8425cac62750869337d03a69c828c" prot="private" static="no" mutable="no">
+        <type><ref refid="gpu__batch__a9__safety_8hpp_1a17334a718f9e33ac9e3b937c3212c492" kindref="member">cudaStream_t</ref></type>
+        <definition>cudaStream_t themis::gpu::KernelTimeoutGuard::stream_</definition>
+        <argsstring></argsstring>
+        <name>stream_</name>
+        <qualifiedname>themis::gpu::KernelTimeoutGuard::stream_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_raii.h" line="202" column="18" bodyfile="include/gpu/gpu_safe_raii.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_kernel_timeout_guard_1aa45fae76104d4ba44d54805b046c5b17" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::gpu::KernelTimeoutGuard::timeout_ms_</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms_</name>
+        <qualifiedname>themis::gpu::KernelTimeoutGuard::timeout_ms_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_raii.h" line="203" column="14" bodyfile="include/gpu/gpu_safe_raii.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_kernel_timeout_guard_1ad424fd07a4302f23471303bb254d97ec" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::gpu::KernelTimeoutGuard::completed_</definition>
+        <argsstring></argsstring>
+        <name>completed_</name>
+        <qualifiedname>themis::gpu::KernelTimeoutGuard::completed_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_raii.h" line="204" column="17" bodyfile="include/gpu/gpu_safe_raii.h" bodystart="204" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_kernel_timeout_guard_1a79ad2d4beb550d459f7c2ffd73dc1d22" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::gpu::KernelTimeoutGuard::timed_out_</definition>
+        <argsstring></argsstring>
+        <name>timed_out_</name>
+        <qualifiedname>themis::gpu::KernelTimeoutGuard::timed_out_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_raii.h" line="205" column="17" bodyfile="include/gpu/gpu_safe_raii.h" bodystart="205" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_kernel_timeout_guard_1a0e472ba5e3431177ccbe83389fde0e5f" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::gpu::KernelTimeoutGuard::monitor_thread_</definition>
+        <argsstring></argsstring>
+        <name>monitor_thread_</name>
+        <qualifiedname>themis::gpu::KernelTimeoutGuard::monitor_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_raii.h" line="206" column="17" bodyfile="include/gpu/gpu_safe_raii.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_kernel_timeout_guard_1a06a3dd7557ba11ec78b64237059e9c04" prot="private" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::gpu::KernelTimeoutGuard::poll_interval_</definition>
+        <argsstring></argsstring>
+        <name>poll_interval_</name>
+        <qualifiedname>themis::gpu::KernelTimeoutGuard::poll_interval_</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_raii.h" line="207" column="31" bodyfile="include/gpu/gpu_safe_raii.h" bodystart="207" bodyend="207"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_timeout_guard_1aad986e28c53d3d07699f8d7d037e4a1c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::KernelTimeoutGuard::KernelTimeoutGuard</definition>
+        <argsstring>(cudaStream_t stream, uint32_t timeout_ms=10000)</argsstring>
+        <name>KernelTimeoutGuard</name>
+        <qualifiedname>themis::gpu::KernelTimeoutGuard::KernelTimeoutGuard</qualifiedname>
+        <param>
+          <type><ref refid="gpu__batch__a9__safety_8hpp_1a17334a718f9e33ac9e3b937c3212c492" kindref="member">cudaStream_t</ref></type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>timeout_ms</declname>
+          <defval>10000</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_raii.h" line="181" column="14" bodyfile="src/gpu/gpu_safe_raii.cpp" bodystart="49" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_timeout_guard_1a19b2809ce0e2a15033740212f45b7360" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::KernelTimeoutGuard::~KernelTimeoutGuard</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~KernelTimeoutGuard</name>
+        <qualifiedname>themis::gpu::KernelTimeoutGuard::~KernelTimeoutGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_raii.h" line="183" column="5" bodyfile="src/gpu/gpu_safe_raii.cpp" bodystart="55" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_timeout_guard_1a17aa38a654b0102086c9e608b4cd8a27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::KernelTimeoutGuard::KernelTimeoutGuard</definition>
+        <argsstring>(const KernelTimeoutGuard &amp;)=delete</argsstring>
+        <name>KernelTimeoutGuard</name>
+        <qualifiedname>themis::gpu::KernelTimeoutGuard::KernelTimeoutGuard</qualifiedname>
+        <param>
+          <type>const KernelTimeoutGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_raii.h" line="186" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_timeout_guard_1a96d96c8583f99cbe1be8a0ccdfc22fa4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_kernel_timeout_guard_1aad986e28c53d3d07699f8d7d037e4a1c" kindref="member">KernelTimeoutGuard</ref> &amp;</type>
+        <definition>KernelTimeoutGuard &amp; themis::gpu::KernelTimeoutGuard::operator=</definition>
+        <argsstring>(const KernelTimeoutGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::KernelTimeoutGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1gpu_1_1_kernel_timeout_guard_1aad986e28c53d3d07699f8d7d037e4a1c" kindref="member">KernelTimeoutGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_raii.h" line="187" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_timeout_guard_1a6cbe164f9a51cea5b730edd6cf263cc8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::KernelTimeoutGuard::KernelTimeoutGuard</definition>
+        <argsstring>(KernelTimeoutGuard &amp;&amp;)=delete</argsstring>
+        <name>KernelTimeoutGuard</name>
+        <qualifiedname>themis::gpu::KernelTimeoutGuard::KernelTimeoutGuard</qualifiedname>
+        <param>
+          <type>KernelTimeoutGuard &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_raii.h" line="190" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_timeout_guard_1adcb9189312f931834352df7234a9ef8c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_kernel_timeout_guard_1aad986e28c53d3d07699f8d7d037e4a1c" kindref="member">KernelTimeoutGuard</ref> &amp;</type>
+        <definition>KernelTimeoutGuard &amp; themis::gpu::KernelTimeoutGuard::operator=</definition>
+        <argsstring>(KernelTimeoutGuard &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::KernelTimeoutGuard::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_kernel_timeout_guard_1aad986e28c53d3d07699f8d7d037e4a1c" kindref="member">KernelTimeoutGuard</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_raii.h" line="191" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_timeout_guard_1a0646d192538d3ce78b1b8a9b7d06d60d" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::KernelTimeoutGuard::markCompleted</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>markCompleted</name>
+        <qualifiedname>themis::gpu::KernelTimeoutGuard::markCompleted</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_raii.h" line="193" column="10" bodyfile="include/gpu/gpu_safe_raii.h" bodystart="193" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_timeout_guard_1aab8fbfd5950ccef600de496df7f8b06c" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::KernelTimeoutGuard::didTimeout</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>didTimeout</name>
+        <qualifiedname>themis::gpu::KernelTimeoutGuard::didTimeout</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_raii.h" line="197" column="10" bodyfile="include/gpu/gpu_safe_raii.h" bodystart="197" bodyend="199"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_timeout_guard_1afa05035271f3cfe0ae1402f548beffe2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::KernelTimeoutGuard::monitorThread</definition>
+        <argsstring>()</argsstring>
+        <name>monitorThread</name>
+        <qualifiedname>themis::gpu::KernelTimeoutGuard::monitorThread</qualifiedname>
+        <briefdescription>
+<para>Monitor Thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::chrono::steady_clock::now(), load(), count(), store(), std::this_thread::sleep_for(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_raii.h" line="212" column="10" bodyfile="src/gpu/gpu_safe_raii.cpp" bodystart="66" bodyend="80"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/gpu/gpu_safe_raii.h" line="179" column="1" bodyfile="include/gpu/gpu_safe_raii.h" bodystart="179" bodyend="213"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_kernel_timeout_guard_1ad424fd07a4302f23471303bb254d97ec" prot="private" virt="non-virtual"><scope>themis::gpu::KernelTimeoutGuard</scope><name>completed_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_timeout_guard_1aab8fbfd5950ccef600de496df7f8b06c" prot="public" virt="non-virtual"><scope>themis::gpu::KernelTimeoutGuard</scope><name>didTimeout</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_timeout_guard_1aad986e28c53d3d07699f8d7d037e4a1c" prot="public" virt="non-virtual"><scope>themis::gpu::KernelTimeoutGuard</scope><name>KernelTimeoutGuard</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_timeout_guard_1a17aa38a654b0102086c9e608b4cd8a27" prot="public" virt="non-virtual"><scope>themis::gpu::KernelTimeoutGuard</scope><name>KernelTimeoutGuard</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_timeout_guard_1a6cbe164f9a51cea5b730edd6cf263cc8" prot="public" virt="non-virtual"><scope>themis::gpu::KernelTimeoutGuard</scope><name>KernelTimeoutGuard</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_timeout_guard_1a0646d192538d3ce78b1b8a9b7d06d60d" prot="public" virt="non-virtual"><scope>themis::gpu::KernelTimeoutGuard</scope><name>markCompleted</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_timeout_guard_1a0e472ba5e3431177ccbe83389fde0e5f" prot="private" virt="non-virtual"><scope>themis::gpu::KernelTimeoutGuard</scope><name>monitor_thread_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_timeout_guard_1afa05035271f3cfe0ae1402f548beffe2" prot="private" virt="non-virtual"><scope>themis::gpu::KernelTimeoutGuard</scope><name>monitorThread</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_timeout_guard_1a96d96c8583f99cbe1be8a0ccdfc22fa4" prot="public" virt="non-virtual"><scope>themis::gpu::KernelTimeoutGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_timeout_guard_1adcb9189312f931834352df7234a9ef8c" prot="public" virt="non-virtual"><scope>themis::gpu::KernelTimeoutGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_timeout_guard_1a06a3dd7557ba11ec78b64237059e9c04" prot="private" virt="non-virtual"><scope>themis::gpu::KernelTimeoutGuard</scope><name>poll_interval_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_timeout_guard_1a68a8425cac62750869337d03a69c828c" prot="private" virt="non-virtual"><scope>themis::gpu::KernelTimeoutGuard</scope><name>stream_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_timeout_guard_1a79ad2d4beb550d459f7c2ffd73dc1d22" prot="private" virt="non-virtual"><scope>themis::gpu::KernelTimeoutGuard</scope><name>timed_out_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_timeout_guard_1aa45fae76104d4ba44d54805b046c5b17" prot="private" virt="non-virtual"><scope>themis::gpu::KernelTimeoutGuard</scope><name>timeout_ms_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_timeout_guard_1a19b2809ce0e2a15033740212f45b7360" prot="public" virt="non-virtual"><scope>themis::gpu::KernelTimeoutGuard</scope><name>~KernelTimeoutGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

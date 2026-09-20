@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_shard_health_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::ShardHealthInfo</compoundname>
+    <includes refid="health__check_8h" local="no">health_check.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_health_info_1a1ba37b065add44b6179105e09df02296" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardHealthInfo::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::sharding::ShardHealthInfo::shard_id</qualifiedname>
+        <briefdescription>
+<para>Shard identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="38" column="17" bodyfile="include/sharding/health_check.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_health_info_1a164e217ce6eaf30449a237428cbfa96c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1ae1eab07d10949d0a0e025259600721f7" kindref="member">HealthStatus</ref></type>
+        <definition>HealthStatus themis::sharding::ShardHealthInfo::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::sharding::ShardHealthInfo::status</qualifiedname>
+        <briefdescription>
+<para>Current health severity classification. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="40" column="18" bodyfile="include/sharding/health_check.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_health_info_1ad8a50258d1022d8f8bebdfa5bd773ac7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::ShardHealthInfo::cert_valid</definition>
+        <argsstring></argsstring>
+        <name>cert_valid</name>
+        <qualifiedname>themis::sharding::ShardHealthInfo::cert_valid</qualifiedname>
+        <briefdescription>
+<para>True when certificate could be loaded and is not expired. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="42" column="10" bodyfile="include/sharding/health_check.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_health_info_1a6f21ec06d13ca7023dafcbd8cbda493f" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::sharding::ShardHealthInfo::cert_expiry_seconds</definition>
+        <argsstring></argsstring>
+        <name>cert_expiry_seconds</name>
+        <qualifiedname>themis::sharding::ShardHealthInfo::cert_expiry_seconds</qualifiedname>
+        <briefdescription>
+<para>Seconds remaining until certificate expiry (0 on invalid cert). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="44" column="13" bodyfile="include/sharding/health_check.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_health_info_1a12ef955f4dbd079afe34db183f20e510" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::ShardHealthInfo::storage_ok</definition>
+        <argsstring></argsstring>
+        <name>storage_ok</name>
+        <qualifiedname>themis::sharding::ShardHealthInfo::storage_ok</qualifiedname>
+        <briefdescription>
+<para>True when storage check request succeeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="46" column="10" bodyfile="include/sharding/health_check.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_health_info_1ab503a1fd9fbf8745e8e52159d7cb07ba" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::ShardHealthInfo::storage_usage_percent</definition>
+        <argsstring></argsstring>
+        <name>storage_usage_percent</name>
+        <qualifiedname>themis::sharding::ShardHealthInfo::storage_usage_percent</qualifiedname>
+        <briefdescription>
+<para>Storage usage percentage as reported or derived from metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="48" column="12" bodyfile="include/sharding/health_check.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_health_info_1a8686140957b2044cc4e022d0ef4eefa2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::ShardHealthInfo::network_ok</definition>
+        <argsstring></argsstring>
+        <name>network_ok</name>
+        <qualifiedname>themis::sharding::ShardHealthInfo::network_ok</qualifiedname>
+        <briefdescription>
+<para>True when network health probe succeeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="50" column="10" bodyfile="include/sharding/health_check.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_health_info_1ae8c6f8c94e860ae7dab40642d6d687eb" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::ShardHealthInfo::response_time_ms</definition>
+        <argsstring></argsstring>
+        <name>response_time_ms</name>
+        <qualifiedname>themis::sharding::ShardHealthInfo::response_time_ms</qualifiedname>
+        <briefdescription>
+<para>Measured health-probe response time in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="52" column="12" bodyfile="include/sharding/health_check.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_health_info_1a3e2485649ce15ef997da3f81fa3de26b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::ShardHealthInfo::warnings</definition>
+        <argsstring></argsstring>
+        <name>warnings</name>
+        <qualifiedname>themis::sharding::ShardHealthInfo::warnings</qualifiedname>
+        <briefdescription>
+<para>Non-fatal observations impacting health level. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="54" column="17" bodyfile="include/sharding/health_check.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_health_info_1a00913f9c8908171af2fd7ffeddb71b2b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::ShardHealthInfo::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::sharding::ShardHealthInfo::errors</qualifiedname>
+        <briefdescription>
+<para>Fatal observations causing unhealthy/critical state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="56" column="17" bodyfile="include/sharding/health_check.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Health snapshot for one shard endpoint. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/health_check.h" line="36" column="1" bodyfile="include/sharding/health_check.h" bodystart="36" bodyend="57"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_shard_health_info_1a6f21ec06d13ca7023dafcbd8cbda493f" prot="public" virt="non-virtual"><scope>themis::sharding::ShardHealthInfo</scope><name>cert_expiry_seconds</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_health_info_1ad8a50258d1022d8f8bebdfa5bd773ac7" prot="public" virt="non-virtual"><scope>themis::sharding::ShardHealthInfo</scope><name>cert_valid</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_health_info_1a00913f9c8908171af2fd7ffeddb71b2b" prot="public" virt="non-virtual"><scope>themis::sharding::ShardHealthInfo</scope><name>errors</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_health_info_1a8686140957b2044cc4e022d0ef4eefa2" prot="public" virt="non-virtual"><scope>themis::sharding::ShardHealthInfo</scope><name>network_ok</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_health_info_1ae8c6f8c94e860ae7dab40642d6d687eb" prot="public" virt="non-virtual"><scope>themis::sharding::ShardHealthInfo</scope><name>response_time_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_health_info_1a1ba37b065add44b6179105e09df02296" prot="public" virt="non-virtual"><scope>themis::sharding::ShardHealthInfo</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_health_info_1a164e217ce6eaf30449a237428cbfa96c" prot="public" virt="non-virtual"><scope>themis::sharding::ShardHealthInfo</scope><name>status</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_health_info_1a12ef955f4dbd079afe34db183f20e510" prot="public" virt="non-virtual"><scope>themis::sharding::ShardHealthInfo</scope><name>storage_ok</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_health_info_1ab503a1fd9fbf8745e8e52159d7cb07ba" prot="public" virt="non-virtual"><scope>themis::sharding::ShardHealthInfo</scope><name>storage_usage_percent</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_health_info_1a3e2485649ce15ef997da3f81fa3de26b" prot="public" virt="non-virtual"><scope>themis::sharding::ShardHealthInfo</scope><name>warnings</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1geo_1_1_intersects_filter" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::geo::IntersectsFilter</compoundname>
+    <basecompoundref refid="classthemis_1_1geo_1_1_i_spatial_join_filter" prot="public" virt="non-virtual">themis::geo::ISpatialJoinFilter</basecompoundref>
+    <includes refid="spatial__join__filter_8h" local="no">spatial_join_filter.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_intersects_filter_1ac779cc13e373ee76a23ef59c126d73e1" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::IntersectsFilter::matches</definition>
+        <argsstring>(const IGeoJSONGeometry &amp;a, const IGeoJSONGeometry &amp;b) const override</argsstring>
+        <name>matches</name>
+        <qualifiedname>themis::geo::IntersectsFilter::matches</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_spatial_join_filter_1a5bf70906dfdc5934ea6377aa01e9758c">matches</reimplements>
+        <param>
+          <type>const <ref refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry" kindref="compound">IGeoJSONGeometry</ref> &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry" kindref="compound">IGeoJSONGeometry</ref> &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/spatial_join_filter.h" line="43" column="11" bodyfile="src/geo/spatial_join_filter.cpp" bodystart="76" bodyend="78"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::geo::ISpatialJoinFilter</label>
+        <link refid="classthemis_1_1geo_1_1_i_spatial_join_filter"/>
+      </node>
+      <node id="1">
+        <label>themis::geo::IntersectsFilter</label>
+        <link refid="classthemis_1_1geo_1_1_intersects_filter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::geo::ISpatialJoinFilter</label>
+        <link refid="classthemis_1_1geo_1_1_i_spatial_join_filter"/>
+      </node>
+      <node id="1">
+        <label>themis::geo::IntersectsFilter</label>
+        <link refid="classthemis_1_1geo_1_1_intersects_filter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/geo/spatial_join_filter.h" line="41" column="1" bodyfile="include/geo/spatial_join_filter.h" bodystart="41" bodyend="45"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1geo_1_1_intersects_filter_1ac779cc13e373ee76a23ef59c126d73e1" prot="public" virt="virtual"><scope>themis::geo::IntersectsFilter</scope><name>matches</name></member>
+      <member refid="classthemis_1_1geo_1_1_i_spatial_join_filter_1ada2b261151f8bd9dc7d82edb21f9c41b" prot="public" virt="virtual"><scope>themis::geo::IntersectsFilter</scope><name>~ISpatialJoinFilter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

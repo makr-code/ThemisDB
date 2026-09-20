@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_intent_detector" kind="class" language="C++" prot="public">
+    <compoundname>MockIntentDetector</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_intent_detector_1a99b66ea2752febcf676278b34a9988e5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string MockIntentDetector::detectIntent</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;audio)</argsstring>
+        <name>detectIntent</name>
+        <qualifiedname>MockIntentDetector::detectIntent</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>audio</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_audio_preprocessing.cpp" line="93" column="17" bodyfile="benchmarks/voice/bench_voice_audio_preprocessing.cpp" bodystart="93" bodyend="98"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/voice/bench_voice_audio_preprocessing.cpp" line="90" column="1" bodyfile="benchmarks/voice/bench_voice_audio_preprocessing.cpp" bodystart="90" bodyend="99"/>
+    <listofallmembers>
+      <member refid="class_mock_intent_detector_1a99b66ea2752febcf676278b34a9988e5" prot="public" virt="non-virtual"><scope>MockIntentDetector</scope><name>detectIntent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

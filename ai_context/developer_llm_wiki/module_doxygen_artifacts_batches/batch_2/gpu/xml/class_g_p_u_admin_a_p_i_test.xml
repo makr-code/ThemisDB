@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_g_p_u_admin_a_p_i_test" kind="class" language="C++" prot="public">
+    <compoundname>GPUAdminAPITest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_g_p_u_admin_a_p_i_test_1a7947300e4081adfe182f6a4eb7ff5a06" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>GPUConfig</type>
+        <definition>GPUConfig GPUAdminAPITest::defaultConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>defaultConfig</name>
+        <qualifiedname>GPUAdminAPITest::defaultConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_admin_api.cpp" line="53" column="15" bodyfile="tests/gpu/test_gpu_admin_api.cpp" bodystart="53" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="class_g_p_u_admin_a_p_i_test_1afc832a2306d8d055444de734ab570f0d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GPUAdminAPITest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GPUAdminAPITest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_admin_api.cpp" line="59" column="10" bodyfile="tests/gpu/test_gpu_admin_api.cpp" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="class_g_p_u_admin_a_p_i_test_1aba439cb8576b87b002186a3f927d875c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GPUAdminAPITest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>GPUAdminAPITest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_admin_api.cpp" line="60" column="10" bodyfile="tests/gpu/test_gpu_admin_api.cpp" bodystart="60" bodyend="60"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GPUAdminAPITest</label>
+        <link refid="class_g_p_u_admin_a_p_i_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GPUAdminAPITest</label>
+        <link refid="class_g_p_u_admin_a_p_i_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_admin_api.cpp" line="51" column="1" bodyfile="tests/gpu/test_gpu_admin_api.cpp" bodystart="51" bodyend="61"/>
+    <listofallmembers>
+      <member refid="class_g_p_u_admin_a_p_i_test_1a7947300e4081adfe182f6a4eb7ff5a06" prot="protected" virt="non-virtual"><scope>GPUAdminAPITest</scope><name>defaultConfig</name></member>
+      <member refid="class_g_p_u_admin_a_p_i_test_1afc832a2306d8d055444de734ab570f0d" prot="protected" virt="non-virtual"><scope>GPUAdminAPITest</scope><name>SetUp</name></member>
+      <member refid="class_g_p_u_admin_a_p_i_test_1aba439cb8576b87b002186a3f927d875c" prot="protected" virt="non-virtual"><scope>GPUAdminAPITest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

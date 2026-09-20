@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_bridge_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::AdaLoraTTBridge::BridgeStats</compoundname>
+    <includes refid="adalora__tt__bridge_8h" local="no">adalora_tt_bridge.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_bridge_stats_1a7dfd715a948484ee741558495deb8921" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::training::AdaLoraTTBridge::BridgeStats::exports_total</definition>
+        <argsstring></argsstring>
+        <name>exports_total</name>
+        <qualifiedname>themis::training::AdaLoraTTBridge::BridgeStats::exports_total</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/adalora_tt_bridge.h" line="315" column="21" bodyfile="include/training/adalora_tt_bridge.h" bodystart="315" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_bridge_stats_1ab818cd5acbaaca8d59562a502e0aa802" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::training::AdaLoraTTBridge::BridgeStats::imports_total</definition>
+        <argsstring></argsstring>
+        <name>imports_total</name>
+        <qualifiedname>themis::training::AdaLoraTTBridge::BridgeStats::imports_total</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/adalora_tt_bridge.h" line="316" column="21" bodyfile="include/training/adalora_tt_bridge.h" bodystart="316" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_bridge_stats_1aa4841fa1f0a4be3de3fbdaa385af78cc" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::training::AdaLoraTTBridge::BridgeStats::stores_total</definition>
+        <argsstring></argsstring>
+        <name>stores_total</name>
+        <qualifiedname>themis::training::AdaLoraTTBridge::BridgeStats::stores_total</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/adalora_tt_bridge.h" line="317" column="21" bodyfile="include/training/adalora_tt_bridge.h" bodystart="317" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_bridge_stats_1ad062856b3a3cff2fdbaf082a8bd68a67" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::training::AdaLoraTTBridge::BridgeStats::dedup_hits</definition>
+        <argsstring></argsstring>
+        <name>dedup_hits</name>
+        <qualifiedname>themis::training::AdaLoraTTBridge::BridgeStats::dedup_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Layers deduplicated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/adalora_tt_bridge.h" line="318" column="21" bodyfile="include/training/adalora_tt_bridge.h" bodystart="318" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_bridge_stats_1a6d7b1f9991d3868de5db9bdf08f5381d" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::training::AdaLoraTTBridge::BridgeStats::orth_violations</definition>
+        <argsstring></argsstring>
+        <name>orth_violations</name>
+        <qualifiedname>themis::training::AdaLoraTTBridge::BridgeStats::orth_violations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Orthogonality check failures. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/adalora_tt_bridge.h" line="319" column="21" bodyfile="include/training/adalora_tt_bridge.h" bodystart="319" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_bridge_stats_1ac49d55f0021d75f8b60e1f2bdb1dff6a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::AdaLoraTTBridge::BridgeStats::avg_export_us</definition>
+        <argsstring></argsstring>
+        <name>avg_export_us</name>
+        <qualifiedname>themis::training::AdaLoraTTBridge::BridgeStats::avg_export_us</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/adalora_tt_bridge.h" line="320" column="21" bodyfile="include/training/adalora_tt_bridge.h" bodystart="320" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_bridge_stats_1a06402fbe116dc0a6bc876da9551648d3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::AdaLoraTTBridge::BridgeStats::avg_compression_ratio</definition>
+        <argsstring></argsstring>
+        <name>avg_compression_ratio</name>
+        <qualifiedname>themis::training::AdaLoraTTBridge::BridgeStats::avg_compression_ratio</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>TT vs. flat B+A matrices. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/adalora_tt_bridge.h" line="321" column="21" bodyfile="include/training/adalora_tt_bridge.h" bodystart="321" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/adalora_tt_bridge.h" line="314" column="5" bodyfile="include/training/adalora_tt_bridge.h" bodystart="314" bodyend="322"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_bridge_stats_1a06402fbe116dc0a6bc876da9551648d3" prot="public" virt="non-virtual"><scope>themis::training::AdaLoraTTBridge::BridgeStats</scope><name>avg_compression_ratio</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_bridge_stats_1ac49d55f0021d75f8b60e1f2bdb1dff6a" prot="public" virt="non-virtual"><scope>themis::training::AdaLoraTTBridge::BridgeStats</scope><name>avg_export_us</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_bridge_stats_1ad062856b3a3cff2fdbaf082a8bd68a67" prot="public" virt="non-virtual"><scope>themis::training::AdaLoraTTBridge::BridgeStats</scope><name>dedup_hits</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_bridge_stats_1a7dfd715a948484ee741558495deb8921" prot="public" virt="non-virtual"><scope>themis::training::AdaLoraTTBridge::BridgeStats</scope><name>exports_total</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_bridge_stats_1ab818cd5acbaaca8d59562a502e0aa802" prot="public" virt="non-virtual"><scope>themis::training::AdaLoraTTBridge::BridgeStats</scope><name>imports_total</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_bridge_stats_1a6d7b1f9991d3868de5db9bdf08f5381d" prot="public" virt="non-virtual"><scope>themis::training::AdaLoraTTBridge::BridgeStats</scope><name>orth_violations</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_bridge_stats_1aa4841fa1f0a4be3de3fbdaa385af78cc" prot="public" virt="non-virtual"><scope>themis::training::AdaLoraTTBridge::BridgeStats</scope><name>stores_total</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

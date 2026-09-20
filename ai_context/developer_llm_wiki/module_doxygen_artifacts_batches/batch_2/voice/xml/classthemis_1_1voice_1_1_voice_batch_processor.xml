@@ -1,0 +1,669 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_voice_batch_processor" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::VoiceBatchProcessor</compoundname>
+    <includes refid="voice__batch__processor_8h" local="no">voice_batch_processor.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_batch_processor_1a8d853376ef1e5dca14d3f3105071f139" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1voice_1_1_batch_processor_config" kindref="compound">BatchProcessorConfig</ref></type>
+        <definition>BatchProcessorConfig themis::voice::VoiceBatchProcessor::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::voice::VoiceBatchProcessor::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="157" column="26" bodyfile="include/voice/voice_batch_processor.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_batch_processor_1ae0315ed6990a1bd0de0bff66daef4408" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1voice_1_1_audio_preprocessing_pipeline" kindref="compound">AudioPreprocessingPipeline</ref></type>
+        <definition>AudioPreprocessingPipeline themis::voice::VoiceBatchProcessor::preprocessor_</definition>
+        <argsstring></argsstring>
+        <name>preprocessor_</name>
+        <qualifiedname>themis::voice::VoiceBatchProcessor::preprocessor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="158" column="32" bodyfile="include/voice/voice_batch_processor.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_batch_processor_1a2f4515dbf0440714bb0d0317fa0afa56" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; content::STTProcessor &gt;</type>
+        <definition>std::shared_ptr&lt;content::STTProcessor&gt; themis::voice::VoiceBatchProcessor::stt_processor_</definition>
+        <argsstring></argsstring>
+        <name>stt_processor_</name>
+        <qualifiedname>themis::voice::VoiceBatchProcessor::stt_processor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="159" column="21" bodyfile="include/voice/voice_batch_processor.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_batch_processor_1ad76bee490505d1f12f18ff853f1b0cc4" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::voice::VoiceBatchProcessor::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::voice::VoiceBatchProcessor::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="160" column="24" bodyfile="include/voice/voice_batch_processor.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_batch_processor_1a43c7ccab35280fc64d88a25a679a04fa" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::voice::VoiceBatchProcessor::jobs_submitted_</definition>
+        <argsstring></argsstring>
+        <name>jobs_submitted_</name>
+        <qualifiedname>themis::voice::VoiceBatchProcessor::jobs_submitted_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="162" column="17" bodyfile="include/voice/voice_batch_processor.h" bodystart="162" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_batch_processor_1a0af73a9762727252bc3825d8e62e0e80" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::voice::VoiceBatchProcessor::items_processed_</definition>
+        <argsstring></argsstring>
+        <name>items_processed_</name>
+        <qualifiedname>themis::voice::VoiceBatchProcessor::items_processed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="163" column="17" bodyfile="include/voice/voice_batch_processor.h" bodystart="163" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_batch_processor_1a2689ede04c36010d3d82a10f848b6b0b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::voice::VoiceBatchProcessor::items_failed_</definition>
+        <argsstring></argsstring>
+        <name>items_failed_</name>
+        <qualifiedname>themis::voice::VoiceBatchProcessor::items_failed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="164" column="17" bodyfile="include/voice/voice_batch_processor.h" bodystart="164" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_batch_processor_1abf723a8ddc39b06e93410b28fed379c4" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1voice_1_1_batch_summary" kindref="compound">BatchSummary</ref> &gt;</type>
+        <definition>std::map&lt;std::string, BatchSummary&gt; themis::voice::VoiceBatchProcessor::job_summaries_</definition>
+        <argsstring></argsstring>
+        <name>job_summaries_</name>
+        <qualifiedname>themis::voice::VoiceBatchProcessor::job_summaries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="166" column="14" bodyfile="include/voice/voice_batch_processor.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_batch_processor_1ab984442da51683a1d5b642d0acc0cbac" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::VoiceBatchProcessor::VoiceBatchProcessor</definition>
+        <argsstring>(const BatchProcessorConfig &amp;config={})</argsstring>
+        <name>VoiceBatchProcessor</name>
+        <qualifiedname>themis::voice::VoiceBatchProcessor::VoiceBatchProcessor</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1voice_1_1_batch_processor_config" kindref="compound">BatchProcessorConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="102" column="14" bodyfile="src/voice/voice_batch_processor.cpp" bodystart="41" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_batch_processor_1a9b0c72f0fd072c936cfec7da99a0aead" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::VoiceBatchProcessor::~VoiceBatchProcessor</definition>
+        <argsstring>()=default</argsstring>
+        <name>~VoiceBatchProcessor</name>
+        <qualifiedname>themis::voice::VoiceBatchProcessor::~VoiceBatchProcessor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="103" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_batch_processor_1a481ede58c4b38325e0028e3e28c03051" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceBatchProcessor::submitBatch</definition>
+        <argsstring>(const std::vector&lt; BatchAudioItem &gt; &amp;items, BatchProgressCallback progress_cb=nullptr)</argsstring>
+        <name>submitBatch</name>
+        <qualifiedname>themis::voice::VoiceBatchProcessor::submitBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1voice_1_1_batch_audio_item" kindref="compound">BatchAudioItem</ref> &gt; &amp;</type>
+          <declname>items</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1voice_1a68e1e0fdcbf6ef6b4baca1e8013cd171" kindref="member">BatchProgressCallback</ref></type>
+          <declname>progress_cb</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Submit Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">items</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">progress_cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="106" column="17" bodyfile="src/voice/voice_batch_processor.cpp" bodystart="63" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_batch_processor_1ab80075368b5db4969569d5d3f4c8dee2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1voice_1_1_batch_item_result" kindref="compound">BatchItemResult</ref> &gt;</type>
+        <definition>std::vector&lt; BatchItemResult &gt; themis::voice::VoiceBatchProcessor::processBatchSync</definition>
+        <argsstring>(const std::vector&lt; BatchAudioItem &gt; &amp;items, BatchProgressCallback progress_cb=nullptr)</argsstring>
+        <name>processBatchSync</name>
+        <qualifiedname>themis::voice::VoiceBatchProcessor::processBatchSync</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1voice_1_1_batch_audio_item" kindref="compound">BatchAudioItem</ref> &gt; &amp;</type>
+          <declname>items</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1voice_1a68e1e0fdcbf6ef6b4baca1e8013cd171" kindref="member">BatchProgressCallback</ref></type>
+          <declname>progress_cb</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Process Batch Sync. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">items</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">progress_cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="112" column="17" bodyfile="src/voice/voice_batch_processor.cpp" bodystart="133" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_batch_processor_1a1ff3aa23aa4888e59dee3cc6c82af8f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1_batch_item_result" kindref="compound">BatchItemResult</ref></type>
+        <definition>BatchItemResult themis::voice::VoiceBatchProcessor::processItem</definition>
+        <argsstring>(const BatchAudioItem &amp;item)</argsstring>
+        <name>processItem</name>
+        <qualifiedname>themis::voice::VoiceBatchProcessor::processItem</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1voice_1_1_batch_audio_item" kindref="compound">BatchAudioItem</ref> &amp;</type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+<para>Process Item. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">item</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: steady_clock::now(), lock(), empty(), process(), streamTranscribe(), std::move(), <ref refid="classthemis_1_1voice_1_1_voice_batch_processor_1a7826c475ffc175206149b26a2b40b340" kindref="member">computeQualityMetrics()</ref>, <ref refid="classthemis_1_1voice_1_1_voice_batch_processor_1a13a8ef8f302d25c5f80587dc4565eb02" kindref="member">computeWER()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="118" column="21" bodyfile="src/voice/voice_batch_processor.cpp" bodystart="173" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_batch_processor_1a7826c475ffc175206149b26a2b40b340" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1_audio_quality_metrics" kindref="compound">AudioQualityMetrics</ref></type>
+        <definition>AudioQualityMetrics themis::voice::VoiceBatchProcessor::computeQualityMetrics</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;audio_data, int sample_rate=16000) const</argsstring>
+        <name>computeQualityMetrics</name>
+        <qualifiedname>themis::voice::VoiceBatchProcessor::computeQualityMetrics</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>audio_data</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>sample_rate</declname>
+          <defval>16000</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="121" column="25" bodyfile="src/voice/voice_batch_processor.cpp" bodystart="236" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_batch_processor_1a13a8ef8f302d25c5f80587dc4565eb02" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::voice::VoiceBatchProcessor::computeWER</definition>
+        <argsstring>(const std::string &amp;reference, const std::string &amp;hypothesis) const</argsstring>
+        <name>computeWER</name>
+        <qualifiedname>themis::voice::VoiceBatchProcessor::computeWER</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reference</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>hypothesis</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="127" column="11" bodyfile="src/voice/voice_batch_processor.cpp" bodystart="282" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_batch_processor_1ab5a6b37ee2e3235422c660f8ad35da96" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::voice::VoiceBatchProcessor::estimatePESQ</definition>
+        <argsstring>(float snr_db) const</argsstring>
+        <name>estimatePESQ</name>
+        <qualifiedname>themis::voice::VoiceBatchProcessor::estimatePESQ</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>snr_db</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="130" column="11" bodyfile="src/voice/voice_batch_processor.cpp" bodystart="318" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_batch_processor_1a8e030eab47cac389328cdc691deb5a52" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::voice::VoiceBatchProcessor::estimateSNR</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;audio_data, int sample_rate) const</argsstring>
+        <name>estimateSNR</name>
+        <qualifiedname>themis::voice::VoiceBatchProcessor::estimateSNR</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>audio_data</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>sample_rate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="133" column="11" bodyfile="src/voice/voice_batch_processor.cpp" bodystart="331" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_batch_processor_1aa559a02fa4a6040dedfcb785d5c27825" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1_batch_summary" kindref="compound">BatchSummary</ref></type>
+        <definition>BatchSummary themis::voice::VoiceBatchProcessor::runLoadTest</definition>
+        <argsstring>(size_t num_concurrent, const BatchAudioItem &amp;template_item)</argsstring>
+        <name>runLoadTest</name>
+        <qualifiedname>themis::voice::VoiceBatchProcessor::runLoadTest</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>num_concurrent</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1voice_1_1_batch_audio_item" kindref="compound">BatchAudioItem</ref> &amp;</type>
+          <declname>template_item</declname>
+        </param>
+        <briefdescription>
+<para>Run Load Test. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">num_concurrent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">template_item</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="136" column="18" bodyfile="src/voice/voice_batch_processor.cpp" bodystart="360" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_batch_processor_1a1a5c95d00ba38c152b575157e2181306" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref></type>
+        <definition>json themis::voice::VoiceBatchProcessor::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::voice::VoiceBatchProcessor::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="142" column="10" bodyfile="src/voice/voice_batch_processor.cpp" bodystart="394" bodyend="400"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_batch_processor_1a9a932a9701ad03d86f197ba5eb82062f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1_batch_summary" kindref="compound">BatchSummary</ref></type>
+        <definition>BatchSummary themis::voice::VoiceBatchProcessor::getJobSummary</definition>
+        <argsstring>(const std::string &amp;job_id) const</argsstring>
+        <name>getJobSummary</name>
+        <qualifiedname>themis::voice::VoiceBatchProcessor::getJobSummary</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>job_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="143" column="18" bodyfile="src/voice/voice_batch_processor.cpp" bodystart="402" bodyend="417"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_batch_processor_1af32099d2b5bf60b7181d4f912850306a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::VoiceBatchProcessor::setSTTProcessor</definition>
+        <argsstring>(std::shared_ptr&lt; content::STTProcessor &gt; stt)</argsstring>
+        <name>setSTTProcessor</name>
+        <qualifiedname>themis::voice::VoiceBatchProcessor::setSTTProcessor</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; content::STTProcessor &gt;</type>
+          <declname>stt</declname>
+        </param>
+        <briefdescription>
+<para>Attach an STT processor for real-time streaming transcription. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set STTProcessor.</para>
+<para>When set, <computeroutput>processItem</computeroutput> will call <computeroutput>STTProcessor::streamTranscribe</computeroutput> on each audio item and populate <computeroutput><ref refid="structthemis_1_1voice_1_1_batch_item_result_1a571a5aa2888586c187cb87bc0189899a" kindref="member">BatchItemResult::transcript</ref></computeroutput> with the word-by-word result. Pass <computeroutput>nullptr</computeroutput> to detach.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Initialized STTProcessor instance, or nullptr to disable.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="154" column="10" bodyfile="src/voice/voice_batch_processor.cpp" bodystart="162" bodyend="165"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_batch_processor_1ad338bc475b0f3a5470b27825ed16e724" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceBatchProcessor::generateJobId</definition>
+        <argsstring>()</argsstring>
+        <name>generateJobId</name>
+        <qualifiedname>themis::voice::VoiceBatchProcessor::generateJobId</qualifiedname>
+        <briefdescription>
+<para>Generate Job Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::setfill(), std::setw(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="168" column="24" bodyfile="src/voice/voice_batch_processor.cpp" bodystart="49" bodyend="55"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_batch_processor_1a9b2e3b3e24f26189008151aca1bb5287" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::voice::VoiceBatchProcessor::tokenize</definition>
+        <argsstring>(const std::string &amp;text) const</argsstring>
+        <name>tokenize</name>
+        <qualifiedname>themis::voice::VoiceBatchProcessor::tokenize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Iss. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="169" column="17" bodyfile="src/voice/voice_batch_processor.cpp" bodystart="421" bodyend="446"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_batch_processor_1acf2918e5ca95990778812b342b756568" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::voice::VoiceBatchProcessor::computeRMS</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;samples) const</argsstring>
+        <name>computeRMS</name>
+        <qualifiedname>themis::voice::VoiceBatchProcessor::computeRMS</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>samples</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="170" column="11" bodyfile="src/voice/voice_batch_processor.cpp" bodystart="448" bodyend="457"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_batch_processor_1a5df6f6ea0c55656f1b04a85a4c529cb9" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::voice::VoiceBatchProcessor::computeNoiseFloor</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;samples, size_t window_size=800) const</argsstring>
+        <name>computeNoiseFloor</name>
+        <qualifiedname>themis::voice::VoiceBatchProcessor::computeNoiseFloor</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>samples</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>window_size</declname>
+          <defval>800</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="171" column="11" bodyfile="src/voice/voice_batch_processor.cpp" bodystart="459" bodyend="494"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_batch_processor_1a5a10dc7952be94ef896c6920a3019986" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::voice::VoiceBatchProcessor::rawToFloat</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data) const</argsstring>
+        <name>rawToFloat</name>
+        <qualifiedname>themis::voice::VoiceBatchProcessor::rawToFloat</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="172" column="17" bodyfile="src/voice/voice_batch_processor.cpp" bodystart="496" bodyend="519"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="classthemis_1_1voice_1_1_voice_batch_processor" kindref="compound">VoiceBatchProcessor</ref>: Phase 10 production component. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_batch_processor.h" line="100" column="1" bodyfile="include/voice/voice_batch_processor.h" bodystart="100" bodyend="173"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_voice_batch_processor_1a5df6f6ea0c55656f1b04a85a4c529cb9" prot="private" virt="non-virtual"><scope>themis::voice::VoiceBatchProcessor</scope><name>computeNoiseFloor</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_batch_processor_1a7826c475ffc175206149b26a2b40b340" prot="public" virt="non-virtual"><scope>themis::voice::VoiceBatchProcessor</scope><name>computeQualityMetrics</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_batch_processor_1acf2918e5ca95990778812b342b756568" prot="private" virt="non-virtual"><scope>themis::voice::VoiceBatchProcessor</scope><name>computeRMS</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_batch_processor_1a13a8ef8f302d25c5f80587dc4565eb02" prot="public" virt="non-virtual"><scope>themis::voice::VoiceBatchProcessor</scope><name>computeWER</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_batch_processor_1a8d853376ef1e5dca14d3f3105071f139" prot="private" virt="non-virtual"><scope>themis::voice::VoiceBatchProcessor</scope><name>config_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_batch_processor_1ab5a6b37ee2e3235422c660f8ad35da96" prot="public" virt="non-virtual"><scope>themis::voice::VoiceBatchProcessor</scope><name>estimatePESQ</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_batch_processor_1a8e030eab47cac389328cdc691deb5a52" prot="public" virt="non-virtual"><scope>themis::voice::VoiceBatchProcessor</scope><name>estimateSNR</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_batch_processor_1ad338bc475b0f3a5470b27825ed16e724" prot="private" virt="non-virtual"><scope>themis::voice::VoiceBatchProcessor</scope><name>generateJobId</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_batch_processor_1a9a932a9701ad03d86f197ba5eb82062f" prot="public" virt="non-virtual"><scope>themis::voice::VoiceBatchProcessor</scope><name>getJobSummary</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_batch_processor_1a1a5c95d00ba38c152b575157e2181306" prot="public" virt="non-virtual"><scope>themis::voice::VoiceBatchProcessor</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_batch_processor_1a2689ede04c36010d3d82a10f848b6b0b" prot="private" virt="non-virtual"><scope>themis::voice::VoiceBatchProcessor</scope><name>items_failed_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_batch_processor_1a0af73a9762727252bc3825d8e62e0e80" prot="private" virt="non-virtual"><scope>themis::voice::VoiceBatchProcessor</scope><name>items_processed_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_batch_processor_1abf723a8ddc39b06e93410b28fed379c4" prot="private" virt="non-virtual"><scope>themis::voice::VoiceBatchProcessor</scope><name>job_summaries_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_batch_processor_1a43c7ccab35280fc64d88a25a679a04fa" prot="private" virt="non-virtual"><scope>themis::voice::VoiceBatchProcessor</scope><name>jobs_submitted_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_batch_processor_1ad76bee490505d1f12f18ff853f1b0cc4" prot="private" virt="non-virtual"><scope>themis::voice::VoiceBatchProcessor</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_batch_processor_1ae0315ed6990a1bd0de0bff66daef4408" prot="private" virt="non-virtual"><scope>themis::voice::VoiceBatchProcessor</scope><name>preprocessor_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_batch_processor_1ab80075368b5db4969569d5d3f4c8dee2" prot="public" virt="non-virtual"><scope>themis::voice::VoiceBatchProcessor</scope><name>processBatchSync</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_batch_processor_1a1ff3aa23aa4888e59dee3cc6c82af8f0" prot="public" virt="non-virtual"><scope>themis::voice::VoiceBatchProcessor</scope><name>processItem</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_batch_processor_1a5a10dc7952be94ef896c6920a3019986" prot="private" virt="non-virtual"><scope>themis::voice::VoiceBatchProcessor</scope><name>rawToFloat</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_batch_processor_1aa559a02fa4a6040dedfcb785d5c27825" prot="public" virt="non-virtual"><scope>themis::voice::VoiceBatchProcessor</scope><name>runLoadTest</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_batch_processor_1af32099d2b5bf60b7181d4f912850306a" prot="public" virt="non-virtual"><scope>themis::voice::VoiceBatchProcessor</scope><name>setSTTProcessor</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_batch_processor_1a2f4515dbf0440714bb0d0317fa0afa56" prot="private" virt="non-virtual"><scope>themis::voice::VoiceBatchProcessor</scope><name>stt_processor_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_batch_processor_1a481ede58c4b38325e0028e3e28c03051" prot="public" virt="non-virtual"><scope>themis::voice::VoiceBatchProcessor</scope><name>submitBatch</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_batch_processor_1a9b2e3b3e24f26189008151aca1bb5287" prot="private" virt="non-virtual"><scope>themis::voice::VoiceBatchProcessor</scope><name>tokenize</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_batch_processor_1ab984442da51683a1d5b642d0acc0cbac" prot="public" virt="non-virtual"><scope>themis::voice::VoiceBatchProcessor</scope><name>VoiceBatchProcessor</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_batch_processor_1a9b0c72f0fd072c936cfec7da99a0aead" prot="public" virt="non-virtual"><scope>themis::voice::VoiceBatchProcessor</scope><name>~VoiceBatchProcessor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

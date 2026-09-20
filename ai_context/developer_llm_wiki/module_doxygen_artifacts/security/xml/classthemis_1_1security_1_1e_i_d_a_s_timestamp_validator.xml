@@ -1,0 +1,435 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1e_i_d_a_s_timestamp_validator" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::eIDASTimestampValidator</compoundname>
+    <includes refid="timestamp__authority_8h" local="no">timestamp_authority.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1security_1_1e_i_d_a_s_timestamp_validator_1a5df146eb7be7cb95a0c5c2546d6d471a" prot="public" static="no">
+        <type>std::function&lt; bool(const <ref refid="structthemis_1_1security_1_1_timestamp_token" kindref="compound">TimestampToken</ref> &amp;token, const std::vector&lt; std::string &gt; &amp;trust_anchors, std::vector&lt; std::string &gt; &amp;validation_errors)&gt;</type>
+        <definition>using themis::security::eIDASTimestampValidator::ValidateFn = std::function&lt;bool(const TimestampToken&amp; token,
+                                         const std::vector&lt;std::string&gt;&amp; trust_anchors,
+                                         std::vector&lt;std::string&gt;&amp; validation_errors)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ValidateFn</name>
+        <qualifiedname>themis::security::eIDASTimestampValidator::ValidateFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="351" column="5" bodyfile="include/security/timestamp_authority.h" bodystart="351" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1security_1_1e_i_d_a_s_timestamp_validator_1a47f4f57c5e5ebd56729474aed3764dd7" prot="public" static="no">
+        <type>std::function&lt; bool(const std::string &amp;tsa_cert, const std::vector&lt; std::string &gt; &amp;qtsp_list, std::vector&lt; std::string &gt; &amp;validation_errors)&gt;</type>
+        <definition>using themis::security::eIDASTimestampValidator::QualifiedTSAFn = std::function&lt;bool(const std::string&amp; tsa_cert,
+                                             const std::vector&lt;std::string&gt;&amp; qtsp_list,
+                                             std::vector&lt;std::string&gt;&amp; validation_errors)&gt;</definition>
+        <argsstring></argsstring>
+        <name>QualifiedTSAFn</name>
+        <qualifiedname>themis::security::eIDASTimestampValidator::QualifiedTSAFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="354" column="5" bodyfile="include/security/timestamp_authority.h" bodystart="354" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1e_i_d_a_s_timestamp_validator_1a437ca8ac576b060fbdef07699db1a880" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::security::eIDASTimestampValidator::validation_errors_</definition>
+        <argsstring></argsstring>
+        <name>validation_errors_</name>
+        <qualifiedname>themis::security::eIDASTimestampValidator::validation_errors_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="451" column="17" bodyfile="include/security/timestamp_authority.h" bodystart="451" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1e_i_d_a_s_timestamp_validator_1ac086d9338a58ff8ba4a3608f0c65a8ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::eIDASTimestampValidator::eIDASTimestampValidator</definition>
+        <argsstring>()=default</argsstring>
+        <name>eIDASTimestampValidator</name>
+        <qualifiedname>themis::security::eIDASTimestampValidator::eIDASTimestampValidator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="346" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1e_i_d_a_s_timestamp_validator_1a2ae32f7849dedc561293d573c85a06da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::eIDASTimestampValidator::validateeIDASTimestamp</definition>
+        <argsstring>(const TimestampToken &amp;token, const std::vector&lt; std::string &gt; &amp;trust_anchors)</argsstring>
+        <name>validateeIDASTimestamp</name>
+        <qualifiedname>themis::security::eIDASTimestampValidator::validateeIDASTimestamp</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1security_1_1_timestamp_token" kindref="compound">TimestampToken</ref> &amp;</type>
+          <declname>token</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>trust_anchors</declname>
+        </param>
+        <briefdescription>
+<para>Validatee IDASTimestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate timestamp for eIDAS compliance <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Timestamp token </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>trust_anchors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Trusted CA certificates (PEM) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if eIDAS-compliant, false otherwise</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">trust_anchors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: clear(), lk(), eIDASTimestampValidator::validateFnMutex(), eIDASTimestampValidator::validateFnStorage(), fn(), push_back(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="384" column="10" bodyfile="src/security/timestamp_authority.cpp" bodystart="461" bodyend="500"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1e_i_d_a_s_timestamp_validator_1a101fb4103cc3764781903eb0ab2361bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::eIDASTimestampValidator::validateAge</definition>
+        <argsstring>(const TimestampToken &amp;token, int max_age_days=10950)</argsstring>
+        <name>validateAge</name>
+        <qualifiedname>themis::security::eIDASTimestampValidator::validateAge</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1security_1_1_timestamp_token" kindref="compound">TimestampToken</ref> &amp;</type>
+          <declname>token</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_age_days</declname>
+          <defval>10950</defval>
+        </param>
+        <briefdescription>
+<para>Validate Age. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate timestamp age (for long-term validation) <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Timestamp token </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_age_days</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum age in days (eIDAS: 30 years = 10950 days) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if within acceptable age, false otherwise</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_age_days</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: clear(), push_back(), std::chrono::system_clock::now(), time_since_epoch(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="393" column="10" bodyfile="src/security/timestamp_authority.cpp" bodystart="509" bodyend="552"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1e_i_d_a_s_timestamp_validator_1a829d94178883a7a6ed503ab129995624" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::eIDASTimestampValidator::isQualifiedTSA</definition>
+        <argsstring>(const std::string &amp;tsa_cert, const std::vector&lt; std::string &gt; &amp;qtsp_list)</argsstring>
+        <name>isQualifiedTSA</name>
+        <qualifiedname>themis::security::eIDASTimestampValidator::isQualifiedTSA</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tsa_cert</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>qtsp_list</declname>
+        </param>
+        <briefdescription>
+<para>Is Qualified TSA. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if TSA is qualified (eIDAS QTSP) <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tsa_cert</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>TSA certificate (PEM) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>qtsp_list</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>List of qualified TSPs </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if qualified, false otherwise</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tsa_cert</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">qtsp_list</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: clear(), lk(), eIDASTimestampValidator::qualifiedTSAFnMutex(), eIDASTimestampValidator::qualifiedTSAFnStorage(), fn(), push_back(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="402" column="10" bodyfile="src/security/timestamp_authority.cpp" bodystart="561" bodyend="593"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1e_i_d_a_s_timestamp_validator_1a8d9e2a7ca1f94ff09cd56c35ce09a77d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::security::eIDASTimestampValidator::getValidationErrors</definition>
+        <argsstring>() const</argsstring>
+        <name>getValidationErrors</name>
+        <qualifiedname>themis::security::eIDASTimestampValidator::getValidationErrors</qualifiedname>
+        <briefdescription>
+<para>Get Validation Errors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get validation errors <simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="410" column="17" bodyfile="src/security/timestamp_authority.cpp" bodystart="595" bodyend="597"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1e_i_d_a_s_timestamp_validator_1a4f47d4a712aaf5bff7031a61e9c95238" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::security::eIDASTimestampValidator::setValidateFn</definition>
+        <argsstring>(ValidateFn fn)</argsstring>
+        <name>setValidateFn</name>
+        <qualifiedname>themis::security::eIDASTimestampValidator::setValidateFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1e_i_d_a_s_timestamp_validator_1a5df146eb7be7cb95a0c5c2546d6d471a" kindref="member">ValidateFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Validate Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), validateFnMutex(), validateFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="363" column="17" bodyfile="include/security/timestamp_authority.h" bodystart="363" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1e_i_d_a_s_timestamp_validator_1a24d1e1561e1d0898a95dcd6bb0894f93" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::security::eIDASTimestampValidator::setQualifiedTSAFn</definition>
+        <argsstring>(QualifiedTSAFn fn)</argsstring>
+        <name>setQualifiedTSAFn</name>
+        <qualifiedname>themis::security::eIDASTimestampValidator::setQualifiedTSAFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1e_i_d_a_s_timestamp_validator_1a47f4f57c5e5ebd56729474aed3764dd7" kindref="member">QualifiedTSAFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Qualified TSAFn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), qualifiedTSAFnMutex(), qualifiedTSAFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="372" column="17" bodyfile="include/security/timestamp_authority.h" bodystart="372" bodyend="375"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1e_i_d_a_s_timestamp_validator_1aea4b391d2716a84f7a74e6472533c357" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::security::eIDASTimestampValidator::validateFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>validateFnMutex</name>
+        <qualifiedname>themis::security::eIDASTimestampValidator::validateFnMutex</qualifiedname>
+        <briefdescription>
+<para>Validate Fn Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements validateFnMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="418" column="23" bodyfile="include/security/timestamp_authority.h" bodystart="418" bodyend="421"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1e_i_d_a_s_timestamp_validator_1aa5714da0273eec7a79008974c1f2de6b" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1e_i_d_a_s_timestamp_validator_1a5df146eb7be7cb95a0c5c2546d6d471a" kindref="member">ValidateFn</ref> &amp;</type>
+        <definition>static ValidateFn &amp; themis::security::eIDASTimestampValidator::validateFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>validateFnStorage</name>
+        <qualifiedname>themis::security::eIDASTimestampValidator::validateFnStorage</qualifiedname>
+        <briefdescription>
+<para>Validate Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements validateFnStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="427" column="23" bodyfile="include/security/timestamp_authority.h" bodystart="427" bodyend="430"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1e_i_d_a_s_timestamp_validator_1accb463a950bcee72fcc24d60c42c3805" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::security::eIDASTimestampValidator::qualifiedTSAFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>qualifiedTSAFnMutex</name>
+        <qualifiedname>themis::security::eIDASTimestampValidator::qualifiedTSAFnMutex</qualifiedname>
+        <briefdescription>
+<para>Qualified TSAFn Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements qualifiedTSAFnMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="436" column="23" bodyfile="include/security/timestamp_authority.h" bodystart="436" bodyend="439"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1e_i_d_a_s_timestamp_validator_1a289f21d4eec64dfdb801818a9ea88402" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1e_i_d_a_s_timestamp_validator_1a47f4f57c5e5ebd56729474aed3764dd7" kindref="member">QualifiedTSAFn</ref> &amp;</type>
+        <definition>static QualifiedTSAFn &amp; themis::security::eIDASTimestampValidator::qualifiedTSAFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>qualifiedTSAFnStorage</name>
+        <qualifiedname>themis::security::eIDASTimestampValidator::qualifiedTSAFnStorage</qualifiedname>
+        <briefdescription>
+<para>Qualified TSAFn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements qualifiedTSAFnStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="445" column="27" bodyfile="include/security/timestamp_authority.h" bodystart="445" bodyend="448"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>eIDAS Timestamp Validator</para>
+<para>Validates timestamps according to eIDAS requirements. Implements long-term validation (LTV) for archived timestamps. </para>
+    </detaileddescription>
+    <location file="include/security/timestamp_authority.h" line="344" column="1" bodyfile="include/security/timestamp_authority.h" bodystart="344" bodyend="452"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1e_i_d_a_s_timestamp_validator_1ac086d9338a58ff8ba4a3608f0c65a8ee" prot="public" virt="non-virtual"><scope>themis::security::eIDASTimestampValidator</scope><name>eIDASTimestampValidator</name></member>
+      <member refid="classthemis_1_1security_1_1e_i_d_a_s_timestamp_validator_1a8d9e2a7ca1f94ff09cd56c35ce09a77d" prot="public" virt="non-virtual"><scope>themis::security::eIDASTimestampValidator</scope><name>getValidationErrors</name></member>
+      <member refid="classthemis_1_1security_1_1e_i_d_a_s_timestamp_validator_1a829d94178883a7a6ed503ab129995624" prot="public" virt="non-virtual"><scope>themis::security::eIDASTimestampValidator</scope><name>isQualifiedTSA</name></member>
+      <member refid="classthemis_1_1security_1_1e_i_d_a_s_timestamp_validator_1a47f4f57c5e5ebd56729474aed3764dd7" prot="public" virt="non-virtual"><scope>themis::security::eIDASTimestampValidator</scope><name>QualifiedTSAFn</name></member>
+      <member refid="classthemis_1_1security_1_1e_i_d_a_s_timestamp_validator_1accb463a950bcee72fcc24d60c42c3805" prot="private" virt="non-virtual"><scope>themis::security::eIDASTimestampValidator</scope><name>qualifiedTSAFnMutex</name></member>
+      <member refid="classthemis_1_1security_1_1e_i_d_a_s_timestamp_validator_1a289f21d4eec64dfdb801818a9ea88402" prot="private" virt="non-virtual"><scope>themis::security::eIDASTimestampValidator</scope><name>qualifiedTSAFnStorage</name></member>
+      <member refid="classthemis_1_1security_1_1e_i_d_a_s_timestamp_validator_1a24d1e1561e1d0898a95dcd6bb0894f93" prot="public" virt="non-virtual"><scope>themis::security::eIDASTimestampValidator</scope><name>setQualifiedTSAFn</name></member>
+      <member refid="classthemis_1_1security_1_1e_i_d_a_s_timestamp_validator_1a4f47d4a712aaf5bff7031a61e9c95238" prot="public" virt="non-virtual"><scope>themis::security::eIDASTimestampValidator</scope><name>setValidateFn</name></member>
+      <member refid="classthemis_1_1security_1_1e_i_d_a_s_timestamp_validator_1a101fb4103cc3764781903eb0ab2361bc" prot="public" virt="non-virtual"><scope>themis::security::eIDASTimestampValidator</scope><name>validateAge</name></member>
+      <member refid="classthemis_1_1security_1_1e_i_d_a_s_timestamp_validator_1a2ae32f7849dedc561293d573c85a06da" prot="public" virt="non-virtual"><scope>themis::security::eIDASTimestampValidator</scope><name>validateeIDASTimestamp</name></member>
+      <member refid="classthemis_1_1security_1_1e_i_d_a_s_timestamp_validator_1a5df146eb7be7cb95a0c5c2546d6d471a" prot="public" virt="non-virtual"><scope>themis::security::eIDASTimestampValidator</scope><name>ValidateFn</name></member>
+      <member refid="classthemis_1_1security_1_1e_i_d_a_s_timestamp_validator_1aea4b391d2716a84f7a74e6472533c357" prot="private" virt="non-virtual"><scope>themis::security::eIDASTimestampValidator</scope><name>validateFnMutex</name></member>
+      <member refid="classthemis_1_1security_1_1e_i_d_a_s_timestamp_validator_1aa5714da0273eec7a79008974c1f2de6b" prot="private" virt="non-virtual"><scope>themis::security::eIDASTimestampValidator</scope><name>validateFnStorage</name></member>
+      <member refid="classthemis_1_1security_1_1e_i_d_a_s_timestamp_validator_1a437ca8ac576b060fbdef07699db1a880" prot="private" virt="non-virtual"><scope>themis::security::eIDASTimestampValidator</scope><name>validation_errors_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

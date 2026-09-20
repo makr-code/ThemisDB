@@ -1,0 +1,1009 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__ingestion__extraction_8cpp" kind="file" language="C++">
+    <compoundname>bench_ingestion_extraction.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes refid="deontic__extractor_8h" local="yes">ingestion/deontic_extractor.h</includes>
+    <includes refid="llm__adapter_8h" local="yes">ingestion/llm_adapter.h</includes>
+    <includes refid="filesystem__ingester_8h" local="yes">ingestion/filesystem_ingester.h</includes>
+    <includes refid="ingestion__coordinator_8h" local="yes">ingestion/ingestion_coordinator.h</includes>
+    <includes refid="ingestion__manager_8h" local="yes">ingestion/ingestion_manager.h</includes>
+    <includes local="no">cstdlib</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">random</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/ingestion/bench_ingestion_extraction.cpp</label>
+        <link refid="bench__ingestion__extraction_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>ingestion/base_entity.h</label>
+        <link refid="base__entity_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>ingestion/deontic_extractor.h</label>
+        <link refid="deontic__extractor_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>ingestion/extraction_context.h</label>
+        <link refid="extraction__context_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>ingestion/file_format.h</label>
+        <link refid="file__format_8h"/>
+      </node>
+      <node id="20">
+        <label>ingestion/file_manifest.h</label>
+        <link refid="file__manifest_8h"/>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>ingestion/filesystem_ingester.h</label>
+        <link refid="filesystem__ingester_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>ingestion/inference_backend.h</label>
+        <link refid="inference__backend_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>ingestion/ingestion_coordinator.h</label>
+        <link refid="ingestion__coordinator_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>ingestion_manager.h</label>
+        <link refid="ingestion__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>ingestion/ingestion_quality_judge.h</label>
+        <link refid="ingestion__quality__judge_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>ingestion/ingestion_step.h</label>
+        <link refid="ingestion__step_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>ingestion/llm_adapter.h</label>
+        <link refid="llm__adapter_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>ingestion/semantic_validator.h</label>
+        <link refid="semantic__validator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>ingestion/workflow_engine.h</label>
+        <link refid="workflow__engine_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="15">
+        <label>chrono</label>
+      </node>
+      <node id="31">
+        <label>condition_variable</label>
+      </node>
+      <node id="22">
+        <label>cstdint</label>
+      </node>
+      <node id="36">
+        <label>cstdlib</label>
+      </node>
+      <node id="32">
+        <label>deque</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="34">
+        <label>future</label>
+      </node>
+      <node id="33">
+        <label>map</label>
+      </node>
+      <node id="11">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="28">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="25">
+        <label>plugins/plugin_interface.h</label>
+      </node>
+      <node id="37">
+        <label>random</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="35">
+        <label>thread</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="14">
+        <label>utility</label>
+      </node>
+      <node id="27">
+        <label>utils/error_registry.h</label>
+      </node>
+      <node id="26">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_deontic_extraction_fixture" prot="public">DeonticExtractionFixture</innerclass>
+    <innerclass refid="class_llm_adapter_fixture" prot="public">LlmAdapterFixture</innerclass>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="bench__ingestion__extraction_8cpp_1a459c8c209283549d2e54692a7bfe82ee" prot="public" static="no">
+        <name>THEMIS_BENCH_STRINGIFY_INNER</name>
+        <param><defname>x</defname></param>
+        <initializer>#x</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_extraction.cpp" line="37" column="9" bodyfile="benchmarks/ingestion/bench_ingestion_extraction.cpp" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="bench__ingestion__extraction_8cpp_1ae0a43f617e38626029df8e19a2e85c83" prot="public" static="no">
+        <name>THEMIS_BENCH_STRINGIFY</name>
+        <param><defname>x</defname></param>
+        <initializer><ref refid="bench__ingestion__extraction_8cpp_1a459c8c209283549d2e54692a7bfe82ee" kindref="member">THEMIS_BENCH_STRINGIFY_INNER</ref>(x)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_extraction.cpp" line="38" column="9" bodyfile="benchmarks/ingestion/bench_ingestion_extraction.cpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="bench__ingestion__extraction_8cpp_1af1994717cb854a92cde650d970f32190" prot="public" static="yes" mutable="no">
+        <type>const std::vector&lt; std::string &gt;</type>
+        <definition>const std::vector&lt;std::string&gt; kLegalSentences</definition>
+        <argsstring></argsstring>
+        <name>kLegalSentences</name>
+        <initializer>                                         = {
+    &quot;Der Antragsteller muss das Formular vollständig ausfüllen.&quot;,
+    &quot;Die Behörde darf die Unterlagen anfordern.&quot;,
+    &quot;Es ist verboten, ohne Genehmigung zu handeln.&quot;,
+    &quot;Im Sinne dieses Gesetzes gilt als Unternehmen jede juristische Person.&quot;,
+    &quot;Wenn die Voraussetzungen erfüllt sind, wird die Genehmigung erteilt.&quot;,
+    &quot;Ausgenommen sind Betriebe mit weniger als zehn Beschäftigten.&quot;,
+    &quot;Gemäß § 3 Absatz 2 sind folgende Unterlagen einzureichen.&quot;,
+    &quot;Der Bescheid ist innerhalb von 30 Tagen zu erlassen.&quot;,
+    &quot;Die Behörde kann nach pflichtgemäßem Ermessen entscheiden.&quot;,
+    &quot;Die Genehmigung darf nicht übertragen werden.&quot;,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_extraction.cpp" line="65" column="26" bodyfile="benchmarks/ingestion/bench_ingestion_extraction.cpp" bodystart="65" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="variable" id="bench__ingestion__extraction_8cpp_1aa7ec0691dc005620f7230d210253262e" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string kLongLegalText</definition>
+        <argsstring></argsstring>
+        <name>kLongLegalText</name>
+        <initializer>                                        = []() {
+    std::string text = {};
+    text.reserve(kLegalSentences.size() * 120);
+    for (int i = 0; i &lt; 10; ++i) {
+        for (const auto&amp; s : kLegalSentences) {
+            text += s;
+            text += &quot; &quot;;
+        }
+    }
+    return text;
+}()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_extraction.cpp" line="78" column="26" bodyfile="benchmarks/ingestion/bench_ingestion_extraction.cpp" bodystart="78" bodyend="88"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__ingestion__extraction_8cpp_1af5ec56e05574f2bd37144bf9d835e5f5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string resolveCompileTimeLlmModelPath</definition>
+        <argsstring>()</argsstring>
+        <name>resolveCompileTimeLlmModelPath</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_extraction.cpp" line="40" column="20" bodyfile="benchmarks/ingestion/bench_ingestion_extraction.cpp" bodystart="40" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__ingestion__extraction_8cpp_1aabc32ef0da394cd02426ce2a3f30f511" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string resolveLlmModelPath</definition>
+        <argsstring>()</argsstring>
+        <name>resolveLlmModelPath</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_extraction.cpp" line="56" column="20" bodyfile="benchmarks/ingestion/bench_ingestion_extraction.cpp" bodystart="56" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__ingestion__extraction_8cpp_1a9c48c682a1d840287636fe641aa7b589" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(DeonticExtractionFixture, SingleSentence_Obligation)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_deontic_extraction_fixture" kindref="compound">DeonticExtractionFixture</ref></type>
+        </param>
+        <param>
+          <type>SingleSentence_Obligation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_extraction.cpp" line="107" column="1" bodyfile="benchmarks/ingestion/bench_ingestion_extraction.cpp" bodystart="107" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__ingestion__extraction_8cpp_1adc722264e46e7d56f9edee2c07e8b03a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(DeonticExtractionFixture, SingleSentence_AllCategories)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_deontic_extraction_fixture" kindref="compound">DeonticExtractionFixture</ref></type>
+        </param>
+        <param>
+          <type>SingleSentence_AllCategories</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_extraction.cpp" line="119" column="1" bodyfile="benchmarks/ingestion/bench_ingestion_extraction.cpp" bodystart="119" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__ingestion__extraction_8cpp_1a2f9a8ddfd73f5dd8029d6a35cfae737b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(DeonticExtractionFixture, BatchExtraction_Scaling)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_deontic_extraction_fixture" kindref="compound">DeonticExtractionFixture</ref></type>
+        </param>
+        <param>
+          <type>BatchExtraction_Scaling</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_extraction.cpp" line="135" column="1" bodyfile="benchmarks/ingestion/bench_ingestion_extraction.cpp" bodystart="135" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__ingestion__extraction_8cpp_1af1901861f0bf2a8367f11b03bb6926c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Arg</definition>
+        <argsstring>(1) -&gt; Arg(10) -&gt;Arg(100) -&gt;Arg(1000) -&gt;Unit(benchmark::kMicrosecond)</argsstring>
+        <name>Arg</name>
+        <param>
+          <type>1</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_extraction.cpp" line="158" column="5" declfile="benchmarks/ingestion/bench_ingestion_extraction.cpp" declline="158" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__ingestion__extraction_8cpp_1ae0dec8946f52ea34282db2bff8bcc5bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(DeonticExtractionFixture, LongText_MultiParagraph)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_deontic_extraction_fixture" kindref="compound">DeonticExtractionFixture</ref></type>
+        </param>
+        <param>
+          <type>LongText_MultiParagraph</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_extraction.cpp" line="163" column="1" bodyfile="benchmarks/ingestion/bench_ingestion_extraction.cpp" bodystart="163" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__ingestion__extraction_8cpp_1acf242e2143b27c6100346bf1d1213836" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(DeonticExtractionFixture, ExtractEntities_FullDocument)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_deontic_extraction_fixture" kindref="compound">DeonticExtractionFixture</ref></type>
+        </param>
+        <param>
+          <type>ExtractEntities_FullDocument</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_extraction.cpp" line="174" column="1" bodyfile="benchmarks/ingestion/bench_ingestion_extraction.cpp" bodystart="174" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__ingestion__extraction_8cpp_1ae9477e88705d586daf18c75e39c0c14d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(LlmAdapterFixture, BuildExtractorFn)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_llm_adapter_fixture" kindref="compound">LlmAdapterFixture</ref></type>
+        </param>
+        <param>
+          <type>BuildExtractorFn</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_extraction.cpp" line="203" column="1" bodyfile="benchmarks/ingestion/bench_ingestion_extraction.cpp" bodystart="203" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__ingestion__extraction_8cpp_1a127e4e242973255d8f8e80c7a8fbf1f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(LlmAdapterFixture, BuildExtractor_Factory)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_llm_adapter_fixture" kindref="compound">LlmAdapterFixture</ref></type>
+        </param>
+        <param>
+          <type>BuildExtractor_Factory</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_extraction.cpp" line="215" column="1" bodyfile="benchmarks/ingestion/bench_ingestion_extraction.cpp" bodystart="215" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__ingestion__extraction_8cpp_1a1c76fde2eec9ebe5daff0043c3948f24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(LlmAdapterFixture, ExtractorFn_Throughput)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_llm_adapter_fixture" kindref="compound">LlmAdapterFixture</ref></type>
+        </param>
+        <param>
+          <type>ExtractorFn_Throughput</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_extraction.cpp" line="225" column="1" bodyfile="benchmarks/ingestion/bench_ingestion_extraction.cpp" bodystart="225" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__ingestion__extraction_8cpp_1ac5a7698a368153a383c8205ae47082d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Arg</definition>
+        <argsstring>(100) -&gt; Arg(500) -&gt;Arg(1000) -&gt;Unit(benchmark::kMicrosecond)</argsstring>
+        <name>Arg</name>
+        <param>
+          <type>100</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_extraction.cpp" line="245" column="5" declfile="benchmarks/ingestion/bench_ingestion_extraction.cpp" declline="245" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__ingestion__extraction_8cpp_1a162aa6e0fd23e96ec789603eff9422d8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_DetectBinaryMimeType</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_DetectBinaryMimeType</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_extraction.cpp" line="250" column="13" bodyfile="benchmarks/ingestion/bench_ingestion_extraction.cpp" bodystart="250" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__ingestion__extraction_8cpp_1ab1a12b527ca53f6331913e38d6c13088" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_DetectBinaryMimeType)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_DetectBinaryMimeType</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_extraction.cpp" line="273" column="1" declfile="benchmarks/ingestion/bench_ingestion_extraction.cpp" declline="273" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__ingestion__extraction_8cpp_1ab2e73f47906702d2c92d961765a4c209" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_CheckpointStore</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_CheckpointStore</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_extraction.cpp" line="277" column="13" bodyfile="benchmarks/ingestion/bench_ingestion_extraction.cpp" bodystart="277" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__ingestion__extraction_8cpp_1a8c50abb1e6f394e1d3b8556d34ac83d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_CheckpointStore) -&gt; Arg(1) -&gt;Arg(4) -&gt;Arg(16) -&gt;Arg(64)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_CheckpointStore</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_extraction.cpp" line="300" column="1" declfile="benchmarks/ingestion/bench_ingestion_extraction.cpp" declline="300" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Extraction throughput and LLM-latency benchmarks for the ingestion module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Validates: INGESTION-PERF: Extraction throughput + LLM-latency benchmark</para>
+<para>Scenarios:<itemizedlist>
+<listitem><para><ref refid="classthemis_1_1ingestion_1_1_deontic_extractor" kindref="compound">DeonticExtractor</ref>: regex extraction throughput (single sentence)</para>
+</listitem><listitem><para><ref refid="classthemis_1_1ingestion_1_1_deontic_extractor" kindref="compound">DeonticExtractor</ref>: regex extraction on multi-sentence German legal text</para>
+</listitem><listitem><para><ref refid="classthemis_1_1ingestion_1_1_deontic_extractor" kindref="compound">DeonticExtractor</ref>: batch extraction (N sentences, measure scaling)</para>
+</listitem><listitem><para><ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter" kindref="compound">LegalLlmAdapter</ref>: buildExtractorFn() overhead (stub mode, no model)</para>
+</listitem><listitem><para><ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter" kindref="compound">LegalLlmAdapter</ref>: extracted function call latency (regex fallback)</para>
+</listitem><listitem><para>FilesystemIngester: <ref refid="namespacethemis_1_1ingestion_1a2bfba490125d745a72dab539df29f311" kindref="member">detectBinaryMimeType()</ref> throughput (magic-byte path)</para>
+</listitem><listitem><para><ref refid="classthemis_1_1ingestion_1_1_ingestion_coordinator" kindref="compound">IngestionCoordinator</ref> / <ref refid="classthemis_1_1ingestion_1_1_in_memory_shared_checkpoint_store" kindref="compound">InMemorySharedCheckpointStore</ref>: checkpoint save/load overhead</para>
+</listitem></itemizedlist>
+</para>
+<para>Note: LLM path uses the regex fallback in Phase 1 (no model loaded). When THEMIS_BENCH_LLM_MODEL_PATH is defined, real LLM latency is measured. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="deontic__extractor_8h" kindref="compound">ingestion/deontic_extractor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llm__adapter_8h" kindref="compound">ingestion/llm_adapter.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="filesystem__ingester_8h" kindref="compound">ingestion/filesystem_ingester.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ingestion__coordinator_8h" kindref="compound">ingestion/ingestion_coordinator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ingestion__manager_8h" kindref="compound">ingestion/ingestion_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdlib&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1ingestion" kindref="compound">themis::ingestion</ref>;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>helpers<sp/>─────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_BENCH_STRINGIFY_INNER(x)<sp/>#x</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_BENCH_STRINGIFY(x)<sp/>THEMIS_BENCH_STRINGIFY_INNER(x)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>resolveCompileTimeLlmModelPath()<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_BENCH_LLM_MODEL_PATH</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>value<sp/>=<sp/><ref refid="bench__ingestion__extraction_8cpp_1ae0a43f617e38626029df8e19a2e85c83" kindref="member">THEMIS_BENCH_STRINGIFY</ref>(THEMIS_BENCH_LLM_MODEL_PATH);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(value.size()<sp/>&gt;=<sp/>2)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>first<sp/>=<sp/>value.front();</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>last<sp/>=<sp/>value.back();</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((first<sp/>==<sp/></highlight><highlight class="charliteral">&apos;&quot;&apos;</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>last<sp/>==<sp/></highlight><highlight class="charliteral">&apos;&quot;&apos;</highlight><highlight class="normal">)<sp/>||<sp/>(first<sp/>==<sp/></highlight><highlight class="charliteral">&apos;\&apos;&apos;</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>last<sp/>==<sp/></highlight><highlight class="charliteral">&apos;\&apos;&apos;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>value<sp/>=<sp/>value.substr(1,<sp/>value.size()<sp/>-<sp/>2);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>value;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>resolveLlmModelPath()<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>runtime<sp/>=<sp/>std::getenv(</highlight><highlight class="stringliteral">&quot;THEMIS_BENCH_LLM_MODEL_PATH&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(runtime<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>*runtime<sp/>!=<sp/></highlight><highlight class="charliteral">&apos;\0&apos;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>runtime;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>resolveCompileTimeLlmModelPath();</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Sample<sp/>German<sp/>legal<sp/>sentences<sp/>covering<sp/>all<sp/>deontic<sp/>categories.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/>kLegalSentences<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Der<sp/>Antragsteller<sp/>muss<sp/>das<sp/>Formular<sp/>vollständig<sp/>ausfüllen.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Die<sp/>Behörde<sp/>darf<sp/>die<sp/>Unterlagen<sp/>anfordern.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Es<sp/>ist<sp/>verboten,<sp/>ohne<sp/>Genehmigung<sp/>zu<sp/>handeln.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Im<sp/>Sinne<sp/>dieses<sp/>Gesetzes<sp/>gilt<sp/>als<sp/>Unternehmen<sp/>jede<sp/>juristische<sp/>Person.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Wenn<sp/>die<sp/>Voraussetzungen<sp/>erfüllt<sp/>sind,<sp/>wird<sp/>die<sp/>Genehmigung<sp/>erteilt.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Ausgenommen<sp/>sind<sp/>Betriebe<sp/>mit<sp/>weniger<sp/>als<sp/>zehn<sp/>Beschäftigten.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Gemäß<sp/>§<sp/>3<sp/>Absatz<sp/>2<sp/>sind<sp/>folgende<sp/>Unterlagen<sp/>einzureichen.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Der<sp/>Bescheid<sp/>ist<sp/>innerhalb<sp/>von<sp/>30<sp/>Tagen<sp/>zu<sp/>erlassen.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Die<sp/>Behörde<sp/>kann<sp/>nach<sp/>pflichtgemäßem<sp/>Ermessen<sp/>entscheiden.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Die<sp/>Genehmigung<sp/>darf<sp/>nicht<sp/>übertragen<sp/>werden.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>kLongLegalText<sp/>=<sp/>[]()<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>text<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>text.reserve(kLegalSentences.size()<sp/>*<sp/>120);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>s<sp/>:<sp/>kLegalSentences)<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>text<sp/>+=<sp/>s;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>text<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;<sp/>&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>text;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">}();</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>DeonticExtractor<sp/>fixtures<sp/>────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="class_deontic_extraction_fixture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_deontic_extraction_fixture" kindref="compound">DeonticExtractionFixture</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>benchmark::Fixture<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_deontic_extraction_fixture_1aa2f51f238b2167a589aaffd8f3263d45" kindref="member">SetUp</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>benchmark::State&amp;<sp/></highlight><highlight class="comment">/*s*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_deontic_extraction_fixture_1a2d43b99155ba06b44c00e945d3ad3d50" kindref="member">extractor</ref><sp/>=<sp/>std::make_unique&lt;DeonticExtractor&gt;();</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_deontic_extraction_fixture_1aff968b9a4043fe6b43e8c99577656871" kindref="member">TearDown</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>benchmark::State&amp;<sp/></highlight><highlight class="comment">/*s*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_deontic_extraction_fixture_1a2d43b99155ba06b44c00e945d3ad3d50" kindref="member">extractor</ref>.reset();</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;DeonticExtractor&gt;<sp/><ref refid="class_deontic_extraction_fixture_1a2d43b99155ba06b44c00e945d3ad3d50" kindref="member">extractor</ref>;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>1.<sp/>Single<sp/>sentence<sp/>extraction<sp/>throughput<sp/>────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><ref refid="bench__ingestion__extraction_8cpp_1a9c48c682a1d840287636fe641aa7b589" kindref="member">BENCHMARK_F</ref>(<ref refid="class_deontic_extraction_fixture" kindref="compound">DeonticExtractionFixture</ref>,<sp/>SingleSentence_Obligation)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>sentence<sp/>=<sp/>kLegalSentences[0];</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>extractor-&gt;extract(sentence);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result.primaryCategory());</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;Single<sp/>OBLIGATION<sp/>sentence<sp/>—<sp/>regex<sp/>path&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><ref refid="bench__ingestion__extraction_8cpp_1a9c48c682a1d840287636fe641aa7b589" kindref="member">BENCHMARK_F</ref>(<ref refid="class_deontic_extraction_fixture" kindref="compound">DeonticExtractionFixture</ref>,<sp/>SingleSentence_AllCategories)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>idx<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>sentence<sp/>=<sp/>kLegalSentences[idx<sp/>%<sp/>kLegalSentences.size()];</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>extractor-&gt;extract(sentence);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result.primaryCategory());</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++idx;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;Single<sp/>sentence<sp/>—<sp/>rotating<sp/>through<sp/>all<sp/>8<sp/>deontic<sp/>categories&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>2.<sp/>Batch<sp/>extraction<sp/>scaling<sp/>─────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><ref refid="bench__ingestion__extraction_8cpp_1a9c48c682a1d840287636fe641aa7b589" kindref="member">BENCHMARK_F</ref>(<ref refid="class_deontic_extraction_fixture" kindref="compound">DeonticExtractionFixture</ref>,<sp/>BatchExtraction_Scaling)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kBatch<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(0));</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>sentences;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>sentences.reserve(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(kBatch));</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kBatch;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sentences.push_back(kLegalSentences[i<sp/>%<sp/>kLegalSentences.size()]);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;DeonticExtraction&gt;<sp/>results<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>results.reserve(sentences.size());</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>s<sp/>:<sp/>sentences)<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>results.push_back(extractor-&gt;extract(s));</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(results.size());</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations()<sp/>*<sp/>kBatch);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;Batch<sp/>extraction<sp/>—<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(kBatch)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>sentences&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_deontic_extraction_fixture" kindref="compound">DeonticExtractionFixture</ref>,<sp/>BatchExtraction_Scaling)</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(1)-&gt;Arg(10)-&gt;Arg(100)-&gt;Arg(1000)</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>3.<sp/>Long<sp/>text<sp/>extraction<sp/>──────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><ref refid="bench__ingestion__extraction_8cpp_1a9c48c682a1d840287636fe641aa7b589" kindref="member">BENCHMARK_F</ref>(<ref refid="class_deontic_extraction_fixture" kindref="compound">DeonticExtractionFixture</ref>,<sp/>LongText_MultiParagraph)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>extractor-&gt;extract(kLongLegalText);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result.primaryCategory());</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;Long<sp/>text:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(kLongLegalText.size())<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>bytes&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>4.<sp/>extractEntities()<sp/>over<sp/>full<sp/>document<sp/>─────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><ref refid="bench__ingestion__extraction_8cpp_1a9c48c682a1d840287636fe641aa7b589" kindref="member">BENCHMARK_F</ref>(<ref refid="class_deontic_extraction_fixture" kindref="compound">DeonticExtractionFixture</ref>,<sp/>ExtractEntities_FullDocument)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>entities<sp/>=<sp/>extractor-&gt;extractEntities(kLongLegalText);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(entities.size());</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;extractEntities()<sp/>on<sp/>1<sp/>000-byte<sp/>legal<sp/>document&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>LegalLlmAdapter<sp/>fixtures<sp/>─────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185" refid="class_llm_adapter_fixture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_llm_adapter_fixture" kindref="compound">LlmAdapterFixture</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>benchmark::Fixture<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_llm_adapter_fixture_1aeaf1a0e512762df587e12d24a4bd38a8" kindref="member">SetUp</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>benchmark::State&amp;<sp/></highlight><highlight class="comment">/*s*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_llm_adapter_fixture_1ad85968a20c160af7ec03dfe1c32751de" kindref="member">adapter</ref><sp/>=<sp/>std::make_unique&lt;LegalLlmAdapter&gt;();</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_llm_adapter_config" kindref="compound">LlmAdapterConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_llm_adapter_config_1a486400dd7f33267c0336064f5c02cc59" kindref="member">model_path</ref><sp/>=<sp/>resolveLlmModelPath();<sp/><sp/></highlight><highlight class="comment">//<sp/>empty<sp/>→<sp/>regex<sp/>fallback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_llm_adapter_fixture_1ad85968a20c160af7ec03dfe1c32751de" kindref="member">adapter</ref>-&gt;setConfig(cfg);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_llm_adapter_fixture_1a85ec01a71ccd70b52a966de279aa810e" kindref="member">TearDown</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>benchmark::State&amp;<sp/></highlight><highlight class="comment">/*s*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_llm_adapter_fixture_1ad85968a20c160af7ec03dfe1c32751de" kindref="member">adapter</ref>.reset();</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;LegalLlmAdapter&gt;<sp/><ref refid="class_llm_adapter_fixture_1ad85968a20c160af7ec03dfe1c32751de" kindref="member">adapter</ref>;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>5.<sp/>buildExtractorFn()<sp/>overhead<sp/>──────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><ref refid="bench__ingestion__extraction_8cpp_1a9c48c682a1d840287636fe641aa7b589" kindref="member">BENCHMARK_F</ref>(<ref refid="class_llm_adapter_fixture" kindref="compound">LlmAdapterFixture</ref>,<sp/>BuildExtractorFn)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fn<sp/>=<sp/>adapter-&gt;buildExtractorFn();</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>fn<sp/>may<sp/>be<sp/>empty<sp/>in<sp/>Phase<sp/>1<sp/>(no<sp/>model);<sp/>bool<sp/>conversion<sp/>checks<sp/>validity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>valid<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(fn);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(valid);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;buildExtractorFn()<sp/>—<sp/>returns<sp/>ExtractorFn<sp/>(may<sp/>be<sp/>empty<sp/>in<sp/>Phase<sp/>1)&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>6.<sp/>buildExtractor()<sp/>convenience<sp/>factory<sp/>─────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><ref refid="bench__ingestion__extraction_8cpp_1a9c48c682a1d840287636fe641aa7b589" kindref="member">BENCHMARK_F</ref>(<ref refid="class_llm_adapter_fixture" kindref="compound">LlmAdapterFixture</ref>,<sp/>BuildExtractor_Factory)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>extractor<sp/>=<sp/>adapter-&gt;buildExtractor(0.75);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(extractor.getConfidenceThreshold());</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;buildExtractor()<sp/>convenience<sp/>factory<sp/>call&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>7.<sp/>Extractor<sp/>throughput<sp/>via<sp/>adapter-configured<sp/>extractor<sp/>─────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><ref refid="bench__ingestion__extraction_8cpp_1a9c48c682a1d840287636fe641aa7b589" kindref="member">BENCHMARK_F</ref>(<ref refid="class_llm_adapter_fixture" kindref="compound">LlmAdapterFixture</ref>,<sp/>ExtractorFn_Throughput)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>a<sp/>DeonticExtractor<sp/>configured<sp/>with<sp/>this<sp/>adapter&apos;s<sp/>fn<sp/>(Phase<sp/>1<sp/>=<sp/>regex)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>extractor<sp/>=<sp/>adapter-&gt;buildExtractor(0.75);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kN<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(0));</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>matched<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kN;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>extractor.extract(kLegalSentences[i<sp/>%<sp/>kLegalSentences.size()]);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result.hasCategory())<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++matched;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(matched);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations()<sp/>*<sp/>kN);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;Extractor<sp/>throughput<sp/>—<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(kN)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>calls&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="244"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_llm_adapter_fixture" kindref="compound">LlmAdapterFixture</ref>,<sp/>ExtractorFn_Throughput)</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(100)-&gt;Arg(500)-&gt;Arg(1000)</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>8.<sp/>detectBinaryMimeType()<sp/>throughput<sp/>────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_DetectBinaryMimeType(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>PDF<sp/>magic<sp/>bytes<sp/>→<sp/>first<sp/>8<sp/>chars<sp/>suffice<sp/>for<sp/>detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>pdf_header<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;%PDF-1.4<sp/>some<sp/>content<sp/>follows<sp/>here&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>DOCX<sp/>magic<sp/>bytes<sp/>(ZIP<sp/>PK<sp/>header)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>docx_header<sp/>=<sp/>std::string(2,<sp/></highlight><highlight class="stringliteral">&apos;\x50&apos;</highlight><highlight class="normal">)<sp/>+<sp/></highlight><highlight class="stringliteral">&apos;\x4B&apos;</highlight><highlight class="normal"><sp/>+<sp/></highlight><highlight class="stringliteral">&apos;\x03&apos;</highlight><highlight class="normal"><sp/>+<sp/></highlight><highlight class="stringliteral">&apos;\x04&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>rest<sp/>of<sp/>ZIP<sp/>content&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Plain<sp/>text</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>text_header<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Hello<sp/>World,<sp/>this<sp/>is<sp/>plain<sp/>text<sp/>content&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>idx<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;const<sp/>std::string*&gt;<sp/>headers<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;pdf_header,<sp/>&amp;docx_header,<sp/>&amp;text_header</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>type<sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1a2bfba490125d745a72dab539df29f311" kindref="member">detectBinaryMimeType</ref>(*headers[idx<sp/>%<sp/>headers.size()]);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(type);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++idx;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;detectBinaryMimeType()<sp/>magic-byte<sp/>inspection&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><ref refid="bench__ingestion__extraction_8cpp_1ab1a12b527ca53f6331913e38d6c13088" kindref="member">BENCHMARK</ref>(BM_DetectBinaryMimeType);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>9.<sp/>InMemorySharedCheckpointStore<sp/>overhead<sp/>───────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_CheckpointStore(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kWorkers<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(0));</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_in_memory_shared_checkpoint_store" kindref="compound">InMemorySharedCheckpointStore</ref><sp/>store;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>w<sp/>=<sp/>0;<sp/>w<sp/>&lt;<sp/>kWorkers;<sp/>++w)<sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_ingestion_checkpoint" kindref="compound">IngestionCheckpoint</ref><sp/>cp;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cp.<ref refid="structthemis_1_1ingestion_1_1_ingestion_checkpoint_1a5a646c890f39750f00da1b3e34563637" kindref="member">source_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;worker_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(w);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cp.<ref refid="structthemis_1_1ingestion_1_1_ingestion_checkpoint_1ab77e159b8aa189dd0c2a55622561c4c1" kindref="member">processed_count</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(w<sp/>*<sp/>1000);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cp.<ref refid="structthemis_1_1ingestion_1_1_ingestion_checkpoint_1a830721287af3584ed3bae2919911d47b" kindref="member">byte_offset</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(w<sp/>*<sp/>512);</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>written<sp/>=<sp/>store.<ref refid="classthemis_1_1ingestion_1_1_in_memory_shared_checkpoint_store_1a702727c967b631b1692a92b0d3e403c0" kindref="member">write</ref>(cp);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(written);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_ingestion_checkpoint" kindref="compound">IngestionCheckpoint</ref><sp/>out;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>read<sp/>=<sp/>store.<ref refid="classthemis_1_1ingestion_1_1_in_memory_shared_checkpoint_store_1aed62fb40c1f5d94be50d95c43ee1abc8" kindref="member">read</ref>(cp.<ref refid="structthemis_1_1ingestion_1_1_ingestion_checkpoint_1a5a646c890f39750f00da1b3e34563637" kindref="member">source_id</ref>,<sp/>out);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(read);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations()<sp/>*<sp/>kWorkers<sp/>*<sp/>2LL);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;Checkpoint<sp/>write+read<sp/>×<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(kWorkers)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>workers&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><ref refid="bench__ingestion__extraction_8cpp_1ab1a12b527ca53f6331913e38d6c13088" kindref="member">BENCHMARK</ref>(BM_CheckpointStore)-&gt;Arg(1)-&gt;Arg(4)-&gt;Arg(16)-&gt;Arg(64);</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/ingestion/bench_ingestion_extraction.cpp"/>
+  </compounddef>
+</doxygen>

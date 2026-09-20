@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::RelevanceEvaluator::Config</compoundname>
+    <includes refid="relevance__evaluator_8h" local="no">relevance_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1_1_config_1a132b52de03024c18b1c60224480de913" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::RelevanceEvaluator::Config::num_reverse_questions</definition>
+        <argsstring></argsstring>
+        <name>num_reverse_questions</name>
+        <qualifiedname>themis::rag::judge::RelevanceEvaluator::Config::num_reverse_questions</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/relevance_evaluator.h" line="58" column="16" bodyfile="include/rag/relevance_evaluator.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1_1_config_1acca0802eb28ca18743a7e1207230c3ba" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::RelevanceEvaluator::Config::similarity_threshold</definition>
+        <argsstring></argsstring>
+        <name>similarity_threshold</name>
+        <qualifiedname>themis::rag::judge::RelevanceEvaluator::Config::similarity_threshold</qualifiedname>
+        <initializer>= 0.7</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/relevance_evaluator.h" line="59" column="16" bodyfile="include/rag/relevance_evaluator.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1_1_config_1aec3e8578c8ebc5f2366dd2cf165a837a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::RelevanceEvaluator::Config::enable_intent_analysis</definition>
+        <argsstring></argsstring>
+        <name>enable_intent_analysis</name>
+        <qualifiedname>themis::rag::judge::RelevanceEvaluator::Config::enable_intent_analysis</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/relevance_evaluator.h" line="60" column="14" bodyfile="include/rag/relevance_evaluator.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1_1_config_1a8d08aef6305426c81e2df5e2406c98b1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::RelevanceEvaluator::Config::enable_noise_detection</definition>
+        <argsstring></argsstring>
+        <name>enable_noise_detection</name>
+        <qualifiedname>themis::rag::judge::RelevanceEvaluator::Config::enable_noise_detection</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/relevance_evaluator.h" line="61" column="14" bodyfile="include/rag/relevance_evaluator.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for relevance evaluation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/relevance_evaluator.h" line="57" column="5" bodyfile="include/rag/relevance_evaluator.h" bodystart="57" bodyend="62"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1_1_config_1aec3e8578c8ebc5f2366dd2cf165a837a" prot="public" virt="non-virtual"><scope>themis::rag::judge::RelevanceEvaluator::Config</scope><name>enable_intent_analysis</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1_1_config_1a8d08aef6305426c81e2df5e2406c98b1" prot="public" virt="non-virtual"><scope>themis::rag::judge::RelevanceEvaluator::Config</scope><name>enable_noise_detection</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1_1_config_1a132b52de03024c18b1c60224480de913" prot="public" virt="non-virtual"><scope>themis::rag::judge::RelevanceEvaluator::Config</scope><name>num_reverse_questions</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1_1_config_1acca0802eb28ca18743a7e1207230c3ba" prot="public" virt="non-virtual"><scope>themis::rag::judge::RelevanceEvaluator::Config</scope><name>similarity_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

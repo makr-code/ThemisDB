@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1_i_performance_metrics_provider" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::updates::IPerformanceMetricsProvider</compoundname>
+    <includes refid="hardware__telemetry_8h" local="no">hardware_telemetry.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_i_performance_metrics_provider_1a71b3eb14b59351b999697b17ad181abe" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::updates::IPerformanceMetricsProvider::~IPerformanceMetricsProvider</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IPerformanceMetricsProvider</name>
+        <qualifiedname>themis::updates::IPerformanceMetricsProvider::~IPerformanceMetricsProvider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="246" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_i_performance_metrics_provider_1a8dfe17cadb9559ac8cb14d3797124066" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1updates_1_1_performance_snapshot" kindref="compound">PerformanceSnapshot</ref></type>
+        <definition>virtual PerformanceSnapshot themis::updates::IPerformanceMetricsProvider::collect</definition>
+        <argsstring>() const =0</argsstring>
+        <name>collect</name>
+        <qualifiedname>themis::updates::IPerformanceMetricsProvider::collect</qualifiedname>
+        <briefdescription>
+<para>Collect and return a fresh <ref refid="structthemis_1_1updates_1_1_performance_snapshot" kindref="compound">PerformanceSnapshot</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This method must be non-blocking and complete in &lt; 5 ms. The reporter calls it from the background telemetry thread.</para>
+<para><simplesect kind="return"><para>Populated <ref refid="structthemis_1_1updates_1_1_performance_snapshot" kindref="compound">PerformanceSnapshot</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="256" column="34"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract interface for collecting anonymous runtime performance facts. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implement this interface and wire it via <computeroutput><ref refid="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1aeb6d9c18abda749b404ca42f901e4c40" kindref="member">HardwareTelemetryReporter::setPerformanceProvider()</ref></computeroutput> to include performance data in telemetry reports. All returned values must be coarse/bucketed – the interface contract forbids returning query text, table names, or any user-identifiable data. </para>
+    </detaileddescription>
+    <location file="include/updates/hardware_telemetry.h" line="244" column="1" bodyfile="include/updates/hardware_telemetry.h" bodystart="244" bodyend="257"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1updates_1_1_i_performance_metrics_provider_1a8dfe17cadb9559ac8cb14d3797124066" prot="public" virt="pure-virtual"><scope>themis::updates::IPerformanceMetricsProvider</scope><name>collect</name></member>
+      <member refid="classthemis_1_1updates_1_1_i_performance_metrics_provider_1a71b3eb14b59351b999697b17ad181abe" prot="public" virt="virtual"><scope>themis::updates::IPerformanceMetricsProvider</scope><name>~IPerformanceMetricsProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

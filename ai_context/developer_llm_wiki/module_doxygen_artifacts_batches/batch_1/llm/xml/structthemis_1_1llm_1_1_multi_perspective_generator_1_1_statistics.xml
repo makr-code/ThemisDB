@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::MultiPerspectiveGenerator::Statistics</compoundname>
+    <includes refid="multi__perspective__generator_8h" local="no">multi_perspective_generator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_statistics_1a758a5beb577d1817dfd63ee5efe5121e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::MultiPerspectiveGenerator::Statistics::total_generations</definition>
+        <argsstring></argsstring>
+        <name>total_generations</name>
+        <qualifiedname>themis::llm::MultiPerspectiveGenerator::Statistics::total_generations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="236" column="18" bodyfile="include/llm/multi_perspective_generator.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_statistics_1a0865178e425ad5c985ed8dd159cbfac3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::MultiPerspectiveGenerator::Statistics::multi_perspective_generated</definition>
+        <argsstring></argsstring>
+        <name>multi_perspective_generated</name>
+        <qualifiedname>themis::llm::MultiPerspectiveGenerator::Statistics::multi_perspective_generated</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="237" column="18" bodyfile="include/llm/multi_perspective_generator.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_statistics_1aae6eaa504e24e5a9840b4a3eb6867959" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::MultiPerspectiveGenerator::Statistics::cache_hits</definition>
+        <argsstring></argsstring>
+        <name>cache_hits</name>
+        <qualifiedname>themis::llm::MultiPerspectiveGenerator::Statistics::cache_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="238" column="18" bodyfile="include/llm/multi_perspective_generator.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_statistics_1a6077a3d61c48248b5449f8f473eb8b4e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::MultiPerspectiveGenerator::Statistics::cache_misses</definition>
+        <argsstring></argsstring>
+        <name>cache_misses</name>
+        <qualifiedname>themis::llm::MultiPerspectiveGenerator::Statistics::cache_misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="239" column="18" bodyfile="include/llm/multi_perspective_generator.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_statistics_1a12ea1ee77f057e27f3d216f71fb9bc05" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, uint64_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, uint64_t&gt; themis::llm::MultiPerspectiveGenerator::Statistics::perspective_usage</definition>
+        <argsstring></argsstring>
+        <name>perspective_usage</name>
+        <qualifiedname>themis::llm::MultiPerspectiveGenerator::Statistics::perspective_usage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="242" column="28" bodyfile="include/llm/multi_perspective_generator.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_statistics_1af45438d8f6af9190103bde2499f2af57" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::MultiPerspectiveGenerator::Statistics::avg_diversity_score</definition>
+        <argsstring></argsstring>
+        <name>avg_diversity_score</name>
+        <qualifiedname>themis::llm::MultiPerspectiveGenerator::Statistics::avg_diversity_score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="245" column="15" bodyfile="include/llm/multi_perspective_generator.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_statistics_1aab9f6a09192c10f72bb6b043d7e7e993" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::MultiPerspectiveGenerator::Statistics::avg_perspectives_per_query</definition>
+        <argsstring></argsstring>
+        <name>avg_perspectives_per_query</name>
+        <qualifiedname>themis::llm::MultiPerspectiveGenerator::Statistics::avg_perspectives_per_query</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="246" column="15" bodyfile="include/llm/multi_perspective_generator.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_statistics_1aeeb0304be813b96e569bd2c4995466bd" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::llm::MultiPerspectiveGenerator::Statistics::avg_generation_time</definition>
+        <argsstring></argsstring>
+        <name>avg_generation_time</name>
+        <qualifiedname>themis::llm::MultiPerspectiveGenerator::Statistics::avg_generation_time</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_perspective_generator.h" line="249" column="35" bodyfile="include/llm/multi_perspective_generator.h" bodystart="249" bodyend="249"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/multi_perspective_generator.h" line="235" column="5" bodyfile="include/llm/multi_perspective_generator.h" bodystart="235" bodyend="250"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_statistics_1af45438d8f6af9190103bde2499f2af57" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveGenerator::Statistics</scope><name>avg_diversity_score</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_statistics_1aeeb0304be813b96e569bd2c4995466bd" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveGenerator::Statistics</scope><name>avg_generation_time</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_statistics_1aab9f6a09192c10f72bb6b043d7e7e993" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveGenerator::Statistics</scope><name>avg_perspectives_per_query</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_statistics_1aae6eaa504e24e5a9840b4a3eb6867959" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveGenerator::Statistics</scope><name>cache_hits</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_statistics_1a6077a3d61c48248b5449f8f473eb8b4e" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveGenerator::Statistics</scope><name>cache_misses</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_statistics_1a0865178e425ad5c985ed8dd159cbfac3" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveGenerator::Statistics</scope><name>multi_perspective_generated</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_statistics_1a12ea1ee77f057e27f3d216f71fb9bc05" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveGenerator::Statistics</scope><name>perspective_usage</name></member>
+      <member refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_statistics_1a758a5beb577d1817dfd63ee5efe5121e" prot="public" virt="non-virtual"><scope>themis::llm::MultiPerspectiveGenerator::Statistics</scope><name>total_generations</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

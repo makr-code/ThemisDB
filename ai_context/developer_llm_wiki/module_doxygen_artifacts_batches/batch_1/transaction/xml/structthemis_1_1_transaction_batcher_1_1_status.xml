@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_transaction_batcher_1_1_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TransactionBatcher::Status</compoundname>
+    <includes refid="transaction__batcher_8h" local="no">transaction_batcher.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_transaction_batcher_1_1_status_1a48ae899eec7405b13c421e57526434d5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TransactionBatcher::Status::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::TransactionBatcher::Status::ok</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="33" column="21" bodyfile="include/transaction/transaction_batcher.h" bodystart="33" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_batcher_1_1_status_1a06e48c496bb1fbd1cb625e5e5bc0ac6d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TransactionBatcher::Status::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::TransactionBatcher::Status::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="34" column="21" bodyfile="include/transaction/transaction_batcher.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_transaction_batcher_1_1_status_1aa2a9bd3a243fe82881c33f453e95e8ac" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_transaction_batcher_1_1_status" kindref="compound">Status</ref></type>
+        <definition>static Status themis::TransactionBatcher::Status::OK</definition>
+        <argsstring>()</argsstring>
+        <name>OK</name>
+        <qualifiedname>themis::TransactionBatcher::Status::OK</qualifiedname>
+        <briefdescription>
+<para>OK. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements OK without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="41" column="23" bodyfile="include/transaction/transaction_batcher.h" bodystart="41" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_transaction_batcher_1_1_status_1ae7823d36bf8cc63774aac64e7e25e99a" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_transaction_batcher_1_1_status" kindref="compound">Status</ref></type>
+        <definition>static Status themis::TransactionBatcher::Status::Error</definition>
+        <argsstring>(std::string msg)</argsstring>
+        <name>Error</name>
+        <qualifiedname>themis::TransactionBatcher::Status::Error</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+<para>Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="48" column="23" bodyfile="include/transaction/transaction_batcher.h" bodystart="48" bodyend="48"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/transaction_batcher.h" line="32" column="5" bodyfile="include/transaction/transaction_batcher.h" bodystart="32" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_transaction_batcher_1_1_status_1ae7823d36bf8cc63774aac64e7e25e99a" prot="public" virt="non-virtual"><scope>themis::TransactionBatcher::Status</scope><name>Error</name></member>
+      <member refid="structthemis_1_1_transaction_batcher_1_1_status_1a06e48c496bb1fbd1cb625e5e5bc0ac6d" prot="public" virt="non-virtual"><scope>themis::TransactionBatcher::Status</scope><name>message</name></member>
+      <member refid="structthemis_1_1_transaction_batcher_1_1_status_1aa2a9bd3a243fe82881c33f453e95e8ac" prot="public" virt="non-virtual"><scope>themis::TransactionBatcher::Status</scope><name>OK</name></member>
+      <member refid="structthemis_1_1_transaction_batcher_1_1_status_1a48ae899eec7405b13c421e57526434d5" prot="public" virt="non-virtual"><scope>themis::TransactionBatcher::Status</scope><name>ok</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

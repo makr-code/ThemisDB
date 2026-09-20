@@ -1,0 +1,1903 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1_content_metrics" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::ContentMetrics</compoundname>
+    <includes refid="content__metrics_8h" local="no">content_metrics.h</includes>
+    <innerclass refid="structthemis_1_1content_1_1_content_metrics_1_1_latency_stats" prot="private">themis::content::ContentMetrics::LatencyStats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_metrics_1a73c979637f92d70f81c3621fb80f311a" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ContentMetrics::total_ingestions_</definition>
+        <argsstring></argsstring>
+        <name>total_ingestions_</name>
+        <qualifiedname>themis::content::ContentMetrics::total_ingestions_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="259" column="17" bodyfile="include/content/content_metrics.h" bodystart="259" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_metrics_1ab405466be616a340261844e6e32b197d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ContentMetrics::total_bytes_processed_</definition>
+        <argsstring></argsstring>
+        <name>total_bytes_processed_</name>
+        <qualifiedname>themis::content::ContentMetrics::total_bytes_processed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="260" column="17" bodyfile="include/content/content_metrics.h" bodystart="260" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_metrics_1af41db80bc063e1a22e77425db9289b90" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ContentMetrics::total_validations_</definition>
+        <argsstring></argsstring>
+        <name>total_validations_</name>
+        <qualifiedname>themis::content::ContentMetrics::total_validations_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="261" column="17" bodyfile="include/content/content_metrics.h" bodystart="261" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_metrics_1ac2181c10c1dd684773c12a6482843d3a" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ContentMetrics::successful_validations_</definition>
+        <argsstring></argsstring>
+        <name>successful_validations_</name>
+        <qualifiedname>themis::content::ContentMetrics::successful_validations_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="262" column="17" bodyfile="include/content/content_metrics.h" bodystart="262" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_metrics_1a04f2574c1be1e915c776d03665b06791" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ContentMetrics::failed_validations_</definition>
+        <argsstring></argsstring>
+        <name>failed_validations_</name>
+        <qualifiedname>themis::content::ContentMetrics::failed_validations_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="263" column="17" bodyfile="include/content/content_metrics.h" bodystart="263" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_metrics_1ad180889b7758abdbf0473e21aac67db6" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ContentMetrics::total_processing_</definition>
+        <argsstring></argsstring>
+        <name>total_processing_</name>
+        <qualifiedname>themis::content::ContentMetrics::total_processing_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="264" column="17" bodyfile="include/content/content_metrics.h" bodystart="264" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_metrics_1a862fd7e688ffd3200b800cdb28110620" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ContentMetrics::successful_processing_</definition>
+        <argsstring></argsstring>
+        <name>successful_processing_</name>
+        <qualifiedname>themis::content::ContentMetrics::successful_processing_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="265" column="17" bodyfile="include/content/content_metrics.h" bodystart="265" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_metrics_1a4d96413730bf93e0efa45ffac4b939ab" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ContentMetrics::failed_processing_</definition>
+        <argsstring></argsstring>
+        <name>failed_processing_</name>
+        <qualifiedname>themis::content::ContentMetrics::failed_processing_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="266" column="17" bodyfile="include/content/content_metrics.h" bodystart="266" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_metrics_1a1afd7074b8ad5a8f6460325e7924d471" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ContentMetrics::total_extractions_</definition>
+        <argsstring></argsstring>
+        <name>total_extractions_</name>
+        <qualifiedname>themis::content::ContentMetrics::total_extractions_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="267" column="17" bodyfile="include/content/content_metrics.h" bodystart="267" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_metrics_1a06d7c25637de1da8f3992f3e20ebe4fb" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ContentMetrics::successful_extractions_</definition>
+        <argsstring></argsstring>
+        <name>successful_extractions_</name>
+        <qualifiedname>themis::content::ContentMetrics::successful_extractions_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="268" column="17" bodyfile="include/content/content_metrics.h" bodystart="268" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_metrics_1ad07487a549476649b94c24b4858d1a25" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ContentMetrics::failed_extractions_</definition>
+        <argsstring></argsstring>
+        <name>failed_extractions_</name>
+        <qualifiedname>themis::content::ContentMetrics::failed_extractions_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="269" column="17" bodyfile="include/content/content_metrics.h" bodystart="269" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_metrics_1aa2c43e1a521afbdb2154f03f65fda168" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ContentMetrics::total_chunks_</definition>
+        <argsstring></argsstring>
+        <name>total_chunks_</name>
+        <qualifiedname>themis::content::ContentMetrics::total_chunks_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="270" column="17" bodyfile="include/content/content_metrics.h" bodystart="270" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_metrics_1ac46da05f0ee2c920c2dfee0c357393f6" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ContentMetrics::total_embeddings_</definition>
+        <argsstring></argsstring>
+        <name>total_embeddings_</name>
+        <qualifiedname>themis::content::ContentMetrics::total_embeddings_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="271" column="17" bodyfile="include/content/content_metrics.h" bodystart="271" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_metrics_1a80875a6a5250c890a401329896c7dbf8" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ContentMetrics::embedding_failures_</definition>
+        <argsstring></argsstring>
+        <name>embedding_failures_</name>
+        <qualifiedname>themis::content::ContentMetrics::embedding_failures_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="272" column="17" bodyfile="include/content/content_metrics.h" bodystart="272" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_metrics_1a1e52500bffb80e0c6bf1ba086ea6a3e9" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ContentMetrics::dedup_checks_</definition>
+        <argsstring></argsstring>
+        <name>dedup_checks_</name>
+        <qualifiedname>themis::content::ContentMetrics::dedup_checks_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="273" column="17" bodyfile="include/content/content_metrics.h" bodystart="273" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_metrics_1a3051d0ceee3154526312135988231c79" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ContentMetrics::dedup_hits_</definition>
+        <argsstring></argsstring>
+        <name>dedup_hits_</name>
+        <qualifiedname>themis::content::ContentMetrics::dedup_hits_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="274" column="17" bodyfile="include/content/content_metrics.h" bodystart="274" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_metrics_1a2675e58f546422656a563be16d072f81" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ContentMetrics::total_errors_</definition>
+        <argsstring></argsstring>
+        <name>total_errors_</name>
+        <qualifiedname>themis::content::ContentMetrics::total_errors_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="277" column="17" bodyfile="include/content/content_metrics.h" bodystart="277" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_metrics_1ad7d66c6158582c4ff7601d6e842c40df" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ContentMetrics::total_timeouts_</definition>
+        <argsstring></argsstring>
+        <name>total_timeouts_</name>
+        <qualifiedname>themis::content::ContentMetrics::total_timeouts_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="278" column="17" bodyfile="include/content/content_metrics.h" bodystart="278" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_metrics_1add205283b3aa54dd3a091c68f5ec3a09" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ContentMetrics::pdf_extracted_total_</definition>
+        <argsstring></argsstring>
+        <name>pdf_extracted_total_</name>
+        <qualifiedname>themis::content::ContentMetrics::pdf_extracted_total_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="281" column="17" bodyfile="include/content/content_metrics.h" bodystart="281" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_metrics_1a3806a165829a1ea4df06d764e0c5b568" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ContentMetrics::office_extracted_total_</definition>
+        <argsstring></argsstring>
+        <name>office_extracted_total_</name>
+        <qualifiedname>themis::content::ContentMetrics::office_extracted_total_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="282" column="17" bodyfile="include/content/content_metrics.h" bodystart="282" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_metrics_1aac029093e8986c47ebc6f22bef6f0d52" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ContentMetrics::ocr_extracted_total_</definition>
+        <argsstring></argsstring>
+        <name>ocr_extracted_total_</name>
+        <qualifiedname>themis::content::ContentMetrics::ocr_extracted_total_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="283" column="17" bodyfile="include/content/content_metrics.h" bodystart="283" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_metrics_1aaa3d1ba31c3ac9c58a69a0f2397985b4" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ContentMetrics::extract_errors_total_</definition>
+        <argsstring></argsstring>
+        <name>extract_errors_total_</name>
+        <qualifiedname>themis::content::ContentMetrics::extract_errors_total_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="284" column="17" bodyfile="include/content/content_metrics.h" bodystart="284" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_metrics_1a7acd907867690a28fd9108be9c67d871" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ContentMetrics::cache_hits_</definition>
+        <argsstring></argsstring>
+        <name>cache_hits_</name>
+        <qualifiedname>themis::content::ContentMetrics::cache_hits_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="287" column="17" bodyfile="include/content/content_metrics.h" bodystart="287" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_metrics_1a3b7a965ee99e1f66f05ebe2b892e9a9f" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ContentMetrics::cache_misses_</definition>
+        <argsstring></argsstring>
+        <name>cache_misses_</name>
+        <qualifiedname>themis::content::ContentMetrics::cache_misses_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="288" column="17" bodyfile="include/content/content_metrics.h" bodystart="288" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_metrics_1a8bd5306815e673985edd14550a5a58be" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::content::ContentMetrics::mime_mutex_</definition>
+        <argsstring></argsstring>
+        <name>mime_mutex_</name>
+        <qualifiedname>themis::content::ContentMetrics::mime_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="291" column="24" bodyfile="include/content/content_metrics.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_metrics_1a4f1c501fb03171e5bdaff95576eeef51" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, uint64_t &gt;</type>
+        <definition>std::map&lt;std::string, uint64_t&gt; themis::content::ContentMetrics::mime_type_counts_</definition>
+        <argsstring></argsstring>
+        <name>mime_type_counts_</name>
+        <qualifiedname>themis::content::ContentMetrics::mime_type_counts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="292" column="14" bodyfile="include/content/content_metrics.h" bodystart="292" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_metrics_1a74700223f19482ec60dbdbc947f49bd4" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::content::ContentMetrics::error_mutex_</definition>
+        <argsstring></argsstring>
+        <name>error_mutex_</name>
+        <qualifiedname>themis::content::ContentMetrics::error_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="295" column="24" bodyfile="include/content/content_metrics.h" bodystart="295" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_metrics_1a541739d6e3c2542595cd346f93b15ba3" prot="private" static="no" mutable="no">
+        <type>std::map&lt; int, uint64_t &gt;</type>
+        <definition>std::map&lt;int, uint64_t&gt; themis::content::ContentMetrics::error_code_counts_</definition>
+        <argsstring></argsstring>
+        <name>error_code_counts_</name>
+        <qualifiedname>themis::content::ContentMetrics::error_code_counts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="296" column="14" bodyfile="include/content/content_metrics.h" bodystart="296" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_metrics_1a48e9d967429b84aebf56779e9f4fc55e" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::content::ContentMetrics::error_category_mutex_</definition>
+        <argsstring></argsstring>
+        <name>error_category_mutex_</name>
+        <qualifiedname>themis::content::ContentMetrics::error_category_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="299" column="24" bodyfile="include/content/content_metrics.h" bodystart="299" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_metrics_1af8ca010f558d36e9d182e280cd698927" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, uint64_t &gt;</type>
+        <definition>std::map&lt;std::string, uint64_t&gt; themis::content::ContentMetrics::error_category_counts_</definition>
+        <argsstring></argsstring>
+        <name>error_category_counts_</name>
+        <qualifiedname>themis::content::ContentMetrics::error_category_counts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="300" column="14" bodyfile="include/content/content_metrics.h" bodystart="300" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_metrics_1a0f8a1cac86bfc751eced2bc4bce20e49" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::content::ContentMetrics::violation_mutex_</definition>
+        <argsstring></argsstring>
+        <name>violation_mutex_</name>
+        <qualifiedname>themis::content::ContentMetrics::violation_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="303" column="24" bodyfile="include/content/content_metrics.h" bodystart="303" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_metrics_1ac7627933e148c93e477ee4c2f1a9c1f8" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, uint64_t &gt;</type>
+        <definition>std::map&lt;std::string, uint64_t&gt; themis::content::ContentMetrics::violation_counts_</definition>
+        <argsstring></argsstring>
+        <name>violation_counts_</name>
+        <qualifiedname>themis::content::ContentMetrics::violation_counts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="304" column="14" bodyfile="include/content/content_metrics.h" bodystart="304" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_metrics_1ab36fd97588337d3c066051ae1d7e1899" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::content::ContentMetrics::timeout_mutex_</definition>
+        <argsstring></argsstring>
+        <name>timeout_mutex_</name>
+        <qualifiedname>themis::content::ContentMetrics::timeout_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="307" column="24" bodyfile="include/content/content_metrics.h" bodystart="307" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_metrics_1ab1e0d282da540b75f48108d2a6dcfc3f" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, uint64_t &gt;</type>
+        <definition>std::map&lt;std::string, uint64_t&gt; themis::content::ContentMetrics::timeout_counts_</definition>
+        <argsstring></argsstring>
+        <name>timeout_counts_</name>
+        <qualifiedname>themis::content::ContentMetrics::timeout_counts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="308" column="14" bodyfile="include/content/content_metrics.h" bodystart="308" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_metrics_1aebcd04e651871f23ddf640b555b8f8bc" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::content::ContentMetrics::latency_mutex_</definition>
+        <argsstring></argsstring>
+        <name>latency_mutex_</name>
+        <qualifiedname>themis::content::ContentMetrics::latency_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="311" column="24" bodyfile="include/content/content_metrics.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_metrics_1a6478b90df9fc7f7db9835fb9b6f94e4e" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, LatencyStats &gt;</type>
+        <definition>std::map&lt;std::string, LatencyStats&gt; themis::content::ContentMetrics::latency_stats_</definition>
+        <argsstring></argsstring>
+        <name>latency_stats_</name>
+        <qualifiedname>themis::content::ContentMetrics::latency_stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="319" column="14" bodyfile="include/content/content_metrics.h" bodystart="319" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1ab8bf123a51c6216d6143a7265c8bc8c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::ContentMetrics::ContentMetrics</definition>
+        <argsstring>()=default</argsstring>
+        <name>ContentMetrics</name>
+        <qualifiedname>themis::content::ContentMetrics::ContentMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="28" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1a1a116ced147f424c4a19924e8f861798" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentMetrics::recordIngestion</definition>
+        <argsstring>(const std::string &amp;mime_type, uint64_t size_bytes)</argsstring>
+        <name>recordIngestion</name>
+        <qualifiedname>themis::content::ContentMetrics::recordIngestion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Record Ingestion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mime_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mime_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="39" column="10" bodyfile="src/content/content_metrics.cpp" bodystart="28" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1acb9674e4239a9c50ba0af2f1d1f46d3a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentMetrics::recordValidation</definition>
+        <argsstring>(bool success)</argsstring>
+        <name>recordValidation</name>
+        <qualifiedname>themis::content::ContentMetrics::recordValidation</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <briefdescription>
+<para>Record Validation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements recordValidation without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="45" column="10" bodyfile="src/content/content_metrics.cpp" bodystart="41" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1a3418a1f9d4cb32f4652cb039a35061a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentMetrics::recordProcessing</definition>
+        <argsstring>(const std::string &amp;mime_type, bool success)</argsstring>
+        <name>recordProcessing</name>
+        <qualifiedname>themis::content::ContentMetrics::recordProcessing</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <briefdescription>
+<para>Record Processing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mime_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements recordProcessing without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="52" column="10" bodyfile="src/content/content_metrics.cpp" bodystart="56" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1a3daf0e98a949dc29fcb9dc0025fd626e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentMetrics::recordExtraction</definition>
+        <argsstring>(bool success)</argsstring>
+        <name>recordExtraction</name>
+        <qualifiedname>themis::content::ContentMetrics::recordExtraction</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <briefdescription>
+<para>Record Extraction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements recordExtraction without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="58" column="10" bodyfile="src/content/content_metrics.cpp" bodystart="70" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1ad3794b2233beb292b0fb7a9e1028ec49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentMetrics::recordChunking</definition>
+        <argsstring>(uint64_t chunk_count)</argsstring>
+        <name>recordChunking</name>
+        <qualifiedname>themis::content::ContentMetrics::recordChunking</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>chunk_count</declname>
+        </param>
+        <briefdescription>
+<para>Record Chunking. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements recordChunking without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="64" column="10" bodyfile="src/content/content_metrics.cpp" bodystart="84" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1af3d606bdac7919f42247d38d1d1aa620" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentMetrics::recordEmbedding</definition>
+        <argsstring>(uint64_t count)</argsstring>
+        <name>recordEmbedding</name>
+        <qualifiedname>themis::content::ContentMetrics::recordEmbedding</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Record Embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements recordEmbedding without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="70" column="10" bodyfile="src/content/content_metrics.cpp" bodystart="93" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1a35fa7c3cb59fc17290c827938d3cf46e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentMetrics::recordEmbeddingFailure</definition>
+        <argsstring>()</argsstring>
+        <name>recordEmbeddingFailure</name>
+        <qualifiedname>themis::content::ContentMetrics::recordEmbeddingFailure</qualifiedname>
+        <briefdescription>
+<para>Record Embedding Failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements recordEmbeddingFailure without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="75" column="10" bodyfile="src/content/content_metrics.cpp" bodystart="101" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1a75eae907eb45daa67b4b76b0a493e7a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentMetrics::recordDedupCheck</definition>
+        <argsstring>()</argsstring>
+        <name>recordDedupCheck</name>
+        <qualifiedname>themis::content::ContentMetrics::recordDedupCheck</qualifiedname>
+        <briefdescription>
+<para>Record Dedup Check. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements recordDedupCheck without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="80" column="10" bodyfile="src/content/content_metrics.cpp" bodystart="109" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1a715ef1132897d6d21822cf1c0472c1de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentMetrics::recordDedupHit</definition>
+        <argsstring>()</argsstring>
+        <name>recordDedupHit</name>
+        <qualifiedname>themis::content::ContentMetrics::recordDedupHit</qualifiedname>
+        <briefdescription>
+<para>Record Dedup Hit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements recordDedupHit without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="85" column="10" bodyfile="src/content/content_metrics.cpp" bodystart="117" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1abf67c47efdc7b6d3744987a369f64e37" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentMetrics::recordPdfExtracted</definition>
+        <argsstring>()</argsstring>
+        <name>recordPdfExtracted</name>
+        <qualifiedname>themis::content::ContentMetrics::recordPdfExtracted</qualifiedname>
+        <briefdescription>
+<para>Record Pdf Extracted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements recordPdfExtracted without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="91" column="10" bodyfile="src/content/content_metrics.cpp" bodystart="125" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1a5c7642764921319f414fd5b6f93872bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentMetrics::recordOfficeExtracted</definition>
+        <argsstring>()</argsstring>
+        <name>recordOfficeExtracted</name>
+        <qualifiedname>themis::content::ContentMetrics::recordOfficeExtracted</qualifiedname>
+        <briefdescription>
+<para>Record Office Extracted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements recordOfficeExtracted without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="96" column="10" bodyfile="src/content/content_metrics.cpp" bodystart="133" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1af819a82c565f14baf4987e8f4425f645" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentMetrics::recordOcrExtracted</definition>
+        <argsstring>()</argsstring>
+        <name>recordOcrExtracted</name>
+        <qualifiedname>themis::content::ContentMetrics::recordOcrExtracted</qualifiedname>
+        <briefdescription>
+<para>Record Ocr Extracted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements recordOcrExtracted without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="101" column="10" bodyfile="src/content/content_metrics.cpp" bodystart="141" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1a677fee6bbdfda4ab2bf611a75b9f240b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentMetrics::recordExtractError</definition>
+        <argsstring>()</argsstring>
+        <name>recordExtractError</name>
+        <qualifiedname>themis::content::ContentMetrics::recordExtractError</qualifiedname>
+        <briefdescription>
+<para>Record Extract Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements recordExtractError without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="106" column="10" bodyfile="src/content/content_metrics.cpp" bodystart="149" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1a2954a8271e07d2916b4f2d5de8879421" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentMetrics::recordLatency</definition>
+        <argsstring>(const std::string &amp;operation, double latency_ms)</argsstring>
+        <name>recordLatency</name>
+        <qualifiedname>themis::content::ContentMetrics::recordLatency</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record Latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: recordLatencyInternal(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="117" column="10" bodyfile="src/content/content_metrics.cpp" bodystart="163" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1aee35a175e76533c86557860907beb147" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, double &gt;</type>
+        <definition>std::map&lt; std::string, double &gt; themis::content::ContentMetrics::getLatencyPercentiles</definition>
+        <argsstring>(const std::string &amp;operation) const</argsstring>
+        <name>getLatencyPercentiles</name>
+        <qualifiedname>themis::content::ContentMetrics::getLatencyPercentiles</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="119" column="14" bodyfile="src/content/content_metrics.cpp" bodystart="190" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1a9d0c17a0d1a71a0f210e68f152b0a862" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentMetrics::recordError</definition>
+        <argsstring>(int error_code)</argsstring>
+        <name>recordError</name>
+        <qualifiedname>themis::content::ContentMetrics::recordError</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>error_code</declname>
+        </param>
+        <briefdescription>
+<para>Record Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="129" column="10" bodyfile="src/content/content_metrics.cpp" bodystart="245" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1af6520949d17dd46cda306f90a596601f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentMetrics::recordErrorCategory</definition>
+        <argsstring>(const std::string &amp;category)</argsstring>
+        <name>recordErrorCategory</name>
+        <qualifiedname>themis::content::ContentMetrics::recordErrorCategory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>category</declname>
+        </param>
+        <briefdescription>
+<para>Record Error Category. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">category</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">category</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="135" column="10" bodyfile="src/content/content_metrics.cpp" bodystart="257" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1a2f9a0967230e9ffb30e77d7c8affcdd4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentMetrics::recordTimeout</definition>
+        <argsstring>(const std::string &amp;operation)</argsstring>
+        <name>recordTimeout</name>
+        <qualifiedname>themis::content::ContentMetrics::recordTimeout</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <briefdescription>
+<para>Record Timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="141" column="10" bodyfile="src/content/content_metrics.cpp" bodystart="267" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1aaf5f1e7661c5c3baae8e93baf1fc3942" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentMetrics::recordValidationViolation</definition>
+        <argsstring>(const std::string &amp;violation_type)</argsstring>
+        <name>recordValidationViolation</name>
+        <qualifiedname>themis::content::ContentMetrics::recordValidationViolation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>violation_type</declname>
+        </param>
+        <briefdescription>
+<para>Record Validation Violation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">violation_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">violation_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="151" column="10" bodyfile="src/content/content_metrics.cpp" bodystart="283" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1ad74b1fd3e85f5e6174a620cfcf4dffa2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentMetrics::recordCacheHit</definition>
+        <argsstring>()</argsstring>
+        <name>recordCacheHit</name>
+        <qualifiedname>themis::content::ContentMetrics::recordCacheHit</qualifiedname>
+        <briefdescription>
+<para>Record Cache Hit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements recordCacheHit without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="160" column="10" bodyfile="src/content/content_metrics.cpp" bodystart="296" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1a0a1d52648f199d6c5ab31133806126b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentMetrics::recordCacheMiss</definition>
+        <argsstring>()</argsstring>
+        <name>recordCacheMiss</name>
+        <qualifiedname>themis::content::ContentMetrics::recordCacheMiss</qualifiedname>
+        <briefdescription>
+<para>Record Cache Miss. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements recordCacheMiss without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="165" column="10" bodyfile="src/content/content_metrics.cpp" bodystart="304" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1aad2bd1048cde7be9c561a008d4c86d43" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::content::ContentMetrics::getCacheHitRate</definition>
+        <argsstring>() const</argsstring>
+        <name>getCacheHitRate</name>
+        <qualifiedname>themis::content::ContentMetrics::getCacheHitRate</qualifiedname>
+        <briefdescription>
+<para>Get Cache Hit Rate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="171" column="12" bodyfile="src/content/content_metrics.cpp" bodystart="308" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1ac9060fee0f338be1d7cb907d7fa39c16" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::content::ContentMetrics::getCountByMimeType</definition>
+        <argsstring>(const std::string &amp;mime_type) const</argsstring>
+        <name>getCountByMimeType</name>
+        <qualifiedname>themis::content::ContentMetrics::getCountByMimeType</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+        </param>
+        <briefdescription>
+<para>Get Count By Mime Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mime_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mime_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="182" column="14" bodyfile="src/content/content_metrics.cpp" bodystart="323" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1a27cd025aaa2c011dcc59ae5844ca3748" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, uint64_t &gt;</type>
+        <definition>std::map&lt; std::string, uint64_t &gt; themis::content::ContentMetrics::getMimeTypeCounts</definition>
+        <argsstring>() const</argsstring>
+        <name>getMimeTypeCounts</name>
+        <qualifiedname>themis::content::ContentMetrics::getMimeTypeCounts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mime_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="184" column="14" bodyfile="src/content/content_metrics.cpp" bodystart="334" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1a66e9746c479885c693bdbad18cc951a7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::content::ContentMetrics::getTotalIngestions</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalIngestions</name>
+        <qualifiedname>themis::content::ContentMetrics::getTotalIngestions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="190" column="14" bodyfile="include/content/content_metrics.h" bodystart="190" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1aed16fa0b78995ac2aaa77d44850a0028" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::content::ContentMetrics::getTotalBytesProcessed</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalBytesProcessed</name>
+        <qualifiedname>themis::content::ContentMetrics::getTotalBytesProcessed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="192" column="14" bodyfile="include/content/content_metrics.h" bodystart="192" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1a62355e43e38e9e3e42fba8c09c7c72dd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::content::ContentMetrics::getTotalValidations</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalValidations</name>
+        <qualifiedname>themis::content::ContentMetrics::getTotalValidations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="194" column="14" bodyfile="include/content/content_metrics.h" bodystart="194" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1ab45cd623dcbaa173f4da660bbe5a91cf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::content::ContentMetrics::getSuccessfulValidations</definition>
+        <argsstring>() const</argsstring>
+        <name>getSuccessfulValidations</name>
+        <qualifiedname>themis::content::ContentMetrics::getSuccessfulValidations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="196" column="14" bodyfile="include/content/content_metrics.h" bodystart="196" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1ad6e971329517be5cbe60417a83dc3a25" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::content::ContentMetrics::getFailedValidations</definition>
+        <argsstring>() const</argsstring>
+        <name>getFailedValidations</name>
+        <qualifiedname>themis::content::ContentMetrics::getFailedValidations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="198" column="14" bodyfile="include/content/content_metrics.h" bodystart="198" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1a8cef3de2d0f8dcfe02ec5dda511cb76f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::content::ContentMetrics::getValidationSuccessRate</definition>
+        <argsstring>() const</argsstring>
+        <name>getValidationSuccessRate</name>
+        <qualifiedname>themis::content::ContentMetrics::getValidationSuccessRate</qualifiedname>
+        <briefdescription>
+<para>Get Validation Success Rate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="204" column="12" bodyfile="src/content/content_metrics.cpp" bodystart="348" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1a5e94c8745d0bebd625a2936c1dbe0c0b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::content::ContentMetrics::getTotalProcessing</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalProcessing</name>
+        <qualifiedname>themis::content::ContentMetrics::getTotalProcessing</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="206" column="14" bodyfile="include/content/content_metrics.h" bodystart="206" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1a7c11a1a3f913fb7592efbdfc0c87fb5c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::content::ContentMetrics::getSuccessfulProcessing</definition>
+        <argsstring>() const</argsstring>
+        <name>getSuccessfulProcessing</name>
+        <qualifiedname>themis::content::ContentMetrics::getSuccessfulProcessing</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="208" column="14" bodyfile="include/content/content_metrics.h" bodystart="208" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1a0c2585905e6d144839badaae5d47a2d0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::content::ContentMetrics::getFailedProcessing</definition>
+        <argsstring>() const</argsstring>
+        <name>getFailedProcessing</name>
+        <qualifiedname>themis::content::ContentMetrics::getFailedProcessing</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="210" column="14" bodyfile="include/content/content_metrics.h" bodystart="210" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1a9edc507471d862f9aa5b16931ee30334" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::content::ContentMetrics::getProcessingSuccessRate</definition>
+        <argsstring>() const</argsstring>
+        <name>getProcessingSuccessRate</name>
+        <qualifiedname>themis::content::ContentMetrics::getProcessingSuccessRate</qualifiedname>
+        <briefdescription>
+<para>Get Processing Success Rate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="216" column="12" bodyfile="src/content/content_metrics.cpp" bodystart="358" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1a8b975dd1c3cf1520ef42d081e46586b4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::content::ContentMetrics::getTotalErrors</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalErrors</name>
+        <qualifiedname>themis::content::ContentMetrics::getTotalErrors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="218" column="14" bodyfile="include/content/content_metrics.h" bodystart="218" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1a06f66c25ce4a51eaaae01f49c60ba6e6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::content::ContentMetrics::getTotalTimeouts</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalTimeouts</name>
+        <qualifiedname>themis::content::ContentMetrics::getTotalTimeouts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="220" column="14" bodyfile="include/content/content_metrics.h" bodystart="220" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1add6eecee0597bf1dcde5e0d7c01b9af3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::content::ContentMetrics::getPdfExtractedTotal</definition>
+        <argsstring>() const</argsstring>
+        <name>getPdfExtractedTotal</name>
+        <qualifiedname>themis::content::ContentMetrics::getPdfExtractedTotal</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="222" column="14" bodyfile="include/content/content_metrics.h" bodystart="222" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1a18c4d5f04c7296d42e6b8064ce5adcdf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::content::ContentMetrics::getOfficeExtractedTotal</definition>
+        <argsstring>() const</argsstring>
+        <name>getOfficeExtractedTotal</name>
+        <qualifiedname>themis::content::ContentMetrics::getOfficeExtractedTotal</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="224" column="14" bodyfile="include/content/content_metrics.h" bodystart="224" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1a77ae7b099fc042b3bd19006885ba7c8f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::content::ContentMetrics::getOcrExtractedTotal</definition>
+        <argsstring>() const</argsstring>
+        <name>getOcrExtractedTotal</name>
+        <qualifiedname>themis::content::ContentMetrics::getOcrExtractedTotal</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="226" column="14" bodyfile="include/content/content_metrics.h" bodystart="226" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1a2d99e1329772b48cddb5670224f8e80c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::content::ContentMetrics::getExtractErrorsTotal</definition>
+        <argsstring>() const</argsstring>
+        <name>getExtractErrorsTotal</name>
+        <qualifiedname>themis::content::ContentMetrics::getExtractErrorsTotal</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="228" column="14" bodyfile="include/content/content_metrics.h" bodystart="228" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1ac0190345c08f1ca816234c285f00e939" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::content::ContentMetrics::getEmbeddingFailuresTotal</definition>
+        <argsstring>() const</argsstring>
+        <name>getEmbeddingFailuresTotal</name>
+        <qualifiedname>themis::content::ContentMetrics::getEmbeddingFailuresTotal</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="230" column="14" bodyfile="include/content/content_metrics.h" bodystart="230" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1a9bed41ba13cf278a623609f0248c4c9f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::content::ContentMetrics::getDedupChecksTotal</definition>
+        <argsstring>() const</argsstring>
+        <name>getDedupChecksTotal</name>
+        <qualifiedname>themis::content::ContentMetrics::getDedupChecksTotal</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="232" column="14" bodyfile="include/content/content_metrics.h" bodystart="232" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1a24903344945af88be2f2657c7208987f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::content::ContentMetrics::getDedupHitsTotal</definition>
+        <argsstring>() const</argsstring>
+        <name>getDedupHitsTotal</name>
+        <qualifiedname>themis::content::ContentMetrics::getDedupHitsTotal</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="234" column="14" bodyfile="include/content/content_metrics.h" bodystart="234" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1a3fcbba5a0b68c2844f8accbae8b24428" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::ContentMetrics::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::content::ContentMetrics::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error_category_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mime_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">violation_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="244" column="10" bodyfile="src/content/content_metrics.cpp" bodystart="372" bodyend="485"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1aca490ed08c25835af7e434a5a6c55204" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::ContentMetrics::toPrometheusFormat</definition>
+        <argsstring>() const</argsstring>
+        <name>toPrometheusFormat</name>
+        <qualifiedname>themis::content::ContentMetrics::toPrometheusFormat</qualifiedname>
+        <briefdescription>
+<para>To Prometheus Format. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mime_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error_category_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="250" column="17" bodyfile="src/content/content_metrics.cpp" bodystart="487" bodyend="640"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1ae41a8286e80d461020708fb38f8a2191" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentMetrics::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::content::ContentMetrics::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="255" column="10" bodyfile="src/content/content_metrics.cpp" bodystart="646" bodyend="698"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1a8307f66631d0220fc77b4bb86db5fdf3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentMetrics::recordLatencyInternal</definition>
+        <argsstring>(const std::string &amp;operation, double latency_ms)</argsstring>
+        <name>recordLatencyInternal</name>
+        <qualifiedname>themis::content::ContentMetrics::recordLatencyInternal</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record Latency Internal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(), std::min(), std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="327" column="10" bodyfile="src/content/content_metrics.cpp" bodystart="173" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_metrics_1ab1e7e4c726e40ecda20564130de4944b" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::content::ContentMetrics::calculatePercentile</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;sorted_samples, double percentile) const</argsstring>
+        <name>calculatePercentile</name>
+        <qualifiedname>themis::content::ContentMetrics::calculatePercentile</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>sorted_samples</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>percentile</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Percentile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sorted_samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">percentile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_metrics.h" line="334" column="12" bodyfile="src/content/content_metrics.cpp" bodystart="219" bodyend="234"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/content_metrics.h" line="26" column="1" bodyfile="include/content/content_metrics.h" bodystart="26" bodyend="335"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a7acd907867690a28fd9108be9c67d871" prot="private" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>cache_hits_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a3b7a965ee99e1f66f05ebe2b892e9a9f" prot="private" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>cache_misses_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1ab1e7e4c726e40ecda20564130de4944b" prot="private" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>calculatePercentile</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1ab8bf123a51c6216d6143a7265c8bc8c2" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>ContentMetrics</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a1e52500bffb80e0c6bf1ba086ea6a3e9" prot="private" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>dedup_checks_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a3051d0ceee3154526312135988231c79" prot="private" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>dedup_hits_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a80875a6a5250c890a401329896c7dbf8" prot="private" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>embedding_failures_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1af8ca010f558d36e9d182e280cd698927" prot="private" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>error_category_counts_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a48e9d967429b84aebf56779e9f4fc55e" prot="private" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>error_category_mutex_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a541739d6e3c2542595cd346f93b15ba3" prot="private" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>error_code_counts_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a74700223f19482ec60dbdbc947f49bd4" prot="private" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>error_mutex_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1aaa3d1ba31c3ac9c58a69a0f2397985b4" prot="private" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>extract_errors_total_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1ad07487a549476649b94c24b4858d1a25" prot="private" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>failed_extractions_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a4d96413730bf93e0efa45ffac4b939ab" prot="private" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>failed_processing_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a04f2574c1be1e915c776d03665b06791" prot="private" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>failed_validations_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1aad2bd1048cde7be9c561a008d4c86d43" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>getCacheHitRate</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1ac9060fee0f338be1d7cb907d7fa39c16" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>getCountByMimeType</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a9bed41ba13cf278a623609f0248c4c9f" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>getDedupChecksTotal</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a24903344945af88be2f2657c7208987f" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>getDedupHitsTotal</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1ac0190345c08f1ca816234c285f00e939" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>getEmbeddingFailuresTotal</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a2d99e1329772b48cddb5670224f8e80c" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>getExtractErrorsTotal</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a0c2585905e6d144839badaae5d47a2d0" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>getFailedProcessing</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1ad6e971329517be5cbe60417a83dc3a25" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>getFailedValidations</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1aee35a175e76533c86557860907beb147" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>getLatencyPercentiles</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a27cd025aaa2c011dcc59ae5844ca3748" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>getMimeTypeCounts</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a77ae7b099fc042b3bd19006885ba7c8f" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>getOcrExtractedTotal</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a18c4d5f04c7296d42e6b8064ce5adcdf" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>getOfficeExtractedTotal</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1add6eecee0597bf1dcde5e0d7c01b9af3" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>getPdfExtractedTotal</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a9edc507471d862f9aa5b16931ee30334" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>getProcessingSuccessRate</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a7c11a1a3f913fb7592efbdfc0c87fb5c" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>getSuccessfulProcessing</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1ab45cd623dcbaa173f4da660bbe5a91cf" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>getSuccessfulValidations</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1aed16fa0b78995ac2aaa77d44850a0028" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>getTotalBytesProcessed</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a8b975dd1c3cf1520ef42d081e46586b4" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>getTotalErrors</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a66e9746c479885c693bdbad18cc951a7" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>getTotalIngestions</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a5e94c8745d0bebd625a2936c1dbe0c0b" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>getTotalProcessing</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a06f66c25ce4a51eaaae01f49c60ba6e6" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>getTotalTimeouts</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a62355e43e38e9e3e42fba8c09c7c72dd" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>getTotalValidations</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a8cef3de2d0f8dcfe02ec5dda511cb76f" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>getValidationSuccessRate</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1aebcd04e651871f23ddf640b555b8f8bc" prot="private" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>latency_mutex_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a6478b90df9fc7f7db9835fb9b6f94e4e" prot="private" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>latency_stats_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a8bd5306815e673985edd14550a5a58be" prot="private" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>mime_mutex_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a4f1c501fb03171e5bdaff95576eeef51" prot="private" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>mime_type_counts_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1aac029093e8986c47ebc6f22bef6f0d52" prot="private" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>ocr_extracted_total_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a3806a165829a1ea4df06d764e0c5b568" prot="private" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>office_extracted_total_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1add205283b3aa54dd3a091c68f5ec3a09" prot="private" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>pdf_extracted_total_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1ad74b1fd3e85f5e6174a620cfcf4dffa2" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>recordCacheHit</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a0a1d52648f199d6c5ab31133806126b0" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>recordCacheMiss</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1ad3794b2233beb292b0fb7a9e1028ec49" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>recordChunking</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a75eae907eb45daa67b4b76b0a493e7a0" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>recordDedupCheck</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a715ef1132897d6d21822cf1c0472c1de" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>recordDedupHit</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1af3d606bdac7919f42247d38d1d1aa620" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>recordEmbedding</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a35fa7c3cb59fc17290c827938d3cf46e" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>recordEmbeddingFailure</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a9d0c17a0d1a71a0f210e68f152b0a862" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>recordError</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1af6520949d17dd46cda306f90a596601f" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>recordErrorCategory</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a677fee6bbdfda4ab2bf611a75b9f240b" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>recordExtractError</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a3daf0e98a949dc29fcb9dc0025fd626e" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>recordExtraction</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a1a116ced147f424c4a19924e8f861798" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>recordIngestion</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a2954a8271e07d2916b4f2d5de8879421" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>recordLatency</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a8307f66631d0220fc77b4bb86db5fdf3" prot="private" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>recordLatencyInternal</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1af819a82c565f14baf4987e8f4425f645" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>recordOcrExtracted</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a5c7642764921319f414fd5b6f93872bc" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>recordOfficeExtracted</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1abf67c47efdc7b6d3744987a369f64e37" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>recordPdfExtracted</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a3418a1f9d4cb32f4652cb039a35061a0" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>recordProcessing</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a2f9a0967230e9ffb30e77d7c8affcdd4" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>recordTimeout</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1acb9674e4239a9c50ba0af2f1d1f46d3a" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>recordValidation</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1aaf5f1e7661c5c3baae8e93baf1fc3942" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>recordValidationViolation</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1ae41a8286e80d461020708fb38f8a2191" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>reset</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a06d7c25637de1da8f3992f3e20ebe4fb" prot="private" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>successful_extractions_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a862fd7e688ffd3200b800cdb28110620" prot="private" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>successful_processing_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1ac2181c10c1dd684773c12a6482843d3a" prot="private" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>successful_validations_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1ab1e0d282da540b75f48108d2a6dcfc3f" prot="private" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>timeout_counts_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1ab36fd97588337d3c066051ae1d7e1899" prot="private" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>timeout_mutex_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a3fcbba5a0b68c2844f8accbae8b24428" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>toJson</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1aca490ed08c25835af7e434a5a6c55204" prot="public" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>toPrometheusFormat</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1ab405466be616a340261844e6e32b197d" prot="private" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>total_bytes_processed_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1aa2c43e1a521afbdb2154f03f65fda168" prot="private" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>total_chunks_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1ac46da05f0ee2c920c2dfee0c357393f6" prot="private" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>total_embeddings_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a2675e58f546422656a563be16d072f81" prot="private" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>total_errors_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a1afd7074b8ad5a8f6460325e7924d471" prot="private" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>total_extractions_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a73c979637f92d70f81c3621fb80f311a" prot="private" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>total_ingestions_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1ad180889b7758abdbf0473e21aac67db6" prot="private" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>total_processing_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1ad7d66c6158582c4ff7601d6e842c40df" prot="private" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>total_timeouts_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1af41db80bc063e1a22e77425db9289b90" prot="private" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>total_validations_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1ac7627933e148c93e477ee4c2f1a9c1f8" prot="private" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>violation_counts_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_metrics_1a0f8a1cac86bfc751eced2bc4bce20e49" prot="private" virt="non-virtual"><scope>themis::content::ContentMetrics</scope><name>violation_mutex_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

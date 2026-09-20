@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cdc_1_1_kafka_producer_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cdc::KafkaProducerStats</compoundname>
+    <includes refid="kafka__cdc__producer_8h" local="no">kafka_cdc_producer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_kafka_producer_stats_1aa0fc3f24ed4e231989b78ca0ced72527" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::KafkaProducerStats::delivered_total</definition>
+        <argsstring></argsstring>
+        <name>delivered_total</name>
+        <qualifiedname>themis::cdc::KafkaProducerStats::delivered_total</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>cdc_kafka_delivered_total </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/kafka_cdc_producer.h" line="99" column="14" bodyfile="include/cdc/kafka_cdc_producer.h" bodystart="99" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_kafka_producer_stats_1af339610d51a8cbf20e2036066070d004" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::KafkaProducerStats::error_total</definition>
+        <argsstring></argsstring>
+        <name>error_total</name>
+        <qualifiedname>themis::cdc::KafkaProducerStats::error_total</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>cdc_kafka_error_total </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/kafka_cdc_producer.h" line="100" column="14" bodyfile="include/cdc/kafka_cdc_producer.h" bodystart="100" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_kafka_producer_stats_1ad8d3ae1a7b8cc99092f6483cf78a81b6" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::KafkaProducerStats::poll_cycles</definition>
+        <argsstring></argsstring>
+        <name>poll_cycles</name>
+        <qualifiedname>themis::cdc::KafkaProducerStats::poll_cycles</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>number of poll() iterations </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/kafka_cdc_producer.h" line="101" column="14" bodyfile="include/cdc/kafka_cdc_producer.h" bodystart="101" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_kafka_producer_stats_1aaffc589fba80eae146a732bb8789babc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::cdc::KafkaProducerStats::running</definition>
+        <argsstring></argsstring>
+        <name>running</name>
+        <qualifiedname>themis::cdc::KafkaProducerStats::running</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>true while background thread is active </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/kafka_cdc_producer.h" line="102" column="14" bodyfile="include/cdc/kafka_cdc_producer.h" bodystart="102" bodyend="102"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/kafka_cdc_producer.h" line="98" column="1" bodyfile="include/cdc/kafka_cdc_producer.h" bodystart="98" bodyend="103"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cdc_1_1_kafka_producer_stats_1aa0fc3f24ed4e231989b78ca0ced72527" prot="public" virt="non-virtual"><scope>themis::cdc::KafkaProducerStats</scope><name>delivered_total</name></member>
+      <member refid="structthemis_1_1cdc_1_1_kafka_producer_stats_1af339610d51a8cbf20e2036066070d004" prot="public" virt="non-virtual"><scope>themis::cdc::KafkaProducerStats</scope><name>error_total</name></member>
+      <member refid="structthemis_1_1cdc_1_1_kafka_producer_stats_1ad8d3ae1a7b8cc99092f6483cf78a81b6" prot="public" virt="non-virtual"><scope>themis::cdc::KafkaProducerStats</scope><name>poll_cycles</name></member>
+      <member refid="structthemis_1_1cdc_1_1_kafka_producer_stats_1aaffc589fba80eae146a732bb8789babc" prot="public" virt="non-virtual"><scope>themis::cdc::KafkaProducerStats</scope><name>running</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

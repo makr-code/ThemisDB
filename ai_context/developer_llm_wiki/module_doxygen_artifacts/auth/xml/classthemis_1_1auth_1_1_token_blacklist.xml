@@ -1,0 +1,715 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_token_blacklist" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::TokenBlacklist</compoundname>
+    <basecompoundref refid="classthemis_1_1auth_1_1_i_token_blacklist" prot="public" virt="non-virtual">themis::auth::ITokenBlacklist</basecompoundref>
+    <derivedcompoundref refid="classthemis_1_1auth_1_1tests_1_1_mock_token_blacklist" prot="public" virt="non-virtual">themis::auth::tests::MockTokenBlacklist</derivedcompoundref>
+    <includes refid="token__blacklist_8h" local="no">token_blacklist.h</includes>
+    <innerclass refid="structthemis_1_1auth_1_1_token_blacklist_1_1_config" prot="public">themis::auth::TokenBlacklist::Config</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_token_blacklist_1_1_statistics" prot="public">themis::auth::TokenBlacklist::Statistics</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_token_blacklist_1_1_entry" prot="private">themis::auth::TokenBlacklist::Entry</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_token_blacklist_1_1_bloom_filter" prot="private">themis::auth::TokenBlacklist::BloomFilter</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1auth_1_1_token_blacklist_1a9d3a83e00df53043edcc527ffd435bac" prot="public" static="no">
+        <type>std::function&lt; void(const std::string &amp;jti)&gt;</type>
+        <definition>using themis::auth::TokenBlacklist::RevocationCallback = std::function&lt;void(const std::string&amp; jti)&gt;</definition>
+        <argsstring></argsstring>
+        <name>RevocationCallback</name>
+        <qualifiedname>themis::auth::TokenBlacklist::RevocationCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="94" column="5" bodyfile="include/auth/token_blacklist.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_token_blacklist_1a08780b9e1677f7cefcebb6774f4b181c" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1auth_1_1_token_blacklist_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::auth::TokenBlacklist::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::auth::TokenBlacklist::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="169" column="12" bodyfile="include/auth/token_blacklist.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_token_blacklist_1ab982b4d50cfade108da5cf15a9de8a8c" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, Entry &gt;</type>
+        <definition>std::unordered_map&lt;std::string, Entry&gt; themis::auth::TokenBlacklist::blacklist_</definition>
+        <argsstring></argsstring>
+        <name>blacklist_</name>
+        <qualifiedname>themis::auth::TokenBlacklist::blacklist_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="237" column="24" bodyfile="include/auth/token_blacklist.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_token_blacklist_1a20b1d46a19a3cd4407c4425b9a278aa9" prot="private" static="no" mutable="no">
+        <type>BloomFilter</type>
+        <definition>BloomFilter themis::auth::TokenBlacklist::bloom_</definition>
+        <argsstring></argsstring>
+        <name>bloom_</name>
+        <qualifiedname>themis::auth::TokenBlacklist::bloom_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="238" column="45" bodyfile="include/auth/token_blacklist.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_token_blacklist_1ad0a1c607fabb46f077376ff691e2c204" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1auth_1_1_token_blacklist_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>Statistics themis::auth::TokenBlacklist::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::auth::TokenBlacklist::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="240" column="24" bodyfile="include/auth/token_blacklist.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_token_blacklist_1a231f832abfe9c4806120ee4e77aa3cf3" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::auth::TokenBlacklist::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::auth::TokenBlacklist::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="241" column="24" bodyfile="include/auth/token_blacklist.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_token_blacklist_1a0b9d53b1f14c4e83824c6ea3e030cbef" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::auth::TokenBlacklist::last_cleanup_</definition>
+        <argsstring></argsstring>
+        <name>last_cleanup_</name>
+        <qualifiedname>themis::auth::TokenBlacklist::last_cleanup_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="242" column="43" bodyfile="include/auth/token_blacklist.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_token_blacklist_1a3a6404b86534f45da6370e06d03c7424" prot="private" static="no" mutable="no">
+        <type>utils::AuditLogger *</type>
+        <definition>utils::AuditLogger* themis::auth::TokenBlacklist::audit_logger_</definition>
+        <argsstring></argsstring>
+        <name>audit_logger_</name>
+        <qualifiedname>themis::auth::TokenBlacklist::audit_logger_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+<para>Non-owning; may be nullptr. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="243" column="24" bodyfile="include/auth/token_blacklist.h" bodystart="243" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_token_blacklist_1a03b8f02828ca450217d433c5282c6197" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1auth_1_1_token_blacklist_1a9d3a83e00df53043edcc527ffd435bac" kindref="member">RevocationCallback</ref></type>
+        <definition>RevocationCallback themis::auth::TokenBlacklist::on_revoke_callback_</definition>
+        <argsstring></argsstring>
+        <name>on_revoke_callback_</name>
+        <qualifiedname>themis::auth::TokenBlacklist::on_revoke_callback_</qualifiedname>
+        <briefdescription>
+<para>Invoked outside mutex on revoke. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="244" column="24" bodyfile="include/auth/token_blacklist.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_token_blacklist_1a21fbfa17ddee94ac06d93ea239954b55" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::TokenBlacklist::TokenBlacklist</definition>
+        <argsstring>(const Config &amp;config=Config::defaults())</argsstring>
+        <name>TokenBlacklist</name>
+        <qualifiedname>themis::auth::TokenBlacklist::TokenBlacklist</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_token_blacklist_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1auth_1_1_token_blacklist_1_1_config_1a12d3fe20baebeb7003052ed551d9c0c9" kindref="member">Config::defaults</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="78" column="14" bodyfile="src/auth/token_blacklist.cpp" bodystart="21" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_token_blacklist_1a3947a91a627c8e4b1583371cbe71196d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::TokenBlacklist::~TokenBlacklist</definition>
+        <argsstring>()=default</argsstring>
+        <name>~TokenBlacklist</name>
+        <qualifiedname>themis::auth::TokenBlacklist::~TokenBlacklist</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="79" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_token_blacklist_1a2194ba6b7018fc4d1f117d2a8c6743ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::TokenBlacklist::TokenBlacklist</definition>
+        <argsstring>(const TokenBlacklist &amp;)=delete</argsstring>
+        <name>TokenBlacklist</name>
+        <qualifiedname>themis::auth::TokenBlacklist::TokenBlacklist</qualifiedname>
+        <param>
+          <type>const TokenBlacklist &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="82" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_token_blacklist_1a93ea7b1eb88bdb34328bf1b424edb471" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1auth_1_1_token_blacklist_1a21fbfa17ddee94ac06d93ea239954b55" kindref="member">TokenBlacklist</ref> &amp;</type>
+        <definition>TokenBlacklist &amp; themis::auth::TokenBlacklist::operator=</definition>
+        <argsstring>(const TokenBlacklist &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::auth::TokenBlacklist::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1auth_1_1_token_blacklist_1a21fbfa17ddee94ac06d93ea239954b55" kindref="member">TokenBlacklist</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="83" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_token_blacklist_1a4071bf2259e89d573671111a1137de19" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::TokenBlacklist::TokenBlacklist</definition>
+        <argsstring>(TokenBlacklist &amp;&amp;) noexcept=delete</argsstring>
+        <name>TokenBlacklist</name>
+        <qualifiedname>themis::auth::TokenBlacklist::TokenBlacklist</qualifiedname>
+        <param>
+          <type>TokenBlacklist &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="84" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_token_blacklist_1a963a79b228122e8e47ca931f4bfd44ac" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1auth_1_1_token_blacklist_1a21fbfa17ddee94ac06d93ea239954b55" kindref="member">TokenBlacklist</ref> &amp;</type>
+        <definition>TokenBlacklist &amp; themis::auth::TokenBlacklist::operator=</definition>
+        <argsstring>(TokenBlacklist &amp;&amp;) noexcept=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::auth::TokenBlacklist::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1auth_1_1_token_blacklist_1a21fbfa17ddee94ac06d93ea239954b55" kindref="member">TokenBlacklist</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="85" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_token_blacklist_1a0b8a2298a0a5baed9e244ab9e81a5d6d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::TokenBlacklist::setAuditLogger</definition>
+        <argsstring>(utils::AuditLogger *logger)</argsstring>
+        <name>setAuditLogger</name>
+        <qualifiedname>themis::auth::TokenBlacklist::setAuditLogger</qualifiedname>
+        <param>
+          <type>utils::AuditLogger *</type>
+          <declname>logger</declname>
+        </param>
+        <briefdescription>
+<para>Set Audit Logger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setAuditLogger without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="92" column="10" bodyfile="include/auth/token_blacklist.h" bodystart="92" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_token_blacklist_1a1f552fdcc0d153e731c19fa044bba22b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::TokenBlacklist::setOnRevokeCallback</definition>
+        <argsstring>(RevocationCallback cb)</argsstring>
+        <name>setOnRevokeCallback</name>
+        <qualifiedname>themis::auth::TokenBlacklist::setOnRevokeCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1auth_1_1_token_blacklist_1a9d3a83e00df53043edcc527ffd435bac" kindref="member">RevocationCallback</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Set On Revoke Callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="100" column="10" bodyfile="src/auth/token_blacklist.cpp" bodystart="241" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_token_blacklist_1a4d7f6332000f0c7f58b2ded875aca8c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::TokenBlacklist::clearOnRevokeCallback</definition>
+        <argsstring>()</argsstring>
+        <name>clearOnRevokeCallback</name>
+        <qualifiedname>themis::auth::TokenBlacklist::clearOnRevokeCallback</qualifiedname>
+        <briefdescription>
+<para>Clear On Revoke Callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="105" column="10" bodyfile="src/auth/token_blacklist.cpp" bodystart="250" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_token_blacklist_1ad2f85a43c0ffed0b4b42988ad91a4826" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::auth::TokenBlacklist::add</definition>
+        <argsstring>(const std::string &amp;jti, std::chrono::system_clock::time_point expiry) override</argsstring>
+        <name>add</name>
+        <qualifiedname>themis::auth::TokenBlacklist::add</qualifiedname>
+        <reimplements refid="classthemis_1_1auth_1_1_i_token_blacklist_1af1eb58cffcd58a90c145cfba7e3313a6">add</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>jti</declname>
+        </param>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>expiry</declname>
+        </param>
+        <briefdescription>
+<para>Add. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jti</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expiry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1auth_1_1_token_blacklist_1acc55cb1d13afca06431dccc711da459b" kindref="member">revoke()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="111" column="10" bodyfile="src/auth/token_blacklist.cpp" bodystart="34" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_token_blacklist_1a3435f5fd1faa95ae2781f45e18a1bd0b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::TokenBlacklist::isRevoked</definition>
+        <argsstring>(const std::string &amp;jti) const override</argsstring>
+        <name>isRevoked</name>
+        <qualifiedname>themis::auth::TokenBlacklist::isRevoked</qualifiedname>
+        <reimplements refid="classthemis_1_1auth_1_1_i_token_blacklist_1a4143e749b180b3df021129be9665e8b7">isRevoked</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>jti</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="114" column="10" bodyfile="src/auth/token_blacklist.cpp" bodystart="109" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_token_blacklist_1a2b62fba0b041af858fb300e0687e9b5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::auth::TokenBlacklist::purgeExpired</definition>
+        <argsstring>() override</argsstring>
+        <name>purgeExpired</name>
+        <qualifiedname>themis::auth::TokenBlacklist::purgeExpired</qualifiedname>
+        <reimplements refid="classthemis_1_1auth_1_1_i_token_blacklist_1a254fc6cba8f6c6d140fe6ebd3782bb69">purgeExpired</reimplements>
+        <briefdescription>
+<para>Purge Expired. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: <ref refid="classthemis_1_1auth_1_1_token_blacklist_1ab026eb6474556ad6d50e6d201a1bca18" kindref="member">pruneExpired()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="116" column="10" bodyfile="src/auth/token_blacklist.cpp" bodystart="42" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_token_blacklist_1acc55cb1d13afca06431dccc711da459b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::TokenBlacklist::revoke</definition>
+        <argsstring>(const std::string &amp;jti, std::chrono::system_clock::time_point expires_at)</argsstring>
+        <name>revoke</name>
+        <qualifiedname>themis::auth::TokenBlacklist::revoke</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>jti</declname>
+        </param>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>expires_at</declname>
+        </param>
+        <briefdescription>
+<para>Revoke. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jti</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expires_at</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">jti</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expires_at</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), THEMIS_WARN(), lock(), needsCleanup(), pruneExpiredLocked(), <ref refid="classthemis_1_1auth_1_1_token_blacklist_1aeefbf4bc22783a2c289b24c8ea5425f9" kindref="member">size()</ref>, begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="127" column="10" bodyfile="src/auth/token_blacklist.cpp" bodystart="56" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_token_blacklist_1ae2b3c77b455dc4f18c8268c5f396fa81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::TokenBlacklist::unrevoke</definition>
+        <argsstring>(const std::string &amp;jti)</argsstring>
+        <name>unrevoke</name>
+        <qualifiedname>themis::auth::TokenBlacklist::unrevoke</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>jti</declname>
+        </param>
+        <briefdescription>
+<para>Unrevoke. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jti</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jti</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), erase(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="135" column="10" bodyfile="src/auth/token_blacklist.cpp" bodystart="150" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_token_blacklist_1ab026eb6474556ad6d50e6d201a1bca18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::TokenBlacklist::pruneExpired</definition>
+        <argsstring>()</argsstring>
+        <name>pruneExpired</name>
+        <qualifiedname>themis::auth::TokenBlacklist::pruneExpired</qualifiedname>
+        <briefdescription>
+<para>Prune Expired. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), pruneExpiredLocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="140" column="10" bodyfile="src/auth/token_blacklist.cpp" bodystart="168" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_token_blacklist_1ad3b5ffde4ba975b59469da263eb61773" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::TokenBlacklist::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::auth::TokenBlacklist::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), reset(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="145" column="10" bodyfile="src/auth/token_blacklist.cpp" bodystart="177" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_token_blacklist_1aeefbf4bc22783a2c289b24c8ea5425f9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::auth::TokenBlacklist::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::auth::TokenBlacklist::size</qualifiedname>
+        <briefdescription>
+<para>Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="151" column="12" bodyfile="src/auth/token_blacklist.cpp" bodystart="184" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_token_blacklist_1a673d084488ffea42500472e99cc7a431" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_token_blacklist_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>TokenBlacklist::Statistics themis::auth::TokenBlacklist::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::auth::TokenBlacklist::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return access control statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Access control statistics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="166" column="16" bodyfile="src/auth/token_blacklist.cpp" bodystart="194" bodyend="204"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_token_blacklist_1a5321fc3b6c10dc0feb92a58be1bd3565" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::TokenBlacklist::needsCleanup</definition>
+        <argsstring>() const</argsstring>
+        <name>needsCleanup</name>
+        <qualifiedname>themis::auth::TokenBlacklist::needsCleanup</qualifiedname>
+        <briefdescription>
+<para>Needs Cleanup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="250" column="10" bodyfile="src/auth/token_blacklist.cpp" bodystart="206" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_token_blacklist_1aee9acc1c0a46b7a483edfdcb9842767d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::TokenBlacklist::pruneExpiredLocked</definition>
+        <argsstring>()</argsstring>
+        <name>pruneExpiredLocked</name>
+        <qualifiedname>themis::auth::TokenBlacklist::pruneExpiredLocked</qualifiedname>
+        <briefdescription>
+<para>Prune Expired Locked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::chrono::system_clock::now(), reset(), begin(), end(), erase(), <ref refid="classthemis_1_1auth_1_1_token_blacklist_1ad2f85a43c0ffed0b4b42988ad91a4826" kindref="member">add()</ref>, std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="254" column="10" bodyfile="src/auth/token_blacklist.cpp" bodystart="216" bodyend="234"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::auth::ITokenBlacklist</label>
+        <link refid="classthemis_1_1auth_1_1_i_token_blacklist"/>
+      </node>
+      <node id="1">
+        <label>themis::auth::TokenBlacklist</label>
+        <link refid="classthemis_1_1auth_1_1_token_blacklist"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::auth::tests::MockTokenBlacklist</label>
+        <link refid="classthemis_1_1auth_1_1tests_1_1_mock_token_blacklist"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::auth::ITokenBlacklist</label>
+        <link refid="classthemis_1_1auth_1_1_i_token_blacklist"/>
+      </node>
+      <node id="1">
+        <label>themis::auth::TokenBlacklist</label>
+        <link refid="classthemis_1_1auth_1_1_token_blacklist"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/auth/token_blacklist.h" line="65" column="1" bodyfile="include/auth/token_blacklist.h" bodystart="65" bodyend="255"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1ad2f85a43c0ffed0b4b42988ad91a4826" prot="public" virt="virtual"><scope>themis::auth::TokenBlacklist</scope><name>add</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1a3a6404b86534f45da6370e06d03c7424" prot="private" virt="non-virtual"><scope>themis::auth::TokenBlacklist</scope><name>audit_logger_</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1ab982b4d50cfade108da5cf15a9de8a8c" prot="private" virt="non-virtual"><scope>themis::auth::TokenBlacklist</scope><name>blacklist_</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1a20b1d46a19a3cd4407c4425b9a278aa9" prot="private" virt="non-virtual"><scope>themis::auth::TokenBlacklist</scope><name>bloom_</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1ad3b5ffde4ba975b59469da263eb61773" prot="public" virt="non-virtual"><scope>themis::auth::TokenBlacklist</scope><name>clear</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1a4d7f6332000f0c7f58b2ded875aca8c9" prot="public" virt="non-virtual"><scope>themis::auth::TokenBlacklist</scope><name>clearOnRevokeCallback</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1a08780b9e1677f7cefcebb6774f4b181c" prot="private" virt="non-virtual"><scope>themis::auth::TokenBlacklist</scope><name>config_</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1a673d084488ffea42500472e99cc7a431" prot="public" virt="non-virtual"><scope>themis::auth::TokenBlacklist</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1a3435f5fd1faa95ae2781f45e18a1bd0b" prot="public" virt="virtual"><scope>themis::auth::TokenBlacklist</scope><name>isRevoked</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1a0b9d53b1f14c4e83824c6ea3e030cbef" prot="private" virt="non-virtual"><scope>themis::auth::TokenBlacklist</scope><name>last_cleanup_</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1a231f832abfe9c4806120ee4e77aa3cf3" prot="private" virt="non-virtual"><scope>themis::auth::TokenBlacklist</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1a5321fc3b6c10dc0feb92a58be1bd3565" prot="private" virt="non-virtual"><scope>themis::auth::TokenBlacklist</scope><name>needsCleanup</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1a03b8f02828ca450217d433c5282c6197" prot="private" virt="non-virtual"><scope>themis::auth::TokenBlacklist</scope><name>on_revoke_callback_</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1a93ea7b1eb88bdb34328bf1b424edb471" prot="public" virt="non-virtual"><scope>themis::auth::TokenBlacklist</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1a963a79b228122e8e47ca931f4bfd44ac" prot="public" virt="non-virtual"><scope>themis::auth::TokenBlacklist</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1ab026eb6474556ad6d50e6d201a1bca18" prot="public" virt="non-virtual"><scope>themis::auth::TokenBlacklist</scope><name>pruneExpired</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1aee9acc1c0a46b7a483edfdcb9842767d" prot="private" virt="non-virtual"><scope>themis::auth::TokenBlacklist</scope><name>pruneExpiredLocked</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1a2b62fba0b041af858fb300e0687e9b5d" prot="public" virt="virtual"><scope>themis::auth::TokenBlacklist</scope><name>purgeExpired</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1a9d3a83e00df53043edcc527ffd435bac" prot="public" virt="non-virtual"><scope>themis::auth::TokenBlacklist</scope><name>RevocationCallback</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1acc55cb1d13afca06431dccc711da459b" prot="public" virt="non-virtual"><scope>themis::auth::TokenBlacklist</scope><name>revoke</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1a0b8a2298a0a5baed9e244ab9e81a5d6d" prot="public" virt="non-virtual"><scope>themis::auth::TokenBlacklist</scope><name>setAuditLogger</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1a1f552fdcc0d153e731c19fa044bba22b" prot="public" virt="non-virtual"><scope>themis::auth::TokenBlacklist</scope><name>setOnRevokeCallback</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1aeefbf4bc22783a2c289b24c8ea5425f9" prot="public" virt="non-virtual"><scope>themis::auth::TokenBlacklist</scope><name>size</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1ad0a1c607fabb46f077376ff691e2c204" prot="private" virt="non-virtual"><scope>themis::auth::TokenBlacklist</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1a21fbfa17ddee94ac06d93ea239954b55" prot="public" virt="non-virtual"><scope>themis::auth::TokenBlacklist</scope><name>TokenBlacklist</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1a2194ba6b7018fc4d1f117d2a8c6743ba" prot="public" virt="non-virtual"><scope>themis::auth::TokenBlacklist</scope><name>TokenBlacklist</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1a4071bf2259e89d573671111a1137de19" prot="public" virt="non-virtual"><scope>themis::auth::TokenBlacklist</scope><name>TokenBlacklist</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1ae2b3c77b455dc4f18c8268c5f396fa81" prot="public" virt="non-virtual"><scope>themis::auth::TokenBlacklist</scope><name>unrevoke</name></member>
+      <member refid="classthemis_1_1auth_1_1_i_token_blacklist_1ac85bfacfbd62eea066156af8d9cf2642" prot="public" virt="virtual"><scope>themis::auth::TokenBlacklist</scope><name>~ITokenBlacklist</name></member>
+      <member refid="classthemis_1_1auth_1_1_token_blacklist_1a3947a91a627c8e4b1583371cbe71196d" prot="public" virt="non-virtual"><scope>themis::auth::TokenBlacklist</scope><name>~TokenBlacklist</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

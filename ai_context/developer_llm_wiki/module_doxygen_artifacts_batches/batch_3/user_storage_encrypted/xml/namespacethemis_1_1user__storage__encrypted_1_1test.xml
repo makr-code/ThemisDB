@@ -1,0 +1,812 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1user__storage__encrypted_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::user_storage_encrypted::test</compoundname>
+    <innerclass refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_e2_e_integration_test" prot="public">themis::user_storage_encrypted::test::E2EIntegrationTest</innerclass>
+    <innerclass refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test" prot="public">themis::user_storage_encrypted::test::StressTest</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1user__storage__encrypted_1_1test_1a100018eb80a91ead6d1343ec5d728924" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::user_storage_encrypted::test::kSeed</definition>
+        <argsstring></argsstring>
+        <name>kSeed</name>
+        <qualifiedname>themis::user_storage_encrypted::test::kSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_contract_hardening_focused.cpp" line="29" column="27" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_contract_hardening_focused.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1a7b50189b7fc846b8f28dd7868889f8f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST</definition>
+        <argsstring>(CommandInjectionPrevention, USEG_INJ_01_AbsolutePathValidation)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST</qualifiedname>
+        <param>
+          <type>CommandInjectionPrevention</type>
+        </param>
+        <param>
+          <type>USEG_INJ_01_AbsolutePathValidation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_backend_command_injection_focused.cpp" line="34" column="1" bodyfile="tests/user_storage_encrypted/test_backend_command_injection_focused.cpp" bodystart="34" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1a80bc383f9621b7078e65bfc8b76fe661" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST</definition>
+        <argsstring>(CommandInjectionPrevention, USEG_INJ_02_RelativePathValidation)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST</qualifiedname>
+        <param>
+          <type>CommandInjectionPrevention</type>
+        </param>
+        <param>
+          <type>USEG_INJ_02_RelativePathValidation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_backend_command_injection_focused.cpp" line="56" column="1" bodyfile="tests/user_storage_encrypted/test_backend_command_injection_focused.cpp" bodystart="56" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1a519b81e80a349a1e6ad987fb46a0009e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST</definition>
+        <argsstring>(CommandInjectionPrevention, USEG_INJ_03_PathTraversalRejection)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST</qualifiedname>
+        <param>
+          <type>CommandInjectionPrevention</type>
+        </param>
+        <param>
+          <type>USEG_INJ_03_PathTraversalRejection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_backend_command_injection_focused.cpp" line="74" column="1" bodyfile="tests/user_storage_encrypted/test_backend_command_injection_focused.cpp" bodystart="74" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1a582e02e86a1527143a653b1d8402d712" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST</definition>
+        <argsstring>(CommandInjectionPrevention, USEG_INJ_04_ShellMetacharacterRejection)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST</qualifiedname>
+        <param>
+          <type>CommandInjectionPrevention</type>
+        </param>
+        <param>
+          <type>USEG_INJ_04_ShellMetacharacterRejection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_backend_command_injection_focused.cpp" line="97" column="1" bodyfile="tests/user_storage_encrypted/test_backend_command_injection_focused.cpp" bodystart="97" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1abaab959d621a09654fe5d8c14bd59d51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST</definition>
+        <argsstring>(CommandInjectionPrevention, USEG_INJ_05_ParenthesesAndBracesRejection)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST</qualifiedname>
+        <param>
+          <type>CommandInjectionPrevention</type>
+        </param>
+        <param>
+          <type>USEG_INJ_05_ParenthesesAndBracesRejection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_backend_command_injection_focused.cpp" line="129" column="1" bodyfile="tests/user_storage_encrypted/test_backend_command_injection_focused.cpp" bodystart="129" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1a3586e30699560487c1f309a70d66881f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST</definition>
+        <argsstring>(CommandInjectionPrevention, USEG_INJ_06_EnvironmentVariableRejection)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST</qualifiedname>
+        <param>
+          <type>CommandInjectionPrevention</type>
+        </param>
+        <param>
+          <type>USEG_INJ_06_EnvironmentVariableRejection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_backend_command_injection_focused.cpp" line="162" column="1" bodyfile="tests/user_storage_encrypted/test_backend_command_injection_focused.cpp" bodystart="162" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1a2884a145094447cf1a57665211a3180a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST</definition>
+        <argsstring>(CommandInjectionPrevention, USEG_INJ_07_EscapeAndQuoteRejection)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST</qualifiedname>
+        <param>
+          <type>CommandInjectionPrevention</type>
+        </param>
+        <param>
+          <type>USEG_INJ_07_EscapeAndQuoteRejection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_backend_command_injection_focused.cpp" line="185" column="1" bodyfile="tests/user_storage_encrypted/test_backend_command_injection_focused.cpp" bodystart="185" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1a981f504ab9f0a9c4d30af2a9d046177f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST</definition>
+        <argsstring>(CommandInjectionPrevention, USEG_INJ_08_EdgeCasesRejection)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST</qualifiedname>
+        <param>
+          <type>CommandInjectionPrevention</type>
+        </param>
+        <param>
+          <type>USEG_INJ_08_EdgeCasesRejection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_backend_command_injection_focused.cpp" line="214" column="1" bodyfile="tests/user_storage_encrypted/test_backend_command_injection_focused.cpp" bodystart="214" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1a4ee2178a81e53e9260237840141b76de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST</definition>
+        <argsstring>(CommandInjectionPrevention, USEG_INJ_09_ValidHexKeyFormat)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST</qualifiedname>
+        <param>
+          <type>CommandInjectionPrevention</type>
+        </param>
+        <param>
+          <type>USEG_INJ_09_ValidHexKeyFormat</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_backend_command_injection_focused.cpp" line="244" column="1" bodyfile="tests/user_storage_encrypted/test_backend_command_injection_focused.cpp" bodystart="244" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1adfbe8377ca208d63c5afe67a6211c2aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST</definition>
+        <argsstring>(CommandInjectionPrevention, USEG_INJ_10_InvalidHexKeyFormat)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST</qualifiedname>
+        <param>
+          <type>CommandInjectionPrevention</type>
+        </param>
+        <param>
+          <type>USEG_INJ_10_InvalidHexKeyFormat</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_backend_command_injection_focused.cpp" line="269" column="1" bodyfile="tests/user_storage_encrypted/test_backend_command_injection_focused.cpp" bodystart="269" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1af6f9824c0a15e0dbc786698c7086867a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST</definition>
+        <argsstring>(CommandInjectionPrevention, USEG_INJ_11_SafeFlagsValidation)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST</qualifiedname>
+        <param>
+          <type>CommandInjectionPrevention</type>
+        </param>
+        <param>
+          <type>USEG_INJ_11_SafeFlagsValidation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_backend_command_injection_focused.cpp" line="302" column="1" bodyfile="tests/user_storage_encrypted/test_backend_command_injection_focused.cpp" bodystart="302" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1a33124db883e1ebf57978aa17e2d07ff3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST</definition>
+        <argsstring>(CommandInjectionPrevention, USEG_INJ_12_DangerousFlagsRejection)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST</qualifiedname>
+        <param>
+          <type>CommandInjectionPrevention</type>
+        </param>
+        <param>
+          <type>USEG_INJ_12_DangerousFlagsRejection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_backend_command_injection_focused.cpp" line="323" column="1" bodyfile="tests/user_storage_encrypted/test_backend_command_injection_focused.cpp" bodystart="323" bodyend="354"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1a10dc873f233a3d8ad80b0f6c4d6bab40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST</definition>
+        <argsstring>(CommandInjectionPrevention, USEG_INJ_13_SQLInjectionPattern)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST</qualifiedname>
+        <param>
+          <type>CommandInjectionPrevention</type>
+        </param>
+        <param>
+          <type>USEG_INJ_13_SQLInjectionPattern</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_backend_command_injection_focused.cpp" line="360" column="1" bodyfile="tests/user_storage_encrypted/test_backend_command_injection_focused.cpp" bodystart="360" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1a07dfb5246fa7f91ad6889a4417aa073d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST</definition>
+        <argsstring>(CommandInjectionPrevention, USEG_INJ_14_LDAPInjectionPattern)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST</qualifiedname>
+        <param>
+          <type>CommandInjectionPrevention</type>
+        </param>
+        <param>
+          <type>USEG_INJ_14_LDAPInjectionPattern</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_backend_command_injection_focused.cpp" line="373" column="1" bodyfile="tests/user_storage_encrypted/test_backend_command_injection_focused.cpp" bodystart="373" bodyend="383"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1a019348f1e552c921988c2a154a4d3533" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST</definition>
+        <argsstring>(CommandInjectionPrevention, USEG_INJ_15_XMLInjectionPattern)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST</qualifiedname>
+        <param>
+          <type>CommandInjectionPrevention</type>
+        </param>
+        <param>
+          <type>USEG_INJ_15_XMLInjectionPattern</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_backend_command_injection_focused.cpp" line="389" column="1" bodyfile="tests/user_storage_encrypted/test_backend_command_injection_focused.cpp" bodystart="389" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1a2482934df8324310e82d5a96380438fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST</definition>
+        <argsstring>(CommandInjectionPrevention, USEG_INJ_16_UnicodeEncodingAttacks)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST</qualifiedname>
+        <param>
+          <type>CommandInjectionPrevention</type>
+        </param>
+        <param>
+          <type>USEG_INJ_16_UnicodeEncodingAttacks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_backend_command_injection_focused.cpp" line="413" column="1" bodyfile="tests/user_storage_encrypted/test_backend_command_injection_focused.cpp" bodystart="413" bodyend="434"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1a25b3b235f625f36a1945311917bfad86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST</definition>
+        <argsstring>(CommandInjectionPrevention, USEG_INJ_17_FuzzTestRandomMutations)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST</qualifiedname>
+        <param>
+          <type>CommandInjectionPrevention</type>
+        </param>
+        <param>
+          <type>USEG_INJ_17_FuzzTestRandomMutations</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_backend_command_injection_focused.cpp" line="440" column="1" bodyfile="tests/user_storage_encrypted/test_backend_command_injection_focused.cpp" bodystart="440" bodyend="466"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1a11471ea6078c8a8a25578f98c3d10a2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST</definition>
+        <argsstring>(UserStorageEncryptedContractHardening, USE01_ErrorCodeUniqueness)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST</qualifiedname>
+        <param>
+          <type>UserStorageEncryptedContractHardening</type>
+        </param>
+        <param>
+          <type>USE01_ErrorCodeUniqueness</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_contract_hardening_focused.cpp" line="35" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_contract_hardening_focused.cpp" bodystart="35" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1a986f3e9d613aa863f70c12d2b02b30c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST</definition>
+        <argsstring>(UserStorageEncryptedContractHardening, USE02_ErrorCodeRange)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST</qualifiedname>
+        <param>
+          <type>UserStorageEncryptedContractHardening</type>
+        </param>
+        <param>
+          <type>USE02_ErrorCodeRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_contract_hardening_focused.cpp" line="59" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_contract_hardening_focused.cpp" bodystart="59" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1a1642449635d106b2054d837afdf5dbdb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST</definition>
+        <argsstring>(UserStorageEncryptedContractHardening, USE03_SwitchDispatch)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST</qualifiedname>
+        <param>
+          <type>UserStorageEncryptedContractHardening</type>
+        </param>
+        <param>
+          <type>USE03_SwitchDispatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_contract_hardening_focused.cpp" line="80" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_contract_hardening_focused.cpp" bodystart="80" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1a89afdc8522c5bf2277a77df06d8e0436" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST</definition>
+        <argsstring>(UserStorageEncryptedContractHardening, USE04_EncryptedMountDescriptorDefaults)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST</qualifiedname>
+        <param>
+          <type>UserStorageEncryptedContractHardening</type>
+        </param>
+        <param>
+          <type>USE04_EncryptedMountDescriptorDefaults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_contract_hardening_focused.cpp" line="106" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_contract_hardening_focused.cpp" bodystart="106" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1ad8162bd2382fc7b95bebf3e0378e3bf4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST</definition>
+        <argsstring>(UserStorageEncryptedContractHardening, USE05_KeyDerivationRequestDefaults)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST</qualifiedname>
+        <param>
+          <type>UserStorageEncryptedContractHardening</type>
+        </param>
+        <param>
+          <type>USE05_KeyDerivationRequestDefaults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_contract_hardening_focused.cpp" line="118" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_contract_hardening_focused.cpp" bodystart="118" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1a453ccc4c5179b059163843f21a9eceb1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST</definition>
+        <argsstring>(UserStorageEncryptedContractHardening, USE06_EncryptedMountDescriptorCopy)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST</qualifiedname>
+        <param>
+          <type>UserStorageEncryptedContractHardening</type>
+        </param>
+        <param>
+          <type>USE06_EncryptedMountDescriptorCopy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_contract_hardening_focused.cpp" line="129" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_contract_hardening_focused.cpp" bodystart="129" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1a84683f33c5ea4decca610d5428dad1ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST</definition>
+        <argsstring>(UserStorageEncryptedContractHardening, USE07_KeyDerivationRequestMove)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST</qualifiedname>
+        <param>
+          <type>UserStorageEncryptedContractHardening</type>
+        </param>
+        <param>
+          <type>USE07_KeyDerivationRequestMove</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_contract_hardening_focused.cpp" line="145" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_contract_hardening_focused.cpp" bodystart="145" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1ac579b396c4f9f9c2df156bdbb390d600" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST</definition>
+        <argsstring>(UserStorageEncryptedContractHardening, USE08_FailClosedPredicate)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST</qualifiedname>
+        <param>
+          <type>UserStorageEncryptedContractHardening</type>
+        </param>
+        <param>
+          <type>USE08_FailClosedPredicate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_contract_hardening_focused.cpp" line="159" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_contract_hardening_focused.cpp" bodystart="159" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1a752744ac05344fd4a7b98f82f3ee75fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST_F</definition>
+        <argsstring>(E2EIntegrationTest, E2E_01_LifecycleOFFEN)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_e2_e_integration_test" kindref="compound">E2EIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>E2E_01_LifecycleOFFEN</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_e2e_vault_integration_focused.cpp" line="102" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_e2e_vault_integration_focused.cpp" bodystart="102" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1ab236ba4b7e48ba2d7266f0531966d8a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST_F</definition>
+        <argsstring>(E2EIntegrationTest, E2E_02_AllSecurityLevels)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_e2_e_integration_test" kindref="compound">E2EIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>E2E_02_AllSecurityLevels</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_e2e_vault_integration_focused.cpp" line="131" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_e2e_vault_integration_focused.cpp" bodystart="131" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1a2453582a7853740b4a7db0a7acf50020" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST_F</definition>
+        <argsstring>(E2EIntegrationTest, E2E_03_KeyRotationConcurrentLoad)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_e2_e_integration_test" kindref="compound">E2EIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>E2E_03_KeyRotationConcurrentLoad</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_e2e_vault_integration_focused.cpp" line="157" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_e2e_vault_integration_focused.cpp" bodystart="157" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1ae102f22f19f69328341eea720bc4405e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST_F</definition>
+        <argsstring>(E2EIntegrationTest, E2E_04_MountFailureRecovery)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_e2_e_integration_test" kindref="compound">E2EIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>E2E_04_MountFailureRecovery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_e2e_vault_integration_focused.cpp" line="225" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_e2e_vault_integration_focused.cpp" bodystart="225" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1abbbc7e1ff1a1177b9eac976fc3d383bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST_F</definition>
+        <argsstring>(E2EIntegrationTest, E2E_05_InvalidContainerPath)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_e2_e_integration_test" kindref="compound">E2EIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>E2E_05_InvalidContainerPath</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_e2e_vault_integration_focused.cpp" line="246" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_e2e_vault_integration_focused.cpp" bodystart="246" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1a260a4a38072afd244e1edada77289c5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST_F</definition>
+        <argsstring>(E2EIntegrationTest, E2E_06_VaultTimeoutRecovery)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_e2_e_integration_test" kindref="compound">E2EIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>E2E_06_VaultTimeoutRecovery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_e2e_vault_integration_focused.cpp" line="270" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_e2e_vault_integration_focused.cpp" bodystart="270" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1abc0e3839189e8bdf46b1059cf4386890" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST_F</definition>
+        <argsstring>(E2EIntegrationTest, E2E_07_StaleMountReconciliation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_e2_e_integration_test" kindref="compound">E2EIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>E2E_07_StaleMountReconciliation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_e2e_vault_integration_focused.cpp" line="292" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_e2e_vault_integration_focused.cpp" bodystart="292" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1a1ba0838a7aa35a75b52e5ad860626351" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST_F</definition>
+        <argsstring>(E2EIntegrationTest, E2E_08_MultiTenantIsolation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_e2_e_integration_test" kindref="compound">E2EIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>E2E_08_MultiTenantIsolation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_e2e_vault_integration_focused.cpp" line="313" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_e2e_vault_integration_focused.cpp" bodystart="313" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1adff16125f1727cf51a5c52b73cd5ac68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST_F</definition>
+        <argsstring>(StressTest, STRESS_01_ConcurrentMountUnmount)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test" kindref="compound">StressTest</ref></type>
+        </param>
+        <param>
+          <type>STRESS_01_ConcurrentMountUnmount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp" line="99" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp" bodystart="99" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1a9441ba9017c76d40420c38fb32c9e7e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST_F</definition>
+        <argsstring>(StressTest, STRESS_02_KeyRotationHighConcurrency)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test" kindref="compound">StressTest</ref></type>
+        </param>
+        <param>
+          <type>STRESS_02_KeyRotationHighConcurrency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp" line="149" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp" bodystart="149" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1a4117ab2688071a57751274b94c4f22dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST_F</definition>
+        <argsstring>(StressTest, STRESS_03_CommandTimeout)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test" kindref="compound">StressTest</ref></type>
+        </param>
+        <param>
+          <type>STRESS_03_CommandTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp" line="205" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp" bodystart="205" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1aa97a0c2b7c5955811d52eafc4ae45978" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST_F</definition>
+        <argsstring>(StressTest, STRESS_04_VaultUnavailable)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test" kindref="compound">StressTest</ref></type>
+        </param>
+        <param>
+          <type>STRESS_04_VaultUnavailable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp" line="229" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp" bodystart="229" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1a22490c0d4c9e6ff07e71291f19505da5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST_F</definition>
+        <argsstring>(StressTest, STRESS_05_DiskFull)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test" kindref="compound">StressTest</ref></type>
+        </param>
+        <param>
+          <type>STRESS_05_DiskFull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp" line="248" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp" bodystart="248" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1user__storage__encrypted_1_1test_1a30990be9054d5d18568f9f6f6ea6568d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::user_storage_encrypted::test::TEST_F</definition>
+        <argsstring>(StressTest, STRESS_06_PermissionDenied)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::user_storage_encrypted::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test" kindref="compound">StressTest</ref></type>
+        </param>
+        <param>
+          <type>STRESS_06_PermissionDenied</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp" line="267" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp" bodystart="267" bodyend="283"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/user_storage_encrypted/test_backend_command_injection_focused.cpp" line="28" column="1"/>
+  </compounddef>
+</doxygen>

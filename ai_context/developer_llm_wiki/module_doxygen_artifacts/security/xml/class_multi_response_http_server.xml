@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_multi_response_http_server" kind="class" language="C++" prot="public">
+    <compoundname>MultiResponseHttpServer</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_multi_response_http_server_1aae692186a33dcb726411d3be054dab67" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; MultiResponseHttpServer::bodies_</definition>
+        <argsstring></argsstring>
+        <name>bodies_</name>
+        <qualifiedname>MultiResponseHttpServer::bodies_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_integration.cpp" line="148" column="17" bodyfile="tests/security/test_jwt_integration.cpp" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_multi_response_http_server_1ac9f5ae20e4f12dfba305089128f53781" prot="private" static="no" mutable="no">
+        <type>boost::asio::io_context</type>
+        <definition>boost::asio::io_context MultiResponseHttpServer::ios_</definition>
+        <argsstring></argsstring>
+        <name>ios_</name>
+        <qualifiedname>MultiResponseHttpServer::ios_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_integration.cpp" line="149" column="29" bodyfile="tests/security/test_jwt_integration.cpp" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_multi_response_http_server_1a3373ff3a34edb753a64bb6b4fefc4fe4" prot="private" static="no" mutable="no">
+        <type>tcp::acceptor</type>
+        <definition>tcp::acceptor MultiResponseHttpServer::acceptor_</definition>
+        <argsstring></argsstring>
+        <name>acceptor_</name>
+        <qualifiedname>MultiResponseHttpServer::acceptor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_integration.cpp" line="150" column="19" bodyfile="tests/security/test_jwt_integration.cpp" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_multi_response_http_server_1a58ef2c95b369feada12c203eb58dbb0f" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread MultiResponseHttpServer::thr_</definition>
+        <argsstring></argsstring>
+        <name>thr_</name>
+        <qualifiedname>MultiResponseHttpServer::thr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_integration.cpp" line="151" column="17" bodyfile="tests/security/test_jwt_integration.cpp" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_multi_response_http_server_1a9009aee904728d78e62515c3d43626a8" prot="private" static="no" mutable="no">
+        <type>unsigned short</type>
+        <definition>unsigned short MultiResponseHttpServer::port_</definition>
+        <argsstring></argsstring>
+        <name>port_</name>
+        <qualifiedname>MultiResponseHttpServer::port_</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_integration.cpp" line="152" column="20" bodyfile="tests/security/test_jwt_integration.cpp" bodystart="152" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_multi_response_http_server_1a0b266f4f9a46ae52beda78f96f305134" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; MultiResponseHttpServer::idx_</definition>
+        <argsstring></argsstring>
+        <name>idx_</name>
+        <qualifiedname>MultiResponseHttpServer::idx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_integration.cpp" line="153" column="17" bodyfile="tests/security/test_jwt_integration.cpp" bodystart="153" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_multi_response_http_server_1a61e3d2f4ef71bd984b6406bb914b0871" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>MultiResponseHttpServer::MultiResponseHttpServer</definition>
+        <argsstring>(std::vector&lt; std::string &gt; bodies, unsigned short port=0)</argsstring>
+        <name>MultiResponseHttpServer</name>
+        <qualifiedname>MultiResponseHttpServer::MultiResponseHttpServer</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>bodies</declname>
+        </param>
+        <param>
+          <type>unsigned short</type>
+          <declname>port</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_integration.cpp" line="114" column="5" bodyfile="tests/security/test_jwt_integration.cpp" bodystart="114" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="class_multi_response_http_server_1a920e0da63f3a4c6c52b0e4f8205036e8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>MultiResponseHttpServer::~MultiResponseHttpServer</definition>
+        <argsstring>()</argsstring>
+        <name>~MultiResponseHttpServer</name>
+        <qualifiedname>MultiResponseHttpServer::~MultiResponseHttpServer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_integration.cpp" line="124" column="5" bodyfile="tests/security/test_jwt_integration.cpp" bodystart="124" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="class_multi_response_http_server_1a127270d461eef828edb31872cc0dc9a6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>unsigned short</type>
+        <definition>unsigned short MultiResponseHttpServer::port</definition>
+        <argsstring>() const</argsstring>
+        <name>port</name>
+        <qualifiedname>MultiResponseHttpServer::port</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_integration.cpp" line="130" column="20" bodyfile="tests/security/test_jwt_integration.cpp" bodystart="130" bodyend="130"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_multi_response_http_server_1a10a9f2cd917843f95b138cb6169e178c" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MultiResponseHttpServer::run</definition>
+        <argsstring>()</argsstring>
+        <name>run</name>
+        <qualifiedname>MultiResponseHttpServer::run</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_integration.cpp" line="132" column="10" bodyfile="tests/security/test_jwt_integration.cpp" bodystart="132" bodyend="147"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/security/test_jwt_integration.cpp" line="112" column="1" bodyfile="tests/security/test_jwt_integration.cpp" bodystart="112" bodyend="154"/>
+    <listofallmembers>
+      <member refid="class_multi_response_http_server_1a3373ff3a34edb753a64bb6b4fefc4fe4" prot="private" virt="non-virtual"><scope>MultiResponseHttpServer</scope><name>acceptor_</name></member>
+      <member refid="class_multi_response_http_server_1aae692186a33dcb726411d3be054dab67" prot="private" virt="non-virtual"><scope>MultiResponseHttpServer</scope><name>bodies_</name></member>
+      <member refid="class_multi_response_http_server_1a0b266f4f9a46ae52beda78f96f305134" prot="private" virt="non-virtual"><scope>MultiResponseHttpServer</scope><name>idx_</name></member>
+      <member refid="class_multi_response_http_server_1ac9f5ae20e4f12dfba305089128f53781" prot="private" virt="non-virtual"><scope>MultiResponseHttpServer</scope><name>ios_</name></member>
+      <member refid="class_multi_response_http_server_1a61e3d2f4ef71bd984b6406bb914b0871" prot="public" virt="non-virtual"><scope>MultiResponseHttpServer</scope><name>MultiResponseHttpServer</name></member>
+      <member refid="class_multi_response_http_server_1a127270d461eef828edb31872cc0dc9a6" prot="public" virt="non-virtual"><scope>MultiResponseHttpServer</scope><name>port</name></member>
+      <member refid="class_multi_response_http_server_1a9009aee904728d78e62515c3d43626a8" prot="private" virt="non-virtual"><scope>MultiResponseHttpServer</scope><name>port_</name></member>
+      <member refid="class_multi_response_http_server_1a10a9f2cd917843f95b138cb6169e178c" prot="private" virt="non-virtual"><scope>MultiResponseHttpServer</scope><name>run</name></member>
+      <member refid="class_multi_response_http_server_1a58ef2c95b369feada12c203eb58dbb0f" prot="private" virt="non-virtual"><scope>MultiResponseHttpServer</scope><name>thr_</name></member>
+      <member refid="class_multi_response_http_server_1a920e0da63f3a4c6c52b0e4f8205036e8" prot="public" virt="non-virtual"><scope>MultiResponseHttpServer</scope><name>~MultiResponseHttpServer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

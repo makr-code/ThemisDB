@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_legal_document" kind="struct" language="C++" prot="private">
+    <compoundname>themis::importers::HuggingFaceIngestPlugin::LegalDocument</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_legal_document_1a8a6850c726acfb7ad7c6b85f3c472527" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::HuggingFaceIngestPlugin::LegalDocument::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::importers::HuggingFaceIngestPlugin::LegalDocument::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="118" column="21" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_legal_document_1a31310948211183882a6a8417c159d63b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::HuggingFaceIngestPlugin::LegalDocument::dataset_name</definition>
+        <argsstring></argsstring>
+        <name>dataset_name</name>
+        <qualifiedname>themis::importers::HuggingFaceIngestPlugin::LegalDocument::dataset_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="119" column="21" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_legal_document_1a8d3ae52f25f0b3a94c0213d858984bbe" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::HuggingFaceIngestPlugin::LegalDocument::split</definition>
+        <argsstring></argsstring>
+        <name>split</name>
+        <qualifiedname>themis::importers::HuggingFaceIngestPlugin::LegalDocument::split</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="120" column="21" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_legal_document_1a13428a1162f0f2e8bcacb59ac05e41b4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::HuggingFaceIngestPlugin::LegalDocument::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::importers::HuggingFaceIngestPlugin::LegalDocument::text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="121" column="21" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_legal_document_1ad1f7c239401e94f3af24e8d2cd0489fd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::HuggingFaceIngestPlugin::LegalDocument::jurisdiction</definition>
+        <argsstring></argsstring>
+        <name>jurisdiction</name>
+        <qualifiedname>themis::importers::HuggingFaceIngestPlugin::LegalDocument::jurisdiction</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="122" column="21" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_legal_document_1a926780a4aba13cafaad4924ddcfcdaa4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::HuggingFaceIngestPlugin::LegalDocument::court</definition>
+        <argsstring></argsstring>
+        <name>court</name>
+        <qualifiedname>themis::importers::HuggingFaceIngestPlugin::LegalDocument::court</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="123" column="21" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_legal_document_1afc720e9966e70ad89e248c9d54eed2ce" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::HuggingFaceIngestPlugin::LegalDocument::topic</definition>
+        <argsstring></argsstring>
+        <name>topic</name>
+        <qualifiedname>themis::importers::HuggingFaceIngestPlugin::LegalDocument::topic</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="124" column="21" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_legal_document_1a07365be0b1da6acb1ebbc61e93dab2a5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::HuggingFaceIngestPlugin::LegalDocument::language</definition>
+        <argsstring></argsstring>
+        <name>language</name>
+        <qualifiedname>themis::importers::HuggingFaceIngestPlugin::LegalDocument::language</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="125" column="21" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_legal_document_1aa8ee7a553d1139cdac45cae8d1ec47eb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::HuggingFaceIngestPlugin::LegalDocument::issued_at</definition>
+        <argsstring></argsstring>
+        <name>issued_at</name>
+        <qualifiedname>themis::importers::HuggingFaceIngestPlugin::LegalDocument::issued_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="126" column="21" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/huggingface_ingest_plugin.h" line="117" column="5" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="117" bodyend="127"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_legal_document_1a926780a4aba13cafaad4924ddcfcdaa4" prot="public" virt="non-virtual"><scope>themis::importers::HuggingFaceIngestPlugin::LegalDocument</scope><name>court</name></member>
+      <member refid="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_legal_document_1a31310948211183882a6a8417c159d63b" prot="public" virt="non-virtual"><scope>themis::importers::HuggingFaceIngestPlugin::LegalDocument</scope><name>dataset_name</name></member>
+      <member refid="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_legal_document_1a8a6850c726acfb7ad7c6b85f3c472527" prot="public" virt="non-virtual"><scope>themis::importers::HuggingFaceIngestPlugin::LegalDocument</scope><name>id</name></member>
+      <member refid="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_legal_document_1aa8ee7a553d1139cdac45cae8d1ec47eb" prot="public" virt="non-virtual"><scope>themis::importers::HuggingFaceIngestPlugin::LegalDocument</scope><name>issued_at</name></member>
+      <member refid="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_legal_document_1ad1f7c239401e94f3af24e8d2cd0489fd" prot="public" virt="non-virtual"><scope>themis::importers::HuggingFaceIngestPlugin::LegalDocument</scope><name>jurisdiction</name></member>
+      <member refid="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_legal_document_1a07365be0b1da6acb1ebbc61e93dab2a5" prot="public" virt="non-virtual"><scope>themis::importers::HuggingFaceIngestPlugin::LegalDocument</scope><name>language</name></member>
+      <member refid="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_legal_document_1a8d3ae52f25f0b3a94c0213d858984bbe" prot="public" virt="non-virtual"><scope>themis::importers::HuggingFaceIngestPlugin::LegalDocument</scope><name>split</name></member>
+      <member refid="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_legal_document_1a13428a1162f0f2e8bcacb59ac05e41b4" prot="public" virt="non-virtual"><scope>themis::importers::HuggingFaceIngestPlugin::LegalDocument</scope><name>text</name></member>
+      <member refid="structthemis_1_1importers_1_1_hugging_face_ingest_plugin_1_1_legal_document_1afc720e9966e70ad89e248c9d54eed2ce" prot="public" virt="non-virtual"><scope>themis::importers::HuggingFaceIngestPlugin::LegalDocument</scope><name>topic</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

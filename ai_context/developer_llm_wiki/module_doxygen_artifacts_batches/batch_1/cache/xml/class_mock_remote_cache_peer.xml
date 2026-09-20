@@ -1,0 +1,342 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_remote_cache_peer" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>MockRemoteCachePeer</compoundname>
+    <basecompoundref refid="classthemis_1_1cache_1_1_i_remote_cache_peer" prot="public" virt="non-virtual">themis::cache::IRemoteCachePeer</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_mock_remote_cache_peer_1adca2765f0941ec793ddb38e69b91e670" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; MockRemoteCachePeer::invalidate_calls</definition>
+        <argsstring></argsstring>
+        <name>invalidate_calls</name>
+        <qualifiedname>MockRemoteCachePeer::invalidate_calls</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication_coordinator.cpp" line="77" column="18" bodyfile="tests/cache/test_cache_replication_coordinator.cpp" bodystart="77" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_remote_cache_peer_1a581867d395ce9112d4a9e39079c07c3b" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; MockRemoteCachePeer::invalidate_tenant_calls</definition>
+        <argsstring></argsstring>
+        <name>invalidate_tenant_calls</name>
+        <qualifiedname>MockRemoteCachePeer::invalidate_tenant_calls</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication_coordinator.cpp" line="78" column="18" bodyfile="tests/cache/test_cache_replication_coordinator.cpp" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_remote_cache_peer_1a544da3a92112dc30c02cb3c67772fb6a" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; MockRemoteCachePeer::throw_count</definition>
+        <argsstring></argsstring>
+        <name>throw_count</name>
+        <qualifiedname>MockRemoteCachePeer::throw_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication_coordinator.cpp" line="79" column="18" bodyfile="tests/cache/test_cache_replication_coordinator.cpp" bodystart="79" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_remote_cache_peer_1ac41147626734d234cd6233a7dcd6c0b5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool MockRemoteCachePeer::should_throw</definition>
+        <argsstring></argsstring>
+        <name>should_throw</name>
+        <qualifiedname>MockRemoteCachePeer::should_throw</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication_coordinator.cpp" line="80" column="23" bodyfile="tests/cache/test_cache_replication_coordinator.cpp" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_remote_cache_peer_1ad9b7b5464bcd0ad6fc1c56516dfe488a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string MockRemoteCachePeer::last_key</definition>
+        <argsstring></argsstring>
+        <name>last_key</name>
+        <qualifiedname>MockRemoteCachePeer::last_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication_coordinator.cpp" line="81" column="23" bodyfile="tests/cache/test_cache_replication_coordinator.cpp" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_remote_cache_peer_1a3470dd9bfee87e355cea5ef42ae4fc6c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string MockRemoteCachePeer::last_tenant</definition>
+        <argsstring></argsstring>
+        <name>last_tenant</name>
+        <qualifiedname>MockRemoteCachePeer::last_tenant</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication_coordinator.cpp" line="82" column="23" bodyfile="tests/cache/test_cache_replication_coordinator.cpp" bodystart="82" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_mock_remote_cache_peer_1a0db4860ec0d1b5067a6d1c71b6db4e7e" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string MockRemoteCachePeer::addr_</definition>
+        <argsstring></argsstring>
+        <name>addr_</name>
+        <qualifiedname>MockRemoteCachePeer::addr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication_coordinator.cpp" line="85" column="28" bodyfile="tests/cache/test_cache_replication_coordinator.cpp" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_remote_cache_peer_1a40704e181ec06e83db3e14204ab58c89" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex MockRemoteCachePeer::cv_mutex</definition>
+        <argsstring></argsstring>
+        <name>cv_mutex</name>
+        <qualifiedname>MockRemoteCachePeer::cv_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication_coordinator.cpp" line="86" column="28" bodyfile="tests/cache/test_cache_replication_coordinator.cpp" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_remote_cache_peer_1a41b8bb4dc16c84085a6a110b7ea7bacf" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable MockRemoteCachePeer::cv</definition>
+        <argsstring></argsstring>
+        <name>cv</name>
+        <qualifiedname>MockRemoteCachePeer::cv</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication_coordinator.cpp" line="87" column="29" bodyfile="tests/cache/test_cache_replication_coordinator.cpp" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_remote_cache_peer_1a37021fd86cbbeef7dc52e778786a5f92" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int MockRemoteCachePeer::delivered</definition>
+        <argsstring></argsstring>
+        <name>delivered</name>
+        <qualifiedname>MockRemoteCachePeer::delivered</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication_coordinator.cpp" line="88" column="28" bodyfile="tests/cache/test_cache_replication_coordinator.cpp" bodystart="88" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_remote_cache_peer_1a1348d4efc1f6469a6e4867e2df373393" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>MockRemoteCachePeer::MockRemoteCachePeer</definition>
+        <argsstring>(std::string addr=&quot;mock:1234&quot;)</argsstring>
+        <name>MockRemoteCachePeer</name>
+        <qualifiedname>MockRemoteCachePeer::MockRemoteCachePeer</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>addr</declname>
+          <defval>&quot;mock:1234&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication_coordinator.cpp" line="33" column="14" bodyfile="tests/cache/test_cache_replication_coordinator.cpp" bodystart="33" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_remote_cache_peer_1aa612604f23d133ad190da79efc06c4d7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void MockRemoteCachePeer::invalidate</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;tenant_id=&quot;&quot;) override</argsstring>
+        <name>invalidate</name>
+        <qualifiedname>MockRemoteCachePeer::invalidate</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_i_remote_cache_peer_1af1d6df3103c57fcab0e74d3cdae9a1e6">invalidate</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication_coordinator.cpp" line="36" column="10" bodyfile="tests/cache/test_cache_replication_coordinator.cpp" bodystart="36" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_remote_cache_peer_1a6b34a12f77b00416ef8032c16ca297e9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void MockRemoteCachePeer::invalidateTenant</definition>
+        <argsstring>(const std::string &amp;tenant_id) override</argsstring>
+        <name>invalidateTenant</name>
+        <qualifiedname>MockRemoteCachePeer::invalidateTenant</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_i_remote_cache_peer_1a901da52e94352d0673c09c3a7ed27955">invalidateTenant</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate Tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication_coordinator.cpp" line="53" column="10" bodyfile="tests/cache/test_cache_replication_coordinator.cpp" bodystart="53" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_remote_cache_peer_1a16cef2544f46792b763009d7a768eb59" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string MockRemoteCachePeer::address</definition>
+        <argsstring>() const override</argsstring>
+        <name>address</name>
+        <qualifiedname>MockRemoteCachePeer::address</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_i_remote_cache_peer_1a354262a618b2c22f9ce5c152f08c7dd8">address</reimplements>
+        <briefdescription>
+<para>Address. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication_coordinator.cpp" line="67" column="17" bodyfile="tests/cache/test_cache_replication_coordinator.cpp" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_remote_cache_peer_1a994815037f3d4e766cd6fe8c6e61e880" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool MockRemoteCachePeer::isHealthy</definition>
+        <argsstring>() const override</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>MockRemoteCachePeer::isHealthy</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_i_remote_cache_peer_1a2194e5b9e864bc661600031c6d8cbef1">isHealthy</reimplements>
+        <briefdescription>
+<para>Is Healthy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication_coordinator.cpp" line="68" column="17" bodyfile="tests/cache/test_cache_replication_coordinator.cpp" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_remote_cache_peer_1a9044116c11a6ef2b18e365959bfd6a61" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool MockRemoteCachePeer::waitForDeliveries</definition>
+        <argsstring>(int n, std::chrono::milliseconds timeout=std::chrono::milliseconds(2000))</argsstring>
+        <name>waitForDeliveries</name>
+        <qualifiedname>MockRemoteCachePeer::waitForDeliveries</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+          <defval>std::chrono::milliseconds(2000)</defval>
+        </param>
+        <briefdescription>
+<para>Block until at least <computeroutput>n</computeroutput> deliveries have been recorded (or timeout). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_replication_coordinator.cpp" line="71" column="10" bodyfile="tests/cache/test_cache_replication_coordinator.cpp" bodystart="71" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A mock <ref refid="classthemis_1_1cache_1_1_i_remote_cache_peer" kindref="compound">IRemoteCachePeer</ref> that records calls and can be configured to fail. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MockRemoteCachePeer</label>
+        <link refid="class_mock_remote_cache_peer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cache::IRemoteCachePeer</label>
+        <link refid="classthemis_1_1cache_1_1_i_remote_cache_peer"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MockRemoteCachePeer</label>
+        <link refid="class_mock_remote_cache_peer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cache::IRemoteCachePeer</label>
+        <link refid="classthemis_1_1cache_1_1_i_remote_cache_peer"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cache/test_cache_replication_coordinator.cpp" line="31" column="1" bodyfile="tests/cache/test_cache_replication_coordinator.cpp" bodystart="31" bodyend="89"/>
+    <listofallmembers>
+      <member refid="class_mock_remote_cache_peer_1a0db4860ec0d1b5067a6d1c71b6db4e7e" prot="private" virt="non-virtual"><scope>MockRemoteCachePeer</scope><name>addr_</name></member>
+      <member refid="class_mock_remote_cache_peer_1a16cef2544f46792b763009d7a768eb59" prot="public" virt="virtual"><scope>MockRemoteCachePeer</scope><name>address</name></member>
+      <member refid="class_mock_remote_cache_peer_1a41b8bb4dc16c84085a6a110b7ea7bacf" prot="private" virt="non-virtual"><scope>MockRemoteCachePeer</scope><name>cv</name></member>
+      <member refid="class_mock_remote_cache_peer_1a40704e181ec06e83db3e14204ab58c89" prot="private" virt="non-virtual"><scope>MockRemoteCachePeer</scope><name>cv_mutex</name></member>
+      <member refid="class_mock_remote_cache_peer_1a37021fd86cbbeef7dc52e778786a5f92" prot="private" virt="non-virtual"><scope>MockRemoteCachePeer</scope><name>delivered</name></member>
+      <member refid="class_mock_remote_cache_peer_1aa612604f23d133ad190da79efc06c4d7" prot="public" virt="virtual"><scope>MockRemoteCachePeer</scope><name>invalidate</name></member>
+      <member refid="class_mock_remote_cache_peer_1adca2765f0941ec793ddb38e69b91e670" prot="public" virt="non-virtual"><scope>MockRemoteCachePeer</scope><name>invalidate_calls</name></member>
+      <member refid="class_mock_remote_cache_peer_1a581867d395ce9112d4a9e39079c07c3b" prot="public" virt="non-virtual"><scope>MockRemoteCachePeer</scope><name>invalidate_tenant_calls</name></member>
+      <member refid="class_mock_remote_cache_peer_1a6b34a12f77b00416ef8032c16ca297e9" prot="public" virt="virtual"><scope>MockRemoteCachePeer</scope><name>invalidateTenant</name></member>
+      <member refid="class_mock_remote_cache_peer_1a994815037f3d4e766cd6fe8c6e61e880" prot="public" virt="virtual"><scope>MockRemoteCachePeer</scope><name>isHealthy</name></member>
+      <member refid="class_mock_remote_cache_peer_1ad9b7b5464bcd0ad6fc1c56516dfe488a" prot="public" virt="non-virtual"><scope>MockRemoteCachePeer</scope><name>last_key</name></member>
+      <member refid="class_mock_remote_cache_peer_1a3470dd9bfee87e355cea5ef42ae4fc6c" prot="public" virt="non-virtual"><scope>MockRemoteCachePeer</scope><name>last_tenant</name></member>
+      <member refid="class_mock_remote_cache_peer_1a1348d4efc1f6469a6e4867e2df373393" prot="public" virt="non-virtual"><scope>MockRemoteCachePeer</scope><name>MockRemoteCachePeer</name></member>
+      <member refid="class_mock_remote_cache_peer_1ac41147626734d234cd6233a7dcd6c0b5" prot="public" virt="non-virtual"><scope>MockRemoteCachePeer</scope><name>should_throw</name></member>
+      <member refid="class_mock_remote_cache_peer_1a544da3a92112dc30c02cb3c67772fb6a" prot="public" virt="non-virtual"><scope>MockRemoteCachePeer</scope><name>throw_count</name></member>
+      <member refid="class_mock_remote_cache_peer_1a9044116c11a6ef2b18e365959bfd6a61" prot="public" virt="non-virtual"><scope>MockRemoteCachePeer</scope><name>waitForDeliveries</name></member>
+      <member refid="classthemis_1_1cache_1_1_i_remote_cache_peer_1ac1cc66cde7d38641496ec2bb4dada445" prot="public" virt="virtual"><scope>MockRemoteCachePeer</scope><name>~IRemoteCachePeer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

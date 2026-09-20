@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_query_engine_1_1_keys_with_scores" kind="struct" language="C++" prot="public">
+    <compoundname>QueryEngine::KeysWithScores</compoundname>
+    <includes refid="query__engine_8h" local="no">query_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_query_engine_1_1_keys_with_scores_1aef19be7949e1f961fa7d06d9c169f052" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::query::QueryEngine::KeysWithScores::keys</definition>
+        <argsstring></argsstring>
+        <name>keys</name>
+        <qualifiedname>QueryEngine::KeysWithScores::keys</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="460" column="21" bodyfile="include/query/query_engine.h" bodystart="460" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_query_engine_1_1_keys_with_scores_1ae04a211e0e51baf9531b257a11579d81" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; std::unordered_map&lt; std::string, double &gt; &gt;</type>
+        <definition>std::shared_ptr&lt;std::unordered_map&lt;std::string, double&gt; &gt; themis::query::QueryEngine::KeysWithScores::bm25_scores</definition>
+        <argsstring></argsstring>
+        <name>bm25_scores</name>
+        <qualifiedname>QueryEngine::KeysWithScores::bm25_scores</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="461" column="25" bodyfile="include/query/query_engine.h" bodystart="461" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_engine.h" line="459" column="5" bodyfile="include/query/query_engine.h" bodystart="459" bodyend="462"/>
+    <listofallmembers>
+      <member refid="struct_query_engine_1_1_keys_with_scores_1ae04a211e0e51baf9531b257a11579d81" prot="public" virt="non-virtual"><scope>QueryEngine::KeysWithScores</scope><name>bm25_scores</name></member>
+      <member refid="struct_query_engine_1_1_keys_with_scores_1aef19be7949e1f961fa7d06d9c169f052" prot="public" virt="non-virtual"><scope>QueryEngine::KeysWithScores</scope><name>keys</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

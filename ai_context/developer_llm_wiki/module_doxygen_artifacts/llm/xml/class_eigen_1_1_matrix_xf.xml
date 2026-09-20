@@ -1,0 +1,413 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_eigen_1_1_matrix_xf" kind="class" language="C++" prot="public">
+    <compoundname>Eigen::MatrixXf</compoundname>
+    <includes refid="eigen__stub_8h" local="no">eigen_stub.h</includes>
+    <innerclass refid="struct_eigen_1_1_matrix_xf_1_1_row_ref" prot="public">Eigen::MatrixXf::RowRef</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_eigen_1_1_matrix_xf_1ad23f452abbe29895651f7b75518a6b58" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; Eigen::MatrixXf::data_</definition>
+        <argsstring></argsstring>
+        <name>data_</name>
+        <qualifiedname>Eigen::MatrixXf::data_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/eigen_stub.h" line="114" column="21" bodyfile="include/llm/eigen_stub.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_eigen_1_1_matrix_xf_1acf0fe9fc1ddc678308b48697ba015839" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int Eigen::MatrixXf::rows_</definition>
+        <argsstring></argsstring>
+        <name>rows_</name>
+        <qualifiedname>Eigen::MatrixXf::rows_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/eigen_stub.h" line="116" column="13" bodyfile="include/llm/eigen_stub.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_eigen_1_1_matrix_xf_1ae1190d5f21db42d4b8628d410814291b" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int Eigen::MatrixXf::cols_</definition>
+        <argsstring></argsstring>
+        <name>cols_</name>
+        <qualifiedname>Eigen::MatrixXf::cols_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/eigen_stub.h" line="117" column="13" bodyfile="include/llm/eigen_stub.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_eigen_1_1_matrix_xf_1aaef2d2ba355bc3b4556dc3d9cdd8ac8e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>Eigen::MatrixXf::MatrixXf</definition>
+        <argsstring>()</argsstring>
+        <name>MatrixXf</name>
+        <qualifiedname>Eigen::MatrixXf::MatrixXf</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/eigen_stub.h" line="30" column="9" bodyfile="include/llm/eigen_stub.h" bodystart="30" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="class_eigen_1_1_matrix_xf_1ad1d8d5f2caad1b04b5e1bd923d7a3ce7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>Eigen::MatrixXf::MatrixXf</definition>
+        <argsstring>(int r, int c)</argsstring>
+        <name>MatrixXf</name>
+        <qualifiedname>Eigen::MatrixXf::MatrixXf</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>r</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/eigen_stub.h" line="31" column="9" bodyfile="include/llm/eigen_stub.h" bodystart="31" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="class_eigen_1_1_matrix_xf_1af79b18eb38305594f31f8289ede52c31" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Eigen::MatrixXf::resize</definition>
+        <argsstring>(int r, int c)</argsstring>
+        <name>resize</name>
+        <qualifiedname>Eigen::MatrixXf::resize</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>r</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+<para>Resize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">r</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: assign(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/eigen_stub.h" line="38" column="14" bodyfile="include/llm/eigen_stub.h" bodystart="38" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="class_eigen_1_1_matrix_xf_1a25f88991906668bc17808feaa60c8526" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Eigen::MatrixXf::setZero</definition>
+        <argsstring>()</argsstring>
+        <name>setZero</name>
+        <qualifiedname>Eigen::MatrixXf::setZero</qualifiedname>
+        <briefdescription>
+<para>Set Zero. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::fill(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/eigen_stub.h" line="43" column="14" bodyfile="include/llm/eigen_stub.h" bodystart="43" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="class_eigen_1_1_matrix_xf_1a8719d1926cf3d60b74eb3dc0c3674db4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int Eigen::MatrixXf::rows</definition>
+        <argsstring>() const</argsstring>
+        <name>rows</name>
+        <qualifiedname>Eigen::MatrixXf::rows</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/eigen_stub.h" line="44" column="13" bodyfile="include/llm/eigen_stub.h" bodystart="44" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="class_eigen_1_1_matrix_xf_1a0f85496a60a48d96209df56ccb33b5d9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int Eigen::MatrixXf::cols</definition>
+        <argsstring>() const</argsstring>
+        <name>cols</name>
+        <qualifiedname>Eigen::MatrixXf::cols</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/eigen_stub.h" line="45" column="13" bodyfile="include/llm/eigen_stub.h" bodystart="45" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="class_eigen_1_1_matrix_xf_1a714a4ab76fd6eef89fce20a04ee0c162" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>float &amp;</type>
+        <definition>float &amp; Eigen::MatrixXf::operator()</definition>
+        <argsstring>(int i, int j)</argsstring>
+        <name>operator()</name>
+        <qualifiedname>Eigen::MatrixXf::operator()</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/eigen_stub.h" line="46" column="15" bodyfile="include/llm/eigen_stub.h" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="class_eigen_1_1_matrix_xf_1af237ec3abb2dfaaaa5fb0f1e83f3b2a9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const float &amp;</type>
+        <definition>const float &amp; Eigen::MatrixXf::operator()</definition>
+        <argsstring>(int i, int j) const</argsstring>
+        <name>operator()</name>
+        <qualifiedname>Eigen::MatrixXf::operator()</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/eigen_stub.h" line="47" column="21" bodyfile="include/llm/eigen_stub.h" bodystart="47" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="class_eigen_1_1_matrix_xf_1ace622207aab5107fd397bc53921c7141" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool Eigen::MatrixXf::isZero</definition>
+        <argsstring>() const</argsstring>
+        <name>isZero</name>
+        <qualifiedname>Eigen::MatrixXf::isZero</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/eigen_stub.h" line="49" column="14" bodyfile="include/llm/eigen_stub.h" bodystart="49" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="class_eigen_1_1_matrix_xf_1ae3fdf4687c86e873cef42b4d307ca2fb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_eigen_1_1_matrix_xf_1_1_row_ref" kindref="compound">RowRef</ref></type>
+        <definition>RowRef Eigen::MatrixXf::row</definition>
+        <argsstring>(int r)</argsstring>
+        <name>row</name>
+        <qualifiedname>Eigen::MatrixXf::row</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>r</declname>
+        </param>
+        <briefdescription>
+<para>Row. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">r</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements row without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/eigen_stub.h" line="98" column="16" bodyfile="include/llm/eigen_stub.h" bodystart="98" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="class_eigen_1_1_matrix_xf_1a6781c08d83b43ab2986db86503f3a22f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="class_eigen_1_1_matrix_xf_1aaef2d2ba355bc3b4556dc3d9cdd8ac8e" kindref="member">MatrixXf</ref></type>
+        <definition>MatrixXf Eigen::MatrixXf::transpose</definition>
+        <argsstring>() const</argsstring>
+        <name>transpose</name>
+        <qualifiedname>Eigen::MatrixXf::transpose</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Out. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cols_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rows_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/eigen_stub.h" line="100" column="18" bodyfile="include/llm/eigen_stub.h" bodystart="100" bodyend="112"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_eigen_1_1_matrix_xf_1a0155e5c07f2be19f7504a5f248bc7151" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="class_eigen_1_1_matrix_xf_1aaef2d2ba355bc3b4556dc3d9cdd8ac8e" kindref="member">MatrixXf</ref></type>
+        <definition>static MatrixXf Eigen::MatrixXf::Zero</definition>
+        <argsstring>(int r, int c)</argsstring>
+        <name>Zero</name>
+        <qualifiedname>Eigen::MatrixXf::Zero</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>r</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+<para>Zero. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">r</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: m(), <ref refid="class_eigen_1_1_matrix_xf_1a25f88991906668bc17808feaa60c8526" kindref="member">setZero()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/eigen_stub.h" line="63" column="25" bodyfile="include/llm/eigen_stub.h" bodystart="63" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="class_eigen_1_1_matrix_xf_1ac9e846da20abd21c558c354e477fd54b" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="class_eigen_1_1_matrix_xf_1aaef2d2ba355bc3b4556dc3d9cdd8ac8e" kindref="member">MatrixXf</ref></type>
+        <definition>static MatrixXf Eigen::MatrixXf::Random</definition>
+        <argsstring>(int r, int c)</argsstring>
+        <name>Random</name>
+        <qualifiedname>Eigen::MatrixXf::Random</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>r</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+<para>Random. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">r</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: m(), rng(), dist(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/eigen_stub.h" line="71" column="25" bodyfile="include/llm/eigen_stub.h" bodystart="71" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/eigen_stub.h" line="28" column="5" bodyfile="include/llm/eigen_stub.h" bodystart="28" bodyend="118"/>
+    <listofallmembers>
+      <member refid="class_eigen_1_1_matrix_xf_1a0f85496a60a48d96209df56ccb33b5d9" prot="public" virt="non-virtual"><scope>Eigen::MatrixXf</scope><name>cols</name></member>
+      <member refid="class_eigen_1_1_matrix_xf_1ae1190d5f21db42d4b8628d410814291b" prot="private" virt="non-virtual"><scope>Eigen::MatrixXf</scope><name>cols_</name></member>
+      <member refid="class_eigen_1_1_matrix_xf_1ad23f452abbe29895651f7b75518a6b58" prot="public" virt="non-virtual"><scope>Eigen::MatrixXf</scope><name>data_</name></member>
+      <member refid="class_eigen_1_1_matrix_xf_1ace622207aab5107fd397bc53921c7141" prot="public" virt="non-virtual"><scope>Eigen::MatrixXf</scope><name>isZero</name></member>
+      <member refid="class_eigen_1_1_matrix_xf_1aaef2d2ba355bc3b4556dc3d9cdd8ac8e" prot="public" virt="non-virtual"><scope>Eigen::MatrixXf</scope><name>MatrixXf</name></member>
+      <member refid="class_eigen_1_1_matrix_xf_1ad1d8d5f2caad1b04b5e1bd923d7a3ce7" prot="public" virt="non-virtual"><scope>Eigen::MatrixXf</scope><name>MatrixXf</name></member>
+      <member refid="class_eigen_1_1_matrix_xf_1a714a4ab76fd6eef89fce20a04ee0c162" prot="public" virt="non-virtual"><scope>Eigen::MatrixXf</scope><name>operator()</name></member>
+      <member refid="class_eigen_1_1_matrix_xf_1af237ec3abb2dfaaaa5fb0f1e83f3b2a9" prot="public" virt="non-virtual"><scope>Eigen::MatrixXf</scope><name>operator()</name></member>
+      <member refid="class_eigen_1_1_matrix_xf_1ac9e846da20abd21c558c354e477fd54b" prot="public" virt="non-virtual"><scope>Eigen::MatrixXf</scope><name>Random</name></member>
+      <member refid="class_eigen_1_1_matrix_xf_1af79b18eb38305594f31f8289ede52c31" prot="public" virt="non-virtual"><scope>Eigen::MatrixXf</scope><name>resize</name></member>
+      <member refid="class_eigen_1_1_matrix_xf_1ae3fdf4687c86e873cef42b4d307ca2fb" prot="public" virt="non-virtual"><scope>Eigen::MatrixXf</scope><name>row</name></member>
+      <member refid="class_eigen_1_1_matrix_xf_1a8719d1926cf3d60b74eb3dc0c3674db4" prot="public" virt="non-virtual"><scope>Eigen::MatrixXf</scope><name>rows</name></member>
+      <member refid="class_eigen_1_1_matrix_xf_1acf0fe9fc1ddc678308b48697ba015839" prot="private" virt="non-virtual"><scope>Eigen::MatrixXf</scope><name>rows_</name></member>
+      <member refid="class_eigen_1_1_matrix_xf_1a25f88991906668bc17808feaa60c8526" prot="public" virt="non-virtual"><scope>Eigen::MatrixXf</scope><name>setZero</name></member>
+      <member refid="class_eigen_1_1_matrix_xf_1a6781c08d83b43ab2986db86503f3a22f" prot="public" virt="non-virtual"><scope>Eigen::MatrixXf</scope><name>transpose</name></member>
+      <member refid="class_eigen_1_1_matrix_xf_1a0155e5c07f2be19f7504a5f248bc7151" prot="public" virt="non-virtual"><scope>Eigen::MatrixXf</scope><name>Zero</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

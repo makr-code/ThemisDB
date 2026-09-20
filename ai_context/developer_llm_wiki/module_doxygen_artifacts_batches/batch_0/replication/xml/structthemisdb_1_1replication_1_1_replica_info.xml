@@ -1,0 +1,292 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_replica_info" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::ReplicaInfo</compoundname>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replica_info_1a4e14caea8db5dc2689a15d91f08a5e65" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::ReplicaInfo::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themisdb::replication::ReplicaInfo::node_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="133" column="17" bodyfile="include/replication/replication_manager.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replica_info_1a2590844231ca9272d26f534a648301a2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::ReplicaInfo::endpoint</definition>
+        <argsstring></argsstring>
+        <name>endpoint</name>
+        <qualifiedname>themisdb::replication::ReplicaInfo::endpoint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="134" column="17" bodyfile="include/replication/replication_manager.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replica_info_1a50ba50793bd1427830d11c8263571f1a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3" kindref="member">ReplicationRole</ref></type>
+        <definition>ReplicationRole themisdb::replication::ReplicaInfo::role</definition>
+        <argsstring></argsstring>
+        <name>role</name>
+        <qualifiedname>themisdb::replication::ReplicaInfo::role</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="135" column="21" bodyfile="include/replication/replication_manager.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replica_info_1a01b9218022a2247e42f0aed097d951f9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::ReplicaInfo::last_applied_sequence</definition>
+        <argsstring></argsstring>
+        <name>last_applied_sequence</name>
+        <qualifiedname>themisdb::replication::ReplicaInfo::last_applied_sequence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="136" column="14" bodyfile="include/replication/replication_manager.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replica_info_1a6b1eda086b1be216743f2a662e7c1fe7" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::ReplicaInfo::last_applied_term</definition>
+        <argsstring></argsstring>
+        <name>last_applied_term</name>
+        <qualifiedname>themisdb::replication::ReplicaInfo::last_applied_term</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="137" column="14" bodyfile="include/replication/replication_manager.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replica_info_1a7471eee8fd9adb4f78eb8529a3e95f7d" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::replication::ReplicaInfo::last_heartbeat</definition>
+        <argsstring></argsstring>
+        <name>last_heartbeat</name>
+        <qualifiedname>themisdb::replication::ReplicaInfo::last_heartbeat</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="138" column="43" bodyfile="include/replication/replication_manager.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replica_info_1a1480e359db84b06334e862151d09d728" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ReplicaInfo::is_voting_member</definition>
+        <argsstring></argsstring>
+        <name>is_voting_member</name>
+        <qualifiedname>themisdb::replication::ReplicaInfo::is_voting_member</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="139" column="10" bodyfile="include/replication/replication_manager.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replica_info_1abd51b09233403c8eb501bfc821c42b15" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::ReplicaInfo::datacenter</definition>
+        <argsstring></argsstring>
+        <name>datacenter</name>
+        <qualifiedname>themisdb::replication::ReplicaInfo::datacenter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="140" column="17" bodyfile="include/replication/replication_manager.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replica_info_1ae07d1da3fd37a2e9a29a4841d49c21d4" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themisdb::replication::ReplicaInfo::priority</definition>
+        <argsstring></argsstring>
+        <name>priority</name>
+        <qualifiedname>themisdb::replication::ReplicaInfo::priority</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="141" column="13" bodyfile="include/replication/replication_manager.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replica_info_1aaea81695c2770eab6a9ae1120f445763" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1replication_1a22bb381941cf06c4c30110c4ba7f60aa" kindref="member">HealthStatus</ref></type>
+        <definition>HealthStatus themisdb::replication::ReplicaInfo::health_status</definition>
+        <argsstring></argsstring>
+        <name>health_status</name>
+        <qualifiedname>themisdb::replication::ReplicaInfo::health_status</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1replication_1a22bb381941cf06c4c30110c4ba7f60aaa696b031073e74bf2cb98e5ef201d4aa3" kindref="member">HealthStatus::UNKNOWN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="142" column="18" bodyfile="include/replication/replication_manager.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replica_info_1a704560ffe31263131e3a7cf66455fc83" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::ReplicaInfo::consecutive_failures</definition>
+        <argsstring></argsstring>
+        <name>consecutive_failures</name>
+        <qualifiedname>themisdb::replication::ReplicaInfo::consecutive_failures</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="143" column="14" bodyfile="include/replication/replication_manager.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replica_info_1ae04e71a5c1ae493e70c9df23cbbc47ee" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::replication::ReplicaInfo::last_failure_time</definition>
+        <argsstring></argsstring>
+        <name>last_failure_time</name>
+        <qualifiedname>themisdb::replication::ReplicaInfo::last_failure_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="144" column="43" bodyfile="include/replication/replication_manager.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1replication_1_1_replica_info_1a1ad42f551114f00fb68fd9ec8e6e583a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ReplicaInfo::isHealthy</definition>
+        <argsstring>() const</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>themisdb::replication::ReplicaInfo::isHealthy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="146" column="10" bodyfile="include/replication/replication_manager.h" bodystart="146" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1replication_1_1_replica_info_1ab82fefcf17ced5099e4430e846206cc6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ReplicaInfo::isHealthyWithTimeout</definition>
+        <argsstring>(uint32_t timeout_ms) const</argsstring>
+        <name>isHealthyWithTimeout</name>
+        <qualifiedname>themisdb::replication::ReplicaInfo::isHealthyWithTimeout</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>timeout_ms</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="150" column="10" bodyfile="include/replication/replication_manager.h" bodystart="150" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1replication_1_1_replica_info_1aaf5c185ab94a6d561bbd8e00823207c2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::replication::ReplicaInfo::replicationLagMs</definition>
+        <argsstring>() const</argsstring>
+        <name>replicationLagMs</name>
+        <qualifiedname>themisdb::replication::ReplicaInfo::replicationLagMs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="158" column="13" bodyfile="src/replication/replication_manager.cpp" bodystart="336" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1replication_1_1_replica_info_1ab414d36680a4b72a20b3dbb9805e776a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::ReplicaInfo::updateHealthStatus</definition>
+        <argsstring>(uint32_t heartbeat_timeout_ms, uint32_t degraded_lag_threshold_ms)</argsstring>
+        <name>updateHealthStatus</name>
+        <qualifiedname>themisdb::replication::ReplicaInfo::updateHealthStatus</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>heartbeat_timeout_ms</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>degraded_lag_threshold_ms</declname>
+        </param>
+        <briefdescription>
+<para>Update Health Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">heartbeat_timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">degraded_lag_threshold_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::system_clock::now(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="160" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="349" bodyend="387"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Replica Node Information </para>
+    </detaileddescription>
+    <location file="include/replication/replication_manager.h" line="132" column="1" bodyfile="include/replication/replication_manager.h" bodystart="132" bodyend="161"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_replica_info_1a704560ffe31263131e3a7cf66455fc83" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicaInfo</scope><name>consecutive_failures</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replica_info_1abd51b09233403c8eb501bfc821c42b15" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicaInfo</scope><name>datacenter</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replica_info_1a2590844231ca9272d26f534a648301a2" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicaInfo</scope><name>endpoint</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replica_info_1aaea81695c2770eab6a9ae1120f445763" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicaInfo</scope><name>health_status</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replica_info_1a1480e359db84b06334e862151d09d728" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicaInfo</scope><name>is_voting_member</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replica_info_1a1ad42f551114f00fb68fd9ec8e6e583a" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicaInfo</scope><name>isHealthy</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replica_info_1ab82fefcf17ced5099e4430e846206cc6" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicaInfo</scope><name>isHealthyWithTimeout</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replica_info_1a01b9218022a2247e42f0aed097d951f9" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicaInfo</scope><name>last_applied_sequence</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replica_info_1a6b1eda086b1be216743f2a662e7c1fe7" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicaInfo</scope><name>last_applied_term</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replica_info_1ae04e71a5c1ae493e70c9df23cbbc47ee" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicaInfo</scope><name>last_failure_time</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replica_info_1a7471eee8fd9adb4f78eb8529a3e95f7d" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicaInfo</scope><name>last_heartbeat</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replica_info_1a4e14caea8db5dc2689a15d91f08a5e65" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicaInfo</scope><name>node_id</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replica_info_1ae07d1da3fd37a2e9a29a4841d49c21d4" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicaInfo</scope><name>priority</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replica_info_1aaf5c185ab94a6d561bbd8e00823207c2" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicaInfo</scope><name>replicationLagMs</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replica_info_1a50ba50793bd1427830d11c8263571f1a" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicaInfo</scope><name>role</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replica_info_1ab414d36680a4b72a20b3dbb9805e776a" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicaInfo</scope><name>updateHealthStatus</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

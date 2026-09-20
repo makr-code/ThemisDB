@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_i_kernel_registry" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::acceleration::IKernelRegistry</compoundname>
+    <includes refid="compute__backend_8h" local="no">compute_backend.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_i_kernel_registry_1a4fafa3d9fef9f60f6fe72a2c5d9823ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::acceleration::IKernelRegistry::~IKernelRegistry</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IKernelRegistry</name>
+        <qualifiedname>themis::acceleration::IKernelRegistry::~IKernelRegistry</qualifiedname>
+        <briefdescription>
+<para>IKernel Registry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="1074" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_i_kernel_registry_1ac44ca676886fab488a1673e072a08128" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::acceleration::IKernelRegistry::registerKernel</definition>
+        <argsstring>(std::string name, void *fn_ptr)=0</argsstring>
+        <name>registerKernel</name>
+        <qualifiedname>themis::acceleration::IKernelRegistry::registerKernel</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>fn_ptr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="1076" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_i_kernel_registry_1afeeb24d4de9cef798fc3aaac9486b8cb" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>void *</type>
+        <definition>virtual void * themis::acceleration::IKernelRegistry::resolveKernel</definition>
+        <argsstring>(const std::string &amp;name) const =0</argsstring>
+        <name>resolveKernel</name>
+        <qualifiedname>themis::acceleration::IKernelRegistry::resolveKernel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="1078" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_i_kernel_registry_1a53f6c186dacb15f9300e702ba4ec7a74" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::acceleration::IKernelRegistry::hasKernel</definition>
+        <argsstring>(const std::string &amp;name) const noexcept=0</argsstring>
+        <name>hasKernel</name>
+        <qualifiedname>themis::acceleration::IKernelRegistry::hasKernel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="1080" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_i_kernel_registry_1a581fbb08ea2d3ee99187412690496076" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::acceleration::IKernelRegistry::deregisterKernel</definition>
+        <argsstring>(const std::string &amp;name) noexcept=0</argsstring>
+        <name>deregisterKernel</name>
+        <qualifiedname>themis::acceleration::IKernelRegistry::deregisterKernel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="1082" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/compute_backend.h" line="1068" column="1" bodyfile="include/acceleration/compute_backend.h" bodystart="1068" bodyend="1083"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_i_kernel_registry_1a581fbb08ea2d3ee99187412690496076" prot="public" virt="pure-virtual"><scope>themis::acceleration::IKernelRegistry</scope><name>deregisterKernel</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_kernel_registry_1a53f6c186dacb15f9300e702ba4ec7a74" prot="public" virt="pure-virtual"><scope>themis::acceleration::IKernelRegistry</scope><name>hasKernel</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_kernel_registry_1ac44ca676886fab488a1673e072a08128" prot="public" virt="pure-virtual"><scope>themis::acceleration::IKernelRegistry</scope><name>registerKernel</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_kernel_registry_1afeeb24d4de9cef798fc3aaac9486b8cb" prot="public" virt="pure-virtual"><scope>themis::acceleration::IKernelRegistry</scope><name>resolveKernel</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_kernel_registry_1a4fafa3d9fef9f60f6fe72a2c5d9823ce" prot="public" virt="virtual"><scope>themis::acceleration::IKernelRegistry</scope><name>~IKernelRegistry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

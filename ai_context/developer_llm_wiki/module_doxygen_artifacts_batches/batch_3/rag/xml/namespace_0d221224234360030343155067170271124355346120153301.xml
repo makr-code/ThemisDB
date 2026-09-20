@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d221224234360030343155067170271124355346120153301" kind="namespace" language="C++">
+    <compoundname>@221224234360030343155067170271124355346120153301</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/rag/examples/loop_orchestration_example.cpp" line="43" column="1"/>
+  </compounddef>
+</doxygen>

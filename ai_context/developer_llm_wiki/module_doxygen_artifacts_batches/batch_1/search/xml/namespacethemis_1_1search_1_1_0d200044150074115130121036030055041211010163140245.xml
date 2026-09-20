@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1search_1_1_0d200044150074115130121036030055041211010163140245" kind="namespace" language="C++">
+    <compoundname>themis::search::@200044150074115130121036030055041211010163140245</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/search/bench_search_release_gates.cpp" line="30" column="1"/>
+  </compounddef>
+</doxygen>

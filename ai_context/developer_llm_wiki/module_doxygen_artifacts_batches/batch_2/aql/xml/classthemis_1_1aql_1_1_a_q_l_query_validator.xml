@@ -1,0 +1,308 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1_a_q_l_query_validator" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::AQLQueryValidator</compoundname>
+    <includes refid="aql__query__validator_8h" local="no">aql_query_validator.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_validator_1af1829cb9561c7e4dfaa9df56684054c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::AQLQueryValidator::AQLQueryValidator</definition>
+        <argsstring>()=default</argsstring>
+        <name>AQLQueryValidator</name>
+        <qualifiedname>themis::aql::AQLQueryValidator::AQLQueryValidator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_validator.h" line="67" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_validator_1acac86862e4f08d273eed8f464949fd18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::AQLQueryValidator::~AQLQueryValidator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~AQLQueryValidator</name>
+        <qualifiedname>themis::aql::AQLQueryValidator::~AQLQueryValidator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_validator.h" line="68" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_validator_1a54c54e56d7777e3f18b940f388417f97" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1aql_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>ValidationResult themis::aql::AQLQueryValidator::validate</definition>
+        <argsstring>(const std::string &amp;query) const</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::aql::AQLQueryValidator::validate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Validate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_validator.h" line="75" column="22" bodyfile="src/aql/aql_query_validator.cpp" bodystart="372" bodyend="393"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_validator_1ab8224a9d891ce863472abb221f2ecf97" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1aql_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>ValidationResult themis::aql::AQLQueryValidator::validate</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; CollectionMetadata &gt; &amp;schema) const</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::aql::AQLQueryValidator::validate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1aql_1_1_collection_metadata" kindref="compound">CollectionMetadata</ref> &gt; &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <briefdescription>
+<para>Validate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_validator.h" line="83" column="22" bodyfile="src/aql/aql_query_validator.cpp" bodystart="554" bodyend="564"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_validator_1ad8f654a4cbe21bf94117d9fbd3f855d3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1aql_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>ValidationResult themis::aql::AQLQueryValidator::validate</definition>
+        <argsstring>(const AQLQueryBuilder &amp;builder) const</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::aql::AQLQueryValidator::validate</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1aql_1_1_a_q_l_query_builder" kindref="compound">AQLQueryBuilder</ref> &amp;</type>
+          <declname>builder</declname>
+        </param>
+        <briefdescription>
+<para>Validate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">builder</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_validator.h" line="93" column="22" bodyfile="src/aql/aql_query_validator.cpp" bodystart="399" bodyend="430"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_validator_1af3b5bc12b4570a5b7ff882ed2569c5e3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1aql_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>ValidationResult themis::aql::AQLQueryValidator::validate</definition>
+        <argsstring>(const AQLQueryBuilder &amp;builder, const std::vector&lt; CollectionMetadata &gt; &amp;schema) const</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::aql::AQLQueryValidator::validate</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1aql_1_1_a_q_l_query_builder" kindref="compound">AQLQueryBuilder</ref> &amp;</type>
+          <declname>builder</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1aql_1_1_collection_metadata" kindref="compound">CollectionMetadata</ref> &gt; &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <briefdescription>
+<para>Validate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">builder</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_validator.h" line="101" column="22" bodyfile="src/aql/aql_query_validator.cpp" bodystart="570" bodyend="585"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_validator_1a293bfb1415ad4b7b694931f5af3f1a7f" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::AQLQueryValidator::checkUnknownCollections</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; CollectionMetadata &gt; &amp;schema, ValidationResult &amp;result) const</argsstring>
+        <name>checkUnknownCollections</name>
+        <qualifiedname>themis::aql::AQLQueryValidator::checkUnknownCollections</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1aql_1_1_collection_metadata" kindref="compound">CollectionMetadata</ref> &gt; &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1aql_1_1_validation_result" kindref="compound">ValidationResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Check Unknown Collections. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_validator.h" line="113" column="10" bodyfile="src/aql/aql_query_validator.cpp" bodystart="436" bodyend="465"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_query_validator_1a463b40a92effc101633487e4b0c0d48b" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::AQLQueryValidator::checkUnknownFields</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; CollectionMetadata &gt; &amp;schema, ValidationResult &amp;result) const</argsstring>
+        <name>checkUnknownFields</name>
+        <qualifiedname>themis::aql::AQLQueryValidator::checkUnknownFields</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1aql_1_1_collection_metadata" kindref="compound">CollectionMetadata</ref> &gt; &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1aql_1_1_validation_result" kindref="compound">ValidationResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Check Unknown Fields. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_validator.h" line="125" column="10" bodyfile="src/aql/aql_query_validator.cpp" bodystart="471" bodyend="548"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_query_validator.h" line="65" column="1" bodyfile="include/aql/aql_query_validator.h" bodystart="65" bodyend="130"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_validator_1af1829cb9561c7e4dfaa9df56684054c0" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryValidator</scope><name>AQLQueryValidator</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_validator_1a293bfb1415ad4b7b694931f5af3f1a7f" prot="private" virt="non-virtual"><scope>themis::aql::AQLQueryValidator</scope><name>checkUnknownCollections</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_validator_1a463b40a92effc101633487e4b0c0d48b" prot="private" virt="non-virtual"><scope>themis::aql::AQLQueryValidator</scope><name>checkUnknownFields</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_validator_1a54c54e56d7777e3f18b940f388417f97" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryValidator</scope><name>validate</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_validator_1ab8224a9d891ce863472abb221f2ecf97" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryValidator</scope><name>validate</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_validator_1ad8f654a4cbe21bf94117d9fbd3f855d3" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryValidator</scope><name>validate</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_validator_1af3b5bc12b4570a5b7ff882ed2569c5e3" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryValidator</scope><name>validate</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_query_validator_1acac86862e4f08d273eed8f464949fd18" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryValidator</scope><name>~AQLQueryValidator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

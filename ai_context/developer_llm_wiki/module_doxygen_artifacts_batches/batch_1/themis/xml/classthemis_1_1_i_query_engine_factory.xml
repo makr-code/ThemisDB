@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_i_query_engine_factory" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::IQueryEngineFactory</compoundname>
+    <includes refid="query__interface_8h" local="no">query_interface.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_i_query_engine_factory_1ab52372b459f7bf1b3a2d135e5df604b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::IQueryEngineFactory::~IQueryEngineFactory</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IQueryEngineFactory</name>
+        <qualifiedname>themis::IQueryEngineFactory::~IQueryEngineFactory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/query_interface.h" line="145" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_query_engine_factory_1a06ae0da5db0a6b79024e787b91d22123" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1a4495a00daed741d574aacee334acfb7e" kindref="member">IQueryEnginePtr</ref></type>
+        <definition>virtual IQueryEnginePtr themis::IQueryEngineFactory::create</definition>
+        <argsstring>()=0</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::IQueryEngineFactory::create</qualifiedname>
+        <briefdescription>
+<para>Create a query engine instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Shared pointer to query engine </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/query_interface.h" line="152" column="30"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Factory interface for query engines. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/base/interfaces/query_interface.h" line="143" column="1" bodyfile="include/themis/base/interfaces/query_interface.h" bodystart="143" bodyend="153"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_i_query_engine_factory_1a06ae0da5db0a6b79024e787b91d22123" prot="public" virt="pure-virtual"><scope>themis::IQueryEngineFactory</scope><name>create</name></member>
+      <member refid="classthemis_1_1_i_query_engine_factory_1ab52372b459f7bf1b3a2d135e5df604b6" prot="public" virt="virtual"><scope>themis::IQueryEngineFactory</scope><name>~IQueryEngineFactory</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

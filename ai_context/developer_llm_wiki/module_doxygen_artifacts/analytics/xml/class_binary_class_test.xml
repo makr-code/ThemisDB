@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_binary_class_test" kind="class" language="C++" prot="public">
+    <compoundname>BinaryClassTest</compoundname>
+    <basecompoundref refid="classtesting_1_1_test" prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_binary_class_test_1a6b648fe8cf30aaf4c4f2b6e2e312c3c0" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l" kindref="compound">AutoML</ref></type>
+        <definition>AutoML BinaryClassTest::automl</definition>
+        <argsstring></argsstring>
+        <name>automl</name>
+        <qualifiedname>BinaryClassTest::automl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_automl.cpp" line="209" column="12" bodyfile="tests/analytics/test_automl.cpp" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_binary_class_test_1a7acc98d33e63c68258620b1d5bc02536" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref> &gt;</type>
+        <definition>std::vector&lt;DataPoint&gt; BinaryClassTest::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>BinaryClassTest::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_automl.cpp" line="210" column="17" bodyfile="tests/analytics/test_automl.cpp" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_binary_class_test_1ab04bb35f9541bd56343963cf404cd534" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_auto_m_l_config" kindref="compound">AutoMLConfig</ref></type>
+        <definition>AutoMLConfig BinaryClassTest::cfg</definition>
+        <argsstring></argsstring>
+        <name>cfg</name>
+        <qualifiedname>BinaryClassTest::cfg</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_automl.cpp" line="211" column="18" bodyfile="tests/analytics/test_automl.cpp" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_binary_class_test_1a5dc94bbc6db2847a1a47b2f911c42540" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_auto_m_l_model" kindref="compound">AutoMLModel</ref></type>
+        <definition>AutoMLModel BinaryClassTest::model</definition>
+        <argsstring></argsstring>
+        <name>model</name>
+        <qualifiedname>BinaryClassTest::model</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_automl.cpp" line="212" column="17" bodyfile="tests/analytics/test_automl.cpp" bodystart="212" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_binary_class_test_1ad8bb5344671f3e70531241d992b34051" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void BinaryClassTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>BinaryClassTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_automl.cpp" line="203" column="10" bodyfile="tests/analytics/test_automl.cpp" bodystart="203" bodyend="208"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>BinaryClassTest</label>
+        <link refid="class_binary_class_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>BinaryClassTest</label>
+        <link refid="class_binary_class_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>automl</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>cfg</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>model</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+      <node id="3">
+        <label>themisdb::analytics::AutoML</label>
+        <link refid="classthemisdb_1_1analytics_1_1_auto_m_l"/>
+      </node>
+      <node id="4">
+        <label>themisdb::analytics::AutoMLConfig</label>
+        <link refid="structthemisdb_1_1analytics_1_1_auto_m_l_config"/>
+      </node>
+      <node id="5">
+        <label>themisdb::analytics::AutoMLModel</label>
+        <link refid="classthemisdb_1_1analytics_1_1_auto_m_l_model"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/analytics/test_automl.cpp" line="201" column="1" bodyfile="tests/analytics/test_automl.cpp" bodystart="201" bodyend="213"/>
+    <listofallmembers>
+      <member refid="class_binary_class_test_1a6b648fe8cf30aaf4c4f2b6e2e312c3c0" prot="protected" virt="non-virtual"><scope>BinaryClassTest</scope><name>automl</name></member>
+      <member refid="class_binary_class_test_1ab04bb35f9541bd56343963cf404cd534" prot="protected" virt="non-virtual"><scope>BinaryClassTest</scope><name>cfg</name></member>
+      <member refid="class_binary_class_test_1a7acc98d33e63c68258620b1d5bc02536" prot="protected" virt="non-virtual"><scope>BinaryClassTest</scope><name>data</name></member>
+      <member refid="class_binary_class_test_1a5dc94bbc6db2847a1a47b2f911c42540" prot="protected" virt="non-virtual"><scope>BinaryClassTest</scope><name>model</name></member>
+      <member refid="class_binary_class_test_1ad8bb5344671f3e70531241d992b34051" prot="protected" virt="non-virtual"><scope>BinaryClassTest</scope><name>SetUp</name></member>
+      <member refid="classtesting_1_1_test_1a2889fd829b6c712d98fb3896d28f64a3" prot="protected" virt="non-virtual"><scope>BinaryClassTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

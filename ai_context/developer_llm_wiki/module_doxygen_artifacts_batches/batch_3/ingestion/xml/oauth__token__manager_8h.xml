@@ -1,0 +1,404 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="oauth__token__manager_8h" kind="file" language="C++">
+    <compoundname>oauth_token_manager.h</compoundname>
+    <includes refid="ingestion__manager_8h" local="yes">ingestion/ingestion_manager.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">string</includes>
+    <includedby refid="oauth__token__manager_8cpp" local="yes">src/ingestion/oauth_token_manager.cpp</includedby>
+    <incdepgraph>
+      <node id="20">
+        <label>ingestion/base_entity.h</label>
+        <link refid="base__entity_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>ingestion/deontic_extractor.h</label>
+        <link refid="deontic__extractor_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>ingestion/extraction_context.h</label>
+        <link refid="extraction__context_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>ingestion/file_format.h</label>
+        <link refid="file__format_8h"/>
+      </node>
+      <node id="17">
+        <label>ingestion/file_manifest.h</label>
+        <link refid="file__manifest_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>ingestion/inference_backend.h</label>
+        <link refid="inference__backend_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ingestion/ingestion_manager.h</label>
+        <link refid="ingestion__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>ingestion/ingestion_quality_judge.h</label>
+        <link refid="ingestion__quality__judge_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>ingestion/ingestion_step.h</label>
+        <link refid="ingestion__step_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/ingestion/oauth_token_manager.h</label>
+        <link refid="oauth__token__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>ingestion/semantic_validator.h</label>
+        <link refid="semantic__validator_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>ingestion/workflow_engine.h</label>
+        <link refid="workflow__engine_8h"/>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>atomic</label>
+      </node>
+      <node id="9">
+        <label>chrono</label>
+      </node>
+      <node id="19">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>mutex</label>
+      </node>
+      <node id="25">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="27">
+        <label>optional</label>
+      </node>
+      <node id="22">
+        <label>plugins/plugin_interface.h</label>
+      </node>
+      <node id="28">
+        <label>stdexcept</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="7">
+        <label>utility</label>
+      </node>
+      <node id="24">
+        <label>utils/error_registry.h</label>
+      </node>
+      <node id="23">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/ingestion/oauth_token_manager.h</label>
+        <link refid="oauth__token__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/ingestion/oauth_token_manager.cpp</label>
+        <link refid="oauth__token__manager_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1ingestion_1_1_o_auth_refresh_expired_error" prot="public">themis::ingestion::OAuthRefreshExpiredError</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1_i_o_auth_token_manager" prot="public">themis::ingestion::IOAuthTokenManager</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1_o_auth_token_manager" prot="public">themis::ingestion::OAuthTokenManager</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1_null_token_manager" prot="public">themis::ingestion::NullTokenManager</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1ingestion">themis::ingestion</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 94/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ingestion__manager_8h" kindref="compound">ingestion/ingestion_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1ingestion" kindref="compound">ingestion</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>Error<sp/>codes<sp/>──────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="classthemis_1_1ingestion_1_1_o_auth_refresh_expired_error" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_o_auth_refresh_expired_error_1a308e4c1dd545cbad1337464a5b8cd6d3" kindref="member">OAuthRefreshExpiredError</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>std::runtime_error<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="32" refid="classthemis_1_1ingestion_1_1_o_auth_refresh_expired_error_1a308e4c1dd545cbad1337464a5b8cd6d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_o_auth_refresh_expired_error_1a308e4c1dd545cbad1337464a5b8cd6d3" kindref="member">OAuthRefreshExpiredError</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>msg<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;OAuth<sp/>refresh<sp/>token<sp/>expired&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>std::runtime_error(msg)<sp/>{}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>Interface<sp/>────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="classthemis_1_1ingestion_1_1_i_o_auth_token_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_i_o_auth_token_manager" kindref="compound">IOAuthTokenManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="43" refid="classthemis_1_1ingestion_1_1_i_o_auth_token_manager_1ad7a8d3b46fdb81340d4603e9bec3eb19" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_i_o_auth_token_manager_1ad7a8d3b46fdb81340d4603e9bec3eb19" kindref="member">~IOAuthTokenManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="classthemis_1_1ingestion_1_1_i_o_auth_token_manager_1ad75492fa1af2177cc1fe66f36f35ef5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1ingestion_1_1_i_o_auth_token_manager_1ad75492fa1af2177cc1fe66f36f35ef5f" kindref="member">getAccessToken</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="classthemis_1_1ingestion_1_1_i_o_auth_token_manager_1ab7c9620b6876e6e044fd70af5e893fe8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_i_o_auth_token_manager_1ab7c9620b6876e6e044fd70af5e893fe8" kindref="member">refreshToken</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="classthemis_1_1ingestion_1_1_i_o_auth_token_manager_1a1eff227c85a4c9705159c8f15444aad2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1ingestion_1_1_i_o_auth_token_manager_1a1eff227c85a4c9705159c8f15444aad2" kindref="member">getBearerAuthorizationHeader</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>HttpPostFn<sp/>(injectable<sp/>for<sp/>testing)<sp/>──────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="namespacethemis_1_1ingestion_1a950ed039f863072b3171dda92be248ef" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a950ed039f863072b3171dda92be248ef" kindref="member">OAuthHttpPostFn</ref><sp/>=<sp/>std::function&lt;std::pair&lt;int,<sp/>std::string&gt;(</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>url,</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>body,</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content_type)&gt;;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>OAuthTokenManager<sp/>────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1ingestion_1_1_o_auth_token_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_o_auth_token_manager_1af00720fc0d9ddb0cafa0400c3e016d6f" kindref="member">OAuthTokenManager</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_i_o_auth_token_manager" kindref="compound">IOAuthTokenManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="99" refid="classthemis_1_1ingestion_1_1_o_auth_token_manager_1a25a5d67255aaa4583c1c6b4d9994fff2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_o_auth_token_manager_1a25a5d67255aaa4583c1c6b4d9994fff2" kindref="member">kRefreshThresholdSecs</ref><sp/>=<sp/>60;</highlight></codeline>
+<codeline lineno="101" refid="classthemis_1_1ingestion_1_1_o_auth_token_manager_1adafe6f6efe3ea1ad7c54ddde79cbc7f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_o_auth_token_manager_1adafe6f6efe3ea1ad7c54ddde79cbc7f5" kindref="member">kMaxRetries</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="103" refid="classthemis_1_1ingestion_1_1_o_auth_token_manager_1a3c97676bc8fbdf7f8584639fea74f562" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_o_auth_token_manager_1a3c97676bc8fbdf7f8584639fea74f562" kindref="member">kBaseBackoffMs</ref><sp/>=<sp/>500;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_o_auth_token_manager_1af00720fc0d9ddb0cafa0400c3e016d6f" kindref="member">OAuthTokenManager</ref>(</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_o_auth_config" kindref="compound">OAuthConfig</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config,</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;OAuthHttpPostFn&gt;<sp/><sp/>http_post<sp/>=<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="classthemis_1_1ingestion_1_1_o_auth_token_manager_1a039acbec17ece480da19daa9326eec61" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_o_auth_token_manager_1a039acbec17ece480da19daa9326eec61" kindref="member">~OAuthTokenManager</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="classthemis_1_1ingestion_1_1_o_auth_token_manager_1a2771fa6ae153ccaf764129617775c58f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_o_auth_token_manager_1a2771fa6ae153ccaf764129617775c58f" kindref="member">OAuthTokenManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_o_auth_token_manager_1af00720fc0d9ddb0cafa0400c3e016d6f" kindref="member">OAuthTokenManager</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118" refid="classthemis_1_1ingestion_1_1_o_auth_token_manager_1aeb13a4f6641e6ac424edeea8e3a28a6d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_o_auth_token_manager_1af00720fc0d9ddb0cafa0400c3e016d6f" kindref="member">OAuthTokenManager</ref>&amp;<sp/><ref refid="classthemis_1_1ingestion_1_1_o_auth_token_manager_1aeb13a4f6641e6ac424edeea8e3a28a6d" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_o_auth_token_manager_1af00720fc0d9ddb0cafa0400c3e016d6f" kindref="member">OAuthTokenManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1ingestion_1_1_o_auth_token_manager_1a5bb85d687397916df1a0b79779c38aab" kindref="member">getAccessToken</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_o_auth_token_manager_1a8b690c178ee7fecde01b7813c63ea08d" kindref="member">refreshToken</ref>()<sp/><sp/><sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1ingestion_1_1_o_auth_token_manager_1aff5edcd23d08d2795d4dd18054e7f920" kindref="member">getBearerAuthorizationHeader</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="classthemis_1_1ingestion_1_1_o_auth_token_manager_1a93fd322112237030643472fa916ae7ce" kindref="member">getExpiryTime</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_o_auth_token_manager_1a1dc3ea11742644caa6ad2450a0200104" kindref="member">setTokenForTesting</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>access_token,</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>refresh_token,</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>expiry);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_o_auth_config" kindref="compound">OAuthConfig</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config_;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a950ed039f863072b3171dda92be248ef" kindref="member">OAuthHttpPostFn</ref><sp/><sp/><sp/><sp/>http_post_;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>expiry_time_;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isNearExpiry()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;int,<sp/>std::string&gt;<sp/>doHttpPost(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>body);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>parseTokenResponse(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>body);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>NullTokenManager<sp/>─────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152" refid="classthemis_1_1ingestion_1_1_null_token_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_null_token_manager_1a876ca7c47a23ad2b90dd8602d0071c7d" kindref="member">NullTokenManager</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_i_o_auth_token_manager" kindref="compound">IOAuthTokenManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="154" refid="classthemis_1_1ingestion_1_1_null_token_manager_1a876ca7c47a23ad2b90dd8602d0071c7d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_null_token_manager_1a876ca7c47a23ad2b90dd8602d0071c7d" kindref="member">NullTokenManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155" refid="classthemis_1_1ingestion_1_1_null_token_manager_1a478795f2f01a80334c57507be10fc2e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_null_token_manager_1a478795f2f01a80334c57507be10fc2e1" kindref="member">~NullTokenManager</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="classthemis_1_1ingestion_1_1_null_token_manager_1af349a1b235d11b924f7b7167e70804a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1ingestion_1_1_null_token_manager_1af349a1b235d11b924f7b7167e70804a8" kindref="member">getAccessToken</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="158" refid="classthemis_1_1ingestion_1_1_null_token_manager_1ae518d56987fad6515a7465c7221d32e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_null_token_manager_1ae518d56987fad6515a7465c7221d32e1" kindref="member">refreshToken</ref>()</highlight><highlight class="keyword"><sp/><sp/><sp/>override<sp/></highlight><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="159" refid="classthemis_1_1ingestion_1_1_null_token_manager_1ade6306e51cd8ba4dce6aafbfa9da6346" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1ingestion_1_1_null_token_manager_1ade6306e51cd8ba4dce6aafbfa9da6346" kindref="member">getBearerAuthorizationHeader</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Bearer<sp/>&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ingestion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/ingestion/oauth_token_manager.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_with_node" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::WithNode</compoundname>
+    <includes refid="aql__parser_8h" local="no">aql_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_with_node_1a05b27d6198e01c9619bdd293f22c04e1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_c_t_e_definition" kindref="compound">CTEDefinition</ref> &gt;</type>
+        <definition>std::vector&lt;CTEDefinition&gt; themis::query::WithNode::ctes</definition>
+        <argsstring></argsstring>
+        <name>ctes</name>
+        <qualifiedname>themis::query::WithNode::ctes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="700" column="17" bodyfile="include/query/aql_parser.h" bodystart="700" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_with_node_1aa5a80f9af89f6c31ddd94b2d8e94f01d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::WithNode::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::query::WithNode::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="702" column="20" bodyfile="include/query/aql_parser.h" bodystart="702" bodyend="711"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/aql_parser.h" line="699" column="1" bodyfile="include/query/aql_parser.h" bodystart="699" bodyend="712"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_with_node_1a05b27d6198e01c9619bdd293f22c04e1" prot="public" virt="non-virtual"><scope>themis::query::WithNode</scope><name>ctes</name></member>
+      <member refid="structthemis_1_1query_1_1_with_node_1aa5a80f9af89f6c31ddd94b2d8e94f01d" prot="public" virt="non-virtual"><scope>themis::query::WithNode</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

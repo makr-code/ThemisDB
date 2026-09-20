@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__scraper__render__pagination__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_scraper_render_pagination_focused.cpp</compoundname>
+    <includes local="yes">gtest/gtest.h</includes>
+    <includes refid="scraper__render__contract_8h" local="yes">scraper/scraper_render_contract.h</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="4">
+        <label>scraper/scraper_api_contract.h</label>
+        <link refid="scraper__api__contract_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>scraper/scraper_js_renderer.h</label>
+        <link refid="scraper__js__renderer_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>scraper/scraper_render_contract.h</label>
+        <link refid="scraper__render__contract_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/scraper/test_scraper_render_pagination_focused.cpp</label>
+        <link refid="test__scraper__render__pagination__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>algorithm</label>
+      </node>
+      <node id="13">
+        <label>cctype</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="10">
+        <label>map</label>
+      </node>
+      <node id="11">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1scraper">themis::scraper</innernamespace>
+    <innernamespace refid="namespacethemis_1_1scraper_1_1test">themis::scraper::test</innernamespace>
+    <briefdescription>
+<para>Sub-Agent 2 focused tests: JS-Render timeout path and API pagination limit enforcement. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Test IDs: SCR-21 through SCR-24 No file I/O, no network, deterministic only.</para>
+<para><simplesect kind="see"><para><ref refid="scraper__render__contract_8h" kindref="compound">include/scraper/scraper_render_contract.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="scraper__api__contract_8h" kindref="compound">include/scraper/scraper_api_contract.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="scraper__js__renderer_8h" kindref="compound">include/scraper/scraper_js_renderer.h</ref> </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gtest/gtest.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="scraper__render__contract_8h" kindref="compound">scraper/scraper_render_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1scraper" kindref="compound">scraper</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1scraper_1_1test" kindref="compound">test</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SCR-21<sp/>—<sp/>JS-Render<sp/>timeout<sp/>detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><ref refid="namespacethemis_1_1scraper_1_1test_1a14e538fa42064fa95e5e7b4945bea0d1" kindref="member">TEST</ref>(ScraperRenderPagination,<sp/>SCR21_JsRenderTimeoutDetection)<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>JsRenderResult<sp/>r;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>r.success<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>r.elapsed_ms<sp/>=<sp/>30001;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>ms<sp/>past<sp/>the<sp/>30<sp/>000<sp/>ms<sp/>budget</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>r.error<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;process<sp/>timeout&quot;</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>also<sp/>contains<sp/>&quot;timeout&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>r.html<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&lt;partial&gt;data&lt;/partial&gt;&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>must<sp/>be<sp/>cleared</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>JsRenderContractResult<sp/>result<sp/>=<sp/><ref refid="namespacethemis_1_1scraper_1a457e0766cc84f472f5387fb66eb88481" kindref="member">enforceRenderTimeout</ref>(r,<sp/>30000);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.timed_out)</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;timed_out<sp/>must<sp/>be<sp/>true<sp/>when<sp/>elapsed_ms<sp/>&gt;=<sp/>timeout_ms&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.error,<sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0ad2b7c2251055442adfae3bd6a56e4ed2" kindref="member">ScraperError::kRenderTimeout</ref>)</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;error<sp/>code<sp/>must<sp/>be<sp/>kRenderTimeout<sp/>on<sp/>timeout&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.render_result.html.empty())</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;html<sp/>must<sp/>be<sp/>cleared<sp/>on<sp/>timeout&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SCR-22<sp/>—<sp/>JS-Render<sp/>failure<sp/>(non-timeout)<sp/>maps<sp/>to<sp/>kFetchFailed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><ref refid="namespacethemis_1_1scraper_1_1test_1a14e538fa42064fa95e5e7b4945bea0d1" kindref="member">TEST</ref>(ScraperRenderPagination,<sp/>SCR22_JsRenderNonTimeoutFailure)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>JsRenderResult<sp/>r;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>r.success<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>r.elapsed_ms<sp/>=<sp/>100;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>well<sp/>under<sp/>30<sp/>000<sp/>ms<sp/>budget</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>r.error<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;connection<sp/>refused&quot;</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>no<sp/>&quot;timeout&quot;<sp/>keyword</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>r.html<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>already<sp/>empty,<sp/>stays<sp/>empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>JsRenderContractResult<sp/>result<sp/>=<sp/><ref refid="namespacethemis_1_1scraper_1a457e0766cc84f472f5387fb66eb88481" kindref="member">enforceRenderTimeout</ref>(r,<sp/>30000);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.timed_out)</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;timed_out<sp/>must<sp/>be<sp/>false<sp/>for<sp/>a<sp/>non-timeout<sp/>failure&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.error,<sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0adc6900e298ab607bab3a459e1b4447b1" kindref="member">ScraperError::kFetchFailed</ref>)</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;error<sp/>code<sp/>must<sp/>be<sp/>kFetchFailed<sp/>for<sp/>non-timeout<sp/>failures&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.render_result.html.empty())</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;html<sp/>must<sp/>be<sp/>empty<sp/>(was<sp/>already<sp/>empty)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SCR-23<sp/>—<sp/>Pagination<sp/>limit<sp/>at<sp/>exact<sp/>boundary<sp/>and<sp/>adjacents</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><ref refid="namespacethemis_1_1scraper_1_1test_1a14e538fa42064fa95e5e7b4945bea0d1" kindref="member">TEST</ref>(ScraperRenderPagination,<sp/>SCR23_PaginationLimitBoundary)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Exactly<sp/>at<sp/>limit:<sp/>current<sp/>==<sp/>max<sp/>→<sp/>reached</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1scraper_1a4594bfab157afae43e1c410897cfc3d8" kindref="member">isPaginationLimitReached</ref>(50u,<sp/>50u))</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;current_page<sp/>==<sp/>max_depth<sp/>must<sp/>return<sp/>true&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>One<sp/>below<sp/>limit:<sp/>current<sp/>&lt;<sp/>max<sp/>→<sp/>not<sp/>reached</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1scraper_1a4594bfab157afae43e1c410897cfc3d8" kindref="member">isPaginationLimitReached</ref>(49u,<sp/>50u))</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;current_page<sp/>&lt;<sp/>max_depth<sp/>must<sp/>return<sp/>false&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>One<sp/>above<sp/>limit:<sp/>current<sp/>&gt;<sp/>max<sp/>→<sp/>reached<sp/>(already<sp/>past)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1scraper_1a4594bfab157afae43e1c410897cfc3d8" kindref="member">isPaginationLimitReached</ref>(51u,<sp/>50u))</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;current_page<sp/>&gt;<sp/>max_depth<sp/>must<sp/>return<sp/>true&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SCR-24<sp/>—<sp/>Successful<sp/>render<sp/>passes<sp/>through<sp/>unchanged</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><ref refid="namespacethemis_1_1scraper_1_1test_1a14e538fa42064fa95e5e7b4945bea0d1" kindref="member">TEST</ref>(ScraperRenderPagination,<sp/>SCR24_SuccessfulRenderPassThrough)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>kOriginalHtml<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&lt;html&gt;content&lt;/html&gt;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>JsRenderResult<sp/>r;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>r.success<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>r.html<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>kOriginalHtml;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>r.elapsed_ms<sp/>=<sp/>500;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>r.error<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>no<sp/>error<sp/>on<sp/>success</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>JsRenderContractResult<sp/>result<sp/>=<sp/><ref refid="namespacethemis_1_1scraper_1a457e0766cc84f472f5387fb66eb88481" kindref="member">enforceRenderTimeout</ref>(r,<sp/>30000);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.error,<sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a8c632159fa131f09d04f94e3cbcd8782" kindref="member">ScraperError::kSuccess</ref>)</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;error<sp/>must<sp/>be<sp/>kSuccess<sp/>when<sp/>render<sp/>succeeded&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.timed_out)</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;timed_out<sp/>must<sp/>be<sp/>false<sp/>when<sp/>render<sp/>succeeded&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.render_result.html,<sp/>kOriginalHtml)</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;html<sp/>must<sp/>be<sp/>preserved<sp/>unchanged<sp/>on<sp/>success&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>scraper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/scraper/test_scraper_render_pagination_focused.cpp"/>
+  </compounddef>
+</doxygen>

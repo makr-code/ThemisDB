@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1tests_1_1_j_w_t_user_key_derivation_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::tests::JWTUserKeyDerivationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::auth::tests::JWTUserKeyDerivationTest</label>
+        <link refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_user_key_derivation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::auth::tests::JWTUserKeyDerivationTest</label>
+        <link refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_user_key_derivation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/auth/test_jwt_validator_focused.cpp" line="469" column="1" bodyfile="tests/auth/test_jwt_validator_focused.cpp" bodystart="469" bodyend="469"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

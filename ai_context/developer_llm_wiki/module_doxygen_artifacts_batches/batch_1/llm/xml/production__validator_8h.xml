@@ -1,0 +1,860 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="production__validator_8h" kind="file" language="C++">
+    <compoundname>production_validator.h</compoundname>
+    <includes refid="llm__plugin__interface_8h" local="yes">llm/llm_plugin_interface.h</includes>
+    <includes refid="continuous__batch__scheduler_8h" local="yes">llm/continuous_batch_scheduler.h</includes>
+    <includes refid="gpu__memory__manager_8h" local="yes">llm/gpu_memory_manager.h</includes>
+    <includes refid="kernel__fusion_8h" local="yes">llm/kernel_fusion.h</includes>
+    <includes refid="inference__engine__enhanced_8h" local="yes">llm/inference_engine_enhanced.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">deque</includes>
+    <includes local="no">string</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">atomic</includes>
+    <includedby refid="production__validator_8cpp" local="yes">src/llm/production_validator.cpp</includedby>
+    <incdepgraph>
+      <node id="31">
+        <label>llm/adapter_registry.h</label>
+        <link refid="adapter__registry_8h"/>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>llm/block_table.h</label>
+        <link refid="block__table_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>llm/continuous_batch_scheduler.h</label>
+        <link refid="continuous__batch__scheduler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>llm/gpu_memory_manager.h</label>
+        <link refid="gpu__memory__manager_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>llm/grafana_metrics.h</label>
+        <link refid="grafana__metrics_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="36">
+        <label>llm/i_federated_inference_backend.h</label>
+        <link refid="i__federated__inference__backend_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>llm/inference_engine_enhanced.h</label>
+        <link refid="inference__engine__enhanced_8h"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="37">
+        <label>llm/inference_handle.h</label>
+        <link refid="inference__handle_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>llm/json_schema_converter.h</label>
+        <link refid="json__schema__converter_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>llm/kernel_fusion.h</label>
+        <link refid="kernel__fusion_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>llm/llm_plugin_interface.h</label>
+        <link refid="llm__plugin__interface_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="40">
+        <label>llm/llm_prefix_cache.h</label>
+        <link refid="llm__prefix__cache_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+      </node>
+      <node id="49">
+        <label>llm/lookup_decoder.h</label>
+        <link refid="lookup__decoder_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>llm/lora_framework/lora_provenance.h</label>
+        <link refid="lora__provenance_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="42">
+        <label>llm/model_router.h</label>
+        <link refid="model__router_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>llm/paged_block_manager.h</label>
+        <link refid="paged__block__manager_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>llm/paged_kv_cache.h</label>
+        <link refid="paged__kv__cache_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/production_validator.h</label>
+        <link refid="production__validator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="44">
+        <label>llm/shared_worker_pool.h</label>
+        <link refid="shared__worker__pool_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="46">
+        <label>llm/speculative_decoder.h</label>
+        <link refid="speculative__decoder_8h"/>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>llm/token_quota_manager.h</label>
+        <link refid="token__quota__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="47">
+        <label>algorithm</label>
+      </node>
+      <node id="12">
+        <label>atomic</label>
+      </node>
+      <node id="23">
+        <label>chrono</label>
+      </node>
+      <node id="26">
+        <label>condition_variable</label>
+      </node>
+      <node id="28">
+        <label>cstddef</label>
+      </node>
+      <node id="9">
+        <label>cstdint</label>
+      </node>
+      <node id="45">
+        <label>deque</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="38">
+        <label>future</label>
+      </node>
+      <node id="21">
+        <label>list</label>
+      </node>
+      <node id="34">
+        <label>map</label>
+      </node>
+      <node id="11">
+        <label>memory</label>
+      </node>
+      <node id="13">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="8">
+        <label>plugins/plugin_interface.h</label>
+      </node>
+      <node id="19">
+        <label>queue</label>
+      </node>
+      <node id="50">
+        <label>rag/self_rag.h</label>
+      </node>
+      <node id="48">
+        <label>random</label>
+      </node>
+      <node id="43">
+        <label>regex</label>
+      </node>
+      <node id="51">
+        <label>sharding/remote_executor.h</label>
+      </node>
+      <node id="35">
+        <label>shared_mutex</label>
+      </node>
+      <node id="32">
+        <label>storage/security_signature_manager.h</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="52">
+        <label>string_view</label>
+      </node>
+      <node id="24">
+        <label>thread</label>
+      </node>
+      <node id="20">
+        <label>unordered_map</label>
+      </node>
+      <node id="39">
+        <label>utility</label>
+      </node>
+      <node id="41">
+        <label>utils/clock.h</label>
+      </node>
+      <node id="18">
+        <label>utils/concurrent_cache.h</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/production_validator.h</label>
+        <link refid="production__validator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/llm/production_validator.cpp</label>
+        <link refid="production__validator_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1llm_1_1testing_1_1_production_validator" prot="public">themis::llm::testing::ProductionValidator</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config" prot="public">themis::llm::testing::ProductionValidator::ValidationConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result" prot="public">themis::llm::testing::ProductionValidator::ValidationResult</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics" prot="public">themis::llm::testing::ProductionValidator::ProductionMetrics</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_live_stats" prot="public">themis::llm::testing::ProductionValidator::LiveStats</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_quality_test" prot="private">themis::llm::testing::ProductionValidator::QualityTest</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1testing_1_1_performance_regression_detector" prot="public">themis::llm::testing::PerformanceRegressionDetector</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1_1_baseline" prot="public">themis::llm::testing::PerformanceRegressionDetector::Baseline</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1_1_regression_report" prot="public">themis::llm::testing::PerformanceRegressionDetector::RegressionReport</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1testing_1_1_integration_test_suite" prot="public">themis::llm::testing::IntegrationTestSuite</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1testing_1_1_integration_test_suite_1_1_test_result" prot="public">themis::llm::testing::IntegrationTestSuite::TestResult</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1testing">themis::llm::testing</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llm__plugin__interface_8h" kindref="compound">llm/llm_plugin_interface.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="continuous__batch__scheduler_8h" kindref="compound">llm/continuous_batch_scheduler.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gpu__memory__manager_8h" kindref="compound">llm/gpu_memory_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="kernel__fusion_8h" kindref="compound">llm/kernel_fusion.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="inference__engine__enhanced_8h" kindref="compound">llm/inference_engine_enhanced.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;deque&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1llm_1_1testing" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1testing" kindref="compound">testing</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="classthemis_1_1llm_1_1testing_1_1_production_validator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1ad41d01687ac756c2c1496350bbb159fc" kindref="member">ProductionValidator</ref><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="38" refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a34e3c7c65d175ecc13df4369ad56d4df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a34e3c7c65d175ecc13df4369ad56d4df" kindref="member">~ProductionValidator</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config" kindref="compound">ValidationConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stress<sp/>test<sp/>duration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1a1bff17941585e1ba884642793de11eab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::hours<sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1a1bff17941585e1ba884642793de11eab" kindref="member">stress_test_duration</ref>{72};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Load<sp/>testing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1aea8b09538bc66ada3f49b543e509fec6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1aea8b09538bc66ada3f49b543e509fec6" kindref="member">concurrent_requests</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1a38bcd5a9248bcc4faf023376bad33b46" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1a38bcd5a9248bcc4faf023376bad33b46" kindref="member">requests_per_second</ref><sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1ac62c1f3b8933bc3b54fa3c0053c30c35" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1ac62c1f3b8933bc3b54fa3c0053c30c35" kindref="member">total_requests</ref><sp/>=<sp/>100000;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Quality<sp/>checks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1a659ba5cc24754f8e13e47ac2b4b75f57" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1a659ba5cc24754f8e13e47ac2b4b75f57" kindref="member">max_latency_ms</ref><sp/>=<sp/>100.0;</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1a4c4e66aaa5685c5c598c8cb8f7ff984b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1a4c4e66aaa5685c5c598c8cb8f7ff984b" kindref="member">max_p99_latency_ms</ref><sp/>=<sp/>200.0;</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1ae0090f9dac6ae1ed685eae8c91747d59" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1ae0090f9dac6ae1ed685eae8c91747d59" kindref="member">min_throughput_tokens_per_sec</ref><sp/>=<sp/>1000.0;</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1ac39896d17c3cad7f76e2d4e99a83ef43" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1ac39896d17c3cad7f76e2d4e99a83ef43" kindref="member">max_error_rate_pct</ref><sp/>=<sp/>0.1;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Memory<sp/>checks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1afc4120ef16bb8d9155bab7a8a5ec255c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1afc4120ef16bb8d9155bab7a8a5ec255c" kindref="member">max_memory_growth_mb_per_hour</ref><sp/>=<sp/>10.0;</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1ada6c4129dc16ec1a97d7c923622bb6ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1ada6c4129dc16ec1a97d7c923622bb6ce" kindref="member">max_fragmentation_pct</ref><sp/>=<sp/>15;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Performance<sp/>regression</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1ad26db6614f60300790cf099290fccf88" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1ad26db6614f60300790cf099290fccf88" kindref="member">max_regression_pct</ref><sp/>=<sp/>1.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>1%<sp/>regression<sp/>allowed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result" kindref="compound">ValidationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result_1a375f6aefad2dc8a54621e4332142589a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result_1a375f6aefad2dc8a54621e4332142589a" kindref="member">passed</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result_1ac9bb027a4edb9675446f56ecca7f1c8d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result_1ac9bb027a4edb9675446f56ecca7f1c8d" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Performance<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result_1a2e66dc3087d859292c50192839b0b8a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result_1a2e66dc3087d859292c50192839b0b8a6" kindref="member">avg_latency_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result_1ac638a5fe6e0b964d416f7e45b4424a87" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result_1ac638a5fe6e0b964d416f7e45b4424a87" kindref="member">p50_latency_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result_1aa191c5a57ab72c1a2008b197a180b7a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result_1aa191c5a57ab72c1a2008b197a180b7a7" kindref="member">p95_latency_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result_1a9d5809686000870b29c5684c1a873fa2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result_1a9d5809686000870b29c5684c1a873fa2" kindref="member">p99_latency_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result_1a474b0ec59fb66b9f8d3184b86bed74da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result_1a474b0ec59fb66b9f8d3184b86bed74da" kindref="member">throughput_tokens_per_sec</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Quality<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result_1ae204e09343aa3e1aac7c0f8876b266e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result_1ae204e09343aa3e1aac7c0f8876b266e7" kindref="member">total_requests</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result_1a8673d41e1a28ba2469107a324dfd919f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result_1a8673d41e1a28ba2469107a324dfd919f" kindref="member">successful_requests</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result_1a05ac09bfa174f839c5405775dfb3ac54" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result_1a05ac09bfa174f839c5405775dfb3ac54" kindref="member">failed_requests</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result_1a59715861a3fa18b4fcde902583270438" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result_1a59715861a3fa18b4fcde902583270438" kindref="member">error_rate_pct</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Memory<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result_1a547a6271c33c69980c4f206572ca71f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result_1a547a6271c33c69980c4f206572ca71f2" kindref="member">peak_memory_mb</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result_1a575a47a41ac837f03294ec796fd769da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result_1a575a47a41ac837f03294ec796fd769da" kindref="member">final_memory_mb</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result_1a2c6f2cb6b6b141097255f487c498140a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result_1a2c6f2cb6b6b141097255f487c498140a" kindref="member">memory_growth_mb</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result_1a4d7b9b8f0158ec35fb487339d21a055c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result_1a4d7b9b8f0158ec35fb487339d21a055c" kindref="member">max_fragmentation_pct</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stability<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result_1a2d20c518f09798e977c00909c98003e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result_1a2d20c518f09798e977c00909c98003e4" kindref="member">num_crashes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result_1af62458e27928f6c6cd17428269aec583" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result_1af62458e27928f6c6cd17428269aec583" kindref="member">uptime_pct</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result_1aedfb26a7905cef2251e835a4c4a517bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result_1aedfb26a7905cef2251e835a4c4a517bf" kindref="member">total_uptime</ref>{0};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics" kindref="compound">ProductionMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1a3e0c2b42eaeb334c90cc7e3c5c965abd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1a3e0c2b42eaeb334c90cc7e3c5c965abd" kindref="member">model_id</ref>;</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1a7bd943289cea7878418d5e4fd48b17a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1a7bd943289cea7878418d5e4fd48b17a2" kindref="member">passed</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1ab620b54bcddf517074f560b03a3cd90c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1ab620b54bcddf517074f560b03a3cd90c" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1ac86c24411c659d144540a5149b2ec176" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1ac86c24411c659d144540a5149b2ec176" kindref="member">warnings</ref>;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Latency<sp/>metrics<sp/>(milliseconds)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1a41c15bb65b929fc20377b1d5e4157a9f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1a41c15bb65b929fc20377b1d5e4157a9f" kindref="member">latency_p50_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1a5cbd74f25754070ba038160c80187715" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1a5cbd74f25754070ba038160c80187715" kindref="member">latency_p95_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1a5094a5ab8b44554d6a98c6185c89b85a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1a5094a5ab8b44554d6a98c6185c89b85a" kindref="member">latency_p99_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1a2d8d5de727285da9fe74670a3ccbf794" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1a2d8d5de727285da9fe74670a3ccbf794" kindref="member">avg_latency_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1a6c944456256bf1d99fdc81526181f5cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1a6c944456256bf1d99fdc81526181f5cc" kindref="member">max_latency_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1a31d10c28bfbbf26fe5d46a2aade08562" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1a31d10c28bfbbf26fe5d46a2aade08562" kindref="member">min_latency_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Throughput<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1a97d36c184097fdc59423f5323270256f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1a97d36c184097fdc59423f5323270256f" kindref="member">throughput_tokens_per_sec</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1a133f254e7669a2f9fb67e1b33343a9c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1a133f254e7669a2f9fb67e1b33343a9c0" kindref="member">total_tokens_generated</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1a9fbe6c648c2f820537403585b913670e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1a9fbe6c648c2f820537403585b913670e" kindref="member">total_time_seconds</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Quality<sp/>score<sp/>(0-100%)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1a906c41e198c0e168ec97902dcc964c61" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1a906c41e198c0e168ec97902dcc964c61" kindref="member">quality_score_pct</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1a01af9074ee688a4bf68e43154db402a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1a01af9074ee688a4bf68e43154db402a8" kindref="member">quality_tests_passed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1a1e15eee7a1125c938d8581f58139eee8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1a1e15eee7a1125c938d8581f58139eee8" kindref="member">quality_tests_total</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Memory<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1ad958b103cba0a39ed97ff1d20a668abf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1ad958b103cba0a39ed97ff1d20a668abf" kindref="member">memory_used_mb</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1abc57ed44f3b3dc11df9108d48abc8487" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1abc57ed44f3b3dc11df9108d48abc8487" kindref="member">peak_memory_mb</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Request<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1ae40accae3c34b6436e810ecd42d4a846" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1ae40accae3c34b6436e810ecd42d4a846" kindref="member">total_requests</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1a66c06cfac4a24ad9f63b2ac145d51d98" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1a66c06cfac4a24ad9f63b2ac145d51d98" kindref="member">successful_requests</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1a7f02713e7e1f26c473b2f150412de5af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1a7f02713e7e1f26c473b2f150412de5af" kindref="member">failed_requests</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1a362a0cfa0119c49f369357b8387762a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics_1a362a0cfa0119c49f369357b8387762a0" kindref="member">skipped_requests</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1ad41d01687ac756c2c1496350bbb159fc" kindref="member">ProductionValidator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config" kindref="compound">ValidationConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Main<sp/>validation<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result" kindref="compound">ValidationResult</ref><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a0e74691b6a0a1d486bc8c46680458b11" kindref="member">runEndToEndTests</ref>();</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result" kindref="compound">ValidationResult</ref><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a49ff40ce763efedac5201029848257a4" kindref="member">runStressTest</ref>();</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result" kindref="compound">ValidationResult</ref><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a71b277b33ce467e283a202a42c2516b2" kindref="member">runLoadTest</ref>();</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result" kindref="compound">ValidationResult</ref><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a366917eadfdc858c054dc6c8e7215cdc" kindref="member">checkPerformanceRegression</ref>(</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>baseline_file</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_production_metrics" kindref="compound">ProductionMetrics</ref><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a0958a2882d698ddb560a299f448bb2e3" kindref="member">benchmarkInference</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a6f828e20af47b61a58c2a2cf9c7ed1fd" kindref="member">validateQuality</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Individual<sp/>test<sp/>suites</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1ac23b823533dce4d286a6661b0a58813a" kindref="member">testModelLoading</ref>();</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1af046c91d194213042121f8e30cf37363" kindref="member">testInferencePipeline</ref>();</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1aca79d62d2cdb2a552d01b646b03bee05" kindref="member">testBatchScheduling</ref>();</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a7a0bae0a5f1b1b4bf46f77d3cf903cd4" kindref="member">testMemoryManagement</ref>();</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a18379b779401fcf503235f348282c336" kindref="member">testGPUOffload</ref>();</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a9d756399c13340fa00516a1290ef7e08" kindref="member">testQuantization</ref>();</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a7f85c4f1487b0281ee7582c7c063580c" kindref="member">testContinuousBatching</ref>();</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a1084bef501c6217d0515b40c711291a9" kindref="member">testKernelFusion</ref>();</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stress<sp/>testing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1aee7ac5a8d92cd3f24d3b0b756c402822" kindref="member">startStressTest</ref>();</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1ac70699a3b7e5c0fbf44a238008044353" kindref="member">stopStressTest</ref>();</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1aa78d51f45ce74fd8107f8450ff4d19ab" kindref="member">isStressTestRunning</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Monitoring</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_live_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_live_stats" kindref="compound">LiveStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="231" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_live_stats_1a9be9ed269a6fe8dc93a661e8abb57a10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_live_stats_1a9be9ed269a6fe8dc93a661e8abb57a10" kindref="member">active_requests</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="232" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_live_stats_1a10065cfa2e438edd77a8dbd0ba07ce71" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_live_stats_1a10065cfa2e438edd77a8dbd0ba07ce71" kindref="member">current_latency_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="233" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_live_stats_1a952b2fa6e7d05beb47b6b0acb5be7bfd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_live_stats_1a952b2fa6e7d05beb47b6b0acb5be7bfd" kindref="member">current_throughput</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="234" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_live_stats_1a600cb92b76a53ab22a991ecf45abad3c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_live_stats_1a600cb92b76a53ab22a991ecf45abad3c" kindref="member">memory_mb</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="235" refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_live_stats_1a743a18fd1c57403e14bfb63e5fcdf225" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_live_stats_1a743a18fd1c57403e14bfb63e5fcdf225" kindref="member">uptime_seconds</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_live_stats" kindref="compound">LiveStats</ref><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1ac4400a8940dec61869eb08cd388352a5" kindref="member">getLiveStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_production_validator_1a1f1f8344645494b16b4717b0a70b0bae" kindref="member">setInferenceEngine</ref>(std::shared_ptr&lt;InferenceEngineEnhanced&gt;<sp/>engine);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config" kindref="compound">ValidationConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;InferenceEngineEnhanced&gt;<sp/>inference_engine_;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LOCK<sp/>HIERARCHY<sp/>ENFORCEMENT<sp/>(§3.4):</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>┌─<sp/>validation_state_lock_<sp/>:<sp/>std::mutex<sp/>(state<sp/>machine)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>│<sp/><sp/>└─<sp/>validation_queue_lock_<sp/>:<sp/>std::mutex<sp/>(results<sp/>queue)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>│<sp/><sp/><sp/><sp/><sp/>└─<sp/>metrics_lock_<sp/>:<sp/>std::mutex<sp/>(telemetry)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>└─<sp/>latency_mutex_<sp/>:<sp/>std::mutex<sp/>(independent<sp/>statistics)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>validation_state_lock_;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>validation_queue_lock_;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>metrics_lock_;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>state<sp/>(protected<sp/>by<sp/>validation_state_lock_)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>stress_test_running_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>stress_test_start_;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>memory_baseline_mb_<sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics<sp/>(protected<sp/>by<sp/>metrics_lock_<sp/>or<sp/>latency_mutex_)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>std::deque&lt;double&gt;<sp/>latency_samples_;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>latency_mutex_;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>total_requests_processed_{0};</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>total_failures_{0};</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>calculatePercentile(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;&amp;<sp/>data,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>percentile);</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>recordLatency(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>latency_ms);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>checkMemoryLeaks();</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Benchmark<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>generateBenchmarkPrompt(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>variant);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>measureMemoryUsage();</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Quality<sp/>test<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">QualityTest<sp/>{</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>category;</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>prompt;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>expected_answers;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;QualityTest&gt;<sp/>getQualityTests();</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>evaluateQualityTest(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>QualityTest&amp;<sp/>test,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id);</highlight></codeline>
+<codeline lineno="332"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight></codeline>
+<codeline lineno="334" refid="classthemis_1_1llm_1_1testing_1_1_performance_regression_detector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1testing_1_1_performance_regression_detector" kindref="compound">PerformanceRegressionDetector</ref><sp/>{</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="340" refid="classthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1a95c7f73cb000a89d70f4efd672ca37c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1a95c7f73cb000a89d70f4efd672ca37c2" kindref="member">~PerformanceRegressionDetector</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="341" refid="structthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1_1_baseline" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1_1_baseline" kindref="compound">Baseline</ref><sp/>{</highlight></codeline>
+<codeline lineno="342" refid="structthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1_1_baseline_1a628a6cca322ffdb111ded8967184cc46" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1_1_baseline_1a628a6cca322ffdb111ded8967184cc46" kindref="member">avg_latency_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="343" refid="structthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1_1_baseline_1abb16b27ab0106f3708737ce286725837" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1_1_baseline_1abb16b27ab0106f3708737ce286725837" kindref="member">p99_latency_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="344" refid="structthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1_1_baseline_1a218824b3a1c091f2ecff2c41ca3e5fb7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1_1_baseline_1a218824b3a1c091f2ecff2c41ca3e5fb7" kindref="member">throughput_tokens_per_sec</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="345" refid="structthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1_1_baseline_1a91dc1747462b1fba0fdb6bef9f53d60c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1_1_baseline_1a91dc1747462b1fba0fdb6bef9f53d60c" kindref="member">memory_usage_mb</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="347" refid="structthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1_1_baseline_1aee81de6ea0920148c798d40ab1ce11f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1_1_baseline_1aee81de6ea0920148c798d40ab1ce11f2" kindref="member">version</ref>;</highlight></codeline>
+<codeline lineno="348" refid="structthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1_1_baseline_1a469627e3c6d76adf2aa0062820026bb8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1_1_baseline_1a469627e3c6d76adf2aa0062820026bb8" kindref="member">recorded_at</ref>;</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="351" refid="structthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1_1_regression_report" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1_1_regression_report" kindref="compound">RegressionReport</ref><sp/>{</highlight></codeline>
+<codeline lineno="352" refid="structthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1_1_regression_report_1a687067f6483782634889f8bc15b6735d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1_1_regression_report_1a687067f6483782634889f8bc15b6735d" kindref="member">has_regression</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="354" refid="structthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1_1_regression_report_1a7f7f669e2ff7c9e11927240179cc3ad6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1_1_regression_report_1a7f7f669e2ff7c9e11927240179cc3ad6" kindref="member">latency_change_pct</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="355" refid="structthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1_1_regression_report_1a0a360b8cb79c73dcd50c87dde48320eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1_1_regression_report_1a0a360b8cb79c73dcd50c87dde48320eb" kindref="member">p99_latency_change_pct</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="356" refid="structthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1_1_regression_report_1aaed2a58693585fe195d21889d72e9668" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1_1_regression_report_1aaed2a58693585fe195d21889d72e9668" kindref="member">throughput_change_pct</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="357" refid="structthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1_1_regression_report_1a6e9e892f780e039237bacab4a1d57a0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1_1_regression_report_1a6e9e892f780e039237bacab4a1d57a0f" kindref="member">memory_change_pct</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="359" refid="structthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1_1_regression_report_1a225f6e18fa883c87c74d08f59d03554b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1_1_regression_report_1a225f6e18fa883c87c74d08f59d03554b" kindref="member">regressions</ref>;</highlight></codeline>
+<codeline lineno="360" refid="structthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1_1_regression_report_1a40a5eada429e7d3d3e0855310822d9f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1_1_regression_report_1a40a5eada429e7d3d3e0855310822d9f3" kindref="member">improvements</ref>;</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Save/load<sp/>baselines</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1a6814c6e8c75213af9748c427b8313c16" kindref="member">saveBaseline</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filepath,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1_1_baseline" kindref="compound">Baseline</ref>&amp;<sp/>baseline);</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1a51eadb31f3dfd50459fb0cc1e303495b" kindref="member">loadBaseline</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filepath,<sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1_1_baseline" kindref="compound">Baseline</ref>&amp;<sp/>baseline);</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compare<sp/>current<sp/>performance<sp/>against<sp/>baseline</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1_1_regression_report" kindref="compound">RegressionReport</ref><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1accc277368e4f8a1a7be674c5bca3591d" kindref="member">detectRegression</ref>(</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_performance_regression_detector_1_1_baseline" kindref="compound">Baseline</ref>&amp;<sp/>baseline,</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_result" kindref="compound">ProductionValidator::ValidationResult</ref>&amp;<sp/>current,</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>threshold_pct<sp/>=<sp/>1.0</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Baseline&gt;<sp/>historical_baselines_;</highlight></codeline>
+<codeline lineno="388"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"></highlight></codeline>
+<codeline lineno="390" refid="classthemis_1_1llm_1_1testing_1_1_integration_test_suite" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1testing_1_1_integration_test_suite" kindref="compound">IntegrationTestSuite</ref><sp/>{</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Component<sp/>integration<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1ad8835b830037d49e57c526e9dd3c9986" kindref="member">testLazyLoaderWithGPUMemory</ref>();</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1ad134386853c8168a4645a79cf023a562" kindref="member">testSchedulerWithPagedAttention</ref>();</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1a703d9d208496e829c59b344eabc51bc0" kindref="member">testKernelFusionWithInference</ref>();</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1ac93f135132b638f7b016f8bd3ee41625" kindref="member">testFullPipelineE2E</ref>();</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Multi-model<sp/>scenarios</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="419"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1a20a0859c6db445b20a04447513258b9c" kindref="member">testMultiModelServing</ref>();</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1a08610006712a6bd24680cf7eadbc77ba" kindref="member">testModelSwitching</ref>();</highlight></codeline>
+<codeline lineno="429"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1a1e6be9643af4ffd60bfd2bb3354ba8cb" kindref="member">testLoRAAdapterManagement</ref>();</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Failure<sp/>scenarios</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1a826c577dd070051da7cf6a53f69f67de" kindref="member">testGPUOutOfMemory</ref>();</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1a32e1dcecaab11a623d98e63ca070ca14" kindref="member">testModelLoadFailure</ref>();</highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1af264189d856d025b7946476779da03be" kindref="member">testRequestCancellation</ref>();</highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1a025ad9107d5525d21e68a96c922979ab" kindref="member">testPreemption</ref>();</highlight></codeline>
+<codeline lineno="452"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="453"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Performance<sp/>scenarios</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1a3f10a44546c9f8b3b98801208c7cc8ca" kindref="member">testHighConcurrency</ref>();</highlight></codeline>
+<codeline lineno="463"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1a43dedf98353e68b9b62218f66c9a109c" kindref="member">testLongRunningRequests</ref>();</highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1a404118f618b4811ff0dd381fd1358185" kindref="member">testBurstTraffic</ref>();</highlight></codeline>
+<codeline lineno="469"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="470" refid="structthemis_1_1llm_1_1testing_1_1_integration_test_suite_1_1_test_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1testing_1_1_integration_test_suite_1_1_test_result" kindref="compound">TestResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="471" refid="structthemis_1_1llm_1_1testing_1_1_integration_test_suite_1_1_test_result_1a93ff4c7f3bda7af4bac57fe83ca5b571" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_integration_test_suite_1_1_test_result_1a93ff4c7f3bda7af4bac57fe83ca5b571" kindref="member">test_name</ref>;</highlight></codeline>
+<codeline lineno="472" refid="structthemis_1_1llm_1_1testing_1_1_integration_test_suite_1_1_test_result_1a1c4e184c63d8a99b4ae657b8cd1ddafa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_integration_test_suite_1_1_test_result_1a1c4e184c63d8a99b4ae657b8cd1ddafa" kindref="member">passed</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="473" refid="structthemis_1_1llm_1_1testing_1_1_integration_test_suite_1_1_test_result_1aacd0f43a8fcb2cd3b5b6382792fe1c25" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_integration_test_suite_1_1_test_result_1aacd0f43a8fcb2cd3b5b6382792fe1c25" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="474" refid="structthemis_1_1llm_1_1testing_1_1_integration_test_suite_1_1_test_result_1a382b9b69c684a3a1951f083966b1aaac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1testing_1_1_integration_test_suite_1_1_test_result_1a382b9b69c684a3a1951f083966b1aaac" kindref="member">duration_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="475"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="476"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="481"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;TestResult&gt;<sp/><ref refid="classthemis_1_1llm_1_1testing_1_1_integration_test_suite_1a4f369e49919efbda04297ccc29c9114a" kindref="member">runAllTests</ref>();</highlight></codeline>
+<codeline lineno="482"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="483"><highlight class="normal"></highlight></codeline>
+<codeline lineno="484"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>testing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="485"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="486"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/production_validator.h"/>
+  </compounddef>
+</doxygen>

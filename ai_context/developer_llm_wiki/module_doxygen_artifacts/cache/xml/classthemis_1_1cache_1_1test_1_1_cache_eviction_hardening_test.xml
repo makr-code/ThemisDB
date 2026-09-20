@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::cache::test::CacheEvictionHardeningTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test_1a5eaf5c53dc307f669e0798ce8c00bcb0" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache" kindref="compound">BoundedLRUCache</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;BoundedLRUCache&gt; themis::cache::test::CacheEvictionHardeningTest::cache_</definition>
+        <argsstring></argsstring>
+        <name>cache_</name>
+        <qualifiedname>themis::cache::test::CacheEvictionHardeningTest::cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_multilevel_hardening.cpp" line="90" column="21" bodyfile="tests/cache/test_cache_eviction_multilevel_hardening.cpp" bodystart="90" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test_1af66275599d023b61a18f14753936d829" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::test::CacheEvictionHardeningTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::cache::test::CacheEvictionHardeningTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_multilevel_hardening.cpp" line="86" column="10" bodyfile="tests/cache/test_cache_eviction_multilevel_hardening.cpp" bodystart="86" bodyend="88"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::cache::test::CacheEvictionHardeningTest</label>
+        <link refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::cache::test::CacheEvictionHardeningTest</label>
+        <link refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cache/test_cache_eviction_multilevel_hardening.cpp" line="84" column="1" bodyfile="tests/cache/test_cache_eviction_multilevel_hardening.cpp" bodystart="84" bodyend="91"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test_1a5eaf5c53dc307f669e0798ce8c00bcb0" prot="protected" virt="non-virtual"><scope>themis::cache::test::CacheEvictionHardeningTest</scope><name>cache_</name></member>
+      <member refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test_1af66275599d023b61a18f14753936d829" prot="protected" virt="non-virtual"><scope>themis::cache::test::CacheEvictionHardeningTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_m_t_l_s_authenticator_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::MTLSAuthenticator::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_m_t_l_s_authenticator_1_1_impl_1a247d6cf84b776b09378ad65642e8e64e" prot="public" static="no" mutable="no">
+        <type>UniqueX509Store</type>
+        <definition>UniqueX509Store themis::auth::MTLSAuthenticator::Impl::ca_store</definition>
+        <argsstring></argsstring>
+        <name>ca_store</name>
+        <qualifiedname>themis::auth::MTLSAuthenticator::Impl::ca_store</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/auth/mtls_authenticator.cpp" line="99" column="21" bodyfile="src/auth/mtls_authenticator.cpp" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_m_t_l_s_authenticator_1_1_impl_1a824266fe70d287627d1b09b7b1befe9b" prot="public" static="no" mutable="no">
+        <type>UniqueX509CRL</type>
+        <definition>UniqueX509CRL themis::auth::MTLSAuthenticator::Impl::crl</definition>
+        <argsstring></argsstring>
+        <name>crl</name>
+        <qualifiedname>themis::auth::MTLSAuthenticator::Impl::crl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/auth/mtls_authenticator.cpp" line="100" column="19" bodyfile="src/auth/mtls_authenticator.cpp" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/auth/mtls_authenticator.cpp" line="98" column="1" bodyfile="src/auth/mtls_authenticator.cpp" bodystart="98" bodyend="101"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_m_t_l_s_authenticator_1_1_impl_1a247d6cf84b776b09378ad65642e8e64e" prot="public" virt="non-virtual"><scope>themis::auth::MTLSAuthenticator::Impl</scope><name>ca_store</name></member>
+      <member refid="structthemis_1_1auth_1_1_m_t_l_s_authenticator_1_1_impl_1a824266fe70d287627d1b09b7b1befe9b" prot="public" virt="non-virtual"><scope>themis::auth::MTLSAuthenticator::Impl</scope><name>crl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

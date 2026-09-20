@@ -1,0 +1,365 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="remote__executor_8h" kind="file" language="C++">
+    <compoundname>remote_executor.h</compoundname>
+    <includes refid="mtls__client_8h" local="yes">sharding/mtls_client.h</includes>
+    <includes refid="signed__request_8h" local="yes">sharding/signed_request.h</includes>
+    <includes refid="shard__topology_8h" local="yes">sharding/shard_topology.h</includes>
+    <includes refid="circuit__breaker_8h" local="yes">sharding/circuit_breaker.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="bench__shard__routing_8cpp" local="yes">benchmarks/sharding/bench_shard_routing.cpp</includedby>
+    <includedby refid="bench__sharding__performance_8cpp" local="yes">benchmarks/sharding/bench_sharding_performance.cpp</includedby>
+    <includedby refid="shard__router_8h" local="yes">include/sharding/shard_router.h</includedby>
+    <includedby refid="cloud__agent_8cpp" local="yes">src/sharding/cloud_agent.cpp</includedby>
+    <includedby refid="remote__executor_8cpp" local="yes">src/sharding/remote_executor.cpp</includedby>
+    <includedby refid="test__sharding__integration_8cpp" local="yes">tests/sharding/test_sharding_integration.cpp</includedby>
+    <incdepgraph>
+      <node id="19">
+        <label>sharding/circuit_breaker.h</label>
+        <link refid="circuit__breaker_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sharding/mtls_client.h</label>
+        <link refid="mtls__client_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/sharding/remote_executor.h</label>
+        <link refid="remote__executor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>sharding/shard_capabilities.h</label>
+        <link refid="shard__capabilities_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>sharding/shard_topology.h</label>
+        <link refid="shard__topology_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>sharding/signed_request.h</label>
+        <link refid="signed__request_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>algorithm</label>
+      </node>
+      <node id="20">
+        <label>atomic</label>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>cstdint</label>
+      </node>
+      <node id="10">
+        <label>deque</label>
+      </node>
+      <node id="15">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="4">
+        <label>optional</label>
+      </node>
+      <node id="18">
+        <label>set</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="11">
+        <label>unordered_map</label>
+      </node>
+      <node id="14">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/sharding/bench_shard_routing.cpp</label>
+        <link refid="bench__shard__routing_8cpp"/>
+      </node>
+      <node id="3">
+        <label>benchmarks/sharding/bench_sharding_performance.cpp</label>
+        <link refid="bench__sharding__performance_8cpp"/>
+      </node>
+      <node id="5">
+        <label>include/sharding/adaptive_shard_router.h</label>
+        <link refid="adaptive__shard__router_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/sharding/remote_executor.h</label>
+        <link refid="remote__executor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/sharding/shard_router.h</label>
+        <link refid="shard__router_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>src/sharding/adaptive_shard_router.cpp</label>
+        <link refid="adaptive__shard__router_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/sharding/cloud_agent.cpp</label>
+        <link refid="cloud__agent_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/sharding/remote_executor.cpp</label>
+        <link refid="remote__executor_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/sharding/shard_router.cpp</label>
+        <link refid="shard__router_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/sharding/test_sharding_e2e.cpp</label>
+        <link refid="test__sharding__e2e_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/sharding/test_sharding_integration.cpp</label>
+        <link refid="test__sharding__integration_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/sharding/test_sharding_phase2_hardening.cpp</label>
+        <link refid="test__sharding__phase2__hardening_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1sharding_1_1_remote_executor" prot="public">themis::sharding::RemoteExecutor</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config" prot="public">themis::sharding::RemoteExecutor::Config</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result" prot="public">themis::sharding::RemoteExecutor::Result</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1sharding">themis::sharding</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="mtls__client_8h" kindref="compound">sharding/mtls_client.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="signed__request_8h" kindref="compound">sharding/signed_request.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="shard__topology_8h" kindref="compound">sharding/shard_topology.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="circuit__breaker_8h" kindref="compound">sharding/circuit_breaker.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding" kindref="compound">themis::sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="classthemis_1_1sharding_1_1_remote_executor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_remote_executor_1ab28dc9c8a849bd38e7ebdfbfd1f8ac3e" kindref="member">RemoteExecutor</ref><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>mTLS<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1a8add0e2b859a87ce842c8a09fc3f3250" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1a8add0e2b859a87ce842c8a09fc3f3250" kindref="member">cert_path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>shard&apos;s<sp/>certificate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1a896f9b64bb27dad7616ff12a1bb967c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1a896f9b64bb27dad7616ff12a1bb967c1" kindref="member">key_path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>shard&apos;s<sp/>private<sp/>key</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1ab731e282ea8557768a57d4bc2c587b83" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1ab731e282ea8557768a57d4bc2c587b83" kindref="member">key_passphrase</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional:<sp/>key<sp/>passphrase</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1a0441236637e157c3d26822e0a6af8c4c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1a0441236637e157c3d26822e0a6af8c4c" kindref="member">ca_cert_path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Root<sp/>CA<sp/>certificate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1a6867ad5cfb0f9f6383274bbe1145335f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1a6867ad5cfb0f9f6383274bbe1145335f" kindref="member">crl_path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional:<sp/>CRL<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>shard&apos;s<sp/>identity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1af8629d83c202fb803ff92d96729bac5a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1af8629d83c202fb803ff92d96729bac5a" kindref="member">local_shard_id</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>shard&apos;s<sp/>ID</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Request<sp/>signing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1a68f8bfa19dff4fb63ddc058cf6faa05d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1a68f8bfa19dff4fb63ddc058cf6faa05d" kindref="member">enable_signing</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>signed<sp/>requests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Timeouts<sp/>and<sp/>retries<sp/>(inherited<sp/>by<sp/>mTLS<sp/>client)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1ac12cfc89300ed1a4e08f8c508ce1b2d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1ac12cfc89300ed1a4e08f8c508ce1b2d5" kindref="member">connect_timeout_ms</ref><sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1a2e0413f7199f0df7107e7842109d990a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1a2e0413f7199f0df7107e7842109d990a" kindref="member">request_timeout_ms</ref><sp/>=<sp/>30000;</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1ac0443667f1d6de1b033e1063ec6f198f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1ac0443667f1d6de1b033e1063ec6f198f" kindref="member">max_retries</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Circuit<sp/>breaker<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1a728fea22ba9454b09ee158697a9c1038" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1a728fea22ba9454b09ee158697a9c1038" kindref="member">enable_circuit_breaker</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>circuit<sp/>breaker<sp/>pattern</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1a0d8704366d30e7853fbd716b0f843a9a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_circuit_breaker_1_1_config" kindref="compound">CircuitBreaker::Config</ref><sp/><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config_1a0d8704366d30e7853fbd716b0f843a9a" kindref="member">circuit_breaker_config</ref>;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result" kindref="compound">Result</ref><sp/>{</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result_1a7d3473e177341ac0ef3f72039a021d25" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result_1a7d3473e177341ac0ef3f72039a021d25" kindref="member">shard_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Target<sp/>shard<sp/>ID</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result_1a592f69c4c4c929a463e538b2706046e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result_1a592f69c4c4c929a463e538b2706046e7" kindref="member">data</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Response<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result_1a1444225ba07331d6119acdf40ad1d5d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result_1a1444225ba07331d6119acdf40ad1d5d6" kindref="member">success</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>true<sp/>if<sp/>request<sp/>succeeded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result_1ae65d7a867fc8fde1844efd156d6d2b5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result_1ae65d7a867fc8fde1844efd156d6d2b5f" kindref="member">error</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Error<sp/>message<sp/>if<sp/>failed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result_1adf8b6ca713df5fd0db0f5e56a308112e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result_1adf8b6ca713df5fd0db0f5e56a308112e" kindref="member">execution_time_ms</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Execution<sp/>time</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result_1a67bd84d3c18bde3dd9ff329acf70beab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result_1a67bd84d3c18bde3dd9ff329acf70beab" kindref="member">http_status</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>HTTP<sp/>status<sp/>code</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_remote_executor_1ab28dc9c8a849bd38e7ebdfbfd1f8ac3e" kindref="member">RemoteExecutor</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result" kindref="compound">Result</ref><sp/><ref refid="classthemis_1_1sharding_1_1_remote_executor_1a49f59842beb8f11a7b4cfe148bf95242" kindref="member">get</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref>&amp;<sp/>shard_info,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result" kindref="compound">Result</ref><sp/><ref refid="classthemis_1_1sharding_1_1_remote_executor_1a491930cc13e584025fe355efb4866101" kindref="member">post</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref>&amp;<sp/>shard_info,</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path,</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>body);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result" kindref="compound">Result</ref><sp/><ref refid="classthemis_1_1sharding_1_1_remote_executor_1a3766ecfb59912b1aac7b56647f9becd0" kindref="member">put</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref>&amp;<sp/>shard_info,</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path,</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>body);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result" kindref="compound">Result</ref><sp/><ref refid="classthemis_1_1sharding_1_1_remote_executor_1a66d43c82f8f44c46fbb6bfb48d0d1b7a" kindref="member">del</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref>&amp;<sp/>shard_info,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result" kindref="compound">Result</ref><sp/><ref refid="classthemis_1_1sharding_1_1_remote_executor_1afc7e0a98bd3ae90aeae9b9781787ac69" kindref="member">executeQuery</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref>&amp;<sp/>shard_info,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_remote_executor_1_1_result" kindref="compound">Result</ref><sp/><ref refid="classthemis_1_1sharding_1_1_remote_executor_1a30792b512ca6e53fa7993f1db67dc1f1" kindref="member">postBinary</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref>&amp;<sp/>shard_info,</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path,</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t*<sp/>data,</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>size);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_remote_executor_1a9f080d7762870a25c330f5a6f90c2a07" kindref="member">isReady</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="158" refid="classthemis_1_1sharding_1_1_remote_executor_1a5783264bc926917dc1cb9cf2445c206d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1sharding_1_1_remote_executor_1a5783264bc926917dc1cb9cf2445c206d" kindref="member">getLocalShardId</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_.local_shard_id;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/>config_;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;MTLSClient&gt;<sp/>mtls_client_;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;SignedRequestSigner&gt;<sp/>request_signer_;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;CircuitBreakerManager&gt;<sp/>circuit_breaker_manager_;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>getEndpointURL(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref>&amp;<sp/>shard_info)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>Result<sp/>executeRequest(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>method,</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref>&amp;<sp/>shard_info,</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path,</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;nlohmann::json&gt;&amp;<sp/>body<sp/>=<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>Result<sp/>convertResponse(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_response" kindref="compound">MTLSClient::Response</ref>&amp;<sp/>response,</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>start_time_ms);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::sharding</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/sharding/remote_executor.h"/>
+  </compounddef>
+</doxygen>

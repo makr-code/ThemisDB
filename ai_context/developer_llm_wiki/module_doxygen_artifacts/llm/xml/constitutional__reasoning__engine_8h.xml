@@ -1,0 +1,293 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="constitutional__reasoning__engine_8h" kind="file" language="C++">
+    <compoundname>constitutional_reasoning_engine.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includedby refid="constitutional__reasoning__engine_8cpp" local="yes">src/llm/constitutional_reasoning_engine.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm/constitutional_reasoning_engine.h</label>
+        <link refid="constitutional__reasoning__engine_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/constitutional_reasoning_engine.h</label>
+        <link refid="constitutional__reasoning__engine_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/llm/constitutional_reasoning_engine.cpp</label>
+        <link refid="constitutional__reasoning__engine_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1_constitutional_principle" prot="public">themis::llm::ConstitutionalPrinciple</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_constitutional_reasoning_result" prot="public">themis::llm::ConstitutionalReasoningResult</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_constitutional_reasoning_config" prot="public">themis::llm::ConstitutionalReasoningConfig</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine" prot="public">themis::llm::ConstitutionalReasoningEngine</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics" prot="public">themis::llm::ConstitutionalReasoningEngine::Statistics</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_constitutional_reasoning_factory" prot="public">themis::llm::ConstitutionalReasoningFactory</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="structthemis_1_1llm_1_1_constitutional_principle" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_constitutional_principle" kindref="compound">ConstitutionalPrinciple</ref><sp/>{</highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1llm_1_1_constitutional_principle_1adbdca321b2dc7e97d6d54b6fbdb54d8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_constitutional_principle_1adbdca321b2dc7e97d6d54b6fbdb54d8b" kindref="member">~ConstitutionalPrinciple</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1llm_1_1_constitutional_principle_1a2b1e0e71adce07b1be7fbbd987110a91" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_constitutional_principle_1a2b1e0e71adce07b1be7fbbd987110a91" kindref="member">id</ref>;</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1llm_1_1_constitutional_principle_1a128b8b05d09a31bdccd1593f1c63c943" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_constitutional_principle_1a128b8b05d09a31bdccd1593f1c63c943" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1llm_1_1_constitutional_principle_1a541a68b9cc00230f7a265ea504723a73" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_constitutional_principle_1a541a68b9cc00230f7a265ea504723a73" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1llm_1_1_constitutional_principle_1a2a514edb05d47b2fec8de7f11c95b761" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_constitutional_principle_1a2a514edb05d47b2fec8de7f11c95b761" kindref="member">priority</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1llm_1_1_constitutional_principle_1a3c6d91fe2e4a16822467198612d59a10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_constitutional_principle_1a3c6d91fe2e4a16822467198612d59a10" kindref="member">critique_prompt</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1llm_1_1_constitutional_principle_1aae8e62befa0a8ce6374af469e4907253" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_constitutional_principle_1aae8e62befa0a8ce6374af469e4907253" kindref="member">revision_prompt</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1llm_1_1_constitutional_principle_1a1509f51899992fe0b6e6accb0fc5fac2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_constitutional_principle_1a1509f51899992fe0b6e6accb0fc5fac2" kindref="member">source</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1llm_1_1_constitutional_principle_1aff77c24f5c721c894f90109deb00ef59" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_constitutional_principle_1aff77c24f5c721c894f90109deb00ef59" kindref="member">domain_agnostic</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1llm_1_1_constitutional_reasoning_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_result" kindref="compound">ConstitutionalReasoningResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1llm_1_1_constitutional_reasoning_result_1a68b022c56a1c63bfd346342a249620c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_result_1a68b022c56a1c63bfd346342a249620c9" kindref="member">~ConstitutionalReasoningResult</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Original<sp/>response</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1llm_1_1_constitutional_reasoning_result_1adaf4a6836430345a012ab766edf0beec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_result_1adaf4a6836430345a012ab766edf0beec" kindref="member">original_response</ref>;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Critique<sp/>results</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1llm_1_1_constitutional_reasoning_result_1afe3ee5e738c0c7fc915b4dfa4e349633" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_result_1afe3ee5e738c0c7fc915b4dfa4e349633" kindref="member">critiques</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1llm_1_1_constitutional_reasoning_result_1a1a1c413ec88b4b221fbb5ab0f011537b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_result_1a1a1c413ec88b4b221fbb5ab0f011537b" kindref="member">violated_principles</ref>;<sp/></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1llm_1_1_constitutional_reasoning_result_1aa1cc269d426fb2dbe82afede8dc692a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_result_1aa1cc269d426fb2dbe82afede8dc692a0" kindref="member">applied_principles</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Revision<sp/>results</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1llm_1_1_constitutional_reasoning_result_1a6b4de0fa3593e54972c505d84d265148" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_result_1a6b4de0fa3593e54972c505d84d265148" kindref="member">revised_response</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1llm_1_1_constitutional_reasoning_result_1ad470f636b2d85d6bff2142fad4d90a29" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_result_1ad470f636b2d85d6bff2142fad4d90a29" kindref="member">was_revised</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1llm_1_1_constitutional_reasoning_result_1afafca17f88954cec6aa04c35a32019ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_result_1afafca17f88954cec6aa04c35a32019ec" kindref="member">revision_reasoning</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Quality<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1llm_1_1_constitutional_reasoning_result_1a5f0183283c1f25d7aad372936c6cfcb9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_result_1a5f0183283c1f25d7aad372936c6cfcb9" kindref="member">original_score</ref><sp/>=<sp/>0.0f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1llm_1_1_constitutional_reasoning_result_1a203331f4d246c011bd7dd35dc5a8b7e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_result_1a203331f4d246c011bd7dd35dc5a8b7e4" kindref="member">revised_score</ref><sp/>=<sp/>0.0f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1llm_1_1_constitutional_reasoning_result_1aca2343ff2c2226aa854e285412ddd2fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_result_1aca2343ff2c2226aa854e285412ddd2fd" kindref="member">improvement</ref><sp/>=<sp/>0.0f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1llm_1_1_constitutional_reasoning_result_1a19daf0de548994d7ceeb4dbdafc9369c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_result_1a19daf0de548994d7ceeb4dbdafc9369c" kindref="member">critique_time</ref>;</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1llm_1_1_constitutional_reasoning_result_1a1771a358f360f7c2a99f96a9218169e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_result_1a1771a358f360f7c2a99f96a9218169e1" kindref="member">revision_time</ref>;</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1llm_1_1_constitutional_reasoning_result_1ac7b477fae3d9f84dce7ea0c5652f7b04" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_result_1ac7b477fae3d9f84dce7ea0c5652f7b04" kindref="member">iterations</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1llm_1_1_constitutional_reasoning_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_config" kindref="compound">ConstitutionalReasoningConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Principles<sp/>to<sp/>apply</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1llm_1_1_constitutional_reasoning_config_1a07d633e0ee8ae181002a2d84d2a184da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ConstitutionalPrinciple&gt;<sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_config_1a07d633e0ee8ae181002a2d84d2a184da" kindref="member">principles</ref>;</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1llm_1_1_constitutional_reasoning_config_1abfcfea1ebc775e0b9efac30adf3fb255" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_config_1abfcfea1ebc775e0b9efac30adf3fb255" kindref="member">domain_constraints</ref>;<sp/></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reasoning<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1llm_1_1_constitutional_reasoning_config_1aa36939dec5a2451838df1646b2f3cf0d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_config_1aa36939dec5a2451838df1646b2f3cf0d" kindref="member">enable_self_critique</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1llm_1_1_constitutional_reasoning_config_1a9be7d17e278f1b6ea02602b9a9c302d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_config_1a9be7d17e278f1b6ea02602b9a9c302d2" kindref="member">enable_self_revision</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1llm_1_1_constitutional_reasoning_config_1a4885ca945c0f7e53078ea8b3f5c82aa0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_config_1a4885ca945c0f7e53078ea8b3f5c82aa0" kindref="member">max_iterations</ref><sp/>=<sp/>3;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1llm_1_1_constitutional_reasoning_config_1a7ea56a191029634cb2e3e89e89afe30b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_config_1a7ea56a191029634cb2e3e89e89afe30b" kindref="member">improvement_threshold</ref><sp/>=<sp/>0.05f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Quality<sp/>thresholds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1llm_1_1_constitutional_reasoning_config_1a596c049a6e4271997e2dcd3091466de7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_config_1a596c049a6e4271997e2dcd3091466de7" kindref="member">min_acceptable_score</ref><sp/>=<sp/>0.7f;</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1llm_1_1_constitutional_reasoning_config_1a89fee524e9b01de14d0db7f8fa4b8a90" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_config_1a89fee524e9b01de14d0db7f8fa4b8a90" kindref="member">require_all_principles</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Performance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1llm_1_1_constitutional_reasoning_config_1a18891f2fa91d6b642f364c37a7fc80b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_config_1a18891f2fa91d6b642f364c37a7fc80b5" kindref="member">cache_critiques</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1llm_1_1_constitutional_reasoning_config_1a3729f99ccef97939774f4dae96844333" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_config_1a3729f99ccef97939774f4dae96844333" kindref="member">max_cache_size</ref><sp/>=<sp/>500;</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1llm_1_1_constitutional_reasoning_config_1acc2743b377e4e827380585a9c750f46c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_config_1acc2743b377e4e827380585a9c750f46c" kindref="member">async_processing</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a7c8cfb65fce4e4199a83fb00f8b34570" kindref="member">ConstitutionalReasoningEngine</ref><sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="94" refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1aa2b771648520e95391d2839718dccfab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1aa2b771648520e95391d2839718dccfab" kindref="member">PromptRunner</ref><sp/>=<sp/>std::function&lt;std::string(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a7c8cfb65fce4e4199a83fb00f8b34570" kindref="member">ConstitutionalReasoningEngine</ref>(</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_config" kindref="compound">ConstitutionalReasoningConfig</ref>&amp;<sp/>config<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100" refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1aa38c15d276a2b563ccccbae8c6d98927" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1aa38c15d276a2b563ccccbae8c6d98927" kindref="member">~ConstitutionalReasoningEngine</ref>();</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_result" kindref="compound">ConstitutionalReasoningResult</ref><sp/><ref refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a18fcb5f4e6486691e0916838a3de8e1b" kindref="member">reason</ref>(</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>response,</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query,</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>llm_wrapper<sp/><sp/></highlight><highlight class="comment">//<sp/>LlamaWrapper*<sp/>-<sp/>forward<sp/>declared</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1aa5c90b4c2a1ad9dbd4a1ac8f817e0327" kindref="member">generateCritique</ref>(</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>response,</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_constitutional_principle" kindref="compound">ConstitutionalPrinciple</ref>&amp;<sp/>principle,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>llm_wrapper</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1ad4de5060265cf6215a96c48b9221f6d3" kindref="member">generateRevision</ref>(</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>response,</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>critiques,</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>llm_wrapper</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a4053a5a7496a0b931aa3a793f098e6f4" kindref="member">checkViolations</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>response);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1ab9d1dfd8b896b34a4e070fa704f90ae7" kindref="member">scoreResponse</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>response);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a851590db06cb843bd1de4e6edf1667b7" kindref="member">addPrinciple</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_constitutional_principle" kindref="compound">ConstitutionalPrinciple</ref>&amp;<sp/>principle);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1ac1fc1fbdb9684d7b74e691b20428dcb1" kindref="member">removePrinciple</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>principle_id);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ConstitutionalPrinciple&gt;<sp/><ref refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1ab7ac4c746bc33a09511721e91e6a0243" kindref="member">getPrinciples</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a39bd6b9c49cdb0b533152256562fc115" kindref="member">loadDefaultPrinciples</ref>();</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a99c1e3b4ff04a1e64bb35a757d3737ea" kindref="member">setConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_config" kindref="compound">ConstitutionalReasoningConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_config" kindref="compound">ConstitutionalReasoningConfig</ref><sp/><ref refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1aa962d829f2cb91c18395d48e4173e989" kindref="member">getConfig</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a681a2ce865fe12948e90885ecedff81b" kindref="member">clearCache</ref>();</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics<sp/>and<sp/>monitoring</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="206" refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics" kindref="compound">Statistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="207" refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1aa3ce4dfaa3060d0ad6d1e6fd36883286" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1aa3ce4dfaa3060d0ad6d1e6fd36883286" kindref="member">total_reasonings</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="208" refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1acb5fe44958ab60189f1d11650a72708b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1acb5fe44958ab60189f1d11650a72708b" kindref="member">revisions_performed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="209" refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1ac713b810f1be823e3c4986688e4b3e86" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1ac713b810f1be823e3c4986688e4b3e86" kindref="member">violations_detected</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="210" refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1a4cfe70b451fa533841cae6ad9dd11d35" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1a4cfe70b451fa533841cae6ad9dd11d35" kindref="member">cache_hits</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="211" refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1a2475054d39d6751de237cf3c4bd18dd7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1a2475054d39d6751de237cf3c4bd18dd7" kindref="member">cache_misses</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Score<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214" refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1a64cd245d07a6e5ff9775f67184ff85ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1a64cd245d07a6e5ff9775f67184ff85ae" kindref="member">avg_original_score</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="215" refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1ada50bf0c8b335291efa03a399a188f7c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1ada50bf0c8b335291efa03a399a188f7c" kindref="member">avg_revised_score</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="216" refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1a2526d6c3db57c57db457a06732169827" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1a2526d6c3db57c57db457a06732169827" kindref="member">avg_improvement</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Timing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219" refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1a60ec3b56afe84f1da5c6c0063684a4f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1a60ec3b56afe84f1da5c6c0063684a4f3" kindref="member">avg_critique_time</ref>{0};</highlight></codeline>
+<codeline lineno="220" refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1a211fb6e2332fe1ed3405ab0ea57833ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1a211fb6e2332fe1ed3405ab0ea57833ba" kindref="member">avg_revision_time</ref>{0};</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Principle<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223" refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1a0a924d5f5832799347d4318165861fb7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>uint64_t&gt;<sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1a0a924d5f5832799347d4318165861fb7" kindref="member">principle_violations</ref>;</highlight></codeline>
+<codeline lineno="224" refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1a1a4e0d6c3601eaf36f10fb0347ae6497" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>uint64_t&gt;<sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics_1a1a4e0d6c3601eaf36f10fb0347ae6497" kindref="member">principle_applications</ref>;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics" kindref="compound">Statistics</ref><sp/><ref refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a5364666c9f50eb1342fb6d45a1239561" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a0b84bc0c435e0d91223c1bf2911bb80e" kindref="member">resetStatistics</ref>();</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a9246e0e50a7d4a9a078f66037fa75baa" kindref="member">setReasoningCallback</ref>(</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_result" kindref="compound">ConstitutionalReasoningResult</ref>&amp;)&gt;<sp/>callback</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>buildCritiquePrompt(</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>response,</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query,</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_constitutional_principle" kindref="compound">ConstitutionalPrinciple</ref>&amp;<sp/>principle</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>buildRevisionPrompt(</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>response,</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>critiques,</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>shouldContinueIterating(</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_result" kindref="compound">ConstitutionalReasoningResult</ref>&amp;<sp/>result,</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>iteration</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updateStatistics(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_result" kindref="compound">ConstitutionalReasoningResult</ref>&amp;<sp/>result);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Violation<sp/>detection<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>checkAutonomyRespect(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>response);</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>checkTransparency(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>response);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>checkNonHarmfulness(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>response);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>checkFairness(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>response);</highlight></codeline>
+<codeline lineno="315"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317" refid="classthemis_1_1llm_1_1_constitutional_reasoning_factory" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_constitutional_reasoning_factory" kindref="compound">ConstitutionalReasoningFactory</ref><sp/>{</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;ConstitutionalReasoningEngine&gt;<sp/><ref refid="classthemis_1_1llm_1_1_constitutional_reasoning_factory_1a555810b3b90771ff37f35fb87705f005" kindref="member">createDefault</ref>();</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;ConstitutionalReasoningEngine&gt;<sp/><ref refid="classthemis_1_1llm_1_1_constitutional_reasoning_factory_1ae84c7d627cc2fdb1f1fe32ceca218e22" kindref="member">createStrict</ref>();</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;ConstitutionalReasoningEngine&gt;<sp/><ref refid="classthemis_1_1llm_1_1_constitutional_reasoning_factory_1a06858221b1433b2b0aebe09f0741080d" kindref="member">createLenient</ref>();</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;ConstitutionalReasoningEngine&gt;<sp/><ref refid="classthemis_1_1llm_1_1_constitutional_reasoning_factory_1ac657ba50a25dc03aca0980fca5905a11" kindref="member">create</ref>(</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_config" kindref="compound">ConstitutionalReasoningConfig</ref>&amp;<sp/>config</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="345"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/constitutional_reasoning_engine.h"/>
+  </compounddef>
+</doxygen>

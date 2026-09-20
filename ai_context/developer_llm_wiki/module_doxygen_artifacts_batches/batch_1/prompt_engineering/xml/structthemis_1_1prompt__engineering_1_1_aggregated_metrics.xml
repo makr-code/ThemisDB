@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_aggregated_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::AggregatedMetrics</compoundname>
+    <includes refid="prompt__evaluator_8h" local="no">prompt_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_aggregated_metrics_1a387e9fb0ea5dc1a02037eb40315c1f26" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::AggregatedMetrics::overall_score</definition>
+        <argsstring></argsstring>
+        <name>overall_score</name>
+        <qualifiedname>themis::prompt_engineering::AggregatedMetrics::overall_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Overall weighted score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_evaluator.h" line="64" column="12" bodyfile="include/prompt_engineering/prompt_evaluator.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_aggregated_metrics_1a254f48e73f9fd572b027f4efbdb7a885" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::AggregatedMetrics::mean_similarity</definition>
+        <argsstring></argsstring>
+        <name>mean_similarity</name>
+        <qualifiedname>themis::prompt_engineering::AggregatedMetrics::mean_similarity</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Mean semantic similarity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_evaluator.h" line="65" column="12" bodyfile="include/prompt_engineering/prompt_evaluator.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_aggregated_metrics_1ad3f7432a8aa67776a95db5d6bff29ff5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::AggregatedMetrics::std_similarity</definition>
+        <argsstring></argsstring>
+        <name>std_similarity</name>
+        <qualifiedname>themis::prompt_engineering::AggregatedMetrics::std_similarity</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Standard deviation of similarity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_evaluator.h" line="66" column="12" bodyfile="include/prompt_engineering/prompt_evaluator.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_aggregated_metrics_1a7db8250aaca9a65ca870046ea1f1013f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::AggregatedMetrics::num_exact_matches</definition>
+        <argsstring></argsstring>
+        <name>num_exact_matches</name>
+        <qualifiedname>themis::prompt_engineering::AggregatedMetrics::num_exact_matches</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of exact matches. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_evaluator.h" line="67" column="12" bodyfile="include/prompt_engineering/prompt_evaluator.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_aggregated_metrics_1a3251b74b0e7e4d224f85b120d19f7672" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::AggregatedMetrics::pass_rate</definition>
+        <argsstring></argsstring>
+        <name>pass_rate</name>
+        <qualifiedname>themis::prompt_engineering::AggregatedMetrics::pass_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Percentage passing threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_evaluator.h" line="68" column="12" bodyfile="include/prompt_engineering/prompt_evaluator.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_aggregated_metrics_1ad9957d72baa4b37bed5edf58bde76ab6" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::prompt_engineering::AggregatedMetrics::per_case_metrics</definition>
+        <argsstring></argsstring>
+        <name>per_case_metrics</name>
+        <qualifiedname>themis::prompt_engineering::AggregatedMetrics::per_case_metrics</qualifiedname>
+        <briefdescription>
+<para>Per-test-case breakdown. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_evaluator.h" line="69" column="20" bodyfile="include/prompt_engineering/prompt_evaluator.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Aggregated evaluation results. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_evaluator.h" line="63" column="1" bodyfile="include/prompt_engineering/prompt_evaluator.h" bodystart="63" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_aggregated_metrics_1a254f48e73f9fd572b027f4efbdb7a885" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::AggregatedMetrics</scope><name>mean_similarity</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_aggregated_metrics_1a7db8250aaca9a65ca870046ea1f1013f" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::AggregatedMetrics</scope><name>num_exact_matches</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_aggregated_metrics_1a387e9fb0ea5dc1a02037eb40315c1f26" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::AggregatedMetrics</scope><name>overall_score</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_aggregated_metrics_1a3251b74b0e7e4d224f85b120d19f7672" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::AggregatedMetrics</scope><name>pass_rate</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_aggregated_metrics_1ad9957d72baa4b37bed5edf58bde76ab6" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::AggregatedMetrics</scope><name>per_case_metrics</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_aggregated_metrics_1ad3f7432a8aa67776a95db5d6bff29ff5" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::AggregatedMetrics</scope><name>std_similarity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

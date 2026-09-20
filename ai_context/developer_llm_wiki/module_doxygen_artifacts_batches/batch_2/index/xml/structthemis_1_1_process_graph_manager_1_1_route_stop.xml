@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_process_graph_manager_1_1_route_stop" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ProcessGraphManager::RouteStop</compoundname>
+    <includes refid="process__graph_8h" local="no">process_graph.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_route_stop_1a47e48de80b2ee5a1462886f8c42c69c0" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_process_token" kindref="compound">ProcessToken</ref></type>
+        <definition>ProcessToken themis::ProcessGraphManager::RouteStop::token</definition>
+        <argsstring></argsstring>
+        <name>token</name>
+        <qualifiedname>themis::ProcessGraphManager::RouteStop::token</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="852" column="22" bodyfile="include/index/process_graph.h" bodystart="852" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_route_stop_1a87e1bc60a211ea33a7166d11a2102a24" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ProcessGraphManager::RouteStop::distance_from_prev_km</definition>
+        <argsstring></argsstring>
+        <name>distance_from_prev_km</name>
+        <qualifiedname>themis::ProcessGraphManager::RouteStop::distance_from_prev_km</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="853" column="16" bodyfile="include/index/process_graph.h" bodystart="853" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_route_stop_1a7fc19dcad9e8c6c717a438fbcaad5184" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ProcessGraphManager::RouteStop::estimated_travel_time_min</definition>
+        <argsstring></argsstring>
+        <name>estimated_travel_time_min</name>
+        <qualifiedname>themis::ProcessGraphManager::RouteStop::estimated_travel_time_min</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="854" column="16" bodyfile="include/index/process_graph.h" bodystart="854" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Get optimal route for field process tasks. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Returns ordered list of tasks optimized for travel distance. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::ProcessGraphManager::RouteStop</label>
+        <link refid="structthemis_1_1_process_graph_manager_1_1_route_stop"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>token</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::ProcessToken</label>
+        <link refid="structthemis_1_1_process_token"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/index/process_graph.h" line="851" column="5" bodyfile="include/index/process_graph.h" bodystart="851" bodyend="855"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_route_stop_1a87e1bc60a211ea33a7166d11a2102a24" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::RouteStop</scope><name>distance_from_prev_km</name></member>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_route_stop_1a7fc19dcad9e8c6c717a438fbcaad5184" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::RouteStop</scope><name>estimated_travel_time_min</name></member>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_route_stop_1a47e48de80b2ee5a1462886f8c42c69c0" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::RouteStop</scope><name>token</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_i_wiki_index_reader" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::llm::IWikiIndexReader</compoundname>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1_json_wiki_index_reader" prot="public" virt="non-virtual">themis::llm::JsonWikiIndexReader</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1llm_1_1_wiki_index_store" prot="public" virt="non-virtual">themis::llm::WikiIndexStore</derivedcompoundref>
+    <includes refid="wiki__index__store_8h" local="no">wiki_index_store.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_wiki_index_reader_1a0a1b9d076f803887ff633eba97086943" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::IWikiIndexReader::~IWikiIndexReader</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IWikiIndexReader</name>
+        <qualifiedname>themis::llm::IWikiIndexReader::~IWikiIndexReader</qualifiedname>
+        <briefdescription>
+<para>IWiki Index Reader. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="148" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_wiki_index_reader_1a0424927b6c95bc7944e61a90a4f5610b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_wiki_chunk" kindref="compound">WikiChunk</ref> &gt;</type>
+        <definition>virtual std::vector&lt; WikiChunk &gt; themis::llm::IWikiIndexReader::query</definition>
+        <argsstring>(const std::string &amp;query_text, int top_k, float min_score) const =0</argsstring>
+        <name>query</name>
+        <qualifiedname>themis::llm::IWikiIndexReader::query</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_json_wiki_index_reader_1af68731621a38dcc41344e97428551220">query</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_wiki_index_store_1a3270dcbd4a228abcae73b13193e438b5">query</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_text</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>top_k</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>min_score</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="150" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_wiki_index_reader_1a16100a812f8598d1ba9a4497486febb6" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::llm::IWikiIndexReader::isReady</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>isReady</name>
+        <qualifiedname>themis::llm::IWikiIndexReader::isReady</qualifiedname>
+        <reimplementedby refid="classthemis_1_1llm_1_1_json_wiki_index_reader_1af6ed6c009aa01218cb29e3c7dcc9f113">isReady</reimplementedby>
+        <reimplementedby refid="classthemis_1_1llm_1_1_wiki_index_store_1a48d3dc2ef696c5534e175a6e50ca95f5">isReady</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="155" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::llm::IWikiIndexReader</label>
+        <link refid="classthemis_1_1llm_1_1_i_wiki_index_reader"/>
+      </node>
+      <node id="2">
+        <label>themis::llm::JsonWikiIndexReader</label>
+        <link refid="classthemis_1_1llm_1_1_json_wiki_index_reader"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::llm::WikiIndexStore</label>
+        <link refid="classthemis_1_1llm_1_1_wiki_index_store"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/llm/wiki_index_store.h" line="142" column="1" bodyfile="include/llm/wiki_index_store.h" bodystart="142" bodyend="156"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_i_wiki_index_reader_1a16100a812f8598d1ba9a4497486febb6" prot="public" virt="pure-virtual"><scope>themis::llm::IWikiIndexReader</scope><name>isReady</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_wiki_index_reader_1a0424927b6c95bc7944e61a90a4f5610b" prot="public" virt="pure-virtual"><scope>themis::llm::IWikiIndexReader</scope><name>query</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_wiki_index_reader_1a0a1b9d076f803887ff633eba97086943" prot="public" virt="virtual"><scope>themis::llm::IWikiIndexReader</scope><name>~IWikiIndexReader</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

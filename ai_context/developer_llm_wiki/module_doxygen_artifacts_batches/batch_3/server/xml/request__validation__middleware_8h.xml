@@ -1,0 +1,219 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="request__validation__middleware_8h" kind="file" language="C++">
+    <compoundname>request_validation_middleware.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="http__server_8h" local="yes">include/server/http_server.h</includedby>
+    <includedby refid="request__validation__middleware_8cpp" local="yes">src/server/request_validation_middleware.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/server/request_validation_middleware.h</label>
+        <link refid="request__validation__middleware_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="4">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>string_view</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>benchmarks/server/bench_api_endpoints.cpp</label>
+        <link refid="bench__api__endpoints_8cpp"/>
+      </node>
+      <node id="2">
+        <label>include/server/http_server.h</label>
+        <link refid="http__server_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/server/request_validation_middleware.h</label>
+        <link refid="request__validation__middleware_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/server/http_server.cpp</label>
+        <link refid="http__server_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/server/request_validation_middleware.cpp</label>
+        <link refid="request__validation__middleware_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/server/test_api_integration.cpp</label>
+        <link refid="test__api__integration_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/server/test_server_integration_complete.cpp</label>
+        <link refid="test__server__integration__complete_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1server_1_1_request_validation_middleware" prot="public">themis::server::RequestValidationMiddleware</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_validation_result" prot="public">themis::server::RequestValidationMiddleware::ValidationResult</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_metrics" prot="public">themis::server::RequestValidationMiddleware::Metrics</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_endpoint_key" prot="private">themis::server::RequestValidationMiddleware::EndpointKey</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_endpoint_key_hash" prot="private">themis::server::RequestValidationMiddleware::EndpointKeyHash</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1server">themis::server</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.34 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1server" kindref="compound">server</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="classthemis_1_1server_1_1_request_validation_middleware" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1server_1_1_request_validation_middleware_1afabbf67492d155d599a717da45488a4f" kindref="member">RequestValidationMiddleware</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_validation_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_validation_result" kindref="compound">ValidationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_validation_result_1a10d31ed79654d1dbb146efd0f365eac2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_validation_result_1a10d31ed79654d1dbb146efd0f365eac2" kindref="member">valid</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_validation_result_1aa5012bb60662862f3b5420d18ec93c1a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_validation_result_1aa5012bb60662862f3b5420d18ec93c1a" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_validation_result_1adfec3c13a02185e7d2cdbb7ad885130c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_validation_result" kindref="compound">ValidationResult</ref><sp/><ref refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_validation_result_1adfec3c13a02185e7d2cdbb7ad885130c" kindref="member">OK</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">};<sp/>}</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_validation_result_1acdfbe534c34f2025e36e5542e8236d15" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_validation_result" kindref="compound">ValidationResult</ref><sp/><ref refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_validation_result_1acdfbe534c34f2025e36e5542e8236d15" kindref="member">Error</ref>(std::string<sp/>msg)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>std::move(msg)};<sp/>}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="classthemis_1_1server_1_1_request_validation_middleware_1afabbf67492d155d599a717da45488a4f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_request_validation_middleware_1afabbf67492d155d599a717da45488a4f" kindref="member">RequestValidationMiddleware</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47" refid="classthemis_1_1server_1_1_request_validation_middleware_1a8763a89d338ecb4d3faa9b0beaefddcb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_request_validation_middleware_1a8763a89d338ecb4d3faa9b0beaefddcb" kindref="member">~RequestValidationMiddleware</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>non-movable<sp/>(contains<sp/>a<sp/>mutex)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="classthemis_1_1server_1_1_request_validation_middleware_1a61a8b825ddc6f94fa6849b3f4d2e5164" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_request_validation_middleware_1a61a8b825ddc6f94fa6849b3f4d2e5164" kindref="member">RequestValidationMiddleware</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_request_validation_middleware_1afabbf67492d155d599a717da45488a4f" kindref="member">RequestValidationMiddleware</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51" refid="classthemis_1_1server_1_1_request_validation_middleware_1a8e78101433bfa732bf00a0426cead1b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_request_validation_middleware_1afabbf67492d155d599a717da45488a4f" kindref="member">RequestValidationMiddleware</ref>&amp;<sp/><ref refid="classthemis_1_1server_1_1_request_validation_middleware_1a8e78101433bfa732bf00a0426cead1b0" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_request_validation_middleware_1afabbf67492d155d599a717da45488a4f" kindref="member">RequestValidationMiddleware</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52" refid="classthemis_1_1server_1_1_request_validation_middleware_1ade1a5c09ee29b615b40989cafbf00809" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_request_validation_middleware_1ade1a5c09ee29b615b40989cafbf00809" kindref="member">RequestValidationMiddleware</ref>(<ref refid="classthemis_1_1server_1_1_request_validation_middleware_1afabbf67492d155d599a717da45488a4f" kindref="member">RequestValidationMiddleware</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53" refid="classthemis_1_1server_1_1_request_validation_middleware_1a72c8071344d5005d078105a996a0abbf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_request_validation_middleware_1afabbf67492d155d599a717da45488a4f" kindref="member">RequestValidationMiddleware</ref>&amp;<sp/><ref refid="classthemis_1_1server_1_1_request_validation_middleware_1a72c8071344d5005d078105a996a0abbf" kindref="member">operator=</ref>(<ref refid="classthemis_1_1server_1_1_request_validation_middleware_1afabbf67492d155d599a717da45488a4f" kindref="member">RequestValidationMiddleware</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_request_validation_middleware_1ae276fe8a0f44370d9a7b0c71455ec115" kindref="member">registerSchema</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>method,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path,<sp/>nlohmann::json<sp/>schema);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_validation_result" kindref="compound">ValidationResult</ref><sp/><ref refid="classthemis_1_1server_1_1_request_validation_middleware_1a43615682f6392593502c3cf037b3a8c9" kindref="member">validate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>method,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>body)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_validation_result" kindref="compound">ValidationResult</ref><sp/><ref refid="classthemis_1_1server_1_1_request_validation_middleware_1a43615682f6392593502c3cf037b3a8c9" kindref="member">validate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>method,</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path,</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>body)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_request_validation_middleware_1a758105662b604cf3f63bc68613455742" kindref="member">hasSchema</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>method,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_request_validation_middleware_1acfe27061b733653b82f0416526240735" kindref="member">removeSchema</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>method,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_request_validation_middleware_1a888ba1cf378df40d2e791a24c951972c" kindref="member">clearSchemas</ref>();</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_request_validation_middleware_1ac48d57d24e8ec84bd98b1a99eae5a737" kindref="member">schemaCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_metrics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_metrics" kindref="compound">Metrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_metrics_1a921233365b94bca6b18818f60f3ee018" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_metrics_1a921233365b94bca6b18818f60f3ee018" kindref="member">validation_pass_total</ref>{0};<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_metrics_1a2ee8dbf1f5f3215e8f09d6d06f71ee77" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_metrics_1a2ee8dbf1f5f3215e8f09d6d06f71ee77" kindref="member">validation_fail_total</ref>{0};<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_metrics_1af6b44695254c2dbd228b1675165330c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_metrics_1af6b44695254c2dbd228b1675165330c7" kindref="member">validation_skip_total</ref>{0};<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_metrics_1a91d5840c88bb207bd8ec0c84149705dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_metrics_1a91d5840c88bb207bd8ec0c84149705dd" kindref="member">parse_error_total</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="classthemis_1_1server_1_1_request_validation_middleware_1ab9fe6bf30e733514ee795aabdce34368" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_metrics" kindref="compound">Metrics</ref>&amp;<sp/><ref refid="classthemis_1_1server_1_1_request_validation_middleware_1ab9fe6bf30e733514ee795aabdce34368" kindref="member">getMetrics</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>metrics_;<sp/>}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">EndpointKey<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>method;<sp/></highlight><highlight class="comment">//<sp/>always<sp/>upper-case<sp/>or<sp/>&quot;*&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>path<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>operator==(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>EndpointKey&amp;<sp/>o)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>method<sp/>==<sp/>o.method<sp/>&amp;&amp;<sp/>path<sp/>==<sp/>o.path;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">EndpointKeyHash<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>operator()(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>EndpointKey&amp;<sp/>k)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simple<sp/>but<sp/>adequate<sp/>combination</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>h1<sp/>=<sp/>std::hash&lt;std::string&gt;{}(k.method);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>h2<sp/>=<sp/>std::hash&lt;std::string&gt;{}(k.path);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>h1<sp/>^<sp/>(h2<sp/>*<sp/>2654435761ULL);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;EndpointKey,<sp/>nlohmann::json,<sp/>EndpointKeyHash&gt;<sp/>schemas_;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_metrics" kindref="compound">Metrics</ref><sp/>metrics_;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>normalizeMethod(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>method);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json*<sp/>findSchemaLocked(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>method,</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_validation_result" kindref="compound">ValidationResult</ref><sp/>applySchema(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>body,</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>schema);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>server</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/server/request_validation_middleware.h"/>
+  </compounddef>
+</doxygen>

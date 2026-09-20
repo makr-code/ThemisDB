@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test" kind="page">
+    <compoundname>test</compoundname>
+    <title>Test List</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Member <ref refid="test__user__storage__encrypted__highcardinality__stress_8cpp_1aa756154382db5827c9d4fb7e17030bf3" kindref="member">TEST</ref>  (HighCardinalityEncryptedWrite, ConcurrentWrite)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000001"/>HighCardinalityEncryptedWrite Writes 100 000 records across 8 concurrent threads and verifies that all writes complete successfully (no exceptions, correct count).  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__user__storage__encrypted__highcardinality__stress_8cpp_1abf979393d4790b7abb6d7a25a9646c84" kindref="member">TEST</ref>  (ConcurrentKeyRotationStress, MultiThreadedRotation)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000002"/>ConcurrentKeyRotationStress Runs 8 concurrent key rotation threads issuing 1 000 rotations each and verifies that all 8 000 rotations complete without error.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__user__storage__encrypted__highcardinality__stress_8cpp_1a79dedc3eb89a4e229226492b820cfef4" kindref="member">TEST</ref>  (EncDecUnderLoadStress, RoundTripIntegrity)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000003"/>EncDecUnderLoadStress Runs 8 concurrent enc/dec threads each performing 10 000 round-trips and verifies that every plaintext is recovered correctly. </para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+    <location file="test"/>
+  </compounddef>
+</doxygen>

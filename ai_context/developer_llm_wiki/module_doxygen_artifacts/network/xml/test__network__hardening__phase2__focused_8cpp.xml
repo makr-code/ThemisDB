@@ -1,0 +1,821 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__network__hardening__phase2__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_network_hardening_phase2_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="network__api__contract_8h" local="yes">network/network_api_contract.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>network/network_api_contract.h</label>
+        <link refid="network__api__contract_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/network/test_network_hardening_phase2_focused.cpp</label>
+        <link refid="test__network__hardening__phase2__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstddef</label>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>unordered_map</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="test__network__hardening__phase2__focused_8cpp_1a77ddb7b50ad69fb7a4129a5dd5ed80fc" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t kHardeningP2Seed</definition>
+        <argsstring></argsstring>
+        <name>kHardeningP2Seed</name>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_hardening_phase2_focused.cpp" line="65" column="32" bodyfile="tests/network/test_network_hardening_phase2_focused.cpp" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__network__hardening__phase2__focused_8cpp_1a74b4e19bfe36df0fe728d5b6aa5fd6a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkHardeningPhase2MultiTransport, NMT01_TransportClosedIsConnectionClosing)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkHardeningPhase2MultiTransport</type>
+        </param>
+        <param>
+          <type>NMT01_TransportClosedIsConnectionClosing</type>
+        </param>
+        <briefdescription>
+<para>NMT-01: TRANSPORT_CLOSED is connection-closing on every transport path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_hardening_phase2_focused.cpp" line="233" column="1" bodyfile="tests/network/test_network_hardening_phase2_focused.cpp" bodystart="233" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__hardening__phase2__focused_8cpp_1a49451d774e8351f7a5d6da5c47f75053" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkHardeningPhase2MultiTransport, NMT02_TransportUnavailableIsConnectionClosing)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkHardeningPhase2MultiTransport</type>
+        </param>
+        <param>
+          <type>NMT02_TransportUnavailableIsConnectionClosing</type>
+        </param>
+        <briefdescription>
+<para>NMT-02: TRANSPORT_UNAVAILABLE is connection-closing — no silent drop. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_hardening_phase2_focused.cpp" line="249" column="1" bodyfile="tests/network/test_network_hardening_phase2_focused.cpp" bodystart="249" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__hardening__phase2__focused_8cpp_1aae30163b853bed74d6b0eb91d8025f85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkHardeningPhase2MultiTransport, NMT03_FallbackActiveNotConnectionClosing)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkHardeningPhase2MultiTransport</type>
+        </param>
+        <param>
+          <type>NMT03_FallbackActiveNotConnectionClosing</type>
+        </param>
+        <briefdescription>
+<para>NMT-03: TRANSPORT_FALLBACK_ACTIVE is NOT connection-closing — fallback is in progress, the connection is still live. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_hardening_phase2_focused.cpp" line="261" column="1" bodyfile="tests/network/test_network_hardening_phase2_focused.cpp" bodystart="261" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__hardening__phase2__focused_8cpp_1ae68209c8d6efbacb79184cdfda90a29d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkHardeningPhase2MultiTransport, NMT04_WriteErrorNotConnectionClosing)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkHardeningPhase2MultiTransport</type>
+        </param>
+        <param>
+          <type>NMT04_WriteErrorNotConnectionClosing</type>
+        </param>
+        <briefdescription>
+<para>NMT-04: TRANSPORT_WRITE_ERROR is not connection-closing — write errors are retryable at the protocol layer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_hardening_phase2_focused.cpp" line="273" column="1" bodyfile="tests/network/test_network_hardening_phase2_focused.cpp" bodystart="273" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__hardening__phase2__focused_8cpp_1afe5fc7e26429061425eff6fe51e43ae8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkHardeningPhase2MultiTransport, NMT05_WsPathInvalidMagicFrameInvalid)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkHardeningPhase2MultiTransport</type>
+        </param>
+        <param>
+          <type>NMT05_WsPathInvalidMagicFrameInvalid</type>
+        </param>
+        <briefdescription>
+<para>NMT-05: Frame validation on WebSocket path — invalid magic bytes yield FRAME_INVALID (fail-closed, connection-closing). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_hardening_phase2_focused.cpp" line="282" column="1" bodyfile="tests/network/test_network_hardening_phase2_focused.cpp" bodystart="282" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__hardening__phase2__focused_8cpp_1a4690bd1b8583325a9523706b321a16ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkHardeningPhase2MultiTransport, NMT06_UdpBackpressureExceededTransient)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkHardeningPhase2MultiTransport</type>
+        </param>
+        <param>
+          <type>NMT06_UdpBackpressureExceededTransient</type>
+        </param>
+        <briefdescription>
+<para>NMT-06: Backpressure exceeded on UDP path → BACKPRESSURE_EXCEEDED, which is transient (retryable), not connection-closing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_hardening_phase2_focused.cpp" line="295" column="1" bodyfile="tests/network/test_network_hardening_phase2_focused.cpp" bodystart="295" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__hardening__phase2__focused_8cpp_1ae3af07b39aa91bbeceb62de116e8163d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkHardeningPhase2MultiTransport, NMT07_ConnectionLimitReachedBounded)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkHardeningPhase2MultiTransport</type>
+        </param>
+        <param>
+          <type>NMT07_ConnectionLimitReachedBounded</type>
+        </param>
+        <briefdescription>
+<para>NMT-07: Concurrent connection count exceeds kMaxConcurrentConnections → CONNECTION_LIMIT_REACHED (bounded admission control, not a crash). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_hardening_phase2_focused.cpp" line="313" column="1" bodyfile="tests/network/test_network_hardening_phase2_focused.cpp" bodystart="313" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__hardening__phase2__focused_8cpp_1a30147e30a31135b32bac9b60ec1440f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkHardeningPhase2MultiTransport, NMT08_FallbackExhaustionFailClosed)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkHardeningPhase2MultiTransport</type>
+        </param>
+        <param>
+          <type>NMT08_FallbackExhaustionFailClosed</type>
+        </param>
+        <briefdescription>
+<para>NMT-08: Fallback sequence exhaustion — primary CLOSED, fallback UNAVAILABLE → final error is TRANSPORT_UNAVAILABLE (fail-closed). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Contract: no silent data loss; caller must receive an explicit error. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_hardening_phase2_focused.cpp" line="334" column="1" bodyfile="tests/network/test_network_hardening_phase2_focused.cpp" bodystart="334" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__hardening__phase2__focused_8cpp_1a2068d0130fd8d6a7fc6bb331ddd77db1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkHardeningPhase2AdversarialGuard, NAG01_AuthRequiredBurstAllRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkHardeningPhase2AdversarialGuard</type>
+        </param>
+        <param>
+          <type>NAG01_AuthRequiredBurstAllRejected</type>
+        </param>
+        <briefdescription>
+<para>NAG-01: Burst of AUTH_REQUIRED events — every unauthenticated request is rejected; no leak of data to unauthenticated callers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_hardening_phase2_focused.cpp" line="357" column="1" bodyfile="tests/network/test_network_hardening_phase2_focused.cpp" bodystart="357" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__hardening__phase2__focused_8cpp_1adc07733030ceee3d2fee76069d15f034" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkHardeningPhase2AdversarialGuard, NAG02_BurstTrafficRateLimited)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkHardeningPhase2AdversarialGuard</type>
+        </param>
+        <param>
+          <type>NAG02_BurstTrafficRateLimited</type>
+        </param>
+        <briefdescription>
+<para>NAG-02: Rate-limit enforcement under burst traffic — requests beyond the per-connection window are rejected with RATE_LIMITED. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_hardening_phase2_focused.cpp" line="377" column="1" bodyfile="tests/network/test_network_hardening_phase2_focused.cpp" bodystart="377" bodyend="401"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__hardening__phase2__focused_8cpp_1ae0c8d0645a65628f93d2b6926fa959fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkHardeningPhase2AdversarialGuard, NAG03_ClientBannedAfterThresholdViolations)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkHardeningPhase2AdversarialGuard</type>
+        </param>
+        <param>
+          <type>NAG03_ClientBannedAfterThresholdViolations</type>
+        </param>
+        <briefdescription>
+<para>NAG-03: CLIENT_BANNED after sustained rate-limit threshold violations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>After kRateLimitBanThreshold consecutive violations, new requests must receive CLIENT_BANNED rather than RATE_LIMITED. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_hardening_phase2_focused.cpp" line="409" column="1" bodyfile="tests/network/test_network_hardening_phase2_focused.cpp" bodystart="409" bodyend="425"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__hardening__phase2__focused_8cpp_1aee308ea0d83cdd3670347192ae6ebddb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkHardeningPhase2AdversarialGuard, NAG04_AuthTimeoutIsConnectionClosing)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkHardeningPhase2AdversarialGuard</type>
+        </param>
+        <param>
+          <type>NAG04_AuthTimeoutIsConnectionClosing</type>
+        </param>
+        <briefdescription>
+<para>NAG-04: Stalled authentication handshake → AUTH_TIMEOUT, which is connection-closing (prevents resource exhaustion from hung sessions). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_hardening_phase2_focused.cpp" line="431" column="1" bodyfile="tests/network/test_network_hardening_phase2_focused.cpp" bodystart="431" bodyend="442"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__hardening__phase2__focused_8cpp_1aad8b1b4d8d0fca35ca1c65fecda13ab9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkHardeningPhase2AdversarialGuard, NAG05_RevocationPriorityOverExpiry)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkHardeningPhase2AdversarialGuard</type>
+        </param>
+        <param>
+          <type>NAG05_RevocationPriorityOverExpiry</type>
+        </param>
+        <briefdescription>
+<para>NAG-05: SESSION_REVOKED takes priority over SESSION_EXPIRED. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>A revoked session must always be rejected with SESSION_REVOKED regardless of whether it is also expired, preventing expiry-bypass attacks. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_hardening_phase2_focused.cpp" line="450" column="1" bodyfile="tests/network/test_network_hardening_phase2_focused.cpp" bodystart="450" bodyend="460"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__hardening__phase2__focused_8cpp_1aae1615c44805db02cbb0805b9dfb06c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkHardeningPhase2AdversarialGuard, NAG06_UnavailableRateLimiterFailClosed)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkHardeningPhase2AdversarialGuard</type>
+        </param>
+        <param>
+          <type>NAG06_UnavailableRateLimiterFailClosed</type>
+        </param>
+        <briefdescription>
+<para>NAG-06: Rate-limiter unavailability → fail-closed deny (not fail-open). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When the rate-limiting backend is unreachable, no request must be let through — fail-open would allow adversarial traffic to bypass limits. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_hardening_phase2_focused.cpp" line="468" column="1" bodyfile="tests/network/test_network_hardening_phase2_focused.cpp" bodystart="468" bodyend="476"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__hardening__phase2__focused_8cpp_1adda17e663e2d3626716b157d676e6592" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkHardeningPhase2AdversarialGuard, NAG07_BackpressureExceededTransientNotClosing)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkHardeningPhase2AdversarialGuard</type>
+        </param>
+        <param>
+          <type>NAG07_BackpressureExceededTransientNotClosing</type>
+        </param>
+        <briefdescription>
+<para>NAG-07: BACKPRESSURE_EXCEEDED is transient, NOT connection-closing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Backpressure is a temporary condition; the connection must remain alive so that the client can retry after the queue drains. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_hardening_phase2_focused.cpp" line="484" column="1" bodyfile="tests/network/test_network_hardening_phase2_focused.cpp" bodystart="484" bodyend="489"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__hardening__phase2__focused_8cpp_1a202e51ff34990ebbde3b2cd7807c10b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkHardeningPhase2AdversarialGuard, NAG08_ClusterErrorsNotConnectionClosing)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkHardeningPhase2AdversarialGuard</type>
+        </param>
+        <param>
+          <type>NAG08_ClusterErrorsNotConnectionClosing</type>
+        </param>
+        <briefdescription>
+<para>NAG-08: Cluster-level errors (QUORUM_DEGRADED, ROUTING_UNAVAILABLE) are not connection-closing — they reflect cluster state, not a transport failure that terminates the client connection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_hardening_phase2_focused.cpp" line="496" column="1" bodyfile="tests/network/test_network_hardening_phase2_focused.cpp" bodystart="496" bodyend="505"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 2 network module hardening focused tests — multi-transport failure injection and adversarial auth/rate-limit guard hardening. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Covers the two Q3 2026 open items from src/network/ROADMAP.md Phase 2:</para>
+<para>(a) Complete remaining failure-injection coverage for multi-transport edge cases (TCP, WebSocket, UDP, QUIC paths). (b) Tighten auth/rate-limit/session guard behavior under sustained adversarial traffic.</para>
+<para>All tests are deterministic and self-contained — no live sockets or real network I/O are used.</para>
+<sect1 id="test__network__hardening__phase2__focused_8cpp_1autotoc_md4_1s1"><sect2 id="test__network__hardening__phase2__focused_8cpp_1autotoc_md4">
+<title>Test Cases</title><para><heading level="3">NMT-01..NMT-08 — Multi-Transport Failure Injection</heading>
+</para>
+<para>NMT-01 TRANSPORT_CLOSED is a connection-closing error on every path. NMT-02 TRANSPORT_UNAVAILABLE is a connection-closing error. NMT-03 TRANSPORT_FALLBACK_ACTIVE is NOT connection-closing (in-progress). NMT-04 TRANSPORT_WRITE_ERROR is NOT connection-closing (retryable). NMT-05 Frame validation on WS path — invalid magic → FRAME_INVALID. NMT-06 Backpressure exceeded on UDP path → transient error (retryable). NMT-07 Connection limit reached → CONNECTION_LIMIT_REACHED (bounded). NMT-08 Fallback sequence: primary UNAVAILABLE → fallback exhausted → TRANSPORT_UNAVAILABLE (fail-closed, no silent data loss).</para>
+<para><heading level="3">NAG-01..NAG-08 — Adversarial Auth/Rate-Limit Guard Hardening</heading>
+</para>
+<para>NAG-01 Burst of AUTH_REQUIRED events — every request rejected, no leak. NAG-02 Rate-limit enforcement under burst (100 rapid-fire requests). NAG-03 CLIENT_BANNED after sustained rate-limit threshold violations. NAG-04 AUTH_TIMEOUT for stalled handshake → connection-closing. NAG-05 Revocation beats expiry: SESSION_REVOKED not SESSION_EXPIRED. NAG-06 Rate-limiter unavailability → fail-closed deny (not fail-open). NAG-07 BACKPRESSURE_EXCEEDED is transient, not connection-closing. NAG-08 QUORUM_DEGRADED and ROUTING_UNAVAILABLE are not connection-closing (cluster-level errors do not terminate the transport connection).</para>
+<para><simplesect kind="see"><para><ref refid="network__api__contract_8h" kindref="compound">include/network/network_api_contract.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/network/ROADMAP.md — Phase 2 items </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="network__api__contract_8h" kindref="compound">network/network_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1network" kindref="compound">themis::network</ref>;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::chrono_literals;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Deterministic<sp/>seed<sp/>(canonical<sp/>repository<sp/>value<sp/>per<sp/>bench_fixtures.h)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::uint64_t<sp/>kHardeningP2Seed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Minimal<sp/>in-process<sp/>mocks<sp/>(no<sp/>live<sp/>I/O)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Transport<sp/>state<sp/>machine<sp/>—<sp/>models<sp/>TCP/WS/UDP/QUIC<sp/>path<sp/>lifecycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/>TransportKind<sp/>{<sp/>TCP,<sp/>WEBSOCKET,<sp/>UDP,<sp/>QUIC<sp/>};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/>TransportPhase<sp/>{<sp/>CONNECTED,<sp/>FALLBACK_ACTIVE,<sp/><ref refid="namespacethemis_1_1network_1a868803888e70d266528aff29a96193bda110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">CLOSED</ref>,<sp/>UNAVAILABLE<sp/>};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">MockTransport<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>TransportKind<sp/><sp/>kind;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>TransportPhase<sp/>phase{TransportPhase::CONNECTED};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75" kindref="member">NetworkErrorCode</ref><sp/>send(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*payload*/</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(phase)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>TransportPhase::CONNECTED:<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::OK;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>TransportPhase::FALLBACK_ACTIVE:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::TRANSPORT_FALLBACK_ACTIVE;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>TransportPhase::CLOSED:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::TRANSPORT_CLOSED;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>TransportPhase::UNAVAILABLE:<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::TRANSPORT_UNAVAILABLE;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::INTERNAL_ERROR;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Backpressure<sp/>gate<sp/>—<sp/>models<sp/>bounded<sp/>queue<sp/>admission<sp/>on<sp/>UDP/QUIC<sp/>paths</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">MockBackpressureGate<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/>MockBackpressureGate(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>capacity)<sp/>:<sp/>capacity_(capacity),<sp/>depth_(0)<sp/>{}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75" kindref="member">NetworkErrorCode</ref><sp/>admit()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(depth_<sp/>&gt;=<sp/>capacity_)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::BACKPRESSURE_EXCEEDED;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++depth_;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::OK;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>drain()<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(depth_<sp/>&gt;<sp/>0)<sp/>--depth_;<sp/>}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>capacity_;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>depth_;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Session<sp/>store<sp/>with<sp/>adversarial<sp/>state<sp/>support</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/>SessionState<sp/>{<sp/><ref refid="namespacethemis_1_1network_1ac67ed2ead78a06903fc74b244c35036ca18ff74f43da410c5529f7d6fca84f115" kindref="member">ACTIVE</ref>,<sp/>EXPIRED,<sp/>REVOKED,<sp/>MISSING<sp/>};</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">MockSessionStore<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>add(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>token,<sp/>SessionState<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sessions_[token]<sp/>=<sp/>state;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75" kindref="member">NetworkErrorCode</ref><sp/>validate(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>token)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(token.empty())<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::AUTH_REQUIRED;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/>sessions_.find(token);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(it<sp/>==<sp/>sessions_.end())<sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::SESSION_MALFORMED;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(it-&gt;second)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>SessionState::ACTIVE:<sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::OK;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>SessionState::EXPIRED:<sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::SESSION_EXPIRED;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>SessionState::REVOKED:<sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::SESSION_REVOKED;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>SessionState::MISSING:<sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::AUTH_REQUIRED;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::INTERNAL_ERROR;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>SessionState&gt;<sp/>sessions_;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Per-connection<sp/>rate<sp/>limiter<sp/>with<sp/>ban<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">MockRateLimiter<sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/>MockRateLimiter(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>limitPerWindow,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>unavailable<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>limit_(limitPerWindow),<sp/>count_(0),<sp/>violations_(0),<sp/>unavailable_(unavailable)<sp/>{}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75" kindref="member">NetworkErrorCode</ref><sp/>check()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(unavailable_)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fail-closed:<sp/>unavailability<sp/>must<sp/>never<sp/>allow<sp/>traffic<sp/>through.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::RATE_LIMITED;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++count_;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(count_<sp/>&gt;<sp/>limit_)<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++violations_;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(violations_<sp/>&gt;=<sp/><ref refid="namespacethemis_1_1network_1a7124d8a275d4786265c8d633b4926a93" kindref="member">kRateLimitBanThreshold</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::CLIENT_BANNED;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::RATE_LIMITED;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::OK;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>violationCount()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>violations_;<sp/>}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/>limit_;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/>count_;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/>violations_;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>unavailable_;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Auth<sp/>handshake<sp/>timer<sp/>—<sp/>simulates<sp/>stalled<sp/>handshake<sp/>→<sp/>AUTH_TIMEOUT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">MockAuthTimer<sp/>{</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>timedOut{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75" kindref="member">NetworkErrorCode</ref><sp/>evaluate()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>timedOut<sp/>?<sp/>NetworkErrorCode::AUTH_TIMEOUT<sp/>:<sp/>NetworkErrorCode::OK;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Frame<sp/>validator<sp/>(WebSocket<sp/>path)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">MockWsFrame<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint8_t<sp/>magic0{<ref refid="namespacethemis_1_1network_1a62a93292d001c72c544919b155574cdb" kindref="member">kFrameMagic0</ref>};</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint8_t<sp/>magic1{<ref refid="namespacethemis_1_1network_1a1784d9f0506397be5c1270a669ea71de" kindref="member">kFrameMagic1</ref>};</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/>payloadSize{0};</highlight></codeline>
+<codeline lineno="214"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75" kindref="member">NetworkErrorCode</ref><sp/>validateWsFrame(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MockWsFrame&amp;<sp/>f)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(f.magic0<sp/>!=<sp/><ref refid="namespacethemis_1_1network_1a62a93292d001c72c544919b155574cdb" kindref="member">kFrameMagic0</ref><sp/>||<sp/>f.magic1<sp/>!=<sp/><ref refid="namespacethemis_1_1network_1a1784d9f0506397be5c1270a669ea71de" kindref="member">kFrameMagic1</ref>)</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ab2f6a2721617683361a296bd02c17003" kindref="member">NetworkErrorCode::FRAME_INVALID</ref>;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(f.payloadSize<sp/>&gt;<sp/><ref refid="namespacethemis_1_1network_1a388923109f56cbe0aa1cd94cd33f4793" kindref="member">kMaxFramePayloadBytes</ref>)</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75aac51997d76ebeb2c5f184ec31c72f52b" kindref="member">NetworkErrorCode::FRAME_OVERSIZED</ref>;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">NetworkErrorCode::OK</ref>;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NMT-01..NMT-08<sp/>—<sp/>Multi-Transport<sp/>Failure<sp/>Injection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><ref refid="test__network__hardening__phase2__focused_8cpp_1a74b4e19bfe36df0fe728d5b6aa5fd6a8" kindref="member">TEST</ref>(NetworkHardeningPhase2MultiTransport,<sp/>NMT01_TransportClosedIsConnectionClosing)<sp/>{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>kind<sp/>:<sp/>{TransportKind::TCP,<sp/>TransportKind::WEBSOCKET,</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>TransportKind::UDP,<sp/>TransportKind::QUIC})<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>MockTransport<sp/>t{kind,<sp/>TransportPhase::CLOSED};</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>code<sp/>=<sp/>t.send(</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(code,<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a7a6a45397e5124ffeb22e133b906b9e5" kindref="member">NetworkErrorCode::TRANSPORT_CLOSED</ref>)</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Transport<sp/>kind<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(kind);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1network_1a67e2f0e85d93bf16f07909fd4762df03" kindref="member">isConnectionClosingError</ref>(code))</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;TRANSPORT_CLOSED<sp/>must<sp/>be<sp/>connection-closing<sp/>on<sp/>transport<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(kind);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="244"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><ref refid="test__network__hardening__phase2__focused_8cpp_1a74b4e19bfe36df0fe728d5b6aa5fd6a8" kindref="member">TEST</ref>(NetworkHardeningPhase2MultiTransport,<sp/>NMT02_TransportUnavailableIsConnectionClosing)<sp/>{</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>MockTransport<sp/>t{TransportKind::TCP,<sp/>TransportPhase::UNAVAILABLE};</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>code<sp/>=<sp/>t.send(</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(code,<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a06e231de202bc95d06df42f58b5fb187" kindref="member">NetworkErrorCode::TRANSPORT_UNAVAILABLE</ref>);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1network_1a67e2f0e85d93bf16f07909fd4762df03" kindref="member">isConnectionClosingError</ref>(code))</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;TRANSPORT_UNAVAILABLE<sp/>must<sp/>trigger<sp/>connection<sp/>closure&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><ref refid="test__network__hardening__phase2__focused_8cpp_1a74b4e19bfe36df0fe728d5b6aa5fd6a8" kindref="member">TEST</ref>(NetworkHardeningPhase2MultiTransport,<sp/>NMT03_FallbackActiveNotConnectionClosing)<sp/>{</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>MockTransport<sp/>t{TransportKind::QUIC,<sp/>TransportPhase::FALLBACK_ACTIVE};</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>code<sp/>=<sp/>t.send(</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(code,<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a7632e0cc96e7d69bb8e4f9d59113aa95" kindref="member">NetworkErrorCode::TRANSPORT_FALLBACK_ACTIVE</ref>);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1network_1a67e2f0e85d93bf16f07909fd4762df03" kindref="member">isConnectionClosingError</ref>(code))</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;TRANSPORT_FALLBACK_ACTIVE<sp/>must<sp/>not<sp/>terminate<sp/>the<sp/>connection&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><ref refid="test__network__hardening__phase2__focused_8cpp_1a74b4e19bfe36df0fe728d5b6aa5fd6a8" kindref="member">TEST</ref>(NetworkHardeningPhase2MultiTransport,<sp/>NMT04_WriteErrorNotConnectionClosing)<sp/>{</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1network_1a67e2f0e85d93bf16f07909fd4762df03" kindref="member">isConnectionClosingError</ref>(<ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75af55bbfda6d0028eaec46a1788ad73e65" kindref="member">NetworkErrorCode::TRANSPORT_WRITE_ERROR</ref>))</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;TRANSPORT_WRITE_ERROR<sp/>should<sp/>be<sp/>retryable,<sp/>not<sp/>connection-closing&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><ref refid="test__network__hardening__phase2__focused_8cpp_1a74b4e19bfe36df0fe728d5b6aa5fd6a8" kindref="member">TEST</ref>(NetworkHardeningPhase2MultiTransport,<sp/>NMT05_WsPathInvalidMagicFrameInvalid)<sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>MockWsFrame<sp/>frame;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>frame.magic0<sp/>=<sp/>0xAA;<sp/><sp/></highlight><highlight class="comment">//<sp/>corrupt<sp/>first<sp/>magic<sp/>byte</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>code<sp/>=<sp/>validateWsFrame(frame);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(code,<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ab2f6a2721617683361a296bd02c17003" kindref="member">NetworkErrorCode::FRAME_INVALID</ref>);</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1network_1a67e2f0e85d93bf16f07909fd4762df03" kindref="member">isConnectionClosingError</ref>(code))</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Invalid<sp/>magic<sp/>on<sp/>WS<sp/>path<sp/>must<sp/>close<sp/>the<sp/>connection&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><ref refid="test__network__hardening__phase2__focused_8cpp_1a74b4e19bfe36df0fe728d5b6aa5fd6a8" kindref="member">TEST</ref>(NetworkHardeningPhase2MultiTransport,<sp/>NMT06_UdpBackpressureExceededTransient)<sp/>{</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>MockBackpressureGate<sp/>gate(2);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(gate.admit(),<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">NetworkErrorCode::OK</ref>);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(gate.admit(),<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">NetworkErrorCode::OK</ref>);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Queue<sp/>full<sp/>—<sp/>third<sp/>admit<sp/>must<sp/>fail<sp/>with<sp/>BACKPRESSURE_EXCEEDED.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>code<sp/>=<sp/>gate.admit();</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(code,<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ad102264cf4b9f438b284d2c9908486a8" kindref="member">NetworkErrorCode::BACKPRESSURE_EXCEEDED</ref>);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1network_1ab89627f567fd641a325ebaaf902b8ad8" kindref="member">isRateLimitTransient</ref>(code))</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;BACKPRESSURE_EXCEEDED<sp/>must<sp/>be<sp/>transient<sp/>on<sp/>UDP<sp/>path&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1network_1a67e2f0e85d93bf16f07909fd4762df03" kindref="member">isConnectionClosingError</ref>(code))</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Backpressure<sp/>must<sp/>not<sp/>close<sp/>the<sp/>UDP<sp/>connection&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><ref refid="test__network__hardening__phase2__focused_8cpp_1a74b4e19bfe36df0fe728d5b6aa5fd6a8" kindref="member">TEST</ref>(NetworkHardeningPhase2MultiTransport,<sp/>NMT07_ConnectionLimitReachedBounded)<sp/>{</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>arriving<sp/>at<sp/>the<sp/>limit<sp/>by<sp/>modelling<sp/>the<sp/>error<sp/>code<sp/>directly.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>code<sp/>=<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75acba9e7771ca025f323a6d7c150e82b8f" kindref="member">NetworkErrorCode::CONNECTION_LIMIT_REACHED</ref>;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>connection<sp/>limit<sp/>error<sp/>is<sp/>NOT<sp/>connection-closing<sp/>for<sp/>the<sp/>*rejected*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>new<sp/>connection<sp/>(it<sp/>was<sp/>never<sp/>admitted);<sp/>it<sp/>is<sp/>merely<sp/>a<sp/>refusal.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1network_1a67e2f0e85d93bf16f07909fd4762df03" kindref="member">isConnectionClosingError</ref>(code))</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;CONNECTION_LIMIT_REACHED<sp/>is<sp/>a<sp/>rejection,<sp/>not<sp/>a<sp/>close<sp/>of<sp/>an<sp/>admitted<sp/>connection&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>It<sp/>is<sp/>also<sp/>not<sp/>a<sp/>transient<sp/>rate-limit<sp/>event.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1network_1ab89627f567fd641a325ebaaf902b8ad8" kindref="member">isRateLimitTransient</ref>(code));</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>kMaxConcurrentConnections<sp/>constant<sp/>is<sp/>positive<sp/>and<sp/>bounded.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(<ref refid="namespacethemis_1_1network_1aadc5e7525c9b85812684750a0d405445" kindref="member">kMaxConcurrentConnections</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(<ref refid="namespacethemis_1_1network_1aadc5e7525c9b85812684750a0d405445" kindref="member">kMaxConcurrentConnections</ref>,<sp/>1u<sp/>&lt;&lt;<sp/>20)<sp/><sp/></highlight><highlight class="comment">//<sp/>1M<sp/>as<sp/>sanity<sp/>upper<sp/>bound</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;kMaxConcurrentConnections<sp/>should<sp/>be<sp/>bounded<sp/>to<sp/>prevent<sp/>unbounded<sp/>growth&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><ref refid="test__network__hardening__phase2__focused_8cpp_1a74b4e19bfe36df0fe728d5b6aa5fd6a8" kindref="member">TEST</ref>(NetworkHardeningPhase2MultiTransport,<sp/>NMT08_FallbackExhaustionFailClosed)<sp/>{</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>MockTransport<sp/>primary{TransportKind::TCP,<sp/>TransportPhase::CLOSED};</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>MockTransport<sp/>fallback{TransportKind::QUIC,<sp/>TransportPhase::UNAVAILABLE};</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>primaryResult<sp/>=<sp/>primary.send(</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1network_1a67e2f0e85d93bf16f07909fd4762df03" kindref="member">isConnectionClosingError</ref>(primaryResult))</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Primary<sp/>transport<sp/>failure<sp/>must<sp/>be<sp/>connection-closing<sp/>to<sp/>trigger<sp/>fallback&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fallback<sp/>attempted<sp/>—<sp/>also<sp/>unavailable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fallbackResult<sp/>=<sp/>fallback.send(</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(fallbackResult,<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a06e231de202bc95d06df42f58b5fb187" kindref="member">NetworkErrorCode::TRANSPORT_UNAVAILABLE</ref>);</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1network_1a67e2f0e85d93bf16f07909fd4762df03" kindref="member">isConnectionClosingError</ref>(fallbackResult))</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;After<sp/>fallback<sp/>exhaustion,<sp/>error<sp/>must<sp/>be<sp/>connection-closing<sp/>(fail-closed)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="347"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NAG-01..NAG-08<sp/>—<sp/>Adversarial<sp/>Auth/Rate-Limit<sp/>Guard<sp/>Hardening</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><ref refid="test__network__hardening__phase2__focused_8cpp_1a74b4e19bfe36df0fe728d5b6aa5fd6a8" kindref="member">TEST</ref>(NetworkHardeningPhase2AdversarialGuard,<sp/>NAG01_AuthRequiredBurstAllRejected)<sp/>{</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>MockSessionStore<sp/>store;</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kBurstSize<sp/>=<sp/>200;</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rejectedCount<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kBurstSize;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>code<sp/>=<sp/>store.validate(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>no<sp/>token</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(code<sp/>==<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a7721bb1adc008815561e7b04c3ae986e" kindref="member">NetworkErrorCode::AUTH_REQUIRED</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++rejectedCount;</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rejectedCount,<sp/>kBurstSize)</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Every<sp/>unauthenticated<sp/>request<sp/>in<sp/>a<sp/>burst<sp/>must<sp/>be<sp/>rejected&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="371"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><ref refid="test__network__hardening__phase2__focused_8cpp_1a74b4e19bfe36df0fe728d5b6aa5fd6a8" kindref="member">TEST</ref>(NetworkHardeningPhase2AdversarialGuard,<sp/>NAG02_BurstTrafficRateLimited)<sp/>{</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kLimit<sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kBurst<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/>MockRateLimiter<sp/>rl(kLimit);</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>allowed<sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>limited<sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>banned<sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kBurst;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>code<sp/>=<sp/>rl.check();</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(code<sp/>==<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">NetworkErrorCode::OK</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++allowed;</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(code<sp/>==<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a0b481e215c9fdd207e9d14f6a0cc228f" kindref="member">NetworkErrorCode::RATE_LIMITED</ref>)<sp/><sp/>++limited;</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(code<sp/>==<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a75b498788ed886073765edc4db5419d2" kindref="member">NetworkErrorCode::CLIENT_BANNED</ref>)<sp/>++banned;</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"></highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(allowed,<sp/>kLimit)</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Exactly<sp/>kLimit<sp/>requests<sp/>should<sp/>be<sp/>allowed<sp/>through&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(limited<sp/>+<sp/>banned,<sp/>0)</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Requests<sp/>beyond<sp/>the<sp/>limit<sp/>must<sp/>be<sp/>blocked&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(allowed<sp/>+<sp/>limited<sp/>+<sp/>banned,<sp/>kBurst)</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Every<sp/>request<sp/>in<sp/>the<sp/>burst<sp/>must<sp/>have<sp/>a<sp/>classified<sp/>outcome&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="401"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"></highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><ref refid="test__network__hardening__phase2__focused_8cpp_1a74b4e19bfe36df0fe728d5b6aa5fd6a8" kindref="member">TEST</ref>(NetworkHardeningPhase2AdversarialGuard,<sp/>NAG03_ClientBannedAfterThresholdViolations)<sp/>{</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Allow<sp/>1<sp/>request,<sp/>then<sp/>hammer<sp/>to<sp/>accumulate<sp/>violations.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/>MockRateLimiter<sp/>rl(1);</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"></highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>request<sp/>is<sp/>within<sp/>limit.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(rl.check(),<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">NetworkErrorCode::OK</ref>);</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"></highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Send<sp/>kRateLimitBanThreshold<sp/>additional<sp/>requests<sp/>to<sp/>trigger<sp/>ban.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="417"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75" kindref="member">NetworkErrorCode</ref><sp/>lastCode<sp/>=<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">NetworkErrorCode::OK</ref>;</highlight></codeline>
+<codeline lineno="418"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/><ref refid="namespacethemis_1_1network_1a7124d8a275d4786265c8d633b4926a93" kindref="member">kRateLimitBanThreshold</ref>;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="419"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lastCode<sp/>=<sp/>rl.check();</highlight></codeline>
+<codeline lineno="420"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="421"><highlight class="normal"></highlight></codeline>
+<codeline lineno="422"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(lastCode,<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a75b498788ed886073765edc4db5419d2" kindref="member">NetworkErrorCode::CLIENT_BANNED</ref>)</highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;After<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacethemis_1_1network_1a7124d8a275d4786265c8d633b4926a93" kindref="member">kRateLimitBanThreshold</ref></highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>violations,<sp/>CLIENT_BANNED<sp/>must<sp/>be<sp/>returned&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="425"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="426"><highlight class="normal"></highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><ref refid="test__network__hardening__phase2__focused_8cpp_1a74b4e19bfe36df0fe728d5b6aa5fd6a8" kindref="member">TEST</ref>(NetworkHardeningPhase2AdversarialGuard,<sp/>NAG04_AuthTimeoutIsConnectionClosing)<sp/>{</highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><sp/><sp/><sp/><sp/>MockAuthTimer<sp/>timer;</highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><sp/><sp/><sp/><sp/>timer.timedOut<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="434"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>code<sp/>=<sp/>timer.evaluate();</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(code,<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a30611ff322b606c366083e8dc7dcf459" kindref="member">NetworkErrorCode::AUTH_TIMEOUT</ref>);</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1network_1a67e2f0e85d93bf16f07909fd4762df03" kindref="member">isConnectionClosingError</ref>(code))</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;AUTH_TIMEOUT<sp/>must<sp/>close<sp/>the<sp/>connection<sp/>to<sp/>prevent<sp/>hung-handshake<sp/>exhaustion&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"></highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>the<sp/>timeout<sp/>constant<sp/>is<sp/>a<sp/>reasonable<sp/>positive<sp/>value.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(<ref refid="namespacethemis_1_1network_1a08a9f3f88d02cc53b1a2d89ff408f87d" kindref="member">kAuthHandshakeTimeout</ref>.count(),<sp/>0)</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;kAuthHandshakeTimeout<sp/>must<sp/>be<sp/>a<sp/>positive<sp/>duration&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="442"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"></highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><ref refid="test__network__hardening__phase2__focused_8cpp_1a74b4e19bfe36df0fe728d5b6aa5fd6a8" kindref="member">TEST</ref>(NetworkHardeningPhase2AdversarialGuard,<sp/>NAG05_RevocationPriorityOverExpiry)<sp/>{</highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/>MockSessionStore<sp/>store;</highlight></codeline>
+<codeline lineno="452"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>token<sp/>that<sp/>is<sp/>both<sp/>revoked<sp/>and<sp/>(conceptually)<sp/>expired.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="453"><highlight class="normal"><sp/><sp/><sp/><sp/>store.add(</highlight><highlight class="stringliteral">&quot;revoked-expired-token&quot;</highlight><highlight class="normal">,<sp/>SessionState::REVOKED);</highlight></codeline>
+<codeline lineno="454"><highlight class="normal"></highlight></codeline>
+<codeline lineno="455"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>code<sp/>=<sp/>store.validate(</highlight><highlight class="stringliteral">&quot;revoked-expired-token&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="456"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(code,<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a048bd3b5342e4099a9b64eb083b8456a" kindref="member">NetworkErrorCode::SESSION_REVOKED</ref>)</highlight></codeline>
+<codeline lineno="457"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Revoked<sp/>session<sp/>must<sp/>be<sp/>rejected<sp/>as<sp/>SESSION_REVOKED,<sp/>not<sp/>SESSION_EXPIRED&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(code,<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75aee7c1374d9480eb0dafeedd8d6f1ee12" kindref="member">NetworkErrorCode::SESSION_EXPIRED</ref>);</highlight></codeline>
+<codeline lineno="459"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(code,<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">NetworkErrorCode::OK</ref>);</highlight></codeline>
+<codeline lineno="460"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="461"><highlight class="normal"></highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><ref refid="test__network__hardening__phase2__focused_8cpp_1a74b4e19bfe36df0fe728d5b6aa5fd6a8" kindref="member">TEST</ref>(NetworkHardeningPhase2AdversarialGuard,<sp/>NAG06_UnavailableRateLimiterFailClosed)<sp/>{</highlight></codeline>
+<codeline lineno="469"><highlight class="normal"><sp/><sp/><sp/><sp/>MockRateLimiter<sp/>rl(</highlight><highlight class="comment">/*limitPerWindow=*/</highlight><highlight class="normal">1000,<sp/></highlight><highlight class="comment">/*unavailable=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="470"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kProbes<sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="471"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kProbes;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="472"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>code<sp/>=<sp/>rl.check();</highlight></codeline>
+<codeline lineno="473"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(code,<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">NetworkErrorCode::OK</ref>)</highlight></codeline>
+<codeline lineno="474"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Rate-limiter<sp/>unavailability<sp/>must<sp/>never<sp/>produce<sp/>OK<sp/>(probe<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="475"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="476"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="477"><highlight class="normal"></highlight></codeline>
+<codeline lineno="484"><highlight class="normal"><ref refid="test__network__hardening__phase2__focused_8cpp_1a74b4e19bfe36df0fe728d5b6aa5fd6a8" kindref="member">TEST</ref>(NetworkHardeningPhase2AdversarialGuard,<sp/>NAG07_BackpressureExceededTransientNotClosing)<sp/>{</highlight></codeline>
+<codeline lineno="485"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1network_1ab89627f567fd641a325ebaaf902b8ad8" kindref="member">isRateLimitTransient</ref>(<ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ad102264cf4b9f438b284d2c9908486a8" kindref="member">NetworkErrorCode::BACKPRESSURE_EXCEEDED</ref>))</highlight></codeline>
+<codeline lineno="486"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;BACKPRESSURE_EXCEEDED<sp/>must<sp/>be<sp/>classified<sp/>as<sp/>transient&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="487"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1network_1a67e2f0e85d93bf16f07909fd4762df03" kindref="member">isConnectionClosingError</ref>(<ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ad102264cf4b9f438b284d2c9908486a8" kindref="member">NetworkErrorCode::BACKPRESSURE_EXCEEDED</ref>))</highlight></codeline>
+<codeline lineno="488"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;BACKPRESSURE_EXCEEDED<sp/>must<sp/>not<sp/>close<sp/>the<sp/>connection&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="489"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="490"><highlight class="normal"></highlight></codeline>
+<codeline lineno="496"><highlight class="normal"><ref refid="test__network__hardening__phase2__focused_8cpp_1a74b4e19bfe36df0fe728d5b6aa5fd6a8" kindref="member">TEST</ref>(NetworkHardeningPhase2AdversarialGuard,<sp/>NAG08_ClusterErrorsNotConnectionClosing)<sp/>{</highlight></codeline>
+<codeline lineno="497"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1network_1a67e2f0e85d93bf16f07909fd4762df03" kindref="member">isConnectionClosingError</ref>(<ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a0dde4c0549c0aa9d75332ace206aec40" kindref="member">NetworkErrorCode::QUORUM_DEGRADED</ref>))</highlight></codeline>
+<codeline lineno="498"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;QUORUM_DEGRADED<sp/>is<sp/>a<sp/>cluster-level<sp/>error<sp/>and<sp/>must<sp/>not<sp/>close<sp/>the<sp/>transport&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="499"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1network_1a67e2f0e85d93bf16f07909fd4762df03" kindref="member">isConnectionClosingError</ref>(<ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ac6388c623680d7b5b4334ea09b64ab45" kindref="member">NetworkErrorCode::ROUTING_UNAVAILABLE</ref>))</highlight></codeline>
+<codeline lineno="500"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;ROUTING_UNAVAILABLE<sp/>is<sp/>a<sp/>cluster-level<sp/>error<sp/>and<sp/>must<sp/>not<sp/>close<sp/>the<sp/>transport&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="501"><highlight class="normal"></highlight></codeline>
+<codeline lineno="502"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cluster<sp/>errors<sp/>are<sp/>also<sp/>not<sp/>transient<sp/>rate-limit<sp/>events.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="503"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1network_1ab89627f567fd641a325ebaaf902b8ad8" kindref="member">isRateLimitTransient</ref>(<ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a0dde4c0549c0aa9d75332ace206aec40" kindref="member">NetworkErrorCode::QUORUM_DEGRADED</ref>));</highlight></codeline>
+<codeline lineno="504"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1network_1ab89627f567fd641a325ebaaf902b8ad8" kindref="member">isRateLimitTransient</ref>(<ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ac6388c623680d7b5b4334ea09b64ab45" kindref="member">NetworkErrorCode::ROUTING_UNAVAILABLE</ref>));</highlight></codeline>
+<codeline lineno="505"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/network/test_network_hardening_phase2_focused.cpp"/>
+  </compounddef>
+</doxygen>

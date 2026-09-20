@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_log_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::LogEntry</compoundname>
+    <includes refid="raft__log_8h" local="no">raft_log.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_log_entry_1a92cb923bc769c179c00dd1239b5e374a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::LogEntry::term</definition>
+        <argsstring></argsstring>
+        <name>term</name>
+        <qualifiedname>themisdb::sharding::LogEntry::term</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="38" column="14" bodyfile="include/sharding/raft_log.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_log_entry_1a774bc66468fc0ef82e1ce28dcd51650b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::LogEntry::index</definition>
+        <argsstring></argsstring>
+        <name>index</name>
+        <qualifiedname>themisdb::sharding::LogEntry::index</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="39" column="14" bodyfile="include/sharding/raft_log.h" bodystart="39" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_log_entry_1a9f45bbc3402a5cf07fc06f4d47891f8e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::LogEntry::command</definition>
+        <argsstring></argsstring>
+        <name>command</name>
+        <qualifiedname>themisdb::sharding::LogEntry::command</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="40" column="17" bodyfile="include/sharding/raft_log.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_log_entry_1a6ab090ef91f9e0903c357b4993d9ebef" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::LogEntry::timestamp_ns</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ns</name>
+        <qualifiedname>themisdb::sharding::LogEntry::timestamp_ns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="41" column="14" bodyfile="include/sharding/raft_log.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_log_entry_1afc78a864b8d6d68cb31797769ab777e9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::LogEntry::LogEntry</definition>
+        <argsstring>()</argsstring>
+        <name>LogEntry</name>
+        <qualifiedname>themisdb::sharding::LogEntry::LogEntry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="43" column="5" bodyfile="include/sharding/raft_log.h" bodystart="43" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_log_entry_1ac4064dccf0e5a1dc75621f3ce64999ef" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::LogEntry::LogEntry</definition>
+        <argsstring>(uint64_t t, uint64_t i, const std::string &amp;cmd, uint64_t ts=0)</argsstring>
+        <name>LogEntry</name>
+        <qualifiedname>themisdb::sharding::LogEntry::LogEntry</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cmd</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>ts</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="44" column="5" bodyfile="include/sharding/raft_log.h" bodystart="44" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single entry in the Raft log. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Each log entry contains:<itemizedlist>
+<listitem><para>term: The term when the entry was created by the leader</para>
+</listitem><listitem><para>index: The position of the entry in the log (1-indexed)</para>
+</listitem><listitem><para>command: The actual command/data to be replicated</para>
+</listitem><listitem><para>timestamp_ns: <ref refid="classthemis_1_1sharding_1_1_true_time" kindref="compound">TrueTime</ref> timestamp in nanoseconds since epoch </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/sharding/raft_log.h" line="37" column="1" bodyfile="include/sharding/raft_log.h" bodystart="37" bodyend="46"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_log_entry_1a9f45bbc3402a5cf07fc06f4d47891f8e" prot="public" virt="non-virtual"><scope>themisdb::sharding::LogEntry</scope><name>command</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_log_entry_1a774bc66468fc0ef82e1ce28dcd51650b" prot="public" virt="non-virtual"><scope>themisdb::sharding::LogEntry</scope><name>index</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_log_entry_1afc78a864b8d6d68cb31797769ab777e9" prot="public" virt="non-virtual"><scope>themisdb::sharding::LogEntry</scope><name>LogEntry</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_log_entry_1ac4064dccf0e5a1dc75621f3ce64999ef" prot="public" virt="non-virtual"><scope>themisdb::sharding::LogEntry</scope><name>LogEntry</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_log_entry_1a92cb923bc769c179c00dd1239b5e374a" prot="public" virt="non-virtual"><scope>themisdb::sharding::LogEntry</scope><name>term</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_log_entry_1a6ab090ef91f9e0903c357b4993d9ebef" prot="public" virt="non-virtual"><scope>themisdb::sharding::LogEntry</scope><name>timestamp_ns</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

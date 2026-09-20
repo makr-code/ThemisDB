@@ -1,0 +1,256 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_shard_ledger_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::ShardLedgerEntry</compoundname>
+    <includes refid="lora__package__provenance_8h" local="no">lora_package_provenance.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_shard_ledger_entry_1a43b7b97d3869abfcd8c75082046bb821" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::ShardLedgerEntry::entry_id</definition>
+        <argsstring></argsstring>
+        <name>entry_id</name>
+        <qualifiedname>themis::llm::lora::ShardLedgerEntry::entry_id</qualifiedname>
+        <briefdescription>
+<para>Unique ledger entry identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="268" column="17" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_shard_ledger_entry_1a438274a1522eb480c3a41c8a071a1f9f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::ShardLedgerEntry::artifact_id</definition>
+        <argsstring></argsstring>
+        <name>artifact_id</name>
+        <qualifiedname>themis::llm::lora::ShardLedgerEntry::artifact_id</qualifiedname>
+        <briefdescription>
+<para>package_id or product_id </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="269" column="17" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="269" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_shard_ledger_entry_1aad4a2516f117ea672283cd7b43123653" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::ShardLedgerEntry::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::llm::lora::ShardLedgerEntry::shard_id</qualifiedname>
+        <briefdescription>
+<para>Target shard node / partition identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="270" column="17" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="270" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_shard_ledger_entry_1a4dc4a5fc6dee29484bc77f01e2895368" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::llm::lora::ShardLedgerEntry::shard_index</definition>
+        <argsstring></argsstring>
+        <name>shard_index</name>
+        <qualifiedname>themis::llm::lora::ShardLedgerEntry::shard_index</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Ordinal of this shard in the distribution (0-based). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="271" column="17" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_shard_ledger_entry_1acd224b262968b3d35df8918c3b2166f7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::llm::lora::ShardLedgerEntry::total_shards</definition>
+        <argsstring></argsstring>
+        <name>total_shards</name>
+        <qualifiedname>themis::llm::lora::ShardLedgerEntry::total_shards</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total number of shards in this distribution. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="272" column="17" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="272" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_shard_ledger_entry_1a400301368e62e1dbbb4e01c0826f7b02" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::ShardLedgerEntry::shard_hash</definition>
+        <argsstring></argsstring>
+        <name>shard_hash</name>
+        <qualifiedname>themis::llm::lora::ShardLedgerEntry::shard_hash</qualifiedname>
+        <briefdescription>
+<para>SHA-256 of this shard&apos;s content bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="273" column="17" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="273" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_shard_ledger_entry_1ae878bee76dbd2f8b79f8f7b4a123a186" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::lora::ShardLedgerEntry::merkle_proof</definition>
+        <argsstring></argsstring>
+        <name>merkle_proof</name>
+        <qualifiedname>themis::llm::lora::ShardLedgerEntry::merkle_proof</qualifiedname>
+        <briefdescription>
+<para>Sibling hashes for Merkle inclusion proof. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="274" column="17" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_shard_ledger_entry_1a590d62682d8b65f3cc953f5715cb45ff" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::ShardLedgerEntry::placement_timestamp</definition>
+        <argsstring></argsstring>
+        <name>placement_timestamp</name>
+        <qualifiedname>themis::llm::lora::ShardLedgerEntry::placement_timestamp</qualifiedname>
+        <briefdescription>
+<para>ISO 8601 UTC placement timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="275" column="17" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="275" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_shard_ledger_entry_1a08b49b267c4244f115b0c2539e4b0914" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::ShardLedgerEntry::prev_entry_hash</definition>
+        <argsstring></argsstring>
+        <name>prev_entry_hash</name>
+        <qualifiedname>themis::llm::lora::ShardLedgerEntry::prev_entry_hash</qualifiedname>
+        <briefdescription>
+<para>SHA-256 of previous shard entry; for the first entry in a ledger this is sha256(artifact_id+&quot;_shard_genesis&quot;) (deterministic genesis seed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="276" column="17" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="276" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_shard_ledger_entry_1a5b99e40eca84338015886d910b828770" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::ShardLedgerEntry::entry_hash</definition>
+        <argsstring></argsstring>
+        <name>entry_hash</name>
+        <qualifiedname>themis::llm::lora::ShardLedgerEntry::entry_hash</qualifiedname>
+        <briefdescription>
+<para>SHA-256 of this entry&apos;s canonical form (set by ledger). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="277" column="17" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_shard_ledger_entry_1aaec220ea8bfa7b3be4c9d5791c859c0d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::ShardLedgerEntry::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::lora::ShardLedgerEntry::toJSON</qualifiedname>
+        <briefdescription>
+<para>Serialise to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON representation. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="283" column="11" bodyfile="src/llm/lora_framework/lora_package_provenance.cpp" bodystart="373" bodyend="390"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_shard_ledger_entry_1af65f90799171c601ad8de8c558f62bfd" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::ShardLedgerEntry::computeContentHash</definition>
+        <argsstring>() const</argsstring>
+        <name>computeContentHash</name>
+        <qualifiedname>themis::llm::lora::ShardLedgerEntry::computeContentHash</qualifiedname>
+        <briefdescription>
+<para>Compute the canonical SHA-256 hash of all content fields. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Covers: artifact_id, shard_id, shard_index, total_shards, shard_hash, merkle_proof entries in order, placement_timestamp, and prev_entry_hash.</para>
+<para><simplesect kind="return"><para>64-character lowercase hex string. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="300" column="18" bodyfile="src/llm/lora_framework/lora_package_provenance.cpp" bodystart="417" bodyend="433"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_shard_ledger_entry_1a53b56c9d5ae1e50effb666baaad65963" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_shard_ledger_entry" kindref="compound">ShardLedgerEntry</ref></type>
+        <definition>ShardLedgerEntry themis::llm::lora::ShardLedgerEntry::fromJSON</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::llm::lora::ShardLedgerEntry::fromJSON</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Deserialise from JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source JSON object. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Populated <ref refid="structthemis_1_1llm_1_1lora_1_1_shard_ledger_entry" kindref="compound">ShardLedgerEntry</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="290" column="30" bodyfile="src/llm/lora_framework/lora_package_provenance.cpp" bodystart="392" bodyend="415"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Shard-level integrity record for RAID-Merkle-Proof integration. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>When an artifact is placed on a shard, a <ref refid="structthemis_1_1llm_1_1lora_1_1_shard_ledger_entry" kindref="compound">ShardLedgerEntry</ref> records the shard assignment alongside the Merkle proof required to verify that the shard fragment is part of the original artifact.</para>
+<para>Shard ledger entries are chained via prev_entry_hash so the full history of shard placements for an artifact is tamper-evident. </para>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/lora_package_provenance.h" line="267" column="1" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="267" bodyend="301"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_shard_ledger_entry_1a438274a1522eb480c3a41c8a071a1f9f" prot="public" virt="non-virtual"><scope>themis::llm::lora::ShardLedgerEntry</scope><name>artifact_id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_shard_ledger_entry_1af65f90799171c601ad8de8c558f62bfd" prot="public" virt="non-virtual"><scope>themis::llm::lora::ShardLedgerEntry</scope><name>computeContentHash</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_shard_ledger_entry_1a5b99e40eca84338015886d910b828770" prot="public" virt="non-virtual"><scope>themis::llm::lora::ShardLedgerEntry</scope><name>entry_hash</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_shard_ledger_entry_1a43b7b97d3869abfcd8c75082046bb821" prot="public" virt="non-virtual"><scope>themis::llm::lora::ShardLedgerEntry</scope><name>entry_id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_shard_ledger_entry_1a53b56c9d5ae1e50effb666baaad65963" prot="public" virt="non-virtual"><scope>themis::llm::lora::ShardLedgerEntry</scope><name>fromJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_shard_ledger_entry_1ae878bee76dbd2f8b79f8f7b4a123a186" prot="public" virt="non-virtual"><scope>themis::llm::lora::ShardLedgerEntry</scope><name>merkle_proof</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_shard_ledger_entry_1a590d62682d8b65f3cc953f5715cb45ff" prot="public" virt="non-virtual"><scope>themis::llm::lora::ShardLedgerEntry</scope><name>placement_timestamp</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_shard_ledger_entry_1a08b49b267c4244f115b0c2539e4b0914" prot="public" virt="non-virtual"><scope>themis::llm::lora::ShardLedgerEntry</scope><name>prev_entry_hash</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_shard_ledger_entry_1a400301368e62e1dbbb4e01c0826f7b02" prot="public" virt="non-virtual"><scope>themis::llm::lora::ShardLedgerEntry</scope><name>shard_hash</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_shard_ledger_entry_1aad4a2516f117ea672283cd7b43123653" prot="public" virt="non-virtual"><scope>themis::llm::lora::ShardLedgerEntry</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_shard_ledger_entry_1a4dc4a5fc6dee29484bc77f01e2895368" prot="public" virt="non-virtual"><scope>themis::llm::lora::ShardLedgerEntry</scope><name>shard_index</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_shard_ledger_entry_1aaec220ea8bfa7b3be4c9d5791c859c0d" prot="public" virt="non-virtual"><scope>themis::llm::lora::ShardLedgerEntry</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_shard_ledger_entry_1acd224b262968b3d35df8918c3b2166f7" prot="public" virt="non-virtual"><scope>themis::llm::lora::ShardLedgerEntry</scope><name>total_shards</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

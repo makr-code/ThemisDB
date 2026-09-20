@@ -1,0 +1,301 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="content__validator_8h" kind="file" language="C++">
+    <compoundname>content_validator.h</compoundname>
+    <includes refid="content__errors_8h" local="yes">content/content_errors.h</includes>
+    <includes refid="content__policy_8h" local="yes">content/content_policy.h</includes>
+    <includes refid="content__type_8h" local="yes">content/content_type.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="content__manager_8cpp" local="yes">src/content/content_manager.cpp</includedby>
+    <includedby refid="content__validator_8cpp" local="yes">src/content/content_validator.cpp</includedby>
+    <includedby refid="test__content__streaming__ingestion_8cpp" local="yes">tests/content/test_content_streaming_ingestion.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>content/content_errors.h</label>
+        <link refid="content__errors_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>content/content_policy.h</label>
+        <link refid="content__policy_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>content/content_type.h</label>
+        <link refid="content__type_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/content/content_validator.h</label>
+        <link refid="content__validator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>cstdint</label>
+      </node>
+      <node id="12">
+        <label>functional</label>
+      </node>
+      <node id="8">
+        <label>map</label>
+      </node>
+      <node id="11">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="4">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/content/content_validator.h</label>
+        <link refid="content__validator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/content/content_manager.cpp</label>
+        <link refid="content__manager_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/content/content_validator.cpp</label>
+        <link refid="content__validator_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/content/test_content_streaming_ingestion.cpp</label>
+        <link refid="test__content__streaming__ingestion_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1content_1_1_content_validation_config" prot="public">themis::content::ContentValidationConfig</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_content_validation_result" prot="public">themis::content::ContentValidationResult</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_content_validator" prot="public">themis::content::ContentValidator</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_content_validator_1_1_stats" prot="public">themis::content::ContentValidator::Stats</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_timeout_guard" prot="public">themis::content::TimeoutGuard</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1content">themis::content</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="content__errors_8h" kindref="compound">content/content_errors.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="content__policy_8h" kindref="compound">content/content_policy.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="content__type_8h" kindref="compound">content/content_type.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1content" kindref="compound">content</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1content_1_1_content_validation_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1_content_validation_config" kindref="compound">ContentValidationConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Size<sp/>limits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1content_1_1_content_validation_config_1a22a3cd51abe69e256ee2ac30129ab474" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1content_1_1_content_validation_config_1a22a3cd51abe69e256ee2ac30129ab474" kindref="member">max_content_size</ref><sp/>=<sp/>100<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>100<sp/>MB<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1content_1_1_content_validation_config_1afbb64ca46ab65f8722003c4007ef4ab0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1content_1_1_content_validation_config_1afbb64ca46ab65f8722003c4007ef4ab0" kindref="member">max_text_length</ref><sp/>=<sp/>10<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>10<sp/>MB<sp/>for<sp/>text<sp/>content</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Processing<sp/>limits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1content_1_1_content_validation_config_1af6450b7da6a66ea26f0378f4bb9fac23" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1content_1_1_content_validation_config_1af6450b7da6a66ea26f0378f4bb9fac23" kindref="member">max_processing_time</ref>{300};<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>5<sp/>minutes<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1content_1_1_content_validation_config_1a1b33bc109fc0a16f1f6c44f366847c00" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1content_1_1_content_validation_config_1a1b33bc109fc0a16f1f6c44f366847c00" kindref="member">extraction_timeout</ref>{60};<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>minute<sp/>for<sp/>extraction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1content_1_1_content_validation_config_1a0f6fbdf59810bbec9c5b6e9b11463acd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1content_1_1_content_validation_config_1a0f6fbdf59810bbec9c5b6e9b11463acd" kindref="member">chunking_timeout</ref>{120};<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2<sp/>minutes<sp/>for<sp/>chunking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1content_1_1_content_validation_config_1a37680473db61d058ae659641f782a314" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1content_1_1_content_validation_config_1a37680473db61d058ae659641f782a314" kindref="member">embedding_timeout</ref>{180};<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>3<sp/>minutes<sp/>for<sp/>embeddings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Format<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1content_1_1_content_validation_config_1ac216a32af1f61abd2faeee362e833890" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_validation_config_1ac216a32af1f61abd2faeee362e833890" kindref="member">enforce_mime_type_validation</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1content_1_1_content_validation_config_1a1250cfa8cab486888231c54b79785c16" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_validation_config_1a1250cfa8cab486888231c54b79785c16" kindref="member">enforce_format_verification</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1content_1_1_content_validation_config_1adc745970a53a2000b1ddf1b1616cf756" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_validation_config_1adc745970a53a2000b1ddf1b1616cf756" kindref="member">check_file_magic_bytes</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Content<sp/>safety</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1content_1_1_content_validation_config_1a4bac30b1426e5d800e5e6ca2c3063342" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_validation_config_1a4bac30b1426e5d800e5e6ca2c3063342" kindref="member">check_for_malware</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1content_1_1_content_validation_config_1af35e4476a0981bce4556e68bc57cc21c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_validation_config_1af35e4476a0981bce4556e68bc57cc21c" kindref="member">scan_for_pii</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Optional,<sp/>may<sp/>have<sp/>performance<sp/>impact</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1content_1_1_content_validation_config_1a202dbc007f771bb263f58589be978c55" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_validation_config_1a202dbc007f771bb263f58589be978c55" kindref="member">check_for_abuse</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Schema<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1content_1_1_content_validation_config_1a6843de60732eddcaaa4070329e01c699" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_validation_config_1a6843de60732eddcaaa4070329e01c699" kindref="member">enable_schema_validation</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1content_1_1_content_validation_config_1a42ff7bae7cdd6a72ebfa7ab961175f7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_content_validation_config_1a42ff7bae7cdd6a72ebfa7ab961175f7b" kindref="member">schema_path</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Path<sp/>to<sp/>JSON<sp/>schema<sp/>for<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref><sp/><ref refid="structthemis_1_1content_1_1_content_validation_config_1aa6794e7dc8a19f78c4ddf03d45e98f12" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_validation_config" kindref="compound">ContentValidationConfig</ref><sp/><ref refid="structthemis_1_1content_1_1_content_validation_config_1a110ecb7e5785e50b34b659af1786d3a3" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref>&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1content_1_1_content_validation_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1_content_validation_result" kindref="compound">ContentValidationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1content_1_1_content_validation_result_1a696dcec055c74564b76062165833b056" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_error" kindref="compound">ContentError</ref><sp/><ref refid="structthemis_1_1content_1_1_content_validation_result_1a696dcec055c74564b76062165833b056" kindref="member">error</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Error<sp/>details<sp/>(OK<sp/>if<sp/>validation<sp/>passed)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validation<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1content_1_1_content_validation_result_1ac7147a6378ed7a4612ccaf5a0796b5ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_content_validation_result_1ac7147a6378ed7a4612ccaf5a0796b5ae" kindref="member">mime_type</ref>;</highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1content_1_1_content_validation_result_1ac2a37895cc5ab74d7defe3f9187eeb5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_category" kindref="compound">ContentCategory</ref><sp/><ref refid="structthemis_1_1content_1_1_content_validation_result_1ac2a37895cc5ab74d7defe3f9187eeb5b" kindref="member">category</ref>;</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1content_1_1_content_validation_result_1a1e29844f8b8e9b131b52842b27440200" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1content_1_1_content_validation_result_1a1e29844f8b8e9b131b52842b27440200" kindref="member">content_size</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1content_1_1_content_validation_result_1ade71e0389aab5a2636aa6711ed5f7941" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1content_1_1_content_validation_result_1ade71e0389aab5a2636aa6711ed5f7941" kindref="member">validation_time</ref>{0};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Specific<sp/>validation<sp/>flags</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1content_1_1_content_validation_result_1a1e4ced12359f80f736d008c5080a85e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_validation_result_1a1e4ced12359f80f736d008c5080a85e1" kindref="member">mime_validated</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1content_1_1_content_validation_result_1ad06811a07b378f75fc13d25c184219cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_validation_result_1ad06811a07b378f75fc13d25c184219cb" kindref="member">size_validated</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1content_1_1_content_validation_result_1a2a327059fafc3c1a316dad4be2a59389" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_validation_result_1a2a327059fafc3c1a316dad4be2a59389" kindref="member">format_validated</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1content_1_1_content_validation_result_1aaf10f33c2e0238f6f88ebbcf48f19886" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_validation_result_1aaf10f33c2e0238f6f88ebbcf48f19886" kindref="member">policy_validated</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1content_1_1_content_validation_result_1a4ad963c4d4f816b2bf22d2a1eb9adca2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_validation_result_1a4ad963c4d4f816b2bf22d2a1eb9adca2" kindref="member">malware_checked</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref><sp/><ref refid="structthemis_1_1content_1_1_content_validation_result_1acfe06139c1e1bd390df887edfb70ef23" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="classthemis_1_1content_1_1_content_validator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1content_1_1_content_validator_1a6e74fec018f713db624726b0066c3ffc" kindref="member">ContentValidator</ref><sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_content_validator_1a6e74fec018f713db624726b0066c3ffc" kindref="member">ContentValidator</ref>(</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_validation_config" kindref="compound">ContentValidationConfig</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1content_1_1_content_validation_config" kindref="compound">ContentValidationConfig</ref>{},</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_policy" kindref="compound">ContentPolicy</ref>*<sp/>policy<sp/>=<sp/>nullptr</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_validation_result" kindref="compound">ContentValidationResult</ref><sp/><ref refid="classthemis_1_1content_1_1_content_validator_1a4e03deaeaa1bf18d5dce66c3c09b6eff" kindref="member">validate</ref>(</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>data,</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filename<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>correlation_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_error" kindref="compound">ContentError</ref><sp/><ref refid="classthemis_1_1content_1_1_content_validator_1aeb73cafe68c2a010b8ffeaa7e0a53fcb" kindref="member">validateMimeType</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>mime_type);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_error" kindref="compound">ContentError</ref><sp/><ref refid="classthemis_1_1content_1_1_content_validator_1a201e34ac97f0a60ba14c77fe4b239b95" kindref="member">validateSize</ref>(uint64_t<sp/>size,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>mime_type<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_error" kindref="compound">ContentError</ref><sp/><ref refid="classthemis_1_1content_1_1_content_validator_1a4a675cd7b57753ee797d84d172a67da9" kindref="member">validateFormat</ref>(</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>data,</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>expected_mime</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_error" kindref="compound">ContentError</ref><sp/><ref refid="classthemis_1_1content_1_1_content_validator_1a5664e97ddefdbd6b7a4eed62257ca578" kindref="member">validateFilename</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filename);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_error" kindref="compound">ContentError</ref><sp/><ref refid="classthemis_1_1content_1_1_content_validator_1ad1b56128f91c37188065ef59ae2bd152" kindref="member">checkTimeout</ref>(</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::chrono::steady_clock::time_point&amp;<sp/>start_time,</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>operation_type<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;processing&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="classthemis_1_1content_1_1_content_validator_1ab8f5b87bd9492eb61abecd19edb4ca61" kindref="member">getOperationTimeout</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>operation_type)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_content_validator_1ad6df53b0c47ed0bfd3a741a79f6d74ca" kindref="member">setConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_validation_config" kindref="compound">ContentValidationConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_validation_config" kindref="compound">ContentValidationConfig</ref>&amp;<sp/><ref refid="classthemis_1_1content_1_1_content_validator_1a9f78c8a5b140c44e45a990eddc491d59" kindref="member">getConfig</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_content_validator_1a1b6ae9d5ac8c20abdea26393197fa4f3" kindref="member">setPolicy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_policy" kindref="compound">ContentPolicy</ref>*<sp/>policy);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="158" refid="structthemis_1_1content_1_1_content_validator_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1_content_validator_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="159" refid="structthemis_1_1content_1_1_content_validator_1_1_stats_1a1346d72c1867ddf7ec9a8fd1fdb3b9c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1content_1_1_content_validator_1_1_stats_1a1346d72c1867ddf7ec9a8fd1fdb3b9c4" kindref="member">total_validations</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="160" refid="structthemis_1_1content_1_1_content_validator_1_1_stats_1ae607792ae4bbb18234d462920db8ce61" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1content_1_1_content_validator_1_1_stats_1ae607792ae4bbb18234d462920db8ce61" kindref="member">successful_validations</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="161" refid="structthemis_1_1content_1_1_content_validator_1_1_stats_1aa7fd7a915199938642dd69dce3641ae5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1content_1_1_content_validator_1_1_stats_1aa7fd7a915199938642dd69dce3641ae5" kindref="member">failed_validations</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="162" refid="structthemis_1_1content_1_1_content_validator_1_1_stats_1ab422fcf9d9a2ebdc242b677280392ade" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1content_1_1_content_validator_1_1_stats_1ab422fcf9d9a2ebdc242b677280392ade" kindref="member">size_violations</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="163" refid="structthemis_1_1content_1_1_content_validator_1_1_stats_1ab2c5719a2441a81789a9683ab892a6f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1content_1_1_content_validator_1_1_stats_1ab2c5719a2441a81789a9683ab892a6f8" kindref="member">format_violations</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="164" refid="structthemis_1_1content_1_1_content_validator_1_1_stats_1ad7182bd5efbd21ea55cef03dc58a82e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1content_1_1_content_validator_1_1_stats_1ad7182bd5efbd21ea55cef03dc58a82e8" kindref="member">policy_violations</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="165" refid="structthemis_1_1content_1_1_content_validator_1_1_stats_1a651ac3f81837d81fa026094cd15feb31" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1content_1_1_content_validator_1_1_stats_1a651ac3f81837d81fa026094cd15feb31" kindref="member">timeouts</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref><sp/><ref refid="structthemis_1_1content_1_1_content_validator_1_1_stats_1a65d9f48088d1cd89d1b60480364685a8" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_validator_1_1_stats" kindref="compound">Stats</ref>&amp;<sp/><ref refid="classthemis_1_1content_1_1_content_validator_1a32d3f9cfd4198eb3cd4c7796327e8851" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_content_validator_1a6929b3c075384b5849ee08683fbcf10a" kindref="member">resetStats</ref>();</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_validation_config" kindref="compound">ContentValidationConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_policy" kindref="compound">ContentPolicy</ref>*<sp/>policy_;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_validator_1_1_stats" kindref="compound">Stats</ref><sp/>stats_;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>detectMimeType(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>data,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filename)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_category" kindref="compound">ContentCategory</ref><sp/>mimeToCategory(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>mime_type)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>checkMagicBytes(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>data,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>mime_type)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_error" kindref="compound">ContentError</ref><sp/>validateWithPolicy(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>mime_type,<sp/>uint64_t<sp/>size);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218" refid="classthemis_1_1content_1_1_timeout_guard" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1content_1_1_timeout_guard_1aeff785083318c95b3174ac25e197a3d6" kindref="member">TimeoutGuard</ref><sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_timeout_guard_1aeff785083318c95b3174ac25e197a3d6" kindref="member">TimeoutGuard</ref>(<ref refid="classthemis_1_1content_1_1_content_validator" kindref="compound">ContentValidator</ref>&amp;<sp/>validator,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>operation_type);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_error" kindref="compound">ContentError</ref><sp/><ref refid="classthemis_1_1content_1_1_timeout_guard_1a449d1c8dad71e9b4aaebc23fcba4f278" kindref="member">check</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="classthemis_1_1content_1_1_timeout_guard_1a2b247c5e2ed734a77393a13452073be3" kindref="member">elapsed</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_content_validator" kindref="compound">ContentValidator</ref>&amp;<sp/>validator_;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>operation_type_;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>start_time_;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>content</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/content/content_validator.h"/>
+  </compounddef>
+</doxygen>

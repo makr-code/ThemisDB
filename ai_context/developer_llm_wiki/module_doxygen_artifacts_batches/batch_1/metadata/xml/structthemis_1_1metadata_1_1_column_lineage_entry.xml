@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1metadata_1_1_column_lineage_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::metadata::ColumnLineageEntry</compoundname>
+    <includes refid="column__lineage_8h" local="no">column_lineage.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1metadata_1_1_column_lineage_entry_1adb0537124de51f9bbe5c143f1ea780ef" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::metadata::ColumnLineageEntry::entry_id</definition>
+        <argsstring></argsstring>
+        <name>entry_id</name>
+        <qualifiedname>themis::metadata::ColumnLineageEntry::entry_id</qualifiedname>
+        <briefdescription>
+<para>Unique identifier (auto-assigned if empty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="92" column="17" bodyfile="include/metadata/column_lineage.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1metadata_1_1_column_lineage_entry_1a68b111aa73f69cfe18a9a27756a0dee9" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1metadata_1_1_column_ref" kindref="compound">ColumnRef</ref></type>
+        <definition>ColumnRef themis::metadata::ColumnLineageEntry::target_column</definition>
+        <argsstring></argsstring>
+        <name>target_column</name>
+        <qualifiedname>themis::metadata::ColumnLineageEntry::target_column</qualifiedname>
+        <briefdescription>
+<para>The column that was produced. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="93" column="15" bodyfile="include/metadata/column_lineage.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1metadata_1_1_column_lineage_entry_1a9b8afc33bae00c6ffdf24aa83eefcecb" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1metadata_1_1_column_ref" kindref="compound">ColumnRef</ref> &gt;</type>
+        <definition>std::vector&lt;ColumnRef&gt; themis::metadata::ColumnLineageEntry::source_columns</definition>
+        <argsstring></argsstring>
+        <name>source_columns</name>
+        <qualifiedname>themis::metadata::ColumnLineageEntry::source_columns</qualifiedname>
+        <briefdescription>
+<para>Contributing source columns (may be empty for root columns). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="94" column="17" bodyfile="include/metadata/column_lineage.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1metadata_1_1_column_lineage_entry_1a6d5e12f2541a8695ada0b2e858c7dd2b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1metadata_1aae7ca3e7a55cd13ba52c35097bc8b085" kindref="member">TransformationType</ref></type>
+        <definition>TransformationType themis::metadata::ColumnLineageEntry::transformation</definition>
+        <argsstring></argsstring>
+        <name>transformation</name>
+        <qualifiedname>themis::metadata::ColumnLineageEntry::transformation</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1metadata_1aae7ca3e7a55cd13ba52c35097bc8b085a869f7a49d94bf28c279b78d4f8cffce3" kindref="member">TransformationType::DIRECT_COPY</ref>}</initializer>
+        <briefdescription>
+<para>How target was derived. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="95" column="24" bodyfile="include/metadata/column_lineage.h" bodystart="95" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1metadata_1_1_column_lineage_entry_1a81fce6000afef979840fa55fe07bbda7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::metadata::ColumnLineageEntry::transformation_expression</definition>
+        <argsstring></argsstring>
+        <name>transformation_expression</name>
+        <qualifiedname>themis::metadata::ColumnLineageEntry::transformation_expression</qualifiedname>
+        <briefdescription>
+<para>Optional expression detail, e.g. &quot;first_name || &apos; &apos; || last_name&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="96" column="17" bodyfile="include/metadata/column_lineage.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1metadata_1_1_column_lineage_entry_1a511f09e716a281889676f71961a15eb2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::metadata::ColumnLineageEntry::performed_by</definition>
+        <argsstring></argsstring>
+        <name>performed_by</name>
+        <qualifiedname>themis::metadata::ColumnLineageEntry::performed_by</qualifiedname>
+        <briefdescription>
+<para>User or service that performed the derivation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="97" column="17" bodyfile="include/metadata/column_lineage.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1metadata_1_1_column_lineage_entry_1a9e9ffd7c9cc15f33aeb0a59d951faf16" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::metadata::ColumnLineageEntry::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::metadata::ColumnLineageEntry::timestamp_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Unix epoch time in milliseconds (auto-assigned if 0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="98" column="13" bodyfile="include/metadata/column_lineage.h" bodystart="98" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1metadata_1_1_column_lineage_entry_1a4f84baf3c7aebf264ef8db51b98a2671" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::metadata::ColumnLineageEntry::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::metadata::ColumnLineageEntry::metadata</qualifiedname>
+        <briefdescription>
+<para>Arbitrary additional context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="99" column="20" bodyfile="include/metadata/column_lineage.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1metadata_1_1_column_lineage_entry_1afbe1d4ef1c15494e1323d34147f87774" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::metadata::ColumnLineageEntry::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::metadata::ColumnLineageEntry::toJSON</qualifiedname>
+        <briefdescription>
+<para>Serialise this lineage entry to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON representation of the recorded derivation step. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="105" column="20" bodyfile="src/metadata/column_lineage.cpp" bodystart="116" bodyend="139"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>A single derivation step recorded in the column lineage graph.</para>
+<para>Each entry describes how one target column was produced from a set of source columns, along with the transformation applied and optional expression detail. Entries are append-only: once recorded they are never modified or deleted. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::metadata::ColumnLineageEntry</label>
+        <link refid="structthemis_1_1metadata_1_1_column_lineage_entry"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>target_column</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::metadata::ColumnRef</label>
+        <link refid="structthemis_1_1metadata_1_1_column_ref"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/metadata/column_lineage.h" line="91" column="1" bodyfile="include/metadata/column_lineage.h" bodystart="91" bodyend="106"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1metadata_1_1_column_lineage_entry_1adb0537124de51f9bbe5c143f1ea780ef" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnLineageEntry</scope><name>entry_id</name></member>
+      <member refid="structthemis_1_1metadata_1_1_column_lineage_entry_1a4f84baf3c7aebf264ef8db51b98a2671" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnLineageEntry</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1metadata_1_1_column_lineage_entry_1a511f09e716a281889676f71961a15eb2" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnLineageEntry</scope><name>performed_by</name></member>
+      <member refid="structthemis_1_1metadata_1_1_column_lineage_entry_1a9b8afc33bae00c6ffdf24aa83eefcecb" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnLineageEntry</scope><name>source_columns</name></member>
+      <member refid="structthemis_1_1metadata_1_1_column_lineage_entry_1a68b111aa73f69cfe18a9a27756a0dee9" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnLineageEntry</scope><name>target_column</name></member>
+      <member refid="structthemis_1_1metadata_1_1_column_lineage_entry_1a9e9ffd7c9cc15f33aeb0a59d951faf16" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnLineageEntry</scope><name>timestamp_ms</name></member>
+      <member refid="structthemis_1_1metadata_1_1_column_lineage_entry_1afbe1d4ef1c15494e1323d34147f87774" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnLineageEntry</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1metadata_1_1_column_lineage_entry_1a6d5e12f2541a8695ada0b2e858c7dd2b" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnLineageEntry</scope><name>transformation</name></member>
+      <member refid="structthemis_1_1metadata_1_1_column_lineage_entry_1a81fce6000afef979840fa55fe07bbda7" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnLineageEntry</scope><name>transformation_expression</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

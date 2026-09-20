@@ -1,0 +1,1208 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1network_1_1_wire_protocol_server" kind="class" language="C++" prot="public">
+    <compoundname>themis::network::WireProtocolServer</compoundname>
+    <includes refid="wire__protocol__server_8h" local="no">wire_protocol_server.h</includes>
+    <innerclass refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config" prot="public">themis::network::WireProtocolServer::Config</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_stats" prot="public">themis::network::WireProtocolServer::Stats</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_cursor_entry" prot="public">themis::network::WireProtocolServer::CursorEntry</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_rate_limit_state" prot="private">themis::network::WireProtocolServer::RateLimitState</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_wire_protocol_server_1_1_session" prot="public">themis::network::WireProtocolServer::Session</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_server_1a7c973f194262f4c124b8c03c3c91a486" prot="private" static="no" mutable="no">
+        <type><ref refid="struct_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::network::WireProtocolServer::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::network::WireProtocolServer::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="492" column="12" bodyfile="include/network/wire_protocol_server.h" bodystart="492" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_server_1a6dc05f4c44a632aa77b1af8f04bf15ba" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::network::WireProtocolServer::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>themis::network::WireProtocolServer::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="495" column="21" bodyfile="include/network/wire_protocol_server.h" bodystart="495" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_server_1ade73c9aed97cee939fff572d6f93f133" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;SecondaryIndexManager&gt; themis::network::WireProtocolServer::secondary_index_</definition>
+        <argsstring></argsstring>
+        <name>secondary_index_</name>
+        <qualifiedname>themis::network::WireProtocolServer::secondary_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="496" column="21" bodyfile="include/network/wire_protocol_server.h" bodystart="496" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_server_1ac3386f5614a44d1eda36ba707c4bef26" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; GraphIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;GraphIndexManager&gt; themis::network::WireProtocolServer::graph_index_</definition>
+        <argsstring></argsstring>
+        <name>graph_index_</name>
+        <qualifiedname>themis::network::WireProtocolServer::graph_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="497" column="21" bodyfile="include/network/wire_protocol_server.h" bodystart="497" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_server_1a4579b1b3634c9b9c4bf265658b20fd42" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; VectorIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;VectorIndexManager&gt; themis::network::WireProtocolServer::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>themis::network::WireProtocolServer::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="498" column="21" bodyfile="include/network/wire_protocol_server.h" bodystart="498" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_server_1a26df9a416d83218f40a5b0c0b282f675" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; TransactionManager &gt;</type>
+        <definition>std::shared_ptr&lt;TransactionManager&gt; themis::network::WireProtocolServer::tx_manager_</definition>
+        <argsstring></argsstring>
+        <name>tx_manager_</name>
+        <qualifiedname>themis::network::WireProtocolServer::tx_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="499" column="21" bodyfile="include/network/wire_protocol_server.h" bodystart="499" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_server_1a654690dadcf12369efc9bb33ab0d6cd3" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; ProcessGraphManager &gt;</type>
+        <definition>std::shared_ptr&lt;ProcessGraphManager&gt; themis::network::WireProtocolServer::process_graph_</definition>
+        <argsstring></argsstring>
+        <name>process_graph_</name>
+        <qualifiedname>themis::network::WireProtocolServer::process_graph_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="500" column="21" bodyfile="include/network/wire_protocol_server.h" bodystart="500" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_server_1aa29b8026ddc58129ae77a857a0aad5fb" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; TSStore &gt;</type>
+        <definition>std::shared_ptr&lt;TSStore&gt; themis::network::WireProtocolServer::ts_store_</definition>
+        <argsstring></argsstring>
+        <name>ts_store_</name>
+        <qualifiedname>themis::network::WireProtocolServer::ts_store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="501" column="21" bodyfile="include/network/wire_protocol_server.h" bodystart="501" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_server_1aed4d64fe885f9791d9801e4a5298fcb9" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; ContinuousAggregateManager &gt;</type>
+        <definition>std::shared_ptr&lt;ContinuousAggregateManager&gt; themis::network::WireProtocolServer::agg_manager_</definition>
+        <argsstring></argsstring>
+        <name>agg_manager_</name>
+        <qualifiedname>themis::network::WireProtocolServer::agg_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="502" column="21" bodyfile="include/network/wire_protocol_server.h" bodystart="502" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_server_1a14c5e7333a571df22a177ec5242f58b4" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="namespacethemis_1a2fc17512a57c687fa92b431087cbecd2" kindref="member">QueryEngine</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;QueryEngine&gt; themis::network::WireProtocolServer::query_engine_</definition>
+        <argsstring></argsstring>
+        <name>query_engine_</name>
+        <qualifiedname>themis::network::WireProtocolServer::query_engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="503" column="21" bodyfile="include/network/wire_protocol_server.h" bodystart="503" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_server_1a06ba1885d3e1c6662bec0d7a15c07be7" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; index::SpatialIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;index::SpatialIndexManager&gt; themis::network::WireProtocolServer::spatial_index_</definition>
+        <argsstring></argsstring>
+        <name>spatial_index_</name>
+        <qualifiedname>themis::network::WireProtocolServer::spatial_index_</qualifiedname>
+        <briefdescription>
+<para>Optional geo-query back-end (stub #284). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="504" column="21" bodyfile="include/network/wire_protocol_server.h" bodystart="504" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_server_1ac5852fabaa18d33adb7d8dc4209126a8" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::network::WireProtocolServer::geo_query_fn_mutex_</definition>
+        <argsstring></argsstring>
+        <name>geo_query_fn_mutex_</name>
+        <qualifiedname>themis::network::WireProtocolServer::geo_query_fn_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="507" column="24" bodyfile="include/network/wire_protocol_server.h" bodystart="507" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_server_1a723fc9b4c82232b55279d6835d0d7acd" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1network_1a3466e75a13ec96551dfa89b2c7743bc6" kindref="member">GeoQueryFn</ref></type>
+        <definition>GeoQueryFn themis::network::WireProtocolServer::geo_query_fn_</definition>
+        <argsstring></argsstring>
+        <name>geo_query_fn_</name>
+        <qualifiedname>themis::network::WireProtocolServer::geo_query_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="508" column="24" bodyfile="include/network/wire_protocol_server.h" bodystart="508" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_server_1a2b33355e07edc4d8cef574c9f7f8a6dd" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::network::WireProtocolServer::cursors_mutex_</definition>
+        <argsstring></argsstring>
+        <name>cursors_mutex_</name>
+        <qualifiedname>themis::network::WireProtocolServer::cursors_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="512" column="24" bodyfile="include/network/wire_protocol_server.h" bodystart="512" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_server_1adc832d15926b10648f22eab3d8574f78" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_cursor_entry" kindref="compound">CursorEntry</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, CursorEntry&gt; themis::network::WireProtocolServer::cursors_</definition>
+        <argsstring></argsstring>
+        <name>cursors_</name>
+        <qualifiedname>themis::network::WireProtocolServer::cursors_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="513" column="24" bodyfile="include/network/wire_protocol_server.h" bodystart="513" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_server_1ab1728f06e73c1986eba0eaa67563d274" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; net::io_context &gt;</type>
+        <definition>std::unique_ptr&lt;net::io_context&gt; themis::network::WireProtocolServer::io_context_</definition>
+        <argsstring></argsstring>
+        <name>io_context_</name>
+        <qualifiedname>themis::network::WireProtocolServer::io_context_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="516" column="21" bodyfile="include/network/wire_protocol_server.h" bodystart="516" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_server_1aab7ab2dc46f29af9db788efc2a20cf6e" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; tcp::acceptor &gt;</type>
+        <definition>std::unique_ptr&lt;tcp::acceptor&gt; themis::network::WireProtocolServer::acceptor_</definition>
+        <argsstring></argsstring>
+        <name>acceptor_</name>
+        <qualifiedname>themis::network::WireProtocolServer::acceptor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="517" column="21" bodyfile="include/network/wire_protocol_server.h" bodystart="517" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_server_1a4af874e8a655467549a956bf85eb3d86" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::thread &gt;</type>
+        <definition>std::vector&lt;std::thread&gt; themis::network::WireProtocolServer::io_threads_</definition>
+        <argsstring></argsstring>
+        <name>io_threads_</name>
+        <qualifiedname>themis::network::WireProtocolServer::io_threads_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="520" column="17" bodyfile="include/network/wire_protocol_server.h" bodystart="520" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_server_1a02b79487861b0d8c2ebe6324d432dd42" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; boost::asio::thread_pool &gt;</type>
+        <definition>std::unique_ptr&lt;boost::asio::thread_pool&gt; themis::network::WireProtocolServer::worker_pool_</definition>
+        <argsstring></argsstring>
+        <name>worker_pool_</name>
+        <qualifiedname>themis::network::WireProtocolServer::worker_pool_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="521" column="21" bodyfile="include/network/wire_protocol_server.h" bodystart="521" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_server_1a69d77ee678d780c5142aca3f6f06e10b" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::network::WireProtocolServer::connections_mutex_</definition>
+        <argsstring></argsstring>
+        <name>connections_mutex_</name>
+        <qualifiedname>themis::network::WireProtocolServer::connections_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="524" column="24" bodyfile="include/network/wire_protocol_server.h" bodystart="524" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_server_1a8db1b8aa3b8d191870547fd23a902064" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, uint32_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, uint32_t&gt; themis::network::WireProtocolServer::connections_per_ip_</definition>
+        <argsstring></argsstring>
+        <name>connections_per_ip_</name>
+        <qualifiedname>themis::network::WireProtocolServer::connections_per_ip_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="525" column="24" bodyfile="include/network/wire_protocol_server.h" bodystart="525" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_server_1a66fe98c28a9a4af58379e16f897a9912" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::shared_ptr&lt; <ref refid="classthemis_1_1network_1_1_wire_protocol_server_1_1_session" kindref="compound">Session</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::shared_ptr&lt;Session&gt; &gt; themis::network::WireProtocolServer::active_sessions_</definition>
+        <argsstring></argsstring>
+        <name>active_sessions_</name>
+        <qualifiedname>themis::network::WireProtocolServer::active_sessions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="526" column="24" bodyfile="include/network/wire_protocol_server.h" bodystart="526" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_server_1a864d9556c6ed8cfdd7f561cad6145c6b" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::network::WireProtocolServer::rate_limit_mutex_</definition>
+        <argsstring></argsstring>
+        <name>rate_limit_mutex_</name>
+        <qualifiedname>themis::network::WireProtocolServer::rate_limit_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="541" column="24" bodyfile="include/network/wire_protocol_server.h" bodystart="541" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_server_1a87644dd037b66f5d9d969ef65c82d718" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, RateLimitState &gt;</type>
+        <definition>std::unordered_map&lt;std::string, RateLimitState&gt; themis::network::WireProtocolServer::rate_limits_</definition>
+        <argsstring></argsstring>
+        <name>rate_limits_</name>
+        <qualifiedname>themis::network::WireProtocolServer::rate_limits_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="542" column="24" bodyfile="include/network/wire_protocol_server.h" bodystart="542" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_server_1a1ac305aa8246f3f32f1abb27cf4ff040" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1network_1_1_qo_s_manager" kindref="compound">QoSManager</ref></type>
+        <definition>QoSManager themis::network::WireProtocolServer::qos_manager_</definition>
+        <argsstring></argsstring>
+        <name>qos_manager_</name>
+        <qualifiedname>themis::network::WireProtocolServer::qos_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="545" column="16" bodyfile="include/network/wire_protocol_server.h" bodystart="545" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_server_1a3dbaec35644c901e4fa359c8cf0800ba" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::network::WireProtocolServer::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::network::WireProtocolServer::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="548" column="17" bodyfile="include/network/wire_protocol_server.h" bodystart="548" bodyend="548"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_server_1a6af4411b18efc062ca268934f3faeb16" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::WireProtocolServer::session_id_counter_</definition>
+        <argsstring></argsstring>
+        <name>session_id_counter_</name>
+        <qualifiedname>themis::network::WireProtocolServer::session_id_counter_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="549" column="17" bodyfile="include/network/wire_protocol_server.h" bodystart="549" bodyend="549"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_server_1a699b18c639a9f253a4bf298cc608eb85" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint32_t &gt;</type>
+        <definition>std::atomic&lt;uint32_t&gt; themis::network::WireProtocolServer::active_connection_count_</definition>
+        <argsstring></argsstring>
+        <name>active_connection_count_</name>
+        <qualifiedname>themis::network::WireProtocolServer::active_connection_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="555" column="17" bodyfile="include/network/wire_protocol_server.h" bodystart="555" bodyend="555"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_server_1a0052e7a7e1f7614818dc2b2b73e8ac7f" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::network::WireProtocolServer::overloaded_</definition>
+        <argsstring></argsstring>
+        <name>overloaded_</name>
+        <qualifiedname>themis::network::WireProtocolServer::overloaded_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="559" column="17" bodyfile="include/network/wire_protocol_server.h" bodystart="559" bodyend="559"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_server_1adf2d1365672f9aee949a5ed0c4e5100b" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::network::WireProtocolServer::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themis::network::WireProtocolServer::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="562" column="24" bodyfile="include/network/wire_protocol_server.h" bodystart="562" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_server_1ab224b9b7f5b07fa285cd7f8ee0d26fe5" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::network::WireProtocolServer::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::network::WireProtocolServer::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="563" column="11" bodyfile="include/network/wire_protocol_server.h" bodystart="563" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_server_1a984f40bd6e353cd09fe20ccc73b7750e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::WireProtocolServer::WireProtocolServer</definition>
+        <argsstring>(const Config &amp;config, std::shared_ptr&lt; RocksDBWrapper &gt; storage, std::shared_ptr&lt; SecondaryIndexManager &gt; secondary_index, std::shared_ptr&lt; GraphIndexManager &gt; graph_index, std::shared_ptr&lt; VectorIndexManager &gt; vector_index, std::shared_ptr&lt; TransactionManager &gt; tx_manager, std::shared_ptr&lt; ProcessGraphManager &gt; process_graph=nullptr, std::shared_ptr&lt; TSStore &gt; ts_store=nullptr, std::shared_ptr&lt; ContinuousAggregateManager &gt; agg_manager=nullptr, std::shared_ptr&lt; QueryEngine &gt; query_engine=nullptr)</argsstring>
+        <name>WireProtocolServer</name>
+        <qualifiedname>themis::network::WireProtocolServer::WireProtocolServer</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+          <declname>storage</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; SecondaryIndexManager &gt;</type>
+          <declname>secondary_index</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; GraphIndexManager &gt;</type>
+          <declname>graph_index</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; VectorIndexManager &gt;</type>
+          <declname>vector_index</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; TransactionManager &gt;</type>
+          <declname>tx_manager</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; ProcessGraphManager &gt;</type>
+          <declname>process_graph</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; TSStore &gt;</type>
+          <declname>ts_store</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; ContinuousAggregateManager &gt;</type>
+          <declname>agg_manager</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="namespacethemis_1a2fc17512a57c687fa92b431087cbecd2" kindref="member">QueryEngine</ref> &gt;</type>
+          <declname>query_engine</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="326" column="5" bodyfile="src/network/wire_protocol_server.cpp" bodystart="382" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_server_1a34b35e5fab4ce0bc5e773dfbe1aba9d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::WireProtocolServer::~WireProtocolServer</definition>
+        <argsstring>()</argsstring>
+        <name>~WireProtocolServer</name>
+        <qualifiedname>themis::network::WireProtocolServer::~WireProtocolServer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="339" column="5" bodyfile="src/network/wire_protocol_server.cpp" bodystart="409" bodyend="411"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_server_1a360a43714e947bbb03a134e611ee8bb3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::WireProtocolServer::validateTransportSecurity</definition>
+        <argsstring>(int argc, const char *const argv[]) const</argsstring>
+        <name>validateTransportSecurity</name>
+        <qualifiedname>themis::network::WireProtocolServer::validateTransportSecurity</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>argc</declname>
+        </param>
+        <param>
+          <type>const char *const</type>
+          <declname>argv</declname>
+          <array>[]</array>
+        </param>
+        <briefdescription>
+<para>Validate transport security configuration for production. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Checks if TLS is properly configured when running in production mode.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>argc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Command-line argument count </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>argv</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Command-line arguments </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if configuration is safe, false if should exit </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="350" column="10" bodyfile="src/network/wire_protocol_server.cpp" bodystart="423" bodyend="430"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_server_1af2b67a25fba8ef7657bb424f025e63a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::WireProtocolServer::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::network::WireProtocolServer::start</qualifiedname>
+        <briefdescription>
+<para>Start server in dedicated thread pool. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start.</para>
+<para>Creates separate IO context and worker threads, isolated from HTTP server to prevent interference. Enforces transport security validation before starting. Enforces fail-closed runtime dependency checks: <ref refid="namespacethemis_1a2fc17512a57c687fa92b431087cbecd2" kindref="member">QueryEngine</ref> must be present and at least one geospatial backend (SpatialIndexManager or <ref refid="namespacethemis_1_1network_1a3466e75a13ec96551dfa89b2c7743bc6" kindref="member">GeoQueryFn</ref> bridge) must be configured.</para>
+<para>Calls: <ref refid="classthemis_1_1network_1_1_wire_protocol_server_1a360a43714e947bbb03a134e611ee8bb3" kindref="member">validateTransportSecurity()</ref>, lock(), <ref refid="namespacethemis_1_1network_1_1wire__bootstrap_1a2122a06a2598d4e2a968d1879f00a59f" kindref="member">wire_bootstrap::validateRequiredBackends()</ref>, empty(), isBlankString(), hasControlCharacters(), isAuthTokenPayloadWithinLimit(), std::any_of(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="362" column="10" bodyfile="src/network/wire_protocol_server.cpp" bodystart="436" bodyend="701"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_server_1ae60ff9d59ba91ef93a118d269445b01e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::WireProtocolServer::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::network::WireProtocolServer::stop</qualifiedname>
+        <briefdescription>
+<para>Graceful shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop.</para>
+<para>Closes all connections, waits for in-flight requests, shuts down thread pool.</para>
+<para>Calls: exchange(), empty(), is_open(), cancel(), close(), timedJoin(), clear(), <ref refid="classthemis_1_1network_1_1_wire_protocol_server_1a6c04a6abd56aebeab68209c63f34181f" kindref="member">wait()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="370" column="10" bodyfile="src/network/wire_protocol_server.cpp" bodystart="707" bodyend="734"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_server_1a6c04a6abd56aebeab68209c63f34181f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::WireProtocolServer::wait</definition>
+        <argsstring>()</argsstring>
+        <name>wait</name>
+        <qualifiedname>themis::network::WireProtocolServer::wait</qualifiedname>
+        <briefdescription>
+<para>Block until server stops. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Wait.</para>
+<para>Calls: timedJoin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="375" column="10" bodyfile="src/network/wire_protocol_server.cpp" bodystart="740" bodyend="745"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_server_1a382631971fb383ff39afe69e69336b09" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::WireProtocolServer::isRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::network::WireProtocolServer::isRunning</qualifiedname>
+        <briefdescription>
+<para>Check if running. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="380" column="10" bodyfile="include/network/wire_protocol_server.h" bodystart="380" bodyend="380"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_server_1aa3297bba2f232a62274e85667f54c781" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::network::WireProtocolServer::getActiveConnections</definition>
+        <argsstring>() const</argsstring>
+        <name>getActiveConnections</name>
+        <qualifiedname>themis::network::WireProtocolServer::getActiveConnections</qualifiedname>
+        <briefdescription>
+<para>Get active connection count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">connections_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="385" column="12" bodyfile="src/network/wire_protocol_server.cpp" bodystart="747" bodyend="759"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_server_1a80202d7923edb7df4e5528dddff8594f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>WireProtocolServer::Stats themis::network::WireProtocolServer::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::network::WireProtocolServer::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="400" column="11" bodyfile="src/network/wire_protocol_server.cpp" bodystart="761" bodyend="769"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_server_1a2b687e2f5c3788f29dbb8051b228b824" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::WireProtocolServer::registerTenantQuota</definition>
+        <argsstring>(const std::string &amp;tenant_id, uint64_t rate_bps, uint64_t burst_bytes=0)</argsstring>
+        <name>registerTenantQuota</name>
+        <qualifiedname>themis::network::WireProtocolServer::registerTenantQuota</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>rate_bps</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>burst_bytes</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Register or update an aggregate bandwidth quota for a tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>----------------------------------------------------------------------<mdash/> Per-tenant bandwidth quota management – public forwarding API ----------------------------------------------------------------------<mdash/></para>
+<para>All connections that have been assigned to this tenant via <ref refid="classthemis_1_1network_1_1_wire_protocol_server_1_1_session_1a5c6a7cec5a0e94f0b06a03780c151707" kindref="member">Session::setTenant()</ref> share a single token bucket enforcing the aggregate limit. Call this during server configuration or whenever the tenant&apos;s quota changes.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique tenant identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rate_bps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sustained aggregate bandwidth in bits per second (0 = unlimited). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>burst_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum burst in bytes (0 = auto: 1 s of sustained rate).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rate_bps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">burst_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements registerTenantQuota without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="419" column="10" bodyfile="src/network/wire_protocol_server.cpp" bodystart="779" bodyend="783"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_server_1a1b5236f920c24ff821ca3de8c74a5d4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::WireProtocolServer::setTenantQuota</definition>
+        <argsstring>(const std::string &amp;tenant_id, uint64_t rate_bps, uint64_t burst_bytes=0)</argsstring>
+        <name>setTenantQuota</name>
+        <qualifiedname>themis::network::WireProtocolServer::setTenantQuota</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>rate_bps</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>burst_bytes</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Update an existing tenant quota at runtime. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Tenant Quota.</para>
+<para>Alias for registerTenantQuota; creates the entry when absent.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rate_bps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">burst_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setTenantQuota without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="428" column="10" bodyfile="src/network/wire_protocol_server.cpp" bodystart="792" bodyend="796"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_server_1a7a25dde1340bcf515667988915c3052d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::WireProtocolServer::unregisterTenantQuota</definition>
+        <argsstring>(const std::string &amp;tenant_id)</argsstring>
+        <name>unregisterTenantQuota</name>
+        <qualifiedname>themis::network::WireProtocolServer::unregisterTenantQuota</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove the bandwidth quota for a tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Unregister Tenant Quota.</para>
+<para>Existing connections assigned to this tenant continue to work but without the aggregate quota constraint.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tenant identifier.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements unregisterTenantQuota without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="440" column="10" bodyfile="src/network/wire_protocol_server.cpp" bodystart="803" bodyend="805"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_server_1a0988166c5ab10071c521279687be2b99" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tenant_quota_stats" kindref="compound">QoSManager::TenantQuotaStats</ref></type>
+        <definition>QoSManager::TenantQuotaStats themis::network::WireProtocolServer::getTenantBandwidthStats</definition>
+        <argsstring>(const std::string &amp;tenant_id) const</argsstring>
+        <name>getTenantBandwidthStats</name>
+        <qualifiedname>themis::network::WireProtocolServer::getTenantBandwidthStats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve bandwidth statistics for a specific tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tenant identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_stats" kindref="compound">Stats</ref> snapshot; default-constructed if tenant not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="447" column="34" bodyfile="src/network/wire_protocol_server.cpp" bodystart="808" bodyend="810"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_server_1afb5c4e32024855fdc3acea7ac3fddf1a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tenant_quota_stats" kindref="compound">QoSManager::TenantQuotaStats</ref> &gt;</type>
+        <definition>std::vector&lt; QoSManager::TenantQuotaStats &gt; themis::network::WireProtocolServer::getAllTenantBandwidthStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllTenantBandwidthStats</name>
+        <qualifiedname>themis::network::WireProtocolServer::getAllTenantBandwidthStats</qualifiedname>
+        <briefdescription>
+<para>Retrieve bandwidth statistics for all registered tenants. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="453" column="17" bodyfile="src/network/wire_protocol_server.cpp" bodystart="813" bodyend="815"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_server_1a72d08d50d2093563e433ba195e38889d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::WireProtocolServer::setSpatialIndexManager</definition>
+        <argsstring>(std::shared_ptr&lt; index::SpatialIndexManager &gt; idx)</argsstring>
+        <name>setSpatialIndexManager</name>
+        <qualifiedname>themis::network::WireProtocolServer::setSpatialIndexManager</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; index::SpatialIndexManager &gt;</type>
+          <declname>idx</declname>
+        </param>
+        <briefdescription>
+<para>Inject a SpatialIndexManager for GEO_QUERY dispatch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Spatial Index Manager.</para>
+<para>When set, GEO_QUERY commands on this wire-protocol port are dispatched to the provided spatial index instead of returning GEO_NOT_INTEGRATED. The manager is accessed from multiple session threads and must be thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>idx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared spatial index manager; nullptr disables geo dispatch and restores the NOT_INTEGRATED fallback.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">idx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="465" column="10" bodyfile="src/network/wire_protocol_server.cpp" bodystart="418" bodyend="421"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_server_1ae6b5a17ff67392670143bff38699e8a1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::WireProtocolServer::doAccept</definition>
+        <argsstring>()</argsstring>
+        <name>doAccept</name>
+        <qualifiedname>themis::network::WireProtocolServer::doAccept</qualifiedname>
+        <briefdescription>
+<para>Do Accept. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), fetch_add(), tcp::socket(), async_accept(), handleAccept(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="482" column="10" bodyfile="src/network/wire_protocol_server.cpp" bodystart="941" bodyend="956"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_server_1a69eabcd9144d5470ac2115a5ded6d98a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::WireProtocolServer::handleAccept</definition>
+        <argsstring>(std::shared_ptr&lt; Session &gt; session, const boost::system::error_code &amp;error)</argsstring>
+        <name>handleAccept</name>
+        <qualifiedname>themis::network::WireProtocolServer::handleAccept</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1network_1_1_wire_protocol_server_1_1_session" kindref="compound">Session</ref> &gt;</type>
+          <declname>session</declname>
+        </param>
+        <param>
+          <type>const boost::system::error_code &amp;</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+<para>Handle Accept. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: remote_endpoint(), address(), to_string(), what(), checkConnectionLimit(), close(), exchange(), load(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="483" column="10" bodyfile="src/network/wire_protocol_server.cpp" bodystart="964" bodyend="1025"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_server_1aed6e573a0bccb53a90574b465e48f55c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::WireProtocolServer::checkConnectionLimit</definition>
+        <argsstring>(const std::string &amp;remote_ip)</argsstring>
+        <name>checkConnectionLimit</name>
+        <qualifiedname>themis::network::WireProtocolServer::checkConnectionLimit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>remote_ip</declname>
+        </param>
+        <briefdescription>
+<para>Check Connection Limit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">remote_ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: load(), lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="486" column="10" bodyfile="src/network/wire_protocol_server.cpp" bodystart="827" bodyend="839"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_server_1ac75ddf8cdcce028467d8e51510635843" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::WireProtocolServer::checkRateLimit</definition>
+        <argsstring>(const std::string &amp;remote_ip)</argsstring>
+        <name>checkRateLimit</name>
+        <qualifiedname>themis::network::WireProtocolServer::checkRateLimit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>remote_ip</declname>
+        </param>
+        <briefdescription>
+<para>Check whether a user exceeds the current rate limit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">remote_ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the user remains within the configured limit.</para>
+</simplesect>
+Calls: lock(), std::chrono::system_clock::now(), time_since_epoch(), count(), size(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="487" column="10" bodyfile="src/network/wire_protocol_server.cpp" bodystart="847" bodyend="886"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_server_1af5eeb1b2860345b73387d7bc9e2b5dd8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::WireProtocolServer::registerConnection</definition>
+        <argsstring>(const std::string &amp;remote_ip)</argsstring>
+        <name>registerConnection</name>
+        <qualifiedname>themis::network::WireProtocolServer::registerConnection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>remote_ip</declname>
+        </param>
+        <briefdescription>
+<para>Register Connection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">remote_ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="488" column="10" bodyfile="src/network/wire_protocol_server.cpp" bodystart="893" bodyend="897"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_server_1aabfb67d1990c4e9146e23c4c502103fb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::WireProtocolServer::unregisterConnection</definition>
+        <argsstring>(const std::string &amp;remote_ip)</argsstring>
+        <name>unregisterConnection</name>
+        <qualifiedname>themis::network::WireProtocolServer::unregisterConnection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>remote_ip</declname>
+        </param>
+        <briefdescription>
+<para>Unregister Connection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">remote_ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), erase(), fetch_sub(), load(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="489" column="10" bodyfile="src/network/wire_protocol_server.cpp" bodystart="904" bodyend="935"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Wire Protocol Server - Binary TCP Protocol. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Security Features:<itemizedlist>
+<listitem><para>Separate IO thread pool (isoliert vom HTTP Server)</para>
+</listitem><listitem><para>Connection limits &amp; rate limiting</para>
+</listitem><listitem><para>Authentication required (SCRAM-SHA-256)</para>
+</listitem><listitem><para>TLS/mTLS support</para>
+</listitem><listitem><para>Request size limits</para>
+</listitem><listitem><para>Timeout protection</para>
+</listitem></itemizedlist>
+</para>
+<para>Performance Features:<itemizedlist>
+<listitem><para>Dedicated thread pool (nicht shared mit HTTP)</para>
+</listitem><listitem><para>Lock-free connection management</para>
+</listitem><listitem><para>Zero-copy where possible</para>
+</listitem><listitem><para>Connection pooling </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/network/wire_protocol_server.h" line="259" column="1" bodyfile="include/network/wire_protocol_server.h" bodystart="259" bodyend="564"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1aab7ab2dc46f29af9db788efc2a20cf6e" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>acceptor_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1a699b18c639a9f253a4bf298cc608eb85" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>active_connection_count_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1a66fe98c28a9a4af58379e16f897a9912" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>active_sessions_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1aed4d64fe885f9791d9801e4a5298fcb9" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>agg_manager_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1aed6e573a0bccb53a90574b465e48f55c" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>checkConnectionLimit</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1ac75ddf8cdcce028467d8e51510635843" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>checkRateLimit</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1a7c973f194262f4c124b8c03c3c91a486" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>config_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1a69d77ee678d780c5142aca3f6f06e10b" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>connections_mutex_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1a8db1b8aa3b8d191870547fd23a902064" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>connections_per_ip_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1adc832d15926b10648f22eab3d8574f78" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>cursors_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1a2b33355e07edc4d8cef574c9f7f8a6dd" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>cursors_mutex_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1ae6b5a17ff67392670143bff38699e8a1" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>doAccept</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1a723fc9b4c82232b55279d6835d0d7acd" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>geo_query_fn_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1ac5852fabaa18d33adb7d8dc4209126a8" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>geo_query_fn_mutex_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1aa3297bba2f232a62274e85667f54c781" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>getActiveConnections</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1afb5c4e32024855fdc3acea7ac3fddf1a" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>getAllTenantBandwidthStats</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1a80202d7923edb7df4e5528dddff8594f" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1a0988166c5ab10071c521279687be2b99" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>getTenantBandwidthStats</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1ac3386f5614a44d1eda36ba707c4bef26" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>graph_index_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1a69eabcd9144d5470ac2115a5ded6d98a" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>handleAccept</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1ab1728f06e73c1986eba0eaa67563d274" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>io_context_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1a4af874e8a655467549a956bf85eb3d86" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>io_threads_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1a382631971fb383ff39afe69e69336b09" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1a0052e7a7e1f7614818dc2b2b73e8ac7f" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>overloaded_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1a654690dadcf12369efc9bb33ab0d6cd3" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>process_graph_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1a1ac305aa8246f3f32f1abb27cf4ff040" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>qos_manager_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1a14c5e7333a571df22a177ec5242f58b4" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>query_engine_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1a864d9556c6ed8cfdd7f561cad6145c6b" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>rate_limit_mutex_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1a87644dd037b66f5d9d969ef65c82d718" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>rate_limits_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1af5eeb1b2860345b73387d7bc9e2b5dd8" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>registerConnection</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1a2b687e2f5c3788f29dbb8051b228b824" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>registerTenantQuota</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1a3dbaec35644c901e4fa359c8cf0800ba" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>running_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1ade73c9aed97cee939fff572d6f93f133" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>secondary_index_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1a6af4411b18efc062ca268934f3faeb16" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>session_id_counter_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1a72d08d50d2093563e433ba195e38889d" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>setSpatialIndexManager</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1a1b5236f920c24ff821ca3de8c74a5d4e" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>setTenantQuota</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1a06ba1885d3e1c6662bec0d7a15c07be7" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>spatial_index_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1af2b67a25fba8ef7657bb424f025e63a0" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>start</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1ab224b9b7f5b07fa285cd7f8ee0d26fe5" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1adf2d1365672f9aee949a5ed0c4e5100b" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>stats_mutex_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1ae60ff9d59ba91ef93a118d269445b01e" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>stop</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1a6dc05f4c44a632aa77b1af8f04bf15ba" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>storage_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1aa29b8026ddc58129ae77a857a0aad5fb" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>ts_store_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1a26df9a416d83218f40a5b0c0b282f675" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>tx_manager_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1aabfb67d1990c4e9146e23c4c502103fb" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>unregisterConnection</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1a7a25dde1340bcf515667988915c3052d" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>unregisterTenantQuota</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1a360a43714e947bbb03a134e611ee8bb3" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>validateTransportSecurity</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1a4579b1b3634c9b9c4bf265658b20fd42" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>vector_index_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1a6c04a6abd56aebeab68209c63f34181f" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>wait</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1a984f40bd6e353cd09fe20ccc73b7750e" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>WireProtocolServer</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1a02b79487861b0d8c2ebe6324d432dd42" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>worker_pool_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_server_1a34b35e5fab4ce0bc5e773dfbe1aba9d3" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolServer</scope><name>~WireProtocolServer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

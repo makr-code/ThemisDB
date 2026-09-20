@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_evaluation_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::EvaluationMetrics</compoundname>
+    <includes refid="prompt__evaluator_8h" local="no">prompt_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_evaluation_metrics_1acc2c19c1875736f0d1039f0e239f97e9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::EvaluationMetrics::semantic_similarity</definition>
+        <argsstring></argsstring>
+        <name>semantic_similarity</name>
+        <qualifiedname>themis::prompt_engineering::EvaluationMetrics::semantic_similarity</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Semantic similarity score (0.0-1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_evaluator.h" line="53" column="12" bodyfile="include/prompt_engineering/prompt_evaluator.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_evaluation_metrics_1abedeb0b729fc5f93fa730646edb58758" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::EvaluationMetrics::exact_match</definition>
+        <argsstring></argsstring>
+        <name>exact_match</name>
+        <qualifiedname>themis::prompt_engineering::EvaluationMetrics::exact_match</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Exact match score (0.0 or 1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_evaluator.h" line="54" column="12" bodyfile="include/prompt_engineering/prompt_evaluator.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_evaluation_metrics_1aae21ff4c92fb529ff231b589876e0033" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::EvaluationMetrics::partial_match</definition>
+        <argsstring></argsstring>
+        <name>partial_match</name>
+        <qualifiedname>themis::prompt_engineering::EvaluationMetrics::partial_match</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Partial match score (0.0-1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_evaluator.h" line="55" column="12" bodyfile="include/prompt_engineering/prompt_evaluator.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_evaluation_metrics_1a2fef6916c265acc6685c9ebf182f8ac4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::EvaluationMetrics::relevance</definition>
+        <argsstring></argsstring>
+        <name>relevance</name>
+        <qualifiedname>themis::prompt_engineering::EvaluationMetrics::relevance</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Relevance score (0.0-1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_evaluator.h" line="56" column="12" bodyfile="include/prompt_engineering/prompt_evaluator.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_evaluation_metrics_1a7fb2a6882bfc6072e1516a244c0c7acb" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::prompt_engineering::EvaluationMetrics::details</definition>
+        <argsstring></argsstring>
+        <name>details</name>
+        <qualifiedname>themis::prompt_engineering::EvaluationMetrics::details</qualifiedname>
+        <briefdescription>
+<para>Additional metric details. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_evaluator.h" line="57" column="20" bodyfile="include/prompt_engineering/prompt_evaluator.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Evaluation metrics for a single test case. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_evaluator.h" line="52" column="1" bodyfile="include/prompt_engineering/prompt_evaluator.h" bodystart="52" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_evaluation_metrics_1a7fb2a6882bfc6072e1516a244c0c7acb" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::EvaluationMetrics</scope><name>details</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_evaluation_metrics_1abedeb0b729fc5f93fa730646edb58758" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::EvaluationMetrics</scope><name>exact_match</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_evaluation_metrics_1aae21ff4c92fb529ff231b589876e0033" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::EvaluationMetrics</scope><name>partial_match</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_evaluation_metrics_1a2fef6916c265acc6685c9ebf182f8ac4" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::EvaluationMetrics</scope><name>relevance</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_evaluation_metrics_1acc2c19c1875736f0d1039f0e239f97e9" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::EvaluationMetrics</scope><name>semantic_similarity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_download_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::DownloadResult</compoundname>
+    <includes refid="parallel__downloader_8h" local="no">parallel_downloader.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_download_result_1a63d53927d5b05bc4a3e6a694afc1bf91" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1updates_1_1_download_task" kindref="compound">DownloadTask</ref></type>
+        <definition>DownloadTask themis::updates::DownloadResult::task</definition>
+        <argsstring></argsstring>
+        <name>task</name>
+        <qualifiedname>themis::updates::DownloadResult::task</qualifiedname>
+        <briefdescription>
+<para>Original task (for correlation). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="67" column="18" bodyfile="include/updates/parallel_downloader.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_download_result_1afe01d725bdde7eee795f65c0e18c06a1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::DownloadResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::updates::DownloadResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True if the file was downloaded and (if requested) hash-verified. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="70" column="10" bodyfile="include/updates/parallel_downloader.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_download_result_1af2030c3823641e4a1d2c887d930d16da" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::DownloadResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::updates::DownloadResult::error_message</qualifiedname>
+        <briefdescription>
+<para>Human-readable error description when success == false. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="73" column="17" bodyfile="include/updates/parallel_downloader.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_download_result_1a0dfc9d439abafdfe0ea2811743c70422" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::updates::DownloadResult::bytes_downloaded</definition>
+        <argsstring></argsstring>
+        <name>bytes_downloaded</name>
+        <qualifiedname>themis::updates::DownloadResult::bytes_downloaded</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of bytes written in this session (excludes previously-resumed bytes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="76" column="14" bodyfile="include/updates/parallel_downloader.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_download_result_1a064bde7f8da3f1e100068da43e9676c7" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::updates::DownloadResult::total_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_bytes</name>
+        <qualifiedname>themis::updates::DownloadResult::total_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total file size as reported by Content-Length (0 if unknown). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="79" column="14" bodyfile="include/updates/parallel_downloader.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_download_result_1aaaf4abd0e1031855ea0c620cf084de73" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::updates::DownloadResult::duration</definition>
+        <argsstring></argsstring>
+        <name>duration</name>
+        <qualifiedname>themis::updates::DownloadResult::duration</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Wall-clock duration of this download. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="82" column="31" bodyfile="include/updates/parallel_downloader.h" bodystart="82" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_download_result_1a1dddfa6d9feb32546770a85214703464" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::updates::DownloadResult::retries_used</definition>
+        <argsstring></argsstring>
+        <name>retries_used</name>
+        <qualifiedname>themis::updates::DownloadResult::retries_used</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of retry attempts consumed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="85" column="9" bodyfile="include/updates/parallel_downloader.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_download_result_1a4ef9fe8e3b2376f785cc9f9ed38626b2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::DownloadResult::was_resumed</definition>
+        <argsstring></argsstring>
+        <name>was_resumed</name>
+        <qualifiedname>themis::updates::DownloadResult::was_resumed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True if the download was resumed from a partial file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/parallel_downloader.h" line="88" column="10" bodyfile="include/updates/parallel_downloader.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a single <ref refid="structthemis_1_1updates_1_1_download_task" kindref="compound">DownloadTask</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::updates::DownloadResult</label>
+        <link refid="structthemis_1_1updates_1_1_download_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>task</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::updates::DownloadTask</label>
+        <link refid="structthemis_1_1updates_1_1_download_task"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/updates/parallel_downloader.h" line="65" column="1" bodyfile="include/updates/parallel_downloader.h" bodystart="65" bodyend="89"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_download_result_1a0dfc9d439abafdfe0ea2811743c70422" prot="public" virt="non-virtual"><scope>themis::updates::DownloadResult</scope><name>bytes_downloaded</name></member>
+      <member refid="structthemis_1_1updates_1_1_download_result_1aaaf4abd0e1031855ea0c620cf084de73" prot="public" virt="non-virtual"><scope>themis::updates::DownloadResult</scope><name>duration</name></member>
+      <member refid="structthemis_1_1updates_1_1_download_result_1af2030c3823641e4a1d2c887d930d16da" prot="public" virt="non-virtual"><scope>themis::updates::DownloadResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1updates_1_1_download_result_1a1dddfa6d9feb32546770a85214703464" prot="public" virt="non-virtual"><scope>themis::updates::DownloadResult</scope><name>retries_used</name></member>
+      <member refid="structthemis_1_1updates_1_1_download_result_1afe01d725bdde7eee795f65c0e18c06a1" prot="public" virt="non-virtual"><scope>themis::updates::DownloadResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1updates_1_1_download_result_1a63d53927d5b05bc4a3e6a694afc1bf91" prot="public" virt="non-virtual"><scope>themis::updates::DownloadResult</scope><name>task</name></member>
+      <member refid="structthemis_1_1updates_1_1_download_result_1a064bde7f8da3f1e100068da43e9676c7" prot="public" virt="non-virtual"><scope>themis::updates::DownloadResult</scope><name>total_bytes</name></member>
+      <member refid="structthemis_1_1updates_1_1_download_result_1a4ef9fe8e3b2376f785cc9f9ed38626b2" prot="public" virt="non-virtual"><scope>themis::updates::DownloadResult</scope><name>was_resumed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

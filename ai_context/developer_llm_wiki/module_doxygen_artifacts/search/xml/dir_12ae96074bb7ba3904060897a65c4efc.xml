@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_12ae96074bb7ba3904060897a65c4efc" kind="dir">
+    <compoundname>benchmarks/search</compoundname>
+    <innerfile refid="bench__advanced__scenarios_8cpp">bench_advanced_scenarios.cpp</innerfile>
+    <innerfile refid="bench__approximate__radius__search_8cpp">bench_approximate_radius_search.cpp</innerfile>
+    <innerfile refid="bench__distributed__merge__gates_8cpp">bench_distributed_merge_gates.cpp</innerfile>
+    <innerfile refid="bench__hybrid__fusion__gates_8cpp">bench_hybrid_fusion_gates.cpp</innerfile>
+    <innerfile refid="bench__layered__retrieval__phase5_8cpp">bench_layered_retrieval_phase5.cpp</innerfile>
+    <innerfile refid="bench__search__dedicated__gates_8cpp">bench_search_dedicated_gates.cpp</innerfile>
+    <innerfile refid="bench__search__release__gates_8cpp">bench_search_release_gates.cpp</innerfile>
+    <innerfile refid="bench__vector__search__gates_8cpp">bench_vector_search_gates.cpp</innerfile>
+    <innerfile refid="benchmark__distributed__hybrid__search_8cpp">benchmark_distributed_hybrid_search.cpp</innerfile>
+    <innerfile refid="benchmark__hybrid__search_8cpp">benchmark_hybrid_search.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/search/"/>
+  </compounddef>
+</doxygen>

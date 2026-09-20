@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_process_model_manager_1_1_transaction_guard" kind="class" language="C++" prot="private">
+    <compoundname>themis::process::ProcessModelManager::TransactionGuard</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_process_model_manager_1_1_transaction_guard_1ad11d6120aec71585d8fe82f6446f850e" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1process_1_1_process_model_manager_1a7f3f3f6837b18319a3e39369ad2324df" kindref="member">ProcessModelManager</ref> &amp;</type>
+        <definition>ProcessModelManager&amp; themis::process::ProcessModelManager::TransactionGuard::manager_</definition>
+        <argsstring></argsstring>
+        <name>manager_</name>
+        <qualifiedname>themis::process::ProcessModelManager::TransactionGuard::manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="504" column="29" bodyfile="include/process/process_model_manager.h" bodystart="504" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_process_model_manager_1_1_transaction_guard_1afd8487b785e5fbdc26969baa324ae282" prot="private" static="no" mutable="no">
+        <type>TransactionContext</type>
+        <definition>TransactionContext themis::process::ProcessModelManager::TransactionGuard::context_</definition>
+        <argsstring></argsstring>
+        <name>context_</name>
+        <qualifiedname>themis::process::ProcessModelManager::TransactionGuard::context_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="505" column="28" bodyfile="include/process/process_model_manager.h" bodystart="505" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_process_model_manager_1_1_transaction_guard_1a7e0413bd94f752de6bd06a50fbe3f868" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::ProcessModelManager::TransactionGuard::failed_</definition>
+        <argsstring></argsstring>
+        <name>failed_</name>
+        <qualifiedname>themis::process::ProcessModelManager::TransactionGuard::failed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="506" column="14" bodyfile="include/process/process_model_manager.h" bodystart="506" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_manager_1_1_transaction_guard_1a9c26f40ec482c2a32d3b1e6e0da96e9a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::ProcessModelManager::TransactionGuard::TransactionGuard</definition>
+        <argsstring>(ProcessModelManager &amp;mgr, const TransactionContext &amp;ctx)</argsstring>
+        <name>TransactionGuard</name>
+        <qualifiedname>themis::process::ProcessModelManager::TransactionGuard::TransactionGuard</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1process_1_1_process_model_manager_1a7f3f3f6837b18319a3e39369ad2324df" kindref="member">ProcessModelManager</ref> &amp;</type>
+          <declname>mgr</declname>
+        </param>
+        <param>
+          <type>const TransactionContext &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="492" column="9" bodyfile="include/process/process_model_manager.h" bodystart="492" bodyend="493"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_manager_1_1_transaction_guard_1a2ebdda3890bf7197a4cc74a05c39c03d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::ProcessModelManager::TransactionGuard::~TransactionGuard</definition>
+        <argsstring>()</argsstring>
+        <name>~TransactionGuard</name>
+        <qualifiedname>themis::process::ProcessModelManager::TransactionGuard::~TransactionGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="494" column="9" bodyfile="src/process/process_model_manager.cpp" bodystart="1310" bodyend="1314"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_manager_1_1_transaction_guard_1a65fbbe53afc5b2904c7da09421017d82" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::ProcessModelManager::TransactionGuard::markFailed</definition>
+        <argsstring>()</argsstring>
+        <name>markFailed</name>
+        <qualifiedname>themis::process::ProcessModelManager::TransactionGuard::markFailed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="496" column="14" bodyfile="include/process/process_model_manager.h" bodystart="496" bodyend="496"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_manager_1_1_transaction_guard_1adc5b46f2b58f8adddb54a7cdb95feac9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const TransactionContext &amp;</type>
+        <definition>const TransactionContext &amp; themis::process::ProcessModelManager::TransactionGuard::getContext</definition>
+        <argsstring>() const</argsstring>
+        <name>getContext</name>
+        <qualifiedname>themis::process::ProcessModelManager::TransactionGuard::getContext</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="497" column="34" bodyfile="include/process/process_model_manager.h" bodystart="497" bodyend="497"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_manager_1_1_transaction_guard_1a60c1645e0118208dcb75a5e0a19b767b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::ProcessModelManager::TransactionGuard::TransactionGuard</definition>
+        <argsstring>(const TransactionGuard &amp;)=delete</argsstring>
+        <name>TransactionGuard</name>
+        <qualifiedname>themis::process::ProcessModelManager::TransactionGuard::TransactionGuard</qualifiedname>
+        <param>
+          <type>const TransactionGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="500" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_manager_1_1_transaction_guard_1a743c2693d3abded059aeb089e16ea9ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>TransactionGuard &amp;</type>
+        <definition>TransactionGuard &amp; themis::process::ProcessModelManager::TransactionGuard::operator=</definition>
+        <argsstring>(const TransactionGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::process::ProcessModelManager::TransactionGuard::operator=</qualifiedname>
+        <param>
+          <type>const TransactionGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="501" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Guard for maintaining transaction semantics during concurrent operations. Implements RAII-style automatic rollback on destruction if marked failed. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/process_model_manager.h" line="490" column="5" bodyfile="include/process/process_model_manager.h" bodystart="490" bodyend="507"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1_1_transaction_guard_1afd8487b785e5fbdc26969baa324ae282" prot="private" virt="non-virtual"><scope>themis::process::ProcessModelManager::TransactionGuard</scope><name>context_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1_1_transaction_guard_1a7e0413bd94f752de6bd06a50fbe3f868" prot="private" virt="non-virtual"><scope>themis::process::ProcessModelManager::TransactionGuard</scope><name>failed_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1_1_transaction_guard_1adc5b46f2b58f8adddb54a7cdb95feac9" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManager::TransactionGuard</scope><name>getContext</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1_1_transaction_guard_1ad11d6120aec71585d8fe82f6446f850e" prot="private" virt="non-virtual"><scope>themis::process::ProcessModelManager::TransactionGuard</scope><name>manager_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1_1_transaction_guard_1a65fbbe53afc5b2904c7da09421017d82" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManager::TransactionGuard</scope><name>markFailed</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1_1_transaction_guard_1a743c2693d3abded059aeb089e16ea9ba" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManager::TransactionGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1_1_transaction_guard_1a9c26f40ec482c2a32d3b1e6e0da96e9a" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManager::TransactionGuard</scope><name>TransactionGuard</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1_1_transaction_guard_1a60c1645e0118208dcb75a5e0a19b767b" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManager::TransactionGuard</scope><name>TransactionGuard</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_manager_1_1_transaction_guard_1a2ebdda3890bf7197a4cc74a05c39c03d" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelManager::TransactionGuard</scope><name>~TransactionGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

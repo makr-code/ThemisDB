@@ -1,0 +1,309 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_spatial_histogram" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::SpatialHistogram</compoundname>
+    <includes refid="geospatial__cost__model_8h" local="no">geospatial_cost_model.h</includes>
+    <innerclass refid="structthemis_1_1query_1_1_spatial_histogram_1_1_grid_cell" prot="public">themis::query::SpatialHistogram::GridCell</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_spatial_histogram_1aedccff6d224563cb37293a46ef16c863" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::SpatialHistogram::columnName</definition>
+        <argsstring></argsstring>
+        <name>columnName</name>
+        <qualifiedname>themis::query::SpatialHistogram::columnName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_cost_model.h" line="35" column="17" bodyfile="include/query/geospatial_cost_model.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_spatial_histogram_1a2b780d06dd48dfcc0a9b6fb17790df43" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_spatial_histogram_1_1_grid_cell" kindref="compound">GridCell</ref> &gt;</type>
+        <definition>std::vector&lt;GridCell&gt; themis::query::SpatialHistogram::grid</definition>
+        <argsstring></argsstring>
+        <name>grid</name>
+        <qualifiedname>themis::query::SpatialHistogram::grid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_cost_model.h" line="36" column="17" bodyfile="include/query/geospatial_cost_model.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_spatial_histogram_1a48274d7d0873ad123c1e5527f7d1603f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::SpatialHistogram::totalPoints</definition>
+        <argsstring></argsstring>
+        <name>totalPoints</name>
+        <qualifiedname>themis::query::SpatialHistogram::totalPoints</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_cost_model.h" line="37" column="12" bodyfile="include/query/geospatial_cost_model.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_spatial_histogram_1a4ce02f1acaa6c6665a40d4430b04387f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::SpatialHistogram::globalMinLon</definition>
+        <argsstring></argsstring>
+        <name>globalMinLon</name>
+        <qualifiedname>themis::query::SpatialHistogram::globalMinLon</qualifiedname>
+        <initializer>= 180.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_cost_model.h" line="40" column="12" bodyfile="include/query/geospatial_cost_model.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_spatial_histogram_1ace13a2a06b0a05e11af5f6aecc281ff0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::SpatialHistogram::globalMaxLon</definition>
+        <argsstring></argsstring>
+        <name>globalMaxLon</name>
+        <qualifiedname>themis::query::SpatialHistogram::globalMaxLon</qualifiedname>
+        <initializer>= -180.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_cost_model.h" line="40" column="26" bodyfile="include/query/geospatial_cost_model.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_spatial_histogram_1ac89952a17ac418104bef274c41782d8d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::SpatialHistogram::globalMinLat</definition>
+        <argsstring></argsstring>
+        <name>globalMinLat</name>
+        <qualifiedname>themis::query::SpatialHistogram::globalMinLat</qualifiedname>
+        <initializer>= 90.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_cost_model.h" line="41" column="12" bodyfile="include/query/geospatial_cost_model.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_spatial_histogram_1a047a3b36d16826d4a9cde30a1ce3dc1b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::SpatialHistogram::globalMaxLat</definition>
+        <argsstring></argsstring>
+        <name>globalMaxLat</name>
+        <qualifiedname>themis::query::SpatialHistogram::globalMaxLat</qualifiedname>
+        <initializer>= -90.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_cost_model.h" line="41" column="26" bodyfile="include/query/geospatial_cost_model.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_spatial_histogram_1a0d864fe5e02ef4c6a36b157d7a8eeed1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1query_1_1_spatial_histogram_1_1_grid_cell" kindref="compound">GridCell</ref> *</type>
+        <definition>const SpatialHistogram::GridCell * themis::query::SpatialHistogram::getCellForPoint</definition>
+        <argsstring>(double lon, double lat) const</argsstring>
+        <name>getCellForPoint</name>
+        <qualifiedname>themis::query::SpatialHistogram::getCellForPoint</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>lon</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lat</declname>
+        </param>
+        <briefdescription>
+<para>Get Cell For Point. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lat</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_cost_model.h" line="49" column="20" bodyfile="src/query/geospatial_cost_model.cpp" bodystart="24" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_spatial_histogram_1ad74a8e368ab2af8ce2d4988025f4ff8e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::query::SpatialHistogram::estimatePointsInBox</definition>
+        <argsstring>(double minLon, double maxLon, double minLat, double maxLat) const</argsstring>
+        <name>estimatePointsInBox</name>
+        <qualifiedname>themis::query::SpatialHistogram::estimatePointsInBox</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>minLon</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>maxLon</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>minLat</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>maxLat</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Points In Box. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">minLon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">maxLon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">minLat</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">maxLat</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_cost_model.h" line="59" column="12" bodyfile="src/query/geospatial_cost_model.cpp" bodystart="40" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_spatial_histogram_1ae560a64672c625b9fb1cad3580357407" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::SpatialHistogram::estimateSpatialSelectivity</definition>
+        <argsstring>(double minLon, double maxLon, double minLat, double maxLat) const</argsstring>
+        <name>estimateSpatialSelectivity</name>
+        <qualifiedname>themis::query::SpatialHistogram::estimateSpatialSelectivity</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>minLon</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>maxLon</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>minLat</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>maxLat</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Spatial Selectivity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">minLon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">maxLon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">minLat</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">maxLat</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_cost_model.h" line="70" column="12" bodyfile="src/query/geospatial_cost_model.cpp" bodystart="80" bodyend="90"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/geospatial_cost_model.h" line="27" column="1" bodyfile="include/query/geospatial_cost_model.h" bodystart="27" bodyend="72"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_spatial_histogram_1aedccff6d224563cb37293a46ef16c863" prot="public" virt="non-virtual"><scope>themis::query::SpatialHistogram</scope><name>columnName</name></member>
+      <member refid="structthemis_1_1query_1_1_spatial_histogram_1ad74a8e368ab2af8ce2d4988025f4ff8e" prot="public" virt="non-virtual"><scope>themis::query::SpatialHistogram</scope><name>estimatePointsInBox</name></member>
+      <member refid="structthemis_1_1query_1_1_spatial_histogram_1ae560a64672c625b9fb1cad3580357407" prot="public" virt="non-virtual"><scope>themis::query::SpatialHistogram</scope><name>estimateSpatialSelectivity</name></member>
+      <member refid="structthemis_1_1query_1_1_spatial_histogram_1a0d864fe5e02ef4c6a36b157d7a8eeed1" prot="public" virt="non-virtual"><scope>themis::query::SpatialHistogram</scope><name>getCellForPoint</name></member>
+      <member refid="structthemis_1_1query_1_1_spatial_histogram_1a047a3b36d16826d4a9cde30a1ce3dc1b" prot="public" virt="non-virtual"><scope>themis::query::SpatialHistogram</scope><name>globalMaxLat</name></member>
+      <member refid="structthemis_1_1query_1_1_spatial_histogram_1ace13a2a06b0a05e11af5f6aecc281ff0" prot="public" virt="non-virtual"><scope>themis::query::SpatialHistogram</scope><name>globalMaxLon</name></member>
+      <member refid="structthemis_1_1query_1_1_spatial_histogram_1ac89952a17ac418104bef274c41782d8d" prot="public" virt="non-virtual"><scope>themis::query::SpatialHistogram</scope><name>globalMinLat</name></member>
+      <member refid="structthemis_1_1query_1_1_spatial_histogram_1a4ce02f1acaa6c6665a40d4430b04387f" prot="public" virt="non-virtual"><scope>themis::query::SpatialHistogram</scope><name>globalMinLon</name></member>
+      <member refid="structthemis_1_1query_1_1_spatial_histogram_1a2b780d06dd48dfcc0a9b6fb17790df43" prot="public" virt="non-virtual"><scope>themis::query::SpatialHistogram</scope><name>grid</name></member>
+      <member refid="structthemis_1_1query_1_1_spatial_histogram_1a48274d7d0873ad123c1e5527f7d1603f" prot="public" virt="non-virtual"><scope>themis::query::SpatialHistogram</scope><name>totalPoints</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

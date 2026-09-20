@@ -1,0 +1,190 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_outbox_test" kind="class" language="C++" prot="public">
+    <compoundname>OutboxTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_outbox_test_1a5d6f280fa4ee522344337392af90029c" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string OutboxTest::test_db_path_</definition>
+        <argsstring></argsstring>
+        <name>test_db_path_</name>
+        <qualifiedname>OutboxTest::test_db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_outbox.cpp" line="79" column="36" bodyfile="tests/cdc/test_cdc_outbox.cpp" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_outbox_test_1ad4aceb391275648b58188418bfb31a52" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; OutboxTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>OutboxTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_outbox.cpp" line="80" column="21" bodyfile="tests/cdc/test_cdc_outbox.cpp" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_outbox_test_1a4790f5f141b315ef778908a04ff3eeaa" prot="protected" static="no" mutable="no">
+        <type>rocksdb::TransactionDB *</type>
+        <definition>rocksdb::TransactionDB* OutboxTest::raw_db_</definition>
+        <argsstring></argsstring>
+        <name>raw_db_</name>
+        <qualifiedname>OutboxTest::raw_db_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_outbox.cpp" line="81" column="36" bodyfile="tests/cdc/test_cdc_outbox.cpp" bodystart="81" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_outbox_test_1a6323834ad0c968343d11e5f485410645" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_changefeed" kindref="compound">Changefeed</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Changefeed&gt; OutboxTest::changefeed_</definition>
+        <argsstring></argsstring>
+        <name>changefeed_</name>
+        <qualifiedname>OutboxTest::changefeed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_outbox.cpp" line="82" column="25" bodyfile="tests/cdc/test_cdc_outbox.cpp" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_outbox_test_1afe4d8821429ebbe0e43a3fe6d8addba7" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1cdc_1_1_outbox_writer" kindref="compound">OutboxWriter</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;OutboxWriter&gt; OutboxTest::writer_</definition>
+        <argsstring></argsstring>
+        <name>writer_</name>
+        <qualifiedname>OutboxTest::writer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_outbox.cpp" line="83" column="23" bodyfile="tests/cdc/test_cdc_outbox.cpp" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_outbox_test_1a63e448625aca7f3a6d2185e2324945db" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1cdc_1_1_outbox_relay" kindref="compound">OutboxRelay</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;OutboxRelay&gt; OutboxTest::relay_</definition>
+        <argsstring></argsstring>
+        <name>relay_</name>
+        <qualifiedname>OutboxTest::relay_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_outbox.cpp" line="84" column="24" bodyfile="tests/cdc/test_cdc_outbox.cpp" bodystart="84" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_outbox_test_1a9b344314ed7840ce223b22d8adc54743" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void OutboxTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>OutboxTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_outbox.cpp" line="24" column="10" bodyfile="tests/cdc/test_cdc_outbox.cpp" bodystart="24" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="class_outbox_test_1a5ee6ec1e16af21146fa5e37b8adefaf9" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void OutboxTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>OutboxTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_outbox.cpp" line="55" column="10" bodyfile="tests/cdc/test_cdc_outbox.cpp" bodystart="55" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="class_outbox_test_1af81e46d7d116bfc53b6dc83cf8ea0c89" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1cdc_1_1_outbox_record" kindref="compound">OutboxRecord</ref></type>
+        <definition>OutboxRecord OutboxTest::makeRecord</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;collection=&quot;orders&quot;, const std::string &amp;value=&quot;{}&quot;)</argsstring>
+        <name>makeRecord</name>
+        <qualifiedname>OutboxTest::makeRecord</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+          <defval>&quot;orders&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+          <defval>&quot;{}&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_outbox.cpp" line="68" column="18" bodyfile="tests/cdc/test_cdc_outbox.cpp" bodystart="68" bodyend="77"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>OutboxTest</label>
+        <link refid="class_outbox_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>OutboxTest</label>
+        <link refid="class_outbox_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cdc/test_cdc_outbox.cpp" line="22" column="1" bodyfile="tests/cdc/test_cdc_outbox.cpp" bodystart="22" bodyend="85"/>
+    <listofallmembers>
+      <member refid="class_outbox_test_1a6323834ad0c968343d11e5f485410645" prot="protected" virt="non-virtual"><scope>OutboxTest</scope><name>changefeed_</name></member>
+      <member refid="class_outbox_test_1ad4aceb391275648b58188418bfb31a52" prot="protected" virt="non-virtual"><scope>OutboxTest</scope><name>db_</name></member>
+      <member refid="class_outbox_test_1af81e46d7d116bfc53b6dc83cf8ea0c89" prot="protected" virt="non-virtual"><scope>OutboxTest</scope><name>makeRecord</name></member>
+      <member refid="class_outbox_test_1a4790f5f141b315ef778908a04ff3eeaa" prot="protected" virt="non-virtual"><scope>OutboxTest</scope><name>raw_db_</name></member>
+      <member refid="class_outbox_test_1a63e448625aca7f3a6d2185e2324945db" prot="protected" virt="non-virtual"><scope>OutboxTest</scope><name>relay_</name></member>
+      <member refid="class_outbox_test_1a9b344314ed7840ce223b22d8adc54743" prot="protected" virt="non-virtual"><scope>OutboxTest</scope><name>SetUp</name></member>
+      <member refid="class_outbox_test_1a5ee6ec1e16af21146fa5e37b8adefaf9" prot="protected" virt="non-virtual"><scope>OutboxTest</scope><name>TearDown</name></member>
+      <member refid="class_outbox_test_1a5d6f280fa4ee522344337392af90029c" prot="protected" virt="non-virtual"><scope>OutboxTest</scope><name>test_db_path_</name></member>
+      <member refid="class_outbox_test_1afe4d8821429ebbe0e43a3fe6d8addba7" prot="protected" virt="non-virtual"><scope>OutboxTest</scope><name>writer_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

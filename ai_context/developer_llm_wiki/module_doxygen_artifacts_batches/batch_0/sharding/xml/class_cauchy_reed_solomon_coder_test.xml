@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_cauchy_reed_solomon_coder_test" kind="class" language="C++" prot="public">
+    <compoundname>CauchyReedSolomonCoderTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_cauchy_reed_solomon_coder_test_1aab1d1dd6a7502881b45ece4ffbf7b4de" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_cauchy_reed_solomon_coder" kindref="compound">CauchyReedSolomonCoder</ref></type>
+        <definition>CauchyReedSolomonCoder CauchyReedSolomonCoderTest::coder_</definition>
+        <argsstring></argsstring>
+        <name>coder_</name>
+        <qualifiedname>CauchyReedSolomonCoderTest::coder_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_repair.cpp" line="182" column="28" bodyfile="tests/sharding/test_sharding_repair.cpp" bodystart="182" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_cauchy_reed_solomon_coder_test_1affbdfed5cf3ac025e1af170b24933d03" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; CauchyReedSolomonCoderTest::makeData</definition>
+        <argsstring>(size_t n)</argsstring>
+        <name>makeData</name>
+        <qualifiedname>CauchyReedSolomonCoderTest::makeData</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_repair.cpp" line="184" column="17" bodyfile="tests/sharding/test_sharding_repair.cpp" bodystart="184" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cauchy_reed_solomon_coder_test_1a0a0ba9c20e4670da8e7c642e13198f56" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CauchyReedSolomonCoderTest::encodeDropDecode</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;original, uint32_t k, uint32_t m, const std::vector&lt; uint32_t &gt; &amp;drop_indices)</argsstring>
+        <name>encodeDropDecode</name>
+        <qualifiedname>CauchyReedSolomonCoderTest::encodeDropDecode</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>original</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>m</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint32_t &gt; &amp;</type>
+          <declname>drop_indices</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_repair.cpp" line="192" column="10" bodyfile="tests/sharding/test_sharding_repair.cpp" bodystart="192" bodyend="217"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CauchyReedSolomonCoderTest</label>
+        <link refid="class_cauchy_reed_solomon_coder_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CauchyReedSolomonCoderTest</label>
+        <link refid="class_cauchy_reed_solomon_coder_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>coder_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::sharding::CauchyReedSolomonCoder</label>
+        <link refid="classthemis_1_1sharding_1_1_cauchy_reed_solomon_coder"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::sharding::ErasureCoder</label>
+        <link refid="classthemis_1_1sharding_1_1_erasure_coder"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/sharding/test_sharding_repair.cpp" line="180" column="1" bodyfile="tests/sharding/test_sharding_repair.cpp" bodystart="180" bodyend="218"/>
+    <listofallmembers>
+      <member refid="class_cauchy_reed_solomon_coder_test_1aab1d1dd6a7502881b45ece4ffbf7b4de" prot="protected" virt="non-virtual"><scope>CauchyReedSolomonCoderTest</scope><name>coder_</name></member>
+      <member refid="class_cauchy_reed_solomon_coder_test_1a0a0ba9c20e4670da8e7c642e13198f56" prot="protected" virt="non-virtual"><scope>CauchyReedSolomonCoderTest</scope><name>encodeDropDecode</name></member>
+      <member refid="class_cauchy_reed_solomon_coder_test_1affbdfed5cf3ac025e1af170b24933d03" prot="protected" virt="non-virtual"><scope>CauchyReedSolomonCoderTest</scope><name>makeData</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

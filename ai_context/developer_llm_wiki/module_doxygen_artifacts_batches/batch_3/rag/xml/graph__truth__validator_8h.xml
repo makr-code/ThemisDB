@@ -1,0 +1,250 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="graph__truth__validator_8h" kind="file" language="C++">
+    <compoundname>graph_truth_validator.h</compoundname>
+    <includes refid="knowledge__graph__retriever_8h" local="yes">rag/knowledge_graph_retriever.h</includes>
+    <includes refid="ontology__aware__retriever_8h" local="yes">rag/ontology_aware_retriever.h</includes>
+    <includes local="yes">tensor/tensor_mid_layer.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="tensor__rag__pipeline_8h" local="yes">include/rag/tensor_rag_pipeline.h</includedby>
+    <includedby refid="graph__truth__validator_8cpp" local="yes">src/rag/graph_truth_validator.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/rag/graph_truth_validator.h</label>
+        <link refid="graph__truth__validator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>rag/knowledge_graph_retriever.h</label>
+        <link refid="knowledge__graph__retriever_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>rag/ontology_aware_retriever.h</label>
+        <link refid="ontology__aware__retriever_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>rag/rag_judge.h</label>
+        <link refid="rag__judge_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>chrono</label>
+      </node>
+      <node id="10">
+        <label>cmath</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="12">
+        <label>graph/knowledge_graph_reasoner.h</label>
+      </node>
+      <node id="16">
+        <label>graph/ontology_manager.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="17">
+        <label>tensor/tensor_mid_layer.h</label>
+      </node>
+      <node id="15">
+        <label>themis/rag/kg/knowledge_graph_interface.h</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="13">
+        <label>unordered_set</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/rag/graph_truth_validator.h</label>
+        <link refid="graph__truth__validator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/rag/tensor_rag_pipeline.h</label>
+        <link refid="tensor__rag__pipeline_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/rag/graph_truth_validator.cpp</label>
+        <link refid="graph__truth__validator_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/rag/tensor_rag_pipeline.cpp</label>
+        <link refid="tensor__rag__pipeline_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/rag/test_tensor_rag_provenance.cpp</label>
+        <link refid="test__tensor__rag__provenance_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1rag_1_1_graph_truth_validator_config" prot="public">themis::rag::GraphTruthValidatorConfig</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_graph_truth_evidence" prot="public">themis::rag::GraphTruthEvidence</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_graph_truth_validation_result" prot="public">themis::rag::GraphTruthValidationResult</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_graph_truth_validator" prot="public">themis::rag::GraphTruthValidator</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag">themis::rag</innernamespace>
+    <briefdescription>
+<para>Configuration for the explicit graph-truth validation stage. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Ground-truth validator for RAG graph-retrieval results.</para>
+<para>Declares GraphTruthValidator, which compares RAG graph-retrieval outputs against annotated ground-truth sets to compute recall and precision. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="knowledge__graph__retriever_8h" kindref="compound">rag/knowledge_graph_retriever.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ontology__aware__retriever_8h" kindref="compound">rag/ontology_aware_retriever.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;tensor/tensor_mid_layer.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag" kindref="compound">themis::rag</ref><sp/>{</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="structthemis_1_1rag_1_1_graph_truth_validator_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1_graph_truth_validator_config" kindref="compound">GraphTruthValidatorConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1rag_1_1_graph_truth_validator_config_1ab38b607255fe3fe8bc57b9b02dc7b32f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1rag_1_1_graph_truth_validator_config_1ab38b607255fe3fe8bc57b9b02dc7b32f" kindref="member">max_evidence_candidates</ref><sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1rag_1_1_graph_truth_validator_config_1aa44e590f2be8776748de6987fd340da5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_graph_truth_validator_config_1aa44e590f2be8776748de6987fd340da5" kindref="member">use_ontology_validation</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1rag_1_1_graph_truth_validator_config_1ada309946347b50bf0aa702bf0dd79cc5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_graph_truth_validator_config_1ada309946347b50bf0aa702bf0dd79cc5" kindref="member">min_graph_truth_score</ref><sp/>=<sp/>0.15;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1rag_1_1_graph_truth_evidence" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1_graph_truth_evidence" kindref="compound">GraphTruthEvidence</ref><sp/>{</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1rag_1_1_graph_truth_evidence_1accb018bd902c052b0879a0f9c7055d6e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_graph_truth_evidence_1accb018bd902c052b0879a0f9c7055d6e" kindref="member">candidate_id</ref>;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1rag_1_1_graph_truth_evidence_1a4a9a2c8b3df6e236b66eba6952925667" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_graph_truth_evidence_1a4a9a2c8b3df6e236b66eba6952925667" kindref="member">graph_score</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1rag_1_1_graph_truth_evidence_1a0abd8797b7d63131ecb6ee5f8195e923" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_graph_truth_evidence_1a0abd8797b7d63131ecb6ee5f8195e923" kindref="member">tensor_score</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1rag_1_1_graph_truth_evidence_1a9c181a04f4c39c6af313b78e6fb2a6bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_graph_truth_evidence_1a9c181a04f4c39c6af313b78e6fb2a6bc" kindref="member">validated</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1rag_1_1_graph_truth_evidence_1a9e0b1fa14059a8cd4ee425a138030dc0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1rag_1_1_graph_truth_evidence_1a9e0b1fa14059a8cd4ee425a138030dc0" kindref="member">supporting_nodes</ref>;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1rag_1_1_graph_truth_evidence_1aad3ba2d018b3d0eb1f120dffb0a99701" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_graph_truth_evidence_1aad3ba2d018b3d0eb1f120dffb0a99701" kindref="member">reasoning_chain</ref>;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1rag_1_1_graph_truth_validation_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1_graph_truth_validation_result" kindref="compound">GraphTruthValidationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1rag_1_1_graph_truth_validation_result_1a170e2ae18b493066bb0e271d72c970e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GraphTruthEvidence&gt;<sp/><ref refid="structthemis_1_1rag_1_1_graph_truth_validation_result_1a170e2ae18b493066bb0e271d72c970e2" kindref="member">evidences</ref>;</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1rag_1_1_graph_truth_validation_result_1a2d343ff314af7d502e27eb7d04e2400b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_graph_truth_validation_result_1a2d343ff314af7d502e27eb7d04e2400b" kindref="member">routing_reason</ref>;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1rag_1_1_graph_truth_validation_result_1a928e58d23df55f37a48a6d140030f963" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_graph_truth_validation_result_1a928e58d23df55f37a48a6d140030f963" kindref="member">routing_reason_code</ref>;</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1rag_1_1_graph_truth_validation_result_1a65b42685eda620ca7fb047fb300b6d48" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_graph_truth_validation_result_1a65b42685eda620ca7fb047fb300b6d48" kindref="member">correlation_id</ref>;</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1rag_1_1_graph_truth_validation_result_1a5be7c2477e1b2bf3defb22ab1dfc069b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_graph_truth_validation_result_1a5be7c2477e1b2bf3defb22ab1dfc069b" kindref="member">fallback_mode</ref>;</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1rag_1_1_graph_truth_validation_result_1a787b2a0307d3b67f5d9b0d1e617253af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_graph_truth_validation_result_1a787b2a0307d3b67f5d9b0d1e617253af" kindref="member">fallback_reason_code</ref>;</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1rag_1_1_graph_truth_validation_result_1a54584504ea6b88f936f261428c17dcc6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_graph_truth_validation_result_1a54584504ea6b88f936f261428c17dcc6" kindref="member">escalation_source_layer</ref>;</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1rag_1_1_graph_truth_validation_result_1a3ce0f4101277201f6620687f69d88f07" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_graph_truth_validation_result_1a3ce0f4101277201f6620687f69d88f07" kindref="member">used_ontology_validation</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="classthemis_1_1rag_1_1_graph_truth_validator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1_graph_truth_validator_1ae572cc74420c174f5ae0fd900744a565" kindref="member">GraphTruthValidator</ref><sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="70" refid="classthemis_1_1rag_1_1_graph_truth_validator_1ae572cc74420c174f5ae0fd900744a565" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_graph_truth_validator_1ae572cc74420c174f5ae0fd900744a565" kindref="member">GraphTruthValidator</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71" refid="classthemis_1_1rag_1_1_graph_truth_validator_1a4a33f0a9f1df2576a669b8328e2caa7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_graph_truth_validator_1a4a33f0a9f1df2576a669b8328e2caa7b" kindref="member">~GraphTruthValidator</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_graph_truth_validator_1ae267a1e8e958d4d82c0d2d86cec56459" kindref="member">setOntologyRetriever</ref>(std::shared_ptr&lt;OntologyAwareRetriever&gt;<sp/>retriever);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_graph_truth_validator_1a7739bc6577fdac7fbddf26ab89ead3da" kindref="member">setKnowledgeGraphRetriever</ref>(std::shared_ptr&lt;kg::KnowledgeGraphRetriever&gt;<sp/>retriever);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1rag_1_1_graph_truth_validation_result" kindref="compound">GraphTruthValidationResult</ref><sp/><ref refid="classthemis_1_1rag_1_1_graph_truth_validator_1adcc76fc10605417bfa781a08450a1ba0" kindref="member">validate</ref>(</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>tensor::TensorLayerSummary&amp;<sp/>tensor_summary,</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_graph_truth_validator_config" kindref="compound">GraphTruthValidatorConfig</ref>&amp;<sp/>config<sp/>=<sp/>{},</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>correlation_id<sp/>=<sp/>{})<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;judge::RetrievedDocument&gt;<sp/>makeCandidateDocuments(</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>tensor::TensorLayerSummary&amp;<sp/>tensor_summary,</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>max_candidates);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>GraphTruthValidationResult<sp/>buildFromOntologyResult(</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>tensor::TensorLayerSummary&amp;<sp/>tensor_summary,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>OntologyRetrievalResult&amp;<sp/>ontology_result,</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GraphTruthValidatorConfig&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>GraphTruthValidationResult<sp/>buildFromKgResult(</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>tensor::TensorLayerSummary&amp;<sp/>tensor_summary,</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>kg::KGRetrievalResult&amp;<sp/>kg_result,</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GraphTruthValidatorConfig&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;OntologyAwareRetriever&gt;<sp/>ontology_retriever_;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;kg::KnowledgeGraphRetriever&gt;<sp/>kg_retriever_;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::rag</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/rag/graph_truth_validator.h"/>
+  </compounddef>
+</doxygen>

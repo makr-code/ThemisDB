@@ -1,0 +1,302 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_scoped_operator_profile" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::ScopedOperatorProfile</compoundname>
+    <includes refid="query__profiler_8h" local="no">query_profiler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_scoped_operator_profile_1ae4f84fcf968c9a489fec5e8c9b042b9a" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1observability_1_1_query_profiler" kindref="compound">QueryProfiler</ref> &amp;</type>
+        <definition>QueryProfiler&amp; themis::observability::ScopedOperatorProfile::profiler_</definition>
+        <argsstring></argsstring>
+        <name>profiler_</name>
+        <qualifiedname>themis::observability::ScopedOperatorProfile::profiler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="317" column="19" bodyfile="include/observability/query_profiler.h" bodystart="317" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_scoped_operator_profile_1ad36cf7a783b7934b6a2105a9abdb3c20" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::ScopedOperatorProfile::query_id_</definition>
+        <argsstring></argsstring>
+        <name>query_id_</name>
+        <qualifiedname>themis::observability::ScopedOperatorProfile::query_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="318" column="17" bodyfile="include/observability/query_profiler.h" bodystart="318" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_scoped_operator_profile_1ab28689517ff16b4d967b3d934dc2cc56" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1observability_1_1_operator_stats" kindref="compound">OperatorStats</ref></type>
+        <definition>OperatorStats themis::observability::ScopedOperatorProfile::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::observability::ScopedOperatorProfile::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="319" column="19" bodyfile="include/observability/query_profiler.h" bodystart="319" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_scoped_operator_profile_1ac8ef1cfd966830886119bec7dc8c3c30" prot="private" static="no" mutable="no">
+        <type>std::chrono::high_resolution_clock::time_point</type>
+        <definition>std::chrono::high_resolution_clock::time_point themis::observability::ScopedOperatorProfile::start_</definition>
+        <argsstring></argsstring>
+        <name>start_</name>
+        <qualifiedname>themis::observability::ScopedOperatorProfile::start_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="320" column="52" bodyfile="include/observability/query_profiler.h" bodystart="320" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_scoped_operator_profile_1af63c856edf2af9213555250869a9779a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::ScopedOperatorProfile::ScopedOperatorProfile</definition>
+        <argsstring>(QueryProfiler &amp;profiler, const std::string &amp;query_id, OperatorType type, const std::string &amp;name)</argsstring>
+        <name>ScopedOperatorProfile</name>
+        <qualifiedname>themis::observability::ScopedOperatorProfile::ScopedOperatorProfile</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1_query_profiler" kindref="compound">QueryProfiler</ref> &amp;</type>
+          <declname>profiler</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1observability_1af88f2db698aaa735ce90eb1ed6f2688f" kindref="member">OperatorType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="301" column="5" bodyfile="src/observability/query_profiler.cpp" bodystart="612" bodyend="620"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_scoped_operator_profile_1a1cac2c16098f7adb2da0c08e0d5fa01d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::ScopedOperatorProfile::~ScopedOperatorProfile</definition>
+        <argsstring>()</argsstring>
+        <name>~ScopedOperatorProfile</name>
+        <qualifiedname>themis::observability::ScopedOperatorProfile::~ScopedOperatorProfile</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="303" column="5" bodyfile="src/observability/query_profiler.cpp" bodystart="622" bodyend="626"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_scoped_operator_profile_1a9ea71f46727850aa4f4f3ef63dfdbe3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::ScopedOperatorProfile::ScopedOperatorProfile</definition>
+        <argsstring>(const ScopedOperatorProfile &amp;)=delete</argsstring>
+        <name>ScopedOperatorProfile</name>
+        <qualifiedname>themis::observability::ScopedOperatorProfile::ScopedOperatorProfile</qualifiedname>
+        <param>
+          <type>const ScopedOperatorProfile &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="306" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_scoped_operator_profile_1a76e15d5d8b3f19e4ba5609988fbb9224" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1observability_1_1_scoped_operator_profile_1af63c856edf2af9213555250869a9779a" kindref="member">ScopedOperatorProfile</ref> &amp;</type>
+        <definition>ScopedOperatorProfile &amp; themis::observability::ScopedOperatorProfile::operator=</definition>
+        <argsstring>(const ScopedOperatorProfile &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::observability::ScopedOperatorProfile::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1observability_1_1_scoped_operator_profile_1af63c856edf2af9213555250869a9779a" kindref="member">ScopedOperatorProfile</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="307" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_scoped_operator_profile_1ae6989dfeefc8f7151a64be4124bb194a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ScopedOperatorProfile::record_rows</definition>
+        <argsstring>(size_t count)</argsstring>
+        <name>record_rows</name>
+        <qualifiedname>themis::observability::ScopedOperatorProfile::record_rows</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Record rows. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements record_rows without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="309" column="10" bodyfile="src/observability/query_profiler.cpp" bodystart="633" bodyend="635"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_scoped_operator_profile_1ac050af07970c32103f6efdcacf69dc4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ScopedOperatorProfile::record_bytes</definition>
+        <argsstring>(size_t count)</argsstring>
+        <name>record_bytes</name>
+        <qualifiedname>themis::observability::ScopedOperatorProfile::record_bytes</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Record bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements record_bytes without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="310" column="10" bodyfile="src/observability/query_profiler.cpp" bodystart="642" bodyend="644"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_scoped_operator_profile_1a989f0c00b29fb7fe292fd2d1366a8877" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ScopedOperatorProfile::record_disk_read</definition>
+        <argsstring>()</argsstring>
+        <name>record_disk_read</name>
+        <qualifiedname>themis::observability::ScopedOperatorProfile::record_disk_read</qualifiedname>
+        <briefdescription>
+<para>Record disk read. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements record_disk_read without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="311" column="10" bodyfile="src/observability/query_profiler.cpp" bodystart="650" bodyend="652"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_scoped_operator_profile_1aab7724f2d0ed753345d31b3fe38702e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ScopedOperatorProfile::record_cache_hit</definition>
+        <argsstring>()</argsstring>
+        <name>record_cache_hit</name>
+        <qualifiedname>themis::observability::ScopedOperatorProfile::record_cache_hit</qualifiedname>
+        <briefdescription>
+<para>Record cache hit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements record_cache_hit without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="312" column="10" bodyfile="src/observability/query_profiler.cpp" bodystart="658" bodyend="660"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_scoped_operator_profile_1a5fd57f3f71df088da14951a447dad074" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ScopedOperatorProfile::record_cache_miss</definition>
+        <argsstring>()</argsstring>
+        <name>record_cache_miss</name>
+        <qualifiedname>themis::observability::ScopedOperatorProfile::record_cache_miss</qualifiedname>
+        <briefdescription>
+<para>Record cache miss. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements record_cache_miss without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="313" column="10" bodyfile="src/observability/query_profiler.cpp" bodystart="666" bodyend="668"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_scoped_operator_profile_1ace2c5042edf62ef3373ce513c9a01074" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ScopedOperatorProfile::set_details</definition>
+        <argsstring>(const std::string &amp;details)</argsstring>
+        <name>set_details</name>
+        <qualifiedname>themis::observability::ScopedOperatorProfile::set_details</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>details</declname>
+        </param>
+        <briefdescription>
+<para>Set details. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">details</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements set_details without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="314" column="10" bodyfile="src/observability/query_profiler.cpp" bodystart="675" bodyend="677"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII helper for operator profiling. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/query_profiler.h" line="299" column="1" bodyfile="include/observability/query_profiler.h" bodystart="299" bodyend="321"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_scoped_operator_profile_1a76e15d5d8b3f19e4ba5609988fbb9224" prot="public" virt="non-virtual"><scope>themis::observability::ScopedOperatorProfile</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1observability_1_1_scoped_operator_profile_1ae4f84fcf968c9a489fec5e8c9b042b9a" prot="private" virt="non-virtual"><scope>themis::observability::ScopedOperatorProfile</scope><name>profiler_</name></member>
+      <member refid="classthemis_1_1observability_1_1_scoped_operator_profile_1ad36cf7a783b7934b6a2105a9abdb3c20" prot="private" virt="non-virtual"><scope>themis::observability::ScopedOperatorProfile</scope><name>query_id_</name></member>
+      <member refid="classthemis_1_1observability_1_1_scoped_operator_profile_1ac050af07970c32103f6efdcacf69dc4f" prot="public" virt="non-virtual"><scope>themis::observability::ScopedOperatorProfile</scope><name>record_bytes</name></member>
+      <member refid="classthemis_1_1observability_1_1_scoped_operator_profile_1aab7724f2d0ed753345d31b3fe38702e3" prot="public" virt="non-virtual"><scope>themis::observability::ScopedOperatorProfile</scope><name>record_cache_hit</name></member>
+      <member refid="classthemis_1_1observability_1_1_scoped_operator_profile_1a5fd57f3f71df088da14951a447dad074" prot="public" virt="non-virtual"><scope>themis::observability::ScopedOperatorProfile</scope><name>record_cache_miss</name></member>
+      <member refid="classthemis_1_1observability_1_1_scoped_operator_profile_1a989f0c00b29fb7fe292fd2d1366a8877" prot="public" virt="non-virtual"><scope>themis::observability::ScopedOperatorProfile</scope><name>record_disk_read</name></member>
+      <member refid="classthemis_1_1observability_1_1_scoped_operator_profile_1ae6989dfeefc8f7151a64be4124bb194a" prot="public" virt="non-virtual"><scope>themis::observability::ScopedOperatorProfile</scope><name>record_rows</name></member>
+      <member refid="classthemis_1_1observability_1_1_scoped_operator_profile_1af63c856edf2af9213555250869a9779a" prot="public" virt="non-virtual"><scope>themis::observability::ScopedOperatorProfile</scope><name>ScopedOperatorProfile</name></member>
+      <member refid="classthemis_1_1observability_1_1_scoped_operator_profile_1a9ea71f46727850aa4f4f3ef63dfdbe3e" prot="public" virt="non-virtual"><scope>themis::observability::ScopedOperatorProfile</scope><name>ScopedOperatorProfile</name></member>
+      <member refid="classthemis_1_1observability_1_1_scoped_operator_profile_1ace2c5042edf62ef3373ce513c9a01074" prot="public" virt="non-virtual"><scope>themis::observability::ScopedOperatorProfile</scope><name>set_details</name></member>
+      <member refid="classthemis_1_1observability_1_1_scoped_operator_profile_1ac8ef1cfd966830886119bec7dc8c3c30" prot="private" virt="non-virtual"><scope>themis::observability::ScopedOperatorProfile</scope><name>start_</name></member>
+      <member refid="classthemis_1_1observability_1_1_scoped_operator_profile_1ab28689517ff16b4d967b3d934dc2cc56" prot="private" virt="non-virtual"><scope>themis::observability::ScopedOperatorProfile</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1observability_1_1_scoped_operator_profile_1a1cac2c16098f7adb2da0c08e0d5fa01d" prot="public" virt="non-virtual"><scope>themis::observability::ScopedOperatorProfile</scope><name>~ScopedOperatorProfile</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

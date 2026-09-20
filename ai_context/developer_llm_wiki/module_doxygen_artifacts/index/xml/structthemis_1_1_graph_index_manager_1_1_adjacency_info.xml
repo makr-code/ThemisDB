@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_graph_index_manager_1_1_adjacency_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::GraphIndexManager::AdjacencyInfo</compoundname>
+    <includes refid="graph__index_8h" local="no">graph_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_graph_index_manager_1_1_adjacency_info_1aee3855a17cfba026699a2e13d85abcd3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::GraphIndexManager::AdjacencyInfo::edgeId</definition>
+        <argsstring></argsstring>
+        <name>edgeId</name>
+        <qualifiedname>themis::GraphIndexManager::AdjacencyInfo::edgeId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="57" column="21" bodyfile="include/index/graph_index.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_graph_index_manager_1_1_adjacency_info_1a789dec9fd91e27482ee4f2078254963c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::GraphIndexManager::AdjacencyInfo::targetPk</definition>
+        <argsstring></argsstring>
+        <name>targetPk</name>
+        <qualifiedname>themis::GraphIndexManager::AdjacencyInfo::targetPk</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="58" column="21" bodyfile="include/index/graph_index.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_graph_index_manager_1_1_adjacency_info_1a7f099b004ebd17580fe38a8c86bd57f1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::GraphIndexManager::AdjacencyInfo::graphId</definition>
+        <argsstring></argsstring>
+        <name>graphId</name>
+        <qualifiedname>themis::GraphIndexManager::AdjacencyInfo::graphId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_index.h" line="59" column="21" bodyfile="include/index/graph_index.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/graph_index.h" line="56" column="5" bodyfile="include/index/graph_index.h" bodystart="56" bodyend="60"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_graph_index_manager_1_1_adjacency_info_1aee3855a17cfba026699a2e13d85abcd3" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager::AdjacencyInfo</scope><name>edgeId</name></member>
+      <member refid="structthemis_1_1_graph_index_manager_1_1_adjacency_info_1a7f099b004ebd17580fe38a8c86bd57f1" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager::AdjacencyInfo</scope><name>graphId</name></member>
+      <member refid="structthemis_1_1_graph_index_manager_1_1_adjacency_info_1a789dec9fd91e27482ee4f2078254963c" prot="public" virt="non-virtual"><scope>themis::GraphIndexManager::AdjacencyInfo</scope><name>targetPk</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

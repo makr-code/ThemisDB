@@ -1,0 +1,259 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1builtin_1_1_chunk_tt_decompose_step" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::ingestion::builtin::ChunkTtDecomposeStep</compoundname>
+    <basecompoundref refid="classthemis_1_1ingestion_1_1_i_ingestion_step" prot="public" virt="non-virtual">themis::ingestion::IIngestionStep</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1builtin_1_1_chunk_tt_decompose_step_1a36c16af125925dee0de3d0c776012ad3" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_tensor_decomposition_backend" kindref="compound">ITensorDecompositionBackend</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ITensorDecompositionBackend&gt; themis::ingestion::builtin::ChunkTtDecomposeStep::backend_</definition>
+        <argsstring></argsstring>
+        <name>backend_</name>
+        <qualifiedname>themis::ingestion::builtin::ChunkTtDecomposeStep::backend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/chunk_tt_decompose_step.cpp" line="161" column="21" bodyfile="src/ingestion/steps/chunk_tt_decompose_step.cpp" bodystart="161" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_chunk_tt_decompose_step_1aa987adc1b9139a23c21a799e8bf2ea6a" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::builtin::ChunkTtDecomposeStep::ChunkTtDecomposeStep</definition>
+        <argsstring>(std::shared_ptr&lt; ITensorDecompositionBackend &gt; backend)</argsstring>
+        <name>ChunkTtDecomposeStep</name>
+        <qualifiedname>themis::ingestion::builtin::ChunkTtDecomposeStep::ChunkTtDecomposeStep</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_tensor_decomposition_backend" kindref="compound">ITensorDecompositionBackend</ref> &gt;</type>
+          <declname>backend</declname>
+        </param>
+        <briefdescription>
+<para>Chunk Tt Decompose Step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/chunk_tt_decompose_step.cpp" line="31" column="14" bodyfile="src/ingestion/steps/chunk_tt_decompose_step.cpp" bodystart="31" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_chunk_tt_decompose_step_1af52eb52a25be3efda09511f93ca9e8c7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::ingestion::builtin::ChunkTtDecomposeStep::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::ingestion::builtin::ChunkTtDecomposeStep::getName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/chunk_tt_decompose_step.cpp" line="36" column="16" bodyfile="src/ingestion/steps/chunk_tt_decompose_step.cpp" bodystart="36" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_chunk_tt_decompose_step_1ac073aa9314c3403143fe01069ed90138" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::ingestion::builtin::ChunkTtDecomposeStep::getVersion</definition>
+        <argsstring>() const override</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>themis::ingestion::builtin::ChunkTtDecomposeStep::getVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/chunk_tt_decompose_step.cpp" line="37" column="16" bodyfile="src/ingestion/steps/chunk_tt_decompose_step.cpp" bodystart="37" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_chunk_tt_decompose_step_1a9f3854568eafc3a9360cd58fbeed239f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>plugins::PluginCapabilities</type>
+        <definition>plugins::PluginCapabilities themis::ingestion::builtin::ChunkTtDecomposeStep::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>themis::ingestion::builtin::ChunkTtDecomposeStep::getCapabilities</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/chunk_tt_decompose_step.cpp" line="38" column="33" bodyfile="src/ingestion/steps/chunk_tt_decompose_step.cpp" bodystart="38" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_chunk_tt_decompose_step_1a10be94176669ca351bf96110af31390f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::builtin::ChunkTtDecomposeStep::initialize</definition>
+        <argsstring>(const char *) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::ingestion::builtin::ChunkTtDecomposeStep::initialize</qualifiedname>
+        <param>
+          <type>const char *</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/chunk_tt_decompose_step.cpp" line="39" column="11" bodyfile="src/ingestion/steps/chunk_tt_decompose_step.cpp" bodystart="39" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_chunk_tt_decompose_step_1a84b9c6306e4cb18d753a19cafad91fa1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::builtin::ChunkTtDecomposeStep::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::ingestion::builtin::ChunkTtDecomposeStep::shutdown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/chunk_tt_decompose_step.cpp" line="40" column="11" bodyfile="src/ingestion/steps/chunk_tt_decompose_step.cpp" bodystart="40" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_chunk_tt_decompose_step_1aea9535d61a09f800750b35378d7e118e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::ingestion::builtin::ChunkTtDecomposeStep::getInstance</definition>
+        <argsstring>() override</argsstring>
+        <name>getInstance</name>
+        <qualifiedname>themis::ingestion::builtin::ChunkTtDecomposeStep::getInstance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/chunk_tt_decompose_step.cpp" line="41" column="10" bodyfile="src/ingestion/steps/chunk_tt_decompose_step.cpp" bodystart="41" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_chunk_tt_decompose_step_1accce8d6d35bd455f1a470d6cf442b739" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::ingestion::builtin::ChunkTtDecomposeStep::supportedMimeTypes</definition>
+        <argsstring>() const override</argsstring>
+        <name>supportedMimeTypes</name>
+        <qualifiedname>themis::ingestion::builtin::ChunkTtDecomposeStep::supportedMimeTypes</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1acd860b2bb15580a25ce67280f671f29a">supportedMimeTypes</reimplements>
+        <briefdescription>
+<para>Returns the MIME types this step can process. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>An empty vector means &quot;any MIME type&quot;. Used by <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1af4270ae636afe47fd63fb99567408269" kindref="member">canHandle()</ref></computeroutput> default implementation. Override <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1af4270ae636afe47fd63fb99567408269" kindref="member">canHandle()</ref></computeroutput> directly for more complex logic. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/chunk_tt_decompose_step.cpp" line="43" column="17" bodyfile="src/ingestion/steps/chunk_tt_decompose_step.cpp" bodystart="43" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_chunk_tt_decompose_step_1a2e1fa7382da1fcfe1483282e1c594225" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::ingestion::builtin::ChunkTtDecomposeStep::execute</definition>
+        <argsstring>(ExtractionContext &amp;ctx, const StepConfig &amp;cfg) override</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::ingestion::builtin::ChunkTtDecomposeStep::execute</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1ae420e2b6ce844d288d51bea1d79955d8">execute</reimplements>
+        <param>
+          <type><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_step_config" kindref="compound">StepConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Execute the step, enriching <computeroutput>ctx</computeroutput> in-place. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The step reads any fields it needs from <computeroutput>ctx</computeroutput> and appends results to the appropriate collections (e.g. <computeroutput>ctx.entities</computeroutput>, <computeroutput>ctx.chunks</computeroutput>). It must not clear or overwrite data written by preceding steps.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared pipeline context — modified in-place. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Step configuration parsed from the YAML profile. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>Result&lt;void&gt;</computeroutput> — success, or an error with an <computeroutput>ErrorCode</computeroutput> from the <computeroutput>ERR_WORKFLOW_*</computeroutput> range. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/chunk_tt_decompose_step.cpp" line="45" column="12" bodyfile="src/ingestion/steps/chunk_tt_decompose_step.cpp" bodystart="45" bodyend="158"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::ingestion::IIngestionStep</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_ingestion_step"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::ingestion::builtin::ChunkTtDecomposeStep</label>
+        <link refid="classthemis_1_1ingestion_1_1builtin_1_1_chunk_tt_decompose_step"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::plugins::IThemisPlugin</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::ingestion::IIngestionStep</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_ingestion_step"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::ingestion::builtin::ChunkTtDecomposeStep</label>
+        <link refid="classthemis_1_1ingestion_1_1builtin_1_1_chunk_tt_decompose_step"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::plugins::IThemisPlugin</label>
+      </node>
+    </collaborationgraph>
+    <location file="src/ingestion/steps/chunk_tt_decompose_step.cpp" line="24" column="1" bodyfile="src/ingestion/steps/chunk_tt_decompose_step.cpp" bodystart="24" bodyend="162"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_chunk_tt_decompose_step_1a36c16af125925dee0de3d0c776012ad3" prot="private" virt="non-virtual"><scope>themis::ingestion::builtin::ChunkTtDecomposeStep</scope><name>backend_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1af4270ae636afe47fd63fb99567408269" prot="public" virt="virtual"><scope>themis::ingestion::builtin::ChunkTtDecomposeStep</scope><name>canHandle</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_chunk_tt_decompose_step_1aa987adc1b9139a23c21a799e8bf2ea6a" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::ChunkTtDecomposeStep</scope><name>ChunkTtDecomposeStep</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_chunk_tt_decompose_step_1a2e1fa7382da1fcfe1483282e1c594225" prot="public" virt="virtual"><scope>themis::ingestion::builtin::ChunkTtDecomposeStep</scope><name>execute</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_chunk_tt_decompose_step_1a9f3854568eafc3a9360cd58fbeed239f" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::ChunkTtDecomposeStep</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_chunk_tt_decompose_step_1aea9535d61a09f800750b35378d7e118e" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::ChunkTtDecomposeStep</scope><name>getInstance</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_chunk_tt_decompose_step_1af52eb52a25be3efda09511f93ca9e8c7" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::ChunkTtDecomposeStep</scope><name>getName</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1abee3ec226507c6c1038ef541caaee044" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::ChunkTtDecomposeStep</scope><name>getType</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_chunk_tt_decompose_step_1ac073aa9314c3403143fe01069ed90138" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::ChunkTtDecomposeStep</scope><name>getVersion</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_chunk_tt_decompose_step_1a10be94176669ca351bf96110af31390f" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::ChunkTtDecomposeStep</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_chunk_tt_decompose_step_1a84b9c6306e4cb18d753a19cafad91fa1" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::ChunkTtDecomposeStep</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_chunk_tt_decompose_step_1accce8d6d35bd455f1a470d6cf442b739" prot="public" virt="virtual"><scope>themis::ingestion::builtin::ChunkTtDecomposeStep</scope><name>supportedMimeTypes</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1ad350e511cf2ebd67ae0c5baf09f33060" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::ChunkTtDecomposeStep</scope><name>~IIngestionStep</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

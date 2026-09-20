@@ -1,0 +1,526 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_federated_inference_coordinator" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::llm::FederatedInferenceCoordinator</compoundname>
+    <basecompoundref refid="classthemis_1_1llm_1_1_i_federated_inference_backend" prot="public" virt="non-virtual">themis::llm::IFederatedInferenceBackend</basecompoundref>
+    <includes refid="federated__inference__coordinator_8h" local="no">federated_inference_coordinator.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_federated_inference_coordinator_1_1_config" prot="public">themis::llm::FederatedInferenceCoordinator::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_federated_inference_coordinator_1a2cd27e09026f6c96cdfaf1a18b32f13f" prot="private" static="no" mutable="no">
+        <type>sharding::RemoteExecutor *</type>
+        <definition>sharding::RemoteExecutor* themis::llm::FederatedInferenceCoordinator::executor_</definition>
+        <argsstring></argsstring>
+        <name>executor_</name>
+        <qualifiedname>themis::llm::FederatedInferenceCoordinator::executor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/federated_inference_coordinator.h" line="55" column="45" bodyfile="include/llm/federated_inference_coordinator.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_federated_inference_coordinator_1a3770a7ef830609d27919939d635672a9" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; sharding::ShardTopology &gt;</type>
+        <definition>std::shared_ptr&lt;sharding::ShardTopology&gt; themis::llm::FederatedInferenceCoordinator::topology_</definition>
+        <argsstring></argsstring>
+        <name>topology_</name>
+        <qualifiedname>themis::llm::FederatedInferenceCoordinator::topology_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/federated_inference_coordinator.h" line="56" column="21" bodyfile="include/llm/federated_inference_coordinator.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_federated_inference_coordinator_1a7ea4deeb700f100ce32576dd2ece5752" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_federated_inference_coordinator_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::llm::FederatedInferenceCoordinator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::FederatedInferenceCoordinator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/federated_inference_coordinator.h" line="57" column="46" bodyfile="include/llm/federated_inference_coordinator.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_federated_inference_coordinator_1a55e54d5924464969e8fde96f86566f70" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::FederatedInferenceCoordinator::static_shards_mutex_</definition>
+        <argsstring></argsstring>
+        <name>static_shards_mutex_</name>
+        <qualifiedname>themis::llm::FederatedInferenceCoordinator::static_shards_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/federated_inference_coordinator.h" line="59" column="24" bodyfile="include/llm/federated_inference_coordinator.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_federated_inference_coordinator_1aecc430a6fd7e017a94e960ca82634676" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, sharding::ShardInfo &gt;</type>
+        <definition>std::unordered_map&lt;std::string, sharding::ShardInfo&gt; themis::llm::FederatedInferenceCoordinator::static_shards_</definition>
+        <argsstring></argsstring>
+        <name>static_shards_</name>
+        <qualifiedname>themis::llm::FederatedInferenceCoordinator::static_shards_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/federated_inference_coordinator.h" line="60" column="24" bodyfile="include/llm/federated_inference_coordinator.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_federated_inference_coordinator_1af8aae47afa35d014e36a09f0f2eab013" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::FederatedInferenceCoordinator::FederatedInferenceCoordinator</definition>
+        <argsstring>(sharding::RemoteExecutor *executor, std::shared_ptr&lt; sharding::ShardTopology &gt; topology)</argsstring>
+        <name>FederatedInferenceCoordinator</name>
+        <qualifiedname>themis::llm::FederatedInferenceCoordinator::FederatedInferenceCoordinator</qualifiedname>
+        <param>
+          <type>sharding::RemoteExecutor *</type>
+          <declname>executor</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; sharding::ShardTopology &gt;</type>
+          <declname>topology</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/federated_inference_coordinator.h" line="33" column="5" bodyfile="src/llm/federated_inference_coordinator.cpp" bodystart="25" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_federated_inference_coordinator_1a7add5456b1d987d40bbeeec6178cdbd3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::FederatedInferenceCoordinator::FederatedInferenceCoordinator</definition>
+        <argsstring>(sharding::RemoteExecutor *executor, std::shared_ptr&lt; sharding::ShardTopology &gt; topology, const Config &amp;config)</argsstring>
+        <name>FederatedInferenceCoordinator</name>
+        <qualifiedname>themis::llm::FederatedInferenceCoordinator::FederatedInferenceCoordinator</qualifiedname>
+        <param>
+          <type>sharding::RemoteExecutor *</type>
+          <declname>executor</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; sharding::ShardTopology &gt;</type>
+          <declname>topology</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_federated_inference_coordinator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/federated_inference_coordinator.h" line="35" column="5" bodyfile="src/llm/federated_inference_coordinator.cpp" bodystart="30" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_federated_inference_coordinator_1a84ecf575fadde9c81046dbca15068257" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::FederatedInferenceCoordinator::~FederatedInferenceCoordinator</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~FederatedInferenceCoordinator</name>
+        <qualifiedname>themis::llm::FederatedInferenceCoordinator::~FederatedInferenceCoordinator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/federated_inference_coordinator.h" line="39" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_federated_inference_coordinator_1afc720a081eddf3e85d5594f4bf94e508" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::FederatedInferenceCoordinator::addStaticShard</definition>
+        <argsstring>(const std::string &amp;instance_id, const sharding::ShardInfo &amp;shard)</argsstring>
+        <name>addStaticShard</name>
+        <qualifiedname>themis::llm::FederatedInferenceCoordinator::addStaticShard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>instance_id</declname>
+        </param>
+        <param>
+          <type>const sharding::ShardInfo &amp;</type>
+          <declname>shard</declname>
+        </param>
+        <briefdescription>
+<para>Add Static Shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">instance_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the instance. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">instance_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the instance. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/federated_inference_coordinator.h" line="46" column="10" bodyfile="src/llm/federated_inference_coordinator.cpp" bodystart="45" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_federated_inference_coordinator_1a568ad36bab2a5edbb3a42d1ec224cfef" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_fan_out_instance_result" kindref="compound">FanOutInstanceResult</ref> &gt;</type>
+        <definition>std::vector&lt; FanOutInstanceResult &gt; themis::llm::FederatedInferenceCoordinator::execute</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;instance_ids, const InferenceRequest &amp;request) override</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::llm::FederatedInferenceCoordinator::execute</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_federated_inference_backend_1ac2783094478b7562ec85d24babc400ef">execute</reimplements>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>instance_ids</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>------------------------------------------------------------------------<mdash/> <ref refid="classthemis_1_1llm_1_1_i_federated_inference_backend_1ac2783094478b7562ec85d24babc400ef" kindref="member">IFederatedInferenceBackend::execute()</ref> ------------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">instance_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), reserve(), size(), push_back(), resolveShard(), has_value(), std::async(), dispatchToInstance(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/federated_inference_coordinator.h" line="50" column="17" bodyfile="src/llm/federated_inference_coordinator.cpp" bodystart="59" bodyend="167"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_federated_inference_coordinator_1a8631627e1bfb33d1ac92d0caba8d204e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_fan_out_instance_result" kindref="compound">FanOutInstanceResult</ref></type>
+        <definition>FanOutInstanceResult themis::llm::FederatedInferenceCoordinator::dispatchToInstance</definition>
+        <argsstring>(const std::string &amp;instance_id, const sharding::ShardInfo &amp;shard, const InferenceRequest &amp;request)</argsstring>
+        <name>dispatchToInstance</name>
+        <qualifiedname>themis::llm::FederatedInferenceCoordinator::dispatchToInstance</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>instance_id</declname>
+        </param>
+        <param>
+          <type>const sharding::ShardInfo &amp;</type>
+          <declname>shard</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Dispatch To Instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">instance_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the instance. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">instance_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the instance. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), buildRequestBody(), count(), post(), parseResponse(), clear(), spdlog::debug(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/federated_inference_coordinator.h" line="69" column="26" bodyfile="src/llm/federated_inference_coordinator.cpp" bodystart="181" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_federated_inference_coordinator_1a5a9191a4153130a7e7a78e696ff376b5" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; sharding::ShardInfo &gt;</type>
+        <definition>std::optional&lt; sharding::ShardInfo &gt; themis::llm::FederatedInferenceCoordinator::resolveShard</definition>
+        <argsstring>(const std::string &amp;instance_id) const</argsstring>
+        <name>resolveShard</name>
+        <qualifiedname>themis::llm::FederatedInferenceCoordinator::resolveShard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>instance_id</declname>
+        </param>
+        <briefdescription>
+<para>Resolve Shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">instance_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the instance. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">static_shards_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/federated_inference_coordinator.h" line="78" column="19" bodyfile="src/llm/federated_inference_coordinator.cpp" bodystart="256" bodyend="273"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_federated_inference_coordinator_1ae56936b99c8b0a9efda2287e4b625054" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::llm::FederatedInferenceCoordinator::buildRequestBody</definition>
+        <argsstring>(const InferenceRequest &amp;request)</argsstring>
+        <name>buildRequestBody</name>
+        <qualifiedname>themis::llm::FederatedInferenceCoordinator::buildRequestBody</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;</type>
+          <declname>request</declname>
+          <defname>req</defname>
+        </param>
+        <briefdescription>
+<para>Build Request Body. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/federated_inference_coordinator.h" line="85" column="27" bodyfile="src/llm/federated_inference_coordinator.cpp" bodystart="281" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_federated_inference_coordinator_1ae0419c9cf62a00eac2ba869e591a396a" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref></type>
+        <definition>InferenceResponse themis::llm::FederatedInferenceCoordinator::parseResponse</definition>
+        <argsstring>(const nlohmann::json &amp;data, const std::string &amp;instance_id)</argsstring>
+        <name>parseResponse</name>
+        <qualifiedname>themis::llm::FederatedInferenceCoordinator::parseResponse</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>instance_id</declname>
+        </param>
+        <briefdescription>
+<para>Parse Response. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">instance_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the instance. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">instance_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the instance. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(), is_string(), is_number_integer(), is_number(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/federated_inference_coordinator.h" line="93" column="30" bodyfile="src/llm/federated_inference_coordinator.cpp" bodystart="309" bodyend="331"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::llm::FederatedInferenceCoordinator</label>
+        <link refid="classthemis_1_1llm_1_1_federated_inference_coordinator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::IFederatedInferenceBackend</label>
+        <link refid="classthemis_1_1llm_1_1_i_federated_inference_backend"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::llm::FederatedInferenceCoordinator</label>
+        <link refid="classthemis_1_1llm_1_1_federated_inference_coordinator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::IFederatedInferenceBackend</label>
+        <link refid="classthemis_1_1llm_1_1_i_federated_inference_backend"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/federated_inference_coordinator.h" line="24" column="1" bodyfile="include/llm/federated_inference_coordinator.h" bodystart="24" bodyend="95"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_federated_inference_coordinator_1afc720a081eddf3e85d5594f4bf94e508" prot="public" virt="non-virtual"><scope>themis::llm::FederatedInferenceCoordinator</scope><name>addStaticShard</name></member>
+      <member refid="classthemis_1_1llm_1_1_federated_inference_coordinator_1ae56936b99c8b0a9efda2287e4b625054" prot="private" virt="non-virtual"><scope>themis::llm::FederatedInferenceCoordinator</scope><name>buildRequestBody</name></member>
+      <member refid="classthemis_1_1llm_1_1_federated_inference_coordinator_1a7ea4deeb700f100ce32576dd2ece5752" prot="private" virt="non-virtual"><scope>themis::llm::FederatedInferenceCoordinator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1_federated_inference_coordinator_1a8631627e1bfb33d1ac92d0caba8d204e" prot="private" virt="non-virtual"><scope>themis::llm::FederatedInferenceCoordinator</scope><name>dispatchToInstance</name></member>
+      <member refid="classthemis_1_1llm_1_1_federated_inference_coordinator_1a568ad36bab2a5edbb3a42d1ec224cfef" prot="public" virt="virtual"><scope>themis::llm::FederatedInferenceCoordinator</scope><name>execute</name></member>
+      <member refid="classthemis_1_1llm_1_1_federated_inference_coordinator_1a2cd27e09026f6c96cdfaf1a18b32f13f" prot="private" virt="non-virtual"><scope>themis::llm::FederatedInferenceCoordinator</scope><name>executor_</name></member>
+      <member refid="classthemis_1_1llm_1_1_federated_inference_coordinator_1af8aae47afa35d014e36a09f0f2eab013" prot="public" virt="non-virtual"><scope>themis::llm::FederatedInferenceCoordinator</scope><name>FederatedInferenceCoordinator</name></member>
+      <member refid="classthemis_1_1llm_1_1_federated_inference_coordinator_1a7add5456b1d987d40bbeeec6178cdbd3" prot="public" virt="non-virtual"><scope>themis::llm::FederatedInferenceCoordinator</scope><name>FederatedInferenceCoordinator</name></member>
+      <member refid="classthemis_1_1llm_1_1_federated_inference_coordinator_1ae0419c9cf62a00eac2ba869e591a396a" prot="private" virt="non-virtual"><scope>themis::llm::FederatedInferenceCoordinator</scope><name>parseResponse</name></member>
+      <member refid="classthemis_1_1llm_1_1_federated_inference_coordinator_1a5a9191a4153130a7e7a78e696ff376b5" prot="private" virt="non-virtual"><scope>themis::llm::FederatedInferenceCoordinator</scope><name>resolveShard</name></member>
+      <member refid="classthemis_1_1llm_1_1_federated_inference_coordinator_1aecc430a6fd7e017a94e960ca82634676" prot="private" virt="non-virtual"><scope>themis::llm::FederatedInferenceCoordinator</scope><name>static_shards_</name></member>
+      <member refid="classthemis_1_1llm_1_1_federated_inference_coordinator_1a55e54d5924464969e8fde96f86566f70" prot="private" virt="non-virtual"><scope>themis::llm::FederatedInferenceCoordinator</scope><name>static_shards_mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_federated_inference_coordinator_1a3770a7ef830609d27919939d635672a9" prot="private" virt="non-virtual"><scope>themis::llm::FederatedInferenceCoordinator</scope><name>topology_</name></member>
+      <member refid="classthemis_1_1llm_1_1_federated_inference_coordinator_1a84ecf575fadde9c81046dbca15068257" prot="public" virt="non-virtual"><scope>themis::llm::FederatedInferenceCoordinator</scope><name>~FederatedInferenceCoordinator</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_federated_inference_backend_1ada2c5c515af52d00e812ce3131ea86de" prot="public" virt="virtual"><scope>themis::llm::FederatedInferenceCoordinator</scope><name>~IFederatedInferenceBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,263 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_in_memory_shared_checkpoint_store" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::InMemorySharedCheckpointStore</compoundname>
+    <basecompoundref refid="classthemis_1_1ingestion_1_1_i_shared_checkpoint_store" prot="public" virt="non-virtual">themis::ingestion::ISharedCheckpointStore</basecompoundref>
+    <includes refid="ingestion__coordinator_8h" local="no">ingestion_coordinator.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_in_memory_shared_checkpoint_store_1a279cf7c27e7a5890dac5212c2a97c523" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::ingestion::InMemorySharedCheckpointStore::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::ingestion::InMemorySharedCheckpointStore::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_coordinator.h" line="123" column="24" bodyfile="include/ingestion/ingestion_coordinator.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_in_memory_shared_checkpoint_store_1a36c5f61e6242d1bee73599f2135f7ef3" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1ingestion_1_1_ingestion_checkpoint" kindref="compound">IngestionCheckpoint</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, IngestionCheckpoint&gt; themis::ingestion::InMemorySharedCheckpointStore::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>themis::ingestion::InMemorySharedCheckpointStore::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_coordinator.h" line="124" column="24" bodyfile="include/ingestion/ingestion_coordinator.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_in_memory_shared_checkpoint_store_1a702727c967b631b1692a92b0d3e403c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::InMemorySharedCheckpointStore::write</definition>
+        <argsstring>(const IngestionCheckpoint &amp;cp) override</argsstring>
+        <name>write</name>
+        <qualifiedname>themis::ingestion::InMemorySharedCheckpointStore::write</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_shared_checkpoint_store_1a5b763825a1b2a8952998f7b381dd0aef">write</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_ingestion_checkpoint" kindref="compound">IngestionCheckpoint</ref> &amp;</type>
+          <declname>cp</declname>
+        </param>
+        <briefdescription>
+<para>Write. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_coordinator.h" line="113" column="10" bodyfile="src/ingestion/ingestion_coordinator.cpp" bodystart="78" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_in_memory_shared_checkpoint_store_1aed62fb40c1f5d94be50d95c43ee1abc8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::InMemorySharedCheckpointStore::read</definition>
+        <argsstring>(const std::string &amp;source_id, IngestionCheckpoint &amp;out) const override</argsstring>
+        <name>read</name>
+        <qualifiedname>themis::ingestion::InMemorySharedCheckpointStore::read</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_shared_checkpoint_store_1a6059f54ce32e51ac10b92ee5e63487f1">read</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_id</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1ingestion_1_1_ingestion_checkpoint" kindref="compound">IngestionCheckpoint</ref> &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+<para>Read the checkpoint for a source. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>source_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source whose checkpoint to retrieve </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Populated on success </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if a checkpoint was found and read successfully </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_coordinator.h" line="114" column="10" bodyfile="src/ingestion/ingestion_coordinator.cpp" bodystart="84" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_in_memory_shared_checkpoint_store_1a782276bc4e2fb6622904f0da775b66df" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::InMemorySharedCheckpointStore::clear</definition>
+        <argsstring>(const std::string &amp;source_id) override</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::ingestion::InMemorySharedCheckpointStore::clear</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_shared_checkpoint_store_1a295f98b1d0b6301738e8c4adb09c1464">clear</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_id</declname>
+        </param>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the source. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_coordinator.h" line="116" column="10" bodyfile="src/ingestion/ingestion_coordinator.cpp" bodystart="106" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_in_memory_shared_checkpoint_store_1a07fde79bb7ce112b34c246d0c1f667fe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::InMemorySharedCheckpointStore::exists</definition>
+        <argsstring>(const std::string &amp;source_id) const override</argsstring>
+        <name>exists</name>
+        <qualifiedname>themis::ingestion::InMemorySharedCheckpointStore::exists</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_shared_checkpoint_store_1a4691dee7c5fef7197a74ed532782d005">exists</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_id</declname>
+        </param>
+        <briefdescription>
+<para>Check whether a checkpoint exists for a source. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_coordinator.h" line="117" column="10" bodyfile="src/ingestion/ingestion_coordinator.cpp" bodystart="111" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_in_memory_shared_checkpoint_store_1a3e91c4c3a68376d31aa535216fa760f9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::InMemorySharedCheckpointStore::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::ingestion::InMemorySharedCheckpointStore::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Number of checkpoints currently held in memory. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_coordinator.h" line="120" column="12" bodyfile="src/ingestion/ingestion_coordinator.cpp" bodystart="121" bodyend="129"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_shared_checkpoint_store" kindref="compound">ISharedCheckpointStore</ref></computeroutput> backed by a mutex-protected in-memory map. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Suitable for single-process multi-worker deployments (e.g. tests and the default <computeroutput><ref refid="classthemis_1_1ingestion_1_1_in_process_worker_node" kindref="compound">InProcessWorkerNode</ref></computeroutput> mode). Production deployments inject a Redis- or database-backed implementation via <computeroutput><ref refid="classthemis_1_1ingestion_1_1_ingestion_coordinator_1a793dc18b226e4b0c2a8ef1263502b503" kindref="member">IngestionCoordinator::setSharedCheckpointStoreForTesting()</ref></computeroutput>.</para>
+<para>Thread-safety: fully thread-safe. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::ingestion::ISharedCheckpointStore</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_shared_checkpoint_store"/>
+      </node>
+      <node id="1">
+        <label>themis::ingestion::InMemorySharedCheckpointStore</label>
+        <link refid="classthemis_1_1ingestion_1_1_in_memory_shared_checkpoint_store"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::ingestion::ISharedCheckpointStore</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_shared_checkpoint_store"/>
+      </node>
+      <node id="1">
+        <label>themis::ingestion::InMemorySharedCheckpointStore</label>
+        <link refid="classthemis_1_1ingestion_1_1_in_memory_shared_checkpoint_store"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/ingestion/ingestion_coordinator.h" line="111" column="1" bodyfile="include/ingestion/ingestion_coordinator.h" bodystart="111" bodyend="125"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_in_memory_shared_checkpoint_store_1a782276bc4e2fb6622904f0da775b66df" prot="public" virt="virtual"><scope>themis::ingestion::InMemorySharedCheckpointStore</scope><name>clear</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_in_memory_shared_checkpoint_store_1a07fde79bb7ce112b34c246d0c1f667fe" prot="public" virt="virtual"><scope>themis::ingestion::InMemorySharedCheckpointStore</scope><name>exists</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_in_memory_shared_checkpoint_store_1a279cf7c27e7a5890dac5212c2a97c523" prot="private" virt="non-virtual"><scope>themis::ingestion::InMemorySharedCheckpointStore</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_in_memory_shared_checkpoint_store_1aed62fb40c1f5d94be50d95c43ee1abc8" prot="public" virt="virtual"><scope>themis::ingestion::InMemorySharedCheckpointStore</scope><name>read</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_in_memory_shared_checkpoint_store_1a3e91c4c3a68376d31aa535216fa760f9" prot="public" virt="non-virtual"><scope>themis::ingestion::InMemorySharedCheckpointStore</scope><name>size</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_in_memory_shared_checkpoint_store_1a36c5f61e6242d1bee73599f2135f7ef3" prot="private" virt="non-virtual"><scope>themis::ingestion::InMemorySharedCheckpointStore</scope><name>store_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_in_memory_shared_checkpoint_store_1a702727c967b631b1692a92b0d3e403c0" prot="public" virt="virtual"><scope>themis::ingestion::InMemorySharedCheckpointStore</scope><name>write</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_shared_checkpoint_store_1a9adae88e67d98c6560693411a2c9ed56" prot="public" virt="virtual"><scope>themis::ingestion::InMemorySharedCheckpointStore</scope><name>~ISharedCheckpointStore</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

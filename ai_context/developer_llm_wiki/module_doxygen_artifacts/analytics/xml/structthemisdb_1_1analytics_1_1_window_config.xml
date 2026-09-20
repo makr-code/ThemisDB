@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_window_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::WindowConfig</compoundname>
+    <includes refid="cep__engine_8h" local="no">cep_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_window_config_1a4a12f1622d458d26b3d59ceeb0226c71" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1analytics_1a92c01a8522c0a9f32305c8be8793bc1b" kindref="member">WindowType</ref></type>
+        <definition>WindowType themisdb::analytics::WindowConfig::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themisdb::analytics::WindowConfig::type</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1analytics_1a92c01a8522c0a9f32305c8be8793bc1ba95ad2287637805c77de2453d860476b2" kindref="member">WindowType::TUMBLING</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="297" column="16" bodyfile="include/analytics/cep_engine.h" bodystart="297" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_window_config_1a86e69f7f3c9838d17e7ca53d41c8fd71" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::analytics::WindowConfig::size</definition>
+        <argsstring></argsstring>
+        <name>size</name>
+        <qualifiedname>themisdb::analytics::WindowConfig::size</qualifiedname>
+        <initializer>{60000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="298" column="31" bodyfile="include/analytics/cep_engine.h" bodystart="298" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_window_config_1a1e663c35e921ca63e3a0812f1ba65c3a" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::analytics::WindowConfig::slide</definition>
+        <argsstring></argsstring>
+        <name>slide</name>
+        <qualifiedname>themisdb::analytics::WindowConfig::slide</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="299" column="31" bodyfile="include/analytics/cep_engine.h" bodystart="299" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_window_config_1ab2a39f3af236d71c8b1ba7b4caf60882" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::analytics::WindowConfig::gap</definition>
+        <argsstring></argsstring>
+        <name>gap</name>
+        <qualifiedname>themisdb::analytics::WindowConfig::gap</qualifiedname>
+        <initializer>{30000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="300" column="31" bodyfile="include/analytics/cep_engine.h" bodystart="300" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_window_config_1aa91a1c58fd7fcf39ef294f0fd02bec33" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::WindowConfig::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <qualifiedname>themisdb::analytics::WindowConfig::count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="301" column="14" bodyfile="include/analytics/cep_engine.h" bodystart="301" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_window_config_1a6ea448bc306fa9fe6522abda7c63b99a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::WindowConfig::emit_on_close</definition>
+        <argsstring></argsstring>
+        <name>emit_on_close</name>
+        <qualifiedname>themisdb::analytics::WindowConfig::emit_on_close</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="302" column="10" bodyfile="include/analytics/cep_engine.h" bodystart="302" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_window_config_1af3874737e592fd92e359dec64f67bdfe" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::WindowConfig::emit_on_event</definition>
+        <argsstring></argsstring>
+        <name>emit_on_event</name>
+        <qualifiedname>themisdb::analytics::WindowConfig::emit_on_event</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="303" column="10" bodyfile="include/analytics/cep_engine.h" bodystart="303" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_window_config_1ad7ae49332ebd1597c19c8a4e29338e59" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::analytics::WindowConfig::allowed_lateness</definition>
+        <argsstring></argsstring>
+        <name>allowed_lateness</name>
+        <qualifiedname>themisdb::analytics::WindowConfig::allowed_lateness</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="304" column="31" bodyfile="include/analytics/cep_engine.h" bodystart="304" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_window_config_1aae50f206da024a571a63097cc9cac3e4" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::analytics::WindowConfig::global_window_emit_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>global_window_emit_interval_ms</name>
+        <qualifiedname>themisdb::analytics::WindowConfig::global_window_emit_interval_ms</qualifiedname>
+        <initializer>{500}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="305" column="31" bodyfile="include/analytics/cep_engine.h" bodystart="305" bodyend="305"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/cep_engine.h" line="296" column="1" bodyfile="include/analytics/cep_engine.h" bodystart="296" bodyend="306"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_window_config_1ad7ae49332ebd1597c19c8a4e29338e59" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowConfig</scope><name>allowed_lateness</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_window_config_1aa91a1c58fd7fcf39ef294f0fd02bec33" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowConfig</scope><name>count</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_window_config_1a6ea448bc306fa9fe6522abda7c63b99a" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowConfig</scope><name>emit_on_close</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_window_config_1af3874737e592fd92e359dec64f67bdfe" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowConfig</scope><name>emit_on_event</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_window_config_1ab2a39f3af236d71c8b1ba7b4caf60882" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowConfig</scope><name>gap</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_window_config_1aae50f206da024a571a63097cc9cac3e4" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowConfig</scope><name>global_window_emit_interval_ms</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_window_config_1a86e69f7f3c9838d17e7ca53d41c8fd71" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowConfig</scope><name>size</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_window_config_1a1e663c35e921ca63e3a0812f1ba65c3a" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowConfig</scope><name>slide</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_window_config_1a4a12f1622d458d26b3d59ceeb0226c71" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowConfig</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

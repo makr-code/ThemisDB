@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1config_1_1_mapping_not_found_exception" kind="class" language="C++" prot="public">
+    <compoundname>themis::config::MappingNotFoundException</compoundname>
+    <basecompoundref refid="classthemis_1_1config_1_1_config_exception" prot="public" virt="non-virtual">themis::config::ConfigException</basecompoundref>
+    <includes refid="config__errors_8h" local="no">config_errors.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_mapping_not_found_exception_1a846c04ebb0de747bb8aaaf5dd9f46efc" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::config::MappingNotFoundException::legacy_path_</definition>
+        <argsstring></argsstring>
+        <name>legacy_path_</name>
+        <qualifiedname>themis::config::MappingNotFoundException::legacy_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_errors.h" line="79" column="17" bodyfile="include/config/config_errors.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1config_1_1_mapping_not_found_exception_1a7e6d964f4972e04b33c1169dc7c5f190" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::config::MappingNotFoundException::MappingNotFoundException</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>MappingNotFoundException</name>
+        <qualifiedname>themis::config::MappingNotFoundException::MappingNotFoundException</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Mapping Not Found Exception. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_errors.h" line="72" column="14" bodyfile="include/config/config_errors.h" bodystart="72" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_mapping_not_found_exception_1a34dadea1f24762cd5f3a5857f9369ff9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::config::MappingNotFoundException::legacy_path</definition>
+        <argsstring>() const</argsstring>
+        <name>legacy_path</name>
+        <qualifiedname>themis::config::MappingNotFoundException::legacy_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_errors.h" line="76" column="23" bodyfile="include/config/config_errors.h" bodystart="76" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>std::exception</label>
+      </node>
+      <node id="2">
+        <label>themis::config::ConfigException</label>
+        <link refid="classthemis_1_1config_1_1_config_exception"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::config::MappingNotFoundException</label>
+        <link refid="classthemis_1_1config_1_1_mapping_not_found_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>std::exception</label>
+      </node>
+      <node id="2">
+        <label>themis::config::ConfigException</label>
+        <link refid="classthemis_1_1config_1_1_config_exception"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::config::MappingNotFoundException</label>
+        <link refid="classthemis_1_1config_1_1_mapping_not_found_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/config/config_errors.h" line="65" column="1" bodyfile="include/config/config_errors.h" bodystart="65" bodyend="80"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1config_1_1_config_exception_1a56f7a3624a61e29e784109994afcb56c" prot="public" virt="non-virtual"><scope>themis::config::MappingNotFoundException</scope><name>ConfigException</name></member>
+      <member refid="classthemis_1_1config_1_1_mapping_not_found_exception_1a34dadea1f24762cd5f3a5857f9369ff9" prot="public" virt="non-virtual"><scope>themis::config::MappingNotFoundException</scope><name>legacy_path</name></member>
+      <member refid="classthemis_1_1config_1_1_mapping_not_found_exception_1a846c04ebb0de747bb8aaaf5dd9f46efc" prot="private" virt="non-virtual"><scope>themis::config::MappingNotFoundException</scope><name>legacy_path_</name></member>
+      <member refid="classthemis_1_1config_1_1_mapping_not_found_exception_1a7e6d964f4972e04b33c1169dc7c5f190" prot="public" virt="non-virtual"><scope>themis::config::MappingNotFoundException</scope><name>MappingNotFoundException</name></member>
+      <member refid="classthemis_1_1config_1_1_config_exception_1afc6d49065e72d36b1cedc527c69388b6" prot="protected" virt="non-virtual"><scope>themis::config::MappingNotFoundException</scope><name>message_</name></member>
+      <member refid="classthemis_1_1config_1_1_config_exception_1ac4a99ca1654cc6da57fb914c162bee1b" prot="public" virt="non-virtual"><scope>themis::config::MappingNotFoundException</scope><name>what</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

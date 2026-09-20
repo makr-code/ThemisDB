@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_c_l___e_n_f_o_r_c_e_m_e_n_t_01_4" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::KernelClassificationTraits&lt; KernelType::ACL_ENFORCEMENT &gt;</compoundname>
+    <includes refid="graph__kernel__classification_8h" local="no">graph_kernel_classification.h</includes>
+    <templateparamlist>
+    </templateparamlist>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_c_l___e_n_f_o_r_c_e_m_e_n_t_01_4_1ab379aff80c767f3c4646d663e6813850" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type><ref refid="namespacethemis_1_1acceleration_1a20a4ed65dbc539c26a6c5c002c3b3b2c" kindref="member">KernelCategory</ref></type>
+        <definition>KernelCategory themis::acceleration::KernelClassificationTraits&lt; KernelType::ACL_ENFORCEMENT &gt;::category</definition>
+        <argsstring></argsstring>
+        <name>category</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::ACL_ENFORCEMENT &gt;::category</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1acceleration_1a20a4ed65dbc539c26a6c5c002c3b3b2ca320013acc73c7937e33c4dd17a8b1484" kindref="member">KernelCategory::CPU_FIRST_ONLY</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="230" column="37" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_c_l___e_n_f_o_r_c_e_m_e_n_t_01_4_1a7e86f1c91398386c4996cd5807fc27ee" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::acceleration::KernelClassificationTraits&lt; KernelType::ACL_ENFORCEMENT &gt;::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::ACL_ENFORCEMENT &gt;::name</qualifiedname>
+        <initializer>= &quot;ACL_ENFORCEMENT&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="231" column="39" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_c_l___e_n_f_o_r_c_e_m_e_n_t_01_4_1a5897e4e36d1d79567dede7e544a460b3" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::KernelClassificationTraits&lt; KernelType::ACL_ENFORCEMENT &gt;::requires_input_validation</definition>
+        <argsstring></argsstring>
+        <name>requires_input_validation</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::ACL_ENFORCEMENT &gt;::requires_input_validation</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="232" column="27" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_c_l___e_n_f_o_r_c_e_m_e_n_t_01_4_1ac35161801c35c24c2f44c3e62be8d746" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::KernelClassificationTraits&lt; KernelType::ACL_ENFORCEMENT &gt;::requires_output_validation</definition>
+        <argsstring></argsstring>
+        <name>requires_output_validation</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::ACL_ENFORCEMENT &gt;::requires_output_validation</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="233" column="27" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_c_l___e_n_f_o_r_c_e_m_e_n_t_01_4_1ad229acfa61d95b990b496b21d3348559" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::KernelClassificationTraits&lt; KernelType::ACL_ENFORCEMENT &gt;::has_cpu_fallback</definition>
+        <argsstring></argsstring>
+        <name>has_cpu_fallback</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::ACL_ENFORCEMENT &gt;::has_cpu_fallback</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="234" column="27" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_c_l___e_n_f_o_r_c_e_m_e_n_t_01_4_1a333af7c80611d482324593b3faeddf1e" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::KernelClassificationTraits&lt; KernelType::ACL_ENFORCEMENT &gt;::gpu_execution_bounded</definition>
+        <argsstring></argsstring>
+        <name>gpu_execution_bounded</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::ACL_ENFORCEMENT &gt;::gpu_execution_bounded</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="235" column="27" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_c_l___e_n_f_o_r_c_e_m_e_n_t_01_4_1a20e7f140694e3b377fd2036b16cb044a" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::KernelClassificationTraits&lt; KernelType::ACL_ENFORCEMENT &gt;::is_advisory_only</definition>
+        <argsstring></argsstring>
+        <name>is_advisory_only</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::ACL_ENFORCEMENT &gt;::is_advisory_only</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="236" column="27" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_c_l___e_n_f_o_r_c_e_m_e_n_t_01_4_1a922121459896da867c54afff5f199142" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::KernelClassificationTraits&lt; KernelType::ACL_ENFORCEMENT &gt;::gpu_may_parallelize</definition>
+        <argsstring></argsstring>
+        <name>gpu_may_parallelize</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::ACL_ENFORCEMENT &gt;::gpu_may_parallelize</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="237" column="27" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_1afb7907ffb409f9ea785174047ac742bc" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themis::acceleration::KernelClassificationTraits&lt; KT &gt;::max_gpu_time_ms</definition>
+        <argsstring></argsstring>
+        <name>max_gpu_time_ms</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::ACL_ENFORCEMENT &gt;::max_gpu_time_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="74" column="36" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_1a4a8610cfa103f3514295137eb2938a4c" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::acceleration::KernelClassificationTraits&lt; KT &gt;::max_output_size</definition>
+        <argsstring></argsstring>
+        <name>max_output_size</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::ACL_ENFORCEMENT &gt;::max_output_size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="76" column="36" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/graph_kernel_classification.h" line="229" column="1" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="229" bodyend="238"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_c_l___e_n_f_o_r_c_e_m_e_n_t_01_4_1ab379aff80c767f3c4646d663e6813850" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::ACL_ENFORCEMENT &gt;</scope><name>category</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_c_l___e_n_f_o_r_c_e_m_e_n_t_01_4_1a333af7c80611d482324593b3faeddf1e" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::ACL_ENFORCEMENT &gt;</scope><name>gpu_execution_bounded</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_c_l___e_n_f_o_r_c_e_m_e_n_t_01_4_1a922121459896da867c54afff5f199142" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::ACL_ENFORCEMENT &gt;</scope><name>gpu_may_parallelize</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_c_l___e_n_f_o_r_c_e_m_e_n_t_01_4_1ad229acfa61d95b990b496b21d3348559" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::ACL_ENFORCEMENT &gt;</scope><name>has_cpu_fallback</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_c_l___e_n_f_o_r_c_e_m_e_n_t_01_4_1a20e7f140694e3b377fd2036b16cb044a" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::ACL_ENFORCEMENT &gt;</scope><name>is_advisory_only</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_1afb7907ffb409f9ea785174047ac742bc" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::ACL_ENFORCEMENT &gt;</scope><name>max_gpu_time_ms</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_1a4a8610cfa103f3514295137eb2938a4c" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::ACL_ENFORCEMENT &gt;</scope><name>max_output_size</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_c_l___e_n_f_o_r_c_e_m_e_n_t_01_4_1a7e86f1c91398386c4996cd5807fc27ee" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::ACL_ENFORCEMENT &gt;</scope><name>name</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_c_l___e_n_f_o_r_c_e_m_e_n_t_01_4_1a5897e4e36d1d79567dede7e544a460b3" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::ACL_ENFORCEMENT &gt;</scope><name>requires_input_validation</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_c_l___e_n_f_o_r_c_e_m_e_n_t_01_4_1ac35161801c35c24c2f44c3e62be8d746" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::ACL_ENFORCEMENT &gt;</scope><name>requires_output_validation</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

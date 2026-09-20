@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_error_recovery_handler_1_1_recovery_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::ErrorRecoveryHandler::RecoveryStats</compoundname>
+    <includes refid="error__recovery__handler_8h" local="no">error_recovery_handler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_error_recovery_handler_1_1_recovery_stats_1a0848fc0fd8ec266de577d85337b78fad" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::ErrorRecoveryHandler::RecoveryStats::total_errors</definition>
+        <argsstring></argsstring>
+        <name>total_errors</name>
+        <qualifiedname>themis::distributed_tensor::ErrorRecoveryHandler::RecoveryStats::total_errors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/error_recovery_handler.h" line="164" column="14" bodyfile="src/distributed_tensor/include/error_recovery_handler.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_error_recovery_handler_1_1_recovery_stats_1a3d9d3ad2f899661f3bb941bf4f0b39c5" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::ErrorRecoveryHandler::RecoveryStats::successful_recoveries</definition>
+        <argsstring></argsstring>
+        <name>successful_recoveries</name>
+        <qualifiedname>themis::distributed_tensor::ErrorRecoveryHandler::RecoveryStats::successful_recoveries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/error_recovery_handler.h" line="166" column="14" bodyfile="src/distributed_tensor/include/error_recovery_handler.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_error_recovery_handler_1_1_recovery_stats_1a953ad8012ddb0d5cb0c37e883af02d50" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::ErrorRecoveryHandler::RecoveryStats::errors_requiring_invalidation</definition>
+        <argsstring></argsstring>
+        <name>errors_requiring_invalidation</name>
+        <qualifiedname>themis::distributed_tensor::ErrorRecoveryHandler::RecoveryStats::errors_requiring_invalidation</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/error_recovery_handler.h" line="168" column="14" bodyfile="src/distributed_tensor/include/error_recovery_handler.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_error_recovery_handler_1_1_recovery_stats_1a156bdb3245ebe20ac4b5133e9d1bcafa" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::ErrorRecoveryHandler::RecoveryStats::errors_escalated</definition>
+        <argsstring></argsstring>
+        <name>errors_escalated</name>
+        <qualifiedname>themis::distributed_tensor::ErrorRecoveryHandler::RecoveryStats::errors_escalated</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/error_recovery_handler.h" line="170" column="14" bodyfile="src/distributed_tensor/include/error_recovery_handler.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_error_recovery_handler_1_1_recovery_stats_1ac955ad0547eb0d3f261a827fb2c07369" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::ErrorRecoveryHandler::RecoveryStats::errors_deferred</definition>
+        <argsstring></argsstring>
+        <name>errors_deferred</name>
+        <qualifiedname>themis::distributed_tensor::ErrorRecoveryHandler::RecoveryStats::errors_deferred</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/error_recovery_handler.h" line="172" column="14" bodyfile="src/distributed_tensor/include/error_recovery_handler.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_error_recovery_handler_1_1_recovery_stats_1a84d27dd598f4a45cca095a8006ba797e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::ErrorRecoveryHandler::RecoveryStats::irrecoverable_errors</definition>
+        <argsstring></argsstring>
+        <name>irrecoverable_errors</name>
+        <qualifiedname>themis::distributed_tensor::ErrorRecoveryHandler::RecoveryStats::irrecoverable_errors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/error_recovery_handler.h" line="174" column="14" bodyfile="src/distributed_tensor/include/error_recovery_handler.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/error_recovery_handler.h" line="163" column="3" bodyfile="src/distributed_tensor/include/error_recovery_handler.h" bodystart="163" bodyend="175"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_error_recovery_handler_1_1_recovery_stats_1ac955ad0547eb0d3f261a827fb2c07369" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ErrorRecoveryHandler::RecoveryStats</scope><name>errors_deferred</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_error_recovery_handler_1_1_recovery_stats_1a156bdb3245ebe20ac4b5133e9d1bcafa" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ErrorRecoveryHandler::RecoveryStats</scope><name>errors_escalated</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_error_recovery_handler_1_1_recovery_stats_1a953ad8012ddb0d5cb0c37e883af02d50" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ErrorRecoveryHandler::RecoveryStats</scope><name>errors_requiring_invalidation</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_error_recovery_handler_1_1_recovery_stats_1a84d27dd598f4a45cca095a8006ba797e" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ErrorRecoveryHandler::RecoveryStats</scope><name>irrecoverable_errors</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_error_recovery_handler_1_1_recovery_stats_1a3d9d3ad2f899661f3bb941bf4f0b39c5" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ErrorRecoveryHandler::RecoveryStats</scope><name>successful_recoveries</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_error_recovery_handler_1_1_recovery_stats_1a0848fc0fd8ec266de577d85337b78fad" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ErrorRecoveryHandler::RecoveryStats</scope><name>total_errors</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

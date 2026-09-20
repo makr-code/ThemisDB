@@ -1,0 +1,280 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_device_memory_region" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::DeviceMemoryRegion</compoundname>
+    <includes refid="gpu__memory__allocator_8h" local="no">gpu_memory_allocator.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_device_memory_region_1a0dc8c732985a4112938a471d3f5d9f2f" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_allocator" kindref="compound">GPUMemoryAllocator</ref> *</type>
+        <definition>GPUMemoryAllocator* themis::gpu::DeviceMemoryRegion::allocator_</definition>
+        <argsstring></argsstring>
+        <name>allocator_</name>
+        <qualifiedname>themis::gpu::DeviceMemoryRegion::allocator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="221" column="24" bodyfile="include/gpu/gpu_memory_allocator.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_device_memory_region_1a238e7a60f8e935acd160f22c166da114" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1gpu_1_1_memory_allocation" kindref="compound">MemoryAllocation</ref></type>
+        <definition>MemoryAllocation themis::gpu::DeviceMemoryRegion::alloc_</definition>
+        <argsstring></argsstring>
+        <name>alloc_</name>
+        <qualifiedname>themis::gpu::DeviceMemoryRegion::alloc_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="222" column="22" bodyfile="include/gpu/gpu_memory_allocator.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_device_memory_region_1a2110f3433f85420a906cf2288f6037d3" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::DeviceMemoryRegion::is_moved_from_</definition>
+        <argsstring></argsstring>
+        <name>is_moved_from_</name>
+        <qualifiedname>themis::gpu::DeviceMemoryRegion::is_moved_from_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="223" column="10" bodyfile="include/gpu/gpu_memory_allocator.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_device_memory_region_1a6d652ceb59520fc4590b4a5021ce46e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::DeviceMemoryRegion::DeviceMemoryRegion</definition>
+        <argsstring>(GPUMemoryAllocator &amp;allocator, size_t size)</argsstring>
+        <name>DeviceMemoryRegion</name>
+        <qualifiedname>themis::gpu::DeviceMemoryRegion::DeviceMemoryRegion</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_allocator" kindref="compound">GPUMemoryAllocator</ref> &amp;</type>
+          <declname>allocator</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="174" column="5" bodyfile="src/gpu/gpu_memory_allocator.cpp" bodystart="361" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_device_memory_region_1a0a6bdd0c47225e4518fea93d59d5af86" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::DeviceMemoryRegion::~DeviceMemoryRegion</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~DeviceMemoryRegion</name>
+        <qualifiedname>themis::gpu::DeviceMemoryRegion::~DeviceMemoryRegion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="176" column="5" bodyfile="src/gpu/gpu_memory_allocator.cpp" bodystart="367" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_device_memory_region_1a3ea61d1a3827952d78a6d9a5ddc10aaa" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::DeviceMemoryRegion::DeviceMemoryRegion</definition>
+        <argsstring>(DeviceMemoryRegion &amp;&amp;other) noexcept</argsstring>
+        <name>DeviceMemoryRegion</name>
+        <qualifiedname>themis::gpu::DeviceMemoryRegion::DeviceMemoryRegion</qualifiedname>
+        <param>
+          <type>DeviceMemoryRegion &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="179" column="5" bodyfile="src/gpu/gpu_memory_allocator.cpp" bodystart="373" bodyend="380"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_device_memory_region_1ab46ce5d68064886445487fb00918baf4" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_device_memory_region_1a6d652ceb59520fc4590b4a5021ce46e5" kindref="member">DeviceMemoryRegion</ref> &amp;</type>
+        <definition>DeviceMemoryRegion &amp; themis::gpu::DeviceMemoryRegion::operator=</definition>
+        <argsstring>(DeviceMemoryRegion &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::DeviceMemoryRegion::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_device_memory_region_1a6d652ceb59520fc4590b4a5021ce46e5" kindref="member">DeviceMemoryRegion</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="180" column="24" bodyfile="src/gpu/gpu_memory_allocator.cpp" bodystart="382" bodyend="399"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_device_memory_region_1a90098b70d582eea0bea569a3bad11c33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::DeviceMemoryRegion::DeviceMemoryRegion</definition>
+        <argsstring>(const DeviceMemoryRegion &amp;)=delete</argsstring>
+        <name>DeviceMemoryRegion</name>
+        <qualifiedname>themis::gpu::DeviceMemoryRegion::DeviceMemoryRegion</qualifiedname>
+        <param>
+          <type>const DeviceMemoryRegion &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="183" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_device_memory_region_1a8129f1cb67725e952ada0a95e24c83a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_device_memory_region_1a6d652ceb59520fc4590b4a5021ce46e5" kindref="member">DeviceMemoryRegion</ref> &amp;</type>
+        <definition>DeviceMemoryRegion &amp; themis::gpu::DeviceMemoryRegion::operator=</definition>
+        <argsstring>(const DeviceMemoryRegion &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::DeviceMemoryRegion::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1gpu_1_1_device_memory_region_1a6d652ceb59520fc4590b4a5021ce46e5" kindref="member">DeviceMemoryRegion</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="184" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_device_memory_region_1ad7482940cd48d53c5c607b875cd97cec" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::gpu::DeviceMemoryRegion::device_ptr</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>device_ptr</name>
+        <qualifiedname>themis::gpu::DeviceMemoryRegion::device_ptr</qualifiedname>
+        <briefdescription>
+<para>Device ptr. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="191" column="10" bodyfile="src/gpu/gpu_memory_allocator.cpp" bodystart="401" bodyend="403"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_device_memory_region_1a478a42e7b425be196230b1fda653d61d" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const void *</type>
+        <definition>const void * themis::gpu::DeviceMemoryRegion::device_ptr</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>device_ptr</name>
+        <qualifiedname>themis::gpu::DeviceMemoryRegion::device_ptr</qualifiedname>
+        <briefdescription>
+<para>Device ptr. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="197" column="16" bodyfile="src/gpu/gpu_memory_allocator.cpp" bodystart="405" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_device_memory_region_1a8e9c94673d48ec1bc249f6954481e2bd" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::gpu::DeviceMemoryRegion::host_ptr</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>host_ptr</name>
+        <qualifiedname>themis::gpu::DeviceMemoryRegion::host_ptr</qualifiedname>
+        <briefdescription>
+<para>Host ptr. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="204" column="10" bodyfile="src/gpu/gpu_memory_allocator.cpp" bodystart="409" bodyend="411"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_device_memory_region_1aeaba3cfe3e57616161f8ea2d890bc270" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::DeviceMemoryRegion::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::gpu::DeviceMemoryRegion::size</qualifiedname>
+        <briefdescription>
+<para>Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="211" column="12" bodyfile="src/gpu/gpu_memory_allocator.cpp" bodystart="413" bodyend="415"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_device_memory_region_1aacfcd83b6eadc29cc2c2a902c3836442" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::DeviceMemoryRegion::is_valid</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>is_valid</name>
+        <qualifiedname>themis::gpu::DeviceMemoryRegion::is_valid</qualifiedname>
+        <briefdescription>
+<para>Is valid. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_allocator.h" line="218" column="10" bodyfile="src/gpu/gpu_memory_allocator.cpp" bodystart="417" bodyend="419"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/gpu/gpu_memory_allocator.h" line="172" column="1" bodyfile="include/gpu/gpu_memory_allocator.h" bodystart="172" bodyend="224"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_device_memory_region_1a238e7a60f8e935acd160f22c166da114" prot="private" virt="non-virtual"><scope>themis::gpu::DeviceMemoryRegion</scope><name>alloc_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_device_memory_region_1a0dc8c732985a4112938a471d3f5d9f2f" prot="private" virt="non-virtual"><scope>themis::gpu::DeviceMemoryRegion</scope><name>allocator_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_device_memory_region_1ad7482940cd48d53c5c607b875cd97cec" prot="public" virt="non-virtual"><scope>themis::gpu::DeviceMemoryRegion</scope><name>device_ptr</name></member>
+      <member refid="classthemis_1_1gpu_1_1_device_memory_region_1a478a42e7b425be196230b1fda653d61d" prot="public" virt="non-virtual"><scope>themis::gpu::DeviceMemoryRegion</scope><name>device_ptr</name></member>
+      <member refid="classthemis_1_1gpu_1_1_device_memory_region_1a6d652ceb59520fc4590b4a5021ce46e5" prot="public" virt="non-virtual"><scope>themis::gpu::DeviceMemoryRegion</scope><name>DeviceMemoryRegion</name></member>
+      <member refid="classthemis_1_1gpu_1_1_device_memory_region_1a3ea61d1a3827952d78a6d9a5ddc10aaa" prot="public" virt="non-virtual"><scope>themis::gpu::DeviceMemoryRegion</scope><name>DeviceMemoryRegion</name></member>
+      <member refid="classthemis_1_1gpu_1_1_device_memory_region_1a90098b70d582eea0bea569a3bad11c33" prot="public" virt="non-virtual"><scope>themis::gpu::DeviceMemoryRegion</scope><name>DeviceMemoryRegion</name></member>
+      <member refid="classthemis_1_1gpu_1_1_device_memory_region_1a8e9c94673d48ec1bc249f6954481e2bd" prot="public" virt="non-virtual"><scope>themis::gpu::DeviceMemoryRegion</scope><name>host_ptr</name></member>
+      <member refid="classthemis_1_1gpu_1_1_device_memory_region_1a2110f3433f85420a906cf2288f6037d3" prot="private" virt="non-virtual"><scope>themis::gpu::DeviceMemoryRegion</scope><name>is_moved_from_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_device_memory_region_1aacfcd83b6eadc29cc2c2a902c3836442" prot="public" virt="non-virtual"><scope>themis::gpu::DeviceMemoryRegion</scope><name>is_valid</name></member>
+      <member refid="classthemis_1_1gpu_1_1_device_memory_region_1ab46ce5d68064886445487fb00918baf4" prot="public" virt="non-virtual"><scope>themis::gpu::DeviceMemoryRegion</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_device_memory_region_1a8129f1cb67725e952ada0a95e24c83a3" prot="public" virt="non-virtual"><scope>themis::gpu::DeviceMemoryRegion</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_device_memory_region_1aeaba3cfe3e57616161f8ea2d890bc270" prot="public" virt="non-virtual"><scope>themis::gpu::DeviceMemoryRegion</scope><name>size</name></member>
+      <member refid="classthemis_1_1gpu_1_1_device_memory_region_1a0a6bdd0c47225e4518fea93d59d5af86" prot="public" virt="non-virtual"><scope>themis::gpu::DeviceMemoryRegion</scope><name>~DeviceMemoryRegion</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

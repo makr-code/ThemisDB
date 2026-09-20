@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_g_c_s_blob_backend_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::GCSBlobBackend::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_g_c_s_blob_backend_1_1_impl_1a43d4826dac0a1532bbbb3306a7996e60" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::GCSBlobBackend::Impl::bucket</definition>
+        <argsstring></argsstring>
+        <name>bucket</name>
+        <qualifiedname>themis::storage::GCSBlobBackend::Impl::bucket</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/blob_backend_gcs.cpp" line="34" column="17" bodyfile="src/storage/blob_backend_gcs.cpp" bodystart="34" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_g_c_s_blob_backend_1_1_impl_1ab3580c237f580a7da3340941069bedf9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::GCSBlobBackend::Impl::prefix</definition>
+        <argsstring></argsstring>
+        <name>prefix</name>
+        <qualifiedname>themis::storage::GCSBlobBackend::Impl::prefix</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/blob_backend_gcs.cpp" line="35" column="17" bodyfile="src/storage/blob_backend_gcs.cpp" bodystart="35" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_g_c_s_blob_backend_1_1_impl_1a2b3617cb00697ed2e0d9103b0a332f23" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::GCSBlobBackend::Impl::available</definition>
+        <argsstring></argsstring>
+        <name>available</name>
+        <qualifiedname>themis::storage::GCSBlobBackend::Impl::available</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/blob_backend_gcs.cpp" line="36" column="17" bodyfile="src/storage/blob_backend_gcs.cpp" bodystart="36" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_g_c_s_blob_backend_1_1_impl_1a72e6aacb67ae081e9850770bb0503cde" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::storage::GCSBlobBackend::Impl::mutex</definition>
+        <argsstring></argsstring>
+        <name>mutex</name>
+        <qualifiedname>themis::storage::GCSBlobBackend::Impl::mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/blob_backend_gcs.cpp" line="37" column="24" bodyfile="src/storage/blob_backend_gcs.cpp" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_g_c_s_blob_backend_1_1_impl_1a55af58d04dc79fb9df120a65d0e03305" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::GCSBlobBackend::Impl::Impl</definition>
+        <argsstring>(const std::string &amp;bucket_, const std::string &amp;prefix_)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::storage::GCSBlobBackend::Impl::Impl</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>bucket_</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix_</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/blob_backend_gcs.cpp" line="43" column="5" bodyfile="src/storage/blob_backend_gcs.cpp" bodystart="43" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/storage/blob_backend_gcs.cpp" line="33" column="1" bodyfile="src/storage/blob_backend_gcs.cpp" bodystart="33" bodyend="65"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_g_c_s_blob_backend_1_1_impl_1a2b3617cb00697ed2e0d9103b0a332f23" prot="public" virt="non-virtual"><scope>themis::storage::GCSBlobBackend::Impl</scope><name>available</name></member>
+      <member refid="structthemis_1_1storage_1_1_g_c_s_blob_backend_1_1_impl_1a43d4826dac0a1532bbbb3306a7996e60" prot="public" virt="non-virtual"><scope>themis::storage::GCSBlobBackend::Impl</scope><name>bucket</name></member>
+      <member refid="structthemis_1_1storage_1_1_g_c_s_blob_backend_1_1_impl_1a55af58d04dc79fb9df120a65d0e03305" prot="public" virt="non-virtual"><scope>themis::storage::GCSBlobBackend::Impl</scope><name>Impl</name></member>
+      <member refid="structthemis_1_1storage_1_1_g_c_s_blob_backend_1_1_impl_1a72e6aacb67ae081e9850770bb0503cde" prot="public" virt="non-virtual"><scope>themis::storage::GCSBlobBackend::Impl</scope><name>mutex</name></member>
+      <member refid="structthemis_1_1storage_1_1_g_c_s_blob_backend_1_1_impl_1ab3580c237f580a7da3340941069bedf9" prot="public" virt="non-virtual"><scope>themis::storage::GCSBlobBackend::Impl</scope><name>prefix</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

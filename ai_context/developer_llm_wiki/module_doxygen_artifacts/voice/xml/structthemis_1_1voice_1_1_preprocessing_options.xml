@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_preprocessing_options" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::PreprocessingOptions</compoundname>
+    <includes refid="audio__preprocessing_8h" local="no">audio_preprocessing.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_preprocessing_options_1ad0cb64f1ceffcfd1c67ea70caa22351f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::PreprocessingOptions::enable_noise_reduction</definition>
+        <argsstring></argsstring>
+        <name>enable_noise_reduction</name>
+        <qualifiedname>themis::voice::PreprocessingOptions::enable_noise_reduction</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable noise reduction (spectral gate or deep-learning). Default: true. When false, noise_reduction_strength is ignored. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="155" column="10" bodyfile="include/voice/audio_preprocessing.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_preprocessing_options_1a7354668d4c21bce8772b2748e153b797" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::PreprocessingOptions::enable_echo_cancellation</definition>
+        <argsstring></argsstring>
+        <name>enable_echo_cancellation</name>
+        <qualifiedname>themis::voice::PreprocessingOptions::enable_echo_cancellation</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Enable echo cancellation (requires reference signal). Default: false. When true, applyEchoCancellation() must be called with reference. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="159" column="10" bodyfile="include/voice/audio_preprocessing.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_preprocessing_options_1ae194a18a96e9400d76b51b818c734b52" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::PreprocessingOptions::enable_vad</definition>
+        <argsstring></argsstring>
+        <name>enable_vad</name>
+        <qualifiedname>themis::voice::PreprocessingOptions::enable_vad</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable voice activity detection to quantify speech fraction. Default: true. Provides voice_activity_ratio in <ref refid="structthemis_1_1voice_1_1_preprocessing_result" kindref="compound">PreprocessingResult</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="163" column="10" bodyfile="include/voice/audio_preprocessing.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_preprocessing_options_1a79cc2d1ce0cf227cd6cdaebad41465a9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::PreprocessingOptions::enable_normalization</definition>
+        <argsstring></argsstring>
+        <name>enable_normalization</name>
+        <qualifiedname>themis::voice::PreprocessingOptions::enable_normalization</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable RMS-based normalization to target_rms. Default: true. Prevents clipping and normalizes dynamic range. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="167" column="10" bodyfile="include/voice/audio_preprocessing.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_preprocessing_options_1a88d65f68ffa154c0e2e528708b7ceaa9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::PreprocessingOptions::enable_rnnoise_suppression</definition>
+        <argsstring></argsstring>
+        <name>enable_rnnoise_suppression</name>
+        <qualifiedname>themis::voice::PreprocessingOptions::enable_rnnoise_suppression</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Enable RNNoise deep-learning suppression (frozen feature). Default: false. Requires THEMIS_ENABLE_RNNOISE CMake flag. When enabled, RNNoise replaces spectral-gate noise reduction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="172" column="10" bodyfile="include/voice/audio_preprocessing.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_preprocessing_options_1a3b11aea9f8f4a6d25814f3faeadf2274" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::PreprocessingOptions::vad_threshold</definition>
+        <argsstring></argsstring>
+        <name>vad_threshold</name>
+        <qualifiedname>themis::voice::PreprocessingOptions::vad_threshold</qualifiedname>
+        <initializer>= 0.5f</initializer>
+        <briefdescription>
+<para>VAD confidence threshold [0.0, 1.0]. Frames below this threshold are considered silence. Default: 0.5f (50% confidence = voice). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="177" column="11" bodyfile="include/voice/audio_preprocessing.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_preprocessing_options_1a1a43c89a1127c66981b296db63585500" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::PreprocessingOptions::noise_reduction_strength</definition>
+        <argsstring></argsstring>
+        <name>noise_reduction_strength</name>
+        <qualifiedname>themis::voice::PreprocessingOptions::noise_reduction_strength</qualifiedname>
+        <initializer>= 0.7f</initializer>
+        <briefdescription>
+<para>Noise reduction strength [0.0, 1.0]. Higher values = more aggressive suppression (may distort speech). Default 0.7f is a balanced setting for optimal quality. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="182" column="11" bodyfile="include/voice/audio_preprocessing.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_preprocessing_options_1a04e23e207cf99cc3dd0dab5fd7e9a205" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::PreprocessingOptions::rnnoise_vad_threshold</definition>
+        <argsstring></argsstring>
+        <name>rnnoise_vad_threshold</name>
+        <qualifiedname>themis::voice::PreprocessingOptions::rnnoise_vad_threshold</qualifiedname>
+        <initializer>= 0.5f</initializer>
+        <briefdescription>
+<para>RNNoise VAD gate threshold [0.0, 1.0]. Frames below this are attenuated to silence (frozen feature). Default: 0.5f (50% confidence = voice). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="187" column="11" bodyfile="include/voice/audio_preprocessing.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_preprocessing_options_1abd8eae3002663180105442303b3c0b39" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::PreprocessingOptions::target_rms</definition>
+        <argsstring></argsstring>
+        <name>target_rms</name>
+        <qualifiedname>themis::voice::PreprocessingOptions::target_rms</qualifiedname>
+        <initializer>= 0.1f</initializer>
+        <briefdescription>
+<para>Target RMS for normalization [0.01, 0.5]. Default: 0.1f (10% of full scale). Higher values preserve more dynamic range but risk clipping. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="192" column="11" bodyfile="include/voice/audio_preprocessing.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_preprocessing_options_1af3730423f10fe7710dcd0211e5670ba0" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::PreprocessingOptions::target_sample_rate</definition>
+        <argsstring></argsstring>
+        <name>target_sample_rate</name>
+        <qualifiedname>themis::voice::PreprocessingOptions::target_sample_rate</qualifiedname>
+        <initializer>= 16000</initializer>
+        <briefdescription>
+<para>Target sample rate after resampling (Hz). Default: 16000 Hz (frozen nominal). Standard for speech models; changing requires Phase 1 amendment. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="197" column="9" bodyfile="include/voice/audio_preprocessing.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1voice_1_1_audio_preprocessing_pipeline" kindref="compound">AudioPreprocessingPipeline</ref>. All enabled pipelines are chained in documented order (see file header). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/audio_preprocessing.h" line="152" column="1" bodyfile="include/voice/audio_preprocessing.h" bodystart="152" bodyend="198"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_preprocessing_options_1a7354668d4c21bce8772b2748e153b797" prot="public" virt="non-virtual"><scope>themis::voice::PreprocessingOptions</scope><name>enable_echo_cancellation</name></member>
+      <member refid="structthemis_1_1voice_1_1_preprocessing_options_1ad0cb64f1ceffcfd1c67ea70caa22351f" prot="public" virt="non-virtual"><scope>themis::voice::PreprocessingOptions</scope><name>enable_noise_reduction</name></member>
+      <member refid="structthemis_1_1voice_1_1_preprocessing_options_1a79cc2d1ce0cf227cd6cdaebad41465a9" prot="public" virt="non-virtual"><scope>themis::voice::PreprocessingOptions</scope><name>enable_normalization</name></member>
+      <member refid="structthemis_1_1voice_1_1_preprocessing_options_1a88d65f68ffa154c0e2e528708b7ceaa9" prot="public" virt="non-virtual"><scope>themis::voice::PreprocessingOptions</scope><name>enable_rnnoise_suppression</name></member>
+      <member refid="structthemis_1_1voice_1_1_preprocessing_options_1ae194a18a96e9400d76b51b818c734b52" prot="public" virt="non-virtual"><scope>themis::voice::PreprocessingOptions</scope><name>enable_vad</name></member>
+      <member refid="structthemis_1_1voice_1_1_preprocessing_options_1a1a43c89a1127c66981b296db63585500" prot="public" virt="non-virtual"><scope>themis::voice::PreprocessingOptions</scope><name>noise_reduction_strength</name></member>
+      <member refid="structthemis_1_1voice_1_1_preprocessing_options_1a04e23e207cf99cc3dd0dab5fd7e9a205" prot="public" virt="non-virtual"><scope>themis::voice::PreprocessingOptions</scope><name>rnnoise_vad_threshold</name></member>
+      <member refid="structthemis_1_1voice_1_1_preprocessing_options_1abd8eae3002663180105442303b3c0b39" prot="public" virt="non-virtual"><scope>themis::voice::PreprocessingOptions</scope><name>target_rms</name></member>
+      <member refid="structthemis_1_1voice_1_1_preprocessing_options_1af3730423f10fe7710dcd0211e5670ba0" prot="public" virt="non-virtual"><scope>themis::voice::PreprocessingOptions</scope><name>target_sample_rate</name></member>
+      <member refid="structthemis_1_1voice_1_1_preprocessing_options_1a3b11aea9f8f4a6d25814f3faeadf2274" prot="public" virt="non-virtual"><scope>themis::voice::PreprocessingOptions</scope><name>vad_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,231 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1_content_operation_timer" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::ContentOperationTimer</compoundname>
+    <includes refid="content__logger_8h" local="no">content_logger.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_operation_timer_1a90c464da9d479428646369543a7b15cf" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1content_1_1_content_logger" kindref="compound">ContentLogger</ref> &amp;</type>
+        <definition>ContentLogger&amp; themis::content::ContentOperationTimer::logger_</definition>
+        <argsstring></argsstring>
+        <name>logger_</name>
+        <qualifiedname>themis::content::ContentOperationTimer::logger_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_logger.h" line="208" column="19" bodyfile="include/content/content_logger.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_operation_timer_1aac0c4fabc87459dcd0db28d15ff8eaf7" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ContentOperationTimer::content_id_</definition>
+        <argsstring></argsstring>
+        <name>content_id_</name>
+        <qualifiedname>themis::content::ContentOperationTimer::content_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_logger.h" line="209" column="17" bodyfile="include/content/content_logger.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_operation_timer_1aad4ec536a859bdd18544a60bbaba5803" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ContentOperationTimer::operation_</definition>
+        <argsstring></argsstring>
+        <name>operation_</name>
+        <qualifiedname>themis::content::ContentOperationTimer::operation_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_logger.h" line="210" column="17" bodyfile="include/content/content_logger.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_operation_timer_1ad7715c03d28e31e9afb48abcc9279946" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::content::ContentOperationTimer::start_time_</definition>
+        <argsstring></argsstring>
+        <name>start_time_</name>
+        <qualifiedname>themis::content::ContentOperationTimer::start_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_logger.h" line="211" column="43" bodyfile="include/content/content_logger.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_operation_timer_1aeff9c627a18da47a8782f025a3984efa" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentOperationTimer::success_</definition>
+        <argsstring></argsstring>
+        <name>success_</name>
+        <qualifiedname>themis::content::ContentOperationTimer::success_</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_logger.h" line="212" column="10" bodyfile="include/content/content_logger.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_operation_timer_1a803588d785f2cf0ed9eb2a541d324df4" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::ContentOperationTimer::error_code_</definition>
+        <argsstring></argsstring>
+        <name>error_code_</name>
+        <qualifiedname>themis::content::ContentOperationTimer::error_code_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_logger.h" line="213" column="9" bodyfile="include/content/content_logger.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_operation_timer_1a6d0a96f183b32ba0dbfba0ec8465082d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::ContentOperationTimer::ContentOperationTimer</definition>
+        <argsstring>(ContentLogger &amp;logger, const std::string &amp;content_id, const std::string &amp;operation)</argsstring>
+        <name>ContentOperationTimer</name>
+        <qualifiedname>themis::content::ContentOperationTimer::ContentOperationTimer</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_content_logger" kindref="compound">ContentLogger</ref> &amp;</type>
+          <declname>logger</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_logger.h" line="179" column="5" bodyfile="src/content/content_logger.cpp" bodystart="401" bodyend="410"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_operation_timer_1abd4971a6ad018bea55e1e1f12de7a159" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::ContentOperationTimer::~ContentOperationTimer</definition>
+        <argsstring>()</argsstring>
+        <name>~ContentOperationTimer</name>
+        <qualifiedname>themis::content::ContentOperationTimer::~ContentOperationTimer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_logger.h" line="185" column="5" bodyfile="src/content/content_logger.cpp" bodystart="412" bodyend="415"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_operation_timer_1a1a7b2f51510b6c9aa0adcd0a0bacbc4c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentOperationTimer::setSuccess</definition>
+        <argsstring>(bool success)</argsstring>
+        <name>setSuccess</name>
+        <qualifiedname>themis::content::ContentOperationTimer::setSuccess</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <briefdescription>
+<para>Set Success. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setSuccess without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_logger.h" line="192" column="10" bodyfile="include/content/content_logger.h" bodystart="192" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_operation_timer_1ad82aa73f1596f9508ba94be95ed13d3f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentOperationTimer::setErrorCode</definition>
+        <argsstring>(int error_code)</argsstring>
+        <name>setErrorCode</name>
+        <qualifiedname>themis::content::ContentOperationTimer::setErrorCode</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>error_code</declname>
+        </param>
+        <briefdescription>
+<para>Set Error Code. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setErrorCode without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_logger.h" line="199" column="10" bodyfile="include/content/content_logger.h" bodystart="199" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_operation_timer_1ab2bbb0aae83f42dca19665a364d82ad2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::content::ContentOperationTimer::getElapsedMs</definition>
+        <argsstring>() const</argsstring>
+        <name>getElapsedMs</name>
+        <qualifiedname>themis::content::ContentOperationTimer::getElapsedMs</qualifiedname>
+        <briefdescription>
+<para>Get Elapsed Ms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_logger.h" line="205" column="12" bodyfile="src/content/content_logger.cpp" bodystart="417" bodyend="421"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/content_logger.h" line="177" column="1" bodyfile="include/content/content_logger.h" bodystart="177" bodyend="214"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1_content_operation_timer_1aac0c4fabc87459dcd0db28d15ff8eaf7" prot="private" virt="non-virtual"><scope>themis::content::ContentOperationTimer</scope><name>content_id_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_operation_timer_1a6d0a96f183b32ba0dbfba0ec8465082d" prot="public" virt="non-virtual"><scope>themis::content::ContentOperationTimer</scope><name>ContentOperationTimer</name></member>
+      <member refid="classthemis_1_1content_1_1_content_operation_timer_1a803588d785f2cf0ed9eb2a541d324df4" prot="private" virt="non-virtual"><scope>themis::content::ContentOperationTimer</scope><name>error_code_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_operation_timer_1ab2bbb0aae83f42dca19665a364d82ad2" prot="public" virt="non-virtual"><scope>themis::content::ContentOperationTimer</scope><name>getElapsedMs</name></member>
+      <member refid="classthemis_1_1content_1_1_content_operation_timer_1a90c464da9d479428646369543a7b15cf" prot="private" virt="non-virtual"><scope>themis::content::ContentOperationTimer</scope><name>logger_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_operation_timer_1aad4ec536a859bdd18544a60bbaba5803" prot="private" virt="non-virtual"><scope>themis::content::ContentOperationTimer</scope><name>operation_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_operation_timer_1ad82aa73f1596f9508ba94be95ed13d3f" prot="public" virt="non-virtual"><scope>themis::content::ContentOperationTimer</scope><name>setErrorCode</name></member>
+      <member refid="classthemis_1_1content_1_1_content_operation_timer_1a1a7b2f51510b6c9aa0adcd0a0bacbc4c" prot="public" virt="non-virtual"><scope>themis::content::ContentOperationTimer</scope><name>setSuccess</name></member>
+      <member refid="classthemis_1_1content_1_1_content_operation_timer_1ad7715c03d28e31e9afb48abcc9279946" prot="private" virt="non-virtual"><scope>themis::content::ContentOperationTimer</scope><name>start_time_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_operation_timer_1aeff9c627a18da47a8782f025a3984efa" prot="private" virt="non-virtual"><scope>themis::content::ContentOperationTimer</scope><name>success_</name></member>
+      <member refid="classthemis_1_1content_1_1_content_operation_timer_1abd4971a6ad018bea55e1e1f12de7a159" prot="public" virt="non-virtual"><scope>themis::content::ContentOperationTimer</scope><name>~ContentOperationTimer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

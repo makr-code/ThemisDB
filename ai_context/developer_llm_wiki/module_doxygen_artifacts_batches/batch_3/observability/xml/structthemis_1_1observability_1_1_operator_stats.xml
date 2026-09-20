@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_operator_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::OperatorStats</compoundname>
+    <includes refid="query__profiler_8h" local="no">query_profiler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_operator_stats_1a5f0f45af1781d57b7b91ae39beea0120" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1observability_1af88f2db698aaa735ce90eb1ed6f2688f" kindref="member">OperatorType</ref></type>
+        <definition>OperatorType themis::observability::OperatorStats::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::observability::OperatorStats::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="60" column="18" bodyfile="include/observability/query_profiler.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_operator_stats_1a7a18be350aca60138bb0b5f9b9199e90" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::OperatorStats::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::observability::OperatorStats::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="61" column="17" bodyfile="include/observability/query_profiler.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_operator_stats_1a5263ec356dc6f6d5fbf100fa231e6c41" prot="public" static="no" mutable="no">
+        <type>std::chrono::microseconds</type>
+        <definition>std::chrono::microseconds themis::observability::OperatorStats::duration</definition>
+        <argsstring></argsstring>
+        <name>duration</name>
+        <qualifiedname>themis::observability::OperatorStats::duration</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="62" column="31" bodyfile="include/observability/query_profiler.h" bodystart="62" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_operator_stats_1ac48f1827f73f448137d341c316acc9ad" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::OperatorStats::rows_processed</definition>
+        <argsstring></argsstring>
+        <name>rows_processed</name>
+        <qualifiedname>themis::observability::OperatorStats::rows_processed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="63" column="12" bodyfile="include/observability/query_profiler.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_operator_stats_1a89f3bb479a2e58ca3fb24f45ba25f0d7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::OperatorStats::bytes_processed</definition>
+        <argsstring></argsstring>
+        <name>bytes_processed</name>
+        <qualifiedname>themis::observability::OperatorStats::bytes_processed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="64" column="12" bodyfile="include/observability/query_profiler.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_operator_stats_1ae470356ddb528d2717235f5a2fe1b2b9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::OperatorStats::disk_reads</definition>
+        <argsstring></argsstring>
+        <name>disk_reads</name>
+        <qualifiedname>themis::observability::OperatorStats::disk_reads</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="65" column="12" bodyfile="include/observability/query_profiler.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_operator_stats_1a4990b259e0f9febed47eba07a913d14b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::OperatorStats::cache_hits</definition>
+        <argsstring></argsstring>
+        <name>cache_hits</name>
+        <qualifiedname>themis::observability::OperatorStats::cache_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="66" column="12" bodyfile="include/observability/query_profiler.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_operator_stats_1a7cd686e5c3da5b7386d1e70e9ca276ba" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::OperatorStats::cache_misses</definition>
+        <argsstring></argsstring>
+        <name>cache_misses</name>
+        <qualifiedname>themis::observability::OperatorStats::cache_misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="67" column="12" bodyfile="include/observability/query_profiler.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_operator_stats_1ad8e4e9dc0c9b86d4d18e1fc8389e79bc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::OperatorStats::details</definition>
+        <argsstring></argsstring>
+        <name>details</name>
+        <qualifiedname>themis::observability::OperatorStats::details</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="68" column="17" bodyfile="include/observability/query_profiler.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_operator_stats_1aa8db1cf64576cd0a7341bd19d688edb5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref></type>
+        <definition>json themis::observability::OperatorStats::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::observability::OperatorStats::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="70" column="10" bodyfile="src/observability/query_profiler.cpp" bodystart="63" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Statistics for a single operator. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/query_profiler.h" line="59" column="1" bodyfile="include/observability/query_profiler.h" bodystart="59" bodyend="71"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_operator_stats_1a89f3bb479a2e58ca3fb24f45ba25f0d7" prot="public" virt="non-virtual"><scope>themis::observability::OperatorStats</scope><name>bytes_processed</name></member>
+      <member refid="structthemis_1_1observability_1_1_operator_stats_1a4990b259e0f9febed47eba07a913d14b" prot="public" virt="non-virtual"><scope>themis::observability::OperatorStats</scope><name>cache_hits</name></member>
+      <member refid="structthemis_1_1observability_1_1_operator_stats_1a7cd686e5c3da5b7386d1e70e9ca276ba" prot="public" virt="non-virtual"><scope>themis::observability::OperatorStats</scope><name>cache_misses</name></member>
+      <member refid="structthemis_1_1observability_1_1_operator_stats_1ad8e4e9dc0c9b86d4d18e1fc8389e79bc" prot="public" virt="non-virtual"><scope>themis::observability::OperatorStats</scope><name>details</name></member>
+      <member refid="structthemis_1_1observability_1_1_operator_stats_1ae470356ddb528d2717235f5a2fe1b2b9" prot="public" virt="non-virtual"><scope>themis::observability::OperatorStats</scope><name>disk_reads</name></member>
+      <member refid="structthemis_1_1observability_1_1_operator_stats_1a5263ec356dc6f6d5fbf100fa231e6c41" prot="public" virt="non-virtual"><scope>themis::observability::OperatorStats</scope><name>duration</name></member>
+      <member refid="structthemis_1_1observability_1_1_operator_stats_1a7a18be350aca60138bb0b5f9b9199e90" prot="public" virt="non-virtual"><scope>themis::observability::OperatorStats</scope><name>name</name></member>
+      <member refid="structthemis_1_1observability_1_1_operator_stats_1ac48f1827f73f448137d341c316acc9ad" prot="public" virt="non-virtual"><scope>themis::observability::OperatorStats</scope><name>rows_processed</name></member>
+      <member refid="structthemis_1_1observability_1_1_operator_stats_1aa8db1cf64576cd0a7341bd19d688edb5" prot="public" virt="non-virtual"><scope>themis::observability::OperatorStats</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1observability_1_1_operator_stats_1a5f0f45af1781d57b7b91ae39beea0120" prot="public" virt="non-virtual"><scope>themis::observability::OperatorStats</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

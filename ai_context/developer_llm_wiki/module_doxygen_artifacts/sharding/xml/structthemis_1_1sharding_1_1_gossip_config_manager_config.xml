@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_gossip_config_manager_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::GossipConfigManagerConfig</compoundname>
+    <includes refid="gossip__config__manager_8h" local="no">gossip_config_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_config_manager_config_1af0830c24ee4036f6a5436513f5f94ba2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::GossipConfigManagerConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::sharding::GossipConfigManagerConfig::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="161" column="10" bodyfile="include/sharding/gossip_config_manager.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_config_manager_config_1ab33d295f2fe0663addcdb7432f36e50e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::GossipConfigManagerConfig::gossip_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>gossip_interval_ms</name>
+        <qualifiedname>themis::sharding::GossipConfigManagerConfig::gossip_interval_ms</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="162" column="14" bodyfile="include/sharding/gossip_config_manager.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_config_manager_config_1acd1c2b1aa4cca31cd81a68442de47086" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::GossipConfigManagerConfig::fanout</definition>
+        <argsstring></argsstring>
+        <name>fanout</name>
+        <qualifiedname>themis::sharding::GossipConfigManagerConfig::fanout</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="163" column="14" bodyfile="include/sharding/gossip_config_manager.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_config_manager_config_1ac3c25b59908906bdd53ae5129eb13aa2" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::GossipConfigManagerConfig::max_updates</definition>
+        <argsstring></argsstring>
+        <name>max_updates</name>
+        <qualifiedname>themis::sharding::GossipConfigManagerConfig::max_updates</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="164" column="14" bodyfile="include/sharding/gossip_config_manager.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_config_manager_config_1a570b12e5a4255af6603690e2995edf1a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::GossipConfigManagerConfig::update_ttl</definition>
+        <argsstring></argsstring>
+        <name>update_ttl</name>
+        <qualifiedname>themis::sharding::GossipConfigManagerConfig::update_ttl</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="165" column="14" bodyfile="include/sharding/gossip_config_manager.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_config_manager_config_1acaebb41665112ebc5a7abe878f3e28fe" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::GossipConfigManagerConfig::anti_entropy_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>anti_entropy_interval_ms</name>
+        <qualifiedname>themis::sharding::GossipConfigManagerConfig::anti_entropy_interval_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="166" column="14" bodyfile="include/sharding/gossip_config_manager.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_config_manager_config_1a2c00d960ea499774514f123821825939" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::GossipConfigManagerConfig::require_mtls</definition>
+        <argsstring></argsstring>
+        <name>require_mtls</name>
+        <qualifiedname>themis::sharding::GossipConfigManagerConfig::require_mtls</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="167" column="10" bodyfile="include/sharding/gossip_config_manager.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_config_manager_config_1aa932d2c06d08a5b42fdf0ef204e28c22" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::GossipConfigManagerConfig::rpc_max_pool_connections</definition>
+        <argsstring></argsstring>
+        <name>rpc_max_pool_connections</name>
+        <qualifiedname>themis::sharding::GossipConfigManagerConfig::rpc_max_pool_connections</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="171" column="14" bodyfile="include/sharding/gossip_config_manager.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_config_manager_config_1ae613b28a7ae835b2ceb375359f3e335f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::GossipConfigManagerConfig::local_shard_id</definition>
+        <argsstring></argsstring>
+        <name>local_shard_id</name>
+        <qualifiedname>themis::sharding::GossipConfigManagerConfig::local_shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="173" column="17" bodyfile="include/sharding/gossip_config_manager.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_gossip_config_manager_config_1ad653cc997d0f18b384dbafdb186b786d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::GossipConfigManagerConfig::local_endpoint</definition>
+        <argsstring></argsstring>
+        <name>local_endpoint</name>
+        <qualifiedname>themis::sharding::GossipConfigManagerConfig::local_endpoint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="174" column="17" bodyfile="include/sharding/gossip_config_manager.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for Gossip Config Manager. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/gossip_config_manager.h" line="160" column="1" bodyfile="include/sharding/gossip_config_manager.h" bodystart="160" bodyend="175"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_gossip_config_manager_config_1acaebb41665112ebc5a7abe878f3e28fe" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManagerConfig</scope><name>anti_entropy_interval_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_config_manager_config_1af0830c24ee4036f6a5436513f5f94ba2" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManagerConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_config_manager_config_1acd1c2b1aa4cca31cd81a68442de47086" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManagerConfig</scope><name>fanout</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_config_manager_config_1ab33d295f2fe0663addcdb7432f36e50e" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManagerConfig</scope><name>gossip_interval_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_config_manager_config_1ad653cc997d0f18b384dbafdb186b786d" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManagerConfig</scope><name>local_endpoint</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_config_manager_config_1ae613b28a7ae835b2ceb375359f3e335f" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManagerConfig</scope><name>local_shard_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_config_manager_config_1ac3c25b59908906bdd53ae5129eb13aa2" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManagerConfig</scope><name>max_updates</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_config_manager_config_1a2c00d960ea499774514f123821825939" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManagerConfig</scope><name>require_mtls</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_config_manager_config_1aa932d2c06d08a5b42fdf0ef204e28c22" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManagerConfig</scope><name>rpc_max_pool_connections</name></member>
+      <member refid="structthemis_1_1sharding_1_1_gossip_config_manager_config_1a570b12e5a4255af6603690e2995edf1a" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManagerConfig</scope><name>update_ttl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

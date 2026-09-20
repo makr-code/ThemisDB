@@ -1,0 +1,276 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="io__uring__zero__copy_8h" kind="file" language="C++">
+    <compoundname>io_uring_zero_copy.h</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="io__uring__zero__copy_8cpp" local="yes">src/performance/phase4/io_uring_zero_copy.cpp</includedby>
+    <includedby refid="test__io__uring__zero__copy_8cpp" local="yes">tests/performance/phase4/test_io_uring_zero_copy.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/performance/phase4/io_uring_zero_copy.h</label>
+        <link refid="io__uring__zero__copy_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/performance/phase4/io_uring_zero_copy.h</label>
+        <link refid="io__uring__zero__copy_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/performance/phase4/io_uring_zero_copy.cpp</label>
+        <link refid="io__uring__zero__copy_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/performance/phase4/test_io_uring_zero_copy.cpp</label>
+        <link refid="test__io__uring__zero__copy_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_stats" prot="public">themis::performance::phase4::IoUringStats</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer" prot="public">themis::performance::phase4::ZeroCopyBuffer</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_config" prot="public">themis::performance::phase4::IoUringConfig</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1phase4_1_1_io_uring_zero_copy_i_o" prot="public">themis::performance::phase4::IoUringZeroCopyIO</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1phase4_1_1_scoped_io_uring_timer" prot="public">themis::performance::phase4::ScopedIoUringTimer</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1performance">themis::performance</innernamespace>
+    <innernamespace refid="namespacethemis_1_1performance_1_1phase4">themis::performance::phase4</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ThemisDB<sp/>-<sp/>DPDK<sp/>/<sp/>io_uring<sp/>Zero-Copy<sp/>I/O<sp/>Path<sp/>for<sp/>Network<sp/>Performance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Research<sp/>basis:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>&quot;io_uring:<sp/>a<sp/>new<sp/>Linux<sp/>I/O<sp/>interface&quot;<sp/>–<sp/>Jens<sp/>Axboe<sp/>(KernelConf<sp/>2019)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>&quot;The<sp/>Linux<sp/>io_uring<sp/>interface&quot;<sp/>–<sp/>LWN<sp/>(2019)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>&quot;High-Performance<sp/>I/O<sp/>with<sp/>io_uring&quot;<sp/>–<sp/>Cloudflare<sp/>Blog<sp/>(2022)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Key<sp/>idea:<sp/>Linux<sp/>io_uring<sp/>(kernel<sp/>5.1+)<sp/>provides<sp/>a<sp/>shared<sp/>ring-buffer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>interface<sp/>between<sp/>user-space<sp/>and<sp/>the<sp/>kernel<sp/>that<sp/>eliminates<sp/>the<sp/>syscall</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>overhead<sp/>of<sp/>traditional<sp/>epoll/read/write<sp/>paths.<sp/><sp/>When<sp/>combined<sp/>with</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>pre-registered<sp/>I/O<sp/>buffers<sp/>(io_uring_register_buffers)<sp/>and<sp/>SQ-polling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>(IORING_SETUP_SQPOLL),<sp/>the<sp/>zero-copy<sp/>send<sp/>path<sp/>achieves:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>•<sp/>Sub-10<sp/>µs<sp/>wake<sp/>latency<sp/>(vs.<sp/>~50<sp/>µs<sp/>for<sp/>epoll)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>•<sp/>Elimination<sp/>of<sp/>data<sp/>copies<sp/>between<sp/>user<sp/>and<sp/>kernel<sp/>space</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>•<sp/>10<sp/>Gbps+<sp/>sustained<sp/>throughput<sp/>on<sp/>commodity<sp/>NICs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Two<sp/>backends<sp/>are<sp/>provided:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>1.<sp/>IoUringZeroCopyIO<sp/><sp/>–<sp/>Linux<sp/>io_uring<sp/>backend<sp/>(requires<sp/>kernel<sp/>≥<sp/>5.1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>2.<sp/>Fallback<sp/>to<sp/>standard<sp/>blocking/non-blocking<sp/>I/O<sp/>on<sp/>other<sp/>platforms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>or<sp/>when<sp/>io_uring<sp/>is<sp/>unavailable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Compile-time<sp/>gate:<sp/>THEMIS_ENABLE_IO_URING<sp/><sp/>(set<sp/>by<sp/>CMake<sp/>option)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Runtime<sp/>gate:<sp/><sp/><sp/><sp/><sp/><sp/>Phase4FeatureFlags::instance().io_uring_enabled()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1performance" kindref="compound">performance</ref><sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1performance_1_1phase4" kindref="compound">phase4</ref><sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IoUringStats<sp/>–<sp/>counters<sp/>exposed<sp/>by<sp/>IoUringZeroCopyIO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_stats" kindref="compound">IoUringStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_stats_1a2517811add6c7397b7c45ec02ba7214a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_stats_1a2517811add6c7397b7c45ec02ba7214a" kindref="member">sq_entries_submitted</ref>{0};<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_stats_1a81bb7a674627bd22fd133431181f5961" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_stats_1a81bb7a674627bd22fd133431181f5961" kindref="member">cq_entries_completed</ref>{0};<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_stats_1acd06aff5ceb55593ed2c3dd490f40674" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_stats_1acd06aff5ceb55593ed2c3dd490f40674" kindref="member">bytes_sent</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_stats_1a9310d91f4a7d61eaa713f4eac7322078" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_stats_1a9310d91f4a7d61eaa713f4eac7322078" kindref="member">bytes_received</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_stats_1ad335fed603f5b3cf751616a70e476f42" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_stats_1ad335fed603f5b3cf751616a70e476f42" kindref="member">registered_buffers</ref>{0};<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_stats_1a4e530ff3ff4bfa73d369a4b0e3d42697" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_stats_1a4e530ff3ff4bfa73d369a4b0e3d42697" kindref="member">fallback_sends</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_stats_1afcd133d93a897f9e5a22079f8a036c2e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_stats_1afcd133d93a897f9e5a22079f8a036c2e" kindref="member">fallback_recvs</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_stats_1a3a6116a3214fcb3fccdac57368f330f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_stats_1a3a6116a3214fcb3fccdac57368f330f1" kindref="member">io_uring_available</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/></highlight></codeline>
+<codeline lineno="63"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ZeroCopyBuffer<sp/>–<sp/>RAII<sp/>buffer<sp/>registered<sp/>with<sp/>the<sp/>io_uring<sp/>kernel<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a50c0b670fdb1692e0ab803078187fa36" kindref="member">ZeroCopyBuffer</ref><sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a50c0b670fdb1692e0ab803078187fa36" kindref="member">ZeroCopyBuffer</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a680f9185dfd0d1f7dcdb1add8835affd" kindref="member">size</ref>);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a186b82f998421d541a37626cb7accd1b" kindref="member">~ZeroCopyBuffer</ref>()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a57c60ef3a3b1f068582bfb4cc022bbf1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a57c60ef3a3b1f068582bfb4cc022bbf1" kindref="member">ZeroCopyBuffer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a50c0b670fdb1692e0ab803078187fa36" kindref="member">ZeroCopyBuffer</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86" refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a0af77b8b94c4b6f8db4c2d367ef2cde2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a50c0b670fdb1692e0ab803078187fa36" kindref="member">ZeroCopyBuffer</ref>&amp;<sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a0af77b8b94c4b6f8db4c2d367ef2cde2" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a50c0b670fdb1692e0ab803078187fa36" kindref="member">ZeroCopyBuffer</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a50c0b670fdb1692e0ab803078187fa36" kindref="member">ZeroCopyBuffer</ref>(<ref refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a50c0b670fdb1692e0ab803078187fa36" kindref="member">ZeroCopyBuffer</ref>&amp;&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a50c0b670fdb1692e0ab803078187fa36" kindref="member">ZeroCopyBuffer</ref>&amp;<sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a0af77b8b94c4b6f8db4c2d367ef2cde2" kindref="member">operator=</ref>(<ref refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a50c0b670fdb1692e0ab803078187fa36" kindref="member">ZeroCopyBuffer</ref>&amp;&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1aa92e433db94bef10ea181f515621b9ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1aa92e433db94bef10ea181f515621b9ed" kindref="member">data</ref>()<sp/><sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>data_;<sp/>}</highlight></codeline>
+<codeline lineno="94" refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a680f9185dfd0d1f7dcdb1add8835affd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a680f9185dfd0d1f7dcdb1add8835affd" kindref="member">size</ref>()<sp/><sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>size_;<sp/>}</highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a44a7526dd6b3fb7e673190f4ab182555" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer_1a44a7526dd6b3fb7e673190f4ab182555" kindref="member">valid</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>data_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><sp/>data_{</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size_{0};</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IoUringConfig<sp/>–<sp/>configuration<sp/>for<sp/>the<sp/>io_uring<sp/>zero-copy<sp/>I/O<sp/>backend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_config" kindref="compound">IoUringConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_config_1a488a0dd40f20e3f4fd14c7e88bae0258" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_config_1a488a0dd40f20e3f4fd14c7e88bae0258" kindref="member">ring_size</ref>{4096};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_config_1a65e0c4dac772d6060001ff51ef6b5261" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_config_1a65e0c4dac772d6060001ff51ef6b5261" kindref="member">sq_poll</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_config_1af9414a093aff0a7da1b53dac505a9585" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_config_1af9414a093aff0a7da1b53dac505a9585" kindref="member">sq_thread_cpu</ref>{-1};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_config_1a8715cc989f2a26a63e790e1dc0a3b260" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_config_1a8715cc989f2a26a63e790e1dc0a3b260" kindref="member">sq_thread_idle_ms</ref>{1000};<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_config_1a53d62f1a5f6f0334803dda5d6652f35e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_config_1a53d62f1a5f6f0334803dda5d6652f35e" kindref="member">buffer_size</ref>{65536};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_config_1a2aa42f11a9146e361b961e593a047abc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_config_1a2aa42f11a9146e361b961e593a047abc" kindref="member">num_buffers</ref>{16};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_config_1a0c798027d5f66779b87d839a6578efcd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_config_1a0c798027d5f66779b87d839a6578efcd" kindref="member">fixed_files</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="116"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IoUringZeroCopyIO<sp/>–<sp/>io_uring<sp/>async<sp/>zero-copy<sp/>I/O<sp/>engine</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="classthemis_1_1performance_1_1phase4_1_1_io_uring_zero_copy_i_o" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1performance_1_1phase4_1_1_io_uring_zero_copy_i_o_1a528fde1355967065d9979bee639ae72d" kindref="member">IoUringZeroCopyIO</ref><sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_io_uring_zero_copy_i_o_1a528fde1355967065d9979bee639ae72d" kindref="member">IoUringZeroCopyIO</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_config" kindref="compound">IoUringConfig</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_config" kindref="compound">IoUringConfig</ref>{});</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_io_uring_zero_copy_i_o_1a800c21df8c112a3249a1d31e6fd73e08" kindref="member">~IoUringZeroCopyIO</ref>()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166" refid="classthemis_1_1performance_1_1phase4_1_1_io_uring_zero_copy_i_o_1ae3c7412bc0264eabb42f7f86773b334c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_io_uring_zero_copy_i_o_1ae3c7412bc0264eabb42f7f86773b334c" kindref="member">IoUringZeroCopyIO</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_io_uring_zero_copy_i_o_1a528fde1355967065d9979bee639ae72d" kindref="member">IoUringZeroCopyIO</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="167" refid="classthemis_1_1performance_1_1phase4_1_1_io_uring_zero_copy_i_o_1a3859d68322bddc9a410a771f5022f29b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_io_uring_zero_copy_i_o_1a528fde1355967065d9979bee639ae72d" kindref="member">IoUringZeroCopyIO</ref>&amp;<sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_io_uring_zero_copy_i_o_1a3859d68322bddc9a410a771f5022f29b" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_io_uring_zero_copy_i_o_1a528fde1355967065d9979bee639ae72d" kindref="member">IoUringZeroCopyIO</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-movable:<sp/>the<sp/>ring<sp/>contains<sp/>raw<sp/>pointers<sp/>into<sp/>mmap&apos;d<sp/>regions.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170" refid="classthemis_1_1performance_1_1phase4_1_1_io_uring_zero_copy_i_o_1ab31af26e925bde85de3cd162ef17aa8a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_io_uring_zero_copy_i_o_1ab31af26e925bde85de3cd162ef17aa8a" kindref="member">IoUringZeroCopyIO</ref>(<ref refid="classthemis_1_1performance_1_1phase4_1_1_io_uring_zero_copy_i_o_1a528fde1355967065d9979bee639ae72d" kindref="member">IoUringZeroCopyIO</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="171" refid="classthemis_1_1performance_1_1phase4_1_1_io_uring_zero_copy_i_o_1a7189338690540532b94ee4c2a702dd2c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_io_uring_zero_copy_i_o_1a528fde1355967065d9979bee639ae72d" kindref="member">IoUringZeroCopyIO</ref>&amp;<sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_io_uring_zero_copy_i_o_1a7189338690540532b94ee4c2a702dd2c" kindref="member">operator=</ref>(<ref refid="classthemis_1_1performance_1_1phase4_1_1_io_uring_zero_copy_i_o_1a528fde1355967065d9979bee639ae72d" kindref="member">IoUringZeroCopyIO</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175" refid="classthemis_1_1performance_1_1phase4_1_1_io_uring_zero_copy_i_o_1ab7b8b1f4d3a52604697ba5e65e4dd65b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_io_uring_zero_copy_i_o_1ab7b8b1f4d3a52604697ba5e65e4dd65b" kindref="member">is_available</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>available_;<sp/>}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_io_uring_zero_copy_i_o_1a798ab0adc9068ae3f89f76e142afa3b5" kindref="member">register_fd</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>fd)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_io_uring_zero_copy_i_o_1a89e57adec7d8da285afbe851d08e6d22" kindref="member">send_zerocopy</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>fd,<sp/>uint32_t<sp/>buf_index,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>len)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_io_uring_zero_copy_i_o_1a1d01808efc9081b5d99681fb8af98cd1" kindref="member">recv_zerocopy</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>fd,<sp/>uint32_t<sp/>buf_index,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_len)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_io_uring_zero_copy_i_o_1a7e4724e67a1651b25e93dee08834f195" kindref="member">wait_completions</ref>(uint32_t<sp/>min_completions<sp/>=<sp/>1)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer" kindref="compound">ZeroCopyBuffer</ref>&amp;<sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_io_uring_zero_copy_i_o_1a0d0ba597188a51d3770829dc65f460c6" kindref="member">get_buffer</ref>(uint32_t<sp/>index);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_zero_copy_buffer" kindref="compound">ZeroCopyBuffer</ref>&amp;<sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_io_uring_zero_copy_i_o_1a0d0ba597188a51d3770829dc65f460c6" kindref="member">get_buffer</ref>(uint32_t<sp/>index)<sp/>const;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_stats" kindref="compound">IoUringStats</ref><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_io_uring_zero_copy_i_o_1a9402947e4d99f67c6915abff2fdeeb43" kindref="member">get_stats</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_io_uring_zero_copy_i_o_1a209e255fce0c2cb86c5657c319509c2a" kindref="member">io_uring_accessible</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>setup_ring(const<sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_config" kindref="compound">IoUringConfig</ref>&amp;<sp/>config)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>teardown_ring()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>register_buffers()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/>submit_sqes()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_config" kindref="compound">IoUringConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>available_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pre-registered<sp/>I/O<sp/>buffers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ZeroCopyBuffer&gt;<sp/>buffers_;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>io_uring<sp/>kernel<sp/>structures<sp/>(opaque<sp/>on<sp/>non-Linux)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">RingImpl;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;RingImpl&gt;<sp/>ring_;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mutex<sp/>to<sp/>protect<sp/>ring_<sp/>initialization<sp/>and<sp/>access</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>ring_mutex_;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stats<sp/>(relaxed<sp/>atomics<sp/>–<sp/>single-threaded<sp/>by<sp/>contract<sp/>but</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>allows<sp/>safe<sp/>reads<sp/>from<sp/>a<sp/>monitoring<sp/>thread)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>sq_submitted_{0};</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>cq_completed_{0};</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>bytes_sent_{0};</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>bytes_received_{0};</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>fallback_sends_{0};</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>fallback_recvs_{0};</highlight></codeline>
+<codeline lineno="244"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ScopedIoUringTimer<sp/>–<sp/>RAII<sp/>helper<sp/>for<sp/>measuring<sp/>io_uring<sp/>operation<sp/>latency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252" refid="classthemis_1_1performance_1_1phase4_1_1_scoped_io_uring_timer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1performance_1_1phase4_1_1_scoped_io_uring_timer_1a064b9c0721a7183c340c2af987332631" kindref="member">ScopedIoUringTimer</ref><sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_scoped_io_uring_timer_1a064b9c0721a7183c340c2af987332631" kindref="member">ScopedIoUringTimer</ref>(uint64_t*<sp/>output_ns)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_scoped_io_uring_timer_1a78fbf83f7584a4f5800baebd2f1a1946" kindref="member">~ScopedIoUringTimer</ref>()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257" refid="classthemis_1_1performance_1_1phase4_1_1_scoped_io_uring_timer_1a4eb96b510df633fb463e9095c1b26099" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_scoped_io_uring_timer_1a4eb96b510df633fb463e9095c1b26099" kindref="member">ScopedIoUringTimer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_scoped_io_uring_timer_1a064b9c0721a7183c340c2af987332631" kindref="member">ScopedIoUringTimer</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="258" refid="classthemis_1_1performance_1_1phase4_1_1_scoped_io_uring_timer_1a0955c73ea7d6a33aa6b070cf3830b576" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_scoped_io_uring_timer_1a064b9c0721a7183c340c2af987332631" kindref="member">ScopedIoUringTimer</ref>&amp;<sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_scoped_io_uring_timer_1a0955c73ea7d6a33aa6b070cf3830b576" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_scoped_io_uring_timer_1a064b9c0721a7183c340c2af987332631" kindref="member">ScopedIoUringTimer</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t*<sp/>output_ns_;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/>start_ns_;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>phase4</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>performance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/performance/phase4/io_uring_zero_copy.h"/>
+  </compounddef>
+</doxygen>

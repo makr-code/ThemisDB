@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_simulation_request" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::SimulationRequest</compoundname>
+    <includes refid="policy__engine_8h" local="no">policy_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_simulation_request_1abaf644dd28fa305475c9b79e249591c0" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::governance::SimulationRequest::headers</definition>
+        <argsstring></argsstring>
+        <name>headers</name>
+        <qualifiedname>themis::governance::SimulationRequest::headers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="82" column="24" bodyfile="include/governance/policy_engine.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_simulation_request_1aff2cb8f8202869dd50f23e8c7b802830" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::SimulationRequest::route</definition>
+        <argsstring></argsstring>
+        <name>route</name>
+        <qualifiedname>themis::governance::SimulationRequest::route</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="83" column="17" bodyfile="include/governance/policy_engine.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/policy_engine.h" line="81" column="1" bodyfile="include/governance/policy_engine.h" bodystart="81" bodyend="84"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_simulation_request_1abaf644dd28fa305475c9b79e249591c0" prot="public" virt="non-virtual"><scope>themis::governance::SimulationRequest</scope><name>headers</name></member>
+      <member refid="structthemis_1_1governance_1_1_simulation_request_1aff2cb8f8202869dd50f23e8c7b802830" prot="public" virt="non-virtual"><scope>themis::governance::SimulationRequest</scope><name>route</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

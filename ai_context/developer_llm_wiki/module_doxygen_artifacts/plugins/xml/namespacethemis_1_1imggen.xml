@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1imggen" kind="namespace" language="C++">
+    <compoundname>themis::imggen</compoundname>
+    <innerclass refid="structthemis_1_1imggen_1_1_generated_image" prot="public">themis::imggen::GeneratedImage</innerclass>
+    <innerclass refid="structthemis_1_1imggen_1_1_s_d_generation_config" prot="public">themis::imggen::SDGenerationConfig</innerclass>
+    <innerclass refid="structthemis_1_1imggen_1_1_img2_img_config" prot="public">themis::imggen::Img2ImgConfig</innerclass>
+    <innerclass refid="classthemis_1_1imggen_1_1_i_image_generation_backend" prot="public">themis::imggen::IImageGenerationBackend</innerclass>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1imggen_1a9024eebd946aeb051d92dcd260e0c813" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::imggen::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::imggen::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_generation_interface.h" line="24" column="1" bodyfile="include/plugins/image_generation_interface.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/plugins/image_generation_interface.h" line="22" column="1"/>
+  </compounddef>
+</doxygen>

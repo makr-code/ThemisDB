@@ -1,0 +1,1498 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_h_s_m_provider" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::HSMProvider</compoundname>
+    <includes refid="hsm__provider_8h" local="no">hsm_provider.h</includes>
+    <innerclass refid="classthemis_1_1security_1_1_h_s_m_provider_1_1_impl" prot="public">themis::security::HSMProvider::Impl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1security_1_1_h_s_m_provider_1aa8a75ca22c5363b6bb2dd9b4f108c593" prot="public" static="no">
+        <type>std::function&lt; <ref refid="structthemis_1_1security_1_1_h_s_m_signature_result" kindref="compound">HSMSignatureResult</ref>(const std::vector&lt; uint8_t &gt; &amp;hash, const std::string &amp;key_label)&gt;</type>
+        <definition>using themis::security::HSMProvider::SignHashFn = 
+std::function&lt;HSMSignatureResult(const std::vector&lt;uint8_t&gt;&amp; hash,
+                                 const std::string&amp; key_label)&gt;</definition>
+        <argsstring></argsstring>
+        <name>SignHashFn</name>
+        <qualifiedname>themis::security::HSMProvider::SignHashFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="122" column="5" bodyfile="include/security/hsm_provider.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1security_1_1_h_s_m_provider_1abaa76e7ae49ddbf55ef2236cda01c7ee" prot="public" static="no">
+        <type>std::function&lt; bool(const std::vector&lt; uint8_t &gt; &amp;data, const std::string &amp;signature_b64, const std::string &amp;key_label)&gt;</type>
+        <definition>using themis::security::HSMProvider::VerifyFn = 
+std::function&lt;bool(const std::vector&lt;uint8_t&gt;&amp; data,
+                   const std::string&amp; signature_b64,
+                   const std::string&amp; key_label)&gt;</definition>
+        <argsstring></argsstring>
+        <name>VerifyFn</name>
+        <qualifiedname>themis::security::HSMProvider::VerifyFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="125" column="5" bodyfile="include/security/hsm_provider.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1security_1_1_h_s_m_provider_1acb3981a60f6831c67bf102793d57c4ff" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; uint8_t &gt;(const std::vector&lt; uint8_t &gt; &amp;data, const std::string &amp;key_label)&gt;</type>
+        <definition>using themis::security::HSMProvider::EncryptDataFn = 
+std::function&lt;std::vector&lt;uint8_t&gt;(const std::vector&lt;uint8_t&gt;&amp; data,
+                                   const std::string&amp; key_label)&gt;</definition>
+        <argsstring></argsstring>
+        <name>EncryptDataFn</name>
+        <qualifiedname>themis::security::HSMProvider::EncryptDataFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="129" column="5" bodyfile="include/security/hsm_provider.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1security_1_1_h_s_m_provider_1a7a57eace51f34370793a5444663d709b" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; uint8_t &gt;(const std::vector&lt; uint8_t &gt; &amp;encrypted, const std::string &amp;key_label)&gt;</type>
+        <definition>using themis::security::HSMProvider::DecryptDataFn = 
+std::function&lt;std::vector&lt;uint8_t&gt;(const std::vector&lt;uint8_t&gt;&amp; encrypted,
+                                   const std::string&amp; key_label)&gt;</definition>
+        <argsstring></argsstring>
+        <name>DecryptDataFn</name>
+        <qualifiedname>themis::security::HSMProvider::DecryptDataFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="132" column="5" bodyfile="include/security/hsm_provider.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1security_1_1_h_s_m_provider_1a3c55d95ab265ee24ccd8f24159b80b72" prot="public" static="no">
+        <type>std::function&lt; bool(const std::string &amp;label, uint32_t key_size, bool extractable)&gt;</type>
+        <definition>using themis::security::HSMProvider::GenerateKeyPairFn = 
+std::function&lt;bool(const std::string&amp; label, uint32_t key_size, bool extractable)&gt;</definition>
+        <argsstring></argsstring>
+        <name>GenerateKeyPairFn</name>
+        <qualifiedname>themis::security::HSMProvider::GenerateKeyPairFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="202" column="5" bodyfile="include/security/hsm_provider.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1security_1_1_h_s_m_provider_1adc799135ab90a64c2bb2c7da04a0cc1e" prot="public" static="no">
+        <type>std::function&lt; bool(const std::string &amp;key_label, const std::string &amp;cert_pem)&gt;</type>
+        <definition>using themis::security::HSMProvider::ImportCertificateFn = 
+std::function&lt;bool(const std::string&amp; key_label, const std::string&amp; cert_pem)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ImportCertificateFn</name>
+        <qualifiedname>themis::security::HSMProvider::ImportCertificateFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="204" column="5" bodyfile="include/security/hsm_provider.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1security_1_1_h_s_m_provider_1ad0c91a7aadbf690288b299b778a55732" prot="public" static="no">
+        <type>std::function&lt; std::optional&lt; std::string &gt;(const std::string &amp;key_label)&gt;</type>
+        <definition>using themis::security::HSMProvider::GetCertificateFn = 
+std::function&lt;std::optional&lt;std::string&gt;(const std::string&amp; key_label)&gt;</definition>
+        <argsstring></argsstring>
+        <name>GetCertificateFn</name>
+        <qualifiedname>themis::security::HSMProvider::GetCertificateFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="206" column="5" bodyfile="include/security/hsm_provider.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_h_s_m_provider_1a29da2afa182bf5a61223409a1791cfd7" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1security_1_1_h_s_m_provider_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::security::HSMProvider::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::security::HSMProvider::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="412" column="21" bodyfile="include/security/hsm_provider.h" bodystart="412" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_h_s_m_provider_1a134916329cc0c12e346c27a6ab8292f8" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref></type>
+        <definition>HSMConfig themis::security::HSMProvider::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::security::HSMProvider::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="413" column="15" bodyfile="include/security/hsm_provider.h" bodystart="413" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_h_s_m_provider_1abdf1bc0615ebf756e522807c944606cb" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::HSMProvider::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::security::HSMProvider::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="414" column="10" bodyfile="include/security/hsm_provider.h" bodystart="414" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_h_s_m_provider_1abd22ae6dfdb92d36f7149b4ef4deb6c2" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::HSMProvider::last_error_</definition>
+        <argsstring></argsstring>
+        <name>last_error_</name>
+        <qualifiedname>themis::security::HSMProvider::last_error_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="415" column="17" bodyfile="include/security/hsm_provider.h" bodystart="415" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1abe0107f0faa5f36df11fda3c80b7d109" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::HSMProvider::HSMProvider</definition>
+        <argsstring>(HSMConfig config)</argsstring>
+        <name>HSMProvider</name>
+        <qualifiedname>themis::security::HSMProvider::HSMProvider</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="90" column="14" bodyfile="src/security/hsm_provider.cpp" bodystart="235" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1a34eb5a2640eee1dfe0c665319f79b88e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::HSMProvider::~HSMProvider</definition>
+        <argsstring>()</argsstring>
+        <name>~HSMProvider</name>
+        <qualifiedname>themis::security::HSMProvider::~HSMProvider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="91" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1a5409892d806cf24a98f3b9cbd17c6380" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::HSMProvider::HSMProvider</definition>
+        <argsstring>(const HSMProvider &amp;)=delete</argsstring>
+        <name>HSMProvider</name>
+        <qualifiedname>themis::security::HSMProvider::HSMProvider</qualifiedname>
+        <param>
+          <type>const HSMProvider &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="94" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1a84e7f1cf8cca3e237f8c304c55713378" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1abe0107f0faa5f36df11fda3c80b7d109" kindref="member">HSMProvider</ref> &amp;</type>
+        <definition>HSMProvider &amp; themis::security::HSMProvider::operator=</definition>
+        <argsstring>(const HSMProvider &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::security::HSMProvider::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1security_1_1_h_s_m_provider_1abe0107f0faa5f36df11fda3c80b7d109" kindref="member">HSMProvider</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="95" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1a559451d0c8df88d5aa2ceb570c1ca5e8" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::HSMProvider::HSMProvider</definition>
+        <argsstring>(HSMProvider &amp;&amp;) noexcept</argsstring>
+        <name>HSMProvider</name>
+        <qualifiedname>themis::security::HSMProvider::HSMProvider</qualifiedname>
+        <param>
+          <type>HSMProvider &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="98" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1a4efa0bde3dce625a0eced90b6709004f" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1abe0107f0faa5f36df11fda3c80b7d109" kindref="member">HSMProvider</ref> &amp;</type>
+        <definition>HSMProvider &amp; themis::security::HSMProvider::operator=</definition>
+        <argsstring>(HSMProvider &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::security::HSMProvider::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1abe0107f0faa5f36df11fda3c80b7d109" kindref="member">HSMProvider</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="99" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1a0c5ba90379563c9c442735d2d70caeb7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::HSMProvider::initialize</definition>
+        <argsstring>()</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::security::HSMProvider::initialize</qualifiedname>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: license::RuntimeLicenseGate::instance(), isFeatureAllowed(), THEMIS_ERROR(), std::getenv(), core::ProductionMode::isEnabled(), std::string(), resize(), RAND_bytes(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="105" column="10" bodyfile="src/security/hsm_provider.cpp" bodystart="247" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1ad7c2f07e587a9bab673ccc6d7b22c6e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::HSMProvider::finalize</definition>
+        <argsstring>()</argsstring>
+        <name>finalize</name>
+        <qualifiedname>themis::security::HSMProvider::finalize</qualifiedname>
+        <briefdescription>
+<para>Finalize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: reset(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="110" column="10" bodyfile="src/security/hsm_provider.cpp" bodystart="335" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1a83d3d14e92db113fb90b69392fef7cf2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_h_s_m_signature_result" kindref="compound">HSMSignatureResult</ref></type>
+        <definition>HSMSignatureResult themis::security::HSMProvider::sign</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, const std::string &amp;key_label=&quot;&quot;)</argsstring>
+        <name>sign</name>
+        <qualifiedname>themis::security::HSMProvider::sign</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_label</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Sign. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_label</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a3462d021aa390aa401fd94ce70a1f166" kindref="member">signHash()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="112" column="24" bodyfile="src/security/hsm_provider.cpp" bodystart="348" bodyend="350"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1a3462d021aa390aa401fd94ce70a1f166" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_h_s_m_signature_result" kindref="compound">HSMSignatureResult</ref></type>
+        <definition>HSMSignatureResult themis::security::HSMProvider::signHash</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;hash, const std::string &amp;key_label=&quot;&quot;)</argsstring>
+        <name>signHash</name>
+        <qualifiedname>themis::security::HSMProvider::signHash</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>hash</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_label</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Sign Hash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_label</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::high_resolution_clock::now(), fetch_add(), lk(), HSMProvider::signHashFnMutex(), HSMProvider::signHashFnStorage(), fn(), empty(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="115" column="24" bodyfile="src/security/hsm_provider.cpp" bodystart="359" bodyend="413"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1a0ee3d32114e6c965ba26a8da0dc5f62b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::HSMProvider::verify</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, const std::string &amp;signature_b64, const std::string &amp;key_label=&quot;&quot;)</argsstring>
+        <name>verify</name>
+        <qualifiedname>themis::security::HSMProvider::verify</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>signature_b64</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_label</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Verify identity and enforce network policies for a request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">signature_b64</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_label</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Verification result.</para>
+</simplesect>
+Calls: std::chrono::high_resolution_clock::now(), lk(), HSMProvider::verifyFnMutex(), HSMProvider::verifyFnStorage(), fn(), empty(), pseudo_b64(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="118" column="10" bodyfile="src/security/hsm_provider.cpp" bodystart="423" bodyend="452"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1a75fdc73fd6c716e445908ed03b2d55e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1security_1_1_h_s_m_key_info" kindref="compound">HSMKeyInfo</ref> &gt;</type>
+        <definition>std::vector&lt; HSMKeyInfo &gt; themis::security::HSMProvider::listKeys</definition>
+        <argsstring>()</argsstring>
+        <name>listKeys</name>
+        <qualifiedname>themis::security::HSMProvider::listKeys</qualifiedname>
+        <briefdescription>
+<para>List Keys. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements listKeys without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="177" column="17" bodyfile="src/security/hsm_provider.cpp" bodystart="459" bodyend="469"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1a393d7a43b188b2237bbd6a2507513496" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::HSMProvider::generateKeyPair</definition>
+        <argsstring>(const std::string &amp;label, uint32_t key_size=2048, bool extractable=false)</argsstring>
+        <name>generateKeyPair</name>
+        <qualifiedname>themis::security::HSMProvider::generateKeyPair</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>label</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>key_size</declname>
+          <defval>2048</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>extractable</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>PERMANENT FALLBACK NOTE (generateKeyPair / importCertificate / getCertificate): Purpose: Satisfy the <ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref> public interface in the software-only fallback build so callers do not need conditional compilation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">label</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">extractable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Activation: Inside <computeroutput>#ifndef THEMIS_ENABLE_HSM_REAL</computeroutput> (same activation as the overall HSM fallback class documented at the top of this file). Production Delta: generateKeyPair always returns false and does NOT generate any key material — the real PKCS#11 path creates an asymmetric key pair on the HSM token. importCertificate returns false without storing anything. getCertificate returns a hardcoded dummy PEM string instead of a real device certificate. These are PERMANENT FALLBACK implementations; enable -DTHEMIS_ENABLE_HSM_REAL=ON to replace them with real PKCS#11 operations from <ref refid="hsm__provider__pkcs11_8cpp" kindref="compound">hsm_provider_pkcs11.cpp</ref>. See src/security/FUTURE_ENHANCEMENTS.md §&quot;HSM Key Management&quot;. Calls: lk(), HSMProvider::generateKeyPairFnMutex(), HSMProvider::generateKeyPairFnStorage(), fn(), std::string(), what(), THEMIS_ERROR(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="179" column="10" bodyfile="src/security/hsm_provider.cpp" bodystart="549" bodyend="571"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1aa106745ccd5285c4800f75955a1c7258" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::HSMProvider::importCertificate</definition>
+        <argsstring>(const std::string &amp;key_label, const std::string &amp;cert_pem)</argsstring>
+        <name>importCertificate</name>
+        <qualifiedname>themis::security::HSMProvider::importCertificate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_label</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cert_pem</declname>
+        </param>
+        <briefdescription>
+<para>Import Certificate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_label</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_pem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_label</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_pem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), HSMProvider::importCertificateFnMutex(), HSMProvider::importCertificateFnStorage(), fn(), std::string(), what(), THEMIS_ERROR(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="189" column="10" bodyfile="src/security/hsm_provider.cpp" bodystart="580" bodyend="602"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1a0c5fffb072d68c42fcc41b6d17972cf0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::security::HSMProvider::getCertificate</definition>
+        <argsstring>(const std::string &amp;key_label)</argsstring>
+        <name>getCertificate</name>
+        <qualifiedname>themis::security::HSMProvider::getCertificate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_label</declname>
+        </param>
+        <briefdescription>
+<para>Get Certificate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_label</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_label</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), HSMProvider::getCertificateFnMutex(), HSMProvider::getCertificateFnStorage(), fn(), std::string(), what(), THEMIS_ERROR(), std::getenv(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="197" column="19" bodyfile="src/security/hsm_provider.cpp" bodystart="610" bodyend="647"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1a8f32d7c75388aafaf456055a6573abb0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::security::HSMProvider::encryptData</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, const std::string &amp;key_label=&quot;&quot;)</argsstring>
+        <name>encryptData</name>
+        <qualifiedname>themis::security::HSMProvider::encryptData</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_label</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Encrypt Data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_label</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), lk(), HSMProvider::encryptDataFnMutex(), HSMProvider::encryptDataFnStorage(), fn(), std::string(), what(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="237" column="17" bodyfile="src/security/hsm_provider.cpp" bodystart="478" bodyend="504"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1aab3971ba487348d677f4e9a6c5642c3b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::security::HSMProvider::decryptData</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;encrypted, const std::string &amp;key_label=&quot;&quot;)</argsstring>
+        <name>decryptData</name>
+        <qualifiedname>themis::security::HSMProvider::decryptData</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>encrypted</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_label</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Decrypt Data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">encrypted</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_label</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), lk(), HSMProvider::decryptDataFnMutex(), HSMProvider::decryptDataFnStorage(), fn(), std::string(), what(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="240" column="17" bodyfile="src/security/hsm_provider.cpp" bodystart="513" bodyend="539"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1a825dd7d8d3bfaf92ad4a0ebba9c8f673" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::HSMProvider::isReady</definition>
+        <argsstring>() const</argsstring>
+        <name>isReady</name>
+        <qualifiedname>themis::security::HSMProvider::isReady</qualifiedname>
+        <briefdescription>
+<para>Is Ready. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="247" column="10" bodyfile="src/security/hsm_provider.cpp" bodystart="649" bodyend="649"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1a07ef101fc9e90eb643f8087a5bd9ef12" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::HSMProvider::getTokenInfo</definition>
+        <argsstring>() const</argsstring>
+        <name>getTokenInfo</name>
+        <qualifiedname>themis::security::HSMProvider::getTokenInfo</qualifiedname>
+        <briefdescription>
+<para>Get Token Info. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="253" column="17" bodyfile="src/security/hsm_provider.cpp" bodystart="651" bodyend="654"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1ace1a272d65f3fa9a8578f6aa2889c720" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::HSMProvider::getLastError</definition>
+        <argsstring>() const</argsstring>
+        <name>getLastError</name>
+        <qualifiedname>themis::security::HSMProvider::getLastError</qualifiedname>
+        <briefdescription>
+<para>Get Last Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="259" column="17" bodyfile="src/security/hsm_provider.cpp" bodystart="656" bodyend="656"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1a97cdb599d6e83f85e94dcd286f73141f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_h_s_m_performance_stats" kindref="compound">HSMPerformanceStats</ref></type>
+        <definition>HSMPerformanceStats themis::security::HSMProvider::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::security::HSMProvider::getStats</qualifiedname>
+        <briefdescription>
+<para>Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="265" column="25" bodyfile="src/security/hsm_provider.cpp" bodystart="658" bodyend="669"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1a38ab02f6cd052a400677e9f73fae9059" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::HSMProvider::resetStats</definition>
+        <argsstring>()</argsstring>
+        <name>resetStats</name>
+        <qualifiedname>themis::security::HSMProvider::resetStats</qualifiedname>
+        <briefdescription>
+<para>Reset Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="270" column="10" bodyfile="src/security/hsm_provider.cpp" bodystart="675" bodyend="685"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1a2c079865a72130beda7e571594882d2d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::HSMProvider::isStubProvider</definition>
+        <argsstring>() const</argsstring>
+        <name>isStubProvider</name>
+        <qualifiedname>themis::security::HSMProvider::isStubProvider</qualifiedname>
+        <briefdescription>
+<para>Is Stub Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="276" column="10" bodyfile="src/security/hsm_provider.cpp" bodystart="687" bodyend="690"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1ae72e56d2ae904f9e9bc3df12e4f3f3e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::HSMProvider::periodicSecurityCheck</definition>
+        <argsstring>()</argsstring>
+        <name>periodicSecurityCheck</name>
+        <qualifiedname>themis::security::HSMProvider::periodicSecurityCheck</qualifiedname>
+        <briefdescription>
+<para>Periodic Security Check. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: THEMIS_ERROR(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="281" column="10" bodyfile="src/security/hsm_provider.cpp" bodystart="696" bodyend="706"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1a82cafdbb464623a58578b221391db7aa" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::security::HSMProvider::setSignHashFn</definition>
+        <argsstring>(SignHashFn fn)</argsstring>
+        <name>setSignHashFn</name>
+        <qualifiedname>themis::security::HSMProvider::setSignHashFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1aa8a75ca22c5363b6bb2dd9b4f108c593" kindref="member">SignHashFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Sign Hash Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), signHashFnMutex(), signHashFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="141" column="17" bodyfile="include/security/hsm_provider.h" bodystart="141" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1af16ecf54cc8286154a670fb88b7d640d" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::security::HSMProvider::setVerifyFn</definition>
+        <argsstring>(VerifyFn fn)</argsstring>
+        <name>setVerifyFn</name>
+        <qualifiedname>themis::security::HSMProvider::setVerifyFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1abaa76e7ae49ddbf55ef2236cda01c7ee" kindref="member">VerifyFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Verify Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), verifyFnMutex(), verifyFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="150" column="17" bodyfile="include/security/hsm_provider.h" bodystart="150" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1a60bcb504a5a6ee8fd506154d04da98e9" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::security::HSMProvider::setEncryptDataFn</definition>
+        <argsstring>(EncryptDataFn fn)</argsstring>
+        <name>setEncryptDataFn</name>
+        <qualifiedname>themis::security::HSMProvider::setEncryptDataFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1acb3981a60f6831c67bf102793d57c4ff" kindref="member">EncryptDataFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Encrypt Data Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), encryptDataFnMutex(), encryptDataFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="159" column="17" bodyfile="include/security/hsm_provider.h" bodystart="159" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1ab26ce306c335f9cc7d3dbc62ee059677" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::security::HSMProvider::setDecryptDataFn</definition>
+        <argsstring>(DecryptDataFn fn)</argsstring>
+        <name>setDecryptDataFn</name>
+        <qualifiedname>themis::security::HSMProvider::setDecryptDataFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a7a57eace51f34370793a5444663d709b" kindref="member">DecryptDataFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Decrypt Data Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), decryptDataFnMutex(), decryptDataFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="168" column="17" bodyfile="include/security/hsm_provider.h" bodystart="168" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1ab28c660169a526039d237b9eee0eeeeb" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::security::HSMProvider::setGenerateKeyPairFn</definition>
+        <argsstring>(GenerateKeyPairFn fn)</argsstring>
+        <name>setGenerateKeyPairFn</name>
+        <qualifiedname>themis::security::HSMProvider::setGenerateKeyPairFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a3c55d95ab265ee24ccd8f24159b80b72" kindref="member">GenerateKeyPairFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Generate Key Pair Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), generateKeyPairFnMutex(), generateKeyPairFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="214" column="17" bodyfile="include/security/hsm_provider.h" bodystart="214" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1ad0a508e3fbf850c35b1c52189415178a" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::security::HSMProvider::setImportCertificateFn</definition>
+        <argsstring>(ImportCertificateFn fn)</argsstring>
+        <name>setImportCertificateFn</name>
+        <qualifiedname>themis::security::HSMProvider::setImportCertificateFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1adc799135ab90a64c2bb2c7da04a0cc1e" kindref="member">ImportCertificateFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Import Certificate Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), importCertificateFnMutex(), importCertificateFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="223" column="17" bodyfile="include/security/hsm_provider.h" bodystart="223" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1afc05e26e585bfddaebe88dddf166c6e4" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::security::HSMProvider::setGetCertificateFn</definition>
+        <argsstring>(GetCertificateFn fn)</argsstring>
+        <name>setGetCertificateFn</name>
+        <qualifiedname>themis::security::HSMProvider::setGetCertificateFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1ad0c91a7aadbf690288b299b778a55732" kindref="member">GetCertificateFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Get Certificate Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), getCertificateFnMutex(), getCertificateFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="232" column="17" bodyfile="include/security/hsm_provider.h" bodystart="232" bodyend="235"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1ac615a11b86cdc460204cee536ca976c1" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::security::HSMProvider::signHashFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>signHashFnMutex</name>
+        <qualifiedname>themis::security::HSMProvider::signHashFnMutex</qualifiedname>
+        <briefdescription>
+<para>Sign Hash Fn Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements signHashFnMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="289" column="23" bodyfile="include/security/hsm_provider.h" bodystart="289" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1a28eb39aab0e21ff23b98cf838989d5ff" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1aa8a75ca22c5363b6bb2dd9b4f108c593" kindref="member">SignHashFn</ref> &amp;</type>
+        <definition>static SignHashFn &amp; themis::security::HSMProvider::signHashFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>signHashFnStorage</name>
+        <qualifiedname>themis::security::HSMProvider::signHashFnStorage</qualifiedname>
+        <briefdescription>
+<para>Sign Hash Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements signHashFnStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="298" column="23" bodyfile="include/security/hsm_provider.h" bodystart="298" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1a13ef6c21edf61d7e8b2d33d3cdc9d27d" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::security::HSMProvider::verifyFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>verifyFnMutex</name>
+        <qualifiedname>themis::security::HSMProvider::verifyFnMutex</qualifiedname>
+        <briefdescription>
+<para>Verify Fn Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements verifyFnMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="307" column="23" bodyfile="include/security/hsm_provider.h" bodystart="307" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1ac5fa5281ad9460f806e208f490c9b995" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1abaa76e7ae49ddbf55ef2236cda01c7ee" kindref="member">VerifyFn</ref> &amp;</type>
+        <definition>static VerifyFn &amp; themis::security::HSMProvider::verifyFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>verifyFnStorage</name>
+        <qualifiedname>themis::security::HSMProvider::verifyFnStorage</qualifiedname>
+        <briefdescription>
+<para>Verify Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements verifyFnStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="316" column="21" bodyfile="include/security/hsm_provider.h" bodystart="316" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1a21b4439b5ea50d326a07279f6e8aaf68" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::security::HSMProvider::encryptDataFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>encryptDataFnMutex</name>
+        <qualifiedname>themis::security::HSMProvider::encryptDataFnMutex</qualifiedname>
+        <briefdescription>
+<para>Encrypt Data Fn Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements encryptDataFnMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="325" column="23" bodyfile="include/security/hsm_provider.h" bodystart="325" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1ae6117e70b5273fcbb8511eb8872ae668" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1acb3981a60f6831c67bf102793d57c4ff" kindref="member">EncryptDataFn</ref> &amp;</type>
+        <definition>static EncryptDataFn &amp; themis::security::HSMProvider::encryptDataFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>encryptDataFnStorage</name>
+        <qualifiedname>themis::security::HSMProvider::encryptDataFnStorage</qualifiedname>
+        <briefdescription>
+<para>Encrypt Data Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements encryptDataFnStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="334" column="26" bodyfile="include/security/hsm_provider.h" bodystart="334" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1af77c4972bd047b37b72efbd3d66ab4b8" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::security::HSMProvider::decryptDataFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>decryptDataFnMutex</name>
+        <qualifiedname>themis::security::HSMProvider::decryptDataFnMutex</qualifiedname>
+        <briefdescription>
+<para>Decrypt Data Fn Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements decryptDataFnMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="343" column="23" bodyfile="include/security/hsm_provider.h" bodystart="343" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1ac91b7844bb23a0d4470425030073ec7a" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a7a57eace51f34370793a5444663d709b" kindref="member">DecryptDataFn</ref> &amp;</type>
+        <definition>static DecryptDataFn &amp; themis::security::HSMProvider::decryptDataFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>decryptDataFnStorage</name>
+        <qualifiedname>themis::security::HSMProvider::decryptDataFnStorage</qualifiedname>
+        <briefdescription>
+<para>Decrypt Data Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements decryptDataFnStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="352" column="26" bodyfile="include/security/hsm_provider.h" bodystart="352" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1a88f45765991fd621a1ea6c06ed08c396" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::security::HSMProvider::generateKeyPairFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>generateKeyPairFnMutex</name>
+        <qualifiedname>themis::security::HSMProvider::generateKeyPairFnMutex</qualifiedname>
+        <briefdescription>
+<para>Generate Key Pair Fn Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements generateKeyPairFnMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="361" column="23" bodyfile="include/security/hsm_provider.h" bodystart="361" bodyend="364"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1afff365cc3919ddc0201ceb003df90156" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a3c55d95ab265ee24ccd8f24159b80b72" kindref="member">GenerateKeyPairFn</ref> &amp;</type>
+        <definition>static GenerateKeyPairFn &amp; themis::security::HSMProvider::generateKeyPairFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>generateKeyPairFnStorage</name>
+        <qualifiedname>themis::security::HSMProvider::generateKeyPairFnStorage</qualifiedname>
+        <briefdescription>
+<para>Generate Key Pair Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements generateKeyPairFnStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="370" column="30" bodyfile="include/security/hsm_provider.h" bodystart="370" bodyend="373"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1aec9e7ff27d845fdfc90b2e9e5bf7457b" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::security::HSMProvider::importCertificateFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>importCertificateFnMutex</name>
+        <qualifiedname>themis::security::HSMProvider::importCertificateFnMutex</qualifiedname>
+        <briefdescription>
+<para>Import Certificate Fn Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements importCertificateFnMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="379" column="23" bodyfile="include/security/hsm_provider.h" bodystart="379" bodyend="382"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1a79bc3b699601f22af7a697d71ae64a9f" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1adc799135ab90a64c2bb2c7da04a0cc1e" kindref="member">ImportCertificateFn</ref> &amp;</type>
+        <definition>static ImportCertificateFn &amp; themis::security::HSMProvider::importCertificateFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>importCertificateFnStorage</name>
+        <qualifiedname>themis::security::HSMProvider::importCertificateFnStorage</qualifiedname>
+        <briefdescription>
+<para>Import Certificate Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements importCertificateFnStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="388" column="32" bodyfile="include/security/hsm_provider.h" bodystart="388" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1afbacec0d8a3f2614e87557fcb6705d4c" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::security::HSMProvider::getCertificateFnMutex</definition>
+        <argsstring>()</argsstring>
+        <name>getCertificateFnMutex</name>
+        <qualifiedname>themis::security::HSMProvider::getCertificateFnMutex</qualifiedname>
+        <briefdescription>
+<para>Get Certificate Fn Mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getCertificateFnMutex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="397" column="23" bodyfile="include/security/hsm_provider.h" bodystart="397" bodyend="400"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1a11b777a583174013c71eb8a56598cd9e" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1ad0c91a7aadbf690288b299b778a55732" kindref="member">GetCertificateFn</ref> &amp;</type>
+        <definition>static GetCertificateFn &amp; themis::security::HSMProvider::getCertificateFnStorage</definition>
+        <argsstring>()</argsstring>
+        <name>getCertificateFnStorage</name>
+        <qualifiedname>themis::security::HSMProvider::getCertificateFnStorage</qualifiedname>
+        <briefdescription>
+<para>Get Certificate Fn Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getCertificateFnStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="406" column="29" bodyfile="include/security/hsm_provider.h" bodystart="406" bodyend="409"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1ac89f4c53e4fce25feffaa936c6bb971a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::HSMProvider::discoverKeysSession</definition>
+        <argsstring>(SessionEntry &amp;s)</argsstring>
+        <name>discoverKeysSession</name>
+        <qualifiedname>themis::security::HSMProvider::discoverKeysSession</qualifiedname>
+        <param>
+          <type>SessionEntry &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Discover Keys Session. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="423" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1aa870dc6da07fc65a8ec32197a99f5a6a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::HSMProvider::discoverCertificateSession</definition>
+        <argsstring>(SessionEntry &amp;s)</argsstring>
+        <name>discoverCertificateSession</name>
+        <qualifiedname>themis::security::HSMProvider::discoverCertificateSession</qualifiedname>
+        <param>
+          <type>SessionEntry &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Discover Certificate Session. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="428" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1a9dda5051dec5105d23b92085acc60634" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>SessionEntry *</type>
+        <definition>SessionEntry * themis::security::HSMProvider::acquireSession</definition>
+        <argsstring>()</argsstring>
+        <name>acquireSession</name>
+        <qualifiedname>themis::security::HSMProvider::acquireSession</qualifiedname>
+        <briefdescription>
+<para>Acquire Session. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="433" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_provider_1a6108e778f60a719e68346cddc478536d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::HSMProvider::releaseSession</definition>
+        <argsstring>(SessionEntry *s)</argsstring>
+        <name>releaseSession</name>
+        <qualifiedname>themis::security::HSMProvider::releaseSession</qualifiedname>
+        <param>
+          <type>SessionEntry *</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Release Session. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="438" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/hsm_provider.h" line="83" column="1" bodyfile="include/security/hsm_provider.h" bodystart="83" bodyend="439"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1a9dda5051dec5105d23b92085acc60634" prot="private" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>acquireSession</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1a134916329cc0c12e346c27a6ab8292f8" prot="private" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>config_</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1aab3971ba487348d677f4e9a6c5642c3b" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>decryptData</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1a7a57eace51f34370793a5444663d709b" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>DecryptDataFn</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1af77c4972bd047b37b72efbd3d66ab4b8" prot="private" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>decryptDataFnMutex</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1ac91b7844bb23a0d4470425030073ec7a" prot="private" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>decryptDataFnStorage</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1aa870dc6da07fc65a8ec32197a99f5a6a" prot="private" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>discoverCertificateSession</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1ac89f4c53e4fce25feffaa936c6bb971a" prot="private" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>discoverKeysSession</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1a8f32d7c75388aafaf456055a6573abb0" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>encryptData</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1acb3981a60f6831c67bf102793d57c4ff" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>EncryptDataFn</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1a21b4439b5ea50d326a07279f6e8aaf68" prot="private" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>encryptDataFnMutex</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1ae6117e70b5273fcbb8511eb8872ae668" prot="private" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>encryptDataFnStorage</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1ad7c2f07e587a9bab673ccc6d7b22c6e1" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>finalize</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1a393d7a43b188b2237bbd6a2507513496" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>generateKeyPair</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1a3c55d95ab265ee24ccd8f24159b80b72" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>GenerateKeyPairFn</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1a88f45765991fd621a1ea6c06ed08c396" prot="private" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>generateKeyPairFnMutex</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1afff365cc3919ddc0201ceb003df90156" prot="private" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>generateKeyPairFnStorage</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1a0c5fffb072d68c42fcc41b6d17972cf0" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>getCertificate</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1ad0c91a7aadbf690288b299b778a55732" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>GetCertificateFn</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1afbacec0d8a3f2614e87557fcb6705d4c" prot="private" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>getCertificateFnMutex</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1a11b777a583174013c71eb8a56598cd9e" prot="private" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>getCertificateFnStorage</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1ace1a272d65f3fa9a8578f6aa2889c720" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>getLastError</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1a97cdb599d6e83f85e94dcd286f73141f" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1a07ef101fc9e90eb643f8087a5bd9ef12" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>getTokenInfo</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1abe0107f0faa5f36df11fda3c80b7d109" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>HSMProvider</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1a5409892d806cf24a98f3b9cbd17c6380" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>HSMProvider</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1a559451d0c8df88d5aa2ceb570c1ca5e8" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>HSMProvider</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1a29da2afa182bf5a61223409a1791cfd7" prot="private" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1aa106745ccd5285c4800f75955a1c7258" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>importCertificate</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1adc799135ab90a64c2bb2c7da04a0cc1e" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>ImportCertificateFn</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1aec9e7ff27d845fdfc90b2e9e5bf7457b" prot="private" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>importCertificateFnMutex</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1a79bc3b699601f22af7a697d71ae64a9f" prot="private" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>importCertificateFnStorage</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1a0c5ba90379563c9c442735d2d70caeb7" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1abdf1bc0615ebf756e522807c944606cb" prot="private" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1a825dd7d8d3bfaf92ad4a0ebba9c8f673" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>isReady</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1a2c079865a72130beda7e571594882d2d" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>isStubProvider</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1abd22ae6dfdb92d36f7149b4ef4deb6c2" prot="private" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>last_error_</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1a75fdc73fd6c716e445908ed03b2d55e1" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>listKeys</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1a84e7f1cf8cca3e237f8c304c55713378" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1a4efa0bde3dce625a0eced90b6709004f" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1ae72e56d2ae904f9e9bc3df12e4f3f3e5" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>periodicSecurityCheck</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1a6108e778f60a719e68346cddc478536d" prot="private" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>releaseSession</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1a38ab02f6cd052a400677e9f73fae9059" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>resetStats</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1ab26ce306c335f9cc7d3dbc62ee059677" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>setDecryptDataFn</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1a60bcb504a5a6ee8fd506154d04da98e9" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>setEncryptDataFn</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1ab28c660169a526039d237b9eee0eeeeb" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>setGenerateKeyPairFn</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1afc05e26e585bfddaebe88dddf166c6e4" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>setGetCertificateFn</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1ad0a508e3fbf850c35b1c52189415178a" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>setImportCertificateFn</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1a82cafdbb464623a58578b221391db7aa" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>setSignHashFn</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1af16ecf54cc8286154a670fb88b7d640d" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>setVerifyFn</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1a83d3d14e92db113fb90b69392fef7cf2" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>sign</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1a3462d021aa390aa401fd94ce70a1f166" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>signHash</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1aa8a75ca22c5363b6bb2dd9b4f108c593" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>SignHashFn</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1ac615a11b86cdc460204cee536ca976c1" prot="private" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>signHashFnMutex</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1a28eb39aab0e21ff23b98cf838989d5ff" prot="private" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>signHashFnStorage</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1a0ee3d32114e6c965ba26a8da0dc5f62b" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>verify</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1abaa76e7ae49ddbf55ef2236cda01c7ee" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>VerifyFn</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1a13ef6c21edf61d7e8b2d33d3cdc9d27d" prot="private" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>verifyFnMutex</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1ac5fa5281ad9460f806e208f490c9b995" prot="private" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>verifyFnStorage</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1a34eb5a2640eee1dfe0c665319f79b88e" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider</scope><name>~HSMProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

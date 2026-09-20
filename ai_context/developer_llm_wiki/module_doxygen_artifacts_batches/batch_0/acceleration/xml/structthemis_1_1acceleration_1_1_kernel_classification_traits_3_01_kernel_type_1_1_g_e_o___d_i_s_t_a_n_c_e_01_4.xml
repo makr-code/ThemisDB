@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_g_e_o___d_i_s_t_a_n_c_e_01_4" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::KernelClassificationTraits&lt; KernelType::GEO_DISTANCE &gt;</compoundname>
+    <includes refid="graph__kernel__classification_8h" local="no">graph_kernel_classification.h</includes>
+    <templateparamlist>
+    </templateparamlist>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_g_e_o___d_i_s_t_a_n_c_e_01_4_1a43a44c78744fdddcd62f4722ceed82c1" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type><ref refid="namespacethemis_1_1acceleration_1a20a4ed65dbc539c26a6c5c002c3b3b2c" kindref="member">KernelCategory</ref></type>
+        <definition>KernelCategory themis::acceleration::KernelClassificationTraits&lt; KernelType::GEO_DISTANCE &gt;::category</definition>
+        <argsstring></argsstring>
+        <name>category</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::GEO_DISTANCE &gt;::category</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1acceleration_1a20a4ed65dbc539c26a6c5c002c3b3b2cad8b754b7d08a3c745bcee1d3f693c8de" kindref="member">KernelCategory::CONDITIONAL_ACCELERATION</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="172" column="37" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_g_e_o___d_i_s_t_a_n_c_e_01_4_1aa584f4cb74b64728bc54702a502135d4" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::acceleration::KernelClassificationTraits&lt; KernelType::GEO_DISTANCE &gt;::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::GEO_DISTANCE &gt;::name</qualifiedname>
+        <initializer>= &quot;GEO_DISTANCE&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="173" column="39" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_g_e_o___d_i_s_t_a_n_c_e_01_4_1aabfdfa6715f43809d68778899953dcb5" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::KernelClassificationTraits&lt; KernelType::GEO_DISTANCE &gt;::requires_input_validation</definition>
+        <argsstring></argsstring>
+        <name>requires_input_validation</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::GEO_DISTANCE &gt;::requires_input_validation</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="174" column="27" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_g_e_o___d_i_s_t_a_n_c_e_01_4_1ae60198740a7690f6845bce8744d7d993" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::KernelClassificationTraits&lt; KernelType::GEO_DISTANCE &gt;::requires_output_validation</definition>
+        <argsstring></argsstring>
+        <name>requires_output_validation</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::GEO_DISTANCE &gt;::requires_output_validation</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="175" column="27" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_g_e_o___d_i_s_t_a_n_c_e_01_4_1aad1a3d62b2194d0b511968983e9b0afe" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::KernelClassificationTraits&lt; KernelType::GEO_DISTANCE &gt;::has_cpu_fallback</definition>
+        <argsstring></argsstring>
+        <name>has_cpu_fallback</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::GEO_DISTANCE &gt;::has_cpu_fallback</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="176" column="27" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_g_e_o___d_i_s_t_a_n_c_e_01_4_1aee4fa452352943540f1b1f74c2badbe6" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::KernelClassificationTraits&lt; KernelType::GEO_DISTANCE &gt;::gpu_execution_bounded</definition>
+        <argsstring></argsstring>
+        <name>gpu_execution_bounded</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::GEO_DISTANCE &gt;::gpu_execution_bounded</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="177" column="27" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_g_e_o___d_i_s_t_a_n_c_e_01_4_1a53883144d12f65deed951294d87d0170" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themis::acceleration::KernelClassificationTraits&lt; KernelType::GEO_DISTANCE &gt;::max_gpu_time_ms</definition>
+        <argsstring></argsstring>
+        <name>max_gpu_time_ms</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::GEO_DISTANCE &gt;::max_gpu_time_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="178" column="36" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_g_e_o___d_i_s_t_a_n_c_e_01_4_1accdeefcf82f86b9d5c65ca6532e6321d" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::KernelClassificationTraits&lt; KernelType::GEO_DISTANCE &gt;::is_advisory_only</definition>
+        <argsstring></argsstring>
+        <name>is_advisory_only</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::GEO_DISTANCE &gt;::is_advisory_only</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="179" column="27" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_g_e_o___d_i_s_t_a_n_c_e_01_4_1a767c8265ab9008df712014bcbdaaaba0" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::KernelClassificationTraits&lt; KernelType::GEO_DISTANCE &gt;::gpu_may_parallelize</definition>
+        <argsstring></argsstring>
+        <name>gpu_may_parallelize</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::GEO_DISTANCE &gt;::gpu_may_parallelize</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="180" column="27" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_1a4a8610cfa103f3514295137eb2938a4c" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::acceleration::KernelClassificationTraits&lt; KT &gt;::max_output_size</definition>
+        <argsstring></argsstring>
+        <name>max_output_size</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::GEO_DISTANCE &gt;::max_output_size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="76" column="36" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/graph_kernel_classification.h" line="171" column="1" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="171" bodyend="181"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_g_e_o___d_i_s_t_a_n_c_e_01_4_1a43a44c78744fdddcd62f4722ceed82c1" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::GEO_DISTANCE &gt;</scope><name>category</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_g_e_o___d_i_s_t_a_n_c_e_01_4_1aee4fa452352943540f1b1f74c2badbe6" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::GEO_DISTANCE &gt;</scope><name>gpu_execution_bounded</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_g_e_o___d_i_s_t_a_n_c_e_01_4_1a767c8265ab9008df712014bcbdaaaba0" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::GEO_DISTANCE &gt;</scope><name>gpu_may_parallelize</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_g_e_o___d_i_s_t_a_n_c_e_01_4_1aad1a3d62b2194d0b511968983e9b0afe" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::GEO_DISTANCE &gt;</scope><name>has_cpu_fallback</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_g_e_o___d_i_s_t_a_n_c_e_01_4_1accdeefcf82f86b9d5c65ca6532e6321d" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::GEO_DISTANCE &gt;</scope><name>is_advisory_only</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_g_e_o___d_i_s_t_a_n_c_e_01_4_1a53883144d12f65deed951294d87d0170" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::GEO_DISTANCE &gt;</scope><name>max_gpu_time_ms</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_1a4a8610cfa103f3514295137eb2938a4c" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::GEO_DISTANCE &gt;</scope><name>max_output_size</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_g_e_o___d_i_s_t_a_n_c_e_01_4_1aa584f4cb74b64728bc54702a502135d4" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::GEO_DISTANCE &gt;</scope><name>name</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_g_e_o___d_i_s_t_a_n_c_e_01_4_1aabfdfa6715f43809d68778899953dcb5" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::GEO_DISTANCE &gt;</scope><name>requires_input_validation</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_g_e_o___d_i_s_t_a_n_c_e_01_4_1ae60198740a7690f6845bce8744d7d993" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::GEO_DISTANCE &gt;</scope><name>requires_output_validation</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

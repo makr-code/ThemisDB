@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1benchmark_1_1_conformance_checker" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::benchmark::ConformanceChecker</compoundname>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_conformance_checker_1a7804b94ccfd62d52266f8f3cd2b6434c" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themis::process::benchmark::ConformanceChecker::checkConformance</definition>
+        <argsstring>(const EventLog &amp;log, const DirectlyFollowsGraph &amp;dfg)</argsstring>
+        <name>checkConformance</name>
+        <qualifiedname>themis::process::benchmark::ConformanceChecker::checkConformance</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1benchmark_1_1_event_log" kindref="compound">EventLog</ref> &amp;</type>
+          <declname>log</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1benchmark_1_1_directly_follows_graph" kindref="compound">DirectlyFollowsGraph</ref> &amp;</type>
+          <declname>dfg</declname>
+        </param>
+        <briefdescription>
+<para>Check log conformance against DFG. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="146" column="19" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="146" bodyend="175"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Conformance checker. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="141" column="1" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="141" bodyend="176"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_conformance_checker_1a7804b94ccfd62d52266f8f3cd2b6434c" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ConformanceChecker</scope><name>checkConformance</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

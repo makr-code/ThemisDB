@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_process_pattern_matcher_d_b_test" kind="class" language="C++" prot="public">
+    <compoundname>ProcessPatternMatcherDBTest</compoundname>
+    <basecompoundref refid="classtesting_1_1_test" prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_process_pattern_matcher_d_b_test_1af03951ffc604b52ec39bb7fc9eb1ea90" prot="protected" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path ProcessPatternMatcherDBTest::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>ProcessPatternMatcherDBTest::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_pattern_matcher.cpp" line="135" column="44" bodyfile="tests/analytics/test_process_pattern_matcher.cpp" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_process_pattern_matcher_d_b_test_1aa3ebf62e20b99eb6f743be33db0bd705" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; ProcessPatternMatcherDBTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>ProcessPatternMatcherDBTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_pattern_matcher.cpp" line="136" column="27" bodyfile="tests/analytics/test_process_pattern_matcher.cpp" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_process_pattern_matcher_d_b_test_1a4a7b722ad0d9b7ab3baa126362ef6f31" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_process_pattern_matcher" kindref="compound">ProcessPatternMatcher</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ProcessPatternMatcher&gt; ProcessPatternMatcherDBTest::matcher_</definition>
+        <argsstring></argsstring>
+        <name>matcher_</name>
+        <qualifiedname>ProcessPatternMatcherDBTest::matcher_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_pattern_matcher.cpp" line="137" column="21" bodyfile="tests/analytics/test_process_pattern_matcher.cpp" bodystart="137" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_process_pattern_matcher_d_b_test_1a9173e88af0637c0cb1165f477fd183ab" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ProcessPatternMatcherDBTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ProcessPatternMatcherDBTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_pattern_matcher.cpp" line="93" column="10" bodyfile="tests/analytics/test_process_pattern_matcher.cpp" bodystart="93" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="class_process_pattern_matcher_d_b_test_1ae07a8700652b9a8641c02d819bbfbe2d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ProcessPatternMatcherDBTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ProcessPatternMatcherDBTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_pattern_matcher.cpp" line="129" column="10" bodyfile="tests/analytics/test_process_pattern_matcher.cpp" bodystart="129" bodyend="133"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ProcessPatternMatcherDBTest</label>
+        <link refid="class_process_pattern_matcher_d_b_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ProcessPatternMatcherDBTest</label>
+        <link refid="class_process_pattern_matcher_d_b_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/analytics/test_process_pattern_matcher.cpp" line="91" column="1" bodyfile="tests/analytics/test_process_pattern_matcher.cpp" bodystart="91" bodyend="138"/>
+    <listofallmembers>
+      <member refid="class_process_pattern_matcher_d_b_test_1aa3ebf62e20b99eb6f743be33db0bd705" prot="protected" virt="non-virtual"><scope>ProcessPatternMatcherDBTest</scope><name>db_</name></member>
+      <member refid="class_process_pattern_matcher_d_b_test_1af03951ffc604b52ec39bb7fc9eb1ea90" prot="protected" virt="non-virtual"><scope>ProcessPatternMatcherDBTest</scope><name>db_path_</name></member>
+      <member refid="class_process_pattern_matcher_d_b_test_1a4a7b722ad0d9b7ab3baa126362ef6f31" prot="protected" virt="non-virtual"><scope>ProcessPatternMatcherDBTest</scope><name>matcher_</name></member>
+      <member refid="class_process_pattern_matcher_d_b_test_1a9173e88af0637c0cb1165f477fd183ab" prot="protected" virt="non-virtual"><scope>ProcessPatternMatcherDBTest</scope><name>SetUp</name></member>
+      <member refid="class_process_pattern_matcher_d_b_test_1ae07a8700652b9a8641c02d819bbfbe2d" prot="protected" virt="non-virtual"><scope>ProcessPatternMatcherDBTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

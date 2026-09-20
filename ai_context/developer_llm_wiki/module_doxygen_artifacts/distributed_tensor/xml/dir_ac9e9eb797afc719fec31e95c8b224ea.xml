@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_ac9e9eb797afc719fec31e95c8b224ea" kind="dir">
+    <compoundname>src/distributed_tensor/include</compoundname>
+    <innerfile refid="artifact__invalidation_8h">artifact_invalidation.h</innerfile>
+    <innerfile refid="src_2distributed__tensor_2include_2artifact__manifest_8h">artifact_manifest.h</innerfile>
+    <innerfile refid="crash__recovery__checkpoint_8h">crash_recovery_checkpoint.h</innerfile>
+    <innerfile refid="distributed__lock__manager_8h">distributed_lock_manager.h</innerfile>
+    <innerfile refid="src_2distributed__tensor_2include_2distributed__planner_8h">distributed_planner.h</innerfile>
+    <innerfile refid="error__recovery__handler_8h">error_recovery_handler.h</innerfile>
+    <innerfile refid="exact__graph__fallback_8h">exact_graph_fallback.h</innerfile>
+    <innerfile refid="src_2distributed__tensor_2include_2integrity__verification_8h">integrity_verification.h</innerfile>
+    <innerfile refid="manifest__store_8h">manifest_store.h</innerfile>
+    <innerfile refid="shard__summary__coordinator_8h">shard_summary_coordinator.h</innerfile>
+    <innerfile refid="snapshot__update__worker_8h">snapshot_update_worker.h</innerfile>
+    <innerfile refid="stale__artifact__detector_8h">stale_artifact_detector.h</innerfile>
+    <innerfile refid="src_2distributed__tensor_2include_2tensor__artifact__classes_8h">tensor_artifact_classes.h</innerfile>
+    <innerfile refid="tensor__delta__log_8h">tensor_delta_log.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/"/>
+  </compounddef>
+</doxygen>

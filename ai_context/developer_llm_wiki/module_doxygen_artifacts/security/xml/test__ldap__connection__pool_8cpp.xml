@@ -1,0 +1,729 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__ldap__connection__pool_8cpp" kind="file" language="C++">
+    <compoundname>test_ldap_connection_pool.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">auth/ldap_authenticator.h</includes>
+    <includes local="yes">auth/ldap_connection_pool.h</includes>
+    <includes local="yes">auth/auth_metrics.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">atomic</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/security/test_ldap_connection_pool.cpp</label>
+        <link refid="test__ldap__connection__pool_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>auth/auth_metrics.h</label>
+      </node>
+      <node id="3">
+        <label>auth/ldap_authenticator.h</label>
+      </node>
+      <node id="4">
+        <label>auth/ldap_connection_pool.h</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>thread</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__ldap__connection__pool_8cpp_1ac8e7acc9af6e1a8dc966ed7781f2debb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LDAPConnectionPoolTest, ConstructWithZeroMinIdle)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LDAPConnectionPoolTest</type>
+        </param>
+        <param>
+          <type>ConstructWithZeroMinIdle</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_ldap_connection_pool.cpp" line="53" column="1" bodyfile="tests/security/test_ldap_connection_pool.cpp" bodystart="53" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ldap__connection__pool_8cpp_1ae422e6766b891514816ce3b97941dc4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LDAPConnectionPoolTest, ConfigAccessor)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LDAPConnectionPoolTest</type>
+        </param>
+        <param>
+          <type>ConfigAccessor</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_ldap_connection_pool.cpp" line="68" column="1" bodyfile="tests/security/test_ldap_connection_pool.cpp" bodystart="68" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ldap__connection__pool_8cpp_1a67b4f3f521c89cdf04678a97fdbc9903" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LDAPConnectionPoolTest, CheckoutReturnsNullWhenServerUnreachable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LDAPConnectionPoolTest</type>
+        </param>
+        <param>
+          <type>CheckoutReturnsNullWhenServerUnreachable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_ldap_connection_pool.cpp" line="83" column="1" bodyfile="tests/security/test_ldap_connection_pool.cpp" bodystart="83" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ldap__connection__pool_8cpp_1a117510bfa95012a40e05d53405385137" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LDAPConnectionPoolTest, MetricsAfterFailedCheckout)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LDAPConnectionPoolTest</type>
+        </param>
+        <param>
+          <type>MetricsAfterFailedCheckout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_ldap_connection_pool.cpp" line="99" column="1" bodyfile="tests/security/test_ldap_connection_pool.cpp" bodystart="99" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ldap__connection__pool_8cpp_1aa2a85cc03ae0ae120cc4cb582dc022ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PooledConnectionTest, NullHandleDoesNotCrashOnDestroy)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PooledConnectionTest</type>
+        </param>
+        <param>
+          <type>NullHandleDoesNotCrashOnDestroy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_ldap_connection_pool.cpp" line="120" column="1" bodyfile="tests/security/test_ldap_connection_pool.cpp" bodystart="120" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ldap__connection__pool_8cpp_1a1a8dfdf9628e932265ce29d2c42fbc73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PooledConnectionTest, MarkStaleAndDestroy)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PooledConnectionTest</type>
+        </param>
+        <param>
+          <type>MarkStaleAndDestroy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_ldap_connection_pool.cpp" line="132" column="1" bodyfile="tests/security/test_ldap_connection_pool.cpp" bodystart="132" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ldap__connection__pool_8cpp_1a7a1c1a0225c542974e4f9c9e2b755b8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LDAPAuthenticatorPoolTest, InitializeCreatesPool)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LDAPAuthenticatorPoolTest</type>
+        </param>
+        <param>
+          <type>InitializeCreatesPool</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_ldap_connection_pool.cpp" line="151" column="1" bodyfile="tests/security/test_ldap_connection_pool.cpp" bodystart="151" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ldap__connection__pool_8cpp_1aad4c52ddc2012d4c32584c8001509961" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LDAPAuthenticatorPoolTest, InitializeWithPoolDisabledHasNoPool)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LDAPAuthenticatorPoolTest</type>
+        </param>
+        <param>
+          <type>InitializeWithPoolDisabledHasNoPool</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_ldap_connection_pool.cpp" line="161" column="1" bodyfile="tests/security/test_ldap_connection_pool.cpp" bodystart="161" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ldap__connection__pool_8cpp_1a6589fddca62f445d69f606fec9beba93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LDAPAuthenticatorPoolTest, AuthenticateWithPoolEnabledReturnsFailureNotCrash)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LDAPAuthenticatorPoolTest</type>
+        </param>
+        <param>
+          <type>AuthenticateWithPoolEnabledReturnsFailureNotCrash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_ldap_connection_pool.cpp" line="170" column="1" bodyfile="tests/security/test_ldap_connection_pool.cpp" bodystart="170" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ldap__connection__pool_8cpp_1a9b86c7bfaf7a40a0fae01711a97e7e9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LDAPAuthenticatorPoolTest, AuthenticateWithPoolDisabledReturnsFailureNotCrash)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LDAPAuthenticatorPoolTest</type>
+        </param>
+        <param>
+          <type>AuthenticateWithPoolDisabledReturnsFailureNotCrash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_ldap_connection_pool.cpp" line="181" column="1" bodyfile="tests/security/test_ldap_connection_pool.cpp" bodystart="181" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ldap__connection__pool_8cpp_1a0c60f02617c019271960b69f4d88cd70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LDAPAuthenticatorPoolTest, PoolConfigPassedCorrectly)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LDAPAuthenticatorPoolTest</type>
+        </param>
+        <param>
+          <type>PoolConfigPassedCorrectly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_ldap_connection_pool.cpp" line="191" column="1" bodyfile="tests/security/test_ldap_connection_pool.cpp" bodystart="191" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ldap__connection__pool_8cpp_1a7b9f4486927e1c4fcceef68f8429ae73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthMetricsTest, LDAPPoolMetricsDefaultZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthMetricsTest</type>
+        </param>
+        <param>
+          <type>LDAPPoolMetricsDefaultZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_ldap_connection_pool.cpp" line="211" column="1" bodyfile="tests/security/test_ldap_connection_pool.cpp" bodystart="211" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ldap__connection__pool_8cpp_1ae71d55a25b05cbc59c1c9982f037bca1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthMetricsTest, SetLDAPPoolSizeRoundTrip)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthMetricsTest</type>
+        </param>
+        <param>
+          <type>SetLDAPPoolSizeRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_ldap_connection_pool.cpp" line="219" column="1" bodyfile="tests/security/test_ldap_connection_pool.cpp" bodystart="219" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ldap__connection__pool_8cpp_1a88fc7754e0839248eeb78155a31aac93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthMetricsTest, SetLDAPIdleConnectionsRoundTrip)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthMetricsTest</type>
+        </param>
+        <param>
+          <type>SetLDAPIdleConnectionsRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_ldap_connection_pool.cpp" line="226" column="1" bodyfile="tests/security/test_ldap_connection_pool.cpp" bodystart="226" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ldap__connection__pool_8cpp_1afdac479c54b93296746250d1c8783782" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthMetricsTest, SetLDAPActiveConnectionsRoundTrip)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthMetricsTest</type>
+        </param>
+        <param>
+          <type>SetLDAPActiveConnectionsRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_ldap_connection_pool.cpp" line="233" column="1" bodyfile="tests/security/test_ldap_connection_pool.cpp" bodystart="233" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ldap__connection__pool_8cpp_1a874f99f9becc1c775ce89d2f812118f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthMetricsTest, LDAPPoolMetricsReflectPoolState)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthMetricsTest</type>
+        </param>
+        <param>
+          <type>LDAPPoolMetricsReflectPoolState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_ldap_connection_pool.cpp" line="240" column="1" bodyfile="tests/security/test_ldap_connection_pool.cpp" bodystart="240" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ldap__connection__pool_8cpp_1ad6dc7944cb505093a56cf412c14b2c13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AuthMetricsTest, LDAPPoolMetricsAreThreadSafe)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AuthMetricsTest</type>
+        </param>
+        <param>
+          <type>LDAPPoolMetricsAreThreadSafe</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_ldap_connection_pool.cpp" line="255" column="1" bodyfile="tests/security/test_ldap_connection_pool.cpp" bodystart="255" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ldap__connection__pool_8cpp_1aa824358a00a9d8b3dd910b88ef6d76d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LDAPConnectionPoolTest, DISABLED_PoolReuseIntegration)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LDAPConnectionPoolTest</type>
+        </param>
+        <param>
+          <type>DISABLED_PoolReuseIntegration</type>
+        </param>
+        <briefdescription>
+<para>Integration test — requires an actual LDAP server. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>To run: ctest -R LDAPConnectionPool.DISABLED_PoolReuseIntegration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_ldap_connection_pool.cpp" line="299" column="1" bodyfile="tests/security/test_ldap_connection_pool.cpp" bodystart="299" bodyend="322"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;auth/ldap_authenticator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;auth/ldap_connection_pool.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;auth/auth_metrics.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth" kindref="compound">themis::auth</ref>;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LDAPPoolConfig<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal">LDAPPoolConfig<sp/>makePoolConfig()</highlight></codeline>
+<codeline lineno="21"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>LDAPPoolConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.server_url<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ldap://127.0.0.1:39999&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>nothing<sp/>listening<sp/>—<sp/>pool<sp/>won&apos;t<sp/>pre-warm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.min_idle<sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>zero<sp/>so<sp/>constructor<sp/>doesn&apos;t<sp/>block<sp/>on<sp/>unreachable<sp/>server</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.max_size<sp/><sp/><sp/><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.checkout_timeout_ms<sp/>=<sp/>200;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.connection_timeout_seconds<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.search_timeout_seconds<sp/><sp/><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal">LDAPConfig<sp/>makeAuthConfig(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>pool_enabled<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>LDAPConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.server_url<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ldap://127.0.0.1:39999&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.bind_dn_template<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;{username}@EXAMPLE.COM&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.default_role<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;readonly&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.pool_enabled<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>pool_enabled;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.pool_min_idle<sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.pool_max_size<sp/><sp/><sp/><sp/><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.pool_checkout_timeout_ms<sp/>=<sp/>200;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.connection_timeout_seconds<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.search_timeout_seconds<sp/><sp/><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LDAPConnectionPool<sp/>construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><ref refid="test__ldap__connection__pool_8cpp_1ac8e7acc9af6e1a8dc966ed7781f2debb" kindref="member">TEST</ref>(LDAPConnectionPoolTest,<sp/>ConstructWithZeroMinIdle)</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>min_idle=0<sp/>means<sp/>no<sp/>connections<sp/>are<sp/>pre-established<sp/>on<sp/>construction.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>constructor<sp/>must<sp/>not<sp/>block<sp/>or<sp/>crash<sp/>even<sp/>when<sp/>the<sp/>server<sp/>is<sp/>unreachable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>LDAPPoolConfig<sp/>cfg<sp/>=<sp/>makePoolConfig();</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.min_idle<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LDAPConnectionPool<sp/>pool(cfg);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pool<sp/>starts<sp/>empty.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(pool.idleConnections(),<sp/>0);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(pool.activeConnections(),<sp/>0);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><ref refid="test__ldap__connection__pool_8cpp_1ac8e7acc9af6e1a8dc966ed7781f2debb" kindref="member">TEST</ref>(LDAPConnectionPoolTest,<sp/>ConfigAccessor)</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>LDAPPoolConfig<sp/>cfg<sp/>=<sp/>makePoolConfig();</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>LDAPConnectionPool<sp/>pool(cfg);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(pool.config().server_url,<sp/>cfg.server_url);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(pool.config().max_size,<sp/><sp/><sp/>cfg.max_size);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(pool.config().min_idle,<sp/><sp/><sp/>cfg.min_idle);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(pool.config().checkout_timeout_ms,<sp/>cfg.checkout_timeout_ms);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LDAPConnectionPool<sp/>checkout<sp/>when<sp/>no<sp/>server<sp/>is<sp/>available</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><ref refid="test__ldap__connection__pool_8cpp_1ac8e7acc9af6e1a8dc966ed7781f2debb" kindref="member">TEST</ref>(LDAPConnectionPoolTest,<sp/>CheckoutReturnsNullWhenServerUnreachable)</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>LDAPConnectionPool<sp/>pool(makePoolConfig());</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>With<sp/>LDAP<sp/>enabled<sp/>the<sp/>pool<sp/>may<sp/>still<sp/>hand<sp/>out<sp/>a<sp/>connection<sp/>handle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(liveness<sp/>is<sp/>validated<sp/>on<sp/>operation/bind).<sp/>Without<sp/>LDAP<sp/>support<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>returns<sp/>nullptr<sp/>immediately.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>conn<sp/>=<sp/>pool.checkout();</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_HAS_LDAP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(conn,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(conn,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><ref refid="test__ldap__connection__pool_8cpp_1ac8e7acc9af6e1a8dc966ed7781f2debb" kindref="member">TEST</ref>(LDAPConnectionPoolTest,<sp/>MetricsAfterFailedCheckout)</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>LDAPConnectionPool<sp/>pool(makePoolConfig());</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Whether<sp/>checkout<sp/>succeeds<sp/>or<sp/>not,<sp/>pool<sp/>metrics<sp/>must<sp/>be<sp/>consistent.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>conn<sp/>=<sp/>pool.checkout();</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>pool_sz<sp/>=<sp/>pool.poolSize();</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>idle<sp/><sp/><sp/><sp/>=<sp/>pool.idleConnections();</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>active<sp/><sp/>=<sp/>pool.activeConnections();</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>idle<sp/>+<sp/>active<sp/>must<sp/>equal<sp/>pool<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(idle<sp/>+<sp/>active,<sp/>pool_sz);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(idle,<sp/><sp/><sp/>0);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(active,<sp/>0);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PooledConnection<sp/>RAII</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><ref refid="test__ldap__connection__pool_8cpp_1ac8e7acc9af6e1a8dc966ed7781f2debb" kindref="member">TEST</ref>(PooledConnectionTest,<sp/>NullHandleDoesNotCrashOnDestroy)</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>move-from&apos;d<sp/>PooledConnection<sp/>(handle<sp/>==<sp/>nullptr)<sp/>must<sp/>not<sp/>crash.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>LDAPConnectionPool<sp/>pool(makePoolConfig());</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>conn<sp/>=<sp/>pool.checkout();<sp/></highlight><highlight class="comment">//<sp/>likely<sp/>nullptr<sp/>since<sp/>server<sp/>unreachable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Explicitly<sp/>move<sp/>out<sp/>to<sp/>exercise<sp/>the<sp/>moved-from-destructor<sp/>path.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>moved<sp/>=<sp/>std::move(conn);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Original<sp/>&apos;conn&apos;<sp/>is<sp/>now<sp/>empty/null<sp/>—<sp/>its<sp/>destructor<sp/>should<sp/>be<sp/>a<sp/>no-op.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="130"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><ref refid="test__ldap__connection__pool_8cpp_1ac8e7acc9af6e1a8dc966ed7781f2debb" kindref="member">TEST</ref>(PooledConnectionTest,<sp/>MarkStaleAndDestroy)</highlight></codeline>
+<codeline lineno="133"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Construct<sp/>a<sp/>pool,<sp/>get<sp/>a<sp/>connection<sp/>(or<sp/>nullptr),<sp/>mark<sp/>stale,<sp/>destroy.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>verifies<sp/>the<sp/>stale<sp/>eviction<sp/>path<sp/>does<sp/>not<sp/>crash<sp/>even<sp/>offline.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>LDAPConnectionPool<sp/>pool(makePoolConfig());</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>conn<sp/>=<sp/>pool.checkout();</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(conn)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>conn-&gt;markStale();</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(conn-&gt;isStale());</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Destructor<sp/>should<sp/>evict<sp/>(not<sp/>return)<sp/>this<sp/>connection.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LDAPAuthenticator<sp/>—<sp/>pool<sp/>integration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><ref refid="test__ldap__connection__pool_8cpp_1ac8e7acc9af6e1a8dc966ed7781f2debb" kindref="member">TEST</ref>(LDAPAuthenticatorPoolTest,<sp/>InitializeCreatesPool)</highlight></codeline>
+<codeline lineno="152"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>LDAPAuthenticator<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.initialize(makeAuthConfig(</highlight><highlight class="comment">/*pool_enabled=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">)));</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.isInitialized());</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>pool<sp/>is<sp/>created<sp/>even<sp/>if<sp/>no<sp/>connections<sp/>can<sp/>be<sp/>established.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.connectionPool(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><ref refid="test__ldap__connection__pool_8cpp_1ac8e7acc9af6e1a8dc966ed7781f2debb" kindref="member">TEST</ref>(LDAPAuthenticatorPoolTest,<sp/>InitializeWithPoolDisabledHasNoPool)</highlight></codeline>
+<codeline lineno="162"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>LDAPAuthenticator<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.initialize(makeAuthConfig(</highlight><highlight class="comment">/*pool_enabled=*/</highlight><highlight class="keyword">false</highlight><highlight class="normal">)));</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.isInitialized());</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.connectionPool(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><ref refid="test__ldap__connection__pool_8cpp_1ac8e7acc9af6e1a8dc966ed7781f2debb" kindref="member">TEST</ref>(LDAPAuthenticatorPoolTest,<sp/>AuthenticateWithPoolEnabledReturnsFailureNotCrash)</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>LDAPAuthenticator<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.initialize(makeAuthConfig(</highlight><highlight class="comment">/*pool_enabled=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">)));</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Server<sp/>unreachable<sp/>—<sp/>authentication<sp/>must<sp/>fail<sp/>gracefully.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.authenticate(</highlight><highlight class="stringliteral">&quot;jdoe&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;secret&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.success);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.error_message.empty());</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><ref refid="test__ldap__connection__pool_8cpp_1ac8e7acc9af6e1a8dc966ed7781f2debb" kindref="member">TEST</ref>(LDAPAuthenticatorPoolTest,<sp/>AuthenticateWithPoolDisabledReturnsFailureNotCrash)</highlight></codeline>
+<codeline lineno="182"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>LDAPAuthenticator<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.initialize(makeAuthConfig(</highlight><highlight class="comment">/*pool_enabled=*/</highlight><highlight class="keyword">false</highlight><highlight class="normal">)));</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.authenticate(</highlight><highlight class="stringliteral">&quot;jdoe&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;secret&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.success);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.error_message.empty());</highlight></codeline>
+<codeline lineno="189"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><ref refid="test__ldap__connection__pool_8cpp_1ac8e7acc9af6e1a8dc966ed7781f2debb" kindref="member">TEST</ref>(LDAPAuthenticatorPoolTest,<sp/>PoolConfigPassedCorrectly)</highlight></codeline>
+<codeline lineno="192"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>LDAPConfig<sp/>cfg<sp/>=<sp/>makeAuthConfig(</highlight><highlight class="comment">/*pool_enabled=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.pool_min_idle<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.pool_max_size<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.pool_checkout_timeout_ms<sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>LDAPAuthenticator<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.initialize(cfg));</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>pool<sp/>=<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.connectionPool();</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(pool,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(pool-&gt;config().max_size,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>8);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(pool-&gt;config().checkout_timeout_ms,<sp/>1000);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AuthMetrics<sp/>—<sp/>LDAP<sp/>pool<sp/>counters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><ref refid="test__ldap__connection__pool_8cpp_1ac8e7acc9af6e1a8dc966ed7781f2debb" kindref="member">TEST</ref>(AuthMetricsTest,<sp/>LDAPPoolMetricsDefaultZero)</highlight></codeline>
+<codeline lineno="212"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthMetrics<sp/>metrics;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.getLDAPPoolSize(),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.getLDAPIdleConnections(),<sp/><sp/>0);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.getLDAPActiveConnections(),<sp/>0);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><ref refid="test__ldap__connection__pool_8cpp_1ac8e7acc9af6e1a8dc966ed7781f2debb" kindref="member">TEST</ref>(AuthMetricsTest,<sp/>SetLDAPPoolSizeRoundTrip)</highlight></codeline>
+<codeline lineno="220"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthMetrics<sp/>metrics;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.setLDAPPoolSize(5);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.getLDAPPoolSize(),<sp/>5);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><ref refid="test__ldap__connection__pool_8cpp_1ac8e7acc9af6e1a8dc966ed7781f2debb" kindref="member">TEST</ref>(AuthMetricsTest,<sp/>SetLDAPIdleConnectionsRoundTrip)</highlight></codeline>
+<codeline lineno="227"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthMetrics<sp/>metrics;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.setLDAPIdleConnections(3);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.getLDAPIdleConnections(),<sp/>3);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><ref refid="test__ldap__connection__pool_8cpp_1ac8e7acc9af6e1a8dc966ed7781f2debb" kindref="member">TEST</ref>(AuthMetricsTest,<sp/>SetLDAPActiveConnectionsRoundTrip)</highlight></codeline>
+<codeline lineno="234"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthMetrics<sp/>metrics;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.setLDAPActiveConnections(2);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.getLDAPActiveConnections(),<sp/>2);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><ref refid="test__ldap__connection__pool_8cpp_1ac8e7acc9af6e1a8dc966ed7781f2debb" kindref="member">TEST</ref>(AuthMetricsTest,<sp/>LDAPPoolMetricsReflectPoolState)</highlight></codeline>
+<codeline lineno="241"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>LDAPConnectionPool<sp/>pool(makePoolConfig());</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthMetrics<sp/>metrics;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Update<sp/>metrics<sp/>from<sp/>pool<sp/>state.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.setLDAPPoolSize(pool.poolSize());</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.setLDAPIdleConnections(pool.idleConnections());</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.setLDAPActiveConnections(pool.activeConnections());</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Values<sp/>must<sp/>be<sp/>consistent:<sp/>idle<sp/>+<sp/>active<sp/>==<sp/>pool_size.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.getLDAPIdleConnections()<sp/>+<sp/>metrics.getLDAPActiveConnections(),</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.getLDAPPoolSize());</highlight></codeline>
+<codeline lineno="253"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><ref refid="test__ldap__connection__pool_8cpp_1ac8e7acc9af6e1a8dc966ed7781f2debb" kindref="member">TEST</ref>(AuthMetricsTest,<sp/>LDAPPoolMetricsAreThreadSafe)</highlight></codeline>
+<codeline lineno="256"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>AuthMetrics<sp/>metrics;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kThreads<sp/><sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kIter<sp/><sp/><sp/><sp/><sp/>=<sp/>500;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>errors{0};</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>threads.reserve(kThreads);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>kThreads;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;metrics,<sp/>&amp;errors,<sp/>t]()<sp/>{</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kIter;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>val<sp/>=<sp/>(t<sp/>*<sp/>kIter<sp/>+<sp/>i)<sp/>%<sp/>32;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.setLDAPPoolSize(val);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.setLDAPIdleConnections(val<sp/>/<sp/>2);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.setLDAPActiveConnections(val<sp/>/<sp/>2);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>As<sp/>long<sp/>as<sp/>reads<sp/>don&apos;t<sp/>crash,<sp/>we&apos;re<sp/>happy.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ps<sp/>=<sp/>metrics.getLDAPPoolSize();</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ic<sp/>=<sp/>metrics.getLDAPIdleConnections();</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ac<sp/>=<sp/>metrics.getLDAPActiveConnections();</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ps<sp/>&lt;<sp/>0<sp/>||<sp/>ic<sp/>&lt;<sp/>0<sp/>||<sp/>ac<sp/>&lt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errors.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>th<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>th.join();</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(errors.load(),<sp/>0);</highlight></codeline>
+<codeline lineno="287"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Integration<sp/>—<sp/>disabled<sp/>test<sp/>requiring<sp/>a<sp/>live<sp/>LDAP<sp/>server</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><ref refid="test__ldap__connection__pool_8cpp_1ac8e7acc9af6e1a8dc966ed7781f2debb" kindref="member">TEST</ref>(LDAPConnectionPoolTest,<sp/>DISABLED_PoolReuseIntegration)</highlight></codeline>
+<codeline lineno="300"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>LDAPPoolConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.server_url<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ldap://localhost:389&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.min_idle<sp/><sp/><sp/><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.max_size<sp/><sp/><sp/><sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.checkout_timeout_ms<sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.connection_timeout_seconds<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.search_timeout_seconds<sp/><sp/><sp/><sp/><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>LDAPConnectionPool<sp/>pool(cfg);</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pre-warming<sp/>should<sp/>have<sp/>established<sp/>min_idle<sp/>connections.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(pool.idleConnections(),<sp/>cfg.min_idle);</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>conn<sp/>=<sp/>pool.checkout();</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_NE(conn,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(conn-&gt;isStale());</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(pool.activeConnections(),<sp/>1);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>the<sp/>PooledConnection<sp/>goes<sp/>out<sp/>of<sp/>scope,<sp/>it<sp/>should<sp/>be<sp/>returned.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(pool.activeConnections(),<sp/>0);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/security/test_ldap_connection_pool.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1036 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_lo_r_a_security_validator" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::LoRASecurityValidator</compoundname>
+    <includes refid="lora__security__validator_8h" local="no">lora_security_validator.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_lo_r_a_security_validator_1a13e2fe5c8f1ad80219b3b98d4fab725e" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_lo_r_a_security_config" kindref="compound">LoRASecurityConfig</ref></type>
+        <definition>LoRASecurityConfig themis::llm::LoRASecurityValidator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::LoRASecurityValidator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="176" column="24" bodyfile="include/llm/lora_security_validator.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_lo_r_a_security_validator_1a2bf298b969c6cf4503530c445f56b5bd" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_l_l_m_model_audit_logger" kindref="compound">LLMModelAuditLogger</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;LLMModelAuditLogger&gt; themis::llm::LoRASecurityValidator::audit_logger_</definition>
+        <argsstring></argsstring>
+        <name>audit_logger_</name>
+        <qualifiedname>themis::llm::LoRASecurityValidator::audit_logger_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="177" column="21" bodyfile="include/llm/lora_security_validator.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_lo_r_a_security_validator_1a6e7e440f4be280f41d2b7bdf7532f61f" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store" kindref="compound">LoRACertificateStore</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;LoRACertificateStore&gt; themis::llm::LoRASecurityValidator::cert_store_</definition>
+        <argsstring></argsstring>
+        <name>cert_store_</name>
+        <qualifiedname>themis::llm::LoRASecurityValidator::cert_store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="178" column="21" bodyfile="include/llm/lora_security_validator.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lo_r_a_security_validator_1ad2ca15c14b5c0c77d97a7b16e5adca23" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::LoRASecurityValidator::LoRASecurityValidator</definition>
+        <argsstring>(const LoRASecurityConfig &amp;config)</argsstring>
+        <name>LoRASecurityValidator</name>
+        <qualifiedname>themis::llm::LoRASecurityValidator::LoRASecurityValidator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_lo_r_a_security_config" kindref="compound">LoRASecurityConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Lo RASecurity Validator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="79" column="14" bodyfile="src/llm/lora_security_validator.cpp" bodystart="151" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lo_r_a_security_validator_1a718e8bcdbae0ca8ce3dd4613211bbab1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::LoRASecurityValidator::~LoRASecurityValidator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~LoRASecurityValidator</name>
+        <qualifiedname>themis::llm::LoRASecurityValidator::~LoRASecurityValidator</qualifiedname>
+        <briefdescription>
+<para>Lo RASecurity Validator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="84" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lo_r_a_security_validator_1a7945cb73aa605662fd564a771daa4745" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_lo_r_a_signature_result" kindref="compound">LoRASignatureResult</ref></type>
+        <definition>LoRASignatureResult themis::llm::LoRASecurityValidator::verifySignature</definition>
+        <argsstring>(const std::string &amp;lora_path, const std::string &amp;signature_path)</argsstring>
+        <name>verifySignature</name>
+        <qualifiedname>themis::llm::LoRASecurityValidator::verifySignature</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lora_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>signature_path</declname>
+        </param>
+        <briefdescription>
+<para>Verify Signature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lora_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the lora. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">signature_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the signature. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lora_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the lora. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">signature_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the signature. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), loadLoRAFile(), sig_str(), begin(), end(), find(), substr(), <ref refid="classthemis_1_1llm_1_1_lo_r_a_security_validator_1a2980f435ed039b0628b424553ba9b486" kindref="member">isTrustedSigner()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="92" column="25" bodyfile="src/llm/lora_security_validator.cpp" bodystart="166" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lo_r_a_security_validator_1aa50bcf3dc9dcccc106dfb40a35a3fc0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_lo_r_a_signature_result" kindref="compound">LoRASignatureResult</ref></type>
+        <definition>LoRASignatureResult themis::llm::LoRASecurityValidator::verifyEmbeddedSignature</definition>
+        <argsstring>(const std::string &amp;lora_path)</argsstring>
+        <name>verifyEmbeddedSignature</name>
+        <qualifiedname>themis::llm::LoRASecurityValidator::verifyEmbeddedSignature</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lora_path</declname>
+        </param>
+        <briefdescription>
+<para>Verify Embedded Signature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lora_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the lora. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lora_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the lora. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), loadLoRAFile(), parseLoRAMetadata(), contains(), <ref refid="classthemis_1_1llm_1_1_lo_r_a_security_validator_1a2980f435ed039b0628b424553ba9b486" kindref="member">isTrustedSigner()</ref>, spdlog::debug(), base64_decode(), spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="102" column="25" bodyfile="src/llm/lora_security_validator.cpp" bodystart="304" bodyend="459"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lo_r_a_security_validator_1ad67659c6cf415006b436ff3f6853e74a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_lo_r_a_integrity_result" kindref="compound">LoRAIntegrityResult</ref></type>
+        <definition>LoRAIntegrityResult themis::llm::LoRASecurityValidator::checkIntegrity</definition>
+        <argsstring>(const std::string &amp;lora_path, const std::optional&lt; std::string &gt; &amp;expected_checksum=std::nullopt)</argsstring>
+        <name>checkIntegrity</name>
+        <qualifiedname>themis::llm::LoRASecurityValidator::checkIntegrity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lora_path</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>expected_checksum</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Check Integrity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lora_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the lora. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expected_checksum</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1_lo_r_a_security_validator_1a9e7d310c08a4bf530a84debbce7b23c7" kindref="member">calculateChecksum()</ref>, has_value(), value(), push_back(), spdlog::error(), spdlog::debug(), loadWeightsFromLoRAFile(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="104" column="25" bodyfile="src/llm/lora_security_validator.cpp" bodystart="468" bodyend="507"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lo_r_a_security_validator_1ab9f216a569ee4013cb74b2363aeb7a8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::LoRASecurityValidator::validateMetadata</definition>
+        <argsstring>(const std::string &amp;lora_path)</argsstring>
+        <name>validateMetadata</name>
+        <qualifiedname>themis::llm::LoRASecurityValidator::validateMetadata</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lora_path</declname>
+        </param>
+        <briefdescription>
+<para>Validate Metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lora_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the lora. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lora_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the lora. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: loadLoRAFile(), parseLoRAMetadata(), contains(), spdlog::error(), empty(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="114" column="18" bodyfile="src/llm/lora_security_validator.cpp" bodystart="515" bodyend="551"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lo_r_a_security_validator_1a3a9bd8fbcfef106e5f6c54d259caf87f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::LoRASecurityValidator::detectWeightAnomalies</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;weights)</argsstring>
+        <name>detectWeightAnomalies</name>
+        <qualifiedname>themis::llm::LoRASecurityValidator::detectWeightAnomalies</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>weights</declname>
+        </param>
+        <briefdescription>
+<para>Detect Weight Anomalies. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">weights</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">weights</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), calculateMean(), calculateStdDev(), findOutliers(), push_back(), std::to_string(), size(), detectDistributionShift(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="121" column="17" bodyfile="src/llm/lora_security_validator.cpp" bodystart="559" bodyend="608"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lo_r_a_security_validator_1a9e7d310c08a4bf530a84debbce7b23c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LoRASecurityValidator::calculateChecksum</definition>
+        <argsstring>(const std::string &amp;lora_path, const std::string &amp;algorithm=&quot;SHA-256&quot;)</argsstring>
+        <name>calculateChecksum</name>
+        <qualifiedname>themis::llm::LoRASecurityValidator::calculateChecksum</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lora_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>algorithm</declname>
+          <defval>&quot;SHA-256&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Calculate Checksum. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lora_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the lora. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">algorithm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: loadLoRAFile(), SHA256(), data(), size(), std::setw(), std::setfill(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="125" column="17" bodyfile="src/llm/lora_security_validator.cpp" bodystart="617" bodyend="639"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lo_r_a_security_validator_1a53eaa29fec284c7d27e9e562bfb0ec65" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LoRASecurityValidator::addTrustedSigner</definition>
+        <argsstring>(const std::string &amp;cert_fingerprint)</argsstring>
+        <name>addTrustedSigner</name>
+        <qualifiedname>themis::llm::LoRASecurityValidator::addTrustedSigner</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cert_fingerprint</declname>
+        </param>
+        <briefdescription>
+<para>Add Trusted Signer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_fingerprint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_fingerprint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="134" column="10" bodyfile="src/llm/lora_security_validator.cpp" bodystart="646" bodyend="649"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lo_r_a_security_validator_1a50c805d137ba3438e8909e495f175953" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LoRASecurityValidator::removeTrustedSigner</definition>
+        <argsstring>(const std::string &amp;cert_fingerprint)</argsstring>
+        <name>removeTrustedSigner</name>
+        <qualifiedname>themis::llm::LoRASecurityValidator::removeTrustedSigner</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cert_fingerprint</declname>
+        </param>
+        <briefdescription>
+<para>Remove Trusted Signer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_fingerprint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_fingerprint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::find(), begin(), end(), erase(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="140" column="10" bodyfile="src/llm/lora_security_validator.cpp" bodystart="656" bodyend="664"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lo_r_a_security_validator_1a2980f435ed039b0628b424553ba9b486" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::LoRASecurityValidator::isTrustedSigner</definition>
+        <argsstring>(const std::string &amp;cert_fingerprint) const</argsstring>
+        <name>isTrustedSigner</name>
+        <qualifiedname>themis::llm::LoRASecurityValidator::isTrustedSigner</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cert_fingerprint</declname>
+        </param>
+        <briefdescription>
+<para>Is Trusted Signer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_fingerprint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="147" column="10" bodyfile="src/llm/lora_security_validator.cpp" bodystart="666" bodyend="670"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lo_r_a_security_validator_1a3f342514d992ac54c9ad5e5c89d922b5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_lo_r_a_security_config" kindref="compound">LoRASecurityConfig</ref></type>
+        <definition>LoRASecurityConfig themis::llm::LoRASecurityValidator::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::llm::LoRASecurityValidator::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="149" column="24" bodyfile="include/llm/lora_security_validator.h" bodystart="149" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lo_r_a_security_validator_1aa1e84aaf557d1ddc4418b7e79f58a535" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LoRASecurityValidator::setConfig</definition>
+        <argsstring>(const LoRASecurityConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::llm::LoRASecurityValidator::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_lo_r_a_security_config" kindref="compound">LoRASecurityConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="155" column="10" bodyfile="src/llm/lora_security_validator.cpp" bodystart="677" bodyend="680"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lo_r_a_security_validator_1a71e380e2a6a06a54103b4fe7ef824d11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LoRASecurityValidator::setAuditLogger</definition>
+        <argsstring>(const std::shared_ptr&lt; LLMModelAuditLogger &gt; &amp;logger)</argsstring>
+        <name>setAuditLogger</name>
+        <qualifiedname>themis::llm::LoRASecurityValidator::setAuditLogger</qualifiedname>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_l_l_m_model_audit_logger" kindref="compound">LLMModelAuditLogger</ref> &gt; &amp;</type>
+          <declname>logger</declname>
+        </param>
+        <briefdescription>
+<para>Set Audit Logger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="161" column="10" bodyfile="src/llm/lora_security_validator.cpp" bodystart="687" bodyend="690"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lo_r_a_security_validator_1a07ecb975d11306a2cbd2811167685820" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LoRASecurityValidator::setCertificateStore</definition>
+        <argsstring>(std::shared_ptr&lt; LoRACertificateStore &gt; store)</argsstring>
+        <name>setCertificateStore</name>
+        <qualifiedname>themis::llm::LoRASecurityValidator::setCertificateStore</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store" kindref="compound">LoRACertificateStore</ref> &gt;</type>
+          <declname>store</declname>
+        </param>
+        <briefdescription>
+<para>Set Certificate Store. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">store</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">store</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="167" column="10" bodyfile="src/llm/lora_security_validator.cpp" bodystart="697" bodyend="701"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lo_r_a_security_validator_1abaf8c18d407aa47c512c77d0bf0ae105" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store" kindref="compound">LoRACertificateStore</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; LoRACertificateStore &gt; themis::llm::LoRASecurityValidator::getCertificateStore</definition>
+        <argsstring>() const</argsstring>
+        <name>getCertificateStore</name>
+        <qualifiedname>themis::llm::LoRASecurityValidator::getCertificateStore</qualifiedname>
+        <briefdescription>
+<para>Get Certificate Store. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="173" column="21" bodyfile="src/llm/lora_security_validator.cpp" bodystart="703" bodyend="705"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lo_r_a_security_validator_1ae9a38d84badd91f3d6b5439a9bd2374a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::LoRASecurityValidator::loadLoRAFile</definition>
+        <argsstring>(const std::string &amp;path, std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>loadLoRAFile</name>
+        <qualifiedname>themis::llm::LoRASecurityValidator::loadLoRAFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Load Lo RAFile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: file(), spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="187" column="10" bodyfile="src/llm/lora_security_validator.cpp" bodystart="715" bodyend="726"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lo_r_a_security_validator_1ac904cda9a2fb3801b33e21c758d4ed88" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::LoRASecurityValidator::parseLoRAMetadata</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, json &amp;metadata)</argsstring>
+        <name>parseLoRAMetadata</name>
+        <qualifiedname>themis::llm::LoRASecurityValidator::parseLoRAMetadata</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+<para>Parse Lo RAMetadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(), spdlog::error(), empty(), hdr_str(), begin(), json::parse(), is_object(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="194" column="10" bodyfile="src/llm/lora_security_validator.cpp" bodystart="735" bodyend="803"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lo_r_a_security_validator_1a7a9c3bee0e4d8a311dd7077957ea5a62" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::llm::LoRASecurityValidator::loadWeightsFromLoRAFile</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>loadWeightsFromLoRAFile</name>
+        <qualifiedname>themis::llm::LoRASecurityValidator::loadWeightsFromLoRAFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Load Weights From Lo RAFile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: loadLoRAFile(), spdlog::error(), json::parse(), begin(), end(), contains(), is_array(), is_number(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="200" column="17" bodyfile="src/llm/lora_security_validator.cpp" bodystart="811" bodyend="960"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lo_r_a_security_validator_1aeb97107cda7420a53d2f9c086d783fbc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::LoRASecurityValidator::calculateMean</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;values)</argsstring>
+        <name>calculateMean</name>
+        <qualifiedname>themis::llm::LoRASecurityValidator::calculateMean</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+<para>Statistical helpers for anomaly detection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calculate Mean.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::accumulate(), begin(), end(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="207" column="11" bodyfile="src/llm/lora_security_validator.cpp" bodystart="968" bodyend="974"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lo_r_a_security_validator_1a02c2c0c4692a968e40d1171d4b982a7a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::LoRASecurityValidator::calculateStdDev</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;values, float mean)</argsstring>
+        <name>calculateStdDev</name>
+        <qualifiedname>themis::llm::LoRASecurityValidator::calculateStdDev</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>mean</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Std Dev. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mean</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mean</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::sqrt(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="214" column="11" bodyfile="src/llm/lora_security_validator.cpp" bodystart="983" bodyend="994"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lo_r_a_security_validator_1a9704876a9a13ecb0712e85b95d6c1557" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; size_t &gt;</type>
+        <definition>std::vector&lt; size_t &gt; themis::llm::LoRASecurityValidator::findOutliers</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;values, float threshold)</argsstring>
+        <name>findOutliers</name>
+        <qualifiedname>themis::llm::LoRASecurityValidator::findOutliers</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>threshold</declname>
+        </param>
+        <briefdescription>
+<para>Find Outliers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: calculateMean(), calculateStdDev(), size(), std::abs(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="221" column="17" bodyfile="src/llm/lora_security_validator.cpp" bodystart="1003" bodyend="1019"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lo_r_a_security_validator_1a4667c9b6109d059cd5707c4e474e610f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::LoRASecurityValidator::detectDistributionShift</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;weights)</argsstring>
+        <name>detectDistributionShift</name>
+        <qualifiedname>themis::llm::LoRASecurityValidator::detectDistributionShift</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>weights</declname>
+        </param>
+        <briefdescription>
+<para>Detect Distribution Shift. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">weights</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">weights</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: calculateMean(), calculateStdDev(), std::pow(), size(), std::abs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="227" column="10" bodyfile="src/llm/lora_security_validator.cpp" bodystart="1027" bodyend="1046"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_security_validator.h" line="72" column="1" bodyfile="include/llm/lora_security_validator.h" bodystart="72" bodyend="228"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_security_validator_1a53eaa29fec284c7d27e9e562bfb0ec65" prot="public" virt="non-virtual"><scope>themis::llm::LoRASecurityValidator</scope><name>addTrustedSigner</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_security_validator_1a2bf298b969c6cf4503530c445f56b5bd" prot="private" virt="non-virtual"><scope>themis::llm::LoRASecurityValidator</scope><name>audit_logger_</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_security_validator_1a9e7d310c08a4bf530a84debbce7b23c7" prot="public" virt="non-virtual"><scope>themis::llm::LoRASecurityValidator</scope><name>calculateChecksum</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_security_validator_1aeb97107cda7420a53d2f9c086d783fbc" prot="private" virt="non-virtual"><scope>themis::llm::LoRASecurityValidator</scope><name>calculateMean</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_security_validator_1a02c2c0c4692a968e40d1171d4b982a7a" prot="private" virt="non-virtual"><scope>themis::llm::LoRASecurityValidator</scope><name>calculateStdDev</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_security_validator_1a6e7e440f4be280f41d2b7bdf7532f61f" prot="private" virt="non-virtual"><scope>themis::llm::LoRASecurityValidator</scope><name>cert_store_</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_security_validator_1ad67659c6cf415006b436ff3f6853e74a" prot="public" virt="non-virtual"><scope>themis::llm::LoRASecurityValidator</scope><name>checkIntegrity</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_security_validator_1a13e2fe5c8f1ad80219b3b98d4fab725e" prot="private" virt="non-virtual"><scope>themis::llm::LoRASecurityValidator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_security_validator_1a4667c9b6109d059cd5707c4e474e610f" prot="private" virt="non-virtual"><scope>themis::llm::LoRASecurityValidator</scope><name>detectDistributionShift</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_security_validator_1a3a9bd8fbcfef106e5f6c54d259caf87f" prot="public" virt="non-virtual"><scope>themis::llm::LoRASecurityValidator</scope><name>detectWeightAnomalies</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_security_validator_1a9704876a9a13ecb0712e85b95d6c1557" prot="private" virt="non-virtual"><scope>themis::llm::LoRASecurityValidator</scope><name>findOutliers</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_security_validator_1abaf8c18d407aa47c512c77d0bf0ae105" prot="public" virt="non-virtual"><scope>themis::llm::LoRASecurityValidator</scope><name>getCertificateStore</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_security_validator_1a3f342514d992ac54c9ad5e5c89d922b5" prot="public" virt="non-virtual"><scope>themis::llm::LoRASecurityValidator</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_security_validator_1a2980f435ed039b0628b424553ba9b486" prot="public" virt="non-virtual"><scope>themis::llm::LoRASecurityValidator</scope><name>isTrustedSigner</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_security_validator_1ae9a38d84badd91f3d6b5439a9bd2374a" prot="private" virt="non-virtual"><scope>themis::llm::LoRASecurityValidator</scope><name>loadLoRAFile</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_security_validator_1a7a9c3bee0e4d8a311dd7077957ea5a62" prot="private" virt="non-virtual"><scope>themis::llm::LoRASecurityValidator</scope><name>loadWeightsFromLoRAFile</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_security_validator_1ad2ca15c14b5c0c77d97a7b16e5adca23" prot="public" virt="non-virtual"><scope>themis::llm::LoRASecurityValidator</scope><name>LoRASecurityValidator</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_security_validator_1ac904cda9a2fb3801b33e21c758d4ed88" prot="private" virt="non-virtual"><scope>themis::llm::LoRASecurityValidator</scope><name>parseLoRAMetadata</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_security_validator_1a50c805d137ba3438e8909e495f175953" prot="public" virt="non-virtual"><scope>themis::llm::LoRASecurityValidator</scope><name>removeTrustedSigner</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_security_validator_1a71e380e2a6a06a54103b4fe7ef824d11" prot="public" virt="non-virtual"><scope>themis::llm::LoRASecurityValidator</scope><name>setAuditLogger</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_security_validator_1a07ecb975d11306a2cbd2811167685820" prot="public" virt="non-virtual"><scope>themis::llm::LoRASecurityValidator</scope><name>setCertificateStore</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_security_validator_1aa1e84aaf557d1ddc4418b7e79f58a535" prot="public" virt="non-virtual"><scope>themis::llm::LoRASecurityValidator</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_security_validator_1ab9f216a569ee4013cb74b2363aeb7a8d" prot="public" virt="virtual"><scope>themis::llm::LoRASecurityValidator</scope><name>validateMetadata</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_security_validator_1aa50bcf3dc9dcccc106dfb40a35a3fc0a" prot="public" virt="non-virtual"><scope>themis::llm::LoRASecurityValidator</scope><name>verifyEmbeddedSignature</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_security_validator_1a7945cb73aa605662fd564a771daa4745" prot="public" virt="non-virtual"><scope>themis::llm::LoRASecurityValidator</scope><name>verifySignature</name></member>
+      <member refid="classthemis_1_1llm_1_1_lo_r_a_security_validator_1a718e8bcdbae0ca8ce3dd4613211bbab1" prot="public" virt="virtual"><scope>themis::llm::LoRASecurityValidator</scope><name>~LoRASecurityValidator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

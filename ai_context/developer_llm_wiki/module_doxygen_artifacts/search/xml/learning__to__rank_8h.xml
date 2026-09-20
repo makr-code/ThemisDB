@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="learning__to__rank_8h" kind="file" language="C++">
+    <compoundname>learning_to_rank.h</compoundname>
+    <includes local="no">functional</includes>
+    <includes local="no">map</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="llm__reranker_8h" local="yes">include/search/llm_reranker.h</includedby>
+    <includedby refid="personalized__ranker_8h" local="yes">include/search/personalized_ranker.h</includedby>
+    <includedby refid="learning__to__rank_8cpp" local="yes">src/search/learning_to_rank.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/search/learning_to_rank.h</label>
+        <link refid="learning__to__rank_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>functional</label>
+      </node>
+      <node id="3">
+        <label>map</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>benchmarks/search/bench_search_release_gates.cpp</label>
+        <link refid="bench__search__release__gates_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/search/learning_to_rank.h</label>
+        <link refid="learning__to__rank_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/search/llm_reranker.h</label>
+        <link refid="llm__reranker_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/search/personalized_ranker.h</label>
+        <link refid="personalized__ranker_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>src/search/learning_to_rank.cpp</label>
+        <link refid="learning__to__rank_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/search/llm_reranker.cpp</label>
+        <link refid="llm__reranker_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/search/personalized_ranker.cpp</label>
+        <link refid="personalized__ranker_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/search/test_search_integration_phase4.cpp</label>
+        <link refid="test__search__integration__phase4_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1_ranking_features" prot="public">themis::RankingFeatures</innerclass>
+    <innerclass refid="structthemis_1_1_ranked_result" prot="public">themis::RankedResult</innerclass>
+    <innerclass refid="structthemis_1_1_click_event" prot="public">themis::ClickEvent</innerclass>
+    <innerclass refid="classthemis_1_1_learning_to_rank" prot="public">themis::LearningToRank</innerclass>
+    <innerclass refid="structthemis_1_1_learning_to_rank_1_1_config" prot="public">themis::LearningToRank::Config</innerclass>
+    <innerclass refid="structthemis_1_1_learning_to_rank_1_1_variant" prot="public">themis::LearningToRank::Variant</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.43 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="structthemis_1_1_ranking_features" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_ranking_features" kindref="compound">RankingFeatures</ref><sp/>{</highlight></codeline>
+<codeline lineno="25" refid="structthemis_1_1_ranking_features_1a38c405a531c95f179b02f2d62549f29f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_ranking_features_1a38c405a531c95f179b02f2d62549f29f" kindref="member">bm25_score</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1_ranking_features_1acd7f8c6f9bde6479587cde2432089165" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_ranking_features_1acd7f8c6f9bde6479587cde2432089165" kindref="member">vector_score</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1_ranking_features_1a8b5f98d88716b6eaac48fe4dfe2a5503" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_ranking_features_1a8b5f98d88716b6eaac48fe4dfe2a5503" kindref="member">rrf_score</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1_ranking_features_1ac610ce1c57602d77f8c17f7d7540825a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_ranking_features_1ac610ce1c57602d77f8c17f7d7540825a" kindref="member">recency</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1_ranking_features_1a2d23df90a64518800e0722b80e32600f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_ranking_features_1a2d23df90a64518800e0722b80e32600f" kindref="member">click_count</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1_ranking_features_1a13f6301feb9ead4d12e1e35ed2639cbb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_ranking_features_1a13f6301feb9ead4d12e1e35ed2639cbb" kindref="member">popularity</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1_ranked_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_ranked_result" kindref="compound">RankedResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1_ranked_result_1aa1d1c86accb305c3ff2335319c2b4028" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_ranked_result_1aa1d1c86accb305c3ff2335319c2b4028" kindref="member">document_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1_ranked_result_1a0830caef1b4f604da39ecda9ee252d71" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_ranking_features" kindref="compound">RankingFeatures</ref><sp/><ref refid="structthemis_1_1_ranked_result_1a0830caef1b4f604da39ecda9ee252d71" kindref="member">features</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1_ranked_result_1a4660a39f0c2aa1a7c82d0ea2a8b2dc3f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_ranked_result_1a4660a39f0c2aa1a7c82d0ea2a8b2dc3f" kindref="member">final_score</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1_click_event" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_click_event" kindref="compound">ClickEvent</ref><sp/>{</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1_click_event_1a776e56b74a551e1e3714e0f82a30c434" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_click_event_1a776e56b74a551e1e3714e0f82a30c434" kindref="member">query</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1_click_event_1a195ef7f57d1e8e5805b26d80e2f72fcd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_click_event_1a195ef7f57d1e8e5805b26d80e2f72fcd" kindref="member">document_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1_click_event_1a4b4690429a57996fd45e7f649f229f62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_click_event_1a4b4690429a57996fd45e7f649f229f62" kindref="member">result_position</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="classthemis_1_1_learning_to_rank" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_learning_to_rank_1a6d78ae4af013bf326f53b0bcef68f6e8" kindref="member">LearningToRank</ref><sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1_learning_to_rank_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_learning_to_rank_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1_learning_to_rank_1_1_config_1af52950b9e31e7264859286b7eef9e0a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_learning_to_rank_1_1_config_1af52950b9e31e7264859286b7eef9e0a0" kindref="member">learning_rate</ref><sp/>=<sp/>0.01;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1_learning_to_rank_1_1_config_1af9045c05ff0d6701523b83bc98a8d824" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_learning_to_rank_1_1_config_1af9045c05ff0d6701523b83bc98a8d824" kindref="member">max_click_buffer</ref><sp/>=<sp/>1000;<sp/><sp/></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1_learning_to_rank_1_1_config_1a9cce6383c204b7bccd5674042483e86d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_learning_to_rank_1_1_config_1a9cce6383c204b7bccd5674042483e86d" kindref="member">regularization</ref><sp/>=<sp/>0.001;<sp/><sp/></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1_learning_to_rank_1_1_config_1ab08d7b49567c2cad3e0bb36d2b119feb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_learning_to_rank_1_1_config" kindref="compound">Config</ref><sp/><ref refid="structthemis_1_1_learning_to_rank_1_1_config_1ab08d7b49567c2cad3e0bb36d2b119feb" kindref="member">defaults</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1_learning_to_rank_1_1_variant" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_learning_to_rank_1_1_variant" kindref="compound">Variant</ref><sp/>{</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1_learning_to_rank_1_1_variant_1aecf877a32a2878eb70154f15b593590e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_learning_to_rank_1_1_variant_1aecf877a32a2878eb70154f15b593590e" kindref="member">name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1_learning_to_rank_1_1_variant_1a6d91c5bb3821f27dc35f4b4eb6c40bc5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;double(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_ranking_features" kindref="compound">RankingFeatures</ref>&amp;)&gt;<sp/><ref refid="structthemis_1_1_learning_to_rank_1_1_variant_1a6d91c5bb3821f27dc35f4b4eb6c40bc5" kindref="member">scorer</ref>;<sp/></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1_learning_to_rank_1_1_variant_1a76f5105a0afca52ce2702263648f5de6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_learning_to_rank_1_1_variant_1a76f5105a0afca52ce2702263648f5de6" kindref="member">traffic_fraction</ref><sp/>=<sp/>0.5;<sp/><sp/></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_learning_to_rank_1a6d78ae4af013bf326f53b0bcef68f6e8" kindref="member">LearningToRank</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_learning_to_rank_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1_learning_to_rank_1_1_config_1ab08d7b49567c2cad3e0bb36d2b119feb" kindref="member">Config::defaults</ref>());</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Re-ranking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RankedResult&gt;<sp/><ref refid="classthemis_1_1_learning_to_rank_1a7766a90e4cdffafaa4a7e16edde0a6c4" kindref="member">rerank</ref>(std::vector&lt;RankedResult&gt;<sp/>candidates)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RankedResult&gt;<sp/><ref refid="classthemis_1_1_learning_to_rank_1a50338ada91233fd0e2cd33cc6ddfd150" kindref="member">rerankWithVariant</ref>(std::vector&lt;RankedResult&gt;<sp/>candidates,</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>variant_name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Training</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_learning_to_rank_1a1ea11d2372dea500b1245339d7f463fe" kindref="member">recordClick</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_click_event" kindref="compound">ClickEvent</ref>&amp;<sp/>event);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_learning_to_rank_1abb9c6e88b3a0597ef6ccdad26eb391a5" kindref="member">train</ref>();</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="classthemis_1_1_learning_to_rank_1a51e9a0fdcee41159d94e128bba1135cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_ranking_features" kindref="compound">RankingFeatures</ref><sp/><ref refid="classthemis_1_1_learning_to_rank_1a51e9a0fdcee41159d94e128bba1135cd" kindref="member">getWeights</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>weights_;<sp/>}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163" refid="classthemis_1_1_learning_to_rank_1ab8b76e514181b802f852f5cbcebb2203" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_learning_to_rank_1ab8b76e514181b802f852f5cbcebb2203" kindref="member">setWeights</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_ranking_features" kindref="compound">RankingFeatures</ref>&amp;<sp/>weights)<sp/>{<sp/>weights_<sp/>=<sp/>weights;<sp/>}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A/B<sp/>Testing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_learning_to_rank_1a7bc727d2d662712f0936e0d238b24b87" kindref="member">registerVariant</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Variant&amp;<sp/>variant);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1_learning_to_rank_1a49d636fee815be3ed9cb7c42dd7f422f" kindref="member">selectVariant</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>request_key)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185" refid="classthemis_1_1_learning_to_rank_1a0c338506024bd5255ed1c6ca0308f830" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_learning_to_rank_1_1_config" kindref="compound">Config</ref>&amp;<sp/><ref refid="classthemis_1_1_learning_to_rank_1a0c338506024bd5255ed1c6ca0308f830" kindref="member">getConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/>config_;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_ranking_features" kindref="compound">RankingFeatures</ref><sp/>weights_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ClickEvent&gt;<sp/>clicks_;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>Variant&gt;<sp/>variants_;<sp/></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>score(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_ranking_features" kindref="compound">RankingFeatures</ref>&amp;<sp/>f)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>dot(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_ranking_features" kindref="compound">RankingFeatures</ref>&amp;<sp/>w,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_ranking_features" kindref="compound">RankingFeatures</ref>&amp;<sp/>f);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_ranking_features" kindref="compound">RankingFeatures</ref><sp/>gradient(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_ranking_features" kindref="compound">RankingFeatures</ref>&amp;<sp/>f_pos,</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_ranking_features" kindref="compound">RankingFeatures</ref>&amp;<sp/>f_neg);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_ranking_features" kindref="compound">RankingFeatures</ref><sp/>addScaled(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_ranking_features" kindref="compound">RankingFeatures</ref>&amp;<sp/>w,</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_ranking_features" kindref="compound">RankingFeatures</ref>&amp;<sp/>g,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lr);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_ranking_features" kindref="compound">RankingFeatures</ref><sp/>regularize(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_ranking_features" kindref="compound">RankingFeatures</ref>&amp;<sp/>w,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>reg);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/search/learning_to_rank.h"/>
+  </compounddef>
+</doxygen>

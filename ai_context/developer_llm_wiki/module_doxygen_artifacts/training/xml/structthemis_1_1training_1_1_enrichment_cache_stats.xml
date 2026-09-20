@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_enrichment_cache_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::EnrichmentCacheStats</compoundname>
+    <includes refid="knowledge__graph__enricher_8h" local="no">knowledge_graph_enricher.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_cache_stats_1a0745ebfaa2b9189e78d0c4d22facad10" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::EnrichmentCacheStats::hits</definition>
+        <argsstring></argsstring>
+        <name>hits</name>
+        <qualifiedname>themis::training::EnrichmentCacheStats::hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Cache hits since last reset. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/knowledge_graph_enricher.h" line="78" column="12" bodyfile="include/training/knowledge_graph_enricher.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_cache_stats_1a7e0d1efdf71a14fcb57f022023f4ce90" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::EnrichmentCacheStats::misses</definition>
+        <argsstring></argsstring>
+        <name>misses</name>
+        <qualifiedname>themis::training::EnrichmentCacheStats::misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Cache misses since last reset. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/knowledge_graph_enricher.h" line="79" column="12" bodyfile="include/training/knowledge_graph_enricher.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_cache_stats_1afd0156daf9d396af158d3abd6b16dac3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::EnrichmentCacheStats::evictions</definition>
+        <argsstring></argsstring>
+        <name>evictions</name>
+        <qualifiedname>themis::training::EnrichmentCacheStats::evictions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Entries evicted due to capacity or version change. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/knowledge_graph_enricher.h" line="80" column="12" bodyfile="include/training/knowledge_graph_enricher.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_cache_stats_1a497a8b1436ea5aa4135d849670df6d03" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::EnrichmentCacheStats::size</definition>
+        <argsstring></argsstring>
+        <name>size</name>
+        <qualifiedname>themis::training::EnrichmentCacheStats::size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Current number of cached entries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/knowledge_graph_enricher.h" line="81" column="12" bodyfile="include/training/knowledge_graph_enricher.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_enrichment_cache_stats_1ab0ec5acaaf3048d6c62441456f838b79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::EnrichmentCacheStats::EnrichmentCacheStats</definition>
+        <argsstring>()=default</argsstring>
+        <name>EnrichmentCacheStats</name>
+        <qualifiedname>themis::training::EnrichmentCacheStats::EnrichmentCacheStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/knowledge_graph_enricher.h" line="83" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Runtime statistics for the enrichment LRU cache. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/knowledge_graph_enricher.h" line="77" column="1" bodyfile="include/training/knowledge_graph_enricher.h" bodystart="77" bodyend="84"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_enrichment_cache_stats_1ab0ec5acaaf3048d6c62441456f838b79" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentCacheStats</scope><name>EnrichmentCacheStats</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_cache_stats_1afd0156daf9d396af158d3abd6b16dac3" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentCacheStats</scope><name>evictions</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_cache_stats_1a0745ebfaa2b9189e78d0c4d22facad10" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentCacheStats</scope><name>hits</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_cache_stats_1a7e0d1efdf71a14fcb57f022023f4ce90" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentCacheStats</scope><name>misses</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_cache_stats_1a497a8b1436ea5aa4135d849670df6d03" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentCacheStats</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

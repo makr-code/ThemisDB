@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::PromptManager::PromptTemplate</compoundname>
+    <includes refid="prompt__manager_8h" local="no">prompt_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a8d8cd7e4676976394dbf25a872d828f5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptManager::PromptTemplate::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::prompt_engineering::PromptManager::PromptTemplate::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_manager.h" line="81" column="21" bodyfile="include/prompt_engineering/prompt_manager.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a62bd7f00d9852a123edc6ac21eb799ea" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptManager::PromptTemplate::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::prompt_engineering::PromptManager::PromptTemplate::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_manager.h" line="82" column="21" bodyfile="include/prompt_engineering/prompt_manager.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a8d3399d8823207c1ab27209d8551b2bc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptManager::PromptTemplate::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::prompt_engineering::PromptManager::PromptTemplate::version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_manager.h" line="83" column="21" bodyfile="include/prompt_engineering/prompt_manager.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a9fa2f923fc372a65fafd4a37c8d80f04" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptManager::PromptTemplate::content</definition>
+        <argsstring></argsstring>
+        <name>content</name>
+        <qualifiedname>themis::prompt_engineering::PromptManager::PromptTemplate::content</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_manager.h" line="84" column="21" bodyfile="include/prompt_engineering/prompt_manager.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1ac9c4d6e1c02d429f02ef235b22b04959" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptManager::PromptTemplate::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::prompt_engineering::PromptManager::PromptTemplate::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_manager.h" line="85" column="21" bodyfile="include/prompt_engineering/prompt_manager.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a09575ff1d9389a4dd72bfd8c173b942e" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::prompt_engineering::PromptManager::PromptTemplate::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::prompt_engineering::PromptManager::PromptTemplate::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_manager.h" line="86" column="24" bodyfile="include/prompt_engineering/prompt_manager.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a66237dc50cee964112072f55998d3fd0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::PromptManager::PromptTemplate::active</definition>
+        <argsstring></argsstring>
+        <name>active</name>
+        <qualifiedname>themis::prompt_engineering::PromptManager::PromptTemplate::active</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_manager.h" line="87" column="14" bodyfile="include/prompt_engineering/prompt_manager.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a7ab331ef49b6f842c108d0734d650cc5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_image_description" kindref="compound">ImageDescription</ref> &gt;</type>
+        <definition>std::vector&lt;ImageDescription&gt; themis::prompt_engineering::PromptManager::PromptTemplate::images</definition>
+        <argsstring></argsstring>
+        <name>images</name>
+        <qualifiedname>themis::prompt_engineering::PromptManager::PromptTemplate::images</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_manager.h" line="88" column="21" bodyfile="include/prompt_engineering/prompt_manager.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a62d11f08c3ffe5ee931a116ad4e3757e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::prompt_engineering::PromptManager::PromptTemplate::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::prompt_engineering::PromptManager::PromptTemplate::toJson</qualifiedname>
+        <briefdescription>
+<para>Serializes this prompt template into JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON object containing all prompt template fields. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_manager.h" line="95" column="24" bodyfile="include/prompt_engineering/prompt_manager.h" bodystart="95" bodyend="110"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Persistent representation of a prompt template. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_manager.h" line="80" column="5" bodyfile="include/prompt_engineering/prompt_manager.h" bodystart="80" bodyend="111"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a66237dc50cee964112072f55998d3fd0" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptManager::PromptTemplate</scope><name>active</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a9fa2f923fc372a65fafd4a37c8d80f04" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptManager::PromptTemplate</scope><name>content</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1ac9c4d6e1c02d429f02ef235b22b04959" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptManager::PromptTemplate</scope><name>description</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a8d8cd7e4676976394dbf25a872d828f5" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptManager::PromptTemplate</scope><name>id</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a7ab331ef49b6f842c108d0734d650cc5" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptManager::PromptTemplate</scope><name>images</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a09575ff1d9389a4dd72bfd8c173b942e" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptManager::PromptTemplate</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a62bd7f00d9852a123edc6ac21eb799ea" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptManager::PromptTemplate</scope><name>name</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a62d11f08c3ffe5ee931a116ad4e3757e" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptManager::PromptTemplate</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a8d3399d8823207c1ab27209d8551b2bc" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptManager::PromptTemplate</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

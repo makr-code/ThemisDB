@@ -1,0 +1,1174 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_shard_repair_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::ShardRepairEngine</compoundname>
+    <includes refid="shard__repair__engine_8h" local="no">shard_repair_engine.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1sharding_1_1_shard_repair_engine_1a2c84dad6367965dbb10a6f3a0f93fd2a" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; std::string &gt;(const std::string &amp;shard_id)&gt;</type>
+        <definition>using themis::sharding::ShardRepairEngine::DocumentListProvider = 
+std::function&lt;std::vector&lt;std::string&gt;(const std::string&amp; shard_id)&gt;</definition>
+        <argsstring></argsstring>
+        <name>DocumentListProvider</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::DocumentListProvider</qualifiedname>
+        <briefdescription>
+<para>Callback that returns the list of document IDs stored on a shard. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="172" column="5" bodyfile="include/sharding/shard_repair_engine.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_repair_engine_1ac4bb5fdda0d1fde22c69e54d5f27ae19" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_repair_config" kindref="compound">RepairConfig</ref></type>
+        <definition>RepairConfig themis::sharding::ShardRepairEngine::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="324" column="18" bodyfile="include/sharding/shard_repair_engine.h" bodystart="324" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_repair_engine_1a14dd56db424f3bd5dd22a23e2a9228c9" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_redundancy_strategy" kindref="compound">RedundancyStrategy</ref> &amp;</type>
+        <definition>RedundancyStrategy&amp; themis::sharding::ShardRepairEngine::strategy_</definition>
+        <argsstring></argsstring>
+        <name>strategy_</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::strategy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="325" column="24" bodyfile="include/sharding/shard_repair_engine.h" bodystart="325" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_repair_engine_1a4660a878f8eb61382650e046cf13ad7c" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref> &amp;</type>
+        <definition>ConsistentHashRing&amp; themis::sharding::ShardRepairEngine::ring_</definition>
+        <argsstring></argsstring>
+        <name>ring_</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::ring_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="326" column="24" bodyfile="include/sharding/shard_repair_engine.h" bodystart="326" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_repair_engine_1a4955fbfa016c4a772d7fa2910c94a265" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &amp;</type>
+        <definition>ShardTopology&amp; themis::sharding::ShardRepairEngine::topology_</definition>
+        <argsstring></argsstring>
+        <name>topology_</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::topology_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="327" column="19" bodyfile="include/sharding/shard_repair_engine.h" bodystart="327" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_repair_engine_1ac1c4198dec25ffeaec373ef6c22ab38e" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_redundancy_strategy_1abe10e91e63cec0cabe1ae836b7478b8d" kindref="member">RedundancyStrategy::ReadHandler</ref></type>
+        <definition>RedundancyStrategy::ReadHandler themis::sharding::ShardRepairEngine::read_handler_</definition>
+        <argsstring></argsstring>
+        <name>read_handler_</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::read_handler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="328" column="37" bodyfile="include/sharding/shard_repair_engine.h" bodystart="328" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_repair_engine_1a6f3a69c372e883b80e6b47ba01a81dde" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_redundancy_strategy_1af22b10573132170a8b093c8e20506ac2" kindref="member">RedundancyStrategy::WriteHandler</ref></type>
+        <definition>RedundancyStrategy::WriteHandler themis::sharding::ShardRepairEngine::write_handler_</definition>
+        <argsstring></argsstring>
+        <name>write_handler_</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::write_handler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="329" column="38" bodyfile="include/sharding/shard_repair_engine.h" bodystart="329" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_repair_engine_1a3548cede24dd37538c976a212049f0fb" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a2c84dad6367965dbb10a6f3a0f93fd2a" kindref="member">DocumentListProvider</ref></type>
+        <definition>DocumentListProvider themis::sharding::ShardRepairEngine::doc_list_provider_</definition>
+        <argsstring></argsstring>
+        <name>doc_list_provider_</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::doc_list_provider_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="330" column="26" bodyfile="include/sharding/shard_repair_engine.h" bodystart="330" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_repair_engine_1a2c72a229525711a2578f58aab2e88046" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_prometheus_metrics" kindref="compound">PrometheusMetrics</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PrometheusMetrics&gt; themis::sharding::ShardRepairEngine::prom_metrics_</definition>
+        <argsstring></argsstring>
+        <name>prom_metrics_</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::prom_metrics_</qualifiedname>
+        <briefdescription>
+<para>Optional centralized metrics registry (set via setPrometheusMetrics). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="332" column="21" bodyfile="include/sharding/shard_repair_engine.h" bodystart="332" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_repair_engine_1a8dfb6edbed41efb90ccbd5e0d31e1a82" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_s_l_o_monitor" kindref="compound">SLOMonitor</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;SLOMonitor&gt; themis::sharding::ShardRepairEngine::slo_monitor_</definition>
+        <argsstring></argsstring>
+        <name>slo_monitor_</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::slo_monitor_</qualifiedname>
+        <briefdescription>
+<para>Optional SLO monitor for repair-progress tracking. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="334" column="21" bodyfile="include/sharding/shard_repair_engine.h" bodystart="334" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_repair_engine_1aa9cad76140eb09c54e596d921b5820b4" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_resource_manager" kindref="compound">ShardResourceManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ShardResourceManager&gt; themis::sharding::ShardRepairEngine::resource_manager_</definition>
+        <argsstring></argsstring>
+        <name>resource_manager_</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::resource_manager_</qualifiedname>
+        <briefdescription>
+<para>Optional resource manager for IOPS throttle and GPU feature-flag queries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="336" column="21" bodyfile="include/sharding/shard_repair_engine.h" bodystart="336" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_repair_engine_1a1b1d59a3a15e63575ed992faecdd5727" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::sharding::ShardRepairEngine::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="338" column="17" bodyfile="include/sharding/shard_repair_engine.h" bodystart="338" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_repair_engine_1a9a1c05b40672e0b340dcf1cc7cb5d092" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::sharding::ShardRepairEngine::scan_thread_</definition>
+        <argsstring></argsstring>
+        <name>scan_thread_</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::scan_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="339" column="17" bodyfile="include/sharding/shard_repair_engine.h" bodystart="339" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_repair_engine_1af028ecf604bfdd76e648a5dd5230584c" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::sharding::ShardRepairEngine::repair_thread_</definition>
+        <argsstring></argsstring>
+        <name>repair_thread_</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::repair_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="340" column="17" bodyfile="include/sharding/shard_repair_engine.h" bodystart="340" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_repair_engine_1a5f00e5a2136a4fea8a0df2d3ee92e7b9" prot="private" static="no" mutable="yes">
+        <type>std::timed_mutex</type>
+        <definition>std::timed_mutex themis::sharding::ShardRepairEngine::jobs_mutex_</definition>
+        <argsstring></argsstring>
+        <name>jobs_mutex_</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::jobs_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="343" column="30" bodyfile="include/sharding/shard_repair_engine.h" bodystart="343" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_repair_engine_1a84a977d68918017d08ef36a122755017" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1sharding_1_1_repair_job" kindref="compound">RepairJob</ref> &gt;</type>
+        <definition>std::map&lt;std::string, RepairJob&gt; themis::sharding::ShardRepairEngine::jobs_</definition>
+        <argsstring></argsstring>
+        <name>jobs_</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::jobs_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="344" column="14" bodyfile="include/sharding/shard_repair_engine.h" bodystart="344" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_repair_engine_1a0944795066d64334699cf9720fe5cde4" prot="private" static="no" mutable="no">
+        <type>std::queue&lt; std::string &gt;</type>
+        <definition>std::queue&lt;std::string&gt; themis::sharding::ShardRepairEngine::job_queue_</definition>
+        <argsstring></argsstring>
+        <name>job_queue_</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::job_queue_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="345" column="16" bodyfile="include/sharding/shard_repair_engine.h" bodystart="345" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_repair_engine_1a87d8f8af908ff8a08be927e3d1c1ecd7" prot="private" static="no" mutable="no">
+        <type>std::condition_variable_any</type>
+        <definition>std::condition_variable_any themis::sharding::ShardRepairEngine::repair_cv_</definition>
+        <argsstring></argsstring>
+        <name>repair_cv_</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::repair_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="346" column="33" bodyfile="include/sharding/shard_repair_engine.h" bodystart="346" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_repair_engine_1a05d979dc40a5684da51a734d07a88f1c" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::ShardRepairEngine::health_mutex_</definition>
+        <argsstring></argsstring>
+        <name>health_mutex_</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::health_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="349" column="24" bodyfile="include/sharding/shard_repair_engine.h" bodystart="349" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_repair_engine_1acd8b61911a051294143f8f2c8a37bf62" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1sharding_1_1_shard_health_report" kindref="compound">ShardHealthReport</ref> &gt;</type>
+        <definition>std::map&lt;std::string, ShardHealthReport&gt; themis::sharding::ShardRepairEngine::shard_health_</definition>
+        <argsstring></argsstring>
+        <name>shard_health_</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::shard_health_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="350" column="14" bodyfile="include/sharding/shard_repair_engine.h" bodystart="350" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_repair_engine_1ae16fcf3c72beb880801bcd6bd669704b" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::ShardRepairEngine::metrics_mutex_</definition>
+        <argsstring></argsstring>
+        <name>metrics_mutex_</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::metrics_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="353" column="24" bodyfile="include/sharding/shard_repair_engine.h" bodystart="353" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_repair_engine_1a909a31ffbca33e8a43162ee0a9a02531" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_repair_metrics" kindref="compound">RepairMetrics</ref></type>
+        <definition>RepairMetrics themis::sharding::ShardRepairEngine::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="354" column="19" bodyfile="include/sharding/shard_repair_engine.h" bodystart="354" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_repair_engine_1a0ec80f45109505fa05acb7d28107af6f" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::ShardRepairEngine::job_counter_</definition>
+        <argsstring></argsstring>
+        <name>job_counter_</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::job_counter_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="357" column="25" bodyfile="include/sharding/shard_repair_engine.h" bodystart="357" bodyend="357"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_repair_engine_1a130904db740ff1703c3ab52cfd3a8087" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::ShardRepairEngine::scan_shards_done_</definition>
+        <argsstring></argsstring>
+        <name>scan_shards_done_</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::scan_shards_done_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="360" column="17" bodyfile="include/sharding/shard_repair_engine.h" bodystart="360" bodyend="360"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_repair_engine_1aceb33dc31c3fca0d7e97b17cdc5d3860" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::ShardRepairEngine::scan_shards_total_</definition>
+        <argsstring></argsstring>
+        <name>scan_shards_total_</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::scan_shards_total_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="361" column="17" bodyfile="include/sharding/shard_repair_engine.h" bodystart="361" bodyend="361"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_repair_engine_1a006b8c891fd41d5dee6a9f115365f5f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::ShardRepairEngine::ShardRepairEngine</definition>
+        <argsstring>(const RepairConfig &amp;config, RedundancyStrategy &amp;strategy, ConsistentHashRing &amp;ring, ShardTopology &amp;topology, RedundancyStrategy::ReadHandler read_handler, RedundancyStrategy::WriteHandler write_handler)</argsstring>
+        <name>ShardRepairEngine</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::ShardRepairEngine</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_repair_config" kindref="compound">RepairConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_redundancy_strategy" kindref="compound">RedundancyStrategy</ref> &amp;</type>
+          <declname>strategy</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref> &amp;</type>
+          <declname>ring</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &amp;</type>
+          <declname>topology</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_redundancy_strategy_1abe10e91e63cec0cabe1ae836b7478b8d" kindref="member">RedundancyStrategy::ReadHandler</ref></type>
+          <declname>read_handler</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_redundancy_strategy_1af22b10573132170a8b093c8e20506ac2" kindref="member">RedundancyStrategy::WriteHandler</ref></type>
+          <declname>write_handler</declname>
+        </param>
+        <briefdescription>
+<para>Construct repair engine with explicit dependencies and config. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="176" column="5" bodyfile="src/sharding/shard_repair_engine.cpp" bodystart="38" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_repair_engine_1a27d9aea741b6b6d4853d41fce5ddd9df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::ShardRepairEngine::~ShardRepairEngine</definition>
+        <argsstring>()</argsstring>
+        <name>~ShardRepairEngine</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::~ShardRepairEngine</qualifiedname>
+        <briefdescription>
+<para>Stop background workers and release engine resources. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="184" column="5" bodyfile="src/sharding/shard_repair_engine.cpp" bodystart="52" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_repair_engine_1aa253b865c9a0e29b9f4d0393a6d637eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ShardRepairEngine::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::start</qualifiedname>
+        <briefdescription>
+<para>Start periodic scan and repair worker loops according to config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start.</para>
+<para>Calls: exchange(), std::thread(), scanLoop(), repairLoop(), spdlog::info(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="189" column="10" bodyfile="src/sharding/shard_repair_engine.cpp" bodystart="64" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_repair_engine_1af47d93500dae5d1c33e396a2e1de7a51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ShardRepairEngine::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::stop</qualifiedname>
+        <briefdescription>
+<para>Stop scan/repair loops and join worker threads. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop.</para>
+<para>Calls: exchange(), notify_all(), themis::utils::joinThreadWithin(), THEMIS_WARN(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="191" column="10" bodyfile="src/sharding/shard_repair_engine.cpp" bodystart="85" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_repair_engine_1aabd08a91c02bccbf823c6b0a8f193fa9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::ShardRepairEngine::isRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::isRunning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="192" column="10" bodyfile="include/sharding/shard_repair_engine.h" bodystart="192" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_repair_engine_1a94049553ffd2cb5aa1871a41c51bc391" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ShardRepairEngine::setDocumentListProvider</definition>
+        <argsstring>(DocumentListProvider provider)</argsstring>
+        <name>setDocumentListProvider</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::setDocumentListProvider</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a2c84dad6367965dbb10a6f3a0f93fd2a" kindref="member">DocumentListProvider</ref></type>
+          <declname>provider</declname>
+        </param>
+        <briefdescription>
+<para>Inject a function that lists document IDs for a given shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Document List Provider.</para>
+<para>Install callback that enumerates document ids for a shard.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">provider</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="198" column="10" bodyfile="src/sharding/shard_repair_engine.cpp" bodystart="113" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_repair_engine_1afc952cf0824e8a050f7c21eb5c112583" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ShardRepairEngine::setPrometheusMetrics</definition>
+        <argsstring>(std::shared_ptr&lt; PrometheusMetrics &gt; prom_metrics)</argsstring>
+        <name>setPrometheusMetrics</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::setPrometheusMetrics</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_prometheus_metrics" kindref="compound">PrometheusMetrics</ref> &gt;</type>
+          <declname>prom_metrics</declname>
+        </param>
+        <briefdescription>
+<para>Set Prometheus Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Attach a shared <ref refid="classthemis_1_1sharding_1_1_prometheus_metrics" kindref="compound">PrometheusMetrics</ref> instance so that the engine forwards repair events (scans, operation results, shard health) into the centralized metrics registry. Optional — if not set, repair events are only visible through <ref refid="classthemis_1_1sharding_1_1_shard_repair_engine_1ab304718d76b514f79c2153685b92611b" kindref="member">exportPrometheusMetrics()</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prom_metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="206" column="10" bodyfile="src/sharding/shard_repair_engine.cpp" bodystart="122" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_repair_engine_1acdcc644fb89b0d25c6a853ac023a6cee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ShardRepairEngine::setSLOMonitor</definition>
+        <argsstring>(std::shared_ptr&lt; SLOMonitor &gt; slo_monitor)</argsstring>
+        <name>setSLOMonitor</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::setSLOMonitor</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_s_l_o_monitor" kindref="compound">SLOMonitor</ref> &gt;</type>
+          <declname>slo_monitor</declname>
+        </param>
+        <briefdescription>
+<para>Set <ref refid="classthemis_1_1sharding_1_1_s_l_o_monitor" kindref="compound">SLOMonitor</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Attach an <ref refid="classthemis_1_1sharding_1_1_s_l_o_monitor" kindref="compound">SLOMonitor</ref> so that scan and repair progress is reported for operator-visible time-to-full-repair tracking. Optional — if not set, progress is only available through <ref refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a9ae3e1b34453f6367696f751ff102efd" kindref="member">getRepairMetrics()</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">slo_monitor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="213" column="10" bodyfile="src/sharding/shard_repair_engine.cpp" bodystart="131" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_repair_engine_1a2ba5bfa1657059e9bf3cc28be3cdcb51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ShardRepairEngine::setResourceManager</definition>
+        <argsstring>(std::shared_ptr&lt; ShardResourceManager &gt; resource_manager)</argsstring>
+        <name>setResourceManager</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::setResourceManager</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_resource_manager" kindref="compound">ShardResourceManager</ref> &gt;</type>
+          <declname>resource_manager</declname>
+        </param>
+        <briefdescription>
+<para>Set Resource Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Attach a <ref refid="classthemis_1_1sharding_1_1_shard_resource_manager" kindref="compound">ShardResourceManager</ref> so that the repair engine can enforce the configured IOPS budget (<computeroutput>acquireRepairIOToken</computeroutput>) and consult the GPU erasure-coding feature flag (<computeroutput>isGPUErasureCodingEnabled</computeroutput>). Optional — if not set, the engine runs without I/O throttling and always uses the CPU erasure-coding path.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">resource_manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="222" column="10" bodyfile="src/sharding/shard_repair_engine.cpp" bodystart="140" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_repair_engine_1a794f41bdf0af7babb7f97e284b89123d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardRepairEngine::triggerRepair</definition>
+        <argsstring>(const std::string &amp;shard_id=&quot;&quot;)</argsstring>
+        <name>triggerRepair</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::triggerRepair</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Trigger Repair. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Enqueue a repair job for a specific shard (or all shards if empty). Returns the job ID that can be used with <ref refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a65095fec82ad73c745fac9073aabb0a7" kindref="member">getJobStatus()</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: generateJobId(), empty(), std::chrono::system_clock::now(), lock(), push(), notify_one(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="230" column="17" bodyfile="src/sharding/shard_repair_engine.cpp" bodystart="162" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_repair_engine_1a6f85379a05e6613fd4304744d332ea57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardRepairEngine::triggerFullScan</definition>
+        <argsstring>()</argsstring>
+        <name>triggerFullScan</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::triggerFullScan</qualifiedname>
+        <briefdescription>
+<para>Trigger Full Scan. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Enqueue a full cluster-wide anti-entropy scan + repair. Returns the job ID.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: generateJobId(), std::chrono::system_clock::now(), lock(), push(), notify_one(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="236" column="17" bodyfile="src/sharding/shard_repair_engine.cpp" bodystart="187" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_repair_engine_1a832591162410ec6c89b5bd570b0fc608" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardRepairEngine::triggerDocumentRepair</definition>
+        <argsstring>(const std::string &amp;document_id, const std::string &amp;collection=&quot;&quot;)</argsstring>
+        <name>triggerDocumentRepair</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::triggerDocumentRepair</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Trigger Document Repair. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Enqueue repair of a single document. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Document ID to repair (non-empty required) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Collection name; if empty, uses default collection </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Job ID if enqueued successfully, empty string if document_id is empty (fail-closed) </para>
+</simplesect>
+<simplesect kind="note"><para>Rejects empty document_id fail-closed to prevent silent repair failures</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the document. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), spdlog::error(), generateJobId(), std::chrono::system_clock::now(), lock(), push(), notify_one(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="245" column="17" bodyfile="src/sharding/shard_repair_engine.cpp" bodystart="212" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_repair_engine_1a65095fec82ad73c745fac9073aabb0a7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_repair_job" kindref="compound">RepairJob</ref></type>
+        <definition>RepairJob themis::sharding::ShardRepairEngine::getJobStatus</definition>
+        <argsstring>(const std::string &amp;job_id) const</argsstring>
+        <name>getJobStatus</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::getJobStatus</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>job_id</declname>
+        </param>
+        <briefdescription>
+<para>Return current status for one repair job id. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jobs_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="251" column="15" bodyfile="src/sharding/shard_repair_engine.cpp" bodystart="242" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_repair_engine_1aa714e429586154baad0deb602bdb139f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_repair_job" kindref="compound">RepairJob</ref> &gt;</type>
+        <definition>std::vector&lt; RepairJob &gt; themis::sharding::ShardRepairEngine::getActiveJobs</definition>
+        <argsstring>() const</argsstring>
+        <name>getActiveJobs</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::getActiveJobs</qualifiedname>
+        <briefdescription>
+<para>Return all currently active (not yet completed) repair jobs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jobs_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="253" column="17" bodyfile="src/sharding/shard_repair_engine.cpp" bodystart="261" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_repair_engine_1a888143c85fd4ace4bdc9a58b3b933a74" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_shard_health_report" kindref="compound">ShardHealthReport</ref> &gt;</type>
+        <definition>std::vector&lt; ShardHealthReport &gt; themis::sharding::ShardRepairEngine::getShardHealthReports</definition>
+        <argsstring>() const</argsstring>
+        <name>getShardHealthReports</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::getShardHealthReports</qualifiedname>
+        <briefdescription>
+<para>Return latest cached shard health reports. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">health_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="255" column="17" bodyfile="src/sharding/shard_repair_engine.cpp" bodystart="278" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_repair_engine_1a9ae3e1b34453f6367696f751ff102efd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_repair_metrics" kindref="compound">RepairMetrics</ref></type>
+        <definition>RepairMetrics themis::sharding::ShardRepairEngine::getRepairMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getRepairMetrics</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::getRepairMetrics</qualifiedname>
+        <briefdescription>
+<para>Return aggregate repair engine counters and timing metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="258" column="19" bodyfile="src/sharding/shard_repair_engine.cpp" bodystart="294" bodyend="302"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_repair_engine_1ab304718d76b514f79c2153685b92611b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardRepairEngine::exportPrometheusMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>exportPrometheusMetrics</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::exportPrometheusMetrics</qualifiedname>
+        <briefdescription>
+<para>Export current metrics in Prometheus text exposition format. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="261" column="17" bodyfile="src/sharding/shard_repair_engine.cpp" bodystart="304" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_repair_engine_1acdfa3963c972cdad6537a39e0d79e6ed" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>themis::Result&lt; std::string &gt;</type>
+        <definition>themis::Result&lt; std::string &gt; themis::sharding::ShardRepairEngine::runConsistencyCheck</definition>
+        <argsstring>() const</argsstring>
+        <name>runConsistencyCheck</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::runConsistencyCheck</qualifiedname>
+        <briefdescription>
+<para>Run a synchronous replica consistency check across all shards. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Iterates the last-known per-shard health reports (populated by the background scan loop or the most recent <ref refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a6f85379a05e6613fd4304744d332ea57" kindref="member">triggerFullScan()</ref> call) and returns a human-readable summary string. The summary format is:</para>
+<para>&quot;Replica validation OK: &lt;n&gt; shard(s) healthy&quot; — all healthy &quot;Replica validation: &lt;n&gt; degraded / &lt;m&gt; unrecoverable shard(s) found&quot; — issues found</para>
+<para>This method is intentionally lightweight and non-blocking: it reads cached state rather than triggering a new network scan. Use <ref refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a6f85379a05e6613fd4304744d332ea57" kindref="member">triggerFullScan()</ref> before calling this if fresh data is required.</para>
+<para>Designed to be passed as the <computeroutput>check_fn</computeroutput> of a <computeroutput>ReplicaValidationHandler</computeroutput> registered with the <computeroutput>DatabaseMaintenanceOrchestrator</computeroutput>: <programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>handler<sp/>=<sp/>std::make_shared&lt;ReplicaValidationHandler&gt;(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>[engine]()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>engine-&gt;runConsistencyCheck();<sp/>});</highlight></codeline>
+<codeline><highlight class="normal">orchestrator.registerTaskHandler(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>MaintenanceTaskType::REPLICA_VALIDATION,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::move(handler));</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>Ok&lt;std::string&gt; with the summary message. </para>
+</simplesect>
+<simplesect kind="return"><para>Err&lt;Error&gt; if reports indicate unrecoverable shard(s) (ErrorCode::ERR_STORAGE_TRANSACTION_FAILED). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="292" column="20" bodyfile="src/sharding/shard_repair_engine.cpp" bodystart="355" bodyend="385"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_repair_engine_1a67769ea39d94bc03642d74363c354e1d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ShardRepairEngine::scanLoop</definition>
+        <argsstring>()</argsstring>
+        <name>scanLoop</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::scanLoop</qualifiedname>
+        <briefdescription>
+<para>Background periodic anti-entropy scan loop body. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Scan Loop.</para>
+<para>Calls: load(), performAntiEntropyScan(), spdlog::error(), what(), std::chrono::seconds(), std::this_thread::sleep_for(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="298" column="10" bodyfile="src/sharding/shard_repair_engine.cpp" bodystart="393" bodyend="409"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_repair_engine_1a80cec8a6f15b0b172190012c035e1881" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ShardRepairEngine::repairLoop</definition>
+        <argsstring>()</argsstring>
+        <name>repairLoop</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::repairLoop</qualifiedname>
+        <briefdescription>
+<para>Background repair job execution loop body. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Repair Loop.</para>
+<para>Calls: load(), lock(), wait_for(), empty(), front(), pop(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="300" column="10" bodyfile="src/sharding/shard_repair_engine.cpp" bodystart="415" bodyend="458"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_repair_engine_1a22d87e4a1f748a95314723f0224cad9f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ShardRepairEngine::performAntiEntropyScan</definition>
+        <argsstring>()</argsstring>
+        <name>performAntiEntropyScan</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::performAntiEntropyScan</qualifiedname>
+        <briefdescription>
+<para>Run one anti-entropy scan pass over configured shard set. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Perform Anti Entropy Scan.</para>
+<para>Calls: spdlog::info(), isGPUErasureCodingEnabled(), getAllShards(), size(), lock(), std::chrono::system_clock::now(), recordRepairScan(), std::thread::hardware_concurrency(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="305" column="10" bodyfile="src/sharding/shard_repair_engine.cpp" bodystart="468" bodyend="600"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_repair_engine_1ad4434a7e42e2bad318b58d3d1ac7942f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ShardRepairEngine::scanShardBand</definition>
+        <argsstring>(const std::vector&lt; ShardInfo &gt; &amp;band, const std::string &amp;scan_job_id, uint64_t total_shards)</argsstring>
+        <name>scanShardBand</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::scanShardBand</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref> &gt; &amp;</type>
+          <declname>band</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>scan_job_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>total_shards</declname>
+        </param>
+        <briefdescription>
+<para>Scan one shard band (worker partition) and update reports/progress. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Scan Shard Band.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">band</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scan_job_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the scan job. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">total_shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: load(), std::chrono::system_clock::now(), doc_list_provider_(), spdlog::warn(), what(), acquireRepairIOToken(), lock(), checkDocumentHealth(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="307" column="10" bodyfile="src/sharding/shard_repair_engine.cpp" bodystart="609" bodyend="716"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_repair_engine_1afa30d7dabe48d7c42d1e1e51db0d4220" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ShardRepairEngine::executeRepairJob</definition>
+        <argsstring>(RepairJob &amp;job)</argsstring>
+        <name>executeRepairJob</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::executeRepairJob</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1sharding_1_1_repair_job" kindref="compound">RepairJob</ref> &amp;</type>
+          <declname>job</declname>
+        </param>
+        <briefdescription>
+<para>Execute one queued repair job and update job/report/metric state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute Repair Job.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">job</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::info(), empty(), lock(), std::chrono::steady_clock::now(), repairDocument(), updateMetricsAfterRepair(), std::chrono::system_clock::now(), getAllShards(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="311" column="10" bodyfile="src/sharding/shard_repair_engine.cpp" bodystart="723" bodyend="819"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_repair_engine_1a9a4ccc661e13eb7a8ac09bfb8a7b86fc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::ShardRepairEngine::repairDocument</definition>
+        <argsstring>(const std::string &amp;doc_id, const std::string &amp;collection)</argsstring>
+        <name>repairDocument</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::repairDocument</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+<para>Attempt repair of one document in target collection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Repair Document.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the doc. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: acquireRepairIOToken(), spdlog::warn(), recoverDocument(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="313" column="10" bodyfile="src/sharding/shard_repair_engine.cpp" bodystart="828" bodyend="844"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_repair_engine_1a139988e88a44cc4e65eaca5ac4d1d7c7" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardRepairEngine::generateJobId</definition>
+        <argsstring>() const</argsstring>
+        <name>generateJobId</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::generateJobId</qualifiedname>
+        <briefdescription>
+<para>Generate unique repair job identifier string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="318" column="17" bodyfile="src/sharding/shard_repair_engine.cpp" bodystart="148" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_repair_engine_1a1d8c1eee4118abda0b3d06440ce1ec74" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ShardRepairEngine::updateMetricsAfterRepair</definition>
+        <argsstring>(bool success, std::chrono::milliseconds duration)</argsstring>
+        <name>updateMetricsAfterRepair</name>
+        <qualifiedname>themis::sharding::ShardRepairEngine::updateMetricsAfterRepair</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>duration</declname>
+        </param>
+        <briefdescription>
+<para>Update aggregate repair metrics after one repair attempt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Metrics After Repair.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), count(), std::chrono::milliseconds(), recordRepairOperation(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="320" column="10" bodyfile="src/sharding/shard_repair_engine.cpp" bodystart="852" bodyend="874"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Anti-Entropy and Shard Repair Engine.</para>
+<para>Lifecycle:<orderedlist>
+<listitem><para>Construct with a <ref refid="structthemis_1_1sharding_1_1_repair_config" kindref="compound">RepairConfig</ref> and references to the existing <ref refid="classthemis_1_1sharding_1_1_redundancy_strategy" kindref="compound">RedundancyStrategy</ref>, <ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref>, and <ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref>.</para>
+</listitem><listitem><para>Provide read / write handlers (lambdas matching the types used by <ref refid="classthemis_1_1sharding_1_1_redundancy_strategy" kindref="compound">RedundancyStrategy</ref>) and optionally a document-list provider.</para>
+</listitem><listitem><para>Call <ref refid="classthemis_1_1sharding_1_1_shard_repair_engine_1aa253b865c9a0e29b9f4d0393a6d637eb" kindref="member">start()</ref> to launch background threads.</para>
+</listitem><listitem><para>Call <ref refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a794f41bdf0af7babb7f97e284b89123d" kindref="member">triggerRepair()</ref> / <ref refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a6f85379a05e6613fd4304744d332ea57" kindref="member">triggerFullScan()</ref> for on-demand operations.</para>
+</listitem><listitem><para>Query <ref refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a9ae3e1b34453f6367696f751ff102efd" kindref="member">getRepairMetrics()</ref> / <ref refid="classthemis_1_1sharding_1_1_shard_repair_engine_1ab304718d76b514f79c2153685b92611b" kindref="member">exportPrometheusMetrics()</ref> for observability.</para>
+</listitem><listitem><para>Call <ref refid="classthemis_1_1sharding_1_1_shard_repair_engine_1af47d93500dae5d1c33e396a2e1de7a51" kindref="member">stop()</ref> on shutdown. </para>
+</listitem></orderedlist>
+</para>
+    </detaileddescription>
+    <location file="include/sharding/shard_repair_engine.h" line="169" column="1" bodyfile="include/sharding/shard_repair_engine.h" bodystart="169" bodyend="362"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1ac4bb5fdda0d1fde22c69e54d5f27ae19" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a3548cede24dd37538c976a212049f0fb" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>doc_list_provider_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a2c84dad6367965dbb10a6f3a0f93fd2a" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>DocumentListProvider</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1afa30d7dabe48d7c42d1e1e51db0d4220" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>executeRepairJob</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1ab304718d76b514f79c2153685b92611b" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>exportPrometheusMetrics</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a139988e88a44cc4e65eaca5ac4d1d7c7" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>generateJobId</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1aa714e429586154baad0deb602bdb139f" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>getActiveJobs</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a65095fec82ad73c745fac9073aabb0a7" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>getJobStatus</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a9ae3e1b34453f6367696f751ff102efd" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>getRepairMetrics</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a888143c85fd4ace4bdc9a58b3b933a74" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>getShardHealthReports</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a05d979dc40a5684da51a734d07a88f1c" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>health_mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1aabd08a91c02bccbf823c6b0a8f193fa9" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a0ec80f45109505fa05acb7d28107af6f" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>job_counter_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a0944795066d64334699cf9720fe5cde4" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>job_queue_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a84a977d68918017d08ef36a122755017" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>jobs_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a5f00e5a2136a4fea8a0df2d3ee92e7b9" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>jobs_mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a909a31ffbca33e8a43162ee0a9a02531" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1ae16fcf3c72beb880801bcd6bd669704b" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>metrics_mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a22d87e4a1f748a95314723f0224cad9f" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>performAntiEntropyScan</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a2c72a229525711a2578f58aab2e88046" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>prom_metrics_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1ac1c4198dec25ffeaec373ef6c22ab38e" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>read_handler_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a87d8f8af908ff8a08be927e3d1c1ecd7" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>repair_cv_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1af028ecf604bfdd76e648a5dd5230584c" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>repair_thread_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a9a4ccc661e13eb7a8ac09bfb8a7b86fc" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>repairDocument</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a80cec8a6f15b0b172190012c035e1881" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>repairLoop</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1aa9cad76140eb09c54e596d921b5820b4" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>resource_manager_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a4660a878f8eb61382650e046cf13ad7c" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>ring_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1acdfa3963c972cdad6537a39e0d79e6ed" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>runConsistencyCheck</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a1b1d59a3a15e63575ed992faecdd5727" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>running_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a130904db740ff1703c3ab52cfd3a8087" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>scan_shards_done_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1aceb33dc31c3fca0d7e97b17cdc5d3860" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>scan_shards_total_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a9a1c05b40672e0b340dcf1cc7cb5d092" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>scan_thread_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a67769ea39d94bc03642d74363c354e1d" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>scanLoop</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1ad4434a7e42e2bad318b58d3d1ac7942f" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>scanShardBand</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a94049553ffd2cb5aa1871a41c51bc391" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>setDocumentListProvider</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1afc952cf0824e8a050f7c21eb5c112583" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>setPrometheusMetrics</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a2ba5bfa1657059e9bf3cc28be3cdcb51" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>setResourceManager</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1acdcc644fb89b0d25c6a853ac023a6cee" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>setSLOMonitor</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1acd8b61911a051294143f8f2c8a37bf62" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>shard_health_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a006b8c891fd41d5dee6a9f115365f5f4" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>ShardRepairEngine</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a8dfb6edbed41efb90ccbd5e0d31e1a82" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>slo_monitor_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1aa253b865c9a0e29b9f4d0393a6d637eb" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>start</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1af47d93500dae5d1c33e396a2e1de7a51" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>stop</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a14dd56db424f3bd5dd22a23e2a9228c9" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>strategy_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a4955fbfa016c4a772d7fa2910c94a265" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>topology_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a832591162410ec6c89b5bd570b0fc608" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>triggerDocumentRepair</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a6f85379a05e6613fd4304744d332ea57" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>triggerFullScan</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a794f41bdf0af7babb7f97e284b89123d" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>triggerRepair</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a1d8c1eee4118abda0b3d06440ce1ec74" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>updateMetricsAfterRepair</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a6f3a69c372e883b80e6b47ba01a81dde" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>write_handler_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_repair_engine_1a27d9aea741b6b6d4853d41fce5ddd9df" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRepairEngine</scope><name>~ShardRepairEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

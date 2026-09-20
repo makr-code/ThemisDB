@@ -1,0 +1,462 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__plugin__loading__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_plugin_loading_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="adapter__registry_8h" local="yes">core/concerns/adapter_registry.h</includes>
+    <includes refid="adapter__signing_8h" local="yes">core/concerns/adapter_signing.h</includes>
+    <includes local="no">cstdio</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">fstream</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="4">
+        <label>core/concerns/adapter_metadata.h</label>
+        <link refid="adapter__metadata_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>core/concerns/adapter_registry.h</label>
+        <link refid="adapter__registry_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>core/concerns/adapter_signing.h</label>
+        <link refid="adapter__signing_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>core/concerns/plugin_api.h</label>
+        <link refid="plugin__api_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/core/test_plugin_loading_focused.cpp</label>
+        <link refid="test__plugin__loading__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="20">
+        <label>cstdio</label>
+      </node>
+      <node id="21">
+        <label>filesystem</label>
+      </node>
+      <node id="22">
+        <label>fstream</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="17">
+        <label>iostream</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="13">
+        <label>shared_mutex</label>
+      </node>
+      <node id="16">
+        <label>stdexcept</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="19">
+        <label>string_view</label>
+      </node>
+      <node id="15">
+        <label>thread</label>
+      </node>
+      <node id="10">
+        <label>typeindex</label>
+      </node>
+      <node id="11">
+        <label>typeinfo</label>
+      </node>
+      <node id="12">
+        <label>unordered_map</label>
+      </node>
+      <node id="23">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="struct_temp_file" prot="public">TempFile</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__plugin__loading__focused_8cpp_1a4937111e556d0c00dcc5151b67e862e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PluginLoadingTest, PL_01_EmptyPathReturnsFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PluginLoadingTest</type>
+        </param>
+        <param>
+          <type>PL_01_EmptyPathReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_plugin_loading_focused.cpp" line="38" column="1" bodyfile="tests/core/test_plugin_loading_focused.cpp" bodystart="38" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__loading__focused_8cpp_1a40dcc99722abf8e0ebdf50334984a134" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PluginLoadingTest, PL_02_NonExistentPathReturnsFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PluginLoadingTest</type>
+        </param>
+        <param>
+          <type>PL_02_NonExistentPathReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_plugin_loading_focused.cpp" line="46" column="1" bodyfile="tests/core/test_plugin_loading_focused.cpp" bodystart="46" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__loading__focused_8cpp_1a15eedf159bce57bca3d0cbe0a465f9f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PluginLoadingTest, PL_03_NotALibraryReturnsFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PluginLoadingTest</type>
+        </param>
+        <param>
+          <type>PL_03_NotALibraryReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_plugin_loading_focused.cpp" line="57" column="1" bodyfile="tests/core/test_plugin_loading_focused.cpp" bodystart="57" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__loading__focused_8cpp_1a0c621d49fa260f43d3b0f305e9a56096" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PluginLoadingTest, PL_04_RequireSignatureMissingSigFileReturnsFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PluginLoadingTest</type>
+        </param>
+        <param>
+          <type>PL_04_RequireSignatureMissingSigFileReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_plugin_loading_focused.cpp" line="66" column="1" bodyfile="tests/core/test_plugin_loading_focused.cpp" bodystart="66" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__loading__focused_8cpp_1adba2649e503fce3fc28c76f57a8dcd78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PluginLoadingTest, PL_05_RequireSignatureDigestMismatchReturnsFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PluginLoadingTest</type>
+        </param>
+        <param>
+          <type>PL_05_RequireSignatureDigestMismatchReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_plugin_loading_focused.cpp" line="77" column="1" bodyfile="tests/core/test_plugin_loading_focused.cpp" bodystart="77" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__loading__focused_8cpp_1a50b099f0add6b77e8f0387d7bde94c7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PluginLoadingTest, PL_06_TrustAllSkipsSignatureCheck)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PluginLoadingTest</type>
+        </param>
+        <param>
+          <type>PL_06_TrustAllSkipsSignatureCheck</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_plugin_loading_focused.cpp" line="96" column="1" bodyfile="tests/core/test_plugin_loading_focused.cpp" bodystart="96" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__loading__focused_8cpp_1a28a78b2fc4236849fa1fed788e41b9ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PluginLoadingTest, PL_07_SetTrustPolicyDoesNotCorruptRegistry)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PluginLoadingTest</type>
+        </param>
+        <param>
+          <type>PL_07_SetTrustPolicyDoesNotCorruptRegistry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_plugin_loading_focused.cpp" line="113" column="1" bodyfile="tests/core/test_plugin_loading_focused.cpp" bodystart="113" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__loading__focused_8cpp_1ab1aa17e9c2c3da431ac55b144a1081ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PluginLoadingTest, PL_08_ConcurrentLoadFromPluginBadPathNoCrash)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PluginLoadingTest</type>
+        </param>
+        <param>
+          <type>PL_08_ConcurrentLoadFromPluginBadPathNoCrash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_plugin_loading_focused.cpp" line="136" column="1" bodyfile="tests/core/test_plugin_loading_focused.cpp" bodystart="136" bodyend="156"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="adapter__registry_8h" kindref="compound">core/concerns/adapter_registry.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="adapter__signing_8h" kindref="compound">core/concerns/adapter_signing.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdio&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1core_1_1concerns" kindref="compound">themis::core::concerns</ref>;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper:<sp/>create<sp/>a<sp/>temporary<sp/>file<sp/>with<sp/>given<sp/>content;<sp/>removed<sp/>by<sp/>RAII<sp/>guard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16" refid="struct_temp_file" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_temp_file_1aba19b8ea902a82460ab1133fce27dce0" kindref="member">TempFile</ref><sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_temp_file_1a5d886f9d26ef2427a4fb5b905043eba9" kindref="member">path</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="struct_temp_file_1aba19b8ea902a82460ab1133fce27dce0" kindref="member">TempFile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>suffix,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_temp_file_1a5d886f9d26ef2427a4fb5b905043eba9" kindref="member">path</ref><sp/>=<sp/>(std::filesystem::temp_directory_path()<sp/>/</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&quot;themis_test_plugin&quot;</highlight><highlight class="normal"><sp/>+<sp/>suffix))</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.string();</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!content.empty())<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ofstream<sp/>f(<ref refid="struct_temp_file_1a5d886f9d26ef2427a4fb5b905043eba9" kindref="member">path</ref>,<sp/>std::ios::binary);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f<sp/>&lt;&lt;<sp/>content;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_temp_file_1a2ca3f5fbdcb1acc1d673806b4860c802" kindref="member">~TempFile</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::error_code<sp/>ec<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove(<ref refid="struct_temp_file_1a5d886f9d26ef2427a4fb5b905043eba9" kindref="member">path</ref>,<sp/>ec);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PL_01<sp/>—<sp/>empty<sp/>path<sp/>string<sp/>→<sp/>false,<sp/>no<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><ref refid="test__plugin__loading__focused_8cpp_1a4937111e556d0c00dcc5151b67e862e0" kindref="member">TEST</ref>(PluginLoadingTest,<sp/>PL_01_EmptyPathReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry" kindref="compound">AdapterRegistry</ref><sp/>reg;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a4060819401d401cefd60a02f79f7a630" kindref="member">loadFromPlugin</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alpha&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PL_02<sp/>—<sp/>non-existent<sp/>file<sp/>path<sp/>→<sp/>false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><ref refid="test__plugin__loading__focused_8cpp_1a4937111e556d0c00dcc5151b67e862e0" kindref="member">TEST</ref>(PluginLoadingTest,<sp/>PL_02_NonExistentPathReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry" kindref="compound">AdapterRegistry</ref><sp/>reg;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>bogus<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/__themis_no_such_plugin_pl02__.so&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(std::filesystem::exists(bogus));</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a4060819401d401cefd60a02f79f7a630" kindref="member">loadFromPlugin</ref>(bogus,<sp/></highlight><highlight class="stringliteral">&quot;alpha&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PL_03<sp/>—<sp/>path<sp/>is<sp/>a<sp/>regular<sp/>text<sp/>file,<sp/>not<sp/>a<sp/>shared<sp/>library<sp/>→<sp/>false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(dlopen<sp/>will<sp/>fail<sp/>with<sp/>a<sp/>format<sp/>error)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><ref refid="test__plugin__loading__focused_8cpp_1a4937111e556d0c00dcc5151b67e862e0" kindref="member">TEST</ref>(PluginLoadingTest,<sp/>PL_03_NotALibraryReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_temp_file" kindref="compound">TempFile</ref><sp/>tf{</highlight><highlight class="stringliteral">&quot;_pl03.so&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;this<sp/>is<sp/>not<sp/>an<sp/>ELF/PE<sp/>shared<sp/>library\n&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry" kindref="compound">AdapterRegistry</ref><sp/>reg;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a4060819401d401cefd60a02f79f7a630" kindref="member">loadFromPlugin</ref>(tf.<ref refid="struct_temp_file_1a5d886f9d26ef2427a4fb5b905043eba9" kindref="member">path</ref>,<sp/></highlight><highlight class="stringliteral">&quot;alpha&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PL_04<sp/>—<sp/>kRequireSignature:<sp/>.sig<sp/>file<sp/>absent<sp/>→<sp/>false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><ref refid="test__plugin__loading__focused_8cpp_1a4937111e556d0c00dcc5151b67e862e0" kindref="member">TEST</ref>(PluginLoadingTest,<sp/>PL_04_RequireSignatureMissingSigFileReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_temp_file" kindref="compound">TempFile</ref><sp/>tf{</highlight><highlight class="stringliteral">&quot;_pl04.so&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;fake<sp/>lib<sp/>content&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry" kindref="compound">AdapterRegistry</ref><sp/>reg;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a1b15d4f08ae43124f2d97074e618a5cf" kindref="member">setTrustPolicy</ref>(<ref refid="namespacethemis_1_1core_1_1concerns_1a8e585bd241be609897961ec1dfbe2127a3cdc5b4c26fb83b1d3b70d2219fb2401" kindref="member">AdapterTrustPolicy::kRequireSignature</ref>);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a4060819401d401cefd60a02f79f7a630" kindref="member">loadFromPlugin</ref>(tf.<ref refid="struct_temp_file_1a5d886f9d26ef2427a4fb5b905043eba9" kindref="member">path</ref>,<sp/></highlight><highlight class="stringliteral">&quot;alpha&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PL_05<sp/>—<sp/>kRequireSignature:<sp/>.sig<sp/>file<sp/>present<sp/>but<sp/>digest<sp/>mismatches<sp/>→<sp/>false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><ref refid="test__plugin__loading__focused_8cpp_1a4937111e556d0c00dcc5151b67e862e0" kindref="member">TEST</ref>(PluginLoadingTest,<sp/>PL_05_RequireSignatureDigestMismatchReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>lib_content<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;fake<sp/>shared<sp/>library<sp/>bytes&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_temp_file" kindref="compound">TempFile</ref><sp/>tf_lib{</highlight><highlight class="stringliteral">&quot;_pl05.so&quot;</highlight><highlight class="normal">,<sp/>lib_content};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_temp_file" kindref="compound">TempFile</ref><sp/>tf_sig{</highlight><highlight class="stringliteral">&quot;_pl05.so.sig&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;0000000000000000000000000000000000000000000000000000000000000000\n&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Give<sp/>.sig<sp/>the<sp/>library&apos;s<sp/>path<sp/>+<sp/>&quot;.sig&quot;<sp/>name</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rename<sp/>the<sp/>sig<sp/>temp<sp/>file<sp/>to<sp/>match<sp/>the<sp/>lib<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>std::error_code<sp/>ec<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::rename(tf_sig.<ref refid="struct_temp_file_1a5d886f9d26ef2427a4fb5b905043eba9" kindref="member">path</ref>,<sp/>tf_lib.<ref refid="struct_temp_file_1a5d886f9d26ef2427a4fb5b905043eba9" kindref="member">path</ref><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.sig&quot;</highlight><highlight class="normal">,<sp/>ec);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>tf_sig.<ref refid="struct_temp_file_1a5d886f9d26ef2427a4fb5b905043eba9" kindref="member">path</ref><sp/>=<sp/>tf_lib.<ref refid="struct_temp_file_1a5d886f9d26ef2427a4fb5b905043eba9" kindref="member">path</ref><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.sig&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>update<sp/>so<sp/>RAII<sp/>removes<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry" kindref="compound">AdapterRegistry</ref><sp/>reg;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a1b15d4f08ae43124f2d97074e618a5cf" kindref="member">setTrustPolicy</ref>(<ref refid="namespacethemis_1_1core_1_1concerns_1a8e585bd241be609897961ec1dfbe2127a3cdc5b4c26fb83b1d3b70d2219fb2401" kindref="member">AdapterTrustPolicy::kRequireSignature</ref>);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a4060819401d401cefd60a02f79f7a630" kindref="member">loadFromPlugin</ref>(tf_lib.<ref refid="struct_temp_file_1a5d886f9d26ef2427a4fb5b905043eba9" kindref="member">path</ref>,<sp/></highlight><highlight class="stringliteral">&quot;alpha&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PL_06<sp/>—<sp/>kTrustAll:<sp/>signature<sp/>check<sp/>is<sp/>skipped;<sp/>failure<sp/>is<sp/>from<sp/>dlopen</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="test__plugin__loading__focused_8cpp_1a4937111e556d0c00dcc5151b67e862e0" kindref="member">TEST</ref>(PluginLoadingTest,<sp/>PL_06_TrustAllSkipsSignatureCheck)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>real<sp/>text<sp/>file:<sp/>dlopen<sp/>will<sp/>fail<sp/>(not<sp/>a<sp/>valid<sp/>library),<sp/>but<sp/>we<sp/>must</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>NOT<sp/>hit<sp/>the<sp/>&quot;signature<sp/>required<sp/>but<sp/>not<sp/>found&quot;<sp/>branch.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_temp_file" kindref="compound">TempFile</ref><sp/>tf{</highlight><highlight class="stringliteral">&quot;_pl06.so&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;not<sp/>a<sp/>real<sp/>library&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry" kindref="compound">AdapterRegistry</ref><sp/>reg;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a1b15d4f08ae43124f2d97074e618a5cf" kindref="member">setTrustPolicy</ref>(<ref refid="namespacethemis_1_1core_1_1concerns_1a8e585bd241be609897961ec1dfbe2127a6e488759c508faa8f2c1df9c5403c8be" kindref="member">AdapterTrustPolicy::kTrustAll</ref>);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>return<sp/>false<sp/>due<sp/>to<sp/>dlopen<sp/>failure,<sp/>not<sp/>due<sp/>to<sp/>missing<sp/>.sig</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a4060819401d401cefd60a02f79f7a630" kindref="member">loadFromPlugin</ref>(tf.<ref refid="struct_temp_file_1a5d886f9d26ef2427a4fb5b905043eba9" kindref="member">path</ref>,<sp/></highlight><highlight class="stringliteral">&quot;alpha&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Registry<sp/>state<sp/>must<sp/>remain<sp/>consistent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a95f22e88cdbeaf4d8923878537e4206e" kindref="member">count</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PL_07<sp/>—<sp/>setTrustPolicy<sp/>does<sp/>not<sp/>corrupt<sp/>registry<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><ref refid="test__plugin__loading__focused_8cpp_1a4937111e556d0c00dcc5151b67e862e0" kindref="member">TEST</ref>(PluginLoadingTest,<sp/>PL_07_SetTrustPolicyDoesNotCorruptRegistry)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry" kindref="compound">AdapterRegistry</ref><sp/>reg;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Register<sp/>a<sp/>real<sp/>adapter<sp/>first</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">IFoo<sp/>{<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>~IFoo()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>v()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;<sp/>};</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">FooImpl<sp/>:<sp/>IFoo<sp/>{<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>v()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>7;<sp/>}<sp/>};</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a30e37c633be5c2c4c72c96db933ad48c" kindref="member">registerAdapter</ref>&lt;IFoo&gt;(</highlight><highlight class="stringliteral">&quot;foo&quot;</highlight><highlight class="normal">,<sp/>std::make_shared&lt;FooImpl&gt;());</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a95f22e88cdbeaf4d8923878537e4206e" kindref="member">count</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Change<sp/>policy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a1b15d4f08ae43124f2d97074e618a5cf" kindref="member">setTrustPolicy</ref>(<ref refid="namespacethemis_1_1core_1_1concerns_1a8e585bd241be609897961ec1dfbe2127a3cdc5b4c26fb83b1d3b70d2219fb2401" kindref="member">AdapterTrustPolicy::kRequireSignature</ref>);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a1b15d4f08ae43124f2d97074e618a5cf" kindref="member">setTrustPolicy</ref>(<ref refid="namespacethemis_1_1core_1_1concerns_1a8e585bd241be609897961ec1dfbe2127a6e488759c508faa8f2c1df9c5403c8be" kindref="member">AdapterTrustPolicy::kTrustAll</ref>);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Adapter<sp/>must<sp/>still<sp/>be<sp/>resolvable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>p<sp/>=<sp/>reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1aa3fdc9365fa08763b690cff199708b4d" kindref="member">resolve</ref>&lt;IFoo&gt;();</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(p,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(p-&gt;v(),<sp/>7);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PL_08<sp/>—<sp/>concurrent<sp/>loadFromPlugin<sp/>calls<sp/>on<sp/>same<sp/>bad<sp/>path<sp/>do<sp/>not<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><ref refid="test__plugin__loading__focused_8cpp_1a4937111e556d0c00dcc5151b67e862e0" kindref="member">TEST</ref>(PluginLoadingTest,<sp/>PL_08_ConcurrentLoadFromPluginBadPathNoCrash)<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>bogus<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/__themis_no_such_plugin_pl08__.so&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry" kindref="compound">AdapterRegistry</ref><sp/>reg;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kThreads<sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>threads.reserve(kThreads);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kThreads;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;reg,<sp/>&amp;bogus]<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a4060819401d401cefd60a02f79f7a630" kindref="member">loadFromPlugin</ref>(bogus,<sp/></highlight><highlight class="stringliteral">&quot;alpha&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>t.join();</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Registry<sp/>must<sp/>be<sp/>in<sp/>a<sp/>valid<sp/>state<sp/>after<sp/>concurrent<sp/>failures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a95f22e88cdbeaf4d8923878537e4206e" kindref="member">count</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/core/test_plugin_loading_focused.cpp"/>
+  </compounddef>
+</doxygen>

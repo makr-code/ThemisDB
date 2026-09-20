@@ -1,0 +1,319 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy" kind="struct" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::cache::IAdaptiveTTLPolicy</compoundname>
+    <derivedcompoundref refid="class_mock_adaptive_t_t_l_policy" prot="public" virt="non-virtual">MockAdaptiveTTLPolicy</derivedcompoundref>
+    <includes refid="adaptive__ttl__policy_8h" local="no">adaptive_ttl_policy.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1ae69abd754e513ef6a9a00fd020c02b42" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::cache::IAdaptiveTTLPolicy::~IAdaptiveTTLPolicy</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IAdaptiveTTLPolicy</name>
+        <qualifiedname>themis::cache::IAdaptiveTTLPolicy::~IAdaptiveTTLPolicy</qualifiedname>
+        <briefdescription>
+<para>IAdaptive TTLPolicy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_ttl_policy.h" line="72" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1add79174fa33a12f17f50b7a9d7ddd240" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::cache::IAdaptiveTTLPolicy::recordAccess</definition>
+        <argsstring>(const std::string &amp;key, int64_t timestamp_ms, bool is_hit=true) noexcept=0</argsstring>
+        <name>recordAccess</name>
+        <qualifiedname>themis::cache::IAdaptiveTTLPolicy::recordAccess</qualifiedname>
+        <reimplementedby refid="class_mock_adaptive_t_t_l_policy_1a6b04b3850b2686b543a1f43d88065940">recordAccess</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>timestamp_ms</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>is_hit</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_ttl_policy.h" line="78" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1a077924f3a7686c64e88b2ffd95c30df8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1cache_1_1_adaptive_t_t_l_suggestion" kindref="compound">AdaptiveTTLSuggestion</ref></type>
+        <definition>virtual AdaptiveTTLSuggestion themis::cache::IAdaptiveTTLPolicy::computeTTL</definition>
+        <argsstring>(const std::string &amp;key, int64_t now_ms) const =0</argsstring>
+        <name>computeTTL</name>
+        <qualifiedname>themis::cache::IAdaptiveTTLPolicy::computeTTL</qualifiedname>
+        <reimplementedby refid="class_mock_adaptive_t_t_l_policy_1ae871fccb6b1e63a6078896c906a403cc">computeTTL</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>now_ms</declname>
+        </param>
+        <briefdescription>
+<para>Compute TTL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">now_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_ttl_policy.h" line="92" column="35"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1a84853cc1fff59375e103c39f0fffe429" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1cache_1_1_access_record" kindref="compound">AccessRecord</ref> &gt;</type>
+        <definition>virtual std::vector&lt; AccessRecord &gt; themis::cache::IAdaptiveTTLPolicy::getHistory</definition>
+        <argsstring>(const std::string &amp;key) const =0</argsstring>
+        <name>getHistory</name>
+        <qualifiedname>themis::cache::IAdaptiveTTLPolicy::getHistory</qualifiedname>
+        <reimplementedby refid="class_mock_adaptive_t_t_l_policy_1ae5de0aa0c6faddc22ba9925eb7c487de">getHistory</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Return a bounded slice of the recent retention action history. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Most recent actions, or the full history when the limit is zero or oversized. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_ttl_policy.h" line="104" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1a003c0ffb252d48566268c9195d26e09a" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::cache::IAdaptiveTTLPolicy::evict</definition>
+        <argsstring>(const std::string &amp;key)=0</argsstring>
+        <name>evict</name>
+        <qualifiedname>themis::cache::IAdaptiveTTLPolicy::evict</qualifiedname>
+        <reimplementedby refid="class_mock_adaptive_t_t_l_policy_1a88e61cbc357b4ab983dbbcacd143dc8e">evict</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Evict. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_ttl_policy.h" line="111" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1a9a017fc1464d9eeba956622dbbed3fcf" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>uint64_t</type>
+        <definition>virtual uint64_t themis::cache::IAdaptiveTTLPolicy::pruneHistory</definition>
+        <argsstring>(int64_t now_ms, int64_t max_age_ms)=0</argsstring>
+        <name>pruneHistory</name>
+        <qualifiedname>themis::cache::IAdaptiveTTLPolicy::pruneHistory</qualifiedname>
+        <reimplementedby refid="class_mock_adaptive_t_t_l_policy_1a823cbbd117ac75bf6b893b35309731c9">pruneHistory</reimplementedby>
+        <param>
+          <type>int64_t</type>
+          <declname>now_ms</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>max_age_ms</declname>
+        </param>
+        <briefdescription>
+<para>Prune History. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">now_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_age_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_ttl_policy.h" line="119" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1aff5acc86cb7cbf3101cae1fe2bae8d7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::cache::IAdaptiveTTLPolicy::flushHistory</definition>
+        <argsstring>()=0</argsstring>
+        <name>flushHistory</name>
+        <qualifiedname>themis::cache::IAdaptiveTTLPolicy::flushHistory</qualifiedname>
+        <reimplementedby refid="class_mock_adaptive_t_t_l_policy_1a6ce3f71312b57247f58d9651a39d0056">flushHistory</reimplementedby>
+        <briefdescription>
+<para>Flush History. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_ttl_policy.h" line="124" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1a972be70cb827d4cf910f66421f9ff530" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::cache::IAdaptiveTTLPolicy::configure</definition>
+        <argsstring>(const AdaptiveTTLPolicyConfig &amp;config)=0</argsstring>
+        <name>configure</name>
+        <qualifiedname>themis::cache::IAdaptiveTTLPolicy::configure</qualifiedname>
+        <reimplementedby refid="class_mock_adaptive_t_t_l_policy_1af25e22eea587ffb538dfccef06ed8ce8">configure</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1cache_1_1_adaptive_t_t_l_policy_config" kindref="compound">AdaptiveTTLPolicyConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Configure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_ttl_policy.h" line="134" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1a398621a8c52ae3314abdba7e3deae186" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1cache_1_1_adaptive_t_t_l_policy_config" kindref="compound">AdaptiveTTLPolicyConfig</ref></type>
+        <definition>virtual AdaptiveTTLPolicyConfig themis::cache::IAdaptiveTTLPolicy::getConfig</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::cache::IAdaptiveTTLPolicy::getConfig</qualifiedname>
+        <reimplementedby refid="class_mock_adaptive_t_t_l_policy_1aa5d577a9b78b049c716f16d92667a1ce">getConfig</reimplementedby>
+        <briefdescription>
+<para>Get Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_ttl_policy.h" line="140" column="37"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1ae494f160d8a285ad70946a03ed6b9c85" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>size_t</type>
+        <definition>virtual size_t themis::cache::IAdaptiveTTLPolicy::trackedKeyCount</definition>
+        <argsstring>() const =0</argsstring>
+        <name>trackedKeyCount</name>
+        <qualifiedname>themis::cache::IAdaptiveTTLPolicy::trackedKeyCount</qualifiedname>
+        <reimplementedby refid="class_mock_adaptive_t_t_l_policy_1aada05a7a3bcbbc1f0d3093dc2b87e4ac">trackedKeyCount</reimplementedby>
+        <briefdescription>
+<para>Tracked Key Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_ttl_policy.h" line="146" column="20"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>MockAdaptiveTTLPolicy</label>
+        <link refid="class_mock_adaptive_t_t_l_policy"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::cache::IAdaptiveTTLPolicy</label>
+        <link refid="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/cache/adaptive_ttl_policy.h" line="67" column="1" bodyfile="include/cache/adaptive_ttl_policy.h" bodystart="67" bodyend="147"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1a077924f3a7686c64e88b2ffd95c30df8" prot="public" virt="pure-virtual"><scope>themis::cache::IAdaptiveTTLPolicy</scope><name>computeTTL</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1a972be70cb827d4cf910f66421f9ff530" prot="public" virt="pure-virtual"><scope>themis::cache::IAdaptiveTTLPolicy</scope><name>configure</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1a003c0ffb252d48566268c9195d26e09a" prot="public" virt="pure-virtual"><scope>themis::cache::IAdaptiveTTLPolicy</scope><name>evict</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1aff5acc86cb7cbf3101cae1fe2bae8d7e" prot="public" virt="pure-virtual"><scope>themis::cache::IAdaptiveTTLPolicy</scope><name>flushHistory</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1a398621a8c52ae3314abdba7e3deae186" prot="public" virt="pure-virtual"><scope>themis::cache::IAdaptiveTTLPolicy</scope><name>getConfig</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1a84853cc1fff59375e103c39f0fffe429" prot="public" virt="pure-virtual"><scope>themis::cache::IAdaptiveTTLPolicy</scope><name>getHistory</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1a9a017fc1464d9eeba956622dbbed3fcf" prot="public" virt="pure-virtual"><scope>themis::cache::IAdaptiveTTLPolicy</scope><name>pruneHistory</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1add79174fa33a12f17f50b7a9d7ddd240" prot="public" virt="pure-virtual"><scope>themis::cache::IAdaptiveTTLPolicy</scope><name>recordAccess</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1ae494f160d8a285ad70946a03ed6b9c85" prot="public" virt="pure-virtual"><scope>themis::cache::IAdaptiveTTLPolicy</scope><name>trackedKeyCount</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1ae69abd754e513ef6a9a00fd020c02b42" prot="public" virt="virtual"><scope>themis::cache::IAdaptiveTTLPolicy</scope><name>~IAdaptiveTTLPolicy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

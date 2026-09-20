@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_graph_auto_buffer_1_1_graph_buffer" kind="struct" language="C++" prot="private">
+    <compoundname>themis::GraphAutoBuffer::GraphBuffer</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_graph_auto_buffer_1_1_graph_buffer_1ae17e37c650cb13254c65b99d695b5ed4" prot="public" static="no" mutable="no">
+        <type>std::deque&lt; BufferedOp &gt;</type>
+        <definition>std::deque&lt;BufferedOp&gt; themis::GraphAutoBuffer::GraphBuffer::operations</definition>
+        <argsstring></argsstring>
+        <name>operations</name>
+        <qualifiedname>themis::GraphAutoBuffer::GraphBuffer::operations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_auto_buffer.h" line="210" column="20" bodyfile="include/index/graph_auto_buffer.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_graph_auto_buffer_1_1_graph_buffer_1a3219e396988c4433bc9aa99513cb80ce" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::GraphAutoBuffer::GraphBuffer::first_op_time</definition>
+        <argsstring></argsstring>
+        <name>first_op_time</name>
+        <qualifiedname>themis::GraphAutoBuffer::GraphBuffer::first_op_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_auto_buffer.h" line="211" column="47" bodyfile="include/index/graph_auto_buffer.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_graph_auto_buffer_1_1_graph_buffer_1adb3db425bf261c92147af5ba089f0ca7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::GraphAutoBuffer::GraphBuffer::memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>memory_bytes</name>
+        <qualifiedname>themis::GraphAutoBuffer::GraphBuffer::memory_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_auto_buffer.h" line="212" column="16" bodyfile="include/index/graph_auto_buffer.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_graph_auto_buffer_1_1_graph_buffer_1ae80e3eb2687fa58bd988846759e922d9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::GraphAutoBuffer::GraphBuffer::node_count</definition>
+        <argsstring></argsstring>
+        <name>node_count</name>
+        <qualifiedname>themis::GraphAutoBuffer::GraphBuffer::node_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_auto_buffer.h" line="213" column="16" bodyfile="include/index/graph_auto_buffer.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_graph_auto_buffer_1_1_graph_buffer_1a8366d14dda2f90b6c8b7f9cc26274cbc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::GraphAutoBuffer::GraphBuffer::edge_count</definition>
+        <argsstring></argsstring>
+        <name>edge_count</name>
+        <qualifiedname>themis::GraphAutoBuffer::GraphBuffer::edge_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_auto_buffer.h" line="214" column="16" bodyfile="include/index/graph_auto_buffer.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_graph_auto_buffer_1_1_graph_buffer_1a3692d5c7b8f2d04eda069942ff1b40e7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::GraphAutoBuffer::GraphBuffer::add</definition>
+        <argsstring>(BufferedOp &amp;&amp;op)</argsstring>
+        <name>add</name>
+        <qualifiedname>themis::GraphAutoBuffer::GraphBuffer::add</qualifiedname>
+        <param>
+          <type>BufferedOp &amp;&amp;</type>
+          <declname>op</declname>
+        </param>
+        <briefdescription>
+<para>Add. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), std::chrono::steady_clock::now(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_auto_buffer.h" line="221" column="14" bodyfile="include/index/graph_auto_buffer.h" bodystart="221" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_graph_auto_buffer_1_1_graph_buffer_1ac0753e43757d6bacc37efea96e387585" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::GraphAutoBuffer::GraphBuffer::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::GraphAutoBuffer::GraphBuffer::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements clear without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_auto_buffer.h" line="238" column="14" bodyfile="include/index/graph_auto_buffer.h" bodystart="238" bodyend="243"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/graph_auto_buffer.h" line="209" column="5" bodyfile="include/index/graph_auto_buffer.h" bodystart="209" bodyend="244"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_graph_auto_buffer_1_1_graph_buffer_1a3692d5c7b8f2d04eda069942ff1b40e7" prot="public" virt="non-virtual"><scope>themis::GraphAutoBuffer::GraphBuffer</scope><name>add</name></member>
+      <member refid="structthemis_1_1_graph_auto_buffer_1_1_graph_buffer_1ac0753e43757d6bacc37efea96e387585" prot="public" virt="non-virtual"><scope>themis::GraphAutoBuffer::GraphBuffer</scope><name>clear</name></member>
+      <member refid="structthemis_1_1_graph_auto_buffer_1_1_graph_buffer_1a8366d14dda2f90b6c8b7f9cc26274cbc" prot="public" virt="non-virtual"><scope>themis::GraphAutoBuffer::GraphBuffer</scope><name>edge_count</name></member>
+      <member refid="structthemis_1_1_graph_auto_buffer_1_1_graph_buffer_1a3219e396988c4433bc9aa99513cb80ce" prot="public" virt="non-virtual"><scope>themis::GraphAutoBuffer::GraphBuffer</scope><name>first_op_time</name></member>
+      <member refid="structthemis_1_1_graph_auto_buffer_1_1_graph_buffer_1adb3db425bf261c92147af5ba089f0ca7" prot="public" virt="non-virtual"><scope>themis::GraphAutoBuffer::GraphBuffer</scope><name>memory_bytes</name></member>
+      <member refid="structthemis_1_1_graph_auto_buffer_1_1_graph_buffer_1ae80e3eb2687fa58bd988846759e922d9" prot="public" virt="non-virtual"><scope>themis::GraphAutoBuffer::GraphBuffer</scope><name>node_count</name></member>
+      <member refid="structthemis_1_1_graph_auto_buffer_1_1_graph_buffer_1ae17e37c650cb13254c65b99d695b5ed4" prot="public" virt="non-virtual"><scope>themis::GraphAutoBuffer::GraphBuffer</scope><name>operations</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

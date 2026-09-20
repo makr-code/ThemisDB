@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="scraper__sitemap_8h" kind="file" language="C++">
+    <compoundname>scraper_sitemap.h</compoundname>
+    <includes local="no">functional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="scraper__sitemap_8cpp" local="yes">src/scraper/scraper_sitemap.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/scraper/scraper_sitemap.h</label>
+        <link refid="scraper__sitemap_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>functional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/scraper/scraper_sitemap.h</label>
+        <link refid="scraper__sitemap_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/scraper/scraper_sitemap.cpp</label>
+        <link refid="scraper__sitemap_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1scraper_1_1_sitemap_crawler" prot="public">themis::scraper::SitemapCrawler</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1scraper">themis::scraper</innernamespace>
+    <briefdescription>
+<para>XML sitemap fetching and URL extraction for sitemap-driven crawl mode. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0</para>
+</simplesect>
+</para>
+<sect1 id="scraper__sitemap_8h_1autotoc_md16_1s1"><sect2 id="scraper__sitemap_8h_1autotoc_md16">
+<title>Purpose</title><para>Provides <computeroutput>SitemapCrawler</computeroutput> — a lightweight XML sitemap parser that extracts <computeroutput>&lt;loc&gt;</computeroutput> URLs from standard sitemaps and sitemap index files. Supports both single-level sitemaps and two-level sitemap index files (per the sitemaps.org protocol, <ulink url="https://www.sitemaps.org/protocol.html">https://www.sitemaps.org/protocol.html</ulink>).</para>
+</sect2></sect1>
+<sect1 id="scraper__sitemap_8h_1autotoc_md17_1s1"><sect2 id="scraper__sitemap_8h_1autotoc_md17">
+<title>Supported sitemap formats</title><para><itemizedlist>
+<listitem><para>Standard sitemap: <computeroutput>&lt;urlset&gt;&lt;url&gt;&lt;loc&gt;…&lt;/loc&gt;&lt;/url&gt;&lt;/urlset&gt;</computeroutput></para>
+</listitem><listitem><para>Sitemap index: <computeroutput>&lt;sitemapindex&gt;&lt;sitemap&gt;&lt;loc&gt;…&lt;/loc&gt;&lt;/sitemap&gt;&lt;/sitemapindex&gt;</computeroutput> For index files, the crawler fetches each child sitemap and merges its URLs.</para>
+</listitem></itemizedlist>
+</para>
+<para>The parser uses string-based <computeroutput>&lt;loc&gt;</computeroutput> extraction and does not depend on pugixml, so it functions in all build configurations.</para>
+</sect2></sect1>
+<sect1 id="scraper__sitemap_8h_1autotoc_md18_1s1"><sect2 id="scraper__sitemap_8h_1autotoc_md18">
+<title>Limits</title><para><computeroutput>max_urls_per_sitemap</computeroutput> (default: 5 000) caps how many URLs are returned to protect against memory exhaustion from very large sitemaps.</para>
+</sect2></sect1>
+<sect1 id="scraper__sitemap_8h_1autotoc_md19_1s1"><sect2 id="scraper__sitemap_8h_1autotoc_md19">
+<title>Thread safety</title><para><computeroutput>SitemapCrawler</computeroutput> is stateless between calls; each <computeroutput>fetchUrls()</computeroutput> call is independent and safe to call from a single thread.</para>
+<para><simplesect kind="see"><para>src/scraper/ROADMAP.md — v1.2 feature: sitemap-driven crawl mode </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1scraper" kindref="compound">scraper</ref><sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SitemapCrawler</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="classthemis_1_1scraper_1_1_sitemap_crawler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1scraper_1_1_sitemap_crawler_1a52bb4eb4351dedc7e00da0bb22b05eae" kindref="member">SitemapCrawler</ref><sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="62" refid="classthemis_1_1scraper_1_1_sitemap_crawler_1a7ca635228869f0db68f8c5f9448d322c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1scraper_1_1_sitemap_crawler_1a7ca635228869f0db68f8c5f9448d322c" kindref="member">FetchFn</ref><sp/>=<sp/>std::function&lt;std::string(</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>url,</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_agent)&gt;;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="classthemis_1_1scraper_1_1_sitemap_crawler_1a52bb4eb4351dedc7e00da0bb22b05eae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1scraper_1_1_sitemap_crawler_1a52bb4eb4351dedc7e00da0bb22b05eae" kindref="member">SitemapCrawler</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_sitemap_crawler_1a52bb4eb4351dedc7e00da0bb22b05eae" kindref="member">SitemapCrawler</ref>(<ref refid="classthemis_1_1scraper_1_1_sitemap_crawler_1a7ca635228869f0db68f8c5f9448d322c" kindref="member">FetchFn</ref><sp/>fetch_fn,</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>max_urls<sp/><sp/><sp/>=<sp/>5000,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>user_agent<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ThemisDB-Scraper/1.2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="classthemis_1_1scraper_1_1_sitemap_crawler_1a6894dfe9fedc58c26b8156e9efed7b56" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_sitemap_crawler_1a6894dfe9fedc58c26b8156e9efed7b56" kindref="member">setFetchFn</ref>(<ref refid="classthemis_1_1scraper_1_1_sitemap_crawler_1a7ca635228869f0db68f8c5f9448d322c" kindref="member">FetchFn</ref><sp/>fn)<sp/>{<sp/>fetch_fn_<sp/>=<sp/>std::move(fn);<sp/>}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1scraper_1_1_sitemap_crawler_1aa048bc1d6b9a694517536d24e773452b" kindref="member">fetchUrls</ref>(</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>sitemap_url)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1scraper_1_1_sitemap_crawler_1a670b39bc515bd6ed1c4a032050962213" kindref="member">parseLocEntries</ref>(</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>xml_content);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_sitemap_crawler_1a454eb3bda42c39019a32f90c858fc2c5" kindref="member">isSitemapIndex</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>xml_content);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1scraper_1_1_sitemap_crawler_1a7ca635228869f0db68f8c5f9448d322c" kindref="member">FetchFn</ref><sp/><sp/><sp/><sp/><sp/>fetch_fn_;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>max_urls_<sp/><sp/><sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>user_agent_<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ThemisDB-Scraper/1.2&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>scraper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/scraper/scraper_sitemap.h"/>
+  </compounddef>
+</doxygen>

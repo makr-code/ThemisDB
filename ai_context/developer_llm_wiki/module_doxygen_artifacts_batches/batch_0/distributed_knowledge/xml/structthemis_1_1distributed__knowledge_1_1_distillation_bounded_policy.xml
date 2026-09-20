@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__knowledge_1_1_distillation_bounded_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_knowledge::DistillationBoundedPolicy</compoundname>
+    <includes refid="distributed__knowledge__api__contract_8h" local="no">distributed_knowledge_api_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_distillation_bounded_policy_1a02afd3f09ee8b0754b346256f28671f6" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::distributed_knowledge::DistillationBoundedPolicy::max_distillation_rounds</definition>
+        <argsstring></argsstring>
+        <name>max_distillation_rounds</name>
+        <qualifiedname>themis::distributed_knowledge::DistillationBoundedPolicy::max_distillation_rounds</qualifiedname>
+        <initializer>= 0u</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="241" column="14" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_distillation_bounded_policy_1a832014d13c0bc4dee5756eac7ee7dd25" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_knowledge::DistillationBoundedPolicy::privacy_budget_hard_limit</definition>
+        <argsstring></argsstring>
+        <name>privacy_budget_hard_limit</name>
+        <qualifiedname>themis::distributed_knowledge::DistillationBoundedPolicy::privacy_budget_hard_limit</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="242" column="14" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_distillation_bounded_policy_1a4e8ebf7f2aac5a24b689cf3e96645f57" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1distributed__knowledge_1a585452f8bd2e2603d7c7896b60b7ac56" kindref="member">PolicyGateEnforcement</ref></type>
+        <definition>PolicyGateEnforcement themis::distributed_knowledge::DistillationBoundedPolicy::policy_gate_enforcement</definition>
+        <argsstring></argsstring>
+        <name>policy_gate_enforcement</name>
+        <qualifiedname>themis::distributed_knowledge::DistillationBoundedPolicy::policy_gate_enforcement</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1distributed__knowledge_1a585452f8bd2e2603d7c7896b60b7ac56a7d8e2271b5e4fbbed93c60aa39bf350f" kindref="member">PolicyGateEnforcement::FAIL_CLOSED</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="243" column="27" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1distributed__knowledge_1_1_distillation_bounded_policy_1a070340a40db3cff621473967982ea962" prot="public" static="no" nodiscard="yes" constexpr="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_knowledge::DistillationBoundedPolicy::isConstrained</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isConstrained</name>
+        <qualifiedname>themis::distributed_knowledge::DistillationBoundedPolicy::isConstrained</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="245" column="21" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="245" bodyend="247"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="240" column="1" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="240" bodyend="248"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_bounded_policy_1a070340a40db3cff621473967982ea962" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::DistillationBoundedPolicy</scope><name>isConstrained</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_bounded_policy_1a02afd3f09ee8b0754b346256f28671f6" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::DistillationBoundedPolicy</scope><name>max_distillation_rounds</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_bounded_policy_1a4e8ebf7f2aac5a24b689cf3e96645f57" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::DistillationBoundedPolicy</scope><name>policy_gate_enforcement</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_bounded_policy_1a832014d13c0bc4dee5756eac7ee7dd25" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::DistillationBoundedPolicy</scope><name>privacy_budget_hard_limit</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

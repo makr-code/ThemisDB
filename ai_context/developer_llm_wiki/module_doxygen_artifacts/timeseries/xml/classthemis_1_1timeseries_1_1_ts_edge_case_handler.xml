@@ -1,0 +1,528 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1timeseries_1_1_ts_edge_case_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::timeseries::TsEdgeCaseHandler</compoundname>
+    <includes refid="ts__edge__case__handler_8h" local="no">ts_edge_case_handler.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1af7f97eb3a6ea20b5ce0922db64dec627" prot="public" static="no">
+        <type>std::function&lt; void(std::string_view id, std::string_view desc)&gt;</type>
+        <definition>using themis::timeseries::TsEdgeCaseHandler::IncidentCallback = std::function&lt;void(std::string_view id,
+                                               std::string_view desc)&gt;</definition>
+        <argsstring></argsstring>
+        <name>IncidentCallback</name>
+        <qualifiedname>themis::timeseries::TsEdgeCaseHandler::IncidentCallback</qualifiedname>
+        <briefdescription>
+<para><ref refid="structthemis_1_1timeseries_1_1_incident" kindref="compound">Incident</ref> callback type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_edge_case_handler.h" line="73" column="5" bodyfile="include/timeseries/ts_edge_case_handler.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1aa6eaeab2e5fb7d030b18fdd781b76162" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1af7f97eb3a6ea20b5ce0922db64dec627" kindref="member">IncidentCallback</ref></type>
+        <definition>IncidentCallback themis::timeseries::TsEdgeCaseHandler::on_incident_</definition>
+        <argsstring></argsstring>
+        <name>on_incident_</name>
+        <qualifiedname>themis::timeseries::TsEdgeCaseHandler::on_incident_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_edge_case_handler.h" line="180" column="27" bodyfile="include/timeseries/ts_edge_case_handler.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1aa57635972fd0434323c7f71829263ac1" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::timeseries::TsEdgeCaseHandler::remote_write_timeout_count_</definition>
+        <argsstring></argsstring>
+        <name>remote_write_timeout_count_</name>
+        <qualifiedname>themis::timeseries::TsEdgeCaseHandler::remote_write_timeout_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_edge_case_handler.h" line="181" column="17" bodyfile="include/timeseries/ts_edge_case_handler.h" bodystart="181" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1a67961b48992243a699c69c4b17683010" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::timeseries::TsEdgeCaseHandler::key_rotation_count_</definition>
+        <argsstring></argsstring>
+        <name>key_rotation_count_</name>
+        <qualifiedname>themis::timeseries::TsEdgeCaseHandler::key_rotation_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_edge_case_handler.h" line="182" column="17" bodyfile="include/timeseries/ts_edge_case_handler.h" bodystart="182" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1a806c642b102fc265f2fe9eaf04193fb6" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::timeseries::TsEdgeCaseHandler::validation_failure_count_</definition>
+        <argsstring></argsstring>
+        <name>validation_failure_count_</name>
+        <qualifiedname>themis::timeseries::TsEdgeCaseHandler::validation_failure_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_edge_case_handler.h" line="183" column="17" bodyfile="include/timeseries/ts_edge_case_handler.h" bodystart="183" bodyend="183"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1aa16f63c41d63629bd6a94bfe6390b587" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::timeseries::TsEdgeCaseHandler::kMaxEndpointLength</definition>
+        <argsstring></argsstring>
+        <name>kMaxEndpointLength</name>
+        <qualifiedname>themis::timeseries::TsEdgeCaseHandler::kMaxEndpointLength</qualifiedname>
+        <initializer>= 2048</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_edge_case_handler.h" line="185" column="34" bodyfile="include/timeseries/ts_edge_case_handler.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1af6ee34fd6789ece97ce75a894a35b96f" prot="public" static="no" const="no" explicit="yes" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::TsEdgeCaseHandler::TsEdgeCaseHandler</definition>
+        <argsstring>(IncidentCallback on_incident=nullptr) noexcept</argsstring>
+        <name>TsEdgeCaseHandler</name>
+        <qualifiedname>themis::timeseries::TsEdgeCaseHandler::TsEdgeCaseHandler</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1af7f97eb3a6ea20b5ce0922db64dec627" kindref="member">IncidentCallback</ref></type>
+          <declname>on_incident</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Construct the handler with an optional incident callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>on_incident</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback invoked on incident emission (may be null). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_edge_case_handler.h" line="80" column="14" bodyfile="src/timeseries/ts_edge_case_handler.cpp" bodystart="23" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1a0f0dc6bd87426fd9274beed0f3e10687" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::TsEdgeCaseHandler::TsEdgeCaseHandler</definition>
+        <argsstring>(const TsEdgeCaseHandler &amp;)=delete</argsstring>
+        <name>TsEdgeCaseHandler</name>
+        <qualifiedname>themis::timeseries::TsEdgeCaseHandler::TsEdgeCaseHandler</qualifiedname>
+        <param>
+          <type>const TsEdgeCaseHandler &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_edge_case_handler.h" line="83" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1a9736cd9f4c785061ec9c0be5ab31dba1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1af6ee34fd6789ece97ce75a894a35b96f" kindref="member">TsEdgeCaseHandler</ref> &amp;</type>
+        <definition>TsEdgeCaseHandler &amp; themis::timeseries::TsEdgeCaseHandler::operator=</definition>
+        <argsstring>(const TsEdgeCaseHandler &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::timeseries::TsEdgeCaseHandler::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1af6ee34fd6789ece97ce75a894a35b96f" kindref="member">TsEdgeCaseHandler</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_edge_case_handler.h" line="84" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1ab3f4c54b4396eaf562d5e9d9daa3b6b8" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::timeseries::TsEdgeCaseHandler::TsEdgeCaseHandler</definition>
+        <argsstring>(TsEdgeCaseHandler &amp;&amp;) noexcept=default</argsstring>
+        <name>TsEdgeCaseHandler</name>
+        <qualifiedname>themis::timeseries::TsEdgeCaseHandler::TsEdgeCaseHandler</qualifiedname>
+        <param>
+          <type>TsEdgeCaseHandler &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_edge_case_handler.h" line="85" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1a024a62656b955cf70585ea5a15933520" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1af6ee34fd6789ece97ce75a894a35b96f" kindref="member">TsEdgeCaseHandler</ref> &amp;</type>
+        <definition>TsEdgeCaseHandler &amp; themis::timeseries::TsEdgeCaseHandler::operator=</definition>
+        <argsstring>(TsEdgeCaseHandler &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::timeseries::TsEdgeCaseHandler::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1af6ee34fd6789ece97ce75a894a35b96f" kindref="member">TsEdgeCaseHandler</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_edge_case_handler.h" line="86" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1a358cdcb1b6db66cbb629a7eefadcba61" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1timeseries_1aabd271c707b09adffa789787f3f3c494" kindref="member">TsEdgeCaseResult</ref></type>
+        <definition>TsEdgeCaseResult themis::timeseries::TsEdgeCaseHandler::validateRemoteWriteEndpoint</definition>
+        <argsstring>(std::string_view endpoint) const noexcept</argsstring>
+        <name>validateRemoteWriteEndpoint</name>
+        <qualifiedname>themis::timeseries::TsEdgeCaseHandler::validateRemoteWriteEndpoint</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>endpoint</declname>
+        </param>
+        <briefdescription>
+<para>Validate a remote-write endpoint URL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Checks:<itemizedlist>
+<listitem><para>Non-empty URL</para>
+</listitem><listitem><para>URL starts with <ulink url="http://">http://</ulink> or <ulink url="https://">https://</ulink></para>
+</listitem><listitem><para>URL does not exceed kMaxEndpointLength (2048)</para>
+</listitem><listitem><para>URL does not contain control characters</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The remote-write endpoint URL to validate. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>nullopt on success; REMOTE_WRITE_VALIDATION_ERROR on failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_edge_case_handler.h" line="104" column="23" bodyfile="src/timeseries/ts_edge_case_handler.cpp" bodystart="31" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1ae87420bf12824fbb084c760f2b09f0f5" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1timeseries_1aabd271c707b09adffa789787f3f3c494" kindref="member">TsEdgeCaseResult</ref></type>
+        <definition>TsEdgeCaseResult themis::timeseries::TsEdgeCaseHandler::handleRemoteWriteTimeout</definition>
+        <argsstring>(std::string_view endpoint, uint32_t timeout_ms) noexcept</argsstring>
+        <name>handleRemoteWriteTimeout</name>
+        <qualifiedname>themis::timeseries::TsEdgeCaseHandler::handleRemoteWriteTimeout</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>endpoint</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>timeout_ms</declname>
+        </param>
+        <briefdescription>
+<para>Handle a remote-write timeout event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Records the timeout incident and returns REMOTE_WRITE_RETRIES_EXHAUSTED.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The endpoint that timed out. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Timeout duration in milliseconds. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>REMOTE_WRITE_RETRIES_EXHAUSTED always; incident emitted. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_edge_case_handler.h" line="116" column="23" bodyfile="src/timeseries/ts_edge_case_handler.cpp" bodystart="63" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1acb2ede27b0566782d431afe67bce2bbf" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1timeseries_1aabd271c707b09adffa789787f3f3c494" kindref="member">TsEdgeCaseResult</ref></type>
+        <definition>TsEdgeCaseResult themis::timeseries::TsEdgeCaseHandler::validateEncryptionKey</definition>
+        <argsstring>(const uint8_t *key_bytes, std::size_t key_len) const noexcept</argsstring>
+        <name>validateEncryptionKey</name>
+        <qualifiedname>themis::timeseries::TsEdgeCaseHandler::validateEncryptionKey</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>key_bytes</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>key_len</declname>
+        </param>
+        <briefdescription>
+<para>Validate an encryption key before a chunk write operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns ENCRYPTION_STATE_INVALID if:<itemizedlist>
+<listitem><para>key_bytes is null or empty</para>
+</listitem><listitem><para>key_len is not 16, 24, or 32 (AES-128/192/256)</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the raw key material. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key_len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Length of the key in bytes. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>nullopt on success; ENCRYPTION_STATE_INVALID on failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_edge_case_handler.h" line="134" column="23" bodyfile="src/timeseries/ts_edge_case_handler.cpp" bodystart="79" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1a3611862cdded5ac7eedc54bef62c6f96" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1timeseries_1aabd271c707b09adffa789787f3f3c494" kindref="member">TsEdgeCaseResult</ref></type>
+        <definition>TsEdgeCaseResult themis::timeseries::TsEdgeCaseHandler::handleKeyRotationDuringWrite</definition>
+        <argsstring>(const uint8_t *new_key_bytes, std::size_t new_key_len) noexcept</argsstring>
+        <name>handleKeyRotationDuringWrite</name>
+        <qualifiedname>themis::timeseries::TsEdgeCaseHandler::handleKeyRotationDuringWrite</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>new_key_bytes</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>new_key_len</declname>
+        </param>
+        <briefdescription>
+<para>Handle an encryption key rotation event during an active chunk write. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements isolation semantics: in-flight write uses old key; new key is queued for subsequent writes. Returns ENCRYPTION_KEY_NOT_FOUND if the new key fails validation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>new_key_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to new key material. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>new_key_len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Length of new key in bytes. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>nullopt when rotation is queued; ENCRYPTION_KEY_NOT_FOUND on invalid key. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_edge_case_handler.h" line="148" column="23" bodyfile="src/timeseries/ts_edge_case_handler.cpp" bodystart="94" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1a172dd3330f21f8910e3c2f596cab44b1" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::timeseries::TsEdgeCaseHandler::isOutOfOrderFlushRequired</definition>
+        <argsstring>(std::size_t current_buffer_size) const noexcept</argsstring>
+        <name>isOutOfOrderFlushRequired</name>
+        <qualifiedname>themis::timeseries::TsEdgeCaseHandler::isOutOfOrderFlushRequired</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>current_buffer_size</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when the out-of-order buffer has reached capacity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>A forced re-sort flush must be triggered when this returns true.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>current_buffer_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current out-of-order buffer element count. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when flush is required. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_edge_case_handler.h" line="163" column="11" bodyfile="src/timeseries/ts_edge_case_handler.cpp" bodystart="112" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1a34264dc29e4b761f452eadfc2f528619" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::timeseries::TsEdgeCaseHandler::remoteWriteTimeoutCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>remoteWriteTimeoutCount</name>
+        <qualifiedname>themis::timeseries::TsEdgeCaseHandler::remoteWriteTimeoutCount</qualifiedname>
+        <briefdescription>
+<para>Number of remote-write timeout incidents recorded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_edge_case_handler.h" line="171" column="15" bodyfile="src/timeseries/ts_edge_case_handler.cpp" bodystart="121" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1ab7db72534af227287b4efdc5546c7bc4" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::timeseries::TsEdgeCaseHandler::keyRotationCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>keyRotationCount</name>
+        <qualifiedname>themis::timeseries::TsEdgeCaseHandler::keyRotationCount</qualifiedname>
+        <briefdescription>
+<para>Number of encryption key rotation events handled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_edge_case_handler.h" line="174" column="15" bodyfile="src/timeseries/ts_edge_case_handler.cpp" bodystart="125" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1a1b7b897d23dfde7ad1fbc713c8e41d81" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::timeseries::TsEdgeCaseHandler::validationFailureCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>validationFailureCount</name>
+        <qualifiedname>themis::timeseries::TsEdgeCaseHandler::validationFailureCount</qualifiedname>
+        <briefdescription>
+<para>Number of validation failures recorded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_edge_case_handler.h" line="177" column="15" bodyfile="src/timeseries/ts_edge_case_handler.cpp" bodystart="129" bodyend="131"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1a573eecb78727a430088014a5cc37558e" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::timeseries::TsEdgeCaseHandler::emitIncident</definition>
+        <argsstring>(std::string_view id, std::string_view desc) const noexcept</argsstring>
+        <name>emitIncident</name>
+        <qualifiedname>themis::timeseries::TsEdgeCaseHandler::emitIncident</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>desc</declname>
+        </param>
+        <briefdescription>
+<para>Emit <ref refid="structthemis_1_1timeseries_1_1_incident" kindref="compound">Incident</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">desc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_edge_case_handler.h" line="193" column="10" bodyfile="src/timeseries/ts_edge_case_handler.cpp" bodystart="137" bodyend="142"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Deterministic edge-case handler for timeseries remote-write and encrypted chunk operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Thread safety: all public methods are thread-safe via atomic counters. The incident callback must itself be thread-safe if called concurrently. </para>
+    </detaileddescription>
+    <location file="include/timeseries/ts_edge_case_handler.h" line="70" column="1" bodyfile="include/timeseries/ts_edge_case_handler.h" bodystart="70" bodyend="194"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1a573eecb78727a430088014a5cc37558e" prot="private" virt="non-virtual"><scope>themis::timeseries::TsEdgeCaseHandler</scope><name>emitIncident</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1a3611862cdded5ac7eedc54bef62c6f96" prot="public" virt="non-virtual"><scope>themis::timeseries::TsEdgeCaseHandler</scope><name>handleKeyRotationDuringWrite</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1ae87420bf12824fbb084c760f2b09f0f5" prot="public" virt="non-virtual"><scope>themis::timeseries::TsEdgeCaseHandler</scope><name>handleRemoteWriteTimeout</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1af7f97eb3a6ea20b5ce0922db64dec627" prot="public" virt="non-virtual"><scope>themis::timeseries::TsEdgeCaseHandler</scope><name>IncidentCallback</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1a172dd3330f21f8910e3c2f596cab44b1" prot="public" virt="non-virtual"><scope>themis::timeseries::TsEdgeCaseHandler</scope><name>isOutOfOrderFlushRequired</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1a67961b48992243a699c69c4b17683010" prot="private" virt="non-virtual"><scope>themis::timeseries::TsEdgeCaseHandler</scope><name>key_rotation_count_</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1ab7db72534af227287b4efdc5546c7bc4" prot="public" virt="non-virtual"><scope>themis::timeseries::TsEdgeCaseHandler</scope><name>keyRotationCount</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1aa16f63c41d63629bd6a94bfe6390b587" prot="private" virt="non-virtual"><scope>themis::timeseries::TsEdgeCaseHandler</scope><name>kMaxEndpointLength</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1aa6eaeab2e5fb7d030b18fdd781b76162" prot="private" virt="non-virtual"><scope>themis::timeseries::TsEdgeCaseHandler</scope><name>on_incident_</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1a9736cd9f4c785061ec9c0be5ab31dba1" prot="public" virt="non-virtual"><scope>themis::timeseries::TsEdgeCaseHandler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1a024a62656b955cf70585ea5a15933520" prot="public" virt="non-virtual"><scope>themis::timeseries::TsEdgeCaseHandler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1aa57635972fd0434323c7f71829263ac1" prot="private" virt="non-virtual"><scope>themis::timeseries::TsEdgeCaseHandler</scope><name>remote_write_timeout_count_</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1a34264dc29e4b761f452eadfc2f528619" prot="public" virt="non-virtual"><scope>themis::timeseries::TsEdgeCaseHandler</scope><name>remoteWriteTimeoutCount</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1af6ee34fd6789ece97ce75a894a35b96f" prot="public" virt="non-virtual"><scope>themis::timeseries::TsEdgeCaseHandler</scope><name>TsEdgeCaseHandler</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1a0f0dc6bd87426fd9274beed0f3e10687" prot="public" virt="non-virtual"><scope>themis::timeseries::TsEdgeCaseHandler</scope><name>TsEdgeCaseHandler</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1ab3f4c54b4396eaf562d5e9d9daa3b6b8" prot="public" virt="non-virtual"><scope>themis::timeseries::TsEdgeCaseHandler</scope><name>TsEdgeCaseHandler</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1acb2ede27b0566782d431afe67bce2bbf" prot="public" virt="non-virtual"><scope>themis::timeseries::TsEdgeCaseHandler</scope><name>validateEncryptionKey</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1a358cdcb1b6db66cbb629a7eefadcba61" prot="public" virt="non-virtual"><scope>themis::timeseries::TsEdgeCaseHandler</scope><name>validateRemoteWriteEndpoint</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1a806c642b102fc265f2fe9eaf04193fb6" prot="private" virt="non-virtual"><scope>themis::timeseries::TsEdgeCaseHandler</scope><name>validation_failure_count_</name></member>
+      <member refid="classthemis_1_1timeseries_1_1_ts_edge_case_handler_1a1b7b897d23dfde7ad1fbc713c8e41d81" prot="public" virt="non-virtual"><scope>themis::timeseries::TsEdgeCaseHandler</scope><name>validationFailureCount</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

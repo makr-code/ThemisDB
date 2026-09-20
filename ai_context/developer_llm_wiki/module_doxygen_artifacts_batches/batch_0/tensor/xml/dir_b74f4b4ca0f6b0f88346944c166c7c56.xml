@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_b74f4b4ca0f6b0f88346944c166c7c56" kind="dir">
+    <compoundname>tests/tensor</compoundname>
+    <innerfile refid="test__federated__tensor__summaries_8cpp">test_federated_tensor_summaries.cpp</innerfile>
+    <innerfile refid="test__persistent__tensor__fingerprint__graph_8cpp">test_persistent_tensor_fingerprint_graph.cpp</innerfile>
+    <innerfile refid="test__tensor__acceleration__observability_8cpp">test_tensor_acceleration_observability.cpp</innerfile>
+    <innerfile refid="test__tensor__bridge__edge__cases__focused_8cpp">test_tensor_bridge_edge_cases_focused.cpp</innerfile>
+    <innerfile refid="test__tensor__contract__hardening__focused_8cpp">test_tensor_contract_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__tensor__core__bridge_8cpp">test_tensor_core_bridge.cpp</innerfile>
+    <innerfile refid="test__tensor__core__matmul_8cpp">test_tensor_core_matmul.cpp</innerfile>
+    <innerfile refid="test__tensor__fingerprint__graph__critical1__diagnostics__focused_8cpp">test_tensor_fingerprint_graph_critical1_diagnostics_focused.cpp</innerfile>
+    <innerfile refid="test__tensor__highcardinality__stress_8cpp">test_tensor_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__tensor__hiss__structural__search_8cpp">test_tensor_hiss_structural_search.cpp</innerfile>
+    <innerfile refid="test__tensor__ht_8cpp">test_tensor_ht.cpp</innerfile>
+    <innerfile refid="test__tensor__index__manager_8cpp">test_tensor_index_manager.cpp</innerfile>
+    <innerfile refid="test__tensor__index__manager__concurrent__focused_8cpp">test_tensor_index_manager_concurrent_focused.cpp</innerfile>
+    <innerfile refid="test__tensor__ingestion__bridge_8cpp">test_tensor_ingestion_bridge.cpp</innerfile>
+    <innerfile refid="test__tensor__ingestion__bridge__concurrent__focused_8cpp">test_tensor_ingestion_bridge_concurrent_focused.cpp</innerfile>
+    <innerfile refid="test__tensor__mid__layer__abstractions_8cpp">test_tensor_mid_layer_abstractions.cpp</innerfile>
+    <innerfile refid="test__tensor__mid__layer__integration_8cpp">test_tensor_mid_layer_integration.cpp</innerfile>
+    <innerfile refid="test__tensor__phase3_8cpp">test_tensor_phase3.cpp</innerfile>
+    <innerfile refid="test__tensor__recompress_8cpp">test_tensor_recompress.cpp</innerfile>
+    <innerfile refid="test__tensor__router_8cpp">test_tensor_router.cpp</innerfile>
+    <innerfile refid="test__tensor__stress__suite__focused_8cpp">test_tensor_stress_suite_focused.cpp</innerfile>
+    <innerfile refid="test__tensor__utr_8cpp">test_tensor_utr.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/tensor/"/>
+  </compounddef>
+</doxygen>

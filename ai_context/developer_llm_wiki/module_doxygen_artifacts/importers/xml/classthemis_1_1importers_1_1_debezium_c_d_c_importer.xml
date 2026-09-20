@@ -1,0 +1,706 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_debezium_c_d_c_importer" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::DebeziumCDCImporter</compoundname>
+    <basecompoundref refid="classthemis_1_1importers_1_1_i_importer" prot="public" virt="non-virtual">themis::importers::IImporter</basecompoundref>
+    <includes refid="debezium__cdc__importer_8h" local="no">debezium_cdc_importer.h</includes>
+    <innerclass refid="structthemis_1_1importers_1_1_debezium_c_d_c_importer_1_1_c_d_c_event" prot="public">themis::importers::DebeziumCDCImporter::CDCEvent</innerclass>
+    <innerclass refid="structthemis_1_1importers_1_1_debezium_c_d_c_importer_1_1_config" prot="private">themis::importers::DebeziumCDCImporter::Config</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a4b09df1176b9cd507d97c047bc24b5a9" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ChangeOp</name>
+        <qualifiedname>themis::importers::DebeziumCDCImporter::ChangeOp</qualifiedname>
+        <enumvalue id="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a4b09df1176b9cd507d97c047bc24b5a9a7a1a5f3e79fdc91edf2f5ead9d66abb4" prot="public">
+          <name>Read</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a4b09df1176b9cd507d97c047bc24b5a9a686e697538050e4664636337cc3b834f" prot="public">
+          <name>Create</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a4b09df1176b9cd507d97c047bc24b5a9a06933067aafd48425d67bcb01bba5cb6" prot="public">
+          <name>Update</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a4b09df1176b9cd507d97c047bc24b5a9af2a6c498fb90ee345d997f888fce3b18" prot="public">
+          <name>Delete</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a4b09df1176b9cd507d97c047bc24b5a9a88183b946cc5f0e8c96b2e66e1c74a7e" prot="public">
+          <name>Unknown</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/debezium_cdc_importer.h" line="49" column="5" bodyfile="include/importers/debezium_cdc_importer.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a576a740f74f67322915020d7ec2863db" prot="public" static="no">
+        <type>std::function&lt; bool(const <ref refid="structthemis_1_1importers_1_1_debezium_c_d_c_importer_1_1_c_d_c_event" kindref="compound">CDCEvent</ref> &amp;)&gt;</type>
+        <definition>using themis::importers::DebeziumCDCImporter::CDCEventCallback = std::function&lt;bool(const CDCEvent&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>CDCEventCallback</name>
+        <qualifiedname>themis::importers::DebeziumCDCImporter::CDCEventCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/debezium_cdc_importer.h" line="61" column="5" bodyfile="include/importers/debezium_cdc_importer.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1ac940eb46fd7ef1b4f8a121c41ef49227" prot="private" static="no" mutable="no">
+        <type>Config</type>
+        <definition>Config themis::importers::DebeziumCDCImporter::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::importers::DebeziumCDCImporter::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/debezium_cdc_importer.h" line="128" column="12" bodyfile="include/importers/debezium_cdc_importer.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1ace68a20819bad5608ccd7d34c1da4478" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::importers::DebeziumCDCImporter::cancelled_</definition>
+        <argsstring></argsstring>
+        <name>cancelled_</name>
+        <qualifiedname>themis::importers::DebeziumCDCImporter::cancelled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/debezium_cdc_importer.h" line="129" column="17" bodyfile="include/importers/debezium_cdc_importer.h" bodystart="129" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a2ad242ff8929a8ac482a054cbd816ba4" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_debezium_c_d_c_importer_1_1_c_d_c_event" kindref="compound">CDCEvent</ref> &gt;</type>
+        <definition>std::vector&lt;CDCEvent&gt; themis::importers::DebeziumCDCImporter::mock_events_</definition>
+        <argsstring></argsstring>
+        <name>mock_events_</name>
+        <qualifiedname>themis::importers::DebeziumCDCImporter::mock_events_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/debezium_cdc_importer.h" line="130" column="17" bodyfile="include/importers/debezium_cdc_importer.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a2d30b3f2f5afb5101252ff028e645d1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::DebeziumCDCImporter::DebeziumCDCImporter</definition>
+        <argsstring>()</argsstring>
+        <name>DebeziumCDCImporter</name>
+        <qualifiedname>themis::importers::DebeziumCDCImporter::DebeziumCDCImporter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/debezium_cdc_importer.h" line="16" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a1fcf0c17aa12ac72e6fdc73b73f92fe8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::DebeziumCDCImporter::~DebeziumCDCImporter</definition>
+        <argsstring>() override</argsstring>
+        <name>~DebeziumCDCImporter</name>
+        <qualifiedname>themis::importers::DebeziumCDCImporter::~DebeziumCDCImporter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/debezium_cdc_importer.h" line="17" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a396b5facc39d07ba192dfad09d844616" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * themis::importers::DebeziumCDCImporter::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::importers::DebeziumCDCImporter::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1aa17b5c532ea2e9928379e77fe1385212">getName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/debezium_cdc_importer.h" line="23" column="16" bodyfile="include/importers/debezium_cdc_importer.h" bodystart="23" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1aac46b5d912c762077491c196a9393f63" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::importers::DebeziumCDCImporter::getSupportedTypes</definition>
+        <argsstring>() const override</argsstring>
+        <name>getSupportedTypes</name>
+        <qualifiedname>themis::importers::DebeziumCDCImporter::getSupportedTypes</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1a26a442906fade935ddfe41f8e91a15e6">getSupportedTypes</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/debezium_cdc_importer.h" line="25" column="17" bodyfile="src/importers/debezium_cdc_importer.cpp" bodystart="74" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a0af3b4a8d4506d843f2beba588896c1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::DebeziumCDCImporter::initialize</definition>
+        <argsstring>(const std::string &amp;config) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::importers::DebeziumCDCImporter::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1ae57ccf0cf0c3b0dbe9647f43be339afc">initialize</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config</declname>
+          <defname>config_json</defname>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: json::parse(), contains(), empty(), THEMIS_WARN(), value(), clear(), is_array(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/debezium_cdc_importer.h" line="27" column="10" bodyfile="src/importers/debezium_cdc_importer.cpp" bodystart="88" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a6661dbf54a940720baf5242aa73d2afc" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::DebeziumCDCImporter::validateSource</definition>
+        <argsstring>(const std::string &amp;source_path, std::vector&lt; std::string &gt; &amp;errors) override</argsstring>
+        <name>validateSource</name>
+        <qualifiedname>themis::importers::DebeziumCDCImporter::validateSource</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1af2e09c4be51c0440e2ab1717ceeb2de5">validateSource</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>errors</declname>
+        </param>
+        <briefdescription>
+<para>Validate Source. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">errors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/debezium_cdc_importer.h" line="29" column="10" bodyfile="src/importers/debezium_cdc_importer.cpp" bodystart="135" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a84fae081143b95d838b2f27c5572c93d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref></type>
+        <definition>ImportStats themis::importers::DebeziumCDCImporter::importData</definition>
+        <argsstring>(const std::string &amp;source_path, const ImportOptions &amp;options, ProgressCallback progress_callback=nullptr) override</argsstring>
+        <name>importData</name>
+        <qualifiedname>themis::importers::DebeziumCDCImporter::importData</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1a93d10ab9f3f1d941d17ac2a54a5ddc02">importData</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1af0b9616504935ed9689a3c01900b05e9" kindref="member">ProgressCallback</ref></type>
+          <declname>progress_callback</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/debezium_cdc_importer.h" line="32" column="17" bodyfile="src/importers/debezium_cdc_importer.cpp" bodystart="263" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a2f5bfe1e891f594a879d87c38b484b7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::shared_ptr&lt; <ref refid="struct_import_handle" kindref="compound">ImportHandle</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ImportHandle &gt; themis::importers::DebeziumCDCImporter::importDataAsync</definition>
+        <argsstring>(const std::string &amp;source_path, const ImportOptions &amp;options) override</argsstring>
+        <name>importDataAsync</name>
+        <qualifiedname>themis::importers::DebeziumCDCImporter::importDataAsync</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1af837fb18957347a51357191ee61a04a8">importDataAsync</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Import Data Async. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::to_string(), std::chrono::steady_clock::now(), time_since_epoch(), count(), std::async(), <ref refid="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a84fae081143b95d838b2f27c5572c93d" kindref="member">importData()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/debezium_cdc_importer.h" line="37" column="21" bodyfile="src/importers/debezium_cdc_importer.cpp" bodystart="583" bodyend="597"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a5b205393a10b7aa30f86910c4c3a4b3d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::importers::DebeziumCDCImporter::cancel</definition>
+        <argsstring>() override</argsstring>
+        <name>cancel</name>
+        <qualifiedname>themis::importers::DebeziumCDCImporter::cancel</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1abda4e925d1f832cbf0e07f294b96c526">cancel</reimplements>
+        <briefdescription>
+<para>Cancel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/debezium_cdc_importer.h" line="41" column="10" bodyfile="src/importers/debezium_cdc_importer.cpp" bodystart="607" bodyend="609"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a67e475844a655703830fb7df1d4506e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::DebeziumCDCImporter::getSourceSchema</definition>
+        <argsstring>(const std::string &amp;source_path) override</argsstring>
+        <name>getSourceSchema</name>
+        <qualifiedname>themis::importers::DebeziumCDCImporter::getSourceSchema</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1a45b011aef76cd697e53d1e847dac430a">getSourceSchema</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <briefdescription>
+<para>Get Source Schema. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), json::object(), contains(), json::array(), is_null(), is_object(), items(), is_number_integer(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/debezium_cdc_importer.h" line="43" column="10" bodyfile="src/importers/debezium_cdc_importer.cpp" bodystart="621" bodyend="656"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a67a655adec2b47d03d81557f213c433c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref></type>
+        <definition>ImportStats themis::importers::DebeziumCDCImporter::streamEvents</definition>
+        <argsstring>(const ImportOptions &amp;options, CDCEventCallback callback)</argsstring>
+        <name>streamEvents</name>
+        <qualifiedname>themis::importers::DebeziumCDCImporter::streamEvents</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a576a740f74f67322915020d7ec2863db" kindref="member">CDCEventCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Stream Events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ streamEvents – core CDC delivery loop ============================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), std::chrono::milliseconds(), empty(), load(), tableAllowed(), callback(), clear(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/debezium_cdc_importer.h" line="69" column="17" bodyfile="src/importers/debezium_cdc_importer.cpp" bodystart="313" bodyend="570"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a3eea11dbc207d6f3ca7dabe1aaf1df2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::DebeziumCDCImporter::setMockEventsForTesting</definition>
+        <argsstring>(std::vector&lt; CDCEvent &gt; events)</argsstring>
+        <name>setMockEventsForTesting</name>
+        <qualifiedname>themis::importers::DebeziumCDCImporter::setMockEventsForTesting</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_debezium_c_d_c_importer_1_1_c_d_c_event" kindref="compound">CDCEvent</ref> &gt;</type>
+          <declname>events</declname>
+        </param>
+        <briefdescription>
+<para>Set Mock Events For Testing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">events</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/debezium_cdc_importer.h" line="80" column="10" bodyfile="src/importers/debezium_cdc_importer.cpp" bodystart="662" bodyend="664"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1ac473b6f9ce68149f36e18c8a5c5ae2ad" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_debezium_c_d_c_importer_1_1_c_d_c_event" kindref="compound">CDCEvent</ref></type>
+        <definition>DebeziumCDCImporter::CDCEvent themis::importers::DebeziumCDCImporter::parseDebeziumEnvelope</definition>
+        <argsstring>(const json &amp;envelope, std::string &amp;error_out)</argsstring>
+        <name>parseDebeziumEnvelope</name>
+        <qualifiedname>themis::importers::DebeziumCDCImporter::parseDebeziumEnvelope</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &amp;</type>
+          <declname>envelope</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error_out</declname>
+        </param>
+        <briefdescription>
+<para>Parse Debezium Envelope. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">envelope</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">envelope</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(), mapOpChar(), value(), empty(), is_null(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/debezium_cdc_importer.h" line="104" column="21" bodyfile="src/importers/debezium_cdc_importer.cpp" bodystart="214" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a0401a6958ac2ef748e0a44b28a89cf32" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a4b09df1176b9cd507d97c047bc24b5a9" kindref="member">ChangeOp</ref></type>
+        <definition>DebeziumCDCImporter::ChangeOp themis::importers::DebeziumCDCImporter::mapOpChar</definition>
+        <argsstring>(const std::string &amp;op_str)</argsstring>
+        <name>mapOpChar</name>
+        <qualifiedname>themis::importers::DebeziumCDCImporter::mapOpChar</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>op_str</declname>
+        </param>
+        <briefdescription>
+<para>Map Op Char. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">op_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">op_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements mapOpChar without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/debezium_cdc_importer.h" line="112" column="21" bodyfile="src/importers/debezium_cdc_importer.cpp" bodystart="190" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1ac1328fbc1e33e85f8c96f3a80aee12f2" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::DebeziumCDCImporter::sanitiseBrokers</definition>
+        <argsstring>(const std::string &amp;brokers)</argsstring>
+        <name>sanitiseBrokers</name>
+        <qualifiedname>themis::importers::DebeziumCDCImporter::sanitiseBrokers</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>brokers</declname>
+        </param>
+        <briefdescription>
+<para>Sanitise Brokers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">brokers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">brokers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements sanitiseBrokers without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/debezium_cdc_importer.h" line="119" column="24" bodyfile="src/importers/debezium_cdc_importer.cpp" bodystart="178" bodyend="182"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a2f435b67a1f199265746542af2490473" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::DebeziumCDCImporter::tableAllowed</definition>
+        <argsstring>(const std::string &amp;table) const</argsstring>
+        <name>tableAllowed</name>
+        <qualifiedname>themis::importers::DebeziumCDCImporter::tableAllowed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <briefdescription>
+<para>Table Allowed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/debezium_cdc_importer.h" line="126" column="10" bodyfile="src/importers/debezium_cdc_importer.cpp" bodystart="249" bodyend="257"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::importers::DebeziumCDCImporter</label>
+        <link refid="classthemis_1_1importers_1_1_debezium_c_d_c_importer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::importers::IImporter</label>
+        <link refid="classthemis_1_1importers_1_1_i_importer"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::importers::DebeziumCDCImporter</label>
+        <link refid="classthemis_1_1importers_1_1_debezium_c_d_c_importer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::importers::IImporter</label>
+        <link refid="classthemis_1_1importers_1_1_i_importer"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/importers/debezium_cdc_importer.h" line="14" column="1" bodyfile="include/importers/debezium_cdc_importer.h" bodystart="14" bodyend="131"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a5b205393a10b7aa30f86910c4c3a4b3d" prot="public" virt="virtual"><scope>themis::importers::DebeziumCDCImporter</scope><name>cancel</name></member>
+      <member refid="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1ace68a20819bad5608ccd7d34c1da4478" prot="private" virt="non-virtual"><scope>themis::importers::DebeziumCDCImporter</scope><name>cancelled_</name></member>
+      <member refid="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a576a740f74f67322915020d7ec2863db" prot="public" virt="non-virtual"><scope>themis::importers::DebeziumCDCImporter</scope><name>CDCEventCallback</name></member>
+      <member refid="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a4b09df1176b9cd507d97c047bc24b5a9" prot="public" virt="non-virtual"><scope>themis::importers::DebeziumCDCImporter</scope><name>ChangeOp</name></member>
+      <member refid="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1ac940eb46fd7ef1b4f8a121c41ef49227" prot="private" virt="non-virtual"><scope>themis::importers::DebeziumCDCImporter</scope><name>config_</name></member>
+      <member refid="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a2d30b3f2f5afb5101252ff028e645d1c" prot="public" virt="non-virtual"><scope>themis::importers::DebeziumCDCImporter</scope><name>DebeziumCDCImporter</name></member>
+      <member refid="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a396b5facc39d07ba192dfad09d844616" prot="public" virt="virtual"><scope>themis::importers::DebeziumCDCImporter</scope><name>getName</name></member>
+      <member refid="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a67e475844a655703830fb7df1d4506e2" prot="public" virt="virtual"><scope>themis::importers::DebeziumCDCImporter</scope><name>getSourceSchema</name></member>
+      <member refid="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1aac46b5d912c762077491c196a9393f63" prot="public" virt="virtual"><scope>themis::importers::DebeziumCDCImporter</scope><name>getSupportedTypes</name></member>
+      <member refid="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a84fae081143b95d838b2f27c5572c93d" prot="public" virt="virtual"><scope>themis::importers::DebeziumCDCImporter</scope><name>importData</name></member>
+      <member refid="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a2f5bfe1e891f594a879d87c38b484b7e" prot="public" virt="virtual"><scope>themis::importers::DebeziumCDCImporter</scope><name>importDataAsync</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_importer_1a0790bcc7450b9294f9d9d7ae891eed52" prot="public" virt="virtual"><scope>themis::importers::DebeziumCDCImporter</scope><name>importDataStreaming</name></member>
+      <member refid="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a0af3b4a8d4506d843f2beba588896c1b" prot="public" virt="virtual"><scope>themis::importers::DebeziumCDCImporter</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a0401a6958ac2ef748e0a44b28a89cf32" prot="private" virt="non-virtual"><scope>themis::importers::DebeziumCDCImporter</scope><name>mapOpChar</name></member>
+      <member refid="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a2ad242ff8929a8ac482a054cbd816ba4" prot="private" virt="non-virtual"><scope>themis::importers::DebeziumCDCImporter</scope><name>mock_events_</name></member>
+      <member refid="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1ac473b6f9ce68149f36e18c8a5c5ae2ad" prot="private" virt="non-virtual"><scope>themis::importers::DebeziumCDCImporter</scope><name>parseDebeziumEnvelope</name></member>
+      <member refid="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1ac1328fbc1e33e85f8c96f3a80aee12f2" prot="private" virt="non-virtual"><scope>themis::importers::DebeziumCDCImporter</scope><name>sanitiseBrokers</name></member>
+      <member refid="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a3eea11dbc207d6f3ca7dabe1aaf1df2e" prot="public" virt="non-virtual"><scope>themis::importers::DebeziumCDCImporter</scope><name>setMockEventsForTesting</name></member>
+      <member refid="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a67a655adec2b47d03d81557f213c433c" prot="public" virt="non-virtual"><scope>themis::importers::DebeziumCDCImporter</scope><name>streamEvents</name></member>
+      <member refid="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a2f435b67a1f199265746542af2490473" prot="private" virt="non-virtual"><scope>themis::importers::DebeziumCDCImporter</scope><name>tableAllowed</name></member>
+      <member refid="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a6661dbf54a940720baf5242aa73d2afc" prot="public" virt="virtual"><scope>themis::importers::DebeziumCDCImporter</scope><name>validateSource</name></member>
+      <member refid="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a1fcf0c17aa12ac72e6fdc73b73f92fe8" prot="public" virt="non-virtual"><scope>themis::importers::DebeziumCDCImporter</scope><name>~DebeziumCDCImporter</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_importer_1a72b3cba1bf78aee41b2dfb19c8b91629" prot="public" virt="virtual"><scope>themis::importers::DebeziumCDCImporter</scope><name>~IImporter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

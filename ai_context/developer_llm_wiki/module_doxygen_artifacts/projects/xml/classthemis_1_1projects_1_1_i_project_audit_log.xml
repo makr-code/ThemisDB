@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1projects_1_1_i_project_audit_log" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::projects::IProjectAuditLog</compoundname>
+    <derivedcompoundref refid="classthemis_1_1projects_1_1_in_memory_project_audit_log" prot="public" virt="non-virtual">themis::projects::InMemoryProjectAuditLog</derivedcompoundref>
+    <includes refid="project__audit__log_8h" local="no">project_audit_log.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_i_project_audit_log_1a4d7b2f14c6b6cd0d783fafae7054ca29" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::projects::IProjectAuditLog::~IProjectAuditLog</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IProjectAuditLog</name>
+        <qualifiedname>themis::projects::IProjectAuditLog::~IProjectAuditLog</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_audit_log.h" line="60" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_i_project_audit_log_1a2870598eb9eceaa0732a393b6b19dc56" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::projects::IProjectAuditLog::record</definition>
+        <argsstring>(const ProjectAuditEntry &amp;entry)=0</argsstring>
+        <name>record</name>
+        <qualifiedname>themis::projects::IProjectAuditLog::record</qualifiedname>
+        <reimplementedby refid="classthemis_1_1projects_1_1_in_memory_project_audit_log_1adefbb79f303764bbc4ba4a00a543e1ad">record</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1projects_1_1_project_audit_entry" kindref="compound">ProjectAuditEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_audit_log.h" line="61" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_i_project_audit_log_1afd2fdc14cffb206f83193dc9fc9f97f9" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1projects_1_1_project_audit_entry" kindref="compound">ProjectAuditEntry</ref> &gt;</type>
+        <definition>virtual std::vector&lt; ProjectAuditEntry &gt; themis::projects::IProjectAuditLog::query</definition>
+        <argsstring>(const AuditQueryOptions &amp;opts) const =0</argsstring>
+        <name>query</name>
+        <qualifiedname>themis::projects::IProjectAuditLog::query</qualifiedname>
+        <reimplementedby refid="classthemis_1_1projects_1_1_in_memory_project_audit_log_1a957e0ed43b4166b76e1a4d24c6ea803d">query</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1projects_1_1_audit_query_options" kindref="compound">AuditQueryOptions</ref> &amp;</type>
+          <declname>opts</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_audit_log.h" line="62" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_i_project_audit_log_1ac9ed999a3fb5fa75b18faf90295f4754" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>size_t</type>
+        <definition>virtual size_t themis::projects::IProjectAuditLog::count</definition>
+        <argsstring>(const AuditQueryOptions &amp;opts) const =0</argsstring>
+        <name>count</name>
+        <qualifiedname>themis::projects::IProjectAuditLog::count</qualifiedname>
+        <reimplementedby refid="classthemis_1_1projects_1_1_in_memory_project_audit_log_1a02a6cacc44f2be2252577b170b05c118">count</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1projects_1_1_audit_query_options" kindref="compound">AuditQueryOptions</ref> &amp;</type>
+          <declname>opts</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_audit_log.h" line="63" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_i_project_audit_log_1a26f02bf62e0cdf22d75ed02a6fd2d491" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::projects::IProjectAuditLog::purge</definition>
+        <argsstring>(const std::string &amp;project_id, std::chrono::system_clock::time_point before)=0</argsstring>
+        <name>purge</name>
+        <qualifiedname>themis::projects::IProjectAuditLog::purge</qualifiedname>
+        <reimplementedby refid="classthemis_1_1projects_1_1_in_memory_project_audit_log_1add790e61f2ac32f31741e0b0fe564f7b">purge</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>project_id</declname>
+        </param>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>before</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_audit_log.h" line="64" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>I project audit log. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::projects::IProjectAuditLog</label>
+        <link refid="classthemis_1_1projects_1_1_i_project_audit_log"/>
+      </node>
+      <node id="2">
+        <label>themis::projects::InMemoryProjectAuditLog</label>
+        <link refid="classthemis_1_1projects_1_1_in_memory_project_audit_log"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/projects/project_audit_log.h" line="58" column="1" bodyfile="include/projects/project_audit_log.h" bodystart="58" bodyend="66"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1projects_1_1_i_project_audit_log_1ac9ed999a3fb5fa75b18faf90295f4754" prot="public" virt="pure-virtual"><scope>themis::projects::IProjectAuditLog</scope><name>count</name></member>
+      <member refid="classthemis_1_1projects_1_1_i_project_audit_log_1a26f02bf62e0cdf22d75ed02a6fd2d491" prot="public" virt="pure-virtual"><scope>themis::projects::IProjectAuditLog</scope><name>purge</name></member>
+      <member refid="classthemis_1_1projects_1_1_i_project_audit_log_1afd2fdc14cffb206f83193dc9fc9f97f9" prot="public" virt="pure-virtual"><scope>themis::projects::IProjectAuditLog</scope><name>query</name></member>
+      <member refid="classthemis_1_1projects_1_1_i_project_audit_log_1a2870598eb9eceaa0732a393b6b19dc56" prot="public" virt="pure-virtual"><scope>themis::projects::IProjectAuditLog</scope><name>record</name></member>
+      <member refid="classthemis_1_1projects_1_1_i_project_audit_log_1a4d7b2f14c6b6cd0d783fafae7054ca29" prot="public" virt="virtual"><scope>themis::projects::IProjectAuditLog</scope><name>~IProjectAuditLog</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

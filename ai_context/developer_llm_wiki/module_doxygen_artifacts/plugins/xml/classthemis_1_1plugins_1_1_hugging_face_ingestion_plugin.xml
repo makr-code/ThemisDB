@@ -1,0 +1,559 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::HuggingFaceIngestionPlugin</compoundname>
+    <includes refid="huggingface__ingestion__plugin_8h" local="no">huggingface_ingestion_plugin.h</includes>
+    <innerclass refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config" prot="public">themis::plugins::HuggingFaceIngestionPlugin::Config</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_dataset_metadata" prot="public">themis::plugins::HuggingFaceIngestionPlugin::DatasetMetadata</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_fetch_result" prot="private">themis::plugins::HuggingFaceIngestionPlugin::FetchResult</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a6b2b4bed2f741bfea9171eb93f10bdb4" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::plugins::HuggingFaceIngestionPlugin::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="140" column="12" bodyfile="include/plugins/huggingface_ingestion_plugin.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a1d6bb7da3247cb6bee8ce5a561fc8e77" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; content::ContentManager &gt;</type>
+        <definition>std::shared_ptr&lt;content::ContentManager&gt; themis::plugins::HuggingFaceIngestionPlugin::content_manager_</definition>
+        <argsstring></argsstring>
+        <name>content_manager_</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::content_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="141" column="21" bodyfile="include/plugins/huggingface_ingestion_plugin.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a4e14417e200d384df4284970f037a96e" prot="private" static="no" mutable="no">
+        <type>content::AsyncIngestionWorker *</type>
+        <definition>content::AsyncIngestionWorker* themis::plugins::HuggingFaceIngestionPlugin::worker_</definition>
+        <argsstring></argsstring>
+        <name>worker_</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::worker_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="142" column="35" bodyfile="include/plugins/huggingface_ingestion_plugin.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a86009d59204e79af559c834ca1b43db8" prot="private" static="no" mutable="no">
+        <type>CURL *</type>
+        <definition>CURL* themis::plugins::HuggingFaceIngestionPlugin::curl_handle_</definition>
+        <argsstring></argsstring>
+        <name>curl_handle_</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::curl_handle_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="143" column="10" bodyfile="include/plugins/huggingface_ingestion_plugin.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a52c5948232dee03e4f030cad6172588c" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::plugins::HuggingFaceIngestionPlugin::config_state_mutex_</definition>
+        <argsstring></argsstring>
+        <name>config_state_mutex_</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::config_state_mutex_</qualifiedname>
+        <briefdescription>
+<para>Protects config_state_ concurrent read-modify-write. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="146" column="24" bodyfile="include/plugins/huggingface_ingestion_plugin.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1ab168e95e499a382e9224ccdb04b8ed57" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::plugins::HuggingFaceIngestionPlugin::progress_rows_processed_</definition>
+        <argsstring></argsstring>
+        <name>progress_rows_processed_</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::progress_rows_processed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of rows processed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="149" column="17" bodyfile="include/plugins/huggingface_ingestion_plugin.h" bodystart="149" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a9ccd396bd09ffa9a75a7f9cd327bcf3c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::plugins::HuggingFaceIngestionPlugin::progress_errors_count_</definition>
+        <argsstring></argsstring>
+        <name>progress_errors_count_</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::progress_errors_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of errors encountered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="150" column="17" bodyfile="include/plugins/huggingface_ingestion_plugin.h" bodystart="150" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1aceb246b0b0d4fb49aa4850afc01ca049" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::plugins::HuggingFaceIngestionPlugin::progress_batches_completed_</definition>
+        <argsstring></argsstring>
+        <name>progress_batches_completed_</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::progress_batches_completed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of batches completed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="151" column="17" bodyfile="include/plugins/huggingface_ingestion_plugin.h" bodystart="151" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a693aeae161638c1c3cfb763dc81c726a" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::plugins::HuggingFaceIngestionPlugin::last_request_time_</definition>
+        <argsstring></argsstring>
+        <name>last_request_time_</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::last_request_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="178" column="43" bodyfile="include/plugins/huggingface_ingestion_plugin.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a4b64c188c8d9ed71632f2b9334667ec7" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::HuggingFaceIngestionPlugin::HuggingFaceIngestionPlugin</definition>
+        <argsstring>(const Config &amp;config, std::shared_ptr&lt; content::ContentManager &gt; content_manager)</argsstring>
+        <name>HuggingFaceIngestionPlugin</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::HuggingFaceIngestionPlugin</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; content::ContentManager &gt;</type>
+          <declname>content_manager</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="91" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a4835a6c3d629ba2cdb14170c133a6642" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::HuggingFaceIngestionPlugin::~HuggingFaceIngestionPlugin</definition>
+        <argsstring>()</argsstring>
+        <name>~HuggingFaceIngestionPlugin</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::~HuggingFaceIngestionPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="96" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a0014e1f96d40ee4420a529daf98dc4d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::HuggingFaceIngestionPlugin::registerWithWorker</definition>
+        <argsstring>(content::AsyncIngestionWorker &amp;worker)</argsstring>
+        <name>registerWithWorker</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::registerWithWorker</qualifiedname>
+        <param>
+          <type>content::AsyncIngestionWorker &amp;</type>
+          <declname>worker</declname>
+        </param>
+        <briefdescription>
+<para>Register plugin with AsyncIngestionWorker. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This adds a new job handler for HUGGINGFACE job type. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="103" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a7c2313a94957f280046cfd1e2de6cac6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::HuggingFaceIngestionPlugin::submitDatasetJob</definition>
+        <argsstring>(const std::string &amp;dataset_name, const std::string &amp;split=&quot;&quot;, const json &amp;config=json::object())</argsstring>
+        <name>submitDatasetJob</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::submitDatasetJob</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dataset_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>split</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1plugins_1ab547de4562831812e9d0c228715ff0b5" kindref="member">json</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>json::object()</defval>
+        </param>
+        <briefdescription>
+<para>Submit a dataset ingestion job. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dataset_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>HuggingFace dataset identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>split</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dataset split (train/test/validation) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional job configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Job ID for tracking </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="113" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a647db40b400be2f19fb4de0b3d51de1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_dataset_metadata" kindref="compound">DatasetMetadata</ref></type>
+        <definition>DatasetMetadata themis::plugins::HuggingFaceIngestionPlugin::getDatasetMetadata</definition>
+        <argsstring>(const std::string &amp;dataset_name)</argsstring>
+        <name>getDatasetMetadata</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::getDatasetMetadata</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dataset_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="132" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a61012b43164a1b3e90d26bbbd4284262" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::plugins::HuggingFaceIngestionPlugin::estimateDatasetSize</definition>
+        <argsstring>(const std::string &amp;dataset_name)</argsstring>
+        <name>estimateDatasetSize</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::estimateDatasetSize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dataset_name</declname>
+        </param>
+        <briefdescription>
+<para>Estimate dataset size. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="137" column="12"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a871cbe89da846ad011c936e418024e86" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::HuggingFaceIngestionPlugin::httpGet</definition>
+        <argsstring>(const std::string &amp;url)</argsstring>
+        <name>httpGet</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::httpGet</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="154" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a08825d229af9c5ee3108199192315cc9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1ab547de4562831812e9d0c228715ff0b5" kindref="member">json</ref></type>
+        <definition>json themis::plugins::HuggingFaceIngestionPlugin::httpGetJson</definition>
+        <argsstring>(const std::string &amp;url)</argsstring>
+        <name>httpGetJson</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::httpGetJson</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="155" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a150ec48f3b892a1b0c2ca5d51c0303cf" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>FetchResult</type>
+        <definition>FetchResult themis::plugins::HuggingFaceIngestionPlugin::fetchBatch</definition>
+        <argsstring>(const std::string &amp;dataset_name, const std::string &amp;split, size_t offset, size_t limit)</argsstring>
+        <name>fetchBatch</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::fetchBatch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dataset_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>split</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>offset</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="164" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1ae3d933a8e8dd716e6bd16151013780ec" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::HuggingFaceIngestionPlugin::getCachePath</definition>
+        <argsstring>(const std::string &amp;dataset_name, const std::string &amp;split) const</argsstring>
+        <name>getCachePath</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::getCachePath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dataset_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>split</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="172" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a94845247c33f3856ae049d9c4fdf8e0a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::HuggingFaceIngestionPlugin::loadFromCache</definition>
+        <argsstring>(const std::string &amp;dataset_name, const std::string &amp;split, std::vector&lt; json &gt; &amp;docs)</argsstring>
+        <name>loadFromCache</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::loadFromCache</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dataset_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>split</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="namespacethemis_1_1plugins_1ab547de4562831812e9d0c228715ff0b5" kindref="member">json</ref> &gt; &amp;</type>
+          <declname>docs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="173" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1ad4596194f936acd827f29d1cae77a475" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::HuggingFaceIngestionPlugin::saveToCache</definition>
+        <argsstring>(const std::string &amp;dataset_name, const std::string &amp;split, const std::vector&lt; json &gt; &amp;docs)</argsstring>
+        <name>saveToCache</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::saveToCache</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dataset_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>split</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="namespacethemis_1_1plugins_1ab547de4562831812e9d0c228715ff0b5" kindref="member">json</ref> &gt; &amp;</type>
+          <declname>docs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="174" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1afccd300b698fe546ba3e6733beae3cf0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::HuggingFaceIngestionPlugin::waitForRateLimit</definition>
+        <argsstring>()</argsstring>
+        <name>waitForRateLimit</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::waitForRateLimit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="177" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a368fa5ac2750d4edea10aac6b5e0d2da" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1ab547de4562831812e9d0c228715ff0b5" kindref="member">json</ref></type>
+        <definition>json themis::plugins::HuggingFaceIngestionPlugin::documentToContentSpec</definition>
+        <argsstring>(const json &amp;doc, const std::string &amp;dataset_name, size_t index)</argsstring>
+        <name>documentToContentSpec</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::documentToContentSpec</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1plugins_1ab547de4562831812e9d0c228715ff0b5" kindref="member">json</ref> &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dataset_name</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="187" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1acfa4c3ba97cd4c95cb4167cb9d66bb56" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::plugins::HuggingFaceIngestionPlugin::processHuggingFaceJob</definition>
+        <argsstring>(content::IngestionJob &amp;job, HuggingFaceIngestionPlugin *plugin)</argsstring>
+        <name>processHuggingFaceJob</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::processHuggingFaceJob</qualifiedname>
+        <param>
+          <type>content::IngestionJob &amp;</type>
+          <declname>job</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a4b64c188c8d9ed71632f2b9334667ec7" kindref="member">HuggingFaceIngestionPlugin</ref> *</type>
+          <declname>plugin</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="181" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>HuggingFace Ingestion Plugin. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Fetches datasets from HuggingFace Hub via REST API. Integrates with AsyncIngestionWorker for background processing.</para>
+<para>Features:<itemizedlist>
+<listitem><para>Streaming for large datasets</para>
+</listitem><listitem><para>Automatic retry on network errors</para>
+</listitem><listitem><para>Local caching</para>
+</listitem><listitem><para>Incremental updates</para>
+</listitem></itemizedlist>
+</para>
+<para>Example usage: <programlisting filename=".cpp"><codeline><highlight class="normal">HuggingFaceIngestionPlugin::Config<sp/>config;</highlight></codeline>
+<codeline><highlight class="normal">config.dataset_name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;lexlms/ger_legal_data&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">config.split<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;train&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">config.cache_dir<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;./cache/huggingface&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plugin<sp/>=<sp/>std::make_shared&lt;HuggingFaceIngestionPlugin&gt;(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>config,<sp/>content_manager</highlight></codeline>
+<codeline><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">AsyncIngestionWorker<sp/>worker(content_manager);</highlight></codeline>
+<codeline><highlight class="normal">plugin-&gt;registerWithWorker(worker);</highlight></codeline>
+<codeline><highlight class="normal">worker.start();</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>job_id<sp/>=<sp/>plugin-&gt;submitDatasetJob(</highlight><highlight class="stringliteral">&quot;lexlms/ger_legal_data&quot;</highlight><highlight class="normal">);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/plugins/huggingface_ingestion_plugin.h" line="59" column="1" bodyfile="include/plugins/huggingface_ingestion_plugin.h" bodystart="59" bodyend="188"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a6b2b4bed2f741bfea9171eb93f10bdb4" prot="private" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin</scope><name>config_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a52c5948232dee03e4f030cad6172588c" prot="private" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin</scope><name>config_state_mutex_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a1d6bb7da3247cb6bee8ce5a561fc8e77" prot="private" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin</scope><name>content_manager_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a86009d59204e79af559c834ca1b43db8" prot="private" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin</scope><name>curl_handle_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a368fa5ac2750d4edea10aac6b5e0d2da" prot="private" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin</scope><name>documentToContentSpec</name></member>
+      <member refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a61012b43164a1b3e90d26bbbd4284262" prot="public" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin</scope><name>estimateDatasetSize</name></member>
+      <member refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a150ec48f3b892a1b0c2ca5d51c0303cf" prot="private" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin</scope><name>fetchBatch</name></member>
+      <member refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1ae3d933a8e8dd716e6bd16151013780ec" prot="private" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin</scope><name>getCachePath</name></member>
+      <member refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a647db40b400be2f19fb4de0b3d51de1d" prot="public" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin</scope><name>getDatasetMetadata</name></member>
+      <member refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a871cbe89da846ad011c936e418024e86" prot="private" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin</scope><name>httpGet</name></member>
+      <member refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a08825d229af9c5ee3108199192315cc9" prot="private" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin</scope><name>httpGetJson</name></member>
+      <member refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a4b64c188c8d9ed71632f2b9334667ec7" prot="public" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin</scope><name>HuggingFaceIngestionPlugin</name></member>
+      <member refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a693aeae161638c1c3cfb763dc81c726a" prot="private" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin</scope><name>last_request_time_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a94845247c33f3856ae049d9c4fdf8e0a" prot="private" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin</scope><name>loadFromCache</name></member>
+      <member refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1acfa4c3ba97cd4c95cb4167cb9d66bb56" prot="private" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin</scope><name>processHuggingFaceJob</name></member>
+      <member refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1aceb246b0b0d4fb49aa4850afc01ca049" prot="private" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin</scope><name>progress_batches_completed_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a9ccd396bd09ffa9a75a7f9cd327bcf3c" prot="private" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin</scope><name>progress_errors_count_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1ab168e95e499a382e9224ccdb04b8ed57" prot="private" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin</scope><name>progress_rows_processed_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a0014e1f96d40ee4420a529daf98dc4d7" prot="public" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin</scope><name>registerWithWorker</name></member>
+      <member refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1ad4596194f936acd827f29d1cae77a475" prot="private" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin</scope><name>saveToCache</name></member>
+      <member refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a7c2313a94957f280046cfd1e2de6cac6" prot="public" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin</scope><name>submitDatasetJob</name></member>
+      <member refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1afccd300b698fe546ba3e6733beae3cf0" prot="private" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin</scope><name>waitForRateLimit</name></member>
+      <member refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a4e14417e200d384df4284970f037a96e" prot="private" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin</scope><name>worker_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a4835a6c3d629ba2cdb14170c133a6642" prot="public" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin</scope><name>~HuggingFaceIngestionPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

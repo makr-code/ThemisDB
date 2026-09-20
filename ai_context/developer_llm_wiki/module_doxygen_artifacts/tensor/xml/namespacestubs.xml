@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacestubs" kind="namespace" language="C++">
+    <compoundname>stubs</compoundname>
+    <innerclass refid="structstubs_1_1_bridge_router" prot="public">stubs::BridgeRouter</innerclass>
+    <innerclass refid="structstubs_1_1_dedup_engine" prot="public">stubs::DedupEngine</innerclass>
+    <innerclass refid="structstubs_1_1_dedup_graph" prot="public">stubs::DedupGraph</innerclass>
+    <innerclass refid="structstubs_1_1_graph_query" prot="public">stubs::GraphQuery</innerclass>
+    <innerclass refid="structstubs_1_1_graph_store" prot="public">stubs::GraphStore</innerclass>
+    <innerclass refid="structstubs_1_1_tensor_index" prot="public">stubs::TensorIndex</innerclass>
+    <innerclass refid="structstubs_1_1_tensor_store" prot="public">stubs::TensorStore</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/tensor/test_tensor_highcardinality_stress.cpp" line="23" column="1"/>
+  </compounddef>
+</doxygen>

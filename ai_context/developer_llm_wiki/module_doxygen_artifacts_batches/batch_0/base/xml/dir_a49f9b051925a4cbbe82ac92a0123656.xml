@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_a49f9b051925a4cbbe82ac92a0123656" kind="dir">
+    <compoundname>tests/base</compoundname>
+    <innerfile refid="test__base__entity_8cpp">test_base_entity.cpp</innerfile>
+    <innerfile refid="test__base__entity__focused_8cpp">test_base_entity_focused.cpp</innerfile>
+    <innerfile refid="test__base__future__enhancements_8cpp">test_base_future_enhancements.cpp</innerfile>
+    <innerfile refid="test__base__interfaces_8cpp">test_base_interfaces.cpp</innerfile>
+    <innerfile refid="test__base__reload__regression_8cpp">test_base_reload_regression.cpp</innerfile>
+    <innerfile refid="test__base__soak_8cpp">test_base_soak.cpp</innerfile>
+    <innerfile refid="test__base__wave__d__tracing_8cpp">test_base_wave_d_tracing.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/base/"/>
+  </compounddef>
+</doxygen>

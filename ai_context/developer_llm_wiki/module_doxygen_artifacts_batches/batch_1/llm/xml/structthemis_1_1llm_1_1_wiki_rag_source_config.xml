@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_wiki_rag_source_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::WikiRagSourceConfig</compoundname>
+    <includes refid="wiki__rag__source_8h" local="no">wiki_rag_source.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_rag_source_config_1abfe6980caf2295dcd9041dac0cd1ee3a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::WikiRagSourceConfig::source_namespace</definition>
+        <argsstring></argsstring>
+        <name>source_namespace</name>
+        <qualifiedname>themis::llm::WikiRagSourceConfig::source_namespace</qualifiedname>
+        <initializer>= &quot;wiki&quot;</initializer>
+        <briefdescription>
+<para>Namespace tag appended to each RAGCandidate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_rag_source.h" line="53" column="17" bodyfile="include/llm/wiki_rag_source.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_rag_source_config_1a77c36cd66fdca0d64cb67c4c2814006f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::WikiRagSourceConfig::top_k</definition>
+        <argsstring></argsstring>
+        <name>top_k</name>
+        <qualifiedname>themis::llm::WikiRagSourceConfig::top_k</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Maximum number of wiki chunks to retrieve. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_rag_source.h" line="54" column="17" bodyfile="include/llm/wiki_rag_source.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_rag_source_config_1a6967ddc31d4790d5daa63a6da723fa6d" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::WikiRagSourceConfig::min_score</definition>
+        <argsstring></argsstring>
+        <name>min_score</name>
+        <qualifiedname>themis::llm::WikiRagSourceConfig::min_score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Minimum score threshold for inclusion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_rag_source.h" line="55" column="17" bodyfile="include/llm/wiki_rag_source.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_rag_source_config_1a6c54fbe33af7e2152734f731feaa2e1d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::WikiRagSourceConfig::fail_open</definition>
+        <argsstring></argsstring>
+        <name>fail_open</name>
+        <qualifiedname>themis::llm::WikiRagSourceConfig::fail_open</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Default fail-closed; true enables degraded skip path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_rag_source.h" line="56" column="17" bodyfile="include/llm/wiki_rag_source.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <computeroutput><ref refid="classthemis_1_1llm_1_1_wiki_rag_source" kindref="compound">WikiRagSource</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/wiki_rag_source.h" line="52" column="1" bodyfile="include/llm/wiki_rag_source.h" bodystart="52" bodyend="57"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_wiki_rag_source_config_1a6c54fbe33af7e2152734f731feaa2e1d" prot="public" virt="non-virtual"><scope>themis::llm::WikiRagSourceConfig</scope><name>fail_open</name></member>
+      <member refid="structthemis_1_1llm_1_1_wiki_rag_source_config_1a6967ddc31d4790d5daa63a6da723fa6d" prot="public" virt="non-virtual"><scope>themis::llm::WikiRagSourceConfig</scope><name>min_score</name></member>
+      <member refid="structthemis_1_1llm_1_1_wiki_rag_source_config_1abfe6980caf2295dcd9041dac0cd1ee3a" prot="public" virt="non-virtual"><scope>themis::llm::WikiRagSourceConfig</scope><name>source_namespace</name></member>
+      <member refid="structthemis_1_1llm_1_1_wiki_rag_source_config_1a77c36cd66fdca0d64cb67c4c2814006f" prot="public" virt="non-virtual"><scope>themis::llm::WikiRagSourceConfig</scope><name>top_k</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

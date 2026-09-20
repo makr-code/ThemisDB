@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_fallback_overhead_test" kind="class" language="C++" prot="public">
+    <compoundname>FallbackOverheadTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_fallback_overhead_test_1a2031e5c02dd358e309ead05d1b446f7d" prot="protected" static="no" mutable="no">
+        <type>PerfCounter</type>
+        <definition>PerfCounter FallbackOverheadTest::fast_path_counter</definition>
+        <argsstring></argsstring>
+        <name>fast_path_counter</name>
+        <qualifiedname>FallbackOverheadTest::fast_path_counter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_performance_gates.cpp" line="255" column="17" bodyfile="tests/acceleration/test_acceleration_performance_gates.cpp" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_fallback_overhead_test_1ae341c390587d7460a725cecb1efac6cf" prot="protected" static="no" mutable="no">
+        <type>PerfCounter</type>
+        <definition>PerfCounter FallbackOverheadTest::fallback_counter</definition>
+        <argsstring></argsstring>
+        <name>fallback_counter</name>
+        <qualifiedname>FallbackOverheadTest::fallback_counter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_performance_gates.cpp" line="256" column="17" bodyfile="tests/acceleration/test_acceleration_performance_gates.cpp" bodystart="256" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_fallback_overhead_test_1a1dd1761a8c2f48cfeaa9ba8438a9d7e4" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double FallbackOverheadTest::FALLBACK_OVERHEAD_PERCENT</definition>
+        <argsstring></argsstring>
+        <name>FALLBACK_OVERHEAD_PERCENT</name>
+        <qualifiedname>FallbackOverheadTest::FALLBACK_OVERHEAD_PERCENT</qualifiedname>
+        <initializer>= 5.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_performance_gates.cpp" line="257" column="29" bodyfile="tests/acceleration/test_acceleration_performance_gates.cpp" bodystart="257" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_fallback_overhead_test_1af2b4e1b25931639e38a13c3387c3fcd6" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void FallbackOverheadTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>FallbackOverheadTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_performance_gates.cpp" line="259" column="10" bodyfile="tests/acceleration/test_acceleration_performance_gates.cpp" bodystart="259" bodyend="262"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>FallbackOverheadTest</label>
+        <link refid="class_fallback_overhead_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>FallbackOverheadTest</label>
+        <link refid="class_fallback_overhead_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>fallback_counter</edgelabel>
+          <edgelabel>fast_path_counter</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>anonymous:fallback_counter
+fast_path_counter</label>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/acceleration/test_acceleration_performance_gates.cpp" line="253" column="1" bodyfile="tests/acceleration/test_acceleration_performance_gates.cpp" bodystart="253" bodyend="263"/>
+    <listofallmembers>
+      <member refid="class_fallback_overhead_test_1ae341c390587d7460a725cecb1efac6cf" prot="protected" virt="non-virtual"><scope>FallbackOverheadTest</scope><name>fallback_counter</name></member>
+      <member refid="class_fallback_overhead_test_1a1dd1761a8c2f48cfeaa9ba8438a9d7e4" prot="protected" virt="non-virtual"><scope>FallbackOverheadTest</scope><name>FALLBACK_OVERHEAD_PERCENT</name></member>
+      <member refid="class_fallback_overhead_test_1a2031e5c02dd358e309ead05d1b446f7d" prot="protected" virt="non-virtual"><scope>FallbackOverheadTest</scope><name>fast_path_counter</name></member>
+      <member refid="class_fallback_overhead_test_1af2b4e1b25931639e38a13c3387c3fcd6" prot="protected" virt="non-virtual"><scope>FallbackOverheadTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

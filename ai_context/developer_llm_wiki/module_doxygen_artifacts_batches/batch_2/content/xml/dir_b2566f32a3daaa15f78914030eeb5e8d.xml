@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_b2566f32a3daaa15f78914030eeb5e8d" kind="dir">
+    <compoundname>src/content</compoundname>
+    <innerdir refid="dir_15c9d87c2868e95da891370609a33196">src/content/adapters</innerdir>
+    <innerdir refid="dir_fcd6e5c577fbbb18099b7de139bfc857">src/content/pipeline</innerdir>
+    <innerfile refid="abuse__detector_8cpp">abuse_detector.cpp</innerfile>
+    <innerfile refid="archive__processor_8cpp">archive_processor.cpp</innerfile>
+    <innerfile refid="archive__processor__enhancements_8cpp">archive_processor_enhancements.cpp</innerfile>
+    <innerfile refid="async__ingestion__worker_8cpp">async_ingestion_worker.cpp</innerfile>
+    <innerfile refid="audio__processor_8cpp">audio_processor.cpp</innerfile>
+    <innerfile refid="cad__processor_8cpp">cad_processor.cpp</innerfile>
+    <innerfile refid="content__errors_8cpp">content_errors.cpp</innerfile>
+    <innerfile refid="content__fs_8cpp">content_fs.cpp</innerfile>
+    <innerfile refid="content__logger_8cpp">content_logger.cpp</innerfile>
+    <innerfile refid="content__manager_8cpp">content_manager.cpp</innerfile>
+    <innerfile refid="content__manager__embedding_8cpp">content_manager_embedding.cpp</innerfile>
+    <innerfile refid="content__manager__llm_8cpp">content_manager_llm.cpp</innerfile>
+    <innerfile refid="content__metrics_8cpp">content_metrics.cpp</innerfile>
+    <innerfile refid="content__policy_8cpp">content_policy.cpp</innerfile>
+    <innerfile refid="content__security_8cpp">content_security.cpp</innerfile>
+    <innerfile refid="content__type_8cpp">content_type.cpp</innerfile>
+    <innerfile refid="content__validator_8cpp">content_validator.cpp</innerfile>
+    <innerfile refid="deduplication__checker_8cpp">deduplication_checker.cpp</innerfile>
+    <innerfile refid="embedding__pipeline_8cpp">embedding_pipeline.cpp</innerfile>
+    <innerfile refid="geo__processor_8cpp">geo_processor.cpp</innerfile>
+    <innerfile refid="html__processor_8cpp">html_processor.cpp</innerfile>
+    <innerfile refid="image__processor_8cpp">image_processor.cpp</innerfile>
+    <innerfile refid="ingestion__plugin_8cpp">ingestion_plugin.cpp</innerfile>
+    <innerfile refid="language__detector_8cpp">language_detector.cpp</innerfile>
+    <innerfile refid="markdown__processor_8cpp">markdown_processor.cpp</innerfile>
+    <innerfile refid="mime__detector_8cpp">mime_detector.cpp</innerfile>
+    <innerfile refid="mock__clip__processor_8cpp">mock_clip_processor.cpp</innerfile>
+    <innerfile refid="ocr__processor_8cpp">ocr_processor.cpp</innerfile>
+    <innerfile refid="office__processor_8cpp">office_processor.cpp</innerfile>
+    <innerfile refid="pdf__processor_8cpp">pdf_processor.cpp</innerfile>
+    <innerfile refid="stt__processor_8cpp">stt_processor.cpp</innerfile>
+    <innerfile refid="text__processor_8cpp">text_processor.cpp</innerfile>
+    <innerfile refid="tts__processor_8cpp">tts_processor.cpp</innerfile>
+    <innerfile refid="version__manager_8cpp">version_manager.cpp</innerfile>
+    <innerfile refid="video__processor_8cpp">video_processor.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/content/"/>
+  </compounddef>
+</doxygen>

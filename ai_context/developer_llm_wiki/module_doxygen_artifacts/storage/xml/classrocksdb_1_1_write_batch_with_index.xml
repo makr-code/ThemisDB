@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classrocksdb_1_1_write_batch_with_index" kind="class" language="C++" prot="public">
+    <compoundname>rocksdb::WriteBatchWithIndex</compoundname>
+    <includes refid="rocksdb__wrapper_8h" local="no">rocksdb_wrapper.h</includes>
+    <briefdescription>
+<para>Write batch with index structure. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/rocksdb_wrapper.h" line="69" column="5" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="69" bodyend="69"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

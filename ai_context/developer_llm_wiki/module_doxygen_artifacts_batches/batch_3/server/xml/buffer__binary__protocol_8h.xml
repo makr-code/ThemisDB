@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="buffer__binary__protocol_8h" kind="file" language="C++">
+    <compoundname>buffer_binary_protocol.h</compoundname>
+    <includes local="no">vector</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includedby refid="buffer__binary__protocol_8cpp" local="yes">src/server/buffer_binary_protocol.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/server/buffer_binary_protocol.h</label>
+        <link refid="buffer__binary__protocol_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="2">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/server/buffer_binary_protocol.h</label>
+        <link refid="buffer__binary__protocol_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/server/buffer_binary_protocol.cpp</label>
+        <link refid="buffer__binary__protocol_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler" prot="public">themisdb::server::BufferBinaryProtocolHandler</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1server">themisdb::server</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations<sp/>in<sp/>themis<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">TSStore;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">VectorIndexManager;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">PropertyGraphManager;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">TSAutoBuffer;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">VectorAutoBuffer;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">GraphAutoBuffer;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="namespacethemisdb" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb" kindref="compound">themisdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="31" refid="namespacethemisdb_1_1server" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1server" kindref="compound">server</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a0f47b021069f026058d86956aad99627" kindref="member">BufferBinaryProtocolHandler</ref><sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Opcodes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a3459a27970d184160c2fad41f89794cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint8_t<sp/><ref refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a3459a27970d184160c2fad41f89794cd" kindref="member">TS_PUT_BUFFERED</ref><sp/>=<sp/>0x70;</highlight></codeline>
+<codeline lineno="37" refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a1c1d1dd41494f5059eafa6ada32b0de1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint8_t<sp/><ref refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a1c1d1dd41494f5059eafa6ada32b0de1" kindref="member">TS_PUT_BUFFERED_BATCH</ref><sp/>=<sp/>0x71;</highlight></codeline>
+<codeline lineno="38" refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a1d493cef10573c36d3a9ff1de97be736" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint8_t<sp/><ref refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a1d493cef10573c36d3a9ff1de97be736" kindref="member">VECTOR_ADD_BUFFERED</ref><sp/>=<sp/>0x72;</highlight></codeline>
+<codeline lineno="39" refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a7412137d47541cafa38e10127f5db6f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint8_t<sp/><ref refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a7412137d47541cafa38e10127f5db6f5" kindref="member">VECTOR_UPDATE_BUFFERED</ref><sp/>=<sp/>0x73;</highlight></codeline>
+<codeline lineno="40" refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a96e6a66c4eee452df634b914b0e35c3b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint8_t<sp/><ref refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a96e6a66c4eee452df634b914b0e35c3b" kindref="member">VECTOR_REMOVE_BUFFERED</ref><sp/>=<sp/>0x74;</highlight></codeline>
+<codeline lineno="41" refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1ad6e20e1a1182f0ec521ee544c2d5a04c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint8_t<sp/><ref refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1ad6e20e1a1182f0ec521ee544c2d5a04c" kindref="member">GRAPH_NODE_BUFFERED</ref><sp/>=<sp/>0x75;</highlight></codeline>
+<codeline lineno="42" refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1affeaf012288361ebdbe28e44e823a57e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint8_t<sp/><ref refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1affeaf012288361ebdbe28e44e823a57e" kindref="member">GRAPH_EDGE_BUFFERED</ref><sp/>=<sp/>0x76;</highlight></codeline>
+<codeline lineno="43" refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1aaab689b4f3c561d780c5bca7093367ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint8_t<sp/><ref refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1aaab689b4f3c561d780c5bca7093367ac" kindref="member">BUFFER_STATS</ref><sp/>=<sp/>0x77;</highlight></codeline>
+<codeline lineno="44" refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a12ec97b9ce30a1860ac1494e887737cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint8_t<sp/><ref refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a12ec97b9ce30a1860ac1494e887737cd" kindref="member">BUFFER_FLUSH</ref><sp/>=<sp/>0x78;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Status<sp/>codes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a16e1b040bdfd8064ed78ea2de3b5f2bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint8_t<sp/><ref refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a16e1b040bdfd8064ed78ea2de3b5f2bd" kindref="member">STATUS_SUCCESS</ref><sp/>=<sp/>0x00;</highlight></codeline>
+<codeline lineno="48" refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a4797d36125d5a218dc7a0e39055b30f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint8_t<sp/><ref refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a4797d36125d5a218dc7a0e39055b30f2" kindref="member">STATUS_INVALID_OPCODE</ref><sp/>=<sp/>0x01;</highlight></codeline>
+<codeline lineno="49" refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a3cd17b39498247ee696c9f33c5e99c2b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint8_t<sp/><ref refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a3cd17b39498247ee696c9f33c5e99c2b" kindref="member">STATUS_MALFORMED_PAYLOAD</ref><sp/>=<sp/>0x02;</highlight></codeline>
+<codeline lineno="50" refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1ac309a22caec2bdbd95ad89dadd057b0d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint8_t<sp/><ref refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1ac309a22caec2bdbd95ad89dadd057b0d" kindref="member">STATUS_PROCESSING_ERROR</ref><sp/>=<sp/>0x03;</highlight></codeline>
+<codeline lineno="51" refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a62ba77635e61d2cc7fbfe3e48dfca34a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint8_t<sp/><ref refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a62ba77635e61d2cc7fbfe3e48dfca34a" kindref="member">STATUS_BUFFER_OVERFLOW</ref><sp/>=<sp/>0x04;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a0f47b021069f026058d86956aad99627" kindref="member">BufferBinaryProtocolHandler</ref>(</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::TSStore&gt;<sp/>tsstore,</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::VectorIndexManager&gt;<sp/>vector_index,</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::PropertyGraphManager&gt;<sp/>property_graph</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1ada18514473be7a559313338da8ce2c95" kindref="member">~BufferBinaryProtocolHandler</ref>();</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1a43a299c3a286693ea6dae675ab8e447e" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1af1a399d867504d480e6c292c1b62a685" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemisdb_1_1server_1_1_buffer_binary_protocol_handler_1afc0beee8d663a0d5a36d1cc0ac839231" kindref="member">handleMessage</ref>(uint8_t<sp/>opcode,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>payload);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Component<sp/>references</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::TSStore&gt;<sp/>tsstore_;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::VectorIndexManager&gt;<sp/>vector_index_;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::PropertyGraphManager&gt;<sp/>property_graph_;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>AutoBuffer<sp/>instances</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;themis::TSAutoBuffer&gt;<sp/>ts_buffer_;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;themis::VectorAutoBuffer&gt;<sp/>vector_buffer_;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;themis::GraphAutoBuffer&gt;<sp/>graph_buffer_;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Running<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>running_;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Opcode<sp/>handlers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>handleTSPutBuffered(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>payload);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>handleTSPutBufferedBatch(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>payload);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>handleVectorAddBuffered(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>payload);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>handleVectorUpdateBuffered(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>payload);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>handleVectorRemoveBuffered(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>payload);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>handleGraphNodeBuffered(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>payload);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>handleGraphEdgeBuffered(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>payload);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>handleBufferStats(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>payload);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>handleBufferFlush(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>payload);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>createResponse(uint8_t<sp/>status,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>payload<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>createErrorResponse(uint8_t<sp/>status,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>error_message);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>server</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/server/buffer_binary_protocol.h"/>
+  </compounddef>
+</doxygen>

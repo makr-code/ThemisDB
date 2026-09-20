@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1knowledge__gap_1_1_detection_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::knowledge_gap::DetectionResult</compoundname>
+    <includes refid="knowledge__gap__detector_8h" local="no">knowledge_gap_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_detection_result_1a25250a2e85980b847c1fc0732c00e50b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::knowledge_gap::DetectionResult::gap_detected</definition>
+        <argsstring></argsstring>
+        <name>gap_detected</name>
+        <qualifiedname>themis::rag::knowledge_gap::DetectionResult::gap_detected</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Whether a gap was found. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="80" column="10" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_detection_result_1a95ce599154bbe242265cd9bb87770d3f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::knowledge_gap::DetectionResult::confidence_score</definition>
+        <argsstring></argsstring>
+        <name>confidence_score</name>
+        <qualifiedname>themis::rag::knowledge_gap::DetectionResult::confidence_score</qualifiedname>
+        <briefdescription>
+<para>Confidence in the detection (0-1). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="81" column="12" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_detection_result_1a943be6415c0bd92e701421469d4cd14e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1knowledge__gap_1a7605dc51f9f66c1f2ce38f26bccc671d" kindref="member">GapType</ref></type>
+        <definition>GapType themis::rag::knowledge_gap::DetectionResult::gap_type</definition>
+        <argsstring></argsstring>
+        <name>gap_type</name>
+        <qualifiedname>themis::rag::knowledge_gap::DetectionResult::gap_type</qualifiedname>
+        <briefdescription>
+<para>Type of gap detected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="82" column="13" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_detection_result_1a8aabd346e5ad1d689a1fbe3b8cd999e7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::rag::knowledge_gap::DetectionResult::missing_aspects</definition>
+        <argsstring></argsstring>
+        <name>missing_aspects</name>
+        <qualifiedname>themis::rag::knowledge_gap::DetectionResult::missing_aspects</qualifiedname>
+        <briefdescription>
+<para>Missing query aspects. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="83" column="17" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_detection_result_1a634a4614281c332047eea8514c88afd8" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1knowledge__gap_1acded52b5d921e82996dbd09f36e1b5b7" kindref="member">FallbackStrategy</ref></type>
+        <definition>FallbackStrategy themis::rag::knowledge_gap::DetectionResult::recommendation</definition>
+        <argsstring></argsstring>
+        <name>recommendation</name>
+        <qualifiedname>themis::rag::knowledge_gap::DetectionResult::recommendation</qualifiedname>
+        <briefdescription>
+<para>Recommended fallback action. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="84" column="22" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_detection_result_1adea8617bc5329167f89d99978bd2cb84" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::knowledge_gap::DetectionResult::explanation</definition>
+        <argsstring></argsstring>
+        <name>explanation</name>
+        <qualifiedname>themis::rag::knowledge_gap::DetectionResult::explanation</qualifiedname>
+        <briefdescription>
+<para>Human-readable explanation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="85" column="17" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_detection_result_1a5d399b30cc1bed4a740cbe87d3d826e6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::knowledge_gap::DetectionResult::avg_similarity_score</definition>
+        <argsstring></argsstring>
+        <name>avg_similarity_score</name>
+        <qualifiedname>themis::rag::knowledge_gap::DetectionResult::avg_similarity_score</qualifiedname>
+        <briefdescription>
+<para>Average document similarity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="88" column="12" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_detection_result_1af92c0f79cc90a82192566748d069c29a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::knowledge_gap::DetectionResult::num_retrieved_docs</definition>
+        <argsstring></argsstring>
+        <name>num_retrieved_docs</name>
+        <qualifiedname>themis::rag::knowledge_gap::DetectionResult::num_retrieved_docs</qualifiedname>
+        <briefdescription>
+<para>Number of documents retrieved. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="89" column="12" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1knowledge__gap_1_1_detection_result_1ac2c069de4b7fecd31de8a05a190de714" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::knowledge_gap::DetectionResult::coverage_score</definition>
+        <argsstring></argsstring>
+        <name>coverage_score</name>
+        <qualifiedname>themis::rag::knowledge_gap::DetectionResult::coverage_score</qualifiedname>
+        <briefdescription>
+<para>Query coverage by documents (0-1). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_gap_detector.h" line="90" column="12" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of gap detection analysis. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/knowledge_gap_detector.h" line="79" column="1" bodyfile="include/rag/knowledge_gap_detector.h" bodystart="79" bodyend="91"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_detection_result_1a5d399b30cc1bed4a740cbe87d3d826e6" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::DetectionResult</scope><name>avg_similarity_score</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_detection_result_1a95ce599154bbe242265cd9bb87770d3f" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::DetectionResult</scope><name>confidence_score</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_detection_result_1ac2c069de4b7fecd31de8a05a190de714" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::DetectionResult</scope><name>coverage_score</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_detection_result_1adea8617bc5329167f89d99978bd2cb84" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::DetectionResult</scope><name>explanation</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_detection_result_1a25250a2e85980b847c1fc0732c00e50b" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::DetectionResult</scope><name>gap_detected</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_detection_result_1a943be6415c0bd92e701421469d4cd14e" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::DetectionResult</scope><name>gap_type</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_detection_result_1a8aabd346e5ad1d689a1fbe3b8cd999e7" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::DetectionResult</scope><name>missing_aspects</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_detection_result_1af92c0f79cc90a82192566748d069c29a" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::DetectionResult</scope><name>num_retrieved_docs</name></member>
+      <member refid="structthemis_1_1rag_1_1knowledge__gap_1_1_detection_result_1a634a4614281c332047eea8514c88afd8" prot="public" virt="non-virtual"><scope>themis::rag::knowledge_gap::DetectionResult</scope><name>recommendation</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

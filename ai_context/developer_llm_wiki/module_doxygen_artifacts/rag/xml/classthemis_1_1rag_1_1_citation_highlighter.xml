@@ -1,0 +1,341 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_citation_highlighter" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::CitationHighlighter</compoundname>
+    <includes refid="citation__highlighter_8h" local="no">citation_highlighter.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1_citation_highlighter_1_1_impl" prot="public">themis::rag::CitationHighlighter::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_citation_highlighter_1a976d7a450f652a7d13cdd0429d34c70e" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1rag_1_1_citation_highlighter_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::rag::CitationHighlighter::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::rag::CitationHighlighter::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/citation_highlighter.h" line="195" column="21" bodyfile="include/rag/citation_highlighter.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_citation_highlighter_1af3e598b393e1b21375dcd3f121487c1c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::CitationHighlighter::CitationHighlighter</definition>
+        <argsstring>(CitationHighlighterConfig config=CitationHighlighterConfig{})</argsstring>
+        <name>CitationHighlighter</name>
+        <qualifiedname>themis::rag::CitationHighlighter::CitationHighlighter</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1rag_1_1_citation_highlighter_config" kindref="compound">CitationHighlighterConfig</ref></type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1rag_1_1_citation_highlighter_config" kindref="compound">CitationHighlighterConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/citation_highlighter.h" line="140" column="14" bodyfile="src/rag/citation_highlighter.cpp" bodystart="81" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_citation_highlighter_1af1732551f8032c8759cb6dcaf1622ca7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::CitationHighlighter::~CitationHighlighter</definition>
+        <argsstring>()</argsstring>
+        <name>~CitationHighlighter</name>
+        <qualifiedname>themis::rag::CitationHighlighter::~CitationHighlighter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/citation_highlighter.h" line="142" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_citation_highlighter_1a0af88f591668daf942690769d0cd11fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::CitationHighlighter::CitationHighlighter</definition>
+        <argsstring>(const CitationHighlighter &amp;)=delete</argsstring>
+        <name>CitationHighlighter</name>
+        <qualifiedname>themis::rag::CitationHighlighter::CitationHighlighter</qualifiedname>
+        <param>
+          <type>const CitationHighlighter &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/citation_highlighter.h" line="145" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_citation_highlighter_1a1bd5a82c9922616b5d3b0898fe86aff2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1_citation_highlighter_1af3e598b393e1b21375dcd3f121487c1c" kindref="member">CitationHighlighter</ref> &amp;</type>
+        <definition>CitationHighlighter &amp; themis::rag::CitationHighlighter::operator=</definition>
+        <argsstring>(const CitationHighlighter &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::CitationHighlighter::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1rag_1_1_citation_highlighter_1af3e598b393e1b21375dcd3f121487c1c" kindref="member">CitationHighlighter</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/citation_highlighter.h" line="146" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_citation_highlighter_1a80075d283fa1e96b1017b9413640ffd8" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::CitationHighlighter::CitationHighlighter</definition>
+        <argsstring>(CitationHighlighter &amp;&amp;) noexcept=default</argsstring>
+        <name>CitationHighlighter</name>
+        <qualifiedname>themis::rag::CitationHighlighter::CitationHighlighter</qualifiedname>
+        <param>
+          <type>CitationHighlighter &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/citation_highlighter.h" line="147" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_citation_highlighter_1a9fd208e1342922f97448cf4d506b29f8" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1_citation_highlighter_1af3e598b393e1b21375dcd3f121487c1c" kindref="member">CitationHighlighter</ref> &amp;</type>
+        <definition>CitationHighlighter &amp; themis::rag::CitationHighlighter::operator=</definition>
+        <argsstring>(CitationHighlighter &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::CitationHighlighter::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1_citation_highlighter_1af3e598b393e1b21375dcd3f121487c1c" kindref="member">CitationHighlighter</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/citation_highlighter.h" line="148" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_citation_highlighter_1a207db2136e69ff7f0810b07a34b6ba44" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_citation_highlight_result" kindref="compound">CitationHighlightResult</ref></type>
+        <definition>CitationHighlightResult themis::rag::CitationHighlighter::highlight</definition>
+        <argsstring>(const std::string &amp;answer, const std::vector&lt; SourceChunk &gt; &amp;chunks) const</argsstring>
+        <name>highlight</name>
+        <qualifiedname>themis::rag::CitationHighlighter::highlight</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1_source_chunk" kindref="compound">SourceChunk</ref> &gt; &amp;</type>
+          <declname>chunks</declname>
+        </param>
+        <briefdescription>
+<para>Map every sentence in <computeroutput>answer</computeroutput> to the best-matching source chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Generated answer text </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>chunks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source chunks retrieved for this query </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Per-sentence citation mappings and aggregate statistics </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/citation_highlighter.h" line="157" column="29" bodyfile="src/rag/citation_highlighter.cpp" bodystart="201" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_citation_highlighter_1a59d341d9a0a70e7c1b85d1f223c43649" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::rag::CitationHighlighter::splitSentences</definition>
+        <argsstring>(const std::string &amp;text) const</argsstring>
+        <name>splitSentences</name>
+        <qualifiedname>themis::rag::CitationHighlighter::splitSentences</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Split text into sentences using the configured delimiters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input text </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Trimmed, non-empty sentence strings </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/citation_highlighter.h" line="167" column="17" bodyfile="src/rag/citation_highlighter.cpp" bodystart="161" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_citation_highlighter_1a85efa06e46b57ab5bdd05e7d71c6636f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_citation_highlighter_config" kindref="compound">CitationHighlighterConfig</ref></type>
+        <definition>CitationHighlighterConfig themis::rag::CitationHighlighter::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::rag::CitationHighlighter::getConfig</qualifiedname>
+        <briefdescription>
+<para>Return current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/citation_highlighter.h" line="185" column="31" bodyfile="src/rag/citation_highlighter.cpp" bodystart="87" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_citation_highlighter_1a617d7341f2263504df7813c5f446221b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::CitationHighlighter::setConfig</definition>
+        <argsstring>(const CitationHighlighterConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::rag::CitationHighlighter::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_citation_highlighter_config" kindref="compound">CitationHighlighterConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New configuration to apply</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/citation_highlighter.h" line="191" column="10" bodyfile="src/rag/citation_highlighter.cpp" bodystart="97" bodyend="100"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_citation_highlighter_1a238e57fc02f0b5f6a44b0b5ad62d36bf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::CitationHighlighter::computeSimilarity</definition>
+        <argsstring>(const std::string &amp;a, const std::string &amp;b)</argsstring>
+        <name>computeSimilarity</name>
+        <qualifiedname>themis::rag::CitationHighlighter::computeSimilarity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Compute Jaccard term-overlap similarity between two strings. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute Similarity.</para>
+<para>Tokenises both strings into lower-cased word tokens (≥ 2 chars), then returns |intersection| / |union|.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>First text </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Second text </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Similarity in [0, 1]</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: tokenSet(), empty(), count(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/citation_highlighter.h" line="179" column="19" bodyfile="src/rag/citation_highlighter.cpp" bodystart="177" bodyend="198"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Citation highlighter: maps answer sentences to source chunks. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Thread-safe: const methods (<computeroutput>highlight</computeroutput>, <computeroutput>splitSentences</computeroutput>, <computeroutput>computeSimilarity</computeroutput>) may be called from multiple threads concurrently. Configuration updates via <computeroutput>setConfig</computeroutput> are guarded by a mutex. </para>
+    </detaileddescription>
+    <location file="include/rag/citation_highlighter.h" line="138" column="1" bodyfile="include/rag/citation_highlighter.h" bodystart="138" bodyend="196"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_citation_highlighter_1af3e598b393e1b21375dcd3f121487c1c" prot="public" virt="non-virtual"><scope>themis::rag::CitationHighlighter</scope><name>CitationHighlighter</name></member>
+      <member refid="classthemis_1_1rag_1_1_citation_highlighter_1a0af88f591668daf942690769d0cd11fe" prot="public" virt="non-virtual"><scope>themis::rag::CitationHighlighter</scope><name>CitationHighlighter</name></member>
+      <member refid="classthemis_1_1rag_1_1_citation_highlighter_1a80075d283fa1e96b1017b9413640ffd8" prot="public" virt="non-virtual"><scope>themis::rag::CitationHighlighter</scope><name>CitationHighlighter</name></member>
+      <member refid="classthemis_1_1rag_1_1_citation_highlighter_1a238e57fc02f0b5f6a44b0b5ad62d36bf" prot="public" virt="non-virtual"><scope>themis::rag::CitationHighlighter</scope><name>computeSimilarity</name></member>
+      <member refid="classthemis_1_1rag_1_1_citation_highlighter_1a85efa06e46b57ab5bdd05e7d71c6636f" prot="public" virt="non-virtual"><scope>themis::rag::CitationHighlighter</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1_citation_highlighter_1a207db2136e69ff7f0810b07a34b6ba44" prot="public" virt="non-virtual"><scope>themis::rag::CitationHighlighter</scope><name>highlight</name></member>
+      <member refid="classthemis_1_1rag_1_1_citation_highlighter_1a976d7a450f652a7d13cdd0429d34c70e" prot="private" virt="non-virtual"><scope>themis::rag::CitationHighlighter</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1rag_1_1_citation_highlighter_1a1bd5a82c9922616b5d3b0898fe86aff2" prot="public" virt="non-virtual"><scope>themis::rag::CitationHighlighter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1_citation_highlighter_1a9fd208e1342922f97448cf4d506b29f8" prot="public" virt="non-virtual"><scope>themis::rag::CitationHighlighter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1_citation_highlighter_1a617d7341f2263504df7813c5f446221b" prot="public" virt="non-virtual"><scope>themis::rag::CitationHighlighter</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1_citation_highlighter_1a59d341d9a0a70e7c1b85d1f223c43649" prot="public" virt="non-virtual"><scope>themis::rag::CitationHighlighter</scope><name>splitSentences</name></member>
+      <member refid="classthemis_1_1rag_1_1_citation_highlighter_1af1732551f8032c8759cb6dcaf1622ca7" prot="public" virt="non-virtual"><scope>themis::rag::CitationHighlighter</scope><name>~CitationHighlighter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_graph_auto_buffer_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::GraphAutoBufferConfig</compoundname>
+    <includes refid="graph__auto__buffer_8h" local="no">graph_auto_buffer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_graph_auto_buffer_config_1a23335c8f4b40b6063fbd03c589fd5e84" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::GraphAutoBufferConfig::max_nodes_per_buffer</definition>
+        <argsstring></argsstring>
+        <name>max_nodes_per_buffer</name>
+        <qualifiedname>themis::GraphAutoBufferConfig::max_nodes_per_buffer</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_auto_buffer.h" line="47" column="12" bodyfile="include/index/graph_auto_buffer.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_graph_auto_buffer_config_1af954dca71365aee6fe37844004b4a99e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::GraphAutoBufferConfig::max_edges_per_buffer</definition>
+        <argsstring></argsstring>
+        <name>max_edges_per_buffer</name>
+        <qualifiedname>themis::GraphAutoBufferConfig::max_edges_per_buffer</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_auto_buffer.h" line="48" column="12" bodyfile="include/index/graph_auto_buffer.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_graph_auto_buffer_config_1a7a8741f135fced67f99152d08c17a66e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::GraphAutoBufferConfig::max_total_operations</definition>
+        <argsstring></argsstring>
+        <name>max_total_operations</name>
+        <qualifiedname>themis::GraphAutoBufferConfig::max_total_operations</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_auto_buffer.h" line="49" column="12" bodyfile="include/index/graph_auto_buffer.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_graph_auto_buffer_config_1a8b8f8cbdbcaed9dc7ce3d2f98b5c6c80" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::GraphAutoBufferConfig::flush_interval</definition>
+        <argsstring></argsstring>
+        <name>flush_interval</name>
+        <qualifiedname>themis::GraphAutoBufferConfig::flush_interval</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_auto_buffer.h" line="52" column="31" bodyfile="include/index/graph_auto_buffer.h" bodystart="52" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_graph_auto_buffer_config_1a3d7e8abdf9eabc85597021eee40621c5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::GraphAutoBufferConfig::max_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_memory_bytes</name>
+        <qualifiedname>themis::GraphAutoBufferConfig::max_memory_bytes</qualifiedname>
+        <initializer>= 200 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_auto_buffer.h" line="55" column="12" bodyfile="include/index/graph_auto_buffer.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_graph_auto_buffer_config_1a68415db0206a7d4176c4a98d1e06efd5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::GraphAutoBufferConfig::async_flush</definition>
+        <argsstring></argsstring>
+        <name>async_flush</name>
+        <qualifiedname>themis::GraphAutoBufferConfig::async_flush</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_auto_buffer.h" line="58" column="10" bodyfile="include/index/graph_auto_buffer.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_graph_auto_buffer_config_1a15e5ff76bab8c995e6edcd9c4f9e83a7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::GraphAutoBufferConfig::flush_batch_size</definition>
+        <argsstring></argsstring>
+        <name>flush_batch_size</name>
+        <qualifiedname>themis::GraphAutoBufferConfig::flush_batch_size</qualifiedname>
+        <initializer>= 500</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_auto_buffer.h" line="59" column="12" bodyfile="include/index/graph_auto_buffer.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_graph_auto_buffer_config_1a52f37811042e659923ed769e30a752ed" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::GraphAutoBufferConfig::compress_properties</definition>
+        <argsstring></argsstring>
+        <name>compress_properties</name>
+        <qualifiedname>themis::GraphAutoBufferConfig::compress_properties</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_auto_buffer.h" line="62" column="10" bodyfile="include/index/graph_auto_buffer.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_graph_auto_buffer_config_1acd1081144ad9a03d33a3ea31492c550d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::GraphAutoBufferConfig::compression_threshold_bytes</definition>
+        <argsstring></argsstring>
+        <name>compression_threshold_bytes</name>
+        <qualifiedname>themis::GraphAutoBufferConfig::compression_threshold_bytes</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_auto_buffer.h" line="63" column="12" bodyfile="include/index/graph_auto_buffer.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_graph_auto_buffer_config_1a369c26b0c22b2c133ab04cddf3a00caa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::GraphAutoBufferConfig::default_graph_id</definition>
+        <argsstring></argsstring>
+        <name>default_graph_id</name>
+        <qualifiedname>themis::GraphAutoBufferConfig::default_graph_id</qualifiedname>
+        <initializer>= &quot;default&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_auto_buffer.h" line="66" column="17" bodyfile="include/index/graph_auto_buffer.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/graph_auto_buffer.h" line="45" column="1" bodyfile="include/index/graph_auto_buffer.h" bodystart="45" bodyend="67"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_graph_auto_buffer_config_1a68415db0206a7d4176c4a98d1e06efd5" prot="public" virt="non-virtual"><scope>themis::GraphAutoBufferConfig</scope><name>async_flush</name></member>
+      <member refid="structthemis_1_1_graph_auto_buffer_config_1a52f37811042e659923ed769e30a752ed" prot="public" virt="non-virtual"><scope>themis::GraphAutoBufferConfig</scope><name>compress_properties</name></member>
+      <member refid="structthemis_1_1_graph_auto_buffer_config_1acd1081144ad9a03d33a3ea31492c550d" prot="public" virt="non-virtual"><scope>themis::GraphAutoBufferConfig</scope><name>compression_threshold_bytes</name></member>
+      <member refid="structthemis_1_1_graph_auto_buffer_config_1a369c26b0c22b2c133ab04cddf3a00caa" prot="public" virt="non-virtual"><scope>themis::GraphAutoBufferConfig</scope><name>default_graph_id</name></member>
+      <member refid="structthemis_1_1_graph_auto_buffer_config_1a15e5ff76bab8c995e6edcd9c4f9e83a7" prot="public" virt="non-virtual"><scope>themis::GraphAutoBufferConfig</scope><name>flush_batch_size</name></member>
+      <member refid="structthemis_1_1_graph_auto_buffer_config_1a8b8f8cbdbcaed9dc7ce3d2f98b5c6c80" prot="public" virt="non-virtual"><scope>themis::GraphAutoBufferConfig</scope><name>flush_interval</name></member>
+      <member refid="structthemis_1_1_graph_auto_buffer_config_1af954dca71365aee6fe37844004b4a99e" prot="public" virt="non-virtual"><scope>themis::GraphAutoBufferConfig</scope><name>max_edges_per_buffer</name></member>
+      <member refid="structthemis_1_1_graph_auto_buffer_config_1a3d7e8abdf9eabc85597021eee40621c5" prot="public" virt="non-virtual"><scope>themis::GraphAutoBufferConfig</scope><name>max_memory_bytes</name></member>
+      <member refid="structthemis_1_1_graph_auto_buffer_config_1a23335c8f4b40b6063fbd03c589fd5e84" prot="public" virt="non-virtual"><scope>themis::GraphAutoBufferConfig</scope><name>max_nodes_per_buffer</name></member>
+      <member refid="structthemis_1_1_graph_auto_buffer_config_1a7a8741f135fced67f99152d08c17a66e" prot="public" virt="non-virtual"><scope>themis::GraphAutoBufferConfig</scope><name>max_total_operations</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,312 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_blob_storage_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::BlobStorageConfig</compoundname>
+    <includes refid="blob__storage__backend_8h" local="no">blob_storage_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_blob_storage_config_1aa3e4cfc4b716dbdcdf03d5616957b8ec" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::storage::BlobStorageConfig::inline_threshold_bytes</definition>
+        <argsstring></argsstring>
+        <name>inline_threshold_bytes</name>
+        <qualifiedname>themis::storage::BlobStorageConfig::inline_threshold_bytes</qualifiedname>
+        <initializer>= 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_backend.h" line="120" column="13" bodyfile="include/storage/blob_storage_backend.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_blob_storage_config_1a84abf64a08343f2035eb6ffe0c148abc" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::storage::BlobStorageConfig::rocksdb_blob_threshold_bytes</definition>
+        <argsstring></argsstring>
+        <name>rocksdb_blob_threshold_bytes</name>
+        <qualifiedname>themis::storage::BlobStorageConfig::rocksdb_blob_threshold_bytes</qualifiedname>
+        <initializer>= 10 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_backend.h" line="121" column="13" bodyfile="include/storage/blob_storage_backend.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_blob_storage_config_1a6961a82072cea25ea5515cbaf4b5251d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::BlobStorageConfig::enable_filesystem</definition>
+        <argsstring></argsstring>
+        <name>enable_filesystem</name>
+        <qualifiedname>themis::storage::BlobStorageConfig::enable_filesystem</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_backend.h" line="124" column="10" bodyfile="include/storage/blob_storage_backend.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_blob_storage_config_1aab1de8eb1188fc7094173a25807cf475" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::BlobStorageConfig::filesystem_base_path</definition>
+        <argsstring></argsstring>
+        <name>filesystem_base_path</name>
+        <qualifiedname>themis::storage::BlobStorageConfig::filesystem_base_path</qualifiedname>
+        <initializer>= &quot;./data/blobs&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_backend.h" line="125" column="17" bodyfile="include/storage/blob_storage_backend.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_blob_storage_config_1a374393eb05f8b01731c88f94d9d4cbf3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::BlobStorageConfig::enable_s3</definition>
+        <argsstring></argsstring>
+        <name>enable_s3</name>
+        <qualifiedname>themis::storage::BlobStorageConfig::enable_s3</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_backend.h" line="128" column="10" bodyfile="include/storage/blob_storage_backend.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_blob_storage_config_1a847eda99e637a7771ef920fc5d4b2943" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::BlobStorageConfig::s3_bucket</definition>
+        <argsstring></argsstring>
+        <name>s3_bucket</name>
+        <qualifiedname>themis::storage::BlobStorageConfig::s3_bucket</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_backend.h" line="129" column="17" bodyfile="include/storage/blob_storage_backend.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_blob_storage_config_1af07fadd270ed5b5c001ce309e6ca7e09" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::BlobStorageConfig::s3_region</definition>
+        <argsstring></argsstring>
+        <name>s3_region</name>
+        <qualifiedname>themis::storage::BlobStorageConfig::s3_region</qualifiedname>
+        <initializer>= &quot;us-east-1&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_backend.h" line="130" column="17" bodyfile="include/storage/blob_storage_backend.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_blob_storage_config_1a607fe92831440df8bdb6d48797f0ace3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::BlobStorageConfig::s3_prefix</definition>
+        <argsstring></argsstring>
+        <name>s3_prefix</name>
+        <qualifiedname>themis::storage::BlobStorageConfig::s3_prefix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_backend.h" line="131" column="17" bodyfile="include/storage/blob_storage_backend.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_blob_storage_config_1a29fb5c221a385ba34e77c7a5471f2af9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::BlobStorageConfig::enable_azure</definition>
+        <argsstring></argsstring>
+        <name>enable_azure</name>
+        <qualifiedname>themis::storage::BlobStorageConfig::enable_azure</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_backend.h" line="134" column="10" bodyfile="include/storage/blob_storage_backend.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_blob_storage_config_1af0757fb37209f9f3c4c802763b9c0f43" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::BlobStorageConfig::azure_connection_string</definition>
+        <argsstring></argsstring>
+        <name>azure_connection_string</name>
+        <qualifiedname>themis::storage::BlobStorageConfig::azure_connection_string</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_backend.h" line="135" column="17" bodyfile="include/storage/blob_storage_backend.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_blob_storage_config_1a1f30f6318abcc66e3ce5047f6098ade5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::BlobStorageConfig::azure_container</definition>
+        <argsstring></argsstring>
+        <name>azure_container</name>
+        <qualifiedname>themis::storage::BlobStorageConfig::azure_container</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_backend.h" line="136" column="17" bodyfile="include/storage/blob_storage_backend.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_blob_storage_config_1ad0c42d94a6bc6dcf0a30f49861cc9aeb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::BlobStorageConfig::enable_gcs</definition>
+        <argsstring></argsstring>
+        <name>enable_gcs</name>
+        <qualifiedname>themis::storage::BlobStorageConfig::enable_gcs</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_backend.h" line="139" column="10" bodyfile="include/storage/blob_storage_backend.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_blob_storage_config_1ae6d5e736257b30c20b6e945b198c84a0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::BlobStorageConfig::gcs_bucket</definition>
+        <argsstring></argsstring>
+        <name>gcs_bucket</name>
+        <qualifiedname>themis::storage::BlobStorageConfig::gcs_bucket</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_backend.h" line="140" column="17" bodyfile="include/storage/blob_storage_backend.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_blob_storage_config_1a0d119f38b0d185294ab6d569bfc251f0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::BlobStorageConfig::gcs_prefix</definition>
+        <argsstring></argsstring>
+        <name>gcs_prefix</name>
+        <qualifiedname>themis::storage::BlobStorageConfig::gcs_prefix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_backend.h" line="141" column="17" bodyfile="include/storage/blob_storage_backend.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_blob_storage_config_1a5a034e40f163d299c41c52495880fb4d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::BlobStorageConfig::enable_webdav</definition>
+        <argsstring></argsstring>
+        <name>enable_webdav</name>
+        <qualifiedname>themis::storage::BlobStorageConfig::enable_webdav</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_backend.h" line="145" column="10" bodyfile="include/storage/blob_storage_backend.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_blob_storage_config_1ac2d60ff79d1f67fda4a3c430d52666bc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::BlobStorageConfig::webdav_base_url</definition>
+        <argsstring></argsstring>
+        <name>webdav_base_url</name>
+        <qualifiedname>themis::storage::BlobStorageConfig::webdav_base_url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_backend.h" line="146" column="17" bodyfile="include/storage/blob_storage_backend.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_blob_storage_config_1aa5c14040dbeedc10c4234c1fffb807ae" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::BlobStorageConfig::webdav_username</definition>
+        <argsstring></argsstring>
+        <name>webdav_username</name>
+        <qualifiedname>themis::storage::BlobStorageConfig::webdav_username</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_backend.h" line="147" column="17" bodyfile="include/storage/blob_storage_backend.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_blob_storage_config_1ac80763e3be7940a72ceded3617b3ced1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::BlobStorageConfig::webdav_password</definition>
+        <argsstring></argsstring>
+        <name>webdav_password</name>
+        <qualifiedname>themis::storage::BlobStorageConfig::webdav_password</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_backend.h" line="148" column="17" bodyfile="include/storage/blob_storage_backend.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_blob_storage_config_1ae3e120d8b7cf03bc9f60cb4c7f2a42ea" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::BlobStorageConfig::webdav_verify_ssl</definition>
+        <argsstring></argsstring>
+        <name>webdav_verify_ssl</name>
+        <qualifiedname>themis::storage::BlobStorageConfig::webdav_verify_ssl</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_storage_backend.h" line="149" column="10" bodyfile="include/storage/blob_storage_backend.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Blob Storage Configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/blob_storage_backend.h" line="118" column="1" bodyfile="include/storage/blob_storage_backend.h" bodystart="118" bodyend="150"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_blob_storage_config_1af0757fb37209f9f3c4c802763b9c0f43" prot="public" virt="non-virtual"><scope>themis::storage::BlobStorageConfig</scope><name>azure_connection_string</name></member>
+      <member refid="structthemis_1_1storage_1_1_blob_storage_config_1a1f30f6318abcc66e3ce5047f6098ade5" prot="public" virt="non-virtual"><scope>themis::storage::BlobStorageConfig</scope><name>azure_container</name></member>
+      <member refid="structthemis_1_1storage_1_1_blob_storage_config_1a29fb5c221a385ba34e77c7a5471f2af9" prot="public" virt="non-virtual"><scope>themis::storage::BlobStorageConfig</scope><name>enable_azure</name></member>
+      <member refid="structthemis_1_1storage_1_1_blob_storage_config_1a6961a82072cea25ea5515cbaf4b5251d" prot="public" virt="non-virtual"><scope>themis::storage::BlobStorageConfig</scope><name>enable_filesystem</name></member>
+      <member refid="structthemis_1_1storage_1_1_blob_storage_config_1ad0c42d94a6bc6dcf0a30f49861cc9aeb" prot="public" virt="non-virtual"><scope>themis::storage::BlobStorageConfig</scope><name>enable_gcs</name></member>
+      <member refid="structthemis_1_1storage_1_1_blob_storage_config_1a374393eb05f8b01731c88f94d9d4cbf3" prot="public" virt="non-virtual"><scope>themis::storage::BlobStorageConfig</scope><name>enable_s3</name></member>
+      <member refid="structthemis_1_1storage_1_1_blob_storage_config_1a5a034e40f163d299c41c52495880fb4d" prot="public" virt="non-virtual"><scope>themis::storage::BlobStorageConfig</scope><name>enable_webdav</name></member>
+      <member refid="structthemis_1_1storage_1_1_blob_storage_config_1aab1de8eb1188fc7094173a25807cf475" prot="public" virt="non-virtual"><scope>themis::storage::BlobStorageConfig</scope><name>filesystem_base_path</name></member>
+      <member refid="structthemis_1_1storage_1_1_blob_storage_config_1ae6d5e736257b30c20b6e945b198c84a0" prot="public" virt="non-virtual"><scope>themis::storage::BlobStorageConfig</scope><name>gcs_bucket</name></member>
+      <member refid="structthemis_1_1storage_1_1_blob_storage_config_1a0d119f38b0d185294ab6d569bfc251f0" prot="public" virt="non-virtual"><scope>themis::storage::BlobStorageConfig</scope><name>gcs_prefix</name></member>
+      <member refid="structthemis_1_1storage_1_1_blob_storage_config_1aa3e4cfc4b716dbdcdf03d5616957b8ec" prot="public" virt="non-virtual"><scope>themis::storage::BlobStorageConfig</scope><name>inline_threshold_bytes</name></member>
+      <member refid="structthemis_1_1storage_1_1_blob_storage_config_1a84abf64a08343f2035eb6ffe0c148abc" prot="public" virt="non-virtual"><scope>themis::storage::BlobStorageConfig</scope><name>rocksdb_blob_threshold_bytes</name></member>
+      <member refid="structthemis_1_1storage_1_1_blob_storage_config_1a847eda99e637a7771ef920fc5d4b2943" prot="public" virt="non-virtual"><scope>themis::storage::BlobStorageConfig</scope><name>s3_bucket</name></member>
+      <member refid="structthemis_1_1storage_1_1_blob_storage_config_1a607fe92831440df8bdb6d48797f0ace3" prot="public" virt="non-virtual"><scope>themis::storage::BlobStorageConfig</scope><name>s3_prefix</name></member>
+      <member refid="structthemis_1_1storage_1_1_blob_storage_config_1af07fadd270ed5b5c001ce309e6ca7e09" prot="public" virt="non-virtual"><scope>themis::storage::BlobStorageConfig</scope><name>s3_region</name></member>
+      <member refid="structthemis_1_1storage_1_1_blob_storage_config_1ac2d60ff79d1f67fda4a3c430d52666bc" prot="public" virt="non-virtual"><scope>themis::storage::BlobStorageConfig</scope><name>webdav_base_url</name></member>
+      <member refid="structthemis_1_1storage_1_1_blob_storage_config_1ac80763e3be7940a72ceded3617b3ced1" prot="public" virt="non-virtual"><scope>themis::storage::BlobStorageConfig</scope><name>webdav_password</name></member>
+      <member refid="structthemis_1_1storage_1_1_blob_storage_config_1aa5c14040dbeedc10c4234c1fffb807ae" prot="public" virt="non-virtual"><scope>themis::storage::BlobStorageConfig</scope><name>webdav_username</name></member>
+      <member refid="structthemis_1_1storage_1_1_blob_storage_config_1ae3e120d8b7cf03bc9f60cb4c7f2a42ea" prot="public" virt="non-virtual"><scope>themis::storage::BlobStorageConfig</scope><name>webdav_verify_ssl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

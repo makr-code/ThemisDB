@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1document_1_1_field_violation" kind="struct" language="C++" prot="public">
+    <compoundname>themis::document::FieldViolation</compoundname>
+    <includes refid="document__schema__evolution_8h" local="no">document_schema_evolution.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_field_violation_1abcae5e889b47b81c74e049f4c6457e61" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::document::FieldViolation::field_name</definition>
+        <argsstring></argsstring>
+        <name>field_name</name>
+        <qualifiedname>themis::document::FieldViolation::field_name</qualifiedname>
+        <briefdescription>
+<para>Offending JSON key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_schema_evolution.h" line="92" column="24" bodyfile="include/document/document_schema_evolution.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_field_violation_1aa06252ed5823ffd6772e0a9da6d18e03" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1document_1af20e43abbc72eafe458ffce895a1bcfa" kindref="member">FieldViolationKind</ref></type>
+        <definition>FieldViolationKind themis::document::FieldViolation::kind</definition>
+        <argsstring></argsstring>
+        <name>kind</name>
+        <qualifiedname>themis::document::FieldViolation::kind</qualifiedname>
+        <briefdescription>
+<para>Nature of the violation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_schema_evolution.h" line="93" column="24" bodyfile="include/document/document_schema_evolution.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_field_violation_1a7f1f006c55f54727b95884dcf65e8781" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::document::FieldViolation::suggested_fix</definition>
+        <argsstring></argsstring>
+        <name>suggested_fix</name>
+        <qualifiedname>themis::document::FieldViolation::suggested_fix</qualifiedname>
+        <briefdescription>
+<para>Human-readable remediation hint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_schema_evolution.h" line="94" column="24" bodyfile="include/document/document_schema_evolution.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/document/document_schema_evolution.h" line="91" column="1" bodyfile="include/document/document_schema_evolution.h" bodystart="91" bodyend="95"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1document_1_1_field_violation_1abcae5e889b47b81c74e049f4c6457e61" prot="public" virt="non-virtual"><scope>themis::document::FieldViolation</scope><name>field_name</name></member>
+      <member refid="structthemis_1_1document_1_1_field_violation_1aa06252ed5823ffd6772e0a9da6d18e03" prot="public" virt="non-virtual"><scope>themis::document::FieldViolation</scope><name>kind</name></member>
+      <member refid="structthemis_1_1document_1_1_field_violation_1a7f1f006c55f54727b95884dcf65e8781" prot="public" virt="non-virtual"><scope>themis::document::FieldViolation</scope><name>suggested_fix</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

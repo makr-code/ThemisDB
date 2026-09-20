@@ -1,0 +1,488 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_t_n_s_r_task" kind="class" language="C++" prot="public">
+    <compoundname>themis::tensor::TNSRTask</compoundname>
+    <includes refid="tnsr__task_8h" local="no">tnsr_task.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1tensor_1_1_t_n_s_r_task_1a5c602fa75e8cf5b0c2798750f34c9d0b" prot="public" static="no">
+        <type>std::function&lt; bool(storage::TensorNetworkStorageEngine &amp;engine, const storage::TensorFieldKey &amp; field_key, const <ref refid="classthemis_1_1tensor_1_1_tensor_network_graph" kindref="compound">TensorNetworkGraph</ref> &amp; tng, const storage::TTTrain &amp; train)&gt;</type>
+        <definition>using themis::tensor::TNSRTask::RerouteSerializeFn = 
+std::function&lt;bool(storage::TensorNetworkStorageEngine&amp; engine,
+                   const storage::TensorFieldKey&amp;       field_key,
+                   const TensorNetworkGraph&amp;            tng,
+                   const storage::TTTrain&amp;              train)&gt;</definition>
+        <argsstring></argsstring>
+        <name>RerouteSerializeFn</name>
+        <qualifiedname>themis::tensor::TNSRTask::RerouteSerializeFn</qualifiedname>
+        <briefdescription>
+<para>Callable type for topology-guided re-serialization. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Storage engine to write to. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>field_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key of the tensor being processed. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tng</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Mutated <ref refid="classthemis_1_1tensor_1_1_tensor_network_graph" kindref="compound">TensorNetworkGraph</ref> (after rerouteEdge calls). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>train</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Recompressed TTTrain to persist. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>true</computeroutput> on success, <computeroutput>false</computeroutput> on failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tnsr_task.h" line="175" column="5" bodyfile="include/tensor/tnsr_task.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_t_n_s_r_task_1af8ffa8940ba1dae72b20d87277fe8e23" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; storage::TensorNetworkStorageEngine &gt;</type>
+        <definition>std::shared_ptr&lt;storage::TensorNetworkStorageEngine&gt; themis::tensor::TNSRTask::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>themis::tensor::TNSRTask::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tnsr_task.h" line="251" column="21" bodyfile="include/tensor/tnsr_task.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_t_n_s_r_task_1adc165e673de10bf04c23ba4b4fabf1a3" prot="private" static="no" mutable="no">
+        <type>storage::TensorTrainDecomposer</type>
+        <definition>storage::TensorTrainDecomposer themis::tensor::TNSRTask::decomposer_</definition>
+        <argsstring></argsstring>
+        <name>decomposer_</name>
+        <qualifiedname>themis::tensor::TNSRTask::decomposer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tnsr_task.h" line="252" column="58" bodyfile="include/tensor/tnsr_task.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_t_n_s_r_task_1aa04e82457cab7e09439866c9ff519e19" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1tensor_1_1_hiss_structural_search_engine" kindref="compound">HissStructuralSearchEngine</ref></type>
+        <definition>HissStructuralSearchEngine themis::tensor::TNSRTask::hiss_engine_</definition>
+        <argsstring></argsstring>
+        <name>hiss_engine_</name>
+        <qualifiedname>themis::tensor::TNSRTask::hiss_engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tnsr_task.h" line="253" column="58" bodyfile="include/tensor/tnsr_task.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_t_n_s_r_task_1a510fb4b9ce613c09f5812141f9f72d2a" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::tensor::TNSRTask::cancel_requested_</definition>
+        <argsstring></argsstring>
+        <name>cancel_requested_</name>
+        <qualifiedname>themis::tensor::TNSRTask::cancel_requested_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tnsr_task.h" line="254" column="52" bodyfile="include/tensor/tnsr_task.h" bodystart="254" bodyend="254"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_t_n_s_r_task_1aca3a0c31edcbb0d5c407c74023d11ee3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::TNSRTask::setRerouteSerializeFn</definition>
+        <argsstring>(RerouteSerializeFn fn)</argsstring>
+        <name>setRerouteSerializeFn</name>
+        <qualifiedname>themis::tensor::TNSRTask::setRerouteSerializeFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1_t_n_s_r_task_1a5c602fa75e8cf5b0c2798750f34c9d0b" kindref="member">RerouteSerializeFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Install a topology re-serialization backend. Thread-safe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Reroute Serialize Fn.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tnsr_task.h" line="182" column="17" bodyfile="src/tensor/tnsr_task.cpp" bodystart="35" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_t_n_s_r_task_1af280bc5ef21fed83b48e7353fb87267f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::TNSRTask::clearRerouteSerializeFn</definition>
+        <argsstring>()</argsstring>
+        <name>clearRerouteSerializeFn</name>
+        <qualifiedname>themis::tensor::TNSRTask::clearRerouteSerializeFn</qualifiedname>
+        <briefdescription>
+<para>Remove the topology re-serialization backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Reroute Serialize Fn.</para>
+<para>Subsequent reroute operations fall back to count-only behaviour until a new backend is installed.</para>
+<para>Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tnsr_task.h" line="190" column="17" bodyfile="src/tensor/tnsr_task.cpp" bodystart="44" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_t_n_s_r_task_1ab32c8fe7e279f089fb7622e07592a3d3" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::TNSRTask::hasRerouteSerializeFn</definition>
+        <argsstring>()</argsstring>
+        <name>hasRerouteSerializeFn</name>
+        <qualifiedname>themis::tensor::TNSRTask::hasRerouteSerializeFn</qualifiedname>
+        <briefdescription>
+<para>Has Reroute Serialize Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tnsr_task.h" line="247" column="18" bodyfile="src/tensor/tnsr_task.cpp" bodystart="76" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_t_n_s_r_task_1aa802b024de4ff4b6181be40a804db489" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1tensor_1_1_t_n_s_r_task_1a5c602fa75e8cf5b0c2798750f34c9d0b" kindref="member">RerouteSerializeFn</ref></type>
+        <definition>TNSRTask::RerouteSerializeFn themis::tensor::TNSRTask::getRerouteSerializeFn</definition>
+        <argsstring>()</argsstring>
+        <name>getRerouteSerializeFn</name>
+        <qualifiedname>themis::tensor::TNSRTask::getRerouteSerializeFn</qualifiedname>
+        <briefdescription>
+<para>Get Reroute Serialize Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tnsr_task.h" line="248" column="32" bodyfile="src/tensor/tnsr_task.cpp" bodystart="54" bodyend="57"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_t_n_s_r_task_1a42b7f7350a08f908cc7e684d19188163" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::TNSRTask::TNSRTask</definition>
+        <argsstring>(std::shared_ptr&lt; storage::TensorNetworkStorageEngine &gt; engine, storage::TensorTrainDecomposer decomposer={})</argsstring>
+        <name>TNSRTask</name>
+        <qualifiedname>themis::tensor::TNSRTask::TNSRTask</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; storage::TensorNetworkStorageEngine &gt;</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type>storage::TensorTrainDecomposer</type>
+          <declname>decomposer</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Construct with an engine and optional decomposer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The tensor storage engine to process. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>decomposer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Decomposer used for <computeroutput>recompress()</computeroutput>. Defaults to a freshly constructed (stateless) instance. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tnsr_task.h" line="199" column="14" bodyfile="src/tensor/tnsr_task.cpp" bodystart="63" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_t_n_s_r_task_1a16ecf73676f3d2e989cf388e6e084c74" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::TNSRTask::~TNSRTask</definition>
+        <argsstring>()=default</argsstring>
+        <name>~TNSRTask</name>
+        <qualifiedname>themis::tensor::TNSRTask::~TNSRTask</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tnsr_task.h" line="203" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_t_n_s_r_task_1a987aef39aec74c0c73e30e7a4286c525" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::TNSRTask::TNSRTask</definition>
+        <argsstring>(const TNSRTask &amp;)=delete</argsstring>
+        <name>TNSRTask</name>
+        <qualifiedname>themis::tensor::TNSRTask::TNSRTask</qualifiedname>
+        <param>
+          <type>const TNSRTask &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tnsr_task.h" line="206" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_t_n_s_r_task_1a42a705cd8706785df3af019c2066b4fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1tensor_1_1_t_n_s_r_task_1a42b7f7350a08f908cc7e684d19188163" kindref="member">TNSRTask</ref> &amp;</type>
+        <definition>TNSRTask &amp; themis::tensor::TNSRTask::operator=</definition>
+        <argsstring>(const TNSRTask &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::tensor::TNSRTask::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1tensor_1_1_t_n_s_r_task_1a42b7f7350a08f908cc7e684d19188163" kindref="member">TNSRTask</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tnsr_task.h" line="207" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_t_n_s_r_task_1ab99727ed53db11b902c1c213c9f0b013" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::TNSRTask::TNSRTask</definition>
+        <argsstring>(TNSRTask &amp;&amp;) noexcept=delete</argsstring>
+        <name>TNSRTask</name>
+        <qualifiedname>themis::tensor::TNSRTask::TNSRTask</qualifiedname>
+        <param>
+          <type>TNSRTask &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tnsr_task.h" line="208" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_t_n_s_r_task_1a67cb7f98061237a90b23429b9dd4dd21" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1tensor_1_1_t_n_s_r_task_1a42b7f7350a08f908cc7e684d19188163" kindref="member">TNSRTask</ref> &amp;</type>
+        <definition>TNSRTask &amp; themis::tensor::TNSRTask::operator=</definition>
+        <argsstring>(TNSRTask &amp;&amp;) noexcept=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::tensor::TNSRTask::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1_t_n_s_r_task_1a42b7f7350a08f908cc7e684d19188163" kindref="member">TNSRTask</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tnsr_task.h" line="209" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_t_n_s_r_task_1a53adb3add04e802457bbbecfbb74a318" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_t_n_s_r_report" kindref="compound">TNSRReport</ref></type>
+        <definition>TNSRReport themis::tensor::TNSRTask::run</definition>
+        <argsstring>(const std::vector&lt; storage::TensorFieldKey &gt; &amp;index_key_range, const TNSRConfig &amp;cfg={})</argsstring>
+        <name>run</name>
+        <qualifiedname>themis::tensor::TNSRTask::run</qualifiedname>
+        <param>
+          <type>const std::vector&lt; storage::TensorFieldKey &gt; &amp;</type>
+          <declname>index_key_range</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_t_n_s_r_config" kindref="compound">TNSRConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Run TNSR on a set of storage keys. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ <ref refid="classthemis_1_1tensor_1_1_t_n_s_r_task_1a53adb3add04e802457bbbecfbb74a318" kindref="member">TNSRTask::run</ref> ============================================================================</para>
+<para>Iterates over <computeroutput>index_key_range</computeroutput>, recompresses each TTTrain with the configured epsilon, analyses topology with <computeroutput><ref refid="classthemis_1_1tensor_1_1_hiss_structural_search_engine" kindref="compound">HissStructuralSearchEngine</ref></computeroutput>, and writes back any train whose serialised size decreases by at least <computeroutput>cfg.min_bytes_saved_to_commit</computeroutput> bytes.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index_key_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Storage keys to process (logical field addresses). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Task configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1tensor_1_1_t_n_s_r_report" kindref="compound">TNSRReport</ref> summarising the run.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">index_key_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tnsr_task.h" line="223" column="16" bodyfile="src/tensor/tnsr_task.cpp" bodystart="88" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_t_n_s_r_task_1a22c40a95432303479ae4ca6fd1da30e0" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::TNSRTask::requestCancel</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>requestCancel</name>
+        <qualifiedname>themis::tensor::TNSRTask::requestCancel</qualifiedname>
+        <briefdescription>
+<para>Cancel a running <computeroutput><ref refid="classthemis_1_1tensor_1_1_t_n_s_r_task_1a53adb3add04e802457bbbecfbb74a318" kindref="member">run()</ref></computeroutput> call from another thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets an atomic flag that <computeroutput><ref refid="classthemis_1_1tensor_1_1_t_n_s_r_task_1a53adb3add04e802457bbbecfbb74a318" kindref="member">run()</ref></computeroutput> checks between keys. The current key is completed before the run exits. Safe to call concurrently. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tnsr_task.h" line="233" column="10" bodyfile="include/tensor/tnsr_task.h" bodystart="233" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_t_n_s_r_task_1a8becd1653c1f8defa772fef13e4f2ca9" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::TNSRTask::clearCancel</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>clearCancel</name>
+        <qualifiedname>themis::tensor::TNSRTask::clearCancel</qualifiedname>
+        <briefdescription>
+<para>Clear the cancel flag (call before a new run after cancellation). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tnsr_task.h" line="238" column="10" bodyfile="include/tensor/tnsr_task.h" bodystart="238" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_t_n_s_r_task_1a2537920d3a526d9a6460e5c3cef2ef9c" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::TNSRTask::isCancelRequested</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isCancelRequested</name>
+        <qualifiedname>themis::tensor::TNSRTask::isCancelRequested</qualifiedname>
+        <briefdescription>
+<para>Return true if a cancel has been requested. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tnsr_task.h" line="243" column="10" bodyfile="include/tensor/tnsr_task.h" bodystart="243" bodyend="245"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Background task that performs TensorNetworkStructuralRounding. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><heading level="3">STUB/SIMULATION NOTE (STUB #252):</heading>
+</para>
+<para>Purpose: Phase-6 TNSR skeleton — rank reduction (recompress) is production-quality; topology mutation via rerouteEdge is a demonstration path that rebuilds the in-memory <ref refid="classthemis_1_1tensor_1_1_tensor_network_graph" kindref="compound">TensorNetworkGraph</ref> but does NOT yet re-serialise the mutated topology back to storage. The on-disk TT representation is unchanged by topology mutation in this release. Activation: Always when <ref refid="classthemis_1_1tensor_1_1_t_n_s_r_task_1a53adb3add04e802457bbbecfbb74a318" kindref="member">run()</ref> is called and no <ref refid="classthemis_1_1tensor_1_1_t_n_s_r_task_1a5c602fa75e8cf5b0c2798750f34c9d0b" kindref="member">RerouteSerializeFn</ref> is set. Production Delta: Topology changes are counted but not persisted; only bond-dimension reductions (rank_delta &gt; 0) are durable. Removal Plan: Q3 2028 — implement topology-guided TT re-serialisation that maps rerouteEdge suggestions to re-contraction + storage.</para>
+<para><heading level="3">Bridge Injection (STUB #252)</heading>
+</para>
+<para>Call <computeroutput>setRerouteSerializeFn(fn)</computeroutput> to install a callable that receives the mutated <computeroutput><ref refid="classthemis_1_1tensor_1_1_tensor_network_graph" kindref="compound">TensorNetworkGraph</ref></computeroutput> after all <computeroutput>rerouteEdge()</computeroutput> calls for one key and must persist the changed topology to storage. The callable signature:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>fn(storage::TensorNetworkStorageEngine&amp;<sp/>engine,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>storage::TensorFieldKey&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/>field_key,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TensorNetworkGraph&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tng,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>storage::TTTrain&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>train);</highlight></codeline>
+</programlisting> <verbatim>Returning `true` indicates success (the key is counted in `keys_rewritten`
+for topology changes); returning `false` increments `error_count`.
+
+### Thread safety
+</verbatim> <computeroutput><ref refid="classthemis_1_1tensor_1_1_t_n_s_r_task_1a53adb3add04e802457bbbecfbb74a318" kindref="member">run()</ref></computeroutput> takes exclusive ownership of the engine for the duration of the run (holds the engine&apos;s internal write lock during each <computeroutput>put()</computeroutput>). Do not call <computeroutput><ref refid="classthemis_1_1tensor_1_1_t_n_s_r_task_1a53adb3add04e802457bbbecfbb74a318" kindref="member">run()</ref></computeroutput> from multiple threads concurrently on the same engine. </para>
+    </detaileddescription>
+    <location file="include/tensor/tnsr_task.h" line="160" column="1" bodyfile="include/tensor/tnsr_task.h" bodystart="160" bodyend="255"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_t_n_s_r_task_1a510fb4b9ce613c09f5812141f9f72d2a" prot="private" virt="non-virtual"><scope>themis::tensor::TNSRTask</scope><name>cancel_requested_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_t_n_s_r_task_1a8becd1653c1f8defa772fef13e4f2ca9" prot="public" virt="non-virtual"><scope>themis::tensor::TNSRTask</scope><name>clearCancel</name></member>
+      <member refid="classthemis_1_1tensor_1_1_t_n_s_r_task_1af280bc5ef21fed83b48e7353fb87267f" prot="public" virt="non-virtual"><scope>themis::tensor::TNSRTask</scope><name>clearRerouteSerializeFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_t_n_s_r_task_1adc165e673de10bf04c23ba4b4fabf1a3" prot="private" virt="non-virtual"><scope>themis::tensor::TNSRTask</scope><name>decomposer_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_t_n_s_r_task_1af8ffa8940ba1dae72b20d87277fe8e23" prot="private" virt="non-virtual"><scope>themis::tensor::TNSRTask</scope><name>engine_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_t_n_s_r_task_1aa802b024de4ff4b6181be40a804db489" prot="public" virt="non-virtual"><scope>themis::tensor::TNSRTask</scope><name>getRerouteSerializeFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_t_n_s_r_task_1ab32c8fe7e279f089fb7622e07592a3d3" prot="public" virt="non-virtual"><scope>themis::tensor::TNSRTask</scope><name>hasRerouteSerializeFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_t_n_s_r_task_1aa04e82457cab7e09439866c9ff519e19" prot="private" virt="non-virtual"><scope>themis::tensor::TNSRTask</scope><name>hiss_engine_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_t_n_s_r_task_1a2537920d3a526d9a6460e5c3cef2ef9c" prot="public" virt="non-virtual"><scope>themis::tensor::TNSRTask</scope><name>isCancelRequested</name></member>
+      <member refid="classthemis_1_1tensor_1_1_t_n_s_r_task_1a42a705cd8706785df3af019c2066b4fb" prot="public" virt="non-virtual"><scope>themis::tensor::TNSRTask</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1tensor_1_1_t_n_s_r_task_1a67cb7f98061237a90b23429b9dd4dd21" prot="public" virt="non-virtual"><scope>themis::tensor::TNSRTask</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1tensor_1_1_t_n_s_r_task_1a22c40a95432303479ae4ca6fd1da30e0" prot="public" virt="non-virtual"><scope>themis::tensor::TNSRTask</scope><name>requestCancel</name></member>
+      <member refid="classthemis_1_1tensor_1_1_t_n_s_r_task_1a5c602fa75e8cf5b0c2798750f34c9d0b" prot="public" virt="non-virtual"><scope>themis::tensor::TNSRTask</scope><name>RerouteSerializeFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_t_n_s_r_task_1a53adb3add04e802457bbbecfbb74a318" prot="public" virt="non-virtual"><scope>themis::tensor::TNSRTask</scope><name>run</name></member>
+      <member refid="classthemis_1_1tensor_1_1_t_n_s_r_task_1aca3a0c31edcbb0d5c407c74023d11ee3" prot="public" virt="non-virtual"><scope>themis::tensor::TNSRTask</scope><name>setRerouteSerializeFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_t_n_s_r_task_1a42b7f7350a08f908cc7e684d19188163" prot="public" virt="non-virtual"><scope>themis::tensor::TNSRTask</scope><name>TNSRTask</name></member>
+      <member refid="classthemis_1_1tensor_1_1_t_n_s_r_task_1a987aef39aec74c0c73e30e7a4286c525" prot="public" virt="non-virtual"><scope>themis::tensor::TNSRTask</scope><name>TNSRTask</name></member>
+      <member refid="classthemis_1_1tensor_1_1_t_n_s_r_task_1ab99727ed53db11b902c1c213c9f0b013" prot="public" virt="non-virtual"><scope>themis::tensor::TNSRTask</scope><name>TNSRTask</name></member>
+      <member refid="classthemis_1_1tensor_1_1_t_n_s_r_task_1a16ecf73676f3d2e989cf388e6e084c74" prot="public" virt="non-virtual"><scope>themis::tensor::TNSRTask</scope><name>~TNSRTask</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1monitoring_1_1_m_s_w___tests" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::monitoring::MSW_Tests</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1monitoring_1_1_m_s_w___tests_1a4bd199ab79753dac6ecb0d22c16b2ce1" prot="protected" static="no" mutable="no">
+        <type><ref refid="class_l_l_m_plugin_manager" kindref="compound">LLMPluginManager</ref></type>
+        <definition>LLMPluginManager themis::llm::monitoring::MSW_Tests::mgr</definition>
+        <argsstring></argsstring>
+        <name>mgr</name>
+        <qualifiedname>themis::llm::monitoring::MSW_Tests::mgr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_metrics_server_wiring.cpp" line="106" column="22" bodyfile="tests/llm/test_metrics_server_wiring.cpp" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1monitoring_1_1_m_s_w___tests_1a19b21731d94b3ce0d7ec68354e73aaf5" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1monitoring_1_1_fake_plugin" kindref="compound">FakePlugin</ref> *</type>
+        <definition>FakePlugin* themis::llm::monitoring::MSW_Tests::plugin</definition>
+        <argsstring></argsstring>
+        <name>plugin</name>
+        <qualifiedname>themis::llm::monitoring::MSW_Tests::plugin</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_metrics_server_wiring.cpp" line="107" column="21" bodyfile="tests/llm/test_metrics_server_wiring.cpp" bodystart="107" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1monitoring_1_1_m_s_w___tests_1a30ae3da94d616127ec06543855579cda" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::monitoring::MSW_Tests::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::llm::monitoring::MSW_Tests::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_metrics_server_wiring.cpp" line="109" column="10" bodyfile="tests/llm/test_metrics_server_wiring.cpp" bodystart="109" bodyend="113"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::llm::monitoring::MSW_Tests</label>
+        <link refid="classthemis_1_1llm_1_1monitoring_1_1_m_s_w___tests"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="5">
+        <label>themis::llm::ILLMPlugin</label>
+        <link refid="classthemis_1_1llm_1_1_i_l_l_m_plugin"/>
+      </node>
+      <node id="3">
+        <label>themis::llm::LLMPluginManager</label>
+        <link refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager"/>
+      </node>
+      <node id="4">
+        <label>themis::llm::monitoring::FakePlugin</label>
+        <link refid="structthemis_1_1llm_1_1monitoring_1_1_fake_plugin"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::llm::monitoring::MSW_Tests</label>
+        <link refid="classthemis_1_1llm_1_1monitoring_1_1_m_s_w___tests"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>mgr</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>plugin</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_metrics_server_wiring.cpp" line="104" column="1" bodyfile="tests/llm/test_metrics_server_wiring.cpp" bodystart="104" bodyend="114"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_m_s_w___tests_1a4bd199ab79753dac6ecb0d22c16b2ce1" prot="protected" virt="non-virtual"><scope>themis::llm::monitoring::MSW_Tests</scope><name>mgr</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_m_s_w___tests_1a19b21731d94b3ce0d7ec68354e73aaf5" prot="protected" virt="non-virtual"><scope>themis::llm::monitoring::MSW_Tests</scope><name>plugin</name></member>
+      <member refid="classthemis_1_1llm_1_1monitoring_1_1_m_s_w___tests_1a30ae3da94d616127ec06543855579cda" prot="protected" virt="non-virtual"><scope>themis::llm::monitoring::MSW_Tests</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

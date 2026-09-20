@@ -1,0 +1,382 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_block_table" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::BlockTable</compoundname>
+    <includes refid="block__table_8h" local="no">block_table.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_block_table_1_1_config" prot="public">themis::llm::BlockTable::Config</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_block_table_1_1_stats" prot="public">themis::llm::BlockTable::Stats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_block_table_1abb14984309775dc3251f3ef4ff733e2a" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_paged_block_manager" kindref="compound">PagedBlockManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PagedBlockManager&gt; themis::llm::BlockTable::block_manager_</definition>
+        <argsstring></argsstring>
+        <name>block_manager_</name>
+        <qualifiedname>themis::llm::BlockTable::block_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/block_table.h" line="81" column="21" bodyfile="include/llm/block_table.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_block_table_1a845578f35afc229816cc9316f548c35a" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::BlockTable::sequence_id_</definition>
+        <argsstring></argsstring>
+        <name>sequence_id_</name>
+        <qualifiedname>themis::llm::BlockTable::sequence_id_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/block_table.h" line="82" column="14" bodyfile="include/llm/block_table.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_block_table_1a5ba65112c33c67f5b13d24893b535561" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_block_table_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::llm::BlockTable::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::BlockTable::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/block_table.h" line="83" column="12" bodyfile="include/llm/block_table.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_block_table_1a988324b53e052307185389ea5f7dae30" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themis::llm::BlockTable::block_ids_</definition>
+        <argsstring></argsstring>
+        <name>block_ids_</name>
+        <qualifiedname>themis::llm::BlockTable::block_ids_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/block_table.h" line="85" column="17" bodyfile="include/llm/block_table.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_block_table_1a0928316a2fe7b48aa89bb6fbde01174c" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; bool &gt;</type>
+        <definition>std::vector&lt;bool&gt; themis::llm::BlockTable::is_shared_</definition>
+        <argsstring></argsstring>
+        <name>is_shared_</name>
+        <qualifiedname>themis::llm::BlockTable::is_shared_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/block_table.h" line="86" column="17" bodyfile="include/llm/block_table.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_block_table_1a167fe434ba12e2860227f0618d4bf3f1" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, int &gt;</type>
+        <definition>std::unordered_map&lt;int, int&gt; themis::llm::BlockTable::ref_counts_</definition>
+        <argsstring></argsstring>
+        <name>ref_counts_</name>
+        <qualifiedname>themis::llm::BlockTable::ref_counts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/block_table.h" line="87" column="24" bodyfile="include/llm/block_table.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_block_table_1adfb945d7a0eec3a511d6c2b2213deca2" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::BlockTable::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::llm::BlockTable::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/block_table.h" line="89" column="24" bodyfile="include/llm/block_table.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_block_table_1ac89db6fe1700d8eb55e2c7731f191005" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::BlockTable::BlockTable</definition>
+        <argsstring>(std::shared_ptr&lt; PagedBlockManager &gt; block_manager, uint64_t sequence_id, const Config &amp;config)</argsstring>
+        <name>BlockTable</name>
+        <qualifiedname>themis::llm::BlockTable::BlockTable</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_paged_block_manager" kindref="compound">PagedBlockManager</ref> &gt;</type>
+          <declname>block_manager</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>sequence_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_block_table_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/block_table.h" line="30" column="5" bodyfile="src/llm/block_table.cpp" bodystart="17" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_block_table_1a6aef37681902bc260f29c54424d3e7e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::BlockTable::~BlockTable</definition>
+        <argsstring>()</argsstring>
+        <name>~BlockTable</name>
+        <qualifiedname>themis::llm::BlockTable::~BlockTable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/block_table.h" line="34" column="5" bodyfile="src/llm/block_table.cpp" bodystart="25" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_block_table_1a7261ac2f1d2f4bb7269ef201da25a446" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt; int &gt; themis::llm::BlockTable::allocateBlocks</definition>
+        <argsstring>(size_t num_blocks)</argsstring>
+        <name>allocateBlocks</name>
+        <qualifiedname>themis::llm::BlockTable::allocateBlocks</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>num_blocks</declname>
+        </param>
+        <briefdescription>
+<para>Allocate blocks for this sequence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Allocate Blocks.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">num_blocks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">num_blocks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), reserve(), allocate(), deallocate(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/block_table.h" line="41" column="17" bodyfile="src/llm/block_table.cpp" bodystart="35" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_block_table_1a8b4dd470722601430389350297641b49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::BlockTable::releaseBlocks</definition>
+        <argsstring>()</argsstring>
+        <name>releaseBlocks</name>
+        <qualifiedname>themis::llm::BlockTable::releaseBlocks</qualifiedname>
+        <briefdescription>
+<para>Release all blocks for this sequence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Release Blocks.</para>
+<para>Calls: lock(), size(), find(), end(), deallocate(), erase(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/block_table.h" line="46" column="10" bodyfile="src/llm/block_table.cpp" bodystart="65" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_block_table_1a6cf5448931be9eb7ebd380c7c533a534" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::BlockTable::sharePrefix</definition>
+        <argsstring>(uint64_t parent_sequence_id, size_t prefix_length)</argsstring>
+        <name>sharePrefix</name>
+        <qualifiedname>themis::llm::BlockTable::sharePrefix</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>parent_sequence_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>prefix_length</declname>
+        </param>
+        <briefdescription>
+<para>Share prefix blocks from parent sequence (Copy-on-Write). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Share Prefix.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">parent_sequence_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the parent sequence. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prefix_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">uint64_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prefix_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/block_table.h" line="53" column="10" bodyfile="src/llm/block_table.cpp" bodystart="94" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_block_table_1aad876706b226a45290f4f61b12b105c3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt; int &gt; themis::llm::BlockTable::getBlockMapping</definition>
+        <argsstring>() const</argsstring>
+        <name>getBlockMapping</name>
+        <qualifiedname>themis::llm::BlockTable::getBlockMapping</qualifiedname>
+        <briefdescription>
+<para>Get block mapping for attention computation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/block_table.h" line="59" column="17" bodyfile="src/llm/block_table.cpp" bodystart="115" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_block_table_1ad99235176bcf7319d42e2c78e9f4c145" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::BlockTable::getNumTokens</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumTokens</name>
+        <qualifiedname>themis::llm::BlockTable::getNumTokens</qualifiedname>
+        <briefdescription>
+<para>Get number of tokens stored. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/block_table.h" line="65" column="12" bodyfile="src/llm/block_table.cpp" bodystart="125" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_block_table_1a749eec57c1555ad8adcdd10ac2bff551" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_block_table_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>BlockTable::Stats themis::llm::BlockTable::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::llm::BlockTable::getStats</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1llm_1_1_block_table_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/block_table.h" line="78" column="11" bodyfile="src/llm/block_table.cpp" bodystart="135" bodyend="151"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/block_table.h" line="23" column="1" bodyfile="include/llm/block_table.h" bodystart="23" bodyend="90"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_block_table_1a7261ac2f1d2f4bb7269ef201da25a446" prot="public" virt="non-virtual"><scope>themis::llm::BlockTable</scope><name>allocateBlocks</name></member>
+      <member refid="classthemis_1_1llm_1_1_block_table_1a988324b53e052307185389ea5f7dae30" prot="private" virt="non-virtual"><scope>themis::llm::BlockTable</scope><name>block_ids_</name></member>
+      <member refid="classthemis_1_1llm_1_1_block_table_1abb14984309775dc3251f3ef4ff733e2a" prot="private" virt="non-virtual"><scope>themis::llm::BlockTable</scope><name>block_manager_</name></member>
+      <member refid="classthemis_1_1llm_1_1_block_table_1ac89db6fe1700d8eb55e2c7731f191005" prot="public" virt="non-virtual"><scope>themis::llm::BlockTable</scope><name>BlockTable</name></member>
+      <member refid="classthemis_1_1llm_1_1_block_table_1a5ba65112c33c67f5b13d24893b535561" prot="private" virt="non-virtual"><scope>themis::llm::BlockTable</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1_block_table_1aad876706b226a45290f4f61b12b105c3" prot="public" virt="non-virtual"><scope>themis::llm::BlockTable</scope><name>getBlockMapping</name></member>
+      <member refid="classthemis_1_1llm_1_1_block_table_1ad99235176bcf7319d42e2c78e9f4c145" prot="public" virt="non-virtual"><scope>themis::llm::BlockTable</scope><name>getNumTokens</name></member>
+      <member refid="classthemis_1_1llm_1_1_block_table_1a749eec57c1555ad8adcdd10ac2bff551" prot="public" virt="non-virtual"><scope>themis::llm::BlockTable</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_block_table_1a0928316a2fe7b48aa89bb6fbde01174c" prot="private" virt="non-virtual"><scope>themis::llm::BlockTable</scope><name>is_shared_</name></member>
+      <member refid="classthemis_1_1llm_1_1_block_table_1adfb945d7a0eec3a511d6c2b2213deca2" prot="private" virt="non-virtual"><scope>themis::llm::BlockTable</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_block_table_1a167fe434ba12e2860227f0618d4bf3f1" prot="private" virt="non-virtual"><scope>themis::llm::BlockTable</scope><name>ref_counts_</name></member>
+      <member refid="classthemis_1_1llm_1_1_block_table_1a8b4dd470722601430389350297641b49" prot="public" virt="non-virtual"><scope>themis::llm::BlockTable</scope><name>releaseBlocks</name></member>
+      <member refid="classthemis_1_1llm_1_1_block_table_1a845578f35afc229816cc9316f548c35a" prot="private" virt="non-virtual"><scope>themis::llm::BlockTable</scope><name>sequence_id_</name></member>
+      <member refid="classthemis_1_1llm_1_1_block_table_1a6cf5448931be9eb7ebd380c7c533a534" prot="public" virt="non-virtual"><scope>themis::llm::BlockTable</scope><name>sharePrefix</name></member>
+      <member refid="classthemis_1_1llm_1_1_block_table_1a6aef37681902bc260f29c54424d3e7e6" prot="public" virt="non-virtual"><scope>themis::llm::BlockTable</scope><name>~BlockTable</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

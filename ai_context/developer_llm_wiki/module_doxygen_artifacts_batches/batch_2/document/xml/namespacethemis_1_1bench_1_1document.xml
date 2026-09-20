@@ -1,0 +1,1061 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1document" kind="namespace" language="C++">
+    <compoundname>themis::bench::document</compoundname>
+    <innerclass refid="classthemis_1_1bench_1_1document_1_1_document_diff_merge_fixture" prot="public">themis::bench::document::DocumentDiffMergeFixture</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1document_1_1_document_store_fixture" prot="public">themis::bench::document::DocumentStoreFixture</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1document_1_1_round_trip_fixture" prot="public">themis::bench::document::RoundTripFixture</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1document_1a5706a5852bab3a6d3d208c2b7aeb8ed6" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::document::kDocCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kDocCanonicalSeed</name>
+        <qualifiedname>themis::bench::document::kDocCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical PRNG seed for all document benchmarks (per MEASUREMENT_HYGIENE.md). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_diff_merge.cpp" line="50" column="27" bodyfile="benchmarks/document/bench_document_diff_merge.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1document_1ad0141b407ac497324798fb7f59ab35cd" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::bench::document::kGateDoc01UsP99</definition>
+        <argsstring></argsstring>
+        <name>kGateDoc01UsP99</name>
+        <qualifiedname>themis::bench::document::kGateDoc01UsP99</qualifiedname>
+        <initializer>= 500.0</initializer>
+        <briefdescription>
+<para>GATE-DOC-01: p99 latency limit for 100-field document diff (µs). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_diff_merge.cpp" line="53" column="25" bodyfile="benchmarks/document/bench_document_diff_merge.cpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1document_1a58df6d090140e9aa7657ffd55af86f41" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::bench::document::kGateDoc02UsP99</definition>
+        <argsstring></argsstring>
+        <name>kGateDoc02UsP99</name>
+        <qualifiedname>themis::bench::document::kGateDoc02UsP99</qualifiedname>
+        <initializer>= 200.0</initializer>
+        <briefdescription>
+<para>GATE-DOC-02: p99 latency limit for clean merge with no conflicts (µs). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_diff_merge.cpp" line="56" column="25" bodyfile="benchmarks/document/bench_document_diff_merge.cpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1document_1a5706a5852bab3a6d3d208c2b7aeb8ed6" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::document::kDocCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kDocCanonicalSeed</name>
+        <qualifiedname>themis::bench::document::kDocCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical PRNG seed for all document benchmarks (per MEASUREMENT_HYGIENE.md). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_round_trip.cpp" line="58" column="27" bodyfile="benchmarks/document/bench_document_round_trip.cpp" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1document_1a6c492bef372a3dd03f99f88b7c2c8131" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::bench::document::kGateDoc03UsP99</definition>
+        <argsstring></argsstring>
+        <name>kGateDoc03UsP99</name>
+        <qualifiedname>themis::bench::document::kGateDoc03UsP99</qualifiedname>
+        <initializer>= 1000.0</initializer>
+        <briefdescription>
+<para>GATE-DOC-03: p99 latency limit for beginRelay() (µs → converted from 1 ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_round_trip.cpp" line="61" column="25" bodyfile="benchmarks/document/bench_document_round_trip.cpp" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1document_1af3f8fbfaefd7c329acacd5557711d817" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::bench::document::kGateDoc04UsP99</definition>
+        <argsstring></argsstring>
+        <name>kGateDoc04UsP99</name>
+        <qualifiedname>themis::bench::document::kGateDoc04UsP99</qualifiedname>
+        <initializer>= 200.0</initializer>
+        <briefdescription>
+<para>GATE-DOC-04: p99 latency limit for loadInteraction() (µs). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_round_trip.cpp" line="64" column="25" bodyfile="benchmarks/document/bench_document_round_trip.cpp" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1document_1a5706a5852bab3a6d3d208c2b7aeb8ed6" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::document::kDocCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kDocCanonicalSeed</name>
+        <qualifiedname>themis::bench::document::kDocCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical PRNG seed for all document benchmarks (per MEASUREMENT_HYGIENE.md). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_store.cpp" line="54" column="27" bodyfile="benchmarks/document/bench_document_store.cpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1document_1af5c08b6ae421d609cc1b1d965a443a4d" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::bench::document::kGateDoc05OpsPerSec</definition>
+        <argsstring></argsstring>
+        <name>kGateDoc05OpsPerSec</name>
+        <qualifiedname>themis::bench::document::kGateDoc05OpsPerSec</qualifiedname>
+        <initializer>= 100&apos;000.0</initializer>
+        <briefdescription>
+<para>GATE-DOC-05: minimum put() throughput (ops/s). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_store.cpp" line="57" column="25" bodyfile="benchmarks/document/bench_document_store.cpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1document_1a6b6bf47dbec9aeb7cbf2041f3ca3e77b" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::bench::document::kGateDoc06UsP99</definition>
+        <argsstring></argsstring>
+        <name>kGateDoc06UsP99</name>
+        <qualifiedname>themis::bench::document::kGateDoc06UsP99</qualifiedname>
+        <initializer>= 100.0</initializer>
+        <briefdescription>
+<para>GATE-DOC-06: maximum p99 get() latency (µs). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_store.cpp" line="60" column="25" bodyfile="benchmarks/document/bench_document_store.cpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1document_1a74db24922681a24eb7da4f9af490d38a" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::document::kPreloadCount</definition>
+        <argsstring></argsstring>
+        <name>kPreloadCount</name>
+        <qualifiedname>themis::bench::document::kPreloadCount</qualifiedname>
+        <initializer>= 1&apos;000</initializer>
+        <briefdescription>
+<para>Number of pre-populated documents used for read/update benchmarks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_store.cpp" line="63" column="22" bodyfile="benchmarks/document/bench_document_store.cpp" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1document_1a2d116c77f8ae6b62f44f5831b414adda" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::document::kBatchSize</definition>
+        <argsstring></argsstring>
+        <name>kBatchSize</name>
+        <qualifiedname>themis::bench::document::kBatchSize</qualifiedname>
+        <initializer>= 1&apos;000</initializer>
+        <briefdescription>
+<para>Number of documents per put/remove batch iteration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_store.cpp" line="66" column="22" bodyfile="benchmarks/document/bench_document_store.cpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1document_1adb7bfacccc22e44c2c0e2faa54b5d205" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::bench::document::kLargeBodySize</definition>
+        <argsstring></argsstring>
+        <name>kLargeBodySize</name>
+        <qualifiedname>themis::bench::document::kLargeBodySize</qualifiedname>
+        <initializer>= 10&apos;240</initializer>
+        <briefdescription>
+<para>Large document body size in bytes for DST-BM-07. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_store.cpp" line="69" column="30" bodyfile="benchmarks/document/bench_document_store.cpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1a7469f19a5524756fe88389c6814ca9dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(DocumentDiffMergeFixture, DDM_BM_01_DiffSmallDocument)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::bench::document::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1bench_1_1document_1_1_document_diff_merge_fixture" kindref="compound">DocumentDiffMergeFixture</ref></type>
+        </param>
+        <param>
+          <type>DDM_BM_01_DiffSmallDocument</type>
+        </param>
+        <briefdescription>
+<para>DDM-BM-01: diff two 5-field JSON objects (1 field differs). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Measures the hot-path diff latency for a minimal document payload. Useful as a low-baseline reference for overhead decomposition. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_diff_merge.cpp" line="240" column="1" bodyfile="benchmarks/document/bench_document_diff_merge.cpp" bodystart="240" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1a553ebc776367207ee79b04b9f7851b9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::Iterations</definition>
+        <argsstring>(50 &apos;000) -&gt; Unit(benchmark::kMicrosecond) -&gt;UseRealTime() -&gt;Name(&quot;DocDiffMerge/DDM-BM-01_DiffSmallDocument&quot;)</argsstring>
+        <name>Iterations</name>
+        <qualifiedname>themis::bench::document::Iterations</qualifiedname>
+        <param>
+          <type>50 &apos;</type>
+          <declname>000</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_diff_merge.cpp" line="248" column="5" declfile="benchmarks/document/bench_document_diff_merge.cpp" declline="248" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1a9e25f9e1ea441b9de05e19610363f01e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(DocumentDiffMergeFixture, DDM_BM_02_DiffLargeDocument)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::bench::document::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1bench_1_1document_1_1_document_diff_merge_fixture" kindref="compound">DocumentDiffMergeFixture</ref></type>
+        </param>
+        <param>
+          <type>DDM_BM_02_DiffLargeDocument</type>
+        </param>
+        <briefdescription>
+<para>DDM-BM-02: diff two 100-field JSON objects (50 fields differ). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Exercises the full field-scan loop across a realistic large payload. Result feeds GATE-DOC-01 (p99 ≤ 500 µs). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_diff_merge.cpp" line="263" column="1" bodyfile="benchmarks/document/bench_document_diff_merge.cpp" bodystart="263" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1a26b7de2aa3729940e873cdfa69735e64" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::Iterations</definition>
+        <argsstring>(5 &apos;000) -&gt; Unit(benchmark::kMicrosecond) -&gt;UseRealTime() -&gt;Name(&quot;DocDiffMerge/DDM-BM-02_DiffLargeDocument&quot;)</argsstring>
+        <name>Iterations</name>
+        <qualifiedname>themis::bench::document::Iterations</qualifiedname>
+        <param>
+          <type>5 &apos;</type>
+          <declname>000</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_diff_merge.cpp" line="271" column="5" declfile="benchmarks/document/bench_document_diff_merge.cpp" declline="271" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1ad1d3bcedad913e0d30ec32b289c656dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(DocumentDiffMergeFixture, DDM_BM_03_MergeCleanNoConflict)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::bench::document::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1bench_1_1document_1_1_document_diff_merge_fixture" kindref="compound">DocumentDiffMergeFixture</ref></type>
+        </param>
+        <param>
+          <type>DDM_BM_03_MergeCleanNoConflict</type>
+        </param>
+        <briefdescription>
+<para>DDM-BM-03: three-way merge — ours and theirs modify different fields. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>No conflict is generated; FAIL strategy confirms clean-merge semantics on every iteration. Result feeds GATE-DOC-02 (p99 ≤ 200 µs). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_diff_merge.cpp" line="286" column="1" bodyfile="benchmarks/document/bench_document_diff_merge.cpp" bodystart="286" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1a47734af8a3237f1721f386b049289882" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::Iterations</definition>
+        <argsstring>(10 &apos;000) -&gt; Unit(benchmark::kMicrosecond) -&gt;UseRealTime() -&gt;Name(&quot;DocDiffMerge/DDM-BM-03_MergeCleanNoConflict&quot;)</argsstring>
+        <name>Iterations</name>
+        <qualifiedname>themis::bench::document::Iterations</qualifiedname>
+        <param>
+          <type>10 &apos;</type>
+          <declname>000</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_diff_merge.cpp" line="295" column="5" declfile="benchmarks/document/bench_document_diff_merge.cpp" declline="295" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1ac7e8696d02e4d89c57eaf3d4d2729131" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(DocumentDiffMergeFixture, DDM_BM_04_MergeAllConflicts_OursWins)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::bench::document::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1bench_1_1document_1_1_document_diff_merge_fixture" kindref="compound">DocumentDiffMergeFixture</ref></type>
+        </param>
+        <param>
+          <type>DDM_BM_04_MergeAllConflicts_OursWins</type>
+        </param>
+        <briefdescription>
+<para>DDM-BM-04: three-way merge — 50 conflicting fields, OURS_WINS strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>All 50 fields conflict; every conflict is resolved automatically with OURS_WINS. Measures combined conflict-detection and resolution cost. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_diff_merge.cpp" line="310" column="1" bodyfile="benchmarks/document/bench_document_diff_merge.cpp" bodystart="310" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1ac13241d0bdc85d5abf6c021893712437" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(DocumentDiffMergeFixture, DDM_BM_05_MergeAllConflicts_TheirsWins)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::bench::document::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1bench_1_1document_1_1_document_diff_merge_fixture" kindref="compound">DocumentDiffMergeFixture</ref></type>
+        </param>
+        <param>
+          <type>DDM_BM_05_MergeAllConflicts_TheirsWins</type>
+        </param>
+        <briefdescription>
+<para>DDM-BM-05: three-way merge — 50 conflicting fields, THEIRS_WINS. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Symmetric variant of DDM-BM-04. Confirms THEIRS_WINS resolution cost matches OURS_WINS; both paths should be within 5% of each other. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_diff_merge.cpp" line="334" column="1" bodyfile="benchmarks/document/bench_document_diff_merge.cpp" bodystart="334" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1a36b0d59a4894c10929d12c4bb1004fbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(DocumentDiffMergeFixture, DDM_BM_06_MergeAllConflicts_Fail)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::bench::document::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1bench_1_1document_1_1_document_diff_merge_fixture" kindref="compound">DocumentDiffMergeFixture</ref></type>
+        </param>
+        <param>
+          <type>DDM_BM_06_MergeAllConflicts_Fail</type>
+        </param>
+        <briefdescription>
+<para>DDM-BM-06: three-way merge — 50 conflicting fields, FAIL strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Exercises the error path: every iteration returns ERR_DOC_MERGE_CONFLICT. Measures conflict detection + error construction cost without resolution. The error result is DoNotOptimize&apos;d to prevent elision. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_diff_merge.cpp" line="359" column="1" bodyfile="benchmarks/document/bench_document_diff_merge.cpp" bodystart="359" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1af4d216e52cd5155888429cf03de22a63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(DocumentDiffMergeFixture, DDM_BM_07_DiffEmptyDocuments)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::bench::document::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1bench_1_1document_1_1_document_diff_merge_fixture" kindref="compound">DocumentDiffMergeFixture</ref></type>
+        </param>
+        <param>
+          <type>DDM_BM_07_DiffEmptyDocuments</type>
+        </param>
+        <briefdescription>
+<para>DDM-BM-07: diff two empty JSON objects. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Measures the fixed overhead of the diff path when both documents are empty. Used as a lower-bound baseline for overhead decomposition. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_diff_merge.cpp" line="384" column="1" bodyfile="benchmarks/document/bench_document_diff_merge.cpp" bodystart="384" bodyend="390"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1a5d3764d0028f782e671d06f7bcea9553" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(DocumentDiffMergeFixture, DDM_BM_08_MergeIdenticalDocuments)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::bench::document::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1bench_1_1document_1_1_document_diff_merge_fixture" kindref="compound">DocumentDiffMergeFixture</ref></type>
+        </param>
+        <param>
+          <type>DDM_BM_08_MergeIdenticalDocuments</type>
+        </param>
+        <briefdescription>
+<para>DDM-BM-08: merge where base = ours = theirs (zero divergence). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Exercises the no-change fast path in computeMerge. All three versions are identical so no conflict or change is detected. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_diff_merge.cpp" line="407" column="1" bodyfile="benchmarks/document/bench_document_diff_merge.cpp" bodystart="407" bodyend="414"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1a30822a43fee017e136ddcb834ad5fd4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::Iterations</definition>
+        <argsstring>(20 &apos;000) -&gt; Unit(benchmark::kMicrosecond) -&gt;UseRealTime() -&gt;Name(&quot;DocDiffMerge/DDM-BM-08_MergeIdenticalDocuments&quot;)</argsstring>
+        <name>Iterations</name>
+        <qualifiedname>themis::bench::document::Iterations</qualifiedname>
+        <param>
+          <type>20 &apos;</type>
+          <declname>000</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_diff_merge.cpp" line="416" column="5" declfile="benchmarks/document/bench_document_diff_merge.cpp" declline="416" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1a2d059f296c475471b4c76b75aded45f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(DocumentDiffMergeFixture, GATE_DOC_01_LargeDocDiff_p99_500us)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::bench::document::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1bench_1_1document_1_1_document_diff_merge_fixture" kindref="compound">DocumentDiffMergeFixture</ref></type>
+        </param>
+        <param>
+          <type>GATE_DOC_01_LargeDocDiff_p99_500us</type>
+        </param>
+        <briefdescription>
+<para>Release gate verification for GATE-DOC-01. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Runs the 100-field diff workload (DDM-BM-02 payload) and asserts that the mean per-iteration latency is within the 500 µs hard gate. The gate value is published as a benchmark counter for automated release manifest comparison.</para>
+<para><simplesect kind="note"><para>Mean latency in a controlled CPU-pinned environment serves as a conservative proxy for p99. For formal p99 attestation run with <ndash/>benchmark_repetitions=10 and post-process with report_variance.py. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_diff_merge.cpp" line="436" column="1" bodyfile="benchmarks/document/bench_document_diff_merge.cpp" bodystart="436" bodyend="450"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1a79bd8116561114b4bc4375a53a5dd32f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(DocumentDiffMergeFixture, GATE_DOC_02_CleanMerge_p99_200us)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::bench::document::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1bench_1_1document_1_1_document_diff_merge_fixture" kindref="compound">DocumentDiffMergeFixture</ref></type>
+        </param>
+        <param>
+          <type>GATE_DOC_02_CleanMerge_p99_200us</type>
+        </param>
+        <briefdescription>
+<para>Release gate verification for GATE-DOC-02. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Runs the clean-merge workload (DDM-BM-03 payload: 10 fields/branch, no conflict) and asserts that mean latency is within the 200 µs hard gate. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_diff_merge.cpp" line="467" column="1" bodyfile="benchmarks/document/bench_document_diff_merge.cpp" bodystart="467" bodyend="482"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1a3dd5a4622074848ff00b89e286394fdc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(RoundTripFixture, RTP_BM_01_BeginRelayThroughput)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::bench::document::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1bench_1_1document_1_1_round_trip_fixture" kindref="compound">RoundTripFixture</ref></type>
+        </param>
+        <param>
+          <type>RTP_BM_01_BeginRelayThroughput</type>
+        </param>
+        <briefdescription>
+<para>RTP-BM-01: beginRelay() throughput for sequential relay IDs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Each iteration creates a new relay with a unique ID derived from an atomic counter. Measures the combined cost of snapshot ID construction, JSON body assembly, and InMemoryDocumentStore::put().</para>
+<para>Result feeds GATE-DOC-03 (p99 ≤ 1 ms). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_round_trip.cpp" line="179" column="1" bodyfile="benchmarks/document/bench_document_round_trip.cpp" bodystart="179" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1adcc31244d17651cd9b1a49174783ac8c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(RoundTripFixture, RTP_BM_02_SaveInteractionThroughput)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::bench::document::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1bench_1_1document_1_1_round_trip_fixture" kindref="compound">RoundTripFixture</ref></type>
+        </param>
+        <param>
+          <type>RTP_BM_02_SaveInteractionThroughput</type>
+        </param>
+        <briefdescription>
+<para>RTP-BM-02: saveInteraction() throughput — 10 sequential interactions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Each iteration: (paused) begin a fresh relay, then (measured) save 10 interactions sequentially. PauseTiming() guards the beginRelay() setup call so only the saveInteraction() loop is measured.</para>
+<para>Reports items_processed as iterations × 10 for ops/s computation. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_round_trip.cpp" line="206" column="1" bodyfile="benchmarks/document/bench_document_round_trip.cpp" bodystart="206" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1a5144a5f394adb7cf591f8da84b712e1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::Iterations</definition>
+        <argsstring>(2 &apos;000) -&gt; Unit(benchmark::kMicrosecond) -&gt;UseRealTime() -&gt;Name(&quot;DocRoundTrip/RTP-BM-02_SaveInteractionThroughput&quot;)</argsstring>
+        <name>Iterations</name>
+        <qualifiedname>themis::bench::document::Iterations</qualifiedname>
+        <param>
+          <type>2 &apos;</type>
+          <declname>000</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_round_trip.cpp" line="224" column="5" declfile="benchmarks/document/bench_document_round_trip.cpp" declline="224" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1a64eeea7dd1a290a6ead815a39e1c0aac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(RoundTripFixture, RTP_BM_03_LoadInteractionLatency)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::bench::document::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1bench_1_1document_1_1_round_trip_fixture" kindref="compound">RoundTripFixture</ref></type>
+        </param>
+        <param>
+          <type>RTP_BM_03_LoadInteractionLatency</type>
+        </param>
+        <briefdescription>
+<para>RTP-BM-03: loadInteraction() latency for a pre-populated relay. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Loads interaction index 5 (mid-range) from the pre-populated relay on every iteration. The relay contains 11 snapshots; load is a pure read path through InMemoryDocumentStore::get().</para>
+<para>Result feeds GATE-DOC-04 (p99 ≤ 200 µs). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_round_trip.cpp" line="242" column="1" bodyfile="benchmarks/document/bench_document_round_trip.cpp" bodystart="242" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1a47a0069b33f6c578a0dccaef8f79a56f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(RoundTripFixture, RTP_BM_04_CountSnapshotsLatency)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::bench::document::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1bench_1_1document_1_1_round_trip_fixture" kindref="compound">RoundTripFixture</ref></type>
+        </param>
+        <param>
+          <type>RTP_BM_04_CountSnapshotsLatency</type>
+        </param>
+        <briefdescription>
+<para>RTP-BM-04: countSnapshots() latency for a relay with 10 snapshots. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls countSnapshots() on the pre-populated relay (11 total snapshots). Internally lists the collection and scans all IDs for the relay prefix. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_round_trip.cpp" line="265" column="1" bodyfile="benchmarks/document/bench_document_round_trip.cpp" bodystart="265" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1a2b35a9293621e7049e380d46244372d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(RoundTripFixture, RTP_BM_05_FullRelayWorkflow)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::bench::document::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1bench_1_1document_1_1_round_trip_fixture" kindref="compound">RoundTripFixture</ref></type>
+        </param>
+        <param>
+          <type>RTP_BM_05_FullRelayWorkflow</type>
+        </param>
+        <briefdescription>
+<para>RTP-BM-05: end-to-end relay workflow — begin + 5x save + 5x load. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Each iteration: (paused) allocate a unique relay ID, then (measured) call beginRelay(), save 5 interactions, and load all 5 back. Represents the complete hot path of the DELEGATE-52 round-trip use case.</para>
+<para>Reports items_processed as iterations × 11 (1 begin + 5 save + 5 load). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_round_trip.cpp" line="291" column="1" bodyfile="benchmarks/document/bench_document_round_trip.cpp" bodystart="291" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1a67a4621455d87cb3eac40c77dba1a70e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(RoundTripFixture, RTP_BM_06_SnapshotIdGeneration)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::bench::document::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1bench_1_1document_1_1_round_trip_fixture" kindref="compound">RoundTripFixture</ref></type>
+        </param>
+        <param>
+          <type>RTP_BM_06_SnapshotIdGeneration</type>
+        </param>
+        <briefdescription>
+<para>RTP-BM-06: makeSnapshotId-equivalent string construction throughput. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Benchmarks the zero-padded snapshot ID construction pattern used internally by StoreBackedRoundTripEditor::makeSnapshotId(). Since makeSnapshotId() is private, the equivalent ostringstream construction is measured directly.</para>
+<para>At 1M iterations this benchmark reveals allocator and ostringstream overhead in the snapshot ID hot path. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_round_trip.cpp" line="332" column="1" bodyfile="benchmarks/document/bench_document_round_trip.cpp" bodystart="332" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1ac77a6d32d58d98e01477e4b0c8d6b70a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::Iterations</definition>
+        <argsstring>(1 &apos;000 &apos;000) -&gt; Unit(benchmark::kNanosecond) -&gt;UseRealTime() -&gt;Name(&quot;DocRoundTrip/RTP-BM-06_SnapshotIdGeneration&quot;)</argsstring>
+        <name>Iterations</name>
+        <qualifiedname>themis::bench::document::Iterations</qualifiedname>
+        <param>
+          <type>1 &apos;000 &apos;</type>
+          <declname>000</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_round_trip.cpp" line="344" column="5" declfile="benchmarks/document/bench_document_round_trip.cpp" declline="344" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1a2100653477430508020e0e6744c8b2b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(RoundTripFixture, RTP_BM_07_LargeDocumentSnapshot)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::bench::document::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1bench_1_1document_1_1_round_trip_fixture" kindref="compound">RoundTripFixture</ref></type>
+        </param>
+        <param>
+          <type>RTP_BM_07_LargeDocumentSnapshot</type>
+        </param>
+        <briefdescription>
+<para>RTP-BM-07: saveInteraction() with a 10 KB document string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Each iteration: (paused) begin a relay, then (measured) save one 10 KB document snapshot. Measures JSON body assembly and in-memory store insertion cost under a realistic large-document payload. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_round_trip.cpp" line="360" column="1" bodyfile="benchmarks/document/bench_document_round_trip.cpp" bodystart="360" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1ac1ce33a3d612f4a472677a16ade624e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::Iterations</definition>
+        <argsstring>(1 &apos;000) -&gt; Unit(benchmark::kMicrosecond) -&gt;UseRealTime() -&gt;Name(&quot;DocRoundTrip/RTP-BM-07_LargeDocumentSnapshot&quot;)</argsstring>
+        <name>Iterations</name>
+        <qualifiedname>themis::bench::document::Iterations</qualifiedname>
+        <param>
+          <type>1 &apos;</type>
+          <declname>000</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_round_trip.cpp" line="376" column="5" declfile="benchmarks/document/bench_document_round_trip.cpp" declline="376" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1ac2215bfe0bdfed45f23adbe794311793" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(RoundTripFixture, RTP_BM_08_ConcurrentRelayLoad)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::bench::document::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1bench_1_1document_1_1_round_trip_fixture" kindref="compound">RoundTripFixture</ref></type>
+        </param>
+        <param>
+          <type>RTP_BM_08_ConcurrentRelayLoad</type>
+        </param>
+        <briefdescription>
+<para>RTP-BM-08: two concurrent relay workloads via std::thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Each benchmark iteration launches two threads; each thread independently begins a relay, saves 5 interactions, and loads one snapshot. The threads share the InMemoryDocumentStore (which is protected by its internal mutex) and the StoreBackedRoundTripEditor.</para>
+<para>Measures the overhead of concurrent write+read access under the store&apos;s mutex. Reports items_processed as iterations × 2 (two workloads/iter). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_round_trip.cpp" line="396" column="1" bodyfile="benchmarks/document/bench_document_round_trip.cpp" bodystart="396" bodyend="417"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1a7c9865b5a1ea434a2f65d5680d3b431b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::Iterations</definition>
+        <argsstring>(500) -&gt; Unit(benchmark::kMicrosecond) -&gt;UseRealTime() -&gt;Name(&quot;DocRoundTrip/RTP-BM-08_ConcurrentRelayLoad&quot;)</argsstring>
+        <name>Iterations</name>
+        <qualifiedname>themis::bench::document::Iterations</qualifiedname>
+        <param>
+          <type>500</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_round_trip.cpp" line="419" column="5" declfile="benchmarks/document/bench_document_round_trip.cpp" declline="419" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1abaf71bbcb82300e5409897235c3f48a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(RoundTripFixture, GATE_DOC_03_BeginRelay_p99_1ms)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::bench::document::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1bench_1_1document_1_1_round_trip_fixture" kindref="compound">RoundTripFixture</ref></type>
+        </param>
+        <param>
+          <type>GATE_DOC_03_BeginRelay_p99_1ms</type>
+        </param>
+        <briefdescription>
+<para>Release gate verification for GATE-DOC-03. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Runs the beginRelay() workload and asserts that mean latency is within the 1 ms (1000 µs) hard gate. The gate value is published as a benchmark counter for automated release manifest comparison. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_round_trip.cpp" line="435" column="1" bodyfile="benchmarks/document/bench_document_round_trip.cpp" bodystart="435" bodyend="450"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1ac7afaee068a8b4f51ddea0947a4ae8c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(RoundTripFixture, GATE_DOC_04_LoadInteraction_p99_200us)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::bench::document::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1bench_1_1document_1_1_round_trip_fixture" kindref="compound">RoundTripFixture</ref></type>
+        </param>
+        <param>
+          <type>GATE_DOC_04_LoadInteraction_p99_200us</type>
+        </param>
+        <briefdescription>
+<para>Release gate verification for GATE-DOC-04. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Runs the loadInteraction() workload on the pre-populated relay and asserts that mean latency is within the 200 µs hard gate. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_round_trip.cpp" line="467" column="1" bodyfile="benchmarks/document/bench_document_round_trip.cpp" bodystart="467" bodyend="481"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1ad61dd7d32b522af8913b99b8808e4a63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(DocumentStoreFixture, DST_BM_01_PutThroughput)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::bench::document::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1bench_1_1document_1_1_document_store_fixture" kindref="compound">DocumentStoreFixture</ref></type>
+        </param>
+        <param>
+          <type>DST_BM_01_PutThroughput</type>
+        </param>
+        <briefdescription>
+<para>DST-BM-01: put() throughput — kBatchSize sequential documents per iteration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Each iteration inserts kBatchSize documents with unique IDs derived from iterCounter_ to guarantee no ERR_DOC_ALREADY_EXISTS errors. Measures raw JSON-body storage throughput.</para>
+<para>Result feeds GATE-DOC-05 (throughput ≥ 100 000 ops/s). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_store.cpp" line="237" column="1" bodyfile="benchmarks/document/bench_document_store.cpp" bodystart="237" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1a5a50d3e49843534a76efddd00e744c5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::Iterations</definition>
+        <argsstring>(100) -&gt; Unit(benchmark::kMicrosecond) -&gt;UseRealTime() -&gt;Name(&quot;DocStore/DST-BM-01_PutThroughput&quot;)</argsstring>
+        <name>Iterations</name>
+        <qualifiedname>themis::bench::document::Iterations</qualifiedname>
+        <param>
+          <type>100</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_store.cpp" line="252" column="5" declfile="benchmarks/document/bench_document_store.cpp" declline="252" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1aebbc50b64b7b626d6a08097a92e8f16a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(DocumentStoreFixture, DST_BM_02_GetLatency)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::bench::document::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1bench_1_1document_1_1_document_store_fixture" kindref="compound">DocumentStoreFixture</ref></type>
+        </param>
+        <param>
+          <type>DST_BM_02_GetLatency</type>
+        </param>
+        <briefdescription>
+<para>DST-BM-02: get() latency — random access into 1000-document store. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Each iteration performs one get() using a deterministic pseudo-random key drawn from the pre-loaded collection. Measures point-lookup latency under a realistic working-set size.</para>
+<para>Result feeds GATE-DOC-06 (p99 ≤ 100 µs). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_store.cpp" line="270" column="1" bodyfile="benchmarks/document/bench_document_store.cpp" bodystart="270" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1a4bae51acfc4e3cf76c98ed5c4ac994f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(DocumentStoreFixture, DST_BM_03_ListThroughput)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::bench::document::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1bench_1_1document_1_1_document_store_fixture" kindref="compound">DocumentStoreFixture</ref></type>
+        </param>
+        <param>
+          <type>DST_BM_03_ListThroughput</type>
+        </param>
+        <briefdescription>
+<para>DST-BM-03: list() throughput — enumerate 1000 document IDs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls list() on a 1000-document collection on every iteration. Exercises the full collection-scan hot path in InMemoryDocumentStore. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_store.cpp" line="294" column="1" bodyfile="benchmarks/document/bench_document_store.cpp" bodystart="294" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1ad7fd388bb3025ccef3857a53843d3e5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(DocumentStoreFixture, DST_BM_04_CountLatency)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::bench::document::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1bench_1_1document_1_1_document_store_fixture" kindref="compound">DocumentStoreFixture</ref></type>
+        </param>
+        <param>
+          <type>DST_BM_04_CountLatency</type>
+        </param>
+        <briefdescription>
+<para>DST-BM-04: count() latency — count 1000-document collection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls count() on the 1000-document pre-loaded collection. Internally this scans the store map to count keys matching the collection prefix. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_store.cpp" line="316" column="1" bodyfile="benchmarks/document/bench_document_store.cpp" bodystart="316" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1ae367f8baae214a44ea27ec939610d936" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(DocumentStoreFixture, DST_BM_05_UpdateThroughput)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::bench::document::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1bench_1_1document_1_1_document_store_fixture" kindref="compound">DocumentStoreFixture</ref></type>
+        </param>
+        <param>
+          <type>DST_BM_05_UpdateThroughput</type>
+        </param>
+        <briefdescription>
+<para>DST-BM-05: update() body replacement throughput — 1000 existing docs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Each iteration updates all kPreloadCount documents in kReadCollection with a fresh JSON body. Measures the combined JSON replacement and unordered_map lookup cost across 1000 records.</para>
+<para>Reports items_processed as iterations × kPreloadCount. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_store.cpp" line="341" column="1" bodyfile="benchmarks/document/bench_document_store.cpp" bodystart="341" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1a192a78f6def5668aa18f2664ac0c7d82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(DocumentStoreFixture, DST_BM_06_RemoveThroughput)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::bench::document::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1bench_1_1document_1_1_document_store_fixture" kindref="compound">DocumentStoreFixture</ref></type>
+        </param>
+        <param>
+          <type>DST_BM_06_RemoveThroughput</type>
+        </param>
+        <briefdescription>
+<para>DST-BM-06: remove() throughput — kBatchSize documents per iteration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Each iteration: (paused) inserts kBatchSize documents with unique IDs, then (measured) removes all of them. PauseTiming guards the pre-insertion so only the remove() path is timed.</para>
+<para>Reports items_processed as iterations × kBatchSize. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_store.cpp" line="369" column="1" bodyfile="benchmarks/document/bench_document_store.cpp" bodystart="369" bodyend="389"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1ac96e371800794f4369bb5b9c5657dca7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::Iterations</definition>
+        <argsstring>(50) -&gt; Unit(benchmark::kMicrosecond) -&gt;UseRealTime() -&gt;Name(&quot;DocStore/DST-BM-06_RemoveThroughput&quot;)</argsstring>
+        <name>Iterations</name>
+        <qualifiedname>themis::bench::document::Iterations</qualifiedname>
+        <param>
+          <type>50</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_store.cpp" line="391" column="5" declfile="benchmarks/document/bench_document_store.cpp" declline="391" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1acfdf0e883d82985546a3adff4aecaa21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(DocumentStoreFixture, DST_BM_07_LargeBodyPut)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::bench::document::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1bench_1_1document_1_1_document_store_fixture" kindref="compound">DocumentStoreFixture</ref></type>
+        </param>
+        <param>
+          <type>DST_BM_07_LargeBodyPut</type>
+        </param>
+        <briefdescription>
+<para>DST-BM-07: put() with a 10 KB JSON body document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Each iteration inserts one document with a 10 KB body (pre-built in SetUp) using a unique ID derived from iterCounter_. Measures JSON copy and unordered_map insertion overhead under a large-body payload. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_store.cpp" line="407" column="1" bodyfile="benchmarks/document/bench_document_store.cpp" bodystart="407" bodyend="417"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1a907ceb16fe1ce632681948760dfdc65c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(DocumentStoreFixture, DST_BM_08_SchemaValidationThroughput)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::bench::document::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1bench_1_1document_1_1_document_store_fixture" kindref="compound">DocumentStoreFixture</ref></type>
+        </param>
+        <param>
+          <type>DST_BM_08_SchemaValidationThroughput</type>
+        </param>
+        <briefdescription>
+<para>DST-BM-08: validate() throughput — 1000 documents against 10-field schema. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Each iteration validates kPreloadCount pre-built document bodies against the sealed 10-field schema registered at version 1. Measures the combined cost of schema lookup and per-field type/presence checking.</para>
+<para>Reports items_processed as iterations × kPreloadCount. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_store.cpp" line="437" column="1" bodyfile="benchmarks/document/bench_document_store.cpp" bodystart="437" bodyend="446"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1a40fd319112237acdb66cf8af548177ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(DocumentStoreFixture, GATE_DOC_05_PutThroughput_100k_ops_s)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::bench::document::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1bench_1_1document_1_1_document_store_fixture" kindref="compound">DocumentStoreFixture</ref></type>
+        </param>
+        <param>
+          <type>GATE_DOC_05_PutThroughput_100k_ops_s</type>
+        </param>
+        <briefdescription>
+<para>Release gate verification for GATE-DOC-05. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Runs the single-document put() workload and asserts that the measured throughput meets the 100 000 ops/s minimum. The gate is evaluated from items_processed / elapsed_time. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_store.cpp" line="464" column="1" bodyfile="benchmarks/document/bench_document_store.cpp" bodystart="464" bodyend="481"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1document_1afcc4d00b6a4f613a3d912644268ddaea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::document::BENCHMARK_DEFINE_F</definition>
+        <argsstring>(DocumentStoreFixture, GATE_DOC_06_GetLatency_p99_100us)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <qualifiedname>themis::bench::document::BENCHMARK_DEFINE_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1bench_1_1document_1_1_document_store_fixture" kindref="compound">DocumentStoreFixture</ref></type>
+        </param>
+        <param>
+          <type>GATE_DOC_06_GetLatency_p99_100us</type>
+        </param>
+        <briefdescription>
+<para>Release gate verification for GATE-DOC-06. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Runs the random-access get() workload against the 1000-document pre-loaded collection and asserts that mean latency is within the 100 µs hard gate. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/document/bench_document_store.cpp" line="498" column="1" bodyfile="benchmarks/document/bench_document_store.cpp" bodystart="498" bodyend="513"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/document/bench_document_diff_merge.cpp" line="43" column="1"/>
+  </compounddef>
+</doxygen>

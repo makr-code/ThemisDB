@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_parallelity_bench_optimized" kind="class" language="C++" prot="public">
+    <compoundname>ParallelityBenchOptimized</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_parallelity_bench_optimized_1a640eb2ec45a67cf0647979bb3d8f1866" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ParallelityBenchOptimized::base_path_</definition>
+        <argsstring></argsstring>
+        <name>base_path_</name>
+        <qualifiedname>ParallelityBenchOptimized::base_path_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="2255" column="17" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="2255" bodyend="2255"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_parallelity_bench_optimized_1a50b44f2d47387712d65914f815556a25" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ParallelityBenchOptimized::SetUp</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ParallelityBenchOptimized::SetUp</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="2242" column="10" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="2242" bodyend="2248"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parallelity_bench_optimized_1a42a162c5814f042089915f639c2b08c1" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ParallelityBenchOptimized::TearDown</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ParallelityBenchOptimized::TearDown</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="2250" column="10" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="2250" bodyend="2252"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Optimized parallel benchmark fixture - each thread gets its own DB instance This eliminates lock contention and tests actual parallelizability </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ParallelityBenchOptimized</label>
+        <link refid="class_parallelity_bench_optimized"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ParallelityBenchOptimized</label>
+        <link refid="class_parallelity_bench_optimized"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/base/bench_advanced_patterns.cpp" line="2240" column="1" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="2240" bodyend="2256"/>
+    <listofallmembers>
+      <member refid="class_parallelity_bench_optimized_1a640eb2ec45a67cf0647979bb3d8f1866" prot="protected" virt="non-virtual"><scope>ParallelityBenchOptimized</scope><name>base_path_</name></member>
+      <member refid="class_parallelity_bench_optimized_1a50b44f2d47387712d65914f815556a25" prot="protected" virt="non-virtual"><scope>ParallelityBenchOptimized</scope><name>SetUp</name></member>
+      <member refid="class_parallelity_bench_optimized_1a42a162c5814f042089915f639c2b08c1" prot="protected" virt="non-virtual"><scope>ParallelityBenchOptimized</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

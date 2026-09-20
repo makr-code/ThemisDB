@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1plugins_1_1rpc_1_1grpc__plugin" kind="namespace" language="C++">
+    <compoundname>themis::plugins::rpc::grpc_plugin</compoundname>
+    <innerclass refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_bidi_stream_adapter" prot="public">themis::plugins::rpc::grpc_plugin::BidiStreamAdapter</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_plugin" prot="public">themis::plugins::rpc::grpc_plugin::GRPCPlugin</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server" prot="public">themis::plugins::rpc::grpc_plugin::GRPCServer</innerclass>
+    <innernamespace refid="namespacethemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1test">themis::plugins::rpc::grpc_plugin::test</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/rpc_grpc/bidi_stream_adapter.h" line="27" column="1"/>
+  </compounddef>
+</doxygen>

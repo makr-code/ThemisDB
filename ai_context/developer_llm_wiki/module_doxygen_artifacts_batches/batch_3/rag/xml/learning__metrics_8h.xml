@@ -1,0 +1,345 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="learning__metrics_8h" kind="file" language="C++">
+    <compoundname>learning_metrics.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">deque</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">ostream</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includes refid="knowledge__gap__detector_8h" local="yes">knowledge_gap_detector.h</includes>
+    <includedby refid="ab__testing__framework_8h" local="yes">include/rag/ab_testing_framework.h</includedby>
+    <includedby refid="continuous__learning__orchestrator_8h" local="yes">include/rag/continuous_learning_orchestrator.h</includedby>
+    <includedby refid="learning__metrics_8cpp" local="yes">src/rag/learning_metrics.cpp</includedby>
+    <incdepgraph>
+      <node id="11">
+        <label>knowledge_gap_detector.h</label>
+        <link refid="knowledge__gap__detector_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/rag/learning_metrics.h</label>
+        <link refid="learning__metrics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>deque</label>
+      </node>
+      <node id="12">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>mutex</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="7">
+        <label>ostream</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>unordered_map</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/rag/ab_testing_framework.h</label>
+        <link refid="ab__testing__framework_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/rag/continuous_learning_orchestrator.h</label>
+        <link refid="continuous__learning__orchestrator_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/rag/learning_metrics.h</label>
+        <link refid="learning__metrics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>src/rag/ab_testing_framework.cpp</label>
+        <link refid="ab__testing__framework_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/rag/continuous_learning_orchestrator.cpp</label>
+        <link refid="continuous__learning__orchestrator_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/rag/examples/loop_orchestration_example.cpp</label>
+        <link refid="loop__orchestration__example_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/rag/learning_metrics.cpp</label>
+        <link refid="learning__metrics_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1rag_1_1learning_1_1_retrieved_document" prot="public">themis::rag::learning::RetrievedDocument</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1learning_1_1_interaction" prot="public">themis::rag::learning::Interaction</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1learning_1_1_performance_snapshot" prot="public">themis::rag::learning::PerformanceSnapshot</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1learning_1_1_improvement_event" prot="public">themis::rag::learning::ImprovementEvent</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_info" prot="public">themis::rag::learning::ABTestInfo</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1learning_1_1_learning_stats" prot="public">themis::rag::learning::LearningStats</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_result" prot="public">themis::rag::learning::ABTestResult</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1learning_1_1_retrieval_params" prot="public">themis::rag::learning::RetrievalParams</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot" prot="public">themis::rag::learning::MetricsSnapshot</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1learning_1_1_evaluation_entry" prot="public">themis::rag::learning::EvaluationEntry</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1learning_1_1_learning_metrics" prot="public">themis::rag::learning::LearningMetrics</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1learning_1_1_learning_metrics_1_1_config" prot="public">themis::rag::learning::LearningMetrics::Config</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag">themis::rag</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag_1_1learning">themis::rag::learning</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;deque&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;ostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="knowledge__gap__detector_8h" kindref="compound">knowledge_gap_detector.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1learning" kindref="compound">themis::rag::learning</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1rag_1_1learning_1a01fedeb53a7494a87e787f88ec6605d2" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rag_1_1learning_1a01fedeb53a7494a87e787f88ec6605d2" kindref="member">FeedbackType</ref><sp/>{</highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1rag_1_1learning_1a01fedeb53a7494a87e787f88ec6605d2aab6c31432785221bae58327ef5f6ea58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1learning_1a01fedeb53a7494a87e787f88ec6605d2aab6c31432785221bae58327ef5f6ea58" kindref="member">POSITIVE</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1rag_1_1learning_1a01fedeb53a7494a87e787f88ec6605d2a50546bf973283065b6ccf09faf7a580a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1learning_1a01fedeb53a7494a87e787f88ec6605d2a50546bf973283065b6ccf09faf7a580a" kindref="member">NEGATIVE</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1rag_1_1learning_1a01fedeb53a7494a87e787f88ec6605d2a19369f41e70dbacbc6bbbb6f017c7542" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1learning_1a01fedeb53a7494a87e787f88ec6605d2a19369f41e70dbacbc6bbbb6f017c7542" kindref="member">CORRECTION</ref>,<sp/></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1rag_1_1learning_1a01fedeb53a7494a87e787f88ec6605d2a31ba17aa58cdb681423f07ca21a6efc7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1learning_1a01fedeb53a7494a87e787f88ec6605d2a31ba17aa58cdb681423f07ca21a6efc7" kindref="member">NEUTRAL</ref><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1rag_1_1learning_1_1_retrieved_document" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1learning_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref><sp/>{</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1rag_1_1learning_1_1_retrieved_document_1a95a0f7f48c5099cdeda37bab8e31564b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_retrieved_document_1a95a0f7f48c5099cdeda37bab8e31564b" kindref="member">id</ref>;</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1rag_1_1learning_1_1_retrieved_document_1a975221a26b24272a77a6cb7ed295d603" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_retrieved_document_1a975221a26b24272a77a6cb7ed295d603" kindref="member">content</ref>;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1rag_1_1learning_1_1_retrieved_document_1a9586b6bc2d0d43bcbf1243e82cd7e9e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_retrieved_document_1a9586b6bc2d0d43bcbf1243e82cd7e9e5" kindref="member">similarity_score</ref>;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1rag_1_1learning_1_1_retrieved_document_1aa0979752b8e1d7bc7df46330b1e0e008" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_retrieved_document_1aa0979752b8e1d7bc7df46330b1e0e008" kindref="member">metadata</ref>;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1rag_1_1learning_1_1_interaction" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1learning_1_1_interaction" kindref="compound">Interaction</ref><sp/>{</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1rag_1_1learning_1_1_interaction_1ad10d08b9b636d5094348ef55044ab608" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_interaction_1ad10d08b9b636d5094348ef55044ab608" kindref="member">interaction_id</ref>;</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1rag_1_1learning_1_1_interaction_1aeb28bf62169917d80e86e9e6fd0e4151" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_interaction_1aeb28bf62169917d80e86e9e6fd0e4151" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Input</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1rag_1_1learning_1_1_interaction_1a843f33736630eea90f8b82ee2f015715" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_interaction_1a843f33736630eea90f8b82ee2f015715" kindref="member">query</ref>;</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1rag_1_1learning_1_1_interaction_1ae910da3a150f0ea0944616d2580cd008" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_interaction_1ae910da3a150f0ea0944616d2580cd008" kindref="member">retrieved_docs</ref>;</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1rag_1_1learning_1_1_interaction_1ab66810a2d98d00e43a966a904e97b6b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_interaction_1ab66810a2d98d00e43a966a904e97b6b1" kindref="member">prompt_template_used</ref>;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Output</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1rag_1_1learning_1_1_interaction_1a97a73f3ae1a435256b75295b82c85915" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_interaction_1a97a73f3ae1a435256b75295b82c85915" kindref="member">generated_answer</ref>;</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1rag_1_1learning_1_1_interaction_1aa9af4415889bf56ea45609be94adb486" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_interaction_1aa9af4415889bf56ea45609be94adb486" kindref="member">token_probabilities</ref>;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1rag_1_1learning_1_1_interaction_1a3eb571319f4c8e84ad08a43b57ed8ebc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_detection_result" kindref="compound">knowledge_gap::DetectionResult</ref><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_interaction_1a3eb571319f4c8e84ad08a43b57ed8ebc" kindref="member">gap_detection_result</ref>;</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1rag_1_1learning_1_1_interaction_1a09725b3dfabacbe037c776004f2e958d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_interaction_1a09725b3dfabacbe037c776004f2e958d" kindref="member">perplexity</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1rag_1_1learning_1_1_interaction_1a03149b7793482d7c007163fbaab708ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_interaction_1a03149b7793482d7c007163fbaab708ad" kindref="member">confidence_score</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>User<sp/>feedback<sp/>(optional)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1rag_1_1learning_1_1_interaction_1a84e2c2e1d19b3f2893381f45c836e6bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;FeedbackType&gt;<sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_interaction_1a84e2c2e1d19b3f2893381f45c836e6bc" kindref="member">user_feedback</ref>;</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1rag_1_1learning_1_1_interaction_1a8247e53b2578657e44ca0252c3083de2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_interaction_1a8247e53b2578657e44ca0252c3083de2" kindref="member">user_correction</ref>;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1rag_1_1learning_1_1_interaction_1ac16a70a1c0a48394d17d18e2681cee0a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_interaction_1ac16a70a1c0a48394d17d18e2681cee0a" kindref="member">model_version</ref>;</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1rag_1_1learning_1_1_interaction_1a51163f1fc2d8690ac0e6cd8b3cf746e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_interaction_1a51163f1fc2d8690ac0e6cd8b3cf746e3" kindref="member">retrieval_config_version</ref>;</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1rag_1_1learning_1_1_interaction_1a0458b5c9e578532b902e78b70f60c434" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_interaction_1a0458b5c9e578532b902e78b70f60c434" kindref="member">prompt_version</ref>;</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1rag_1_1learning_1_1_interaction_1ac46e8729645c288958d91c702ab4cdbb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_interaction_1ac46e8729645c288958d91c702ab4cdbb" kindref="member">is_ab_test_traffic</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1rag_1_1learning_1_1_performance_snapshot" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1learning_1_1_performance_snapshot" kindref="compound">PerformanceSnapshot</ref><sp/>{</highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1rag_1_1learning_1_1_performance_snapshot_1aef31d3c39f743b366e6469db32884658" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_performance_snapshot_1aef31d3c39f743b366e6469db32884658" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1rag_1_1learning_1_1_performance_snapshot_1a8c7928dd5c05384f4160f563edaca411" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_performance_snapshot_1a8c7928dd5c05384f4160f563edaca411" kindref="member">accuracy</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1rag_1_1learning_1_1_performance_snapshot_1a0d8fac0ea148bce6428300d25c7ff9d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_performance_snapshot_1a0d8fac0ea148bce6428300d25c7ff9d0" kindref="member">avg_confidence</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1rag_1_1learning_1_1_performance_snapshot_1add29a568c58f746b8dd24d758db15d26" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_performance_snapshot_1add29a568c58f746b8dd24d758db15d26" kindref="member">gap_detection_rate</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1rag_1_1learning_1_1_performance_snapshot_1a3a70b8ddffc6c88647f353df37614b5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_performance_snapshot_1a3a70b8ddffc6c88647f353df37614b5b" kindref="member">total_queries</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1rag_1_1learning_1_1_performance_snapshot_1a2f33e4206e73fd45dd0174c64c2740ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_performance_snapshot_1a2f33e4206e73fd45dd0174c64c2740ab" kindref="member">component_version</ref>;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1rag_1_1learning_1_1_improvement_event" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1learning_1_1_improvement_event" kindref="compound">ImprovementEvent</ref><sp/>{</highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1rag_1_1learning_1_1_improvement_event_1a2c42cf466c02f1436bc3710d0f502394" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_improvement_event_1a2c42cf466c02f1436bc3710d0f502394" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1rag_1_1learning_1_1_improvement_event_1a10c7e941ca797711f34ea57cfac20ae4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_improvement_event_1a10c7e941ca797711f34ea57cfac20ae4" kindref="member">component</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1rag_1_1learning_1_1_improvement_event_1acd889bb991e3a1a33b0c5da37b16a4eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_improvement_event_1acd889bb991e3a1a33b0c5da37b16a4eb" kindref="member">improvement_type</ref>;<sp/></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1rag_1_1learning_1_1_improvement_event_1a173e75c109e93c05ac19854831d91c47" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_improvement_event_1a173e75c109e93c05ac19854831d91c47" kindref="member">metric_before</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1rag_1_1learning_1_1_improvement_event_1a78e4b4ace1b37e764852bd5600d64e68" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_improvement_event_1a78e4b4ace1b37e764852bd5600d64e68" kindref="member">metric_after</ref><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1rag_1_1learning_1_1_improvement_event_1ab1a69ea8ff43a9a8b7dde4d11a47ec10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_improvement_event_1ab1a69ea8ff43a9a8b7dde4d11a47ec10" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_info" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_info" kindref="compound">ABTestInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_info_1aedab4eb7729ab86cda217bf511a4613e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_info_1aedab4eb7729ab86cda217bf511a4613e" kindref="member">test_id</ref>;</highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_info_1afe6853beebd65d2bf4d625b11ba04904" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_info_1afe6853beebd65d2bf4d625b11ba04904" kindref="member">component</ref>;</highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_info_1a49aadd979031ff3c16d4106cbeedfde2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_info_1a49aadd979031ff3c16d4106cbeedfde2" kindref="member">start_time</ref>;</highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_info_1a6b9b00281b71bc006a2a33ab83a34e81" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_info_1a6b9b00281b71bc006a2a33ab83a34e81" kindref="member">control_samples</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_info_1af865cebcab3951cf78d456ba71c6c48c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_info_1af865cebcab3951cf78d456ba71c6c48c" kindref="member">treatment_samples</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_info_1aa041c59b0327f471e8a5286ac7ad70f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_info_1aa041c59b0327f471e8a5286ac7ad70f2" kindref="member">control_success_rate</ref><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_info_1a8bf4ab8c16e2ad6b4ca102f26538fb86" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_info_1a8bf4ab8c16e2ad6b4ca102f26538fb86" kindref="member">treatment_success_rate</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_info_1aa80939a011209de8be04ab19730a9b07" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_info_1aa80939a011209de8be04ab19730a9b07" kindref="member">is_active</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1rag_1_1learning_1_1_learning_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1learning_1_1_learning_stats" kindref="compound">LearningStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1rag_1_1learning_1_1_learning_stats_1a599b9b95672ca0bd44487ce37064495c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_learning_stats_1a599b9b95672ca0bd44487ce37064495c" kindref="member">total_interactions_logged</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1rag_1_1learning_1_1_learning_stats_1a1b8c6e86ee1af18e01d97b4107cfba86" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_learning_stats_1a1b8c6e86ee1af18e01d97b4107cfba86" kindref="member">lora_retraining_count</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1rag_1_1learning_1_1_learning_stats_1a47c3450d3cd42d606b4424c85d5f2cdc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_learning_stats_1a47c3450d3cd42d606b4424c85d5f2cdc" kindref="member">prompt_optimizations</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1rag_1_1learning_1_1_learning_stats_1ac58a6f006103a178b805f9ec451f0d22" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_learning_stats_1ac58a6f006103a178b805f9ec451f0d22" kindref="member">retrieval_optimizations</ref><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1rag_1_1learning_1_1_learning_stats_1a828b3e1fdce3219d21c4fcd5c6326352" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_learning_stats_1a828b3e1fdce3219d21c4fcd5c6326352" kindref="member">current_accuracy</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1rag_1_1learning_1_1_learning_stats_1adf2fc16ce74c3c471dab8cf515fa0b43" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_learning_stats_1adf2fc16ce74c3c471dab8cf515fa0b43" kindref="member">accuracy_7d_avg</ref><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1rag_1_1learning_1_1_learning_stats_1a48b3f5d56875765d8fd68ab251ea73d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_learning_stats_1a48b3f5d56875765d8fd68ab251ea73d7" kindref="member">accuracy_trend</ref><sp/><sp/><sp/>=<sp/>0.0;<sp/></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1rag_1_1learning_1_1_learning_stats_1a1b37b517d2246a60e594314bf76889b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ImprovementEvent&gt;<sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_learning_stats_1a1b37b517d2246a60e594314bf76889b2" kindref="member">recent_improvements</ref>;</highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1rag_1_1learning_1_1_learning_stats_1a45cd4bbc910c0e9f546297cdeb30d207" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ABTestInfo&gt;<sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_learning_stats_1a45cd4bbc910c0e9f546297cdeb30d207" kindref="member">active_ab_tests</ref>;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_result" kindref="compound">ABTestResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="138" refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_result_1afff96a5853964d8ae79a5318a5ed64dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_result_1afff96a5853964d8ae79a5318a5ed64dc" kindref="member">test_id</ref>;</highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_result_1afbd567842b280c4a13c5b43d54e40656" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_result_1afbd567842b280c4a13c5b43d54e40656" kindref="member">control_success_rate</ref><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_result_1a033bda95917f00d357458c76b682d102" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_result_1a033bda95917f00d357458c76b682d102" kindref="member">treatment_success_rate</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="141" refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_result_1ac7c28afb839feec37ba72e9eb9ae6f6d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_result_1ac7c28afb839feec37ba72e9eb9ae6f6d" kindref="member">improvement</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;<sp/></highlight></codeline>
+<codeline lineno="142" refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_result_1a84387aad54467584c864fc9b76265dfa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_result_1a84387aad54467584c864fc9b76265dfa" kindref="member">p_value</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="143" refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_result_1a2ba64ac517b9417bff734328a33edeed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_result_1a2ba64ac517b9417bff734328a33edeed" kindref="member">is_significant</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="144" refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_result_1a6e4d5b6a611886c85b7081269c1a3d94" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_result_1a6e4d5b6a611886c85b7081269c1a3d94" kindref="member">sample_size_control</ref><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="145" refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_result_1af7614b5e26b673c4764ef2a4178e2631" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_result_1af7614b5e26b673c4764ef2a4178e2631" kindref="member">sample_size_treatment</ref><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151" refid="structthemis_1_1rag_1_1learning_1_1_retrieval_params" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1learning_1_1_retrieval_params" kindref="compound">RetrievalParams</ref><sp/>{</highlight></codeline>
+<codeline lineno="152" refid="structthemis_1_1rag_1_1learning_1_1_retrieval_params_1a395b03c4fef3830b24e39bb789a84485" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_retrieval_params_1a395b03c4fef3830b24e39bb789a84485" kindref="member">top_k</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="153" refid="structthemis_1_1rag_1_1learning_1_1_retrieval_params_1aabda1f280c734b993fcff89b34369fef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_retrieval_params_1aabda1f280c734b993fcff89b34369fef" kindref="member">similarity_threshold</ref><sp/>=<sp/>0.75;</highlight></codeline>
+<codeline lineno="154" refid="structthemis_1_1rag_1_1learning_1_1_retrieval_params_1ac7c453e2a211e75b23d732c22a772169" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_retrieval_params_1ac7c453e2a211e75b23d732c22a772169" kindref="member">coverage_threshold</ref><sp/><sp/><sp/>=<sp/>0.8;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declaration<sp/>of<sp/>EvaluationResult<sp/>used<sp/>by<sp/>LearningMetrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot" kindref="compound">MetricsSnapshot</ref><sp/>{</highlight></codeline>
+<codeline lineno="159" refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1a53a079f322d74043a9b3246f5424ad30" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1a53a079f322d74043a9b3246f5424ad30" kindref="member">mean_accuracy</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="160" refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1aa51e2b95877a6849ee474be2433763d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1aa51e2b95877a6849ee474be2433763d9" kindref="member">mean_faithfulness</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="161" refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1a1f5bd495e816dcc8de2af88e1d9526cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1a1f5bd495e816dcc8de2af88e1d9526cd" kindref="member">mean_relevance</ref><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="162" refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1a643641396f373bb8d6dcc5ce8a92e41c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1a643641396f373bb8d6dcc5ce8a92e41c" kindref="member">mean_completeness</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="163" refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1a40789c3ab5780b7f14e97ba2c8a46a52" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1a40789c3ab5780b7f14e97ba2c8a46a52" kindref="member">mean_coherence</ref><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165" refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1a3d3bbcd1304ef6b377b1ab549837b36e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1a3d3bbcd1304ef6b377b1ab549837b36e" kindref="member">std_accuracy</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="166" refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1ae5e30eb792d13d463b7fcdbf33f975da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1ae5e30eb792d13d463b7fcdbf33f975da" kindref="member">std_faithfulness</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168" refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1a91ce3af1d059835cb9faf85f393e776b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1a91ce3af1d059835cb9faf85f393e776b" kindref="member">min_accuracy</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="169" refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1ab14f34890577b9b620c9c72366635064" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1ab14f34890577b9b620c9c72366635064" kindref="member">max_accuracy</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171" refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1a406c992c75cfbd57df54cbcceda7111c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1a406c992c75cfbd57df54cbcceda7111c" kindref="member">trend_accuracy</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;<sp/></highlight></codeline>
+<codeline lineno="172" refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1acfe80536c459ac4f73f84ff004a50de2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1acfe80536c459ac4f73f84ff004a50de2" kindref="member">trend_faithfulness</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174" refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1a25251eb75d2c00d6b52d2a70b50610c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1a25251eb75d2c00d6b52d2a70b50610c1" kindref="member">num_evaluations</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180" refid="structthemis_1_1rag_1_1learning_1_1_evaluation_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1learning_1_1_evaluation_entry" kindref="compound">EvaluationEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="181" refid="structthemis_1_1rag_1_1learning_1_1_evaluation_entry_1ae4ca9a533ad65384f97e33170574d82a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_evaluation_entry_1ae4ca9a533ad65384f97e33170574d82a" kindref="member">overall_score</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="182" refid="structthemis_1_1rag_1_1learning_1_1_evaluation_entry_1a2e753170ce8f4414ea209764bcd97842" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_evaluation_entry_1a2e753170ce8f4414ea209764bcd97842" kindref="member">faithfulness_score</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="183" refid="structthemis_1_1rag_1_1learning_1_1_evaluation_entry_1aae2b6af86c8a96017fef454f4fecbb61" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_evaluation_entry_1aae2b6af86c8a96017fef454f4fecbb61" kindref="member">relevance_score</ref><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="184" refid="structthemis_1_1rag_1_1learning_1_1_evaluation_entry_1a42b556965a718cc30189777e801572c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_evaluation_entry_1a42b556965a718cc30189777e801572c9" kindref="member">completeness_score</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="185" refid="structthemis_1_1rag_1_1learning_1_1_evaluation_entry_1abe8be3429e5370d6c981daf797941dff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_evaluation_entry_1abe8be3429e5370d6c981daf797941dff" kindref="member">coherence_score</ref><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="186" refid="structthemis_1_1rag_1_1learning_1_1_evaluation_entry_1a470d3bffac0842e3d49758e91c45e391" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_evaluation_entry_1a470d3bffac0842e3d49758e91c45e391" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196" refid="classthemis_1_1rag_1_1learning_1_1_learning_metrics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1learning_1_1_learning_metrics_1a1931aba846b8be4bf20d1b3971273d20" kindref="member">LearningMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="201" refid="structthemis_1_1rag_1_1learning_1_1_learning_metrics_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1learning_1_1_learning_metrics_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="202" refid="structthemis_1_1rag_1_1learning_1_1_learning_metrics_1_1_config_1a1ff516395c48a7eede7660d4751c6650" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_learning_metrics_1_1_config_1a1ff516395c48a7eede7660d4751c6650" kindref="member">window_size</ref><sp/>=<sp/>100;<sp/></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1learning_1_1_learning_metrics_1a1931aba846b8be4bf20d1b3971273d20" kindref="member">LearningMetrics</ref>();</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1learning_1_1_learning_metrics_1a1931aba846b8be4bf20d1b3971273d20" kindref="member">LearningMetrics</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_learning_metrics_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="207" refid="classthemis_1_1rag_1_1learning_1_1_learning_metrics_1a25d4256b9ffb910b055847c5bd259233" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1learning_1_1_learning_metrics_1a25d4256b9ffb910b055847c5bd259233" kindref="member">~LearningMetrics</ref>();</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1learning_1_1_learning_metrics_1a6f2914b32a08ac78aa41b12592d394f0" kindref="member">recordEvaluation</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_evaluation_entry" kindref="compound">EvaluationEntry</ref>&amp;<sp/>entry);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot" kindref="compound">MetricsSnapshot</ref><sp/><ref refid="classthemis_1_1rag_1_1learning_1_1_learning_metrics_1a3b19e98595243d33359517ee226bdd63" kindref="member">computeMetrics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1learning_1_1_learning_metrics_1ae19b3c9c10355c1ed9519f82bffc582d" kindref="member">exportMetrics</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filepath)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1learning_1_1_learning_metrics_1aade3744cd9cd731dc182c7a44e787b65" kindref="member">printReport</ref>(std::ostream&amp;<sp/>os)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1learning_1_1_learning_metrics_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>computeMean(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::deque&lt;double&gt;&amp;<sp/>data)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>computeStdDev(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::deque&lt;double&gt;&amp;<sp/>data,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>mean)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>computeTrend(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::deque&lt;double&gt;&amp;<sp/>data)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::rag::learning</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/rag/learning_metrics.h"/>
+  </compounddef>
+</doxygen>

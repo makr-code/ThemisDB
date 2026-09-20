@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_throughput_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::WireProtocolMetrics::ThroughputStats</compoundname>
+    <includes refid="wire__protocol__performance_8h" local="no">wire_protocol_performance.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_throughput_stats_1a485575735911fd4074b9ab9e5e0b4e54" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::WireProtocolMetrics::ThroughputStats::bytes_received_total</definition>
+        <argsstring></argsstring>
+        <name>bytes_received_total</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::ThroughputStats::bytes_received_total</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="81" column="18" bodyfile="include/network/wire_protocol_performance.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_throughput_stats_1ad4a6adddc0c540ddfdac06d298557712" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::WireProtocolMetrics::ThroughputStats::bytes_sent_total</definition>
+        <argsstring></argsstring>
+        <name>bytes_sent_total</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::ThroughputStats::bytes_sent_total</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="82" column="18" bodyfile="include/network/wire_protocol_performance.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_throughput_stats_1acc5e39d8cec994fa4de989d156fc77af" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::WireProtocolMetrics::ThroughputStats::requests_total</definition>
+        <argsstring></argsstring>
+        <name>requests_total</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::ThroughputStats::requests_total</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="83" column="18" bodyfile="include/network/wire_protocol_performance.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_throughput_stats_1a1ca86de131fe75fb65aac9a0d6860f35" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::WireProtocolMetrics::ThroughputStats::compressed_payloads</definition>
+        <argsstring></argsstring>
+        <name>compressed_payloads</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::ThroughputStats::compressed_payloads</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="84" column="18" bodyfile="include/network/wire_protocol_performance.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_throughput_stats_1a17d47651f5f42d69ae9450baec6cb88c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::network::WireProtocolMetrics::ThroughputStats::compression_ratio</definition>
+        <argsstring></argsstring>
+        <name>compression_ratio</name>
+        <qualifiedname>themis::network::WireProtocolMetrics::ThroughputStats::compression_ratio</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+<para>&lt; 1 means net saving </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="85" column="18" bodyfile="include/network/wire_protocol_performance.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/wire_protocol_performance.h" line="80" column="5" bodyfile="include/network/wire_protocol_performance.h" bodystart="80" bodyend="86"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_throughput_stats_1a485575735911fd4074b9ab9e5e0b4e54" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolMetrics::ThroughputStats</scope><name>bytes_received_total</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_throughput_stats_1ad4a6adddc0c540ddfdac06d298557712" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolMetrics::ThroughputStats</scope><name>bytes_sent_total</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_throughput_stats_1a1ca86de131fe75fb65aac9a0d6860f35" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolMetrics::ThroughputStats</scope><name>compressed_payloads</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_throughput_stats_1a17d47651f5f42d69ae9450baec6cb88c" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolMetrics::ThroughputStats</scope><name>compression_ratio</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_metrics_1_1_throughput_stats_1acc5e39d8cec994fa4de989d156fc77af" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolMetrics::ThroughputStats</scope><name>requests_total</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

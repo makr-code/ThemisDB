@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1applications_1_1_performance_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::applications::PerformanceMetrics</compoundname>
+    <includes refid="themis__help__lora_8h" local="no">themis_help_lora.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1applications_1_1_performance_metrics_1aee307e122e42b7273a114f9d78cb8c0e" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::llm::applications::PerformanceMetrics::total_queries</definition>
+        <argsstring></argsstring>
+        <name>total_queries</name>
+        <qualifiedname>themis::llm::applications::PerformanceMetrics::total_queries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/applications/themis_help_lora.h" line="38" column="13" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1applications_1_1_performance_metrics_1a650ac6a352600adeb28dcc94efbe60e7" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::llm::applications::PerformanceMetrics::successful_queries</definition>
+        <argsstring></argsstring>
+        <name>successful_queries</name>
+        <qualifiedname>themis::llm::applications::PerformanceMetrics::successful_queries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/applications/themis_help_lora.h" line="39" column="13" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1applications_1_1_performance_metrics_1a2d56a950c4d5af1097b134b8604a06a6" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::llm::applications::PerformanceMetrics::failed_queries</definition>
+        <argsstring></argsstring>
+        <name>failed_queries</name>
+        <qualifiedname>themis::llm::applications::PerformanceMetrics::failed_queries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/applications/themis_help_lora.h" line="40" column="13" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1applications_1_1_performance_metrics_1a621c8c2fd2f64c4edf4fa357089b152e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::applications::PerformanceMetrics::success_rate</definition>
+        <argsstring></argsstring>
+        <name>success_rate</name>
+        <qualifiedname>themis::llm::applications::PerformanceMetrics::success_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/applications/themis_help_lora.h" line="41" column="12" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1applications_1_1_performance_metrics_1aac37a52e71b28c2f75c9fcb7caacad94" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::applications::PerformanceMetrics::average_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>average_latency_ms</name>
+        <qualifiedname>themis::llm::applications::PerformanceMetrics::average_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/applications/themis_help_lora.h" line="42" column="12" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1applications_1_1_performance_metrics_1a3a7b776ef65f24098ce2a477c1cc91c5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::applications::PerformanceMetrics::cache_hit_rate</definition>
+        <argsstring></argsstring>
+        <name>cache_hit_rate</name>
+        <qualifiedname>themis::llm::applications::PerformanceMetrics::cache_hit_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/applications/themis_help_lora.h" line="43" column="12" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1applications_1_1_performance_metrics_1ac127fa5153b36dbcf04790be2a66e418" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::applications::PerformanceMetrics::~PerformanceMetrics</definition>
+        <argsstring>()=default</argsstring>
+        <name>~PerformanceMetrics</name>
+        <qualifiedname>themis::llm::applications::PerformanceMetrics::~PerformanceMetrics</qualifiedname>
+        <briefdescription>
+<para>Performance Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/applications/themis_help_lora.h" line="37" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/applications/themis_help_lora.h" line="32" column="1" bodyfile="include/llm/applications/themis_help_lora.h" bodystart="32" bodyend="44"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1applications_1_1_performance_metrics_1aac37a52e71b28c2f75c9fcb7caacad94" prot="public" virt="non-virtual"><scope>themis::llm::applications::PerformanceMetrics</scope><name>average_latency_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1applications_1_1_performance_metrics_1a3a7b776ef65f24098ce2a477c1cc91c5" prot="public" virt="non-virtual"><scope>themis::llm::applications::PerformanceMetrics</scope><name>cache_hit_rate</name></member>
+      <member refid="structthemis_1_1llm_1_1applications_1_1_performance_metrics_1a2d56a950c4d5af1097b134b8604a06a6" prot="public" virt="non-virtual"><scope>themis::llm::applications::PerformanceMetrics</scope><name>failed_queries</name></member>
+      <member refid="structthemis_1_1llm_1_1applications_1_1_performance_metrics_1a621c8c2fd2f64c4edf4fa357089b152e" prot="public" virt="non-virtual"><scope>themis::llm::applications::PerformanceMetrics</scope><name>success_rate</name></member>
+      <member refid="structthemis_1_1llm_1_1applications_1_1_performance_metrics_1a650ac6a352600adeb28dcc94efbe60e7" prot="public" virt="non-virtual"><scope>themis::llm::applications::PerformanceMetrics</scope><name>successful_queries</name></member>
+      <member refid="structthemis_1_1llm_1_1applications_1_1_performance_metrics_1aee307e122e42b7273a114f9d78cb8c0e" prot="public" virt="non-virtual"><scope>themis::llm::applications::PerformanceMetrics</scope><name>total_queries</name></member>
+      <member refid="structthemis_1_1llm_1_1applications_1_1_performance_metrics_1ac127fa5153b36dbcf04790be2a66e418" prot="public" virt="virtual"><scope>themis::llm::applications::PerformanceMetrics</scope><name>~PerformanceMetrics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

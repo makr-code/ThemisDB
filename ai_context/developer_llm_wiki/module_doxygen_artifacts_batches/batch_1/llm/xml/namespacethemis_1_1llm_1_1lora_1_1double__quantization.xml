@@ -1,0 +1,256 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1llm_1_1lora_1_1double__quantization" kind="namespace" language="C++">
+    <compoundname>themis::llm::lora::double_quantization</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1_1double__quantization_1a4cb9c472a5c9ed3530f7badadb6ebe74" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::double_quantization::quantize_block_params</definition>
+        <argsstring>(const std::vector&lt; QuantizationBlock &gt; &amp;blocks, std::vector&lt; uint8_t &gt; &amp;quantized_scales, std::vector&lt; uint8_t &gt; &amp;quantized_zeros, float &amp;global_scale, float &amp;global_zero)</argsstring>
+        <name>quantize_block_params</name>
+        <qualifiedname>themis::llm::lora::double_quantization::quantize_block_params</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_quantization_block" kindref="compound">QuantizationBlock</ref> &gt; &amp;</type>
+          <declname>blocks</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>quantized_scales</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>quantized_zeros</declname>
+        </param>
+        <param>
+          <type>float &amp;</type>
+          <declname>global_scale</declname>
+        </param>
+        <param>
+          <type>float &amp;</type>
+          <declname>global_zero</declname>
+        </param>
+        <briefdescription>
+<para>Quantize block params. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blocks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">quantized_scales</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">quantized_zeros</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">global_scale</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">global_zero</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">blocks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">quantized_scales</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">quantized_zeros</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">global_scale</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">global_zero</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), std::min(), std::max(), resize(), size(), std::round(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/quantization.cpp" line="391" column="6" bodyfile="src/llm/lora_framework/quantization.cpp" bodystart="391" bodyend="443" declfile="include/llm/lora_framework/quantization.h" declline="190" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1_1double__quantization_1a1834ce9ceee5605761224e105d110dbb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::double_quantization::dequantize_block_params</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;quantized_scales, const std::vector&lt; uint8_t &gt; &amp;quantized_zeros, float global_scale, float global_zero, std::vector&lt; QuantizationBlock &gt; &amp;blocks)</argsstring>
+        <name>dequantize_block_params</name>
+        <qualifiedname>themis::llm::lora::double_quantization::dequantize_block_params</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>quantized_scales</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>quantized_zeros</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>global_scale</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>global_zero</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_quantization_block" kindref="compound">QuantizationBlock</ref> &gt; &amp;</type>
+          <declname>blocks</declname>
+        </param>
+        <briefdescription>
+<para>Dequantize block params. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">quantized_scales</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">quantized_zeros</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">global_scale</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">global_zero</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">blocks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">quantized_scales</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">quantized_zeros</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">global_scale</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">global_zero</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">blocks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), resize(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/quantization.cpp" line="455" column="6" bodyfile="src/llm/lora_framework/quantization.cpp" bodystart="455" bodyend="482" declfile="include/llm/lora_framework/quantization.h" declline="204" declcolumn="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/quantization.h" line="180" column="1"/>
+  </compounddef>
+</doxygen>

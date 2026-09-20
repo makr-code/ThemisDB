@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="document__manager__deprecated_8h" kind="file" language="C++">
+    <compoundname>document_manager_deprecated.h</compoundname>
+    <includes local="yes">projects/DocumentManager/document_manager.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/document/document_manager_deprecated.h</label>
+        <link refid="document__manager__deprecated_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>projects/DocumentManager/document_manager.h</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1document">themis::document</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;projects/DocumentManager/document_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Provide<sp/>type<sp/>aliases<sp/>for<sp/>backward<sp/>compatibility</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1document" kindref="compound">document</ref><sp/>{</highlight></codeline>
+<codeline lineno="16" refid="namespacethemis_1_1document_1a14dc47eea47cf8c4c597bee79d57ba15" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1document_1a14dc47eea47cf8c4c597bee79d57ba15" kindref="member">DocumentManager</ref><sp/>=<sp/>themis::projects::DocumentManager;</highlight></codeline>
+<codeline lineno="17" refid="namespacethemis_1_1document_1ac97bc06fd5539427736b87f3b1f146c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1document_1ac97bc06fd5539427736b87f3b1f146c6" kindref="member">DocumentMeta</ref><sp/>=<sp/>themis::projects::DocumentMeta;</highlight></codeline>
+<codeline lineno="18" refid="namespacethemis_1_1document_1a3887f3b5fc02c93a6dd69a9ec215a03e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1document_1a3887f3b5fc02c93a6dd69a9ec215a03e" kindref="member">ChunkMeta</ref><sp/>=<sp/>themis::projects::ChunkMeta;</highlight></codeline>
+<codeline lineno="19" refid="namespacethemis_1_1document_1a8aaaf513ed60ba35eef871502ed07b02" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1document_1a8aaaf513ed60ba35eef871502ed07b02" kindref="member">ChunkingConfig</ref><sp/>=<sp/>themis::projects::ChunkingConfig;</highlight></codeline>
+<codeline lineno="20" refid="namespacethemis_1_1document_1a7b1d5e7791390e273a413ac46eedbc4c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1document_1a7b1d5e7791390e273a413ac46eedbc4c" kindref="member">UploadResult</ref><sp/>=<sp/>themis::projects::UploadResult;</highlight></codeline>
+<codeline lineno="21" refid="namespacethemis_1_1document_1a514d79328a330d1cc8885ad63185978d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1document_1a514d79328a330d1cc8885ad63185978d" kindref="member">Status</ref><sp/>=<sp/>themis::projects::Status;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>document</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/document/document_manager_deprecated.h"/>
+  </compounddef>
+</doxygen>

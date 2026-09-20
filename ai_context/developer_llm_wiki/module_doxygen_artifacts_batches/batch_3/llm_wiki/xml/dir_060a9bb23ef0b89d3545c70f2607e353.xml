@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_060a9bb23ef0b89d3545c70f2607e353" kind="dir">
+    <compoundname>include/llm_wiki</compoundname>
+    <innerfile refid="llm__wiki__plugin__interface_8h">llm_wiki_plugin_interface.h</innerfile>
+    <innerfile refid="llm__wiki__status_8h">llm_wiki_status.h</innerfile>
+    <innerfile refid="process__policy__manager_8h">process_policy_manager.h</innerfile>
+    <innerfile refid="rocksdb__wiki__store_8h">rocksdb_wiki_store.h</innerfile>
+    <innerfile refid="workspace__state__manager_8h">workspace_state_manager.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm_wiki/"/>
+  </compounddef>
+</doxygen>

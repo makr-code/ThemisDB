@@ -1,0 +1,298 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="monitoring__api__handler_8h" kind="file" language="C++">
+    <compoundname>monitoring_api_handler.h</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">boost/beast/http.hpp</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="yes">core/concerns/concerns_context.h</includes>
+    <includes local="yes">observability/alertmanager.h</includes>
+    <includedby refid="http__server_8h" local="yes">include/server/http_server.h</includedby>
+    <includedby refid="monitoring__api__handler_8cpp" local="yes">src/server/monitoring_api_handler.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/server/monitoring_api_handler.h</label>
+        <link refid="monitoring__api__handler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>atomic</label>
+      </node>
+      <node id="6">
+        <label>boost/beast/http.hpp</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>core/concerns/concerns_context.h</label>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="9">
+        <label>observability/alertmanager.h</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>benchmarks/server/bench_api_endpoints.cpp</label>
+        <link refid="bench__api__endpoints_8cpp"/>
+      </node>
+      <node id="2">
+        <label>include/server/http_server.h</label>
+        <link refid="http__server_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/server/monitoring_api_handler.h</label>
+        <link refid="monitoring__api__handler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/server/http_server.cpp</label>
+        <link refid="http__server_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/server/monitoring_api_handler.cpp</label>
+        <link refid="monitoring__api__handler_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/server/test_api_integration.cpp</label>
+        <link refid="test__api__integration_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/server/test_server_integration_complete.cpp</label>
+        <link refid="test__server__integration__complete_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1server_1_1_monitoring_api_handler" prot="public">themis::server::MonitoringApiHandler</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1sharding">themis::sharding</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability">themis::observability</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag">themis::rag</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag_1_1learning">themis::rag::learning</innernamespace>
+    <innernamespace refid="namespacethemis_1_1server">themis::server</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;boost/beast/http.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;core/concerns/concerns_context.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;observability/alertmanager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">RocksDBWrapper;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">SecondaryIndexManager;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding" kindref="compound">sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">PrometheusMetrics;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">SLOMonitor;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability" kindref="compound">observability</ref><sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">IProvenanceStore;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1learning" kindref="compound">rag::learning</ref><sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">ContinuousLearningOrchestrator;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1server" kindref="compound">server</ref><sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">beast<sp/>=<sp/>boost::beast;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">http<sp/>=<sp/>beast::http;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1server_1_1_sharding_metrics_handler" kindref="compound">ShardingMetricsHandler</ref>;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>server</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_auth_middleware" kindref="compound">AuthMiddleware</ref>;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">SchemaManager;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1server" kindref="compound">server</ref><sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="classthemis_1_1server_1_1_monitoring_api_handler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1server_1_1_monitoring_api_handler_1ae40e30da5740044cf633ecc7860ab698" kindref="member">MonitoringApiHandler</ref><sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_monitoring_api_handler_1ae40e30da5740044cf633ecc7860ab698" kindref="member">MonitoringApiHandler</ref>(</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;RocksDBWrapper&gt;<sp/>storage,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;AuthMiddleware&gt;<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>,</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;*<sp/>request_count,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;*<sp/>error_count,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::chrono::steady_clock::time_point*<sp/>start_time,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;SecondaryIndexManager&gt;<sp/>secondary_index,</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>::themis::SchemaManager*<sp/>schema_manager<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ShardingMetricsHandler&gt;<sp/>sharding_metrics<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::atomic&lt;bool&gt;*<sp/>is_running<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;*<sp/>active_requests<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;*<sp/>active_connections<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;core::concerns::ConcernsContext&gt;<sp/>concerns<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/><ref refid="classthemis_1_1server_1_1_monitoring_api_handler_1ac09ec3e1d9082b312d29edccbc32830b" kindref="member">handleHealthCheck</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>http::request&lt;http::string_body&gt;&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/><ref refid="classthemis_1_1server_1_1_monitoring_api_handler_1affa3a0d7b7f9f7b288a19dba1e6113fc" kindref="member">handleLiveness</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>http::request&lt;http::string_body&gt;&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/><ref refid="classthemis_1_1server_1_1_monitoring_api_handler_1adcc6982e8ce85fbefb9549cd40af14c5" kindref="member">handleReadiness</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>http::request&lt;http::string_body&gt;&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/><ref refid="classthemis_1_1server_1_1_monitoring_api_handler_1a6484b2c3f331ee913238cbff0bc01683" kindref="member">handleOpenApi</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>http::request&lt;http::string_body&gt;&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_monitoring_api_handler_1ae9f9de37721546433345f8741b0059ce" kindref="member">registerRoutes</ref>();</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/><ref refid="classthemis_1_1server_1_1_monitoring_api_handler_1a7498a2d5d96c9a09586eff9d71dc95ba" kindref="member">handleVersion</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>http::request&lt;http::string_body&gt;&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/><ref refid="classthemis_1_1server_1_1_monitoring_api_handler_1a2e69ae421017087b14029be04f0726d1" kindref="member">handleStats</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>http::request&lt;http::string_body&gt;&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/><ref refid="classthemis_1_1server_1_1_monitoring_api_handler_1a449d238ecf8397f8cac9ae4252127ae5" kindref="member">handleCapabilities</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>http::request&lt;http::string_body&gt;&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/><ref refid="classthemis_1_1server_1_1_monitoring_api_handler_1a5b3b055260708487582db7284fc84795" kindref="member">handleMetrics</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>http::request&lt;http::string_body&gt;&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/><ref refid="classthemis_1_1server_1_1_monitoring_api_handler_1ae8d1f310e2c85ea129e91d05772ebef3" kindref="member">handleMetricsHtml</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>http::request&lt;http::string_body&gt;&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/><ref refid="classthemis_1_1server_1_1_monitoring_api_handler_1acf79805dcd2bd9d657f38e3f88f5d17d" kindref="member">handlePluginMetrics</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>http::request&lt;http::string_body&gt;&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/><ref refid="classthemis_1_1server_1_1_monitoring_api_handler_1a4f54c634d33bdde2f8d397f0d5108ad4" kindref="member">handleShardingMetrics</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>http::request&lt;http::string_body&gt;&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/><ref refid="classthemis_1_1server_1_1_monitoring_api_handler_1a0e15e947041512f047d71859a5d5c493" kindref="member">handleSLOStatus</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>http::request&lt;http::string_body&gt;&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Operator<sp/>Observability<sp/>REST<sp/>API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/><ref refid="classthemis_1_1server_1_1_monitoring_api_handler_1adb6f54865d25e71b36d1a2130d36de75" kindref="member">handleObservabilityAlerts</ref>(</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>http::request&lt;http::string_body&gt;&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/><ref refid="classthemis_1_1server_1_1_monitoring_api_handler_1a79188283538f3e5ee0e69a28f1420d1d" kindref="member">handleObservabilityAlertSilence</ref>(</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>http::request&lt;http::string_body&gt;&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/><ref refid="classthemis_1_1server_1_1_monitoring_api_handler_1ab5e656564a085a938235b870e5b17a1b" kindref="member">handleObservabilityHealth</ref>(</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>http::request&lt;http::string_body&gt;&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/><ref refid="classthemis_1_1server_1_1_monitoring_api_handler_1afe1ad15c2a0556c804ed16b915178ead" kindref="member">handleObservabilityProvenance</ref>(</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>http::request&lt;http::string_body&gt;&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/><ref refid="classthemis_1_1server_1_1_monitoring_api_handler_1a437355b319cb683af88643787e4d9b5c" kindref="member">handleLicenseStatus</ref>(</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>http::request&lt;http::string_body&gt;&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216" refid="classthemis_1_1server_1_1_monitoring_api_handler_1aa99e59c2e4fcf62c0adea7d1e16fa00d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_monitoring_api_handler_1aa99e59c2e4fcf62c0adea7d1e16fa00d" kindref="member">setConcerns</ref>(std::shared_ptr&lt;core::concerns::ConcernsContext&gt;<sp/>concerns)<sp/>{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>concerns_<sp/>=<sp/>std::move(concerns);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225" refid="classthemis_1_1server_1_1_monitoring_api_handler_1a8f483f94bf9ae14cdfd39a68c0c44475" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_monitoring_api_handler_1a8f483f94bf9ae14cdfd39a68c0c44475" kindref="member">setAlertmanager</ref>(std::shared_ptr&lt;observability::DefaultAlertmanager&gt;<sp/>alertmanager)<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>alertmanager_<sp/>=<sp/>std::move(alertmanager);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234" refid="classthemis_1_1server_1_1_monitoring_api_handler_1a76fa18c03524534a5f4f9d17a28f6638" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_monitoring_api_handler_1a76fa18c03524534a5f4f9d17a28f6638" kindref="member">setProvenanceStore</ref>(std::shared_ptr&lt;observability::IProvenanceStore&gt;<sp/>provenance_store)<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>provenance_store_<sp/>=<sp/>std::move(provenance_store);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243" refid="classthemis_1_1server_1_1_monitoring_api_handler_1abca95df78ff060465b1627a889ff5118" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_monitoring_api_handler_1abca95df78ff060465b1627a889ff5118" kindref="member">setShardingMetrics</ref>(std::shared_ptr&lt;ShardingMetricsHandler&gt;<sp/>sharding_metrics)<sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sharding_metrics_<sp/>=<sp/>std::move(sharding_metrics);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247" refid="classthemis_1_1server_1_1_monitoring_api_handler_1ac505291d7edc04a5f49f6dc1761e69aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_monitoring_api_handler_1ac505291d7edc04a5f49f6dc1761e69aa" kindref="member">setSchemaManager</ref>(::themis::SchemaManager*<sp/>schema_manager)<sp/>{</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>schema_manager_<sp/>=<sp/>schema_manager;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256" refid="classthemis_1_1server_1_1_monitoring_api_handler_1a84d84e6e9dce5a781b48b76c256849d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_monitoring_api_handler_1a84d84e6e9dce5a781b48b76c256849d9" kindref="member">setContinuousLearningOrchestrator</ref>(</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::rag::learning::ContinuousLearningOrchestrator&gt;<sp/>orchestrator)<sp/>{</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>continuous_learning_orchestrator_<sp/>=<sp/>std::move(orchestrator);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;RocksDBWrapper&gt;<sp/>storage_;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;AuthMiddleware&gt;<sp/>auth_;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;*<sp/>request_count_;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;*<sp/>error_count_;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::chrono::steady_clock::time_point*<sp/>start_time_;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;SecondaryIndexManager&gt;<sp/>secondary_index_;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>::themis::SchemaManager*<sp/>schema_manager_;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ShardingMetricsHandler&gt;<sp/>sharding_metrics_;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::atomic&lt;bool&gt;*<sp/>is_running_{</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;*<sp/>active_requests_{</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;*<sp/>active_connections_{</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;core::concerns::ConcernsContext&gt;<sp/>concerns_;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;observability::DefaultAlertmanager&gt;<sp/>alertmanager_;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;observability::IProvenanceStore&gt;<sp/>provenance_store_;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::rag::learning::ContinuousLearningOrchestrator&gt;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>continuous_learning_orchestrator_;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/>makeErrorResponse(</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>http::status<sp/>status,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>http::request&lt;http::string_body&gt;&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/>makeResponse(</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>http::status<sp/>status,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>body,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>http::request&lt;http::string_body&gt;&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>buildConcernsJson(</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>core::concerns::HealthStatus&amp;<sp/>status,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">&amp;<sp/>ok);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>server</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/server/monitoring_api_handler.h"/>
+  </compounddef>
+</doxygen>

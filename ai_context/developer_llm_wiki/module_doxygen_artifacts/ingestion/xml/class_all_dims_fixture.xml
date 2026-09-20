@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_all_dims_fixture" kind="class" language="C++" prot="public">
+    <compoundname>AllDimsFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_all_dims_fixture_1a7e1f8a3a573d9bbd10e4039ca2f0f8a1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AllDimsFixture::resp</definition>
+        <argsstring></argsstring>
+        <name>resp</name>
+        <qualifiedname>AllDimsFixture::resp</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_quality_judge.cpp" line="415" column="51" bodyfile="benchmarks/ingestion/bench_ingestion_quality_judge.cpp" bodystart="415" bodyend="415"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_all_dims_fixture_1ab2e0a808dd143b9c6d25af8f1824581f" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; ScriptedTextBackend &gt;</type>
+        <definition>std::shared_ptr&lt;ScriptedTextBackend&gt; AllDimsFixture::backend</definition>
+        <argsstring></argsstring>
+        <name>backend</name>
+        <qualifiedname>AllDimsFixture::backend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_quality_judge.cpp" line="416" column="31" bodyfile="benchmarks/ingestion/bench_ingestion_quality_judge.cpp" bodystart="416" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_all_dims_fixture_1a8c727bd5accc5ad796618cae27b06ad7" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_ingestion_quality_judge" kindref="compound">IngestionQualityJudge</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;IngestionQualityJudge&gt; AllDimsFixture::judge</definition>
+        <argsstring></argsstring>
+        <name>judge</name>
+        <qualifiedname>AllDimsFixture::judge</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_quality_judge.cpp" line="417" column="29" bodyfile="benchmarks/ingestion/bench_ingestion_quality_judge.cpp" bodystart="417" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_all_dims_fixture_1ad63efc9285f615433d678bfda5012638" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref></type>
+        <definition>ExtractionContext AllDimsFixture::ctx</definition>
+        <argsstring></argsstring>
+        <name>ctx</name>
+        <qualifiedname>AllDimsFixture::ctx</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_quality_judge.cpp" line="418" column="52" bodyfile="benchmarks/ingestion/bench_ingestion_quality_judge.cpp" bodystart="418" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_all_dims_fixture_1aea0c58408cf8a0a984aa6d44a50bef56" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AllDimsFixture::SetUp</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AllDimsFixture::SetUp</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_quality_judge.cpp" line="403" column="10" bodyfile="benchmarks/ingestion/bench_ingestion_quality_judge.cpp" bodystart="403" bodyend="408"/>
+      </memberdef>
+      <memberdef kind="function" id="class_all_dims_fixture_1a81f4a97bafae0908eff75695a8a7780f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AllDimsFixture::TearDown</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>AllDimsFixture::TearDown</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_quality_judge.cpp" line="410" column="10" bodyfile="benchmarks/ingestion/bench_ingestion_quality_judge.cpp" bodystart="410" bodyend="413"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Full pipeline: 4 prompt builds, 4 generate() calls, 4 score parses, 4 rationale parses, weighted aggregation, threshold check, step recommendation.</para>
+<para>Expected: &lt; 40 µs (4× single-dimension cost + dedup pass).</para>
+<para>This is the hot path in production when a real LLM is injected — the benchmark measures only ThemisDB&apos;s own overhead (prompt stitching, parsing, aggregation) in isolation from actual LLM latency. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AllDimsFixture</label>
+        <link refid="class_all_dims_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AllDimsFixture</label>
+        <link refid="class_all_dims_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>ctx</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+      <node id="3">
+        <label>themis::ingestion::ExtractionContext</label>
+        <link refid="structthemis_1_1ingestion_1_1_extraction_context"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>manifest</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::ingestion::FileManifest</label>
+        <link refid="structthemis_1_1ingestion_1_1_file_manifest"/>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/ingestion/bench_ingestion_quality_judge.cpp" line="401" column="1" bodyfile="benchmarks/ingestion/bench_ingestion_quality_judge.cpp" bodystart="401" bodyend="419"/>
+    <listofallmembers>
+      <member refid="class_all_dims_fixture_1ab2e0a808dd143b9c6d25af8f1824581f" prot="public" virt="non-virtual"><scope>AllDimsFixture</scope><name>backend</name></member>
+      <member refid="class_all_dims_fixture_1ad63efc9285f615433d678bfda5012638" prot="public" virt="non-virtual"><scope>AllDimsFixture</scope><name>ctx</name></member>
+      <member refid="class_all_dims_fixture_1a8c727bd5accc5ad796618cae27b06ad7" prot="public" virt="non-virtual"><scope>AllDimsFixture</scope><name>judge</name></member>
+      <member refid="class_all_dims_fixture_1a7e1f8a3a573d9bbd10e4039ca2f0f8a1" prot="public" virt="non-virtual"><scope>AllDimsFixture</scope><name>resp</name></member>
+      <member refid="class_all_dims_fixture_1aea0c58408cf8a0a984aa6d44a50bef56" prot="public" virt="non-virtual"><scope>AllDimsFixture</scope><name>SetUp</name></member>
+      <member refid="class_all_dims_fixture_1a81f4a97bafae0908eff75695a8a7780f" prot="public" virt="non-virtual"><scope>AllDimsFixture</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

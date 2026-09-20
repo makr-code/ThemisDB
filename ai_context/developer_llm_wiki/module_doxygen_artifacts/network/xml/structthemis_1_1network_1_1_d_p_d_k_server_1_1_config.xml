@@ -1,0 +1,253 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_d_p_d_k_server_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::DPDKServer::Config</compoundname>
+    <includes refid="kernel__bypass_8h" local="no">kernel_bypass.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_d_p_d_k_server_1_1_config_1a0fc5817d47f26bb9de9d36137d9079ce" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::network::DPDKServer::Config::port</definition>
+        <argsstring></argsstring>
+        <name>port</name>
+        <qualifiedname>themis::network::DPDKServer::Config::port</qualifiedname>
+        <initializer>= 8772</initializer>
+        <briefdescription>
+<para>Listening port (ThemisDB wire protocol). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="235" column="18" bodyfile="include/network/kernel_bypass.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_d_p_d_k_server_1_1_config_1a9565ea027ee556e6be36827ca9cea4b6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::network::DPDKServer::Config::pci_address</definition>
+        <argsstring></argsstring>
+        <name>pci_address</name>
+        <qualifiedname>themis::network::DPDKServer::Config::pci_address</qualifiedname>
+        <briefdescription>
+<para>PCI address of the DPDK-bound NIC (e.g. &quot;0000:05:00.0&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="238" column="21" bodyfile="include/network/kernel_bypass.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_d_p_d_k_server_1_1_config_1a0bf1905afdc4eadc043acf5f7f721ec9" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::network::DPDKServer::Config::num_rx_queues</definition>
+        <argsstring></argsstring>
+        <name>num_rx_queues</name>
+        <qualifiedname>themis::network::DPDKServer::Config::num_rx_queues</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>Number of RX queues (RSS multi-queue). Must be ≥ 1. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="241" column="18" bodyfile="include/network/kernel_bypass.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_d_p_d_k_server_1_1_config_1a96a0ce4868ffa7ecdc511eb9e4d090ce" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::network::DPDKServer::Config::num_tx_queues</definition>
+        <argsstring></argsstring>
+        <name>num_tx_queues</name>
+        <qualifiedname>themis::network::DPDKServer::Config::num_tx_queues</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>Number of TX queues. Must be ≥ 1. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="244" column="18" bodyfile="include/network/kernel_bypass.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_d_p_d_k_server_1_1_config_1a423631e1326ca3d98f6631d02a3b456f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::DPDKServer::Config::cpu_core_mask</definition>
+        <argsstring></argsstring>
+        <name>cpu_core_mask</name>
+        <qualifiedname>themis::network::DPDKServer::Config::cpu_core_mask</qualifiedname>
+        <initializer>= 0x01</initializer>
+        <briefdescription>
+<para>CPU core mask for lcore assignment (bit N = core N). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="247" column="18" bodyfile="include/network/kernel_bypass.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_d_p_d_k_server_1_1_config_1aece409dd85f7a28972c7f3796cd3e203" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::DPDKServer::Config::huge_pages_mb</definition>
+        <argsstring></argsstring>
+        <name>huge_pages_mb</name>
+        <qualifiedname>themis::network::DPDKServer::Config::huge_pages_mb</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+<para>Huge-page memory pool size in MiB. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="250" column="18" bodyfile="include/network/kernel_bypass.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_d_p_d_k_server_1_1_config_1af002c881469771755e5f45b9745a8073" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::DPDKServer::Config::mbuf_pool_size</definition>
+        <argsstring></argsstring>
+        <name>mbuf_pool_size</name>
+        <qualifiedname>themis::network::DPDKServer::Config::mbuf_pool_size</qualifiedname>
+        <initializer>= 8192</initializer>
+        <briefdescription>
+<para>Number of mbufs in the packet buffer pool per queue. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="253" column="18" bodyfile="include/network/kernel_bypass.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_d_p_d_k_server_1_1_config_1af89e46446ba6a874d56d2a23aa6a09fc" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::network::DPDKServer::Config::rx_burst_size</definition>
+        <argsstring></argsstring>
+        <name>rx_burst_size</name>
+        <qualifiedname>themis::network::DPDKServer::Config::rx_burst_size</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+<para>Receive burst size (packets per poll iteration). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="256" column="18" bodyfile="include/network/kernel_bypass.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_d_p_d_k_server_1_1_config_1a9b1249f8d4580bd516b979cd905dd9e9" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::network::DPDKServer::Config::tx_burst_size</definition>
+        <argsstring></argsstring>
+        <name>tx_burst_size</name>
+        <qualifiedname>themis::network::DPDKServer::Config::tx_burst_size</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+<para>Transmit burst size. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="259" column="18" bodyfile="include/network/kernel_bypass.h" bodystart="259" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_d_p_d_k_server_1_1_config_1a37e00ba6f85e7421a68abdcd03c8dfd7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::network::DPDKServer::Config::numa_node</definition>
+        <argsstring></argsstring>
+        <name>numa_node</name>
+        <qualifiedname>themis::network::DPDKServer::Config::numa_node</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+<para>NUMA node for the mbuf pool (-1 = autodetect from PCI address). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="262" column="13" bodyfile="include/network/kernel_bypass.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_d_p_d_k_server_1_1_config_1a5391a43e85befef74785efcedba446e0" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::DPDKServer::Config::max_connections</definition>
+        <argsstring></argsstring>
+        <name>max_connections</name>
+        <qualifiedname>themis::network::DPDKServer::Config::max_connections</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+<para>Maximum number of concurrent connections (user-space TCP). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="265" column="18" bodyfile="include/network/kernel_bypass.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_d_p_d_k_server_1_1_config_1a1be55a50e0fd84d46663f603dbfe12a7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::DPDKServer::Config::enable_rss</definition>
+        <argsstring></argsstring>
+        <name>enable_rss</name>
+        <qualifiedname>themis::network::DPDKServer::Config::enable_rss</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable RSS (Receive Side Scaling) hash. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="268" column="14" bodyfile="include/network/kernel_bypass.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_d_p_d_k_server_1_1_config_1a406b5a3255a5d1525e364f048cf20d3a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::DPDKServer::Config::enable_hw_checksum</definition>
+        <argsstring></argsstring>
+        <name>enable_hw_checksum</name>
+        <qualifiedname>themis::network::DPDKServer::Config::enable_hw_checksum</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable hardware checksum offload. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="271" column="14" bodyfile="include/network/kernel_bypass.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_d_p_d_k_server_1_1_config_1a19cfd34efe3bd2c7f24ac9fae016f016" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::DPDKServer::Config::enable_jumbo_frames</definition>
+        <argsstring></argsstring>
+        <name>enable_jumbo_frames</name>
+        <qualifiedname>themis::network::DPDKServer::Config::enable_jumbo_frames</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Enable jumbo frames (up to 9 KB). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="274" column="14" bodyfile="include/network/kernel_bypass.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/kernel_bypass.h" line="233" column="5" bodyfile="include/network/kernel_bypass.h" bodystart="233" bodyend="275"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_d_p_d_k_server_1_1_config_1a423631e1326ca3d98f6631d02a3b456f" prot="public" virt="non-virtual"><scope>themis::network::DPDKServer::Config</scope><name>cpu_core_mask</name></member>
+      <member refid="structthemis_1_1network_1_1_d_p_d_k_server_1_1_config_1a406b5a3255a5d1525e364f048cf20d3a" prot="public" virt="non-virtual"><scope>themis::network::DPDKServer::Config</scope><name>enable_hw_checksum</name></member>
+      <member refid="structthemis_1_1network_1_1_d_p_d_k_server_1_1_config_1a19cfd34efe3bd2c7f24ac9fae016f016" prot="public" virt="non-virtual"><scope>themis::network::DPDKServer::Config</scope><name>enable_jumbo_frames</name></member>
+      <member refid="structthemis_1_1network_1_1_d_p_d_k_server_1_1_config_1a1be55a50e0fd84d46663f603dbfe12a7" prot="public" virt="non-virtual"><scope>themis::network::DPDKServer::Config</scope><name>enable_rss</name></member>
+      <member refid="structthemis_1_1network_1_1_d_p_d_k_server_1_1_config_1aece409dd85f7a28972c7f3796cd3e203" prot="public" virt="non-virtual"><scope>themis::network::DPDKServer::Config</scope><name>huge_pages_mb</name></member>
+      <member refid="structthemis_1_1network_1_1_d_p_d_k_server_1_1_config_1a5391a43e85befef74785efcedba446e0" prot="public" virt="non-virtual"><scope>themis::network::DPDKServer::Config</scope><name>max_connections</name></member>
+      <member refid="structthemis_1_1network_1_1_d_p_d_k_server_1_1_config_1af002c881469771755e5f45b9745a8073" prot="public" virt="non-virtual"><scope>themis::network::DPDKServer::Config</scope><name>mbuf_pool_size</name></member>
+      <member refid="structthemis_1_1network_1_1_d_p_d_k_server_1_1_config_1a0bf1905afdc4eadc043acf5f7f721ec9" prot="public" virt="non-virtual"><scope>themis::network::DPDKServer::Config</scope><name>num_rx_queues</name></member>
+      <member refid="structthemis_1_1network_1_1_d_p_d_k_server_1_1_config_1a96a0ce4868ffa7ecdc511eb9e4d090ce" prot="public" virt="non-virtual"><scope>themis::network::DPDKServer::Config</scope><name>num_tx_queues</name></member>
+      <member refid="structthemis_1_1network_1_1_d_p_d_k_server_1_1_config_1a37e00ba6f85e7421a68abdcd03c8dfd7" prot="public" virt="non-virtual"><scope>themis::network::DPDKServer::Config</scope><name>numa_node</name></member>
+      <member refid="structthemis_1_1network_1_1_d_p_d_k_server_1_1_config_1a9565ea027ee556e6be36827ca9cea4b6" prot="public" virt="non-virtual"><scope>themis::network::DPDKServer::Config</scope><name>pci_address</name></member>
+      <member refid="structthemis_1_1network_1_1_d_p_d_k_server_1_1_config_1a0fc5817d47f26bb9de9d36137d9079ce" prot="public" virt="non-virtual"><scope>themis::network::DPDKServer::Config</scope><name>port</name></member>
+      <member refid="structthemis_1_1network_1_1_d_p_d_k_server_1_1_config_1af89e46446ba6a874d56d2a23aa6a09fc" prot="public" virt="non-virtual"><scope>themis::network::DPDKServer::Config</scope><name>rx_burst_size</name></member>
+      <member refid="structthemis_1_1network_1_1_d_p_d_k_server_1_1_config_1a9b1249f8d4580bd516b979cd905dd9e9" prot="public" virt="non-virtual"><scope>themis::network::DPDKServer::Config</scope><name>tx_burst_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,429 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_model_router" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::ModelRouter</compoundname>
+    <includes refid="model__router_8h" local="no">model_router.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_model_router_1_1_compiled_rule" prot="private">themis::llm::ModelRouter::CompiledRule</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_model_router_1a5090b73238b327803c09ff1004d5d3bd" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::ModelRouter::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::llm::ModelRouter::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_router.h" line="121" column="24" bodyfile="include/llm/model_router.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_model_router_1ab112fbd491a2209bf55a970d4c1f18ca" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; CompiledRule &gt;</type>
+        <definition>std::vector&lt;CompiledRule&gt; themis::llm::ModelRouter::rules_</definition>
+        <argsstring></argsstring>
+        <name>rules_</name>
+        <qualifiedname>themis::llm::ModelRouter::rules_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_router.h" line="122" column="17" bodyfile="include/llm/model_router.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_router_1aefd0c3e3382105acb9b167362fe2ab0b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ModelRouter::ModelRouter</definition>
+        <argsstring>()=default</argsstring>
+        <name>ModelRouter</name>
+        <qualifiedname>themis::llm::ModelRouter::ModelRouter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_router.h" line="56" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_router_1a31e78d21381943407606388cf0c1acce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ModelRouter::addRule</definition>
+        <argsstring>(const RoutingRule &amp;rule)</argsstring>
+        <name>addRule</name>
+        <qualifiedname>themis::llm::ModelRouter::addRule</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_routing_rule" kindref="compound">RoutingRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+<para>Add Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Public API ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), compilePatterns(), lk(), std::move(), std::stable_sort(), begin(), end(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_router.h" line="62" column="10" bodyfile="src/llm/model_router.cpp" bodystart="133" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_router_1ab8897b4a30764cbf20c790227f511db3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::ModelRouter::removeRule</definition>
+        <argsstring>(const std::string &amp;rule_id)</argsstring>
+        <name>removeRule</name>
+        <qualifiedname>themis::llm::ModelRouter::removeRule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), std::find_if(), begin(), end(), erase(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_router.h" line="69" column="10" bodyfile="src/llm/model_router.cpp" bodystart="184" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_router_1a33e0014035952e98af4345491169b0cd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_routing_rule" kindref="compound">RoutingRule</ref> &gt;</type>
+        <definition>std::vector&lt; RoutingRule &gt; themis::llm::ModelRouter::getRules</definition>
+        <argsstring>() const</argsstring>
+        <name>getRules</name>
+        <qualifiedname>themis::llm::ModelRouter::getRules</qualifiedname>
+        <briefdescription>
+<para>Get Rules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/model_router.h" line="75" column="17" bodyfile="src/llm/model_router.cpp" bodystart="196" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_router_1af72650dfbb9ee1ef9c2e7f212a7b54c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ModelRouter::clearRules</definition>
+        <argsstring>()</argsstring>
+        <name>clearRules</name>
+        <qualifiedname>themis::llm::ModelRouter::clearRules</qualifiedname>
+        <briefdescription>
+<para>Clear Rules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lk(), clear(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_router.h" line="80" column="10" bodyfile="src/llm/model_router.cpp" bodystart="216" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_router_1af4b9d31dbf79c1d97dd78d731e74ab00" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_routing_result" kindref="compound">RoutingResult</ref></type>
+        <definition>RoutingResult themis::llm::ModelRouter::route</definition>
+        <argsstring>(const std::string &amp;prompt, const nlohmann::json &amp;metadata) const</argsstring>
+        <name>route</name>
+        <qualifiedname>themis::llm::ModelRouter::route</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+<para>Route. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/model_router.h" line="88" column="19" bodyfile="src/llm/model_router.cpp" bodystart="232" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_router_1a050bac82dabf79888cf404e697384fb9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ModelRouter::ruleCount</definition>
+        <argsstring>() const</argsstring>
+        <name>ruleCount</name>
+        <qualifiedname>themis::llm::ModelRouter::ruleCount</qualifiedname>
+        <briefdescription>
+<para>Rule Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/model_router.h" line="95" column="12" bodyfile="src/llm/model_router.cpp" bodystart="222" bodyend="230"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_router_1a1d7990a30403358400b1daa53d120913" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::regex &gt;</type>
+        <definition>std::vector&lt; std::regex &gt; themis::llm::ModelRouter::compilePatterns</definition>
+        <argsstring>(const RoutingRule &amp;rule)</argsstring>
+        <name>compilePatterns</name>
+        <qualifiedname>themis::llm::ModelRouter::compilePatterns</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_routing_rule" kindref="compound">RoutingRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+<para>Compile Patterns. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: reserve(), size(), emplace_back(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_router.h" line="108" column="24" bodyfile="src/llm/model_router.cpp" bodystart="31" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_router_1ac7eaaaa5399eb473a54dfb928f5b9962" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::ModelRouter::evaluate</definition>
+        <argsstring>(const CompiledRule &amp;cr, const std::string &amp;prompt, const std::vector&lt; std::string &gt; &amp;tags)</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::llm::ModelRouter::evaluate</qualifiedname>
+        <param>
+          <type>const CompiledRule &amp;</type>
+          <declname>cr</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>tags</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tags</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tags</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::regex_search(), empty(), matchesAnyPattern(), matchesAnyTag(), matchesAllPatterns(), matchesAllTags(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_router.h" line="117" column="17" bodyfile="src/llm/model_router.cpp" bodystart="55" bodyend="124"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/model_router.h" line="54" column="1" bodyfile="include/llm/model_router.h" bodystart="54" bodyend="123"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_model_router_1a31e78d21381943407606388cf0c1acce" prot="public" virt="non-virtual"><scope>themis::llm::ModelRouter</scope><name>addRule</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_router_1af72650dfbb9ee1ef9c2e7f212a7b54c3" prot="public" virt="non-virtual"><scope>themis::llm::ModelRouter</scope><name>clearRules</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_router_1a1d7990a30403358400b1daa53d120913" prot="private" virt="non-virtual"><scope>themis::llm::ModelRouter</scope><name>compilePatterns</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_router_1ac7eaaaa5399eb473a54dfb928f5b9962" prot="private" virt="non-virtual"><scope>themis::llm::ModelRouter</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_router_1a33e0014035952e98af4345491169b0cd" prot="public" virt="non-virtual"><scope>themis::llm::ModelRouter</scope><name>getRules</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_router_1aefd0c3e3382105acb9b167362fe2ab0b" prot="public" virt="non-virtual"><scope>themis::llm::ModelRouter</scope><name>ModelRouter</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_router_1a5090b73238b327803c09ff1004d5d3bd" prot="private" virt="non-virtual"><scope>themis::llm::ModelRouter</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_router_1ab8897b4a30764cbf20c790227f511db3" prot="public" virt="non-virtual"><scope>themis::llm::ModelRouter</scope><name>removeRule</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_router_1af4b9d31dbf79c1d97dd78d731e74ab00" prot="public" virt="non-virtual"><scope>themis::llm::ModelRouter</scope><name>route</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_router_1a050bac82dabf79888cf404e697384fb9" prot="public" virt="non-virtual"><scope>themis::llm::ModelRouter</scope><name>ruleCount</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_router_1ab112fbd491a2209bf55a970d4c1f18ca" prot="private" virt="non-virtual"><scope>themis::llm::ModelRouter</scope><name>rules_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

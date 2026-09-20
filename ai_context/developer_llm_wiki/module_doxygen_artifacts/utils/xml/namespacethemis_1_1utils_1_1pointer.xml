@@ -1,0 +1,520 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1utils_1_1pointer" kind="namespace" language="C++">
+    <compoundname>themis::utils::pointer</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1utils_1_1pointer_1ad8cd38dfaab2442b0ff859c26f3283bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>T *</type>
+        <definition>T * themis::utils::pointer::require_non_null</definition>
+        <argsstring>(T *ptr, const char *message=&quot;Null pointer&quot;)</argsstring>
+        <name>require_non_null</name>
+        <qualifiedname>themis::utils::pointer::require_non_null</qualifiedname>
+        <param>
+          <type>T *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>message</declname>
+          <defval>&quot;Null pointer&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Validates that a pointer is non-null, throws exception if null. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Type of the pointer </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to check </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classthemis_1_1_error" kindref="compound">Error</ref> message to use if null </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>T* The same pointer (guaranteed non-null) </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if ptr is nullptr</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="par"><title>Example</title><para>SomeType* ptr = get_pointer(); auto* validated = require_non_null(ptr, &quot;get_pointer returned null&quot;); validated-&gt;method(); // Safe - guaranteed non-null </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pointer_utils.h" line="40" column="3" bodyfile="include/utils/pointer_utils.h" bodystart="40" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1utils_1_1pointer_1a85c7482be73735bf2904bcc5a9c27d36" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>std::optional&lt; T * &gt;</type>
+        <definition>std::optional&lt; T * &gt; themis::utils::pointer::as_optional</definition>
+        <argsstring>(T *ptr) noexcept</argsstring>
+        <name>as_optional</name>
+        <qualifiedname>themis::utils::pointer::as_optional</qualifiedname>
+        <param>
+          <type>T *</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+<para>Converts a raw pointer to std::optional. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Type of the pointer </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to convert </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>std::optional&lt;T*&gt; Optional containing pointer or nullopt</para>
+</simplesect>
+<simplesect kind="par"><title>Example</title><para>SomeType* ptr = get_pointer(); if (auto opt = as_optional(ptr)) { (*opt)-&gt;method(); // Safe usage } </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pointer_utils.h" line="62" column="15" bodyfile="include/utils/pointer_utils.h" bodystart="62" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1utils_1_1pointer_1a8c37f747f1b1ef43453047c6b6485aec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+          <param>
+            <type>typename Func</type>
+          </param>
+        </templateparamlist>
+        <type>std::optional&lt; std::conditional_t&lt; std::is_void_v&lt; decltype(func(*ptr))&gt;, std::monostate, decltype(func(*ptr))&gt; &gt;</type>
+        <definition>std::optional&lt; std::conditional_t&lt; std::is_void_v&lt; decltype(func(*ptr))&gt;, std::monostate, decltype(func(*ptr))&gt; &gt; themis::utils::pointer::safe_invoke</definition>
+        <argsstring>(T *ptr, Func &amp;&amp;func)</argsstring>
+        <name>safe_invoke</name>
+        <qualifiedname>themis::utils::pointer::safe_invoke</qualifiedname>
+        <param>
+          <type>T *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>Func &amp;&amp;</type>
+          <declname>func</declname>
+        </param>
+        <briefdescription>
+<para>Safely invokes a function on a pointer if non-null. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Type of the pointer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Func</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to dereference </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>func</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function to invoke on dereferenced pointer </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>std::optional with result, or nullopt if ptr is null</para>
+</simplesect>
+<simplesect kind="par"><title>Example</title><para>SomeType* ptr = get_pointer(); auto result = safe_invoke(ptr, [](SomeType&amp; obj) { return obj.compute(); }); if (result) { // Use result.value() } </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pointer_utils.h" line="85" column="6" bodyfile="include/utils/pointer_utils.h" bodystart="85" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1utils_1_1pointer_1aa4ec5b4e1eebfe0c6983eca43d30f120" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+          <param>
+            <type>typename Deleter</type>
+          </param>
+        </templateparamlist>
+        <type>std::unique_ptr&lt; T, Deleter &gt;</type>
+        <definition>std::unique_ptr&lt; T, Deleter &gt; themis::utils::pointer::wrap_c_ptr</definition>
+        <argsstring>(T *ptr, Deleter deleter)</argsstring>
+        <name>wrap_c_ptr</name>
+        <qualifiedname>themis::utils::pointer::wrap_c_ptr</qualifiedname>
+        <param>
+          <type>T *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>Deleter</type>
+          <declname>deleter</declname>
+        </param>
+        <briefdescription>
+<para>RAII wrapper for C API pointers with custom deleter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Type of the pointer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Deleter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Deleter function type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>C API pointer to wrap </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>deleter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Cleanup function </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>std::unique_ptr with custom deleter </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if ptr is nullptr</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="par"><title>Example</title><para>auto file_ptr = wrap_c_ptr(fopen(&quot;file.txt&quot;, &quot;r&quot;), [](FILE* f) { if (f) fclose(f); }); // File automatically closed on scope exit </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pointer_utils.h" line="119" column="17" bodyfile="include/utils/pointer_utils.h" bodystart="119" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1utils_1_1pointer_1a1dec35835d6eb293df312c138d739f36" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Derived</type>
+          </param>
+          <param>
+            <type>typename Base</type>
+          </param>
+        </templateparamlist>
+        <type>std::optional&lt; Derived * &gt;</type>
+        <definition>std::optional&lt; Derived * &gt; themis::utils::pointer::safe_dynamic_cast</definition>
+        <argsstring>(Base *base) noexcept</argsstring>
+        <name>safe_dynamic_cast</name>
+        <qualifiedname>themis::utils::pointer::safe_dynamic_cast</qualifiedname>
+        <param>
+          <type>Base *</type>
+          <declname>base</declname>
+        </param>
+        <briefdescription>
+<para>Validates dynamic_cast result, returns optional. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>Derived</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target type to cast to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Base</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>base</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Base pointer to cast </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>std::optional&lt;Derived*&gt; Optional containing casted pointer or nullopt</para>
+</simplesect>
+<simplesect kind="par"><title>Example</title><para>Base* base = get_base(); if (auto derived = safe_dynamic_cast&lt;Derived&gt;(base)) { (*derived)-&gt;derived_method(); } else { spdlog::warn(&quot;Dynamic cast failed&quot;); } </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pointer_utils.h" line="144" column="15" bodyfile="include/utils/pointer_utils.h" bodystart="144" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1utils_1_1pointer_1a2a920793a75cf807861dc70ed969db10" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>std::optional&lt; std::shared_ptr&lt; T &gt; &gt;</type>
+        <definition>std::optional&lt; std::shared_ptr&lt; T &gt; &gt; themis::utils::pointer::safe_lock</definition>
+        <argsstring>(const std::weak_ptr&lt; T &gt; &amp;weak, const char *message=&quot;weak_ptr lock failed&quot;) noexcept</argsstring>
+        <name>safe_lock</name>
+        <qualifiedname>themis::utils::pointer::safe_lock</qualifiedname>
+        <param>
+          <type>const std::weak_ptr&lt; T &gt; &amp;</type>
+          <declname>weak</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>message</declname>
+          <defval>&quot;weak_ptr lock failed&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Validates shared_ptr from weak_ptr::lock(). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Type of the shared pointer </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>weak</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Weak pointer to lock </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Warning message if lock fails </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>std::optional&lt;std::shared_ptr&lt;T&gt;&gt; Locked shared_ptr or nullopt</para>
+</simplesect>
+<simplesect kind="par"><title>Example</title><para>std::weak_ptr&lt;Resource&gt; weak = get_weak(); if (auto shared = safe_lock(weak, &quot;Resource expired&quot;)) { (*shared)-&gt;use(); } </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pointer_utils.h" line="167" column="15" bodyfile="include/utils/pointer_utils.h" bodystart="167" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1utils_1_1pointer_1a87c844f0eb1b28deb2d74f7c28253f8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Container</type>
+          </param>
+          <param>
+            <type>typename Key</type>
+          </param>
+        </templateparamlist>
+        <type>std::optional&lt; typename Container::mapped_type &gt;</type>
+        <definition>std::optional&lt; typename Container::mapped_type &gt; themis::utils::pointer::safe_at</definition>
+        <argsstring>(const Container &amp;container, const Key &amp;key)</argsstring>
+        <name>safe_at</name>
+        <qualifiedname>themis::utils::pointer::safe_at</qualifiedname>
+        <param>
+          <type>const Container &amp;</type>
+          <declname>container</declname>
+        </param>
+        <param>
+          <type>const Key &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Validates container access with bounds checking. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>Container</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Container type (e.g., std::vector, std::map) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key/index type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>container</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Container to access </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key or index </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>std::optional with value or nullopt if not found</para>
+</simplesect>
+<simplesect kind="par"><title>Example</title><para>std::map&lt;std::string, int&gt; map; if (auto val = safe_at(map, &quot;key&quot;)) { // Use val.value() } </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pointer_utils.h" line="195" column="6" bodyfile="include/utils/pointer_utils.h" bodystart="195" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1utils_1_1pointer_1a68f412462169df074bc0b21e634fd721" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>std::optional&lt; std::reference_wrapper&lt; const T &gt; &gt;</type>
+        <definition>std::optional&lt; std::reference_wrapper&lt; const T &gt; &gt; themis::utils::pointer::safe_at</definition>
+        <argsstring>(const std::vector&lt; T &gt; &amp;vec, size_t index) noexcept</argsstring>
+        <name>safe_at</name>
+        <qualifiedname>themis::utils::pointer::safe_at</qualifiedname>
+        <param>
+          <type>const std::vector&lt; T &gt; &amp;</type>
+          <declname>vec</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pointer_utils.h" line="206" column="15" bodyfile="include/utils/pointer_utils.h" bodystart="206" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1utils_1_1pointer_1a01e9b61fac89c3abf852796631d18b57" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>std::optional&lt; std::reference_wrapper&lt; T &gt; &gt;</type>
+        <definition>std::optional&lt; std::reference_wrapper&lt; T &gt; &gt; themis::utils::pointer::safe_at</definition>
+        <argsstring>(std::vector&lt; T &gt; &amp;vec, size_t index) noexcept</argsstring>
+        <name>safe_at</name>
+        <qualifiedname>themis::utils::pointer::safe_at</qualifiedname>
+        <param>
+          <type>std::vector&lt; T &gt; &amp;</type>
+          <declname>vec</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pointer_utils.h" line="217" column="15" bodyfile="include/utils/pointer_utils.h" bodystart="217" bodyend="225"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/pointer_utils.h" line="23" column="1"/>
+  </compounddef>
+</doxygen>

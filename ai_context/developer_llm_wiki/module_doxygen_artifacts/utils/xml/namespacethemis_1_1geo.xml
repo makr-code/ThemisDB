@@ -1,0 +1,501 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1geo" kind="namespace" language="C++">
+    <compoundname>themis::geo</compoundname>
+    <innerclass refid="structthemis_1_1geo_1_1_coordinate" prot="public">themis::geo::Coordinate</innerclass>
+    <innerclass refid="classthemis_1_1geo_1_1_e_w_k_b_parser" prot="public">themis::geo::EWKBParser</innerclass>
+    <innerclass refid="structthemis_1_1geo_1_1_geometry_info" prot="public">themis::geo::GeometryInfo</innerclass>
+    <innerclass refid="structthemis_1_1geo_1_1_geo_sidecar" prot="public">themis::geo::GeoSidecar</innerclass>
+    <innerclass refid="classthemis_1_1geo_1_1_geo_validator" prot="public">themis::geo::GeoValidator</innerclass>
+    <innerclass refid="structthemis_1_1geo_1_1_m_b_r" prot="public">themis::geo::MBR</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1geo_1a304e95b90748d3a38f6ea36b64b2087b" prot="public" static="no" strong="yes">
+        <type>uint32_t</type>
+        <name>GeometryType</name>
+        <qualifiedname>themis::geo::GeometryType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1geo_1a304e95b90748d3a38f6ea36b64b2087ba2a3cd5946cfd317eb99c3d32e35e2d4c" prot="public">
+          <name>Point</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1geo_1a304e95b90748d3a38f6ea36b64b2087ba2e321465690359abbb020a3619b1c937" prot="public">
+          <name>LineString</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1geo_1a304e95b90748d3a38f6ea36b64b2087ba4c0a11247d92f73fb84baa51e37a3263" prot="public">
+          <name>Polygon</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1geo_1a304e95b90748d3a38f6ea36b64b2087ba3cd60571b78c0f0e0cd78c2f96127bc0" prot="public">
+          <name>MultiPoint</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1geo_1a304e95b90748d3a38f6ea36b64b2087ba6d0b0e1d146d35399060c10baabed5d6" prot="public">
+          <name>MultiLineString</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1geo_1a304e95b90748d3a38f6ea36b64b2087ba5645dd61a1073a52cf2476fd28f04a3b" prot="public">
+          <name>MultiPolygon</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1geo_1a304e95b90748d3a38f6ea36b64b2087baa56fbded614f111bf2bc4741d0f5ad09" prot="public">
+          <name>GeometryCollection</name>
+          <initializer>= 7</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1geo_1a304e95b90748d3a38f6ea36b64b2087ba9d5bc62c6a75f9577e7dbfcfe75a52c5" prot="public">
+          <name>PointZ</name>
+          <initializer>= 0x80000001</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1geo_1a304e95b90748d3a38f6ea36b64b2087bafaca5cabb8f47c1d37975c45e86bb4dd" prot="public">
+          <name>LineStringZ</name>
+          <initializer>= 0x80000002</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1geo_1a304e95b90748d3a38f6ea36b64b2087bafd6fe5dcd2d516f6b9421aa06122179e" prot="public">
+          <name>PolygonZ</name>
+          <initializer>= 0x80000003</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1geo_1a304e95b90748d3a38f6ea36b64b2087ba17700504c5fe3fdaa0bed2c35323bce2" prot="public">
+          <name>MultiPointZ</name>
+          <initializer>= 0x80000004</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1geo_1a304e95b90748d3a38f6ea36b64b2087baa12ab03ad7adc3706a305d3131621189" prot="public">
+          <name>MultiLineStringZ</name>
+          <initializer>= 0x80000005</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1geo_1a304e95b90748d3a38f6ea36b64b2087baaf42b559cdec766619562fde926f1e5f" prot="public">
+          <name>MultiPolygonZ</name>
+          <initializer>= 0x80000006</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1geo_1a304e95b90748d3a38f6ea36b64b2087ba576a0dbfd7df7885ec1e71198621f1c6" prot="public">
+          <name>GeometryCollectionZ</name>
+          <initializer>= 0x80000007</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geo/ewkb.h" line="23" column="1" bodyfile="include/utils/geo/ewkb.h" bodystart="23" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1geo_1aceb234395fec4296fbf08187fe0a4d76" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::geo::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::geo::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/geo/ewkb.cpp" line="28" column="1" bodyfile="src/utils/geo/ewkb.cpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1geo_1aebb06e1283f7cd2547f1154878af323a" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::geo::EARTH_RADIUS_M</definition>
+        <argsstring></argsstring>
+        <name>EARTH_RADIUS_M</name>
+        <qualifiedname>themis::geo::EARTH_RADIUS_M</qualifiedname>
+        <initializer>= 6&apos;371&apos;000.0</initializer>
+        <briefdescription>
+<para>Earth mean radius in metres (WGS-84 approximation). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geometric_distances.h" line="45" column="18" bodyfile="include/utils/geometric_distances.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1geo_1a4bfef05579e887c9479637e87e18bc67" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::geo::EARTH_RADIUS_KM</definition>
+        <argsstring></argsstring>
+        <name>EARTH_RADIUS_KM</name>
+        <qualifiedname>themis::geo::EARTH_RADIUS_KM</qualifiedname>
+        <initializer>= 6&apos;371.0</initializer>
+        <briefdescription>
+<para>Earth mean radius in kilometres (WGS-84 approximation). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geometric_distances.h" line="47" column="18" bodyfile="include/utils/geometric_distances.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1geo_1a21c3c11deba12cbd4ce391c4b588796a" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::geo::METERS_PER_DEGREE_APPROX</definition>
+        <argsstring></argsstring>
+        <name>METERS_PER_DEGREE_APPROX</name>
+        <qualifiedname>themis::geo::METERS_PER_DEGREE_APPROX</qualifiedname>
+        <initializer>= 111320.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/geo/ewkb.cpp" line="31" column="18" bodyfile="src/utils/geo/ewkb.cpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1geo_1ae55a1e892013381496bce9a93ea62a58" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::geo::haversine_m</definition>
+        <argsstring>(double lat1, double lon1, double lat2, double lon2) noexcept</argsstring>
+        <name>haversine_m</name>
+        <qualifiedname>themis::geo::haversine_m</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>lat1</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lon1</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lat2</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lon2</declname>
+        </param>
+        <briefdescription>
+<para>Haversine great-circle distance in <bold>metres</bold>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Thin wrapper over haversine_km(); use this when the rest of the call-site operates in metres (e.g. the geo/*.cpp clustering code that previously used file-local <computeroutput>haversineDistanceM()</computeroutput>).</para>
+<para><simplesect kind="return"><para>Great-circle distance in metres (always ≥ 0). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/geometric_distances.h" line="73" column="16" bodyfile="include/utils/geometric_distances.h" bodystart="73" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1ac29fd22413cd5b1aa18e411838da703d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::geo::trimCopy</definition>
+        <argsstring>(const std::string &amp;input)</argsstring>
+        <name>trimCopy</name>
+        <qualifiedname>themis::geo::trimCopy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Trim Copy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::find_if_not(), begin(), end(), std::isspace(), rbegin(), rend(), base(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/geo/ewkb.cpp" line="39" column="20" bodyfile="src/utils/geo/ewkb.cpp" bodystart="39" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1aab2bb0cd8d8898e576f963503f0108cd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>static std::vector&lt; std::string &gt; themis::geo::splitTopLevel</definition>
+        <argsstring>(const std::string &amp;input, char delimiter)</argsstring>
+        <name>splitTopLevel</name>
+        <qualifiedname>themis::geo::splitTopLevel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>char</type>
+          <declname>delimiter</declname>
+        </param>
+        <briefdescription>
+<para>Split Top Level. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">delimiter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: push_back(), trimCopy(), clear(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/geo/ewkb.cpp" line="60" column="20" bodyfile="src/utils/geo/ewkb.cpp" bodystart="60" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1ad594ae0f358824c2d96596292d05be23" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1geo_1_1_coordinate" kindref="compound">Coordinate</ref></type>
+        <definition>static Coordinate themis::geo::parseCoordinateToken</definition>
+        <argsstring>(const std::string &amp;token)</argsstring>
+        <name>parseCoordinateToken</name>
+        <qualifiedname>themis::geo::parseCoordinateToken</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>token</declname>
+        </param>
+        <briefdescription>
+<para>Parse <ref refid="structthemis_1_1geo_1_1_coordinate" kindref="compound">Coordinate</ref> Token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: iss(), Coordinate(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/geo/ewkb.cpp" line="95" column="19" bodyfile="src/utils/geo/ewkb.cpp" bodystart="95" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1a2891272cf6f64b6daf57293245319cfd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::geo::extractWktBody</definition>
+        <argsstring>(const std::string &amp;wkt)</argsstring>
+        <name>extractWktBody</name>
+        <qualifiedname>themis::geo::extractWktBody</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>wkt</declname>
+        </param>
+        <briefdescription>
+<para>Extract Wkt Body. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">wkt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), rfind(), trimCopy(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/geo/ewkb.cpp" line="116" column="20" bodyfile="src/utils/geo/ewkb.cpp" bodystart="116" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1ac3883a132d76599fec4137e118de3199" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::geo::validateWGS84</definition>
+        <argsstring>(double lon, double lat)</argsstring>
+        <name>validateWGS84</name>
+        <qualifiedname>themis::geo::validateWGS84</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>lon</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lat</declname>
+        </param>
+        <briefdescription>
+<para>Validate WGS84. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lat</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/geo/ewkb.cpp" line="619" column="13" bodyfile="src/utils/geo/ewkb.cpp" bodystart="619" bodyend="631"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1a0748df9912ea352f898f815b8b3da935" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1geo_1_1_geometry_info" kindref="compound">GeometryInfo</ref></type>
+        <definition>static GeometryInfo themis::geo::parseGeoJSONGeomImpl</definition>
+        <argsstring>(const json &amp;j, int depth)</argsstring>
+        <name>parseGeoJSONGeomImpl</name>
+        <qualifiedname>themis::geo::parseGeoJSONGeomImpl</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1geo_1aceb234395fec4296fbf08187fe0a4d76" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>depth</declname>
+        </param>
+        <briefdescription>
+<para>Parse Geo JSONGeom Impl. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: at(), validateWGS84(), size(), emplace_back(), empty(), reserve(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/geo/ewkb.cpp" line="641" column="21" bodyfile="src/utils/geo/ewkb.cpp" bodystart="641" bodyend="801"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/geometric_distances.h" line="42" column="1"/>
+  </compounddef>
+</doxygen>

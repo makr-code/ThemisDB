@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_model_route" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::ModelRoute</compoundname>
+    <includes refid="aql__model__router_8h" local="no">aql_model_router.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_model_route_1a84913082b676e402952ea38c3cfd3987" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33" kindref="member">QueryModelType</ref></type>
+        <definition>QueryModelType themis::aql::ModelRoute::model_type</definition>
+        <argsstring></argsstring>
+        <name>model_type</name>
+        <qualifiedname>themis::aql::ModelRoute::model_type</qualifiedname>
+        <briefdescription>
+<para>Model category this route targets. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_model_router.h" line="37" column="20" bodyfile="include/aql/aql_model_router.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_model_route_1a21df16937fe441fbce9298ecac32d78f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::ModelRoute::model_alias</definition>
+        <argsstring></argsstring>
+        <name>model_alias</name>
+        <qualifiedname>themis::aql::ModelRoute::model_alias</qualifiedname>
+        <briefdescription>
+<para>Alias string passed to the LLM backend. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_model_router.h" line="38" column="20" bodyfile="include/aql/aql_model_router.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_model_route_1a97580071986aafbbdd40048aaced5385" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::aql::ModelRoute::priority</definition>
+        <argsstring></argsstring>
+        <name>priority</name>
+        <qualifiedname>themis::aql::ModelRoute::priority</qualifiedname>
+        <briefdescription>
+<para>Routing priority (higher wins; default = 100). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_model_router.h" line="39" column="20" bodyfile="include/aql/aql_model_router.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_model_route_1aa11bd860ba7d07bc13e051e799b22620" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::aql::ModelRoute::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::aql::ModelRoute::enabled</qualifiedname>
+        <briefdescription>
+<para>When false, route is skipped during selection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_model_router.h" line="40" column="20" bodyfile="include/aql/aql_model_router.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1aql_1_1_model_route_1a79a8c86359d6eea8d4edac07b8614be8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::ModelRoute::ModelRoute</definition>
+        <argsstring>()</argsstring>
+        <name>ModelRoute</name>
+        <qualifiedname>themis::aql::ModelRoute::ModelRoute</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_model_router.h" line="42" column="5" bodyfile="include/aql/aql_model_router.h" bodystart="42" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1aql_1_1_model_route_1a3752e52d9f4f063bc578ad0d98779c09" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::ModelRoute::ModelRoute</definition>
+        <argsstring>(QueryModelType t, std::string alias, int prio=100)</argsstring>
+        <name>ModelRoute</name>
+        <qualifiedname>themis::aql::ModelRoute::ModelRoute</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33" kindref="member">QueryModelType</ref></type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>alias</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>prio</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_model_router.h" line="44" column="5" bodyfile="include/aql/aql_model_router.h" bodystart="44" bodyend="46"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_model_router.h" line="36" column="1" bodyfile="include/aql/aql_model_router.h" bodystart="36" bodyend="47"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_model_route_1aa11bd860ba7d07bc13e051e799b22620" prot="public" virt="non-virtual"><scope>themis::aql::ModelRoute</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1aql_1_1_model_route_1a21df16937fe441fbce9298ecac32d78f" prot="public" virt="non-virtual"><scope>themis::aql::ModelRoute</scope><name>model_alias</name></member>
+      <member refid="structthemis_1_1aql_1_1_model_route_1a84913082b676e402952ea38c3cfd3987" prot="public" virt="non-virtual"><scope>themis::aql::ModelRoute</scope><name>model_type</name></member>
+      <member refid="structthemis_1_1aql_1_1_model_route_1a79a8c86359d6eea8d4edac07b8614be8" prot="public" virt="non-virtual"><scope>themis::aql::ModelRoute</scope><name>ModelRoute</name></member>
+      <member refid="structthemis_1_1aql_1_1_model_route_1a3752e52d9f4f063bc578ad0d98779c09" prot="public" virt="non-virtual"><scope>themis::aql::ModelRoute</scope><name>ModelRoute</name></member>
+      <member refid="structthemis_1_1aql_1_1_model_route_1a97580071986aafbbdd40048aaced5385" prot="public" virt="non-virtual"><scope>themis::aql::ModelRoute</scope><name>priority</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

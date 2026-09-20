@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_key_rotation_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::KeyRotationRecord</compoundname>
+    <includes refid="security__evidence__collector_8h" local="no">security_evidence_collector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_key_rotation_record_1a42f699ca69f2a330fbca1da95fa846ee" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::KeyRotationRecord::key_id</definition>
+        <argsstring></argsstring>
+        <name>key_id</name>
+        <qualifiedname>themis::security::KeyRotationRecord::key_id</qualifiedname>
+        <briefdescription>
+<para>Logical key identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="80" column="17" bodyfile="include/security/security_evidence_collector.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_key_rotation_record_1aae48ab1f5fcd52d63484871f93da602a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::security::KeyRotationRecord::from_version</definition>
+        <argsstring></argsstring>
+        <name>from_version</name>
+        <qualifiedname>themis::security::KeyRotationRecord::from_version</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Previous version. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="81" column="17" bodyfile="include/security/security_evidence_collector.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_key_rotation_record_1a521ee7c66c3f0b8b849bfa29c5432801" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::security::KeyRotationRecord::to_version</definition>
+        <argsstring></argsstring>
+        <name>to_version</name>
+        <qualifiedname>themis::security::KeyRotationRecord::to_version</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>New version after rotation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="82" column="17" bodyfile="include/security/security_evidence_collector.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_key_rotation_record_1accdbf6b4b4252fe588a32f3e1c1b793f" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::security::KeyRotationRecord::rotated_at_ms</definition>
+        <argsstring></argsstring>
+        <name>rotated_at_ms</name>
+        <qualifiedname>themis::security::KeyRotationRecord::rotated_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>When the new version was created. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="83" column="17" bodyfile="include/security/security_evidence_collector.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_key_rotation_record_1aed4d96f4899f823a6cc111b32096c026" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::KeyRotationRecord::algorithm</definition>
+        <argsstring></argsstring>
+        <name>algorithm</name>
+        <qualifiedname>themis::security::KeyRotationRecord::algorithm</qualifiedname>
+        <briefdescription>
+<para>Key algorithm (e.g. &quot;AES-256-GCM&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="84" column="17" bodyfile="include/security/security_evidence_collector.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_key_rotation_record_1a6752dda61496f1cf718b85a962485823" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::KeyRotationRecord::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::security::KeyRotationRecord::status</qualifiedname>
+        <briefdescription>
+<para>Status of the old version after rotation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="85" column="17" bodyfile="include/security/security_evidence_collector.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1security_1_1_key_rotation_record_1af57f14844b737c7b200b00805359a469" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::security::KeyRotationRecord::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::security::KeyRotationRecord::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="91" column="20" bodyfile="src/security/security_evidence_collector.cpp" bodystart="58" bodyend="67"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Record of a single key-rotation event for audit/compliance purposes. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Populated from <computeroutput><ref refid="structthemis_1_1_key_metadata_1a95b63a05b947e6b311c33d45b58ab191" kindref="member">KeyMetadata::created_at_ms</ref></computeroutput> across successive versions — version N+1 being created is the evidence that version N was rotated. </para>
+    </detaileddescription>
+    <location file="include/security/security_evidence_collector.h" line="79" column="1" bodyfile="include/security/security_evidence_collector.h" bodystart="79" bodyend="92"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_key_rotation_record_1aed4d96f4899f823a6cc111b32096c026" prot="public" virt="non-virtual"><scope>themis::security::KeyRotationRecord</scope><name>algorithm</name></member>
+      <member refid="structthemis_1_1security_1_1_key_rotation_record_1aae48ab1f5fcd52d63484871f93da602a" prot="public" virt="non-virtual"><scope>themis::security::KeyRotationRecord</scope><name>from_version</name></member>
+      <member refid="structthemis_1_1security_1_1_key_rotation_record_1a42f699ca69f2a330fbca1da95fa846ee" prot="public" virt="non-virtual"><scope>themis::security::KeyRotationRecord</scope><name>key_id</name></member>
+      <member refid="structthemis_1_1security_1_1_key_rotation_record_1accdbf6b4b4252fe588a32f3e1c1b793f" prot="public" virt="non-virtual"><scope>themis::security::KeyRotationRecord</scope><name>rotated_at_ms</name></member>
+      <member refid="structthemis_1_1security_1_1_key_rotation_record_1a6752dda61496f1cf718b85a962485823" prot="public" virt="non-virtual"><scope>themis::security::KeyRotationRecord</scope><name>status</name></member>
+      <member refid="structthemis_1_1security_1_1_key_rotation_record_1a521ee7c66c3f0b8b849bfa29c5432801" prot="public" virt="non-virtual"><scope>themis::security::KeyRotationRecord</scope><name>to_version</name></member>
+      <member refid="structthemis_1_1security_1_1_key_rotation_record_1af57f14844b737c7b200b00805359a469" prot="public" virt="non-virtual"><scope>themis::security::KeyRotationRecord</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

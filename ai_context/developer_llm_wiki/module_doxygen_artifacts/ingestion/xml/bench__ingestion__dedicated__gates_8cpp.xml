@@ -1,0 +1,357 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__ingestion__dedicated__gates_8cpp" kind="file" language="C++">
+    <compoundname>bench_ingestion_dedicated_gates.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/ingestion/bench_ingestion_dedicated_gates.cpp</label>
+        <link refid="bench__ingestion__dedicated__gates_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>mutex</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__ingestion__dedicated__gates_8cpp_1ac5e722a94132d95c500be91e8d7e6f32" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_IN_BM_01_IngestThroughput</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_IN_BM_01_IngestThroughput</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_dedicated_gates.cpp" line="102" column="13" bodyfile="benchmarks/ingestion/bench_ingestion_dedicated_gates.cpp" bodystart="102" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__ingestion__dedicated__gates_8cpp_1aa12ee4eaee94e95f75905a8c65d880b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Threads</definition>
+        <argsstring>(8) -&gt; MinTime(1.0) -&gt;UseRealTime()</argsstring>
+        <name>Threads</name>
+        <param>
+          <type>8</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_dedicated_gates.cpp" line="112" column="5" declfile="benchmarks/ingestion/bench_ingestion_dedicated_gates.cpp" declline="112" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__ingestion__dedicated__gates_8cpp_1afbe8dcf5ec24f0bcb0763b5d4f9d2b97" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_IN_BM_02_BackpressureRTT</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_IN_BM_02_BackpressureRTT</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_dedicated_gates.cpp" line="120" column="13" bodyfile="benchmarks/ingestion/bench_ingestion_dedicated_gates.cpp" bodystart="120" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__ingestion__dedicated__gates_8cpp_1a20cd142a1794d4958f7a639b50a9c448" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>MinTime</definition>
+        <argsstring>(1.0) -&gt; UseRealTime()</argsstring>
+        <name>MinTime</name>
+        <param>
+          <type>1.</type>
+          <declname>0</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_dedicated_gates.cpp" line="133" column="5" declfile="benchmarks/ingestion/bench_ingestion_dedicated_gates.cpp" declline="133" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__ingestion__dedicated__gates_8cpp_1a857d7921ec902819d75ff99cfe4b6d2a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_IN_BM_03_SchemaValidation</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_IN_BM_03_SchemaValidation</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_dedicated_gates.cpp" line="140" column="13" bodyfile="benchmarks/ingestion/bench_ingestion_dedicated_gates.cpp" bodystart="140" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__ingestion__dedicated__gates_8cpp_1a4b35493add13ed4f47f638b77626618e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_IN_BM_04_DLQEnqueue</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_IN_BM_04_DLQEnqueue</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_dedicated_gates.cpp" line="156" column="13" bodyfile="benchmarks/ingestion/bench_ingestion_dedicated_gates.cpp" bodystart="156" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__ingestion__dedicated__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_MAIN</definition>
+        <argsstring>()</argsstring>
+        <name>BENCHMARK_MAIN</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_dedicated_gates.cpp" line="169" column="1" declfile="benchmarks/ingestion/bench_ingestion_dedicated_gates.cpp" declline="169" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Wave D ingestion dedicated benchmark gates (IN-BM-01..IN-BM-04). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides reproducible latency and throughput measurements for the ingestion pipeline Wave D operability paths.</para>
+<sect1 id="bench__ingestion__dedicated__gates_8cpp_1autotoc_md28_1s1"><sect2 id="bench__ingestion__dedicated__gates_8cpp_1autotoc_md28">
+<title>Benchmark families</title><para><heading level="3">IN-BM-01 — High-cardinality ingest throughput (8-thread)</heading>
+</para>
+<para>≥ 50 000 records/sec</para>
+<para><heading level="3">IN-BM-02 — Backpressure signal round-trip</heading>
+</para>
+<para>p99 ≤ 200 µs</para>
+<para><heading level="3">IN-BM-03 — Schema validation hot path (per-record)</heading>
+</para>
+<para>p99 ≤ 50 µs</para>
+<para><heading level="3">IN-BM-04 — Dead-letter queue enqueue (per-record)</heading>
+</para>
+<para>p99 ≤ 100 µs</para>
+</sect2></sect1>
+<sect1 id="bench__ingestion__dedicated__gates_8cpp_1autotoc_md29_1s1"><sect2 id="bench__ingestion__dedicated__gates_8cpp_1autotoc_md29">
+<title>Hard release gates</title><para><table rows="5" cols="3"><row>
+<entry thead="yes"><para>Gate ID  </para>
+</entry><entry thead="yes"><para>Benchmark  </para>
+</entry><entry thead="yes"><para>Threshold  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>IN-BM-01  </para>
+</entry><entry thead="no"><para>Throughput  </para>
+</entry><entry thead="no"><para>≥ 50 000 records/sec  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>IN-BM-02  </para>
+</entry><entry thead="no"><para>BP RTT  </para>
+</entry><entry thead="no"><para>p99 ≤ 200 µs  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>IN-BM-03  </para>
+</entry><entry thead="no"><para>Schema  </para>
+</entry><entry thead="no"><para>p99 ≤ 50 µs  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>IN-BM-04  </para>
+</entry><entry thead="no"><para>DLQ enq  </para>
+</entry><entry thead="no"><para>p99 ≤ 100 µs  </para>
+</entry></row>
+</table>
+</para>
+<para><simplesect kind="see"><para>src/ingestion/ROADMAP.md — Wave D contribution closure </para>
+</simplesect>
+<simplesect kind="see"><para>docs/operability/RUNBOOK_INGESTION_PIPELINE.md </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SIMULATION<sp/>NOTE:<sp/>All<sp/>stubs<sp/>in<sp/>this<sp/>file<sp/>are<sp/>in-process<sp/>simulations<sp/>used</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>purely<sp/>for<sp/>benchmark<sp/>gate<sp/>measurement.<sp/>MUST<sp/>NOT<sp/>be<sp/>used<sp/>in<sp/>production.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Stub<sp/>primitives<sp/>(no<sp/>external<sp/>dependencies)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/>kQueueCapacity<sp/>=<sp/>65536;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">IngestQueue<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mutex<sp/>mu;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint64_t&gt;<sp/>buf;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>backpressure_signals{0};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>IngestQueue()<sp/>{<sp/>buf.reserve(kQueueCapacity);<sp/>}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>push(uint64_t<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(mu);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(buf.size()<sp/>&gt;=<sp/>kQueueCapacity)<sp/>{<sp/>++backpressure_signals;<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>buf.push_back(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>clear()<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(mu);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>buf.clear();</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Schema<sp/>validation<sp/>stub<sp/>—<sp/>pure<sp/>arithmetic,<sp/>no<sp/>allocations.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>stubValidateSchema(uint64_t<sp/>record_id)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simple<sp/>field-range<sp/>check<sp/>simulation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(record_id<sp/>&amp;<sp/>0xFFFF)<sp/>&lt;<sp/>60000;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DLQ<sp/>enqueue<sp/>stub<sp/>—<sp/>counts<sp/>only,<sp/>no<sp/>external<sp/>I/O.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">DLQStub<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>depth{0};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kMaxDepth<sp/>=<sp/>100&apos;000;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enqueue(uint64_t<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>d<sp/>=<sp/>depth.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>d<sp/>&lt;<sp/>kMaxDepth;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>reset()<sp/>{<sp/>depth.store(0,<sp/>std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IN-BM-01:<sp/>High-cardinality<sp/>ingest<sp/>throughput</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_IN_BM_01_IngestThroughput(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>IngestQueue<sp/>q;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!q.push(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">++))<sp/>{<sp/>q.clear();<sp/>}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::ClobberMemory();</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.iterations()));</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><ref refid="bench__ingestion__extraction_8cpp_1ab1a12b527ca53f6331913e38d6c13088" kindref="member">BENCHMARK</ref>(BM_IN_BM_01_IngestThroughput)</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Threads(8)</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;MinTime(1.0)</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseRealTime();</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IN-BM-02:<sp/>Backpressure<sp/>signal<sp/>round-trip</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_IN_BM_02_BackpressureRTT(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>IngestQueue<sp/>q;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fill<sp/>queue<sp/>to<sp/>capacity<sp/>to<sp/>force<sp/>backpressure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kQueueCapacity;<sp/>++i)<sp/>q.push(i);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>kQueueCapacity;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>push<sp/>triggers<sp/>backpressure<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>q.push(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">++);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::ClobberMemory();</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.iterations()));</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><ref refid="bench__ingestion__extraction_8cpp_1ab1a12b527ca53f6331913e38d6c13088" kindref="member">BENCHMARK</ref>(BM_IN_BM_02_BackpressureRTT)</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;MinTime(1.0)</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseRealTime();</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IN-BM-03:<sp/>Schema<sp/>validation<sp/>hot<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_IN_BM_03_SchemaValidation(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>stubValidateSchema(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">++);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(ok);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.iterations()));</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><ref refid="bench__ingestion__extraction_8cpp_1ab1a12b527ca53f6331913e38d6c13088" kindref="member">BENCHMARK</ref>(BM_IN_BM_03_SchemaValidation)</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;MinTime(1.0)</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseRealTime();</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IN-BM-04:<sp/>Dead-letter<sp/>queue<sp/>enqueue</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_IN_BM_04_DLQEnqueue(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>DLQStub<sp/>dlq;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!dlq.enqueue(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">++))<sp/>dlq.reset();</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::ClobberMemory();</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.iterations()));</highlight></codeline>
+<codeline lineno="164"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><ref refid="bench__ingestion__extraction_8cpp_1ab1a12b527ca53f6331913e38d6c13088" kindref="member">BENCHMARK</ref>(BM_IN_BM_04_DLQEnqueue)</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;MinTime(1.0)</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseRealTime();</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><ref refid="bench__ingestion__dedicated__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kindref="member">BENCHMARK_MAIN</ref>();</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/ingestion/bench_ingestion_dedicated_gates.cpp"/>
+  </compounddef>
+</doxygen>

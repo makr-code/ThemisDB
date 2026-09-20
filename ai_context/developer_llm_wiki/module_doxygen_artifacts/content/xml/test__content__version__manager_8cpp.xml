@@ -1,0 +1,806 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__content__version__manager_8cpp" kind="file" language="C++">
+    <compoundname>test_content_version_manager.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="version__manager_8h" local="yes">content/version_manager.h</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>content/version_manager.h</label>
+        <link refid="version__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/content/test_content_version_manager.cpp</label>
+        <link refid="test__content__version__manager_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__content__version__manager_8cpp_1a889be0648df375111ba65289fffa0368" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VersionManager, CreateVersionMetadataOnly)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref></type>
+        </param>
+        <param>
+          <type>CreateVersionMetadataOnly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_version_manager.cpp" line="28" column="1" bodyfile="tests/content/test_content_version_manager.cpp" bodystart="28" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__version__manager_8cpp_1a9dbbffe73c38857a92a1db5de7ce7332" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VersionManager, MetadataOnlyGetContentReturnsNullopt)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref></type>
+        </param>
+        <param>
+          <type>MetadataOnlyGetContentReturnsNullopt</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_version_manager.cpp" line="47" column="1" bodyfile="tests/content/test_content_version_manager.cpp" bodystart="47" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__version__manager_8cpp_1aefd83106394adab93fb14060b0526d56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VersionManager, CreateVersionWithContentStoresContent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref></type>
+        </param>
+        <param>
+          <type>CreateVersionWithContentStoresContent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_version_manager.cpp" line="57" column="1" bodyfile="tests/content/test_content_version_manager.cpp" bodystart="57" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__version__manager_8cpp_1a82df545d303df791ea1451b510f61425" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VersionManager, GetContentReturnsCorrectContent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref></type>
+        </param>
+        <param>
+          <type>GetContentReturnsCorrectContent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_version_manager.cpp" line="72" column="1" bodyfile="tests/content/test_content_version_manager.cpp" bodystart="72" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__version__manager_8cpp_1a016fc6b0be1df567508cba8c9729abcc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VersionManager, GetContentNonexistentVersionReturnsNullopt)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref></type>
+        </param>
+        <param>
+          <type>GetContentNonexistentVersionReturnsNullopt</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_version_manager.cpp" line="86" column="1" bodyfile="tests/content/test_content_version_manager.cpp" bodystart="86" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__version__manager_8cpp_1a70eac74c8afdd35b2b3fbe00c07b51d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VersionManager, FirstVersionHasEmptyDelta)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref></type>
+        </param>
+        <param>
+          <type>FirstVersionHasEmptyDelta</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_version_manager.cpp" line="96" column="1" bodyfile="tests/content/test_content_version_manager.cpp" bodystart="96" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__version__manager_8cpp_1a959bbaaf26181a3b8216d10fc54fd3f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VersionManager, SecondVersionHasNonEmptyDelta)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref></type>
+        </param>
+        <param>
+          <type>SecondVersionHasNonEmptyDelta</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_version_manager.cpp" line="105" column="1" bodyfile="tests/content/test_content_version_manager.cpp" bodystart="105" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__version__manager_8cpp_1ab035466934fdf85644195f06d20f319d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VersionManager, IdenticalContentHasEmptyDelta)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref></type>
+        </param>
+        <param>
+          <type>IdenticalContentHasEmptyDelta</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_version_manager.cpp" line="115" column="1" bodyfile="tests/content/test_content_version_manager.cpp" bodystart="115" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__version__manager_8cpp_1a7a7d0ca64715e687c09b3bf238011dbf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VersionManager, ComputeHashIsDeterministic)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref></type>
+        </param>
+        <param>
+          <type>ComputeHashIsDeterministic</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_version_manager.cpp" line="127" column="1" bodyfile="tests/content/test_content_version_manager.cpp" bodystart="127" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__version__manager_8cpp_1ae09577886b9d977d347c27d399316a33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VersionManager, ComputeHashDiffersForDifferentInput)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref></type>
+        </param>
+        <param>
+          <type>ComputeHashDiffersForDifferentInput</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_version_manager.cpp" line="134" column="1" bodyfile="tests/content/test_content_version_manager.cpp" bodystart="134" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__version__manager_8cpp_1a91993becab98746fadeec4b9ffdf58c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VersionManager, ComputeHashKnownValue)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref></type>
+        </param>
+        <param>
+          <type>ComputeHashKnownValue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_version_manager.cpp" line="139" column="1" bodyfile="tests/content/test_content_version_manager.cpp" bodystart="139" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__version__manager_8cpp_1ac1eb5cc4b4684e6a469dcf84a0cec09d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VersionManager, HashStoredInVersionMatchesComputedHash)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref></type>
+        </param>
+        <param>
+          <type>HashStoredInVersionMatchesComputedHash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_version_manager.cpp" line="146" column="1" bodyfile="tests/content/test_content_version_manager.cpp" bodystart="146" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__version__manager_8cpp_1ab33fcc3955ba0971473c7c95f954a8cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VersionManager, ComputeDeltaEmptyToEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref></type>
+        </param>
+        <param>
+          <type>ComputeDeltaEmptyToEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_version_manager.cpp" line="158" column="1" bodyfile="tests/content/test_content_version_manager.cpp" bodystart="158" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__version__manager_8cpp_1ac0f36672dcfc8fa6a0c672283288e10d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VersionManager, ComputeDeltaAddedLines)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref></type>
+        </param>
+        <param>
+          <type>ComputeDeltaAddedLines</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_version_manager.cpp" line="162" column="1" bodyfile="tests/content/test_content_version_manager.cpp" bodystart="162" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__version__manager_8cpp_1a96db84ebfdb59d6e347586a97c61a1e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VersionManager, ComputeDeltaRemovedLines)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref></type>
+        </param>
+        <param>
+          <type>ComputeDeltaRemovedLines</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_version_manager.cpp" line="167" column="1" bodyfile="tests/content/test_content_version_manager.cpp" bodystart="167" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__version__manager_8cpp_1a6bb83f2763b6c80fc9d98874ecf71c61" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VersionManager, ComputeDeltaUnchangedLinesNotInDelta)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref></type>
+        </param>
+        <param>
+          <type>ComputeDeltaUnchangedLinesNotInDelta</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_version_manager.cpp" line="172" column="1" bodyfile="tests/content/test_content_version_manager.cpp" bodystart="172" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__version__manager_8cpp_1a41b8e1ec52c5393781d59a311f55150e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VersionManager, GetVersionHistoryEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref></type>
+        </param>
+        <param>
+          <type>GetVersionHistoryEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_version_manager.cpp" line="179" column="1" bodyfile="tests/content/test_content_version_manager.cpp" bodystart="179" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__version__manager_8cpp_1a0fefa5b517daa1a8d925cf68ee571983" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VersionManager, GetVersionHistoryMultipleVersions)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref></type>
+        </param>
+        <param>
+          <type>GetVersionHistoryMultipleVersions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_version_manager.cpp" line="184" column="1" bodyfile="tests/content/test_content_version_manager.cpp" bodystart="184" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__version__manager_8cpp_1a748b01cbf71c907ca4b9f2a49d03ecaf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VersionManager, GetLatestVersion)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref></type>
+        </param>
+        <param>
+          <type>GetLatestVersion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_version_manager.cpp" line="197" column="1" bodyfile="tests/content/test_content_version_manager.cpp" bodystart="197" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__version__manager_8cpp_1acc40a3e0aab3a262e163b621f1e0fce0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VersionManager, HasVersions)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref></type>
+        </param>
+        <param>
+          <type>HasVersions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_version_manager.cpp" line="208" column="1" bodyfile="tests/content/test_content_version_manager.cpp" bodystart="208" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__version__manager_8cpp_1adab529c8355315cb62e1f244cc00524e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VersionManager, DeleteVersionRemovesIt)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref></type>
+        </param>
+        <param>
+          <type>DeleteVersionRemovesIt</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_version_manager.cpp" line="218" column="1" bodyfile="tests/content/test_content_version_manager.cpp" bodystart="218" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__version__manager_8cpp_1a7cbc13126d5698ead394f2d12917c8d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VersionManager, DeleteNonexistentVersionReturnsFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref></type>
+        </param>
+        <param>
+          <type>DeleteNonexistentVersionReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_version_manager.cpp" line="228" column="1" bodyfile="tests/content/test_content_version_manager.cpp" bodystart="228" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__version__manager_8cpp_1a47627f73bf8b509806f90a234276b137" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VersionManager, DeleteVersionFromNonexistentDocReturnsFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref></type>
+        </param>
+        <param>
+          <type>DeleteVersionFromNonexistentDocReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_version_manager.cpp" line="236" column="1" bodyfile="tests/content/test_content_version_manager.cpp" bodystart="236" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__version__manager_8cpp_1a546b56d3ac905d913bf2cc084bf8e252" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VersionManager, IndependentContentIds)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref></type>
+        </param>
+        <param>
+          <type>IndependentContentIds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_version_manager.cpp" line="243" column="1" bodyfile="tests/content/test_content_version_manager.cpp" bodystart="243" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__version__manager_8cpp_1abad176bbdfbbed76737a05ec470ac620" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VersionManager, VersionNumbersArePerDocumentId)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref></type>
+        </param>
+        <param>
+          <type>VersionNumbersArePerDocumentId</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_version_manager.cpp" line="261" column="1" bodyfile="tests/content/test_content_version_manager.cpp" bodystart="261" bodyend="272"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for <ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref> – content versioning and delta storage (Issue #1692 / content module ROADMAP). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests cover:<orderedlist>
+<listitem><para>Metadata-only version creation via createVersion()</para>
+</listitem><listitem><para>Content-aware version creation via createVersionWithContent()</para>
+</listitem><listitem><para>Content retrieval via getContent()</para>
+</listitem><listitem><para>Delta computation and storage</para>
+</listitem><listitem><para>Version history, getLatestVersion(), hasVersions()</para>
+</listitem><listitem><para>deleteVersion() single and nonexistent version</para>
+</listitem><listitem><para>Static helpers: computeHash(), computeDelta()</para>
+</listitem><listitem><para>Multiple independent content IDs </para>
+</listitem></orderedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2024<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>MIT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="version__manager_8h" kindref="compound">content/version_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1content" kindref="compound">themis::content</ref>;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Metadata-only<sp/>path<sp/>───────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><ref refid="test__content__version__manager_8cpp_1a889be0648df375111ba65289fffa0368" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref>,<sp/>CreateVersionMetadataOnly)<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref><sp/>vm;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>v<sp/>=<sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a82bcb9df83b014e2f3c4610dcfb39a8d" kindref="member">createVersion</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;abc123&quot;</highlight><highlight class="normal">,<sp/>42,<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;initial&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(v,<sp/>1);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(vm.<ref refid="classthemis_1_1content_1_1_version_manager_1afa06dd1fae005bee1823f6b181d086c7" kindref="member">hasVersions</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>info<sp/>=<sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1aa90511580f2775ae138059ebea79e836" kindref="member">getVersion</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(info.has_value());</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(info-&gt;version_number,<sp/>1);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(info-&gt;content_hash,<sp/></highlight><highlight class="stringliteral">&quot;abc123&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(info-&gt;size_bytes,<sp/>42u);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(info-&gt;author,<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(info-&gt;comment,<sp/></highlight><highlight class="stringliteral">&quot;initial&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(info-&gt;timestamp,<sp/>0);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(info-&gt;content.empty());</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(info-&gt;delta.empty());</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><ref refid="test__content__version__manager_8cpp_1a889be0648df375111ba65289fffa0368" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref>,<sp/>MetadataOnlyGetContentReturnsNullopt)<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref><sp/>vm;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a82bcb9df83b014e2f3c4610dcfb39a8d" kindref="member">createVersion</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;abc&quot;</highlight><highlight class="normal">,<sp/>10);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1content" kindref="compound">content</ref><sp/>=<sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a87d245477499307c1280d01720c5c952" kindref="member">getContent</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1content" kindref="compound">content</ref>.has_value());</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Content-aware<sp/>path<sp/>────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><ref refid="test__content__version__manager_8cpp_1a889be0648df375111ba65289fffa0368" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref>,<sp/>CreateVersionWithContentStoresContent)<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref><sp/>vm;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>v<sp/>=<sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a12bc0ceedf28f52f980abdae25ee6b07" kindref="member">createVersionWithContent</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Hello<sp/>World&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;first<sp/>version&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(v,<sp/>1);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>info<sp/>=<sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1aa90511580f2775ae138059ebea79e836" kindref="member">getVersion</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(info.has_value());</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(info-&gt;content,<sp/></highlight><highlight class="stringliteral">&quot;Hello<sp/>World&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(info-&gt;size_bytes,<sp/>11u);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(info-&gt;content_hash.empty());</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(info-&gt;author,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(info-&gt;comment,<sp/></highlight><highlight class="stringliteral">&quot;first<sp/>version&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><ref refid="test__content__version__manager_8cpp_1a889be0648df375111ba65289fffa0368" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref>,<sp/>GetContentReturnsCorrectContent)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref><sp/>vm;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a12bc0ceedf28f52f980abdae25ee6b07" kindref="member">createVersionWithContent</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Version<sp/>one&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a12bc0ceedf28f52f980abdae25ee6b07" kindref="member">createVersionWithContent</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Version<sp/>two&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>c1<sp/>=<sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a87d245477499307c1280d01720c5c952" kindref="member">getContent</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>c2<sp/>=<sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a87d245477499307c1280d01720c5c952" kindref="member">getContent</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/>2);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(c1.has_value());</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(c2.has_value());</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*c1,<sp/></highlight><highlight class="stringliteral">&quot;Version<sp/>one&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*c2,<sp/></highlight><highlight class="stringliteral">&quot;Version<sp/>two&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><ref refid="test__content__version__manager_8cpp_1a889be0648df375111ba65289fffa0368" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref>,<sp/>GetContentNonexistentVersionReturnsNullopt)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref><sp/>vm;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a87d245477499307c1280d01720c5c952" kindref="member">getContent</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/>1).has_value());</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a12bc0ceedf28f52f980abdae25ee6b07" kindref="member">createVersionWithContent</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;some<sp/>content&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a87d245477499307c1280d01720c5c952" kindref="member">getContent</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/>99).has_value());</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Delta<sp/>storage<sp/>─────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="test__content__version__manager_8cpp_1a889be0648df375111ba65289fffa0368" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref>,<sp/>FirstVersionHasEmptyDelta)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref><sp/>vm;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a12bc0ceedf28f52f980abdae25ee6b07" kindref="member">createVersionWithContent</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;line1\nline2\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>v1<sp/>=<sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1aa90511580f2775ae138059ebea79e836" kindref="member">getVersion</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(v1.has_value());</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(v1-&gt;delta.empty());</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><ref refid="test__content__version__manager_8cpp_1a889be0648df375111ba65289fffa0368" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref>,<sp/>SecondVersionHasNonEmptyDelta)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref><sp/>vm;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a12bc0ceedf28f52f980abdae25ee6b07" kindref="member">createVersionWithContent</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;line1\nline2\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a12bc0ceedf28f52f980abdae25ee6b07" kindref="member">createVersionWithContent</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;line1\nline3\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>v2<sp/>=<sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1aa90511580f2775ae138059ebea79e836" kindref="member">getVersion</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/>2);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(v2.has_value());</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(v2-&gt;delta.empty());</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><ref refid="test__content__version__manager_8cpp_1a889be0648df375111ba65289fffa0368" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref>,<sp/>IdenticalContentHasEmptyDelta)<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref><sp/>vm;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a12bc0ceedf28f52f980abdae25ee6b07" kindref="member">createVersionWithContent</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;same<sp/>content&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a12bc0ceedf28f52f980abdae25ee6b07" kindref="member">createVersionWithContent</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;same<sp/>content&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>v2<sp/>=<sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1aa90511580f2775ae138059ebea79e836" kindref="member">getVersion</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/>2);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(v2.has_value());</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(v2-&gt;delta.empty());</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Hash<sp/>computation<sp/>──────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><ref refid="test__content__version__manager_8cpp_1a889be0648df375111ba65289fffa0368" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref>,<sp/>ComputeHashIsDeterministic)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>h1<sp/>=<sp/><ref refid="classthemis_1_1content_1_1_version_manager_1a8e0f4d4abdb0ac372e785fafb2872bb0" kindref="member">VersionManager::computeHash</ref>(</highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>h2<sp/>=<sp/><ref refid="classthemis_1_1content_1_1_version_manager_1a8e0f4d4abdb0ac372e785fafb2872bb0" kindref="member">VersionManager::computeHash</ref>(</highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(h1,<sp/>h2);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(h1.size(),<sp/>64u);<sp/><sp/></highlight><highlight class="comment">//<sp/>32<sp/>bytes<sp/>×<sp/>2<sp/>hex<sp/>chars</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><ref refid="test__content__version__manager_8cpp_1a889be0648df375111ba65289fffa0368" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref>,<sp/>ComputeHashDiffersForDifferentInput)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="classthemis_1_1content_1_1_version_manager_1a8e0f4d4abdb0ac372e785fafb2872bb0" kindref="member">VersionManager::computeHash</ref>(</highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_version_manager_1a8e0f4d4abdb0ac372e785fafb2872bb0" kindref="member">VersionManager::computeHash</ref>(</highlight><highlight class="stringliteral">&quot;world&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="137"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><ref refid="test__content__version__manager_8cpp_1a889be0648df375111ba65289fffa0368" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref>,<sp/>ComputeHashKnownValue)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SHA-256(&quot;&quot;)<sp/>=<sp/>e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>empty_hash<sp/>=<sp/><ref refid="classthemis_1_1content_1_1_version_manager_1a8e0f4d4abdb0ac372e785fafb2872bb0" kindref="member">VersionManager::computeHash</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(empty_hash,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><ref refid="test__content__version__manager_8cpp_1a889be0648df375111ba65289fffa0368" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref>,<sp/>HashStoredInVersionMatchesComputedHash)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref><sp/>vm;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1content" kindref="compound">content</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test<sp/>content<sp/>for<sp/>hashing&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a12bc0ceedf28f52f980abdae25ee6b07" kindref="member">createVersionWithContent</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1content" kindref="compound">content</ref>);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>v<sp/>=<sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1aa90511580f2775ae138059ebea79e836" kindref="member">getVersion</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(v.has_value());</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(v-&gt;content_hash,<sp/><ref refid="classthemis_1_1content_1_1_version_manager_1a8e0f4d4abdb0ac372e785fafb2872bb0" kindref="member">VersionManager::computeHash</ref>(<ref refid="namespacethemis_1_1content" kindref="compound">content</ref>));</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Delta<sp/>helper<sp/>──────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><ref refid="test__content__version__manager_8cpp_1a889be0648df375111ba65289fffa0368" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref>,<sp/>ComputeDeltaEmptyToEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1content_1_1_version_manager_1a0d26b411967ac08dc3b17f25e6bab8b6" kindref="member">VersionManager::computeDelta</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><ref refid="test__content__version__manager_8cpp_1a889be0648df375111ba65289fffa0368" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref>,<sp/>ComputeDeltaAddedLines)<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>delta<sp/>=<sp/><ref refid="classthemis_1_1content_1_1_version_manager_1a0d26b411967ac08dc3b17f25e6bab8b6" kindref="member">VersionManager::computeDelta</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;new<sp/>line\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(delta.find(</highlight><highlight class="charliteral">&apos;+&apos;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><ref refid="test__content__version__manager_8cpp_1a889be0648df375111ba65289fffa0368" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref>,<sp/>ComputeDeltaRemovedLines)<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>delta<sp/>=<sp/><ref refid="classthemis_1_1content_1_1_version_manager_1a0d26b411967ac08dc3b17f25e6bab8b6" kindref="member">VersionManager::computeDelta</ref>(</highlight><highlight class="stringliteral">&quot;old<sp/>line\n&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(delta.find(</highlight><highlight class="charliteral">&apos;-&apos;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><ref refid="test__content__version__manager_8cpp_1a889be0648df375111ba65289fffa0368" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref>,<sp/>ComputeDeltaUnchangedLinesNotInDelta)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>delta<sp/>=<sp/><ref refid="classthemis_1_1content_1_1_version_manager_1a0d26b411967ac08dc3b17f25e6bab8b6" kindref="member">VersionManager::computeDelta</ref>(</highlight><highlight class="stringliteral">&quot;same\n&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;same\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(delta.empty());</highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Version<sp/>history<sp/>───────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><ref refid="test__content__version__manager_8cpp_1a889be0648df375111ba65289fffa0368" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref>,<sp/>GetVersionHistoryEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref><sp/>vm;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a4c5c380d74da873b306d8fc41b083fbc" kindref="member">getVersionHistory</ref>(</highlight><highlight class="stringliteral">&quot;no_such_id&quot;</highlight><highlight class="normal">).empty());</highlight></codeline>
+<codeline lineno="182"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><ref refid="test__content__version__manager_8cpp_1a889be0648df375111ba65289fffa0368" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref>,<sp/>GetVersionHistoryMultipleVersions)<sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref><sp/>vm;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a12bc0ceedf28f52f980abdae25ee6b07" kindref="member">createVersionWithContent</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a12bc0ceedf28f52f980abdae25ee6b07" kindref="member">createVersionWithContent</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a12bc0ceedf28f52f980abdae25ee6b07" kindref="member">createVersionWithContent</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>history<sp/>=<sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a4c5c380d74da873b306d8fc41b083fbc" kindref="member">getVersionHistory</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(history.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(history[0].version_number,<sp/>1);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(history[1].version_number,<sp/>2);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(history[2].version_number,<sp/>3);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><ref refid="test__content__version__manager_8cpp_1a889be0648df375111ba65289fffa0368" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref>,<sp/>GetLatestVersion)<sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref><sp/>vm;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a38b105a798661eea9e5ebfe6d68cb35c" kindref="member">getLatestVersion</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">),<sp/>0);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a12bc0ceedf28f52f980abdae25ee6b07" kindref="member">createVersionWithContent</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a38b105a798661eea9e5ebfe6d68cb35c" kindref="member">getLatestVersion</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">),<sp/>1);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a12bc0ceedf28f52f980abdae25ee6b07" kindref="member">createVersionWithContent</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a38b105a798661eea9e5ebfe6d68cb35c" kindref="member">getLatestVersion</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">),<sp/>2);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><ref refid="test__content__version__manager_8cpp_1a889be0648df375111ba65289fffa0368" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref>,<sp/>HasVersions)<sp/>{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref><sp/>vm;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(vm.<ref refid="classthemis_1_1content_1_1_version_manager_1afa06dd1fae005bee1823f6b181d086c7" kindref="member">hasVersions</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a12bc0ceedf28f52f980abdae25ee6b07" kindref="member">createVersionWithContent</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;content&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(vm.<ref refid="classthemis_1_1content_1_1_version_manager_1afa06dd1fae005bee1823f6b181d086c7" kindref="member">hasVersions</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="214"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>deleteVersion<sp/>─────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><ref refid="test__content__version__manager_8cpp_1a889be0648df375111ba65289fffa0368" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref>,<sp/>DeleteVersionRemovesIt)<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref><sp/>vm;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a12bc0ceedf28f52f980abdae25ee6b07" kindref="member">createVersionWithContent</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a12bc0ceedf28f52f980abdae25ee6b07" kindref="member">createVersionWithContent</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a9ebf52849e15648e246ad588e0d5135e" kindref="member">deleteVersion</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/>1));</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(vm.<ref refid="classthemis_1_1content_1_1_version_manager_1aa90511580f2775ae138059ebea79e836" kindref="member">getVersion</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/>1).has_value());</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a4c5c380d74da873b306d8fc41b083fbc" kindref="member">getVersionHistory</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">).size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><ref refid="test__content__version__manager_8cpp_1a889be0648df375111ba65289fffa0368" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref>,<sp/>DeleteNonexistentVersionReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref><sp/>vm;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a9ebf52849e15648e246ad588e0d5135e" kindref="member">deleteVersion</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/>99));</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a12bc0ceedf28f52f980abdae25ee6b07" kindref="member">createVersionWithContent</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;content&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a9ebf52849e15648e246ad588e0d5135e" kindref="member">deleteVersion</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/>99));</highlight></codeline>
+<codeline lineno="234"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><ref refid="test__content__version__manager_8cpp_1a889be0648df375111ba65289fffa0368" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref>,<sp/>DeleteVersionFromNonexistentDocReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref><sp/>vm;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a9ebf52849e15648e246ad588e0d5135e" kindref="member">deleteVersion</ref>(</highlight><highlight class="stringliteral">&quot;no_doc&quot;</highlight><highlight class="normal">,<sp/>1));</highlight></codeline>
+<codeline lineno="239"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Multiple<sp/>content<sp/>IDs<sp/>──────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><ref refid="test__content__version__manager_8cpp_1a889be0648df375111ba65289fffa0368" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref>,<sp/>IndependentContentIds)<sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref><sp/>vm;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a12bc0ceedf28f52f980abdae25ee6b07" kindref="member">createVersionWithContent</ref>(</highlight><highlight class="stringliteral">&quot;doc_a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;content<sp/>A<sp/>v1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a12bc0ceedf28f52f980abdae25ee6b07" kindref="member">createVersionWithContent</ref>(</highlight><highlight class="stringliteral">&quot;doc_b&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;content<sp/>B<sp/>v1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a12bc0ceedf28f52f980abdae25ee6b07" kindref="member">createVersionWithContent</ref>(</highlight><highlight class="stringliteral">&quot;doc_a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;content<sp/>A<sp/>v2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a38b105a798661eea9e5ebfe6d68cb35c" kindref="member">getLatestVersion</ref>(</highlight><highlight class="stringliteral">&quot;doc_a&quot;</highlight><highlight class="normal">),<sp/>2);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a38b105a798661eea9e5ebfe6d68cb35c" kindref="member">getLatestVersion</ref>(</highlight><highlight class="stringliteral">&quot;doc_b&quot;</highlight><highlight class="normal">),<sp/>1);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>a2<sp/>=<sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a87d245477499307c1280d01720c5c952" kindref="member">getContent</ref>(</highlight><highlight class="stringliteral">&quot;doc_a&quot;</highlight><highlight class="normal">,<sp/>2);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(a2.has_value());</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*a2,<sp/></highlight><highlight class="stringliteral">&quot;content<sp/>A<sp/>v2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b1<sp/>=<sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a87d245477499307c1280d01720c5c952" kindref="member">getContent</ref>(</highlight><highlight class="stringliteral">&quot;doc_b&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(b1.has_value());</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*b1,<sp/></highlight><highlight class="stringliteral">&quot;content<sp/>B<sp/>v1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><ref refid="test__content__version__manager_8cpp_1a889be0648df375111ba65289fffa0368" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref>,<sp/>VersionNumbersArePerDocumentId)<sp/>{</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_version_manager" kindref="compound">VersionManager</ref><sp/>vm;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a12bc0ceedf28f52f980abdae25ee6b07" kindref="member">createVersionWithContent</ref>(</highlight><highlight class="stringliteral">&quot;doc_a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;a1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a12bc0ceedf28f52f980abdae25ee6b07" kindref="member">createVersionWithContent</ref>(</highlight><highlight class="stringliteral">&quot;doc_a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;a2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a12bc0ceedf28f52f980abdae25ee6b07" kindref="member">createVersionWithContent</ref>(</highlight><highlight class="stringliteral">&quot;doc_b&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;b1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>doc_b&apos;s<sp/>first<sp/>version<sp/>should<sp/>be<sp/>v1,<sp/>not<sp/>v3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(vm.<ref refid="classthemis_1_1content_1_1_version_manager_1a38b105a798661eea9e5ebfe6d68cb35c" kindref="member">getLatestVersion</ref>(</highlight><highlight class="stringliteral">&quot;doc_b&quot;</highlight><highlight class="normal">),<sp/>1);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b1<sp/>=<sp/>vm.<ref refid="classthemis_1_1content_1_1_version_manager_1aa90511580f2775ae138059ebea79e836" kindref="member">getVersion</ref>(</highlight><highlight class="stringliteral">&quot;doc_b&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(b1.has_value());</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(b1-&gt;version_number,<sp/>1);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/content/test_content_version_manager.cpp"/>
+  </compounddef>
+</doxygen>

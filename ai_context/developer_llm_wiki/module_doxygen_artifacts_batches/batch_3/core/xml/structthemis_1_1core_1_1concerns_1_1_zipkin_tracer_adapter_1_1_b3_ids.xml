@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1_1_b3_ids" kind="struct" language="C++" prot="private">
+    <compoundname>themis::core::concerns::ZipkinTracerAdapter::B3Ids</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1_1_b3_ids_1a97b146c924eeaa19da88d51c7d4ae760" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::ZipkinTracerAdapter::B3Ids::trace_id</definition>
+        <argsstring></argsstring>
+        <name>trace_id</name>
+        <qualifiedname>themis::core::concerns::ZipkinTracerAdapter::B3Ids::trace_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/zipkin_tracer_adapter.h" line="283" column="21" bodyfile="include/core/concerns/zipkin_tracer_adapter.h" bodystart="283" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1_1_b3_ids_1a9f354c61ad418e28f12732ecee30a6f6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::ZipkinTracerAdapter::B3Ids::span_id</definition>
+        <argsstring></argsstring>
+        <name>span_id</name>
+        <qualifiedname>themis::core::concerns::ZipkinTracerAdapter::B3Ids::span_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/zipkin_tracer_adapter.h" line="284" column="21" bodyfile="include/core/concerns/zipkin_tracer_adapter.h" bodystart="284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1_1_b3_ids_1aad0a703600df285ceb22e045387e156d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::ZipkinTracerAdapter::B3Ids::parent_id</definition>
+        <argsstring></argsstring>
+        <name>parent_id</name>
+        <qualifiedname>themis::core::concerns::ZipkinTracerAdapter::B3Ids::parent_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/zipkin_tracer_adapter.h" line="285" column="21" bodyfile="include/core/concerns/zipkin_tracer_adapter.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1_1_b3_ids_1a8b6eeb1787389e0f0d6cdd290860b435" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::ZipkinTracerAdapter::B3Ids::sampled</definition>
+        <argsstring></argsstring>
+        <name>sampled</name>
+        <qualifiedname>themis::core::concerns::ZipkinTracerAdapter::B3Ids::sampled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/zipkin_tracer_adapter.h" line="286" column="21" bodyfile="include/core/concerns/zipkin_tracer_adapter.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/concerns/zipkin_tracer_adapter.h" line="282" column="5" bodyfile="include/core/concerns/zipkin_tracer_adapter.h" bodystart="282" bodyend="287"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1_1_b3_ids_1aad0a703600df285ceb22e045387e156d" prot="public" virt="non-virtual"><scope>themis::core::concerns::ZipkinTracerAdapter::B3Ids</scope><name>parent_id</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1_1_b3_ids_1a8b6eeb1787389e0f0d6cdd290860b435" prot="public" virt="non-virtual"><scope>themis::core::concerns::ZipkinTracerAdapter::B3Ids</scope><name>sampled</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1_1_b3_ids_1a9f354c61ad418e28f12732ecee30a6f6" prot="public" virt="non-virtual"><scope>themis::core::concerns::ZipkinTracerAdapter::B3Ids</scope><name>span_id</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1_1_b3_ids_1a97b146c924eeaa19da88d51c7d4ae760" prot="public" virt="non-virtual"><scope>themis::core::concerns::ZipkinTracerAdapter::B3Ids</scope><name>trace_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

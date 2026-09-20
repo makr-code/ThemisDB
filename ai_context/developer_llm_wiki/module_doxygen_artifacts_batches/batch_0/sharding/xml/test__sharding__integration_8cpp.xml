@@ -1,0 +1,1237 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__sharding__integration_8cpp" kind="file" language="C++">
+    <compoundname>test_sharding_integration.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">gmock/gmock.h</includes>
+    <includes refid="urn_8h" local="yes">sharding/urn.h</includes>
+    <includes refid="consistent__hash_8h" local="yes">sharding/consistent_hash.h</includes>
+    <includes refid="shard__topology_8h" local="yes">sharding/shard_topology.h</includes>
+    <includes refid="urn__resolver_8h" local="yes">sharding/urn_resolver.h</includes>
+    <includes refid="shard__router_8h" local="yes">sharding/shard_router.h</includes>
+    <includes refid="remote__executor_8h" local="yes">sharding/remote_executor.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">atomic</includes>
+    <incdepgraph>
+      <node id="29">
+        <label>sharding/circuit_breaker.h</label>
+        <link refid="circuit__breaker_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>sharding/consistent_hash.h</label>
+        <link refid="consistent__hash_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>sharding/distributed_transaction.h</label>
+        <link refid="distributed__transaction_8h"/>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>sharding/mtls_client.h</label>
+        <link refid="mtls__client_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>sharding/prometheus_metrics.h</label>
+        <link refid="prometheus__metrics_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>sharding/remote_executor.h</label>
+        <link refid="remote__executor_8h"/>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>sharding/shard_capabilities.h</label>
+        <link refid="shard__capabilities_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>sharding/shard_router.h</label>
+        <link refid="shard__router_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>sharding/shard_topology.h</label>
+        <link refid="shard__topology_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>sharding/signed_request.h</label>
+        <link refid="signed__request_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>sharding/truetime.h</label>
+        <link refid="truetime_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>sharding/urn.h</label>
+        <link refid="urn_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>sharding/urn_resolver.h</label>
+        <link refid="urn__resolver_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="35">
+        <label>sharding/wal_manager.h</label>
+        <link refid="wal__manager_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/sharding/test_sharding_integration.cpp</label>
+        <link refid="test__sharding__integration_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>algorithm</label>
+      </node>
+      <node id="30">
+        <label>atomic</label>
+      </node>
+      <node id="24">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="27">
+        <label>deque</label>
+      </node>
+      <node id="37">
+        <label>filesystem</label>
+      </node>
+      <node id="36">
+        <label>fstream</label>
+      </node>
+      <node id="19">
+        <label>functional</label>
+      </node>
+      <node id="3">
+        <label>gmock/gmock.h</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="15">
+        <label>map</label>
+      </node>
+      <node id="13">
+        <label>memory</label>
+      </node>
+      <node id="14">
+        <label>mutex</label>
+      </node>
+      <node id="25">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="9">
+        <label>regex</label>
+      </node>
+      <node id="18">
+        <label>set</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>string_view</label>
+      </node>
+      <node id="33">
+        <label>thread</label>
+      </node>
+      <node id="38">
+        <label>transaction/recoverable_two_phase_coordinator.h</label>
+      </node>
+      <node id="28">
+        <label>unordered_map</label>
+      </node>
+      <node id="12">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_sharding_integration_test" prot="public">ShardingIntegrationTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__sharding__integration_8cpp_1a7b0dd508940882f29d1b0933abccab9e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ShardingIntegrationTest, ResolverIntegrationWithTopology)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_sharding_integration_test" kindref="compound">ShardingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>ResolverIntegrationWithTopology</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_integration.cpp" line="84" column="1" bodyfile="tests/sharding/test_sharding_integration.cpp" bodystart="84" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__integration_8cpp_1a3687632fb15737df8ee5dd69ab54acab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ShardingIntegrationTest, ResolverConsistentMapping)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_sharding_integration_test" kindref="compound">ShardingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>ResolverConsistentMapping</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_integration.cpp" line="107" column="1" bodyfile="tests/sharding/test_sharding_integration.cpp" bodystart="107" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__integration_8cpp_1aa597bd6aaac5b9e588c304dd8911d0e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ShardingIntegrationTest, ResolverLocalityCheck)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_sharding_integration_test" kindref="compound">ShardingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>ResolverLocalityCheck</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_integration.cpp" line="128" column="1" bodyfile="tests/sharding/test_sharding_integration.cpp" bodystart="128" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__integration_8cpp_1a078f2f1a4c95aa89f91b698f62157768" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ShardingIntegrationTest, ResolverReplicaDiscovery)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_sharding_integration_test" kindref="compound">ShardingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>ResolverReplicaDiscovery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_integration.cpp" line="156" column="1" bodyfile="tests/sharding/test_sharding_integration.cpp" bodystart="156" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__integration_8cpp_1ad48fb057301f01b8cc0b0048a7b94ee7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ShardingIntegrationTest, DynamicShardAddition)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_sharding_integration_test" kindref="compound">ShardingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>DynamicShardAddition</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_integration.cpp" line="182" column="1" bodyfile="tests/sharding/test_sharding_integration.cpp" bodystart="182" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__integration_8cpp_1af4f0eb80b608b9eba0bb6318653c7af0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ShardingIntegrationTest, DynamicShardRemoval)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_sharding_integration_test" kindref="compound">ShardingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>DynamicShardRemoval</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_integration.cpp" line="210" column="1" bodyfile="tests/sharding/test_sharding_integration.cpp" bodystart="210" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__integration_8cpp_1afe86d700925b9a9135d9a350fb559575" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ShardingIntegrationTest, HealthFilteredResolution)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_sharding_integration_test" kindref="compound">ShardingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>HealthFilteredResolution</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_integration.cpp" line="229" column="1" bodyfile="tests/sharding/test_sharding_integration.cpp" bodystart="229" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__integration_8cpp_1a4d5995d4675d46d263c228252b091510" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ShardingIntegrationTest, URNDistributionAcrossShards)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_sharding_integration_test" kindref="compound">ShardingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>URNDistributionAcrossShards</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_integration.cpp" line="246" column="1" bodyfile="tests/sharding/test_sharding_integration.cpp" bodystart="246" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__integration_8cpp_1a6a89277fb12d256b9f12ef39df97b3bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ShardingIntegrationTest, ConcurrentURNResolution)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_sharding_integration_test" kindref="compound">ShardingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>ConcurrentURNResolution</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_integration.cpp" line="287" column="1" bodyfile="tests/sharding/test_sharding_integration.cpp" bodystart="287" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__integration_8cpp_1aed59c3be030762d3c28703eeacf55cd3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ShardingIntegrationTest, ConcurrentTopologyModification)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_sharding_integration_test" kindref="compound">ShardingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>ConcurrentTopologyModification</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_integration.cpp" line="333" column="1" bodyfile="tests/sharding/test_sharding_integration.cpp" bodystart="333" bodyend="387"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__integration_8cpp_1ac49c6d7dec086f326630271dc74f0aeb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ShardingIntegrationTest, RouterConfigurationIntegration)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_sharding_integration_test" kindref="compound">ShardingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>RouterConfigurationIntegration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_integration.cpp" line="393" column="1" bodyfile="tests/sharding/test_sharding_integration.cpp" bodystart="393" bodyend="406"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__integration_8cpp_1a4d95d03c55fb378aa450dfcb83eaa505" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ShardingIntegrationTest, StatisticsAccumulation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_sharding_integration_test" kindref="compound">ShardingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>StatisticsAccumulation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_integration.cpp" line="408" column="1" bodyfile="tests/sharding/test_sharding_integration.cpp" bodystart="408" bodyend="429"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__integration_8cpp_1afed983da0665346fa3a7ac4911f71059" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ShardingIntegrationTest, FullResolutionWorkflow)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_sharding_integration_test" kindref="compound">ShardingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>FullResolutionWorkflow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_integration.cpp" line="435" column="1" bodyfile="tests/sharding/test_sharding_integration.cpp" bodystart="435" bodyend="467"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__integration_8cpp_1ae1b4fbea2baff4a72a561e7d63b249fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ShardingIntegrationTest, MultiTenantIsolation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_sharding_integration_test" kindref="compound">ShardingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>MultiTenantIsolation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_integration.cpp" line="469" column="1" bodyfile="tests/sharding/test_sharding_integration.cpp" bodystart="469" bodyend="488"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__integration_8cpp_1aed642cb355fcd25379fed2f9e12d38ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ShardingIntegrationTest, RouterRouteRequestFailsClosedWithoutExecutor)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_sharding_integration_test" kindref="compound">ShardingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>RouterRouteRequestFailsClosedWithoutExecutor</type>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1sharding_1_1_shard_router_1a09d228128fc6c0221b8dceba35e2ecbd" kindref="member">ShardRouter::routeRequest</ref> must return failure (not crash) when the remote executor is not configured and a remote shard is targeted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_integration.cpp" line="496" column="1" bodyfile="tests/sharding/test_sharding_integration.cpp" bodystart="496" bodyend="518"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__integration_8cpp_1adcc89dd3cd7aeed79b289d46f5a257ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ShardingIntegrationTest, RouterPutFailsClosedWithoutExecutor)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_sharding_integration_test" kindref="compound">ShardingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>RouterPutFailsClosedWithoutExecutor</type>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1sharding_1_1_shard_router_1aef98a3a3470699393bf30c7ebd8d766e" kindref="member">ShardRouter::put()</ref> must return false (not crash) when the remote executor is not configured and a remote shard is targeted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_integration.cpp" line="522" column="1" bodyfile="tests/sharding/test_sharding_integration.cpp" bodystart="522" bodyend="541"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gmock/gmock.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="urn_8h" kindref="compound">sharding/urn.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="consistent__hash_8h" kindref="compound">sharding/consistent_hash.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="shard__topology_8h" kindref="compound">sharding/shard_topology.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="urn__resolver_8h" kindref="compound">sharding/urn_resolver.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="shard__router_8h" kindref="compound">sharding/shard_router.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="remote__executor_8h" kindref="compound">sharding/remote_executor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding" kindref="compound">themis::sharding</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">testing::Return;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">testing::_;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Fixtures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="class_sharding_integration_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_sharding_integration_test" kindref="compound">ShardingIntegrationTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_sharding_integration_test_1aba82be74d3c33d138a6d9416f09c3284" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>topology</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_shard_topology_1_1_config" kindref="compound">ShardTopology::Config</ref><sp/>topology_config;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>topology_config.<ref refid="structthemis_1_1sharding_1_1_shard_topology_1_1_config_1a981785d5aa33e3e85a3104933e980412" kindref="member">metadata_endpoint</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>topology_config.<ref refid="structthemis_1_1sharding_1_1_shard_topology_1_1_config_1a3363a05915a819f246bcf6dce7cf802f" kindref="member">cluster_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;integration-test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>topology_config.<ref refid="structthemis_1_1sharding_1_1_shard_topology_1_1_config_1a765e434e8112a469e6ebc3328c643eba" kindref="member">enable_health_checks</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_sharding_integration_test_1a7af60a26e378f014cae26557a70dd45e" kindref="member">topology_</ref><sp/>=<sp/>std::make_shared&lt;ShardTopology&gt;(topology_config);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>hash<sp/>ring</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_sharding_integration_test_1adce837dbd746c17cb876b771687cf889" kindref="member">hash_ring_</ref><sp/>=<sp/>std::make_shared&lt;ConsistentHashRing&gt;();</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Setup<sp/>test<sp/>shards</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_sharding_integration_test_1a746de0f424301910ca7f964cf71ca62a" kindref="member">setupTestCluster</ref>(3);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_sharding_integration_test_1ab797d713e6526045d0e393ff96af1240" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_sharding_integration_test_1a7af60a26e378f014cae26557a70dd45e" kindref="member">topology_</ref>.reset();</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_sharding_integration_test_1adce837dbd746c17cb876b771687cf889" kindref="member">hash_ring_</ref>.reset();</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_sharding_integration_test_1a746de0f424301910ca7f964cf71ca62a" kindref="member">setupTestCluster</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>shard_count)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;=<sp/>shard_count;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>shard_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>port<sp/>=<sp/>std::to_string(8080<sp/>+<sp/>i);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref><sp/>shard;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shard.<ref refid="structthemis_1_1sharding_1_1_shard_info_1ae0dc4d91166407118570fcbf15925139" kindref="member">shard_id</ref><sp/>=<sp/>shard_id;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shard.<ref refid="structthemis_1_1sharding_1_1_shard_info_1ade615fa13cb2b8a2d82a96af7073d279" kindref="member">primary_endpoint</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;localhost:&quot;</highlight><highlight class="normal"><sp/>+<sp/>port;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shard.<ref refid="structthemis_1_1sharding_1_1_shard_info_1a0480b9b1898e676d928263e7db3526ed" kindref="member">datacenter</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;dc&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string((i<sp/>%<sp/>2)<sp/>+<sp/>1);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shard.<ref refid="structthemis_1_1sharding_1_1_shard_info_1a4ccbd108adcca19c5af5325aa64eb69f" kindref="member">is_healthy</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shard.<ref refid="structthemis_1_1sharding_1_1_shard_info_1a2ed1358cd0ded34bae1c57773ef5b25e" kindref="member">capabilities</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;replicate&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_sharding_integration_test_1a7af60a26e378f014cae26557a70dd45e" kindref="member">topology_</ref>-&gt;addShard(shard);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_sharding_integration_test_1adce837dbd746c17cb876b771687cf889" kindref="member">hash_ring_</ref>-&gt;addShard(shard_id,<sp/>150);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ShardTopology&gt;<sp/><ref refid="class_sharding_integration_test_1a7af60a26e378f014cae26557a70dd45e" kindref="member">topology_</ref>;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ConsistentHashRing&gt;<sp/><ref refid="class_sharding_integration_test_1adce837dbd746c17cb876b771687cf889" kindref="member">hash_ring_</ref>;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>URN<sp/>Resolver<sp/>Integration<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><ref refid="namespacethemis_1_1sharding_1a1ff7d69e682214e8f6562d40cf294242" kindref="member">TEST_F</ref>(<ref refid="class_sharding_integration_test" kindref="compound">ShardingIntegrationTest</ref>,<sp/>ResolverIntegrationWithTopology)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_u_r_n_resolver" kindref="compound">URNResolver</ref><sp/>resolver(topology_,<sp/>hash_ring_,<sp/></highlight><highlight class="stringliteral">&quot;shard_1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Parse<sp/>and<sp/>resolve<sp/>multiple<sp/>URNs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>urns<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;urn:themis:relational:tenant1:users:550e8400-e29b-41d4-a716-446655440000&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;urn:themis:graph:tenant1:nodes:7c9e6679-7425-40de-944b-e07fc1f90ae7&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;urn:themis:vector:tenant1:embeddings:f47ac10b-58cc-4372-a567-0e02b2c3d479&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>urn_str<sp/>:<sp/>urns)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>urn<sp/>=<sp/><ref refid="structthemis_1_1sharding_1_1_u_r_n_1aa222eb1e093dc37394de57b7185ed4b3" kindref="member">URN::parse</ref>(urn_str);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(urn.has_value())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>parse:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>urn_str;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>shard<sp/>=<sp/>resolver.resolvePrimary(*urn);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(shard.has_value())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>resolve:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>urn_str;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>shard<sp/>is<sp/>in<sp/>topology</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(topology_-&gt;hasShard(shard-&gt;shard_id));</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(shard-&gt;is_healthy);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><ref refid="namespacethemis_1_1sharding_1a1ff7d69e682214e8f6562d40cf294242" kindref="member">TEST_F</ref>(<ref refid="class_sharding_integration_test" kindref="compound">ShardingIntegrationTest</ref>,<sp/>ResolverConsistentMapping)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_u_r_n_resolver" kindref="compound">URNResolver</ref><sp/>resolver(topology_,<sp/>hash_ring_,<sp/></highlight><highlight class="stringliteral">&quot;shard_1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>urn<sp/>=<sp/><ref refid="structthemis_1_1sharding_1_1_u_r_n_1aa222eb1e093dc37394de57b7185ed4b3" kindref="member">URN::parse</ref>(</highlight><highlight class="stringliteral">&quot;urn:themis:relational:customers:orders:550e8400-e29b-41d4-a716-446655440000&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(urn.has_value());</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resolve<sp/>same<sp/>URN<sp/>multiple<sp/>times</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>resolved_shards<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>shard<sp/>=<sp/>resolver.resolvePrimary(*urn);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(shard.has_value());</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resolved_shards.push_back(shard-&gt;shard_id);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>should<sp/>be<sp/>the<sp/>same</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>shard_id<sp/>:<sp/>resolved_shards)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(shard_id,<sp/>resolved_shards[0])<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Inconsistent<sp/>shard<sp/>mapping&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><ref refid="namespacethemis_1_1sharding_1a1ff7d69e682214e8f6562d40cf294242" kindref="member">TEST_F</ref>(<ref refid="class_sharding_integration_test" kindref="compound">ShardingIntegrationTest</ref>,<sp/>ResolverLocalityCheck)<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>locality<sp/>from<sp/>different<sp/>shard<sp/>perspectives</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>urn<sp/>=<sp/><ref refid="structthemis_1_1sharding_1_1_u_r_n_1aa222eb1e093dc37394de57b7185ed4b3" kindref="member">URN::parse</ref>(</highlight><highlight class="stringliteral">&quot;urn:themis:relational:test:test:550e8400-e29b-41d4-a716-446655440000&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(urn.has_value());</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>the<sp/>actual<sp/>target<sp/>shard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>target_shard<sp/>=<sp/>hash_ring_-&gt;getShardForURN(*urn);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>From<sp/>target<sp/>shard<sp/>perspective,<sp/>should<sp/>be<sp/>local</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_u_r_n_resolver" kindref="compound">URNResolver</ref><sp/>local_resolver(topology_,<sp/>hash_ring_,<sp/>target_shard);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(local_resolver.isLocal(*urn));</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Find<sp/>a<sp/>different<sp/>shard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>other_shard<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>shard<sp/>:<sp/>hash_ring_-&gt;getAllShards())<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(shard<sp/>!=<sp/>target_shard)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>other_shard<sp/>=<sp/>shard;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>From<sp/>other<sp/>shard<sp/>perspective,<sp/>should<sp/>be<sp/>remote</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!other_shard.empty())<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_u_r_n_resolver" kindref="compound">URNResolver</ref><sp/>remote_resolver(topology_,<sp/>hash_ring_,<sp/>other_shard);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(remote_resolver.isLocal(*urn));</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><ref refid="namespacethemis_1_1sharding_1a1ff7d69e682214e8f6562d40cf294242" kindref="member">TEST_F</ref>(<ref refid="class_sharding_integration_test" kindref="compound">ShardingIntegrationTest</ref>,<sp/>ResolverReplicaDiscovery)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_u_r_n_resolver" kindref="compound">URNResolver</ref><sp/>resolver(topology_,<sp/>hash_ring_,<sp/></highlight><highlight class="stringliteral">&quot;shard_1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>urn<sp/>=<sp/><ref refid="structthemis_1_1sharding_1_1_u_r_n_1aa222eb1e093dc37394de57b7185ed4b3" kindref="member">URN::parse</ref>(</highlight><highlight class="stringliteral">&quot;urn:themis:relational:test:test:550e8400-e29b-41d4-a716-446655440000&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(urn.has_value());</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Request<sp/>2<sp/>replicas</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>shards<sp/>=<sp/>resolver.resolveReplicas(*urn,<sp/>2);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>have<sp/>primary<sp/>+<sp/>2<sp/>replicas<sp/>=<sp/>up<sp/>to<sp/>3<sp/>(but<sp/>capped<sp/>at<sp/>cluster<sp/>size)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(shards.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(shards.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>should<sp/>be<sp/>unique</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>std::set&lt;std::string&gt;<sp/>unique_shards<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>shard<sp/>:<sp/>shards)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(unique_shards.insert(shard.shard_id).second)<sp/></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Duplicate<sp/>shard<sp/>in<sp/>replicas:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>shard.shard_id;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Consistent<sp/>Hash<sp/>+<sp/>Topology<sp/>Integration<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><ref refid="namespacethemis_1_1sharding_1a1ff7d69e682214e8f6562d40cf294242" kindref="member">TEST_F</ref>(<ref refid="class_sharding_integration_test" kindref="compound">ShardingIntegrationTest</ref>,<sp/>DynamicShardAddition)<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(hash_ring_-&gt;getShardCount(),<sp/>3u);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(topology_-&gt;getShardCount(),<sp/>3u);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>current<sp/>shard<sp/>assignment<sp/>for<sp/>a<sp/>URN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>urn<sp/>=<sp/><ref refid="structthemis_1_1sharding_1_1_u_r_n_1aa222eb1e093dc37394de57b7185ed4b3" kindref="member">URN::parse</ref>(</highlight><highlight class="stringliteral">&quot;urn:themis:relational:test:test:550e8400-e29b-41d4-a716-446655440000&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(urn.has_value());</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>original_shard<sp/>=<sp/>hash_ring_-&gt;getShardForURN(*urn);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>new<sp/>shard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref><sp/>new_shard;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>new_shard.<ref refid="structthemis_1_1sharding_1_1_shard_info_1ae0dc4d91166407118570fcbf15925139" kindref="member">shard_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard_4&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>new_shard.<ref refid="structthemis_1_1sharding_1_1_shard_info_1ade615fa13cb2b8a2d82a96af7073d279" kindref="member">primary_endpoint</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;localhost:8084&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>new_shard.<ref refid="structthemis_1_1sharding_1_1_shard_info_1a4ccbd108adcca19c5af5325aa64eb69f" kindref="member">is_healthy</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>topology_-&gt;addShard(new_shard);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>hash_ring_-&gt;addShard(</highlight><highlight class="stringliteral">&quot;shard_4&quot;</highlight><highlight class="normal">,<sp/>150);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(hash_ring_-&gt;getShardCount(),<sp/>4u);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(topology_-&gt;getShardCount(),<sp/>4u);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>URN<sp/>should<sp/>still<sp/>map<sp/>consistently<sp/>(may<sp/>or<sp/>may<sp/>not<sp/>change)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>new_shard_assignment<sp/>=<sp/>hash_ring_-&gt;getShardForURN(*urn);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>it<sp/>changed,<sp/>it<sp/>should<sp/>be<sp/>to<sp/>a<sp/>valid<sp/>shard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(topology_-&gt;hasShard(new_shard_assignment));</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><ref refid="namespacethemis_1_1sharding_1a1ff7d69e682214e8f6562d40cf294242" kindref="member">TEST_F</ref>(<ref refid="class_sharding_integration_test" kindref="compound">ShardingIntegrationTest</ref>,<sp/>DynamicShardRemoval)<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(hash_ring_-&gt;getShardCount(),<sp/>3u);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Remove<sp/>a<sp/>shard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>topology_-&gt;removeShard(</highlight><highlight class="stringliteral">&quot;shard_3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>hash_ring_-&gt;removeShard(</highlight><highlight class="stringliteral">&quot;shard_3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(hash_ring_-&gt;getShardCount(),<sp/>2u);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(topology_-&gt;hasShard(</highlight><highlight class="stringliteral">&quot;shard_3&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>URNs<sp/>should<sp/>still<sp/>resolve<sp/>to<sp/>valid<sp/>shards</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>urn<sp/>=<sp/><ref refid="structthemis_1_1sharding_1_1_u_r_n_1aa222eb1e093dc37394de57b7185ed4b3" kindref="member">URN::parse</ref>(</highlight><highlight class="stringliteral">&quot;urn:themis:relational:test:test:550e8400-e29b-41d4-a716-446655440000&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(urn.has_value());</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>shard<sp/>=<sp/>hash_ring_-&gt;getShardForURN(*urn);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(topology_-&gt;hasShard(shard));</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(shard,<sp/></highlight><highlight class="stringliteral">&quot;shard_3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><ref refid="namespacethemis_1_1sharding_1a1ff7d69e682214e8f6562d40cf294242" kindref="member">TEST_F</ref>(<ref refid="class_sharding_integration_test" kindref="compound">ShardingIntegrationTest</ref>,<sp/>HealthFilteredResolution)<sp/>{</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mark<sp/>shard_2<sp/>as<sp/>unhealthy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>topology_-&gt;updateHealth(</highlight><highlight class="stringliteral">&quot;shard_2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>healthy<sp/>=<sp/>topology_-&gt;getHealthyShards();</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(healthy.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>unhealthy<sp/>shard<sp/>is<sp/>excluded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>shard<sp/>:<sp/>healthy)<sp/>{</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(shard.shard_id,<sp/></highlight><highlight class="stringliteral">&quot;shard_2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="240"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Cross-Shard<sp/>Query<sp/>Integration<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><ref refid="namespacethemis_1_1sharding_1a1ff7d69e682214e8f6562d40cf294242" kindref="member">TEST_F</ref>(<ref refid="class_sharding_integration_test" kindref="compound">ShardingIntegrationTest</ref>,<sp/>URNDistributionAcrossShards)<sp/>{</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Generate<sp/>many<sp/>URNs<sp/>and<sp/>verify<sp/>distribution</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>int&gt;<sp/>shard_counts;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>1000;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Generate<sp/>pseudo-random<sp/>UUIDs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>uuid[37];</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>snprintf(uuid,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(uuid),<sp/></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;%08x-%04x-%04x-%04x-%012x&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>i<sp/>*<sp/>1234567,<sp/></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(i<sp/>*<sp/>111)<sp/>&amp;<sp/>0xFFFF,</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x4000<sp/>|<sp/>((i<sp/>*<sp/>222)<sp/>&amp;<sp/>0x0FFF),</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x8000<sp/>|<sp/>((i<sp/>*<sp/>333)<sp/>&amp;<sp/>0x3FFF),</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>i<sp/>*<sp/>987654321);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>urn_str<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;urn:themis:relational:test:test:&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::string(uuid);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>urn<sp/>=<sp/><ref refid="structthemis_1_1sharding_1_1_u_r_n_1aa222eb1e093dc37394de57b7185ed4b3" kindref="member">URN::parse</ref>(urn_str);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(urn)<sp/>{</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>shard<sp/>=<sp/>hash_ring_-&gt;getShardForURN(*urn);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shard_counts[shard]++;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>all<sp/>shards<sp/>got<sp/>some<sp/>URNs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[shard,<sp/>count]<sp/>:<sp/>shard_counts)<sp/>{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GT(count,<sp/>0)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Shard<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>shard<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>got<sp/>no<sp/>URNs&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>balance<sp/>(allow<sp/>wider<sp/>spread<sp/>due<sp/>deterministic<sp/>sample<sp/>+<sp/>virtual<sp/>ring<sp/>layout)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>expected_per_shard<sp/>=<sp/>1000.0<sp/>/<sp/>3.0;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[shard,<sp/>count]<sp/>:<sp/>shard_counts)<sp/>{</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>deviation<sp/>=<sp/>std::abs(count<sp/>-<sp/>expected_per_shard)<sp/>/<sp/>expected_per_shard;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LT(deviation,<sp/>0.50)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Shard<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>shard<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>has<sp/>poor<sp/>balance:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>count;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="281"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Concurrent<sp/>Access<sp/>Integration<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><ref refid="namespacethemis_1_1sharding_1a1ff7d69e682214e8f6562d40cf294242" kindref="member">TEST_F</ref>(<ref refid="class_sharding_integration_test" kindref="compound">ShardingIntegrationTest</ref>,<sp/>ConcurrentURNResolution)<sp/>{</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_u_r_n_resolver" kindref="compound">URNResolver</ref><sp/>resolver(topology_,<sp/>hash_ring_,<sp/></highlight><highlight class="stringliteral">&quot;shard_1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>success_count{0};</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>error_count{0};</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resolve_task<sp/>=<sp/>[&amp;](</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>thread_id)<sp/>{</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>uuid[37];</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>snprintf(uuid,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(uuid),<sp/></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;%08x-%04x-%04x-%04x-%012x&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>thread_id<sp/>*<sp/>1000<sp/>+<sp/>i,<sp/></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(thread_id<sp/>*<sp/>10<sp/>+<sp/>i)<sp/>&amp;<sp/>0xFFFF,</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x4000,</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x8000,</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>thread_id<sp/>*<sp/>100000<sp/>+<sp/>i);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>urn_str<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;urn:themis:relational:test:test:&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::string(uuid);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>urn<sp/>=<sp/><ref refid="structthemis_1_1sharding_1_1_u_r_n_1aa222eb1e093dc37394de57b7185ed4b3" kindref="member">URN::parse</ref>(urn_str);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(urn)<sp/>{</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>shard<sp/>=<sp/>resolver.resolvePrimary(*urn);</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(shard)<sp/>{</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>success_count++;</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>error_count++;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Run<sp/>concurrent<sp/>resolution</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>4;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back(resolve_task,<sp/>t);</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>t.join();</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(success_count.load(),<sp/>400);</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(error_count.load(),<sp/>0);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><ref refid="namespacethemis_1_1sharding_1a1ff7d69e682214e8f6562d40cf294242" kindref="member">TEST_F</ref>(<ref refid="class_sharding_integration_test" kindref="compound">ShardingIntegrationTest</ref>,<sp/>ConcurrentTopologyModification)<sp/>{</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>stop{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>resolve_count{0};</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>error_count{0};</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reader<sp/>thread<sp/>-<sp/>continuously<sp/>resolves<sp/>URNs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>reader<sp/>=<sp/>[&amp;]()<sp/>{</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(!stop)<sp/>{</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>urn<sp/>=<sp/><ref refid="structthemis_1_1sharding_1_1_u_r_n_1aa222eb1e093dc37394de57b7185ed4b3" kindref="member">URN::parse</ref>(</highlight><highlight class="stringliteral">&quot;urn:themis:relational:test:test:550e8400-e29b-41d4-a716-446655440000&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(urn)<sp/>{</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>shard<sp/>=<sp/>hash_ring_-&gt;getShardForURN(*urn);</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!shard.empty()<sp/>&amp;&amp;<sp/>topology_-&gt;hasShard(shard))<sp/>{</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resolve_count++;</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>error_count++;</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Writer<sp/>thread<sp/>-<sp/>modifies<sp/>topology</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>writer<sp/>=<sp/>[&amp;]()<sp/>{</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>shard_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;temp_shard_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref><sp/>temp;</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>temp.<ref refid="structthemis_1_1sharding_1_1_shard_info_1ae0dc4d91166407118570fcbf15925139" kindref="member">shard_id</ref><sp/>=<sp/>shard_id;</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>temp.<ref refid="structthemis_1_1sharding_1_1_shard_info_1ade615fa13cb2b8a2d82a96af7073d279" kindref="member">primary_endpoint</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;localhost:9000&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>temp.<ref refid="structthemis_1_1sharding_1_1_shard_info_1a4ccbd108adcca19c5af5325aa64eb69f" kindref="member">is_healthy</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>topology_-&gt;addShard(temp);</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hash_ring_-&gt;addShard(shard_id,<sp/>50);</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(10));</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Remove</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>topology_-&gt;removeShard(shard_id);</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hash_ring_-&gt;removeShard(shard_id);</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(10));</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>reader_thread(reader);</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>writer_thread(writer);</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/>writer_thread.join();</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/>stop<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/>reader_thread.join();</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>have<sp/>many<sp/>successful<sp/>resolutions,<sp/>minimal<sp/>errors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(resolve_count.load(),<sp/>100);</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Errors<sp/>are<sp/>acceptable<sp/>during<sp/>topology<sp/>changes,<sp/>but<sp/>should<sp/>be<sp/>minimal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(error_count.load(),<sp/>resolve_count.load()<sp/>*<sp/>0.1);</highlight></codeline>
+<codeline lineno="387"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"></highlight></codeline>
+<codeline lineno="389"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="390"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Shard<sp/>Router<sp/>Configuration<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="392"><highlight class="normal"></highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><ref refid="namespacethemis_1_1sharding_1a1ff7d69e682214e8f6562d40cf294242" kindref="member">TEST_F</ref>(<ref refid="class_sharding_integration_test" kindref="compound">ShardingIntegrationTest</ref>,<sp/>RouterConfigurationIntegration)<sp/>{</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resolver<sp/>=<sp/>std::make_shared&lt;URNResolver&gt;(topology_,<sp/>hash_ring_,<sp/></highlight><highlight class="stringliteral">&quot;shard_1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_shard_router_1_1_config" kindref="compound">ShardRouter::Config</ref><sp/>config;</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1sharding_1_1_shard_router_1_1_config_1a565c9e9565250f1da4cfff0647c0b61e" kindref="member">local_shard_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard_1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1sharding_1_1_shard_router_1_1_config_1a6200a5a228748d76aa509decba8907b2" kindref="member">scatter_timeout_ms</ref><sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1sharding_1_1_shard_router_1_1_config_1a7149c8563277b0590a804492a4b87d52" kindref="member">max_concurrent_shards</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1sharding_1_1_shard_router_1_1_config_1a6920b9ea02a37b26a9bbd9809911a785" kindref="member">enable_query_pushdown</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Router<sp/>should<sp/>be<sp/>constructible<sp/>with<sp/>resolved<sp/>dependencies</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Note:<sp/>Without<sp/>executor,<sp/>limited<sp/>functionality<sp/>but<sp/>should<sp/>not<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.<ref refid="structthemis_1_1sharding_1_1_shard_router_1_1_config_1a6200a5a228748d76aa509decba8907b2" kindref="member">scatter_timeout_ms</ref>,<sp/>5000u);</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.<ref refid="structthemis_1_1sharding_1_1_shard_router_1_1_config_1a7149c8563277b0590a804492a4b87d52" kindref="member">max_concurrent_shards</ref>,<sp/>10u);</highlight></codeline>
+<codeline lineno="406"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"></highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><ref refid="namespacethemis_1_1sharding_1a1ff7d69e682214e8f6562d40cf294242" kindref="member">TEST_F</ref>(<ref refid="class_sharding_integration_test" kindref="compound">ShardingIntegrationTest</ref>,<sp/>StatisticsAccumulation)<sp/>{</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>statistics<sp/>JSON<sp/>structure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>stats<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;total_requests&quot;</highlight><highlight class="normal">,<sp/>0},</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;local_requests&quot;</highlight><highlight class="normal">,<sp/>0},</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;remote_requests&quot;</highlight><highlight class="normal">,<sp/>0},</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;scatter_gather_requests&quot;</highlight><highlight class="normal">,<sp/>0},</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;cross_shard_joins&quot;</highlight><highlight class="normal">,<sp/>0},</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;errors&quot;</highlight><highlight class="normal">,<sp/>0},</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;avg_latency_ms&quot;</highlight><highlight class="normal">,<sp/>0.0}</highlight></codeline>
+<codeline lineno="418"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="419"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="420"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>request<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="421"><highlight class="normal"><sp/><sp/><sp/><sp/>stats[</highlight><highlight class="stringliteral">&quot;total_requests&quot;</highlight><highlight class="normal">]<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="422"><highlight class="normal"><sp/><sp/><sp/><sp/>stats[</highlight><highlight class="stringliteral">&quot;local_requests&quot;</highlight><highlight class="normal">]<sp/>=<sp/>60;</highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/><sp/><sp/>stats[</highlight><highlight class="stringliteral">&quot;remote_requests&quot;</highlight><highlight class="normal">]<sp/>=<sp/>40;</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/>stats[</highlight><highlight class="stringliteral">&quot;scatter_gather_requests&quot;</highlight><highlight class="normal">]<sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats[</highlight><highlight class="stringliteral">&quot;total_requests&quot;</highlight><highlight class="normal">],<sp/>100);</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats[</highlight><highlight class="stringliteral">&quot;local_requests&quot;</highlight><highlight class="normal">],<sp/>60);</highlight></codeline>
+<codeline lineno="428"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats[</highlight><highlight class="stringliteral">&quot;remote_requests&quot;</highlight><highlight class="normal">],<sp/>40);</highlight></codeline>
+<codeline lineno="429"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"></highlight></codeline>
+<codeline lineno="431"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="432"><highlight class="normal"></highlight><highlight class="comment">//<sp/>End-to-End<sp/>Workflow<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="433"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="434"><highlight class="normal"></highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><ref refid="namespacethemis_1_1sharding_1a1ff7d69e682214e8f6562d40cf294242" kindref="member">TEST_F</ref>(<ref refid="class_sharding_integration_test" kindref="compound">ShardingIntegrationTest</ref>,<sp/>FullResolutionWorkflow)<sp/>{</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>complete<sp/>workflow:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1.<sp/>Parse<sp/>URN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2.<sp/>Resolve<sp/>to<sp/>shard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>3.<sp/>Check<sp/>locality</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>4.<sp/>Get<sp/>shard<sp/>info</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="441"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>urn_str<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;urn:themis:relational:production:orders:550e8400-e29b-41d4-a716-446655440000&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Step<sp/>1:<sp/>Parse</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>urn<sp/>=<sp/><ref refid="structthemis_1_1sharding_1_1_u_r_n_1aa222eb1e093dc37394de57b7185ed4b3" kindref="member">URN::parse</ref>(urn_str);</highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(urn.has_value());</highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(urn-&gt;model,<sp/></highlight><highlight class="stringliteral">&quot;relational&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(urn-&gt;namespace_,<sp/></highlight><highlight class="stringliteral">&quot;production&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="449"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(urn-&gt;collection,<sp/></highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Step<sp/>2:<sp/>Hash<sp/>and<sp/>route</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="452"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>hash<sp/>=<sp/>urn-&gt;hash();</highlight></codeline>
+<codeline lineno="453"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(hash,<sp/>0u);</highlight></codeline>
+<codeline lineno="454"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="455"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>shard_id<sp/>=<sp/>hash_ring_-&gt;getShardForURN(*urn);</highlight></codeline>
+<codeline lineno="456"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(shard_id.empty());</highlight></codeline>
+<codeline lineno="457"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Step<sp/>3:<sp/>Get<sp/>shard<sp/>info</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="459"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>shard_info<sp/>=<sp/>topology_-&gt;getShard(shard_id);</highlight></codeline>
+<codeline lineno="460"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(shard_info.has_value());</highlight></codeline>
+<codeline lineno="461"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(shard_info-&gt;is_healthy);</highlight></codeline>
+<codeline lineno="462"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(shard_info-&gt;primary_endpoint.empty());</highlight></codeline>
+<codeline lineno="463"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="464"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Step<sp/>4:<sp/>Resolver<sp/>integration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="465"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_u_r_n_resolver" kindref="compound">URNResolver</ref><sp/>resolver(topology_,<sp/>hash_ring_,<sp/>shard_id);</highlight></codeline>
+<codeline lineno="466"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(resolver.isLocal(*urn));</highlight></codeline>
+<codeline lineno="467"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="468"><highlight class="normal"></highlight></codeline>
+<codeline lineno="469"><highlight class="normal"><ref refid="namespacethemis_1_1sharding_1a1ff7d69e682214e8f6562d40cf294242" kindref="member">TEST_F</ref>(<ref refid="class_sharding_integration_test" kindref="compound">ShardingIntegrationTest</ref>,<sp/>MultiTenantIsolation)<sp/>{</highlight></codeline>
+<codeline lineno="470"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>that<sp/>different<sp/>tenants<sp/>can<sp/>map<sp/>to<sp/>different<sp/>shards</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="471"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>tenant_a<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;urn:themis:relational:tenant_a:users:550e8400-e29b-41d4-a716-446655440000&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="472"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>tenant_b<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;urn:themis:relational:tenant_b:users:550e8400-e29b-41d4-a716-446655440000&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="473"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="474"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>urn_a<sp/>=<sp/><ref refid="structthemis_1_1sharding_1_1_u_r_n_1aa222eb1e093dc37394de57b7185ed4b3" kindref="member">URN::parse</ref>(tenant_a);</highlight></codeline>
+<codeline lineno="475"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>urn_b<sp/>=<sp/><ref refid="structthemis_1_1sharding_1_1_u_r_n_1aa222eb1e093dc37394de57b7185ed4b3" kindref="member">URN::parse</ref>(tenant_b);</highlight></codeline>
+<codeline lineno="476"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="477"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(urn_a.has_value()<sp/>&amp;&amp;<sp/>urn_b.has_value());</highlight></codeline>
+<codeline lineno="478"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="479"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Different<sp/>namespaces<sp/>must<sp/>remain<sp/>distinguishable<sp/>in<sp/>parsed<sp/>URNs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(urn_a-&gt;namespace_,<sp/>urn_b-&gt;namespace_);</highlight></codeline>
+<codeline lineno="481"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="482"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>should<sp/>resolve<sp/>to<sp/>valid<sp/>shards</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="483"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>shard_a<sp/>=<sp/>hash_ring_-&gt;getShardForURN(*urn_a);</highlight></codeline>
+<codeline lineno="484"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>shard_b<sp/>=<sp/>hash_ring_-&gt;getShardForURN(*urn_b);</highlight></codeline>
+<codeline lineno="485"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="486"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(topology_-&gt;hasShard(shard_a));</highlight></codeline>
+<codeline lineno="487"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(topology_-&gt;hasShard(shard_b));</highlight></codeline>
+<codeline lineno="488"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="489"><highlight class="normal"></highlight></codeline>
+<codeline lineno="490"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="491"><highlight class="normal"></highlight><highlight class="comment">//<sp/>QW-18<sp/>Regression<sp/>Tests:<sp/>ShardRouter<sp/>fail-closed<sp/>without<sp/>RemoteExecutor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="492"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="493"><highlight class="normal"></highlight></codeline>
+<codeline lineno="496"><highlight class="normal"><ref refid="namespacethemis_1_1sharding_1a1ff7d69e682214e8f6562d40cf294242" kindref="member">TEST_F</ref>(<ref refid="class_sharding_integration_test" kindref="compound">ShardingIntegrationTest</ref>,<sp/>RouterRouteRequestFailsClosedWithoutExecutor)<sp/>{</highlight></codeline>
+<codeline lineno="497"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resolver<sp/>with<sp/>a<sp/>local<sp/>shard<sp/>id<sp/>that<sp/>does<sp/>NOT<sp/>match<sp/>the<sp/>resolved<sp/>shard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="498"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>so<sp/>the<sp/>request<sp/>will<sp/>be<sp/>forwarded<sp/>remotely.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="499"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resolver<sp/>=<sp/>std::make_shared&lt;URNResolver&gt;(topology_,<sp/>hash_ring_,<sp/></highlight><highlight class="stringliteral">&quot;shard_999&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="500"><highlight class="normal"></highlight></codeline>
+<codeline lineno="501"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_shard_router_1_1_config" kindref="compound">ShardRouter::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="502"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1sharding_1_1_shard_router_1_1_config_1a565c9e9565250f1da4cfff0647c0b61e" kindref="member">local_shard_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard_999&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="503"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1sharding_1_1_shard_router_1_1_config_1a6200a5a228748d76aa509decba8907b2" kindref="member">scatter_timeout_ms</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="504"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1sharding_1_1_shard_router_1_1_config_1a7149c8563277b0590a804492a4b87d52" kindref="member">max_concurrent_shards</ref><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="505"><highlight class="normal"></highlight></codeline>
+<codeline lineno="506"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>executor<sp/>passed:<sp/>nullptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="507"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_shard_router" kindref="compound">ShardRouter</ref><sp/>router(resolver,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>cfg);</highlight></codeline>
+<codeline lineno="508"><highlight class="normal"></highlight></codeline>
+<codeline lineno="509"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>urn_str<sp/>=</highlight></codeline>
+<codeline lineno="510"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;urn:themis:relational:tenant1:users:550e8400-e29b-41d4-a716-446655440000&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="511"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>urn<sp/>=<sp/><ref refid="structthemis_1_1sharding_1_1_u_r_n_1aa222eb1e093dc37394de57b7185ed4b3" kindref="member">URN::parse</ref>(urn_str);</highlight></codeline>
+<codeline lineno="512"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(urn.has_value());</highlight></codeline>
+<codeline lineno="513"><highlight class="normal"></highlight></codeline>
+<codeline lineno="514"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>get()<sp/>must<sp/>return<sp/>nullopt<sp/>(fail-closed,<sp/>no<sp/>crash)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="515"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>router.get(*urn);</highlight></codeline>
+<codeline lineno="516"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.has_value())</highlight></codeline>
+<codeline lineno="517"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>nullopt<sp/>when<sp/>remote_executor<sp/>is<sp/>not<sp/>configured&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="518"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="519"><highlight class="normal"></highlight></codeline>
+<codeline lineno="522"><highlight class="normal"><ref refid="namespacethemis_1_1sharding_1a1ff7d69e682214e8f6562d40cf294242" kindref="member">TEST_F</ref>(<ref refid="class_sharding_integration_test" kindref="compound">ShardingIntegrationTest</ref>,<sp/>RouterPutFailsClosedWithoutExecutor)<sp/>{</highlight></codeline>
+<codeline lineno="523"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resolver<sp/>=<sp/>std::make_shared&lt;URNResolver&gt;(topology_,<sp/>hash_ring_,<sp/></highlight><highlight class="stringliteral">&quot;shard_999&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="524"><highlight class="normal"></highlight></codeline>
+<codeline lineno="525"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_shard_router_1_1_config" kindref="compound">ShardRouter::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="526"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1sharding_1_1_shard_router_1_1_config_1a565c9e9565250f1da4cfff0647c0b61e" kindref="member">local_shard_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard_999&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="527"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1sharding_1_1_shard_router_1_1_config_1a6200a5a228748d76aa509decba8907b2" kindref="member">scatter_timeout_ms</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="528"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1sharding_1_1_shard_router_1_1_config_1a7149c8563277b0590a804492a4b87d52" kindref="member">max_concurrent_shards</ref><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="529"><highlight class="normal"></highlight></codeline>
+<codeline lineno="530"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_shard_router" kindref="compound">ShardRouter</ref><sp/>router(resolver,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>cfg);</highlight></codeline>
+<codeline lineno="531"><highlight class="normal"></highlight></codeline>
+<codeline lineno="532"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>urn_str<sp/>=</highlight></codeline>
+<codeline lineno="533"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;urn:themis:relational:tenant1:orders:7c9e6679-7425-40de-944b-e07fc1f90ae7&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="534"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>urn<sp/>=<sp/><ref refid="structthemis_1_1sharding_1_1_u_r_n_1aa222eb1e093dc37394de57b7185ed4b3" kindref="member">URN::parse</ref>(urn_str);</highlight></codeline>
+<codeline lineno="535"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(urn.has_value());</highlight></codeline>
+<codeline lineno="536"><highlight class="normal"></highlight></codeline>
+<codeline lineno="537"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>data<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;field&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="538"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>router.put(*urn,<sp/>data);</highlight></codeline>
+<codeline lineno="539"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ok)</highlight></codeline>
+<codeline lineno="540"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>put<sp/>to<sp/>fail<sp/>when<sp/>remote_executor<sp/>is<sp/>not<sp/>configured&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="541"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/sharding/test_sharding_integration.cpp"/>
+  </compounddef>
+</doxygen>

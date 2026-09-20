@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_verification_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::VoiceLivenessDetector::VerificationResult</compoundname>
+    <includes refid="voice__liveness__detector_8h" local="no">voice_liveness_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_verification_result_1a001615a757699f844bfbf46e470c2db4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceLivenessDetector::VerificationResult::passed</definition>
+        <argsstring></argsstring>
+        <name>passed</name>
+        <qualifiedname>themis::voice::VoiceLivenessDetector::VerificationResult::passed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether verification passed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_detector.h" line="87" column="14" bodyfile="include/voice/voice_liveness_detector.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_verification_result_1a0fe546637d940655995ace76d09b07a9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceLivenessDetector::VerificationResult::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::voice::VoiceLivenessDetector::VerificationResult::reason</qualifiedname>
+        <briefdescription>
+<para>Details if failed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_detector.h" line="88" column="21" bodyfile="include/voice/voice_liveness_detector.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_verification_result_1a820aea97adedb7095d04352107cd7c16" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::voice::VoiceLivenessDetector::VerificationResult::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::voice::VoiceLivenessDetector::VerificationResult::confidence</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Confidence score [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_detector.h" line="89" column="16" bodyfile="include/voice/voice_liveness_detector.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_verification_result_1a4b18a9ebf2b00104a4daefaf88e55e2b" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::VoiceLivenessDetector::VerificationResult::response_time_ms</definition>
+        <argsstring></argsstring>
+        <name>response_time_ms</name>
+        <qualifiedname>themis::voice::VoiceLivenessDetector::VerificationResult::response_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Time from challenge to response. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_liveness_detector.h" line="90" column="17" bodyfile="include/voice/voice_liveness_detector.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of liveness verification. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_liveness_detector.h" line="86" column="5" bodyfile="include/voice/voice_liveness_detector.h" bodystart="86" bodyend="91"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_verification_result_1a820aea97adedb7095d04352107cd7c16" prot="public" virt="non-virtual"><scope>themis::voice::VoiceLivenessDetector::VerificationResult</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_verification_result_1a001615a757699f844bfbf46e470c2db4" prot="public" virt="non-virtual"><scope>themis::voice::VoiceLivenessDetector::VerificationResult</scope><name>passed</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_verification_result_1a0fe546637d940655995ace76d09b07a9" prot="public" virt="non-virtual"><scope>themis::voice::VoiceLivenessDetector::VerificationResult</scope><name>reason</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_verification_result_1a4b18a9ebf2b00104a4daefaf88e55e2b" prot="public" virt="non-virtual"><scope>themis::voice::VoiceLivenessDetector::VerificationResult</scope><name>response_time_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

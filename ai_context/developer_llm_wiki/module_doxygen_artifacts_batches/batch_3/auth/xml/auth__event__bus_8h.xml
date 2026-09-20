@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="auth__event__bus_8h" kind="file" language="C++">
+    <compoundname>auth_event_bus.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includedby refid="auth__event__bus_8cpp" local="yes">src/auth/auth_event_bus.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/auth/auth_event_bus.h</label>
+        <link refid="auth__event__bus_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/auth/auth_event_bus.h</label>
+        <link refid="auth__event__bus_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/auth/auth_event_bus.cpp</label>
+        <link refid="auth__event__bus_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1auth_1_1_auth_event" prot="public">themis::auth::AuthEvent</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_i_auth_event_subscriber" prot="public">themis::auth::IAuthEventSubscriber</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_i_auth_event_bus" prot="public">themis::auth::IAuthEventBus</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1auth">themis::auth</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AuthEventType<sp/>—<sp/>strongly-typed<sp/>auth<sp/>event<sp/>taxonomy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16" kindref="member">AuthEventType</ref><sp/>{</highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a9ac54b2153a0c84dfaab1b1f104f1cc7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a9ac54b2153a0c84dfaab1b1f104f1cc7" kindref="member">LOGIN_SUCCESS</ref>,</highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a442abaa57882f3196101a0885b9a5493" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a442abaa57882f3196101a0885b9a5493" kindref="member">LOGIN_FAILED</ref>,</highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a6b4ea69e17243db95f7b46c384d40370" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a6b4ea69e17243db95f7b46c384d40370" kindref="member">LOGOUT</ref>,</highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a3f1cfbd8a557b63cb51f8540dc15d612" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a3f1cfbd8a557b63cb51f8540dc15d612" kindref="member">MFA_REQUIRED</ref>,</highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a89cad2041098c88924a69fbbced46d19" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a89cad2041098c88924a69fbbced46d19" kindref="member">MFA_SUCCESS</ref>,</highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a864bfebfabe2a18f9625afa4e777ec9d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a864bfebfabe2a18f9625afa4e777ec9d" kindref="member">MFA_FAILED</ref>,</highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16ae76c663111024fab343d428301a76848" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16ae76c663111024fab343d428301a76848" kindref="member">TOKEN_ISSUED</ref>,</highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a55ff81ff5f89d85337bd554e2e0ef5c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a55ff81ff5f89d85337bd554e2e0ef5c1" kindref="member">TOKEN_REVOKED</ref>,</highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16af176f376303fb90181de7f63f2b11a28" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16af176f376303fb90181de7f63f2b11a28" kindref="member">TOKEN_EXPIRED</ref>,</highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a255df50c140519133f1489ab44a389d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a255df50c140519133f1489ab44a389d9" kindref="member">PERMISSION_DENIED</ref>,</highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a744ca0bbe6b604bc462165f01338faeb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a744ca0bbe6b604bc462165f01338faeb" kindref="member">PRIVILEGE_ESCALATION</ref>,</highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16aad6947130c1cf6d4c683c62d01f13c17" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16aad6947130c1cf6d4c683c62d01f13c17" kindref="member">PASSKEY_REGISTERED</ref>,</highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a55ca0cfc7aa08360a14dcefeea5524bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a55ca0cfc7aa08360a14dcefeea5524bf" kindref="member">PASSKEY_REMOVED</ref>,</highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16aa277f8d87d9a107141e9174e48e9a7ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16aa277f8d87d9a107141e9174e48e9a7ed" kindref="member">PASSKEY_AUTH_SUCCESS</ref>,</highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a0e0414accb0e9333d9be38994be0ca9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a0e0414accb0e9333d9be38994be0ca9b" kindref="member">PASSKEY_AUTH_FAILED</ref>,</highlight></codeline>
+<codeline lineno="42" refid="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a2a3002193f53659e481dd493c6525fcb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a2a3002193f53659e481dd493c6525fcb" kindref="member">POLICY_UPDATED</ref>,</highlight></codeline>
+<codeline lineno="43" refid="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a5733624677ab8affe203c9ee3ace4f2d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a5733624677ab8affe203c9ee3ace4f2d" kindref="member">ANOMALY_DETECTED</ref>,</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AuthEvent<sp/>—<sp/>structured<sp/>auth<sp/>event<sp/>record</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1auth_1_1_auth_event" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_auth_event" kindref="compound">AuthEvent</ref><sp/>{</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1auth_1_1_auth_event_1a9f9ffd29902bdf8c1f7bec3d31b5be5c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_auth_event_1a9f9ffd29902bdf8c1f7bec3d31b5be5c" kindref="member">event_id</ref>;</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1auth_1_1_auth_event_1afa753b54574da2914095fbfc60dece9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16" kindref="member">AuthEventType</ref><sp/><ref refid="structthemis_1_1auth_1_1_auth_event_1afa753b54574da2914095fbfc60dece9b" kindref="member">type</ref>;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1auth_1_1_auth_event_1ac689724617bdf0cf3b2f1808ac43c9e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_auth_event_1ac689724617bdf0cf3b2f1808ac43c9e6" kindref="member">user_id</ref>;</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1auth_1_1_auth_event_1a3673b2015ed43286a5f09e154399824a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_auth_event_1a3673b2015ed43286a5f09e154399824a" kindref="member">session_id</ref>;</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1auth_1_1_auth_event_1aa5a8d7c2aac291e796b6684f51deaeec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_auth_event_1aa5a8d7c2aac291e796b6684f51deaeec" kindref="member">client_ip</ref>;</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1auth_1_1_auth_event_1ae621a8382437381374826d3caa65ea80" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_auth_event_1ae621a8382437381374826d3caa65ea80" kindref="member">user_agent</ref>;</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1auth_1_1_auth_event_1a15454d61b3a352f09221ea451c989724" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1auth_1_1_auth_event_1a15454d61b3a352f09221ea451c989724" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1auth_1_1_auth_event_1aa5c3c0863dad8e49c188d4696e2f3214" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1auth_1_1_auth_event_1aa5c3c0863dad8e49c188d4696e2f3214" kindref="member">metadata</ref>;</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1auth_1_1_auth_event_1a7ee4cbfaaa4cd0305ecdb249e9a5879e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_auth_event_1a7ee4cbfaaa4cd0305ecdb249e9a5879e" kindref="member">correlation_id</ref>;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IAuthEventSubscriber<sp/>—<sp/>consumer<sp/>interface<sp/>for<sp/>auth<sp/>events</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="classthemis_1_1auth_1_1_i_auth_event_subscriber" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1_i_auth_event_subscriber" kindref="compound">IAuthEventSubscriber</ref><sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="72" refid="classthemis_1_1auth_1_1_i_auth_event_subscriber_1ab1d954a015f16697843efb0ef8978999" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_i_auth_event_subscriber_1ab1d954a015f16697843efb0ef8978999" kindref="member">~IAuthEventSubscriber</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="classthemis_1_1auth_1_1_i_auth_event_subscriber_1a26cd7623157ee3ae99b2be747095fb39" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_i_auth_event_subscriber_1a26cd7623157ee3ae99b2be747095fb39" kindref="member">onAuthEvent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_auth_event" kindref="compound">AuthEvent</ref>&amp;<sp/>event)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="classthemis_1_1auth_1_1_i_auth_event_subscriber_1a0122c44da8b9f8e4e8ae5cf173ac464c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1auth_1_1_i_auth_event_subscriber_1a0122c44da8b9f8e4e8ae5cf173ac464c" kindref="member">subscriberId</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IAuthEventBus<sp/>—<sp/>publish/subscribe<sp/>bus<sp/>for<sp/>auth<sp/>events</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="classthemis_1_1auth_1_1_i_auth_event_bus" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1_i_auth_event_bus" kindref="compound">IAuthEventBus</ref><sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="93" refid="classthemis_1_1auth_1_1_i_auth_event_bus_1af0e4d3d948b9129bc39bd0e413914dab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_i_auth_event_bus_1af0e4d3d948b9129bc39bd0e413914dab" kindref="member">~IAuthEventBus</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="classthemis_1_1auth_1_1_i_auth_event_bus_1a1024c0b2ab9d65baad0d8aa43d064eb5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_i_auth_event_bus_1a1024c0b2ab9d65baad0d8aa43d064eb5" kindref="member">publish</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_auth_event" kindref="compound">AuthEvent</ref>&amp;<sp/>event)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="classthemis_1_1auth_1_1_i_auth_event_bus_1af843344e78332ad04fc9c8c89723754a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_i_auth_event_bus_1af843344e78332ad04fc9c8c89723754a" kindref="member">subscribe</ref>(std::shared_ptr&lt;IAuthEventSubscriber&gt;<sp/>subscriber)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="classthemis_1_1auth_1_1_i_auth_event_bus_1a7452129936558c3b90f846283e48a5ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_i_auth_event_bus_1a7452129936558c3b90f846283e48a5ef" kindref="member">unsubscribe</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>subscriber_id)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="classthemis_1_1auth_1_1_i_auth_event_bus_1a3b1fa2404e8aa1a31415f728977defc3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_i_auth_event_bus_1a3b1fa2404e8aa1a31415f728977defc3" kindref="member">subscriberCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>auth</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/auth/auth_event_bus.h"/>
+  </compounddef>
+</doxygen>

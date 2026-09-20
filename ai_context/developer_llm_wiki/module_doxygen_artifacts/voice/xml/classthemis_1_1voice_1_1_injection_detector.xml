@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_injection_detector" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::InjectionDetector</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_injection_detector_1a643eca5c197e85b601ad645af4838000" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::InjectionDetector::hasCommandInjection</definition>
+        <argsstring>(const std::string &amp;input)</argsstring>
+        <name>hasCommandInjection</name>
+        <qualifiedname>themis::voice::InjectionDetector::hasCommandInjection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_spoofing_adversarial_focused.cpp" line="71" column="10" bodyfile="tests/voice/test_voice_spoofing_adversarial_focused.cpp" bodystart="71" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_injection_detector_1ac42ae80d2c44780eeb1b915961ab11cd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::InjectionDetector::hasSQLInjection</definition>
+        <argsstring>(const std::string &amp;input)</argsstring>
+        <name>hasSQLInjection</name>
+        <qualifiedname>themis::voice::InjectionDetector::hasSQLInjection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_spoofing_adversarial_focused.cpp" line="85" column="10" bodyfile="tests/voice/test_voice_spoofing_adversarial_focused.cpp" bodystart="85" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_injection_detector_1a83fd198871c7b0373047bd779d1215ae" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::InjectionDetector::hasPathTraversal</definition>
+        <argsstring>(const std::string &amp;input)</argsstring>
+        <name>hasPathTraversal</name>
+        <qualifiedname>themis::voice::InjectionDetector::hasPathTraversal</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_spoofing_adversarial_focused.cpp" line="99" column="10" bodyfile="tests/voice/test_voice_spoofing_adversarial_focused.cpp" bodystart="99" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_injection_detector_1a22226e81bb0b48aae5a707e70805f817" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::InjectionDetector::hasBufferOverflowAttempt</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>hasBufferOverflowAttempt</name>
+        <qualifiedname>themis::voice::InjectionDetector::hasBufferOverflowAttempt</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_spoofing_adversarial_focused.cpp" line="113" column="10" bodyfile="tests/voice/test_voice_spoofing_adversarial_focused.cpp" bodystart="113" bodyend="117"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/voice/test_voice_spoofing_adversarial_focused.cpp" line="69" column="1" bodyfile="tests/voice/test_voice_spoofing_adversarial_focused.cpp" bodystart="69" bodyend="118"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_injection_detector_1a22226e81bb0b48aae5a707e70805f817" prot="public" virt="non-virtual"><scope>themis::voice::InjectionDetector</scope><name>hasBufferOverflowAttempt</name></member>
+      <member refid="classthemis_1_1voice_1_1_injection_detector_1a643eca5c197e85b601ad645af4838000" prot="public" virt="non-virtual"><scope>themis::voice::InjectionDetector</scope><name>hasCommandInjection</name></member>
+      <member refid="classthemis_1_1voice_1_1_injection_detector_1a83fd198871c7b0373047bd779d1215ae" prot="public" virt="non-virtual"><scope>themis::voice::InjectionDetector</scope><name>hasPathTraversal</name></member>
+      <member refid="classthemis_1_1voice_1_1_injection_detector_1ac42ae80d2c44780eeb1b915961ab11cd" prot="public" virt="non-virtual"><scope>themis::voice::InjectionDetector</scope><name>hasSQLInjection</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_query_diff_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::QueryDiffResult</compoundname>
+    <includes refid="aql__query__diff__explainer_8h" local="no">aql_query_diff_explainer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_query_diff_result_1ac6240311ecb0312946e12380b3950346" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1aql_1_1_query_diff_entry" kindref="compound">QueryDiffEntry</ref> &gt;</type>
+        <definition>std::vector&lt;QueryDiffEntry&gt; themis::aql::QueryDiffResult::diffs</definition>
+        <argsstring></argsstring>
+        <name>diffs</name>
+        <qualifiedname>themis::aql::QueryDiffResult::diffs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_diff_explainer.h" line="45" column="17" bodyfile="include/aql/aql_query_diff_explainer.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_query_diff_result_1a92716dd581bb9112d66d89d138c13857" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::QueryDiffResult::summary</definition>
+        <argsstring></argsstring>
+        <name>summary</name>
+        <qualifiedname>themis::aql::QueryDiffResult::summary</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_diff_explainer.h" line="47" column="17" bodyfile="include/aql/aql_query_diff_explainer.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_query_diff_result_1a1efdff8109d619e5b0f0af454be2c26d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::aql::QueryDiffResult::is_equivalent</definition>
+        <argsstring></argsstring>
+        <name>is_equivalent</name>
+        <qualifiedname>themis::aql::QueryDiffResult::is_equivalent</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_diff_explainer.h" line="49" column="10" bodyfile="include/aql/aql_query_diff_explainer.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1aql_1_1_query_diff_result_1a35c1b7363cdc7bde0c84767e6d987b10" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::aql::QueryDiffResult::count</definition>
+        <argsstring>(QueryDiffEntry::Kind kind) const</argsstring>
+        <name>count</name>
+        <qualifiedname>themis::aql::QueryDiffResult::count</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1aql_1_1_query_diff_entry_1a7419b653cd66b8e832d1aa4d14f6b945" kindref="member">QueryDiffEntry::Kind</ref></type>
+          <declname>kind</declname>
+        </param>
+        <briefdescription>
+<para>Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">kind</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_diff_explainer.h" line="56" column="9" bodyfile="src/aql/aql_query_diff_explainer.cpp" bodystart="194" bodyend="202"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_query_diff_explainer.h" line="44" column="1" bodyfile="include/aql/aql_query_diff_explainer.h" bodystart="44" bodyend="57"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_query_diff_result_1a35c1b7363cdc7bde0c84767e6d987b10" prot="public" virt="non-virtual"><scope>themis::aql::QueryDiffResult</scope><name>count</name></member>
+      <member refid="structthemis_1_1aql_1_1_query_diff_result_1ac6240311ecb0312946e12380b3950346" prot="public" virt="non-virtual"><scope>themis::aql::QueryDiffResult</scope><name>diffs</name></member>
+      <member refid="structthemis_1_1aql_1_1_query_diff_result_1a1efdff8109d619e5b0f0af454be2c26d" prot="public" virt="non-virtual"><scope>themis::aql::QueryDiffResult</scope><name>is_equivalent</name></member>
+      <member refid="structthemis_1_1aql_1_1_query_diff_result_1a92716dd581bb9112d66d89d138c13857" prot="public" virt="non-virtual"><scope>themis::aql::QueryDiffResult</scope><name>summary</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

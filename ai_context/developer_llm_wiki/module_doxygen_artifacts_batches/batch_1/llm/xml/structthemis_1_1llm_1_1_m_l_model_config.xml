@@ -1,0 +1,330 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_m_l_model_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::MLModelConfig</compoundname>
+    <includes refid="ml__model__manager_8h" local="no">ml_model_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_m_l_model_config_1adaca3afe50bf00ba81ca8b83608b6dff" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::MLModelConfig::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::llm::MLModelConfig::model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="58" column="17" bodyfile="include/llm/ml_model_manager.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_m_l_model_config_1a24cad84c39e8e36de645b969e664521a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::MLModelConfig::model_name</definition>
+        <argsstring></argsstring>
+        <name>model_name</name>
+        <qualifiedname>themis::llm::MLModelConfig::model_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="59" column="17" bodyfile="include/llm/ml_model_manager.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_m_l_model_config_1a5fda3e91a3d8dde5ff299de1621d4a63" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::MLModelConfig::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::llm::MLModelConfig::version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="60" column="17" bodyfile="include/llm/ml_model_manager.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_m_l_model_config_1ad9d1036dbe8f64cdb58d38e43dd9612d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1accf3b4a6631d6b523d350cc0747e57df" kindref="member">MLModelType</ref></type>
+        <definition>MLModelType themis::llm::MLModelConfig::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::llm::MLModelConfig::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="61" column="17" bodyfile="include/llm/ml_model_manager.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_m_l_model_config_1a9239fbf604c3179c5fa167e76fba7798" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::MLModelConfig::file_path</definition>
+        <argsstring></argsstring>
+        <name>file_path</name>
+        <qualifiedname>themis::llm::MLModelConfig::file_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="64" column="17" bodyfile="include/llm/ml_model_manager.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_m_l_model_config_1a76088a7379e7357cf8730ec88d4dbcb3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::MLModelConfig::format</definition>
+        <argsstring></argsstring>
+        <name>format</name>
+        <qualifiedname>themis::llm::MLModelConfig::format</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="65" column="17" bodyfile="include/llm/ml_model_manager.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_m_l_model_config_1a0de6bcdacad91a6003e3bbe04c2b7390" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::MLModelConfig::inference_config</definition>
+        <argsstring></argsstring>
+        <name>inference_config</name>
+        <qualifiedname>themis::llm::MLModelConfig::inference_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="66" column="10" bodyfile="include/llm/ml_model_manager.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_m_l_model_config_1a0b1a990d014980b578f49969d8717202" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::MLModelConfig::gpu_device_id</definition>
+        <argsstring></argsstring>
+        <name>gpu_device_id</name>
+        <qualifiedname>themis::llm::MLModelConfig::gpu_device_id</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="69" column="9" bodyfile="include/llm/ml_model_manager.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_m_l_model_config_1ad5f2fb3053157bb85fd9ac24512e7347" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::MLModelConfig::max_batch_size</definition>
+        <argsstring></argsstring>
+        <name>max_batch_size</name>
+        <qualifiedname>themis::llm::MLModelConfig::max_batch_size</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="70" column="12" bodyfile="include/llm/ml_model_manager.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_m_l_model_config_1acda775424220403816e058862523393b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::MLModelConfig::max_concurrent_requests</definition>
+        <argsstring></argsstring>
+        <name>max_concurrent_requests</name>
+        <qualifiedname>themis::llm::MLModelConfig::max_concurrent_requests</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="71" column="12" bodyfile="include/llm/ml_model_manager.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_m_l_model_config_1a9cd35130ed505d1800199a3f65753703" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::MLModelConfig::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::llm::MLModelConfig::timeout_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="72" column="9" bodyfile="include/llm/ml_model_manager.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_m_l_model_config_1a4e8923b1c8ee452171e467444a3946f7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::MLModelConfig::enable_auto_scaling</definition>
+        <argsstring></argsstring>
+        <name>enable_auto_scaling</name>
+        <qualifiedname>themis::llm::MLModelConfig::enable_auto_scaling</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="75" column="10" bodyfile="include/llm/ml_model_manager.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_m_l_model_config_1a4bccf96b43ea2884873bedc3f8e26177" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::MLModelConfig::min_instances</definition>
+        <argsstring></argsstring>
+        <name>min_instances</name>
+        <qualifiedname>themis::llm::MLModelConfig::min_instances</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="76" column="12" bodyfile="include/llm/ml_model_manager.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_m_l_model_config_1a4eceb80b51736605ff780b29246af776" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::MLModelConfig::max_instances</definition>
+        <argsstring></argsstring>
+        <name>max_instances</name>
+        <qualifiedname>themis::llm::MLModelConfig::max_instances</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="77" column="12" bodyfile="include/llm/ml_model_manager.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_m_l_model_config_1af82c60521ccda387f58b4f9df423c884" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::MLModelConfig::scale_up_threshold</definition>
+        <argsstring></argsstring>
+        <name>scale_up_threshold</name>
+        <qualifiedname>themis::llm::MLModelConfig::scale_up_threshold</qualifiedname>
+        <initializer>= 0.8f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="78" column="11" bodyfile="include/llm/ml_model_manager.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_m_l_model_config_1a5ec9fe4bdaee44a2740acafbda19b23a" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::MLModelConfig::scale_down_threshold</definition>
+        <argsstring></argsstring>
+        <name>scale_down_threshold</name>
+        <qualifiedname>themis::llm::MLModelConfig::scale_down_threshold</qualifiedname>
+        <initializer>= 0.3f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="79" column="11" bodyfile="include/llm/ml_model_manager.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_m_l_model_config_1ae14a59baa1882b822a37cd084038f5af" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::MLModelConfig::enable_health_check</definition>
+        <argsstring></argsstring>
+        <name>enable_health_check</name>
+        <qualifiedname>themis::llm::MLModelConfig::enable_health_check</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="82" column="10" bodyfile="include/llm/ml_model_manager.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_m_l_model_config_1aa730bc0472721eb8d6aba934afa27ce0" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::MLModelConfig::health_check_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>health_check_interval_ms</name>
+        <qualifiedname>themis::llm::MLModelConfig::health_check_interval_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="83" column="9" bodyfile="include/llm/ml_model_manager.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_m_l_model_config_1a9e6d85761a5164ec9bf2908a80e96bbf" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::MLModelConfig::unhealthy_threshold</definition>
+        <argsstring></argsstring>
+        <name>unhealthy_threshold</name>
+        <qualifiedname>themis::llm::MLModelConfig::unhealthy_threshold</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="84" column="9" bodyfile="include/llm/ml_model_manager.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_m_l_model_config_1a9085714ecce10e586a1b865f55d1ce16" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::MLModelConfig::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::MLModelConfig::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="86" column="10" bodyfile="include/llm/ml_model_manager.h" bodystart="86" bodyend="108"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/ml_model_manager.h" line="57" column="1" bodyfile="include/llm/ml_model_manager.h" bodystart="57" bodyend="109"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_m_l_model_config_1a4e8923b1c8ee452171e467444a3946f7" prot="public" virt="non-virtual"><scope>themis::llm::MLModelConfig</scope><name>enable_auto_scaling</name></member>
+      <member refid="structthemis_1_1llm_1_1_m_l_model_config_1ae14a59baa1882b822a37cd084038f5af" prot="public" virt="non-virtual"><scope>themis::llm::MLModelConfig</scope><name>enable_health_check</name></member>
+      <member refid="structthemis_1_1llm_1_1_m_l_model_config_1a9239fbf604c3179c5fa167e76fba7798" prot="public" virt="non-virtual"><scope>themis::llm::MLModelConfig</scope><name>file_path</name></member>
+      <member refid="structthemis_1_1llm_1_1_m_l_model_config_1a76088a7379e7357cf8730ec88d4dbcb3" prot="public" virt="non-virtual"><scope>themis::llm::MLModelConfig</scope><name>format</name></member>
+      <member refid="structthemis_1_1llm_1_1_m_l_model_config_1a0b1a990d014980b578f49969d8717202" prot="public" virt="non-virtual"><scope>themis::llm::MLModelConfig</scope><name>gpu_device_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_m_l_model_config_1aa730bc0472721eb8d6aba934afa27ce0" prot="public" virt="non-virtual"><scope>themis::llm::MLModelConfig</scope><name>health_check_interval_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_m_l_model_config_1a0de6bcdacad91a6003e3bbe04c2b7390" prot="public" virt="non-virtual"><scope>themis::llm::MLModelConfig</scope><name>inference_config</name></member>
+      <member refid="structthemis_1_1llm_1_1_m_l_model_config_1ad5f2fb3053157bb85fd9ac24512e7347" prot="public" virt="non-virtual"><scope>themis::llm::MLModelConfig</scope><name>max_batch_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_m_l_model_config_1acda775424220403816e058862523393b" prot="public" virt="non-virtual"><scope>themis::llm::MLModelConfig</scope><name>max_concurrent_requests</name></member>
+      <member refid="structthemis_1_1llm_1_1_m_l_model_config_1a4eceb80b51736605ff780b29246af776" prot="public" virt="non-virtual"><scope>themis::llm::MLModelConfig</scope><name>max_instances</name></member>
+      <member refid="structthemis_1_1llm_1_1_m_l_model_config_1a4bccf96b43ea2884873bedc3f8e26177" prot="public" virt="non-virtual"><scope>themis::llm::MLModelConfig</scope><name>min_instances</name></member>
+      <member refid="structthemis_1_1llm_1_1_m_l_model_config_1adaca3afe50bf00ba81ca8b83608b6dff" prot="public" virt="non-virtual"><scope>themis::llm::MLModelConfig</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_m_l_model_config_1a24cad84c39e8e36de645b969e664521a" prot="public" virt="non-virtual"><scope>themis::llm::MLModelConfig</scope><name>model_name</name></member>
+      <member refid="structthemis_1_1llm_1_1_m_l_model_config_1a5ec9fe4bdaee44a2740acafbda19b23a" prot="public" virt="non-virtual"><scope>themis::llm::MLModelConfig</scope><name>scale_down_threshold</name></member>
+      <member refid="structthemis_1_1llm_1_1_m_l_model_config_1af82c60521ccda387f58b4f9df423c884" prot="public" virt="non-virtual"><scope>themis::llm::MLModelConfig</scope><name>scale_up_threshold</name></member>
+      <member refid="structthemis_1_1llm_1_1_m_l_model_config_1a9cd35130ed505d1800199a3f65753703" prot="public" virt="non-virtual"><scope>themis::llm::MLModelConfig</scope><name>timeout_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_m_l_model_config_1a9085714ecce10e586a1b865f55d1ce16" prot="public" virt="non-virtual"><scope>themis::llm::MLModelConfig</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1_m_l_model_config_1ad9d1036dbe8f64cdb58d38e43dd9612d" prot="public" virt="non-virtual"><scope>themis::llm::MLModelConfig</scope><name>type</name></member>
+      <member refid="structthemis_1_1llm_1_1_m_l_model_config_1a9e6d85761a5164ec9bf2908a80e96bbf" prot="public" virt="non-virtual"><scope>themis::llm::MLModelConfig</scope><name>unhealthy_threshold</name></member>
+      <member refid="structthemis_1_1llm_1_1_m_l_model_config_1a5fda3e91a3d8dde5ff299de1621d4a63" prot="public" virt="non-virtual"><scope>themis::llm::MLModelConfig</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_streaming_window_pipeline_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::StreamingWindowPipeline::Config</compoundname>
+    <includes refid="streaming__window_8h" local="no">streaming_window.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_streaming_window_pipeline_1_1_config_1a837b9f3bcbc188a92d67b67bbe25f1bf" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_streaming_window_pipeline_1a4247e004892288fedac8d39a03bab0b2" kindref="member">Type</ref></type>
+        <definition>Type themisdb::analytics::StreamingWindowPipeline::Config::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themisdb::analytics::StreamingWindowPipeline::Config::type</qualifiedname>
+        <initializer>= <ref refid="classthemisdb_1_1analytics_1_1_streaming_window_pipeline_1a4247e004892288fedac8d39a03bab0b2a95ad2287637805c77de2453d860476b2" kindref="member">Type::TUMBLING</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="720" column="14" bodyfile="include/analytics/streaming_window.h" bodystart="720" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_streaming_window_pipeline_1_1_config_1a361078c0d2b2d50b778d27898275d891" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::analytics::StreamingWindowPipeline::Config::size</definition>
+        <argsstring></argsstring>
+        <name>size</name>
+        <qualifiedname>themisdb::analytics::StreamingWindowPipeline::Config::size</qualifiedname>
+        <initializer>{60000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="721" column="35" bodyfile="include/analytics/streaming_window.h" bodystart="721" bodyend="721"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_streaming_window_pipeline_1_1_config_1a77e645f2cc94d68cdd9e1c9e44d08f8c" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::analytics::StreamingWindowPipeline::Config::slide</definition>
+        <argsstring></argsstring>
+        <name>slide</name>
+        <qualifiedname>themisdb::analytics::StreamingWindowPipeline::Config::slide</qualifiedname>
+        <initializer>{10000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="722" column="35" bodyfile="include/analytics/streaming_window.h" bodystart="722" bodyend="722"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_streaming_window_pipeline_1_1_config_1a5702c45a5f3b0508330575137edd070a" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::analytics::StreamingWindowPipeline::Config::hop</definition>
+        <argsstring></argsstring>
+        <name>hop</name>
+        <qualifiedname>themisdb::analytics::StreamingWindowPipeline::Config::hop</qualifiedname>
+        <initializer>{10000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="723" column="35" bodyfile="include/analytics/streaming_window.h" bodystart="723" bodyend="723"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_streaming_window_pipeline_1_1_config_1a8709acb7291a3bd84cfa022908c69b75" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::analytics::StreamingWindowPipeline::Config::gap</definition>
+        <argsstring></argsstring>
+        <name>gap</name>
+        <qualifiedname>themisdb::analytics::StreamingWindowPipeline::Config::gap</qualifiedname>
+        <initializer>{30000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="724" column="35" bodyfile="include/analytics/streaming_window.h" bodystart="724" bodyend="724"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_streaming_window_pipeline_1_1_config_1aa99f561e5a81bfb4f60ef5e35088525b" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_watermark_config" kindref="compound">WatermarkConfig</ref></type>
+        <definition>WatermarkConfig themisdb::analytics::StreamingWindowPipeline::Config::watermark</definition>
+        <argsstring></argsstring>
+        <name>watermark</name>
+        <qualifiedname>themisdb::analytics::StreamingWindowPipeline::Config::watermark</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="725" column="25" bodyfile="include/analytics/streaming_window.h" bodystart="725" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_streaming_window_pipeline_1_1_config_1a03bca4f9b9f179c106ce3e6f7e3e42e7" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::analytics::StreamingWindowPipeline::Config::session_expiry_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>session_expiry_interval_ms</name>
+        <qualifiedname>themisdb::analytics::StreamingWindowPipeline::Config::session_expiry_interval_ms</qualifiedname>
+        <initializer>{200}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="726" column="35" bodyfile="include/analytics/streaming_window.h" bodystart="726" bodyend="726"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themisdb::analytics::StreamingWindowPipeline::Config</label>
+        <link refid="structthemisdb_1_1analytics_1_1_streaming_window_pipeline_1_1_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>watermark</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::analytics::WatermarkConfig</label>
+        <link refid="structthemisdb_1_1analytics_1_1_watermark_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/analytics/streaming_window.h" line="719" column="5" bodyfile="include/analytics/streaming_window.h" bodystart="719" bodyend="727"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_streaming_window_pipeline_1_1_config_1a8709acb7291a3bd84cfa022908c69b75" prot="public" virt="non-virtual"><scope>themisdb::analytics::StreamingWindowPipeline::Config</scope><name>gap</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_streaming_window_pipeline_1_1_config_1a5702c45a5f3b0508330575137edd070a" prot="public" virt="non-virtual"><scope>themisdb::analytics::StreamingWindowPipeline::Config</scope><name>hop</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_streaming_window_pipeline_1_1_config_1a03bca4f9b9f179c106ce3e6f7e3e42e7" prot="public" virt="non-virtual"><scope>themisdb::analytics::StreamingWindowPipeline::Config</scope><name>session_expiry_interval_ms</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_streaming_window_pipeline_1_1_config_1a361078c0d2b2d50b778d27898275d891" prot="public" virt="non-virtual"><scope>themisdb::analytics::StreamingWindowPipeline::Config</scope><name>size</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_streaming_window_pipeline_1_1_config_1a77e645f2cc94d68cdd9e1c9e44d08f8c" prot="public" virt="non-virtual"><scope>themisdb::analytics::StreamingWindowPipeline::Config</scope><name>slide</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_streaming_window_pipeline_1_1_config_1a837b9f3bcbc188a92d67b67bbe25f1bf" prot="public" virt="non-virtual"><scope>themisdb::analytics::StreamingWindowPipeline::Config</scope><name>type</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_streaming_window_pipeline_1_1_config_1aa99f561e5a81bfb4f60ef5e35088525b" prot="public" virt="non-virtual"><scope>themisdb::analytics::StreamingWindowPipeline::Config</scope><name>watermark</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

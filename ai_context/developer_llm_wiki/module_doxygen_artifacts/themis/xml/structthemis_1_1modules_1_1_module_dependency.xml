@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_module_dependency" kind="struct" language="C++" prot="public">
+    <compoundname>themis::modules::ModuleDependency</compoundname>
+    <includes refid="module__loader_8h" local="no">module_loader.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_dependency_1a45ae77b06c173ad029da96da9b4bb483" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::ModuleDependency::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::modules::ModuleDependency::name</qualifiedname>
+        <briefdescription>
+<para>Module name (e.g., &quot;themis_base&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="165" column="17" bodyfile="include/themis/base/module_loader.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_dependency_1adeb1c1a05d23e389e61790bb136ffc20" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::ModuleDependency::minVersion</definition>
+        <argsstring></argsstring>
+        <name>minVersion</name>
+        <qualifiedname>themis::modules::ModuleDependency::minVersion</qualifiedname>
+        <briefdescription>
+<para>Minimum compatible version, &quot;&quot; = unconstrained. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="166" column="17" bodyfile="include/themis/base/module_loader.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_dependency_1ae45edcc121ef5546ed998225fee88476" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::ModuleDependency::maxVersion</definition>
+        <argsstring></argsstring>
+        <name>maxVersion</name>
+        <qualifiedname>themis::modules::ModuleDependency::maxVersion</qualifiedname>
+        <briefdescription>
+<para>Maximum compatible version, &quot;&quot; = unconstrained. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="167" column="17" bodyfile="include/themis/base/module_loader.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_dependency_1a2585f47a0ddefa5f591902cc89195eb9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleDependency::required</definition>
+        <argsstring></argsstring>
+        <name>required</name>
+        <qualifiedname>themis::modules::ModuleDependency::required</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>If false, the dep is optional (load-order hint only). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="168" column="10" bodyfile="include/themis/base/module_loader.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Dependency declaration for a module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Each entry describes one other module that must be present (or present with a compatible version) before this module can be activated. </para>
+    </detaileddescription>
+    <location file="include/themis/base/module_loader.h" line="164" column="1" bodyfile="include/themis/base/module_loader.h" bodystart="164" bodyend="169"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_module_dependency_1ae45edcc121ef5546ed998225fee88476" prot="public" virt="non-virtual"><scope>themis::modules::ModuleDependency</scope><name>maxVersion</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_dependency_1adeb1c1a05d23e389e61790bb136ffc20" prot="public" virt="non-virtual"><scope>themis::modules::ModuleDependency</scope><name>minVersion</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_dependency_1a45ae77b06c173ad029da96da9b4bb483" prot="public" virt="non-virtual"><scope>themis::modules::ModuleDependency</scope><name>name</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_dependency_1a2585f47a0ddefa5f591902cc89195eb9" prot="public" virt="non-virtual"><scope>themis::modules::ModuleDependency</scope><name>required</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,893 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_metrics_stream_server" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::MetricsStreamServer</compoundname>
+    <includes refid="metrics__stream__server_8h" local="no">metrics_stream_server.h</includes>
+    <innerclass refid="structthemis_1_1observability_1_1_metrics_stream_server_1_1_stats" prot="public">themis::observability::MetricsStreamServer::Stats</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_metrics_stream_server_1_1_subscription_state" prot="private">themis::observability::MetricsStreamServer::SubscriptionState</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1observability_1_1_metrics_stream_server_1a40a85e4008428687cc60dbe0b4b6b3b4" prot="public" static="no">
+        <type>std::function&lt; void(const std::string &amp;client_id, const std::string &amp;payload)&gt;</type>
+        <definition>using themis::observability::MetricsStreamServer::SendFn = 
+std::function&lt;void(const std::string&amp; client_id,
+                   const std::string&amp; payload)&gt;</definition>
+        <argsstring></argsstring>
+        <name>SendFn</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::SendFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Callback invoked for each eligible subscriber when a metric update is ready for delivery. The first argument is the <computeroutput>client_id</computeroutput>, the second is the JSON-serialised update payload. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="129" column="5" bodyfile="include/observability/metrics_stream_server.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_metrics_stream_server_1a74ab9d6649743636b41c7a490749316e" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::observability::MetricsStreamServer::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="317" column="24" bodyfile="include/observability/metrics_stream_server.h" bodystart="317" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_metrics_stream_server_1a0e7bd8fcc114e540cce2e795ad390fc0" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::MetricsStreamServer::bind_address_</definition>
+        <argsstring></argsstring>
+        <name>bind_address_</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::bind_address_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="319" column="17" bodyfile="include/observability/metrics_stream_server.h" bodystart="319" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_metrics_stream_server_1a7b4663edf043a5c6825eb925d7c643b5" prot="private" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::observability::MetricsStreamServer::port_</definition>
+        <argsstring></argsstring>
+        <name>port_</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::port_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="320" column="14" bodyfile="include/observability/metrics_stream_server.h" bodystart="320" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_metrics_stream_server_1a4f92bae66e0d8727679678ac3b859ea6" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::observability::MetricsStreamServer::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="321" column="17" bodyfile="include/observability/metrics_stream_server.h" bodystart="321" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_metrics_stream_server_1ada3da3f97e883295957d91f2f75e9a7a" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, SubscriptionState &gt;</type>
+        <definition>std::unordered_map&lt;std::string, SubscriptionState&gt; themis::observability::MetricsStreamServer::subscriptions_</definition>
+        <argsstring></argsstring>
+        <name>subscriptions_</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::subscriptions_</qualifiedname>
+        <briefdescription>
+<para>Live subscriptions keyed by client_id. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="324" column="24" bodyfile="include/observability/metrics_stream_server.h" bodystart="324" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_metrics_stream_server_1a1a8959fc848ac97c40e6cc55ace7e929" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1observability_1_1_metrics_stream_server_1a40a85e4008428687cc60dbe0b4b6b3b4" kindref="member">SendFn</ref></type>
+        <definition>SendFn themis::observability::MetricsStreamServer::send_fn_</definition>
+        <argsstring></argsstring>
+        <name>send_fn_</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::send_fn_</qualifiedname>
+        <briefdescription>
+<para>Delivery callback (may be null). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="327" column="12" bodyfile="include/observability/metrics_stream_server.h" bodystart="327" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_metrics_stream_server_1a1d5a9984000f855c14e44dd102a83f50" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::observability::MetricsStreamServer::total_updates_pushed_</definition>
+        <argsstring></argsstring>
+        <name>total_updates_pushed_</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::total_updates_pushed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="330" column="17" bodyfile="include/observability/metrics_stream_server.h" bodystart="330" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_metrics_stream_server_1aed0be42b69a772e260808e6ba5de89fc" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::observability::MetricsStreamServer::total_deliveries_</definition>
+        <argsstring></argsstring>
+        <name>total_deliveries_</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::total_deliveries_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="331" column="17" bodyfile="include/observability/metrics_stream_server.h" bodystart="331" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_metrics_stream_server_1ac499809378d959e3dfc6414ceafa25ab" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::observability::MetricsStreamServer::throttled_deliveries_</definition>
+        <argsstring></argsstring>
+        <name>throttled_deliveries_</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::throttled_deliveries_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="332" column="17" bodyfile="include/observability/metrics_stream_server.h" bodystart="332" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_metrics_stream_server_1ac1a956e6f20aa4961394445bf8947709" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::observability::MetricsStreamServer::filtered_deliveries_</definition>
+        <argsstring></argsstring>
+        <name>filtered_deliveries_</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::filtered_deliveries_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="333" column="17" bodyfile="include/observability/metrics_stream_server.h" bodystart="333" bodyend="333"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_stream_server_1a78878149dd9e96ff7dfc8f747669cdd6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::MetricsStreamServer::MetricsStreamServer</definition>
+        <argsstring>()</argsstring>
+        <name>MetricsStreamServer</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::MetricsStreamServer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="147" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_stream_server_1ac7cf9f6af9fe00fbfb39700bef03e2a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::MetricsStreamServer::~MetricsStreamServer</definition>
+        <argsstring>()</argsstring>
+        <name>~MetricsStreamServer</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::~MetricsStreamServer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="148" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_stream_server_1a0d2d81e0fbe47899d2dabd1a0b35b540" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::MetricsStreamServer::MetricsStreamServer</definition>
+        <argsstring>(const MetricsStreamServer &amp;)=delete</argsstring>
+        <name>MetricsStreamServer</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::MetricsStreamServer</qualifiedname>
+        <param>
+          <type>const MetricsStreamServer &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="151" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_stream_server_1a57506132228e2fc0266365cd10f7c9a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1observability_1_1_metrics_stream_server_1a78878149dd9e96ff7dfc8f747669cdd6" kindref="member">MetricsStreamServer</ref> &amp;</type>
+        <definition>MetricsStreamServer &amp; themis::observability::MetricsStreamServer::operator=</definition>
+        <argsstring>(const MetricsStreamServer &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1observability_1_1_metrics_stream_server_1a78878149dd9e96ff7dfc8f747669cdd6" kindref="member">MetricsStreamServer</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="152" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_stream_server_1a7eeaf6b7fe5361686f5f216bc3d78111" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::MetricsStreamServer::MetricsStreamServer</definition>
+        <argsstring>(MetricsStreamServer &amp;&amp;)=delete</argsstring>
+        <name>MetricsStreamServer</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::MetricsStreamServer</qualifiedname>
+        <param>
+          <type>MetricsStreamServer &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="153" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_stream_server_1a4253d406bb04faf1f4221f399f95641b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1observability_1_1_metrics_stream_server_1a78878149dd9e96ff7dfc8f747669cdd6" kindref="member">MetricsStreamServer</ref> &amp;</type>
+        <definition>MetricsStreamServer &amp; themis::observability::MetricsStreamServer::operator=</definition>
+        <argsstring>(MetricsStreamServer &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1_metrics_stream_server_1a78878149dd9e96ff7dfc8f747669cdd6" kindref="member">MetricsStreamServer</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="154" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_stream_server_1aeb45ef7b39d98602bd709a3fcb269a56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsStreamServer::setDeliveryCallback</definition>
+        <argsstring>(SendFn fn)</argsstring>
+        <name>setDeliveryCallback</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::setDeliveryCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1_metrics_stream_server_1a40a85e4008428687cc60dbe0b4b6b3b4" kindref="member">SendFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Register the delivery callback used to send serialised updates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Delivery Callback.</para>
+<para>Must be set before the first call to <computeroutput><ref refid="classthemis_1_1observability_1_1_metrics_stream_server_1af861918e3144ee13507910f6ca78fb2b" kindref="member">pushMetrics()</ref></computeroutput> if actual delivery is required. Safe to replace at runtime.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback invoked per eligible subscriber (may be null to disable delivery, e.g. during tests that only inspect stats).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="169" column="10" bodyfile="src/observability/metrics_stream_server.cpp" bodystart="36" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_stream_server_1a921628d014c09b4d1552adf10ea72930" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsStreamServer::start</definition>
+        <argsstring>(const std::string &amp;bind_address, uint16_t port)</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::start</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>bind_address</declname>
+        </param>
+        <param>
+          <type>uint16_t</type>
+          <declname>port</declname>
+        </param>
+        <briefdescription>
+<para>Mark the server as running and record its bind coordinates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start.</para>
+<para>In an embedded deployment the caller is responsible for creating the actual listening socket (e.g. a Boost.Beast WebSocket acceptor) and routing frames to <computeroutput><ref refid="classthemis_1_1observability_1_1_metrics_stream_server_1ab6542d7fef97a37655fa5b4dbbcecd49" kindref="member">subscribe()</ref></computeroutput> / <computeroutput><ref refid="classthemis_1_1observability_1_1_metrics_stream_server_1aaec94a080b6937ad17472ecf9db6a5c6" kindref="member">unsubscribe()</ref></computeroutput> / <computeroutput><ref refid="classthemis_1_1observability_1_1_metrics_stream_server_1af861918e3144ee13507910f6ca78fb2b" kindref="member">pushMetrics()</ref></computeroutput>. This method records <computeroutput>bind_address</computeroutput> and <computeroutput>port</computeroutput> for informational purposes and sets the running flag.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if <computeroutput>bind_address</computeroutput> is empty or <computeroutput>port</computeroutput> is 0.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bind_address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">port</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), lock(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="186" column="10" bodyfile="src/observability/metrics_stream_server.cpp" bodystart="49" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_stream_server_1acc06f8dfacc075b5a2e04a564fdb5b11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsStreamServer::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::stop</qualifiedname>
+        <briefdescription>
+<para>Mark the server as stopped. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop.</para>
+<para>Existing subscriptions are preserved; no new deliveries are made after this call returns.</para>
+<para>Calls: store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="194" column="10" bodyfile="src/observability/metrics_stream_server.cpp" bodystart="67" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_stream_server_1aea032a8d4f4ef45bba223ac561c6bb57" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::MetricsStreamServer::isRunning</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::isRunning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns true if the server has been started and not yet stopped. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="197" column="10" bodyfile="src/observability/metrics_stream_server.cpp" bodystart="71" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_stream_server_1a47037ccab14f72d1357f790c4070db8b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::MetricsStreamServer::bindAddress</definition>
+        <argsstring>() const</argsstring>
+        <name>bindAddress</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::bindAddress</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the configured bind address (empty if <computeroutput><ref refid="classthemis_1_1observability_1_1_metrics_stream_server_1a921628d014c09b4d1552adf10ea72930" kindref="member">start()</ref></computeroutput> was not called). </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="200" column="17" bodyfile="src/observability/metrics_stream_server.cpp" bodystart="75" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_stream_server_1a184a75103d598900adc567d9c61a1561" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::observability::MetricsStreamServer::port</definition>
+        <argsstring>() const</argsstring>
+        <name>port</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::port</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the configured port (0 if <computeroutput><ref refid="classthemis_1_1observability_1_1_metrics_stream_server_1a921628d014c09b4d1552adf10ea72930" kindref="member">start()</ref></computeroutput> was not called). </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="203" column="14" bodyfile="src/observability/metrics_stream_server.cpp" bodystart="85" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_stream_server_1ab6542d7fef97a37655fa5b4dbbcecd49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsStreamServer::subscribe</definition>
+        <argsstring>(const StreamSubscription &amp;subscription)</argsstring>
+        <name>subscribe</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::subscribe</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_stream_subscription" kindref="compound">StreamSubscription</ref> &amp;</type>
+          <declname>subscription</declname>
+        </param>
+        <briefdescription>
+<para>Register or replace a client subscription. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Subscribe.</para>
+<para>If a subscription with the same <computeroutput>client_id</computeroutput> already exists it is overwritten. At most one subscription per <computeroutput>client_id</computeroutput> is supported.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if <computeroutput>subscription.client_id</computeroutput> is empty.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subscription</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="217" column="10" bodyfile="src/observability/metrics_stream_server.cpp" bodystart="102" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_stream_server_1aaec94a080b6937ad17472ecf9db6a5c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsStreamServer::unsubscribe</definition>
+        <argsstring>(const std::string &amp;client_id)</argsstring>
+        <name>unsubscribe</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::unsubscribe</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>client_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove a client subscription. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Unsubscribe.</para>
+<para>No-op if <computeroutput>client_id</computeroutput> is not currently subscribed.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">client_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the client.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="224" column="10" bodyfile="src/observability/metrics_stream_server.cpp" bodystart="121" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_stream_server_1aaa7ba64aac5ffbf82afc71ac1c7a1df6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::observability::MetricsStreamServer::subscriptionCount</definition>
+        <argsstring>() const</argsstring>
+        <name>subscriptionCount</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::subscriptionCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the number of active subscriptions. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="227" column="12" bodyfile="src/observability/metrics_stream_server.cpp" bodystart="126" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_stream_server_1aa86f2e58672933de4fd8f3b4848596c6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::MetricsStreamServer::hasSubscription</definition>
+        <argsstring>(const std::string &amp;client_id) const</argsstring>
+        <name>hasSubscription</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::hasSubscription</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>client_id</declname>
+        </param>
+        <briefdescription>
+<para>Returns true if a subscription exists for <computeroutput>client_id</computeroutput>, false otherwise. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="233" column="10" bodyfile="src/observability/metrics_stream_server.cpp" bodystart="136" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_stream_server_1af861918e3144ee13507910f6ca78fb2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsStreamServer::pushMetrics</definition>
+        <argsstring>(const MetricUpdate &amp;update)</argsstring>
+        <name>pushMetrics</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::pushMetrics</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_metric_update" kindref="compound">MetricUpdate</ref> &amp;</type>
+          <declname>update</declname>
+        </param>
+        <briefdescription>
+<para>Fan out <computeroutput>update</computeroutput> to all matching subscriptions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Push Metrics.</para>
+<para>For each active subscription, the method:<orderedlist>
+<listitem><para>Checks whether <computeroutput>update.metric_name</computeroutput> is in the subscription&apos;s metric_names list (empty list = subscribe to all).</para>
+</listitem><listitem><para>Evaluates all <computeroutput><ref refid="structthemis_1_1observability_1_1_metric_filter" kindref="compound">MetricFilter</ref></computeroutput> entries (AND semantics); if any filter does not match the update is skipped for that client.</para>
+</listitem><listitem><para>Enforces the per-subscription rate limit; if the last delivery to this client was less than <computeroutput>update_interval</computeroutput> ago the update is throttled.</para>
+</listitem><listitem><para>Serialises the update to JSON and invokes the <computeroutput><ref refid="classthemis_1_1observability_1_1_metrics_stream_server_1a40a85e4008428687cc60dbe0b4b6b3b4" kindref="member">SendFn</ref></computeroutput> callback.</para>
+</listitem></orderedlist>
+</para>
+<para>Thread-safe; may be called concurrently from multiple producer threads.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">update</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fetch_add(), load(), <ref refid="classthemis_1_1observability_1_1_metrics_stream_server_1a46e7b28c9dbcbc6a0a609cf5d86e39d0" kindref="member">formatWebSocketMessage()</ref>, std::chrono::steady_clock::now(), lock(), matchesMetricNames(), matchesFilters(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="254" column="10" bodyfile="src/observability/metrics_stream_server.cpp" bodystart="152" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_stream_server_1aefa4eca273a5faf0dc5d65092b285db1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_metrics_stream_server_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>MetricsStreamServer::Stats themis::observability::MetricsStreamServer::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return a snapshot of current runtime statistics. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="285" column="11" bodyfile="src/observability/metrics_stream_server.cpp" bodystart="305" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_stream_server_1ac694fe51a6747c85006265063e94c0fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsStreamServer::resetStats</definition>
+        <argsstring>()</argsstring>
+        <name>resetStats</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::resetStats</qualifiedname>
+        <briefdescription>
+<para>Reset <ref refid="structthemis_1_1observability_1_1_metrics_stream_server_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset all statistics counters to zero.</para>
+<para>Calls: store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="288" column="10" bodyfile="src/observability/metrics_stream_server.cpp" bodystart="327" bodyend="332"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_stream_server_1a46e7b28c9dbcbc6a0a609cf5d86e39d0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::MetricsStreamServer::formatWebSocketMessage</definition>
+        <argsstring>(const MetricUpdate &amp;update)</argsstring>
+        <name>formatWebSocketMessage</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::formatWebSocketMessage</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_metric_update" kindref="compound">MetricUpdate</ref> &amp;</type>
+          <declname>update</declname>
+        </param>
+        <briefdescription>
+<para>Serialise <computeroutput>update</computeroutput> as a JSON WebSocket message payload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Format Web Socket Message.</para>
+<para>Output format: <programlisting filename=".json"><codeline><highlight class="normal">{&quot;type&quot;:&quot;metric_update&quot;,&quot;metric_name&quot;:&quot;...&quot;,&quot;value&quot;:...,&quot;labels&quot;:{...},&quot;timestamp_ms&quot;:...}</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">update</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: time_since_epoch(), count(), jsonEscapeString(), labelsToJson(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="268" column="24" bodyfile="src/observability/metrics_stream_server.cpp" bodystart="275" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_stream_server_1ac901b813f0a742281e08a82fb5946197" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::MetricsStreamServer::formatSseMessage</definition>
+        <argsstring>(const MetricUpdate &amp;update)</argsstring>
+        <name>formatSseMessage</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::formatSseMessage</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_metric_update" kindref="compound">MetricUpdate</ref> &amp;</type>
+          <declname>update</declname>
+        </param>
+        <briefdescription>
+<para>Serialise <computeroutput>update</computeroutput> as an SSE event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Format Sse Message.</para>
+<para>Output format (ready to write directly to an HTTP/1.1 SSE stream): <programlisting><codeline><highlight class="normal">data:<sp/>{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">:</highlight><highlight class="stringliteral">&quot;metric_update&quot;</highlight><highlight class="normal">,...}\n\n</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">update</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1observability_1_1_metrics_stream_server_1a46e7b28c9dbcbc6a0a609cf5d86e39d0" kindref="member">formatWebSocketMessage()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="278" column="24" bodyfile="src/observability/metrics_stream_server.cpp" bodystart="297" bodyend="299"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_stream_server_1a2a88dc143fba7d7a0bb4438ee0682d6d" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::MetricsStreamServer::matchesMetricNames</definition>
+        <argsstring>(const StreamSubscription &amp;sub, const MetricUpdate &amp;update) noexcept</argsstring>
+        <name>matchesMetricNames</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::matchesMetricNames</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_stream_subscription" kindref="compound">StreamSubscription</ref> &amp;</type>
+          <declname>sub</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_metric_update" kindref="compound">MetricUpdate</ref> &amp;</type>
+          <declname>update</declname>
+        </param>
+        <briefdescription>
+<para>Return true if <computeroutput>update.metric_name</computeroutput> satisfies the name filter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="303" column="17" bodyfile="src/observability/metrics_stream_server.cpp" bodystart="339" bodyend="351"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_stream_server_1aa7989b6ff644d2eb8f2d133f05819bdd" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::MetricsStreamServer::matchesFilters</definition>
+        <argsstring>(const StreamSubscription &amp;sub, const MetricUpdate &amp;update) noexcept</argsstring>
+        <name>matchesFilters</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::matchesFilters</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_stream_subscription" kindref="compound">StreamSubscription</ref> &amp;</type>
+          <declname>sub</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_metric_update" kindref="compound">MetricUpdate</ref> &amp;</type>
+          <declname>update</declname>
+        </param>
+        <briefdescription>
+<para>Return true if all label filters in <computeroutput>sub</computeroutput> are satisfied by <computeroutput>update</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="307" column="17" bodyfile="src/observability/metrics_stream_server.cpp" bodystart="354" bodyend="369"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metrics_stream_server_1adda2a73bbbcc2e34556fc66d1daf3b1d" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::MetricsStreamServer::labelsToJson</definition>
+        <argsstring>(const std::map&lt; std::string, std::string &gt; &amp;labels)</argsstring>
+        <name>labelsToJson</name>
+        <qualifiedname>themis::observability::MetricsStreamServer::labelsToJson</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>labels</declname>
+        </param>
+        <briefdescription>
+<para>Serialise labels map to a compact JSON object string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_stream_server.h" line="311" column="24" bodyfile="src/observability/metrics_stream_server.cpp" bodystart="252" bodyend="267"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Real-time metric streaming server. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Acts as the core dispatch layer for WebSocket / SSE metric streaming. Network I/O is decoupled via a <computeroutput><ref refid="classthemis_1_1observability_1_1_metrics_stream_server_1a40a85e4008428687cc60dbe0b4b6b3b4" kindref="member">SendFn</ref></computeroutput> callback so the class can be embedded in any HTTP/WebSocket framework without hard dependency.</para>
+<para><heading level="3">Lifecycle</heading>
+</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_metrics_stream_server_1a78878149dd9e96ff7dfc8f747669cdd6" kindref="member">MetricsStreamServer</ref><sp/>srv;</highlight></codeline>
+<codeline><highlight class="normal">srv.setDeliveryCallback([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>client_id,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>payload)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>forward<sp/>payload<sp/>to<sp/>the<sp/>client&apos;s<sp/>WebSocket<sp/>/<sp/>SSE<sp/>connection</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">});</highlight></codeline>
+<codeline><highlight class="normal">srv.start(</highlight><highlight class="stringliteral">&quot;0.0.0.0&quot;</highlight><highlight class="normal">,<sp/>8001);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Register<sp/>a<sp/>subscription<sp/>(typically<sp/>from<sp/>a<sp/>parsed<sp/>WebSocket<sp/>frame)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">StreamSubscription<sp/>sub;</highlight></codeline>
+<codeline><highlight class="normal">sub.client_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;client-abc&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">sub.metric_names<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;query_latency_ms&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;cache_hit_rate&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal">sub.filters<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;tenant_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;acme&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline><highlight class="normal">sub.update_interval<sp/>=<sp/>std::chrono::milliseconds{1000};</highlight></codeline>
+<codeline><highlight class="normal">srv.subscribe(sub);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Called<sp/>by<sp/>MetricsCollector<sp/>or<sp/>any<sp/>instrumented<sp/>subsystem</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">MetricUpdate<sp/>upd;</highlight></codeline>
+<codeline><highlight class="normal">upd.metric_name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;query_latency_ms&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">upd.value<sp/>=<sp/>42.5;</highlight></codeline>
+<codeline><highlight class="normal">upd.labels<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;tenant_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;acme&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline><highlight class="normal">srv.pushMetrics(upd);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">srv.stop();</highlight></codeline>
+</programlisting></para>
+<para><heading level="3">Delivery format</heading>
+</para>
+<para>Use <computeroutput><ref refid="classthemis_1_1observability_1_1_metrics_stream_server_1a46e7b28c9dbcbc6a0a609cf5d86e39d0" kindref="member">formatWebSocketMessage()</ref></computeroutput> / <computeroutput><ref refid="classthemis_1_1observability_1_1_metrics_stream_server_1ac901b813f0a742281e08a82fb5946197" kindref="member">formatSseMessage()</ref></computeroutput> to serialise a <computeroutput><ref refid="structthemis_1_1observability_1_1_metric_update" kindref="compound">MetricUpdate</ref></computeroutput> to the respective wire format before handing the payload to the <computeroutput><ref refid="classthemis_1_1observability_1_1_metrics_stream_server_1a40a85e4008428687cc60dbe0b4b6b3b4" kindref="member">SendFn</ref></computeroutput> callback (or to any other transport). </para>
+    </detaileddescription>
+    <location file="include/observability/metrics_stream_server.h" line="124" column="1" bodyfile="include/observability/metrics_stream_server.h" bodystart="124" bodyend="334"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_metrics_stream_server_1a0e7bd8fcc114e540cce2e795ad390fc0" prot="private" virt="non-virtual"><scope>themis::observability::MetricsStreamServer</scope><name>bind_address_</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_stream_server_1a47037ccab14f72d1357f790c4070db8b" prot="public" virt="non-virtual"><scope>themis::observability::MetricsStreamServer</scope><name>bindAddress</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_stream_server_1ac1a956e6f20aa4961394445bf8947709" prot="private" virt="non-virtual"><scope>themis::observability::MetricsStreamServer</scope><name>filtered_deliveries_</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_stream_server_1ac901b813f0a742281e08a82fb5946197" prot="public" virt="non-virtual"><scope>themis::observability::MetricsStreamServer</scope><name>formatSseMessage</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_stream_server_1a46e7b28c9dbcbc6a0a609cf5d86e39d0" prot="public" virt="non-virtual"><scope>themis::observability::MetricsStreamServer</scope><name>formatWebSocketMessage</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_stream_server_1aefa4eca273a5faf0dc5d65092b285db1" prot="public" virt="non-virtual"><scope>themis::observability::MetricsStreamServer</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_stream_server_1aa86f2e58672933de4fd8f3b4848596c6" prot="public" virt="non-virtual"><scope>themis::observability::MetricsStreamServer</scope><name>hasSubscription</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_stream_server_1aea032a8d4f4ef45bba223ac561c6bb57" prot="public" virt="non-virtual"><scope>themis::observability::MetricsStreamServer</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_stream_server_1adda2a73bbbcc2e34556fc66d1daf3b1d" prot="private" virt="non-virtual"><scope>themis::observability::MetricsStreamServer</scope><name>labelsToJson</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_stream_server_1aa7989b6ff644d2eb8f2d133f05819bdd" prot="private" virt="non-virtual"><scope>themis::observability::MetricsStreamServer</scope><name>matchesFilters</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_stream_server_1a2a88dc143fba7d7a0bb4438ee0682d6d" prot="private" virt="non-virtual"><scope>themis::observability::MetricsStreamServer</scope><name>matchesMetricNames</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_stream_server_1a78878149dd9e96ff7dfc8f747669cdd6" prot="public" virt="non-virtual"><scope>themis::observability::MetricsStreamServer</scope><name>MetricsStreamServer</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_stream_server_1a0d2d81e0fbe47899d2dabd1a0b35b540" prot="public" virt="non-virtual"><scope>themis::observability::MetricsStreamServer</scope><name>MetricsStreamServer</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_stream_server_1a7eeaf6b7fe5361686f5f216bc3d78111" prot="public" virt="non-virtual"><scope>themis::observability::MetricsStreamServer</scope><name>MetricsStreamServer</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_stream_server_1a74ab9d6649743636b41c7a490749316e" prot="private" virt="non-virtual"><scope>themis::observability::MetricsStreamServer</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_stream_server_1a57506132228e2fc0266365cd10f7c9a0" prot="public" virt="non-virtual"><scope>themis::observability::MetricsStreamServer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_stream_server_1a4253d406bb04faf1f4221f399f95641b" prot="public" virt="non-virtual"><scope>themis::observability::MetricsStreamServer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_stream_server_1a184a75103d598900adc567d9c61a1561" prot="public" virt="non-virtual"><scope>themis::observability::MetricsStreamServer</scope><name>port</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_stream_server_1a7b4663edf043a5c6825eb925d7c643b5" prot="private" virt="non-virtual"><scope>themis::observability::MetricsStreamServer</scope><name>port_</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_stream_server_1af861918e3144ee13507910f6ca78fb2b" prot="public" virt="non-virtual"><scope>themis::observability::MetricsStreamServer</scope><name>pushMetrics</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_stream_server_1ac694fe51a6747c85006265063e94c0fe" prot="public" virt="non-virtual"><scope>themis::observability::MetricsStreamServer</scope><name>resetStats</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_stream_server_1a4f92bae66e0d8727679678ac3b859ea6" prot="private" virt="non-virtual"><scope>themis::observability::MetricsStreamServer</scope><name>running_</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_stream_server_1a1a8959fc848ac97c40e6cc55ace7e929" prot="private" virt="non-virtual"><scope>themis::observability::MetricsStreamServer</scope><name>send_fn_</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_stream_server_1a40a85e4008428687cc60dbe0b4b6b3b4" prot="public" virt="non-virtual"><scope>themis::observability::MetricsStreamServer</scope><name>SendFn</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_stream_server_1aeb45ef7b39d98602bd709a3fcb269a56" prot="public" virt="non-virtual"><scope>themis::observability::MetricsStreamServer</scope><name>setDeliveryCallback</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_stream_server_1a921628d014c09b4d1552adf10ea72930" prot="public" virt="non-virtual"><scope>themis::observability::MetricsStreamServer</scope><name>start</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_stream_server_1acc06f8dfacc075b5a2e04a564fdb5b11" prot="public" virt="non-virtual"><scope>themis::observability::MetricsStreamServer</scope><name>stop</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_stream_server_1ab6542d7fef97a37655fa5b4dbbcecd49" prot="public" virt="non-virtual"><scope>themis::observability::MetricsStreamServer</scope><name>subscribe</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_stream_server_1aaa7ba64aac5ffbf82afc71ac1c7a1df6" prot="public" virt="non-virtual"><scope>themis::observability::MetricsStreamServer</scope><name>subscriptionCount</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_stream_server_1ada3da3f97e883295957d91f2f75e9a7a" prot="private" virt="non-virtual"><scope>themis::observability::MetricsStreamServer</scope><name>subscriptions_</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_stream_server_1ac499809378d959e3dfc6414ceafa25ab" prot="private" virt="non-virtual"><scope>themis::observability::MetricsStreamServer</scope><name>throttled_deliveries_</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_stream_server_1aed0be42b69a772e260808e6ba5de89fc" prot="private" virt="non-virtual"><scope>themis::observability::MetricsStreamServer</scope><name>total_deliveries_</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_stream_server_1a1d5a9984000f855c14e44dd102a83f50" prot="private" virt="non-virtual"><scope>themis::observability::MetricsStreamServer</scope><name>total_updates_pushed_</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_stream_server_1aaec94a080b6937ad17472ecf9db6a5c6" prot="public" virt="non-virtual"><scope>themis::observability::MetricsStreamServer</scope><name>unsubscribe</name></member>
+      <member refid="classthemis_1_1observability_1_1_metrics_stream_server_1ac7cf9f6af9fe00fbfb39700bef03e2a0" prot="public" virt="non-virtual"><scope>themis::observability::MetricsStreamServer</scope><name>~MetricsStreamServer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

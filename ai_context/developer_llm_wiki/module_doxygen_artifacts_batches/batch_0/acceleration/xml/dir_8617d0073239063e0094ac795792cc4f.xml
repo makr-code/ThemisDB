@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_8617d0073239063e0094ac795792cc4f" kind="dir">
+    <compoundname>benchmarks/acceleration</compoundname>
+    <innerfile refid="bench__acceleration__cuda__gates_8cpp">bench_acceleration_cuda_gates.cpp</innerfile>
+    <innerfile refid="bench__acceleration__dedicated__gates_8cpp">bench_acceleration_dedicated_gates.cpp</innerfile>
+    <innerfile refid="bench__acceleration__dispatch_8cpp">bench_acceleration_dispatch.cpp</innerfile>
+    <innerfile refid="bench__category__b__gpu__cpu__parity_8cpp">bench_category_b_gpu_cpu_parity.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/acceleration/"/>
+  </compounddef>
+</doxygen>

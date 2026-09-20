@@ -1,0 +1,610 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_tool_registry" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::ToolRegistry</compoundname>
+    <includes refid="ai__orchestrator_8h" local="no">ai_orchestrator.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_tool_registry_1_1_entry" prot="private">themis::llm::ToolRegistry::Entry</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_tool_registry_1aef9edc1e37bf6c25193e0cda6daacece" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, Entry &gt;</type>
+        <definition>std::unordered_map&lt;std::string, Entry&gt; themis::llm::ToolRegistry::tools_</definition>
+        <argsstring></argsstring>
+        <name>tools_</name>
+        <qualifiedname>themis::llm::ToolRegistry::tools_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="289" column="29" bodyfile="include/llm/ai_orchestrator.h" bodystart="289" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_tool_registry_1a6d23a5027b778abc32ee539c9e000f73" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::llm::ToolRegistry::tools_mutex_</definition>
+        <argsstring></argsstring>
+        <name>tools_mutex_</name>
+        <qualifiedname>themis::llm::ToolRegistry::tools_mutex_</qualifiedname>
+        <briefdescription>
+<para>guards tools_ </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="290" column="49" bodyfile="include/llm/ai_orchestrator.h" bodystart="290" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_tool_registry_1a182f6d56dad2f08524adbf293ea24209" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; plugins::PluginManager &gt;</type>
+        <definition>std::unique_ptr&lt;plugins::PluginManager&gt; themis::llm::ToolRegistry::plugin_manager_</definition>
+        <argsstring></argsstring>
+        <name>plugin_manager_</name>
+        <qualifiedname>themis::llm::ToolRegistry::plugin_manager_</qualifiedname>
+        <briefdescription>
+<para>DLL lifecycle. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="291" column="25" bodyfile="include/llm/ai_orchestrator.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_tool_registry_1a166ba19742137f4c320883cd86c98f42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ToolRegistry::ToolRegistry</definition>
+        <argsstring>()</argsstring>
+        <name>ToolRegistry</name>
+        <qualifiedname>themis::llm::ToolRegistry::ToolRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="198" column="5" bodyfile="src/llm/ai_orchestrator.cpp" bodystart="515" bodyend="516"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_tool_registry_1aec031ec0771acad92cdea5ba113e8177" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ToolRegistry::~ToolRegistry</definition>
+        <argsstring>()</argsstring>
+        <name>~ToolRegistry</name>
+        <qualifiedname>themis::llm::ToolRegistry::~ToolRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="199" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_tool_registry_1a4bbf3b5a7bcc7113e6332184703b3be9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ToolRegistry::registerTool</definition>
+        <argsstring>(const ToolSpec &amp;spec, ToolHandler handler)</argsstring>
+        <name>registerTool</name>
+        <qualifiedname>themis::llm::ToolRegistry::registerTool</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_tool_spec" kindref="compound">ToolSpec</ref> &amp;</type>
+          <declname>spec</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1a5ee2e0db132c3cd589cbed87d140888e" kindref="member">ToolHandler</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>── Static / built-in tool registration ────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Tool.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">spec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">spec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), lock(), std::move(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="207" column="10" bodyfile="src/llm/ai_orchestrator.cpp" bodystart="417" bodyend="424"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_tool_registry_1abb2d2a9bb2caec96a7c3f96bf26c2ed2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::llm::ToolRegistry::loadToolPlugin</definition>
+        <argsstring>(const std::string &amp;path, const std::string &amp;config=&quot;{}&quot;)</argsstring>
+        <name>loadToolPlugin</name>
+        <qualifiedname>themis::llm::ToolRegistry::loadToolPlugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config</declname>
+          <defval>&quot;{}&quot;</defval>
+        </param>
+        <briefdescription>
+<para>── Dynamic loading ──────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: loadPluginFromPath(), tl::unexpected(), error(), value(), unloadPlugin(), getName(), ErrVoid(), registerPluginTool(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="211" column="12" bodyfile="src/llm/ai_orchestrator.cpp" bodystart="550" bodyend="568"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_tool_registry_1aef56c14e7b4d2fadb4b2e3e42b5f9f1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; size_t &gt;</type>
+        <definition>Result&lt; size_t &gt; themis::llm::ToolRegistry::loadToolsFromDirectory</definition>
+        <argsstring>(const std::string &amp;directory)</argsstring>
+        <name>loadToolsFromDirectory</name>
+        <qualifiedname>themis::llm::ToolRegistry::loadToolsFromDirectory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>directory</declname>
+        </param>
+        <briefdescription>
+<para>Load Tools From Directory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">directory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">directory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: scanPluginDirectory(), tl::unexpected(), error(), listPlugins(), isPluginLoaded(), loadPlugin(), spdlog::warn(), message(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="219" column="12" bodyfile="src/llm/ai_orchestrator.cpp" bodystart="576" bodyend="613"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_tool_registry_1a2a15a63f947542b921050e4d69c753cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::llm::ToolRegistry::reloadTool</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>reloadTool</name>
+        <qualifiedname>themis::llm::ToolRegistry::reloadTool</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Reload Tool. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), ErrVoid(), reloadPlugin(), tl::unexpected(), error(), getPlugin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="226" column="12" bodyfile="src/llm/ai_orchestrator.cpp" bodystart="621" bodyend="652"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_tool_registry_1a77823ec7e943bf56f8ee901788bd207d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::llm::ToolRegistry::unloadTool</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>unloadTool</name>
+        <qualifiedname>themis::llm::ToolRegistry::unloadTool</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Unload Tool. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), erase(), isPluginLoaded(), unloadPlugin(), OkVoid(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="233" column="12" bodyfile="src/llm/ai_orchestrator.cpp" bodystart="660" bodyend="673"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_tool_registry_1a9bcfa28bd1138f482f4bbbf648b877f1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::ToolRegistry::invokeTool</definition>
+        <argsstring>(const std::string &amp;tool_name, const json &amp;args, const ModeSpec &amp;mode) const</argsstring>
+        <name>invokeTool</name>
+        <qualifiedname>themis::llm::ToolRegistry::invokeTool</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tool_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_mode_spec" kindref="compound">ModeSpec</ref> &amp;</type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+<para>── Dispatch ────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tool_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the tool. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tools_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="243" column="10" bodyfile="src/llm/ai_orchestrator.cpp" bodystart="447" bodyend="481"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_tool_registry_1ac644f96a9869ab1355f8ea5286c2977b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::ToolRegistry::isAllowed</definition>
+        <argsstring>(const std::string &amp;tool_name, const ModeSpec &amp;mode) const</argsstring>
+        <name>isAllowed</name>
+        <qualifiedname>themis::llm::ToolRegistry::isAllowed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tool_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_mode_spec" kindref="compound">ModeSpec</ref> &amp;</type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+<para>Is Allowed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tool_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the tool. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="253" column="10" bodyfile="src/llm/ai_orchestrator.cpp" bodystart="426" bodyend="445"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_tool_registry_1a04da8d4411a831d08c2c7843ad5c0ed4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::ToolRegistry::listTools</definition>
+        <argsstring>() const</argsstring>
+        <name>listTools</name>
+        <qualifiedname>themis::llm::ToolRegistry::listTools</qualifiedname>
+        <briefdescription>
+<para>List Tools. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tools_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="260" column="17" bodyfile="src/llm/ai_orchestrator.cpp" bodystart="483" bodyend="497"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_tool_registry_1a38a4c87258fff41fb07584aa3bab1fb7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_tool_spec" kindref="compound">ToolSpec</ref> &gt;</type>
+        <definition>std::optional&lt; ToolSpec &gt; themis::llm::ToolRegistry::getSpec</definition>
+        <argsstring>(const std::string &amp;tool_name) const</argsstring>
+        <name>getSpec</name>
+        <qualifiedname>themis::llm::ToolRegistry::getSpec</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tool_name</declname>
+        </param>
+        <briefdescription>
+<para>Get Spec. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tool_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the tool. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tools_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="267" column="19" bodyfile="src/llm/ai_orchestrator.cpp" bodystart="499" bodyend="511"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_tool_registry_1aa240c5d2302bb9acdb22437a6edf5b01" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::ToolRegistry::isPluginTool</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>isPluginTool</name>
+        <qualifiedname>themis::llm::ToolRegistry::isPluginTool</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Is Plugin Tool. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tools_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="274" column="10" bodyfile="src/llm/ai_orchestrator.cpp" bodystart="675" bodyend="684"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_tool_registry_1a05c58a1ef04335bf6e1770158c1ba744" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ToolRegistry::registerPluginTool</definition>
+        <argsstring>(IThemisTool *tool)</argsstring>
+        <name>registerPluginTool</name>
+        <qualifiedname>themis::llm::ToolRegistry::registerPluginTool</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_i_themis_tool" kindref="compound">IThemisTool</ref> *</type>
+          <declname>tool</declname>
+        </param>
+        <briefdescription>
+<para>Register Plugin Tool. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── Private helper ────────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">tool</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">tool</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: getName(), getVersion(), inputSchema(), execute(), lock(), std::move(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="287" column="10" bodyfile="src/llm/ai_orchestrator.cpp" bodystart="526" bodyend="540"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/ai_orchestrator.h" line="196" column="1" bodyfile="include/llm/ai_orchestrator.h" bodystart="196" bodyend="292"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_tool_registry_1a38a4c87258fff41fb07584aa3bab1fb7" prot="public" virt="non-virtual"><scope>themis::llm::ToolRegistry</scope><name>getSpec</name></member>
+      <member refid="classthemis_1_1llm_1_1_tool_registry_1a9bcfa28bd1138f482f4bbbf648b877f1" prot="public" virt="non-virtual"><scope>themis::llm::ToolRegistry</scope><name>invokeTool</name></member>
+      <member refid="classthemis_1_1llm_1_1_tool_registry_1ac644f96a9869ab1355f8ea5286c2977b" prot="public" virt="non-virtual"><scope>themis::llm::ToolRegistry</scope><name>isAllowed</name></member>
+      <member refid="classthemis_1_1llm_1_1_tool_registry_1aa240c5d2302bb9acdb22437a6edf5b01" prot="public" virt="non-virtual"><scope>themis::llm::ToolRegistry</scope><name>isPluginTool</name></member>
+      <member refid="classthemis_1_1llm_1_1_tool_registry_1a04da8d4411a831d08c2c7843ad5c0ed4" prot="public" virt="non-virtual"><scope>themis::llm::ToolRegistry</scope><name>listTools</name></member>
+      <member refid="classthemis_1_1llm_1_1_tool_registry_1abb2d2a9bb2caec96a7c3f96bf26c2ed2" prot="public" virt="non-virtual"><scope>themis::llm::ToolRegistry</scope><name>loadToolPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_tool_registry_1aef56c14e7b4d2fadb4b2e3e42b5f9f1b" prot="public" virt="non-virtual"><scope>themis::llm::ToolRegistry</scope><name>loadToolsFromDirectory</name></member>
+      <member refid="classthemis_1_1llm_1_1_tool_registry_1a182f6d56dad2f08524adbf293ea24209" prot="private" virt="non-virtual"><scope>themis::llm::ToolRegistry</scope><name>plugin_manager_</name></member>
+      <member refid="classthemis_1_1llm_1_1_tool_registry_1a05c58a1ef04335bf6e1770158c1ba744" prot="private" virt="non-virtual"><scope>themis::llm::ToolRegistry</scope><name>registerPluginTool</name></member>
+      <member refid="classthemis_1_1llm_1_1_tool_registry_1a4bbf3b5a7bcc7113e6332184703b3be9" prot="public" virt="non-virtual"><scope>themis::llm::ToolRegistry</scope><name>registerTool</name></member>
+      <member refid="classthemis_1_1llm_1_1_tool_registry_1a2a15a63f947542b921050e4d69c753cb" prot="public" virt="non-virtual"><scope>themis::llm::ToolRegistry</scope><name>reloadTool</name></member>
+      <member refid="classthemis_1_1llm_1_1_tool_registry_1a166ba19742137f4c320883cd86c98f42" prot="public" virt="non-virtual"><scope>themis::llm::ToolRegistry</scope><name>ToolRegistry</name></member>
+      <member refid="classthemis_1_1llm_1_1_tool_registry_1aef9edc1e37bf6c25193e0cda6daacece" prot="private" virt="non-virtual"><scope>themis::llm::ToolRegistry</scope><name>tools_</name></member>
+      <member refid="classthemis_1_1llm_1_1_tool_registry_1a6d23a5027b778abc32ee539c9e000f73" prot="private" virt="non-virtual"><scope>themis::llm::ToolRegistry</scope><name>tools_mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_tool_registry_1a77823ec7e943bf56f8ee901788bd207d" prot="public" virt="non-virtual"><scope>themis::llm::ToolRegistry</scope><name>unloadTool</name></member>
+      <member refid="classthemis_1_1llm_1_1_tool_registry_1aec031ec0771acad92cdea5ba113e8177" prot="public" virt="non-virtual"><scope>themis::llm::ToolRegistry</scope><name>~ToolRegistry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

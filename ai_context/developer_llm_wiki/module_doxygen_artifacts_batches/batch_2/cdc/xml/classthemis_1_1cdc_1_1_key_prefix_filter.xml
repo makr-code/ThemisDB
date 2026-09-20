@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cdc_1_1_key_prefix_filter" kind="class" language="C++" prot="public">
+    <compoundname>themis::cdc::KeyPrefixFilter</compoundname>
+    <basecompoundref refid="classthemis_1_1cdc_1_1_i_event_filter" prot="public" virt="non-virtual">themis::cdc::IEventFilter</basecompoundref>
+    <includes refid="icdc__filter__pipeline_8h" local="no">icdc_filter_pipeline.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_key_prefix_filter_1a5fbecfa0a7848fc24795b9747570cad3" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::KeyPrefixFilter::name_</definition>
+        <argsstring></argsstring>
+        <name>name_</name>
+        <qualifiedname>themis::cdc::KeyPrefixFilter::name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="116" column="17" bodyfile="include/cdc/icdc_filter_pipeline.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_key_prefix_filter_1ae6776b1bc7d7d8f2bc6f29922b592369" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::KeyPrefixFilter::prefix_</definition>
+        <argsstring></argsstring>
+        <name>prefix_</name>
+        <qualifiedname>themis::cdc::KeyPrefixFilter::prefix_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="117" column="17" bodyfile="include/cdc/icdc_filter_pipeline.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_key_prefix_filter_1ab2d6024314fee2c1e0c0ba56ed20e587" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::KeyPrefixFilter::KeyPrefixFilter</definition>
+        <argsstring>(std::string name, std::string prefix)</argsstring>
+        <name>KeyPrefixFilter</name>
+        <qualifiedname>themis::cdc::KeyPrefixFilter::KeyPrefixFilter</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>prefix</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="99" column="5" bodyfile="include/cdc/icdc_filter_pipeline.h" bodystart="99" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_key_prefix_filter_1ac61cd83f0f2f2eb6d621418dbfd06c53" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1cdc_1abdbe05b7728a134e52ccf6eba10d2a39" kindref="member">FilterResult</ref></type>
+        <definition>FilterResult themis::cdc::KeyPrefixFilter::evaluate</definition>
+        <argsstring>(const Changefeed::ChangeEvent &amp;event) const noexcept override</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::cdc::KeyPrefixFilter::evaluate</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_event_filter_1a58670484e3fe0e056674a898e78c86d6">evaluate</reimplements>
+        <param>
+          <type>const <ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="102" column="18" bodyfile="include/cdc/icdc_filter_pipeline.h" bodystart="102" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_key_prefix_filter_1a3664289e3fb32c31a7c787f84002f538" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::KeyPrefixFilter::name</definition>
+        <argsstring>() const override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::cdc::KeyPrefixFilter::name</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_event_filter_1a385a5c1a468ddc4f75ffab8c2149582f">name</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="113" column="17" bodyfile="include/cdc/icdc_filter_pipeline.h" bodystart="113" bodyend="113"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::cdc::IEventFilter</label>
+        <link refid="classthemis_1_1cdc_1_1_i_event_filter"/>
+      </node>
+      <node id="1">
+        <label>themis::cdc::KeyPrefixFilter</label>
+        <link refid="classthemis_1_1cdc_1_1_key_prefix_filter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::cdc::IEventFilter</label>
+        <link refid="classthemis_1_1cdc_1_1_i_event_filter"/>
+      </node>
+      <node id="1">
+        <label>themis::cdc::KeyPrefixFilter</label>
+        <link refid="classthemis_1_1cdc_1_1_key_prefix_filter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/cdc/icdc_filter_pipeline.h" line="97" column="1" bodyfile="include/cdc/icdc_filter_pipeline.h" bodystart="97" bodyend="118"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cdc_1_1_key_prefix_filter_1ac61cd83f0f2f2eb6d621418dbfd06c53" prot="public" virt="virtual"><scope>themis::cdc::KeyPrefixFilter</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1cdc_1_1_key_prefix_filter_1ab2d6024314fee2c1e0c0ba56ed20e587" prot="public" virt="non-virtual"><scope>themis::cdc::KeyPrefixFilter</scope><name>KeyPrefixFilter</name></member>
+      <member refid="classthemis_1_1cdc_1_1_key_prefix_filter_1a3664289e3fb32c31a7c787f84002f538" prot="public" virt="virtual"><scope>themis::cdc::KeyPrefixFilter</scope><name>name</name></member>
+      <member refid="classthemis_1_1cdc_1_1_key_prefix_filter_1a5fbecfa0a7848fc24795b9747570cad3" prot="private" virt="non-virtual"><scope>themis::cdc::KeyPrefixFilter</scope><name>name_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_key_prefix_filter_1ae6776b1bc7d7d8f2bc6f29922b592369" prot="private" virt="non-virtual"><scope>themis::cdc::KeyPrefixFilter</scope><name>prefix_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_event_filter_1ad47cd016fe06b408ca021af83d61ecce" prot="public" virt="virtual"><scope>themis::cdc::KeyPrefixFilter</scope><name>~IEventFilter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

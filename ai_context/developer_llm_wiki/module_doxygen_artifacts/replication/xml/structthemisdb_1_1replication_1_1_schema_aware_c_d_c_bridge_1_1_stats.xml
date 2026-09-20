@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::SchemaAwareCDCBridge::Stats</compoundname>
+    <includes refid="schema__cdc_8h" local="no">schema_cdc.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1_1_stats_1a95d9092f06d8066c55a660c1ca23e254" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::SchemaAwareCDCBridge::Stats::events_encoded</definition>
+        <argsstring></argsstring>
+        <name>events_encoded</name>
+        <qualifiedname>themisdb::replication::SchemaAwareCDCBridge::Stats::events_encoded</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total events successfully encoded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="132" column="18" bodyfile="include/replication/schema_cdc.h" bodystart="132" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1_1_stats_1a7c3a8cceda4c7c817af3e749882c25e2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::SchemaAwareCDCBridge::Stats::events_skipped</definition>
+        <argsstring></argsstring>
+        <name>events_skipped</name>
+        <qualifiedname>themisdb::replication::SchemaAwareCDCBridge::Stats::events_skipped</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Events from unregistered collections. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="133" column="18" bodyfile="include/replication/schema_cdc.h" bodystart="133" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1_1_stats_1a468fa9af0f784b19f7de2bd9d07a0a73" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::SchemaAwareCDCBridge::Stats::encoding_errors</definition>
+        <argsstring></argsstring>
+        <name>encoding_errors</name>
+        <qualifiedname>themisdb::replication::SchemaAwareCDCBridge::Stats::encoding_errors</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Encoding failures. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/schema_cdc.h" line="134" column="18" bodyfile="include/replication/schema_cdc.h" bodystart="134" bodyend="134"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/replication/schema_cdc.h" line="131" column="5" bodyfile="include/replication/schema_cdc.h" bodystart="131" bodyend="135"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1_1_stats_1a468fa9af0f784b19f7de2bd9d07a0a73" prot="public" virt="non-virtual"><scope>themisdb::replication::SchemaAwareCDCBridge::Stats</scope><name>encoding_errors</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1_1_stats_1a95d9092f06d8066c55a660c1ca23e254" prot="public" virt="non-virtual"><scope>themisdb::replication::SchemaAwareCDCBridge::Stats</scope><name>events_encoded</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1_1_stats_1a7c3a8cceda4c7c817af3e749882c25e2" prot="public" virt="non-virtual"><scope>themisdb::replication::SchemaAwareCDCBridge::Stats</scope><name>events_skipped</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

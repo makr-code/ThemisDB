@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_replication_response" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::ReplicationResponse</compoundname>
+    <includes refid="consensus__module_8h" local="no">consensus_module.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_replication_response_1a0d7981377523684e898b2a811d827ab8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::ReplicationResponse::follower_id</definition>
+        <argsstring></argsstring>
+        <name>follower_id</name>
+        <qualifiedname>themisdb::sharding::ReplicationResponse::follower_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="108" column="17" bodyfile="include/sharding/consensus_module.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_replication_response_1a1ee99b5851503e95e7e601e2642990ab" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::ReplicationResponse::term</definition>
+        <argsstring></argsstring>
+        <name>term</name>
+        <qualifiedname>themisdb::sharding::ReplicationResponse::term</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="109" column="14" bodyfile="include/sharding/consensus_module.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_replication_response_1a621ff6ae5e16b9d5e1642a903b0d2811" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ReplicationResponse::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themisdb::sharding::ReplicationResponse::success</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="110" column="10" bodyfile="include/sharding/consensus_module.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_replication_response_1aa181acbf01fc36bec48c6149cccc7719" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::ReplicationResponse::match_index</definition>
+        <argsstring></argsstring>
+        <name>match_index</name>
+        <qualifiedname>themisdb::sharding::ReplicationResponse::match_index</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="111" column="14" bodyfile="include/sharding/consensus_module.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_replication_response_1a50493a120b00663a5fb2e9b48f0c0ff9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::ReplicationResponse::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themisdb::sharding::ReplicationResponse::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="112" column="17" bodyfile="include/sharding/consensus_module.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Replication response. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/consensus_module.h" line="107" column="1" bodyfile="include/sharding/consensus_module.h" bodystart="107" bodyend="113"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_replication_response_1a50493a120b00663a5fb2e9b48f0c0ff9" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicationResponse</scope><name>error_message</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_replication_response_1a0d7981377523684e898b2a811d827ab8" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicationResponse</scope><name>follower_id</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_replication_response_1aa181acbf01fc36bec48c6149cccc7719" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicationResponse</scope><name>match_index</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_replication_response_1a621ff6ae5e16b9d5e1642a903b0d2811" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicationResponse</scope><name>success</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_replication_response_1a1ee99b5851503e95e7e601e2642990ab" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicationResponse</scope><name>term</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

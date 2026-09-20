@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_semantic_validation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::SemanticValidationResult</compoundname>
+    <includes refid="llm__semantic__validator_8h" local="no">llm_semantic_validator.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1aql_1_1_semantic_validation_result_1a65dea12d291f1fb8102fd757e7e03469" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Status</name>
+        <qualifiedname>themis::aql::SemanticValidationResult::Status</qualifiedname>
+        <enumvalue id="structthemis_1_1aql_1_1_semantic_validation_result_1a65dea12d291f1fb8102fd757e7e03469ac9f1a6384b1c466d4612f513bd8e13ea" prot="public">
+          <name>VALID</name>
+          <briefdescription>
+<para>Query passes all semantic checks. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1aql_1_1_semantic_validation_result_1a65dea12d291f1fb8102fd757e7e03469a2f93918ef99e03b7b8e7230b2a28fb52" prot="public">
+          <name>TYPE_MISMATCH</name>
+          <briefdescription>
+<para>Attribute type incompatible with operation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1aql_1_1_semantic_validation_result_1a65dea12d291f1fb8102fd757e7e03469abe62392b9db7aff626b76a8a6e469a3f" prot="public">
+          <name>CARDINALITY_WARNING</name>
+          <briefdescription>
+<para>Query may be inefficient (estimated large result set). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1aql_1_1_semantic_validation_result_1a65dea12d291f1fb8102fd757e7e03469a8473e68154756639573369bada697e26" prot="public">
+          <name>JOIN_IMPOSSIBLE</name>
+          <briefdescription>
+<para>Join references non-existent collection/attribute. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1aql_1_1_semantic_validation_result_1a65dea12d291f1fb8102fd757e7e03469a5ab77b0b7b8bbac3d5b4d5563524d709" prot="public">
+          <name>FUNCTION_SIGNATURE_ERROR</name>
+          <briefdescription>
+<para>Function parameters don&apos;t match signature. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1aql_1_1_semantic_validation_result_1a65dea12d291f1fb8102fd757e7e03469a070a0fb40f6c308ab544b227660aadff" prot="public">
+          <name>TIMEOUT</name>
+          <briefdescription>
+<para>Semantic validation exceeded time limit. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1aql_1_1_semantic_validation_result_1a65dea12d291f1fb8102fd757e7e03469a9a10f345b0f755d461a8673a5e9ef6b4" prot="public">
+          <name>UNKNOWN_ERROR</name>
+          <briefdescription>
+<para>Internal validation error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_semantic_validator.h" line="33" column="5" bodyfile="include/aql/llm_semantic_validator.h" bodystart="33" bodyend="41"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_semantic_validation_result_1afd3a254556a7516bc7177e39a5c599d4" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1aql_1_1_semantic_validation_result_1a65dea12d291f1fb8102fd757e7e03469" kindref="member">Status</ref></type>
+        <definition>Status themis::aql::SemanticValidationResult::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::aql::SemanticValidationResult::status</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1aql_1_1_semantic_validation_result_1a65dea12d291f1fb8102fd757e7e03469ac9f1a6384b1c466d4612f513bd8e13ea" kindref="member">Status::VALID</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_semantic_validator.h" line="43" column="12" bodyfile="include/aql/llm_semantic_validator.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_semantic_validation_result_1a8088c805a7e5a51e09bfc2304a3709a4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::SemanticValidationResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::aql::SemanticValidationResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_semantic_validator.h" line="44" column="17" bodyfile="include/aql/llm_semantic_validator.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_semantic_validation_result_1a48fac9fff404b359dddc784e71577a65" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::aql::SemanticValidationResult::warnings</definition>
+        <argsstring></argsstring>
+        <name>warnings</name>
+        <qualifiedname>themis::aql::SemanticValidationResult::warnings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_semantic_validator.h" line="45" column="17" bodyfile="include/aql/llm_semantic_validator.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_semantic_validation_result_1aa64a46598c13bd03c9ecb1fb5ef1b748" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::aql::SemanticValidationResult::confidence_score</definition>
+        <argsstring></argsstring>
+        <name>confidence_score</name>
+        <qualifiedname>themis::aql::SemanticValidationResult::confidence_score</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_semantic_validator.h" line="47" column="12" bodyfile="include/aql/llm_semantic_validator.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_semantic_validation_result_1ab77e4dd99b32338e502d3c6014a9dc11" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; size_t &gt;</type>
+        <definition>std::optional&lt;size_t&gt; themis::aql::SemanticValidationResult::estimated_output_rows</definition>
+        <argsstring></argsstring>
+        <name>estimated_output_rows</name>
+        <qualifiedname>themis::aql::SemanticValidationResult::estimated_output_rows</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_semantic_validator.h" line="49" column="19" bodyfile="include/aql/llm_semantic_validator.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_semantic_validation_result_1ab957a4a38a6153467d97ecd1140acfdf" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::aql::SemanticValidationResult::validation_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>validation_latency_ms</name>
+        <qualifiedname>themis::aql::SemanticValidationResult::validation_latency_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_semantic_validator.h" line="51" column="31" bodyfile="include/aql/llm_semantic_validator.h" bodystart="51" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1aql_1_1_semantic_validation_result_1a832711518273b73ce19a37f1bc6f8882" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::aql::SemanticValidationResult::isValid</definition>
+        <argsstring>() const</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::aql::SemanticValidationResult::isValid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_semantic_validator.h" line="53" column="10" bodyfile="include/aql/llm_semantic_validator.h" bodystart="53" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/llm_semantic_validator.h" line="32" column="1" bodyfile="include/aql/llm_semantic_validator.h" bodystart="32" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_semantic_validation_result_1aa64a46598c13bd03c9ecb1fb5ef1b748" prot="public" virt="non-virtual"><scope>themis::aql::SemanticValidationResult</scope><name>confidence_score</name></member>
+      <member refid="structthemis_1_1aql_1_1_semantic_validation_result_1a8088c805a7e5a51e09bfc2304a3709a4" prot="public" virt="non-virtual"><scope>themis::aql::SemanticValidationResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1aql_1_1_semantic_validation_result_1ab77e4dd99b32338e502d3c6014a9dc11" prot="public" virt="non-virtual"><scope>themis::aql::SemanticValidationResult</scope><name>estimated_output_rows</name></member>
+      <member refid="structthemis_1_1aql_1_1_semantic_validation_result_1a832711518273b73ce19a37f1bc6f8882" prot="public" virt="non-virtual"><scope>themis::aql::SemanticValidationResult</scope><name>isValid</name></member>
+      <member refid="structthemis_1_1aql_1_1_semantic_validation_result_1a65dea12d291f1fb8102fd757e7e03469" prot="public" virt="non-virtual"><scope>themis::aql::SemanticValidationResult</scope><name>Status</name></member>
+      <member refid="structthemis_1_1aql_1_1_semantic_validation_result_1afd3a254556a7516bc7177e39a5c599d4" prot="public" virt="non-virtual"><scope>themis::aql::SemanticValidationResult</scope><name>status</name></member>
+      <member refid="structthemis_1_1aql_1_1_semantic_validation_result_1ab957a4a38a6153467d97ecd1140acfdf" prot="public" virt="non-virtual"><scope>themis::aql::SemanticValidationResult</scope><name>validation_latency_ms</name></member>
+      <member refid="structthemis_1_1aql_1_1_semantic_validation_result_1a48fac9fff404b359dddc784e71577a65" prot="public" virt="non-virtual"><scope>themis::aql::SemanticValidationResult</scope><name>warnings</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

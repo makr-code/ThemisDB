@@ -1,0 +1,969 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__auth__hotpaths_8cpp" kind="file" language="C++">
+    <compoundname>bench_auth_hotpaths.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes refid="token__blacklist_8h" local="yes">auth/token_blacklist.h</includes>
+    <includes refid="session__manager_8h" local="yes">auth/session_manager.h</includes>
+    <includes refid="federated__identity__manager_8h" local="yes">auth/federated_identity_manager.h</includes>
+    <includes refid="oidc__provider_8h" local="yes">auth/oidc_provider.h</includes>
+    <includes refid="distributed__token__blacklist_8h" local="yes">auth/distributed_token_blacklist.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">numeric</includes>
+    <includes local="no">random</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes refid="ldap__connection__pool_8h" local="yes">auth/ldap_connection_pool.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/auth/bench_auth_hotpaths.cpp</label>
+        <link refid="bench__auth__hotpaths_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>auth/auth_audit_logger.h</label>
+        <link refid="auth__audit__logger_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>auth/auth_error.h</label>
+        <link refid="auth__error_8h"/>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>auth/auth_worker_thread_pool.h</label>
+        <link refid="auth__worker__thread__pool_8h"/>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="37">
+        <label>auth/distributed_token_blacklist.h</label>
+        <link refid="distributed__token__blacklist_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>auth/federated_identity_manager.h</label>
+        <link refid="federated__identity__manager_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>auth/jwt_validator.h</label>
+        <link refid="jwt__validator_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="43">
+        <label>auth/ldap_connection_pool.h</label>
+        <link refid="ldap__connection__pool_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>auth/oauth_device_flow.h</label>
+        <link refid="oauth__device__flow_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>auth/oidc_provider.h</label>
+        <link refid="oidc__provider_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>auth/session_manager.h</label>
+        <link refid="session__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>auth/token_blacklist.h</label>
+        <link refid="token__blacklist_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>algorithm</label>
+      </node>
+      <node id="22">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="39">
+        <label>cmath</label>
+      </node>
+      <node id="21">
+        <label>condition_variable</label>
+      </node>
+      <node id="9">
+        <label>cstdint</label>
+      </node>
+      <node id="44">
+        <label>deque</label>
+      </node>
+      <node id="40">
+        <label>filesystem</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="23">
+        <label>future</label>
+      </node>
+      <node id="36">
+        <label>list</label>
+      </node>
+      <node id="19">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="18">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="41">
+        <label>numeric</label>
+      </node>
+      <node id="14">
+        <label>optional</label>
+      </node>
+      <node id="26">
+        <label>queue</label>
+      </node>
+      <node id="42">
+        <label>random</label>
+      </node>
+      <node id="38">
+        <label>rocksdb/db.h</label>
+      </node>
+      <node id="20">
+        <label>shared_mutex</label>
+      </node>
+      <node id="27">
+        <label>stdexcept</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="28">
+        <label>thread</label>
+      </node>
+      <node id="29">
+        <label>tuple</label>
+      </node>
+      <node id="30">
+        <label>type_traits</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>unordered_set</label>
+      </node>
+      <node id="12">
+        <label>utility</label>
+      </node>
+      <node id="35">
+        <label>utils/audit_logger.h</label>
+      </node>
+      <node id="33">
+        <label>utils/error_registry.h</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1bench_1_1ahp_1_1_latency_summary" prot="public">themis::bench::ahp::LatencySummary</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1ahp_1_1_distributed_blacklist_fixture" prot="public">themis::bench::ahp::DistributedBlacklistFixture</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger" prot="public">themis::bench::ahp::themis::auth::AuthAuditLogger</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_pool_config" prot="public">themis::bench::ahp::themis::auth::LDAPPoolConfig</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_pooled_connection" prot="public">themis::bench::ahp::themis::auth::PooledConnection</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool" prot="public">themis::bench::ahp::themis::auth::LDAPConnectionPool</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1bench">themis::bench</innernamespace>
+    <innernamespace refid="namespacethemis_1_1bench_1_1ahp">themis::bench::ahp</innernamespace>
+    <innernamespace refid="namespacethemis_1_1bench_1_1ahp_1_1themis">themis::bench::ahp::themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1bench_1_1ahp_1_1themis_1_1auth">themis::bench::ahp::themis::auth</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__auth__hotpaths_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_MAIN</definition>
+        <argsstring>()</argsstring>
+        <name>BENCHMARK_MAIN</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/auth/bench_auth_hotpaths.cpp" line="588" column="1" declfile="benchmarks/auth/bench_auth_hotpaths.cpp" declline="588" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 5 auth hot-path release-gate benchmarks. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides reproducible latency and throughput measurements for the token/session/revocation hot paths identified in the auth module roadmap (Phase 5 — Performance and Hardening). Results are used as release gates: a regression beyond 10 % vs the baseline blocks promotion.</para>
+<sect1 id="bench__auth__hotpaths_8cpp_1autotoc_md4_1s1"><sect2 id="bench__auth__hotpaths_8cpp_1autotoc_md4">
+<title>Benchmark families</title><para><heading level="3">AHP-01..03 — JWT Token Validation</heading>
+</para>
+<para>AHP-01 Valid RS256 JWT parse overhead (structural validation, no JWKS) AHP-02 Token-blacklist lookup hit (JTI present in in-memory blacklist) AHP-03 Token-blacklist lookup miss (JTI absent from in-memory blacklist)</para>
+<para><heading level="3">AHP-04..05 — Session Lifecycle</heading>
+</para>
+<para>AHP-04 Session create (cryptographic ID generation + map insert) AHP-05 Session validate (map lookup + expiry check)</para>
+<para><heading level="3">AHP-06..07 — Distributed Revocation (RocksDB single-node)</heading>
+</para>
+<para>AHP-06 <ref refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1aa61dbfd8d949d29a1319b3915650a583" kindref="member">DistributedTokenBlacklist::add()</ref> — single RocksDB Put AHP-07 <ref refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1af953baf746c1c8f26a856d00bd3cf231" kindref="member">DistributedTokenBlacklist::isRevoked()</ref> — O(1) RocksDB point-read</para>
+<para><heading level="3">AHP-08 — Federation Manager Realm Lookup</heading>
+</para>
+<para>AHP-08 <ref refid="classthemis_1_1auth_1_1_federated_identity_manager" kindref="compound">FederatedIdentityManager</ref> realm-count / realm-lookup overhead (measures mutex + hash-map cost, no network I/O)</para>
+</sect2></sect1>
+<sect1 id="bench__auth__hotpaths_8cpp_1autotoc_md5_1s1"><sect2 id="bench__auth__hotpaths_8cpp_1autotoc_md5">
+<title>Hard release gates</title><para><table rows="7" cols="3"><row>
+<entry thead="yes"><para>Gate ID  </para>
+</entry><entry thead="yes"><para>Benchmark  </para>
+</entry><entry thead="yes"><para>Threshold  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-AHP-01  </para>
+</entry><entry thead="no"><para>AHP-02  </para>
+</entry><entry thead="no"><para>p99 ≤ 1 µs  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-AHP-02  </para>
+</entry><entry thead="no"><para>AHP-03  </para>
+</entry><entry thead="no"><para>p99 ≤ 1 µs  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-AHP-03  </para>
+</entry><entry thead="no"><para>AHP-04  </para>
+</entry><entry thead="no"><para>p99 ≤ 5 ms  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-AHP-04  </para>
+</entry><entry thead="no"><para>AHP-05  </para>
+</entry><entry thead="no"><para>p99 ≤ 1 ms  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-AHP-05  </para>
+</entry><entry thead="no"><para>AHP-06  </para>
+</entry><entry thead="no"><para>p99 ≤ 2 ms  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-AHP-06  </para>
+</entry><entry thead="no"><para>AHP-07  </para>
+</entry><entry thead="no"><para>p99 ≤ 1 µs (warm)  </para>
+</entry></row>
+</table>
+</para>
+<para>All benchmarks:<itemizedlist>
+<listitem><para>Use kAhpCanonicalSeed = 42 for deterministic JTI / session data.</para>
+</listitem><listitem><para>Warm up for kWarmupIterations before measurement.</para>
+</listitem><listitem><para>Run with Repetitions(kRepetitions) to capture variance.</para>
+</listitem><listitem><para>I/O benchmarks use UseRealTime() so kernel wait is included.</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para>src/auth/ROADMAP.md — Phase 5 items </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="auth__principal__contract_8h" kindref="compound">include/auth/auth_principal_contract.h</ref> — §5 Revocation contract </para>
+</simplesect>
+<simplesect kind="see"><para>benchmarks/auth/RELEASE_GATE_AHP.md — gate verification record </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_pooled_connection" refkind="compound"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="token__blacklist_8h" kindref="compound">auth/token_blacklist.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="session__manager_8h" kindref="compound">auth/session_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="federated__identity__manager_8h" kindref="compound">auth/federated_identity_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="oidc__provider_8h" kindref="compound">auth/oidc_provider.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="distributed__token__blacklist_8h" kindref="compound">auth/distributed_token_blacklist.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;numeric&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth" kindref="compound">themis::auth</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::chrono_literals;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="77" refid="namespacethemis_1_1bench" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1bench" kindref="compound">bench</ref><sp/>{</highlight></codeline>
+<codeline lineno="78" refid="namespacethemis_1_1bench_1_1ahp" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1bench_1_1ahp" kindref="compound">ahp</ref><sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool" refkind="compound"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Constants<sp/>—<sp/>deterministic,<sp/>release-pinned</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kAhpCanonicalSeed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kWarmupIterations<sp/>=<sp/>200;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kRepetitions<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kBlacklistPreloadSize<sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1bench_1_1ahp_1_1_latency_summary" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1bench_1_1ahp_1_1_latency_summary" kindref="compound">LatencySummary</ref><sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1bench_1_1ahp_1_1_latency_summary_1abf1bd2b7923cf475e93d655e1ed37ea2" kindref="member">p50_us</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1bench_1_1ahp_1_1_latency_summary_1ad8e3080947cd35d483e2937328418a5c" kindref="member">p95_us</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1bench_1_1ahp_1_1_latency_summary_1ab4d456fe327e8c2c2d9fd320b4df4404" kindref="member">p99_us</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1bench_1_1ahp_1_1_latency_summary_1a5f42d0cf2af6bdef222995e4572a04ff" kindref="member">avg_us</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1bench_1_1ahp_1a2c606106b02244f814240f6b9d012f20" kindref="member">percentile</ref>(std::vector&lt;double&gt;<sp/>samples,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>fraction)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(samples.empty())<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0.0;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>std::sort(samples.begin(),<sp/>samples.end());</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>raw_index<sp/>=</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(samples.size()<sp/>-<sp/>1U)<sp/>*<sp/>std::clamp(fraction,<sp/>0.0,<sp/>1.0);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>lower_index<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(std::floor(raw_index));</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>upper_index<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(std::ceil(raw_index));</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(lower_index<sp/>==<sp/>upper_index)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>samples[lower_index];</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>weight<sp/>=<sp/>raw_index<sp/>-<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(lower_index);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>samples[lower_index]<sp/>+</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>((samples[upper_index]<sp/>-<sp/>samples[lower_index])<sp/>*<sp/>weight);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal">LatencySummary<sp/><ref refid="namespacethemis_1_1bench_1_1ahp_1ae359f0d4b03184a221d8fb95b9a22a71" kindref="member">summarizeLatencies</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;&amp;<sp/>samples_us)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>LatencySummary<sp/>summary<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(samples_us.empty())<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>summary;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>summary.<ref refid="structthemis_1_1bench_1_1ahp_1_1_latency_summary_1abf1bd2b7923cf475e93d655e1ed37ea2" kindref="member">p50_us</ref><sp/>=<sp/><ref refid="namespacethemis_1_1bench_1_1ahp_1a2c606106b02244f814240f6b9d012f20" kindref="member">percentile</ref>(samples_us,<sp/>0.50);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>summary.p95_us<sp/>=<sp/><ref refid="namespacethemis_1_1bench_1_1ahp_1a2c606106b02244f814240f6b9d012f20" kindref="member">percentile</ref>(samples_us,<sp/>0.95);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>summary.p99_us<sp/>=<sp/><ref refid="namespacethemis_1_1bench_1_1ahp_1a2c606106b02244f814240f6b9d012f20" kindref="member">percentile</ref>(samples_us,<sp/>0.99);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>summary.avg_us<sp/>=<sp/>std::accumulate(samples_us.begin(),<sp/>samples_us.end(),<sp/>0.0)<sp/>/</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(samples_us.size());</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>summary;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1bench_1_1ahp_1a25b647b8263418a21da9ac67d6362673" kindref="member">publishLatencyCounters</ref>(benchmark::State&amp;<sp/>state,</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;&amp;<sp/>samples_us,</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>gate_target_us)<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>summary<sp/>=<sp/><ref refid="namespacethemis_1_1bench_1_1ahp_1ae359f0d4b03184a221d8fb95b9a22a71" kindref="member">summarizeLatencies</ref>(samples_us);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;p50_us&quot;</highlight><highlight class="normal">]<sp/>=<sp/>summary.p50_us;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;p95_us&quot;</highlight><highlight class="normal">]<sp/>=<sp/>summary.p95_us;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;p99_us&quot;</highlight><highlight class="normal">]<sp/>=<sp/>summary.p99_us;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;avg_us&quot;</highlight><highlight class="normal">]<sp/>=<sp/>summary.avg_us;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;gate_target_us&quot;</highlight><highlight class="normal">]<sp/>=<sp/>gate_target_us;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;gate_pass&quot;</highlight><highlight class="normal">]<sp/>=<sp/>summary.p99_us<sp/>&lt;=<sp/>gate_target_us<sp/>?<sp/>1.0<sp/>:<sp/>0.0;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>makeJti(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>index)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;jti-ahp-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(index);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::chrono::system_clock::time_point<sp/>futureExpiry()<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::chrono::system_clock::now()<sp/>+<sp/>std::chrono::hours(24);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Shared<sp/>state:<sp/>in-memory<sp/>TokenBlacklist<sp/>with<sp/>pre-loaded<sp/>entries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;TokenBlacklist&gt;<sp/>makePreloadedBlacklist()<sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bl<sp/>=<sp/>std::make_unique&lt;TokenBlacklist&gt;();</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kBlacklistPreloadSize;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>bl-&gt;add(makeJti(i),<sp/>futureExpiry());</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>bl;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AHP-02<sp/>—<sp/>Token-blacklist<sp/>lookup:<sp/>HIT<sp/>(JTI<sp/>present)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_AHP02_BlacklistIsRevoked_Hit(benchmark::State<sp/>&amp;state)<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bl<sp/>=<sp/>makePreloadedBlacklist();</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Warm<sp/>up</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kWarmupIterations;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)bl-&gt;isRevoked(makeJti(i<sp/>%<sp/>kBlacklistPreloadSize));</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937_64<sp/>rng(kAhpCanonicalSeed);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uniform_int_distribution&lt;int&gt;<sp/>dist(0,<sp/>kBlacklistPreloadSize<sp/>-<sp/>1);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>samples_us<sp/>=<sp/>std::vector&lt;double&gt;{};</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>samples_us.reserve(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.max_iterations));</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(bl-&gt;isRevoked(makeJti(dist(rng))));</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed_us<sp/>=</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::duration&lt;double,<sp/>std::micro&gt;(end<sp/>-<sp/>start).count();</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>samples_us.push_back(elapsed_us);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.SetIterationTime(elapsed_us<sp/>*<sp/>1e-6);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1bench_1_1ahp_1a25b647b8263418a21da9ac67d6362673" kindref="member">publishLatencyCounters</ref>(state,<sp/>samples_us,<sp/>1.0);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;GATE-AHP-01:<sp/>p99<sp/>&lt;=<sp/>1<sp/>us&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><ref refid="namespacethemis_1_1bench_1_1ahp_1ade3c567eaaef039bcc4064ec837a79b0" kindref="member">BENCHMARK</ref>(BM_AHP02_BlacklistIsRevoked_Hit)</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseManualTime()</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AHP-03<sp/>—<sp/>Token-blacklist<sp/>lookup:<sp/>MISS<sp/>(JTI<sp/>absent)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_AHP03_BlacklistIsRevoked_Miss(benchmark::State<sp/>&amp;state)<sp/>{</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bl<sp/>=<sp/>makePreloadedBlacklist();</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kWarmupIterations;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)bl-&gt;isRevoked(</highlight><highlight class="stringliteral">&quot;jti-ahp-miss-warmup-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>miss_counter<sp/>=<sp/>kBlacklistPreloadSize;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>samples_us<sp/>=<sp/>std::vector&lt;double&gt;{};</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>samples_us.reserve(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.max_iterations));</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>bl-&gt;isRevoked(</highlight><highlight class="stringliteral">&quot;jti-ahp-miss-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(miss_counter++)));</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed_us<sp/>=</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::duration&lt;double,<sp/>std::micro&gt;(end<sp/>-<sp/>start).count();</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>samples_us.push_back(elapsed_us);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.SetIterationTime(elapsed_us<sp/>*<sp/>1e-6);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1bench_1_1ahp_1a25b647b8263418a21da9ac67d6362673" kindref="member">publishLatencyCounters</ref>(state,<sp/>samples_us,<sp/>1.0);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;GATE-AHP-02:<sp/>p99<sp/>&lt;=<sp/>1<sp/>us&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><ref refid="namespacethemis_1_1bench_1_1ahp_1ade3c567eaaef039bcc4064ec837a79b0" kindref="member">BENCHMARK</ref>(BM_AHP03_BlacklistIsRevoked_Miss)</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseManualTime()</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AHP-04<sp/>—<sp/>Session<sp/>create</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_AHP04_SessionCreate(benchmark::State<sp/>&amp;state)<sp/>{</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>SessionManager::SessionLimits<sp/>limits;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>limits.<ref refid="structthemis_1_1auth_1_1_session_manager_1_1_session_limits_1a79263ab42c54b513b1f38982ec6391bf" kindref="member">max_sessions_per_user</ref><sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>unlimited<sp/>—<sp/>no<sp/>eviction<sp/>overhead</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>limits.<ref refid="structthemis_1_1auth_1_1_session_manager_1_1_session_limits_1a163c57c41f9a0cead451d28bb371785c" kindref="member">idle_timeout</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::milliseconds(0);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>limits.<ref refid="structthemis_1_1auth_1_1_session_manager_1_1_session_limits_1ac17d92ad8bbd98c970960bd2e836061b" kindref="member">absolute_timeout</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::hours(24);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>SessionManager<sp/>sm(limits);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kWarmupIterations;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)sm.createSession(</highlight><highlight class="stringliteral">&quot;bench-user-warmup&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>samples_us<sp/>=<sp/>std::vector&lt;double&gt;{};</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>samples_us.reserve(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.max_iterations));</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(sm.createSession(</highlight><highlight class="stringliteral">&quot;bench-user-ahp04&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed_us<sp/>=</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::duration&lt;double,<sp/>std::micro&gt;(end<sp/>-<sp/>start).count();</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>samples_us.push_back(elapsed_us);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.SetIterationTime(elapsed_us<sp/>*<sp/>1e-6);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1bench_1_1ahp_1a25b647b8263418a21da9ac67d6362673" kindref="member">publishLatencyCounters</ref>(state,<sp/>samples_us,<sp/>5000.0);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;GATE-AHP-03:<sp/>p99<sp/>&lt;=<sp/>5<sp/>ms&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><ref refid="namespacethemis_1_1bench_1_1ahp_1ade3c567eaaef039bcc4064ec837a79b0" kindref="member">BENCHMARK</ref>(BM_AHP04_SessionCreate)</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseManualTime()</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AHP-05<sp/>—<sp/>Session<sp/>validate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_AHP05_SessionValidate(benchmark::State<sp/>&amp;state)<sp/>{</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>SessionManager::SessionLimits<sp/>limits;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>limits.<ref refid="structthemis_1_1auth_1_1_session_manager_1_1_session_limits_1a79263ab42c54b513b1f38982ec6391bf" kindref="member">max_sessions_per_user</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>limits.<ref refid="structthemis_1_1auth_1_1_session_manager_1_1_session_limits_1a163c57c41f9a0cead451d28bb371785c" kindref="member">idle_timeout</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::milliseconds(0);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>limits.<ref refid="structthemis_1_1auth_1_1_session_manager_1_1_session_limits_1ac17d92ad8bbd98c970960bd2e836061b" kindref="member">absolute_timeout</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::hours(24);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>SessionManager<sp/>sm(limits);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>sid<sp/>=<sp/>sm.createSession(</highlight><highlight class="stringliteral">&quot;bench-user-ahp05&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kWarmupIterations;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)sm.validateSession(sid);</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>samples_us<sp/>=<sp/>std::vector&lt;double&gt;{};</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>samples_us.reserve(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.max_iterations));</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(sm.validateSession(sid));</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed_us<sp/>=</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::duration&lt;double,<sp/>std::micro&gt;(end<sp/>-<sp/>start).count();</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>samples_us.push_back(elapsed_us);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.SetIterationTime(elapsed_us<sp/>*<sp/>1e-6);</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1bench_1_1ahp_1a25b647b8263418a21da9ac67d6362673" kindref="member">publishLatencyCounters</ref>(state,<sp/>samples_us,<sp/>1000.0);</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;GATE-AHP-04:<sp/>p99<sp/>&lt;=<sp/>1<sp/>ms&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><ref refid="namespacethemis_1_1bench_1_1ahp_1ade3c567eaaef039bcc4064ec837a79b0" kindref="member">BENCHMARK</ref>(BM_AHP05_SessionValidate)</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseManualTime()</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AHP-06<sp/>—<sp/>DistributedTokenBlacklist::add()<sp/>(RocksDB<sp/>single-node)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="332" refid="classthemis_1_1bench_1_1ahp_1_1_distributed_blacklist_fixture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1bench_1_1ahp_1_1_distributed_blacklist_fixture" kindref="compound">DistributedBlacklistFixture</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>benchmark::Fixture<sp/>{</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::path<sp/><ref refid="classthemis_1_1bench_1_1ahp_1_1_distributed_blacklist_fixture_1a6cdcc31376ce905e148d76b171389f8a" kindref="member">db_path</ref>;</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;DistributedTokenBlacklist&gt;<sp/><ref refid="classthemis_1_1bench_1_1ahp_1_1_distributed_blacklist_fixture_1ace809e11d6ece41a48c82c67f3550ebb" kindref="member">bl</ref>;</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1bench_1_1ahp_1_1_distributed_blacklist_fixture_1a2b1a80ae79881523d9c53b21a2d12bd9" kindref="member">SetUp</ref>(const<sp/>::benchmark::State<sp/>&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1bench_1_1ahp_1_1_distributed_blacklist_fixture_1a6cdcc31376ce905e148d76b171389f8a" kindref="member">db_path</ref><sp/>=<sp/>fs::temp_directory_path()</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>/<sp/>(</highlight><highlight class="stringliteral">&quot;themis_bench_ahp_&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>+<sp/>std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::create_directories(<ref refid="classthemis_1_1bench_1_1ahp_1_1_distributed_blacklist_fixture_1a6cdcc31376ce905e148d76b171389f8a" kindref="member">db_path</ref>);</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_distributed_blacklist_config" kindref="compound">DistributedBlacklistConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1auth_1_1_distributed_blacklist_config_1a28e01a16e09fa4c2d504e3a0538929ed" kindref="member">db_path</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1bench_1_1ahp_1_1_distributed_blacklist_fixture_1a6cdcc31376ce905e148d76b171389f8a" kindref="member">db_path</ref>.string();</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1auth_1_1_distributed_blacklist_config_1a89fc0b5c77264ea966889a8d2e59a99a" kindref="member">enable_cluster_sync</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1auth_1_1_distributed_blacklist_config_1a796a0070940f563db75a56a16fa37993" kindref="member">purge_interval_seconds</ref><sp/>=<sp/>3600;</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1auth_1_1_distributed_blacklist_config_1a3754cb291f7b981e3ec5504d797173b9" kindref="member">sync_interval_seconds</ref><sp/><sp/>=<sp/>3600;</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1auth_1_1_distributed_blacklist_config_1a5851bb96127aa6ce74aec2892334898c" kindref="member">local_node</ref>.<ref refid="structthemis_1_1auth_1_1_cluster_node_1aa034a883c60f5365549658fe2f41100d" kindref="member">node_id</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;bench-node&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1bench_1_1ahp_1_1_distributed_blacklist_fixture_1ace809e11d6ece41a48c82c67f3550ebb" kindref="member">bl</ref><sp/>=<sp/>std::make_unique&lt;DistributedTokenBlacklist&gt;(cfg);</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1bench_1_1ahp_1_1_distributed_blacklist_fixture_1aa41d0ee2e47d2bf9f36f6da820dd8196" kindref="member">TearDown</ref>(const<sp/>::benchmark::State<sp/>&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1bench_1_1ahp_1_1_distributed_blacklist_fixture_1ace809e11d6ece41a48c82c67f3550ebb" kindref="member">bl</ref>.reset();</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="classthemis_1_1bench_1_1ahp_1_1_distributed_blacklist_fixture_1a6cdcc31376ce905e148d76b171389f8a" kindref="member">db_path</ref>);</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="355"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><ref refid="namespacethemis_1_1bench_1_1ahp_1a2fa3c0c565c014ab261d7e5ad928885a" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="classthemis_1_1bench_1_1ahp_1_1_distributed_blacklist_fixture" kindref="compound">DistributedBlacklistFixture</ref>,<sp/>AHP06_DistributedAdd)(benchmark::State<sp/>&amp;state)<sp/>{</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>counter<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Warmup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kWarmupIterations;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>bl-&gt;add(</highlight><highlight class="stringliteral">&quot;warm-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/>futureExpiry());</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>samples_us<sp/>=<sp/>std::vector&lt;double&gt;{};</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>samples_us.reserve(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.max_iterations));</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>bl-&gt;add(</highlight><highlight class="stringliteral">&quot;bench-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(counter++),<sp/>futureExpiry());</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed_us<sp/>=</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::duration&lt;double,<sp/>std::micro&gt;(end<sp/>-<sp/>start).count();</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>samples_us.push_back(elapsed_us);</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.SetIterationTime(elapsed_us<sp/>*<sp/>1e-6);</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1bench_1_1ahp_1a25b647b8263418a21da9ac67d6362673" kindref="member">publishLatencyCounters</ref>(state,<sp/>samples_us,<sp/>2000.0);</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;GATE-AHP-05:<sp/>p99<sp/>&lt;=<sp/>2<sp/>ms&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="376"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="377"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="classthemis_1_1bench_1_1ahp_1_1_distributed_blacklist_fixture" kindref="compound">DistributedBlacklistFixture</ref>,<sp/>AHP06_DistributedAdd)</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseManualTime()</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AHP-07<sp/>—<sp/>DistributedTokenBlacklist::isRevoked()<sp/>(RocksDB<sp/>warm<sp/>cache)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="384"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="385"><highlight class="normal"></highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><ref refid="namespacethemis_1_1bench_1_1ahp_1a2fa3c0c565c014ab261d7e5ad928885a" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="classthemis_1_1bench_1_1ahp_1_1_distributed_blacklist_fixture" kindref="compound">DistributedBlacklistFixture</ref>,<sp/>AHP07_DistributedIsRevoked)(benchmark::State<sp/>&amp;state)<sp/>{</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pre-load<sp/>entries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kBlacklistPreloadSize;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>bl-&gt;add(makeJti(i),<sp/>futureExpiry());</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Warm<sp/>RocksDB<sp/>block<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kWarmupIterations;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)bl-&gt;isRevoked(makeJti(i<sp/>%<sp/>kBlacklistPreloadSize));</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937_64<sp/>rng(kAhpCanonicalSeed);</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uniform_int_distribution&lt;int&gt;<sp/>dist(0,<sp/>kBlacklistPreloadSize<sp/>-<sp/>1);</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>samples_us<sp/>=<sp/>std::vector&lt;double&gt;{};</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/>samples_us.reserve(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.max_iterations));</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(bl-&gt;isRevoked(makeJti(dist(rng))));</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed_us<sp/>=</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::duration&lt;double,<sp/>std::micro&gt;(end<sp/>-<sp/>start).count();</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>samples_us.push_back(elapsed_us);</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.SetIterationTime(elapsed_us<sp/>*<sp/>1e-6);</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1bench_1_1ahp_1a25b647b8263418a21da9ac67d6362673" kindref="member">publishLatencyCounters</ref>(state,<sp/>samples_us,<sp/>1.0);</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;GATE-AHP-06:<sp/>p99<sp/>&lt;=<sp/>1<sp/>us<sp/>warm&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="416"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="417"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="classthemis_1_1bench_1_1ahp_1_1_distributed_blacklist_fixture" kindref="compound">DistributedBlacklistFixture</ref>,<sp/>AHP07_DistributedIsRevoked)</highlight></codeline>
+<codeline lineno="418"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseManualTime()</highlight></codeline>
+<codeline lineno="419"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="420"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="421"><highlight class="normal"></highlight></codeline>
+<codeline lineno="422"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="423"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AHP-08<sp/>—<sp/>Federation<sp/>realm<sp/>lookup<sp/>overhead</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="424"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="425"><highlight class="normal"></highlight></codeline>
+<codeline lineno="432"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_AHP08_FederationRealmLookup(benchmark::State<sp/>&amp;state)<sp/>{</highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><sp/><sp/><sp/><sp/>FederatedIdentityManager<sp/>fed;</highlight></codeline>
+<codeline lineno="434"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n_realms<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(0));</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>n_realms;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>OIDCProviderConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1a08ab5fea9538bd44066eebfcb0074bb8" kindref="member">issuer_url</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;https://idp-bench-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.example.com/realm/r&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1ab043cb4e8d3d2fd8e761fdbc0e18d155" kindref="member">client_id</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themisdb&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fed.<ref refid="classthemis_1_1auth_1_1_federated_identity_manager_1a6b002d8195fffd06d07581b8096d308d" kindref="member">addRealm</ref>(cfg);</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kWarmupIterations;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)fed.<ref refid="classthemis_1_1auth_1_1_federated_identity_manager_1aea62ade08217c92bf27b13bfe84533b8" kindref="member">realmCount</ref>();</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(fed.<ref refid="classthemis_1_1auth_1_1_federated_identity_manager_1aea62ade08217c92bf27b13bfe84533b8" kindref="member">realmCount</ref>());</highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;federation<sp/>realm-count<sp/>overhead&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="449"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><ref refid="namespacethemis_1_1bench_1_1ahp_1ade3c567eaaef039bcc4064ec837a79b0" kindref="member">BENCHMARK</ref>(BM_AHP08_FederationRealmLookup)-&gt;Arg(1)-&gt;Arg(5)-&gt;Arg(20)</highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="452"><highlight class="normal"></highlight></codeline>
+<codeline lineno="453"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="454"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AHP-09<sp/>—<sp/>LDAP<sp/>bind<sp/>simulation<sp/>overhead<sp/>(in-memory<sp/>path)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="455"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="456"><highlight class="normal"></highlight></codeline>
+<codeline lineno="469"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ldap__connection__pool_8h" kindref="compound">auth/ldap_connection_pool.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="470"><highlight class="normal"></highlight></codeline>
+<codeline lineno="471"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_AHP09_LDAPBindSimulation(benchmark::State<sp/>&amp;state)<sp/>{</highlight></codeline>
+<codeline lineno="472"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Just<sp/>measure<sp/>the<sp/>overhead<sp/>of<sp/>constructing<sp/>+<sp/>destructing<sp/>a<sp/>pool<sp/>config.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="473"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(Real<sp/>LDAP<sp/>bind<sp/>overhead<sp/>is<sp/>hardware-dependent<sp/>and<sp/>requires<sp/>a<sp/>live<sp/>server.)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="474"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="475"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LDAPPoolConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="476"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1auth_1_1_l_d_a_p_pool_config_1a774f8e6c3f51b9432b16b53f26fce967" kindref="member">host</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ldap://bench.local&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="477"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1auth_1_1_l_d_a_p_pool_config_1ae80d1b743cc47a8cc775dc829e51844c" kindref="member">max_size</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="478"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1auth_1_1_l_d_a_p_pool_config_1a1baada50e033f0ffe3e12ce5ea6541ed" kindref="member">checkout_timeout_ms</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="479"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(cfg);</highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="481"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;bench_auth_protocol_micro<sp/>AHP-09<sp/>LDAP<sp/>bind<sp/>simulation&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="482"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="483"><highlight class="normal"><ref refid="namespacethemis_1_1bench_1_1ahp_1ade3c567eaaef039bcc4064ec837a79b0" kindref="member">BENCHMARK</ref>(BM_AHP09_LDAPBindSimulation)</highlight></codeline>
+<codeline lineno="484"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="485"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="486"><highlight class="normal"></highlight></codeline>
+<codeline lineno="487"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="488"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AHP-10<sp/>—<sp/>OIDC<sp/>token<sp/>parse<sp/>overhead<sp/>(issuer<sp/>extraction,<sp/>no<sp/>crypto)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="489"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="490"><highlight class="normal"></highlight></codeline>
+<codeline lineno="500"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_AHP10_OIDCTokenParse(benchmark::State<sp/>&amp;state)<sp/>{</highlight></codeline>
+<codeline lineno="501"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>real<sp/>base64url-encoded<sp/>payload<sp/>containing<sp/>a<sp/>known<sp/>iss<sp/>claim.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="502"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>{&quot;iss&quot;:&quot;https://idp.example.com&quot;,&quot;sub&quot;:&quot;bench-user&quot;,&quot;exp&quot;:9999999999}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="503"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>kBenchToken<sp/>=</highlight></codeline>
+<codeline lineno="504"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;******&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="505"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;.eyJpc3MiOiJodHRwczovL2lkcC5leGFtcGxlLmNvbSIsInN1YiI6ImJlbmNoLXVzZXIiLCJleHAiOjk5OTk5OTk5OTl9&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="506"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;.signature&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="507"><highlight class="normal"></highlight></codeline>
+<codeline lineno="508"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Warm<sp/>up</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="509"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kWarmupIterations;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="510"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FederatedIdentityManager<sp/>fim;</highlight></codeline>
+<codeline lineno="511"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(fim.<ref refid="classthemis_1_1auth_1_1_federated_identity_manager_1aa07c3c5a5be5baa629ecfe74910d4d1d" kindref="member">tokenCacheSize</ref>());</highlight></codeline>
+<codeline lineno="512"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="513"><highlight class="normal"></highlight></codeline>
+<codeline lineno="514"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>samples_us<sp/>=<sp/>std::vector&lt;double&gt;{};</highlight></codeline>
+<codeline lineno="515"><highlight class="normal"><sp/><sp/><sp/><sp/>samples_us.reserve(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.max_iterations));</highlight></codeline>
+<codeline lineno="516"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="517"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Measure<sp/>the<sp/>cost<sp/>of<sp/>a<sp/>cache<sp/>miss<sp/>lookup<sp/>(no<sp/>realms<sp/>registered)<sp/>—</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="518"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>covers<sp/>issuer<sp/>extraction<sp/>overhead<sp/>before<sp/>any<sp/>network<sp/>I/O.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="519"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FederatedIdentityManager<sp/>fim;</highlight></codeline>
+<codeline lineno="520"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="521"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="522"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fim.<ref refid="classthemis_1_1auth_1_1_federated_identity_manager_1aaf5b485d011a4013a4170041088f8872" kindref="member">validateToken</ref>(kBenchToken);</highlight></codeline>
+<codeline lineno="523"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{</highlight></codeline>
+<codeline lineno="524"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expected:<sp/>no<sp/>realms<sp/>registered<sp/>—<sp/>FEDERATION_UNKNOWN_REALM<sp/>thrown.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="525"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="526"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="527"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed_us<sp/>=</highlight></codeline>
+<codeline lineno="528"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::duration&lt;double,<sp/>std::micro&gt;(end<sp/>-<sp/>start).count();</highlight></codeline>
+<codeline lineno="529"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>samples_us.push_back(elapsed_us);</highlight></codeline>
+<codeline lineno="530"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.SetIterationTime(elapsed_us<sp/>*<sp/>1e-6);</highlight></codeline>
+<codeline lineno="531"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="532"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1bench_1_1ahp_1a25b647b8263418a21da9ac67d6362673" kindref="member">publishLatencyCounters</ref>(state,<sp/>samples_us,<sp/>500.0);<sp/><sp/></highlight><highlight class="comment">//<sp/>gate:<sp/>p99<sp/>≤<sp/>500<sp/>µs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="533"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;bench_auth_protocol_micro<sp/>AHP-10<sp/>OIDC<sp/>token<sp/>parse&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="534"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="535"><highlight class="normal"><ref refid="namespacethemis_1_1bench_1_1ahp_1ade3c567eaaef039bcc4064ec837a79b0" kindref="member">BENCHMARK</ref>(BM_AHP10_OIDCTokenParse)</highlight></codeline>
+<codeline lineno="536"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseManualTime()</highlight></codeline>
+<codeline lineno="537"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="538"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="539"><highlight class="normal"></highlight></codeline>
+<codeline lineno="540"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="541"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AHP-11<sp/>—<sp/>Federation<sp/>realm<sp/>lookup<sp/>(populated<sp/>registry,<sp/>multi-realm)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="542"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="543"><highlight class="normal"></highlight></codeline>
+<codeline lineno="553"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_AHP11_FederationRealmTrustLookup(benchmark::State<sp/>&amp;state)<sp/>{</highlight></codeline>
+<codeline lineno="554"><highlight class="normal"><sp/><sp/><sp/><sp/>FederatedIdentityManager<sp/>fed;</highlight></codeline>
+<codeline lineno="555"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n_realms<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(0));</highlight></codeline>
+<codeline lineno="556"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>n_realms;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="557"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>OIDCProviderConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="558"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1a08ab5fea9538bd44066eebfcb0074bb8" kindref="member">issuer_url</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;https://idp-ahp11-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.example.com/r&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="559"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1ab043cb4e8d3d2fd8e761fdbc0e18d155" kindref="member">client_id</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themisdb&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="560"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fed.<ref refid="classthemis_1_1auth_1_1_federated_identity_manager_1a6b002d8195fffd06d07581b8096d308d" kindref="member">addRealm</ref>(cfg);</highlight></codeline>
+<codeline lineno="561"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i<sp/>&gt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="562"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>a<sp/>chain:<sp/>realm<sp/>i<sp/>trusts<sp/>realm<sp/>0.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="563"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fed.<ref refid="classthemis_1_1auth_1_1_federated_identity_manager_1a594ba8fc9914666f142072e492fcdae2" kindref="member">addCrossProviderTrust</ref>(</highlight></codeline>
+<codeline lineno="564"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;https://idp-ahp11-0.example.com/r&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="565"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;https://idp-ahp11-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.example.com/r&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="566"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="567"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="568"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Warm<sp/>up</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="569"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kWarmupIterations;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="570"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)fed.<ref refid="classthemis_1_1auth_1_1_federated_identity_manager_1abf68d611ec0441c3d400a09f3c9010fa" kindref="member">hasRealm</ref>(</highlight><highlight class="stringliteral">&quot;https://idp-ahp11-0.example.com/r&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="571"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="572"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="573"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(</highlight></codeline>
+<codeline lineno="574"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fed.<ref refid="classthemis_1_1auth_1_1_federated_identity_manager_1abf68d611ec0441c3d400a09f3c9010fa" kindref="member">hasRealm</ref>(</highlight><highlight class="stringliteral">&quot;https://idp-ahp11-0.example.com/r&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="575"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(</highlight></codeline>
+<codeline lineno="576"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fed.<ref refid="classthemis_1_1auth_1_1_federated_identity_manager_1a4c8e56223ce0b6ecc19fc619ab6ca3e5" kindref="member">getCrossProviderTrusts</ref>(</highlight><highlight class="stringliteral">&quot;https://idp-ahp11-0.example.com/r&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="577"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="578"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="579"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;bench_auth_protocol_micro<sp/>AHP-11<sp/>federation<sp/>realm<sp/>trust<sp/>lookup&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="580"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="581"><highlight class="normal"><ref refid="namespacethemis_1_1bench_1_1ahp_1ade3c567eaaef039bcc4064ec837a79b0" kindref="member">BENCHMARK</ref>(BM_AHP11_FederationRealmTrustLookup)-&gt;Arg(1)-&gt;Arg(5)-&gt;Arg(20)</highlight></codeline>
+<codeline lineno="582"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="583"><highlight class="normal"></highlight></codeline>
+<codeline lineno="584"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ahp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="585"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>bench</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="586"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="587"><highlight class="normal"></highlight></codeline>
+<codeline lineno="588"><highlight class="normal"><ref refid="bench__auth__hotpaths_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kindref="member">BENCHMARK_MAIN</ref>();</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/auth/bench_auth_hotpaths.cpp"/>
+  </compounddef>
+</doxygen>

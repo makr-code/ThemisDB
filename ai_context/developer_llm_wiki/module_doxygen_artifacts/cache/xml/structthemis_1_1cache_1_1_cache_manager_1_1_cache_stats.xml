@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_cache_manager_1_1_cache_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::CacheManager::CacheStats</compoundname>
+    <includes refid="cache__manager_8h" local="no">cache_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_manager_1_1_cache_stats_1ac1dfe8ca1566e0e88a4a85531dbbcf25" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::CacheManager::CacheStats::hits</definition>
+        <argsstring></argsstring>
+        <name>hits</name>
+        <qualifiedname>themis::cache::CacheManager::CacheStats::hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_manager.h" line="138" column="18" bodyfile="include/cache/cache_manager.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_manager_1_1_cache_stats_1a1d92bc24d914788f56ee7c88bc4569c9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::CacheManager::CacheStats::misses</definition>
+        <argsstring></argsstring>
+        <name>misses</name>
+        <qualifiedname>themis::cache::CacheManager::CacheStats::misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_manager.h" line="139" column="18" bodyfile="include/cache/cache_manager.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_manager_1_1_cache_stats_1a16d3ae90680ffb705da1adb804711324" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::CacheManager::CacheStats::evictions</definition>
+        <argsstring></argsstring>
+        <name>evictions</name>
+        <qualifiedname>themis::cache::CacheManager::CacheStats::evictions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_manager.h" line="140" column="18" bodyfile="include/cache/cache_manager.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_manager_1_1_cache_stats_1a8ecffe78baa6f339c82d79ce9010110d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cache::CacheManager::CacheStats::size</definition>
+        <argsstring></argsstring>
+        <name>size</name>
+        <qualifiedname>themis::cache::CacheManager::CacheStats::size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_manager.h" line="141" column="16" bodyfile="include/cache/cache_manager.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_manager_1_1_cache_stats_1af8e398e4beaadbca09b9377bbc3a51b4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cache::CacheManager::CacheStats::capacity</definition>
+        <argsstring></argsstring>
+        <name>capacity</name>
+        <qualifiedname>themis::cache::CacheManager::CacheStats::capacity</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_manager.h" line="142" column="16" bodyfile="include/cache/cache_manager.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_manager_1_1_cache_stats_1aed459a787fae00760afa93757b708e13" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::cache::CacheManager::CacheStats::hit_rate</definition>
+        <argsstring></argsstring>
+        <name>hit_rate</name>
+        <qualifiedname>themis::cache::CacheManager::CacheStats::hit_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_manager.h" line="143" column="16" bodyfile="include/cache/cache_manager.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/cache_manager.h" line="137" column="5" bodyfile="include/cache/cache_manager.h" bodystart="137" bodyend="144"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_cache_manager_1_1_cache_stats_1af8e398e4beaadbca09b9377bbc3a51b4" prot="public" virt="non-virtual"><scope>themis::cache::CacheManager::CacheStats</scope><name>capacity</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_manager_1_1_cache_stats_1a16d3ae90680ffb705da1adb804711324" prot="public" virt="non-virtual"><scope>themis::cache::CacheManager::CacheStats</scope><name>evictions</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_manager_1_1_cache_stats_1aed459a787fae00760afa93757b708e13" prot="public" virt="non-virtual"><scope>themis::cache::CacheManager::CacheStats</scope><name>hit_rate</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_manager_1_1_cache_stats_1ac1dfe8ca1566e0e88a4a85531dbbcf25" prot="public" virt="non-virtual"><scope>themis::cache::CacheManager::CacheStats</scope><name>hits</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_manager_1_1_cache_stats_1a1d92bc24d914788f56ee7c88bc4569c9" prot="public" virt="non-virtual"><scope>themis::cache::CacheManager::CacheStats</scope><name>misses</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_manager_1_1_cache_stats_1a8ecffe78baa6f339c82d79ce9010110d" prot="public" virt="non-virtual"><scope>themis::cache::CacheManager::CacheStats</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,346 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t" kind="struct" language="C++" prot="public">
+    <compoundname>CK_FUNCTION_LIST</compoundname>
+    <includes refid="pkcs11__minimal_8h" local="no">pkcs11_minimal.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a99c6e47ba1fd259580491dc98d4982f9" prot="public" static="no" mutable="no">
+        <type><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref>(*</type>
+        <definition>CK_RV(* CK_FUNCTION_LIST::C_Initialize) (void *)</definition>
+        <argsstring>)(void *)</argsstring>
+        <name>C_Initialize</name>
+        <qualifiedname>CK_FUNCTION_LIST::C_Initialize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="202" column="5" bodyfile="include/security/pkcs11_minimal.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1aee1baf3ca8dc6563f4ebc6df14a519d1" prot="public" static="no" mutable="no">
+        <type><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref>(*</type>
+        <definition>CK_RV(* CK_FUNCTION_LIST::C_Finalize) (void *)</definition>
+        <argsstring>)(void *)</argsstring>
+        <name>C_Finalize</name>
+        <qualifiedname>CK_FUNCTION_LIST::C_Finalize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="203" column="5" bodyfile="include/security/pkcs11_minimal.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1ac639b0ed6a8938499d1d2baf09741c01" prot="public" static="no" mutable="no">
+        <type><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref>(*</type>
+        <definition>CK_RV(* CK_FUNCTION_LIST::C_GetSlotList) (uint8_t, CK_SLOT_ID *, uint32_t *)</definition>
+        <argsstring>)(uint8_t, CK_SLOT_ID *, uint32_t *)</argsstring>
+        <name>C_GetSlotList</name>
+        <qualifiedname>CK_FUNCTION_LIST::C_GetSlotList</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="204" column="5" bodyfile="include/security/pkcs11_minimal.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a572d258b824d42b10e65b39453d4b36d" prot="public" static="no" mutable="no">
+        <type><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref>(*</type>
+        <definition>CK_RV(* CK_FUNCTION_LIST::C_GetTokenInfo) (CK_SLOT_ID, CK_TOKEN_INFO *)</definition>
+        <argsstring>)(CK_SLOT_ID, CK_TOKEN_INFO *)</argsstring>
+        <name>C_GetTokenInfo</name>
+        <qualifiedname>CK_FUNCTION_LIST::C_GetTokenInfo</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="205" column="5" bodyfile="include/security/pkcs11_minimal.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a65f48a3b7f2c8cd71279d4b5863d20da" prot="public" static="no" mutable="no">
+        <type><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref>(*</type>
+        <definition>CK_RV(* CK_FUNCTION_LIST::C_OpenSession) (CK_SLOT_ID, uint32_t, void *, void *, CK_SESSION_HANDLE *)</definition>
+        <argsstring>)(CK_SLOT_ID, uint32_t, void *, void *, CK_SESSION_HANDLE *)</argsstring>
+        <name>C_OpenSession</name>
+        <qualifiedname>CK_FUNCTION_LIST::C_OpenSession</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="206" column="5" bodyfile="include/security/pkcs11_minimal.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a624183f10604c8cf82047d560cd38e38" prot="public" static="no" mutable="no">
+        <type><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref>(*</type>
+        <definition>CK_RV(* CK_FUNCTION_LIST::C_CloseSession) (CK_SESSION_HANDLE)</definition>
+        <argsstring>)(CK_SESSION_HANDLE)</argsstring>
+        <name>C_CloseSession</name>
+        <qualifiedname>CK_FUNCTION_LIST::C_CloseSession</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="207" column="5" bodyfile="include/security/pkcs11_minimal.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a50994af0360a566ad498e2b5f6f69164" prot="public" static="no" mutable="no">
+        <type><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref>(*</type>
+        <definition>CK_RV(* CK_FUNCTION_LIST::C_Login) (CK_SESSION_HANDLE, uint32_t, CK_BYTE_PTR, uint32_t)</definition>
+        <argsstring>)(CK_SESSION_HANDLE, uint32_t, CK_BYTE_PTR, uint32_t)</argsstring>
+        <name>C_Login</name>
+        <qualifiedname>CK_FUNCTION_LIST::C_Login</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="208" column="5" bodyfile="include/security/pkcs11_minimal.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1aa5fb21b3c441e84d356399c35fd87316" prot="public" static="no" mutable="no">
+        <type><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref>(*</type>
+        <definition>CK_RV(* CK_FUNCTION_LIST::C_Logout) (CK_SESSION_HANDLE)</definition>
+        <argsstring>)(CK_SESSION_HANDLE)</argsstring>
+        <name>C_Logout</name>
+        <qualifiedname>CK_FUNCTION_LIST::C_Logout</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="209" column="5" bodyfile="include/security/pkcs11_minimal.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1ae211a53ffc06c5c75a9cb7c809fdf56e" prot="public" static="no" mutable="no">
+        <type><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref>(*</type>
+        <definition>CK_RV(* CK_FUNCTION_LIST::C_FindObjectsInit) (CK_SESSION_HANDLE, CK_ATTRIBUTE *, uint32_t)</definition>
+        <argsstring>)(CK_SESSION_HANDLE, CK_ATTRIBUTE *, uint32_t)</argsstring>
+        <name>C_FindObjectsInit</name>
+        <qualifiedname>CK_FUNCTION_LIST::C_FindObjectsInit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="210" column="5" bodyfile="include/security/pkcs11_minimal.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a0644124beaaf0574f4ca52e00a03f65e" prot="public" static="no" mutable="no">
+        <type><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref>(*</type>
+        <definition>CK_RV(* CK_FUNCTION_LIST::C_FindObjects) (CK_SESSION_HANDLE, CK_OBJECT_HANDLE *, uint32_t, uint32_t *)</definition>
+        <argsstring>)(CK_SESSION_HANDLE, CK_OBJECT_HANDLE *, uint32_t, uint32_t *)</argsstring>
+        <name>C_FindObjects</name>
+        <qualifiedname>CK_FUNCTION_LIST::C_FindObjects</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="211" column="5" bodyfile="include/security/pkcs11_minimal.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a011e8462f7392d96abf3fbe80266ea16" prot="public" static="no" mutable="no">
+        <type><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref>(*</type>
+        <definition>CK_RV(* CK_FUNCTION_LIST::C_FindObjectsFinal) (CK_SESSION_HANDLE)</definition>
+        <argsstring>)(CK_SESSION_HANDLE)</argsstring>
+        <name>C_FindObjectsFinal</name>
+        <qualifiedname>CK_FUNCTION_LIST::C_FindObjectsFinal</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="212" column="5" bodyfile="include/security/pkcs11_minimal.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a52bb0f8d2b04fad40ec83f4f007ac621" prot="public" static="no" mutable="no">
+        <type><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref>(*</type>
+        <definition>CK_RV(* CK_FUNCTION_LIST::C_SignInit) (CK_SESSION_HANDLE, CK_MECHANISM *, CK_OBJECT_HANDLE)</definition>
+        <argsstring>)(CK_SESSION_HANDLE, CK_MECHANISM *, CK_OBJECT_HANDLE)</argsstring>
+        <name>C_SignInit</name>
+        <qualifiedname>CK_FUNCTION_LIST::C_SignInit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="213" column="5" bodyfile="include/security/pkcs11_minimal.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1ac65b0d98f670b009d03ff343e434ea18" prot="public" static="no" mutable="no">
+        <type><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref>(*</type>
+        <definition>CK_RV(* CK_FUNCTION_LIST::C_Sign) (CK_SESSION_HANDLE, CK_BYTE_PTR, uint32_t, CK_BYTE_PTR, uint32_t *)</definition>
+        <argsstring>)(CK_SESSION_HANDLE, CK_BYTE_PTR, uint32_t, CK_BYTE_PTR, uint32_t *)</argsstring>
+        <name>C_Sign</name>
+        <qualifiedname>CK_FUNCTION_LIST::C_Sign</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="214" column="5" bodyfile="include/security/pkcs11_minimal.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a86a2e7430b5a60fd8e2023ade8bc60f8" prot="public" static="no" mutable="no">
+        <type><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref>(*</type>
+        <definition>CK_RV(* CK_FUNCTION_LIST::C_VerifyInit) (CK_SESSION_HANDLE, CK_MECHANISM *, CK_OBJECT_HANDLE)</definition>
+        <argsstring>)(CK_SESSION_HANDLE, CK_MECHANISM *, CK_OBJECT_HANDLE)</argsstring>
+        <name>C_VerifyInit</name>
+        <qualifiedname>CK_FUNCTION_LIST::C_VerifyInit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="215" column="5" bodyfile="include/security/pkcs11_minimal.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a94bd69d3b31d31f63d79b15f340ee501" prot="public" static="no" mutable="no">
+        <type><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref>(*</type>
+        <definition>CK_RV(* CK_FUNCTION_LIST::C_Verify) (CK_SESSION_HANDLE, CK_BYTE_PTR, uint32_t, CK_BYTE_PTR, uint32_t)</definition>
+        <argsstring>)(CK_SESSION_HANDLE, CK_BYTE_PTR, uint32_t, CK_BYTE_PTR, uint32_t)</argsstring>
+        <name>C_Verify</name>
+        <qualifiedname>CK_FUNCTION_LIST::C_Verify</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="216" column="5" bodyfile="include/security/pkcs11_minimal.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a5b7327cb8809fe5ecfb19d11f00742c8" prot="public" static="no" mutable="no">
+        <type><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref>(*</type>
+        <definition>CK_RV(* CK_FUNCTION_LIST::C_EncryptInit) (CK_SESSION_HANDLE, CK_MECHANISM *, CK_OBJECT_HANDLE)</definition>
+        <argsstring>)(CK_SESSION_HANDLE, CK_MECHANISM *, CK_OBJECT_HANDLE)</argsstring>
+        <name>C_EncryptInit</name>
+        <qualifiedname>CK_FUNCTION_LIST::C_EncryptInit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="217" column="5" bodyfile="include/security/pkcs11_minimal.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1ab2530507553ee34c3c8a6d5e3927604e" prot="public" static="no" mutable="no">
+        <type><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref>(*</type>
+        <definition>CK_RV(* CK_FUNCTION_LIST::C_Encrypt) (CK_SESSION_HANDLE, CK_BYTE_PTR, CK_ULONG, CK_BYTE_PTR, CK_ULONG *)</definition>
+        <argsstring>)(CK_SESSION_HANDLE, CK_BYTE_PTR, CK_ULONG, CK_BYTE_PTR, CK_ULONG *)</argsstring>
+        <name>C_Encrypt</name>
+        <qualifiedname>CK_FUNCTION_LIST::C_Encrypt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="218" column="5" bodyfile="include/security/pkcs11_minimal.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1aae402fa56141b58159f996cc6bc1526d" prot="public" static="no" mutable="no">
+        <type><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref>(*</type>
+        <definition>CK_RV(* CK_FUNCTION_LIST::C_DecryptInit) (CK_SESSION_HANDLE, CK_MECHANISM *, CK_OBJECT_HANDLE)</definition>
+        <argsstring>)(CK_SESSION_HANDLE, CK_MECHANISM *, CK_OBJECT_HANDLE)</argsstring>
+        <name>C_DecryptInit</name>
+        <qualifiedname>CK_FUNCTION_LIST::C_DecryptInit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="219" column="5" bodyfile="include/security/pkcs11_minimal.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1ac9ce05b0e46e7b4345b6cb66a6e880d4" prot="public" static="no" mutable="no">
+        <type><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref>(*</type>
+        <definition>CK_RV(* CK_FUNCTION_LIST::C_Decrypt) (CK_SESSION_HANDLE, CK_BYTE_PTR, CK_ULONG, CK_BYTE_PTR, CK_ULONG *)</definition>
+        <argsstring>)(CK_SESSION_HANDLE, CK_BYTE_PTR, CK_ULONG, CK_BYTE_PTR, CK_ULONG *)</argsstring>
+        <name>C_Decrypt</name>
+        <qualifiedname>CK_FUNCTION_LIST::C_Decrypt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="220" column="5" bodyfile="include/security/pkcs11_minimal.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a6f6486a24fee7113184254e3bb9f7077" prot="public" static="no" mutable="no">
+        <type><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref>(*</type>
+        <definition>CK_RV(* CK_FUNCTION_LIST::C_GetAttributeValue) (CK_SESSION_HANDLE, CK_OBJECT_HANDLE, CK_ATTRIBUTE *, uint32_t)</definition>
+        <argsstring>)(CK_SESSION_HANDLE, CK_OBJECT_HANDLE, CK_ATTRIBUTE *, uint32_t)</argsstring>
+        <name>C_GetAttributeValue</name>
+        <qualifiedname>CK_FUNCTION_LIST::C_GetAttributeValue</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="221" column="5" bodyfile="include/security/pkcs11_minimal.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a2ee7e312b6d90309d0390eb45631a222" prot="public" static="no" mutable="no">
+        <type><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref>(*</type>
+        <definition>CK_RV(* CK_FUNCTION_LIST::C_GenerateKeyPair) (CK_SESSION_HANDLE, CK_MECHANISM *, CK_ATTRIBUTE *, uint32_t, CK_ATTRIBUTE *, uint32_t, CK_OBJECT_HANDLE *, CK_OBJECT_HANDLE *)</definition>
+        <argsstring>)(CK_SESSION_HANDLE, CK_MECHANISM *, CK_ATTRIBUTE *, uint32_t, CK_ATTRIBUTE *, uint32_t, CK_OBJECT_HANDLE *, CK_OBJECT_HANDLE *)</argsstring>
+        <name>C_GenerateKeyPair</name>
+        <qualifiedname>CK_FUNCTION_LIST::C_GenerateKeyPair</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="222" column="5" bodyfile="include/security/pkcs11_minimal.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a367aba8463b108c2a741303ffeca1770" prot="public" static="no" mutable="no">
+        <type><ref refid="pkcs11__minimal_8h_1ac6c775a421ea489cedfc43124c1e320b" kindref="member">CK_RV</ref>(*</type>
+        <definition>CK_RV(* CK_FUNCTION_LIST::C_CreateObject) (CK_SESSION_HANDLE, CK_ATTRIBUTE *, uint32_t, CK_OBJECT_HANDLE *)</definition>
+        <argsstring>)(CK_SESSION_HANDLE, CK_ATTRIBUTE *, uint32_t, CK_OBJECT_HANDLE *)</argsstring>
+        <name>C_CreateObject</name>
+        <qualifiedname>CK_FUNCTION_LIST::C_CreateObject</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_minimal.h" line="223" column="5" bodyfile="include/security/pkcs11_minimal.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/pkcs11_minimal.h" line="201" column="1" bodyfile="include/security/pkcs11_minimal.h" bodystart="201" bodyend="224"/>
+    <listofallmembers>
+      <member refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a624183f10604c8cf82047d560cd38e38" prot="public" virt="non-virtual"><scope>CK_FUNCTION_LIST</scope><name>C_CloseSession</name></member>
+      <member refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a367aba8463b108c2a741303ffeca1770" prot="public" virt="non-virtual"><scope>CK_FUNCTION_LIST</scope><name>C_CreateObject</name></member>
+      <member refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1ac9ce05b0e46e7b4345b6cb66a6e880d4" prot="public" virt="non-virtual"><scope>CK_FUNCTION_LIST</scope><name>C_Decrypt</name></member>
+      <member refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1aae402fa56141b58159f996cc6bc1526d" prot="public" virt="non-virtual"><scope>CK_FUNCTION_LIST</scope><name>C_DecryptInit</name></member>
+      <member refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1ab2530507553ee34c3c8a6d5e3927604e" prot="public" virt="non-virtual"><scope>CK_FUNCTION_LIST</scope><name>C_Encrypt</name></member>
+      <member refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a5b7327cb8809fe5ecfb19d11f00742c8" prot="public" virt="non-virtual"><scope>CK_FUNCTION_LIST</scope><name>C_EncryptInit</name></member>
+      <member refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1aee1baf3ca8dc6563f4ebc6df14a519d1" prot="public" virt="non-virtual"><scope>CK_FUNCTION_LIST</scope><name>C_Finalize</name></member>
+      <member refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a0644124beaaf0574f4ca52e00a03f65e" prot="public" virt="non-virtual"><scope>CK_FUNCTION_LIST</scope><name>C_FindObjects</name></member>
+      <member refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a011e8462f7392d96abf3fbe80266ea16" prot="public" virt="non-virtual"><scope>CK_FUNCTION_LIST</scope><name>C_FindObjectsFinal</name></member>
+      <member refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1ae211a53ffc06c5c75a9cb7c809fdf56e" prot="public" virt="non-virtual"><scope>CK_FUNCTION_LIST</scope><name>C_FindObjectsInit</name></member>
+      <member refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a2ee7e312b6d90309d0390eb45631a222" prot="public" virt="non-virtual"><scope>CK_FUNCTION_LIST</scope><name>C_GenerateKeyPair</name></member>
+      <member refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a6f6486a24fee7113184254e3bb9f7077" prot="public" virt="non-virtual"><scope>CK_FUNCTION_LIST</scope><name>C_GetAttributeValue</name></member>
+      <member refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1ac639b0ed6a8938499d1d2baf09741c01" prot="public" virt="non-virtual"><scope>CK_FUNCTION_LIST</scope><name>C_GetSlotList</name></member>
+      <member refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a572d258b824d42b10e65b39453d4b36d" prot="public" virt="non-virtual"><scope>CK_FUNCTION_LIST</scope><name>C_GetTokenInfo</name></member>
+      <member refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a99c6e47ba1fd259580491dc98d4982f9" prot="public" virt="non-virtual"><scope>CK_FUNCTION_LIST</scope><name>C_Initialize</name></member>
+      <member refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a50994af0360a566ad498e2b5f6f69164" prot="public" virt="non-virtual"><scope>CK_FUNCTION_LIST</scope><name>C_Login</name></member>
+      <member refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1aa5fb21b3c441e84d356399c35fd87316" prot="public" virt="non-virtual"><scope>CK_FUNCTION_LIST</scope><name>C_Logout</name></member>
+      <member refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a65f48a3b7f2c8cd71279d4b5863d20da" prot="public" virt="non-virtual"><scope>CK_FUNCTION_LIST</scope><name>C_OpenSession</name></member>
+      <member refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1ac65b0d98f670b009d03ff343e434ea18" prot="public" virt="non-virtual"><scope>CK_FUNCTION_LIST</scope><name>C_Sign</name></member>
+      <member refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a52bb0f8d2b04fad40ec83f4f007ac621" prot="public" virt="non-virtual"><scope>CK_FUNCTION_LIST</scope><name>C_SignInit</name></member>
+      <member refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a94bd69d3b31d31f63d79b15f340ee501" prot="public" virt="non-virtual"><scope>CK_FUNCTION_LIST</scope><name>C_Verify</name></member>
+      <member refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t_1a86a2e7430b5a60fd8e2023ade8bc60f8" prot="public" virt="non-virtual"><scope>CK_FUNCTION_LIST</scope><name>C_VerifyInit</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

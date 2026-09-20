@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_promotion_eligibility_analysis" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::PromotionEligibilityAnalysis</compoundname>
+    <includes refid="replication__failover__diagnostics_8h" local="no">replication_failover_diagnostics.h</includes>
+    <innerclass refid="structthemisdb_1_1replication_1_1_promotion_eligibility_analysis_1_1_criterion" prot="public">themisdb::replication::PromotionEligibilityAnalysis::Criterion</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_promotion_eligibility_analysis_1ad5c78135d039d8dfde334d5c478420a2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::PromotionEligibilityAnalysis::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themisdb::replication::PromotionEligibilityAnalysis::node_id</qualifiedname>
+        <briefdescription>
+<para>Replica node ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="256" column="17" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_promotion_eligibility_analysis_1a8de58adbbbdbb56c0cfff1fdfa8454f9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::PromotionEligibilityAnalysis::is_eligible</definition>
+        <argsstring></argsstring>
+        <name>is_eligible</name>
+        <qualifiedname>themisdb::replication::PromotionEligibilityAnalysis::is_eligible</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Can the replica be promoted? </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="259" column="10" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="259" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_promotion_eligibility_analysis_1a4c94c5cd8277c87fee4c58d15503c8f7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_promotion_eligibility_analysis_1_1_criterion" kindref="compound">Criterion</ref> &gt;</type>
+        <definition>std::vector&lt;Criterion&gt; themisdb::replication::PromotionEligibilityAnalysis::criteria</definition>
+        <argsstring></argsstring>
+        <name>criteria</name>
+        <qualifiedname>themisdb::replication::PromotionEligibilityAnalysis::criteria</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="268" column="17" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_promotion_eligibility_analysis_1a1a65e901b835d50ccb91507a38e91243" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::chrono::milliseconds &gt;</type>
+        <definition>std::optional&lt;std::chrono::milliseconds&gt; themisdb::replication::PromotionEligibilityAnalysis::estimated_time_to_eligible</definition>
+        <argsstring></argsstring>
+        <name>estimated_time_to_eligible</name>
+        <qualifiedname>themisdb::replication::PromotionEligibilityAnalysis::estimated_time_to_eligible</qualifiedname>
+        <briefdescription>
+<para>Estimated time until replica becomes eligible (if applicable). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="271" column="19" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_promotion_eligibility_analysis_1a24119dedde4bc99d13aba648b32ef57c" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::replication::PromotionEligibilityAnalysis::analyzed_at</definition>
+        <argsstring></argsstring>
+        <name>analyzed_at</name>
+        <qualifiedname>themisdb::replication::PromotionEligibilityAnalysis::analyzed_at</qualifiedname>
+        <briefdescription>
+<para>Timestamp of analysis. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="274" column="43" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Analysis of whether a replica can be promoted. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides detailed breakdown of promotion eligibility checks, enabling operators to understand why a replica cannot be promoted if needed for manual emergency failover. </para>
+    </detaileddescription>
+    <location file="include/replication/replication_failover_diagnostics.h" line="254" column="1" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="254" bodyend="275"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_promotion_eligibility_analysis_1a24119dedde4bc99d13aba648b32ef57c" prot="public" virt="non-virtual"><scope>themisdb::replication::PromotionEligibilityAnalysis</scope><name>analyzed_at</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_promotion_eligibility_analysis_1a4c94c5cd8277c87fee4c58d15503c8f7" prot="public" virt="non-virtual"><scope>themisdb::replication::PromotionEligibilityAnalysis</scope><name>criteria</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_promotion_eligibility_analysis_1a1a65e901b835d50ccb91507a38e91243" prot="public" virt="non-virtual"><scope>themisdb::replication::PromotionEligibilityAnalysis</scope><name>estimated_time_to_eligible</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_promotion_eligibility_analysis_1a8de58adbbbdbb56c0cfff1fdfa8454f9" prot="public" virt="non-virtual"><scope>themisdb::replication::PromotionEligibilityAnalysis</scope><name>is_eligible</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_promotion_eligibility_analysis_1ad5c78135d039d8dfde334d5c478420a2" prot="public" virt="non-virtual"><scope>themisdb::replication::PromotionEligibilityAnalysis</scope><name>node_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_distributed_saga_report" kind="struct" language="C++" prot="public">
+    <compoundname>themis::DistributedSagaReport</compoundname>
+    <includes refid="distributed__saga_8h" local="no">distributed_saga.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_distributed_saga_report_1a590475259cada500c6aa08d32402ddbe" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::DistributedSagaReport::saga_id</definition>
+        <argsstring></argsstring>
+        <name>saga_id</name>
+        <qualifiedname>themis::DistributedSagaReport::saga_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="133" column="26" bodyfile="include/transaction/distributed_saga.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_saga_report_1aec6b6ef57dea8044139b966c18f7365c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1ae7d80b894782c9b6f9faa091c51aac60" kindref="member">SagaExecutionState</ref></type>
+        <definition>SagaExecutionState themis::DistributedSagaReport::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::DistributedSagaReport::state</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1ae7d80b894782c9b6f9faa091c51aac60ac69f06e1a9b016d133907b4e5f5864d2" kindref="member">SagaExecutionState::PENDING</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="134" column="26" bodyfile="include/transaction/distributed_saga.h" bodystart="134" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_saga_report_1aa8570943483efa6496c2794f0c1f76db" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::DistributedSagaReport::failure_reason</definition>
+        <argsstring></argsstring>
+        <name>failure_reason</name>
+        <qualifiedname>themis::DistributedSagaReport::failure_reason</qualifiedname>
+        <briefdescription>
+<para>Set when state != COMPLETED. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="135" column="26" bodyfile="include/transaction/distributed_saga.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_saga_report_1ad3c421fbd0e2a01d624134b49558b7bd" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_step_record" kindref="compound">StepRecord</ref> &gt;</type>
+        <definition>std::vector&lt;StepRecord&gt; themis::DistributedSagaReport::step_records</definition>
+        <argsstring></argsstring>
+        <name>step_records</name>
+        <qualifiedname>themis::DistributedSagaReport::step_records</qualifiedname>
+        <briefdescription>
+<para>One entry per step. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="136" column="17" bodyfile="include/transaction/distributed_saga.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_saga_report_1a52150af8d257c30edc5db4d4bbd07005" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::DistributedSagaReport::total_duration_ms</definition>
+        <argsstring></argsstring>
+        <name>total_duration_ms</name>
+        <qualifiedname>themis::DistributedSagaReport::total_duration_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="137" column="26" bodyfile="include/transaction/distributed_saga.h" bodystart="137" bodyend="137"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_distributed_saga_report_1a61b8bbef1d70cec852a8c27575b34035" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::DistributedSagaReport::succeeded</definition>
+        <argsstring>() const</argsstring>
+        <name>succeeded</name>
+        <qualifiedname>themis::DistributedSagaReport::succeeded</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="139" column="11" bodyfile="include/transaction/distributed_saga.h" bodystart="139" bodyend="141"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/distributed_saga.h" line="132" column="1" bodyfile="include/transaction/distributed_saga.h" bodystart="132" bodyend="142"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_distributed_saga_report_1aa8570943483efa6496c2794f0c1f76db" prot="public" virt="non-virtual"><scope>themis::DistributedSagaReport</scope><name>failure_reason</name></member>
+      <member refid="structthemis_1_1_distributed_saga_report_1a590475259cada500c6aa08d32402ddbe" prot="public" virt="non-virtual"><scope>themis::DistributedSagaReport</scope><name>saga_id</name></member>
+      <member refid="structthemis_1_1_distributed_saga_report_1aec6b6ef57dea8044139b966c18f7365c" prot="public" virt="non-virtual"><scope>themis::DistributedSagaReport</scope><name>state</name></member>
+      <member refid="structthemis_1_1_distributed_saga_report_1ad3c421fbd0e2a01d624134b49558b7bd" prot="public" virt="non-virtual"><scope>themis::DistributedSagaReport</scope><name>step_records</name></member>
+      <member refid="structthemis_1_1_distributed_saga_report_1a61b8bbef1d70cec852a8c27575b34035" prot="public" virt="non-virtual"><scope>themis::DistributedSagaReport</scope><name>succeeded</name></member>
+      <member refid="structthemis_1_1_distributed_saga_report_1a52150af8d257c30edc5db4d4bbd07005" prot="public" virt="non-virtual"><scope>themis::DistributedSagaReport</scope><name>total_duration_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

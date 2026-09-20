@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_modality_parser_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::ModalityParserConfig</compoundname>
+    <includes refid="modality__parser_8h" local="no">modality_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_modality_parser_config_1a335ef99befb9f9d166a638f3d3e7ed74" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::ModalityParserConfig::language_code</definition>
+        <argsstring></argsstring>
+        <name>language_code</name>
+        <qualifiedname>themis::training::ModalityParserConfig::language_code</qualifiedname>
+        <initializer>= &quot;de&quot;</initializer>
+        <briefdescription>
+<para>ISO-639-1 language code of the document corpus (&quot;de&quot;, &quot;en&quot;, …). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="30" column="17" bodyfile="include/training/modality_parser.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_modality_parser_config_1a3aaa937d52614163753536671a89da2e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::ModalityParserConfig::text_clause_min_length</definition>
+        <argsstring></argsstring>
+        <name>text_clause_min_length</name>
+        <qualifiedname>themis::training::ModalityParserConfig::text_clause_min_length</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+<para>Minimum character length to accept a text clause as a training sample. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="33" column="12" bodyfile="include/training/modality_parser.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_modality_parser_config_1a46d93d4207fb4e4e84c4960b3e4e6dad" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::ModalityParserConfig::max_table_rows</definition>
+        <argsstring></argsstring>
+        <name>max_table_rows</name>
+        <qualifiedname>themis::training::ModalityParserConfig::max_table_rows</qualifiedname>
+        <initializer>= 500</initializer>
+        <briefdescription>
+<para>Maximum table rows to extract per table block (prevents runaway memory). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="36" column="12" bodyfile="include/training/modality_parser.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_modality_parser_config_1a3ec47b090518c2f5174178eae0c6c358" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::ModalityParserConfig::max_citations_per_document</definition>
+        <argsstring></argsstring>
+        <name>max_citations_per_document</name>
+        <qualifiedname>themis::training::ModalityParserConfig::max_citations_per_document</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+<para>Maximum citations to extract per document. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="39" column="12" bodyfile="include/training/modality_parser.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_modality_parser_config_1a473204c00f337810e86763d8244ef236" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::training::ModalityParserConfig::text_clause_base_confidence</definition>
+        <argsstring></argsstring>
+        <name>text_clause_base_confidence</name>
+        <qualifiedname>themis::training::ModalityParserConfig::text_clause_base_confidence</qualifiedname>
+        <initializer>= 0.80f</initializer>
+        <briefdescription>
+<para>Confidence score assigned to TEXT_CLAUSE samples by default. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="42" column="11" bodyfile="include/training/modality_parser.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_modality_parser_config_1a3f7b20665b57fd5af560bf71c335f908" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::training::ModalityParserConfig::table_base_confidence</definition>
+        <argsstring></argsstring>
+        <name>table_base_confidence</name>
+        <qualifiedname>themis::training::ModalityParserConfig::table_base_confidence</qualifiedname>
+        <initializer>= 0.75f</initializer>
+        <briefdescription>
+<para>Confidence score assigned to TABLE samples by default. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="45" column="11" bodyfile="include/training/modality_parser.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_modality_parser_config_1a36e5d918b8dc2b627285437bf437082d" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::training::ModalityParserConfig::citation_base_confidence</definition>
+        <argsstring></argsstring>
+        <name>citation_base_confidence</name>
+        <qualifiedname>themis::training::ModalityParserConfig::citation_base_confidence</qualifiedname>
+        <initializer>= 0.85f</initializer>
+        <briefdescription>
+<para>Confidence score assigned to CITATION samples by default. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="48" column="11" bodyfile="include/training/modality_parser.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_modality_parser_config_1a2597093aecdffe0cc00f0f86a76e1d18" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::training::ModalityParserConfig::ocr_base_confidence</definition>
+        <argsstring></argsstring>
+        <name>ocr_base_confidence</name>
+        <qualifiedname>themis::training::ModalityParserConfig::ocr_base_confidence</qualifiedname>
+        <initializer>= 0.60f</initializer>
+        <briefdescription>
+<para>Confidence score assigned to OCR_IMAGE samples by default. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="51" column="11" bodyfile="include/training/modality_parser.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_modality_parser_config_1a13ddb90ebb8d39e49538302769a5130b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::ModalityParserConfig::enable_ocr</definition>
+        <argsstring></argsstring>
+        <name>enable_ocr</name>
+        <qualifiedname>themis::training::ModalityParserConfig::enable_ocr</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable OCR extraction. Requires THEMIS_ENABLE_OCR and a Tesseract installation at runtime; silently disabled otherwise. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="55" column="10" bodyfile="include/training/modality_parser.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_modality_parser_config_1a178ffc46121478204a54d2f8891a580b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::ModalityParserConfig::ModalityParserConfig</definition>
+        <argsstring>()=default</argsstring>
+        <name>ModalityParserConfig</name>
+        <qualifiedname>themis::training::ModalityParserConfig::ModalityParserConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="57" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for all modality parser components. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/modality_parser.h" line="28" column="1" bodyfile="include/training/modality_parser.h" bodystart="28" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_modality_parser_config_1a36e5d918b8dc2b627285437bf437082d" prot="public" virt="non-virtual"><scope>themis::training::ModalityParserConfig</scope><name>citation_base_confidence</name></member>
+      <member refid="structthemis_1_1training_1_1_modality_parser_config_1a13ddb90ebb8d39e49538302769a5130b" prot="public" virt="non-virtual"><scope>themis::training::ModalityParserConfig</scope><name>enable_ocr</name></member>
+      <member refid="structthemis_1_1training_1_1_modality_parser_config_1a335ef99befb9f9d166a638f3d3e7ed74" prot="public" virt="non-virtual"><scope>themis::training::ModalityParserConfig</scope><name>language_code</name></member>
+      <member refid="structthemis_1_1training_1_1_modality_parser_config_1a3ec47b090518c2f5174178eae0c6c358" prot="public" virt="non-virtual"><scope>themis::training::ModalityParserConfig</scope><name>max_citations_per_document</name></member>
+      <member refid="structthemis_1_1training_1_1_modality_parser_config_1a46d93d4207fb4e4e84c4960b3e4e6dad" prot="public" virt="non-virtual"><scope>themis::training::ModalityParserConfig</scope><name>max_table_rows</name></member>
+      <member refid="structthemis_1_1training_1_1_modality_parser_config_1a178ffc46121478204a54d2f8891a580b" prot="public" virt="non-virtual"><scope>themis::training::ModalityParserConfig</scope><name>ModalityParserConfig</name></member>
+      <member refid="structthemis_1_1training_1_1_modality_parser_config_1a2597093aecdffe0cc00f0f86a76e1d18" prot="public" virt="non-virtual"><scope>themis::training::ModalityParserConfig</scope><name>ocr_base_confidence</name></member>
+      <member refid="structthemis_1_1training_1_1_modality_parser_config_1a3f7b20665b57fd5af560bf71c335f908" prot="public" virt="non-virtual"><scope>themis::training::ModalityParserConfig</scope><name>table_base_confidence</name></member>
+      <member refid="structthemis_1_1training_1_1_modality_parser_config_1a473204c00f337810e86763d8244ef236" prot="public" virt="non-virtual"><scope>themis::training::ModalityParserConfig</scope><name>text_clause_base_confidence</name></member>
+      <member refid="structthemis_1_1training_1_1_modality_parser_config_1a3aaa937d52614163753536671a89da2e" prot="public" virt="non-virtual"><scope>themis::training::ModalityParserConfig</scope><name>text_clause_min_length</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

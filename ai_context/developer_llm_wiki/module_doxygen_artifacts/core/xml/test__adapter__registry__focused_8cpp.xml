@@ -1,0 +1,565 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__adapter__registry__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_adapter_registry_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="adapter__registry_8h" local="yes">core/concerns/adapter_registry.h</includes>
+    <includes refid="adapter__metadata_8h" local="yes">core/concerns/adapter_metadata.h</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">typeindex</includes>
+    <incdepgraph>
+      <node id="4">
+        <label>core/concerns/adapter_metadata.h</label>
+        <link refid="adapter__metadata_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>core/concerns/adapter_registry.h</label>
+        <link refid="adapter__registry_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>core/concerns/plugin_api.h</label>
+        <link refid="plugin__api_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/core/test_adapter_registry_focused.cpp</label>
+        <link refid="test__adapter__registry__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>atomic</label>
+      </node>
+      <node id="14">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="17">
+        <label>iostream</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="13">
+        <label>shared_mutex</label>
+      </node>
+      <node id="16">
+        <label>stdexcept</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="15">
+        <label>thread</label>
+      </node>
+      <node id="10">
+        <label>typeindex</label>
+      </node>
+      <node id="11">
+        <label>typeinfo</label>
+      </node>
+      <node id="12">
+        <label>unordered_map</label>
+      </node>
+      <node id="18">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="struct_i_fake_alpha" prot="public">IFakeAlpha</innerclass>
+    <innerclass refid="struct_i_fake_beta" prot="public">IFakeBeta</innerclass>
+    <innerclass refid="struct_fake_alpha_impl" prot="public">FakeAlphaImpl</innerclass>
+    <innerclass refid="struct_fake_beta_impl" prot="public">FakeBetaImpl</innerclass>
+    <innerclass refid="class_reject_all_validator" prot="public">RejectAllValidator</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__adapter__registry__focused_8cpp_1a09f5eb9f2e9a24bd844d4b780f121447" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AdapterRegistryTest, AR_01_EmptyRegistryResolveReturnsNull)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AdapterRegistryTest</type>
+        </param>
+        <param>
+          <type>AR_01_EmptyRegistryResolveReturnsNull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_adapter_registry_focused.cpp" line="41" column="1" bodyfile="tests/core/test_adapter_registry_focused.cpp" bodystart="41" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adapter__registry__focused_8cpp_1ad015f0dcd632c4c1e60261c84aab5769" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AdapterRegistryTest, AR_02_RegisterAndResolve)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AdapterRegistryTest</type>
+        </param>
+        <param>
+          <type>AR_02_RegisterAndResolve</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_adapter_registry_focused.cpp" line="50" column="1" bodyfile="tests/core/test_adapter_registry_focused.cpp" bodystart="50" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adapter__registry__focused_8cpp_1acf96c96a32372ee1ee4fd54a5acbf110" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AdapterRegistryTest, AR_03_WrongTypeResolveReturnsNull)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AdapterRegistryTest</type>
+        </param>
+        <param>
+          <type>AR_03_WrongTypeResolveReturnsNull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_adapter_registry_focused.cpp" line="63" column="1" bodyfile="tests/core/test_adapter_registry_focused.cpp" bodystart="63" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adapter__registry__focused_8cpp_1a9b1c5eca011940e38d138e6157ec6505" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AdapterRegistryTest, AR_04_ApiVersionBelowCurrentThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AdapterRegistryTest</type>
+        </param>
+        <param>
+          <type>AR_04_ApiVersionBelowCurrentThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_adapter_registry_focused.cpp" line="76" column="1" bodyfile="tests/core/test_adapter_registry_focused.cpp" bodystart="76" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adapter__registry__focused_8cpp_1aca251f56b0d5cac7e88d05fb4ee12b5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AdapterRegistryTest, AR_05_EmptyIdThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AdapterRegistryTest</type>
+        </param>
+        <param>
+          <type>AR_05_EmptyIdThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_adapter_registry_focused.cpp" line="94" column="1" bodyfile="tests/core/test_adapter_registry_focused.cpp" bodystart="94" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adapter__registry__focused_8cpp_1a31cd1ac3afcf3a6ec629568d32f09556" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AdapterRegistryTest, AR_06_HotSwapReplacesAdapter)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AdapterRegistryTest</type>
+        </param>
+        <param>
+          <type>AR_06_HotSwapReplacesAdapter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_adapter_registry_focused.cpp" line="107" column="1" bodyfile="tests/core/test_adapter_registry_focused.cpp" bodystart="107" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adapter__registry__focused_8cpp_1a0e596bc9ef000e9fb875e1916766441f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AdapterRegistryTest, AR_07_ValidatorRejectionThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AdapterRegistryTest</type>
+        </param>
+        <param>
+          <type>AR_07_ValidatorRejectionThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_adapter_registry_focused.cpp" line="131" column="1" bodyfile="tests/core/test_adapter_registry_focused.cpp" bodystart="131" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adapter__registry__focused_8cpp_1afbad58c442cd957d9255493e59312164" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AdapterRegistryTest, AR_08_LoadFromPluginNonExistentPathReturnsFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AdapterRegistryTest</type>
+        </param>
+        <param>
+          <type>AR_08_LoadFromPluginNonExistentPathReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_adapter_registry_focused.cpp" line="145" column="1" bodyfile="tests/core/test_adapter_registry_focused.cpp" bodystart="145" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adapter__registry__focused_8cpp_1aaa9ceadb2b6dc09b5bdcc0244fb7b517" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AdapterRegistryTest, AR_09_CountAndHasAdapterCorrect)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AdapterRegistryTest</type>
+        </param>
+        <param>
+          <type>AR_09_CountAndHasAdapterCorrect</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_adapter_registry_focused.cpp" line="155" column="1" bodyfile="tests/core/test_adapter_registry_focused.cpp" bodystart="155" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adapter__registry__focused_8cpp_1aaed08874f83529486c9d82618ad05b67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AdapterRegistryTest, AR_10_ConcurrentResolveNoCrash)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AdapterRegistryTest</type>
+        </param>
+        <param>
+          <type>AR_10_ConcurrentResolveNoCrash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_adapter_registry_focused.cpp" line="177" column="1" bodyfile="tests/core/test_adapter_registry_focused.cpp" bodystart="177" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adapter__registry__focused_8cpp_1a1d846a6ec6baff2bcf5f28864266d7d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AdapterRegistryTest, AR_11_NullptrAdapterThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AdapterRegistryTest</type>
+        </param>
+        <param>
+          <type>AR_11_NullptrAdapterThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_adapter_registry_focused.cpp" line="212" column="1" bodyfile="tests/core/test_adapter_registry_focused.cpp" bodystart="212" bodyend="220"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="adapter__registry_8h" kindref="compound">core/concerns/adapter_registry.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="adapter__metadata_8h" kindref="compound">core/concerns/adapter_metadata.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;typeindex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1core_1_1concerns" kindref="compound">themis::core::concerns</ref>;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16" refid="struct_i_fake_alpha" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_i_fake_alpha" kindref="compound">IFakeAlpha</ref><sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="struct_i_fake_alpha_1a961f5c06861962e00e41024c91d49863" kindref="member">~IFakeAlpha</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_i_fake_alpha_1a134dc0c266275ad03ebf69e326a0bac1" kindref="member">value</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="struct_i_fake_beta" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_i_fake_beta" kindref="compound">IFakeBeta</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="struct_i_fake_beta_1a5827e74615a3bbcc8fb695efcb1ff716" kindref="member">~IFakeBeta</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="struct_i_fake_beta_1ab84448c5f2efccbc1f463067b8159b7b" kindref="member">label</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="struct_fake_alpha_impl" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_fake_alpha_impl_1a9af9b08a0883010a23d73f88f55b1daf" kindref="member">FakeAlphaImpl</ref><sp/>:<sp/><ref refid="struct_i_fake_alpha" kindref="compound">IFakeAlpha</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="struct_fake_alpha_impl_1a9af9b08a0883010a23d73f88f55b1daf" kindref="member">FakeAlphaImpl</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>v)<sp/>:<sp/><ref refid="struct_fake_alpha_impl_1a02daab4ecb14baff2e9203b430da7883" kindref="member">v_</ref>(v)<sp/>{}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_fake_alpha_impl_1ad1cb3a9b036631c2ac66f33eb8eb4c9a" kindref="member">value</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="struct_fake_alpha_impl_1a02daab4ecb14baff2e9203b430da7883" kindref="member">v_</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_fake_alpha_impl_1a02daab4ecb14baff2e9203b430da7883" kindref="member">v_</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="struct_fake_beta_impl" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_fake_beta_impl_1a597573fe9f25d7df348d73e1e5b72b5c" kindref="member">FakeBetaImpl</ref><sp/>:<sp/><ref refid="struct_i_fake_beta" kindref="compound">IFakeBeta</ref><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="struct_fake_beta_impl_1a597573fe9f25d7df348d73e1e5b72b5c" kindref="member">FakeBetaImpl</ref>(std::string<sp/>l)<sp/>:<sp/><ref refid="struct_fake_beta_impl_1a7a69ab912b6301b08a9a583dff41d5d5" kindref="member">l_</ref>(std::move(l))<sp/>{}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_fake_beta_impl_1a54c10189df387d62b0f337ce8305b59e" kindref="member">label</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="struct_fake_beta_impl_1a7a69ab912b6301b08a9a583dff41d5d5" kindref="member">l_</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_fake_beta_impl_1a7a69ab912b6301b08a9a583dff41d5d5" kindref="member">l_</ref>;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AR_01<sp/>—<sp/>empty<sp/>registry:<sp/>resolve<sp/>returns<sp/>null<sp/>shared_ptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><ref refid="test__adapter__registry__focused_8cpp_1a09f5eb9f2e9a24bd844d4b780f121447" kindref="member">TEST</ref>(AdapterRegistryTest,<sp/>AR_01_EmptyRegistryResolveReturnsNull)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry" kindref="compound">AdapterRegistry</ref><sp/>reg;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1aa3fdc9365fa08763b690cff199708b4d" kindref="member">resolve</ref>&lt;<ref refid="struct_i_fake_alpha" kindref="compound">IFakeAlpha</ref>&gt;();</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AR_02<sp/>—<sp/>registerAdapter<sp/>+<sp/>resolve:<sp/>returns<sp/>the<sp/>registered<sp/>adapter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><ref refid="test__adapter__registry__focused_8cpp_1a09f5eb9f2e9a24bd844d4b780f121447" kindref="member">TEST</ref>(AdapterRegistryTest,<sp/>AR_02_RegisterAndResolve)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry" kindref="compound">AdapterRegistry</ref><sp/>reg;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>adapter<sp/>=<sp/>std::make_shared&lt;FakeAlphaImpl&gt;(42);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a30e37c633be5c2c4c72c96db933ad48c" kindref="member">registerAdapter</ref>&lt;<ref refid="struct_i_fake_alpha" kindref="compound">IFakeAlpha</ref>&gt;(</highlight><highlight class="stringliteral">&quot;alpha&quot;</highlight><highlight class="normal">,<sp/>adapter);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resolved<sp/>=<sp/>reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1aa3fdc9365fa08763b690cff199708b4d" kindref="member">resolve</ref>&lt;<ref refid="struct_i_fake_alpha" kindref="compound">IFakeAlpha</ref>&gt;();</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(resolved,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(resolved-&gt;<ref refid="struct_i_fake_alpha_1a134dc0c266275ad03ebf69e326a0bac1" kindref="member">value</ref>(),<sp/>42);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AR_03<sp/>—<sp/>resolving<sp/>a<sp/>different<sp/>type<sp/>returns<sp/>null</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><ref refid="test__adapter__registry__focused_8cpp_1a09f5eb9f2e9a24bd844d4b780f121447" kindref="member">TEST</ref>(AdapterRegistryTest,<sp/>AR_03_WrongTypeResolveReturnsNull)<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry" kindref="compound">AdapterRegistry</ref><sp/>reg;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>adapter<sp/>=<sp/>std::make_shared&lt;FakeAlphaImpl&gt;(7);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a30e37c633be5c2c4c72c96db933ad48c" kindref="member">registerAdapter</ref>&lt;<ref refid="struct_i_fake_alpha" kindref="compound">IFakeAlpha</ref>&gt;(</highlight><highlight class="stringliteral">&quot;alpha&quot;</highlight><highlight class="normal">,<sp/>adapter);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resolve<sp/>IFakeBeta<sp/>—<sp/>not<sp/>registered</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1aa3fdc9365fa08763b690cff199708b4d" kindref="member">resolve</ref>&lt;<ref refid="struct_i_fake_beta" kindref="compound">IFakeBeta</ref>&gt;();</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AR_04<sp/>—<sp/>apiVersion<sp/>below<sp/>kCurrentApiVersion<sp/>throws<sp/>std::invalid_argument</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><ref refid="test__adapter__registry__focused_8cpp_1a09f5eb9f2e9a24bd844d4b780f121447" kindref="member">TEST</ref>(AdapterRegistryTest,<sp/>AR_04_ApiVersionBelowCurrentThrows)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(kCurrentApiVersion<sp/>&gt;<sp/>0,<sp/></highlight><highlight class="stringliteral">&quot;kCurrentApiVersion<sp/>must<sp/>remain<sp/>positive&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry" kindref="compound">AdapterRegistry</ref><sp/>reg;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>adapter<sp/>=<sp/>std::make_shared&lt;FakeAlphaImpl&gt;(1);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref><sp/>meta;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata_1a3032b94bcc75388c16754b27ac59bcee" kindref="member">id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;alpha&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata_1aba1e1b0560f539d2381555203fec8cae" kindref="member">apiVersion</ref><sp/>=<sp/>kCurrentApiVersion<sp/>-<sp/>1;<sp/></highlight><highlight class="comment">//<sp/>explicitly<sp/>invalid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a30e37c633be5c2c4c72c96db933ad48c" kindref="member">registerAdapter</ref>&lt;<ref refid="struct_i_fake_alpha" kindref="compound">IFakeAlpha</ref>&gt;(</highlight><highlight class="stringliteral">&quot;alpha&quot;</highlight><highlight class="normal">,<sp/>adapter,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>meta),</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AR_05<sp/>—<sp/>empty<sp/>id<sp/>throws<sp/>std::invalid_argument</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><ref refid="test__adapter__registry__focused_8cpp_1a09f5eb9f2e9a24bd844d4b780f121447" kindref="member">TEST</ref>(AdapterRegistryTest,<sp/>AR_05_EmptyIdThrows)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry" kindref="compound">AdapterRegistry</ref><sp/>reg;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>adapter<sp/>=<sp/>std::make_shared&lt;FakeAlphaImpl&gt;(1);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a30e37c633be5c2c4c72c96db933ad48c" kindref="member">registerAdapter</ref>&lt;<ref refid="struct_i_fake_alpha" kindref="compound">IFakeAlpha</ref>&gt;(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>adapter),</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AR_06<sp/>—<sp/>hotSwap<sp/>installs<sp/>new<sp/>adapter;<sp/>old<sp/>adapter<sp/>is<sp/>observable<sp/>as<sp/>replaced</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><ref refid="test__adapter__registry__focused_8cpp_1a09f5eb9f2e9a24bd844d4b780f121447" kindref="member">TEST</ref>(AdapterRegistryTest,<sp/>AR_06_HotSwapReplacesAdapter)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry" kindref="compound">AdapterRegistry</ref><sp/>reg;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>old_adapter<sp/>=<sp/>std::make_shared&lt;FakeAlphaImpl&gt;(10);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a30e37c633be5c2c4c72c96db933ad48c" kindref="member">registerAdapter</ref>&lt;<ref refid="struct_i_fake_alpha" kindref="compound">IFakeAlpha</ref>&gt;(</highlight><highlight class="stringliteral">&quot;alpha&quot;</highlight><highlight class="normal">,<sp/>old_adapter);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>new_adapter<sp/>=<sp/>std::make_shared&lt;FakeAlphaImpl&gt;(99);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1abe82a0afd569c8049317db62a73635db" kindref="member">hotSwap</ref>&lt;<ref refid="struct_i_fake_alpha" kindref="compound">IFakeAlpha</ref>&gt;(new_adapter);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ok);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resolved<sp/>=<sp/>reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1aa3fdc9365fa08763b690cff199708b4d" kindref="member">resolve</ref>&lt;<ref refid="struct_i_fake_alpha" kindref="compound">IFakeAlpha</ref>&gt;();</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(resolved,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(resolved-&gt;value(),<sp/>99);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AR_07<sp/>—<sp/>validator<sp/>returning<sp/>false<sp/>causes<sp/>registerAdapter<sp/>to<sp/>throw</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="class_reject_all_validator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_reject_all_validator" kindref="compound">RejectAllValidator</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_validator" kindref="compound">AdapterValidator</ref><sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_reject_all_validator_1a50e3d9dbd221b815b59af27085f986be" kindref="member">validate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref>&amp;<sp/></highlight><highlight class="comment">/*m*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><ref refid="test__adapter__registry__focused_8cpp_1a09f5eb9f2e9a24bd844d4b780f121447" kindref="member">TEST</ref>(AdapterRegistryTest,<sp/>AR_07_ValidatorRejectionThrows)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry" kindref="compound">AdapterRegistry</ref><sp/>reg;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>adapter<sp/><sp/><sp/>=<sp/>std::make_shared&lt;FakeAlphaImpl&gt;(1);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_reject_all_validator" kindref="compound">RejectAllValidator</ref><sp/>validator;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a30e37c633be5c2c4c72c96db933ad48c" kindref="member">registerAdapter</ref>&lt;<ref refid="struct_i_fake_alpha" kindref="compound">IFakeAlpha</ref>&gt;(</highlight><highlight class="stringliteral">&quot;alpha&quot;</highlight><highlight class="normal">,<sp/>adapter,<sp/>&amp;validator),</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AR_08<sp/>—<sp/>loadFromPlugin:<sp/>non-existent<sp/>path<sp/>returns<sp/>false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><ref refid="test__adapter__registry__focused_8cpp_1a09f5eb9f2e9a24bd844d4b780f121447" kindref="member">TEST</ref>(AdapterRegistryTest,<sp/>AR_08_LoadFromPluginNonExistentPathReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry" kindref="compound">AdapterRegistry</ref><sp/>reg;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>path<sp/>that<sp/>is<sp/>guaranteed<sp/>not<sp/>to<sp/>exist</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a4060819401d401cefd60a02f79f7a630" kindref="member">loadFromPlugin</ref>(</highlight><highlight class="stringliteral">&quot;/tmp/__themis_no_such_plugin_xyz__.so&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alpha&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AR_09<sp/>—<sp/>count()<sp/>and<sp/>hasAdapter()<sp/>correct<sp/>after<sp/>register</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><ref refid="test__adapter__registry__focused_8cpp_1a09f5eb9f2e9a24bd844d4b780f121447" kindref="member">TEST</ref>(AdapterRegistryTest,<sp/>AR_09_CountAndHasAdapterCorrect)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry" kindref="compound">AdapterRegistry</ref><sp/>reg;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a95f22e88cdbeaf4d8923878537e4206e" kindref="member">count</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1aee88d20409d399d10d4d81681b8913a7" kindref="member">hasAdapter</ref>(std::type_index(</highlight><highlight class="keyword">typeid</highlight><highlight class="normal">(<ref refid="struct_i_fake_alpha" kindref="compound">IFakeAlpha</ref>))));</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a30e37c633be5c2c4c72c96db933ad48c" kindref="member">registerAdapter</ref>&lt;<ref refid="struct_i_fake_alpha" kindref="compound">IFakeAlpha</ref>&gt;(</highlight><highlight class="stringliteral">&quot;a1&quot;</highlight><highlight class="normal">,<sp/>std::make_shared&lt;FakeAlphaImpl&gt;(1));</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a95f22e88cdbeaf4d8923878537e4206e" kindref="member">count</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1aee88d20409d399d10d4d81681b8913a7" kindref="member">hasAdapter</ref>(std::type_index(</highlight><highlight class="keyword">typeid</highlight><highlight class="normal">(<ref refid="struct_i_fake_alpha" kindref="compound">IFakeAlpha</ref>))));</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a30e37c633be5c2c4c72c96db933ad48c" kindref="member">registerAdapter</ref>&lt;<ref refid="struct_i_fake_beta" kindref="compound">IFakeBeta</ref>&gt;(</highlight><highlight class="stringliteral">&quot;b1&quot;</highlight><highlight class="normal">,<sp/>std::make_shared&lt;FakeBetaImpl&gt;(</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a95f22e88cdbeaf4d8923878537e4206e" kindref="member">count</ref>(),<sp/>2u);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1aee88d20409d399d10d4d81681b8913a7" kindref="member">hasAdapter</ref>(std::type_index(</highlight><highlight class="keyword">typeid</highlight><highlight class="normal">(<ref refid="struct_i_fake_beta" kindref="compound">IFakeBeta</ref>))));</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>register<sp/>of<sp/>same<sp/>type<sp/>overwrites,<sp/>count<sp/>stays<sp/>at<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a30e37c633be5c2c4c72c96db933ad48c" kindref="member">registerAdapter</ref>&lt;<ref refid="struct_i_fake_alpha" kindref="compound">IFakeAlpha</ref>&gt;(</highlight><highlight class="stringliteral">&quot;a2&quot;</highlight><highlight class="normal">,<sp/>std::make_shared&lt;FakeAlphaImpl&gt;(2));</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a95f22e88cdbeaf4d8923878537e4206e" kindref="member">count</ref>(),<sp/>2u);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AR_10<sp/>—<sp/>concurrent<sp/>resolve<sp/>(16<sp/>threads<sp/>×<sp/>500<sp/>calls)<sp/>does<sp/>not<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><ref refid="test__adapter__registry__focused_8cpp_1a09f5eb9f2e9a24bd844d4b780f121447" kindref="member">TEST</ref>(AdapterRegistryTest,<sp/>AR_10_ConcurrentResolveNoCrash)<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry" kindref="compound">AdapterRegistry</ref><sp/>reg;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a30e37c633be5c2c4c72c96db933ad48c" kindref="member">registerAdapter</ref>&lt;<ref refid="struct_i_fake_alpha" kindref="compound">IFakeAlpha</ref>&gt;(</highlight><highlight class="stringliteral">&quot;alpha&quot;</highlight><highlight class="normal">,<sp/>std::make_shared&lt;FakeAlphaImpl&gt;(7));</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kThreads<sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kCalls<sp/><sp/><sp/>=<sp/>500;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>total_sum{0};</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>threads.reserve(kThreads);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>kThreads;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;]<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>local<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kCalls;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>p<sp/>=<sp/>reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1aa3fdc9365fa08763b690cff199708b4d" kindref="member">resolve</ref>&lt;<ref refid="struct_i_fake_alpha" kindref="compound">IFakeAlpha</ref>&gt;();</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(p)<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>local<sp/>+=<sp/>p-&gt;value();</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total_sum.fetch_add(local,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>th<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>th.join();</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>16<sp/>threads<sp/>×<sp/>500<sp/>calls<sp/>×<sp/>value<sp/>7</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(total_sum.load(),<sp/>kThreads<sp/>*<sp/>kCalls<sp/>*<sp/>7);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AR_11<sp/>—<sp/>nullptr<sp/>adapter<sp/>is<sp/>rejected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><ref refid="test__adapter__registry__focused_8cpp_1a09f5eb9f2e9a24bd844d4b780f121447" kindref="member">TEST</ref>(AdapterRegistryTest,<sp/>AR_11_NullptrAdapterThrows)<sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry" kindref="compound">AdapterRegistry</ref><sp/>reg;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;IFakeAlpha&gt;<sp/>adapter;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a30e37c633be5c2c4c72c96db933ad48c" kindref="member">registerAdapter</ref>&lt;<ref refid="struct_i_fake_alpha" kindref="compound">IFakeAlpha</ref>&gt;(</highlight><highlight class="stringliteral">&quot;alpha&quot;</highlight><highlight class="normal">,<sp/>adapter),</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/core/test_adapter_registry_focused.cpp"/>
+  </compounddef>
+</doxygen>

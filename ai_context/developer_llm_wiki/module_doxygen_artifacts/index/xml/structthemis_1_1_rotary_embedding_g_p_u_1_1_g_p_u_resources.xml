@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_rotary_embedding_g_p_u_1_1_g_p_u_resources" kind="struct" language="C++" prot="public">
+    <compoundname>themis::RotaryEmbeddingGPU::GPUResources</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_rotary_embedding_g_p_u_1_1_g_p_u_resources_1a97691e189f567e1ffd58545cd15b618d" prot="public" static="no" mutable="no">
+        <type>double *</type>
+        <definition>double* themis::RotaryEmbeddingGPU::GPUResources::d_theta_cache</definition>
+        <argsstring></argsstring>
+        <name>d_theta_cache</name>
+        <qualifiedname>themis::RotaryEmbeddingGPU::GPUResources::d_theta_cache</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/rotary_embeddings_hip.cpp" line="124" column="12" bodyfile="src/index/rotary_embeddings_hip.cpp" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rotary_embedding_g_p_u_1_1_g_p_u_resources_1afb368970db32627ce2ba0971c4fddafd" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::RotaryEmbeddingGPU::GPUResources::theta_cache_size</definition>
+        <argsstring></argsstring>
+        <name>theta_cache_size</name>
+        <qualifiedname>themis::RotaryEmbeddingGPU::GPUResources::theta_cache_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/rotary_embeddings_hip.cpp" line="125" column="12" bodyfile="src/index/rotary_embeddings_hip.cpp" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rotary_embedding_g_p_u_1_1_g_p_u_resources_1ac55b1ffe8796482271309805318599c9" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::RotaryEmbeddingGPU::GPUResources::device_id</definition>
+        <argsstring></argsstring>
+        <name>device_id</name>
+        <qualifiedname>themis::RotaryEmbeddingGPU::GPUResources::device_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/rotary_embeddings_hip.cpp" line="126" column="9" bodyfile="src/index/rotary_embeddings_hip.cpp" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rotary_embedding_g_p_u_1_1_g_p_u_resources_1ae03ae079f51466b964c33375f2934d01" prot="public" static="no" mutable="no">
+        <type>float *</type>
+        <definition>float* themis::RotaryEmbeddingGPU::GPUResources::d_embeddings</definition>
+        <argsstring></argsstring>
+        <name>d_embeddings</name>
+        <qualifiedname>themis::RotaryEmbeddingGPU::GPUResources::d_embeddings</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/rotary_embeddings_hip.cpp" line="128" column="11" bodyfile="src/index/rotary_embeddings_hip.cpp" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rotary_embedding_g_p_u_1_1_g_p_u_resources_1aea767a7a7de8377c8e67b0ad2afed77b" prot="public" static="no" mutable="no">
+        <type>size_t *</type>
+        <definition>size_t* themis::RotaryEmbeddingGPU::GPUResources::d_positions</definition>
+        <argsstring></argsstring>
+        <name>d_positions</name>
+        <qualifiedname>themis::RotaryEmbeddingGPU::GPUResources::d_positions</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/rotary_embeddings_hip.cpp" line="129" column="12" bodyfile="src/index/rotary_embeddings_hip.cpp" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rotary_embedding_g_p_u_1_1_g_p_u_resources_1a803b63c28c482c216a5fd0f28a6938d0" prot="public" static="no" mutable="no">
+        <type>float *</type>
+        <definition>float* themis::RotaryEmbeddingGPU::GPUResources::d_output</definition>
+        <argsstring></argsstring>
+        <name>d_output</name>
+        <qualifiedname>themis::RotaryEmbeddingGPU::GPUResources::d_output</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/rotary_embeddings_hip.cpp" line="130" column="11" bodyfile="src/index/rotary_embeddings_hip.cpp" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rotary_embedding_g_p_u_1_1_g_p_u_resources_1afc86565304ffd0fcd51ff8acf5ef9916" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::RotaryEmbeddingGPU::GPUResources::allocated_batch_size</definition>
+        <argsstring></argsstring>
+        <name>allocated_batch_size</name>
+        <qualifiedname>themis::RotaryEmbeddingGPU::GPUResources::allocated_batch_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/rotary_embeddings_hip.cpp" line="131" column="12" bodyfile="src/index/rotary_embeddings_hip.cpp" bodystart="131" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_rotary_embedding_g_p_u_1_1_g_p_u_resources_1a3e47a08bda7b70a7c962134ff1216e82" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::RotaryEmbeddingGPU::GPUResources::~GPUResources</definition>
+        <argsstring>()</argsstring>
+        <name>~GPUResources</name>
+        <qualifiedname>themis::RotaryEmbeddingGPU::GPUResources::~GPUResources</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/rotary_embeddings_hip.cpp" line="133" column="5" bodyfile="src/index/rotary_embeddings_hip.cpp" bodystart="133" bodyend="146"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/index/rotary_embeddings_gpu_cpu.cpp" line="21" column="1" bodyfile="src/index/rotary_embeddings_gpu_cpu.cpp" bodystart="21" bodyend="23"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_rotary_embedding_g_p_u_1_1_g_p_u_resources_1afc86565304ffd0fcd51ff8acf5ef9916" prot="public" virt="non-virtual"><scope>themis::RotaryEmbeddingGPU::GPUResources</scope><name>allocated_batch_size</name></member>
+      <member refid="structthemis_1_1_rotary_embedding_g_p_u_1_1_g_p_u_resources_1ae03ae079f51466b964c33375f2934d01" prot="public" virt="non-virtual"><scope>themis::RotaryEmbeddingGPU::GPUResources</scope><name>d_embeddings</name></member>
+      <member refid="structthemis_1_1_rotary_embedding_g_p_u_1_1_g_p_u_resources_1a803b63c28c482c216a5fd0f28a6938d0" prot="public" virt="non-virtual"><scope>themis::RotaryEmbeddingGPU::GPUResources</scope><name>d_output</name></member>
+      <member refid="structthemis_1_1_rotary_embedding_g_p_u_1_1_g_p_u_resources_1aea767a7a7de8377c8e67b0ad2afed77b" prot="public" virt="non-virtual"><scope>themis::RotaryEmbeddingGPU::GPUResources</scope><name>d_positions</name></member>
+      <member refid="structthemis_1_1_rotary_embedding_g_p_u_1_1_g_p_u_resources_1a97691e189f567e1ffd58545cd15b618d" prot="public" virt="non-virtual"><scope>themis::RotaryEmbeddingGPU::GPUResources</scope><name>d_theta_cache</name></member>
+      <member refid="structthemis_1_1_rotary_embedding_g_p_u_1_1_g_p_u_resources_1ac55b1ffe8796482271309805318599c9" prot="public" virt="non-virtual"><scope>themis::RotaryEmbeddingGPU::GPUResources</scope><name>device_id</name></member>
+      <member refid="structthemis_1_1_rotary_embedding_g_p_u_1_1_g_p_u_resources_1afb368970db32627ce2ba0971c4fddafd" prot="public" virt="non-virtual"><scope>themis::RotaryEmbeddingGPU::GPUResources</scope><name>theta_cache_size</name></member>
+      <member refid="structthemis_1_1_rotary_embedding_g_p_u_1_1_g_p_u_resources_1a3e47a08bda7b70a7c962134ff1216e82" prot="public" virt="non-virtual"><scope>themis::RotaryEmbeddingGPU::GPUResources</scope><name>~GPUResources</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

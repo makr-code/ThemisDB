@@ -1,0 +1,287 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_extraction_options" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::ExtractionOptions</compoundname>
+    <includes refid="content__plugin__interface_8h" local="no">content_plugin_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_options_1ade0b957e663efbff602d65ec9e8c50cb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ExtractionOptions::extract_text</definition>
+        <argsstring></argsstring>
+        <name>extract_text</name>
+        <qualifiedname>themis::content::ExtractionOptions::extract_text</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="184" column="10" bodyfile="include/content/content_plugin_interface.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_options_1aa06968b7585805253b2d22a027f3dd13" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ExtractionOptions::extract_metadata</definition>
+        <argsstring></argsstring>
+        <name>extract_metadata</name>
+        <qualifiedname>themis::content::ExtractionOptions::extract_metadata</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="185" column="10" bodyfile="include/content/content_plugin_interface.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_options_1a8f194a230dfc9495ff9fcda1a6f7179d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ExtractionOptions::generate_thumbnail</definition>
+        <argsstring></argsstring>
+        <name>generate_thumbnail</name>
+        <qualifiedname>themis::content::ExtractionOptions::generate_thumbnail</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="186" column="10" bodyfile="include/content/content_plugin_interface.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_options_1ac4746388d5ed8fd39aefad5441e67617" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ExtractionOptions::generate_embedding</definition>
+        <argsstring></argsstring>
+        <name>generate_embedding</name>
+        <qualifiedname>themis::content::ExtractionOptions::generate_embedding</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="187" column="10" bodyfile="include/content/content_plugin_interface.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_options_1add015e47eb26e97612f45c88072e7ed3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ExtractionOptions::extract_keyframes</definition>
+        <argsstring></argsstring>
+        <name>extract_keyframes</name>
+        <qualifiedname>themis::content::ExtractionOptions::extract_keyframes</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="188" column="10" bodyfile="include/content/content_plugin_interface.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_options_1a505dabe66c4d39a5c6f9bf68c66cb69e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ExtractionOptions::extract_scenes</definition>
+        <argsstring></argsstring>
+        <name>extract_scenes</name>
+        <qualifiedname>themis::content::ExtractionOptions::extract_scenes</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="189" column="10" bodyfile="include/content/content_plugin_interface.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_options_1ae217b490e2a2a5554739d364340136cc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ExtractionOptions::extract_subtitles</definition>
+        <argsstring></argsstring>
+        <name>extract_subtitles</name>
+        <qualifiedname>themis::content::ExtractionOptions::extract_subtitles</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="190" column="10" bodyfile="include/content/content_plugin_interface.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_options_1a2b930dd1f1c0a3783f03ee8ebe04db96" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::ExtractionOptions::chunk_max_tokens</definition>
+        <argsstring></argsstring>
+        <name>chunk_max_tokens</name>
+        <qualifiedname>themis::content::ExtractionOptions::chunk_max_tokens</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="193" column="9" bodyfile="include/content/content_plugin_interface.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_options_1a74aef3334e8354201413c8748008329d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::ExtractionOptions::chunk_overlap</definition>
+        <argsstring></argsstring>
+        <name>chunk_overlap</name>
+        <qualifiedname>themis::content::ExtractionOptions::chunk_overlap</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="194" column="9" bodyfile="include/content/content_plugin_interface.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_options_1a8579981f41f6c9cb813941717e7a5f4b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ExtractionOptions::chunk_strategy</definition>
+        <argsstring></argsstring>
+        <name>chunk_strategy</name>
+        <qualifiedname>themis::content::ExtractionOptions::chunk_strategy</qualifiedname>
+        <initializer>= &quot;paragraph&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="195" column="17" bodyfile="include/content/content_plugin_interface.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_options_1a40a6eea59b4de3815c6af8ab094a58bf" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::ExtractionOptions::format_options</definition>
+        <argsstring></argsstring>
+        <name>format_options</name>
+        <qualifiedname>themis::content::ExtractionOptions::format_options</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="198" column="10" bodyfile="include/content/content_plugin_interface.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_options_1a5bfe6e57c93f19b923824db442b74a45" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ExtractionOptions::use_spatial_filter</definition>
+        <argsstring></argsstring>
+        <name>use_spatial_filter</name>
+        <qualifiedname>themis::content::ExtractionOptions::use_spatial_filter</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="201" column="10" bodyfile="include/content/content_plugin_interface.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_options_1a5cbc50de70d4b2b3c8cf45aab6f1e7b1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::content::ExtractionOptions::filter_minx</definition>
+        <argsstring></argsstring>
+        <name>filter_minx</name>
+        <qualifiedname>themis::content::ExtractionOptions::filter_minx</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="202" column="12" bodyfile="include/content/content_plugin_interface.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_options_1aba4070b5485fa33e72c7de05f47cf4cc" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::content::ExtractionOptions::filter_miny</definition>
+        <argsstring></argsstring>
+        <name>filter_miny</name>
+        <qualifiedname>themis::content::ExtractionOptions::filter_miny</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="203" column="12" bodyfile="include/content/content_plugin_interface.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_options_1a4e53730d811be2d1eeba56e4f9e15e4b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::content::ExtractionOptions::filter_maxx</definition>
+        <argsstring></argsstring>
+        <name>filter_maxx</name>
+        <qualifiedname>themis::content::ExtractionOptions::filter_maxx</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="204" column="12" bodyfile="include/content/content_plugin_interface.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_options_1a914c1192244f508fcedfac242b2361f1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::content::ExtractionOptions::filter_maxy</definition>
+        <argsstring></argsstring>
+        <name>filter_maxy</name>
+        <qualifiedname>themis::content::ExtractionOptions::filter_maxy</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="205" column="12" bodyfile="include/content/content_plugin_interface.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_options_1acfc3bfbd5aec2a42c29c29bfabb6120c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::ExtractionOptions::timeout_seconds</definition>
+        <argsstring></argsstring>
+        <name>timeout_seconds</name>
+        <qualifiedname>themis::content::ExtractionOptions::timeout_seconds</qualifiedname>
+        <initializer>= 60</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="208" column="9" bodyfile="include/content/content_plugin_interface.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/content_plugin_interface.h" line="183" column="1" bodyfile="include/content/content_plugin_interface.h" bodystart="183" bodyend="209"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_extraction_options_1a2b930dd1f1c0a3783f03ee8ebe04db96" prot="public" virt="non-virtual"><scope>themis::content::ExtractionOptions</scope><name>chunk_max_tokens</name></member>
+      <member refid="structthemis_1_1content_1_1_extraction_options_1a74aef3334e8354201413c8748008329d" prot="public" virt="non-virtual"><scope>themis::content::ExtractionOptions</scope><name>chunk_overlap</name></member>
+      <member refid="structthemis_1_1content_1_1_extraction_options_1a8579981f41f6c9cb813941717e7a5f4b" prot="public" virt="non-virtual"><scope>themis::content::ExtractionOptions</scope><name>chunk_strategy</name></member>
+      <member refid="structthemis_1_1content_1_1_extraction_options_1add015e47eb26e97612f45c88072e7ed3" prot="public" virt="non-virtual"><scope>themis::content::ExtractionOptions</scope><name>extract_keyframes</name></member>
+      <member refid="structthemis_1_1content_1_1_extraction_options_1aa06968b7585805253b2d22a027f3dd13" prot="public" virt="non-virtual"><scope>themis::content::ExtractionOptions</scope><name>extract_metadata</name></member>
+      <member refid="structthemis_1_1content_1_1_extraction_options_1a505dabe66c4d39a5c6f9bf68c66cb69e" prot="public" virt="non-virtual"><scope>themis::content::ExtractionOptions</scope><name>extract_scenes</name></member>
+      <member refid="structthemis_1_1content_1_1_extraction_options_1ae217b490e2a2a5554739d364340136cc" prot="public" virt="non-virtual"><scope>themis::content::ExtractionOptions</scope><name>extract_subtitles</name></member>
+      <member refid="structthemis_1_1content_1_1_extraction_options_1ade0b957e663efbff602d65ec9e8c50cb" prot="public" virt="non-virtual"><scope>themis::content::ExtractionOptions</scope><name>extract_text</name></member>
+      <member refid="structthemis_1_1content_1_1_extraction_options_1a4e53730d811be2d1eeba56e4f9e15e4b" prot="public" virt="non-virtual"><scope>themis::content::ExtractionOptions</scope><name>filter_maxx</name></member>
+      <member refid="structthemis_1_1content_1_1_extraction_options_1a914c1192244f508fcedfac242b2361f1" prot="public" virt="non-virtual"><scope>themis::content::ExtractionOptions</scope><name>filter_maxy</name></member>
+      <member refid="structthemis_1_1content_1_1_extraction_options_1a5cbc50de70d4b2b3c8cf45aab6f1e7b1" prot="public" virt="non-virtual"><scope>themis::content::ExtractionOptions</scope><name>filter_minx</name></member>
+      <member refid="structthemis_1_1content_1_1_extraction_options_1aba4070b5485fa33e72c7de05f47cf4cc" prot="public" virt="non-virtual"><scope>themis::content::ExtractionOptions</scope><name>filter_miny</name></member>
+      <member refid="structthemis_1_1content_1_1_extraction_options_1a40a6eea59b4de3815c6af8ab094a58bf" prot="public" virt="non-virtual"><scope>themis::content::ExtractionOptions</scope><name>format_options</name></member>
+      <member refid="structthemis_1_1content_1_1_extraction_options_1ac4746388d5ed8fd39aefad5441e67617" prot="public" virt="non-virtual"><scope>themis::content::ExtractionOptions</scope><name>generate_embedding</name></member>
+      <member refid="structthemis_1_1content_1_1_extraction_options_1a8f194a230dfc9495ff9fcda1a6f7179d" prot="public" virt="non-virtual"><scope>themis::content::ExtractionOptions</scope><name>generate_thumbnail</name></member>
+      <member refid="structthemis_1_1content_1_1_extraction_options_1acfc3bfbd5aec2a42c29c29bfabb6120c" prot="public" virt="non-virtual"><scope>themis::content::ExtractionOptions</scope><name>timeout_seconds</name></member>
+      <member refid="structthemis_1_1content_1_1_extraction_options_1a5bfe6e57c93f19b923824db442b74a45" prot="public" virt="non-virtual"><scope>themis::content::ExtractionOptions</scope><name>use_spatial_filter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

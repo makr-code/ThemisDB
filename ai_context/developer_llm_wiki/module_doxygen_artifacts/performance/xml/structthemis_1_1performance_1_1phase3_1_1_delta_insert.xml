@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1phase3_1_1_delta_insert" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::phase3::DeltaInsert</compoundname>
+    <basecompoundref refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page" prot="public" virt="non-virtual">themis::performance::phase3::BwTreePage</basecompoundref>
+    <includes refid="bwtree_8h" local="no">bwtree.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_delta_insert_1ae97ccdbd652ef79563b17e034022e7e6" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::performance::phase3::DeltaInsert::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::performance::phase3::DeltaInsert::key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/bwtree.h" line="63" column="13" bodyfile="include/performance/phase3/bwtree.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_delta_insert_1a28b2e362b69bfa723f05e0248421085d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::performance::phase3::DeltaInsert::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::performance::phase3::DeltaInsert::value</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/bwtree.h" line="64" column="17" bodyfile="include/performance/phase3/bwtree.h" bodystart="64" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1performance_1_1phase3_1_1_delta_insert_1a07d0cd4af3a3983b8985ec8db174356b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase3::DeltaInsert::DeltaInsert</definition>
+        <argsstring>(int64_t k, const std::string &amp;v)</argsstring>
+        <name>DeltaInsert</name>
+        <qualifiedname>themis::performance::phase3::DeltaInsert::DeltaInsert</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/bwtree.h" line="66" column="5" bodyfile="include/performance/phase3/bwtree.h" bodystart="66" bodyend="68"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Delta record for insert. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::performance::phase3::BwTreePage</label>
+        <link refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page"/>
+      </node>
+      <node id="1">
+        <label>themis::performance::phase3::DeltaInsert</label>
+        <link refid="structthemis_1_1performance_1_1phase3_1_1_delta_insert"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::performance::phase3::BwTreePage</label>
+        <link refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page"/>
+      </node>
+      <node id="1">
+        <label>themis::performance::phase3::DeltaInsert</label>
+        <link refid="structthemis_1_1performance_1_1phase3_1_1_delta_insert"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/performance/phase3/bwtree.h" line="62" column="1" bodyfile="include/performance/phase3/bwtree.h" bodystart="62" bodyend="69"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_delta_insert_1a07d0cd4af3a3983b8985ec8db174356b" prot="public" virt="non-virtual"><scope>themis::performance::phase3::DeltaInsert</scope><name>DeltaInsert</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_delta_insert_1ae97ccdbd652ef79563b17e034022e7e6" prot="public" virt="non-virtual"><scope>themis::performance::phase3::DeltaInsert</scope><name>key</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page_1a13de474a8c14a74b77b97f682c460f14" prot="public" virt="non-virtual"><scope>themis::performance::phase3::DeltaInsert</scope><name>next_delta</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page_1aeec03f1eff0c095cd82537e347a29ca1" prot="public" virt="non-virtual"><scope>themis::performance::phase3::DeltaInsert</scope><name>type</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_delta_insert_1a28b2e362b69bfa723f05e0248421085d" prot="public" virt="non-virtual"><scope>themis::performance::phase3::DeltaInsert</scope><name>value</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page_1ad26ef19c726f5c3571e41b329bda93e8" prot="public" virt="virtual"><scope>themis::performance::phase3::DeltaInsert</scope><name>~BwTreePage</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

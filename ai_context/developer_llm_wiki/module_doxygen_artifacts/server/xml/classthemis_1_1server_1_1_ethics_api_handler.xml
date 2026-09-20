@@ -1,0 +1,826 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_ethics_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::EthicsApiHandler</compoundname>
+    <includes refid="ethics__api__handler_8h" local="no">ethics_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_ethics_api_handler_1a7f5df238c5f2d66b53dd6d89d0606828" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::server::EthicsApiHandler::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>themis::server::EthicsApiHandler::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ethics_api_handler.h" line="125" column="21" bodyfile="include/server/ethics_api_handler.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_ethics_api_handler_1a69de71a5f0902da0be56eba23841956f" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="namespacethemis_1a2fc17512a57c687fa92b431087cbecd2" kindref="member">QueryEngine</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;QueryEngine&gt; themis::server::EthicsApiHandler::query_engine_</definition>
+        <argsstring></argsstring>
+        <name>query_engine_</name>
+        <qualifiedname>themis::server::EthicsApiHandler::query_engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ethics_api_handler.h" line="126" column="21" bodyfile="include/server/ethics_api_handler.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_ethics_api_handler_1a3d6cc594a3a3f1f9e194830dc8b86159" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;themis::AuthMiddleware&gt; themis::server::EthicsApiHandler::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>themis::server::EthicsApiHandler::auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ethics_api_handler.h" line="127" column="21" bodyfile="include/server/ethics_api_handler.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_ethics_api_handler_1aea3a0c3ca6916fe7c84db9417807cf5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::EthicsApiHandler::EthicsApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; storage, std::shared_ptr&lt; QueryEngine &gt; query_engine, std::shared_ptr&lt; themis::AuthMiddleware &gt; auth)</argsstring>
+        <name>EthicsApiHandler</name>
+        <qualifiedname>themis::server::EthicsApiHandler::EthicsApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+          <declname>storage</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="namespacethemis_1a2fc17512a57c687fa92b431087cbecd2" kindref="member">QueryEngine</ref> &gt;</type>
+          <declname>query_engine</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+          <declname>auth</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ethics_api_handler.h" line="34" column="5" bodyfile="src/server/ethics_api_handler.cpp" bodystart="28" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_ethics_api_handler_1a7b35f64e766e7f7f537112a3b56ba0ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::EthicsApiHandler::handle</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;target)</argsstring>
+        <name>handle</name>
+        <qualifiedname>themis::server::EthicsApiHandler::handle</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+<para>Handle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), substr(), rfind(), method(), <ref refid="classthemis_1_1server_1_1_ethics_api_handler_1a2e7ca532fe440ab1f9fccb00d60b8312" kindref="member">handleDebateInit()</ref>, <ref refid="classthemis_1_1server_1_1_ethics_api_handler_1a347a64b52d42b13a2a84d398e8840297" kindref="member">handleMakeDecision()</ref>, <ref refid="classthemis_1_1server_1_1_ethics_api_handler_1ae4b22f0b7a95d167e69f478ba628caa8" kindref="member">handleEvaluation()</ref>, <ref refid="classthemis_1_1server_1_1_ethics_api_handler_1a9439dafdcb633be8df89359856c8017d" kindref="member">handleGetArguments()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ethics_api_handler.h" line="46" column="20" bodyfile="src/server/ethics_api_handler.cpp" bodystart="46" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_ethics_api_handler_1a2e7ca532fe440ab1f9fccb00d60b8312" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::EthicsApiHandler::handleDebateInit</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleDebateInit</name>
+        <qualifiedname>themis::server::EthicsApiHandler::handleDebateInit</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Debate Init. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), nlohmann::json::parse(), body(), contains(), setStatus(), makeErrorResponse(), value(), executeAQL(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ethics_api_handler.h" line="55" column="20" bodyfile="src/server/ethics_api_handler.cpp" bodystart="99" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_ethics_api_handler_1a347a64b52d42b13a2a84d398e8840297" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::EthicsApiHandler::handleMakeDecision</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleMakeDecision</name>
+        <qualifiedname>themis::server::EthicsApiHandler::handleMakeDecision</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Make Decision. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), nlohmann::json::parse(), body(), contains(), setStatus(), makeErrorResponse(), value(), executeAQL(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ethics_api_handler.h" line="63" column="20" bodyfile="src/server/ethics_api_handler.cpp" bodystart="148" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_ethics_api_handler_1ae4b22f0b7a95d167e69f478ba628caa8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::EthicsApiHandler::handleEvaluation</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleEvaluation</name>
+        <qualifiedname>themis::server::EthicsApiHandler::handleEvaluation</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Evaluation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), nlohmann::json::parse(), body(), contains(), setStatus(), makeErrorResponse(), value(), nlohmann::json::array(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ethics_api_handler.h" line="71" column="20" bodyfile="src/server/ethics_api_handler.cpp" bodystart="199" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_ethics_api_handler_1a9439dafdcb633be8df89359856c8017d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::EthicsApiHandler::handleGetArguments</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGetArguments</name>
+        <qualifiedname>themis::server::EthicsApiHandler::handleGetArguments</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Arguments. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), std::string(), target(), extractQueryParam(), empty(), setStatus(), makeErrorResponse(), ss(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ethics_api_handler.h" line="79" column="20" bodyfile="src/server/ethics_api_handler.cpp" bodystart="246" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_ethics_api_handler_1ae3f6412173bdce5007d4d6afba83c2ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::EthicsApiHandler::handleSearchArguments</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleSearchArguments</name>
+        <qualifiedname>themis::server::EthicsApiHandler::handleSearchArguments</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Search Arguments. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), nlohmann::json::parse(), body(), contains(), setStatus(), makeErrorResponse(), value(), executeAQL(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ethics_api_handler.h" line="87" column="20" bodyfile="src/server/ethics_api_handler.cpp" bodystart="306" bodyend="348"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_ethics_api_handler_1afc3537759e5a0ed6e355ba8f3b3e518c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::EthicsApiHandler::handleListPhilosophies</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleListPhilosophies</name>
+        <qualifiedname>themis::server::EthicsApiHandler::handleListPhilosophies</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle List Philosophies. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), executeAQL(), setStatus(), makeResponse(), dump(), makeErrorResponse(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ethics_api_handler.h" line="95" column="20" bodyfile="src/server/ethics_api_handler.cpp" bodystart="356" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_ethics_api_handler_1a4ac504ded79217216c7bb56067903337" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::EthicsApiHandler::handleGetPhilosophy</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;school)</argsstring>
+        <name>handleGetPhilosophy</name>
+        <qualifiedname>themis::server::EthicsApiHandler::handleGetPhilosophy</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>school</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Philosophy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">school</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">school</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), executeAQL(), setStatus(), makeResponse(), dump(), makeErrorResponse(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ethics_api_handler.h" line="104" column="20" bodyfile="src/server/ethics_api_handler.cpp" bodystart="383" bodyend="405"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_ethics_api_handler_1a849ee172c74ccbba49946734c25786af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::EthicsApiHandler::handleBuildContext</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleBuildContext</name>
+        <qualifiedname>themis::server::EthicsApiHandler::handleBuildContext</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Build Context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), nlohmann::json::parse(), body(), contains(), setStatus(), makeErrorResponse(), value(), executeAQL(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ethics_api_handler.h" line="113" column="20" bodyfile="src/server/ethics_api_handler.cpp" bodystart="413" bodyend="454"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_ethics_api_handler_1a93b5509989eca59ac6cd4e5b47c2a3aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::EthicsApiHandler::handleGetMetrics</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGetMetrics</name>
+        <qualifiedname>themis::server::EthicsApiHandler::handleGetMetrics</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), std::string(), target(), extractQueryParam(), empty(), executeAQL(), void(), is_object(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ethics_api_handler.h" line="121" column="20" bodyfile="src/server/ethics_api_handler.cpp" bodystart="462" bodyend="524"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_ethics_api_handler_1af44caa5497a96d97ddf0ec501162787c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::EthicsApiHandler::makeErrorResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;message, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeErrorResponse</name>
+        <qualifiedname>themis::server::EthicsApiHandler::makeErrorResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make Error <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: version(), set(), keep_alive(), body(), dump(), prepare_payload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ethics_api_handler.h" line="137" column="20" bodyfile="src/server/ethics_api_handler.cpp" bodystart="536" bodyend="555"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_ethics_api_handler_1ac593837c7f5692c641736570e932c2f3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::EthicsApiHandler::makeResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;body, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeResponse</name>
+        <qualifiedname>themis::server::EthicsApiHandler::makeResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: version(), set(), keep_alive(), body(), prepare_payload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ethics_api_handler.h" line="149" column="20" bodyfile="src/server/ethics_api_handler.cpp" bodystart="565" bodyend="578"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_ethics_api_handler_1a023f7f79b588c6c95f3356b140a850ff" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::EthicsApiHandler::executeAQL</definition>
+        <argsstring>(const std::string &amp;aql_query, const nlohmann::json &amp;bind_vars=nlohmann::json::object())</argsstring>
+        <name>executeAQL</name>
+        <qualifiedname>themis::server::EthicsApiHandler::executeAQL</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql_query</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>bind_vars</declname>
+          <defval>nlohmann::json::object()</defval>
+        </param>
+        <briefdescription>
+<para>Execute AQL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql_query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bind_vars</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: begin(), end(), key(), value(), is_string(), reserve(), size(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ethics_api_handler.h" line="154" column="20" bodyfile="src/server/ethics_api_handler.cpp" bodystart="588" bodyend="656"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_ethics_api_handler_1af74e33d2cb735f3592339a92a5b48ad0" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::EthicsApiHandler::extractQueryParam</definition>
+        <argsstring>(const std::string &amp;target, const std::string &amp;param) const</argsstring>
+        <name>extractQueryParam</name>
+        <qualifiedname>themis::server::EthicsApiHandler::extractQueryParam</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>param</declname>
+        </param>
+        <briefdescription>
+<para>Extract Query Param. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ethics_api_handler.h" line="164" column="17" bodyfile="src/server/ethics_api_handler.cpp" bodystart="658" bodyend="685"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/ethics_api_handler.h" line="32" column="1" bodyfile="include/server/ethics_api_handler.h" bodystart="32" bodyend="167"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_ethics_api_handler_1a3d6cc594a3a3f1f9e194830dc8b86159" prot="private" virt="non-virtual"><scope>themis::server::EthicsApiHandler</scope><name>auth_</name></member>
+      <member refid="classthemis_1_1server_1_1_ethics_api_handler_1aea3a0c3ca6916fe7c84db9417807cf5e" prot="public" virt="non-virtual"><scope>themis::server::EthicsApiHandler</scope><name>EthicsApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_ethics_api_handler_1a023f7f79b588c6c95f3356b140a850ff" prot="private" virt="non-virtual"><scope>themis::server::EthicsApiHandler</scope><name>executeAQL</name></member>
+      <member refid="classthemis_1_1server_1_1_ethics_api_handler_1af74e33d2cb735f3592339a92a5b48ad0" prot="private" virt="non-virtual"><scope>themis::server::EthicsApiHandler</scope><name>extractQueryParam</name></member>
+      <member refid="classthemis_1_1server_1_1_ethics_api_handler_1a7b35f64e766e7f7f537112a3b56ba0ae" prot="public" virt="non-virtual"><scope>themis::server::EthicsApiHandler</scope><name>handle</name></member>
+      <member refid="classthemis_1_1server_1_1_ethics_api_handler_1a849ee172c74ccbba49946734c25786af" prot="public" virt="non-virtual"><scope>themis::server::EthicsApiHandler</scope><name>handleBuildContext</name></member>
+      <member refid="classthemis_1_1server_1_1_ethics_api_handler_1a2e7ca532fe440ab1f9fccb00d60b8312" prot="public" virt="non-virtual"><scope>themis::server::EthicsApiHandler</scope><name>handleDebateInit</name></member>
+      <member refid="classthemis_1_1server_1_1_ethics_api_handler_1ae4b22f0b7a95d167e69f478ba628caa8" prot="public" virt="non-virtual"><scope>themis::server::EthicsApiHandler</scope><name>handleEvaluation</name></member>
+      <member refid="classthemis_1_1server_1_1_ethics_api_handler_1a9439dafdcb633be8df89359856c8017d" prot="public" virt="non-virtual"><scope>themis::server::EthicsApiHandler</scope><name>handleGetArguments</name></member>
+      <member refid="classthemis_1_1server_1_1_ethics_api_handler_1a93b5509989eca59ac6cd4e5b47c2a3aa" prot="public" virt="non-virtual"><scope>themis::server::EthicsApiHandler</scope><name>handleGetMetrics</name></member>
+      <member refid="classthemis_1_1server_1_1_ethics_api_handler_1a4ac504ded79217216c7bb56067903337" prot="public" virt="non-virtual"><scope>themis::server::EthicsApiHandler</scope><name>handleGetPhilosophy</name></member>
+      <member refid="classthemis_1_1server_1_1_ethics_api_handler_1afc3537759e5a0ed6e355ba8f3b3e518c" prot="public" virt="non-virtual"><scope>themis::server::EthicsApiHandler</scope><name>handleListPhilosophies</name></member>
+      <member refid="classthemis_1_1server_1_1_ethics_api_handler_1a347a64b52d42b13a2a84d398e8840297" prot="public" virt="non-virtual"><scope>themis::server::EthicsApiHandler</scope><name>handleMakeDecision</name></member>
+      <member refid="classthemis_1_1server_1_1_ethics_api_handler_1ae3f6412173bdce5007d4d6afba83c2ab" prot="public" virt="non-virtual"><scope>themis::server::EthicsApiHandler</scope><name>handleSearchArguments</name></member>
+      <member refid="classthemis_1_1server_1_1_ethics_api_handler_1af44caa5497a96d97ddf0ec501162787c" prot="private" virt="non-virtual"><scope>themis::server::EthicsApiHandler</scope><name>makeErrorResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_ethics_api_handler_1ac593837c7f5692c641736570e932c2f3" prot="private" virt="non-virtual"><scope>themis::server::EthicsApiHandler</scope><name>makeResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_ethics_api_handler_1a69de71a5f0902da0be56eba23841956f" prot="private" virt="non-virtual"><scope>themis::server::EthicsApiHandler</scope><name>query_engine_</name></member>
+      <member refid="classthemis_1_1server_1_1_ethics_api_handler_1a7f5df238c5f2d66b53dd6d89d0606828" prot="private" virt="non-virtual"><scope>themis::server::EthicsApiHandler</scope><name>storage_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

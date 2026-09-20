@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="raid__simulator_8h" kind="file" language="C++">
+    <compoundname>raid_simulator.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">map</includes>
+    <includedby refid="raid__simulator_8cpp" local="yes">tests/utils/raid_simulator.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/utils/raid_simulator.h</label>
+        <link refid="raid__simulator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="4">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>tests/utils/raid_simulator.cpp</label>
+        <link refid="raid__simulator_8cpp"/>
+      </node>
+      <node id="1">
+        <label>tests/utils/raid_simulator.h</label>
+        <link refid="raid__simulator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1test_1_1_r_a_i_d_simulator" prot="public">themis::test::RAIDSimulator</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1test">themis::test</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1test" kindref="compound">test</ref><sp/>{</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14" refid="namespacethemis_1_1test_1aa5a3b4db074deac1c5c02d76110bea0f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1test_1aa5a3b4db074deac1c5c02d76110bea0f" kindref="member">RAIDMode</ref><sp/>{</highlight></codeline>
+<codeline lineno="15" refid="namespacethemis_1_1test_1aa5a3b4db074deac1c5c02d76110bea0faaff0a57a9f35820e5136fdfca99dc809" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1test_1aa5a3b4db074deac1c5c02d76110bea0faaff0a57a9f35820e5136fdfca99dc809" kindref="member">STRIPE</ref><sp/>=<sp/>0,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RAID<sp/>0<sp/>-<sp/>data<sp/>striping</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16" refid="namespacethemis_1_1test_1aa5a3b4db074deac1c5c02d76110bea0fa72a92ae9c1d172cdda196686278fbfc6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1test_1aa5a3b4db074deac1c5c02d76110bea0fa72a92ae9c1d172cdda196686278fbfc6" kindref="member">MIRROR</ref><sp/>=<sp/>1,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RAID<sp/>1<sp/>-<sp/>data<sp/>mirroring</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17" refid="namespacethemis_1_1test_1aa5a3b4db074deac1c5c02d76110bea0faaeef6f4aa155fd52d4dbea5ff3cd930a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1test_1aa5a3b4db074deac1c5c02d76110bea0faaeef6f4aa155fd52d4dbea5ff3cd930a" kindref="member">PARITY</ref><sp/>=<sp/>5,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RAID<sp/>5<sp/>-<sp/>striping<sp/>with<sp/>distributed<sp/>parity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18" refid="namespacethemis_1_1test_1aa5a3b4db074deac1c5c02d76110bea0fa3bf07fe8ac3883060b1558113ba248d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1test_1aa5a3b4db074deac1c5c02d76110bea0fa3bf07fe8ac3883060b1558113ba248d4" kindref="member">HYBRID</ref><sp/>=<sp/>10<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RAID<sp/>10<sp/>-<sp/>stripe<sp/>+<sp/>mirror</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="classthemis_1_1test_1_1_r_a_i_d_simulator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1ac2691b2e67ae5a33fea67ffb821fc49e" kindref="member">RAIDSimulator</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1ac2691b2e67ae5a33fea67ffb821fc49e" kindref="member">RAIDSimulator</ref>(<ref refid="namespacethemis_1_1test_1aa5a3b4db074deac1c5c02d76110bea0f" kindref="member">RAIDMode</ref><sp/>mode,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>num_shards);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1a09ee90fc976ae1442264c2c665461a05" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1a09ee90fc976ae1442264c2c665461a05" kindref="member">~RAIDSimulator</ref>();</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RAID<sp/>Operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;uint8_t&gt;&gt;<sp/><ref refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1a3e99bebc6656b005ce62c48158b7b17d" kindref="member">stripe</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;uint8_t&gt;&gt;<sp/><ref refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1a360e9067986065ca20b871abe71579b4" kindref="member">mirror</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data,</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>replication_factor);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;uint8_t&gt;&gt;<sp/><ref refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1a12e0dca5cc3c9b48fcbb9efe9a2a9c96" kindref="member">encodeWithParity</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::vector&lt;uint8_t&gt;&gt;<sp/><ref refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1a2b7dd5d442eda98d9866a5e70170ac43" kindref="member">reconstruct</ref>(</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::optional&lt;std::vector&lt;uint8_t&gt;&gt;&gt;&amp;<sp/>chunks);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Failure<sp/>Simulation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1a89d0c416524f60dee9240021443a3d6e" kindref="member">failShards</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;int&gt;&amp;<sp/>shard_ids);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1a2f389e4d592445ac775793df104c90c5" kindref="member">canRecover</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;int&gt;&amp;<sp/>failed_shards)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1ae7da9c9782de28c5431d4311d35aa6d5" kindref="member">getMaxTolerableFailures</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1a1f368503f8030cefa2dbc6fcc7381b68" kindref="member">recoverShards</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;int&gt;&amp;<sp/>shard_ids);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/><ref refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1af670b1abefd183cf06b936a9e0d17865" kindref="member">getFailedShards</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1a89cef20b8f3cc41a01721187442cc673" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1test_1aa5a3b4db074deac1c5c02d76110bea0f" kindref="member">RAIDMode</ref><sp/><ref refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1a89cef20b8f3cc41a01721187442cc673" kindref="member">getMode</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>mode_;<sp/>}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1a94fb9e07c5787ff18c9842e91746212a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1a94fb9e07c5787ff18c9842e91746212a" kindref="member">getShardCount</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>num_shards_;<sp/>}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1a693ebd286ffe73610a34385971de4077" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1a693ebd286ffe73610a34385971de4077" kindref="member">setChunkSize</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size)<sp/>{<sp/>chunk_size_<sp/>=<sp/>size;<sp/>}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1ae149e37091a2037ee69edd13cbf62e3b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1test_1_1_r_a_i_d_simulator_1ae149e37091a2037ee69edd13cbf62e3b" kindref="member">getChunkSize</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>chunk_size_;<sp/>}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1test_1aa5a3b4db074deac1c5c02d76110bea0f" kindref="member">RAIDMode</ref><sp/>mode_;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>num_shards_;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>chunk_size_;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/>failed_shards_;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>calculateParity(</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;uint8_t&gt;&gt;&amp;<sp/>chunks)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::vector&lt;uint8_t&gt;&gt;<sp/>reconstructRAID0(</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::optional&lt;std::vector&lt;uint8_t&gt;&gt;&gt;&amp;<sp/>chunks)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::vector&lt;uint8_t&gt;&gt;<sp/>reconstructRAID1(</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::optional&lt;std::vector&lt;uint8_t&gt;&gt;&gt;&amp;<sp/>chunks)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::vector&lt;uint8_t&gt;&gt;<sp/>reconstructRAID5(</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::optional&lt;std::vector&lt;uint8_t&gt;&gt;&gt;&amp;<sp/>chunks)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::vector&lt;uint8_t&gt;&gt;<sp/>reconstructRAID10(</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::optional&lt;std::vector&lt;uint8_t&gt;&gt;&gt;&amp;<sp/>chunks)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/utils/raid_simulator.h"/>
+  </compounddef>
+</doxygen>

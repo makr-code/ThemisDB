@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_adaptive_query_cache_1_1_cache_stats" kind="struct" language="C++" prot="public">
+    <compoundname>AdaptiveQueryCache::CacheStats</compoundname>
+    <includes refid="adaptive__query__cache_8h" local="no">adaptive_query_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_adaptive_query_cache_1_1_cache_stats_1a9fd1410f43c5854af6e3a389043b1b52" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::AdaptiveQueryCache::CacheStats::l1_hits</definition>
+        <argsstring></argsstring>
+        <name>l1_hits</name>
+        <qualifiedname>AdaptiveQueryCache::CacheStats::l1_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="146" column="18" bodyfile="include/cache/adaptive_query_cache.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_adaptive_query_cache_1_1_cache_stats_1a5e80af42db75b60098bef11faf2d0598" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::AdaptiveQueryCache::CacheStats::l2_hits</definition>
+        <argsstring></argsstring>
+        <name>l2_hits</name>
+        <qualifiedname>AdaptiveQueryCache::CacheStats::l2_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="147" column="18" bodyfile="include/cache/adaptive_query_cache.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_adaptive_query_cache_1_1_cache_stats_1a2cdd84d31d02b1c58c9133e3f04512bb" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::AdaptiveQueryCache::CacheStats::l3_hits</definition>
+        <argsstring></argsstring>
+        <name>l3_hits</name>
+        <qualifiedname>AdaptiveQueryCache::CacheStats::l3_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="148" column="18" bodyfile="include/cache/adaptive_query_cache.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_adaptive_query_cache_1_1_cache_stats_1a9b30008526638fd853b7efa2b8238786" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::AdaptiveQueryCache::CacheStats::misses</definition>
+        <argsstring></argsstring>
+        <name>misses</name>
+        <qualifiedname>AdaptiveQueryCache::CacheStats::misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="149" column="18" bodyfile="include/cache/adaptive_query_cache.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_adaptive_query_cache_1_1_cache_stats_1aebe8e05e6995870f108ab16d9ab92ad8" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::AdaptiveQueryCache::CacheStats::evictions</definition>
+        <argsstring></argsstring>
+        <name>evictions</name>
+        <qualifiedname>AdaptiveQueryCache::CacheStats::evictions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="150" column="18" bodyfile="include/cache/adaptive_query_cache.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_adaptive_query_cache_1_1_cache_stats_1acc2ef64e915c84847fe0a501d2522692" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::AdaptiveQueryCache::CacheStats::promotions</definition>
+        <argsstring></argsstring>
+        <name>promotions</name>
+        <qualifiedname>AdaptiveQueryCache::CacheStats::promotions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="151" column="18" bodyfile="include/cache/adaptive_query_cache.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_adaptive_query_cache_1_1_cache_stats_1ab0c09b13bdb5199addb87705e8b793e1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::AdaptiveQueryCache::CacheStats::demotions</definition>
+        <argsstring></argsstring>
+        <name>demotions</name>
+        <qualifiedname>AdaptiveQueryCache::CacheStats::demotions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="152" column="18" bodyfile="include/cache/adaptive_query_cache.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_adaptive_query_cache_1_1_cache_stats_1abb2e369813bfcc358d61c590a855ac66" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::AdaptiveQueryCache::CacheStats::getHitRate</definition>
+        <argsstring>() const</argsstring>
+        <name>getHitRate</name>
+        <qualifiedname>AdaptiveQueryCache::CacheStats::getHitRate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="154" column="16" bodyfile="include/cache/adaptive_query_cache.h" bodystart="154" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_adaptive_query_cache_1_1_cache_stats_1a3e3f9524b13af6a3c777e3ff669f83cd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::AdaptiveQueryCache::CacheStats::getL1HitRate</definition>
+        <argsstring>() const</argsstring>
+        <name>getL1HitRate</name>
+        <qualifiedname>AdaptiveQueryCache::CacheStats::getL1HitRate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="159" column="16" bodyfile="include/cache/adaptive_query_cache.h" bodystart="159" bodyend="162"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/adaptive_query_cache.h" line="145" column="5" bodyfile="include/cache/adaptive_query_cache.h" bodystart="145" bodyend="163"/>
+    <listofallmembers>
+      <member refid="struct_adaptive_query_cache_1_1_cache_stats_1ab0c09b13bdb5199addb87705e8b793e1" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache::CacheStats</scope><name>demotions</name></member>
+      <member refid="struct_adaptive_query_cache_1_1_cache_stats_1aebe8e05e6995870f108ab16d9ab92ad8" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache::CacheStats</scope><name>evictions</name></member>
+      <member refid="struct_adaptive_query_cache_1_1_cache_stats_1abb2e369813bfcc358d61c590a855ac66" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache::CacheStats</scope><name>getHitRate</name></member>
+      <member refid="struct_adaptive_query_cache_1_1_cache_stats_1a3e3f9524b13af6a3c777e3ff669f83cd" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache::CacheStats</scope><name>getL1HitRate</name></member>
+      <member refid="struct_adaptive_query_cache_1_1_cache_stats_1a9fd1410f43c5854af6e3a389043b1b52" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache::CacheStats</scope><name>l1_hits</name></member>
+      <member refid="struct_adaptive_query_cache_1_1_cache_stats_1a5e80af42db75b60098bef11faf2d0598" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache::CacheStats</scope><name>l2_hits</name></member>
+      <member refid="struct_adaptive_query_cache_1_1_cache_stats_1a2cdd84d31d02b1c58c9133e3f04512bb" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache::CacheStats</scope><name>l3_hits</name></member>
+      <member refid="struct_adaptive_query_cache_1_1_cache_stats_1a9b30008526638fd853b7efa2b8238786" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache::CacheStats</scope><name>misses</name></member>
+      <member refid="struct_adaptive_query_cache_1_1_cache_stats_1acc2ef64e915c84847fe0a501d2522692" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache::CacheStats</scope><name>promotions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

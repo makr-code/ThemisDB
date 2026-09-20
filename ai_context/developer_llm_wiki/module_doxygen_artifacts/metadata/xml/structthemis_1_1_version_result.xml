@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_version_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::VersionResult</compoundname>
+    <includes refid="schema__version__manager_8h" local="no">schema_version_manager.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_version_result_1af8cad4e2e95e40c3a3809d11bc0d7495" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::VersionResult&lt; T &gt;::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::VersionResult::ok</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="74" column="10" bodyfile="include/metadata/schema_version_manager.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_version_result_1ab128ed6a3a3ca0c32b61a82892813e13" prot="public" static="no" mutable="no">
+        <type>T</type>
+        <definition>T themis::VersionResult&lt; T &gt;::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::VersionResult::value</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="75" column="7" bodyfile="include/metadata/schema_version_manager.h" bodystart="75" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_version_result_1aa59c008ea4487b47abc386825aa03bf0" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1afef9111c0d3096ecfeba427c19c9a328" kindref="member">VersionErrorCode</ref></type>
+        <definition>VersionErrorCode themis::VersionResult&lt; T &gt;::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::VersionResult::error</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1afef9111c0d3096ecfeba427c19c9a328ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">VersionErrorCode::OK</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="76" column="22" bodyfile="include/metadata/schema_version_manager.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_version_result_1ad2b2ec0aaa3e13b8a25b066d934ec0a0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::VersionResult&lt; T &gt;::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::VersionResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="77" column="17" bodyfile="include/metadata/schema_version_manager.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_version_result_1a88eb0b4cc1007616aac0144fd431e1cc" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_version_result" kindref="compound">VersionResult</ref>&lt; T &gt;</type>
+        <definition>static VersionResult&lt; T &gt; themis::VersionResult&lt; T &gt;::success</definition>
+        <argsstring>(T v)</argsstring>
+        <name>success</name>
+        <qualifiedname>themis::VersionResult::success</qualifiedname>
+        <param>
+          <type>T</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Construct a successful result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Payload value received by value; callers can pass <computeroutput>std::move(...)</computeroutput> to avoid an extra copy for large payloads. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1_version_result" kindref="compound">VersionResult</ref> with <computeroutput><ref refid="structthemis_1_1_version_result_1af8cad4e2e95e40c3a3809d11bc0d7495" kindref="member">ok</ref> == true</computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="85" column="26" bodyfile="include/metadata/schema_version_manager.h" bodystart="85" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_version_result_1a7908a9bf68c3f1820703f0bfba218d3b" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_version_result" kindref="compound">VersionResult</ref>&lt; T &gt;</type>
+        <definition>static VersionResult&lt; T &gt; themis::VersionResult&lt; T &gt;::failure</definition>
+        <argsstring>(VersionErrorCode code, std::string msg)</argsstring>
+        <name>failure</name>
+        <qualifiedname>themis::VersionResult::failure</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1afef9111c0d3096ecfeba427c19c9a328" kindref="member">VersionErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+<para>Construct a failed result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Typed error code describing the failure. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable failure description stored in error_message. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1_version_result" kindref="compound">VersionResult</ref> with <computeroutput><ref refid="structthemis_1_1_version_result_1af8cad4e2e95e40c3a3809d11bc0d7495" kindref="member">ok</ref> == false</computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_version_manager.h" line="98" column="26" bodyfile="include/metadata/schema_version_manager.h" bodystart="98" bodyend="104"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Strongly typed result wrapper for schema versioning operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Payload type returned on success. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <location file="include/metadata/schema_version_manager.h" line="73" column="1" bodyfile="include/metadata/schema_version_manager.h" bodystart="73" bodyend="105"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_version_result_1aa59c008ea4487b47abc386825aa03bf0" prot="public" virt="non-virtual"><scope>themis::VersionResult</scope><name>error</name></member>
+      <member refid="structthemis_1_1_version_result_1ad2b2ec0aaa3e13b8a25b066d934ec0a0" prot="public" virt="non-virtual"><scope>themis::VersionResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1_version_result_1a7908a9bf68c3f1820703f0bfba218d3b" prot="public" virt="non-virtual"><scope>themis::VersionResult</scope><name>failure</name></member>
+      <member refid="structthemis_1_1_version_result_1af8cad4e2e95e40c3a3809d11bc0d7495" prot="public" virt="non-virtual"><scope>themis::VersionResult</scope><name>ok</name></member>
+      <member refid="structthemis_1_1_version_result_1a88eb0b4cc1007616aac0144fd431e1cc" prot="public" virt="non-virtual"><scope>themis::VersionResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1_version_result_1ab128ed6a3a3ca0c32b61a82892813e13" prot="public" virt="non-virtual"><scope>themis::VersionResult</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

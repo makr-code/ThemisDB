@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_adaptive_flush_controller_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::AdaptiveFlushControllerStats</compoundname>
+    <includes refid="adaptive__flush__controller_8h" local="no">adaptive_flush_controller.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_flush_controller_stats_1a714e937cbedadc14d368e7a114546b1d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::AdaptiveFlushControllerStats::points_buffered</definition>
+        <argsstring></argsstring>
+        <name>points_buffered</name>
+        <qualifiedname>themis::AdaptiveFlushControllerStats::points_buffered</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total data points passed to add()/addBatch(). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/adaptive_flush_controller.h" line="105" column="14" bodyfile="include/timeseries/adaptive_flush_controller.h" bodystart="105" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_flush_controller_stats_1a8d1fe99e6b29dbf06e3574229f373fc9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::AdaptiveFlushControllerStats::points_flushed</definition>
+        <argsstring></argsstring>
+        <name>points_flushed</name>
+        <qualifiedname>themis::AdaptiveFlushControllerStats::points_flushed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total data points written to <ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/adaptive_flush_controller.h" line="106" column="14" bodyfile="include/timeseries/adaptive_flush_controller.h" bodystart="106" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_flush_controller_stats_1a3f2cffeb9892651e05ab4176cc9deb05" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::AdaptiveFlushControllerStats::flush_count</definition>
+        <argsstring></argsstring>
+        <name>flush_count</name>
+        <qualifiedname>themis::AdaptiveFlushControllerStats::flush_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total flush operations performed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/adaptive_flush_controller.h" line="107" column="14" bodyfile="include/timeseries/adaptive_flush_controller.h" bodystart="107" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_flush_controller_stats_1a366892e04ca61b5d5c16b89777036950" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::AdaptiveFlushControllerStats::watermark_triggered_flushes</definition>
+        <argsstring></argsstring>
+        <name>watermark_triggered_flushes</name>
+        <qualifiedname>themis::AdaptiveFlushControllerStats::watermark_triggered_flushes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Flushes triggered by the watermark. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/adaptive_flush_controller.h" line="108" column="14" bodyfile="include/timeseries/adaptive_flush_controller.h" bodystart="108" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_flush_controller_stats_1a221bdc1fbe58d8584f14f6c625371d0a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::AdaptiveFlushControllerStats::timeout_triggered_flushes</definition>
+        <argsstring></argsstring>
+        <name>timeout_triggered_flushes</name>
+        <qualifiedname>themis::AdaptiveFlushControllerStats::timeout_triggered_flushes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Flushes triggered by the periodic timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/adaptive_flush_controller.h" line="109" column="14" bodyfile="include/timeseries/adaptive_flush_controller.h" bodystart="109" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_flush_controller_stats_1a340dd30264a28da22601422cac9f3372" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::AdaptiveFlushControllerStats::backpressure_events</definition>
+        <argsstring></argsstring>
+        <name>backpressure_events</name>
+        <qualifiedname>themis::AdaptiveFlushControllerStats::backpressure_events</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Times a producer was blocked by backpressure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/adaptive_flush_controller.h" line="110" column="14" bodyfile="include/timeseries/adaptive_flush_controller.h" bodystart="110" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_flush_controller_stats_1aeb40b7c573a51cbee5fbb43264eb7fb9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::AdaptiveFlushControllerStats::overdue_flush_events</definition>
+        <argsstring></argsstring>
+        <name>overdue_flush_events</name>
+        <qualifiedname>themis::AdaptiveFlushControllerStats::overdue_flush_events</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Times an overdue flush was detected and alerted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/adaptive_flush_controller.h" line="111" column="14" bodyfile="include/timeseries/adaptive_flush_controller.h" bodystart="111" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_flush_controller_stats_1a037289cff6fdfac776a37ff5bec444f4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::AdaptiveFlushControllerStats::current_buffer_size</definition>
+        <argsstring></argsstring>
+        <name>current_buffer_size</name>
+        <qualifiedname>themis::AdaptiveFlushControllerStats::current_buffer_size</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Points currently in the buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/adaptive_flush_controller.h" line="113" column="12" bodyfile="include/timeseries/adaptive_flush_controller.h" bodystart="113" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_flush_controller_stats_1abb48332eae203ca7d7ca0a60ee6c5f9f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::AdaptiveFlushControllerStats::buffer_utilization</definition>
+        <argsstring></argsstring>
+        <name>buffer_utilization</name>
+        <qualifiedname>themis::AdaptiveFlushControllerStats::buffer_utilization</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>buffer_size / buffer_capacity (0.0 – 1.0) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/adaptive_flush_controller.h" line="114" column="12" bodyfile="include/timeseries/adaptive_flush_controller.h" bodystart="114" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_flush_controller_stats_1a9670fcebc0f7761ecf1d40f5774a83f9" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::AdaptiveFlushControllerStats::last_flush_time</definition>
+        <argsstring></argsstring>
+        <name>last_flush_time</name>
+        <qualifiedname>themis::AdaptiveFlushControllerStats::last_flush_time</qualifiedname>
+        <briefdescription>
+<para>Wall clock of last flush. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/adaptive_flush_controller.h" line="116" column="43" bodyfile="include/timeseries/adaptive_flush_controller.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Runtime statistics for <ref refid="classthemis_1_1_adaptive_flush_controller" kindref="compound">AdaptiveFlushController</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/adaptive_flush_controller.h" line="104" column="1" bodyfile="include/timeseries/adaptive_flush_controller.h" bodystart="104" bodyend="117"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_adaptive_flush_controller_stats_1a340dd30264a28da22601422cac9f3372" prot="public" virt="non-virtual"><scope>themis::AdaptiveFlushControllerStats</scope><name>backpressure_events</name></member>
+      <member refid="structthemis_1_1_adaptive_flush_controller_stats_1abb48332eae203ca7d7ca0a60ee6c5f9f" prot="public" virt="non-virtual"><scope>themis::AdaptiveFlushControllerStats</scope><name>buffer_utilization</name></member>
+      <member refid="structthemis_1_1_adaptive_flush_controller_stats_1a037289cff6fdfac776a37ff5bec444f4" prot="public" virt="non-virtual"><scope>themis::AdaptiveFlushControllerStats</scope><name>current_buffer_size</name></member>
+      <member refid="structthemis_1_1_adaptive_flush_controller_stats_1a3f2cffeb9892651e05ab4176cc9deb05" prot="public" virt="non-virtual"><scope>themis::AdaptiveFlushControllerStats</scope><name>flush_count</name></member>
+      <member refid="structthemis_1_1_adaptive_flush_controller_stats_1a9670fcebc0f7761ecf1d40f5774a83f9" prot="public" virt="non-virtual"><scope>themis::AdaptiveFlushControllerStats</scope><name>last_flush_time</name></member>
+      <member refid="structthemis_1_1_adaptive_flush_controller_stats_1aeb40b7c573a51cbee5fbb43264eb7fb9" prot="public" virt="non-virtual"><scope>themis::AdaptiveFlushControllerStats</scope><name>overdue_flush_events</name></member>
+      <member refid="structthemis_1_1_adaptive_flush_controller_stats_1a714e937cbedadc14d368e7a114546b1d" prot="public" virt="non-virtual"><scope>themis::AdaptiveFlushControllerStats</scope><name>points_buffered</name></member>
+      <member refid="structthemis_1_1_adaptive_flush_controller_stats_1a8d1fe99e6b29dbf06e3574229f373fc9" prot="public" virt="non-virtual"><scope>themis::AdaptiveFlushControllerStats</scope><name>points_flushed</name></member>
+      <member refid="structthemis_1_1_adaptive_flush_controller_stats_1a221bdc1fbe58d8584f14f6c625371d0a" prot="public" virt="non-virtual"><scope>themis::AdaptiveFlushControllerStats</scope><name>timeout_triggered_flushes</name></member>
+      <member refid="structthemis_1_1_adaptive_flush_controller_stats_1a366892e04ca61b5d5c16b89777036950" prot="public" virt="non-virtual"><scope>themis::AdaptiveFlushControllerStats</scope><name>watermark_triggered_flushes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

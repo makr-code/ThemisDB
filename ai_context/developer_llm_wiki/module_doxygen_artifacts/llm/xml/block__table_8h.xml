@@ -1,0 +1,606 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="block__table_8h" kind="file" language="C++">
+    <compoundname>block_table.h</compoundname>
+    <includes refid="paged__block__manager_8h" local="yes">llm/paged_block_manager.h</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includedby refid="paged__kv__cache_8h" local="yes">include/llm/paged_kv_cache.h</includedby>
+    <includedby refid="block__table_8cpp" local="yes">src/llm/block_table.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm/block_table.h</label>
+        <link refid="block__table_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>llm/paged_block_manager.h</label>
+        <link refid="paged__block__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>queue</label>
+      </node>
+      <node id="10">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>utils/concurrent_cache.h</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="26">
+        <label>benchmarks/llm/bench_embedded_llm.cpp</label>
+        <link refid="bench__embedded__llm_8cpp"/>
+      </node>
+      <node id="24">
+        <label>benchmarks/llm/bench_phase1_flash_attention.cpp</label>
+        <link refid="bench__phase1__flash__attention_8cpp"/>
+      </node>
+      <node id="5">
+        <label>benchmarks/llm/llm_bench.cpp</label>
+        <link refid="llm__bench_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/llm/block_table.h</label>
+        <link refid="block__table_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="69" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/llm/continuous_batch_scheduler.h</label>
+        <link refid="continuous__batch__scheduler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+        <childnode refid="63" relation="include">
+        </childnode>
+        <childnode refid="64" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="65" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>include/llm/embedded_llm.h</label>
+        <link refid="embedded__llm_8h"/>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/llm/inference_engine_enhanced.h</label>
+        <link refid="inference__engine__enhanced_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>include/llm/llama_wrapper.h</label>
+        <link refid="llama__wrapper_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/llm/ml_model_manager.h</label>
+        <link refid="ml__model__manager_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>include/llm/moral_analyzer.h</label>
+        <link refid="moral__analyzer_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/llm/paged_kv_cache.h</label>
+        <link refid="paged__kv__cache_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="66" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="67" relation="include">
+        </childnode>
+        <childnode refid="68" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>include/llm/production_validator.h</label>
+        <link refid="production__validator_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>include/llm/wiki_chunk_splitter.h</label>
+        <link refid="wiki__chunk__splitter_8h"/>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>include/llm/wiki_index_store.h</label>
+        <link refid="wiki__index__store_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>include/llm/wiki_rag_source.h</label>
+        <link refid="wiki__rag__source_8h"/>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+      </node>
+      <node id="41">
+        <label>src/llm/api/embedded_llm_adapter.cpp</label>
+        <link refid="embedded__llm__adapter_8cpp"/>
+      </node>
+      <node id="53">
+        <label>src/llm/applications/themis_help_lora.cpp</label>
+        <link refid="themis__help__lora_8cpp"/>
+      </node>
+      <node id="69">
+        <label>src/llm/block_table.cpp</label>
+        <link refid="block__table_8cpp"/>
+      </node>
+      <node id="61">
+        <label>src/llm/continuous_batch_scheduler.cpp</label>
+        <link refid="continuous__batch__scheduler_8cpp"/>
+      </node>
+      <node id="42">
+        <label>src/llm/docs_assistant.cpp</label>
+        <link refid="docs__assistant_8cpp"/>
+      </node>
+      <node id="43">
+        <label>src/llm/embedded_llm.cpp</label>
+        <link refid="embedded__llm_8cpp"/>
+      </node>
+      <node id="44">
+        <label>src/llm/embedded_llm_stub.cpp</label>
+        <link refid="embedded__llm__stub_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/llm/inference_engine_enhanced.cpp</label>
+        <link refid="inference__engine__enhanced_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/llm/inference_guard.cpp</label>
+        <link refid="inference__guard_8cpp"/>
+      </node>
+      <node id="54">
+        <label>src/llm/llama_wrapper.cpp</label>
+        <link refid="llama__wrapper_8cpp"/>
+      </node>
+      <node id="45">
+        <label>src/llm/llm_plugin_manager.cpp</label>
+        <link refid="llm__plugin__manager_8cpp"/>
+      </node>
+      <node id="46">
+        <label>src/llm/llm_response_cache.cpp</label>
+        <link refid="llm__response__cache_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/llm/ml_model_manager.cpp</label>
+        <link refid="ml__model__manager_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/llm/moral_analyzer.cpp</label>
+        <link refid="moral__analyzer_8cpp"/>
+      </node>
+      <node id="66">
+        <label>src/llm/paged_kv_cache.cpp</label>
+        <link refid="paged__kv__cache_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/llm/production_validator.cpp</label>
+        <link refid="production__validator_8cpp"/>
+      </node>
+      <node id="29">
+        <label>src/llm/wiki_chunk_splitter.cpp</label>
+        <link refid="wiki__chunk__splitter_8cpp"/>
+      </node>
+      <node id="35">
+        <label>src/llm/wiki_index_store.cpp</label>
+        <link refid="wiki__index__store_8cpp"/>
+      </node>
+      <node id="32">
+        <label>src/llm/wiki_rag_source.cpp</label>
+        <link refid="wiki__rag__source_8cpp"/>
+      </node>
+      <node id="62">
+        <label>tests/llm/bench_continuous_batch_scheduler.cpp</label>
+        <link refid="bench__continuous__batch__scheduler_8cpp"/>
+      </node>
+      <node id="55">
+        <label>tests/llm/bench_model_loading_from_themisdb.cpp</label>
+        <link refid="bench__model__loading__from__themisdb_8cpp"/>
+      </node>
+      <node id="47">
+        <label>tests/llm/test_embedded_llm_batch_contract.cpp</label>
+        <link refid="test__embedded__llm__batch__contract_8cpp"/>
+      </node>
+      <node id="56">
+        <label>tests/llm/test_llama_wrapper_state.cpp</label>
+        <link refid="test__llama__wrapper__state_8cpp"/>
+      </node>
+      <node id="48">
+        <label>tests/llm/test_llm_aql_handler.cpp</label>
+        <link refid="test__llm__aql__handler_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/llm/test_llm_destructor_noexcept_b1.cpp</label>
+        <link refid="test__llm__destructor__noexcept__b1_8cpp"/>
+      </node>
+      <node id="33">
+        <label>tests/llm/test_llm_doku_rag.cpp</label>
+        <link refid="test__llm__doku__rag_8cpp"/>
+      </node>
+      <node id="49">
+        <label>tests/llm/test_llm_exception_safety.cpp</label>
+        <link refid="test__llm__exception__safety_8cpp"/>
+      </node>
+      <node id="16">
+        <label>tests/llm/test_llm_federated_failure_envelopes.cpp</label>
+        <link refid="test__llm__federated__failure__envelopes_8cpp"/>
+      </node>
+      <node id="57">
+        <label>tests/llm/test_llm_grafana_metrics.cpp</label>
+        <link refid="test__llm__grafana__metrics_8cpp"/>
+      </node>
+      <node id="63">
+        <label>tests/llm/test_llm_hardening_phase4.cpp</label>
+        <link refid="test__llm__hardening__phase4_8cpp"/>
+      </node>
+      <node id="58">
+        <label>tests/llm/test_llm_inference_roles.cpp</label>
+        <link refid="test__llm__inference__roles_8cpp"/>
+      </node>
+      <node id="50">
+        <label>tests/llm/test_llm_memory_lifecycle.cpp</label>
+        <link refid="test__llm__memory__lifecycle_8cpp"/>
+      </node>
+      <node id="17">
+        <label>tests/llm/test_llm_multi_model_integration.cpp</label>
+        <link refid="test__llm__multi__model__integration_8cpp"/>
+      </node>
+      <node id="51">
+        <label>tests/llm/test_llm_p0_hardening.cpp</label>
+        <link refid="test__llm__p0__hardening_8cpp"/>
+      </node>
+      <node id="64">
+        <label>tests/llm/test_llm_phase5_hardening.cpp</label>
+        <link refid="test__llm__phase5__hardening_8cpp"/>
+      </node>
+      <node id="59">
+        <label>tests/llm/test_llm_plugin.cpp</label>
+        <link refid="test__llm__plugin_8cpp"/>
+      </node>
+      <node id="18">
+        <label>tests/llm/test_llm_raid_integration.cpp</label>
+        <link refid="test__llm__raid__integration_8cpp"/>
+      </node>
+      <node id="19">
+        <label>tests/llm/test_llm_timeout_cancellation.cpp</label>
+        <link refid="test__llm__timeout__cancellation_8cpp"/>
+      </node>
+      <node id="52">
+        <label>tests/llm/test_llm_tinyllama_inference.cpp</label>
+        <link refid="test__llm__tinyllama__inference_8cpp"/>
+      </node>
+      <node id="36">
+        <label>tests/llm/test_llm_wiki_phase3_features_focused.cpp</label>
+        <link refid="test__llm__wiki__phase3__features__focused_8cpp"/>
+      </node>
+      <node id="37">
+        <label>tests/llm/test_llm_wiki_provenance_focused.cpp</label>
+        <link refid="test__llm__wiki__provenance__focused_8cpp"/>
+      </node>
+      <node id="20">
+        <label>tests/llm/test_lora_hot_loading.cpp</label>
+        <link refid="test__lora__hot__loading_8cpp"/>
+      </node>
+      <node id="60">
+        <label>tests/llm/test_model_loading_from_themisdb.cpp</label>
+        <link refid="test__model__loading__from__themisdb_8cpp"/>
+      </node>
+      <node id="65">
+        <label>tests/llm/test_move_semantics_llm.cpp</label>
+        <link refid="test__move__semantics__llm_8cpp"/>
+      </node>
+      <node id="67">
+        <label>tests/llm/test_nvfp4_kv_quantization.cpp</label>
+        <link refid="test__nvfp4__kv__quantization_8cpp"/>
+      </node>
+      <node id="21">
+        <label>tests/llm/test_wave5_llm_stubs.cpp</label>
+        <link refid="test__wave5__llm__stubs_8cpp"/>
+      </node>
+      <node id="68">
+        <label>tests/llm/test_wave7_llm_kvcache_lru_checkpoint.cpp</label>
+        <link refid="test__wave7__llm__kvcache__lru__checkpoint_8cpp"/>
+      </node>
+      <node id="22">
+        <label>tests/llm/test_wave9_speculative_decode_bridges.cpp</label>
+        <link refid="test__wave9__speculative__decode__bridges_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/llm/test_wave_next_llm_threadsafety.cpp</label>
+        <link refid="test__wave__next__llm__threadsafety_8cpp"/>
+      </node>
+      <node id="38">
+        <label>tests/llm/test_wiki_crossdep_focused.cpp</label>
+        <link refid="test__wiki__crossdep__focused_8cpp"/>
+      </node>
+      <node id="39">
+        <label>tests/llm/test_wiki_eval_metrics.cpp</label>
+        <link refid="test__wiki__eval__metrics_8cpp"/>
+      </node>
+      <node id="30">
+        <label>tests/llm/test_wiki_index_store.cpp</label>
+        <link refid="test__wiki__index__store_8cpp"/>
+      </node>
+      <node id="40">
+        <label>tests/llm/test_wiki_index_store_phase_b.cpp</label>
+        <link refid="test__wiki__index__store__phase__b_8cpp"/>
+      </node>
+      <node id="34">
+        <label>tests/llm/test_wiki_rag_quality.cpp</label>
+        <link refid="test__wiki__rag__quality_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1llm_1_1_block_table" prot="public">themis::llm::BlockTable</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_block_table_1_1_config" prot="public">themis::llm::BlockTable::Config</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_block_table_1_1_stats" prot="public">themis::llm::BlockTable::Stats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="paged__block__manager_8h" kindref="compound">llm/paged_block_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="classthemis_1_1llm_1_1_block_table" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_block_table_1ac89db6fe1700d8eb55e2c7731f191005" kindref="member">BlockTable</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="25" refid="structthemis_1_1llm_1_1_block_table_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_block_table_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1llm_1_1_block_table_1_1_config_1af196ce818e91bf90857fb31ffd164bf6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_block_table_1_1_config_1af196ce818e91bf90857fb31ffd164bf6" kindref="member">block_size</ref><sp/>=<sp/>16;<sp/><sp/></highlight><highlight class="comment">//<sp/>Tokens<sp/>per<sp/>block</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1llm_1_1_block_table_1_1_config_1a7491dca51698b470e04c6db56d974cc7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_block_table_1_1_config_1a7491dca51698b470e04c6db56d974cc7" kindref="member">enable_cow</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>Copy-on-Write<sp/>for<sp/>prefix<sp/>sharing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_block_table_1ac89db6fe1700d8eb55e2c7731f191005" kindref="member">BlockTable</ref>(std::shared_ptr&lt;PagedBlockManager&gt;<sp/>block_manager,<sp/></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>sequence_id,<sp/></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_block_table_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_block_table_1a6aef37681902bc260f29c54424d3e7e6" kindref="member">~BlockTable</ref>();</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/><ref refid="classthemis_1_1llm_1_1_block_table_1a7261ac2f1d2f4bb7269ef201da25a446" kindref="member">allocateBlocks</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_blocks);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_block_table_1a8b4dd470722601430389350297641b49" kindref="member">releaseBlocks</ref>();</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_block_table_1a6cf5448931be9eb7ebd380c7c533a534" kindref="member">sharePrefix</ref>(uint64_t<sp/>parent_sequence_id,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>prefix_length);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/><ref refid="classthemis_1_1llm_1_1_block_table_1aad876706b226a45290f4f61b12b105c3" kindref="member">getBlockMapping</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_block_table_1ad99235176bcf7319d42e2c78e9f4c145" kindref="member">getNumTokens</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1llm_1_1_block_table_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_block_table_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1llm_1_1_block_table_1_1_stats_1a80f5bf10868fb0a89e12a9d1233011dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_block_table_1_1_stats_1a80f5bf10868fb0a89e12a9d1233011dd" kindref="member">num_blocks</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1llm_1_1_block_table_1_1_stats_1ac01c4121baf359da55e8a09757ec1fbd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_block_table_1_1_stats_1ac01c4121baf359da55e8a09757ec1fbd" kindref="member">num_shared_blocks</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1llm_1_1_block_table_1_1_stats_1a3856048b8e68dc55219b4452b157d90c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_block_table_1_1_stats_1a3856048b8e68dc55219b4452b157d90c" kindref="member">num_cow_blocks</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1llm_1_1_block_table_1_1_stats_1a547672a5c0a35c9f292f94ee4750d882" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_block_table_1_1_stats_1a547672a5c0a35c9f292f94ee4750d882" kindref="member">sharing_ratio</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_block_table_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemis_1_1llm_1_1_block_table_1a749eec57c1555ad8adcdd10ac2bff551" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;PagedBlockManager&gt;<sp/>block_manager_;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>sequence_id_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_block_table_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/>block_ids_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Physical<sp/>block<sp/>IDs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;bool&gt;<sp/>is_shared_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Which<sp/>blocks<sp/>are<sp/>shared<sp/>via<sp/>CoW</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;int,<sp/>int&gt;<sp/>ref_counts_;<sp/><sp/></highlight><highlight class="comment">//<sp/>Reference<sp/>counts<sp/>for<sp/>shared<sp/>blocks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/block_table.h"/>
+  </compounddef>
+</doxygen>

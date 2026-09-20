@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_tenant_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TenantContext</compoundname>
+    <includes refid="tenant__manager_8h" local="no">tenant_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_tenant_context_1a7c832df6ee98ecb6e69142497759d79e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TenantContext::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::TenantContext::tenant_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="74" column="17" bodyfile="include/server/tenant_manager.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_context_1ad5a3def2f75846c02491192df1eb5369" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TenantContext::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::TenantContext::user_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="75" column="17" bodyfile="include/server/tenant_manager.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_context_1a7b6bb6063575d6ae457ed1a0a7f16cfe" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::TenantContext::roles</definition>
+        <argsstring></argsstring>
+        <name>roles</name>
+        <qualifiedname>themis::TenantContext::roles</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="76" column="17" bodyfile="include/server/tenant_manager.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_context_1a0cb5a485b3d93aa8d1bb083d212c3a50" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TenantContext::is_admin</definition>
+        <argsstring></argsstring>
+        <name>is_admin</name>
+        <qualifiedname>themis::TenantContext::is_admin</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="77" column="10" bodyfile="include/server/tenant_manager.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_context_1a87fe66f25547129a704d5128ffdd0ab6" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::TenantContext::request_start</definition>
+        <argsstring></argsstring>
+        <name>request_start</name>
+        <qualifiedname>themis::TenantContext::request_start</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="80" column="43" bodyfile="include/server/tenant_manager.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_context_1a03e75d646a29fb31a638ef58bc00103c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TenantContext::gpu_allowed</definition>
+        <argsstring></argsstring>
+        <name>gpu_allowed</name>
+        <qualifiedname>themis::TenantContext::gpu_allowed</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="83" column="10" bodyfile="include/server/tenant_manager.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_context_1a8fa8f6b19452e49d93feac2bc16ddd8c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TenantContext::vector_search_allowed</definition>
+        <argsstring></argsstring>
+        <name>vector_search_allowed</name>
+        <qualifiedname>themis::TenantContext::vector_search_allowed</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="84" column="10" bodyfile="include/server/tenant_manager.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_context_1ac1955f28f8f3b52d0a867d4e92b0cb4b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TenantContext::encryption_key_id</definition>
+        <argsstring></argsstring>
+        <name>encryption_key_id</name>
+        <qualifiedname>themis::TenantContext::encryption_key_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="85" column="17" bodyfile="include/server/tenant_manager.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_tenant_context_1a1b4219af16c87141fa1b04f6f17dcc08" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_tenant_context" kindref="compound">TenantContext</ref></type>
+        <definition>static TenantContext themis::TenantContext::fromConfig</definition>
+        <argsstring>(const TenantConfig &amp;config, std::string_view user_id, const std::vector&lt; std::string &gt; &amp;roles={})</argsstring>
+        <name>fromConfig</name>
+        <qualifiedname>themis::TenantContext::fromConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_tenant_config" kindref="compound">TenantConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>roles</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="87" column="26" bodyfile="include/server/tenant_manager.h" bodystart="87" bodyend="100"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/tenant_manager.h" line="73" column="1" bodyfile="include/server/tenant_manager.h" bodystart="73" bodyend="101"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_tenant_context_1ac1955f28f8f3b52d0a867d4e92b0cb4b" prot="public" virt="non-virtual"><scope>themis::TenantContext</scope><name>encryption_key_id</name></member>
+      <member refid="structthemis_1_1_tenant_context_1a1b4219af16c87141fa1b04f6f17dcc08" prot="public" virt="non-virtual"><scope>themis::TenantContext</scope><name>fromConfig</name></member>
+      <member refid="structthemis_1_1_tenant_context_1a03e75d646a29fb31a638ef58bc00103c" prot="public" virt="non-virtual"><scope>themis::TenantContext</scope><name>gpu_allowed</name></member>
+      <member refid="structthemis_1_1_tenant_context_1a0cb5a485b3d93aa8d1bb083d212c3a50" prot="public" virt="non-virtual"><scope>themis::TenantContext</scope><name>is_admin</name></member>
+      <member refid="structthemis_1_1_tenant_context_1a87fe66f25547129a704d5128ffdd0ab6" prot="public" virt="non-virtual"><scope>themis::TenantContext</scope><name>request_start</name></member>
+      <member refid="structthemis_1_1_tenant_context_1a7b6bb6063575d6ae457ed1a0a7f16cfe" prot="public" virt="non-virtual"><scope>themis::TenantContext</scope><name>roles</name></member>
+      <member refid="structthemis_1_1_tenant_context_1a7c832df6ee98ecb6e69142497759d79e" prot="public" virt="non-virtual"><scope>themis::TenantContext</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1_tenant_context_1ad5a3def2f75846c02491192df1eb5369" prot="public" virt="non-virtual"><scope>themis::TenantContext</scope><name>user_id</name></member>
+      <member refid="structthemis_1_1_tenant_context_1a8fa8f6b19452e49d93feac2bc16ddd8c" prot="public" virt="non-virtual"><scope>themis::TenantContext</scope><name>vector_search_allowed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

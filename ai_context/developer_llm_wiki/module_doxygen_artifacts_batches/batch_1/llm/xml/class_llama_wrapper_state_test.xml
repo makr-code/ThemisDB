@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_llama_wrapper_state_test" kind="class" language="C++" prot="public">
+    <compoundname>LlamaWrapperStateTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_llama_wrapper_state_test_1a40b02d13e7cc4c0e2d0973ac0663f9e6" prot="protected" static="no" mutable="no">
+        <type><ref refid="struct_llama_wrapper_1_1_config" kindref="compound">LlamaWrapper::Config</ref></type>
+        <definition>LlamaWrapper::Config LlamaWrapperStateTest::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>LlamaWrapperStateTest::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_wrapper_state.cpp" line="29" column="26" bodyfile="tests/llm/test_llama_wrapper_state.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_llama_wrapper_state_test_1a66b73894213e9b883b0a5a328ba50051" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LlamaWrapperStateTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>LlamaWrapperStateTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_wrapper_state.cpp" line="22" column="10" bodyfile="tests/llm/test_llama_wrapper_state.cpp" bodystart="22" bodyend="27"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>LlamaWrapperStateTest</label>
+        <link refid="class_llama_wrapper_state_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>LlamaWrapperStateTest</label>
+        <link refid="class_llama_wrapper_state_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>config_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="10">
+        <label>themis::llm::EmbeddedLLM</label>
+        <link refid="classthemis_1_1llm_1_1_embedded_l_l_m"/>
+      </node>
+      <node id="8">
+        <label>themis::llm::LLMPrefixCache::Config</label>
+        <link refid="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config"/>
+      </node>
+      <node id="9">
+        <label>themis::llm::LLMResponseCache::Config</label>
+        <link refid="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_config"/>
+        <childnode refid="10" relation="usage">
+          <edgelabel>llm_ptr</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::llm::LazyModelLoader::Config</label>
+        <link refid="structthemis_1_1llm_1_1_lazy_model_loader_1_1_config"/>
+      </node>
+      <node id="3">
+        <label>themis::llm::LlamaWrapper::Config</label>
+        <link refid="structthemis_1_1llm_1_1_llama_wrapper_1_1_config"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>lazy_loader_config</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>multi_lora_config</edgelabel>
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>prefix_cache_config</edgelabel>
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>response_cache_config</edgelabel>
+        </childnode>
+        <childnode refid="11" relation="usage">
+          <edgelabel>grammar_config</edgelabel>
+        </childnode>
+        <childnode refid="12" relation="usage">
+          <edgelabel>rope_scaling</edgelabel>
+        </childnode>
+      </node>
+      <node id="11">
+        <label>themis::llm::LlamaWrapper::Config::GrammarConfig</label>
+        <link refid="structthemis_1_1llm_1_1_llama_wrapper_1_1_config_1_1_grammar_config"/>
+      </node>
+      <node id="12">
+        <label>themis::llm::LlamaWrapper::Config::RopeScalingConfig</label>
+        <link refid="structthemis_1_1llm_1_1_llama_wrapper_1_1_config_1_1_rope_scaling_config"/>
+      </node>
+      <node id="6">
+        <label>themis::llm::LoRAQuantizationConfig</label>
+        <link refid="structthemis_1_1llm_1_1_lo_r_a_quantization_config"/>
+      </node>
+      <node id="7">
+        <label>themis::llm::MultiGPUConfig</label>
+        <link refid="structthemis_1_1llm_1_1_multi_g_p_u_config"/>
+      </node>
+      <node id="5">
+        <label>themis::llm::MultiLoRAManager::Config</label>
+        <link refid="structthemis_1_1llm_1_1_multi_lo_r_a_manager_1_1_config"/>
+        <childnode refid="6" relation="usage">
+          <edgelabel>quantization</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>multi_gpu</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llama_wrapper_state.cpp" line="20" column="1" bodyfile="tests/llm/test_llama_wrapper_state.cpp" bodystart="20" bodyend="30"/>
+    <listofallmembers>
+      <member refid="class_llama_wrapper_state_test_1a40b02d13e7cc4c0e2d0973ac0663f9e6" prot="protected" virt="non-virtual"><scope>LlamaWrapperStateTest</scope><name>config_</name></member>
+      <member refid="class_llama_wrapper_state_test_1a66b73894213e9b883b0a5a328ba50051" prot="protected" virt="non-virtual"><scope>LlamaWrapperStateTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

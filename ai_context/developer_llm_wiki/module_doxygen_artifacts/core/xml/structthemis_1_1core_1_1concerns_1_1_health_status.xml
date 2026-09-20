@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1core_1_1concerns_1_1_health_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::core::concerns::HealthStatus</compoundname>
+    <includes refid="lifecycle_8h" local="no">lifecycle.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_health_status_1aee55d0d336e38522875e5a7d6f4a0512" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result" kindref="compound">ProbeResult</ref></type>
+        <definition>ProbeResult themis::core::concerns::HealthStatus::logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>themis::core::concerns::HealthStatus::logger</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lifecycle.h" line="39" column="17" bodyfile="include/core/concerns/lifecycle.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_health_status_1a9ef83b73ed003bd3085568f440ca59fd" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result" kindref="compound">ProbeResult</ref></type>
+        <definition>ProbeResult themis::core::concerns::HealthStatus::tracer</definition>
+        <argsstring></argsstring>
+        <name>tracer</name>
+        <qualifiedname>themis::core::concerns::HealthStatus::tracer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lifecycle.h" line="40" column="17" bodyfile="include/core/concerns/lifecycle.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_health_status_1a63367cee387b96a172ba829c5d34e269" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result" kindref="compound">ProbeResult</ref></type>
+        <definition>ProbeResult themis::core::concerns::HealthStatus::metrics</definition>
+        <argsstring></argsstring>
+        <name>metrics</name>
+        <qualifiedname>themis::core::concerns::HealthStatus::metrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lifecycle.h" line="41" column="17" bodyfile="include/core/concerns/lifecycle.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_health_status_1a22d5de93d5aed8b0d23d0126b6b1894a" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result" kindref="compound">ProbeResult</ref></type>
+        <definition>ProbeResult themis::core::concerns::HealthStatus::cache</definition>
+        <argsstring></argsstring>
+        <name>cache</name>
+        <qualifiedname>themis::core::concerns::HealthStatus::cache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lifecycle.h" line="42" column="17" bodyfile="include/core/concerns/lifecycle.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_health_status_1af829039da907270eb3411600c924b403" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result" kindref="compound">ProbeResult</ref></type>
+        <definition>ProbeResult themis::core::concerns::HealthStatus::secrets</definition>
+        <argsstring></argsstring>
+        <name>secrets</name>
+        <qualifiedname>themis::core::concerns::HealthStatus::secrets</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result_1a4f42b3f92136b5cc21102002e1271d25" kindref="member">ProbeResult::healthy</ref>()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lifecycle.h" line="43" column="17" bodyfile="include/core/concerns/lifecycle.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_health_status_1aeb038167f587af3a6ebfe16739949ec1" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result" kindref="compound">ProbeResult</ref></type>
+        <definition>ProbeResult themis::core::concerns::HealthStatus::circuit_breaker</definition>
+        <argsstring></argsstring>
+        <name>circuit_breaker</name>
+        <qualifiedname>themis::core::concerns::HealthStatus::circuit_breaker</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result_1a4f42b3f92136b5cc21102002e1271d25" kindref="member">ProbeResult::healthy</ref>()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lifecycle.h" line="44" column="21" bodyfile="include/core/concerns/lifecycle.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_health_status_1acf1cb7a7c0fd758f9e7a6cf6c08a8301" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result" kindref="compound">ProbeResult</ref></type>
+        <definition>ProbeResult themis::core::concerns::HealthStatus::featureFlags</definition>
+        <argsstring></argsstring>
+        <name>featureFlags</name>
+        <qualifiedname>themis::core::concerns::HealthStatus::featureFlags</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result_1a4f42b3f92136b5cc21102002e1271d25" kindref="member">ProbeResult::healthy</ref>()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lifecycle.h" line="45" column="21" bodyfile="include/core/concerns/lifecycle.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_health_status_1a6458947d331294cb545328e5ddbf923f" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result" kindref="compound">ProbeResult</ref></type>
+        <definition>ProbeResult themis::core::concerns::HealthStatus::auditLog</definition>
+        <argsstring></argsstring>
+        <name>auditLog</name>
+        <qualifiedname>themis::core::concerns::HealthStatus::auditLog</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result_1a4f42b3f92136b5cc21102002e1271d25" kindref="member">ProbeResult::healthy</ref>()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lifecycle.h" line="46" column="17" bodyfile="include/core/concerns/lifecycle.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1core_1_1concerns_1_1_health_status_1a4014e75f152ab0955ec7e43ff35bcffe" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::core::concerns::HealthStatus::isHealthy</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>themis::core::concerns::HealthStatus::isHealthy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lifecycle.h" line="48" column="10" bodyfile="include/core/concerns/lifecycle.h" bodystart="48" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::core::concerns::HealthStatus</label>
+        <link refid="structthemis_1_1core_1_1concerns_1_1_health_status"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>auditLog</edgelabel>
+          <edgelabel>cache</edgelabel>
+          <edgelabel>circuit_breaker</edgelabel>
+          <edgelabel>featureFlags</edgelabel>
+          <edgelabel>logger</edgelabel>
+          <edgelabel>metrics</edgelabel>
+          <edgelabel>secrets</edgelabel>
+          <edgelabel>tracer</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::core::concerns::ProbeResult</label>
+        <link refid="structthemis_1_1core_1_1concerns_1_1_probe_result"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/core/concerns/lifecycle.h" line="38" column="1" bodyfile="include/core/concerns/lifecycle.h" bodystart="38" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_health_status_1a6458947d331294cb545328e5ddbf923f" prot="public" virt="non-virtual"><scope>themis::core::concerns::HealthStatus</scope><name>auditLog</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_health_status_1a22d5de93d5aed8b0d23d0126b6b1894a" prot="public" virt="non-virtual"><scope>themis::core::concerns::HealthStatus</scope><name>cache</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_health_status_1aeb038167f587af3a6ebfe16739949ec1" prot="public" virt="non-virtual"><scope>themis::core::concerns::HealthStatus</scope><name>circuit_breaker</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_health_status_1acf1cb7a7c0fd758f9e7a6cf6c08a8301" prot="public" virt="non-virtual"><scope>themis::core::concerns::HealthStatus</scope><name>featureFlags</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_health_status_1a4014e75f152ab0955ec7e43ff35bcffe" prot="public" virt="non-virtual"><scope>themis::core::concerns::HealthStatus</scope><name>isHealthy</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_health_status_1aee55d0d336e38522875e5a7d6f4a0512" prot="public" virt="non-virtual"><scope>themis::core::concerns::HealthStatus</scope><name>logger</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_health_status_1a63367cee387b96a172ba829c5d34e269" prot="public" virt="non-virtual"><scope>themis::core::concerns::HealthStatus</scope><name>metrics</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_health_status_1af829039da907270eb3411600c924b403" prot="public" virt="non-virtual"><scope>themis::core::concerns::HealthStatus</scope><name>secrets</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_health_status_1a9ef83b73ed003bd3085568f440ca59fd" prot="public" virt="non-virtual"><scope>themis::core::concerns::HealthStatus</scope><name>tracer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

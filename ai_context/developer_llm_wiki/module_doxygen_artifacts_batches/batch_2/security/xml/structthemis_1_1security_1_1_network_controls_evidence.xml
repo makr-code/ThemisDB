@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_network_controls_evidence" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::NetworkControlsEvidence</compoundname>
+    <includes refid="security__evidence__collector_8h" local="no">security_evidence_collector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_network_controls_evidence_1aa87ed18212eb4a53793eabf30de1bccc" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::security::NetworkControlsEvidence::tls_cipher_suites</definition>
+        <argsstring></argsstring>
+        <name>tls_cipher_suites</name>
+        <qualifiedname>themis::security::NetworkControlsEvidence::tls_cipher_suites</qualifiedname>
+        <briefdescription>
+<para>Configured TLS 1.3 cipher suite names. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="135" column="17" bodyfile="include/security/security_evidence_collector.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_network_controls_evidence_1ad5688ef4fe711e3ac21ff50093c14f4d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::security::NetworkControlsEvidence::mtls_enabled_shard_count</definition>
+        <argsstring></argsstring>
+        <name>mtls_enabled_shard_count</name>
+        <qualifiedname>themis::security::NetworkControlsEvidence::mtls_enabled_shard_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of shards with mTLS enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="136" column="9" bodyfile="include/security/security_evidence_collector.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_network_controls_evidence_1a0e5ab2abbeb3fbaf6482c1c7fea2aa7e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::NetworkControlsEvidence::rate_limiter_config_snapshot</definition>
+        <argsstring></argsstring>
+        <name>rate_limiter_config_snapshot</name>
+        <qualifiedname>themis::security::NetworkControlsEvidence::rate_limiter_config_snapshot</qualifiedname>
+        <briefdescription>
+<para>JSON snapshot of rate limiter config. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="137" column="17" bodyfile="include/security/security_evidence_collector.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1security_1_1_network_controls_evidence_1a012dcc3931ea6d7c9e236e842885c9e8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::security::NetworkControlsEvidence::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::security::NetworkControlsEvidence::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/security_evidence_collector.h" line="143" column="20" bodyfile="src/security/security_evidence_collector.cpp" bodystart="81" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Complete SOC 2 Type II evidence bundle for a given time window. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Aggregates all four evidence categories required by the security ROADMAP:<orderedlist>
+<listitem><para>Audit log export</para>
+</listitem><listitem><para>Metrics snapshot</para>
+</listitem><listitem><para>Key-rotation records</para>
+</listitem><listitem><para>Access-control report</para>
+</listitem></orderedlist>
+</para>
+<para>The bundle includes a retention verification flag that indicates whether the collected evidence falls within the configured 12-month retention window.</para>
+<para>Evidence of network control configuration for SOC 2 audit.</para>
+<para>Captures TLS cipher suites, mTLS-enabled shard count, and rate-limiter configuration snapshot. </para>
+    </detaileddescription>
+    <location file="include/security/security_evidence_collector.h" line="134" column="1" bodyfile="include/security/security_evidence_collector.h" bodystart="134" bodyend="144"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_network_controls_evidence_1ad5688ef4fe711e3ac21ff50093c14f4d" prot="public" virt="non-virtual"><scope>themis::security::NetworkControlsEvidence</scope><name>mtls_enabled_shard_count</name></member>
+      <member refid="structthemis_1_1security_1_1_network_controls_evidence_1a0e5ab2abbeb3fbaf6482c1c7fea2aa7e" prot="public" virt="non-virtual"><scope>themis::security::NetworkControlsEvidence</scope><name>rate_limiter_config_snapshot</name></member>
+      <member refid="structthemis_1_1security_1_1_network_controls_evidence_1aa87ed18212eb4a53793eabf30de1bccc" prot="public" virt="non-virtual"><scope>themis::security::NetworkControlsEvidence</scope><name>tls_cipher_suites</name></member>
+      <member refid="structthemis_1_1security_1_1_network_controls_evidence_1a012dcc3931ea6d7c9e236e842885c9e8" prot="public" virt="non-virtual"><scope>themis::security::NetworkControlsEvidence</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

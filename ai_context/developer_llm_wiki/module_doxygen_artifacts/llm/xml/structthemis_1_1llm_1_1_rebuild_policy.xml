@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_rebuild_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::RebuildPolicy</compoundname>
+    <includes refid="model__switch__workflow_8h" local="no">model_switch_workflow.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_rebuild_policy_1afad9aff7a4c444b982be15ec1a8014a8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1llm_1a28e30e5010f714c2c0378f2ed1a092df" kindref="member">RebuildTrigger</ref> &gt;</type>
+        <definition>std::vector&lt;RebuildTrigger&gt; themis::llm::RebuildPolicy::triggers</definition>
+        <argsstring></argsstring>
+        <name>triggers</name>
+        <qualifiedname>themis::llm::RebuildPolicy::triggers</qualifiedname>
+        <initializer>                     = {
+    <ref refid="namespacethemis_1_1llm_1a28e30e5010f714c2c0378f2ed1a092dfa69f8884a83b08c21ea703b279ff202e8" kindref="member">RebuildTrigger::ARCHITECTURE_CHANGE</ref>,
+    <ref refid="namespacethemis_1_1llm_1a28e30e5010f714c2c0378f2ed1a092dfa593acba19c22504f76dab3956c189c89" kindref="member">RebuildTrigger::TOKENIZER_CHANGE</ref>,
+    <ref refid="namespacethemis_1_1llm_1a28e30e5010f714c2c0378f2ed1a092dfaf484b516400f324a19161ae214b82673" kindref="member">RebuildTrigger::VERSION_OUT_OF_RANGE</ref>,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="130" column="17" bodyfile="include/llm/model_switch_workflow.h" bodystart="130" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_rebuild_policy_1a64545fc928542f8b4f688e6d475a29de" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::RebuildPolicy::fail_closed_on_rebuild</definition>
+        <argsstring></argsstring>
+        <name>fail_closed_on_rebuild</name>
+        <qualifiedname>themis::llm::RebuildPolicy::fail_closed_on_rebuild</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="136" column="10" bodyfile="include/llm/model_switch_workflow.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_rebuild_policy_1afcb87c62c333749fa31d8cdaa2e9ffa9" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::RebuildPolicy::isTriggerActive</definition>
+        <argsstring>(RebuildTrigger trigger) const noexcept</argsstring>
+        <name>isTriggerActive</name>
+        <qualifiedname>themis::llm::RebuildPolicy::isTriggerActive</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1a28e30e5010f714c2c0378f2ed1a092df" kindref="member">RebuildTrigger</ref></type>
+          <declname>trigger</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="138" column="11" bodyfile="src/llm/model_switch_workflow.cpp" bodystart="319" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_rebuild_policy_1ae3dd95eba06c3b074325d25d080c3e54" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::llm::RebuildPolicy::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::llm::RebuildPolicy::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="140" column="21" bodyfile="src/llm/model_switch_workflow.cpp" bodystart="323" bodyend="332"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_rebuild_policy_1ae6795bd6b15cb05c552449a22e17a37e" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_rebuild_policy" kindref="compound">RebuildPolicy</ref></type>
+        <definition>RebuildPolicy themis::llm::RebuildPolicy::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::llm::RebuildPolicy::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(), clear(), nlohmann::json::array(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="141" column="27" bodyfile="src/llm/model_switch_workflow.cpp" bodystart="340" bodyend="348"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/model_switch_workflow.h" line="129" column="1" bodyfile="include/llm/model_switch_workflow.h" bodystart="129" bodyend="142"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_rebuild_policy_1a64545fc928542f8b4f688e6d475a29de" prot="public" virt="non-virtual"><scope>themis::llm::RebuildPolicy</scope><name>fail_closed_on_rebuild</name></member>
+      <member refid="structthemis_1_1llm_1_1_rebuild_policy_1ae6795bd6b15cb05c552449a22e17a37e" prot="public" virt="non-virtual"><scope>themis::llm::RebuildPolicy</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1llm_1_1_rebuild_policy_1afcb87c62c333749fa31d8cdaa2e9ffa9" prot="public" virt="non-virtual"><scope>themis::llm::RebuildPolicy</scope><name>isTriggerActive</name></member>
+      <member refid="structthemis_1_1llm_1_1_rebuild_policy_1ae3dd95eba06c3b074325d25d080c3e54" prot="public" virt="non-virtual"><scope>themis::llm::RebuildPolicy</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1llm_1_1_rebuild_policy_1afad9aff7a4c444b982be15ec1a8014a8" prot="public" virt="non-virtual"><scope>themis::llm::RebuildPolicy</scope><name>triggers</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

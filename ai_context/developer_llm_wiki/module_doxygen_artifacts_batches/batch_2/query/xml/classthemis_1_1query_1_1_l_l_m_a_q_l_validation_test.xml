@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_l_l_m_a_q_l_validation_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::LLMAQLValidationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_l_l_m_a_q_l_validation_test_1a97a9db3c0d90f1b40844e74a68b519ec" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1query_1_1_a_q_l_parser_service" kindref="compound">AQLParserService</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;AQLParserService&gt; themis::query::LLMAQLValidationTest::parser_</definition>
+        <argsstring></argsstring>
+        <name>parser_</name>
+        <qualifiedname>themis::query::LLMAQLValidationTest::parser_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_llm_integration.cpp" line="30" column="21" bodyfile="tests/query/test_aql_llm_integration.cpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_l_l_m_a_q_l_validation_test_1abf1a23b3b9cabdc89762854c18118b00" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::LLMAQLValidationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::query::LLMAQLValidationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_aql_llm_integration.cpp" line="32" column="10" bodyfile="tests/query/test_aql_llm_integration.cpp" bodystart="32" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Test fixture for LLM-AQL validation integration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::query::LLMAQLValidationTest</label>
+        <link refid="classthemis_1_1query_1_1_l_l_m_a_q_l_validation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::query::LLMAQLValidationTest</label>
+        <link refid="classthemis_1_1query_1_1_l_l_m_a_q_l_validation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/query/test_aql_llm_integration.cpp" line="28" column="1" bodyfile="tests/query/test_aql_llm_integration.cpp" bodystart="28" bodyend="43"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_l_l_m_a_q_l_validation_test_1a97a9db3c0d90f1b40844e74a68b519ec" prot="protected" virt="non-virtual"><scope>themis::query::LLMAQLValidationTest</scope><name>parser_</name></member>
+      <member refid="classthemis_1_1query_1_1_l_l_m_a_q_l_validation_test_1abf1a23b3b9cabdc89762854c18118b00" prot="protected" virt="non-virtual"><scope>themis::query::LLMAQLValidationTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

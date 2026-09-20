@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_l_l_m_reproducibility_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::LLMReproducibilityPolicy</compoundname>
+    <includes refid="llm__reproducibility_8h" local="no">llm_reproducibility.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_reproducibility_policy_1aec3d4406b26b2d62da3fe8962ec19978" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1llm_1ac98d8fb587c654094b0b79b383075d30" kindref="member">LLMReproducibilityMode</ref> &gt;</type>
+        <definition>std::vector&lt;LLMReproducibilityMode&gt; themis::llm::LLMReproducibilityPolicy::allowed_modes</definition>
+        <argsstring></argsstring>
+        <name>allowed_modes</name>
+        <qualifiedname>themis::llm::LLMReproducibilityPolicy::allowed_modes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Modes that may be used in this deployment. Empty means all modes are permitted (default open). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_reproducibility.h" line="324" column="17" bodyfile="include/llm/llm_reproducibility.h" bodystart="324" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_reproducibility_policy_1a421dc6720f30c408e4ed55562dd9d235" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMReproducibilityPolicy::require_audit_snapshot</definition>
+        <argsstring></argsstring>
+        <name>require_audit_snapshot</name>
+        <qualifiedname>themis::llm::LLMReproducibilityPolicy::require_audit_snapshot</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>When true, every inference call MUST produce and store an audit snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_reproducibility.h" line="327" column="10" bodyfile="include/llm/llm_reproducibility.h" bodystart="327" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_reproducibility_policy_1afc6ddaf38290c4c3f0bb074d7e80d77a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMReproducibilityPolicy::disallow_creative_in_production</definition>
+        <argsstring></argsstring>
+        <name>disallow_creative_in_production</name>
+        <qualifiedname>themis::llm::LLMReproducibilityPolicy::disallow_creative_in_production</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>When true, <computeroutput>Creative</computeroutput> mode is blocked even if present in <computeroutput><ref refid="structthemis_1_1llm_1_1_l_l_m_reproducibility_policy_1aec3d4406b26b2d62da3fe8962ec19978" kindref="member">allowed_modes</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_reproducibility.h" line="330" column="10" bodyfile="include/llm/llm_reproducibility.h" bodystart="330" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_l_l_m_reproducibility_policy_1a40dc46ed0674c0a9ebbc0556b8be805b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LLMReproducibilityPolicy::enforce</definition>
+        <argsstring>(const LLMInferenceParameterSnapshot &amp;snap) const</argsstring>
+        <name>enforce</name>
+        <qualifiedname>themis::llm::LLMReproducibilityPolicy::enforce</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot" kindref="compound">LLMInferenceParameterSnapshot</ref> &amp;</type>
+          <declname>snap</declname>
+        </param>
+        <briefdescription>
+<para>Check whether a snapshot satisfies this policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>snap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The parameter snapshot to check. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if the snapshot violates the policy. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_reproducibility.h" line="341" column="10" bodyfile="include/llm/llm_reproducibility.h" bodystart="341" bodyend="362"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_l_l_m_reproducibility_policy_1a244ba0444ae0a02865d355d4a0fb1d6c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMReproducibilityPolicy::check</definition>
+        <argsstring>(const LLMInferenceParameterSnapshot &amp;snap) const noexcept</argsstring>
+        <name>check</name>
+        <qualifiedname>themis::llm::LLMReproducibilityPolicy::check</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot" kindref="compound">LLMInferenceParameterSnapshot</ref> &amp;</type>
+          <declname>snap</declname>
+        </param>
+        <briefdescription>
+<para>Check the policy without throwing; return human-readable error or &quot;&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_reproducibility.h" line="367" column="18" bodyfile="include/llm/llm_reproducibility.h" bodystart="367" bodyend="374"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-deployment policy governing which reproducibility modes are permitted. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Checked before each inference call. Violations are hard errors (fail-closed).</para>
+<sect1 id="structthemis_1_1llm_1_1_l_l_m_reproducibility_policy_1autotoc_md8_1s1"><sect2 id="structthemis_1_1llm_1_1_l_l_m_reproducibility_policy_1autotoc_md8">
+<title>Typical configurations</title><para><table rows="4" cols="3"><row>
+<entry thead="yes"><para>Deployment  </para>
+</entry><entry thead="yes"><para>allowed_modes  </para>
+</entry><entry thead="yes"><para>require_audit_snapshot  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Default production  </para>
+</entry><entry thead="no"><para>Balanced, Creative, Custom  </para>
+</entry><entry thead="no"><para>false  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Regulated domain  </para>
+</entry><entry thead="no"><para>Deterministic, Audit  </para>
+</entry><entry thead="no"><para>true  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>CI/regression  </para>
+</entry><entry thead="no"><para>Deterministic  </para>
+</entry><entry thead="no"><para>true  </para>
+</entry></row>
+</table>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/llm/llm_reproducibility.h" line="321" column="1" bodyfile="include/llm/llm_reproducibility.h" bodystart="321" bodyend="375"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_reproducibility_policy_1aec3d4406b26b2d62da3fe8962ec19978" prot="public" virt="non-virtual"><scope>themis::llm::LLMReproducibilityPolicy</scope><name>allowed_modes</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_reproducibility_policy_1a244ba0444ae0a02865d355d4a0fb1d6c" prot="public" virt="non-virtual"><scope>themis::llm::LLMReproducibilityPolicy</scope><name>check</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_reproducibility_policy_1afc6ddaf38290c4c3f0bb074d7e80d77a" prot="public" virt="non-virtual"><scope>themis::llm::LLMReproducibilityPolicy</scope><name>disallow_creative_in_production</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_reproducibility_policy_1a40dc46ed0674c0a9ebbc0556b8be805b" prot="public" virt="non-virtual"><scope>themis::llm::LLMReproducibilityPolicy</scope><name>enforce</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_reproducibility_policy_1a421dc6720f30c408e4ed55562dd9d235" prot="public" virt="non-virtual"><scope>themis::llm::LLMReproducibilityPolicy</scope><name>require_audit_snapshot</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

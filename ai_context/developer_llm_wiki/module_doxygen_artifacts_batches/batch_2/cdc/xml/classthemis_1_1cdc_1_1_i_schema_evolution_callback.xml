@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cdc_1_1_i_schema_evolution_callback" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::cdc::ISchemaEvolutionCallback</compoundname>
+    <derivedcompoundref refid="struct_test_callback" prot="public" virt="non-virtual">TestCallback</derivedcompoundref>
+    <includes refid="icdc__event__schema_8h" local="no">icdc_event_schema.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_schema_evolution_callback_1aab9f62fe8aaab951216c1515b2fe05a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::cdc::ISchemaEvolutionCallback::~ISchemaEvolutionCallback</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ISchemaEvolutionCallback</name>
+        <qualifiedname>themis::cdc::ISchemaEvolutionCallback::~ISchemaEvolutionCallback</qualifiedname>
+        <briefdescription>
+<para>ISchema Evolution Callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_event_schema.h" line="101" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_schema_evolution_callback_1a3f2ce56f5e17cca9bc22e0d37c8de8ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::cdc::ISchemaEvolutionCallback::onCompatible</definition>
+        <argsstring>(const SchemaEvolutionDescriptor &amp;descriptor)=0</argsstring>
+        <name>onCompatible</name>
+        <qualifiedname>themis::cdc::ISchemaEvolutionCallback::onCompatible</qualifiedname>
+        <reimplementedby refid="struct_test_callback_1a37f77ea688d47f5e5ad65ed0d3acda62">onCompatible</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1cdc_1_1_schema_evolution_descriptor" kindref="compound">SchemaEvolutionDescriptor</ref> &amp;</type>
+          <declname>descriptor</declname>
+        </param>
+        <briefdescription>
+<para>On Compatible. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">descriptor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_event_schema.h" line="107" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_schema_evolution_callback_1a9e7b0ef15dde3a1111af9a20196c7c81" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::cdc::ISchemaEvolutionCallback::onIncompatible</definition>
+        <argsstring>(const SchemaEvolutionDescriptor &amp;descriptor, const SchemaConflict &amp;conflict)=0</argsstring>
+        <name>onIncompatible</name>
+        <qualifiedname>themis::cdc::ISchemaEvolutionCallback::onIncompatible</qualifiedname>
+        <reimplementedby refid="struct_test_callback_1a096a749c3b023690b4c41abdf9e0945f">onIncompatible</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1cdc_1_1_schema_evolution_descriptor" kindref="compound">SchemaEvolutionDescriptor</ref> &amp;</type>
+          <declname>descriptor</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1cdc_1_1_schema_conflict" kindref="compound">SchemaConflict</ref> &amp;</type>
+          <declname>conflict</declname>
+        </param>
+        <briefdescription>
+<para>On Incompatible. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">descriptor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">conflict</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_event_schema.h" line="114" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>TestCallback</label>
+        <link refid="struct_test_callback"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::cdc::ISchemaEvolutionCallback</label>
+        <link refid="classthemis_1_1cdc_1_1_i_schema_evolution_callback"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/cdc/icdc_event_schema.h" line="95" column="1" bodyfile="include/cdc/icdc_event_schema.h" bodystart="95" bodyend="116"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cdc_1_1_i_schema_evolution_callback_1a3f2ce56f5e17cca9bc22e0d37c8de8ce" prot="public" virt="pure-virtual"><scope>themis::cdc::ISchemaEvolutionCallback</scope><name>onCompatible</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_schema_evolution_callback_1a9e7b0ef15dde3a1111af9a20196c7c81" prot="public" virt="pure-virtual"><scope>themis::cdc::ISchemaEvolutionCallback</scope><name>onIncompatible</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_schema_evolution_callback_1aab9f62fe8aaab951216c1515b2fe05a1" prot="public" virt="virtual"><scope>themis::cdc::ISchemaEvolutionCallback</scope><name>~ISchemaEvolutionCallback</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

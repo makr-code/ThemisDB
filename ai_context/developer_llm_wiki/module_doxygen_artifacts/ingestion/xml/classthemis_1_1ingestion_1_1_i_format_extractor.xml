@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_i_format_extractor" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::ingestion::IFormatExtractor</compoundname>
+    <includes refid="format__extractor_8h" local="no">format_extractor.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_format_extractor_1a3022259f9ccac1e9c0c110eae779e974" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::ingestion::IFormatExtractor::~IFormatExtractor</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IFormatExtractor</name>
+        <qualifiedname>themis::ingestion::IFormatExtractor::~IFormatExtractor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/format_extractor.h" line="89" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_format_extractor_1a56385a31ed1290879d890f98481bfd6e" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_format_extract_result" kindref="compound">FormatExtractResult</ref></type>
+        <definition>virtual FormatExtractResult themis::ingestion::IFormatExtractor::extract</definition>
+        <argsstring>(std::span&lt; const std::byte &gt; data, const std::string &amp;mime_type, const std::string &amp;filename_hint)=0</argsstring>
+        <name>extract</name>
+        <qualifiedname>themis::ingestion::IFormatExtractor::extract</qualifiedname>
+        <param>
+          <type>std::span&lt; const std::byte &gt;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename_hint</declname>
+        </param>
+        <briefdescription>
+<para>Extract text and metadata from a raw binary blob. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw bytes of the document/media file. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mime_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>MIME type string, e.g. &quot;application/pdf&quot;. The adapter uses this for routing and may override it with a more precise type after magic-byte sniffing. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filename_hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original filename (without path), e.g. &quot;report.pdf&quot;. Used for format disambiguation and archive member naming. May be empty. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1ingestion_1_1_format_extract_result" kindref="compound">FormatExtractResult</ref> with extracted text, metadata, and optional child paths. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/format_extractor.h" line="104" column="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_format_extractor_1acec9040162c4009dc3e997f73522a7bc" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>virtual std::vector&lt; std::string &gt; themis::ingestion::IFormatExtractor::supportedMimeTypes</definition>
+        <argsstring>() const =0</argsstring>
+        <name>supportedMimeTypes</name>
+        <qualifiedname>themis::ingestion::IFormatExtractor::supportedMimeTypes</qualifiedname>
+        <briefdescription>
+<para>MIME types this extractor can handle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used by <computeroutput>FormatExtractorFactory</computeroutput> to route a file to the right extractor and by <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1af4270ae636afe47fd63fb99567408269" kindref="member">IIngestionStep::canHandle()</ref></computeroutput> default implementation.</para>
+<para>An empty vector means &quot;any MIME type&quot; (fall-through / generic extractor).</para>
+<para><simplesect kind="return"><para>Immutable list of supported MIME type strings. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/format_extractor.h" line="119" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_format_extractor_1ad38f6e7003439e0e47ecd14cf7708484" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>const char *</type>
+        <definition>virtual const char * themis::ingestion::IFormatExtractor::name</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::ingestion::IFormatExtractor::name</qualifiedname>
+        <briefdescription>
+<para>Human-readable name of this extractor for logging and diagnostics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Example: &quot;PdfExtractorAdapter&quot;, &quot;OfficeExtractorAdapter&quot;. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/format_extractor.h" line="126" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Format-specific text and metadata extractor interface. </para>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="classthemis_1_1ingestion_1_1_i_format_extractor_1autotoc_md5_1s1"><sect2 id="classthemis_1_1ingestion_1_1_i_format_extractor_1autotoc_md5">
+<title>Motivation</title><para>The <computeroutput>content/</computeroutput> module ships high-quality format processors (PDF, DOCX, images with OCR, audio STT, archives) that have heavy dependencies on <computeroutput>storage/</computeroutput>, <computeroutput>cache/</computeroutput>, and <computeroutput>security/</computeroutput>. The ingestion pipeline and the <computeroutput>toolbox/</computeroutput> module cannot depend on those subsystems directly.</para>
+<para><computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_format_extractor" kindref="compound">IFormatExtractor</ref></computeroutput> is a thin, dependency-free boundary: adapters inside the <computeroutput>content/</computeroutput> module implement this interface and delegate internally to the existing processors. Builtin ingestion steps receive an <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_format_extractor" kindref="compound">IFormatExtractor</ref></computeroutput> via constructor injection and never include <computeroutput>content/</computeroutput> headers.</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1ingestion_1_1_i_format_extractor_1autotoc_md6_1s1"><sect2 id="classthemis_1_1ingestion_1_1_i_format_extractor_1autotoc_md6">
+<title>Dependency direction</title><para><programlisting><codeline><highlight class="normal">ingestion/<sp/>defines<sp/>IFormatExtractor<sp/><sp/><sp/>(no<sp/>content/<sp/>include)</highlight></codeline>
+<codeline><highlight class="normal">content/<sp/><sp/><sp/>implements<sp/>IFormatExtractor<sp/>via<sp/>adapters</highlight></codeline>
+<codeline><highlight class="normal">toolbox/<sp/><sp/><sp/>consumes<sp/>via<sp/>IFormatExtractor*<sp/><sp/>(no<sp/>content/<sp/>include<sp/>needed)</highlight></codeline>
+</programlisting></para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1ingestion_1_1_i_format_extractor_1autotoc_md7_1s1"><sect2 id="classthemis_1_1ingestion_1_1_i_format_extractor_1autotoc_md7">
+<title>Thread-safety</title><para>Implementations MUST be thread-safe. The <computeroutput><ref refid="classthemis_1_1ingestion_1_1_workflow_engine" kindref="compound">WorkflowEngine</ref></computeroutput> may call <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_format_extractor_1a56385a31ed1290879d890f98481bfd6e" kindref="member">extract()</ref></computeroutput> from multiple threads concurrently.</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1ingestion_1_1_i_format_extractor_1autotoc_md8_1s1"><sect2 id="classthemis_1_1ingestion_1_1_i_format_extractor_1autotoc_md8">
+<title>Error handling</title><para>Return <computeroutput><ref refid="structthemis_1_1ingestion_1_1_format_extract_result" kindref="compound">FormatExtractResult</ref>{.ok = false, .error = "…"}</computeroutput> on failure; do NOT throw. Exceptions from third-party libraries must be caught internally. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/ingestion/format_extractor.h" line="87" column="1" bodyfile="include/ingestion/format_extractor.h" bodystart="87" bodyend="127"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_i_format_extractor_1a56385a31ed1290879d890f98481bfd6e" prot="public" virt="pure-virtual"><scope>themis::ingestion::IFormatExtractor</scope><name>extract</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_format_extractor_1ad38f6e7003439e0e47ecd14cf7708484" prot="public" virt="pure-virtual"><scope>themis::ingestion::IFormatExtractor</scope><name>name</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_format_extractor_1acec9040162c4009dc3e997f73522a7bc" prot="public" virt="pure-virtual"><scope>themis::ingestion::IFormatExtractor</scope><name>supportedMimeTypes</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_format_extractor_1a3022259f9ccac1e9c0c110eae779e974" prot="public" virt="virtual"><scope>themis::ingestion::IFormatExtractor</scope><name>~IFormatExtractor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

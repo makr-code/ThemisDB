@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_process_mining_1_1_process_evolution_1_1_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ProcessMining::ProcessEvolution::Snapshot</compoundname>
+    <includes refid="process__mining_8h" local="no">process_mining.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_process_mining_1_1_process_evolution_1_1_snapshot_1a4cbd6deab378000776eb1178988369ad" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::ProcessMining::ProcessEvolution::Snapshot::period_start</definition>
+        <argsstring></argsstring>
+        <name>period_start</name>
+        <qualifiedname>themis::ProcessMining::ProcessEvolution::Snapshot::period_start</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="381" column="21" bodyfile="include/analytics/process_mining.h" bodystart="381" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_mining_1_1_process_evolution_1_1_snapshot_1a6d021420c28b02a5bee074de32cd94c4" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::ProcessMining::ProcessEvolution::Snapshot::period_end</definition>
+        <argsstring></argsstring>
+        <name>period_end</name>
+        <qualifiedname>themis::ProcessMining::ProcessEvolution::Snapshot::period_end</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="382" column="21" bodyfile="include/analytics/process_mining.h" bodystart="382" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_mining_1_1_process_evolution_1_1_snapshot_1a4fe5f04c575f6ca5496f0ed33c281e1a" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_discovered_process" kindref="compound">DiscoveredProcess</ref></type>
+        <definition>DiscoveredProcess themis::ProcessMining::ProcessEvolution::Snapshot::model</definition>
+        <argsstring></argsstring>
+        <name>model</name>
+        <qualifiedname>themis::ProcessMining::ProcessEvolution::Snapshot::model</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="383" column="31" bodyfile="include/analytics/process_mining.h" bodystart="383" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_mining_1_1_process_evolution_1_1_snapshot_1a4a51c9bb18ad548d8feebeadf39f04d2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ProcessMining::ProcessEvolution::Snapshot::fitness_vs_previous</definition>
+        <argsstring></argsstring>
+        <name>fitness_vs_previous</name>
+        <qualifiedname>themis::ProcessMining::ProcessEvolution::Snapshot::fitness_vs_previous</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="384" column="20" bodyfile="include/analytics/process_mining.h" bodystart="384" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_mining_1_1_process_evolution_1_1_snapshot_1a3df26865d8ce39ace8788bc1fdd0e86b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ProcessMining::ProcessEvolution::Snapshot::new_patterns</definition>
+        <argsstring></argsstring>
+        <name>new_patterns</name>
+        <qualifiedname>themis::ProcessMining::ProcessEvolution::Snapshot::new_patterns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="385" column="25" bodyfile="include/analytics/process_mining.h" bodystart="385" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_mining_1_1_process_evolution_1_1_snapshot_1ac22a3aba261ed2a81a54970e1bf37ec6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ProcessMining::ProcessEvolution::Snapshot::removed_patterns</definition>
+        <argsstring></argsstring>
+        <name>removed_patterns</name>
+        <qualifiedname>themis::ProcessMining::ProcessEvolution::Snapshot::removed_patterns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="386" column="25" bodyfile="include/analytics/process_mining.h" bodystart="386" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::DiscoveredProcess</label>
+        <link refid="structthemis_1_1_discovered_process"/>
+      </node>
+      <node id="1">
+        <label>themis::ProcessMining::ProcessEvolution::Snapshot</label>
+        <link refid="structthemis_1_1_process_mining_1_1_process_evolution_1_1_snapshot"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>model</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/analytics/process_mining.h" line="380" column="9" bodyfile="include/analytics/process_mining.h" bodystart="380" bodyend="387"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_process_mining_1_1_process_evolution_1_1_snapshot_1a4a51c9bb18ad548d8feebeadf39f04d2" prot="public" virt="non-virtual"><scope>themis::ProcessMining::ProcessEvolution::Snapshot</scope><name>fitness_vs_previous</name></member>
+      <member refid="structthemis_1_1_process_mining_1_1_process_evolution_1_1_snapshot_1a4fe5f04c575f6ca5496f0ed33c281e1a" prot="public" virt="non-virtual"><scope>themis::ProcessMining::ProcessEvolution::Snapshot</scope><name>model</name></member>
+      <member refid="structthemis_1_1_process_mining_1_1_process_evolution_1_1_snapshot_1a3df26865d8ce39ace8788bc1fdd0e86b" prot="public" virt="non-virtual"><scope>themis::ProcessMining::ProcessEvolution::Snapshot</scope><name>new_patterns</name></member>
+      <member refid="structthemis_1_1_process_mining_1_1_process_evolution_1_1_snapshot_1a6d021420c28b02a5bee074de32cd94c4" prot="public" virt="non-virtual"><scope>themis::ProcessMining::ProcessEvolution::Snapshot</scope><name>period_end</name></member>
+      <member refid="structthemis_1_1_process_mining_1_1_process_evolution_1_1_snapshot_1a4cbd6deab378000776eb1178988369ad" prot="public" virt="non-virtual"><scope>themis::ProcessMining::ProcessEvolution::Snapshot</scope><name>period_start</name></member>
+      <member refid="structthemis_1_1_process_mining_1_1_process_evolution_1_1_snapshot_1ac22a3aba261ed2a81a54970e1bf37ec6" prot="public" virt="non-virtual"><scope>themis::ProcessMining::ProcessEvolution::Snapshot</scope><name>removed_patterns</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

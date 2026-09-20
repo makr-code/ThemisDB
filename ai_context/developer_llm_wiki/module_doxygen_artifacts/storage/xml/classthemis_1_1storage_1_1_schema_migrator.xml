@@ -1,0 +1,1322 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_schema_migrator" kind="class" language="C++" prot="public">
+    <compoundname>themis::storage::SchemaMigrator</compoundname>
+    <includes refid="online__schema__migration_8h" local="no">online_schema_migration.h</includes>
+    <innerclass refid="structthemis_1_1storage_1_1_schema_migrator_1_1_config" prot="public">themis::storage::SchemaMigrator::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_schema_migrator_1afafb767da20a7a45e22a7606290d3420" prot="private" static="no" mutable="no">
+        <type>SchemaManager &amp;</type>
+        <definition>SchemaManager&amp; themis::storage::SchemaMigrator::schema_mgr_</definition>
+        <argsstring></argsstring>
+        <name>schema_mgr_</name>
+        <qualifiedname>themis::storage::SchemaMigrator::schema_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="330" column="28" bodyfile="include/storage/online_schema_migration.h" bodystart="330" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_schema_migrator_1afcec496bd5798e4eb78763a4fdc08408" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1storage_1_1_schema_migrator_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::storage::SchemaMigrator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::storage::SchemaMigrator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="331" column="29" bodyfile="include/storage/online_schema_migration.h" bodystart="331" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_schema_migrator_1abe8e514d8f24cafbe75f4107d074283d" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1storage_1_1_migration_op" kindref="compound">MigrationOp</ref> &gt;</type>
+        <definition>std::vector&lt;MigrationOp&gt; themis::storage::SchemaMigrator::ops_</definition>
+        <argsstring></argsstring>
+        <name>ops_</name>
+        <qualifiedname>themis::storage::SchemaMigrator::ops_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="332" column="17" bodyfile="include/storage/online_schema_migration.h" bodystart="332" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_schema_migrator_1ad007578081d14975616451b35de26edd" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::storage::SchemaMigrator::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::storage::SchemaMigrator::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="333" column="29" bodyfile="include/storage/online_schema_migration.h" bodystart="333" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_schema_migrator_1a38757ed180ef8cfc0e493ec1fdda18b3" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; <ref refid="namespacethemis_1_1storage_1a13080b99d512294fc7e647ef7e945da7" kindref="member">OnlineDDLPhase</ref> &gt;</type>
+        <definition>std::atomic&lt;OnlineDDLPhase&gt; themis::storage::SchemaMigrator::phase_</definition>
+        <argsstring></argsstring>
+        <name>phase_</name>
+        <qualifiedname>themis::storage::SchemaMigrator::phase_</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1storage_1a13080b99d512294fc7e647ef7e945da7aa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">OnlineDDLPhase::IDLE</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="334" column="17" bodyfile="include/storage/online_schema_migration.h" bodystart="334" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_schema_migrator_1a7f908aeb07cfb6f3b6f30a82131971bc" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::SchemaMigrator::version_</definition>
+        <argsstring></argsstring>
+        <name>version_</name>
+        <qualifiedname>themis::storage::SchemaMigrator::version_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="335" column="29" bodyfile="include/storage/online_schema_migration.h" bodystart="335" bodyend="335"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_schema_migrator_1a2449f5e7dfb5570d2b520773911f6ac5" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::SchemaMigrator::SchemaMigrator</definition>
+        <argsstring>(SchemaManager &amp;schema_mgr)</argsstring>
+        <name>SchemaMigrator</name>
+        <qualifiedname>themis::storage::SchemaMigrator::SchemaMigrator</qualifiedname>
+        <param>
+          <type>SchemaManager &amp;</type>
+          <declname>schema_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Construct a <ref refid="classthemis_1_1storage_1_1_schema_migrator" kindref="compound">SchemaMigrator</ref> with default configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>schema_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SchemaManager instance owning the target tables. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="171" column="14" bodyfile="src/storage/online_schema_migration.cpp" bodystart="92" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_schema_migrator_1a9a1c17a4111f353b57fe5c36aa2e1f19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::SchemaMigrator::SchemaMigrator</definition>
+        <argsstring>(SchemaManager &amp;schema_mgr, const Config &amp;config)</argsstring>
+        <name>SchemaMigrator</name>
+        <qualifiedname>themis::storage::SchemaMigrator::SchemaMigrator</qualifiedname>
+        <param>
+          <type>SchemaManager &amp;</type>
+          <declname>schema_mgr</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_schema_migrator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct a <ref refid="classthemis_1_1storage_1_1_schema_migrator" kindref="compound">SchemaMigrator</ref> with custom configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>schema_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SchemaManager instance owning the target tables. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration overrides. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="179" column="5" bodyfile="src/storage/online_schema_migration.cpp" bodystart="95" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_schema_migrator_1a206a24b19f70a939e87c9a2c934855f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::SchemaMigrator::~SchemaMigrator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~SchemaMigrator</name>
+        <qualifiedname>themis::storage::SchemaMigrator::~SchemaMigrator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="181" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_schema_migrator_1a5f36c8eb269fcd5af217a8ca177f1657" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::SchemaMigrator::SchemaMigrator</definition>
+        <argsstring>(const SchemaMigrator &amp;)=delete</argsstring>
+        <name>SchemaMigrator</name>
+        <qualifiedname>themis::storage::SchemaMigrator::SchemaMigrator</qualifiedname>
+        <param>
+          <type>const SchemaMigrator &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="184" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_schema_migrator_1a5cec42846c7c0c8e7488febb0f0a3a19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_schema_migrator_1a2449f5e7dfb5570d2b520773911f6ac5" kindref="member">SchemaMigrator</ref> &amp;</type>
+        <definition>SchemaMigrator &amp; themis::storage::SchemaMigrator::operator=</definition>
+        <argsstring>(const SchemaMigrator &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::storage::SchemaMigrator::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1storage_1_1_schema_migrator_1a2449f5e7dfb5570d2b520773911f6ac5" kindref="member">SchemaMigrator</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="185" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_schema_migrator_1ad0b854e4de01d7566ea7cd81c124a31b" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::SchemaMigrator::SchemaMigrator</definition>
+        <argsstring>(SchemaMigrator &amp;&amp;) noexcept=default</argsstring>
+        <name>SchemaMigrator</name>
+        <qualifiedname>themis::storage::SchemaMigrator::SchemaMigrator</qualifiedname>
+        <param>
+          <type>SchemaMigrator &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="186" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_schema_migrator_1a2a63d6d4e74518f0dcfe1f3bd26b7cc2" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_schema_migrator_1a2449f5e7dfb5570d2b520773911f6ac5" kindref="member">SchemaMigrator</ref> &amp;</type>
+        <definition>SchemaMigrator &amp; themis::storage::SchemaMigrator::operator=</definition>
+        <argsstring>(SchemaMigrator &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::storage::SchemaMigrator::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1storage_1_1_schema_migrator_1a2449f5e7dfb5570d2b520773911f6ac5" kindref="member">SchemaMigrator</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="187" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_schema_migrator_1ae091b63c6305ef8e434c607b8eab5340" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_schema_migrator_1a2449f5e7dfb5570d2b520773911f6ac5" kindref="member">SchemaMigrator</ref> &amp;</type>
+        <definition>SchemaMigrator &amp; themis::storage::SchemaMigrator::addColumn</definition>
+        <argsstring>(const std::string &amp;table, const std::string &amp;column, const std::string &amp;type, bool nullable=true)</argsstring>
+        <name>addColumn</name>
+        <qualifiedname>themis::storage::SchemaMigrator::addColumn</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>column</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>nullable</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Stage an ADD COLUMN operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Column.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New column name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Column type string (e.g. &quot;VARCHAR(20)&quot;, &quot;integer&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nullable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the new column is nullable (default: true). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this for method chaining.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">nullable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="200" column="20" bodyfile="src/storage/online_schema_migration.cpp" bodystart="119" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_schema_migrator_1a8dd5c4751e7c6c4d6367593de74960b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_schema_migrator_1a2449f5e7dfb5570d2b520773911f6ac5" kindref="member">SchemaMigrator</ref> &amp;</type>
+        <definition>SchemaMigrator &amp; themis::storage::SchemaMigrator::dropColumn</definition>
+        <argsstring>(const std::string &amp;table, const std::string &amp;column)</argsstring>
+        <name>dropColumn</name>
+        <qualifiedname>themis::storage::SchemaMigrator::dropColumn</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>column</declname>
+        </param>
+        <briefdescription>
+<para>Stage a DROP COLUMN operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Drop Column.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Column to remove. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this for method chaining.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="212" column="20" bodyfile="src/storage/online_schema_migration.cpp" bodystart="141" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_schema_migrator_1a08948441bf3c6c302761e5685d97a5bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_schema_migrator_1a2449f5e7dfb5570d2b520773911f6ac5" kindref="member">SchemaMigrator</ref> &amp;</type>
+        <definition>SchemaMigrator &amp; themis::storage::SchemaMigrator::renameColumn</definition>
+        <argsstring>(const std::string &amp;table, const std::string &amp;old_name, const std::string &amp;new_name)</argsstring>
+        <name>renameColumn</name>
+        <qualifiedname>themis::storage::SchemaMigrator::renameColumn</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>old_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>new_name</declname>
+        </param>
+        <briefdescription>
+<para>Stage a RENAME COLUMN operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Rename Column.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>old_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current column name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>new_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target column name. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this for method chaining.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">old_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the old. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the new. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="223" column="20" bodyfile="src/storage/online_schema_migration.cpp" bodystart="160" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_schema_migrator_1a7b73ab57e83280ea0eb3d4f9abe11331" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_schema_migrator_1a2449f5e7dfb5570d2b520773911f6ac5" kindref="member">SchemaMigrator</ref> &amp;</type>
+        <definition>SchemaMigrator &amp; themis::storage::SchemaMigrator::changeColumnType</definition>
+        <argsstring>(const std::string &amp;table, const std::string &amp;column, const std::string &amp;new_type, bool nullable=true)</argsstring>
+        <name>changeColumnType</name>
+        <qualifiedname>themis::storage::SchemaMigrator::changeColumnType</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>column</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>new_type</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>nullable</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Stage a CHANGE COLUMN TYPE operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Change Column Type.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Column whose type should change. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>new_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New type string. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nullable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New nullability (default: true). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this for method chaining.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">nullable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="236" column="20" bodyfile="src/storage/online_schema_migration.cpp" bodystart="182" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_schema_migrator_1ac6f2d6db6dd1c7804afe7d996115f4a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_schema_migrator_1a2449f5e7dfb5570d2b520773911f6ac5" kindref="member">SchemaMigrator</ref> &amp;</type>
+        <definition>SchemaMigrator &amp; themis::storage::SchemaMigrator::addIndex</definition>
+        <argsstring>(const std::string &amp;table, const std::string &amp;column, bool unique=false)</argsstring>
+        <name>addIndex</name>
+        <qualifiedname>themis::storage::SchemaMigrator::addIndex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>column</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>unique</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Stage an ADD INDEX operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Index.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Column to index. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>unique</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the index should enforce uniqueness (default: false). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this for method chaining.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">unique</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="249" column="20" bodyfile="src/storage/online_schema_migration.cpp" bodystart="205" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_schema_migrator_1a5cc1ecc58d9a1ea5540b4357bd467c3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_schema_migrator_1a2449f5e7dfb5570d2b520773911f6ac5" kindref="member">SchemaMigrator</ref> &amp;</type>
+        <definition>SchemaMigrator &amp; themis::storage::SchemaMigrator::dropIndex</definition>
+        <argsstring>(const std::string &amp;table, const std::string &amp;column)</argsstring>
+        <name>dropIndex</name>
+        <qualifiedname>themis::storage::SchemaMigrator::dropIndex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>column</declname>
+        </param>
+        <briefdescription>
+<para>Stage a DROP INDEX operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Drop Index.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Indexed column whose index should be removed. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this for method chaining.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="260" column="20" bodyfile="src/storage/online_schema_migration.cpp" bodystart="225" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_schema_migrator_1a3b09b2db2a6c1749edec3e49974c68ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_schema_migrator_1a2449f5e7dfb5570d2b520773911f6ac5" kindref="member">SchemaMigrator</ref> &amp;</type>
+        <definition>SchemaMigrator &amp; themis::storage::SchemaMigrator::partitionTable</definition>
+        <argsstring>(const std::string &amp;table, const std::string &amp;partition_key, size_t num_partitions)</argsstring>
+        <name>partitionTable</name>
+        <qualifiedname>themis::storage::SchemaMigrator::partitionTable</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>partition_key</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>num_partitions</declname>
+        </param>
+        <briefdescription>
+<para>Stage a PARTITION TABLE operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Partition Table.</para>
+<para>Adds partition metadata (partition_key and logical partition names) to the table schema. Partition names are generated as <computeroutput>&lt;table&gt;_p&lt;i&gt;</computeroutput> for i in [0, num_partitions).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>partition_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Column used as the partition key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>num_partitions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of partitions to create (&gt;= 2). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this for method chaining.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">partition_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_partitions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="275" column="20" bodyfile="src/storage/online_schema_migration.cpp" bodystart="244" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_schema_migrator_1a4b29d319fa6b96e33c6de1638d55123e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_migration_result" kindref="compound">MigrationResult</ref></type>
+        <definition>MigrationResult themis::storage::SchemaMigrator::migrate</definition>
+        <argsstring>()</argsstring>
+        <name>migrate</name>
+        <qualifiedname>themis::storage::SchemaMigrator::migrate</qualifiedname>
+        <briefdescription>
+<para>Apply all staged operations as an online (zero-downtime) migration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Migrate.</para>
+<para>Each operation is applied to the SchemaManager in the order it was staged. On success, the <ref refid="classthemis_1_1storage_1_1_schema_migrator" kindref="compound">SchemaMigrator</ref> resets to IDLE so it can be reused. On failure, staged operations are retained and phase() returns FAILED until <ref refid="classthemis_1_1storage_1_1_schema_migrator_1accbd7ea04b555a22b456eaa6b9340a23" kindref="member">reset()</ref> is called.</para>
+<para><simplesect kind="return"><para><ref refid="structthemis_1_1storage_1_1_migration_result" kindref="compound">MigrationResult</ref> describing the outcome of the migration.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>observability scanner alert: this migration flow is instrumented with THEMIS/LOG INFO/WARN/ERROR calls at each phase transition and error path, so a separate trace-point finding here is a false positive. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="291" column="21" bodyfile="src/storage/online_schema_migration.cpp" bodystart="266" bodyend="402"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_schema_migrator_1accbd7ea04b555a22b456eaa6b9340a23" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::SchemaMigrator::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::storage::SchemaMigrator::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the migrator, discarding any staged operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset the modification detection flag.</para>
+<para>After <ref refid="classthemis_1_1storage_1_1_schema_migrator_1accbd7ea04b555a22b456eaa6b9340a23" kindref="member">reset()</ref>, the migrator is in IDLE phase with an empty operation queue and can be reused. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="299" column="10" bodyfile="src/storage/online_schema_migration.cpp" bodystart="411" bodyend="421"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_schema_migrator_1a27710b7f8fe9488d20ea016fd8992d9e" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::storage::SchemaMigrator::pendingOps</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>pendingOps</name>
+        <qualifiedname>themis::storage::SchemaMigrator::pendingOps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Number of operations currently staged. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="304" column="12" bodyfile="src/storage/online_schema_migration.cpp" bodystart="427" bodyend="430"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_schema_migrator_1a35e79d5aab23d18ac8f6df66e87343c7" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1storage_1a13080b99d512294fc7e647ef7e945da7" kindref="member">OnlineDDLPhase</ref></type>
+        <definition>OnlineDDLPhase themis::storage::SchemaMigrator::currentPhase</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>currentPhase</name>
+        <qualifiedname>themis::storage::SchemaMigrator::currentPhase</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Current DDL phase (thread-safe). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="307" column="20" bodyfile="src/storage/online_schema_migration.cpp" bodystart="432" bodyend="435"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_schema_migrator_1ad7c0ade4c87f905fce99a8d04d29730a" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1storage_1_1_migration_op" kindref="compound">MigrationOp</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; MigrationOp &gt; &amp; themis::storage::SchemaMigrator::stagedOps</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>stagedOps</name>
+        <qualifiedname>themis::storage::SchemaMigrator::stagedOps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Read-only view of the staged operation list. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="310" column="23" bodyfile="src/storage/online_schema_migration.cpp" bodystart="437" bodyend="440"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_schema_migrator_1ab5f7860d1c89308c1a2392a8cb6fa61a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_migration_result" kindref="compound">MigrationResult</ref></type>
+        <definition>MigrationResult themis::storage::SchemaMigrator::applyAddColumn</definition>
+        <argsstring>(const MigrationOp &amp;op, SchemaManager::TableSchema &amp;schema)</argsstring>
+        <name>applyAddColumn</name>
+        <qualifiedname>themis::storage::SchemaMigrator::applyAddColumn</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_migration_op" kindref="compound">MigrationOp</ref> &amp;</type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>SchemaManager::TableSchema &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <briefdescription>
+<para>Apply Add Column. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="315" column="21" bodyfile="src/storage/online_schema_migration.cpp" bodystart="452" bodyend="485"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_schema_migrator_1a6ac6421cbe572b33d2a09c668470afcb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_migration_result" kindref="compound">MigrationResult</ref></type>
+        <definition>MigrationResult themis::storage::SchemaMigrator::applyDropColumn</definition>
+        <argsstring>(const MigrationOp &amp;op, SchemaManager::TableSchema &amp;schema)</argsstring>
+        <name>applyDropColumn</name>
+        <qualifiedname>themis::storage::SchemaMigrator::applyDropColumn</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_migration_op" kindref="compound">MigrationOp</ref> &amp;</type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>SchemaManager::TableSchema &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <briefdescription>
+<para>Apply Drop Column. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="317" column="21" bodyfile="src/storage/online_schema_migration.cpp" bodystart="493" bodyend="524"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_schema_migrator_1ad585cfe908d4f1c61b77d48b50bc4b68" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_migration_result" kindref="compound">MigrationResult</ref></type>
+        <definition>MigrationResult themis::storage::SchemaMigrator::applyRenameColumn</definition>
+        <argsstring>(const MigrationOp &amp;op, SchemaManager::TableSchema &amp;schema)</argsstring>
+        <name>applyRenameColumn</name>
+        <qualifiedname>themis::storage::SchemaMigrator::applyRenameColumn</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_migration_op" kindref="compound">MigrationOp</ref> &amp;</type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>SchemaManager::TableSchema &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <briefdescription>
+<para>Apply Rename Column. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="319" column="21" bodyfile="src/storage/online_schema_migration.cpp" bodystart="532" bodyend="584"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_schema_migrator_1a72e35b5a7796c355aa12fa12b7e1502b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_migration_result" kindref="compound">MigrationResult</ref></type>
+        <definition>MigrationResult themis::storage::SchemaMigrator::applyChangeColumnType</definition>
+        <argsstring>(const MigrationOp &amp;op, SchemaManager::TableSchema &amp;schema)</argsstring>
+        <name>applyChangeColumnType</name>
+        <qualifiedname>themis::storage::SchemaMigrator::applyChangeColumnType</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_migration_op" kindref="compound">MigrationOp</ref> &amp;</type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>SchemaManager::TableSchema &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <briefdescription>
+<para>Apply Change Column Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="321" column="21" bodyfile="src/storage/online_schema_migration.cpp" bodystart="592" bodyend="621"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_schema_migrator_1a0ca24d559d3b0c0a3185598c59224c51" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_migration_result" kindref="compound">MigrationResult</ref></type>
+        <definition>MigrationResult themis::storage::SchemaMigrator::applyAddIndex</definition>
+        <argsstring>(const MigrationOp &amp;op, SchemaManager::TableSchema &amp;schema)</argsstring>
+        <name>applyAddIndex</name>
+        <qualifiedname>themis::storage::SchemaMigrator::applyAddIndex</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_migration_op" kindref="compound">MigrationOp</ref> &amp;</type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>SchemaManager::TableSchema &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <briefdescription>
+<para>Apply Add Index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="323" column="21" bodyfile="src/storage/online_schema_migration.cpp" bodystart="629" bodyend="683"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_schema_migrator_1a5532b42653ebd750042d72a1e139ba95" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_migration_result" kindref="compound">MigrationResult</ref></type>
+        <definition>MigrationResult themis::storage::SchemaMigrator::applyDropIndex</definition>
+        <argsstring>(const MigrationOp &amp;op, SchemaManager::TableSchema &amp;schema)</argsstring>
+        <name>applyDropIndex</name>
+        <qualifiedname>themis::storage::SchemaMigrator::applyDropIndex</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_migration_op" kindref="compound">MigrationOp</ref> &amp;</type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>SchemaManager::TableSchema &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <briefdescription>
+<para>Apply Drop Index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="325" column="21" bodyfile="src/storage/online_schema_migration.cpp" bodystart="691" bodyend="722"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_schema_migrator_1aa45d42eda3148f42bca2639c45cc579e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_migration_result" kindref="compound">MigrationResult</ref></type>
+        <definition>MigrationResult themis::storage::SchemaMigrator::applyPartitionTable</definition>
+        <argsstring>(const MigrationOp &amp;op, SchemaManager::TableSchema &amp;schema)</argsstring>
+        <name>applyPartitionTable</name>
+        <qualifiedname>themis::storage::SchemaMigrator::applyPartitionTable</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_migration_op" kindref="compound">MigrationOp</ref> &amp;</type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>SchemaManager::TableSchema &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <briefdescription>
+<para>Apply Partition Table. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="327" column="21" bodyfile="src/storage/online_schema_migration.cpp" bodystart="730" bodyend="775"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Online (zero-downtime) schema migrator for relational and document tables. </para>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="classthemis_1_1storage_1_1_schema_migrator_1autotoc_md11_1s1"><sect2 id="classthemis_1_1storage_1_1_schema_migrator_1autotoc_md11">
+<title>Overview</title><para><computeroutput><ref refid="classthemis_1_1storage_1_1_schema_migrator" kindref="compound">SchemaMigrator</ref></computeroutput> allows callers to stage one or more DDL operations and then apply them as a single versioned, background migration without interrupting concurrent reads or writes.</para>
+<para>Supported operations:<itemizedlist>
+<listitem><para>Add / drop columns</para>
+</listitem><listitem><para>Rename columns</para>
+</listitem><listitem><para>Change column types (with optional nullability change)</para>
+</listitem><listitem><para>Add / drop secondary indexes</para>
+</listitem><listitem><para>Partition tables (range-partitioned by a key column)</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1storage_1_1_schema_migrator_1autotoc_md12_1s1"><sect2 id="classthemis_1_1storage_1_1_schema_migrator_1autotoc_md12">
+<title>Usage</title><para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classthemis_1_1storage_1_1_schema_migrator_1a2449f5e7dfb5570d2b520773911f6ac5" kindref="member">SchemaMigrator</ref><sp/>migrator(schema_mgr);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">migrator.addColumn(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;phone_number&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;VARCHAR(20)&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">migrator.renameColumn(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;email_address&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">migrator.addIndex(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;email_address&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>migrator.migrate();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!result.success)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>handle<sp/>result.error_message<sp/>/<sp/>result.errors</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1storage_1_1_schema_migrator_1autotoc_md13_1s1"><sect2 id="classthemis_1_1storage_1_1_schema_migrator_1autotoc_md13">
+<title>Thread safety</title><para>All staging methods (addColumn, dropColumn, …) are NOT thread-safe. <ref refid="classthemis_1_1storage_1_1_schema_migrator_1a4b29d319fa6b96e33c6de1638d55123e" kindref="member">migrate()</ref> is thread-safe after staging is complete (single writer model). After <ref refid="classthemis_1_1storage_1_1_schema_migrator_1a4b29d319fa6b96e33c6de1638d55123e" kindref="member">migrate()</ref> returns, the <ref refid="classthemis_1_1storage_1_1_schema_migrator" kindref="compound">SchemaMigrator</ref> may be reused for a new batch.</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1storage_1_1_schema_migrator_1autotoc_md14_1s1"><sect2 id="classthemis_1_1storage_1_1_schema_migrator_1autotoc_md14">
+<title>Online semantics</title><para>During <ref refid="classthemis_1_1storage_1_1_schema_migrator_1a4b29d319fa6b96e33c6de1638d55123e" kindref="member">migrate()</ref>, schema changes are applied atomically to the SchemaManager. The phase transitions allow external observers to poll the current phase via <ref refid="classthemis_1_1storage_1_1_schema_migrator_1a35e79d5aab23d18ac8f6df66e87343c7" kindref="member">currentPhase()</ref>. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/storage/online_schema_migration.h" line="150" column="1" bodyfile="include/storage/online_schema_migration.h" bodystart="150" bodyend="336"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_schema_migrator_1ae091b63c6305ef8e434c607b8eab5340" prot="public" virt="non-virtual"><scope>themis::storage::SchemaMigrator</scope><name>addColumn</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_migrator_1ac6f2d6db6dd1c7804afe7d996115f4a6" prot="public" virt="non-virtual"><scope>themis::storage::SchemaMigrator</scope><name>addIndex</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_migrator_1ab5f7860d1c89308c1a2392a8cb6fa61a" prot="private" virt="non-virtual"><scope>themis::storage::SchemaMigrator</scope><name>applyAddColumn</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_migrator_1a0ca24d559d3b0c0a3185598c59224c51" prot="private" virt="non-virtual"><scope>themis::storage::SchemaMigrator</scope><name>applyAddIndex</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_migrator_1a72e35b5a7796c355aa12fa12b7e1502b" prot="private" virt="non-virtual"><scope>themis::storage::SchemaMigrator</scope><name>applyChangeColumnType</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_migrator_1a6ac6421cbe572b33d2a09c668470afcb" prot="private" virt="non-virtual"><scope>themis::storage::SchemaMigrator</scope><name>applyDropColumn</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_migrator_1a5532b42653ebd750042d72a1e139ba95" prot="private" virt="non-virtual"><scope>themis::storage::SchemaMigrator</scope><name>applyDropIndex</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_migrator_1aa45d42eda3148f42bca2639c45cc579e" prot="private" virt="non-virtual"><scope>themis::storage::SchemaMigrator</scope><name>applyPartitionTable</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_migrator_1ad585cfe908d4f1c61b77d48b50bc4b68" prot="private" virt="non-virtual"><scope>themis::storage::SchemaMigrator</scope><name>applyRenameColumn</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_migrator_1a7b73ab57e83280ea0eb3d4f9abe11331" prot="public" virt="non-virtual"><scope>themis::storage::SchemaMigrator</scope><name>changeColumnType</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_migrator_1afcec496bd5798e4eb78763a4fdc08408" prot="private" virt="non-virtual"><scope>themis::storage::SchemaMigrator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_migrator_1a35e79d5aab23d18ac8f6df66e87343c7" prot="public" virt="non-virtual"><scope>themis::storage::SchemaMigrator</scope><name>currentPhase</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_migrator_1a8dd5c4751e7c6c4d6367593de74960b9" prot="public" virt="non-virtual"><scope>themis::storage::SchemaMigrator</scope><name>dropColumn</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_migrator_1a5cc1ecc58d9a1ea5540b4357bd467c3e" prot="public" virt="non-virtual"><scope>themis::storage::SchemaMigrator</scope><name>dropIndex</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_migrator_1a4b29d319fa6b96e33c6de1638d55123e" prot="public" virt="non-virtual"><scope>themis::storage::SchemaMigrator</scope><name>migrate</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_migrator_1ad007578081d14975616451b35de26edd" prot="private" virt="non-virtual"><scope>themis::storage::SchemaMigrator</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_migrator_1a5cec42846c7c0c8e7488febb0f0a3a19" prot="public" virt="non-virtual"><scope>themis::storage::SchemaMigrator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_migrator_1a2a63d6d4e74518f0dcfe1f3bd26b7cc2" prot="public" virt="non-virtual"><scope>themis::storage::SchemaMigrator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_migrator_1abe8e514d8f24cafbe75f4107d074283d" prot="private" virt="non-virtual"><scope>themis::storage::SchemaMigrator</scope><name>ops_</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_migrator_1a3b09b2db2a6c1749edec3e49974c68ae" prot="public" virt="non-virtual"><scope>themis::storage::SchemaMigrator</scope><name>partitionTable</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_migrator_1a27710b7f8fe9488d20ea016fd8992d9e" prot="public" virt="non-virtual"><scope>themis::storage::SchemaMigrator</scope><name>pendingOps</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_migrator_1a38757ed180ef8cfc0e493ec1fdda18b3" prot="private" virt="non-virtual"><scope>themis::storage::SchemaMigrator</scope><name>phase_</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_migrator_1a08948441bf3c6c302761e5685d97a5bd" prot="public" virt="non-virtual"><scope>themis::storage::SchemaMigrator</scope><name>renameColumn</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_migrator_1accbd7ea04b555a22b456eaa6b9340a23" prot="public" virt="non-virtual"><scope>themis::storage::SchemaMigrator</scope><name>reset</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_migrator_1afafb767da20a7a45e22a7606290d3420" prot="private" virt="non-virtual"><scope>themis::storage::SchemaMigrator</scope><name>schema_mgr_</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_migrator_1a2449f5e7dfb5570d2b520773911f6ac5" prot="public" virt="non-virtual"><scope>themis::storage::SchemaMigrator</scope><name>SchemaMigrator</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_migrator_1a9a1c17a4111f353b57fe5c36aa2e1f19" prot="public" virt="non-virtual"><scope>themis::storage::SchemaMigrator</scope><name>SchemaMigrator</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_migrator_1a5f36c8eb269fcd5af217a8ca177f1657" prot="public" virt="non-virtual"><scope>themis::storage::SchemaMigrator</scope><name>SchemaMigrator</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_migrator_1ad0b854e4de01d7566ea7cd81c124a31b" prot="public" virt="non-virtual"><scope>themis::storage::SchemaMigrator</scope><name>SchemaMigrator</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_migrator_1ad7c0ade4c87f905fce99a8d04d29730a" prot="public" virt="non-virtual"><scope>themis::storage::SchemaMigrator</scope><name>stagedOps</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_migrator_1a7f908aeb07cfb6f3b6f30a82131971bc" prot="private" virt="non-virtual"><scope>themis::storage::SchemaMigrator</scope><name>version_</name></member>
+      <member refid="classthemis_1_1storage_1_1_schema_migrator_1a206a24b19f70a939e87c9a2c934855f3" prot="public" virt="non-virtual"><scope>themis::storage::SchemaMigrator</scope><name>~SchemaMigrator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,297 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1grg" kind="namespace" language="C++">
+    <compoundname>themis::bench::grg</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1grg_1a4496efc3dee05955e844fafdc7c558ac" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::bench::grg::kGeoCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kGeoCanonicalSeed</name>
+        <qualifiedname>themis::bench::grg::kGeoCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/geo/bench_geo_release_gates.cpp" line="54" column="32" bodyfile="benchmarks/geo/bench_geo_release_gates.cpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1grg_1a8eb626c45e96d64596f21e9eeb25d3e6" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::grg::kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <qualifiedname>themis::bench::grg::kRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/geo/bench_geo_release_gates.cpp" line="55" column="32" bodyfile="benchmarks/geo/bench_geo_release_gates.cpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1grg_1a8b35c3932fa56169c097fa942627602c" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::grg::kWarmupIterations</definition>
+        <argsstring></argsstring>
+        <name>kWarmupIterations</name>
+        <qualifiedname>themis::bench::grg::kWarmupIterations</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/geo/bench_geo_release_gates.cpp" line="56" column="32" bodyfile="benchmarks/geo/bench_geo_release_gates.cpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1grg_1a3ff150751d1d1370c4463204711d5b91" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::bench::grg::kPi</definition>
+        <argsstring></argsstring>
+        <name>kPi</name>
+        <qualifiedname>themis::bench::grg::kPi</qualifiedname>
+        <initializer>= 3.14159265358979323846</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/geo/bench_geo_release_gates.cpp" line="57" column="32" bodyfile="benchmarks/geo/bench_geo_release_gates.cpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1grg_1af68168592821be547a0aebf3865c0309" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::bench::grg::kEarthRadiusM</definition>
+        <argsstring></argsstring>
+        <name>kEarthRadiusM</name>
+        <qualifiedname>themis::bench::grg::kEarthRadiusM</qualifiedname>
+        <initializer>= 6&apos;371&apos;000.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/geo/bench_geo_release_gates.cpp" line="58" column="32" bodyfile="benchmarks/geo/bench_geo_release_gates.cpp" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1grg_1a630ed888be571958953551a2c6b914e8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; Polygon &gt; &amp;</type>
+        <definition>static const std::vector&lt; Polygon &gt; &amp; themis::bench::grg::bench1kPolygons</definition>
+        <argsstring>()</argsstring>
+        <name>bench1kPolygons</name>
+        <qualifiedname>themis::bench::grg::bench1kPolygons</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/geo/bench_geo_release_gates.cpp" line="195" column="26" bodyfile="benchmarks/geo/bench_geo_release_gates.cpp" bodystart="195" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1grg_1a7ba9e1ea2821f6ec127a3c9c06270138" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const BenchSpatialIndex &amp;</type>
+        <definition>static const BenchSpatialIndex &amp; themis::bench::grg::bench10kIndex</definition>
+        <argsstring>()</argsstring>
+        <name>bench10kIndex</name>
+        <qualifiedname>themis::bench::grg::bench10kIndex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/geo/bench_geo_release_gates.cpp" line="210" column="32" bodyfile="benchmarks/geo/bench_geo_release_gates.cpp" bodystart="210" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1grg_1a5d2a777be83bb127375a9efdf489f4b3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; IndexFeature &gt; &amp;</type>
+        <definition>static const std::vector&lt; IndexFeature &gt; &amp; themis::bench::grg::bench1kFeatures</definition>
+        <argsstring>()</argsstring>
+        <name>bench1kFeatures</name>
+        <qualifiedname>themis::bench::grg::bench1kFeatures</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/geo/bench_geo_release_gates.cpp" line="225" column="26" bodyfile="benchmarks/geo/bench_geo_release_gates.cpp" bodystart="225" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1grg_1a7ea18474db88d34f935ba0f022fe0451" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>static const std::string &amp; themis::bench::grg::benchGeoJson</definition>
+        <argsstring>()</argsstring>
+        <name>benchGeoJson</name>
+        <qualifiedname>themis::bench::grg::benchGeoJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/geo/bench_geo_release_gates.cpp" line="240" column="26" bodyfile="benchmarks/geo/bench_geo_release_gates.cpp" bodystart="240" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1grg_1a0617d67d518f1d1c1b1cbc680f9396f2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::grg::BM_GRG01_PointInPolygon</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_GRG01_PointInPolygon</name>
+        <qualifiedname>themis::bench::grg::BM_GRG01_PointInPolygon</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>GRG-01: Test a single point against 1 000 polygons (ray-casting). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gate: p99 ≤ 5 ms. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/geo/bench_geo_release_gates.cpp" line="254" column="13" bodyfile="benchmarks/geo/bench_geo_release_gates.cpp" bodystart="254" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1grg_1a52dc84f6d3f517d977c4f0b20b9cc7ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::grg::UseRealTime</definition>
+        <argsstring>() -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>UseRealTime</name>
+        <qualifiedname>themis::bench::grg::UseRealTime</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/geo/bench_geo_release_gates.cpp" line="274" column="5" declfile="benchmarks/geo/bench_geo_release_gates.cpp" declline="274" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1grg_1a3a5de511463ff680e0b42c6aa6993634" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::grg::BM_GRG02_BboxQuery</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_GRG02_BboxQuery</name>
+        <qualifiedname>themis::bench::grg::BM_GRG02_BboxQuery</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>GRG-02: Bounding-box overlap scan over 10 000 features. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gate: p99 ≤ 1 ms. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/geo/bench_geo_release_gates.cpp" line="287" column="13" bodyfile="benchmarks/geo/bench_geo_release_gates.cpp" bodystart="287" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1grg_1a84d9856076b4aaacea134e86574c3f01" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::grg::BM_GRG03_GeoJsonParse</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_GRG03_GeoJsonParse</name>
+        <qualifiedname>themis::bench::grg::BM_GRG03_GeoJsonParse</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>GRG-03: Parse a minimal GeoJSON Point string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gate: p99 ≤ 500 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/geo/bench_geo_release_gates.cpp" line="312" column="13" bodyfile="benchmarks/geo/bench_geo_release_gates.cpp" bodystart="312" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1grg_1a828a2d81ebf1414f02573b6ad585f07a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::grg::Repetitions</definition>
+        <argsstring>(kRepetitions) -&gt; ReportAggregatesOnly(true)</argsstring>
+        <name>Repetitions</name>
+        <qualifiedname>themis::bench::grg::Repetitions</qualifiedname>
+        <param>
+          <type>kRepetitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/geo/bench_geo_release_gates.cpp" line="324" column="5" declfile="benchmarks/geo/bench_geo_release_gates.cpp" declline="324" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1grg_1ab5834a5f7d2bd16382196fcb84c713b9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::grg::BM_GRG04_HaversineDistance</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_GRG04_HaversineDistance</name>
+        <qualifiedname>themis::bench::grg::BM_GRG04_HaversineDistance</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>GRG-04: Haversine great-circle distance for a single coordinate pair. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gate: p99 ≤ 10 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/geo/bench_geo_release_gates.cpp" line="336" column="13" bodyfile="benchmarks/geo/bench_geo_release_gates.cpp" bodystart="336" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1grg_1ad58ffe0b4c02938336532ce478b61317" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::grg::BM_GRG05_SpatialJoin</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_GRG05_SpatialJoin</name>
+        <qualifiedname>themis::bench::grg::BM_GRG05_SpatialJoin</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>GRG-05: Bounding-box pre-filter join between two sets of 1 000 features. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gate: p99 ≤ 50 ms. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/geo/bench_geo_release_gates.cpp" line="360" column="13" bodyfile="benchmarks/geo/bench_geo_release_gates.cpp" bodystart="360" bodyend="393"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1grg_1aa1ccb44ae6494866eae62dfb85296f87" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::grg::BM_GRG06_BackendSelection</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_GRG06_BackendSelection</name>
+        <qualifiedname>themis::bench::grg::BM_GRG06_BackendSelection</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>GRG-06: GPU/CPU backend selection check (batch-size threshold + cap flag). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gate: p99 ≤ 50 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/geo/bench_geo_release_gates.cpp" line="408" column="13" bodyfile="benchmarks/geo/bench_geo_release_gates.cpp" bodystart="408" bodyend="422"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/geo/bench_geo_release_gates.cpp" line="45" column="1"/>
+  </compounddef>
+</doxygen>

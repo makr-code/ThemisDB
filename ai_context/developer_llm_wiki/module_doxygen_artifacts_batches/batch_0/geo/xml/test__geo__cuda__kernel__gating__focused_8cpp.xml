@@ -1,0 +1,353 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__geo__cuda__kernel__gating__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_geo_cuda_kernel_gating_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">memory</includes>
+    <includes refid="geo__backend__dispatch_8h" local="yes">geo/geo_backend_dispatch.h</includes>
+    <incdepgraph>
+      <node id="6">
+        <label>geo/geo_backend_dispatch.h</label>
+        <link refid="geo__backend__dispatch_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/geo/test_geo_cuda_kernel_gating_focused.cpp</label>
+        <link refid="test__geo__cuda__kernel__gating__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>cmath</label>
+      </node>
+      <node id="7">
+        <label>cstddef</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1geo">themis::geo</innernamespace>
+    <briefdescription>
+<para>Focused tests for CUDA kernel gating (A-06, A-07) — CPU always, GPU conditional. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Test structure:<itemizedlist>
+<listitem><para>Tests marked &quot;ALWAYS_CPU&quot;: Run on all platforms (validates fallback)</para>
+</listitem><listitem><para>Tests marked &quot;GPU_OPTIONAL&quot;: Skip if CUDA not available (validates GPU path)</para>
+</listitem></itemizedlist>
+</para>
+<para>Gates:<itemizedlist>
+<listitem><para>GATE-A-06-01: Haversine batch correctness + performance</para>
+</listitem><listitem><para>GATE-A-06-02: Point-in-polygon batch correctness + performance</para>
+</listitem><listitem><para>GATE-A-07-01: Vincenty batch correctness + performance</para>
+</listitem><listitem><para>GATE-A-07-02: GPU dispatch integration + error handling </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="geo__backend__dispatch_8h" kindref="compound">geo/geo_backend_dispatch.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1geo" kindref="compound">geo</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Fixtures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">GeoBackendDispatchTest<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>kEarthRadiusKm<sp/>=<sp/>6371.0;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>kEpsilon<sp/>=<sp/>1e-6;<sp/><sp/></highlight><highlight class="comment">//<sp/>Floating<sp/>point<sp/>tolerance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>SetUp()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dispatcher_<sp/>=<sp/>std::make_unique&lt;GeoBackendDispatcher&gt;();</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Generate<sp/>test<sp/>points</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Point<sp/>1:<sp/>San<sp/>Francisco<sp/>(37.7749°N,<sp/>122.4194°W)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Point<sp/>2:<sp/>Los<sp/>Angeles<sp/>(34.0522°N,<sp/>118.2437°W)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sf_point_<sp/>=<sp/>{37.7749,<sp/>-122.4194};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>la_point_<sp/>=<sp/>{34.0522,<sp/>-118.2437};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expected<sp/>Haversine<sp/>distance:<sp/>~559<sp/>km</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>expected_sf_la_distance_km_<sp/>=<sp/>559.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>Approximate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>polygon:<sp/>rectangular<sp/>box<sp/>around<sp/>California</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>california_box_.vertices<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{32.0,<sp/>-125.0},<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SW<sp/>corner</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{32.0,<sp/>-114.0},<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SE<sp/>corner</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{42.0,<sp/>-114.0},<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>NE<sp/>corner</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{42.0,<sp/>-125.0}<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>NW<sp/>corner</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;GeoBackendDispatcher&gt;<sp/>dispatcher_;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoBackendDispatcher::Point<sp/>sf_point_;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoBackendDispatcher::Point<sp/>la_point_;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoBackendDispatcher::Polygon<sp/>california_box_;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>expected_sf_la_distance_km_;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GATE-A-06-01:<sp/>Haversine<sp/>Distance<sp/>Batch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><ref refid="test__aql__st__functions_8cpp_1a76ca74449a6d258227d613d0b12fcddc" kindref="member">TEST_F</ref>(GeoBackendDispatchTest,<sp/>ALWAYS_CPU_Haversine_TwoPoints)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GeoBackendDispatcher::Point&gt;<sp/>points1<sp/>=<sp/>{sf_point_};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GeoBackendDispatcher::Point&gt;<sp/>points2<sp/>=<sp/>{la_point_};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>dispatcher_-&gt;computeHaversineBatch(points1,<sp/>points2);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result.distances_km.size(),<sp/>1);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(result.distances_km[0],<sp/>expected_sf_la_distance_km_,<sp/>50.0);<sp/><sp/></highlight><highlight class="comment">//<sp/>±50km<sp/>tolerance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.error_code,<sp/>0);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><ref refid="test__aql__st__functions_8cpp_1a76ca74449a6d258227d613d0b12fcddc" kindref="member">TEST_F</ref>(GeoBackendDispatchTest,<sp/>ALWAYS_CPU_Haversine_EmptyBatch)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GeoBackendDispatcher::Point&gt;<sp/>points1;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GeoBackendDispatcher::Point&gt;<sp/>points2;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>dispatcher_-&gt;computeHaversineBatch(points1,<sp/>points2);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.distances_km.empty());</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.error_code,<sp/>0);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><ref refid="test__aql__st__functions_8cpp_1a76ca74449a6d258227d613d0b12fcddc" kindref="member">TEST_F</ref>(GeoBackendDispatchTest,<sp/>ALWAYS_CPU_Haversine_SizesMismatch)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GeoBackendDispatcher::Point&gt;<sp/>points1<sp/>=<sp/>{sf_point_,<sp/>la_point_};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GeoBackendDispatcher::Point&gt;<sp/>points2<sp/>=<sp/>{sf_point_};<sp/><sp/></highlight><highlight class="comment">//<sp/>Size<sp/>mismatch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>dispatcher_-&gt;computeHaversineBatch(points1,<sp/>points2);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.error_code,<sp/>0);<sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>indicate<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><ref refid="test__aql__st__functions_8cpp_1a76ca74449a6d258227d613d0b12fcddc" kindref="member">TEST_F</ref>(GeoBackendDispatchTest,<sp/>ALWAYS_CPU_Haversine_Symmetry)<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GeoBackendDispatcher::Point&gt;<sp/>points1<sp/>=<sp/>{sf_point_};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GeoBackendDispatcher::Point&gt;<sp/>points2<sp/>=<sp/>{la_point_};</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result1<sp/>=<sp/>dispatcher_-&gt;computeHaversineBatch(points1,<sp/>points2);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reverse<sp/>order</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GeoBackendDispatcher::Point&gt;<sp/>points1_rev<sp/>=<sp/>{la_point_};</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GeoBackendDispatcher::Point&gt;<sp/>points2_rev<sp/>=<sp/>{sf_point_};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result2<sp/>=<sp/>dispatcher_-&gt;computeHaversineBatch(points1_rev,<sp/>points2_rev);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(result1.distances_km[0],<sp/>result2.distances_km[0],<sp/>kEpsilon);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><ref refid="test__aql__st__functions_8cpp_1a76ca74449a6d258227d613d0b12fcddc" kindref="member">TEST_F</ref>(GeoBackendDispatchTest,<sp/>GPU_OPTIONAL_Haversine_LargeBatch)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!dispatcher_-&gt;isCudaAvailable())<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;CUDA<sp/>not<sp/>available;<sp/>CPU<sp/>path<sp/>tested<sp/>in<sp/>ALWAYS_CPU<sp/>tests&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>large<sp/>batch<sp/>(&gt;=<sp/>threshold<sp/>for<sp/>GPU<sp/>dispatch)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GeoBackendDispatcher::Point&gt;<sp/>points1(5000,<sp/>sf_point_);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GeoBackendDispatcher::Point&gt;<sp/>points2(5000,<sp/>la_point_);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>dispatcher_-&gt;computeHaversineBatch(points1,<sp/>points2);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.distances_km.size(),<sp/>5000);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>result.distances_km.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NEAR(result.distances_km[i],<sp/>expected_sf_la_distance_km_,<sp/>50.0);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GATE-A-06-02:<sp/>Point-in-Polygon<sp/>Batch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><ref refid="test__aql__st__functions_8cpp_1a76ca74449a6d258227d613d0b12fcddc" kindref="member">TEST_F</ref>(GeoBackendDispatchTest,<sp/>ALWAYS_CPU_PointInPolygon_PointInside)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GeoBackendDispatcher::Point&gt;<sp/>test_points<sp/>=<sp/>{sf_point_};</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GeoBackendDispatcher::Polygon&gt;<sp/>polygons<sp/>=<sp/>{california_box_};</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>dispatcher_-&gt;computePointInPolygonBatch(</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>test_points,<sp/>polygons,<sp/>1);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result.containment_mask.size(),<sp/>1);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.containment_mask[0],<sp/>1u)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;SF<sp/>should<sp/>be<sp/>inside<sp/>California<sp/>box&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.error_code,<sp/>0);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><ref refid="test__aql__st__functions_8cpp_1a76ca74449a6d258227d613d0b12fcddc" kindref="member">TEST_F</ref>(GeoBackendDispatchTest,<sp/>ALWAYS_CPU_PointInPolygon_PointOutside)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Point<sp/>in<sp/>New<sp/>York<sp/>(outside<sp/>California)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point" kindref="compound">GeoBackendDispatcher::Point</ref><sp/>ny_point<sp/>=<sp/>{40.7128,<sp/>-74.0060};</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GeoBackendDispatcher::Point&gt;<sp/>test_points<sp/>=<sp/>{ny_point};</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GeoBackendDispatcher::Polygon&gt;<sp/>polygons<sp/>=<sp/>{california_box_};</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>dispatcher_-&gt;computePointInPolygonBatch(</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>test_points,<sp/>polygons,<sp/>1);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result.containment_mask.size(),<sp/>1);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.containment_mask[0],<sp/>0u)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;NY<sp/>should<sp/>be<sp/>outside<sp/>California<sp/>box&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><ref refid="test__aql__st__functions_8cpp_1a76ca74449a6d258227d613d0b12fcddc" kindref="member">TEST_F</ref>(GeoBackendDispatchTest,<sp/>ALWAYS_CPU_PointInPolygon_EmptyBatch)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GeoBackendDispatcher::Point&gt;<sp/>test_points<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GeoBackendDispatcher::Polygon&gt;<sp/>polygons<sp/>=<sp/>{california_box_};</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>dispatcher_-&gt;computePointInPolygonBatch(</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>test_points,<sp/>polygons,<sp/>0);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.containment_mask.empty());</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.error_code,<sp/>0);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><ref refid="test__aql__st__functions_8cpp_1a76ca74449a6d258227d613d0b12fcddc" kindref="member">TEST_F</ref>(GeoBackendDispatchTest,<sp/>GPU_OPTIONAL_PointInPolygon_LargeBatch)<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!dispatcher_-&gt;isCudaAvailable())<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;CUDA<sp/>not<sp/>available;<sp/>CPU<sp/>path<sp/>tested<sp/>in<sp/>ALWAYS_CPU<sp/>tests&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>large<sp/>batch<sp/>of<sp/>points<sp/>(half<sp/>inside,<sp/>half<sp/>outside)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GeoBackendDispatcher::Point&gt;<sp/>test_points<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>2500;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>test_points.push_back(sf_point_);<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Inside</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>test_points.push_back({0.0,<sp/>0.0});<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Outside</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GeoBackendDispatcher::Polygon&gt;<sp/>polygons<sp/>=<sp/>{california_box_};</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>dispatcher_-&gt;computePointInPolygonBatch(</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>test_points,<sp/>polygons,<sp/>test_points.size());</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.containment_mask.size(),<sp/>test_points.size());</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.error_code,<sp/>0);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>pattern<sp/>(alternating<sp/>inside/outside)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>result.containment_mask.size();<sp/>i<sp/>+=<sp/>2)<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(result.containment_mask[i],<sp/>1u);<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SF<sp/>→<sp/>inside</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(result.containment_mask[i<sp/>+<sp/>1],<sp/>0u);<sp/><sp/></highlight><highlight class="comment">//<sp/>(0,<sp/>0)<sp/>→<sp/>outside</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="197"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GATE-A-07-01:<sp/>Vincenty<sp/>Distance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><ref refid="test__aql__st__functions_8cpp_1a76ca74449a6d258227d613d0b12fcddc" kindref="member">TEST_F</ref>(GeoBackendDispatchTest,<sp/>ALWAYS_CPU_Vincenty_TwoPoints)<sp/>{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GeoBackendDispatcher::Point&gt;<sp/>points1<sp/>=<sp/>{sf_point_};</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GeoBackendDispatcher::Point&gt;<sp/>points2<sp/>=<sp/>{la_point_};</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>dispatcher_-&gt;computeVincentyBatch(points1,<sp/>points2);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result.distances_km.size(),<sp/>1);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(result.distances_km[0],<sp/>expected_sf_la_distance_km_,<sp/>50.0);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.error_code,<sp/>0);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><ref refid="test__aql__st__functions_8cpp_1a76ca74449a6d258227d613d0b12fcddc" kindref="member">TEST_F</ref>(GeoBackendDispatchTest,<sp/>ALWAYS_CPU_Vincenty_HigherPrecision)<sp/>{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Vincenty<sp/>should<sp/>be<sp/>at<sp/>least<sp/>as<sp/>precise<sp/>as<sp/>Haversine</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GeoBackendDispatcher::Point&gt;<sp/>points1<sp/>=<sp/>{sf_point_};</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GeoBackendDispatcher::Point&gt;<sp/>points2<sp/>=<sp/>{la_point_};</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>vincenty_result<sp/>=<sp/>dispatcher_-&gt;computeVincentyBatch(points1,<sp/>points2);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>haversine_result<sp/>=<sp/>dispatcher_-&gt;computeHaversineBatch(points1,<sp/>points2);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(vincenty_result.distances_km.size(),<sp/>1);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(haversine_result.distances_km.size(),<sp/>1);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>should<sp/>be<sp/>close<sp/>(Vincenty<sp/>slightly<sp/>more<sp/>accurate)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(vincenty_result.distances_km[0],<sp/></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>haversine_result.distances_km[0],<sp/>10.0);<sp/><sp/></highlight><highlight class="comment">//<sp/>Within<sp/>10km</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><ref refid="test__aql__st__functions_8cpp_1a76ca74449a6d258227d613d0b12fcddc" kindref="member">TEST_F</ref>(GeoBackendDispatchTest,<sp/>GPU_OPTIONAL_Vincenty_LargeBatch)<sp/>{</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!dispatcher_-&gt;isCudaAvailable())<sp/>{</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;CUDA<sp/>not<sp/>available;<sp/>CPU<sp/>path<sp/>tested<sp/>in<sp/>ALWAYS_CPU<sp/>tests&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GeoBackendDispatcher::Point&gt;<sp/>points1(5000,<sp/>sf_point_);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GeoBackendDispatcher::Point&gt;<sp/>points2(5000,<sp/>la_point_);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>dispatcher_-&gt;computeVincentyBatch(points1,<sp/>points2);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.distances_km.size(),<sp/>5000);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>result.distances_km.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NEAR(result.distances_km[i],<sp/>expected_sf_la_distance_km_,<sp/>50.0);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="244"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GATE-A-07-02:<sp/>GPU<sp/>Dispatch<sp/>Integration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><ref refid="test__aql__st__functions_8cpp_1a76ca74449a6d258227d613d0b12fcddc" kindref="member">TEST_F</ref>(GeoBackendDispatchTest,<sp/>ALWAYS_CPU_Dispatch_QueryCudaState)<sp/>{</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>not<sp/>crash<sp/>regardless<sp/>of<sp/>CUDA<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>cuda_available<sp/>=<sp/>dispatcher_-&gt;isCudaAvailable();</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>Just<sp/>verify<sp/>no<sp/>exceptions<sp/>thrown</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>CUDA<sp/>available,<sp/>should<sp/>have<sp/>consistent<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cuda_available)<sp/>{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(dispatcher_-&gt;isCudaAvailable());<sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>be<sp/>same<sp/>after<sp/>construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="259"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><ref refid="test__aql__st__functions_8cpp_1a76ca74449a6d258227d613d0b12fcddc" kindref="member">TEST_F</ref>(GeoBackendDispatchTest,<sp/>ALWAYS_CPU_Dispatch_ErrorCode_OnSuccess)<sp/>{</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GeoBackendDispatcher::Point&gt;<sp/>points1<sp/>=<sp/>{sf_point_};</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GeoBackendDispatcher::Point&gt;<sp/>points2<sp/>=<sp/>{la_point_};</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>dispatcher_-&gt;computeHaversineBatch(points1,<sp/>points2);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.error_code,<sp/>0)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Success<sp/>should<sp/>return<sp/>error_code=0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><ref refid="test__aql__st__functions_8cpp_1a76ca74449a6d258227d613d0b12fcddc" kindref="member">TEST_F</ref>(GeoBackendDispatchTest,<sp/>GPU_OPTIONAL_Dispatch_Consistency)<sp/>{</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!dispatcher_-&gt;isCudaAvailable())<sp/>{</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;CUDA<sp/>not<sp/>available&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GeoBackendDispatcher::Point&gt;<sp/>points1<sp/>=<sp/>{sf_point_,<sp/>la_point_};</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GeoBackendDispatcher::Point&gt;<sp/>points2<sp/>=<sp/>{la_point_,<sp/>sf_point_};</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Multiple<sp/>calls<sp/>should<sp/>be<sp/>consistent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result1<sp/>=<sp/>dispatcher_-&gt;computeHaversineBatch(points1,<sp/>points2);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result2<sp/>=<sp/>dispatcher_-&gt;computeHaversineBatch(points1,<sp/>points2);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result1.distances_km.size(),<sp/>result2.distances_km.size());</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>result1.distances_km.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NEAR(result1.distances_km[i],<sp/>result2.distances_km[i],<sp/>kEpsilon);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="285"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>geo</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/geo/test_geo_cuda_kernel_gating_focused.cpp"/>
+  </compounddef>
+</doxygen>

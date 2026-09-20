@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_experiment_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::ExperimentContext</compoundname>
+    <includes refid="prompt__ab__experiment_8h" local="no">prompt_ab_experiment.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_experiment_context_1a3697b789c59e17e65bcf5175f031a064" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::ExperimentContext::experiment_id</definition>
+        <argsstring></argsstring>
+        <name>experiment_id</name>
+        <qualifiedname>themis::prompt_engineering::ExperimentContext::experiment_id</qualifiedname>
+        <briefdescription>
+<para>Which experiment to route through. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="56" column="17" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_experiment_context_1a46a9ee28c7a6cdf081e4e7265b2327ca" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::ExperimentContext::request_id</definition>
+        <argsstring></argsstring>
+        <name>request_id</name>
+        <qualifiedname>themis::prompt_engineering::ExperimentContext::request_id</qualifiedname>
+        <briefdescription>
+<para>Stable user / session / request identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="57" column="17" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Context passed into the render path to select the active variant. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Both fields are required; <computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_experiment_context_1a3697b789c59e17e65bcf5175f031a064" kindref="member">experiment_id</ref></computeroutput> identifies the experiment; <computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_experiment_context_1a46a9ee28c7a6cdf081e4e7265b2327ca" kindref="member">request_id</ref></computeroutput> is hashed to produce a deterministic, per-user assignment. </para>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_ab_experiment.h" line="55" column="1" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="55" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_experiment_context_1a3697b789c59e17e65bcf5175f031a064" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ExperimentContext</scope><name>experiment_id</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_experiment_context_1a46a9ee28c7a6cdf081e4e7265b2327ca" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ExperimentContext</scope><name>request_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,445 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1backpressure_1_1_deferred_sync_queue" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::backpressure::DeferredSyncQueue</compoundname>
+    <includes refid="backpressure__protocol_8h" local="no">backpressure_protocol.h</includes>
+    <innerclass refid="structthemisdb_1_1backpressure_1_1_deferred_sync_queue_1_1_w_a_l_stats" prot="public">themisdb::backpressure::DeferredSyncQueue::WALStats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a017a14525cf22d47da11872e5bea9359" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1backpressure_1_1_backpressure_config" kindref="compound">BackpressureConfig</ref></type>
+        <definition>BackpressureConfig themisdb::backpressure::DeferredSyncQueue::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::backpressure::DeferredSyncQueue::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="547" column="24" bodyfile="include/sharding/backpressure_protocol.h" bodystart="547" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a19aa8300ab8908667e4eedad88f89407" prot="private" static="no" mutable="no">
+        <type>std::priority_queue&lt; <ref refid="structthemisdb_1_1backpressure_1_1_deferred_operation" kindref="compound">DeferredOperation</ref>, std::vector&lt; <ref refid="structthemisdb_1_1backpressure_1_1_deferred_operation" kindref="compound">DeferredOperation</ref> &gt;, <ref refid="structthemisdb_1_1backpressure_1_1_deferred_operation_comparator" kindref="compound">DeferredOperationComparator</ref> &gt;</type>
+        <definition>std::priority_queue&lt;DeferredOperation, std::vector&lt;DeferredOperation&gt;, DeferredOperationComparator&gt; themisdb::backpressure::DeferredSyncQueue::queue_</definition>
+        <argsstring></argsstring>
+        <name>queue_</name>
+        <qualifiedname>themisdb::backpressure::DeferredSyncQueue::queue_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="552" column="2" bodyfile="include/sharding/backpressure_protocol.h" bodystart="552" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1ae14ad385faf93b374a0c63e7ac03da88" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::reference_wrapper&lt; const <ref refid="structthemisdb_1_1backpressure_1_1_deferred_operation" kindref="compound">DeferredOperation</ref> &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::reference_wrapper&lt;const DeferredOperation&gt; &gt; themisdb::backpressure::DeferredSyncQueue::op_index_</definition>
+        <argsstring></argsstring>
+        <name>op_index_</name>
+        <qualifiedname>themisdb::backpressure::DeferredSyncQueue::op_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="555" column="14" bodyfile="include/sharding/backpressure_protocol.h" bodystart="555" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a54f1a201472c397e9f5f28b1130ae96e" prot="private" static="no" mutable="no">
+        <type>std::fstream</type>
+        <definition>std::fstream themisdb::backpressure::DeferredSyncQueue::wal_file_</definition>
+        <argsstring></argsstring>
+        <name>wal_file_</name>
+        <qualifiedname>themisdb::backpressure::DeferredSyncQueue::wal_file_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="558" column="18" bodyfile="include/sharding/backpressure_protocol.h" bodystart="558" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a6d61cd9ec568185f2e18f7750ceea552" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::backpressure::DeferredSyncQueue::wal_sequence_</definition>
+        <argsstring></argsstring>
+        <name>wal_sequence_</name>
+        <qualifiedname>themisdb::backpressure::DeferredSyncQueue::wal_sequence_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="559" column="14" bodyfile="include/sharding/backpressure_protocol.h" bodystart="559" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a797068306bb367c063efd6c4247d7cbf" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1backpressure_1_1_deferred_sync_queue_1_1_w_a_l_stats" kindref="compound">WALStats</ref></type>
+        <definition>WALStats themisdb::backpressure::DeferredSyncQueue::wal_stats_</definition>
+        <argsstring></argsstring>
+        <name>wal_stats_</name>
+        <qualifiedname>themisdb::backpressure::DeferredSyncQueue::wal_stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="560" column="14" bodyfile="include/sharding/backpressure_protocol.h" bodystart="560" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a1d0c08431bf7d6508628b42bf2166ff9" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::backpressure::DeferredSyncQueue::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::backpressure::DeferredSyncQueue::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="562" column="24" bodyfile="include/sharding/backpressure_protocol.h" bodystart="562" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a52b6b17d437f011827b6ca0a991db0d9" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::backpressure::DeferredSyncQueue::DeferredSyncQueue</definition>
+        <argsstring>(const BackpressureConfig &amp;config)</argsstring>
+        <name>DeferredSyncQueue</name>
+        <qualifiedname>themisdb::backpressure::DeferredSyncQueue::DeferredSyncQueue</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1backpressure_1_1_backpressure_config" kindref="compound">BackpressureConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="470" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a81a0fdd5aca386b60902288bdde50aeb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::backpressure::DeferredSyncQueue::~DeferredSyncQueue</definition>
+        <argsstring>()</argsstring>
+        <name>~DeferredSyncQueue</name>
+        <qualifiedname>themisdb::backpressure::DeferredSyncQueue::~DeferredSyncQueue</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="471" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a0d30622e703f2a85bd0526cc8da87379" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::backpressure::DeferredSyncQueue::initialize</definition>
+        <argsstring>()</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themisdb::backpressure::DeferredSyncQueue::initialize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize queue (load from WAL if exists) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="476" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a43b6fb2cb8a123aad98481ed6d8285e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::backpressure::DeferredSyncQueue::shutdown</definition>
+        <argsstring>()</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themisdb::backpressure::DeferredSyncQueue::shutdown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Shutdown queue (flush to WAL) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="481" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a7ec03325dd5f5a873a40b3ac3835909a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::backpressure::DeferredSyncQueue::enqueue</definition>
+        <argsstring>(DeferredOperation op)</argsstring>
+        <name>enqueue</name>
+        <qualifiedname>themisdb::backpressure::DeferredSyncQueue::enqueue</qualifiedname>
+        <param>
+          <type><ref refid="structthemisdb_1_1backpressure_1_1_deferred_operation" kindref="compound">DeferredOperation</ref></type>
+          <declname>op</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enqueue operation for deferred execution </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="486" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a0e2e2ff11b1560113a25f27a66a41648" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1backpressure_1_1_deferred_operation" kindref="compound">DeferredOperation</ref> &gt;</type>
+        <definition>std::optional&lt; DeferredOperation &gt; themisdb::backpressure::DeferredSyncQueue::dequeue</definition>
+        <argsstring>()</argsstring>
+        <name>dequeue</name>
+        <qualifiedname>themisdb::backpressure::DeferredSyncQueue::dequeue</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Dequeue next operation (by priority) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="491" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a81d90b5bcad81fd75e0eff8ac7cc4aef" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1backpressure_1_1_deferred_operation" kindref="compound">DeferredOperation</ref> &gt;</type>
+        <definition>std::optional&lt; DeferredOperation &gt; themisdb::backpressure::DeferredSyncQueue::peek</definition>
+        <argsstring>() const</argsstring>
+        <name>peek</name>
+        <qualifiedname>themisdb::backpressure::DeferredSyncQueue::peek</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Peek at next operation without removing </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="496" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a7dc43240494ca3de54993707401c1ac3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1backpressure_1_1_deferred_operation" kindref="compound">DeferredOperation</ref> &gt;</type>
+        <definition>std::vector&lt; DeferredOperation &gt; themisdb::backpressure::DeferredSyncQueue::getOperationsForShard</definition>
+        <argsstring>(const std::string &amp;shard_id) const</argsstring>
+        <name>getOperationsForShard</name>
+        <qualifiedname>themisdb::backpressure::DeferredSyncQueue::getOperationsForShard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get all operations for a target shard </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="501" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a4f0f287db77242783ba3f4a21b264c40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::backpressure::DeferredSyncQueue::remove</definition>
+        <argsstring>(const std::string &amp;operation_id)</argsstring>
+        <name>remove</name>
+        <qualifiedname>themisdb::backpressure::DeferredSyncQueue::remove</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove operation by ID </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="507" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1afe67b7cf1c4991a6141a912b0f89cf8d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::backpressure::DeferredSyncQueue::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themisdb::backpressure::DeferredSyncQueue::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get queue size </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="512" column="12" bodyfile="include/sharding/backpressure_protocol.h" bodystart="512" bodyend="512"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a9a71b4b408a1845b6592031bb473b205" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::backpressure::DeferredSyncQueue::empty</definition>
+        <argsstring>() const</argsstring>
+        <name>empty</name>
+        <qualifiedname>themisdb::backpressure::DeferredSyncQueue::empty</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if queue is empty </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="517" column="10" bodyfile="include/sharding/backpressure_protocol.h" bodystart="517" bodyend="517"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a091602316703f26b21fcfab558249ea6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::backpressure::DeferredSyncQueue::getExpiredCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getExpiredCount</name>
+        <qualifiedname>themisdb::backpressure::DeferredSyncQueue::getExpiredCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get expired operations count </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="522" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a0ea6268aa2a5425377c37a52be21cc23" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::backpressure::DeferredSyncQueue::pruneExpired</definition>
+        <argsstring>()</argsstring>
+        <name>pruneExpired</name>
+        <qualifiedname>themisdb::backpressure::DeferredSyncQueue::pruneExpired</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Prune expired operations </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="527" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a493469d5e829d78bd3da1f29cb434cf9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::backpressure::DeferredSyncQueue::flushToWAL</definition>
+        <argsstring>()</argsstring>
+        <name>flushToWAL</name>
+        <qualifiedname>themisdb::backpressure::DeferredSyncQueue::flushToWAL</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Flush to WAL </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="532" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a4506c65796bc8ecbed716327b1d8f7a2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1backpressure_1_1_deferred_sync_queue_1_1_w_a_l_stats" kindref="compound">WALStats</ref></type>
+        <definition>WALStats themisdb::backpressure::DeferredSyncQueue::getWALStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getWALStats</name>
+        <qualifiedname>themisdb::backpressure::DeferredSyncQueue::getWALStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="544" column="14"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1ade71a28d7105ba481c043502a37291de" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::backpressure::DeferredSyncQueue::openWAL</definition>
+        <argsstring>()</argsstring>
+        <name>openWAL</name>
+        <qualifiedname>themisdb::backpressure::DeferredSyncQueue::openWAL</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="564" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a9c9570f1fe130f94da1387a1a6089b18" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::backpressure::DeferredSyncQueue::writeWALEntry</definition>
+        <argsstring>(const DeferredOperation &amp;op)</argsstring>
+        <name>writeWALEntry</name>
+        <qualifiedname>themisdb::backpressure::DeferredSyncQueue::writeWALEntry</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1backpressure_1_1_deferred_operation" kindref="compound">DeferredOperation</ref> &amp;</type>
+          <declname>op</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="565" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1aa15ca9bb3e2beaddff43a448d03a0d9e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::backpressure::DeferredSyncQueue::loadFromWAL</definition>
+        <argsstring>()</argsstring>
+        <name>loadFromWAL</name>
+        <qualifiedname>themisdb::backpressure::DeferredSyncQueue::loadFromWAL</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="566" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a7e8f4a2ff38203d5d6d252a7245098a5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::backpressure::DeferredSyncQueue::truncateWAL</definition>
+        <argsstring>()</argsstring>
+        <name>truncateWAL</name>
+        <qualifiedname>themisdb::backpressure::DeferredSyncQueue::truncateWAL</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="567" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>WAL-like persistent queue for deferred operations </para>
+    </detaileddescription>
+    <location file="include/sharding/backpressure_protocol.h" line="468" column="1" bodyfile="include/sharding/backpressure_protocol.h" bodystart="468" bodyend="568"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a017a14525cf22d47da11872e5bea9359" prot="private" virt="non-virtual"><scope>themisdb::backpressure::DeferredSyncQueue</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a52b6b17d437f011827b6ca0a991db0d9" prot="public" virt="non-virtual"><scope>themisdb::backpressure::DeferredSyncQueue</scope><name>DeferredSyncQueue</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a0e2e2ff11b1560113a25f27a66a41648" prot="public" virt="non-virtual"><scope>themisdb::backpressure::DeferredSyncQueue</scope><name>dequeue</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a9a71b4b408a1845b6592031bb473b205" prot="public" virt="non-virtual"><scope>themisdb::backpressure::DeferredSyncQueue</scope><name>empty</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a7ec03325dd5f5a873a40b3ac3835909a" prot="public" virt="non-virtual"><scope>themisdb::backpressure::DeferredSyncQueue</scope><name>enqueue</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a493469d5e829d78bd3da1f29cb434cf9" prot="public" virt="non-virtual"><scope>themisdb::backpressure::DeferredSyncQueue</scope><name>flushToWAL</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a091602316703f26b21fcfab558249ea6" prot="public" virt="non-virtual"><scope>themisdb::backpressure::DeferredSyncQueue</scope><name>getExpiredCount</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a7dc43240494ca3de54993707401c1ac3" prot="public" virt="non-virtual"><scope>themisdb::backpressure::DeferredSyncQueue</scope><name>getOperationsForShard</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a4506c65796bc8ecbed716327b1d8f7a2" prot="public" virt="non-virtual"><scope>themisdb::backpressure::DeferredSyncQueue</scope><name>getWALStats</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a0d30622e703f2a85bd0526cc8da87379" prot="public" virt="non-virtual"><scope>themisdb::backpressure::DeferredSyncQueue</scope><name>initialize</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1aa15ca9bb3e2beaddff43a448d03a0d9e" prot="private" virt="non-virtual"><scope>themisdb::backpressure::DeferredSyncQueue</scope><name>loadFromWAL</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a1d0c08431bf7d6508628b42bf2166ff9" prot="private" virt="non-virtual"><scope>themisdb::backpressure::DeferredSyncQueue</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1ae14ad385faf93b374a0c63e7ac03da88" prot="private" virt="non-virtual"><scope>themisdb::backpressure::DeferredSyncQueue</scope><name>op_index_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1ade71a28d7105ba481c043502a37291de" prot="private" virt="non-virtual"><scope>themisdb::backpressure::DeferredSyncQueue</scope><name>openWAL</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a81d90b5bcad81fd75e0eff8ac7cc4aef" prot="public" virt="non-virtual"><scope>themisdb::backpressure::DeferredSyncQueue</scope><name>peek</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a0ea6268aa2a5425377c37a52be21cc23" prot="public" virt="non-virtual"><scope>themisdb::backpressure::DeferredSyncQueue</scope><name>pruneExpired</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a19aa8300ab8908667e4eedad88f89407" prot="private" virt="non-virtual"><scope>themisdb::backpressure::DeferredSyncQueue</scope><name>queue_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a4f0f287db77242783ba3f4a21b264c40" prot="public" virt="non-virtual"><scope>themisdb::backpressure::DeferredSyncQueue</scope><name>remove</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a43b6fb2cb8a123aad98481ed6d8285e4" prot="public" virt="non-virtual"><scope>themisdb::backpressure::DeferredSyncQueue</scope><name>shutdown</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1afe67b7cf1c4991a6141a912b0f89cf8d" prot="public" virt="non-virtual"><scope>themisdb::backpressure::DeferredSyncQueue</scope><name>size</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a7e8f4a2ff38203d5d6d252a7245098a5" prot="private" virt="non-virtual"><scope>themisdb::backpressure::DeferredSyncQueue</scope><name>truncateWAL</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a54f1a201472c397e9f5f28b1130ae96e" prot="private" virt="non-virtual"><scope>themisdb::backpressure::DeferredSyncQueue</scope><name>wal_file_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a6d61cd9ec568185f2e18f7750ceea552" prot="private" virt="non-virtual"><scope>themisdb::backpressure::DeferredSyncQueue</scope><name>wal_sequence_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a797068306bb367c063efd6c4247d7cbf" prot="private" virt="non-virtual"><scope>themisdb::backpressure::DeferredSyncQueue</scope><name>wal_stats_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a9c9570f1fe130f94da1387a1a6089b18" prot="private" virt="non-virtual"><scope>themisdb::backpressure::DeferredSyncQueue</scope><name>writeWALEntry</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_deferred_sync_queue_1a81a0fdd5aca386b60902288bdde50aeb" prot="public" virt="non-virtual"><scope>themisdb::backpressure::DeferredSyncQueue</scope><name>~DeferredSyncQueue</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

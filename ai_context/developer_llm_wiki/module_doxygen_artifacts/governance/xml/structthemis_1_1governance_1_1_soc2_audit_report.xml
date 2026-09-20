@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_soc2_audit_report" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::Soc2AuditReport</compoundname>
+    <includes refid="soc2__controls_8h" local="no">soc2_controls.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_soc2_audit_report_1abc85c165c72fe179e25dc3bfdbbcc4e7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::Soc2AuditReport::report_id</definition>
+        <argsstring></argsstring>
+        <name>report_id</name>
+        <qualifiedname>themis::governance::Soc2AuditReport::report_id</qualifiedname>
+        <briefdescription>
+<para>Unique report identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/soc2_controls.h" line="73" column="17" bodyfile="include/governance/soc2_controls.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_soc2_audit_report_1a181fe2327cc58b64933c9f9c6ce2ae5e" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::Soc2AuditReport::generated_at_ms</definition>
+        <argsstring></argsstring>
+        <name>generated_at_ms</name>
+        <qualifiedname>themis::governance::Soc2AuditReport::generated_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Report generation time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/soc2_controls.h" line="74" column="17" bodyfile="include/governance/soc2_controls.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_soc2_audit_report_1a189d8427ef1fe541389c5821b5fa4471" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::Soc2AuditReport::scope</definition>
+        <argsstring></argsstring>
+        <name>scope</name>
+        <qualifiedname>themis::governance::Soc2AuditReport::scope</qualifiedname>
+        <briefdescription>
+<para>Audit scope description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/soc2_controls.h" line="75" column="17" bodyfile="include/governance/soc2_controls.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_soc2_audit_report_1aad5527d0cb285956ac3493e02703028a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::Soc2AuditReport::total_controls</definition>
+        <argsstring></argsstring>
+        <name>total_controls</name>
+        <qualifiedname>themis::governance::Soc2AuditReport::total_controls</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of controls evaluated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/soc2_controls.h" line="76" column="17" bodyfile="include/governance/soc2_controls.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_soc2_audit_report_1aef230f4089ac8ac4417551eb4258b320" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::Soc2AuditReport::controls_met</definition>
+        <argsstring></argsstring>
+        <name>controls_met</name>
+        <qualifiedname>themis::governance::Soc2AuditReport::controls_met</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of controls satisfied. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/soc2_controls.h" line="77" column="17" bodyfile="include/governance/soc2_controls.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_soc2_audit_report_1a5d7ff79029fe5018d4849493b5bd80c1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::governance::Soc2AuditReport::compliance_score</definition>
+        <argsstring></argsstring>
+        <name>compliance_score</name>
+        <qualifiedname>themis::governance::Soc2AuditReport::compliance_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Score 0–100. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/soc2_controls.h" line="78" column="17" bodyfile="include/governance/soc2_controls.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_soc2_audit_report_1a263fe567fbd413587b552271a46fd1fa" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_soc2_control_result" kindref="compound">Soc2ControlResult</ref> &gt;</type>
+        <definition>std::vector&lt;Soc2ControlResult&gt; themis::governance::Soc2AuditReport::results</definition>
+        <argsstring></argsstring>
+        <name>results</name>
+        <qualifiedname>themis::governance::Soc2AuditReport::results</qualifiedname>
+        <briefdescription>
+<para>Per-control results. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/soc2_controls.h" line="79" column="17" bodyfile="include/governance/soc2_controls.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_soc2_audit_report_1a908814aceef4a2829f2712a237a40390" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_soc2_evidence_item" kindref="compound">Soc2EvidenceItem</ref> &gt;</type>
+        <definition>std::vector&lt;Soc2EvidenceItem&gt; themis::governance::Soc2AuditReport::evidence_items</definition>
+        <argsstring></argsstring>
+        <name>evidence_items</name>
+        <qualifiedname>themis::governance::Soc2AuditReport::evidence_items</qualifiedname>
+        <briefdescription>
+<para>All collected evidence. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/soc2_controls.h" line="80" column="17" bodyfile="include/governance/soc2_controls.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_soc2_audit_report_1a9ce1ff1ccdf0985840e6dc56454abceb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::Soc2AuditReport::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::Soc2AuditReport::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/soc2_controls.h" line="86" column="20" bodyfile="src/governance/soc2_controls.cpp" bodystart="78" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/soc2_controls.h" line="72" column="1" bodyfile="include/governance/soc2_controls.h" bodystart="72" bodyend="87"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_soc2_audit_report_1a5d7ff79029fe5018d4849493b5bd80c1" prot="public" virt="non-virtual"><scope>themis::governance::Soc2AuditReport</scope><name>compliance_score</name></member>
+      <member refid="structthemis_1_1governance_1_1_soc2_audit_report_1aef230f4089ac8ac4417551eb4258b320" prot="public" virt="non-virtual"><scope>themis::governance::Soc2AuditReport</scope><name>controls_met</name></member>
+      <member refid="structthemis_1_1governance_1_1_soc2_audit_report_1a908814aceef4a2829f2712a237a40390" prot="public" virt="non-virtual"><scope>themis::governance::Soc2AuditReport</scope><name>evidence_items</name></member>
+      <member refid="structthemis_1_1governance_1_1_soc2_audit_report_1a181fe2327cc58b64933c9f9c6ce2ae5e" prot="public" virt="non-virtual"><scope>themis::governance::Soc2AuditReport</scope><name>generated_at_ms</name></member>
+      <member refid="structthemis_1_1governance_1_1_soc2_audit_report_1abc85c165c72fe179e25dc3bfdbbcc4e7" prot="public" virt="non-virtual"><scope>themis::governance::Soc2AuditReport</scope><name>report_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_soc2_audit_report_1a263fe567fbd413587b552271a46fd1fa" prot="public" virt="non-virtual"><scope>themis::governance::Soc2AuditReport</scope><name>results</name></member>
+      <member refid="structthemis_1_1governance_1_1_soc2_audit_report_1a189d8427ef1fe541389c5821b5fa4471" prot="public" virt="non-virtual"><scope>themis::governance::Soc2AuditReport</scope><name>scope</name></member>
+      <member refid="structthemis_1_1governance_1_1_soc2_audit_report_1a9ce1ff1ccdf0985840e6dc56454abceb" prot="public" virt="non-virtual"><scope>themis::governance::Soc2AuditReport</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1governance_1_1_soc2_audit_report_1aad5527d0cb285956ac3493e02703028a" prot="public" virt="non-virtual"><scope>themis::governance::Soc2AuditReport</scope><name>total_controls</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

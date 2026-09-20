@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_learning_to_rank_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::LearningToRank::Config</compoundname>
+    <includes refid="learning__to__rank_8h" local="no">learning_to_rank.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_learning_to_rank_1_1_config_1af52950b9e31e7264859286b7eef9e0a0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::LearningToRank::Config::learning_rate</definition>
+        <argsstring></argsstring>
+        <name>learning_rate</name>
+        <qualifiedname>themis::LearningToRank::Config::learning_rate</qualifiedname>
+        <initializer>= 0.01</initializer>
+        <briefdescription>
+<para>Gradient-descent step size. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/learning_to_rank.h" line="86" column="16" bodyfile="include/search/learning_to_rank.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_learning_to_rank_1_1_config_1af9045c05ff0d6701523b83bc98a8d824" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::LearningToRank::Config::max_click_buffer</definition>
+        <argsstring></argsstring>
+        <name>max_click_buffer</name>
+        <qualifiedname>themis::LearningToRank::Config::max_click_buffer</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Maximum stored click events before training. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/learning_to_rank.h" line="87" column="16" bodyfile="include/search/learning_to_rank.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_learning_to_rank_1_1_config_1a9cce6383c204b7bccd5674042483e86d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::LearningToRank::Config::regularization</definition>
+        <argsstring></argsstring>
+        <name>regularization</name>
+        <qualifiedname>themis::LearningToRank::Config::regularization</qualifiedname>
+        <initializer>= 0.001</initializer>
+        <briefdescription>
+<para>L2 regularization coefficient. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/learning_to_rank.h" line="88" column="16" bodyfile="include/search/learning_to_rank.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_learning_to_rank_1_1_config_1ab08d7b49567c2cad3e0bb36d2b119feb" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_learning_to_rank_1_1_config" kindref="compound">Config</ref></type>
+        <definition>static Config themis::LearningToRank::Config::defaults</definition>
+        <argsstring>()</argsstring>
+        <name>defaults</name>
+        <qualifiedname>themis::LearningToRank::Config::defaults</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/learning_to_rank.h" line="89" column="23" bodyfile="include/search/learning_to_rank.h" bodystart="89" bodyend="89"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/learning_to_rank.h" line="85" column="5" bodyfile="include/search/learning_to_rank.h" bodystart="85" bodyend="90"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_learning_to_rank_1_1_config_1ab08d7b49567c2cad3e0bb36d2b119feb" prot="public" virt="non-virtual"><scope>themis::LearningToRank::Config</scope><name>defaults</name></member>
+      <member refid="structthemis_1_1_learning_to_rank_1_1_config_1af52950b9e31e7264859286b7eef9e0a0" prot="public" virt="non-virtual"><scope>themis::LearningToRank::Config</scope><name>learning_rate</name></member>
+      <member refid="structthemis_1_1_learning_to_rank_1_1_config_1af9045c05ff0d6701523b83bc98a8d824" prot="public" virt="non-virtual"><scope>themis::LearningToRank::Config</scope><name>max_click_buffer</name></member>
+      <member refid="structthemis_1_1_learning_to_rank_1_1_config_1a9cce6383c204b7bccd5674042483e86d" prot="public" virt="non-virtual"><scope>themis::LearningToRank::Config</scope><name>regularization</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

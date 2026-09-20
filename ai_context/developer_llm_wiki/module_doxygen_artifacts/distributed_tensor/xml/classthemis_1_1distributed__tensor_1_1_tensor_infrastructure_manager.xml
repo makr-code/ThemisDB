@@ -1,0 +1,433 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::distributed_tensor::TensorInfrastructureManager</compoundname>
+    <derivedcompoundref refid="classthemis_1_1distributed__tensor_1_1_default_tensor_infrastructure_manager" prot="public" virt="non-virtual">themis::distributed_tensor::DefaultTensorInfrastructureManager</derivedcompoundref>
+    <includes refid="tensor__infrastructure_8h" local="no">tensor_infrastructure.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a5b2f4fc9eb3326279201eae593ae6e21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::TensorInfrastructureManager::TensorInfrastructureManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>TensorInfrastructureManager</name>
+        <qualifiedname>themis::distributed_tensor::TensorInfrastructureManager::TensorInfrastructureManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="109" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1acdbd4a9495367b0bfb3fb0aff8046db9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::TensorInfrastructureManager::TensorInfrastructureManager</definition>
+        <argsstring>(const TensorInfrastructureManager &amp;)=delete</argsstring>
+        <name>TensorInfrastructureManager</name>
+        <qualifiedname>themis::distributed_tensor::TensorInfrastructureManager::TensorInfrastructureManager</qualifiedname>
+        <param>
+          <type>const TensorInfrastructureManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="111" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1afb651f911fd4238a82d99b630a496025" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::TensorInfrastructureManager::TensorInfrastructureManager</definition>
+        <argsstring>(TensorInfrastructureManager &amp;&amp;) noexcept=default</argsstring>
+        <name>TensorInfrastructureManager</name>
+        <qualifiedname>themis::distributed_tensor::TensorInfrastructureManager::TensorInfrastructureManager</qualifiedname>
+        <param>
+          <type>TensorInfrastructureManager &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="113" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a94f1761a66620d75a06057831ba677cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a5b2f4fc9eb3326279201eae593ae6e21" kindref="member">TensorInfrastructureManager</ref> &amp;</type>
+        <definition>TensorInfrastructureManager &amp; themis::distributed_tensor::TensorInfrastructureManager::operator=</definition>
+        <argsstring>(const TensorInfrastructureManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::distributed_tensor::TensorInfrastructureManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a5b2f4fc9eb3326279201eae593ae6e21" kindref="member">TensorInfrastructureManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="115" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a94b0d60f22f4d7e3263f60aa87303627" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a5b2f4fc9eb3326279201eae593ae6e21" kindref="member">TensorInfrastructureManager</ref> &amp;</type>
+        <definition>TensorInfrastructureManager &amp; themis::distributed_tensor::TensorInfrastructureManager::operator=</definition>
+        <argsstring>(TensorInfrastructureManager &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::distributed_tensor::TensorInfrastructureManager::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a5b2f4fc9eb3326279201eae593ae6e21" kindref="member">TensorInfrastructureManager</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="118" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a62f8f0bae58480a302b54c7024f24c29" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::distributed_tensor::TensorInfrastructureManager::~TensorInfrastructureManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~TensorInfrastructureManager</name>
+        <qualifiedname>themis::distributed_tensor::TensorInfrastructureManager::~TensorInfrastructureManager</qualifiedname>
+        <briefdescription>
+<para>Tensor Infrastructure Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="125" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a9481b72b4a1c37cfc7eff6009140b70c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::distributed_tensor::TensorInfrastructureManager::register_node</definition>
+        <argsstring>(const ClusterNode &amp;node) noexcept=0</argsstring>
+        <name>register_node</name>
+        <qualifiedname>themis::distributed_tensor::TensorInfrastructureManager::register_node</qualifiedname>
+        <reimplementedby refid="classthemis_1_1distributed__tensor_1_1_default_tensor_infrastructure_manager_1a294ff5c84cab33edbee0c469ad0852b6">register_node</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_cluster_node" kindref="compound">ClusterNode</ref> &amp;</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+<para>Register node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="133" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a47cad7a5d30912b5a7ebe013c2f115d9" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::distributed_tensor::TensorInfrastructureManager::unregister_node</definition>
+        <argsstring>(const std::string &amp;node_id) noexcept=0</argsstring>
+        <name>unregister_node</name>
+        <qualifiedname>themis::distributed_tensor::TensorInfrastructureManager::unregister_node</qualifiedname>
+        <reimplementedby refid="classthemis_1_1distributed__tensor_1_1_default_tensor_infrastructure_manager_1a72f48684ac05d23f4842386cf69b4d2c">unregister_node</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Unregister node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="141" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1acd64fe4db635609604870a25bd55fa0e" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_cluster_node" kindref="compound">ClusterNode</ref> &gt;</type>
+        <definition>virtual std::optional&lt; ClusterNode &gt; themis::distributed_tensor::TensorInfrastructureManager::get_node</definition>
+        <argsstring>(const std::string &amp;node_id) const noexcept=0</argsstring>
+        <name>get_node</name>
+        <qualifiedname>themis::distributed_tensor::TensorInfrastructureManager::get_node</qualifiedname>
+        <reimplementedby refid="classthemis_1_1distributed__tensor_1_1_default_tensor_infrastructure_manager_1a9198184b1e4ef9fa12ee6b926dbd313b">get_node</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Get node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="149" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a8999a6debd18660c7e462ad501a9e4ad" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_cluster_node" kindref="compound">ClusterNode</ref> &gt;</type>
+        <definition>virtual std::vector&lt; ClusterNode &gt; themis::distributed_tensor::TensorInfrastructureManager::list_nodes</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>list_nodes</name>
+        <qualifiedname>themis::distributed_tensor::TensorInfrastructureManager::list_nodes</qualifiedname>
+        <reimplementedby refid="classthemis_1_1distributed__tensor_1_1_default_tensor_infrastructure_manager_1aae10bca5bbf518070532ca6f5263e655">list_nodes</reimplementedby>
+        <briefdescription>
+<para>List nodes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="157" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a12900ef4d2d4a3adb7dea950af5f745f" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_cluster_node" kindref="compound">ClusterNode</ref> &gt;</type>
+        <definition>virtual std::vector&lt; ClusterNode &gt; themis::distributed_tensor::TensorInfrastructureManager::get_healthy_nodes</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>get_healthy_nodes</name>
+        <qualifiedname>themis::distributed_tensor::TensorInfrastructureManager::get_healthy_nodes</qualifiedname>
+        <reimplementedby refid="classthemis_1_1distributed__tensor_1_1_default_tensor_infrastructure_manager_1a981f3c5c05b3245e502c8d43ffaaa3df">get_healthy_nodes</reimplementedby>
+        <briefdescription>
+<para>Get healthy nodes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="164" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a9c624eb62cc5f3cb47d4d3175e7f0899" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::distributed_tensor::TensorInfrastructureManager::update_node_status</definition>
+        <argsstring>(const std::string &amp;node_id, NodeStatus status) noexcept=0</argsstring>
+        <name>update_node_status</name>
+        <qualifiedname>themis::distributed_tensor::TensorInfrastructureManager::update_node_status</qualifiedname>
+        <reimplementedby refid="classthemis_1_1distributed__tensor_1_1_default_tensor_infrastructure_manager_1a9d1d6431831abe5030a8ec44d32ee647">update_node_status</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1distributed__tensor_1a2ff3d24a4f3e03990f94c6381377a64d" kindref="member">NodeStatus</ref></type>
+          <declname>status</declname>
+        </param>
+        <briefdescription>
+<para>Update node status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="173" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1ae4d02e7b7616d3e389768591f502d816" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_stripe_transport" kindref="compound">StripeTransport</ref> &amp;</type>
+        <definition>virtual const StripeTransport &amp; themis::distributed_tensor::TensorInfrastructureManager::get_stripe_transport</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>get_stripe_transport</name>
+        <qualifiedname>themis::distributed_tensor::TensorInfrastructureManager::get_stripe_transport</qualifiedname>
+        <reimplementedby refid="classthemis_1_1distributed__tensor_1_1_default_tensor_infrastructure_manager_1a932ac9130d3e2ba224e720f34c3e0155">get_stripe_transport</reimplementedby>
+        <briefdescription>
+<para>Get stripe transport. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="181" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1aa1c3055e39f6b727958d429d2c2e2992" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::distributed_tensor::TensorInfrastructureManager::set_stripe_transport</definition>
+        <argsstring>(StripeTransport transport) noexcept=0</argsstring>
+        <name>set_stripe_transport</name>
+        <qualifiedname>themis::distributed_tensor::TensorInfrastructureManager::set_stripe_transport</qualifiedname>
+        <reimplementedby refid="classthemis_1_1distributed__tensor_1_1_default_tensor_infrastructure_manager_1a5b3ed737bbbea976d39aed2b3936e8c5">set_stripe_transport</reimplementedby>
+        <param>
+          <type><ref refid="structthemis_1_1distributed__tensor_1_1_stripe_transport" kindref="compound">StripeTransport</ref></type>
+          <declname>transport</declname>
+        </param>
+        <briefdescription>
+<para>Set stripe transport. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transport</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="188" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a42dafd1c812e6d22655b40d930e4d24c" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::distributed_tensor::TensorInfrastructureManager::is_node_available</definition>
+        <argsstring>(const std::string &amp;node_id, uint64_t required_capacity) const noexcept=0</argsstring>
+        <name>is_node_available</name>
+        <qualifiedname>themis::distributed_tensor::TensorInfrastructureManager::is_node_available</qualifiedname>
+        <reimplementedby refid="classthemis_1_1distributed__tensor_1_1_default_tensor_infrastructure_manager_1a3a49d8ca0e46a102f563484f7ca55eb6">is_node_available</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>required_capacity</declname>
+        </param>
+        <briefdescription>
+<para>Is node available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">required_capacity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="197" column="16"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::distributed_tensor::DefaultTensorInfrastructureManager</label>
+        <link refid="classthemis_1_1distributed__tensor_1_1_default_tensor_infrastructure_manager"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::distributed_tensor::TensorInfrastructureManager</label>
+        <link refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/distributed_tensor/tensor_infrastructure.h" line="107" column="1" bodyfile="include/distributed_tensor/tensor_infrastructure.h" bodystart="107" bodyend="200"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a12900ef4d2d4a3adb7dea950af5f745f" prot="public" virt="pure-virtual"><scope>themis::distributed_tensor::TensorInfrastructureManager</scope><name>get_healthy_nodes</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1acd64fe4db635609604870a25bd55fa0e" prot="public" virt="pure-virtual"><scope>themis::distributed_tensor::TensorInfrastructureManager</scope><name>get_node</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1ae4d02e7b7616d3e389768591f502d816" prot="public" virt="pure-virtual"><scope>themis::distributed_tensor::TensorInfrastructureManager</scope><name>get_stripe_transport</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a42dafd1c812e6d22655b40d930e4d24c" prot="public" virt="pure-virtual"><scope>themis::distributed_tensor::TensorInfrastructureManager</scope><name>is_node_available</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a8999a6debd18660c7e462ad501a9e4ad" prot="public" virt="pure-virtual"><scope>themis::distributed_tensor::TensorInfrastructureManager</scope><name>list_nodes</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a94f1761a66620d75a06057831ba677cb" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorInfrastructureManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a94b0d60f22f4d7e3263f60aa87303627" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorInfrastructureManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a9481b72b4a1c37cfc7eff6009140b70c" prot="public" virt="pure-virtual"><scope>themis::distributed_tensor::TensorInfrastructureManager</scope><name>register_node</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1aa1c3055e39f6b727958d429d2c2e2992" prot="public" virt="pure-virtual"><scope>themis::distributed_tensor::TensorInfrastructureManager</scope><name>set_stripe_transport</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a5b2f4fc9eb3326279201eae593ae6e21" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorInfrastructureManager</scope><name>TensorInfrastructureManager</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1acdbd4a9495367b0bfb3fb0aff8046db9" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorInfrastructureManager</scope><name>TensorInfrastructureManager</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1afb651f911fd4238a82d99b630a496025" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorInfrastructureManager</scope><name>TensorInfrastructureManager</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a47cad7a5d30912b5a7ebe013c2f115d9" prot="public" virt="pure-virtual"><scope>themis::distributed_tensor::TensorInfrastructureManager</scope><name>unregister_node</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a9c624eb62cc5f3cb47d4d3175e7f0899" prot="public" virt="pure-virtual"><scope>themis::distributed_tensor::TensorInfrastructureManager</scope><name>update_node_status</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager_1a62f8f0bae58480a302b54c7024f24c29" prot="public" virt="virtual"><scope>themis::distributed_tensor::TensorInfrastructureManager</scope><name>~TensorInfrastructureManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

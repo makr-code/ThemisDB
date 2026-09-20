@@ -1,0 +1,1476 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics" kind="class" language="C++" prot="public">
+    <compoundname>themis::core::concerns::LockFreeMetrics</compoundname>
+    <basecompoundref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics" prot="public" virt="non-virtual">themis::core::concerns::IMetrics</basecompoundref>
+    <includes refid="lockfree__metrics_8h" local="no">lockfree_metrics.h</includes>
+    <innerclass refid="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_counter_entry" prot="private">themis::core::concerns::LockFreeMetrics::CounterEntry</innerclass>
+    <innerclass refid="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_gauge_entry" prot="private">themis::core::concerns::LockFreeMetrics::GaugeEntry</innerclass>
+    <innerclass refid="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_histo_observation" prot="private">themis::core::concerns::LockFreeMetrics::HistoObservation</innerclass>
+    <innerclass refid="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_s_p_s_c_ring" prot="private">themis::core::concerns::LockFreeMetrics::SPSCRing</innerclass>
+    <innerclass refid="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_thread_entry" prot="private">themis::core::concerns::LockFreeMetrics::ThreadEntry</innerclass>
+    <innerclass refid="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_histo_aggregate" prot="private">themis::core::concerns::LockFreeMetrics::HistoAggregate</innerclass>
+    <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1ab739797c76d47026f18572d9c1bfc9c9" prot="private" static="no">
+        <type>SPSCRing&lt; HistoObservation, <ref refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a92ae8be9e289c648a10f75b7edb6e7c7" kindref="member">HISTOGRAM_RING_CAPACITY</ref> &gt;</type>
+        <definition>using themis::core::concerns::LockFreeMetrics::HistoRing = SPSCRing&lt;HistoObservation, HISTOGRAM_RING_CAPACITY&gt;</definition>
+        <argsstring></argsstring>
+        <name>HistoRing</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::HistoRing</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="240" column="5" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a92ae8be9e289c648a10f75b7edb6e7c7" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::core::concerns::LockFreeMetrics::HISTOGRAM_RING_CAPACITY</definition>
+        <argsstring></argsstring>
+        <name>HISTOGRAM_RING_CAPACITY</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::HISTOGRAM_RING_CAPACITY</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="36" column="29" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a6d52a80093ba0c83ddfe53c4c50d66c8" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::core::concerns::LockFreeMetrics::DEFAULT_FLUSH_INTERVAL</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_FLUSH_INTERVAL</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::DEFAULT_FLUSH_INTERVAL</qualifiedname>
+        <initializer>= std::chrono::milliseconds{100}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="38" column="27" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="38" bodyend="38"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a728ec18e515bb689cd7be0a76204c70b" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::core::concerns::LockFreeMetrics::counters_mu_</definition>
+        <argsstring></argsstring>
+        <name>counters_mu_</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::counters_mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="143" column="71" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1adda7df6380db4527b5208df0a9706cdd" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unique_ptr&lt; CounterEntry &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unique_ptr&lt;CounterEntry&gt; &gt; themis::core::concerns::LockFreeMetrics::counters_</definition>
+        <argsstring></argsstring>
+        <name>counters_</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::counters_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="144" column="27" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1ab759e730a2829cbbf0d32824a94938eb" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::core::concerns::LockFreeMetrics::gauges_mu_</definition>
+        <argsstring></argsstring>
+        <name>gauges_mu_</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::gauges_mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="170" column="70" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a2cde2e7b85d52050e862175e68b46721" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unique_ptr&lt; GaugeEntry &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unique_ptr&lt;GaugeEntry&gt; &gt; themis::core::concerns::LockFreeMetrics::gauges_</definition>
+        <argsstring></argsstring>
+        <name>gauges_</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::gauges_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="171" column="28" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1aa95a5ee97deff3a0494088f98013eda8" prot="private" static="no" mutable="no">
+        <type>const uint64_t</type>
+        <definition>const uint64_t themis::core::concerns::LockFreeMetrics::instance_id_</definition>
+        <argsstring></argsstring>
+        <name>instance_id_</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::instance_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="249" column="20" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a737ab7bfa77de836c474dea19d33756e" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::core::concerns::LockFreeMetrics::thread_entries_mu_</definition>
+        <argsstring></argsstring>
+        <name>thread_entries_mu_</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::thread_entries_mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="253" column="60" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1ab790fdb51b5754dbe7e52910772b1562" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; ThreadEntry &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;ThreadEntry&gt; &gt; themis::core::concerns::LockFreeMetrics::thread_entries_</definition>
+        <argsstring></argsstring>
+        <name>thread_entries_</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::thread_entries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="254" column="30" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a5ef3a7bbb1dae050ab9326eba8a4f2f0" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::core::concerns::LockFreeMetrics::histos_mu_</definition>
+        <argsstring></argsstring>
+        <name>histos_mu_</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::histos_mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="275" column="70" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="275" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a50fd87ea75913465a9d6a1704e608bb8" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unique_ptr&lt; HistoAggregate &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unique_ptr&lt;HistoAggregate&gt; &gt; themis::core::concerns::LockFreeMetrics::histos_</definition>
+        <argsstring></argsstring>
+        <name>histos_</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::histos_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="276" column="24" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="276" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1ab13a994a9d686b26824d7c88916a9a2f" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::core::concerns::LockFreeMetrics::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="306" column="25" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="306" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a05b09cbc66cc89356597ab91b0b6c0ce" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::core::concerns::LockFreeMetrics::flush_thread_</definition>
+        <argsstring></argsstring>
+        <name>flush_thread_</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::flush_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="307" column="31" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="307" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a0f6424fca5c6acba4e8be2f57153615e" prot="private" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::core::concerns::LockFreeMetrics::flush_interval_</definition>
+        <argsstring></argsstring>
+        <name>flush_interval_</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::flush_interval_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="308" column="31" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="308" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a98b58094d6fc3bff25ddef82e8b64362" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::core::concerns::LockFreeMetrics::flush_wait_mu_</definition>
+        <argsstring></argsstring>
+        <name>flush_wait_mu_</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::flush_wait_mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="309" column="31" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="309" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a0cbe32fbc375db60be1a2c33511f9d73" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::core::concerns::LockFreeMetrics::flush_wait_cv_</definition>
+        <argsstring></argsstring>
+        <name>flush_wait_cv_</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::flush_wait_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="310" column="31" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a9d3715b6d605402de14e02fa32fb8312" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::core::concerns::LockFreeMetrics::dropped_observations_</definition>
+        <argsstring></argsstring>
+        <name>dropped_observations_</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::dropped_observations_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="331" column="17" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="331" bodyend="331"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a50e43bd8d181bd1fc80bbcb83bbb156f" prot="private" static="yes" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt; uint64_t &gt; themis::core::concerns::LockFreeMetrics::next_instance_id_</definition>
+        <argsstring></argsstring>
+        <name>next_instance_id_</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::next_instance_id_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="250" column="24" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1ae96094a52dc8645213539a62a781f7b7" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::LockFreeMetrics::LockFreeMetrics</definition>
+        <argsstring>(std::chrono::milliseconds flush_interval=DEFAULT_FLUSH_INTERVAL)</argsstring>
+        <name>LockFreeMetrics</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::LockFreeMetrics</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>flush_interval</declname>
+          <defval><ref refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a6d52a80093ba0c83ddfe53c4c50d66c8" kindref="member">DEFAULT_FLUSH_INTERVAL</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="40" column="14" bodyfile="src/core/concerns/lockfree_metrics.cpp" bodystart="34" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a63009754b7ec14ed3a334434204d44c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::LockFreeMetrics::~LockFreeMetrics</definition>
+        <argsstring>() override</argsstring>
+        <name>~LockFreeMetrics</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::~LockFreeMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="43" column="5" bodyfile="src/core/concerns/lockfree_metrics.cpp" bodystart="39" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a9abd4204e48cc428ac1f21260017b467" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::LockFreeMetrics::LockFreeMetrics</definition>
+        <argsstring>(const LockFreeMetrics &amp;)=delete</argsstring>
+        <name>LockFreeMetrics</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::LockFreeMetrics</qualifiedname>
+        <param>
+          <type>const LockFreeMetrics &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="46" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a6e2d5ff61829f0c2c91c51bd46dee958" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1ae96094a52dc8645213539a62a781f7b7" kindref="member">LockFreeMetrics</ref> &amp;</type>
+        <definition>LockFreeMetrics &amp; themis::core::concerns::LockFreeMetrics::operator=</definition>
+        <argsstring>(const LockFreeMetrics &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1ae96094a52dc8645213539a62a781f7b7" kindref="member">LockFreeMetrics</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="47" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a25dce1c11335c390f046a1a41a8709e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::LockFreeMetrics::LockFreeMetrics</definition>
+        <argsstring>(LockFreeMetrics &amp;&amp;)=delete</argsstring>
+        <name>LockFreeMetrics</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::LockFreeMetrics</qualifiedname>
+        <param>
+          <type>LockFreeMetrics &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="48" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1af4bf215b754c3fe0de4b1b1b38d13755" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1ae96094a52dc8645213539a62a781f7b7" kindref="member">LockFreeMetrics</ref> &amp;</type>
+        <definition>LockFreeMetrics &amp; themis::core::concerns::LockFreeMetrics::operator=</definition>
+        <argsstring>(LockFreeMetrics &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1ae96094a52dc8645213539a62a781f7b7" kindref="member">LockFreeMetrics</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="49" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1ab7efec4ec7117fc569f03125ededfc49" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::LockFreeMetrics::incrementCounter</definition>
+        <argsstring>(const std::string &amp;name, int64_t value=1, const Labels &amp;labels={}) override</argsstring>
+        <name>incrementCounter</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::incrementCounter</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1ab5e2da4141f1ef00cb1f204f1bdab514">incrementCounter</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>value</declname>
+          <defval>1</defval>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref> &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Increment Counter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">labels</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: makeKey(), getOrCreateCounter(), fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="55" column="10" bodyfile="src/core/concerns/lockfree_metrics.cpp" bodystart="54" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a60fead0e1709409263ae48fd8e9454b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::LockFreeMetrics::setGauge</definition>
+        <argsstring>(const std::string &amp;name, double value, const Labels &amp;labels={}) override</argsstring>
+        <name>setGauge</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::setGauge</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1ae92ea90ef8e492892b5472d6ec2f6c8e">setGauge</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref> &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Set Gauge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">labels</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: makeKey(), getOrCreateGauge(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="62" column="10" bodyfile="src/core/concerns/lockfree_metrics.cpp" bodystart="71" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a2dd36d98da99bb2766d14806c07d658b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::LockFreeMetrics::incrementGauge</definition>
+        <argsstring>(const std::string &amp;name, double delta, const Labels &amp;labels={}) override</argsstring>
+        <name>incrementGauge</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::incrementGauge</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1aa984519f2f0b13cef90250466ba68c47">incrementGauge</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>delta</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref> &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Increment Gauge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">delta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">labels</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: makeKey(), getOrCreateGauge(), fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="65" column="10" bodyfile="src/core/concerns/lockfree_metrics.cpp" bodystart="84" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a7cb02f2a5f4246450ceab2f4db765043" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::LockFreeMetrics::decrementGauge</definition>
+        <argsstring>(const std::string &amp;name, double delta, const Labels &amp;labels={}) override</argsstring>
+        <name>decrementGauge</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::decrementGauge</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a5218ccd9b66d548de08758259a4ca7d6">decrementGauge</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>delta</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref> &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Decrement Gauge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">delta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">labels</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: makeKey(), getOrCreateGauge(), fetch_sub(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="68" column="10" bodyfile="src/core/concerns/lockfree_metrics.cpp" bodystart="98" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a7be4dfb47f3a4204c7606ccf12d02aef" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::LockFreeMetrics::observeHistogram</definition>
+        <argsstring>(const std::string &amp;name, double value, const Labels &amp;labels={}) override</argsstring>
+        <name>observeHistogram</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::observeHistogram</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1aee67ce101bf4545e6ff4602d0de166f9">observeHistogram</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref> &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Observe Histogram. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">labels</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: getOrRegisterThreadRing(), makeKey(), tryPush(), std::move(), fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="75" column="10" bodyfile="src/core/concerns/lockfree_metrics.cpp" bodystart="115" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a4aa8966dcb6ecad38b7bac32807461b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::LockFreeMetrics::recordLatency</definition>
+        <argsstring>(const std::string &amp;operation, double latencyMs, const Labels &amp;labels={}) override</argsstring>
+        <name>recordLatency</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::recordLatency</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a405b7ee2f1fdc763a21f76adabacbe36">recordLatency</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latencyMs</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref> &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Record Latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latencyMs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">labels</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a7be4dfb47f3a4204c7606ccf12d02aef" kindref="member">observeHistogram()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="82" column="10" bodyfile="src/core/concerns/lockfree_metrics.cpp" bodystart="140" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a04cdf449650d8c9a4cbdc901047aeef8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::LockFreeMetrics::recordError</definition>
+        <argsstring>(const std::string &amp;operation, const Labels &amp;labels={}) override</argsstring>
+        <name>recordError</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::recordError</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1ae470d0739b8826c44949bffca16e8d12">recordError</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref> &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Record Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">labels</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1ab7efec4ec7117fc569f03125ededfc49" kindref="member">incrementCounter()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="85" column="10" bodyfile="src/core/concerns/lockfree_metrics.cpp" bodystart="150" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1ae9182ba9ce4feb564522d514e8ee9c35" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::LockFreeMetrics::recordSuccess</definition>
+        <argsstring>(const std::string &amp;operation, const Labels &amp;labels={}) override</argsstring>
+        <name>recordSuccess</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::recordSuccess</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1aa4737019b02468a24b15000746a332db">recordSuccess</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref> &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Record Success. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">labels</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1ab7efec4ec7117fc569f03125ededfc49" kindref="member">incrementCounter()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="88" column="10" bodyfile="src/core/concerns/lockfree_metrics.cpp" bodystart="160" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a08554d92df7e64091bbd69226217b87f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::LockFreeMetrics::exportMetrics</definition>
+        <argsstring>() const override</argsstring>
+        <name>exportMetrics</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::exportMetrics</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1afc76a2a81a190436f4b76a3c043759e4">exportMetrics</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">counters_mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gauges_mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">histos_mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="95" column="17" bodyfile="src/core/concerns/lockfree_metrics.cpp" bodystart="168" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a66fc605da8facf07f44a517208008cc7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::LockFreeMetrics::reset</definition>
+        <argsstring>() override</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::reset</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1ad161732b3c913ef087834614d4d0fc53">reset</reimplements>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), clear(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="97" column="10" bodyfile="src/core/concerns/lockfree_metrics.cpp" bodystart="282" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a0e4829bdea8c8f36b53edf3bea8931f8" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::LockFreeMetrics::flush</definition>
+        <argsstring>() noexcept override</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::flush</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1ad2d7aad28e18efff00caf672e7db042d">flush</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="103" column="10" bodyfile="src/core/concerns/lockfree_metrics.cpp" bodystart="302" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a02497e7f07f00b60e75848eda662e169" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::LockFreeMetrics::shutdown</definition>
+        <argsstring>() noexcept override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1ac2a0a0c241a2d8e72930e8b9758a9f0b">shutdown</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">thread_entries_mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="105" column="10" bodyfile="src/core/concerns/lockfree_metrics.cpp" bodystart="306" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a2b53e0fe47e5f9bee15f636c8bba8bff" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result" kindref="compound">ProbeResult</ref></type>
+        <definition>ProbeResult themis::core::concerns::LockFreeMetrics::isHealthy</definition>
+        <argsstring>() const override</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::isHealthy</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a9e5fc304c04d9b4f302964ee36a31576">isHealthy</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="107" column="17" bodyfile="src/core/concerns/lockfree_metrics.cpp" bodystart="326" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1acb7342020c0319c85a86d77fa0c828ab" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::core::concerns::LockFreeMetrics::droppedObservations</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>droppedObservations</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::droppedObservations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="113" column="14" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="113" bodyend="115"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a8b219cab31ced6e13253451d35a828a2" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::LockFreeMetrics::makeKey</definition>
+        <argsstring>(const std::string &amp;name, const Labels &amp;labels)</argsstring>
+        <name>makeKey</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::makeKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref> &amp;</type>
+          <declname>labels</declname>
+        </param>
+        <briefdescription>
+<para>Make Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">labels</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">labels</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), reserve(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="128" column="24" bodyfile="src/core/concerns/lockfree_metrics.cpp" bodystart="345" bodyend="366"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1ad5abbf0535434db455acdb180ac2b0f3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>CounterEntry *</type>
+        <definition>LockFreeMetrics::CounterEntry * themis::core::concerns::LockFreeMetrics::getOrCreateCounter</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;name, const Labels &amp;labels)</argsstring>
+        <name>getOrCreateCounter</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::getOrCreateCounter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref> &amp;</type>
+          <declname>labels</declname>
+        </param>
+        <briefdescription>
+<para>Get Or Create Counter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">labels</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">counters_mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">counters_mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="153" column="18" bodyfile="src/core/concerns/lockfree_metrics.cpp" bodystart="372" bodyend="398"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a2ac97a4b00ca9c7f2e15e9bdcb1e2181" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>GaugeEntry *</type>
+        <definition>LockFreeMetrics::GaugeEntry * themis::core::concerns::LockFreeMetrics::getOrCreateGauge</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;name, const Labels &amp;labels)</argsstring>
+        <name>getOrCreateGauge</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::getOrCreateGauge</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref> &amp;</type>
+          <declname>labels</declname>
+        </param>
+        <briefdescription>
+<para>Get Or Create Gauge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">labels</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gauges_mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gauges_mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="180" column="16" bodyfile="src/core/concerns/lockfree_metrics.cpp" bodystart="404" bodyend="430"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a9856ae3d35cf6780c5603cf92591a696" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>HistoRing &amp;</type>
+        <definition>LockFreeMetrics::HistoRing &amp; themis::core::concerns::LockFreeMetrics::getOrRegisterThreadRing</definition>
+        <argsstring>()</argsstring>
+        <name>getOrRegisterThreadRing</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::getOrRegisterThreadRing</qualifiedname>
+        <briefdescription>
+<para>Get Or Register Thread Ring. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">thread_entries_mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="260" column="15" bodyfile="src/core/concerns/lockfree_metrics.cpp" bodystart="436" bodyend="456"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a5007e010b45c17e527a3d844c900e510" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>HistoAggregate *</type>
+        <definition>LockFreeMetrics::HistoAggregate * themis::core::concerns::LockFreeMetrics::getOrCreateHistoAggregate</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;name, const Labels &amp;labels)</argsstring>
+        <name>getOrCreateHistoAggregate</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::getOrCreateHistoAggregate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref> &amp;</type>
+          <declname>labels</declname>
+        </param>
+        <briefdescription>
+<para>Get Or Create Histo Aggregate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">labels</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="285" column="20" bodyfile="src/core/concerns/lockfree_metrics.cpp" bodystart="459" bodyend="469"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1ad7c10661648a979542cc6221ab1db4a9" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::LockFreeMetrics::drainAllRings</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>drainAllRings</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::drainAllRings</qualifiedname>
+        <briefdescription>
+<para>Drain All Rings. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">thread_entries_mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="293" column="10" bodyfile="src/core/concerns/lockfree_metrics.cpp" bodystart="471" bodyend="494"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a35730c66b80e811182859c6704e0a044" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::LockFreeMetrics::applyObservation</definition>
+        <argsstring>(const HistoObservation &amp;obs) noexcept</argsstring>
+        <name>applyObservation</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::applyObservation</qualifiedname>
+        <param>
+          <type>const HistoObservation &amp;</type>
+          <declname>obs</declname>
+        </param>
+        <briefdescription>
+<para>Apply Observation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">obs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">histos_mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="300" column="10" bodyfile="src/core/concerns/lockfree_metrics.cpp" bodystart="496" bodyend="510"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a7c63543abebba8a7c1ea75c83e68a844" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::LockFreeMetrics::startFlushThread</definition>
+        <argsstring>()</argsstring>
+        <name>startFlushThread</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::startFlushThread</qualifiedname>
+        <briefdescription>
+<para>Start Flush Thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: count(), store(), std::thread(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="315" column="10" bodyfile="src/core/concerns/lockfree_metrics.cpp" bodystart="520" bodyend="528"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1ac4e5c10de08f71382f8b5ea67296abbc" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::LockFreeMetrics::stopFlushThread</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>stopFlushThread</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::stopFlushThread</qualifiedname>
+        <briefdescription>
+<para>Stop Flush Thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="320" column="10" bodyfile="src/core/concerns/lockfree_metrics.cpp" bodystart="530" bodyend="536"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a7dea02ff7d272f83988d93f29b19cb38" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::LockFreeMetrics::flushLoop</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>flushLoop</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::flushLoop</qualifiedname>
+        <briefdescription>
+<para>Flush Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Wait lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">flush_wait_mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="325" column="10" bodyfile="src/core/concerns/lockfree_metrics.cpp" bodystart="538" bodyend="562"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::core::concerns::IMetrics</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_metrics"/>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::LockFreeMetrics</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::core::concerns::IMetrics</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_metrics"/>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::LockFreeMetrics</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/core/concerns/lockfree_metrics.h" line="34" column="1" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="34" bodyend="332"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a35730c66b80e811182859c6704e0a044" prot="private" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>applyObservation</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1adda7df6380db4527b5208df0a9706cdd" prot="private" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>counters_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a728ec18e515bb689cd7be0a76204c70b" prot="private" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>counters_mu_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a7cb02f2a5f4246450ceab2f4db765043" prot="public" virt="virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>decrementGauge</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a6d52a80093ba0c83ddfe53c4c50d66c8" prot="public" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>DEFAULT_FLUSH_INTERVAL</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1ad7c10661648a979542cc6221ab1db4a9" prot="private" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>drainAllRings</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a9d3715b6d605402de14e02fa32fb8312" prot="private" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>dropped_observations_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1acb7342020c0319c85a86d77fa0c828ab" prot="public" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>droppedObservations</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a08554d92df7e64091bbd69226217b87f" prot="public" virt="virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>exportMetrics</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a0e4829bdea8c8f36b53edf3bea8931f8" prot="public" virt="virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>flush</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a0f6424fca5c6acba4e8be2f57153615e" prot="private" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>flush_interval_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a05b09cbc66cc89356597ab91b0b6c0ce" prot="private" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>flush_thread_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a0cbe32fbc375db60be1a2c33511f9d73" prot="private" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>flush_wait_cv_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a98b58094d6fc3bff25ddef82e8b64362" prot="private" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>flush_wait_mu_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a7dea02ff7d272f83988d93f29b19cb38" prot="private" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>flushLoop</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a2cde2e7b85d52050e862175e68b46721" prot="private" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>gauges_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1ab759e730a2829cbbf0d32824a94938eb" prot="private" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>gauges_mu_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1ad5abbf0535434db455acdb180ac2b0f3" prot="private" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>getOrCreateCounter</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a2ac97a4b00ca9c7f2e15e9bdcb1e2181" prot="private" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>getOrCreateGauge</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a5007e010b45c17e527a3d844c900e510" prot="private" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>getOrCreateHistoAggregate</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a9856ae3d35cf6780c5603cf92591a696" prot="private" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>getOrRegisterThreadRing</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a92ae8be9e289c648a10f75b7edb6e7c7" prot="public" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>HISTOGRAM_RING_CAPACITY</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1ab739797c76d47026f18572d9c1bfc9c9" prot="private" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>HistoRing</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a50fd87ea75913465a9d6a1704e608bb8" prot="private" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>histos_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a5ef3a7bbb1dae050ab9326eba8a4f2f0" prot="private" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>histos_mu_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1ab7efec4ec7117fc569f03125ededfc49" prot="public" virt="virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>incrementCounter</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a2dd36d98da99bb2766d14806c07d658b" prot="public" virt="virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>incrementGauge</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1aa95a5ee97deff3a0494088f98013eda8" prot="private" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>instance_id_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a2b53e0fe47e5f9bee15f636c8bba8bff" prot="public" virt="virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>isHealthy</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" prot="public" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>Labels</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1ae96094a52dc8645213539a62a781f7b7" prot="public" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>LockFreeMetrics</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a9abd4204e48cc428ac1f21260017b467" prot="public" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>LockFreeMetrics</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a25dce1c11335c390f046a1a41a8709e3" prot="public" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>LockFreeMetrics</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a8b219cab31ced6e13253451d35a828a2" prot="private" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>makeKey</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a50e43bd8d181bd1fc80bbcb83bbb156f" prot="private" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>next_instance_id_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a7be4dfb47f3a4204c7606ccf12d02aef" prot="public" virt="virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>observeHistogram</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a6e2d5ff61829f0c2c91c51bd46dee958" prot="public" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1af4bf215b754c3fe0de4b1b1b38d13755" prot="public" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a04cdf449650d8c9a4cbdc901047aeef8" prot="public" virt="virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>recordError</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a4aa8966dcb6ecad38b7bac32807461b6" prot="public" virt="virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>recordLatency</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1ae9182ba9ce4feb564522d514e8ee9c35" prot="public" virt="virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>recordSuccess</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a66fc605da8facf07f44a517208008cc7" prot="public" virt="virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>reset</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1ab13a994a9d686b26824d7c88916a9a2f" prot="private" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>running_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a60fead0e1709409263ae48fd8e9454b4" prot="public" virt="virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>setGauge</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a02497e7f07f00b60e75848eda662e169" prot="public" virt="virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a7c63543abebba8a7c1ea75c83e68a844" prot="private" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>startFlushThread</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1ac4e5c10de08f71382f8b5ea67296abbc" prot="private" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>stopFlushThread</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1ab790fdb51b5754dbe7e52910772b1562" prot="private" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>thread_entries_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a737ab7bfa77de836c474dea19d33756e" prot="private" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>thread_entries_mu_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a675060462eaa14e716339b54f8358227" prot="public" virt="virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>~IMetrics</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a63009754b7ec14ed3a334434204d44c5" prot="public" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics</scope><name>~LockFreeMetrics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

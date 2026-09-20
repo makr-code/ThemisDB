@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_application_custom_strategy" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::ApplicationCustomStrategy</compoundname>
+    <basecompoundref refid="classthemis_1_1process_1_1_i_conflict_resolution_strategy" prot="public" virt="non-virtual">themis::process::IConflictResolutionStrategy</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_application_custom_strategy_1aa005b6e9b2b383eca6167aa6a9fd18b8" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1process_1_1_process_conflict_resolver_callback" kindref="compound">ProcessConflictResolverCallback</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ProcessConflictResolverCallback&gt; themis::process::ApplicationCustomStrategy::callback_</definition>
+        <argsstring></argsstring>
+        <name>callback_</name>
+        <qualifiedname>themis::process::ApplicationCustomStrategy::callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_conflict_resolver.cpp" line="154" column="19" bodyfile="src/process/process_conflict_resolver.cpp" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_application_custom_strategy_1a1424c3c1c14d569441cf3babd0ebbdf4" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_i_conflict_resolution_strategy" kindref="compound">IConflictResolutionStrategy</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;IConflictResolutionStrategy&gt; themis::process::ApplicationCustomStrategy::fallback_</definition>
+        <argsstring></argsstring>
+        <name>fallback_</name>
+        <qualifiedname>themis::process::ApplicationCustomStrategy::fallback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_conflict_resolver.cpp" line="155" column="19" bodyfile="src/process/process_conflict_resolver.cpp" bodystart="155" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_application_custom_strategy_1a59f59e0e848dc6c9b3be50111f82cb4c" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::ApplicationCustomStrategy::ApplicationCustomStrategy</definition>
+        <argsstring>(std::shared_ptr&lt; ProcessConflictResolverCallback &gt; callback)</argsstring>
+        <name>ApplicationCustomStrategy</name>
+        <qualifiedname>themis::process::ApplicationCustomStrategy::ApplicationCustomStrategy</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1process_1_1_process_conflict_resolver_callback" kindref="compound">ProcessConflictResolverCallback</ref> &gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Application Custom Strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_conflict_resolver.cpp" line="122" column="12" bodyfile="src/process/process_conflict_resolver.cpp" bodystart="122" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_application_custom_strategy_1a6e6f823167e200d672f2b3299cb66c4d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::ApplicationCustomStrategy::ResolveConflict</definition>
+        <argsstring>(const ConflictMetadata &amp;metadata) override</argsstring>
+        <name>ResolveConflict</name>
+        <qualifiedname>themis::process::ApplicationCustomStrategy::ResolveConflict</qualifiedname>
+        <reimplements refid="classthemis_1_1process_1_1_i_conflict_resolution_strategy_1aad4de2bbb5e06603e59d682dfb831678">ResolveConflict</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_conflict_metadata" kindref="compound">ConflictMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+<para>Resolve Conflict. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_conflict_resolver.cpp" line="126" column="15" bodyfile="src/process/process_conflict_resolver.cpp" bodystart="126" bodyend="151"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::process::ApplicationCustomStrategy</label>
+        <link refid="classthemis_1_1process_1_1_application_custom_strategy"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::process::IConflictResolutionStrategy</label>
+        <link refid="classthemis_1_1process_1_1_i_conflict_resolution_strategy"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::process::ApplicationCustomStrategy</label>
+        <link refid="classthemis_1_1process_1_1_application_custom_strategy"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::process::IConflictResolutionStrategy</label>
+        <link refid="classthemis_1_1process_1_1_i_conflict_resolution_strategy"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/process/process_conflict_resolver.cpp" line="115" column="1" bodyfile="src/process/process_conflict_resolver.cpp" bodystart="115" bodyend="156"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_application_custom_strategy_1a59f59e0e848dc6c9b3be50111f82cb4c" prot="public" virt="non-virtual"><scope>themis::process::ApplicationCustomStrategy</scope><name>ApplicationCustomStrategy</name></member>
+      <member refid="classthemis_1_1process_1_1_application_custom_strategy_1aa005b6e9b2b383eca6167aa6a9fd18b8" prot="private" virt="non-virtual"><scope>themis::process::ApplicationCustomStrategy</scope><name>callback_</name></member>
+      <member refid="classthemis_1_1process_1_1_application_custom_strategy_1a1424c3c1c14d569441cf3babd0ebbdf4" prot="private" virt="non-virtual"><scope>themis::process::ApplicationCustomStrategy</scope><name>fallback_</name></member>
+      <member refid="classthemis_1_1process_1_1_application_custom_strategy_1a6e6f823167e200d672f2b3299cb66c4d" prot="public" virt="virtual"><scope>themis::process::ApplicationCustomStrategy</scope><name>ResolveConflict</name></member>
+      <member refid="classthemis_1_1process_1_1_i_conflict_resolution_strategy_1a8def31542ed44b6f6c8506c3d69fd36b" prot="public" virt="virtual"><scope>themis::process::ApplicationCustomStrategy</scope><name>~IConflictResolutionStrategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

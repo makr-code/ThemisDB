@@ -1,0 +1,2243 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator" kind="class" language="C++" prot="public">
+    <compoundname>themis::maintenance::DatabaseMaintenanceOrchestrator</compoundname>
+    <includes refid="database__maintenance__orchestrator_8h" local="no">database_maintenance_orchestrator.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a288df9a9ebd6e9296ed4776b691acd78" prot="private" static="no" mutable="no">
+        <type>TaskScheduler *</type>
+        <definition>TaskScheduler* themis::maintenance::DatabaseMaintenanceOrchestrator::scheduler_</definition>
+        <argsstring></argsstring>
+        <name>scheduler_</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::scheduler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="429" column="45" bodyfile="include/maintenance/database_maintenance_orchestrator.h" bodystart="429" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1ab04c87bf8f9192d21dc72b65f7a801d5" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; IndexMaintenanceManager &gt;</type>
+        <definition>std::shared_ptr&lt;IndexMaintenanceManager&gt; themis::maintenance::DatabaseMaintenanceOrchestrator::index_maintenance_</definition>
+        <argsstring></argsstring>
+        <name>index_maintenance_</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::index_maintenance_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="430" column="21" bodyfile="include/maintenance/database_maintenance_orchestrator.h" bodystart="430" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1aa9ddd11970f1063b8347e8b36faf042d" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; utils::AuditLogger &gt;</type>
+        <definition>std::shared_ptr&lt;utils::AuditLogger&gt; themis::maintenance::DatabaseMaintenanceOrchestrator::audit_logger_</definition>
+        <argsstring></argsstring>
+        <name>audit_logger_</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::audit_logger_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="431" column="26" bodyfile="include/maintenance/database_maintenance_orchestrator.h" bodystart="431" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a09ed4b72b23ab51a74e5af331170cb54" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1maintenance_1_1_maintenance_schedule_store" kindref="compound">MaintenanceScheduleStore</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;MaintenanceScheduleStore&gt; themis::maintenance::DatabaseMaintenanceOrchestrator::schedule_store_</definition>
+        <argsstring></argsstring>
+        <name>schedule_store_</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::schedule_store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="434" column="21" bodyfile="include/maintenance/database_maintenance_orchestrator.h" bodystart="434" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1af0bc6e15bd07eede0234eb5918dcd948" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::maintenance::DatabaseMaintenanceOrchestrator::schedules_mutex_</definition>
+        <argsstring></argsstring>
+        <name>schedules_mutex_</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::schedules_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="437" column="62" bodyfile="include/maintenance/database_maintenance_orchestrator.h" bodystart="437" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a9b035766dbfed0f2ade4804739a584cd" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry" kindref="compound">MaintenanceScheduleEntry</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, MaintenanceScheduleEntry&gt; themis::maintenance::DatabaseMaintenanceOrchestrator::schedules_</definition>
+        <argsstring></argsstring>
+        <name>schedules_</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::schedules_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="438" column="24" bodyfile="include/maintenance/database_maintenance_orchestrator.h" bodystart="438" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a2f2d0302d36a84744d8601fc940feeef" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::maintenance::DatabaseMaintenanceOrchestrator::jobs_mutex_</definition>
+        <argsstring></argsstring>
+        <name>jobs_mutex_</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::jobs_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="441" column="62" bodyfile="include/maintenance/database_maintenance_orchestrator.h" bodystart="441" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a3019334050ab814ce8e387ab209035bf" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1maintenance_1_1_orchestrator_job" kindref="compound">OrchestratorJob</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, OrchestratorJob&gt; themis::maintenance::DatabaseMaintenanceOrchestrator::jobs_</definition>
+        <argsstring></argsstring>
+        <name>jobs_</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::jobs_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="442" column="32" bodyfile="include/maintenance/database_maintenance_orchestrator.h" bodystart="442" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a4dfc30523da2724516a0a2d5ee86540b" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::maintenance::DatabaseMaintenanceOrchestrator::probes_mutex_</definition>
+        <argsstring></argsstring>
+        <name>probes_mutex_</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::probes_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="446" column="62" bodyfile="include/maintenance/database_maintenance_orchestrator.h" bodystart="446" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a23d2849d58d360b74eb28564f81dca99" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="namespacethemis_1_1maintenance_1a890124b4577c8d5c8db64124abb77d0f" kindref="member">HealthProbe</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, HealthProbe&gt; themis::maintenance::DatabaseMaintenanceOrchestrator::health_probes_</definition>
+        <argsstring></argsstring>
+        <name>health_probes_</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::health_probes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="447" column="36" bodyfile="include/maintenance/database_maintenance_orchestrator.h" bodystart="447" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a670873ff258d99a37f9e61f6b2278f08" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::maintenance::DatabaseMaintenanceOrchestrator::handlers_mutex_</definition>
+        <argsstring></argsstring>
+        <name>handlers_mutex_</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::handlers_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="450" column="70" bodyfile="include/maintenance/database_maintenance_orchestrator.h" bodystart="450" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1ac9ac11291fbfedf4e3ec7fa387641b10" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, std::shared_ptr&lt; <ref refid="classthemis_1_1maintenance_1_1_i_maintenance_task_handler" kindref="compound">IMaintenanceTaskHandler</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;int, std::shared_ptr&lt;IMaintenanceTaskHandler&gt; &gt; themis::maintenance::DatabaseMaintenanceOrchestrator::task_handlers_</definition>
+        <argsstring></argsstring>
+        <name>task_handlers_</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::task_handlers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="451" column="24" bodyfile="include/maintenance/database_maintenance_orchestrator.h" bodystart="451" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a0ee25e2a2c534a7fa47f1bb7c562dbdc" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::maintenance::DatabaseMaintenanceOrchestrator::dist_lock_mutex_</definition>
+        <argsstring></argsstring>
+        <name>dist_lock_mutex_</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::dist_lock_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="454" column="69" bodyfile="include/maintenance/database_maintenance_orchestrator.h" bodystart="454" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a24fa63ea43a1b63342e2d6061e40429c" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1maintenance_1_1_i_distributed_lock" kindref="compound">IDistributedLock</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IDistributedLock&gt; themis::maintenance::DatabaseMaintenanceOrchestrator::dist_lock_</definition>
+        <argsstring></argsstring>
+        <name>dist_lock_</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::dist_lock_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="455" column="51" bodyfile="include/maintenance/database_maintenance_orchestrator.h" bodystart="455" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1ae63cd254ea5872e5cd6caeccd675670c" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::maintenance::DatabaseMaintenanceOrchestrator::tenant_configs_mutex_</definition>
+        <argsstring></argsstring>
+        <name>tenant_configs_mutex_</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::tenant_configs_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="458" column="67" bodyfile="include/maintenance/database_maintenance_orchestrator.h" bodystart="458" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a83527a632003296dfddd802d16129e00" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1maintenance_1_1_tenant_maintenance_config" kindref="compound">TenantMaintenanceConfig</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, TenantMaintenanceConfig&gt; themis::maintenance::DatabaseMaintenanceOrchestrator::tenant_configs_</definition>
+        <argsstring></argsstring>
+        <name>tenant_configs_</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::tenant_configs_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="459" column="29" bodyfile="include/maintenance/database_maintenance_orchestrator.h" bodystart="459" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a1ed1e62c9966b0584a359b0434abe675" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::maintenance::DatabaseMaintenanceOrchestrator::in_flight_mutex_</definition>
+        <argsstring></argsstring>
+        <name>in_flight_mutex_</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::in_flight_mutex_</qualifiedname>
+        <briefdescription>
+<para>Schedules currently executing; protects against concurrent re-entry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="463" column="69" bodyfile="include/maintenance/database_maintenance_orchestrator.h" bodystart="463" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a650c2538ec7c9db7538df19746fcf270" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::maintenance::DatabaseMaintenanceOrchestrator::in_flight_schedules_</definition>
+        <argsstring></argsstring>
+        <name>in_flight_schedules_</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::in_flight_schedules_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="464" column="56" bodyfile="include/maintenance/database_maintenance_orchestrator.h" bodystart="464" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a661dd2e20c93faffeb5f91cbd34bb8e8" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::maintenance::DatabaseMaintenanceOrchestrator::churn_mutex_</definition>
+        <argsstring></argsstring>
+        <name>churn_mutex_</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::churn_mutex_</qualifiedname>
+        <briefdescription>
+<para>Protects churn_counts_. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="470" column="69" bodyfile="include/maintenance/database_maintenance_orchestrator.h" bodystart="470" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a2803b32b7549ed66a36806f67b2741f4" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::pair&lt; uint32_t, int64_t &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::pair&lt;uint32_t, int64_t&gt; &gt; themis::maintenance::DatabaseMaintenanceOrchestrator::churn_counts_</definition>
+        <argsstring></argsstring>
+        <name>churn_counts_</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::churn_counts_</qualifiedname>
+        <briefdescription>
+<para>Per-schedule change count and interval start: {count, interval_start_ms}. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="472" column="25" bodyfile="include/maintenance/database_maintenance_orchestrator.h" bodystart="472" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a39cfb4d19f5515e871ed2c3eaf286160" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::maintenance::DatabaseMaintenanceOrchestrator::ring_buffer_mutex_</definition>
+        <argsstring></argsstring>
+        <name>ring_buffer_mutex_</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::ring_buffer_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="476" column="42" bodyfile="include/maintenance/database_maintenance_orchestrator.h" bodystart="476" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a6334c5a74de8702a4c5bc72b6c28cc55" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; <ref refid="structthemis_1_1maintenance_1_1_dispatch_outcome" kindref="compound">DispatchOutcome</ref> &gt;</type>
+        <definition>std::deque&lt;DispatchOutcome&gt; themis::maintenance::DatabaseMaintenanceOrchestrator::dispatch_ring_buffer_</definition>
+        <argsstring></argsstring>
+        <name>dispatch_ring_buffer_</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::dispatch_ring_buffer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="477" column="25" bodyfile="include/maintenance/database_maintenance_orchestrator.h" bodystart="477" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a4619ab6471cba5ce591b2902cdc49f9e" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::maintenance::DatabaseMaintenanceOrchestrator::ring_buffer_capacity_</definition>
+        <argsstring></argsstring>
+        <name>ring_buffer_capacity_</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::ring_buffer_capacity_</qualifiedname>
+        <initializer>{kDefaultRingBufferCapacity}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="478" column="42" bodyfile="include/maintenance/database_maintenance_orchestrator.h" bodystart="478" bodyend="478"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a4c6f6dd7596e84a22795def53693bc9a" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::maintenance::DatabaseMaintenanceOrchestrator::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="480" column="56" bodyfile="include/maintenance/database_maintenance_orchestrator.h" bodystart="480" bodyend="480"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1ac7d82f857272c6a2e17b06d18fe08539" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::maintenance::DatabaseMaintenanceOrchestrator::id_counter_</definition>
+        <argsstring></argsstring>
+        <name>id_counter_</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::id_counter_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="481" column="52" bodyfile="include/maintenance/database_maintenance_orchestrator.h" bodystart="481" bodyend="481"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a66395b3b3499d49b1ae52c2754567ba0" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::maintenance::DatabaseMaintenanceOrchestrator::kJobRetentionMs</definition>
+        <argsstring></argsstring>
+        <name>kJobRetentionMs</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::kJobRetentionMs</qualifiedname>
+        <initializer>= 24LL * 60 * 60 * 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="443" column="30" bodyfile="include/maintenance/database_maintenance_orchestrator.h" bodystart="443" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a21dc0ff6c5addc71a5437b75fbe4e452" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::maintenance::DatabaseMaintenanceOrchestrator::kChurnIntervalMs</definition>
+        <argsstring></argsstring>
+        <name>kChurnIntervalMs</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::kChurnIntervalMs</qualifiedname>
+        <initializer>= 60&apos;000LL</initializer>
+        <briefdescription>
+<para>Rolling interval in ms for max_schedule_changes_per_interval enforcement. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="468" column="30" bodyfile="include/maintenance/database_maintenance_orchestrator.h" bodystart="468" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1ac539759ce2a447c9358f8ac517676d47" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::maintenance::DatabaseMaintenanceOrchestrator::kDefaultRingBufferCapacity</definition>
+        <argsstring></argsstring>
+        <name>kDefaultRingBufferCapacity</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::kDefaultRingBufferCapacity</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="475" column="26" bodyfile="include/maintenance/database_maintenance_orchestrator.h" bodystart="475" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a51934df73f36fe4426c5b6ce137d1449" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::DatabaseMaintenanceOrchestrator::DatabaseMaintenanceOrchestrator</definition>
+        <argsstring>(TaskScheduler *scheduler, std::shared_ptr&lt; IndexMaintenanceManager &gt; index_maintenance=nullptr, std::shared_ptr&lt; utils::AuditLogger &gt; audit_logger=nullptr, IStorageEngine *storage=nullptr)</argsstring>
+        <name>DatabaseMaintenanceOrchestrator</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::DatabaseMaintenanceOrchestrator</qualifiedname>
+        <param>
+          <type>TaskScheduler *</type>
+          <declname>scheduler</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; IndexMaintenanceManager &gt;</type>
+          <declname>index_maintenance</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; utils::AuditLogger &gt;</type>
+          <declname>audit_logger</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>IStorageEngine *</type>
+          <declname>storage</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Construct the orchestrator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>scheduler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>TaskScheduler used for cron-based scheduling. Must outlive this object. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>index_maintenance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>IndexMaintenanceManager for index operations. May be nullptr; index operations will return an error in that case. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>audit_logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional audit logger. May be nullptr. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>storage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional storage engine for schedule persistence (RocksDB via StorageEngine). When non-null, schedules are written through on every CRUD mutation and reloaded on <ref refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a7a735aa8011b4e410712684c851f15f9" kindref="member">start()</ref>. May be nullptr for in-memory-only operation (e.g., in tests). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="129" column="14" bodyfile="src/maintenance/database_maintenance_orchestrator.cpp" bodystart="114" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a3d7309240ad2064cf42800f843db622b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::DatabaseMaintenanceOrchestrator::~DatabaseMaintenanceOrchestrator</definition>
+        <argsstring>()</argsstring>
+        <name>~DatabaseMaintenanceOrchestrator</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::~DatabaseMaintenanceOrchestrator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="135" column="5" bodyfile="src/maintenance/database_maintenance_orchestrator.cpp" bodystart="125" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a79e6880030ba0a3e134128e7e028dbbe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::DatabaseMaintenanceOrchestrator::DatabaseMaintenanceOrchestrator</definition>
+        <argsstring>(const DatabaseMaintenanceOrchestrator &amp;)=delete</argsstring>
+        <name>DatabaseMaintenanceOrchestrator</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::DatabaseMaintenanceOrchestrator</qualifiedname>
+        <param>
+          <type>const DatabaseMaintenanceOrchestrator &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="138" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1ab4bb35de5b9481494720106a0a068fe5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a51934df73f36fe4426c5b6ce137d1449" kindref="member">DatabaseMaintenanceOrchestrator</ref> &amp;</type>
+        <definition>DatabaseMaintenanceOrchestrator &amp; themis::maintenance::DatabaseMaintenanceOrchestrator::operator=</definition>
+        <argsstring>(const DatabaseMaintenanceOrchestrator &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a51934df73f36fe4426c5b6ce137d1449" kindref="member">DatabaseMaintenanceOrchestrator</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="139" column="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a7a735aa8011b4e410712684c851f15f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::maintenance::DatabaseMaintenanceOrchestrator::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::start</qualifiedname>
+        <briefdescription>
+<para>Start the orchestrator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start.</para>
+<para>Re-registers all enabled schedules in the TaskScheduler and begins accepting ad-hoc job submissions.</para>
+<para><simplesect kind="return"><para>Result&lt;void&gt; – error if the scheduler is not available.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: load(), loadAll(), has_value(), spdlog::error(), error(), message(), lock(), insert_or_assign(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="149" column="12" bodyfile="src/maintenance/database_maintenance_orchestrator.cpp" bodystart="138" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a4d90941d9c5eec97ea240dc7e5115af4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::maintenance::DatabaseMaintenanceOrchestrator::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::stop</qualifiedname>
+        <briefdescription>
+<para>Stop the orchestrator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop.</para>
+<para>Deregisters all schedules from the TaskScheduler. Running jobs are allowed to complete.</para>
+<para>Calls: exchange(), lock(), deregisterFromScheduler(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="157" column="10" bodyfile="src/maintenance/database_maintenance_orchestrator.cpp" bodystart="190" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a0d9e02370990aa3c43537e014346f9ba" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::maintenance::DatabaseMaintenanceOrchestrator::isRunning</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::isRunning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="159" column="10" bodyfile="src/maintenance/database_maintenance_orchestrator.cpp" bodystart="204" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1ad01190ab92830199fd3b262790451a7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry" kindref="compound">MaintenanceScheduleEntry</ref> &gt;</type>
+        <definition>Result&lt; MaintenanceScheduleEntry &gt; themis::maintenance::DatabaseMaintenanceOrchestrator::createSchedule</definition>
+        <argsstring>(MaintenanceScheduleEntry entry)</argsstring>
+        <name>createSchedule</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::createSchedule</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry" kindref="compound">MaintenanceScheduleEntry</ref></type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Create a new maintenance schedule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Schedule.</para>
+<para>Assigns a UUID, timestamps created_at_ms, derives cron_expression from frequency (unless CUSTOM), and registers the task in the TaskScheduler if the orchestrator is running and the schedule is enabled.</para>
+<para>Validation:<itemizedlist>
+<listitem><para>name must be non-empty.</para>
+</listitem><listitem><para>tasks must contain at least one entry.</para>
+</listitem><listitem><para>For CUSTOM frequency, cron_expression must be non-empty.</para>
+</listitem><listitem><para>window_start_hour and window_end_hour must be in [0, 23].</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Schedule definition. id, created_at_ms, updated_at_ms, and runtime fields (last_run_ms, last_job_id, …) are ignored on input and set by the orchestrator. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result with the persisted entry (including assigned id) or error.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">schedules_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="181" column="12" bodyfile="src/maintenance/database_maintenance_orchestrator.cpp" bodystart="217" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1acf0c579c7da51e870c60e90de6f92be7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry" kindref="compound">MaintenanceScheduleEntry</ref> &gt;</type>
+        <definition>Result&lt; MaintenanceScheduleEntry &gt; themis::maintenance::DatabaseMaintenanceOrchestrator::getSchedule</definition>
+        <argsstring>(const std::string &amp;id) const</argsstring>
+        <name>getSchedule</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::getSchedule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve a schedule by ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Result with the entry or error if not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">schedules_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="187" column="12" bodyfile="src/maintenance/database_maintenance_orchestrator.cpp" bodystart="293" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1aee91ae3ea1860819da41f532fca7ac8d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry" kindref="compound">MaintenanceScheduleEntry</ref> &gt;</type>
+        <definition>std::vector&lt; MaintenanceScheduleEntry &gt; themis::maintenance::DatabaseMaintenanceOrchestrator::listSchedules</definition>
+        <argsstring>(const std::string &amp;tenant_id_filter=&quot;&quot;) const</argsstring>
+        <name>listSchedules</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::listSchedules</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id_filter</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>List schedules, optionally filtered by tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tenant_id_filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>When non-empty, only schedules whose tenant_id equals this value are returned. An empty string returns all schedules (global + all tenants). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of matching schedule entries. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">schedules_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="197" column="17" bodyfile="src/maintenance/database_maintenance_orchestrator.cpp" bodystart="310" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a39984f60a6de1956c748cf8a53a64342" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry" kindref="compound">MaintenanceScheduleEntry</ref> &gt;</type>
+        <definition>Result&lt; MaintenanceScheduleEntry &gt; themis::maintenance::DatabaseMaintenanceOrchestrator::updateSchedule</definition>
+        <argsstring>(const std::string &amp;id, MaintenanceScheduleEntry entry)</argsstring>
+        <name>updateSchedule</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::updateSchedule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry" kindref="compound">MaintenanceScheduleEntry</ref></type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Full-replace update of a schedule (PUT semantics). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Schedule.</para>
+<para>Replaces all mutable fields with the values from <computeroutput>entry</computeroutput>. Read-only fields (created_at_ms, created_by) are preserved. The TaskScheduler registration is updated accordingly.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ID of the schedule to update. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New schedule definition. The id field is ignored; the path parameter <computeroutput>id</computeroutput> is authoritative. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result with the updated entry or error if not found / invalid.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">schedules_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="212" column="12" bodyfile="src/maintenance/database_maintenance_orchestrator.cpp" bodystart="341" bodyend="410"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1ab581a56f286f0ea0f30a9f10d44f924e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry" kindref="compound">MaintenanceScheduleEntry</ref> &gt;</type>
+        <definition>Result&lt; MaintenanceScheduleEntry &gt; themis::maintenance::DatabaseMaintenanceOrchestrator::patchSchedule</definition>
+        <argsstring>(const std::string &amp;id, const nlohmann::json &amp;patch)</argsstring>
+        <name>patchSchedule</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::patchSchedule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>patch</declname>
+        </param>
+        <briefdescription>
+<para>Partial update of a schedule (PATCH semantics). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Patch Schedule.</para>
+<para>Only the JSON fields present in <computeroutput>patch</computeroutput> are applied; absent fields retain their current values. See <ref refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1af458505fbd9d619976b74a8a05b45f0c" kindref="member">MaintenanceScheduleEntry::applyPatch</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ID of the schedule to patch. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>patch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JSON object with only the fields to change. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result with the updated entry or error if not found / invalid.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">patch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">schedules_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="225" column="12" bodyfile="src/maintenance/database_maintenance_orchestrator.cpp" bodystart="422" bodyend="486"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a393ae6e9e9aae01ea1d5f2badf349da1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::maintenance::DatabaseMaintenanceOrchestrator::deleteSchedule</definition>
+        <argsstring>(const std::string &amp;id)</argsstring>
+        <name>deleteSchedule</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::deleteSchedule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Delete a schedule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Delete Schedule.</para>
+<para>Deregisters the corresponding task from the TaskScheduler and removes the entry from the registry. Active jobs spawned by this schedule are allowed to complete.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ID of the schedule to delete. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;void&gt; or error if not found.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), tl::unexpected(), Error(), remove(), has_value(), error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="238" column="12" bodyfile="src/maintenance/database_maintenance_orchestrator.cpp" bodystart="498" bodyend="536"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a20dfbabc12e334612a2fc3ee7eaf6924" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1maintenance_1_1_orchestrator_job" kindref="compound">OrchestratorJob</ref> &gt;</type>
+        <definition>Result&lt; OrchestratorJob &gt; themis::maintenance::DatabaseMaintenanceOrchestrator::triggerNow</definition>
+        <argsstring>(const std::string &amp;schedule_id, bool force=false)</argsstring>
+        <name>triggerNow</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::triggerNow</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>schedule_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>force</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Immediately trigger a schedule regardless of its cron time. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Trigger Now.</para>
+<para>Creates an ad-hoc <ref refid="structthemis_1_1maintenance_1_1_orchestrator_job" kindref="compound">OrchestratorJob</ref> and runs the tasks synchronously in a background thread.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>schedule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ID of the schedule to run now. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>force</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>When true, bypass the UTC maintenance window check. Requires <computeroutput><ref refid="namespacethemis_1_1maintenance" kindref="compound">maintenance</ref>:admin</computeroutput> scope at the API layer. The resulting job has <computeroutput>forced=true</computeroutput> and the audit log entry carries <computeroutput>"forced": true</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result with the newly created job (in RUNNING state) or error.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">schedule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the schedule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">force</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">schedules_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jobs_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="255" column="12" bodyfile="src/maintenance/database_maintenance_orchestrator.cpp" bodystart="548" bodyend="613"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1aa675646f45eee3fd6c5026484e3a580c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::maintenance::DatabaseMaintenanceOrchestrator::cancelJob</definition>
+        <argsstring>(const std::string &amp;job_id)</argsstring>
+        <name>cancelJob</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::cancelJob</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>job_id</declname>
+        </param>
+        <briefdescription>
+<para>Cancel a running job. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cancel Job.</para>
+<para>Signals the job&apos;s execution thread to abort. Already-completed tasks within the job are not rolled back.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>job_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ID of the job to cancel. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;void&gt; or error if the job is not found / not running.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">job_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the job. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), tl::unexpected(), Error(), nowMs(), spdlog::warn(), logEvent(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="267" column="12" bodyfile="src/maintenance/database_maintenance_orchestrator.cpp" bodystart="621" bodyend="648"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a98eb76a1aa4942872299a72e412bf3b7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1maintenance_1_1_orchestrator_job" kindref="compound">OrchestratorJob</ref> &gt;</type>
+        <definition>Result&lt; OrchestratorJob &gt; themis::maintenance::DatabaseMaintenanceOrchestrator::getJob</definition>
+        <argsstring>(const std::string &amp;job_id) const</argsstring>
+        <name>getJob</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::getJob</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>job_id</declname>
+        </param>
+        <briefdescription>
+<para>Get the current status of a job. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>job_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Job identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result with the <ref refid="structthemis_1_1maintenance_1_1_orchestrator_job" kindref="compound">OrchestratorJob</ref> or error if not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jobs_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="274" column="12" bodyfile="src/maintenance/database_maintenance_orchestrator.cpp" bodystart="650" bodyend="665"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a73851360999c27a87681b8915380eb62" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1maintenance_1_1_orchestrator_job" kindref="compound">OrchestratorJob</ref> &gt;</type>
+        <definition>std::vector&lt; OrchestratorJob &gt; themis::maintenance::DatabaseMaintenanceOrchestrator::listJobs</definition>
+        <argsstring>(bool active_only=false) const</argsstring>
+        <name>listJobs</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::listJobs</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>active_only</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>List all known jobs (active + recently completed). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Completed jobs are retained for a configurable TTL (default 24 h).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>active_only</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>When true, only PENDING and RUNNING jobs are returned. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jobs_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="283" column="17" bodyfile="src/maintenance/database_maintenance_orchestrator.cpp" bodystart="667" bodyend="686"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1ac5df4486bc5d56f2d20b05df9093f693" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::maintenance::DatabaseMaintenanceOrchestrator::getStatus</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatus</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::getStatus</qualifiedname>
+        <briefdescription>
+<para>Return a structured status snapshot of the orchestrator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Includes version, running state, schedule counts, active job count, and the time of the most recently completed job. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">schedules_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jobs_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="293" column="20" bodyfile="src/maintenance/database_maintenance_orchestrator.cpp" bodystart="692" bodyend="732"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a91f0cf205ab5059c376a23c936bf067e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1maintenance_1_1_maintenance_health_report" kindref="compound">MaintenanceHealthReport</ref></type>
+        <definition>MaintenanceHealthReport themis::maintenance::DatabaseMaintenanceOrchestrator::getHealthReport</definition>
+        <argsstring>() const</argsstring>
+        <name>getHealthReport</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::getHealthReport</qualifiedname>
+        <briefdescription>
+<para>Aggregate and return a health report from all registered modules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls each registered <ref refid="namespacethemis_1_1maintenance_1a890124b4577c8d5c8db64124abb77d0f" kindref="member">HealthProbe</ref> synchronously, combines the signals, and derives the overall status. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">schedules_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jobs_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">probes_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Rb lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ring_buffer_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="301" column="29" bodyfile="src/maintenance/database_maintenance_orchestrator.cpp" bodystart="734" bodyend="828"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1afe3d1d19ac83662472f398b39e8afa74" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::maintenance::DatabaseMaintenanceOrchestrator::setTenantMaintenanceConfig</definition>
+        <argsstring>(const std::string &amp;tenant_id, TenantMaintenanceConfig config)</argsstring>
+        <name>setTenantMaintenanceConfig</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::setTenantMaintenanceConfig</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1maintenance_1_1_tenant_maintenance_config" kindref="compound">TenantMaintenanceConfig</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Register or update per-tenant maintenance configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Tenant Maintenance Config.</para>
+<para>Affects all schedules whose tenant_id matches <computeroutput>tenant_id:</computeroutput> <itemizedlist>
+<listitem><para>If config.enforce_window is true, the tenant-level window overrides the per-schedule window during executeSchedule().</para>
+</listitem><listitem><para>If config.max_concurrent_jobs &gt; 0, the orchestrator enforces the quota in executeSchedule() and SKIPs the job when the limit is reached.</para>
+</listitem></itemizedlist>
+</para>
+<para>Call with a default-constructed <ref refid="structthemis_1_1maintenance_1_1_tenant_maintenance_config" kindref="compound">TenantMaintenanceConfig</ref> (enforce_window=false, max_concurrent_jobs=0) to effectively remove constraints for a tenant.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tenant identifier. Must not be empty. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration to apply for this tenant.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_configs_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="318" column="10" bodyfile="src/maintenance/database_maintenance_orchestrator.cpp" bodystart="921" bodyend="936"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1aca189f427a5cb659099d9ff5863e03de" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1maintenance_1_1_tenant_maintenance_config" kindref="compound">TenantMaintenanceConfig</ref></type>
+        <definition>TenantMaintenanceConfig themis::maintenance::DatabaseMaintenanceOrchestrator::getTenantMaintenanceConfig</definition>
+        <argsstring>(const std::string &amp;tenant_id) const</argsstring>
+        <name>getTenantMaintenanceConfig</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::getTenantMaintenanceConfig</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve the per-tenant maintenance configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tenant identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The registered <ref refid="structthemis_1_1maintenance_1_1_tenant_maintenance_config" kindref="compound">TenantMaintenanceConfig</ref>, or a default-constructed one (enforce_window=false, max_concurrent_jobs=0) if none is registered. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_configs_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="328" column="29" bodyfile="src/maintenance/database_maintenance_orchestrator.cpp" bodystart="938" bodyend="952"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1ac5db1198d543fa41a6431534ee472b01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::maintenance::DatabaseMaintenanceOrchestrator::registerHealthProbe</definition>
+        <argsstring>(const std::string &amp;module_name, HealthProbe probe)</argsstring>
+        <name>registerHealthProbe</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::registerHealthProbe</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>module_name</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1maintenance_1a890124b4577c8d5c8db64124abb77d0f" kindref="member">HealthProbe</ref></type>
+          <declname>probe</declname>
+        </param>
+        <briefdescription>
+<para>Register a health probe for a module. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Health Probe.</para>
+<para>Modules call this once at startup to contribute their health signal to the aggregated report returned by <ref refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a91f0cf205ab5059c376a23c936bf067e" kindref="member">getHealthReport()</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>module_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable module name (e.g. &quot;index_maintenance&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>probe</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable returning a <ref refid="structthemis_1_1maintenance_1_1_module_health_signal" kindref="compound">ModuleHealthSignal</ref>.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">module_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the module. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">probe</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">probes_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="342" column="10" bodyfile="src/maintenance/database_maintenance_orchestrator.cpp" bodystart="839" bodyend="849"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a50f8555857f10dc1602e3e85733ab00a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::maintenance::DatabaseMaintenanceOrchestrator::setDistributedLock</definition>
+        <argsstring>(std::shared_ptr&lt; IDistributedLock &gt; lock)</argsstring>
+        <name>setDistributedLock</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::setDistributedLock</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1maintenance_1_1_i_distributed_lock" kindref="compound">IDistributedLock</ref> &gt;</type>
+          <declname>lock</declname>
+        </param>
+        <briefdescription>
+<para>Inject a distributed lock implementation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Distributed Lock.</para>
+<para>When set, the orchestrator calls <computeroutput>dist_lock_-&gt;tryAcquire(schedule_id,
+ttl_ms)</computeroutput> before firing each scheduled job. Only the cluster node that successfully acquires the lock runs the job; all other nodes log a DEBUG message and mark the job as SKIPPED.</para>
+<para>The TTL is derived from <computeroutput><ref refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a3bfcf2191572df7e5bc7ca2aa4640ac0" kindref="member">MaintenanceScheduleEntry::lock_ttl_ms</ref></computeroutput> when non-zero, otherwise it is computed as the maintenance-window duration plus a 30-second safety margin.</para>
+<para>This method is thread-safe. Pass <computeroutput>nullptr</computeroutput> to disable distributed locking (single-node or test deployments).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lock</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared pointer to the <ref refid="classthemis_1_1maintenance_1_1_i_distributed_lock" kindref="compound">IDistributedLock</ref> implementation, or nullptr to disable distributed locking.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lock</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lg. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dist_lock_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="362" column="10" bodyfile="src/maintenance/database_maintenance_orchestrator.cpp" bodystart="878" bodyend="888"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a8d86ecf403206443653d7b7e44bf1e4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::maintenance::DatabaseMaintenanceOrchestrator::registerTaskHandler</definition>
+        <argsstring>(MaintenanceTaskType task_type, std::shared_ptr&lt; IMaintenanceTaskHandler &gt; handler)</argsstring>
+        <name>registerTaskHandler</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::registerTaskHandler</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8" kindref="member">MaintenanceTaskType</ref></type>
+          <declname>task_type</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1maintenance_1_1_i_maintenance_task_handler" kindref="compound">IMaintenanceTaskHandler</ref> &gt;</type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>Register a task handler for a specific task type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Task Handler.</para>
+<para>Modules call this to wire real execution logic into the orchestrator for their task type(s). A previously registered handler for the same type is silently replaced. Thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>task_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The task type this handler owns. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-null shared pointer to the handler implementation.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">task_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handlers_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="374" column="10" bodyfile="src/maintenance/database_maintenance_orchestrator.cpp" bodystart="856" bodyend="872"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a358d164c49a8b5dc0fef223c15f59149" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt; std::string, std::string &gt; themis::maintenance::DatabaseMaintenanceOrchestrator::listTaskHandlers</definition>
+        <argsstring>() const</argsstring>
+        <name>listTaskHandlers</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::listTaskHandlers</qualifiedname>
+        <briefdescription>
+<para>Return a map of registered task handlers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Keys are the string representation of the task type (see <ref refid="namespacethemis_1_1maintenance_1a57cc2ee688b2e88c162c19fe84bce972" kindref="member">taskTypeToString()</ref>). Values are the handler names (<ref refid="classthemis_1_1maintenance_1_1_i_maintenance_task_handler_1a944d9bb4ec535eb3b5003129b43157f9" kindref="member">IMaintenanceTaskHandler::handlerName()</ref>).</para>
+<para>Used by GET /api/v1/maintenance/task-handlers to let operators diagnose which task types have no handler registered. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handlers_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="387" column="14" bodyfile="src/maintenance/database_maintenance_orchestrator.cpp" bodystart="891" bodyend="910"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1af250da3e4633e4f991e5114e30015f50" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8" kindref="member">MaintenanceTaskType</ref> &gt;</type>
+        <definition>std::vector&lt; MaintenanceTaskType &gt; themis::maintenance::DatabaseMaintenanceOrchestrator::resolveTaskExecutionOrder</definition>
+        <argsstring>(const MaintenanceScheduleEntry &amp;entry)</argsstring>
+        <name>resolveTaskExecutionOrder</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::resolveTaskExecutionOrder</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry" kindref="compound">MaintenanceScheduleEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Resolve task execution order from task_dependencies using topological sort. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When task_dependencies is empty, returns entry.tasks in positional order. Otherwise performs a stable Kahn&apos;s-algorithm topological sort seeded in entry.tasks order, so unrelated tasks preserve their original relative position. Throws std::invalid_argument if:<itemizedlist>
+<listitem><para>any task_type or depends_on reference is not present in entry.tasks, or</para>
+</listitem><listitem><para>a cycle is detected. </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="399" column="24" bodyfile="src/maintenance/database_maintenance_orchestrator.cpp" bodystart="1809" bodyend="1917"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a31f619294e1d986e4459a372ef3cdf9d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::maintenance::DatabaseMaintenanceOrchestrator::generateId</definition>
+        <argsstring>() const</argsstring>
+        <name>generateId</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::generateId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="405" column="17" bodyfile="src/maintenance/database_maintenance_orchestrator.cpp" bodystart="958" bodyend="960"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a0605909d331530db562bba34cac1eebe" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::maintenance::DatabaseMaintenanceOrchestrator::nowMs</definition>
+        <argsstring>() const</argsstring>
+        <name>nowMs</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::nowMs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="406" column="17" bodyfile="src/maintenance/database_maintenance_orchestrator.cpp" bodystart="962" bodyend="964"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a0ee2da5c2dddb7d80e65ffe61aea8f35" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::maintenance::DatabaseMaintenanceOrchestrator::registerWithScheduler</definition>
+        <argsstring>(const MaintenanceScheduleEntry &amp;entry)</argsstring>
+        <name>registerWithScheduler</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::registerWithScheduler</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry" kindref="compound">MaintenanceScheduleEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Register With Scheduler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">schedules_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Jlock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jobs_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Jlock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jobs_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="408" column="10" bodyfile="src/maintenance/database_maintenance_orchestrator.cpp" bodystart="976" bodyend="1050"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a2ba4455a47c3a36eb627832ff5fb8e57" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::maintenance::DatabaseMaintenanceOrchestrator::deregisterFromScheduler</definition>
+        <argsstring>(const std::string &amp;schedule_id)</argsstring>
+        <name>deregisterFromScheduler</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::deregisterFromScheduler</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>schedule_id</declname>
+        </param>
+        <briefdescription>
+<para>Deregister From Scheduler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">schedule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the schedule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="409" column="10" bodyfile="src/maintenance/database_maintenance_orchestrator.cpp" bodystart="1056" bodyend="1065"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a809c831740f16e6f97601b19dddff18f" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::maintenance::DatabaseMaintenanceOrchestrator::schedulerTaskId</definition>
+        <argsstring>(const std::string &amp;schedule_id) const</argsstring>
+        <name>schedulerTaskId</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::schedulerTaskId</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>schedule_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="410" column="17" bodyfile="src/maintenance/database_maintenance_orchestrator.cpp" bodystart="966" bodyend="970"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a9a3a65cfe7b53d34df3135023227eb80" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::maintenance::DatabaseMaintenanceOrchestrator::executeSchedule</definition>
+        <argsstring>(const std::string &amp;schedule_id, const std::string &amp;job_id, bool force=false)</argsstring>
+        <name>executeSchedule</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::executeSchedule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>schedule_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>job_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>force</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Execute Schedule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">schedule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the schedule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">job_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the job. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">force</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Ifl. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">in_flight_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Jlock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jobs_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Slock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">schedules_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">schedules_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Jlock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jobs_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lg. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dist_lock_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Jlock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jobs_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Slock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">schedules_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Jlock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jobs_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Jlock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jobs_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">schedules_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Jlock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jobs_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">schedules_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Jlock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jobs_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Jlock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jobs_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Jlock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jobs_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">schedules_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="412" column="10" bodyfile="src/maintenance/database_maintenance_orchestrator.cpp" bodystart="1073" bodyend="1533"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1ae6cbe34454625f5be11f2afddd2af6ba" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::maintenance::DatabaseMaintenanceOrchestrator::executeTask</definition>
+        <argsstring>(MaintenanceTaskType task_type, OrchestratorJob &amp;job)</argsstring>
+        <name>executeTask</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::executeTask</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8" kindref="member">MaintenanceTaskType</ref></type>
+          <declname>task_type</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1maintenance_1_1_orchestrator_job" kindref="compound">OrchestratorJob</ref> &amp;</type>
+          <declname>job</declname>
+        </param>
+        <briefdescription>
+<para>Execute Task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">job</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handlers_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="414" column="10" bodyfile="src/maintenance/database_maintenance_orchestrator.cpp" bodystart="1540" bodyend="1760"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1aebc7a2f3248420bbb84386eb46bd010d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::maintenance::DatabaseMaintenanceOrchestrator::pruneCompletedJobs</definition>
+        <argsstring>()</argsstring>
+        <name>pruneCompletedJobs</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::pruneCompletedJobs</qualifiedname>
+        <briefdescription>
+<para>Prune Completed Jobs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: themis::maintenance::nowMs(), lock(), begin(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="417" column="10" bodyfile="src/maintenance/database_maintenance_orchestrator.cpp" bodystart="1766" bodyend="1780"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a31408df4f99dac8199ce16cd254eed90" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::maintenance::DatabaseMaintenanceOrchestrator::validateEntry</definition>
+        <argsstring>(const MaintenanceScheduleEntry &amp;entry) const</argsstring>
+        <name>validateEntry</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::validateEntry</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry" kindref="compound">MaintenanceScheduleEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="419" column="10" bodyfile="src/maintenance/database_maintenance_orchestrator.cpp" bodystart="1782" bodyend="1806"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1ae5cbb62bdaf939e53a9b35c10be909e1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::maintenance::DatabaseMaintenanceOrchestrator::recordDispatchOutcome</definition>
+        <argsstring>(DispatchOutcome outcome)</argsstring>
+        <name>recordDispatchOutcome</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::recordDispatchOutcome</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1maintenance_1_1_dispatch_outcome" kindref="compound">DispatchOutcome</ref></type>
+          <declname>outcome</declname>
+        </param>
+        <briefdescription>
+<para>Record a <ref refid="structthemis_1_1maintenance_1_1_dispatch_outcome" kindref="compound">DispatchOutcome</ref> into the ring buffer (thread-safe). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> Phase 4: <ref refid="structthemis_1_1maintenance_1_1_dispatch_outcome" kindref="compound">DispatchOutcome</ref> ring buffer ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">outcome</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(), std::move(), size(), pop_front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="422" column="10" bodyfile="src/maintenance/database_maintenance_orchestrator.cpp" bodystart="1925" bodyend="1931"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a4b8b782a5caf3f3d71d6a68539c14ab6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::maintenance::DatabaseMaintenanceOrchestrator::checkChurnLimit</definition>
+        <argsstring>(const std::string &amp;schedule_id, uint32_t max_changes_per_interval)</argsstring>
+        <name>checkChurnLimit</name>
+        <qualifiedname>themis::maintenance::DatabaseMaintenanceOrchestrator::checkChurnLimit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>schedule_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>max_changes_per_interval</declname>
+        </param>
+        <briefdescription>
+<para>------------------------------------------------------------------------<mdash/> Phase 2: Churn rate-limit check ------------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Check and enforce churn rate limit for a schedule. Returns true if the change is permitted; false if the limit is exceeded.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">schedule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the schedule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_changes_per_interval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">churn_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/maintenance/database_maintenance_orchestrator.h" line="426" column="10" bodyfile="src/maintenance/database_maintenance_orchestrator.cpp" bodystart="1940" bodyend="1960"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Central maintenance coordinator. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><heading level="3">Operator API (HTTP)</heading>
+</para>
+<para>Schedule CRUD: POST /api/v1/maintenance/schedules – createSchedule GET /api/v1/maintenance/schedules – listSchedules GET /api/v1/maintenance/schedules/{id} – getSchedule PUT /api/v1/maintenance/schedules/{id} – updateSchedule (full replace) PATCH /api/v1/maintenance/schedules/{id} – patchSchedule (partial update) DELETE /api/v1/maintenance/schedules/{id} – deleteSchedule</para>
+<para>Jobs &amp; Control: GET /api/v1/maintenance/jobs – listJobs GET /api/v1/maintenance/jobs/{id} – getJob POST /api/v1/maintenance/jobs/{id}/cancel – cancelJob POST /api/v1/maintenance/schedules/{id}/run – triggerNow (ad-hoc run)</para>
+<para>Observability: GET /api/v1/maintenance/status – getStatus GET /api/v1/maintenance/health – getHealthReport GET /api/v1/maintenance/task-handlers – listTaskHandlers </para>
+    </detaileddescription>
+    <location file="include/maintenance/database_maintenance_orchestrator.h" line="110" column="1" bodyfile="include/maintenance/database_maintenance_orchestrator.h" bodystart="110" bodyend="482"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1aa9ddd11970f1063b8347e8b36faf042d" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>audit_logger_</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1aa675646f45eee3fd6c5026484e3a580c" prot="public" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>cancelJob</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a4b8b782a5caf3f3d71d6a68539c14ab6" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>checkChurnLimit</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a2803b32b7549ed66a36806f67b2741f4" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>churn_counts_</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a661dd2e20c93faffeb5f91cbd34bb8e8" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>churn_mutex_</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1ad01190ab92830199fd3b262790451a7b" prot="public" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>createSchedule</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a51934df73f36fe4426c5b6ce137d1449" prot="public" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>DatabaseMaintenanceOrchestrator</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a79e6880030ba0a3e134128e7e028dbbe" prot="public" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>DatabaseMaintenanceOrchestrator</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a393ae6e9e9aae01ea1d5f2badf349da1" prot="public" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>deleteSchedule</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a2ba4455a47c3a36eb627832ff5fb8e57" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>deregisterFromScheduler</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a6334c5a74de8702a4c5bc72b6c28cc55" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>dispatch_ring_buffer_</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a24fa63ea43a1b63342e2d6061e40429c" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>dist_lock_</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a0ee25e2a2c534a7fa47f1bb7c562dbdc" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>dist_lock_mutex_</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a9a3a65cfe7b53d34df3135023227eb80" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>executeSchedule</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1ae6cbe34454625f5be11f2afddd2af6ba" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>executeTask</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a31f619294e1d986e4459a372ef3cdf9d" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>generateId</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a91f0cf205ab5059c376a23c936bf067e" prot="public" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>getHealthReport</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a98eb76a1aa4942872299a72e412bf3b7" prot="public" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>getJob</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1acf0c579c7da51e870c60e90de6f92be7" prot="public" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>getSchedule</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1ac5df4486bc5d56f2d20b05df9093f693" prot="public" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>getStatus</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1aca189f427a5cb659099d9ff5863e03de" prot="public" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>getTenantMaintenanceConfig</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a670873ff258d99a37f9e61f6b2278f08" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>handlers_mutex_</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a23d2849d58d360b74eb28564f81dca99" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>health_probes_</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1ac7d82f857272c6a2e17b06d18fe08539" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>id_counter_</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a1ed1e62c9966b0584a359b0434abe675" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>in_flight_mutex_</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a650c2538ec7c9db7538df19746fcf270" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>in_flight_schedules_</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1ab04c87bf8f9192d21dc72b65f7a801d5" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>index_maintenance_</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a0d9e02370990aa3c43537e014346f9ba" prot="public" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a3019334050ab814ce8e387ab209035bf" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>jobs_</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a2f2d0302d36a84744d8601fc940feeef" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>jobs_mutex_</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a21dc0ff6c5addc71a5437b75fbe4e452" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>kChurnIntervalMs</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1ac539759ce2a447c9358f8ac517676d47" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>kDefaultRingBufferCapacity</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a66395b3b3499d49b1ae52c2754567ba0" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>kJobRetentionMs</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a73851360999c27a87681b8915380eb62" prot="public" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>listJobs</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1aee91ae3ea1860819da41f532fca7ac8d" prot="public" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>listSchedules</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a358d164c49a8b5dc0fef223c15f59149" prot="public" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>listTaskHandlers</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a0605909d331530db562bba34cac1eebe" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>nowMs</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1ab4bb35de5b9481494720106a0a068fe5" prot="public" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1ab581a56f286f0ea0f30a9f10d44f924e" prot="public" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>patchSchedule</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a4dfc30523da2724516a0a2d5ee86540b" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>probes_mutex_</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1aebc7a2f3248420bbb84386eb46bd010d" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>pruneCompletedJobs</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1ae5cbb62bdaf939e53a9b35c10be909e1" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>recordDispatchOutcome</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1ac5db1198d543fa41a6431534ee472b01" prot="public" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>registerHealthProbe</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a8d86ecf403206443653d7b7e44bf1e4c" prot="public" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>registerTaskHandler</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a0ee2da5c2dddb7d80e65ffe61aea8f35" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>registerWithScheduler</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1af250da3e4633e4f991e5114e30015f50" prot="public" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>resolveTaskExecutionOrder</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a4619ab6471cba5ce591b2902cdc49f9e" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>ring_buffer_capacity_</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a39cfb4d19f5515e871ed2c3eaf286160" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>ring_buffer_mutex_</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a4c6f6dd7596e84a22795def53693bc9a" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>running_</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a09ed4b72b23ab51a74e5af331170cb54" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>schedule_store_</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a288df9a9ebd6e9296ed4776b691acd78" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>scheduler_</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a809c831740f16e6f97601b19dddff18f" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>schedulerTaskId</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a9b035766dbfed0f2ade4804739a584cd" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>schedules_</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1af0bc6e15bd07eede0234eb5918dcd948" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>schedules_mutex_</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a50f8555857f10dc1602e3e85733ab00a" prot="public" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>setDistributedLock</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1afe3d1d19ac83662472f398b39e8afa74" prot="public" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>setTenantMaintenanceConfig</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a7a735aa8011b4e410712684c851f15f9" prot="public" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>start</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a4d90941d9c5eec97ea240dc7e5115af4" prot="public" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>stop</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1ac9ac11291fbfedf4e3ec7fa387641b10" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>task_handlers_</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a83527a632003296dfddd802d16129e00" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>tenant_configs_</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1ae63cd254ea5872e5cd6caeccd675670c" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>tenant_configs_mutex_</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a20dfbabc12e334612a2fc3ee7eaf6924" prot="public" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>triggerNow</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a39984f60a6de1956c748cf8a53a64342" prot="public" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>updateSchedule</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a31408df4f99dac8199ce16cd254eed90" prot="private" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>validateEntry</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_database_maintenance_orchestrator_1a3d7309240ad2064cf42800f843db622b" prot="public" virt="non-virtual"><scope>themis::maintenance::DatabaseMaintenanceOrchestrator</scope><name>~DatabaseMaintenanceOrchestrator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

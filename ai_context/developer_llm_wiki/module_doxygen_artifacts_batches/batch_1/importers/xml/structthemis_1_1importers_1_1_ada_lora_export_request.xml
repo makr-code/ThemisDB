@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_ada_lora_export_request" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::AdaLoraExportRequest</compoundname>
+    <includes refid="huggingface__ingest__plugin_8h" local="no">huggingface_ingest_plugin.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_ada_lora_export_request_1a4629d15065c55350efd63b6b082522e1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::AdaLoraExportRequest::output_path</definition>
+        <argsstring></argsstring>
+        <name>output_path</name>
+        <qualifiedname>themis::importers::AdaLoraExportRequest::output_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="77" column="17" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_ada_lora_export_request_1a68ecd9ad503d1bdfb9e20a169f0c8dc0" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1a84002778bbe0fa6384e3df434e93d75b" kindref="member">AdaLoraExportFormat</ref></type>
+        <definition>AdaLoraExportFormat themis::importers::AdaLoraExportRequest::format</definition>
+        <argsstring></argsstring>
+        <name>format</name>
+        <qualifiedname>themis::importers::AdaLoraExportRequest::format</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1importers_1a84002778bbe0fa6384e3df434e93d75ba52e7f967cf4d218b5c0dbf4b01593dba" kindref="member">AdaLoraExportFormat::INSTRUCTION_TUNING</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="78" column="25" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_ada_lora_export_request_1ade6894a766a97e582b297c0ae613b4db" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::AdaLoraExportRequest::include_system_field</definition>
+        <argsstring></argsstring>
+        <name>include_system_field</name>
+        <qualifiedname>themis::importers::AdaLoraExportRequest::include_system_field</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="79" column="10" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_ada_lora_export_request_1adda3dee3a070088ff2a176c8478a3434" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::importers::AdaLoraExportRequest::system_prompt</definition>
+        <argsstring></argsstring>
+        <name>system_prompt</name>
+        <qualifiedname>themis::importers::AdaLoraExportRequest::system_prompt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="80" column="19" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_ada_lora_export_request_1abd4538979e04f75fb13990ce9f7571d2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::AdaLoraExportRequest::deterministic</definition>
+        <argsstring></argsstring>
+        <name>deterministic</name>
+        <qualifiedname>themis::importers::AdaLoraExportRequest::deterministic</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="81" column="10" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/huggingface_ingest_plugin.h" line="76" column="1" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="76" bodyend="82"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_ada_lora_export_request_1abd4538979e04f75fb13990ce9f7571d2" prot="public" virt="non-virtual"><scope>themis::importers::AdaLoraExportRequest</scope><name>deterministic</name></member>
+      <member refid="structthemis_1_1importers_1_1_ada_lora_export_request_1a68ecd9ad503d1bdfb9e20a169f0c8dc0" prot="public" virt="non-virtual"><scope>themis::importers::AdaLoraExportRequest</scope><name>format</name></member>
+      <member refid="structthemis_1_1importers_1_1_ada_lora_export_request_1ade6894a766a97e582b297c0ae613b4db" prot="public" virt="non-virtual"><scope>themis::importers::AdaLoraExportRequest</scope><name>include_system_field</name></member>
+      <member refid="structthemis_1_1importers_1_1_ada_lora_export_request_1a4629d15065c55350efd63b6b082522e1" prot="public" virt="non-virtual"><scope>themis::importers::AdaLoraExportRequest</scope><name>output_path</name></member>
+      <member refid="structthemis_1_1importers_1_1_ada_lora_export_request_1adda3dee3a070088ff2a176c8478a3434" prot="public" virt="non-virtual"><scope>themis::importers::AdaLoraExportRequest</scope><name>system_prompt</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

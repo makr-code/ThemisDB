@@ -1,0 +1,234 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_training_lifecycle_stress_test" kind="class" language="C++" prot="public">
+    <compoundname>TrainingLifecycleStressTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_training_lifecycle_stress_test_1a3cdd182944d3c262b01f8120ff72e138" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>unsigned int</type>
+        <definition>unsigned int TrainingLifecycleStressTest::SEED</definition>
+        <argsstring></argsstring>
+        <name>SEED</name>
+        <qualifiedname>TrainingLifecycleStressTest::SEED</qualifiedname>
+        <initializer>= 12345</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_stress_training_lifecycle.cpp" line="38" column="35" bodyfile="tests/training/test_stress_training_lifecycle.cpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_training_lifecycle_stress_test_1a60c17c309610f2dcaffcd87c220c4368" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int TrainingLifecycleStressTest::NUM_LAYERS</definition>
+        <argsstring></argsstring>
+        <name>NUM_LAYERS</name>
+        <qualifiedname>TrainingLifecycleStressTest::NUM_LAYERS</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_stress_training_lifecycle.cpp" line="41" column="26" bodyfile="tests/training/test_stress_training_lifecycle.cpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_training_lifecycle_stress_test_1aa6a2baa51da5de490029aaa850ad4ade" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int TrainingLifecycleStressTest::NUM_EPOCHS</definition>
+        <argsstring></argsstring>
+        <name>NUM_EPOCHS</name>
+        <qualifiedname>TrainingLifecycleStressTest::NUM_EPOCHS</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_stress_training_lifecycle.cpp" line="42" column="26" bodyfile="tests/training/test_stress_training_lifecycle.cpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_training_lifecycle_stress_test_1a2ef6c233b366d6a9295d8d4eb2c2b140" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int TrainingLifecycleStressTest::STEPS_PER_EPOCH</definition>
+        <argsstring></argsstring>
+        <name>STEPS_PER_EPOCH</name>
+        <qualifiedname>TrainingLifecycleStressTest::STEPS_PER_EPOCH</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_stress_training_lifecycle.cpp" line="43" column="26" bodyfile="tests/training/test_stress_training_lifecycle.cpp" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_training_lifecycle_stress_test_1a0645eb4e41a722144c19a39fbc38a097" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int TrainingLifecycleStressTest::IN_DIM</definition>
+        <argsstring></argsstring>
+        <name>IN_DIM</name>
+        <qualifiedname>TrainingLifecycleStressTest::IN_DIM</qualifiedname>
+        <initializer>= 128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_stress_training_lifecycle.cpp" line="44" column="26" bodyfile="tests/training/test_stress_training_lifecycle.cpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_training_lifecycle_stress_test_1ac5b64b95baffbca84ca776c82ab11d96" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int TrainingLifecycleStressTest::OUT_DIM</definition>
+        <argsstring></argsstring>
+        <name>OUT_DIM</name>
+        <qualifiedname>TrainingLifecycleStressTest::OUT_DIM</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_stress_training_lifecycle.cpp" line="45" column="26" bodyfile="tests/training/test_stress_training_lifecycle.cpp" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_training_lifecycle_stress_test_1a57463693e69c714aab77fea662b2d7e5" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int TrainingLifecycleStressTest::RANK</definition>
+        <argsstring></argsstring>
+        <name>RANK</name>
+        <qualifiedname>TrainingLifecycleStressTest::RANK</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_stress_training_lifecycle.cpp" line="46" column="26" bodyfile="tests/training/test_stress_training_lifecycle.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_training_lifecycle_stress_test_1ac59639672635ef81fca9f2a731ccc067" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>float</type>
+        <definition>float TrainingLifecycleStressTest::ALPHA</definition>
+        <argsstring></argsstring>
+        <name>ALPHA</name>
+        <qualifiedname>TrainingLifecycleStressTest::ALPHA</qualifiedname>
+        <initializer>= 16.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_stress_training_lifecycle.cpp" line="47" column="28" bodyfile="tests/training/test_stress_training_lifecycle.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_training_lifecycle_stress_test_1a5368d3bd9f28712ce3b12c8608f94886" prot="protected" static="no" mutable="no">
+        <type>std::mt19937</type>
+        <definition>std::mt19937 TrainingLifecycleStressTest::rng_</definition>
+        <argsstring></argsstring>
+        <name>rng_</name>
+        <qualifiedname>TrainingLifecycleStressTest::rng_</qualifiedname>
+        <initializer>{<ref refid="class_training_lifecycle_stress_test_1a3cdd182944d3c262b01f8120ff72e138" kindref="member">SEED</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_stress_training_lifecycle.cpp" line="49" column="18" bodyfile="tests/training/test_stress_training_lifecycle.cpp" bodystart="49" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_training_lifecycle_stress_test_1a661bd4c9add0039937cae581ed29f3e9" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; TrainingLifecycleStressTest::generateRandomWeights</definition>
+        <argsstring>(size_t size, float scale=0.1f)</argsstring>
+        <name>generateRandomWeights</name>
+        <qualifiedname>TrainingLifecycleStressTest::generateRandomWeights</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>scale</declname>
+          <defval>0.1f</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_stress_training_lifecycle.cpp" line="51" column="17" bodyfile="tests/training/test_stress_training_lifecycle.cpp" bodystart="51" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="class_training_lifecycle_stress_test_1aa91fa4e99c50237e70f24b84adf3f6c0" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; TrainingLifecycleStressTest::generateRandomDeltas</definition>
+        <argsstring>(size_t size, float scale=0.01f)</argsstring>
+        <name>generateRandomDeltas</name>
+        <qualifiedname>TrainingLifecycleStressTest::generateRandomDeltas</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>scale</declname>
+          <defval>0.01f</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_stress_training_lifecycle.cpp" line="60" column="17" bodyfile="tests/training/test_stress_training_lifecycle.cpp" bodystart="60" bodyend="67"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TrainingLifecycleStressTest</label>
+        <link refid="class_training_lifecycle_stress_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TrainingLifecycleStressTest</label>
+        <link refid="class_training_lifecycle_stress_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/training/test_stress_training_lifecycle.cpp" line="35" column="1" bodyfile="tests/training/test_stress_training_lifecycle.cpp" bodystart="35" bodyend="68"/>
+    <listofallmembers>
+      <member refid="class_training_lifecycle_stress_test_1ac59639672635ef81fca9f2a731ccc067" prot="protected" virt="non-virtual"><scope>TrainingLifecycleStressTest</scope><name>ALPHA</name></member>
+      <member refid="class_training_lifecycle_stress_test_1aa91fa4e99c50237e70f24b84adf3f6c0" prot="protected" virt="non-virtual"><scope>TrainingLifecycleStressTest</scope><name>generateRandomDeltas</name></member>
+      <member refid="class_training_lifecycle_stress_test_1a661bd4c9add0039937cae581ed29f3e9" prot="protected" virt="non-virtual"><scope>TrainingLifecycleStressTest</scope><name>generateRandomWeights</name></member>
+      <member refid="class_training_lifecycle_stress_test_1a0645eb4e41a722144c19a39fbc38a097" prot="protected" virt="non-virtual"><scope>TrainingLifecycleStressTest</scope><name>IN_DIM</name></member>
+      <member refid="class_training_lifecycle_stress_test_1aa6a2baa51da5de490029aaa850ad4ade" prot="protected" virt="non-virtual"><scope>TrainingLifecycleStressTest</scope><name>NUM_EPOCHS</name></member>
+      <member refid="class_training_lifecycle_stress_test_1a60c17c309610f2dcaffcd87c220c4368" prot="protected" virt="non-virtual"><scope>TrainingLifecycleStressTest</scope><name>NUM_LAYERS</name></member>
+      <member refid="class_training_lifecycle_stress_test_1ac5b64b95baffbca84ca776c82ab11d96" prot="protected" virt="non-virtual"><scope>TrainingLifecycleStressTest</scope><name>OUT_DIM</name></member>
+      <member refid="class_training_lifecycle_stress_test_1a57463693e69c714aab77fea662b2d7e5" prot="protected" virt="non-virtual"><scope>TrainingLifecycleStressTest</scope><name>RANK</name></member>
+      <member refid="class_training_lifecycle_stress_test_1a5368d3bd9f28712ce3b12c8608f94886" prot="protected" virt="non-virtual"><scope>TrainingLifecycleStressTest</scope><name>rng_</name></member>
+      <member refid="class_training_lifecycle_stress_test_1a3cdd182944d3c262b01f8120ff72e138" prot="protected" virt="non-virtual"><scope>TrainingLifecycleStressTest</scope><name>SEED</name></member>
+      <member refid="class_training_lifecycle_stress_test_1a2ef6c233b366d6a9295d8d4eb2c2b140" prot="protected" virt="non-virtual"><scope>TrainingLifecycleStressTest</scope><name>STEPS_PER_EPOCH</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

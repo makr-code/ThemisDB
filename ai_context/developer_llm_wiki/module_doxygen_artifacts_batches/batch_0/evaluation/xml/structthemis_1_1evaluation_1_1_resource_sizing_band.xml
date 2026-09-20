@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1evaluation_1_1_resource_sizing_band" kind="struct" language="C++" prot="public">
+    <compoundname>themis::evaluation::ResourceSizingBand</compoundname>
+    <includes refid="hardware__profile_8h" local="no">hardware_profile.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_resource_sizing_band_1adf4c06552da3416467add3aa1cdc6067" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::evaluation::ResourceSizingBand::minimum</definition>
+        <argsstring></argsstring>
+        <name>minimum</name>
+        <qualifiedname>themis::evaluation::ResourceSizingBand::minimum</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="49" column="17" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_resource_sizing_band_1a7586883e28f8d73e3ac50b5d4bd35f71" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::evaluation::ResourceSizingBand::recommended</definition>
+        <argsstring></argsstring>
+        <name>recommended</name>
+        <qualifiedname>themis::evaluation::ResourceSizingBand::recommended</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="50" column="17" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/evaluation/include/hardware_profile.h" line="48" column="1" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="48" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1evaluation_1_1_resource_sizing_band_1adf4c06552da3416467add3aa1cdc6067" prot="public" virt="non-virtual"><scope>themis::evaluation::ResourceSizingBand</scope><name>minimum</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_resource_sizing_band_1a7586883e28f8d73e3ac50b5d4bd35f71" prot="public" virt="non-virtual"><scope>themis::evaluation::ResourceSizingBand</scope><name>recommended</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

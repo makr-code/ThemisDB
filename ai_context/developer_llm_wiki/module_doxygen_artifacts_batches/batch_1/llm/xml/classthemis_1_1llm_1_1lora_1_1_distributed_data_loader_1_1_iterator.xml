@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1_1_iterator" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::DistributedDataLoader::Iterator</compoundname>
+    <includes refid="distributed__dataloader_8h" local="no">distributed_dataloader.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1_1_iterator_1ac38362fba5acc0f7cb3ca96141b3b612" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1a8e5e44946afa03bd8ec259d01f7ba287" kindref="member">DistributedDataLoader</ref> *</type>
+        <definition>DistributedDataLoader* themis::llm::lora::DistributedDataLoader::Iterator::loader_</definition>
+        <argsstring></argsstring>
+        <name>loader_</name>
+        <qualifiedname>themis::llm::lora::DistributedDataLoader::Iterator::loader_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_dataloader.h" line="66" column="31" bodyfile="include/llm/lora_framework/distributed_dataloader.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1_1_iterator_1a1538019a41b5c68d5cc40d248d72ad8e" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::DistributedDataLoader::Iterator::position_</definition>
+        <argsstring></argsstring>
+        <name>position_</name>
+        <qualifiedname>themis::llm::lora::DistributedDataLoader::Iterator::position_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_dataloader.h" line="67" column="16" bodyfile="include/llm/lora_framework/distributed_dataloader.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1_1_iterator_1a7ecf72d8dd08abe6ad10de288cd83fc8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::DistributedDataLoader::Iterator::Iterator</definition>
+        <argsstring>(DistributedDataLoader *loader, size_t position)</argsstring>
+        <name>Iterator</name>
+        <qualifiedname>themis::llm::lora::DistributedDataLoader::Iterator::Iterator</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1a8e5e44946afa03bd8ec259d01f7ba287" kindref="member">DistributedDataLoader</ref> *</type>
+          <declname>loader</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>position</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_dataloader.h" line="59" column="9" bodyfile="src/llm/lora_framework/distributed_dataloader.cpp" bodystart="187" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1_1_iterator_1a59714ebb8fcd0192bcb84a99460ff697" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &gt;</type>
+        <definition>std::vector&lt; GPUTensor &gt; themis::llm::lora::DistributedDataLoader::Iterator::operator*</definition>
+        <argsstring>()</argsstring>
+        <name>operator*</name>
+        <qualifiedname>themis::llm::lora::DistributedDataLoader::Iterator::operator*</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_dataloader.h" line="61" column="21" bodyfile="src/llm/lora_framework/distributed_dataloader.cpp" bodystart="191" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1_1_iterator_1a78c416fb1651bfaefd9d6759571bc0d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1_1_iterator_1a7ecf72d8dd08abe6ad10de288cd83fc8" kindref="member">Iterator</ref> &amp;</type>
+        <definition>DistributedDataLoader::Iterator &amp; themis::llm::lora::DistributedDataLoader::Iterator::operator++</definition>
+        <argsstring>()</argsstring>
+        <name>operator++</name>
+        <qualifiedname>themis::llm::lora::DistributedDataLoader::Iterator::operator++</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_dataloader.h" line="62" column="18" bodyfile="src/llm/lora_framework/distributed_dataloader.cpp" bodystart="195" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1_1_iterator_1a3b2a128e8efacc20cfaebcc6ca1e09c1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::DistributedDataLoader::Iterator::operator!=</definition>
+        <argsstring>(const Iterator &amp;other) const</argsstring>
+        <name>operator!=</name>
+        <qualifiedname>themis::llm::lora::DistributedDataLoader::Iterator::operator!=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1_1_iterator_1a7ecf72d8dd08abe6ad10de288cd83fc8" kindref="member">Iterator</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_dataloader.h" line="63" column="14" bodyfile="src/llm/lora_framework/distributed_dataloader.cpp" bodystart="200" bodyend="202"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/distributed_dataloader.h" line="57" column="5" bodyfile="include/llm/lora_framework/distributed_dataloader.h" bodystart="57" bodyend="68"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1_1_iterator_1a7ecf72d8dd08abe6ad10de288cd83fc8" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedDataLoader::Iterator</scope><name>Iterator</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1_1_iterator_1ac38362fba5acc0f7cb3ca96141b3b612" prot="private" virt="non-virtual"><scope>themis::llm::lora::DistributedDataLoader::Iterator</scope><name>loader_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1_1_iterator_1a3b2a128e8efacc20cfaebcc6ca1e09c1" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedDataLoader::Iterator</scope><name>operator!=</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1_1_iterator_1a59714ebb8fcd0192bcb84a99460ff697" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedDataLoader::Iterator</scope><name>operator*</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1_1_iterator_1a78c416fb1651bfaefd9d6759571bc0d0" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedDataLoader::Iterator</scope><name>operator++</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_data_loader_1_1_iterator_1a1538019a41b5c68d5cc40d248d72ad8e" prot="private" virt="non-virtual"><scope>themis::llm::lora::DistributedDataLoader::Iterator</scope><name>position_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

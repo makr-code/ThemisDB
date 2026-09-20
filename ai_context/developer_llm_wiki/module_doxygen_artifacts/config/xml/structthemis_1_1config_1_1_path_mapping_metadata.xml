@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1config_1_1_path_mapping_metadata" kind="struct" language="C++" prot="public">
+    <compoundname>themis::config::PathMappingMetadata</compoundname>
+    <includes refid="path__mapping__metadata_8h" local="no">path_mapping_metadata.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1config_1_1_path_mapping_metadata_1a63c5c0bba37ae60809eb47b1efc16d3e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::config::PathMappingMetadata::legacy_path</definition>
+        <argsstring></argsstring>
+        <name>legacy_path</name>
+        <qualifiedname>themis::config::PathMappingMetadata::legacy_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/path_mapping_metadata.h" line="25" column="17" bodyfile="include/config/path_mapping_metadata.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1config_1_1_path_mapping_metadata_1a4467d7399f0aacdaf55390300b050048" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::config::PathMappingMetadata::new_path</definition>
+        <argsstring></argsstring>
+        <name>new_path</name>
+        <qualifiedname>themis::config::PathMappingMetadata::new_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/path_mapping_metadata.h" line="26" column="17" bodyfile="include/config/path_mapping_metadata.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1config_1_1_path_mapping_metadata_1a0e28f4a41e98c93bffeba7f31b5adbbd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::config::PathMappingMetadata::category</definition>
+        <argsstring></argsstring>
+        <name>category</name>
+        <qualifiedname>themis::config::PathMappingMetadata::category</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/path_mapping_metadata.h" line="27" column="17" bodyfile="include/config/path_mapping_metadata.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1config_1_1_path_mapping_metadata_1a6252e8ff067e713fc6760ccc7d79dde7" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::chrono::system_clock::time_point &gt;</type>
+        <definition>std::optional&lt;std::chrono::system_clock::time_point&gt; themis::config::PathMappingMetadata::deprecated_date</definition>
+        <argsstring></argsstring>
+        <name>deprecated_date</name>
+        <qualifiedname>themis::config::PathMappingMetadata::deprecated_date</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/path_mapping_metadata.h" line="30" column="19" bodyfile="include/config/path_mapping_metadata.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1config_1_1_path_mapping_metadata_1a6690a27ea7fb95052bfc94100b64e9fb" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::chrono::system_clock::time_point &gt;</type>
+        <definition>std::optional&lt;std::chrono::system_clock::time_point&gt; themis::config::PathMappingMetadata::removal_date</definition>
+        <argsstring></argsstring>
+        <name>removal_date</name>
+        <qualifiedname>themis::config::PathMappingMetadata::removal_date</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/path_mapping_metadata.h" line="31" column="19" bodyfile="include/config/path_mapping_metadata.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1config_1_1_path_mapping_metadata_1a90d40042f73dd0644823034552b30221" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::config::PathMappingMetadata::migration_guide_url</definition>
+        <argsstring></argsstring>
+        <name>migration_guide_url</name>
+        <qualifiedname>themis::config::PathMappingMetadata::migration_guide_url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/path_mapping_metadata.h" line="32" column="19" bodyfile="include/config/path_mapping_metadata.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1config_1_1_path_mapping_metadata_1a75a7c82e6fa693a79a650beedafeda43" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::config::PathMappingMetadata::isDeprecated</definition>
+        <argsstring>() const</argsstring>
+        <name>isDeprecated</name>
+        <qualifiedname>themis::config::PathMappingMetadata::isDeprecated</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if this mapping is currently deprecated. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/path_mapping_metadata.h" line="37" column="10" bodyfile="include/config/path_mapping_metadata.h" bodystart="37" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1config_1_1_path_mapping_metadata_1affc02ab40af512fe9dc2bdd01d623943" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::config::PathMappingMetadata::isRemovalDue</definition>
+        <argsstring>() const</argsstring>
+        <name>isRemovalDue</name>
+        <qualifiedname>themis::config::PathMappingMetadata::isRemovalDue</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if removal deadline has passed. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/path_mapping_metadata.h" line="47" column="10" bodyfile="include/config/path_mapping_metadata.h" bodystart="47" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1config_1_1_path_mapping_metadata_1a91a97ec7e997dbb87a524d8d9fc37c09" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::config::PathMappingMetadata::daysUntilRemoval</definition>
+        <argsstring>() const</argsstring>
+        <name>daysUntilRemoval</name>
+        <qualifiedname>themis::config::PathMappingMetadata::daysUntilRemoval</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get days until removal (negative if already past removal date). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/path_mapping_metadata.h" line="57" column="9" bodyfile="include/config/path_mapping_metadata.h" bodystart="57" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1config_1_1_path_mapping_metadata_1a21ab123f387281ee6b69bbcdf4bae899" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::config::PathMappingMetadata::getDeprecationMessage</definition>
+        <argsstring>() const</argsstring>
+        <name>getDeprecationMessage</name>
+        <qualifiedname>themis::config::PathMappingMetadata::getDeprecationMessage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get formatted deprecation warning message. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/path_mapping_metadata.h" line="70" column="17" bodyfile="include/config/path_mapping_metadata.h" bodystart="70" bodyend="90"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Metadata about a config path mapping, including deprecation information. </para>
+    </detaileddescription>
+    <location file="include/config/path_mapping_metadata.h" line="24" column="1" bodyfile="include/config/path_mapping_metadata.h" bodystart="24" bodyend="91"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1config_1_1_path_mapping_metadata_1a0e28f4a41e98c93bffeba7f31b5adbbd" prot="public" virt="non-virtual"><scope>themis::config::PathMappingMetadata</scope><name>category</name></member>
+      <member refid="structthemis_1_1config_1_1_path_mapping_metadata_1a91a97ec7e997dbb87a524d8d9fc37c09" prot="public" virt="non-virtual"><scope>themis::config::PathMappingMetadata</scope><name>daysUntilRemoval</name></member>
+      <member refid="structthemis_1_1config_1_1_path_mapping_metadata_1a6252e8ff067e713fc6760ccc7d79dde7" prot="public" virt="non-virtual"><scope>themis::config::PathMappingMetadata</scope><name>deprecated_date</name></member>
+      <member refid="structthemis_1_1config_1_1_path_mapping_metadata_1a21ab123f387281ee6b69bbcdf4bae899" prot="public" virt="non-virtual"><scope>themis::config::PathMappingMetadata</scope><name>getDeprecationMessage</name></member>
+      <member refid="structthemis_1_1config_1_1_path_mapping_metadata_1a75a7c82e6fa693a79a650beedafeda43" prot="public" virt="non-virtual"><scope>themis::config::PathMappingMetadata</scope><name>isDeprecated</name></member>
+      <member refid="structthemis_1_1config_1_1_path_mapping_metadata_1affc02ab40af512fe9dc2bdd01d623943" prot="public" virt="non-virtual"><scope>themis::config::PathMappingMetadata</scope><name>isRemovalDue</name></member>
+      <member refid="structthemis_1_1config_1_1_path_mapping_metadata_1a63c5c0bba37ae60809eb47b1efc16d3e" prot="public" virt="non-virtual"><scope>themis::config::PathMappingMetadata</scope><name>legacy_path</name></member>
+      <member refid="structthemis_1_1config_1_1_path_mapping_metadata_1a90d40042f73dd0644823034552b30221" prot="public" virt="non-virtual"><scope>themis::config::PathMappingMetadata</scope><name>migration_guide_url</name></member>
+      <member refid="structthemis_1_1config_1_1_path_mapping_metadata_1a4467d7399f0aacdaf55390300b050048" prot="public" virt="non-virtual"><scope>themis::config::PathMappingMetadata</scope><name>new_path</name></member>
+      <member refid="structthemis_1_1config_1_1_path_mapping_metadata_1a6690a27ea7fb95052bfc94100b64e9fb" prot="public" virt="non-virtual"><scope>themis::config::PathMappingMetadata</scope><name>removal_date</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

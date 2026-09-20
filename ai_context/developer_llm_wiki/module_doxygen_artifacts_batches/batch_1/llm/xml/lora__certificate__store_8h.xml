@@ -1,0 +1,562 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="lora__certificate__store_8h" kind="file" language="C++">
+    <compoundname>lora_certificate_store.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="lora__security__validator_8h" local="yes">include/llm/lora_security_validator.h</includedby>
+    <includedby refid="lora__certificate__store_8cpp" local="yes">src/llm/lora_certificate_store.cpp</includedby>
+    <includedby refid="lora__security__validator_8cpp" local="yes">src/llm/lora_security_validator.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm/lora_certificate_store.h</label>
+        <link refid="lora__certificate__store_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>mutex</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>unordered_map</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="13">
+        <label>benchmarks/llm/bench_embedded_llm.cpp</label>
+        <link refid="bench__embedded__llm_8cpp"/>
+      </node>
+      <node id="4">
+        <label>benchmarks/llm/bench_llm_inference_performance.cpp</label>
+        <link refid="bench__llm__inference__performance_8cpp"/>
+      </node>
+      <node id="5">
+        <label>benchmarks/llm/bench_llm_raid_pipeline.cpp</label>
+        <link refid="bench__llm__raid__pipeline_8cpp"/>
+      </node>
+      <node id="6">
+        <label>benchmarks/llm/bench_lora_auto_binding.cpp</label>
+        <link refid="bench__lora__auto__binding_8cpp"/>
+      </node>
+      <node id="50">
+        <label>benchmarks/llm/bench_lora_framework.cpp</label>
+        <link refid="bench__lora__framework_8cpp"/>
+      </node>
+      <node id="7">
+        <label>benchmarks/llm/bench_lora_inline.cpp</label>
+        <link refid="bench__lora__inline_8cpp"/>
+      </node>
+      <node id="8">
+        <label>benchmarks/llm/bench_multi_lora_fusion.cpp</label>
+        <link refid="bench__multi__lora__fusion_8cpp"/>
+      </node>
+      <node id="11">
+        <label>benchmarks/llm/bench_phase1_flash_attention.cpp</label>
+        <link refid="bench__phase1__flash__attention_8cpp"/>
+      </node>
+      <node id="9">
+        <label>benchmarks/llm/bench_raid_lora.cpp</label>
+        <link refid="bench__raid__lora_8cpp"/>
+      </node>
+      <node id="12">
+        <label>include/llm/embedded_llm.h</label>
+        <link refid="embedded__llm_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>include/llm/llama_wrapper.h</label>
+        <link refid="llama__wrapper_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/lora_certificate_store.h</label>
+        <link refid="lora__certificate__store_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="66" relation="include">
+        </childnode>
+        <childnode refid="65" relation="include">
+        </childnode>
+      </node>
+      <node id="49">
+        <label>include/llm/lora_framework/lora_orchestrator.h</label>
+        <link refid="lora__orchestrator_8h"/>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+      </node>
+      <node id="52">
+        <label>include/llm/lora_router.h</label>
+        <link refid="lora__router_8h"/>
+        <childnode refid="53" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/llm/lora_security_validator.h</label>
+        <link refid="lora__security__validator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="65" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/llm/multi_lora_manager.h</label>
+        <link refid="multi__lora__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+        <childnode refid="63" relation="include">
+        </childnode>
+        <childnode refid="64" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+      </node>
+      <node id="55">
+        <label>include/llm/subagent.h</label>
+        <link refid="subagent_8h"/>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+      </node>
+      <node id="59">
+        <label>include/llm/subagent_coordinator.h</label>
+        <link refid="subagent__coordinator_8h"/>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+      </node>
+      <node id="54">
+        <label>include/llm/subagent_factory.h</label>
+        <link refid="subagent__factory_8h"/>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>include/llm/wiki_chunk_splitter.h</label>
+        <link refid="wiki__chunk__splitter_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>include/llm/wiki_index_store.h</label>
+        <link refid="wiki__index__store_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>include/llm/wiki_rag_source.h</label>
+        <link refid="wiki__rag__source_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>src/llm/api/embedded_llm_adapter.cpp</label>
+        <link refid="embedded__llm__adapter_8cpp"/>
+      </node>
+      <node id="40">
+        <label>src/llm/applications/themis_help_lora.cpp</label>
+        <link refid="themis__help__lora_8cpp"/>
+      </node>
+      <node id="29">
+        <label>src/llm/docs_assistant.cpp</label>
+        <link refid="docs__assistant_8cpp"/>
+      </node>
+      <node id="30">
+        <label>src/llm/embedded_llm.cpp</label>
+        <link refid="embedded__llm_8cpp"/>
+      </node>
+      <node id="31">
+        <label>src/llm/embedded_llm_stub.cpp</label>
+        <link refid="embedded__llm__stub_8cpp"/>
+      </node>
+      <node id="41">
+        <label>src/llm/inference_engine_enhanced.cpp</label>
+        <link refid="inference__engine__enhanced_8cpp"/>
+      </node>
+      <node id="42">
+        <label>src/llm/llama_wrapper.cpp</label>
+        <link refid="llama__wrapper_8cpp"/>
+      </node>
+      <node id="32">
+        <label>src/llm/llm_plugin_manager.cpp</label>
+        <link refid="llm__plugin__manager_8cpp"/>
+      </node>
+      <node id="33">
+        <label>src/llm/llm_response_cache.cpp</label>
+        <link refid="llm__response__cache_8cpp"/>
+      </node>
+      <node id="66">
+        <label>src/llm/lora_certificate_store.cpp</label>
+        <link refid="lora__certificate__store_8cpp"/>
+      </node>
+      <node id="51">
+        <label>src/llm/lora_framework/lora_orchestrator.cpp</label>
+        <link refid="lora__orchestrator_8cpp"/>
+      </node>
+      <node id="53">
+        <label>src/llm/lora_router.cpp</label>
+        <link refid="lora__router_8cpp"/>
+      </node>
+      <node id="65">
+        <label>src/llm/lora_security_validator.cpp</label>
+        <link refid="lora__security__validator_8cpp"/>
+      </node>
+      <node id="60">
+        <label>src/llm/multi_lora_manager.cpp</label>
+        <link refid="multi__lora__manager_8cpp"/>
+      </node>
+      <node id="61">
+        <label>src/llm/production_validator.cpp</label>
+        <link refid="production__validator_8cpp"/>
+      </node>
+      <node id="56">
+        <label>src/llm/subagent_coordinator_impl.cpp</label>
+        <link refid="subagent__coordinator__impl_8cpp"/>
+      </node>
+      <node id="57">
+        <label>src/llm/subagent_factory_impl.cpp</label>
+        <link refid="subagent__factory__impl_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/llm/wiki_chunk_splitter.cpp</label>
+        <link refid="wiki__chunk__splitter_8cpp"/>
+      </node>
+      <node id="22">
+        <label>src/llm/wiki_index_store.cpp</label>
+        <link refid="wiki__index__store_8cpp"/>
+      </node>
+      <node id="19">
+        <label>src/llm/wiki_rag_source.cpp</label>
+        <link refid="wiki__rag__source_8cpp"/>
+      </node>
+      <node id="43">
+        <label>tests/llm/bench_model_loading_from_themisdb.cpp</label>
+        <link refid="bench__model__loading__from__themisdb_8cpp"/>
+      </node>
+      <node id="34">
+        <label>tests/llm/test_embedded_llm_batch_contract.cpp</label>
+        <link refid="test__embedded__llm__batch__contract_8cpp"/>
+      </node>
+      <node id="44">
+        <label>tests/llm/test_llama_wrapper_state.cpp</label>
+        <link refid="test__llama__wrapper__state_8cpp"/>
+      </node>
+      <node id="35">
+        <label>tests/llm/test_llm_aql_handler.cpp</label>
+        <link refid="test__llm__aql__handler_8cpp"/>
+      </node>
+      <node id="20">
+        <label>tests/llm/test_llm_doku_rag.cpp</label>
+        <link refid="test__llm__doku__rag_8cpp"/>
+      </node>
+      <node id="36">
+        <label>tests/llm/test_llm_exception_safety.cpp</label>
+        <link refid="test__llm__exception__safety_8cpp"/>
+      </node>
+      <node id="45">
+        <label>tests/llm/test_llm_grafana_metrics.cpp</label>
+        <link refid="test__llm__grafana__metrics_8cpp"/>
+      </node>
+      <node id="46">
+        <label>tests/llm/test_llm_inference_roles.cpp</label>
+        <link refid="test__llm__inference__roles_8cpp"/>
+      </node>
+      <node id="37">
+        <label>tests/llm/test_llm_memory_lifecycle.cpp</label>
+        <link refid="test__llm__memory__lifecycle_8cpp"/>
+      </node>
+      <node id="38">
+        <label>tests/llm/test_llm_p0_hardening.cpp</label>
+        <link refid="test__llm__p0__hardening_8cpp"/>
+      </node>
+      <node id="47">
+        <label>tests/llm/test_llm_plugin.cpp</label>
+        <link refid="test__llm__plugin_8cpp"/>
+      </node>
+      <node id="39">
+        <label>tests/llm/test_llm_tinyllama_inference.cpp</label>
+        <link refid="test__llm__tinyllama__inference_8cpp"/>
+      </node>
+      <node id="23">
+        <label>tests/llm/test_llm_wiki_phase3_features_focused.cpp</label>
+        <link refid="test__llm__wiki__phase3__features__focused_8cpp"/>
+      </node>
+      <node id="24">
+        <label>tests/llm/test_llm_wiki_provenance_focused.cpp</label>
+        <link refid="test__llm__wiki__provenance__focused_8cpp"/>
+      </node>
+      <node id="62">
+        <label>tests/llm/test_lora_adapter_application.cpp</label>
+        <link refid="test__lora__adapter__application_8cpp"/>
+      </node>
+      <node id="63">
+        <label>tests/llm/test_lora_auto_binding.cpp</label>
+        <link refid="test__lora__auto__binding_8cpp"/>
+      </node>
+      <node id="48">
+        <label>tests/llm/test_model_loading_from_themisdb.cpp</label>
+        <link refid="test__model__loading__from__themisdb_8cpp"/>
+      </node>
+      <node id="64">
+        <label>tests/llm/test_move_semantics_llm.cpp</label>
+        <link refid="test__move__semantics__llm_8cpp"/>
+      </node>
+      <node id="58">
+        <label>tests/llm/test_subagent_orchestration_focused.cpp</label>
+        <link refid="test__subagent__orchestration__focused_8cpp"/>
+      </node>
+      <node id="25">
+        <label>tests/llm/test_wiki_crossdep_focused.cpp</label>
+        <link refid="test__wiki__crossdep__focused_8cpp"/>
+      </node>
+      <node id="26">
+        <label>tests/llm/test_wiki_eval_metrics.cpp</label>
+        <link refid="test__wiki__eval__metrics_8cpp"/>
+      </node>
+      <node id="17">
+        <label>tests/llm/test_wiki_index_store.cpp</label>
+        <link refid="test__wiki__index__store_8cpp"/>
+      </node>
+      <node id="27">
+        <label>tests/llm/test_wiki_index_store_phase_b.cpp</label>
+        <link refid="test__wiki__index__store__phase__b_8cpp"/>
+      </node>
+      <node id="21">
+        <label>tests/llm/test_wiki_rag_quality.cpp</label>
+        <link refid="test__wiki__rag__quality_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store" prot="public">themis::llm::LoRACertificateStore</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a28270026a8f29574bfa04e570a6bd4d0" kindref="member">LoRACertificateStore</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a28270026a8f29574bfa04e570a6bd4d0" kindref="member">LoRACertificateStore</ref>(</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>store_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;config/security/lora_certs/&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>system_store_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/etc/ssl/certs&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1adb9c58d35564e60e10f6508ca2c2c81e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1adb9c58d35564e60e10f6508ca2c2c81e" kindref="member">~LoRACertificateStore</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1aa28886d47023f5c92be3b1ab60290fbf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1aa28886d47023f5c92be3b1ab60290fbf" kindref="member">LoRACertificateStore</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a28270026a8f29574bfa04e570a6bd4d0" kindref="member">LoRACertificateStore</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="33" refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a9713f5d7eec47346d3a01efe3c62489b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a28270026a8f29574bfa04e570a6bd4d0" kindref="member">LoRACertificateStore</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a9713f5d7eec47346d3a01efe3c62489b" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a28270026a8f29574bfa04e570a6bd4d0" kindref="member">LoRACertificateStore</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="34" refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a64ecac54ba683720304b821b8faab7f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a64ecac54ba683720304b821b8faab7f7" kindref="member">LoRACertificateStore</ref>(<ref refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a28270026a8f29574bfa04e570a6bd4d0" kindref="member">LoRACertificateStore</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="35" refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a81ac4c10736d3b332d6f48df93cf6db6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a28270026a8f29574bfa04e570a6bd4d0" kindref="member">LoRACertificateStore</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a28270026a8f29574bfa04e570a6bd4d0" kindref="member">LoRACertificateStore</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;<sp/><ref refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a4531aafcd4a07596ba5f2d52a748ae3f" kindref="member">lookupByFingerprint</ref>(</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>fingerprint)<sp/>const;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a36e52cf95d2d0ae9fe8fcb09c07ea7fb" kindref="member">registerCertificate</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>fingerprint,</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>cert_pem);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a840f6a9b01eaf7f0afaf19b8da2ee2a4" kindref="member">evictCertificate</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>fingerprint);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1afa54d3bfcb39de07e1110c960caa7a08" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><ref refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1afa54d3bfcb39de07e1110c960caa7a08" kindref="member">storePath</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>store_path_;<sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a90cbf4424ff3e8ee45852dede2eecc4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1llm_1_1_lo_r_a_certificate_store_1a90cbf4424ff3e8ee45852dede2eecc4e" kindref="member">systemStorePath</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>system_store_path_;<sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>store_path_;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>system_store_path_;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>cache_mutex_;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/>cert_cache_;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;std::string&gt;<sp/>loadPemFile(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>fingerprintMatches(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>cert_pem,</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>fingerprint);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/>searchSystemStore(</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>fingerprint)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(_WIN32)</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;std::string&gt;<sp/>searchWindowsCertStore(</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>fingerprint);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/lora_certificate_store.h"/>
+  </compounddef>
+</doxygen>

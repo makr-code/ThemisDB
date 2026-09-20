@@ -1,0 +1,440 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__temporal__index_8cpp" kind="file" language="C++">
+    <compoundname>test_temporal_index.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="temporal__index_8h" local="yes">temporal/temporal_index.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>temporal/temporal_index.h</label>
+        <link refid="temporal__index_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>temporal/temporal_types.h</label>
+        <link refid="temporal__types_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/temporal/test_temporal_index.cpp</label>
+        <link refid="test__temporal__index_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="8">
+        <label>limits</label>
+      </node>
+      <node id="10">
+        <label>map</label>
+      </node>
+      <node id="11">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="12">
+        <label>optional</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="13">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_temporal_index_test" prot="public">TemporalIndexTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__temporal__index_8cpp_1a5eb4556c4f3d3483d6ba1251d6ebb181" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TemporalIndexTest, Insert_Single_SizeBecomesOne)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_temporal_index_test" kindref="compound">TemporalIndexTest</ref></type>
+        </param>
+        <param>
+          <type>Insert_Single_SizeBecomesOne</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_index.cpp" line="26" column="1" bodyfile="tests/temporal/test_temporal_index.cpp" bodystart="26" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__index_8cpp_1a2b796c6a372563b028b10f6a7a173e66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TemporalIndexTest, Insert_Multiple_SizeIncreases)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_temporal_index_test" kindref="compound">TemporalIndexTest</ref></type>
+        </param>
+        <param>
+          <type>Insert_Multiple_SizeIncreases</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_index.cpp" line="31" column="1" bodyfile="tests/temporal/test_temporal_index.cpp" bodystart="31" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__index_8cpp_1a15c5c31dd6df3900dba3f2e8d737f094" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TemporalIndexTest, QueryPoint_MatchingEntries)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_temporal_index_test" kindref="compound">TemporalIndexTest</ref></type>
+        </param>
+        <param>
+          <type>QueryPoint_MatchingEntries</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_index.cpp" line="40" column="1" bodyfile="tests/temporal/test_temporal_index.cpp" bodystart="40" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__index_8cpp_1ae4f541b105cd0b21933b5f55b3c9983a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TemporalIndexTest, QueryPoint_NoMatch_ReturnsEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_temporal_index_test" kindref="compound">TemporalIndexTest</ref></type>
+        </param>
+        <param>
+          <type>QueryPoint_NoMatch_ReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_index.cpp" line="50" column="1" bodyfile="tests/temporal/test_temporal_index.cpp" bodystart="50" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__index_8cpp_1a7f36ef5022396198a6b498b3f765a2f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TemporalIndexTest, QueryPoint_AtStart_ReturnsEntry)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_temporal_index_test" kindref="compound">TemporalIndexTest</ref></type>
+        </param>
+        <param>
+          <type>QueryPoint_AtStart_ReturnsEntry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_index.cpp" line="56" column="1" bodyfile="tests/temporal/test_temporal_index.cpp" bodystart="56" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__index_8cpp_1a5f3c03064ce6328a3d883bca409d2fbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TemporalIndexTest, QueryRange_OverlappingEntries)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_temporal_index_test" kindref="compound">TemporalIndexTest</ref></type>
+        </param>
+        <param>
+          <type>QueryRange_OverlappingEntries</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_index.cpp" line="65" column="1" bodyfile="tests/temporal/test_temporal_index.cpp" bodystart="65" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__index_8cpp_1ac2b1347bc3f4fa54296ad1f1ab4c7e90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TemporalIndexTest, QueryRange_NoOverlap_ReturnsEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_temporal_index_test" kindref="compound">TemporalIndexTest</ref></type>
+        </param>
+        <param>
+          <type>QueryRange_NoOverlap_ReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_index.cpp" line="74" column="1" bodyfile="tests/temporal/test_temporal_index.cpp" bodystart="74" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__index_8cpp_1a1d70dc0d8298f40f1ded328145c7ee60" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TemporalIndexTest, QueryKey_ReturnsAllVersionsForKey)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_temporal_index_test" kindref="compound">TemporalIndexTest</ref></type>
+        </param>
+        <param>
+          <type>QueryKey_ReturnsAllVersionsForKey</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_index.cpp" line="81" column="1" bodyfile="tests/temporal/test_temporal_index.cpp" bodystart="81" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__index_8cpp_1afae3af64809b3f16af7697e8b035fd40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TemporalIndexTest, QueryKey_WithRange_FiltersVersions)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_temporal_index_test" kindref="compound">TemporalIndexTest</ref></type>
+        </param>
+        <param>
+          <type>QueryKey_WithRange_FiltersVersions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_index.cpp" line="90" column="1" bodyfile="tests/temporal/test_temporal_index.cpp" bodystart="90" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__index_8cpp_1a471a3622b726ac6a3f5aa13310c905a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TemporalIndexTest, Remove_ExistingEntry_SizeDecreases)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_temporal_index_test" kindref="compound">TemporalIndexTest</ref></type>
+        </param>
+        <param>
+          <type>Remove_ExistingEntry_SizeDecreases</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_index.cpp" line="101" column="1" bodyfile="tests/temporal/test_temporal_index.cpp" bodystart="101" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__index_8cpp_1ab7f64125267d7db6c71a502ab12faa41" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TemporalIndexTest, RemoveKey_RemovesAllVersions)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_temporal_index_test" kindref="compound">TemporalIndexTest</ref></type>
+        </param>
+        <param>
+          <type>RemoveKey_RemovesAllVersions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_index.cpp" line="107" column="1" bodyfile="tests/temporal/test_temporal_index.cpp" bodystart="107" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="test__temporal__index_8cpp_1a5ec357e3b2d24f4c9fcf22e5e3be2c16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TemporalIndexTest, Stats_TotalEntries)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_temporal_index_test" kindref="compound">TemporalIndexTest</ref></type>
+        </param>
+        <param>
+          <type>Stats_TotalEntries</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_index.cpp" line="118" column="1" bodyfile="tests/temporal/test_temporal_index.cpp" bodystart="118" bodyend="129"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="temporal__index_8h" kindref="compound">temporal/temporal_index.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1temporal" kindref="compound">themisdb::temporal</ref>;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13" refid="class_temporal_index_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_temporal_index_test" kindref="compound">TemporalIndexTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_index" kindref="compound">TemporalIndex</ref><sp/><ref refid="class_temporal_index_test_1a2676e0c09f658bcda2f5c52c5853bb04" kindref="member">idx</ref>{</highlight><highlight class="stringliteral">&quot;test_index&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_temporal_index_entry" kindref="compound">TemporalIndexEntry</ref><sp/><ref refid="class_temporal_index_test_1aa5bdeea67b7b3fad545d164dd286ac1e" kindref="member">makeEntry</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,<sp/><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref><sp/>start,</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref><sp/>end,</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>payload<sp/>=<sp/>{})<sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{key,<sp/>{start,<sp/>end},<sp/>std::move(payload)};</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Insert<sp/>/<sp/>Size<sp/>─────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><ref refid="test__temporal__index_8cpp_1a5eb4556c4f3d3483d6ba1251d6ebb181" kindref="member">TEST_F</ref>(<ref refid="class_temporal_index_test" kindref="compound">TemporalIndexTest</ref>,<sp/>Insert_Single_SizeBecomesOne)<sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>200));</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(idx.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><ref refid="test__temporal__index_8cpp_1a5eb4556c4f3d3483d6ba1251d6ebb181" kindref="member">TEST_F</ref>(<ref refid="class_temporal_index_test" kindref="compound">TemporalIndexTest</ref>,<sp/>Insert_Multiple_SizeIncreases)<sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>200));</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k2&quot;</highlight><highlight class="normal">,<sp/>150,<sp/>300));</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k3&quot;</highlight><highlight class="normal">,<sp/>250,<sp/>400));</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(idx.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>queryPoint<sp/>───────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><ref refid="test__temporal__index_8cpp_1a5eb4556c4f3d3483d6ba1251d6ebb181" kindref="member">TEST_F</ref>(<ref refid="class_temporal_index_test" kindref="compound">TemporalIndexTest</ref>,<sp/>QueryPoint_MatchingEntries)<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>300));</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k2&quot;</highlight><highlight class="normal">,<sp/>150,<sp/>250));</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k3&quot;</highlight><highlight class="normal">,<sp/>400,<sp/>500));</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>t=200<sp/>is<sp/>contained<sp/>by<sp/>k1<sp/>and<sp/>k2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>idx.queryPoint(200);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><ref refid="test__temporal__index_8cpp_1a5eb4556c4f3d3483d6ba1251d6ebb181" kindref="member">TEST_F</ref>(<ref refid="class_temporal_index_test" kindref="compound">TemporalIndexTest</ref>,<sp/>QueryPoint_NoMatch_ReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>200));</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(idx.queryPoint(50).empty());</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(idx.queryPoint(200).empty());<sp/></highlight><highlight class="comment">//<sp/>half-open:<sp/>[100,200)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><ref refid="test__temporal__index_8cpp_1a5eb4556c4f3d3483d6ba1251d6ebb181" kindref="member">TEST_F</ref>(<ref refid="class_temporal_index_test" kindref="compound">TemporalIndexTest</ref>,<sp/>QueryPoint_AtStart_ReturnsEntry)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>200));</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>idx.queryPoint(100);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(results.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results[0].key,<sp/></highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>queryRange<sp/>───────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><ref refid="test__temporal__index_8cpp_1a5eb4556c4f3d3483d6ba1251d6ebb181" kindref="member">TEST_F</ref>(<ref refid="class_temporal_index_test" kindref="compound">TemporalIndexTest</ref>,<sp/>QueryRange_OverlappingEntries)<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>300));</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k2&quot;</highlight><highlight class="normal">,<sp/>200,<sp/>400));</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k3&quot;</highlight><highlight class="normal">,<sp/>500,<sp/>600));</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>idx.queryRange(150,<sp/>350);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results.size(),<sp/>2u);<sp/></highlight><highlight class="comment">//<sp/>k1<sp/>and<sp/>k2<sp/>overlap<sp/>[150,350)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><ref refid="test__temporal__index_8cpp_1a5eb4556c4f3d3483d6ba1251d6ebb181" kindref="member">TEST_F</ref>(<ref refid="class_temporal_index_test" kindref="compound">TemporalIndexTest</ref>,<sp/>QueryRange_NoOverlap_ReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>200));</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(idx.queryRange(200,<sp/>300).empty());</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>queryKey<sp/>─────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><ref refid="test__temporal__index_8cpp_1a5eb4556c4f3d3483d6ba1251d6ebb181" kindref="member">TEST_F</ref>(<ref refid="class_temporal_index_test" kindref="compound">TemporalIndexTest</ref>,<sp/>QueryKey_ReturnsAllVersionsForKey)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>200));</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>200,<sp/>300));</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k2&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>300));</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>idx.queryKey(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><ref refid="test__temporal__index_8cpp_1a5eb4556c4f3d3483d6ba1251d6ebb181" kindref="member">TEST_F</ref>(<ref refid="class_temporal_index_test" kindref="compound">TemporalIndexTest</ref>,<sp/>QueryKey_WithRange_FiltersVersions)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>200));</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>300,<sp/>400));</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>idx.queryKey(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref>{50,<sp/>250});</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results[0].range.start,<sp/>100);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>remove<sp/>───────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><ref refid="test__temporal__index_8cpp_1a5eb4556c4f3d3483d6ba1251d6ebb181" kindref="member">TEST_F</ref>(<ref refid="class_temporal_index_test" kindref="compound">TemporalIndexTest</ref>,<sp/>Remove_ExistingEntry_SizeDecreases)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>200));</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(idx.remove(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>{100,<sp/>200}),<sp/>1u);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(idx.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><ref refid="test__temporal__index_8cpp_1a5eb4556c4f3d3483d6ba1251d6ebb181" kindref="member">TEST_F</ref>(<ref refid="class_temporal_index_test" kindref="compound">TemporalIndexTest</ref>,<sp/>RemoveKey_RemovesAllVersions)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>200));</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>200,<sp/>300));</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k2&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>300));</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(idx.removeKey(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">),<sp/>2u);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(idx.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>stats<sp/>─────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><ref refid="test__temporal__index_8cpp_1a5eb4556c4f3d3483d6ba1251d6ebb181" kindref="member">TEST_F</ref>(<ref refid="class_temporal_index_test" kindref="compound">TemporalIndexTest</ref>,<sp/>Stats_TotalEntries)<sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>200));</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.insert(makeEntry(</highlight><highlight class="stringliteral">&quot;k2&quot;</highlight><highlight class="normal">,<sp/>150,<sp/>300));</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>idx.stats();</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.total_entries,<sp/>2u);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.min_timestamp,<sp/>100);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>point<sp/>query<sp/>the<sp/>counter<sp/>increments</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.queryPoint(150);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s2<sp/>=<sp/>idx.stats();</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s2.point_queries,<sp/>1u);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/temporal/test_temporal_index.cpp"/>
+  </compounddef>
+</doxygen>

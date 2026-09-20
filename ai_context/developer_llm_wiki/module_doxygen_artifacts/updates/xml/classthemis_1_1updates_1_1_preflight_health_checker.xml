@@ -1,0 +1,222 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1_preflight_health_checker" kind="class" language="C++" prot="public">
+    <compoundname>themis::updates::PreflightHealthChecker</compoundname>
+    <includes refid="preflight__health__check_8h" local="no">preflight_health_check.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_preflight_health_checker_1a4512865343cd7c5baf3a64367e8cfe38" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="classthemis_1_1updates_1_1_i_health_check" kindref="compound">IHealthCheck</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;IHealthCheck&gt; &gt; themis::updates::PreflightHealthChecker::checks_</definition>
+        <argsstring></argsstring>
+        <name>checks_</name>
+        <qualifiedname>themis::updates::PreflightHealthChecker::checks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/preflight_health_check.h" line="289" column="17" bodyfile="include/updates/preflight_health_check.h" bodystart="289" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_preflight_health_checker_1a08f4f6d50b19ac83c638445ff8343764" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::PreflightHealthChecker::PreflightHealthChecker</definition>
+        <argsstring>()=default</argsstring>
+        <name>PreflightHealthChecker</name>
+        <qualifiedname>themis::updates::PreflightHealthChecker::PreflightHealthChecker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/preflight_health_check.h" line="257" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_preflight_health_checker_1a14c4d7119c5c2a50185944c15721ebf7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::PreflightHealthChecker::PreflightHealthChecker</definition>
+        <argsstring>(const PreflightHealthChecker &amp;)=delete</argsstring>
+        <name>PreflightHealthChecker</name>
+        <qualifiedname>themis::updates::PreflightHealthChecker::PreflightHealthChecker</qualifiedname>
+        <param>
+          <type>const PreflightHealthChecker &amp;</type>
+        </param>
+        <briefdescription>
+<para>Non-copyable (owns unique_ptr checks). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/preflight_health_check.h" line="260" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_preflight_health_checker_1a93a657ea87de5920de4c068f4044b7da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1updates_1_1_preflight_health_checker_1a08f4f6d50b19ac83c638445ff8343764" kindref="member">PreflightHealthChecker</ref> &amp;</type>
+        <definition>PreflightHealthChecker &amp; themis::updates::PreflightHealthChecker::operator=</definition>
+        <argsstring>(const PreflightHealthChecker &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::updates::PreflightHealthChecker::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1updates_1_1_preflight_health_checker_1a08f4f6d50b19ac83c638445ff8343764" kindref="member">PreflightHealthChecker</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/preflight_health_check.h" line="261" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_preflight_health_checker_1ac4082f24fe2217b7858b8933d0fc4bb3" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::PreflightHealthChecker::PreflightHealthChecker</definition>
+        <argsstring>(PreflightHealthChecker &amp;&amp;) noexcept=default</argsstring>
+        <name>PreflightHealthChecker</name>
+        <qualifiedname>themis::updates::PreflightHealthChecker::PreflightHealthChecker</qualifiedname>
+        <param>
+          <type>PreflightHealthChecker &amp;&amp;</type>
+        </param>
+        <briefdescription>
+<para>Movable. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/preflight_health_check.h" line="264" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_preflight_health_checker_1a0251fed4d7c1d35fea46014f3cf4df29" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1updates_1_1_preflight_health_checker_1a08f4f6d50b19ac83c638445ff8343764" kindref="member">PreflightHealthChecker</ref> &amp;</type>
+        <definition>PreflightHealthChecker &amp; themis::updates::PreflightHealthChecker::operator=</definition>
+        <argsstring>(PreflightHealthChecker &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::updates::PreflightHealthChecker::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1_preflight_health_checker_1a08f4f6d50b19ac83c638445ff8343764" kindref="member">PreflightHealthChecker</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/preflight_health_check.h" line="265" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_preflight_health_checker_1a35a83214751c72bcb4d9c0705c4e8d54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::PreflightHealthChecker::addCheck</definition>
+        <argsstring>(std::unique_ptr&lt; IHealthCheck &gt; check)</argsstring>
+        <name>addCheck</name>
+        <qualifiedname>themis::updates::PreflightHealthChecker::addCheck</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classthemis_1_1updates_1_1_i_health_check" kindref="compound">IHealthCheck</ref> &gt;</type>
+          <declname>check</declname>
+        </param>
+        <briefdescription>
+<para>Register a health check. Checks are run in registration order. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Check.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>check</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-null unique_ptr to an <ref refid="classthemis_1_1updates_1_1_i_health_check" kindref="compound">IHealthCheck</ref> implementation.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">check</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/preflight_health_check.h" line="271" column="10" bodyfile="src/updates/preflight_health_check.cpp" bodystart="293" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_preflight_health_checker_1a3d54bb7df9dc0056920c8c837ebd6d7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1updates_1_1_preflight_check_result" kindref="compound">PreflightCheckResult</ref></type>
+        <definition>PreflightCheckResult themis::updates::PreflightHealthChecker::runAll</definition>
+        <argsstring>()</argsstring>
+        <name>runAll</name>
+        <qualifiedname>themis::updates::PreflightHealthChecker::runAll</qualifiedname>
+        <briefdescription>
+<para>Execute all registered checks and return the aggregate result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Run All.</para>
+<para>Checks are run sequentially. All checks are always executed (no early abort) so the caller receives the full diagnostic picture.</para>
+<para><simplesect kind="return"><para><ref refid="structthemis_1_1updates_1_1_preflight_check_result" kindref="compound">PreflightCheckResult</ref> with per-check details and total duration.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), run(), empty(), push_back(), std::move(), <ref refid="batch5__safety__helpers_8h_1a378e28bfcb78d17285210d6bbb70a083" kindref="member">LOG_INFO()</ref>, size(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/preflight_health_check.h" line="281" column="26" bodyfile="src/updates/preflight_health_check.cpp" bodystart="305" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_preflight_health_checker_1a07775d3e350af7457347763d2a7778f8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::updates::PreflightHealthChecker::checkCount</definition>
+        <argsstring>() const</argsstring>
+        <name>checkCount</name>
+        <qualifiedname>themis::updates::PreflightHealthChecker::checkCount</qualifiedname>
+        <briefdescription>
+<para>Number of registered checks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/preflight_health_check.h" line="286" column="12" bodyfile="src/updates/preflight_health_check.cpp" bodystart="336" bodyend="338"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Runs a battery of <ref refid="classthemis_1_1updates_1_1_i_health_check" kindref="compound">IHealthCheck</ref> instances before an update begins. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All registered checks are executed sequentially. The overall result reports whether every check passed and includes the total wall-clock duration so callers can verify the ≤ 2 s budget.</para>
+<para>Usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_preflight_health_checker_1a08f4f6d50b19ac83c638445ff8343764" kindref="member">PreflightHealthChecker</ref><sp/>checker;</highlight></codeline>
+<codeline><highlight class="normal">checker.addCheck(std::make_unique&lt;DiskSpaceChecker&gt;(download_dir,<sp/>2<sp/>*<sp/>bundle_size));</highlight></codeline>
+<codeline><highlight class="normal">checker.addCheck(std::make_unique&lt;MemoryHeadroomChecker&gt;(256<sp/>*<sp/>1024<sp/>*<sp/>1024));</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>checker.runAll();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!result.all_passed)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="batch5__safety__helpers_8h_1ad4a9117ce894e3319e903142347a0f63" kindref="member">LOG_ERROR</ref>(</highlight><highlight class="stringliteral">&quot;Pre-flight<sp/>check<sp/>failed:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>result.error_summary);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">engine.applyHotReload(version);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/updates/preflight_health_check.h" line="255" column="1" bodyfile="include/updates/preflight_health_check.h" bodystart="255" bodyend="290"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1updates_1_1_preflight_health_checker_1a35a83214751c72bcb4d9c0705c4e8d54" prot="public" virt="non-virtual"><scope>themis::updates::PreflightHealthChecker</scope><name>addCheck</name></member>
+      <member refid="classthemis_1_1updates_1_1_preflight_health_checker_1a07775d3e350af7457347763d2a7778f8" prot="public" virt="non-virtual"><scope>themis::updates::PreflightHealthChecker</scope><name>checkCount</name></member>
+      <member refid="classthemis_1_1updates_1_1_preflight_health_checker_1a4512865343cd7c5baf3a64367e8cfe38" prot="private" virt="non-virtual"><scope>themis::updates::PreflightHealthChecker</scope><name>checks_</name></member>
+      <member refid="classthemis_1_1updates_1_1_preflight_health_checker_1a93a657ea87de5920de4c068f4044b7da" prot="public" virt="non-virtual"><scope>themis::updates::PreflightHealthChecker</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1updates_1_1_preflight_health_checker_1a0251fed4d7c1d35fea46014f3cf4df29" prot="public" virt="non-virtual"><scope>themis::updates::PreflightHealthChecker</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1updates_1_1_preflight_health_checker_1a08f4f6d50b19ac83c638445ff8343764" prot="public" virt="non-virtual"><scope>themis::updates::PreflightHealthChecker</scope><name>PreflightHealthChecker</name></member>
+      <member refid="classthemis_1_1updates_1_1_preflight_health_checker_1a14c4d7119c5c2a50185944c15721ebf7" prot="public" virt="non-virtual"><scope>themis::updates::PreflightHealthChecker</scope><name>PreflightHealthChecker</name></member>
+      <member refid="classthemis_1_1updates_1_1_preflight_health_checker_1ac4082f24fe2217b7858b8933d0fc4bb3" prot="public" virt="non-virtual"><scope>themis::updates::PreflightHealthChecker</scope><name>PreflightHealthChecker</name></member>
+      <member refid="classthemis_1_1updates_1_1_preflight_health_checker_1a3d54bb7df9dc0056920c8c837ebd6d7e" prot="public" virt="non-virtual"><scope>themis::updates::PreflightHealthChecker</scope><name>runAll</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

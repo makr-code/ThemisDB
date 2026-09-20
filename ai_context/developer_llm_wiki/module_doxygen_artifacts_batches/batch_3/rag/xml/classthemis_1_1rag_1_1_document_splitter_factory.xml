@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_document_splitter_factory" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::DocumentSplitterFactory</compoundname>
+    <includes refid="document__splitter_8h" local="no">document_splitter.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_document_splitter_factory_1a187bb5b06f6e26cd19428fdb50205b7a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1_document_splitter" kindref="compound">DocumentSplitter</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; DocumentSplitter &gt; themis::rag::DocumentSplitterFactory::createDefault</definition>
+        <argsstring>()</argsstring>
+        <name>createDefault</name>
+        <qualifiedname>themis::rag::DocumentSplitterFactory::createDefault</qualifiedname>
+        <briefdescription>
+<para>Sentence-boundary splitter with typical RAG defaults. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Default.</para>
+<para>chunk_size=512, overlap=64, strategy=Sentence.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createDefault without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_splitter.h" line="194" column="28" bodyfile="src/rag/document_splitter.cpp" bodystart="425" bodyend="431"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_document_splitter_factory_1a3e7753aae92d9c0251b8dc90d6ef0319" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1_document_splitter" kindref="compound">DocumentSplitter</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; DocumentSplitter &gt; themis::rag::DocumentSplitterFactory::createSmall</definition>
+        <argsstring>()</argsstring>
+        <name>createSmall</name>
+        <qualifiedname>themis::rag::DocumentSplitterFactory::createSmall</qualifiedname>
+        <briefdescription>
+<para>Fixed-size splitter optimised for embedding models with 256-token input windows. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Small.</para>
+<para>chunk_size=256, overlap=32, strategy=Fixed.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createSmall without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_splitter.h" line="202" column="28" bodyfile="src/rag/document_splitter.cpp" bodystart="438" bodyend="444"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_document_splitter_factory_1abe75b9e5b2b51b387716d13c17715beb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1_document_splitter" kindref="compound">DocumentSplitter</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; DocumentSplitter &gt; themis::rag::DocumentSplitterFactory::createLarge</definition>
+        <argsstring>()</argsstring>
+        <name>createLarge</name>
+        <qualifiedname>themis::rag::DocumentSplitterFactory::createLarge</qualifiedname>
+        <briefdescription>
+<para>Sliding-window splitter suitable for long-context models. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Large.</para>
+<para>chunk_size=1024, overlap=128, strategy=Sliding.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createLarge without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_splitter.h" line="209" column="28" bodyfile="src/rag/document_splitter.cpp" bodystart="451" bodyend="457"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_document_splitter_factory_1a2d4c480c62629bd171ccc86dc92341c8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1_document_splitter" kindref="compound">DocumentSplitter</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; DocumentSplitter &gt; themis::rag::DocumentSplitterFactory::create</definition>
+        <argsstring>(size_t chunk_size, size_t overlap, SplitStrategy strategy=SplitStrategy::Sentence, double chars_per_token=4.0)</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::rag::DocumentSplitterFactory::create</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>chunk_size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>overlap</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1a2a14616ebe1a17384b0d869708dbc981" kindref="member">SplitStrategy</ref></type>
+          <declname>strategy</declname>
+          <defval><ref refid="namespacethemis_1_1rag_1a2a14616ebe1a17384b0d869708dbc981a0667fab375c18f4a0f29beec635b1b87" kindref="member">SplitStrategy::Sentence</ref></defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>chars_per_token</declname>
+          <defval>4.0</defval>
+        </param>
+        <briefdescription>
+<para>Create a splitter with fully custom parameters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>chunk_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target chunk size in tokens. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>overlap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Overlap tokens between consecutive chunks. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Splitting strategy. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>chars_per_token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Characters per token conversion factor.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">overlap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">chars_per_token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_splitter.h" line="219" column="28" bodyfile="src/rag/document_splitter.cpp" bodystart="467" bodyend="479"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Factory helpers for common splitting configurations. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/document_splitter.h" line="187" column="1" bodyfile="include/rag/document_splitter.h" bodystart="187" bodyend="224"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_document_splitter_factory_1a2d4c480c62629bd171ccc86dc92341c8" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSplitterFactory</scope><name>create</name></member>
+      <member refid="classthemis_1_1rag_1_1_document_splitter_factory_1a187bb5b06f6e26cd19428fdb50205b7a" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSplitterFactory</scope><name>createDefault</name></member>
+      <member refid="classthemis_1_1rag_1_1_document_splitter_factory_1abe75b9e5b2b51b387716d13c17715beb" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSplitterFactory</scope><name>createLarge</name></member>
+      <member refid="classthemis_1_1rag_1_1_document_splitter_factory_1a3e7753aae92d9c0251b8dc90d6ef0319" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSplitterFactory</scope><name>createSmall</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

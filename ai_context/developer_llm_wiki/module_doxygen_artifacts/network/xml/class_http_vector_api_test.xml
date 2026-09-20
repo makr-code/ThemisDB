@@ -1,0 +1,309 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_http_vector_api_test" kind="class" language="C++" prot="public">
+    <compoundname>HttpVectorApiTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_http_vector_api_test_1a24a0f5f9f9ec556f7bb6bf059fc5935a" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;themis::RocksDBWrapper&gt; HttpVectorApiTest::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>HttpVectorApiTest::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_vector.cpp" line="216" column="21" bodyfile="tests/network/test_http_vector.cpp" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_vector_api_test_1a569199090a5be173697aae3522fcf0c2" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::SecondaryIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::SecondaryIndexManager&gt; HttpVectorApiTest::secondary_index_</definition>
+        <argsstring></argsstring>
+        <name>secondary_index_</name>
+        <qualifiedname>HttpVectorApiTest::secondary_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_vector.cpp" line="217" column="21" bodyfile="tests/network/test_http_vector.cpp" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_vector_api_test_1ac9cbcbe770d5c23a0aa8a3a9f8bc71ff" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::GraphIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::GraphIndexManager&gt; HttpVectorApiTest::graph_index_</definition>
+        <argsstring></argsstring>
+        <name>graph_index_</name>
+        <qualifiedname>HttpVectorApiTest::graph_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_vector.cpp" line="218" column="21" bodyfile="tests/network/test_http_vector.cpp" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_vector_api_test_1a207775ce3a97101ae8beaaa8beb1dd07" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::VectorIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::VectorIndexManager&gt; HttpVectorApiTest::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>HttpVectorApiTest::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_vector.cpp" line="219" column="21" bodyfile="tests/network/test_http_vector.cpp" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_vector_api_test_1adc89f8fd10506307c29884d5d2fd491b" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::TransactionManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::TransactionManager&gt; HttpVectorApiTest::tx_manager_</definition>
+        <argsstring></argsstring>
+        <name>tx_manager_</name>
+        <qualifiedname>HttpVectorApiTest::tx_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_vector.cpp" line="220" column="21" bodyfile="tests/network/test_http_vector.cpp" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_vector_api_test_1abef42c582dd1dda8a790e4ab0eef5c9b" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::server::HttpServer &gt;</type>
+        <definition>std::unique_ptr&lt;themis::server::HttpServer&gt; HttpVectorApiTest::server_</definition>
+        <argsstring></argsstring>
+        <name>server_</name>
+        <qualifiedname>HttpVectorApiTest::server_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_vector.cpp" line="221" column="21" bodyfile="tests/network/test_http_vector.cpp" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_vector_api_test_1ac9f797590bef0574c5eafcd3dd1d9b7b" prot="protected" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path HttpVectorApiTest::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>HttpVectorApiTest::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_vector.cpp" line="222" column="27" bodyfile="tests/network/test_http_vector.cpp" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_vector_api_test_1ad0aa99217837156ae1adab5a72dabbf2" prot="protected" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path HttpVectorApiTest::save_dir_</definition>
+        <argsstring></argsstring>
+        <name>save_dir_</name>
+        <qualifiedname>HttpVectorApiTest::save_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_vector.cpp" line="223" column="27" bodyfile="tests/network/test_http_vector.cpp" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_vector_api_test_1add1171e1a8d5a2971d59116ca9576c82" prot="protected" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t HttpVectorApiTest::port_</definition>
+        <argsstring></argsstring>
+        <name>port_</name>
+        <qualifiedname>HttpVectorApiTest::port_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_vector.cpp" line="224" column="14" bodyfile="tests/network/test_http_vector.cpp" bodystart="224" bodyend="224"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_http_vector_api_test_1a8089e1bdb45ddc01bbb4e78a451769ec" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpVectorApiTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>HttpVectorApiTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_vector.cpp" line="28" column="10" bodyfile="tests/network/test_http_vector.cpp" bodystart="28" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_vector_api_test_1ab79004bece93eba217cee8d82b86aef6" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpVectorApiTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>HttpVectorApiTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_vector.cpp" line="82" column="10" bodyfile="tests/network/test_http_vector.cpp" bodystart="82" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_vector_api_test_1a44e474607fbef7d1fbc856b514b70353" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpVectorApiTest::setupTestData</definition>
+        <argsstring>()</argsstring>
+        <name>setupTestData</name>
+        <qualifiedname>HttpVectorApiTest::setupTestData</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_vector.cpp" line="97" column="10" bodyfile="tests/network/test_http_vector.cpp" bodystart="97" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_vector_api_test_1a96f24a841656b789b1da4e6264d6fc77" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref></type>
+        <definition>json HttpVectorApiTest::httpPost</definition>
+        <argsstring>(const std::string &amp;target, const json &amp;body)</argsstring>
+        <name>httpPost</name>
+        <qualifiedname>HttpVectorApiTest::httpPost</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const <ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref> &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_vector.cpp" line="115" column="10" bodyfile="tests/network/test_http_vector.cpp" bodystart="115" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_vector_api_test_1ad8aa2ddc96906d5b9a7e3fa4085930ec" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref></type>
+        <definition>json HttpVectorApiTest::httpGet</definition>
+        <argsstring>(const std::string &amp;target)</argsstring>
+        <name>httpGet</name>
+        <qualifiedname>HttpVectorApiTest::httpGet</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_vector.cpp" line="141" column="10" bodyfile="tests/network/test_http_vector.cpp" bodystart="141" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_vector_api_test_1a7bd75a7d7e899bd2563fdc5f19e6e7f8" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref></type>
+        <definition>json HttpVectorApiTest::httpPut</definition>
+        <argsstring>(const std::string &amp;target, const json &amp;body)</argsstring>
+        <name>httpPut</name>
+        <qualifiedname>HttpVectorApiTest::httpPut</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const <ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref> &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_vector.cpp" line="164" column="10" bodyfile="tests/network/test_http_vector.cpp" bodystart="164" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_vector_api_test_1a5c85a7e48b9eea6e9c5ae95c169110ab" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref></type>
+        <definition>json HttpVectorApiTest::httpDelete</definition>
+        <argsstring>(const std::string &amp;target, const json &amp;body)</argsstring>
+        <name>httpDelete</name>
+        <qualifiedname>HttpVectorApiTest::httpDelete</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const <ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref> &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_vector.cpp" line="190" column="10" bodyfile="tests/network/test_http_vector.cpp" bodystart="190" bodyend="214"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>HttpVectorApiTest</label>
+        <link refid="class_http_vector_api_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>HttpVectorApiTest</label>
+        <link refid="class_http_vector_api_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/network/test_http_vector.cpp" line="26" column="1" bodyfile="tests/network/test_http_vector.cpp" bodystart="26" bodyend="225"/>
+    <listofallmembers>
+      <member refid="class_http_vector_api_test_1ac9f797590bef0574c5eafcd3dd1d9b7b" prot="protected" virt="non-virtual"><scope>HttpVectorApiTest</scope><name>db_path_</name></member>
+      <member refid="class_http_vector_api_test_1ac9cbcbe770d5c23a0aa8a3a9f8bc71ff" prot="protected" virt="non-virtual"><scope>HttpVectorApiTest</scope><name>graph_index_</name></member>
+      <member refid="class_http_vector_api_test_1a5c85a7e48b9eea6e9c5ae95c169110ab" prot="protected" virt="non-virtual"><scope>HttpVectorApiTest</scope><name>httpDelete</name></member>
+      <member refid="class_http_vector_api_test_1ad8aa2ddc96906d5b9a7e3fa4085930ec" prot="protected" virt="non-virtual"><scope>HttpVectorApiTest</scope><name>httpGet</name></member>
+      <member refid="class_http_vector_api_test_1a96f24a841656b789b1da4e6264d6fc77" prot="protected" virt="non-virtual"><scope>HttpVectorApiTest</scope><name>httpPost</name></member>
+      <member refid="class_http_vector_api_test_1a7bd75a7d7e899bd2563fdc5f19e6e7f8" prot="protected" virt="non-virtual"><scope>HttpVectorApiTest</scope><name>httpPut</name></member>
+      <member refid="class_http_vector_api_test_1add1171e1a8d5a2971d59116ca9576c82" prot="protected" virt="non-virtual"><scope>HttpVectorApiTest</scope><name>port_</name></member>
+      <member refid="class_http_vector_api_test_1ad0aa99217837156ae1adab5a72dabbf2" prot="protected" virt="non-virtual"><scope>HttpVectorApiTest</scope><name>save_dir_</name></member>
+      <member refid="class_http_vector_api_test_1a569199090a5be173697aae3522fcf0c2" prot="protected" virt="non-virtual"><scope>HttpVectorApiTest</scope><name>secondary_index_</name></member>
+      <member refid="class_http_vector_api_test_1abef42c582dd1dda8a790e4ab0eef5c9b" prot="protected" virt="non-virtual"><scope>HttpVectorApiTest</scope><name>server_</name></member>
+      <member refid="class_http_vector_api_test_1a8089e1bdb45ddc01bbb4e78a451769ec" prot="protected" virt="non-virtual"><scope>HttpVectorApiTest</scope><name>SetUp</name></member>
+      <member refid="class_http_vector_api_test_1a44e474607fbef7d1fbc856b514b70353" prot="protected" virt="non-virtual"><scope>HttpVectorApiTest</scope><name>setupTestData</name></member>
+      <member refid="class_http_vector_api_test_1a24a0f5f9f9ec556f7bb6bf059fc5935a" prot="protected" virt="non-virtual"><scope>HttpVectorApiTest</scope><name>storage_</name></member>
+      <member refid="class_http_vector_api_test_1ab79004bece93eba217cee8d82b86aef6" prot="protected" virt="non-virtual"><scope>HttpVectorApiTest</scope><name>TearDown</name></member>
+      <member refid="class_http_vector_api_test_1adc89f8fd10506307c29884d5d2fd491b" prot="protected" virt="non-virtual"><scope>HttpVectorApiTest</scope><name>tx_manager_</name></member>
+      <member refid="class_http_vector_api_test_1a207775ce3a97101ae8beaaa8beb1dd07" prot="protected" virt="non-virtual"><scope>HttpVectorApiTest</scope><name>vector_index_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

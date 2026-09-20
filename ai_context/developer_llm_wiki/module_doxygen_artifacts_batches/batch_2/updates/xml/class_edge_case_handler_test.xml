@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_edge_case_handler_test" kind="class" language="C++" prot="public">
+    <compoundname>EdgeCaseHandlerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_edge_case_handler_test_1a4888013965933b6918e095b7c0cee9e0" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1updates_1_1_update_state_machine" kindref="compound">UpdateStateMachine</ref></type>
+        <definition>UpdateStateMachine EdgeCaseHandlerTest::sm_</definition>
+        <argsstring></argsstring>
+        <name>sm_</name>
+        <qualifiedname>EdgeCaseHandlerTest::sm_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_determinism_edge_cases_focused.cpp" line="37" column="24" bodyfile="tests/updates/test_updates_determinism_edge_cases_focused.cpp" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_edge_case_handler_test_1a3b571714cadf1bd6f1871ab11543f5f9" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1updates_1_1_updates_edge_case_handler" kindref="compound">UpdatesEdgeCaseHandler</ref></type>
+        <definition>UpdatesEdgeCaseHandler EdgeCaseHandlerTest::handler_</definition>
+        <argsstring></argsstring>
+        <name>handler_</name>
+        <qualifiedname>EdgeCaseHandlerTest::handler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_determinism_edge_cases_focused.cpp" line="38" column="28" bodyfile="tests/updates/test_updates_determinism_edge_cases_focused.cpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_edge_case_handler_test_1a7d60adfa1449508195999d8c4d2ae465" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void EdgeCaseHandlerTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>EdgeCaseHandlerTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_determinism_edge_cases_focused.cpp" line="40" column="10" bodyfile="tests/updates/test_updates_determinism_edge_cases_focused.cpp" bodystart="40" bodyend="41"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>EdgeCaseHandlerTest</label>
+        <link refid="class_edge_case_handler_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>EdgeCaseHandlerTest</label>
+        <link refid="class_edge_case_handler_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>sm_</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>handler_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::updates::UpdateStateMachine</label>
+        <link refid="classthemis_1_1updates_1_1_update_state_machine"/>
+      </node>
+      <node id="4">
+        <label>themis::updates::UpdatesEdgeCaseHandler</label>
+        <link refid="classthemis_1_1updates_1_1_updates_edge_case_handler"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/updates/test_updates_determinism_edge_cases_focused.cpp" line="35" column="1" bodyfile="tests/updates/test_updates_determinism_edge_cases_focused.cpp" bodystart="35" bodyend="42"/>
+    <listofallmembers>
+      <member refid="class_edge_case_handler_test_1a3b571714cadf1bd6f1871ab11543f5f9" prot="protected" virt="non-virtual"><scope>EdgeCaseHandlerTest</scope><name>handler_</name></member>
+      <member refid="class_edge_case_handler_test_1a7d60adfa1449508195999d8c4d2ae465" prot="protected" virt="non-virtual"><scope>EdgeCaseHandlerTest</scope><name>SetUp</name></member>
+      <member refid="class_edge_case_handler_test_1a4888013965933b6918e095b7c0cee9e0" prot="protected" virt="non-virtual"><scope>EdgeCaseHandlerTest</scope><name>sm_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

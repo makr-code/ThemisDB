@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_edge_case_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::EdgeCaseStats</compoundname>
+    <includes refid="updates__edge__case__handler_8h" local="no">updates_edge_case_handler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_edge_case_stats_1a502bff06c0f3c2a8e5a0fba9f8348f57" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::updates::EdgeCaseStats::total_detected</definition>
+        <argsstring></argsstring>
+        <name>total_detected</name>
+        <qualifiedname>themis::updates::EdgeCaseStats::total_detected</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total number of edge cases detected (handled == true results). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_edge_case_handler.h" line="73" column="14" bodyfile="include/updates/updates_edge_case_handler.h" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_edge_case_stats_1a60f22a4f78dabf5b3993844b51563bc6" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::updates::EdgeCaseStats::total_fatal</definition>
+        <argsstring></argsstring>
+        <name>total_fatal</name>
+        <qualifiedname>themis::updates::EdgeCaseStats::total_fatal</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Subset of total_detected that are classified as fatal. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_edge_case_handler.h" line="76" column="14" bodyfile="include/updates/updates_edge_case_handler.h" bodystart="76" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_edge_case_stats_1a0cc3d28fae57ea05455901560633d1c3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::updates::EdgeCaseStats::total_rollback_triggered</definition>
+        <argsstring></argsstring>
+        <name>total_rollback_triggered</name>
+        <qualifiedname>themis::updates::EdgeCaseStats::total_rollback_triggered</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Subset of total_detected for which rollback was recommended. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_edge_case_handler.h" line="79" column="14" bodyfile="include/updates/updates_edge_case_handler.h" bodystart="79" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Cumulative statistics for edge-case detections across all calls. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Updated atomically under the handler&apos;s internal mutex. </para>
+    </detaileddescription>
+    <location file="include/updates/updates_edge_case_handler.h" line="71" column="1" bodyfile="include/updates/updates_edge_case_handler.h" bodystart="71" bodyend="80"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_edge_case_stats_1a502bff06c0f3c2a8e5a0fba9f8348f57" prot="public" virt="non-virtual"><scope>themis::updates::EdgeCaseStats</scope><name>total_detected</name></member>
+      <member refid="structthemis_1_1updates_1_1_edge_case_stats_1a60f22a4f78dabf5b3993844b51563bc6" prot="public" virt="non-virtual"><scope>themis::updates::EdgeCaseStats</scope><name>total_fatal</name></member>
+      <member refid="structthemis_1_1updates_1_1_edge_case_stats_1a0cc3d28fae57ea05455901560633d1c3" prot="public" virt="non-virtual"><scope>themis::updates::EdgeCaseStats</scope><name>total_rollback_triggered</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

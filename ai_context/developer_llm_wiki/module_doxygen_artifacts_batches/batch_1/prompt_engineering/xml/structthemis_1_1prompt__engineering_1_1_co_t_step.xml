@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_co_t_step" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::CoTStep</compoundname>
+    <includes refid="chain__of__thought_8h" local="no">chain_of_thought.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_co_t_step_1a2b6a87dd067eee9a0b805b4a1ebd30a7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::CoTStep::label</definition>
+        <argsstring></argsstring>
+        <name>label</name>
+        <qualifiedname>themis::prompt_engineering::CoTStep::label</qualifiedname>
+        <briefdescription>
+<para>Human-readable label, e.g. &quot;Step 1&quot; or &quot;Observation&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/chain_of_thought.h" line="27" column="17" bodyfile="include/prompt_engineering/chain_of_thought.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_co_t_step_1abe1e9bdd0c37c7ea82a458fdf51294ed" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::CoTStep::content</definition>
+        <argsstring></argsstring>
+        <name>content</name>
+        <qualifiedname>themis::prompt_engineering::CoTStep::content</qualifiedname>
+        <briefdescription>
+<para>Instruction or reasoning text for this step. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/chain_of_thought.h" line="28" column="17" bodyfile="include/prompt_engineering/chain_of_thought.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single step in a chain-of-thought reasoning sequence. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/chain_of_thought.h" line="26" column="1" bodyfile="include/prompt_engineering/chain_of_thought.h" bodystart="26" bodyend="29"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_co_t_step_1abe1e9bdd0c37c7ea82a458fdf51294ed" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::CoTStep</scope><name>content</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_co_t_step_1a2b6a87dd067eee9a0b805b4a1ebd30a7" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::CoTStep</scope><name>label</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

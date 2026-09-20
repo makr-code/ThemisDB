@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_gradient_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::GradientStats</compoundname>
+    <includes refid="gradient__utils_8h" local="no">gradient_utils.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_gradient_stats_1ab708bb6e5da0c061779a54b0fa21cd9d" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::GradientStats::global_norm</definition>
+        <argsstring></argsstring>
+        <name>global_norm</name>
+        <qualifiedname>themis::llm::lora::GradientStats::global_norm</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_utils.h" line="105" column="11" bodyfile="include/llm/lora_framework/gradient_utils.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_gradient_stats_1a55be047b99046f7a3bcee43a04ef4552" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::GradientStats::max_gradient</definition>
+        <argsstring></argsstring>
+        <name>max_gradient</name>
+        <qualifiedname>themis::llm::lora::GradientStats::max_gradient</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_utils.h" line="106" column="11" bodyfile="include/llm/lora_framework/gradient_utils.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_gradient_stats_1a15e37506b606273c549ce807e55194b5" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::GradientStats::min_gradient</definition>
+        <argsstring></argsstring>
+        <name>min_gradient</name>
+        <qualifiedname>themis::llm::lora::GradientStats::min_gradient</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_utils.h" line="107" column="11" bodyfile="include/llm/lora_framework/gradient_utils.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_gradient_stats_1ae87dbf6054431240614cdb3fecf24df6" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::GradientStats::mean_gradient</definition>
+        <argsstring></argsstring>
+        <name>mean_gradient</name>
+        <qualifiedname>themis::llm::lora::GradientStats::mean_gradient</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_utils.h" line="108" column="11" bodyfile="include/llm/lora_framework/gradient_utils.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_gradient_stats_1a2d4ce8d8a6af7d6010020c66c2fb31bb" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::GradientStats::num_clipped</definition>
+        <argsstring></argsstring>
+        <name>num_clipped</name>
+        <qualifiedname>themis::llm::lora::GradientStats::num_clipped</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_utils.h" line="109" column="9" bodyfile="include/llm/lora_framework/gradient_utils.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_gradient_stats_1a2bb41f4be67461ca5b9c954e2c704672" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::GradientStats::num_overflows</definition>
+        <argsstring></argsstring>
+        <name>num_overflows</name>
+        <qualifiedname>themis::llm::lora::GradientStats::num_overflows</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_utils.h" line="110" column="9" bodyfile="include/llm/lora_framework/gradient_utils.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_gradient_stats_1a4fee37179f493d50cc36446ccc61e38d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::lora::GradientStats::~GradientStats</definition>
+        <argsstring>()=default</argsstring>
+        <name>~GradientStats</name>
+        <qualifiedname>themis::llm::lora::GradientStats::~GradientStats</qualifiedname>
+        <briefdescription>
+<para>Gradient Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_utils.h" line="104" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_gradient_stats_1abb29052bf818682f7c8e933bb1405548" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::GradientStats::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::lora::GradientStats::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_utils.h" line="112" column="10" bodyfile="include/llm/lora_framework/gradient_utils.h" bodystart="112" bodyend="121"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/gradient_utils.h" line="99" column="1" bodyfile="include/llm/lora_framework/gradient_utils.h" bodystart="99" bodyend="122"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_gradient_stats_1ab708bb6e5da0c061779a54b0fa21cd9d" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientStats</scope><name>global_norm</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_gradient_stats_1a55be047b99046f7a3bcee43a04ef4552" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientStats</scope><name>max_gradient</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_gradient_stats_1ae87dbf6054431240614cdb3fecf24df6" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientStats</scope><name>mean_gradient</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_gradient_stats_1a15e37506b606273c549ce807e55194b5" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientStats</scope><name>min_gradient</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_gradient_stats_1a2d4ce8d8a6af7d6010020c66c2fb31bb" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientStats</scope><name>num_clipped</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_gradient_stats_1a2bb41f4be67461ca5b9c954e2c704672" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientStats</scope><name>num_overflows</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_gradient_stats_1abb29052bf818682f7c8e933bb1405548" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientStats</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_gradient_stats_1a4fee37179f493d50cc36446ccc61e38d" prot="public" virt="virtual"><scope>themis::llm::lora::GradientStats</scope><name>~GradientStats</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

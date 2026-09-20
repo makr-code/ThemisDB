@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_cpu_geo_dispatch_test" kind="class" language="C++" prot="public">
+    <compoundname>CpuGeoDispatchTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_cpu_geo_dispatch_test_1a24ef309901b6d159855380584bdeb9ee" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend" kindref="compound">CPUGeoBackend</ref></type>
+        <definition>CPUGeoBackend CpuGeoDispatchTest::backend_</definition>
+        <argsstring></argsstring>
+        <name>backend_</name>
+        <qualifiedname>CpuGeoDispatchTest::backend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_dispatch.cpp" line="229" column="19" bodyfile="tests/acceleration/test_acceleration_dispatch.cpp" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cpu_geo_dispatch_test_1ae235a86d410db053ff8fafb8f264f4f0" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1acceleration_1_1_geo_kernel_dispatch" kindref="compound">GeoKernelDispatch</ref></type>
+        <definition>GeoKernelDispatch CpuGeoDispatchTest::disp_</definition>
+        <argsstring></argsstring>
+        <name>disp_</name>
+        <qualifiedname>CpuGeoDispatchTest::disp_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_dispatch.cpp" line="230" column="23" bodyfile="tests/acceleration/test_acceleration_dispatch.cpp" bodystart="230" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_cpu_geo_dispatch_test_1a77bd25434d50379a6363a67cea7e2b09" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CpuGeoDispatchTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>CpuGeoDispatchTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_dispatch.cpp" line="232" column="10" bodyfile="tests/acceleration/test_acceleration_dispatch.cpp" bodystart="232" bodyend="237"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CpuGeoDispatchTest</label>
+        <link refid="class_cpu_geo_dispatch_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CpuGeoDispatchTest</label>
+        <link refid="class_cpu_geo_dispatch_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>backend_</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>disp_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::acceleration::CPUGeoBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themis::acceleration::ErrorContext</label>
+        <link refid="structthemis_1_1acceleration_1_1_error_context"/>
+      </node>
+      <node id="7">
+        <label>themis::acceleration::GeoKernelDispatch</label>
+        <link refid="structthemis_1_1acceleration_1_1_geo_kernel_dispatch"/>
+      </node>
+      <node id="5">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+        <childnode refid="6" relation="usage">
+          <edgelabel>lastError_</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::acceleration::IGeoBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_geo_backend"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/acceleration/test_acceleration_dispatch.cpp" line="227" column="1" bodyfile="tests/acceleration/test_acceleration_dispatch.cpp" bodystart="227" bodyend="238"/>
+    <listofallmembers>
+      <member refid="class_cpu_geo_dispatch_test_1a24ef309901b6d159855380584bdeb9ee" prot="protected" virt="non-virtual"><scope>CpuGeoDispatchTest</scope><name>backend_</name></member>
+      <member refid="class_cpu_geo_dispatch_test_1ae235a86d410db053ff8fafb8f264f4f0" prot="protected" virt="non-virtual"><scope>CpuGeoDispatchTest</scope><name>disp_</name></member>
+      <member refid="class_cpu_geo_dispatch_test_1a77bd25434d50379a6363a67cea7e2b09" prot="protected" virt="non-virtual"><scope>CpuGeoDispatchTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

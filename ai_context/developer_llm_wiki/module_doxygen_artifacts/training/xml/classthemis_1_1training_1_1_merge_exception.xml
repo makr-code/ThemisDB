@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1training_1_1_merge_exception" kind="class" language="C++" prot="public">
+    <compoundname>themis::training::MergeException</compoundname>
+    <basecompoundref refid="classthemis_1_1training_1_1_training_exception" prot="public" virt="non-virtual">themis::training::TrainingException</basecompoundref>
+    <includes refid="training__exceptions_8h" local="no">training_exceptions.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_merge_exception_1a7aced3be959bfaec049bf460a5db382a" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::MergeException::MergeException</definition>
+        <argsstring>(const std::string &amp;message, TrainingErrorCode code=TrainingErrorCode::MERGE_NO_ADAPTERS, bool recoverable=false, const std::string &amp;context=&quot;&quot;)</argsstring>
+        <name>MergeException</name>
+        <qualifiedname>themis::training::MergeException::MergeException</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841b" kindref="member">TrainingErrorCode</ref></type>
+          <declname>code</declname>
+          <defval><ref refid="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841ba7cb9525b59bbde573b650f2fc231c6df" kindref="member">TrainingErrorCode::MERGE_NO_ADAPTERS</ref></defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>recoverable</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>context</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_exceptions.h" line="155" column="14" bodyfile="include/training/training_exceptions.h" bodystart="155" bodyend="160"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Exception for adapter merge failures. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Raised when merging multiple adapters fails. Examples: dimension mismatch, incompatible configs, NaN during merge, merge conflicts, etc. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::training::MergeException</label>
+        <link refid="classthemis_1_1training_1_1_merge_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::training::TrainingException</label>
+        <link refid="classthemis_1_1training_1_1_training_exception"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::training::MergeException</label>
+        <link refid="classthemis_1_1training_1_1_merge_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::training::TrainingException</label>
+        <link refid="classthemis_1_1training_1_1_training_exception"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/training/training_exceptions.h" line="153" column="1" bodyfile="include/training/training_exceptions.h" bodystart="153" bodyend="161"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1training_1_1_training_exception_1a5a6943e3854b3df3571766b1cd826ccf" prot="protected" virt="non-virtual"><scope>themis::training::MergeException</scope><name>code_</name></member>
+      <member refid="classthemis_1_1training_1_1_training_exception_1a5e0028cc1a974133a55560f5bb035975" prot="public" virt="non-virtual"><scope>themis::training::MergeException</scope><name>context</name></member>
+      <member refid="classthemis_1_1training_1_1_training_exception_1ad41f8d190eee1f630f67f98eca9f7545" prot="protected" virt="non-virtual"><scope>themis::training::MergeException</scope><name>context_</name></member>
+      <member refid="classthemis_1_1training_1_1_training_exception_1a0fb647f12be0dfe1b36cc6e84fe433cb" prot="public" virt="non-virtual"><scope>themis::training::MergeException</scope><name>diagnostic_message</name></member>
+      <member refid="classthemis_1_1training_1_1_training_exception_1a28d709e7710cdf765cc4d0ba98937cb7" prot="public" virt="non-virtual"><scope>themis::training::MergeException</scope><name>error_code</name></member>
+      <member refid="classthemis_1_1training_1_1_training_exception_1a282e2f86ab5fe3f357810c471726a085" prot="public" virt="non-virtual"><scope>themis::training::MergeException</scope><name>error_code_value</name></member>
+      <member refid="classthemis_1_1training_1_1_training_exception_1aeb0d1f8f5ba5b3bf4852702ae797aad1" prot="public" virt="non-virtual"><scope>themis::training::MergeException</scope><name>is_recoverable</name></member>
+      <member refid="classthemis_1_1training_1_1_merge_exception_1a7aced3be959bfaec049bf460a5db382a" prot="public" virt="non-virtual"><scope>themis::training::MergeException</scope><name>MergeException</name></member>
+      <member refid="classthemis_1_1training_1_1_training_exception_1aadb2094b7d5f9ecffbec35ad68d52bbe" prot="protected" virt="non-virtual"><scope>themis::training::MergeException</scope><name>recoverable_</name></member>
+      <member refid="classthemis_1_1training_1_1_training_exception_1a50a6d48c50d9b1b385e85b566b0c64a0" prot="public" virt="non-virtual"><scope>themis::training::MergeException</scope><name>TrainingException</name></member>
+      <member refid="classthemis_1_1training_1_1_training_exception_1a438b646b5f5998cdbdb3a50764aa960b" prot="public" virt="virtual"><scope>themis::training::MergeException</scope><name>~TrainingException</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

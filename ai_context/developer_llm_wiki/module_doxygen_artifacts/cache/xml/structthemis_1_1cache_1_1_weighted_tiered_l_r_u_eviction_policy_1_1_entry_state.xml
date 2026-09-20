@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_weighted_tiered_l_r_u_eviction_policy_1_1_entry_state" kind="struct" language="C++" prot="private">
+    <compoundname>themis::cache::WeightedTieredLRUEvictionPolicy::EntryState</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_weighted_tiered_l_r_u_eviction_policy_1_1_entry_state_1a9e7e21f3a3591e36258c4f96d48bd68c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cache::WeightedTieredLRUEvictionPolicy::EntryState::access_count</definition>
+        <argsstring></argsstring>
+        <name>access_count</name>
+        <qualifiedname>themis::cache::WeightedTieredLRUEvictionPolicy::EntryState::access_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_eviction_policy.h" line="308" column="16" bodyfile="include/cache/cache_eviction_policy.h" bodystart="308" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_weighted_tiered_l_r_u_eviction_policy_1_1_entry_state_1adc87d8f4312763c82b2187fe8d59d0ca" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::cache::WeightedTieredLRUEvictionPolicy::EntryState::last_access_ns</definition>
+        <argsstring></argsstring>
+        <name>last_access_ns</name>
+        <qualifiedname>themis::cache::WeightedTieredLRUEvictionPolicy::EntryState::last_access_ns</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_eviction_policy.h" line="309" column="17" bodyfile="include/cache/cache_eviction_policy.h" bodystart="309" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_weighted_tiered_l_r_u_eviction_policy_1_1_entry_state_1a2ba95f59feca90bda6a938a579971301" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::cache::WeightedTieredLRUEvictionPolicy::EntryState::creation_time_ns</definition>
+        <argsstring></argsstring>
+        <name>creation_time_ns</name>
+        <qualifiedname>themis::cache::WeightedTieredLRUEvictionPolicy::EntryState::creation_time_ns</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_eviction_policy.h" line="310" column="17" bodyfile="include/cache/cache_eviction_policy.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_weighted_tiered_l_r_u_eviction_policy_1_1_entry_state_1aea81388515c51321e2b82cbf5d7ed0b8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::cache::WeightedTieredLRUEvictionPolicy::EntryState::decayed_frequency</definition>
+        <argsstring></argsstring>
+        <name>decayed_frequency</name>
+        <qualifiedname>themis::cache::WeightedTieredLRUEvictionPolicy::EntryState::decayed_frequency</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_eviction_policy.h" line="311" column="16" bodyfile="include/cache/cache_eviction_policy.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/cache_eviction_policy.h" line="307" column="5" bodyfile="include/cache/cache_eviction_policy.h" bodystart="307" bodyend="312"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_weighted_tiered_l_r_u_eviction_policy_1_1_entry_state_1a9e7e21f3a3591e36258c4f96d48bd68c" prot="public" virt="non-virtual"><scope>themis::cache::WeightedTieredLRUEvictionPolicy::EntryState</scope><name>access_count</name></member>
+      <member refid="structthemis_1_1cache_1_1_weighted_tiered_l_r_u_eviction_policy_1_1_entry_state_1a2ba95f59feca90bda6a938a579971301" prot="public" virt="non-virtual"><scope>themis::cache::WeightedTieredLRUEvictionPolicy::EntryState</scope><name>creation_time_ns</name></member>
+      <member refid="structthemis_1_1cache_1_1_weighted_tiered_l_r_u_eviction_policy_1_1_entry_state_1aea81388515c51321e2b82cbf5d7ed0b8" prot="public" virt="non-virtual"><scope>themis::cache::WeightedTieredLRUEvictionPolicy::EntryState</scope><name>decayed_frequency</name></member>
+      <member refid="structthemis_1_1cache_1_1_weighted_tiered_l_r_u_eviction_policy_1_1_entry_state_1adc87d8f4312763c82b2187fe8d59d0ca" prot="public" virt="non-virtual"><scope>themis::cache::WeightedTieredLRUEvictionPolicy::EntryState</scope><name>last_access_ns</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

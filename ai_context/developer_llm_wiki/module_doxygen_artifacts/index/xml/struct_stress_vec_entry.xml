@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_stress_vec_entry" kind="struct" language="C++" prot="public">
+    <compoundname>StressVecEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_stress_vec_entry_1a74db27a27cfede0f44d5a84400b726d5" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t StressVecEntry::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>StressVecEntry::id</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_highcardinality_stress.cpp" line="48" column="24" bodyfile="tests/index/test_index_highcardinality_stress.cpp" bodystart="48" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_stress_vec_entry_1a45be3b36a35fcbda14d406b454021d8c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; StressVecEntry::vec</definition>
+        <argsstring></argsstring>
+        <name>vec</name>
+        <qualifiedname>StressVecEntry::vec</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_highcardinality_stress.cpp" line="49" column="17" bodyfile="tests/index/test_index_highcardinality_stress.cpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stub vector entry for stress tests. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/index/test_index_highcardinality_stress.cpp" line="47" column="1" bodyfile="tests/index/test_index_highcardinality_stress.cpp" bodystart="47" bodyend="50"/>
+    <listofallmembers>
+      <member refid="struct_stress_vec_entry_1a74db27a27cfede0f44d5a84400b726d5" prot="public" virt="non-virtual"><scope>StressVecEntry</scope><name>id</name></member>
+      <member refid="struct_stress_vec_entry_1a45be3b36a35fcbda14d406b454021d8c" prot="public" virt="non-virtual"><scope>StressVecEntry</scope><name>vec</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

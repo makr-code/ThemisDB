@@ -1,0 +1,1033 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::phase4_hardening::InputValidator</compoundname>
+    <includes refid="input__validation_8h" local="no">input_validation.h</includes>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator_1a88b6214a2a8066f08f80b884dc514096" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>std::array&lt; std::string_view, 10 &gt;</type>
+        <definition>std::array&lt;std::string_view, 10&gt; themis::security::phase4_hardening::InputValidator::SQL_INJECTION_PATTERNS</definition>
+        <argsstring></argsstring>
+        <name>SQL_INJECTION_PATTERNS</name>
+        <qualifiedname>themis::security::phase4_hardening::InputValidator::SQL_INJECTION_PATTERNS</qualifiedname>
+        <initializer>                                                   = {
+    R&quot;(\bor\b\s+.+\s*=\s*.+)&quot;, 
+    R&quot;(\bdrop\b\s+\btable\b)&quot;, 
+    R&quot;(\bdelete\b\s+\bfrom\b)&quot;, 
+    R&quot;(\binsert\b\s+\binto\b)&quot;, 
+    R&quot;(\bupdate\b\s+\bset\b)&quot;, 
+    R&quot;(;\s*--)&quot;, 
+    R&quot;(\bunion\b\s+\bselect\b)&quot;, 
+    R&quot;(\bexec(?:ute)?\s*\()&quot;, 
+    R&quot;(\beval\s*\()&quot;, 
+    R&quot;(\bselect\b\s+.+\bfrom\b)&quot;, 
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validation.h" line="281" column="31" bodyfile="include/security/input_validation.h" bodystart="281" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator_1a56159906f3043af94e9c4270f0ddf747" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>std::array&lt; std::string_view, 8 &gt;</type>
+        <definition>std::array&lt;std::string_view, 8&gt; themis::security::phase4_hardening::InputValidator::PROMPT_INJECTION_PATTERNS</definition>
+        <argsstring></argsstring>
+        <name>PROMPT_INJECTION_PATTERNS</name>
+        <qualifiedname>themis::security::phase4_hardening::InputValidator::PROMPT_INJECTION_PATTERNS</qualifiedname>
+        <initializer>                                                      = {
+    R&quot;(\bignore\b.+\binstruction)&quot;,
+    R&quot;(\bforget\b.+\bprevious)&quot;,
+    R&quot;(\boverride\b.+\bsystem)&quot;,
+    R&quot;(\bsystem\b.+\bprompt)&quot;,
+    R&quot;(\bdeveloper\b.+\bmode)&quot;,
+    R&quot;(\bbypass\b.+\bfilter)&quot;,
+    R&quot;(\bexecute\b.+\bcode)&quot;,
+    R&quot;(\brun\b.+\bcommand)&quot;,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validation.h" line="294" column="31" bodyfile="include/security/input_validation.h" bodystart="294" bodyend="303"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator_1a4c1e0f884e92c433d849d689e410ea6f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1phase4__hardening_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>ValidationResult themis::security::phase4_hardening::InputValidator::ValidateHttpParameter</definition>
+        <argsstring>(std::string_view param_name, std::string_view param_value, size_t max_length=8192)</argsstring>
+        <name>ValidateHttpParameter</name>
+        <qualifiedname>themis::security::phase4_hardening::InputValidator::ValidateHttpParameter</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>param_name</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>param_value</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_length</declname>
+          <defval>8192</defval>
+        </param>
+        <briefdescription>
+<para>Validates HTTP request parameter with strict allowlist. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate Http Parameter.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>param_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Parameter name (e.g., &quot;user_id&quot;, &quot;page&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>param_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Parameter value to validate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum allowable length (default: 8192 bytes) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1security_1_1phase4__hardening_1_1_validation_result" kindref="compound">ValidationResult</ref> with validity status</para>
+</simplesect>
+Validation Rules:<itemizedlist>
+<listitem><para>Name and value must not be empty</para>
+</listitem><listitem><para>Length must not exceed max_length</para>
+</listitem><listitem><para>Characters must be in allowlist (alphanumeric, underscore, hyphen, dot, space)</para>
+</listitem><listitem><para>No control characters, quotes, or special shell characters</para>
+</listitem></itemizedlist>
+</para>
+<para>Examples: ✓ ValidateHttpParameter(&quot;user_id&quot;, &quot;12345&quot;) ✓ ValidateHttpParameter(&quot;page&quot;, &quot;search-results&quot;) ✗ ValidateHttpParameter(&quot;query&quot;, &quot;&apos;; DROP TABLE users; --&quot;) ✗ ValidateHttpParameter(&quot;path&quot;, &quot;../../etc/passwd&quot;)</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the param. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), length(), std::to_string(), IsAllowedHttpParameterCharacter(), std::string(), <ref refid="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator_1a8f76e9866120001853ed72945081f766" kindref="member">ContainsInjectionPatterns()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validation.h" line="88" column="27" bodyfile="src/security/input_validation.cpp" bodystart="32" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator_1a710b28b71b8aa0d33a0193fd95d54808" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1phase4__hardening_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>ValidationResult themis::security::phase4_hardening::InputValidator::ValidateRequestBodySize</definition>
+        <argsstring>(size_t body_size, size_t max_size=104857600)</argsstring>
+        <name>ValidateRequestBodySize</name>
+        <qualifiedname>themis::security::phase4_hardening::InputValidator::ValidateRequestBodySize</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>body_size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_size</declname>
+          <defval>104857600</defval>
+        </param>
+        <briefdescription>
+<para>Validates HTTP request body size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate Request Body Size.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>body_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size of request body in bytes </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum allowable size (default: 100MB) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1security_1_1phase4__hardening_1_1_validation_result" kindref="compound">ValidationResult</ref> with validity status</para>
+</simplesect>
+Validation Rules:<itemizedlist>
+<listitem><para>Body size must not be zero</para>
+</listitem><listitem><para>Body size must not exceed max_size</para>
+</listitem></itemizedlist>
+</para>
+<para>Examples: ✓ ValidateRequestBodySize(1024 * 1024) // 1MB ✗ ValidateRequestBodySize(500 * 1024 * 1024) // 500MB (too large) ✗ ValidateRequestBodySize(0) // Empty body</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">body_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validation.h" line="108" column="27" bodyfile="src/security/input_validation.cpp" bodystart="74" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator_1af59e29c7e50823733d34a5eb34fc0082" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1phase4__hardening_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>ValidationResult themis::security::phase4_hardening::InputValidator::ValidateHttpHeader</definition>
+        <argsstring>(std::string_view header_name, std::string_view header_value)</argsstring>
+        <name>ValidateHttpHeader</name>
+        <qualifiedname>themis::security::phase4_hardening::InputValidator::ValidateHttpHeader</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>header_name</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>header_value</declname>
+        </param>
+        <briefdescription>
+<para>Validates HTTP header value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate Http Header.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>header_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Header name (case-insensitive) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>header_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Header value to validate </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1security_1_1phase4__hardening_1_1_validation_result" kindref="compound">ValidationResult</ref> with validity status</para>
+</simplesect>
+Validation Rules:<itemizedlist>
+<listitem><para>Value must not be empty</para>
+</listitem><listitem><para>Value must not contain CRLF sequences (prevents header injection)</para>
+</listitem><listitem><para>Value must not contain suspicious patterns (script, onerror, etc.)</para>
+</listitem></itemizedlist>
+</para>
+<para>Examples: ✓ ValidateHttpHeader(&quot;Authorization&quot;, &quot;******&quot;) ✗ ValidateHttpHeader(&quot;X-Custom&quot;, &quot;value\r\nX-Injected: evil&quot;)</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">header_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the header. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">header_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), find(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validation.h" line="127" column="27" bodyfile="src/security/input_validation.cpp" bodystart="99" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator_1aeddc226e1593ae44e43934e548b58279" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1phase4__hardening_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>ValidationResult themis::security::phase4_hardening::InputValidator::ValidateHttpPath</definition>
+        <argsstring>(std::string_view path)</argsstring>
+        <name>ValidateHttpPath</name>
+        <qualifiedname>themis::security::phase4_hardening::InputValidator::ValidateHttpPath</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Validates HTTP request path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate Http Path.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request path/URI </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1security_1_1phase4__hardening_1_1_validation_result" kindref="compound">ValidationResult</ref> with validity status</para>
+</simplesect>
+Validation Rules:<itemizedlist>
+<listitem><para>Path must start with &quot;/&quot;</para>
+</listitem><listitem><para>Path must not contain &quot;..&quot; (path traversal prevention)</para>
+</listitem><listitem><para>Path must not contain control characters</para>
+</listitem><listitem><para>Percent-encoded sequences are validated</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), find(), length(), std::isxdigit(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validation.h" line="142" column="27" bodyfile="src/security/input_validation.cpp" bodystart="147" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator_1af67b816132e6107193652f3e4a32a520" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1phase4__hardening_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>ValidationResult themis::security::phase4_hardening::InputValidator::ValidateSQLParameter</definition>
+        <argsstring>(std::string_view param_value, std::string_view param_type=&quot;string&quot;)</argsstring>
+        <name>ValidateSQLParameter</name>
+        <qualifiedname>themis::security::phase4_hardening::InputValidator::ValidateSQLParameter</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>param_value</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>param_type</declname>
+          <defval>&quot;string&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Validates SQL query parameter value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate SQLParameter.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>param_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Parameter value to validate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>param_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Expected parameter type (e.g., &quot;string&quot;, &quot;int&quot;, &quot;uuid&quot;) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1security_1_1phase4__hardening_1_1_validation_result" kindref="compound">ValidationResult</ref> with validity status</para>
+</simplesect>
+Validation Rules:<itemizedlist>
+<listitem><para>Value must match expected type</para>
+</listitem><listitem><para>String lengths must be within bounds</para>
+</listitem><listitem><para>Numeric values must be within range</para>
+</listitem><listitem><para>UUID must be valid format</para>
+</listitem><listitem><para>No raw SQL keywords in string parameters</para>
+</listitem></itemizedlist>
+</para>
+<para>Examples: ✓ ValidateSQLParameter(&quot;123&quot;, &quot;int&quot;) ✓ ValidateSQLParameter(&quot;john@example.com&quot;, &quot;email&quot;) ✗ ValidateSQLParameter(&quot;1&apos; OR &apos;1&apos;=&apos;1&quot;, &quot;string&quot;) ✗ ValidateSQLParameter(&quot;DROP TABLE users&quot;, &quot;string&quot;)</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::stoll(), std::string(), std::stod(), uuid_pattern(), std::regex_match(), email_pattern(), ValidateSQLKeywords(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validation.h" line="167" column="27" bodyfile="src/security/input_validation.cpp" bodystart="192" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator_1aa21e497f4449b0ec500b67c9a55bce51" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1phase4__hardening_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>ValidationResult themis::security::phase4_hardening::InputValidator::ValidateSQLLiteral</definition>
+        <argsstring>(std::string_view literal_value, std::string_view expected_type=&quot;string&quot;)</argsstring>
+        <name>ValidateSQLLiteral</name>
+        <qualifiedname>themis::security::phase4_hardening::InputValidator::ValidateSQLLiteral</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>literal_value</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>expected_type</declname>
+          <defval>&quot;string&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Validates SQL literal value from query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate SQLLiteral.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>literal_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Literal value from SQL query </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>expected_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Expected type (string, number, boolean, null) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1security_1_1phase4__hardening_1_1_validation_result" kindref="compound">ValidationResult</ref> with validity status</para>
+</simplesect>
+Validation Rules:<itemizedlist>
+<listitem><para>Literal must parse correctly for its type</para>
+</listitem><listitem><para>Numeric literals must be within type range</para>
+</listitem><listitem><para>String literals must use correct quoting</para>
+</listitem><listitem><para>No unescaped quotes in string literals</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">literal_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expected_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::stod(), std::string(), front(), back(), length(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validation.h" line="183" column="27" bodyfile="src/security/input_validation.cpp" bodystart="249" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator_1a7ea2f2047c6f6928d1c8d43df00d91d6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1phase4__hardening_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>ValidationResult themis::security::phase4_hardening::InputValidator::ValidateLLMPrompt</definition>
+        <argsstring>(std::string_view prompt, size_t max_length=4096)</argsstring>
+        <name>ValidateLLMPrompt</name>
+        <qualifiedname>themis::security::phase4_hardening::InputValidator::ValidateLLMPrompt</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_length</declname>
+          <defval>4096</defval>
+        </param>
+        <briefdescription>
+<para>Validates LLM model prompt input. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate LLMPrompt.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt text to validate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum prompt length (default: 4096) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1security_1_1phase4__hardening_1_1_validation_result" kindref="compound">ValidationResult</ref> with validity status</para>
+</simplesect>
+Validation Rules:<itemizedlist>
+<listitem><para>Prompt must not be empty</para>
+</listitem><listitem><para>Length must not exceed max_length</para>
+</listitem><listitem><para>Encoding must be valid UTF-8</para>
+</listitem><listitem><para>No control characters except newline/tab</para>
+</listitem><listitem><para>No prompt injection patterns detected</para>
+</listitem><listitem><para>Token count must be within limits</para>
+</listitem></itemizedlist>
+</para>
+<para>Examples: ✓ ValidateLLMPrompt(&quot;What is 2+2?&quot;) ✗ ValidateLLMPrompt(&quot;&quot;) // Empty ✗ ValidateLLMPrompt(&quot;ignore instructions: ...&quot;) // Injection attempt</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), length(), std::to_string(), <ref refid="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator_1a76daf845292f764f567a2f9155384797" kindref="member">IsValidUTF8()</ref>, CheckPromptForInjection(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validation.h" line="210" column="27" bodyfile="src/security/input_validation.cpp" bodystart="310" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator_1a549d0004a7ba3e1a96e2ceab2624251e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1phase4__hardening_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>ValidationResult themis::security::phase4_hardening::InputValidator::ValidateLLMParameter</definition>
+        <argsstring>(std::string_view param_name, std::string_view param_value)</argsstring>
+        <name>ValidateLLMParameter</name>
+        <qualifiedname>themis::security::phase4_hardening::InputValidator::ValidateLLMParameter</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>param_name</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>param_value</declname>
+        </param>
+        <briefdescription>
+<para>Validates LLM model configuration parameter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate LLMParameter.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>param_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Parameter name (e.g., &quot;temperature&quot;, &quot;max_tokens&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>param_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Parameter value to validate </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1security_1_1phase4__hardening_1_1_validation_result" kindref="compound">ValidationResult</ref> with validity status</para>
+</simplesect>
+Validation Rules:<itemizedlist>
+<listitem><para>Parameter name must be known and approved</para>
+</listitem><listitem><para>Numeric parameters must be within valid range</para>
+</listitem><listitem><para>String parameters must match approved patterns</para>
+</listitem></itemizedlist>
+</para>
+<para>Examples: ✓ ValidateLLMParameter(&quot;temperature&quot;, &quot;0.7&quot;) ✓ ValidateLLMParameter(&quot;max_tokens&quot;, &quot;512&quot;) ✗ ValidateLLMParameter(&quot;temperature&quot;, &quot;999&quot;) // Out of range ✗ ValidateLLMParameter(&quot;unknown_param&quot;, &quot;x&quot;) // Unknown parameter</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the param. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), end(), std::find(), begin(), std::string(), std::stod(), at(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validation.h" line="231" column="27" bodyfile="src/security/input_validation.cpp" bodystart="351" bodyend="410"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator_1a7a39459f3b12afb07c3bee99c0ee9cc5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::phase4_hardening::InputValidator::IsWhitelistedCharacters</definition>
+        <argsstring>(std::string_view value, std::string_view allowed_pattern=&quot;^[a-zA-Z0-9_.-]+$&quot;)</argsstring>
+        <name>IsWhitelistedCharacters</name>
+        <qualifiedname>themis::security::phase4_hardening::InputValidator::IsWhitelistedCharacters</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>allowed_pattern</declname>
+          <defval>&quot;^[a-zA-Z0-9_.-]+$&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Checks if string contains only whitelisted characters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Is Whitelisted Characters.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>String to check </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>allowed_pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Regex pattern of allowed characters </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if all characters match pattern, false otherwise</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">allowed_pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::string(), std::regex_match(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validation.h" line="245" column="15" bodyfile="src/security/input_validation.cpp" bodystart="423" bodyend="432"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator_1a76daf845292f764f567a2f9155384797" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::phase4_hardening::InputValidator::IsValidUTF8</definition>
+        <argsstring>(std::string_view value)</argsstring>
+        <name>IsValidUTF8</name>
+        <qualifiedname>themis::security::phase4_hardening::InputValidator::IsValidUTF8</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Validates UTF-8 encoding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Is Valid UTF8.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>String to validate </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if valid UTF-8, false otherwise</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: length(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validation.h" line="254" column="15" bodyfile="src/security/input_validation.cpp" bodystart="440" bodyend="486"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator_1a8f76e9866120001853ed72945081f766" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::phase4_hardening::InputValidator::ContainsInjectionPatterns</definition>
+        <argsstring>(std::string_view value)</argsstring>
+        <name>ContainsInjectionPatterns</name>
+        <qualifiedname>themis::security::phase4_hardening::InputValidator::ContainsInjectionPatterns</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Checks for common injection patterns. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Contains Injection Patterns.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>String to check </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if injection patterns found, false otherwise</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::regex_search(), begin(), end(), std::regex(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validation.h" line="261" column="15" bodyfile="src/security/input_validation.cpp" bodystart="494" bodyend="516"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator_1aa37f1b7dcdbcf8c5cd5ba952fa258377" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::security::phase4_hardening::InputValidator::SafeUrlDecode</definition>
+        <argsstring>(std::string_view encoded)</argsstring>
+        <name>SafeUrlDecode</name>
+        <qualifiedname>themis::security::phase4_hardening::InputValidator::SafeUrlDecode</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>encoded</declname>
+        </param>
+        <briefdescription>
+<para>Safely decodes percent-encoded string (URL decoding). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Safe Url Decode.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>encoded</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Percent-encoded string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Decoded string, or empty optional if invalid encoding</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">encoded</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: length(), std::isxdigit(), std::stoi(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validation.h" line="268" column="24" bodyfile="src/security/input_validation.cpp" bodystart="524" bodyend="554"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator_1a03dfafab61b423f49f1f69bfa89a9245" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::phase4_hardening::InputValidator::EscapeForSQL</definition>
+        <argsstring>(std::string_view value)</argsstring>
+        <name>EscapeForSQL</name>
+        <qualifiedname>themis::security::phase4_hardening::InputValidator::EscapeForSQL</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Escapes string for safe SQL usage (not a replacement for parameterized queries). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Escape For SQL.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>String to escape </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Escaped string safe for literal embedding</para>
+</simplesect>
+<simplesect kind="warning"><para>Use parameterized queries instead of escaping when possible</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements EscapeForSQL without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validation.h" line="277" column="22" bodyfile="src/security/input_validation.cpp" bodystart="562" bodyend="581"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator_1ae9a68e46877c4184ffabc217c4ed2948" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::phase4_hardening::InputValidator::IsAllowedHttpParameterCharacter</definition>
+        <argsstring>(unsigned char c)</argsstring>
+        <name>IsAllowedHttpParameterCharacter</name>
+        <qualifiedname>themis::security::phase4_hardening::InputValidator::IsAllowedHttpParameterCharacter</qualifiedname>
+        <param>
+          <type>unsigned char</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+<para>HTTP parameter allowlist. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Is Allowed Http Parameter Character.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True on success.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::isalnum(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validation.h" line="310" column="15" bodyfile="src/security/input_validation.cpp" bodystart="593" bodyend="596"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator_1ad36c823234b868967597c1cb8400e869" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::phase4_hardening::InputValidator::ValidateSQLKeywords</definition>
+        <argsstring>(std::string_view value)</argsstring>
+        <name>ValidateSQLKeywords</name>
+        <qualifiedname>themis::security::phase4_hardening::InputValidator::ValidateSQLKeywords</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Validation helper functions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate SQLKeywords.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True on success.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lower_value(), std::transform(), begin(), end(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validation.h" line="317" column="15" bodyfile="src/security/input_validation.cpp" bodystart="604" bodyend="623"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator_1a04b79db3ca737129c602586bd0a3da96" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::phase4_hardening::InputValidator::CheckPromptForInjection</definition>
+        <argsstring>(std::string_view prompt)</argsstring>
+        <name>CheckPromptForInjection</name>
+        <qualifiedname>themis::security::phase4_hardening::InputValidator::CheckPromptForInjection</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+<para>Check Prompt For Injection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True on success.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::regex_search(), begin(), end(), std::regex(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validation.h" line="323" column="15" bodyfile="src/security/input_validation.cpp" bodystart="631" bodyend="645"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Strict allowlist-based input validator with reject-by-default semantics. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All validation follows these principles:<orderedlist>
+<listitem><para>Reject by default (fail on ANY unexpected condition)</para>
+</listitem><listitem><para>Whitelist known-good patterns (not blacklist known-bad)</para>
+</listitem><listitem><para>Validate all dimensions (length, characters, format, semantics)</para>
+</listitem><listitem><para>Log all validation failures for audit trail</para>
+</listitem><listitem><para>Sanitize output where needed (but validate first) </para>
+</listitem></orderedlist>
+</para>
+    </detaileddescription>
+    <location file="include/security/input_validation.h" line="63" column="1" bodyfile="include/security/input_validation.h" bodystart="63" bodyend="324"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator_1a04b79db3ca737129c602586bd0a3da96" prot="private" virt="non-virtual"><scope>themis::security::phase4_hardening::InputValidator</scope><name>CheckPromptForInjection</name></member>
+      <member refid="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator_1a8f76e9866120001853ed72945081f766" prot="public" virt="non-virtual"><scope>themis::security::phase4_hardening::InputValidator</scope><name>ContainsInjectionPatterns</name></member>
+      <member refid="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator_1a03dfafab61b423f49f1f69bfa89a9245" prot="public" virt="non-virtual"><scope>themis::security::phase4_hardening::InputValidator</scope><name>EscapeForSQL</name></member>
+      <member refid="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator_1ae9a68e46877c4184ffabc217c4ed2948" prot="private" virt="non-virtual"><scope>themis::security::phase4_hardening::InputValidator</scope><name>IsAllowedHttpParameterCharacter</name></member>
+      <member refid="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator_1a76daf845292f764f567a2f9155384797" prot="public" virt="non-virtual"><scope>themis::security::phase4_hardening::InputValidator</scope><name>IsValidUTF8</name></member>
+      <member refid="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator_1a7a39459f3b12afb07c3bee99c0ee9cc5" prot="public" virt="non-virtual"><scope>themis::security::phase4_hardening::InputValidator</scope><name>IsWhitelistedCharacters</name></member>
+      <member refid="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator_1a56159906f3043af94e9c4270f0ddf747" prot="private" virt="non-virtual"><scope>themis::security::phase4_hardening::InputValidator</scope><name>PROMPT_INJECTION_PATTERNS</name></member>
+      <member refid="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator_1aa37f1b7dcdbcf8c5cd5ba952fa258377" prot="public" virt="non-virtual"><scope>themis::security::phase4_hardening::InputValidator</scope><name>SafeUrlDecode</name></member>
+      <member refid="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator_1a88b6214a2a8066f08f80b884dc514096" prot="private" virt="non-virtual"><scope>themis::security::phase4_hardening::InputValidator</scope><name>SQL_INJECTION_PATTERNS</name></member>
+      <member refid="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator_1af59e29c7e50823733d34a5eb34fc0082" prot="public" virt="non-virtual"><scope>themis::security::phase4_hardening::InputValidator</scope><name>ValidateHttpHeader</name></member>
+      <member refid="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator_1a4c1e0f884e92c433d849d689e410ea6f" prot="public" virt="non-virtual"><scope>themis::security::phase4_hardening::InputValidator</scope><name>ValidateHttpParameter</name></member>
+      <member refid="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator_1aeddc226e1593ae44e43934e548b58279" prot="public" virt="non-virtual"><scope>themis::security::phase4_hardening::InputValidator</scope><name>ValidateHttpPath</name></member>
+      <member refid="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator_1a549d0004a7ba3e1a96e2ceab2624251e" prot="public" virt="non-virtual"><scope>themis::security::phase4_hardening::InputValidator</scope><name>ValidateLLMParameter</name></member>
+      <member refid="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator_1a7ea2f2047c6f6928d1c8d43df00d91d6" prot="public" virt="non-virtual"><scope>themis::security::phase4_hardening::InputValidator</scope><name>ValidateLLMPrompt</name></member>
+      <member refid="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator_1a710b28b71b8aa0d33a0193fd95d54808" prot="public" virt="non-virtual"><scope>themis::security::phase4_hardening::InputValidator</scope><name>ValidateRequestBodySize</name></member>
+      <member refid="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator_1ad36c823234b868967597c1cb8400e869" prot="private" virt="non-virtual"><scope>themis::security::phase4_hardening::InputValidator</scope><name>ValidateSQLKeywords</name></member>
+      <member refid="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator_1aa21e497f4449b0ec500b67c9a55bce51" prot="public" virt="non-virtual"><scope>themis::security::phase4_hardening::InputValidator</scope><name>ValidateSQLLiteral</name></member>
+      <member refid="classthemis_1_1security_1_1phase4__hardening_1_1_input_validator_1af67b816132e6107193652f3e4a32a520" prot="public" virt="non-virtual"><scope>themis::security::phase4_hardening::InputValidator</scope><name>ValidateSQLParameter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

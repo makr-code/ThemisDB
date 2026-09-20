@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1temporal_1_1_archived_record" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::temporal::ArchivedRecord</compoundname>
+    <includes refid="retention__manager_8h" local="no">retention_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_archived_record_1a2394d46de877e0431d72549d40931e63" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref></type>
+        <definition>VersionedDocument themisdb::temporal::ArchivedRecord::document</definition>
+        <argsstring></argsstring>
+        <name>document</name>
+        <qualifiedname>themisdb::temporal::ArchivedRecord::document</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/retention_manager.h" line="177" column="23" bodyfile="include/temporal/retention_manager.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_archived_record_1a0f06d0e5475e21c94b25e38185193201" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::ArchivedRecord::archive_tag</definition>
+        <argsstring></argsstring>
+        <name>archive_tag</name>
+        <qualifiedname>themisdb::temporal::ArchivedRecord::archive_tag</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/retention_manager.h" line="178" column="17" bodyfile="include/temporal/retention_manager.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_archived_record_1a6d2ea87c3971259c9dd57cdc5420a691" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+        <definition>Timestamp themisdb::temporal::ArchivedRecord::archived_at</definition>
+        <argsstring></argsstring>
+        <name>archived_at</name>
+        <qualifiedname>themisdb::temporal::ArchivedRecord::archived_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/retention_manager.h" line="179" column="15" bodyfile="include/temporal/retention_manager.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>An archived record (a version that was removed by a retention run). </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themisdb::temporal::ArchivedRecord</label>
+        <link refid="structthemisdb_1_1temporal_1_1_archived_record"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>document</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themisdb::temporal::TimeRange</label>
+        <link refid="structthemisdb_1_1temporal_1_1_time_range"/>
+      </node>
+      <node id="2">
+        <label>themisdb::temporal::VersionedDocument</label>
+        <link refid="structthemisdb_1_1temporal_1_1_versioned_document"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>sys_time</edgelabel>
+          <edgelabel>valid_time</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/temporal/retention_manager.h" line="176" column="1" bodyfile="include/temporal/retention_manager.h" bodystart="176" bodyend="180"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1temporal_1_1_archived_record_1a0f06d0e5475e21c94b25e38185193201" prot="public" virt="non-virtual"><scope>themisdb::temporal::ArchivedRecord</scope><name>archive_tag</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_archived_record_1a6d2ea87c3971259c9dd57cdc5420a691" prot="public" virt="non-virtual"><scope>themisdb::temporal::ArchivedRecord</scope><name>archived_at</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_archived_record_1a2394d46de877e0431d72549d40931e63" prot="public" virt="non-virtual"><scope>themisdb::temporal::ArchivedRecord</scope><name>document</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

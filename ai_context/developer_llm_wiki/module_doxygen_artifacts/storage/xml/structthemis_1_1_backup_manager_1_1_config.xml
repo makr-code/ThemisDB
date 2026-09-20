@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_backup_manager_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::BackupManager::Config</compoundname>
+    <includes refid="backup__manager_8h" local="no">backup_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_backup_manager_1_1_config_1a88653448e89eecc3b8ca91c5aaf3fd2a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::BackupManager::Config::backup_base_dir</definition>
+        <argsstring></argsstring>
+        <name>backup_base_dir</name>
+        <qualifiedname>themis::BackupManager::Config::backup_base_dir</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="196" column="21" bodyfile="include/storage/backup_manager.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Runtime configuration for backup path and guard behavior. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para>backup_base_dir, when provided, is the canonical root used by restore/checksum path-traversal guards. Empty means derive the base from the database root directory. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/storage/backup_manager.h" line="195" column="5" bodyfile="include/storage/backup_manager.h" bodystart="195" bodyend="197"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_backup_manager_1_1_config_1a88653448e89eecc3b8ca91c5aaf3fd2a" prot="public" virt="non-virtual"><scope>themis::BackupManager::Config</scope><name>backup_base_dir</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

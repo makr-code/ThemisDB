@@ -1,0 +1,196 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::VoiceStreamingSession::Config</compoundname>
+    <includes refid="voice__browser__streaming_8h" local="no">voice_browser_streaming.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1acb524d7e6466ad4d5ff16f01d89cc28c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceStreamingSession::Config::session_id</definition>
+        <argsstring></argsstring>
+        <name>session_id</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::Config::session_id</qualifiedname>
+        <briefdescription>
+<para>Auth/user session ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="154" column="21" bodyfile="include/voice/voice_browser_streaming.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1ab41620a734393e3d3ac5e924adbf9c93" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceStreamingSession::Config::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::Config::user_id</qualifiedname>
+        <briefdescription>
+<para>Optional user ID for personalisation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="155" column="21" bodyfile="include/voice/voice_browser_streaming.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1a9def9d542bc4c17315928131d5b86078" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1voice_1_1_stream_audio_format" kindref="compound">StreamAudioFormat</ref></type>
+        <definition>StreamAudioFormat themis::voice::VoiceStreamingSession::Config::audio_format</definition>
+        <argsstring></argsstring>
+        <name>audio_format</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::Config::audio_format</qualifiedname>
+        <briefdescription>
+<para>Expected incoming browser audio format. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="156" column="27" bodyfile="include/voice/voice_browser_streaming.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1a3c686e2bcd1648241d8c8ee85d3eb66d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceStreamingSession::Config::language</definition>
+        <argsstring></argsstring>
+        <name>language</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::Config::language</qualifiedname>
+        <initializer>= &quot;en&quot;</initializer>
+        <briefdescription>
+<para>BCP-47 language code. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="157" column="21" bodyfile="include/voice/voice_browser_streaming.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1a78fd383bf43d87cca99f910794160aab" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceStreamingSession::Config::run_nlu</definition>
+        <argsstring></argsstring>
+        <name>run_nlu</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::Config::run_nlu</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Extract intent after each utterance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="158" column="21" bodyfile="include/voice/voice_browser_streaming.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1af98b11eb904e52f6d5b02262c4283ff9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceStreamingSession::Config::enable_tts</definition>
+        <argsstring></argsstring>
+        <name>enable_tts</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::Config::enable_tts</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Synthesise and stream TTS back to browser. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="159" column="21" bodyfile="include/voice/voice_browser_streaming.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1a20d622990ef41c6601538b1fdaa27c75" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::voice::VoiceStreamingSession::Config::max_frame_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_frame_bytes</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::Config::max_frame_bytes</qualifiedname>
+        <initializer>= 65536</initializer>
+        <briefdescription>
+<para>Max accepted WebSocket frame size (64 KB). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="160" column="21" bodyfile="include/voice/voice_browser_streaming.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1a388382620b5b6b6ca51026038228ddf3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::voice::VoiceStreamingSession::Config::max_duration_s</definition>
+        <argsstring></argsstring>
+        <name>max_duration_s</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::Config::max_duration_s</qualifiedname>
+        <initializer>= 600</initializer>
+        <briefdescription>
+<para>Auto-close after this many seconds (10 min). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="161" column="21" bodyfile="include/voice/voice_browser_streaming.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1a84d339d27af1e276e0dcd82bd07ccfd2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceStreamingSession::Config::partial_results</definition>
+        <argsstring></argsstring>
+        <name>partial_results</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::Config::partial_results</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Emit <ref refid="structthemis_1_1voice_1_1_partial_transcript" kindref="compound">PartialTranscript</ref> as audio arrives </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="162" column="21" bodyfile="include/voice/voice_browser_streaming.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1a6387df1528e48369ee905240c79df5f0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::voice::VoiceStreamingSession::Config::origin_allowlist</definition>
+        <argsstring></argsstring>
+        <name>origin_allowlist</name>
+        <qualifiedname>themis::voice::VoiceStreamingSession::Config::origin_allowlist</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Permitted WebRTC/HTTP request origins (e.g. &quot;https://app.example.com&quot;). An empty list means all origins are allowed. When non-empty, only exact string matches are accepted; pass the full scheme+host[:port]. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="166" column="21" bodyfile="include/voice/voice_browser_streaming.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Session configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::voice::StreamAudioFormat</label>
+        <link refid="structthemis_1_1voice_1_1_stream_audio_format"/>
+      </node>
+      <node id="1">
+        <label>themis::voice::VoiceStreamingSession::Config</label>
+        <link refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>audio_format</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/voice/voice_browser_streaming.h" line="153" column="5" bodyfile="include/voice/voice_browser_streaming.h" bodystart="153" bodyend="167"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1a9def9d542bc4c17315928131d5b86078" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession::Config</scope><name>audio_format</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1af98b11eb904e52f6d5b02262c4283ff9" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession::Config</scope><name>enable_tts</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1a3c686e2bcd1648241d8c8ee85d3eb66d" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession::Config</scope><name>language</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1a388382620b5b6b6ca51026038228ddf3" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession::Config</scope><name>max_duration_s</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1a20d622990ef41c6601538b1fdaa27c75" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession::Config</scope><name>max_frame_bytes</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1a6387df1528e48369ee905240c79df5f0" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession::Config</scope><name>origin_allowlist</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1a84d339d27af1e276e0dcd82bd07ccfd2" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession::Config</scope><name>partial_results</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1a78fd383bf43d87cca99f910794160aab" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession::Config</scope><name>run_nlu</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1acb524d7e6466ad4d5ff16f01d89cc28c" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession::Config</scope><name>session_id</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1ab41620a734393e3d3ac5e924adbf9c93" prot="public" virt="non-virtual"><scope>themis::voice::VoiceStreamingSession::Config</scope><name>user_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

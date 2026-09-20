@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_web_authn_authenticator_test" kind="class" language="C++" prot="public">
+    <compoundname>WebAuthnAuthenticatorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_web_authn_authenticator_test_1a2a8ee6ff5e4f684b1ebce0f06cef2702" prot="protected" static="no" mutable="no">
+        <type>WebAuthnAuthenticator</type>
+        <definition>WebAuthnAuthenticator WebAuthnAuthenticatorTest::wa</definition>
+        <argsstring></argsstring>
+        <name>wa</name>
+        <qualifiedname>WebAuthnAuthenticatorTest::wa</qualifiedname>
+        <initializer>{WebAuthnAuthenticator::RelyingParty{&quot;localhost&quot;, &quot;Test App&quot;}}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_webauthn_authenticator.cpp" line="317" column="27" bodyfile="tests/security/test_webauthn_authenticator.cpp" bodystart="317" bodyend="317"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_web_authn_authenticator_test_1a98c12ef4b1ab93e14beee41c6e45160d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void WebAuthnAuthenticatorTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>WebAuthnAuthenticatorTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_webauthn_authenticator.cpp" line="319" column="10" bodyfile="tests/security/test_webauthn_authenticator.cpp" bodystart="319" bodyend="325"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>WebAuthnAuthenticatorTest</label>
+        <link refid="class_web_authn_authenticator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>WebAuthnAuthenticatorTest</label>
+        <link refid="class_web_authn_authenticator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_webauthn_authenticator.cpp" line="315" column="1" bodyfile="tests/security/test_webauthn_authenticator.cpp" bodystart="315" bodyend="326"/>
+    <listofallmembers>
+      <member refid="class_web_authn_authenticator_test_1a98c12ef4b1ab93e14beee41c6e45160d" prot="protected" virt="non-virtual"><scope>WebAuthnAuthenticatorTest</scope><name>SetUp</name></member>
+      <member refid="class_web_authn_authenticator_test_1a2a8ee6ff5e4f684b1ebce0f06cef2702" prot="protected" virt="non-virtual"><scope>WebAuthnAuthenticatorTest</scope><name>wa</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

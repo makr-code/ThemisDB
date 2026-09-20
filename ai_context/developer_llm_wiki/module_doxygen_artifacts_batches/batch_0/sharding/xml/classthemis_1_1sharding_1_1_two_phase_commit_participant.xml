@@ -1,0 +1,801 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_two_phase_commit_participant" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::TwoPhaseCommitParticipant</compoundname>
+    <basecompoundref refid="classthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_request_handler" prot="public" virt="non-virtual">themis::sharding::ShardRPCServer::RequestHandler</basecompoundref>
+    <includes refid="two__phase__commit__participant_8h" local="no">two_phase_commit_participant.h</includes>
+    <innerclass refid="structthemis_1_1sharding_1_1_two_phase_commit_participant_1_1_config" prot="public">themis::sharding::TwoPhaseCommitParticipant::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a277d5dcc35203393c401eb6944a9034d" prot="private" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string themis::sharding::TwoPhaseCommitParticipant::shard_id_</definition>
+        <argsstring></argsstring>
+        <name>shard_id_</name>
+        <qualifiedname>themis::sharding::TwoPhaseCommitParticipant::shard_id_</qualifiedname>
+        <briefdescription>
+<para>Lokale Shard-ID dieses Participants. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_participant.h" line="244" column="23" bodyfile="include/sharding/two_phase_commit_participant.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a30cac50807be65041816714fc8f5726f" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_two_phase_commit_participant_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::sharding::TwoPhaseCommitParticipant::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::sharding::TwoPhaseCommitParticipant::config_</qualifiedname>
+        <briefdescription>
+<para>Laufzeitkonfiguration (WAL/Timeout). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_participant.h" line="245" column="23" bodyfile="include/sharding/two_phase_commit_participant.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a80050d0ec54ddf6e33cf4ddec011ce8b" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1a4e5d1ea58e9b3c76dc7148876c2a5a02" kindref="member">ValidateAndLockCallback</ref></type>
+        <definition>ValidateAndLockCallback themis::sharding::TwoPhaseCommitParticipant::validate_and_lock_</definition>
+        <argsstring></argsstring>
+        <name>validate_and_lock_</name>
+        <qualifiedname>themis::sharding::TwoPhaseCommitParticipant::validate_and_lock_</qualifiedname>
+        <briefdescription>
+<para>PREPARE-Validierung und Sperrverwaltung. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_participant.h" line="248" column="29" bodyfile="include/sharding/two_phase_commit_participant.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_two_phase_commit_participant_1afb215f2476cee2d6f82ab6d90a1c00e8" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1ae2057aaa318771ef873b6c26b7fa616e" kindref="member">ApplyOperationsCallback</ref></type>
+        <definition>ApplyOperationsCallback themis::sharding::TwoPhaseCommitParticipant::apply_operations_</definition>
+        <argsstring></argsstring>
+        <name>apply_operations_</name>
+        <qualifiedname>themis::sharding::TwoPhaseCommitParticipant::apply_operations_</qualifiedname>
+        <briefdescription>
+<para>COMMIT-Anwendung der gepufferten Operationen. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_participant.h" line="249" column="29" bodyfile="include/sharding/two_phase_commit_participant.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a56ee4629b1239af1e03b0995ac951675" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1a77099af90521d0cfb61b1f9ae651fe8a" kindref="member">ReleaseLockCallback</ref></type>
+        <definition>ReleaseLockCallback themis::sharding::TwoPhaseCommitParticipant::release_locks_</definition>
+        <argsstring></argsstring>
+        <name>release_locks_</name>
+        <qualifiedname>themis::sharding::TwoPhaseCommitParticipant::release_locks_</qualifiedname>
+        <briefdescription>
+<para>Freigabe gehaltener Sperren. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_participant.h" line="250" column="29" bodyfile="include/sharding/two_phase_commit_participant.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a7eb3886d04fd11e26c846e4f6cf0f859" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::TwoPhaseCommitParticipant::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::sharding::TwoPhaseCommitParticipant::mutex_</qualifiedname>
+        <briefdescription>
+<para>Schutz fuer Teilnehmerzustandsmap. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_participant.h" line="253" column="48" bodyfile="include/sharding/two_phase_commit_participant.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a91d36c38975642a19a5d1b667402205c" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1sharding_1_1_participant_transaction" kindref="compound">ParticipantTransaction</ref> &gt;</type>
+        <definition>std::map&lt;std::string, ParticipantTransaction&gt; themis::sharding::TwoPhaseCommitParticipant::transactions_</definition>
+        <argsstring></argsstring>
+        <name>transactions_</name>
+        <qualifiedname>themis::sharding::TwoPhaseCommitParticipant::transactions_</qualifiedname>
+        <briefdescription>
+<para>In-Memory-Transaktionszustand. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_participant.h" line="254" column="14" bodyfile="include/sharding/two_phase_commit_participant.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a58d29dee93c9a7741bb666ba92ce0dec" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_w_a_l_manager" kindref="compound">WALManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;WALManager&gt; themis::sharding::TwoPhaseCommitParticipant::wal_</definition>
+        <argsstring></argsstring>
+        <name>wal_</name>
+        <qualifiedname>themis::sharding::TwoPhaseCommitParticipant::wal_</qualifiedname>
+        <briefdescription>
+<para>Optionales WAL-Backend fuer Crash-Recovery. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_participant.h" line="257" column="21" bodyfile="include/sharding/two_phase_commit_participant.h" bodystart="257" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a9e58790804e3545637d2a2b98015d104" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::TwoPhaseCommitParticipant::total_prepares_</definition>
+        <argsstring></argsstring>
+        <name>total_prepares_</name>
+        <qualifiedname>themis::sharding::TwoPhaseCommitParticipant::total_prepares_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Anzahl verarbeiteter PREPARE-Aufrufe. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_participant.h" line="260" column="17" bodyfile="include/sharding/two_phase_commit_participant.h" bodystart="260" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a2e280c2596949917e7353e2ac2a03763" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::TwoPhaseCommitParticipant::total_commits_</definition>
+        <argsstring></argsstring>
+        <name>total_commits_</name>
+        <qualifiedname>themis::sharding::TwoPhaseCommitParticipant::total_commits_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Anzahl erfolgreicher COMMIT-Entscheidungen. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_participant.h" line="261" column="17" bodyfile="include/sharding/two_phase_commit_participant.h" bodystart="261" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a4607e5b3edc5bdaa4f47e96cc4e5a022" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::TwoPhaseCommitParticipant::total_aborts_</definition>
+        <argsstring></argsstring>
+        <name>total_aborts_</name>
+        <qualifiedname>themis::sharding::TwoPhaseCommitParticipant::total_aborts_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Anzahl ABORT-Entscheidungen inkl. Timeout-Aborts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_participant.h" line="262" column="17" bodyfile="include/sharding/two_phase_commit_participant.h" bodystart="262" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a978a4acb2177132cb94dcac31ce2aff6" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::TwoPhaseCommitParticipant::total_timeouts_</definition>
+        <argsstring></argsstring>
+        <name>total_timeouts_</name>
+        <qualifiedname>themis::sharding::TwoPhaseCommitParticipant::total_timeouts_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Anzahl timeout-basierter Auto-Aborts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_participant.h" line="263" column="17" bodyfile="include/sharding/two_phase_commit_participant.h" bodystart="263" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a33b8bd6e6c3cdf98e74e5bea8530d969" prot="private" static="no" mutable="no">
+        <type>const std::chrono::steady_clock::time_point</type>
+        <definition>const std::chrono::steady_clock::time_point themis::sharding::TwoPhaseCommitParticipant::start_time_</definition>
+        <argsstring></argsstring>
+        <name>start_time_</name>
+        <qualifiedname>themis::sharding::TwoPhaseCommitParticipant::start_time_</qualifiedname>
+        <initializer>{std::chrono::steady_clock::now()}</initializer>
+        <briefdescription>
+<para>Startzeit fuer Uptime-Berechnung. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_participant.h" line="266" column="49" bodyfile="include/sharding/two_phase_commit_participant.h" bodystart="266" bodyend="266"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_two_phase_commit_participant_1ac0ce535f8b33da7162ed715c99fcddd8" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::TwoPhaseCommitParticipant::TwoPhaseCommitParticipant</definition>
+        <argsstring>(const std::string &amp;shard_id, ValidateAndLockCallback validate=nullptr, ApplyOperationsCallback apply=nullptr, ReleaseLockCallback release=nullptr)</argsstring>
+        <name>TwoPhaseCommitParticipant</name>
+        <qualifiedname>themis::sharding::TwoPhaseCommitParticipant::TwoPhaseCommitParticipant</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1sharding_1a4e5d1ea58e9b3c76dc7148876c2a5a02" kindref="member">ValidateAndLockCallback</ref></type>
+          <declname>validate</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1sharding_1ae2057aaa318771ef873b6c26b7fa616e" kindref="member">ApplyOperationsCallback</ref></type>
+          <declname>apply</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1sharding_1a77099af90521d0cfb61b1f9ae651fe8a" kindref="member">ReleaseLockCallback</ref></type>
+          <declname>release</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Construct a participant with optional storage callbacks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If validate_and_lock / apply / release are left nullptr the participant will accept all operations (useful in tests).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of this shard </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>validate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback to validate &amp; lock ops in PREPARE phase </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>apply</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback to apply ops in COMMIT phase </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>release</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback to release locks in ABORT/after COMMIT </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_participant.h" line="130" column="14" bodyfile="src/sharding/two_phase_commit_participant.cpp" bodystart="27" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a15d536152387eb7804131e61cf5e5a9a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::TwoPhaseCommitParticipant::TwoPhaseCommitParticipant</definition>
+        <argsstring>(const std::string &amp;shard_id, const Config &amp;config, ValidateAndLockCallback validate=nullptr, ApplyOperationsCallback apply=nullptr, ReleaseLockCallback release=nullptr)</argsstring>
+        <name>TwoPhaseCommitParticipant</name>
+        <qualifiedname>themis::sharding::TwoPhaseCommitParticipant::TwoPhaseCommitParticipant</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_two_phase_commit_participant_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1sharding_1a4e5d1ea58e9b3c76dc7148876c2a5a02" kindref="member">ValidateAndLockCallback</ref></type>
+          <declname>validate</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1sharding_1ae2057aaa318771ef873b6c26b7fa616e" kindref="member">ApplyOperationsCallback</ref></type>
+          <declname>apply</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1sharding_1a77099af90521d0cfb61b1f9ae651fe8a" kindref="member">ReleaseLockCallback</ref></type>
+          <declname>release</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Construct a participant with optional storage callbacks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If validate_and_lock / apply / release are left nullptr the participant will accept all operations (useful in tests).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of this shard </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Participant configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>validate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback to validate &amp; lock ops in PREPARE phase </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>apply</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback to apply ops in COMMIT phase </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>release</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback to release locks in ABORT/after COMMIT </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_participant.h" line="149" column="14" bodyfile="src/sharding/two_phase_commit_participant.cpp" bodystart="36" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_two_phase_commit_participant_1ab5ab7c742d3fe0ed82172862b18e5356" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::TwoPhaseCommitParticipant::~TwoPhaseCommitParticipant</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~TwoPhaseCommitParticipant</name>
+        <qualifiedname>themis::sharding::TwoPhaseCommitParticipant::~TwoPhaseCommitParticipant</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_participant.h" line="157" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a704fb4a22993bc4c86929a32ca6af116" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::TwoPhaseCommitParticipant::onPrepare</definition>
+        <argsstring>(const std::string &amp;transaction_id, const std::string &amp;coordinator_shard_id, const std::string &amp;transaction_data) override</argsstring>
+        <name>onPrepare</name>
+        <qualifiedname>themis::sharding::TwoPhaseCommitParticipant::onPrepare</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_request_handler_1adf81ef04295e10171c5d34d20c0d4acb">onPrepare</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>coordinator_shard_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_data</declname>
+        </param>
+        <briefdescription>
+<para>Handle PREPARE request (2PC Phase 1). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── <ref refid="classthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_request_handler" kindref="compound">ShardRPCServer::RequestHandler</ref> interface ─────────────────────────────────────────────────────────────────────────────</para>
+<para>Validates operations, acquires locks, writes PREPARE_TX to WAL, and returns VOTE_COMMIT (true) or VOTE_ABORT (false). Idempotent: a duplicate PREPARE for the same txn_id returns the same vote as the original call without re-locking. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Globale Transaktions-ID. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>coordinator_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Coordinator-Identifikator fuer Nachvollziehbarkeit. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>transaction_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Serialisiertes JSON mit Teilnehmeroperationen. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true fuer VOTE_COMMIT, false fuer VOTE_ABORT.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the transaction. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">coordinator_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the coordinator shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">transaction_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), lock(), find(), end(), THEMIS_DEBUG(), nlohmann::json::parse(), value(), nlohmann::json::array(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_participant.h" line="173" column="10" bodyfile="src/sharding/two_phase_commit_participant.cpp" bodystart="67" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a9294022923db9ecd3aa6c07827020a9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::TwoPhaseCommitParticipant::onCommit</definition>
+        <argsstring>(const std::string &amp;transaction_id) override</argsstring>
+        <name>onCommit</name>
+        <qualifiedname>themis::sharding::TwoPhaseCommitParticipant::onCommit</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_request_handler_1a9c1b0ac3a4baa79d19a95352f1f7fe7c">onCommit</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <briefdescription>
+<para>Handle COMMIT request (2PC Phase 2). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>On Commit.</para>
+<para>Applies buffered operations using the MVCC commit timestamp, releases locks, and writes COMMIT_TX to WAL. Idempotent: duplicate COMMIT messages return true immediately. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Globale Transaktions-ID. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true bei erfolgreichem (oder idempotent bereits erfolgtem) COMMIT.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the transaction. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), lock(), find(), end(), THEMIS_DEBUG(), THEMIS_ERROR(), std::chrono::system_clock::now(), time_since_epoch(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_participant.h" line="188" column="10" bodyfile="src/sharding/two_phase_commit_participant.cpp" bodystart="152" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a46941ea11fa144271ca236ddfe175f6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::TwoPhaseCommitParticipant::onAbort</definition>
+        <argsstring>(const std::string &amp;transaction_id) override</argsstring>
+        <name>onAbort</name>
+        <qualifiedname>themis::sharding::TwoPhaseCommitParticipant::onAbort</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_request_handler_1a404055856c5e6881a087e5dce125873a">onAbort</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <briefdescription>
+<para>Handle ABORT request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>On Abort.</para>
+<para>Releases locks and writes ABORT_TX to WAL. Idempotent: duplicate ABORT messages return true immediately. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Globale Transaktions-ID. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true bei erfolgreichem (oder idempotent bereits erfolgtem) ABORT.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the transaction. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), lock(), find(), end(), THEMIS_DEBUG(), THEMIS_ERROR(), release_locks_(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_participant.h" line="198" column="10" bodyfile="src/sharding/two_phase_commit_participant.cpp" bodystart="232" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a348c61303a09fef7f340cd88a6c82187" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_health_info" kindref="compound">ShardRPCServer::HealthInfo</ref></type>
+        <definition>ShardRPCServer::HealthInfo themis::sharding::TwoPhaseCommitParticipant::onHealthCheck</definition>
+        <argsstring>() override</argsstring>
+        <name>onHealthCheck</name>
+        <qualifiedname>themis::sharding::TwoPhaseCommitParticipant::onHealthCheck</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_request_handler_1a3cdc4db6dabb1371997b8533ad09d102">onHealthCheck</reimplements>
+        <briefdescription>
+<para>Handle health-check request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>HealthInfo fuer ShardRPCServer-Liveness/Readiness. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_participant.h" line="204" column="32" bodyfile="src/sharding/two_phase_commit_participant.cpp" bodystart="293" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_two_phase_commit_participant_1ad9febd94cecfe505854b2d06cefa5b00" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1sharding_1a301ac35079836ef31e24408196870beb" kindref="member">ParticipantTxnState</ref> &gt;</type>
+        <definition>std::optional&lt; ParticipantTxnState &gt; themis::sharding::TwoPhaseCommitParticipant::getTransactionState</definition>
+        <argsstring>(const std::string &amp;transaction_id) const</argsstring>
+        <name>getTransactionState</name>
+        <qualifiedname>themis::sharding::TwoPhaseCommitParticipant::getTransactionState</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <briefdescription>
+<para>Return the current state of a prepared transaction, or nullopt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Abzufragende Transaktions-ID. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Optionaler Teilnehmerzustand; nullopt falls unbekannt. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_participant.h" line="213" column="19" bodyfile="src/sharding/two_phase_commit_participant.cpp" bodystart="308" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a3945ad65cfe2218d7bd7c2bcb70e54d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::TwoPhaseCommitParticipant::abortTimedOutTransactions</definition>
+        <argsstring>()</argsstring>
+        <name>abortTimedOutTransactions</name>
+        <qualifiedname>themis::sharding::TwoPhaseCommitParticipant::abortTimedOutTransactions</qualifiedname>
+        <briefdescription>
+<para>Abort prepared transactions that have exceeded prepare_timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Abort Timed Out Transactions.</para>
+<para>Should be called periodically (for example by maintenance/housekeeping). <simplesect kind="return"><para>Number of transactions transitioned from PREPARED to ABORTED.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), std::chrono::steady_clock::now(), THEMIS_WARN(), release_locks_(), logToWAL(), fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_participant.h" line="223" column="12" bodyfile="src/sharding/two_phase_commit_participant.cpp" bodystart="327" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a82100f0d92bccab8e60108b6259c06c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::TwoPhaseCommitParticipant::recoverFromWAL</definition>
+        <argsstring>()</argsstring>
+        <name>recoverFromWAL</name>
+        <qualifiedname>themis::sharding::TwoPhaseCommitParticipant::recoverFromWAL</qualifiedname>
+        <briefdescription>
+<para>Recover state from WAL after a crash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Recover From WAL.</para>
+<para>Must be called before the participant starts handling requests. Re-populates the in-memory transaction map from durable WAL entries. In-doubt transactions (PREPARED with no COMMIT/ABORT decision) are left in PREPARED state; the coordinator should re-resolve them.</para>
+<para><simplesect kind="return"><para>Number of in-doubt transactions found</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_INFO(), getOldestLSN(), getCurrentLSN(), readRange(), empty(), find(), end(), value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_participant.h" line="235" column="12" bodyfile="src/sharding/two_phase_commit_participant.cpp" bodystart="368" bodyend="448"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a9a2f6067707ca9a6e646dd606fd2d174" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::TwoPhaseCommitParticipant::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::sharding::TwoPhaseCommitParticipant::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Statistics about this participant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON mit Zaehlern, Zustandssummen und Uptime. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_participant.h" line="241" column="20" bodyfile="src/sharding/two_phase_commit_participant.cpp" bodystart="450" bodyend="483"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_two_phase_commit_participant_1af09eac017d91fc50ab5126481a11a3e0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::TwoPhaseCommitParticipant::logToWAL</definition>
+        <argsstring>(WALEntryType type, const std::string &amp;txn_id, const nlohmann::json &amp;data)</argsstring>
+        <name>logToWAL</name>
+        <qualifiedname>themis::sharding::TwoPhaseCommitParticipant::logToWAL</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1sharding_1a4bfc6b43e59e2ca7b489954a01658da1" kindref="member">WALEntryType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Persist participant phase/state event to WAL if enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log To WAL.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="namespacethemis_1_1sharding_1_1_w_a_l_logging_helper_1adbf5106c97df32fe17730e7fe42196c7" kindref="member">WALLoggingHelper::appendEntry()</ref>, get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/two_phase_commit_participant.h" line="271" column="10" bodyfile="src/sharding/two_phase_commit_participant.cpp" bodystart="496" bodyend="506"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Shard-side participant in a Two-Phase Commit protocol. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Attach to a <ref refid="classthemis_1_1sharding_1_1_shard_r_p_c_server" kindref="compound">ShardRPCServer</ref> via setRequestHandler() to handle incoming PREPARE/COMMIT/ABORT messages from the coordinator.</para>
+<para>All state transitions are written to a WAL before the response is sent, ensuring that a crash between phases can be recovered on restart. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::sharding::ShardRPCServer::RequestHandler</label>
+        <link refid="classthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_request_handler"/>
+      </node>
+      <node id="1">
+        <label>themis::sharding::TwoPhaseCommitParticipant</label>
+        <link refid="classthemis_1_1sharding_1_1_two_phase_commit_participant"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::sharding::ShardRPCServer::RequestHandler</label>
+        <link refid="classthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_request_handler"/>
+      </node>
+      <node id="1">
+        <label>themis::sharding::TwoPhaseCommitParticipant</label>
+        <link refid="classthemis_1_1sharding_1_1_two_phase_commit_participant"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/two_phase_commit_participant.h" line="108" column="1" bodyfile="include/sharding/two_phase_commit_participant.h" bodystart="108" bodyend="274"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a3945ad65cfe2218d7bd7c2bcb70e54d1" prot="public" virt="non-virtual"><scope>themis::sharding::TwoPhaseCommitParticipant</scope><name>abortTimedOutTransactions</name></member>
+      <member refid="classthemis_1_1sharding_1_1_two_phase_commit_participant_1afb215f2476cee2d6f82ab6d90a1c00e8" prot="private" virt="non-virtual"><scope>themis::sharding::TwoPhaseCommitParticipant</scope><name>apply_operations_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a30cac50807be65041816714fc8f5726f" prot="private" virt="non-virtual"><scope>themis::sharding::TwoPhaseCommitParticipant</scope><name>config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a9a2f6067707ca9a6e646dd606fd2d174" prot="public" virt="non-virtual"><scope>themis::sharding::TwoPhaseCommitParticipant</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1sharding_1_1_two_phase_commit_participant_1ad9febd94cecfe505854b2d06cefa5b00" prot="public" virt="non-virtual"><scope>themis::sharding::TwoPhaseCommitParticipant</scope><name>getTransactionState</name></member>
+      <member refid="classthemis_1_1sharding_1_1_two_phase_commit_participant_1af09eac017d91fc50ab5126481a11a3e0" prot="private" virt="non-virtual"><scope>themis::sharding::TwoPhaseCommitParticipant</scope><name>logToWAL</name></member>
+      <member refid="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a7eb3886d04fd11e26c846e4f6cf0f859" prot="private" virt="non-virtual"><scope>themis::sharding::TwoPhaseCommitParticipant</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a46941ea11fa144271ca236ddfe175f6d" prot="public" virt="virtual"><scope>themis::sharding::TwoPhaseCommitParticipant</scope><name>onAbort</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_request_handler_1a060047a53faae6a70aa94515c3b65597" prot="public" virt="virtual"><scope>themis::sharding::TwoPhaseCommitParticipant</scope><name>onCollectWaitForEdges</name></member>
+      <member refid="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a9294022923db9ecd3aa6c07827020a9a" prot="public" virt="virtual"><scope>themis::sharding::TwoPhaseCommitParticipant</scope><name>onCommit</name></member>
+      <member refid="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a348c61303a09fef7f340cd88a6c82187" prot="public" virt="virtual"><scope>themis::sharding::TwoPhaseCommitParticipant</scope><name>onHealthCheck</name></member>
+      <member refid="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a704fb4a22993bc4c86929a32ca6af116" prot="public" virt="virtual"><scope>themis::sharding::TwoPhaseCommitParticipant</scope><name>onPrepare</name></member>
+      <member refid="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a82100f0d92bccab8e60108b6259c06c8" prot="public" virt="non-virtual"><scope>themis::sharding::TwoPhaseCommitParticipant</scope><name>recoverFromWAL</name></member>
+      <member refid="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a56ee4629b1239af1e03b0995ac951675" prot="private" virt="non-virtual"><scope>themis::sharding::TwoPhaseCommitParticipant</scope><name>release_locks_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a277d5dcc35203393c401eb6944a9034d" prot="private" virt="non-virtual"><scope>themis::sharding::TwoPhaseCommitParticipant</scope><name>shard_id_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a33b8bd6e6c3cdf98e74e5bea8530d969" prot="private" virt="non-virtual"><scope>themis::sharding::TwoPhaseCommitParticipant</scope><name>start_time_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a4607e5b3edc5bdaa4f47e96cc4e5a022" prot="private" virt="non-virtual"><scope>themis::sharding::TwoPhaseCommitParticipant</scope><name>total_aborts_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a2e280c2596949917e7353e2ac2a03763" prot="private" virt="non-virtual"><scope>themis::sharding::TwoPhaseCommitParticipant</scope><name>total_commits_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a9e58790804e3545637d2a2b98015d104" prot="private" virt="non-virtual"><scope>themis::sharding::TwoPhaseCommitParticipant</scope><name>total_prepares_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a978a4acb2177132cb94dcac31ce2aff6" prot="private" virt="non-virtual"><scope>themis::sharding::TwoPhaseCommitParticipant</scope><name>total_timeouts_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a91d36c38975642a19a5d1b667402205c" prot="private" virt="non-virtual"><scope>themis::sharding::TwoPhaseCommitParticipant</scope><name>transactions_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_two_phase_commit_participant_1ac0ce535f8b33da7162ed715c99fcddd8" prot="public" virt="non-virtual"><scope>themis::sharding::TwoPhaseCommitParticipant</scope><name>TwoPhaseCommitParticipant</name></member>
+      <member refid="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a15d536152387eb7804131e61cf5e5a9a" prot="public" virt="non-virtual"><scope>themis::sharding::TwoPhaseCommitParticipant</scope><name>TwoPhaseCommitParticipant</name></member>
+      <member refid="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a80050d0ec54ddf6e33cf4ddec011ce8b" prot="private" virt="non-virtual"><scope>themis::sharding::TwoPhaseCommitParticipant</scope><name>validate_and_lock_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_two_phase_commit_participant_1a58d29dee93c9a7741bb666ba92ce0dec" prot="private" virt="non-virtual"><scope>themis::sharding::TwoPhaseCommitParticipant</scope><name>wal_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_r_p_c_server_1_1_request_handler_1a2e2a9f7487bfe121264c7606eedf9c1d" prot="public" virt="virtual"><scope>themis::sharding::TwoPhaseCommitParticipant</scope><name>~RequestHandler</name></member>
+      <member refid="classthemis_1_1sharding_1_1_two_phase_commit_participant_1ab5ab7c742d3fe0ed82172862b18e5356" prot="public" virt="non-virtual"><scope>themis::sharding::TwoPhaseCommitParticipant</scope><name>~TwoPhaseCommitParticipant</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

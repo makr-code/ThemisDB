@@ -1,0 +1,737 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_compliance_evidence_collector" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::ComplianceEvidenceCollector</compoundname>
+    <includes refid="operational__audit_8h" local="no">operational_audit.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_compliance_evidence_collector_1a58c9a239c1231e768bcabc5edbd42a93" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::governance::ComplianceEvidenceCollector::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::governance::ComplianceEvidenceCollector::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="574" column="24" bodyfile="include/governance/operational_audit.h" bodystart="574" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_compliance_evidence_collector_1afa22b98c9a141742755a2be62148005a" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_operational_audit_logger" kindref="compound">OperationalAuditLogger</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;OperationalAuditLogger&gt; themis::governance::ComplianceEvidenceCollector::audit_logger_</definition>
+        <argsstring></argsstring>
+        <name>audit_logger_</name>
+        <qualifiedname>themis::governance::ComplianceEvidenceCollector::audit_logger_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="575" column="21" bodyfile="include/governance/operational_audit.h" bodystart="575" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_compliance_evidence_collector_1af465df8791e343399e6e635ff5e8a98f" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_compliance_evidence" kindref="compound">ComplianceEvidence</ref> &gt;</type>
+        <definition>std::vector&lt;ComplianceEvidence&gt; themis::governance::ComplianceEvidenceCollector::evidence_</definition>
+        <argsstring></argsstring>
+        <name>evidence_</name>
+        <qualifiedname>themis::governance::ComplianceEvidenceCollector::evidence_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="576" column="17" bodyfile="include/governance/operational_audit.h" bodystart="576" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_compliance_evidence_collector_1a25c3fa89644ec91f91b9ecff9a4a3b48" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;std::string&gt; &gt; themis::governance::ComplianceEvidenceCollector::evidence_event_links_</definition>
+        <argsstring></argsstring>
+        <name>evidence_event_links_</name>
+        <qualifiedname>themis::governance::ComplianceEvidenceCollector::evidence_event_links_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="579" column="24" bodyfile="include/governance/operational_audit.h" bodystart="579" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_compliance_evidence_collector_1a873f7d4e201a0c169dca1135e61f5adc" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;std::string&gt; &gt; themis::governance::ComplianceEvidenceCollector::requirement_evidence_map_</definition>
+        <argsstring></argsstring>
+        <name>requirement_evidence_map_</name>
+        <qualifiedname>themis::governance::ComplianceEvidenceCollector::requirement_evidence_map_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="582" column="24" bodyfile="include/governance/operational_audit.h" bodystart="582" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_evidence_collector_1ad30393dceb303054261fb31c78c15a72" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::ComplianceEvidenceCollector::ComplianceEvidenceCollector</definition>
+        <argsstring>(std::shared_ptr&lt; OperationalAuditLogger &gt; audit_logger)</argsstring>
+        <name>ComplianceEvidenceCollector</name>
+        <qualifiedname>themis::governance::ComplianceEvidenceCollector::ComplianceEvidenceCollector</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_operational_audit_logger" kindref="compound">OperationalAuditLogger</ref> &gt;</type>
+          <declname>audit_logger</declname>
+        </param>
+        <briefdescription>
+<para>Compliance Evidence Collector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">audit_logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="474" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_evidence_collector_1a21fb030b953dbbb1b0e33a17a56329aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::ComplianceEvidenceCollector::~ComplianceEvidenceCollector</definition>
+        <argsstring>()</argsstring>
+        <name>~ComplianceEvidenceCollector</name>
+        <qualifiedname>themis::governance::ComplianceEvidenceCollector::~ComplianceEvidenceCollector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="478" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_evidence_collector_1a538f4db315a8caa52cad8c809c5e738e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::ComplianceEvidenceCollector::ComplianceEvidenceCollector</definition>
+        <argsstring>(const ComplianceEvidenceCollector &amp;)=delete</argsstring>
+        <name>ComplianceEvidenceCollector</name>
+        <qualifiedname>themis::governance::ComplianceEvidenceCollector::ComplianceEvidenceCollector</qualifiedname>
+        <param>
+          <type>const ComplianceEvidenceCollector &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="481" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_evidence_collector_1a714cc4313a5ddebb48dfc9c316d73d1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1governance_1_1_compliance_evidence_collector_1ad30393dceb303054261fb31c78c15a72" kindref="member">ComplianceEvidenceCollector</ref> &amp;</type>
+        <definition>ComplianceEvidenceCollector &amp; themis::governance::ComplianceEvidenceCollector::operator=</definition>
+        <argsstring>(const ComplianceEvidenceCollector &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::governance::ComplianceEvidenceCollector::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_compliance_evidence_collector_1ad30393dceb303054261fb31c78c15a72" kindref="member">ComplianceEvidenceCollector</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="482" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_evidence_collector_1ac6edafd0bcc4901ff5e0a8a29f2e5501" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_compliance_evidence" kindref="compound">ComplianceEvidence</ref> &gt;</type>
+        <definition>void themis::governance::ComplianceEvidenceCollector::collectEvidence</definition>
+        <argsstring>(const std::string &amp;requirement, const std::string &amp;actor_id, const std::unordered_map&lt; std::string, std::string &gt; &amp;context={})</argsstring>
+        <name>collectEvidence</name>
+        <qualifiedname>themis::governance::ComplianceEvidenceCollector::collectEvidence</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>requirement</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>actor_id</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>context</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Collect Evidence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">requirement_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), queryEventsByModule(), find(), end(), <ref refid="classthemis_1_1governance_1_1_compliance_evidence_collector_1a4eb217dde2c99df8219d58f920e4d509" kindref="member">recordEvidence()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="484" column="17" bodyfile="src/governance/operational_audit.cpp" bodystart="1190" bodyend="1240"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_evidence_collector_1a4eb217dde2c99df8219d58f920e4d509" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_compliance_evidence" kindref="compound">ComplianceEvidence</ref></type>
+        <definition>void themis::governance::ComplianceEvidenceCollector::recordEvidence</definition>
+        <argsstring>(const ComplianceEvidence &amp;evidence)</argsstring>
+        <name>recordEvidence</name>
+        <qualifiedname>themis::governance::ComplianceEvidenceCollector::recordEvidence</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_evidence" kindref="compound">ComplianceEvidence</ref> &amp;</type>
+          <declname>evidence</declname>
+        </param>
+        <briefdescription>
+<para>Record Evidence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">evidence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">requirement_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the requirement. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">requirement_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">evidence_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">source_event_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the source event. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">retention_days</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">audit_classification</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), generateUUID(), std::chrono::system_clock::now(), time_since_epoch(), count(), is_null(), dump(), computeSHA256(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="495" column="24" bodyfile="src/governance/operational_audit.cpp" bodystart="1134" bodyend="1183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_evidence_collector_1a3bf7089c408154eb2352ce00796f8502" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::ComplianceEvidenceCollector::linkEvidenceToEvent</definition>
+        <argsstring>(const std::string &amp;evidence_id, const std::string &amp;event_id)</argsstring>
+        <name>linkEvidenceToEvent</name>
+        <qualifiedname>themis::governance::ComplianceEvidenceCollector::linkEvidenceToEvent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>evidence_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>event_id</declname>
+        </param>
+        <briefdescription>
+<para>Link Evidence To Event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">evidence_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the evidence. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the event.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">evidence_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the evidence. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the event.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="502" column="10" bodyfile="src/governance/operational_audit.cpp" bodystart="1248" bodyend="1264"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_evidence_collector_1a55ad55d4463781ac8d97f12660dc608d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::ComplianceEvidenceCollector::linkEvidenceToEvents</definition>
+        <argsstring>(const std::string &amp;evidence_id, const std::vector&lt; std::string &gt; &amp;event_ids)</argsstring>
+        <name>linkEvidenceToEvents</name>
+        <qualifiedname>themis::governance::ComplianceEvidenceCollector::linkEvidenceToEvents</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>evidence_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>event_ids</declname>
+        </param>
+        <briefdescription>
+<para>Link Evidence To Events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">evidence_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the evidence. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="512" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_evidence_collector_1a00b38a98d76f8eeb9978a173f562cfe4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_compliance_evidence" kindref="compound">ComplianceEvidence</ref> &gt;</type>
+        <definition>std::vector&lt; ComplianceEvidence &gt; themis::governance::ComplianceEvidenceCollector::getEvidenceByRequirement</definition>
+        <argsstring>(const std::string &amp;requirement) const</argsstring>
+        <name>getEvidenceByRequirement</name>
+        <qualifiedname>themis::governance::ComplianceEvidenceCollector::getEvidenceByRequirement</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>requirement</declname>
+        </param>
+        <briefdescription>
+<para>Get Evidence By Requirement. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">requirement</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="522" column="17" bodyfile="src/governance/operational_audit.cpp" bodystart="1266" bodyend="1288"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_evidence_collector_1af86f6c9a772ae99f1e2b6686925e3e9a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_compliance_evidence" kindref="compound">ComplianceEvidence</ref> &gt;</type>
+        <definition>std::vector&lt; ComplianceEvidence &gt; themis::governance::ComplianceEvidenceCollector::getEvidenceByEvent</definition>
+        <argsstring>(const std::string &amp;event_id) const</argsstring>
+        <name>getEvidenceByEvent</name>
+        <qualifiedname>themis::governance::ComplianceEvidenceCollector::getEvidenceByEvent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>event_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Evidence By Event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the event. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="531" column="17" bodyfile="src/governance/operational_audit.cpp" bodystart="1290" bodyend="1312"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_evidence_collector_1ac57cb9d527b11a6ad8ef1bd8e3902005" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_compliance_evidence" kindref="compound">ComplianceEvidence</ref> &gt;</type>
+        <definition>std::vector&lt; ComplianceEvidence &gt; themis::governance::ComplianceEvidenceCollector::getEvidenceByTimeRange</definition>
+        <argsstring>(int64_t start_ms, int64_t end_ms) const</argsstring>
+        <name>getEvidenceByTimeRange</name>
+        <qualifiedname>themis::governance::ComplianceEvidenceCollector::getEvidenceByTimeRange</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>start_ms</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>end_ms</declname>
+        </param>
+        <briefdescription>
+<para>Get Evidence By Time Range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="541" column="17" bodyfile="src/governance/operational_audit.cpp" bodystart="1314" bodyend="1332"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_evidence_collector_1ac1c4c8bba828d305e26b27df57f234e3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::ComplianceEvidenceCollector::exportEvidenceForAudit</definition>
+        <argsstring>(const std::optional&lt; std::string &gt; &amp;requirement=std::nullopt, int64_t start_ms=0, int64_t end_ms=0) const</argsstring>
+        <name>exportEvidenceForAudit</name>
+        <qualifiedname>themis::governance::ComplianceEvidenceCollector::exportEvidenceForAudit</qualifiedname>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>requirement</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>start_ms</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>end_ms</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="546" column="20" bodyfile="src/governance/operational_audit.cpp" bodystart="1334" bodyend="1362"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_evidence_collector_1a3087a1dd72ceac888b1e1f8ad9e8f024" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::ComplianceEvidenceCollector::generateEvidenceReport</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;requirements={}) const</argsstring>
+        <name>generateEvidenceReport</name>
+        <qualifiedname>themis::governance::ComplianceEvidenceCollector::generateEvidenceReport</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>requirements</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="552" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_evidence_collector_1a70d74a7855c59d1db6568016033800cd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::ComplianceEvidenceCollector::getEvidenceStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getEvidenceStatistics</name>
+        <qualifiedname>themis::governance::ComplianceEvidenceCollector::getEvidenceStatistics</qualifiedname>
+        <briefdescription>
+<para>Get Evidence Statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="560" column="20" bodyfile="src/governance/operational_audit.cpp" bodystart="1364" bodyend="1385"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_evidence_collector_1a69b48f045b171f549e63860f4f13a509" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::governance::ComplianceEvidenceCollector::getTotalEvidenceCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalEvidenceCount</name>
+        <qualifiedname>themis::governance::ComplianceEvidenceCollector::getTotalEvidenceCount</qualifiedname>
+        <briefdescription>
+<para>Get Total Evidence Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="566" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_evidence_collector_1a5dca03bd1c887efd624a3a7e7ce4f4e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::ComplianceEvidenceCollector::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::governance::ComplianceEvidenceCollector::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="571" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_evidence_collector_1a4bee51cbfc18047da3a59def60897672" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ComplianceEvidenceCollector::generateEvidenceId</definition>
+        <argsstring>() const</argsstring>
+        <name>generateEvidenceId</name>
+        <qualifiedname>themis::governance::ComplianceEvidenceCollector::generateEvidenceId</qualifiedname>
+        <briefdescription>
+<para>Generate Evidence Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="588" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_evidence_collector_1ae9c0d25b5a0066ff6ebcd85b9f479f64" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ComplianceEvidenceCollector::computeEvidenceFingerprint</definition>
+        <argsstring>(const std::string &amp;content) const</argsstring>
+        <name>computeEvidenceFingerprint</name>
+        <qualifiedname>themis::governance::ComplianceEvidenceCollector::computeEvidenceFingerprint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <briefdescription>
+<para>Compute Evidence Fingerprint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/operational_audit.h" line="595" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/operational_audit.h" line="467" column="1" bodyfile="include/governance/operational_audit.h" bodystart="467" bodyend="596"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_compliance_evidence_collector_1afa22b98c9a141742755a2be62148005a" prot="private" virt="non-virtual"><scope>themis::governance::ComplianceEvidenceCollector</scope><name>audit_logger_</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_evidence_collector_1a5dca03bd1c887efd624a3a7e7ce4f4e1" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceEvidenceCollector</scope><name>clear</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_evidence_collector_1ac6edafd0bcc4901ff5e0a8a29f2e5501" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceEvidenceCollector</scope><name>collectEvidence</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_evidence_collector_1ad30393dceb303054261fb31c78c15a72" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceEvidenceCollector</scope><name>ComplianceEvidenceCollector</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_evidence_collector_1a538f4db315a8caa52cad8c809c5e738e" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceEvidenceCollector</scope><name>ComplianceEvidenceCollector</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_evidence_collector_1ae9c0d25b5a0066ff6ebcd85b9f479f64" prot="private" virt="non-virtual"><scope>themis::governance::ComplianceEvidenceCollector</scope><name>computeEvidenceFingerprint</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_evidence_collector_1af465df8791e343399e6e635ff5e8a98f" prot="private" virt="non-virtual"><scope>themis::governance::ComplianceEvidenceCollector</scope><name>evidence_</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_evidence_collector_1a25c3fa89644ec91f91b9ecff9a4a3b48" prot="private" virt="non-virtual"><scope>themis::governance::ComplianceEvidenceCollector</scope><name>evidence_event_links_</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_evidence_collector_1ac1c4c8bba828d305e26b27df57f234e3" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceEvidenceCollector</scope><name>exportEvidenceForAudit</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_evidence_collector_1a4bee51cbfc18047da3a59def60897672" prot="private" virt="non-virtual"><scope>themis::governance::ComplianceEvidenceCollector</scope><name>generateEvidenceId</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_evidence_collector_1a3087a1dd72ceac888b1e1f8ad9e8f024" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceEvidenceCollector</scope><name>generateEvidenceReport</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_evidence_collector_1af86f6c9a772ae99f1e2b6686925e3e9a" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceEvidenceCollector</scope><name>getEvidenceByEvent</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_evidence_collector_1a00b38a98d76f8eeb9978a173f562cfe4" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceEvidenceCollector</scope><name>getEvidenceByRequirement</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_evidence_collector_1ac57cb9d527b11a6ad8ef1bd8e3902005" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceEvidenceCollector</scope><name>getEvidenceByTimeRange</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_evidence_collector_1a70d74a7855c59d1db6568016033800cd" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceEvidenceCollector</scope><name>getEvidenceStatistics</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_evidence_collector_1a69b48f045b171f549e63860f4f13a509" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceEvidenceCollector</scope><name>getTotalEvidenceCount</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_evidence_collector_1a3bf7089c408154eb2352ce00796f8502" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceEvidenceCollector</scope><name>linkEvidenceToEvent</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_evidence_collector_1a55ad55d4463781ac8d97f12660dc608d" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceEvidenceCollector</scope><name>linkEvidenceToEvents</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_evidence_collector_1a58c9a239c1231e768bcabc5edbd42a93" prot="private" virt="non-virtual"><scope>themis::governance::ComplianceEvidenceCollector</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_evidence_collector_1a714cc4313a5ddebb48dfc9c316d73d1d" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceEvidenceCollector</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_evidence_collector_1a4eb217dde2c99df8219d58f920e4d509" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceEvidenceCollector</scope><name>recordEvidence</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_evidence_collector_1a873f7d4e201a0c169dca1135e61f5adc" prot="private" virt="non-virtual"><scope>themis::governance::ComplianceEvidenceCollector</scope><name>requirement_evidence_map_</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_evidence_collector_1a21fb030b953dbbb1b0e33a17a56329aa" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceEvidenceCollector</scope><name>~ComplianceEvidenceCollector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

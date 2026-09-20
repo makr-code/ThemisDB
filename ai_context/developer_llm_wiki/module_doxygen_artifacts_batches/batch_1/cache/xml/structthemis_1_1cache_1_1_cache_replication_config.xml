@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_cache_replication_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::CacheReplicationConfig</compoundname>
+    <includes refid="cache__replication_8h" local="no">cache_replication.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_replication_config_1aea717a8ce82da89f3b7569c679680198" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::cache::CacheReplicationConfig::max_consecutive_failures</definition>
+        <argsstring></argsstring>
+        <name>max_consecutive_failures</name>
+        <qualifiedname>themis::cache::CacheReplicationConfig::max_consecutive_failures</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="117" column="14" bodyfile="include/cache/cache_replication.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_replication_config_1a7972ad2d103209497634b42e08641f1d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::cache::CacheReplicationConfig::health_probe_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>health_probe_interval_ms</name>
+        <qualifiedname>themis::cache::CacheReplicationConfig::health_probe_interval_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="119" column="14" bodyfile="include/cache/cache_replication.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_replication_config_1af21b9fde7572b77931801e9091a9bb11" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::cache::CacheReplicationConfig::semi_sync</definition>
+        <argsstring></argsstring>
+        <name>semi_sync</name>
+        <qualifiedname>themis::cache::CacheReplicationConfig::semi_sync</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="121" column="10" bodyfile="include/cache/cache_replication.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_replication_config_1a34b96180aca10d9423d9e211794b8c52" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::cache::CacheReplicationConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::cache::CacheReplicationConfig::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="123" column="10" bodyfile="include/cache/cache_replication.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/cache_replication.h" line="116" column="1" bodyfile="include/cache/cache_replication.h" bodystart="116" bodyend="124"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_cache_replication_config_1a34b96180aca10d9423d9e211794b8c52" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_replication_config_1a7972ad2d103209497634b42e08641f1d" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationConfig</scope><name>health_probe_interval_ms</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_replication_config_1aea717a8ce82da89f3b7569c679680198" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationConfig</scope><name>max_consecutive_failures</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_replication_config_1af21b9fde7572b77931801e9091a9bb11" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationConfig</scope><name>semi_sync</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

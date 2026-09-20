@@ -1,0 +1,284 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_rag_context_budget_manager" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::prompt_engineering::RagContextBudgetManager</compoundname>
+    <basecompoundref refid="classthemis_1_1prompt__engineering_1_1_i_r_a_g_context_budget_manager" prot="public" virt="non-virtual">themis::prompt_engineering::IRAGContextBudgetManager</basecompoundref>
+    <includes refid="rag__context__budget__manager_8h" local="no">rag_context_budget_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_rag_context_budget_manager_1aebcb466e5cc48bd3159e184cc295970d" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::RagContextBudgetManager::total_budget_</definition>
+        <argsstring></argsstring>
+        <name>total_budget_</name>
+        <qualifiedname>themis::prompt_engineering::RagContextBudgetManager::total_budget_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_context_budget_manager.h" line="216" column="28" bodyfile="include/prompt_engineering/rag_context_budget_manager.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_rag_context_budget_manager_1ae79ca891fe80a1e6f3adbccfd493199f" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::prompt_engineering::RagContextBudgetManager::allocated_</definition>
+        <argsstring></argsstring>
+        <name>allocated_</name>
+        <qualifiedname>themis::prompt_engineering::RagContextBudgetManager::allocated_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_context_budget_manager.h" line="217" column="20" bodyfile="include/prompt_engineering/rag_context_budget_manager.h" bodystart="217" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_rag_context_budget_manager_1aea9a4244bf6c90d8bae852a0ff72b011" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::prompt_engineering::RagContextBudgetManager::alloc_count_</definition>
+        <argsstring></argsstring>
+        <name>alloc_count_</name>
+        <qualifiedname>themis::prompt_engineering::RagContextBudgetManager::alloc_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_context_budget_manager.h" line="218" column="20" bodyfile="include/prompt_engineering/rag_context_budget_manager.h" bodystart="218" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_rag_context_budget_manager_1ab3740c39baebd0328b08bb59296d841d" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::prompt_engineering::RagContextBudgetManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::prompt_engineering::RagContextBudgetManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_context_budget_manager.h" line="219" column="28" bodyfile="include/prompt_engineering/rag_context_budget_manager.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_rag_context_budget_manager_1a746dfe61fa208fc918987648a3124342" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::RagContextBudgetManager::RagContextBudgetManager</definition>
+        <argsstring>(size_t total_budget)</argsstring>
+        <name>RagContextBudgetManager</name>
+        <qualifiedname>themis::prompt_engineering::RagContextBudgetManager::RagContextBudgetManager</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>total_budget</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>total_budget</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum tokens available to all concurrent callers. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if total_budget == 0. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_context_budget_manager.h" line="205" column="14" bodyfile="src/prompt_engineering/rag_context_budget_manager.cpp" bodystart="18" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_rag_context_budget_manager_1a40e2b8104b594109bedff20b405f6e54" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classthemis_1_1prompt__engineering_1_1_budget_handle" kindref="compound">BudgetHandle</ref></type>
+        <definition>BudgetHandle themis::prompt_engineering::RagContextBudgetManager::allocate</definition>
+        <argsstring>(size_t tokens) override</argsstring>
+        <name>allocate</name>
+        <qualifiedname>themis::prompt_engineering::RagContextBudgetManager::allocate</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_r_a_g_context_budget_manager_1a069ff31c008b8cd503fc743876e07a7f">allocate</reimplements>
+        <param>
+          <type>size_t</type>
+          <declname>tokens</declname>
+        </param>
+        <briefdescription>
+<para>Allocate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>BudgetExhaustedError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), load(), fetch_add(), BudgetHandle(), doRelease(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_context_budget_manager.h" line="207" column="18" bodyfile="src/prompt_engineering/rag_context_budget_manager.cpp" bodystart="33" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_rag_context_budget_manager_1a7fcb770aefc0cfb578bf40e9441b8f8d" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::RagContextBudgetManager::remaining</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>remaining</name>
+        <qualifiedname>themis::prompt_engineering::RagContextBudgetManager::remaining</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_r_a_g_context_budget_manager_1a5ed7dfb007ff5b20d081a2c64aaab424">remaining</reimplements>
+        <briefdescription>
+<para>Returns the number of tokens currently available for allocation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_context_budget_manager.h" line="208" column="12" bodyfile="src/prompt_engineering/rag_context_budget_manager.cpp" bodystart="65" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_rag_context_budget_manager_1af4bc2d83e17510dbf6010a9220587b25" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::RagContextBudgetManager::totalBudget</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>totalBudget</name>
+        <qualifiedname>themis::prompt_engineering::RagContextBudgetManager::totalBudget</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_r_a_g_context_budget_manager_1abc033299ead6690dbe2809ebf262e0c2">totalBudget</reimplements>
+        <briefdescription>
+<para>Returns the total budget configured at construction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_context_budget_manager.h" line="209" column="12" bodyfile="src/prompt_engineering/rag_context_budget_manager.cpp" bodystart="70" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_rag_context_budget_manager_1a1693caac34e8ab002374f8d182e4ce77" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::RagContextBudgetManager::reset</definition>
+        <argsstring>() noexcept override</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::prompt_engineering::RagContextBudgetManager::reset</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_r_a_g_context_budget_manager_1a9e5d7e0fc30f7ebd6d96c0472321f37a">reset</reimplements>
+        <briefdescription>
+<para>Release all current allocations and reset counters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>All outstanding <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_budget_handle" kindref="compound">BudgetHandle</ref></computeroutput>s become no-ops after <ref refid="classthemis_1_1prompt__engineering_1_1_rag_context_budget_manager_1a1693caac34e8ab002374f8d182e4ce77" kindref="member">reset()</ref>. Call only when the RAG pipeline is idle (e.g., between requests). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_context_budget_manager.h" line="210" column="12" bodyfile="src/prompt_engineering/rag_context_budget_manager.cpp" bodystart="74" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_rag_context_budget_manager_1af1f3f00029a8b841845fc00df84e0d7b" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_budget_snapshot" kindref="compound">BudgetSnapshot</ref></type>
+        <definition>BudgetSnapshot themis::prompt_engineering::RagContextBudgetManager::snapshot</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>snapshot</name>
+        <qualifiedname>themis::prompt_engineering::RagContextBudgetManager::snapshot</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_r_a_g_context_budget_manager_1a1d2eb8fad1cbaf3cbe44340184bdaae4">snapshot</reimplements>
+        <briefdescription>
+<para>Return a point-in-time diagnostic snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Does not block allocation; the snapshot may be slightly stale in the presence of concurrent allocations. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_context_budget_manager.h" line="211" column="20" bodyfile="src/prompt_engineering/rag_context_budget_manager.cpp" bodystart="81" bodyend="90"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_rag_context_budget_manager_1a065d06eafdb682296b8d2ebb4dd5b005" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::RagContextBudgetManager::doRelease</definition>
+        <argsstring>(size_t tokens) noexcept</argsstring>
+        <name>doRelease</name>
+        <qualifiedname>themis::prompt_engineering::RagContextBudgetManager::doRelease</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>tokens</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_context_budget_manager.h" line="214" column="10" bodyfile="src/prompt_engineering/rag_context_budget_manager.cpp" bodystart="51" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread-safe concrete implementation of <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_r_a_g_context_budget_manager" kindref="compound">IRAGContextBudgetManager</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Uses a <computeroutput>std::mutex</computeroutput> and two <computeroutput>std::atomic&lt;size_t&gt;</computeroutput> counters:<itemizedlist>
+<listitem><para><computeroutput>allocated_</computeroutput> — current sum of all unreleased token reservations.</para>
+</listitem><listitem><para><computeroutput>alloc_count_</computeroutput> — monotone counter of total <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_rag_context_budget_manager_1a40e2b8104b594109bedff20b405f6e54" kindref="member">allocate()</ref></computeroutput> calls (not decremented on release); used for diagnostics.</para>
+</listitem></itemizedlist>
+</para>
+<para>Performance target: <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_rag_context_budget_manager_1a40e2b8104b594109bedff20b405f6e54" kindref="member">allocate()</ref></computeroutput> and <computeroutput>release()</computeroutput> hot paths ≤ 100 µs. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::prompt_engineering::IRAGContextBudgetManager</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_r_a_g_context_budget_manager"/>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::RagContextBudgetManager</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_rag_context_budget_manager"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::prompt_engineering::IRAGContextBudgetManager</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_r_a_g_context_budget_manager"/>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::RagContextBudgetManager</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_rag_context_budget_manager"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/prompt_engineering/rag_context_budget_manager.h" line="199" column="1" bodyfile="include/prompt_engineering/rag_context_budget_manager.h" bodystart="199" bodyend="220"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_rag_context_budget_manager_1aea9a4244bf6c90d8bae852a0ff72b011" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::RagContextBudgetManager</scope><name>alloc_count_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_rag_context_budget_manager_1a40e2b8104b594109bedff20b405f6e54" prot="public" virt="virtual"><scope>themis::prompt_engineering::RagContextBudgetManager</scope><name>allocate</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_rag_context_budget_manager_1ae79ca891fe80a1e6f3adbccfd493199f" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::RagContextBudgetManager</scope><name>allocated_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_rag_context_budget_manager_1a065d06eafdb682296b8d2ebb4dd5b005" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::RagContextBudgetManager</scope><name>doRelease</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_rag_context_budget_manager_1ab3740c39baebd0328b08bb59296d841d" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::RagContextBudgetManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_rag_context_budget_manager_1a746dfe61fa208fc918987648a3124342" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RagContextBudgetManager</scope><name>RagContextBudgetManager</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_rag_context_budget_manager_1a7fcb770aefc0cfb578bf40e9441b8f8d" prot="public" virt="virtual"><scope>themis::prompt_engineering::RagContextBudgetManager</scope><name>remaining</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_rag_context_budget_manager_1a1693caac34e8ab002374f8d182e4ce77" prot="public" virt="virtual"><scope>themis::prompt_engineering::RagContextBudgetManager</scope><name>reset</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_rag_context_budget_manager_1af1f3f00029a8b841845fc00df84e0d7b" prot="public" virt="virtual"><scope>themis::prompt_engineering::RagContextBudgetManager</scope><name>snapshot</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_rag_context_budget_manager_1aebcb466e5cc48bd3159e184cc295970d" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::RagContextBudgetManager</scope><name>total_budget_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_rag_context_budget_manager_1af4bc2d83e17510dbf6010a9220587b25" prot="public" virt="virtual"><scope>themis::prompt_engineering::RagContextBudgetManager</scope><name>totalBudget</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_r_a_g_context_budget_manager_1a78daa50b35417e398dc0aa5bde19d76d" prot="public" virt="virtual"><scope>themis::prompt_engineering::RagContextBudgetManager</scope><name>~IRAGContextBudgetManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

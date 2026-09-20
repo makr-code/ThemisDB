@@ -1,0 +1,208 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_step_l_r" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::StepLR</compoundname>
+    <basecompoundref refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler" prot="public" virt="non-virtual">themis::llm::lora::LRScheduler</basecompoundref>
+    <includes refid="lr__scheduler_8h" local="no">lr_scheduler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_step_l_r_1ad03ff730adf4e0f5731a97f6962f6235" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::StepLR::initial_lr_</definition>
+        <argsstring></argsstring>
+        <name>initial_lr_</name>
+        <qualifiedname>themis::llm::lora::StepLR::initial_lr_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="258" column="11" bodyfile="include/llm/lora_framework/lr_scheduler.h" bodystart="258" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_step_l_r_1ad9becc83e1590aaa251ac707d87d8cec" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::StepLR::step_size_</definition>
+        <argsstring></argsstring>
+        <name>step_size_</name>
+        <qualifiedname>themis::llm::lora::StepLR::step_size_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="259" column="9" bodyfile="include/llm/lora_framework/lr_scheduler.h" bodystart="259" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_step_l_r_1ad4720b12d0bd807dd9c2f131c1e9d5dd" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::StepLR::gamma_</definition>
+        <argsstring></argsstring>
+        <name>gamma_</name>
+        <qualifiedname>themis::llm::lora::StepLR::gamma_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="260" column="11" bodyfile="include/llm/lora_framework/lr_scheduler.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_step_l_r_1a4bbd11f96752658fab3ba361f51f5b11" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::StepLR::StepLR</definition>
+        <argsstring>(float initial_lr, int step_size, float gamma=0.1f)</argsstring>
+        <name>StepLR</name>
+        <qualifiedname>themis::llm::lora::StepLR::StepLR</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>initial_lr</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>step_size</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>gamma</declname>
+          <defval>0.1f</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="249" column="5" bodyfile="include/llm/lora_framework/lr_scheduler.h" bodystart="249" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_step_l_r_1a98b7bb9332608a706256b1d3270bc6f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::StepLR::~StepLR</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~StepLR</name>
+        <qualifiedname>themis::llm::lora::StepLR::~StepLR</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="251" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_step_l_r_1a4562dc407d9e2c3ca93c1d08e33fe487" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>float</type>
+        <definition>float themis::llm::lora::StepLR::get_lr</definition>
+        <argsstring>(int step) const override</argsstring>
+        <name>get_lr</name>
+        <qualifiedname>themis::llm::lora::StepLR::get_lr</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler_1a905c0c3ee0eaac8261866f2e6bec5688">get_lr</reimplements>
+        <param>
+          <type>int</type>
+          <declname>step</declname>
+        </param>
+        <briefdescription>
+<para>Get lr. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="253" column="11" bodyfile="src/llm/lora_framework/lr_scheduler.cpp" bodystart="132" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_step_l_r_1a4b06394237f74dd9b694d7d94c852659" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1a0540e61447eb923825a59599692b7359" kindref="member">SchedulerType</ref></type>
+        <definition>SchedulerType themis::llm::lora::StepLR::type</definition>
+        <argsstring>() const override</argsstring>
+        <name>type</name>
+        <qualifiedname>themis::llm::lora::StepLR::type</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler_1a7048b5e15ba36ca63863eac93bc1ca1e">type</reimplements>
+        <briefdescription>
+<para>Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="254" column="19" bodyfile="include/llm/lora_framework/lr_scheduler.h" bodystart="254" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_step_l_r_1a1ec28ffebda6d3635e11b5f4421316a4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_l_r_scheduler_config" kindref="compound">LRSchedulerConfig</ref></type>
+        <definition>LRSchedulerConfig themis::llm::lora::StepLR::config</definition>
+        <argsstring>() const override</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::llm::lora::StepLR::config</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler_1a90c87567122b5d4efe777820ffa5109a">config</reimplements>
+        <briefdescription>
+<para>Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="255" column="23" bodyfile="src/llm/lora_framework/lr_scheduler.cpp" bodystart="137" bodyend="144"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::llm::lora::LRScheduler</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::lora::StepLR</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_step_l_r"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::lora::LRScheduler</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::lora::StepLR</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_step_l_r"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/lora_framework/lr_scheduler.h" line="247" column="1" bodyfile="include/llm/lora_framework/lr_scheduler.h" bodystart="247" bodyend="261"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_step_l_r_1a1ec28ffebda6d3635e11b5f4421316a4" prot="public" virt="virtual"><scope>themis::llm::lora::StepLR</scope><name>config</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_step_l_r_1ad4720b12d0bd807dd9c2f131c1e9d5dd" prot="private" virt="non-virtual"><scope>themis::llm::lora::StepLR</scope><name>gamma_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_step_l_r_1a4562dc407d9e2c3ca93c1d08e33fe487" prot="public" virt="virtual"><scope>themis::llm::lora::StepLR</scope><name>get_lr</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_step_l_r_1ad03ff730adf4e0f5731a97f6962f6235" prot="private" virt="non-virtual"><scope>themis::llm::lora::StepLR</scope><name>initial_lr_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_step_l_r_1ad9becc83e1590aaa251ac707d87d8cec" prot="private" virt="non-virtual"><scope>themis::llm::lora::StepLR</scope><name>step_size_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_step_l_r_1a4bbd11f96752658fab3ba361f51f5b11" prot="public" virt="non-virtual"><scope>themis::llm::lora::StepLR</scope><name>StepLR</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_step_l_r_1a4b06394237f74dd9b694d7d94c852659" prot="public" virt="virtual"><scope>themis::llm::lora::StepLR</scope><name>type</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler_1a55400958819352469981cae8a4cfc66d" prot="public" virt="virtual"><scope>themis::llm::lora::StepLR</scope><name>~LRScheduler</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_step_l_r_1a98b7bb9332608a706256b1d3270bc6f8" prot="public" virt="non-virtual"><scope>themis::llm::lora::StepLR</scope><name>~StepLR</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

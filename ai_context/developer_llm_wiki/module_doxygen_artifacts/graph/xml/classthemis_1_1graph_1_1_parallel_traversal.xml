@@ -1,0 +1,516 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graph_1_1_parallel_traversal" kind="class" language="C++" prot="public">
+    <compoundname>themis::graph::ParallelTraversal</compoundname>
+    <includes refid="parallel__traversal_8h" local="no">parallel_traversal.h</includes>
+    <innerclass refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_config" prot="public">themis::graph::ParallelTraversal::Config</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_multi_source_result" prot="public">themis::graph::ParallelTraversal::MultiSourceResult</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_source_traversal_result" prot="private">themis::graph::ParallelTraversal::SourceTraversalResult</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_parallel_traversal_1ad5deb2e38c7ded8f236cac933c2d4929" prot="private" static="no" mutable="no">
+        <type>GraphIndexManager &amp;</type>
+        <definition>GraphIndexManager&amp; themis::graph::ParallelTraversal::graph_manager_</definition>
+        <argsstring></argsstring>
+        <name>graph_manager_</name>
+        <qualifiedname>themis::graph::ParallelTraversal::graph_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/parallel_traversal.h" line="101" column="23" bodyfile="include/graph/parallel_traversal.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_parallel_traversal_1aef317a93c905f906ddad70cd47e52c14" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::ParallelTraversal::ParallelTraversal</definition>
+        <argsstring>(GraphIndexManager &amp;graph_manager)</argsstring>
+        <name>ParallelTraversal</name>
+        <qualifiedname>themis::graph::ParallelTraversal::ParallelTraversal</qualifiedname>
+        <param>
+          <type>GraphIndexManager &amp;</type>
+          <declname>graph_manager</declname>
+        </param>
+        <briefdescription>
+<para>Parallel Traversal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">graph_manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/parallel_traversal.h" line="58" column="14" bodyfile="src/graph/parallel_traversal.cpp" bodystart="32" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_parallel_traversal_1ab6c2e5833948e00eb112a449938a01d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_multi_source_result" kindref="compound">MultiSourceResult</ref> &gt;</type>
+        <definition>Result&lt; ParallelTraversal::MultiSourceResult &gt; themis::graph::ParallelTraversal::multiSourceBFS</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;sources)</argsstring>
+        <name>multiSourceBFS</name>
+        <qualifiedname>themis::graph::ParallelTraversal::multiSourceBFS</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>sources</declname>
+        </param>
+        <briefdescription>
+<para>Multi Source BFS. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sources</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/parallel_traversal.h" line="65" column="12" bodyfile="src/graph/parallel_traversal.cpp" bodystart="313" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_parallel_traversal_1a45ef258bf2d5c417e4286408927c1dbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_multi_source_result" kindref="compound">MultiSourceResult</ref> &gt;</type>
+        <definition>Result&lt; ParallelTraversal::MultiSourceResult &gt; themis::graph::ParallelTraversal::multiSourceBFS</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;sources, const Config &amp;config)</argsstring>
+        <name>multiSourceBFS</name>
+        <qualifiedname>themis::graph::ParallelTraversal::multiSourceBFS</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>sources</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Multi Source BFS. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sources</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sources</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::chrono::steady_clock::now(), effectiveThreadCount(), size(), reserve(), std::min(), push_back(), std::async(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/parallel_traversal.h" line="75" column="12" bodyfile="src/graph/parallel_traversal.cpp" bodystart="324" bodyend="362"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_parallel_traversal_1a809c8c6a6e982f34bffc71908a2afdf3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_multi_source_result" kindref="compound">MultiSourceResult</ref> &gt;</type>
+        <definition>Result&lt; ParallelTraversal::MultiSourceResult &gt; themis::graph::ParallelTraversal::multiSourceDFS</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;sources)</argsstring>
+        <name>multiSourceDFS</name>
+        <qualifiedname>themis::graph::ParallelTraversal::multiSourceDFS</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>sources</declname>
+        </param>
+        <briefdescription>
+<para>Multi Source DFS. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sources</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/parallel_traversal.h" line="85" column="12" bodyfile="src/graph/parallel_traversal.cpp" bodystart="369" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_parallel_traversal_1a3715c73e28825c2381e450b044d25437" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_multi_source_result" kindref="compound">MultiSourceResult</ref> &gt;</type>
+        <definition>Result&lt; ParallelTraversal::MultiSourceResult &gt; themis::graph::ParallelTraversal::multiSourceDFS</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;sources, const Config &amp;config)</argsstring>
+        <name>multiSourceDFS</name>
+        <qualifiedname>themis::graph::ParallelTraversal::multiSourceDFS</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>sources</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Multi Source DFS. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sources</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sources</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::chrono::steady_clock::now(), effectiveThreadCount(), size(), reserve(), std::min(), push_back(), std::async(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/parallel_traversal.h" line="95" column="12" bodyfile="src/graph/parallel_traversal.cpp" bodystart="380" bodyend="417"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_parallel_traversal_1ae4841cc262de2fa902329369f7b0daff" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graph::ParallelTraversal::effectiveThreadCount</definition>
+        <argsstring>(const Config &amp;config, size_t num_sources)</argsstring>
+        <name>effectiveThreadCount</name>
+        <qualifiedname>themis::graph::ParallelTraversal::effectiveThreadCount</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>num_sources</declname>
+        </param>
+        <briefdescription>
+<para>Effective Thread Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_sources</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_sources</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::thread::hardware_concurrency(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/parallel_traversal.h" line="109" column="19" bodyfile="src/graph/parallel_traversal.cpp" bodystart="45" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_parallel_traversal_1a6e17bbdbc452ef7ac1ee0d7ce3e204d6" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_multi_source_result" kindref="compound">MultiSourceResult</ref></type>
+        <definition>ParallelTraversal::MultiSourceResult themis::graph::ParallelTraversal::mergeResults</definition>
+        <argsstring>(std::vector&lt; SourceTraversalResult &gt; &amp;&amp;per_source, double execution_time_ms)</argsstring>
+        <name>mergeResults</name>
+        <qualifiedname>themis::graph::ParallelTraversal::mergeResults</qualifiedname>
+        <param>
+          <type>std::vector&lt; SourceTraversalResult &gt; &amp;&amp;</type>
+          <declname>per_source</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>execution_time_ms</declname>
+        </param>
+        <briefdescription>
+<para>Merge Results. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">per_source</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">execution_time_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">per_source</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">execution_time_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: insert(), push_back(), emplace(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/parallel_traversal.h" line="147" column="30" bodyfile="src/graph/parallel_traversal.cpp" bodystart="283" bodyend="306"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_parallel_traversal_1a61acd0dfa3791edcb8a445b8340e3ed4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>SourceTraversalResult</type>
+        <definition>ParallelTraversal::SourceTraversalResult themis::graph::ParallelTraversal::runSingleBFS</definition>
+        <argsstring>(const std::string &amp;source, const Config &amp;config)</argsstring>
+        <name>runSingleBFS</name>
+        <qualifiedname>themis::graph::ParallelTraversal::runSingleBFS</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Run Single BFS. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> Single-source BFS (runs inside an async task) ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), count(), insert(), push_back(), empty(), timedOut(), size(), effectiveThreadCount(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/parallel_traversal.h" line="125" column="27" bodyfile="src/graph/parallel_traversal.cpp" bodystart="64" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_parallel_traversal_1a3f97f386e22897de72cd94667582f78b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>SourceTraversalResult</type>
+        <definition>ParallelTraversal::SourceTraversalResult themis::graph::ParallelTraversal::runSingleDFS</definition>
+        <argsstring>(const std::string &amp;source, const Config &amp;config)</argsstring>
+        <name>runSingleDFS</name>
+        <qualifiedname>themis::graph::ParallelTraversal::runSingleDFS</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Run Single DFS. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> Single-source DFS (runs inside an async task) ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), count(), push_back(), empty(), back(), pop_back(), timedOut(), insert(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/parallel_traversal.h" line="136" column="27" bodyfile="src/graph/parallel_traversal.cpp" bodystart="204" bodyend="270"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/parallel_traversal.h" line="25" column="1" bodyfile="include/graph/parallel_traversal.h" bodystart="25" bodyend="151"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graph_1_1_parallel_traversal_1ae4841cc262de2fa902329369f7b0daff" prot="private" virt="non-virtual"><scope>themis::graph::ParallelTraversal</scope><name>effectiveThreadCount</name></member>
+      <member refid="classthemis_1_1graph_1_1_parallel_traversal_1ad5deb2e38c7ded8f236cac933c2d4929" prot="private" virt="non-virtual"><scope>themis::graph::ParallelTraversal</scope><name>graph_manager_</name></member>
+      <member refid="classthemis_1_1graph_1_1_parallel_traversal_1a6e17bbdbc452ef7ac1ee0d7ce3e204d6" prot="private" virt="non-virtual"><scope>themis::graph::ParallelTraversal</scope><name>mergeResults</name></member>
+      <member refid="classthemis_1_1graph_1_1_parallel_traversal_1ab6c2e5833948e00eb112a449938a01d4" prot="public" virt="non-virtual"><scope>themis::graph::ParallelTraversal</scope><name>multiSourceBFS</name></member>
+      <member refid="classthemis_1_1graph_1_1_parallel_traversal_1a45ef258bf2d5c417e4286408927c1dbd" prot="public" virt="non-virtual"><scope>themis::graph::ParallelTraversal</scope><name>multiSourceBFS</name></member>
+      <member refid="classthemis_1_1graph_1_1_parallel_traversal_1a809c8c6a6e982f34bffc71908a2afdf3" prot="public" virt="non-virtual"><scope>themis::graph::ParallelTraversal</scope><name>multiSourceDFS</name></member>
+      <member refid="classthemis_1_1graph_1_1_parallel_traversal_1a3715c73e28825c2381e450b044d25437" prot="public" virt="non-virtual"><scope>themis::graph::ParallelTraversal</scope><name>multiSourceDFS</name></member>
+      <member refid="classthemis_1_1graph_1_1_parallel_traversal_1aef317a93c905f906ddad70cd47e52c14" prot="public" virt="non-virtual"><scope>themis::graph::ParallelTraversal</scope><name>ParallelTraversal</name></member>
+      <member refid="classthemis_1_1graph_1_1_parallel_traversal_1a61acd0dfa3791edcb8a445b8340e3ed4" prot="private" virt="non-virtual"><scope>themis::graph::ParallelTraversal</scope><name>runSingleBFS</name></member>
+      <member refid="classthemis_1_1graph_1_1_parallel_traversal_1a3f97f386e22897de72cd94667582f78b" prot="private" virt="non-virtual"><scope>themis::graph::ParallelTraversal</scope><name>runSingleDFS</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

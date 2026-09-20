@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_access_tracker_1_1_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::AccessTracker::Entry</compoundname>
+    <includes refid="tiered__storage_8h" local="no">tiered_storage.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_access_tracker_1_1_entry_1aae91194b4686fa3ac3507a9b98920041" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::storage::AccessTracker::Entry::written_at</definition>
+        <argsstring></argsstring>
+        <name>written_at</name>
+        <qualifiedname>themis::storage::AccessTracker::Entry::written_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="103" column="47" bodyfile="include/storage/tiered_storage.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_access_tracker_1_1_entry_1a4bd292c827dc5573faf28f82b486d512" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::storage::AccessTracker::Entry::last_read_at</definition>
+        <argsstring></argsstring>
+        <name>last_read_at</name>
+        <qualifiedname>themis::storage::AccessTracker::Entry::last_read_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="104" column="47" bodyfile="include/storage/tiered_storage.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_access_tracker_1_1_entry_1a1572cf344628669a764355b1a147591c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1storage_1a3c530ac7dba036fbcb9a1094749b56ee" kindref="member">StorageTierLevel</ref></type>
+        <definition>StorageTierLevel themis::storage::AccessTracker::Entry::tier</definition>
+        <argsstring></argsstring>
+        <name>tier</name>
+        <qualifiedname>themis::storage::AccessTracker::Entry::tier</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1storage_1a3c530ac7dba036fbcb9a1094749b56eeac429fde8b1b986d42f84ba63dbfef6ac" kindref="member">StorageTierLevel::HOT</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="105" column="26" bodyfile="include/storage/tiered_storage.h" bodystart="105" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_access_tracker_1_1_entry_1a858a4c5f653d2ffba373a7436d35e156" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::AccessTracker::Entry::value_size</definition>
+        <argsstring></argsstring>
+        <name>value_size</name>
+        <qualifiedname>themis::storage::AccessTracker::Entry::value_size</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Byte length of the stored value (set on put). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="106" column="18" bodyfile="include/storage/tiered_storage.h" bodystart="106" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_access_tracker_1_1_entry_1a19ec4052768749cd351447ab9af64291" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::AccessTracker::Entry::read_count</definition>
+        <argsstring></argsstring>
+        <name>read_count</name>
+        <qualifiedname>themis::storage::AccessTracker::Entry::read_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of times this entry has been read. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="107" column="18" bodyfile="include/storage/tiered_storage.h" bodystart="107" bodyend="107"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/tiered_storage.h" line="102" column="5" bodyfile="include/storage/tiered_storage.h" bodystart="102" bodyend="108"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_access_tracker_1_1_entry_1a4bd292c827dc5573faf28f82b486d512" prot="public" virt="non-virtual"><scope>themis::storage::AccessTracker::Entry</scope><name>last_read_at</name></member>
+      <member refid="structthemis_1_1storage_1_1_access_tracker_1_1_entry_1a19ec4052768749cd351447ab9af64291" prot="public" virt="non-virtual"><scope>themis::storage::AccessTracker::Entry</scope><name>read_count</name></member>
+      <member refid="structthemis_1_1storage_1_1_access_tracker_1_1_entry_1a1572cf344628669a764355b1a147591c" prot="public" virt="non-virtual"><scope>themis::storage::AccessTracker::Entry</scope><name>tier</name></member>
+      <member refid="structthemis_1_1storage_1_1_access_tracker_1_1_entry_1a858a4c5f653d2ffba373a7436d35e156" prot="public" virt="non-virtual"><scope>themis::storage::AccessTracker::Entry</scope><name>value_size</name></member>
+      <member refid="structthemis_1_1storage_1_1_access_tracker_1_1_entry_1aae91194b4686fa3ac3507a9b98920041" prot="public" virt="non-virtual"><scope>themis::storage::AccessTracker::Entry</scope><name>written_at</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

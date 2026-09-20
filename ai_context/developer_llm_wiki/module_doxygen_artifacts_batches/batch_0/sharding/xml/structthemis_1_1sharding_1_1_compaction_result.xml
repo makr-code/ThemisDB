@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_compaction_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::CompactionResult</compoundname>
+    <includes refid="sharding__interfaces_8h" local="no">sharding_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_compaction_result_1a4d8530b5d07f23d0d27fa32d8ff73efa" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::CompactionResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::sharding::CompactionResult::success</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="244" column="10" bodyfile="include/sharding/sharding_interfaces.h" bodystart="244" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_compaction_result_1a150d90eab52276305e14bd2ae3482294" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1a1b09ca5c4bcc56b5d53ab289dad7bdbd" kindref="member">ShardId</ref></type>
+        <definition>ShardId themis::sharding::CompactionResult::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::sharding::CompactionResult::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="245" column="13" bodyfile="include/sharding/sharding_interfaces.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_compaction_result_1a12bc3cba3feb5088b9bba57fbffe6aad" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::CompactionResult::compacted_up_to_index</definition>
+        <argsstring></argsstring>
+        <name>compacted_up_to_index</name>
+        <qualifiedname>themis::sharding::CompactionResult::compacted_up_to_index</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Log was truncated up through (and including) this index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="247" column="14" bodyfile="include/sharding/sharding_interfaces.h" bodystart="247" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_compaction_result_1a031d257c2e9e8ef87a4756427606e905" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::CompactionResult::bytes_freed</definition>
+        <argsstring></argsstring>
+        <name>bytes_freed</name>
+        <qualifiedname>themis::sharding::CompactionResult::bytes_freed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Approximate bytes freed by truncating the log. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="249" column="14" bodyfile="include/sharding/sharding_interfaces.h" bodystart="249" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_compaction_result_1a2908ae7390e099dc4e554cba4bc3651b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::CompactionResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::sharding::CompactionResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="250" column="17" bodyfile="include/sharding/sharding_interfaces.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Outcome of <ref refid="classthemis_1_1sharding_1_1_i_raft_snapshot_manager_1a25b04c4309e69323db5285917446fc38" kindref="member">IRaftSnapshotManager::compactLog()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/sharding_interfaces.h" line="243" column="1" bodyfile="include/sharding/sharding_interfaces.h" bodystart="243" bodyend="251"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_compaction_result_1a031d257c2e9e8ef87a4756427606e905" prot="public" virt="non-virtual"><scope>themis::sharding::CompactionResult</scope><name>bytes_freed</name></member>
+      <member refid="structthemis_1_1sharding_1_1_compaction_result_1a12bc3cba3feb5088b9bba57fbffe6aad" prot="public" virt="non-virtual"><scope>themis::sharding::CompactionResult</scope><name>compacted_up_to_index</name></member>
+      <member refid="structthemis_1_1sharding_1_1_compaction_result_1a2908ae7390e099dc4e554cba4bc3651b" prot="public" virt="non-virtual"><scope>themis::sharding::CompactionResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1sharding_1_1_compaction_result_1a150d90eab52276305e14bd2ae3482294" prot="public" virt="non-virtual"><scope>themis::sharding::CompactionResult</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_compaction_result_1a4d8530b5d07f23d0d27fa32d8ff73efa" prot="public" virt="non-virtual"><scope>themis::sharding::CompactionResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

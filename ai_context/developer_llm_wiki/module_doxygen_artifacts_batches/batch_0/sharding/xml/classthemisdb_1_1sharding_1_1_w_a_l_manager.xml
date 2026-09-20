@@ -1,0 +1,658 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1_w_a_l_manager" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::WALManager</compoundname>
+    <includes refid="wal__manager_8h" local="no">wal_manager.h</includes>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_w_a_l_manager_1_1_statistics" prot="public">themisdb::sharding::WALManager::Statistics</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_w_a_l_manager_1ab4f13cb91d7512ecf473a4fd5a9d0e7f" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_w_a_l_manager_config" kindref="compound">WALManagerConfig</ref></type>
+        <definition>WALManagerConfig themis::sharding::WALManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::sharding::WALManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="228" column="22" bodyfile="include/sharding/wal_manager.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_w_a_l_manager_1a9be130639c22f187d378a10a4f54b230" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::WALManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::sharding::WALManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="230" column="24" bodyfile="include/sharding/wal_manager.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_w_a_l_manager_1abadd337c486949c895171f0b0a03207f" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref></type>
+        <definition>LSN themis::sharding::WALManager::current_lsn_</definition>
+        <argsstring></argsstring>
+        <name>current_lsn_</name>
+        <qualifiedname>themisdb::sharding::WALManager::current_lsn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="233" column="9" bodyfile="include/sharding/wal_manager.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_w_a_l_manager_1abc0ea4815f230b9ef2d2c99a478ce7cb" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref></type>
+        <definition>LSN themis::sharding::WALManager::oldest_lsn_</definition>
+        <argsstring></argsstring>
+        <name>oldest_lsn_</name>
+        <qualifiedname>themisdb::sharding::WALManager::oldest_lsn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="234" column="9" bodyfile="include/sharding/wal_manager.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_w_a_l_manager_1a2bae94c7c5c8e7bfe0f22dc5f83c02d2" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; std::fstream &gt;</type>
+        <definition>std::unique_ptr&lt;std::fstream&gt; themis::sharding::WALManager::current_segment_</definition>
+        <argsstring></argsstring>
+        <name>current_segment_</name>
+        <qualifiedname>themisdb::sharding::WALManager::current_segment_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="237" column="21" bodyfile="include/sharding/wal_manager.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_w_a_l_manager_1abd923c04a936f087a2df5a2137f4c1da" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::sharding::WALManager::write_buffer_</definition>
+        <argsstring></argsstring>
+        <name>write_buffer_</name>
+        <qualifiedname>themisdb::sharding::WALManager::write_buffer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="240" column="17" bodyfile="include/sharding/wal_manager.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_w_a_l_manager_1a4db87c30ce852f2b48a901b79bf5c09e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::WALManager::total_entries_</definition>
+        <argsstring></argsstring>
+        <name>total_entries_</name>
+        <qualifiedname>themisdb::sharding::WALManager::total_entries_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="243" column="17" bodyfile="include/sharding/wal_manager.h" bodystart="243" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_w_a_l_manager_1ac6be8f7eb925a65a063dc0c650507c25" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::WALManager::total_bytes_</definition>
+        <argsstring></argsstring>
+        <name>total_bytes_</name>
+        <qualifiedname>themisdb::sharding::WALManager::total_bytes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="244" column="17" bodyfile="include/sharding/wal_manager.h" bodystart="244" bodyend="244"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_manager_1a92bf3724f767e2fb40b7cdc23ee27c35" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::WALManager::WALManager</definition>
+        <argsstring>(const WALManagerConfig &amp;config)</argsstring>
+        <name>WALManager</name>
+        <qualifiedname>themisdb::sharding::WALManager::WALManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_w_a_l_manager_config" kindref="compound">WALManagerConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct WAL manager with configured directory/segment policy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="166" column="14" bodyfile="src/sharding/wal_manager.cpp" bodystart="171" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_manager_1a9dbf873a325b53263a6b1b2d67cd7552" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::WALManager::~WALManager</definition>
+        <argsstring>()</argsstring>
+        <name>~WALManager</name>
+        <qualifiedname>themisdb::sharding::WALManager::~WALManager</qualifiedname>
+        <briefdescription>
+<para>Destructor flushes buffered writes and closes segment file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="169" column="5" bodyfile="src/sharding/wal_manager.cpp" bodystart="187" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_manager_1a7ae845fb46e5fe524db5a67e6c7533c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref></type>
+        <definition>LSN themis::sharding::WALManager::append</definition>
+        <argsstring>(const WALEntry &amp;entry)</argsstring>
+        <name>append</name>
+        <qualifiedname>themisdb::sharding::WALManager::append</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Append one entry to WAL and assign its LSN/timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Append.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Entry payload to persist. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Assigned <ref refid="structthemisdb_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> for the appended record.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), std::chrono::system_clock::now(), time_since_epoch(), count(), serialize(), size(), <ref refid="classthemis_1_1sharding_1_1_w_a_l_manager_1abc9f0e4662b3616563bff8335f2a31c0" kindref="member">flush()</ref>, rotateSegment(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="176" column="9" bodyfile="src/sharding/wal_manager.cpp" bodystart="204" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_manager_1a6012639765908cf03578a6826733dce2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1sharding_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> &gt;</type>
+        <definition>std::optional&lt; WALEntry &gt; themis::sharding::WALManager::read</definition>
+        <argsstring>(const LSN &amp;lsn)</argsstring>
+        <name>read</name>
+        <qualifiedname>themisdb::sharding::WALManager::read</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> &amp;</type>
+          <declname>lsn</declname>
+        </param>
+        <briefdescription>
+<para>Read one entry at exact <ref refid="structthemisdb_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Read.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lsn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target <ref refid="structthemisdb_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Entry when found, otherwise std::nullopt.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lsn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1sharding_1_1_w_a_l_manager_1a537bebfbdae31a90a33ab45c2f96870d" kindref="member">readRange()</ref>, LSN(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="183" column="19" bodyfile="src/sharding/wal_manager.cpp" bodystart="248" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_manager_1a537bebfbdae31a90a33ab45c2f96870d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> &gt;</type>
+        <definition>std::vector&lt; WALEntry &gt; themis::sharding::WALManager::readRange</definition>
+        <argsstring>(const LSN &amp;start_lsn, const std::optional&lt; LSN &gt; &amp;end_lsn=std::nullopt)</argsstring>
+        <name>readRange</name>
+        <qualifiedname>themisdb::sharding::WALManager::readRange</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> &amp;</type>
+          <declname>start_lsn</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> &gt; &amp;</type>
+          <declname>end_lsn</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Read entries in half-open <ref refid="structthemisdb_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> interval [start_lsn, end_lsn). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Read Range.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>start_lsn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Inclusive start <ref refid="structthemisdb_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>end_lsn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional exclusive end <ref refid="structthemisdb_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref>; nullopt reads to current tail. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ordered WAL entries in requested range.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_lsn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end_lsn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), <ref refid="classthemis_1_1sharding_1_1_w_a_l_manager_1abc9f0e4662b3616563bff8335f2a31c0" kindref="member">flush()</ref>, has_value(), getSegmentPath(), file(), is_open(), seekg(), tellg(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="191" column="17" bodyfile="src/sharding/wal_manager.cpp" bodystart="263" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_manager_1a25f073a175862d11fb507dbbcc7a57ff" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref></type>
+        <definition>LSN themis::sharding::WALManager::getCurrentLSN</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentLSN</name>
+        <qualifiedname>themisdb::sharding::WALManager::getCurrentLSN</qualifiedname>
+        <briefdescription>
+<para>Return current <ref refid="structthemisdb_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> (position of next append). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="195" column="9" bodyfile="src/sharding/wal_manager.cpp" bodystart="327" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_manager_1aedcc1fdfd06f0a9a2c95cec9bac41751" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref></type>
+        <definition>LSN themis::sharding::WALManager::getOldestLSN</definition>
+        <argsstring>() const</argsstring>
+        <name>getOldestLSN</name>
+        <qualifiedname>themisdb::sharding::WALManager::getOldestLSN</qualifiedname>
+        <briefdescription>
+<para>Return oldest retained <ref refid="structthemisdb_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> after segment retention cleanup. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="198" column="9" bodyfile="src/sharding/wal_manager.cpp" bodystart="337" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_manager_1abc9f0e4662b3616563bff8335f2a31c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::WALManager::flush</definition>
+        <argsstring>()</argsstring>
+        <name>flush</name>
+        <qualifiedname>themisdb::sharding::WALManager::flush</qualifiedname>
+        <briefdescription>
+<para>Flush buffered WAL bytes to active segment stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Flush.</para>
+<para>Calls: empty(), is_open(), write(), data(), size(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="201" column="10" bodyfile="src/sharding/wal_manager.cpp" bodystart="351" bodyend="373"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_manager_1a79149194faf8643c0225460a4c91b08d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref></type>
+        <definition>LSN themis::sharding::WALManager::checkpoint</definition>
+        <argsstring>()</argsstring>
+        <name>checkpoint</name>
+        <qualifiedname>themisdb::sharding::WALManager::checkpoint</qualifiedname>
+        <briefdescription>
+<para>Append checkpoint marker at current WAL tail. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Checkpoint.</para>
+<para><simplesect kind="return"><para><ref refid="structthemisdb_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> assigned to the checkpoint entry.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), <ref refid="namespacethemis_1_1sharding_1a0e0db9c66a1fab819f829d615f9cd5b2" kindref="member">toString()</ref>, <ref refid="classthemis_1_1sharding_1_1_w_a_l_manager_1a7ae845fb46e5fe524db5a67e6c7533c9" kindref="member">append()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="207" column="9" bodyfile="src/sharding/wal_manager.cpp" bodystart="380" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_manager_1a9c46c7e5d7bfaae7bcad7d1c88c9138a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::WALManager::truncate</definition>
+        <argsstring>(const LSN &amp;lsn)</argsstring>
+        <name>truncate</name>
+        <qualifiedname>themisdb::sharding::WALManager::truncate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> &amp;</type>
+          <declname>lsn</declname>
+        </param>
+        <briefdescription>
+<para>Truncate segment retention before target <ref refid="structthemisdb_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> boundary. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Truncate.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lsn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Entries strictly before this boundary become eligible for deletion.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lsn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), getSegmentPath(), fs::exists(), fs::remove(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="213" column="10" bodyfile="src/sharding/wal_manager.cpp" bodystart="398" bodyend="412"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_manager_1a7dd2a7417b5eeb4d8ab2764f25b1f7e4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_w_a_l_manager_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>WALManager::Statistics themis::sharding::WALManager::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themisdb::sharding::WALManager::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="217" column="16" bodyfile="src/sharding/wal_manager.cpp" bodystart="414" bodyend="437"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_manager_1a6b668856554bd769de06498d38921c2b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::WALManager::initialize</definition>
+        <argsstring>()</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themisdb::sharding::WALManager::initialize</qualifiedname>
+        <briefdescription>
+<para>Initialize WAL manager (create directories, discover segments). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true on successful initialization. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="223" column="10" bodyfile="include/sharding/wal_manager.h" bodystart="282" bodyend="290"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_manager_1a26ffaaf88326986bcfb34aa3e3eb81ba" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::WALManager::openSegment</definition>
+        <argsstring>(uint64_t segment_number)</argsstring>
+        <name>openSegment</name>
+        <qualifiedname>themisdb::sharding::WALManager::openSegment</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>segment_number</declname>
+        </param>
+        <briefdescription>
+<para>Open or create WAL segment file by segment number. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Open Segment.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">segment_number</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: getSegmentPath(), is_open(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="247" column="10" bodyfile="src/sharding/wal_manager.cpp" bodystart="445" bodyend="456"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_manager_1a90bd320d46d942cb01c94af75b32b9f6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::WALManager::closeSegment</definition>
+        <argsstring>()</argsstring>
+        <name>closeSegment</name>
+        <qualifiedname>themisdb::sharding::WALManager::closeSegment</qualifiedname>
+        <briefdescription>
+<para>Close active WAL segment file when open. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Close Segment.</para>
+<para>Calls: is_open(), close(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="250" column="10" bodyfile="src/sharding/wal_manager.cpp" bodystart="462" bodyend="466"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_manager_1adcd50811ed75b84f1ba29868e5728233" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::WALManager::rotateSegment</definition>
+        <argsstring>()</argsstring>
+        <name>rotateSegment</name>
+        <qualifiedname>themisdb::sharding::WALManager::rotateSegment</qualifiedname>
+        <briefdescription>
+<para>Rotate active segment and apply retention cleanup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Rotate Segment.</para>
+<para>Calls: closeSegment(), openSegment(), cleanupOldSegments(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="253" column="10" bodyfile="src/sharding/wal_manager.cpp" bodystart="472" bodyend="481"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_manager_1adf0e917fa6785a8c675ab45fae95e8b5" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::WALManager::getSegmentPath</definition>
+        <argsstring>(uint64_t segment_number) const</argsstring>
+        <name>getSegmentPath</name>
+        <qualifiedname>themisdb::sharding::WALManager::getSegmentPath</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>segment_number</declname>
+        </param>
+        <briefdescription>
+<para>Build filesystem path for a WAL segment number. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="256" column="17" bodyfile="src/sharding/wal_manager.cpp" bodystart="483" bodyend="489"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_manager_1a750a86c9f24818f036cd47dd0765e04a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::WALManager::loadExistingSegments</definition>
+        <argsstring>()</argsstring>
+        <name>loadExistingSegments</name>
+        <qualifiedname>themisdb::sharding::WALManager::loadExistingSegments</qualifiedname>
+        <briefdescription>
+<para>Discover existing segments and recover current/oldest <ref refid="structthemisdb_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load Existing Segments.</para>
+<para>Calls: fs::exists(), fs::directory_iterator(), path(), extension(), stem(), string(), substr(), std::stoull(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="259" column="10" bodyfile="src/sharding/wal_manager.cpp" bodystart="495" bodyend="536"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_w_a_l_manager_1a5db1b31b9d4a7f8baef846f8248e6164" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::WALManager::cleanupOldSegments</definition>
+        <argsstring>()</argsstring>
+        <name>cleanupOldSegments</name>
+        <qualifiedname>themisdb::sharding::WALManager::cleanupOldSegments</qualifiedname>
+        <briefdescription>
+<para>Delete old segments beyond max_segments retention limit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cleanup Old Segments.</para>
+<para>Calls: fs::directory_iterator(), path(), extension(), stem(), string(), substr(), std::stoull(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="262" column="10" bodyfile="src/sharding/wal_manager.cpp" bodystart="542" bodyend="575"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread-safe write-ahead log manager with segment rotation and retention. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/wal_manager.h" line="163" column="1" bodyfile="include/sharding/wal_manager.h" bodystart="163" bodyend="263"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_manager_1a7ae845fb46e5fe524db5a67e6c7533c9" prot="public" virt="non-virtual"><scope>themisdb::sharding::WALManager</scope><name>append</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_manager_1a79149194faf8643c0225460a4c91b08d" prot="public" virt="non-virtual"><scope>themisdb::sharding::WALManager</scope><name>checkpoint</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_manager_1a5db1b31b9d4a7f8baef846f8248e6164" prot="private" virt="non-virtual"><scope>themisdb::sharding::WALManager</scope><name>cleanupOldSegments</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_manager_1a90bd320d46d942cb01c94af75b32b9f6" prot="private" virt="non-virtual"><scope>themisdb::sharding::WALManager</scope><name>closeSegment</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_manager_1ab4f13cb91d7512ecf473a4fd5a9d0e7f" prot="private" virt="non-virtual"><scope>themisdb::sharding::WALManager</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_manager_1abadd337c486949c895171f0b0a03207f" prot="private" virt="non-virtual"><scope>themisdb::sharding::WALManager</scope><name>current_lsn_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_manager_1a2bae94c7c5c8e7bfe0f22dc5f83c02d2" prot="private" virt="non-virtual"><scope>themisdb::sharding::WALManager</scope><name>current_segment_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_manager_1abc9f0e4662b3616563bff8335f2a31c0" prot="public" virt="non-virtual"><scope>themisdb::sharding::WALManager</scope><name>flush</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_manager_1a25f073a175862d11fb507dbbcc7a57ff" prot="public" virt="non-virtual"><scope>themisdb::sharding::WALManager</scope><name>getCurrentLSN</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_manager_1aedcc1fdfd06f0a9a2c95cec9bac41751" prot="public" virt="non-virtual"><scope>themisdb::sharding::WALManager</scope><name>getOldestLSN</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_manager_1adf0e917fa6785a8c675ab45fae95e8b5" prot="private" virt="non-virtual"><scope>themisdb::sharding::WALManager</scope><name>getSegmentPath</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_manager_1a7dd2a7417b5eeb4d8ab2764f25b1f7e4" prot="public" virt="non-virtual"><scope>themisdb::sharding::WALManager</scope><name>getStatistics</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_manager_1a6b668856554bd769de06498d38921c2b" prot="public" virt="non-virtual"><scope>themisdb::sharding::WALManager</scope><name>initialize</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_manager_1a750a86c9f24818f036cd47dd0765e04a" prot="private" virt="non-virtual"><scope>themisdb::sharding::WALManager</scope><name>loadExistingSegments</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_manager_1a9be130639c22f187d378a10a4f54b230" prot="private" virt="non-virtual"><scope>themisdb::sharding::WALManager</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_manager_1abc0ea4815f230b9ef2d2c99a478ce7cb" prot="private" virt="non-virtual"><scope>themisdb::sharding::WALManager</scope><name>oldest_lsn_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_manager_1a26ffaaf88326986bcfb34aa3e3eb81ba" prot="private" virt="non-virtual"><scope>themisdb::sharding::WALManager</scope><name>openSegment</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_manager_1a6012639765908cf03578a6826733dce2" prot="public" virt="non-virtual"><scope>themisdb::sharding::WALManager</scope><name>read</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_manager_1a537bebfbdae31a90a33ab45c2f96870d" prot="public" virt="non-virtual"><scope>themisdb::sharding::WALManager</scope><name>readRange</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_manager_1adcd50811ed75b84f1ba29868e5728233" prot="private" virt="non-virtual"><scope>themisdb::sharding::WALManager</scope><name>rotateSegment</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_manager_1ac6be8f7eb925a65a063dc0c650507c25" prot="private" virt="non-virtual"><scope>themisdb::sharding::WALManager</scope><name>total_bytes_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_manager_1a4db87c30ce852f2b48a901b79bf5c09e" prot="private" virt="non-virtual"><scope>themisdb::sharding::WALManager</scope><name>total_entries_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_manager_1a9c46c7e5d7bfaae7bcad7d1c88c9138a" prot="public" virt="non-virtual"><scope>themisdb::sharding::WALManager</scope><name>truncate</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_manager_1a92bf3724f767e2fb40b7cdc23ee27c35" prot="public" virt="non-virtual"><scope>themisdb::sharding::WALManager</scope><name>WALManager</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_manager_1abd923c04a936f087a2df5a2137f4c1da" prot="private" virt="non-virtual"><scope>themisdb::sharding::WALManager</scope><name>write_buffer_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_w_a_l_manager_1a9dbf873a325b53263a6b1b2d67cd7552" prot="public" virt="non-virtual"><scope>themisdb::sharding::WALManager</scope><name>~WALManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

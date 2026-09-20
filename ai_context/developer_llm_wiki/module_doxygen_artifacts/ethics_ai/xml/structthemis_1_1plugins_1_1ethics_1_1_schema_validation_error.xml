@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_schema_validation_error" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::SchemaValidationError</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::runtime_error</basecompoundref>
+    <includes refid="synthesis__matrix__builder_8h" local="no">synthesis_matrix_builder.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1ethics_1_1_schema_validation_error_1a9425cf17b969fc6f58e0881622f316fc" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::SchemaValidationError::SchemaValidationError</definition>
+        <argsstring>(const std::string &amp;msg)</argsstring>
+        <name>SchemaValidationError</name>
+        <qualifiedname>themis::plugins::ethics::SchemaValidationError::SchemaValidationError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+<para>Schema Validation Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/synthesis_matrix_builder.h" line="37" column="14" bodyfile="include/ethics_ai/synthesis_matrix_builder.h" bodystart="37" bodyend="38"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::plugins::ethics::SchemaValidationError</label>
+        <link refid="structthemis_1_1plugins_1_1ethics_1_1_schema_validation_error"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::plugins::ethics::SchemaValidationError</label>
+        <link refid="structthemis_1_1plugins_1_1ethics_1_1_schema_validation_error"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/ethics_ai/synthesis_matrix_builder.h" line="31" column="1" bodyfile="include/ethics_ai/synthesis_matrix_builder.h" bodystart="31" bodyend="39"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_schema_validation_error_1a9425cf17b969fc6f58e0881622f316fc" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::SchemaValidationError</scope><name>SchemaValidationError</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

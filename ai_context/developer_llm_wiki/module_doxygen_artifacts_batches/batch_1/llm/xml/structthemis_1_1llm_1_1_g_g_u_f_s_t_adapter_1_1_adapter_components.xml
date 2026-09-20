@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_adapter_components" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::GGUFSTAdapter::AdapterComponents</compoundname>
+    <includes refid="gguf__st__adapter_8h" local="no">gguf_st_adapter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_adapter_components_1a32f20facd5f775eacecaf337e87a30d9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::llm::GGUFSTAdapter::AdapterComponents::gguf_data</definition>
+        <argsstring></argsstring>
+        <name>gguf_data</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::AdapterComponents::gguf_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="103" column="21" bodyfile="include/llm/gguf_st_adapter.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_adapter_components_1a7b55ae89348f5dcb12114a3c8d4881b0" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::optional&lt;std::vector&lt;uint8_t&gt; &gt; themis::llm::GGUFSTAdapter::AdapterComponents::safetensors_data</definition>
+        <argsstring></argsstring>
+        <name>safetensors_data</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::AdapterComponents::safetensors_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="104" column="23" bodyfile="include/llm/gguf_st_adapter.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_adapter_components_1acb55460de4a794637f972a68140f480e" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_adapter_signature" kindref="compound">AdapterSignature</ref></type>
+        <definition>AdapterSignature themis::llm::GGUFSTAdapter::AdapterComponents::signature</definition>
+        <argsstring></argsstring>
+        <name>signature</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::AdapterComponents::signature</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="105" column="26" bodyfile="include/llm/gguf_st_adapter.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_adapter_components_1a9e2fc68d2af682ace48846e284b43ffa" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref></type>
+        <definition>AdapterMetadata themis::llm::GGUFSTAdapter::AdapterComponents::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::AdapterComponents::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="106" column="25" bodyfile="include/llm/gguf_st_adapter.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="3">
+        <label>themis::llm::AdapterMetadata</label>
+        <link refid="structthemis_1_1llm_1_1_adapter_metadata"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>version</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>training_config</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>provenance</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>quality_metrics</edgelabel>
+        </childnode>
+        <childnode refid="2" relation="usage">
+          <edgelabel>signature</edgelabel>
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themis::llm::AdapterProvenance</label>
+        <link refid="structthemis_1_1llm_1_1_adapter_provenance"/>
+      </node>
+      <node id="2">
+        <label>themis::llm::AdapterSignature</label>
+        <link refid="structthemis_1_1llm_1_1_adapter_signature"/>
+      </node>
+      <node id="4">
+        <label>themis::llm::AdapterVersion</label>
+        <link refid="structthemis_1_1llm_1_1_adapter_version"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::GGUFSTAdapter::AdapterComponents</label>
+        <link refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_adapter_components"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>signature</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>metadata</edgelabel>
+        </childnode>
+      </node>
+      <node id="7">
+        <label>themis::llm::QualityMetrics</label>
+        <link refid="structthemis_1_1llm_1_1_quality_metrics"/>
+      </node>
+      <node id="5">
+        <label>themis::llm::TrainingConfig</label>
+        <link refid="structthemis_1_1llm_1_1_training_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/gguf_st_adapter.h" line="102" column="5" bodyfile="include/llm/gguf_st_adapter.h" bodystart="102" bodyend="107"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_adapter_components_1a32f20facd5f775eacecaf337e87a30d9" prot="public" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter::AdapterComponents</scope><name>gguf_data</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_adapter_components_1a9e2fc68d2af682ace48846e284b43ffa" prot="public" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter::AdapterComponents</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_adapter_components_1a7b55ae89348f5dcb12114a3c8d4881b0" prot="public" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter::AdapterComponents</scope><name>safetensors_data</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_adapter_components_1acb55460de4a794637f972a68140f480e" prot="public" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter::AdapterComponents</scope><name>signature</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

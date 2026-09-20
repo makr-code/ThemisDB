@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_permission" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::Permission</compoundname>
+    <includes refid="rbac_8h" local="no">rbac.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_permission_1aa15ebf4110906321e29c419995d07a92" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::Permission::resource</definition>
+        <argsstring></argsstring>
+        <name>resource</name>
+        <qualifiedname>themis::security::Permission::resource</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/rbac.h" line="30" column="17" bodyfile="include/security/rbac.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_permission_1a3cbdbf46a01565709b5fed609d96ed26" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::Permission::action</definition>
+        <argsstring></argsstring>
+        <name>action</name>
+        <qualifiedname>themis::security::Permission::action</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/rbac.h" line="31" column="17" bodyfile="include/security/rbac.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1security_1_1_permission_1a29aa6bb02ed3dde2e676a715d356b60f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::Permission::operator==</definition>
+        <argsstring>(const Permission &amp;other) const</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::security::Permission::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1security_1_1_permission" kindref="compound">Permission</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/rbac.h" line="33" column="10" bodyfile="include/security/rbac.h" bodystart="33" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1security_1_1_permission_1ad2e7e7eca5fa3d1615c6efd3ff4a8692" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::Permission::matches</definition>
+        <argsstring>(const std::string &amp;res, const std::string &amp;act) const</argsstring>
+        <name>matches</name>
+        <qualifiedname>themis::security::Permission::matches</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>res</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>act</declname>
+        </param>
+        <briefdescription>
+<para>Wildcard matching: resource=&quot;*&quot; matches all, action=&quot;*&quot; matches all. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">act</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True on success. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/rbac.h" line="43" column="10" bodyfile="src/security/rbac.cpp" bodystart="27" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1security_1_1_permission_1ae7ea8de13c1bbd215478c5da2a82de40" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::Permission::toString</definition>
+        <argsstring>() const</argsstring>
+        <name>toString</name>
+        <qualifiedname>themis::security::Permission::toString</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/rbac.h" line="45" column="17" bodyfile="include/security/rbac.h" bodystart="45" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="structthemis_1_1security_1_1_permission" kindref="compound">Permission</ref> represents a single authorization right. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/rbac.h" line="29" column="1" bodyfile="include/security/rbac.h" bodystart="29" bodyend="46"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_permission_1a3cbdbf46a01565709b5fed609d96ed26" prot="public" virt="non-virtual"><scope>themis::security::Permission</scope><name>action</name></member>
+      <member refid="structthemis_1_1security_1_1_permission_1ad2e7e7eca5fa3d1615c6efd3ff4a8692" prot="public" virt="non-virtual"><scope>themis::security::Permission</scope><name>matches</name></member>
+      <member refid="structthemis_1_1security_1_1_permission_1a29aa6bb02ed3dde2e676a715d356b60f" prot="public" virt="non-virtual"><scope>themis::security::Permission</scope><name>operator==</name></member>
+      <member refid="structthemis_1_1security_1_1_permission_1aa15ebf4110906321e29c419995d07a92" prot="public" virt="non-virtual"><scope>themis::security::Permission</scope><name>resource</name></member>
+      <member refid="structthemis_1_1security_1_1_permission_1ae7ea8de13c1bbd215478c5da2a82de40" prot="public" virt="non-virtual"><scope>themis::security::Permission</scope><name>toString</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

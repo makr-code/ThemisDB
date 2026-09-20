@@ -1,0 +1,352 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graphql_1_1_themis_schema_builder" kind="class" language="C++" prot="public">
+    <compoundname>themis::graphql::ThemisSchemaBuilder</compoundname>
+    <includes refid="graphql_8h" local="no">graphql.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_themis_schema_builder_1a6a7eeff9d2881b7106621eb5c321ae40" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1graphql_1_1_schema" kindref="compound">Schema</ref></type>
+        <definition>Schema themis::graphql::ThemisSchemaBuilder::build</definition>
+        <argsstring>()</argsstring>
+        <name>build</name>
+        <qualifiedname>themis::graphql::ThemisSchemaBuilder::build</qualifiedname>
+        <briefdescription>
+<para>Build. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: addGeoScalarTypes(), addDocumentTypes(), addGraphTypes(), addVectorTypes(), addTimeseriesTypes(), addQueryType(), addMutationType(), addSubscriptionType(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="732" column="19" bodyfile="src/api/graphql.cpp" bodystart="1349" bodyend="1376"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_themis_schema_builder_1ab2c34e911ffadc566ce61e61f8771b72" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graphql::ThemisSchemaBuilder::addGeoScalarTypes</definition>
+        <argsstring>(Schema &amp;schema)</argsstring>
+        <name>addGeoScalarTypes</name>
+        <qualifiedname>themis::graphql::ThemisSchemaBuilder::addGeoScalarTypes</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graphql_1_1_schema" kindref="compound">Schema</ref> &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <briefdescription>
+<para>Add Geo Scalar Types. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: addType(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="739" column="17" bodyfile="src/api/graphql.cpp" bodystart="1383" bodyend="1446"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_themis_schema_builder_1a826e0b334c5501f974e8bdcfcc92b5f3" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graphql::ThemisSchemaBuilder::addDocumentTypes</definition>
+        <argsstring>(Schema &amp;schema)</argsstring>
+        <name>addDocumentTypes</name>
+        <qualifiedname>themis::graphql::ThemisSchemaBuilder::addDocumentTypes</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graphql_1_1_schema" kindref="compound">Schema</ref> &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <briefdescription>
+<para>Add <ref refid="structthemis_1_1graphql_1_1_document" kindref="compound">Document</ref> Types. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), addType(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="744" column="17" bodyfile="src/api/graphql.cpp" bodystart="1453" bodyend="1505"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_themis_schema_builder_1a3339f2eee2f0ec4dfc54565c1a830436" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graphql::ThemisSchemaBuilder::addGraphTypes</definition>
+        <argsstring>(Schema &amp;schema)</argsstring>
+        <name>addGraphTypes</name>
+        <qualifiedname>themis::graphql::ThemisSchemaBuilder::addGraphTypes</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graphql_1_1_schema" kindref="compound">Schema</ref> &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <briefdescription>
+<para>Add Graph Types. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), addType(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="749" column="17" bodyfile="src/api/graphql.cpp" bodystart="1512" bodyend="1568"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_themis_schema_builder_1a7a959c5f4d6eae7dad95a82648ac3383" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graphql::ThemisSchemaBuilder::addVectorTypes</definition>
+        <argsstring>(Schema &amp;schema)</argsstring>
+        <name>addVectorTypes</name>
+        <qualifiedname>themis::graphql::ThemisSchemaBuilder::addVectorTypes</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graphql_1_1_schema" kindref="compound">Schema</ref> &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <briefdescription>
+<para>Add Vector Types. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), addType(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="754" column="17" bodyfile="src/api/graphql.cpp" bodystart="1575" bodyend="1598"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_themis_schema_builder_1a19c61e751b26b8ee99c716d91bc83e05" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graphql::ThemisSchemaBuilder::addTimeseriesTypes</definition>
+        <argsstring>(Schema &amp;schema)</argsstring>
+        <name>addTimeseriesTypes</name>
+        <qualifiedname>themis::graphql::ThemisSchemaBuilder::addTimeseriesTypes</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graphql_1_1_schema" kindref="compound">Schema</ref> &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <briefdescription>
+<para>Add Timeseries Types. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), addType(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="759" column="17" bodyfile="src/api/graphql.cpp" bodystart="1605" bodyend="1628"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_themis_schema_builder_1ad1b846e6161ad45fd5f13879eebc62a0" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graphql::ThemisSchemaBuilder::addQueryType</definition>
+        <argsstring>(Schema &amp;schema)</argsstring>
+        <name>addQueryType</name>
+        <qualifiedname>themis::graphql::ThemisSchemaBuilder::addQueryType</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graphql_1_1_schema" kindref="compound">Schema</ref> &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <briefdescription>
+<para>Add Query Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), addType(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="764" column="17" bodyfile="src/api/graphql.cpp" bodystart="1635" bodyend="1739"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_themis_schema_builder_1ac28d970f4e180d8347a733a769eb963b" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graphql::ThemisSchemaBuilder::addMutationType</definition>
+        <argsstring>(Schema &amp;schema)</argsstring>
+        <name>addMutationType</name>
+        <qualifiedname>themis::graphql::ThemisSchemaBuilder::addMutationType</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graphql_1_1_schema" kindref="compound">Schema</ref> &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <briefdescription>
+<para>Add Mutation Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), addType(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="769" column="17" bodyfile="src/api/graphql.cpp" bodystart="1746" bodyend="1814"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_themis_schema_builder_1ac236b9d1d2eaabbcf8faed467a4c1dbf" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graphql::ThemisSchemaBuilder::addSubscriptionType</definition>
+        <argsstring>(Schema &amp;schema)</argsstring>
+        <name>addSubscriptionType</name>
+        <qualifiedname>themis::graphql::ThemisSchemaBuilder::addSubscriptionType</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graphql_1_1_schema" kindref="compound">Schema</ref> &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <briefdescription>
+<para>Add Subscription Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: addType(), push_back(), setSubscriptionType(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="774" column="17" bodyfile="src/api/graphql.cpp" bodystart="1821" bodyend="1897"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/graphql.h" line="726" column="1" bodyfile="include/api/graphql.h" bodystart="726" bodyend="775"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graphql_1_1_themis_schema_builder_1a826e0b334c5501f974e8bdcfcc92b5f3" prot="private" virt="non-virtual"><scope>themis::graphql::ThemisSchemaBuilder</scope><name>addDocumentTypes</name></member>
+      <member refid="classthemis_1_1graphql_1_1_themis_schema_builder_1ab2c34e911ffadc566ce61e61f8771b72" prot="private" virt="non-virtual"><scope>themis::graphql::ThemisSchemaBuilder</scope><name>addGeoScalarTypes</name></member>
+      <member refid="classthemis_1_1graphql_1_1_themis_schema_builder_1a3339f2eee2f0ec4dfc54565c1a830436" prot="private" virt="non-virtual"><scope>themis::graphql::ThemisSchemaBuilder</scope><name>addGraphTypes</name></member>
+      <member refid="classthemis_1_1graphql_1_1_themis_schema_builder_1ac28d970f4e180d8347a733a769eb963b" prot="private" virt="non-virtual"><scope>themis::graphql::ThemisSchemaBuilder</scope><name>addMutationType</name></member>
+      <member refid="classthemis_1_1graphql_1_1_themis_schema_builder_1ad1b846e6161ad45fd5f13879eebc62a0" prot="private" virt="non-virtual"><scope>themis::graphql::ThemisSchemaBuilder</scope><name>addQueryType</name></member>
+      <member refid="classthemis_1_1graphql_1_1_themis_schema_builder_1ac236b9d1d2eaabbcf8faed467a4c1dbf" prot="private" virt="non-virtual"><scope>themis::graphql::ThemisSchemaBuilder</scope><name>addSubscriptionType</name></member>
+      <member refid="classthemis_1_1graphql_1_1_themis_schema_builder_1a19c61e751b26b8ee99c716d91bc83e05" prot="private" virt="non-virtual"><scope>themis::graphql::ThemisSchemaBuilder</scope><name>addTimeseriesTypes</name></member>
+      <member refid="classthemis_1_1graphql_1_1_themis_schema_builder_1a7a959c5f4d6eae7dad95a82648ac3383" prot="private" virt="non-virtual"><scope>themis::graphql::ThemisSchemaBuilder</scope><name>addVectorTypes</name></member>
+      <member refid="classthemis_1_1graphql_1_1_themis_schema_builder_1a6a7eeff9d2881b7106621eb5c321ae40" prot="public" virt="non-virtual"><scope>themis::graphql::ThemisSchemaBuilder</scope><name>build</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

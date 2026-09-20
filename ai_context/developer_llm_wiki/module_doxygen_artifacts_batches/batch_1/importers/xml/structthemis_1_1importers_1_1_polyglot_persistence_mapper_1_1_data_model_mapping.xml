@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_polyglot_persistence_mapper_1_1_data_model_mapping" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::PolyglotPersistenceMapper::DataModelMapping</compoundname>
+    <includes refid="polyglot__mapper_8h" local="no">polyglot_mapper.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_polyglot_persistence_mapper_1_1_data_model_mapping_1a970e41f0db619a46165f40197bd4ac13" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::PolyglotPersistenceMapper::DataModelMapping::source_table</definition>
+        <argsstring></argsstring>
+        <name>source_table</name>
+        <qualifiedname>themis::importers::PolyglotPersistenceMapper::DataModelMapping::source_table</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/polyglot_mapper.h" line="47" column="21" bodyfile="include/importers/polyglot_mapper.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_polyglot_persistence_mapper_1_1_data_model_mapping_1a976baa6d86934ab57493da3c11f3d816" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1importers_1_1_polyglot_persistence_mapper_1a6b86747b05162413e3d2991db11b2805" kindref="member">DataModel</ref></type>
+        <definition>DataModel themis::importers::PolyglotPersistenceMapper::DataModelMapping::recommended_model</definition>
+        <argsstring></argsstring>
+        <name>recommended_model</name>
+        <qualifiedname>themis::importers::PolyglotPersistenceMapper::DataModelMapping::recommended_model</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/polyglot_mapper.h" line="48" column="19" bodyfile="include/importers/polyglot_mapper.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_polyglot_persistence_mapper_1_1_data_model_mapping_1a216d765d792e2617356a08f46ec944a3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::PolyglotPersistenceMapper::DataModelMapping::confidence_score</definition>
+        <argsstring></argsstring>
+        <name>confidence_score</name>
+        <qualifiedname>themis::importers::PolyglotPersistenceMapper::DataModelMapping::confidence_score</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>[0,1] </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/polyglot_mapper.h" line="49" column="16" bodyfile="include/importers/polyglot_mapper.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_polyglot_persistence_mapper_1_1_data_model_mapping_1aa5ea509d889c3015f008c8b720721115" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::PolyglotPersistenceMapper::DataModelMapping::transformation_rules</definition>
+        <argsstring></argsstring>
+        <name>transformation_rules</name>
+        <qualifiedname>themis::importers::PolyglotPersistenceMapper::DataModelMapping::transformation_rules</qualifiedname>
+        <briefdescription>
+<para>How to convert. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/polyglot_mapper.h" line="50" column="14" bodyfile="include/importers/polyglot_mapper.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_polyglot_persistence_mapper_1_1_data_model_mapping_1a7650b5a710ed96532deecd76a2d45f79" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::PolyglotPersistenceMapper::DataModelMapping::rationale</definition>
+        <argsstring></argsstring>
+        <name>rationale</name>
+        <qualifiedname>themis::importers::PolyglotPersistenceMapper::DataModelMapping::rationale</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/polyglot_mapper.h" line="51" column="21" bodyfile="include/importers/polyglot_mapper.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/polyglot_mapper.h" line="46" column="5" bodyfile="include/importers/polyglot_mapper.h" bodystart="46" bodyend="52"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_polyglot_persistence_mapper_1_1_data_model_mapping_1a216d765d792e2617356a08f46ec944a3" prot="public" virt="non-virtual"><scope>themis::importers::PolyglotPersistenceMapper::DataModelMapping</scope><name>confidence_score</name></member>
+      <member refid="structthemis_1_1importers_1_1_polyglot_persistence_mapper_1_1_data_model_mapping_1a7650b5a710ed96532deecd76a2d45f79" prot="public" virt="non-virtual"><scope>themis::importers::PolyglotPersistenceMapper::DataModelMapping</scope><name>rationale</name></member>
+      <member refid="structthemis_1_1importers_1_1_polyglot_persistence_mapper_1_1_data_model_mapping_1a976baa6d86934ab57493da3c11f3d816" prot="public" virt="non-virtual"><scope>themis::importers::PolyglotPersistenceMapper::DataModelMapping</scope><name>recommended_model</name></member>
+      <member refid="structthemis_1_1importers_1_1_polyglot_persistence_mapper_1_1_data_model_mapping_1a970e41f0db619a46165f40197bd4ac13" prot="public" virt="non-virtual"><scope>themis::importers::PolyglotPersistenceMapper::DataModelMapping</scope><name>source_table</name></member>
+      <member refid="structthemis_1_1importers_1_1_polyglot_persistence_mapper_1_1_data_model_mapping_1aa5ea509d889c3015f008c8b720721115" prot="public" virt="non-virtual"><scope>themis::importers::PolyglotPersistenceMapper::DataModelMapping</scope><name>transformation_rules</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

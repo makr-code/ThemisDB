@@ -1,0 +1,778 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__geo__st__union__difference_8cpp" kind="file" language="C++">
+    <compoundname>test_geo_st_union_difference.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="spatial__backend_8h" local="yes">geo/spatial_backend.h</includes>
+    <includes local="yes">utils/geo/ewkb.h</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>geo/spatial_backend.h</label>
+        <link refid="spatial__backend_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/geo/test_geo_st_union_difference.cpp</label>
+        <link refid="test__geo__st__union__difference_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>cmath</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>utils/geo/ewkb.h</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_st_union_diff_test" prot="public">StUnionDiffTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__geo__st__union__difference_8cpp_1a9d49b12364ac05e001733d6b36ca1635" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>GeometryInfo</type>
+        <definition>static GeometryInfo makePoint</definition>
+        <argsstring>(double x, double y)</argsstring>
+        <name>makePoint</name>
+        <param>
+          <type>double</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>y</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_st_union_difference.cpp" line="20" column="21" bodyfile="tests/geo/test_geo_st_union_difference.cpp" bodystart="20" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__st__union__difference_8cpp_1afe5f0b39f5442aaba791dff24d2baa2a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>GeometryInfo</type>
+        <definition>static GeometryInfo makeClosedPolygon</definition>
+        <argsstring>(std::initializer_list&lt; std::pair&lt; double, double &gt; &gt; pts)</argsstring>
+        <name>makeClosedPolygon</name>
+        <param>
+          <type>std::initializer_list&lt; std::pair&lt; double, double &gt; &gt;</type>
+          <declname>pts</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_st_union_difference.cpp" line="26" column="21" bodyfile="tests/geo/test_geo_st_union_difference.cpp" bodystart="26" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__st__union__difference_8cpp_1a2b3d12408dd34fc8b8e316f988556181" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>static double ringArea</definition>
+        <argsstring>(const GeometryInfo &amp;g)</argsstring>
+        <name>ringArea</name>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>g</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return the unsigned area of the first ring of a polygon using the Shoelace formula (absolute value of the signed result). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_st_union_difference.cpp" line="39" column="15" bodyfile="tests/geo/test_geo_st_union_difference.cpp" bodystart="39" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__st__union__difference_8cpp_1ab247eb7bd60c6d8b38c780d82d84063c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_P</definition>
+        <argsstring>(StUnionDiffTest, Union_NonOverlapping_ReturnsCollection)</argsstring>
+        <name>TEST_P</name>
+        <param>
+          <type><ref refid="class_st_union_diff_test" kindref="compound">StUnionDiffTest</ref></type>
+        </param>
+        <param>
+          <type>Union_NonOverlapping_ReturnsCollection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_st_union_difference.cpp" line="66" column="1" bodyfile="tests/geo/test_geo_st_union_difference.cpp" bodystart="66" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__st__union__difference_8cpp_1abe8bf0de32ed41ed1d84aefe50ba8c48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_P</definition>
+        <argsstring>(StUnionDiffTest, Union_ContainedPolygon_ReturnsOuter)</argsstring>
+        <name>TEST_P</name>
+        <param>
+          <type><ref refid="class_st_union_diff_test" kindref="compound">StUnionDiffTest</ref></type>
+        </param>
+        <param>
+          <type>Union_ContainedPolygon_ReturnsOuter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_st_union_difference.cpp" line="83" column="1" bodyfile="tests/geo/test_geo_st_union_difference.cpp" bodystart="83" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__st__union__difference_8cpp_1a6ff3f468d60e5cdf802594f5f5f84374" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_P</definition>
+        <argsstring>(StUnionDiffTest, Union_Overlapping_ProducesLargerPolygon)</argsstring>
+        <name>TEST_P</name>
+        <param>
+          <type><ref refid="class_st_union_diff_test" kindref="compound">StUnionDiffTest</ref></type>
+        </param>
+        <param>
+          <type>Union_Overlapping_ProducesLargerPolygon</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_st_union_difference.cpp" line="100" column="1" bodyfile="tests/geo/test_geo_st_union_difference.cpp" bodystart="100" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__st__union__difference_8cpp_1a25054374c56bec1dfbbeafb74ab0979c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_P</definition>
+        <argsstring>(StUnionDiffTest, Union_IdenticalPolygons_ReturnsSameArea)</argsstring>
+        <name>TEST_P</name>
+        <param>
+          <type><ref refid="class_st_union_diff_test" kindref="compound">StUnionDiffTest</ref></type>
+        </param>
+        <param>
+          <type>Union_IdenticalPolygons_ReturnsSameArea</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_st_union_difference.cpp" line="125" column="1" bodyfile="tests/geo/test_geo_st_union_difference.cpp" bodystart="125" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__st__union__difference_8cpp_1ac27480f070ca1c250197d9942f0af6b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_P</definition>
+        <argsstring>(StUnionDiffTest, Union_Points_EqualReturnsPoint)</argsstring>
+        <name>TEST_P</name>
+        <param>
+          <type><ref refid="class_st_union_diff_test" kindref="compound">StUnionDiffTest</ref></type>
+        </param>
+        <param>
+          <type>Union_Points_EqualReturnsPoint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_st_union_difference.cpp" line="138" column="1" bodyfile="tests/geo/test_geo_st_union_difference.cpp" bodystart="138" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__st__union__difference_8cpp_1a14652ae1467d7a607f1a25d9a2dfc6c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_P</definition>
+        <argsstring>(StUnionDiffTest, Union_Points_DistinctReturnsCollection)</argsstring>
+        <name>TEST_P</name>
+        <param>
+          <type><ref refid="class_st_union_diff_test" kindref="compound">StUnionDiffTest</ref></type>
+        </param>
+        <param>
+          <type>Union_Points_DistinctReturnsCollection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_st_union_difference.cpp" line="149" column="1" bodyfile="tests/geo/test_geo_st_union_difference.cpp" bodystart="149" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__st__union__difference_8cpp_1a369790b5e147715de6bcb63a1ba4f2b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_P</definition>
+        <argsstring>(StUnionDiffTest, Union_PointInsidePolygon_ReturnsPolygon)</argsstring>
+        <name>TEST_P</name>
+        <param>
+          <type><ref refid="class_st_union_diff_test" kindref="compound">StUnionDiffTest</ref></type>
+        </param>
+        <param>
+          <type>Union_PointInsidePolygon_ReturnsPolygon</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_st_union_difference.cpp" line="158" column="1" bodyfile="tests/geo/test_geo_st_union_difference.cpp" bodystart="158" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__st__union__difference_8cpp_1aa81bddbd3bb7be230a080e550984c75f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_P</definition>
+        <argsstring>(StUnionDiffTest, Diff_NonOverlapping_ReturnsA)</argsstring>
+        <name>TEST_P</name>
+        <param>
+          <type><ref refid="class_st_union_diff_test" kindref="compound">StUnionDiffTest</ref></type>
+        </param>
+        <param>
+          <type>Diff_NonOverlapping_ReturnsA</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_st_union_difference.cpp" line="171" column="1" bodyfile="tests/geo/test_geo_st_union_difference.cpp" bodystart="171" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__st__union__difference_8cpp_1afe2951142831031dc54a351789f458b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_P</definition>
+        <argsstring>(StUnionDiffTest, Diff_AContainedInB_ReturnsEmpty)</argsstring>
+        <name>TEST_P</name>
+        <param>
+          <type><ref refid="class_st_union_diff_test" kindref="compound">StUnionDiffTest</ref></type>
+        </param>
+        <param>
+          <type>Diff_AContainedInB_ReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_st_union_difference.cpp" line="187" column="1" bodyfile="tests/geo/test_geo_st_union_difference.cpp" bodystart="187" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__st__union__difference_8cpp_1afc1d5b8a2f27bdae39b9e6d977c9a2ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_P</definition>
+        <argsstring>(StUnionDiffTest, Diff_BContainedInA_ProducesHole)</argsstring>
+        <name>TEST_P</name>
+        <param>
+          <type><ref refid="class_st_union_diff_test" kindref="compound">StUnionDiffTest</ref></type>
+        </param>
+        <param>
+          <type>Diff_BContainedInA_ProducesHole</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_st_union_difference.cpp" line="202" column="1" bodyfile="tests/geo/test_geo_st_union_difference.cpp" bodystart="202" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__st__union__difference_8cpp_1a5197fe60aaae6405aeb24d5cee786560" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_P</definition>
+        <argsstring>(StUnionDiffTest, Diff_Overlapping_AreaDecreases)</argsstring>
+        <name>TEST_P</name>
+        <param>
+          <type><ref refid="class_st_union_diff_test" kindref="compound">StUnionDiffTest</ref></type>
+        </param>
+        <param>
+          <type>Diff_Overlapping_AreaDecreases</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_st_union_difference.cpp" line="235" column="1" bodyfile="tests/geo/test_geo_st_union_difference.cpp" bodystart="235" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__st__union__difference_8cpp_1af588ef2f1051808b951c50a6c51ec0bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_P</definition>
+        <argsstring>(StUnionDiffTest, Diff_Points_EqualReturnsEmpty)</argsstring>
+        <name>TEST_P</name>
+        <param>
+          <type><ref refid="class_st_union_diff_test" kindref="compound">StUnionDiffTest</ref></type>
+        </param>
+        <param>
+          <type>Diff_Points_EqualReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_st_union_difference.cpp" line="256" column="1" bodyfile="tests/geo/test_geo_st_union_difference.cpp" bodystart="256" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__st__union__difference_8cpp_1a58fc1b9ed19227cf8fd809b0c4e9b622" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_P</definition>
+        <argsstring>(StUnionDiffTest, Diff_Points_DistinctReturnsFirst)</argsstring>
+        <name>TEST_P</name>
+        <param>
+          <type><ref refid="class_st_union_diff_test" kindref="compound">StUnionDiffTest</ref></type>
+        </param>
+        <param>
+          <type>Diff_Points_DistinctReturnsFirst</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_st_union_difference.cpp" line="264" column="1" bodyfile="tests/geo/test_geo_st_union_difference.cpp" bodystart="264" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__st__union__difference_8cpp_1a132b9b6644cb76b70843ced3ade7e445" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_P</definition>
+        <argsstring>(StUnionDiffTest, Diff_PointInsidePolygon_ReturnsEmpty)</argsstring>
+        <name>TEST_P</name>
+        <param>
+          <type><ref refid="class_st_union_diff_test" kindref="compound">StUnionDiffTest</ref></type>
+        </param>
+        <param>
+          <type>Diff_PointInsidePolygon_ReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_st_union_difference.cpp" line="274" column="1" bodyfile="tests/geo/test_geo_st_union_difference.cpp" bodystart="274" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__st__union__difference_8cpp_1aac0a65dc33fbce306bf2bfefc9656e0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_P</definition>
+        <argsstring>(StUnionDiffTest, Diff_PointOutsidePolygon_ReturnsPoint)</argsstring>
+        <name>TEST_P</name>
+        <param>
+          <type><ref refid="class_st_union_diff_test" kindref="compound">StUnionDiffTest</ref></type>
+        </param>
+        <param>
+          <type>Diff_PointOutsidePolygon_ReturnsPoint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_st_union_difference.cpp" line="283" column="1" bodyfile="tests/geo/test_geo_st_union_difference.cpp" bodystart="283" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__st__union__difference_8cpp_1a6854a2932b3def19cb20a8a176952227" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>INSTANTIATE_TEST_SUITE_P</definition>
+        <argsstring>(CpuExact, StUnionDiffTest, ::testing::Values(getCpuExactBackend()), [](const testing::TestParamInfo&lt; ISpatialComputeBackend * &gt; &amp;) { return &quot;cpu_exact&quot;;})</argsstring>
+        <name>INSTANTIATE_TEST_SUITE_P</name>
+        <param>
+          <type>CpuExact</type>
+        </param>
+        <param>
+          <type><ref refid="class_st_union_diff_test" kindref="compound">StUnionDiffTest</ref></type>
+        </param>
+        <param>
+          <type>::testing::Values(<ref refid="namespacethemis_1_1geo_1a28cb4be068b844c22d99f9484510fd8f" kindref="member">getCpuExactBackend</ref>())</type>
+        </param>
+        <param>
+          <attributes>[]</attributes>
+          <type>(const testing::TestParamInfo&lt; <ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" kindref="compound">ISpatialComputeBackend</ref> * &gt; &amp;) { return &quot;cpu_exact&quot;;}</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_st_union_difference.cpp" line="298" column="1" declfile="tests/geo/test_geo_st_union_difference.cpp" declline="298" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__st__union__difference_8cpp_1a58f8536c95ca63e1a3168d5252c33913" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>INSTANTIATE_TEST_SUITE_P</definition>
+        <argsstring>(GpuSpatial, StUnionDiffTest, ::testing::Values(getGpuSpatialBackend()), [](const testing::TestParamInfo&lt; ISpatialComputeBackend * &gt; &amp;) { return &quot;gpu_spatial&quot;;})</argsstring>
+        <name>INSTANTIATE_TEST_SUITE_P</name>
+        <param>
+          <type>GpuSpatial</type>
+        </param>
+        <param>
+          <type><ref refid="class_st_union_diff_test" kindref="compound">StUnionDiffTest</ref></type>
+        </param>
+        <param>
+          <type>::testing::Values(<ref refid="namespacethemis_1_1geo_1a6a624344c315b22db1046070c5e3c504" kindref="member">getGpuSpatialBackend</ref>())</type>
+        </param>
+        <param>
+          <attributes>[]</attributes>
+          <type>(const testing::TestParamInfo&lt; <ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" kindref="compound">ISpatialComputeBackend</ref> * &gt; &amp;) { return &quot;gpu_spatial&quot;;}</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_st_union_difference.cpp" line="305" column="1" declfile="tests/geo/test_geo_st_union_difference.cpp" declline="305" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>Unit<sp/>tests<sp/>for<sp/>ST_UNION<sp/>and<sp/>ST_DIFFERENCE<sp/>geometry<sp/>operations.</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*<sp/>Covers<sp/>the<sp/>cpu_exact<sp/>and<sp/>gpu_spatial<sp/>(CPU-fallback)<sp/>backends.</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*<sp/>Test<sp/>structure<sp/>mirrors<sp/>tests/geo/test_geo_st_buffer.cpp.</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="spatial__backend_8h" kindref="compound">geo/spatial_backend.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/geo/ewkb.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1geo" kindref="compound">themis::geo</ref>;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>makePoint(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>x,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>y)<sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>GeometryInfo<sp/>g(GeometryType::Point);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>g.coords.push_back({x,<sp/>y});</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>g;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>makeClosedPolygon(</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::initializer_list&lt;std::pair&lt;double,<sp/>double&gt;&gt;<sp/>pts)<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>GeometryInfo<sp/>g(GeometryType::Polygon);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Coordinate&gt;<sp/>ring<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>p<sp/>:<sp/>pts)<sp/>ring.push_back({p.first,<sp/>p.second});</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>ring.push_back(ring[0]);<sp/></highlight><highlight class="comment">//<sp/>close<sp/>the<sp/>ring</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>g.rings.push_back(ring);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>g;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>ringArea(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo&amp;<sp/>g)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>rings<sp/>=<sp/>g.rings;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(rings.empty())<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0.0;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>ring<sp/>=<sp/>rings[0];</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>area<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::size_t<sp/>n<sp/>=<sp/>ring.size();</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0,<sp/>j<sp/>=<sp/>n<sp/>-<sp/>1;<sp/>i<sp/>&lt;<sp/>n;<sp/>j<sp/>=<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>area<sp/>+=<sp/>ring[j].x<sp/>*<sp/>ring[i].y<sp/>-<sp/>ring[i].x<sp/>*<sp/>ring[j].y;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::abs(area)<sp/>*<sp/>0.5;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Parameterised<sp/>fixture<sp/>–<sp/>run<sp/>every<sp/>test<sp/>against<sp/>both<sp/>backends</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="class_st_union_diff_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_st_union_diff_test" kindref="compound">StUnionDiffTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::TestWithParam&lt;ISpatialComputeBackend*&gt;<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" kindref="compound">ISpatialComputeBackend</ref>*<sp/><ref refid="class_st_union_diff_test_1a2b7fadd24bb1a86fffdc99d4168f95fc" kindref="member">backend</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>GetParam();<sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ST_UNION<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><ref refid="test__geo__st__union__difference_8cpp_1ab247eb7bd60c6d8b38c780d82d84063c" kindref="member">TEST_P</ref>(<ref refid="class_st_union_diff_test" kindref="compound">StUnionDiffTest</ref>,<sp/>Union_NonOverlapping_ReturnsCollection)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Two<sp/>squares<sp/>separated<sp/>by<sp/>a<sp/>gap<sp/>—<sp/>union<sp/>should<sp/>be<sp/>a<sp/>GeometryCollection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(or<sp/>MultiPolygon)<sp/>containing<sp/>both.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>a<sp/>=<sp/>makeClosedPolygon(</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{0.0,<sp/>0.0},<sp/>{1.0,<sp/>0.0},<sp/>{1.0,<sp/>1.0},<sp/>{0.0,<sp/>1.0}});</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>b<sp/>=<sp/>makeClosedPolygon(</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{2.0,<sp/>0.0},<sp/>{3.0,<sp/>0.0},<sp/>{3.0,<sp/>1.0},<sp/>{2.0,<sp/>1.0}});</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>result<sp/>=<sp/>backend()-&gt;stUnion(a,<sp/>b);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>result<sp/>must<sp/>be<sp/>a<sp/>GeometryCollection<sp/>(two<sp/>disjoint<sp/>polygons).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.type,<sp/>GeometryType::GeometryCollection)</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Union<sp/>of<sp/>disjoint<sp/>polygons<sp/>should<sp/>be<sp/>a<sp/>GeometryCollection&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.geometries.size(),<sp/>2u)</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GeometryCollection<sp/>should<sp/>contain<sp/>exactly<sp/>two<sp/>sub-geometries&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><ref refid="test__geo__st__union__difference_8cpp_1ab247eb7bd60c6d8b38c780d82d84063c" kindref="member">TEST_P</ref>(<ref refid="class_st_union_diff_test" kindref="compound">StUnionDiffTest</ref>,<sp/>Union_ContainedPolygon_ReturnsOuter)<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>B<sp/>is<sp/>fully<sp/>inside<sp/>A<sp/>—<sp/>union<sp/>should<sp/>be<sp/>A.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>a<sp/>=<sp/>makeClosedPolygon(</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{0.0,<sp/>0.0},<sp/>{4.0,<sp/>0.0},<sp/>{4.0,<sp/>4.0},<sp/>{0.0,<sp/>4.0}});</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>b<sp/>=<sp/>makeClosedPolygon(</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{1.0,<sp/>1.0},<sp/>{3.0,<sp/>1.0},<sp/>{3.0,<sp/>3.0},<sp/>{1.0,<sp/>3.0}});</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>result<sp/>=<sp/>backend()-&gt;stUnion(a,<sp/>b);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.isPolygon())</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Union<sp/>when<sp/>one<sp/>polygon<sp/>contains<sp/>the<sp/>other<sp/>should<sp/>be<sp/>a<sp/>Polygon&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>area_a<sp/><sp/>=<sp/>ringArea(a);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>area_res<sp/>=<sp/>ringArea(result);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(area_res,<sp/>area_a,<sp/>area_a<sp/>*<sp/>0.01)</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Union<sp/>area<sp/>should<sp/>equal<sp/>the<sp/>outer<sp/>polygon<sp/>area&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><ref refid="test__geo__st__union__difference_8cpp_1ab247eb7bd60c6d8b38c780d82d84063c" kindref="member">TEST_P</ref>(<ref refid="class_st_union_diff_test" kindref="compound">StUnionDiffTest</ref>,<sp/>Union_Overlapping_ProducesLargerPolygon)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Two<sp/>overlapping<sp/>unit<sp/>squares:<sp/>A<sp/>at<sp/>(0,0)-(2,2),<sp/>B<sp/>at<sp/>(1,-1)-(3,1).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Their<sp/>union<sp/>is<sp/>an<sp/>L-shaped<sp/>octagon<sp/>larger<sp/>than<sp/>either<sp/>polygon.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>a<sp/>=<sp/>makeClosedPolygon(</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{0.0,<sp/>0.0},<sp/>{2.0,<sp/>0.0},<sp/>{2.0,<sp/>2.0},<sp/>{0.0,<sp/>2.0}});</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>b<sp/>=<sp/>makeClosedPolygon(</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{1.0,<sp/>-1.0},<sp/>{3.0,<sp/>-1.0},<sp/>{3.0,<sp/>1.0},<sp/>{1.0,<sp/>1.0}});</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>result<sp/>=<sp/>backend()-&gt;stUnion(a,<sp/>b);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.isPolygon())</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Union<sp/>of<sp/>overlapping<sp/>polygons<sp/>should<sp/>be<sp/>a<sp/>Polygon&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(result.rings.empty());</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>area_a<sp/><sp/><sp/>=<sp/>ringArea(a);<sp/></highlight><highlight class="comment">//<sp/>4.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>area_b<sp/><sp/><sp/>=<sp/>ringArea(b);<sp/></highlight><highlight class="comment">//<sp/>4.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>area_res<sp/>=<sp/>ringArea(result);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(area_res,<sp/>area_a)</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Union<sp/>area<sp/>must<sp/>exceed<sp/>polygon<sp/>A<sp/>area&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(area_res,<sp/>area_b)</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Union<sp/>area<sp/>must<sp/>exceed<sp/>polygon<sp/>B<sp/>area&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>possible<sp/>area<sp/>is<sp/>sum<sp/>of<sp/>both<sp/>(no<sp/>overlap<sp/>counted<sp/>twice).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(area_res,<sp/>area_a<sp/>+<sp/>area_b<sp/>+<sp/>1e-6)</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Union<sp/>area<sp/>must<sp/>not<sp/>exceed<sp/>the<sp/>sum<sp/>of<sp/>both<sp/>areas&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><ref refid="test__geo__st__union__difference_8cpp_1ab247eb7bd60c6d8b38c780d82d84063c" kindref="member">TEST_P</ref>(<ref refid="class_st_union_diff_test" kindref="compound">StUnionDiffTest</ref>,<sp/>Union_IdenticalPolygons_ReturnsSameArea)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>a<sp/>=<sp/>makeClosedPolygon(</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{0.0,<sp/>0.0},<sp/>{2.0,<sp/>0.0},<sp/>{2.0,<sp/>2.0},<sp/>{0.0,<sp/>2.0}});</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>result<sp/>=<sp/>backend()-&gt;stUnion(a,<sp/>a);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>union<sp/>of<sp/>a<sp/>polygon<sp/>with<sp/>itself<sp/>is<sp/>itself.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>area_a<sp/><sp/><sp/>=<sp/>ringArea(a);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>area_res<sp/>=<sp/>ringArea(result);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(area_res,<sp/>area_a,<sp/>area_a<sp/>*<sp/>0.05)</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Union<sp/>of<sp/>polygon<sp/>with<sp/>itself<sp/>should<sp/>have<sp/>the<sp/>same<sp/>area&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><ref refid="test__geo__st__union__difference_8cpp_1ab247eb7bd60c6d8b38c780d82d84063c" kindref="member">TEST_P</ref>(<ref refid="class_st_union_diff_test" kindref="compound">StUnionDiffTest</ref>,<sp/>Union_Points_EqualReturnsPoint)<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>p1<sp/>=<sp/>makePoint(1.0,<sp/>2.0);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>p2<sp/>=<sp/>makePoint(1.0,<sp/>2.0);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>result<sp/>=<sp/>backend()-&gt;stUnion(p1,<sp/>p2);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.isPoint())</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Union<sp/>of<sp/>two<sp/>identical<sp/>points<sp/>should<sp/>be<sp/>a<sp/>Point&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(result.coords.empty());</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(result.coords[0].x,<sp/>1.0,<sp/>1e-9);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(result.coords[0].y,<sp/>2.0,<sp/>1e-9);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><ref refid="test__geo__st__union__difference_8cpp_1ab247eb7bd60c6d8b38c780d82d84063c" kindref="member">TEST_P</ref>(<ref refid="class_st_union_diff_test" kindref="compound">StUnionDiffTest</ref>,<sp/>Union_Points_DistinctReturnsCollection)<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>p1<sp/>=<sp/>makePoint(0.0,<sp/>0.0);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>p2<sp/>=<sp/>makePoint(1.0,<sp/>1.0);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>result<sp/>=<sp/>backend()-&gt;stUnion(p1,<sp/>p2);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.type,<sp/>GeometryType::GeometryCollection)</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Union<sp/>of<sp/>two<sp/>distinct<sp/>points<sp/>should<sp/>be<sp/>a<sp/>GeometryCollection&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.geometries.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><ref refid="test__geo__st__union__difference_8cpp_1ab247eb7bd60c6d8b38c780d82d84063c" kindref="member">TEST_P</ref>(<ref refid="class_st_union_diff_test" kindref="compound">StUnionDiffTest</ref>,<sp/>Union_PointInsidePolygon_ReturnsPolygon)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>poly<sp/>=<sp/>makeClosedPolygon(</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{0.0,<sp/>0.0},<sp/>{4.0,<sp/>0.0},<sp/>{4.0,<sp/>4.0},<sp/>{0.0,<sp/>4.0}});</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>pt<sp/>=<sp/>makePoint(2.0,<sp/>2.0);<sp/></highlight><highlight class="comment">//<sp/>inside</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>result<sp/>=<sp/>backend()-&gt;stUnion(pt,<sp/>poly);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.isPolygon())</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Union<sp/>of<sp/>a<sp/>point<sp/>inside<sp/>a<sp/>polygon<sp/>should<sp/>be<sp/>the<sp/>polygon&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ST_DIFFERENCE<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><ref refid="test__geo__st__union__difference_8cpp_1ab247eb7bd60c6d8b38c780d82d84063c" kindref="member">TEST_P</ref>(<ref refid="class_st_union_diff_test" kindref="compound">StUnionDiffTest</ref>,<sp/>Diff_NonOverlapping_ReturnsA)<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>a<sp/>=<sp/>makeClosedPolygon(</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{0.0,<sp/>0.0},<sp/>{1.0,<sp/>0.0},<sp/>{1.0,<sp/>1.0},<sp/>{0.0,<sp/>1.0}});</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>b<sp/>=<sp/>makeClosedPolygon(</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{2.0,<sp/>0.0},<sp/>{3.0,<sp/>0.0},<sp/>{3.0,<sp/>1.0},<sp/>{2.0,<sp/>1.0}});</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>result<sp/>=<sp/>backend()-&gt;stDifference(a,<sp/>b);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.isPolygon())</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Difference<sp/>of<sp/>disjoint<sp/>polygons<sp/>should<sp/>return<sp/>A&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>area_a<sp/><sp/><sp/>=<sp/>ringArea(a);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>area_res<sp/>=<sp/>ringArea(result);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(area_res,<sp/>area_a,<sp/>area_a<sp/>*<sp/>0.01)</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Result<sp/>area<sp/>should<sp/>equal<sp/>A<sp/>when<sp/>A<sp/>and<sp/>B<sp/>are<sp/>disjoint&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><ref refid="test__geo__st__union__difference_8cpp_1ab247eb7bd60c6d8b38c780d82d84063c" kindref="member">TEST_P</ref>(<ref refid="class_st_union_diff_test" kindref="compound">StUnionDiffTest</ref>,<sp/>Diff_AContainedInB_ReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>is<sp/>fully<sp/>inside<sp/>B<sp/>→<sp/>A<sp/>\<sp/>B<sp/>=<sp/>empty.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>b<sp/>=<sp/>makeClosedPolygon(</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{0.0,<sp/>0.0},<sp/>{4.0,<sp/>0.0},<sp/>{4.0,<sp/>4.0},<sp/>{0.0,<sp/>4.0}});</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>a<sp/>=<sp/>makeClosedPolygon(</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{1.0,<sp/>1.0},<sp/>{3.0,<sp/>1.0},<sp/>{3.0,<sp/>3.0},<sp/>{1.0,<sp/>3.0}});</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>result<sp/>=<sp/>backend()-&gt;stDifference(a,<sp/>b);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.isPolygon())</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Difference<sp/>when<sp/>A<sp/>is<sp/>inside<sp/>B<sp/>should<sp/>be<sp/>empty&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.rings.empty())</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Empty<sp/>difference<sp/>should<sp/>have<sp/>no<sp/>rings&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><ref refid="test__geo__st__union__difference_8cpp_1ab247eb7bd60c6d8b38c780d82d84063c" kindref="member">TEST_P</ref>(<ref refid="class_st_union_diff_test" kindref="compound">StUnionDiffTest</ref>,<sp/>Diff_BContainedInA_ProducesHole)<sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>B<sp/>is<sp/>fully<sp/>inside<sp/>A<sp/>→<sp/>A<sp/>\<sp/>B<sp/>is<sp/>A<sp/>with<sp/>a<sp/>hole.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>result<sp/>polygon<sp/>has<sp/>2<sp/>rings:<sp/>outer<sp/>ring<sp/>(A)<sp/>and<sp/>an<sp/>inner<sp/>ring<sp/>(B<sp/>as<sp/>hole).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>a<sp/>=<sp/>makeClosedPolygon(</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{0.0,<sp/>0.0},<sp/>{4.0,<sp/>0.0},<sp/>{4.0,<sp/>4.0},<sp/>{0.0,<sp/>4.0}});</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>b<sp/>=<sp/>makeClosedPolygon(</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{1.0,<sp/>1.0},<sp/>{3.0,<sp/>1.0},<sp/>{3.0,<sp/>3.0},<sp/>{1.0,<sp/>3.0}});</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>result<sp/>=<sp/>backend()-&gt;stDifference(a,<sp/>b);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.isPolygon())</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Difference<sp/>when<sp/>B<sp/>is<sp/>inside<sp/>A<sp/>should<sp/>be<sp/>a<sp/>Polygon&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_GE(result.rings.size(),<sp/>1u)</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Result<sp/>must<sp/>have<sp/>at<sp/>least<sp/>one<sp/>ring&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>outer<sp/>ring<sp/>should<sp/>match<sp/>A&apos;s<sp/>area.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>area_a<sp/><sp/><sp/>=<sp/>ringArea(a);<sp/></highlight><highlight class="comment">//<sp/>16.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>area_outer<sp/>=<sp/>ringArea(result);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(area_outer,<sp/>area_a,<sp/>area_a<sp/>*<sp/>0.01)</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Outer<sp/>ring<sp/>area<sp/>should<sp/>equal<sp/>A&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>the<sp/>result<sp/>has<sp/>a<sp/>hole<sp/>ring,<sp/>the<sp/>polygon<sp/>has<sp/>2<sp/>rings.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result.rings.size()<sp/>&gt;=<sp/>2)<sp/>{</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>hole<sp/>=<sp/>result.rings[1];</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>hole_area<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0,<sp/>j<sp/>=<sp/>hole.size()<sp/>-<sp/>1;<sp/>i<sp/>&lt;<sp/>hole.size();<sp/>j<sp/>=<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hole_area<sp/>+=<sp/>hole[j].x<sp/>*<sp/>hole[i].y<sp/>-<sp/>hole[i].x<sp/>*<sp/>hole[j].y;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hole_area<sp/>=<sp/>std::abs(hole_area)<sp/>*<sp/>0.5;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>area_b<sp/>=<sp/>ringArea(b);<sp/></highlight><highlight class="comment">//<sp/>4.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NEAR(hole_area,<sp/>area_b,<sp/>area_b<sp/>*<sp/>0.01)</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Hole<sp/>ring<sp/>area<sp/>should<sp/>equal<sp/>B&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><ref refid="test__geo__st__union__difference_8cpp_1ab247eb7bd60c6d8b38c780d82d84063c" kindref="member">TEST_P</ref>(<ref refid="class_st_union_diff_test" kindref="compound">StUnionDiffTest</ref>,<sp/>Diff_Overlapping_AreaDecreases)<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>=<sp/>square<sp/>(0,0)-(2,2),<sp/>B<sp/>=<sp/>square<sp/>(1,-1)-(3,1).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>\<sp/>B<sp/>removes<sp/>the<sp/>overlap<sp/>region;<sp/>result<sp/>area<sp/>&lt;<sp/>A&apos;s<sp/>area.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>a<sp/>=<sp/>makeClosedPolygon(</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{0.0,<sp/>0.0},<sp/>{2.0,<sp/>0.0},<sp/>{2.0,<sp/>2.0},<sp/>{0.0,<sp/>2.0}});</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>b<sp/>=<sp/>makeClosedPolygon(</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{1.0,<sp/>-1.0},<sp/>{3.0,<sp/>-1.0},<sp/>{3.0,<sp/>1.0},<sp/>{1.0,<sp/>1.0}});</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>result<sp/>=<sp/>backend()-&gt;stDifference(a,<sp/>b);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.isPolygon())</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Difference<sp/>of<sp/>overlapping<sp/>polygons<sp/>should<sp/>be<sp/>a<sp/>Polygon&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(result.rings.empty());</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>area_a<sp/><sp/><sp/>=<sp/>ringArea(a);<sp/></highlight><highlight class="comment">//<sp/>4.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>area_res<sp/>=<sp/>ringArea(result);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(area_res,<sp/>area_a)</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Difference<sp/>area<sp/>must<sp/>be<sp/>less<sp/>than<sp/>A<sp/>area<sp/>when<sp/>B<sp/>overlaps<sp/>A&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(area_res,<sp/>0.0)</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Difference<sp/>area<sp/>must<sp/>be<sp/>positive<sp/>when<sp/>B<sp/>does<sp/>not<sp/>contain<sp/>A&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><ref refid="test__geo__st__union__difference_8cpp_1ab247eb7bd60c6d8b38c780d82d84063c" kindref="member">TEST_P</ref>(<ref refid="class_st_union_diff_test" kindref="compound">StUnionDiffTest</ref>,<sp/>Diff_Points_EqualReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>p1<sp/>=<sp/>makePoint(1.0,<sp/>2.0);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>p2<sp/>=<sp/>makePoint(1.0,<sp/>2.0);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>result<sp/>=<sp/>backend()-&gt;stDifference(p1,<sp/>p2);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.isPoint())</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Difference<sp/>of<sp/>equal<sp/>points<sp/>should<sp/>be<sp/>empty&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><ref refid="test__geo__st__union__difference_8cpp_1ab247eb7bd60c6d8b38c780d82d84063c" kindref="member">TEST_P</ref>(<ref refid="class_st_union_diff_test" kindref="compound">StUnionDiffTest</ref>,<sp/>Diff_Points_DistinctReturnsFirst)<sp/>{</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>p1<sp/>=<sp/>makePoint(0.0,<sp/>0.0);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>p2<sp/>=<sp/>makePoint(1.0,<sp/>1.0);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>result<sp/>=<sp/>backend()-&gt;stDifference(p1,<sp/>p2);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.isPoint())</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Difference<sp/>of<sp/>distinct<sp/>points<sp/>should<sp/>return<sp/>the<sp/>first<sp/>point&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(result.coords[0].x,<sp/>0.0,<sp/>1e-9);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(result.coords[0].y,<sp/>0.0,<sp/>1e-9);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><ref refid="test__geo__st__union__difference_8cpp_1ab247eb7bd60c6d8b38c780d82d84063c" kindref="member">TEST_P</ref>(<ref refid="class_st_union_diff_test" kindref="compound">StUnionDiffTest</ref>,<sp/>Diff_PointInsidePolygon_ReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>poly<sp/>=<sp/>makeClosedPolygon(</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{0.0,<sp/>0.0},<sp/>{4.0,<sp/>0.0},<sp/>{4.0,<sp/>4.0},<sp/>{0.0,<sp/>4.0}});</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>pt<sp/>=<sp/>makePoint(2.0,<sp/>2.0);<sp/></highlight><highlight class="comment">//<sp/>inside</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>result<sp/>=<sp/>backend()-&gt;stDifference(pt,<sp/>poly);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.isPoint())</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Point<sp/>inside<sp/>polygon:<sp/>difference<sp/>should<sp/>be<sp/>empty&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><ref refid="test__geo__st__union__difference_8cpp_1ab247eb7bd60c6d8b38c780d82d84063c" kindref="member">TEST_P</ref>(<ref refid="class_st_union_diff_test" kindref="compound">StUnionDiffTest</ref>,<sp/>Diff_PointOutsidePolygon_ReturnsPoint)<sp/>{</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>poly<sp/>=<sp/>makeClosedPolygon(</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{0.0,<sp/>0.0},<sp/>{2.0,<sp/>0.0},<sp/>{2.0,<sp/>2.0},<sp/>{0.0,<sp/>2.0}});</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>pt<sp/>=<sp/>makePoint(5.0,<sp/>5.0);<sp/></highlight><highlight class="comment">//<sp/>outside</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo<sp/>result<sp/>=<sp/>backend()-&gt;stDifference(pt,<sp/>poly);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.isPoint())</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Point<sp/>outside<sp/>polygon:<sp/>difference<sp/>should<sp/>be<sp/>the<sp/>point&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(result.coords[0].x,<sp/>5.0,<sp/>1e-9);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(result.coords[0].y,<sp/>5.0,<sp/>1e-9);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Instantiation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><ref refid="test__geo__st__union__difference_8cpp_1a6854a2932b3def19cb20a8a176952227" kindref="member">INSTANTIATE_TEST_SUITE_P</ref>(</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>CpuExact,<sp/><ref refid="class_st_union_diff_test" kindref="compound">StUnionDiffTest</ref>,</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>::testing::Values(<ref refid="namespacethemis_1_1geo_1a28cb4be068b844c22d99f9484510fd8f" kindref="member">getCpuExactBackend</ref>()),</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>testing::TestParamInfo&lt;ISpatialComputeBackend*&gt;&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;cpu_exact&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><ref refid="test__geo__st__union__difference_8cpp_1a6854a2932b3def19cb20a8a176952227" kindref="member">INSTANTIATE_TEST_SUITE_P</ref>(</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>GpuSpatial,<sp/><ref refid="class_st_union_diff_test" kindref="compound">StUnionDiffTest</ref>,</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>::testing::Values(<ref refid="namespacethemis_1_1geo_1a6a624344c315b22db1046070c5e3c504" kindref="member">getGpuSpatialBackend</ref>()),</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>testing::TestParamInfo&lt;ISpatialComputeBackend*&gt;&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;gpu_spatial&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+    </programlisting>
+    <location file="tests/geo/test_geo_st_union_difference.cpp"/>
+  </compounddef>
+</doxygen>

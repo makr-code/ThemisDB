@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1_plugin_negotiation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::PluginNegotiationResult</compoundname>
+    <includes refid="plugin__interface_8h" local="no">plugin_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_negotiation_result_1af64ac6d63cdfb591854f1da376f7143b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::PluginNegotiationResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::plugins::PluginNegotiationResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="242" column="10" bodyfile="include/plugins/plugin_interface.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_negotiation_result_1ad8ee2c36efcb4657ca1f3b5a83d51484" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::PluginNegotiationResult::satisfied</definition>
+        <argsstring></argsstring>
+        <name>satisfied</name>
+        <qualifiedname>themis::plugins::PluginNegotiationResult::satisfied</qualifiedname>
+        <briefdescription>
+<para>Requirements that were met. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="243" column="17" bodyfile="include/plugins/plugin_interface.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_negotiation_result_1abb0ac09ad17af43181c629ee66ba264e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::PluginNegotiationResult::unsatisfied</definition>
+        <argsstring></argsstring>
+        <name>unsatisfied</name>
+        <qualifiedname>themis::plugins::PluginNegotiationResult::unsatisfied</qualifiedname>
+        <briefdescription>
+<para>Requirements that were NOT met. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="244" column="17" bodyfile="include/plugins/plugin_interface.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_negotiation_result_1a2c7a3973cf99fd25e59e40e1e74134ab" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::PluginNegotiationResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::plugins::PluginNegotiationResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="245" column="17" bodyfile="include/plugins/plugin_interface.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a plugin capability negotiation pass. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/plugins/plugin_interface.h" line="241" column="1" bodyfile="include/plugins/plugin_interface.h" bodystart="241" bodyend="246"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1_plugin_negotiation_result_1a2c7a3973cf99fd25e59e40e1e74134ab" prot="public" virt="non-virtual"><scope>themis::plugins::PluginNegotiationResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_negotiation_result_1ad8ee2c36efcb4657ca1f3b5a83d51484" prot="public" virt="non-virtual"><scope>themis::plugins::PluginNegotiationResult</scope><name>satisfied</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_negotiation_result_1af64ac6d63cdfb591854f1da376f7143b" prot="public" virt="non-virtual"><scope>themis::plugins::PluginNegotiationResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_negotiation_result_1abb0ac09ad17af43181c629ee66ba264e" prot="public" virt="non-virtual"><scope>themis::plugins::PluginNegotiationResult</scope><name>unsatisfied</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

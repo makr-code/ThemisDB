@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_policy_optimizer" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::PolicyOptimizer</compoundname>
+    <includes refid="policy__validation_8h" local="no">policy_validation.h</includes>
+    <innerclass refid="structthemis_1_1governance_1_1_policy_optimizer_1_1_optimization_recommendation" prot="public">themis::governance::PolicyOptimizer::OptimizationRecommendation</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_policy_optimizer_1_1_optimization_report" prot="public">themis::governance::PolicyOptimizer::OptimizationReport</innerclass>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_optimizer_1a5dbe6783c3703b51de167b7b713f06eb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_optimizer_1_1_optimization_recommendation" kindref="compound">OptimizationRecommendation</ref> &gt;</type>
+        <definition>std::vector&lt; PolicyOptimizer::OptimizationRecommendation &gt; themis::governance::PolicyOptimizer::generateRecommendations</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr, const PolicyValidator::ValidationReport &amp;validation_report, const std::unordered_map&lt; std::string, PolicyMetricsCollector::RuleMetrics &gt; &amp;metrics) const</argsstring>
+        <name>generateRecommendations</name>
+        <qualifiedname>themis::governance::PolicyOptimizer::generateRecommendations</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_validator_1_1_validation_report" kindref="compound">PolicyValidator::ValidationReport</ref> &amp;</type>
+          <declname>validation_report</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, <ref refid="structthemis_1_1governance_1_1_policy_metrics_collector_1_1_rule_metrics" kindref="compound">PolicyMetricsCollector::RuleMetrics</ref> &gt; &amp;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="311" column="17" bodyfile="src/governance/policy_validation.cpp" bodystart="1113" bodyend="1144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_optimizer_1aa81e304f697942d6805d32cf5ce519fa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_optimizer_1_1_optimization_recommendation" kindref="compound">OptimizationRecommendation</ref> &gt;</type>
+        <definition>std::vector&lt; PolicyOptimizer::OptimizationRecommendation &gt; themis::governance::PolicyOptimizer::recommendMerges</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr) const</argsstring>
+        <name>recommendMerges</name>
+        <qualifiedname>themis::governance::PolicyOptimizer::recommendMerges</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Recommend Merges. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="322" column="17" bodyfile="src/governance/policy_validation.cpp" bodystart="1147" bodyend="1194"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_optimizer_1a09c253b30c7c5f6d34ae238cccc3ea55" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_optimizer_1_1_optimization_recommendation" kindref="compound">OptimizationRecommendation</ref> &gt;</type>
+        <definition>std::vector&lt; PolicyOptimizer::OptimizationRecommendation &gt; themis::governance::PolicyOptimizer::recommendSimplifications</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr) const</argsstring>
+        <name>recommendSimplifications</name>
+        <qualifiedname>themis::governance::PolicyOptimizer::recommendSimplifications</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Recommend Simplifications. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="329" column="17" bodyfile="src/governance/policy_validation.cpp" bodystart="1197" bodyend="1239"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_optimizer_1a82c46fcfa1b6f95114205a66958fe03b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_optimizer_1_1_optimization_recommendation" kindref="compound">OptimizationRecommendation</ref> &gt;</type>
+        <definition>std::vector&lt; PolicyOptimizer::OptimizationRecommendation &gt; themis::governance::PolicyOptimizer::recommendReordering</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr, const std::unordered_map&lt; std::string, PolicyMetricsCollector::RuleMetrics &gt; &amp;metrics) const</argsstring>
+        <name>recommendReordering</name>
+        <qualifiedname>themis::governance::PolicyOptimizer::recommendReordering</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, <ref refid="structthemis_1_1governance_1_1_policy_metrics_collector_1_1_rule_metrics" kindref="compound">PolicyMetricsCollector::RuleMetrics</ref> &gt; &amp;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="331" column="17" bodyfile="src/governance/policy_validation.cpp" bodystart="1241" bodyend="1299"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_optimizer_1a78021a9dbb75545caa53fe93b0b9aba9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_optimizer_1_1_optimization_recommendation" kindref="compound">OptimizationRecommendation</ref> &gt;</type>
+        <definition>std::vector&lt; PolicyOptimizer::OptimizationRecommendation &gt; themis::governance::PolicyOptimizer::recommendRemovals</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr, const std::unordered_map&lt; std::string, int &gt; &amp;hit_counts) const</argsstring>
+        <name>recommendRemovals</name>
+        <qualifiedname>themis::governance::PolicyOptimizer::recommendRemovals</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, int &gt; &amp;</type>
+          <declname>hit_counts</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="336" column="17" bodyfile="src/governance/policy_validation.cpp" bodystart="1302" bodyend="1351"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_policy_optimizer_1a3e4fbeee18532a2d04b051b7300056c5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_policy_optimizer_1_1_optimization_report" kindref="compound">OptimizationReport</ref></type>
+        <definition>PolicyOptimizer::OptimizationReport themis::governance::PolicyOptimizer::generateOptimizationReport</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr, const PolicyValidator::ValidationReport &amp;validation_report, const std::unordered_map&lt; std::string, PolicyMetricsCollector::RuleMetrics &gt; &amp;metrics) const</argsstring>
+        <name>generateOptimizationReport</name>
+        <qualifiedname>themis::governance::PolicyOptimizer::generateOptimizationReport</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_validator_1_1_validation_report" kindref="compound">PolicyValidator::ValidationReport</ref> &amp;</type>
+          <declname>validation_report</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, <ref refid="structthemis_1_1governance_1_1_policy_metrics_collector_1_1_rule_metrics" kindref="compound">PolicyMetricsCollector::RuleMetrics</ref> &gt; &amp;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_validation.h" line="341" column="24" bodyfile="src/governance/policy_validation.cpp" bodystart="1353" bodyend="1398"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/policy_validation.h" line="279" column="1" bodyfile="include/governance/policy_validation.h" bodystart="279" bodyend="346"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_policy_optimizer_1a3e4fbeee18532a2d04b051b7300056c5" prot="public" virt="non-virtual"><scope>themis::governance::PolicyOptimizer</scope><name>generateOptimizationReport</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_optimizer_1a5dbe6783c3703b51de167b7b713f06eb" prot="public" virt="non-virtual"><scope>themis::governance::PolicyOptimizer</scope><name>generateRecommendations</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_optimizer_1aa81e304f697942d6805d32cf5ce519fa" prot="public" virt="non-virtual"><scope>themis::governance::PolicyOptimizer</scope><name>recommendMerges</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_optimizer_1a78021a9dbb75545caa53fe93b0b9aba9" prot="public" virt="non-virtual"><scope>themis::governance::PolicyOptimizer</scope><name>recommendRemovals</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_optimizer_1a82c46fcfa1b6f95114205a66958fe03b" prot="public" virt="non-virtual"><scope>themis::governance::PolicyOptimizer</scope><name>recommendReordering</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_optimizer_1a09c253b30c7c5f6d34ae238cccc3ea55" prot="public" virt="non-virtual"><scope>themis::governance::PolicyOptimizer</scope><name>recommendSimplifications</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

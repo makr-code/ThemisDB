@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_safe_iterator_integration_test" kind="class" language="C++" prot="public">
+    <compoundname>SafeIteratorIntegrationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_safe_iterator_integration_test_1ae96ae030bd517caf9aeab0c5cbb43c82" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; SafeIteratorIntegrationTest::vec_</definition>
+        <argsstring></argsstring>
+        <name>vec_</name>
+        <qualifiedname>SafeIteratorIntegrationTest::vec_</qualifiedname>
+        <initializer>{1, 2, 3, 4, 5}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_iterator.cpp" line="282" column="17" bodyfile="tests/security/test_safe_iterator.cpp" bodystart="282" bodyend="282"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>SafeIteratorIntegrationTest</label>
+        <link refid="class_safe_iterator_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>SafeIteratorIntegrationTest</label>
+        <link refid="class_safe_iterator_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_safe_iterator.cpp" line="280" column="1" bodyfile="tests/security/test_safe_iterator.cpp" bodystart="280" bodyend="283"/>
+    <listofallmembers>
+      <member refid="class_safe_iterator_integration_test_1ae96ae030bd517caf9aeab0c5cbb43c82" prot="protected" virt="non-virtual"><scope>SafeIteratorIntegrationTest</scope><name>vec_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

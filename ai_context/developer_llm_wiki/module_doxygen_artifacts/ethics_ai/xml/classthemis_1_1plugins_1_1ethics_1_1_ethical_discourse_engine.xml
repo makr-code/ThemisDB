@@ -1,0 +1,512 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::EthicalDiscourseEngine</compoundname>
+    <includes refid="discourse__engine_8h" local="no">discourse_engine.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1a0736bfe89a2017ee3dba983e86bab00a" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader" kindref="compound">PhilosophyLoader</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PhilosophyLoader&gt; themis::plugins::ethics::EthicalDiscourseEngine::philosophy_loader_</definition>
+        <argsstring></argsstring>
+        <name>philosophy_loader_</name>
+        <qualifiedname>themis::plugins::ethics::EthicalDiscourseEngine::philosophy_loader_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/discourse_engine.h" line="60" column="21" bodyfile="src/ethics_ai/discourse_engine.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1a39e76193f041106a15a5528f80a8ec83" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store" kindref="compound">ArgumentStore</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ArgumentStore&gt; themis::plugins::ethics::EthicalDiscourseEngine::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>themis::plugins::ethics::EthicalDiscourseEngine::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/discourse_engine.h" line="61" column="21" bodyfile="src/ethics_ai/discourse_engine.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1a75a5dd68d7be395a04488bb57f7bcf29" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine" kindref="compound">RAGContextEngine</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;RAGContextEngine&gt; themis::plugins::ethics::EthicalDiscourseEngine::rag_engine_</definition>
+        <argsstring></argsstring>
+        <name>rag_engine_</name>
+        <qualifiedname>themis::plugins::ethics::EthicalDiscourseEngine::rag_engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/discourse_engine.h" line="62" column="21" bodyfile="src/ethics_ai/discourse_engine.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1afaea3cef10ea0e61375055cab65520a5" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::EthicalDiscourseEngine::chain_visualizer_output_path_</definition>
+        <argsstring></argsstring>
+        <name>chain_visualizer_output_path_</name>
+        <qualifiedname>themis::plugins::ethics::EthicalDiscourseEngine::chain_visualizer_output_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/discourse_engine.h" line="63" column="17" bodyfile="src/ethics_ai/discourse_engine.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1ac03fbb47b5ce5292ab673220596fd28c" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::plugins::ethics::EthicalDiscourseEngine::debates_mutex_</definition>
+        <argsstring></argsstring>
+        <name>debates_mutex_</name>
+        <qualifiedname>themis::plugins::ethics::EthicalDiscourseEngine::debates_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/discourse_engine.h" line="65" column="24" bodyfile="src/ethics_ai/discourse_engine.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1aea389f659ae3cbe0c1337f106e0cb1d2" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_debate_initialization" kindref="compound">DebateInitialization</ref> &gt;</type>
+        <definition>std::map&lt;std::string, DebateInitialization&gt; themis::plugins::ethics::EthicalDiscourseEngine::active_debates_</definition>
+        <argsstring></argsstring>
+        <name>active_debates_</name>
+        <qualifiedname>themis::plugins::ethics::EthicalDiscourseEngine::active_debates_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/discourse_engine.h" line="66" column="14" bodyfile="src/ethics_ai/discourse_engine.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1a3dbf15f82fd3cbaf36aad8e1f209b23c" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument" kindref="compound">EthicalArgument</ref> &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;EthicalArgument&gt; &gt; themis::plugins::ethics::EthicalDiscourseEngine::debate_arguments_</definition>
+        <argsstring></argsstring>
+        <name>debate_arguments_</name>
+        <qualifiedname>themis::plugins::ethics::EthicalDiscourseEngine::debate_arguments_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/discourse_engine.h" line="67" column="14" bodyfile="src/ethics_ai/discourse_engine.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1a50f4c98d4455c12aec514f004e6cb2ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::EthicalDiscourseEngine::EthicalDiscourseEngine</definition>
+        <argsstring>(std::shared_ptr&lt; PhilosophyLoader &gt; philosophy_loader, std::shared_ptr&lt; ArgumentStore &gt; store, std::shared_ptr&lt; RAGContextEngine &gt; rag_engine)</argsstring>
+        <name>EthicalDiscourseEngine</name>
+        <qualifiedname>themis::plugins::ethics::EthicalDiscourseEngine::EthicalDiscourseEngine</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader" kindref="compound">PhilosophyLoader</ref> &gt;</type>
+          <declname>philosophy_loader</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store" kindref="compound">ArgumentStore</ref> &gt;</type>
+          <declname>store</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine" kindref="compound">RAGContextEngine</ref> &gt;</type>
+          <declname>rag_engine</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/discourse_engine.h" line="28" column="5" bodyfile="src/ethics_ai/discourse_engine.cpp" bodystart="27" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1abc389f7da42929b11953245b17abf729" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::EthicalDiscourseEngine::~EthicalDiscourseEngine</definition>
+        <argsstring>()=default</argsstring>
+        <name>~EthicalDiscourseEngine</name>
+        <qualifiedname>themis::plugins::ethics::EthicalDiscourseEngine::~EthicalDiscourseEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/discourse_engine.h" line="33" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1a33b69805bd81df42b509b12b2a2a2b6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::variant&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_debate_initialization" kindref="compound">DebateInitialization</ref>, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref> &gt;</type>
+        <definition>std::variant&lt; DebateInitialization, Status &gt; themis::plugins::ethics::EthicalDiscourseEngine::initializeDebate</definition>
+        <argsstring>(const std::string &amp;dilemma_description, const std::vector&lt; std::string &gt; &amp;philosophy_schools, const std::string &amp;category)</argsstring>
+        <name>initializeDebate</name>
+        <qualifiedname>themis::plugins::ethics::EthicalDiscourseEngine::initializeDebate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dilemma_description</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>philosophy_schools</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>category</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">debates_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/ethics_ai/discourse_engine.h" line="35" column="18" bodyfile="src/ethics_ai/discourse_engine.cpp" bodystart="42" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1ad3ac0796dbac9ab81214a7d87b2e70e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::variant&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision" kindref="compound">EthicalDecision</ref>, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref> &gt;</type>
+        <definition>std::variant&lt; EthicalDecision, Status &gt; themis::plugins::ethics::EthicalDiscourseEngine::makeDecision</definition>
+        <argsstring>(const std::string &amp;dilemma_description, const std::vector&lt; std::string &gt; &amp;philosophy_schools, const std::string &amp;category, bool use_rag)</argsstring>
+        <name>makeDecision</name>
+        <qualifiedname>themis::plugins::ethics::EthicalDiscourseEngine::makeDecision</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dilemma_description</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>philosophy_schools</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>category</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>use_rag</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Base path. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chain_visualizer_output_path_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Out. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dot_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the dot. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Out. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mermaid_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the mermaid. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/ethics_ai/discourse_engine.h" line="41" column="18" bodyfile="src/ethics_ai/discourse_engine.cpp" bodystart="80" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1a71880bed12fdde7ea9f8b3c0473528f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::ethics::EthicalDiscourseEngine::setChainVisualizerOutputPath</definition>
+        <argsstring>(const std::string &amp;output_path)</argsstring>
+        <name>setChainVisualizerOutputPath</name>
+        <qualifiedname>themis::plugins::ethics::EthicalDiscourseEngine::setChainVisualizerOutputPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>output_path</declname>
+        </param>
+        <briefdescription>
+<para>Set Chain Visualizer Output Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">output_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the output.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">output_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the output.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setChainVisualizerOutputPath without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/discourse_engine.h" line="52" column="10" bodyfile="src/ethics_ai/discourse_engine.cpp" bodystart="37" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1ad0d5eec2ada9dd0536db0a2260d547c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::variant&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_debate_round" kindref="compound">DebateRound</ref>, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref> &gt;</type>
+        <definition>std::variant&lt; DebateRound, Status &gt; themis::plugins::ethics::EthicalDiscourseEngine::continueDebate</definition>
+        <argsstring>(const std::string &amp;debate_id, int round_number)</argsstring>
+        <name>continueDebate</name>
+        <qualifiedname>themis::plugins::ethics::EthicalDiscourseEngine::continueDebate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>debate_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>round_number</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">debates_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">debates_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">debates_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/ethics_ai/discourse_engine.h" line="54" column="18" bodyfile="src/ethics_ai/discourse_engine.cpp" bodystart="316" bodyend="409"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1ac4cd986a141bf4086b8c02ef70ce1a0f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument" kindref="compound">EthicalArgument</ref></type>
+        <definition>EthicalArgument themis::plugins::ethics::EthicalDiscourseEngine::generateArgument</definition>
+        <argsstring>(const PhilosophyProfile &amp;profile, const std::string &amp;dilemma, ArgumentType type)</argsstring>
+        <name>generateArgument</name>
+        <qualifiedname>themis::plugins::ethics::EthicalDiscourseEngine::generateArgument</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile" kindref="compound">PhilosophyProfile</ref> &amp;</type>
+          <declname>profile</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dilemma</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1ethics_1aa2cbef29728845d02a8f2f1a415b22cb" kindref="member">ArgumentType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Generate Argument. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dilemma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dilemma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), rd(), str(), size(), empty(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/discourse_engine.h" line="77" column="21" bodyfile="src/ethics_ai/discourse_engine.cpp" bodystart="218" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1ad2d31ebcb7b2caf7c72f21b2c6ecab99" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::EthicalDiscourseEngine::synthesizeDecision</definition>
+        <argsstring>(const std::vector&lt; EthicalArgument &gt; &amp;arguments, const std::string &amp;primary_philosophy)</argsstring>
+        <name>synthesizeDecision</name>
+        <qualifiedname>themis::plugins::ethics::EthicalDiscourseEngine::synthesizeDecision</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument" kindref="compound">EthicalArgument</ref> &gt; &amp;</type>
+          <declname>arguments</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>primary_philosophy</declname>
+        </param>
+        <briefdescription>
+<para>Synthesize Decision. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">arguments</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">primary_philosophy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">arguments</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">primary_philosophy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/discourse_engine.h" line="89" column="17" bodyfile="src/ethics_ai/discourse_engine.cpp" bodystart="292" bodyend="310"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/ethics_ai/discourse_engine.h" line="26" column="1" bodyfile="src/ethics_ai/discourse_engine.h" bodystart="26" bodyend="93"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1aea389f659ae3cbe0c1337f106e0cb1d2" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::EthicalDiscourseEngine</scope><name>active_debates_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1afaea3cef10ea0e61375055cab65520a5" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::EthicalDiscourseEngine</scope><name>chain_visualizer_output_path_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1ad0d5eec2ada9dd0536db0a2260d547c2" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicalDiscourseEngine</scope><name>continueDebate</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1a3dbf15f82fd3cbaf36aad8e1f209b23c" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::EthicalDiscourseEngine</scope><name>debate_arguments_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1ac03fbb47b5ce5292ab673220596fd28c" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::EthicalDiscourseEngine</scope><name>debates_mutex_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1a50f4c98d4455c12aec514f004e6cb2ed" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicalDiscourseEngine</scope><name>EthicalDiscourseEngine</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1ac4cd986a141bf4086b8c02ef70ce1a0f" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::EthicalDiscourseEngine</scope><name>generateArgument</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1a33b69805bd81df42b509b12b2a2a2b6d" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicalDiscourseEngine</scope><name>initializeDebate</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1ad3ac0796dbac9ab81214a7d87b2e70e4" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicalDiscourseEngine</scope><name>makeDecision</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1a0736bfe89a2017ee3dba983e86bab00a" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::EthicalDiscourseEngine</scope><name>philosophy_loader_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1a75a5dd68d7be395a04488bb57f7bcf29" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::EthicalDiscourseEngine</scope><name>rag_engine_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1a71880bed12fdde7ea9f8b3c0473528f3" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicalDiscourseEngine</scope><name>setChainVisualizerOutputPath</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1a39e76193f041106a15a5528f80a8ec83" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::EthicalDiscourseEngine</scope><name>store_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1ad2d31ebcb7b2caf7c72f21b2c6ecab99" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::EthicalDiscourseEngine</scope><name>synthesizeDecision</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1abc389f7da42929b11953245b17abf729" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicalDiscourseEngine</scope><name>~EthicalDiscourseEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

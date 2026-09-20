@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_security_audit_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::SecurityAuditTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_security_audit_test_1a3c0044e92fff1ef6c395422acab28027" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1voice_1_1_voice_security_manager" kindref="compound">VoiceSecurityManager</ref></type>
+        <definition>VoiceSecurityManager themis::voice::SecurityAuditTest::security</definition>
+        <argsstring></argsstring>
+        <name>security</name>
+        <qualifiedname>themis::voice::SecurityAuditTest::security</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_phase3_error_handling.cpp" line="169" column="26" bodyfile="tests/voice/test_phase3_error_handling.cpp" bodystart="169" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::voice::SecurityAuditTest</label>
+        <link refid="classthemis_1_1voice_1_1_security_audit_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::voice::SecurityAuditTest</label>
+        <link refid="classthemis_1_1voice_1_1_security_audit_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>security</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::voice::VoiceSecurityManager</label>
+        <link refid="classthemis_1_1voice_1_1_voice_security_manager"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/voice/test_phase3_error_handling.cpp" line="167" column="1" bodyfile="tests/voice/test_phase3_error_handling.cpp" bodystart="167" bodyend="170"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_security_audit_test_1a3c0044e92fff1ef6c395422acab28027" prot="protected" virt="non-virtual"><scope>themis::voice::SecurityAuditTest</scope><name>security</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

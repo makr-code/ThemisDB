@@ -1,0 +1,886 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__chaos__framework_8cpp" kind="file" language="C++">
+    <compoundname>test_chaos_framework.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="chaos__framework_8h" local="yes">chaos/chaos_framework.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">thread</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>chaos/chaos_framework.h</label>
+        <link refid="chaos__framework_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/chaos/test_chaos_framework.cpp</label>
+        <link refid="test__chaos__framework_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>condition_variable</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>thread</label>
+      </node>
+      <node id="11">
+        <label>unordered_map</label>
+      </node>
+      <node id="12">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__chaos__framework_8cpp_1a9f5ba7a0fac8185c643c62ea7adf85a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FaultInjectorTest, DefaultIdIsDefault)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FaultInjectorTest</type>
+        </param>
+        <param>
+          <type>DefaultIdIsDefault</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_framework.cpp" line="35" column="1" bodyfile="tests/chaos/test_chaos_framework.cpp" bodystart="35" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__framework_8cpp_1a566e1b3aa6d3dac1231250c5495ec226" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FaultInjectorTest, CustomIdIsPreserved)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FaultInjectorTest</type>
+        </param>
+        <param>
+          <type>CustomIdIsPreserved</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_framework.cpp" line="40" column="1" bodyfile="tests/chaos/test_chaos_framework.cpp" bodystart="40" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__framework_8cpp_1a441dfb6ba2037633382b00717d6f0853" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FaultInjectorTest, StartsWithZeroFaults)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FaultInjectorTest</type>
+        </param>
+        <param>
+          <type>StartsWithZeroFaults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_framework.cpp" line="45" column="1" bodyfile="tests/chaos/test_chaos_framework.cpp" bodystart="45" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__framework_8cpp_1ad857d3d31da2d5c2f1a85275e6f0544e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FaultInjectorTest, InjectNodeFailureIsActive)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FaultInjectorTest</type>
+        </param>
+        <param>
+          <type>InjectNodeFailureIsActive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_framework.cpp" line="54" column="1" bodyfile="tests/chaos/test_chaos_framework.cpp" bodystart="54" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__framework_8cpp_1a8dd7332888748a3640db4caf001dc206" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FaultInjectorTest, InjectedFaultCountIsOne)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FaultInjectorTest</type>
+        </param>
+        <param>
+          <type>InjectedFaultCountIsOne</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_framework.cpp" line="62" column="1" bodyfile="tests/chaos/test_chaos_framework.cpp" bodystart="62" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__framework_8cpp_1a3b91b88a82c867693410a1ba78c6063d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FaultInjectorTest, TwoDifferentNodesAreBothActive)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FaultInjectorTest</type>
+        </param>
+        <param>
+          <type>TwoDifferentNodesAreBothActive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_framework.cpp" line="68" column="1" bodyfile="tests/chaos/test_chaos_framework.cpp" bodystart="68" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__framework_8cpp_1a93207ef7be6be85a445a9007901b8ebb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FaultInjectorTest, SameNodeTwoDifferentTypesAreBothActive)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FaultInjectorTest</type>
+        </param>
+        <param>
+          <type>SameNodeTwoDifferentTypesAreBothActive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_framework.cpp" line="77" column="1" bodyfile="tests/chaos/test_chaos_framework.cpp" bodystart="77" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__framework_8cpp_1a270ea12744173065370eb460d7599f34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FaultInjectorTest, UnaffectedNodeIsNotActive)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FaultInjectorTest</type>
+        </param>
+        <param>
+          <type>UnaffectedNodeIsNotActive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_framework.cpp" line="86" column="1" bodyfile="tests/chaos/test_chaos_framework.cpp" bodystart="86" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__framework_8cpp_1ab2d48b75fc73d76d52df23cc60c7e4dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FaultInjectorTest, EmptyNodeIdIsRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FaultInjectorTest</type>
+        </param>
+        <param>
+          <type>EmptyNodeIdIsRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_framework.cpp" line="92" column="1" bodyfile="tests/chaos/test_chaos_framework.cpp" bodystart="92" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__framework_8cpp_1a602e711cc43a35cfa1f09f87bc7002bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FaultInjectorTest, InvalidProbabilityIsRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FaultInjectorTest</type>
+        </param>
+        <param>
+          <type>InvalidProbabilityIsRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_framework.cpp" line="98" column="1" bodyfile="tests/chaos/test_chaos_framework.cpp" bodystart="98" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__framework_8cpp_1a32881ebf3795b5fcb6c69f9cc0ecc040" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FaultInjectorTest, ExpiredFaultIsNotActive)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FaultInjectorTest</type>
+        </param>
+        <param>
+          <type>ExpiredFaultIsNotActive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_framework.cpp" line="108" column="1" bodyfile="tests/chaos/test_chaos_framework.cpp" bodystart="108" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__framework_8cpp_1ae43856144187f532ac91be61949e8b62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FaultInjectorTest, PermanentFaultRemainsActive)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FaultInjectorTest</type>
+        </param>
+        <param>
+          <type>PermanentFaultRemainsActive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_framework.cpp" line="116" column="1" bodyfile="tests/chaos/test_chaos_framework.cpp" bodystart="116" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__framework_8cpp_1acb0837f62e0997fb51131b6d447f3db4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FaultInjectorTest, RecoverAllFaultsOnNode)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FaultInjectorTest</type>
+        </param>
+        <param>
+          <type>RecoverAllFaultsOnNode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_framework.cpp" line="127" column="1" bodyfile="tests/chaos/test_chaos_framework.cpp" bodystart="127" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__framework_8cpp_1a302044affc1c797ccd2e3ce1f38ab5cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FaultInjectorTest, RecoverSpecificFaultType)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FaultInjectorTest</type>
+        </param>
+        <param>
+          <type>RecoverSpecificFaultType</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_framework.cpp" line="136" column="1" bodyfile="tests/chaos/test_chaos_framework.cpp" bodystart="136" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__framework_8cpp_1a5124b6cf7c4a6889570c3cf474aa88c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FaultInjectorTest, RecoverNonexistentFaultReturnsFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FaultInjectorTest</type>
+        </param>
+        <param>
+          <type>RecoverNonexistentFaultReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_framework.cpp" line="145" column="1" bodyfile="tests/chaos/test_chaos_framework.cpp" bodystart="145" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__framework_8cpp_1a935c6b940557d49753cb8376a58de234" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FaultInjectorTest, GetActiveFaultsSnapshotSize)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FaultInjectorTest</type>
+        </param>
+        <param>
+          <type>GetActiveFaultsSnapshotSize</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_framework.cpp" line="155" column="1" bodyfile="tests/chaos/test_chaos_framework.cpp" bodystart="155" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__framework_8cpp_1ad12bca6ab167e1bb98358a9c37865b38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FaultInjectorTest, ClearAllFaultsEmptiesRegistry)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FaultInjectorTest</type>
+        </param>
+        <param>
+          <type>ClearAllFaultsEmptiesRegistry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_framework.cpp" line="163" column="1" bodyfile="tests/chaos/test_chaos_framework.cpp" bodystart="163" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__framework_8cpp_1ad0fb55338d65dbf844c748d19defe4e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FaultInjectorTest, CallbackFiredOnInject)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FaultInjectorTest</type>
+        </param>
+        <param>
+          <type>CallbackFiredOnInject</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_framework.cpp" line="175" column="1" bodyfile="tests/chaos/test_chaos_framework.cpp" bodystart="175" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__framework_8cpp_1ac0f135435563b05f2c7cb9402b3dd91c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FaultInjectorTest, CallbackFiredOnRecover)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FaultInjectorTest</type>
+        </param>
+        <param>
+          <type>CallbackFiredOnRecover</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_framework.cpp" line="188" column="1" bodyfile="tests/chaos/test_chaos_framework.cpp" bodystart="188" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__framework_8cpp_1a6e2b88ef0377927d5543a5691ae4a51f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosSchedulerTest, NullInjectorThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_chaos_scheduler_test" kindref="compound">ChaosSchedulerTest</ref></type>
+        </param>
+        <param>
+          <type>NullInjectorThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_framework.cpp" line="205" column="1" bodyfile="tests/chaos/test_chaos_framework.cpp" bodystart="205" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__framework_8cpp_1ae98bf277469ad48f70872bad6cbcc20f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosSchedulerTest, StartsNotRunning)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_chaos_scheduler_test" kindref="compound">ChaosSchedulerTest</ref></type>
+        </param>
+        <param>
+          <type>StartsNotRunning</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_framework.cpp" line="209" column="1" bodyfile="tests/chaos/test_chaos_framework.cpp" bodystart="209" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__framework_8cpp_1ad4d5b2b03d993a1090e8be8fe050b8a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosSchedulerTest, StartAndStopLifecycle)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_chaos_scheduler_test" kindref="compound">ChaosSchedulerTest</ref></type>
+        </param>
+        <param>
+          <type>StartAndStopLifecycle</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_framework.cpp" line="215" column="1" bodyfile="tests/chaos/test_chaos_framework.cpp" bodystart="215" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__framework_8cpp_1a6688545ac5ab592b0dbe38ff17955f63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosSchedulerTest, DoubleStartIsIdempotent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_chaos_scheduler_test" kindref="compound">ChaosSchedulerTest</ref></type>
+        </param>
+        <param>
+          <type>DoubleStartIsIdempotent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_framework.cpp" line="224" column="1" bodyfile="tests/chaos/test_chaos_framework.cpp" bodystart="224" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__framework_8cpp_1a5bbdcb45d9773c6e36a203a554a0e8ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosSchedulerTest, ScheduledFaultFiresViaInjector)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_chaos_scheduler_test" kindref="compound">ChaosSchedulerTest</ref></type>
+        </param>
+        <param>
+          <type>ScheduledFaultFiresViaInjector</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_framework.cpp" line="237" column="1" bodyfile="tests/chaos/test_chaos_framework.cpp" bodystart="237" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__framework_8cpp_1ae5e767f5c3c2fdc4f55129a69ea48d6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosSchedulerTest, PendingCountReflectsScheduledEntries)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_chaos_scheduler_test" kindref="compound">ChaosSchedulerTest</ref></type>
+        </param>
+        <param>
+          <type>PendingCountReflectsScheduledEntries</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_framework.cpp" line="254" column="1" bodyfile="tests/chaos/test_chaos_framework.cpp" bodystart="254" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__framework_8cpp_1a44bbb36260d266f7459ccff3aea43834" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosSchedulerTest, ClearPendingRemovesAllEntries)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_chaos_scheduler_test" kindref="compound">ChaosSchedulerTest</ref></type>
+        </param>
+        <param>
+          <type>ClearPendingRemovesAllEntries</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_framework.cpp" line="266" column="1" bodyfile="tests/chaos/test_chaos_framework.cpp" bodystart="266" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chaos__framework_8cpp_1a8eae85cc97a95b4075ff098a8d5d6f07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChaosSchedulerTest, StopDoesNotFirePendingFaults)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_chaos_scheduler_test" kindref="compound">ChaosSchedulerTest</ref></type>
+        </param>
+        <param>
+          <type>StopDoesNotFirePendingFaults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_framework.cpp" line="275" column="1" bodyfile="tests/chaos/test_chaos_framework.cpp" bodystart="275" bodyend="286"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Focused unit tests for the ChaosFramework (Phase 4.3). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Covers:<itemizedlist>
+<listitem><para><ref refid="classthemis_1_1chaos_1_1_fault_injector" kindref="compound">FaultInjector</ref> lifecycle and ID</para>
+</listitem><listitem><para>Single fault injection and active-check</para>
+</listitem><listitem><para>Fault recovery (all types and typed)</para>
+</listitem><listitem><para>Expired fault pruning</para>
+</listitem><listitem><para>Multiple faults on the same node</para>
+</listitem><listitem><para>Event callbacks on inject and recover</para>
+</listitem><listitem><para>activeFaultCount / getActiveFaults snapshot</para>
+</listitem><listitem><para>clearAllFaults</para>
+</listitem><listitem><para><ref refid="classthemis_1_1chaos_1_1_chaos_scheduler" kindref="compound">ChaosScheduler</ref> lifecycle (start/stop/isRunning)</para>
+</listitem><listitem><para>scheduleIn fires fault via injector</para>
+</listitem><listitem><para>pendingCount / clearPending</para>
+</listitem><listitem><para><ref refid="classthemis_1_1chaos_1_1_chaos_scheduler" kindref="compound">ChaosScheduler</ref> rejects null injector </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="chaos__framework_8h" kindref="compound">chaos/chaos_framework.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1chaos" kindref="compound">themis::chaos</ref>;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::chrono_literals;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FaultInjector<sp/>—<sp/>basic<sp/>lifecycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><ref refid="test__chaos__framework_8cpp_1a9f5ba7a0fac8185c643c62ea7adf85a4" kindref="member">TEST</ref>(FaultInjectorTest,<sp/>DefaultIdIsDefault)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector" kindref="compound">FaultInjector</ref><sp/>fi;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a9ec7f3d8dc6fcbf24cbbc3a1472b198b" kindref="member">id</ref>(),<sp/></highlight><highlight class="stringliteral">&quot;default&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><ref refid="test__chaos__framework_8cpp_1a9f5ba7a0fac8185c643c62ea7adf85a4" kindref="member">TEST</ref>(FaultInjectorTest,<sp/>CustomIdIsPreserved)<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector" kindref="compound">FaultInjector</ref><sp/>fi{</highlight><highlight class="stringliteral">&quot;cluster-fi-1&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a9ec7f3d8dc6fcbf24cbbc3a1472b198b" kindref="member">id</ref>(),<sp/></highlight><highlight class="stringliteral">&quot;cluster-fi-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><ref refid="test__chaos__framework_8cpp_1a9f5ba7a0fac8185c643c62ea7adf85a4" kindref="member">TEST</ref>(FaultInjectorTest,<sp/>StartsWithZeroFaults)<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector" kindref="compound">FaultInjector</ref><sp/>fi;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a9af1e916334a2e89093e8641975ef4f9" kindref="member">activeFaultCount</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FaultInjector<sp/>—<sp/>inject<sp/>+<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><ref refid="test__chaos__framework_8cpp_1a9f5ba7a0fac8185c643c62ea7adf85a4" kindref="member">TEST</ref>(FaultInjectorTest,<sp/>InjectNodeFailureIsActive)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector" kindref="compound">FaultInjector</ref><sp/>fi;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref><sp/>spec{<ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfa9addfe0b119bb98419945c37d862e910" kindref="member">FaultType::NODE_FAILURE</ref>,<sp/></highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a043ebf32edf8f4ab47f2a9a21f570d68" kindref="member">injectFault</ref>(spec));</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1ab72429333054563501fe1677ecb15382" kindref="member">isFaultActive</ref>(</highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1ab72429333054563501fe1677ecb15382" kindref="member">isFaultActive</ref>(</highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfa9addfe0b119bb98419945c37d862e910" kindref="member">FaultType::NODE_FAILURE</ref>));</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><ref refid="test__chaos__framework_8cpp_1a9f5ba7a0fac8185c643c62ea7adf85a4" kindref="member">TEST</ref>(FaultInjectorTest,<sp/>InjectedFaultCountIsOne)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector" kindref="compound">FaultInjector</ref><sp/>fi;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a043ebf32edf8f4ab47f2a9a21f570d68" kindref="member">injectFault</ref>(<ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>{<ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfaf0fc848d79f32c305a5d9c0155192ba3" kindref="member">FaultType::NETWORK_PARTITION</ref>,<sp/></highlight><highlight class="stringliteral">&quot;node-2&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a9af1e916334a2e89093e8641975ef4f9" kindref="member">activeFaultCount</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><ref refid="test__chaos__framework_8cpp_1a9f5ba7a0fac8185c643c62ea7adf85a4" kindref="member">TEST</ref>(FaultInjectorTest,<sp/>TwoDifferentNodesAreBothActive)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector" kindref="compound">FaultInjector</ref><sp/>fi;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a043ebf32edf8f4ab47f2a9a21f570d68" kindref="member">injectFault</ref>(<ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>{<ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfa9addfe0b119bb98419945c37d862e910" kindref="member">FaultType::NODE_FAILURE</ref>,<sp/></highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a043ebf32edf8f4ab47f2a9a21f570d68" kindref="member">injectFault</ref>(<ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>{<ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfab49672cb2b97dddb873b72bde68c7180" kindref="member">FaultType::DISK_FAILURE</ref>,<sp/></highlight><highlight class="stringliteral">&quot;n2&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1ab72429333054563501fe1677ecb15382" kindref="member">isFaultActive</ref>(</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1ab72429333054563501fe1677ecb15382" kindref="member">isFaultActive</ref>(</highlight><highlight class="stringliteral">&quot;n2&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a9af1e916334a2e89093e8641975ef4f9" kindref="member">activeFaultCount</ref>(),<sp/>2u);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><ref refid="test__chaos__framework_8cpp_1a9f5ba7a0fac8185c643c62ea7adf85a4" kindref="member">TEST</ref>(FaultInjectorTest,<sp/>SameNodeTwoDifferentTypesAreBothActive)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector" kindref="compound">FaultInjector</ref><sp/>fi;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a043ebf32edf8f4ab47f2a9a21f570d68" kindref="member">injectFault</ref>(<ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>{<ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfa9addfe0b119bb98419945c37d862e910" kindref="member">FaultType::NODE_FAILURE</ref>,<sp/></highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a043ebf32edf8f4ab47f2a9a21f570d68" kindref="member">injectFault</ref>(<ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>{<ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfab49672cb2b97dddb873b72bde68c7180" kindref="member">FaultType::DISK_FAILURE</ref>,<sp/></highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1ab72429333054563501fe1677ecb15382" kindref="member">isFaultActive</ref>(</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfa9addfe0b119bb98419945c37d862e910" kindref="member">FaultType::NODE_FAILURE</ref>));</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1ab72429333054563501fe1677ecb15382" kindref="member">isFaultActive</ref>(</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfab49672cb2b97dddb873b72bde68c7180" kindref="member">FaultType::DISK_FAILURE</ref>));</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a9af1e916334a2e89093e8641975ef4f9" kindref="member">activeFaultCount</ref>(),<sp/>2u);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><ref refid="test__chaos__framework_8cpp_1a9f5ba7a0fac8185c643c62ea7adf85a4" kindref="member">TEST</ref>(FaultInjectorTest,<sp/>UnaffectedNodeIsNotActive)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector" kindref="compound">FaultInjector</ref><sp/>fi;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a043ebf32edf8f4ab47f2a9a21f570d68" kindref="member">injectFault</ref>(<ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>{<ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfa9addfe0b119bb98419945c37d862e910" kindref="member">FaultType::NODE_FAILURE</ref>,<sp/></highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1ab72429333054563501fe1677ecb15382" kindref="member">isFaultActive</ref>(</highlight><highlight class="stringliteral">&quot;n2&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><ref refid="test__chaos__framework_8cpp_1a9f5ba7a0fac8185c643c62ea7adf85a4" kindref="member">TEST</ref>(FaultInjectorTest,<sp/>EmptyNodeIdIsRejected)<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector" kindref="compound">FaultInjector</ref><sp/>fi;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a043ebf32edf8f4ab47f2a9a21f570d68" kindref="member">injectFault</ref>(<ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>{FaultType::NODE_FAILURE,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">}));</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a9af1e916334a2e89093e8641975ef4f9" kindref="member">activeFaultCount</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><ref refid="test__chaos__framework_8cpp_1a9f5ba7a0fac8185c643c62ea7adf85a4" kindref="member">TEST</ref>(FaultInjectorTest,<sp/>InvalidProbabilityIsRejected)<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector" kindref="compound">FaultInjector</ref><sp/>fi;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref><sp/>spec{<ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfa5b1c00d426f8c2fa9712859124a08656" kindref="member">FaultType::RANDOM_FAILURE</ref>,<sp/></highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">,<sp/>0ms,<sp/>1.5};</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a043ebf32edf8f4ab47f2a9a21f570d68" kindref="member">injectFault</ref>(spec));</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FaultInjector<sp/>—<sp/>expiry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><ref refid="test__chaos__framework_8cpp_1a9f5ba7a0fac8185c643c62ea7adf85a4" kindref="member">TEST</ref>(FaultInjectorTest,<sp/>ExpiredFaultIsNotActive)<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector" kindref="compound">FaultInjector</ref><sp/>fi;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Inject<sp/>with<sp/>1ms<sp/>duration<sp/>—<sp/>will<sp/>expire<sp/>immediately</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a043ebf32edf8f4ab47f2a9a21f570d68" kindref="member">injectFault</ref>(<ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>{<ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfa9addfe0b119bb98419945c37d862e910" kindref="member">FaultType::NODE_FAILURE</ref>,<sp/></highlight><highlight class="stringliteral">&quot;n-expire&quot;</highlight><highlight class="normal">,<sp/>1ms});</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(10ms);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1ab72429333054563501fe1677ecb15382" kindref="member">isFaultActive</ref>(</highlight><highlight class="stringliteral">&quot;n-expire&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="114"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><ref refid="test__chaos__framework_8cpp_1a9f5ba7a0fac8185c643c62ea7adf85a4" kindref="member">TEST</ref>(FaultInjectorTest,<sp/>PermanentFaultRemainsActive)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector" kindref="compound">FaultInjector</ref><sp/>fi;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a043ebf32edf8f4ab47f2a9a21f570d68" kindref="member">injectFault</ref>(<ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>{<ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfa9addfe0b119bb98419945c37d862e910" kindref="member">FaultType::NODE_FAILURE</ref>,<sp/></highlight><highlight class="stringliteral">&quot;n-perm&quot;</highlight><highlight class="normal">});<sp/><sp/></highlight><highlight class="comment">//<sp/>duration=0<sp/>→<sp/>permanent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(5ms);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1ab72429333054563501fe1677ecb15382" kindref="member">isFaultActive</ref>(</highlight><highlight class="stringliteral">&quot;n-perm&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FaultInjector<sp/>—<sp/>recovery</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><ref refid="test__chaos__framework_8cpp_1a9f5ba7a0fac8185c643c62ea7adf85a4" kindref="member">TEST</ref>(FaultInjectorTest,<sp/>RecoverAllFaultsOnNode)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector" kindref="compound">FaultInjector</ref><sp/>fi;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a043ebf32edf8f4ab47f2a9a21f570d68" kindref="member">injectFault</ref>(<ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>{<ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfa9addfe0b119bb98419945c37d862e910" kindref="member">FaultType::NODE_FAILURE</ref>,<sp/></highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a043ebf32edf8f4ab47f2a9a21f570d68" kindref="member">injectFault</ref>(<ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>{<ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfab49672cb2b97dddb873b72bde68c7180" kindref="member">FaultType::DISK_FAILURE</ref>,<sp/></highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a98ac3681bb9b8be75d43578c17d526ab" kindref="member">recoverFault</ref>(</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1ab72429333054563501fe1677ecb15382" kindref="member">isFaultActive</ref>(</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a9af1e916334a2e89093e8641975ef4f9" kindref="member">activeFaultCount</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><ref refid="test__chaos__framework_8cpp_1a9f5ba7a0fac8185c643c62ea7adf85a4" kindref="member">TEST</ref>(FaultInjectorTest,<sp/>RecoverSpecificFaultType)<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector" kindref="compound">FaultInjector</ref><sp/>fi;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a043ebf32edf8f4ab47f2a9a21f570d68" kindref="member">injectFault</ref>(<ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>{<ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfa9addfe0b119bb98419945c37d862e910" kindref="member">FaultType::NODE_FAILURE</ref>,<sp/></highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a043ebf32edf8f4ab47f2a9a21f570d68" kindref="member">injectFault</ref>(<ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>{<ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfab49672cb2b97dddb873b72bde68c7180" kindref="member">FaultType::DISK_FAILURE</ref>,<sp/></highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a98ac3681bb9b8be75d43578c17d526ab" kindref="member">recoverFault</ref>(</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfab49672cb2b97dddb873b72bde68c7180" kindref="member">FaultType::DISK_FAILURE</ref>));</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1ab72429333054563501fe1677ecb15382" kindref="member">isFaultActive</ref>(</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfa9addfe0b119bb98419945c37d862e910" kindref="member">FaultType::NODE_FAILURE</ref>));</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1ab72429333054563501fe1677ecb15382" kindref="member">isFaultActive</ref>(</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfab49672cb2b97dddb873b72bde68c7180" kindref="member">FaultType::DISK_FAILURE</ref>));</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><ref refid="test__chaos__framework_8cpp_1a9f5ba7a0fac8185c643c62ea7adf85a4" kindref="member">TEST</ref>(FaultInjectorTest,<sp/>RecoverNonexistentFaultReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector" kindref="compound">FaultInjector</ref><sp/>fi;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a98ac3681bb9b8be75d43578c17d526ab" kindref="member">recoverFault</ref>(</highlight><highlight class="stringliteral">&quot;nonexistent&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a98ac3681bb9b8be75d43578c17d526ab" kindref="member">recoverFault</ref>(</highlight><highlight class="stringliteral">&quot;nonexistent&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfa9addfe0b119bb98419945c37d862e910" kindref="member">FaultType::NODE_FAILURE</ref>));</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FaultInjector<sp/>—<sp/>snapshot<sp/>+<sp/>clear</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><ref refid="test__chaos__framework_8cpp_1a9f5ba7a0fac8185c643c62ea7adf85a4" kindref="member">TEST</ref>(FaultInjectorTest,<sp/>GetActiveFaultsSnapshotSize)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector" kindref="compound">FaultInjector</ref><sp/>fi;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a043ebf32edf8f4ab47f2a9a21f570d68" kindref="member">injectFault</ref>(<ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>{<ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfa9addfe0b119bb98419945c37d862e910" kindref="member">FaultType::NODE_FAILURE</ref>,<sp/></highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a043ebf32edf8f4ab47f2a9a21f570d68" kindref="member">injectFault</ref>(<ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>{<ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfaf0fc848d79f32c305a5d9c0155192ba3" kindref="member">FaultType::NETWORK_PARTITION</ref>,<sp/></highlight><highlight class="stringliteral">&quot;n2&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>faults<sp/>=<sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a031717a45d9267e837cbae6f273380e9" kindref="member">getActiveFaults</ref>();</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(faults.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><ref refid="test__chaos__framework_8cpp_1a9f5ba7a0fac8185c643c62ea7adf85a4" kindref="member">TEST</ref>(FaultInjectorTest,<sp/>ClearAllFaultsEmptiesRegistry)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector" kindref="compound">FaultInjector</ref><sp/>fi;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a043ebf32edf8f4ab47f2a9a21f570d68" kindref="member">injectFault</ref>(<ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>{<ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfa9addfe0b119bb98419945c37d862e910" kindref="member">FaultType::NODE_FAILURE</ref>,<sp/></highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a043ebf32edf8f4ab47f2a9a21f570d68" kindref="member">injectFault</ref>(<ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>{<ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfab49672cb2b97dddb873b72bde68c7180" kindref="member">FaultType::DISK_FAILURE</ref>,<sp/></highlight><highlight class="stringliteral">&quot;n2&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a68e54a36ab8b4d8464b9489dc5063eef" kindref="member">clearAllFaults</ref>();</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a9af1e916334a2e89093e8641975ef4f9" kindref="member">activeFaultCount</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FaultInjector<sp/>—<sp/>event<sp/>callbacks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><ref refid="test__chaos__framework_8cpp_1a9f5ba7a0fac8185c643c62ea7adf85a4" kindref="member">TEST</ref>(FaultInjectorTest,<sp/>CallbackFiredOnInject)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector" kindref="compound">FaultInjector</ref><sp/>fi;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>inject_count{0};</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1af893a190973886a7554767373b73f29d" kindref="member">registerEventCallback</ref>([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>&amp;,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>injected)<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(injected)<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>inject_count.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a043ebf32edf8f4ab47f2a9a21f570d68" kindref="member">injectFault</ref>(<ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>{<ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfa9addfe0b119bb98419945c37d862e910" kindref="member">FaultType::NODE_FAILURE</ref>,<sp/></highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a043ebf32edf8f4ab47f2a9a21f570d68" kindref="member">injectFault</ref>(<ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>{<ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfab49672cb2b97dddb873b72bde68c7180" kindref="member">FaultType::DISK_FAILURE</ref>,<sp/></highlight><highlight class="stringliteral">&quot;n2&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(inject_count.load(),<sp/>2);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><ref refid="test__chaos__framework_8cpp_1a9f5ba7a0fac8185c643c62ea7adf85a4" kindref="member">TEST</ref>(FaultInjectorTest,<sp/>CallbackFiredOnRecover)<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_fault_injector" kindref="compound">FaultInjector</ref><sp/>fi;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>recover_count{0};</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1af893a190973886a7554767373b73f29d" kindref="member">registerEventCallback</ref>([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>&amp;,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>injected)<sp/>{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!injected)<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>recover_count.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a043ebf32edf8f4ab47f2a9a21f570d68" kindref="member">injectFault</ref>(<ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>{<ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfa9addfe0b119bb98419945c37d862e910" kindref="member">FaultType::NODE_FAILURE</ref>,<sp/></highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>fi.<ref refid="classthemis_1_1chaos_1_1_fault_injector_1a98ac3681bb9b8be75d43578c17d526ab" kindref="member">recoverFault</ref>(</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(recover_count.load(),<sp/>1);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ChaosScheduler<sp/>—<sp/>lifecycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><ref refid="test__chaos__framework_8cpp_1a9f5ba7a0fac8185c643c62ea7adf85a4" kindref="member">TEST</ref>(<ref refid="class_chaos_scheduler_test" kindref="compound">ChaosSchedulerTest</ref>,<sp/>NullInjectorThrows)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW({<sp/><ref refid="classthemis_1_1chaos_1_1_chaos_scheduler" kindref="compound">ChaosScheduler</ref>{</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">};<sp/>},<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><ref refid="test__chaos__framework_8cpp_1a9f5ba7a0fac8185c643c62ea7adf85a4" kindref="member">TEST</ref>(<ref refid="class_chaos_scheduler_test" kindref="compound">ChaosSchedulerTest</ref>,<sp/>StartsNotRunning)<sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fi<sp/>=<sp/>std::make_shared&lt;FaultInjector&gt;();</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_chaos_scheduler" kindref="compound">ChaosScheduler</ref><sp/>sched{fi};</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(sched.<ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1a476cb1896bd9413f4d66b13738ed8803" kindref="member">isRunning</ref>());</highlight></codeline>
+<codeline lineno="213"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><ref refid="test__chaos__framework_8cpp_1a9f5ba7a0fac8185c643c62ea7adf85a4" kindref="member">TEST</ref>(<ref refid="class_chaos_scheduler_test" kindref="compound">ChaosSchedulerTest</ref>,<sp/>StartAndStopLifecycle)<sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fi<sp/>=<sp/>std::make_shared&lt;FaultInjector&gt;();</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_chaos_scheduler" kindref="compound">ChaosScheduler</ref><sp/>sched{fi};</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1ae29c056883827abc55611c908e9d75ec" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sched.<ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1a476cb1896bd9413f4d66b13738ed8803" kindref="member">isRunning</ref>());</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1a11cb108025bcfb52135f9775f8605245" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(sched.<ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1a476cb1896bd9413f4d66b13738ed8803" kindref="member">isRunning</ref>());</highlight></codeline>
+<codeline lineno="222"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><ref refid="test__chaos__framework_8cpp_1a9f5ba7a0fac8185c643c62ea7adf85a4" kindref="member">TEST</ref>(<ref refid="class_chaos_scheduler_test" kindref="compound">ChaosSchedulerTest</ref>,<sp/>DoubleStartIsIdempotent)<sp/>{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fi<sp/>=<sp/>std::make_shared&lt;FaultInjector&gt;();</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_chaos_scheduler" kindref="compound">ChaosScheduler</ref><sp/>sched{fi};</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1ae29c056883827abc55611c908e9d75ec" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1ae29c056883827abc55611c908e9d75ec" kindref="member">start</ref>();<sp/><sp/></highlight><highlight class="comment">//<sp/>second<sp/>start<sp/>—<sp/>must<sp/>not<sp/>deadlock<sp/>or<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sched.<ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1a476cb1896bd9413f4d66b13738ed8803" kindref="member">isRunning</ref>());</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1a11cb108025bcfb52135f9775f8605245" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="231"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ChaosScheduler<sp/>—<sp/>scheduling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><ref refid="test__chaos__framework_8cpp_1a9f5ba7a0fac8185c643c62ea7adf85a4" kindref="member">TEST</ref>(<ref refid="class_chaos_scheduler_test" kindref="compound">ChaosSchedulerTest</ref>,<sp/>ScheduledFaultFiresViaInjector)<sp/>{</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fi<sp/>=<sp/>std::make_shared&lt;FaultInjector&gt;();</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_chaos_scheduler" kindref="compound">ChaosScheduler</ref><sp/>sched{fi};</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1ae29c056883827abc55611c908e9d75ec" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1a872c3ad2524b3d924ca91fd7caa5ed67" kindref="member">scheduleIn</ref>(20ms,<sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>{<ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfa9addfe0b119bb98419945c37d862e910" kindref="member">FaultType::NODE_FAILURE</ref>,<sp/></highlight><highlight class="stringliteral">&quot;n-sched&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Not<sp/>yet<sp/>fired</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(5ms);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(fi-&gt;<ref refid="classthemis_1_1chaos_1_1_fault_injector_1ab72429333054563501fe1677ecb15382" kindref="member">isFaultActive</ref>(</highlight><highlight class="stringliteral">&quot;n-sched&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Now<sp/>wait<sp/>for<sp/>scheduler<sp/>to<sp/>pick<sp/>it<sp/>up</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(50ms);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fi-&gt;<ref refid="classthemis_1_1chaos_1_1_fault_injector_1ab72429333054563501fe1677ecb15382" kindref="member">isFaultActive</ref>(</highlight><highlight class="stringliteral">&quot;n-sched&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1a11cb108025bcfb52135f9775f8605245" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="252"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><ref refid="test__chaos__framework_8cpp_1a9f5ba7a0fac8185c643c62ea7adf85a4" kindref="member">TEST</ref>(<ref refid="class_chaos_scheduler_test" kindref="compound">ChaosSchedulerTest</ref>,<sp/>PendingCountReflectsScheduledEntries)<sp/>{</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fi<sp/>=<sp/>std::make_shared&lt;FaultInjector&gt;();</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_chaos_scheduler" kindref="compound">ChaosScheduler</ref><sp/>sched{fi};</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Schedule<sp/>two<sp/>far-future<sp/>faults<sp/>(won&apos;t<sp/>fire<sp/>during<sp/>test)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1a1b5d87468ea3b28284fca2ffa2a74166" kindref="member">schedule</ref>({std::chrono::steady_clock::now()<sp/>+<sp/>60s,</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>{<ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfa9addfe0b119bb98419945c37d862e910" kindref="member">FaultType::NODE_FAILURE</ref>,<sp/></highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1a1b5d87468ea3b28284fca2ffa2a74166" kindref="member">schedule</ref>({std::chrono::steady_clock::now()<sp/>+<sp/>60s,</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>{<ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfab49672cb2b97dddb873b72bde68c7180" kindref="member">FaultType::DISK_FAILURE</ref>,<sp/></highlight><highlight class="stringliteral">&quot;n2&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sched.<ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1a4950a82d3f47d589ac34ca710d98df8e" kindref="member">pendingCount</ref>(),<sp/>2u);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><ref refid="test__chaos__framework_8cpp_1a9f5ba7a0fac8185c643c62ea7adf85a4" kindref="member">TEST</ref>(<ref refid="class_chaos_scheduler_test" kindref="compound">ChaosSchedulerTest</ref>,<sp/>ClearPendingRemovesAllEntries)<sp/>{</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fi<sp/>=<sp/>std::make_shared&lt;FaultInjector&gt;();</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_chaos_scheduler" kindref="compound">ChaosScheduler</ref><sp/>sched{fi};</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1a1b5d87468ea3b28284fca2ffa2a74166" kindref="member">schedule</ref>({std::chrono::steady_clock::now()<sp/>+<sp/>60s,</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>{<ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfa9addfe0b119bb98419945c37d862e910" kindref="member">FaultType::NODE_FAILURE</ref>,<sp/></highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1a2d66db68e751966d4b9dc7476619da91" kindref="member">clearPending</ref>();</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sched.<ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1a4950a82d3f47d589ac34ca710d98df8e" kindref="member">pendingCount</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><ref refid="test__chaos__framework_8cpp_1a9f5ba7a0fac8185c643c62ea7adf85a4" kindref="member">TEST</ref>(<ref refid="class_chaos_scheduler_test" kindref="compound">ChaosSchedulerTest</ref>,<sp/>StopDoesNotFirePendingFaults)<sp/>{</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fi<sp/>=<sp/>std::make_shared&lt;FaultInjector&gt;();</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1chaos_1_1_chaos_scheduler" kindref="compound">ChaosScheduler</ref><sp/>sched{fi};</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1ae29c056883827abc55611c908e9d75ec" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Schedule<sp/>far-future<sp/>fault</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1a1b5d87468ea3b28284fca2ffa2a74166" kindref="member">schedule</ref>({std::chrono::steady_clock::now()<sp/>+<sp/>60s,</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1chaos_1_1_fault_spec" kindref="compound">FaultSpec</ref>{<ref refid="namespacethemis_1_1chaos_1a1a41d170d71fb22bb850d9f3c488f6bfa9addfe0b119bb98419945c37d862e910" kindref="member">FaultType::NODE_FAILURE</ref>,<sp/></highlight><highlight class="stringliteral">&quot;n-pending&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>sched.<ref refid="classthemis_1_1chaos_1_1_chaos_scheduler_1a11cb108025bcfb52135f9775f8605245" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(fi-&gt;<ref refid="classthemis_1_1chaos_1_1_fault_injector_1ab72429333054563501fe1677ecb15382" kindref="member">isFaultActive</ref>(</highlight><highlight class="stringliteral">&quot;n-pending&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="286"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/chaos/test_chaos_framework.cpp"/>
+  </compounddef>
+</doxygen>

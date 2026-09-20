@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_retriever_resilience_test_1_1_bounded_cache" kind="class" language="C++" prot="protected">
+    <compoundname>RetrieverResilienceTest::BoundedCache</compoundname>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+      </param>
+      <param>
+        <type>typename V</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_retriever_resilience_test_1_1_bounded_cache_1a50da50def384f0f9b18007c984bcfb59" prot="private" static="no" mutable="no">
+        <type>std::map&lt; K, V &gt;</type>
+        <definition>std::map&lt;K, V&gt; RetrieverResilienceTest::BoundedCache&lt; K, V &gt;::cache</definition>
+        <argsstring></argsstring>
+        <name>cache</name>
+        <qualifiedname>RetrieverResilienceTest::BoundedCache::cache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_retriever_resilience_focused.cpp" line="32" column="18" bodyfile="tests/process/test_process_retriever_resilience_focused.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_retriever_resilience_test_1_1_bounded_cache_1aa71ba716e8772018a977644913033797" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t RetrieverResilienceTest::BoundedCache&lt; K, V &gt;::max_size</definition>
+        <argsstring></argsstring>
+        <name>max_size</name>
+        <qualifiedname>RetrieverResilienceTest::BoundedCache::max_size</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_retriever_resilience_focused.cpp" line="33" column="16" bodyfile="tests/process/test_process_retriever_resilience_focused.cpp" bodystart="33" bodyend="33"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_retriever_resilience_test_1_1_bounded_cache_1adb509b292c18ad6b84d09bde8c17b92b" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>RetrieverResilienceTest::BoundedCache&lt; K, V &gt;::BoundedCache</definition>
+        <argsstring>(size_t max_size_)</argsstring>
+        <name>BoundedCache</name>
+        <qualifiedname>RetrieverResilienceTest::BoundedCache::BoundedCache</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>max_size_</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_retriever_resilience_focused.cpp" line="36" column="18" bodyfile="tests/process/test_process_retriever_resilience_focused.cpp" bodystart="36" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="class_retriever_resilience_test_1_1_bounded_cache_1abc5f4128bb48630c233298888c787c25" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool RetrieverResilienceTest::BoundedCache&lt; K, V &gt;::get</definition>
+        <argsstring>(const K &amp;key, V &amp;out_value)</argsstring>
+        <name>get</name>
+        <qualifiedname>RetrieverResilienceTest::BoundedCache::get</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>V &amp;</type>
+          <declname>out_value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_retriever_resilience_focused.cpp" line="38" column="14" bodyfile="tests/process/test_process_retriever_resilience_focused.cpp" bodystart="38" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="class_retriever_resilience_test_1_1_bounded_cache_1aab0bb82aa41b60c7d3d66840d0766dce" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool RetrieverResilienceTest::BoundedCache&lt; K, V &gt;::put</definition>
+        <argsstring>(const K &amp;key, const V &amp;value)</argsstring>
+        <name>put</name>
+        <qualifiedname>RetrieverResilienceTest::BoundedCache::put</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const V &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_retriever_resilience_focused.cpp" line="47" column="14" bodyfile="tests/process/test_process_retriever_resilience_focused.cpp" bodystart="47" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="class_retriever_resilience_test_1_1_bounded_cache_1a23c8901698e5d0da523e019976e826b5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t RetrieverResilienceTest::BoundedCache&lt; K, V &gt;::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>RetrieverResilienceTest::BoundedCache::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_retriever_resilience_focused.cpp" line="55" column="16" bodyfile="tests/process/test_process_retriever_resilience_focused.cpp" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="class_retriever_resilience_test_1_1_bounded_cache_1acac5d7214a7d307e2dea716974f63254" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void RetrieverResilienceTest::BoundedCache&lt; K, V &gt;::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>RetrieverResilienceTest::BoundedCache::clear</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_retriever_resilience_focused.cpp" line="56" column="14" bodyfile="tests/process/test_process_retriever_resilience_focused.cpp" bodystart="56" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/process/test_process_retriever_resilience_focused.cpp" line="30" column="5" bodyfile="tests/process/test_process_retriever_resilience_focused.cpp" bodystart="30" bodyend="57"/>
+    <listofallmembers>
+      <member refid="class_retriever_resilience_test_1_1_bounded_cache_1adb509b292c18ad6b84d09bde8c17b92b" prot="public" virt="non-virtual"><scope>RetrieverResilienceTest::BoundedCache</scope><name>BoundedCache</name></member>
+      <member refid="class_retriever_resilience_test_1_1_bounded_cache_1a50da50def384f0f9b18007c984bcfb59" prot="private" virt="non-virtual"><scope>RetrieverResilienceTest::BoundedCache</scope><name>cache</name></member>
+      <member refid="class_retriever_resilience_test_1_1_bounded_cache_1acac5d7214a7d307e2dea716974f63254" prot="public" virt="non-virtual"><scope>RetrieverResilienceTest::BoundedCache</scope><name>clear</name></member>
+      <member refid="class_retriever_resilience_test_1_1_bounded_cache_1abc5f4128bb48630c233298888c787c25" prot="public" virt="non-virtual"><scope>RetrieverResilienceTest::BoundedCache</scope><name>get</name></member>
+      <member refid="class_retriever_resilience_test_1_1_bounded_cache_1aa71ba716e8772018a977644913033797" prot="private" virt="non-virtual"><scope>RetrieverResilienceTest::BoundedCache</scope><name>max_size</name></member>
+      <member refid="class_retriever_resilience_test_1_1_bounded_cache_1aab0bb82aa41b60c7d3d66840d0766dce" prot="public" virt="non-virtual"><scope>RetrieverResilienceTest::BoundedCache</scope><name>put</name></member>
+      <member refid="class_retriever_resilience_test_1_1_bounded_cache_1a23c8901698e5d0da523e019976e826b5" prot="public" virt="non-virtual"><scope>RetrieverResilienceTest::BoundedCache</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

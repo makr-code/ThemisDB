@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1aql_1_1_bridge_error" kind="namespace" language="C++">
+    <compoundname>themis::aql::BridgeError</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1aql_1_1_bridge_error_1a8d65355a84713dd7344863df8d8e1718" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::aql::BridgeError::ExecutionFailed</definition>
+        <argsstring></argsstring>
+        <name>ExecutionFailed</name>
+        <qualifiedname>themis::aql::BridgeError::ExecutionFailed</qualifiedname>
+        <initializer>= &quot;ExecutionFailed&quot;</initializer>
+        <briefdescription>
+<para>Bridge execution failed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="211" column="26" bodyfile="include/aql/aql_error_types.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1aql_1_1_bridge_error_1a03aaf71e863608aa36e2ab96b6efe8e1" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::aql::BridgeError::EmbeddingGenerationFailed</definition>
+        <argsstring></argsstring>
+        <name>EmbeddingGenerationFailed</name>
+        <qualifiedname>themis::aql::BridgeError::EmbeddingGenerationFailed</qualifiedname>
+        <initializer>= &quot;EmbeddingGenerationFailed&quot;</initializer>
+        <briefdescription>
+<para>Embedding generation failed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="212" column="26" bodyfile="include/aql/aql_error_types.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1aql_1_1_bridge_error_1a10981094cecab3b2947d95de10c47565" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::aql::BridgeError::InvalidSchema</definition>
+        <argsstring></argsstring>
+        <name>InvalidSchema</name>
+        <qualifiedname>themis::aql::BridgeError::InvalidSchema</qualifiedname>
+        <initializer>= &quot;InvalidSchema&quot;</initializer>
+        <briefdescription>
+<para>Schema context invalid for bridge. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="213" column="26" bodyfile="include/aql/aql_error_types.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1aql_1_1_bridge_error_1a3c63c180e63d3e4753955a6568ce753a" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::aql::BridgeError::ResourceExhausted</definition>
+        <argsstring></argsstring>
+        <name>ResourceExhausted</name>
+        <qualifiedname>themis::aql::BridgeError::ResourceExhausted</qualifiedname>
+        <initializer>= &quot;ResourceExhausted&quot;</initializer>
+        <briefdescription>
+<para>Memory/CPU resources exhausted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="214" column="26" bodyfile="include/aql/aql_error_types.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1aql_1_1_bridge_error_1ac392507b88350f056a73b49f11c9117b" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::aql::BridgeError::TimeoutExceeded</definition>
+        <argsstring></argsstring>
+        <name>TimeoutExceeded</name>
+        <qualifiedname>themis::aql::BridgeError::TimeoutExceeded</qualifiedname>
+        <initializer>= &quot;TimeoutExceeded&quot;</initializer>
+        <briefdescription>
+<para>Bridge operation timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="215" column="26" bodyfile="include/aql/aql_error_types.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1aql_1_1_bridge_error_1a41b49e48122b9b143a9c31c0196a4162" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::aql::BridgeError::ContextBoundExceeded</definition>
+        <argsstring></argsstring>
+        <name>ContextBoundExceeded</name>
+        <qualifiedname>themis::aql::BridgeError::ContextBoundExceeded</qualifiedname>
+        <initializer>= &quot;ContextBoundExceeded&quot;</initializer>
+        <briefdescription>
+<para>Conversation context limit exceeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="216" column="26" bodyfile="include/aql/aql_error_types.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_error_types.h" line="210" column="1"/>
+  </compounddef>
+</doxygen>

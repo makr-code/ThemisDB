@@ -1,0 +1,280 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1whisper_1_1_whisper_plugin_adapter" kind="class" language="C++" prot="public">
+    <compoundname>themis::whisper::WhisperPluginAdapter</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">plugins::IThemisPlugin</basecompoundref>
+    <includes refid="whisper__plugin__registrar_8h" local="no">whisper_plugin_registrar.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a1b8b38361807154f266ba498de3a0fa6" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1whisper_1_1_whisper_plugin" kindref="compound">WhisperPlugin</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;WhisperPlugin&gt; themis::whisper::WhisperPluginAdapter::whisper_plugin_</definition>
+        <argsstring></argsstring>
+        <name>whisper_plugin_</name>
+        <qualifiedname>themis::whisper::WhisperPluginAdapter::whisper_plugin_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin_registrar.h" line="97" column="21" bodyfile="include/whisper/whisper_plugin_registrar.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a51d1132266da11e3db0bc1128ae24476" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::whisper::WhisperPluginAdapter::model_path_</definition>
+        <argsstring></argsstring>
+        <name>model_path_</name>
+        <qualifiedname>themis::whisper::WhisperPluginAdapter::model_path_</qualifiedname>
+        <briefdescription>
+<para>saved for hot-reload </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin_registrar.h" line="98" column="36" bodyfile="include/whisper/whisper_plugin_registrar.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a0a023a4a466d7b9f56facafaf2601212" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::whisper::WhisperPluginAdapter::WhisperPluginAdapter</definition>
+        <argsstring>(std::unique_ptr&lt; WhisperPlugin &gt; plugin)</argsstring>
+        <name>WhisperPluginAdapter</name>
+        <qualifiedname>themis::whisper::WhisperPluginAdapter::WhisperPluginAdapter</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classthemis_1_1whisper_1_1_whisper_plugin" kindref="compound">WhisperPlugin</ref> &gt;</type>
+          <declname>plugin</declname>
+        </param>
+        <briefdescription>
+<para>Construct from an existing <ref refid="classthemis_1_1whisper_1_1_whisper_plugin" kindref="compound">WhisperPlugin</ref> instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Heap-allocated <ref refid="classthemis_1_1whisper_1_1_whisper_plugin" kindref="compound">WhisperPlugin</ref>; adapter takes ownership. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin_registrar.h" line="55" column="14" bodyfile="src/whisper/whisper_plugin_registrar.cpp" bodystart="20" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a665c038f94b061e75a5d48f42c8ea391" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::whisper::WhisperPluginAdapter::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::whisper::WhisperPluginAdapter::getName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin_registrar.h" line="58" column="16" bodyfile="include/whisper/whisper_plugin_registrar.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a510ce11bba0d48373958b1324b51d3ff" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::whisper::WhisperPluginAdapter::getVersion</definition>
+        <argsstring>() const override</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>themis::whisper::WhisperPluginAdapter::getVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin_registrar.h" line="59" column="16" bodyfile="include/whisper/whisper_plugin_registrar.h" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a0d8b6928a2bbb6d4597f1a6647cfb3f1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>plugins::PluginType</type>
+        <definition>plugins::PluginType themis::whisper::WhisperPluginAdapter::getType</definition>
+        <argsstring>() const override</argsstring>
+        <name>getType</name>
+        <qualifiedname>themis::whisper::WhisperPluginAdapter::getType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin_registrar.h" line="61" column="25" bodyfile="include/whisper/whisper_plugin_registrar.h" bodystart="61" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a465d3caeb57c033bf6ba30613d6b4fad" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>plugins::PluginCapabilities</type>
+        <definition>plugins::PluginCapabilities themis::whisper::WhisperPluginAdapter::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>themis::whisper::WhisperPluginAdapter::getCapabilities</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin_registrar.h" line="65" column="33" bodyfile="src/whisper/whisper_plugin_registrar.cpp" bodystart="24" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a5db4382790e6302fe8dfe8ff475541ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::whisper::WhisperPluginAdapter::initialize</definition>
+        <argsstring>(const char *config_json) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::whisper::WhisperPluginAdapter::initialize</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>config_json</declname>
+        </param>
+        <briefdescription>
+<para>Initialize the underlying <ref refid="classthemis_1_1whisper_1_1_whisper_plugin" kindref="compound">WhisperPlugin</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize.</para>
+<para>Parses <computeroutput>config_json</computeroutput> and calls <ref refid="classthemis_1_1whisper_1_1_whisper_plugin_1ac5a7f6196ef379da78acc0b36bdd058e" kindref="member">WhisperPlugin::initialize()</ref>. Expected JSON keys: &quot;model_path&quot; (string, optional).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JSON configuration string. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success; false when config is missing a non-empty model_path.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: nlohmann::json::parse(), contains(), is_string(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin_registrar.h" line="76" column="10" bodyfile="src/whisper/whisper_plugin_registrar.cpp" bodystart="40" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a4fe687a5345aae15f7f2add631979f6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::whisper::WhisperPluginAdapter::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::whisper::WhisperPluginAdapter::shutdown</qualifiedname>
+        <briefdescription>
+<para>Shutdown: reset the inner plugin to its default stub state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Shutdown.</para>
+<para>Calls: clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin_registrar.h" line="81" column="10" bodyfile="src/whisper/whisper_plugin_registrar.cpp" bodystart="68" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a7c7ff51185511588edf68d77b9629dc5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::whisper::WhisperPluginAdapter::getInstance</definition>
+        <argsstring>() override</argsstring>
+        <name>getInstance</name>
+        <qualifiedname>themis::whisper::WhisperPluginAdapter::getInstance</qualifiedname>
+        <briefdescription>
+<para>Return a pointer to the underlying <ref refid="classthemis_1_1whisper_1_1_whisper_plugin" kindref="compound">WhisperPlugin</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Callers should cast the return value to <computeroutput><ref refid="classthemis_1_1whisper_1_1_whisper_plugin" kindref="compound">whisper::WhisperPlugin</ref>*</computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin_registrar.h" line="88" column="10" bodyfile="include/whisper/whisper_plugin_registrar.h" bodystart="88" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a83f291e74371b2f4f2d6349ea0eb2572" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1whisper_1_1_whisper_plugin" kindref="compound">WhisperPlugin</ref> *</type>
+        <definition>WhisperPlugin * themis::whisper::WhisperPluginAdapter::getWhisperPlugin</definition>
+        <argsstring>()</argsstring>
+        <name>getWhisperPlugin</name>
+        <qualifiedname>themis::whisper::WhisperPluginAdapter::getWhisperPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Non-owning pointer to the wrapped <ref refid="classthemis_1_1whisper_1_1_whisper_plugin" kindref="compound">WhisperPlugin</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin_registrar.h" line="93" column="25" bodyfile="include/whisper/whisper_plugin_registrar.h" bodystart="93" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a42f5d6db05fcc7f0828c457d50d48b8a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1whisper_1_1_whisper_plugin" kindref="compound">WhisperPlugin</ref> *</type>
+        <definition>const WhisperPlugin * themis::whisper::WhisperPluginAdapter::getWhisperPlugin</definition>
+        <argsstring>() const</argsstring>
+        <name>getWhisperPlugin</name>
+        <qualifiedname>themis::whisper::WhisperPluginAdapter::getWhisperPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin_registrar.h" line="94" column="25" bodyfile="include/whisper/whisper_plugin_registrar.h" bodystart="94" bodyend="94"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>IThemisPlugin adapter for <ref refid="classthemis_1_1whisper_1_1_whisper_plugin" kindref="compound">WhisperPlugin</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Wraps a <ref refid="classthemis_1_1whisper_1_1_whisper_plugin" kindref="compound">WhisperPlugin</ref> so that it can be managed by the unified plugins::PluginManager, including hot-plug monitoring.</para>
+<para>On <ref refid="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a5db4382790e6302fe8dfe8ff475541ea" kindref="member">initialize()</ref> the adapter calls WhisperPlugin::initialize(model_path,
+config). On <ref refid="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a4fe687a5345aae15f7f2add631979f6e" kindref="member">shutdown()</ref> the adapter resets the inner plugin to its default stub state. <ref refid="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a7c7ff51185511588edf68d77b9629dc5" kindref="member">getInstance()</ref> returns a pointer to the underlying <ref refid="classthemis_1_1whisper_1_1_whisper_plugin" kindref="compound">WhisperPlugin</ref> for callers that need direct access to the transcription API.</para>
+<para>Thread-Safety: <ref refid="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a5db4382790e6302fe8dfe8ff475541ea" kindref="member">initialize()</ref> and <ref refid="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a4fe687a5345aae15f7f2add631979f6e" kindref="member">shutdown()</ref> are not concurrently safe; all other paths delegate to the thread-safe <ref refid="classthemis_1_1whisper_1_1_whisper_plugin" kindref="compound">WhisperPlugin</ref>. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>plugins::IThemisPlugin</label>
+      </node>
+      <node id="1">
+        <label>themis::whisper::WhisperPluginAdapter</label>
+        <link refid="classthemis_1_1whisper_1_1_whisper_plugin_adapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>plugins::IThemisPlugin</label>
+      </node>
+      <node id="1">
+        <label>themis::whisper::WhisperPluginAdapter</label>
+        <link refid="classthemis_1_1whisper_1_1_whisper_plugin_adapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/whisper/whisper_plugin_registrar.h" line="49" column="1" bodyfile="include/whisper/whisper_plugin_registrar.h" bodystart="49" bodyend="99"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a465d3caeb57c033bf6ba30613d6b4fad" prot="public" virt="non-virtual"><scope>themis::whisper::WhisperPluginAdapter</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a7c7ff51185511588edf68d77b9629dc5" prot="public" virt="non-virtual"><scope>themis::whisper::WhisperPluginAdapter</scope><name>getInstance</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a665c038f94b061e75a5d48f42c8ea391" prot="public" virt="non-virtual"><scope>themis::whisper::WhisperPluginAdapter</scope><name>getName</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a0d8b6928a2bbb6d4597f1a6647cfb3f1" prot="public" virt="non-virtual"><scope>themis::whisper::WhisperPluginAdapter</scope><name>getType</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a510ce11bba0d48373958b1324b51d3ff" prot="public" virt="non-virtual"><scope>themis::whisper::WhisperPluginAdapter</scope><name>getVersion</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a83f291e74371b2f4f2d6349ea0eb2572" prot="public" virt="non-virtual"><scope>themis::whisper::WhisperPluginAdapter</scope><name>getWhisperPlugin</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a42f5d6db05fcc7f0828c457d50d48b8a" prot="public" virt="non-virtual"><scope>themis::whisper::WhisperPluginAdapter</scope><name>getWhisperPlugin</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a5db4382790e6302fe8dfe8ff475541ea" prot="public" virt="non-virtual"><scope>themis::whisper::WhisperPluginAdapter</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a51d1132266da11e3db0bc1128ae24476" prot="private" virt="non-virtual"><scope>themis::whisper::WhisperPluginAdapter</scope><name>model_path_</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a4fe687a5345aae15f7f2add631979f6e" prot="public" virt="non-virtual"><scope>themis::whisper::WhisperPluginAdapter</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a1b8b38361807154f266ba498de3a0fa6" prot="private" virt="non-virtual"><scope>themis::whisper::WhisperPluginAdapter</scope><name>whisper_plugin_</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a0a023a4a466d7b9f56facafaf2601212" prot="public" virt="non-virtual"><scope>themis::whisper::WhisperPluginAdapter</scope><name>WhisperPluginAdapter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

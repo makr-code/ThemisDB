@@ -1,0 +1,573 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__plugin__security__implementation_8cpp" kind="file" language="C++">
+    <compoundname>test_plugin_security_implementation.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">acceleration/plugin_security.h</includes>
+    <includes local="no">fstream</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">openssl/pem.h</includes>
+    <includes local="no">openssl/x509.h</includes>
+    <includes local="no">openssl/evp.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/plugins/test_plugin_security_implementation.cpp</label>
+        <link refid="test__plugin__security__implementation_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>acceleration/plugin_security.h</label>
+      </node>
+      <node id="5">
+        <label>filesystem</label>
+      </node>
+      <node id="4">
+        <label>fstream</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="8">
+        <label>openssl/evp.h</label>
+      </node>
+      <node id="6">
+        <label>openssl/pem.h</label>
+      </node>
+      <node id="7">
+        <label>openssl/x509.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_plugin_security_implementation_test" prot="public">PluginSecurityImplementationTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__plugin__security__implementation_8cpp_1aec1d2229e5b5c2ed5324ba87bb95df45" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginSecurityImplementationTest, VerifyCertificateChain_SelfSigned)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_security_implementation_test" kindref="compound">PluginSecurityImplementationTest</ref></type>
+        </param>
+        <param>
+          <type>VerifyCertificateChain_SelfSigned</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_security_implementation.cpp" line="101" column="1" bodyfile="tests/plugins/test_plugin_security_implementation.cpp" bodystart="101" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__security__implementation_8cpp_1abeb4950883321d9297808d2ebc389b5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginSecurityImplementationTest, VerifyCertificateChain_Empty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_security_implementation_test" kindref="compound">PluginSecurityImplementationTest</ref></type>
+        </param>
+        <param>
+          <type>VerifyCertificateChain_Empty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_security_implementation.cpp" line="115" column="1" bodyfile="tests/plugins/test_plugin_security_implementation.cpp" bodystart="115" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__security__implementation_8cpp_1a406364c52765f96f611d17e6ccf4c521" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginSecurityImplementationTest, CheckCRL)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_security_implementation_test" kindref="compound">PluginSecurityImplementationTest</ref></type>
+        </param>
+        <param>
+          <type>CheckCRL</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_security_implementation.cpp" line="124" column="1" bodyfile="tests/plugins/test_plugin_security_implementation.cpp" bodystart="124" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__security__implementation_8cpp_1affc047a9f9d0f6b098dea1bf1a4403e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginSecurityImplementationTest, CheckOCSP)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_security_implementation_test" kindref="compound">PluginSecurityImplementationTest</ref></type>
+        </param>
+        <param>
+          <type>CheckOCSP</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_security_implementation.cpp" line="139" column="1" bodyfile="tests/plugins/test_plugin_security_implementation.cpp" bodystart="139" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__security__implementation_8cpp_1ab1f4265719266b75a256ed3552d5ab33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginSecurityImplementationTest, Level2_EmbeddedSignature_NoEmbeddedData)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_security_implementation_test" kindref="compound">PluginSecurityImplementationTest</ref></type>
+        </param>
+        <param>
+          <type>Level2_EmbeddedSignature_NoEmbeddedData</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_security_implementation.cpp" line="154" column="1" bodyfile="tests/plugins/test_plugin_security_implementation.cpp" bodystart="154" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__security__implementation_8cpp_1a45ad7f9083c9dad2a74d712e40a1a58a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginSecurityImplementationTest, Level3_PlatformSignature_NoSignature)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_security_implementation_test" kindref="compound">PluginSecurityImplementationTest</ref></type>
+        </param>
+        <param>
+          <type>Level3_PlatformSignature_NoSignature</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_security_implementation.cpp" line="172" column="1" bodyfile="tests/plugins/test_plugin_security_implementation.cpp" bodystart="172" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__security__implementation_8cpp_1a4e68a3cfe9413b8af5de09668315a479" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginSecurityImplementationTest, VerifyPlatformSignature_UnsignedFile)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_security_implementation_test" kindref="compound">PluginSecurityImplementationTest</ref></type>
+        </param>
+        <param>
+          <type>VerifyPlatformSignature_UnsignedFile</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_security_implementation.cpp" line="190" column="1" bodyfile="tests/plugins/test_plugin_security_implementation.cpp" bodystart="190" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__security__implementation_8cpp_1a4a7fad1c890f9218e8674d108352281c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginSecurityImplementationTest, VerifyFullChain_DevelopmentMode)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_security_implementation_test" kindref="compound">PluginSecurityImplementationTest</ref></type>
+        </param>
+        <param>
+          <type>VerifyFullChain_DevelopmentMode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_security_implementation.cpp" line="208" column="1" bodyfile="tests/plugins/test_plugin_security_implementation.cpp" bodystart="208" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__security__implementation_8cpp_1af6af926d78d1438d3271f2445aff670d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginSecurityImplementationTest, PEFormatDetection)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_security_implementation_test" kindref="compound">PluginSecurityImplementationTest</ref></type>
+        </param>
+        <param>
+          <type>PEFormatDetection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_security_implementation.cpp" line="232" column="1" bodyfile="tests/plugins/test_plugin_security_implementation.cpp" bodystart="232" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__security__implementation_8cpp_1a7ef2bdd1fd6d27f045b40b19189d2624" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginSecurityImplementationTest, ELFFormatWithSignature)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_security_implementation_test" kindref="compound">PluginSecurityImplementationTest</ref></type>
+        </param>
+        <param>
+          <type>ELFFormatWithSignature</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_security_implementation.cpp" line="282" column="1" bodyfile="tests/plugins/test_plugin_security_implementation.cpp" bodystart="282" bodyend="319"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>test_plugin_security_implementation.cpp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tests<sp/>for<sp/>newly<sp/>implemented<sp/>security<sp/>functions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;acceleration/plugin_security.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/pem.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/x509.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/evp.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::acceleration;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14" refid="class_plugin_security_implementation_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_plugin_security_implementation_test" kindref="compound">PluginSecurityImplementationTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_plugin_security_implementation_test_1a2b796983fc0b6791b4674673077ae864" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>temporary<sp/>directory<sp/>for<sp/>test<sp/>files</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_plugin_security_implementation_test_1ac524f859c3accc710201910d841ece00" kindref="member">test_dir_</ref><sp/>=<sp/>std::filesystem::temp_directory_path()<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;themis_security_impl_test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::create_directories(<ref refid="class_plugin_security_implementation_test_1ac524f859c3accc710201910d841ece00" kindref="member">test_dir_</ref>);</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>test<sp/>plugin<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_plugin_security_implementation_test_1ab22299df4caa720a4de4f02d8c0efe80" kindref="member">test_plugin_path_</ref><sp/>=<sp/><ref refid="class_plugin_security_implementation_test_1ac524f859c3accc710201910d841ece00" kindref="member">test_dir_</ref><sp/>/<sp/></highlight><highlight class="stringliteral">&quot;test_plugin.so&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ofstream<sp/>file(<ref refid="class_plugin_security_implementation_test_1ab22299df4caa720a4de4f02d8c0efe80" kindref="member">test_plugin_path_</ref>,<sp/>std::ios::binary);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>file<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;FAKE_PLUGIN_DATA_FOR_TESTING&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>file.close();</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Generate<sp/>a<sp/>self-signed<sp/>test<sp/>certificate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_plugin_security_implementation_test_1a3e096a4a108929edaca8543866632aca" kindref="member">generateTestCertificate</ref>();</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_plugin_security_implementation_test_1ae5258ec2c1967518d5ce7804a8a0b734" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Clean<sp/>up<sp/>test<sp/>directory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="class_plugin_security_implementation_test_1ac524f859c3accc710201910d841ece00" kindref="member">test_dir_</ref>);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_plugin_security_implementation_test_1a3e096a4a108929edaca8543866632aca" kindref="member">generateTestCertificate</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Generate<sp/>RSA<sp/>key<sp/>pair<sp/>using<sp/>EVP<sp/>API<sp/>(OpenSSL<sp/>3.0+<sp/>compatible)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EVP_PKEY_CTX*<sp/>ctx<sp/>=<sp/>EVP_PKEY_CTX_new_id(EVP_PKEY_RSA,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!ctx)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(EVP_PKEY_keygen_init(ctx)<sp/>&lt;=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EVP_PKEY_CTX_free(ctx);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(EVP_PKEY_CTX_set_rsa_keygen_bits(ctx,<sp/>2048)<sp/>&lt;=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EVP_PKEY_CTX_free(ctx);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EVP_PKEY*<sp/>pkey<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(EVP_PKEY_keygen(ctx,<sp/>&amp;pkey)<sp/>&lt;=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EVP_PKEY_CTX_free(ctx);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EVP_PKEY_CTX_free(ctx);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>X.509<sp/>certificate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>X509*<sp/>x509<sp/>=<sp/>X509_new();</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>X509_set_version(x509,<sp/>2);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASN1_INTEGER_set(X509_get_serialNumber(x509),<sp/>1);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>X509_gmtime_adj(X509_get_notBefore(x509),<sp/>0);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>X509_gmtime_adj(X509_get_notAfter(x509),<sp/>31536000L);<sp/></highlight><highlight class="comment">//<sp/>1<sp/>year</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>X509_set_pubkey(x509,<sp/>pkey);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>X509_NAME*<sp/>name<sp/>=<sp/>X509_get_subject_name(x509);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>X509_NAME_add_entry_by_txt(name,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">,<sp/>MBSTRING_ASC,<sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(</highlight><highlight class="stringliteral">&quot;DE&quot;</highlight><highlight class="normal">),<sp/>-1,<sp/>-1,<sp/>0);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>X509_NAME_add_entry_by_txt(name,<sp/></highlight><highlight class="stringliteral">&quot;O&quot;</highlight><highlight class="normal">,<sp/>MBSTRING_ASC,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(</highlight><highlight class="stringliteral">&quot;ThemisDB&quot;</highlight><highlight class="normal">),<sp/>-1,<sp/>-1,<sp/>0);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>X509_NAME_add_entry_by_txt(name,<sp/></highlight><highlight class="stringliteral">&quot;CN&quot;</highlight><highlight class="normal">,<sp/>MBSTRING_ASC,</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(</highlight><highlight class="stringliteral">&quot;ThemisDB<sp/>Test<sp/>CA&quot;</highlight><highlight class="normal">),<sp/>-1,<sp/>-1,<sp/>0);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>X509_set_issuer_name(x509,<sp/>name);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sign<sp/>certificate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>X509_sign(x509,<sp/>pkey,<sp/>EVP_sha256());</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Write<sp/>certificate<sp/>to<sp/>PEM<sp/>string</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BIO*<sp/>bio<sp/>=<sp/>BIO_new(BIO_s_mem());</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PEM_write_bio_X509(bio,<sp/>x509);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BUF_MEM*<sp/>mem<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BIO_get_mem_ptr(bio,<sp/>&amp;mem);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_plugin_security_implementation_test_1a0bf16a615279ea8636832a74acdb5db2" kindref="member">test_cert_pem_</ref><sp/>=<sp/>std::string(mem-&gt;data,<sp/>mem-&gt;length);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cleanup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BIO_free(bio);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>X509_free(x509);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EVP_PKEY_free(pkey);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::path<sp/><ref refid="class_plugin_security_implementation_test_1ac524f859c3accc710201910d841ece00" kindref="member">test_dir_</ref>;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::path<sp/><ref refid="class_plugin_security_implementation_test_1ab22299df4caa720a4de4f02d8c0efe80" kindref="member">test_plugin_path_</ref>;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_plugin_security_implementation_test_1a0bf16a615279ea8636832a74acdb5db2" kindref="member">test_cert_pem_</ref>;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Certificate<sp/>chain<sp/>validation<sp/>with<sp/>self-signed<sp/>cert</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><ref refid="test__plugin__security__implementation_8cpp_1aec1d2229e5b5c2ed5324ba87bb95df45" kindref="member">TEST_F</ref>(<ref refid="class_plugin_security_implementation_test" kindref="compound">PluginSecurityImplementationTest</ref>,<sp/>VerifyCertificateChain_SelfSigned)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>PluginSecurityPolicy<sp/>policy;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.allowUnsigned<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>PluginSecurityVerifier<sp/>verifier(policy);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Self-signed<sp/>cert<sp/>should<sp/>fail<sp/>chain<sp/>validation<sp/>(unless<sp/>in<sp/>trusted<sp/>store)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>verifier.verifyCertificateChain(test_cert_pem_);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Self-signed<sp/>certs<sp/>not<sp/>in<sp/>trust<sp/>store<sp/>should<sp/>fail</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Certificate<sp/>chain<sp/>validation<sp/>with<sp/>empty<sp/>certificate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><ref refid="test__plugin__security__implementation_8cpp_1aec1d2229e5b5c2ed5324ba87bb95df45" kindref="member">TEST_F</ref>(<ref refid="class_plugin_security_implementation_test" kindref="compound">PluginSecurityImplementationTest</ref>,<sp/>VerifyCertificateChain_Empty)<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>PluginSecurityPolicy<sp/>policy;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>PluginSecurityVerifier<sp/>verifier(policy);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>verifier.verifyCertificateChain(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>CRL<sp/>checking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><ref refid="test__plugin__security__implementation_8cpp_1aec1d2229e5b5c2ed5324ba87bb95df45" kindref="member">TEST_F</ref>(<ref refid="class_plugin_security_implementation_test" kindref="compound">PluginSecurityImplementationTest</ref>,<sp/>CheckCRL)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>PluginSecurityPolicy<sp/>policy;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>PluginSecurityVerifier<sp/>verifier(policy);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>with<sp/>valid<sp/>certificate<sp/>(may<sp/>not<sp/>have<sp/>CRL<sp/>endpoints)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>verifier.checkCRL(test_cert_pem_);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>with<sp/>empty<sp/>certificate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>verifier.checkCRL(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>OCSP<sp/>checking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><ref refid="test__plugin__security__implementation_8cpp_1aec1d2229e5b5c2ed5324ba87bb95df45" kindref="member">TEST_F</ref>(<ref refid="class_plugin_security_implementation_test" kindref="compound">PluginSecurityImplementationTest</ref>,<sp/>CheckOCSP)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>PluginSecurityPolicy<sp/>policy;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>PluginSecurityVerifier<sp/>verifier(policy);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>with<sp/>valid<sp/>certificate<sp/>(may<sp/>not<sp/>have<sp/>OCSP<sp/>responders)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>verifier.checkOCSP(test_cert_pem_);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>with<sp/>empty<sp/>certificate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>verifier.checkOCSP(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Embedded<sp/>certificate<sp/>extraction<sp/>is<sp/>handled<sp/>internally</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><ref refid="test__plugin__security__implementation_8cpp_1aec1d2229e5b5c2ed5324ba87bb95df45" kindref="member">TEST_F</ref>(<ref refid="class_plugin_security_implementation_test" kindref="compound">PluginSecurityImplementationTest</ref>,<sp/>Level2_EmbeddedSignature_NoEmbeddedData)<sp/>{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>PluginSecurityPolicy<sp/>policy;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.allowUnsigned<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EnhancedPluginSecurityVerifier<sp/>verifier(policy);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Our<sp/>test<sp/>file<sp/>is<sp/>not<sp/>a<sp/>real<sp/>PE/ELF/Mach-O<sp/>with<sp/>embedded<sp/>signature</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Level<sp/>2<sp/>verification<sp/>should<sp/>fail</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>verifier.verifyPlugin(</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>test_plugin_path_.string(),</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EnhancedPluginSecurityVerifier::VerificationLevel::LEVEL_2_EMBEDDED_SIGNATURE</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.passed);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.embedded_signature_verified);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Embedded<sp/>signature<sp/>extraction<sp/>is<sp/>handled<sp/>internally<sp/><sp/></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><ref refid="test__plugin__security__implementation_8cpp_1aec1d2229e5b5c2ed5324ba87bb95df45" kindref="member">TEST_F</ref>(<ref refid="class_plugin_security_implementation_test" kindref="compound">PluginSecurityImplementationTest</ref>,<sp/>Level3_PlatformSignature_NoSignature)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>PluginSecurityPolicy<sp/>policy;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.allowUnsigned<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>EnhancedPluginSecurityVerifier<sp/>verifier(policy);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Our<sp/>test<sp/>file<sp/>is<sp/>not<sp/>signed<sp/>with<sp/>platform<sp/>signature</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Level<sp/>3<sp/>verification<sp/>should<sp/>fail</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>verifier.verifyPlugin(</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>test_plugin_path_.string(),</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EnhancedPluginSecurityVerifier::VerificationLevel::LEVEL_3_PLATFORM_SIGNATURE</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.passed);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.platform_signature_verified);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Platform<sp/>signature<sp/>verification<sp/>through<sp/>public<sp/>API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><ref refid="test__plugin__security__implementation_8cpp_1aec1d2229e5b5c2ed5324ba87bb95df45" kindref="member">TEST_F</ref>(<ref refid="class_plugin_security_implementation_test" kindref="compound">PluginSecurityImplementationTest</ref>,<sp/>VerifyPlatformSignature_UnsignedFile)<sp/>{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>PluginSecurityPolicy<sp/>policy;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.allowUnsigned<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>EnhancedPluginSecurityVerifier<sp/>verifier(policy);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>file<sp/>is<sp/>not<sp/>signed,<sp/>so<sp/>platform<sp/>verification<sp/>should<sp/>fail</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>verifier.verifyPlugin(</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>test_plugin_path_.string(),</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EnhancedPluginSecurityVerifier::VerificationLevel::LEVEL_3_PLATFORM_SIGNATURE</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.passed);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.platform_signature_verified);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.error_message.empty());</highlight></codeline>
+<codeline lineno="205"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Full<sp/>chain<sp/>verification<sp/>with<sp/>development<sp/>mode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><ref refid="test__plugin__security__implementation_8cpp_1aec1d2229e5b5c2ed5324ba87bb95df45" kindref="member">TEST_F</ref>(<ref refid="class_plugin_security_implementation_test" kindref="compound">PluginSecurityImplementationTest</ref>,<sp/>VerifyFullChain_DevelopmentMode)<sp/>{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>PluginSecurityPolicy<sp/>policy;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.allowUnsigned<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.checkRevocation<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>revocation<sp/>checking<sp/>for<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>EnhancedPluginSecurityVerifier<sp/>verifier(policy);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>gracefully<sp/>handle<sp/>unsigned<sp/>plugins<sp/>in<sp/>development<sp/>mode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>verifier.verifyPlugin(</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>test_plugin_path_.string(),</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EnhancedPluginSecurityVerifier::VerificationLevel::LEVEL_4_FULL_CHAIN</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>In<sp/>development<sp/>mode<sp/>with<sp/>allowUnsigned,<sp/>some<sp/>checks<sp/>may<sp/>pass</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Just<sp/>verify<sp/>it<sp/>doesn&apos;t<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>verifier.verifyPlugin(</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>test_plugin_path_.string(),</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EnhancedPluginSecurityVerifier::VerificationLevel::LEVEL_4_FULL_CHAIN</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="229"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>PE<sp/>format<sp/>detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><ref refid="test__plugin__security__implementation_8cpp_1aec1d2229e5b5c2ed5324ba87bb95df45" kindref="member">TEST_F</ref>(<ref refid="class_plugin_security_implementation_test" kindref="compound">PluginSecurityImplementationTest</ref>,<sp/>PEFormatDetection)<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>minimal<sp/>PE<sp/>header</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>pe_data;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>DOS<sp/>header</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>pe_data.push_back(</highlight><highlight class="charliteral">&apos;M&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>pe_data.push_back(</highlight><highlight class="charliteral">&apos;Z&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fill<sp/>rest<sp/>of<sp/>DOS<sp/>header<sp/>(to<sp/>reach<sp/>0x3C<sp/>where<sp/>PE<sp/>offset<sp/>is<sp/>stored)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>2;<sp/>i<sp/>&lt;<sp/>0x3C;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pe_data.push_back(0);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>PE<sp/>offset<sp/>(pointing<sp/>to<sp/>offset<sp/>0x80)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>pe_offset<sp/>=<sp/>0x80;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>4;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pe_data.push_back(</highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">uint8_t*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(&amp;pe_offset)[i]);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fill<sp/>up<sp/>to<sp/>PE<sp/>offset</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(pe_data.size()<sp/>&lt;<sp/>pe_offset)<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pe_data.push_back(0);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>PE<sp/>signature<sp/>&quot;PE\0\0&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>pe_data.push_back(</highlight><highlight class="charliteral">&apos;P&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>pe_data.push_back(</highlight><highlight class="charliteral">&apos;E&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>pe_data.push_back(0);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>pe_data.push_back(0);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Write<sp/>to<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::path<sp/>pe_file<sp/>=<sp/>test_dir_<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;test.dll&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ofstream<sp/>file(pe_file,<sp/>std::ios::binary);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>file.write(</highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(pe_data.data()),<sp/>pe_data.size());</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>file.close();</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>PluginSecurityPolicy<sp/>policy;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.allowUnsigned<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>EnhancedPluginSecurityVerifier<sp/>verifier(policy);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>detect<sp/>PE<sp/>format<sp/>but<sp/>fail<sp/>verification<sp/>(no<sp/>signature)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>verifier.verifyPlugin(</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pe_file.string(),</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EnhancedPluginSecurityVerifier::VerificationLevel::LEVEL_2_EMBEDDED_SIGNATURE</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.passed);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>ELF<sp/>format<sp/>with<sp/>external<sp/>signature<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><ref refid="test__plugin__security__implementation_8cpp_1aec1d2229e5b5c2ed5324ba87bb95df45" kindref="member">TEST_F</ref>(<ref refid="class_plugin_security_implementation_test" kindref="compound">PluginSecurityImplementationTest</ref>,<sp/>ELFFormatWithSignature)<sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>minimal<sp/>ELF<sp/>header</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>elf_data;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>elf_data.push_back(0x7F);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>elf_data.push_back(</highlight><highlight class="charliteral">&apos;E&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>elf_data.push_back(</highlight><highlight class="charliteral">&apos;L&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>elf_data.push_back(</highlight><highlight class="charliteral">&apos;F&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>some<sp/>dummy<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>elf_data.push_back(0);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::path<sp/>elf_file<sp/>=<sp/>test_dir_<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;test.so&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ofstream<sp/>file(elf_file,<sp/>std::ios::binary);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>file.write(</highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(elf_data.data()),<sp/>elf_data.size());</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>file.close();</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>signature<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::path<sp/>sig_file<sp/>=<sp/>test_dir_<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;test.so.sig&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ofstream<sp/>sig_stream(sig_file,<sp/>std::ios::binary);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>sig_stream<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;FAKE_SIGNATURE_DATA&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>sig_stream.close();</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>PluginSecurityPolicy<sp/>policy;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.allowUnsigned<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>EnhancedPluginSecurityVerifier<sp/>verifier(policy);</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>find<sp/>the<sp/>.sig<sp/>file<sp/>during<sp/>embedded<sp/>signature<sp/>extraction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>but<sp/>fail<sp/>validation<sp/>(invalid<sp/>signature<sp/>format)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>verifier.verifyPlugin(</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>elf_file.string(),</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EnhancedPluginSecurityVerifier::VerificationLevel::LEVEL_2_EMBEDDED_SIGNATURE</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>May<sp/>pass<sp/>hash<sp/>but<sp/>fail<sp/>signature<sp/>verification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.hash_verified);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/plugins/test_plugin_security_implementation.cpp"/>
+  </compounddef>
+</doxygen>

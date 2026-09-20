@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_mock_access_coordinator_1_1_captured_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::MockAccessCoordinator::CapturedEvent</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_mock_access_coordinator_1_1_captured_event_1a574874da065209110c1da43bf6a67e34" prot="public" static="no" mutable="no">
+        <type>access_model::EvictionEvent</type>
+        <definition>access_model::EvictionEvent themis::cache::MockAccessCoordinator::CapturedEvent::event</definition>
+        <argsstring></argsstring>
+        <name>event</name>
+        <qualifiedname>themis::cache::MockAccessCoordinator::CapturedEvent::event</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_coordinator_integration.cpp" line="105" column="37" bodyfile="tests/cache/test_cache_eviction_coordinator_integration.cpp" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_mock_access_coordinator_1_1_captured_event_1adf877205bd901ad7163894ccd27a4214" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::cache::MockAccessCoordinator::CapturedEvent::received_at</definition>
+        <argsstring></argsstring>
+        <name>received_at</name>
+        <qualifiedname>themis::cache::MockAccessCoordinator::CapturedEvent::received_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_coordinator_integration.cpp" line="106" column="47" bodyfile="tests/cache/test_cache_eviction_coordinator_integration.cpp" bodystart="106" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/cache/test_cache_eviction_coordinator_integration.cpp" line="104" column="5" bodyfile="tests/cache/test_cache_eviction_coordinator_integration.cpp" bodystart="104" bodyend="107"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_mock_access_coordinator_1_1_captured_event_1a574874da065209110c1da43bf6a67e34" prot="public" virt="non-virtual"><scope>themis::cache::MockAccessCoordinator::CapturedEvent</scope><name>event</name></member>
+      <member refid="structthemis_1_1cache_1_1_mock_access_coordinator_1_1_captured_event_1adf877205bd901ad7163894ccd27a4214" prot="public" virt="non-virtual"><scope>themis::cache::MockAccessCoordinator::CapturedEvent</scope><name>received_at</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

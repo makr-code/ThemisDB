@@ -1,0 +1,1062 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1index_1_1_tiered_index_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::index::TieredIndexManager</compoundname>
+    <includes refid="tiered__index__manager_8h" local="no">tiered_index_manager.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1index_1_1_tiered_index_manager_1a7420207dfd0bd2c7264caabc6aeb4425" prot="public" static="no">
+        <type>std::function&lt; bool(const std::string &amp;index_name, const std::string &amp;dest_path)&gt;</type>
+        <definition>using themis::index::TieredIndexManager::ExportFn = std::function&lt;bool(const std::string&amp; index_name,
+                                         const std::string&amp; dest_path)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ExportFn</name>
+        <qualifiedname>themis::index::TieredIndexManager::ExportFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Callback type invoked when an index must be exported (demoted). <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical name of the index. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dest_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target path to write the serialised snapshot. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="181" column="5" bodyfile="include/index/tiered_index_manager.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1index_1_1_tiered_index_manager_1a207c20e6515c672c0daa287d64a31a0f" prot="public" static="no">
+        <type>std::function&lt; bool(const std::string &amp;index_name, const std::string &amp;src_path)&gt;</type>
+        <definition>using themis::index::TieredIndexManager::ImportFn = std::function&lt;bool(const std::string&amp; index_name,
+                                         const std::string&amp; src_path)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ImportFn</name>
+        <qualifiedname>themis::index::TieredIndexManager::ImportFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Callback type invoked when an index must be re-loaded (promoted). <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical name of the index. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>src_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path of the serialised snapshot to load. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="188" column="5" bodyfile="include/index/tiered_index_manager.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_tiered_index_manager_1af890ac2017bd9ffbe76547bc8afce682" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::index::TieredIndexManager::registry_mutex_</definition>
+        <argsstring></argsstring>
+        <name>registry_mutex_</name>
+        <qualifiedname>themis::index::TieredIndexManager::registry_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="304" column="31" bodyfile="include/index/tiered_index_manager.h" bodystart="304" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_tiered_index_manager_1af071af0a728b44d03f89c8a392667a7c" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1index_1_1_index_tier_meta" kindref="compound">IndexTierMeta</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, IndexTierMeta&gt; themis::index::TieredIndexManager::registry_</definition>
+        <argsstring></argsstring>
+        <name>registry_</name>
+        <qualifiedname>themis::index::TieredIndexManager::registry_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="305" column="24" bodyfile="include/index/tiered_index_manager.h" bodystart="305" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_tiered_index_manager_1a3add0ad7ac3016d22c78d9cd1bafb35e" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::index::TieredIndexManager::warm_base_dir_</definition>
+        <argsstring></argsstring>
+        <name>warm_base_dir_</name>
+        <qualifiedname>themis::index::TieredIndexManager::warm_base_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="307" column="17" bodyfile="include/index/tiered_index_manager.h" bodystart="307" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_tiered_index_manager_1aa7c1dd6e79ff7184ac5e3535ed12f19c" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::index::TieredIndexManager::cold_base_dir_</definition>
+        <argsstring></argsstring>
+        <name>cold_base_dir_</name>
+        <qualifiedname>themis::index::TieredIndexManager::cold_base_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="308" column="17" bodyfile="include/index/tiered_index_manager.h" bodystart="308" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_tiered_index_manager_1ac4a06944b06f5a537d2fcd0cd8fc36d2" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1index_1_1_tier_migration_policy" kindref="compound">TierMigrationPolicy</ref></type>
+        <definition>TierMigrationPolicy themis::index::TieredIndexManager::policy_</definition>
+        <argsstring></argsstring>
+        <name>policy_</name>
+        <qualifiedname>themis::index::TieredIndexManager::policy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="310" column="25" bodyfile="include/index/tiered_index_manager.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_tiered_index_manager_1a96ea9983b60913b6023e6c6b6b8c32a6" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1index_1_1_tiered_index_manager_1a7420207dfd0bd2c7264caabc6aeb4425" kindref="member">ExportFn</ref></type>
+        <definition>ExportFn themis::index::TieredIndexManager::export_fn_</definition>
+        <argsstring></argsstring>
+        <name>export_fn_</name>
+        <qualifiedname>themis::index::TieredIndexManager::export_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="312" column="14" bodyfile="include/index/tiered_index_manager.h" bodystart="312" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_tiered_index_manager_1ae68a8b53bc48c9afee9dee2d9c1ab5f8" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1index_1_1_tiered_index_manager_1a207c20e6515c672c0daa287d64a31a0f" kindref="member">ImportFn</ref></type>
+        <definition>ImportFn themis::index::TieredIndexManager::import_fn_</definition>
+        <argsstring></argsstring>
+        <name>import_fn_</name>
+        <qualifiedname>themis::index::TieredIndexManager::import_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="313" column="14" bodyfile="include/index/tiered_index_manager.h" bodystart="313" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1_tiered_index_manager_1a4508b813c3f65640295a6382c337db9e" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::TieredIndexManager::TieredIndexManager</definition>
+        <argsstring>(std::string warm_base_dir, std::string cold_base_dir)</argsstring>
+        <name>TieredIndexManager</name>
+        <qualifiedname>themis::index::TieredIndexManager::TieredIndexManager</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>warm_base_dir</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>cold_base_dir</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>warm_base_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Root directory used for WARM tier snapshots. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cold_base_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Root directory (or URI prefix) for COLD tier archives. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="193" column="14" bodyfile="src/index/tiered_index_manager.cpp" bodystart="31" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_tiered_index_manager_1a189235ae356d18cc10f09288fbeb7b3a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::TieredIndexManager::~TieredIndexManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~TieredIndexManager</name>
+        <qualifiedname>themis::index::TieredIndexManager::~TieredIndexManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="196" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_tiered_index_manager_1acc9ff6fb9f5fc0d3319d33c55c93826e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::TieredIndexManager::setPolicy</definition>
+        <argsstring>(const TierMigrationPolicy &amp;policy)</argsstring>
+        <name>setPolicy</name>
+        <qualifiedname>themis::index::TieredIndexManager::setPolicy</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1index_1_1_tier_migration_policy" kindref="compound">TierMigrationPolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Replace the current migration policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Policy.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="203" column="10" bodyfile="src/index/tiered_index_manager.cpp" bodystart="48" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_tiered_index_manager_1a651f80d94df8a7151d2c15e406daa6ce" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_tier_migration_policy" kindref="compound">TierMigrationPolicy</ref></type>
+        <definition>TierMigrationPolicy themis::index::TieredIndexManager::policy</definition>
+        <argsstring>() const</argsstring>
+        <name>policy</name>
+        <qualifiedname>themis::index::TieredIndexManager::policy</qualifiedname>
+        <briefdescription>
+<para>Return the active migration policy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="206" column="25" bodyfile="src/index/tiered_index_manager.cpp" bodystart="53" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_tiered_index_manager_1a16029dd8c0236fb97b3bc742b2359098" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::TieredIndexManager::setExportFn</definition>
+        <argsstring>(ExportFn fn)</argsstring>
+        <name>setExportFn</name>
+        <qualifiedname>themis::index::TieredIndexManager::setExportFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1_tiered_index_manager_1a7420207dfd0bd2c7264caabc6aeb4425" kindref="member">ExportFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Export Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the export callback (called on demotion). Defaults to a no-op that always returns true (useful for tests or read-only registries).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="210" column="10" bodyfile="src/index/tiered_index_manager.cpp" bodystart="68" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_tiered_index_manager_1a6cd25cd71a174bc16ddcca77c0cc5827" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::TieredIndexManager::setImportFn</definition>
+        <argsstring>(ImportFn fn)</argsstring>
+        <name>setImportFn</name>
+        <qualifiedname>themis::index::TieredIndexManager::setImportFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1_tiered_index_manager_1a207c20e6515c672c0daa287d64a31a0f" kindref="member">ImportFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set the import callback (called on promotion). Defaults to a no-op. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Import Fn.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="213" column="10" bodyfile="src/index/tiered_index_manager.cpp" bodystart="79" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_tiered_index_manager_1abcecd04555e58389216c32aee40d0261" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::TieredIndexManager::registerIndex</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;data_path, uint64_t size_bytes=0)</argsstring>
+        <name>registerIndex</name>
+        <qualifiedname>themis::index::TieredIndexManager::registerIndex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data_path</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>size_bytes</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Register Index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register a new index in the HOT tier. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical index name (must be unique). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Live data path for this index. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Estimated size in bytes (optional). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if registration succeeded; false if name already exists.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the data. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements registerIndex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="224" column="10" bodyfile="src/index/tiered_index_manager.cpp" bodystart="97" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_tiered_index_manager_1a8a2fa5d86672a89c02b326ef064b5642" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::TieredIndexManager::registerIndex</definition>
+        <argsstring>(const std::string &amp;name, IndexTierMeta::Tier tier, const std::string &amp;data_path, uint64_t size_bytes=0)</argsstring>
+        <name>registerIndex</name>
+        <qualifiedname>themis::index::TieredIndexManager::registerIndex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6" kindref="member">IndexTierMeta::Tier</ref></type>
+          <declname>tier</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data_path</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>size_bytes</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Register an existing index in a specific tier (e.g., recovered from disk). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Index.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the data. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), lk(), count(), std::chrono::steady_clock::now(), emplace(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="229" column="10" bodyfile="src/index/tiered_index_manager.cpp" bodystart="112" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_tiered_index_manager_1a07d69f198155c7b857a0d502056eaa8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::TieredIndexManager::unregisterIndex</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>unregisterIndex</name>
+        <qualifiedname>themis::index::TieredIndexManager::unregisterIndex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Unregister Index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove an index from the registry (does not delete data on disk). <simplesect kind="return"><para>true if the index existed and was removed.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="236" column="10" bodyfile="src/index/tiered_index_manager.cpp" bodystart="139" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_tiered_index_manager_1a3f6cc4a12e6d0dd56a7e220290fe316c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::TieredIndexManager::hasIndex</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>hasIndex</name>
+        <qualifiedname>themis::index::TieredIndexManager::hasIndex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Return true if <computeroutput>name</computeroutput> is currently registered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="239" column="10" bodyfile="src/index/tiered_index_manager.cpp" bodystart="144" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_tiered_index_manager_1af8b70c2e9a2023e263b8f3c8ba53c802" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1index_1_1_index_tier_meta" kindref="compound">IndexTierMeta</ref> &gt;</type>
+        <definition>std::optional&lt; IndexTierMeta &gt; themis::index::TieredIndexManager::getMetadata</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>getMetadata</name>
+        <qualifiedname>themis::index::TieredIndexManager::getMetadata</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return a snapshot of the metadata for a registered index, or nullopt. The returned value is a copy; it will not update as accesses occur. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="243" column="19" bodyfile="src/index/tiered_index_manager.cpp" bodystart="154" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_tiered_index_manager_1a44d61781d05decf81338682a122885a7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::index::TieredIndexManager::listIndexes</definition>
+        <argsstring>() const</argsstring>
+        <name>listIndexes</name>
+        <qualifiedname>themis::index::TieredIndexManager::listIndexes</qualifiedname>
+        <briefdescription>
+<para>Return names of all registered indexes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="246" column="17" bodyfile="src/index/tiered_index_manager.cpp" bodystart="169" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_tiered_index_manager_1ab5718d4877fd8c150232e392177016b1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::index::TieredIndexManager::listIndexesByTier</definition>
+        <argsstring>(IndexTierMeta::Tier tier) const</argsstring>
+        <name>listIndexesByTier</name>
+        <qualifiedname>themis::index::TieredIndexManager::listIndexesByTier</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6" kindref="member">IndexTierMeta::Tier</ref></type>
+          <declname>tier</declname>
+        </param>
+        <briefdescription>
+<para>Return names of all indexes in a specific tier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="249" column="17" bodyfile="src/index/tiered_index_manager.cpp" bodystart="187" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_tiered_index_manager_1a0ca358b61d0b0e86773c6ce4e26d249d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::TieredIndexManager::recordAccess</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>recordAccess</name>
+        <qualifiedname>themis::index::TieredIndexManager::recordAccess</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Record Access. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record that <computeroutput>name</computeroutput> was accessed. Updates last_access and access_count. <simplesect kind="return"><para>true if the index was found; false otherwise.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), find(), end(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="257" column="10" bodyfile="src/index/tiered_index_manager.cpp" bodystart="218" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_tiered_index_manager_1adae787e362bd93d8cb92303609627747" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::TieredIndexManager::resetAccessCount</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>resetAccessCount</name>
+        <qualifiedname>themis::index::TieredIndexManager::resetAccessCount</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Reset the access counter for <computeroutput>name</computeroutput> to zero. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset Access Count.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="260" column="10" bodyfile="src/index/tiered_index_manager.cpp" bodystart="235" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_tiered_index_manager_1acf73495c72040b79acbec67bec353e30" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_migration_result" kindref="compound">MigrationResult</ref></type>
+        <definition>MigrationResult themis::index::TieredIndexManager::migrateTo</definition>
+        <argsstring>(const std::string &amp;name, IndexTierMeta::Tier target)</argsstring>
+        <name>migrateTo</name>
+        <qualifiedname>themis::index::TieredIndexManager::migrateTo</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6" kindref="member">IndexTierMeta::Tier</ref></type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+<para>Manually migrate <computeroutput>name</computeroutput> to the specified tier. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Migrate To.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), find(), end(), <ref refid="structthemis_1_1index_1_1_migration_result_1a3df41cbce98bfe2570dfd97874873a81" kindref="member">MigrationResult::Err()</ref>, <ref refid="structthemis_1_1index_1_1_migration_result_1a16527e452b3f92383f11fd9587b91b3a" kindref="member">MigrationResult::Ok()</ref>, doMigrate(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="267" column="21" bodyfile="src/index/tiered_index_manager.cpp" bodystart="256" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_tiered_index_manager_1abe6c270801241927eda763fbcfcc5276" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_migration_result" kindref="compound">MigrationResult</ref></type>
+        <definition>MigrationResult themis::index::TieredIndexManager::promoteToHot</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>promoteToHot</name>
+        <qualifiedname>themis::index::TieredIndexManager::promoteToHot</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Convenience wrappers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Promote To Hot.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1index_1_1_tiered_index_manager_1acf73495c72040b79acbec67bec353e30" kindref="member">migrateTo()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="270" column="21" bodyfile="src/index/tiered_index_manager.cpp" bodystart="287" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_tiered_index_manager_1a600a508d60e8adca62f54f87e3b797c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_migration_result" kindref="compound">MigrationResult</ref></type>
+        <definition>MigrationResult themis::index::TieredIndexManager::demoteToWarm</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>demoteToWarm</name>
+        <qualifiedname>themis::index::TieredIndexManager::demoteToWarm</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Demote To Warm. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1index_1_1_tiered_index_manager_1acf73495c72040b79acbec67bec353e30" kindref="member">migrateTo()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="271" column="21" bodyfile="src/index/tiered_index_manager.cpp" bodystart="297" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_tiered_index_manager_1aa3970bbb6a1e66f76a7e0daeecc1ed3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_migration_result" kindref="compound">MigrationResult</ref></type>
+        <definition>MigrationResult themis::index::TieredIndexManager::demoteToCold</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>demoteToCold</name>
+        <qualifiedname>themis::index::TieredIndexManager::demoteToCold</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Demote To Cold. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1index_1_1_tiered_index_manager_1acf73495c72040b79acbec67bec353e30" kindref="member">migrateTo()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="272" column="21" bodyfile="src/index/tiered_index_manager.cpp" bodystart="307" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_tiered_index_manager_1a0c2de51c216211412116d685513f8811" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1index_1_1_migration_result" kindref="compound">MigrationResult</ref> &gt;</type>
+        <definition>std::vector&lt; MigrationResult &gt; themis::index::TieredIndexManager::runMigrationPass</definition>
+        <argsstring>()</argsstring>
+        <name>runMigrationPass</name>
+        <qualifiedname>themis::index::TieredIndexManager::runMigrationPass</qualifiedname>
+        <briefdescription>
+<para>Run Migration Pass. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Evaluate all registered indexes against the active policy and migrate those that qualify. Returns the list of migrations performed.</para>
+<para>Call this periodically (e.g., from a background scheduler) or on-demand.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), reserve(), size(), emplace_back(), std::chrono::steady_clock::now(), count(), push_back(), doMigrate(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="282" column="17" bodyfile="src/index/tiered_index_manager.cpp" bodystart="320" bodyend="376"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_tiered_index_manager_1a26dbb55b52f5bd26f0c8fba0589b437b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::index::TieredIndexManager::warmPath</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>warmPath</name>
+        <qualifiedname>themis::index::TieredIndexManager::warmPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Build the warm-tier snapshot path for <computeroutput>name</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="289" column="17" bodyfile="src/index/tiered_index_manager.cpp" bodystart="382" bodyend="384"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_tiered_index_manager_1a3c07c099f7c1a9fe0dcb7911604e1091" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::index::TieredIndexManager::coldPath</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>coldPath</name>
+        <qualifiedname>themis::index::TieredIndexManager::coldPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Build the cold-tier snapshot path for <computeroutput>name</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="292" column="17" bodyfile="src/index/tiered_index_manager.cpp" bodystart="386" bodyend="388"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1_tiered_index_manager_1a8b0c1147cec36a4cf67e88d2f14e29df" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::index::TieredIndexManager::pathForTier</definition>
+        <argsstring>(const std::string &amp;name, IndexTierMeta::Tier tier) const</argsstring>
+        <name>pathForTier</name>
+        <qualifiedname>themis::index::TieredIndexManager::pathForTier</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6" kindref="member">IndexTierMeta::Tier</ref></type>
+          <declname>tier</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Warm Path. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Cold Path. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="296" column="17" bodyfile="src/index/tiered_index_manager.cpp" bodystart="390" bodyend="408"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_tiered_index_manager_1acc13273a0aa6e82f47400176d97e396f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_migration_result" kindref="compound">MigrationResult</ref></type>
+        <definition>MigrationResult themis::index::TieredIndexManager::doMigrate</definition>
+        <argsstring>(const std::string &amp;name, IndexTierMeta::Tier from, IndexTierMeta::Tier to)</argsstring>
+        <name>doMigrate</name>
+        <qualifiedname>themis::index::TieredIndexManager::doMigrate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6" kindref="member">IndexTierMeta::Tier</ref></type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6" kindref="member">IndexTierMeta::Tier</ref></type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+<para>------------------------------------------------------------------------<mdash/> doMigrate – execute migration, update registry ------------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), find(), end(), <ref refid="structthemis_1_1index_1_1_migration_result_1a3df41cbce98bfe2570dfd97874873a81" kindref="member">MigrationResult::Err()</ref>, <ref refid="structthemis_1_1index_1_1_index_tier_meta_1ade453fe4997814704b534e945f7b2b4b" kindref="member">IndexTierMeta::tierName()</ref>, str(), pathForTier(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="300" column="21" bodyfile="src/index/tiered_index_manager.cpp" bodystart="419" bodyend="596"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Manages cold/warm/hot tier migration for named index data snapshots.</para>
+<para>The manager does NOT own the live index objects (<ref refid="classthemis_1_1_vector_index_manager" kindref="compound">VectorIndexManager</ref>, <ref refid="classthemis_1_1_secondary_index_manager" kindref="compound">SecondaryIndexManager</ref>, etc.); it coordinates where their serialised data is stored and uses caller-supplied serialize/deserialize callbacks when a migration is requested. </para>
+    </detaileddescription>
+    <location file="include/index/tiered_index_manager.h" line="175" column="1" bodyfile="include/index/tiered_index_manager.h" bodystart="175" bodyend="314"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1index_1_1_tiered_index_manager_1aa7c1dd6e79ff7184ac5e3535ed12f19c" prot="private" virt="non-virtual"><scope>themis::index::TieredIndexManager</scope><name>cold_base_dir_</name></member>
+      <member refid="classthemis_1_1index_1_1_tiered_index_manager_1a3c07c099f7c1a9fe0dcb7911604e1091" prot="public" virt="non-virtual"><scope>themis::index::TieredIndexManager</scope><name>coldPath</name></member>
+      <member refid="classthemis_1_1index_1_1_tiered_index_manager_1aa3970bbb6a1e66f76a7e0daeecc1ed3e" prot="public" virt="non-virtual"><scope>themis::index::TieredIndexManager</scope><name>demoteToCold</name></member>
+      <member refid="classthemis_1_1index_1_1_tiered_index_manager_1a600a508d60e8adca62f54f87e3b797c9" prot="public" virt="non-virtual"><scope>themis::index::TieredIndexManager</scope><name>demoteToWarm</name></member>
+      <member refid="classthemis_1_1index_1_1_tiered_index_manager_1acc13273a0aa6e82f47400176d97e396f" prot="private" virt="non-virtual"><scope>themis::index::TieredIndexManager</scope><name>doMigrate</name></member>
+      <member refid="classthemis_1_1index_1_1_tiered_index_manager_1a96ea9983b60913b6023e6c6b6b8c32a6" prot="private" virt="non-virtual"><scope>themis::index::TieredIndexManager</scope><name>export_fn_</name></member>
+      <member refid="classthemis_1_1index_1_1_tiered_index_manager_1a7420207dfd0bd2c7264caabc6aeb4425" prot="public" virt="non-virtual"><scope>themis::index::TieredIndexManager</scope><name>ExportFn</name></member>
+      <member refid="classthemis_1_1index_1_1_tiered_index_manager_1af8b70c2e9a2023e263b8f3c8ba53c802" prot="public" virt="non-virtual"><scope>themis::index::TieredIndexManager</scope><name>getMetadata</name></member>
+      <member refid="classthemis_1_1index_1_1_tiered_index_manager_1a3f6cc4a12e6d0dd56a7e220290fe316c" prot="public" virt="non-virtual"><scope>themis::index::TieredIndexManager</scope><name>hasIndex</name></member>
+      <member refid="classthemis_1_1index_1_1_tiered_index_manager_1ae68a8b53bc48c9afee9dee2d9c1ab5f8" prot="private" virt="non-virtual"><scope>themis::index::TieredIndexManager</scope><name>import_fn_</name></member>
+      <member refid="classthemis_1_1index_1_1_tiered_index_manager_1a207c20e6515c672c0daa287d64a31a0f" prot="public" virt="non-virtual"><scope>themis::index::TieredIndexManager</scope><name>ImportFn</name></member>
+      <member refid="classthemis_1_1index_1_1_tiered_index_manager_1a44d61781d05decf81338682a122885a7" prot="public" virt="non-virtual"><scope>themis::index::TieredIndexManager</scope><name>listIndexes</name></member>
+      <member refid="classthemis_1_1index_1_1_tiered_index_manager_1ab5718d4877fd8c150232e392177016b1" prot="public" virt="non-virtual"><scope>themis::index::TieredIndexManager</scope><name>listIndexesByTier</name></member>
+      <member refid="classthemis_1_1index_1_1_tiered_index_manager_1acf73495c72040b79acbec67bec353e30" prot="public" virt="non-virtual"><scope>themis::index::TieredIndexManager</scope><name>migrateTo</name></member>
+      <member refid="classthemis_1_1index_1_1_tiered_index_manager_1a8b0c1147cec36a4cf67e88d2f14e29df" prot="private" virt="non-virtual"><scope>themis::index::TieredIndexManager</scope><name>pathForTier</name></member>
+      <member refid="classthemis_1_1index_1_1_tiered_index_manager_1a651f80d94df8a7151d2c15e406daa6ce" prot="public" virt="non-virtual"><scope>themis::index::TieredIndexManager</scope><name>policy</name></member>
+      <member refid="classthemis_1_1index_1_1_tiered_index_manager_1ac4a06944b06f5a537d2fcd0cd8fc36d2" prot="private" virt="non-virtual"><scope>themis::index::TieredIndexManager</scope><name>policy_</name></member>
+      <member refid="classthemis_1_1index_1_1_tiered_index_manager_1abe6c270801241927eda763fbcfcc5276" prot="public" virt="non-virtual"><scope>themis::index::TieredIndexManager</scope><name>promoteToHot</name></member>
+      <member refid="classthemis_1_1index_1_1_tiered_index_manager_1a0ca358b61d0b0e86773c6ce4e26d249d" prot="public" virt="non-virtual"><scope>themis::index::TieredIndexManager</scope><name>recordAccess</name></member>
+      <member refid="classthemis_1_1index_1_1_tiered_index_manager_1abcecd04555e58389216c32aee40d0261" prot="public" virt="non-virtual"><scope>themis::index::TieredIndexManager</scope><name>registerIndex</name></member>
+      <member refid="classthemis_1_1index_1_1_tiered_index_manager_1a8a2fa5d86672a89c02b326ef064b5642" prot="public" virt="non-virtual"><scope>themis::index::TieredIndexManager</scope><name>registerIndex</name></member>
+      <member refid="classthemis_1_1index_1_1_tiered_index_manager_1af071af0a728b44d03f89c8a392667a7c" prot="private" virt="non-virtual"><scope>themis::index::TieredIndexManager</scope><name>registry_</name></member>
+      <member refid="classthemis_1_1index_1_1_tiered_index_manager_1af890ac2017bd9ffbe76547bc8afce682" prot="private" virt="non-virtual"><scope>themis::index::TieredIndexManager</scope><name>registry_mutex_</name></member>
+      <member refid="classthemis_1_1index_1_1_tiered_index_manager_1adae787e362bd93d8cb92303609627747" prot="public" virt="non-virtual"><scope>themis::index::TieredIndexManager</scope><name>resetAccessCount</name></member>
+      <member refid="classthemis_1_1index_1_1_tiered_index_manager_1a0c2de51c216211412116d685513f8811" prot="public" virt="non-virtual"><scope>themis::index::TieredIndexManager</scope><name>runMigrationPass</name></member>
+      <member refid="classthemis_1_1index_1_1_tiered_index_manager_1a16029dd8c0236fb97b3bc742b2359098" prot="public" virt="non-virtual"><scope>themis::index::TieredIndexManager</scope><name>setExportFn</name></member>
+      <member refid="classthemis_1_1index_1_1_tiered_index_manager_1a6cd25cd71a174bc16ddcca77c0cc5827" prot="public" virt="non-virtual"><scope>themis::index::TieredIndexManager</scope><name>setImportFn</name></member>
+      <member refid="classthemis_1_1index_1_1_tiered_index_manager_1acc9ff6fb9f5fc0d3319d33c55c93826e" prot="public" virt="non-virtual"><scope>themis::index::TieredIndexManager</scope><name>setPolicy</name></member>
+      <member refid="classthemis_1_1index_1_1_tiered_index_manager_1a4508b813c3f65640295a6382c337db9e" prot="public" virt="non-virtual"><scope>themis::index::TieredIndexManager</scope><name>TieredIndexManager</name></member>
+      <member refid="classthemis_1_1index_1_1_tiered_index_manager_1a07d69f198155c7b857a0d502056eaa8b" prot="public" virt="non-virtual"><scope>themis::index::TieredIndexManager</scope><name>unregisterIndex</name></member>
+      <member refid="classthemis_1_1index_1_1_tiered_index_manager_1a3add0ad7ac3016d22c78d9cd1bafb35e" prot="private" virt="non-virtual"><scope>themis::index::TieredIndexManager</scope><name>warm_base_dir_</name></member>
+      <member refid="classthemis_1_1index_1_1_tiered_index_manager_1a26dbb55b52f5bd26f0c8fba0589b437b" prot="public" virt="non-virtual"><scope>themis::index::TieredIndexManager</scope><name>warmPath</name></member>
+      <member refid="classthemis_1_1index_1_1_tiered_index_manager_1a189235ae356d18cc10f09288fbeb7b3a" prot="public" virt="non-virtual"><scope>themis::index::TieredIndexManager</scope><name>~TieredIndexManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

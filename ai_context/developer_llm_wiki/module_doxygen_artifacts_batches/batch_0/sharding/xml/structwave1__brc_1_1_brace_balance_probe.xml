@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structwave1__brc_1_1_brace_balance_probe" kind="struct" language="C++" prot="public">
+    <compoundname>wave1_brc::BraceBalanceProbe</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structwave1__brc_1_1_brace_balance_probe_1a6b315fc33c54139a96387054a151bb60" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string wave1_brc::BraceBalanceProbe::file_name</definition>
+        <argsstring></argsstring>
+        <name>file_name</name>
+        <qualifiedname>wave1_brc::BraceBalanceProbe::file_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="60" column="17" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structwave1__brc_1_1_brace_balance_probe_1ad1a53fc15279d4f818c8115bea343e6a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int wave1_brc::BraceBalanceProbe::open_count</definition>
+        <argsstring></argsstring>
+        <name>open_count</name>
+        <qualifiedname>wave1_brc::BraceBalanceProbe::open_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="61" column="17" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structwave1__brc_1_1_brace_balance_probe_1a250a1c35b619d9cef434b4862500ec1e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int wave1_brc::BraceBalanceProbe::close_count</definition>
+        <argsstring></argsstring>
+        <name>close_count</name>
+        <qualifiedname>wave1_brc::BraceBalanceProbe::close_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="62" column="17" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structwave1__brc_1_1_brace_balance_probe_1ae8b239eac2f2c8f61fa259bc988fca84" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool wave1_brc::BraceBalanceProbe::isBalanced</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isBalanced</name>
+        <qualifiedname>wave1_brc::BraceBalanceProbe::isBalanced</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true when the recorded brace counts are equal. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="65" column="11" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="65" bodyend="67"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="58" column="1" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="58" bodyend="68"/>
+    <listofallmembers>
+      <member refid="structwave1__brc_1_1_brace_balance_probe_1a250a1c35b619d9cef434b4862500ec1e" prot="public" virt="non-virtual"><scope>wave1_brc::BraceBalanceProbe</scope><name>close_count</name></member>
+      <member refid="structwave1__brc_1_1_brace_balance_probe_1a6b315fc33c54139a96387054a151bb60" prot="public" virt="non-virtual"><scope>wave1_brc::BraceBalanceProbe</scope><name>file_name</name></member>
+      <member refid="structwave1__brc_1_1_brace_balance_probe_1ae8b239eac2f2c8f61fa259bc988fca84" prot="public" virt="non-virtual"><scope>wave1_brc::BraceBalanceProbe</scope><name>isBalanced</name></member>
+      <member refid="structwave1__brc_1_1_brace_balance_probe_1ad1a53fc15279d4f818c8115bea343e6a" prot="public" virt="non-virtual"><scope>wave1_brc::BraceBalanceProbe</scope><name>open_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

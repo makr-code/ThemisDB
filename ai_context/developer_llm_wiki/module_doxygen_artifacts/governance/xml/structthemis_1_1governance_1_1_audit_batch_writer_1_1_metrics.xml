@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_audit_batch_writer_1_1_metrics" kind="struct" language="C++" prot="private">
+    <compoundname>themis::governance::AuditBatchWriter::Metrics</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_audit_batch_writer_1_1_metrics_1a82215be03f13e194799c99878a542818" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::AuditBatchWriter::Metrics::total_entries_submitted</definition>
+        <argsstring></argsstring>
+        <name>total_entries_submitted</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::Metrics::total_entries_submitted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="240" column="17" bodyfile="include/governance/audit_batch_writer.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_audit_batch_writer_1_1_metrics_1a3c16fc7227e3943270a0ea099127e6b5" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::AuditBatchWriter::Metrics::total_entries_flushed</definition>
+        <argsstring></argsstring>
+        <name>total_entries_flushed</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::Metrics::total_entries_flushed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="241" column="17" bodyfile="include/governance/audit_batch_writer.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_audit_batch_writer_1_1_metrics_1a2a65e92e20d786c6cf1ae915bb9d1420" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::AuditBatchWriter::Metrics::total_batches_flushed</definition>
+        <argsstring></argsstring>
+        <name>total_batches_flushed</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::Metrics::total_batches_flushed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="242" column="17" bodyfile="include/governance/audit_batch_writer.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_audit_batch_writer_1_1_metrics_1a8d155eac82d776d22e7d1050ad0da925" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::AuditBatchWriter::Metrics::total_errors</definition>
+        <argsstring></argsstring>
+        <name>total_errors</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::Metrics::total_errors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="243" column="17" bodyfile="include/governance/audit_batch_writer.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_audit_batch_writer_1_1_metrics_1a8e15fea7545409f0c6ccb463cbf7d6de" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::governance::AuditBatchWriter::Metrics::avg_submission_latency_us</definition>
+        <argsstring></argsstring>
+        <name>avg_submission_latency_us</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::Metrics::avg_submission_latency_us</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="244" column="16" bodyfile="include/governance/audit_batch_writer.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_audit_batch_writer_1_1_metrics_1a8e7803b7b215b6d4ee46f3fbd513af17" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::governance::AuditBatchWriter::Metrics::p95_submission_latency_us</definition>
+        <argsstring></argsstring>
+        <name>p95_submission_latency_us</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::Metrics::p95_submission_latency_us</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="245" column="16" bodyfile="include/governance/audit_batch_writer.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_audit_batch_writer_1_1_metrics_1a485c07be18361259c82ea1c3a9d841cb" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::governance::AuditBatchWriter::Metrics::p99_submission_latency_us</definition>
+        <argsstring></argsstring>
+        <name>p99_submission_latency_us</name>
+        <qualifiedname>themis::governance::AuditBatchWriter::Metrics::p99_submission_latency_us</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/audit_batch_writer.h" line="246" column="16" bodyfile="include/governance/audit_batch_writer.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/audit_batch_writer.h" line="239" column="5" bodyfile="include/governance/audit_batch_writer.h" bodystart="239" bodyend="247"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_metrics_1a8e15fea7545409f0c6ccb463cbf7d6de" prot="public" virt="non-virtual"><scope>themis::governance::AuditBatchWriter::Metrics</scope><name>avg_submission_latency_us</name></member>
+      <member refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_metrics_1a8e7803b7b215b6d4ee46f3fbd513af17" prot="public" virt="non-virtual"><scope>themis::governance::AuditBatchWriter::Metrics</scope><name>p95_submission_latency_us</name></member>
+      <member refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_metrics_1a485c07be18361259c82ea1c3a9d841cb" prot="public" virt="non-virtual"><scope>themis::governance::AuditBatchWriter::Metrics</scope><name>p99_submission_latency_us</name></member>
+      <member refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_metrics_1a2a65e92e20d786c6cf1ae915bb9d1420" prot="public" virt="non-virtual"><scope>themis::governance::AuditBatchWriter::Metrics</scope><name>total_batches_flushed</name></member>
+      <member refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_metrics_1a3c16fc7227e3943270a0ea099127e6b5" prot="public" virt="non-virtual"><scope>themis::governance::AuditBatchWriter::Metrics</scope><name>total_entries_flushed</name></member>
+      <member refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_metrics_1a82215be03f13e194799c99878a542818" prot="public" virt="non-virtual"><scope>themis::governance::AuditBatchWriter::Metrics</scope><name>total_entries_submitted</name></member>
+      <member refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_metrics_1a8d155eac82d776d22e7d1050ad0da925" prot="public" virt="non-virtual"><scope>themis::governance::AuditBatchWriter::Metrics</scope><name>total_errors</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

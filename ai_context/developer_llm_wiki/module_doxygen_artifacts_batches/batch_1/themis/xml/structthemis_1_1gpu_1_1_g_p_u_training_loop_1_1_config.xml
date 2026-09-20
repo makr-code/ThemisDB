@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUTrainingLoop::Config</compoundname>
+    <includes refid="training__loop_8h" local="no">training_loop.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_config_1a854aa35aa9f9354eb4f0a24074e453e7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUTrainingLoop::Config::max_steps</definition>
+        <argsstring></argsstring>
+        <name>max_steps</name>
+        <qualifiedname>themis::gpu::GPUTrainingLoop::Config::max_steps</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/training_loop.h" line="55" column="16" bodyfile="include/themis/gpu/training_loop.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_config_1ab1370fce376334c7bfa2b78e422491c4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUTrainingLoop::Config::checkpoint_interval</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_interval</name>
+        <qualifiedname>themis::gpu::GPUTrainingLoop::Config::checkpoint_interval</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>0 = disabled </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/training_loop.h" line="56" column="16" bodyfile="include/themis/gpu/training_loop.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_config_1aa19f8ab9b98764545fadf06053855d0c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUTrainingLoop::Config::log_interval</definition>
+        <argsstring></argsstring>
+        <name>log_interval</name>
+        <qualifiedname>themis::gpu::GPUTrainingLoop::Config::log_interval</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/training_loop.h" line="57" column="16" bodyfile="include/themis/gpu/training_loop.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_config_1a73e7dd9d1a9224d86ff1829485e180c7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::gpu::GPUTrainingLoop::Config::early_stop_loss</definition>
+        <argsstring></argsstring>
+        <name>early_stop_loss</name>
+        <qualifiedname>themis::gpu::GPUTrainingLoop::Config::early_stop_loss</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Stop early when loss drops below this value (0.0 = disabled). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/training_loop.h" line="59" column="16" bodyfile="include/themis/gpu/training_loop.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_config_1ab75ea933dc71b2d0053db0c214b4f9d2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUTrainingLoop::Config::shuffle_batches</definition>
+        <argsstring></argsstring>
+        <name>shuffle_batches</name>
+        <qualifiedname>themis::gpu::GPUTrainingLoop::Config::shuffle_batches</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/training_loop.h" line="60" column="16" bodyfile="include/themis/gpu/training_loop.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/training_loop.h" line="54" column="5" bodyfile="include/themis/gpu/training_loop.h" bodystart="54" bodyend="61"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_config_1ab1370fce376334c7bfa2b78e422491c4" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTrainingLoop::Config</scope><name>checkpoint_interval</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_config_1a73e7dd9d1a9224d86ff1829485e180c7" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTrainingLoop::Config</scope><name>early_stop_loss</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_config_1aa19f8ab9b98764545fadf06053855d0c" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTrainingLoop::Config</scope><name>log_interval</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_config_1a854aa35aa9f9354eb4f0a24074e453e7" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTrainingLoop::Config</scope><name>max_steps</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_config_1ab75ea933dc71b2d0053db0c214b4f9d2" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTrainingLoop::Config</scope><name>shuffle_batches</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,364 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1wire_1_1_v2_session" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::wire::V2Session</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::enable_shared_from_this&lt; V2Session &gt;</basecompoundref>
+    <includes refid="wire__protocol__v2_8hpp" local="no">wire_protocol_v2.hpp</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_session_1a35081d9aab9fb192c0c0954b7149bcb6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::wire::V2Session::~V2Session</definition>
+        <argsstring>()=default</argsstring>
+        <name>~V2Session</name>
+        <qualifiedname>themis::wire::V2Session::~V2Session</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="221" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_session_1a9011afd984a55407f3e0d97f2311f500" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const std::string &amp;</type>
+        <definition>virtual const std::string &amp; themis::wire::V2Session::connection_id</definition>
+        <argsstring>() const =0</argsstring>
+        <name>connection_id</name>
+        <qualifiedname>themis::wire::V2Session::connection_id</qualifiedname>
+        <briefdescription>
+<para>Unique connection identifier (UUID or sequential number). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="224" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_session_1a04e18e201fb83a4be02cc08b6de0a5a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::wire::V2Session::send_data</definition>
+        <argsstring>(uint32_t stream_id, const std::vector&lt; uint8_t &gt; &amp;data, bool end_stream=true)=0</argsstring>
+        <name>send_data</name>
+        <qualifiedname>themis::wire::V2Session::send_data</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>stream_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>end_stream</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Send a DATA frame on <computeroutput>stream_id</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="227" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_session_1a42d1e0cb2ff456b88daccf878e994eef" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>uint32_t</type>
+        <definition>virtual uint32_t themis::wire::V2Session::push_promise</definition>
+        <argsstring>(uint32_t associated_stream_id, const std::unordered_map&lt; std::string, std::string &gt; &amp;headers)=0</argsstring>
+        <name>push_promise</name>
+        <qualifiedname>themis::wire::V2Session::push_promise</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>associated_stream_id</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+        </param>
+        <briefdescription>
+<para>Initiate a server-push stream (server → client unsolicited). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="232" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_session_1a6e55ce7519288cb7f07dce89db8b524c" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::wire::V2Session::reset_stream</definition>
+        <argsstring>(uint32_t stream_id, uint32_t error_code=0)=0</argsstring>
+        <name>reset_stream</name>
+        <qualifiedname>themis::wire::V2Session::reset_stream</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>stream_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>error_code</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Gracefully close a stream with RST_STREAM. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="237" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_session_1a2cd2dfe983920d50b866c5749e437674" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::wire::V2Session::go_away</definition>
+        <argsstring>(uint32_t last_stream_id, uint32_t error_code=0)=0</argsstring>
+        <name>go_away</name>
+        <qualifiedname>themis::wire::V2Session::go_away</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>last_stream_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>error_code</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Send a GOAWAY and close the connection after in-flight frames. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="240" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_session_1a949c86f3bddc28f7f0bf108dc4009593" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>size_t</type>
+        <definition>virtual size_t themis::wire::V2Session::open_stream_count</definition>
+        <argsstring>() const =0</argsstring>
+        <name>open_stream_count</name>
+        <qualifiedname>themis::wire::V2Session::open_stream_count</qualifiedname>
+        <briefdescription>
+<para>Number of currently open streams on this connection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="243" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_session_1a0cabb2a1ef6882abb9fe3f1375a5ebfe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>int32_t</type>
+        <definition>virtual int32_t themis::wire::V2Session::send_window</definition>
+        <argsstring>(uint32_t stream_id) const =0</argsstring>
+        <name>send_window</name>
+        <qualifiedname>themis::wire::V2Session::send_window</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>stream_id</declname>
+        </param>
+        <briefdescription>
+<para>Current send-window size for <computeroutput>stream_id</computeroutput> (bytes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="246" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_session_1abbd10b55292b05f099435340d51916b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::wire::V2Session::update_connection_window</definition>
+        <argsstring>(uint32_t increment)=0</argsstring>
+        <name>update_connection_window</name>
+        <qualifiedname>themis::wire::V2Session::update_connection_window</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>increment</declname>
+        </param>
+        <briefdescription>
+<para>Update the connection-level send-window (WINDOW_UPDATE). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="249" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_session_1a2f806bf0dfe46525f2b2b61f6527117d" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::wire::V2Session::set_stream_priority</definition>
+        <argsstring>(uint32_t stream_id, uint32_t dependency, uint8_t weight, bool exclusive=false)=0</argsstring>
+        <name>set_stream_priority</name>
+        <qualifiedname>themis::wire::V2Session::set_stream_priority</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>stream_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>dependency</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>weight</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>exclusive</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Send a PRIORITY frame to inform the remote side of stream ordering. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The PRIORITY frame payload follows RFC 7540 §6.3:<itemizedlist>
+<listitem><para>E (1 bit) – exclusive dependency flag</para>
+</listitem><listitem><para>Stream Dependency (31 bits) – ID of the parent stream (0 = root)</para>
+</listitem><listitem><para>Weight (8 bits) – priority weight 0–255 (maps to HTTP/2 weight 1–256)</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stream_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Stream to reprioritise. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dependency</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Parent stream ID this stream depends on (0 = root). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>weight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Priority weight 0–255. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>exclusive</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>When true the stream exclusively depends on <computeroutput>dependency</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="262" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_session_1a8d2b0e76129d6f2e54d35b7c5ef06fa8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>uint64_t</type>
+        <definition>virtual uint64_t themis::wire::V2Session::frames_received</definition>
+        <argsstring>() const =0</argsstring>
+        <name>frames_received</name>
+        <qualifiedname>themis::wire::V2Session::frames_received</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="268" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_session_1a25070222f675ecb58116d252d82df0c2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>uint64_t</type>
+        <definition>virtual uint64_t themis::wire::V2Session::frames_sent</definition>
+        <argsstring>() const =0</argsstring>
+        <name>frames_sent</name>
+        <qualifiedname>themis::wire::V2Session::frames_sent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="269" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_session_1a8cb7bd48175508034da8b0bb6925a59a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>uint64_t</type>
+        <definition>virtual uint64_t themis::wire::V2Session::bytes_received</definition>
+        <argsstring>() const =0</argsstring>
+        <name>bytes_received</name>
+        <qualifiedname>themis::wire::V2Session::bytes_received</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="270" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_session_1ab87bc5ddb7b1015a794bad47eeda88b1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>uint64_t</type>
+        <definition>virtual uint64_t themis::wire::V2Session::bytes_sent</definition>
+        <argsstring>() const =0</argsstring>
+        <name>bytes_sent</name>
+        <qualifiedname>themis::wire::V2Session::bytes_sent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="271" column="22"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Represents one multiplexed V2 connection. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>A single <ref refid="classthemis_1_1wire_1_1_v2_session" kindref="compound">V2Session</ref> manages many logical streams (<ref refid="structthemis_1_1wire_1_1_v2_stream" kindref="compound">V2Stream</ref>) over a single TCP socket. It is created by <ref refid="classthemis_1_1wire_1_1_v2_server" kindref="compound">V2Server</ref> when a new client connects and destroyed when the connection is torn down. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::enable_shared_from_this&lt; V2Session &gt;</label>
+      </node>
+      <node id="1">
+        <label>themis::wire::V2Session</label>
+        <link refid="classthemis_1_1wire_1_1_v2_session"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::enable_shared_from_this&lt; V2Session &gt;</label>
+      </node>
+      <node id="1">
+        <label>themis::wire::V2Session</label>
+        <link refid="classthemis_1_1wire_1_1_v2_session"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/themis/network/wire_protocol_v2.hpp" line="219" column="1" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="219" bodyend="272"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1wire_1_1_v2_session_1a8cb7bd48175508034da8b0bb6925a59a" prot="public" virt="pure-virtual"><scope>themis::wire::V2Session</scope><name>bytes_received</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_1ab87bc5ddb7b1015a794bad47eeda88b1" prot="public" virt="pure-virtual"><scope>themis::wire::V2Session</scope><name>bytes_sent</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_1a9011afd984a55407f3e0d97f2311f500" prot="public" virt="pure-virtual"><scope>themis::wire::V2Session</scope><name>connection_id</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_1a8d2b0e76129d6f2e54d35b7c5ef06fa8" prot="public" virt="pure-virtual"><scope>themis::wire::V2Session</scope><name>frames_received</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_1a25070222f675ecb58116d252d82df0c2" prot="public" virt="pure-virtual"><scope>themis::wire::V2Session</scope><name>frames_sent</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_1a2cd2dfe983920d50b866c5749e437674" prot="public" virt="pure-virtual"><scope>themis::wire::V2Session</scope><name>go_away</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_1a949c86f3bddc28f7f0bf108dc4009593" prot="public" virt="pure-virtual"><scope>themis::wire::V2Session</scope><name>open_stream_count</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_1a42d1e0cb2ff456b88daccf878e994eef" prot="public" virt="pure-virtual"><scope>themis::wire::V2Session</scope><name>push_promise</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_1a6e55ce7519288cb7f07dce89db8b524c" prot="public" virt="pure-virtual"><scope>themis::wire::V2Session</scope><name>reset_stream</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_1a04e18e201fb83a4be02cc08b6de0a5a9" prot="public" virt="pure-virtual"><scope>themis::wire::V2Session</scope><name>send_data</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_1a0cabb2a1ef6882abb9fe3f1375a5ebfe" prot="public" virt="pure-virtual"><scope>themis::wire::V2Session</scope><name>send_window</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_1a2f806bf0dfe46525f2b2b61f6527117d" prot="public" virt="pure-virtual"><scope>themis::wire::V2Session</scope><name>set_stream_priority</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_1abbd10b55292b05f099435340d51916b7" prot="public" virt="pure-virtual"><scope>themis::wire::V2Session</scope><name>update_connection_window</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_1a35081d9aab9fb192c0c0954b7149bcb6" prot="public" virt="virtual"><scope>themis::wire::V2Session</scope><name>~V2Session</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

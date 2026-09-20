@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_stream_adapter_pool" kind="class" language="C++" prot="public">
+    <compoundname>StubStreamAdapterPool</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_stream_adapter_pool_1acca828afb3d3382b03dd70204c7fb243" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubStreamAdapterPool::sends_</definition>
+        <argsstring></argsstring>
+        <name>sends_</name>
+        <qualifiedname>StubStreamAdapterPool::sends_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rpc_grpc/test_rpc_grpc_highcardinality_stress.cpp" line="69" column="17" bodyfile="tests/rpc_grpc/test_rpc_grpc_highcardinality_stress.cpp" bodystart="69" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_stream_adapter_pool_1af42c026644043ab5bcd95fb13a334e4f" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubStreamAdapterPool::send</definition>
+        <argsstring>(uint32_t stream_id, uint64_t payload) noexcept</argsstring>
+        <name>send</name>
+        <qualifiedname>StubStreamAdapterPool::send</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>stream_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rpc_grpc/test_rpc_grpc_highcardinality_stress.cpp" line="62" column="10" bodyfile="tests/rpc_grpc/test_rpc_grpc_highcardinality_stress.cpp" bodystart="62" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_stream_adapter_pool_1aa90e419d240149abcea4edbe7c325969" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubStreamAdapterPool::totalSends</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>totalSends</name>
+        <qualifiedname>StubStreamAdapterPool::totalSends</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rpc_grpc/test_rpc_grpc_highcardinality_stress.cpp" line="67" column="14" bodyfile="tests/rpc_grpc/test_rpc_grpc_highcardinality_stress.cpp" bodystart="67" bodyend="67"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/rpc_grpc/test_rpc_grpc_highcardinality_stress.cpp" line="60" column="1" bodyfile="tests/rpc_grpc/test_rpc_grpc_highcardinality_stress.cpp" bodystart="60" bodyend="70"/>
+    <listofallmembers>
+      <member refid="class_stub_stream_adapter_pool_1af42c026644043ab5bcd95fb13a334e4f" prot="public" virt="non-virtual"><scope>StubStreamAdapterPool</scope><name>send</name></member>
+      <member refid="class_stub_stream_adapter_pool_1acca828afb3d3382b03dd70204c7fb243" prot="private" virt="non-virtual"><scope>StubStreamAdapterPool</scope><name>sends_</name></member>
+      <member refid="class_stub_stream_adapter_pool_1aa90e419d240149abcea4edbe7c325969" prot="public" virt="non-virtual"><scope>StubStreamAdapterPool</scope><name>totalSends</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_key_rotation_test" kind="class" language="C++" prot="public">
+    <compoundname>KeyRotationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_key_rotation_test_1a01a5deb9bdeaeca79c87a2b076b25bda" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; JWTValidator &gt;</type>
+        <definition>std::unique_ptr&lt;JWTValidator&gt; KeyRotationTest::validator_</definition>
+        <argsstring></argsstring>
+        <name>validator_</name>
+        <qualifiedname>KeyRotationTest::validator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_key_rotation_comprehensive.cpp" line="40" column="30" bodyfile="tests/security/test_jwt_key_rotation_comprehensive.cpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_key_rotation_test_1aed8ff302c1616d04c549082fc1f4b9eb" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; JWTKeyRotationManager &gt;</type>
+        <definition>std::unique_ptr&lt;JWTKeyRotationManager&gt; KeyRotationTest::mgr_</definition>
+        <argsstring></argsstring>
+        <name>mgr_</name>
+        <qualifiedname>KeyRotationTest::mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_key_rotation_comprehensive.cpp" line="41" column="21" bodyfile="tests/security/test_jwt_key_rotation_comprehensive.cpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_key_rotation_test_1a3f96bae1208cce327e52a2ee0f0e229a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void KeyRotationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>KeyRotationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_key_rotation_comprehensive.cpp" line="31" column="10" bodyfile="tests/security/test_jwt_key_rotation_comprehensive.cpp" bodystart="31" bodyend="38"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>KeyRotationTest</label>
+        <link refid="class_key_rotation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>KeyRotationTest</label>
+        <link refid="class_key_rotation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_jwt_key_rotation_comprehensive.cpp" line="29" column="1" bodyfile="tests/security/test_jwt_key_rotation_comprehensive.cpp" bodystart="29" bodyend="42"/>
+    <listofallmembers>
+      <member refid="class_key_rotation_test_1aed8ff302c1616d04c549082fc1f4b9eb" prot="protected" virt="non-virtual"><scope>KeyRotationTest</scope><name>mgr_</name></member>
+      <member refid="class_key_rotation_test_1a3f96bae1208cce327e52a2ee0f0e229a" prot="protected" virt="non-virtual"><scope>KeyRotationTest</scope><name>SetUp</name></member>
+      <member refid="class_key_rotation_test_1a01a5deb9bdeaeca79c87a2b076b25bda" prot="protected" virt="non-virtual"><scope>KeyRotationTest</scope><name>validator_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

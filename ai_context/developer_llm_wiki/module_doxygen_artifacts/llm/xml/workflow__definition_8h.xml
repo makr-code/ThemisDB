@@ -1,0 +1,238 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="workflow__definition_8h" kind="file" language="C++">
+    <compoundname>workflow_definition.h</compoundname>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">stdexcept</includes>
+    <includedby refid="task__decomposer_8h" local="yes">include/llm/task_decomposer.h</includedby>
+    <includedby refid="task__decomposer_8cpp" local="yes">src/llm/task_decomposer.cpp</includedby>
+    <includedby refid="test__llm__workflow__orchestration__focused_8cpp" local="yes">tests/llm/test_llm_workflow_orchestration_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm/workflow_definition.h</label>
+        <link refid="workflow__definition_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="7">
+        <label>stdexcept</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/llm/task_decomposer.h</label>
+        <link refid="task__decomposer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/workflow_definition.h</label>
+        <link refid="workflow__definition_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/llm/task_decomposer.cpp</label>
+        <link refid="task__decomposer_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/llm/test_llm_workflow_orchestration_focused.cpp</label>
+        <link refid="test__llm__workflow__orchestration__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1_workflow_step" prot="public">themis::llm::WorkflowStep</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_workflow_definition" prot="public">themis::llm::WorkflowDefinition</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_workflow_validation_error" prot="public">themis::llm::WorkflowValidationError</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_workflow_validation_result" prot="public">themis::llm::WorkflowValidationResult</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_workflow_loader" prot="public">themis::llm::WorkflowLoader</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <briefdescription>
+<para>YAML/JSON/BPMN-inspired workflow definition structures for LLM task orchestration. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides a format-agnostic in-memory representation of multi-step LLM workflows loaded from YAML, JSON, or a simplified BPMN-like XML document.</para>
+<sect1 id="workflow__definition_8h_1autotoc_md31_1s1"><sect2 id="workflow__definition_8h_1autotoc_md31">
+<title>Formats</title><para><heading level="3">YAML / JSON (canonical)</heading>
+</para>
+<para><programlisting filename=".yaml"><codeline><highlight class="normal">id:<sp/>summarise_and_translate</highlight></codeline>
+<codeline><highlight class="normal">description:<sp/>Summarise<sp/>a<sp/>document<sp/>and<sp/>translate<sp/>the<sp/>summary</highlight></codeline>
+<codeline><highlight class="normal">steps:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>-<sp/>id:<sp/>summarise</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>prompt_template:<sp/>&quot;Summarise<sp/>the<sp/>following<sp/>text<sp/>in<sp/>3<sp/>sentences:\n{input}&quot;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>mode:<sp/>ask</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>-<sp/>id:<sp/>translate</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>prompt_template:<sp/>&quot;Translate<sp/>the<sp/>following<sp/>text<sp/>to<sp/>German:\n{summarise.output}&quot;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>mode:<sp/>ask</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>depends_on:<sp/>[summarise]</highlight></codeline>
+</programlisting></para>
+<para><heading level="3">BPMN-lite XML</heading>
+</para>
+<para>A simplified subset that maps BPMN2 <computeroutput>&lt;serviceTask&gt;</computeroutput> elements to WorkflowStep entries. Sequence flows are translated to <computeroutput>depends_on</computeroutput> edges.</para>
+</sect2></sect1>
+<sect1 id="workflow__definition_8h_1autotoc_md32_1s1"><sect2 id="workflow__definition_8h_1autotoc_md32">
+<title>Thread Safety</title><para>WorkflowDefinition is immutable after construction; concurrent reads are safe. WorkflowLoader methods are stateless and re-entrant. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">themis::llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Core<sp/>step<sp/>and<sp/>workflow<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="namespacethemis_1_1llm_1a82d95996aa65f57f864e26d44ba45796" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1a82d95996aa65f57f864e26d44ba45796" kindref="member">WorkflowStepMode</ref><sp/>{</highlight></codeline>
+<codeline lineno="52" refid="namespacethemis_1_1llm_1a82d95996aa65f57f864e26d44ba45796aa0b271a9d8aa8e7473922164d6a1c03c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1abcb1b9ea7ad8ac869312c2110d2cd46faa0b271a9d8aa8e7473922164d6a1c03c" kindref="member">Ask</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1llm_1a82d95996aa65f57f864e26d44ba45796a94f058829bab445462a0fd28e59743b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1abcb1b9ea7ad8ac869312c2110d2cd46fa94f058829bab445462a0fd28e59743b1" kindref="member">Rag</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="namespacethemis_1_1llm_1a82d95996aa65f57f864e26d44ba45796a481f7aa8cb01451780fc240ebda1ee90" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1abcb1b9ea7ad8ac869312c2110d2cd46fa481f7aa8cb01451780fc240ebda1ee90" kindref="member">Agentic</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="namespacethemis_1_1llm_1a82d95996aa65f57f864e26d44ba45796a0f68057dfac4d6b4b7e9204a66ff421c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1abcb1b9ea7ad8ac869312c2110d2cd46fa0f68057dfac4d6b4b7e9204a66ff421c" kindref="member">Ethics</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="namespacethemis_1_1llm_1a82d95996aa65f57f864e26d44ba45796a90589c47f06eb971d548591f23c285af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1abcb1b9ea7ad8ac869312c2110d2cd46fa90589c47f06eb971d548591f23c285af" kindref="member">Custom</ref><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal">[[nodiscard]]<sp/><ref refid="namespacethemis_1_1llm_1a82d95996aa65f57f864e26d44ba45796" kindref="member">WorkflowStepMode</ref><sp/><ref refid="namespacethemis_1_1llm_1ad398dbcac591c66965c2d0daf055a06f" kindref="member">workflowStepModeFromString</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>s);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">[[nodiscard]]<sp/>std::string<sp/><ref refid="namespacethemis_1_1llm_1a3551b5cdc4734f53002dbcbac1f0f68a" kindref="member">workflowStepModeToString</ref>(<ref refid="namespacethemis_1_1llm_1a82d95996aa65f57f864e26d44ba45796" kindref="member">WorkflowStepMode</ref><sp/>m);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1llm_1_1_workflow_step" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_workflow_step" kindref="compound">WorkflowStep</ref><sp/>{</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1llm_1_1_workflow_step_1af4d992069fffc81eb6d0119dac9e2a7d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_workflow_step_1af4d992069fffc81eb6d0119dac9e2a7d" kindref="member">id</ref>;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1llm_1_1_workflow_step_1ae145d7578a42ae291a1a874bfe8bd766" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_workflow_step_1ae145d7578a42ae291a1a874bfe8bd766" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1llm_1_1_workflow_step_1a439e3585bcaa4116fbe1e4401e1a3a81" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_workflow_step_1a439e3585bcaa4116fbe1e4401e1a3a81" kindref="member">prompt_template</ref>;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1llm_1_1_workflow_step_1a6e7fd45fc9808987d9a966a3d6a955cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a82d95996aa65f57f864e26d44ba45796" kindref="member">WorkflowStepMode</ref><sp/><ref refid="structthemis_1_1llm_1_1_workflow_step_1a6e7fd45fc9808987d9a966a3d6a955cd" kindref="member">mode</ref><sp/>=<sp/><ref refid="namespacethemis_1_1llm_1a82d95996aa65f57f864e26d44ba45796aa0b271a9d8aa8e7473922164d6a1c03c" kindref="member">WorkflowStepMode::Ask</ref>;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1llm_1_1_workflow_step_1a35635f5c094a6f97707f6900d46221bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_workflow_step_1a35635f5c094a6f97707f6900d46221bd" kindref="member">depends_on</ref>;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1llm_1_1_workflow_step_1ab289d68dc54be097aa86f287f8c04c70" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_workflow_step_1ab289d68dc54be097aa86f287f8c04c70" kindref="member">max_tokens</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1llm_1_1_workflow_step_1a900c38c70ab945773e38636eb7eb7516" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_workflow_step_1a900c38c70ab945773e38636eb7eb7516" kindref="member">temperature</ref><sp/>=<sp/>-1.0f;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1llm_1_1_workflow_step_1acdbb3cc07a7d1bd8ac333fa055843de0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;json&gt;<sp/><ref refid="structthemis_1_1llm_1_1_workflow_step_1acdbb3cc07a7d1bd8ac333fa055843de0" kindref="member">output_schema</ref>;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1llm_1_1_workflow_step_1acc30ce2acb14350619672b8f5a20b7d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref><sp/><ref refid="structthemis_1_1llm_1_1_workflow_step_1acc30ce2acb14350619672b8f5a20b7d4" kindref="member">extensions</ref>;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1llm_1_1_workflow_definition" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_workflow_definition" kindref="compound">WorkflowDefinition</ref><sp/>{</highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1llm_1_1_workflow_definition_1a4aae6409c917670b9b91e1da379427e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_workflow_definition_1a4aae6409c917670b9b91e1da379427e7" kindref="member">id</ref>;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1llm_1_1_workflow_definition_1a2ed8369a70fe56be630478f24f5bc180" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_workflow_definition_1a2ed8369a70fe56be630478f24f5bc180" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1llm_1_1_workflow_definition_1af9d1b7460a9c9158d05d682a67c8f024" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_workflow_definition_1af9d1b7460a9c9158d05d682a67c8f024" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1llm_1_1_workflow_definition_1a5fcbdafdda67ca7cc8a9be0d2e7b1cf1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;WorkflowStep&gt;<sp/><ref refid="structthemis_1_1llm_1_1_workflow_definition_1a5fcbdafdda67ca7cc8a9be0d2e7b1cf1" kindref="member">steps</ref>;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1llm_1_1_workflow_definition_1ab122315efd6fea52fe8b0806ad66eefe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a82d95996aa65f57f864e26d44ba45796" kindref="member">WorkflowStepMode</ref><sp/><ref refid="structthemis_1_1llm_1_1_workflow_definition_1ab122315efd6fea52fe8b0806ad66eefe" kindref="member">default_mode</ref><sp/>=<sp/><ref refid="namespacethemis_1_1llm_1a82d95996aa65f57f864e26d44ba45796aa0b271a9d8aa8e7473922164d6a1c03c" kindref="member">WorkflowStepMode::Ask</ref>;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1llm_1_1_workflow_definition_1a23b02a6f8c9c9f16bb18b54c449d52d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_workflow_definition_1a23b02a6f8c9c9f16bb18b54c449d52d8" kindref="member">initial_context</ref>;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1llm_1_1_workflow_definition_1a15ef4e6a9a1454165ebf0efd40f2d539" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_workflow_definition_1a15ef4e6a9a1454165ebf0efd40f2d539" kindref="member">source_format</ref>;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1llm_1_1_workflow_definition_1affdff6bf9fd99ff1c8665f54c52fd757" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref><sp/><ref refid="structthemis_1_1llm_1_1_workflow_definition_1affdff6bf9fd99ff1c8665f54c52fd757" kindref="member">extensions</ref>;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Convenience<sp/>helpers<sp/>─────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_workflow_step" kindref="compound">WorkflowStep</ref>&amp;<sp/><ref refid="structthemis_1_1llm_1_1_workflow_definition_1a42b7b0f1c51ca2dddfd3b0c78616d984" kindref="member">stepById</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>step_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;const<sp/>WorkflowStep*&gt;<sp/><ref refid="structthemis_1_1llm_1_1_workflow_definition_1aa5b2d7fb34fe43b03f57d8848705a611" kindref="member">topologicalOrder</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>Validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1llm_1_1_workflow_validation_error" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_workflow_validation_error" kindref="compound">WorkflowValidationError</ref><sp/>{</highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1llm_1_1_workflow_validation_error_1ab146d28195882d14a500a8d46fa79d2c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_workflow_validation_error_1ab146d28195882d14a500a8d46fa79d2c" kindref="member">step_id</ref>;</highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1llm_1_1_workflow_validation_error_1a6128fb343b72287d22146ac74e94877a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_workflow_validation_error_1a6128fb343b72287d22146ac74e94877a" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1llm_1_1_workflow_validation_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_workflow_validation_result" kindref="compound">WorkflowValidationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1llm_1_1_workflow_validation_result_1ae5f945d955cdf72e39c91c95147823dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_workflow_validation_result_1ae5f945d955cdf72e39c91c95147823dd" kindref="member">valid</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1llm_1_1_workflow_validation_result_1af2304e261a4161bcda30466e7ed1da93" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;WorkflowValidationError&gt;<sp/><ref refid="structthemis_1_1llm_1_1_workflow_validation_result_1af2304e261a4161bcda30466e7ed1da93" kindref="member">errors</ref>;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1llm_1_1_workflow_validation_result_1a1e5e2d1e3d03d927eac09a91e59e3e23" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_workflow_validation_result_1a1e5e2d1e3d03d927eac09a91e59e3e23" kindref="member">addError</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>step_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_workflow_validation_result_1af2304e261a4161bcda30466e7ed1da93" kindref="member">errors</ref>.push_back({step_id,<sp/>message});</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_workflow_validation_result_1ae5f945d955cdf72e39c91c95147823dd" kindref="member">valid</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>WorkflowLoader<sp/>—<sp/>format-agnostic<sp/>loader</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="classthemis_1_1llm_1_1_workflow_loader" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_workflow_loader" kindref="compound">WorkflowLoader</ref><sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_workflow_definition" kindref="compound">WorkflowDefinition</ref><sp/><ref refid="classthemis_1_1llm_1_1_workflow_loader_1ae89d7cba4a90a04930c4ca2bc624838d" kindref="member">loadFromFile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_workflow_definition" kindref="compound">WorkflowDefinition</ref><sp/><ref refid="classthemis_1_1llm_1_1_workflow_loader_1a2eacd11df34e8ae034d700f901cd0c19" kindref="member">loadFromString</ref>(</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content,</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>format_hint,</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>source_label<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&lt;string&gt;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_workflow_validation_result" kindref="compound">WorkflowValidationResult</ref><sp/><ref refid="classthemis_1_1llm_1_1_workflow_loader_1a56b366dea6c698460d9691213a7452d5" kindref="member">validate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_workflow_definition" kindref="compound">WorkflowDefinition</ref>&amp;<sp/>def);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref><sp/><ref refid="classthemis_1_1llm_1_1_workflow_loader_1afad81d5da33a53339edb060b560744a4" kindref="member">toJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_workflow_definition" kindref="compound">WorkflowDefinition</ref>&amp;<sp/>def);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_workflow_definition" kindref="compound">WorkflowDefinition</ref><sp/><ref refid="classthemis_1_1llm_1_1_workflow_loader_1ad4c7de3492d10b3a09a58b1e15c17cc3" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref>&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_workflow_definition" kindref="compound">WorkflowDefinition</ref><sp/>parseYaml(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content,</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>label);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_workflow_definition" kindref="compound">WorkflowDefinition</ref><sp/>parseJson(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content,</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>label);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_workflow_definition" kindref="compound">WorkflowDefinition</ref><sp/>parseBpmn(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content,</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>label);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::llm</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/workflow_definition.h"/>
+  </compounddef>
+</doxygen>

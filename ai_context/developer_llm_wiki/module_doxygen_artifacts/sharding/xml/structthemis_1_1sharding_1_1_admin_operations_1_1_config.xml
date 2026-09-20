@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_admin_operations_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::AdminOperations::Config</compoundname>
+    <includes refid="admin__operations_8h" local="no">admin_operations.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_admin_operations_1_1_config_1ac05be51ebd0cc2e6b2cf67f37fe4927f" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_config" kindref="compound">AdminAPI::Config</ref></type>
+        <definition>AdminAPI::Config themis::sharding::AdminOperations::Config::admin_api_config</definition>
+        <argsstring></argsstring>
+        <name>admin_api_config</name>
+        <qualifiedname>themis::sharding::AdminOperations::Config::admin_api_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_operations.h" line="41" column="26" bodyfile="include/sharding/admin_operations.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_admin_operations_1_1_config_1a636b1a534fc3734c113d7f54574cad0b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::AdminOperations::Config::enable_metrics</definition>
+        <argsstring></argsstring>
+        <name>enable_metrics</name>
+        <qualifiedname>themis::sharding::AdminOperations::Config::enable_metrics</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_operations.h" line="42" column="14" bodyfile="include/sharding/admin_operations.h" bodystart="42" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_admin_operations_1_1_config_1a8b1acf78cea21d4de9bb1a36102f8a9f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::AdminOperations::Config::enable_health_checks</definition>
+        <argsstring></argsstring>
+        <name>enable_health_checks</name>
+        <qualifiedname>themis::sharding::AdminOperations::Config::enable_health_checks</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_operations.h" line="43" column="14" bodyfile="include/sharding/admin_operations.h" bodystart="43" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_admin_operations_1_1_config_1afdad434403c0bc421bb1cdc307dcbd66" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::sharding::AdminOperations::Config::health_check_interval</definition>
+        <argsstring></argsstring>
+        <name>health_check_interval</name>
+        <qualifiedname>themis::sharding::AdminOperations::Config::health_check_interval</qualifiedname>
+        <initializer>{30}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/admin_operations.h" line="44" column="30" bodyfile="include/sharding/admin_operations.h" bodystart="44" bodyend="44"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::sharding::AdminAPI::Config</label>
+        <link refid="structthemis_1_1sharding_1_1_admin_a_p_i_1_1_config"/>
+      </node>
+      <node id="1">
+        <label>themis::sharding::AdminOperations::Config</label>
+        <link refid="structthemis_1_1sharding_1_1_admin_operations_1_1_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>admin_api_config</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/admin_operations.h" line="40" column="5" bodyfile="include/sharding/admin_operations.h" bodystart="40" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_admin_operations_1_1_config_1ac05be51ebd0cc2e6b2cf67f37fe4927f" prot="public" virt="non-virtual"><scope>themis::sharding::AdminOperations::Config</scope><name>admin_api_config</name></member>
+      <member refid="structthemis_1_1sharding_1_1_admin_operations_1_1_config_1a8b1acf78cea21d4de9bb1a36102f8a9f" prot="public" virt="non-virtual"><scope>themis::sharding::AdminOperations::Config</scope><name>enable_health_checks</name></member>
+      <member refid="structthemis_1_1sharding_1_1_admin_operations_1_1_config_1a636b1a534fc3734c113d7f54574cad0b" prot="public" virt="non-virtual"><scope>themis::sharding::AdminOperations::Config</scope><name>enable_metrics</name></member>
+      <member refid="structthemis_1_1sharding_1_1_admin_operations_1_1_config_1afdad434403c0bc421bb1cdc307dcbd66" prot="public" virt="non-virtual"><scope>themis::sharding::AdminOperations::Config</scope><name>health_check_interval</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

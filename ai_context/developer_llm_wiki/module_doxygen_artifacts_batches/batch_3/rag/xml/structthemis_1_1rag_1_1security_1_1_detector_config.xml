@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1security_1_1_detector_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::security::DetectorConfig</compoundname>
+    <includes refid="prompt__injection__detector_8h" local="no">prompt_injection_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1security_1_1_detector_config_1af0962909904df7b336c623bfa45fb984" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::security::DetectorConfig::max_injection_density</definition>
+        <argsstring></argsstring>
+        <name>max_injection_density</name>
+        <qualifiedname>themis::rag::security::DetectorConfig::max_injection_density</qualifiedname>
+        <initializer>= 0.15</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum fraction of a document that may consist of suspected injection payload before the entire document is flagged HIGH (default 0.15 = 15%). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="78" column="12" bodyfile="include/rag/prompt_injection_detector.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1security_1_1_detector_config_1ad9c05435ced543ab512c9749947da0b8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::security::DetectorConfig::check_unicode_attacks</definition>
+        <argsstring></argsstring>
+        <name>check_unicode_attacks</name>
+        <qualifiedname>themis::rag::security::DetectorConfig::check_unicode_attacks</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable detection of Unicode homoglyph / direction-override attacks (slightly more expensive; default true). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="82" column="10" bodyfile="include/rag/prompt_injection_detector.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1security_1_1_detector_config_1a695be9f88b02d2d9333b0349f40814c2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::security::DetectorConfig::check_markup_injection</definition>
+        <argsstring></argsstring>
+        <name>check_markup_injection</name>
+        <qualifiedname>themis::rag::security::DetectorConfig::check_markup_injection</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable detection of HTML/Markdown injection that could affect rendered output. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="85" column="10" bodyfile="include/rag/prompt_injection_detector.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1security_1_1_detector_config_1a24f3ed289dfdf1f34a076f13940bb9b9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::security::DetectorConfig::check_instruction_overrides</definition>
+        <argsstring></argsstring>
+        <name>check_instruction_overrides</name>
+        <qualifiedname>themis::rag::security::DetectorConfig::check_instruction_overrides</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable detection of classic instruction-override phrases. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="88" column="10" bodyfile="include/rag/prompt_injection_detector.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1security_1_1_detector_config_1a69416aa57a4382593867e0309a5ac3f8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::security::DetectorConfig::check_delimiter_escapes</definition>
+        <argsstring></argsstring>
+        <name>check_delimiter_escapes</name>
+        <qualifiedname>themis::rag::security::DetectorConfig::check_delimiter_escapes</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable detection of delimiter-based escape attempts (e.g. <computeroutput>---</computeroutput>, <computeroutput>###SYSTEM</computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="91" column="10" bodyfile="include/rag/prompt_injection_detector.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1security_1_1_detector_config_1aa536fcad369815cae250f5415dc339e2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::security::DetectorConfig::check_role_injection</definition>
+        <argsstring></argsstring>
+        <name>check_role_injection</name>
+        <qualifiedname>themis::rag::security::DetectorConfig::check_role_injection</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable detection of role-play / persona injection (&quot;act as&quot;, &quot;jailbreak&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="94" column="10" bodyfile="include/rag/prompt_injection_detector.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the detector. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/prompt_injection_detector.h" line="75" column="1" bodyfile="include/rag/prompt_injection_detector.h" bodystart="75" bodyend="95"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1security_1_1_detector_config_1a69416aa57a4382593867e0309a5ac3f8" prot="public" virt="non-virtual"><scope>themis::rag::security::DetectorConfig</scope><name>check_delimiter_escapes</name></member>
+      <member refid="structthemis_1_1rag_1_1security_1_1_detector_config_1a24f3ed289dfdf1f34a076f13940bb9b9" prot="public" virt="non-virtual"><scope>themis::rag::security::DetectorConfig</scope><name>check_instruction_overrides</name></member>
+      <member refid="structthemis_1_1rag_1_1security_1_1_detector_config_1a695be9f88b02d2d9333b0349f40814c2" prot="public" virt="non-virtual"><scope>themis::rag::security::DetectorConfig</scope><name>check_markup_injection</name></member>
+      <member refid="structthemis_1_1rag_1_1security_1_1_detector_config_1aa536fcad369815cae250f5415dc339e2" prot="public" virt="non-virtual"><scope>themis::rag::security::DetectorConfig</scope><name>check_role_injection</name></member>
+      <member refid="structthemis_1_1rag_1_1security_1_1_detector_config_1ad9c05435ced543ab512c9749947da0b8" prot="public" virt="non-virtual"><scope>themis::rag::security::DetectorConfig</scope><name>check_unicode_attacks</name></member>
+      <member refid="structthemis_1_1rag_1_1security_1_1_detector_config_1af0962909904df7b336c623bfa45fb984" prot="public" virt="non-virtual"><scope>themis::rag::security::DetectorConfig</scope><name>max_injection_density</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

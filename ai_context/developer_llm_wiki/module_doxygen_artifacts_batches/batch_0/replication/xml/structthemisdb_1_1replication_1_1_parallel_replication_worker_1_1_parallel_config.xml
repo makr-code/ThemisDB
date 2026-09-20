@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_parallel_replication_worker_1_1_parallel_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::ParallelReplicationWorker::ParallelConfig</compoundname>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_parallel_replication_worker_1_1_parallel_config_1a76cc91a8ec927b0881d02fa0051ff57f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::ParallelReplicationWorker::ParallelConfig::worker_threads</definition>
+        <argsstring></argsstring>
+        <name>worker_threads</name>
+        <qualifiedname>themisdb::replication::ParallelReplicationWorker::ParallelConfig::worker_threads</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1080" column="18" bodyfile="include/replication/replication_manager.h" bodystart="1080" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_parallel_replication_worker_1_1_parallel_config_1a4b227a372897cd37f70ac77cc6a350b4" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::ParallelReplicationWorker::ParallelConfig::queue_size</definition>
+        <argsstring></argsstring>
+        <name>queue_size</name>
+        <qualifiedname>themisdb::replication::ParallelReplicationWorker::ParallelConfig::queue_size</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1081" column="18" bodyfile="include/replication/replication_manager.h" bodystart="1081" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_parallel_replication_worker_1_1_parallel_config_1af380691aaf20e8b03c0b181a92d17418" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ParallelReplicationWorker::ParallelConfig::use_dependency_tracking</definition>
+        <argsstring></argsstring>
+        <name>use_dependency_tracking</name>
+        <qualifiedname>themisdb::replication::ParallelReplicationWorker::ParallelConfig::use_dependency_tracking</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1082" column="14" bodyfile="include/replication/replication_manager.h" bodystart="1082" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_parallel_replication_worker_1_1_parallel_config_1a221db70e3756bf3f614cb9d56109b867" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ParallelReplicationWorker::ParallelConfig::group_transactions</definition>
+        <argsstring></argsstring>
+        <name>group_transactions</name>
+        <qualifiedname>themisdb::replication::ParallelReplicationWorker::ParallelConfig::group_transactions</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1083" column="14" bodyfile="include/replication/replication_manager.h" bodystart="1083" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_parallel_replication_worker_1_1_parallel_config_1a26e7b6b4ee6c0437a5858ade6f3a151f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::ParallelReplicationWorker::ParallelConfig::idle_poll_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>idle_poll_interval_ms</name>
+        <qualifiedname>themisdb::replication::ParallelReplicationWorker::ParallelConfig::idle_poll_interval_ms</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Worker idle-poll interval in ms. Must not be zero. (Wave 1 CRITICAL fix — no_timeout:4170; replaces hardcoded 5ms) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1086" column="18" bodyfile="include/replication/replication_manager.h" bodystart="1086" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/replication/replication_manager.h" line="1079" column="5" bodyfile="include/replication/replication_manager.h" bodystart="1079" bodyend="1087"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_parallel_replication_worker_1_1_parallel_config_1a221db70e3756bf3f614cb9d56109b867" prot="public" virt="non-virtual"><scope>themisdb::replication::ParallelReplicationWorker::ParallelConfig</scope><name>group_transactions</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_parallel_replication_worker_1_1_parallel_config_1a26e7b6b4ee6c0437a5858ade6f3a151f" prot="public" virt="non-virtual"><scope>themisdb::replication::ParallelReplicationWorker::ParallelConfig</scope><name>idle_poll_interval_ms</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_parallel_replication_worker_1_1_parallel_config_1a4b227a372897cd37f70ac77cc6a350b4" prot="public" virt="non-virtual"><scope>themisdb::replication::ParallelReplicationWorker::ParallelConfig</scope><name>queue_size</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_parallel_replication_worker_1_1_parallel_config_1af380691aaf20e8b03c0b181a92d17418" prot="public" virt="non-virtual"><scope>themisdb::replication::ParallelReplicationWorker::ParallelConfig</scope><name>use_dependency_tracking</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_parallel_replication_worker_1_1_parallel_config_1a76cc91a8ec927b0881d02fa0051ff57f" prot="public" virt="non-virtual"><scope>themisdb::replication::ParallelReplicationWorker::ParallelConfig</scope><name>worker_threads</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,271 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="llm__token__estimator_8h" kind="file" language="C++">
+    <compoundname>llm_token_estimator.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">string</includes>
+    <includedby refid="aql__conversation__context_8h" local="yes">include/aql/aql_conversation_context.h</includedby>
+    <includedby refid="llm__aql__handler_8h" local="yes">include/aql/llm_aql_handler.h</includedby>
+    <includedby refid="llm__aql__handler_8cpp" local="yes">src/aql/llm_aql_handler.cpp</includedby>
+    <includedby refid="llm__extractive__compressor_8cpp" local="yes">src/aql/llm_extractive_compressor.cpp</includedby>
+    <includedby refid="test__aql__conversation__context_8cpp" local="yes">tests/aql/test_aql_conversation_context.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/aql/llm_token_estimator.h</label>
+        <link refid="llm__token__estimator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="8">
+        <label>include/aql/aql_agent.h</label>
+        <link refid="aql__agent_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/aql/aql_conversation_context.h</label>
+        <link refid="aql__conversation__context_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/aql/llm_aql_handler.h</label>
+        <link refid="llm__aql__handler_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>include/aql/llm_extractive_compressor.h</label>
+        <link refid="llm__extractive__compressor_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/aql/llm_token_estimator.h</label>
+        <link refid="llm__token__estimator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>src/aql/aql_agent.cpp</label>
+        <link refid="aql__agent_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/aql/aql_conversation_context.cpp</label>
+        <link refid="aql__conversation__context_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/aql/aql_query_builder.cpp</label>
+        <link refid="aql__query__builder_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/aql/llm_aql_embedding_bridge.cpp</label>
+        <link refid="llm__aql__embedding__bridge_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/aql/llm_aql_handler.cpp</label>
+        <link refid="llm__aql__handler_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/aql/llm_extractive_compressor.cpp</label>
+        <link refid="llm__extractive__compressor_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/aql/test_aql_agent.cpp</label>
+        <link refid="test__aql__agent_8cpp"/>
+      </node>
+      <node id="17">
+        <label>tests/aql/test_aql_api_stability.cpp</label>
+        <link refid="test__aql__api__stability_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/aql/test_aql_conversation_context.cpp</label>
+        <link refid="test__aql__conversation__context_8cpp"/>
+      </node>
+      <node id="18">
+        <label>tests/aql/test_aql_llm_validation_pipeline_phase04.cpp</label>
+        <link refid="test__aql__llm__validation__pipeline__phase04_8cpp"/>
+      </node>
+      <node id="19">
+        <label>tests/aql/test_aql_query_builder.cpp</label>
+        <link refid="test__aql__query__builder_8cpp"/>
+      </node>
+      <node id="20">
+        <label>tests/aql/test_aql_query_validator.cpp</label>
+        <link refid="test__aql__query__validator_8cpp"/>
+      </node>
+      <node id="21">
+        <label>tests/aql/test_aql_schema_aware.cpp</label>
+        <link refid="test__aql__schema__aware_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/aql/test_episodic_compaction.cpp</label>
+        <link refid="test__episodic__compaction_8cpp"/>
+      </node>
+      <node id="22">
+        <label>tests/aql/test_llm_aql_handler_phase03.cpp</label>
+        <link refid="test__llm__aql__handler__phase03_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/aql/test_p2_d05_runtime_integration.cpp</label>
+        <link refid="test__p2__d05__runtime__integration_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/aql/test_p2_d06_benchmarks.cpp</label>
+        <link refid="test__p2__d06__benchmarks_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1aql_1_1_token_estimator" prot="public">themis::aql::TokenEstimator</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1_char_division_estimator" prot="public">themis::aql::CharDivisionEstimator</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1_tiktoken_estimator" prot="public">themis::aql::TiktokenEstimator</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1aql">themis::aql</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="classthemis_1_1aql_1_1_token_estimator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1aql_1_1_token_estimator" kindref="compound">TokenEstimator</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="27" refid="classthemis_1_1aql_1_1_token_estimator_1a752f0f96b893717939f5a1439c3a9247" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_token_estimator_1a752f0f96b893717939f5a1439c3a9247" kindref="member">~TokenEstimator</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="classthemis_1_1aql_1_1_token_estimator_1ae02a80ce13a013cb25489512dad17cf8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="classthemis_1_1aql_1_1_token_estimator_1ae02a80ce13a013cb25489512dad17cf8" kindref="member">estimate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="classthemis_1_1aql_1_1_char_division_estimator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1aql_1_1_char_division_estimator_1a30d062f5c499843dad1eaf63cb4b4ebe" kindref="member">CharDivisionEstimator</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_token_estimator" kindref="compound">TokenEstimator</ref><sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="39" refid="classthemis_1_1aql_1_1_char_division_estimator_1a30d062f5c499843dad1eaf63cb4b4ebe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_char_division_estimator_1a30d062f5c499843dad1eaf63cb4b4ebe" kindref="member">CharDivisionEstimator</ref>(std::size_t<sp/>chars_per_token<sp/>=<sp/>4)</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>chars_per_token_(chars_per_token<sp/>&gt;<sp/>0<sp/>?<sp/>chars_per_token<sp/>:<sp/>4)</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>{}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="classthemis_1_1aql_1_1_char_division_estimator_1a90445f27aeb6a94b4bad3c1a0358922d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="classthemis_1_1aql_1_1_char_division_estimator_1a90445f27aeb6a94b4bad3c1a0358922d" kindref="member">estimate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(text.empty())<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(text.size()<sp/>+<sp/>chars_per_token_<sp/>-<sp/>1)<sp/>/<sp/>chars_per_token_;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>chars_per_token_;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="classthemis_1_1aql_1_1_tiktoken_estimator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1aql_1_1_tiktoken_estimator_1afad715fdc3eb398a9ea840a5e34a927c" kindref="member">TiktokenEstimator</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_token_estimator" kindref="compound">TokenEstimator</ref><sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="56" refid="classthemis_1_1aql_1_1_tiktoken_estimator_1aa99b9b11e747dc8969b88be37c6bcf53" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1aql_1_1_tiktoken_estimator_1aa99b9b11e747dc8969b88be37c6bcf53" kindref="member">TokenizeFunc</ref><sp/>=<sp/>std::function&lt;std::size_t(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="classthemis_1_1aql_1_1_tiktoken_estimator_1afad715fdc3eb398a9ea840a5e34a927c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_tiktoken_estimator_1afad715fdc3eb398a9ea840a5e34a927c" kindref="member">TiktokenEstimator</ref>(<ref refid="classthemis_1_1aql_1_1_tiktoken_estimator_1aa99b9b11e747dc8969b88be37c6bcf53" kindref="member">TokenizeFunc</ref><sp/>tokenize_fn)</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>tokenize_fn_(std::move(tokenize_fn))</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/>fallback_(4)</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>{}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="classthemis_1_1aql_1_1_tiktoken_estimator_1acdce46b5bf6a10bace1e14fac0630fdc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="classthemis_1_1aql_1_1_tiktoken_estimator_1acdce46b5bf6a10bace1e14fac0630fdc" kindref="member">estimate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(text.empty())<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(tokenize_fn_)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tokenize_fn_(text);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fallback_.estimate(text);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_tiktoken_estimator_1aa99b9b11e747dc8969b88be37c6bcf53" kindref="member">TokenizeFunc</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tokenize_fn_;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_char_division_estimator" kindref="compound">CharDivisionEstimator</ref><sp/>fallback_;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>aql</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/aql/llm_token_estimator.h"/>
+  </compounddef>
+</doxygen>

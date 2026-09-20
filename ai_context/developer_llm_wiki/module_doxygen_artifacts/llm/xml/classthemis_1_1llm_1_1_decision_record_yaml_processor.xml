@@ -1,0 +1,593 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_decision_record_yaml_processor" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::DecisionRecordYamlProcessor</compoundname>
+    <includes refid="decision__record__yaml__processor_8h" local="no">decision_record_yaml_processor.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_decision_record_yaml_processor_1_1_config" prot="public">themis::llm::DecisionRecordYamlProcessor::Config</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_decision_record_yaml_processor_1_1_stats" prot="public">themis::llm::DecisionRecordYamlProcessor::Stats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_decision_record_yaml_processor_1af4be63d43a6861e6ee083fd21ef45806" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_decision_record_yaml_processor_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::llm::DecisionRecordYamlProcessor::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::DecisionRecordYamlProcessor::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="155" column="12" bodyfile="include/llm/decision_record_yaml_processor.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_decision_record_yaml_processor_1a8b777c9a022d5021c4f53603c0e99c9a" prot="private" static="no" mutable="no">
+        <type>std::queue&lt; <ref refid="structthemis_1_1llm_1_1_decision_record" kindref="compound">DecisionRecord</ref> &gt;</type>
+        <definition>std::queue&lt;DecisionRecord&gt; themis::llm::DecisionRecordYamlProcessor::queue_</definition>
+        <argsstring></argsstring>
+        <name>queue_</name>
+        <qualifiedname>themis::llm::DecisionRecordYamlProcessor::queue_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="157" column="16" bodyfile="include/llm/decision_record_yaml_processor.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_decision_record_yaml_processor_1a8fc071382cf8f9f840d3e900485c8970" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::DecisionRecordYamlProcessor::in_flight_</definition>
+        <argsstring></argsstring>
+        <name>in_flight_</name>
+        <qualifiedname>themis::llm::DecisionRecordYamlProcessor::in_flight_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="158" column="12" bodyfile="include/llm/decision_record_yaml_processor.h" bodystart="158" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_decision_record_yaml_processor_1aa8b59ccbc984b3f8bb6c140aadebc235" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::DecisionRecordYamlProcessor::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::llm::DecisionRecordYamlProcessor::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="159" column="24" bodyfile="include/llm/decision_record_yaml_processor.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_decision_record_yaml_processor_1aa642ddac5e08fdbc7946492b952f86d7" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::llm::DecisionRecordYamlProcessor::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>themis::llm::DecisionRecordYamlProcessor::cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="160" column="29" bodyfile="include/llm/decision_record_yaml_processor.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_decision_record_yaml_processor_1adc62b76771b5ba3d14c244d98dbf9372" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::llm::DecisionRecordYamlProcessor::stop_</definition>
+        <argsstring></argsstring>
+        <name>stop_</name>
+        <qualifiedname>themis::llm::DecisionRecordYamlProcessor::stop_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="161" column="17" bodyfile="include/llm/decision_record_yaml_processor.h" bodystart="161" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_decision_record_yaml_processor_1a25e980683a401807b3fb6559a6ec9495" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::llm::DecisionRecordYamlProcessor::thread_</definition>
+        <argsstring></argsstring>
+        <name>thread_</name>
+        <qualifiedname>themis::llm::DecisionRecordYamlProcessor::thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="162" column="17" bodyfile="include/llm/decision_record_yaml_processor.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_decision_record_yaml_processor_1a83140730769827fd1a3104b476a0c72d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::llm::DecisionRecordYamlProcessor::submitted_</definition>
+        <argsstring></argsstring>
+        <name>submitted_</name>
+        <qualifiedname>themis::llm::DecisionRecordYamlProcessor::submitted_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="164" column="17" bodyfile="include/llm/decision_record_yaml_processor.h" bodystart="164" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_decision_record_yaml_processor_1a75305ea1ecc3a9cdedbd68a14b191225" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::llm::DecisionRecordYamlProcessor::written_</definition>
+        <argsstring></argsstring>
+        <name>written_</name>
+        <qualifiedname>themis::llm::DecisionRecordYamlProcessor::written_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="165" column="17" bodyfile="include/llm/decision_record_yaml_processor.h" bodystart="165" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_decision_record_yaml_processor_1a54188cafc39a746e41d7cfc4bc1f5734" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::llm::DecisionRecordYamlProcessor::dropped_</definition>
+        <argsstring></argsstring>
+        <name>dropped_</name>
+        <qualifiedname>themis::llm::DecisionRecordYamlProcessor::dropped_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="166" column="17" bodyfile="include/llm/decision_record_yaml_processor.h" bodystart="166" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_decision_record_yaml_processor_1a6e29a15a8d4e5d9ca158d6b94b67a195" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::llm::DecisionRecordYamlProcessor::errors_</definition>
+        <argsstring></argsstring>
+        <name>errors_</name>
+        <qualifiedname>themis::llm::DecisionRecordYamlProcessor::errors_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="167" column="17" bodyfile="include/llm/decision_record_yaml_processor.h" bodystart="167" bodyend="167"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_decision_record_yaml_processor_1adbbbe1484c82d2153fb185403eaa5021" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::DecisionRecordYamlProcessor::DecisionRecordYamlProcessor</definition>
+        <argsstring>()</argsstring>
+        <name>DecisionRecordYamlProcessor</name>
+        <qualifiedname>themis::llm::DecisionRecordYamlProcessor::DecisionRecordYamlProcessor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="80" column="5" bodyfile="src/llm/decision_record_yaml_processor.cpp" bodystart="30" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_decision_record_yaml_processor_1a98af7a9fd975ea868e8ae5226853f6b2" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::DecisionRecordYamlProcessor::DecisionRecordYamlProcessor</definition>
+        <argsstring>(Config config)</argsstring>
+        <name>DecisionRecordYamlProcessor</name>
+        <qualifiedname>themis::llm::DecisionRecordYamlProcessor::DecisionRecordYamlProcessor</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1_decision_record_yaml_processor_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Decision Record Yaml Processor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="87" column="14" bodyfile="src/llm/decision_record_yaml_processor.cpp" bodystart="33" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_decision_record_yaml_processor_1aeebc352e333bb7c0ae4418566382be9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::DecisionRecordYamlProcessor::~DecisionRecordYamlProcessor</definition>
+        <argsstring>()</argsstring>
+        <name>~DecisionRecordYamlProcessor</name>
+        <qualifiedname>themis::llm::DecisionRecordYamlProcessor::~DecisionRecordYamlProcessor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="89" column="5" bodyfile="src/llm/decision_record_yaml_processor.cpp" bodystart="41" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_decision_record_yaml_processor_1a98bdea456d8a3872489ad1604ee49d61" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::DecisionRecordYamlProcessor::DecisionRecordYamlProcessor</definition>
+        <argsstring>(const DecisionRecordYamlProcessor &amp;)=delete</argsstring>
+        <name>DecisionRecordYamlProcessor</name>
+        <qualifiedname>themis::llm::DecisionRecordYamlProcessor::DecisionRecordYamlProcessor</qualifiedname>
+        <param>
+          <type>const DecisionRecordYamlProcessor &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="92" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_decision_record_yaml_processor_1a05e635f38da89eeed3ea73ab884107ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_decision_record_yaml_processor_1adbbbe1484c82d2153fb185403eaa5021" kindref="member">DecisionRecordYamlProcessor</ref> &amp;</type>
+        <definition>DecisionRecordYamlProcessor &amp; themis::llm::DecisionRecordYamlProcessor::operator=</definition>
+        <argsstring>(const DecisionRecordYamlProcessor &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::DecisionRecordYamlProcessor::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1_decision_record_yaml_processor_1adbbbe1484c82d2153fb185403eaa5021" kindref="member">DecisionRecordYamlProcessor</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="93" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_decision_record_yaml_processor_1aded67337831263ed34ad8e68c51dfb3a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::DecisionRecordYamlProcessor::DecisionRecordYamlProcessor</definition>
+        <argsstring>(DecisionRecordYamlProcessor &amp;&amp;)=delete</argsstring>
+        <name>DecisionRecordYamlProcessor</name>
+        <qualifiedname>themis::llm::DecisionRecordYamlProcessor::DecisionRecordYamlProcessor</qualifiedname>
+        <param>
+          <type>DecisionRecordYamlProcessor &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="94" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_decision_record_yaml_processor_1a029f7fca4b722de08cb962e3c2133d07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_decision_record_yaml_processor_1adbbbe1484c82d2153fb185403eaa5021" kindref="member">DecisionRecordYamlProcessor</ref> &amp;</type>
+        <definition>DecisionRecordYamlProcessor &amp; themis::llm::DecisionRecordYamlProcessor::operator=</definition>
+        <argsstring>(DecisionRecordYamlProcessor &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::DecisionRecordYamlProcessor::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_decision_record_yaml_processor_1adbbbe1484c82d2153fb185403eaa5021" kindref="member">DecisionRecordYamlProcessor</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="95" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_decision_record_yaml_processor_1aa590e0ba7b47a3a19271ab03391eca4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::DecisionRecordYamlProcessor::submit</definition>
+        <argsstring>(DecisionRecord record)</argsstring>
+        <name>submit</name>
+        <qualifiedname>themis::llm::DecisionRecordYamlProcessor::submit</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1_decision_record" kindref="compound">DecisionRecord</ref></type>
+          <declname>record</declname>
+        </param>
+        <briefdescription>
+<para>Submit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), generateId(), lk(), size(), push(), std::move(), notify_one(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="102" column="10" bodyfile="src/llm/decision_record_yaml_processor.cpp" bodystart="73" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_decision_record_yaml_processor_1a415b57395e4e18cc648079ffdf958fc6" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::DecisionRecordYamlProcessor::flush</definition>
+        <argsstring>()</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::llm::DecisionRecordYamlProcessor::flush</qualifiedname>
+        <briefdescription>
+<para>Flush. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: load(), empty(), lk(), count(), wait_for(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="104" column="11" bodyfile="src/llm/decision_record_yaml_processor.cpp" bodystart="96" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_decision_record_yaml_processor_1a5499ac168cceec60c96040c06c135d06" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_decision_record_yaml_processor_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>DecisionRecordYamlProcessor::Stats themis::llm::DecisionRecordYamlProcessor::getStats</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::llm::DecisionRecordYamlProcessor::getStats</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1llm_1_1_decision_record_yaml_processor_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="119" column="11" bodyfile="src/llm/decision_record_yaml_processor.cpp" bodystart="123" bodyend="130"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_decision_record_yaml_processor_1aff716550ebac8315168b457139415235" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::DecisionRecordYamlProcessor::processorThread</definition>
+        <argsstring>()</argsstring>
+        <name>processorThread</name>
+        <qualifiedname>themis::llm::DecisionRecordYamlProcessor::processorThread</qualifiedname>
+        <briefdescription>
+<para>Processor Thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lk(), wait(), empty(), load(), notify_all(), std::move(), front(), pop(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="125" column="10" bodyfile="src/llm/decision_record_yaml_processor.cpp" bodystart="140" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_decision_record_yaml_processor_1a630f4bde57b4472b0b5528724f8f612e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::DecisionRecordYamlProcessor::writeRecord</definition>
+        <argsstring>(const DecisionRecord &amp;record)</argsstring>
+        <name>writeRecord</name>
+        <qualifiedname>themis::llm::DecisionRecordYamlProcessor::writeRecord</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_decision_record" kindref="compound">DecisionRecord</ref> &amp;</type>
+          <declname>record</declname>
+          <defname>r</defname>
+        </param>
+        <briefdescription>
+<para>Write Record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">r</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: recordPath(), std::filesystem::exists(), parent_path(), stem(), string(), extension(), std::to_string(), std::filesystem::create_directories(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="130" column="10" bodyfile="src/llm/decision_record_yaml_processor.cpp" bodystart="281" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_decision_record_yaml_processor_1a3e2d0b79af48ea631aa3547fe4a05c9f" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path themis::llm::DecisionRecordYamlProcessor::recordPath</definition>
+        <argsstring>(const DecisionRecord &amp;record) const</argsstring>
+        <name>recordPath</name>
+        <qualifiedname>themis::llm::DecisionRecordYamlProcessor::recordPath</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_decision_record" kindref="compound">DecisionRecord</ref> &amp;</type>
+          <declname>record</declname>
+        </param>
+        <briefdescription>
+<para>Record Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="136" column="27" bodyfile="src/llm/decision_record_yaml_processor.cpp" bodystart="235" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_decision_record_yaml_processor_1a44177a7fde977c77dcb706fd8dee8406" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::DecisionRecordYamlProcessor::generateId</definition>
+        <argsstring>() const</argsstring>
+        <name>generateId</name>
+        <qualifiedname>themis::llm::DecisionRecordYamlProcessor::generateId</qualifiedname>
+        <briefdescription>
+<para>Generate Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="141" column="17" bodyfile="src/llm/decision_record_yaml_processor.cpp" bodystart="341" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_decision_record_yaml_processor_1aa21390a6b96873b919855898b4df8f24" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::DecisionRecordYamlProcessor::formatTimestamp</definition>
+        <argsstring>(std::chrono::system_clock::time_point tp) const</argsstring>
+        <name>formatTimestamp</name>
+        <qualifiedname>themis::llm::DecisionRecordYamlProcessor::formatTimestamp</qualifiedname>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>tp</declname>
+        </param>
+        <briefdescription>
+<para>Format Timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="147" column="17" bodyfile="src/llm/decision_record_yaml_processor.cpp" bodystart="355" bodyend="373"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_decision_record_yaml_processor_1acbc321e94a2558d4f9830fd3ea5019dd" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::DecisionRecordYamlProcessor::toYaml</definition>
+        <argsstring>(const DecisionRecord &amp;record) const</argsstring>
+        <name>toYaml</name>
+        <qualifiedname>themis::llm::DecisionRecordYamlProcessor::toYaml</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_decision_record" kindref="compound">DecisionRecord</ref> &amp;</type>
+          <declname>record</declname>
+        </param>
+        <briefdescription>
+<para>To Yaml. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="153" column="17" bodyfile="src/llm/decision_record_yaml_processor.cpp" bodystart="177" bodyend="229"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/decision_record_yaml_processor.h" line="68" column="1" bodyfile="include/llm/decision_record_yaml_processor.h" bodystart="68" bodyend="168"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_decision_record_yaml_processor_1af4be63d43a6861e6ee083fd21ef45806" prot="private" virt="non-virtual"><scope>themis::llm::DecisionRecordYamlProcessor</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1_decision_record_yaml_processor_1aa642ddac5e08fdbc7946492b952f86d7" prot="private" virt="non-virtual"><scope>themis::llm::DecisionRecordYamlProcessor</scope><name>cv_</name></member>
+      <member refid="classthemis_1_1llm_1_1_decision_record_yaml_processor_1adbbbe1484c82d2153fb185403eaa5021" prot="public" virt="non-virtual"><scope>themis::llm::DecisionRecordYamlProcessor</scope><name>DecisionRecordYamlProcessor</name></member>
+      <member refid="classthemis_1_1llm_1_1_decision_record_yaml_processor_1a98af7a9fd975ea868e8ae5226853f6b2" prot="public" virt="non-virtual"><scope>themis::llm::DecisionRecordYamlProcessor</scope><name>DecisionRecordYamlProcessor</name></member>
+      <member refid="classthemis_1_1llm_1_1_decision_record_yaml_processor_1a98bdea456d8a3872489ad1604ee49d61" prot="public" virt="non-virtual"><scope>themis::llm::DecisionRecordYamlProcessor</scope><name>DecisionRecordYamlProcessor</name></member>
+      <member refid="classthemis_1_1llm_1_1_decision_record_yaml_processor_1aded67337831263ed34ad8e68c51dfb3a" prot="public" virt="non-virtual"><scope>themis::llm::DecisionRecordYamlProcessor</scope><name>DecisionRecordYamlProcessor</name></member>
+      <member refid="classthemis_1_1llm_1_1_decision_record_yaml_processor_1a54188cafc39a746e41d7cfc4bc1f5734" prot="private" virt="non-virtual"><scope>themis::llm::DecisionRecordYamlProcessor</scope><name>dropped_</name></member>
+      <member refid="classthemis_1_1llm_1_1_decision_record_yaml_processor_1a6e29a15a8d4e5d9ca158d6b94b67a195" prot="private" virt="non-virtual"><scope>themis::llm::DecisionRecordYamlProcessor</scope><name>errors_</name></member>
+      <member refid="classthemis_1_1llm_1_1_decision_record_yaml_processor_1a415b57395e4e18cc648079ffdf958fc6" prot="public" virt="non-virtual"><scope>themis::llm::DecisionRecordYamlProcessor</scope><name>flush</name></member>
+      <member refid="classthemis_1_1llm_1_1_decision_record_yaml_processor_1aa21390a6b96873b919855898b4df8f24" prot="private" virt="non-virtual"><scope>themis::llm::DecisionRecordYamlProcessor</scope><name>formatTimestamp</name></member>
+      <member refid="classthemis_1_1llm_1_1_decision_record_yaml_processor_1a44177a7fde977c77dcb706fd8dee8406" prot="private" virt="non-virtual"><scope>themis::llm::DecisionRecordYamlProcessor</scope><name>generateId</name></member>
+      <member refid="classthemis_1_1llm_1_1_decision_record_yaml_processor_1a5499ac168cceec60c96040c06c135d06" prot="public" virt="non-virtual"><scope>themis::llm::DecisionRecordYamlProcessor</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_decision_record_yaml_processor_1a8fc071382cf8f9f840d3e900485c8970" prot="private" virt="non-virtual"><scope>themis::llm::DecisionRecordYamlProcessor</scope><name>in_flight_</name></member>
+      <member refid="classthemis_1_1llm_1_1_decision_record_yaml_processor_1aa8b59ccbc984b3f8bb6c140aadebc235" prot="private" virt="non-virtual"><scope>themis::llm::DecisionRecordYamlProcessor</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_decision_record_yaml_processor_1a05e635f38da89eeed3ea73ab884107ed" prot="public" virt="non-virtual"><scope>themis::llm::DecisionRecordYamlProcessor</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_decision_record_yaml_processor_1a029f7fca4b722de08cb962e3c2133d07" prot="public" virt="non-virtual"><scope>themis::llm::DecisionRecordYamlProcessor</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_decision_record_yaml_processor_1aff716550ebac8315168b457139415235" prot="private" virt="non-virtual"><scope>themis::llm::DecisionRecordYamlProcessor</scope><name>processorThread</name></member>
+      <member refid="classthemis_1_1llm_1_1_decision_record_yaml_processor_1a8b777c9a022d5021c4f53603c0e99c9a" prot="private" virt="non-virtual"><scope>themis::llm::DecisionRecordYamlProcessor</scope><name>queue_</name></member>
+      <member refid="classthemis_1_1llm_1_1_decision_record_yaml_processor_1a3e2d0b79af48ea631aa3547fe4a05c9f" prot="private" virt="non-virtual"><scope>themis::llm::DecisionRecordYamlProcessor</scope><name>recordPath</name></member>
+      <member refid="classthemis_1_1llm_1_1_decision_record_yaml_processor_1adc62b76771b5ba3d14c244d98dbf9372" prot="private" virt="non-virtual"><scope>themis::llm::DecisionRecordYamlProcessor</scope><name>stop_</name></member>
+      <member refid="classthemis_1_1llm_1_1_decision_record_yaml_processor_1aa590e0ba7b47a3a19271ab03391eca4a" prot="public" virt="non-virtual"><scope>themis::llm::DecisionRecordYamlProcessor</scope><name>submit</name></member>
+      <member refid="classthemis_1_1llm_1_1_decision_record_yaml_processor_1a83140730769827fd1a3104b476a0c72d" prot="private" virt="non-virtual"><scope>themis::llm::DecisionRecordYamlProcessor</scope><name>submitted_</name></member>
+      <member refid="classthemis_1_1llm_1_1_decision_record_yaml_processor_1a25e980683a401807b3fb6559a6ec9495" prot="private" virt="non-virtual"><scope>themis::llm::DecisionRecordYamlProcessor</scope><name>thread_</name></member>
+      <member refid="classthemis_1_1llm_1_1_decision_record_yaml_processor_1acbc321e94a2558d4f9830fd3ea5019dd" prot="private" virt="non-virtual"><scope>themis::llm::DecisionRecordYamlProcessor</scope><name>toYaml</name></member>
+      <member refid="classthemis_1_1llm_1_1_decision_record_yaml_processor_1a630f4bde57b4472b0b5528724f8f612e" prot="private" virt="non-virtual"><scope>themis::llm::DecisionRecordYamlProcessor</scope><name>writeRecord</name></member>
+      <member refid="classthemis_1_1llm_1_1_decision_record_yaml_processor_1a75305ea1ecc3a9cdedbd68a14b191225" prot="private" virt="non-virtual"><scope>themis::llm::DecisionRecordYamlProcessor</scope><name>written_</name></member>
+      <member refid="classthemis_1_1llm_1_1_decision_record_yaml_processor_1aeebc352e333bb7c0ae4418566382be9b" prot="public" virt="non-virtual"><scope>themis::llm::DecisionRecordYamlProcessor</scope><name>~DecisionRecordYamlProcessor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

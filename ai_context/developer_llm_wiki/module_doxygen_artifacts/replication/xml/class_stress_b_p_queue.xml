@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stress_b_p_queue" kind="class" language="C++" prot="public">
+    <compoundname>StressBPQueue</compoundname>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="class_stress_b_p_queue_1aebe41ab999c835c92c78b55f4e9573f2" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t StressBPQueue::kMaxDepth</definition>
+        <argsstring></argsstring>
+        <name>kMaxDepth</name>
+        <qualifiedname>StressBPQueue::kMaxDepth</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_highcardinality_stress.cpp" line="108" column="34" bodyfile="tests/replication/test_replication_highcardinality_stress.cpp" bodystart="108" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stress_b_p_queue_1afb19f1d598e42fff94974b641c9008e8" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex StressBPQueue::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>StressBPQueue::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_highcardinality_stress.cpp" line="128" column="27" bodyfile="tests/replication/test_replication_highcardinality_stress.cpp" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stress_b_p_queue_1aca637fca7414967ea7734a1d67e1887e" prot="private" static="no" mutable="no">
+        <type>std::queue&lt; uint64_t &gt;</type>
+        <definition>std::queue&lt;uint64_t&gt; StressBPQueue::q_</definition>
+        <argsstring></argsstring>
+        <name>q_</name>
+        <qualifiedname>StressBPQueue::q_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_highcardinality_stress.cpp" line="129" column="17" bodyfile="tests/replication/test_replication_highcardinality_stress.cpp" bodystart="129" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stress_b_p_queue_1a525a310a2fabbce424345e2a235f8516" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StressBPQueue::push</definition>
+        <argsstring>(uint64_t v)</argsstring>
+        <name>push</name>
+        <qualifiedname>StressBPQueue::push</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_highcardinality_stress.cpp" line="110" column="10" bodyfile="tests/replication/test_replication_highcardinality_stress.cpp" bodystart="110" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stress_b_p_queue_1aceec5ba50586b8244e409077ebd55c84" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StressBPQueue::pop</definition>
+        <argsstring>(uint64_t &amp;out)</argsstring>
+        <name>pop</name>
+        <qualifiedname>StressBPQueue::pop</qualifiedname>
+        <param>
+          <type>uint64_t &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_highcardinality_stress.cpp" line="116" column="10" bodyfile="tests/replication/test_replication_highcardinality_stress.cpp" bodystart="116" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stress_b_p_queue_1a43f34830f56386871aa2642acb2c8691" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t StressBPQueue::size</definition>
+        <argsstring>()</argsstring>
+        <name>size</name>
+        <qualifiedname>StressBPQueue::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_highcardinality_stress.cpp" line="122" column="17" bodyfile="tests/replication/test_replication_highcardinality_stress.cpp" bodystart="122" bodyend="125"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/replication/test_replication_highcardinality_stress.cpp" line="106" column="1" bodyfile="tests/replication/test_replication_highcardinality_stress.cpp" bodystart="106" bodyend="130"/>
+    <listofallmembers>
+      <member refid="class_stress_b_p_queue_1aebe41ab999c835c92c78b55f4e9573f2" prot="public" virt="non-virtual"><scope>StressBPQueue</scope><name>kMaxDepth</name></member>
+      <member refid="class_stress_b_p_queue_1afb19f1d598e42fff94974b641c9008e8" prot="private" virt="non-virtual"><scope>StressBPQueue</scope><name>mu_</name></member>
+      <member refid="class_stress_b_p_queue_1aceec5ba50586b8244e409077ebd55c84" prot="public" virt="non-virtual"><scope>StressBPQueue</scope><name>pop</name></member>
+      <member refid="class_stress_b_p_queue_1a525a310a2fabbce424345e2a235f8516" prot="public" virt="non-virtual"><scope>StressBPQueue</scope><name>push</name></member>
+      <member refid="class_stress_b_p_queue_1aca637fca7414967ea7734a1d67e1887e" prot="private" virt="non-virtual"><scope>StressBPQueue</scope><name>q_</name></member>
+      <member refid="class_stress_b_p_queue_1a43f34830f56386871aa2642acb2c8691" prot="public" virt="non-virtual"><scope>StressBPQueue</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,533 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_export_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::ExportApiHandler</compoundname>
+    <includes refid="export__api__handler_8h" local="no">export_api_handler.h</includes>
+    <innerclass refid="structthemis_1_1server_1_1_export_api_handler_1_1_export_job" prot="private">themis::server::ExportApiHandler::ExportJob</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_export_api_handler_1af885f2d94925fb87968ff62a4ed911c5" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::server::ExportApiHandler::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>themis::server::ExportApiHandler::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/export_api_handler.h" line="127" column="21" bodyfile="include/server/export_api_handler.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_export_api_handler_1a54e479b7de2e97914bd497aa53caf0b1" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;SecondaryIndexManager&gt; themis::server::ExportApiHandler::secondary_index_</definition>
+        <argsstring></argsstring>
+        <name>secondary_index_</name>
+        <qualifiedname>themis::server::ExportApiHandler::secondary_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/export_api_handler.h" line="128" column="21" bodyfile="include/server/export_api_handler.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_export_api_handler_1a81431904be05341e08f9921b9a7f3870" prot="private" static="no" mutable="no">
+        <type>themis::governance::PolicyEngine *</type>
+        <definition>themis::governance::PolicyEngine* themis::server::ExportApiHandler::policy_engine_</definition>
+        <argsstring></argsstring>
+        <name>policy_engine_</name>
+        <qualifiedname>themis::server::ExportApiHandler::policy_engine_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/export_api_handler.h" line="131" column="38" bodyfile="include/server/export_api_handler.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_export_api_handler_1acf580a065ba1f3642a27c8b862ac774a" prot="private" static="no" mutable="no">
+        <type>themis::utils::AuditLogger *</type>
+        <definition>themis::utils::AuditLogger* themis::server::ExportApiHandler::audit_logger_</definition>
+        <argsstring></argsstring>
+        <name>audit_logger_</name>
+        <qualifiedname>themis::server::ExportApiHandler::audit_logger_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/export_api_handler.h" line="132" column="38" bodyfile="include/server/export_api_handler.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_export_api_handler_1a650556091cc466fff1d8f6b70514a359" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, ExportJob &gt;</type>
+        <definition>std::map&lt;std::string, ExportJob&gt; themis::server::ExportApiHandler::export_jobs_</definition>
+        <argsstring></argsstring>
+        <name>export_jobs_</name>
+        <qualifiedname>themis::server::ExportApiHandler::export_jobs_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/export_api_handler.h" line="135" column="14" bodyfile="include/server/export_api_handler.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_export_api_handler_1a610d95d7eb6156799c002c99ceb16978" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::server::ExportApiHandler::export_jobs_mutex_</definition>
+        <argsstring></argsstring>
+        <name>export_jobs_mutex_</name>
+        <qualifiedname>themis::server::ExportApiHandler::export_jobs_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/export_api_handler.h" line="136" column="16" bodyfile="include/server/export_api_handler.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_export_api_handler_1a8c2debafbc6df94d86c4a85d284467a5" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::server::ExportApiHandler::export_counter_</definition>
+        <argsstring></argsstring>
+        <name>export_counter_</name>
+        <qualifiedname>themis::server::ExportApiHandler::export_counter_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/export_api_handler.h" line="137" column="17" bodyfile="include/server/export_api_handler.h" bodystart="137" bodyend="137"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_export_api_handler_1a296a7fb94c4b573c91ee461546c10a3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::ExportApiHandler::ExportApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; storage, std::shared_ptr&lt; SecondaryIndexManager &gt; secondary_index)</argsstring>
+        <name>ExportApiHandler</name>
+        <qualifiedname>themis::server::ExportApiHandler::ExportApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+          <declname>storage</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; SecondaryIndexManager &gt;</type>
+          <declname>secondary_index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/export_api_handler.h" line="42" column="5" bodyfile="src/server/export_api_handler.cpp" bodystart="92" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_export_api_handler_1a7e89ef66c30808f53a83989592c0069c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::ExportApiHandler::~ExportApiHandler</definition>
+        <argsstring>()</argsstring>
+        <name>~ExportApiHandler</name>
+        <qualifiedname>themis::server::ExportApiHandler::~ExportApiHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/export_api_handler.h" line="47" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_export_api_handler_1a0be0346fe3744ecef1a053e44ce42ced" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ExportApiHandler::setPolicyEngine</definition>
+        <argsstring>(themis::governance::PolicyEngine *engine) noexcept</argsstring>
+        <name>setPolicyEngine</name>
+        <qualifiedname>themis::server::ExportApiHandler::setPolicyEngine</qualifiedname>
+        <param>
+          <type>themis::governance::PolicyEngine *</type>
+          <declname>engine</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/export_api_handler.h" line="49" column="10" bodyfile="include/server/export_api_handler.h" bodystart="49" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_export_api_handler_1aec2a55d7be3b14905308cf1da05c4541" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ExportApiHandler::setAuditLogger</definition>
+        <argsstring>(themis::utils::AuditLogger *logger) noexcept</argsstring>
+        <name>setAuditLogger</name>
+        <qualifiedname>themis::server::ExportApiHandler::setAuditLogger</qualifiedname>
+        <param>
+          <type>themis::utils::AuditLogger *</type>
+          <declname>logger</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/export_api_handler.h" line="53" column="10" bodyfile="include/server/export_api_handler.h" bodystart="53" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_export_api_handler_1a4a4e6a1b87221fa36a7f90344dfb5d3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ExportApiHandler::handleExportJsonlLlm</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleExportJsonlLlm</name>
+        <qualifiedname>themis::server::ExportApiHandler::handleExportJsonlLlm</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Export Jsonl Llm. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), validateAdminToken(), setStatus(), errorResponse(), json::parse(), body(), buildAqlQuery(), setAttribute(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/export_api_handler.h" line="62" column="20" bodyfile="src/server/export_api_handler.cpp" bodystart="107" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_export_api_handler_1abca1d82fea2c81b0834e0de0bfa884b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ExportApiHandler::handleExportStatus</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleExportStatus</name>
+        <qualifiedname>themis::server::ExportApiHandler::handleExportStatus</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Export Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), validateAdminToken(), setStatus(), errorResponse(), target(), data(), size(), find_last_of(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/export_api_handler.h" line="70" column="20" bodyfile="src/server/export_api_handler.cpp" bodystart="357" bodyend="416"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_export_api_handler_1a28d96b30fc710adeb504bb4822bfa07f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::ExportApiHandler::generateExportId</definition>
+        <argsstring>()</argsstring>
+        <name>generateExportId</name>
+        <qualifiedname>themis::server::ExportApiHandler::generateExportId</qualifiedname>
+        <briefdescription>
+<para>Generate Export Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: rd(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/export_api_handler.h" line="91" column="17" bodyfile="src/server/export_api_handler.cpp" bodystart="529" bodyend="545"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_export_api_handler_1a7962c7039a0caa5dd03bde77c39c29ba" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::ExportApiHandler::validateAdminToken</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>validateAdminToken</name>
+        <qualifiedname>themis::server::ExportApiHandler::validateAdminToken</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Validate Admin Token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), auth_str(), data(), size(), find(), substr(), std::getenv(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/export_api_handler.h" line="98" column="10" bodyfile="src/server/export_api_handler.cpp" bodystart="553" bodyend="586"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_export_api_handler_1a9cc5c518fb932904562e814bc1443a19" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::ExportApiHandler::buildAqlQuery</definition>
+        <argsstring>(const nlohmann::json &amp;request_json)</argsstring>
+        <name>buildAqlQuery</name>
+        <qualifiedname>themis::server::ExportApiHandler::buildAqlQuery</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>request_json</declname>
+        </param>
+        <briefdescription>
+<para>Build Aql Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), size(), contains(), validateStringField(), push_back(), std::to_string(), empty(), syntax_check(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/export_api_handler.h" line="105" column="17" bodyfile="src/server/export_api_handler.cpp" bodystart="425" bodyend="522"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_export_api_handler_1a431700538f5b916ebe03c8e921b54669" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ExportApiHandler::jsonResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;json_body)</argsstring>
+        <name>jsonResponse</name>
+        <qualifiedname>themis::server::ExportApiHandler::jsonResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>json_body</declname>
+        </param>
+        <briefdescription>
+<para>Json <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">json_body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">json_body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: set(), body(), prepare_payload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/export_api_handler.h" line="113" column="20" bodyfile="src/server/export_api_handler.cpp" bodystart="595" bodyend="604"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_export_api_handler_1ad2a72d5b76ce74d23ed4d4a208cc09c0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ExportApiHandler::errorResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;error_message)</argsstring>
+        <name>errorResponse</name>
+        <qualifiedname>themis::server::ExportApiHandler::errorResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_message</declname>
+        </param>
+        <briefdescription>
+<para>Error <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error_message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error_message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: jsonResponse(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/export_api_handler.h" line="123" column="20" bodyfile="src/server/export_api_handler.cpp" bodystart="613" bodyend="622"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/export_api_handler.h" line="40" column="1" bodyfile="include/server/export_api_handler.h" bodystart="40" bodyend="138"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_export_api_handler_1acf580a065ba1f3642a27c8b862ac774a" prot="private" virt="non-virtual"><scope>themis::server::ExportApiHandler</scope><name>audit_logger_</name></member>
+      <member refid="classthemis_1_1server_1_1_export_api_handler_1a9cc5c518fb932904562e814bc1443a19" prot="private" virt="non-virtual"><scope>themis::server::ExportApiHandler</scope><name>buildAqlQuery</name></member>
+      <member refid="classthemis_1_1server_1_1_export_api_handler_1ad2a72d5b76ce74d23ed4d4a208cc09c0" prot="private" virt="non-virtual"><scope>themis::server::ExportApiHandler</scope><name>errorResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_export_api_handler_1a8c2debafbc6df94d86c4a85d284467a5" prot="private" virt="non-virtual"><scope>themis::server::ExportApiHandler</scope><name>export_counter_</name></member>
+      <member refid="classthemis_1_1server_1_1_export_api_handler_1a650556091cc466fff1d8f6b70514a359" prot="private" virt="non-virtual"><scope>themis::server::ExportApiHandler</scope><name>export_jobs_</name></member>
+      <member refid="classthemis_1_1server_1_1_export_api_handler_1a610d95d7eb6156799c002c99ceb16978" prot="private" virt="non-virtual"><scope>themis::server::ExportApiHandler</scope><name>export_jobs_mutex_</name></member>
+      <member refid="classthemis_1_1server_1_1_export_api_handler_1a296a7fb94c4b573c91ee461546c10a3e" prot="public" virt="non-virtual"><scope>themis::server::ExportApiHandler</scope><name>ExportApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_export_api_handler_1a28d96b30fc710adeb504bb4822bfa07f" prot="private" virt="non-virtual"><scope>themis::server::ExportApiHandler</scope><name>generateExportId</name></member>
+      <member refid="classthemis_1_1server_1_1_export_api_handler_1a4a4e6a1b87221fa36a7f90344dfb5d3f" prot="public" virt="non-virtual"><scope>themis::server::ExportApiHandler</scope><name>handleExportJsonlLlm</name></member>
+      <member refid="classthemis_1_1server_1_1_export_api_handler_1abca1d82fea2c81b0834e0de0bfa884b9" prot="public" virt="non-virtual"><scope>themis::server::ExportApiHandler</scope><name>handleExportStatus</name></member>
+      <member refid="classthemis_1_1server_1_1_export_api_handler_1a431700538f5b916ebe03c8e921b54669" prot="private" virt="non-virtual"><scope>themis::server::ExportApiHandler</scope><name>jsonResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_export_api_handler_1a81431904be05341e08f9921b9a7f3870" prot="private" virt="non-virtual"><scope>themis::server::ExportApiHandler</scope><name>policy_engine_</name></member>
+      <member refid="classthemis_1_1server_1_1_export_api_handler_1a54e479b7de2e97914bd497aa53caf0b1" prot="private" virt="non-virtual"><scope>themis::server::ExportApiHandler</scope><name>secondary_index_</name></member>
+      <member refid="classthemis_1_1server_1_1_export_api_handler_1aec2a55d7be3b14905308cf1da05c4541" prot="public" virt="non-virtual"><scope>themis::server::ExportApiHandler</scope><name>setAuditLogger</name></member>
+      <member refid="classthemis_1_1server_1_1_export_api_handler_1a0be0346fe3744ecef1a053e44ce42ced" prot="public" virt="non-virtual"><scope>themis::server::ExportApiHandler</scope><name>setPolicyEngine</name></member>
+      <member refid="classthemis_1_1server_1_1_export_api_handler_1af885f2d94925fb87968ff62a4ed911c5" prot="private" virt="non-virtual"><scope>themis::server::ExportApiHandler</scope><name>storage_</name></member>
+      <member refid="classthemis_1_1server_1_1_export_api_handler_1a7962c7039a0caa5dd03bde77c39c29ba" prot="private" virt="non-virtual"><scope>themis::server::ExportApiHandler</scope><name>validateAdminToken</name></member>
+      <member refid="classthemis_1_1server_1_1_export_api_handler_1a7e89ef66c30808f53a83989592c0069c" prot="public" virt="non-virtual"><scope>themis::server::ExportApiHandler</scope><name>~ExportApiHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

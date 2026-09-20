@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::MIGManager::Stats</compoundname>
+    <includes refid="mig__manager_8h" local="no">mig_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_stats_1aeae711d25dd037f27a3289a28e566720" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::MIGManager::Stats::total_created</definition>
+        <argsstring></argsstring>
+        <name>total_created</name>
+        <qualifiedname>themis::gpu::MIGManager::Stats::total_created</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total <ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a219a0266fcf2f4e6fb27f5cc26be522f" kindref="member">createPartition()</ref> calls that returned OK. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="118" column="16" bodyfile="include/themis/gpu/mig_manager.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_stats_1a7cb59356a350ae6dcfd0fd098f059790" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::MIGManager::Stats::total_destroyed</definition>
+        <argsstring></argsstring>
+        <name>total_destroyed</name>
+        <qualifiedname>themis::gpu::MIGManager::Stats::total_destroyed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total <ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1ac6c44ece657aa3b987bfac4c5d49024b" kindref="member">destroyPartition()</ref> calls that returned OK. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="119" column="16" bodyfile="include/themis/gpu/mig_manager.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_stats_1a6046dbb252cbbded8dda01b5e3449859" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::MIGManager::Stats::total_assigned</definition>
+        <argsstring></argsstring>
+        <name>total_assigned</name>
+        <qualifiedname>themis::gpu::MIGManager::Stats::total_assigned</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total <ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a97692b8cd1f2c1fcc9126bb5fa956967" kindref="member">assignToTenant()</ref> calls that returned OK. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="120" column="16" bodyfile="include/themis/gpu/mig_manager.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_stats_1a2fd0b3a2de60d6d37d2805eecc90374c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::MIGManager::Stats::total_unassigned</definition>
+        <argsstring></argsstring>
+        <name>total_unassigned</name>
+        <qualifiedname>themis::gpu::MIGManager::Stats::total_unassigned</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total <ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a7734e575d718276cb8d274f3696ed2ab" kindref="member">unassignFromTenant()</ref> calls that returned OK. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="121" column="16" bodyfile="include/themis/gpu/mig_manager.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_stats_1adb42b463276a6da47f8ee93c6d308db5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::MIGManager::Stats::active_instances</definition>
+        <argsstring></argsstring>
+        <name>active_instances</name>
+        <qualifiedname>themis::gpu::MIGManager::Stats::active_instances</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Current number of live instances. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="122" column="16" bodyfile="include/themis/gpu/mig_manager.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/mig_manager.h" line="117" column="5" bodyfile="include/themis/gpu/mig_manager.h" bodystart="117" bodyend="123"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_stats_1adb42b463276a6da47f8ee93c6d308db5" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager::Stats</scope><name>active_instances</name></member>
+      <member refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_stats_1a6046dbb252cbbded8dda01b5e3449859" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager::Stats</scope><name>total_assigned</name></member>
+      <member refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_stats_1aeae711d25dd037f27a3289a28e566720" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager::Stats</scope><name>total_created</name></member>
+      <member refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_stats_1a7cb59356a350ae6dcfd0fd098f059790" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager::Stats</scope><name>total_destroyed</name></member>
+      <member refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_stats_1a2fd0b3a2de60d6d37d2805eecc90374c" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager::Stats</scope><name>total_unassigned</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

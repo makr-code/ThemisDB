@@ -1,0 +1,488 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1prompt__engineering_1_1testing" kind="namespace" language="C++">
+    <compoundname>themis::prompt_engineering::testing</compoundname>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1testing_1_1_adversarial_prompt_test_base" prot="public">themis::prompt_engineering::testing::AdversarialPromptTestBase</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1testing_1_1_s_q_l_injection_test_class" prot="public">themis::prompt_engineering::testing::SQLInjectionTestClass</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1testing_1_1_command_injection_test_class" prot="public">themis::prompt_engineering::testing::CommandInjectionTestClass</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1testing_1_1_path_traversal_test_class" prot="public">themis::prompt_engineering::testing::PathTraversalTestClass</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1testing_1_1_x_s_s_injection_test_class" prot="public">themis::prompt_engineering::testing::XSSInjectionTestClass</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1testing_1_1_template_recursion_test_class" prot="public">themis::prompt_engineering::testing::TemplateRecursionTestClass</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1testing_1_1_unicode_evasion_test_class" prot="public">themis::prompt_engineering::testing::UnicodeEvasionTestClass</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1testing_1_1_null_byte_injection_test_class" prot="public">themis::prompt_engineering::testing::NullByteInjectionTestClass</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1testing_1_1_complex_mixed_attack_test_class" prot="public">themis::prompt_engineering::testing::ComplexMixedAttackTestClass</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1testing_1_1_validation_hardening_test_class" prot="public">themis::prompt_engineering::testing::ValidationHardeningTestClass</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1testing_1_1_coverage_metrics_test_class" prot="public">themis::prompt_engineering::testing::CoverageMetricsTestClass</innerclass>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1prompt__engineering_1_1testing_1aa11f9ed857028af02f31e15db0b26fda" prot="public" static="no">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template" kindref="compound">PromptManager::PromptTemplate</ref></type>
+        <definition>using themis::prompt_engineering::testing::PromptTemplate = PromptManager::PromptTemplate</definition>
+        <argsstring></argsstring>
+        <name>PromptTemplate</name>
+        <qualifiedname>themis::prompt_engineering::testing::PromptTemplate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" line="33" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1prompt__engineering_1_1testing_1a3ec99d2f9c566805e03505f44c6a841d" prot="public" static="no">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_validation_result" kindref="compound">PromptManager::ValidationResult</ref></type>
+        <definition>using themis::prompt_engineering::testing::ValidationResult = PromptManager::ValidationResult</definition>
+        <argsstring></argsstring>
+        <name>ValidationResult</name>
+        <qualifiedname>themis::prompt_engineering::testing::ValidationResult</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" line="34" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1prompt__engineering_1_1testing_1ad0051c8f602e1f36188bba55d7c4795d" prot="public" static="no">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_injection_detector_1_1_detection_result" kindref="compound">PromptInjectionDetector::DetectionResult</ref></type>
+        <definition>using themis::prompt_engineering::testing::DetectionResult = PromptInjectionDetector::DetectionResult</definition>
+        <argsstring></argsstring>
+        <name>DetectionResult</name>
+        <qualifiedname>themis::prompt_engineering::testing::DetectionResult</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" line="35" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1prompt__engineering_1_1testing_1a262dcb8c1955d43625eb3b3b4189e08d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::testing::TEST_F</definition>
+        <argsstring>(SQLInjectionTestClass, DetectBasicSQLInjection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_s_q_l_injection_test_class" kindref="compound">SQLInjectionTestClass</ref></type>
+        </param>
+        <param>
+          <type>DetectBasicSQLInjection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" line="101" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" bodystart="101" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1prompt__engineering_1_1testing_1a2db318330f5ae3eb51b780a08b1a2415" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::testing::TEST_F</definition>
+        <argsstring>(SQLInjectionTestClass, DetectAdvancedSQLInjection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_s_q_l_injection_test_class" kindref="compound">SQLInjectionTestClass</ref></type>
+        </param>
+        <param>
+          <type>DetectAdvancedSQLInjection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" line="118" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" bodystart="118" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1prompt__engineering_1_1testing_1aa89081dcbd048da334923e4344be4e87" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::testing::TEST_F</definition>
+        <argsstring>(SQLInjectionTestClass, BenignSQLContextIsAllowed)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_s_q_l_injection_test_class" kindref="compound">SQLInjectionTestClass</ref></type>
+        </param>
+        <param>
+          <type>BenignSQLContextIsAllowed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" line="137" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" bodystart="137" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1prompt__engineering_1_1testing_1a52a880557b6cb809d6234834cd6657bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::testing::TEST_F</definition>
+        <argsstring>(CommandInjectionTestClass, DetectBasicCommandInjection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_command_injection_test_class" kindref="compound">CommandInjectionTestClass</ref></type>
+        </param>
+        <param>
+          <type>DetectBasicCommandInjection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" line="153" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" bodystart="153" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1prompt__engineering_1_1testing_1a42c30db62df97e223892d9e8c2aa561f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::testing::TEST_F</definition>
+        <argsstring>(CommandInjectionTestClass, DetectAdvancedCommandInjection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_command_injection_test_class" kindref="compound">CommandInjectionTestClass</ref></type>
+        </param>
+        <param>
+          <type>DetectAdvancedCommandInjection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" line="167" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" bodystart="167" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1prompt__engineering_1_1testing_1ad810c40513ef34edcf2290c35a5945e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::testing::TEST_F</definition>
+        <argsstring>(CommandInjectionTestClass, BenignCommandContextIsAllowed)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_command_injection_test_class" kindref="compound">CommandInjectionTestClass</ref></type>
+        </param>
+        <param>
+          <type>BenignCommandContextIsAllowed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" line="181" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" bodystart="181" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1prompt__engineering_1_1testing_1a4e3c134d9b335c99ea343870c5930aaa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::testing::TEST_F</definition>
+        <argsstring>(PathTraversalTestClass, DetectBasicPathTraversal)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_path_traversal_test_class" kindref="compound">PathTraversalTestClass</ref></type>
+        </param>
+        <param>
+          <type>DetectBasicPathTraversal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" line="195" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" bodystart="195" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1prompt__engineering_1_1testing_1a366f8792678a34761588ea5e2e84cb2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::testing::TEST_F</definition>
+        <argsstring>(PathTraversalTestClass, DetectAdvancedPathTraversal)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_path_traversal_test_class" kindref="compound">PathTraversalTestClass</ref></type>
+        </param>
+        <param>
+          <type>DetectAdvancedPathTraversal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" line="209" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" bodystart="209" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1prompt__engineering_1_1testing_1a9e4f88b636a032abd303402825187161" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::testing::TEST_F</definition>
+        <argsstring>(PathTraversalTestClass, BenignPathContextIsAllowed)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_path_traversal_test_class" kindref="compound">PathTraversalTestClass</ref></type>
+        </param>
+        <param>
+          <type>BenignPathContextIsAllowed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" line="229" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" bodystart="229" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1prompt__engineering_1_1testing_1ae27b1bb6aecd244dcf7b45286eddeea7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::testing::TEST_F</definition>
+        <argsstring>(XSSInjectionTestClass, DetectBasicXSSAttacks)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_x_s_s_injection_test_class" kindref="compound">XSSInjectionTestClass</ref></type>
+        </param>
+        <param>
+          <type>DetectBasicXSSAttacks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" line="243" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" bodystart="243" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1prompt__engineering_1_1testing_1a31b62f16bee0fa6e583bc9cbb099e2a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::testing::TEST_F</definition>
+        <argsstring>(XSSInjectionTestClass, DetectAdvancedXSSAttacks)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_x_s_s_injection_test_class" kindref="compound">XSSInjectionTestClass</ref></type>
+        </param>
+        <param>
+          <type>DetectAdvancedXSSAttacks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" line="257" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" bodystart="257" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1prompt__engineering_1_1testing_1a3e57f81b007b7b5948ec94bf5856deec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::testing::TEST_F</definition>
+        <argsstring>(XSSInjectionTestClass, BenignHTMLContextIsAllowed)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_x_s_s_injection_test_class" kindref="compound">XSSInjectionTestClass</ref></type>
+        </param>
+        <param>
+          <type>BenignHTMLContextIsAllowed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" line="271" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" bodystart="271" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1prompt__engineering_1_1testing_1a51ae3d56571ed84b8c93ce6b8c7f511c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::testing::TEST_F</definition>
+        <argsstring>(TemplateRecursionTestClass, DetectRecursiveTemplateMarkers)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_template_recursion_test_class" kindref="compound">TemplateRecursionTestClass</ref></type>
+        </param>
+        <param>
+          <type>DetectRecursiveTemplateMarkers</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" line="285" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" bodystart="285" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1prompt__engineering_1_1testing_1a1215ba64bb1b17c57116eb593602a341" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::testing::TEST_F</definition>
+        <argsstring>(UnicodeEvasionTestClass, DetectUnicodeEvasionAttempts)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_unicode_evasion_test_class" kindref="compound">UnicodeEvasionTestClass</ref></type>
+        </param>
+        <param>
+          <type>DetectUnicodeEvasionAttempts</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" line="315" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" bodystart="315" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1prompt__engineering_1_1testing_1ac7f8255d955d250c9ae8bd0e7f0eb6a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::testing::TEST_F</definition>
+        <argsstring>(NullByteInjectionTestClass, DetectNullByteInjection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_null_byte_injection_test_class" kindref="compound">NullByteInjectionTestClass</ref></type>
+        </param>
+        <param>
+          <type>DetectNullByteInjection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" line="344" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" bodystart="344" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1prompt__engineering_1_1testing_1ac79797746feb31761ad5ae3da69adf6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::testing::TEST_F</definition>
+        <argsstring>(ComplexMixedAttackTestClass, DetectComplexMixedAttacks)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_complex_mixed_attack_test_class" kindref="compound">ComplexMixedAttackTestClass</ref></type>
+        </param>
+        <param>
+          <type>DetectComplexMixedAttacks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" line="364" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" bodystart="364" bodyend="383"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1prompt__engineering_1_1testing_1a3b2d55a7e1900d3886434982ea8b1b2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::testing::TEST_F</definition>
+        <argsstring>(ValidationHardeningTestClass, RejectTemplateWithSQLInjection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_validation_hardening_test_class" kindref="compound">ValidationHardeningTestClass</ref></type>
+        </param>
+        <param>
+          <type>RejectTemplateWithSQLInjection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" line="392" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" bodystart="392" bodyend="402"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1prompt__engineering_1_1testing_1a1ce32e4092266e5d52fce90555adae4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::testing::TEST_F</definition>
+        <argsstring>(ValidationHardeningTestClass, RejectTemplateWithCommandInjection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_validation_hardening_test_class" kindref="compound">ValidationHardeningTestClass</ref></type>
+        </param>
+        <param>
+          <type>RejectTemplateWithCommandInjection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" line="404" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" bodystart="404" bodyend="414"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1prompt__engineering_1_1testing_1a2b1f0d79df6c204db0e090ea8167862d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::testing::TEST_F</definition>
+        <argsstring>(ValidationHardeningTestClass, AcceptCleanTemplate)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_validation_hardening_test_class" kindref="compound">ValidationHardeningTestClass</ref></type>
+        </param>
+        <param>
+          <type>AcceptCleanTemplate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" line="416" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" bodystart="416" bodyend="426"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1prompt__engineering_1_1testing_1a7d60e251bda3a9ae4808c0b85b58fdd0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::testing::TEST_F</definition>
+        <argsstring>(ValidationHardeningTestClass, AcceptTemplateWithReferencesToDatabases)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_validation_hardening_test_class" kindref="compound">ValidationHardeningTestClass</ref></type>
+        </param>
+        <param>
+          <type>AcceptTemplateWithReferencesToDatabases</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" line="428" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" bodystart="428" bodyend="438"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1prompt__engineering_1_1testing_1a93619f6fad0ad1890cbaa1b6cb090222" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::testing::TEST_F</definition>
+        <argsstring>(CoverageMetricsTestClass, PrintCoverageStatistics)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_coverage_metrics_test_class" kindref="compound">CoverageMetricsTestClass</ref></type>
+        </param>
+        <param>
+          <type>PrintCoverageStatistics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" line="447" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" bodystart="447" bodyend="463"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" line="31" column="1"/>
+  </compounddef>
+</doxygen>

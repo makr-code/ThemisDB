@@ -1,0 +1,590 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1gap" kind="namespace" language="C++">
+    <compoundname>themis::bench::gap</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1gap_1a0f1aa9e698b8c089014ad6dc4e393ca7" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::gap::kGapClosureSeed</definition>
+        <argsstring></argsstring>
+        <name>kGapClosureSeed</name>
+        <qualifiedname>themis::bench::gap::kGapClosureSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical PRNG seed for reproducibility. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_gap_closure.cpp" line="60" column="27" bodyfile="benchmarks/analytics/bench_analytics_gap_closure.cpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1gap_1afc561643d59e02de0b890755c78dfa94" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::gap::kWarmupIterations</definition>
+        <argsstring></argsstring>
+        <name>kWarmupIterations</name>
+        <qualifiedname>themis::bench::gap::kWarmupIterations</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+<para>Warmup iterations before measurement. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_gap_closure.cpp" line="63" column="22" bodyfile="benchmarks/analytics/bench_analytics_gap_closure.cpp" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1gap_1aca367a430dd5769c3b01c5317cd70f19" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::gap::kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <qualifiedname>themis::bench::gap::kRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Repetitions per benchmark for variance estimation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_gap_closure.cpp" line="66" column="22" bodyfile="benchmarks/analytics/bench_analytics_gap_closure.cpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1gap_1a6bb4d1b5a962a33b40bb232f5b59b274" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::bench::gap::kSmallDataset</definition>
+        <argsstring></argsstring>
+        <name>kSmallDataset</name>
+        <qualifiedname>themis::bench::gap::kSmallDataset</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Dataset sizes for different semantic clusters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_gap_closure.cpp" line="69" column="30" bodyfile="benchmarks/analytics/bench_analytics_gap_closure.cpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1gap_1ac6a9e577f5b73180f056b3cce2069309" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::bench::gap::kMediumDataset</definition>
+        <argsstring></argsstring>
+        <name>kMediumDataset</name>
+        <qualifiedname>themis::bench::gap::kMediumDataset</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_gap_closure.cpp" line="70" column="30" bodyfile="benchmarks/analytics/bench_analytics_gap_closure.cpp" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1gap_1af3013ecd3892428aa6d23bda136e9185" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::bench::gap::kLargeDataset</definition>
+        <argsstring></argsstring>
+        <name>kLargeDataset</name>
+        <qualifiedname>themis::bench::gap::kLargeDataset</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_gap_closure.cpp" line="71" column="30" bodyfile="benchmarks/analytics/bench_analytics_gap_closure.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1gap_1a54f06dce32e76f8cbf10d22561f13925" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::gap::BM_PM01_BuildDFG</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_PM01_BuildDFG</name>
+        <qualifiedname>themis::bench::gap::BM_PM01_BuildDFG</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>PM-01: Build directly-follows graph (DFG) from event log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Simulates: buildDirectlyFollowsGraph() for 1000-event log Metric: throughput (dfgs/sec) Gate: &gt;= 100 dfgs/sec </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_gap_closure.cpp" line="84" column="13" bodyfile="benchmarks/analytics/bench_analytics_gap_closure.cpp" bodystart="84" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1gap_1a420fef86d39dd829977fb9dfc2f6d362" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::gap::BENCHMARK</definition>
+        <argsstring>(BM_PM01_BuildDFG) -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::bench::gap::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_PM01_BuildDFG</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_gap_closure.cpp" line="114" column="1" declfile="benchmarks/analytics/bench_analytics_gap_closure.cpp" declline="114" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1gap_1a66b9c9e8e8d980075261092a44af49aa" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::gap::BM_PM02_DiscoverInductiveProcess</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_PM02_DiscoverInductiveProcess</name>
+        <qualifiedname>themis::bench::gap::BM_PM02_DiscoverInductiveProcess</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>PM-02: Discover inductive process from event log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Simulates: discoverInductiveProcess() for 500-event log Metric: latency (ms) Gate: &lt;= 50 ms </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_gap_closure.cpp" line="123" column="13" bodyfile="benchmarks/analytics/bench_analytics_gap_closure.cpp" bodystart="123" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1gap_1afa90fac9063eedfe6bc2d2c2b67efe59" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::gap::BENCHMARK</definition>
+        <argsstring>(BM_PM02_DiscoverInductiveProcess) -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::bench::gap::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_PM02_DiscoverInductiveProcess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_gap_closure.cpp" line="152" column="1" declfile="benchmarks/analytics/bench_analytics_gap_closure.cpp" declline="152" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1gap_1a4cd215f8a577dc5510464ffb074dc06e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::gap::BM_PM03_ConformanceCheck</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_PM03_ConformanceCheck</name>
+        <qualifiedname>themis::bench::gap::BM_PM03_ConformanceCheck</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>PM-03: Conformance check against process model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Simulates: checkConformance() for 100 traces of 50 events each Metric: throughput (traces/sec) Gate: &gt;= 1000 traces/sec </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_gap_closure.cpp" line="161" column="13" bodyfile="benchmarks/analytics/bench_analytics_gap_closure.cpp" bodystart="161" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1gap_1a5ca76d1d0213f78fe104ad0681ce05c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::gap::BENCHMARK</definition>
+        <argsstring>(BM_PM03_ConformanceCheck) -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::bench::gap::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_PM03_ConformanceCheck</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_gap_closure.cpp" line="202" column="1" declfile="benchmarks/analytics/bench_analytics_gap_closure.cpp" declline="202" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1gap_1aaddcdaa23b346427cb4370132815649b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::gap::BM_AM01_GridSearch</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_AM01_GridSearch</name>
+        <qualifiedname>themis::bench::gap::BM_AM01_GridSearch</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>AM-01: Grid search with fixed evaluation budget (10 trials). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Simulates: gridSearch() with 10 hyperparameter combinations Metric: total search time (ms) Gate: &lt;= 100 ms </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_gap_closure.cpp" line="215" column="13" bodyfile="benchmarks/analytics/bench_analytics_gap_closure.cpp" bodystart="215" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1gap_1a9221211281604617a7c0defb97845c00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::gap::BENCHMARK</definition>
+        <argsstring>(BM_AM01_GridSearch) -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::bench::gap::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_AM01_GridSearch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_gap_closure.cpp" line="247" column="1" declfile="benchmarks/analytics/bench_analytics_gap_closure.cpp" declline="247" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1gap_1a482ae92d59ca928d485b2a99ea995c9a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::gap::BM_AM02_Prediction</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_AM02_Prediction</name>
+        <qualifiedname>themis::bench::gap::BM_AM02_Prediction</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>AM-02: Model prediction with feature importance computation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Simulates: predictWithModel() + featureImportance() on 100 samples Metric: latency (µs per sample) Gate: &lt;= 10 µs per sample </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_gap_closure.cpp" line="256" column="13" bodyfile="benchmarks/analytics/bench_analytics_gap_closure.cpp" bodystart="256" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1gap_1ad6f8ec9bc3cab041da8fb8256f2c2f6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::gap::BENCHMARK</definition>
+        <argsstring>(BM_AM02_Prediction) -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::bench::gap::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_AM02_Prediction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_gap_closure.cpp" line="295" column="1" declfile="benchmarks/analytics/bench_analytics_gap_closure.cpp" declline="295" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1gap_1a9f4677d16355c1bbf1d6adb929dff252" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::gap::BM_FC01_TimeSeriesFit</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_FC01_TimeSeriesFit</name>
+        <qualifiedname>themis::bench::gap::BM_FC01_TimeSeriesFit</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>FC-01: Time series fit on 1000-point series. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Simulates: fit() with ARIMA/exponential smoothing on 1000 points Metric: latency (ms) Gate: &lt;= 100 ms </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_gap_closure.cpp" line="308" column="13" bodyfile="benchmarks/analytics/bench_analytics_gap_closure.cpp" bodystart="308" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1gap_1a0f28d315f2ad0c1b48410e38afba5033" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::gap::BENCHMARK</definition>
+        <argsstring>(BM_FC01_TimeSeriesFit) -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::bench::gap::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_FC01_TimeSeriesFit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_gap_closure.cpp" line="345" column="1" declfile="benchmarks/analytics/bench_analytics_gap_closure.cpp" declline="345" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1gap_1a4db204126b11f36dc2982eef09084fe9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::gap::BM_FC02_BatchPredictSIMD</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_FC02_BatchPredictSIMD</name>
+        <qualifiedname>themis::bench::gap::BM_FC02_BatchPredictSIMD</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>FC-02: Batch prediction with SIMD vectorization (100 steps). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Simulates: predictBatch() with AVX2 guards on 100 forecast steps Metric: throughput (points/sec) Gate: &gt;= 1M points/sec </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_gap_closure.cpp" line="354" column="13" bodyfile="benchmarks/analytics/bench_analytics_gap_closure.cpp" bodystart="354" bodyend="387"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1gap_1a2954a2a9b3af0c4e62778952bdcc7967" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::gap::BENCHMARK</definition>
+        <argsstring>(BM_FC02_BatchPredictSIMD) -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::bench::gap::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_FC02_BatchPredictSIMD</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_gap_closure.cpp" line="388" column="1" declfile="benchmarks/analytics/bench_analytics_gap_closure.cpp" declline="388" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1gap_1a8070dd86cfdf02cb9610f21327e6758d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::gap::BM_CEP01_EventBatchProcessing</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_CEP01_EventBatchProcessing</name>
+        <qualifiedname>themis::bench::gap::BM_CEP01_EventBatchProcessing</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>CEP-01: Event batch processing throughput (1000 events). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Simulates: processEventBatch() with NFA state machine Metric: throughput (events/sec) Gate: &gt;= 100k events/sec </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_gap_closure.cpp" line="401" column="13" bodyfile="benchmarks/analytics/bench_analytics_gap_closure.cpp" bodystart="401" bodyend="432"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1gap_1ac1c5e4b81fa8e6f61140f74f25940d1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::gap::BENCHMARK</definition>
+        <argsstring>(BM_CEP01_EventBatchProcessing) -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::bench::gap::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_CEP01_EventBatchProcessing</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_gap_closure.cpp" line="433" column="1" declfile="benchmarks/analytics/bench_analytics_gap_closure.cpp" declline="433" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1gap_1aae5ae6fcfabd295bf44bde22bd9a58d4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::gap::BM_CEP02_WindowFlushLatency</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_CEP02_WindowFlushLatency</name>
+        <qualifiedname>themis::bench::gap::BM_CEP02_WindowFlushLatency</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>CEP-02: Window flushing latency (p99). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Simulates: flushWindow() with 500-event window Metric: latency p99 (µs) Gate: &lt;= 500 µs </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_gap_closure.cpp" line="442" column="13" bodyfile="benchmarks/analytics/bench_analytics_gap_closure.cpp" bodystart="442" bodyend="471"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1gap_1a175afb329a9a6eb0d98e3c5c2075cdf9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::gap::BENCHMARK</definition>
+        <argsstring>(BM_CEP02_WindowFlushLatency) -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::bench::gap::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_CEP02_WindowFlushLatency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_gap_closure.cpp" line="472" column="1" declfile="benchmarks/analytics/bench_analytics_gap_closure.cpp" declline="472" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1gap_1a8901c142d479dc57ac6aa0ad6af19d2f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::gap::BM_KB01_FactAssertion</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_KB01_FactAssertion</name>
+        <qualifiedname>themis::bench::gap::BM_KB01_FactAssertion</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>KB-01: Fact assertion with FIFO eviction at capacity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Simulates: assertFact() with capacity limit (1000 facts) Metric: throughput (facts/sec) Gate: &gt;= 10k facts/sec </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_gap_closure.cpp" line="485" column="13" bodyfile="benchmarks/analytics/bench_analytics_gap_closure.cpp" bodystart="485" bodyend="518"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1gap_1a4416e6f8476818557b54759a4e9c27df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::gap::BENCHMARK</definition>
+        <argsstring>(BM_KB01_FactAssertion) -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::bench::gap::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_KB01_FactAssertion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_gap_closure.cpp" line="519" column="1" declfile="benchmarks/analytics/bench_analytics_gap_closure.cpp" declline="519" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1gap_1a0a11c925ba6dbe3da6ede657d5636087" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::gap::BM_KB02_QueryFacts</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_KB02_QueryFacts</name>
+        <qualifiedname>themis::bench::gap::BM_KB02_QueryFacts</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>KB-02: Knowledge base query performance (1000 facts). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Simulates: queryFacts() pattern matching on 1000 stored facts Metric: latency (µs) Gate: &lt;= 100 µs </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_gap_closure.cpp" line="528" column="13" bodyfile="benchmarks/analytics/bench_analytics_gap_closure.cpp" bodystart="528" bodyend="557"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1gap_1adab149bb8a92517fd040606c2994cbfc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::gap::BENCHMARK</definition>
+        <argsstring>(BM_KB02_QueryFacts) -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::bench::gap::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_KB02_QueryFacts</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_gap_closure.cpp" line="558" column="1" declfile="benchmarks/analytics/bench_analytics_gap_closure.cpp" declline="558" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1gap_1af2c40809504b7aeee8de724835d80e5a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::gap::BM_UT01_ColumnarAggregate</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_UT01_ColumnarAggregate</name>
+        <qualifiedname>themis::bench::gap::BM_UT01_ColumnarAggregate</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>UT-01: Columnar aggregation (SUM/AVG/COUNT on 10k rows). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Simulates: columnarAggregate() for numeric columns Metric: throughput (rows/sec) Gate: &gt;= 1M rows/sec </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_gap_closure.cpp" line="571" column="13" bodyfile="benchmarks/analytics/bench_analytics_gap_closure.cpp" bodystart="571" bodyend="602"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1gap_1acbff9d9dbd2fe73f27021df3db2be52b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::gap::BENCHMARK</definition>
+        <argsstring>(BM_UT01_ColumnarAggregate) -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::bench::gap::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_UT01_ColumnarAggregate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_gap_closure.cpp" line="603" column="1" declfile="benchmarks/analytics/bench_analytics_gap_closure.cpp" declline="603" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1gap_1ae92379cc730b5816cdfd866e3cb01501" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::gap::BM_UT02_DistributedMerge</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_UT02_DistributedMerge</name>
+        <qualifiedname>themis::bench::gap::BM_UT02_DistributedMerge</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>UT-02: Distributed merge of two sorted sequences (1k + 1k). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Simulates: distributedMerge() combining two sorted arrays Metric: latency (ms) Gate: &lt;= 10 ms </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_gap_closure.cpp" line="612" column="13" bodyfile="benchmarks/analytics/bench_analytics_gap_closure.cpp" bodystart="612" bodyend="643"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1gap_1acf0bb2f2a812e6382ef6917948065a43" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::gap::BENCHMARK</definition>
+        <argsstring>(BM_UT02_DistributedMerge) -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::bench::gap::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_UT02_DistributedMerge</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_gap_closure.cpp" line="644" column="1" declfile="benchmarks/analytics/bench_analytics_gap_closure.cpp" declline="644" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/analytics/bench_analytics_gap_closure.cpp" line="53" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_wasm_host_function" kind="struct" language="C++" prot="public">
+    <compoundname>themis::modules::WasmHostFunction</compoundname>
+    <includes refid="wasm__plugin__sandbox_8h" local="no">wasm_plugin_sandbox.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_wasm_host_function_1a8a9578752dc97deab0920e09f957a786" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::WasmHostFunction::module_name</definition>
+        <argsstring></argsstring>
+        <name>module_name</name>
+        <qualifiedname>themis::modules::WasmHostFunction::module_name</qualifiedname>
+        <briefdescription>
+<para>Import module name (e.g. &quot;themis&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="99" column="17" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_wasm_host_function_1a055f06f220caca522d3f8068246ec259" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::WasmHostFunction::function_name</definition>
+        <argsstring></argsstring>
+        <name>function_name</name>
+        <qualifiedname>themis::modules::WasmHostFunction::function_name</qualifiedname>
+        <briefdescription>
+<para>Import function name (e.g. &quot;log&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="100" column="17" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_wasm_host_function_1a33e61264a6fa5c9065eee3b6f2485752" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1modules_1aa45ebba1f9a95604ec5cc5daa94d92e1" kindref="member">WasmHostFn</ref></type>
+        <definition>WasmHostFn themis::modules::WasmHostFunction::fn</definition>
+        <argsstring></argsstring>
+        <name>fn</name>
+        <qualifiedname>themis::modules::WasmHostFunction::fn</qualifiedname>
+        <briefdescription>
+<para>Handler implementation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="101" column="17" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_wasm_host_function_1a8cb91a153705fbc5a8d16f5466da803b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::WasmHostFunction::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::modules::WasmHostFunction::description</qualifiedname>
+        <briefdescription>
+<para>Human-readable documentation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="102" column="17" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Registration record for a single host function export. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/base/wasm_plugin_sandbox.h" line="98" column="1" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="98" bodyend="103"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_wasm_host_function_1a8cb91a153705fbc5a8d16f5466da803b" prot="public" virt="non-virtual"><scope>themis::modules::WasmHostFunction</scope><name>description</name></member>
+      <member refid="structthemis_1_1modules_1_1_wasm_host_function_1a33e61264a6fa5c9065eee3b6f2485752" prot="public" virt="non-virtual"><scope>themis::modules::WasmHostFunction</scope><name>fn</name></member>
+      <member refid="structthemis_1_1modules_1_1_wasm_host_function_1a055f06f220caca522d3f8068246ec259" prot="public" virt="non-virtual"><scope>themis::modules::WasmHostFunction</scope><name>function_name</name></member>
+      <member refid="structthemis_1_1modules_1_1_wasm_host_function_1a8a9578752dc97deab0920e09f957a786" prot="public" virt="non-virtual"><scope>themis::modules::WasmHostFunction</scope><name>module_name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

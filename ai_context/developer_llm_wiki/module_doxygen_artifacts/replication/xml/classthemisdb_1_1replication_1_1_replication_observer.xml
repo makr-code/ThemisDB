@@ -1,0 +1,271 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1_replication_observer" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::ReplicationObserver</compoundname>
+    <includes refid="observability_8h" local="no">observability.h</includes>
+    <innerclass refid="structthemisdb_1_1replication_1_1_replication_observer_1_1_lag_snapshot" prot="public">themisdb::replication::ReplicationObserver::LagSnapshot</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_replication_observer_1_1_topology_node" prot="public">themisdb::replication::ReplicationObserver::TopologyNode</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_replication_observer_1_1_bottleneck" prot="public">themisdb::replication::ReplicationObserver::Bottleneck</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_replication_observer_1_1_health_score" prot="public">themisdb::replication::ReplicationObserver::HealthScore</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemisdb_1_1replication_1_1_replication_observer_1a3e6500a4cf2d3c8a87e4cc48a9105f2e" prot="public" static="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_replication_observer_config" kindref="compound">ReplicationObserverConfig</ref></type>
+        <definition>using themisdb::replication::ReplicationObserver::ObserverConfig = ReplicationObserverConfig</definition>
+        <argsstring></argsstring>
+        <name>ObserverConfig</name>
+        <qualifiedname>themisdb::replication::ReplicationObserver::ObserverConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/observability.h" line="125" column="5" bodyfile="include/replication/observability.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_observer_1aff932bfbe8c0f5100eb1fecb1badcd18" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_replication_manager" kindref="compound">ReplicationManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ReplicationManager&gt; themisdb::replication::ReplicationObserver::manager_</definition>
+        <argsstring></argsstring>
+        <name>manager_</name>
+        <qualifiedname>themisdb::replication::ReplicationObserver::manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/observability.h" line="190" column="21" bodyfile="include/replication/observability.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_replication_observer_1afd24884ab4b81cecf6ed78f9c040a595" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1replication_1_1_replication_observer_1a3e6500a4cf2d3c8a87e4cc48a9105f2e" kindref="member">ObserverConfig</ref></type>
+        <definition>ObserverConfig themisdb::replication::ReplicationObserver::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::replication::ReplicationObserver::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/observability.h" line="191" column="20" bodyfile="include/replication/observability.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_observer_1ae9bfe016f4a54012f5cf7e9387c4dda2" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::ReplicationObserver::ReplicationObserver</definition>
+        <argsstring>(std::shared_ptr&lt; ReplicationManager &gt; manager, const ObserverConfig &amp;config=ObserverConfig{})</argsstring>
+        <name>ReplicationObserver</name>
+        <qualifiedname>themisdb::replication::ReplicationObserver::ReplicationObserver</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_replication_manager" kindref="compound">ReplicationManager</ref> &gt;</type>
+          <declname>manager</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1replication_1_1_replication_observer_1a3e6500a4cf2d3c8a87e4cc48a9105f2e" kindref="member">ObserverConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="classthemisdb_1_1replication_1_1_replication_observer_1a3e6500a4cf2d3c8a87e4cc48a9105f2e" kindref="member">ObserverConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Construct an observer backed by the given <ref refid="classthemisdb_1_1replication_1_1_replication_manager" kindref="compound">ReplicationManager</ref>. The observer holds a shared_ptr to the manager so it remains valid for the observer&apos;s lifetime. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/observability.h" line="136" column="14" bodyfile="src/replication/observability.cpp" bodystart="31" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_observer_1ab798bca8cdc8dd5bd02baeffd73de178" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::ReplicationObserver::~ReplicationObserver</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ReplicationObserver</name>
+        <qualifiedname>themisdb::replication::ReplicationObserver::~ReplicationObserver</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/observability.h" line="141" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_observer_1a5153b3a56f33923a036ca73a8ba299fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::ReplicationObserver::ReplicationObserver</definition>
+        <argsstring>(const ReplicationObserver &amp;)=delete</argsstring>
+        <name>ReplicationObserver</name>
+        <qualifiedname>themisdb::replication::ReplicationObserver::ReplicationObserver</qualifiedname>
+        <param>
+          <type>const ReplicationObserver &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/observability.h" line="144" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_observer_1a5071038eead62f63ff198fbd5b843703" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1replication_1_1_replication_observer_1ae9bfe016f4a54012f5cf7e9387c4dda2" kindref="member">ReplicationObserver</ref> &amp;</type>
+        <definition>ReplicationObserver &amp; themisdb::replication::ReplicationObserver::operator=</definition>
+        <argsstring>(const ReplicationObserver &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::replication::ReplicationObserver::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1replication_1_1_replication_observer_1ae9bfe016f4a54012f5cf7e9387c4dda2" kindref="member">ReplicationObserver</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/observability.h" line="145" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_observer_1afc602c557373849fe3bc0bee8ea4611f" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::ReplicationObserver::ReplicationObserver</definition>
+        <argsstring>(ReplicationObserver &amp;&amp;) noexcept=default</argsstring>
+        <name>ReplicationObserver</name>
+        <qualifiedname>themisdb::replication::ReplicationObserver::ReplicationObserver</qualifiedname>
+        <param>
+          <type>ReplicationObserver &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/observability.h" line="146" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_observer_1a7a706200302cd93621b587b989954967" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1replication_1_1_replication_observer_1ae9bfe016f4a54012f5cf7e9387c4dda2" kindref="member">ReplicationObserver</ref> &amp;</type>
+        <definition>ReplicationObserver &amp; themisdb::replication::ReplicationObserver::operator=</definition>
+        <argsstring>(ReplicationObserver &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::replication::ReplicationObserver::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1_replication_observer_1ae9bfe016f4a54012f5cf7e9387c4dda2" kindref="member">ReplicationObserver</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/observability.h" line="147" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_observer_1a9edcfc82e774375871d6dab4e81dcd21" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_replication_observer_1_1_lag_snapshot" kindref="compound">LagSnapshot</ref> &gt;</type>
+        <definition>std::vector&lt; ReplicationObserver::LagSnapshot &gt; themisdb::replication::ReplicationObserver::getLagSnapshots</definition>
+        <argsstring>(std::chrono::seconds window=std::chrono::seconds(60)) const</argsstring>
+        <name>getLagSnapshots</name>
+        <qualifiedname>themisdb::replication::ReplicationObserver::getLagSnapshots</qualifiedname>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>window</declname>
+          <defval>std::chrono::seconds(60)</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return a lag snapshot for every known replica. The <computeroutput>window</computeroutput> parameter is currently informational; lag is measured at the time of the call from the heartbeat timestamps in <ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref>.</para>
+<para>Performance: O(N) in the number of replicas, ≤ 1 ms. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/observability.h" line="160" column="17" bodyfile="src/replication/observability.cpp" bodystart="44" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_observer_1a54ed92aa20a0f61a89413e8646759543" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_replication_observer_1_1_topology_node" kindref="compound">TopologyNode</ref> &gt;</type>
+        <definition>std::vector&lt; ReplicationObserver::TopologyNode &gt; themisdb::replication::ReplicationObserver::getTopology</definition>
+        <argsstring>() const</argsstring>
+        <name>getTopology</name>
+        <qualifiedname>themisdb::replication::ReplicationObserver::getTopology</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return the current replication topology as a list of <ref refid="structthemisdb_1_1replication_1_1_replication_observer_1_1_topology_node" kindref="compound">TopologyNode</ref> records, one per known cluster member (including the local node).</para>
+<para>Performance: O(N), ≤ 1 ms. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/observability.h" line="170" column="17" bodyfile="src/replication/observability.cpp" bodystart="71" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_observer_1a44fc7f54afcf9640d656fe2df7dd2dd6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_replication_observer_1_1_bottleneck" kindref="compound">Bottleneck</ref> &gt;</type>
+        <definition>std::vector&lt; ReplicationObserver::Bottleneck &gt; themisdb::replication::ReplicationObserver::detectBottlenecks</definition>
+        <argsstring>() const</argsstring>
+        <name>detectBottlenecks</name>
+        <qualifiedname>themisdb::replication::ReplicationObserver::detectBottlenecks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Analyse replica lag and health metrics to identify bottlenecks. Returns an empty vector when the cluster is healthy.</para>
+<para>Performance: O(N), ≤ 5 ms. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/observability.h" line="178" column="17" bodyfile="src/replication/observability.cpp" bodystart="130" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_replication_observer_1a5111b6b6d0da50fa12e272cdaf25901b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_replication_observer_1_1_health_score" kindref="compound">HealthScore</ref></type>
+        <definition>ReplicationObserver::HealthScore themisdb::replication::ReplicationObserver::calculateHealthScore</definition>
+        <argsstring>() const</argsstring>
+        <name>calculateHealthScore</name>
+        <qualifiedname>themisdb::replication::ReplicationObserver::calculateHealthScore</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute an overall health score for the replication cluster. Scores degrade based on: replica lag, failed health checks, and recent failover events.</para>
+<para>Performance: O(N), ≤ 5 ms. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/observability.h" line="187" column="17" bodyfile="src/replication/observability.cpp" bodystart="191" bodyend="252"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemisdb_1_1replication_1_1_replication_observer" kindref="compound">ReplicationObserver</ref></para>
+<para>A read-only façade over <ref refid="classthemisdb_1_1replication_1_1_replication_manager" kindref="compound">ReplicationManager</ref> that exposes:<itemizedlist>
+<listitem><para>Per-replica lag snapshots with critical-lag detection</para>
+</listitem><listitem><para>Cluster topology as a structured graph</para>
+</listitem><listitem><para><ref refid="structthemisdb_1_1replication_1_1_replication_observer_1_1_bottleneck" kindref="compound">Bottleneck</ref> detection (network / disk / CPU)</para>
+</listitem><listitem><para>An overall health score (0 – 100)</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-safety: All methods are safe to call concurrently.</para>
+<para>Example: <programlisting><codeline><highlight class="normal"><ref refid="classthemisdb_1_1replication_1_1_replication_observer_1ae9bfe016f4a54012f5cf7e9387c4dda2" kindref="member">ReplicationObserver</ref><sp/>observer(repl_mgr);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>lags<sp/>=<sp/>observer.getLagSnapshots(std::chrono::minutes(5));</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>lag<sp/>:<sp/>lags)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(lag.is_critical)<sp/>alert(</highlight><highlight class="stringliteral">&quot;Critical<sp/>lag<sp/>on<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>lag.replica_id);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>health<sp/>=<sp/>observer.calculateHealthScore();</highlight></codeline>
+<codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Replication<sp/>health:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>health.overall_score<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;/100\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/replication/observability.h" line="71" column="1" bodyfile="include/replication/observability.h" bodystart="71" bodyend="192"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1_replication_observer_1a5111b6b6d0da50fa12e272cdaf25901b" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationObserver</scope><name>calculateHealthScore</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_observer_1afd24884ab4b81cecf6ed78f9c040a595" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationObserver</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_observer_1a44fc7f54afcf9640d656fe2df7dd2dd6" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationObserver</scope><name>detectBottlenecks</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_observer_1a9edcfc82e774375871d6dab4e81dcd21" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationObserver</scope><name>getLagSnapshots</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_observer_1a54ed92aa20a0f61a89413e8646759543" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationObserver</scope><name>getTopology</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_observer_1aff932bfbe8c0f5100eb1fecb1badcd18" prot="private" virt="non-virtual"><scope>themisdb::replication::ReplicationObserver</scope><name>manager_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_observer_1a3e6500a4cf2d3c8a87e4cc48a9105f2e" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationObserver</scope><name>ObserverConfig</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_observer_1a5071038eead62f63ff198fbd5b843703" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationObserver</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_observer_1a7a706200302cd93621b587b989954967" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationObserver</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_observer_1ae9bfe016f4a54012f5cf7e9387c4dda2" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationObserver</scope><name>ReplicationObserver</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_observer_1a5153b3a56f33923a036ca73a8ba299fe" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationObserver</scope><name>ReplicationObserver</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_observer_1afc602c557373849fe3bc0bee8ea4611f" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationObserver</scope><name>ReplicationObserver</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_replication_observer_1ab798bca8cdc8dd5bd02baeffd73de178" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationObserver</scope><name>~ReplicationObserver</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

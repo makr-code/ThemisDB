@@ -1,0 +1,350 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__gpu__phase2__phase3__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_gpu_phase2_phase3_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">themis/gpu/load_balancer.h</includes>
+    <includes local="yes">themis/gpu/gpu_memory_allocator.h</includes>
+    <includes local="yes">themis/gpu/gpu_backend_dispatch_contract.h</includes>
+    <includes local="yes">themis/gpu/gpu_backend_dispatch_diagnostics.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">chrono</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/gpu/test_gpu_phase2_phase3_focused.cpp</label>
+        <link refid="test__gpu__phase2__phase3__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>themis/gpu/gpu_backend_dispatch_contract.h</label>
+      </node>
+      <node id="6">
+        <label>themis/gpu/gpu_backend_dispatch_diagnostics.h</label>
+      </node>
+      <node id="4">
+        <label>themis/gpu/gpu_memory_allocator.h</label>
+      </node>
+      <node id="3">
+        <label>themis/gpu/load_balancer.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test" prot="public">themis::gpu::GPUPhase23HardeningTest</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test_1_1_diagnostic_event" prot="protected">themis::gpu::GPUPhase23HardeningTest::DiagnosticEvent</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1gpu">themis::gpu</innernamespace>
+    <briefdescription>
+<para>Focused tests for GPU backend dispatch Phase 2/3 hardening. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="date"><para>2026-08-05</para>
+</simplesect>
+Test cases P23-01..P23-08 validate:<itemizedlist>
+<listitem><para>Bounded runtime contracts (allocation/dispatch latency)</para>
+</listitem><listitem><para>Fail-closed behavior for backend selection and allocation failures</para>
+</listitem><listitem><para>Diagnostic emission on all error paths</para>
+</listitem><listitem><para>Canonical lock order enforcement </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/load_balancer.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/gpu_memory_allocator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/gpu_backend_dispatch_contract.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/gpu_backend_dispatch_diagnostics.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu" kindref="compound">gpu</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test" kindref="compound">GPUPhase23HardeningTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test_1acb0337c81bcbc7ed446f617fe2b8ded7" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Register<sp/>a<sp/>test<sp/>event<sp/>callback<sp/>to<sp/>verify<sp/>diagnostics<sp/>are<sp/>emitted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test_1ac5745e48080f05e33b80e861fa9912b8" kindref="member">diagnostics_received_</ref>.clear();</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_backend_dispatch_diagnostics_1aea283d1f416bdb6758f1ba40aa6484cc" kindref="member">GPUBackendDispatchDiagnostics::setEventCallback</ref>(</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[</highlight><highlight class="keyword">this</highlight><highlight class="normal">](<ref refid="namespacethemis_1_1gpu_1a5601df17f0cef5f13fa7ee19965dde78" kindref="member">GPUDispatchEventType</ref><sp/>event_type,<sp/><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6b" kindref="member">GPUDispatchErrorCode</ref><sp/>error_code,<sp/></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>device_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1gpu_1_1detail" kindref="compound">detail</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test_1ac5745e48080f05e33b80e861fa9912b8" kindref="member">diagnostics_received_</ref>.push_back({event_type,<sp/>error_code,<sp/>device_id,<sp/><ref refid="namespacethemis_1_1gpu_1_1detail" kindref="compound">detail</ref>});</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test_1ab32b36533b7e4f0b899373b8fab2b9b6" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_backend_dispatch_diagnostics_1aea283d1f416bdb6758f1ba40aa6484cc" kindref="member">GPUBackendDispatchDiagnostics::setEventCallback</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test_1_1_diagnostic_event" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test_1_1_diagnostic_event" kindref="compound">DiagnosticEvent</ref><sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1gpu_1a5601df17f0cef5f13fa7ee19965dde78" kindref="member">GPUDispatchEventType</ref><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test_1_1_diagnostic_event_1a1880b68238838f6ec496180727b44f70" kindref="member">event_type</ref>;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6b" kindref="member">GPUDispatchErrorCode</ref><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test_1_1_diagnostic_event_1a7b20e66b9f9afbc2d11daec2f5d673a6" kindref="member">error_code</ref>;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test_1_1_diagnostic_event_1ab754ca8e439eeee3c0460853cbc4004c" kindref="member">device_id</ref>;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test_1_1_diagnostic_event_1a14f8c2c27e89bfee67a49b767893243e" kindref="member">detail</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;DiagnosticEvent&gt;<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test_1ac5745e48080f05e33b80e861fa9912b8" kindref="member">diagnostics_received_</ref>;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test_1a676ed6f803148af21ae5ad120da05a08" kindref="member">kPhase23Seed</ref><sp/>=<sp/>GPU_BACKEND_DISPATCH_SEED;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P23-01:<sp/>Backend<sp/>selection<sp/>fail-closed<sp/>when<sp/>no<sp/>devices<sp/>available</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test" kindref="compound">GPUPhase23HardeningTest</ref>,<sp/>P23_01_BackendSelectionFailClosedNoDevices)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>GPULoadBalancer<sp/>balancer(GPULoadBalancer::Strategy::LEAST_LOADED);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Empty<sp/>device<sp/>list<sp/>should<sp/>return<sp/>nullptr<sp/>and<sp/>emit<sp/>diagnostic</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>DeviceInfo*<sp/>selected<sp/>=<sp/>balancer.selectDevice(0);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(selected,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(diagnostics_received_.size(),<sp/>1);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found_error<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>diag<sp/>:<sp/>diagnostics_received_)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(diag.error_code<sp/>==<sp/><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6bacd980e982c179a5e9a2806dfdce166bf" kindref="member">GPUDispatchErrorCode::BACKEND_NO_DEVICE_AVAILABLE</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>found_error<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(diag.device_id,<sp/>-1);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(diag.detail.find(</highlight><highlight class="stringliteral">&quot;No<sp/>eligible<sp/>device&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found_error)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;BACKEND_NO_DEVICE_AVAILABLE<sp/>diagnostic<sp/>not<sp/>emitted&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P23-02:<sp/>Bounded<sp/>runtime<sp/>contract<sp/>for<sp/>selectDevice</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test" kindref="compound">GPUPhase23HardeningTest</ref>,<sp/>P23_02_SelectDeviceBoundedLatency)<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>load<sp/>balancer<sp/>with<sp/>a<sp/>small<sp/>device<sp/>list</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>GPULoadBalancer<sp/>balancer(GPULoadBalancer::Strategy::ROUND_ROBIN);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;DeviceInfo&gt;<sp/>devices<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>4;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>DeviceInfo<sp/>info;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>info.index<sp/>=<sp/>i;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>info.name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;GPU_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>info.backend<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CUDA&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>info.is_healthy<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>info.free_vram_bytes<sp/>=<sp/>4UL<sp/>*<sp/>(1UL<sp/>&lt;&lt;<sp/>30);<sp/><sp/></highlight><highlight class="comment">//<sp/>4<sp/>GB<sp/>per<sp/>device</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>devices.push_back(info);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>balancer.updateDevices(devices);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Time<sp/>multiple<sp/>selectDevice<sp/>calls;<sp/>should<sp/>complete<sp/>well<sp/>within<sp/>SLA</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kIterations<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>max_latency_us<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kIterations;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>start_us<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::microseconds&gt;(</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::high_resolution_clock::now().time_since_epoch()).count();</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>DeviceInfo*<sp/>selected<sp/>=<sp/>balancer.selectDevice(0);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>end_us<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::microseconds&gt;(</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::high_resolution_clock::now().time_since_epoch()).count();</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>latency_us<sp/>=<sp/>end_us<sp/>-<sp/>start_us;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>max_latency_us<sp/>=<sp/>std::max(max_latency_us,<sp/>latency_us);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(selected,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Most<sp/>calls<sp/>should<sp/>be<sp/>well<sp/>under<sp/>SLA;<sp/>allow<sp/>some<sp/>headroom<sp/>for<sp/>system<sp/>noise</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(max_latency_us,<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a0a1abe7f132ff2ef3341b55ae28922fe" kindref="member">GPUBackendDispatchContract::MAX_SELECT_DEVICE_LATENCY_US</ref><sp/>*<sp/>10);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P23-03:<sp/>Fail-closed<sp/>behavior<sp/>for<sp/>invalid<sp/>allocation<sp/>parameters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test" kindref="compound">GPUPhase23HardeningTest</ref>,<sp/>P23_03_AllocationFailClosedInvalidParams)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Negative<sp/>device<sp/>ID<sp/>should<sp/>be<sp/>rejected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_memory_allocator_1_1_config" kindref="compound">GPUMemoryAllocator::Config</ref><sp/>config;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1gpu_1_1_g_p_u_memory_allocator_1_1_config_1a164db58ee66e51e4c8fe12444196d138" kindref="member">device_id</ref><sp/>=<sp/>-1;<sp/><sp/></highlight><highlight class="comment">//<sp/>Invalid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW({</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_allocator" kindref="compound">GPUMemoryAllocator</ref><sp/>allocator(config);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>},<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>diagnostic<sp/>was<sp/>emitted<sp/>(if<sp/>applicable<sp/>in<sp/>construction)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Note:<sp/>Constructor-level<sp/>diagnostics<sp/>may<sp/>be<sp/>implementation-specific</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P23-04:<sp/>Allocation<sp/>size<sp/>validation<sp/>(fail-closed)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test" kindref="compound">GPUPhase23HardeningTest</ref>,<sp/>P23_04_AllocationSizeValidation)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>mock<sp/>allocator<sp/>with<sp/>a<sp/>small<sp/>max_alloc_size<sp/>for<sp/>testing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(This<sp/>test<sp/>is<sp/>symbolic;<sp/>real<sp/>CUDA<sp/>operations<sp/>would<sp/>require<sp/>actual<sp/>device)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_memory_allocator_1_1_config" kindref="compound">GPUMemoryAllocator::Config</ref><sp/>config;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1gpu_1_1_g_p_u_memory_allocator_1_1_config_1a164db58ee66e51e4c8fe12444196d138" kindref="member">device_id</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>config.max_alloc_size<sp/>=<sp/>100<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>100<sp/>MB<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Note:<sp/>Full<sp/>test<sp/>would<sp/>require<sp/>CUDA<sp/>device;<sp/>this<sp/>validates<sp/>the<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(config.max_alloc_size,<sp/>0);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.device_id,<sp/>0);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P23-05:<sp/>Error<sp/>code<sp/>to<sp/>string<sp/>conversion<sp/>(diagnostic<sp/>readability)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test" kindref="compound">GPUPhase23HardeningTest</ref>,<sp/>P23_05_ErrorCodeToStringConversion)<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>all<sp/>error<sp/>codes<sp/>have<sp/>human-readable<sp/>strings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1gpu_1_1_g_p_u_backend_dispatch_diagnostics_1a63223389518f0ab6c6249f08f28167e0" kindref="member">GPUBackendDispatchDiagnostics::errorCodeToString</ref>(</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6ba80d1f9cc00c6eeb89474106aea2449b7" kindref="member">GPUDispatchErrorCode::ALLOC_SIZE_EXCEEDS_LIMIT</ref>),</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ALLOC_SIZE_EXCEEDS_LIMIT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1gpu_1_1_g_p_u_backend_dispatch_diagnostics_1a63223389518f0ab6c6249f08f28167e0" kindref="member">GPUBackendDispatchDiagnostics::errorCodeToString</ref>(</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6bacd980e982c179a5e9a2806dfdce166bf" kindref="member">GPUDispatchErrorCode::BACKEND_NO_DEVICE_AVAILABLE</ref>),</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;BACKEND_NO_DEVICE_AVAILABLE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1gpu_1_1_g_p_u_backend_dispatch_diagnostics_1a63223389518f0ab6c6249f08f28167e0" kindref="member">GPUBackendDispatchDiagnostics::errorCodeToString</ref>(</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6ba7d1318afd85ed6e652c96659d8d3346e" kindref="member">GPUDispatchErrorCode::DISPATCH_CONCURRENT_EXECUTION_REJECTED</ref>),</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;DISPATCH_CONCURRENT_EXECUTION_REJECTED&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1gpu_1_1_g_p_u_backend_dispatch_diagnostics_1a63223389518f0ab6c6249f08f28167e0" kindref="member">GPUBackendDispatchDiagnostics::errorCodeToString</ref>(</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6bad0749aaba8b833466dfcbb0428e4f89c" kindref="member">GPUDispatchErrorCode::SUCCESS</ref>),</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;SUCCESS&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P23-06:<sp/>Error<sp/>code<sp/>to<sp/>event<sp/>type<sp/>mapping<sp/>consistency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test" kindref="compound">GPUPhase23HardeningTest</ref>,<sp/>P23_06_ErrorCodeToEventTypeMapping)<sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>allocation<sp/>errors<sp/>should<sp/>map<sp/>to<sp/>ALLOCATION_FAILED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_backend_dispatch_diagnostics_1a83dbbb9d42e9c6b996af8a2b78dd9cbd" kindref="member">GPUBackendDispatchDiagnostics::errorCodeToEventType</ref>(</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6ba48498870e48f083697ca3920393ad49a" kindref="member">GPUDispatchErrorCode::ALLOC_INSUFFICIENT_VRAM</ref>),</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1gpu_1a5601df17f0cef5f13fa7ee19965dde78adcda066639ec16527e09a645c4db4bce" kindref="member">GPUDispatchEventType::ALLOCATION_FAILED</ref>);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Backend<sp/>selection<sp/>errors<sp/>should<sp/>map<sp/>to<sp/>BACKEND_SELECTION_FAILED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_backend_dispatch_diagnostics_1a83dbbb9d42e9c6b996af8a2b78dd9cbd" kindref="member">GPUBackendDispatchDiagnostics::errorCodeToEventType</ref>(</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6bacd980e982c179a5e9a2806dfdce166bf" kindref="member">GPUDispatchErrorCode::BACKEND_NO_DEVICE_AVAILABLE</ref>),</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1gpu_1a5601df17f0cef5f13fa7ee19965dde78a8e7a0f60b8f1c31b33541ad3cdc27b4c" kindref="member">GPUDispatchEventType::BACKEND_SELECTION_FAILED</ref>);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Capability<sp/>mismatch<sp/>should<sp/>be<sp/>distinct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_backend_dispatch_diagnostics_1a83dbbb9d42e9c6b996af8a2b78dd9cbd" kindref="member">GPUBackendDispatchDiagnostics::errorCodeToEventType</ref>(</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6bad0bc88d0d45ddfc2297631f7040aa3ba" kindref="member">GPUDispatchErrorCode::BACKEND_CAPABILITY_MISMATCH</ref>),</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1gpu_1a5601df17f0cef5f13fa7ee19965dde78a45933607bbffda9d4daf71f4a2c314ed" kindref="member">GPUDispatchEventType::CAPABILITY_MISMATCH</ref>);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P23-07:<sp/>Fail-closed<sp/>class<sp/>predicate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test" kindref="compound">GPUPhase23HardeningTest</ref>,<sp/>P23_07_FailClosedClassPredicate)<sp/>{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SUCCESS<sp/>is<sp/>not<sp/>fail-closed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1gpu_1afaa92fb12158f0906d44acb26c8b86c6" kindref="member">isFailClosedClass</ref>(<ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6bad0749aaba8b833466dfcbb0428e4f89c" kindref="member">GPUDispatchErrorCode::SUCCESS</ref>));</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>error<sp/>codes<sp/>are<sp/>fail-closed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1gpu_1afaa92fb12158f0906d44acb26c8b86c6" kindref="member">isFailClosedClass</ref>(<ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6ba48498870e48f083697ca3920393ad49a" kindref="member">GPUDispatchErrorCode::ALLOC_INSUFFICIENT_VRAM</ref>));</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1gpu_1afaa92fb12158f0906d44acb26c8b86c6" kindref="member">isFailClosedClass</ref>(<ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6bacd980e982c179a5e9a2806dfdce166bf" kindref="member">GPUDispatchErrorCode::BACKEND_NO_DEVICE_AVAILABLE</ref>));</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1gpu_1afaa92fb12158f0906d44acb26c8b86c6" kindref="member">isFailClosedClass</ref>(<ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6ba8dbc26d1ca7f11f36b8040a07d357410" kindref="member">GPUDispatchErrorCode::DISPATCH_TIMEOUT</ref>));</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1gpu_1afaa92fb12158f0906d44acb26c8b86c6" kindref="member">isFailClosedClass</ref>(<ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6ba56a02e21206f5a21c8f532c0a8ead220" kindref="member">GPUDispatchErrorCode::BACKEND_DEGRADED</ref>));</highlight></codeline>
+<codeline lineno="217"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P23-08:<sp/>Diagnostic<sp/>emission<sp/>callback<sp/>registration<sp/>and<sp/>invocation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test" kindref="compound">GPUPhase23HardeningTest</ref>,<sp/>P23_08_DiagnosticEmissionCallback)<sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>callback_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6b" kindref="member">GPUDispatchErrorCode</ref><sp/>last_error_code<sp/>=<sp/><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6bad0749aaba8b833466dfcbb0428e4f89c" kindref="member">GPUDispatchErrorCode::SUCCESS</ref>;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>test_callback<sp/>=<sp/>[&amp;](<ref refid="namespacethemis_1_1gpu_1a5601df17f0cef5f13fa7ee19965dde78" kindref="member">GPUDispatchEventType</ref><sp/>event_type,</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6b" kindref="member">GPUDispatchErrorCode</ref><sp/>error_code,</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>device_id,</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1gpu_1_1detail" kindref="compound">detail</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>callback_count++;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>last_error_code<sp/>=<sp/>error_code;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reset<sp/>and<sp/>register<sp/>new<sp/>callback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_backend_dispatch_diagnostics_1aea283d1f416bdb6758f1ba40aa6484cc" kindref="member">GPUBackendDispatchDiagnostics::setEventCallback</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1gpu_1_1_g_p_u_backend_dispatch_diagnostics_1a403f0136087279044501960c4710ceb1" kindref="member">GPUBackendDispatchDiagnostics::getEventCallback</ref>(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_backend_dispatch_diagnostics_1aea283d1f416bdb6758f1ba40aa6484cc" kindref="member">GPUBackendDispatchDiagnostics::setEventCallback</ref>(test_callback);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="classthemis_1_1gpu_1_1_g_p_u_backend_dispatch_diagnostics_1a403f0136087279044501960c4710ceb1" kindref="member">GPUBackendDispatchDiagnostics::getEventCallback</ref>(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Emit<sp/>a<sp/>diagnostic<sp/>and<sp/>verify<sp/>callback<sp/>is<sp/>invoked</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_backend_dispatch_diagnostics_1ad8aacbfd811f09b0f94d4b07251f3b8c" kindref="member">GPUBackendDispatchDiagnostics::emitDiagnostic</ref>(</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6ba48498870e48f083697ca3920393ad49a" kindref="member">GPUDispatchErrorCode::ALLOC_INSUFFICIENT_VRAM</ref>,</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0,</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Test<sp/>emission&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Callback<sp/>should<sp/>have<sp/>been<sp/>invoked<sp/>(test<sp/>callback<sp/>increments<sp/>count)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(callback_count,<sp/>0);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unregister<sp/>callback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_backend_dispatch_diagnostics_1aea283d1f416bdb6758f1ba40aa6484cc" kindref="member">GPUBackendDispatchDiagnostics::setEventCallback</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Contract<sp/>validation<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test" kindref="compound">GPUPhase23HardeningTest</ref>,<sp/>ContractLatencyBoundsSanity)<sp/>{</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>contract<sp/>bounds<sp/>are<sp/>reasonable<sp/>(in<sp/>microseconds)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(<ref refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a0a1abe7f132ff2ef3341b55ae28922fe" kindref="member">GPUBackendDispatchContract::MAX_SELECT_DEVICE_LATENCY_US</ref>,<sp/>1&apos;000&apos;000);<sp/><sp/></highlight><highlight class="comment">//<sp/>&lt;<sp/>1<sp/>second</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(<ref refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1ac61c73b23f11a590c2e4c0736e9a4fd9" kindref="member">GPUBackendDispatchContract::MAX_ALLOCATE_LATENCY_US</ref>,<sp/>10&apos;000&apos;000);<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&lt;<sp/>10<sp/>seconds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(<ref refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a9692e41c21eae852b9d09e2a5063f480" kindref="member">GPUBackendDispatchContract::MAX_EMIT_DIAGNOSTIC_LATENCY_US</ref>,<sp/>1&apos;000);<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&lt;<sp/>1<sp/>ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test" kindref="compound">GPUPhase23HardeningTest</ref>,<sp/>ContractLockOrderDocumented)<sp/>{</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>canonical<sp/>lock<sp/>order<sp/>is<sp/>documented</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>lock_order<sp/>=<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a33373dd3cbbdd5957b4b0607fd42ac09" kindref="member">GPUBackendDispatchContract::CANONICAL_LOCK_ORDER</ref>;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(lock_order.find(</highlight><highlight class="stringliteral">&quot;allocation_mutex&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(lock_order.find(</highlight><highlight class="stringliteral">&quot;device_state_mutex&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(lock_order.find(</highlight><highlight class="stringliteral">&quot;dispatch_mutex&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><ref refid="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test" kindref="compound">GPUPhase23HardeningTest</ref>,<sp/>ContractFailClosedFlags)<sp/>{</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>fail-closed<sp/>behavior<sp/>is<sp/>enabled<sp/>by<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a30525c6f8ac08dac8be6be8b7b293147" kindref="member">GPUBackendDispatchContract::ALLOCATION_FAIL_CLOSED</ref>);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a1dfe8cf20a02cd8443550ecbb0b67956" kindref="member">GPUBackendDispatchContract::BACKEND_SELECTION_FAIL_CLOSED</ref>);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a52aa1bb9af151c595fd2371e2ce30d4a" kindref="member">GPUBackendDispatchContract::DISPATCH_CONCURRENT_FAIL_CLOSED</ref>);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a9d0a98a9d5ec2f6a91afc94856c05181" kindref="member">GPUBackendDispatchContract::DIAGNOSTIC_EMISSION_MANDATORY</ref>);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract_1a43362b7c3617b75099a5c1827f47773d" kindref="member">GPUBackendDispatchContract::DIAGNOSTIC_EMISSION_SYNCHRONOUS</ref>);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>gpu</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/gpu/test_gpu_phase2_phase3_focused.cpp"/>
+  </compounddef>
+</doxygen>

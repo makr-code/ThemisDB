@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1document_1_1_schema_descriptor" kind="struct" language="C++" prot="public">
+    <compoundname>themis::document::SchemaDescriptor</compoundname>
+    <includes refid="document__schema__evolution_8h" local="no">document_schema_evolution.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_schema_descriptor_1af1a6bfda4d3553cb684ac14cc08b219b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1document_1_1_schema_field_descriptor" kindref="compound">SchemaFieldDescriptor</ref> &gt;</type>
+        <definition>std::vector&lt;SchemaFieldDescriptor&gt; themis::document::SchemaDescriptor::fields</definition>
+        <argsstring></argsstring>
+        <name>fields</name>
+        <qualifiedname>themis::document::SchemaDescriptor::fields</qualifiedname>
+        <briefdescription>
+<para>Field definitions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_schema_evolution.h" line="75" column="17" bodyfile="include/document/document_schema_evolution.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/document/document_schema_evolution.h" line="74" column="1" bodyfile="include/document/document_schema_evolution.h" bodystart="74" bodyend="76"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1document_1_1_schema_descriptor_1af1a6bfda4d3553cb684ac14cc08b219b" prot="public" virt="non-virtual"><scope>themis::document::SchemaDescriptor</scope><name>fields</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

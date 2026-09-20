@@ -1,0 +1,241 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_wrapper" kind="class" language="C++" prot="public">
+    <compoundname>themis::RocksDBWrapper::WriteBatchWrapper</compoundname>
+    <includes refid="rocksdb__wrapper_8h" local="no">rocksdb_wrapper.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_wrapper_1afd76650902a9497541a71630f21a82a7" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_wrapper_1a1b2aa53533c6da838570239bffa9cc10" kindref="member">RocksDBWrapper</ref> *</type>
+        <definition>RocksDBWrapper* themis::RocksDBWrapper::WriteBatchWrapper::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::RocksDBWrapper::WriteBatchWrapper::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="400" column="24" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="400" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_wrapper_1adb8be53c7e791859bd600684afd847ca" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classrocksdb_1_1_write_batch" kindref="compound">rocksdb::WriteBatch</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;rocksdb::WriteBatch&gt; themis::RocksDBWrapper::WriteBatchWrapper::batch_</definition>
+        <argsstring></argsstring>
+        <name>batch_</name>
+        <qualifiedname>themis::RocksDBWrapper::WriteBatchWrapper::batch_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="401" column="25" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="401" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="friend">
+      <memberdef kind="friend" id="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_wrapper_1a1b2aa53533c6da838570239bffa9cc10" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class RocksDBWrapper</definition>
+        <argsstring></argsstring>
+        <name>RocksDBWrapper</name>
+        <qualifiedname>themis::RocksDBWrapper::WriteBatchWrapper::RocksDBWrapper</qualifiedname>
+        <param>
+          <type>RocksDBWrapper</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="402" column="22" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="402" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_wrapper_1a65eea0dd52fa2daaa84dfee2f9015703" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::RocksDBWrapper::WriteBatchWrapper::WriteBatchWrapper</definition>
+        <argsstring>(RocksDBWrapper *db)</argsstring>
+        <name>WriteBatchWrapper</name>
+        <qualifiedname>themis::RocksDBWrapper::WriteBatchWrapper::WriteBatchWrapper</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_wrapper_1a1b2aa53533c6da838570239bffa9cc10" kindref="member">RocksDBWrapper</ref> *</type>
+          <declname>db</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="381" column="18" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="1517" bodyend="1518"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_wrapper_1adcdeb7796e4a9c560b2e0c9c9180d1f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::RocksDBWrapper::WriteBatchWrapper::~WriteBatchWrapper</definition>
+        <argsstring>()</argsstring>
+        <name>~WriteBatchWrapper</name>
+        <qualifiedname>themis::RocksDBWrapper::WriteBatchWrapper::~WriteBatchWrapper</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="382" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_wrapper_1a3ad8a089d3292e3322a2a11a87f5159c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::RocksDBWrapper::WriteBatchWrapper::put</definition>
+        <argsstring>(std::string_view key, const std::vector&lt; uint8_t &gt; &amp;value)</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::RocksDBWrapper::WriteBatchWrapper::put</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Add a key-value pair to the batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Put.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Lookup key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="namespacethemis_1accce58ed831f36f773c788820ecc97f8" kindref="member">Value</ref> bytes.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Put(), rocksdb::Slice(), data(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="387" column="14" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="1528" bodyend="1533"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_wrapper_1abb4673d7593a6dd8b2b9c5743df9ad5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::RocksDBWrapper::WriteBatchWrapper::del</definition>
+        <argsstring>(std::string_view key)</argsstring>
+        <name>del</name>
+        <qualifiedname>themis::RocksDBWrapper::WriteBatchWrapper::del</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Delete a key from the batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Del.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Lookup key.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Delete(), rocksdb::Slice(), data(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="390" column="14" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="1540" bodyend="1542"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_wrapper_1a97af9ed8495452bcd39882baa874330f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::WriteBatchWrapper::commit</definition>
+        <argsstring>()</argsstring>
+        <name>commit</name>
+        <qualifiedname>themis::RocksDBWrapper::WriteBatchWrapper::commit</qualifiedname>
+        <briefdescription>
+<para>Commit the batch atomically. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Commit.</para>
+<para><simplesect kind="return"><para>true on success.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: commitBatch(), <ref refid="classthemis_1_1_rocks_d_b_wrapper_1a4730728cdeb7946aa682568935426d80" kindref="member">get()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="394" column="14" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="1549" bodyend="1553"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_wrapper_1aa0d0858bba664b0db8f45c096c71b27d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::RocksDBWrapper::WriteBatchWrapper::rollback</definition>
+        <argsstring>()</argsstring>
+        <name>rollback</name>
+        <qualifiedname>themis::RocksDBWrapper::WriteBatchWrapper::rollback</qualifiedname>
+        <briefdescription>
+<para>Roll back the batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Rollback.</para>
+<para>Calls: Clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="397" column="14" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="1559" bodyend="1561"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Wrapper for atomic multi-key write batches. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/rocksdb_wrapper.h" line="379" column="5" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="379" bodyend="403"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_wrapper_1adb8be53c7e791859bd600684afd847ca" prot="private" virt="non-virtual"><scope>themis::RocksDBWrapper::WriteBatchWrapper</scope><name>batch_</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_wrapper_1a97af9ed8495452bcd39882baa874330f" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::WriteBatchWrapper</scope><name>commit</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_wrapper_1afd76650902a9497541a71630f21a82a7" prot="private" virt="non-virtual"><scope>themis::RocksDBWrapper::WriteBatchWrapper</scope><name>db_</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_wrapper_1abb4673d7593a6dd8b2b9c5743df9ad5a" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::WriteBatchWrapper</scope><name>del</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_wrapper_1a3ad8a089d3292e3322a2a11a87f5159c" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::WriteBatchWrapper</scope><name>put</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_wrapper_1a1b2aa53533c6da838570239bffa9cc10" prot="private" virt="non-virtual"><scope>themis::RocksDBWrapper::WriteBatchWrapper</scope><name>RocksDBWrapper</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_wrapper_1aa0d0858bba664b0db8f45c096c71b27d" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::WriteBatchWrapper</scope><name>rollback</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_wrapper_1a65eea0dd52fa2daaa84dfee2f9015703" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::WriteBatchWrapper</scope><name>WriteBatchWrapper</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_wrapper_1adcdeb7796e4a9c560b2e0c9c9180d1f9" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::WriteBatchWrapper</scope><name>~WriteBatchWrapper</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

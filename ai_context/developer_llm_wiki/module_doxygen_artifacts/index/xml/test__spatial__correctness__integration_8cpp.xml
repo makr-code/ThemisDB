@@ -1,0 +1,968 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__spatial__correctness__integration_8cpp" kind="file" language="C++">
+    <compoundname>test_spatial_correctness_integration.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="spatial__index_8h" local="yes">index/spatial_index.h</includes>
+    <includes local="yes">geo/spatial_backend.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="yes">utils/geo/ewkb.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">set</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>index/spatial_index.h</label>
+        <link refid="spatial__index_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/index/test_spatial_correctness_integration.cpp</label>
+        <link refid="test__spatial__correctness__integration_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>algorithm</label>
+      </node>
+      <node id="14">
+        <label>atomic</label>
+      </node>
+      <node id="13">
+        <label>cfloat</label>
+      </node>
+      <node id="20">
+        <label>chrono</label>
+      </node>
+      <node id="21">
+        <label>filesystem</label>
+      </node>
+      <node id="6">
+        <label>geo/geo_rtree.h</label>
+      </node>
+      <node id="5">
+        <label>geo/spatial_backend.h</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="11">
+        <label>memory</label>
+      </node>
+      <node id="15">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>optional</label>
+      </node>
+      <node id="22">
+        <label>set</label>
+      </node>
+      <node id="16">
+        <label>shared_mutex</label>
+      </node>
+      <node id="7">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>string_view</label>
+      </node>
+      <node id="17">
+        <label>unordered_map</label>
+      </node>
+      <node id="18">
+        <label>unordered_set</label>
+      </node>
+      <node id="4">
+        <label>utils/geo/ewkb.h</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_spatial_correctness_test" prot="public">SpatialCorrectnessTest</innerclass>
+    <innernamespace refid="namespacethemis_1_1geo">themis::geo</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__spatial__correctness__integration_8cpp_1a545901ea1a1956cd7d35004a172aa3a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialCorrectnessTest, Intersects_SinglePoint_Inside)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref></type>
+        </param>
+        <param>
+          <type>Intersects_SinglePoint_Inside</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_spatial_correctness_integration.cpp" line="116" column="1" bodyfile="tests/index/test_spatial_correctness_integration.cpp" bodystart="116" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__correctness__integration_8cpp_1a52e451a210b1546f00f7e01dcb372f1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialCorrectnessTest, Intersects_SinglePoint_Outside)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref></type>
+        </param>
+        <param>
+          <type>Intersects_SinglePoint_Outside</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_spatial_correctness_integration.cpp" line="124" column="1" bodyfile="tests/index/test_spatial_correctness_integration.cpp" bodystart="124" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__correctness__integration_8cpp_1ae47f0dacd253208acb47a9bd78db786d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialCorrectnessTest, Intersects_MultiplePoints_CorrectSubset)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref></type>
+        </param>
+        <param>
+          <type>Intersects_MultiplePoints_CorrectSubset</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_spatial_correctness_integration.cpp" line="131" column="1" bodyfile="tests/index/test_spatial_correctness_integration.cpp" bodystart="131" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__correctness__integration_8cpp_1a40ce7c844d6aff5e114a02e55886925f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialCorrectnessTest, Intersects_BoxVsBox_Overlapping)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref></type>
+        </param>
+        <param>
+          <type>Intersects_BoxVsBox_Overlapping</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_spatial_correctness_integration.cpp" line="146" column="1" bodyfile="tests/index/test_spatial_correctness_integration.cpp" bodystart="146" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__correctness__integration_8cpp_1a61a2d01c6bab4c94ba74dd6f4ce230aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialCorrectnessTest, Intersects_BoxVsBox_Disjoint)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref></type>
+        </param>
+        <param>
+          <type>Intersects_BoxVsBox_Disjoint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_spatial_correctness_integration.cpp" line="156" column="1" bodyfile="tests/index/test_spatial_correctness_integration.cpp" bodystart="156" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__correctness__integration_8cpp_1aec83e60fd63c02255ade81adc9080eec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialCorrectnessTest, Remove_DisappearsFromResults)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref></type>
+        </param>
+        <param>
+          <type>Remove_DisappearsFromResults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_spatial_correctness_integration.cpp" line="168" column="1" bodyfile="tests/index/test_spatial_correctness_integration.cpp" bodystart="168" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__correctness__integration_8cpp_1a79c533c1e6142c2c114cd4954c0fd3dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialCorrectnessTest, Remove_OtherEntriesUnaffected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref></type>
+        </param>
+        <param>
+          <type>Remove_OtherEntriesUnaffected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_spatial_correctness_integration.cpp" line="179" column="1" bodyfile="tests/index/test_spatial_correctness_integration.cpp" bodystart="179" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__correctness__integration_8cpp_1a3b7e48531cafae0c3ef2750a7a573c41" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialCorrectnessTest, Update_MovesEntryToNewLocation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref></type>
+        </param>
+        <param>
+          <type>Update_MovesEntryToNewLocation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_spatial_correctness_integration.cpp" line="193" column="1" bodyfile="tests/index/test_spatial_correctness_integration.cpp" bodystart="193" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__correctness__integration_8cpp_1ae215bfbbd915fb1f488def1dbf55a49a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialCorrectnessTest, Within_PointStrictlyInside)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref></type>
+        </param>
+        <param>
+          <type>Within_PointStrictlyInside</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_spatial_correctness_integration.cpp" line="213" column="1" bodyfile="tests/index/test_spatial_correctness_integration.cpp" bodystart="213" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__correctness__integration_8cpp_1a36e09a477f57977d7d3c34c1248b25ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialCorrectnessTest, Within_PointOutsideBbox)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref></type>
+        </param>
+        <param>
+          <type>Within_PointOutsideBbox</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_spatial_correctness_integration.cpp" line="221" column="1" bodyfile="tests/index/test_spatial_correctness_integration.cpp" bodystart="221" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__correctness__integration_8cpp_1a4e4dcdbe96c8fae24896a79adc89d4b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialCorrectnessTest, Contains_LargeBoxContainsPoint)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref></type>
+        </param>
+        <param>
+          <type>Contains_LargeBoxContainsPoint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_spatial_correctness_integration.cpp" line="232" column="1" bodyfile="tests/index/test_spatial_correctness_integration.cpp" bodystart="232" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__correctness__integration_8cpp_1a8f37256412b0d257f084e947cf21fd72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialCorrectnessTest, Nearby_PointWithinRadius)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref></type>
+        </param>
+        <param>
+          <type>Nearby_PointWithinRadius</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_spatial_correctness_integration.cpp" line="248" column="1" bodyfile="tests/index/test_spatial_correctness_integration.cpp" bodystart="248" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__correctness__integration_8cpp_1a4cf9ed9fa536f843dd7ccbc278a5ed8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialCorrectnessTest, Nearby_NoPointWithinRadius)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref></type>
+        </param>
+        <param>
+          <type>Nearby_NoPointWithinRadius</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_spatial_correctness_integration.cpp" line="262" column="1" bodyfile="tests/index/test_spatial_correctness_integration.cpp" bodystart="262" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__correctness__integration_8cpp_1a2d712c2e5a0442fece9dd1d81fe357aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialCorrectnessTest, KNN_ReturnExactlyK)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref></type>
+        </param>
+        <param>
+          <type>KNN_ReturnExactlyK</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_spatial_correctness_integration.cpp" line="276" column="1" bodyfile="tests/index/test_spatial_correctness_integration.cpp" bodystart="276" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__correctness__integration_8cpp_1a82c55f3f7fab44471b9263055450a2af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialCorrectnessTest, KNN_ClosestIsNearest)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref></type>
+        </param>
+        <param>
+          <type>KNN_ClosestIsNearest</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_spatial_correctness_integration.cpp" line="299" column="1" bodyfile="tests/index/test_spatial_correctness_integration.cpp" bodystart="299" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__correctness__integration_8cpp_1adc6d431867c03d7abad0829ab2b79740" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialCorrectnessTest, ZRange_FindsPointInBand)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref></type>
+        </param>
+        <param>
+          <type>ZRange_FindsPointInBand</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_spatial_correctness_integration.cpp" line="312" column="1" bodyfile="tests/index/test_spatial_correctness_integration.cpp" bodystart="312" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__correctness__integration_8cpp_1af03c6bea4c0696b6012d5b1cf689aa12" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialCorrectnessTest, Precision_NoFalsePositives)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref></type>
+        </param>
+        <param>
+          <type>Precision_NoFalsePositives</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_spatial_correctness_integration.cpp" line="329" column="1" bodyfile="tests/index/test_spatial_correctness_integration.cpp" bodystart="329" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__correctness__integration_8cpp_1adec84f5b04abbd421e01a29b3ac0b0ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialCorrectnessTest, Recall_AllPointsFoundInWorldQuery)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref></type>
+        </param>
+        <param>
+          <type>Recall_AllPointsFoundInWorldQuery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_spatial_correctness_integration.cpp" line="358" column="1" bodyfile="tests/index/test_spatial_correctness_integration.cpp" bodystart="358" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__correctness__integration_8cpp_1a1784d94a216bdfa8bbe4178783899262" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialCorrectnessTest, IndexManagement_CreateAndDropCycle)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref></type>
+        </param>
+        <param>
+          <type>IndexManagement_CreateAndDropCycle</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_spatial_correctness_integration.cpp" line="380" column="1" bodyfile="tests/index/test_spatial_correctness_integration.cpp" bodystart="380" bodyend="389"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__correctness__integration_8cpp_1addc4ad03c683a997f4a1b1f33a8e0f42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialCorrectnessTest, IndexManagement_SearchOnDroppedIndexReturnsEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref></type>
+        </param>
+        <param>
+          <type>IndexManagement_SearchOnDroppedIndexReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_spatial_correctness_integration.cpp" line="391" column="1" bodyfile="tests/index/test_spatial_correctness_integration.cpp" bodystart="391" bodyend="401"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__correctness__integration_8cpp_1a60507a3b322fc84900ba5161c7131d60" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialCorrectnessTest, Metrics_InsertAndQueryCountsIncrement)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref></type>
+        </param>
+        <param>
+          <type>Metrics_InsertAndQueryCountsIncrement</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_spatial_correctness_integration.cpp" line="407" column="1" bodyfile="tests/index/test_spatial_correctness_integration.cpp" bodystart="407" bodyend="416"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Integration<sp/>tests:<sp/>Spatial<sp/>index<sp/>correctness<sp/>(Production<sp/>Readiness<sp/>Checklist)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Validates<sp/>that<sp/>SpatialIndexManager<sp/>returns<sp/>correct<sp/>results<sp/>for<sp/>the<sp/>full<sp/>set</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>of<sp/>spatial<sp/>query<sp/>types:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>searchIntersects<sp/><sp/>(bbox<sp/>overlap)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>searchWithin<sp/><sp/><sp/><sp/><sp/><sp/>(full<sp/>containment)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>searchContains<sp/><sp/><sp/><sp/>(index<sp/>entry<sp/>contains<sp/>query<sp/>bbox)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>searchNearby<sp/><sp/><sp/><sp/><sp/><sp/>(radius<sp/>/<sp/>haversine)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>searchKNN<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(k<sp/>nearest<sp/>centroids)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>searchZRange<sp/><sp/><sp/><sp/><sp/><sp/>(elevation<sp/>band)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Negative<sp/>cases<sp/><sp/><sp/><sp/>(query<sp/>outside<sp/>all<sp/>entries<sp/>returns<sp/>empty)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Precision<sp/>gate<sp/><sp/><sp/><sp/>(no<sp/>false<sp/>positives<sp/>across<sp/>a<sp/>large<sp/>synthetic<sp/>dataset)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>tests<sp/>use<sp/>a<sp/>real<sp/>(temporary)<sp/>RocksDB<sp/>instance<sp/>and<sp/>the<sp/>built-in<sp/>CPU<sp/>exact</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>backend<sp/>to<sp/>exercise<sp/>the<sp/>full<sp/>SpatialIndexManager<sp/>path.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="spatial__index_8h" kindref="compound">index/spatial_index.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;geo/spatial_backend.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/geo/ewkb.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1index" kindref="compound">themis::index</ref>;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::geo;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="class_spatial_correctness_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="class_spatial_correctness_test_1a973f9d534e7465981f9d696b353069db" kindref="member">kTable</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;correctness_table&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_spatial_correctness_test_1afb483737b198fa774eddb018b9bcc095" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>now<sp/>=<sp/>std::chrono::high_resolution_clock::now().time_since_epoch().count();</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_spatial_correctness_test_1a73c90c5625bd0819486826bf33937cea" kindref="member">db_path_</ref><sp/>=<sp/>(fs::temp_directory_path()<sp/>/</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&quot;themis_spatial_correctness_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(now))).string();</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RocksDBWrapper::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.db_path<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="class_spatial_correctness_test_1a73c90c5625bd0819486826bf33937cea" kindref="member">db_path_</ref>;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.memtable_size_mb<sp/><sp/><sp/><sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.block_cache_size_mb<sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_spatial_correctness_test_1a85ea806521d73a948526a784fa80f1c5" kindref="member">db_</ref><sp/><sp/>=<sp/>std::make_unique&lt;RocksDBWrapper&gt;(cfg);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_spatial_correctness_test_1a85ea806521d73a948526a784fa80f1c5" kindref="member">db_</ref>-&gt;open());</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_spatial_correctness_test_1a3a0711928ff789cdf194ff7bb198816d" kindref="member">mgr_</ref><sp/>=<sp/>std::make_unique&lt;SpatialIndexManager&gt;(*<ref refid="class_spatial_correctness_test_1a85ea806521d73a948526a784fa80f1c5" kindref="member">db_</ref>);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wire<sp/>the<sp/>CPU<sp/>exact<sp/>backend<sp/>for<sp/>full<sp/>exact-check<sp/>coverage.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>cpu<sp/>=<sp/>getCpuExactBackend();</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_NE(cpu,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_spatial_correctness_test_1a3a0711928ff789cdf194ff7bb198816d" kindref="member">mgr_</ref>-&gt;setExactBackend(cpu);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_r_tree_config" kindref="compound">RTreeConfig</ref><sp/>rtcfg;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rtcfg.<ref refid="structthemis_1_1index_1_1_r_tree_config_1a67264e4797884c02f634780b3cb2295f" kindref="member">total_bounds</ref><sp/>=<sp/>MBR(-180.0,<sp/>-90.0,<sp/>180.0,<sp/>90.0);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_spatial_correctness_test_1a3a0711928ff789cdf194ff7bb198816d" kindref="member">mgr_</ref>-&gt;createSpatialIndex(<ref refid="class_spatial_correctness_test_1a973f9d534e7465981f9d696b353069db" kindref="member">kTable</ref>,<sp/></highlight><highlight class="stringliteral">&quot;geometry&quot;</highlight><highlight class="normal">,<sp/>rtcfg));</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_spatial_correctness_test_1ad5c754d8e4744cb96dcebc20291c8ac6" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_spatial_correctness_test_1a3a0711928ff789cdf194ff7bb198816d" kindref="member">mgr_</ref>.reset();</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_spatial_correctness_test_1a85ea806521d73a948526a784fa80f1c5" kindref="member">db_</ref>.reset();</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_spatial_correctness_test_1a73c90c5625bd0819486826bf33937cea" kindref="member">db_path_</ref>);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----<sp/>helpers<sp/>-----</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>GeoSidecar<sp/><ref refid="class_spatial_correctness_test_1a4147f72b2ab59b407d5144a38fd828ec" kindref="member">pointSidecar</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lon,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lat)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GeoSidecar<sp/>sc;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sc.mbr<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>MBR(lon,<sp/>lat,<sp/>lon,<sp/>lat);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sc.centroid<sp/>=<sp/>Coordinate(lon,<sp/>lat);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sc;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>GeoSidecar<sp/><ref refid="class_spatial_correctness_test_1a2910959cf43fd7aaf4cc78e570dff5a6" kindref="member">boxSidecar</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>minx,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>miny,</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>maxx,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>maxy)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GeoSidecar<sp/>sc;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sc.mbr<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>MBR(minx,<sp/>miny,<sp/>maxx,<sp/>maxy);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sc.centroid<sp/>=<sp/>Coordinate((minx<sp/>+<sp/>maxx)<sp/>*<sp/>0.5,<sp/>(miny<sp/>+<sp/>maxy)<sp/>*<sp/>0.5);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sc;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>GeoSidecar<sp/><ref refid="class_spatial_correctness_test_1a93d0078f6062ef4ca93b182f6af7c83c" kindref="member">pointSidecar3D</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lon,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lat,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>z)<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GeoSidecar<sp/>sc;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sc.mbr<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>MBR(lon,<sp/>lat,<sp/>lon,<sp/>lat);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sc.centroid<sp/>=<sp/>Coordinate(lon,<sp/>lat);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sc.z_min<sp/><sp/><sp/><sp/>=<sp/>z;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sc.z_max<sp/><sp/><sp/><sp/>=<sp/>z;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sc;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_spatial_correctness_test_1a623e0c016dd9e621d537ea1843291b57" kindref="member">hasKey</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;SpatialResult&gt;&amp;<sp/>v,</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>k)<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::any_of(v.begin(),<sp/>v.end(),</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_spatial_result" kindref="compound">SpatialResult</ref>&amp;<sp/>r){<sp/>return<sp/>r.primary_key<sp/>==<sp/>k;<sp/>});</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_spatial_correctness_test_1a73c90c5625bd0819486826bf33937cea" kindref="member">db_path_</ref>;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;RocksDBWrapper&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_spatial_correctness_test_1a85ea806521d73a948526a784fa80f1c5" kindref="member">db_</ref>;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;SpatialIndexManager&gt;<sp/><sp/><ref refid="class_spatial_correctness_test_1a3a0711928ff789cdf194ff7bb198816d" kindref="member">mgr_</ref>;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>searchIntersects<sp/>–<sp/>correctness</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><ref refid="test__spatial__correctness__integration_8cpp_1a545901ea1a1956cd7d35004a172aa3a5" kindref="member">TEST_F</ref>(<ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref>,<sp/>Intersects_SinglePoint_Inside)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">,<sp/>pointSidecar(13.4,<sp/>52.5)));</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>mgr_-&gt;searchIntersects(kTable,<sp/>MBR(12.0,<sp/>51.0,<sp/>15.0,<sp/>54.0));</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(res.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res[0].primary_key,<sp/></highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><ref refid="test__spatial__correctness__integration_8cpp_1a545901ea1a1956cd7d35004a172aa3a5" kindref="member">TEST_F</ref>(<ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref>,<sp/>Intersects_SinglePoint_Outside)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">,<sp/>pointSidecar(13.4,<sp/>52.5)));</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>mgr_-&gt;searchIntersects(kTable,<sp/>MBR(0.0,<sp/>0.0,<sp/>5.0,<sp/>5.0));</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(res.empty());</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><ref refid="test__spatial__correctness__integration_8cpp_1a545901ea1a1956cd7d35004a172aa3a5" kindref="member">TEST_F</ref>(<ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref>,<sp/>Intersects_MultiplePoints_CorrectSubset)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">,<sp/><sp/>pointSidecar(13.4,<sp/><sp/><sp/>52.5)));</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;paris&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>pointSidecar(<sp/>2.35,<sp/><sp/>48.85)));</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;hamburg&quot;</highlight><highlight class="normal">,<sp/>pointSidecar(10.0,<sp/><sp/><sp/>53.6)));</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;madrid&quot;</highlight><highlight class="normal">,<sp/><sp/>pointSidecar(-3.7,<sp/><sp/><sp/>40.4)));</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Bbox<sp/>covering<sp/>Germany<sp/>only</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>mgr_-&gt;searchIntersects(kTable,<sp/>MBR(6.0,<sp/>47.0,<sp/>15.0,<sp/>55.0));</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasKey(res,<sp/></highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasKey(res,<sp/></highlight><highlight class="stringliteral">&quot;hamburg&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(hasKey(res,<sp/></highlight><highlight class="stringliteral">&quot;paris&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(hasKey(res,<sp/></highlight><highlight class="stringliteral">&quot;madrid&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><ref refid="test__spatial__correctness__integration_8cpp_1a545901ea1a1956cd7d35004a172aa3a5" kindref="member">TEST_F</ref>(<ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref>,<sp/>Intersects_BoxVsBox_Overlapping)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>a<sp/>box<sp/>covering<sp/>[10,50]-[12,52]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;poly_a&quot;</highlight><highlight class="normal">,<sp/>boxSidecar(10.0,<sp/>50.0,<sp/>12.0,<sp/>52.0)));</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>bbox<sp/>overlaps<sp/>the<sp/>inserted<sp/>box</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>mgr_-&gt;searchIntersects(kTable,<sp/>MBR(11.0,<sp/>51.0,<sp/>14.0,<sp/>54.0));</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(res.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res[0].primary_key,<sp/></highlight><highlight class="stringliteral">&quot;poly_a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><ref refid="test__spatial__correctness__integration_8cpp_1a545901ea1a1956cd7d35004a172aa3a5" kindref="member">TEST_F</ref>(<ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref>,<sp/>Intersects_BoxVsBox_Disjoint)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;poly_a&quot;</highlight><highlight class="normal">,<sp/>boxSidecar(10.0,<sp/>50.0,<sp/>12.0,<sp/>52.0)));</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>bbox<sp/>is<sp/>completely<sp/>outside<sp/>the<sp/>inserted<sp/>box</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>mgr_-&gt;searchIntersects(kTable,<sp/>MBR(20.0,<sp/>60.0,<sp/>25.0,<sp/>65.0));</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(res.empty());</highlight></codeline>
+<codeline lineno="162"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Insert<sp/>/<sp/>remove<sp/>correctness</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><ref refid="test__spatial__correctness__integration_8cpp_1a545901ea1a1956cd7d35004a172aa3a5" kindref="member">TEST_F</ref>(<ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref>,<sp/>Remove_DisappearsFromResults)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sc<sp/>=<sp/>pointSidecar(13.4,<sp/>52.5);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">,<sp/>sc));</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr_-&gt;searchIntersects(kTable,<sp/>MBR(12.0,<sp/>51.0,<sp/>15.0,<sp/>54.0)).size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;remove(kTable,<sp/></highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">,<sp/>sc));</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr_-&gt;searchIntersects(kTable,<sp/>MBR(12.0,<sp/>51.0,<sp/>15.0,<sp/>54.0)).empty());</highlight></codeline>
+<codeline lineno="177"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><ref refid="test__spatial__correctness__integration_8cpp_1a545901ea1a1956cd7d35004a172aa3a5" kindref="member">TEST_F</ref>(<ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref>,<sp/>Remove_OtherEntriesUnaffected)<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sc_b<sp/>=<sp/>pointSidecar(13.4,<sp/>52.5);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sc_p<sp/>=<sp/>pointSidecar(2.35,<sp/>48.85);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">,<sp/>sc_b));</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;paris&quot;</highlight><highlight class="normal">,<sp/><sp/>sc_p));</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;remove(kTable,<sp/></highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">,<sp/>sc_b));</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>mgr_-&gt;searchIntersects(kTable,<sp/>MBR(-180.0,<sp/>-90.0,<sp/>180.0,<sp/>90.0));</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasKey(res,<sp/></highlight><highlight class="stringliteral">&quot;paris&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(hasKey(res,<sp/></highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="191"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><ref refid="test__spatial__correctness__integration_8cpp_1a545901ea1a1956cd7d35004a172aa3a5" kindref="member">TEST_F</ref>(<ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref>,<sp/>Update_MovesEntryToNewLocation)<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sc_old<sp/>=<sp/>pointSidecar(13.4,<sp/>52.5);<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Berlin</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sc_new<sp/>=<sp/>pointSidecar(2.35,<sp/>48.85);<sp/><sp/></highlight><highlight class="comment">//<sp/>Paris</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;city&quot;</highlight><highlight class="normal">,<sp/>sc_old));</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;update(kTable,<sp/></highlight><highlight class="stringliteral">&quot;city&quot;</highlight><highlight class="normal">,<sp/>sc_old,<sp/>sc_new));</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>no<sp/>longer<sp/>be<sp/>in<sp/>the<sp/>Berlin<sp/>area</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>in_berlin<sp/>=<sp/>mgr_-&gt;searchIntersects(kTable,<sp/>MBR(12.0,<sp/>51.0,<sp/>15.0,<sp/>54.0));</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(hasKey(in_berlin,<sp/></highlight><highlight class="stringliteral">&quot;city&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>now<sp/>be<sp/>in<sp/>the<sp/>Paris<sp/>area</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>in_paris<sp/>=<sp/>mgr_-&gt;searchIntersects(kTable,<sp/>MBR(1.0,<sp/>47.0,<sp/>4.0,<sp/>50.0));</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasKey(in_paris,<sp/></highlight><highlight class="stringliteral">&quot;city&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="207"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="comment">//<sp/>searchWithin<sp/>–<sp/>point<sp/>contained<sp/>in<sp/>query<sp/>bbox</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><ref refid="test__spatial__correctness__integration_8cpp_1a545901ea1a1956cd7d35004a172aa3a5" kindref="member">TEST_F</ref>(<ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref>,<sp/>Within_PointStrictlyInside)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;pt&quot;</highlight><highlight class="normal">,<sp/>pointSidecar(5.0,<sp/>5.0)));</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>mgr_-&gt;searchWithin(kTable,<sp/>MBR(0.0,<sp/>0.0,<sp/>10.0,<sp/>10.0));</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(res.empty());</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasKey(res,<sp/></highlight><highlight class="stringliteral">&quot;pt&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="219"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><ref refid="test__spatial__correctness__integration_8cpp_1a545901ea1a1956cd7d35004a172aa3a5" kindref="member">TEST_F</ref>(<ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref>,<sp/>Within_PointOutsideBbox)<sp/>{</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;pt&quot;</highlight><highlight class="normal">,<sp/>pointSidecar(50.0,<sp/>50.0)));</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>mgr_-&gt;searchWithin(kTable,<sp/>MBR(0.0,<sp/>0.0,<sp/>10.0,<sp/>10.0));</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(hasKey(res,<sp/></highlight><highlight class="stringliteral">&quot;pt&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="226"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight><highlight class="comment">//<sp/>searchContains<sp/>–<sp/>index<sp/>entry<sp/>contains<sp/>the<sp/>query<sp/>bbox</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><ref refid="test__spatial__correctness__integration_8cpp_1a545901ea1a1956cd7d35004a172aa3a5" kindref="member">TEST_F</ref>(<ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref>,<sp/>Contains_LargeBoxContainsPoint)<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>a<sp/>large<sp/>box<sp/>[0,0]-[20,20]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;big&quot;</highlight><highlight class="normal">,<sp/>boxSidecar(0.0,<sp/>0.0,<sp/>20.0,<sp/>20.0)));</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>a<sp/>small<sp/>box<sp/>[30,30]-[40,40]<sp/>that<sp/>does<sp/>NOT<sp/>contain<sp/>the<sp/>query<sp/>point</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;small&quot;</highlight><highlight class="normal">,<sp/>boxSidecar(30.0,<sp/>30.0,<sp/>40.0,<sp/>40.0)));</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>point<sp/>(7.0,<sp/>7.0)<sp/>is<sp/>inside<sp/>&quot;big&quot;<sp/>but<sp/>not<sp/>inside<sp/>&quot;small&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>mgr_-&gt;searchContains(kTable,<sp/>7.0<sp/></highlight><highlight class="comment">/*x=lon*/</highlight><highlight class="normal">,<sp/>7.0<sp/></highlight><highlight class="comment">/*y=lat*/</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasKey(res,<sp/></highlight><highlight class="stringliteral">&quot;big&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(hasKey(res,<sp/></highlight><highlight class="stringliteral">&quot;small&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="242"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight><highlight class="comment">//<sp/>searchNearby<sp/>–<sp/>radius<sp/>/<sp/>haversine<sp/>(geographic<sp/>coordinates)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><ref refid="test__spatial__correctness__integration_8cpp_1a545901ea1a1956cd7d35004a172aa3a5" kindref="member">TEST_F</ref>(<ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref>,<sp/>Nearby_PointWithinRadius)<sp/>{</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>a<sp/>point<sp/>at<sp/>the<sp/>origin<sp/>and<sp/>one<sp/>5000<sp/>km<sp/>away<sp/>(lon=45,<sp/>lat=0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Distance<sp/>from<sp/>(0,0)<sp/>to<sp/>(45,0)<sp/>≈<sp/>5003<sp/>km;<sp/>only<sp/>the<sp/>origin<sp/>should<sp/>be<sp/>within<sp/>1000<sp/>km.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;origin&quot;</highlight><highlight class="normal">,<sp/>pointSidecar(0.0,<sp/>0.0)));</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;distant&quot;</highlight><highlight class="normal">,<sp/>pointSidecar(45.0,<sp/>0.0)));</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>searchNearby(table,<sp/>x=lon,<sp/>y=lat,<sp/>radius_m)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>mgr_-&gt;searchNearby(kTable,</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.0<sp/></highlight><highlight class="comment">/*x=lon*/</highlight><highlight class="normal">,<sp/>0.0<sp/></highlight><highlight class="comment">/*y=lat*/</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1&apos;000&apos;000.0<sp/></highlight><highlight class="comment">/*1000<sp/>km*/</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasKey(res,<sp/></highlight><highlight class="stringliteral">&quot;origin&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(hasKey(res,<sp/></highlight><highlight class="stringliteral">&quot;distant&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="260"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><ref refid="test__spatial__correctness__integration_8cpp_1a545901ea1a1956cd7d35004a172aa3a5" kindref="member">TEST_F</ref>(<ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref>,<sp/>Nearby_NoPointWithinRadius)<sp/>{</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>point<sp/>at<sp/>(45,<sp/>0);<sp/>query<sp/>from<sp/>origin<sp/>with<sp/>100<sp/>km<sp/>radius</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;distant&quot;</highlight><highlight class="normal">,<sp/>pointSidecar(45.0,<sp/>0.0)));</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>mgr_-&gt;searchNearby(kTable,</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.0<sp/></highlight><highlight class="comment">/*x=lon*/</highlight><highlight class="normal">,<sp/>0.0<sp/></highlight><highlight class="comment">/*y=lat*/</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>100&apos;000.0<sp/></highlight><highlight class="comment">/*100<sp/>km*/</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(res.empty());</highlight></codeline>
+<codeline lineno="270"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight><highlight class="comment">//<sp/>searchKNN<sp/>–<sp/>k<sp/>nearest<sp/>neighbours</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><ref refid="test__spatial__correctness__integration_8cpp_1a545901ea1a1956cd7d35004a172aa3a5" kindref="member">TEST_F</ref>(<ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref>,<sp/>KNN_ReturnExactlyK)<sp/>{</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>10<sp/>European<sp/>cities</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::pair&lt;double,double&gt;&gt;&gt;<sp/>cities<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/>{13.4,<sp/><sp/><sp/>52.5}},</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;paris&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/>{<sp/>2.35,<sp/><sp/>48.85}},</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;madrid&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/>{-3.7,<sp/><sp/><sp/>40.4}},</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;rome&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/>{12.5,<sp/><sp/><sp/>41.9}},</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;vienna&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/>{16.37,<sp/><sp/>48.2}},</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;amsterdam&quot;</highlight><highlight class="normal">,<sp/>{<sp/>4.9,<sp/><sp/><sp/>52.37}},</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;warsaw&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/>{21.0,<sp/><sp/><sp/>52.23}},</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;prague&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/>{14.42,<sp/><sp/>50.08}},</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;budapest&quot;</highlight><highlight class="normal">,<sp/><sp/>{19.04,<sp/><sp/>47.5}},</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;athens&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/>{23.73,<sp/><sp/>37.98}},</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>c<sp/>:<sp/>cities)</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/>c.first,</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pointSidecar(c.second.first,<sp/>c.second.second)));</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>k<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>mgr_-&gt;searchKNN(kTable,<sp/>13.4<sp/></highlight><highlight class="comment">/*lon=x*/</highlight><highlight class="normal">,<sp/>52.5<sp/></highlight><highlight class="comment">/*lat=y*/</highlight><highlight class="normal">,<sp/>k);<sp/><sp/></highlight><highlight class="comment">//<sp/>centred<sp/>on<sp/>Berlin</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ((</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">)res.size(),<sp/>k);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><ref refid="test__spatial__correctness__integration_8cpp_1a545901ea1a1956cd7d35004a172aa3a5" kindref="member">TEST_F</ref>(<ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref>,<sp/>KNN_ClosestIsNearest)<sp/>{</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;close&quot;</highlight><highlight class="normal">,<sp/>pointSidecar(1.0,<sp/>1.0)));</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;far&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>pointSidecar(50.0,<sp/>50.0)));</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>mgr_-&gt;searchKNN(kTable,<sp/>1.0<sp/></highlight><highlight class="comment">/*lon=x*/</highlight><highlight class="normal">,<sp/>1.0<sp/></highlight><highlight class="comment">/*lat=y*/</highlight><highlight class="normal">,<sp/>2);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_GE(res.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res[0].primary_key,<sp/></highlight><highlight class="stringliteral">&quot;close&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight><highlight class="comment">//<sp/>searchZRange<sp/>–<sp/>3-D<sp/>elevation<sp/>band</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><ref refid="test__spatial__correctness__integration_8cpp_1a545901ea1a1956cd7d35004a172aa3a5" kindref="member">TEST_F</ref>(<ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref>,<sp/>ZRange_FindsPointInBand)<sp/>{</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>points<sp/>at<sp/>different<sp/>altitudes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;sea&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/>pointSidecar3D(10.0,<sp/>50.0,<sp/><sp/><sp/>0.0)));</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;hill&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/>pointSidecar3D(10.0,<sp/>50.0,<sp/>300.0)));</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;summit&quot;</highlight><highlight class="normal">,<sp/><sp/>pointSidecar3D(10.0,<sp/>50.0,<sp/>800.0)));</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Band<sp/>200–500<sp/>m<sp/>→<sp/>only<sp/>&quot;hill&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>mgr_-&gt;searchZRange(kTable,<sp/>200.0,<sp/>500.0);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasKey(res,<sp/></highlight><highlight class="stringliteral">&quot;hill&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(hasKey(res,<sp/></highlight><highlight class="stringliteral">&quot;sea&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(hasKey(res,<sp/></highlight><highlight class="stringliteral">&quot;summit&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="323"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Precision<sp/>gate:<sp/>no<sp/>false<sp/>positives<sp/>from<sp/>a<sp/>grid<sp/>of<sp/>100<sp/>labelled<sp/>points</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><ref refid="test__spatial__correctness__integration_8cpp_1a545901ea1a1956cd7d35004a172aa3a5" kindref="member">TEST_F</ref>(<ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref>,<sp/>Precision_NoFalsePositives)<sp/>{</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lay<sp/>out<sp/>a<sp/>10×10<sp/>grid<sp/>of<sp/>points:<sp/>lon<sp/>∈<sp/>[0,9],<sp/>lat<sp/>∈<sp/>[0,9]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>lon<sp/>=<sp/>0;<sp/>lon<sp/>&lt;<sp/>10;<sp/>++lon)<sp/>{</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>lat<sp/>=<sp/>0;<sp/>lat<sp/>&lt;<sp/>10;<sp/>++lat)<sp/>{</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>pk<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;p_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(lon)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(lat);</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/>pk,<sp/>pointSidecar(lon,<sp/>lat)));</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>bbox<sp/>covering<sp/>only<sp/>lon<sp/>[2,4],<sp/>lat<sp/>[3,5]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>mgr_-&gt;searchIntersects(kTable,<sp/>MBR(2.0,<sp/>3.0,<sp/>4.0,<sp/>5.0));</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Every<sp/>returned<sp/>entry<sp/>MUST<sp/>be<sp/>inside<sp/>(or<sp/>on<sp/>the<sp/>border<sp/>of)<sp/>the<sp/>query<sp/>bbox.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>r<sp/>:<sp/>res)<sp/>{</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(r.mbr.minx,<sp/>2.0)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;False<sp/>positive:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>r.primary_key;</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(r.mbr.maxx,<sp/>4.0)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;False<sp/>positive:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>r.primary_key;</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(r.mbr.miny,<sp/>3.0)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;False<sp/>positive:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>r.primary_key;</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(r.mbr.maxy,<sp/>5.0)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;False<sp/>positive:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>r.primary_key;</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Also<sp/>verify<sp/>expected<sp/>points<sp/>are<sp/>present<sp/>(completeness<sp/>check)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Points<sp/>with<sp/>lon∈{2,3,4}<sp/>and<sp/>lat∈{3,4,5}<sp/>=<sp/>9<sp/>points</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res.size(),<sp/>9u);</highlight></codeline>
+<codeline lineno="352"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Recall<sp/>gate:<sp/>a<sp/>wider<sp/>query<sp/>must<sp/>find<sp/>all<sp/>expected<sp/>entries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><ref refid="test__spatial__correctness__integration_8cpp_1a545901ea1a1956cd7d35004a172aa3a5" kindref="member">TEST_F</ref>(<ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref>,<sp/>Recall_AllPointsFoundInWorldQuery)<sp/>{</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::pair&lt;double,double&gt;&gt;&gt;<sp/>pts<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/>{-90.0,<sp/>-45.0}},</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">,<sp/>{<sp/>90.0,<sp/><sp/>45.0}},</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">,<sp/>{<sp/><sp/>0.0,<sp/><sp/><sp/>0.0}},</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;d&quot;</highlight><highlight class="normal">,<sp/>{179.0,<sp/><sp/>89.0}},</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;e&quot;</highlight><highlight class="normal">,<sp/>{-179.0,<sp/>-89.0}},</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>p<sp/>:<sp/>pts)</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/>p.first,</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pointSidecar(p.second.first,<sp/>p.second.second)));</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>mgr_-&gt;searchIntersects(kTable,<sp/>MBR(-180.0,<sp/>-90.0,<sp/>180.0,<sp/>90.0));</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res.size(),<sp/>pts.size());</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>p<sp/>:<sp/>pts)</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasKey(res,<sp/>p.first))<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Missing:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>p.first;</highlight></codeline>
+<codeline lineno="374"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Index<sp/>management:<sp/>hasSpatialIndex<sp/>/<sp/>createSpatialIndex<sp/>/<sp/>dropSpatialIndex</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><ref refid="test__spatial__correctness__integration_8cpp_1a545901ea1a1956cd7d35004a172aa3a5" kindref="member">TEST_F</ref>(<ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref>,<sp/>IndexManagement_CreateAndDropCycle)<sp/>{</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>kTbl2<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;tmp_table&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(mgr_-&gt;hasSpatialIndex(kTbl2));</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;createSpatialIndex(kTbl2));</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr_-&gt;hasSpatialIndex(kTbl2));</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"></highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;dropSpatialIndex(kTbl2));</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(mgr_-&gt;hasSpatialIndex(kTbl2));</highlight></codeline>
+<codeline lineno="389"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><ref refid="test__spatial__correctness__integration_8cpp_1a545901ea1a1956cd7d35004a172aa3a5" kindref="member">TEST_F</ref>(<ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref>,<sp/>IndexManagement_SearchOnDroppedIndexReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>kTbl3<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;drop_test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;createSpatialIndex(kTbl3));</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTbl3,<sp/></highlight><highlight class="stringliteral">&quot;p1&quot;</highlight><highlight class="normal">,<sp/>pointSidecar(5.0,<sp/>5.0)));</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;dropSpatialIndex(kTbl3));</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"></highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>drop<sp/>the<sp/>index<sp/>is<sp/>gone;<sp/>search<sp/>should<sp/>return<sp/>empty,<sp/>not<sp/>crash.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>mgr_-&gt;searchIntersects(kTbl3,<sp/>MBR(-180.0,<sp/>-90.0,<sp/>180.0,<sp/>90.0));</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(res.empty());</highlight></codeline>
+<codeline lineno="401"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"></highlight></codeline>
+<codeline lineno="403"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="404"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Metrics<sp/>correctness</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="405"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="406"><highlight class="normal"></highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><ref refid="test__spatial__correctness__integration_8cpp_1a545901ea1a1956cd7d35004a172aa3a5" kindref="member">TEST_F</ref>(<ref refid="class_spatial_correctness_test" kindref="compound">SpatialCorrectnessTest</ref>,<sp/>Metrics_InsertAndQueryCountsIncrement)<sp/>{</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr_-&gt;resetMetrics();</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>m<sp/>=<sp/>mgr_-&gt;getMetrics();</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"></highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr_-&gt;insert(kTable,<sp/></highlight><highlight class="stringliteral">&quot;p&quot;</highlight><highlight class="normal">,<sp/>pointSidecar(1.0,<sp/>1.0)));</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.insert_count.load(),<sp/>1u);</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"></highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr_-&gt;searchIntersects(kTable,<sp/>MBR(-10.0,<sp/>-10.0,<sp/>10.0,<sp/>10.0));</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.query_count.load(),<sp/>1u);</highlight></codeline>
+<codeline lineno="416"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/index/test_spatial_correctness_integration.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_field_masking_rule" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::FieldMaskingRule</compoundname>
+    <includes refid="data__masker_8h" local="no">data_masker.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_field_masking_rule_1a37f3208902ff8e025819e37dde5e23ab" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::FieldMaskingRule::field_name</definition>
+        <argsstring></argsstring>
+        <name>field_name</name>
+        <qualifiedname>themis::governance::FieldMaskingRule::field_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_masker.h" line="30" column="17" bodyfile="include/governance/data_masker.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_field_masking_rule_1a451578f89108b469db58ef2ef0c4e04b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1governance_1adb8bb12e215ae91a3e7ea830d1fb1ab5" kindref="member">MaskingStrategy</ref></type>
+        <definition>MaskingStrategy themis::governance::FieldMaskingRule::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::governance::FieldMaskingRule::strategy</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1governance_1adb8bb12e215ae91a3e7ea830d1fb1ab5a1178e0e6eefd4b409a712395a1c0e163" kindref="member">MaskingStrategy::REDACT</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_masker.h" line="32" column="21" bodyfile="include/governance/data_masker.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_field_masking_rule_1a74ca38fee7189d8723ee83b73292fa47" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::FieldMaskingRule::truncate_length</definition>
+        <argsstring></argsstring>
+        <name>truncate_length</name>
+        <qualifiedname>themis::governance::FieldMaskingRule::truncate_length</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_masker.h" line="34" column="9" bodyfile="include/governance/data_masker.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_field_masking_rule_1a491ecf21fc59705175b3c1d74308da2e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::FieldMaskingRule::collection_secret</definition>
+        <argsstring></argsstring>
+        <name>collection_secret</name>
+        <qualifiedname>themis::governance::FieldMaskingRule::collection_secret</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_masker.h" line="36" column="17" bodyfile="include/governance/data_masker.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/data_masker.h" line="29" column="1" bodyfile="include/governance/data_masker.h" bodystart="29" bodyend="37"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_field_masking_rule_1a491ecf21fc59705175b3c1d74308da2e" prot="public" virt="non-virtual"><scope>themis::governance::FieldMaskingRule</scope><name>collection_secret</name></member>
+      <member refid="structthemis_1_1governance_1_1_field_masking_rule_1a37f3208902ff8e025819e37dde5e23ab" prot="public" virt="non-virtual"><scope>themis::governance::FieldMaskingRule</scope><name>field_name</name></member>
+      <member refid="structthemis_1_1governance_1_1_field_masking_rule_1a451578f89108b469db58ef2ef0c4e04b" prot="public" virt="non-virtual"><scope>themis::governance::FieldMaskingRule</scope><name>strategy</name></member>
+      <member refid="structthemis_1_1governance_1_1_field_masking_rule_1a74ca38fee7189d8723ee83b73292fa47" prot="public" virt="non-virtual"><scope>themis::governance::FieldMaskingRule</scope><name>truncate_length</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

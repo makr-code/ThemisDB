@@ -1,0 +1,860 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__network__timeout_8cpp" kind="file" language="C++">
+    <compoundname>test_network_timeout.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="socket__timeout__manager_8h" local="yes">network/socket_timeout_manager.h</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>network/socket_timeout_manager.h</label>
+        <link refid="socket__timeout__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/network/test_network_timeout.cpp</label>
+        <link refid="test__network__timeout_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="13">
+        <label>fcntl.h</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="14">
+        <label>netinet/in.h</label>
+      </node>
+      <node id="15">
+        <label>netinet/tcp.h</label>
+      </node>
+      <node id="11">
+        <label>poll.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>sys/select.h</label>
+      </node>
+      <node id="9">
+        <label>sys/socket.h</label>
+      </node>
+      <node id="16">
+        <label>thread</label>
+      </node>
+      <node id="12">
+        <label>unistd.h</label>
+      </node>
+      <node id="17">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_socket_timeout_manager_test" prot="public">SocketTimeoutManagerTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__network__timeout_8cpp_1aa817894836f9f7711b4ce0546d18a95f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SocketTimeoutManagerTest, ConstructionDestruction)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref></type>
+        </param>
+        <param>
+          <type>ConstructionDestruction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_timeout.cpp" line="23" column="1" bodyfile="tests/network/test_network_timeout.cpp" bodystart="23" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__timeout_8cpp_1af9372d24c0c8ab61fe5bbfb5d6e212fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SocketTimeoutManagerTest, GetConfiguration)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref></type>
+        </param>
+        <param>
+          <type>GetConfiguration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_timeout.cpp" line="32" column="1" bodyfile="tests/network/test_network_timeout.cpp" bodystart="32" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__timeout_8cpp_1a5598735ee1fca0ccd050c1859fb74400" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SocketTimeoutManagerTest, StatisticsTracking)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref></type>
+        </param>
+        <param>
+          <type>StatisticsTracking</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_timeout.cpp" line="43" column="1" bodyfile="tests/network/test_network_timeout.cpp" bodystart="43" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__timeout_8cpp_1a890989a14f4d14fe706b2d8ca8b1b74b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SocketTimeoutManagerTest, HealthStateTransitions)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref></type>
+        </param>
+        <param>
+          <type>HealthStateTransitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_timeout.cpp" line="60" column="1" bodyfile="tests/network/test_network_timeout.cpp" bodystart="60" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__timeout_8cpp_1a2962b53e5f97fa2e96cb721a4b62625f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SocketTimeoutManagerTest, CircuitBreakerBlocksConnections)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref></type>
+        </param>
+        <param>
+          <type>CircuitBreakerBlocksConnections</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_timeout.cpp" line="83" column="1" bodyfile="tests/network/test_network_timeout.cpp" bodystart="83" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__timeout_8cpp_1a5d8ff62eebc7c43a6cf265a87b5503dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SocketTimeoutManagerTest, CircuitBreakerReset)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref></type>
+        </param>
+        <param>
+          <type>CircuitBreakerReset</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_timeout.cpp" line="98" column="1" bodyfile="tests/network/test_network_timeout.cpp" bodystart="98" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__timeout_8cpp_1abba926c3a1cff7f50dcb7f17ec485291" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SocketTimeoutManagerTest, StatisticsReset)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref></type>
+        </param>
+        <param>
+          <type>StatisticsReset</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_timeout.cpp" line="117" column="1" bodyfile="tests/network/test_network_timeout.cpp" bodystart="117" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__timeout_8cpp_1af05445cee6de6d79b9354396a4f795eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SocketTimeoutManagerTest, AlertCallback)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref></type>
+        </param>
+        <param>
+          <type>AlertCallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_timeout.cpp" line="132" column="1" bodyfile="tests/network/test_network_timeout.cpp" bodystart="132" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__timeout_8cpp_1a9b9b261885708b4b8702b0a2617448c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SocketTimeoutManagerTest, InvalidSocketHandling)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref></type>
+        </param>
+        <param>
+          <type>InvalidSocketHandling</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_timeout.cpp" line="156" column="1" bodyfile="tests/network/test_network_timeout.cpp" bodystart="156" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__timeout_8cpp_1a73bab0466eec1135f1ed6e72a0cbbeb2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SocketTimeoutManagerTest, TimeoutRateCalculation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref></type>
+        </param>
+        <param>
+          <type>TimeoutRateCalculation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_timeout.cpp" line="172" column="1" bodyfile="tests/network/test_network_timeout.cpp" bodystart="172" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__timeout_8cpp_1a258e8cac5bcd18591a04f281eed920a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SocketTimeoutManagerTest, CustomTimeoutConfiguration)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref></type>
+        </param>
+        <param>
+          <type>CustomTimeoutConfiguration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_timeout.cpp" line="183" column="1" bodyfile="tests/network/test_network_timeout.cpp" bodystart="183" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__timeout_8cpp_1a60f584bf04789be42b2bb128ba06d820" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SocketTimeoutManagerTest, TCPConfigurationOptions)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref></type>
+        </param>
+        <param>
+          <type>TCPConfigurationOptions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_timeout.cpp" line="199" column="1" bodyfile="tests/network/test_network_timeout.cpp" bodystart="199" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__timeout_8cpp_1a9af8b4252f159245b60363fd03abbd98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SocketTimeoutManagerTest, MultipleStateTransitions)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref></type>
+        </param>
+        <param>
+          <type>MultipleStateTransitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_timeout.cpp" line="213" column="1" bodyfile="tests/network/test_network_timeout.cpp" bodystart="213" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__timeout_8cpp_1aa3514cc2bceac93c397fffb94d7bf18e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SocketTimeoutManagerTest, ConcurrentTimeoutRecording)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref></type>
+        </param>
+        <param>
+          <type>ConcurrentTimeoutRecording</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_timeout.cpp" line="247" column="1" bodyfile="tests/network/test_network_timeout.cpp" bodystart="247" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__timeout_8cpp_1a9e5eeeb803d990cadf517be656b56790" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SocketTimeoutManagerTest, SocketTimeoutGuardRAII)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref></type>
+        </param>
+        <param>
+          <type>SocketTimeoutGuardRAII</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_timeout.cpp" line="283" column="1" bodyfile="tests/network/test_network_timeout.cpp" bodystart="283" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__timeout_8cpp_1ad64da94d3e217588aa29a0108bf255dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SocketTimeoutManagerTest, SocketTimeoutGuardMove)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref></type>
+        </param>
+        <param>
+          <type>SocketTimeoutGuardMove</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_timeout.cpp" line="302" column="1" bodyfile="tests/network/test_network_timeout.cpp" bodystart="302" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__timeout_8cpp_1ad5b30c4aba121423f724a12a7df3f487" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SocketTimeoutManagerTest, AlertCallbackExceptionHandling)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref></type>
+        </param>
+        <param>
+          <type>AlertCallbackExceptionHandling</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_timeout.cpp" line="315" column="1" bodyfile="tests/network/test_network_timeout.cpp" bodystart="315" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__timeout_8cpp_1a23608a6aa29ea40db874c9b1a9f9a951" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SocketTimeoutManagerTest, ZeroTimeoutConfiguration)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref></type>
+        </param>
+        <param>
+          <type>ZeroTimeoutConfiguration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_timeout.cpp" line="331" column="1" bodyfile="tests/network/test_network_timeout.cpp" bodystart="331" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__timeout_8cpp_1a70d3893811041d1ed6e69cf6eeecdb00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SocketTimeoutManagerTest, LargeTimeoutConfiguration)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref></type>
+        </param>
+        <param>
+          <type>LargeTimeoutConfiguration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_timeout.cpp" line="344" column="1" bodyfile="tests/network/test_network_timeout.cpp" bodystart="344" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__timeout_8cpp_1a8f5b0980e21a9c5b757018c509eca03c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SocketTimeoutManagerTest, StatisticsConsistency)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref></type>
+        </param>
+        <param>
+          <type>StatisticsConsistency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_timeout.cpp" line="355" column="1" bodyfile="tests/network/test_network_timeout.cpp" bodystart="355" bodyend="370"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="socket__timeout__manager_8h" kindref="compound">network/socket_timeout_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1network" kindref="compound">themis::network</ref>;</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::chrono_literals;</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10" refid="class_socket_timeout_manager_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_socket_timeout_manager_test_1ada46b06705a891d42a48f2300fadd7c6" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_socket_timeout_manager_test_1a383253b085adb0bacd0aa447aa1fd28e" kindref="member">config_</ref>.accept_timeout<sp/>=<sp/>1000ms;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_socket_timeout_manager_test_1a383253b085adb0bacd0aa447aa1fd28e" kindref="member">config_</ref>.read_timeout<sp/>=<sp/>1000ms;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_socket_timeout_manager_test_1a383253b085adb0bacd0aa447aa1fd28e" kindref="member">config_</ref>.write_timeout<sp/>=<sp/>1000ms;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_socket_timeout_manager_test_1a383253b085adb0bacd0aa447aa1fd28e" kindref="member">config_</ref>.timeout_threshold<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_config" kindref="compound">SocketTimeoutConfig</ref><sp/><ref refid="class_socket_timeout_manager_test_1a383253b085adb0bacd0aa447aa1fd28e" kindref="member">config_</ref>;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>1:<sp/>Manager<sp/>construction<sp/>and<sp/>destruction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><ref refid="test__network__timeout_8cpp_1aa817894836f9f7711b4ce0546d18a95f" kindref="member">TEST_F</ref>(<ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref>,<sp/>ConstructionDestruction)<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager" kindref="compound">SocketTimeoutManager</ref><sp/>manager(config_);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(manager.getHealthState(),<sp/><ref refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9faf068ebe4133e3e6563080836268ea979" kindref="member">SocketHealthState::HEALTHY</ref>);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(manager.getStats().accept_timeouts,<sp/>0);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(manager.getStats().read_timeouts,<sp/>0);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(manager.getStats().write_timeouts,<sp/>0);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>2:<sp/>Configuration<sp/>retrieval</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><ref refid="test__network__timeout_8cpp_1aa817894836f9f7711b4ce0546d18a95f" kindref="member">TEST_F</ref>(<ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref>,<sp/>GetConfiguration)<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager" kindref="compound">SocketTimeoutManager</ref><sp/>manager(config_);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>retrieved_config<sp/>=<sp/>manager.getConfig();</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved_config.accept_timeout,<sp/>config_.accept_timeout);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved_config.read_timeout,<sp/>config_.read_timeout);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved_config.write_timeout,<sp/>config_.write_timeout);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved_config.timeout_threshold,<sp/>config_.timeout_threshold);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>3:<sp/>Statistics<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><ref refid="test__network__timeout_8cpp_1aa817894836f9f7711b4ce0546d18a95f" kindref="member">TEST_F</ref>(<ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref>,<sp/>StatisticsTracking)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager" kindref="compound">SocketTimeoutManager</ref><sp/>manager(config_);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>some<sp/>timeouts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>manager.recordTimeout();</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>manager.recordTimeout();</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stats<sp/>are<sp/>tracked<sp/>in<sp/>the<sp/>health<sp/>state,<sp/>not<sp/>directly<sp/>visible<sp/>in<sp/>stats.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>With<sp/>threshold=5,<sp/>integer<sp/>split<sp/>means<sp/>2<sp/>consecutive<sp/>timeouts<sp/>are<sp/>DEGRADED.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(manager.getHealthState(),<sp/><ref refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9fa0021017005f0e5134b204c2e69d3d4ed" kindref="member">SocketHealthState::DEGRADED</ref>);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>One<sp/>more<sp/>timeout<sp/>remains<sp/>DEGRADED.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>manager.recordTimeout();</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(manager.getHealthState(),<sp/><ref refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9fa0021017005f0e5134b204c2e69d3d4ed" kindref="member">SocketHealthState::DEGRADED</ref>);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>4:<sp/>Health<sp/>state<sp/>transitions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="test__network__timeout_8cpp_1aa817894836f9f7711b4ce0546d18a95f" kindref="member">TEST_F</ref>(<ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref>,<sp/>HealthStateTransitions)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager" kindref="compound">SocketTimeoutManager</ref><sp/>manager(config_);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(manager.getHealthState(),<sp/><ref refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9faf068ebe4133e3e6563080836268ea979" kindref="member">SocketHealthState::HEALTHY</ref>);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>timeouts<sp/>to<sp/>reach<sp/>DEGRADED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>manager.recordTimeout();</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(manager.getHealthState(),<sp/><ref refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9fa0021017005f0e5134b204c2e69d3d4ed" kindref="member">SocketHealthState::DEGRADED</ref>);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>more<sp/>timeouts<sp/>to<sp/>open<sp/>circuit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>manager.recordTimeout();</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(manager.getHealthState(),<sp/><ref refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9fa130389aec25aa182cd466b2a2a7890e0" kindref="member">SocketHealthState::CIRCUIT_OPEN</ref>);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Recovery<sp/>through<sp/>success</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>manager.recordSuccess();</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(manager.getHealthState(),<sp/><ref refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9faf068ebe4133e3e6563080836268ea979" kindref="member">SocketHealthState::HEALTHY</ref>);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>5:<sp/>Circuit<sp/>breaker<sp/>blocks<sp/>connections</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><ref refid="test__network__timeout_8cpp_1aa817894836f9f7711b4ce0546d18a95f" kindref="member">TEST_F</ref>(<ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref>,<sp/>CircuitBreakerBlocksConnections)<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager" kindref="compound">SocketTimeoutManager</ref><sp/>manager(config_);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager.shouldAcceptConnection());</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Open<sp/>circuit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>manager.recordTimeout();</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(manager.getHealthState(),<sp/><ref refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9fa130389aec25aa182cd466b2a2a7890e0" kindref="member">SocketHealthState::CIRCUIT_OPEN</ref>);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(manager.shouldAcceptConnection());</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>6:<sp/>Circuit<sp/>breaker<sp/>resets<sp/>after<sp/>timeout<sp/>(FIND-019:<sp/>Fixed<sp/>flaky<sp/>test)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FIX:<sp/>Increased<sp/>timeout<sp/>margin<sp/>from<sp/>1100ms<sp/>to<sp/>1200ms<sp/>for<sp/>reliability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><ref refid="test__network__timeout_8cpp_1aa817894836f9f7711b4ce0546d18a95f" kindref="member">TEST_F</ref>(<ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref>,<sp/>CircuitBreakerReset)<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>config_.reset_timeout<sp/>=<sp/>1s;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager" kindref="compound">SocketTimeoutManager</ref><sp/>manager(config_);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Open<sp/>circuit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>manager.recordTimeout();</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(manager.shouldAcceptConnection());</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wait<sp/>for<sp/>reset<sp/>timeout<sp/>with<sp/>margin<sp/>for<sp/>system<sp/>scheduling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>FIX:<sp/>Increased<sp/>from<sp/>1100ms<sp/>to<sp/>1200ms<sp/>to<sp/>account<sp/>for<sp/>OS<sp/>scheduling<sp/>variance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(1200ms);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>allow<sp/>connections<sp/>again</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager.shouldAcceptConnection());</highlight></codeline>
+<codeline lineno="114"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>7:<sp/>Statistics<sp/>reset</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><ref refid="test__network__timeout_8cpp_1aa817894836f9f7711b4ce0546d18a95f" kindref="member">TEST_F</ref>(<ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref>,<sp/>StatisticsReset)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager" kindref="compound">SocketTimeoutManager</ref><sp/>manager(config_);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>some<sp/>activity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>manager.recordTimeout();</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>manager.recordTimeout();</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>manager.recordSuccess();</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reset<sp/>stats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>manager.resetStats();</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(manager.getHealthState(),<sp/><ref refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9faf068ebe4133e3e6563080836268ea979" kindref="member">SocketHealthState::HEALTHY</ref>);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>8:<sp/>Alert<sp/>callback<sp/>invocation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><ref refid="test__network__timeout_8cpp_1aa817894836f9f7711b4ce0546d18a95f" kindref="member">TEST_F</ref>(<ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref>,<sp/>AlertCallback)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager" kindref="compound">SocketTimeoutManager</ref><sp/>manager(config_);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>alert_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9f" kindref="member">SocketHealthState</ref><sp/>last_state<sp/>=<sp/><ref refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9faf068ebe4133e3e6563080836268ea979" kindref="member">SocketHealthState::HEALTHY</ref>;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>last_message<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>manager.setAlertCallback([&amp;](<ref refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9f" kindref="member">SocketHealthState</ref><sp/>state,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>alert_count++;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>last_state<sp/>=<sp/>state;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>last_message<sp/>=<sp/>message;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Trigger<sp/>state<sp/>change</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>manager.recordTimeout();</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(alert_count,<sp/>0);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(last_state,<sp/><ref refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9fa0021017005f0e5134b204c2e69d3d4ed" kindref="member">SocketHealthState::DEGRADED</ref>);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(last_message.empty());</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>9:<sp/>Invalid<sp/>socket<sp/>handling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><ref refid="test__network__timeout_8cpp_1aa817894836f9f7711b4ce0546d18a95f" kindref="member">TEST_F</ref>(<ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref>,<sp/>InvalidSocketHandling)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager" kindref="compound">SocketTimeoutManager</ref><sp/>manager(config_);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="socket__timeout__manager_8h_1a30353f381f5fccbb956eea1f3a110b6c" kindref="member">socket_t</ref><sp/>invalid_socket<sp/>=<sp/><ref refid="socket__timeout__manager_8h_1a6cc212aac6c92c042202f0a1180f4cbf" kindref="member">INVALID_SOCKET_VALUE</ref>;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(manager.configureSocket(invalid_socket));</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>buffer[1024];</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(manager.readWithTimeout(invalid_socket,<sp/>buffer,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(buffer)),<sp/>-1);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(manager.writeWithTimeout(invalid_socket,<sp/>buffer,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(buffer)),<sp/>-1);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>closeSocket<sp/>should<sp/>handle<sp/>invalid<sp/>socket<sp/>gracefully</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>manager.closeSocket(invalid_socket);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>10:<sp/>Timeout<sp/>rate<sp/>calculation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><ref refid="test__network__timeout_8cpp_1aa817894836f9f7711b4ce0546d18a95f" kindref="member">TEST_F</ref>(<ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref>,<sp/>TimeoutRateCalculation)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager" kindref="compound">SocketTimeoutManager</ref><sp/>manager(config_);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initial<sp/>rate<sp/>should<sp/>be<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(manager.getStats().getTimeoutRate(),<sp/>0.0);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>operations<sp/>(we<sp/>can&apos;t<sp/>test<sp/>actual<sp/>socket<sp/>operations<sp/>in<sp/>unit<sp/>tests)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>just<sp/>verifies<sp/>the<sp/>calculation<sp/>logic<sp/>exists<sp/>and<sp/>doesn&apos;t<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>11:<sp/>Configuration<sp/>with<sp/>different<sp/>timeout<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><ref refid="test__network__timeout_8cpp_1aa817894836f9f7711b4ce0546d18a95f" kindref="member">TEST_F</ref>(<ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref>,<sp/>CustomTimeoutConfiguration)<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_config" kindref="compound">SocketTimeoutConfig</ref><sp/>custom_config;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_config.<ref refid="structthemis_1_1network_1_1_socket_timeout_config_1a58dc39bcb2e5fba9ebc681206f8ad956" kindref="member">accept_timeout</ref><sp/>=<sp/>5000ms;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_config.<ref refid="structthemis_1_1network_1_1_socket_timeout_config_1ac599fa0517f9a5ff22b614defd27fb23" kindref="member">read_timeout</ref><sp/>=<sp/>10000ms;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_config.<ref refid="structthemis_1_1network_1_1_socket_timeout_config_1a11a3c4ea1075a6fb551d623c979ae917" kindref="member">write_timeout</ref><sp/>=<sp/>15000ms;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_config.<ref refid="structthemis_1_1network_1_1_socket_timeout_config_1a64372bed53dc4649c2b169d5d1d796b0" kindref="member">timeout_threshold</ref><sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager" kindref="compound">SocketTimeoutManager</ref><sp/>manager(custom_config);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(manager.getConfig().accept_timeout,<sp/>5000ms);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(manager.getConfig().read_timeout,<sp/>10000ms);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(manager.getConfig().write_timeout,<sp/>15000ms);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(manager.getConfig().timeout_threshold,<sp/>20);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>12:<sp/>TCP<sp/>configuration<sp/>options</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><ref refid="test__network__timeout_8cpp_1aa817894836f9f7711b4ce0546d18a95f" kindref="member">TEST_F</ref>(<ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref>,<sp/>TCPConfigurationOptions)<sp/>{</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_config" kindref="compound">SocketTimeoutConfig</ref><sp/>custom_config;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_config.<ref refid="structthemis_1_1network_1_1_socket_timeout_config_1a50923924c2b2db3dcc3eca64b8c98f06" kindref="member">enable_tcp_keepalive</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_config.<ref refid="structthemis_1_1network_1_1_socket_timeout_config_1a95a5cc91bb4e4c61565a3b6685bf8392" kindref="member">enable_tcp_nodelay</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_config.<ref refid="structthemis_1_1network_1_1_socket_timeout_config_1a95e1ade40f9a58dd62fc025c9b17ac31" kindref="member">keepalive_interval</ref><sp/>=<sp/>30000ms;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager" kindref="compound">SocketTimeoutManager</ref><sp/>manager(custom_config);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager.getConfig().enable_tcp_keepalive);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager.getConfig().enable_tcp_nodelay);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(manager.getConfig().keepalive_interval,<sp/>30000ms);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>13:<sp/>Multiple<sp/>state<sp/>transitions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><ref refid="test__network__timeout_8cpp_1aa817894836f9f7711b4ce0546d18a95f" kindref="member">TEST_F</ref>(<ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref>,<sp/>MultipleStateTransitions)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager" kindref="compound">SocketTimeoutManager</ref><sp/>manager(config_);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SocketHealthState&gt;<sp/>expected_transitions<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9fa0021017005f0e5134b204c2e69d3d4ed" kindref="member">SocketHealthState::DEGRADED</ref>,</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9fa130389aec25aa182cd466b2a2a7890e0" kindref="member">SocketHealthState::CIRCUIT_OPEN</ref>,</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9faf068ebe4133e3e6563080836268ea979" kindref="member">SocketHealthState::HEALTHY</ref></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>transition_index<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>manager.setAlertCallback([&amp;](<ref refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9f" kindref="member">SocketHealthState</ref><sp/>state,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(transition_index<sp/>&lt;<sp/>expected_transitions.size())<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(state,<sp/>expected_transitions[transition_index]);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>transition_index++;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>HEALTHY<sp/>-&gt;<sp/>DEGRADED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>manager.recordTimeout();</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>DEGRADED<sp/>-&gt;<sp/>CIRCUIT_OPEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>manager.recordTimeout();</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CIRCUIT_OPEN<sp/>-&gt;<sp/>HEALTHY<sp/>(through<sp/>success)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>manager.recordSuccess();</highlight></codeline>
+<codeline lineno="243"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>14:<sp/>Concurrent<sp/>timeout<sp/>recording<sp/>(FIND-019:<sp/>Fixed<sp/>flaky<sp/>test)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FIX:<sp/>Increased<sp/>sleep<sp/>from<sp/>1ms<sp/>to<sp/>10ms<sp/>for<sp/>more<sp/>reliable<sp/>timing<sp/>on<sp/>slow<sp/>CI<sp/>systems</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><ref refid="test__network__timeout_8cpp_1aa817894836f9f7711b4ce0546d18a95f" kindref="member">TEST_F</ref>(<ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref>,<sp/>ConcurrentTimeoutRecording)<sp/>{</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager" kindref="compound">SocketTimeoutManager</ref><sp/>manager(config_);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>num_threads<sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>operations_per_thread<sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>completed_operations{0};</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>num_threads;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;manager,<sp/>operations_per_thread,<sp/>&amp;completed_operations]()<sp/>{</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>operations_per_thread;<sp/>j++)<sp/>{</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j<sp/>%<sp/>2<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>manager.recordTimeout();</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>manager.recordSuccess();</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>completed_operations++;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>FIX:<sp/>Increased<sp/>from<sp/>1ms<sp/>to<sp/>10ms<sp/>to<sp/>avoid<sp/>timing<sp/>issues<sp/>on<sp/>slow<sp/>systems</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(10ms);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>thread<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>thread.join();</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>all<sp/>operations<sp/>completed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(completed_operations,<sp/>num_threads<sp/>*<sp/>operations_per_thread);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>manager<sp/>is<sp/>still<sp/>in<sp/>valid<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(manager.getHealthState(),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9f" kindref="member">SocketHealthState</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(-1));</highlight></codeline>
+<codeline lineno="280"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>15:<sp/>SocketTimeoutGuard<sp/>RAII<sp/>behavior</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><ref refid="test__network__timeout_8cpp_1aa817894836f9f7711b4ce0546d18a95f" kindref="member">TEST_F</ref>(<ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref>,<sp/>SocketTimeoutGuardRAII)<sp/>{</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>manager<sp/>=<sp/>std::make_shared&lt;SocketTimeoutManager&gt;(config_);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Note:<sp/>We<sp/>can&apos;t<sp/>create<sp/>real<sp/>sockets<sp/>in<sp/>unit<sp/>tests,<sp/>but<sp/>we<sp/>can<sp/>test<sp/>the<sp/>RAII<sp/>logic</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="socket__timeout__manager_8h_1a30353f381f5fccbb956eea1f3a110b6c" kindref="member">socket_t</ref><sp/>mock_socket<sp/>=<sp/>12345;<sp/><sp/></highlight><highlight class="comment">//<sp/>Mock<sp/>socket<sp/>descriptor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_guard" kindref="compound">SocketTimeoutGuard</ref><sp/>guard(manager,<sp/>mock_socket);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(guard.get(),<sp/>mock_socket);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(guard.valid());</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Release<sp/>ownership</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="socket__timeout__manager_8h_1a30353f381f5fccbb956eea1f3a110b6c" kindref="member">socket_t</ref><sp/>released<sp/>=<sp/>guard.release();</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(released,<sp/>mock_socket);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Guard<sp/>should<sp/>not<sp/>close<sp/>socket<sp/>since<sp/>we<sp/>released<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>16:<sp/>SocketTimeoutGuard<sp/>move<sp/>semantics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><ref refid="test__network__timeout_8cpp_1aa817894836f9f7711b4ce0546d18a95f" kindref="member">TEST_F</ref>(<ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref>,<sp/>SocketTimeoutGuardMove)<sp/>{</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>manager<sp/>=<sp/>std::make_shared&lt;SocketTimeoutManager&gt;(config_);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="socket__timeout__manager_8h_1a30353f381f5fccbb956eea1f3a110b6c" kindref="member">socket_t</ref><sp/>mock_socket<sp/>=<sp/>12345;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_guard" kindref="compound">SocketTimeoutGuard</ref><sp/>guard1(manager,<sp/>mock_socket);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(guard1.valid());</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_guard" kindref="compound">SocketTimeoutGuard</ref><sp/>guard2(std::move(guard1));</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(guard2.valid());</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(guard2.get(),<sp/>mock_socket);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>17:<sp/>Alert<sp/>callback<sp/>exception<sp/>handling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><ref refid="test__network__timeout_8cpp_1aa817894836f9f7711b4ce0546d18a95f" kindref="member">TEST_F</ref>(<ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref>,<sp/>AlertCallbackExceptionHandling)<sp/>{</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager" kindref="compound">SocketTimeoutManager</ref><sp/>manager(config_);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>manager.setAlertCallback([](<ref refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9f" kindref="member">SocketHealthState</ref>,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;Callback<sp/>error&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>not<sp/>crash<sp/>even<sp/>if<sp/>callback<sp/>throws</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>manager.recordTimeout();</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="328"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>18:<sp/>Zero<sp/>timeout<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><ref refid="test__network__timeout_8cpp_1aa817894836f9f7711b4ce0546d18a95f" kindref="member">TEST_F</ref>(<ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref>,<sp/>ZeroTimeoutConfiguration)<sp/>{</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_config" kindref="compound">SocketTimeoutConfig</ref><sp/>zero_config;</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>zero_config.<ref refid="structthemis_1_1network_1_1_socket_timeout_config_1a58dc39bcb2e5fba9ebc681206f8ad956" kindref="member">accept_timeout</ref><sp/>=<sp/>0ms;</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>zero_config.<ref refid="structthemis_1_1network_1_1_socket_timeout_config_1ac599fa0517f9a5ff22b614defd27fb23" kindref="member">read_timeout</ref><sp/>=<sp/>0ms;</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>zero_config.<ref refid="structthemis_1_1network_1_1_socket_timeout_config_1a11a3c4ea1075a6fb551d623c979ae917" kindref="member">write_timeout</ref><sp/>=<sp/>0ms;</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>handle<sp/>zero<sp/>timeouts<sp/>gracefully</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager" kindref="compound">SocketTimeoutManager</ref><sp/>manager(zero_config);</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="341"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>19:<sp/>Very<sp/>large<sp/>timeout<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><ref refid="test__network__timeout_8cpp_1aa817894836f9f7711b4ce0546d18a95f" kindref="member">TEST_F</ref>(<ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref>,<sp/>LargeTimeoutConfiguration)<sp/>{</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_config" kindref="compound">SocketTimeoutConfig</ref><sp/>large_config;</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>large_config.<ref refid="structthemis_1_1network_1_1_socket_timeout_config_1a58dc39bcb2e5fba9ebc681206f8ad956" kindref="member">accept_timeout</ref><sp/>=<sp/>3600000ms;<sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>hour</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>large_config.<ref refid="structthemis_1_1network_1_1_socket_timeout_config_1ac599fa0517f9a5ff22b614defd27fb23" kindref="member">read_timeout</ref><sp/>=<sp/>3600000ms;</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>large_config.<ref refid="structthemis_1_1network_1_1_socket_timeout_config_1a11a3c4ea1075a6fb551d623c979ae917" kindref="member">write_timeout</ref><sp/>=<sp/>3600000ms;</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager" kindref="compound">SocketTimeoutManager</ref><sp/>manager(large_config);</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(manager.getConfig().accept_timeout,<sp/>3600000ms);</highlight></codeline>
+<codeline lineno="352"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>20:<sp/>Statistics<sp/>consistency<sp/>under<sp/>load</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><ref refid="test__network__timeout_8cpp_1aa817894836f9f7711b4ce0546d18a95f" kindref="member">TEST_F</ref>(<ref refid="class_socket_timeout_manager_test" kindref="compound">SocketTimeoutManagerTest</ref>,<sp/>StatisticsConsistency)<sp/>{</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager" kindref="compound">SocketTimeoutManager</ref><sp/>manager(config_);</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>num_operations<sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>num_operations;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i<sp/>%<sp/>3<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>manager.recordTimeout();</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>manager.recordSuccess();</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>manager<sp/>is<sp/>in<sp/>consistent<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(manager.getHealthState(),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9f" kindref="member">SocketHealthState</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(-1));</highlight></codeline>
+<codeline lineno="370"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/network/test_network_timeout.cpp"/>
+  </compounddef>
+</doxygen>

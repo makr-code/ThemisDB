@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llamacpp_1_1_model_loading_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::llamacpp::ModelLoadingGuard</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llamacpp_1_1_model_loading_guard_1a27c8b008f754c5189e47108dd0411ea6" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llamacpp::ModelLoadingGuard::model_id_</definition>
+        <argsstring></argsstring>
+        <name>model_id_</name>
+        <qualifiedname>themis::llamacpp::ModelLoadingGuard::model_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/llama_cpp_plugin_validation_gates.cpp" line="335" column="17" bodyfile="src/llama_cpp/llama_cpp_plugin_validation_gates.cpp" bodystart="335" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llamacpp_1_1_model_loading_guard_1a3055e2bb172a87041b4bef11f1da26f5" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llamacpp::ModelLoadingGuard::timeout_seconds_</definition>
+        <argsstring></argsstring>
+        <name>timeout_seconds_</name>
+        <qualifiedname>themis::llamacpp::ModelLoadingGuard::timeout_seconds_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/llama_cpp_plugin_validation_gates.cpp" line="336" column="9" bodyfile="src/llama_cpp/llama_cpp_plugin_validation_gates.cpp" bodystart="336" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llamacpp_1_1_model_loading_guard_1a8d44b8010db440a47d3b3674e461e3c5" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::llamacpp::ModelLoadingGuard::start_time_</definition>
+        <argsstring></argsstring>
+        <name>start_time_</name>
+        <qualifiedname>themis::llamacpp::ModelLoadingGuard::start_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/llama_cpp_plugin_validation_gates.cpp" line="337" column="43" bodyfile="src/llama_cpp/llama_cpp_plugin_validation_gates.cpp" bodystart="337" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_model_loading_guard_1aa347681de3f77bb6ca72e0f9107b3efc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llamacpp::ModelLoadingGuard::ModelLoadingGuard</definition>
+        <argsstring>(const std::string &amp;model_id, int timeout_seconds)</argsstring>
+        <name>ModelLoadingGuard</name>
+        <qualifiedname>themis::llamacpp::ModelLoadingGuard::ModelLoadingGuard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>timeout_seconds</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/llama_cpp_plugin_validation_gates.cpp" line="303" column="5" bodyfile="src/llama_cpp/llama_cpp_plugin_validation_gates.cpp" bodystart="303" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_model_loading_guard_1ab7f65dfa6d99ecfeab4c6a4b004a4d07" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llamacpp::ModelLoadingGuard::~ModelLoadingGuard</definition>
+        <argsstring>()</argsstring>
+        <name>~ModelLoadingGuard</name>
+        <qualifiedname>themis::llamacpp::ModelLoadingGuard::~ModelLoadingGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/llama_cpp_plugin_validation_gates.cpp" line="310" column="5" bodyfile="src/llama_cpp/llama_cpp_plugin_validation_gates.cpp" bodystart="310" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_model_loading_guard_1a7063c3f92a85e47b2eda27ef7e199277" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llamacpp::ModelLoadingGuard::isTimedOut</definition>
+        <argsstring>() const</argsstring>
+        <name>isTimedOut</name>
+        <qualifiedname>themis::llamacpp::ModelLoadingGuard::isTimedOut</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/llama_cpp_plugin_validation_gates.cpp" line="322" column="10" bodyfile="src/llama_cpp/llama_cpp_plugin_validation_gates.cpp" bodystart="322" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llamacpp_1_1_model_loading_guard_1acbcce4fd6d3307bab0065ab497fc753d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llamacpp::ModelLoadingGuard::getRemainingSeconds</definition>
+        <argsstring>() const</argsstring>
+        <name>getRemainingSeconds</name>
+        <qualifiedname>themis::llamacpp::ModelLoadingGuard::getRemainingSeconds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llama_cpp/llama_cpp_plugin_validation_gates.cpp" line="327" column="9" bodyfile="src/llama_cpp/llama_cpp_plugin_validation_gates.cpp" bodystart="327" bodyend="332"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llama_cpp/llama_cpp_plugin_validation_gates.cpp" line="301" column="1" bodyfile="src/llama_cpp/llama_cpp_plugin_validation_gates.cpp" bodystart="301" bodyend="338"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llamacpp_1_1_model_loading_guard_1acbcce4fd6d3307bab0065ab497fc753d" prot="public" virt="non-virtual"><scope>themis::llamacpp::ModelLoadingGuard</scope><name>getRemainingSeconds</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_model_loading_guard_1a7063c3f92a85e47b2eda27ef7e199277" prot="public" virt="non-virtual"><scope>themis::llamacpp::ModelLoadingGuard</scope><name>isTimedOut</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_model_loading_guard_1a27c8b008f754c5189e47108dd0411ea6" prot="private" virt="non-virtual"><scope>themis::llamacpp::ModelLoadingGuard</scope><name>model_id_</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_model_loading_guard_1aa347681de3f77bb6ca72e0f9107b3efc" prot="public" virt="non-virtual"><scope>themis::llamacpp::ModelLoadingGuard</scope><name>ModelLoadingGuard</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_model_loading_guard_1a8d44b8010db440a47d3b3674e461e3c5" prot="private" virt="non-virtual"><scope>themis::llamacpp::ModelLoadingGuard</scope><name>start_time_</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_model_loading_guard_1a3055e2bb172a87041b4bef11f1da26f5" prot="private" virt="non-virtual"><scope>themis::llamacpp::ModelLoadingGuard</scope><name>timeout_seconds_</name></member>
+      <member refid="classthemis_1_1llamacpp_1_1_model_loading_guard_1ab7f65dfa6d99ecfeab4c6a4b004a4d07" prot="public" virt="non-virtual"><scope>themis::llamacpp::ModelLoadingGuard</scope><name>~ModelLoadingGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

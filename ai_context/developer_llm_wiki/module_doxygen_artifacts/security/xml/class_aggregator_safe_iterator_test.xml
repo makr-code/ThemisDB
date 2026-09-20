@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_aggregator_safe_iterator_test" kind="class" language="C++" prot="public">
+    <compoundname>AggregatorSafeIteratorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-type">
+      <memberdef kind="typedef" id="class_aggregator_safe_iterator_test_1a94ec0160794569c24118f121d08169d4" prot="protected" static="no">
+        <type>themis::analytics::AggregationRow</type>
+        <definition>using AggregatorSafeIteratorTest::AggRow = themis::analytics::AggregationRow</definition>
+        <argsstring></argsstring>
+        <name>AggRow</name>
+        <qualifiedname>AggregatorSafeIteratorTest::AggRow</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="220" column="5" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_aggregator_safe_iterator_test_1ae8c6eba54ee25650afde99f13fff2e46" prot="protected" static="no">
+        <type>themis::analytics::AggregateSpec</type>
+        <definition>using AggregatorSafeIteratorTest::AggSpec = themis::analytics::AggregateSpec</definition>
+        <argsstring></argsstring>
+        <name>AggSpec</name>
+        <qualifiedname>AggregatorSafeIteratorTest::AggSpec</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="221" column="5" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_aggregator_safe_iterator_test_1a98ab6a82623298a2a117a2fb0cefe889" prot="protected" static="no">
+        <type>themis::analytics::AggregateFunction</type>
+        <definition>using AggregatorSafeIteratorTest::AggFn = themis::analytics::AggregateFunction</definition>
+        <argsstring></argsstring>
+        <name>AggFn</name>
+        <qualifiedname>AggregatorSafeIteratorTest::AggFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="222" column="5" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="222" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_aggregator_safe_iterator_test_1a3f126d802ab0ca40368863570c83a472" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>themis::analytics::Aggregator</type>
+        <definition>themis::analytics::Aggregator AggregatorSafeIteratorTest::make_count_agg</definition>
+        <argsstring>(const std::string &amp;group_col)</argsstring>
+        <name>make_count_agg</name>
+        <qualifiedname>AggregatorSafeIteratorTest::make_count_agg</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>group_col</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="224" column="35" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="224" bodyend="230"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AggregatorSafeIteratorTest</label>
+        <link refid="class_aggregator_safe_iterator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AggregatorSafeIteratorTest</label>
+        <link refid="class_aggregator_safe_iterator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="218" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="218" bodyend="231"/>
+    <listofallmembers>
+      <member refid="class_aggregator_safe_iterator_test_1a98ab6a82623298a2a117a2fb0cefe889" prot="protected" virt="non-virtual"><scope>AggregatorSafeIteratorTest</scope><name>AggFn</name></member>
+      <member refid="class_aggregator_safe_iterator_test_1a94ec0160794569c24118f121d08169d4" prot="protected" virt="non-virtual"><scope>AggregatorSafeIteratorTest</scope><name>AggRow</name></member>
+      <member refid="class_aggregator_safe_iterator_test_1ae8c6eba54ee25650afde99f13fff2e46" prot="protected" virt="non-virtual"><scope>AggregatorSafeIteratorTest</scope><name>AggSpec</name></member>
+      <member refid="class_aggregator_safe_iterator_test_1a3f126d802ab0ca40368863570c83a472" prot="protected" virt="non-virtual"><scope>AggregatorSafeIteratorTest</scope><name>make_count_agg</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

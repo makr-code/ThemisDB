@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_review_scheduler_test" kind="class" language="C++" prot="public">
+    <compoundname>ReviewSchedulerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_review_scheduler_test_1a3b78988414bfbc645de43df0a7862ed0" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PolicyManager&gt; ReviewSchedulerTest::policy_manager_</definition>
+        <argsstring></argsstring>
+        <name>policy_manager_</name>
+        <qualifiedname>ReviewSchedulerTest::policy_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_review_scheduler.cpp" line="100" column="21" bodyfile="tests/governance/test_governance_review_scheduler.cpp" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_review_scheduler_test_1a9bfcb1ef7f58948ef50178c79fae32a4" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1governance_1_1_review_scheduler" kindref="compound">ReviewScheduler</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ReviewScheduler&gt; ReviewSchedulerTest::scheduler_</definition>
+        <argsstring></argsstring>
+        <name>scheduler_</name>
+        <qualifiedname>ReviewSchedulerTest::scheduler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_review_scheduler.cpp" line="101" column="21" bodyfile="tests/governance/test_governance_review_scheduler.cpp" bodystart="101" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_review_scheduler_test_1a1e9acd1e3a036955aa7574b95d1c220f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ReviewSchedulerTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ReviewSchedulerTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_review_scheduler.cpp" line="95" column="10" bodyfile="tests/governance/test_governance_review_scheduler.cpp" bodystart="95" bodyend="98"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ReviewSchedulerTest</label>
+        <link refid="class_review_scheduler_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ReviewSchedulerTest</label>
+        <link refid="class_review_scheduler_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/governance/test_governance_review_scheduler.cpp" line="93" column="1" bodyfile="tests/governance/test_governance_review_scheduler.cpp" bodystart="93" bodyend="102"/>
+    <listofallmembers>
+      <member refid="class_review_scheduler_test_1a3b78988414bfbc645de43df0a7862ed0" prot="protected" virt="non-virtual"><scope>ReviewSchedulerTest</scope><name>policy_manager_</name></member>
+      <member refid="class_review_scheduler_test_1a9bfcb1ef7f58948ef50178c79fae32a4" prot="protected" virt="non-virtual"><scope>ReviewSchedulerTest</scope><name>scheduler_</name></member>
+      <member refid="class_review_scheduler_test_1a1e9acd1e3a036955aa7574b95d1c220f" prot="protected" virt="non-virtual"><scope>ReviewSchedulerTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

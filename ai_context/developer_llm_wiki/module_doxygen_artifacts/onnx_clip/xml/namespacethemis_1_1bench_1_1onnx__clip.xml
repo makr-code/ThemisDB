@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1onnx__clip" kind="namespace" language="C++">
+    <compoundname>themis::bench::onnx_clip</compoundname>
+    <innerclass refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_backend_model" prot="public">themis::bench::onnx_clip::MockOnnxClipBackendModel</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1onnx__clip_1_1_mock_onnx_clip_model" prot="public">themis::bench::onnx_clip::MockOnnxClipModel</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_backend_throughput_fixture" prot="public">themis::bench::onnx_clip::OnnxClipBackendThroughputFixture</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_batch_splitting_fixture" prot="public">themis::bench::onnx_clip::OnnxClipBatchSplittingFixture</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_cpu_fixture" prot="public">themis::bench::onnx_clip::OnnxClipCpuFixture</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_cpu_warm_fixture" prot="public">themis::bench::onnx_clip::OnnxClipCpuWarmFixture</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_initialization_profiler" prot="public">themis::bench::onnx_clip::OnnxClipInitializationProfiler</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_latency_regression_fixture" prot="public">themis::bench::onnx_clip::OnnxClipLatencyRegressionFixture</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_memory_fixture" prot="public">themis::bench::onnx_clip::OnnxClipMemoryFixture</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_memory_scaling_fixture" prot="public">themis::bench::onnx_clip::OnnxClipMemoryScalingFixture</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1onnx__clip_1_1_onnx_clip_throughput_scaling_fixture" prot="public">themis::bench::onnx_clip::OnnxClipThroughputScalingFixture</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1onnx__clip_1a8ddfe2cd7e6b5711e9aa77c978e946e6" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::onnx_clip::kCanonicalRngSeed</definition>
+        <argsstring></argsstring>
+        <name>kCanonicalRngSeed</name>
+        <qualifiedname>themis::bench::onnx_clip::kCanonicalRngSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" line="52" column="27" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1onnx__clip_1ae43efc782616f1de5bf488d5979668b6" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::onnx_clip::kWarmupIterationsCold</definition>
+        <argsstring></argsstring>
+        <name>kWarmupIterationsCold</name>
+        <qualifiedname>themis::bench::onnx_clip::kWarmupIterationsCold</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" line="53" column="22" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1onnx__clip_1a52b930156803a0d5fbebc34ef53456dc" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::onnx_clip::kWarmupIterationsWarm</definition>
+        <argsstring></argsstring>
+        <name>kWarmupIterationsWarm</name>
+        <qualifiedname>themis::bench::onnx_clip::kWarmupIterationsWarm</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" line="54" column="22" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1onnx__clip_1ad75e38342ce4dfd22a68e0ea54288f0a" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::onnx_clip::kWarmupIterationsHot</definition>
+        <argsstring></argsstring>
+        <name>kWarmupIterationsHot</name>
+        <qualifiedname>themis::bench::onnx_clip::kWarmupIterationsHot</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" line="55" column="22" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1onnx__clip_1a8ddfe2cd7e6b5711e9aa77c978e946e6" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::onnx_clip::kCanonicalRngSeed</definition>
+        <argsstring></argsstring>
+        <name>kCanonicalRngSeed</name>
+        <qualifiedname>themis::bench::onnx_clip::kCanonicalRngSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" line="49" column="27" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1onnx__clip_1ae43efc782616f1de5bf488d5979668b6" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::onnx_clip::kWarmupIterationsCold</definition>
+        <argsstring></argsstring>
+        <name>kWarmupIterationsCold</name>
+        <qualifiedname>themis::bench::onnx_clip::kWarmupIterationsCold</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" line="50" column="22" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1onnx__clip_1a52b930156803a0d5fbebc34ef53456dc" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::onnx_clip::kWarmupIterationsWarm</definition>
+        <argsstring></argsstring>
+        <name>kWarmupIterationsWarm</name>
+        <qualifiedname>themis::bench::onnx_clip::kWarmupIterationsWarm</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" line="51" column="22" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1onnx__clip_1ad75e38342ce4dfd22a68e0ea54288f0a" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::onnx_clip::kWarmupIterationsHot</definition>
+        <argsstring></argsstring>
+        <name>kWarmupIterationsHot</name>
+        <qualifiedname>themis::bench::onnx_clip::kWarmupIterationsHot</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" line="52" column="22" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1onnx__clip_1a0ec93c4d7d2d205a361b29136fdd73b0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>static uint64_t themis::bench::onnx_clip::getRssBytes</definition>
+        <argsstring>()</argsstring>
+        <name>getRssBytes</name>
+        <qualifiedname>themis::bench::onnx_clip::getRssBytes</qualifiedname>
+        <briefdescription>
+<para>Utility to read RSS (resident set size) from /proc/self/status. Used for memory footprint tracking. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>RSS in bytes, or 0 if unable to read. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" line="60" column="17" bodyfile="benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp" bodystart="60" bodyend="73"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp" line="50" column="1"/>
+  </compounddef>
+</doxygen>

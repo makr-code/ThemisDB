@@ -1,0 +1,429 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1scraper_1_1_robots_txt_cache" kind="class" language="C++" prot="public">
+    <compoundname>themis::scraper::RobotsTxtCache</compoundname>
+    <includes refid="scraper__robots_8h" local="no">scraper_robots.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1scraper_1_1_robots_txt_cache_1a2e71fa52ef913bb8891087d89546a999" prot="public" static="no">
+        <type>std::function&lt; std::string( const std::string &amp;url, const std::string &amp;user_agent)&gt;</type>
+        <definition>using themis::scraper::RobotsTxtCache::FetchFn = std::function&lt;std::string(
+       const std::string&amp; url,
+       const std::string&amp; user_agent)&gt;</definition>
+        <argsstring></argsstring>
+        <name>FetchFn</name>
+        <qualifiedname>themis::scraper::RobotsTxtCache::FetchFn</qualifiedname>
+        <briefdescription>
+<para>Injectable HTTP fetch function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Signature: <computeroutput>(url, user_agent) -&gt; response_body_string</computeroutput>. Throws <computeroutput>std::runtime_error</computeroutput> on network errors (treated as &quot;allow all&quot;). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_robots.h" line="87" column="5" bodyfile="include/scraper/scraper_robots.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_robots_txt_cache_1ab99fad9d34a1aa7fb2216d6ad19ee361" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1scraper_1_1_robots_txt_cache_1a2e71fa52ef913bb8891087d89546a999" kindref="member">FetchFn</ref></type>
+        <definition>FetchFn themis::scraper::RobotsTxtCache::fetch_fn_</definition>
+        <argsstring></argsstring>
+        <name>fetch_fn_</name>
+        <qualifiedname>themis::scraper::RobotsTxtCache::fetch_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_robots.h" line="150" column="41" bodyfile="include/scraper/scraper_robots.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_robots_txt_cache_1a67384491502f6f87f1c35571ae4b8f0d" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1scraper_1_1_robots_txt_rules" kindref="compound">RobotsTxtRules</ref> &gt;</type>
+        <definition>std::map&lt;std::string, RobotsTxtRules&gt; themis::scraper::RobotsTxtCache::cache_</definition>
+        <argsstring></argsstring>
+        <name>cache_</name>
+        <qualifiedname>themis::scraper::RobotsTxtCache::cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_robots.h" line="151" column="14" bodyfile="include/scraper/scraper_robots.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_robots_txt_cache_1ad8eefa1719d8cdf5b0dee5d56db11f5f" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::scraper::RobotsTxtCache::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::scraper::RobotsTxtCache::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_robots.h" line="152" column="41" bodyfile="include/scraper/scraper_robots.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_robots_txt_cache_1a4eeef2c16eba7bbe053fce93539b26ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::RobotsTxtCache::RobotsTxtCache</definition>
+        <argsstring>()=default</argsstring>
+        <name>RobotsTxtCache</name>
+        <qualifiedname>themis::scraper::RobotsTxtCache::RobotsTxtCache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_robots.h" line="91" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_robots_txt_cache_1adffd6823a590d7366979d2249159d792" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::RobotsTxtCache::RobotsTxtCache</definition>
+        <argsstring>(FetchFn fetch_fn)</argsstring>
+        <name>RobotsTxtCache</name>
+        <qualifiedname>themis::scraper::RobotsTxtCache::RobotsTxtCache</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1scraper_1_1_robots_txt_cache_1a2e71fa52ef913bb8891087d89546a999" kindref="member">FetchFn</ref></type>
+          <declname>fetch_fn</declname>
+        </param>
+        <briefdescription>
+<para>Construct with a custom fetch function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fetch_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>HTTP GET implementation (default: libcurl via <ref refid="classthemis_1_1scraper_1_1_scraper_plugin" kindref="compound">ScraperPlugin</ref>). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_robots.h" line="97" column="14" bodyfile="src/scraper/scraper_robots.cpp" bodystart="20" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_robots_txt_cache_1a3d55233e39ec16cbaf574b0430d879e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scraper::RobotsTxtCache::injectRobots</definition>
+        <argsstring>(const std::string &amp;domain, const std::string &amp;content)</argsstring>
+        <name>injectRobots</name>
+        <qualifiedname>themis::scraper::RobotsTxtCache::injectRobots</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>domain</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <briefdescription>
+<para>Test helper: pre-populate the cache for a domain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Inject Robots.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bare hostname (e.g. &quot;example.com&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw robots.txt content to parse and cache.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+After this call, <computeroutput><ref refid="classthemis_1_1scraper_1_1_robots_txt_cache_1af0afb16e7954254b3b4c819f51773d61" kindref="member">isAllowed()</ref></computeroutput> for any URL on <computeroutput>domain</computeroutput> will use the injected rules without making any HTTP calls.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), <ref refid="classthemis_1_1scraper_1_1_robots_txt_cache_1a616d2e3f675eece49f6f04bc46c51b78" kindref="member">parse()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_robots.h" line="108" column="10" bodyfile="src/scraper/scraper_robots.cpp" bodystart="170" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_robots_txt_cache_1af0afb16e7954254b3b4c819f51773d61" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::scraper::RobotsTxtCache::isAllowed</definition>
+        <argsstring>(const std::string &amp;url, const std::string &amp;user_agent)</argsstring>
+        <name>isAllowed</name>
+        <qualifiedname>themis::scraper::RobotsTxtCache::isAllowed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_agent</declname>
+        </param>
+        <briefdescription>
+<para>Check whether a URL is allowed to be fetched. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Is Allowed.</para>
+<para>Fetches and caches the domain&apos;s robots.txt on first call for that domain.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Full URL to check (e.g. &quot;https://example.com/path&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>user_agent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User-agent string sent in the robots.txt fetch. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true The path is allowed by the wildcard rules (or no rules apply). </para>
+</simplesect>
+<simplesect kind="return"><para>false A Disallow rule matches and no Allow rule overrides it.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_agent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: extractDomain(), extractPath(), <ref refid="namespacethemis_1_1scraper_1a8ee1c8be17660670a5caf5d0594b0ac5" kindref="member">extractScheme()</ref>, lk(), find(), end(), fetchAndCache(), at(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_robots.h" line="120" column="11" bodyfile="src/scraper/scraper_robots.cpp" bodystart="219" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_robots_txt_cache_1ae25f92867f04b8ec4619da78e59205dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scraper::RobotsTxtCache::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::scraper::RobotsTxtCache::clear</qualifiedname>
+        <briefdescription>
+<para>Clear all cached entries (e.g. between test cases). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear.</para>
+<para>Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_robots.h" line="126" column="10" bodyfile="src/scraper/scraper_robots.cpp" bodystart="180" bodyend="183"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_robots_txt_cache_1a616d2e3f675eece49f6f04bc46c51b78" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1scraper_1_1_robots_txt_rules" kindref="compound">RobotsTxtRules</ref></type>
+        <definition>RobotsTxtRules themis::scraper::RobotsTxtCache::parse</definition>
+        <argsstring>(const std::string &amp;content)</argsstring>
+        <name>parse</name>
+        <qualifiedname>themis::scraper::RobotsTxtCache::parse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <briefdescription>
+<para>Parse raw robots.txt content into a <computeroutput><ref refid="structthemis_1_1scraper_1_1_robots_txt_rules" kindref="compound">RobotsTxtRules</ref></computeroutput> struct. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Static utility exposed for unit testing the parser in isolation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw robots.txt text. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Wildcard-agent rules extracted from <computeroutput>content</computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Ss. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/scraper/scraper_robots.h" line="136" column="28" bodyfile="src/scraper/scraper_robots.cpp" bodystart="101" bodyend="158"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_robots_txt_cache_1a4961d2c5059a33192f450d3a59e0a2c9" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::RobotsTxtCache::extractDomain</definition>
+        <argsstring>(const std::string &amp;url)</argsstring>
+        <name>extractDomain</name>
+        <qualifiedname>themis::scraper::RobotsTxtCache::extractDomain</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+<para>Extract the bare hostname from a full URL. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_robots.h" line="140" column="24" bodyfile="src/scraper/scraper_robots.cpp" bodystart="56" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_robots_txt_cache_1a9f6fa03919a4a409b3bee155312ffc66" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::RobotsTxtCache::extractPath</definition>
+        <argsstring>(const std::string &amp;url)</argsstring>
+        <name>extractPath</name>
+        <qualifiedname>themis::scraper::RobotsTxtCache::extractPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+<para>Extract the path component from a full URL. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_robots.h" line="143" column="24" bodyfile="src/scraper/scraper_robots.cpp" bodystart="71" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_robots_txt_cache_1ae298693c67888e93ab8391e5b6037832" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scraper::RobotsTxtCache::fetchAndCache</definition>
+        <argsstring>(const std::string &amp;domain, const std::string &amp;scheme, const std::string &amp;user_agent)</argsstring>
+        <name>fetchAndCache</name>
+        <qualifiedname>themis::scraper::RobotsTxtCache::fetchAndCache</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>domain</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>scheme</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_agent</declname>
+        </param>
+        <briefdescription>
+<para>Fetch and parse the robots.txt for <computeroutput>domain</computeroutput>; store in cache_. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Fetch And Cache.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scheme</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_agent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fetch_fn_(), empty(), <ref refid="classthemis_1_1scraper_1_1_robots_txt_cache_1a616d2e3f675eece49f6f04bc46c51b78" kindref="member">parse()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_robots.h" line="146" column="10" bodyfile="src/scraper/scraper_robots.cpp" bodystart="192" bodyend="206"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread-safe per-domain cache for parsed robots.txt rules. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>On the first call to <computeroutput><ref refid="classthemis_1_1scraper_1_1_robots_txt_cache_1af0afb16e7954254b3b4c819f51773d61" kindref="member">isAllowed()</ref></computeroutput> for a domain, the cache fetches <computeroutput>&lt;scheme&gt;://&lt;host&gt;/robots.txt</computeroutput> using the injected or default HTTP function, parses the wildcard-agent block, and stores the result. Subsequent calls return from cache without any network I/O.</para>
+<para><heading level="3">Failure handling</heading>
+</para>
+<para>If the robots.txt fetch fails (network error, 4xx/5xx), the cache stores an empty <computeroutput><ref refid="structthemis_1_1scraper_1_1_robots_txt_rules" kindref="compound">RobotsTxtRules</ref></computeroutput> (all paths allowed) — the convention for domains that do not publish a robots.txt.</para>
+<para><heading level="3">Thread safety</heading>
+</para>
+<para>All public methods are guarded by an internal mutex and are safe to call from multiple threads concurrently. </para>
+    </detaileddescription>
+    <location file="include/scraper/scraper_robots.h" line="79" column="1" bodyfile="include/scraper/scraper_robots.h" bodystart="79" bodyend="153"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1scraper_1_1_robots_txt_cache_1a67384491502f6f87f1c35571ae4b8f0d" prot="private" virt="non-virtual"><scope>themis::scraper::RobotsTxtCache</scope><name>cache_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_robots_txt_cache_1ae25f92867f04b8ec4619da78e59205dc" prot="public" virt="non-virtual"><scope>themis::scraper::RobotsTxtCache</scope><name>clear</name></member>
+      <member refid="classthemis_1_1scraper_1_1_robots_txt_cache_1a4961d2c5059a33192f450d3a59e0a2c9" prot="private" virt="non-virtual"><scope>themis::scraper::RobotsTxtCache</scope><name>extractDomain</name></member>
+      <member refid="classthemis_1_1scraper_1_1_robots_txt_cache_1a9f6fa03919a4a409b3bee155312ffc66" prot="private" virt="non-virtual"><scope>themis::scraper::RobotsTxtCache</scope><name>extractPath</name></member>
+      <member refid="classthemis_1_1scraper_1_1_robots_txt_cache_1ab99fad9d34a1aa7fb2216d6ad19ee361" prot="private" virt="non-virtual"><scope>themis::scraper::RobotsTxtCache</scope><name>fetch_fn_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_robots_txt_cache_1ae298693c67888e93ab8391e5b6037832" prot="private" virt="non-virtual"><scope>themis::scraper::RobotsTxtCache</scope><name>fetchAndCache</name></member>
+      <member refid="classthemis_1_1scraper_1_1_robots_txt_cache_1a2e71fa52ef913bb8891087d89546a999" prot="public" virt="non-virtual"><scope>themis::scraper::RobotsTxtCache</scope><name>FetchFn</name></member>
+      <member refid="classthemis_1_1scraper_1_1_robots_txt_cache_1a3d55233e39ec16cbaf574b0430d879e5" prot="public" virt="non-virtual"><scope>themis::scraper::RobotsTxtCache</scope><name>injectRobots</name></member>
+      <member refid="classthemis_1_1scraper_1_1_robots_txt_cache_1af0afb16e7954254b3b4c819f51773d61" prot="public" virt="non-virtual"><scope>themis::scraper::RobotsTxtCache</scope><name>isAllowed</name></member>
+      <member refid="classthemis_1_1scraper_1_1_robots_txt_cache_1ad8eefa1719d8cdf5b0dee5d56db11f5f" prot="private" virt="non-virtual"><scope>themis::scraper::RobotsTxtCache</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_robots_txt_cache_1a616d2e3f675eece49f6f04bc46c51b78" prot="public" virt="non-virtual"><scope>themis::scraper::RobotsTxtCache</scope><name>parse</name></member>
+      <member refid="classthemis_1_1scraper_1_1_robots_txt_cache_1a4eeef2c16eba7bbe053fce93539b26ed" prot="public" virt="non-virtual"><scope>themis::scraper::RobotsTxtCache</scope><name>RobotsTxtCache</name></member>
+      <member refid="classthemis_1_1scraper_1_1_robots_txt_cache_1adffd6823a590d7366979d2249159d792" prot="public" virt="non-virtual"><scope>themis::scraper::RobotsTxtCache</scope><name>RobotsTxtCache</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

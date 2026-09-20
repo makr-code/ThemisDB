@@ -1,0 +1,302 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_prompt_quality_evaluator" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::prompt_engineering::PromptQualityEvaluator</compoundname>
+    <basecompoundref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_quality_evaluator" prot="public" virt="non-virtual">themis::prompt_engineering::IPromptQualityEvaluator</basecompoundref>
+    <includes refid="prompt__quality__evaluator_8h" local="no">prompt_quality_evaluator.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_quality_evaluator_1ac880dc0ad9c4d318039ff292f970461a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_quality_report" kindref="compound">QualityReport</ref></type>
+        <definition>QualityReport themis::prompt_engineering::PromptQualityEvaluator::evaluate</definition>
+        <argsstring>(const IPromptTemplate &amp;tmpl, const QualityConfig &amp;config) const override</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::prompt_engineering::PromptQualityEvaluator::evaluate</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_prompt_quality_evaluator_1a5d979d713b04e21caa71c2f3d8819ed8">evaluate</reimplements>
+        <param>
+          <type>const <ref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_template" kindref="compound">IPromptTemplate</ref> &amp;</type>
+          <declname>tmpl</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_quality_config" kindref="compound">QualityConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate quality of a compiled prompt template. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The template is rendered against an empty <computeroutput><ref refid="namespacethemis_1_1prompt__engineering_1a3c605b72d8b0688e6c855ef6e745a247" kindref="member">PromptContext</ref></computeroutput>; slots that are not filled are treated as empty strings. Rendering errors are captured as structural failures rather than propagated as exceptions.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tmpl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Template to evaluate. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Quality configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Aggregated <computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_quality_report" kindref="compound">QualityReport</ref></computeroutput>; no internal state is retained. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_quality_evaluator.h" line="145" column="19" bodyfile="src/prompt_engineering/prompt_quality_evaluator.cpp" bodystart="188" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_quality_evaluator_1ab4c1569b53300c4bb6e03b59aea2cfa0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_quality_report" kindref="compound">QualityReport</ref></type>
+        <definition>QualityReport themis::prompt_engineering::PromptQualityEvaluator::evaluateText</definition>
+        <argsstring>(const std::string &amp;text, const QualityConfig &amp;config) const override</argsstring>
+        <name>evaluateText</name>
+        <qualifiedname>themis::prompt_engineering::PromptQualityEvaluator::evaluateText</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_prompt_quality_evaluator_1abe79367085395c6193f64c0f753de783">evaluateText</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_quality_config" kindref="compound">QualityConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate quality of a raw text string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Useful when the prompt text is already assembled and no <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_template" kindref="compound">IPromptTemplate</ref></computeroutput> object is available.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw prompt text. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Quality configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Aggregated <computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_quality_report" kindref="compound">QualityReport</ref></computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_quality_evaluator.h" line="148" column="19" bodyfile="src/prompt_engineering/prompt_quality_evaluator.cpp" bodystart="162" bodyend="184"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_quality_evaluator_1a7f996479e697688424da0ef1ad303c4a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::PromptQualityEvaluator::checkInjection</definition>
+        <argsstring>(const std::string &amp;text, const std::vector&lt; std::string &gt; &amp;blocklist, std::vector&lt; QualityCheck &gt; &amp;failed) const</argsstring>
+        <name>checkInjection</name>
+        <qualifiedname>themis::prompt_engineering::PromptQualityEvaluator::checkInjection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>blocklist</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_quality_check" kindref="compound">QualityCheck</ref> &gt; &amp;</type>
+          <declname>failed</declname>
+        </param>
+        <briefdescription>
+<para>Perform injection pattern checks; appends to <computeroutput>failed</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_quality_evaluator.h" line="153" column="10" bodyfile="src/prompt_engineering/prompt_quality_evaluator.cpp" bodystart="73" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_quality_evaluator_1abdf0e027b74a06ba7b42cbb9f2624696" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::PromptQualityEvaluator::checkTokenDiversity</definition>
+        <argsstring>(const std::string &amp;text, double min_diversity, std::vector&lt; QualityCheck &gt; &amp;failed) const</argsstring>
+        <name>checkTokenDiversity</name>
+        <qualifiedname>themis::prompt_engineering::PromptQualityEvaluator::checkTokenDiversity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>min_diversity</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_quality_check" kindref="compound">QualityCheck</ref> &gt; &amp;</type>
+          <declname>failed</declname>
+        </param>
+        <briefdescription>
+<para>Compute and check token diversity; appends to <computeroutput>failed</computeroutput> if below threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_quality_evaluator.h" line="158" column="10" bodyfile="src/prompt_engineering/prompt_quality_evaluator.cpp" bodystart="94" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_quality_evaluator_1a27de0201374a4e37870e4c60362579f1" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::PromptQualityEvaluator::checkRepetition</definition>
+        <argsstring>(const std::string &amp;text, double max_repetition, std::vector&lt; QualityCheck &gt; &amp;failed) const</argsstring>
+        <name>checkRepetition</name>
+        <qualifiedname>themis::prompt_engineering::PromptQualityEvaluator::checkRepetition</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>max_repetition</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_quality_check" kindref="compound">QualityCheck</ref> &gt; &amp;</type>
+          <declname>failed</declname>
+        </param>
+        <briefdescription>
+<para>Compute and check bigram repetition; appends to <computeroutput>failed</computeroutput> if above threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_quality_evaluator.h" line="163" column="10" bodyfile="src/prompt_engineering/prompt_quality_evaluator.cpp" bodystart="121" bodyend="158"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_quality_evaluator_1a0c03adc3f8a7db40f06cbc3b168352bc" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::prompt_engineering::PromptQualityEvaluator::tokenize</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>tokenize</name>
+        <qualifiedname>themis::prompt_engineering::PromptQualityEvaluator::tokenize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Tokenise <computeroutput>text</computeroutput> into lowercase words (splits on non-alphanumeric chars). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── Helper: tokenize ─────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::isalnum(), std::tolower(), empty(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_quality_evaluator.h" line="168" column="24" bodyfile="src/prompt_engineering/prompt_quality_evaluator.cpp" bodystart="30" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_quality_evaluator_1adda9f44b693ce9db0e1d3abd183d2389" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::PromptQualityEvaluator::containsIgnoreCase</definition>
+        <argsstring>(const std::string &amp;haystack, const std::string &amp;needle)</argsstring>
+        <name>containsIgnoreCase</name>
+        <qualifiedname>themis::prompt_engineering::PromptQualityEvaluator::containsIgnoreCase</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>haystack</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>needle</declname>
+        </param>
+        <briefdescription>
+<para>Case-insensitive substring search. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── Helper: case-insensitive contains ─────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">haystack</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">needle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), std::search(), begin(), end(), std::tolower(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_quality_evaluator.h" line="171" column="17" bodyfile="src/prompt_engineering/prompt_quality_evaluator.cpp" bodystart="56" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Concrete stateless implementation of <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_quality_evaluator" kindref="compound">IPromptQualityEvaluator</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Applies three check classes in order: injection pattern detection, token diversity, and bigram repetition. The implementation holds no mutable state; all methods are <computeroutput>const</computeroutput>. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::prompt_engineering::IPromptQualityEvaluator</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_prompt_quality_evaluator"/>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::PromptQualityEvaluator</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_prompt_quality_evaluator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::prompt_engineering::IPromptQualityEvaluator</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_prompt_quality_evaluator"/>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::PromptQualityEvaluator</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_prompt_quality_evaluator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/prompt_engineering/prompt_quality_evaluator.h" line="143" column="1" bodyfile="include/prompt_engineering/prompt_quality_evaluator.h" bodystart="143" bodyend="173"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_quality_evaluator_1a7f996479e697688424da0ef1ad303c4a" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptQualityEvaluator</scope><name>checkInjection</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_quality_evaluator_1a27de0201374a4e37870e4c60362579f1" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptQualityEvaluator</scope><name>checkRepetition</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_quality_evaluator_1abdf0e027b74a06ba7b42cbb9f2624696" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptQualityEvaluator</scope><name>checkTokenDiversity</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_quality_evaluator_1adda9f44b693ce9db0e1d3abd183d2389" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptQualityEvaluator</scope><name>containsIgnoreCase</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_quality_evaluator_1ac880dc0ad9c4d318039ff292f970461a" prot="public" virt="virtual"><scope>themis::prompt_engineering::PromptQualityEvaluator</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_quality_evaluator_1ab4c1569b53300c4bb6e03b59aea2cfa0" prot="public" virt="virtual"><scope>themis::prompt_engineering::PromptQualityEvaluator</scope><name>evaluateText</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_quality_evaluator_1a0c03adc3f8a7db40f06cbc3b168352bc" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::PromptQualityEvaluator</scope><name>tokenize</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_prompt_quality_evaluator_1a0868134ca10567b11459e408e4155b05" prot="public" virt="virtual"><scope>themis::prompt_engineering::PromptQualityEvaluator</scope><name>~IPromptQualityEvaluator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

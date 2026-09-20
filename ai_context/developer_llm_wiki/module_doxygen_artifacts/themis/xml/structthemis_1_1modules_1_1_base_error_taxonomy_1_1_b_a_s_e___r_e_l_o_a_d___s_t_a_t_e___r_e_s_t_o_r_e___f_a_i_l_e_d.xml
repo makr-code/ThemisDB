@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_l_o_a_d___s_t_a_t_e___r_e_s_t_o_r_e___f_a_i_l_e_d" kind="struct" language="C++" prot="public">
+    <compoundname>themis::modules::BaseErrorTaxonomy::BASE_RELOAD_STATE_RESTORE_FAILED</compoundname>
+    <includes refid="base__error__taxonomy_8h" local="no">base_error_taxonomy.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_l_o_a_d___s_t_a_t_e___r_e_s_t_o_r_e___f_a_i_l_e_d_1ab46fbf892b4304da6fd36dd05252d3f1" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::modules::BaseErrorTaxonomy::BASE_RELOAD_STATE_RESTORE_FAILED::code</definition>
+        <argsstring></argsstring>
+        <name>code</name>
+        <qualifiedname>themis::modules::BaseErrorTaxonomy::BASE_RELOAD_STATE_RESTORE_FAILED::code</qualifiedname>
+        <initializer>= 1203</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/base_error_taxonomy.h" line="528" column="26" bodyfile="include/themis/base/base_error_taxonomy.h" bodystart="528" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_l_o_a_d___s_t_a_t_e___r_e_s_t_o_r_e___f_a_i_l_e_d_1a3f35061dcb7d60239cbc49b425f3710c" prot="public" static="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>static constexpr std::string_view themis::modules::BaseErrorTaxonomy::BASE_RELOAD_STATE_RESTORE_FAILED::description</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>description</name>
+        <qualifiedname>themis::modules::BaseErrorTaxonomy::BASE_RELOAD_STATE_RESTORE_FAILED::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/base_error_taxonomy.h" line="530" column="39" bodyfile="include/themis/base/base_error_taxonomy.h" bodystart="530" bodyend="532"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_l_o_a_d___s_t_a_t_e___r_e_s_t_o_r_e___f_a_i_l_e_d_1a43b37afcc25368dc8707bb1f99016365" prot="public" static="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>static constexpr std::string_view themis::modules::BaseErrorTaxonomy::BASE_RELOAD_STATE_RESTORE_FAILED::remediationHint</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>remediationHint</name>
+        <qualifiedname>themis::modules::BaseErrorTaxonomy::BASE_RELOAD_STATE_RESTORE_FAILED::remediationHint</qualifiedname>
+        <briefdescription>
+<para>Actionable operator remediation hint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/base_error_taxonomy.h" line="535" column="39" bodyfile="include/themis/base/base_error_taxonomy.h" bodystart="535" bodyend="540"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_l_o_a_d___s_t_a_t_e___r_e_s_t_o_r_e___f_a_i_l_e_d_1a1ebaade62af0941961d18f24e116e91c" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::modules::BaseErrorTaxonomy::BASE_RELOAD_STATE_RESTORE_FAILED::format</definition>
+        <argsstring>(const std::string &amp;module_name)</argsstring>
+        <name>format</name>
+        <qualifiedname>themis::modules::BaseErrorTaxonomy::BASE_RELOAD_STATE_RESTORE_FAILED::format</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>module_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>module_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Module name. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/base_error_taxonomy.h" line="545" column="24" bodyfile="include/themis/base/base_error_taxonomy.h" bodystart="545" bodyend="549"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>StateRestoreCallback returned false after a successful reload. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><programlisting><codeline><highlight class="normal"><ref refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_l_o_a_d___s_t_a_t_e___r_e_s_t_o_r_e___f_a_i_l_e_d_1ab46fbf892b4304da6fd36dd05252d3f1" kindref="member">BASE_RELOAD_STATE_RESTORE_FAILED::code</ref><sp/>==<sp/>1203<sp/></highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/themis/base/base_error_taxonomy.h" line="527" column="1" bodyfile="include/themis/base/base_error_taxonomy.h" bodystart="527" bodyend="550"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_l_o_a_d___s_t_a_t_e___r_e_s_t_o_r_e___f_a_i_l_e_d_1ab46fbf892b4304da6fd36dd05252d3f1" prot="public" virt="non-virtual"><scope>themis::modules::BaseErrorTaxonomy::BASE_RELOAD_STATE_RESTORE_FAILED</scope><name>code</name></member>
+      <member refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_l_o_a_d___s_t_a_t_e___r_e_s_t_o_r_e___f_a_i_l_e_d_1a3f35061dcb7d60239cbc49b425f3710c" prot="public" virt="non-virtual"><scope>themis::modules::BaseErrorTaxonomy::BASE_RELOAD_STATE_RESTORE_FAILED</scope><name>description</name></member>
+      <member refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_l_o_a_d___s_t_a_t_e___r_e_s_t_o_r_e___f_a_i_l_e_d_1a1ebaade62af0941961d18f24e116e91c" prot="public" virt="non-virtual"><scope>themis::modules::BaseErrorTaxonomy::BASE_RELOAD_STATE_RESTORE_FAILED</scope><name>format</name></member>
+      <member refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_l_o_a_d___s_t_a_t_e___r_e_s_t_o_r_e___f_a_i_l_e_d_1a43b37afcc25368dc8707bb1f99016365" prot="public" virt="non-virtual"><scope>themis::modules::BaseErrorTaxonomy::BASE_RELOAD_STATE_RESTORE_FAILED</scope><name>remediationHint</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

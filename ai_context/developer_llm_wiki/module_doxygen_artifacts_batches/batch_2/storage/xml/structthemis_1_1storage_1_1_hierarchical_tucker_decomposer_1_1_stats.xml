@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_hierarchical_tucker_decomposer_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::HierarchicalTuckerDecomposer::Stats</compoundname>
+    <includes refid="hierarchical__tucker__decomposer_8h" local="no">hierarchical_tucker_decomposer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_hierarchical_tucker_decomposer_1_1_stats_1ae4568e80164bb8096ec500780af9d9fc" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::storage::HierarchicalTuckerDecomposer::Stats::num_modes</definition>
+        <argsstring></argsstring>
+        <name>num_modes</name>
+        <qualifiedname>themis::storage::HierarchicalTuckerDecomposer::Stats::num_modes</qualifiedname>
+        <briefdescription>
+<para>d (order of the input tensor) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hierarchical_tucker_decomposer.h" line="54" column="21" bodyfile="include/storage/hierarchical_tucker_decomposer.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_hierarchical_tucker_decomposer_1_1_stats_1a0b08f082a39ceac8efe5a45adf489d12" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::storage::HierarchicalTuckerDecomposer::Stats::max_rank_used</definition>
+        <argsstring></argsstring>
+        <name>max_rank_used</name>
+        <qualifiedname>themis::storage::HierarchicalTuckerDecomposer::Stats::max_rank_used</qualifiedname>
+        <briefdescription>
+<para>Largest rank encountered in the tree. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hierarchical_tucker_decomposer.h" line="55" column="21" bodyfile="include/storage/hierarchical_tucker_decomposer.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_hierarchical_tucker_decomposer_1_1_stats_1af90b6aebc3a741c5ad4e77745ca6c771" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::HierarchicalTuckerDecomposer::Stats::achieved_eps</definition>
+        <argsstring></argsstring>
+        <name>achieved_eps</name>
+        <qualifiedname>themis::storage::HierarchicalTuckerDecomposer::Stats::achieved_eps</qualifiedname>
+        <briefdescription>
+<para>‖T − T̃‖_F / ‖T‖_F </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hierarchical_tucker_decomposer.h" line="56" column="21" bodyfile="include/storage/hierarchical_tucker_decomposer.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_hierarchical_tucker_decomposer_1_1_stats_1a4f52bc9fb234a0da61455e1bd47ee05c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::HierarchicalTuckerDecomposer::Stats::original_norm</definition>
+        <argsstring></argsstring>
+        <name>original_norm</name>
+        <qualifiedname>themis::storage::HierarchicalTuckerDecomposer::Stats::original_norm</qualifiedname>
+        <briefdescription>
+<para>‖T‖_F of the input tensor </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hierarchical_tucker_decomposer.h" line="57" column="21" bodyfile="include/storage/hierarchical_tucker_decomposer.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_hierarchical_tucker_decomposer_1_1_stats_1ad09cafa4b2624c5413df37c506061ded" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::storage::HierarchicalTuckerDecomposer::Stats::total_params</definition>
+        <argsstring></argsstring>
+        <name>total_params</name>
+        <qualifiedname>themis::storage::HierarchicalTuckerDecomposer::Stats::total_params</qualifiedname>
+        <briefdescription>
+<para>Total float parameters in the HTTrain. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hierarchical_tucker_decomposer.h" line="58" column="21" bodyfile="include/storage/hierarchical_tucker_decomposer.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Decomposition statistics returned alongside the HTTrain. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/hierarchical_tucker_decomposer.h" line="53" column="5" bodyfile="include/storage/hierarchical_tucker_decomposer.h" bodystart="53" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_hierarchical_tucker_decomposer_1_1_stats_1af90b6aebc3a741c5ad4e77745ca6c771" prot="public" virt="non-virtual"><scope>themis::storage::HierarchicalTuckerDecomposer::Stats</scope><name>achieved_eps</name></member>
+      <member refid="structthemis_1_1storage_1_1_hierarchical_tucker_decomposer_1_1_stats_1a0b08f082a39ceac8efe5a45adf489d12" prot="public" virt="non-virtual"><scope>themis::storage::HierarchicalTuckerDecomposer::Stats</scope><name>max_rank_used</name></member>
+      <member refid="structthemis_1_1storage_1_1_hierarchical_tucker_decomposer_1_1_stats_1ae4568e80164bb8096ec500780af9d9fc" prot="public" virt="non-virtual"><scope>themis::storage::HierarchicalTuckerDecomposer::Stats</scope><name>num_modes</name></member>
+      <member refid="structthemis_1_1storage_1_1_hierarchical_tucker_decomposer_1_1_stats_1a4f52bc9fb234a0da61455e1bd47ee05c" prot="public" virt="non-virtual"><scope>themis::storage::HierarchicalTuckerDecomposer::Stats</scope><name>original_norm</name></member>
+      <member refid="structthemis_1_1storage_1_1_hierarchical_tucker_decomposer_1_1_stats_1ad09cafa4b2624c5413df37c506061ded" prot="public" virt="non-virtual"><scope>themis::storage::HierarchicalTuckerDecomposer::Stats</scope><name>total_params</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

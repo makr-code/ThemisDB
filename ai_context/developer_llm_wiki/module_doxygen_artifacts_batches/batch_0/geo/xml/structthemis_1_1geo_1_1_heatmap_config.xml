@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1geo_1_1_heatmap_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::geo::HeatmapConfig</compoundname>
+    <includes refid="raster_8h" local="no">raster.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_heatmap_config_1adae58a702a6ce6266aee488618344f5c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::geo::HeatmapConfig::bandwidth_m</definition>
+        <argsstring></argsstring>
+        <name>bandwidth_m</name>
+        <qualifiedname>themis::geo::HeatmapConfig::bandwidth_m</qualifiedname>
+        <initializer>{500.0}</initializer>
+        <briefdescription>
+<para>Gaussian kernel bandwidth in metres (σ). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/raster.h" line="109" column="12" bodyfile="include/geo/raster.h" bodystart="109" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_heatmap_config_1a2b899ea058c50ea829514dc5d25a4d2f" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::geo::HeatmapConfig::width</definition>
+        <argsstring></argsstring>
+        <name>width</name>
+        <qualifiedname>themis::geo::HeatmapConfig::width</qualifiedname>
+        <initializer>{100}</initializer>
+        <briefdescription>
+<para>Output grid columns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/raster.h" line="110" column="17" bodyfile="include/geo/raster.h" bodystart="110" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_heatmap_config_1af1d9adb0649ca690c4fedc24b1d753b0" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::geo::HeatmapConfig::height</definition>
+        <argsstring></argsstring>
+        <name>height</name>
+        <qualifiedname>themis::geo::HeatmapConfig::height</qualifiedname>
+        <initializer>{100}</initializer>
+        <briefdescription>
+<para>Output grid rows. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/raster.h" line="111" column="17" bodyfile="include/geo/raster.h" bodystart="111" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_heatmap_config_1a4962b47a9a6daaf19bc93c57935e74da" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::geo::HeatmapConfig::normalize</definition>
+        <argsstring></argsstring>
+        <name>normalize</name>
+        <qualifiedname>themis::geo::HeatmapConfig::normalize</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/raster.h" line="113" column="10" bodyfile="include/geo/raster.h" bodystart="113" bodyend="113"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/geo/raster.h" line="108" column="1" bodyfile="include/geo/raster.h" bodystart="108" bodyend="114"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1geo_1_1_heatmap_config_1adae58a702a6ce6266aee488618344f5c" prot="public" virt="non-virtual"><scope>themis::geo::HeatmapConfig</scope><name>bandwidth_m</name></member>
+      <member refid="structthemis_1_1geo_1_1_heatmap_config_1af1d9adb0649ca690c4fedc24b1d753b0" prot="public" virt="non-virtual"><scope>themis::geo::HeatmapConfig</scope><name>height</name></member>
+      <member refid="structthemis_1_1geo_1_1_heatmap_config_1a4962b47a9a6daaf19bc93c57935e74da" prot="public" virt="non-virtual"><scope>themis::geo::HeatmapConfig</scope><name>normalize</name></member>
+      <member refid="structthemis_1_1geo_1_1_heatmap_config_1a2b899ea058c50ea829514dc5d25a4d2f" prot="public" virt="non-virtual"><scope>themis::geo::HeatmapConfig</scope><name>width</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_191224105c80ec0a0dab0b4c49fa357e" kind="dir">
+    <compoundname>benchmarks/replication</compoundname>
+    <innerfile refid="bench__geo__placement__wal__shipping_8cpp">bench_geo_placement_wal_shipping.cpp</innerfile>
+    <innerfile refid="bench__replication__dedicated__gates_8cpp">bench_replication_dedicated_gates.cpp</innerfile>
+    <innerfile refid="bench__replication__multi__dc__multi__writer_8cpp">bench_replication_multi_dc_multi_writer.cpp</innerfile>
+    <innerfile refid="bench__replication__release__gates_8cpp">bench_replication_release_gates.cpp</innerfile>
+    <innerfile refid="bench__replication__throughput_8cpp">bench_replication_throughput.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/replication/"/>
+  </compounddef>
+</doxygen>

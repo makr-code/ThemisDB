@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_cdc_ws_overflow_test" kind="class" language="C++" prot="public">
+    <compoundname>CdcWsOverflowTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_cdc_ws_overflow_test_1a2012aed94841c8cd84ce5fc00867fc54" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string CdcWsOverflowTest::test_db_path_</definition>
+        <argsstring></argsstring>
+        <name>test_db_path_</name>
+        <qualifiedname>CdcWsOverflowTest::test_db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_ws_handler.cpp" line="287" column="17" bodyfile="tests/cdc/test_cdc_ws_handler.cpp" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cdc_ws_overflow_test_1a88b349a4c992d8b04e68ac2c9ac8e3d6" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; CdcWsOverflowTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>CdcWsOverflowTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_ws_handler.cpp" line="288" column="21" bodyfile="tests/cdc/test_cdc_ws_handler.cpp" bodystart="288" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cdc_ws_overflow_test_1af312e99749e98e25a28cbbf9a311e39d" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_changefeed" kindref="compound">themis::Changefeed</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;themis::Changefeed&gt; CdcWsOverflowTest::changefeed_</definition>
+        <argsstring></argsstring>
+        <name>changefeed_</name>
+        <qualifiedname>CdcWsOverflowTest::changefeed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_ws_handler.cpp" line="289" column="21" bodyfile="tests/cdc/test_cdc_ws_handler.cpp" bodystart="289" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_cdc_ws_overflow_test_1a1a61771cf0ccfe310d766ef66576626a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CdcWsOverflowTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>CdcWsOverflowTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_ws_handler.cpp" line="261" column="10" bodyfile="tests/cdc/test_cdc_ws_handler.cpp" bodystart="261" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cdc_ws_overflow_test_1ab2b6da9bdfb455dd789e8e2f65ae44cc" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CdcWsOverflowTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>CdcWsOverflowTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_ws_handler.cpp" line="278" column="10" bodyfile="tests/cdc/test_cdc_ws_handler.cpp" bodystart="278" bodyend="285"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CdcWsOverflowTest</label>
+        <link refid="class_cdc_ws_overflow_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CdcWsOverflowTest</label>
+        <link refid="class_cdc_ws_overflow_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cdc/test_cdc_ws_handler.cpp" line="259" column="1" bodyfile="tests/cdc/test_cdc_ws_handler.cpp" bodystart="259" bodyend="290"/>
+    <listofallmembers>
+      <member refid="class_cdc_ws_overflow_test_1af312e99749e98e25a28cbbf9a311e39d" prot="protected" virt="non-virtual"><scope>CdcWsOverflowTest</scope><name>changefeed_</name></member>
+      <member refid="class_cdc_ws_overflow_test_1a88b349a4c992d8b04e68ac2c9ac8e3d6" prot="protected" virt="non-virtual"><scope>CdcWsOverflowTest</scope><name>db_</name></member>
+      <member refid="class_cdc_ws_overflow_test_1a1a61771cf0ccfe310d766ef66576626a" prot="protected" virt="non-virtual"><scope>CdcWsOverflowTest</scope><name>SetUp</name></member>
+      <member refid="class_cdc_ws_overflow_test_1ab2b6da9bdfb455dd789e8e2f65ae44cc" prot="protected" virt="non-virtual"><scope>CdcWsOverflowTest</scope><name>TearDown</name></member>
+      <member refid="class_cdc_ws_overflow_test_1a2012aed94841c8cd84ce5fc00867fc54" prot="protected" virt="non-virtual"><scope>CdcWsOverflowTest</scope><name>test_db_path_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

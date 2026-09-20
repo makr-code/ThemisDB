@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1evaluation_1_1_provenance_quality_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::evaluation::ProvenanceQualityMetrics</compoundname>
+    <includes refid="retrieval__metrics_8h" local="no">retrieval_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_provenance_quality_metrics_1af8f97931ead35d9b065e27941a7d58f3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::ProvenanceQualityMetrics::fidelity_score</definition>
+        <argsstring></argsstring>
+        <name>fidelity_score</name>
+        <qualifiedname>themis::evaluation::ProvenanceQualityMetrics::fidelity_score</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Fraction of attributions matching ground-truth. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="138" column="12" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="138" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_provenance_quality_metrics_1abb713a9cd07d4f85aaf8848d7ce3068d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::ProvenanceQualityMetrics::source_attribution_completeness</definition>
+        <argsstring></argsstring>
+        <name>source_attribution_completeness</name>
+        <qualifiedname>themis::evaluation::ProvenanceQualityMetrics::source_attribution_completeness</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Fraction of claims with a verifiable source. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="139" column="12" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="139" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_provenance_quality_metrics_1afc01ff4764ee3fab47e00d547faf52e8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::ProvenanceQualityMetrics::trust_signal_correctness</definition>
+        <argsstring></argsstring>
+        <name>trust_signal_correctness</name>
+        <qualifiedname>themis::evaluation::ProvenanceQualityMetrics::trust_signal_correctness</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Fraction of trust signals correctly assigned. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="140" column="12" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="140" bodyend="140"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/evaluation/include/retrieval_metrics.h" line="137" column="1" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="137" bodyend="141"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1evaluation_1_1_provenance_quality_metrics_1af8f97931ead35d9b065e27941a7d58f3" prot="public" virt="non-virtual"><scope>themis::evaluation::ProvenanceQualityMetrics</scope><name>fidelity_score</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_provenance_quality_metrics_1abb713a9cd07d4f85aaf8848d7ce3068d" prot="public" virt="non-virtual"><scope>themis::evaluation::ProvenanceQualityMetrics</scope><name>source_attribution_completeness</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_provenance_quality_metrics_1afc01ff4764ee3fab47e00d547faf52e8" prot="public" virt="non-virtual"><scope>themis::evaluation::ProvenanceQualityMetrics</scope><name>trust_signal_correctness</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

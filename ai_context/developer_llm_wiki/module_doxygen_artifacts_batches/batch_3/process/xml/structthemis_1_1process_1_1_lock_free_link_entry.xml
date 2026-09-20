@@ -1,0 +1,231 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_lock_free_link_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::LockFreeLinkEntry</compoundname>
+    <includes refid="lock__free__linker__contract_8h" local="no">lock_free_linker_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_lock_free_link_entry_1a46ebc3c778062906f6295416f4a47c93" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::LockFreeLinkEntry::link_id</definition>
+        <argsstring></argsstring>
+        <name>link_id</name>
+        <qualifiedname>themis::process::LockFreeLinkEntry::link_id</qualifiedname>
+        <briefdescription>
+<para>Link identifier (unique per shard). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="182" column="17" bodyfile="include/process/lock_free_linker_contract.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_lock_free_link_entry_1ad1b3cb382417a11bb7bd5c3065d4c92c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::LockFreeLinkEntry::source_model_id</definition>
+        <argsstring></argsstring>
+        <name>source_model_id</name>
+        <qualifiedname>themis::process::LockFreeLinkEntry::source_model_id</qualifiedname>
+        <briefdescription>
+<para>Source model ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="185" column="17" bodyfile="include/process/lock_free_linker_contract.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_lock_free_link_entry_1a6ad38bdc7686d0583ff387ecffd2fa21" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::LockFreeLinkEntry::target_id</definition>
+        <argsstring></argsstring>
+        <name>target_id</name>
+        <qualifiedname>themis::process::LockFreeLinkEntry::target_id</qualifiedname>
+        <briefdescription>
+<para>Target entity ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="188" column="17" bodyfile="include/process/lock_free_linker_contract.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_lock_free_link_entry_1ac75adf7ea4f88d34d3796186cb74eb2c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::LockFreeLinkEntry::link_type</definition>
+        <argsstring></argsstring>
+        <name>link_type</name>
+        <qualifiedname>themis::process::LockFreeLinkEntry::link_type</qualifiedname>
+        <briefdescription>
+<para>Link type (e.g., &quot;document&quot;, &quot;instance&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="191" column="17" bodyfile="include/process/lock_free_linker_contract.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_lock_free_link_entry_1a1ea9888851bd8ccd04560740f3cd228e" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1process_1_1_versioned_link_state" kindref="compound">VersionedLinkState</ref></type>
+        <definition>VersionedLinkState themis::process::LockFreeLinkEntry::versioned_state</definition>
+        <argsstring></argsstring>
+        <name>versioned_state</name>
+        <qualifiedname>themis::process::LockFreeLinkEntry::versioned_state</qualifiedname>
+        <briefdescription>
+<para>Versioned state machine (atomic updates). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="194" column="24" bodyfile="include/process/lock_free_linker_contract.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_lock_free_link_entry_1a8324aa1481133a35f82d8b32aad88c61" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::LockFreeLinkEntry::created_at_ns</definition>
+        <argsstring></argsstring>
+        <name>created_at_ns</name>
+        <qualifiedname>themis::process::LockFreeLinkEntry::created_at_ns</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Timestamp of link creation (UTC, nanoseconds since epoch). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="197" column="13" bodyfile="include/process/lock_free_linker_contract.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_lock_free_link_entry_1acaf703bf3f9d3d15a0c0d680a851ff50" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::LockFreeLinkEntry::modified_at_ns</definition>
+        <argsstring></argsstring>
+        <name>modified_at_ns</name>
+        <qualifiedname>themis::process::LockFreeLinkEntry::modified_at_ns</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Timestamp of last modification. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="200" column="13" bodyfile="include/process/lock_free_linker_contract.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_lock_free_link_entry_1a268920c8e5c11614b8f9700be466543d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::LockFreeLinkEntry::creator_principal</definition>
+        <argsstring></argsstring>
+        <name>creator_principal</name>
+        <qualifiedname>themis::process::LockFreeLinkEntry::creator_principal</qualifiedname>
+        <briefdescription>
+<para>Principal (user/service) ID that created this link. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="203" column="17" bodyfile="include/process/lock_free_linker_contract.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_lock_free_link_entry_1af6968339b3d153a74ffc71a976d1397d" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::process::LockFreeLinkEntry::is_stale</definition>
+        <argsstring></argsstring>
+        <name>is_stale</name>
+        <qualifiedname>themis::process::LockFreeLinkEntry::is_stale</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>true if this link is stale (source model deleted) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="206" column="17" bodyfile="include/process/lock_free_linker_contract.h" bodystart="206" bodyend="206"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_lock_free_link_entry_1a0abb140c739d2928918c7601c70c2d9f" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::LockFreeLinkEntry::acquireRef</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>acquireRef</name>
+        <qualifiedname>themis::process::LockFreeLinkEntry::acquireRef</qualifiedname>
+        <briefdescription>
+<para>Increment reference count (prevents reclamation while referenced). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="211" column="10" bodyfile="include/process/lock_free_linker_contract.h" bodystart="211" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_lock_free_link_entry_1adfa2a6c9461ed1952ee993db8466eaff" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::LockFreeLinkEntry::releaseRef</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>releaseRef</name>
+        <qualifiedname>themis::process::LockFreeLinkEntry::releaseRef</qualifiedname>
+        <briefdescription>
+<para>Decrement reference count; may trigger reclamation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="218" column="10" bodyfile="include/process/lock_free_linker_contract.h" bodystart="218" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_lock_free_link_entry_1a9a3d7b2eb79dd1f116205a425a60f1e1" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::process::LockFreeLinkEntry::getRefCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getRefCount</name>
+        <qualifiedname>themis::process::LockFreeLinkEntry::getRefCount</qualifiedname>
+        <briefdescription>
+<para>Get current reference count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Reference count </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="226" column="14" bodyfile="include/process/lock_free_linker_contract.h" bodystart="226" bodyend="228"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Entry in lock-free link registry. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Stores link metadata; actual link data stored elsewhere (unchanged from Phase 1-6). </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::process::LockFreeLinkEntry</label>
+        <link refid="structthemis_1_1process_1_1_lock_free_link_entry"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>versioned_state</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::process::VersionedLinkState</label>
+        <link refid="structthemis_1_1process_1_1_versioned_link_state"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/process/lock_free_linker_contract.h" line="180" column="1" bodyfile="include/process/lock_free_linker_contract.h" bodystart="180" bodyend="229"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_lock_free_link_entry_1a0abb140c739d2928918c7601c70c2d9f" prot="public" virt="non-virtual"><scope>themis::process::LockFreeLinkEntry</scope><name>acquireRef</name></member>
+      <member refid="structthemis_1_1process_1_1_lock_free_link_entry_1a8324aa1481133a35f82d8b32aad88c61" prot="public" virt="non-virtual"><scope>themis::process::LockFreeLinkEntry</scope><name>created_at_ns</name></member>
+      <member refid="structthemis_1_1process_1_1_lock_free_link_entry_1a268920c8e5c11614b8f9700be466543d" prot="public" virt="non-virtual"><scope>themis::process::LockFreeLinkEntry</scope><name>creator_principal</name></member>
+      <member refid="structthemis_1_1process_1_1_lock_free_link_entry_1a9a3d7b2eb79dd1f116205a425a60f1e1" prot="public" virt="non-virtual"><scope>themis::process::LockFreeLinkEntry</scope><name>getRefCount</name></member>
+      <member refid="structthemis_1_1process_1_1_lock_free_link_entry_1af6968339b3d153a74ffc71a976d1397d" prot="public" virt="non-virtual"><scope>themis::process::LockFreeLinkEntry</scope><name>is_stale</name></member>
+      <member refid="structthemis_1_1process_1_1_lock_free_link_entry_1a46ebc3c778062906f6295416f4a47c93" prot="public" virt="non-virtual"><scope>themis::process::LockFreeLinkEntry</scope><name>link_id</name></member>
+      <member refid="structthemis_1_1process_1_1_lock_free_link_entry_1ac75adf7ea4f88d34d3796186cb74eb2c" prot="public" virt="non-virtual"><scope>themis::process::LockFreeLinkEntry</scope><name>link_type</name></member>
+      <member refid="structthemis_1_1process_1_1_lock_free_link_entry_1acaf703bf3f9d3d15a0c0d680a851ff50" prot="public" virt="non-virtual"><scope>themis::process::LockFreeLinkEntry</scope><name>modified_at_ns</name></member>
+      <member refid="structthemis_1_1process_1_1_lock_free_link_entry_1adfa2a6c9461ed1952ee993db8466eaff" prot="public" virt="non-virtual"><scope>themis::process::LockFreeLinkEntry</scope><name>releaseRef</name></member>
+      <member refid="structthemis_1_1process_1_1_lock_free_link_entry_1ad1b3cb382417a11bb7bd5c3065d4c92c" prot="public" virt="non-virtual"><scope>themis::process::LockFreeLinkEntry</scope><name>source_model_id</name></member>
+      <member refid="structthemis_1_1process_1_1_lock_free_link_entry_1a6ad38bdc7686d0583ff387ecffd2fa21" prot="public" virt="non-virtual"><scope>themis::process::LockFreeLinkEntry</scope><name>target_id</name></member>
+      <member refid="structthemis_1_1process_1_1_lock_free_link_entry_1a1ea9888851bd8ccd04560740f3cd228e" prot="public" virt="non-virtual"><scope>themis::process::LockFreeLinkEntry</scope><name>versioned_state</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

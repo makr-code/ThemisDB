@@ -1,0 +1,266 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="zero__trust__auth__verifier_8h" kind="file" language="C++">
+    <compoundname>zero_trust_auth_verifier.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">condition_variable</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="yes">security/zero_trust_policy_enforcer.h</includes>
+    <includedby refid="zero__trust__auth__verifier_8cpp" local="yes">src/auth/zero_trust_auth_verifier.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/auth/zero_trust_auth_verifier.h</label>
+        <link refid="zero__trust__auth__verifier_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>atomic</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>condition_variable</label>
+      </node>
+      <node id="9">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="3">
+        <label>optional</label>
+      </node>
+      <node id="13">
+        <label>security/zero_trust_policy_enforcer.h</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="11">
+        <label>thread</label>
+      </node>
+      <node id="12">
+        <label>unordered_map</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/auth/zero_trust_auth_verifier.h</label>
+        <link refid="zero__trust__auth__verifier_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/auth/zero_trust_auth_verifier.cpp</label>
+        <link refid="zero__trust__auth__verifier_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier" prot="public">themis::auth::ZeroTrustAuthVerifier</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_config" prot="public">themis::auth::ZeroTrustAuthVerifier::Config</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_request" prot="public">themis::auth::ZeroTrustAuthVerifier::Request</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitored_session" prot="public">themis::auth::ZeroTrustAuthVerifier::MonitoredSession</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_decision" prot="public">themis::auth::ZeroTrustAuthVerifier::Decision</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitor_entry" prot="private">themis::auth::ZeroTrustAuthVerifier::MonitorEntry</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils">themis::utils</innernamespace>
+    <innernamespace refid="namespacethemis_1_1auth">themis::auth</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;condition_variable&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;security/zero_trust_policy_enforcer.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">utils</ref><sp/>{<sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">AuditLogger;<sp/>}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1_auth_worker_thread_pool" kindref="compound">AuthWorkerThreadPool</ref>;<sp/></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1_session_manager" kindref="compound">SessionManager</ref>;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a874b6d0a42a9bd82b2e32a148100588c" kindref="member">ZeroTrustAuthVerifier</ref><sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="37" refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a7920c00dd6a6b160b6aa200f93ff94bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a7920c00dd6a6b160b6aa200f93ff94bb" kindref="member">TokenVerifier</ref><sp/>=<sp/>security::ZeroTrustPolicyEnforcer::TokenVerifier;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_config_1a65790a4c611df90829d8550c64c149f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_config_1a65790a4c611df90829d8550c64c149f4" kindref="member">min_trust_score</ref><sp/>=<sp/>0.7;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_config_1af6b1dc89e09207aa6f4119ef4196a05d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_config_1af6b1dc89e09207aa6f4119ef4196a05d" kindref="member">device_id_expected</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_config_1a06aee0afb4ccbcb6cbef35f7ea049f35" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_config_1a06aee0afb4ccbcb6cbef35f7ea049f35" kindref="member">re_evaluation_interval</ref>{std::chrono::seconds(300)};</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_request" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_request" kindref="compound">Request</ref><sp/>{</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_request_1afd4793581e15567402063f5df1ffac68" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_request_1afd4793581e15567402063f5df1ffac68" kindref="member">request_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_request_1ab476f5f80678bfc1ec6bbb7785f693ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_request_1ab476f5f80678bfc1ec6bbb7785f693ce" kindref="member">user_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_request_1a7323677f7daacf2247b8ddf387e6d34f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_request_1a7323677f7daacf2247b8ddf387e6d34f" kindref="member">token</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_request_1a0f2949b3764ebb1756de62a94ff75f95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_request_1a0f2949b3764ebb1756de62a94ff75f95" kindref="member">client_ip</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_request_1a0e07231b668e39899f11a9c5b0b29a76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_request_1a0e07231b668e39899f11a9c5b0b29a76" kindref="member">resource</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_request_1a8a854ddd484753b29e479c00b32f0654" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_request_1a8a854ddd484753b29e479c00b32f0654" kindref="member">action</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_request_1aa0a659d1acf2b554451795517be959af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_request_1aa0a659d1acf2b554451795517be959af" kindref="member">device_id</ref>;<sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitored_session" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitored_session" kindref="compound">MonitoredSession</ref><sp/>{</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitored_session_1a04379d8d95303c063f027df1ca4465d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitored_session_1a04379d8d95303c063f027df1ca4465d3" kindref="member">session_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitored_session_1adbcddf71edd718cec083d1dc0880082d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitored_session_1adbcddf71edd718cec083d1dc0880082d" kindref="member">user_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitored_session_1a7e926ba726d849eea915ed82acc04248" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitored_session_1a7e926ba726d849eea915ed82acc04248" kindref="member">token</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitored_session_1aec5f1fa3816042581c4f9e09fc7c4d28" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitored_session_1aec5f1fa3816042581c4f9e09fc7c4d28" kindref="member">client_ip</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitored_session_1a1928580f3733c3bdeee0a367f15ce253" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitored_session_1a1928580f3733c3bdeee0a367f15ce253" kindref="member">resource</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitored_session_1a79b6843262f9599356ff8ff1d253048e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitored_session_1a79b6843262f9599356ff8ff1d253048e" kindref="member">action</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitored_session_1ae7dc39e6470707ae715a15087ff28ab8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitored_session_1ae7dc39e6470707ae715a15087ff28ab8" kindref="member">device_id</ref>;<sp/></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_decision" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_decision" kindref="compound">Decision</ref><sp/>{</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_decision_1a28123fa8ba2ad173eb17400d6cb4ebe4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_decision_1a28123fa8ba2ad173eb17400d6cb4ebe4" kindref="member">allowed</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_decision_1a7d50a8c9c7c31f91f9ac89c09aef67b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_decision_1a7d50a8c9c7c31f91f9ac89c09aef67b8" kindref="member">trust_score</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_decision_1a59f8660158926cc54110819b78903391" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_decision_1a59f8660158926cc54110819b78903391" kindref="member">reason</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_decision_1a2cecc6485ce5c094a2be2b9e5fd0bf2d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_decision_1a2cecc6485ce5c094a2be2b9e5fd0bf2d" kindref="member">request_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_decision_1a35398170fb1f6d0c0bfb9ac54206de8d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_decision_1a35398170fb1f6d0c0bfb9ac54206de8d" kindref="member">identity_verified</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_decision_1aecf6119f6d58f248f0d784992cebf47e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_decision_1aecf6119f6d58f248f0d784992cebf47e" kindref="member">network_ok</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a874b6d0a42a9bd82b2e32a148100588c" kindref="member">ZeroTrustAuthVerifier</ref>();</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a874b6d0a42a9bd82b2e32a148100588c" kindref="member">ZeroTrustAuthVerifier</ref>(<ref refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a7920c00dd6a6b160b6aa200f93ff94bb" kindref="member">TokenVerifier</ref><sp/>token_verifier);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a874b6d0a42a9bd82b2e32a148100588c" kindref="member">ZeroTrustAuthVerifier</ref>(</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a7920c00dd6a6b160b6aa200f93ff94bb" kindref="member">TokenVerifier</ref><sp/>token_verifier<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a315d1951bf8e61fb6e5ab6b0dca04eed" kindref="member">~ZeroTrustAuthVerifier</ref>();</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Dependency<sp/>injection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1aa4d17f9f9290dfbe815f6187a3c6c87d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1aa4d17f9f9290dfbe815f6187a3c6c87d" kindref="member">setAuditLogger</ref>(utils::AuditLogger*<sp/>logger)<sp/>{<sp/>audit_logger_<sp/>=<sp/>logger;<sp/>}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1af85e2caabce6108b063c0e2fa7cda8fb" kindref="member">addNetworkPolicy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>security::NetworkPolicy&amp;<sp/><ref refid="namespacethemis_1_1auth_1a14afa7a8c924ab7f41b667413b1c117baf4af8b5789576c000ce9105b25609bd6" kindref="member">policy</ref>);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1add0569751c25a2d5aa6c50a55a0729b6" kindref="member">removeNetworkPolicy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>policy_id);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;security::NetworkPolicy&gt;<sp/><ref refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a5444eaa5c6f547688b8d1b4854b8f990" kindref="member">getNetworkPolicies</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>Decision<sp/><ref refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1adc168f9d089c08f5df1959f4e87f2f0a" kindref="member">verify</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Request&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1aa77d1d13c5fbc7078708b834e190f6ea" kindref="member">startSessionMonitoring</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MonitoredSession&amp;<sp/>session,</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_session_manager" kindref="compound">SessionManager</ref>*<sp/>session_manager);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a2b2a776c177f0013ed54ff6243a86f68" kindref="member">stopSessionMonitoring</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1aa1b3bf6cffbd54cc423bb319add6894d" kindref="member">monitoredSessionCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Metrics<sp/>(read-only<sp/>view<sp/>of<sp/>the<sp/>underlying<sp/>enforcer&apos;s<sp/>counters)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1af2ce9b1f68979d3a430177e37f08de79" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>security::ZeroTrustPolicyEnforcer::Metrics&amp;<sp/><ref refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1af2ce9b1f68979d3a430177e37f08de79" kindref="member">getMetrics</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>enforcer_.getMetrics();</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/>config_;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>security::ZeroTrustPolicyEnforcer<sp/>enforcer_;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>utils::AuditLogger*<sp/>audit_logger_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Background<sp/>re-evaluation<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">MonitorEntry<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>MonitoredSession<sp/>session;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_session_manager" kindref="compound">SessionManager</ref>*<sp/><sp/>session_manager;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>next_eval;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>monitor_mutex_;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>std::condition_variable<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>monitor_cv_;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>MonitorEntry&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/>monitored_sessions_;<sp/></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;AuthWorkerThreadPool&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>worker_pool_;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>monitor_thread_;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>monitor_stop_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>schedule_generation_{0};</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>monitorLoop();</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>reEvaluateSession(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MonitorEntry&amp;<sp/>entry);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>auth</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/auth/zero_trust_auth_verifier.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_cross_shard_s_s_i_conflict" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::CrossShardSSIConflict</compoundname>
+    <includes refid="cross__shard__ssi__manager_8h" local="no">cross_shard_ssi_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_s_s_i_conflict_1a9354bbbcb927613bf354a719d83b98b5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::CrossShardSSIConflict::transaction_id</definition>
+        <argsstring></argsstring>
+        <name>transaction_id</name>
+        <qualifiedname>themisdb::sharding::CrossShardSSIConflict::transaction_id</qualifiedname>
+        <briefdescription>
+<para>Transaction being validated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_ssi_manager.h" line="60" column="17" bodyfile="include/sharding/cross_shard_ssi_manager.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_s_s_i_conflict_1aa954f537580084d01485ad479c48ce7f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::CrossShardSSIConflict::conflicting_transaction_id</definition>
+        <argsstring></argsstring>
+        <name>conflicting_transaction_id</name>
+        <qualifiedname>themisdb::sharding::CrossShardSSIConflict::conflicting_transaction_id</qualifiedname>
+        <briefdescription>
+<para>Concurrent transaction causing the conflict. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_ssi_manager.h" line="61" column="17" bodyfile="include/sharding/cross_shard_ssi_manager.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_s_s_i_conflict_1a3dc0eb31896be2783207e390bc1e855d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::CrossShardSSIConflict::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themisdb::sharding::CrossShardSSIConflict::shard_id</qualifiedname>
+        <briefdescription>
+<para>Shard where the overlap was detected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_ssi_manager.h" line="62" column="17" bodyfile="include/sharding/cross_shard_ssi_manager.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_s_s_i_conflict_1ad3de61247142c534186bd7cea1afdbd6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::CrossShardSSIConflict::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themisdb::sharding::CrossShardSSIConflict::key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Key (or range start) that triggered the conflict. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_ssi_manager.h" line="63" column="17" bodyfile="include/sharding/cross_shard_ssi_manager.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_s_s_i_conflict_1a0aac2ecebc2a9564b4f9925b0cbb12c8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::CrossShardSSIConflict::conflict_type</definition>
+        <argsstring></argsstring>
+        <name>conflict_type</name>
+        <qualifiedname>themisdb::sharding::CrossShardSSIConflict::conflict_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Conflict kind: &quot;rw&quot; (read-write; write-skew / phantom risk) or &quot;ww&quot; (write-write; lost-update risk). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_ssi_manager.h" line="66" column="17" bodyfile="include/sharding/cross_shard_ssi_manager.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_s_s_i_conflict_1a7a16eefd25f43b0b21f0a4fb60e54a0f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::CrossShardSSIConflict::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themisdb::sharding::CrossShardSSIConflict::message</qualifiedname>
+        <briefdescription>
+<para>Human-readable description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_ssi_manager.h" line="67" column="17" bodyfile="include/sharding/cross_shard_ssi_manager.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Describes a single cross-shard serialization conflict. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>A conflict record is produced when validateAtPrepare() detects that the requesting transaction&apos;s read or write footprint overlaps with a concurrent SERIALIZABLE transaction in a way that cannot be serialized. </para>
+    </detaileddescription>
+    <location file="include/sharding/cross_shard_ssi_manager.h" line="59" column="1" bodyfile="include/sharding/cross_shard_ssi_manager.h" bodystart="59" bodyend="68"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_s_s_i_conflict_1a0aac2ecebc2a9564b4f9925b0cbb12c8" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSSIConflict</scope><name>conflict_type</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_s_s_i_conflict_1aa954f537580084d01485ad479c48ce7f" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSSIConflict</scope><name>conflicting_transaction_id</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_s_s_i_conflict_1ad3de61247142c534186bd7cea1afdbd6" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSSIConflict</scope><name>key</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_s_s_i_conflict_1a7a16eefd25f43b0b21f0a4fb60e54a0f" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSSIConflict</scope><name>message</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_s_s_i_conflict_1a3dc0eb31896be2783207e390bc1e855d" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSSIConflict</scope><name>shard_id</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_s_s_i_conflict_1a9354bbbcb927613bf354a719d83b98b5" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSSIConflict</scope><name>transaction_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

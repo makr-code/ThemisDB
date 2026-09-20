@@ -1,0 +1,387 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__metadata__consistency__lineage__gates_8cpp" kind="file" language="C++">
+    <compoundname>bench_metadata_consistency_lineage_gates.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes refid="schema__consistency__checker_8h" local="yes">metadata/schema_consistency_checker.h</includes>
+    <includes refid="column__lineage_8h" local="yes">metadata/column_lineage.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">array</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/metadata/bench_metadata_consistency_lineage_gates.cpp</label>
+        <link refid="bench__metadata__consistency__lineage__gates_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>metadata/column_lineage.h</label>
+        <link refid="column__lineage_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>metadata/schema_consistency_checker.h</label>
+        <link refid="schema__consistency__checker_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>array</label>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>condition_variable</label>
+      </node>
+      <node id="16">
+        <label>cstdint</label>
+      </node>
+      <node id="15">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>string_view</label>
+      </node>
+      <node id="11">
+        <label>thread</label>
+      </node>
+      <node id="14">
+        <label>unordered_map</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="bench__metadata__consistency__lineage__gates_8cpp_1abcd8fdfbfcfca8d58a8d176dacd15543" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t kCanonicalRngSeed</definition>
+        <argsstring></argsstring>
+        <name>kCanonicalRngSeed</name>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/metadata/bench_metadata_consistency_lineage_gates.cpp" line="34" column="27" bodyfile="benchmarks/metadata/bench_metadata_consistency_lineage_gates.cpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__metadata__consistency__lineage__gates_8cpp_1a416e351e4bb4d1a8f8b7884973e67155" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_ConsistencyIssue_ToJSON</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ConsistencyIssue_ToJSON</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/metadata/bench_metadata_consistency_lineage_gates.cpp" line="40" column="13" bodyfile="benchmarks/metadata/bench_metadata_consistency_lineage_gates.cpp" bodystart="40" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__metadata__consistency__lineage__gates_8cpp_1a4b1ae6235d042b36955fd3f8fa9ffbe0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_ConsistencyIssue_ToJSON) -&gt; Repetitions(5) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_ConsistencyIssue_ToJSON</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/metadata/bench_metadata_consistency_lineage_gates.cpp" line="52" column="1" declfile="benchmarks/metadata/bench_metadata_consistency_lineage_gates.cpp" declline="52" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__metadata__consistency__lineage__gates_8cpp_1a3819efedb4b4a46bb776bfcd7acda3c6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_ColumnRef_ToString</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ColumnRef_ToString</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/metadata/bench_metadata_consistency_lineage_gates.cpp" line="58" column="13" bodyfile="benchmarks/metadata/bench_metadata_consistency_lineage_gates.cpp" bodystart="58" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__metadata__consistency__lineage__gates_8cpp_1adb3ad17301b3163c6d2368b0cbce66c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_ColumnRef_ToString) -&gt; Repetitions(5) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_ColumnRef_ToString</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/metadata/bench_metadata_consistency_lineage_gates.cpp" line="73" column="1" declfile="benchmarks/metadata/bench_metadata_consistency_lineage_gates.cpp" declline="73" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__metadata__consistency__lineage__gates_8cpp_1ac6685221e9e0b37de64cda7df67d686b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_ColumnRef_JsonRoundTrip</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ColumnRef_JsonRoundTrip</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/metadata/bench_metadata_consistency_lineage_gates.cpp" line="79" column="13" bodyfile="benchmarks/metadata/bench_metadata_consistency_lineage_gates.cpp" bodystart="79" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__metadata__consistency__lineage__gates_8cpp_1ac4271e70556b21fa1e57b9fb24d5e3f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_ColumnRef_JsonRoundTrip) -&gt; Repetitions(5) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_ColumnRef_JsonRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/metadata/bench_metadata_consistency_lineage_gates.cpp" line="88" column="1" declfile="benchmarks/metadata/bench_metadata_consistency_lineage_gates.cpp" declline="88" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__metadata__consistency__lineage__gates_8cpp_1ac39f7bfbd0b666770313fd59a243abe8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_TransformationType_StringConversion</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_TransformationType_StringConversion</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/metadata/bench_metadata_consistency_lineage_gates.cpp" line="94" column="13" bodyfile="benchmarks/metadata/bench_metadata_consistency_lineage_gates.cpp" bodystart="94" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__metadata__consistency__lineage__gates_8cpp_1ae6f69f3097399896dcfc03648b634f21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_TransformationType_StringConversion) -&gt; Repetitions(5) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_TransformationType_StringConversion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/metadata/bench_metadata_consistency_lineage_gates.cpp" line="113" column="1" declfile="benchmarks/metadata/bench_metadata_consistency_lineage_gates.cpp" declline="113" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__metadata__consistency__lineage__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_MAIN</definition>
+        <argsstring>()</argsstring>
+        <name>BENCHMARK_MAIN</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/metadata/bench_metadata_consistency_lineage_gates.cpp" line="115" column="1" declfile="benchmarks/metadata/bench_metadata_consistency_lineage_gates.cpp" declline="115" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Release-gate benchmarks for metadata consistency and lineage hot paths. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Covers the Phase D roadmap item: &quot;broaden benchmark depth beyond cache-centric metadata hot paths&quot;</para>
+<para>Gates: GATE-MCL-01 <ref refid="structthemis_1_1_consistency_issue_1a87279003e5d5fe98e5253796e55ec357" kindref="member">ConsistencyIssue::toJSON()</ref> ≥ 10M ops/s GATE-MCL-02 <ref refid="structthemis_1_1metadata_1_1_column_ref_1a5f21f16e59e39b3d454d41be8a2b803e" kindref="member">ColumnRef::toString()</ref> ≥ 50M ops/s GATE-MCL-03 <ref refid="structthemis_1_1metadata_1_1_column_ref" kindref="compound">ColumnRef</ref> JSON round-trip ≥ 5M ops/s GATE-MCL-04 <ref refid="namespacethemis_1_1metadata_1aae7ca3e7a55cd13ba52c35097bc8b085" kindref="member">TransformationType</ref> string ≥ 20M ops/s</para>
+<para>Benchmark hygiene (benchmarks/MEASUREMENT_HYGIENE.md):<itemizedlist>
+<listitem><para>kCanonicalRngSeed = 42</para>
+</listitem><listitem><para>No I/O; CPU-only benchmarks use default clock</para>
+</listitem><listitem><para>Repetitions(5) + ReportAggregatesOnly(true) for stable statistics </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="schema__consistency__checker_8h" kindref="compound">metadata/schema_consistency_checker.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="column__lineage_8h" kindref="compound">metadata/column_lineage.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;array&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1metadata" kindref="compound">themis::metadata</ref>;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kCanonicalRngSeed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GATE-MCL-01:<sp/>ConsistencyIssue::toJSON()<sp/>throughput</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Target:<sp/>≥<sp/>10M<sp/>ops/s</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_ConsistencyIssue_ToJSON(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_consistency_issue" kindref="compound">ConsistencyIssue</ref><sp/>ci;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>ci.<ref refid="structthemis_1_1_consistency_issue_1ac8ccd8610936f3d74a29f020da4ec9b9" kindref="member">issue_type</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;stale_stats&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>ci.<ref refid="structthemis_1_1_consistency_issue_1a9a2bfe6c852e6aa36971dae06b7f4e9f" kindref="member">table_name</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>ci.<ref refid="structthemis_1_1_consistency_issue_1a55d1f43edf90c560ecb9de774f56c3f0" kindref="member">column_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;updated_at&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>ci.<ref refid="structthemis_1_1_consistency_issue_1ad1746db8ce0d9569a64bb9ecc6adeeba" kindref="member">detail</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Stats<sp/>older<sp/>than<sp/>86400<sp/>seconds&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>ci.<ref refid="structthemis_1_1_consistency_issue_1a87279003e5d5fe98e5253796e55ec357" kindref="member">toJSON</ref>();</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(j);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><ref refid="bench__metadata__consistency__lineage__gates_8cpp_1a4b1ae6235d042b36955fd3f8fa9ffbe0" kindref="member">BENCHMARK</ref>(BM_ConsistencyIssue_ToJSON)-&gt;Repetitions(5)-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GATE-MCL-02:<sp/>ColumnRef::toString()<sp/>throughput</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Target:<sp/>≥<sp/>50M<sp/>ops/s</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_ColumnRef_ToString(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::array&lt;ColumnRef,<sp/>4&gt;<sp/>kRefs<sp/>=<sp/>{{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;customer_id&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;sku&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;catalog&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="stringliteral">&quot;version&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>}};</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>idx<sp/>=<sp/>kCanonicalRngSeed;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>ref<sp/>=<sp/>kRefs[idx++<sp/>%<sp/>4];</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>ref.toString();</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(s);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><ref refid="bench__metadata__consistency__lineage__gates_8cpp_1a4b1ae6235d042b36955fd3f8fa9ffbe0" kindref="member">BENCHMARK</ref>(BM_ColumnRef_ToString)-&gt;Repetitions(5)-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GATE-MCL-03:<sp/>ColumnRef<sp/>toJSON<sp/>/<sp/>fromJSON<sp/>round-trip<sp/>throughput</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Target:<sp/>≥<sp/>5M<sp/>ops/s</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_ColumnRef_JsonRoundTrip(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1metadata_1_1_column_ref" kindref="compound">ColumnRef</ref><sp/>original{</highlight><highlight class="stringliteral">&quot;shipments&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;tracking_id&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>original.<ref refid="structthemis_1_1metadata_1_1_column_ref_1accb3fcec5d0bfa8fe16108650ef6db1a" kindref="member">toJSON</ref>();</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>restored<sp/>=<sp/><ref refid="structthemis_1_1metadata_1_1_column_ref_1a00e621f48a9816b40baac364c3a3b3c8" kindref="member">ColumnRef::fromJSON</ref>(j);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(restored.table_name.data());</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><ref refid="bench__metadata__consistency__lineage__gates_8cpp_1a4b1ae6235d042b36955fd3f8fa9ffbe0" kindref="member">BENCHMARK</ref>(BM_ColumnRef_JsonRoundTrip)-&gt;Repetitions(5)-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GATE-MCL-04:<sp/>TransformationType<sp/>string<sp/>conversion<sp/>throughput</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Target:<sp/>≥<sp/>20M<sp/>ops/s</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_TransformationType_StringConversion(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::array&lt;TransformationType,<sp/>8&gt;<sp/>kTypes<sp/>=<sp/>{{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1metadata_1aae7ca3e7a55cd13ba52c35097bc8b085a869f7a49d94bf28c279b78d4f8cffce3" kindref="member">TransformationType::DIRECT_COPY</ref>,</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1metadata_1aae7ca3e7a55cd13ba52c35097bc8b085a507f09f72160920edb481656c350e76c" kindref="member">TransformationType::RENAME</ref>,</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1metadata_1aae7ca3e7a55cd13ba52c35097bc8b085a283929907641c5acaf4c5b67986fc1db" kindref="member">TransformationType::CAST</ref>,</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1metadata_1aae7ca3e7a55cd13ba52c35097bc8b085a6be453b0bddc1cb07f6ac2cf460e77fd" kindref="member">TransformationType::COMPUTED</ref>,</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1metadata_1aae7ca3e7a55cd13ba52c35097bc8b085af4c9f5462147735029052b713da1ce44" kindref="member">TransformationType::AGGREGATION</ref>,</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1metadata_1aae7ca3e7a55cd13ba52c35097bc8b085a0a5d774452fc707b70a657fec29b2bc4" kindref="member">TransformationType::ANONYMIZATION</ref>,</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1metadata_1aae7ca3e7a55cd13ba52c35097bc8b085a7c9cb569785ae44f42a6a7cae0ba1082" kindref="member">TransformationType::ENRICHMENT</ref>,</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1metadata_1aae7ca3e7a55cd13ba52c35097bc8b085a72baef04098f035e8a320b03ad197818" kindref="member">TransformationType::CUSTOM</ref>,</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>}};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>idx<sp/>=<sp/>kCanonicalRngSeed;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>kTypes[idx++<sp/>%<sp/>8];</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/><ref refid="namespacethemis_1_1metadata_1a4244e347bd3c10198e0a0fef093ca26c" kindref="member">transformationTypeToString</ref>(t);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(s.data());</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><ref refid="bench__metadata__consistency__lineage__gates_8cpp_1a4b1ae6235d042b36955fd3f8fa9ffbe0" kindref="member">BENCHMARK</ref>(BM_TransformationType_StringConversion)-&gt;Repetitions(5)-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><ref refid="bench__metadata__consistency__lineage__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kindref="member">BENCHMARK_MAIN</ref>();</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/metadata/bench_metadata_consistency_lineage_gates.cpp"/>
+  </compounddef>
+</doxygen>

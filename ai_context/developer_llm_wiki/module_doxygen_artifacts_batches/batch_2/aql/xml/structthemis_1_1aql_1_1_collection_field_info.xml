@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_collection_field_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::CollectionFieldInfo</compoundname>
+    <includes refid="aql__schema__provider_8h" local="no">aql_schema_provider.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_collection_field_info_1a4222f63cd3cca739ea844dbea5550bd4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::CollectionFieldInfo::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::aql::CollectionFieldInfo::name</qualifiedname>
+        <briefdescription>
+<para>Field name (e.g., &quot;age&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_schema_provider.h" line="24" column="17" bodyfile="include/aql/aql_schema_provider.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_collection_field_info_1ac13a574c0f34e946b7292581b9ae0cb8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::CollectionFieldInfo::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::aql::CollectionFieldInfo::type</qualifiedname>
+        <briefdescription>
+<para>Data type: &quot;string&quot;, &quot;integer&quot;, &quot;double&quot;, &quot;boolean&quot;, &quot;vector&quot;, etc. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_schema_provider.h" line="25" column="17" bodyfile="include/aql/aql_schema_provider.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_collection_field_info_1ad136531ad8ef4e74c7d3ba221b701dac" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::aql::CollectionFieldInfo::indexed</definition>
+        <argsstring></argsstring>
+        <name>indexed</name>
+        <qualifiedname>themis::aql::CollectionFieldInfo::indexed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when a secondary index exists on this field. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_schema_provider.h" line="26" column="17" bodyfile="include/aql/aql_schema_provider.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_collection_field_info_1aed9572dc3ed9b452b47d0bbae5a11c23" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::aql::CollectionFieldInfo::nullable</definition>
+        <argsstring></argsstring>
+        <name>nullable</name>
+        <qualifiedname>themis::aql::CollectionFieldInfo::nullable</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>True when the field may be absent or null. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_schema_provider.h" line="27" column="17" bodyfile="include/aql/aql_schema_provider.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_schema_provider.h" line="23" column="1" bodyfile="include/aql/aql_schema_provider.h" bodystart="23" bodyend="28"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_collection_field_info_1ad136531ad8ef4e74c7d3ba221b701dac" prot="public" virt="non-virtual"><scope>themis::aql::CollectionFieldInfo</scope><name>indexed</name></member>
+      <member refid="structthemis_1_1aql_1_1_collection_field_info_1a4222f63cd3cca739ea844dbea5550bd4" prot="public" virt="non-virtual"><scope>themis::aql::CollectionFieldInfo</scope><name>name</name></member>
+      <member refid="structthemis_1_1aql_1_1_collection_field_info_1aed9572dc3ed9b452b47d0bbae5a11c23" prot="public" virt="non-virtual"><scope>themis::aql::CollectionFieldInfo</scope><name>nullable</name></member>
+      <member refid="structthemis_1_1aql_1_1_collection_field_info_1ac13a574c0f34e946b7292581b9ae0cb8" prot="public" virt="non-virtual"><scope>themis::aql::CollectionFieldInfo</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_wikipedia_projection_summary" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::WikipediaProjectionSummary</compoundname>
+    <includes refid="wikipedia__types_8hpp" local="no">wikipedia_types.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_projection_summary_1a5cc047d60b5a7f4c16b1cf3253e7f3af" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::WikipediaProjectionSummary::relational_rows</definition>
+        <argsstring></argsstring>
+        <name>relational_rows</name>
+        <qualifiedname>themis::importers::WikipediaProjectionSummary::relational_rows</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="356" column="12" bodyfile="include/importers/wikipedia_types.hpp" bodystart="356" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_projection_summary_1a1239e6d191a31eb391b768c6082fc5ce" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::WikipediaProjectionSummary::graph_edges</definition>
+        <argsstring></argsstring>
+        <name>graph_edges</name>
+        <qualifiedname>themis::importers::WikipediaProjectionSummary::graph_edges</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="357" column="12" bodyfile="include/importers/wikipedia_types.hpp" bodystart="357" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_projection_summary_1ac9fcdf774bd4b5ee1d923eef7ca550a5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::WikipediaProjectionSummary::vector_records</definition>
+        <argsstring></argsstring>
+        <name>vector_records</name>
+        <qualifiedname>themis::importers::WikipediaProjectionSummary::vector_records</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="358" column="12" bodyfile="include/importers/wikipedia_types.hpp" bodystart="358" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_projection_summary_1a2ccc6d01fa3cc81fe2c7aa6dde89b9f4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::WikipediaProjectionSummary::process_events</definition>
+        <argsstring></argsstring>
+        <name>process_events</name>
+        <qualifiedname>themis::importers::WikipediaProjectionSummary::process_events</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="359" column="12" bodyfile="include/importers/wikipedia_types.hpp" bodystart="359" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_projection_summary_1a537e32c24cace4cb15503c5794a1a340" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::WikipediaProjectionSummary::timeseries_points</definition>
+        <argsstring></argsstring>
+        <name>timeseries_points</name>
+        <qualifiedname>themis::importers::WikipediaProjectionSummary::timeseries_points</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="360" column="12" bodyfile="include/importers/wikipedia_types.hpp" bodystart="360" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_projection_summary_1a984d050648fed1835affa2a56f7475fe" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::WikipediaProjectionSummary::dirty_pages_cleared</definition>
+        <argsstring></argsstring>
+        <name>dirty_pages_cleared</name>
+        <qualifiedname>themis::importers::WikipediaProjectionSummary::dirty_pages_cleared</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="361" column="12" bodyfile="include/importers/wikipedia_types.hpp" bodystart="361" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_wikipedia_projection_summary_1ad4f3335a3507ae4d7379f69f496f4bb5" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::WikipediaProjectionSummary::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::importers::WikipediaProjectionSummary::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="363" column="11" bodyfile="include/importers/wikipedia_types.hpp" bodystart="363" bodyend="372"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Summary counters returned after a projection refresh. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/wikipedia_types.hpp" line="355" column="1" bodyfile="include/importers/wikipedia_types.hpp" bodystart="355" bodyend="373"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_projection_summary_1a984d050648fed1835affa2a56f7475fe" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaProjectionSummary</scope><name>dirty_pages_cleared</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_projection_summary_1a1239e6d191a31eb391b768c6082fc5ce" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaProjectionSummary</scope><name>graph_edges</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_projection_summary_1a2ccc6d01fa3cc81fe2c7aa6dde89b9f4" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaProjectionSummary</scope><name>process_events</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_projection_summary_1a5cc047d60b5a7f4c16b1cf3253e7f3af" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaProjectionSummary</scope><name>relational_rows</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_projection_summary_1a537e32c24cace4cb15503c5794a1a340" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaProjectionSummary</scope><name>timeseries_points</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_projection_summary_1ad4f3335a3507ae4d7379f69f496f4bb5" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaProjectionSummary</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_projection_summary_1ac9fcdf774bd4b5ee1d923eef7ca550a5" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaProjectionSummary</scope><name>vector_records</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

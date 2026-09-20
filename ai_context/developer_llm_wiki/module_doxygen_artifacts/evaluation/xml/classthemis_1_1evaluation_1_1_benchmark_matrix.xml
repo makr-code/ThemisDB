@@ -1,0 +1,521 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1evaluation_1_1_benchmark_matrix" kind="class" language="C++" prot="public">
+    <compoundname>themis::evaluation::BenchmarkMatrix</compoundname>
+    <includes refid="benchmark__matrix_8h" local="no">benchmark_matrix.h</includes>
+    <innerclass refid="structthemis_1_1evaluation_1_1_benchmark_matrix_1_1_key" prot="private">themis::evaluation::BenchmarkMatrix::Key</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_benchmark_matrix_1_1_key_hash" prot="private">themis::evaluation::BenchmarkMatrix::KeyHash</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1evaluation_1_1_benchmark_matrix_1ab85fc8318b1d2f0d5abf52e31278b714" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; Key, <ref refid="structthemis_1_1evaluation_1_1_benchmark_result" kindref="compound">BenchmarkResult</ref>, KeyHash &gt;</type>
+        <definition>std::unordered_map&lt;Key, BenchmarkResult, KeyHash&gt; themis::evaluation::BenchmarkMatrix::cells_</definition>
+        <argsstring></argsstring>
+        <name>cells_</name>
+        <qualifiedname>themis::evaluation::BenchmarkMatrix::cells_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="336" column="24" bodyfile="src/evaluation/include/benchmark_matrix.h" bodystart="336" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_benchmark_matrix_1a5ad3699dd80e8c4c181a4c7b67e6231e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::evaluation::BenchmarkMatrix::BenchmarkMatrix</definition>
+        <argsstring>()=default</argsstring>
+        <name>BenchmarkMatrix</name>
+        <qualifiedname>themis::evaluation::BenchmarkMatrix::BenchmarkMatrix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="236" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_benchmark_matrix_1a2e44b88c236c765410dfd34b95c20d41" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::evaluation::BenchmarkMatrix::~BenchmarkMatrix</definition>
+        <argsstring>()=default</argsstring>
+        <name>~BenchmarkMatrix</name>
+        <qualifiedname>themis::evaluation::BenchmarkMatrix::~BenchmarkMatrix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="237" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_benchmark_matrix_1aefb9946da736b42b67f101a0fcb70e2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::evaluation::BenchmarkMatrix::BenchmarkMatrix</definition>
+        <argsstring>(const BenchmarkMatrix &amp;)=delete</argsstring>
+        <name>BenchmarkMatrix</name>
+        <qualifiedname>themis::evaluation::BenchmarkMatrix::BenchmarkMatrix</qualifiedname>
+        <param>
+          <type>const BenchmarkMatrix &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="240" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_benchmark_matrix_1a78bf3bd8a20c51d4e2d3c404faa8c4c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a5ad3699dd80e8c4c181a4c7b67e6231e" kindref="member">BenchmarkMatrix</ref> &amp;</type>
+        <definition>BenchmarkMatrix &amp; themis::evaluation::BenchmarkMatrix::operator=</definition>
+        <argsstring>(const BenchmarkMatrix &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::evaluation::BenchmarkMatrix::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a5ad3699dd80e8c4c181a4c7b67e6231e" kindref="member">BenchmarkMatrix</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="241" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_benchmark_matrix_1aa11b609fff33280c80bdb833cc26900b" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::evaluation::BenchmarkMatrix::BenchmarkMatrix</definition>
+        <argsstring>(BenchmarkMatrix &amp;&amp;) noexcept=default</argsstring>
+        <name>BenchmarkMatrix</name>
+        <qualifiedname>themis::evaluation::BenchmarkMatrix::BenchmarkMatrix</qualifiedname>
+        <param>
+          <type>BenchmarkMatrix &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="242" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_benchmark_matrix_1aea52c39f1940bae036e4cbd3c6856014" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a5ad3699dd80e8c4c181a4c7b67e6231e" kindref="member">BenchmarkMatrix</ref> &amp;</type>
+        <definition>BenchmarkMatrix &amp; themis::evaluation::BenchmarkMatrix::operator=</definition>
+        <argsstring>(BenchmarkMatrix &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::evaluation::BenchmarkMatrix::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a5ad3699dd80e8c4c181a4c7b67e6231e" kindref="member">BenchmarkMatrix</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="243" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_benchmark_matrix_1afb769d4585734df948195d859b110bb6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::evaluation::BenchmarkMatrix::record</definition>
+        <argsstring>(BenchmarkScenario scenario, BenchmarkDimension dimension, const BenchmarkResult &amp;result)</argsstring>
+        <name>record</name>
+        <qualifiedname>themis::evaluation::BenchmarkMatrix::record</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47be" kindref="member">BenchmarkScenario</ref></type>
+          <declname>scenario</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308ab" kindref="member">BenchmarkDimension</ref></type>
+          <declname>dimension</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1evaluation_1_1_benchmark_result" kindref="compound">BenchmarkResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ <ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1afb769d4585734df948195d859b110bb6" kindref="member">BenchmarkMatrix::record</ref> ============================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scenario</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scenario</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::string(), <ref refid="namespacethemis_1_1evaluation_1afea47a6a5647bdeeacac41db01048049" kindref="member">scenarioName()</ref>, <ref refid="namespacethemis_1_1evaluation_1ae68e4a389d405d8487b1293ca3c00d51" kindref="member">dimensionName()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="255" column="10" bodyfile="src/evaluation/src/benchmark_matrix.cc" bodystart="27" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_benchmark_matrix_1a8a2c9a3e412b4f5ab93be8c61e45e8d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::evaluation::BenchmarkMatrix::invalidateScenario</definition>
+        <argsstring>(BenchmarkScenario scenario)</argsstring>
+        <name>invalidateScenario</name>
+        <qualifiedname>themis::evaluation::BenchmarkMatrix::invalidateScenario</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47be" kindref="member">BenchmarkScenario</ref></type>
+          <declname>scenario</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate Scenario. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ <ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a8a2c9a3e412b4f5ab93be8c61e45e8d2" kindref="member">BenchmarkMatrix::invalidateScenario</ref> ============================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scenario</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scenario</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: begin(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="263" column="10" bodyfile="src/evaluation/src/benchmark_matrix.cc" bodystart="46" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_benchmark_matrix_1a330ba0c9d1177be725d511ac177702bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::evaluation::BenchmarkMatrix::invalidateDimension</definition>
+        <argsstring>(BenchmarkDimension dimension)</argsstring>
+        <name>invalidateDimension</name>
+        <qualifiedname>themis::evaluation::BenchmarkMatrix::invalidateDimension</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308ab" kindref="member">BenchmarkDimension</ref></type>
+          <declname>dimension</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate Dimension. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ <ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a330ba0c9d1177be725d511ac177702bb" kindref="member">BenchmarkMatrix::invalidateDimension</ref> ============================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: begin(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="269" column="10" bodyfile="src/evaluation/src/benchmark_matrix.cc" bodystart="62" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_benchmark_matrix_1a1711b61178df924673fa0b9e3202d3ac" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::evaluation::BenchmarkMatrix::clear</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::evaluation::BenchmarkMatrix::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="275" column="10" bodyfile="src/evaluation/src/benchmark_matrix.cc" bodystart="76" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_benchmark_matrix_1a5e82253eca89d81f762c57eb0c0ae0ef" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1evaluation_1_1_benchmark_result" kindref="compound">BenchmarkResult</ref> &gt;</type>
+        <definition>std::optional&lt; BenchmarkResult &gt; themis::evaluation::BenchmarkMatrix::lookup</definition>
+        <argsstring>(BenchmarkScenario scenario, BenchmarkDimension dimension) const noexcept</argsstring>
+        <name>lookup</name>
+        <qualifiedname>themis::evaluation::BenchmarkMatrix::lookup</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47be" kindref="member">BenchmarkScenario</ref></type>
+          <declname>scenario</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308ab" kindref="member">BenchmarkDimension</ref></type>
+          <declname>dimension</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="282" column="5" bodyfile="src/evaluation/src/benchmark_matrix.cc" bodystart="85" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_benchmark_matrix_1a29712620966139633fbaf7bc37df3acd" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1evaluation_1_1_benchmark_entry" kindref="compound">BenchmarkEntry</ref> &gt;</type>
+        <definition>std::vector&lt; BenchmarkEntry &gt; themis::evaluation::BenchmarkMatrix::entries</definition>
+        <argsstring>(std::string_view dataset_tag=&quot;&quot;, std::string_view hardware_tag=&quot;&quot;, std::string_view runner_version=&quot;&quot;) const</argsstring>
+        <name>entries</name>
+        <qualifiedname>themis::evaluation::BenchmarkMatrix::entries</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>dataset_tag</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>hardware_tag</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>runner_version</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="284" column="18" bodyfile="src/evaluation/src/benchmark_matrix.cc" bodystart="99" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_benchmark_matrix_1ae298f092ee4d868c249142a21963f681" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; <ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308ab" kindref="member">BenchmarkDimension</ref>, <ref refid="structthemis_1_1evaluation_1_1_benchmark_result" kindref="compound">BenchmarkResult</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; BenchmarkDimension, BenchmarkResult &gt; &gt; themis::evaluation::BenchmarkMatrix::scenarioSlice</definition>
+        <argsstring>(BenchmarkScenario scenario) const</argsstring>
+        <name>scenarioSlice</name>
+        <qualifiedname>themis::evaluation::BenchmarkMatrix::scenarioSlice</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47be" kindref="member">BenchmarkScenario</ref></type>
+          <declname>scenario</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="290" column="5" bodyfile="src/evaluation/src/benchmark_matrix.cc" bodystart="123" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_benchmark_matrix_1a9d8abc5fd07cb2d3203a196a1c9dae7a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; <ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47be" kindref="member">BenchmarkScenario</ref>, <ref refid="structthemis_1_1evaluation_1_1_benchmark_result" kindref="compound">BenchmarkResult</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; BenchmarkScenario, BenchmarkResult &gt; &gt; themis::evaluation::BenchmarkMatrix::dimensionSlice</definition>
+        <argsstring>(BenchmarkDimension dimension) const</argsstring>
+        <name>dimensionSlice</name>
+        <qualifiedname>themis::evaluation::BenchmarkMatrix::dimensionSlice</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308ab" kindref="member">BenchmarkDimension</ref></type>
+          <declname>dimension</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="293" column="5" bodyfile="src/evaluation/src/benchmark_matrix.cc" bodystart="138" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_benchmark_matrix_1aed0f5f80a2ad6975f492485b876567c8" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47be" kindref="member">BenchmarkScenario</ref> &gt;</type>
+        <definition>std::vector&lt; BenchmarkScenario &gt; themis::evaluation::BenchmarkMatrix::scenariosWithFullCoverage</definition>
+        <argsstring>(const std::vector&lt; BenchmarkDimension &gt; &amp;required_dimensions) const</argsstring>
+        <name>scenariosWithFullCoverage</name>
+        <qualifiedname>themis::evaluation::BenchmarkMatrix::scenariosWithFullCoverage</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308ab" kindref="member">BenchmarkDimension</ref> &gt; &amp;</type>
+          <declname>required_dimensions</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="296" column="5" bodyfile="src/evaluation/src/benchmark_matrix.cc" bodystart="153" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_benchmark_matrix_1ae1dfbeb2eee2675267f35af0bda22e33" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::evaluation::BenchmarkMatrix::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::evaluation::BenchmarkMatrix::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="299" column="18" bodyfile="src/evaluation/src/benchmark_matrix.cc" bodystart="188" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_benchmark_matrix_1a79a9c45a3294b40f21b5c98c67fa863c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::evaluation::BenchmarkMatrix::contains</definition>
+        <argsstring>(BenchmarkScenario scenario, BenchmarkDimension dimension) const noexcept</argsstring>
+        <name>contains</name>
+        <qualifiedname>themis::evaluation::BenchmarkMatrix::contains</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47be" kindref="member">BenchmarkScenario</ref></type>
+          <declname>scenario</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308ab" kindref="member">BenchmarkDimension</ref></type>
+          <declname>dimension</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="301" column="11" bodyfile="src/evaluation/src/benchmark_matrix.cc" bodystart="196" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_benchmark_matrix_1a7deb664690b1db63ae6031e50098ce55" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::optional&lt; double &gt;</type>
+        <definition>std::optional&lt; double &gt; themis::evaluation::BenchmarkMatrix::compareScenarios</definition>
+        <argsstring>(BenchmarkScenario a, BenchmarkScenario b, BenchmarkDimension dimension) const noexcept</argsstring>
+        <name>compareScenarios</name>
+        <qualifiedname>themis::evaluation::BenchmarkMatrix::compareScenarios</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47be" kindref="member">BenchmarkScenario</ref></type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47be" kindref="member">BenchmarkScenario</ref></type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308ab" kindref="member">BenchmarkDimension</ref></type>
+          <declname>dimension</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="309" column="5" bodyfile="src/evaluation/src/benchmark_matrix.cc" bodystart="206" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_benchmark_matrix_1a933e289d4b45ac61b12ffd1256edbfbd" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47be" kindref="member">BenchmarkScenario</ref> &gt;</type>
+        <definition>std::optional&lt; BenchmarkScenario &gt; themis::evaluation::BenchmarkMatrix::bestScenario</definition>
+        <argsstring>(BenchmarkDimension dimension, bool higher_is_better=true) const noexcept</argsstring>
+        <name>bestScenario</name>
+        <qualifiedname>themis::evaluation::BenchmarkMatrix::bestScenario</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308ab" kindref="member">BenchmarkDimension</ref></type>
+          <declname>dimension</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>higher_is_better</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="314" column="5" bodyfile="src/evaluation/src/benchmark_matrix.cc" bodystart="226" bodyend="249"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/evaluation/include/benchmark_matrix.h" line="234" column="1" bodyfile="src/evaluation/include/benchmark_matrix.h" bodystart="234" bodyend="337"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a5ad3699dd80e8c4c181a4c7b67e6231e" prot="public" virt="non-virtual"><scope>themis::evaluation::BenchmarkMatrix</scope><name>BenchmarkMatrix</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1aefb9946da736b42b67f101a0fcb70e2c" prot="public" virt="non-virtual"><scope>themis::evaluation::BenchmarkMatrix</scope><name>BenchmarkMatrix</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1aa11b609fff33280c80bdb833cc26900b" prot="public" virt="non-virtual"><scope>themis::evaluation::BenchmarkMatrix</scope><name>BenchmarkMatrix</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a933e289d4b45ac61b12ffd1256edbfbd" prot="public" virt="non-virtual"><scope>themis::evaluation::BenchmarkMatrix</scope><name>bestScenario</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1ab85fc8318b1d2f0d5abf52e31278b714" prot="private" virt="non-virtual"><scope>themis::evaluation::BenchmarkMatrix</scope><name>cells_</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a1711b61178df924673fa0b9e3202d3ac" prot="public" virt="non-virtual"><scope>themis::evaluation::BenchmarkMatrix</scope><name>clear</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a7deb664690b1db63ae6031e50098ce55" prot="public" virt="non-virtual"><scope>themis::evaluation::BenchmarkMatrix</scope><name>compareScenarios</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a79a9c45a3294b40f21b5c98c67fa863c" prot="public" virt="non-virtual"><scope>themis::evaluation::BenchmarkMatrix</scope><name>contains</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a9d8abc5fd07cb2d3203a196a1c9dae7a" prot="public" virt="non-virtual"><scope>themis::evaluation::BenchmarkMatrix</scope><name>dimensionSlice</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a29712620966139633fbaf7bc37df3acd" prot="public" virt="non-virtual"><scope>themis::evaluation::BenchmarkMatrix</scope><name>entries</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a330ba0c9d1177be725d511ac177702bb" prot="public" virt="non-virtual"><scope>themis::evaluation::BenchmarkMatrix</scope><name>invalidateDimension</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a8a2c9a3e412b4f5ab93be8c61e45e8d2" prot="public" virt="non-virtual"><scope>themis::evaluation::BenchmarkMatrix</scope><name>invalidateScenario</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a5e82253eca89d81f762c57eb0c0ae0ef" prot="public" virt="non-virtual"><scope>themis::evaluation::BenchmarkMatrix</scope><name>lookup</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a78bf3bd8a20c51d4e2d3c404faa8c4c0" prot="public" virt="non-virtual"><scope>themis::evaluation::BenchmarkMatrix</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1aea52c39f1940bae036e4cbd3c6856014" prot="public" virt="non-virtual"><scope>themis::evaluation::BenchmarkMatrix</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1afb769d4585734df948195d859b110bb6" prot="public" virt="non-virtual"><scope>themis::evaluation::BenchmarkMatrix</scope><name>record</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1ae298f092ee4d868c249142a21963f681" prot="public" virt="non-virtual"><scope>themis::evaluation::BenchmarkMatrix</scope><name>scenarioSlice</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1aed0f5f80a2ad6975f492485b876567c8" prot="public" virt="non-virtual"><scope>themis::evaluation::BenchmarkMatrix</scope><name>scenariosWithFullCoverage</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1ae1dfbeb2eee2675267f35af0bda22e33" prot="public" virt="non-virtual"><scope>themis::evaluation::BenchmarkMatrix</scope><name>size</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a2e44b88c236c765410dfd34b95c20d41" prot="public" virt="non-virtual"><scope>themis::evaluation::BenchmarkMatrix</scope><name>~BenchmarkMatrix</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

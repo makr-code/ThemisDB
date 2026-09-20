@@ -1,0 +1,568 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="llm__prefix__cache_8h" kind="file" language="C++">
+    <compoundname>llm_prefix_cache.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">chrono</includes>
+    <includes local="yes">utils/clock.h</includes>
+    <includedby refid="inference__engine__enhanced_8h" local="yes">include/llm/inference_engine_enhanced.h</includedby>
+    <includedby refid="llama__wrapper_8h" local="yes">include/llm/llama_wrapper.h</includedby>
+    <includedby refid="llama__wrapper_8cpp" local="yes">src/llm/llama_wrapper.cpp</includedby>
+    <includedby refid="llm__prefix__cache_8cpp" local="yes">src/llm/llm_prefix_cache.cpp</includedby>
+    <includedby refid="test__llm__memory__safety_8cpp" local="yes">tests/llm/test_llm_memory_safety.cpp</includedby>
+    <includedby refid="test__llm__prefix__cache_8cpp" local="yes">tests/llm/test_llm_prefix_cache.cpp</includedby>
+    <includedby refid="test__llm__wave3__gap__fixes_8cpp" local="yes">tests/llm/test_llm_wave3_gap_fixes.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm/llm_prefix_cache.h</label>
+        <link refid="llm__prefix__cache_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="4">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>utils/clock.h</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="24">
+        <label>benchmarks/llm/bench_embedded_llm.cpp</label>
+        <link refid="bench__embedded__llm_8cpp"/>
+      </node>
+      <node id="22">
+        <label>benchmarks/llm/bench_phase1_flash_attention.cpp</label>
+        <link refid="bench__phase1__flash__attention_8cpp"/>
+      </node>
+      <node id="3">
+        <label>benchmarks/llm/llm_bench.cpp</label>
+        <link refid="llm__bench_8cpp"/>
+      </node>
+      <node id="23">
+        <label>include/llm/embedded_llm.h</label>
+        <link refid="embedded__llm_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/llm/inference_engine_enhanced.h</label>
+        <link refid="inference__engine__enhanced_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>include/llm/llama_wrapper.h</label>
+        <link refid="llama__wrapper_8h"/>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/llm_prefix_cache.h</label>
+        <link refid="llm__prefix__cache_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/llm/ml_model_manager.h</label>
+        <link refid="ml__model__manager_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/llm/moral_analyzer.h</label>
+        <link refid="moral__analyzer_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>include/llm/production_validator.h</label>
+        <link refid="production__validator_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>include/llm/wiki_chunk_splitter.h</label>
+        <link refid="wiki__chunk__splitter_8h"/>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>include/llm/wiki_index_store.h</label>
+        <link refid="wiki__index__store_8h"/>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>include/llm/wiki_rag_source.h</label>
+        <link refid="wiki__rag__source_8h"/>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+      </node>
+      <node id="39">
+        <label>src/llm/api/embedded_llm_adapter.cpp</label>
+        <link refid="embedded__llm__adapter_8cpp"/>
+      </node>
+      <node id="51">
+        <label>src/llm/applications/themis_help_lora.cpp</label>
+        <link refid="themis__help__lora_8cpp"/>
+      </node>
+      <node id="40">
+        <label>src/llm/docs_assistant.cpp</label>
+        <link refid="docs__assistant_8cpp"/>
+      </node>
+      <node id="41">
+        <label>src/llm/embedded_llm.cpp</label>
+        <link refid="embedded__llm_8cpp"/>
+      </node>
+      <node id="42">
+        <label>src/llm/embedded_llm_stub.cpp</label>
+        <link refid="embedded__llm__stub_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/llm/inference_engine_enhanced.cpp</label>
+        <link refid="inference__engine__enhanced_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/llm/inference_guard.cpp</label>
+        <link refid="inference__guard_8cpp"/>
+      </node>
+      <node id="52">
+        <label>src/llm/llama_wrapper.cpp</label>
+        <link refid="llama__wrapper_8cpp"/>
+      </node>
+      <node id="43">
+        <label>src/llm/llm_plugin_manager.cpp</label>
+        <link refid="llm__plugin__manager_8cpp"/>
+      </node>
+      <node id="59">
+        <label>src/llm/llm_prefix_cache.cpp</label>
+        <link refid="llm__prefix__cache_8cpp"/>
+      </node>
+      <node id="44">
+        <label>src/llm/llm_response_cache.cpp</label>
+        <link refid="llm__response__cache_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/llm/ml_model_manager.cpp</label>
+        <link refid="ml__model__manager_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/llm/moral_analyzer.cpp</label>
+        <link refid="moral__analyzer_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/llm/production_validator.cpp</label>
+        <link refid="production__validator_8cpp"/>
+      </node>
+      <node id="27">
+        <label>src/llm/wiki_chunk_splitter.cpp</label>
+        <link refid="wiki__chunk__splitter_8cpp"/>
+      </node>
+      <node id="33">
+        <label>src/llm/wiki_index_store.cpp</label>
+        <link refid="wiki__index__store_8cpp"/>
+      </node>
+      <node id="30">
+        <label>src/llm/wiki_rag_source.cpp</label>
+        <link refid="wiki__rag__source_8cpp"/>
+      </node>
+      <node id="53">
+        <label>tests/llm/bench_model_loading_from_themisdb.cpp</label>
+        <link refid="bench__model__loading__from__themisdb_8cpp"/>
+      </node>
+      <node id="45">
+        <label>tests/llm/test_embedded_llm_batch_contract.cpp</label>
+        <link refid="test__embedded__llm__batch__contract_8cpp"/>
+      </node>
+      <node id="54">
+        <label>tests/llm/test_llama_wrapper_state.cpp</label>
+        <link refid="test__llama__wrapper__state_8cpp"/>
+      </node>
+      <node id="46">
+        <label>tests/llm/test_llm_aql_handler.cpp</label>
+        <link refid="test__llm__aql__handler_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/llm/test_llm_destructor_noexcept_b1.cpp</label>
+        <link refid="test__llm__destructor__noexcept__b1_8cpp"/>
+      </node>
+      <node id="31">
+        <label>tests/llm/test_llm_doku_rag.cpp</label>
+        <link refid="test__llm__doku__rag_8cpp"/>
+      </node>
+      <node id="47">
+        <label>tests/llm/test_llm_exception_safety.cpp</label>
+        <link refid="test__llm__exception__safety_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/llm/test_llm_federated_failure_envelopes.cpp</label>
+        <link refid="test__llm__federated__failure__envelopes_8cpp"/>
+      </node>
+      <node id="55">
+        <label>tests/llm/test_llm_grafana_metrics.cpp</label>
+        <link refid="test__llm__grafana__metrics_8cpp"/>
+      </node>
+      <node id="56">
+        <label>tests/llm/test_llm_inference_roles.cpp</label>
+        <link refid="test__llm__inference__roles_8cpp"/>
+      </node>
+      <node id="48">
+        <label>tests/llm/test_llm_memory_lifecycle.cpp</label>
+        <link refid="test__llm__memory__lifecycle_8cpp"/>
+      </node>
+      <node id="60">
+        <label>tests/llm/test_llm_memory_safety.cpp</label>
+        <link refid="test__llm__memory__safety_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/llm/test_llm_multi_model_integration.cpp</label>
+        <link refid="test__llm__multi__model__integration_8cpp"/>
+      </node>
+      <node id="49">
+        <label>tests/llm/test_llm_p0_hardening.cpp</label>
+        <link refid="test__llm__p0__hardening_8cpp"/>
+      </node>
+      <node id="57">
+        <label>tests/llm/test_llm_plugin.cpp</label>
+        <link refid="test__llm__plugin_8cpp"/>
+      </node>
+      <node id="61">
+        <label>tests/llm/test_llm_prefix_cache.cpp</label>
+        <link refid="test__llm__prefix__cache_8cpp"/>
+      </node>
+      <node id="16">
+        <label>tests/llm/test_llm_raid_integration.cpp</label>
+        <link refid="test__llm__raid__integration_8cpp"/>
+      </node>
+      <node id="17">
+        <label>tests/llm/test_llm_timeout_cancellation.cpp</label>
+        <link refid="test__llm__timeout__cancellation_8cpp"/>
+      </node>
+      <node id="50">
+        <label>tests/llm/test_llm_tinyllama_inference.cpp</label>
+        <link refid="test__llm__tinyllama__inference_8cpp"/>
+      </node>
+      <node id="62">
+        <label>tests/llm/test_llm_wave3_gap_fixes.cpp</label>
+        <link refid="test__llm__wave3__gap__fixes_8cpp"/>
+      </node>
+      <node id="34">
+        <label>tests/llm/test_llm_wiki_phase3_features_focused.cpp</label>
+        <link refid="test__llm__wiki__phase3__features__focused_8cpp"/>
+      </node>
+      <node id="35">
+        <label>tests/llm/test_llm_wiki_provenance_focused.cpp</label>
+        <link refid="test__llm__wiki__provenance__focused_8cpp"/>
+      </node>
+      <node id="18">
+        <label>tests/llm/test_lora_hot_loading.cpp</label>
+        <link refid="test__lora__hot__loading_8cpp"/>
+      </node>
+      <node id="58">
+        <label>tests/llm/test_model_loading_from_themisdb.cpp</label>
+        <link refid="test__model__loading__from__themisdb_8cpp"/>
+      </node>
+      <node id="19">
+        <label>tests/llm/test_wave5_llm_stubs.cpp</label>
+        <link refid="test__wave5__llm__stubs_8cpp"/>
+      </node>
+      <node id="20">
+        <label>tests/llm/test_wave9_speculative_decode_bridges.cpp</label>
+        <link refid="test__wave9__speculative__decode__bridges_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/llm/test_wave_next_llm_threadsafety.cpp</label>
+        <link refid="test__wave__next__llm__threadsafety_8cpp"/>
+      </node>
+      <node id="36">
+        <label>tests/llm/test_wiki_crossdep_focused.cpp</label>
+        <link refid="test__wiki__crossdep__focused_8cpp"/>
+      </node>
+      <node id="37">
+        <label>tests/llm/test_wiki_eval_metrics.cpp</label>
+        <link refid="test__wiki__eval__metrics_8cpp"/>
+      </node>
+      <node id="28">
+        <label>tests/llm/test_wiki_index_store.cpp</label>
+        <link refid="test__wiki__index__store_8cpp"/>
+      </node>
+      <node id="38">
+        <label>tests/llm/test_wiki_index_store_phase_b.cpp</label>
+        <link refid="test__wiki__index__store__phase__b_8cpp"/>
+      </node>
+      <node id="32">
+        <label>tests/llm/test_wiki_rag_quality.cpp</label>
+        <link refid="test__wiki__rag__quality_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1_prefix_cache_entry" prot="public">themis::llm::PrefixCacheEntry</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_prefix_cache_statistics" prot="public">themis::llm::PrefixCacheStatistics</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_l_l_m_prefix_cache" prot="public">themis::llm::LLMPrefixCache</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config" prot="public">themis::llm::LLMPrefixCache::Config</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/clock.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="structthemis_1_1llm_1_1_prefix_cache_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_prefix_cache_entry" kindref="compound">PrefixCacheEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1llm_1_1_prefix_cache_entry_1aee612462ede1af761a174153128287e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_prefix_cache_entry_1aee612462ede1af761a174153128287e1" kindref="member">~PrefixCacheEntry</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1llm_1_1_prefix_cache_entry_1aeb3983ac8837c888caa7a9b61f983343" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_prefix_cache_entry_1aeb3983ac8837c888caa7a9b61f983343" kindref="member">prefix</ref>;</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1llm_1_1_prefix_cache_entry_1a4a6788b498eb40e67d5c9d7b42b4f2bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="structthemis_1_1llm_1_1_prefix_cache_entry_1a4a6788b498eb40e67d5c9d7b42b4f2bc" kindref="member">embedding</ref>;</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1llm_1_1_prefix_cache_entry_1aeabd6a6d659494a9f742fbd5cac6da42" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/><ref refid="structthemis_1_1llm_1_1_prefix_cache_entry_1aeabd6a6d659494a9f742fbd5cac6da42" kindref="member">token_ids</ref>;</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1llm_1_1_prefix_cache_entry_1aecc304e4ad896cf40030da31bddca023" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_prefix_cache_entry_1aecc304e4ad896cf40030da31bddca023" kindref="member">usage_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1llm_1_1_prefix_cache_entry_1af6a1e3c9a49b9b0950ff363f345d3211" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1llm_1_1_prefix_cache_entry_1af6a1e3c9a49b9b0950ff363f345d3211" kindref="member">last_used</ref>;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>KV<sp/>cache<sp/>data<sp/>(if<sp/>precomputed)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1llm_1_1_prefix_cache_entry_1aaf35722216172decffb85124686bf042" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="structthemis_1_1llm_1_1_prefix_cache_entry_1aaf35722216172decffb85124686bf042" kindref="member">precomputed_kv</ref>;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1llm_1_1_prefix_cache_entry_1a93e58153a78f4917714ecbfdb91ddc52" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_prefix_cache_entry_1a93e58153a78f4917714ecbfdb91ddc52" kindref="member">has_precomputed_kv</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>generated<sp/>response<sp/>text<sp/>associated<sp/>with<sp/>this<sp/>cached<sp/>prompt.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Empty<sp/>for<sp/>prewarm-only<sp/>entries<sp/>(no<sp/>response<sp/>has<sp/>been<sp/>generated<sp/>yet).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1llm_1_1_prefix_cache_entry_1a0986e9027802b3138991f8a3a1061493" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_prefix_cache_entry_1a0986e9027802b3138991f8a3a1061493" kindref="member">generated_text</ref>;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1llm_1_1_prefix_cache_statistics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_prefix_cache_statistics" kindref="compound">PrefixCacheStatistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1llm_1_1_prefix_cache_statistics_1a2b2b18b89cb4ff109fbad98e81fb9aa2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_prefix_cache_statistics_1a2b2b18b89cb4ff109fbad98e81fb9aa2" kindref="member">~PrefixCacheStatistics</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1llm_1_1_prefix_cache_statistics_1a92facb40c9fae6c10f70e24dcb698a15" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_prefix_cache_statistics_1a92facb40c9fae6c10f70e24dcb698a15" kindref="member">hits</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1llm_1_1_prefix_cache_statistics_1a4523c61b3dd0172fb5b5efbff88a4cb2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_prefix_cache_statistics_1a4523c61b3dd0172fb5b5efbff88a4cb2" kindref="member">misses</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1llm_1_1_prefix_cache_statistics_1a6acaa9e6476dfc69c75504ab09b89efc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_prefix_cache_statistics_1a6acaa9e6476dfc69c75504ab09b89efc" kindref="member">total_entries</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1llm_1_1_prefix_cache_statistics_1ad6d5046799810fbdc63ad2658e66e22e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_prefix_cache_statistics_1ad6d5046799810fbdc63ad2658e66e22e" kindref="member">total_tokens_saved</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1llm_1_1_prefix_cache_statistics_1ae86559360192c7cc0dd3a9d27cde0b76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_prefix_cache_statistics_1ae86559360192c7cc0dd3a9d27cde0b76" kindref="member">avg_similarity</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1llm_1_1_prefix_cache_statistics_1a04b4b51528c449c9ab36677dcb08ca7d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_prefix_cache_statistics_1a04b4b51528c449c9ab36677dcb08ca7d" kindref="member">avg_lookup_time_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1llm_1_1_prefix_cache_statistics_1a7d06ae2105f0b7b23613deab3645fc3f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_prefix_cache_statistics_1a7d06ae2105f0b7b23613deab3645fc3f" kindref="member">getHitRate</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1llm_1_1_prefix_cache_statistics_1a92facb40c9fae6c10f70e24dcb698a15" kindref="member">hits</ref><sp/>+<sp/><ref refid="structthemis_1_1llm_1_1_prefix_cache_statistics_1a4523c61b3dd0172fb5b5efbff88a4cb2" kindref="member">misses</ref><sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0.0;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemis_1_1llm_1_1_prefix_cache_statistics_1a92facb40c9fae6c10f70e24dcb698a15" kindref="member">hits</ref>)<sp/>/<sp/>(<ref refid="structthemis_1_1llm_1_1_prefix_cache_statistics_1a92facb40c9fae6c10f70e24dcb698a15" kindref="member">hits</ref><sp/>+<sp/><ref refid="structthemis_1_1llm_1_1_prefix_cache_statistics_1a4523c61b3dd0172fb5b5efbff88a4cb2" kindref="member">misses</ref>);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="classthemis_1_1llm_1_1_l_l_m_prefix_cache" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_l_l_m_prefix_cache_1a8efb760191cbd690c3be74c5c94fcb20" kindref="member">LLMPrefixCache</ref><sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config_1a519032abc4873fb8082577e7cd678f63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config_1a519032abc4873fb8082577e7cd678f63" kindref="member">similarity_threshold</ref><sp/>=<sp/>0.95;<sp/><sp/></highlight><highlight class="comment">//<sp/>95%<sp/>similarity<sp/>required</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config_1a68625e624f5b2a6254dc9ffa5b40d149" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config_1a68625e624f5b2a6254dc9ffa5b40d149" kindref="member">max_entries</ref><sp/>=<sp/>1000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Maximum<sp/>cached<sp/>prefixes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config_1a1b4eb1f97cf449557745dc8f98c6dc66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config_1a1b4eb1f97cf449557745dc8f98c6dc66" kindref="member">min_prefix_length</ref><sp/>=<sp/>20;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Minimum<sp/>prefix<sp/>length<sp/>to<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config_1a2fc5d953b790050901f347b24404d2d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config_1a2fc5d953b790050901f347b24404d2d7" kindref="member">ttl_seconds</ref><sp/>=<sp/>7200;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2<sp/>hours<sp/>TTL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config_1a3b60a467a7dbf1aa34b98e99f628fd98" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config_1a3b60a467a7dbf1aa34b98e99f628fd98" kindref="member">enable_kv_caching</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Precompute<sp/>KV<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config_1aa2d2925d47165bfaa287607db4009762" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;utils::Clock&gt;<sp/><ref refid="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config_1aa2d2925d47165bfaa287607db4009762" kindref="member">clock</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Injectable<sp/>clock<sp/>(uses<sp/>SystemClock<sp/>if<sp/>null)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config_1a75e099fa86cb8f80fed29f7eae775ec6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config_1a75e099fa86cb8f80fed29f7eae775ec6" kindref="member">cache_dir</ref>;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_prefix_cache_1a8efb760191cbd690c3be74c5c94fcb20" kindref="member">LLMPrefixCache</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>cache_name,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="85" refid="classthemis_1_1llm_1_1_l_l_m_prefix_cache_1a82d44b26ba063ac12a710cae8fc206ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_prefix_cache_1a82d44b26ba063ac12a710cae8fc206ef" kindref="member">~LLMPrefixCache</ref>();</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_prefix_cache_1a2a3c017903116776a330330abf65907c" kindref="member">put</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prefix,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;int&gt;&amp;<sp/>tokens,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>embedding,</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>precomputed_kv<sp/>=<sp/>{},</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>generated_text<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;PrefixCacheEntry&gt;<sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_prefix_cache_1a171bd899a8f6edd0a2bd250d5a2aad98" kindref="member">get</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text,</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>embedding);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;PrefixCacheEntry&gt;<sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_prefix_cache_1a967d55fdf7e48eb9d87bb589ce1fab33" kindref="member">getLongestMatch</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text,</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>embedding);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_prefix_cache_1a2c7b7e81bf48fc2ddcd6d436ede86fc0" kindref="member">touch</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prefix);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_prefix_cache_1aeffb83853e417cb0444ae646d2735cda" kindref="member">invalidateByPattern</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>pattern);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_prefix_cache_1ab5f8f801339034d634d11203a54a68e2" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>PrefixCacheStatistics<sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_prefix_cache_1ad10778e66424a54a2d0f0cd4de125574" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">Impl;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/llm_prefix_cache.h"/>
+  </compounddef>
+</doxygen>

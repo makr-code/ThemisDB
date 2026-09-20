@@ -1,0 +1,872 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1index_1_1_distributed_vector_index" kind="class" language="C++" prot="public">
+    <compoundname>themis::index::DistributedVectorIndex</compoundname>
+    <includes refid="distributed__vector__index_8h" local="no">distributed_vector_index.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_distributed_vector_index_1a0c697d0d5a5fce06428121aba014eac5" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1index_1_1_distributed_vector_index_config" kindref="compound">DistributedVectorIndexConfig</ref></type>
+        <definition>DistributedVectorIndexConfig themis::index::DistributedVectorIndex::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::index::DistributedVectorIndex::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="156" column="34" bodyfile="include/index/distributed_vector_index.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_distributed_vector_index_1a9dec2f17f9a025acf0f288ba7d24ec1b" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="classthemis_1_1index_1_1_i_ann_index" kindref="compound">IAnnIndex</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;IAnnIndex&gt; &gt; themis::index::DistributedVectorIndex::shards_</definition>
+        <argsstring></argsstring>
+        <name>shards_</name>
+        <qualifiedname>themis::index::DistributedVectorIndex::shards_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="159" column="17" bodyfile="include/index/distributed_vector_index.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_distributed_vector_index_1a396998ce0abf3b5625beb6cb4d9ea173" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::index::DistributedVectorIndex::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::index::DistributedVectorIndex::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="162" column="24" bodyfile="include/index/distributed_vector_index.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_distributed_vector_index_1ad47b140d80315c0065f2dc2818316a5a" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::pair&lt; size_t, int64_t &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::pair&lt;size_t, int64_t&gt; &gt; themis::index::DistributedVectorIndex::pk_to_shard_</definition>
+        <argsstring></argsstring>
+        <name>pk_to_shard_</name>
+        <qualifiedname>themis::index::DistributedVectorIndex::pk_to_shard_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="163" column="24" bodyfile="include/index/distributed_vector_index.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_distributed_vector_index_1ad79b550ba0a50f94f8be61c6b6936d2a" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, int64_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, int64_t&gt; themis::index::DistributedVectorIndex::pk_to_global_id_</definition>
+        <argsstring></argsstring>
+        <name>pk_to_global_id_</name>
+        <qualifiedname>themis::index::DistributedVectorIndex::pk_to_global_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="164" column="24" bodyfile="include/index/distributed_vector_index.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_distributed_vector_index_1afd2ef415b738fb1cbe2224b9e870617a" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; int64_t, uint64_t &gt;</type>
+        <definition>std::unordered_map&lt;int64_t, uint64_t&gt; themis::index::DistributedVectorIndex::global_versions_</definition>
+        <argsstring></argsstring>
+        <name>global_versions_</name>
+        <qualifiedname>themis::index::DistributedVectorIndex::global_versions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="165" column="24" bodyfile="include/index/distributed_vector_index.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_distributed_vector_index_1a0b6549a536acfb60fc1533c3ee92ec77" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::unordered_map&lt; int64_t, int64_t &gt; &gt;</type>
+        <definition>std::vector&lt;std::unordered_map&lt;int64_t, int64_t&gt; &gt; themis::index::DistributedVectorIndex::local_to_global_id_</definition>
+        <argsstring></argsstring>
+        <name>local_to_global_id_</name>
+        <qualifiedname>themis::index::DistributedVectorIndex::local_to_global_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="168" column="17" bodyfile="include/index/distributed_vector_index.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_distributed_vector_index_1ad4758730d76a20df051a77469610bb3b" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::unordered_map&lt; int64_t, uint64_t &gt; &gt;</type>
+        <definition>std::vector&lt;std::unordered_map&lt;int64_t, uint64_t&gt; &gt; themis::index::DistributedVectorIndex::local_to_global_version_</definition>
+        <argsstring></argsstring>
+        <name>local_to_global_version_</name>
+        <qualifiedname>themis::index::DistributedVectorIndex::local_to_global_version_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="169" column="17" bodyfile="include/index/distributed_vector_index.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_distributed_vector_index_1a2d978fad928aca6f30a47ebb932c0739" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; int64_t &gt;</type>
+        <definition>std::vector&lt;int64_t&gt; themis::index::DistributedVectorIndex::next_id_</definition>
+        <argsstring></argsstring>
+        <name>next_id_</name>
+        <qualifiedname>themis::index::DistributedVectorIndex::next_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="172" column="17" bodyfile="include/index/distributed_vector_index.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_distributed_vector_index_1af2105d736018404378cbd14e75eac259" prot="private" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::index::DistributedVectorIndex::next_global_id_</definition>
+        <argsstring></argsstring>
+        <name>next_global_id_</name>
+        <qualifiedname>themis::index::DistributedVectorIndex::next_global_id_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="173" column="13" bodyfile="include/index/distributed_vector_index.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_distributed_vector_index_1ad37660a7856cd0495e40fc309293a91e" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::unordered_set&lt; int64_t &gt; &gt;</type>
+        <definition>std::vector&lt;std::unordered_set&lt;int64_t&gt; &gt; themis::index::DistributedVectorIndex::alive_ids_</definition>
+        <argsstring></argsstring>
+        <name>alive_ids_</name>
+        <qualifiedname>themis::index::DistributedVectorIndex::alive_ids_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="179" column="17" bodyfile="include/index/distributed_vector_index.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_distributed_vector_index_1a5ae7532c861cfcf2efcf2be911be52ec" prot="private" static="no" mutable="no">
+        <type>std::map&lt; uint64_t, size_t &gt;</type>
+        <definition>std::map&lt;uint64_t, size_t&gt; themis::index::DistributedVectorIndex::ring_</definition>
+        <argsstring></argsstring>
+        <name>ring_</name>
+        <qualifiedname>themis::index::DistributedVectorIndex::ring_</qualifiedname>
+        <briefdescription>
+<para>token → shard_index </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="182" column="14" bodyfile="include/index/distributed_vector_index.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1_distributed_vector_index_1a4b667cdde7e20f56d1f9df1cfd0cb6d4" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::DistributedVectorIndex::DistributedVectorIndex</definition>
+        <argsstring>(const DistributedVectorIndexConfig &amp;config={})</argsstring>
+        <name>DistributedVectorIndex</name>
+        <qualifiedname>themis::index::DistributedVectorIndex::DistributedVectorIndex</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1index_1_1_distributed_vector_index_config" kindref="compound">DistributedVectorIndexConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="74" column="14" bodyfile="src/index/distributed_vector_index.cpp" bodystart="61" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_distributed_vector_index_1a596a9fbe870ece9011958ce6c2b4325b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::DistributedVectorIndex::DistributedVectorIndex</definition>
+        <argsstring>(const DistributedVectorIndexConfig &amp;config, std::vector&lt; std::unique_ptr&lt; IAnnIndex &gt; &gt; shards)</argsstring>
+        <name>DistributedVectorIndex</name>
+        <qualifiedname>themis::index::DistributedVectorIndex::DistributedVectorIndex</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1index_1_1_distributed_vector_index_config" kindref="compound">DistributedVectorIndexConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::unique_ptr&lt; <ref refid="classthemis_1_1index_1_1_i_ann_index" kindref="compound">IAnnIndex</ref> &gt; &gt;</type>
+          <declname>shards</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="76" column="5" bodyfile="src/index/distributed_vector_index.cpp" bodystart="79" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_distributed_vector_index_1a64d1663d06814a0869963aef8ba0838d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::DistributedVectorIndex::~DistributedVectorIndex</definition>
+        <argsstring>()=default</argsstring>
+        <name>~DistributedVectorIndex</name>
+        <qualifiedname>themis::index::DistributedVectorIndex::~DistributedVectorIndex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="79" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_distributed_vector_index_1afd38c152d207bd57551dd5b821028d01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::DistributedVectorIndex::DistributedVectorIndex</definition>
+        <argsstring>(const DistributedVectorIndex &amp;)=delete</argsstring>
+        <name>DistributedVectorIndex</name>
+        <qualifiedname>themis::index::DistributedVectorIndex::DistributedVectorIndex</qualifiedname>
+        <param>
+          <type>const DistributedVectorIndex &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="82" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_distributed_vector_index_1ae186f6a5e39b6e01afbd17149738aa84" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1index_1_1_distributed_vector_index_1a4b667cdde7e20f56d1f9df1cfd0cb6d4" kindref="member">DistributedVectorIndex</ref> &amp;</type>
+        <definition>DistributedVectorIndex &amp; themis::index::DistributedVectorIndex::operator=</definition>
+        <argsstring>(const DistributedVectorIndex &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::index::DistributedVectorIndex::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1index_1_1_distributed_vector_index_1a4b667cdde7e20f56d1f9df1cfd0cb6d4" kindref="member">DistributedVectorIndex</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="83" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_distributed_vector_index_1a63a23734faef6c386d2959593a36e6f2" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::DistributedVectorIndex::DistributedVectorIndex</definition>
+        <argsstring>(DistributedVectorIndex &amp;&amp;) noexcept</argsstring>
+        <name>DistributedVectorIndex</name>
+        <qualifiedname>themis::index::DistributedVectorIndex::DistributedVectorIndex</qualifiedname>
+        <param>
+          <type>DistributedVectorIndex &amp;&amp;</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="84" column="5" bodyfile="src/index/distributed_vector_index.cpp" bodystart="98" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_distributed_vector_index_1ae9a63118b7ad9431c05237541d8576dd" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1index_1_1_distributed_vector_index_1a4b667cdde7e20f56d1f9df1cfd0cb6d4" kindref="member">DistributedVectorIndex</ref> &amp;</type>
+        <definition>DistributedVectorIndex &amp; themis::index::DistributedVectorIndex::operator=</definition>
+        <argsstring>(DistributedVectorIndex &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::index::DistributedVectorIndex::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1_distributed_vector_index_1a4b667cdde7e20f56d1f9df1cfd0cb6d4" kindref="member">DistributedVectorIndex</ref> &amp;&amp;</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="85" column="28" bodyfile="src/index/distributed_vector_index.cpp" bodystart="112" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_distributed_vector_index_1ab850de5869cee290b098f648b7c5468e" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::DistributedVectorIndex::insert</definition>
+        <argsstring>(const std::string &amp;primary_key, const float *vector, size_t dim)</argsstring>
+        <name>insert</name>
+        <qualifiedname>themis::index::DistributedVectorIndex::insert</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>primary_key</declname>
+          <defname>pk</defname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>vector</declname>
+          <defname>vec</defname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dim</declname>
+        </param>
+        <briefdescription>
+<para>Insert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), shardFor_(), find(), end(), erase(), parseGlobalIdFromKey_(), add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="91" column="11" bodyfile="src/index/distributed_vector_index.cpp" bodystart="229" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_distributed_vector_index_1a13e60697c5314e7590e5735f68b94a66" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::DistributedVectorIndex::insert</definition>
+        <argsstring>(const std::string &amp;primary_key, const std::vector&lt; float &gt; &amp;vector)</argsstring>
+        <name>insert</name>
+        <qualifiedname>themis::index::DistributedVectorIndex::insert</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>primary_key</declname>
+          <defname>pk</defname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>vector</declname>
+          <defname>vec</defname>
+        </param>
+        <briefdescription>
+<para>Insert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: data(), <ref refid="classthemis_1_1index_1_1_distributed_vector_index_1a6e4d7e9db1bd27ce30a25ed55049f5ed" kindref="member">size()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="93" column="11" bodyfile="src/index/distributed_vector_index.cpp" bodystart="320" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_distributed_vector_index_1a171f6b38caaaecc4483e5e50fdd9a2d2" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::DistributedVectorIndex::remove</definition>
+        <argsstring>(const std::string &amp;primary_key)</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::index::DistributedVectorIndex::remove</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>primary_key</declname>
+          <defname>pk</defname>
+        </param>
+        <briefdescription>
+<para>Remove. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="95" column="11" bodyfile="src/index/distributed_vector_index.cpp" bodystart="331" bodyend="350"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_distributed_vector_index_1a17ad775e7b41eebc7bb20fea9f9f5cbd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1index_1_1_ann_search_result" kindref="compound">AnnSearchResult</ref> &gt;</type>
+        <definition>std::vector&lt; AnnSearchResult &gt; themis::index::DistributedVectorIndex::search</definition>
+        <argsstring>(const float *query, size_t dim, int k) const</argsstring>
+        <name>search</name>
+        <qualifiedname>themis::index::DistributedVectorIndex::search</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>Search. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="108" column="17" bodyfile="src/index/distributed_vector_index.cpp" bodystart="356" bodyend="424"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_distributed_vector_index_1a9161714529cb3106a2caf392e9f77539" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1index_1_1_ann_search_result" kindref="compound">AnnSearchResult</ref> &gt;</type>
+        <definition>std::vector&lt; AnnSearchResult &gt; themis::index::DistributedVectorIndex::search</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;query, int k) const</argsstring>
+        <name>search</name>
+        <qualifiedname>themis::index::DistributedVectorIndex::search</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>Search. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="116" column="17" bodyfile="src/index/distributed_vector_index.cpp" bodystart="426" bodyend="429"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_distributed_vector_index_1a6e4d7e9db1bd27ce30a25ed55049f5ed" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::index::DistributedVectorIndex::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::index::DistributedVectorIndex::size</qualifiedname>
+        <briefdescription>
+<para>Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="126" column="12" bodyfile="src/index/distributed_vector_index.cpp" bodystart="435" bodyend="443"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_distributed_vector_index_1a505d2e498da3ae5f5ef45a824b5bf5da" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::index::DistributedVectorIndex::numShards</definition>
+        <argsstring>() const</argsstring>
+        <name>numShards</name>
+        <qualifiedname>themis::index::DistributedVectorIndex::numShards</qualifiedname>
+        <briefdescription>
+<para>Num Shards. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="132" column="12" bodyfile="src/index/distributed_vector_index.cpp" bodystart="445" bodyend="447"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_distributed_vector_index_1a54f8189ffc2dec6426db3368ec5196ff" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1index_1_1_distributed_shard_stats" kindref="compound">DistributedShardStats</ref> &gt;</type>
+        <definition>std::vector&lt; DistributedShardStats &gt; themis::index::DistributedVectorIndex::getShardStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getShardStats</name>
+        <qualifiedname>themis::index::DistributedVectorIndex::getShardStats</qualifiedname>
+        <briefdescription>
+<para>Get Shard Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="138" column="17" bodyfile="src/index/distributed_vector_index.cpp" bodystart="449" bodyend="463"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_distributed_vector_index_1a26aa79bae00794ae9b432ed2120ac6aa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_distributed_vector_index_stats" kindref="compound">DistributedVectorIndexStats</ref></type>
+        <definition>DistributedVectorIndexStats themis::index::DistributedVectorIndex::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::index::DistributedVectorIndex::getStats</qualifiedname>
+        <briefdescription>
+<para>Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="144" column="33" bodyfile="src/index/distributed_vector_index.cpp" bodystart="465" bodyend="497"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_distributed_vector_index_1ac41bc0cdfb1973a368cc73a10c7d6a02" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::index::DistributedVectorIndex::shardFor</definition>
+        <argsstring>(const std::string &amp;primary_key) const</argsstring>
+        <name>shardFor</name>
+        <qualifiedname>themis::index::DistributedVectorIndex::shardFor</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>primary_key</declname>
+        </param>
+        <briefdescription>
+<para>Shard For. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">primary_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="151" column="12" bodyfile="src/index/distributed_vector_index.cpp" bodystart="190" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_distributed_vector_index_1ab883724e5f38d2a09fb79ded55ad011b" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1index_1_1_distributed_vector_index_config" kindref="compound">DistributedVectorIndexConfig</ref> &amp;</type>
+        <definition>const DistributedVectorIndexConfig &amp; themis::index::DistributedVectorIndex::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::index::DistributedVectorIndex::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="153" column="40" bodyfile="include/index/distributed_vector_index.h" bodystart="153" bodyend="153"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1_distributed_vector_index_1a713b5e582503a15cc4b88634f87a3deb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::DistributedVectorIndex::buildRing_</definition>
+        <argsstring>()</argsstring>
+        <name>buildRing_</name>
+        <qualifiedname>themis::index::DistributedVectorIndex::buildRing_</qualifiedname>
+        <briefdescription>
+<para>Build Ring. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: clear(), std::to_string(), hashString(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="187" column="10" bodyfile="src/index/distributed_vector_index.cpp" bodystart="137" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_distributed_vector_index_1a42efefe44dc5e3349d0744495fae9236" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::index::DistributedVectorIndex::hashKey_</definition>
+        <argsstring>(const std::string &amp;key) const noexcept</argsstring>
+        <name>hashKey_</name>
+        <qualifiedname>themis::index::DistributedVectorIndex::hashKey_</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Hash Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="194" column="14" bodyfile="src/index/distributed_vector_index.cpp" bodystart="160" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_distributed_vector_index_1a63a9f9a98fce1f6de13e1bfc8e86d85f" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::index::DistributedVectorIndex::shardFor_</definition>
+        <argsstring>(const std::string &amp;key) const noexcept</argsstring>
+        <name>shardFor_</name>
+        <qualifiedname>themis::index::DistributedVectorIndex::shardFor_</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Shard For. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="201" column="12" bodyfile="src/index/distributed_vector_index.cpp" bodystart="164" bodyend="188"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1_distributed_vector_index_1a29d1c9def6c140dd50b77ba5a6bb359f" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; int64_t &gt;</type>
+        <definition>std::optional&lt; int64_t &gt; themis::index::DistributedVectorIndex::parseGlobalIdFromKey_</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>parseGlobalIdFromKey_</name>
+        <qualifiedname>themis::index::DistributedVectorIndex::parseGlobalIdFromKey_</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Parse Global Id From Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find_last_of(), <ref refid="classthemis_1_1index_1_1_distributed_vector_index_1a6e4d7e9db1bd27ce30a25ed55049f5ed" kindref="member">size()</ref>, std::isdigit(), std::stoll(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="207" column="26" bodyfile="src/index/distributed_vector_index.cpp" bodystart="200" bodyend="215"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/distributed_vector_index.h" line="72" column="1" bodyfile="include/index/distributed_vector_index.h" bodystart="72" bodyend="208"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1index_1_1_distributed_vector_index_1ad37660a7856cd0495e40fc309293a91e" prot="private" virt="non-virtual"><scope>themis::index::DistributedVectorIndex</scope><name>alive_ids_</name></member>
+      <member refid="classthemis_1_1index_1_1_distributed_vector_index_1a713b5e582503a15cc4b88634f87a3deb" prot="private" virt="non-virtual"><scope>themis::index::DistributedVectorIndex</scope><name>buildRing_</name></member>
+      <member refid="classthemis_1_1index_1_1_distributed_vector_index_1ab883724e5f38d2a09fb79ded55ad011b" prot="public" virt="non-virtual"><scope>themis::index::DistributedVectorIndex</scope><name>config</name></member>
+      <member refid="classthemis_1_1index_1_1_distributed_vector_index_1a0c697d0d5a5fce06428121aba014eac5" prot="private" virt="non-virtual"><scope>themis::index::DistributedVectorIndex</scope><name>config_</name></member>
+      <member refid="classthemis_1_1index_1_1_distributed_vector_index_1a4b667cdde7e20f56d1f9df1cfd0cb6d4" prot="public" virt="non-virtual"><scope>themis::index::DistributedVectorIndex</scope><name>DistributedVectorIndex</name></member>
+      <member refid="classthemis_1_1index_1_1_distributed_vector_index_1a596a9fbe870ece9011958ce6c2b4325b" prot="public" virt="non-virtual"><scope>themis::index::DistributedVectorIndex</scope><name>DistributedVectorIndex</name></member>
+      <member refid="classthemis_1_1index_1_1_distributed_vector_index_1afd38c152d207bd57551dd5b821028d01" prot="public" virt="non-virtual"><scope>themis::index::DistributedVectorIndex</scope><name>DistributedVectorIndex</name></member>
+      <member refid="classthemis_1_1index_1_1_distributed_vector_index_1a63a23734faef6c386d2959593a36e6f2" prot="public" virt="non-virtual"><scope>themis::index::DistributedVectorIndex</scope><name>DistributedVectorIndex</name></member>
+      <member refid="classthemis_1_1index_1_1_distributed_vector_index_1a54f8189ffc2dec6426db3368ec5196ff" prot="public" virt="non-virtual"><scope>themis::index::DistributedVectorIndex</scope><name>getShardStats</name></member>
+      <member refid="classthemis_1_1index_1_1_distributed_vector_index_1a26aa79bae00794ae9b432ed2120ac6aa" prot="public" virt="non-virtual"><scope>themis::index::DistributedVectorIndex</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1index_1_1_distributed_vector_index_1afd2ef415b738fb1cbe2224b9e870617a" prot="private" virt="non-virtual"><scope>themis::index::DistributedVectorIndex</scope><name>global_versions_</name></member>
+      <member refid="classthemis_1_1index_1_1_distributed_vector_index_1a42efefe44dc5e3349d0744495fae9236" prot="private" virt="non-virtual"><scope>themis::index::DistributedVectorIndex</scope><name>hashKey_</name></member>
+      <member refid="classthemis_1_1index_1_1_distributed_vector_index_1ab850de5869cee290b098f648b7c5468e" prot="public" virt="non-virtual"><scope>themis::index::DistributedVectorIndex</scope><name>insert</name></member>
+      <member refid="classthemis_1_1index_1_1_distributed_vector_index_1a13e60697c5314e7590e5735f68b94a66" prot="public" virt="non-virtual"><scope>themis::index::DistributedVectorIndex</scope><name>insert</name></member>
+      <member refid="classthemis_1_1index_1_1_distributed_vector_index_1a0b6549a536acfb60fc1533c3ee92ec77" prot="private" virt="non-virtual"><scope>themis::index::DistributedVectorIndex</scope><name>local_to_global_id_</name></member>
+      <member refid="classthemis_1_1index_1_1_distributed_vector_index_1ad4758730d76a20df051a77469610bb3b" prot="private" virt="non-virtual"><scope>themis::index::DistributedVectorIndex</scope><name>local_to_global_version_</name></member>
+      <member refid="classthemis_1_1index_1_1_distributed_vector_index_1a396998ce0abf3b5625beb6cb4d9ea173" prot="private" virt="non-virtual"><scope>themis::index::DistributedVectorIndex</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1index_1_1_distributed_vector_index_1af2105d736018404378cbd14e75eac259" prot="private" virt="non-virtual"><scope>themis::index::DistributedVectorIndex</scope><name>next_global_id_</name></member>
+      <member refid="classthemis_1_1index_1_1_distributed_vector_index_1a2d978fad928aca6f30a47ebb932c0739" prot="private" virt="non-virtual"><scope>themis::index::DistributedVectorIndex</scope><name>next_id_</name></member>
+      <member refid="classthemis_1_1index_1_1_distributed_vector_index_1a505d2e498da3ae5f5ef45a824b5bf5da" prot="public" virt="non-virtual"><scope>themis::index::DistributedVectorIndex</scope><name>numShards</name></member>
+      <member refid="classthemis_1_1index_1_1_distributed_vector_index_1ae186f6a5e39b6e01afbd17149738aa84" prot="public" virt="non-virtual"><scope>themis::index::DistributedVectorIndex</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1index_1_1_distributed_vector_index_1ae9a63118b7ad9431c05237541d8576dd" prot="public" virt="non-virtual"><scope>themis::index::DistributedVectorIndex</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1index_1_1_distributed_vector_index_1a29d1c9def6c140dd50b77ba5a6bb359f" prot="private" virt="non-virtual"><scope>themis::index::DistributedVectorIndex</scope><name>parseGlobalIdFromKey_</name></member>
+      <member refid="classthemis_1_1index_1_1_distributed_vector_index_1ad79b550ba0a50f94f8be61c6b6936d2a" prot="private" virt="non-virtual"><scope>themis::index::DistributedVectorIndex</scope><name>pk_to_global_id_</name></member>
+      <member refid="classthemis_1_1index_1_1_distributed_vector_index_1ad47b140d80315c0065f2dc2818316a5a" prot="private" virt="non-virtual"><scope>themis::index::DistributedVectorIndex</scope><name>pk_to_shard_</name></member>
+      <member refid="classthemis_1_1index_1_1_distributed_vector_index_1a171f6b38caaaecc4483e5e50fdd9a2d2" prot="public" virt="non-virtual"><scope>themis::index::DistributedVectorIndex</scope><name>remove</name></member>
+      <member refid="classthemis_1_1index_1_1_distributed_vector_index_1a5ae7532c861cfcf2efcf2be911be52ec" prot="private" virt="non-virtual"><scope>themis::index::DistributedVectorIndex</scope><name>ring_</name></member>
+      <member refid="classthemis_1_1index_1_1_distributed_vector_index_1a17ad775e7b41eebc7bb20fea9f9f5cbd" prot="public" virt="non-virtual"><scope>themis::index::DistributedVectorIndex</scope><name>search</name></member>
+      <member refid="classthemis_1_1index_1_1_distributed_vector_index_1a9161714529cb3106a2caf392e9f77539" prot="public" virt="non-virtual"><scope>themis::index::DistributedVectorIndex</scope><name>search</name></member>
+      <member refid="classthemis_1_1index_1_1_distributed_vector_index_1ac41bc0cdfb1973a368cc73a10c7d6a02" prot="public" virt="non-virtual"><scope>themis::index::DistributedVectorIndex</scope><name>shardFor</name></member>
+      <member refid="classthemis_1_1index_1_1_distributed_vector_index_1a63a9f9a98fce1f6de13e1bfc8e86d85f" prot="private" virt="non-virtual"><scope>themis::index::DistributedVectorIndex</scope><name>shardFor_</name></member>
+      <member refid="classthemis_1_1index_1_1_distributed_vector_index_1a9dec2f17f9a025acf0f288ba7d24ec1b" prot="private" virt="non-virtual"><scope>themis::index::DistributedVectorIndex</scope><name>shards_</name></member>
+      <member refid="classthemis_1_1index_1_1_distributed_vector_index_1a6e4d7e9db1bd27ce30a25ed55049f5ed" prot="public" virt="non-virtual"><scope>themis::index::DistributedVectorIndex</scope><name>size</name></member>
+      <member refid="classthemis_1_1index_1_1_distributed_vector_index_1a64d1663d06814a0869963aef8ba0838d" prot="public" virt="non-virtual"><scope>themis::index::DistributedVectorIndex</scope><name>~DistributedVectorIndex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_process_mining_1_1_enhanced_process" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ProcessMining::EnhancedProcess</compoundname>
+    <includes refid="process__mining_8h" local="no">process_mining.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_process_mining_1_1_enhanced_process_1aaefa73d15b636fe2d84bf5f640f1ca59" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_discovered_process" kindref="compound">DiscoveredProcess</ref></type>
+        <definition>DiscoveredProcess themis::ProcessMining::EnhancedProcess::model</definition>
+        <argsstring></argsstring>
+        <name>model</name>
+        <qualifiedname>themis::ProcessMining::EnhancedProcess::model</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="313" column="27" bodyfile="include/analytics/process_mining.h" bodystart="313" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_mining_1_1_enhanced_process_1a96670d1221db0a2c61ee5005a0ef0b45" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, double &gt;</type>
+        <definition>std::map&lt;std::string, double&gt; themis::ProcessMining::EnhancedProcess::node_avg_duration</definition>
+        <argsstring></argsstring>
+        <name>node_avg_duration</name>
+        <qualifiedname>themis::ProcessMining::EnhancedProcess::node_avg_duration</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="316" column="18" bodyfile="include/analytics/process_mining.h" bodystart="316" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_mining_1_1_enhanced_process_1a09a3ab7221a2d019678f4f6613174bc6" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, double &gt;</type>
+        <definition>std::map&lt;std::string, double&gt; themis::ProcessMining::EnhancedProcess::node_avg_waiting</definition>
+        <argsstring></argsstring>
+        <name>node_avg_waiting</name>
+        <qualifiedname>themis::ProcessMining::EnhancedProcess::node_avg_waiting</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="317" column="18" bodyfile="include/analytics/process_mining.h" bodystart="317" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_mining_1_1_enhanced_process_1a00442052a26b2a74760d6f011770bf4b" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, int &gt;</type>
+        <definition>std::map&lt;std::string, int&gt; themis::ProcessMining::EnhancedProcess::node_frequency</definition>
+        <argsstring></argsstring>
+        <name>node_frequency</name>
+        <qualifiedname>themis::ProcessMining::EnhancedProcess::node_frequency</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="318" column="18" bodyfile="include/analytics/process_mining.h" bodystart="318" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_mining_1_1_enhanced_process_1a406061b1fa44ff530d682cd9b0ecb8b8" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, double &gt;</type>
+        <definition>std::map&lt;std::string, double&gt; themis::ProcessMining::EnhancedProcess::edge_avg_duration</definition>
+        <argsstring></argsstring>
+        <name>edge_avg_duration</name>
+        <qualifiedname>themis::ProcessMining::EnhancedProcess::edge_avg_duration</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="320" column="18" bodyfile="include/analytics/process_mining.h" bodystart="320" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_mining_1_1_enhanced_process_1a03a8666ceb0f63971b730e5c19ab7920" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, double &gt;</type>
+        <definition>std::map&lt;std::string, double&gt; themis::ProcessMining::EnhancedProcess::edge_probability</definition>
+        <argsstring></argsstring>
+        <name>edge_probability</name>
+        <qualifiedname>themis::ProcessMining::EnhancedProcess::edge_probability</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="321" column="18" bodyfile="include/analytics/process_mining.h" bodystart="321" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_mining_1_1_enhanced_process_1a5bf0361207186028258814dd9cef6465" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ProcessMining::EnhancedProcess::bottleneck_nodes</definition>
+        <argsstring></argsstring>
+        <name>bottleneck_nodes</name>
+        <qualifiedname>themis::ProcessMining::EnhancedProcess::bottleneck_nodes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="324" column="21" bodyfile="include/analytics/process_mining.h" bodystart="324" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_mining_1_1_enhanced_process_1a0a0ec4bcd5b25732aca2246e7b914cdd" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ProcessMining::EnhancedProcess::rework_loops</definition>
+        <argsstring></argsstring>
+        <name>rework_loops</name>
+        <qualifiedname>themis::ProcessMining::EnhancedProcess::rework_loops</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="325" column="21" bodyfile="include/analytics/process_mining.h" bodystart="325" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::DiscoveredProcess</label>
+        <link refid="structthemis_1_1_discovered_process"/>
+      </node>
+      <node id="1">
+        <label>themis::ProcessMining::EnhancedProcess</label>
+        <link refid="structthemis_1_1_process_mining_1_1_enhanced_process"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>model</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/analytics/process_mining.h" line="312" column="5" bodyfile="include/analytics/process_mining.h" bodystart="312" bodyend="326"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_process_mining_1_1_enhanced_process_1a5bf0361207186028258814dd9cef6465" prot="public" virt="non-virtual"><scope>themis::ProcessMining::EnhancedProcess</scope><name>bottleneck_nodes</name></member>
+      <member refid="structthemis_1_1_process_mining_1_1_enhanced_process_1a406061b1fa44ff530d682cd9b0ecb8b8" prot="public" virt="non-virtual"><scope>themis::ProcessMining::EnhancedProcess</scope><name>edge_avg_duration</name></member>
+      <member refid="structthemis_1_1_process_mining_1_1_enhanced_process_1a03a8666ceb0f63971b730e5c19ab7920" prot="public" virt="non-virtual"><scope>themis::ProcessMining::EnhancedProcess</scope><name>edge_probability</name></member>
+      <member refid="structthemis_1_1_process_mining_1_1_enhanced_process_1aaefa73d15b636fe2d84bf5f640f1ca59" prot="public" virt="non-virtual"><scope>themis::ProcessMining::EnhancedProcess</scope><name>model</name></member>
+      <member refid="structthemis_1_1_process_mining_1_1_enhanced_process_1a96670d1221db0a2c61ee5005a0ef0b45" prot="public" virt="non-virtual"><scope>themis::ProcessMining::EnhancedProcess</scope><name>node_avg_duration</name></member>
+      <member refid="structthemis_1_1_process_mining_1_1_enhanced_process_1a09a3ab7221a2d019678f4f6613174bc6" prot="public" virt="non-virtual"><scope>themis::ProcessMining::EnhancedProcess</scope><name>node_avg_waiting</name></member>
+      <member refid="structthemis_1_1_process_mining_1_1_enhanced_process_1a00442052a26b2a74760d6f011770bf4b" prot="public" virt="non-virtual"><scope>themis::ProcessMining::EnhancedProcess</scope><name>node_frequency</name></member>
+      <member refid="structthemis_1_1_process_mining_1_1_enhanced_process_1a0a0ec4bcd5b25732aca2246e7b914cdd" prot="public" virt="non-virtual"><scope>themis::ProcessMining::EnhancedProcess</scope><name>rework_loops</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

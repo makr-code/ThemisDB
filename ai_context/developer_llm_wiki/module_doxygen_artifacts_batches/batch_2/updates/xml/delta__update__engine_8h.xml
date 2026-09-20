@@ -1,0 +1,296 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="delta__update__engine_8h" kind="file" language="C++">
+    <compoundname>delta_update_engine.h</compoundname>
+    <includes refid="release__manifest_8h" local="yes">updates/release_manifest.h</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="bench__updates__long__run__stability_8cpp" local="yes">benchmarks/updates/bench_updates_long_run_stability.cpp</includedby>
+    <includedby refid="delta__update__engine_8cpp" local="yes">src/updates/delta_update_engine.cpp</includedby>
+    <includedby refid="test__updates__batch5__finalization_8cpp" local="yes">tests/updates/test_updates_batch5_finalization.cpp</includedby>
+    <includedby refid="test__updates__performance__batch4_8cpp" local="yes">tests/updates/test_updates_performance_batch4.cpp</includedby>
+    <includedby refid="test__updates__phase2__phase3__hardening__focused_8cpp" local="yes">tests/updates/test_updates_phase2_phase3_hardening_focused.cpp</includedby>
+    <includedby refid="test__updates__production_8cpp" local="yes">tests/updates/test_updates_production.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/updates/delta_update_engine.h</label>
+        <link refid="delta__update__engine_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>updates/release_manifest.h</label>
+        <link refid="release__manifest_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="10">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/updates/bench_updates_long_run_stability.cpp</label>
+        <link refid="bench__updates__long__run__stability_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/updates/delta_update_engine.h</label>
+        <link refid="delta__update__engine_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/updates/delta_update_engine.cpp</label>
+        <link refid="delta__update__engine_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/updates/test_updates_batch5_finalization.cpp</label>
+        <link refid="test__updates__batch5__finalization_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/updates/test_updates_performance_batch4.cpp</label>
+        <link refid="test__updates__performance__batch4_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/updates/test_updates_phase2_phase3_hardening_focused.cpp</label>
+        <link refid="test__updates__phase2__phase3__hardening__focused_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/updates/test_updates_production.cpp</label>
+        <link refid="test__updates__production_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1updates_1_1_file_delta" prot="public">themis::updates::FileDelta</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_delta_manifest" prot="public">themis::updates::DeltaManifest</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_delta_apply_result" prot="public">themis::updates::DeltaApplyResult</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_delta_update_engine" prot="public">themis::updates::DeltaUpdateEngine</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1updates">themis::updates</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.43 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="release__manifest_8h" kindref="compound">updates/release_manifest.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1updates" kindref="compound">updates</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1updates_1a3591f0d9ce3c474e439181c5ef22b797" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1updates_1a3591f0d9ce3c474e439181c5ef22b797" kindref="member">PatchAlgorithm</ref><sp/>{</highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1updates_1a3591f0d9ce3c474e439181c5ef22b797a2bd08bad05935b812bf5f1952a6c1ba4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a3591f0d9ce3c474e439181c5ef22b797a2bd08bad05935b812bf5f1952a6c1ba4" kindref="member">BSDIFF</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1updates_1a3591f0d9ce3c474e439181c5ef22b797aa1456db3fdbd5fe2360befb91791ceff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a3591f0d9ce3c474e439181c5ef22b797aa1456db3fdbd5fe2360befb91791ceff" kindref="member">XDELTA3</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1updates_1a3591f0d9ce3c474e439181c5ef22b797aea47a233c3d7aff43d4c541947f69d13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a3591f0d9ce3c474e439181c5ef22b797aea47a233c3d7aff43d4c541947f69d13" kindref="member">VCDIFF</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1updates_1a3591f0d9ce3c474e439181c5ef22b797a99b99fef5a48ea31c7f4c40a6367883a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a3591f0d9ce3c474e439181c5ef22b797a99b99fef5a48ea31c7f4c40a6367883a" kindref="member">ZSTD_DICT</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="33"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1updates_1_1_file_delta" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1updates_1_1_file_delta" kindref="compound">FileDelta</ref><sp/>{</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1updates_1_1_file_delta_1a02972393f84911c50f641d8cbf35f495" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_file_delta_1a02972393f84911c50f641d8cbf35f495" kindref="member">path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1updates_1_1_file_delta_1a299786b3dce5945f022d677d6df4385d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_file_delta_1a299786b3dce5945f022d677d6df4385d" kindref="member">base_hash</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1updates_1_1_file_delta_1a786d33c25acd9b9ce721a31c1b5ba88d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_file_delta_1a786d33c25acd9b9ce721a31c1b5ba88d" kindref="member">target_hash</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1updates_1_1_file_delta_1abcf7c1e4e051825f23faa5d141775920" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_file_delta_1abcf7c1e4e051825f23faa5d141775920" kindref="member">patch_url</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1updates_1_1_file_delta_1ae6dabbea3dbc2aba9bc53467b625af1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1updates_1_1_file_delta_1ae6dabbea3dbc2aba9bc53467b625af1d" kindref="member">patch_size</ref><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1updates_1_1_file_delta_1a5ed09bd622765dfddbbf016fe5c217f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1updates_1_1_file_delta_1a5ed09bd622765dfddbbf016fe5c217f6" kindref="member">target_size</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1updates_1_1_file_delta_1ab7f7bc2be1141f5c70e3bcb0bcc72b68" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a3591f0d9ce3c474e439181c5ef22b797" kindref="member">PatchAlgorithm</ref><sp/><ref refid="structthemis_1_1updates_1_1_file_delta_1ab7f7bc2be1141f5c70e3bcb0bcc72b68" kindref="member">algorithm</ref><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1updates_1a3591f0d9ce3c474e439181c5ef22b797a99b99fef5a48ea31c7f4c40a6367883a" kindref="member">PatchAlgorithm::ZSTD_DICT</ref>;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1updates_1_1_file_delta_1a65550b18252d0041e1277b847fe7ebce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1updates_1_1_file_delta_1a65550b18252d0041e1277b847fe7ebce" kindref="member">depends_on</ref>;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1updates_1_1_file_delta_1a0d09bb5a51eec06aa6500fd4e089f705" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1updates_1_1_file_delta_1a0d09bb5a51eec06aa6500fd4e089f705" kindref="member">apply_order</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref><sp/><ref refid="structthemis_1_1updates_1_1_file_delta_1a7de86bec0b23a3400511bb800c445d5e" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;FileDelta&gt;<sp/><ref refid="structthemis_1_1updates_1_1_file_delta_1a31afe04ca133d2e5fdf6ba029d55beb7" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref>&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1updates_1_1_delta_manifest" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1updates_1_1_delta_manifest" kindref="compound">DeltaManifest</ref><sp/>{</highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1updates_1_1_delta_manifest_1a2d9fb9a3adc54cdd2293b3a514fb1f31" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_delta_manifest_1a2d9fb9a3adc54cdd2293b3a514fb1f31" kindref="member">from_version</ref>;<sp/></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1updates_1_1_delta_manifest_1a367d629e5200690fa479780843757e31" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_delta_manifest_1a367d629e5200690fa479780843757e31" kindref="member">to_version</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1updates_1_1_delta_manifest_1a61a640f28f1caa9b0001331640c8b814" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;FileDelta&gt;<sp/><ref refid="structthemis_1_1updates_1_1_delta_manifest_1a61a640f28f1caa9b0001331640c8b814" kindref="member">deltas</ref>;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1updates_1_1_delta_manifest_1aedde73207a9877aafdd915d7f9a86cb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_delta_manifest_1aedde73207a9877aafdd915d7f9a86cb4" kindref="member">enforce_order</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1updates_1_1_delta_manifest_1a95570734715d0b46d1c1970db68f1af4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1updates_1_1_delta_manifest_1a95570734715d0b46d1c1970db68f1af4" kindref="member">implicit_dependencies</ref>;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1updates_1_1_delta_manifest_1a68d1f9958f864a26cc35551048cc2f36" kindref="member">totalPatchSize</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1updates_1_1_delta_manifest_1a773856f360b914ede461f7177f61e7dd" kindref="member">totalTargetSize</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref><sp/><ref refid="structthemis_1_1updates_1_1_delta_manifest_1af2a71645e9151dfaf391f369a7228c85" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;DeltaManifest&gt;<sp/><ref refid="structthemis_1_1updates_1_1_delta_manifest_1a6dd6e3bb77f439b2cc2a60bbac6bd688" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref>&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1updates_1_1_delta_apply_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1updates_1_1_delta_apply_result" kindref="compound">DeltaApplyResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1updates_1_1_delta_apply_result_1a5dc7a1d4cac8d47a3ff988f338540cb3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_delta_apply_result_1a5dc7a1d4cac8d47a3ff988f338540cb3" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1updates_1_1_delta_apply_result_1aa7fff67408a1613b862a183660dada39" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_delta_apply_result_1aa7fff67408a1613b862a183660dada39" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1updates_1_1_delta_apply_result_1ab1ed8d7ceb246d5ef82d94969d52b392" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1updates_1_1_delta_apply_result_1ab1ed8d7ceb246d5ef82d94969d52b392" kindref="member">files_patched</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1updates_1_1_delta_apply_result_1a995d03cda6bbd1f3696cd766adbc4300" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1updates_1_1_delta_apply_result_1a995d03cda6bbd1f3696cd766adbc4300" kindref="member">files_fallback</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="115"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="classthemis_1_1updates_1_1_delta_update_engine" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_delta_update_engine_1a744db7a4fbd9de66c330e051745f609b" kindref="member">DeltaUpdateEngine</ref><sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_delta_update_engine_1a744db7a4fbd9de66c330e051745f609b" kindref="member">DeltaUpdateEngine</ref>(</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>install_directory<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>download_directory<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/themis_updates&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="classthemis_1_1updates_1_1_delta_update_engine_1a3cada88eb325a774e9fab759534d8611" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_delta_update_engine_1a3cada88eb325a774e9fab759534d8611" kindref="member">~DeltaUpdateEngine</ref>();</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Delta<sp/>lookup<sp/>─────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;DeltaManifest&gt;<sp/><ref refid="classthemis_1_1updates_1_1_delta_update_engine_1ae93878aae7e0086a5be2cf75a9da4746" kindref="member">findDelta</ref>(</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>from_version,</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>to_version)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_delta_update_engine_1accf999c9c75be567387481a71e4f4d57" kindref="member">registerDelta</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_delta_manifest" kindref="compound">DeltaManifest</ref>&amp;<sp/>manifest);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Patch<sp/>application<sp/>────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_delta_apply_result" kindref="compound">DeltaApplyResult</ref><sp/><ref refid="classthemis_1_1updates_1_1_delta_update_engine_1a3d968091f36829a6e68df1d857627e06" kindref="member">applyDelta</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_delta_manifest" kindref="compound">DeltaManifest</ref>&amp;<sp/>manifest);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Patch<sp/>generation<sp/>─────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_delta_update_engine_1a929c5081c4996f17d82b9da13cee4b51" kindref="member">generatePatch</ref>(</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>base_path,</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target_path,</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>patch_path,</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a3591f0d9ce3c474e439181c5ef22b797" kindref="member">PatchAlgorithm</ref><sp/>algorithm<sp/>=<sp/><ref refid="namespacethemis_1_1updates_1a3591f0d9ce3c474e439181c5ef22b797a99b99fef5a48ea31c7f4c40a6367883a" kindref="member">PatchAlgorithm::ZSTD_DICT</ref>);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_delta_update_engine_1a0687847c3e54e6d8329f5f1ce1336287" kindref="member">applyPatch</ref>(</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>base_path,</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>patch_path,</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target_path);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Observability<sp/>────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_delta_update_engine_1afb183959ae91bd4994f1c391d87b5299" kindref="member">setProgressCallback</ref>(</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;<sp/>callback);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>install_dir_;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>download_dir_;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;void(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;<sp/>progress_cb_;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;DeltaManifest&gt;<sp/>registered_deltas_;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>reportProgress(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>pct,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>msg);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;FileDelta&gt;<sp/>computeApplyOrder(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_delta_manifest" kindref="compound">DeltaManifest</ref>&amp;<sp/>manifest);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>validateDependencies(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_delta_manifest" kindref="compound">DeltaManifest</ref>&amp;<sp/>manifest);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>hasCircularDependency(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;FileDelta&gt;&amp;<sp/>deltas);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-algorithm<sp/>generate/apply<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>generatePatchZstdDict(</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>base,</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>target,</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>patch_path);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>applyPatchZstdDict(</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>base,</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>patch_path,</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target_path);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>generatePatchVcdiff(</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>base,</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>target,</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>patch_path);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>applyPatchVcdiff(</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>base,</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>patch_path,</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target_path);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Utility</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>calculateHash(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data);</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/>readFile(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>writeFile(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>atomicWriteFile(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers<sp/>for<sp/>converting<sp/>PatchAlgorithm<sp/>to/from<sp/>string</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal">std::string<sp/><ref refid="namespacethemis_1_1updates_1a020b2f9206d4c70e19637d86966012b0" kindref="member">patchAlgorithmToString</ref>(<ref refid="namespacethemis_1_1updates_1a3591f0d9ce3c474e439181c5ef22b797" kindref="member">PatchAlgorithm</ref><sp/>algo);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal">std::optional&lt;PatchAlgorithm&gt;<sp/><ref refid="namespacethemis_1_1updates_1a103f0caebc6d93e77ef788a5ce6acb00" kindref="member">patchAlgorithmFromString</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>s);</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>updates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/updates/delta_update_engine.h"/>
+  </compounddef>
+</doxygen>

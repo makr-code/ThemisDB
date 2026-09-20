@@ -1,0 +1,445 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__llm__token__quota__concurrency__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_llm_token_quota_concurrency_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="token__quota__manager_8h" local="yes">llm/token_quota_manager.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>llm/token_quota_manager.h</label>
+        <link refid="token__quota__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/llm/test_llm_token_quota_concurrency_focused.cpp</label>
+        <link refid="test__llm__token__quota__concurrency__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>algorithm</label>
+      </node>
+      <node id="10">
+        <label>atomic</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="11">
+        <label>thread</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+      <node id="12">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__llm__token__quota__concurrency__focused_8cpp_1ab8ac4a47df18914eff6e7c64eb74beea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TokenQuotaConcurrencyTest, TQC01a_SequentialRequestsExhaustQuota)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TokenQuotaConcurrencyTest</type>
+        </param>
+        <param>
+          <type>TQC01a_SequentialRequestsExhaustQuota</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000148"><xreftitle>Test</xreftitle><xrefdescription><para>TQC-01a: 10 sequential requests of 100 tokens each against a 500-token quota. First 5 must be admitted; requests 6-10 must be denied.</para>
+</xrefdescription></xrefsect></para>
+<para>Sequential baseline — establishes correctness before adding concurrency. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_token_quota_concurrency_focused.cpp" line="80" column="1" bodyfile="tests/llm/test_llm_token_quota_concurrency_focused.cpp" bodystart="80" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__token__quota__concurrency__focused_8cpp_1a291c72c2a0597b2491e15b56cd50ac71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TokenQuotaConcurrencyTest, TQC01b_ConcurrentRequestsNeverExceedQuota)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TokenQuotaConcurrencyTest</type>
+        </param>
+        <param>
+          <type>TQC01b_ConcurrentRequestsNeverExceedQuota</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000149"><xreftitle>Test</xreftitle><xrefdescription><para>TQC-01b: N concurrent threads each attempt to consume tokens that together exceed the quota. After all threads complete:<itemizedlist>
+<listitem><para>Total tokens consumed must NOT exceed the quota.</para>
+</listitem><listitem><para>At least one request must have been denied.</para>
+</listitem><listitem><para>No negative balance. </para>
+</listitem></itemizedlist>
+</para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_token_quota_concurrency_focused.cpp" line="112" column="1" bodyfile="tests/llm/test_llm_token_quota_concurrency_focused.cpp" bodystart="112" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__token__quota__concurrency__focused_8cpp_1a497f14189cde0142b83a1d7eebfb91b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TokenQuotaConcurrencyTest, TQC02a_ExactBoundaryNoNegativeBalance)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TokenQuotaConcurrencyTest</type>
+        </param>
+        <param>
+          <type>TQC02a_ExactBoundaryNoNegativeBalance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000150"><xreftitle>Test</xreftitle><xrefdescription><para>TQC-02a: Two threads each attempt to consume exactly the remaining quota simultaneously. Only ONE must succeed; the other must be denied; the balance must never go negative. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_token_quota_concurrency_focused.cpp" line="174" column="1" bodyfile="tests/llm/test_llm_token_quota_concurrency_focused.cpp" bodystart="174" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__token__quota__concurrency__focused_8cpp_1a4928d04410a2c29b1c922d638bae4a88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TokenQuotaConcurrencyTest, TQC02b_ZeroRemainingQuotaAllDenied)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TokenQuotaConcurrencyTest</type>
+        </param>
+        <param>
+          <type>TQC02b_ZeroRemainingQuotaAllDenied</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000151"><xreftitle>Test</xreftitle><xrefdescription><para>TQC-02b: Multiple threads targeting quota = 0 (fully exhausted). </para>
+</xrefdescription></xrefsect><verbatim>  Pre-consume the full quota, then launch concurrent requests.
+  All subsequent requests must be denied; balance must remain
+  at exactly the quota limit (no overshoot).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_token_quota_concurrency_focused.cpp" line="222" column="1" bodyfile="tests/llm/test_llm_token_quota_concurrency_focused.cpp" bodystart="222" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__token__quota__concurrency__focused_8cpp_1a204cb651e23137f9f6534bc6d1833271" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TokenQuotaConcurrencyTest, TQC02c_ZeroTokenRequestDeniedAtExhaustedQuota)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TokenQuotaConcurrencyTest</type>
+        </param>
+        <param>
+          <type>TQC02c_ZeroTokenRequestDeniedAtExhaustedQuota</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000152"><xreftitle>Test</xreftitle><xrefdescription><para>TQC-02c: Check returns denied even for a 0-token request when quota is fully consumed (edge case: zero-sized request). </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_token_quota_concurrency_focused.cpp" line="269" column="1" bodyfile="tests/llm/test_llm_token_quota_concurrency_focused.cpp" bodystart="269" bodyend="288"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Block 4 — Token-Quota Enforcement Under Concurrent Requests (High). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Acceptance criteria: TQC-01 N concurrent requests that together exceed the configured quota → all requests submitted AFTER quota exhaustion are denied (no request that pushes the balance negative is ever accepted). TQC-02 Race-condition at boundary: exact quota value reached by multiple threads simultaneously → no negative balance recorded.</para>
+<para>All infrastructure is fully in-process. The <ref refid="classthemis_1_1llm_1_1_token_quota_manager" kindref="compound">TokenQuotaManager</ref>&apos;s thread-safe sliding-window implementation is exercised directly without mocking.</para>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>CTest labels: llm;quota;concurrency;security </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="token__quota__manager_8h" kindref="compound">llm/token_quota_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">themis::llm</ref>;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">AdmissionAttempt<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/>allowed<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/>tokens_used<sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/>tokens_limit<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal">AdmissionAttempt<sp/>tryAdmit(<ref refid="classthemis_1_1llm_1_1_token_quota_manager" kindref="compound">TokenQuotaManager</ref>&amp;<sp/><sp/>quota,</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id,</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>request_tokens)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>quota.<ref refid="classthemis_1_1llm_1_1_token_quota_manager_1aeadbf765d3eed18bb6b82e5fbc46a50f" kindref="member">check</ref>(user_id,<sp/>model_id,<sp/>request_tokens);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result.allowed)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>quota.<ref refid="classthemis_1_1llm_1_1_token_quota_manager_1a7e27d721e03304dc62fe9c4ab6210ea8" kindref="member">consume</ref>(user_id,<sp/>model_id,<sp/>request_tokens);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>AdmissionAttempt<sp/>out;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>out.allowed<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>result.allowed;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>out.tokens_used<sp/><sp/>=<sp/>result.tokens_used;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>out.tokens_limit<sp/>=<sp/>result.tokens_limit;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>out;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TQC-01<sp/>—<sp/>Concurrent<sp/>requests<sp/>exhaust<sp/>quota;<sp/>all<sp/>after<sp/>exhaustion<sp/>rejected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(TokenQuotaConcurrencyTest,<sp/>TQC01a_SequentialRequestsExhaustQuota)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_token_quota_manager" kindref="compound">TokenQuotaManager</ref><sp/>quota;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>user<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;seq-user&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>model<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test-model&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>quota.<ref refid="classthemis_1_1llm_1_1_token_quota_manager_1abe0ba5889817739421ede1af27c7e747" kindref="member">setQuota</ref>(user,<sp/>model,<sp/>500);<sp/><sp/></highlight><highlight class="comment">//<sp/>500<sp/>tokens<sp/>per<sp/>window</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>admitted<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>denied<sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>tryAdmit(quota,<sp/>user,<sp/>model,<sp/>100);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result.allowed)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++admitted;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++denied;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(admitted,<sp/>5u)</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Exactly<sp/>5<sp/>requests<sp/>of<sp/>100<sp/>tokens<sp/>should<sp/>be<sp/>admitted<sp/>against<sp/>a<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;500-token<sp/>quota.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(denied,<sp/>5u)</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;The<sp/>remaining<sp/>5<sp/>requests<sp/>should<sp/>be<sp/>denied<sp/>after<sp/>quota<sp/>exhaustion.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(TokenQuotaConcurrencyTest,<sp/>TQC01b_ConcurrentRequestsNeverExceedQuota)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>QUOTA_LIMIT<sp/><sp/><sp/><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>TOKENS_PER_REQ<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/>NUM_THREADS<sp/><sp/><sp/><sp/>=<sp/>20;<sp/><sp/></highlight><highlight class="comment">//<sp/>20<sp/>×<sp/>100<sp/>=<sp/>2000<sp/>&gt;<sp/>1000<sp/>→<sp/>half<sp/>must<sp/>be<sp/>denied</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_token_quota_manager" kindref="compound">TokenQuotaManager</ref><sp/>quota;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>user<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;conc-user&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>model<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;conc-model&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>quota.<ref refid="classthemis_1_1llm_1_1_token_quota_manager_1abe0ba5889817739421ede1af27c7e747" kindref="member">setQuota</ref>(user,<sp/>model,<sp/>QUOTA_LIMIT);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>admitted_count{0};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>denied_count{0};</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>threads.reserve(NUM_THREADS);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>NUM_THREADS;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;]<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>tryAdmit(quota,<sp/>user,<sp/>model,<sp/>TOKENS_PER_REQ);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(res.allowed)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>admitted_count.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>denied_count.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>th<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>th.join();</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>consumed<sp/>=<sp/>quota.<ref refid="classthemis_1_1llm_1_1_token_quota_manager_1a18fb8151d02dc44c8649d658b3f11f9b" kindref="member">currentUsage</ref>(user,<sp/>model);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Core<sp/>invariant:<sp/>consumed<sp/>tokens<sp/>must<sp/>NEVER<sp/>exceed<sp/>the<sp/>quota.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(consumed,<sp/>QUOTA_LIMIT)</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;TQC-01b:<sp/>Total<sp/>consumed<sp/>tokens<sp/>must<sp/>not<sp/>exceed<sp/>the<sp/>configured<sp/>quota<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;even<sp/>under<sp/>concurrent<sp/>load.<sp/><sp/>consumed=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>consumed</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>quota=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>QUOTA_LIMIT;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>At<sp/>least<sp/>one<sp/>request<sp/>should<sp/>have<sp/>been<sp/>denied<sp/>(we<sp/>sent<sp/>2×<sp/>the<sp/>quota).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(denied_count.load(),<sp/>0)</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;TQC-01b:<sp/>At<sp/>least<sp/>one<sp/>concurrent<sp/>request<sp/>should<sp/>have<sp/>been<sp/>denied<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;since<sp/>total<sp/>demand<sp/>(2000)<sp/>exceeds<sp/>quota<sp/>(&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>QUOTA_LIMIT<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;).&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Consistency:<sp/>admitted<sp/>×<sp/>TOKENS_PER_REQ<sp/>should<sp/>equal<sp/>consumed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>expected_consumed<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(admitted_count.load())<sp/>*<sp/>TOKENS_PER_REQ;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(consumed,<sp/>expected_consumed)</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;TQC-01b:<sp/>Consumed<sp/>token<sp/>total<sp/>must<sp/>equal<sp/>admitted_count<sp/>×<sp/>tokens_per_req.<sp/><sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;admitted=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>admitted_count.load()</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>expected_consumed=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>expected_consumed</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>actual_consumed=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>consumed;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TQC-02<sp/>—<sp/>Race-condition<sp/>at<sp/>exact<sp/>boundary:<sp/>no<sp/>negative<sp/>balance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(TokenQuotaConcurrencyTest,<sp/>TQC02a_ExactBoundaryNoNegativeBalance)<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>QUOTA_LIMIT<sp/>=<sp/>500;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>TOKENS_PER_REQ<sp/>=<sp/>500;<sp/><sp/></highlight><highlight class="comment">//<sp/>Each<sp/>request<sp/>consumes<sp/>the<sp/>entire<sp/>quota.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_token_quota_manager" kindref="compound">TokenQuotaManager</ref><sp/>quota;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>user<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;boundary-user&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>model<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;boundary-model&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>quota.<ref refid="classthemis_1_1llm_1_1_token_quota_manager_1abe0ba5889817739421ede1af27c7e747" kindref="member">setQuota</ref>(user,<sp/>model,<sp/>QUOTA_LIMIT);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>admitted_count{0};</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Spin<sp/>up<sp/>two<sp/>threads<sp/>that<sp/>race<sp/>to<sp/>claim<sp/>the<sp/>full<sp/>quota.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>t1([&amp;]<sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>tryAdmit(quota,<sp/>user,<sp/>model,<sp/>TOKENS_PER_REQ);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(res.allowed)<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>admitted_count.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>t2([&amp;]<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>tryAdmit(quota,<sp/>user,<sp/>model,<sp/>TOKENS_PER_REQ);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(res.allowed)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>admitted_count.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>t1.join();</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>t2.join();</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>consumed<sp/>=<sp/>quota.<ref refid="classthemis_1_1llm_1_1_token_quota_manager_1a18fb8151d02dc44c8649d658b3f11f9b" kindref="member">currentUsage</ref>(user,<sp/>model);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Core<sp/>invariant:<sp/>no<sp/>negative<sp/>balance<sp/>(consumed<sp/>≤<sp/>limit).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(consumed,<sp/>QUOTA_LIMIT)</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;TQC-02a:<sp/>Consumed<sp/>tokens<sp/>must<sp/>never<sp/>exceed<sp/>the<sp/>quota,<sp/>even<sp/>at<sp/>the<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;exact<sp/>boundary.<sp/><sp/>consumed=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>consumed;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>At<sp/>most<sp/>one<sp/>request<sp/>should<sp/>have<sp/>been<sp/>admitted.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(admitted_count.load(),<sp/>1)</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;TQC-02a:<sp/>At<sp/>most<sp/>one<sp/>request<sp/>should<sp/>be<sp/>admitted<sp/>when<sp/>two<sp/>threads<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;race<sp/>to<sp/>claim<sp/>the<sp/>full<sp/>quota<sp/>simultaneously.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(TokenQuotaConcurrencyTest,<sp/>TQC02b_ZeroRemainingQuotaAllDenied)<sp/>{</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>QUOTA_LIMIT<sp/>=<sp/>300;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/>NUM_THREADS<sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_token_quota_manager" kindref="compound">TokenQuotaManager</ref><sp/>quota;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>user<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;exhausted-user&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>model<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;exhausted-model&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>quota.<ref refid="classthemis_1_1llm_1_1_token_quota_manager_1abe0ba5889817739421ede1af27c7e747" kindref="member">setQuota</ref>(user,<sp/>model,<sp/>QUOTA_LIMIT);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pre-consume<sp/>the<sp/>entire<sp/>quota<sp/>in<sp/>one<sp/>shot.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>quota.<ref refid="classthemis_1_1llm_1_1_token_quota_manager_1a7e27d721e03304dc62fe9c4ab6210ea8" kindref="member">consume</ref>(user,<sp/>model,<sp/>QUOTA_LIMIT);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(quota.<ref refid="classthemis_1_1llm_1_1_token_quota_manager_1a18fb8151d02dc44c8649d658b3f11f9b" kindref="member">currentUsage</ref>(user,<sp/>model),<sp/>QUOTA_LIMIT)</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Pre-condition:<sp/>quota<sp/>must<sp/>be<sp/>fully<sp/>consumed<sp/>before<sp/>the<sp/>concurrent<sp/>phase.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Now<sp/>launch<sp/>threads<sp/>that<sp/>all<sp/>attempt<sp/>to<sp/>consume<sp/>tokens<sp/>from<sp/>an<sp/>empty<sp/>budget.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>denied_count{0};</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>threads.reserve(NUM_THREADS);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>NUM_THREADS;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;]<sp/>{</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>quota.<ref refid="classthemis_1_1llm_1_1_token_quota_manager_1aeadbf765d3eed18bb6b82e5fbc46a50f" kindref="member">check</ref>(user,<sp/>model,<sp/>50);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!result.allowed)<sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>denied_count.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>th<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>th.join();</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>concurrent<sp/>requests<sp/>must<sp/>be<sp/>denied.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(denied_count.load(),<sp/>NUM_THREADS)</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;TQC-02b:<sp/>All<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>NUM_THREADS<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>requests<sp/>must<sp/>be<sp/>denied<sp/>when<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;quota<sp/>is<sp/>at<sp/>zero.<sp/><sp/>denied=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>denied_count.load();</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Balance<sp/>must<sp/>not<sp/>have<sp/>grown<sp/>past<sp/>the<sp/>quota<sp/>limit.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(quota.<ref refid="classthemis_1_1llm_1_1_token_quota_manager_1a18fb8151d02dc44c8649d658b3f11f9b" kindref="member">currentUsage</ref>(user,<sp/>model),<sp/>QUOTA_LIMIT)</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;TQC-02b:<sp/>currentUsage<sp/>must<sp/>not<sp/>exceed<sp/>the<sp/>quota<sp/>limit<sp/>after<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;concurrent<sp/>denials.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(TokenQuotaConcurrencyTest,<sp/>TQC02c_ZeroTokenRequestDeniedAtExhaustedQuota)<sp/>{</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_token_quota_manager" kindref="compound">TokenQuotaManager</ref><sp/>quota;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>user<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;zero-req-user&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>model<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;zero-req-model&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>quota.<ref refid="classthemis_1_1llm_1_1_token_quota_manager_1abe0ba5889817739421ede1af27c7e747" kindref="member">setQuota</ref>(user,<sp/>model,<sp/>100);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>quota.<ref refid="classthemis_1_1llm_1_1_token_quota_manager_1a7e27d721e03304dc62fe9c4ab6210ea8" kindref="member">consume</ref>(user,<sp/>model,<sp/>100);<sp/><sp/></highlight><highlight class="comment">//<sp/>fully<sp/>consumed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>0-token<sp/>request<sp/>against<sp/>an<sp/>exhausted<sp/>quota:<sp/>manager<sp/>should<sp/>still<sp/>deny</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(consumed<sp/>==<sp/>limit).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>quota.<ref refid="classthemis_1_1llm_1_1_token_quota_manager_1aeadbf765d3eed18bb6b82e5fbc46a50f" kindref="member">check</ref>(user,<sp/>model,<sp/>0);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>contract:<sp/>check(0)<sp/>on<sp/>an<sp/>exhausted<sp/>quota<sp/>may<sp/>be<sp/>allowed<sp/>(0<sp/>additional</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>tokens<sp/>do<sp/>not<sp/>push<sp/>over<sp/>the<sp/>limit)<sp/>OR<sp/>denied.<sp/><sp/>Either<sp/>outcome<sp/>is<sp/>valid;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>what<sp/>MUST<sp/>NOT<sp/>happen<sp/>is<sp/>that<sp/>a<sp/>POSITIVE<sp/>token<sp/>amount<sp/>is<sp/>admitted.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>documents<sp/>the<sp/>boundary<sp/>behaviour<sp/>for<sp/>review.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>post_usage<sp/>=<sp/>quota.<ref refid="classthemis_1_1llm_1_1_token_quota_manager_1a18fb8151d02dc44c8649d658b3f11f9b" kindref="member">currentUsage</ref>(user,<sp/>model);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(post_usage,<sp/>100u)</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;TQC-02c:<sp/>currentUsage<sp/>must<sp/>not<sp/>exceed<sp/>quota<sp/>limit<sp/>regardless<sp/>of<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;zero-token<sp/>request<sp/>outcome.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/llm/test_llm_token_quota_concurrency_focused.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_compression_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::CompressionResult</compoundname>
+    <includes refid="compression__strategy_8h" local="no">compression_strategy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_compression_result_1a697cb63bbd60cbf4a20cd291d0e00e23" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::tensor::CompressionResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::tensor::CompressionResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether compression succeeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/compression_strategy.h" line="69" column="10" bodyfile="include/tensor/compression_strategy.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_compression_result_1a1519ef77617107c400ff15819ab9bb06" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::CompressionResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::tensor::CompressionResult::error_message</qualifiedname>
+        <briefdescription>
+<para>Human-readable error message if compression failed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/compression_strategy.h" line="72" column="17" bodyfile="include/tensor/compression_strategy.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_compression_result_1a0f0f6bb9f3b972938395fa88ef0ebfe3" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::CompressionResult::original_size</definition>
+        <argsstring></argsstring>
+        <name>original_size</name>
+        <qualifiedname>themis::tensor::CompressionResult::original_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Original size in bytes (before compression). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/compression_strategy.h" line="75" column="17" bodyfile="include/tensor/compression_strategy.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_compression_result_1a3cba53ebe70bd1d143fbde0f9686a333" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::CompressionResult::compressed_size</definition>
+        <argsstring></argsstring>
+        <name>compressed_size</name>
+        <qualifiedname>themis::tensor::CompressionResult::compressed_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Compressed size in bytes (after compression). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/compression_strategy.h" line="78" column="17" bodyfile="include/tensor/compression_strategy.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_compression_result_1aed5b41fa3f49fb66ef50fcc79e5f2170" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::tensor::CompressionResult::compression_ratio</definition>
+        <argsstring></argsstring>
+        <name>compression_ratio</name>
+        <qualifiedname>themis::tensor::CompressionResult::compression_ratio</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+<para>Compression ratio: original_size / compressed_size (&gt; 1 = compressed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/compression_strategy.h" line="81" column="11" bodyfile="include/tensor/compression_strategy.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_compression_result_1aef5af3f557d449894d229e7df1432606" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::tensor::CompressionResult::achieved_error</definition>
+        <argsstring></argsstring>
+        <name>achieved_error</name>
+        <qualifiedname>themis::tensor::CompressionResult::achieved_error</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Estimated reconstruction error (L2 norm). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/compression_strategy.h" line="84" column="11" bodyfile="include/tensor/compression_strategy.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_compression_result_1acdbc8391d0802e9ee743fbe6dd1b3f5d" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::CompressionResult::achieved_rank</definition>
+        <argsstring></argsstring>
+        <name>achieved_rank</name>
+        <qualifiedname>themis::tensor::CompressionResult::achieved_rank</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Actual rank achieved (for TT compression). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/compression_strategy.h" line="87" column="17" bodyfile="include/tensor/compression_strategy.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_compression_result_1a872770774f458bc8235b9dadf4484bc4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::CompressionResult::compressed_data</definition>
+        <argsstring></argsstring>
+        <name>compressed_data</name>
+        <qualifiedname>themis::tensor::CompressionResult::compressed_data</qualifiedname>
+        <briefdescription>
+<para>Optional compressed representation (format depends on strategy). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/compression_strategy.h" line="90" column="17" bodyfile="include/tensor/compression_strategy.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_compression_result_1a390d39bdf80c04107d4f43ac02c02567" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::CompressionResult::compression_metadata</definition>
+        <argsstring></argsstring>
+        <name>compression_metadata</name>
+        <qualifiedname>themis::tensor::CompressionResult::compression_metadata</qualifiedname>
+        <briefdescription>
+<para>Metadata about the compression (strategy, parameters, etc.). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/compression_strategy.h" line="93" column="17" bodyfile="include/tensor/compression_strategy.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a compression operation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/tensor/compression_strategy.h" line="67" column="1" bodyfile="include/tensor/compression_strategy.h" bodystart="67" bodyend="94"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_compression_result_1aef5af3f557d449894d229e7df1432606" prot="public" virt="non-virtual"><scope>themis::tensor::CompressionResult</scope><name>achieved_error</name></member>
+      <member refid="structthemis_1_1tensor_1_1_compression_result_1acdbc8391d0802e9ee743fbe6dd1b3f5d" prot="public" virt="non-virtual"><scope>themis::tensor::CompressionResult</scope><name>achieved_rank</name></member>
+      <member refid="structthemis_1_1tensor_1_1_compression_result_1a872770774f458bc8235b9dadf4484bc4" prot="public" virt="non-virtual"><scope>themis::tensor::CompressionResult</scope><name>compressed_data</name></member>
+      <member refid="structthemis_1_1tensor_1_1_compression_result_1a3cba53ebe70bd1d143fbde0f9686a333" prot="public" virt="non-virtual"><scope>themis::tensor::CompressionResult</scope><name>compressed_size</name></member>
+      <member refid="structthemis_1_1tensor_1_1_compression_result_1a390d39bdf80c04107d4f43ac02c02567" prot="public" virt="non-virtual"><scope>themis::tensor::CompressionResult</scope><name>compression_metadata</name></member>
+      <member refid="structthemis_1_1tensor_1_1_compression_result_1aed5b41fa3f49fb66ef50fcc79e5f2170" prot="public" virt="non-virtual"><scope>themis::tensor::CompressionResult</scope><name>compression_ratio</name></member>
+      <member refid="structthemis_1_1tensor_1_1_compression_result_1a1519ef77617107c400ff15819ab9bb06" prot="public" virt="non-virtual"><scope>themis::tensor::CompressionResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1tensor_1_1_compression_result_1a0f0f6bb9f3b972938395fa88ef0ebfe3" prot="public" virt="non-virtual"><scope>themis::tensor::CompressionResult</scope><name>original_size</name></member>
+      <member refid="structthemis_1_1tensor_1_1_compression_result_1a697cb63bbd60cbf4a20cd291d0e00e23" prot="public" virt="non-virtual"><scope>themis::tensor::CompressionResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

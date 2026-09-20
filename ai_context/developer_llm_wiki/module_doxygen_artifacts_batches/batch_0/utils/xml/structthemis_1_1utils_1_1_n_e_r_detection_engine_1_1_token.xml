@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_n_e_r_detection_engine_1_1_token" kind="struct" language="C++" prot="private">
+    <compoundname>themis::utils::NERDetectionEngine::Token</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_n_e_r_detection_engine_1_1_token_1ac0a87055f181a02d497de210bffe414e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::NERDetectionEngine::Token::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::Token::text</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="150" column="21" bodyfile="include/utils/ner_detection_engine.h" bodystart="150" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_n_e_r_detection_engine_1_1_token_1a7d683b0ef18fcb633daf4a631c04f010" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::NERDetectionEngine::Token::offset</definition>
+        <argsstring></argsstring>
+        <name>offset</name>
+        <qualifiedname>themis::utils::NERDetectionEngine::Token::offset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/ner_detection_engine.h" line="151" column="16" bodyfile="include/utils/ner_detection_engine.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/ner_detection_engine.h" line="149" column="5" bodyfile="include/utils/ner_detection_engine.h" bodystart="149" bodyend="152"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_n_e_r_detection_engine_1_1_token_1a7d683b0ef18fcb633daf4a631c04f010" prot="public" virt="non-virtual"><scope>themis::utils::NERDetectionEngine::Token</scope><name>offset</name></member>
+      <member refid="structthemis_1_1utils_1_1_n_e_r_detection_engine_1_1_token_1ac0a87055f181a02d497de210bffe414e" prot="public" virt="non-virtual"><scope>themis::utils::NERDetectionEngine::Token</scope><name>text</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

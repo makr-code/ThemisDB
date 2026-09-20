@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_8f1bf8165a6e27ac24d8813781a59f7b" kind="dir">
+    <compoundname>src/updates</compoundname>
+    <innerfile refid="blue__green__deployment_8cpp">blue_green_deployment.cpp</innerfile>
+    <innerfile refid="build__verifier_8cpp">build_verifier.cpp</innerfile>
+    <innerfile refid="canary__rollout_8cpp">canary_rollout.cpp</innerfile>
+    <innerfile refid="cluster__update__manager_8cpp">cluster_update_manager.cpp</innerfile>
+    <innerfile refid="coordinated__update__manager_8cpp">coordinated_update_manager.cpp</innerfile>
+    <innerfile refid="delta__update__engine_8cpp">delta_update_engine.cpp</innerfile>
+    <innerfile refid="dependency__resolver_8cpp">dependency_resolver.cpp</innerfile>
+    <innerfile refid="hardware__telemetry_8cpp">hardware_telemetry.cpp</innerfile>
+    <innerfile refid="hot__reload__engine_8cpp">hot_reload_engine.cpp</innerfile>
+    <innerfile refid="in__place__schema__migrator_8cpp">in_place_schema_migrator.cpp</innerfile>
+    <innerfile refid="manifest__database_8cpp">manifest_database.cpp</innerfile>
+    <innerfile refid="notification__webhook_8cpp">notification_webhook.cpp</innerfile>
+    <innerfile refid="parallel__downloader_8cpp">parallel_downloader.cpp</innerfile>
+    <innerfile refid="preflight__health__check_8cpp">preflight_health_check.cpp</innerfile>
+    <innerfile refid="release__manifest_8cpp">release_manifest.cpp</innerfile>
+    <innerfile refid="schema__migration_8cpp">schema_migration.cpp</innerfile>
+    <innerfile refid="schema__migration__tester_8cpp">schema_migration_tester.cpp</innerfile>
+    <innerfile refid="tenant__update__scheduler_8cpp">tenant_update_scheduler.cpp</innerfile>
+    <innerfile refid="update__history__logger_8cpp">update_history_logger.cpp</innerfile>
+    <innerfile refid="update__state__machine_8cpp">update_state_machine.cpp</innerfile>
+    <innerfile refid="updates__config_8cpp">updates_config.cpp</innerfile>
+    <innerfile refid="updates__diagnostic__emitter_8cpp">updates_diagnostic_emitter.cpp</innerfile>
+    <innerfile refid="updates__diagnostics_8cpp">updates_diagnostics.cpp</innerfile>
+    <innerfile refid="updates__edge__case__handler_8cpp">updates_edge_case_handler.cpp</innerfile>
+    <innerfile refid="updates__operator__diagnostics_8cpp">updates_operator_diagnostics.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/updates/"/>
+  </compounddef>
+</doxygen>

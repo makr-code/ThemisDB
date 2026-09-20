@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1transaction_1_1_saga_orchestrator_plugin" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::transaction::SagaOrchestratorPlugin</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">plugins::IThemisPlugin</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_saga_orchestrator_plugin_1afbd74be27f372696f0f6dd8fbc0c55d7" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1transaction_1_1_s_a_g_a_orchestrator_guard" kindref="compound">SAGAOrchestratorGuard</ref></type>
+        <definition>SAGAOrchestratorGuard themis::transaction::SagaOrchestratorPlugin::guard_</definition>
+        <argsstring></argsstring>
+        <name>guard_</name>
+        <qualifiedname>themis::transaction::SagaOrchestratorPlugin::guard_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" line="205" column="27" bodyfile="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" bodystart="205" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_saga_orchestrator_plugin_1ab63024649587c22b3569af7f398f16a5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::SagaOrchestratorPlugin::SagaOrchestratorPlugin</definition>
+        <argsstring>()</argsstring>
+        <name>SagaOrchestratorPlugin</name>
+        <qualifiedname>themis::transaction::SagaOrchestratorPlugin::SagaOrchestratorPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" line="128" column="5" bodyfile="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" bodystart="128" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_saga_orchestrator_plugin_1a2c52d00eb10f903dccd5a1dcaa1d0d3e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::transaction::SagaOrchestratorPlugin::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::transaction::SagaOrchestratorPlugin::getName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" line="131" column="16" bodyfile="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" bodystart="131" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_saga_orchestrator_plugin_1a1d0101a5f6170b945c8344921b4be60c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::transaction::SagaOrchestratorPlugin::getVersion</definition>
+        <argsstring>() const override</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>themis::transaction::SagaOrchestratorPlugin::getVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" line="135" column="16" bodyfile="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" bodystart="135" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_saga_orchestrator_plugin_1a567fd525c621cd842aa7ade48da2235f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>plugins::PluginType</type>
+        <definition>plugins::PluginType themis::transaction::SagaOrchestratorPlugin::getType</definition>
+        <argsstring>() const override</argsstring>
+        <name>getType</name>
+        <qualifiedname>themis::transaction::SagaOrchestratorPlugin::getType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" line="139" column="25" bodyfile="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" bodystart="139" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_saga_orchestrator_plugin_1af0f5c7cb1d3d6d3e14dfaa6c002f16fa" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>plugins::PluginCapabilities</type>
+        <definition>plugins::PluginCapabilities themis::transaction::SagaOrchestratorPlugin::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>themis::transaction::SagaOrchestratorPlugin::getCapabilities</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" line="143" column="33" bodyfile="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" bodystart="143" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_saga_orchestrator_plugin_1aed5a11cf0a30caca1c21a0af4e62131b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::transaction::SagaOrchestratorPlugin::initialize</definition>
+        <argsstring>(const char *config_json) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::transaction::SagaOrchestratorPlugin::initialize</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>config_json</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" line="153" column="10" bodyfile="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" bodystart="153" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_saga_orchestrator_plugin_1a6fa9885086737f3d9c3b757a758070c9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::SagaOrchestratorPlugin::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::transaction::SagaOrchestratorPlugin::shutdown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" line="192" column="10" bodyfile="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" bodystart="192" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_saga_orchestrator_plugin_1a4c4e52a6f9b4a3696238cb101b3c81ff" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::transaction::SagaOrchestratorPlugin::getInstance</definition>
+        <argsstring>() override</argsstring>
+        <name>getInstance</name>
+        <qualifiedname>themis::transaction::SagaOrchestratorPlugin::getInstance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" line="200" column="10" bodyfile="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" bodystart="200" bodyend="202"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="classthemis_1_1_saga" kindref="compound">Saga</ref> orchestrator plugin. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>plugins::IThemisPlugin</label>
+      </node>
+      <node id="1">
+        <label>themis::transaction::SagaOrchestratorPlugin</label>
+        <link refid="classthemis_1_1transaction_1_1_saga_orchestrator_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>plugins::IThemisPlugin</label>
+      </node>
+      <node id="1">
+        <label>themis::transaction::SagaOrchestratorPlugin</label>
+        <link refid="classthemis_1_1transaction_1_1_saga_orchestrator_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" line="126" column="1" bodyfile="src/transaction/saga_plugin/saga_orchestrator_plugin.cpp" bodystart="126" bodyend="206"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1transaction_1_1_saga_orchestrator_plugin_1af0f5c7cb1d3d6d3e14dfaa6c002f16fa" prot="public" virt="non-virtual"><scope>themis::transaction::SagaOrchestratorPlugin</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1transaction_1_1_saga_orchestrator_plugin_1a4c4e52a6f9b4a3696238cb101b3c81ff" prot="public" virt="non-virtual"><scope>themis::transaction::SagaOrchestratorPlugin</scope><name>getInstance</name></member>
+      <member refid="classthemis_1_1transaction_1_1_saga_orchestrator_plugin_1a2c52d00eb10f903dccd5a1dcaa1d0d3e" prot="public" virt="non-virtual"><scope>themis::transaction::SagaOrchestratorPlugin</scope><name>getName</name></member>
+      <member refid="classthemis_1_1transaction_1_1_saga_orchestrator_plugin_1a567fd525c621cd842aa7ade48da2235f" prot="public" virt="non-virtual"><scope>themis::transaction::SagaOrchestratorPlugin</scope><name>getType</name></member>
+      <member refid="classthemis_1_1transaction_1_1_saga_orchestrator_plugin_1a1d0101a5f6170b945c8344921b4be60c" prot="public" virt="non-virtual"><scope>themis::transaction::SagaOrchestratorPlugin</scope><name>getVersion</name></member>
+      <member refid="classthemis_1_1transaction_1_1_saga_orchestrator_plugin_1afbd74be27f372696f0f6dd8fbc0c55d7" prot="private" virt="non-virtual"><scope>themis::transaction::SagaOrchestratorPlugin</scope><name>guard_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_saga_orchestrator_plugin_1aed5a11cf0a30caca1c21a0af4e62131b" prot="public" virt="non-virtual"><scope>themis::transaction::SagaOrchestratorPlugin</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1transaction_1_1_saga_orchestrator_plugin_1ab63024649587c22b3569af7f398f16a5" prot="public" virt="non-virtual"><scope>themis::transaction::SagaOrchestratorPlugin</scope><name>SagaOrchestratorPlugin</name></member>
+      <member refid="classthemis_1_1transaction_1_1_saga_orchestrator_plugin_1a6fa9885086737f3d9c3b757a758070c9" prot="public" virt="non-virtual"><scope>themis::transaction::SagaOrchestratorPlugin</scope><name>shutdown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

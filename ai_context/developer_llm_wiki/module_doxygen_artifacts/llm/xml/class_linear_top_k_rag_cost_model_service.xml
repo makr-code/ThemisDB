@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_linear_top_k_rag_cost_model_service" kind="class" language="C++" prot="public">
+    <compoundname>LinearTopKRagCostModelService</compoundname>
+    <basecompoundref refid="classthemis_1_1llm_1_1_i_rag_cost_model_service" prot="public" virt="non-virtual">themis::llm::IRagCostModelService</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_linear_top_k_rag_cost_model_service_1ab9572e2d181886291c21139ac0b90d47" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double LinearTopKRagCostModelService::base_cost_</definition>
+        <argsstring></argsstring>
+        <name>base_cost_</name>
+        <qualifiedname>LinearTopKRagCostModelService::base_cost_</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_ai_orchestrator.cpp" line="226" column="12" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_linear_top_k_rag_cost_model_service_1a29d4039a3b52506bdea9affaae30a606" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double LinearTopKRagCostModelService::per_doc_cost_</definition>
+        <argsstring></argsstring>
+        <name>per_doc_cost_</name>
+        <qualifiedname>LinearTopKRagCostModelService::per_doc_cost_</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_ai_orchestrator.cpp" line="227" column="12" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="227" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_linear_top_k_rag_cost_model_service_1a2fab67617509220b0c6aa3a1cfe73fc1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>LinearTopKRagCostModelService::LinearTopKRagCostModelService</definition>
+        <argsstring>(double base_cost, double per_doc_cost)</argsstring>
+        <name>LinearTopKRagCostModelService</name>
+        <qualifiedname>LinearTopKRagCostModelService::LinearTopKRagCostModelService</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>base_cost</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>per_doc_cost</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_ai_orchestrator.cpp" line="209" column="5" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="209" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="class_linear_top_k_rag_cost_model_service_1a91766f14d02ad311fbdb7e8c5741bbb9" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_rag_cost_estimate" kindref="compound">RagCostEstimate</ref> &gt;</type>
+        <definition>std::optional&lt; RagCostEstimate &gt; LinearTopKRagCostModelService::estimate</definition>
+        <argsstring>(const RagCostModelInput &amp;input) const override</argsstring>
+        <name>estimate</name>
+        <qualifiedname>LinearTopKRagCostModelService::estimate</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_rag_cost_model_service_1a948df55eeb46e7d7a60929624e687341">estimate</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_rag_cost_model_input" kindref="compound">RagCostModelInput</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_ai_orchestrator.cpp" line="213" column="5" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="213" bodyend="223"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>LinearTopKRagCostModelService</label>
+        <link refid="class_linear_top_k_rag_cost_model_service"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::IRagCostModelService</label>
+        <link refid="classthemis_1_1llm_1_1_i_rag_cost_model_service"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>LinearTopKRagCostModelService</label>
+        <link refid="class_linear_top_k_rag_cost_model_service"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::IRagCostModelService</label>
+        <link refid="classthemis_1_1llm_1_1_i_rag_cost_model_service"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_ai_orchestrator.cpp" line="207" column="1" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="207" bodyend="228"/>
+    <listofallmembers>
+      <member refid="class_linear_top_k_rag_cost_model_service_1ab9572e2d181886291c21139ac0b90d47" prot="private" virt="non-virtual"><scope>LinearTopKRagCostModelService</scope><name>base_cost_</name></member>
+      <member refid="class_linear_top_k_rag_cost_model_service_1a91766f14d02ad311fbdb7e8c5741bbb9" prot="public" virt="virtual"><scope>LinearTopKRagCostModelService</scope><name>estimate</name></member>
+      <member refid="class_linear_top_k_rag_cost_model_service_1a2fab67617509220b0c6aa3a1cfe73fc1" prot="public" virt="non-virtual"><scope>LinearTopKRagCostModelService</scope><name>LinearTopKRagCostModelService</name></member>
+      <member refid="class_linear_top_k_rag_cost_model_service_1a29d4039a3b52506bdea9affaae30a606" prot="private" virt="non-virtual"><scope>LinearTopKRagCostModelService</scope><name>per_doc_cost_</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_rag_cost_model_service_1a69acfab3101ac7d0e548a966a52c12f0" prot="public" virt="virtual"><scope>LinearTopKRagCostModelService</scope><name>~IRagCostModelService</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

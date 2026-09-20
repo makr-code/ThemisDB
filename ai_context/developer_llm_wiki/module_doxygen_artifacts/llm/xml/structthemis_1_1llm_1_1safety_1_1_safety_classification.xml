@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1safety_1_1_safety_classification" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::safety::SafetyClassification</compoundname>
+    <includes refid="classifier_8h" local="no">classifier.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1safety_1_1_safety_classification_1aa5e6d6bfba29a17de95c0cc20f6c5d2f" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1_1safety_1ab0d1a056fcbc50c2b83d67127836f2fe" kindref="member">SafetyLabel</ref></type>
+        <definition>SafetyLabel themis::llm::safety::SafetyClassification::label</definition>
+        <argsstring></argsstring>
+        <name>label</name>
+        <qualifiedname>themis::llm::safety::SafetyClassification::label</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1llm_1_1safety_1ab0d1a056fcbc50c2b83d67127836f2feab18288babd4636cff34b15e0d1340fc2" kindref="member">SafetyLabel::SAFE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/classifier.h" line="30" column="17" bodyfile="include/llm/safety/classifier.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1safety_1_1_safety_classification_1a722d96632eefa0937f82bb507486edc9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::safety::SafetyClassification::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::llm::safety::SafetyClassification::confidence</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/classifier.h" line="31" column="12" bodyfile="include/llm/safety/classifier.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1safety_1_1_safety_classification_1ad9208c6c6bf3deafc432e6db9eefeb43" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::safety::SafetyClassification::rationale</definition>
+        <argsstring></argsstring>
+        <name>rationale</name>
+        <qualifiedname>themis::llm::safety::SafetyClassification::rationale</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/classifier.h" line="32" column="17" bodyfile="include/llm/safety/classifier.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1safety_1_1_safety_classification_1aa2acac3aa118a8fe2579f137ddd08798" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::safety::SafetyClassification::source</definition>
+        <argsstring></argsstring>
+        <name>source</name>
+        <qualifiedname>themis::llm::safety::SafetyClassification::source</qualifiedname>
+        <initializer>= &quot;rule_based&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/safety/classifier.h" line="33" column="17" bodyfile="include/llm/safety/classifier.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/safety/classifier.h" line="29" column="1" bodyfile="include/llm/safety/classifier.h" bodystart="29" bodyend="34"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1safety_1_1_safety_classification_1a722d96632eefa0937f82bb507486edc9" prot="public" virt="non-virtual"><scope>themis::llm::safety::SafetyClassification</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1llm_1_1safety_1_1_safety_classification_1aa5e6d6bfba29a17de95c0cc20f6c5d2f" prot="public" virt="non-virtual"><scope>themis::llm::safety::SafetyClassification</scope><name>label</name></member>
+      <member refid="structthemis_1_1llm_1_1safety_1_1_safety_classification_1ad9208c6c6bf3deafc432e6db9eefeb43" prot="public" virt="non-virtual"><scope>themis::llm::safety::SafetyClassification</scope><name>rationale</name></member>
+      <member refid="structthemis_1_1llm_1_1safety_1_1_safety_classification_1aa2acac3aa118a8fe2579f137ddd08798" prot="public" virt="non-virtual"><scope>themis::llm::safety::SafetyClassification</scope><name>source</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

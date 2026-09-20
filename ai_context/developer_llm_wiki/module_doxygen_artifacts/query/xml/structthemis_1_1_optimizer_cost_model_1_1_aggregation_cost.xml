@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_optimizer_cost_model_1_1_aggregation_cost" kind="struct" language="C++" prot="public">
+    <compoundname>themis::OptimizerCostModel::AggregationCost</compoundname>
+    <includes refid="optimizer__cost__model_8h" local="no">optimizer_cost_model.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_aggregation_cost_1a53e18cb4e359cbde54177d7df048b44e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::OptimizerCostModel::AggregationCost::cpuCost</definition>
+        <argsstring></argsstring>
+        <name>cpuCost</name>
+        <qualifiedname>themis::OptimizerCostModel::AggregationCost::cpuCost</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="179" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_aggregation_cost_1a65f5ebdf1733471f27566ce652d61204" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::OptimizerCostModel::AggregationCost::memoryCost</definition>
+        <argsstring></argsstring>
+        <name>memoryCost</name>
+        <qualifiedname>themis::OptimizerCostModel::AggregationCost::memoryCost</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="180" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_aggregation_cost_1a2dcd578d11e2de0ba27053dde821e6de" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::OptimizerCostModel::AggregationCost::totalCost</definition>
+        <argsstring></argsstring>
+        <name>totalCost</name>
+        <qualifiedname>themis::OptimizerCostModel::AggregationCost::totalCost</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="181" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_aggregation_cost_1a48ff93cc6304015f501459a98d3fb94a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::OptimizerCostModel::AggregationCost::inputRows</definition>
+        <argsstring></argsstring>
+        <name>inputRows</name>
+        <qualifiedname>themis::OptimizerCostModel::AggregationCost::inputRows</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="182" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_aggregation_cost_1a951f9a3635df3b8dbc05487d88e81cc8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::OptimizerCostModel::AggregationCost::outputRows</definition>
+        <argsstring></argsstring>
+        <name>outputRows</name>
+        <qualifiedname>themis::OptimizerCostModel::AggregationCost::outputRows</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="183" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_aggregation_cost_1a849b6dbaa67bcdb47261114e0346b85a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::OptimizerCostModel::AggregationCost::numGroups</definition>
+        <argsstring></argsstring>
+        <name>numGroups</name>
+        <qualifiedname>themis::OptimizerCostModel::AggregationCost::numGroups</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="184" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/optimizer_cost_model.h" line="178" column="5" bodyfile="include/query/optimizer_cost_model.h" bodystart="178" bodyend="185"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_aggregation_cost_1a53e18cb4e359cbde54177d7df048b44e" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::AggregationCost</scope><name>cpuCost</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_aggregation_cost_1a48ff93cc6304015f501459a98d3fb94a" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::AggregationCost</scope><name>inputRows</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_aggregation_cost_1a65f5ebdf1733471f27566ce652d61204" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::AggregationCost</scope><name>memoryCost</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_aggregation_cost_1a849b6dbaa67bcdb47261114e0346b85a" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::AggregationCost</scope><name>numGroups</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_aggregation_cost_1a951f9a3635df3b8dbc05487d88e81cc8" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::AggregationCost</scope><name>outputRows</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_aggregation_cost_1a2dcd578d11e2de0ba27053dde821e6de" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::AggregationCost</scope><name>totalCost</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

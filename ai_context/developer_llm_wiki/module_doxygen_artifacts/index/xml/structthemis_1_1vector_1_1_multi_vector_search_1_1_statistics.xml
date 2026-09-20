@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1vector_1_1_multi_vector_search_1_1_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::vector::MultiVectorSearch::Statistics</compoundname>
+    <includes refid="multi__vector__search_8h" local="no">multi_vector_search.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1vector_1_1_multi_vector_search_1_1_statistics_1a1982ef63fad4aa220e8820152029d597" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::vector::MultiVectorSearch::Statistics::total_searches</definition>
+        <argsstring></argsstring>
+        <name>total_searches</name>
+        <qualifiedname>themis::vector::MultiVectorSearch::Statistics::total_searches</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_vector_search.h" line="190" column="16" bodyfile="include/index/multi_vector_search.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1vector_1_1_multi_vector_search_1_1_statistics_1a7c5a1bb3b4fd78289bf9a1b71431667c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::vector::MultiVectorSearch::Statistics::avg_time_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_time_ms</name>
+        <qualifiedname>themis::vector::MultiVectorSearch::Statistics::avg_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_vector_search.h" line="191" column="16" bodyfile="include/index/multi_vector_search.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1vector_1_1_multi_vector_search_1_1_statistics_1ac86959d2decdd9214f54dc52da4b7305" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="classthemis_1_1vector_1_1_multi_vector_search_1a8a0651160cf0a1d74d1d5f64c54715d0" kindref="member">FusionStrategy</ref>, size_t &gt;</type>
+        <definition>std::unordered_map&lt;FusionStrategy, size_t&gt; themis::vector::MultiVectorSearch::Statistics::strategy_usage</definition>
+        <argsstring></argsstring>
+        <name>strategy_usage</name>
+        <qualifiedname>themis::vector::MultiVectorSearch::Statistics::strategy_usage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_vector_search.h" line="192" column="28" bodyfile="include/index/multi_vector_search.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1vector_1_1_multi_vector_search_1_1_statistics_1a5967d84600b4712949e826949353e94a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::vector::MultiVectorSearch::Statistics::avg_results_per_search</definition>
+        <argsstring></argsstring>
+        <name>avg_results_per_search</name>
+        <qualifiedname>themis::vector::MultiVectorSearch::Statistics::avg_results_per_search</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_vector_search.h" line="193" column="16" bodyfile="include/index/multi_vector_search.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Get statistics about multi-vector search performance. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/multi_vector_search.h" line="189" column="5" bodyfile="include/index/multi_vector_search.h" bodystart="189" bodyend="194"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_statistics_1a5967d84600b4712949e826949353e94a" prot="public" virt="non-virtual"><scope>themis::vector::MultiVectorSearch::Statistics</scope><name>avg_results_per_search</name></member>
+      <member refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_statistics_1a7c5a1bb3b4fd78289bf9a1b71431667c" prot="public" virt="non-virtual"><scope>themis::vector::MultiVectorSearch::Statistics</scope><name>avg_time_ms</name></member>
+      <member refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_statistics_1ac86959d2decdd9214f54dc52da4b7305" prot="public" virt="non-virtual"><scope>themis::vector::MultiVectorSearch::Statistics</scope><name>strategy_usage</name></member>
+      <member refid="structthemis_1_1vector_1_1_multi_vector_search_1_1_statistics_1a1982ef63fad4aa220e8820152029d597" prot="public" virt="non-virtual"><scope>themis::vector::MultiVectorSearch::Statistics</scope><name>total_searches</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

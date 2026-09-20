@@ -1,0 +1,550 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_key_schema" kind="class" language="C++" prot="public">
+    <compoundname>themis::KeySchema</compoundname>
+    <includes refid="key__schema_8h" local="no">key_schema.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1_key_schema_1af34a2f9fe7dfbce5e7bcaec34119edc6" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>KeyType</name>
+        <qualifiedname>themis::KeySchema::KeyType</qualifiedname>
+        <enumvalue id="classthemis_1_1_key_schema_1af34a2f9fe7dfbce5e7bcaec34119edc6a179518da8867f0b4237259ea3241a2ec" prot="public">
+          <name>RELATIONAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_key_schema_1af34a2f9fe7dfbce5e7bcaec34119edc6ac231fa48df3ee393c92dccac4dba5e7d" prot="public">
+          <name>DOCUMENT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_key_schema_1af34a2f9fe7dfbce5e7bcaec34119edc6a5f412d9440ef5619d3a997ad4b4d833f" prot="public">
+          <name>GRAPH_NODE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_key_schema_1af34a2f9fe7dfbce5e7bcaec34119edc6a82d4fab05a5a6c86e7b5d9167900ec89" prot="public">
+          <name>GRAPH_EDGE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_key_schema_1af34a2f9fe7dfbce5e7bcaec34119edc6a87752381b583740610f1dfeb07fdad7e" prot="public">
+          <name>VECTOR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_key_schema_1af34a2f9fe7dfbce5e7bcaec34119edc6ac49e626040e475f9ef797877357dc40e" prot="public">
+          <name>SECONDARY_INDEX</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_key_schema_1af34a2f9fe7dfbce5e7bcaec34119edc6a611ec0e2aec39f5c191e8f4dc0709061" prot="public">
+          <name>GRAPH_OUTDEX</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_key_schema_1af34a2f9fe7dfbce5e7bcaec34119edc6a75a8ccec29136136b671c20ee746531c" prot="public">
+          <name>GRAPH_INDEX</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Key types for different data models. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/key_schema.h" line="45" column="5" bodyfile="include/storage/key_schema.h" bodystart="45" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_key_schema_1a8a78cc43216b47695b051229562f1ffc" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>char</type>
+        <definition>char themis::KeySchema::SEPARATOR</definition>
+        <argsstring></argsstring>
+        <name>SEPARATOR</name>
+        <qualifiedname>themis::KeySchema::SEPARATOR</qualifiedname>
+        <initializer>= &apos;:&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/key_schema.h" line="100" column="27" bodyfile="include/storage/key_schema.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_key_schema_1a4fdc22480cb605af3131b9f00e4c7696" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::KeySchema::makeRelationalKey</definition>
+        <argsstring>(std::string_view table, std::string_view pk)</argsstring>
+        <name>makeRelationalKey</name>
+        <qualifiedname>themis::KeySchema::makeRelationalKey</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>pk</declname>
+        </param>
+        <briefdescription>
+<para>Construct key for relational table row. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Make Relational Key.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/key_schema.h" line="59" column="24" bodyfile="src/storage/key_schema.cpp" bodystart="23" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_schema_1a20445a3d7613b548ace397751d0fe65d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::KeySchema::makeDocumentKey</definition>
+        <argsstring>(std::string_view collection, std::string_view pk)</argsstring>
+        <name>makeDocumentKey</name>
+        <qualifiedname>themis::KeySchema::makeDocumentKey</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>pk</declname>
+        </param>
+        <briefdescription>
+<para>Construct key for document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Make Document Key.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/key_schema.h" line="62" column="24" bodyfile="src/storage/key_schema.cpp" bodystart="41" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_schema_1a9742bd66657bcdb11ced4bc239f306b2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::KeySchema::makeGraphNodeKey</definition>
+        <argsstring>(std::string_view pk)</argsstring>
+        <name>makeGraphNodeKey</name>
+        <qualifiedname>themis::KeySchema::makeGraphNodeKey</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>pk</declname>
+        </param>
+        <briefdescription>
+<para>Construct key for graph node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Make Graph Node Key.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/key_schema.h" line="65" column="24" bodyfile="src/storage/key_schema.cpp" bodystart="58" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_schema_1a8886eab46a4bf4292e67a103d4aa4396" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::KeySchema::makeGraphEdgeKey</definition>
+        <argsstring>(std::string_view pk)</argsstring>
+        <name>makeGraphEdgeKey</name>
+        <qualifiedname>themis::KeySchema::makeGraphEdgeKey</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>pk</declname>
+        </param>
+        <briefdescription>
+<para>Construct key for graph edge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Make Graph Edge Key.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/key_schema.h" line="68" column="24" bodyfile="src/storage/key_schema.cpp" bodystart="73" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_schema_1aabd1041bca8b45a1d665da3ad96367b5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::KeySchema::makeVectorKey</definition>
+        <argsstring>(std::string_view object_name, std::string_view pk)</argsstring>
+        <name>makeVectorKey</name>
+        <qualifiedname>themis::KeySchema::makeVectorKey</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>object_name</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>pk</declname>
+        </param>
+        <briefdescription>
+<para>Construct key for vector object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Make Vector Key.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">object_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the object. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/key_schema.h" line="71" column="24" bodyfile="src/storage/key_schema.cpp" bodystart="89" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_schema_1a5852d9a050e3b8595ff374eb845a9a9e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::KeySchema::makeSecondaryIndexKey</definition>
+        <argsstring>(std::string_view table, std::string_view column, std::string_view value, std::string_view pk)</argsstring>
+        <name>makeSecondaryIndexKey</name>
+        <qualifiedname>themis::KeySchema::makeSecondaryIndexKey</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>column</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>pk</declname>
+        </param>
+        <briefdescription>
+<para>Construct key for secondary index entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Make Secondary Index Key.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/key_schema.h" line="74" column="24" bodyfile="src/storage/key_schema.cpp" bodystart="109" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_schema_1a0d0e2bf4a255178f9d8f02583ebf782d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::KeySchema::makeGraphOutdexKey</definition>
+        <argsstring>(std::string_view pk_start, std::string_view pk_edge)</argsstring>
+        <name>makeGraphOutdexKey</name>
+        <qualifiedname>themis::KeySchema::makeGraphOutdexKey</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>pk_start</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>pk_edge</declname>
+        </param>
+        <briefdescription>
+<para>Construct key for graph outdex (outgoing edges). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Make Graph Outdex Key.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pk_start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pk_edge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/key_schema.h" line="82" column="24" bodyfile="src/storage/key_schema.cpp" bodystart="136" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_schema_1abc296ce2e60a33cc1dda2ebe57f0cef7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::KeySchema::makeGraphIndexKey</definition>
+        <argsstring>(std::string_view pk_target, std::string_view pk_edge)</argsstring>
+        <name>makeGraphIndexKey</name>
+        <qualifiedname>themis::KeySchema::makeGraphIndexKey</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>pk_target</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>pk_edge</declname>
+        </param>
+        <briefdescription>
+<para>Construct key for graph index (incoming edges). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Make Graph Index Key.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pk_target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pk_edge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/key_schema.h" line="88" column="24" bodyfile="src/storage/key_schema.cpp" bodystart="156" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_schema_1a5c653478e4bcdfee0de4b41b78457b80" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_key_schema_1af34a2f9fe7dfbce5e7bcaec34119edc6" kindref="member">KeyType</ref></type>
+        <definition>KeySchema::KeyType themis::KeySchema::parseKeyType</definition>
+        <argsstring>(std::string_view key)</argsstring>
+        <name>parseKeyType</name>
+        <qualifiedname>themis::KeySchema::parseKeyType</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Parse key type from key string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Parse Key Type.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: starts_with(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/key_schema.h" line="94" column="20" bodyfile="src/storage/key_schema.cpp" bodystart="175" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_schema_1a9f3eb42ab9144551668a966feefbddbf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::KeySchema::extractPrimaryKey</definition>
+        <argsstring>(std::string_view key)</argsstring>
+        <name>extractPrimaryKey</name>
+        <qualifiedname>themis::KeySchema::extractPrimaryKey</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Extract primary key from any key type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Extract Primary Key.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: rfind(), std::string(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/key_schema.h" line="97" column="24" bodyfile="src/storage/key_schema.cpp" bodystart="216" bodyend="227"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Key schema definitions for multi-model storage All data models (relational, document, graph, vector) map to key-value pairs</para>
+<para>Key Format (v1.5.0+):<itemizedlist>
+<listitem><para>RELATIONAL: rel:table_name:pk_value</para>
+</listitem><listitem><para>DOCUMENT: doc:collection_name:pk_value <linebreak/>
+</para>
+</listitem><listitem><para>GRAPH_NODE: node:pk_value</para>
+</listitem><listitem><para>GRAPH_EDGE: edge:pk_value</para>
+</listitem><listitem><para>VECTOR: vec:object_name:pk_value</para>
+</listitem><listitem><para>SECONDARY_INDEX: idx:table:column:value:pk</para>
+</listitem><listitem><para>GRAPH_OUTDEX: graph:out:pk_start:pk_edge</para>
+</listitem><listitem><para>GRAPH_INDEX: graph:in:pk_target:pk_edge</para>
+</listitem></itemizedlist>
+</para>
+<para>IMPORTANT: All key components (table_name, collection_name, object_name, column, value, pk_value, pk_start, pk_edge, pk_target) MUST NOT contain the separator character &apos;:&apos; (see SEPARATOR below). Keys containing &apos;:&apos; in any component are not supported and will result in incorrect parsing. Applications must validate or sanitize input to ensure no &apos;:&apos; characters appear in key components.</para>
+<para>Legacy Format (pre-1.5.0, deprecated):<itemizedlist>
+<listitem><para>table_name:pk_value or collection_name:pk_value (ambiguous, assumed DOCUMENT) The same restriction on &apos;:&apos; in components applies to legacy keys. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/storage/key_schema.h" line="42" column="1" bodyfile="include/storage/key_schema.h" bodystart="42" bodyend="101"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_key_schema_1a9f3eb42ab9144551668a966feefbddbf" prot="public" virt="non-virtual"><scope>themis::KeySchema</scope><name>extractPrimaryKey</name></member>
+      <member refid="classthemis_1_1_key_schema_1af34a2f9fe7dfbce5e7bcaec34119edc6" prot="public" virt="non-virtual"><scope>themis::KeySchema</scope><name>KeyType</name></member>
+      <member refid="classthemis_1_1_key_schema_1a20445a3d7613b548ace397751d0fe65d" prot="public" virt="non-virtual"><scope>themis::KeySchema</scope><name>makeDocumentKey</name></member>
+      <member refid="classthemis_1_1_key_schema_1a8886eab46a4bf4292e67a103d4aa4396" prot="public" virt="non-virtual"><scope>themis::KeySchema</scope><name>makeGraphEdgeKey</name></member>
+      <member refid="classthemis_1_1_key_schema_1abc296ce2e60a33cc1dda2ebe57f0cef7" prot="public" virt="non-virtual"><scope>themis::KeySchema</scope><name>makeGraphIndexKey</name></member>
+      <member refid="classthemis_1_1_key_schema_1a9742bd66657bcdb11ced4bc239f306b2" prot="public" virt="non-virtual"><scope>themis::KeySchema</scope><name>makeGraphNodeKey</name></member>
+      <member refid="classthemis_1_1_key_schema_1a0d0e2bf4a255178f9d8f02583ebf782d" prot="public" virt="non-virtual"><scope>themis::KeySchema</scope><name>makeGraphOutdexKey</name></member>
+      <member refid="classthemis_1_1_key_schema_1a4fdc22480cb605af3131b9f00e4c7696" prot="public" virt="non-virtual"><scope>themis::KeySchema</scope><name>makeRelationalKey</name></member>
+      <member refid="classthemis_1_1_key_schema_1a5852d9a050e3b8595ff374eb845a9a9e" prot="public" virt="non-virtual"><scope>themis::KeySchema</scope><name>makeSecondaryIndexKey</name></member>
+      <member refid="classthemis_1_1_key_schema_1aabd1041bca8b45a1d665da3ad96367b5" prot="public" virt="non-virtual"><scope>themis::KeySchema</scope><name>makeVectorKey</name></member>
+      <member refid="classthemis_1_1_key_schema_1a5c653478e4bcdfee0de4b41b78457b80" prot="public" virt="non-virtual"><scope>themis::KeySchema</scope><name>parseKeyType</name></member>
+      <member refid="classthemis_1_1_key_schema_1a8a78cc43216b47695b051229562f1ffc" prot="private" virt="non-virtual"><scope>themis::KeySchema</scope><name>SEPARATOR</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

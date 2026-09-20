@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_excel_workbook_info_1_1_sheet" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::ExcelWorkbookInfo::Sheet</compoundname>
+    <includes refid="office__processor_8h" local="no">office_processor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_excel_workbook_info_1_1_sheet_1af09bbc7f6cead7e8c0b37a45c0ad7c3e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ExcelWorkbookInfo::Sheet::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::content::ExcelWorkbookInfo::Sheet::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="51" column="21" bodyfile="include/content/office_processor.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_excel_workbook_info_1_1_sheet_1a7ef862014698e23e1e9bf68db753c051" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::ExcelWorkbookInfo::Sheet::row_count</definition>
+        <argsstring></argsstring>
+        <name>row_count</name>
+        <qualifiedname>themis::content::ExcelWorkbookInfo::Sheet::row_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>CON-021. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="52" column="13" bodyfile="include/content/office_processor.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_excel_workbook_info_1_1_sheet_1a040da06f1f7ac5caaf4e736c02814ac3" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::ExcelWorkbookInfo::Sheet::col_count</definition>
+        <argsstring></argsstring>
+        <name>col_count</name>
+        <qualifiedname>themis::content::ExcelWorkbookInfo::Sheet::col_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>CON-021. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="53" column="13" bodyfile="include/content/office_processor.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_excel_workbook_info_1_1_sheet_1a8673120e62c02a3a934bae809075bc32" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;std::string&gt; &gt; themis::content::ExcelWorkbookInfo::Sheet::cells</definition>
+        <argsstring></argsstring>
+        <name>cells</name>
+        <qualifiedname>themis::content::ExcelWorkbookInfo::Sheet::cells</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="54" column="21" bodyfile="include/content/office_processor.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_excel_workbook_info_1_1_sheet_1ac86e0bb473efb856d371f6fba7e7e836" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::content::ExcelWorkbookInfo::Sheet::formulas</definition>
+        <argsstring></argsstring>
+        <name>formulas</name>
+        <qualifiedname>themis::content::ExcelWorkbookInfo::Sheet::formulas</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="55" column="21" bodyfile="include/content/office_processor.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/office_processor.h" line="50" column="5" bodyfile="include/content/office_processor.h" bodystart="50" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_excel_workbook_info_1_1_sheet_1a8673120e62c02a3a934bae809075bc32" prot="public" virt="non-virtual"><scope>themis::content::ExcelWorkbookInfo::Sheet</scope><name>cells</name></member>
+      <member refid="structthemis_1_1content_1_1_excel_workbook_info_1_1_sheet_1a040da06f1f7ac5caaf4e736c02814ac3" prot="public" virt="non-virtual"><scope>themis::content::ExcelWorkbookInfo::Sheet</scope><name>col_count</name></member>
+      <member refid="structthemis_1_1content_1_1_excel_workbook_info_1_1_sheet_1ac86e0bb473efb856d371f6fba7e7e836" prot="public" virt="non-virtual"><scope>themis::content::ExcelWorkbookInfo::Sheet</scope><name>formulas</name></member>
+      <member refid="structthemis_1_1content_1_1_excel_workbook_info_1_1_sheet_1af09bbc7f6cead7e8c0b37a45c0ad7c3e" prot="public" virt="non-virtual"><scope>themis::content::ExcelWorkbookInfo::Sheet</scope><name>name</name></member>
+      <member refid="structthemis_1_1content_1_1_excel_workbook_info_1_1_sheet_1a7ef862014698e23e1e9bf68db753c051" prot="public" virt="non-virtual"><scope>themis::content::ExcelWorkbookInfo::Sheet</scope><name>row_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

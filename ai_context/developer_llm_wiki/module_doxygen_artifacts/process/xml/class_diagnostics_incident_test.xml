@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_diagnostics_incident_test" kind="class" language="C++" prot="public">
+    <compoundname>DiagnosticsIncidentTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_diagnostics_incident_test_1a0b2654c9e2340c7c5315aba51070b479" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t DiagnosticsIncidentTest::capture_time_ms</definition>
+        <argsstring>() const</argsstring>
+        <name>capture_time_ms</name>
+        <qualifiedname>DiagnosticsIncidentTest::capture_time_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_diagnostics_incident_focused.cpp" line="25" column="13" bodyfile="tests/process/test_process_diagnostics_incident_focused.cpp" bodystart="25" bodyend="29"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>DiagnosticsIncidentTest</label>
+        <link refid="class_diagnostics_incident_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>DiagnosticsIncidentTest</label>
+        <link refid="class_diagnostics_incident_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/process/test_process_diagnostics_incident_focused.cpp" line="22" column="1" bodyfile="tests/process/test_process_diagnostics_incident_focused.cpp" bodystart="22" bodyend="30"/>
+    <listofallmembers>
+      <member refid="class_diagnostics_incident_test_1a0b2654c9e2340c7c5315aba51070b479" prot="protected" virt="non-virtual"><scope>DiagnosticsIncidentTest</scope><name>capture_time_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

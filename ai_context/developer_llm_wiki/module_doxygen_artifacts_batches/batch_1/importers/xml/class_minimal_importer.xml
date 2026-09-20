@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_minimal_importer" kind="class" language="C++" prot="public">
+    <compoundname>MinimalImporter</compoundname>
+    <basecompoundref refid="classthemis_1_1importers_1_1_i_importer" prot="public" virt="non-virtual">themis::importers::IImporter</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_minimal_importer_1a1060f29a1ecc26e35c9ff850b3530e17" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * MinimalImporter::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>MinimalImporter::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1aa17b5c532ea2e9928379e77fe1385212">getName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="251" column="32" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="251" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="class_minimal_importer_1a1cc13827ec5713c024f754b49de80ab7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; MinimalImporter::getSupportedTypes</definition>
+        <argsstring>() const override</argsstring>
+        <name>getSupportedTypes</name>
+        <qualifiedname>MinimalImporter::getSupportedTypes</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1a26a442906fade935ddfe41f8e91a15e6">getSupportedTypes</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="252" column="20" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="252" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="class_minimal_importer_1adf2fb1f4ca1e0c5a0627447ea2bf16fa" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool MinimalImporter::initialize</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>MinimalImporter::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1ae57ccf0cf0c3b0dbe9647f43be339afc">initialize</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="253" column="33" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="253" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="class_minimal_importer_1a2a37400f62acf4d1de4e457a1e91b630" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool MinimalImporter::validateSource</definition>
+        <argsstring>(const std::string &amp;, std::vector&lt; std::string &gt; &amp;) override</argsstring>
+        <name>validateSource</name>
+        <qualifiedname>MinimalImporter::validateSource</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1af2e09c4be51c0440e2ab1717ceeb2de5">validateSource</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="254" column="33" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="254" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="class_minimal_importer_1a3ebde4ba8fbc4b3e93c211ca75a8d347" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref></type>
+        <definition>ImportStats MinimalImporter::importData</definition>
+        <argsstring>(const std::string &amp;, const ImportOptions &amp;, ProgressCallback=nullptr) override</argsstring>
+        <name>importData</name>
+        <qualifiedname>MinimalImporter::importData</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1a93d10ab9f3f1d941d17ac2a54a5ddc02">importData</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1af0b9616504935ed9689a3c01900b05e9" kindref="member">ProgressCallback</ref></type>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="256" column="33" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="256" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="class_minimal_importer_1a2a5c5ca2209443b296e00b12f02fbdc9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::shared_ptr&lt; <ref refid="struct_import_handle" kindref="compound">ImportHandle</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ImportHandle &gt; MinimalImporter::importDataAsync</definition>
+        <argsstring>(const std::string &amp;, const ImportOptions &amp;) override</argsstring>
+        <name>importDataAsync</name>
+        <qualifiedname>MinimalImporter::importDataAsync</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1af837fb18957347a51357191ee61a04a8">importDataAsync</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="258" column="21" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="258" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="class_minimal_importer_1a25d30adb75639f7148a422b0553c07aa" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void MinimalImporter::cancel</definition>
+        <argsstring>() override</argsstring>
+        <name>cancel</name>
+        <qualifiedname>MinimalImporter::cancel</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1abda4e925d1f832cbf0e07f294b96c526">cancel</reimplements>
+        <briefdescription>
+<para>Cancel. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="262" column="10" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="262" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="class_minimal_importer_1aa0755b8da053f93b94cc7ab21c1799d6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json MinimalImporter::getSourceSchema</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>getSourceSchema</name>
+        <qualifiedname>MinimalImporter::getSourceSchema</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1a45b011aef76cd697e53d1e847dac430a">getSourceSchema</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="263" column="10" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="263" bodyend="263"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MinimalImporter</label>
+        <link refid="class_minimal_importer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::importers::IImporter</label>
+        <link refid="classthemis_1_1importers_1_1_i_importer"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MinimalImporter</label>
+        <link refid="class_minimal_importer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::importers::IImporter</label>
+        <link refid="classthemis_1_1importers_1_1_i_importer"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/importers/test_importer_interfaces.cpp" line="249" column="1" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="249" bodyend="264"/>
+    <listofallmembers>
+      <member refid="class_minimal_importer_1a25d30adb75639f7148a422b0553c07aa" prot="public" virt="virtual"><scope>MinimalImporter</scope><name>cancel</name></member>
+      <member refid="class_minimal_importer_1a1060f29a1ecc26e35c9ff850b3530e17" prot="public" virt="virtual"><scope>MinimalImporter</scope><name>getName</name></member>
+      <member refid="class_minimal_importer_1aa0755b8da053f93b94cc7ab21c1799d6" prot="public" virt="virtual"><scope>MinimalImporter</scope><name>getSourceSchema</name></member>
+      <member refid="class_minimal_importer_1a1cc13827ec5713c024f754b49de80ab7" prot="public" virt="virtual"><scope>MinimalImporter</scope><name>getSupportedTypes</name></member>
+      <member refid="class_minimal_importer_1a3ebde4ba8fbc4b3e93c211ca75a8d347" prot="public" virt="virtual"><scope>MinimalImporter</scope><name>importData</name></member>
+      <member refid="class_minimal_importer_1a2a5c5ca2209443b296e00b12f02fbdc9" prot="public" virt="virtual"><scope>MinimalImporter</scope><name>importDataAsync</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_importer_1a0790bcc7450b9294f9d9d7ae891eed52" prot="public" virt="virtual"><scope>MinimalImporter</scope><name>importDataStreaming</name></member>
+      <member refid="class_minimal_importer_1adf2fb1f4ca1e0c5a0627447ea2bf16fa" prot="public" virt="virtual"><scope>MinimalImporter</scope><name>initialize</name></member>
+      <member refid="class_minimal_importer_1a2a37400f62acf4d1de4e457a1e91b630" prot="public" virt="virtual"><scope>MinimalImporter</scope><name>validateSource</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_importer_1a72b3cba1bf78aee41b2dfb19c8b91629" prot="public" virt="virtual"><scope>MinimalImporter</scope><name>~IImporter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

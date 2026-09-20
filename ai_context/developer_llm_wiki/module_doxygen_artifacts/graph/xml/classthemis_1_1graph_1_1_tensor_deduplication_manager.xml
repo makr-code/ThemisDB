@@ -1,0 +1,1274 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graph_1_1_tensor_deduplication_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::graph::TensorDeduplicationManager</compoundname>
+    <includes refid="tensor__deduplication__manager_8h" local="no">tensor_deduplication_manager.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a2c7962fde6ecfeae82dd50633a32be9c" prot="public" static="no">
+        <type>std::function&lt; bool( std::string_view snapshot_key, std::string_view tensor_id, const std::vector&lt; uint8_t &gt; &amp;payload)&gt;</type>
+        <definition>using themis::graph::TensorDeduplicationManager::JournalEntryPersistFn = std::function&lt;bool(
+       std::string_view snapshot_key,
+       std::string_view tensor_id,
+       const std::vector&lt;uint8_t&gt;&amp; payload)&gt;</definition>
+        <argsstring></argsstring>
+        <name>JournalEntryPersistFn</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::JournalEntryPersistFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="138" column="5" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1ab56356b795e703d4d44297da6a95071b" prot="public" static="no">
+        <type>std::function&lt; bool( std::string_view snapshot_key, std::string_view tensor_id)&gt;</type>
+        <definition>using themis::graph::TensorDeduplicationManager::JournalEntryDeleteFn = std::function&lt;bool(
+       std::string_view snapshot_key,
+       std::string_view tensor_id)&gt;</definition>
+        <argsstring></argsstring>
+        <name>JournalEntryDeleteFn</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::JournalEntryDeleteFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="143" column="5" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a00e1f1c017256c9ce6692267542c39e5" prot="public" static="no">
+        <type>std::function&lt; void( std::string_view snapshot_key, std::function&lt; void(std::string_view tensor_id, const std::vector&lt; uint8_t &gt; &amp;payload)&gt;)&gt;</type>
+        <definition>using themis::graph::TensorDeduplicationManager::JournalEntryEnumerateFn = std::function&lt;void(
+       std::string_view snapshot_key,
+       std::function&lt;void(std::string_view tensor_id,
+                          const std::vector&lt;uint8_t&gt;&amp; payload)&gt;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>JournalEntryEnumerateFn</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::JournalEntryEnumerateFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="147" column="5" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a7671db279a79cfe6cfe2fc85da68f9de" prot="public" static="no">
+        <type>std::function&lt; bool(std::string_view snapshot_key)&gt;</type>
+        <definition>using themis::graph::TensorDeduplicationManager::JournalEntryClearFn = std::function&lt;bool(std::string_view snapshot_key)&gt;</definition>
+        <argsstring></argsstring>
+        <name>JournalEntryClearFn</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::JournalEntryClearFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="152" column="5" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1ae08049b57f514168afb48662c84b5aa9" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; storage::TensorNetworkStorageEngine &gt;</type>
+        <definition>std::shared_ptr&lt;storage::TensorNetworkStorageEngine&gt; themis::graph::TensorDeduplicationManager::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="169" column="21" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a30dded6a1d27ef3cc6e6ddccce13cafe" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph" kindref="compound">TensorFingerprintGraph</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TensorFingerprintGraph&gt; themis::graph::TensorDeduplicationManager::fp_graph_</definition>
+        <argsstring></argsstring>
+        <name>fp_graph_</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::fp_graph_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="170" column="34" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1ad36d8d480021ee047337c3ec0958a3eb" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; storage::TensorTrainDecomposer &gt;</type>
+        <definition>std::shared_ptr&lt;storage::TensorTrainDecomposer&gt; themis::graph::TensorDeduplicationManager::decomposer_</definition>
+        <argsstring></argsstring>
+        <name>decomposer_</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::decomposer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="171" column="26" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1adca822988e395e0a58b9144aeffb04f2" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1graph_1_1_deduplication_config" kindref="compound">DeduplicationConfig</ref></type>
+        <definition>DeduplicationConfig themis::graph::TensorDeduplicationManager::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="172" column="25" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a51b32dc756beba5d36d38356ee5b7e58" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::graph::TensorDeduplicationManager::rw_mutex_</definition>
+        <argsstring></argsstring>
+        <name>rw_mutex_</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::rw_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="174" column="31" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1aa54e90feb66351af447043cb3dfe406a" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1graph_1_1_stored_tensor_record" kindref="compound">StoredTensorRecord</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, StoredTensorRecord&gt; themis::graph::TensorDeduplicationManager::records_</definition>
+        <argsstring></argsstring>
+        <name>records_</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::records_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="176" column="24" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a6bfe078e88dd07db59c826e241c616b6" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::graph::TensorDeduplicationManager::key_to_tensor_id_</definition>
+        <argsstring></argsstring>
+        <name>key_to_tensor_id_</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::key_to_tensor_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="177" column="24" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1ab7eef2808e52d2b50e89e113117171b9" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::graph::TensorDeduplicationManager::tensor_id_to_key_</definition>
+        <argsstring></argsstring>
+        <name>tensor_id_to_key_</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::tensor_id_to_key_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="178" column="24" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a9952342b9fd87c4f1d449a78ce4778c3" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; std::size_t &gt;</type>
+        <definition>std::atomic&lt;std::size_t&gt; themis::graph::TensorDeduplicationManager::total_bytes_stored_</definition>
+        <argsstring></argsstring>
+        <name>total_bytes_stored_</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::total_bytes_stored_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="180" column="17" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="180" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1ac2d84e09dfc491bd526612aabd9b46e6" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; std::size_t &gt;</type>
+        <definition>std::atomic&lt;std::size_t&gt; themis::graph::TensorDeduplicationManager::bytes_saved_</definition>
+        <argsstring></argsstring>
+        <name>bytes_saved_</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::bytes_saved_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="181" column="17" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="181" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a62bc1766e462624ac4d6aeb54b6219b9" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::graph::TensorDeduplicationManager::journal_hooks_mutex_</definition>
+        <argsstring></argsstring>
+        <name>journal_hooks_mutex_</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::journal_hooks_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="184" column="24" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1aecb51d4c0346cc65ec5145b362361e38" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a2c7962fde6ecfeae82dd50633a32be9c" kindref="member">JournalEntryPersistFn</ref></type>
+        <definition>JournalEntryPersistFn themis::graph::TensorDeduplicationManager::journal_entry_persist_fn_</definition>
+        <argsstring></argsstring>
+        <name>journal_entry_persist_fn_</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::journal_entry_persist_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="185" column="29" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a84edb83ec7c939c5b2af5c7f5a50f045" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1ab56356b795e703d4d44297da6a95071b" kindref="member">JournalEntryDeleteFn</ref></type>
+        <definition>JournalEntryDeleteFn themis::graph::TensorDeduplicationManager::journal_entry_delete_fn_</definition>
+        <argsstring></argsstring>
+        <name>journal_entry_delete_fn_</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::journal_entry_delete_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="186" column="29" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a2f102bdb95471d33995f8572fc1f5a2f" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a00e1f1c017256c9ce6692267542c39e5" kindref="member">JournalEntryEnumerateFn</ref></type>
+        <definition>JournalEntryEnumerateFn themis::graph::TensorDeduplicationManager::journal_entry_enumerate_fn_</definition>
+        <argsstring></argsstring>
+        <name>journal_entry_enumerate_fn_</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::journal_entry_enumerate_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="187" column="29" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1ad2a06ae5758d6b2e15dfb77343aaf457" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a7671db279a79cfe6cfe2fc85da68f9de" kindref="member">JournalEntryClearFn</ref></type>
+        <definition>JournalEntryClearFn themis::graph::TensorDeduplicationManager::journal_entry_clear_fn_</definition>
+        <argsstring></argsstring>
+        <name>journal_entry_clear_fn_</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::journal_entry_clear_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="188" column="29" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1abf401302e9de3cb8fdb059dbc80c8efd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::TensorDeduplicationManager::TensorDeduplicationManager</definition>
+        <argsstring>(std::shared_ptr&lt; storage::TensorNetworkStorageEngine &gt; storage, std::shared_ptr&lt; TensorFingerprintGraph &gt; fp_graph, std::shared_ptr&lt; storage::TensorTrainDecomposer &gt; decomposer, const DeduplicationConfig &amp;cfg={})</argsstring>
+        <name>TensorDeduplicationManager</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::TensorDeduplicationManager</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; storage::TensorNetworkStorageEngine &gt;</type>
+          <declname>storage</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1graph_1_1_tensor_fingerprint_graph" kindref="compound">TensorFingerprintGraph</ref> &gt;</type>
+          <declname>fp_graph</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; storage::TensorTrainDecomposer &gt;</type>
+          <declname>decomposer</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_deduplication_config" kindref="compound">DeduplicationConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Rlk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rw_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Wlk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rw_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="94" column="5" bodyfile="src/graph/tensor_deduplication_manager.cpp" bodystart="38" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a07707088d1e7eabcdb8741440b07b84d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::TensorDeduplicationManager::~TensorDeduplicationManager</definition>
+        <argsstring>()</argsstring>
+        <name>~TensorDeduplicationManager</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::~TensorDeduplicationManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="100" column="5" bodyfile="src/graph/tensor_deduplication_manager.cpp" bodystart="175" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a7f906a7cd40c1c61123b0b68354ff7a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1graph_1_1_stored_tensor_record" kindref="compound">StoredTensorRecord</ref></type>
+        <definition>StoredTensorRecord themis::graph::TensorDeduplicationManager::store</definition>
+        <argsstring>(const std::string &amp;tensor_id, const std::vector&lt; float &gt; &amp;data, const std::vector&lt; std::size_t &gt; &amp;mode_sizes, const std::string &amp;tenant=&quot;&quot;, const std::string &amp;collection=&quot;&quot;, const std::string &amp;field=&quot;&quot;)</argsstring>
+        <name>store</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::store</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tensor_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::size_t &gt; &amp;</type>
+          <declname>mode_sizes</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Store. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tensor_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tensor. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mode_sizes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: decompose(), findSimilar(), size(), empty(), get(), makeKey(), computeDelta(), reconstruct(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="104" column="24" bodyfile="src/graph/tensor_deduplication_manager.cpp" bodystart="270" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a557b071089049ecd22b231975349d661" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; float &gt; &gt; themis::graph::TensorDeduplicationManager::retrieve</definition>
+        <argsstring>(const std::string &amp;tensor_id) const</argsstring>
+        <name>retrieve</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::retrieve</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tensor_id</declname>
+        </param>
+        <briefdescription>
+<para>─── Read ───────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tensor_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tensor. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Rlk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rw_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Rlk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rw_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="117" column="19" bodyfile="src/graph/tensor_deduplication_manager.cpp" bodystart="377" bodyend="441"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a36f957e4227cf8d09853a8910feabb46" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1graph_1_1_stored_tensor_record" kindref="compound">StoredTensorRecord</ref> &gt;</type>
+        <definition>std::optional&lt; StoredTensorRecord &gt; themis::graph::TensorDeduplicationManager::getRecord</definition>
+        <argsstring>(const std::string &amp;tensor_id) const</argsstring>
+        <name>getRecord</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::getRecord</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tensor_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Rlk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rw_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="120" column="5" bodyfile="src/graph/tensor_deduplication_manager.cpp" bodystart="443" bodyend="455"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1ad686f7c37ad0a3739705b9a4368fff20" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1graph_1_1_deduplication_stats" kindref="compound">DeduplicationStats</ref></type>
+        <definition>DeduplicationStats themis::graph::TensorDeduplicationManager::getStats</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::getStats</qualifiedname>
+        <briefdescription>
+<para>─── Statistics ─────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Rlk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rw_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="128" column="24" bodyfile="src/graph/tensor_deduplication_manager.cpp" bodystart="461" bodyend="484"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1ad6134a877dc9b4fdb6e6d5e5d335fe90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::TensorDeduplicationManager::snapshotGraph</definition>
+        <argsstring>(const std::string &amp;snapshot_key=&quot;__tfg_default__&quot;)</argsstring>
+        <name>snapshotGraph</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::snapshotGraph</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>snapshot_key</declname>
+          <defval>&quot;__tfg_default__&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Snapshot Graph. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: exportPersistedGraph(), rlk(), reserve(), size(), push_back(), load(), serializeDedupSnapshot(), putRawMetadata(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="132" column="10" bodyfile="src/graph/tensor_deduplication_manager.cpp" bodystart="1400" bodyend="1423"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a7c7d97ef749584c53054a14f3264154d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::TensorDeduplicationManager::restoreGraph</definition>
+        <argsstring>(const std::string &amp;snapshot_key=&quot;__tfg_default__&quot;)</argsstring>
+        <name>restoreGraph</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::restoreGraph</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>snapshot_key</declname>
+          <defval>&quot;__tfg_default__&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Restore Graph. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: getRawMetadata(), deserializeDedupSnapshot(), THEMIS_DEBUG(), deserializeGraphSnapshot(), THEMIS_WARN(), importPersistedGraph(), wlk(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="134" column="10" bodyfile="src/graph/tensor_deduplication_manager.cpp" bodystart="1431" bodyend="1492"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1ad115cea36288ded6a3028a2ab5e1fda6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::TensorDeduplicationManager::setJournalEntryHooks</definition>
+        <argsstring>(JournalEntryPersistFn persist_fn, JournalEntryDeleteFn delete_fn, JournalEntryEnumerateFn enumerate_fn, JournalEntryClearFn clear_fn)</argsstring>
+        <name>setJournalEntryHooks</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::setJournalEntryHooks</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a2c7962fde6ecfeae82dd50633a32be9c" kindref="member">JournalEntryPersistFn</ref></type>
+          <declname>persist_fn</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1ab56356b795e703d4d44297da6a95071b" kindref="member">JournalEntryDeleteFn</ref></type>
+          <declname>delete_fn</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a00e1f1c017256c9ce6692267542c39e5" kindref="member">JournalEntryEnumerateFn</ref></type>
+          <declname>enumerate_fn</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a7671db279a79cfe6cfe2fc85da68f9de" kindref="member">JournalEntryClearFn</ref></type>
+          <declname>clear_fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Journal Entry Hooks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">persist_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">delete_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">enumerate_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">clear_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">persist_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">delete_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">enumerate_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">clear_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="161" column="10" bodyfile="src/graph/tensor_deduplication_manager.cpp" bodystart="1738" bodyend="1746"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a934f7633dd4985eeba8ab494f24643e6" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1graph_1_1_deduplication_config" kindref="compound">DeduplicationConfig</ref> &amp;</type>
+        <definition>const DeduplicationConfig &amp; themis::graph::TensorDeduplicationManager::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="166" column="31" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="166" bodyend="166"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1ac1d928bfb49efeb2def63ebb30b8fbe0" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::TensorDeduplicationManager::hasJournalEntryHooks</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>hasJournalEntryHooks</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::hasJournalEntryHooks</qualifiedname>
+        <briefdescription>
+<para>Has Journal Entry Hooks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Hooks are mutable and may be reconfigured at runtime (e. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">journal_hooks_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+g., tests switching between per-entry and blob journaling), so the composite readiness check must be guarded with the mutex.</para>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="195" column="10" bodyfile="src/graph/tensor_deduplication_manager.cpp" bodystart="1748" bodyend="1758"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a0a08a9aba8440e1c117ecb26bd4330de" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>storage::TTTrain</type>
+        <definition>TTTrain themis::graph::TensorDeduplicationManager::computeDelta</definition>
+        <argsstring>(const storage::TTTrain &amp;ref, const storage::TTTrain &amp;new_train) const</argsstring>
+        <name>computeDelta</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::computeDelta</qualifiedname>
+        <param>
+          <type>const storage::TTTrain &amp;</type>
+          <declname>ref</declname>
+        </param>
+        <param>
+          <type>const storage::TTTrain &amp;</type>
+          <declname>new_train</declname>
+        </param>
+        <briefdescription>
+<para>─── Internal helpers ───────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_train</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="204" column="22" bodyfile="src/graph/tensor_deduplication_manager.cpp" bodystart="211" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1aef37f8c58dd0b5e79da492f58e2b9565" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>storage::TTTrain</type>
+        <definition>TTTrain themis::graph::TensorDeduplicationManager::addTrains</definition>
+        <argsstring>(const storage::TTTrain &amp;a, const storage::TTTrain &amp;b) const</argsstring>
+        <name>addTrains</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::addTrains</qualifiedname>
+        <param>
+          <type>const storage::TTTrain &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const storage::TTTrain &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Add Trains. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="213" column="22" bodyfile="src/graph/tensor_deduplication_manager.cpp" bodystart="236" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a9b933ecd00f4dbc2a6d01178a947a1ec" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>storage::TensorFieldKey</type>
+        <definition>TensorFieldKey themis::graph::TensorDeduplicationManager::makeKey</definition>
+        <argsstring>(const std::string &amp;tenant, const std::string &amp;collection, const std::string &amp;field) const</argsstring>
+        <name>makeKey</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::makeKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field</declname>
+        </param>
+        <briefdescription>
+<para>Make Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="223" column="29" bodyfile="src/graph/tensor_deduplication_manager.cpp" bodystart="186" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1aa054518083cb2d9001a8805c8bf7756e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::graph::TensorDeduplicationManager::makeKeyIndex</definition>
+        <argsstring>(const storage::TensorFieldKey &amp;key) const</argsstring>
+        <name>makeKeyIndex</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::makeKeyIndex</qualifiedname>
+        <param>
+          <type>const storage::TensorFieldKey &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Make Key Index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="232" column="17" bodyfile="src/graph/tensor_deduplication_manager.cpp" bodystart="191" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a34a96f5dc856a9a63499296c650fcd86" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::TensorDeduplicationManager::clearMappingForTensorIdLocked</definition>
+        <argsstring>(const std::string &amp;tensor_id)</argsstring>
+        <name>clearMappingForTensorIdLocked</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::clearMappingForTensorIdLocked</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tensor_id</declname>
+        </param>
+        <briefdescription>
+<para>Clear Mapping For Tensor Id Locked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tensor_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tensor.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tensor_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tensor.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="237" column="10" bodyfile="src/graph/tensor_deduplication_manager.cpp" bodystart="202" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1ac689c71c805ed5015568950014ac0f5a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::TensorDeduplicationManager::replayMutationJournal</definition>
+        <argsstring>(const std::string &amp;snapshot_key)</argsstring>
+        <name>replayMutationJournal</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::replayMutationJournal</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>snapshot_key</declname>
+        </param>
+        <briefdescription>
+<para>Replay Mutation Journal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: hasJournalEntryHooks(), hlk(), journal_entry_enumerate_fn_(), deserializeMutationJournal(), empty(), push_back(), std::move(), compactMutationJournalEntries(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="243" column="10" bodyfile="src/graph/tensor_deduplication_manager.cpp" bodystart="1500" bodyend="1607"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a7600c45626a87c1f9f838d21f68288bb" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::TensorDeduplicationManager::activateSnapshotKey</definition>
+        <argsstring>(const std::string &amp;snapshot_key) const</argsstring>
+        <name>activateSnapshotKey</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::activateSnapshotKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>snapshot_key</declname>
+        </param>
+        <briefdescription>
+<para>Activate Snapshot Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="248" column="10" bodyfile="src/graph/tensor_deduplication_manager.cpp" bodystart="1609" bodyend="1611"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1ace8d526a08eae57d00a7d112184cb7cb" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::TensorDeduplicationManager::clearMutationJournal</definition>
+        <argsstring>(const std::string &amp;snapshot_key) const</argsstring>
+        <name>clearMutationJournal</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::clearMutationJournal</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>snapshot_key</declname>
+        </param>
+        <briefdescription>
+<para>Clear Mutation Journal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Hlk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">journal_hooks_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="253" column="10" bodyfile="src/graph/tensor_deduplication_manager.cpp" bodystart="1613" bodyend="1633"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a728ea45f66db855c42cb0c5897273e52" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::TensorDeduplicationManager::persistUpsertJournalEntry</definition>
+        <argsstring>(const StoredTensorRecord &amp;record, std::size_t total_bytes_stored, std::size_t bytes_saved) const</argsstring>
+        <name>persistUpsertJournalEntry</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::persistUpsertJournalEntry</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_stored_tensor_record" kindref="compound">StoredTensorRecord</ref> &amp;</type>
+          <declname>record</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>total_bytes_stored</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>bytes_saved</declname>
+        </param>
+        <briefdescription>
+<para>Persist Upsert Journal Entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">total_bytes_stored</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes_saved</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Hlk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">journal_hooks_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="260" column="10" bodyfile="src/graph/tensor_deduplication_manager.cpp" bodystart="1635" bodyend="1688"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_tensor_deduplication_manager_1aa0959c9590d09d6ea79e3b79715e1e55" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::TensorDeduplicationManager::persistDeleteJournalEntry</definition>
+        <argsstring>(const std::string &amp;tensor_id, std::size_t total_bytes_stored, std::size_t bytes_saved) const</argsstring>
+        <name>persistDeleteJournalEntry</name>
+        <qualifiedname>themis::graph::TensorDeduplicationManager::persistDeleteJournalEntry</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tensor_id</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>total_bytes_stored</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>bytes_saved</declname>
+        </param>
+        <briefdescription>
+<para>Persist Delete Journal Entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tensor_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tensor. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">total_bytes_stored</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes_saved</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Hlk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">journal_hooks_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="269" column="10" bodyfile="src/graph/tensor_deduplication_manager.cpp" bodystart="1690" bodyend="1724"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/tensor_deduplication_manager.h" line="92" column="1" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="92" bodyend="272"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a7600c45626a87c1f9f838d21f68288bb" prot="private" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>activateSnapshotKey</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1aef37f8c58dd0b5e79da492f58e2b9565" prot="private" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>addTrains</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1ac2d84e09dfc491bd526612aabd9b46e6" prot="private" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>bytes_saved_</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1adca822988e395e0a58b9144aeffb04f2" prot="private" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a34a96f5dc856a9a63499296c650fcd86" prot="private" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>clearMappingForTensorIdLocked</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1ace8d526a08eae57d00a7d112184cb7cb" prot="private" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>clearMutationJournal</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a0a08a9aba8440e1c117ecb26bd4330de" prot="private" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>computeDelta</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a934f7633dd4985eeba8ab494f24643e6" prot="public" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>config</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1ad36d8d480021ee047337c3ec0958a3eb" prot="private" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>decomposer_</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a30dded6a1d27ef3cc6e6ddccce13cafe" prot="private" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>fp_graph_</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a36f957e4227cf8d09853a8910feabb46" prot="public" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>getRecord</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1ad686f7c37ad0a3739705b9a4368fff20" prot="public" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1ac1d928bfb49efeb2def63ebb30b8fbe0" prot="private" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>hasJournalEntryHooks</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1ad2a06ae5758d6b2e15dfb77343aaf457" prot="private" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>journal_entry_clear_fn_</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a84edb83ec7c939c5b2af5c7f5a50f045" prot="private" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>journal_entry_delete_fn_</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a2f102bdb95471d33995f8572fc1f5a2f" prot="private" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>journal_entry_enumerate_fn_</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1aecb51d4c0346cc65ec5145b362361e38" prot="private" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>journal_entry_persist_fn_</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a62bc1766e462624ac4d6aeb54b6219b9" prot="private" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>journal_hooks_mutex_</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a7671db279a79cfe6cfe2fc85da68f9de" prot="public" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>JournalEntryClearFn</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1ab56356b795e703d4d44297da6a95071b" prot="public" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>JournalEntryDeleteFn</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a00e1f1c017256c9ce6692267542c39e5" prot="public" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>JournalEntryEnumerateFn</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a2c7962fde6ecfeae82dd50633a32be9c" prot="public" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>JournalEntryPersistFn</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a6bfe078e88dd07db59c826e241c616b6" prot="private" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>key_to_tensor_id_</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a9b933ecd00f4dbc2a6d01178a947a1ec" prot="private" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>makeKey</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1aa054518083cb2d9001a8805c8bf7756e" prot="private" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>makeKeyIndex</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1aa0959c9590d09d6ea79e3b79715e1e55" prot="private" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>persistDeleteJournalEntry</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a728ea45f66db855c42cb0c5897273e52" prot="private" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>persistUpsertJournalEntry</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1aa54e90feb66351af447043cb3dfe406a" prot="private" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>records_</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1ac689c71c805ed5015568950014ac0f5a" prot="private" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>replayMutationJournal</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a7c7d97ef749584c53054a14f3264154d" prot="public" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>restoreGraph</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a557b071089049ecd22b231975349d661" prot="public" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>retrieve</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a51b32dc756beba5d36d38356ee5b7e58" prot="private" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>rw_mutex_</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1ad115cea36288ded6a3028a2ab5e1fda6" prot="public" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>setJournalEntryHooks</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1ad6134a877dc9b4fdb6e6d5e5d335fe90" prot="public" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>snapshotGraph</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1ae08049b57f514168afb48662c84b5aa9" prot="private" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>storage_</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a7f906a7cd40c1c61123b0b68354ff7a9" prot="public" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>store</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1ab7eef2808e52d2b50e89e113117171b9" prot="private" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>tensor_id_to_key_</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1abf401302e9de3cb8fdb059dbc80c8efd" prot="public" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>TensorDeduplicationManager</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a9952342b9fd87c4f1d449a78ce4778c3" prot="private" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>total_bytes_stored_</name></member>
+      <member refid="classthemis_1_1graph_1_1_tensor_deduplication_manager_1a07707088d1e7eabcdb8741440b07b84d" prot="public" virt="non-virtual"><scope>themis::graph::TensorDeduplicationManager</scope><name>~TensorDeduplicationManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

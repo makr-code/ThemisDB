@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_audit_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::AuditEntry</compoundname>
+    <includes refid="llm__deployment__plugin_8h" local="no">llm_deployment_plugin.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_audit_entry_1a8c0a7fa0dcfd703497dabb25595a1b88" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AuditEntry::operation</definition>
+        <argsstring></argsstring>
+        <name>operation</name>
+        <qualifiedname>themis::llm::AuditEntry::operation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="125" column="17" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_audit_entry_1adee439f4130ee71859084f2bbfa95303" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AuditEntry::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::llm::AuditEntry::model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="126" column="17" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_audit_entry_1ac3b6025a02f8af066d4f5c9ca300a349" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AuditEntry::user</definition>
+        <argsstring></argsstring>
+        <name>user</name>
+        <qualifiedname>themis::llm::AuditEntry::user</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="127" column="17" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_audit_entry_1a127a0e845c6f17894333fc775a016a13" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::AuditEntry::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::llm::AuditEntry::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="128" column="43" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_audit_entry_1a708b3d34bf282501ffca0f568dd931cb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::AuditEntry::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::llm::AuditEntry::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="129" column="10" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_audit_entry_1a8cfbccbd67daa949242f13c19c65c540" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AuditEntry::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::llm::AuditEntry::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="130" column="17" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_audit_entry_1a0c2aaaeabffe33d3b626bdb2382cbd2b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::AuditEntry::details</definition>
+        <argsstring></argsstring>
+        <name>details</name>
+        <qualifiedname>themis::llm::AuditEntry::details</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_deployment_plugin.h" line="131" column="10" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llm_deployment_plugin.h" line="124" column="1" bodyfile="include/llm/llm_deployment_plugin.h" bodystart="124" bodyend="132"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_audit_entry_1a0c2aaaeabffe33d3b626bdb2382cbd2b" prot="public" virt="non-virtual"><scope>themis::llm::AuditEntry</scope><name>details</name></member>
+      <member refid="structthemis_1_1llm_1_1_audit_entry_1a8cfbccbd67daa949242f13c19c65c540" prot="public" virt="non-virtual"><scope>themis::llm::AuditEntry</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1llm_1_1_audit_entry_1adee439f4130ee71859084f2bbfa95303" prot="public" virt="non-virtual"><scope>themis::llm::AuditEntry</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_audit_entry_1a8c0a7fa0dcfd703497dabb25595a1b88" prot="public" virt="non-virtual"><scope>themis::llm::AuditEntry</scope><name>operation</name></member>
+      <member refid="structthemis_1_1llm_1_1_audit_entry_1a708b3d34bf282501ffca0f568dd931cb" prot="public" virt="non-virtual"><scope>themis::llm::AuditEntry</scope><name>success</name></member>
+      <member refid="structthemis_1_1llm_1_1_audit_entry_1a127a0e845c6f17894333fc775a016a13" prot="public" virt="non-virtual"><scope>themis::llm::AuditEntry</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1llm_1_1_audit_entry_1ac3b6025a02f8af066d4f5c9ca300a349" prot="public" virt="non-virtual"><scope>themis::llm::AuditEntry</scope><name>user</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

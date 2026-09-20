@@ -1,0 +1,409 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_p_i_i_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::PIIApiHandler</compoundname>
+    <includes refid="pii__api__handler_8h" local="no">pii_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_p_i_i_api_handler_1a09422c2f34b0f45dd54f2f805ffbd2c4" prot="private" static="no" mutable="no">
+        <type>rocksdb::TransactionDB *</type>
+        <definition>rocksdb::TransactionDB* themis::server::PIIApiHandler::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::server::PIIApiHandler::db_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pii_api_handler.h" line="100" column="28" bodyfile="include/server/pii_api_handler.h" bodystart="100" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_p_i_i_api_handler_1a70662b6778cc0beeb78259f8ca0025ff" prot="private" static="no" mutable="no">
+        <type>rocksdb::ColumnFamilyHandle *</type>
+        <definition>rocksdb::ColumnFamilyHandle* themis::server::PIIApiHandler::cf_</definition>
+        <argsstring></argsstring>
+        <name>cf_</name>
+        <qualifiedname>themis::server::PIIApiHandler::cf_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pii_api_handler.h" line="101" column="33" bodyfile="include/server/pii_api_handler.h" bodystart="101" bodyend="101"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_p_i_i_api_handler_1a0decd82d7b4862ba23b25866cf9814ee" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::server::PIIApiHandler::KEY_PREFIX</definition>
+        <argsstring></argsstring>
+        <name>KEY_PREFIX</name>
+        <qualifiedname>themis::server::PIIApiHandler::KEY_PREFIX</qualifiedname>
+        <initializer>= &quot;pii:&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pii_api_handler.h" line="103" column="33" bodyfile="include/server/pii_api_handler.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_p_i_i_api_handler_1a8bd3b7e32db476e1c89d9ad2cf4aac96" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::PIIApiHandler::PIIApiHandler</definition>
+        <argsstring>()=default</argsstring>
+        <name>PIIApiHandler</name>
+        <qualifiedname>themis::server::PIIApiHandler::PIIApiHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pii_api_handler.h" line="55" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_p_i_i_api_handler_1a4d576975909e97ae4a1e1374d88dd04f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::PIIApiHandler::PIIApiHandler</definition>
+        <argsstring>(rocksdb::TransactionDB *db, rocksdb::ColumnFamilyHandle *cf)</argsstring>
+        <name>PIIApiHandler</name>
+        <qualifiedname>themis::server::PIIApiHandler::PIIApiHandler</qualifiedname>
+        <param>
+          <type>rocksdb::TransactionDB *</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>rocksdb::ColumnFamilyHandle *</type>
+          <declname>cf</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pii_api_handler.h" line="56" column="5" bodyfile="src/server/pii_api_handler.cpp" bodystart="64" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_p_i_i_api_handler_1a93b117176f3c016b07ea89bf8de00f6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::PIIApiHandler::addMapping</definition>
+        <argsstring>(const PiiMapping &amp;mapping)</argsstring>
+        <name>addMapping</name>
+        <qualifiedname>themis::server::PIIApiHandler::addMapping</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_pii_mapping" kindref="compound">PiiMapping</ref> &amp;</type>
+          <declname>mapping</declname>
+          <defname>mappingIn</defname>
+        </param>
+        <briefdescription>
+<para>Add Mapping. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mapping</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mappingIn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), nowIso8601(), makeKey(), Get(), ok(), Tracer::startSpan(), toJson(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pii_api_handler.h" line="64" column="10" bodyfile="src/server/pii_api_handler.cpp" bodystart="93" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_p_i_i_api_handler_1a938ad412752b97d375978aa35908ed35" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1server_1_1_pii_mapping" kindref="compound">PiiMapping</ref> &gt;</type>
+        <definition>std::optional&lt; PiiMapping &gt; themis::server::PIIApiHandler::getMapping</definition>
+        <argsstring>(const std::string &amp;original_uuid) const</argsstring>
+        <name>getMapping</name>
+        <qualifiedname>themis::server::PIIApiHandler::getMapping</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>original_uuid</declname>
+        </param>
+        <briefdescription>
+<para>Get Mapping. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">original_uuid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pii_api_handler.h" line="70" column="19" bodyfile="src/server/pii_api_handler.cpp" bodystart="120" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_p_i_i_api_handler_1a885d77458c80f7f82da2c4f3e1e1a4ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::PIIApiHandler::deleteMapping</definition>
+        <argsstring>(const std::string &amp;original_uuid)</argsstring>
+        <name>deleteMapping</name>
+        <qualifiedname>themis::server::PIIApiHandler::deleteMapping</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>original_uuid</declname>
+        </param>
+        <briefdescription>
+<para>Delete Mapping. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">original_uuid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">original_uuid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: makeKey(), Delete(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pii_api_handler.h" line="76" column="10" bodyfile="src/server/pii_api_handler.cpp" bodystart="148" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_p_i_i_api_handler_1a0b087f233dc8f247be126bd09190083f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::PIIApiHandler::listMappings</definition>
+        <argsstring>(const PiiQueryFilter &amp;filter)</argsstring>
+        <name>listMappings</name>
+        <qualifiedname>themis::server::PIIApiHandler::listMappings</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_pii_query_filter" kindref="compound">PiiQueryFilter</ref> &amp;</type>
+          <declname>filter</declname>
+        </param>
+        <briefdescription>
+<para>List Mappings. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), json::array(), it(), NewIterator(), std::max(), Seek(), Valid(), key(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pii_api_handler.h" line="83" column="20" bodyfile="src/server/pii_api_handler.cpp" bodystart="165" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_p_i_i_api_handler_1af80094cd2bb98a3d303dc0335945ca7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::PIIApiHandler::exportCsv</definition>
+        <argsstring>(const PiiQueryFilter &amp;filter)</argsstring>
+        <name>exportCsv</name>
+        <qualifiedname>themis::server::PIIApiHandler::exportCsv</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_pii_query_filter" kindref="compound">PiiQueryFilter</ref> &amp;</type>
+          <declname>filter</declname>
+        </param>
+        <briefdescription>
+<para>Export Csv. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1server_1_1_p_i_i_api_handler_1a0b087f233dc8f247be126bd09190083f" kindref="member">listMappings()</ref>, Tracer::startSpan(), value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pii_api_handler.h" line="90" column="17" bodyfile="src/server/pii_api_handler.cpp" bodystart="225" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_p_i_i_api_handler_1ab054b35007f903eb67b3cc9c57d4cf2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::PIIApiHandler::deleteByUuid</definition>
+        <argsstring>(const std::string &amp;uuid)</argsstring>
+        <name>deleteByUuid</name>
+        <qualifiedname>themis::server::PIIApiHandler::deleteByUuid</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>uuid</declname>
+        </param>
+        <briefdescription>
+<para>Delete By Uuid. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">uuid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">uuid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1server_1_1_p_i_i_api_handler_1a885d77458c80f7f82da2c4f3e1e1a4ab" kindref="member">deleteMapping()</ref>, Tracer::startSpan(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pii_api_handler.h" line="97" column="20" bodyfile="src/server/pii_api_handler.cpp" bodystart="245" bodyend="249"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_p_i_i_api_handler_1a1eaa7bf80a8c6c6bfbb42d88cdd8a543" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::server::PIIApiHandler::makeKey</definition>
+        <argsstring>(const std::string &amp;uuid)</argsstring>
+        <name>makeKey</name>
+        <qualifiedname>themis::server::PIIApiHandler::makeKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>uuid</declname>
+        </param>
+        <briefdescription>
+<para>Make Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">uuid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pii_api_handler.h" line="110" column="24" bodyfile="include/server/pii_api_handler.h" bodystart="110" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_p_i_i_api_handler_1a1ab7771f77e0190172cb8bcbedd8cbce" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::PIIApiHandler::nowIso8601</definition>
+        <argsstring>()</argsstring>
+        <name>nowIso8601</name>
+        <qualifiedname>themis::server::PIIApiHandler::nowIso8601</qualifiedname>
+        <briefdescription>
+<para>Now Iso8601. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: system_clock::now(), system_clock::to_time_t(), defined(), localtime_s(), localtime_r(), std::put_time(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pii_api_handler.h" line="115" column="24" bodyfile="src/server/pii_api_handler.cpp" bodystart="72" bodyend="85"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/pii_api_handler.h" line="53" column="1" bodyfile="include/server/pii_api_handler.h" bodystart="53" bodyend="116"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_p_i_i_api_handler_1a93b117176f3c016b07ea89bf8de00f6c" prot="public" virt="non-virtual"><scope>themis::server::PIIApiHandler</scope><name>addMapping</name></member>
+      <member refid="classthemis_1_1server_1_1_p_i_i_api_handler_1a70662b6778cc0beeb78259f8ca0025ff" prot="private" virt="non-virtual"><scope>themis::server::PIIApiHandler</scope><name>cf_</name></member>
+      <member refid="classthemis_1_1server_1_1_p_i_i_api_handler_1a09422c2f34b0f45dd54f2f805ffbd2c4" prot="private" virt="non-virtual"><scope>themis::server::PIIApiHandler</scope><name>db_</name></member>
+      <member refid="classthemis_1_1server_1_1_p_i_i_api_handler_1ab054b35007f903eb67b3cc9c57d4cf2d" prot="public" virt="non-virtual"><scope>themis::server::PIIApiHandler</scope><name>deleteByUuid</name></member>
+      <member refid="classthemis_1_1server_1_1_p_i_i_api_handler_1a885d77458c80f7f82da2c4f3e1e1a4ab" prot="public" virt="non-virtual"><scope>themis::server::PIIApiHandler</scope><name>deleteMapping</name></member>
+      <member refid="classthemis_1_1server_1_1_p_i_i_api_handler_1af80094cd2bb98a3d303dc0335945ca7e" prot="public" virt="non-virtual"><scope>themis::server::PIIApiHandler</scope><name>exportCsv</name></member>
+      <member refid="classthemis_1_1server_1_1_p_i_i_api_handler_1a938ad412752b97d375978aa35908ed35" prot="public" virt="non-virtual"><scope>themis::server::PIIApiHandler</scope><name>getMapping</name></member>
+      <member refid="classthemis_1_1server_1_1_p_i_i_api_handler_1a0decd82d7b4862ba23b25866cf9814ee" prot="private" virt="non-virtual"><scope>themis::server::PIIApiHandler</scope><name>KEY_PREFIX</name></member>
+      <member refid="classthemis_1_1server_1_1_p_i_i_api_handler_1a0b087f233dc8f247be126bd09190083f" prot="public" virt="non-virtual"><scope>themis::server::PIIApiHandler</scope><name>listMappings</name></member>
+      <member refid="classthemis_1_1server_1_1_p_i_i_api_handler_1a1eaa7bf80a8c6c6bfbb42d88cdd8a543" prot="private" virt="non-virtual"><scope>themis::server::PIIApiHandler</scope><name>makeKey</name></member>
+      <member refid="classthemis_1_1server_1_1_p_i_i_api_handler_1a1ab7771f77e0190172cb8bcbedd8cbce" prot="private" virt="non-virtual"><scope>themis::server::PIIApiHandler</scope><name>nowIso8601</name></member>
+      <member refid="classthemis_1_1server_1_1_p_i_i_api_handler_1a8bd3b7e32db476e1c89d9ad2cf4aac96" prot="public" virt="non-virtual"><scope>themis::server::PIIApiHandler</scope><name>PIIApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_p_i_i_api_handler_1a4d576975909e97ae4a1e1374d88dd04f" prot="public" virt="non-virtual"><scope>themis::server::PIIApiHandler</scope><name>PIIApiHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_72c91baf0b6b9f3822889c656c593f3b" kind="dir">
+    <compoundname>src/ingestion</compoundname>
+    <innerdir refid="dir_c528f7439ad4fc7275160a2083c24711">src/ingestion/steps</innerdir>
+    <innerfile refid="adaptive__rate__limiter_8cpp">adaptive_rate_limiter.cpp</innerfile>
+    <innerfile refid="agentic__reference__validator_8cpp">agentic_reference_validator.cpp</innerfile>
+    <innerfile refid="api__connector_8cpp">api_connector.cpp</innerfile>
+    <innerfile refid="cdc__connector_8cpp">cdc_connector.cpp</innerfile>
+    <innerfile refid="database__connector_8cpp">database_connector.cpp</innerfile>
+    <innerfile refid="deontic__extractor_8cpp">deontic_extractor.cpp</innerfile>
+    <innerfile refid="entity__assembler_8cpp">entity_assembler.cpp</innerfile>
+    <innerfile refid="filesystem__ingester_8cpp">filesystem_ingester.cpp</innerfile>
+    <innerfile refid="huggingface__connector_8cpp">huggingface_connector.cpp</innerfile>
+    <innerfile refid="ingestion__coordinator_8cpp">ingestion_coordinator.cpp</innerfile>
+    <innerfile refid="ingestion__diagnostic__emitter_8cpp">ingestion_diagnostic_emitter.cpp</innerfile>
+    <innerfile refid="ingestion__error__contract_8cpp">ingestion_error_contract.cpp</innerfile>
+    <innerfile refid="ingestion__manager_8cpp">ingestion_manager.cpp</innerfile>
+    <innerfile refid="ingestion__quality__judge_8cpp">ingestion_quality_judge.cpp</innerfile>
+    <innerfile refid="ingestion__sinks_8cpp">ingestion_sinks.cpp</innerfile>
+    <innerfile refid="kafka__connector_8cpp">kafka_connector.cpp</innerfile>
+    <innerfile refid="legal__domain_8cpp">legal_domain.cpp</innerfile>
+    <innerfile refid="llm__adapter_8cpp">llm_adapter.cpp</innerfile>
+    <innerfile refid="oauth__token__manager_8cpp">oauth_token_manager.cpp</innerfile>
+    <innerfile refid="object__storage__connector_8cpp">object_storage_connector.cpp</innerfile>
+    <innerfile refid="resource__monitor_8cpp">resource_monitor.cpp</innerfile>
+    <innerfile refid="s3__connector_8cpp">s3_connector.cpp</innerfile>
+    <innerfile refid="semantic__validator_8cpp">semantic_validator.cpp</innerfile>
+    <innerfile refid="web__crawler__connector_8cpp">web_crawler_connector.cpp</innerfile>
+    <innerfile refid="workflow__engine_8cpp">workflow_engine.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/ingestion/"/>
+  </compounddef>
+</doxygen>

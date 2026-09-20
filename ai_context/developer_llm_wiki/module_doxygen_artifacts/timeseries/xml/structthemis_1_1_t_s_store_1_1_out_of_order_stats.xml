@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_t_s_store_1_1_out_of_order_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TSStore::OutOfOrderStats</compoundname>
+    <includes refid="tsstore_8h" local="no">tsstore.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_t_s_store_1_1_out_of_order_stats_1a41ebc17429d0d5de47f9ccb4e55418f5" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TSStore::OutOfOrderStats::out_of_order_accepted</definition>
+        <argsstring></argsstring>
+        <name>out_of_order_accepted</name>
+        <qualifiedname>themis::TSStore::OutOfOrderStats::out_of_order_accepted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="202" column="18" bodyfile="include/timeseries/tsstore.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_store_1_1_out_of_order_stats_1a6f5c4067e9c9534d2a42d79aa72fb50c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TSStore::OutOfOrderStats::late_arrival_rejected</definition>
+        <argsstring></argsstring>
+        <name>late_arrival_rejected</name>
+        <qualifiedname>themis::TSStore::OutOfOrderStats::late_arrival_rejected</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="203" column="18" bodyfile="include/timeseries/tsstore.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Statistics for out-of-order write handling. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/tsstore.h" line="201" column="5" bodyfile="include/timeseries/tsstore.h" bodystart="201" bodyend="204"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_t_s_store_1_1_out_of_order_stats_1a6f5c4067e9c9534d2a42d79aa72fb50c" prot="public" virt="non-virtual"><scope>themis::TSStore::OutOfOrderStats</scope><name>late_arrival_rejected</name></member>
+      <member refid="structthemis_1_1_t_s_store_1_1_out_of_order_stats_1a41ebc17429d0d5de47f9ccb4e55418f5" prot="public" virt="non-virtual"><scope>themis::TSStore::OutOfOrderStats</scope><name>out_of_order_accepted</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

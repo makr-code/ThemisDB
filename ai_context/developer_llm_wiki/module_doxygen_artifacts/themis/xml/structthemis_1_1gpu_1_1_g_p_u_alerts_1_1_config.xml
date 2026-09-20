@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_alerts_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUAlerts::Config</compoundname>
+    <includes refid="alerts_8h" local="no">alerts.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_alerts_1_1_config_1a066096f6d075359476ed37c05bc958e6" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::gpu::GPUAlerts::Config::vram_high_threshold</definition>
+        <argsstring></argsstring>
+        <name>vram_high_threshold</name>
+        <qualifiedname>themis::gpu::GPUAlerts::Config::vram_high_threshold</qualifiedname>
+        <initializer>= 0.80f</initializer>
+        <briefdescription>
+<para>Fraction of max VRAM. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="74" column="15" bodyfile="include/themis/gpu/alerts.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_alerts_1_1_config_1a49a03860a484a5b15e08d82decd86bf7" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::gpu::GPUAlerts::Config::error_rate_threshold</definition>
+        <argsstring></argsstring>
+        <name>error_rate_threshold</name>
+        <qualifiedname>themis::gpu::GPUAlerts::Config::error_rate_threshold</qualifiedname>
+        <initializer>= 0.10f</initializer>
+        <briefdescription>
+<para>Fraction of ops that fail. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="75" column="15" bodyfile="include/themis/gpu/alerts.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_alerts_1_1_config_1a07964197a8fa19c0144dcff3394f3f97" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::gpu::GPUAlerts::Config::fallback_rate_threshold</definition>
+        <argsstring></argsstring>
+        <name>fallback_rate_threshold</name>
+        <qualifiedname>themis::gpu::GPUAlerts::Config::fallback_rate_threshold</qualifiedname>
+        <initializer>= 0.20f</initializer>
+        <briefdescription>
+<para>Fraction routed to CPU. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="76" column="15" bodyfile="include/themis/gpu/alerts.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/alerts.h" line="73" column="5" bodyfile="include/themis/gpu/alerts.h" bodystart="73" bodyend="77"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_alerts_1_1_config_1a49a03860a484a5b15e08d82decd86bf7" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAlerts::Config</scope><name>error_rate_threshold</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_alerts_1_1_config_1a07964197a8fa19c0144dcff3394f3f97" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAlerts::Config</scope><name>fallback_rate_threshold</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_alerts_1_1_config_1a066096f6d075359476ed37c05bc958e6" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAlerts::Config</scope><name>vram_high_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

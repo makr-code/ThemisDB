@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1phase4_1_1_scoped_io_uring_timer" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::phase4::ScopedIoUringTimer</compoundname>
+    <includes refid="io__uring__zero__copy_8h" local="no">io_uring_zero_copy.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase4_1_1_scoped_io_uring_timer_1aca8c476ccbabd97913b3f5e9a96d695c" prot="private" static="no" mutable="no">
+        <type>uint64_t *</type>
+        <definition>uint64_t* themis::performance::phase4::ScopedIoUringTimer::output_ns_</definition>
+        <argsstring></argsstring>
+        <name>output_ns_</name>
+        <qualifiedname>themis::performance::phase4::ScopedIoUringTimer::output_ns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/io_uring_zero_copy.h" line="261" column="14" bodyfile="include/performance/phase4/io_uring_zero_copy.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase4_1_1_scoped_io_uring_timer_1a53002f18f523b8db69aa391dbe3b82bf" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::phase4::ScopedIoUringTimer::start_ns_</definition>
+        <argsstring></argsstring>
+        <name>start_ns_</name>
+        <qualifiedname>themis::performance::phase4::ScopedIoUringTimer::start_ns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/io_uring_zero_copy.h" line="262" column="15" bodyfile="include/performance/phase4/io_uring_zero_copy.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_scoped_io_uring_timer_1a064b9c0721a7183c340c2af987332631" prot="public" static="no" const="no" explicit="yes" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase4::ScopedIoUringTimer::ScopedIoUringTimer</definition>
+        <argsstring>(uint64_t *output_ns) noexcept</argsstring>
+        <name>ScopedIoUringTimer</name>
+        <qualifiedname>themis::performance::phase4::ScopedIoUringTimer::ScopedIoUringTimer</qualifiedname>
+        <param>
+          <type>uint64_t *</type>
+          <declname>output_ns</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/io_uring_zero_copy.h" line="254" column="14" bodyfile="src/performance/phase4/io_uring_zero_copy.cpp" bodystart="650" bodyend="659"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_scoped_io_uring_timer_1a78fbf83f7584a4f5800baebd2f1a1946" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase4::ScopedIoUringTimer::~ScopedIoUringTimer</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~ScopedIoUringTimer</name>
+        <qualifiedname>themis::performance::phase4::ScopedIoUringTimer::~ScopedIoUringTimer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/io_uring_zero_copy.h" line="255" column="5" bodyfile="src/performance/phase4/io_uring_zero_copy.cpp" bodystart="661" bodyend="674"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_scoped_io_uring_timer_1a4eb96b510df633fb463e9095c1b26099" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase4::ScopedIoUringTimer::ScopedIoUringTimer</definition>
+        <argsstring>(const ScopedIoUringTimer &amp;)=delete</argsstring>
+        <name>ScopedIoUringTimer</name>
+        <qualifiedname>themis::performance::phase4::ScopedIoUringTimer::ScopedIoUringTimer</qualifiedname>
+        <param>
+          <type>const ScopedIoUringTimer &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/io_uring_zero_copy.h" line="257" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_scoped_io_uring_timer_1a0955c73ea7d6a33aa6b070cf3830b576" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1performance_1_1phase4_1_1_scoped_io_uring_timer_1a064b9c0721a7183c340c2af987332631" kindref="member">ScopedIoUringTimer</ref> &amp;</type>
+        <definition>ScopedIoUringTimer &amp; themis::performance::phase4::ScopedIoUringTimer::operator=</definition>
+        <argsstring>(const ScopedIoUringTimer &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::performance::phase4::ScopedIoUringTimer::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1performance_1_1phase4_1_1_scoped_io_uring_timer_1a064b9c0721a7183c340c2af987332631" kindref="member">ScopedIoUringTimer</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/io_uring_zero_copy.h" line="258" column="24"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>RAII timer that records start/end timestamps (via CLOCK_MONOTONIC) and writes the elapsed nanoseconds to *output_ns on destruction. </para>
+    </detaileddescription>
+    <location file="include/performance/phase4/io_uring_zero_copy.h" line="252" column="1" bodyfile="include/performance/phase4/io_uring_zero_copy.h" bodystart="252" bodyend="263"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_scoped_io_uring_timer_1a0955c73ea7d6a33aa6b070cf3830b576" prot="public" virt="non-virtual"><scope>themis::performance::phase4::ScopedIoUringTimer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_scoped_io_uring_timer_1aca8c476ccbabd97913b3f5e9a96d695c" prot="private" virt="non-virtual"><scope>themis::performance::phase4::ScopedIoUringTimer</scope><name>output_ns_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_scoped_io_uring_timer_1a064b9c0721a7183c340c2af987332631" prot="public" virt="non-virtual"><scope>themis::performance::phase4::ScopedIoUringTimer</scope><name>ScopedIoUringTimer</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_scoped_io_uring_timer_1a4eb96b510df633fb463e9095c1b26099" prot="public" virt="non-virtual"><scope>themis::performance::phase4::ScopedIoUringTimer</scope><name>ScopedIoUringTimer</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_scoped_io_uring_timer_1a53002f18f523b8db69aa391dbe3b82bf" prot="private" virt="non-virtual"><scope>themis::performance::phase4::ScopedIoUringTimer</scope><name>start_ns_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_scoped_io_uring_timer_1a78fbf83f7584a4f5800baebd2f1a1946" prot="public" virt="non-virtual"><scope>themis::performance::phase4::ScopedIoUringTimer</scope><name>~ScopedIoUringTimer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

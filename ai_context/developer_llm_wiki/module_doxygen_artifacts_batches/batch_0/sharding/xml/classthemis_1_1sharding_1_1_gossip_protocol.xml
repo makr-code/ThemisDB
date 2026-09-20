@@ -1,0 +1,1332 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_gossip_protocol" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::GossipProtocol</compoundname>
+    <includes refid="gossip__protocol_8h" local="no">gossip_protocol.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1sharding_1_1_gossip_protocol_1a29c7081d89c32ed367df323e1d6834a3" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1sharding_1_1_peer_info" kindref="compound">PeerInfo</ref> &amp;peer)&gt;</type>
+        <definition>using themis::sharding::GossipProtocol::PeerDiscoveryCallback = std::function&lt;void(const PeerInfo&amp; peer)&gt;</definition>
+        <argsstring></argsstring>
+        <name>PeerDiscoveryCallback</name>
+        <qualifiedname>themis::sharding::GossipProtocol::PeerDiscoveryCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="190" column="5" bodyfile="include/sharding/gossip_protocol.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1sharding_1_1_gossip_protocol_1ada04d3391967899b8f960d0bac573756" prot="public" static="no">
+        <type>std::function&lt; void(const std::string &amp;peer_id)&gt;</type>
+        <definition>using themis::sharding::GossipProtocol::PeerLostCallback = std::function&lt;void(const std::string&amp; peer_id)&gt;</definition>
+        <argsstring></argsstring>
+        <name>PeerLostCallback</name>
+        <qualifiedname>themis::sharding::GossipProtocol::PeerLostCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="191" column="5" bodyfile="include/sharding/gossip_protocol.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1sharding_1_1_gossip_protocol_1aaae9fe522b5914acbeca764ace45283e" prot="public" static="no">
+        <type>std::function&lt; bool(const std::string &amp;peer_id, const std::string &amp;endpoint)&gt;</type>
+        <definition>using themis::sharding::GossipProtocol::RaftMembershipGateFn = std::function&lt;bool(const std::string&amp; peer_id,
+                                                    const std::string&amp; endpoint)&gt;</definition>
+        <argsstring></argsstring>
+        <name>RaftMembershipGateFn</name>
+        <qualifiedname>themis::sharding::GossipProtocol::RaftMembershipGateFn</qualifiedname>
+        <briefdescription>
+<para>Raft membership gate callback type (CC-4). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When set via <ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1a73672108c528d15aa1651cb1647170cb" kindref="member">setRaftMembershipGateFn</ref>, this function is called before any gossip-discovered peer is written to the <ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peer_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Gossip-level peer identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Network endpoint (host:port) of the peer. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true — the peer has been admitted through the Raft joint-consensus membership protocol and MAY be added to the routing topology. </para>
+</simplesect>
+<simplesect kind="return"><para>false — the peer has NOT been admitted; it stays in the gossip <computeroutput>peers_</computeroutput> map for health tracking but MUST NOT appear in the routing topology or influence quorum.</para>
+</simplesect>
+<bold>Exception safety:</bold> The function must not throw. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="210" column="5" bodyfile="include/sharding/gossip_protocol.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_protocol_1abaa7624c026383b78d158e999b8126c0" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_gossip_config" kindref="compound">GossipConfig</ref></type>
+        <definition>GossipConfig themis::sharding::GossipProtocol::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::sharding::GossipProtocol::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="340" column="18" bodyfile="include/sharding/gossip_protocol.h" bodystart="340" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_protocol_1a54785b5a5df26af166c5ae7b203882e8" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ShardTopology&gt; themis::sharding::GossipProtocol::topology_</definition>
+        <argsstring></argsstring>
+        <name>topology_</name>
+        <qualifiedname>themis::sharding::GossipProtocol::topology_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="341" column="21" bodyfile="include/sharding/gossip_protocol.h" bodystart="341" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_protocol_1aa202a6b2711e81e9588420302f3f10fa" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_m_t_l_s_client" kindref="compound">MTLSClient</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;MTLSClient&gt; themis::sharding::GossipProtocol::client_</definition>
+        <argsstring></argsstring>
+        <name>client_</name>
+        <qualifiedname>themis::sharding::GossipProtocol::client_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="342" column="21" bodyfile="include/sharding/gossip_protocol.h" bodystart="342" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_protocol_1a415f6df0dac71891485c679499a7112f" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1sharding_1_1_peer_info" kindref="compound">PeerInfo</ref> &gt;</type>
+        <definition>std::map&lt;std::string, PeerInfo&gt; themis::sharding::GossipProtocol::peers_</definition>
+        <argsstring></argsstring>
+        <name>peers_</name>
+        <qualifiedname>themis::sharding::GossipProtocol::peers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="345" column="14" bodyfile="include/sharding/gossip_protocol.h" bodystart="345" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_protocol_1a34b61747c3450b791cb112a560bf98c8" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::GossipProtocol::peers_mutex_</definition>
+        <argsstring></argsstring>
+        <name>peers_mutex_</name>
+        <qualifiedname>themis::sharding::GossipProtocol::peers_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="346" column="24" bodyfile="include/sharding/gossip_protocol.h" bodystart="346" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_protocol_1aec9c70352b7f8440aaf9be483ac7916f" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::sharding::GossipProtocol::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::sharding::GossipProtocol::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="349" column="17" bodyfile="include/sharding/gossip_protocol.h" bodystart="349" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_protocol_1a5838c17773b95e679a9506b5e4f269ce" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::sharding::GossipProtocol::gossip_thread_</definition>
+        <argsstring></argsstring>
+        <name>gossip_thread_</name>
+        <qualifiedname>themis::sharding::GossipProtocol::gossip_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="350" column="17" bodyfile="include/sharding/gossip_protocol.h" bodystart="350" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_protocol_1a9f5e403c7abce0fcbec3871628db24fa" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::sharding::GossipProtocol::cleanup_thread_</definition>
+        <argsstring></argsstring>
+        <name>cleanup_thread_</name>
+        <qualifiedname>themis::sharding::GossipProtocol::cleanup_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="351" column="17" bodyfile="include/sharding/gossip_protocol.h" bodystart="351" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_protocol_1a5e65791052058c13ff8a6e9470bc282d" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::function&lt; void(const <ref refid="structthemis_1_1sharding_1_1_gossip_message" kindref="compound">GossipMessage</ref> &amp;)&gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::function&lt;void(const GossipMessage&amp;)&gt; &gt; themis::sharding::GossipProtocol::custom_handlers_</definition>
+        <argsstring></argsstring>
+        <name>custom_handlers_</name>
+        <qualifiedname>themis::sharding::GossipProtocol::custom_handlers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="354" column="14" bodyfile="include/sharding/gossip_protocol.h" bodystart="354" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_protocol_1a696ddc30b18309d7a7f4f863ef5b7694" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1a29c7081d89c32ed367df323e1d6834a3" kindref="member">PeerDiscoveryCallback</ref></type>
+        <definition>PeerDiscoveryCallback themis::sharding::GossipProtocol::on_peer_discovered_</definition>
+        <argsstring></argsstring>
+        <name>on_peer_discovered_</name>
+        <qualifiedname>themis::sharding::GossipProtocol::on_peer_discovered_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="357" column="27" bodyfile="include/sharding/gossip_protocol.h" bodystart="357" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_protocol_1aca2aaa5ae1a275288f308312b768a91b" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1ada04d3391967899b8f960d0bac573756" kindref="member">PeerLostCallback</ref></type>
+        <definition>PeerLostCallback themis::sharding::GossipProtocol::on_peer_lost_</definition>
+        <argsstring></argsstring>
+        <name>on_peer_lost_</name>
+        <qualifiedname>themis::sharding::GossipProtocol::on_peer_lost_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="358" column="22" bodyfile="include/sharding/gossip_protocol.h" bodystart="358" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_protocol_1a464d1049c9f5e6bbb74155138ed06f61" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1aaae9fe522b5914acbeca764ace45283e" kindref="member">RaftMembershipGateFn</ref></type>
+        <definition>RaftMembershipGateFn themis::sharding::GossipProtocol::raft_membership_gate_fn_</definition>
+        <argsstring></argsstring>
+        <name>raft_membership_gate_fn_</name>
+        <qualifiedname>themis::sharding::GossipProtocol::raft_membership_gate_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="360" column="26" bodyfile="include/sharding/gossip_protocol.h" bodystart="360" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_protocol_1aabc2a07faae5b0643f5a74d611a25e6e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::GossipProtocol::messages_sent_</definition>
+        <argsstring></argsstring>
+        <name>messages_sent_</name>
+        <qualifiedname>themis::sharding::GossipProtocol::messages_sent_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="363" column="17" bodyfile="include/sharding/gossip_protocol.h" bodystart="363" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_protocol_1a8c4db6297db331f2b0577499f0e34cde" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::GossipProtocol::messages_received_</definition>
+        <argsstring></argsstring>
+        <name>messages_received_</name>
+        <qualifiedname>themis::sharding::GossipProtocol::messages_received_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="364" column="17" bodyfile="include/sharding/gossip_protocol.h" bodystart="364" bodyend="364"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_protocol_1a3d9cf487054a543273214f74ce3c6771" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::GossipProtocol::peers_discovered_</definition>
+        <argsstring></argsstring>
+        <name>peers_discovered_</name>
+        <qualifiedname>themis::sharding::GossipProtocol::peers_discovered_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="365" column="17" bodyfile="include/sharding/gossip_protocol.h" bodystart="365" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_protocol_1a9f7f87c6413daf3fba96b9bcff1259c1" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::GossipProtocol::peers_lost_</definition>
+        <argsstring></argsstring>
+        <name>peers_lost_</name>
+        <qualifiedname>themis::sharding::GossipProtocol::peers_lost_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="366" column="17" bodyfile="include/sharding/gossip_protocol.h" bodystart="366" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_protocol_1aae2ab25ea5b464e98e0eb4f0d2b1ff63" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::GossipProtocol::gossip_rounds_</definition>
+        <argsstring></argsstring>
+        <name>gossip_rounds_</name>
+        <qualifiedname>themis::sharding::GossipProtocol::gossip_rounds_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="367" column="17" bodyfile="include/sharding/gossip_protocol.h" bodystart="367" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_protocol_1a3189825e4bf93460ef656ad4ce41103d" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; std::chrono::system_clock::time_point &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;std::chrono::system_clock::time_point&gt; &gt; themis::sharding::GossipProtocol::rate_limit_map_</definition>
+        <argsstring></argsstring>
+        <name>rate_limit_map_</name>
+        <qualifiedname>themis::sharding::GossipProtocol::rate_limit_map_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="370" column="14" bodyfile="include/sharding/gossip_protocol.h" bodystart="370" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_protocol_1ae01a350eb09951d9af98435a03069982" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::GossipProtocol::rate_limit_mutex_</definition>
+        <argsstring></argsstring>
+        <name>rate_limit_mutex_</name>
+        <qualifiedname>themis::sharding::GossipProtocol::rate_limit_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="371" column="16" bodyfile="include/sharding/gossip_protocol.h" bodystart="371" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_protocol_1a1d92dbdcc147c7d870e0c4c2fb1eb634" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::GossipProtocol::GossipProtocol</definition>
+        <argsstring>(const GossipConfig &amp;config, std::shared_ptr&lt; ShardTopology &gt; topology)</argsstring>
+        <name>GossipProtocol</name>
+        <qualifiedname>themis::sharding::GossipProtocol::GossipProtocol</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_gossip_config" kindref="compound">GossipConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &gt;</type>
+          <declname>topology</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Construct <ref refid="classthemis_1_1sharding_1_1_gossip_protocol" kindref="compound">GossipProtocol</ref> with configuration <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration parameters </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> to update with discovered peers </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="218" column="5" bodyfile="src/sharding/gossip_protocol.cpp" bodystart="100" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_protocol_1a71a5ff62fa2efe41e99dbea0f1264092" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::GossipProtocol::~GossipProtocol</definition>
+        <argsstring>()</argsstring>
+        <name>~GossipProtocol</name>
+        <qualifiedname>themis::sharding::GossipProtocol::~GossipProtocol</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="221" column="5" bodyfile="src/sharding/gossip_protocol.cpp" bodystart="117" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_protocol_1a6b54022d9878d0e69be617ee008d5b38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GossipProtocol::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::sharding::GossipProtocol::start</qualifiedname>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start the gossip protocol Begins periodic gossip rounds and listens for incoming messages</para>
+<para>Calls: load(), store(), bootstrapFromSeedNodes(), std::thread(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="227" column="10" bodyfile="src/sharding/gossip_protocol.cpp" bodystart="125" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_protocol_1ac265d21d79f0c875cb3db652dd0cb07d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GossipProtocol::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::sharding::GossipProtocol::stop</qualifiedname>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop the gossip protocol Sends leave message to peers and stops all threads</para>
+<para>Calls: load(), sendLeaveMessage(), store(), themis::utils::joinThreadWithin(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="233" column="10" bodyfile="src/sharding/gossip_protocol.cpp" bodystart="150" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_protocol_1ac9f6dcb420dc5dd788a6ba3ef1e83149" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::GossipProtocol::isRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::sharding::GossipProtocol::isRunning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if gossip protocol is running </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="238" column="10" bodyfile="include/sharding/gossip_protocol.h" bodystart="238" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_protocol_1a95d91b1bf2074fdc104c57f5fd585e6a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1sharding_1_1_peer_info" kindref="compound">PeerInfo</ref> &gt;</type>
+        <definition>std::map&lt; std::string, PeerInfo &gt; themis::sharding::GossipProtocol::getPeers</definition>
+        <argsstring>() const</argsstring>
+        <name>getPeers</name>
+        <qualifiedname>themis::sharding::GossipProtocol::getPeers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get all known peers <simplesect kind="return"><para>Map of peer_id to <ref refid="structthemis_1_1sharding_1_1_peer_info" kindref="compound">PeerInfo</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">peers_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="244" column="14" bodyfile="src/sharding/gossip_protocol.cpp" bodystart="170" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_protocol_1a40d34a0e009931f9846aaa20b9d6138e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_peer_info" kindref="compound">PeerInfo</ref> &gt;</type>
+        <definition>std::vector&lt; PeerInfo &gt; themis::sharding::GossipProtocol::getHealthyPeers</definition>
+        <argsstring>() const</argsstring>
+        <name>getHealthyPeers</name>
+        <qualifiedname>themis::sharding::GossipProtocol::getHealthyPeers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get healthy peers only <simplesect kind="return"><para>Vector of healthy peer endpoints </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">peers_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="250" column="17" bodyfile="src/sharding/gossip_protocol.cpp" bodystart="180" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_protocol_1a04e5de9259d3d579a5723e4e94b4fa0e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::GossipProtocol::getPeerCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getPeerCount</name>
+        <qualifiedname>themis::sharding::GossipProtocol::getPeerCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get peer count </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">peers_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="255" column="12" bodyfile="src/sharding/gossip_protocol.cpp" bodystart="198" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_protocol_1aa5ec5209a3debf6576c477ab17855d26" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GossipProtocol::addPeer</definition>
+        <argsstring>(const PeerInfo &amp;peer)</argsstring>
+        <name>addPeer</name>
+        <qualifiedname>themis::sharding::GossipProtocol::addPeer</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_peer_info" kindref="compound">PeerInfo</ref> &amp;</type>
+          <declname>peer</declname>
+        </param>
+        <briefdescription>
+<para>Add Peer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Manually add a peer (for seed nodes or manual discovery) <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Peer information</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">peer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), size(), find(), end(), std::chrono::system_clock::now(), syncWithTopologyLocked(), std::move(), peer_discovered_callback(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="261" column="10" bodyfile="src/sharding/gossip_protocol.cpp" bodystart="213" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_protocol_1a2b08edb0e8dec737bfa52acd35b9a72c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GossipProtocol::removePeer</definition>
+        <argsstring>(const std::string &amp;peer_id)</argsstring>
+        <name>removePeer</name>
+        <qualifiedname>themis::sharding::GossipProtocol::removePeer</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>peer_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove Peer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove a peer <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peer_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Peer identifier to remove</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">peer_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the peer.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), erase(), syncWithTopologyLocked(), peer_lost_callback(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="267" column="10" bodyfile="src/sharding/gossip_protocol.cpp" bodystart="263" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_protocol_1a9e7544ecdd1ad9db41a5a6595c7b92a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_gossip_message" kindref="compound">GossipMessage</ref></type>
+        <definition>GossipMessage themis::sharding::GossipProtocol::handleMessage</definition>
+        <argsstring>(const GossipMessage &amp;message)</argsstring>
+        <name>handleMessage</name>
+        <qualifiedname>themis::sharding::GossipProtocol::handleMessage</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_gossip_message" kindref="compound">GossipMessage</ref> &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Handle Message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Handle incoming gossip message (called by HTTP endpoint) <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Received gossip message </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Response message</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: verifyMessage(), checkRateLimit(), std::chrono::system_clock::now(), time_since_epoch(), count(), void(), lock(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="274" column="19" bodyfile="src/sharding/gossip_protocol.cpp" bodystart="294" bodyend="387"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_protocol_1adfc23d35fcef6b653f01107b89cca545" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GossipProtocol::registerCustomHandler</definition>
+        <argsstring>(const std::string &amp;message_type, std::function&lt; void(const GossipMessage &amp;)&gt; handler)</argsstring>
+        <name>registerCustomHandler</name>
+        <qualifiedname>themis::sharding::GossipProtocol::registerCustomHandler</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message_type</declname>
+        </param>
+        <param>
+          <type>std::function&lt; void(const <ref refid="structthemis_1_1sharding_1_1_gossip_message" kindref="compound">GossipMessage</ref> &amp;)&gt;</type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Register a custom handler for a specific gossip message type.</para>
+<para>The handler is invoked inside <computeroutput><ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1a9e7544ecdd1ad9db41a5a6595c7b92a6" kindref="member">handleMessage()</ref></computeroutput> before the built-in type dispatch (heartbeat / peer_list / peer_leave). This enables external modules such as the distributed_knowledge layer to extend the gossip bus without modifying the transport protocol.</para>
+<para>Thread-safety: handler map is protected by the internal peers mutex. Duplicate registration: the new handler replaces the previous one and a warning is written to stderr.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>message_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Payload type string, e.g. &quot;adapter_capability&quot; </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable invoked with the full <computeroutput><ref refid="structthemis_1_1sharding_1_1_gossip_message" kindref="compound">GossipMessage</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">peers_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="291" column="10" bodyfile="src/sharding/gossip_protocol.cpp" bodystart="419" bodyend="435"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_protocol_1a58f9da7e1f94e0b43d3b974b17259d12" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GossipProtocol::onPeerDiscovered</definition>
+        <argsstring>(PeerDiscoveryCallback callback)</argsstring>
+        <name>onPeerDiscovered</name>
+        <qualifiedname>themis::sharding::GossipProtocol::onPeerDiscovered</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1a29c7081d89c32ed367df323e1d6834a3" kindref="member">PeerDiscoveryCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>On Peer Discovered. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register callback for peer discovery <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function called when new peer is discovered</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="300" column="10" bodyfile="src/sharding/gossip_protocol.cpp" bodystart="394" bodyend="397"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_protocol_1ac08117d69f98781d9813ce1070312daf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GossipProtocol::onPeerLost</definition>
+        <argsstring>(PeerLostCallback callback)</argsstring>
+        <name>onPeerLost</name>
+        <qualifiedname>themis::sharding::GossipProtocol::onPeerLost</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1ada04d3391967899b8f960d0bac573756" kindref="member">PeerLostCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>On Peer Lost. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register callback for peer loss <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function called when peer is lost</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="306" column="10" bodyfile="src/sharding/gossip_protocol.cpp" bodystart="404" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_protocol_1a73672108c528d15aa1651cb1647170cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GossipProtocol::setRaftMembershipGateFn</definition>
+        <argsstring>(RaftMembershipGateFn fn)</argsstring>
+        <name>setRaftMembershipGateFn</name>
+        <qualifiedname>themis::sharding::GossipProtocol::setRaftMembershipGateFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1aaae9fe522b5914acbeca764ace45283e" kindref="member">RaftMembershipGateFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Register a Raft membership gate for gossip-driven topology mutations (CC-4). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Raft Membership Gate Fn.</para>
+<para>When a gate function is registered, any gossip-discovered peer that is NOT yet in the <ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> is admitted only if the gate returns <computeroutput>true</computeroutput>. A peer rejected by the gate is still tracked in the internal <computeroutput>peers_</computeroutput> map so that it participates in health-monitoring rounds, but it is NEVER written to the routing topology and NEVER influences quorum calculations.</para>
+<para>When no gate is registered (the default), gossip-discovered peers are added to the topology with a one-time warning — preserving backward compatibility while clearly marking the unprotected path.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Gate function. Pass <computeroutput>nullptr</computeroutput> to remove a previously registered gate and revert to the legacy warn+add behaviour.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Thread-safety: the function pointer is stored under <computeroutput>peers_mutex_</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="326" column="10" bodyfile="src/sharding/gossip_protocol.cpp" bodystart="414" bodyend="417"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_protocol_1a709b990c27c8623ae75f2f1fed5be35d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::GossipProtocol::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::sharding::GossipProtocol::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get gossip statistics <simplesect kind="return"><para>JSON with gossip metrics </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="332" column="20" bodyfile="src/sharding/gossip_protocol.cpp" bodystart="437" bodyend="451"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_protocol_1a8b7c7c22418fffae502ea79c5c765b96" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1sharding_1_1_gossip_config" kindref="compound">GossipConfig</ref> &amp;</type>
+        <definition>const GossipConfig &amp; themis::sharding::GossipProtocol::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::sharding::GossipProtocol::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get current configuration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="337" column="24" bodyfile="include/sharding/gossip_protocol.h" bodystart="337" bodyend="337"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_protocol_1aa814481f88367eaf4b62366590e7cbac" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GossipProtocol::gossipLoop</definition>
+        <argsstring>()</argsstring>
+        <name>gossipLoop</name>
+        <qualifiedname>themis::sharding::GossipProtocol::gossipLoop</qualifiedname>
+        <briefdescription>
+<para>Gossip Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), performGossipRound(), std::this_thread::sleep_for(), std::chrono::seconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="374" column="10" bodyfile="src/sharding/gossip_protocol.cpp" bodystart="459" bodyend="468"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_protocol_1a4247f650e61718c4d629a3ce07b20f0f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GossipProtocol::cleanupLoop</definition>
+        <argsstring>()</argsstring>
+        <name>cleanupLoop</name>
+        <qualifiedname>themis::sharding::GossipProtocol::cleanupLoop</qualifiedname>
+        <briefdescription>
+<para>Cleanup Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), updatePeerHealth(), std::this_thread::sleep_for(), std::chrono::seconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="375" column="10" bodyfile="src/sharding/gossip_protocol.cpp" bodystart="474" bodyend="484"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_protocol_1ae4a4081896d1295dc1b35417cff00ce0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GossipProtocol::performGossipRound</definition>
+        <argsstring>()</argsstring>
+        <name>performGossipRound</name>
+        <qualifiedname>themis::sharding::GossipProtocol::performGossipRound</qualifiedname>
+        <briefdescription>
+<para>Perform Gossip Round. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: selectRandomPeers(), sendHeartbeat(), sendPeerList(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="376" column="10" bodyfile="src/sharding/gossip_protocol.cpp" bodystart="490" bodyend="505"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_protocol_1a1de5ddb735ee1825adc1d269f917dc39" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GossipProtocol::sendHeartbeat</definition>
+        <argsstring>(const PeerInfo &amp;peer)</argsstring>
+        <name>sendHeartbeat</name>
+        <qualifiedname>themis::sharding::GossipProtocol::sendHeartbeat</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_peer_info" kindref="compound">PeerInfo</ref> &amp;</type>
+          <declname>peer</declname>
+        </param>
+        <briefdescription>
+<para>Send Heartbeat. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">peer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: createHeartbeatMessage(), signMessage(), retryWithBackoff(), post(), toJson(), <ref refid="structthemis_1_1sharding_1_1_gossip_message_1a03619ed74475ce57308e3e96bbe4c06a" kindref="member">GossipMessage::fromJson()</ref>, empty(), <ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1a9e7544ecdd1ad9db41a5a6595c7b92a6" kindref="member">handleMessage()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="377" column="10" bodyfile="src/sharding/gossip_protocol.cpp" bodystart="512" bodyend="553"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_protocol_1a95c9dbe2e2996ceb289dc1e3d42bdab7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GossipProtocol::sendPeerList</definition>
+        <argsstring>(const PeerInfo &amp;peer)</argsstring>
+        <name>sendPeerList</name>
+        <qualifiedname>themis::sharding::GossipProtocol::sendPeerList</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_peer_info" kindref="compound">PeerInfo</ref> &amp;</type>
+          <declname>peer</declname>
+        </param>
+        <briefdescription>
+<para>Send Peer List. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">peer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: createPeerListMessage(), signMessage(), retryWithBackoff(), post(), toJson(), <ref refid="structthemis_1_1sharding_1_1_gossip_message_1a03619ed74475ce57308e3e96bbe4c06a" kindref="member">GossipMessage::fromJson()</ref>, <ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1a9e7544ecdd1ad9db41a5a6595c7b92a6" kindref="member">handleMessage()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="378" column="10" bodyfile="src/sharding/gossip_protocol.cpp" bodystart="560" bodyend="592"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_protocol_1a003ef3a0fc4ab0f7759815ecf688246e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GossipProtocol::sendLeaveMessage</definition>
+        <argsstring>()</argsstring>
+        <name>sendLeaveMessage</name>
+        <qualifiedname>themis::sharding::GossipProtocol::sendLeaveMessage</qualifiedname>
+        <briefdescription>
+<para>Send Leave Message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: createLeaveMessage(), signMessage(), lock(), push_back(), retryWithBackoff(), post(), toJson(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="379" column="10" bodyfile="src/sharding/gossip_protocol.cpp" bodystart="598" bodyend="631"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_protocol_1a45f4a905a47078be57d732f79b94391c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GossipProtocol::bootstrapFromSeedNodes</definition>
+        <argsstring>()</argsstring>
+        <name>bootstrapFromSeedNodes</name>
+        <qualifiedname>themis::sharding::GossipProtocol::bootstrapFromSeedNodes</qualifiedname>
+        <briefdescription>
+<para>Bootstrap From Seed Nodes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::chrono::system_clock::now(), <ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1aa5ec5209a3debf6576c477ab17855d26" kindref="member">addPeer()</ref>, sendHeartbeat(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="380" column="10" bodyfile="src/sharding/gossip_protocol.cpp" bodystart="637" bodyend="650"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_protocol_1a36f66463b3a97e01b52e89912c9efdfe" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_peer_info" kindref="compound">PeerInfo</ref> &gt;</type>
+        <definition>std::vector&lt; PeerInfo &gt; themis::sharding::GossipProtocol::selectRandomPeers</definition>
+        <argsstring>(size_t count)</argsstring>
+        <name>selectRandomPeers</name>
+        <qualifiedname>themis::sharding::GossipProtocol::selectRandomPeers</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Select Random Peers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), empty(), push_back(), gen(), std::shuffle(), begin(), end(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="382" column="17" bodyfile="src/sharding/gossip_protocol.cpp" bodystart="658" bodyend="689"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_protocol_1a1efdb590ba4fb5531dfd1d5dde0fa6e6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GossipProtocol::mergePeerList</definition>
+        <argsstring>(const std::vector&lt; PeerInfo &gt; &amp;peers)</argsstring>
+        <name>mergePeerList</name>
+        <qualifiedname>themis::sharding::GossipProtocol::mergePeerList</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_peer_info" kindref="compound">PeerInfo</ref> &gt; &amp;</type>
+          <declname>peers</declname>
+        </param>
+        <briefdescription>
+<para>Merge Peer List. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">peers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1aa5ec5209a3debf6576c477ab17855d26" kindref="member">addPeer()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="383" column="10" bodyfile="src/sharding/gossip_protocol.cpp" bodystart="696" bodyend="705"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_protocol_1a103cde149af0872eb591b2446df44894" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GossipProtocol::updatePeerHealth</definition>
+        <argsstring>()</argsstring>
+        <name>updatePeerHealth</name>
+        <qualifiedname>themis::sharding::GossipProtocol::updatePeerHealth</qualifiedname>
+        <briefdescription>
+<para>Update Peer Health. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::chrono::system_clock::now(), lock(), count(), push_back(), <ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1a2b08edb0e8dec737bfa52acd35b9a72c" kindref="member">removePeer()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="384" column="10" bodyfile="src/sharding/gossip_protocol.cpp" bodystart="711" bodyend="737"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_protocol_1aaa1535e2f035d45475e6538150ca6015" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GossipProtocol::syncWithTopology</definition>
+        <argsstring>()</argsstring>
+        <name>syncWithTopology</name>
+        <qualifiedname>themis::sharding::GossipProtocol::syncWithTopology</qualifiedname>
+        <briefdescription>
+<para>Sync With Topology. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), syncWithTopologyLocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="385" column="10" bodyfile="src/sharding/gossip_protocol.cpp" bodystart="743" bodyend="752"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_protocol_1ab7332ad02e42c5fb0c681fca9c1baecb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GossipProtocol::syncWithTopologyLocked</definition>
+        <argsstring>()</argsstring>
+        <name>syncWithTopologyLocked</name>
+        <qualifiedname>themis::sharding::GossipProtocol::syncWithTopologyLocked</qualifiedname>
+        <briefdescription>
+<para>Called only when peers_mutex_ is already held by the current thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: hasShard(), raft_membership_gate_fn_(), addShard(), spdlog::debug(), spdlog::warn(), updateHealth(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="387" column="10" bodyfile="src/sharding/gossip_protocol.cpp" bodystart="758" bodyend="803"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_protocol_1a27909547fc119929f6cbe8b120955eb6" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::GossipProtocol::generateMessageId</definition>
+        <argsstring>() const</argsstring>
+        <name>generateMessageId</name>
+        <qualifiedname>themis::sharding::GossipProtocol::generateMessageId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="389" column="17" bodyfile="src/sharding/gossip_protocol.cpp" bodystart="805" bodyend="813"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_protocol_1ad1e253dbd4ea7ce116427da86b273176" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::GossipProtocol::signMessage</definition>
+        <argsstring>(const GossipMessage &amp;message) const</argsstring>
+        <name>signMessage</name>
+        <qualifiedname>themis::sharding::GossipProtocol::signMessage</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_gossip_message" kindref="compound">GossipMessage</ref> &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Sig. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sig_len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="390" column="17" bodyfile="src/sharding/gossip_protocol.cpp" bodystart="815" bodyend="873"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_protocol_1a334c469f8040c8971234842cb9a962b0" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::GossipProtocol::verifyMessage</definition>
+        <argsstring>(const GossipMessage &amp;message) const</argsstring>
+        <name>verifyMessage</name>
+        <qualifiedname>themis::sharding::GossipProtocol::verifyMessage</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_gossip_message" kindref="compound">GossipMessage</ref> &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="391" column="10" bodyfile="src/sharding/gossip_protocol.cpp" bodystart="875" bodyend="965"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_protocol_1ae7f61055514fb1a0262d4aad55de5fd5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::GossipProtocol::checkRateLimit</definition>
+        <argsstring>(const std::string &amp;peer_id)</argsstring>
+        <name>checkRateLimit</name>
+        <qualifiedname>themis::sharding::GossipProtocol::checkRateLimit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>peer_id</declname>
+        </param>
+        <briefdescription>
+<para>Check whether a user exceeds the current rate limit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">peer_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the peer. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the user remains within the configured limit.</para>
+</simplesect>
+Calls: lock(), std::chrono::system_clock::now(), std::chrono::seconds(), erase(), std::remove_if(), begin(), end(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="392" column="10" bodyfile="src/sharding/gossip_protocol.cpp" bodystart="973" bodyend="995"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_protocol_1a52906339abbbe008133afe930c10d951" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_gossip_message" kindref="compound">GossipMessage</ref></type>
+        <definition>GossipMessage themis::sharding::GossipProtocol::createHeartbeatMessage</definition>
+        <argsstring>() const</argsstring>
+        <name>createHeartbeatMessage</name>
+        <qualifiedname>themis::sharding::GossipProtocol::createHeartbeatMessage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="394" column="19" bodyfile="src/sharding/gossip_protocol.cpp" bodystart="997" bodyend="1015"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_protocol_1abdacd307b5d11c237cb449a1afa4d69e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_gossip_message" kindref="compound">GossipMessage</ref></type>
+        <definition>GossipMessage themis::sharding::GossipProtocol::createPeerListMessage</definition>
+        <argsstring>() const</argsstring>
+        <name>createPeerListMessage</name>
+        <qualifiedname>themis::sharding::GossipProtocol::createPeerListMessage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">peers_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="395" column="19" bodyfile="src/sharding/gossip_protocol.cpp" bodystart="1017" bodyend="1045"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_protocol_1a78f93ca0d55344d0c5286574d8d78a81" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_gossip_message" kindref="compound">GossipMessage</ref></type>
+        <definition>GossipMessage themis::sharding::GossipProtocol::createLeaveMessage</definition>
+        <argsstring>() const</argsstring>
+        <name>createLeaveMessage</name>
+        <qualifiedname>themis::sharding::GossipProtocol::createLeaveMessage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_protocol.h" line="396" column="19" bodyfile="src/sharding/gossip_protocol.cpp" bodystart="1047" bodyend="1059"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Gossip Protocol</para>
+<para>Implements a peer-to-peer gossip protocol for decentralized peer discovery in ThemisDB clusters. Based on SWIM (Scalable Weakly-consistent Infection-style process group Membership) protocol principles.</para>
+<para>Features:<itemizedlist>
+<listitem><para>Periodic heartbeat with random peer selection</para>
+</listitem><listitem><para>Peer list exchange with version vectors</para>
+</listitem><listitem><para>Anti-entropy for consistency</para>
+</listitem><listitem><para>mTLS-authenticated communication</para>
+</listitem><listitem><para>Rate limiting for DoS protection</para>
+</listitem></itemizedlist>
+</para>
+<para>Example: <ref refid="structthemis_1_1sharding_1_1_gossip_config" kindref="compound">GossipConfig</ref> config; config.enabled = true; config.seed_nodes = {&quot;peer1.example.com:8080&quot;};</para>
+<para>auto gossip = std::make_unique&lt;GossipProtocol&gt;(config, topology); gossip-&gt;<ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1a6b54022d9878d0e69be617ee008d5b38" kindref="member">start()</ref>;</para>
+<para>// ... later gossip-&gt;<ref refid="classthemis_1_1sharding_1_1_gossip_protocol_1ac265d21d79f0c875cb3db652dd0cb07d" kindref="member">stop()</ref>; </para>
+    </detaileddescription>
+    <location file="include/sharding/gossip_protocol.h" line="188" column="1" bodyfile="include/sharding/gossip_protocol.h" bodystart="188" bodyend="397"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1aa5ec5209a3debf6576c477ab17855d26" prot="public" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>addPeer</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1a45f4a905a47078be57d732f79b94391c" prot="private" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>bootstrapFromSeedNodes</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1ae7f61055514fb1a0262d4aad55de5fd5" prot="private" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>checkRateLimit</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1a9f5e403c7abce0fcbec3871628db24fa" prot="private" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>cleanup_thread_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1a4247f650e61718c4d629a3ce07b20f0f" prot="private" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>cleanupLoop</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1aa202a6b2711e81e9588420302f3f10fa" prot="private" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>client_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1abaa7624c026383b78d158e999b8126c0" prot="private" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1a52906339abbbe008133afe930c10d951" prot="private" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>createHeartbeatMessage</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1a78f93ca0d55344d0c5286574d8d78a81" prot="private" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>createLeaveMessage</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1abdacd307b5d11c237cb449a1afa4d69e" prot="private" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>createPeerListMessage</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1a5e65791052058c13ff8a6e9470bc282d" prot="private" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>custom_handlers_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1a27909547fc119929f6cbe8b120955eb6" prot="private" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>generateMessageId</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1a8b7c7c22418fffae502ea79c5c765b96" prot="public" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1a40d34a0e009931f9846aaa20b9d6138e" prot="public" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>getHealthyPeers</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1a04e5de9259d3d579a5723e4e94b4fa0e" prot="public" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>getPeerCount</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1a95d91b1bf2074fdc104c57f5fd585e6a" prot="public" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>getPeers</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1a709b990c27c8623ae75f2f1fed5be35d" prot="public" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1aae2ab25ea5b464e98e0eb4f0d2b1ff63" prot="private" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>gossip_rounds_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1a5838c17773b95e679a9506b5e4f269ce" prot="private" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>gossip_thread_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1aa814481f88367eaf4b62366590e7cbac" prot="private" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>gossipLoop</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1a1d92dbdcc147c7d870e0c4c2fb1eb634" prot="public" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>GossipProtocol</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1a9e7544ecdd1ad9db41a5a6595c7b92a6" prot="public" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>handleMessage</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1ac9f6dcb420dc5dd788a6ba3ef1e83149" prot="public" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1a1efdb590ba4fb5531dfd1d5dde0fa6e6" prot="private" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>mergePeerList</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1a8c4db6297db331f2b0577499f0e34cde" prot="private" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>messages_received_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1aabc2a07faae5b0643f5a74d611a25e6e" prot="private" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>messages_sent_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1a696ddc30b18309d7a7f4f863ef5b7694" prot="private" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>on_peer_discovered_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1aca2aaa5ae1a275288f308312b768a91b" prot="private" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>on_peer_lost_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1a58f9da7e1f94e0b43d3b974b17259d12" prot="public" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>onPeerDiscovered</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1ac08117d69f98781d9813ce1070312daf" prot="public" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>onPeerLost</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1a29c7081d89c32ed367df323e1d6834a3" prot="public" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>PeerDiscoveryCallback</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1ada04d3391967899b8f960d0bac573756" prot="public" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>PeerLostCallback</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1a415f6df0dac71891485c679499a7112f" prot="private" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>peers_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1a3d9cf487054a543273214f74ce3c6771" prot="private" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>peers_discovered_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1a9f7f87c6413daf3fba96b9bcff1259c1" prot="private" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>peers_lost_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1a34b61747c3450b791cb112a560bf98c8" prot="private" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>peers_mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1ae4a4081896d1295dc1b35417cff00ce0" prot="private" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>performGossipRound</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1a464d1049c9f5e6bbb74155138ed06f61" prot="private" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>raft_membership_gate_fn_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1aaae9fe522b5914acbeca764ace45283e" prot="public" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>RaftMembershipGateFn</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1a3189825e4bf93460ef656ad4ce41103d" prot="private" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>rate_limit_map_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1ae01a350eb09951d9af98435a03069982" prot="private" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>rate_limit_mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1adfc23d35fcef6b653f01107b89cca545" prot="public" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>registerCustomHandler</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1a2b08edb0e8dec737bfa52acd35b9a72c" prot="public" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>removePeer</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1aec9c70352b7f8440aaf9be483ac7916f" prot="private" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>running_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1a36f66463b3a97e01b52e89912c9efdfe" prot="private" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>selectRandomPeers</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1a1de5ddb735ee1825adc1d269f917dc39" prot="private" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>sendHeartbeat</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1a003ef3a0fc4ab0f7759815ecf688246e" prot="private" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>sendLeaveMessage</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1a95c9dbe2e2996ceb289dc1e3d42bdab7" prot="private" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>sendPeerList</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1a73672108c528d15aa1651cb1647170cb" prot="public" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>setRaftMembershipGateFn</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1ad1e253dbd4ea7ce116427da86b273176" prot="private" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>signMessage</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1a6b54022d9878d0e69be617ee008d5b38" prot="public" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>start</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1ac265d21d79f0c875cb3db652dd0cb07d" prot="public" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>stop</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1aaa1535e2f035d45475e6538150ca6015" prot="private" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>syncWithTopology</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1ab7332ad02e42c5fb0c681fca9c1baecb" prot="private" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>syncWithTopologyLocked</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1a54785b5a5df26af166c5ae7b203882e8" prot="private" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>topology_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1a103cde149af0872eb591b2446df44894" prot="private" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>updatePeerHealth</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1a334c469f8040c8971234842cb9a962b0" prot="private" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>verifyMessage</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_protocol_1a71a5ff62fa2efe41e99dbea0f1264092" prot="public" virt="non-virtual"><scope>themis::sharding::GossipProtocol</scope><name>~GossipProtocol</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

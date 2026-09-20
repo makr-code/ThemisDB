@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1test_1_1_model_loader_error_handling_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::test::ModelLoaderErrorHandlingTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_model_loader_error_handling_test_1a88c0a66f3568f5c3f106bbdf073d3984" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_lazy_model_loader_1_1_config" kindref="compound">LazyModelLoader::Config</ref></type>
+        <definition>LazyModelLoader::Config themis::test::ModelLoaderErrorHandlingTest::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::test::ModelLoaderErrorHandlingTest::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loader_error_handling.cpp" line="64" column="29" bodyfile="tests/llm/test_model_loader_error_handling.cpp" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_model_loader_error_handling_test_1a59ee3ffca43db4292e5fbe7f598bd315" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path themis::test::ModelLoaderErrorHandlingTest::temp_dir_</definition>
+        <argsstring></argsstring>
+        <name>temp_dir_</name>
+        <qualifiedname>themis::test::ModelLoaderErrorHandlingTest::temp_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loader_error_handling.cpp" line="65" column="14" bodyfile="tests/llm/test_model_loader_error_handling.cpp" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1test_1_1_model_loader_error_handling_test_1afb22f8a7c6d1be48a34f0c57f41f10c3" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::test::ModelLoaderErrorHandlingTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::test::ModelLoaderErrorHandlingTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loader_error_handling.cpp" line="34" column="10" bodyfile="tests/llm/test_model_loader_error_handling.cpp" bodystart="34" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_model_loader_error_handling_test_1a76c434d1a3066d662d1c69d84d12abe4" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::test::ModelLoaderErrorHandlingTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::test::ModelLoaderErrorHandlingTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loader_error_handling.cpp" line="48" column="10" bodyfile="tests/llm/test_model_loader_error_handling.cpp" bodystart="48" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_model_loader_error_handling_test_1a3ec8e2b0a7c7fd404c19c635b8ab5ca2" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::test::ModelLoaderErrorHandlingTest::createInvalidModelFile</definition>
+        <argsstring>()</argsstring>
+        <name>createInvalidModelFile</name>
+        <qualifiedname>themis::test::ModelLoaderErrorHandlingTest::createInvalidModelFile</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loader_error_handling.cpp" line="56" column="17" bodyfile="tests/llm/test_model_loader_error_handling.cpp" bodystart="56" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::test::ModelLoaderErrorHandlingTest</label>
+        <link refid="classthemis_1_1test_1_1_model_loader_error_handling_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::llm::LazyModelLoader::Config</label>
+        <link refid="structthemis_1_1llm_1_1_lazy_model_loader_1_1_config"/>
+      </node>
+      <node id="1">
+        <label>themis::test::ModelLoaderErrorHandlingTest</label>
+        <link refid="classthemis_1_1test_1_1_model_loader_error_handling_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>config_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_model_loader_error_handling.cpp" line="32" column="1" bodyfile="tests/llm/test_model_loader_error_handling.cpp" bodystart="32" bodyend="66"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1test_1_1_model_loader_error_handling_test_1a88c0a66f3568f5c3f106bbdf073d3984" prot="protected" virt="non-virtual"><scope>themis::test::ModelLoaderErrorHandlingTest</scope><name>config_</name></member>
+      <member refid="classthemis_1_1test_1_1_model_loader_error_handling_test_1a3ec8e2b0a7c7fd404c19c635b8ab5ca2" prot="protected" virt="non-virtual"><scope>themis::test::ModelLoaderErrorHandlingTest</scope><name>createInvalidModelFile</name></member>
+      <member refid="classthemis_1_1test_1_1_model_loader_error_handling_test_1afb22f8a7c6d1be48a34f0c57f41f10c3" prot="protected" virt="non-virtual"><scope>themis::test::ModelLoaderErrorHandlingTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1test_1_1_model_loader_error_handling_test_1a76c434d1a3066d662d1c69d84d12abe4" prot="protected" virt="non-virtual"><scope>themis::test::ModelLoaderErrorHandlingTest</scope><name>TearDown</name></member>
+      <member refid="classthemis_1_1test_1_1_model_loader_error_handling_test_1a59ee3ffca43db4292e5fbe7f598bd315" prot="protected" virt="non-virtual"><scope>themis::test::ModelLoaderErrorHandlingTest</scope><name>temp_dir_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,221 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_changefeed_1_1_change_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::Changefeed::ChangeEvent</compoundname>
+    <includes refid="changefeed_8h" local="no">changefeed.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_changefeed_1_1_change_event_1a6768432c72d8a143488ea46d4ce45856" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::Changefeed::ChangeEvent::sequence</definition>
+        <argsstring></argsstring>
+        <name>sequence</name>
+        <qualifiedname>themis::Changefeed::ChangeEvent::sequence</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="48" column="18" bodyfile="include/cdc/changefeed.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_changefeed_1_1_change_event_1a883b176a3fb4c5abc1dc20e30eb608a9" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0" kindref="member">ChangeEventType</ref></type>
+        <definition>ChangeEventType themis::Changefeed::ChangeEvent::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::Changefeed::ChangeEvent::type</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0a6cb4b5ef33ab335211f73af9fbd56d3b" kindref="member">ChangeEventType::EVENT_PUT</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="49" column="25" bodyfile="include/cdc/changefeed.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_changefeed_1_1_change_event_1a3a217971c867a92b478cb1b593bec7f7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::Changefeed::ChangeEvent::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::Changefeed::ChangeEvent::key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="50" column="21" bodyfile="include/cdc/changefeed.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_changefeed_1_1_change_event_1ad2d3a461fdb9d4deefc9935feb9d8c50" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::Changefeed::ChangeEvent::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::Changefeed::ChangeEvent::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="51" column="23" bodyfile="include/cdc/changefeed.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_changefeed_1_1_change_event_1aa6cfc276ad4f8bd518cb0f27278905ae" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::Changefeed::ChangeEvent::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::Changefeed::ChangeEvent::timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="52" column="17" bodyfile="include/cdc/changefeed.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_changefeed_1_1_change_event_1ac0f918082dd42e6b8837df0b13297286" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::Changefeed::ChangeEvent::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::Changefeed::ChangeEvent::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="53" column="24" bodyfile="include/cdc/changefeed.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_changefeed_1_1_change_event_1a8cdedbb4b3efa725c6c5ad3cadf115e5" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::Changefeed::ChangeEvent::before_snapshot</definition>
+        <argsstring></argsstring>
+        <name>before_snapshot</name>
+        <qualifiedname>themis::Changefeed::ChangeEvent::before_snapshot</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="58" column="23" bodyfile="include/cdc/changefeed.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_changefeed_1_1_change_event_1a59249b3094f85b3b51bc8f4dc024546a" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::Changefeed::ChangeEvent::after_snapshot</definition>
+        <argsstring></argsstring>
+        <name>after_snapshot</name>
+        <qualifiedname>themis::Changefeed::ChangeEvent::after_snapshot</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="59" column="23" bodyfile="include/cdc/changefeed.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_changefeed_1_1_change_event_1a8dfec24ed688e258491d681018b24945" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::Changefeed::ChangeEvent::redacted</definition>
+        <argsstring></argsstring>
+        <name>redacted</name>
+        <qualifiedname>themis::Changefeed::ChangeEvent::redacted</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="63" column="14" bodyfile="include/cdc/changefeed.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_changefeed_1_1_change_event_1a21abbcfb7476b474927f5ef558e9a0af" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::Changefeed::ChangeEvent::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::Changefeed::ChangeEvent::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="70" column="24" bodyfile="src/cdc/changefeed.cpp" bodystart="95" bodyend="138"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_changefeed_1_1_change_event_1a96792516ea522d6bc4ec5158c59e07f0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_changefeed_1_1_change_event" kindref="compound">ChangeEvent</ref></type>
+        <definition>Changefeed::ChangeEvent themis::Changefeed::ChangeEvent::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::Changefeed::ChangeEvent::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="structthemis_1_1_changefeed_1_1_change_event_1ad2d3a461fdb9d4deefc9935feb9d8c50" kindref="member">value()</ref>, uint64_t(), contains(), is_null(), int64_t(), is_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="76" column="28" bodyfile="src/cdc/changefeed.cpp" bodystart="146" bodyend="188"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/changefeed.h" line="47" column="5" bodyfile="include/cdc/changefeed.h" bodystart="47" bodyend="77"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_changefeed_1_1_change_event_1a59249b3094f85b3b51bc8f4dc024546a" prot="public" virt="non-virtual"><scope>themis::Changefeed::ChangeEvent</scope><name>after_snapshot</name></member>
+      <member refid="structthemis_1_1_changefeed_1_1_change_event_1a8cdedbb4b3efa725c6c5ad3cadf115e5" prot="public" virt="non-virtual"><scope>themis::Changefeed::ChangeEvent</scope><name>before_snapshot</name></member>
+      <member refid="structthemis_1_1_changefeed_1_1_change_event_1a96792516ea522d6bc4ec5158c59e07f0" prot="public" virt="non-virtual"><scope>themis::Changefeed::ChangeEvent</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1_changefeed_1_1_change_event_1a3a217971c867a92b478cb1b593bec7f7" prot="public" virt="non-virtual"><scope>themis::Changefeed::ChangeEvent</scope><name>key</name></member>
+      <member refid="structthemis_1_1_changefeed_1_1_change_event_1ac0f918082dd42e6b8837df0b13297286" prot="public" virt="non-virtual"><scope>themis::Changefeed::ChangeEvent</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1_changefeed_1_1_change_event_1a8dfec24ed688e258491d681018b24945" prot="public" virt="non-virtual"><scope>themis::Changefeed::ChangeEvent</scope><name>redacted</name></member>
+      <member refid="structthemis_1_1_changefeed_1_1_change_event_1a6768432c72d8a143488ea46d4ce45856" prot="public" virt="non-virtual"><scope>themis::Changefeed::ChangeEvent</scope><name>sequence</name></member>
+      <member refid="structthemis_1_1_changefeed_1_1_change_event_1aa6cfc276ad4f8bd518cb0f27278905ae" prot="public" virt="non-virtual"><scope>themis::Changefeed::ChangeEvent</scope><name>timestamp_ms</name></member>
+      <member refid="structthemis_1_1_changefeed_1_1_change_event_1a21abbcfb7476b474927f5ef558e9a0af" prot="public" virt="non-virtual"><scope>themis::Changefeed::ChangeEvent</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1_changefeed_1_1_change_event_1a883b176a3fb4c5abc1dc20e30eb608a9" prot="public" virt="non-virtual"><scope>themis::Changefeed::ChangeEvent</scope><name>type</name></member>
+      <member refid="structthemis_1_1_changefeed_1_1_change_event_1ad2d3a461fdb9d4deefc9935feb9d8c50" prot="public" virt="non-virtual"><scope>themis::Changefeed::ChangeEvent</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

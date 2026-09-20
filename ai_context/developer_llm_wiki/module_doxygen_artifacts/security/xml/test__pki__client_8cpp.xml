@@ -1,0 +1,629 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__pki__client_8cpp" kind="file" language="C++">
+    <compoundname>test_pki_client.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">utils/pki_client.h</includes>
+    <includes local="no">openssl/evp.h</includes>
+    <includes local="no">openssl/pem.h</includes>
+    <includes local="no">openssl/x509.h</includes>
+    <includes local="no">openssl/x509_vfy.h</includes>
+    <includes local="no">openssl/rsa.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">fstream</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">random</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/security/test_pki_client.cpp</label>
+        <link refid="test__pki__client_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>filesystem</label>
+      </node>
+      <node id="10">
+        <label>fstream</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="4">
+        <label>openssl/evp.h</label>
+      </node>
+      <node id="5">
+        <label>openssl/pem.h</label>
+      </node>
+      <node id="8">
+        <label>openssl/rsa.h</label>
+      </node>
+      <node id="6">
+        <label>openssl/x509.h</label>
+      </node>
+      <node id="7">
+        <label>openssl/x509_vfy.h</label>
+      </node>
+      <node id="12">
+        <label>random</label>
+      </node>
+      <node id="3">
+        <label>utils/pki_client.h</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__pki__client_8cpp_1a0597bba96ba1709e9ab6a808855ad375" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PKIClientTest, SignVerify_RSA_SHA256_Succeeds)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PKIClientTest</type>
+        </param>
+        <param>
+          <type>SignVerify_RSA_SHA256_Succeeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pki_client.cpp" line="181" column="1" bodyfile="tests/security/test_pki_client.cpp" bodystart="181" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pki__client_8cpp_1aab4b14c8a02b581d2d84b653c0e843fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PKIClientTest, SignHash_NoKeyConfigured_ReturnsFailureInProdMode)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PKIClientTest</type>
+        </param>
+        <param>
+          <type>SignHash_NoKeyConfigured_ReturnsFailureInProdMode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pki_client.cpp" line="227" column="1" bodyfile="tests/security/test_pki_client.cpp" bodystart="227" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pki__client_8cpp_1adca9a283b2bc0fac7eae0307bdc3feaf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PKIClientTest, VerifyHash_NoCertConfigured_ReturnsFalseInProdMode)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PKIClientTest</type>
+        </param>
+        <param>
+          <type>VerifyHash_NoCertConfigured_ReturnsFalseInProdMode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pki_client.cpp" line="240" column="1" bodyfile="tests/security/test_pki_client.cpp" bodystart="240" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pki__client_8cpp_1a2eeaed3c6ac5d7d8f3f624613f283820" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PKIClientTest, VerifyHash_ChainVerify_UntrustedCert_Rejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PKIClientTest</type>
+        </param>
+        <param>
+          <type>VerifyHash_ChainVerify_UntrustedCert_Rejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pki_client.cpp" line="260" column="1" bodyfile="tests/security/test_pki_client.cpp" bodystart="260" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pki__client_8cpp_1ad03e02b3d86ef628e2f53fd05abe80d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PKIClientTest, VerifyHash_ChainVerify_TrustedSelfSignedCert_Accepted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PKIClientTest</type>
+        </param>
+        <param>
+          <type>VerifyHash_ChainVerify_TrustedSelfSignedCert_Accepted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pki_client.cpp" line="288" column="1" bodyfile="tests/security/test_pki_client.cpp" bodystart="288" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pki__client_8cpp_1a3809c0aebb756b7cff9fdadc0d265384" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PKIClientTest, GenerateCSR_WithKey_ProducesValidX509Req)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PKIClientTest</type>
+        </param>
+        <param>
+          <type>GenerateCSR_WithKey_ProducesValidX509Req</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pki_client.cpp" line="316" column="1" bodyfile="tests/security/test_pki_client.cpp" bodystart="316" bodyend="350"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pki__client_8cpp_1aa28e77f7dd340003c9f5ae6aae4e2a39" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PKIClientTest, GenerateCSR_NoKey_ReturnsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PKIClientTest</type>
+        </param>
+        <param>
+          <type>GenerateCSR_NoKey_ReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pki_client.cpp" line="353" column="1" bodyfile="tests/security/test_pki_client.cpp" bodystart="353" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pki__client_8cpp_1acb2e60a36b3e99bd8e63762fcee95428" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PKIClientTest, SignHash_CaUrlConfigured_UnavailableCA_FailsClosed)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PKIClientTest</type>
+        </param>
+        <param>
+          <type>SignHash_CaUrlConfigured_UnavailableCA_FailsClosed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pki_client.cpp" line="363" column="1" bodyfile="tests/security/test_pki_client.cpp" bodystart="363" bodyend="390"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/pki_client.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/evp.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/pem.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/x509.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/x509_vfy.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/rsa.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">themis::utils</ref>;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal">std::vector&lt;uint8_t&gt;<sp/>random_bytes(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>n)<sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>v(n);</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng(42);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uniform_int_distribution&lt;int&gt;<sp/>dist(0,<sp/>255);</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>n;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>v[i]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(dist(rng));</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>v;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>generate_rsa_key_and_self_signed_cert(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_path,</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>cert_path,</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>bits<sp/>=<sp/>2048,</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>days_valid<sp/>=<sp/>365)<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>EVP_PKEY*<sp/>pkey<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>X509*<sp/>x509<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>X509_NAME*<sp/>name<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>RSA*<sp/>rsa<sp/>=<sp/>RSA_new();</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>BIGNUM*<sp/>e<sp/>=<sp/>BN_new();</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!rsa<sp/>||<sp/>!e)<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">goto</highlight><highlight class="normal"><sp/>cleanup;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(BN_set_word(e,<sp/>RSA_F4)<sp/>!=<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">goto</highlight><highlight class="normal"><sp/>cleanup;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(RSA_generate_key_ex(rsa,<sp/>bits,<sp/>e,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>!=<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">goto</highlight><highlight class="normal"><sp/>cleanup;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>pkey<sp/>=<sp/>EVP_PKEY_new();</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!pkey)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">goto</highlight><highlight class="normal"><sp/>cleanup;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>OPENSSL_VERSION_NUMBER<sp/>&lt;<sp/>0x30000000L</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(EVP_PKEY_assign_RSA(pkey,<sp/>rsa)<sp/>!=<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">goto</highlight><highlight class="normal"><sp/>cleanup;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>rsa<sp/>is<sp/>now<sp/>owned<sp/>by<sp/>pkey</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>rsa<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(EVP_PKEY_assign_RSA(pkey,<sp/>rsa)<sp/>!=<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">goto</highlight><highlight class="normal"><sp/>cleanup;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>rsa<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>x509<sp/>=<sp/>X509_new();</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!x509)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">goto</highlight><highlight class="normal"><sp/>cleanup;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Version<sp/>3<sp/>certificate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>X509_set_version(x509,<sp/>2);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Serial<sp/>number</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>ASN1_INTEGER_set(X509_get_serialNumber(x509),<sp/>1);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>X509_gmtime_adj(X509_get_notBefore(x509),<sp/>0);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>X509_gmtime_adj(X509_get_notAfter(x509),<sp/>days_valid<sp/>*<sp/>24<sp/>*<sp/>3600);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Subject/Issuer<sp/>(self-signed)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>name<sp/>=<sp/>X509_get_subject_name(x509);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!name)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">goto</highlight><highlight class="normal"><sp/>cleanup;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>X509_NAME_add_entry_by_txt(name,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">,<sp/>MBSTRING_ASC,<sp/>(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*)</highlight><highlight class="stringliteral">&quot;DE&quot;</highlight><highlight class="normal">,<sp/>-1,<sp/>-1,<sp/>0);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>X509_NAME_add_entry_by_txt(name,<sp/></highlight><highlight class="stringliteral">&quot;O&quot;</highlight><highlight class="normal">,<sp/>MBSTRING_ASC,<sp/>(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*)</highlight><highlight class="stringliteral">&quot;ThemisDB&quot;</highlight><highlight class="normal">,<sp/>-1,<sp/>-1,<sp/>0);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>X509_NAME_add_entry_by_txt(name,<sp/></highlight><highlight class="stringliteral">&quot;CN&quot;</highlight><highlight class="normal">,<sp/>MBSTRING_ASC,<sp/>(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*)</highlight><highlight class="stringliteral">&quot;themis-test&quot;</highlight><highlight class="normal">,<sp/>-1,<sp/>-1,<sp/>0);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>X509_set_issuer_name(x509,<sp/>name);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Public<sp/>key</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(X509_set_pubkey(x509,<sp/>pkey)<sp/>!=<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">goto</highlight><highlight class="normal"><sp/>cleanup;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sign<sp/>certificate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(X509_sign(x509,<sp/>pkey,<sp/>EVP_sha256())<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">goto</highlight><highlight class="normal"><sp/>cleanup;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Write<sp/>key</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FILE*<sp/>f<sp/>=<sp/>fopen(key_path.c_str(),<sp/></highlight><highlight class="stringliteral">&quot;wb&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!f)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">goto</highlight><highlight class="normal"><sp/>cleanup;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(PEM_write_PrivateKey(f,<sp/>pkey,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>0,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>!=<sp/>1)<sp/>{<sp/>fclose(f);<sp/></highlight><highlight class="keywordflow">goto</highlight><highlight class="normal"><sp/>cleanup;<sp/>}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fclose(f);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Write<sp/>cert</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FILE*<sp/>f<sp/>=<sp/>fopen(cert_path.c_str(),<sp/></highlight><highlight class="stringliteral">&quot;wb&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!f)<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">goto</highlight><highlight class="normal"><sp/>cleanup;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(PEM_write_X509(f,<sp/>x509)<sp/>!=<sp/>1)<sp/>{<sp/>fclose(f);<sp/></highlight><highlight class="keywordflow">goto</highlight><highlight class="normal"><sp/>cleanup;<sp/>}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fclose(f);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>ok<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal">cleanup:</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(x509)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>X509_free(x509);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(pkey)<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>EVP_PKEY_free(pkey);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(rsa)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>RSA_free(rsa);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(e)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>BN_free(e);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ok;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_TEST_MODE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><ref refid="test__pki__client_8cpp_1a0597bba96ba1709e9ab6a808855ad375" kindref="member">TEST</ref>(PKIClientTest,<sp/>SignVerify_StubMode_Base64Echo)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>PKIConfig<sp/>cfg;<sp/></highlight><highlight class="comment">//<sp/>no<sp/>key/cert<sp/>-&gt;<sp/>stub<sp/>mode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.signature_algorithm<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;RSA-SHA256&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_v_c_c_p_k_i_client" kindref="compound">VCCPKIClient</ref><sp/>client(cfg);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hash<sp/>=<sp/>random_bytes(32);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sig<sp/>=<sp/>client.signHash(hash);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sig.ok);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>In<sp/>stub<sp/>mode<sp/>signature<sp/>is<sp/>base64(hash);<sp/>verify<sp/>should<sp/>succeed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(client.verifyHash(hash,<sp/>sig));</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><ref refid="test__pki__client_8cpp_1a0597bba96ba1709e9ab6a808855ad375" kindref="member">TEST</ref>(PKIClientTest,<sp/>SignVerify_UsesBridgeCallbacksBeforeStubFallback)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>PKIConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>VCCPKIClient::setSignHashFn([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SignatureResult<sp/>result;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.ok<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.signature_b64<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;bridge-signature&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.cert_serial<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;bridge-cert&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>VCCPKIClient::setVerifyHashFn([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>SignatureResult&amp;<sp/>sig)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sig.signature_b64<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;bridge-signature&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_v_c_c_p_k_i_client" kindref="compound">VCCPKIClient</ref><sp/>client(cfg);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hash<sp/>=<sp/>random_bytes(32);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sig<sp/>=<sp/>client.signHash(hash);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sig.ok);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sig.signature_b64,<sp/></highlight><highlight class="stringliteral">&quot;bridge-signature&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sig.cert_serial,<sp/></highlight><highlight class="stringliteral">&quot;bridge-cert&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(client.verifyHash(hash,<sp/>sig));</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>VCCPKIClient::setSignHashFn({});</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>VCCPKIClient::setVerifyHashFn({});</highlight></codeline>
+<codeline lineno="178"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>THEMIS_TEST_MODE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><ref refid="test__pki__client_8cpp_1a0597bba96ba1709e9ab6a808855ad375" kindref="member">TEST</ref>(PKIClientTest,<sp/>SignVerify_RSA_SHA256_Succeeds)<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prepare<sp/>temp<sp/>files</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::create_directories(</highlight><highlight class="stringliteral">&quot;data/test_pki&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>key_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;data/test_pki/test_key.pem&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>cert_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;data/test_pki/test_cert.pem&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(generate_rsa_key_and_self_signed_cert(key_path,<sp/>cert_path));</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>PKIConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.key_path<sp/>=<sp/>key_path;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.cert_path<sp/>=<sp/>cert_path;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.signature_algorithm<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;RSA-SHA256&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_v_c_c_p_k_i_client" kindref="compound">VCCPKIClient</ref><sp/>client(cfg);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hash<sp/>=<sp/>random_bytes(32);<sp/></highlight><highlight class="comment">//<sp/>SHA-256<sp/>length</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sig<sp/>=<sp/>client.signHash(hash);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sig.ok);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sig.algorithm,<sp/></highlight><highlight class="stringliteral">&quot;RSA-SHA256&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(sig.signature_b64.empty());</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(sig.cert_serial.empty());</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(client.verifyHash(hash,<sp/>sig));</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Negative:<sp/>modify<sp/>hash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>hash[0]<sp/>^=<sp/>0xFF;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(client.verifyHash(hash,<sp/>sig));</highlight></codeline>
+<codeline lineno="209"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_TEST_MODE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><ref refid="test__pki__client_8cpp_1a0597bba96ba1709e9ab6a808855ad375" kindref="member">TEST</ref>(PKIClientTest,<sp/>SignVerify_AlgoMismatch_FallsBackStub)<sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>PKIConfig<sp/>cfg;<sp/></highlight><highlight class="comment">//<sp/>no<sp/>key/cert</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.signature_algorithm<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;RSA-SHA512&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>expects<sp/>64-byte<sp/>hash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_v_c_c_p_k_i_client" kindref="compound">VCCPKIClient</ref><sp/>client(cfg);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hash<sp/>=<sp/>random_bytes(32);<sp/></highlight><highlight class="comment">//<sp/>wrong<sp/>length<sp/>for<sp/>RSA-SHA512<sp/>-&gt;<sp/>stub</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sig<sp/>=<sp/>client.signHash(hash);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sig.ok);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>verify<sp/>via<sp/>stub<sp/>comparison</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(client.verifyHash(hash,<sp/>sig));</highlight></codeline>
+<codeline lineno="222"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>THEMIS_TEST_MODE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="comment">//<sp/>In<sp/>production<sp/>mode<sp/>(THEMIS_TEST_MODE<sp/>not<sp/>defined),<sp/>signHash<sp/>without<sp/>a<sp/>configured<sp/>key</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="comment">//<sp/>must<sp/>return<sp/>ok=false<sp/>so<sp/>that<sp/>callers<sp/>are<sp/>not<sp/>misled<sp/>by<sp/>a<sp/>fake<sp/>stub<sp/>signature.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><ref refid="test__pki__client_8cpp_1a0597bba96ba1709e9ab6a808855ad375" kindref="member">TEST</ref>(PKIClientTest,<sp/>SignHash_NoKeyConfigured_ReturnsFailureInProdMode)<sp/>{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_TEST_MODE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Stub<sp/>fallback<sp/>is<sp/>active<sp/>in<sp/>THEMIS_TEST_MODE;<sp/>skipping<sp/>production-mode<sp/>check.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>PKIConfig<sp/>cfg;<sp/></highlight><highlight class="comment">//<sp/>no<sp/>key,<sp/>no<sp/>endpoint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.signature_algorithm<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;RSA-SHA256&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_v_c_c_p_k_i_client" kindref="compound">VCCPKIClient</ref><sp/>client(cfg);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hash<sp/>=<sp/>random_bytes(32);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sig<sp/>=<sp/>client.signHash(hash);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(sig.ok)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;signHash<sp/>without<sp/>a<sp/>configured<sp/>key<sp/>must<sp/>fail<sp/>in<sp/>production<sp/>mode&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight><highlight class="comment">//<sp/>In<sp/>production<sp/>mode,<sp/>verifyHash<sp/>without<sp/>a<sp/>configured<sp/>cert<sp/>must<sp/>return<sp/>false<sp/>(fail-closed).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><ref refid="test__pki__client_8cpp_1a0597bba96ba1709e9ab6a808855ad375" kindref="member">TEST</ref>(PKIClientTest,<sp/>VerifyHash_NoCertConfigured_ReturnsFalseInProdMode)<sp/>{</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_TEST_MODE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Stub<sp/>fallback<sp/>is<sp/>active<sp/>in<sp/>THEMIS_TEST_MODE;<sp/>skipping<sp/>production-mode<sp/>check.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>PKIConfig<sp/>cfg;<sp/></highlight><highlight class="comment">//<sp/>no<sp/>cert,<sp/>no<sp/>endpoint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.signature_algorithm<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;RSA-SHA256&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_v_c_c_p_k_i_client" kindref="compound">VCCPKIClient</ref><sp/>client(cfg);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hash<sp/>=<sp/>random_bytes(32);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>SignatureResult<sp/>fake_sig;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>fake_sig.ok<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>fake_sig.algorithm<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;RSA-SHA256&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>fake_sig.signature_b64<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;dGVzdA==&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>arbitrary<sp/>base64</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(client.verifyHash(hash,<sp/>fake_sig))</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;verifyHash<sp/>without<sp/>a<sp/>configured<sp/>cert<sp/>must<sp/>fail-closed<sp/>in<sp/>production<sp/>mode&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Verify<sp/>that<sp/>verifyHash<sp/>rejects<sp/>a<sp/>signature<sp/>when<sp/>the<sp/>certificate<sp/>chain<sp/>is<sp/>invalid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight><highlight class="comment">//<sp/>(i.e.<sp/>the<sp/>cert<sp/>is<sp/>self-signed<sp/>and<sp/>the<sp/>trust<sp/>store<sp/>does<sp/>not<sp/>contain<sp/>it<sp/>as<sp/>a<sp/>trusted<sp/>CA).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><ref refid="test__pki__client_8cpp_1a0597bba96ba1709e9ab6a808855ad375" kindref="member">TEST</ref>(PKIClientTest,<sp/>VerifyHash_ChainVerify_UntrustedCert_Rejected)<sp/>{</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::create_directories(</highlight><highlight class="stringliteral">&quot;data/test_pki_chain&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>key_path<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;data/test_pki_chain/key.pem&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>cert_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;data/test_pki_chain/cert.pem&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>a<sp/>different<sp/>self-signed<sp/>cert<sp/>as<sp/>the<sp/>(wrong)<sp/>trust<sp/>store<sp/>—<sp/>chain<sp/>must<sp/>be<sp/>rejected.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>other_key<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;data/test_pki_chain/other_key.pem&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>other_cert<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;data/test_pki_chain/other_cert.pem&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(generate_rsa_key_and_self_signed_cert(key_path,<sp/>cert_path));</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(generate_rsa_key_and_self_signed_cert(other_key,<sp/>other_cert));</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>PKIConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.key_path<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>key_path;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.cert_path<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>cert_path;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.trust_store_path<sp/>=<sp/>other_cert;<sp/></highlight><highlight class="comment">//<sp/>intentionally<sp/>wrong<sp/>CA</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.signature_algorithm<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;RSA-SHA256&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_v_c_c_p_k_i_client" kindref="compound">VCCPKIClient</ref><sp/>client(cfg);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hash<sp/>=<sp/>random_bytes(32);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sig<sp/><sp/>=<sp/>client.signHash(hash);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sig.ok)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Signing<sp/>with<sp/>a<sp/>local<sp/>key<sp/>must<sp/>succeed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verification<sp/>must<sp/>fail<sp/>because<sp/>the<sp/>cert<sp/>is<sp/>not<sp/>trusted<sp/>by<sp/>the<sp/>(wrong)<sp/>trust<sp/>store.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(client.verifyHash(hash,<sp/>sig))</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Certificate<sp/>chain<sp/>validation<sp/>must<sp/>reject<sp/>an<sp/>untrusted<sp/>certificate&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Verify<sp/>that<sp/>verifyHash<sp/>accepts<sp/>a<sp/>valid<sp/>chain<sp/>when<sp/>the<sp/>trust<sp/>store<sp/>contains<sp/>the<sp/>CA<sp/>cert.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><ref refid="test__pki__client_8cpp_1a0597bba96ba1709e9ab6a808855ad375" kindref="member">TEST</ref>(PKIClientTest,<sp/>VerifyHash_ChainVerify_TrustedSelfSignedCert_Accepted)<sp/>{</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::create_directories(</highlight><highlight class="stringliteral">&quot;data/test_pki_chain&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>key_path<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;data/test_pki_chain/self_key.pem&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>cert_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;data/test_pki_chain/self_cert.pem&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(generate_rsa_key_and_self_signed_cert(key_path,<sp/>cert_path));</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>PKIConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.key_path<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>key_path;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.cert_path<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>cert_path;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.trust_store_path<sp/>=<sp/>cert_path;<sp/></highlight><highlight class="comment">//<sp/>self-signed<sp/>cert<sp/>is<sp/>its<sp/>own<sp/>CA</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.signature_algorithm<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;RSA-SHA256&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_v_c_c_p_k_i_client" kindref="compound">VCCPKIClient</ref><sp/>client(cfg);</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hash<sp/>=<sp/>random_bytes(32);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sig<sp/><sp/>=<sp/>client.signHash(hash);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sig.ok);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(client.verifyHash(hash,<sp/>sig))</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Certificate<sp/>chain<sp/>validation<sp/>must<sp/>accept<sp/>a<sp/>self-signed<sp/>cert<sp/>trusted<sp/>by<sp/>itself&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PKCS#10<sp/>CSR<sp/>generation<sp/>tests<sp/>(X509_REQ_*<sp/>API)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight><highlight class="comment">//<sp/>generateCSR()<sp/>must<sp/>produce<sp/>a<sp/>non-empty,<sp/>PEM-encoded,<sp/>self-signed<sp/>PKCS#10</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight><highlight class="comment">//<sp/>request<sp/>that<sp/>can<sp/>be<sp/>parsed<sp/>back<sp/>by<sp/>OpenSSL.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><ref refid="test__pki__client_8cpp_1a0597bba96ba1709e9ab6a808855ad375" kindref="member">TEST</ref>(PKIClientTest,<sp/>GenerateCSR_WithKey_ProducesValidX509Req)<sp/>{</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::create_directories(</highlight><highlight class="stringliteral">&quot;data/test_pki_csr&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>key_path<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;data/test_pki_csr/csr_key.pem&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>cert_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;data/test_pki_csr/csr_cert.pem&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>generated<sp/>but<sp/>not<sp/>used</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(generate_rsa_key_and_self_signed_cert(key_path,<sp/>cert_path));</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>PKIConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.key_path<sp/><sp/><sp/>=<sp/>key_path;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.service_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themis-test-service&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.signature_algorithm<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;RSA-SHA256&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_v_c_c_p_k_i_client" kindref="compound">VCCPKIClient</ref><sp/>client(cfg);</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>csr_pem<sp/>=<sp/>client.generateCSR();</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(csr_pem.empty())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;generateCSR()<sp/>must<sp/>return<sp/>a<sp/>non-empty<sp/>PEM<sp/>string&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(csr_pem.find(</highlight><highlight class="stringliteral">&quot;-----BEGIN<sp/>CERTIFICATE<sp/>REQUEST-----&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;CSR<sp/>PEM<sp/>must<sp/>contain<sp/>CERTIFICATE<sp/>REQUEST<sp/>header&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Parse<sp/>the<sp/>CSR<sp/>back<sp/>with<sp/>OpenSSL<sp/>to<sp/>confirm<sp/>it<sp/>is<sp/>well-formed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>BIO*<sp/>bio<sp/>=<sp/>BIO_new_mem_buf(csr_pem.data(),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(csr_pem.size()));</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(bio,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>X509_REQ*<sp/>req<sp/>=<sp/>PEM_read_bio_X509_REQ(bio,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>BIO_free(bio);</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(req,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OpenSSL<sp/>must<sp/>be<sp/>able<sp/>to<sp/>parse<sp/>the<sp/>generated<sp/>CSR&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>the<sp/>CSR<sp/>self-signature</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>EVP_PKEY*<sp/>pub<sp/>=<sp/>X509_REQ_get_pubkey(req);</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(pub,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>verify_rc<sp/>=<sp/>X509_REQ_verify(req,<sp/>pub);</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>EVP_PKEY_free(pub);</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>X509_REQ_free(req);</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(verify_rc,<sp/>1)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;CSR<sp/>self-signature<sp/>must<sp/>be<sp/>valid&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="350"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight><highlight class="comment">//<sp/>generateCSR()<sp/>must<sp/>fail<sp/>gracefully<sp/>when<sp/>no<sp/>private<sp/>key<sp/>is<sp/>configured.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><ref refid="test__pki__client_8cpp_1a0597bba96ba1709e9ab6a808855ad375" kindref="member">TEST</ref>(PKIClientTest,<sp/>GenerateCSR_NoKey_ReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>PKIConfig<sp/>cfg;<sp/></highlight><highlight class="comment">//<sp/>no<sp/>key_path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.service_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themis-test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_v_c_c_p_k_i_client" kindref="compound">VCCPKIClient</ref><sp/>client(cfg);</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(client.generateCSR().empty())</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;generateCSR()<sp/>without<sp/>a<sp/>configured<sp/>key<sp/>must<sp/>return<sp/>an<sp/>empty<sp/>string&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="359"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight><highlight class="comment">//<sp/>When<sp/>ca_url<sp/>is<sp/>configured<sp/>but<sp/>the<sp/>CA<sp/>server<sp/>is<sp/>unavailable,<sp/>signHash<sp/>must</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight><highlight class="comment">//<sp/>not<sp/>fall<sp/>back<sp/>to<sp/>the<sp/>base64<sp/>stub<sp/>—<sp/>it<sp/>must<sp/>return<sp/>ok=false<sp/>(fail-closed).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><ref refid="test__pki__client_8cpp_1a0597bba96ba1709e9ab6a808855ad375" kindref="member">TEST</ref>(PKIClientTest,<sp/>SignHash_CaUrlConfigured_UnavailableCA_FailsClosed)<sp/>{</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::create_directories(</highlight><highlight class="stringliteral">&quot;data/test_pki_csr&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>key_path<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;data/test_pki_csr/capath_key.pem&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>cert_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;data/test_pki_csr/capath_cert.pem&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(generate_rsa_key_and_self_signed_cert(key_path,<sp/>cert_path));</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/>PKIConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.key_path<sp/><sp/><sp/>=<sp/>key_path;</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>cert_path<sp/>—<sp/>triggers<sp/>the<sp/>ca_url<sp/>provisioning<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.ca_url<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;http://127.0.0.1:19999&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>unreachable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.service_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themis-test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.signature_algorithm<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;RSA-SHA256&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_v_c_c_p_k_i_client" kindref="compound">VCCPKIClient</ref><sp/>client(cfg);</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hash<sp/>=<sp/>random_bytes(32);</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sig<sp/><sp/>=<sp/>client.signHash(hash);</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CA<sp/>is<sp/>unreachable:<sp/>provisioned<sp/>cert<sp/>will<sp/>be<sp/>empty.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Production:<sp/>ok=false<sp/>(no<sp/>THEMIS_TEST_MODE<sp/>fallback)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>mode:<sp/>the<sp/>THEMIS_TEST_MODE<sp/>stub<sp/>kicks<sp/>in.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_TEST_MODE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>In<sp/>test<sp/>mode<sp/>the<sp/>base64<sp/>stub<sp/>is<sp/>still<sp/>active<sp/>—<sp/>just<sp/>verify<sp/>we<sp/>get<sp/>a<sp/>result.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sig.ok);</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(sig.ok)</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;signHash<sp/>must<sp/>fail-closed<sp/>when<sp/>ca_url<sp/>is<sp/>unreachable<sp/>and<sp/>no<sp/>local<sp/>cert<sp/>exists&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="390"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/security/test_pki_client.cpp"/>
+  </compounddef>
+</doxygen>

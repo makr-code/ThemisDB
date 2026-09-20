@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_secure_transport_client_1_1_payload" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::SecureTransportClient::Payload</compoundname>
+    <includes refid="secure__transport__client_8h" local="no">secure_transport_client.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_secure_transport_client_1_1_payload_1a3346b7cde4cc7c5775d2c240992482f0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::SecureTransportClient::Payload::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::Payload::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="74" column="21" bodyfile="include/sharding/secure_transport_client.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_secure_transport_client_1_1_payload_1aa7c280c8385c45b63700212fceb366e4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::SecureTransportClient::Payload::content_type</definition>
+        <argsstring></argsstring>
+        <name>content_type</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::Payload::content_type</qualifiedname>
+        <initializer>= &quot;application/octet-stream&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="75" column="21" bodyfile="include/sharding/secure_transport_client.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_secure_transport_client_1_1_payload_1a322209a1fb69fcffbbbd4dbe40286ba4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::SecureTransportClient::Payload::checksum</definition>
+        <argsstring></argsstring>
+        <name>checksum</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::Payload::checksum</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="76" column="21" bodyfile="include/sharding/secure_transport_client.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_secure_transport_client_1_1_payload_1acbd7c397d8ae016b5c6ae5cd59553513" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::SecureTransportClient::Payload::signature</definition>
+        <argsstring></argsstring>
+        <name>signature</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::Payload::signature</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="77" column="21" bodyfile="include/sharding/secure_transport_client.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_secure_transport_client_1_1_payload_1a6dc6453d6c68868805fd3c75f0e3369b" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::SecureTransportClient::Payload::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::Payload::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="78" column="24" bodyfile="include/sharding/secure_transport_client.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_secure_transport_client_1_1_payload_1a4c8c217df61f170ff05166720bd72d70" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::SecureTransportClient::Payload::authorization_token</definition>
+        <argsstring></argsstring>
+        <name>authorization_token</name>
+        <qualifiedname>themis::sharding::SecureTransportClient::Payload::authorization_token</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/secure_transport_client.h" line="79" column="21" bodyfile="include/sharding/secure_transport_client.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_payload" kindref="compound">Payload</ref> to transfer. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/secure_transport_client.h" line="73" column="5" bodyfile="include/sharding/secure_transport_client.h" bodystart="73" bodyend="80"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_payload_1a4c8c217df61f170ff05166720bd72d70" prot="public" virt="non-virtual"><scope>themis::sharding::SecureTransportClient::Payload</scope><name>authorization_token</name></member>
+      <member refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_payload_1a322209a1fb69fcffbbbd4dbe40286ba4" prot="public" virt="non-virtual"><scope>themis::sharding::SecureTransportClient::Payload</scope><name>checksum</name></member>
+      <member refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_payload_1aa7c280c8385c45b63700212fceb366e4" prot="public" virt="non-virtual"><scope>themis::sharding::SecureTransportClient::Payload</scope><name>content_type</name></member>
+      <member refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_payload_1a3346b7cde4cc7c5775d2c240992482f0" prot="public" virt="non-virtual"><scope>themis::sharding::SecureTransportClient::Payload</scope><name>data</name></member>
+      <member refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_payload_1a6dc6453d6c68868805fd3c75f0e3369b" prot="public" virt="non-virtual"><scope>themis::sharding::SecureTransportClient::Payload</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_payload_1acbd7c397d8ae016b5c6ae5cd59553513" prot="public" virt="non-virtual"><scope>themis::sharding::SecureTransportClient::Payload</scope><name>signature</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

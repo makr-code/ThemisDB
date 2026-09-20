@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structwave1__clo_1_1_multi_mutex_state" kind="struct" language="C++" prot="public">
+    <compoundname>wave1_clo::MultiMutexState</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structwave1__clo_1_1_multi_mutex_state_1a7e50a01fa8c97b987cea753a9781addf" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex wave1_clo::MultiMutexState::state_mutex_</definition>
+        <argsstring></argsstring>
+        <name>state_mutex_</name>
+        <qualifiedname>wave1_clo::MultiMutexState::state_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="444" column="24" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="444" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structwave1__clo_1_1_multi_mutex_state_1adf370ec1c4e9c1561cd4175289dd00c8" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex wave1_clo::MultiMutexState::config_mutex_</definition>
+        <argsstring></argsstring>
+        <name>config_mutex_</name>
+        <qualifiedname>wave1_clo::MultiMutexState::config_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="445" column="24" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="445" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structwave1__clo_1_1_multi_mutex_state_1a9aeda4133f0e5d9ec8eb981eaca9a22e" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex wave1_clo::MultiMutexState::metrics_mutex_</definition>
+        <argsstring></argsstring>
+        <name>metrics_mutex_</name>
+        <qualifiedname>wave1_clo::MultiMutexState::metrics_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="446" column="24" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="446" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structwave1__clo_1_1_multi_mutex_state_1a3e3323a22a6750be248741b56a44567c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int wave1_clo::MultiMutexState::state_value</definition>
+        <argsstring></argsstring>
+        <name>state_value</name>
+        <qualifiedname>wave1_clo::MultiMutexState::state_value</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="448" column="9" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="448" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structwave1__clo_1_1_multi_mutex_state_1a11c8ad0f9c3e04fb0b2a4365a1b3b45a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int wave1_clo::MultiMutexState::config_value</definition>
+        <argsstring></argsstring>
+        <name>config_value</name>
+        <qualifiedname>wave1_clo::MultiMutexState::config_value</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="449" column="9" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="449" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structwave1__clo_1_1_multi_mutex_state_1a5ac4c2241e5b48c83ccf90c90ae51b31" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int wave1_clo::MultiMutexState::metrics_value</definition>
+        <argsstring></argsstring>
+        <name>metrics_value</name>
+        <qualifiedname>wave1_clo::MultiMutexState::metrics_value</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="450" column="9" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="450" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structwave1__clo_1_1_multi_mutex_state_1a85d4294b32356136059320643a92258d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void wave1_clo::MultiMutexState::updateStateAndMetrics</definition>
+        <argsstring>(int s, int m)</argsstring>
+        <name>updateStateAndMetrics</name>
+        <qualifiedname>wave1_clo::MultiMutexState::updateStateAndMetrics</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>m</declname>
+        </param>
+        <briefdescription>
+<para>Update state and metrics together using std::lock to avoid deadlock. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="453" column="10" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="453" bodyend="461"/>
+      </memberdef>
+      <memberdef kind="function" id="structwave1__clo_1_1_multi_mutex_state_1a6e536ef095bc1ac35b81bf9ce9f7a6a1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void wave1_clo::MultiMutexState::updateConfigAndMetrics</definition>
+        <argsstring>(int c, int m)</argsstring>
+        <name>updateConfigAndMetrics</name>
+        <qualifiedname>wave1_clo::MultiMutexState::updateConfigAndMetrics</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>c</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>m</declname>
+        </param>
+        <briefdescription>
+<para>Update config and metrics together using std::lock. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="464" column="10" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="464" bodyend="470"/>
+      </memberdef>
+      <memberdef kind="function" id="structwave1__clo_1_1_multi_mutex_state_1aafc4efa9c54f23e1ff3eea8195e4bede" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::tuple&lt; int, int, int &gt;</type>
+        <definition>std::tuple&lt; int, int, int &gt; wave1_clo::MultiMutexState::snapshot</definition>
+        <argsstring>() const</argsstring>
+        <name>snapshot</name>
+        <qualifiedname>wave1_clo::MultiMutexState::snapshot</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="472" column="16" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="472" bodyend="478"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="440" column="1" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="440" bodyend="479"/>
+    <listofallmembers>
+      <member refid="structwave1__clo_1_1_multi_mutex_state_1adf370ec1c4e9c1561cd4175289dd00c8" prot="public" virt="non-virtual"><scope>wave1_clo::MultiMutexState</scope><name>config_mutex_</name></member>
+      <member refid="structwave1__clo_1_1_multi_mutex_state_1a11c8ad0f9c3e04fb0b2a4365a1b3b45a" prot="public" virt="non-virtual"><scope>wave1_clo::MultiMutexState</scope><name>config_value</name></member>
+      <member refid="structwave1__clo_1_1_multi_mutex_state_1a9aeda4133f0e5d9ec8eb981eaca9a22e" prot="public" virt="non-virtual"><scope>wave1_clo::MultiMutexState</scope><name>metrics_mutex_</name></member>
+      <member refid="structwave1__clo_1_1_multi_mutex_state_1a5ac4c2241e5b48c83ccf90c90ae51b31" prot="public" virt="non-virtual"><scope>wave1_clo::MultiMutexState</scope><name>metrics_value</name></member>
+      <member refid="structwave1__clo_1_1_multi_mutex_state_1aafc4efa9c54f23e1ff3eea8195e4bede" prot="public" virt="non-virtual"><scope>wave1_clo::MultiMutexState</scope><name>snapshot</name></member>
+      <member refid="structwave1__clo_1_1_multi_mutex_state_1a7e50a01fa8c97b987cea753a9781addf" prot="public" virt="non-virtual"><scope>wave1_clo::MultiMutexState</scope><name>state_mutex_</name></member>
+      <member refid="structwave1__clo_1_1_multi_mutex_state_1a3e3323a22a6750be248741b56a44567c" prot="public" virt="non-virtual"><scope>wave1_clo::MultiMutexState</scope><name>state_value</name></member>
+      <member refid="structwave1__clo_1_1_multi_mutex_state_1a6e536ef095bc1ac35b81bf9ce9f7a6a1" prot="public" virt="non-virtual"><scope>wave1_clo::MultiMutexState</scope><name>updateConfigAndMetrics</name></member>
+      <member refid="structwave1__clo_1_1_multi_mutex_state_1a85d4294b32356136059320643a92258d" prot="public" virt="non-virtual"><scope>wave1_clo::MultiMutexState</scope><name>updateStateAndMetrics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

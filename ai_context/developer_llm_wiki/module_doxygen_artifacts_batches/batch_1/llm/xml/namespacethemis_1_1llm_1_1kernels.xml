@@ -1,0 +1,996 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1llm_1_1kernels" kind="namespace" language="C++">
+    <compoundname>themis::llm::kernels</compoundname>
+    <innerclass refid="classthemis_1_1llm_1_1kernels_1_1_kernel_fusion_manager" prot="public">themis::llm::kernels::KernelFusionManager</innerclass>
+    <innernamespace refid="namespacethemis_1_1llm_1_1kernels_1_1cuda">themis::llm::kernels::cuda</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1kernels_1a3619d0eec179c81cd377c4c44d6f2115" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::kernels::fusedLayerNormLinearResidual</definition>
+        <argsstring>(float *output, const float *input, const float *weight, const float *bias, const float *residual, const float *ln_weight, const float *ln_bias, int batch_size, int seq_len, int hidden_dim, float epsilon)</argsstring>
+        <name>fusedLayerNormLinearResidual</name>
+        <qualifiedname>themis::llm::kernels::fusedLayerNormLinearResidual</qualifiedname>
+        <param>
+          <type>float *</type>
+          <declname>output</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>weight</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>bias</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>residual</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>ln_weight</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>ln_bias</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>batch_size</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>seq_len</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>hidden_dim</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>epsilon</declname>
+          <defval>1e-5f</defval>
+        </param>
+        <briefdescription>
+<para>Fused LayerNorm + Linear + Residual Implementation W1-L01: Kernel fusion functions with comprehensive false-positive annotation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">weight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bias</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">residual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ln_weight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ln_bias</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">seq_len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hidden_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">epsilon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Scanner flags ~22 &quot;prompt_injection&quot; findings on kernel fusion compute paths. These are reviewed false positives: - input, weight, bias, residual, output are floating-point arrays (matrix operands) - Pointer arithmetic (input + i * hidden_dim, input_row[j]) operates on numerical tensors - Matrix operations: layernorm computation, linear transformation, residual addition - bias initialization, activation functions are standard neural network operations - All data flows are numerical computations, not text/prompt processing All findings dismissed as scanner misclassification of tensor compute paths as prompt API. Calls: isCudaAvailable(), <ref refid="namespacethemis_1_1llm_1_1kernels_1_1cuda_1a9fff295a83607e3890d75f98be5db894" kindref="member">cuda::launchFusedLayerNormLinear()</ref>, spdlog::info(), std::sqrt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/kernel_fusion.cpp" line="72" column="6" bodyfile="src/llm/kernel_fusion.cpp" bodystart="72" bodyend="153" declfile="include/llm/kernel_fusion.h" declline="25" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1kernels_1a324b435ad94563f4617c1c78c94d2e72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::kernels::fusedAttentionQKV</definition>
+        <argsstring>(float *query, float *key, float *value, const float *input, const float *qkv_weight, const float *qkv_bias, int batch_size, int seq_len, int hidden_dim, int num_heads)</argsstring>
+        <name>fusedAttentionQKV</name>
+        <qualifiedname>themis::llm::kernels::fusedAttentionQKV</qualifiedname>
+        <param>
+          <type>float *</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>float *</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>float *</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>qkv_weight</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>qkv_bias</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>batch_size</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>seq_len</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>hidden_dim</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>num_heads</declname>
+        </param>
+        <briefdescription>
+<para>Fused Attention QKV projection Projects input to Q, K, V in single kernel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Fused Attention QKV Projection.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">qkv_weight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">qkv_bias</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">seq_len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hidden_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_heads</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">qkv_weight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">qkv_bias</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">seq_len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hidden_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_heads</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: isCudaAvailable(), <ref refid="namespacethemis_1_1llm_1_1kernels_1_1cuda_1adbe021776a0fb8107cf8d4a084ce99fb" kindref="member">cuda::launchFusedQKVProjection()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/kernel_fusion.cpp" line="169" column="6" bodyfile="src/llm/kernel_fusion.cpp" bodystart="169" bodyend="207" declfile="include/llm/kernel_fusion.h" declline="52" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1kernels_1af1eebcecf62b6694c84cc197386b02e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::kernels::fusedRoPEAttentionScore</definition>
+        <argsstring>(float *scores, const float *query, const float *key, const int *position_ids, int batch_size, int num_heads, int seq_len, int head_dim, float scale, int rope_base)</argsstring>
+        <name>fusedRoPEAttentionScore</name>
+        <qualifiedname>themis::llm::kernels::fusedRoPEAttentionScore</qualifiedname>
+        <param>
+          <type>float *</type>
+          <declname>scores</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const int *</type>
+          <declname>position_ids</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>batch_size</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>num_heads</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>seq_len</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>head_dim</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>scale</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>rope_base</declname>
+          <defval>10000</defval>
+        </param>
+        <briefdescription>
+<para>Fused RoPE + Attention Score. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">scores</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">position_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_heads</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">seq_len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">head_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scale</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rope_base</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: isCudaAvailable(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/kernel_fusion.cpp" line="223" column="6" bodyfile="src/llm/kernel_fusion.cpp" bodystart="223" bodyend="269" declfile="include/llm/kernel_fusion.h" declline="67" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1kernels_1a9820efa0d40eadebe8beb9a6c87e91a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::kernels::fusedSoftmaxDropoutAttention</definition>
+        <argsstring>(float *output, float *attention_weights, const float *scores, const float *values, const float *attention_mask, int batch_size, int num_heads, int seq_len_q, int seq_len_kv, int head_dim, float dropout_prob, bool is_causal)</argsstring>
+        <name>fusedSoftmaxDropoutAttention</name>
+        <qualifiedname>themis::llm::kernels::fusedSoftmaxDropoutAttention</qualifiedname>
+        <param>
+          <type>float *</type>
+          <declname>output</declname>
+        </param>
+        <param>
+          <type>float *</type>
+          <declname>attention_weights</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>scores</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>values</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>attention_mask</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>batch_size</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>num_heads</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>seq_len_q</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>seq_len_kv</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>head_dim</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>dropout_prob</declname>
+          <defval>0.0f</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>is_causal</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Fused SoftMax + Dropout + Attention. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">attention_weights</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scores</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">attention_mask</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_heads</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">seq_len_q</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">seq_len_kv</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">head_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dropout_prob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">is_causal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: isCudaAvailable(), sqrtf(), std::max(), std::exp(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/kernel_fusion.cpp" line="287" column="6" bodyfile="src/llm/kernel_fusion.cpp" bodystart="287" bodyend="368" declfile="include/llm/kernel_fusion.h" declline="82" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1kernels_1a3250bc4ab48e81545bdb2e7b52f51106" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::kernels::fusedGatedFFN</definition>
+        <argsstring>(float *output, const float *input, const float *gate_weight, const float *up_weight, const float *down_weight, int batch_size, int seq_len, int hidden_dim, int intermediate_dim)</argsstring>
+        <name>fusedGatedFFN</name>
+        <qualifiedname>themis::llm::kernels::fusedGatedFFN</qualifiedname>
+        <param>
+          <type>float *</type>
+          <declname>output</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>gate_weight</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>up_weight</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>down_weight</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>batch_size</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>seq_len</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>hidden_dim</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>intermediate_dim</declname>
+        </param>
+        <briefdescription>
+<para>Fused FFN (Feed-Forward Network) gate_proj * silu(up_proj) in single kernel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Fused Gated FFN.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">gate_weight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">up_weight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">down_weight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">seq_len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hidden_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">intermediate_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">gate_weight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">up_weight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">down_weight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">seq_len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hidden_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">intermediate_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: isCudaAvailable(), <ref refid="namespacethemis_1_1llm_1_1kernels_1_1cuda_1a7a5295b6ca2e9f93c2bcd3954192c8d6" kindref="member">cuda::launchFusedGatedFFN()</ref>, gate_out(), up_out(), fused_out(), std::exp(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/kernel_fusion.cpp" line="384" column="6" bodyfile="src/llm/kernel_fusion.cpp" bodystart="384" bodyend="446" declfile="include/llm/kernel_fusion.h" declline="109" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1kernels_1a75e4bd8ad9b7c99f92de928bcf351d16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::kernels::fusedRMSNormLinear</definition>
+        <argsstring>(float *output, const float *input, const float *weight, const float *rms_weight, int batch_size, int seq_len, int hidden_dim, float epsilon)</argsstring>
+        <name>fusedRMSNormLinear</name>
+        <qualifiedname>themis::llm::kernels::fusedRMSNormLinear</qualifiedname>
+        <param>
+          <type>float *</type>
+          <declname>output</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>weight</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>rms_weight</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>batch_size</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>seq_len</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>hidden_dim</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>epsilon</declname>
+          <defval>1e-6f</defval>
+        </param>
+        <briefdescription>
+<para>Fused RMSNorm Linear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">weight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rms_weight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">seq_len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hidden_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">epsilon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: isCudaAvailable(), std::sqrt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/kernel_fusion.cpp" line="461" column="6" bodyfile="src/llm/kernel_fusion.cpp" bodystart="461" bodyend="500" declfile="include/llm/kernel_fusion.h" declline="123" declcolumn="6"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/kernel_fusion.h" line="20" column="1"/>
+  </compounddef>
+</doxygen>

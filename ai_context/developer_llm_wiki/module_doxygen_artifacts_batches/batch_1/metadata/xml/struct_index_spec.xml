@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_index_spec" kind="struct" language="C++" prot="public">
+    <compoundname>IndexSpec</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_index_spec_1ab921a1557fa83b7149fb2f5424fb2e62" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string IndexSpec::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>IndexSpec::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_diff.cpp" line="46" column="30" bodyfile="tests/metadata/test_schema_diff.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_index_spec_1aab34f87c288715509f320dd3e644fb03" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string IndexSpec::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>IndexSpec::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_diff.cpp" line="47" column="30" bodyfile="tests/metadata/test_schema_diff.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_index_spec_1a1f0431b77fb2db51829ca87f2204e46e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; IndexSpec::columns</definition>
+        <argsstring></argsstring>
+        <name>columns</name>
+        <qualifiedname>IndexSpec::columns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_diff.cpp" line="48" column="17" bodyfile="tests/metadata/test_schema_diff.cpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_index_spec_1a12aeaf626bac3e727462059dff167ad1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool IndexSpec::unique</definition>
+        <argsstring></argsstring>
+        <name>unique</name>
+        <qualifiedname>IndexSpec::unique</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_diff.cpp" line="49" column="30" bodyfile="tests/metadata/test_schema_diff.cpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/metadata/test_schema_diff.cpp" line="45" column="1" bodyfile="tests/metadata/test_schema_diff.cpp" bodystart="45" bodyend="50"/>
+    <listofallmembers>
+      <member refid="struct_index_spec_1a1f0431b77fb2db51829ca87f2204e46e" prot="public" virt="non-virtual"><scope>IndexSpec</scope><name>columns</name></member>
+      <member refid="struct_index_spec_1ab921a1557fa83b7149fb2f5424fb2e62" prot="public" virt="non-virtual"><scope>IndexSpec</scope><name>name</name></member>
+      <member refid="struct_index_spec_1aab34f87c288715509f320dd3e644fb03" prot="public" virt="non-virtual"><scope>IndexSpec</scope><name>type</name></member>
+      <member refid="struct_index_spec_1a12aeaf626bac3e727462059dff167ad1" prot="public" virt="non-virtual"><scope>IndexSpec</scope><name>unique</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

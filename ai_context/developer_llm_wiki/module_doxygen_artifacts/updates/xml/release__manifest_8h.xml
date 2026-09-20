@@ -1,0 +1,335 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="release__manifest_8h" kind="file" language="C++">
+    <compoundname>release_manifest.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="delta__update__engine_8h" local="yes">include/updates/delta_update_engine.h</includedby>
+    <includedby refid="manifest__database_8h" local="yes">include/updates/manifest_database.h</includedby>
+    <includedby refid="release__manifest_8cpp" local="yes">src/updates/release_manifest.cpp</includedby>
+    <includedby refid="test__updates__production_8cpp" local="yes">tests/updates/test_updates_production.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/updates/release_manifest.h</label>
+        <link refid="release__manifest_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="12">
+        <label>benchmarks/updates/bench_updates_canary_resilience.cpp</label>
+        <link refid="bench__updates__canary__resilience_8cpp"/>
+      </node>
+      <node id="18">
+        <label>benchmarks/updates/bench_updates_coordinated_hardening.cpp</label>
+        <link refid="bench__updates__coordinated__hardening_8cpp"/>
+      </node>
+      <node id="3">
+        <label>benchmarks/updates/bench_updates_long_run_stability.cpp</label>
+        <link refid="bench__updates__long__run__stability_8cpp"/>
+      </node>
+      <node id="11">
+        <label>include/updates/blue_green_deployment.h</label>
+        <link refid="blue__green__deployment_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>include/updates/canary_rollout.h</label>
+        <link refid="canary__rollout_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>include/updates/coordinated_update_manager.h</label>
+        <link refid="coordinated__update__manager_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/updates/delta_update_engine.h</label>
+        <link refid="delta__update__engine_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>include/updates/hot_reload_engine.h</label>
+        <link refid="hot__reload__engine_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>include/updates/manifest_database.h</label>
+        <link refid="manifest__database_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/updates/release_manifest.h</label>
+        <link refid="release__manifest_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>include/updates/tenant_update_scheduler.h</label>
+        <link refid="tenant__update__scheduler_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>src/updates/blue_green_deployment.cpp</label>
+        <link refid="blue__green__deployment_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/updates/canary_rollout.cpp</label>
+        <link refid="canary__rollout_8cpp"/>
+      </node>
+      <node id="19">
+        <label>src/updates/coordinated_update_manager.cpp</label>
+        <link refid="coordinated__update__manager_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/updates/delta_update_engine.cpp</label>
+        <link refid="delta__update__engine_8cpp"/>
+      </node>
+      <node id="24">
+        <label>src/updates/hot_reload_engine.cpp</label>
+        <link refid="hot__reload__engine_8cpp"/>
+      </node>
+      <node id="25">
+        <label>src/updates/manifest_database.cpp</label>
+        <link refid="manifest__database_8cpp"/>
+      </node>
+      <node id="26">
+        <label>src/updates/release_manifest.cpp</label>
+        <link refid="release__manifest_8cpp"/>
+      </node>
+      <node id="23">
+        <label>src/updates/tenant_update_scheduler.cpp</label>
+        <link refid="tenant__update__scheduler_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/updates/updates_config.cpp</label>
+        <link refid="updates__config_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/updates/test_updates_batch5_finalization.cpp</label>
+        <link refid="test__updates__batch5__finalization_8cpp"/>
+      </node>
+      <node id="20">
+        <label>tests/updates/test_updates_cluster_scheduling_stress_focused.cpp</label>
+        <link refid="test__updates__cluster__scheduling__stress__focused_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/updates/test_updates_performance_batch4.cpp</label>
+        <link refid="test__updates__performance__batch4_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/updates/test_updates_phase2_phase3_hardening_focused.cpp</label>
+        <link refid="test__updates__phase2__phase3__hardening__focused_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/updates/test_updates_production.cpp</label>
+        <link refid="test__updates__production_8cpp"/>
+      </node>
+      <node id="21">
+        <label>tests/updates/test_updates_rollback_hardening_focused.cpp</label>
+        <link refid="test__updates__rollback__hardening__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1updates_1_1_release_file" prot="public">themis::updates::ReleaseFile</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_release_manifest" prot="public">themis::updates::ReleaseManifest</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1updates">themis::updates</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1updates" kindref="compound">updates</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1updates_1_1_release_file" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1updates_1_1_release_file" kindref="compound">ReleaseFile</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>File<sp/>Identity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1updates_1_1_release_file_1a4b39defeba3277ed988b9368083b3193" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_release_file_1a4b39defeba3277ed988b9368083b3193" kindref="member">path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Relative<sp/>path,<sp/>e.g.<sp/>&quot;bin/themis_server&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1updates_1_1_release_file_1a0e21a44ff1eef08bed1f2f85564ada60" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_release_file_1a0e21a44ff1eef08bed1f2f85564ada60" kindref="member">type</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;executable&quot;,<sp/>&quot;library&quot;,<sp/>&quot;config&quot;,<sp/>&quot;data&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Hash<sp/>&amp;<sp/>Size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1updates_1_1_release_file_1ae2306d1fbdcc5405250191c944f39fa5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_release_file_1ae2306d1fbdcc5405250191c944f39fa5" kindref="member">sha256_hash</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SHA-256<sp/>hash<sp/>of<sp/>the<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1updates_1_1_release_file_1aa164d8260418715706bbc28e398b9e27" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1updates_1_1_release_file_1aa164d8260418715706bbc28e398b9e27" kindref="member">size_bytes</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>File<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Signature</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1updates_1_1_release_file_1a05c50f914c7c7ab07dcaae526aa138f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_release_file_1a05c50f914c7c7ab07dcaae526aa138f0" kindref="member">file_signature</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Individual<sp/>file<sp/>signature</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Platform</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1updates_1_1_release_file_1a844ff169ef42c4517ec5d791a96be560" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_release_file_1a844ff169ef42c4517ec5d791a96be560" kindref="member">platform</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;windows&quot;,<sp/>&quot;linux&quot;,<sp/>&quot;macos&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1updates_1_1_release_file_1a6bb58b36fb45a4fbc117bba38433710c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_release_file_1a6bb58b36fb45a4fbc117bba38433710c" kindref="member">architecture</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;x64&quot;,<sp/>&quot;arm64&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Permissions<sp/>(Unix)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1updates_1_1_release_file_1a61268c90824672fb217133f6eb0ea734" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_release_file_1a61268c90824672fb217133f6eb0ea734" kindref="member">permissions</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e.g.<sp/>&quot;0755&quot;<sp/>for<sp/>executables</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Download<sp/>Info</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1updates_1_1_release_file_1add369947d7d0ae7eceed8f339287165b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_release_file_1add369947d7d0ae7eceed8f339287165b" kindref="member">download_url</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GitHub<sp/>Release<sp/>Asset<sp/>URL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>File-specific<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1updates_1_1_release_file_1a01c8b2461e3d36e209d244b14ce688c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref><sp/><ref refid="structthemis_1_1updates_1_1_release_file_1a01c8b2461e3d36e209d244b14ce688c7" kindref="member">metadata</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Additional<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref><sp/><ref refid="structthemis_1_1updates_1_1_release_file_1af25ba859b50eadc327fefd87abe94c40" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;ReleaseFile&gt;<sp/><ref refid="structthemis_1_1updates_1_1_release_file_1a5618c727487a08b166c29c9bfd147a7d" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref>&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1updates_1_1_release_manifest" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1updates_1_1_release_manifest" kindref="compound">ReleaseManifest</ref><sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Release<sp/>Info</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1updates_1_1_release_manifest_1a85fc1ea34314ae671929488b0adecff9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_release_manifest_1a85fc1ea34314ae671929488b0adecff9" kindref="member">version</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e.g.<sp/>&quot;1.2.3&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1updates_1_1_release_manifest_1acac9a1fa3d9becbdd7fc334ecda73fab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_release_manifest_1acac9a1fa3d9becbdd7fc334ecda73fab" kindref="member">tag_name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e.g.<sp/>&quot;v1.2.3&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1updates_1_1_release_manifest_1ace19fb5f7b10e052279bd64c3eea6175" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_release_manifest_1ace19fb5f7b10e052279bd64c3eea6175" kindref="member">release_notes</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Changelog</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1updates_1_1_release_manifest_1a41ae78216e2d59b13cbb4d7768f88132" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1updates_1_1_release_manifest_1a41ae78216e2d59b13cbb4d7768f88132" kindref="member">release_date</ref>;</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1updates_1_1_release_manifest_1a4582232fbe208c90a9589bf34c4996bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_release_manifest_1a4582232fbe208c90a9589bf34c4996bf" kindref="member">is_critical</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Critical<sp/>security<sp/>update?</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Files<sp/>in<sp/>this<sp/>release</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1updates_1_1_release_manifest_1a493fade0c72f66dccd4cb23ce04ed5d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ReleaseFile&gt;<sp/><ref refid="structthemis_1_1updates_1_1_release_manifest_1a493fade0c72f66dccd4cb23ce04ed5d6" kindref="member">files</ref>;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Signature<sp/>&amp;<sp/>Verification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1updates_1_1_release_manifest_1a61d0b9ccac0d77803f42802c00bc14e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_release_manifest_1a61d0b9ccac0d77803f42802c00bc14e9" kindref="member">manifest_hash</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SHA-256<sp/>of<sp/>entire<sp/>manifest</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1updates_1_1_release_manifest_1a92c93bfa43209d81877fae1a715f089c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_release_manifest_1a92c93bfa43209d81877fae1a715f089c" kindref="member">signature</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CMS/PKCS#7<sp/>signature</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1updates_1_1_release_manifest_1a34c8eb5636f87a4c7c25e526652cf012" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_release_manifest_1a34c8eb5636f87a4c7c25e526652cf012" kindref="member">signing_certificate</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>X.509<sp/>certificate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1updates_1_1_release_manifest_1a57d1f29416d768214cd3157db67dcf06" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_release_manifest_1a57d1f29416d768214cd3157db67dcf06" kindref="member">timestamp_token</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RFC<sp/>3161<sp/>timestamp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1updates_1_1_release_manifest_1a69d7f8671172e39c0b1ff66db7442c5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_release_manifest_1a69d7f8671172e39c0b1ff66db7442c5f" kindref="member">build_commit</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Git<sp/>commit<sp/>hash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1updates_1_1_release_manifest_1af33f83de9fb762bbc9fc3855f40ba337" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_release_manifest_1af33f83de9fb762bbc9fc3855f40ba337" kindref="member">build_date</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>timestamp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1updates_1_1_release_manifest_1a5078d1b54895163f1d554a01042d2b7f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_release_manifest_1a5078d1b54895163f1d554a01042d2b7f" kindref="member">compiler_version</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compiler<sp/>info</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Dependencies</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1updates_1_1_release_manifest_1aaf2fa943ba91b0969355527e0ed273f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1updates_1_1_release_manifest_1aaf2fa943ba91b0969355527e0ed273f0" kindref="member">dependencies</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Dependencies<sp/>to<sp/>other<sp/>components</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Minimum<sp/>required<sp/>version<sp/>for<sp/>upgrade</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1updates_1_1_release_manifest_1a59d49d1a08695bff6586d0ceb90a70c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_release_manifest_1a59d49d1a08695bff6586d0ceb90a70c1" kindref="member">min_upgrade_from</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e.g.<sp/>&quot;1.0.0&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Schema<sp/>version</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1updates_1_1_release_manifest_1a6a4fc5d4c8dd2059036d9c013434f7ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_release_manifest_1a6a4fc5d4c8dd2059036d9c013434f7ff" kindref="member">schema_version</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref><sp/><ref refid="structthemis_1_1updates_1_1_release_manifest_1aa586be993a50b2b860f1384bda57e492" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;ReleaseManifest&gt;<sp/><ref refid="structthemis_1_1updates_1_1_release_manifest_1ae4f1996f113efe4fc8255f5da1f7c4b9" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref>&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_release_manifest_1a3344e602c31cb11110ed692c90fa7398" kindref="member">calculateHash</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>updates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/updates/release_manifest.h"/>
+  </compounddef>
+</doxygen>

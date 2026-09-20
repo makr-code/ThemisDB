@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="content__chunker_8h" kind="file" language="C++">
+    <compoundname>content_chunker.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">string</includes>
+    <includedby refid="multimodal__chunker_8h" local="yes">include/content/pipeline/multimodal_chunker.h</includedby>
+    <includedby refid="content__chunker_8cpp" local="yes">src/content/pipeline/content_chunker.cpp</includedby>
+    <includedby refid="test__content__pipeline_8cpp" local="yes">tests/content/test_content_pipeline.cpp</includedby>
+    <includedby refid="test__content__streaming__ingestion_8cpp" local="yes">tests/content/test_content_streaming_ingestion.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/content/pipeline/content_chunker.h</label>
+        <link refid="content__chunker_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/content/pipeline/content_chunker.h</label>
+        <link refid="content__chunker_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/content/pipeline/multimodal_chunker.h</label>
+        <link refid="multimodal__chunker_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/content/pipeline/content_chunker.cpp</label>
+        <link refid="content__chunker_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/content/pipeline/multimodal_chunker.cpp</label>
+        <link refid="multimodal__chunker_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/content/test_content_pipeline.cpp</label>
+        <link refid="test__content__pipeline_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/content/test_content_streaming_ingestion.cpp</label>
+        <link refid="test__content__streaming__ingestion_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1content_1_1pipeline_1_1_content_chunker" prot="public">themis::content::pipeline::ContentChunker</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_config" prot="public">themis::content::pipeline::ContentChunker::ChunkConfig</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk" prot="public">themis::content::pipeline::ContentChunker::Chunk</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1content">themis::content</innernamespace>
+    <innernamespace refid="namespacethemis_1_1content_1_1pipeline">themis::content::pipeline</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2024<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>MIT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1content_1_1pipeline" kindref="compound">themis::content::pipeline</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="classthemis_1_1content_1_1pipeline_1_1_content_chunker" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1content_1_1pipeline_1_1_content_chunker_1afa481660f15ab24df41d3b0055bf30b9" kindref="member">ContentChunker</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_config" kindref="compound">ChunkConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_config_1a0c4d25528593ed99ffe4bb008f89c3cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_config_1a0c4d25528593ed99ffe4bb008f89c3cb" kindref="member">chunk_size</ref><sp/>=<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>1MB<sp/>chunks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_config_1af893e916ea44b9121aa04853b5dbd357" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_config_1af893e916ea44b9121aa04853b5dbd357" kindref="member">overlap</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>overlap<sp/>by<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_config_1a823cf1fea9b8d1831ec9ce93152f896d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_config_1a823cf1fea9b8d1831ec9ce93152f896d" kindref="member">content_aware</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simple<sp/>byte-based<sp/>chunking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk" kindref="compound">Chunk</ref><sp/>{</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_1af83f1aa7e8ab1f19d8307405b4e000b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_1af83f1aa7e8ab1f19d8307405b4e000b1" kindref="member">data</ref>;</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_1a8916f69669617fecd9e8cbd8705bead9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_1a8916f69669617fecd9e8cbd8705bead9" kindref="member">index</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Chunk<sp/>index<sp/>in<sp/>sequence</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_1a900973d16840b0df4d588df8f239a9b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_1a900973d16840b0df4d588df8f239a9b4" kindref="member">total_chunks</ref>;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Total<sp/>number<sp/>of<sp/>chunks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_1a73423fd6516f3df8c1bedfe0890f33ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_1a73423fd6516f3df8c1bedfe0890f33ab" kindref="member">original_offset</ref>;<sp/></highlight><highlight class="comment">//<sp/>Offset<sp/>in<sp/>original<sp/>content</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_content_chunker_1afa481660f15ab24df41d3b0055bf30b9" kindref="member">ContentChunker</ref>();</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_content_chunker_1afa481660f15ab24df41d3b0055bf30b9" kindref="member">ContentChunker</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_config" kindref="compound">ChunkConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="46" refid="classthemis_1_1content_1_1pipeline_1_1_content_chunker_1add3bebb482d6ac0b1e485ea333fb077e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_content_chunker_1add3bebb482d6ac0b1e485ea333fb077e" kindref="member">~ContentChunker</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Chunk&gt;<sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_content_chunker_1a909b3ac0e19f1b8c51011f4e419e1cff" kindref="member">chunk</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_content_chunker_1aaf410b9a58b22ed51aa863171766bfd8" kindref="member">reassemble</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Chunk&gt;&amp;<sp/>chunks);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_config" kindref="compound">ChunkConfig</ref>&amp;<sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_content_chunker_1a5520962faa0472c94d9780b06f638aee" kindref="member">get_config</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_content_chunker_1a9174fd107fb6f62ef45484efc49b554a" kindref="member">set_config</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_config" kindref="compound">ChunkConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_config" kindref="compound">ChunkConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::content::pipeline</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/content/pipeline/content_chunker.h"/>
+  </compounddef>
+</doxygen>

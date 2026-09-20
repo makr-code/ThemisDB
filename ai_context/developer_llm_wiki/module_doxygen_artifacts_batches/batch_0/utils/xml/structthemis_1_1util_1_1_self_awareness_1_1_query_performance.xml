@@ -1,0 +1,193 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1util_1_1_self_awareness_1_1_query_performance" kind="struct" language="C++" prot="public">
+    <compoundname>themis::util::SelfAwareness::QueryPerformance</compoundname>
+    <includes refid="self__awareness_8h" local="no">self_awareness.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_query_performance_1aaef854730813e902db1e742004f77fc4" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::util::SelfAwareness::QueryPerformance::total_queries</definition>
+        <argsstring></argsstring>
+        <name>total_queries</name>
+        <qualifiedname>themis::util::SelfAwareness::QueryPerformance::total_queries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="105" column="18" bodyfile="include/utils/self_awareness.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_query_performance_1ae55cd601c2bbc931f2898a5ebd5bfa77" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::util::SelfAwareness::QueryPerformance::adaptive_routed_queries</definition>
+        <argsstring></argsstring>
+        <name>adaptive_routed_queries</name>
+        <qualifiedname>themis::util::SelfAwareness::QueryPerformance::adaptive_routed_queries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="106" column="18" bodyfile="include/utils/self_awareness.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_query_performance_1a40254503b6065af543d76a5f4464ecbe" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::util::SelfAwareness::QueryPerformance::scatter_gather_queries</definition>
+        <argsstring></argsstring>
+        <name>scatter_gather_queries</name>
+        <qualifiedname>themis::util::SelfAwareness::QueryPerformance::scatter_gather_queries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="107" column="18" bodyfile="include/utils/self_awareness.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_query_performance_1a47a29e7a28ff4434409c6f6dd54ff16c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::util::SelfAwareness::QueryPerformance::adaptive_routing_ratio</definition>
+        <argsstring></argsstring>
+        <name>adaptive_routing_ratio</name>
+        <qualifiedname>themis::util::SelfAwareness::QueryPerformance::adaptive_routing_ratio</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="108" column="16" bodyfile="include/utils/self_awareness.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_query_performance_1a76da42ebc5edbabb01beb22057e76ade" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::util::SelfAwareness::QueryPerformance::avg_query_time_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_query_time_ms</name>
+        <qualifiedname>themis::util::SelfAwareness::QueryPerformance::avg_query_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="111" column="16" bodyfile="include/utils/self_awareness.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_query_performance_1aaed3045631bce9857f5a8b9eaac9a6fe" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::util::SelfAwareness::QueryPerformance::p50_query_time_ms</definition>
+        <argsstring></argsstring>
+        <name>p50_query_time_ms</name>
+        <qualifiedname>themis::util::SelfAwareness::QueryPerformance::p50_query_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="112" column="16" bodyfile="include/utils/self_awareness.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_query_performance_1a08e803d4b5b5a23ea65975a0d7d6abf9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::util::SelfAwareness::QueryPerformance::p95_query_time_ms</definition>
+        <argsstring></argsstring>
+        <name>p95_query_time_ms</name>
+        <qualifiedname>themis::util::SelfAwareness::QueryPerformance::p95_query_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="113" column="16" bodyfile="include/utils/self_awareness.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_query_performance_1ac98e3171680b147cdf39484d8cb5dc7a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::util::SelfAwareness::QueryPerformance::p99_query_time_ms</definition>
+        <argsstring></argsstring>
+        <name>p99_query_time_ms</name>
+        <qualifiedname>themis::util::SelfAwareness::QueryPerformance::p99_query_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="114" column="16" bodyfile="include/utils/self_awareness.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_query_performance_1ab9c38e83285832802355a61f65d8fc09" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::util::SelfAwareness::QueryPerformance::avg_shards_queried</definition>
+        <argsstring></argsstring>
+        <name>avg_shards_queried</name>
+        <qualifiedname>themis::util::SelfAwareness::QueryPerformance::avg_shards_queried</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="117" column="16" bodyfile="include/utils/self_awareness.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_query_performance_1ab70c3a4fd295e7264482a7e07d08c174" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::util::SelfAwareness::QueryPerformance::network_traffic_saved_percent</definition>
+        <argsstring></argsstring>
+        <name>network_traffic_saved_percent</name>
+        <qualifiedname>themis::util::SelfAwareness::QueryPerformance::network_traffic_saved_percent</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="118" column="16" bodyfile="include/utils/self_awareness.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_query_performance_1a41a32b258baa08535d58bdbafa4e1866" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::util::SelfAwareness::QueryPerformance::iterations_saved</definition>
+        <argsstring></argsstring>
+        <name>iterations_saved</name>
+        <qualifiedname>themis::util::SelfAwareness::QueryPerformance::iterations_saved</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="119" column="18" bodyfile="include/utils/self_awareness.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Query performance awareness </para>
+    </detaileddescription>
+    <location file="include/utils/self_awareness.h" line="103" column="5" bodyfile="include/utils/self_awareness.h" bodystart="103" bodyend="120"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_query_performance_1ae55cd601c2bbc931f2898a5ebd5bfa77" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::QueryPerformance</scope><name>adaptive_routed_queries</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_query_performance_1a47a29e7a28ff4434409c6f6dd54ff16c" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::QueryPerformance</scope><name>adaptive_routing_ratio</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_query_performance_1a76da42ebc5edbabb01beb22057e76ade" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::QueryPerformance</scope><name>avg_query_time_ms</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_query_performance_1ab9c38e83285832802355a61f65d8fc09" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::QueryPerformance</scope><name>avg_shards_queried</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_query_performance_1a41a32b258baa08535d58bdbafa4e1866" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::QueryPerformance</scope><name>iterations_saved</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_query_performance_1ab70c3a4fd295e7264482a7e07d08c174" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::QueryPerformance</scope><name>network_traffic_saved_percent</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_query_performance_1aaed3045631bce9857f5a8b9eaac9a6fe" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::QueryPerformance</scope><name>p50_query_time_ms</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_query_performance_1a08e803d4b5b5a23ea65975a0d7d6abf9" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::QueryPerformance</scope><name>p95_query_time_ms</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_query_performance_1ac98e3171680b147cdf39484d8cb5dc7a" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::QueryPerformance</scope><name>p99_query_time_ms</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_query_performance_1a40254503b6065af543d76a5f4464ecbe" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::QueryPerformance</scope><name>scatter_gather_queries</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_query_performance_1aaef854730813e902db1e742004f77fc4" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::QueryPerformance</scope><name>total_queries</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

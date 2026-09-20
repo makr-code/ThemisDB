@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::phase3::GunrockProcessor::Stats</compoundname>
+    <includes refid="gunrock_8h" local="no">gunrock.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1_1_stats_1ac71da070d68bb2775551e2675f8cc9c8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase3::GunrockProcessor::Stats::num_vertices</definition>
+        <argsstring></argsstring>
+        <name>num_vertices</name>
+        <qualifiedname>themis::performance::phase3::GunrockProcessor::Stats::num_vertices</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/gunrock.h" line="52" column="16" bodyfile="include/performance/phase3/gunrock.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1_1_stats_1aaa61b21797fb0ed4b50fb6f369c21902" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase3::GunrockProcessor::Stats::num_edges</definition>
+        <argsstring></argsstring>
+        <name>num_edges</name>
+        <qualifiedname>themis::performance::phase3::GunrockProcessor::Stats::num_edges</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/gunrock.h" line="53" column="16" bodyfile="include/performance/phase3/gunrock.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1_1_stats_1a48ac88ff424b14ce8510480bc4fe2c35" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::phase3::GunrockProcessor::Stats::gpu_available</definition>
+        <argsstring></argsstring>
+        <name>gpu_available</name>
+        <qualifiedname>themis::performance::phase3::GunrockProcessor::Stats::gpu_available</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/gunrock.h" line="54" column="14" bodyfile="include/performance/phase3/gunrock.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1_1_stats_1a80daec68dd8641948cdb4b753643615e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase3::GunrockProcessor::Stats::gpu_memory_mb</definition>
+        <argsstring></argsstring>
+        <name>gpu_memory_mb</name>
+        <qualifiedname>themis::performance::phase3::GunrockProcessor::Stats::gpu_memory_mb</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/gunrock.h" line="55" column="16" bodyfile="include/performance/phase3/gunrock.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/phase3/gunrock.h" line="51" column="5" bodyfile="include/performance/phase3/gunrock.h" bodystart="51" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1_1_stats_1a48ac88ff424b14ce8510480bc4fe2c35" prot="public" virt="non-virtual"><scope>themis::performance::phase3::GunrockProcessor::Stats</scope><name>gpu_available</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1_1_stats_1a80daec68dd8641948cdb4b753643615e" prot="public" virt="non-virtual"><scope>themis::performance::phase3::GunrockProcessor::Stats</scope><name>gpu_memory_mb</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1_1_stats_1aaa61b21797fb0ed4b50fb6f369c21902" prot="public" virt="non-virtual"><scope>themis::performance::phase3::GunrockProcessor::Stats</scope><name>num_edges</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1_1_stats_1ac71da070d68bb2775551e2675f8cc9c8" prot="public" virt="non-virtual"><scope>themis::performance::phase3::GunrockProcessor::Stats</scope><name>num_vertices</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

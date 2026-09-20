@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::ROCmBackend::Result</compoundname>
+    <includes refid="rocm__backend_8h" local="no">rocm_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_result_1a43504ad529c9daf363c7b91db3f88ef4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::ROCmBackend::Result::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::gpu::ROCmBackend::Result::ok</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/rocm_backend.h" line="62" column="21" bodyfile="include/themis/gpu/rocm_backend.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_result_1a85d370b1c9777fc024d3e27230fafac9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::ROCmBackend::Result::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::gpu::ROCmBackend::Result::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/rocm_backend.h" line="63" column="21" bodyfile="include/themis/gpu/rocm_backend.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/rocm_backend.h" line="61" column="5" bodyfile="include/themis/gpu/rocm_backend.h" bodystart="61" bodyend="64"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_result_1a85d370b1c9777fc024d3e27230fafac9" prot="public" virt="non-virtual"><scope>themis::gpu::ROCmBackend::Result</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_result_1a43504ad529c9daf363c7b91db3f88ef4" prot="public" virt="non-virtual"><scope>themis::gpu::ROCmBackend::Result</scope><name>ok</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

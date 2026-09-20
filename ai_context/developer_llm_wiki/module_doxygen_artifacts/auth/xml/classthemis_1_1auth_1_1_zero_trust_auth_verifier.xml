@@ -1,0 +1,654 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_zero_trust_auth_verifier" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::ZeroTrustAuthVerifier</compoundname>
+    <includes refid="zero__trust__auth__verifier_8h" local="no">zero_trust_auth_verifier.h</includes>
+    <innerclass refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_config" prot="public">themis::auth::ZeroTrustAuthVerifier::Config</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_request" prot="public">themis::auth::ZeroTrustAuthVerifier::Request</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitored_session" prot="public">themis::auth::ZeroTrustAuthVerifier::MonitoredSession</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_decision" prot="public">themis::auth::ZeroTrustAuthVerifier::Decision</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitor_entry" prot="private">themis::auth::ZeroTrustAuthVerifier::MonitorEntry</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a7920c00dd6a6b160b6aa200f93ff94bb" prot="public" static="no">
+        <type>security::ZeroTrustPolicyEnforcer::TokenVerifier</type>
+        <definition>using themis::auth::ZeroTrustAuthVerifier::TokenVerifier = security::ZeroTrustPolicyEnforcer::TokenVerifier</definition>
+        <argsstring></argsstring>
+        <name>TokenVerifier</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::TokenVerifier</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="37" column="5" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a4a188fdc15e3c4c4b0c5c7093b5e5039" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::auth::ZeroTrustAuthVerifier::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="162" column="12" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a7e44b844ab1e5e0064f4c4f82dc86d7b" prot="private" static="no" mutable="no">
+        <type>security::ZeroTrustPolicyEnforcer</type>
+        <definition>security::ZeroTrustPolicyEnforcer themis::auth::ZeroTrustAuthVerifier::enforcer_</definition>
+        <argsstring></argsstring>
+        <name>enforcer_</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::enforcer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="163" column="39" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a7af5df326c9c1caa3c36623606b6fc39" prot="private" static="no" mutable="no">
+        <type>utils::AuditLogger *</type>
+        <definition>utils::AuditLogger* themis::auth::ZeroTrustAuthVerifier::audit_logger_</definition>
+        <argsstring></argsstring>
+        <name>audit_logger_</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::audit_logger_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Non-owning; may be nullptr. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="164" column="24" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a58f3a33b521c2c9aada82cff7358f4ae" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::auth::ZeroTrustAuthVerifier::monitor_mutex_</definition>
+        <argsstring></argsstring>
+        <name>monitor_mutex_</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::monitor_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="176" column="57" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a2b75e9f50b20a7f9e08be122d51bb888" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::auth::ZeroTrustAuthVerifier::monitor_cv_</definition>
+        <argsstring></argsstring>
+        <name>monitor_cv_</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::monitor_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="177" column="57" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a930782b6e1def8ba2e0a51c15561fece" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, MonitorEntry &gt;</type>
+        <definition>std::unordered_map&lt;std::string, MonitorEntry&gt; themis::auth::ZeroTrustAuthVerifier::monitored_sessions_</definition>
+        <argsstring></argsstring>
+        <name>monitored_sessions_</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::monitored_sessions_</qualifiedname>
+        <briefdescription>
+<para>session_id → entry </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="178" column="30" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1ab2aaaaaba85a2d21c31850a1fa986d5a" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1auth_1_1_auth_worker_thread_pool" kindref="compound">AuthWorkerThreadPool</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;AuthWorkerThreadPool&gt; themis::auth::ZeroTrustAuthVerifier::worker_pool_</definition>
+        <argsstring></argsstring>
+        <name>worker_pool_</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::worker_pool_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="179" column="35" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a5c67111bb44f2d44c9ea2f0e319efded" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::auth::ZeroTrustAuthVerifier::monitor_thread_</definition>
+        <argsstring></argsstring>
+        <name>monitor_thread_</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::monitor_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="180" column="57" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a1b154310f599ab8020d2f132ffe06a96" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::auth::ZeroTrustAuthVerifier::monitor_stop_</definition>
+        <argsstring></argsstring>
+        <name>monitor_stop_</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::monitor_stop_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="181" column="51" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="181" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1aa1464b94ba704255f7bb7f328f7bab34" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::auth::ZeroTrustAuthVerifier::schedule_generation_</definition>
+        <argsstring></argsstring>
+        <name>schedule_generation_</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::schedule_generation_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="182" column="47" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="182" bodyend="182"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a874b6d0a42a9bd82b2e32a148100588c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::ZeroTrustAuthVerifier::ZeroTrustAuthVerifier</definition>
+        <argsstring>()</argsstring>
+        <name>ZeroTrustAuthVerifier</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::ZeroTrustAuthVerifier</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="80" column="5" bodyfile="src/auth/zero_trust_auth_verifier.cpp" bodystart="25" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a8eab061a52e254046bdb1cafaacad878" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::ZeroTrustAuthVerifier::ZeroTrustAuthVerifier</definition>
+        <argsstring>(TokenVerifier token_verifier)</argsstring>
+        <name>ZeroTrustAuthVerifier</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::ZeroTrustAuthVerifier</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a7920c00dd6a6b160b6aa200f93ff94bb" kindref="member">TokenVerifier</ref></type>
+          <declname>token_verifier</declname>
+        </param>
+        <briefdescription>
+<para>Zero Trust Auth Verifier. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token_verifier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="86" column="14" bodyfile="src/auth/zero_trust_auth_verifier.cpp" bodystart="29" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a71eccca57b46076b75919cddf84d0749" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::ZeroTrustAuthVerifier::ZeroTrustAuthVerifier</definition>
+        <argsstring>(const Config &amp;config, TokenVerifier token_verifier=nullptr)</argsstring>
+        <name>ZeroTrustAuthVerifier</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::ZeroTrustAuthVerifier</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a7920c00dd6a6b160b6aa200f93ff94bb" kindref="member">TokenVerifier</ref></type>
+          <declname>token_verifier</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="87" column="5" bodyfile="src/auth/zero_trust_auth_verifier.cpp" bodystart="33" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a315d1951bf8e61fb6e5ab6b0dca04eed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::ZeroTrustAuthVerifier::~ZeroTrustAuthVerifier</definition>
+        <argsstring>()</argsstring>
+        <name>~ZeroTrustAuthVerifier</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::~ZeroTrustAuthVerifier</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="91" column="5" bodyfile="src/auth/zero_trust_auth_verifier.cpp" bodystart="40" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1aa4d17f9f9290dfbe815f6187a3c6c87d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::ZeroTrustAuthVerifier::setAuditLogger</definition>
+        <argsstring>(utils::AuditLogger *logger)</argsstring>
+        <name>setAuditLogger</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::setAuditLogger</qualifiedname>
+        <param>
+          <type>utils::AuditLogger *</type>
+          <declname>logger</declname>
+        </param>
+        <briefdescription>
+<para>Set Audit Logger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setAuditLogger without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="102" column="10" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="102" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1af85e2caabce6108b063c0e2fa7cda8fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::ZeroTrustAuthVerifier::addNetworkPolicy</definition>
+        <argsstring>(const security::NetworkPolicy &amp;policy)</argsstring>
+        <name>addNetworkPolicy</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::addNetworkPolicy</qualifiedname>
+        <param>
+          <type>const security::NetworkPolicy &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>======================================================================== Network policy management (delegated to the underlying enforcer) ======================================================================== </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register a network policy.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Network policy to add.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Network policy to add.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements addNetworkPolicy without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="109" column="10" bodyfile="src/auth/zero_trust_auth_verifier.cpp" bodystart="62" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1add0569751c25a2d5aa6c50a55a0729b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::ZeroTrustAuthVerifier::removeNetworkPolicy</definition>
+        <argsstring>(const std::string &amp;policy_id)</argsstring>
+        <name>removeNetworkPolicy</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::removeNetworkPolicy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>policy_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove a network policy by id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the policy to remove. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when a policy was removed.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the policy to remove. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when a policy was removed.</para>
+</simplesect>
+Implements removeNetworkPolicy without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="116" column="10" bodyfile="src/auth/zero_trust_auth_verifier.cpp" bodystart="72" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a5444eaa5c6f547688b8d1b4854b8f990" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; security::NetworkPolicy &gt;</type>
+        <definition>std::vector&lt; security::NetworkPolicy &gt; themis::auth::ZeroTrustAuthVerifier::getNetworkPolicies</definition>
+        <argsstring>() const</argsstring>
+        <name>getNetworkPolicies</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::getNetworkPolicies</qualifiedname>
+        <briefdescription>
+<para>Return all currently registered network policies. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Snapshot of network policies. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="122" column="17" bodyfile="src/auth/zero_trust_auth_verifier.cpp" bodystart="76" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1adc168f9d089c08f5df1959f4e87f2f0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_decision" kindref="compound">Decision</ref></type>
+        <definition>ZeroTrustAuthVerifier::Decision themis::auth::ZeroTrustAuthVerifier::verify</definition>
+        <argsstring>(const Request &amp;req)</argsstring>
+        <name>verify</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::verify</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_request" kindref="compound">Request</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>======================================================================== Core: continuous per-request verification ======================================================================== </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ Core: continuous per-request verification ============================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Verification result.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Verification result.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), THEMIS_WARN(), al(), logZeroTrustDenied(), std::to_string(), THEMIS_DEBUG(), logZeroTrustAllowed(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="130" column="14" bodyfile="src/auth/zero_trust_auth_verifier.cpp" bodystart="87" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1aa77d1d13c5fbc7078708b834e190f6ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::ZeroTrustAuthVerifier::startSessionMonitoring</definition>
+        <argsstring>(const MonitoredSession &amp;session, SessionManager *session_manager)</argsstring>
+        <name>startSessionMonitoring</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::startSessionMonitoring</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_zero_trust_auth_verifier_1_1_monitored_session" kindref="compound">MonitoredSession</ref> &amp;</type>
+          <declname>session</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1auth_1_1_session_manager" kindref="compound">SessionManager</ref> *</type>
+          <declname>session_manager</declname>
+        </param>
+        <briefdescription>
+<para>======================================================================== Background session monitoring (async policy re-evaluation) ======================================================================== </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ Background session monitoring (async policy re-evaluation) ============================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">session_manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">monitor_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="138" column="10" bodyfile="src/auth/zero_trust_auth_verifier.cpp" bodystart="159" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a2b2a776c177f0013ed54ff6243a86f68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::ZeroTrustAuthVerifier::stopSessionMonitoring</definition>
+        <argsstring>(const std::string &amp;session_id)</argsstring>
+        <name>stopSessionMonitoring</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::stopSessionMonitoring</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+<para>Stop Session Monitoring. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(), empty(), store(), load(), notify_all(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="145" column="10" bodyfile="src/auth/zero_trust_auth_verifier.cpp" bodystart="224" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1aa1b3bf6cffbd54cc423bb319add6894d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::auth::ZeroTrustAuthVerifier::monitoredSessionCount</definition>
+        <argsstring>() const</argsstring>
+        <name>monitoredSessionCount</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::monitoredSessionCount</qualifiedname>
+        <briefdescription>
+<para>Monitored Session Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">monitor_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="151" column="12" bodyfile="src/auth/zero_trust_auth_verifier.cpp" bodystart="241" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1af2ce9b1f68979d3a430177e37f08de79" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const security::ZeroTrustPolicyEnforcer::Metrics &amp;</type>
+        <definition>const security::ZeroTrustPolicyEnforcer::Metrics &amp; themis::auth::ZeroTrustAuthVerifier::getMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetrics</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::getMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="157" column="54" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="157" bodyend="159"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a9233635f5b9b7d30b47b39ec7e388070" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::ZeroTrustAuthVerifier::monitorLoop</definition>
+        <argsstring>()</argsstring>
+        <name>monitorLoop</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::monitorLoop</qualifiedname>
+        <briefdescription>
+<para>Monitor Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> Private: background monitoring loop ------------------------------------------------------------------------<mdash/></para>
+<para>Calls: lock(), load(), empty(), std::chrono::steady_clock::now(), wait_until(), push_back(), submit(), reEvaluateSession(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="187" column="10" bodyfile="src/auth/zero_trust_auth_verifier.cpp" bodystart="256" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a61447b1b8c36f63d1b15dafdfa04b6a5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::ZeroTrustAuthVerifier::reEvaluateSession</definition>
+        <argsstring>(const MonitorEntry &amp;entry)</argsstring>
+        <name>reEvaluateSession</name>
+        <qualifiedname>themis::auth::ZeroTrustAuthVerifier::reEvaluateSession</qualifiedname>
+        <param>
+          <type>const MonitorEntry &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Re Evaluate Session. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> Private: single-session re-evaluation (runs on worker thread) ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), <ref refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1adc168f9d089c08f5df1959f4e87f2f0a" kindref="member">verify()</ref>, THEMIS_WARN(), al(), logZeroTrustReEvaluationFailed(), terminateSession(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/zero_trust_auth_verifier.h" line="193" column="10" bodyfile="src/auth/zero_trust_auth_verifier.cpp" bodystart="339" bodyend="382"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/zero_trust_auth_verifier.h" line="35" column="1" bodyfile="include/auth/zero_trust_auth_verifier.h" bodystart="35" bodyend="194"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1af85e2caabce6108b063c0e2fa7cda8fb" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier</scope><name>addNetworkPolicy</name></member>
+      <member refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a7af5df326c9c1caa3c36623606b6fc39" prot="private" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier</scope><name>audit_logger_</name></member>
+      <member refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a4a188fdc15e3c4c4b0c5c7093b5e5039" prot="private" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier</scope><name>config_</name></member>
+      <member refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a7e44b844ab1e5e0064f4c4f82dc86d7b" prot="private" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier</scope><name>enforcer_</name></member>
+      <member refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1af2ce9b1f68979d3a430177e37f08de79" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a5444eaa5c6f547688b8d1b4854b8f990" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier</scope><name>getNetworkPolicies</name></member>
+      <member refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a2b75e9f50b20a7f9e08be122d51bb888" prot="private" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier</scope><name>monitor_cv_</name></member>
+      <member refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a58f3a33b521c2c9aada82cff7358f4ae" prot="private" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier</scope><name>monitor_mutex_</name></member>
+      <member refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a1b154310f599ab8020d2f132ffe06a96" prot="private" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier</scope><name>monitor_stop_</name></member>
+      <member refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a5c67111bb44f2d44c9ea2f0e319efded" prot="private" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier</scope><name>monitor_thread_</name></member>
+      <member refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a930782b6e1def8ba2e0a51c15561fece" prot="private" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier</scope><name>monitored_sessions_</name></member>
+      <member refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1aa1b3bf6cffbd54cc423bb319add6894d" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier</scope><name>monitoredSessionCount</name></member>
+      <member refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a9233635f5b9b7d30b47b39ec7e388070" prot="private" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier</scope><name>monitorLoop</name></member>
+      <member refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a61447b1b8c36f63d1b15dafdfa04b6a5" prot="private" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier</scope><name>reEvaluateSession</name></member>
+      <member refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1add0569751c25a2d5aa6c50a55a0729b6" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier</scope><name>removeNetworkPolicy</name></member>
+      <member refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1aa1464b94ba704255f7bb7f328f7bab34" prot="private" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier</scope><name>schedule_generation_</name></member>
+      <member refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1aa4d17f9f9290dfbe815f6187a3c6c87d" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier</scope><name>setAuditLogger</name></member>
+      <member refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1aa77d1d13c5fbc7078708b834e190f6ea" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier</scope><name>startSessionMonitoring</name></member>
+      <member refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a2b2a776c177f0013ed54ff6243a86f68" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier</scope><name>stopSessionMonitoring</name></member>
+      <member refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a7920c00dd6a6b160b6aa200f93ff94bb" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier</scope><name>TokenVerifier</name></member>
+      <member refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1adc168f9d089c08f5df1959f4e87f2f0a" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier</scope><name>verify</name></member>
+      <member refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1ab2aaaaaba85a2d21c31850a1fa986d5a" prot="private" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier</scope><name>worker_pool_</name></member>
+      <member refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a874b6d0a42a9bd82b2e32a148100588c" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier</scope><name>ZeroTrustAuthVerifier</name></member>
+      <member refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a8eab061a52e254046bdb1cafaacad878" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier</scope><name>ZeroTrustAuthVerifier</name></member>
+      <member refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a71eccca57b46076b75919cddf84d0749" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier</scope><name>ZeroTrustAuthVerifier</name></member>
+      <member refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier_1a315d1951bf8e61fb6e5ab6b0dca04eed" prot="public" virt="non-virtual"><scope>themis::auth::ZeroTrustAuthVerifier</scope><name>~ZeroTrustAuthVerifier</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

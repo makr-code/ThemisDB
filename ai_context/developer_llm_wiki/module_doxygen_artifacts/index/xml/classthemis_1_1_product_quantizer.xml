@@ -1,0 +1,641 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_product_quantizer" kind="class" language="C++" prot="public">
+    <compoundname>themis::ProductQuantizer</compoundname>
+    <includes refid="product__quantizer_8h" local="no">product_quantizer.h</includes>
+    <innerclass refid="structthemis_1_1_product_quantizer_1_1_config" prot="public">themis::ProductQuantizer::Config</innerclass>
+    <innerclass refid="structthemis_1_1_product_quantizer_1_1_status" prot="public">themis::ProductQuantizer::Status</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_product_quantizer_1a0d12b9af3e3d0abd786b092f20fdf09b" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ProductQuantizer::dimension_</definition>
+        <argsstring></argsstring>
+        <name>dimension_</name>
+        <qualifiedname>themis::ProductQuantizer::dimension_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/product_quantizer.h" line="168" column="9" bodyfile="include/index/product_quantizer.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_product_quantizer_1a82fefac640e6376decf4c90045fb260e" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ProductQuantizer::subvector_dim_</definition>
+        <argsstring></argsstring>
+        <name>subvector_dim_</name>
+        <qualifiedname>themis::ProductQuantizer::subvector_dim_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/product_quantizer.h" line="169" column="9" bodyfile="include/index/product_quantizer.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_product_quantizer_1a3ed24d3fb9577bcb6d92dec9b14ff974" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_product_quantizer_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::ProductQuantizer::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::ProductQuantizer::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/product_quantizer.h" line="170" column="12" bodyfile="include/index/product_quantizer.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_product_quantizer_1abb576c75ac61423f7ff075c2125eedee" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ProductQuantizer::trained_</definition>
+        <argsstring></argsstring>
+        <name>trained_</name>
+        <qualifiedname>themis::ProductQuantizer::trained_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/product_quantizer.h" line="171" column="10" bodyfile="include/index/product_quantizer.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_product_quantizer_1a3d6836401e889b4d195fd814d1523312" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ProductQuantizer::use_faiss_</definition>
+        <argsstring></argsstring>
+        <name>use_faiss_</name>
+        <qualifiedname>themis::ProductQuantizer::use_faiss_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/product_quantizer.h" line="172" column="10" bodyfile="include/index/product_quantizer.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_product_quantizer_1a7d81d77082edb8ba9c34d21bb07feb7b" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; std::vector&lt; float &gt; &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;std::vector&lt;float&gt; &gt; &gt; themis::ProductQuantizer::codebooks_</definition>
+        <argsstring></argsstring>
+        <name>codebooks_</name>
+        <qualifiedname>themis::ProductQuantizer::codebooks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/product_quantizer.h" line="180" column="17" bodyfile="include/index/product_quantizer.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_product_quantizer_1ab7d5cbb2bad06e5ce98292107347b843" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ProductQuantizer::ProductQuantizer</definition>
+        <argsstring>(int dimension, const Config &amp;config)</argsstring>
+        <name>ProductQuantizer</name>
+        <qualifiedname>themis::ProductQuantizer::ProductQuantizer</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>dimension</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_product_quantizer_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct a new Product Quantizer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector dimension (must be divisible by num_subquantizers) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration parameters </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/product_quantizer.h" line="97" column="14" bodyfile="src/index/product_quantizer.cpp" bodystart="74" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_product_quantizer_1a1d1377beb4e3fc64bff8402c10c025a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ProductQuantizer::~ProductQuantizer</definition>
+        <argsstring>()</argsstring>
+        <name>~ProductQuantizer</name>
+        <qualifiedname>themis::ProductQuantizer::~ProductQuantizer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/product_quantizer.h" line="99" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_product_quantizer_1a4e0659eff36fdb997cb9e4f0e706c9ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ProductQuantizer::ProductQuantizer</definition>
+        <argsstring>(const ProductQuantizer &amp;)=delete</argsstring>
+        <name>ProductQuantizer</name>
+        <qualifiedname>themis::ProductQuantizer::ProductQuantizer</qualifiedname>
+        <param>
+          <type>const ProductQuantizer &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/product_quantizer.h" line="102" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_product_quantizer_1af2e62f1460e41a7a9ed96435c74cac29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_product_quantizer_1ab7d5cbb2bad06e5ce98292107347b843" kindref="member">ProductQuantizer</ref> &amp;</type>
+        <definition>ProductQuantizer &amp; themis::ProductQuantizer::operator=</definition>
+        <argsstring>(const ProductQuantizer &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::ProductQuantizer::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_product_quantizer_1ab7d5cbb2bad06e5ce98292107347b843" kindref="member">ProductQuantizer</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/product_quantizer.h" line="103" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_product_quantizer_1a8645e8359015609deab3534d6e01f35a" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ProductQuantizer::ProductQuantizer</definition>
+        <argsstring>(ProductQuantizer &amp;&amp;) noexcept</argsstring>
+        <name>ProductQuantizer</name>
+        <qualifiedname>themis::ProductQuantizer::ProductQuantizer</qualifiedname>
+        <param>
+          <type>ProductQuantizer &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/product_quantizer.h" line="106" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_product_quantizer_1ae76c430699cacfca10577031f155bceb" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_product_quantizer_1ab7d5cbb2bad06e5ce98292107347b843" kindref="member">ProductQuantizer</ref> &amp;</type>
+        <definition>ProductQuantizer &amp; themis::ProductQuantizer::operator=</definition>
+        <argsstring>(ProductQuantizer &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::ProductQuantizer::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_product_quantizer_1ab7d5cbb2bad06e5ce98292107347b843" kindref="member">ProductQuantizer</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/product_quantizer.h" line="107" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_product_quantizer_1ac181bb421edebc4b9fb4115e3f076eb0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_product_quantizer_1_1_status" kindref="compound">Status</ref></type>
+        <definition>ProductQuantizer::Status themis::ProductQuantizer::train</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;training_vectors)</argsstring>
+        <name>train</name>
+        <qualifiedname>themis::ProductQuantizer::train</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;</type>
+          <declname>training_vectors</declname>
+        </param>
+        <briefdescription>
+<para>Train quantizer using K-means on training vectors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Train.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>training_vectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Training data (num_vectors x dimension) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1_product_quantizer_1_1_status" kindref="compound">Status</ref> indicating success or failure</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">training_vectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), <ref refid="structthemis_1_1_product_quantizer_1_1_status_1ad67843b0cc4a7fa707d561773c9659da" kindref="member">Status::Error()</ref>, size(), THEMIS_INFO(), checkedMultiply(), reserve(), insert(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/product_quantizer.h" line="114" column="12" bodyfile="src/index/product_quantizer.cpp" bodystart="145" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_product_quantizer_1a25b054b63ff7499d8a0f586adf6f8b86" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::ProductQuantizer::encode</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;vector) const</argsstring>
+        <name>encode</name>
+        <qualifiedname>themis::ProductQuantizer::encode</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>vector</declname>
+        </param>
+        <briefdescription>
+<para>Encode a vector into quantized codes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>vector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input vector (dimension floats) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Quantized codes (num_subquantizers bytes) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/product_quantizer.h" line="121" column="17" bodyfile="src/index/product_quantizer.cpp" bodystart="239" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_product_quantizer_1a6cc5533dc4eb57d8b0b02df4b9775eb3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::ProductQuantizer::decode</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;codes) const</argsstring>
+        <name>decode</name>
+        <qualifiedname>themis::ProductQuantizer::decode</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>codes</declname>
+        </param>
+        <briefdescription>
+<para>Decode quantized codes back to approximate vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>codes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Quantized codes (num_subquantizers bytes) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Reconstructed vector (dimension floats) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/product_quantizer.h" line="128" column="17" bodyfile="src/index/product_quantizer.cpp" bodystart="302" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_product_quantizer_1a999f693305423e53d89e39afc435062c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::ProductQuantizer::computeAsymmetricDistance</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;query, const std::vector&lt; uint8_t &gt; &amp;codes) const</argsstring>
+        <name>computeAsymmetricDistance</name>
+        <qualifiedname>themis::ProductQuantizer::computeAsymmetricDistance</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>codes</declname>
+        </param>
+        <briefdescription>
+<para>Compute asymmetric distance between query and quantized codes Faster than decode + distance, directly computes distance from codes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query vector (dimension floats) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>codes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Quantized codes (num_subquantizers bytes) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>L2 distance </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/product_quantizer.h" line="137" column="11" bodyfile="src/index/product_quantizer.cpp" bodystart="363" bodyend="453"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_product_quantizer_1a04bfa84c264ff462a18ad1d93e5e0e95" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ProductQuantizer::isTrained</definition>
+        <argsstring>() const</argsstring>
+        <name>isTrained</name>
+        <qualifiedname>themis::ProductQuantizer::isTrained</qualifiedname>
+        <briefdescription>
+<para>Check if quantizer is trained. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/product_quantizer.h" line="143" column="10" bodyfile="include/index/product_quantizer.h" bodystart="143" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_product_quantizer_1a57272e6cfd31a27dd5a727e4326c1ae2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::ProductQuantizer::getCompressionRatio</definition>
+        <argsstring>() const</argsstring>
+        <name>getCompressionRatio</name>
+        <qualifiedname>themis::ProductQuantizer::getCompressionRatio</qualifiedname>
+        <briefdescription>
+<para>Get compression ratio. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Ratio of original size to compressed size (e.g., 32.0 for 6KB-&gt;192B) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/product_quantizer.h" line="149" column="11" bodyfile="src/index/product_quantizer.cpp" bodystart="455" bodyend="470"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_product_quantizer_1ada84b0ebec2805eddd89d7d844cd4815" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::ProductQuantizer::getMemoryUsage</definition>
+        <argsstring>() const</argsstring>
+        <name>getMemoryUsage</name>
+        <qualifiedname>themis::ProductQuantizer::getMemoryUsage</qualifiedname>
+        <briefdescription>
+<para>Get memory usage in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/product_quantizer.h" line="154" column="12" bodyfile="src/index/product_quantizer.cpp" bodystart="472" bodyend="481"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_product_quantizer_1a74077842d313a4bd4567ed4cb88d58ff" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::ProductQuantizer::getDimension</definition>
+        <argsstring>() const</argsstring>
+        <name>getDimension</name>
+        <qualifiedname>themis::ProductQuantizer::getDimension</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/product_quantizer.h" line="157" column="9" bodyfile="include/index/product_quantizer.h" bodystart="157" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_product_quantizer_1a879b8b31978f0fe48386b4a752684ca1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::ProductQuantizer::getNumSubquantizers</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumSubquantizers</name>
+        <qualifiedname>themis::ProductQuantizer::getNumSubquantizers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/product_quantizer.h" line="158" column="9" bodyfile="include/index/product_quantizer.h" bodystart="158" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_product_quantizer_1ae84fd0d6a4c8a637e0b92c9d65b0bb87" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::ProductQuantizer::getSubvectorDim</definition>
+        <argsstring>() const</argsstring>
+        <name>getSubvectorDim</name>
+        <qualifiedname>themis::ProductQuantizer::getSubvectorDim</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/product_quantizer.h" line="159" column="9" bodyfile="include/index/product_quantizer.h" bodystart="159" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_product_quantizer_1a8cd6dab1a62067d392aad96f72685053" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::ProductQuantizer::getBackend</definition>
+        <argsstring>() const</argsstring>
+        <name>getBackend</name>
+        <qualifiedname>themis::ProductQuantizer::getBackend</qualifiedname>
+        <briefdescription>
+<para>Check which backend is being used for training. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>&quot;faiss&quot; if using FAISS K-means, &quot;custom&quot; if using custom implementation </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/product_quantizer.h" line="165" column="16" bodyfile="src/index/product_quantizer.cpp" bodystart="738" bodyend="745"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_product_quantizer_1ae52afe9f07fb20fa8f7ffb3638f2159e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; float &gt; &gt; themis::ProductQuantizer::runKMeans</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;subvector_data) const</argsstring>
+        <name>runKMeans</name>
+        <qualifiedname>themis::ProductQuantizer::runKMeans</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;</type>
+          <declname>subvector_data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Distances. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">num_samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Run k-means iterations <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">num_samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/product_quantizer.h" line="185" column="17" bodyfile="src/index/product_quantizer.cpp" bodystart="486" bodyend="694"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_product_quantizer_1ab2a19d7140884f73fc9558cc5b7711bd" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::ProductQuantizer::findNearestCentroid</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;subvector, const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;centroids) const</argsstring>
+        <name>findNearestCentroid</name>
+        <qualifiedname>themis::ProductQuantizer::findNearestCentroid</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>subvector</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;</type>
+          <declname>centroids</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/product_quantizer.h" line="188" column="13" bodyfile="src/index/product_quantizer.cpp" bodystart="696" bodyend="712"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1_product_quantizer_1a184501cd7bee4e9207a66350a531a251" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::ProductQuantizer::l2Distance</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;a, const std::vector&lt; float &gt; &amp;b)</argsstring>
+        <name>l2Distance</name>
+        <qualifiedname>themis::ProductQuantizer::l2Distance</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>L2 Distance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), THEMIS_DEBUG(), max(), std::sqrt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/product_quantizer.h" line="192" column="18" bodyfile="src/index/product_quantizer.cpp" bodystart="721" bodyend="734"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Product Quantization for Vector Compression (FAISS-native with fallback). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>v1.5.0 - Custom implementation with optional FAISS acceleration</para>
+<para>Custom implementation of Product Quantization (PQ) for compressing high-dimensional vectors from float32 (e.g., 1536D = 6KB) to 8-bit codes (e.g., 192 bytes).</para>
+<para>NOTE: FAISS IndexIVFPQ doesn&apos;t expose standalone encode/decode methods needed by this interface. This implementation provides those standalone operations. For integrated search with quantization, consider using <ref refid="classthemis_1_1_advanced_vector_index" kindref="compound">AdvancedVectorIndex</ref> which wraps FAISS IndexIVFPQ directly.</para>
+<para>FAISS Integration: When THEMIS_HAS_FAISS is defined and prefer_faiss is true, uses FAISS K-means clustering for training (20-30% faster with SIMD optimizations). Encoding/decoding uses custom implementation since FAISS doesn&apos;t expose standalone methods for that. FAISS-native implementation with fallback for Product Quantization (PQ) for compressing high-dimensional vectors from float32 (e.g., 1536D = 6KB) to 8-bit codes (e.g., 192 bytes).</para>
+<para>This implementation uses FAISS&apos;s optimized <ref refid="classthemis_1_1_product_quantizer" kindref="compound">ProductQuantizer</ref> when available (THEMIS_HAS_FAISS), providing better performance through SIMD optimizations and potential GPU acceleration. Falls back to custom K-means implementation when FAISS is not available.</para>
+<para>Sources:<itemizedlist>
+<listitem><para>Library: FAISS (Facebook AI Similarity Search)</para>
+</listitem><listitem><para>Repository: <ulink url="https://github.com/facebookresearch/faiss">https://github.com/facebookresearch/faiss</ulink></para>
+</listitem><listitem><para>License: MIT</para>
+</listitem><listitem><para>FAISS Class: faiss::ProductQuantizer (faiss/impl/ProductQuantizer.h)</para>
+</listitem><listitem><para>Algorithm: Jégou, H., Douze, M., &amp; Schmid, C. (2011). &quot;Product Quantization for Nearest Neighbor Search&quot; IEEE Transactions on Pattern Analysis and Machine Intelligence (PAMI)</para>
+</listitem><listitem><para>DOI: 10.1109/TPAMI.2010.57</para>
+</listitem><listitem><para>URL: <ulink url="https://hal.inria.fr/inria-00514462">https://hal.inria.fr/inria-00514462</ulink></para>
+</listitem><listitem><para>Implementation: Custom ThemisDB implementation with optional FAISS K-means acceleration</para>
+</listitem><listitem><para>FAISS Alternative: <ref refid="classfaiss_1_1_index_i_v_f_p_q" kindref="compound">faiss::IndexIVFPQ</ref> (integrated search, not standalone encode/decode)</para>
+</listitem></itemizedlist>
+</para>
+<para>Part of ThemisDB v1.5.0 - FAISS K-means Integration (#1079)</para>
+<para>Part of ThemisDB v1.4.2 - Migration to FAISS native quantizers Previous: Custom implementation (v1.3.0-v1.4.1) </para>
+    </detaileddescription>
+    <location file="include/index/product_quantizer.h" line="66" column="1" bodyfile="include/index/product_quantizer.h" bodystart="66" bodyend="194"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_product_quantizer_1a7d81d77082edb8ba9c34d21bb07feb7b" prot="private" virt="non-virtual"><scope>themis::ProductQuantizer</scope><name>codebooks_</name></member>
+      <member refid="classthemis_1_1_product_quantizer_1a999f693305423e53d89e39afc435062c" prot="public" virt="non-virtual"><scope>themis::ProductQuantizer</scope><name>computeAsymmetricDistance</name></member>
+      <member refid="classthemis_1_1_product_quantizer_1a3ed24d3fb9577bcb6d92dec9b14ff974" prot="private" virt="non-virtual"><scope>themis::ProductQuantizer</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_product_quantizer_1a6cc5533dc4eb57d8b0b02df4b9775eb3" prot="public" virt="non-virtual"><scope>themis::ProductQuantizer</scope><name>decode</name></member>
+      <member refid="classthemis_1_1_product_quantizer_1a0d12b9af3e3d0abd786b092f20fdf09b" prot="private" virt="non-virtual"><scope>themis::ProductQuantizer</scope><name>dimension_</name></member>
+      <member refid="classthemis_1_1_product_quantizer_1a25b054b63ff7499d8a0f586adf6f8b86" prot="public" virt="non-virtual"><scope>themis::ProductQuantizer</scope><name>encode</name></member>
+      <member refid="classthemis_1_1_product_quantizer_1ab2a19d7140884f73fc9558cc5b7711bd" prot="private" virt="non-virtual"><scope>themis::ProductQuantizer</scope><name>findNearestCentroid</name></member>
+      <member refid="classthemis_1_1_product_quantizer_1a8cd6dab1a62067d392aad96f72685053" prot="public" virt="non-virtual"><scope>themis::ProductQuantizer</scope><name>getBackend</name></member>
+      <member refid="classthemis_1_1_product_quantizer_1a57272e6cfd31a27dd5a727e4326c1ae2" prot="public" virt="non-virtual"><scope>themis::ProductQuantizer</scope><name>getCompressionRatio</name></member>
+      <member refid="classthemis_1_1_product_quantizer_1a74077842d313a4bd4567ed4cb88d58ff" prot="public" virt="non-virtual"><scope>themis::ProductQuantizer</scope><name>getDimension</name></member>
+      <member refid="classthemis_1_1_product_quantizer_1ada84b0ebec2805eddd89d7d844cd4815" prot="public" virt="non-virtual"><scope>themis::ProductQuantizer</scope><name>getMemoryUsage</name></member>
+      <member refid="classthemis_1_1_product_quantizer_1a879b8b31978f0fe48386b4a752684ca1" prot="public" virt="non-virtual"><scope>themis::ProductQuantizer</scope><name>getNumSubquantizers</name></member>
+      <member refid="classthemis_1_1_product_quantizer_1ae84fd0d6a4c8a637e0b92c9d65b0bb87" prot="public" virt="non-virtual"><scope>themis::ProductQuantizer</scope><name>getSubvectorDim</name></member>
+      <member refid="classthemis_1_1_product_quantizer_1a04bfa84c264ff462a18ad1d93e5e0e95" prot="public" virt="non-virtual"><scope>themis::ProductQuantizer</scope><name>isTrained</name></member>
+      <member refid="classthemis_1_1_product_quantizer_1a184501cd7bee4e9207a66350a531a251" prot="private" virt="non-virtual"><scope>themis::ProductQuantizer</scope><name>l2Distance</name></member>
+      <member refid="classthemis_1_1_product_quantizer_1af2e62f1460e41a7a9ed96435c74cac29" prot="public" virt="non-virtual"><scope>themis::ProductQuantizer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_product_quantizer_1ae76c430699cacfca10577031f155bceb" prot="public" virt="non-virtual"><scope>themis::ProductQuantizer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_product_quantizer_1ab7d5cbb2bad06e5ce98292107347b843" prot="public" virt="non-virtual"><scope>themis::ProductQuantizer</scope><name>ProductQuantizer</name></member>
+      <member refid="classthemis_1_1_product_quantizer_1a4e0659eff36fdb997cb9e4f0e706c9ab" prot="public" virt="non-virtual"><scope>themis::ProductQuantizer</scope><name>ProductQuantizer</name></member>
+      <member refid="classthemis_1_1_product_quantizer_1a8645e8359015609deab3534d6e01f35a" prot="public" virt="non-virtual"><scope>themis::ProductQuantizer</scope><name>ProductQuantizer</name></member>
+      <member refid="classthemis_1_1_product_quantizer_1ae52afe9f07fb20fa8f7ffb3638f2159e" prot="private" virt="non-virtual"><scope>themis::ProductQuantizer</scope><name>runKMeans</name></member>
+      <member refid="classthemis_1_1_product_quantizer_1a82fefac640e6376decf4c90045fb260e" prot="private" virt="non-virtual"><scope>themis::ProductQuantizer</scope><name>subvector_dim_</name></member>
+      <member refid="classthemis_1_1_product_quantizer_1ac181bb421edebc4b9fb4115e3f076eb0" prot="public" virt="non-virtual"><scope>themis::ProductQuantizer</scope><name>train</name></member>
+      <member refid="classthemis_1_1_product_quantizer_1abb576c75ac61423f7ff075c2125eedee" prot="private" virt="non-virtual"><scope>themis::ProductQuantizer</scope><name>trained_</name></member>
+      <member refid="classthemis_1_1_product_quantizer_1a3d6836401e889b4d195fd814d1523312" prot="private" virt="non-virtual"><scope>themis::ProductQuantizer</scope><name>use_faiss_</name></member>
+      <member refid="classthemis_1_1_product_quantizer_1a1d1377beb4e3fc64bff8402c10c025a8" prot="public" virt="non-virtual"><scope>themis::ProductQuantizer</scope><name>~ProductQuantizer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

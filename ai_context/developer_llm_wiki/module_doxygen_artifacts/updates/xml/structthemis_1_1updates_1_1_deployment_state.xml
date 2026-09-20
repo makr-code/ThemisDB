@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_deployment_state" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::DeploymentState</compoundname>
+    <includes refid="batch5__safety__helpers_8h" local="no">batch5_safety_helpers.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_deployment_state_1a5840086b907ece3fd6d74746d0857f3c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::DeploymentState::slot_name</definition>
+        <argsstring></argsstring>
+        <name>slot_name</name>
+        <qualifiedname>themis::updates::DeploymentState::slot_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/batch5_safety_helpers.h" line="165" column="17" bodyfile="include/updates/batch5_safety_helpers.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_deployment_state_1ac07c341aec6737c31633b3fa616b9058" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::DeploymentState::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::updates::DeploymentState::version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/batch5_safety_helpers.h" line="166" column="17" bodyfile="include/updates/batch5_safety_helpers.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_deployment_state_1a90d24c6639b9ddd7ecb14240208bb2ab" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::DeploymentState::is_active</definition>
+        <argsstring></argsstring>
+        <name>is_active</name>
+        <qualifiedname>themis::updates::DeploymentState::is_active</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/batch5_safety_helpers.h" line="167" column="10" bodyfile="include/updates/batch5_safety_helpers.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Mock <ref refid="structthemis_1_1updates_1_1_deployment_state" kindref="compound">DeploymentState</ref> for demonstration of RAII pattern. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para>Error Code: 7502</para>
+</simplesect>
+This shows how <ref refid="structthemis_1_1updates_1_1_deployment_state" kindref="compound">DeploymentState</ref> should be managed with unique_ptr in <ref refid="blue__green__deployment_8cpp" kindref="compound">blue_green_deployment.cpp</ref> for exception safety. </para>
+    </detaileddescription>
+    <location file="include/updates/batch5_safety_helpers.h" line="164" column="1" bodyfile="include/updates/batch5_safety_helpers.h" bodystart="164" bodyend="168"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_deployment_state_1a90d24c6639b9ddd7ecb14240208bb2ab" prot="public" virt="non-virtual"><scope>themis::updates::DeploymentState</scope><name>is_active</name></member>
+      <member refid="structthemis_1_1updates_1_1_deployment_state_1a5840086b907ece3fd6d74746d0857f3c" prot="public" virt="non-virtual"><scope>themis::updates::DeploymentState</scope><name>slot_name</name></member>
+      <member refid="structthemis_1_1updates_1_1_deployment_state_1ac07c341aec6737c31633b3fa616b9058" prot="public" virt="non-virtual"><scope>themis::updates::DeploymentState</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,460 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="config__path__resolver_8h" kind="file" language="C++">
+    <compoundname>config_path_resolver.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">map</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">memory</includes>
+    <includes refid="config__audit__log_8h" local="yes">config/config_audit_log.h</includes>
+    <includes local="no">csignal</includes>
+    <includes refid="config__errors_8h" local="yes">config/config_errors.h</includes>
+    <includes refid="lru__cache_8h" local="yes">config/lru_cache.h</includes>
+    <includes refid="path__mapping__metadata_8h" local="yes">config/path_mapping_metadata.h</includes>
+    <includedby refid="bench__config__path__resolver_8cpp" local="yes">benchmarks/config/bench_config_path_resolver.cpp</includedby>
+    <includedby refid="bench__config__release__gates_8cpp" local="yes">benchmarks/config/bench_config_release_gates.cpp</includedby>
+    <includedby refid="config__migration__scanner__impl_8h" local="yes">include/config/config_migration_scanner_impl.h</includedby>
+    <includedby refid="config__metrics__exporter_8cpp" local="yes">src/config/config_metrics_exporter.cpp</includedby>
+    <includedby refid="config__path__resolver_8cpp" local="yes">src/config/config_path_resolver.cpp</includedby>
+    <includedby refid="config__schema__validator_8cpp" local="yes">src/config/config_schema_validator.cpp</includedby>
+    <includedby refid="test__config__coverage_8cpp" local="yes">tests/config/test_config_coverage.cpp</includedby>
+    <includedby refid="test__config__file__watcher_8cpp" local="yes">tests/config/test_config_file_watcher.cpp</includedby>
+    <includedby refid="test__config__hardening__resolver__validator_8cpp" local="yes">tests/config/test_config_hardening_resolver_validator.cpp</includedby>
+    <includedby refid="test__config__metrics__scrape_8cpp" local="yes">tests/config/test_config_metrics_scrape.cpp</includedby>
+    <includedby refid="test__config__path__resolver_8cpp" local="yes">tests/config/test_config_path_resolver.cpp</includedby>
+    <incdepgraph>
+      <node id="11">
+        <label>config/config_audit_log.h</label>
+        <link refid="config__audit__log_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>config/config_errors.h</label>
+        <link refid="config__errors_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/config/config_path_resolver.h</label>
+        <link refid="config__path__resolver_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>config/lru_cache.h</label>
+        <link refid="lru__cache_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>config/path_mapping_metadata.h</label>
+        <link refid="path__mapping__metadata_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="9">
+        <label>chrono</label>
+      </node>
+      <node id="14">
+        <label>csignal</label>
+      </node>
+      <node id="12">
+        <label>cstddef</label>
+      </node>
+      <node id="13">
+        <label>deque</label>
+      </node>
+      <node id="5">
+        <label>filesystem</label>
+      </node>
+      <node id="19">
+        <label>list</label>
+      </node>
+      <node id="3">
+        <label>map</label>
+      </node>
+      <node id="10">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="16">
+        <label>stdexcept</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="18">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="5">
+        <label>benchmarks/config/bench_config_migration_scanner.cpp</label>
+        <link refid="bench__config__migration__scanner_8cpp"/>
+      </node>
+      <node id="2">
+        <label>benchmarks/config/bench_config_path_resolver.cpp</label>
+        <link refid="bench__config__path__resolver_8cpp"/>
+      </node>
+      <node id="3">
+        <label>benchmarks/config/bench_config_release_gates.cpp</label>
+        <link refid="bench__config__release__gates_8cpp"/>
+      </node>
+      <node id="4">
+        <label>include/config/config_migration_scanner_impl.h</label>
+        <link refid="config__migration__scanner__impl_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/config/config_path_resolver.h</label>
+        <link refid="config__path__resolver_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>src/config/config_metrics_exporter.cpp</label>
+        <link refid="config__metrics__exporter_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/config/config_path_resolver.cpp</label>
+        <link refid="config__path__resolver_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/config/config_schema_validator.cpp</label>
+        <link refid="config__schema__validator_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/config/test_config_coverage.cpp</label>
+        <link refid="test__config__coverage_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/config/test_config_file_watcher.cpp</label>
+        <link refid="test__config__file__watcher_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/config/test_config_hardening_resolver_validator.cpp</label>
+        <link refid="test__config__hardening__resolver__validator_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/config/test_config_metrics_scrape.cpp</label>
+        <link refid="test__config__metrics__scrape_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/config/test_config_migration_scanner.cpp</label>
+        <link refid="test__config__migration__scanner_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/config/test_config_path_resolver.cpp</label>
+        <link refid="test__config__path__resolver_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1config_1_1_config_path_resolver" prot="public">themis::config::ConfigPathResolver</innerclass>
+    <innerclass refid="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics" prot="public">themis::config::ConfigPathResolver::Metrics</innerclass>
+    <innerclass refid="structthemis_1_1config_1_1_config_path_resolver_1_1_cache_config" prot="public">themis::config::ConfigPathResolver::CacheConfig</innerclass>
+    <innerclass refid="structthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_entry" prot="public">themis::config::ConfigPathResolver::DeprecationEntry</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1config">themis::config</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.10 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="config__audit__log_8h" kindref="compound">config/config_audit_log.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;csignal&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="config__errors_8h" kindref="compound">config/config_errors.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lru__cache_8h" kindref="compound">config/lru_cache.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="path__mapping__metadata_8h" kindref="compound">config/path_mapping_metadata.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1config" kindref="compound">config</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declaration<sp/>so<sp/>ConfigPathResolver<sp/>can<sp/>hold<sp/>a<sp/>unique_ptr<sp/>without</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>pulling<sp/>in<sp/>the<sp/>platform-specific<sp/>config_file_watcher.h<sp/>headers.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1config_1_1_config_file_watcher" kindref="compound">ConfigFileWatcher</ref>;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1config_1ac7bb41ee0a08682d2a2fa2a83153c0b0" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1config_1ac7bb41ee0a08682d2a2fa2a83153c0b0" kindref="member">ConfigEnvironment</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1config_1ac7bb41ee0a08682d2a2fa2a83153c0b0abfeddf560ff988c07141df6135a9bfcf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1ac7bb41ee0a08682d2a2fa2a83153c0b0abfeddf560ff988c07141df6135a9bfcf" kindref="member">DEV</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1config_1ac7bb41ee0a08682d2a2fa2a83153c0b0ab8a1431064f351dbef92871d02bab8cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1ac7bb41ee0a08682d2a2fa2a83153c0b0ab8a1431064f351dbef92871d02bab8cf" kindref="member">STAGING</ref>,<sp/></highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1config_1ac7bb41ee0a08682d2a2fa2a83153c0b0ac8074bb318fb85693233e64acc64c1ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1config_1ac7bb41ee0a08682d2a2fa2a83153c0b0ac8074bb318fb85693233e64acc64c1ed" kindref="member">PROD</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="classthemis_1_1config_1_1_config_path_resolver" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1config_1_1_config_path_resolver" kindref="compound">ConfigPathResolver</ref><sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a65c9c6d4d1fed674e739f1d4065983d9" kindref="member">resolve</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>legacy_path);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a851d6398e166e0dcd7bfe9d30f9d871b" kindref="member">tryResolve</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>legacy_path);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a04974f526edee118e51b1bdfa3ebb0f0" kindref="member">mapLegacyToNew</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>legacy_path);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a83b8fd9f8906fbdb1218b37123307783" kindref="member">isLegacyPath</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;PathMappingMetadata&gt;<sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1afb6cf18d528bdc7105b1cd7d748e80f6" kindref="member">getMetadata</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>legacy_path);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1abee95c2fd3ceb9e4ec5c64396bd0684d" kindref="member">legacyPathMappings</ref>();</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics" kindref="compound">Metrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics_1ad1decf43b1651f884e2fb094cca466de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics_1ad1decf43b1651f884e2fb094cca466de" kindref="member">resolution_hits</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Successful<sp/>resolutions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics_1ae3e047af733cdc523c33d2427e2131c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics_1ae3e047af733cdc523c33d2427e2131c7" kindref="member">resolution_misses</ref>{0};<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Failed<sp/>resolutions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics_1a607738b212e534af0bdf930f96b94bde" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics_1a607738b212e534af0bdf930f96b94bde" kindref="member">legacy_fallbacks</ref>{0};<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Times<sp/>legacy<sp/>path<sp/>was<sp/>used</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics_1ae1e14537e0a65e090941aa8213a67da9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics_1ae1e14537e0a65e090941aa8213a67da9" kindref="member">new_path_hits</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Times<sp/>new<sp/>path<sp/>was<sp/>used</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics_1a950636fe10432e691c0377cebbbf6ae6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics_1a950636fe10432e691c0377cebbbf6ae6" kindref="member">unmapped_requests</ref>{0};<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Requests<sp/>for<sp/>unmapped<sp/>paths</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics_1a2a09d7d7fecbc54f37dd8ed05d52cf87" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics_1a2a09d7d7fecbc54f37dd8ed05d52cf87" kindref="member">cache_hits</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cache<sp/>hits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics_1a2f3ec07ee82f92fbffbbe72ee7899c63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics_1a2f3ec07ee82f92fbffbbe72ee7899c63" kindref="member">cache_misses</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cache<sp/>misses</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1config_1_1_config_path_resolver_1a624c1a7c4e6970dc4f9702c0bf63cecb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics" kindref="compound">Metrics</ref>&amp;<sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a624c1a7c4e6970dc4f9702c0bf63cecb" kindref="member">metrics</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>metrics_;<sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>uint64_t&gt;&gt;<sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a3a4163acbee47af1da5c4ef3a6930cb0" kindref="member">legacyFallbacksByCategory</ref>();</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1aa2b8aa9ffdde9640653af3592247ef61" kindref="member">legacyFallbackCategories</ref>();</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1afc91909f31597538572a335cc278fc3b" kindref="member">resetMetrics</ref>();</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a0b30a5c78d16059e6b3e0679570ee60a" kindref="member">setCachingEnabled</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enabled);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122" refid="classthemis_1_1config_1_1_config_path_resolver_1a5561e56d34035da609eaf035071c70cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a5561e56d34035da609eaf035071c70cf" kindref="member">cacheStats</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cache_.stats();<sp/>}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="128" refid="classthemis_1_1config_1_1_config_path_resolver_1a836ab0ed0c1bf3bf0f24380fdaa30ced" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a836ab0ed0c1bf3bf0f24380fdaa30ced" kindref="member">clearCache</ref>()<sp/>{<sp/>cache_.clear();<sp/>}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1ad85b3db67f6b52d6efb3b61c28c0b67b" kindref="member">setEnvironment</ref>(<ref refid="namespacethemis_1_1config_1ac7bb41ee0a08682d2a2fa2a83153c0b0" kindref="member">ConfigEnvironment</ref><sp/>env);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1config_1ac7bb41ee0a08682d2a2fa2a83153c0b0" kindref="member">ConfigEnvironment</ref><sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a905e4f76315255d0ec4c6c6859b81d9d" kindref="member">getEnvironment</ref>();</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a93dbdd271a0baf05f106cdf8ce12fdc8" kindref="member">registerSighupHandler</ref>();</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a7efcdea72973dc06fbefe14c34b735aa" kindref="member">startHotReload</ref>(</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>watch_dir<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;config&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>debounce<sp/>=<sp/>std::chrono::milliseconds(200));</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1ac707898b4c3c9bd92be8e8bc3a9171fc" kindref="member">stopHotReload</ref>();</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="classthemis_1_1config_1_1_config_path_resolver_1aef8669278806ff3746f01e744c0cb82a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1aef8669278806ff3746f01e744c0cb82a" kindref="member">kCacheTtlSeconds</ref>;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="classthemis_1_1config_1_1_config_path_resolver_1a200b44c15a1961515ac2f4182fbeb23d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a200b44c15a1961515ac2f4182fbeb23d" kindref="member">kCacheSize</ref>;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="classthemis_1_1config_1_1_config_path_resolver_1a6e08cb1f9e97f430781a73996144c3fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a6e08cb1f9e97f430781a73996144c3fb" kindref="member">kDefaultCacheTtlSeconds</ref><sp/>=<sp/>300;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162" refid="classthemis_1_1config_1_1_config_path_resolver_1a3ed9ea443552ed22efd7a88b754ced01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a3ed9ea443552ed22efd7a88b754ced01" kindref="member">kDefaultCacheSize</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164" refid="structthemis_1_1config_1_1_config_path_resolver_1_1_cache_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1config_1_1_config_path_resolver_1_1_cache_config" kindref="compound">CacheConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="165" refid="structthemis_1_1config_1_1_config_path_resolver_1_1_cache_config_1a6a15f254bea704692d06290e82160c95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1config_1_1_config_path_resolver_1_1_cache_config_1a6a15f254bea704692d06290e82160c95" kindref="member">capacity</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="166" refid="structthemis_1_1config_1_1_config_path_resolver_1_1_cache_config_1ac9e27bbbd6bf2821593dd1c92a4df28b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1config_1_1_config_path_resolver_1_1_cache_config_1ac9e27bbbd6bf2821593dd1c92a4df28b" kindref="member">ttl_seconds</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>CacheConfig<sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a861f65c057f9cacfd8da7f4d4e575e9d" kindref="member">currentCacheConfig</ref>();</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175" refid="structthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_entry" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_entry" kindref="compound">DeprecationEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="176" refid="structthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_entry_1a2de880ed233fbd1921be3262f3a4af8d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_entry_1a2de880ed233fbd1921be3262f3a4af8d" kindref="member">legacy_path</ref>;</highlight></codeline>
+<codeline lineno="177" refid="structthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_entry_1a1214a5df27b76bd91e974c72df4fa702" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_entry_1a1214a5df27b76bd91e974c72df4fa702" kindref="member">new_path</ref>;</highlight></codeline>
+<codeline lineno="178" refid="structthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_entry_1ab57304f661e0e3de9eeff56f8701471c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_entry_1ab57304f661e0e3de9eeff56f8701471c" kindref="member">category</ref>;</highlight></codeline>
+<codeline lineno="179" refid="structthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_entry_1af2500067fdcb49fa86e2fc06386f7f29" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_entry_1af2500067fdcb49fa86e2fc06386f7f29" kindref="member">usage_count</ref>{0};</highlight></codeline>
+<codeline lineno="180" refid="structthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_entry_1ae08ed3bed405bbdddbccb746f951fa14" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::chrono::system_clock::time_point&gt;<sp/><ref refid="structthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_entry_1ae08ed3bed405bbdddbccb746f951fa14" kindref="member">removal_date</ref>;</highlight></codeline>
+<codeline lineno="181" refid="structthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_entry_1a587383682d9d34969e3d3dcceebb446d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_entry_1a587383682d9d34969e3d3dcceebb446d" kindref="member">migration_guide_url</ref>;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a1adddf0d8309ef48010133d66c9393c9" kindref="member">setAggregationEnabled</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enabled,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>interval_seconds<sp/>=<sp/>300);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1abd5bd2b60b799b1f2c7101f39c4b2b8f" kindref="member">setLegacyFallbackRateThreshold</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>threshold);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1ae38ba36cb178c894ee61eeb10edaf1c3" kindref="member">getLegacyFallbackRateThreshold</ref>();</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;DeprecationEntry&gt;<sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a05e70a4727bc294449ad2326e1ff16ab" kindref="member">deprecationReport</ref>();</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1aedaf250d6a0918a5f16fd5471b936076" kindref="member">setAuditLogEnabled</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enabled);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;AuditEntry&gt;<sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a13cca944821e634ee809c791d23a5f30" kindref="member">auditLog</ref>();</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1aae58aa4d70f2314e0bdc6920a50ff691" kindref="member">clearAuditLog</ref>();</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1a6a2a99446d26493d862dffa6b39c6073" kindref="member">setAuditLogMaxEntries</ref>(std::size_t<sp/>max);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mapping<sp/>table<sp/>from<sp/>legacy<sp/>paths<sp/>to<sp/>new<sp/>hierarchical<sp/>paths</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/>PATH_MAPPING;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Metadata<sp/>table<sp/>with<sp/>deprecation<sp/>information</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>PathMappingMetadata&gt;<sp/>METADATA_TABLE;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Metrics<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics" kindref="compound">Metrics</ref><sp/>metrics_;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cache<sp/>for<sp/>resolved<sp/>paths<sp/>(capacity<sp/>and<sp/>TTL<sp/>configurable<sp/>via<sp/>env<sp/>vars)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cache<sp/>for<sp/>resolved<sp/>paths<sp/>(capacity:<sp/>1000,<sp/>TTL:<sp/>5<sp/>minutes<sp/>by<sp/>default)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_l_r_u_cache_with_t_t_l" kindref="compound">LRUCacheWithTTL&lt;std::string, std::string&gt;</ref><sp/>cache_;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::atomic&lt;bool&gt;<sp/>caching_enabled_;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Active<sp/>cache<sp/>configuration<sp/>(set<sp/>once<sp/>at<sp/>startup<sp/>from<sp/>env<sp/>vars<sp/>or<sp/>defaults)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1config_1_1_config_path_resolver_1_1_cache_config" kindref="compound">CacheConfig</ref><sp/>cache_config_;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-category<sp/>legacy<sp/>fallback<sp/>counters<sp/>(initialized<sp/>once,<sp/>then<sp/>atomically<sp/>incremented)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::atomic&lt;uint64_t&gt;&gt;<sp/>legacy_fallbacks_by_category_;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::once_flag<sp/>category_init_flag_;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>initLegacyFallbackCategoryCounters();</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>normalizePath(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Path<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>validatePath(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>inferCategory(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>new_path);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Deprecation<sp/>aggregator<sp/>(tracks<sp/>per-path<sp/>legacy<sp/>usage<sp/>counts)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator" kindref="compound">DeprecationAggregator</ref>;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator" kindref="compound">DeprecationAggregator</ref><sp/>aggregator_;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::atomic&lt;bool&gt;<sp/>aggregation_enabled_;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Active<sp/>deployment<sp/>environment<sp/>(used<sp/>for<sp/>overlay<sp/>path<sp/>probing)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::atomic&lt;ConfigEnvironment&gt;<sp/>current_env_;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SIGHUP<sp/>hot-reload<sp/>flag<sp/>and<sp/>handler<sp/>(POSIX<sp/>only;<sp/>no-op<sp/>on<sp/>Windows)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">volatile</highlight><highlight class="normal"><sp/>sig_atomic_t<sp/>sighup_pending_;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>handleSighup(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>sig);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>inotify/kqueue/ReadDirectoryChangesW<sp/>file<sp/>watcher<sp/>(v1.8.0).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stored<sp/>as<sp/>a<sp/>unique_ptr<sp/>so<sp/>the<sp/>platform<sp/>headers<sp/>are<sp/>not<sp/>exposed<sp/>in<sp/>this</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>public<sp/>header<sp/>(include<sp/>config_file_watcher.h<sp/>in<sp/>the<sp/>.cpp<sp/>only).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;ConfigFileWatcher&gt;<sp/>file_watcher_;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>envToString(<ref refid="namespacethemis_1_1config_1ac7bb41ee0a08682d2a2fa2a83153c0b0" kindref="member">ConfigEnvironment</ref><sp/>env);</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1config_1ac7bb41ee0a08682d2a2fa2a83153c0b0" kindref="member">ConfigEnvironment</ref><sp/>envFromEnvironmentVariable();</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Audit<sp/>log<sp/>(records<sp/>all<sp/>successful<sp/>path<sp/>resolutions<sp/>with<sp/>timestamps)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_audit_log" kindref="compound">ConfigAuditLog</ref><sp/>audit_log_;</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Legacy<sp/>fallback<sp/>rate<sp/>threshold<sp/>alerting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::atomic&lt;double&gt;<sp/>legacy_fallback_threshold_;</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fallback<sp/>count<sp/>at<sp/>which<sp/>the<sp/>last<sp/>threshold<sp/>warning<sp/>was<sp/>emitted.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>0<sp/>means<sp/>no<sp/>warning<sp/>has<sp/>been<sp/>emitted<sp/>yet<sp/>in<sp/>the<sp/>current<sp/>metrics<sp/>window.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>last_threshold_warn_count_;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>checkFallbackRateThreshold();</highlight></codeline>
+<codeline lineno="320"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/config/config_path_resolver.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,246 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test" kind="page">
+    <compoundname>test</compoundname>
+    <title>Test List</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Member <ref refid="test__adapter__capability__announcement__focused_8cpp_1ad05c5c54e442e025072c137e5d3c7aaa" kindref="member">TEST</ref>  (FederationTrustPolicy, AlwaysPermitAllowsAll)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000011"/>ACA-TRUST-01: AlwaysPermitTrustPolicy permits every announcement.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__adapter__capability__announcement__focused_8cpp_1a994fa7e9ba803e5bf7483f10dd0b13c3" kindref="member">TEST</ref>  (FederationTrustPolicy, CustomPolicyCanRejectAnnouncement)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000012"/>ACA-TRUST-02: A custom reject policy returns REJECT for flagged adapters. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__adapter__capability__announcement__focused_8cpp_1a824c95cf3c167d281fa8ac09dd3de4f8" kindref="member">TEST</ref>  (FederationTrustPolicy, TrustDecisionEnumValuesAreDistinct)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000013"/>ACA-TRUST-03: TrustDecision enum values are distinct.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__adapter__capability__announcement__focused_8cpp_1aa3b67b3d3fe3c91addc1d29018a647d8" kindref="member">TEST</ref>  (FederationTrustPolicy, TrustGateRejectedErrorCodeIsUnique)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000014"/>ACA-TRUST-04: DKErrorCode::TRUST_GATE_REJECTED is defined and distinct from all other codes.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__adapter__capability__announcement__focused_8cpp_1a82cd7a84213b9e9c45036f228fdfcb50" kindref="member">TEST</ref>  (FederationTrustPolicy, PolymorphicDispatchThroughBasePointer)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000015"/>ACA-TRUST-05: AlwaysPermitTrustPolicy polymorphic dispatch works correctly. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__dk__diagnostics__focused_8cpp_1ad9db05592d04100f25ec25e15f829f5f" kindref="member">TEST</ref>  (DKDiagnosticsEmitter, EmitWithNoListenersDoesNotThrow)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000028"/>DKD-01: emit() with no listeners does not throw.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__dk__diagnostics__focused_8cpp_1ab8e3210b0f2a781cb5f40f2d508f6ca9" kindref="member">TEST</ref>  (DKDiagnosticsEmitter, AddNullListenerIsNoOp)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000029"/>DKD-02: addListener(nullptr) is silently ignored.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__dk__diagnostics__focused_8cpp_1a4c183801a9669a4bf731c0c5fe529f00" kindref="member">TEST</ref>  (DKDiagnosticsEmitter, ClearListenersRemovesAll)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000030"/>DKD-03: clearListeners() removes all registered listeners.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__dk__diagnostics__focused_8cpp_1ad0f13fadc66ea4a0feff44f77cf33b7c" kindref="member">TEST</ref>  (DKDiagnosticsEmitter, ListenerCountIsAccurate)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000031"/>DKD-04: listenerCount() reflects add and clear operations.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__dk__diagnostics__focused_8cpp_1a8e37ea4519cefd3b15d5a2775608eae8" kindref="member">TEST</ref>  (DKDiagnosticsEmitter, SingleListenerReceivesEvent)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000032"/>DKD-05: A single registered listener receives the emitted event.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__dk__diagnostics__focused_8cpp_1ad51cb78776541d018b29ee66d7f2d8dc" kindref="member">TEST</ref>  (DKDiagnosticsEmitter, MultipleListenersAllReceiveEvent)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000033"/>DKD-06: Multiple listeners all receive the same event.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__dk__diagnostics__focused_8cpp_1a1f5d475dd8af73b18e3e70c61d1df4a2" kindref="member">TEST</ref>  (DKDiagnosticsEmitter, ThrowingListenerDoesNotBlockOthers)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000034"/>DKD-07: A throwing listener does not prevent subsequent listeners from receiving the event.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__dk__diagnostics__focused_8cpp_1a48151c31150c846d73f09b7bfa9387e3" kindref="member">TEST</ref>  (DKDiagnosticsEmitter, TimestampAutoFilled)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000035"/>DKD-08: timestamp_utc is populated automatically when left empty.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__dk__diagnostics__focused_8cpp_1a2237b57c2b6d37872caad663003297b6" kindref="member">TEST</ref>  (DKDiagnosticsEmitter, EmitMergeTimeoutPopulatesFields)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000036"/>DKD-09: emitMergeTimeout fills type, shard_id, operation_id, cause.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__dk__diagnostics__focused_8cpp_1a80b7aa82dc218aa98e814bd7cc1894a7" kindref="member">TEST</ref>  (DKDiagnosticsEmitter, EmitDedupCollisionPopulatesFieldsAndMetadata)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000037"/>DKD-10: emitDedupCollision populates fields and metadata.key.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__dk__diagnostics__focused_8cpp_1a105ec4fbb5e73e5bc02b73d05e2ea386" kindref="member">TEST</ref>  (DKDiagnosticsEmitter, EmitTrustGateRejectHasErrorSeverity)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000038"/>DKD-11: emitTrustGateReject sets severity to ERROR.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__dk__diagnostics__focused_8cpp_1aa1c79eb7370d4d9889bc6fa56a9ae540" kindref="member">TEST</ref>  (DKDiagnosticsEmitter, EmitPartialShardMergePopulatesMetadata)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000039"/>DKD-12: emitPartialShardMerge populates responding/total shard metadata.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__dk__diagnostics__focused_8cpp_1af6a2dcec717f4b4ccfc9a7a4b541a185" kindref="member">TEST</ref>  (DKDiagnosticsEmitter, EmitFederationRollbackPopulatesFields)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000040"/>DKD-13: emitFederationRollback populates correct fields.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__dk__diagnostics__focused_8cpp_1ad73403f44f1813aead5fd6d74ebb7faf" kindref="member">TEST</ref>  (MergeHardeningPolicy, IsConstrainedSemantics)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000041"/>DKD-14: MergeHardeningPolicy::isConstrained() semantics. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__adapter__capability__announcement__focused_8cpp_1a6f2f03a13eafa848116e5bec724eb41a" kindref="member">TEST_F</ref>  (<ref refid="class_adapter_capability_announcement_test" kindref="compound">AdapterCapabilityAnnouncementTest</ref>, CreateAndSerializeAnnouncement)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000001"/>ACA-01: Adapter capability announcement creation and JSON serialization. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__adapter__capability__announcement__focused_8cpp_1acaa8796bd3f3dfa5024bc6cbdca685da" kindref="member">TEST_F</ref>  (<ref refid="class_adapter_capability_announcement_test" kindref="compound">AdapterCapabilityAnnouncementTest</ref>, AdapterDomainTypeToString)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000002"/>ACA-02: AdapterDomainType to string conversion. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__adapter__capability__announcement__focused_8cpp_1a390bc38708116a777a4e2ca22e85dd6e" kindref="member">TEST_F</ref>  (<ref refid="class_adapter_capability_announcement_test" kindref="compound">AdapterCapabilityAnnouncementTest</ref>, GossipPublisherAnnouncesCapability)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000003"/>ACA-03: GossipAdapterPublisher initialization and announcement dispatch. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__adapter__capability__announcement__focused_8cpp_1a01aef9cabaeed0ca571a115951413a1e" kindref="member">TEST_F</ref>  (<ref refid="class_adapter_capability_announcement_test" kindref="compound">AdapterCapabilityAnnouncementTest</ref>, MultipleAdaptersFromSameShard)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000004"/>ACA-04: Multiple adapter announcements from single shard. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__adapter__capability__announcement__focused_8cpp_1ac9918fa89b086e02e76d6a7ed575b13e" kindref="member">TEST_F</ref>  (<ref refid="class_adapter_capability_announcement_test" kindref="compound">AdapterCapabilityAnnouncementTest</ref>, AdapterWithdrawalAnnouncement)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000005"/>ACA-05: Adapter withdrawal announcement. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__adapter__capability__announcement__focused_8cpp_1a059f76a14807994f02e15776d05c2e8d" kindref="member">TEST_F</ref>  (<ref refid="class_adapter_capability_announcement_test" kindref="compound">AdapterCapabilityAnnouncementTest</ref>, CustomDomainLabel)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000006"/>ACA-06: Custom domain label in announcement. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__adapter__capability__announcement__focused_8cpp_1af31889d39ef1ef459e7e088421fcee8b" kindref="member">TEST_F</ref>  (<ref refid="class_adapter_capability_announcement_test" kindref="compound">AdapterCapabilityAnnouncementTest</ref>, AnnouncementTimestampSet)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000007"/>ACA-07: Announcement timestamp is set during gossip publish. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__adapter__capability__announcement__focused_8cpp_1aa9576723354f9946eb7052a41b4b29ec" kindref="member">TEST_F</ref>  (<ref refid="class_adapter_capability_announcement_test" kindref="compound">AdapterCapabilityAnnouncementTest</ref>, ShardIdOverwrittenByPublisher)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000008"/>ACA-08: Shard ID is overwritten by publisher. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__adapter__capability__announcement__focused_8cpp_1ae0146615ed2096956d3f487802e688bb" kindref="member">TEST_F</ref>  (<ref refid="class_adapter_capability_announcement_test" kindref="compound">AdapterCapabilityAnnouncementTest</ref>, EmptyAdapterIdHandling)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000009"/>ACA-09: Empty adapter ID handling (defensive). </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__adapter__capability__announcement__focused_8cpp_1a96d30548f40480ac4d10d5ff6fd745df" kindref="member">TEST_F</ref>  (<ref refid="class_adapter_capability_announcement_test" kindref="compound">AdapterCapabilityAnnouncementTest</ref>, MultiplePublishersForSameShard)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000010"/>ACA-10: Multiple publishers for same shard. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__cross__shard__feedback__sync__focused_8cpp_1a1fa07591652b7c6b46718bb8339d56db" kindref="member">TEST_F</ref>  (<ref refid="class_cross_shard_feedback_sync_test" kindref="compound">CrossShardFeedbackSyncTest</ref>, CreateFeedbackSummary)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000016"/>CSS-01: FeedbackSummary creation with required fields. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__cross__shard__feedback__sync__focused_8cpp_1abb511c967894ce6066ea029e9663c398" kindref="member">TEST_F</ref>  (<ref refid="class_cross_shard_feedback_sync_test" kindref="compound">CrossShardFeedbackSyncTest</ref>, FeedbackSummaryJsonRoundTrip)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000017"/>CSS-02: FeedbackSummary JSON serialization round-trip. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__cross__shard__feedback__sync__focused_8cpp_1a54843581e86a9b5c187839b11538e202" kindref="member">TEST_F</ref>  (<ref refid="class_cross_shard_feedback_sync_test" kindref="compound">CrossShardFeedbackSyncTest</ref>, FeedbackSummaryDefaultShardOriginIsAnon)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000018"/>CSS-03: FeedbackSummary shard_origin defaults to ANON. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__cross__shard__feedback__sync__focused_8cpp_1a112a4c5b130098691a81a4adffef43eb" kindref="member">TEST_F</ref>  (<ref refid="class_cross_shard_feedback_sync_test" kindref="compound">CrossShardFeedbackSyncTest</ref>, PublishFeedbackDispatchesGossipMessage)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000019"/>CSS-04: publishFeedback() dispatches a gossip message. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__cross__shard__feedback__sync__focused_8cpp_1a154d403177479d1aa7d47a279ee2ebce" kindref="member">TEST_F</ref>  (<ref refid="class_cross_shard_feedback_sync_test" kindref="compound">CrossShardFeedbackSyncTest</ref>, HandleInboundSummaryInvokesCallback)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000020"/>CSS-05: handleInboundSummary() invokes the registered callback. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__cross__shard__feedback__sync__focused_8cpp_1a4f82552b00644167026dc8746b9b8869" kindref="member">TEST_F</ref>  (<ref refid="class_cross_shard_feedback_sync_test" kindref="compound">CrossShardFeedbackSyncTest</ref>, PublishFeedbackRejectsWrongEmbeddingDim)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000021"/>CSS-06: publishFeedback() throws when embedding dimension is wrong. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__cross__shard__feedback__sync__focused_8cpp_1a8fb78eab92689184697deb6c63f3f62f" kindref="member">TEST_F</ref>  (<ref refid="class_cross_shard_feedback_sync_test" kindref="compound">CrossShardFeedbackSyncTest</ref>, DuplicateSummaryIsDeduped)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000022"/>CSS-07: Duplicate inbound summary_id is deduplicated. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__cross__shard__feedback__sync__focused_8cpp_1aed0bcec456d0dcda8f50801c0599f987" kindref="member">TEST_F</ref>  (<ref refid="class_cross_shard_feedback_sync_test" kindref="compound">CrossShardFeedbackSyncTest</ref>, MultipleDistinctSummariesAllReceived)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000023"/>CSS-08: Multiple distinct summaries all received. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__cross__shard__feedback__sync__focused_8cpp_1a7e87990a1bd11f595dbf2e68420e6c4f" kindref="member">TEST_F</ref>  (<ref refid="class_cross_shard_feedback_sync_test" kindref="compound">CrossShardFeedbackSyncTest</ref>, InboundPolicyCheckRejectsSummary)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000024"/>CSS-09: Inbound policy check rejects summaries. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__cross__shard__feedback__sync__focused_8cpp_1ab21c3c3381b2937172f8e714999cab01" kindref="member">TEST_F</ref>  (<ref refid="class_cross_shard_feedback_sync_test" kindref="compound">CrossShardFeedbackSyncTest</ref>, ZeroTrustEnforcerThrowsOnHighRisk)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000025"/>CSS-10: ZeroTrust enforcer returning false throws on high-risk summary. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__cross__shard__feedback__sync__focused_8cpp_1abb0a5f41c3aea78ad6ba13fd4c39ce02" kindref="member">TEST_F</ref>  (<ref refid="class_cross_shard_feedback_sync_test" kindref="compound">CrossShardFeedbackSyncTest</ref>, GetStatsReturnsJsonWithCounters)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000026"/>CSS-11: getStats() returns a JSON object with expected counters. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__cross__shard__feedback__sync__focused_8cpp_1a8f19bfa43e094cb48ce3fc3c6d4c7a71" kindref="member">TEST_F</ref>  (<ref refid="class_cross_shard_feedback_sync_test" kindref="compound">CrossShardFeedbackSyncTest</ref>, FeedbackSyncConfigValidation)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000027"/>CSS-12: FeedbackSyncConfig validation. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__federated__distillation__coordinator__focused_8cpp_1a8a3ca63ac8b2db907b9d802d81dbc1ae" kindref="member">TEST_F</ref>  (<ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref>, CreateSoftLabel)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000042"/>FDC-01: SoftLabel creation with required fields. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__federated__distillation__coordinator__focused_8cpp_1aa29e3ab80e8af3e66ba4fdc86c81d907" kindref="member">TEST_F</ref>  (<ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref>, ValidConfigReportsValid)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000043"/>FDC-02: DistillationConfig validation — valid config. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__federated__distillation__coordinator__focused_8cpp_1aa06eb8c3c491874802896524e2090bd4" kindref="member">TEST_F</ref>  (<ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref>, SoftLabelJsonRoundTrip)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000044"/>FDC-03: SoftLabel JSON serialization round-trip. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__federated__distillation__coordinator__focused_8cpp_1ade5d90aae77efa1914ae8a05625113f1" kindref="member">TEST_F</ref>  (<ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref>, CoordinatorInitialState)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000045"/>FDC-04: Coordinator initial state — round 0, no submissions. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__federated__distillation__coordinator__focused_8cpp_1a6583791f1a3c398f20529f18a1416944" kindref="member">TEST_F</ref>  (<ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref>, SubmitAndBroadcastAdvancesRound)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000046"/>FDC-05: submitSoftLabels() + broadcastToStudents() advances round. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__federated__distillation__coordinator__focused_8cpp_1acb8ba22f2e65185c9a46ee627d02bed0" kindref="member">TEST_F</ref>  (<ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref>, BroadcastWithoutSubmitThrows)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000047"/>FDC-06: broadcastToStudents() throws when no labels submitted. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__federated__distillation__coordinator__focused_8cpp_1a5870f652138042868a6f62b8cb37cf68" kindref="member">TEST_F</ref>  (<ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref>, RegisteredStudentReceivesBroadcast)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000048"/>FDC-07: Registered student callback receives the broadcast round. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__federated__distillation__coordinator__focused_8cpp_1aa8dce1ee30b91f07c62b3830992de157" kindref="member">TEST_F</ref>  (<ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref>, PrivacyBudgetVerificationUnlimited)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000049"/>FDC-08: DP budget verification allows broadcast within budget. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__federated__distillation__coordinator__focused_8cpp_1af89be6d33af82a1010b719c13e944965" kindref="member">TEST_F</ref>  (<ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref>, PolicyGateBlocksBroadcast)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000050"/>FDC-09: Policy gate blocks broadcast. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__federated__distillation__coordinator__focused_8cpp_1a496816d4cd3008f21a0e63541b418028" kindref="member">TEST_F</ref>  (<ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref>, PrivacyBudgetRemainingUnlimited)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000051"/>FDC-10: privacyBudgetRemaining() returns max for unlimited rounds. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__federated__distillation__coordinator__focused_8cpp_1a6b9fd018c0730cbde5759d6206245607" kindref="member">TEST_F</ref>  (<ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref>, MultipleStudentsAllReceiveBroadcast)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000052"/>FDC-11: Multiple students all receive the broadcast. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__federated__distillation__coordinator__focused_8cpp_1a7c2f9a937cbffb05859c8cf42a76cfb3" kindref="member">TEST_F</ref>  (<ref refid="class_federated_distillation_coordinator_test" kindref="compound">FederatedDistillationCoordinatorTest</ref>, GenerateModelCardAfterBroadcast)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000053"/>FDC-12: generateModelCard() captures round and DP metadata. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__federated__rag__merger__focused_8cpp_1aa5b21ce934746ab3d75c2cd2b2d443b6" kindref="member">TEST_F</ref>  (<ref refid="class_federated_r_a_g_merger_test" kindref="compound">FederatedRAGMergerTest</ref>, ValidConfigReportsValid)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000054"/>FRM-01: FederatedRAGMergerConfig validation — valid config. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__federated__rag__merger__focused_8cpp_1aa43cbc3b1c287bda8f80e82b172b92dc" kindref="member">TEST_F</ref>  (<ref refid="class_federated_r_a_g_merger_test" kindref="compound">FederatedRAGMergerTest</ref>, MergeStrategyEnumeration)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000055"/>FRM-02: MergeStrategy enumeration values. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__federated__rag__merger__focused_8cpp_1a4456e769a254ba9573a5613730ea1ea5" kindref="member">TEST_F</ref>  (<ref refid="class_federated_r_a_g_merger_test" kindref="compound">FederatedRAGMergerTest</ref>, InvalidConfigTopKZeroRejected)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000056"/>FRM-03: Invalid config (top_k == 0) is rejected. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__federated__rag__merger__focused_8cpp_1afaf7340f792f24e317df32de2dd90743" kindref="member">TEST_F</ref>  (<ref refid="class_federated_r_a_g_merger_test" kindref="compound">FederatedRAGMergerTest</ref>, MergeWithTwoHealthyShardsCorrectCounts)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000057"/>FRM-04: merge() with two healthy shards returns correct document counts. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__federated__rag__merger__focused_8cpp_1a01e8fce66afd29ad3358bcbe7a47c800" kindref="member">TEST_F</ref>  (<ref refid="class_federated_r_a_g_merger_test" kindref="compound">FederatedRAGMergerTest</ref>, PartialShardFailureSkipsFailedShard)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000058"/>FRM-05: merge() skips failed shard (ok == false) gracefully. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__federated__rag__merger__focused_8cpp_1abcc668eaf78610f59e7fb332f526f620" kindref="member">TEST_F</ref>  (<ref refid="class_federated_r_a_g_merger_test" kindref="compound">FederatedRAGMergerTest</ref>, AllShardsTimedOutThrows)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000059"/>FRM-06: merge() with shard_timeout_ms == 0 throws when all shards time out. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__federated__rag__merger__focused_8cpp_1ad7ff30ef3d3c5ad48633dd315edc78ef" kindref="member">TEST_F</ref>  (<ref refid="class_federated_r_a_g_merger_test" kindref="compound">FederatedRAGMergerTest</ref>, DeduplicationRemovesDuplicateDocIds)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000060"/>FRM-07: Deduplication removes documents with identical doc_ids. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__federated__rag__merger__focused_8cpp_1a649a347bddaa291afa14eabc843cf675" kindref="member">TEST_F</ref>  (<ref refid="class_federated_r_a_g_merger_test" kindref="compound">FederatedRAGMergerTest</ref>, TopKTruncationRespected)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000061"/>FRM-08: Top-K truncation is respected. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__federated__rag__merger__focused_8cpp_1a14586c0e9d02ef79022d10d965df7af2" kindref="member">TEST_F</ref>  (<ref refid="class_federated_r_a_g_merger_test" kindref="compound">FederatedRAGMergerTest</ref>, MergerExposesConfig)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000062"/>FRM-09: FederatedRAGMerger exposes its config correctly. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__federated__rag__merger__focused_8cpp_1adc1abc89347e0334d7a458509cb184fc" kindref="member">TEST_F</ref>  (<ref refid="class_federated_r_a_g_merger_test" kindref="compound">FederatedRAGMergerTest</ref>, MergeEmptyShardListReturnsEmptyContext)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000063"/>FRM-10: merge() with empty shard result list returns empty context. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__federated__rag__merger__focused_8cpp_1a29421eecf6ad637698a5cb424f44af9b" kindref="member">TEST_F</ref>  (<ref refid="class_federated_r_a_g_merger_test" kindref="compound">FederatedRAGMergerTest</ref>, MergerIsStateless)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000064"/>FRM-11: Merger is stateless — successive calls are independent. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__federated__rag__merger__focused_8cpp_1ab0770a8bfa6c7d74e8b85075fb7e6927" kindref="member">TEST_F</ref>  (<ref refid="class_federated_r_a_g_merger_test" kindref="compound">FederatedRAGMergerTest</ref>, RetrievedDocumentSerialization)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000065"/>FRM-12: RetrievedDocument JSON serialization. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__lora__federation__coordinator__focused_8cpp_1a681c49f98e493b826988479fbcad4d17" kindref="member">TEST_F</ref>  (<ref refid="class_lo_r_a_federation_coordinator_test" kindref="compound">LoRAFederationCoordinatorTest</ref>, ValidConfigReportsValid)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000066"/>LFC-01: FederationConfig validation — valid config. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__lora__federation__coordinator__focused_8cpp_1af29d961ff5ac02b21e3f660cccf8fab9" kindref="member">TEST_F</ref>  (<ref refid="class_lo_r_a_federation_coordinator_test" kindref="compound">LoRAFederationCoordinatorTest</ref>, InvalidEpsilonRejected)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000067"/>LFC-02: FederationConfig validation — invalid epsilon rejected. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__lora__federation__coordinator__focused_8cpp_1a6596f26099a7b443ba566783db73fe84" kindref="member">TEST_F</ref>  (<ref refid="class_lo_r_a_federation_coordinator_test" kindref="compound">LoRAFederationCoordinatorTest</ref>, CoordinatorInitialState)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000068"/>LFC-03: Coordinator initial state — round 0, no submissions. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__lora__federation__coordinator__focused_8cpp_1af08b40ca9c5a126976a4c35362e7e528" kindref="member">TEST_F</ref>  (<ref refid="class_lo_r_a_federation_coordinator_test" kindref="compound">LoRAFederationCoordinatorTest</ref>, SubmitGradientIncrementsCount)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000069"/>LFC-04: submitGradient() increments submittedCount. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__lora__federation__coordinator__focused_8cpp_1a19722f23170dc3720c14de005beb2297" kindref="member">TEST_F</ref>  (<ref refid="class_lo_r_a_federation_coordinator_test" kindref="compound">LoRAFederationCoordinatorTest</ref>, DuplicateGradientIsIdempotent)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000070"/>LFC-05: Duplicate gradient submission is idempotent. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__lora__federation__coordinator__focused_8cpp_1a016f523a75c309df6db88a037d356adb" kindref="member">TEST_F</ref>  (<ref refid="class_lo_r_a_federation_coordinator_test" kindref="compound">LoRAFederationCoordinatorTest</ref>, TwoShardSubmissionsCountedCorrectly)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000071"/>LFC-06: Multiple distinct shard submissions are counted correctly. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__lora__federation__coordinator__focused_8cpp_1a4249e5071d2086d2b0f8cad023020cb6" kindref="member">TEST_F</ref>  (<ref refid="class_lo_r_a_federation_coordinator_test" kindref="compound">LoRAFederationCoordinatorTest</ref>, AggregationThrowsBelowMinParticipants)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000072"/>LFC-07: triggerAggregation() throws when below min_participants. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__lora__federation__coordinator__focused_8cpp_1a5141ce0ac61c09b3d5bdbc1db9a5b3e6" kindref="member">TEST_F</ref>  (<ref refid="class_lo_r_a_federation_coordinator_test" kindref="compound">LoRAFederationCoordinatorTest</ref>, AggregationSucceedsWithMinParticipants)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000073"/>LFC-08: triggerAggregation() succeeds with min_participants met. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__lora__federation__coordinator__focused_8cpp_1a224db27273a03c24d5fb3a3653e3c67e" kindref="member">TEST_F</ref>  (<ref refid="class_lo_r_a_federation_coordinator_test" kindref="compound">LoRAFederationCoordinatorTest</ref>, AggregationAdvancesRound)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000074"/>LFC-09: Successful aggregation advances the round counter. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__lora__federation__coordinator__focused_8cpp_1a6268c308f91ee4461b6e4f9ee10ccb8d" kindref="member">TEST_F</ref>  (<ref refid="class_lo_r_a_federation_coordinator_test" kindref="compound">LoRAFederationCoordinatorTest</ref>, AggregationTimeoutHandling)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000075"/>LFC-10: triggerAggregation() with timeout_ms=1 throws on zero-gradient round. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__lora__federation__coordinator__focused_8cpp_1ad51ae943ae362ff99598ae6e030810c0" kindref="member">TEST_F</ref>  (<ref refid="class_lo_r_a_federation_coordinator_test" kindref="compound">LoRAFederationCoordinatorTest</ref>, MultipleConsecutiveRounds)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000076"/>LFC-11: Multiple consecutive aggregation rounds. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__lora__federation__coordinator__focused_8cpp_1a812044e9d769c4ea89e477ec469a0bd2" kindref="member">TEST_F</ref>  (<ref refid="class_lo_r_a_federation_coordinator_test" kindref="compound">LoRAFederationCoordinatorTest</ref>, GlobalAdapterDeltaSerializationRoundTrip)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000077"/>LFC-12: GlobalAdapterDelta JSON serialization round-trip.</para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+    <location file="test"/>
+  </compounddef>
+</doxygen>

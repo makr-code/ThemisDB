@@ -1,0 +1,569 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_semantic_cache" kind="class" language="C++" prot="public">
+    <compoundname>themis::SemanticCache</compoundname>
+    <includes refid="semantic__cache_8h" local="no">semantic_cache.h</includes>
+    <innerclass refid="structthemis_1_1_semantic_cache_1_1_cache_entry" prot="public">themis::SemanticCache::CacheEntry</innerclass>
+    <innerclass refid="structthemis_1_1_semantic_cache_1_1_stats" prot="public">themis::SemanticCache::Stats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_semantic_cache_1a9ca8fb0038483b6091cac7043bfc0474" prot="private" static="no" mutable="no">
+        <type>rocksdb::TransactionDB *</type>
+        <definition>rocksdb::TransactionDB* themis::SemanticCache::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::SemanticCache::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/semantic_cache.h" line="132" column="28" bodyfile="include/cache/semantic_cache.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_semantic_cache_1a043de43f30894d6068e79276081045ca" prot="private" static="no" mutable="no">
+        <type>rocksdb::ColumnFamilyHandle *</type>
+        <definition>rocksdb::ColumnFamilyHandle* themis::SemanticCache::cf_handle_</definition>
+        <argsstring></argsstring>
+        <name>cf_handle_</name>
+        <qualifiedname>themis::SemanticCache::cf_handle_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/semantic_cache.h" line="133" column="33" bodyfile="include/cache/semantic_cache.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_semantic_cache_1a671ac98422f0c930399f2d27461876ed" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::SemanticCache::default_ttl_seconds_</definition>
+        <argsstring></argsstring>
+        <name>default_ttl_seconds_</name>
+        <qualifiedname>themis::SemanticCache::default_ttl_seconds_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/semantic_cache.h" line="134" column="9" bodyfile="include/cache/semantic_cache.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_semantic_cache_1a34b1c0760290bddd18fbd320886ae8cd" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::SemanticCache::hit_count_</definition>
+        <argsstring></argsstring>
+        <name>hit_count_</name>
+        <qualifiedname>themis::SemanticCache::hit_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/semantic_cache.h" line="140" column="25" bodyfile="include/cache/semantic_cache.h" bodystart="140" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_semantic_cache_1ab9ff1eb64cc6328fc7a54b521bd43afb" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::SemanticCache::miss_count_</definition>
+        <argsstring></argsstring>
+        <name>miss_count_</name>
+        <qualifiedname>themis::SemanticCache::miss_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/semantic_cache.h" line="141" column="25" bodyfile="include/cache/semantic_cache.h" bodystart="141" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_semantic_cache_1aa3d45ebedc8e2dd7b2c3f91b90b52216" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::SemanticCache::total_query_latency_us_</definition>
+        <argsstring></argsstring>
+        <name>total_query_latency_us_</name>
+        <qualifiedname>themis::SemanticCache::total_query_latency_us_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/semantic_cache.h" line="143" column="25" bodyfile="include/cache/semantic_cache.h" bodystart="143" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_semantic_cache_1a67052220feb725ea5271af42554379c4" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::SemanticCache::entry_count_</definition>
+        <argsstring></argsstring>
+        <name>entry_count_</name>
+        <qualifiedname>themis::SemanticCache::entry_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/semantic_cache.h" line="145" column="25" bodyfile="include/cache/semantic_cache.h" bodystart="145" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_semantic_cache_1a059e736c1619da6fd41c6121fe43601b" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::SemanticCache::total_bytes_</definition>
+        <argsstring></argsstring>
+        <name>total_bytes_</name>
+        <qualifiedname>themis::SemanticCache::total_bytes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/semantic_cache.h" line="146" column="25" bodyfile="include/cache/semantic_cache.h" bodystart="146" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_semantic_cache_1a2c91bf6e9f55faa70984d3947cad323f" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::SemanticCache::bg_expiry_thread_</definition>
+        <argsstring></argsstring>
+        <name>bg_expiry_thread_</name>
+        <qualifiedname>themis::SemanticCache::bg_expiry_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/semantic_cache.h" line="150" column="28" bodyfile="include/cache/semantic_cache.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_semantic_cache_1a6b3d1762902afb6d423ff6090e31b191" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::SemanticCache::bg_stop_</definition>
+        <argsstring></argsstring>
+        <name>bg_stop_</name>
+        <qualifiedname>themis::SemanticCache::bg_stop_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/semantic_cache.h" line="151" column="22" bodyfile="include/cache/semantic_cache.h" bodystart="151" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_semantic_cache_1aa37d2fd10d7aedd606addc03aee78920" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::SemanticCache::bg_cv_mutex_</definition>
+        <argsstring></argsstring>
+        <name>bg_cv_mutex_</name>
+        <qualifiedname>themis::SemanticCache::bg_cv_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/semantic_cache.h" line="152" column="28" bodyfile="include/cache/semantic_cache.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_semantic_cache_1a67376322c3accfc3f0c09720793e16bc" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::SemanticCache::bg_cv_</definition>
+        <argsstring></argsstring>
+        <name>bg_cv_</name>
+        <qualifiedname>themis::SemanticCache::bg_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/semantic_cache.h" line="153" column="29" bodyfile="include/cache/semantic_cache.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_semantic_cache_1a95c947470c64573281952a5078d86490" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::SemanticCache::SemanticCache</definition>
+        <argsstring>(rocksdb::TransactionDB *db, rocksdb::ColumnFamilyHandle *cf_handle, int default_ttl_seconds=3600, int bg_expiry_interval_s=300)</argsstring>
+        <name>SemanticCache</name>
+        <qualifiedname>themis::SemanticCache::SemanticCache</qualifiedname>
+        <param>
+          <type>rocksdb::TransactionDB *</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>rocksdb::ColumnFamilyHandle *</type>
+          <declname>cf_handle</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>default_ttl_seconds</declname>
+          <defval>3600</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>bg_expiry_interval_s</declname>
+          <defval>300</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bg_cv_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cache/semantic_cache.h" line="64" column="5" bodyfile="src/cache/semantic_cache.cpp" bodystart="66" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_semantic_cache_1a3fac5cd661b81b29f414f02a26315f70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::SemanticCache::~SemanticCache</definition>
+        <argsstring>()</argsstring>
+        <name>~SemanticCache</name>
+        <qualifiedname>themis::SemanticCache::~SemanticCache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/semantic_cache.h" line="71" column="5" bodyfile="src/cache/semantic_cache.cpp" bodystart="91" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_semantic_cache_1af5e9df4e6c967b40e96a9f9b399ccfa9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::SemanticCache::put</definition>
+        <argsstring>(const std::string &amp;prompt, const nlohmann::json &amp;params, const std::string &amp;response, const nlohmann::json &amp;metadata={}, int ttl_seconds=0)</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::SemanticCache::put</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>metadata</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>ttl_seconds</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ttl_seconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: computeKey(), getCurrentTimestampMs(), toJson(), dump(), Put(), ok(), fetch_add(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/semantic_cache.h" line="73" column="10" bodyfile="src/cache/semantic_cache.cpp" bodystart="136" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_semantic_cache_1a7d21e720d85660ab37990ce69bacaf2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_semantic_cache_1_1_cache_entry" kindref="compound">CacheEntry</ref> &gt;</type>
+        <definition>std::optional&lt; SemanticCache::CacheEntry &gt; themis::SemanticCache::query</definition>
+        <argsstring>(const std::string &amp;prompt, const nlohmann::json &amp;params)</argsstring>
+        <name>query</name>
+        <qualifiedname>themis::SemanticCache::query</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), computeKey(), Get(), count(), fetch_add(), ok(), nlohmann::json::parse(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/semantic_cache.h" line="87" column="19" bodyfile="src/cache/semantic_cache.cpp" bodystart="174" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_semantic_cache_1a1f8cb5fe2fc6e56a64c2b9bbf5220c83" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_semantic_cache_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>SemanticCache::Stats themis::SemanticCache::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::SemanticCache::getStats</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1_semantic_cache_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/semantic_cache.h" line="96" column="11" bodyfile="src/cache/semantic_cache.cpp" bodystart="226" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_semantic_cache_1a9b6ddb53d66cb07459869b5bcfb5f64c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::SemanticCache::clearExpired</definition>
+        <argsstring>()</argsstring>
+        <name>clearExpired</name>
+        <qualifiedname>themis::SemanticCache::clearExpired</qualifiedname>
+        <briefdescription>
+<para>Clear Expired. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: it(), NewIterator(), THEMIS_ERROR(), SeekToFirst(), Valid(), Next(), value(), ToString(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/semantic_cache.h" line="102" column="14" bodyfile="src/cache/semantic_cache.cpp" bodystart="252" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_semantic_cache_1a7cc7460c3d9afd60d0784a074d01eb2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::SemanticCache::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::SemanticCache::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: it(), NewIterator(), THEMIS_ERROR(), SeekToFirst(), Valid(), Next(), Delete(), key(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/semantic_cache.h" line="108" column="10" bodyfile="src/cache/semantic_cache.cpp" bodystart="340" bodyend="372"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_semantic_cache_1a87c56c4ef892608025b9d351ca7be4d1" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::SemanticCache::computeKey</definition>
+        <argsstring>(const std::string &amp;prompt, const nlohmann::json &amp;params) const</argsstring>
+        <name>computeKey</name>
+        <qualifiedname>themis::SemanticCache::computeKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Compute Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/semantic_cache.h" line="117" column="17" bodyfile="src/cache/semantic_cache.cpp" bodystart="102" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_semantic_cache_1a3a6c2952d9a9efefd7481233c7891401" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::SemanticCache::isExpired</definition>
+        <argsstring>(const CacheEntry &amp;entry) const</argsstring>
+        <name>isExpired</name>
+        <qualifiedname>themis::SemanticCache::isExpired</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_semantic_cache_1_1_cache_entry" kindref="compound">CacheEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Is Expired. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/semantic_cache.h" line="124" column="10" bodyfile="src/cache/semantic_cache.cpp" bodystart="116" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_semantic_cache_1a0c3487447d96f76bfaa67be19256fceb" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::SemanticCache::getCurrentTimestampMs</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentTimestampMs</name>
+        <qualifiedname>themis::SemanticCache::getCurrentTimestampMs</qualifiedname>
+        <briefdescription>
+<para>Get Current Timestamp Ms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/semantic_cache.h" line="130" column="13" bodyfile="src/cache/semantic_cache.cpp" bodystart="111" bodyend="114"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/semantic_cache.h" line="28" column="1" bodyfile="include/cache/semantic_cache.h" bodystart="28" bodyend="154"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_semantic_cache_1a67376322c3accfc3f0c09720793e16bc" prot="private" virt="non-virtual"><scope>themis::SemanticCache</scope><name>bg_cv_</name></member>
+      <member refid="classthemis_1_1_semantic_cache_1aa37d2fd10d7aedd606addc03aee78920" prot="private" virt="non-virtual"><scope>themis::SemanticCache</scope><name>bg_cv_mutex_</name></member>
+      <member refid="classthemis_1_1_semantic_cache_1a2c91bf6e9f55faa70984d3947cad323f" prot="private" virt="non-virtual"><scope>themis::SemanticCache</scope><name>bg_expiry_thread_</name></member>
+      <member refid="classthemis_1_1_semantic_cache_1a6b3d1762902afb6d423ff6090e31b191" prot="private" virt="non-virtual"><scope>themis::SemanticCache</scope><name>bg_stop_</name></member>
+      <member refid="classthemis_1_1_semantic_cache_1a043de43f30894d6068e79276081045ca" prot="private" virt="non-virtual"><scope>themis::SemanticCache</scope><name>cf_handle_</name></member>
+      <member refid="classthemis_1_1_semantic_cache_1a7cc7460c3d9afd60d0784a074d01eb2e" prot="public" virt="non-virtual"><scope>themis::SemanticCache</scope><name>clear</name></member>
+      <member refid="classthemis_1_1_semantic_cache_1a9b6ddb53d66cb07459869b5bcfb5f64c" prot="public" virt="non-virtual"><scope>themis::SemanticCache</scope><name>clearExpired</name></member>
+      <member refid="classthemis_1_1_semantic_cache_1a87c56c4ef892608025b9d351ca7be4d1" prot="private" virt="non-virtual"><scope>themis::SemanticCache</scope><name>computeKey</name></member>
+      <member refid="classthemis_1_1_semantic_cache_1a9ca8fb0038483b6091cac7043bfc0474" prot="private" virt="non-virtual"><scope>themis::SemanticCache</scope><name>db_</name></member>
+      <member refid="classthemis_1_1_semantic_cache_1a671ac98422f0c930399f2d27461876ed" prot="private" virt="non-virtual"><scope>themis::SemanticCache</scope><name>default_ttl_seconds_</name></member>
+      <member refid="classthemis_1_1_semantic_cache_1a67052220feb725ea5271af42554379c4" prot="private" virt="non-virtual"><scope>themis::SemanticCache</scope><name>entry_count_</name></member>
+      <member refid="classthemis_1_1_semantic_cache_1a0c3487447d96f76bfaa67be19256fceb" prot="private" virt="non-virtual"><scope>themis::SemanticCache</scope><name>getCurrentTimestampMs</name></member>
+      <member refid="classthemis_1_1_semantic_cache_1a1f8cb5fe2fc6e56a64c2b9bbf5220c83" prot="public" virt="non-virtual"><scope>themis::SemanticCache</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1_semantic_cache_1a34b1c0760290bddd18fbd320886ae8cd" prot="private" virt="non-virtual"><scope>themis::SemanticCache</scope><name>hit_count_</name></member>
+      <member refid="classthemis_1_1_semantic_cache_1a3a6c2952d9a9efefd7481233c7891401" prot="private" virt="non-virtual"><scope>themis::SemanticCache</scope><name>isExpired</name></member>
+      <member refid="classthemis_1_1_semantic_cache_1ab9ff1eb64cc6328fc7a54b521bd43afb" prot="private" virt="non-virtual"><scope>themis::SemanticCache</scope><name>miss_count_</name></member>
+      <member refid="classthemis_1_1_semantic_cache_1af5e9df4e6c967b40e96a9f9b399ccfa9" prot="public" virt="non-virtual"><scope>themis::SemanticCache</scope><name>put</name></member>
+      <member refid="classthemis_1_1_semantic_cache_1a7d21e720d85660ab37990ce69bacaf2c" prot="public" virt="non-virtual"><scope>themis::SemanticCache</scope><name>query</name></member>
+      <member refid="classthemis_1_1_semantic_cache_1a95c947470c64573281952a5078d86490" prot="public" virt="non-virtual"><scope>themis::SemanticCache</scope><name>SemanticCache</name></member>
+      <member refid="classthemis_1_1_semantic_cache_1a059e736c1619da6fd41c6121fe43601b" prot="private" virt="non-virtual"><scope>themis::SemanticCache</scope><name>total_bytes_</name></member>
+      <member refid="classthemis_1_1_semantic_cache_1aa3d45ebedc8e2dd7b2c3f91b90b52216" prot="private" virt="non-virtual"><scope>themis::SemanticCache</scope><name>total_query_latency_us_</name></member>
+      <member refid="classthemis_1_1_semantic_cache_1a3fac5cd661b81b29f414f02a26315f70" prot="public" virt="non-virtual"><scope>themis::SemanticCache</scope><name>~SemanticCache</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

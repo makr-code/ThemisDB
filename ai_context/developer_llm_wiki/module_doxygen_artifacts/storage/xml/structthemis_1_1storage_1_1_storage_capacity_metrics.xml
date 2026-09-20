@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_storage_capacity_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::StorageCapacityMetrics</compoundname>
+    <includes refid="storage__pressure__manager_8h" local="no">storage_pressure_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_storage_capacity_metrics_1a467f12310284d829a68fc00596f17711" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::storage::StorageCapacityMetrics::total_capacity_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_capacity_bytes</name>
+        <qualifiedname>themis::storage::StorageCapacityMetrics::total_capacity_bytes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total storage capacity in bytes (not all usable for user data). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_pressure_manager.h" line="74" column="19" bodyfile="include/storage/storage_pressure_manager.h" bodystart="74" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_storage_capacity_metrics_1ae455131044a245477ec789274a88151b" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::storage::StorageCapacityMetrics::used_bytes</definition>
+        <argsstring></argsstring>
+        <name>used_bytes</name>
+        <qualifiedname>themis::storage::StorageCapacityMetrics::used_bytes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Bytes currently used (data, WAL, backups, temp files, etc.). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_pressure_manager.h" line="77" column="19" bodyfile="include/storage/storage_pressure_manager.h" bodystart="77" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_storage_capacity_metrics_1a538b12c334f0e8357415f5c3caa3ae14" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::storage::StorageCapacityMetrics::available_bytes</definition>
+        <argsstring></argsstring>
+        <name>available_bytes</name>
+        <qualifiedname>themis::storage::StorageCapacityMetrics::available_bytes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Bytes available for new writes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_pressure_manager.h" line="80" column="19" bodyfile="include/storage/storage_pressure_manager.h" bodystart="80" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_storage_capacity_metrics_1a9c97a8103d2b9bb1c249ee32f8a35a30" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::storage::StorageCapacityMetrics::reserved_bytes</definition>
+        <argsstring></argsstring>
+        <name>reserved_bytes</name>
+        <qualifiedname>themis::storage::StorageCapacityMetrics::reserved_bytes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Bytes reserved for system operations (crash recovery, checkpoint, etc.). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_pressure_manager.h" line="83" column="19" bodyfile="include/storage/storage_pressure_manager.h" bodystart="83" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_storage_capacity_metrics_1ae10f2248078da013513780cab58c06cb" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1storage_1aa9cdd7f61de78d5fe9de4e7930c9dc4b" kindref="member">PressureEscalationLevel</ref></type>
+        <definition>PressureEscalationLevel themis::storage::StorageCapacityMetrics::escalation_level</definition>
+        <argsstring></argsstring>
+        <name>escalation_level</name>
+        <qualifiedname>themis::storage::StorageCapacityMetrics::escalation_level</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1storage_1aa9cdd7f61de78d5fe9de4e7930c9dc4ba1e23852820b9154316c7c06e2b7ba051" kindref="member">PressureEscalationLevel::NORMAL</ref>}</initializer>
+        <briefdescription>
+<para>Current pressure escalation level. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_pressure_manager.h" line="86" column="29" bodyfile="include/storage/storage_pressure_manager.h" bodystart="86" bodyend="86"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_storage_capacity_metrics_1afce77a355073582ab75194100163f338" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::storage::StorageCapacityMetrics::utilization_percent</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>utilization_percent</name>
+        <qualifiedname>themis::storage::StorageCapacityMetrics::utilization_percent</qualifiedname>
+        <briefdescription>
+<para>Percentage of capacity in use (0-100). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_pressure_manager.h" line="89" column="12" bodyfile="include/storage/storage_pressure_manager.h" bodystart="89" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_storage_capacity_metrics_1a2ca0d303f9bb5e0172294bfec7bebca1" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::storage::StorageCapacityMetrics::time_to_exhaustion_ms</definition>
+        <argsstring>(std::uint64_t write_rate_bytes_per_sec) const noexcept</argsstring>
+        <name>time_to_exhaustion_ms</name>
+        <qualifiedname>themis::storage::StorageCapacityMetrics::time_to_exhaustion_ms</qualifiedname>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>write_rate_bytes_per_sec</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Projected time to capacity at current write rate (milliseconds). Returns -1 if write rate is zero or available space (minus reserve) is insufficient for meaningful projection (i.e., already at/below reserve). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_pressure_manager.h" line="97" column="18" bodyfile="include/storage/storage_pressure_manager.h" bodystart="97" bodyend="109"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Snapshot of storage capacity and pressure metrics. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Used for decision-making about write acceptance, operation prioritization, and mitigation strategy selection. </para>
+    </detaileddescription>
+    <location file="include/storage/storage_pressure_manager.h" line="72" column="1" bodyfile="include/storage/storage_pressure_manager.h" bodystart="72" bodyend="110"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_storage_capacity_metrics_1a538b12c334f0e8357415f5c3caa3ae14" prot="public" virt="non-virtual"><scope>themis::storage::StorageCapacityMetrics</scope><name>available_bytes</name></member>
+      <member refid="structthemis_1_1storage_1_1_storage_capacity_metrics_1ae10f2248078da013513780cab58c06cb" prot="public" virt="non-virtual"><scope>themis::storage::StorageCapacityMetrics</scope><name>escalation_level</name></member>
+      <member refid="structthemis_1_1storage_1_1_storage_capacity_metrics_1a9c97a8103d2b9bb1c249ee32f8a35a30" prot="public" virt="non-virtual"><scope>themis::storage::StorageCapacityMetrics</scope><name>reserved_bytes</name></member>
+      <member refid="structthemis_1_1storage_1_1_storage_capacity_metrics_1a2ca0d303f9bb5e0172294bfec7bebca1" prot="public" virt="non-virtual"><scope>themis::storage::StorageCapacityMetrics</scope><name>time_to_exhaustion_ms</name></member>
+      <member refid="structthemis_1_1storage_1_1_storage_capacity_metrics_1a467f12310284d829a68fc00596f17711" prot="public" virt="non-virtual"><scope>themis::storage::StorageCapacityMetrics</scope><name>total_capacity_bytes</name></member>
+      <member refid="structthemis_1_1storage_1_1_storage_capacity_metrics_1ae455131044a245477ec789274a88151b" prot="public" virt="non-virtual"><scope>themis::storage::StorageCapacityMetrics</scope><name>used_bytes</name></member>
+      <member refid="structthemis_1_1storage_1_1_storage_capacity_metrics_1afce77a355073582ab75194100163f338" prot="public" virt="non-virtual"><scope>themis::storage::StorageCapacityMetrics</scope><name>utilization_percent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_7c7ae07dd2a999045cb78bf7ff8dcbc7" kind="dir">
+    <compoundname>src/training</compoundname>
+    <innerdir refid="dir_ab909e78f00283f8a90475e4257c0698">src/training/examples</innerdir>
+    <innerfile refid="ada__lora__adapter_8cpp">ada_lora_adapter.cpp</innerfile>
+    <innerfile refid="adalora__tt__bridge_8cpp">adalora_tt_bridge.cpp</innerfile>
+    <innerfile refid="adapter__serving_8cpp">adapter_serving.cpp</innerfile>
+    <innerfile refid="auto__labeler_8cpp">auto_labeler.cpp</innerfile>
+    <innerfile refid="database__domain__auto__labeler_8cpp">database_domain_auto_labeler.cpp</innerfile>
+    <innerfile refid="incremental__lora__trainer_8cpp">incremental_lora_trainer.cpp</innerfile>
+    <innerfile refid="knowledge__graph__enricher_8cpp">knowledge_graph_enricher.cpp</innerfile>
+    <innerfile refid="lora__adapter_8cpp">lora_adapter.cpp</innerfile>
+    <innerfile refid="lora__adapter__merger_8cpp">lora_adapter_merger.cpp</innerfile>
+    <innerfile refid="lora__checkpoint__manager_8cpp">lora_checkpoint_manager.cpp</innerfile>
+    <innerfile refid="lora__data__selection_8cpp">lora_data_selection.cpp</innerfile>
+    <innerfile refid="modality__parser_8cpp">modality_parser.cpp</innerfile>
+    <innerfile refid="multi__task__lora_8cpp">multi_task_lora.cpp</innerfile>
+    <innerfile refid="provenance__tracker_8cpp">provenance_tracker.cpp</innerfile>
+    <innerfile refid="training__pipeline_8cpp">training_pipeline.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/training/"/>
+  </compounddef>
+</doxygen>

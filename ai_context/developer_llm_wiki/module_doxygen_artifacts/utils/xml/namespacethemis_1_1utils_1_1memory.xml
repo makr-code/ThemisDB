@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1utils_1_1memory" kind="namespace" language="C++">
+    <compoundname>themis::utils::memory</compoundname>
+    <innerclass refid="structthemis_1_1utils_1_1memory_1_1_cpu_deleter" prot="public">themis::utils::memory::CpuDeleter</innerclass>
+    <innerclass refid="classthemis_1_1utils_1_1memory_1_1_cuda_buffer" prot="public">themis::utils::memory::CudaBuffer</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1utils_1_1memory_1a1e1441db6ea88233d7e5d70360b5c895" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1utils_1_1memory_1_1_cuda_buffer" kindref="compound">CudaBuffer</ref></type>
+        <definition>CudaBuffer themis::utils::memory::make_cuda_buffer</definition>
+        <argsstring>(size_t bytes)</argsstring>
+        <name>make_cuda_buffer</name>
+        <qualifiedname>themis::utils::memory::make_cuda_buffer</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory_utils.h" line="335" column="19" bodyfile="include/utils/memory_utils.h" bodystart="335" bodyend="337"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/memory_utils.h" line="23" column="1"/>
+  </compounddef>
+</doxygen>

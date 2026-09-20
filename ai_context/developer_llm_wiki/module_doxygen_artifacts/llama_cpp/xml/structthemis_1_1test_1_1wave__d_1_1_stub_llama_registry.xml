@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1test_1_1wave__d_1_1_stub_llama_registry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::test::wave_d::StubLlamaRegistry</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_stub_llama_registry_1aeec67e1773dd7a7e398c1833ddd570e7" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::test::wave_d::StubLlamaRegistry::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::test::wave_d::StubLlamaRegistry::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" line="83" column="24" bodyfile="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_stub_llama_registry_1a92de3a3638c0f80f9e60ae914db89463" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, bool &gt;</type>
+        <definition>std::unordered_map&lt;std::string, bool&gt; themis::test::wave_d::StubLlamaRegistry::loaded_</definition>
+        <argsstring></argsstring>
+        <name>loaded_</name>
+        <qualifiedname>themis::test::wave_d::StubLlamaRegistry::loaded_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" line="84" column="24" bodyfile="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_stub_llama_registry_1a2431a2f8d0711053d3ef2293e430d16e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; long &gt;</type>
+        <definition>std::atomic&lt;long&gt; themis::test::wave_d::StubLlamaRegistry::loads_</definition>
+        <argsstring></argsstring>
+        <name>loads_</name>
+        <qualifiedname>themis::test::wave_d::StubLlamaRegistry::loads_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" line="85" column="17" bodyfile="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" bodystart="85" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_stub_llama_registry_1a128cfe8cc719e90ec5ffad1c4764cb3c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; long &gt;</type>
+        <definition>std::atomic&lt;long&gt; themis::test::wave_d::StubLlamaRegistry::unloads_</definition>
+        <argsstring></argsstring>
+        <name>unloads_</name>
+        <qualifiedname>themis::test::wave_d::StubLlamaRegistry::unloads_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" line="86" column="17" bodyfile="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" bodystart="86" bodyend="86"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_llama_registry_1af4faef967ed249f26dc6fa027c8347cd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::wave_d::StubLlamaRegistry::load</definition>
+        <argsstring>(const std::string &amp;model_path)</argsstring>
+        <name>load</name>
+        <qualifiedname>themis::test::wave_d::StubLlamaRegistry::load</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" line="65" column="10" bodyfile="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" bodystart="65" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_llama_registry_1a87234ba9fe1abd49b05225cd0fdb1b4c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::wave_d::StubLlamaRegistry::unload</definition>
+        <argsstring>(const std::string &amp;model_path)</argsstring>
+        <name>unload</name>
+        <qualifiedname>themis::test::wave_d::StubLlamaRegistry::unload</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" line="72" column="10" bodyfile="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" bodystart="72" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_llama_registry_1abe06d982d344db00245ac1756f52e5a9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>long</type>
+        <definition>long themis::test::wave_d::StubLlamaRegistry::loads</definition>
+        <argsstring>() const</argsstring>
+        <name>loads</name>
+        <qualifiedname>themis::test::wave_d::StubLlamaRegistry::loads</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" line="79" column="10" bodyfile="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" bodystart="79" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_llama_registry_1a65bbe88c4e3e3d8e6bf34301f46cf3d7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>long</type>
+        <definition>long themis::test::wave_d::StubLlamaRegistry::unloads</definition>
+        <argsstring>() const</argsstring>
+        <name>unloads</name>
+        <qualifiedname>themis::test::wave_d::StubLlamaRegistry::unloads</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" line="80" column="10" bodyfile="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" bodystart="80" bodyend="80"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" line="64" column="1" bodyfile="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" bodystart="64" bodyend="87"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_llama_registry_1af4faef967ed249f26dc6fa027c8347cd" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubLlamaRegistry</scope><name>load</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_llama_registry_1a92de3a3638c0f80f9e60ae914db89463" prot="private" virt="non-virtual"><scope>themis::test::wave_d::StubLlamaRegistry</scope><name>loaded_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_llama_registry_1abe06d982d344db00245ac1756f52e5a9" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubLlamaRegistry</scope><name>loads</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_llama_registry_1a2431a2f8d0711053d3ef2293e430d16e" prot="private" virt="non-virtual"><scope>themis::test::wave_d::StubLlamaRegistry</scope><name>loads_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_llama_registry_1aeec67e1773dd7a7e398c1833ddd570e7" prot="private" virt="non-virtual"><scope>themis::test::wave_d::StubLlamaRegistry</scope><name>mu_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_llama_registry_1a87234ba9fe1abd49b05225cd0fdb1b4c" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubLlamaRegistry</scope><name>unload</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_llama_registry_1a65bbe88c4e3e3d8e6bf34301f46cf3d7" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubLlamaRegistry</scope><name>unloads</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_llama_registry_1a128cfe8cc719e90ec5ffad1c4764cb3c" prot="private" virt="non-virtual"><scope>themis::test::wave_d::StubLlamaRegistry</scope><name>unloads_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

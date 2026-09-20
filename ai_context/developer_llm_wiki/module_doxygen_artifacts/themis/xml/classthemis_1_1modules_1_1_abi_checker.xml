@@ -1,0 +1,390 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1modules_1_1_abi_checker" kind="class" language="C++" prot="public">
+    <compoundname>themis::modules::AbiChecker</compoundname>
+    <includes refid="module__sandbox_8h" local="no">module_sandbox.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_abi_checker_1a15daba2fdb29b684846ac9960ce657a7" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::modules::AbiChecker::required_symbols_</definition>
+        <argsstring></argsstring>
+        <name>required_symbols_</name>
+        <qualifiedname>themis::modules::AbiChecker::required_symbols_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="175" column="17" bodyfile="include/themis/base/module_sandbox.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_abi_checker_1a12322c8a7a56083f2402f63c116875d6" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::modules::AbiChecker::deprecated_symbols_</definition>
+        <argsstring></argsstring>
+        <name>deprecated_symbols_</name>
+        <qualifiedname>themis::modules::AbiChecker::deprecated_symbols_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="176" column="17" bodyfile="include/themis/base/module_sandbox.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_abi_checker_1a128735bea0ed50f099c7d16d6fa3d0e6" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::AbiChecker::AbiChecker</definition>
+        <argsstring>()</argsstring>
+        <name>AbiChecker</name>
+        <qualifiedname>themis::modules::AbiChecker::AbiChecker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="98" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_abi_checker_1aac699d7b6c7a8e81503ac7fd81e8096b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::AbiChecker::~AbiChecker</definition>
+        <argsstring>()</argsstring>
+        <name>~AbiChecker</name>
+        <qualifiedname>themis::modules::AbiChecker::~AbiChecker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="99" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_abi_checker_1afd32832b12dacd0728823e5e23100ff7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::AbiChecker::addRequiredSymbol</definition>
+        <argsstring>(const std::string &amp;symbol)</argsstring>
+        <name>addRequiredSymbol</name>
+        <qualifiedname>themis::modules::AbiChecker::addRequiredSymbol</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>symbol</declname>
+        </param>
+        <briefdescription>
+<para>Add a symbol that every valid module must export. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>symbol</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Exported symbol name (null-terminated, mangled if C++). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="108" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_abi_checker_1afba4f5a8efcdf4ab7749298a4a49f197" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::AbiChecker::addDeprecatedSymbol</definition>
+        <argsstring>(const std::string &amp;symbol)</argsstring>
+        <name>addDeprecatedSymbol</name>
+        <qualifiedname>themis::modules::AbiChecker::addDeprecatedSymbol</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>symbol</declname>
+        </param>
+        <briefdescription>
+<para>Add a symbol that was removed from the host ABI; warn if the new module still exports it (may indicate stale build). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>symbol</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Symbol name to flag as deprecated in the host ABI. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="116" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_abi_checker_1af787f6a27ce7a2e5fc6e0abfd770fa58" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::AbiChecker::useDefaultLists</definition>
+        <argsstring>()</argsstring>
+        <name>useDefaultLists</name>
+        <qualifiedname>themis::modules::AbiChecker::useDefaultLists</qualifiedname>
+        <briefdescription>
+<para>Convenience: load the default ThemisDB required/deprecated lists. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Required: themis_module_init, themis_module_shutdown, themis_module_version, themis_api_version_major, themis_api_version_minor Deprecated: (none in v1.x) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="126" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_abi_checker_1aa049e6d6abb99ce24cd3a9e17f85a320" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1modules_1_1_abi_check_result" kindref="compound">AbiCheckResult</ref></type>
+        <definition>AbiCheckResult themis::modules::AbiChecker::check</definition>
+        <argsstring>(void *module_handle, const ModuleMetadata &amp;module_meta, uint32_t host_major, uint32_t host_minor) const</argsstring>
+        <name>check</name>
+        <qualifiedname>themis::modules::AbiChecker::check</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>module_handle</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1modules_1_1_module_metadata" kindref="compound">ModuleMetadata</ref> &amp;</type>
+          <declname>module_meta</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>host_major</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>host_minor</declname>
+        </param>
+        <briefdescription>
+<para>Run all ABI checks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>module_handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>OS handle to the newly loaded (but not yet active) module. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>module_meta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Metadata extracted from <computeroutput>module_handle</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>host_major</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ThemisDB host ABI major version. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>host_minor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ThemisDB host ABI minor version. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1modules_1_1_abi_check_result" kindref="compound">AbiCheckResult</ref> with pass/fail status and diagnostic message. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="139" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_abi_checker_1a4f3a48f09d67c8f420af439000c3df64" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1modules_1_1_abi_check_result" kindref="compound">AbiCheckResult</ref></type>
+        <definition>AbiCheckResult themis::modules::AbiChecker::checkVersions</definition>
+        <argsstring>(const ModuleMetadata &amp;meta, uint32_t host_major, uint32_t host_minor) const</argsstring>
+        <name>checkVersions</name>
+        <qualifiedname>themis::modules::AbiChecker::checkVersions</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1modules_1_1_module_metadata" kindref="compound">ModuleMetadata</ref> &amp;</type>
+          <declname>meta</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>host_major</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>host_minor</declname>
+        </param>
+        <briefdescription>
+<para>Verify that the module&apos;s ABI version is compatible with the host. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>meta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Metadata extracted from the loaded module. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>host_major</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ThemisDB host ABI major version. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>host_minor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ThemisDB host ABI minor version. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1modules_1_1_abi_check_result" kindref="compound">AbiCheckResult</ref> indicating version compatibility. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="154" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_abi_checker_1afa325dd6fd126515eeea30d926c49729" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1modules_1_1_abi_check_result" kindref="compound">AbiCheckResult</ref></type>
+        <definition>AbiCheckResult themis::modules::AbiChecker::checkRequiredSymbols</definition>
+        <argsstring>(void *handle) const</argsstring>
+        <name>checkRequiredSymbols</name>
+        <qualifiedname>themis::modules::AbiChecker::checkRequiredSymbols</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Verify that all required symbols are present in the module. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>OS handle to the loaded module. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1modules_1_1_abi_check_result" kindref="compound">AbiCheckResult</ref> listing any missing required symbols. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="164" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_abi_checker_1a85bf6bfa446a4c99fd7f957865bcbe3d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1modules_1_1_abi_check_result" kindref="compound">AbiCheckResult</ref></type>
+        <definition>AbiCheckResult themis::modules::AbiChecker::checkDeprecatedSymbols</definition>
+        <argsstring>(void *handle) const</argsstring>
+        <name>checkDeprecatedSymbols</name>
+        <qualifiedname>themis::modules::AbiChecker::checkDeprecatedSymbols</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Warn if the module exports any symbols that are deprecated in the host ABI. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>OS handle to the loaded module. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1modules_1_1_abi_check_result" kindref="compound">AbiCheckResult</ref> listing any deprecated symbols still exported. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="172" column="20"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_abi_checker_1a2591cb7ba8b7a8a4884f2b77dfffeebf" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>static void * themis::modules::AbiChecker::resolveSymbol</definition>
+        <argsstring>(void *handle, const std::string &amp;name) noexcept</argsstring>
+        <name>resolveSymbol</name>
+        <qualifiedname>themis::modules::AbiChecker::resolveSymbol</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="179" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Performs detailed ABI compatibility checks before a module is hot-reloaded or activated for the first time. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Unlike the basic version-integer comparison in <computeroutput><ref refid="classthemis_1_1modules_1_1_module_loader_1afbb7367db00baded6fa19724347926a9" kindref="member">ModuleLoader::isABICompatible()</ref></computeroutput>, <computeroutput><ref refid="classthemis_1_1modules_1_1_abi_checker" kindref="compound">AbiChecker</ref></computeroutput> verifies:</para>
+<para><orderedlist>
+<listitem><para><bold>Major-version match</bold> – different majors = breaking ABI change.</para>
+</listitem><listitem><para><bold>Minor forward-compatibility</bold> – module minor must be ≤ host minor.</para>
+</listitem><listitem><para><bold>Required exported symbols</bold> – all symbols on the mandatory list must be present in the new module handle.</para>
+</listitem><listitem><para><bold>Deprecated symbol detection</bold> – warns if the module still exports symbols that were removed in the current host version.</para>
+</listitem><listitem><para><bold>Struct-size sentinels</bold> – optional: if the module exports <computeroutput>themis_abi_struct_sizes</computeroutput>, compare each entry against the host&apos;s compile-time sizes to catch struct-layout breakage.</para>
+</listitem></orderedlist>
+</para>
+<para>Usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1modules_1_1_abi_checker_1a128735bea0ed50f099c7d16d6fa3d0e6" kindref="member">AbiChecker</ref><sp/>checker;</highlight></codeline>
+<codeline><highlight class="normal">checker.addRequiredSymbol(</highlight><highlight class="stringliteral">&quot;themis_module_init&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">checker.addRequiredSymbol(</highlight><highlight class="stringliteral">&quot;themis_module_shutdown&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">checker.addDeprecatedSymbol(</highlight><highlight class="stringliteral">&quot;themis_legacy_init_v1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">AbiCheckResult<sp/>r<sp/>=<sp/>checker.check(new_handle,<sp/>new_metadata,<sp/>host_metadata);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!r.compatible)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>LOG_ERROR(</highlight><highlight class="stringliteral">&quot;ABI<sp/>check<sp/>failed:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>r.summary);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>issue<sp/>:<sp/>r.issues)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LOG_ERROR(</highlight><highlight class="stringliteral">&quot;<sp/><sp/>•<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>issue);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/themis/base/module_sandbox.h" line="96" column="1" bodyfile="include/themis/base/module_sandbox.h" bodystart="96" bodyend="180"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1modules_1_1_abi_checker_1a128735bea0ed50f099c7d16d6fa3d0e6" prot="public" virt="non-virtual"><scope>themis::modules::AbiChecker</scope><name>AbiChecker</name></member>
+      <member refid="classthemis_1_1modules_1_1_abi_checker_1afba4f5a8efcdf4ab7749298a4a49f197" prot="public" virt="non-virtual"><scope>themis::modules::AbiChecker</scope><name>addDeprecatedSymbol</name></member>
+      <member refid="classthemis_1_1modules_1_1_abi_checker_1afd32832b12dacd0728823e5e23100ff7" prot="public" virt="non-virtual"><scope>themis::modules::AbiChecker</scope><name>addRequiredSymbol</name></member>
+      <member refid="classthemis_1_1modules_1_1_abi_checker_1aa049e6d6abb99ce24cd3a9e17f85a320" prot="public" virt="non-virtual"><scope>themis::modules::AbiChecker</scope><name>check</name></member>
+      <member refid="classthemis_1_1modules_1_1_abi_checker_1a85bf6bfa446a4c99fd7f957865bcbe3d" prot="public" virt="non-virtual"><scope>themis::modules::AbiChecker</scope><name>checkDeprecatedSymbols</name></member>
+      <member refid="classthemis_1_1modules_1_1_abi_checker_1afa325dd6fd126515eeea30d926c49729" prot="public" virt="non-virtual"><scope>themis::modules::AbiChecker</scope><name>checkRequiredSymbols</name></member>
+      <member refid="classthemis_1_1modules_1_1_abi_checker_1a4f3a48f09d67c8f420af439000c3df64" prot="public" virt="non-virtual"><scope>themis::modules::AbiChecker</scope><name>checkVersions</name></member>
+      <member refid="classthemis_1_1modules_1_1_abi_checker_1a12322c8a7a56083f2402f63c116875d6" prot="private" virt="non-virtual"><scope>themis::modules::AbiChecker</scope><name>deprecated_symbols_</name></member>
+      <member refid="classthemis_1_1modules_1_1_abi_checker_1a15daba2fdb29b684846ac9960ce657a7" prot="private" virt="non-virtual"><scope>themis::modules::AbiChecker</scope><name>required_symbols_</name></member>
+      <member refid="classthemis_1_1modules_1_1_abi_checker_1a2591cb7ba8b7a8a4884f2b77dfffeebf" prot="private" virt="non-virtual"><scope>themis::modules::AbiChecker</scope><name>resolveSymbol</name></member>
+      <member refid="classthemis_1_1modules_1_1_abi_checker_1af787f6a27ce7a2e5fc6e0abfd770fa58" prot="public" virt="non-virtual"><scope>themis::modules::AbiChecker</scope><name>useDefaultLists</name></member>
+      <member refid="classthemis_1_1modules_1_1_abi_checker_1aac699d7b6c7a8e81503ac7fd81e8096b" prot="public" virt="non-virtual"><scope>themis::modules::AbiChecker</scope><name>~AbiChecker</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

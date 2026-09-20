@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_transaction_batcher_1_1_batch_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TransactionBatcher::BatchPolicy</compoundname>
+    <includes refid="transaction__batcher_8h" local="no">transaction_batcher.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_transaction_batcher_1_1_batch_policy_1adba8d83a13bdcf977998e54730aeac16" prot="public" static="no" mutable="no">
+        <type>std::chrono::microseconds</type>
+        <definition>std::chrono::microseconds themis::TransactionBatcher::BatchPolicy::window</definition>
+        <argsstring></argsstring>
+        <name>window</name>
+        <qualifiedname>themis::TransactionBatcher::BatchPolicy::window</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="66" column="35" bodyfile="include/transaction/transaction_batcher.h" bodystart="66" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_batcher_1_1_batch_policy_1ac1d2aab6deec84ce9602e63086d8c7c9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TransactionBatcher::BatchPolicy::max_batch_size</definition>
+        <argsstring></argsstring>
+        <name>max_batch_size</name>
+        <qualifiedname>themis::TransactionBatcher::BatchPolicy::max_batch_size</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="68" column="16" bodyfile="include/transaction/transaction_batcher.h" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_batcher_1_1_batch_policy_1ae495522531620e22394b62d7bcb215f4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TransactionBatcher::BatchPolicy::min_batch_size</definition>
+        <argsstring></argsstring>
+        <name>min_batch_size</name>
+        <qualifiedname>themis::TransactionBatcher::BatchPolicy::min_batch_size</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="70" column="16" bodyfile="include/transaction/transaction_batcher.h" bodystart="70" bodyend="70"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/transaction_batcher.h" line="65" column="5" bodyfile="include/transaction/transaction_batcher.h" bodystart="65" bodyend="71"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_transaction_batcher_1_1_batch_policy_1ac1d2aab6deec84ce9602e63086d8c7c9" prot="public" virt="non-virtual"><scope>themis::TransactionBatcher::BatchPolicy</scope><name>max_batch_size</name></member>
+      <member refid="structthemis_1_1_transaction_batcher_1_1_batch_policy_1ae495522531620e22394b62d7bcb215f4" prot="public" virt="non-virtual"><scope>themis::TransactionBatcher::BatchPolicy</scope><name>min_batch_size</name></member>
+      <member refid="structthemis_1_1_transaction_batcher_1_1_batch_policy_1adba8d83a13bdcf977998e54730aeac16" prot="public" virt="non-virtual"><scope>themis::TransactionBatcher::BatchPolicy</scope><name>window</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

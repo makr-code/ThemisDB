@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1process_1_1_process_federation_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::process::ProcessFederationConfig</compoundname>
+    <includes refid="process__federation__contract_8h" local="no">process_federation_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_process_federation_config_1a68e201e0ee397f1410467064acf14ebc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::process::ProcessFederationConfig::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themisdb::process::ProcessFederationConfig::node_id</qualifiedname>
+        <briefdescription>
+<para>Node ID (unique identifier for this replica). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_contract.h" line="127" column="15" bodyfile="include/process/process_federation_contract.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_process_federation_config_1a0dd0022ab47e2b48e2fc3ba5e36a73eb" prot="public" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themisdb::process::ProcessFederationConfig::quorum_size</definition>
+        <argsstring></argsstring>
+        <name>quorum_size</name>
+        <qualifiedname>themisdb::process::ProcessFederationConfig::quorum_size</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Quorum size (must satisfy N &gt;= 2F + 1 for crash fault tolerance). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_contract.h" line="130" column="17" bodyfile="include/process/process_federation_contract.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_process_federation_config_1a9719992bccaa203b462b3bdcca3945bb" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::process::ProcessFederationConfig::peer_addresses</definition>
+        <argsstring></argsstring>
+        <name>peer_addresses</name>
+        <qualifiedname>themisdb::process::ProcessFederationConfig::peer_addresses</qualifiedname>
+        <briefdescription>
+<para>List of peer node addresses (e.g., &quot;node-2:5000&quot;, &quot;node-3:5000&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_contract.h" line="133" column="15" bodyfile="include/process/process_federation_contract.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_process_federation_config_1a7fad99e07402fff05b69779592486f20" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::process::ProcessFederationConfig::network_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>network_latency_ms</name>
+        <qualifiedname>themisdb::process::ProcessFederationConfig::network_latency_ms</qualifiedname>
+        <initializer>{5}</initializer>
+        <briefdescription>
+<para>Network latency assumption for consensus timeout calculation (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_contract.h" line="136" column="29" bodyfile="include/process/process_federation_contract.h" bodystart="136" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_process_federation_config_1a5ca0227a66a4f4fd03c1db42f065795b" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::process::ProcessFederationConfig::consensus_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>consensus_timeout_ms</name>
+        <qualifiedname>themisdb::process::ProcessFederationConfig::consensus_timeout_ms</qualifiedname>
+        <initializer>{1000}</initializer>
+        <briefdescription>
+<para>Consensus timeout (failover to new election if no heartbeat). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_contract.h" line="139" column="29" bodyfile="include/process/process_federation_contract.h" bodystart="139" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_process_federation_config_1ac31ce41a26312bcb36ae7146056f246a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::process::ProcessFederationConfig::audit_backend</definition>
+        <argsstring></argsstring>
+        <name>audit_backend</name>
+        <qualifiedname>themisdb::process::ProcessFederationConfig::audit_backend</qualifiedname>
+        <initializer>= &quot;rocksdb&quot;</initializer>
+        <briefdescription>
+<para>Audit trail storage backend (&quot;rocksdb&quot;, &quot;file&quot;, &quot;s3&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_contract.h" line="142" column="15" bodyfile="include/process/process_federation_contract.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_process_federation_config_1af7a48499a68c3fb4abe418a152616c7f" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::process::ProcessFederationConfig::max_replication_lag_ms</definition>
+        <argsstring></argsstring>
+        <name>max_replication_lag_ms</name>
+        <qualifiedname>themisdb::process::ProcessFederationConfig::max_replication_lag_ms</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+<para>Max replication lag before marking replica as stale (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_contract.h" line="145" column="29" bodyfile="include/process/process_federation_contract.h" bodystart="145" bodyend="145"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for federated Process Module deployment. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para>All members must be set before passing to ProcessFederationManager::Create. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/process/process_federation_contract.h" line="125" column="1" bodyfile="include/process/process_federation_contract.h" bodystart="125" bodyend="146"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1process_1_1_process_federation_config_1ac31ce41a26312bcb36ae7146056f246a" prot="public" virt="non-virtual"><scope>themisdb::process::ProcessFederationConfig</scope><name>audit_backend</name></member>
+      <member refid="structthemisdb_1_1process_1_1_process_federation_config_1a5ca0227a66a4f4fd03c1db42f065795b" prot="public" virt="non-virtual"><scope>themisdb::process::ProcessFederationConfig</scope><name>consensus_timeout_ms</name></member>
+      <member refid="structthemisdb_1_1process_1_1_process_federation_config_1af7a48499a68c3fb4abe418a152616c7f" prot="public" virt="non-virtual"><scope>themisdb::process::ProcessFederationConfig</scope><name>max_replication_lag_ms</name></member>
+      <member refid="structthemisdb_1_1process_1_1_process_federation_config_1a7fad99e07402fff05b69779592486f20" prot="public" virt="non-virtual"><scope>themisdb::process::ProcessFederationConfig</scope><name>network_latency_ms</name></member>
+      <member refid="structthemisdb_1_1process_1_1_process_federation_config_1a68e201e0ee397f1410467064acf14ebc" prot="public" virt="non-virtual"><scope>themisdb::process::ProcessFederationConfig</scope><name>node_id</name></member>
+      <member refid="structthemisdb_1_1process_1_1_process_federation_config_1a9719992bccaa203b462b3bdcca3945bb" prot="public" virt="non-virtual"><scope>themisdb::process::ProcessFederationConfig</scope><name>peer_addresses</name></member>
+      <member refid="structthemisdb_1_1process_1_1_process_federation_config_1a0dd0022ab47e2b48e2fc3ba5e36a73eb" prot="public" virt="non-virtual"><scope>themisdb::process::ProcessFederationConfig</scope><name>quorum_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

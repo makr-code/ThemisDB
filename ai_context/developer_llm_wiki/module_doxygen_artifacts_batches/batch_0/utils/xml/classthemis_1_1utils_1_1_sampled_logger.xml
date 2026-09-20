@@ -1,0 +1,329 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_sampled_logger" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::SampledLogger</compoundname>
+    <includes refid="logger_8h" local="no">logger.h</includes>
+    <innerclass refid="structthemis_1_1utils_1_1_sampled_logger_1_1_bucket" prot="public">themis::utils::SampledLogger::Bucket</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_sampled_logger_1a35e109d1a0c395a193faa5ca954b7093" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1utils_1_1_logger" kindref="compound">Logger</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;Logger&gt; themis::utils::SampledLogger::underlying_</definition>
+        <argsstring></argsstring>
+        <name>underlying_</name>
+        <qualifiedname>themis::utils::SampledLogger::underlying_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="249" column="22" bodyfile="include/utils/logger.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_sampled_logger_1ac8744190efd89c9fc414f76382353aef" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1utils_1_1_sampled_logger_config" kindref="compound">SampledLoggerConfig</ref></type>
+        <definition>SampledLoggerConfig themis::utils::SampledLogger::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::utils::SampledLogger::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="250" column="30" bodyfile="include/utils/logger.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_sampled_logger_1a972a13abdb3bfdd93270cee6e53d4fb7" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::utils::SampledLogger::suppressed_</definition>
+        <argsstring></argsstring>
+        <name>suppressed_</name>
+        <qualifiedname>themis::utils::SampledLogger::suppressed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="251" column="20" bodyfile="include/utils/logger.h" bodystart="251" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_sampled_logger_1a4daf6e659061404683113f85fa0ed132" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::utils::SampledLogger::buckets_mutex_</definition>
+        <argsstring></argsstring>
+        <name>buckets_mutex_</name>
+        <qualifiedname>themis::utils::SampledLogger::buckets_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="252" column="30" bodyfile="include/utils/logger.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_sampled_logger_1a8b1dca2f5b3fa97e88a9ec535944e8ce" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unique_ptr&lt; <ref refid="structthemis_1_1utils_1_1_sampled_logger_1_1_bucket" kindref="compound">Bucket</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unique_ptr&lt;Bucket&gt; &gt; themis::utils::SampledLogger::buckets_</definition>
+        <argsstring></argsstring>
+        <name>buckets_</name>
+        <qualifiedname>themis::utils::SampledLogger::buckets_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="253" column="24" bodyfile="include/utils/logger.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_sampled_logger_1a20691088837783147e929b3dd486c439" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::SampledLogger::SampledLogger</definition>
+        <argsstring>(std::shared_ptr&lt; Logger &gt; underlying, SampledLoggerConfig cfg={})</argsstring>
+        <name>SampledLogger</name>
+        <qualifiedname>themis::utils::SampledLogger::SampledLogger</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1utils_1_1_logger" kindref="compound">Logger</ref> &gt;</type>
+          <declname>underlying</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1utils_1_1_sampled_logger_config" kindref="compound">SampledLoggerConfig</ref></type>
+          <declname>cfg</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="226" column="14" bodyfile="src/utils/sampled_logger.cpp" bodystart="55" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_sampled_logger_1aa34be22500e10a33b28c355d61cf998f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::SampledLogger::~SampledLogger</definition>
+        <argsstring>()</argsstring>
+        <name>~SampledLogger</name>
+        <qualifiedname>themis::utils::SampledLogger::~SampledLogger</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="228" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_sampled_logger_1aea6d5540351371e2e94590c283e6c35e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::SampledLogger::log</definition>
+        <argsstring>(Logger::Level level, const std::string &amp;msg, const char *file=__builtin_FILE(), int line=__builtin_LINE())</argsstring>
+        <name>log</name>
+        <qualifiedname>themis::utils::SampledLogger::log</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1utils_1_1_logger_1ab442e2646ba5c2713266bc43405c2482" kindref="member">Logger::Level</ref></type>
+          <declname>level</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>msg</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>file</declname>
+          <defval>__builtin_FILE()</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>line</declname>
+          <defval>__builtin_LINE()</defval>
+        </param>
+        <briefdescription>
+<para>Log with sampling; file/line identify the call-site bucket. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">line</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="231" column="10" bodyfile="src/utils/sampled_logger.cpp" bodystart="122" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_sampled_logger_1a478f22247b10d6da03ad0416c85566e7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::utils::SampledLogger::suppressed_total</definition>
+        <argsstring>() const</argsstring>
+        <name>suppressed_total</name>
+        <qualifiedname>themis::utils::SampledLogger::suppressed_total</qualifiedname>
+        <briefdescription>
+<para>Total suppressed calls since construction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="236" column="14" bodyfile="src/utils/sampled_logger.cpp" bodystart="141" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_sampled_logger_1a06386dfc325ac0b9c0aec24d72875db2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::SampledLogger::reset_stats</definition>
+        <argsstring>()</argsstring>
+        <name>reset_stats</name>
+        <qualifiedname>themis::utils::SampledLogger::reset_stats</qualifiedname>
+        <briefdescription>
+<para>Reset suppression counters (for tests). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset stats.</para>
+<para>Calls: store(), lk(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="239" column="10" bodyfile="src/utils/sampled_logger.cpp" bodystart="149" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_sampled_logger_1aa84a79e8bf46f71431ee4881e2eafffa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::SampledLogger::set_config</definition>
+        <argsstring>(SampledLoggerConfig cfg)</argsstring>
+        <name>set_config</name>
+        <qualifiedname>themis::utils::SampledLogger::set_config</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1utils_1_1_sampled_logger_config" kindref="compound">SampledLoggerConfig</ref></type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Hot-reload config at runtime. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="242" column="10" bodyfile="src/utils/sampled_logger.cpp" bodystart="160" bodyend="165"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_sampled_logger_1a6f205ce3c1788b5aa4258111b7023fc4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::SampledLogger::should_log</definition>
+        <argsstring>(Logger::Level level, const char *file, int line)</argsstring>
+        <name>should_log</name>
+        <qualifiedname>themis::utils::SampledLogger::should_log</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1utils_1_1_logger_1ab442e2646ba5c2713266bc43405c2482" kindref="member">Logger::Level</ref></type>
+          <declname>level</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>file</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>line</declname>
+        </param>
+        <briefdescription>
+<para>Should log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">line</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: dist(), reserve(), std::to_string(), lk(), find(), end(), emplace(), try_consume(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="247" column="10" bodyfile="src/utils/sampled_logger.cpp" bodystart="74" bodyend="113"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="classthemis_1_1utils_1_1_logger" kindref="compound">Logger</ref> decorator that samples and rate-limits high-frequency log calls. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Uses per-(file, line, level) token-bucket rate limiters to prevent log flooding. Suppressed call counts are tracked for observability. Audit log calls (via <ref refid="classthemis_1_1utils_1_1_audit_logger" kindref="compound">AuditLogger</ref>) MUST bypass this decorator.</para>
+<para>v1.5.0: Initial implementation </para>
+    </detaileddescription>
+    <location file="include/utils/logger.h" line="224" column="1" bodyfile="include/utils/logger.h" bodystart="224" bodyend="254"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_sampled_logger_1a8b1dca2f5b3fa97e88a9ec535944e8ce" prot="private" virt="non-virtual"><scope>themis::utils::SampledLogger</scope><name>buckets_</name></member>
+      <member refid="classthemis_1_1utils_1_1_sampled_logger_1a4daf6e659061404683113f85fa0ed132" prot="private" virt="non-virtual"><scope>themis::utils::SampledLogger</scope><name>buckets_mutex_</name></member>
+      <member refid="classthemis_1_1utils_1_1_sampled_logger_1ac8744190efd89c9fc414f76382353aef" prot="private" virt="non-virtual"><scope>themis::utils::SampledLogger</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1utils_1_1_sampled_logger_1aea6d5540351371e2e94590c283e6c35e" prot="public" virt="non-virtual"><scope>themis::utils::SampledLogger</scope><name>log</name></member>
+      <member refid="classthemis_1_1utils_1_1_sampled_logger_1a06386dfc325ac0b9c0aec24d72875db2" prot="public" virt="non-virtual"><scope>themis::utils::SampledLogger</scope><name>reset_stats</name></member>
+      <member refid="classthemis_1_1utils_1_1_sampled_logger_1a20691088837783147e929b3dd486c439" prot="public" virt="non-virtual"><scope>themis::utils::SampledLogger</scope><name>SampledLogger</name></member>
+      <member refid="classthemis_1_1utils_1_1_sampled_logger_1aa84a79e8bf46f71431ee4881e2eafffa" prot="public" virt="non-virtual"><scope>themis::utils::SampledLogger</scope><name>set_config</name></member>
+      <member refid="classthemis_1_1utils_1_1_sampled_logger_1a6f205ce3c1788b5aa4258111b7023fc4" prot="private" virt="non-virtual"><scope>themis::utils::SampledLogger</scope><name>should_log</name></member>
+      <member refid="classthemis_1_1utils_1_1_sampled_logger_1a972a13abdb3bfdd93270cee6e53d4fb7" prot="private" virt="non-virtual"><scope>themis::utils::SampledLogger</scope><name>suppressed_</name></member>
+      <member refid="classthemis_1_1utils_1_1_sampled_logger_1a478f22247b10d6da03ad0416c85566e7" prot="public" virt="non-virtual"><scope>themis::utils::SampledLogger</scope><name>suppressed_total</name></member>
+      <member refid="classthemis_1_1utils_1_1_sampled_logger_1a35e109d1a0c395a193faa5ca954b7093" prot="private" virt="non-virtual"><scope>themis::utils::SampledLogger</scope><name>underlying_</name></member>
+      <member refid="classthemis_1_1utils_1_1_sampled_logger_1aa34be22500e10a33b28c355d61cf998f" prot="public" virt="non-virtual"><scope>themis::utils::SampledLogger</scope><name>~SampledLogger</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

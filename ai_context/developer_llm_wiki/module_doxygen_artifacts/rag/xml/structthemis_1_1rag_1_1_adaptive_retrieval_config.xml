@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_adaptive_retrieval_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::AdaptiveRetrievalConfig</compoundname>
+    <includes refid="adaptive__retrieval_8h" local="no">adaptive_retrieval.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_adaptive_retrieval_config_1a4d3cf95af520d0c35f585f87eeac2089" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::AdaptiveRetrievalConfig::base_top_k</definition>
+        <argsstring></argsstring>
+        <name>base_top_k</name>
+        <qualifiedname>themis::rag::AdaptiveRetrievalConfig::base_top_k</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Baseline <computeroutput>top_k</computeroutput> used for SIMPLE queries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adaptive_retrieval.h" line="43" column="12" bodyfile="include/rag/adaptive_retrieval.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_adaptive_retrieval_config_1a20cb61a1a08d3b61d2a2b492a831e0e8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::AdaptiveRetrievalConfig::max_top_k</definition>
+        <argsstring></argsstring>
+        <name>max_top_k</name>
+        <qualifiedname>themis::rag::AdaptiveRetrievalConfig::max_top_k</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+<para>Maximum <computeroutput>top_k</computeroutput> used for VERY_COMPLEX queries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adaptive_retrieval.h" line="46" column="12" bodyfile="include/rag/adaptive_retrieval.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_adaptive_retrieval_config_1a8ebecc0579cbff1f19d60290f0b3f6e4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::AdaptiveRetrievalConfig::base_similarity_threshold</definition>
+        <argsstring></argsstring>
+        <name>base_similarity_threshold</name>
+        <qualifiedname>themis::rag::AdaptiveRetrievalConfig::base_similarity_threshold</qualifiedname>
+        <initializer>= 0.75</initializer>
+        <briefdescription>
+<para>Similarity threshold used for SIMPLE queries (higher → stricter filter). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adaptive_retrieval.h" line="49" column="12" bodyfile="include/rag/adaptive_retrieval.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_adaptive_retrieval_config_1af70f34dd6d439badec7e28896039a614" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::AdaptiveRetrievalConfig::min_similarity_threshold</definition>
+        <argsstring></argsstring>
+        <name>min_similarity_threshold</name>
+        <qualifiedname>themis::rag::AdaptiveRetrievalConfig::min_similarity_threshold</qualifiedname>
+        <initializer>= 0.40</initializer>
+        <briefdescription>
+<para>Similarity threshold used for VERY_COMPLEX queries (lower → broader net). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adaptive_retrieval.h" line="52" column="12" bodyfile="include/rag/adaptive_retrieval.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_adaptive_retrieval_config_1a3ba4416b0ccdc07718ec42585475ec54" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::AdaptiveRetrievalConfig::complexity_scaling</definition>
+        <argsstring></argsstring>
+        <name>complexity_scaling</name>
+        <qualifiedname>themis::rag::AdaptiveRetrievalConfig::complexity_scaling</qualifiedname>
+        <initializer>= 1.5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Multiplier applied to <computeroutput>top_k</computeroutput> for each step up in complexity. SIMPLE × 1, MODERATE × multiplier, COMPLEX × multiplier², … </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adaptive_retrieval.h" line="56" column="12" bodyfile="include/rag/adaptive_retrieval.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_adaptive_retrieval_config_1ae0d1ac3c52002f1e810736f214bb8bba" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::AdaptiveRetrievalConfig::long_query_threshold</definition>
+        <argsstring></argsstring>
+        <name>long_query_threshold</name>
+        <qualifiedname>themis::rag::AdaptiveRetrievalConfig::long_query_threshold</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Query length (characters) above which an extra complexity penalty is added. Set to 0 to disable length-based adjustment. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adaptive_retrieval.h" line="60" column="12" bodyfile="include/rag/adaptive_retrieval.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_adaptive_retrieval_config_1a537bf1eb6190c4cf02b6551a18b5b3d7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::AdaptiveRetrievalConfig::connective_bump_threshold</definition>
+        <argsstring></argsstring>
+        <name>connective_bump_threshold</name>
+        <qualifiedname>themis::rag::AdaptiveRetrievalConfig::connective_bump_threshold</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of connective words (&quot;and&quot;, &quot;or&quot;, &quot;but&quot;, &quot;because&quot;, &quot;while&quot;, &quot;since&quot;, &quot;although&quot;, &quot;however&quot;) that trigger a one-level complexity bump. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adaptive_retrieval.h" line="65" column="12" bodyfile="include/rag/adaptive_retrieval.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1rag_1_1_adaptive_retrieval" kindref="compound">AdaptiveRetrieval</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/adaptive_retrieval.h" line="41" column="1" bodyfile="include/rag/adaptive_retrieval.h" bodystart="41" bodyend="66"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_adaptive_retrieval_config_1a8ebecc0579cbff1f19d60290f0b3f6e4" prot="public" virt="non-virtual"><scope>themis::rag::AdaptiveRetrievalConfig</scope><name>base_similarity_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1_adaptive_retrieval_config_1a4d3cf95af520d0c35f585f87eeac2089" prot="public" virt="non-virtual"><scope>themis::rag::AdaptiveRetrievalConfig</scope><name>base_top_k</name></member>
+      <member refid="structthemis_1_1rag_1_1_adaptive_retrieval_config_1a3ba4416b0ccdc07718ec42585475ec54" prot="public" virt="non-virtual"><scope>themis::rag::AdaptiveRetrievalConfig</scope><name>complexity_scaling</name></member>
+      <member refid="structthemis_1_1rag_1_1_adaptive_retrieval_config_1a537bf1eb6190c4cf02b6551a18b5b3d7" prot="public" virt="non-virtual"><scope>themis::rag::AdaptiveRetrievalConfig</scope><name>connective_bump_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1_adaptive_retrieval_config_1ae0d1ac3c52002f1e810736f214bb8bba" prot="public" virt="non-virtual"><scope>themis::rag::AdaptiveRetrievalConfig</scope><name>long_query_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1_adaptive_retrieval_config_1a20cb61a1a08d3b61d2a2b492a831e0e8" prot="public" virt="non-virtual"><scope>themis::rag::AdaptiveRetrievalConfig</scope><name>max_top_k</name></member>
+      <member refid="structthemis_1_1rag_1_1_adaptive_retrieval_config_1af70f34dd6d439badec7e28896039a614" prot="public" virt="non-virtual"><scope>themis::rag::AdaptiveRetrievalConfig</scope><name>min_similarity_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_kernel_timeout_test" kind="class" language="C++" prot="public">
+    <compoundname>KernelTimeoutTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_kernel_timeout_test_1a036ee244a3f721de35ed741bc802604d" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; GPUErrorHandler &gt;</type>
+        <definition>std::shared_ptr&lt;GPUErrorHandler&gt; KernelTimeoutTest::handler</definition>
+        <argsstring></argsstring>
+        <name>handler</name>
+        <qualifiedname>KernelTimeoutTest::handler</qualifiedname>
+        <initializer>= GPUErrorHandler::Create()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_error_handling_comprehensive.cpp" line="117" column="19" bodyfile="tests/gpu/test_gpu_error_handling_comprehensive.cpp" bodystart="117" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_kernel_timeout_test_1a02438763d9dbbfdd55ba9ff69a722f35" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void KernelTimeoutTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>KernelTimeoutTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_error_handling_comprehensive.cpp" line="119" column="8" bodyfile="tests/gpu/test_gpu_error_handling_comprehensive.cpp" bodystart="119" bodyend="121"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>KernelTimeoutTest</label>
+        <link refid="class_kernel_timeout_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>KernelTimeoutTest</label>
+        <link refid="class_kernel_timeout_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_error_handling_comprehensive.cpp" line="115" column="1" bodyfile="tests/gpu/test_gpu_error_handling_comprehensive.cpp" bodystart="115" bodyend="122"/>
+    <listofallmembers>
+      <member refid="class_kernel_timeout_test_1a036ee244a3f721de35ed741bc802604d" prot="protected" virt="non-virtual"><scope>KernelTimeoutTest</scope><name>handler</name></member>
+      <member refid="class_kernel_timeout_test_1a02438763d9dbbfdd55ba9ff69a722f35" prot="protected" virt="non-virtual"><scope>KernelTimeoutTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

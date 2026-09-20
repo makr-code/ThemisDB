@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_backup_manager_1_1_scheduled_backup_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::BackupManager::ScheduledBackupEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_backup_manager_1_1_scheduled_backup_entry_1ad1bc473b3f8a4cf0f0a598a568c31bda" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::BackupManager::ScheduledBackupEntry::schedule_id</definition>
+        <argsstring></argsstring>
+        <name>schedule_id</name>
+        <qualifiedname>themis::BackupManager::ScheduledBackupEntry::schedule_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="728" column="21" bodyfile="include/storage/backup_manager.h" bodystart="728" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_backup_manager_1_1_scheduled_backup_entry_1abba19187ad1ee6ee1da23f4c74e55af5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::BackupManager::ScheduledBackupEntry::cron_expression</definition>
+        <argsstring></argsstring>
+        <name>cron_expression</name>
+        <qualifiedname>themis::BackupManager::ScheduledBackupEntry::cron_expression</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="729" column="21" bodyfile="include/storage/backup_manager.h" bodystart="729" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_backup_manager_1_1_scheduled_backup_entry_1ac55aaab5ae17e6bc0c0f4148a5dedeb8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::BackupManager::ScheduledBackupEntry::backup_type</definition>
+        <argsstring></argsstring>
+        <name>backup_type</name>
+        <qualifiedname>themis::BackupManager::ScheduledBackupEntry::backup_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="730" column="21" bodyfile="include/storage/backup_manager.h" bodystart="730" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_backup_manager_1_1_scheduled_backup_entry_1af92cf7e2823d8fc51bcb9b8a3095930c" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_backup_options" kindref="compound">BackupOptions</ref></type>
+        <definition>BackupOptions themis::BackupManager::ScheduledBackupEntry::options</definition>
+        <argsstring></argsstring>
+        <name>options</name>
+        <qualifiedname>themis::BackupManager::ScheduledBackupEntry::options</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="731" column="23" bodyfile="include/storage/backup_manager.h" bodystart="731" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_backup_manager_1_1_scheduled_backup_entry_1aed48230124b620c24d87ef4735508f0b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::BackupManager::ScheduledBackupEntry::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::BackupManager::ScheduledBackupEntry::created_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="732" column="21" bodyfile="include/storage/backup_manager.h" bodystart="732" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_backup_manager_1_1_scheduled_backup_entry_1ad794af2270bc2ddeac84b155640f204a" prot="public" static="no" mutable="no">
+        <type>std::time_t</type>
+        <definition>std::time_t themis::BackupManager::ScheduledBackupEntry::last_triggered_minute</definition>
+        <argsstring></argsstring>
+        <name>last_triggered_minute</name>
+        <qualifiedname>themis::BackupManager::ScheduledBackupEntry::last_triggered_minute</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="733" column="21" bodyfile="include/storage/backup_manager.h" bodystart="733" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Internal representation of a registered backup schedule. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::BackupManager::ScheduledBackupEntry</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>options</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::BackupOptions</label>
+        <link refid="structthemis_1_1_backup_options"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/storage/backup_manager.h" line="727" column="5" bodyfile="include/storage/backup_manager.h" bodystart="727" bodyend="734"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_backup_manager_1_1_scheduled_backup_entry_1ac55aaab5ae17e6bc0c0f4148a5dedeb8" prot="public" virt="non-virtual"><scope>themis::BackupManager::ScheduledBackupEntry</scope><name>backup_type</name></member>
+      <member refid="structthemis_1_1_backup_manager_1_1_scheduled_backup_entry_1aed48230124b620c24d87ef4735508f0b" prot="public" virt="non-virtual"><scope>themis::BackupManager::ScheduledBackupEntry</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1_backup_manager_1_1_scheduled_backup_entry_1abba19187ad1ee6ee1da23f4c74e55af5" prot="public" virt="non-virtual"><scope>themis::BackupManager::ScheduledBackupEntry</scope><name>cron_expression</name></member>
+      <member refid="structthemis_1_1_backup_manager_1_1_scheduled_backup_entry_1ad794af2270bc2ddeac84b155640f204a" prot="public" virt="non-virtual"><scope>themis::BackupManager::ScheduledBackupEntry</scope><name>last_triggered_minute</name></member>
+      <member refid="structthemis_1_1_backup_manager_1_1_scheduled_backup_entry_1af92cf7e2823d8fc51bcb9b8a3095930c" prot="public" virt="non-virtual"><scope>themis::BackupManager::ScheduledBackupEntry</scope><name>options</name></member>
+      <member refid="structthemis_1_1_backup_manager_1_1_scheduled_backup_entry_1ad1bc473b3f8a4cf0f0a598a568c31bda" prot="public" virt="non-virtual"><scope>themis::BackupManager::ScheduledBackupEntry</scope><name>schedule_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

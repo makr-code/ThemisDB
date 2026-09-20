@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_metrics_server_handler_test" kind="class" language="C++" prot="public">
+    <compoundname>MetricsServerHandlerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_metrics_server_handler_test_1a2052c4eb4e40aa880f84b031f2456132" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter" kindref="compound">PrometheusExporter</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;PrometheusExporter&gt; MetricsServerHandlerTest::exporter</definition>
+        <argsstring></argsstring>
+        <name>exporter</name>
+        <qualifiedname>MetricsServerHandlerTest::exporter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_grafana_metrics.cpp" line="268" column="21" bodyfile="tests/llm/test_llm_grafana_metrics.cpp" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_metrics_server_handler_test_1a32be0a915559b321d626992bad452c5e" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server" kindref="compound">MetricsServer</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;MetricsServer&gt; MetricsServerHandlerTest::server</definition>
+        <argsstring></argsstring>
+        <name>server</name>
+        <qualifiedname>MetricsServerHandlerTest::server</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_grafana_metrics.cpp" line="269" column="21" bodyfile="tests/llm/test_llm_grafana_metrics.cpp" bodystart="269" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_metrics_server_handler_test_1a16c2edbda53513780d234dd1d2f31505" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MetricsServerHandlerTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>MetricsServerHandlerTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_grafana_metrics.cpp" line="256" column="10" bodyfile="tests/llm/test_llm_grafana_metrics.cpp" bodystart="256" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="class_metrics_server_handler_test_1a547661ca95e6e1f6670915da9feecb6d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MetricsServerHandlerTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>MetricsServerHandlerTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_grafana_metrics.cpp" line="264" column="10" bodyfile="tests/llm/test_llm_grafana_metrics.cpp" bodystart="264" bodyend="266"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MetricsServerHandlerTest</label>
+        <link refid="class_metrics_server_handler_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MetricsServerHandlerTest</label>
+        <link refid="class_metrics_server_handler_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llm_grafana_metrics.cpp" line="254" column="1" bodyfile="tests/llm/test_llm_grafana_metrics.cpp" bodystart="254" bodyend="270"/>
+    <listofallmembers>
+      <member refid="class_metrics_server_handler_test_1a2052c4eb4e40aa880f84b031f2456132" prot="protected" virt="non-virtual"><scope>MetricsServerHandlerTest</scope><name>exporter</name></member>
+      <member refid="class_metrics_server_handler_test_1a32be0a915559b321d626992bad452c5e" prot="protected" virt="non-virtual"><scope>MetricsServerHandlerTest</scope><name>server</name></member>
+      <member refid="class_metrics_server_handler_test_1a16c2edbda53513780d234dd1d2f31505" prot="protected" virt="non-virtual"><scope>MetricsServerHandlerTest</scope><name>SetUp</name></member>
+      <member refid="class_metrics_server_handler_test_1a547661ca95e6e1f6670915da9feecb6d" prot="protected" virt="non-virtual"><scope>MetricsServerHandlerTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

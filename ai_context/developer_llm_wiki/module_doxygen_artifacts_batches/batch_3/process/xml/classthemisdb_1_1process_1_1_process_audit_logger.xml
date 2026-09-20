@@ -1,0 +1,243 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1process_1_1_process_audit_logger" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themisdb::process::ProcessAuditLogger</compoundname>
+    <includes refid="process__telemetry__contract_8h" local="no">process_telemetry_contract.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1_process_audit_logger_1afee3a417c883592003b28f263edeabae" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::uint64_t</type>
+        <definition>virtual std::uint64_t themisdb::process::ProcessAuditLogger::AppendEntry</definition>
+        <argsstring>(AuditTrailEntry &amp;entry)=0</argsstring>
+        <name>AppendEntry</name>
+        <qualifiedname>themisdb::process::ProcessAuditLogger::AppendEntry</qualifiedname>
+        <param>
+          <type><ref refid="structthemisdb_1_1process_1_1_audit_trail_entry" kindref="compound">AuditTrailEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Append entry to immutable audit trail. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Audit trail entry (will be assigned entry_id) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Assigned entry ID (monotonically increasing)</para>
+</simplesect>
+<simplesect kind="note"><para>Single writer (leader); followers call through leader </para>
+</simplesect>
+<simplesect kind="note"><para>Blocks until CRC32 checksum computed and entry persisted </para>
+</simplesect>
+<simplesect kind="note"><para>Cannot fail once committed (fail-closed on backend failure) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_contract.h" line="222" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1_process_audit_logger_1af6198e2efd8ebd8413a462b2f9e6f5cd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1process_1_1_audit_trail_entry" kindref="compound">AuditTrailEntry</ref> &gt;</type>
+        <definition>virtual std::optional&lt; AuditTrailEntry &gt; themisdb::process::ProcessAuditLogger::GetEntry</definition>
+        <argsstring>(std::uint64_t entry_id) const =0</argsstring>
+        <name>GetEntry</name>
+        <qualifiedname>themisdb::process::ProcessAuditLogger::GetEntry</qualifiedname>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>entry_id</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve entry from audit trail. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>entry_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Entry ID to retrieve </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Optional entry (empty if entry_id &gt;= next_entry_id)</para>
+</simplesect>
+<simplesect kind="note"><para>Multiple concurrent readers allowed </para>
+</simplesect>
+<simplesect kind="note"><para>Returned entry is immutable; modifications create new entries </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_contract.h" line="233" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1_process_audit_logger_1a8fbbfc88373c631ffaada53f58fac353" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1process_1_1_audit_trail_entry" kindref="compound">AuditTrailEntry</ref> &gt;</type>
+        <definition>virtual std::vector&lt; AuditTrailEntry &gt; themisdb::process::ProcessAuditLogger::GetEntriesInRange</definition>
+        <argsstring>(std::uint64_t start_id, std::uint64_t end_id) const =0</argsstring>
+        <name>GetEntriesInRange</name>
+        <qualifiedname>themisdb::process::ProcessAuditLogger::GetEntriesInRange</qualifiedname>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>start_id</declname>
+        </param>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>end_id</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve entries in range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>start_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Starting entry ID (inclusive) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>end_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Ending entry ID (inclusive) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of entries in range</para>
+</simplesect>
+<simplesect kind="note"><para>Multiple concurrent readers allowed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_contract.h" line="244" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1_process_audit_logger_1ac05e8f79ec8d7867f6495e8475bda9dd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemisdb_1_1process_1_1_temporal_query_result" kindref="compound">TemporalQueryResult</ref></type>
+        <definition>virtual TemporalQueryResult themisdb::process::ProcessAuditLogger::ReconstructAsOfTime</definition>
+        <argsstring>(const std::string &amp;model_id, std::chrono::system_clock::time_point timestamp) const =0</argsstring>
+        <name>ReconstructAsOfTime</name>
+        <qualifiedname>themisdb::process::ProcessAuditLogger::ReconstructAsOfTime</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>timestamp</declname>
+        </param>
+        <briefdescription>
+<para>Reconstruct model as of given timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Model ID to reconstruct </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target timestamp for reconstruction </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Temporal query result (reconstructed model, deltas applied)</para>
+</simplesect>
+<simplesect kind="note"><para>O(log N) snapshot lookup; O(D) delta application (D = deltas since snapshot) </para>
+</simplesect>
+<simplesect kind="note"><para>Multiple concurrent queries allowed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_contract.h" line="257" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1_process_audit_logger_1addb71b2f56f955fdcc3b5896c2c4d473" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themisdb::process::ProcessAuditLogger::VerifyIntegrity</definition>
+        <argsstring>() const =0</argsstring>
+        <name>VerifyIntegrity</name>
+        <qualifiedname>themisdb::process::ProcessAuditLogger::VerifyIntegrity</qualifiedname>
+        <briefdescription>
+<para>Verify audit trail integrity (all CRC32 checksums). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Integrity check result (all_valid, corrupted_entries_count)</para>
+</simplesect>
+<simplesect kind="note"><para>Bulk verification on recovery; detects offline corruption </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_contract.h" line="268" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1_process_audit_logger_1ae307880207376607341cc5f7488bcaaa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::uint64_t</type>
+        <definition>virtual std::uint64_t themisdb::process::ProcessAuditLogger::GetNextEntryId</definition>
+        <argsstring>() const =0</argsstring>
+        <name>GetNextEntryId</name>
+        <qualifiedname>themisdb::process::ProcessAuditLogger::GetNextEntryId</qualifiedname>
+        <briefdescription>
+<para>Get current next entry ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Entry ID to be assigned to next append </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_contract.h" line="275" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1_process_audit_logger_1a4aba3518667c100ad34bd5198b7540fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themisdb::process::ProcessAuditLogger::~ProcessAuditLogger</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ProcessAuditLogger</name>
+        <qualifiedname>themisdb::process::ProcessAuditLogger::~ProcessAuditLogger</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_telemetry_contract.h" line="277" column="11"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Audit trail logger interface. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para>Actual implementation in <ref refid="process__audit__logger_8cpp" kindref="compound">src/process/process_audit_logger.cpp</ref></para>
+</simplesect>
+Single writer (consensus leader), multiple readers (followers, clients). Append-only; no retroactive modification. </para>
+    </detaileddescription>
+    <location file="include/process/process_telemetry_contract.h" line="210" column="1" bodyfile="include/process/process_telemetry_contract.h" bodystart="210" bodyend="278"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1process_1_1_process_audit_logger_1afee3a417c883592003b28f263edeabae" prot="public" virt="pure-virtual"><scope>themisdb::process::ProcessAuditLogger</scope><name>AppendEntry</name></member>
+      <member refid="classthemisdb_1_1process_1_1_process_audit_logger_1a8fbbfc88373c631ffaada53f58fac353" prot="public" virt="pure-virtual"><scope>themisdb::process::ProcessAuditLogger</scope><name>GetEntriesInRange</name></member>
+      <member refid="classthemisdb_1_1process_1_1_process_audit_logger_1af6198e2efd8ebd8413a462b2f9e6f5cd" prot="public" virt="pure-virtual"><scope>themisdb::process::ProcessAuditLogger</scope><name>GetEntry</name></member>
+      <member refid="classthemisdb_1_1process_1_1_process_audit_logger_1ae307880207376607341cc5f7488bcaaa" prot="public" virt="pure-virtual"><scope>themisdb::process::ProcessAuditLogger</scope><name>GetNextEntryId</name></member>
+      <member refid="classthemisdb_1_1process_1_1_process_audit_logger_1ac05e8f79ec8d7867f6495e8475bda9dd" prot="public" virt="pure-virtual"><scope>themisdb::process::ProcessAuditLogger</scope><name>ReconstructAsOfTime</name></member>
+      <member refid="classthemisdb_1_1process_1_1_process_audit_logger_1addb71b2f56f955fdcc3b5896c2c4d473" prot="public" virt="pure-virtual"><scope>themisdb::process::ProcessAuditLogger</scope><name>VerifyIntegrity</name></member>
+      <member refid="classthemisdb_1_1process_1_1_process_audit_logger_1a4aba3518667c100ad34bd5198b7540fe" prot="public" virt="virtual"><scope>themisdb::process::ProcessAuditLogger</scope><name>~ProcessAuditLogger</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

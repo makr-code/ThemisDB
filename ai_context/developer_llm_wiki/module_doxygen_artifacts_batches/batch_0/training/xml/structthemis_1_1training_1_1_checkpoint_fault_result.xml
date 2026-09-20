@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_checkpoint_fault_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::CheckpointFaultResult</compoundname>
+    <includes refid="training__failsafe_8h" local="no">training_failsafe.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1training_1_1_checkpoint_fault_result_1aaee69dc085eca3f22e7abdd8b98ecd18" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>RecoveryStrategy</name>
+        <qualifiedname>themis::training::CheckpointFaultResult::RecoveryStrategy</qualifiedname>
+        <enumvalue id="structthemis_1_1training_1_1_checkpoint_fault_result_1aaee69dc085eca3f22e7abdd8b98ecd18a2805522dd41e1b57da11967ac5fa258c" prot="public">
+          <name>ROLLBACK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1training_1_1_checkpoint_fault_result_1aaee69dc085eca3f22e7abdd8b98ecd18a8d12a2ca7e5a64036d7251a3eda51a38" prot="public">
+          <name>ABORT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1training_1_1_checkpoint_fault_result_1aaee69dc085eca3f22e7abdd8b98ecd18adccb2ca8c97120cd30abab2d76ce6251" prot="public">
+          <name>SKIP_SAVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Resolved recovery strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><itemizedlist>
+<listitem><para>ROLLBACK: Use recovery_path to resume from a verified prior state.</para>
+</listitem><listitem><para>ABORT: No recovery is possible; training must stop.</para>
+</listitem><listitem><para>SKIP_SAVE: Fault was during save and is non-fatal; training continues without this checkpoint being persisted. </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="95" column="5" bodyfile="include/training/training_failsafe.h" bodystart="95" bodyend="95"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_checkpoint_fault_result_1a78e6fe81ab2fab69f86dba555ad154e4" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1training_1_1_checkpoint_fault_result_1aaee69dc085eca3f22e7abdd8b98ecd18" kindref="member">RecoveryStrategy</ref></type>
+        <definition>RecoveryStrategy themis::training::CheckpointFaultResult::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::training::CheckpointFaultResult::strategy</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1training_1_1_checkpoint_fault_result_1aaee69dc085eca3f22e7abdd8b98ecd18a8d12a2ca7e5a64036d7251a3eda51a38" kindref="member">RecoveryStrategy::ABORT</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="97" column="22" bodyfile="include/training/training_failsafe.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_checkpoint_fault_result_1a365e0047c9672f47ba70a37d14ae2871" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::CheckpointFaultResult::recovery_path</definition>
+        <argsstring></argsstring>
+        <name>recovery_path</name>
+        <qualifiedname>themis::training::CheckpointFaultResult::recovery_path</qualifiedname>
+        <briefdescription>
+<para>Valid only when strategy == ROLLBACK. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="98" column="22" bodyfile="include/training/training_failsafe.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_checkpoint_fault_result_1a1f5235d6f12d3c2a7e3bdb8a5e9f82c4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::CheckpointFaultResult::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::training::CheckpointFaultResult::reason</qualifiedname>
+        <briefdescription>
+<para>Human-readable reason for the decision. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="99" column="22" bodyfile="include/training/training_failsafe.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_checkpoint_fault_result_1aa8778a72516273dd206574e25cbe2905" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::CheckpointFaultResult::incident_emitted</definition>
+        <argsstring></argsstring>
+        <name>incident_emitted</name>
+        <qualifiedname>themis::training::CheckpointFaultResult::incident_emitted</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="100" column="22" bodyfile="include/training/training_failsafe.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a checkpoint fault handling decision. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/training_failsafe.h" line="86" column="1" bodyfile="include/training/training_failsafe.h" bodystart="86" bodyend="101"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_checkpoint_fault_result_1aa8778a72516273dd206574e25cbe2905" prot="public" virt="non-virtual"><scope>themis::training::CheckpointFaultResult</scope><name>incident_emitted</name></member>
+      <member refid="structthemis_1_1training_1_1_checkpoint_fault_result_1a1f5235d6f12d3c2a7e3bdb8a5e9f82c4" prot="public" virt="non-virtual"><scope>themis::training::CheckpointFaultResult</scope><name>reason</name></member>
+      <member refid="structthemis_1_1training_1_1_checkpoint_fault_result_1a365e0047c9672f47ba70a37d14ae2871" prot="public" virt="non-virtual"><scope>themis::training::CheckpointFaultResult</scope><name>recovery_path</name></member>
+      <member refid="structthemis_1_1training_1_1_checkpoint_fault_result_1aaee69dc085eca3f22e7abdd8b98ecd18" prot="public" virt="non-virtual"><scope>themis::training::CheckpointFaultResult</scope><name>RecoveryStrategy</name></member>
+      <member refid="structthemis_1_1training_1_1_checkpoint_fault_result_1a78e6fe81ab2fab69f86dba555ad154e4" prot="public" virt="non-virtual"><scope>themis::training::CheckpointFaultResult</scope><name>strategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

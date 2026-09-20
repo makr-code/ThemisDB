@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_list_adapters_stmt" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::ListAdaptersStmt</compoundname>
+    <includes refid="aql__train__parser_8h" local="no">aql_train_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_list_adapters_stmt_1af01f197e2a61a59042ac827d870761e9" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::llm::ListAdaptersStmt::base_model</definition>
+        <argsstring></argsstring>
+        <name>base_model</name>
+        <qualifiedname>themis::llm::ListAdaptersStmt::base_model</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="238" column="19" bodyfile="include/llm/aql_train_parser.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_list_adapters_stmt_1aa013891face33dc21831d18bae5f8cfd" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::llm::ListAdaptersStmt::domain</definition>
+        <argsstring></argsstring>
+        <name>domain</name>
+        <qualifiedname>themis::llm::ListAdaptersStmt::domain</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="239" column="19" bodyfile="include/llm/aql_train_parser.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_list_adapters_stmt_1a9f45437260e114c2c653c3de4603e2e1" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_adapter_metadata_1a983aa7d267d364d451971dd502f54bd2" kindref="member">AdapterMetadata::Status</ref> &gt;</type>
+        <definition>std::optional&lt;AdapterMetadata::Status&gt; themis::llm::ListAdaptersStmt::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::llm::ListAdaptersStmt::status</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="240" column="19" bodyfile="include/llm/aql_train_parser.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_list_adapters_stmt_1af5c619380550b41c750c23a1e02e95c1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ListAdaptersStmt::order_by</definition>
+        <argsstring></argsstring>
+        <name>order_by</name>
+        <qualifiedname>themis::llm::ListAdaptersStmt::order_by</qualifiedname>
+        <initializer>= &quot;created_at&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="241" column="17" bodyfile="include/llm/aql_train_parser.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_list_adapters_stmt_1a83b67edda0b9e8eb63c056572b19f47b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ListAdaptersStmt::descending</definition>
+        <argsstring></argsstring>
+        <name>descending</name>
+        <qualifiedname>themis::llm::ListAdaptersStmt::descending</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="242" column="10" bodyfile="include/llm/aql_train_parser.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_list_adapters_stmt_1a3d4acb931dd0fba3ec4894b958e9597b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::ListAdaptersStmt::limit</definition>
+        <argsstring></argsstring>
+        <name>limit</name>
+        <qualifiedname>themis::llm::ListAdaptersStmt::limit</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="243" column="9" bodyfile="include/llm/aql_train_parser.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_list_adapters_stmt_1a425c961ce68db83cbaec9feb9c4bbb06" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::llm::ListAdaptersStmt::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::ListAdaptersStmt::toJSON</qualifiedname>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="249" column="20" bodyfile="src/llm/aql_train_parser.cpp" bodystart="617" bodyend="629"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_list_adapters_stmt_1a7bdfb41b9272f633a445996790f0bfa3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_list_adapters_stmt" kindref="compound">ListAdaptersStmt</ref></type>
+        <definition>ListAdaptersStmt themis::llm::ListAdaptersStmt::fromJSON</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::llm::ListAdaptersStmt::fromJSON</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: contains(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="255" column="29" bodyfile="src/llm/aql_train_parser.cpp" bodystart="638" bodyend="661"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/aql_train_parser.h" line="237" column="1" bodyfile="include/llm/aql_train_parser.h" bodystart="237" bodyend="256"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_list_adapters_stmt_1af01f197e2a61a59042ac827d870761e9" prot="public" virt="non-virtual"><scope>themis::llm::ListAdaptersStmt</scope><name>base_model</name></member>
+      <member refid="structthemis_1_1llm_1_1_list_adapters_stmt_1a83b67edda0b9e8eb63c056572b19f47b" prot="public" virt="non-virtual"><scope>themis::llm::ListAdaptersStmt</scope><name>descending</name></member>
+      <member refid="structthemis_1_1llm_1_1_list_adapters_stmt_1aa013891face33dc21831d18bae5f8cfd" prot="public" virt="non-virtual"><scope>themis::llm::ListAdaptersStmt</scope><name>domain</name></member>
+      <member refid="structthemis_1_1llm_1_1_list_adapters_stmt_1a7bdfb41b9272f633a445996790f0bfa3" prot="public" virt="non-virtual"><scope>themis::llm::ListAdaptersStmt</scope><name>fromJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1_list_adapters_stmt_1a3d4acb931dd0fba3ec4894b958e9597b" prot="public" virt="non-virtual"><scope>themis::llm::ListAdaptersStmt</scope><name>limit</name></member>
+      <member refid="structthemis_1_1llm_1_1_list_adapters_stmt_1af5c619380550b41c750c23a1e02e95c1" prot="public" virt="non-virtual"><scope>themis::llm::ListAdaptersStmt</scope><name>order_by</name></member>
+      <member refid="structthemis_1_1llm_1_1_list_adapters_stmt_1a9f45437260e114c2c653c3de4603e2e1" prot="public" virt="non-virtual"><scope>themis::llm::ListAdaptersStmt</scope><name>status</name></member>
+      <member refid="structthemis_1_1llm_1_1_list_adapters_stmt_1a425c961ce68db83cbaec9feb9c4bbb06" prot="public" virt="non-virtual"><scope>themis::llm::ListAdaptersStmt</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

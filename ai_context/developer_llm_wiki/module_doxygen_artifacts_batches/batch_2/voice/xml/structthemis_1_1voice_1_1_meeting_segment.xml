@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_meeting_segment" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::MeetingSegment</compoundname>
+    <includes refid="voice__meeting__support_8h" local="no">voice_meeting_support.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_meeting_segment_1aa763111d0f30298ef1f16c1c50e7f72d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1acbee19c771ba379de245c39f4aa49c40" kindref="member">MeetingSegmentType</ref></type>
+        <definition>MeetingSegmentType themis::voice::MeetingSegment::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::voice::MeetingSegment::type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1voice_1acbee19c771ba379de245c39f4aa49c40a03570470bad94692ce93e32700d2e1cb" kindref="member">MeetingSegmentType::OTHER</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="51" column="24" bodyfile="include/voice/voice_meeting_support.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_meeting_segment_1a38d9cf0243c76b0584cfbe2ab15a1027" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::MeetingSegment::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::voice::MeetingSegment::text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="52" column="17" bodyfile="include/voice/voice_meeting_support.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_meeting_segment_1ac777e16fc8720374dfe0b5e16311f3e9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::MeetingSegment::speaker</definition>
+        <argsstring></argsstring>
+        <name>speaker</name>
+        <qualifiedname>themis::voice::MeetingSegment::speaker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="53" column="17" bodyfile="include/voice/voice_meeting_support.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_meeting_segment_1a136f0e51d79076be4d46c3ba349c8e89" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::MeetingSegment::start_ms</definition>
+        <argsstring></argsstring>
+        <name>start_ms</name>
+        <qualifiedname>themis::voice::MeetingSegment::start_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="54" column="13" bodyfile="include/voice/voice_meeting_support.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_meeting_segment_1a1225504453f77909ceca0994463694ea" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::MeetingSegment::end_ms</definition>
+        <argsstring></argsstring>
+        <name>end_ms</name>
+        <qualifiedname>themis::voice::MeetingSegment::end_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="55" column="13" bodyfile="include/voice/voice_meeting_support.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_meeting_segment_1abbe44164f9c82e00dcc3f86bf130a716" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::MeetingSegment::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::voice::MeetingSegment::confidence</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="56" column="11" bodyfile="include/voice/voice_meeting_support.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_meeting_segment_1afb35f3c362c341cc1fce87b890a84450" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref></type>
+        <definition>json themis::voice::MeetingSegment::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::voice::MeetingSegment::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="57" column="10" bodyfile="include/voice/voice_meeting_support.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_meeting_support.h" line="50" column="1" bodyfile="include/voice/voice_meeting_support.h" bodystart="50" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_meeting_segment_1abbe44164f9c82e00dcc3f86bf130a716" prot="public" virt="non-virtual"><scope>themis::voice::MeetingSegment</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1voice_1_1_meeting_segment_1a1225504453f77909ceca0994463694ea" prot="public" virt="non-virtual"><scope>themis::voice::MeetingSegment</scope><name>end_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_meeting_segment_1afb35f3c362c341cc1fce87b890a84450" prot="public" virt="non-virtual"><scope>themis::voice::MeetingSegment</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1voice_1_1_meeting_segment_1ac777e16fc8720374dfe0b5e16311f3e9" prot="public" virt="non-virtual"><scope>themis::voice::MeetingSegment</scope><name>speaker</name></member>
+      <member refid="structthemis_1_1voice_1_1_meeting_segment_1a136f0e51d79076be4d46c3ba349c8e89" prot="public" virt="non-virtual"><scope>themis::voice::MeetingSegment</scope><name>start_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_meeting_segment_1a38d9cf0243c76b0584cfbe2ab15a1027" prot="public" virt="non-virtual"><scope>themis::voice::MeetingSegment</scope><name>text</name></member>
+      <member refid="structthemis_1_1voice_1_1_meeting_segment_1aa763111d0f30298ef1f16c1c50e7f72d" prot="public" virt="non-virtual"><scope>themis::voice::MeetingSegment</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

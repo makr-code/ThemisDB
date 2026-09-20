@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structstubs_1_1_graph_store" kind="struct" language="C++" prot="public">
+    <compoundname>stubs::GraphStore</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structstubs_1_1_graph_store_1a7c64c7b802c7c3de4f742a872598b397" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; stubs::GraphStore::reads</definition>
+        <argsstring></argsstring>
+        <name>reads</name>
+        <qualifiedname>stubs::GraphStore::reads</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_highcardinality_stress.cpp" line="49" column="17" bodyfile="tests/tensor/test_tensor_highcardinality_stress.cpp" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="variable" id="structstubs_1_1_graph_store_1a5bb91fc86880be6a78823eff2e761d9d" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; stubs::GraphStore::writes</definition>
+        <argsstring></argsstring>
+        <name>writes</name>
+        <qualifiedname>stubs::GraphStore::writes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_highcardinality_stress.cpp" line="50" column="17" bodyfile="tests/tensor/test_tensor_highcardinality_stress.cpp" bodystart="50" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="variable" id="structstubs_1_1_graph_store_1a959e649a95300d5722271bb523e97851" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; stubs::GraphStore::read_errors</definition>
+        <argsstring></argsstring>
+        <name>read_errors</name>
+        <qualifiedname>stubs::GraphStore::read_errors</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_highcardinality_stress.cpp" line="51" column="17" bodyfile="tests/tensor/test_tensor_highcardinality_stress.cpp" bodystart="51" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="variable" id="structstubs_1_1_graph_store_1a575011b5d61c09f98076d74ba64dbf6e" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; stubs::GraphStore::write_errors</definition>
+        <argsstring></argsstring>
+        <name>write_errors</name>
+        <qualifiedname>stubs::GraphStore::write_errors</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_highcardinality_stress.cpp" line="52" column="17" bodyfile="tests/tensor/test_tensor_highcardinality_stress.cpp" bodystart="52" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structstubs_1_1_graph_store_1a8315cbba3543ddb32ad37cb0e62ce64e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool stubs::GraphStore::write_node</definition>
+        <argsstring>(uint64_t id)</argsstring>
+        <name>write_node</name>
+        <qualifiedname>stubs::GraphStore::write_node</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_highcardinality_stress.cpp" line="54" column="10" bodyfile="tests/tensor/test_tensor_highcardinality_stress.cpp" bodystart="54" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="structstubs_1_1_graph_store_1ae23c612826879661eaff4674a580f3fa" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool stubs::GraphStore::read_node</definition>
+        <argsstring>(uint64_t id)</argsstring>
+        <name>read_node</name>
+        <qualifiedname>stubs::GraphStore::read_node</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_highcardinality_stress.cpp" line="58" column="10" bodyfile="tests/tensor/test_tensor_highcardinality_stress.cpp" bodystart="58" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/tensor/test_tensor_highcardinality_stress.cpp" line="48" column="1" bodyfile="tests/tensor/test_tensor_highcardinality_stress.cpp" bodystart="48" bodyend="62"/>
+    <listofallmembers>
+      <member refid="structstubs_1_1_graph_store_1a959e649a95300d5722271bb523e97851" prot="public" virt="non-virtual"><scope>stubs::GraphStore</scope><name>read_errors</name></member>
+      <member refid="structstubs_1_1_graph_store_1ae23c612826879661eaff4674a580f3fa" prot="public" virt="non-virtual"><scope>stubs::GraphStore</scope><name>read_node</name></member>
+      <member refid="structstubs_1_1_graph_store_1a7c64c7b802c7c3de4f742a872598b397" prot="public" virt="non-virtual"><scope>stubs::GraphStore</scope><name>reads</name></member>
+      <member refid="structstubs_1_1_graph_store_1a575011b5d61c09f98076d74ba64dbf6e" prot="public" virt="non-virtual"><scope>stubs::GraphStore</scope><name>write_errors</name></member>
+      <member refid="structstubs_1_1_graph_store_1a8315cbba3543ddb32ad37cb0e62ce64e" prot="public" virt="non-virtual"><scope>stubs::GraphStore</scope><name>write_node</name></member>
+      <member refid="structstubs_1_1_graph_store_1a5bb91fc86880be6a78823eff2e761d9d" prot="public" virt="non-virtual"><scope>stubs::GraphStore</scope><name>writes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

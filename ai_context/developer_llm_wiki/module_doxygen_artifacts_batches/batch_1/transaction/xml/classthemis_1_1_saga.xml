@@ -1,0 +1,486 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_saga" kind="class" language="C++" prot="public">
+    <compoundname>themis::Saga</compoundname>
+    <includes refid="saga_8h" local="no">saga.h</includes>
+    <innerclass refid="structthemis_1_1_saga_1_1_step" prot="public">themis::Saga::Step</innerclass>
+    <innerclass refid="structthemis_1_1_saga_1_1_metrics" prot="public">themis::Saga::Metrics</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1_saga_1a7394921ffd05b8d51c3bcae615fd4875" prot="public" static="no">
+        <type>std::function&lt; void()&gt;</type>
+        <definition>using themis::Saga::CompensatingAction = std::function&lt;void()&gt;</definition>
+        <argsstring></argsstring>
+        <name>CompensatingAction</name>
+        <qualifiedname>themis::Saga::CompensatingAction</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga.h" line="34" column="5" bodyfile="include/transaction/saga.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_saga_1acf476b5ac50ce57b62c7598a82ef06a2" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_saga_1_1_step" kindref="compound">Step</ref> &gt;</type>
+        <definition>std::vector&lt;Step&gt; themis::Saga::steps_</definition>
+        <argsstring></argsstring>
+        <name>steps_</name>
+        <qualifiedname>themis::Saga::steps_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga.h" line="124" column="17" bodyfile="include/transaction/saga.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_saga_1a91fb01fb5df5100867b1b70d240a5d5f" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::Saga::compensated_</definition>
+        <argsstring></argsstring>
+        <name>compensated_</name>
+        <qualifiedname>themis::Saga::compensated_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga.h" line="125" column="10" bodyfile="include/transaction/saga.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_saga_1a53a707806b81c2ac8ba75c2905d4a8ba" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::Saga::metrics_failed_</definition>
+        <argsstring></argsstring>
+        <name>metrics_failed_</name>
+        <qualifiedname>themis::Saga::metrics_failed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga.h" line="128" column="14" bodyfile="include/transaction/saga.h" bodystart="128" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_saga_1a080caf810aaea01f26d8159141566b81" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::Saga::metrics_retried_</definition>
+        <argsstring></argsstring>
+        <name>metrics_retried_</name>
+        <qualifiedname>themis::Saga::metrics_retried_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga.h" line="129" column="14" bodyfile="include/transaction/saga.h" bodystart="129" bodyend="129"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_saga_1afe0d5413c74db0ecabbde1378d86470c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::Saga::Saga</definition>
+        <argsstring>()=default</argsstring>
+        <name>Saga</name>
+        <qualifiedname>themis::Saga::Saga</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga.h" line="48" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_saga_1a7ada0167c51225dbcad5d44265a57815" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::Saga::~Saga</definition>
+        <argsstring>()</argsstring>
+        <name>~Saga</name>
+        <qualifiedname>themis::Saga::~Saga</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga.h" line="49" column="5" bodyfile="src/transaction/saga.cpp" bodystart="24" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_saga_1a43301eb7953db50b7c1144dda7d99eb6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::Saga::Saga</definition>
+        <argsstring>(const Saga &amp;)=delete</argsstring>
+        <name>Saga</name>
+        <qualifiedname>themis::Saga::Saga</qualifiedname>
+        <param>
+          <type>const Saga &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga.h" line="52" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_saga_1a57a8ffbe20593ccb9dac7ad44b6d5bdf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_saga_1afe0d5413c74db0ecabbde1378d86470c" kindref="member">Saga</ref> &amp;</type>
+        <definition>Saga &amp; themis::Saga::operator=</definition>
+        <argsstring>(const Saga &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::Saga::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_saga_1afe0d5413c74db0ecabbde1378d86470c" kindref="member">Saga</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga.h" line="53" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_saga_1a29b842487cc2aaa3f0d16f20bd8b4f97" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::Saga::Saga</definition>
+        <argsstring>(Saga &amp;&amp;) noexcept=default</argsstring>
+        <name>Saga</name>
+        <qualifiedname>themis::Saga::Saga</qualifiedname>
+        <param>
+          <type>Saga &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga.h" line="54" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_saga_1a9344d8d978c912615aaab49563b38fbf" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_saga_1afe0d5413c74db0ecabbde1378d86470c" kindref="member">Saga</ref> &amp;</type>
+        <definition>Saga &amp; themis::Saga::operator=</definition>
+        <argsstring>(Saga &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::Saga::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_saga_1afe0d5413c74db0ecabbde1378d86470c" kindref="member">Saga</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga.h" line="55" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_saga_1a74337f3851c07306868e2bbb7b5f58d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::Saga::addStep</definition>
+        <argsstring>(std::string operation_name, CompensatingAction compensate)</argsstring>
+        <name>addStep</name>
+        <qualifiedname>themis::Saga::addStep</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>operation_name</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_saga_1a7394921ffd05b8d51c3bcae615fd4875" kindref="member">CompensatingAction</ref></type>
+          <declname>compensate</declname>
+        </param>
+        <briefdescription>
+<para>Add <ref refid="structthemis_1_1_saga_1_1_step" kindref="compound">Step</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">operation_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the operation. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">compensate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operation_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the operation. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">compensate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: emplace_back(), std::move(), THEMIS_DEBUG(), back(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga.h" line="62" column="10" bodyfile="src/transaction/saga.cpp" bodystart="37" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_saga_1a7c26ee562e59e43b242a6ab4fb4894ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::Saga::compensate</definition>
+        <argsstring>()</argsstring>
+        <name>compensate</name>
+        <qualifiedname>themis::Saga::compensate</qualifiedname>
+        <briefdescription>
+<para>Compensate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: THEMIS_WARN(), THEMIS_INFO(), size(), rbegin(), rend(), THEMIS_DEBUG(), THEMIS_ERROR(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga.h" line="67" column="10" bodyfile="src/transaction/saga.cpp" bodystart="46" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_saga_1a4c182d425dad23856af2faf3c2ade86a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::Saga::compensateWithRetry</definition>
+        <argsstring>(int max_retries=3, std::chrono::milliseconds backoff_ms=std::chrono::milliseconds(50))</argsstring>
+        <name>compensateWithRetry</name>
+        <qualifiedname>themis::Saga::compensateWithRetry</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>max_retries</declname>
+          <defval>3</defval>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>backoff_ms</declname>
+          <defval>std::chrono::milliseconds(50)</defval>
+        </param>
+        <briefdescription>
+<para>Compensate With Retry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">max_retries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">backoff_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: THEMIS_WARN(), std::min(), THEMIS_INFO(), size(), count(), rbegin(), rend(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga.h" line="69" column="10" bodyfile="src/transaction/saga.cpp" bodystart="143" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_saga_1a831dd0408811349225e7efe808a3ca00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::Saga::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::Saga::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: THEMIS_DEBUG(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga.h" line="75" column="10" bodyfile="src/transaction/saga.cpp" bodystart="85" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_saga_1a698df828688979fb70e44ecbf6a958eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::Saga::trimToSize</definition>
+        <argsstring>(size_t n)</argsstring>
+        <name>trimToSize</name>
+        <qualifiedname>themis::Saga::trimToSize</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Trim To Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), THEMIS_DEBUG(), erase(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga.h" line="81" column="10" bodyfile="src/transaction/saga.cpp" bodystart="99" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_saga_1a65ccd54cc644f9df0c5eb4f7bb262649" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::Saga::stepCount</definition>
+        <argsstring>() const</argsstring>
+        <name>stepCount</name>
+        <qualifiedname>themis::Saga::stepCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga.h" line="83" column="12" bodyfile="include/transaction/saga.h" bodystart="83" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_saga_1a980db5bf01c28e9ac9134c9202a0e2c9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::Saga::compensatedCount</definition>
+        <argsstring>() const</argsstring>
+        <name>compensatedCount</name>
+        <qualifiedname>themis::Saga::compensatedCount</qualifiedname>
+        <briefdescription>
+<para>Compensated Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga.h" line="89" column="12" bodyfile="src/transaction/saga.cpp" bodystart="108" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_saga_1adc629119ee573f6ecdc162fc5357120c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::Saga::isFullyCompensated</definition>
+        <argsstring>() const</argsstring>
+        <name>isFullyCompensated</name>
+        <qualifiedname>themis::Saga::isFullyCompensated</qualifiedname>
+        <briefdescription>
+<para>Is Fully Compensated. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga.h" line="95" column="10" bodyfile="src/transaction/saga.cpp" bodystart="113" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_saga_1ab6e4886f6192418bb07ecc5d2ffb0ef6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::Saga::getStepHistory</definition>
+        <argsstring>() const</argsstring>
+        <name>getStepHistory</name>
+        <qualifiedname>themis::Saga::getStepHistory</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1_saga_1_1_step" kindref="compound">Step</ref> History. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga.h" line="101" column="17" bodyfile="src/transaction/saga.cpp" bodystart="117" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_saga_1afc8a6476b8e669dfdbb87c9c46975edc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::Saga::getDurationMs</definition>
+        <argsstring>() const</argsstring>
+        <name>getDurationMs</name>
+        <qualifiedname>themis::Saga::getDurationMs</qualifiedname>
+        <briefdescription>
+<para>Get Duration Ms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga.h" line="107" column="13" bodyfile="src/transaction/saga.cpp" bodystart="128" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_saga_1ac202b6bd0e2093d204fe8dd85d88c08b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_saga_1_1_metrics" kindref="compound">Metrics</ref></type>
+        <definition>Saga::Metrics themis::Saga::getMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetrics</name>
+        <qualifiedname>themis::Saga::getMetrics</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1_saga_1_1_metrics" kindref="compound">Metrics</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga.h" line="121" column="13" bodyfile="src/transaction/saga.cpp" bodystart="208" bodyend="216"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/saga.h" line="32" column="1" bodyfile="include/transaction/saga.h" bodystart="32" bodyend="130"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_saga_1a74337f3851c07306868e2bbb7b5f58d4" prot="public" virt="non-virtual"><scope>themis::Saga</scope><name>addStep</name></member>
+      <member refid="classthemis_1_1_saga_1a831dd0408811349225e7efe808a3ca00" prot="public" virt="non-virtual"><scope>themis::Saga</scope><name>clear</name></member>
+      <member refid="classthemis_1_1_saga_1a7c26ee562e59e43b242a6ab4fb4894ee" prot="public" virt="non-virtual"><scope>themis::Saga</scope><name>compensate</name></member>
+      <member refid="classthemis_1_1_saga_1a91fb01fb5df5100867b1b70d240a5d5f" prot="private" virt="non-virtual"><scope>themis::Saga</scope><name>compensated_</name></member>
+      <member refid="classthemis_1_1_saga_1a980db5bf01c28e9ac9134c9202a0e2c9" prot="public" virt="non-virtual"><scope>themis::Saga</scope><name>compensatedCount</name></member>
+      <member refid="classthemis_1_1_saga_1a4c182d425dad23856af2faf3c2ade86a" prot="public" virt="non-virtual"><scope>themis::Saga</scope><name>compensateWithRetry</name></member>
+      <member refid="classthemis_1_1_saga_1a7394921ffd05b8d51c3bcae615fd4875" prot="public" virt="non-virtual"><scope>themis::Saga</scope><name>CompensatingAction</name></member>
+      <member refid="classthemis_1_1_saga_1afc8a6476b8e669dfdbb87c9c46975edc" prot="public" virt="non-virtual"><scope>themis::Saga</scope><name>getDurationMs</name></member>
+      <member refid="classthemis_1_1_saga_1ac202b6bd0e2093d204fe8dd85d88c08b" prot="public" virt="non-virtual"><scope>themis::Saga</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1_saga_1ab6e4886f6192418bb07ecc5d2ffb0ef6" prot="public" virt="non-virtual"><scope>themis::Saga</scope><name>getStepHistory</name></member>
+      <member refid="classthemis_1_1_saga_1adc629119ee573f6ecdc162fc5357120c" prot="public" virt="non-virtual"><scope>themis::Saga</scope><name>isFullyCompensated</name></member>
+      <member refid="classthemis_1_1_saga_1a53a707806b81c2ac8ba75c2905d4a8ba" prot="private" virt="non-virtual"><scope>themis::Saga</scope><name>metrics_failed_</name></member>
+      <member refid="classthemis_1_1_saga_1a080caf810aaea01f26d8159141566b81" prot="private" virt="non-virtual"><scope>themis::Saga</scope><name>metrics_retried_</name></member>
+      <member refid="classthemis_1_1_saga_1a57a8ffbe20593ccb9dac7ad44b6d5bdf" prot="public" virt="non-virtual"><scope>themis::Saga</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_saga_1a9344d8d978c912615aaab49563b38fbf" prot="public" virt="non-virtual"><scope>themis::Saga</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_saga_1afe0d5413c74db0ecabbde1378d86470c" prot="public" virt="non-virtual"><scope>themis::Saga</scope><name>Saga</name></member>
+      <member refid="classthemis_1_1_saga_1a43301eb7953db50b7c1144dda7d99eb6" prot="public" virt="non-virtual"><scope>themis::Saga</scope><name>Saga</name></member>
+      <member refid="classthemis_1_1_saga_1a29b842487cc2aaa3f0d16f20bd8b4f97" prot="public" virt="non-virtual"><scope>themis::Saga</scope><name>Saga</name></member>
+      <member refid="classthemis_1_1_saga_1a65ccd54cc644f9df0c5eb4f7bb262649" prot="public" virt="non-virtual"><scope>themis::Saga</scope><name>stepCount</name></member>
+      <member refid="classthemis_1_1_saga_1acf476b5ac50ce57b62c7598a82ef06a2" prot="private" virt="non-virtual"><scope>themis::Saga</scope><name>steps_</name></member>
+      <member refid="classthemis_1_1_saga_1a698df828688979fb70e44ecbf6a958eb" prot="public" virt="non-virtual"><scope>themis::Saga</scope><name>trimToSize</name></member>
+      <member refid="classthemis_1_1_saga_1a7ada0167c51225dbcad5d44265a57815" prot="public" virt="non-virtual"><scope>themis::Saga</scope><name>~Saga</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

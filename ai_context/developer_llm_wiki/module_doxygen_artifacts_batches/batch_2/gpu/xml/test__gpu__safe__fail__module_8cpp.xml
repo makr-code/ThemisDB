@@ -1,0 +1,704 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__gpu__safe__fail__module_8cpp" kind="file" language="C++">
+    <compoundname>test_gpu_safe_fail_module.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">themis/gpu/safe_fail.h</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">chrono</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/gpu/test_gpu_safe_fail_module.cpp</label>
+        <link refid="test__gpu__safe__fail__module_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>themis/gpu/safe_fail.h</label>
+      </node>
+      <node id="4">
+        <label>thread</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__gpu__safe__fail__module_8cpp_1a7f15850c56103188381aa256ea5e7f0c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>GPUSafeFail::Config</type>
+        <definition>static GPUSafeFail::Config FastConfig</definition>
+        <argsstring>()</argsstring>
+        <name>FastConfig</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_safe_fail_module.cpp" line="10" column="28" bodyfile="tests/gpu/test_gpu_safe_fail_module.cpp" bodystart="10" bodyend="17"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__safe__fail__module_8cpp_1aaeec410f05a3f5b992a1531d9655edf0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUSafeFailTest, InitialState_Healthy)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_g_p_u_safe_fail_test" kindref="compound">GPUSafeFailTest</ref></type>
+        </param>
+        <param>
+          <type>InitialState_Healthy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_safe_fail_module.cpp" line="23" column="1" bodyfile="tests/gpu/test_gpu_safe_fail_module.cpp" bodystart="23" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__safe__fail__module_8cpp_1a836645797d404680364a1135865d92be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUSafeFailTest, RecordSuccess_CountsOperation)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_g_p_u_safe_fail_test" kindref="compound">GPUSafeFailTest</ref></type>
+        </param>
+        <param>
+          <type>RecordSuccess_CountsOperation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_safe_fail_module.cpp" line="37" column="1" bodyfile="tests/gpu/test_gpu_safe_fail_module.cpp" bodystart="37" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__safe__fail__module_8cpp_1a955eb73324d82289cec5f9289d43bf60" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUSafeFailTest, RecordFailure_TransitionsToDegraded)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_g_p_u_safe_fail_test" kindref="compound">GPUSafeFailTest</ref></type>
+        </param>
+        <param>
+          <type>RecordFailure_TransitionsToDegraded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_safe_fail_module.cpp" line="50" column="1" bodyfile="tests/gpu/test_gpu_safe_fail_module.cpp" bodystart="50" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__safe__fail__module_8cpp_1a3437e1986ad4b50c4f4d4cc8890fadd6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUSafeFailTest, RecordFailure_ThresholdOpensCircuit)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_g_p_u_safe_fail_test" kindref="compound">GPUSafeFailTest</ref></type>
+        </param>
+        <param>
+          <type>RecordFailure_ThresholdOpensCircuit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_safe_fail_module.cpp" line="59" column="1" bodyfile="tests/gpu/test_gpu_safe_fail_module.cpp" bodystart="59" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__safe__fail__module_8cpp_1a49fcba60c1586d2cc77463dad388e2d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUSafeFailTest, RecordSuccess_AfterDegraded_RecoversToHealthy)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_g_p_u_safe_fail_test" kindref="compound">GPUSafeFailTest</ref></type>
+        </param>
+        <param>
+          <type>RecordSuccess_AfterDegraded_RecoversToHealthy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_safe_fail_module.cpp" line="69" column="1" bodyfile="tests/gpu/test_gpu_safe_fail_module.cpp" bodystart="69" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__safe__fail__module_8cpp_1acad576262b77900465e982c5490f46ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUSafeFailTest, Execute_GPUSucceeds_NoCPUFallback)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_g_p_u_safe_fail_test" kindref="compound">GPUSafeFailTest</ref></type>
+        </param>
+        <param>
+          <type>Execute_GPUSucceeds_NoCPUFallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_safe_fail_module.cpp" line="84" column="1" bodyfile="tests/gpu/test_gpu_safe_fail_module.cpp" bodystart="84" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__safe__fail__module_8cpp_1a7eb247b891de62fa7144593709409fe1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUSafeFailTest, Execute_GPUFails_FallbackToCPU)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_g_p_u_safe_fail_test" kindref="compound">GPUSafeFailTest</ref></type>
+        </param>
+        <param>
+          <type>Execute_GPUFails_FallbackToCPU</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_safe_fail_module.cpp" line="103" column="1" bodyfile="tests/gpu/test_gpu_safe_fail_module.cpp" bodystart="103" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__safe__fail__module_8cpp_1a820401533a4fe7e1339cdd9b7ed1da85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUSafeFailTest, Execute_CircuitOpen_GPUSkipped)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_g_p_u_safe_fail_test" kindref="compound">GPUSafeFailTest</ref></type>
+        </param>
+        <param>
+          <type>Execute_CircuitOpen_GPUSkipped</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_safe_fail_module.cpp" line="123" column="1" bodyfile="tests/gpu/test_gpu_safe_fail_module.cpp" bodystart="123" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__safe__fail__module_8cpp_1a199c78d74e1a0ac6d5d3673adb9a43df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUSafeFailTest, Execute_NoFallback_CircuitOpen_ReturnsFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_g_p_u_safe_fail_test" kindref="compound">GPUSafeFailTest</ref></type>
+        </param>
+        <param>
+          <type>Execute_NoFallback_CircuitOpen_ReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_safe_fail_module.cpp" line="146" column="1" bodyfile="tests/gpu/test_gpu_safe_fail_module.cpp" bodystart="146" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__safe__fail__module_8cpp_1ae6cae31e89e223f1646c2f308800fbd3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUSafeFailTest, Execute_GPUThrows_FallbackToCPU)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_g_p_u_safe_fail_test" kindref="compound">GPUSafeFailTest</ref></type>
+        </param>
+        <param>
+          <type>Execute_GPUThrows_FallbackToCPU</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_safe_fail_module.cpp" line="162" column="1" bodyfile="tests/gpu/test_gpu_safe_fail_module.cpp" bodystart="162" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__safe__fail__module_8cpp_1acefe3b0b2732e17882c97cfeac5fb225" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUSafeFailTest, CircuitReset_AfterTimeout)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_g_p_u_safe_fail_test" kindref="compound">GPUSafeFailTest</ref></type>
+        </param>
+        <param>
+          <type>CircuitReset_AfterTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_safe_fail_module.cpp" line="180" column="1" bodyfile="tests/gpu/test_gpu_safe_fail_module.cpp" bodystart="180" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__safe__fail__module_8cpp_1aa785c9005f9ba91db227f58585c469ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUSafeFailTest, ForceHealthy_ClearsCircuit)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_g_p_u_safe_fail_test" kindref="compound">GPUSafeFailTest</ref></type>
+        </param>
+        <param>
+          <type>ForceHealthy_ClearsCircuit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_safe_fail_module.cpp" line="201" column="1" bodyfile="tests/gpu/test_gpu_safe_fail_module.cpp" bodystart="201" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__safe__fail__module_8cpp_1a87200b46a68ac4bb33f37aa99c08e8c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUSafeFailTest, ForceFailed_BlocksGPU)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_g_p_u_safe_fail_test" kindref="compound">GPUSafeFailTest</ref></type>
+        </param>
+        <param>
+          <type>ForceFailed_BlocksGPU</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_safe_fail_module.cpp" line="213" column="1" bodyfile="tests/gpu/test_gpu_safe_fail_module.cpp" bodystart="213" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__safe__fail__module_8cpp_1ac85e8643c37541de6e39ffd6a266efd2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUSafeFailTest, ErrorRate_CalculatedCorrectly)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_g_p_u_safe_fail_test" kindref="compound">GPUSafeFailTest</ref></type>
+        </param>
+        <param>
+          <type>ErrorRate_CalculatedCorrectly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_safe_fail_module.cpp" line="226" column="1" bodyfile="tests/gpu/test_gpu_safe_fail_module.cpp" bodystart="226" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__safe__fail__module_8cpp_1abaae79c011c8bb509224d117422193c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUSafeFailTest, CheckMemory_Sufficient)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_g_p_u_safe_fail_test" kindref="compound">GPUSafeFailTest</ref></type>
+        </param>
+        <param>
+          <type>CheckMemory_Sufficient</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_safe_fail_module.cpp" line="246" column="1" bodyfile="tests/gpu/test_gpu_safe_fail_module.cpp" bodystart="246" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__safe__fail__module_8cpp_1a5dfc960924ba3f81d16e08bf4f03ab6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUSafeFailTest, CheckMemory_InsufficientBytes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_g_p_u_safe_fail_test" kindref="compound">GPUSafeFailTest</ref></type>
+        </param>
+        <param>
+          <type>CheckMemory_InsufficientBytes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_safe_fail_module.cpp" line="251" column="1" bodyfile="tests/gpu/test_gpu_safe_fail_module.cpp" bodystart="251" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__safe__fail__module_8cpp_1a20f0a4a46f14db3024d48d9e7b48e429" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUSafeFailTest, CheckMemory_AboveOOMThreshold)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_g_p_u_safe_fail_test" kindref="compound">GPUSafeFailTest</ref></type>
+        </param>
+        <param>
+          <type>CheckMemory_AboveOOMThreshold</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_safe_fail_module.cpp" line="256" column="1" bodyfile="tests/gpu/test_gpu_safe_fail_module.cpp" bodystart="256" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__safe__fail__module_8cpp_1ada031153e1d9d9da1d70e163e99af9c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUSafeFailTest, CheckMemory_BelowOOMThreshold)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_g_p_u_safe_fail_test" kindref="compound">GPUSafeFailTest</ref></type>
+        </param>
+        <param>
+          <type>CheckMemory_BelowOOMThreshold</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_safe_fail_module.cpp" line="264" column="1" bodyfile="tests/gpu/test_gpu_safe_fail_module.cpp" bodystart="264" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__safe__fail__module_8cpp_1a52a9b7af2604d887b4c7ca10a95582e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUSafeFailTest, TotalFallbacks_CountsAllFallbackOps)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_g_p_u_safe_fail_test" kindref="compound">GPUSafeFailTest</ref></type>
+        </param>
+        <param>
+          <type>TotalFallbacks_CountsAllFallbackOps</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_safe_fail_module.cpp" line="276" column="1" bodyfile="tests/gpu/test_gpu_safe_fail_module.cpp" bodystart="276" bodyend="285"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/safe_fail.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu" kindref="compound">themis::gpu</ref>;</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper:<sp/>build<sp/>a<sp/>config<sp/>with<sp/>a<sp/>short<sp/>reset<sp/>timeout<sp/>so<sp/>circuit<sp/>tests<sp/>don&apos;t</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>take<sp/>long.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>GPUSafeFail::Config<sp/>FastConfig()<sp/>{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUSafeFail::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.failure_threshold<sp/><sp/><sp/><sp/><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.success_threshold<sp/><sp/><sp/><sp/><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.circuit_reset_timeout<sp/>=<sp/>std::chrono::seconds(1);</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_cpu_fallback<sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Initial<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><ref refid="test__gpu__safe__fail__module_8cpp_1aaeec410f05a3f5b992a1531d9655edf0" kindref="member">TEST</ref>(<ref refid="class_g_p_u_safe_fail_test" kindref="compound">GPUSafeFailTest</ref>,<sp/>InitialState_Healthy)<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUSafeFail<sp/>sf;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sf.isHealthy());</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sf.shouldAttemptGPU());</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>sf.getStatus();</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.state,<sp/>GPUSafeFail::State::HEALTHY);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.consecutive_failures,<sp/>0u);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.total_operations,<sp/>0u);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RecordSuccess</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><ref refid="test__gpu__safe__fail__module_8cpp_1aaeec410f05a3f5b992a1531d9655edf0" kindref="member">TEST</ref>(<ref refid="class_g_p_u_safe_fail_test" kindref="compound">GPUSafeFailTest</ref>,<sp/>RecordSuccess_CountsOperation)<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUSafeFail<sp/>sf;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>sf.recordSuccess();</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>sf.getStatus();</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.total_operations,<sp/>1u);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.consecutive_successes,<sp/>1u);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.state,<sp/>GPUSafeFail::State::HEALTHY);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RecordFailure<sp/>—<sp/>state<sp/>transitions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><ref refid="test__gpu__safe__fail__module_8cpp_1aaeec410f05a3f5b992a1531d9655edf0" kindref="member">TEST</ref>(<ref refid="class_g_p_u_safe_fail_test" kindref="compound">GPUSafeFailTest</ref>,<sp/>RecordFailure_TransitionsToDegraded)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUSafeFail<sp/>sf(FastConfig());</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>sf.recordFailure(GPUSafeFail::FailureType::MEMORY_ERROR,<sp/></highlight><highlight class="stringliteral">&quot;OOM&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>sf.getStatus();</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.state,<sp/>GPUSafeFail::State::DEGRADED);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sf.isHealthy());<sp/><sp/></highlight><highlight class="comment">//<sp/>DEGRADED<sp/>still<sp/>counts<sp/>as<sp/>healthy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sf.shouldAttemptGPU());</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><ref refid="test__gpu__safe__fail__module_8cpp_1aaeec410f05a3f5b992a1531d9655edf0" kindref="member">TEST</ref>(<ref refid="class_g_p_u_safe_fail_test" kindref="compound">GPUSafeFailTest</ref>,<sp/>RecordFailure_ThresholdOpensCircuit)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUSafeFail<sp/>sf(FastConfig());</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>FastConfig().failure_threshold;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sf.recordFailure(GPUSafeFail::FailureType::DEVICE_ERROR,<sp/></highlight><highlight class="stringliteral">&quot;err&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sf.getStatus().state,<sp/>GPUSafeFail::State::CIRCUIT_OPEN);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(sf.shouldAttemptGPU());</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(sf.isHealthy());</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><ref refid="test__gpu__safe__fail__module_8cpp_1aaeec410f05a3f5b992a1531d9655edf0" kindref="member">TEST</ref>(<ref refid="class_g_p_u_safe_fail_test" kindref="compound">GPUSafeFailTest</ref>,<sp/>RecordSuccess_AfterDegraded_RecoversToHealthy)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUSafeFail<sp/>sf(FastConfig());</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>sf.recordFailure(GPUSafeFail::FailureType::TIMEOUT,<sp/></highlight><highlight class="stringliteral">&quot;slow&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sf.getStatus().state,<sp/>GPUSafeFail::State::DEGRADED);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>FastConfig().success_threshold;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sf.recordSuccess();</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sf.getStatus().state,<sp/>GPUSafeFail::State::HEALTHY);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>executeWithFallback<sp/>—<sp/>happy<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><ref refid="test__gpu__safe__fail__module_8cpp_1aaeec410f05a3f5b992a1531d9655edf0" kindref="member">TEST</ref>(<ref refid="class_g_p_u_safe_fail_test" kindref="compound">GPUSafeFailTest</ref>,<sp/>Execute_GPUSucceeds_NoCPUFallback)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUSafeFail<sp/>sf(FastConfig());</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>gpu_ran<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>cpu_ran<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>sf.executeWithFallback(</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;]<sp/>{<sp/>gpu_ran<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>},</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;]<sp/>{<sp/>cpu_ran<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>},</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;op&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ok);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(gpu_ran);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cpu_ran);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sf.getStatus().total_fallbacks,<sp/>0u);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>executeWithFallback<sp/>—<sp/>GPU<sp/>fails,<sp/>CPU<sp/>saves<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><ref refid="test__gpu__safe__fail__module_8cpp_1aaeec410f05a3f5b992a1531d9655edf0" kindref="member">TEST</ref>(<ref refid="class_g_p_u_safe_fail_test" kindref="compound">GPUSafeFailTest</ref>,<sp/>Execute_GPUFails_FallbackToCPU)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUSafeFail<sp/>sf(FastConfig());</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>gpu_ran<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>cpu_ran<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>sf.executeWithFallback(</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;]<sp/>{<sp/>gpu_ran<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/>},</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;]<sp/>{<sp/>cpu_ran<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>},</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;op&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ok);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(gpu_ran);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cpu_ran);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sf.getStatus().total_fallbacks,<sp/>1u);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sf.getStatus().cpu_fallback_active);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>executeWithFallback<sp/>—<sp/>circuit<sp/>open,<sp/>GPU<sp/>skipped</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><ref refid="test__gpu__safe__fail__module_8cpp_1aaeec410f05a3f5b992a1531d9655edf0" kindref="member">TEST</ref>(<ref refid="class_g_p_u_safe_fail_test" kindref="compound">GPUSafeFailTest</ref>,<sp/>Execute_CircuitOpen_GPUSkipped)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUSafeFail<sp/>sf(FastConfig());</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Open<sp/>the<sp/>circuit.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>FastConfig().failure_threshold;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sf.recordFailure(GPUSafeFail::FailureType::DEVICE_ERROR,<sp/></highlight><highlight class="stringliteral">&quot;err&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(sf.shouldAttemptGPU());</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>gpu_ran<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>cpu_ran<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>sf.executeWithFallback(</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;]<sp/>{<sp/>gpu_ran<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>},</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;]<sp/>{<sp/>cpu_ran<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>},</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;op&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ok);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(gpu_ran);<sp/><sp/></highlight><highlight class="comment">//<sp/>GPU<sp/>must<sp/>not<sp/>be<sp/>attempted<sp/>when<sp/>circuit<sp/>is<sp/>open</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cpu_ran);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>executeWithFallback<sp/>—<sp/>no<sp/>fallback<sp/>provided,<sp/>fails</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><ref refid="test__gpu__safe__fail__module_8cpp_1aaeec410f05a3f5b992a1531d9655edf0" kindref="member">TEST</ref>(<ref refid="class_g_p_u_safe_fail_test" kindref="compound">GPUSafeFailTest</ref>,<sp/>Execute_NoFallback_CircuitOpen_ReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUSafeFail<sp/>sf(FastConfig());</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>FastConfig().failure_threshold;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sf.recordFailure(GPUSafeFail::FailureType::DEVICE_ERROR,<sp/></highlight><highlight class="stringliteral">&quot;err&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>sf.executeWithFallback(</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[]<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>},</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;op&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ok);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>executeWithFallback<sp/>—<sp/>GPU<sp/>throws,<sp/>fallback<sp/>saves<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><ref refid="test__gpu__safe__fail__module_8cpp_1aaeec410f05a3f5b992a1531d9655edf0" kindref="member">TEST</ref>(<ref refid="class_g_p_u_safe_fail_test" kindref="compound">GPUSafeFailTest</ref>,<sp/>Execute_GPUThrows_FallbackToCPU)<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUSafeFail<sp/>sf(FastConfig());</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>cpu_ran<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>sf.executeWithFallback(</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[]<sp/>{<sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;kernel<sp/>crash&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/>},</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;]<sp/>{<sp/>cpu_ran<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>},</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;op&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ok);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cpu_ran);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(sf.getStatus().total_failures,<sp/>1u);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Circuit<sp/>reset</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><ref refid="test__gpu__safe__fail__module_8cpp_1aaeec410f05a3f5b992a1531d9655edf0" kindref="member">TEST</ref>(<ref refid="class_g_p_u_safe_fail_test" kindref="compound">GPUSafeFailTest</ref>,<sp/>CircuitReset_AfterTimeout)<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUSafeFail<sp/>sf(FastConfig());</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>FastConfig().failure_threshold;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sf.recordFailure(GPUSafeFail::FailureType::DEVICE_ERROR,<sp/></highlight><highlight class="stringliteral">&quot;err&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sf.getStatus().state,<sp/>GPUSafeFail::State::CIRCUIT_OPEN);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(sf.canResetCircuit());<sp/><sp/></highlight><highlight class="comment">//<sp/>too<sp/>soon</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(FastConfig().circuit_reset_timeout<sp/>+</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds(100));</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sf.canResetCircuit());</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>sf.tryResetCircuit();</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sf.getStatus().state,<sp/>GPUSafeFail::State::DEGRADED);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sf.shouldAttemptGPU());</highlight></codeline>
+<codeline lineno="195"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Force<sp/>states</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><ref refid="test__gpu__safe__fail__module_8cpp_1aaeec410f05a3f5b992a1531d9655edf0" kindref="member">TEST</ref>(<ref refid="class_g_p_u_safe_fail_test" kindref="compound">GPUSafeFailTest</ref>,<sp/>ForceHealthy_ClearsCircuit)<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUSafeFail<sp/>sf(FastConfig());</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>FastConfig().failure_threshold;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sf.recordFailure(GPUSafeFail::FailureType::DEVICE_ERROR,<sp/></highlight><highlight class="stringliteral">&quot;err&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(sf.isHealthy());</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>sf.forceHealthy();</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sf.isHealthy());</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sf.shouldAttemptGPU());</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sf.getStatus().state,<sp/>GPUSafeFail::State::HEALTHY);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><ref refid="test__gpu__safe__fail__module_8cpp_1aaeec410f05a3f5b992a1531d9655edf0" kindref="member">TEST</ref>(<ref refid="class_g_p_u_safe_fail_test" kindref="compound">GPUSafeFailTest</ref>,<sp/>ForceFailed_BlocksGPU)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUSafeFail<sp/>sf;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>sf.forceFailed(</highlight><highlight class="stringliteral">&quot;maintenance&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(sf.isHealthy());</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(sf.shouldAttemptGPU());</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sf.getStatus().state,<sp/>GPUSafeFail::State::FAILED);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sf.getStatus().last_error,<sp/></highlight><highlight class="stringliteral">&quot;maintenance&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Error<sp/>rate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><ref refid="test__gpu__safe__fail__module_8cpp_1aaeec410f05a3f5b992a1531d9655edf0" kindref="member">TEST</ref>(<ref refid="class_g_p_u_safe_fail_test" kindref="compound">GPUSafeFailTest</ref>,<sp/>ErrorRate_CalculatedCorrectly)<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUSafeFail<sp/>sf;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>3<sp/>successes<sp/>—<sp/>no<sp/>fallback<sp/>provided,<sp/>GPU<sp/>succeeds.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>sf.executeWithFallback([]<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>},<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ok&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(ok);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2<sp/>failures<sp/>—<sp/>no<sp/>fallback<sp/>provided,<sp/>operation<sp/>returns<sp/>false.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>2;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>sf.executeWithFallback([]<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/>},<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;fail&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(ok);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>5<sp/>total<sp/>ops,<sp/>2<sp/>failures<sp/>→<sp/>rate<sp/>=<sp/>0.4</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(sf.getErrorRate(),<sp/>0.4f,<sp/>0.01f);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight><highlight class="comment">//<sp/>checkMemoryAvailable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><ref refid="test__gpu__safe__fail__module_8cpp_1aaeec410f05a3f5b992a1531d9655edf0" kindref="member">TEST</ref>(<ref refid="class_g_p_u_safe_fail_test" kindref="compound">GPUSafeFailTest</ref>,<sp/>CheckMemory_Sufficient)<sp/>{</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUSafeFail<sp/>sf;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sf.checkMemoryAvailable(100,<sp/>500,<sp/>1000));</highlight></codeline>
+<codeline lineno="249"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><ref refid="test__gpu__safe__fail__module_8cpp_1aaeec410f05a3f5b992a1531d9655edf0" kindref="member">TEST</ref>(<ref refid="class_g_p_u_safe_fail_test" kindref="compound">GPUSafeFailTest</ref>,<sp/>CheckMemory_InsufficientBytes)<sp/>{</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUSafeFail<sp/>sf;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(sf.checkMemoryAvailable(600,<sp/>500,<sp/>1000));</highlight></codeline>
+<codeline lineno="254"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><ref refid="test__gpu__safe__fail__module_8cpp_1aaeec410f05a3f5b992a1531d9655edf0" kindref="member">TEST</ref>(<ref refid="class_g_p_u_safe_fail_test" kindref="compound">GPUSafeFailTest</ref>,<sp/>CheckMemory_AboveOOMThreshold)<sp/>{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUSafeFail::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.oom_threshold<sp/>=<sp/>0.90f;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUSafeFail<sp/>sf(cfg);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>950/1000<sp/>used<sp/>→<sp/>95%<sp/>&gt;<sp/>threshold<sp/>of<sp/>90%,<sp/>only<sp/>50<sp/>left,<sp/>requesting<sp/>30.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(sf.checkMemoryAvailable(30,<sp/>50,<sp/>1000));</highlight></codeline>
+<codeline lineno="262"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><ref refid="test__gpu__safe__fail__module_8cpp_1aaeec410f05a3f5b992a1531d9655edf0" kindref="member">TEST</ref>(<ref refid="class_g_p_u_safe_fail_test" kindref="compound">GPUSafeFailTest</ref>,<sp/>CheckMemory_BelowOOMThreshold)<sp/>{</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUSafeFail::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.oom_threshold<sp/>=<sp/>0.90f;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUSafeFail<sp/>sf(cfg);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>800/1000<sp/>used<sp/>→<sp/>80%<sp/>&lt;<sp/>threshold<sp/>of<sp/>90%,<sp/>200<sp/>left,<sp/>requesting<sp/>100.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sf.checkMemoryAvailable(100,<sp/>200,<sp/>1000));</highlight></codeline>
+<codeline lineno="270"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Total<sp/>fallback<sp/>counter<sp/>across<sp/>multiple<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><ref refid="test__gpu__safe__fail__module_8cpp_1aaeec410f05a3f5b992a1531d9655edf0" kindref="member">TEST</ref>(<ref refid="class_g_p_u_safe_fail_test" kindref="compound">GPUSafeFailTest</ref>,<sp/>TotalFallbacks_CountsAllFallbackOps)<sp/>{</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUSafeFail<sp/>sf(FastConfig());</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>4;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sf.executeWithFallback(</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[]<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/>},</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[]<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>},</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;op&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sf.getStatus().total_fallbacks,<sp/>4u);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/gpu/test_gpu_safe_fail_module.cpp"/>
+  </compounddef>
+</doxygen>

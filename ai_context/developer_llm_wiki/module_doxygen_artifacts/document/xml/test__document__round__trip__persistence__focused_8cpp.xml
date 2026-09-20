@@ -1,0 +1,715 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__document__round__trip__persistence__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_document_round_trip_persistence_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="document__store_8h" local="yes">document/document_store.h</includes>
+    <includes refid="round__trip__editor_8h" local="yes">document/round_trip_editor.h</includes>
+    <includes local="no">iomanip</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">sstream</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>document/document_store.h</label>
+        <link refid="document__store_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>document/round_trip_editor.h</label>
+        <link refid="round__trip__editor_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/document/test_document_round_trip_persistence_focused.cpp</label>
+        <link refid="test__document__round__trip__persistence__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="7">
+        <label>cstddef</label>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="16">
+        <label>iomanip</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="5">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="11">
+        <label>optional</label>
+      </node>
+      <node id="17">
+        <label>sstream</label>
+      </node>
+      <node id="12">
+        <label>string</label>
+      </node>
+      <node id="13">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="14">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_failing_document_store" prot="public">FailingDocumentStore</innerclass>
+    <innerclass refid="class_round_trip_persistence_test" prot="public">RoundTripPersistenceTest</innerclass>
+    <innerclass refid="class_round_trip_diagnostics_test" prot="public">RoundTripDiagnosticsTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__document__round__trip__persistence__focused_8cpp_1aa65affad32ed7d71c91048c7e556d689" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RoundTripPersistenceTest, RTP01_BeginRelayStoresSeedAtIndexZero)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_round_trip_persistence_test" kindref="compound">RoundTripPersistenceTest</ref></type>
+        </param>
+        <param>
+          <type>RTP01_BeginRelayStoresSeedAtIndexZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_round_trip_persistence_focused.cpp" line="155" column="1" bodyfile="tests/document/test_document_round_trip_persistence_focused.cpp" bodystart="155" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="test__document__round__trip__persistence__focused_8cpp_1a06dd5d5ca45cdd89c6a08b219b48b4e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RoundTripPersistenceTest, RTP02_SaveInteractionAtIndex1_DistinctFromSeed)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_round_trip_persistence_test" kindref="compound">RoundTripPersistenceTest</ref></type>
+        </param>
+        <param>
+          <type>RTP02_SaveInteractionAtIndex1_DistinctFromSeed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_round_trip_persistence_focused.cpp" line="167" column="1" bodyfile="tests/document/test_document_round_trip_persistence_focused.cpp" bodystart="167" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="test__document__round__trip__persistence__focused_8cpp_1a16c88112fc5f9e3bb591ff6a1b06969e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RoundTripPersistenceTest, RTP03_CountSnapshotsConsistentWithSaves)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_round_trip_persistence_test" kindref="compound">RoundTripPersistenceTest</ref></type>
+        </param>
+        <param>
+          <type>RTP03_CountSnapshotsConsistentWithSaves</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_round_trip_persistence_focused.cpp" line="184" column="1" bodyfile="tests/document/test_document_round_trip_persistence_focused.cpp" bodystart="184" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="test__document__round__trip__persistence__focused_8cpp_1a4e90f600bc8c0399c2842b103a0f698f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RoundTripPersistenceTest, RTP04_SnapshotIdsDeterministic)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_round_trip_persistence_test" kindref="compound">RoundTripPersistenceTest</ref></type>
+        </param>
+        <param>
+          <type>RTP04_SnapshotIdsDeterministic</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_round_trip_persistence_focused.cpp" line="196" column="1" bodyfile="tests/document/test_document_round_trip_persistence_focused.cpp" bodystart="196" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="test__document__round__trip__persistence__focused_8cpp_1a6df970b0c09a1f636ef60cfa555a87bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RoundTripPersistenceTest, RTP05_StoreDirectlyConfirmsSnapshotKey)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_round_trip_persistence_test" kindref="compound">RoundTripPersistenceTest</ref></type>
+        </param>
+        <param>
+          <type>RTP05_StoreDirectlyConfirmsSnapshotKey</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_round_trip_persistence_focused.cpp" line="215" column="1" bodyfile="tests/document/test_document_round_trip_persistence_focused.cpp" bodystart="215" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="test__document__round__trip__persistence__focused_8cpp_1a285f2889078e2db77d124b41d0d3e7b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RoundTripPersistenceTest, RTP06_LoadIndex0_ReturnsSeedExactly)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_round_trip_persistence_test" kindref="compound">RoundTripPersistenceTest</ref></type>
+        </param>
+        <param>
+          <type>RTP06_LoadIndex0_ReturnsSeedExactly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_round_trip_persistence_focused.cpp" line="228" column="1" bodyfile="tests/document/test_document_round_trip_persistence_focused.cpp" bodystart="228" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="test__document__round__trip__persistence__focused_8cpp_1ab37dfb39e71473aec04e76143a83ece5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RoundTripPersistenceTest, RTP07_LoadIndexN_ReturnsNthInteractionExactly)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_round_trip_persistence_test" kindref="compound">RoundTripPersistenceTest</ref></type>
+        </param>
+        <param>
+          <type>RTP07_LoadIndexN_ReturnsNthInteractionExactly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_round_trip_persistence_focused.cpp" line="240" column="1" bodyfile="tests/document/test_document_round_trip_persistence_focused.cpp" bodystart="240" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="test__document__round__trip__persistence__focused_8cpp_1a9960129c4372c590d26fbe8b1afebfea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RoundTripPersistenceTest, RTP08_NonAlphanumericRelayId_ValidSnapshotIds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_round_trip_persistence_test" kindref="compound">RoundTripPersistenceTest</ref></type>
+        </param>
+        <param>
+          <type>RTP08_NonAlphanumericRelayId_ValidSnapshotIds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_round_trip_persistence_focused.cpp" line="256" column="1" bodyfile="tests/document/test_document_round_trip_persistence_focused.cpp" bodystart="256" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="test__document__round__trip__persistence__focused_8cpp_1a3623a137f444ec5038eb8e46e4284ef1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RoundTripPersistenceTest, RTP09_LargeInteractionIndex_CorrectTenDigitId)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_round_trip_persistence_test" kindref="compound">RoundTripPersistenceTest</ref></type>
+        </param>
+        <param>
+          <type>RTP09_LargeInteractionIndex_CorrectTenDigitId</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_round_trip_persistence_focused.cpp" line="273" column="1" bodyfile="tests/document/test_document_round_trip_persistence_focused.cpp" bodystart="273" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="test__document__round__trip__persistence__focused_8cpp_1a7e956bedf2eaad8256c859076a4f343d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RoundTripPersistenceTest, RTP10_SnapshotBodyContainsAllRequiredFields)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_round_trip_persistence_test" kindref="compound">RoundTripPersistenceTest</ref></type>
+        </param>
+        <param>
+          <type>RTP10_SnapshotBodyContainsAllRequiredFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_round_trip_persistence_focused.cpp" line="288" column="1" bodyfile="tests/document/test_document_round_trip_persistence_focused.cpp" bodystart="288" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="test__document__round__trip__persistence__focused_8cpp_1a967ddd57aae499f286bc92327ac056db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RoundTripDiagnosticsTest, RTD01_BeginRelayStoreFailure_PropagatesError)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_round_trip_diagnostics_test" kindref="compound">RoundTripDiagnosticsTest</ref></type>
+        </param>
+        <param>
+          <type>RTD01_BeginRelayStoreFailure_PropagatesError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_round_trip_persistence_focused.cpp" line="330" column="1" bodyfile="tests/document/test_document_round_trip_persistence_focused.cpp" bodystart="330" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="test__document__round__trip__persistence__focused_8cpp_1a6323710c2e8886be8b3a03b81497933c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RoundTripDiagnosticsTest, RTD02_SaveInteractionStoreFailure_PropagatesError)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_round_trip_diagnostics_test" kindref="compound">RoundTripDiagnosticsTest</ref></type>
+        </param>
+        <param>
+          <type>RTD02_SaveInteractionStoreFailure_PropagatesError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_round_trip_persistence_focused.cpp" line="338" column="1" bodyfile="tests/document/test_document_round_trip_persistence_focused.cpp" bodystart="338" bodyend="343"/>
+      </memberdef>
+      <memberdef kind="function" id="test__document__round__trip__persistence__focused_8cpp_1afd9277d43ad6e5f744808ccb2b5ba1f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RoundTripDiagnosticsTest, RTD03_LoadInteractionStoreFailure_PropagatesError)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_round_trip_diagnostics_test" kindref="compound">RoundTripDiagnosticsTest</ref></type>
+        </param>
+        <param>
+          <type>RTD03_LoadInteractionStoreFailure_PropagatesError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_round_trip_persistence_focused.cpp" line="346" column="1" bodyfile="tests/document/test_document_round_trip_persistence_focused.cpp" bodystart="346" bodyend="351"/>
+      </memberdef>
+      <memberdef kind="function" id="test__document__round__trip__persistence__focused_8cpp_1aee9240b3e97ca6f2817b222cbc30627e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RoundTripDiagnosticsTest, RTD04_CountSnapshotsStoreListFailure_PropagatesError)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_round_trip_diagnostics_test" kindref="compound">RoundTripDiagnosticsTest</ref></type>
+        </param>
+        <param>
+          <type>RTD04_CountSnapshotsStoreListFailure_PropagatesError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_round_trip_persistence_focused.cpp" line="354" column="1" bodyfile="tests/document/test_document_round_trip_persistence_focused.cpp" bodystart="354" bodyend="359"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Round-trip persistence diagnostics — store-backed snapshot correctness and failure-path propagation hardening tests. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Covers two test categories addressing MODULE_GAPS.md DOC-AUD-02:</para>
+<para><itemizedlist>
+<listitem><para>RoundTripPersistence (RTP-01 … RTP-10): store-backed snapshot correctness</para>
+</listitem><listitem><para>RoundTripDiagnostics (RTD-01 … RTD-04): failure-path propagation via a controlled <ref refid="class_failing_document_store" kindref="compound">FailingDocumentStore</ref></para>
+</listitem></itemizedlist>
+</para>
+<para>The <ref refid="class_failing_document_store" kindref="compound">FailingDocumentStore</ref> test double is used exclusively in RTD tests to exercise the error propagation paths in <ref refid="classthemis_1_1document_1_1_store_backed_round_trip_editor" kindref="compound">StoreBackedRoundTripEditor</ref> without coupling to production storage subsystems.</para>
+<para><simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Target: Q3–Q4 2026 hardening sprint (DOC-AUD-02) </para>
+</simplesect>
+<simplesect kind="version"><para>1.0.0 SPDX-License-Identifier: Apache-2.0 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="23"><highlight class="comment"><sp/>*<sp/>ThemisDB<sp/>—<sp/>Document<sp/>Module<sp/>Round-Trip<sp/>Persistence<sp/>Tests</highlight></codeline>
+<codeline lineno="24"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="25"><highlight class="comment"><sp/>*<sp/>File:<sp/><sp/><sp/><sp/>test_document_round_trip_persistence_focused.cpp</highlight></codeline>
+<codeline lineno="26"><highlight class="comment"><sp/>*<sp/>Module:<sp/><sp/>tests/document/</highlight></codeline>
+<codeline lineno="27"><highlight class="comment"><sp/>*<sp/>Purpose:<sp/>Focused<sp/>regression<sp/>and<sp/>diagnostics<sp/>tests<sp/>for<sp/>StoreBackedRoundTripEditor</highlight></codeline>
+<codeline lineno="28"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>snapshot<sp/>storage,<sp/>ID<sp/>determinism,<sp/>field<sp/>correctness,<sp/>and<sp/>error<sp/>propagation.</highlight></codeline>
+<codeline lineno="29"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="30"><highlight class="comment"><sp/>*<sp/>Version:<sp/>1.0.0</highlight></codeline>
+<codeline lineno="31"><highlight class="comment"><sp/>*<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight></codeline>
+<codeline lineno="32"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="document__store_8h" kindref="compound">document/document_store.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="round__trip__editor_8h" kindref="compound">document/round_trip_editor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iomanip&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1document" kindref="compound">themis::document</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FailingDocumentStore<sp/>—<sp/>test<sp/>double<sp/>for<sp/>RTD<sp/>error-path<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NON-PRODUCTION<sp/>PATH<sp/>(Simulation/Stub/Mockup)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Reason:<sp/>Needed<sp/>to<sp/>inject<sp/>controlled<sp/>storage<sp/>failures<sp/>into<sp/>StoreBackedRoundTripEditor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>so<sp/>that<sp/>failure-propagation<sp/>paths<sp/>can<sp/>be<sp/>exercised<sp/>without<sp/>relying<sp/>on</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>production<sp/>storage<sp/>infrastructure.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Activation:<sp/>Only<sp/>instantiated<sp/>from<sp/>RTD<sp/>test<sp/>fixtures<sp/>in<sp/>this<sp/>translation<sp/>unit.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Production<sp/>Delta:<sp/>Always<sp/>returns<sp/>ERR_DOC_NOT_FOUND<sp/>for<sp/>every<sp/>operation;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>real<sp/>IDocumentStore<sp/>implementations<sp/>perform<sp/>actual<sp/>persistence.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Approved<sp/>By:<sp/>Task<sp/>specification<sp/>(Document<sp/>Module<sp/>Test<sp/>Hardening,<sp/>2026-07-28)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Removal<sp/>Target:<sp/>N/A<sp/>—<sp/>test-only<sp/>fixture;<sp/>lives<sp/>exclusively<sp/>in<sp/>test<sp/>code.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="class_failing_document_store" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_failing_document_store" kindref="compound">FailingDocumentStore</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1document_1_1_i_document_store" kindref="compound">IDocumentStore</ref><sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>Result&lt;DocumentId&gt;<sp/><ref refid="class_failing_document_store_1a0ff3040c14d3fe425c8283c84673a1c0" kindref="member">put</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1document_1_1_document_record" kindref="compound">DocumentRecord</ref>&amp;<sp/></highlight><highlight class="comment">/*record*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tl::unexpected(Error(errors::ErrorCode::ERR_DOC_NOT_FOUND,<sp/></highlight><highlight class="stringliteral">&quot;injected&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>Result&lt;std::optional&lt;DocumentRecord&gt;&gt;<sp/><ref refid="class_failing_document_store_1a16f2a52167b499a51d52babc3eaea0a1" kindref="member">get</ref>(</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref>&amp;<sp/></highlight><highlight class="comment">/*collection*/</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref>&amp;<sp/><sp/><sp/></highlight><highlight class="comment">/*id*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const<sp/>override</highlight></codeline>
+<codeline lineno="80"><highlight class="keyword"><sp/><sp/><sp/><sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tl::unexpected(Error(errors::ErrorCode::ERR_DOC_NOT_FOUND,<sp/></highlight><highlight class="stringliteral">&quot;injected&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>Result&lt;void&gt;<sp/><ref refid="class_failing_document_store_1a71bf3900e496378f18dc5aeb69d26543" kindref="member">update</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref>&amp;<sp/></highlight><highlight class="comment">/*collection*/</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref>&amp;<sp/><sp/><sp/></highlight><highlight class="comment">/*id*/</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/></highlight><highlight class="comment">/*body*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override</highlight></codeline>
+<codeline lineno="87"><highlight class="keyword"><sp/><sp/><sp/><sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tl::unexpected(Error(errors::ErrorCode::ERR_DOC_NOT_FOUND,<sp/></highlight><highlight class="stringliteral">&quot;injected&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>Result&lt;void&gt;<sp/><ref refid="class_failing_document_store_1a2b531de2a29267580d2185bc4fea5373" kindref="member">remove</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref>&amp;<sp/></highlight><highlight class="comment">/*collection*/</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref>&amp;<sp/><sp/><sp/></highlight><highlight class="comment">/*id*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override</highlight></codeline>
+<codeline lineno="93"><highlight class="keyword"><sp/><sp/><sp/><sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tl::unexpected(Error(errors::ErrorCode::ERR_DOC_NOT_FOUND,<sp/></highlight><highlight class="stringliteral">&quot;injected&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>Result&lt;std::vector&lt;DocumentId&gt;&gt;<sp/><ref refid="class_failing_document_store_1ae342a86dbccf89e8020d2f0694f4d10f" kindref="member">list</ref>(</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref>&amp;<sp/></highlight><highlight class="comment">/*collection*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const<sp/>override</highlight></codeline>
+<codeline lineno="99"><highlight class="keyword"><sp/><sp/><sp/><sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tl::unexpected(Error(errors::ErrorCode::ERR_DOC_NOT_FOUND,<sp/></highlight><highlight class="stringliteral">&quot;injected&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>Result&lt;std::size_t&gt;<sp/><ref refid="class_failing_document_store_1aac2d8900ca1a44fbf532b35daf654c6e" kindref="member">count</ref>(</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref>&amp;<sp/></highlight><highlight class="comment">/*collection*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const<sp/>override</highlight></codeline>
+<codeline lineno="105"><highlight class="keyword"><sp/><sp/><sp/><sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tl::unexpected(Error(errors::ErrorCode::ERR_DOC_NOT_FOUND,<sp/></highlight><highlight class="stringliteral">&quot;injected&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Local<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal">std::string<sp/>makeExpectedSnapshotId(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>relay_id,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>interaction_index)</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ostringstream<sp/>oss<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>oss<sp/>&lt;&lt;<sp/>relay_id<sp/>&lt;&lt;<sp/></highlight><highlight class="charliteral">&apos;:&apos;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::setw(10)<sp/>&lt;&lt;<sp/>std::setfill(</highlight><highlight class="charliteral">&apos;0&apos;</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/>interaction_index;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>oss.str();</highlight></codeline>
+<codeline lineno="133"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RoundTripPersistence<sp/>tests<sp/><sp/>(RTP-01<sp/>…<sp/>RTP-10)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="class_round_trip_persistence_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_round_trip_persistence_test" kindref="compound">RoundTripPersistenceTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1document_1_1_in_memory_document_store" kindref="compound">InMemoryDocumentStore</ref><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_round_trip_persistence_test_1a48c3d0fdb3e2eaf854160ce888edd016" kindref="member">store_</ref>;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1document_1_1_store_backed_round_trip_editor" kindref="compound">StoreBackedRoundTripEditor</ref><sp/><ref refid="class_round_trip_persistence_test_1a0fb3b2125df4c5ffc485d11fb8b066fa" kindref="member">editor_</ref>{<ref refid="class_round_trip_persistence_test_1a48c3d0fdb3e2eaf854160ce888edd016" kindref="member">store_</ref>};</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_round_trip_persistence_test_1a6908a08939d55022c2c7cc63068f43f7" kindref="member">kCol</ref>{<ref refid="namespacethemis_1_1document_1aa2c043cd325abdd7526e543ca08253ed" kindref="member">kDefaultRoundTripCollection</ref>};</highlight></codeline>
+<codeline lineno="152"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RTP-01:<sp/>beginRelay()<sp/>stores<sp/>the<sp/>seed<sp/>snapshot<sp/>with<sp/>interaction_index<sp/>==<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><ref refid="test__document__round__trip__persistence__focused_8cpp_1aa65affad32ed7d71c91048c7e556d689" kindref="member">TEST_F</ref>(<ref refid="class_round_trip_persistence_test" kindref="compound">RoundTripPersistenceTest</ref>,<sp/>RTP01_BeginRelayStoresSeedAtIndexZero)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(editor_.beginRelay(</highlight><highlight class="stringliteral">&quot;rtp01&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;seed-content&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>loaded<sp/>=<sp/>editor_.loadInteraction(</highlight><highlight class="stringliteral">&quot;rtp01&quot;</highlight><highlight class="normal">,<sp/>0);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(loaded.has_value());</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(loaded.value().has_value())</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Seed<sp/>snapshot<sp/>(interaction_index=0)<sp/>must<sp/>be<sp/>retrievable<sp/>after<sp/>beginRelay().&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded.value().value().interaction_index,<sp/>0u);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded.value().value().relay_id,<sp/></highlight><highlight class="stringliteral">&quot;rtp01&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RTP-02:<sp/>saveInteraction()<sp/>at<sp/>index<sp/>1<sp/>stores<sp/>a<sp/>snapshot<sp/>distinct<sp/>from<sp/>the<sp/>seed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><ref refid="test__document__round__trip__persistence__focused_8cpp_1aa65affad32ed7d71c91048c7e556d689" kindref="member">TEST_F</ref>(<ref refid="class_round_trip_persistence_test" kindref="compound">RoundTripPersistenceTest</ref>,<sp/>RTP02_SaveInteractionAtIndex1_DistinctFromSeed)<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(editor_.beginRelay(</highlight><highlight class="stringliteral">&quot;rtp02&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;seed-doc&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(editor_.saveInteraction(</highlight><highlight class="stringliteral">&quot;rtp02&quot;</highlight><highlight class="normal">,<sp/>1,<sp/></highlight><highlight class="stringliteral">&quot;edit-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v1-doc&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>seed<sp/>=<sp/>editor_.loadInteraction(</highlight><highlight class="stringliteral">&quot;rtp02&quot;</highlight><highlight class="normal">,<sp/>0);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>snap<sp/>=<sp/>editor_.loadInteraction(</highlight><highlight class="stringliteral">&quot;rtp02&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(seed.has_value()<sp/>&amp;&amp;<sp/>seed.value().has_value());</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(snap.has_value()<sp/>&amp;&amp;<sp/>snap.value().has_value());</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(seed.value().value().document,<sp/></highlight><highlight class="stringliteral">&quot;seed-doc&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(snap.value().value().document,<sp/></highlight><highlight class="stringliteral">&quot;v1-doc&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(seed.value().value().document,<sp/>snap.value().value().document)</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Seed<sp/>and<sp/>interaction<sp/>1<sp/>must<sp/>have<sp/>different<sp/>document<sp/>bodies.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RTP-03:<sp/>countSnapshots()<sp/>is<sp/>consistent<sp/>with<sp/>N<sp/>saveInteraction()<sp/>calls<sp/>including<sp/>seed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><ref refid="test__document__round__trip__persistence__focused_8cpp_1aa65affad32ed7d71c91048c7e556d689" kindref="member">TEST_F</ref>(<ref refid="class_round_trip_persistence_test" kindref="compound">RoundTripPersistenceTest</ref>,<sp/>RTP03_CountSnapshotsConsistentWithSaves)<sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(editor_.beginRelay(</highlight><highlight class="stringliteral">&quot;rtp03&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;seed&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(editor_.saveInteraction(</highlight><highlight class="stringliteral">&quot;rtp03&quot;</highlight><highlight class="normal">,<sp/>1,<sp/></highlight><highlight class="stringliteral">&quot;i1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(editor_.saveInteraction(</highlight><highlight class="stringliteral">&quot;rtp03&quot;</highlight><highlight class="normal">,<sp/>2,<sp/></highlight><highlight class="stringliteral">&quot;i2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;d2&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>editor_.countSnapshots(</highlight><highlight class="stringliteral">&quot;rtp03&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r.has_value());</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*r,<sp/>3u)</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;countSnapshots()<sp/>must<sp/>return<sp/>3:<sp/>seed<sp/>(0)<sp/>+<sp/>interaction<sp/>1<sp/>+<sp/>interaction<sp/>2.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RTP-04:<sp/>snapshot<sp/>IDs<sp/>follow<sp/>relay_id<sp/>+<sp/>&apos;:&apos;<sp/>+<sp/>zero-padded<sp/>10-digit<sp/>index<sp/>format</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><ref refid="test__document__round__trip__persistence__focused_8cpp_1aa65affad32ed7d71c91048c7e556d689" kindref="member">TEST_F</ref>(<ref refid="class_round_trip_persistence_test" kindref="compound">RoundTripPersistenceTest</ref>,<sp/>RTP04_SnapshotIdsDeterministic)<sp/>{</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>relay_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;rtp04&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(editor_.beginRelay(relay_id,<sp/></highlight><highlight class="stringliteral">&quot;seed&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(editor_.saveInteraction(relay_id,<sp/>1,<sp/></highlight><highlight class="stringliteral">&quot;instr&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>expected_seed_id<sp/><sp/>=<sp/>makeExpectedSnapshotId(relay_id,<sp/>0);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>expected_snap1_id<sp/>=<sp/>makeExpectedSnapshotId(relay_id,<sp/>1);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(expected_seed_id,<sp/><sp/>relay_id<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;:0000000000&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(expected_snap1_id,<sp/>relay_id<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;:0000000001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>both<sp/>IDs<sp/>are<sp/>directly<sp/>retrievable<sp/>from<sp/>the<sp/>backing<sp/>store.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>seed_rec<sp/>=<sp/>store_.get(kCol,<sp/>expected_seed_id);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>snap_rec<sp/>=<sp/>store_.get(kCol,<sp/>expected_snap1_id);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(seed_rec.has_value()<sp/>&amp;&amp;<sp/>seed_rec.value().has_value());</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(snap_rec.has_value()<sp/>&amp;&amp;<sp/>snap_rec.value().has_value());</highlight></codeline>
+<codeline lineno="212"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RTP-05:<sp/>store<sp/>confirms<sp/>snapshot<sp/>stored<sp/>with<sp/>correct<sp/>document<sp/>ID<sp/>key</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><ref refid="test__document__round__trip__persistence__focused_8cpp_1aa65affad32ed7d71c91048c7e556d689" kindref="member">TEST_F</ref>(<ref refid="class_round_trip_persistence_test" kindref="compound">RoundTripPersistenceTest</ref>,<sp/>RTP05_StoreDirectlyConfirmsSnapshotKey)<sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(editor_.beginRelay(</highlight><highlight class="stringliteral">&quot;rtp05&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;my-seed&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>expected_id<sp/>=<sp/>makeExpectedSnapshotId(</highlight><highlight class="stringliteral">&quot;rtp05&quot;</highlight><highlight class="normal">,<sp/>0);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rec<sp/>=<sp/>store_.get(kCol,<sp/>expected_id);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(rec.has_value());</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(rec.value().has_value())</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Backing<sp/>store<sp/>must<sp/>contain<sp/>a<sp/>document<sp/>at<sp/>the<sp/>deterministic<sp/>seed<sp/>ID.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rec.value().value().id,<sp/>expected_id);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rec.value().value().collection_id,<sp/>kCol);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RTP-06:<sp/>loadInteraction(index=0)<sp/>returns<sp/>the<sp/>seed<sp/>document<sp/>exactly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><ref refid="test__document__round__trip__persistence__focused_8cpp_1aa65affad32ed7d71c91048c7e556d689" kindref="member">TEST_F</ref>(<ref refid="class_round_trip_persistence_test" kindref="compound">RoundTripPersistenceTest</ref>,<sp/>RTP06_LoadIndex0_ReturnsSeedExactly)<sp/>{</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(editor_.beginRelay(</highlight><highlight class="stringliteral">&quot;rtp06&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;exact-seed-content&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>editor_.loadInteraction(</highlight><highlight class="stringliteral">&quot;rtp06&quot;</highlight><highlight class="normal">,<sp/>0);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r.has_value());</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r.value().has_value());</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.value().value().document,<sp/></highlight><highlight class="stringliteral">&quot;exact-seed-content&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.value().value().interaction_index,<sp/>0u);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.value().value().relay_id,<sp/></highlight><highlight class="stringliteral">&quot;rtp06&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RTP-07:<sp/>loadInteraction(index=N)<sp/>returns<sp/>the<sp/>Nth<sp/>interaction<sp/>document<sp/>exactly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><ref refid="test__document__round__trip__persistence__focused_8cpp_1aa65affad32ed7d71c91048c7e556d689" kindref="member">TEST_F</ref>(<ref refid="class_round_trip_persistence_test" kindref="compound">RoundTripPersistenceTest</ref>,<sp/>RTP07_LoadIndexN_ReturnsNthInteractionExactly)<sp/>{</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(editor_.beginRelay(</highlight><highlight class="stringliteral">&quot;rtp07&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;seed&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(editor_.saveInteraction(</highlight><highlight class="stringliteral">&quot;rtp07&quot;</highlight><highlight class="normal">,<sp/>1,<sp/></highlight><highlight class="stringliteral">&quot;inst-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc-1&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(editor_.saveInteraction(</highlight><highlight class="stringliteral">&quot;rtp07&quot;</highlight><highlight class="normal">,<sp/>2,<sp/></highlight><highlight class="stringliteral">&quot;inst-2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc-2&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(editor_.saveInteraction(</highlight><highlight class="stringliteral">&quot;rtp07&quot;</highlight><highlight class="normal">,<sp/>3,<sp/></highlight><highlight class="stringliteral">&quot;inst-3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc-3&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>editor_.loadInteraction(</highlight><highlight class="stringliteral">&quot;rtp07&quot;</highlight><highlight class="normal">,<sp/>3);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r.has_value());</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r.value().has_value());</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>snap<sp/>=<sp/>r.value().value();</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(snap.interaction_index,<sp/>3u);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(snap.instruction,<sp/></highlight><highlight class="stringliteral">&quot;inst-3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(snap.document,<sp/></highlight><highlight class="stringliteral">&quot;doc-3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RTP-08:<sp/>relay_id<sp/>containing<sp/>&apos;:&apos;<sp/>and<sp/>digits<sp/>produces<sp/>valid<sp/>snapshot<sp/>IDs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><ref refid="test__document__round__trip__persistence__focused_8cpp_1aa65affad32ed7d71c91048c7e556d689" kindref="member">TEST_F</ref>(<ref refid="class_round_trip_persistence_test" kindref="compound">RoundTripPersistenceTest</ref>,<sp/>RTP08_NonAlphanumericRelayId_ValidSnapshotIds)<sp/>{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>relay_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;relay:42:session&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(editor_.beginRelay(relay_id,<sp/></highlight><highlight class="stringliteral">&quot;seed-rtp08&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>expected_id<sp/>=<sp/>makeExpectedSnapshotId(relay_id,<sp/>0);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>store_.get(kCol,<sp/>expected_id);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r.has_value())</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;store_.get()<sp/>must<sp/>succeed<sp/>for<sp/>relay_id<sp/>containing<sp/>&apos;:&apos;<sp/>and<sp/>digits.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r.value().has_value());</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>loadInteraction()<sp/>must<sp/>also<sp/>resolve<sp/>correctly.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>loaded<sp/>=<sp/>editor_.loadInteraction(relay_id,<sp/>0);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(loaded.has_value()<sp/>&amp;&amp;<sp/>loaded.value().has_value());</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded.value().value().relay_id,<sp/>relay_id);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RTP-09:<sp/>large<sp/>interaction_index<sp/>(999999999)<sp/>produces<sp/>a<sp/>correct<sp/>10-digit<sp/>ID</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><ref refid="test__document__round__trip__persistence__focused_8cpp_1aa65affad32ed7d71c91048c7e556d689" kindref="member">TEST_F</ref>(<ref refid="class_round_trip_persistence_test" kindref="compound">RoundTripPersistenceTest</ref>,<sp/>RTP09_LargeInteractionIndex_CorrectTenDigitId)<sp/>{</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/>kLargeIndex<sp/>=<sp/>999999999u;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(editor_.beginRelay(</highlight><highlight class="stringliteral">&quot;rtp09&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;seed&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(editor_.saveInteraction(</highlight><highlight class="stringliteral">&quot;rtp09&quot;</highlight><highlight class="normal">,<sp/>kLargeIndex,</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;large-instr&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;large-doc&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>expected_id<sp/>=<sp/>makeExpectedSnapshotId(</highlight><highlight class="stringliteral">&quot;rtp09&quot;</highlight><highlight class="normal">,<sp/>kLargeIndex);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(expected_id,<sp/></highlight><highlight class="stringliteral">&quot;rtp09:0999999999&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;999999999<sp/>is<sp/>9<sp/>digits;<sp/>zero-padded<sp/>to<sp/>10<sp/>must<sp/>yield<sp/>&apos;0999999999&apos;.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>store_.get(kCol,<sp/>expected_id);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r.has_value()<sp/>&amp;&amp;<sp/>r.value().has_value());</highlight></codeline>
+<codeline lineno="285"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RTP-10:<sp/>snapshot<sp/>body<sp/>JSON<sp/>contains<sp/>all<sp/>required<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><ref refid="test__document__round__trip__persistence__focused_8cpp_1aa65affad32ed7d71c91048c7e556d689" kindref="member">TEST_F</ref>(<ref refid="class_round_trip_persistence_test" kindref="compound">RoundTripPersistenceTest</ref>,<sp/>RTP10_SnapshotBodyContainsAllRequiredFields)<sp/>{</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(editor_.beginRelay(</highlight><highlight class="stringliteral">&quot;rtp10&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;seed-body&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>seed_id<sp/>=<sp/>makeExpectedSnapshotId(</highlight><highlight class="stringliteral">&quot;rtp10&quot;</highlight><highlight class="normal">,<sp/>0);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rec<sp/>=<sp/>store_.get(kCol,<sp/>seed_id);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(rec.has_value()<sp/>&amp;&amp;<sp/>rec.value().has_value());</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>body<sp/>=<sp/>rec.value().value().body;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(body.contains(</highlight><highlight class="stringliteral">&quot;relay_id&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Snapshot<sp/>body<sp/>must<sp/>contain<sp/>&apos;relay_id&apos;.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(body.contains(</highlight><highlight class="stringliteral">&quot;interaction_index&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Snapshot<sp/>body<sp/>must<sp/>contain<sp/>&apos;interaction_index&apos;.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(body.contains(</highlight><highlight class="stringliteral">&quot;instruction&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Snapshot<sp/>body<sp/>must<sp/>contain<sp/>&apos;instruction&apos;.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(body.contains(</highlight><highlight class="stringliteral">&quot;document&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Snapshot<sp/>body<sp/>must<sp/>contain<sp/>&apos;document&apos;.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(body.contains(</highlight><highlight class="stringliteral">&quot;created_at_ms&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Snapshot<sp/>body<sp/>must<sp/>contain<sp/>&apos;created_at_ms&apos;.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(body[</highlight><highlight class="stringliteral">&quot;relay_id&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;rtp10&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(body[</highlight><highlight class="stringliteral">&quot;interaction_index&quot;</highlight><highlight class="normal">],<sp/>0);</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(body[</highlight><highlight class="stringliteral">&quot;document&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;seed-body&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="310"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RoundTripDiagnostics<sp/>tests<sp/><sp/>(RTD-01<sp/>…<sp/>RTD-04)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323" refid="class_round_trip_diagnostics_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_round_trip_diagnostics_test" kindref="compound">RoundTripDiagnosticsTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_failing_document_store" kindref="compound">FailingDocumentStore</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_round_trip_diagnostics_test_1af083cd2a675fb70bd6093696cfa0bc14" kindref="member">failing_store_</ref>;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1document_1_1_store_backed_round_trip_editor" kindref="compound">StoreBackedRoundTripEditor</ref><sp/><ref refid="class_round_trip_diagnostics_test_1a84f60831e7c962c15de2e26c3fcfc61f" kindref="member">editor_</ref>{<ref refid="class_round_trip_diagnostics_test_1af083cd2a675fb70bd6093696cfa0bc14" kindref="member">failing_store_</ref>};</highlight></codeline>
+<codeline lineno="327"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RTD-01:<sp/>beginRelay()<sp/>failure<sp/>(backing<sp/>store<sp/>returns<sp/>error)<sp/>propagates<sp/>the<sp/>error<sp/>Result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><ref refid="test__document__round__trip__persistence__focused_8cpp_1aa65affad32ed7d71c91048c7e556d689" kindref="member">TEST_F</ref>(<ref refid="class_round_trip_diagnostics_test" kindref="compound">RoundTripDiagnosticsTest</ref>,<sp/>RTD01_BeginRelayStoreFailure_PropagatesError)<sp/>{</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>editor_.beginRelay(</highlight><highlight class="stringliteral">&quot;rtd01-relay&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;seed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(r.has_value())</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;beginRelay()<sp/>must<sp/>propagate<sp/>a<sp/>storage-layer<sp/>error<sp/>when<sp/>store.put()<sp/>fails.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.error().code(),<sp/>errors::ErrorCode::ERR_DOC_NOT_FOUND);</highlight></codeline>
+<codeline lineno="335"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RTD-02:<sp/>saveInteraction()<sp/>failure<sp/>propagates<sp/>the<sp/>error<sp/>Result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><ref refid="test__document__round__trip__persistence__focused_8cpp_1aa65affad32ed7d71c91048c7e556d689" kindref="member">TEST_F</ref>(<ref refid="class_round_trip_diagnostics_test" kindref="compound">RoundTripDiagnosticsTest</ref>,<sp/>RTD02_SaveInteractionStoreFailure_PropagatesError)<sp/>{</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>editor_.saveInteraction(</highlight><highlight class="stringliteral">&quot;rtd02-relay&quot;</highlight><highlight class="normal">,<sp/>1,<sp/></highlight><highlight class="stringliteral">&quot;instr&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(r.has_value())</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;saveInteraction()<sp/>must<sp/>propagate<sp/>a<sp/>storage-layer<sp/>error<sp/>when<sp/>store.put()<sp/>fails.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.error().code(),<sp/>errors::ErrorCode::ERR_DOC_NOT_FOUND);</highlight></codeline>
+<codeline lineno="343"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RTD-03:<sp/>loadInteraction()<sp/>store<sp/>failure<sp/>propagates<sp/>the<sp/>error<sp/>Result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><ref refid="test__document__round__trip__persistence__focused_8cpp_1aa65affad32ed7d71c91048c7e556d689" kindref="member">TEST_F</ref>(<ref refid="class_round_trip_diagnostics_test" kindref="compound">RoundTripDiagnosticsTest</ref>,<sp/>RTD03_LoadInteractionStoreFailure_PropagatesError)<sp/>{</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>editor_.loadInteraction(</highlight><highlight class="stringliteral">&quot;rtd03-relay&quot;</highlight><highlight class="normal">,<sp/>0);</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(r.has_value())</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;loadInteraction()<sp/>must<sp/>propagate<sp/>a<sp/>storage-layer<sp/>error<sp/>when<sp/>store.get()<sp/>fails.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.error().code(),<sp/>errors::ErrorCode::ERR_DOC_NOT_FOUND);</highlight></codeline>
+<codeline lineno="351"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RTD-04:<sp/>countSnapshots()<sp/>store.list()<sp/>failure<sp/>propagates<sp/>the<sp/>error<sp/>Result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><ref refid="test__document__round__trip__persistence__focused_8cpp_1aa65affad32ed7d71c91048c7e556d689" kindref="member">TEST_F</ref>(<ref refid="class_round_trip_diagnostics_test" kindref="compound">RoundTripDiagnosticsTest</ref>,<sp/>RTD04_CountSnapshotsStoreListFailure_PropagatesError)<sp/>{</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>editor_.countSnapshots(</highlight><highlight class="stringliteral">&quot;rtd04-relay&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(r.has_value())</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;countSnapshots()<sp/>must<sp/>propagate<sp/>a<sp/>storage-layer<sp/>error<sp/>when<sp/>store.list()<sp/>fails.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.error().code(),<sp/>errors::ErrorCode::ERR_DOC_NOT_FOUND);</highlight></codeline>
+<codeline lineno="359"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/document/test_document_round_trip_persistence_focused.cpp"/>
+  </compounddef>
+</doxygen>

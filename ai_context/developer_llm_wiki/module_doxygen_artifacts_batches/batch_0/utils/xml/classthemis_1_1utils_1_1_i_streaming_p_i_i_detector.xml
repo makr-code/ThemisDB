@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_i_streaming_p_i_i_detector" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::utils::IStreamingPIIDetector</compoundname>
+    <derivedcompoundref refid="classthemis_1_1utils_1_1_p_i_i_stream_detector_adapter" prot="public" virt="non-virtual">themis::utils::PIIStreamDetectorAdapter</derivedcompoundref>
+    <includes refid="utils__interfaces_8h" local="no">utils_interfaces.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_i_streaming_p_i_i_detector_1a1aaf47b241d5eee470c05d9f28a5d44a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::utils::IStreamingPIIDetector::~IStreamingPIIDetector</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IStreamingPIIDetector</name>
+        <qualifiedname>themis::utils::IStreamingPIIDetector::~IStreamingPIIDetector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="95" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_i_streaming_p_i_i_detector_1a27dd84825ce2226478e0cfe6e1c558ff" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1utils_1_1_p_i_i_detection_result" kindref="compound">PIIDetectionResult</ref></type>
+        <definition>virtual PIIDetectionResult themis::utils::IStreamingPIIDetector::detect</definition>
+        <argsstring>(std::span&lt; const std::byte &gt; chunk) const =0</argsstring>
+        <name>detect</name>
+        <qualifiedname>themis::utils::IStreamingPIIDetector::detect</qualifiedname>
+        <reimplementedby refid="classthemis_1_1utils_1_1_p_i_i_stream_detector_adapter_1af5af1ba79e31e71b373b068ccc1c4450">detect</reimplementedby>
+        <param>
+          <type>std::span&lt; const std::byte &gt;</type>
+          <declname>chunk</declname>
+        </param>
+        <briefdescription>
+<para>Detect PII in a byte chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stateless: no state is retained between calls. Safe to call concurrently.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>chunk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Byte span of the document chunk to inspect. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Detection result (no raw PII values). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="105" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_i_streaming_p_i_i_detector_1ab392a779d487d42002a48bca1f45531e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1utils_1_1_sanitised_chunk" kindref="compound">SanitisedChunk</ref></type>
+        <definition>virtual SanitisedChunk themis::utils::IStreamingPIIDetector::pseudonymise</definition>
+        <argsstring>(std::span&lt; const std::byte &gt; chunk) const =0</argsstring>
+        <name>pseudonymise</name>
+        <qualifiedname>themis::utils::IStreamingPIIDetector::pseudonymise</qualifiedname>
+        <reimplementedby refid="classthemis_1_1utils_1_1_p_i_i_stream_detector_adapter_1afb91015692e5db225e4e5f9cf18b4100">pseudonymise</reimplementedby>
+        <param>
+          <type>std::span&lt; const std::byte &gt;</type>
+          <declname>chunk</declname>
+        </param>
+        <briefdescription>
+<para>Replace all PII spans in a byte chunk with deterministic pseudonyms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stateless: no state is retained between calls. Safe to call concurrently.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>chunk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Byte span of the document chunk to sanitise. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Sanitised chunk (no raw PII values). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="115" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_i_streaming_p_i_i_detector_1a1ea96cc213b01d0a3af88d83aaf8ac5b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::span&lt; const <ref refid="namespacethemis_1_1utils_1aa03e98c7dcd0b1fa5e59aafc4d581887" kindref="member">PIICategory</ref> &gt;</type>
+        <definition>virtual std::span&lt; const PIICategory &gt; themis::utils::IStreamingPIIDetector::supportedCategories</definition>
+        <argsstring>() const =0</argsstring>
+        <name>supportedCategories</name>
+        <qualifiedname>themis::utils::IStreamingPIIDetector::supportedCategories</qualifiedname>
+        <reimplementedby refid="classthemis_1_1utils_1_1_p_i_i_stream_detector_adapter_1aeddcde96b443d16491ecf0d6a0cb4aca">supportedCategories</reimplementedby>
+        <briefdescription>
+<para>Return the set of PII categories this implementation can detect. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="120" column="24"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stateless, thread-safe streaming PII detection and pseudonymisation interface. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implementations MUST be stateless between calls: no state from one <ref refid="classthemis_1_1utils_1_1_i_streaming_p_i_i_detector_1a27dd84825ce2226478e0cfe6e1c558ff" kindref="member">detect()</ref> or <ref refid="classthemis_1_1utils_1_1_i_streaming_p_i_i_detector_1ab392a779d487d42002a48bca1f45531e" kindref="member">pseudonymise()</ref> invocation may influence a subsequent one. This contract makes it safe to call the same instance concurrently from multiple threads.</para>
+<para>Output types (<ref refid="structthemis_1_1utils_1_1_p_i_i_detection_result" kindref="compound">PIIDetectionResult</ref>, <ref refid="structthemis_1_1utils_1_1_sanitised_chunk" kindref="compound">SanitisedChunk</ref>) never contain original PII values; only category labels, span counts, and opaque handles are exposed. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::utils::IStreamingPIIDetector</label>
+        <link refid="classthemis_1_1utils_1_1_i_streaming_p_i_i_detector"/>
+      </node>
+      <node id="2">
+        <label>themis::utils::PIIStreamDetectorAdapter</label>
+        <link refid="classthemis_1_1utils_1_1_p_i_i_stream_detector_adapter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/utils/utils_interfaces.h" line="93" column="1" bodyfile="include/utils/utils_interfaces.h" bodystart="93" bodyend="121"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_i_streaming_p_i_i_detector_1a27dd84825ce2226478e0cfe6e1c558ff" prot="public" virt="pure-virtual"><scope>themis::utils::IStreamingPIIDetector</scope><name>detect</name></member>
+      <member refid="classthemis_1_1utils_1_1_i_streaming_p_i_i_detector_1ab392a779d487d42002a48bca1f45531e" prot="public" virt="pure-virtual"><scope>themis::utils::IStreamingPIIDetector</scope><name>pseudonymise</name></member>
+      <member refid="classthemis_1_1utils_1_1_i_streaming_p_i_i_detector_1a1ea96cc213b01d0a3af88d83aaf8ac5b" prot="public" virt="pure-virtual"><scope>themis::utils::IStreamingPIIDetector</scope><name>supportedCategories</name></member>
+      <member refid="classthemis_1_1utils_1_1_i_streaming_p_i_i_detector_1a1aaf47b241d5eee470c05d9f28a5d44a" prot="public" virt="virtual"><scope>themis::utils::IStreamingPIIDetector</scope><name>~IStreamingPIIDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

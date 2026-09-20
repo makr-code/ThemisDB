@@ -1,0 +1,236 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_in_memory_wiki_plugin" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::llm_wiki::test::InMemoryWikiPlugin</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_in_memory_wiki_plugin_1ad7bd0fdfeafcb90917fd5ca7c041607c" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::llm_wiki::test::InMemoryWikiPlugin::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::InMemoryWikiPlugin::initialized_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="218" column="10" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_in_memory_wiki_plugin_1a0224feb8fb00962b76f0533f7b0bf3ce" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::llm_wiki::test::InMemoryWikiPlugin::enterprise_</definition>
+        <argsstring></argsstring>
+        <name>enterprise_</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::InMemoryWikiPlugin::enterprise_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="219" column="10" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_in_memory_wiki_plugin_1a2251cbeb997ead97870e71fae45eae12" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::plugins::llm_wiki::test::InMemoryWikiPlugin::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::InMemoryWikiPlugin::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="220" column="24" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_in_memory_wiki_plugin_1adf0163d5c5e0b4e641301e0bf4a04331" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_wiki_chunk" kindref="compound">WikiChunk</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, WikiChunk&gt; themis::plugins::llm_wiki::test::InMemoryWikiPlugin::index_</definition>
+        <argsstring></argsstring>
+        <name>index_</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::InMemoryWikiPlugin::index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="221" column="24" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="221" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_in_memory_wiki_plugin_1ac015465866e344fdef78729e69eca78f" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::llm_wiki::test::InMemoryWikiPlugin::InMemoryWikiPlugin</definition>
+        <argsstring>(bool enterprise_edition=true)</argsstring>
+        <name>InMemoryWikiPlugin</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::InMemoryWikiPlugin::InMemoryWikiPlugin</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enterprise_edition</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="115" column="14" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="115" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_in_memory_wiki_plugin_1a54bb2a2aafccc6549f770e30b4c8d400" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_status" kindref="compound">Status</ref></type>
+        <definition>Status themis::plugins::llm_wiki::test::InMemoryWikiPlugin::initialize</definition>
+        <argsstring>(const std::string &amp;)</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::InMemoryWikiPlugin::initialize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="118" column="12" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="118" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_in_memory_wiki_plugin_1ad00fd477f8b8f9b730c9eda646f60727" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_wiki_ingest_result" kindref="compound">WikiIngestResult</ref></type>
+        <definition>WikiIngestResult themis::plugins::llm_wiki::test::InMemoryWikiPlugin::ingest</definition>
+        <argsstring>(const std::string &amp;source_path, const WikiIngestOptions &amp;opts)</argsstring>
+        <name>ingest</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::InMemoryWikiPlugin::ingest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_wiki_ingest_options" kindref="compound">WikiIngestOptions</ref> &amp;</type>
+          <declname>opts</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="126" column="22" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="126" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_in_memory_wiki_plugin_1a6c665340b4b84b82ea9e9bc9b7ced629" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_wiki_query_result" kindref="compound">WikiQueryResult</ref></type>
+        <definition>WikiQueryResult themis::plugins::llm_wiki::test::InMemoryWikiPlugin::query</definition>
+        <argsstring>(const std::string &amp;query_text, const WikiQueryOptions &amp;opts)</argsstring>
+        <name>query</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::InMemoryWikiPlugin::query</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_text</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_wiki_query_options" kindref="compound">WikiQueryOptions</ref> &amp;</type>
+          <declname>opts</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="153" column="21" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="153" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_in_memory_wiki_plugin_1a39b1b55cf0cf5bbee2856b5b8e30a2a2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_status" kindref="compound">Status</ref></type>
+        <definition>Status themis::plugins::llm_wiki::test::InMemoryWikiPlugin::ingestWikipediaDump</definition>
+        <argsstring>(const std::string &amp;)</argsstring>
+        <name>ingestWikipediaDump</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::InMemoryWikiPlugin::ingestWikipediaDump</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="186" column="12" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="186" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_in_memory_wiki_plugin_1ae04f2f49cf1342a9e192bb2081d04d53" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::llm_wiki::test::InMemoryWikiPlugin::isInitialized</definition>
+        <argsstring>() const</argsstring>
+        <name>isInitialized</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::InMemoryWikiPlugin::isInitialized</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="197" column="10" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="197" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_in_memory_wiki_plugin_1afd5e5460144cbb8582b0238e7ac9786c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::plugins::llm_wiki::test::InMemoryWikiPlugin::indexSize</definition>
+        <argsstring>() const</argsstring>
+        <name>indexSize</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::InMemoryWikiPlugin::indexSize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="198" column="9" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="198" bodyend="201"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_in_memory_wiki_plugin_1a6f0dfbb4d5e4c627a2fa68a75760b4c3" prot="private" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>static float themis::plugins::llm_wiki::test::InMemoryWikiPlugin::computeHashScore</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;content) noexcept</argsstring>
+        <name>computeHashScore</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::InMemoryWikiPlugin::computeHashScore</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="204" column="18" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="204" bodyend="216"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Self-contained in-memory implementation of the LLM Wiki plugin interface. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Uses a simple hash-based score (sum of char values mod 1000 / 1000.0f) as a stand-in for real BM25+HNSW scoring. This is sufficient to validate lifecycle contracts, threading safety, and edition gating without requiring a real RocksDB or embedding model. </para>
+    </detaileddescription>
+    <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="113" column="1" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="113" bodyend="222"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_in_memory_wiki_plugin_1a6f0dfbb4d5e4c627a2fa68a75760b4c3" prot="private" virt="non-virtual"><scope>themis::plugins::llm_wiki::test::InMemoryWikiPlugin</scope><name>computeHashScore</name></member>
+      <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_in_memory_wiki_plugin_1a0224feb8fb00962b76f0533f7b0bf3ce" prot="private" virt="non-virtual"><scope>themis::plugins::llm_wiki::test::InMemoryWikiPlugin</scope><name>enterprise_</name></member>
+      <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_in_memory_wiki_plugin_1adf0163d5c5e0b4e641301e0bf4a04331" prot="private" virt="non-virtual"><scope>themis::plugins::llm_wiki::test::InMemoryWikiPlugin</scope><name>index_</name></member>
+      <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_in_memory_wiki_plugin_1afd5e5460144cbb8582b0238e7ac9786c" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::test::InMemoryWikiPlugin</scope><name>indexSize</name></member>
+      <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_in_memory_wiki_plugin_1ad00fd477f8b8f9b730c9eda646f60727" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::test::InMemoryWikiPlugin</scope><name>ingest</name></member>
+      <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_in_memory_wiki_plugin_1a39b1b55cf0cf5bbee2856b5b8e30a2a2" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::test::InMemoryWikiPlugin</scope><name>ingestWikipediaDump</name></member>
+      <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_in_memory_wiki_plugin_1a54bb2a2aafccc6549f770e30b4c8d400" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::test::InMemoryWikiPlugin</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_in_memory_wiki_plugin_1ad7bd0fdfeafcb90917fd5ca7c041607c" prot="private" virt="non-virtual"><scope>themis::plugins::llm_wiki::test::InMemoryWikiPlugin</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_in_memory_wiki_plugin_1ac015465866e344fdef78729e69eca78f" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::test::InMemoryWikiPlugin</scope><name>InMemoryWikiPlugin</name></member>
+      <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_in_memory_wiki_plugin_1ae04f2f49cf1342a9e192bb2081d04d53" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::test::InMemoryWikiPlugin</scope><name>isInitialized</name></member>
+      <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_in_memory_wiki_plugin_1a2251cbeb997ead97870e71fae45eae12" prot="private" virt="non-virtual"><scope>themis::plugins::llm_wiki::test::InMemoryWikiPlugin</scope><name>mu_</name></member>
+      <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_in_memory_wiki_plugin_1a6c665340b4b84b82ea9e9bc9b7ced629" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::test::InMemoryWikiPlugin</scope><name>query</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

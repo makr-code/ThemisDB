@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_a_q_l_token" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::AQLToken</compoundname>
+    <includes refid="aql__syntax__highlighter_8h" local="no">aql_syntax_highlighter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_token_1af4c94b8db1edfbd008459d297bd1c0c5" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1aql_1a90899a1774887166e80358dcafae40ec" kindref="member">AQLTokenType</ref></type>
+        <definition>AQLTokenType themis::aql::AQLToken::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::aql::AQLToken::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_syntax_highlighter.h" line="35" column="18" bodyfile="include/aql/aql_syntax_highlighter.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_token_1a3de31e02465fe8a54ffa6da38e8805c8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLToken::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::aql::AQLToken::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_syntax_highlighter.h" line="36" column="18" bodyfile="include/aql/aql_syntax_highlighter.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_token_1a28e8524d977f75d6c919a21688acfd82" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::aql::AQLToken::line</definition>
+        <argsstring></argsstring>
+        <name>line</name>
+        <qualifiedname>themis::aql::AQLToken::line</qualifiedname>
+        <briefdescription>
+<para>1-based line number </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_syntax_highlighter.h" line="37" column="18" bodyfile="include/aql/aql_syntax_highlighter.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_token_1aba832ce4d663842df47d020f7ffd5f5f" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::aql::AQLToken::column</definition>
+        <argsstring></argsstring>
+        <name>column</name>
+        <qualifiedname>themis::aql::AQLToken::column</qualifiedname>
+        <briefdescription>
+<para>1-based column number </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_syntax_highlighter.h" line="38" column="18" bodyfile="include/aql/aql_syntax_highlighter.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_syntax_highlighter.h" line="34" column="1" bodyfile="include/aql/aql_syntax_highlighter.h" bodystart="34" bodyend="39"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_token_1aba832ce4d663842df47d020f7ffd5f5f" prot="public" virt="non-virtual"><scope>themis::aql::AQLToken</scope><name>column</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_token_1a28e8524d977f75d6c919a21688acfd82" prot="public" virt="non-virtual"><scope>themis::aql::AQLToken</scope><name>line</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_token_1af4c94b8db1edfbd008459d297bd1c0c5" prot="public" virt="non-virtual"><scope>themis::aql::AQLToken</scope><name>type</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_token_1a3de31e02465fe8a54ffa6da38e8805c8" prot="public" virt="non-virtual"><scope>themis::aql::AQLToken</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

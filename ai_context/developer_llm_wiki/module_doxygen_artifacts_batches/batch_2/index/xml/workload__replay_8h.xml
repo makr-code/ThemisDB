@@ -1,0 +1,198 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="workload__replay_8h" kind="file" language="C++">
+    <compoundname>workload_replay.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="yes">metadata/index_recommender.h</includes>
+    <includedby refid="workload__replay_8cpp" local="yes">src/index/workload_replay.cpp</includedby>
+    <includedby refid="test__index__workload__replay_8cpp" local="yes">tests/index/test_index_workload_replay.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/index/workload_replay.h</label>
+        <link refid="workload__replay_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="9">
+        <label>metadata/index_recommender.h</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>string_view</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/index/workload_replay.h</label>
+        <link refid="workload__replay_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/index/workload_replay.cpp</label>
+        <link refid="workload__replay_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/index/test_index_workload_replay.cpp</label>
+        <link refid="test__index__workload__replay_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1_workload_event" prot="public">themis::WorkloadEvent</innerclass>
+    <innerclass refid="classthemis_1_1_workload_capture" prot="public">themis::WorkloadCapture</innerclass>
+    <innerclass refid="classthemis_1_1_workload_replayer" prot="public">themis::WorkloadReplayer</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.18 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;metadata/index_recommender.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Use<sp/>declarations<sp/>for<sp/>metadata<sp/>types<sp/>(previously<sp/>in<sp/>themis,<sp/>now<sp/>in<sp/>themis::metadata)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">metadata::IndexRecommendation;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">metadata::ColumnAccess;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">metadata::IndexRecommender;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1_workload_event" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_workload_event" kindref="compound">WorkloadEvent</ref><sp/>{</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1_workload_event_1ad7c0e9fcf47f3819b59d394c99c955ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><ref refid="structthemis_1_1_workload_event_1ad7c0e9fcf47f3819b59d394c99c955ab" kindref="member">table_name</ref>;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1_workload_event_1a23d2a52c644d8f3bcb9140434aebc998" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><ref refid="structthemis_1_1_workload_event_1a23d2a52c644d8f3bcb9140434aebc998" kindref="member">column_name</ref>;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1_workload_event_1a59e1dd3e4c017930bcfc72bba9f3e2bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>IndexRecommender::AccessType<sp/><ref refid="structthemis_1_1_workload_event_1a59e1dd3e4c017930bcfc72bba9f3e2bb" kindref="member">access_type</ref><sp/>=<sp/>IndexRecommender::AccessType::FILTER;</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1_workload_event_1ac49666ac302da8ff304528dd1425e918" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_workload_event_1ac49666ac302da8ff304528dd1425e918" kindref="member">selectivity</ref><sp/>=<sp/>1.0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref><sp/><ref refid="structthemis_1_1_workload_event_1a6cb72732cd3aaec0ef4fb5e0a465c7a4" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_workload_event" kindref="compound">WorkloadEvent</ref><sp/><ref refid="structthemis_1_1_workload_event_1a1b8072dbf1e54046bde54b31c5277bdc" kindref="member">fromJSON</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref>&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="classthemis_1_1_workload_capture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_workload_capture_1ab19cb7dc4d508072fea82b5f751c64b8" kindref="member">WorkloadCapture</ref><sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="73" refid="classthemis_1_1_workload_capture_1ab19cb7dc4d508072fea82b5f751c64b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_workload_capture_1ab19cb7dc4d508072fea82b5f751c64b8" kindref="member">WorkloadCapture</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74" refid="classthemis_1_1_workload_capture_1a93002d6a2354c08d1a46bb5da852defd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_workload_capture_1a93002d6a2354c08d1a46bb5da852defd" kindref="member">~WorkloadCapture</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy<sp/>to<sp/>avoid<sp/>accidental<sp/>duplication<sp/>of<sp/>large<sp/>workloads</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="classthemis_1_1_workload_capture_1a7995778cd445363dd2c48c7bf4174e98" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_workload_capture_1a7995778cd445363dd2c48c7bf4174e98" kindref="member">WorkloadCapture</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_workload_capture_1ab19cb7dc4d508072fea82b5f751c64b8" kindref="member">WorkloadCapture</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78" refid="classthemis_1_1_workload_capture_1a9eba77ed083136026b48852d57fae48e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_workload_capture_1ab19cb7dc4d508072fea82b5f751c64b8" kindref="member">WorkloadCapture</ref>&amp;<sp/><ref refid="classthemis_1_1_workload_capture_1a9eba77ed083136026b48852d57fae48e" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_workload_capture_1ab19cb7dc4d508072fea82b5f751c64b8" kindref="member">WorkloadCapture</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Move<sp/>is<sp/>allowed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_workload_capture_1ab19cb7dc4d508072fea82b5f751c64b8" kindref="member">WorkloadCapture</ref>(<ref refid="classthemis_1_1_workload_capture_1ab19cb7dc4d508072fea82b5f751c64b8" kindref="member">WorkloadCapture</ref>&amp;&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_workload_capture_1ab19cb7dc4d508072fea82b5f751c64b8" kindref="member">WorkloadCapture</ref>&amp;<sp/><ref refid="classthemis_1_1_workload_capture_1a9eba77ed083136026b48852d57fae48e" kindref="member">operator=</ref>(<ref refid="classthemis_1_1_workload_capture_1ab19cb7dc4d508072fea82b5f751c64b8" kindref="member">WorkloadCapture</ref>&amp;&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_workload_capture_1a59fd7234aec54662e3b4cd36ac8a2cb2" kindref="member">recordEvent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_workload_event" kindref="compound">WorkloadEvent</ref>&amp;<sp/>event);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_workload_capture_1a59fd7234aec54662e3b4cd36ac8a2cb2" kindref="member">recordEvent</ref>(std::string_view<sp/>table_name,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>column_name,</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>IndexRecommender::AccessType<sp/>access_type,</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>selectivity<sp/>=<sp/>1.0);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_workload_capture_1acc4a3b8c1620d8b2cd5016e69a866042" kindref="member">recordQuery</ref>();</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_workload_capture_1ae16f9a719d669d2eadc8f5cf984ba173" kindref="member">eventCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1_workload_capture_1ac7dcf08e8739cd2b4eec19c9cbdae8f2" kindref="member">totalQueries</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;WorkloadEvent&gt;<sp/><ref refid="classthemis_1_1_workload_capture_1ae70d20ff9ceb1821e9ea9a2ed0c07ab4" kindref="member">events</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_workload_capture_1afe07eb7bdbcf1f1eba19027cf79862e9" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref><sp/><ref refid="classthemis_1_1_workload_capture_1ad06aaaf63309bcf71ec396d29f761871" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_workload_capture_1ab19cb7dc4d508072fea82b5f751c64b8" kindref="member">WorkloadCapture</ref><sp/><ref refid="classthemis_1_1_workload_capture_1a27c518f53cd01160eacede0bfaf45b8e" kindref="member">fromJSON</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref>&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/>mutex_;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;WorkloadEvent&gt;<sp/>events_;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total_queries_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="classthemis_1_1_workload_replayer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_workload_replayer_1ab9da86d33b74a3f9598e382cf1d83a79" kindref="member">WorkloadReplayer</ref><sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="143" refid="classthemis_1_1_workload_replayer_1ab9da86d33b74a3f9598e382cf1d83a79" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_workload_replayer_1ab9da86d33b74a3f9598e382cf1d83a79" kindref="member">WorkloadReplayer</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144" refid="classthemis_1_1_workload_replayer_1aaf87ee7d47b29001a23a164bb5cc9a88" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_workload_replayer_1aaf87ee7d47b29001a23a164bb5cc9a88" kindref="member">~WorkloadReplayer</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;IndexRecommendation&gt;<sp/><ref refid="classthemis_1_1_workload_replayer_1a6f02fc804d6b8b8157bcebf7669b2da7" kindref="member">replay</ref>(</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_workload_capture" kindref="compound">WorkloadCapture</ref>&amp;<sp/>capture,</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>table_name,</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>existing_indexes<sp/>=<sp/>{})<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::vector&lt;IndexRecommendation&gt;&gt;<sp/><ref refid="classthemis_1_1_workload_replayer_1a202cc1f05d968581f92c0f26cd6d59ab" kindref="member">replayAll</ref>(</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_workload_capture" kindref="compound">WorkloadCapture</ref>&amp;<sp/>capture,</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::vector&lt;std::string&gt;&gt;&amp;<sp/>existing_indexes<sp/>=<sp/>{})<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>feed(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>WorkloadCapture&amp;<sp/>capture,<sp/>IndexRecommender&amp;<sp/>rec);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/index/workload_replay.h"/>
+  </compounddef>
+</doxygen>

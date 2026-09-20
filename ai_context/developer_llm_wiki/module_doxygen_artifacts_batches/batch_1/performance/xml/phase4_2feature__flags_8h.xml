@@ -1,0 +1,207 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="phase4_2feature__flags_8h" kind="file" language="C++">
+    <compoundname>feature_flags.h</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includedby refid="phase4_2feature__flags_8cpp" local="yes">src/performance/phase4/feature_flags.cpp</includedby>
+    <includedby refid="test__io__uring__zero__copy_8cpp" local="yes">tests/performance/phase4/test_io_uring_zero_copy.cpp</includedby>
+    <includedby refid="test__pmem__storage_8cpp" local="yes">tests/performance/phase4/test_pmem_storage.cpp</includedby>
+    <includedby refid="test__pmu__counters_8cpp" local="yes">tests/performance/phase4/test_pmu_counters.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/performance/phase4/feature_flags.h</label>
+        <link refid="phase4_2feature__flags_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>mutex</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/performance/phase4/feature_flags.h</label>
+        <link refid="phase4_2feature__flags_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/performance/phase4/feature_flags.cpp</label>
+        <link refid="phase4_2feature__flags_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/performance/phase4/test_io_uring_zero_copy.cpp</label>
+        <link refid="test__io__uring__zero__copy_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/performance/phase4/test_pmem_storage.cpp</label>
+        <link refid="test__pmem__storage_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/performance/phase4/test_pmu_counters.cpp</label>
+        <link refid="test__pmu__counters_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags" prot="public">themis::performance::phase4::Phase4FeatureFlags</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1performance">themis::performance</innernamespace>
+    <innernamespace refid="namespacethemis_1_1performance_1_1phase4">themis::performance::phase4</innernamespace>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="phase4_2feature__flags_8h_1aa849f5c443890f4e06a482a1cb3acd3a" prot="public" static="no">
+        <name>THEMIS_PHASE4_PMEM_ENABLED</name>
+        <param></param>
+        <initializer>(false)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/feature_flags.h" line="73" column="14" bodyfile="include/performance/phase4/feature_flags.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="phase4_2feature__flags_8h_1a9b9f916771a15573c9dcf733355a4bc8" prot="public" static="no">
+        <name>THEMIS_PHASE4_PMU_ENABLED</name>
+        <param></param>
+        <initializer>(false)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/feature_flags.h" line="80" column="14" bodyfile="include/performance/phase4/feature_flags.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="phase4_2feature__flags_8h_1afcaaefcfbbf9c7dff6928247e1b49887" prot="public" static="no">
+        <name>THEMIS_PHASE4_IO_URING_ENABLED</name>
+        <param></param>
+        <initializer>(false)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/feature_flags.h" line="87" column="14" bodyfile="include/performance/phase4/feature_flags.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Phase<sp/>4<sp/>Performance<sp/>Optimizations<sp/>Feature<sp/>Flags</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Covers<sp/>ML-based<sp/>workload<sp/>predictor,<sp/>PMU<sp/>integration,<sp/>CI<sp/>regression</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>detection,<sp/>DPDK/io_uring<sp/>zero-copy<sp/>I/O,<sp/>and<sp/>persistent<sp/>memory<sp/>storage<sp/>layout.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>header<sp/>follows<sp/>the<sp/>same<sp/>pattern<sp/>as<sp/>phase3/feature_flags.h.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Expected<sp/>gains<sp/>(Phase<sp/>4):<sp/>+50-200%<sp/>for<sp/>PMem-heavy<sp/>workloads;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>10-50x<sp/>latency<sp/>improvement<sp/>with<sp/>io_uring.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1performance" kindref="compound">performance</ref><sp/>{</highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1performance_1_1phase4" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1performance_1_1phase4" kindref="compound">phase4</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">Phase4FeatureFlags<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="34" refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a0c7fb6df1cccf60edd596200ddb1bebd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>Phase4FeatureFlags&amp;<sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a0c7fb6df1cccf60edd596200ddb1bebd" kindref="member">instance</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>Phase4FeatureFlags<sp/>inst;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>inst;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Persistent<sp/>Memory<sp/>(Optane)<sp/>aware<sp/>storage<sp/>layout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expected<sp/>gain:<sp/>+50-200%<sp/>write<sp/>throughput<sp/>for<sp/>small<sp/>random<sp/>writes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a0bb27efff298dd6778f05d07aded29b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a0bb27efff298dd6778f05d07aded29b3" kindref="member">pmem_enabled</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>pmem_enabled_.load(std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="42" refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a090b9d2c285b7edd8c96a1ebb70e91bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a090b9d2c285b7edd8c96a1ebb70e91bf" kindref="member">set_pmem_enabled</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enabled)<sp/>{<sp/>pmem_enabled_.store(enabled,<sp/>std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Hardware<sp/>PMU<sp/>counters<sp/>for<sp/>cache<sp/>miss<sp/>analysis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expected<sp/>overhead:<sp/>&lt;1<sp/>ns<sp/>per<sp/>measurement<sp/>point<sp/>when<sp/>amortised</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a9eb43d4508684cd5cdb4990c382f8d52" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a9eb43d4508684cd5cdb4990c382f8d52" kindref="member">pmu_enabled</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>pmu_enabled_.load(std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="47" refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1adf38aee181968efb9bee8cc536ee9f0d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1adf38aee181968efb9bee8cc536ee9f0d" kindref="member">set_pmu_enabled</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enabled)<sp/>{<sp/>pmu_enabled_.store(enabled,<sp/>std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>io_uring<sp/>zero-copy<sp/>I/O<sp/>path<sp/>for<sp/>network<sp/>performance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expected<sp/>gain:<sp/>10-50x<sp/>lower<sp/>latency<sp/>vs.<sp/>epoll/read/write<sp/>on<sp/>Linux<sp/>≥<sp/>5.1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a91c9572be8b0937a5de78bc2a5b6f1d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a91c9572be8b0937a5de78bc2a5b6f1d0" kindref="member">io_uring_enabled</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>io_uring_enabled_.load(std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="52" refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a1f744fb421fc85f953a81b4d8e16b0ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a1f744fb421fc85f953a81b4d8e16b0ab" kindref="member">set_io_uring_enabled</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enabled)<sp/>{<sp/>io_uring_enabled_.store(enabled,<sp/>std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Load<sp/>configuration<sp/>from<sp/>JSON<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a36483d304f2e9724aebcc0c466ef7d7b" kindref="member">load_from_config</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>config_path);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags" kindref="compound">Phase4FeatureFlags</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags" kindref="compound">~Phase4FeatureFlags</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags" kindref="compound">Phase4FeatureFlags</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags" kindref="compound">Phase4FeatureFlags</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags" kindref="compound">Phase4FeatureFlags</ref>&amp;<sp/>operator=(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags" kindref="compound">Phase4FeatureFlags</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>pmem_enabled_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>pmu_enabled_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>io_uring_enabled_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Macro<sp/>helpers<sp/>for<sp/>compile-time<sp/>+<sp/>runtime<sp/>checks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_PMEM</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PHASE4_PMEM_ENABLED()<sp/>\</highlight></codeline>
+<codeline lineno="71"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(::themis::performance::phase4::Phase4FeatureFlags::instance().pmem_enabled())</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="phase4_2feature__flags_8h_1aa849f5c443890f4e06a482a1cb3acd3a" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PHASE4_PMEM_ENABLED()<sp/>(false)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_PMU_COUNTERS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PHASE4_PMU_ENABLED()<sp/>\</highlight></codeline>
+<codeline lineno="78"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(::themis::performance::phase4::Phase4FeatureFlags::instance().pmu_enabled())</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="phase4_2feature__flags_8h_1a9b9f916771a15573c9dcf733355a4bc8" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PHASE4_PMU_ENABLED()<sp/>(false)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_IO_URING</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PHASE4_IO_URING_ENABLED()<sp/>\</highlight></codeline>
+<codeline lineno="85"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(::themis::performance::phase4::Phase4FeatureFlags::instance().io_uring_enabled())</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="phase4_2feature__flags_8h_1afcaaefcfbbf9c7dff6928247e1b49887" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PHASE4_IO_URING_ENABLED()<sp/>(false)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>phase4</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>performance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/performance/phase4/feature_flags.h"/>
+  </compounddef>
+</doxygen>

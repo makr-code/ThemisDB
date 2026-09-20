@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1scraper_1_1_0d234272204360235230102062145102350223135047017107" kind="namespace" language="C++">
+    <compoundname>themis::scraper::@234272204360235230102062145102350223135047017107</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/scraper/scraper_metadata_writer.cpp" line="33" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1config_1_1test_1_1_config_env_overlay_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::config::test::ConfigEnvOverlayTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1config_1_1test_1_1_config_env_overlay_test_1a1c193b991cd37fbdacb4b31dcdcfe781" prot="protected" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path themis::config::test::ConfigEnvOverlayTest::test_dir_</definition>
+        <argsstring></argsstring>
+        <name>test_dir_</name>
+        <qualifiedname>themis::config::test::ConfigEnvOverlayTest::test_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/config/test_config_path_resolver.cpp" line="651" column="27" bodyfile="tests/config/test_config_path_resolver.cpp" bodystart="651" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1test_1_1_config_env_overlay_test_1a13e288ac807b9307ad227e7dd9a2f8ea" prot="protected" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path themis::config::test::ConfigEnvOverlayTest::prev_cwd_</definition>
+        <argsstring></argsstring>
+        <name>prev_cwd_</name>
+        <qualifiedname>themis::config::test::ConfigEnvOverlayTest::prev_cwd_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/config/test_config_path_resolver.cpp" line="652" column="27" bodyfile="tests/config/test_config_path_resolver.cpp" bodystart="652" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1config_1_1test_1_1_config_env_overlay_test_1a836c38fa5d7c741ddc1ccf40c6ae98d7" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::test::ConfigEnvOverlayTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::config::test::ConfigEnvOverlayTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/config/test_config_path_resolver.cpp" line="622" column="10" bodyfile="tests/config/test_config_path_resolver.cpp" bodystart="622" bodyend="634"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1test_1_1_config_env_overlay_test_1aec2829505a981b381138749e4514e000" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::test::ConfigEnvOverlayTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::config::test::ConfigEnvOverlayTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/config/test_config_path_resolver.cpp" line="636" column="10" bodyfile="tests/config/test_config_path_resolver.cpp" bodystart="636" bodyend="642"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1test_1_1_config_env_overlay_test_1a39f7873fba25a83af914cce54c1927f7" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::test::ConfigEnvOverlayTest::createFile</definition>
+        <argsstring>(const std::filesystem::path &amp;rel_path)</argsstring>
+        <name>createFile</name>
+        <qualifiedname>themis::config::test::ConfigEnvOverlayTest::createFile</qualifiedname>
+        <param>
+          <type>const std::filesystem::path &amp;</type>
+          <declname>rel_path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/config/test_config_path_resolver.cpp" line="644" column="10" bodyfile="tests/config/test_config_path_resolver.cpp" bodystart="644" bodyend="649"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::config::test::ConfigEnvOverlayTest</label>
+        <link refid="classthemis_1_1config_1_1test_1_1_config_env_overlay_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::config::test::ConfigEnvOverlayTest</label>
+        <link refid="classthemis_1_1config_1_1test_1_1_config_env_overlay_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/config/test_config_path_resolver.cpp" line="620" column="1" bodyfile="tests/config/test_config_path_resolver.cpp" bodystart="620" bodyend="653"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1config_1_1test_1_1_config_env_overlay_test_1a39f7873fba25a83af914cce54c1927f7" prot="protected" virt="non-virtual"><scope>themis::config::test::ConfigEnvOverlayTest</scope><name>createFile</name></member>
+      <member refid="classthemis_1_1config_1_1test_1_1_config_env_overlay_test_1a13e288ac807b9307ad227e7dd9a2f8ea" prot="protected" virt="non-virtual"><scope>themis::config::test::ConfigEnvOverlayTest</scope><name>prev_cwd_</name></member>
+      <member refid="classthemis_1_1config_1_1test_1_1_config_env_overlay_test_1a836c38fa5d7c741ddc1ccf40c6ae98d7" prot="protected" virt="non-virtual"><scope>themis::config::test::ConfigEnvOverlayTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1config_1_1test_1_1_config_env_overlay_test_1aec2829505a981b381138749e4514e000" prot="protected" virt="non-virtual"><scope>themis::config::test::ConfigEnvOverlayTest</scope><name>TearDown</name></member>
+      <member refid="classthemis_1_1config_1_1test_1_1_config_env_overlay_test_1a1c193b991cd37fbdacb4b31dcdcfe781" prot="protected" virt="non-virtual"><scope>themis::config::test::ConfigEnvOverlayTest</scope><name>test_dir_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

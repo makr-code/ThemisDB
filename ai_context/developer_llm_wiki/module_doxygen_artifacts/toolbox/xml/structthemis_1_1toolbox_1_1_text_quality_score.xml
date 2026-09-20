@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1toolbox_1_1_text_quality_score" kind="struct" language="C++" prot="public">
+    <compoundname>themis::toolbox::TextQualityScore</compoundname>
+    <includes refid="text__quality__scorer_8h" local="no">text_quality_scorer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1toolbox_1_1_text_quality_score_1a0131cdd4bb23edd35cc72f3a50fe8b4a" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::toolbox::TextQualityScore::token_count</definition>
+        <argsstring></argsstring>
+        <name>token_count</name>
+        <qualifiedname>themis::toolbox::TextQualityScore::token_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Estimated token count (whitespace-split words). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/text_quality_scorer.h" line="29" column="17" bodyfile="include/toolbox/text_quality_scorer.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1toolbox_1_1_text_quality_score_1a249c284b280141c5443cd350f41c08b6" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::toolbox::TextQualityScore::char_count</definition>
+        <argsstring></argsstring>
+        <name>char_count</name>
+        <qualifiedname>themis::toolbox::TextQualityScore::char_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Raw byte length of the text. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/text_quality_scorer.h" line="32" column="17" bodyfile="include/toolbox/text_quality_scorer.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1toolbox_1_1_text_quality_score_1ae502efc80ce6c087c91bedc7e0b53982" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::toolbox::TextQualityScore::language</definition>
+        <argsstring></argsstring>
+        <name>language</name>
+        <qualifiedname>themis::toolbox::TextQualityScore::language</qualifiedname>
+        <briefdescription>
+<para>ISO 639-1 language code (&quot;en&quot;, &quot;de&quot;) or &quot;und&quot; when undetermined. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/text_quality_scorer.h" line="35" column="17" bodyfile="include/toolbox/text_quality_scorer.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1toolbox_1_1_text_quality_score_1aa943db17173477488848250aeba70d4a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::toolbox::TextQualityScore::is_empty</definition>
+        <argsstring></argsstring>
+        <name>is_empty</name>
+        <qualifiedname>themis::toolbox::TextQualityScore::is_empty</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para><computeroutput>true</computeroutput> when the text is empty or contains only whitespace. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/text_quality_scorer.h" line="38" column="10" bodyfile="include/toolbox/text_quality_scorer.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1toolbox_1_1_text_quality_score_1ac54bad7ba0501ad256511da3ffa70f1e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::toolbox::TextQualityScore::has_boilerplate</definition>
+        <argsstring></argsstring>
+        <name>has_boilerplate</name>
+        <qualifiedname>themis::toolbox::TextQualityScore::has_boilerplate</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para><computeroutput>true</computeroutput> when the text is suspected boilerplate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Boilerplate heuristics (any of the following triggers <computeroutput>true</computeroutput>):<itemizedlist>
+<listitem><para>More than 50 % of tokens are repeated (unique_tokens / total_tokens).</para>
+</listitem><listitem><para>Token count &lt; 5.</para>
+</listitem><listitem><para>Average word length &gt; 25 characters (garbled / binary data). </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/text_quality_scorer.h" line="48" column="10" bodyfile="include/toolbox/text_quality_scorer.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Quality metrics for a piece of text. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Populated by <computeroutput><ref refid="classthemis_1_1toolbox_1_1_text_quality_scorer_1ace03734554f3ebed2f1e881ac427a532" kindref="member">TextQualityScorer::score()</ref></computeroutput>. </para>
+    </detaileddescription>
+    <location file="include/toolbox/text_quality_scorer.h" line="27" column="1" bodyfile="include/toolbox/text_quality_scorer.h" bodystart="27" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1toolbox_1_1_text_quality_score_1a249c284b280141c5443cd350f41c08b6" prot="public" virt="non-virtual"><scope>themis::toolbox::TextQualityScore</scope><name>char_count</name></member>
+      <member refid="structthemis_1_1toolbox_1_1_text_quality_score_1ac54bad7ba0501ad256511da3ffa70f1e" prot="public" virt="non-virtual"><scope>themis::toolbox::TextQualityScore</scope><name>has_boilerplate</name></member>
+      <member refid="structthemis_1_1toolbox_1_1_text_quality_score_1aa943db17173477488848250aeba70d4a" prot="public" virt="non-virtual"><scope>themis::toolbox::TextQualityScore</scope><name>is_empty</name></member>
+      <member refid="structthemis_1_1toolbox_1_1_text_quality_score_1ae502efc80ce6c087c91bedc7e0b53982" prot="public" virt="non-virtual"><scope>themis::toolbox::TextQualityScore</scope><name>language</name></member>
+      <member refid="structthemis_1_1toolbox_1_1_text_quality_score_1a0131cdd4bb23edd35cc72f3a50fe8b4a" prot="public" virt="non-virtual"><scope>themis::toolbox::TextQualityScore</scope><name>token_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

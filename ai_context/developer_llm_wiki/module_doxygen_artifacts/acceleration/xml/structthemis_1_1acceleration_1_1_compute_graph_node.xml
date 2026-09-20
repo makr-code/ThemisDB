@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_compute_graph_node" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::ComputeGraphNode</compoundname>
+    <includes refid="compute__graph_8h" local="no">compute_graph.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_compute_graph_node_1a6bc17080e8cb9ac986ae9949266df2d2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::ComputeGraphNode::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::acceleration::ComputeGraphNode::node_id</qualifiedname>
+        <briefdescription>
+<para>Unique node identifier (within graph scope). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_graph.h" line="28" column="17" bodyfile="include/acceleration/compute_graph.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_compute_graph_node_1ac8ef697ea83d1ead097080aba9919c36" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::ComputeGraphNode::kernel_name</definition>
+        <argsstring></argsstring>
+        <name>kernel_name</name>
+        <qualifiedname>themis::acceleration::ComputeGraphNode::kernel_name</qualifiedname>
+        <briefdescription>
+<para>Name of the kernel to execute (e.g. &quot;l2_distance&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_graph.h" line="29" column="17" bodyfile="include/acceleration/compute_graph.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_compute_graph_node_1a4f8de78705a4af65d0392df5c42fde20" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::acceleration::ComputeGraphNode::input_buffer_ids</definition>
+        <argsstring></argsstring>
+        <name>input_buffer_ids</name>
+        <qualifiedname>themis::acceleration::ComputeGraphNode::input_buffer_ids</qualifiedname>
+        <briefdescription>
+<para>IDs of input buffers for this kernel. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_graph.h" line="30" column="17" bodyfile="include/acceleration/compute_graph.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_compute_graph_node_1a9565d24fdf2edb5e18ddf3b6605fbaaa" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::acceleration::ComputeGraphNode::output_buffer_ids</definition>
+        <argsstring></argsstring>
+        <name>output_buffer_ids</name>
+        <qualifiedname>themis::acceleration::ComputeGraphNode::output_buffer_ids</qualifiedname>
+        <briefdescription>
+<para>IDs of output buffers produced by this kernel. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_graph.h" line="31" column="17" bodyfile="include/acceleration/compute_graph.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_compute_graph_node_1ae607941c97123d1555b6521931402e7d" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::acceleration::ComputeGraphNode::attributes</definition>
+        <argsstring></argsstring>
+        <name>attributes</name>
+        <qualifiedname>themis::acceleration::ComputeGraphNode::attributes</qualifiedname>
+        <briefdescription>
+<para>Optional kernel attributes (e.g. {&quot;metric&quot;: &quot;L2&quot;}). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_graph.h" line="32" column="14" bodyfile="include/acceleration/compute_graph.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_compute_graph_node_1a206123f58a42da7a1287cd1f032c10b3" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1acceleration_1adf8ffc9781aaacd635c77fcbfdd1b360" kindref="member">NodeDependencyMode</ref></type>
+        <definition>NodeDependencyMode themis::acceleration::ComputeGraphNode::dependency_mode</definition>
+        <argsstring></argsstring>
+        <name>dependency_mode</name>
+        <qualifiedname>themis::acceleration::ComputeGraphNode::dependency_mode</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1acceleration_1adf8ffc9781aaacd635c77fcbfdd1b360a39403cd282d944abcd4f14996cb71bcb" kindref="member">NodeDependencyMode::SEQUENTIAL</ref></initializer>
+        <briefdescription>
+<para>Dependency semantics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_graph.h" line="33" column="24" bodyfile="include/acceleration/compute_graph.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/compute_graph.h" line="27" column="1" bodyfile="include/acceleration/compute_graph.h" bodystart="27" bodyend="34"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_compute_graph_node_1ae607941c97123d1555b6521931402e7d" prot="public" virt="non-virtual"><scope>themis::acceleration::ComputeGraphNode</scope><name>attributes</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_compute_graph_node_1a206123f58a42da7a1287cd1f032c10b3" prot="public" virt="non-virtual"><scope>themis::acceleration::ComputeGraphNode</scope><name>dependency_mode</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_compute_graph_node_1a4f8de78705a4af65d0392df5c42fde20" prot="public" virt="non-virtual"><scope>themis::acceleration::ComputeGraphNode</scope><name>input_buffer_ids</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_compute_graph_node_1ac8ef697ea83d1ead097080aba9919c36" prot="public" virt="non-virtual"><scope>themis::acceleration::ComputeGraphNode</scope><name>kernel_name</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_compute_graph_node_1a6bc17080e8cb9ac986ae9949266df2d2" prot="public" virt="non-virtual"><scope>themis::acceleration::ComputeGraphNode</scope><name>node_id</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_compute_graph_node_1a9565d24fdf2edb5e18ddf3b6605fbaaa" prot="public" virt="non-virtual"><scope>themis::acceleration::ComputeGraphNode</scope><name>output_buffer_ids</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

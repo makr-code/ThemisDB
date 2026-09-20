@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_batch_write_optimizer_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::BatchWriteOptimizer::Config</compoundname>
+    <includes refid="batch__write__optimizer_8h" local="no">batch_write_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_batch_write_optimizer_1_1_config_1ac92a8873c77087254f2cc88d124e9968" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_batch_write_optimizer_1a71120b02fc35d86b111847f9ccf719ce" kindref="member">DurabilityMode</ref></type>
+        <definition>DurabilityMode themis::BatchWriteOptimizer::Config::durability</definition>
+        <argsstring></argsstring>
+        <name>durability</name>
+        <qualifiedname>themis::BatchWriteOptimizer::Config::durability</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1_batch_write_optimizer_1a71120b02fc35d86b111847f9ccf719cea24aa4117da86c41684ad25742832dfa6" kindref="member">DurabilityMode::Async</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/batch_write_optimizer.h" line="67" column="24" bodyfile="include/storage/batch_write_optimizer.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_batch_write_optimizer_1_1_config_1ac58330f1b33bc3247b71299096df3698" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::BatchWriteOptimizer::Config::disable_wal</definition>
+        <argsstring></argsstring>
+        <name>disable_wal</name>
+        <qualifiedname>themis::BatchWriteOptimizer::Config::disable_wal</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Disable WAL entirely (NoSync + skip WAL) Only for bulk loads where data can be reconstructed </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/batch_write_optimizer.h" line="71" column="14" bodyfile="include/storage/batch_write_optimizer.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/batch_write_optimizer.h" line="66" column="5" bodyfile="include/storage/batch_write_optimizer.h" bodystart="66" bodyend="72"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_batch_write_optimizer_1_1_config_1ac58330f1b33bc3247b71299096df3698" prot="public" virt="non-virtual"><scope>themis::BatchWriteOptimizer::Config</scope><name>disable_wal</name></member>
+      <member refid="structthemis_1_1_batch_write_optimizer_1_1_config_1ac92a8873c77087254f2cc88d124e9968" prot="public" virt="non-virtual"><scope>themis::BatchWriteOptimizer::Config</scope><name>durability</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

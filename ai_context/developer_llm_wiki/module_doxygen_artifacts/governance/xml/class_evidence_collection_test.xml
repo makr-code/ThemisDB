@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_evidence_collection_test" kind="class" language="C++" prot="public">
+    <compoundname>EvidenceCollectionTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_evidence_collection_test_1ae19250549e7c4a8bfb93de83cf08e1eb" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1governance_1_1_compliance_validation_engine" kindref="compound">ComplianceValidationEngine</ref></type>
+        <definition>ComplianceValidationEngine EvidenceCollectionTest::engine</definition>
+        <argsstring></argsstring>
+        <name>engine</name>
+        <qualifiedname>EvidenceCollectionTest::engine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_compliance_framework.cpp" line="352" column="32" bodyfile="tests/governance/test_compliance_framework.cpp" bodystart="352" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_evidence_collection_test_1a4628b0af695514ffad3f52e39b655cb3" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1governance_1_1_compliance_context" kindref="compound">ComplianceContext</ref></type>
+        <definition>ComplianceContext EvidenceCollectionTest::ctx</definition>
+        <argsstring></argsstring>
+        <name>ctx</name>
+        <qualifiedname>EvidenceCollectionTest::ctx</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_compliance_framework.cpp" line="353" column="23" bodyfile="tests/governance/test_compliance_framework.cpp" bodystart="353" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_evidence_collection_test_1aee1f1ed669dba901d05145715ddf1866" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void EvidenceCollectionTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>EvidenceCollectionTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_compliance_framework.cpp" line="355" column="10" bodyfile="tests/governance/test_compliance_framework.cpp" bodystart="355" bodyend="359"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>EvidenceCollectionTest</label>
+        <link refid="class_evidence_collection_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>EvidenceCollectionTest</label>
+        <link refid="class_evidence_collection_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>engine</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>ctx</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="4">
+        <label>themis::governance::ComplianceContext</label>
+        <link refid="structthemis_1_1governance_1_1_compliance_context"/>
+      </node>
+      <node id="3">
+        <label>themis::governance::ComplianceValidationEngine</label>
+        <link refid="classthemis_1_1governance_1_1_compliance_validation_engine"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/governance/test_compliance_framework.cpp" line="350" column="1" bodyfile="tests/governance/test_compliance_framework.cpp" bodystart="350" bodyend="360"/>
+    <listofallmembers>
+      <member refid="class_evidence_collection_test_1a4628b0af695514ffad3f52e39b655cb3" prot="protected" virt="non-virtual"><scope>EvidenceCollectionTest</scope><name>ctx</name></member>
+      <member refid="class_evidence_collection_test_1ae19250549e7c4a8bfb93de83cf08e1eb" prot="protected" virt="non-virtual"><scope>EvidenceCollectionTest</scope><name>engine</name></member>
+      <member refid="class_evidence_collection_test_1aee1f1ed669dba901d05145715ddf1866" prot="protected" virt="non-virtual"><scope>EvidenceCollectionTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

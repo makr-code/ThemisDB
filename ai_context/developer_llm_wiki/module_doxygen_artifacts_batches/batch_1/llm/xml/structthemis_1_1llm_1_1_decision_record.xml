@@ -1,0 +1,228 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_decision_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::DecisionRecord</compoundname>
+    <includes refid="decision__record__yaml__processor_8h" local="no">decision_record_yaml_processor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_decision_record_1accb040f883d21b2b1831f2c43398bf9e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::DecisionRecord::record_id</definition>
+        <argsstring></argsstring>
+        <name>record_id</name>
+        <qualifiedname>themis::llm::DecisionRecord::record_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="31" column="17" bodyfile="include/llm/decision_record_yaml_processor.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_decision_record_1ac4020c9f6ff8dc95e3973f3a2dd308d0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::DecisionRecord::decision_type</definition>
+        <argsstring></argsstring>
+        <name>decision_type</name>
+        <qualifiedname>themis::llm::DecisionRecord::decision_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="33" column="17" bodyfile="include/llm/decision_record_yaml_processor.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_decision_record_1a325d32607b14cc6878701f150f0e23b8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::DecisionRecord::component</definition>
+        <argsstring></argsstring>
+        <name>component</name>
+        <qualifiedname>themis::llm::DecisionRecord::component</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="36" column="17" bodyfile="include/llm/decision_record_yaml_processor.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_decision_record_1addab69da5c9171167b3a27f7b2b3655d" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::llm::DecisionRecord::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::llm::DecisionRecord::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="38" column="19" bodyfile="include/llm/decision_record_yaml_processor.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_decision_record_1ad575897efd17a99c14086942317f298d" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::DecisionRecord::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::llm::DecisionRecord::timestamp</qualifiedname>
+        <initializer>{std::chrono::system_clock::now()}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="41" column="43" bodyfile="include/llm/decision_record_yaml_processor.h" bodystart="41" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_decision_record_1a17c405feaea86506e02395c14d77c928" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::llm::DecisionRecord::latency_ms</definition>
+        <argsstring></argsstring>
+        <name>latency_ms</name>
+        <qualifiedname>themis::llm::DecisionRecord::latency_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="43" column="13" bodyfile="include/llm/decision_record_yaml_processor.h" bodystart="43" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_decision_record_1a258b97e33f36ea63f4dc41419810d327" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::DecisionRecord::outcome</definition>
+        <argsstring></argsstring>
+        <name>outcome</name>
+        <qualifiedname>themis::llm::DecisionRecord::outcome</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="46" column="17" bodyfile="include/llm/decision_record_yaml_processor.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_decision_record_1a102a6ceb428da83c6f95c2081c1752b6" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; float &gt;</type>
+        <definition>std::optional&lt;float&gt; themis::llm::DecisionRecord::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::llm::DecisionRecord::confidence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="48" column="19" bodyfile="include/llm/decision_record_yaml_processor.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_decision_record_1a9b4ea1b91e183d842354e7ff6de43f98" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int &gt;</type>
+        <definition>std::optional&lt;int&gt; themis::llm::DecisionRecord::lora_round</definition>
+        <argsstring></argsstring>
+        <name>lora_round</name>
+        <qualifiedname>themis::llm::DecisionRecord::lora_round</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="51" column="19" bodyfile="include/llm/decision_record_yaml_processor.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_decision_record_1abd332a00910a6dcd2524e8fe728d894c" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; float &gt;</type>
+        <definition>std::optional&lt;float&gt; themis::llm::DecisionRecord::epsilon_spent</definition>
+        <argsstring></argsstring>
+        <name>epsilon_spent</name>
+        <qualifiedname>themis::llm::DecisionRecord::epsilon_spent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="53" column="19" bodyfile="include/llm/decision_record_yaml_processor.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_decision_record_1aadde65f70ae60cffc6ac4cd92e71064d" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; size_t &gt;</type>
+        <definition>std::optional&lt;size_t&gt; themis::llm::DecisionRecord::participants</definition>
+        <argsstring></argsstring>
+        <name>participants</name>
+        <qualifiedname>themis::llm::DecisionRecord::participants</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="55" column="19" bodyfile="include/llm/decision_record_yaml_processor.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_decision_record_1a2d02ed5b7e261b8bbbe8c1f4cdfb5de8" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; float &gt;</type>
+        <definition>std::optional&lt;float&gt; themis::llm::DecisionRecord::accuracy_delta</definition>
+        <argsstring></argsstring>
+        <name>accuracy_delta</name>
+        <qualifiedname>themis::llm::DecisionRecord::accuracy_delta</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="57" column="19" bodyfile="include/llm/decision_record_yaml_processor.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_decision_record_1a56a9e1d7dac091bab55337bf18491de5" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::llm::DecisionRecord::parameters</definition>
+        <argsstring></argsstring>
+        <name>parameters</name>
+        <qualifiedname>themis::llm::DecisionRecord::parameters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="60" column="14" bodyfile="include/llm/decision_record_yaml_processor.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_decision_record_1abd4500a919ffb5588219d8190ae5342f" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::llm::DecisionRecord::audit_ref</definition>
+        <argsstring></argsstring>
+        <name>audit_ref</name>
+        <qualifiedname>themis::llm::DecisionRecord::audit_ref</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="63" column="19" bodyfile="include/llm/decision_record_yaml_processor.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/decision_record_yaml_processor.h" line="29" column="1" bodyfile="include/llm/decision_record_yaml_processor.h" bodystart="29" bodyend="64"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_decision_record_1a2d02ed5b7e261b8bbbe8c1f4cdfb5de8" prot="public" virt="non-virtual"><scope>themis::llm::DecisionRecord</scope><name>accuracy_delta</name></member>
+      <member refid="structthemis_1_1llm_1_1_decision_record_1abd4500a919ffb5588219d8190ae5342f" prot="public" virt="non-virtual"><scope>themis::llm::DecisionRecord</scope><name>audit_ref</name></member>
+      <member refid="structthemis_1_1llm_1_1_decision_record_1a325d32607b14cc6878701f150f0e23b8" prot="public" virt="non-virtual"><scope>themis::llm::DecisionRecord</scope><name>component</name></member>
+      <member refid="structthemis_1_1llm_1_1_decision_record_1a102a6ceb428da83c6f95c2081c1752b6" prot="public" virt="non-virtual"><scope>themis::llm::DecisionRecord</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1llm_1_1_decision_record_1ac4020c9f6ff8dc95e3973f3a2dd308d0" prot="public" virt="non-virtual"><scope>themis::llm::DecisionRecord</scope><name>decision_type</name></member>
+      <member refid="structthemis_1_1llm_1_1_decision_record_1abd332a00910a6dcd2524e8fe728d894c" prot="public" virt="non-virtual"><scope>themis::llm::DecisionRecord</scope><name>epsilon_spent</name></member>
+      <member refid="structthemis_1_1llm_1_1_decision_record_1a17c405feaea86506e02395c14d77c928" prot="public" virt="non-virtual"><scope>themis::llm::DecisionRecord</scope><name>latency_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_decision_record_1a9b4ea1b91e183d842354e7ff6de43f98" prot="public" virt="non-virtual"><scope>themis::llm::DecisionRecord</scope><name>lora_round</name></member>
+      <member refid="structthemis_1_1llm_1_1_decision_record_1a258b97e33f36ea63f4dc41419810d327" prot="public" virt="non-virtual"><scope>themis::llm::DecisionRecord</scope><name>outcome</name></member>
+      <member refid="structthemis_1_1llm_1_1_decision_record_1a56a9e1d7dac091bab55337bf18491de5" prot="public" virt="non-virtual"><scope>themis::llm::DecisionRecord</scope><name>parameters</name></member>
+      <member refid="structthemis_1_1llm_1_1_decision_record_1aadde65f70ae60cffc6ac4cd92e71064d" prot="public" virt="non-virtual"><scope>themis::llm::DecisionRecord</scope><name>participants</name></member>
+      <member refid="structthemis_1_1llm_1_1_decision_record_1accb040f883d21b2b1831f2c43398bf9e" prot="public" virt="non-virtual"><scope>themis::llm::DecisionRecord</scope><name>record_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_decision_record_1addab69da5c9171167b3a27f7b2b3655d" prot="public" virt="non-virtual"><scope>themis::llm::DecisionRecord</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_decision_record_1ad575897efd17a99c14086942317f298d" prot="public" virt="non-virtual"><scope>themis::llm::DecisionRecord</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,307 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1judge_1_1_pairwise_comparator" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::judge::PairwiseComparator</compoundname>
+    <includes refid="pairwise__comparator_8h" local="no">pairwise_comparator.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1_1_config" prot="public">themis::rag::judge::PairwiseComparator::Config</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1_1_impl" prot="public">themis::rag::judge::PairwiseComparator::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1ac51ed5fe5607e3c5a637d8bb65b46358" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::rag::judge::PairwiseComparator::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::rag::judge::PairwiseComparator::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/pairwise_comparator.h" line="153" column="21" bodyfile="include/rag/pairwise_comparator.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1a26ff8469e081c3547d7af242eabe1781" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::PairwiseComparator::PairwiseComparator</definition>
+        <argsstring>()</argsstring>
+        <name>PairwiseComparator</name>
+        <qualifiedname>themis::rag::judge::PairwiseComparator::PairwiseComparator</qualifiedname>
+        <briefdescription>
+<para>Construct comparator with configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/pairwise_comparator.h" line="100" column="5" bodyfile="src/rag/pairwise_comparator.cpp" bodystart="124" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1a5a449f10bb0806c9f2f622b8fdf1e627" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::PairwiseComparator::PairwiseComparator</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>PairwiseComparator</name>
+        <qualifiedname>themis::rag::judge::PairwiseComparator::PairwiseComparator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/pairwise_comparator.h" line="101" column="14" bodyfile="src/rag/pairwise_comparator.cpp" bodystart="128" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1a2d7ff3d5a756e28a98a8d4a1cc0d7f4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::PairwiseComparator::~PairwiseComparator</definition>
+        <argsstring>()</argsstring>
+        <name>~PairwiseComparator</name>
+        <qualifiedname>themis::rag::judge::PairwiseComparator::~PairwiseComparator</qualifiedname>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/pairwise_comparator.h" line="106" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1a00a95ea7a41efb35df0e36d5dcc1eb17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_pairwise_comparison_result" kindref="compound">PairwiseComparisonResult</ref></type>
+        <definition>PairwiseComparisonResult themis::rag::judge::PairwiseComparator::compare</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;documents, const std::string &amp;answer_a, const std::string &amp;answer_b)</argsstring>
+        <name>compare</name>
+        <qualifiedname>themis::rag::judge::PairwiseComparator::compare</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer_a</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer_b</declname>
+        </param>
+        <briefdescription>
+<para>Compare two answers pairwise. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original query </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retrieved documents </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>answer_a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>First answer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>answer_b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Second answer </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pairwise comparison result </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/pairwise_comparator.h" line="116" column="30" bodyfile="src/rag/pairwise_comparator.cpp" bodystart="221" bodyend="360"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1a803318a179a26ec11ff43befa1297c28" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1rag_1_1judge_1ad65ac84db6d0ad139ac9f675e48b5a4b" kindref="member">ComparisonWinner</ref></type>
+        <definition>ComparisonWinner themis::rag::judge::PairwiseComparator::compareWithLLM</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;documents, const std::string &amp;answer_a, const std::string &amp;answer_b, bool order_a_first=true)</argsstring>
+        <name>compareWithLLM</name>
+        <qualifiedname>themis::rag::judge::PairwiseComparator::compareWithLLM</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer_a</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer_b</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>order_a_first</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Compare answers with LLM-based direct comparison. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original query </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retrieved documents </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>answer_a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>First answer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>answer_b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Second answer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>order_a_first</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If true, present A first; else B first </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Comparison result </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/pairwise_comparator.h" line="132" column="22" bodyfile="src/rag/pairwise_comparator.cpp" bodystart="145" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1a9dd2933340ce0d3d5e662ea7f24dc016" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::judge::PairwiseComparator::detectPositionBias</definition>
+        <argsstring>(ComparisonWinner forward_result, ComparisonWinner reverse_result)</argsstring>
+        <name>detectPositionBias</name>
+        <qualifiedname>themis::rag::judge::PairwiseComparator::detectPositionBias</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1judge_1ad65ac84db6d0ad139ac9f675e48b5a4b" kindref="member">ComparisonWinner</ref></type>
+          <declname>forward_result</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1judge_1ad65ac84db6d0ad139ac9f675e48b5a4b" kindref="member">ComparisonWinner</ref></type>
+          <declname>reverse_result</declname>
+        </param>
+        <briefdescription>
+<para>Detect position bias in comparison. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Detect Position Bias.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>forward_result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Result with A presented first </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>reverse_result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Result with B presented first </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Bias magnitude 0-1</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">forward_result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reverse_result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements detectPositionBias without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/pairwise_comparator.h" line="146" column="12" bodyfile="src/rag/pairwise_comparator.cpp" bodystart="195" bodyend="219"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Pairwise comparator with bias mitigation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Performs enhanced pairwise comparison of two answers with:<itemizedlist>
+<listitem><para>Position bias mitigation</para>
+</listitem><listitem><para>Tie handling with confidence thresholds</para>
+</listitem><listitem><para>Per-dimension comparison</para>
+</listitem><listitem><para>Multiple evaluation strategies </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/rag/pairwise_comparator.h" line="84" column="1" bodyfile="include/rag/pairwise_comparator.h" bodystart="84" bodyend="154"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1a00a95ea7a41efb35df0e36d5dcc1eb17" prot="public" virt="non-virtual"><scope>themis::rag::judge::PairwiseComparator</scope><name>compare</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1a803318a179a26ec11ff43befa1297c28" prot="public" virt="non-virtual"><scope>themis::rag::judge::PairwiseComparator</scope><name>compareWithLLM</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1a9dd2933340ce0d3d5e662ea7f24dc016" prot="public" virt="non-virtual"><scope>themis::rag::judge::PairwiseComparator</scope><name>detectPositionBias</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1ac51ed5fe5607e3c5a637d8bb65b46358" prot="private" virt="non-virtual"><scope>themis::rag::judge::PairwiseComparator</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1a26ff8469e081c3547d7af242eabe1781" prot="public" virt="non-virtual"><scope>themis::rag::judge::PairwiseComparator</scope><name>PairwiseComparator</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1a5a449f10bb0806c9f2f622b8fdf1e627" prot="public" virt="non-virtual"><scope>themis::rag::judge::PairwiseComparator</scope><name>PairwiseComparator</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1a2d7ff3d5a756e28a98a8d4a1cc0d7f4e" prot="public" virt="non-virtual"><scope>themis::rag::judge::PairwiseComparator</scope><name>~PairwiseComparator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

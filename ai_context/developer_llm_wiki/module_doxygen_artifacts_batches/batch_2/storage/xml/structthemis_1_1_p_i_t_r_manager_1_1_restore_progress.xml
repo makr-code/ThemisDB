@@ -1,0 +1,253 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress" kind="struct" language="C++" prot="public">
+    <compoundname>themis::PITRManager::RestoreProgress</compoundname>
+    <includes refid="pitr__manager_8h" local="no">pitr_manager.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a945b56c59f72f775360d5e3a76663884" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Phase</name>
+        <qualifiedname>themis::PITRManager::RestoreProgress::Phase</qualifiedname>
+        <enumvalue id="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a945b56c59f72f775360d5e3a76663884a06972acc3aafeb3a65dbd996c8dedc73" prot="public">
+          <name>NOT_STARTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a945b56c59f72f775360d5e3a76663884aaa62496d863cb93243a9846e93632c34" prot="public">
+          <name>CREATING_BACKUP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a945b56c59f72f775360d5e3a76663884aff9726ecf722ce2a076e7cf705a073f7" prot="public">
+          <name>VALIDATING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a945b56c59f72f775360d5e3a76663884a25c8863aff7d586f2ac40cb218555a5c" prot="public">
+          <name>REPLAYING_EVENTS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a945b56c59f72f775360d5e3a76663884a001d8fa76b26eee4f6d7c8a8d44c73ef" prot="public">
+          <name>COMMITTING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a945b56c59f72f775360d5e3a76663884a8f7afecbc8fbc4cd0f50a57d1172482e" prot="public">
+          <name>COMPLETED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a945b56c59f72f775360d5e3a76663884ab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a945b56c59f72f775360d5e3a76663884aed701d1c3d474e00c7a2f416f8d6858c" prot="public">
+          <name>ROLLED_BACK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="93" column="9" bodyfile="include/storage/pitr_manager.h" bodystart="93" bodyend="102"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a96cf50617cf6fb4d82449c8c913d340f" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a945b56c59f72f775360d5e3a76663884" kindref="member">Phase</ref></type>
+        <definition>Phase themis::PITRManager::RestoreProgress::phase</definition>
+        <argsstring></argsstring>
+        <name>phase</name>
+        <qualifiedname>themis::PITRManager::RestoreProgress::phase</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a945b56c59f72f775360d5e3a76663884a06972acc3aafeb3a65dbd996c8dedc73" kindref="member">Phase::NOT_STARTED</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="104" column="15" bodyfile="include/storage/pitr_manager.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1aea3129a70def7bb67654bfe4e33a7127" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::PITRManager::RestoreProgress::events_processed</definition>
+        <argsstring></argsstring>
+        <name>events_processed</name>
+        <qualifiedname>themis::PITRManager::RestoreProgress::events_processed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="105" column="18" bodyfile="include/storage/pitr_manager.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a9fce2be30495d0191418769f37d0b1f2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::PITRManager::RestoreProgress::total_events</definition>
+        <argsstring></argsstring>
+        <name>total_events</name>
+        <qualifiedname>themis::PITRManager::RestoreProgress::total_events</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="106" column="18" bodyfile="include/storage/pitr_manager.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a4fbdcdffeaad09f6d42f03724c6cb105" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::PITRManager::RestoreProgress::current_table</definition>
+        <argsstring></argsstring>
+        <name>current_table</name>
+        <qualifiedname>themis::PITRManager::RestoreProgress::current_table</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="107" column="21" bodyfile="include/storage/pitr_manager.h" bodystart="107" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1ad3fcda2b8750ea3b051d89f3a6cdbc2e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::PITRManager::RestoreProgress::last_error</definition>
+        <argsstring></argsstring>
+        <name>last_error</name>
+        <qualifiedname>themis::PITRManager::RestoreProgress::last_error</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="108" column="21" bodyfile="include/storage/pitr_manager.h" bodystart="108" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a8be7101ccdd09195181fc94635609798" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::PITRManager::RestoreProgress::start_time_ms</definition>
+        <argsstring></argsstring>
+        <name>start_time_ms</name>
+        <qualifiedname>themis::PITRManager::RestoreProgress::start_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="109" column="17" bodyfile="include/storage/pitr_manager.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1ac7224ed2cf9ec979ffce3503117d8649" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::PITRManager::RestoreProgress::end_time_ms</definition>
+        <argsstring></argsstring>
+        <name>end_time_ms</name>
+        <qualifiedname>themis::PITRManager::RestoreProgress::end_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="110" column="17" bodyfile="include/storage/pitr_manager.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a7046b9b33d5b35cf5d5b7e5cc931af61" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::PITRManager::RestoreProgress::getProgressPercent</definition>
+        <argsstring>() const</argsstring>
+        <name>getProgressPercent</name>
+        <qualifiedname>themis::PITRManager::RestoreProgress::getProgressPercent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="112" column="16" bodyfile="include/storage/pitr_manager.h" bodystart="112" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1abc428d42f7a18aa37336e33aab31b2d1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::PITRManager::RestoreProgress::getElapsedMs</definition>
+        <argsstring>() const</argsstring>
+        <name>getElapsedMs</name>
+        <qualifiedname>themis::PITRManager::RestoreProgress::getElapsedMs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="119" column="17" bodyfile="include/storage/pitr_manager.h" bodystart="119" bodyend="125"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a3f209f61543409753e38c70867086678" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::PITRManager::RestoreProgress::getCurrentTimeMs</definition>
+        <argsstring>()</argsstring>
+        <name>getCurrentTimeMs</name>
+        <qualifiedname>themis::PITRManager::RestoreProgress::getCurrentTimeMs</qualifiedname>
+        <briefdescription>
+<para>Get Current Time Ms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/pitr_manager.h" line="127" column="24" bodyfile="src/storage/pitr_manager.cpp" bodystart="28" bodyend="33"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Restore progress tracking. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/pitr_manager.h" line="92" column="5" bodyfile="include/storage/pitr_manager.h" bodystart="92" bodyend="128"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a4fbdcdffeaad09f6d42f03724c6cb105" prot="public" virt="non-virtual"><scope>themis::PITRManager::RestoreProgress</scope><name>current_table</name></member>
+      <member refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1ac7224ed2cf9ec979ffce3503117d8649" prot="public" virt="non-virtual"><scope>themis::PITRManager::RestoreProgress</scope><name>end_time_ms</name></member>
+      <member refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1aea3129a70def7bb67654bfe4e33a7127" prot="public" virt="non-virtual"><scope>themis::PITRManager::RestoreProgress</scope><name>events_processed</name></member>
+      <member refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a3f209f61543409753e38c70867086678" prot="public" virt="non-virtual"><scope>themis::PITRManager::RestoreProgress</scope><name>getCurrentTimeMs</name></member>
+      <member refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1abc428d42f7a18aa37336e33aab31b2d1" prot="public" virt="non-virtual"><scope>themis::PITRManager::RestoreProgress</scope><name>getElapsedMs</name></member>
+      <member refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a7046b9b33d5b35cf5d5b7e5cc931af61" prot="public" virt="non-virtual"><scope>themis::PITRManager::RestoreProgress</scope><name>getProgressPercent</name></member>
+      <member refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1ad3fcda2b8750ea3b051d89f3a6cdbc2e" prot="public" virt="non-virtual"><scope>themis::PITRManager::RestoreProgress</scope><name>last_error</name></member>
+      <member refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a945b56c59f72f775360d5e3a76663884" prot="public" virt="non-virtual"><scope>themis::PITRManager::RestoreProgress</scope><name>Phase</name></member>
+      <member refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a96cf50617cf6fb4d82449c8c913d340f" prot="public" virt="non-virtual"><scope>themis::PITRManager::RestoreProgress</scope><name>phase</name></member>
+      <member refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a8be7101ccdd09195181fc94635609798" prot="public" virt="non-virtual"><scope>themis::PITRManager::RestoreProgress</scope><name>start_time_ms</name></member>
+      <member refid="structthemis_1_1_p_i_t_r_manager_1_1_restore_progress_1a9fce2be30495d0191418769f37d0b1f2" prot="public" virt="non-virtual"><scope>themis::PITRManager::RestoreProgress</scope><name>total_events</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

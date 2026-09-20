@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_graph_truth_evidence" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::GraphTruthEvidence</compoundname>
+    <includes refid="graph__truth__validator_8h" local="no">graph_truth_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_graph_truth_evidence_1accb018bd902c052b0879a0f9c7055d6e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::GraphTruthEvidence::candidate_id</definition>
+        <argsstring></argsstring>
+        <name>candidate_id</name>
+        <qualifiedname>themis::rag::GraphTruthEvidence::candidate_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/graph_truth_validator.h" line="39" column="17" bodyfile="include/rag/graph_truth_validator.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_graph_truth_evidence_1a4a9a2c8b3df6e236b66eba6952925667" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::GraphTruthEvidence::graph_score</definition>
+        <argsstring></argsstring>
+        <name>graph_score</name>
+        <qualifiedname>themis::rag::GraphTruthEvidence::graph_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/graph_truth_validator.h" line="40" column="12" bodyfile="include/rag/graph_truth_validator.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_graph_truth_evidence_1a0abd8797b7d63131ecb6ee5f8195e923" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::GraphTruthEvidence::tensor_score</definition>
+        <argsstring></argsstring>
+        <name>tensor_score</name>
+        <qualifiedname>themis::rag::GraphTruthEvidence::tensor_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/graph_truth_validator.h" line="41" column="12" bodyfile="include/rag/graph_truth_validator.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_graph_truth_evidence_1a9c181a04f4c39c6af313b78e6fb2a6bc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::GraphTruthEvidence::validated</definition>
+        <argsstring></argsstring>
+        <name>validated</name>
+        <qualifiedname>themis::rag::GraphTruthEvidence::validated</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/graph_truth_validator.h" line="42" column="10" bodyfile="include/rag/graph_truth_validator.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_graph_truth_evidence_1a9e0b1fa14059a8cd4ee425a138030dc0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::rag::GraphTruthEvidence::supporting_nodes</definition>
+        <argsstring></argsstring>
+        <name>supporting_nodes</name>
+        <qualifiedname>themis::rag::GraphTruthEvidence::supporting_nodes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/graph_truth_validator.h" line="43" column="17" bodyfile="include/rag/graph_truth_validator.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_graph_truth_evidence_1aad3ba2d018b3d0eb1f120dffb0a99701" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::GraphTruthEvidence::reasoning_chain</definition>
+        <argsstring></argsstring>
+        <name>reasoning_chain</name>
+        <qualifiedname>themis::rag::GraphTruthEvidence::reasoning_chain</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/graph_truth_validator.h" line="44" column="17" bodyfile="include/rag/graph_truth_validator.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One graph-backed evidence item produced by the truth layer. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/graph_truth_validator.h" line="38" column="1" bodyfile="include/rag/graph_truth_validator.h" bodystart="38" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_graph_truth_evidence_1accb018bd902c052b0879a0f9c7055d6e" prot="public" virt="non-virtual"><scope>themis::rag::GraphTruthEvidence</scope><name>candidate_id</name></member>
+      <member refid="structthemis_1_1rag_1_1_graph_truth_evidence_1a4a9a2c8b3df6e236b66eba6952925667" prot="public" virt="non-virtual"><scope>themis::rag::GraphTruthEvidence</scope><name>graph_score</name></member>
+      <member refid="structthemis_1_1rag_1_1_graph_truth_evidence_1aad3ba2d018b3d0eb1f120dffb0a99701" prot="public" virt="non-virtual"><scope>themis::rag::GraphTruthEvidence</scope><name>reasoning_chain</name></member>
+      <member refid="structthemis_1_1rag_1_1_graph_truth_evidence_1a9e0b1fa14059a8cd4ee425a138030dc0" prot="public" virt="non-virtual"><scope>themis::rag::GraphTruthEvidence</scope><name>supporting_nodes</name></member>
+      <member refid="structthemis_1_1rag_1_1_graph_truth_evidence_1a0abd8797b7d63131ecb6ee5f8195e923" prot="public" virt="non-virtual"><scope>themis::rag::GraphTruthEvidence</scope><name>tensor_score</name></member>
+      <member refid="structthemis_1_1rag_1_1_graph_truth_evidence_1a9c181a04f4c39c6af313b78e6fb2a6bc" prot="public" virt="non-virtual"><scope>themis::rag::GraphTruthEvidence</scope><name>validated</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

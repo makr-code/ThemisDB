@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_retrieval_guardrail" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::RetrievalGuardrail</compoundname>
+    <includes refid="retrieval__guardrail_8h" local="no">retrieval_guardrail.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_retrieval_guardrail_1a8de66201c05ed27837c24a9eac3e07b3" prot="private" static="no" mutable="no">
+        <type>const <ref refid="classthemis_1_1rag_1_1_tensor_rag_cost_model" kindref="compound">TensorRagCostModel</ref> &amp;</type>
+        <definition>const TensorRagCostModel&amp; themis::rag::RetrievalGuardrail::cost_model_</definition>
+        <argsstring></argsstring>
+        <name>cost_model_</name>
+        <qualifiedname>themis::rag::RetrievalGuardrail::cost_model_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/retrieval_guardrail.h" line="143" column="30" bodyfile="include/rag/retrieval_guardrail.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_retrieval_guardrail_1a455740882545fc8b6ba02cd8ccc39cd0" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1_retrieval_guardrail_config" kindref="compound">RetrievalGuardrailConfig</ref></type>
+        <definition>RetrievalGuardrailConfig themis::rag::RetrievalGuardrail::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::rag::RetrievalGuardrail::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/retrieval_guardrail.h" line="144" column="31" bodyfile="include/rag/retrieval_guardrail.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_retrieval_guardrail_1a1a5f1e36f53280332783805af45f6a0b" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::RetrievalGuardrail::RetrievalGuardrail</definition>
+        <argsstring>(const TensorRagCostModel &amp;cost_model, const RetrievalGuardrailConfig &amp;config={}) noexcept</argsstring>
+        <name>RetrievalGuardrail</name>
+        <qualifiedname>themis::rag::RetrievalGuardrail::RetrievalGuardrail</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1rag_1_1_tensor_rag_cost_model" kindref="compound">TensorRagCostModel</ref> &amp;</type>
+          <declname>cost_model</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_retrieval_guardrail_config" kindref="compound">RetrievalGuardrailConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a guardrail backed by <computeroutput>cost_model</computeroutput> with <computeroutput>config</computeroutput> thresholds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cost_model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reference to a <ref refid="classthemis_1_1rag_1_1_tensor_rag_cost_model" kindref="compound">TensorRagCostModel</ref>; must outlive this object. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Threshold and enable/disable configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/retrieval_guardrail.h" line="120" column="5" bodyfile="src/rag/retrieval_guardrail.cpp" bodystart="17" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_retrieval_guardrail_1a52ac879e4a8c639abdf6c412f0267c7b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_guardrail_decision" kindref="compound">GuardrailDecision</ref></type>
+        <definition>GuardrailDecision themis::rag::RetrievalGuardrail::checkFederatedCost</definition>
+        <argsstring>(const std::string &amp;query, const FederatedQueryPlan &amp;plan) const</argsstring>
+        <name>checkFederatedCost</name>
+        <qualifiedname>themis::rag::RetrievalGuardrail::checkFederatedCost</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_federated_query_plan" kindref="compound">FederatedQueryPlan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <briefdescription>
+<para>Evaluates whether <computeroutput>plan</computeroutput> should be executed given cost thresholds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Steps:<orderedlist>
+<listitem><para>If the guardrail is disabled, return allow unconditionally.</para>
+</listitem><listitem><para>Derive effective cost: use <computeroutput>plan.estimated_cost_ms</computeroutput> when non-zero, otherwise call <ref refid="classthemis_1_1rag_1_1_tensor_rag_cost_model_1a4b45753bd46076c70a8b54984dc0035b" kindref="member">TensorRagCostModel::estimate()</ref> with default config adapted to <computeroutput>plan.num_chunks</computeroutput>.</para>
+</listitem><listitem><para>Select threshold: <computeroutput>max_cross_dc_cost_ms</computeroutput> for cross-DC plans, <computeroutput>max_cost_ms</computeroutput> otherwise.</para>
+</listitem><listitem><para>Deny with structured reason and THEMIS_WARN when cost &gt; threshold.</para>
+</listitem></orderedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The raw query string (UTF-8). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Federated plan to evaluate. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1rag_1_1_guardrail_decision" kindref="compound">GuardrailDecision</ref> describing the allow/deny outcome. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/retrieval_guardrail.h" line="139" column="23" bodyfile="src/rag/retrieval_guardrail.cpp" bodystart="23" bodyend="66"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread-safe federated retrieval cost guardrail. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Uses a <ref refid="classthemis_1_1rag_1_1_tensor_rag_cost_model" kindref="compound">TensorRagCostModel</ref> to estimate the end-to-end latency of a <ref refid="structthemis_1_1rag_1_1_federated_query_plan" kindref="compound">FederatedQueryPlan</ref> and denies execution when the estimate exceeds the configured SLO threshold. All public methods are <computeroutput>const</computeroutput> and therefore safe to call concurrently from multiple threads without external locking.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">themis::rag::TensorRagCostModel<sp/>model;</highlight></codeline>
+<codeline><highlight class="normal">themis::rag::RetrievalGuardrailConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.<ref refid="structthemis_1_1rag_1_1_retrieval_guardrail_config_1aafcc26f10f70703cc75dfd21ea5fcfa8" kindref="member">max_cost_ms</ref><sp/>=<sp/>300.0f;</highlight></codeline>
+<codeline><highlight class="normal">themis::rag::RetrievalGuardrail<sp/>guard(model,<sp/>cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">themis::rag::FederatedQueryPlan<sp/>plan;</highlight></codeline>
+<codeline><highlight class="normal">plan.<ref refid="structthemis_1_1rag_1_1_federated_query_plan_1ae7572eccca3ca81e8218171e3052fb6e" kindref="member">num_chunks</ref><sp/>=<sp/>50;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>decision<sp/>=<sp/>guard.checkFederatedCost(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>...&quot;</highlight><highlight class="normal">,<sp/>plan);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!decision.allow)<sp/>{<sp/>log(decision.deny_reason);<sp/>}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/rag/retrieval_guardrail.h" line="112" column="1" bodyfile="include/rag/retrieval_guardrail.h" bodystart="112" bodyend="145"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_retrieval_guardrail_1a52ac879e4a8c639abdf6c412f0267c7b" prot="public" virt="non-virtual"><scope>themis::rag::RetrievalGuardrail</scope><name>checkFederatedCost</name></member>
+      <member refid="classthemis_1_1rag_1_1_retrieval_guardrail_1a455740882545fc8b6ba02cd8ccc39cd0" prot="private" virt="non-virtual"><scope>themis::rag::RetrievalGuardrail</scope><name>config_</name></member>
+      <member refid="classthemis_1_1rag_1_1_retrieval_guardrail_1a8de66201c05ed27837c24a9eac3e07b3" prot="private" virt="non-virtual"><scope>themis::rag::RetrievalGuardrail</scope><name>cost_model_</name></member>
+      <member refid="classthemis_1_1rag_1_1_retrieval_guardrail_1a1a5f1e36f53280332783805af45f6a0b" prot="public" virt="non-virtual"><scope>themis::rag::RetrievalGuardrail</scope><name>RetrievalGuardrail</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

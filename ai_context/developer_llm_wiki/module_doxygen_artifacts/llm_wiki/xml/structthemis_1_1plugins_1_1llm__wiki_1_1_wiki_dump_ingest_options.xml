@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_dump_ingest_options" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::llm_wiki::WikiDumpIngestOptions</compoundname>
+    <includes refid="llm__wiki__plugin__interface_8h" local="no">llm_wiki_plugin_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_dump_ingest_options_1ad9fba9113215a2ed2fa4cadbf9ccb5b1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::llm_wiki::WikiDumpIngestOptions::recursive</definition>
+        <argsstring></argsstring>
+        <name>recursive</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiDumpIngestOptions::recursive</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>(unused for dump ingestion) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="218" column="17" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_dump_ingest_options_1a076e22a4022a4fbf5b5cf926591d6ef8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::llm_wiki::WikiDumpIngestOptions::lang</definition>
+        <argsstring></argsstring>
+        <name>lang</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiDumpIngestOptions::lang</qualifiedname>
+        <initializer>= &quot;en&quot;</initializer>
+        <briefdescription>
+<para>Wikipedia language code. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="219" column="17" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_dump_ingest_options_1a7169f5e634afca83fb58f54247152df0" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::llm_wiki::WikiDumpIngestOptions::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiDumpIngestOptions::batch_size</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Articles per write batch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="220" column="17" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_dump_ingest_options_1adf8f218bb53512b0e58a8149fc38e861" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::llm_wiki::WikiDumpIngestOptions::max_articles</definition>
+        <argsstring></argsstring>
+        <name>max_articles</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiDumpIngestOptions::max_articles</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Hard limit (0 = unlimited). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="221" column="17" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_dump_ingest_options_1a27b429d9e6934ee7179ceb7620fef4b7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::llm_wiki::WikiDumpIngestOptions::project_vector</definition>
+        <argsstring></argsstring>
+        <name>project_vector</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiDumpIngestOptions::project_vector</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Populate vector projections. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="222" column="17" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_dump_ingest_options_1a8c59aab1f45254ef647d58d9104e4221" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::llm_wiki::WikiDumpIngestOptions::project_graph</definition>
+        <argsstring></argsstring>
+        <name>project_graph</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiDumpIngestOptions::project_graph</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Build graph link projections. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="223" column="17" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_dump_ingest_options_1ae18d0bd00e6d2c1581459f98a5a146ae" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::llm_wiki::WikiDumpIngestOptions::project_timeseries</definition>
+        <argsstring></argsstring>
+        <name>project_timeseries</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiDumpIngestOptions::project_timeseries</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Build temporal access projections. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="224" column="17" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_dump_ingest_options_1a5af7b65fd69b2064c05b3277742885e0" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::plugins::llm_wiki::WikiDumpIngestOptions::checkpoint_dir</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_dir</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiDumpIngestOptions::checkpoint_dir</qualifiedname>
+        <briefdescription>
+<para>Resumable-checkpoint working directory. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="225" column="19" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_dump_ingest_options_1a7f4336428933171765c16df1ec074e60" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::plugins::llm_wiki::WikiDumpIngestOptions::filter_category</definition>
+        <argsstring></argsstring>
+        <name>filter_category</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiDumpIngestOptions::filter_category</qualifiedname>
+        <briefdescription>
+<para>Restrict to a top-level Wikipedia category. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="226" column="19" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Options for ingesting a Wikipedia XML dump into the wiki index. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Wraps the C++ Wikipedia ingestion pipeline in <computeroutput>src/importers/wikipedia_*.cpp</computeroutput>. This is an enterprise-only feature (not available in community / minimal builds).</para>
+<para><simplesect kind="note"><para>Dump paths may be local files or remote URIs (<computeroutput><ulink url="http://">http://</ulink></computeroutput>, <computeroutput><ulink url="https://">https://</ulink></computeroutput>). The pipeline supports resumable checkpointing via <computeroutput>WikipediaCheckpoint</computeroutput> when <computeroutput><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_dump_ingest_options_1a5af7b65fd69b2064c05b3277742885e0" kindref="member">checkpoint_dir</ref></computeroutput> is set. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="217" column="1" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="217" bodyend="227"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_dump_ingest_options_1a7169f5e634afca83fb58f54247152df0" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiDumpIngestOptions</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_dump_ingest_options_1a5af7b65fd69b2064c05b3277742885e0" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiDumpIngestOptions</scope><name>checkpoint_dir</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_dump_ingest_options_1a7f4336428933171765c16df1ec074e60" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiDumpIngestOptions</scope><name>filter_category</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_dump_ingest_options_1a076e22a4022a4fbf5b5cf926591d6ef8" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiDumpIngestOptions</scope><name>lang</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_dump_ingest_options_1adf8f218bb53512b0e58a8149fc38e861" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiDumpIngestOptions</scope><name>max_articles</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_dump_ingest_options_1a8c59aab1f45254ef647d58d9104e4221" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiDumpIngestOptions</scope><name>project_graph</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_dump_ingest_options_1ae18d0bd00e6d2c1581459f98a5a146ae" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiDumpIngestOptions</scope><name>project_timeseries</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_dump_ingest_options_1a27b429d9e6934ee7179ceb7620fef4b7" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiDumpIngestOptions</scope><name>project_vector</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_dump_ingest_options_1ad9fba9113215a2ed2fa4cadbf9ccb5b1" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiDumpIngestOptions</scope><name>recursive</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

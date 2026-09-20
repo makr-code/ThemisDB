@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice" kind="struct" language="C++" prot="public">
+    <compoundname>themis::OptimizerCostModel::SerializationAdvice</compoundname>
+    <includes refid="optimizer__cost__model_8h" local="no">optimizer_cost_model.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a25876c1d98aca6873a248925d70612db" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Format</name>
+        <qualifiedname>themis::OptimizerCostModel::SerializationAdvice::Format</qualifiedname>
+        <enumvalue id="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a25876c1d98aca6873a248925d70612dbaee444747baf0a3f384a21115bea6fdf2" prot="public">
+          <name>SF_JSON_TEXT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a25876c1d98aca6873a248925d70612dba7f30ebbd0f3e8dd222cad868dffabd56" prot="public">
+          <name>SF_BINARY_CUSTOM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a25876c1d98aca6873a248925d70612dba79075fb00ef9d6a4ee2318b9cd3ea7b6" prot="public">
+          <name>SF_MSGPACK_CBOR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a25876c1d98aca6873a248925d70612dba0fb35e3297b5c1d6e498ca447255b9f5" prot="public">
+          <name>SF_ARROW_IPC</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a25876c1d98aca6873a248925d70612dba6204e8717a97c9339a9bcca1e2fc87e8" prot="public">
+          <name>SF_PROTOBUF_WIRE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="120" column="9" bodyfile="include/query/optimizer_cost_model.h" bodystart="120" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="enum" id="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a3a84dec71c1d1cba40393e76c24e40a8" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ExecutionPath</name>
+        <qualifiedname>themis::OptimizerCostModel::SerializationAdvice::ExecutionPath</qualifiedname>
+        <enumvalue id="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a3a84dec71c1d1cba40393e76c24e40a8afa585c09ba2545d12bfc54cedb50cc36" prot="public">
+          <name>CPU_SINGLE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a3a84dec71c1d1cba40393e76c24e40a8a7b530e86336ad7f76ba92c602d2ec6b5" prot="public">
+          <name>CPU_THREADED_BATCH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a3a84dec71c1d1cba40393e76c24e40a8a61e36ee296dca51fc39ff6e40a068f0e" prot="public">
+          <name>GPU_VRAM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="129" column="9" bodyfile="include/query/optimizer_cost_model.h" bodystart="129" bodyend="133"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a1a8ae5719cc8b26ab7bbc1e3c40c11b1" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a25876c1d98aca6873a248925d70612db" kindref="member">Format</ref></type>
+        <definition>Format themis::OptimizerCostModel::SerializationAdvice::wire_format</definition>
+        <argsstring></argsstring>
+        <name>wire_format</name>
+        <qualifiedname>themis::OptimizerCostModel::SerializationAdvice::wire_format</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a25876c1d98aca6873a248925d70612dbaee444747baf0a3f384a21115bea6fdf2" kindref="member">Format::SF_JSON_TEXT</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="135" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a70dacd44b801cad2374b09e46df01b8d" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a3a84dec71c1d1cba40393e76c24e40a8" kindref="member">ExecutionPath</ref></type>
+        <definition>ExecutionPath themis::OptimizerCostModel::SerializationAdvice::exec_path</definition>
+        <argsstring></argsstring>
+        <name>exec_path</name>
+        <qualifiedname>themis::OptimizerCostModel::SerializationAdvice::exec_path</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a3a84dec71c1d1cba40393e76c24e40a8afa585c09ba2545d12bfc54cedb50cc36" kindref="member">ExecutionPath::CPU_SINGLE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="136" column="23" bodyfile="include/query/optimizer_cost_model.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1aeae09f65994dfe979f7eefa0dd89c4b9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::OptimizerCostModel::SerializationAdvice::recommended_batch_size</definition>
+        <argsstring></argsstring>
+        <name>recommended_batch_size</name>
+        <qualifiedname>themis::OptimizerCostModel::SerializationAdvice::recommended_batch_size</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="137" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1ae0f204fa6650f7b3b848c0b68fca7e60" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::OptimizerCostModel::SerializationAdvice::recommended_thread_count</definition>
+        <argsstring></argsstring>
+        <name>recommended_thread_count</name>
+        <qualifiedname>themis::OptimizerCostModel::SerializationAdvice::recommended_thread_count</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="138" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a8bcb4e39e423d2ae8453e247657557e3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::OptimizerCostModel::SerializationAdvice::use_vram_pinned_memory</definition>
+        <argsstring></argsstring>
+        <name>use_vram_pinned_memory</name>
+        <qualifiedname>themis::OptimizerCostModel::SerializationAdvice::use_vram_pinned_memory</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="139" column="14" bodyfile="include/query/optimizer_cost_model.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a419c346251244c48d7d1f392cba51879" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::OptimizerCostModel::SerializationAdvice::rationale</definition>
+        <argsstring></argsstring>
+        <name>rationale</name>
+        <qualifiedname>themis::OptimizerCostModel::SerializationAdvice::rationale</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="140" column="21" bodyfile="include/query/optimizer_cost_model.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/optimizer_cost_model.h" line="118" column="5" bodyfile="include/query/optimizer_cost_model.h" bodystart="118" bodyend="141"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a70dacd44b801cad2374b09e46df01b8d" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::SerializationAdvice</scope><name>exec_path</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a3a84dec71c1d1cba40393e76c24e40a8" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::SerializationAdvice</scope><name>ExecutionPath</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a25876c1d98aca6873a248925d70612db" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::SerializationAdvice</scope><name>Format</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a419c346251244c48d7d1f392cba51879" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::SerializationAdvice</scope><name>rationale</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1aeae09f65994dfe979f7eefa0dd89c4b9" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::SerializationAdvice</scope><name>recommended_batch_size</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1ae0f204fa6650f7b3b848c0b68fca7e60" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::SerializationAdvice</scope><name>recommended_thread_count</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a8bcb4e39e423d2ae8453e247657557e3" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::SerializationAdvice</scope><name>use_vram_pinned_memory</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a1a8ae5719cc8b26ab7bbc1e3c40c11b1" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::SerializationAdvice</scope><name>wire_format</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

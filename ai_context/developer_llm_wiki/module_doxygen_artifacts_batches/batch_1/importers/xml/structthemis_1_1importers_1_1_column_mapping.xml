@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_column_mapping" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::ColumnMapping</compoundname>
+    <includes refid="gui__import__wizard_8h" local="no">gui_import_wizard.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_column_mapping_1aab9fa17d58f5091bba8e689f14d1f855" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::ColumnMapping::source_column</definition>
+        <argsstring></argsstring>
+        <name>source_column</name>
+        <qualifiedname>themis::importers::ColumnMapping::source_column</qualifiedname>
+        <briefdescription>
+<para>Column name in the source dataset. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="53" column="17" bodyfile="include/importers/gui_import_wizard.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_column_mapping_1a0f5d7335b5e4ab9f3bc59f5c499f4d9b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::ColumnMapping::target_field</definition>
+        <argsstring></argsstring>
+        <name>target_field</name>
+        <qualifiedname>themis::importers::ColumnMapping::target_field</qualifiedname>
+        <briefdescription>
+<para>Field name in ThemisDB collection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="54" column="17" bodyfile="include/importers/gui_import_wizard.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_column_mapping_1afb85f2e4d3b907568ee4952edc41c097" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::ColumnMapping::target_type</definition>
+        <argsstring></argsstring>
+        <name>target_type</name>
+        <qualifiedname>themis::importers::ColumnMapping::target_type</qualifiedname>
+        <briefdescription>
+<para>Target type (&quot;string&quot;, &quot;int64&quot;, &quot;float64&quot;, &quot;bool&quot;, &quot;datetime&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="55" column="17" bodyfile="include/importers/gui_import_wizard.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_column_mapping_1a26dd9c11158e83daef661fe507984844" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::ColumnMapping::skip</definition>
+        <argsstring></argsstring>
+        <name>skip</name>
+        <qualifiedname>themis::importers::ColumnMapping::skip</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>If true, skip this column entirely. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="56" column="17" bodyfile="include/importers/gui_import_wizard.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/gui_import_wizard.h" line="52" column="1" bodyfile="include/importers/gui_import_wizard.h" bodystart="52" bodyend="57"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_column_mapping_1a26dd9c11158e83daef661fe507984844" prot="public" virt="non-virtual"><scope>themis::importers::ColumnMapping</scope><name>skip</name></member>
+      <member refid="structthemis_1_1importers_1_1_column_mapping_1aab9fa17d58f5091bba8e689f14d1f855" prot="public" virt="non-virtual"><scope>themis::importers::ColumnMapping</scope><name>source_column</name></member>
+      <member refid="structthemis_1_1importers_1_1_column_mapping_1a0f5d7335b5e4ab9f3bc59f5c499f4d9b" prot="public" virt="non-virtual"><scope>themis::importers::ColumnMapping</scope><name>target_field</name></member>
+      <member refid="structthemis_1_1importers_1_1_column_mapping_1afb85f2e4d3b907568ee4952edc41c097" prot="public" virt="non-virtual"><scope>themis::importers::ColumnMapping</scope><name>target_type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

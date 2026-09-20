@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_b17760856511985a8a68a4c2382b7b0a" kind="dir">
+    <compoundname>src/rag/kg</compoundname>
+    <innerfile refid="knowledge__graph__adapter_8cpp">knowledge_graph_adapter.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/rag/kg/"/>
+  </compounddef>
+</doxygen>

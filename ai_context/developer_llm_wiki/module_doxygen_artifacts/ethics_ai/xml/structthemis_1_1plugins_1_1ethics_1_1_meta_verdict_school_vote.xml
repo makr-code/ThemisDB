@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_school_vote" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::MetaVerdictSchoolVote</compoundname>
+    <includes refid="ethics__ai__types_8h" local="no">ethics_ai_types.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_school_vote_1a0b035d52f8566f0c8b6b5555c228c230" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::MetaVerdictSchoolVote::school_id</definition>
+        <argsstring></argsstring>
+        <name>school_id</name>
+        <qualifiedname>themis::plugins::ethics::MetaVerdictSchoolVote::school_id</qualifiedname>
+        <briefdescription>
+<para>Participating school identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="373" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="373" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_school_vote_1aa2a9f4d9078d1f869d2ae4c603a3373b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1plugins_1_1ethics_1a3d83c9a0dc30ab1de8b1c2d2727e602e" kindref="member">DiscourseVerdict</ref></type>
+        <definition>DiscourseVerdict themis::plugins::ethics::MetaVerdictSchoolVote::vote</definition>
+        <argsstring></argsstring>
+        <name>vote</name>
+        <qualifiedname>themis::plugins::ethics::MetaVerdictSchoolVote::vote</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1plugins_1_1ethics_1a3d83c9a0dc30ab1de8b1c2d2727e602eaf4d833a3465758569accea637f9fc592" kindref="member">DiscourseVerdict::ABSTAIN</ref>}</initializer>
+        <briefdescription>
+<para>Explicit vote (incl. ABSTAIN). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="374" column="22" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="374" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_school_vote_1ae8e5d4b50be3a018edc560adc011216a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::MetaVerdictSchoolVote::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::plugins::ethics::MetaVerdictSchoolVote::reason</qualifiedname>
+        <briefdescription>
+<para>Reason (e.g. &quot;unavailable&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="375" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="375" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/ethics_ai_types.h" line="372" column="1" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="372" bodyend="376"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_school_vote_1ae8e5d4b50be3a018edc560adc011216a" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::MetaVerdictSchoolVote</scope><name>reason</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_school_vote_1a0b035d52f8566f0c8b6b5555c228c230" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::MetaVerdictSchoolVote</scope><name>school_id</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_school_vote_1aa2a9f4d9078d1f869d2ae4c603a3373b" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::MetaVerdictSchoolVote</scope><name>vote</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

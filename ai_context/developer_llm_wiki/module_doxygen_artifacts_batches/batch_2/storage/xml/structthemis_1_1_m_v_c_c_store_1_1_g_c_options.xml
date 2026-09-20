@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_m_v_c_c_store_1_1_g_c_options" kind="struct" language="C++" prot="public">
+    <compoundname>themis::MVCCStore::GCOptions</compoundname>
+    <includes refid="mvcc__store_8h" local="no">mvcc_store.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_m_v_c_c_store_1_1_g_c_options_1a6545c84279fef20fe901f3302833ee5e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::MVCCStore::GCOptions::min_versions_to_keep</definition>
+        <argsstring></argsstring>
+        <name>min_versions_to_keep</name>
+        <qualifiedname>themis::MVCCStore::GCOptions::min_versions_to_keep</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Keep at least this many versions per key regardless of timestamp. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_store.h" line="81" column="18" bodyfile="include/storage/mvcc_store.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Options for garbage collection. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/mvcc_store.h" line="79" column="5" bodyfile="include/storage/mvcc_store.h" bodystart="79" bodyend="82"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_m_v_c_c_store_1_1_g_c_options_1a6545c84279fef20fe901f3302833ee5e" prot="public" virt="non-virtual"><scope>themis::MVCCStore::GCOptions</scope><name>min_versions_to_keep</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

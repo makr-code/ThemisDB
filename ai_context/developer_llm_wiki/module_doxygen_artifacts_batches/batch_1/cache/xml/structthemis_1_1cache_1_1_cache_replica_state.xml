@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_cache_replica_state" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::CacheReplicaState</compoundname>
+    <includes refid="cache__replication_8h" local="no">cache_replication.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_replica_state_1ac6fe4c4216589f184d70227f11e3d42c" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1cache_1_1_i_cache_replication_listener" kindref="compound">ICacheReplicationListener</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ICacheReplicationListener&gt; themis::cache::CacheReplicaState::listener</definition>
+        <argsstring></argsstring>
+        <name>listener</name>
+        <qualifiedname>themis::cache::CacheReplicaState::listener</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="103" column="21" bodyfile="include/cache/cache_replication.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_replica_state_1a02b77c61785c68fc4fc6c7359f5ba912" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1cache_1a770120419f0ada05d7395177b4cdf5e0" kindref="member">CacheReplicaHealth</ref></type>
+        <definition>CacheReplicaHealth themis::cache::CacheReplicaState::health</definition>
+        <argsstring></argsstring>
+        <name>health</name>
+        <qualifiedname>themis::cache::CacheReplicaState::health</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1cache_1a770120419f0ada05d7395177b4cdf5e0af068ebe4133e3e6563080836268ea979" kindref="member">CacheReplicaHealth::HEALTHY</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="104" column="24" bodyfile="include/cache/cache_replication.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_replica_state_1a9c4ac5b0ff5e94babcbee9a29aeb7c8d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::cache::CacheReplicaState::consecutive_failures</definition>
+        <argsstring></argsstring>
+        <name>consecutive_failures</name>
+        <qualifiedname>themis::cache::CacheReplicaState::consecutive_failures</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="105" column="14" bodyfile="include/cache/cache_replication.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_replica_state_1a45043c3fb5b6ea8c065ffdf6dbb2d113" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::cache::CacheReplicaState::last_success</definition>
+        <argsstring></argsstring>
+        <name>last_success</name>
+        <qualifiedname>themis::cache::CacheReplicaState::last_success</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="106" column="43" bodyfile="include/cache/cache_replication.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_replica_state_1a9e0d84abc809729bb369bbfba0664988" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::cache::CacheReplicaState::last_failure</definition>
+        <argsstring></argsstring>
+        <name>last_failure</name>
+        <qualifiedname>themis::cache::CacheReplicaState::last_failure</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="107" column="43" bodyfile="include/cache/cache_replication.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_replica_state_1a4fe56c6ff180a269a700475a98162249" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::CacheReplicaState::events_sent</definition>
+        <argsstring></argsstring>
+        <name>events_sent</name>
+        <qualifiedname>themis::cache::CacheReplicaState::events_sent</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="108" column="14" bodyfile="include/cache/cache_replication.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_replica_state_1a87362bf89cfe935ed0c548cb5d7f0127" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::CacheReplicaState::events_failed</definition>
+        <argsstring></argsstring>
+        <name>events_failed</name>
+        <qualifiedname>themis::cache::CacheReplicaState::events_failed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="109" column="14" bodyfile="include/cache/cache_replication.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/cache_replication.h" line="102" column="1" bodyfile="include/cache/cache_replication.h" bodystart="102" bodyend="110"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_cache_replica_state_1a9c4ac5b0ff5e94babcbee9a29aeb7c8d" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicaState</scope><name>consecutive_failures</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_replica_state_1a87362bf89cfe935ed0c548cb5d7f0127" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicaState</scope><name>events_failed</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_replica_state_1a4fe56c6ff180a269a700475a98162249" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicaState</scope><name>events_sent</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_replica_state_1a02b77c61785c68fc4fc6c7359f5ba912" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicaState</scope><name>health</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_replica_state_1a9e0d84abc809729bb369bbfba0664988" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicaState</scope><name>last_failure</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_replica_state_1a45043c3fb5b6ea8c065ffdf6dbb2d113" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicaState</scope><name>last_success</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_replica_state_1ac6fe4c4216589f184d70227f11e3d42c" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicaState</scope><name>listener</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

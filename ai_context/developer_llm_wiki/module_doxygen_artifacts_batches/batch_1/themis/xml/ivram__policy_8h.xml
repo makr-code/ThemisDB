@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="ivram__policy_8h" kind="file" language="C++">
+    <compoundname>ivram_policy.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includedby refid="edition__manager_8h" local="yes">include/themis/edition_manager.h</includedby>
+    <includedby refid="memory__manager_8h" local="yes">include/themis/gpu/memory_manager.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/themis/gpu/ivram_policy.h</label>
+        <link refid="ivram__policy_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/themis/edition_manager.h</label>
+        <link refid="edition__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/themis/gpu/admin_api.h</label>
+        <link refid="admin__api_8h"/>
+      </node>
+      <node id="7">
+        <label>include/themis/gpu/gpu_module.h</label>
+        <link refid="gpu__module_8h"/>
+      </node>
+      <node id="1">
+        <label>include/themis/gpu/ivram_policy.h</label>
+        <link refid="ivram__policy_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/themis/gpu/memory_manager.h</label>
+        <link refid="memory__manager_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/themis/edition_manager.cpp</label>
+        <link refid="edition__manager_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/themis/test_themis_integration.cpp</label>
+        <link refid="test__themis__integration_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy" prot="public">themis::gpu::IVRAMPolicy</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1gpu">themis::gpu</innernamespace>
+    <briefdescription>
+<para>IVRAM placement policy for GPU tensor buffers. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Defines policies for allocating and evicting tensor data to and from in-video-RAM (IVRAM) on discrete GPU devices. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu" kindref="compound">gpu</ref><sp/>{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1ab97841252442363a6f6cffbd7f984c5e" kindref="member">IVRAMPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="36" refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1a0c05157d9f612ab1f98df2a68cb8200f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1a0c05157d9f612ab1f98df2a68cb8200f" kindref="member">~IVRAMPolicy</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>non-movable<sp/>by<sp/>default.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1ab97841252442363a6f6cffbd7f984c5e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1ab97841252442363a6f6cffbd7f984c5e" kindref="member">IVRAMPolicy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1ab97841252442363a6f6cffbd7f984c5e" kindref="member">IVRAMPolicy</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40" refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1a56a731a29c8a63f25c4b82e168aa064b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1ab97841252442363a6f6cffbd7f984c5e" kindref="member">IVRAMPolicy</ref>&amp;<sp/><ref refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1a56a731a29c8a63f25c4b82e168aa064b" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1ab97841252442363a6f6cffbd7f984c5e" kindref="member">IVRAMPolicy</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1ae2d3a5e4c46e996e5d5f1a6f2adfcdca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1ae2d3a5e4c46e996e5d5f1a6f2adfcdca" kindref="member">canAllocate</ref>(uint64_t<sp/>size_bytes,</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1abc4e54f092c0670fac8b2f2a28f267c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1abc4e54f092c0670fac8b2f2a28f267c3" kindref="member">onAllocate</ref>(uint64_t<sp/>size_bytes,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tag,</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1aa014161f784d1960dd9927ecc83b5dbe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1aa014161f784d1960dd9927ecc83b5dbe" kindref="member">onDeallocate</ref>(uint64_t<sp/>size_bytes,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1a8840bb8686ced152c532de2538f541d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1a8840bb8686ced152c532de2538f541d3" kindref="member">usedBytes</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1aaea645e29a8d45274f9097c66866529a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1aaea645e29a8d45274f9097c66866529a" kindref="member">isGPUEnabled</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal">protected:</highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1a9111541e3d02e25160f2faf6d5652a5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1ab97841252442363a6f6cffbd7f984c5e" kindref="member">IVRAMPolicy</ref>()<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="97" refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1ab3325a94dec088840c98052c8ae52475" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1ab97841252442363a6f6cffbd7f984c5e" kindref="member">IVRAMPolicy</ref>(<ref refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1ab97841252442363a6f6cffbd7f984c5e" kindref="member">IVRAMPolicy</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="98" refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1aaa084e3524cc4d27336a02b069eb4d6d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1ab97841252442363a6f6cffbd7f984c5e" kindref="member">IVRAMPolicy</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1gpu_1_1_i_v_r_a_m_policy_1ab97841252442363a6f6cffbd7f984c5e" kindref="member">IVRAMPolicy</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>gpu</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/themis/gpu/ivram_policy.h"/>
+  </compounddef>
+</doxygen>

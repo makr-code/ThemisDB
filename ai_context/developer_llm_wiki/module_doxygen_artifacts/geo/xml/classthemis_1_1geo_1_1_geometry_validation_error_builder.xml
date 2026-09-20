@@ -1,0 +1,291 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1geo_1_1_geometry_validation_error_builder" kind="class" language="C++" prot="public">
+    <compoundname>themis::geo::GeometryValidationErrorBuilder</compoundname>
+    <includes refid="phase2__phase3__hardening_8h" local="no">phase2_phase3_hardening.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geometry_validation_error_builder_1aaa57fb759a2af3ab0478a3404ebbe929" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::geo::GeometryValidationErrorBuilder::nonFiniteCoordinate</definition>
+        <argsstring>(double value, const std::string &amp;coord_name, std::size_t coord_index) noexcept</argsstring>
+        <name>nonFiniteCoordinate</name>
+        <qualifiedname>themis::geo::GeometryValidationErrorBuilder::nonFiniteCoordinate</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>coord_name</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>coord_index</declname>
+        </param>
+        <briefdescription>
+<para>Build error message for non-finite coordinates. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/phase2_phase3_hardening.h" line="268" column="25" bodyfile="src/geo/phase2_phase3_hardening.cpp" bodystart="348" bodyend="358"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geometry_validation_error_builder_1aa28a29f3aa4fd2fe3f0bcf78d545442c" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::geo::GeometryValidationErrorBuilder::coordinateOutOfBounds</definition>
+        <argsstring>(double value, const std::string &amp;coord_name, double min_bound, double max_bound) noexcept</argsstring>
+        <name>coordinateOutOfBounds</name>
+        <qualifiedname>themis::geo::GeometryValidationErrorBuilder::coordinateOutOfBounds</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>coord_name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>min_bound</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>max_bound</declname>
+        </param>
+        <briefdescription>
+<para>Build error message for out-of-bounds coordinate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/phase2_phase3_hardening.h" line="276" column="25" bodyfile="src/geo/phase2_phase3_hardening.cpp" bodystart="360" bodyend="370"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geometry_validation_error_builder_1a543891e47aa1da31174e73b5ba5deab4" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::geo::GeometryValidationErrorBuilder::unclosedRing</definition>
+        <argsstring>(std::size_t ring_index, std::size_t vertex_count) noexcept</argsstring>
+        <name>unclosedRing</name>
+        <qualifiedname>themis::geo::GeometryValidationErrorBuilder::unclosedRing</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>ring_index</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>vertex_count</declname>
+        </param>
+        <briefdescription>
+<para>Build error message for unclosed polygon ring. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/phase2_phase3_hardening.h" line="285" column="25" bodyfile="src/geo/phase2_phase3_hardening.cpp" bodystart="372" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geometry_validation_error_builder_1ae43b253987393b7f4466712341725684" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::geo::GeometryValidationErrorBuilder::insufficientVertices</definition>
+        <argsstring>(const std::string &amp;geometry_type, std::size_t actual_count, std::size_t required_min) noexcept</argsstring>
+        <name>insufficientVertices</name>
+        <qualifiedname>themis::geo::GeometryValidationErrorBuilder::insufficientVertices</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>geometry_type</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>actual_count</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>required_min</declname>
+        </param>
+        <briefdescription>
+<para>Build error message for insufficient vertices. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/phase2_phase3_hardening.h" line="292" column="25" bodyfile="src/geo/phase2_phase3_hardening.cpp" bodystart="383" bodyend="393"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geometry_validation_error_builder_1ab09f27ecbeab1af82fd3200475b79ac7" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::geo::GeometryValidationErrorBuilder::geometryTooLarge</definition>
+        <argsstring>(std::size_t coordinate_count, std::size_t max_allowed) noexcept</argsstring>
+        <name>geometryTooLarge</name>
+        <qualifiedname>themis::geo::GeometryValidationErrorBuilder::geometryTooLarge</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>coordinate_count</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>max_allowed</declname>
+        </param>
+        <briefdescription>
+<para>Build error message for geometry too large. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/phase2_phase3_hardening.h" line="300" column="25" bodyfile="src/geo/phase2_phase3_hardening.cpp" bodystart="395" bodyend="404"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geometry_validation_error_builder_1a1c583e3e34af0c0485c25e23e6320b5b" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::geo::GeometryValidationErrorBuilder::nonFiniteCoordinate</definition>
+        <argsstring>(double value, const std::string &amp;coord_name, std::size_t coord_index) noexcept</argsstring>
+        <name>nonFiniteCoordinate</name>
+        <qualifiedname>themis::geo::GeometryValidationErrorBuilder::nonFiniteCoordinate</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>coord_name</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>coord_index</declname>
+        </param>
+        <briefdescription>
+<para>Build error message for non-finite coordinates. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/phase2_phase3_hardening.cpp" line="298" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geometry_validation_error_builder_1a6a73ab4ba04db40ea8ae4ee9ff05d20c" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::geo::GeometryValidationErrorBuilder::coordinateOutOfBounds</definition>
+        <argsstring>(double value, const std::string &amp;coord_name, double min_bound, double max_bound) noexcept</argsstring>
+        <name>coordinateOutOfBounds</name>
+        <qualifiedname>themis::geo::GeometryValidationErrorBuilder::coordinateOutOfBounds</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>coord_name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>min_bound</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>max_bound</declname>
+        </param>
+        <briefdescription>
+<para>Build error message for out-of-bounds coordinate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/phase2_phase3_hardening.cpp" line="306" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geometry_validation_error_builder_1a041116d101ebd207f198152ec9776a4b" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::geo::GeometryValidationErrorBuilder::unclosedRing</definition>
+        <argsstring>(std::size_t ring_index, std::size_t vertex_count) noexcept</argsstring>
+        <name>unclosedRing</name>
+        <qualifiedname>themis::geo::GeometryValidationErrorBuilder::unclosedRing</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>ring_index</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>vertex_count</declname>
+        </param>
+        <briefdescription>
+<para>Build error message for unclosed polygon ring. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/phase2_phase3_hardening.cpp" line="315" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geometry_validation_error_builder_1a85d654d9b1a807fcfbbd3e27ac65bfb3" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::geo::GeometryValidationErrorBuilder::insufficientVertices</definition>
+        <argsstring>(const std::string &amp;geometry_type, std::size_t actual_count, std::size_t required_min) noexcept</argsstring>
+        <name>insufficientVertices</name>
+        <qualifiedname>themis::geo::GeometryValidationErrorBuilder::insufficientVertices</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>geometry_type</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>actual_count</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>required_min</declname>
+        </param>
+        <briefdescription>
+<para>Build error message for insufficient vertices. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/phase2_phase3_hardening.cpp" line="322" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geometry_validation_error_builder_1a1e994d6bce78ecfd8883f3254ad18f6a" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::geo::GeometryValidationErrorBuilder::geometryTooLarge</definition>
+        <argsstring>(std::size_t coordinate_count, std::size_t max_allowed) noexcept</argsstring>
+        <name>geometryTooLarge</name>
+        <qualifiedname>themis::geo::GeometryValidationErrorBuilder::geometryTooLarge</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>coordinate_count</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>max_allowed</declname>
+        </param>
+        <briefdescription>
+<para>Build error message for geometry too large. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/phase2_phase3_hardening.cpp" line="330" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unified error message builder for geometry validation failures. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Phase 3 requirement: &quot;consolidate error messages across join/clustering/raster/temporal paths&quot;</para>
+<para>Generates consistent, actionable error messages for all geometry validation failures, with context about the invalid geometry and the validation rule that was violated. </para>
+    </detaileddescription>
+    <location file="include/geo/phase2_phase3_hardening.h" line="263" column="1" bodyfile="include/geo/phase2_phase3_hardening.h" bodystart="263" bodyend="303"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1geo_1_1_geometry_validation_error_builder_1aa28a29f3aa4fd2fe3f0bcf78d545442c" prot="public" virt="non-virtual"><scope>themis::geo::GeometryValidationErrorBuilder</scope><name>coordinateOutOfBounds</name></member>
+      <member refid="classthemis_1_1geo_1_1_geometry_validation_error_builder_1a6a73ab4ba04db40ea8ae4ee9ff05d20c" prot="public" virt="non-virtual"><scope>themis::geo::GeometryValidationErrorBuilder</scope><name>coordinateOutOfBounds</name></member>
+      <member refid="classthemis_1_1geo_1_1_geometry_validation_error_builder_1ab09f27ecbeab1af82fd3200475b79ac7" prot="public" virt="non-virtual"><scope>themis::geo::GeometryValidationErrorBuilder</scope><name>geometryTooLarge</name></member>
+      <member refid="classthemis_1_1geo_1_1_geometry_validation_error_builder_1a1e994d6bce78ecfd8883f3254ad18f6a" prot="public" virt="non-virtual"><scope>themis::geo::GeometryValidationErrorBuilder</scope><name>geometryTooLarge</name></member>
+      <member refid="classthemis_1_1geo_1_1_geometry_validation_error_builder_1ae43b253987393b7f4466712341725684" prot="public" virt="non-virtual"><scope>themis::geo::GeometryValidationErrorBuilder</scope><name>insufficientVertices</name></member>
+      <member refid="classthemis_1_1geo_1_1_geometry_validation_error_builder_1a85d654d9b1a807fcfbbd3e27ac65bfb3" prot="public" virt="non-virtual"><scope>themis::geo::GeometryValidationErrorBuilder</scope><name>insufficientVertices</name></member>
+      <member refid="classthemis_1_1geo_1_1_geometry_validation_error_builder_1aaa57fb759a2af3ab0478a3404ebbe929" prot="public" virt="non-virtual"><scope>themis::geo::GeometryValidationErrorBuilder</scope><name>nonFiniteCoordinate</name></member>
+      <member refid="classthemis_1_1geo_1_1_geometry_validation_error_builder_1a1c583e3e34af0c0485c25e23e6320b5b" prot="public" virt="non-virtual"><scope>themis::geo::GeometryValidationErrorBuilder</scope><name>nonFiniteCoordinate</name></member>
+      <member refid="classthemis_1_1geo_1_1_geometry_validation_error_builder_1a543891e47aa1da31174e73b5ba5deab4" prot="public" virt="non-virtual"><scope>themis::geo::GeometryValidationErrorBuilder</scope><name>unclosedRing</name></member>
+      <member refid="classthemis_1_1geo_1_1_geometry_validation_error_builder_1a041116d101ebd207f198152ec9776a4b" prot="public" virt="non-virtual"><scope>themis::geo::GeometryValidationErrorBuilder</scope><name>unclosedRing</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

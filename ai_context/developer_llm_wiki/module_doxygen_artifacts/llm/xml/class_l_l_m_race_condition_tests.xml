@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_l_l_m_race_condition_tests" kind="class" language="C++" prot="public">
+    <compoundname>LLMRaceConditionTests</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_l_l_m_race_condition_tests_1add671feadb2402ba91f5b275c60eb9ac" prot="protected" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; LLMRaceConditionTests::counter</definition>
+        <argsstring></argsstring>
+        <name>counter</name>
+        <qualifiedname>LLMRaceConditionTests::counter</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase1_hardening.cpp" line="338" column="17" bodyfile="tests/llm/test_llm_phase1_hardening.cpp" bodystart="338" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_l_l_m_race_condition_tests_1af9d2600150679dc43d8b6030ec7ed3b9" prot="protected" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex LLMRaceConditionTests::mutex</definition>
+        <argsstring></argsstring>
+        <name>mutex</name>
+        <qualifiedname>LLMRaceConditionTests::mutex</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase1_hardening.cpp" line="339" column="16" bodyfile="tests/llm/test_llm_phase1_hardening.cpp" bodystart="339" bodyend="339"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>LLMRaceConditionTests</label>
+        <link refid="class_l_l_m_race_condition_tests"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>LLMRaceConditionTests</label>
+        <link refid="class_l_l_m_race_condition_tests"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llm_phase1_hardening.cpp" line="336" column="1" bodyfile="tests/llm/test_llm_phase1_hardening.cpp" bodystart="336" bodyend="340"/>
+    <listofallmembers>
+      <member refid="class_l_l_m_race_condition_tests_1add671feadb2402ba91f5b275c60eb9ac" prot="protected" virt="non-virtual"><scope>LLMRaceConditionTests</scope><name>counter</name></member>
+      <member refid="class_l_l_m_race_condition_tests_1af9d2600150679dc43d8b6030ec7ed3b9" prot="protected" virt="non-virtual"><scope>LLMRaceConditionTests</scope><name>mutex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

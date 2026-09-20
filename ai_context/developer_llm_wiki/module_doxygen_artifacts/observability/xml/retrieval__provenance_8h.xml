@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="retrieval__provenance_8h" kind="file" language="C++">
+    <compoundname>retrieval_provenance.h</compoundname>
+    <includes refid="reason__codes_8h" local="yes">observability/reason_codes.h</includes>
+    <includes refid="telemetry__keys_8h" local="yes">observability/telemetry_keys.h</includes>
+    <includes local="yes">utils/logger.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>observability/reason_codes.h</label>
+        <link refid="reason__codes_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/observability/retrieval_provenance.h</label>
+        <link refid="retrieval__provenance_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>observability/telemetry_keys.h</label>
+        <link refid="telemetry__keys_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>cstddef</label>
+      </node>
+      <node id="6">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>string_view</label>
+      </node>
+      <node id="5">
+        <label>utils/logger.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1observability_1_1_retrieval_provenance_record" prot="public">themis::observability::RetrievalProvenanceRecord</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability">themis::observability</innernamespace>
+    <briefdescription>
+<para>Unified provenance record for one end-to-end retrieval decision chain. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Captures the full ANN → Tensor → Graph → Final-Layer chain in a single exportable, audit-ready record. Populated by TensorRAGPipeline::step() and emitted as a structured JSON log entry alongside the per-layer layer_handoff_decision events.</para>
+<sect1 id="retrieval__provenance_8h_1autotoc_md20_1s1"><sect2 id="retrieval__provenance_8h_1autotoc_md20">
+<title>Fields per stage</title><para><itemizedlist>
+<listitem><para><bold>trigger_stage</bold>: which gate(s) fired (FLARE / TARG / BOTH / NONE)</para>
+</listitem><listitem><para><bold>tensor_stage</bold>: number of adapter candidates from tensor summary</para>
+</listitem><listitem><para><bold>graph_stage</bold>: number of graph-truth evidences assembled</para>
+</listitem><listitem><para><bold>final_stage</bold>: whether a package/adapter was resolved and which</para>
+</listitem><listitem><para><bold>chain_complete</bold>: true when retrieval triggered and all wired stages ran </para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="reason__codes_8h" kindref="compound">observability/reason_codes.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="telemetry__keys_8h" kindref="compound">observability/telemetry_keys.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/logger.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability" kindref="compound">themis::observability</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1observability_1_1_retrieval_provenance_record" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_retrieval_provenance_record" kindref="compound">RetrievalProvenanceRecord</ref><sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>identity<sp/>────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a2e08654e34a0da53c5cce989e16f1e13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a2e08654e34a0da53c5cce989e16f1e13" kindref="member">correlation_id</ref>;</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1aee8ab473dbd0bf5cef80487cd5f92fc9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1aee8ab473dbd0bf5cef80487cd5f92fc9" kindref="member">confidence_policy_version</ref>;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>trigger<sp/>stage<sp/>───────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a8dc6e01eebfb019ad4a15aea69bcf89d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a8dc6e01eebfb019ad4a15aea69bcf89d" kindref="member">trigger_reason_code</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a46ab3b829bc8a98c87b47ead8bf2e42d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a46ab3b829bc8a98c87b47ead8bf2e42d" kindref="member">flare_fired</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a801f814d84bf47a0c678d474b13b30ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a801f814d84bf47a0c678d474b13b30ee" kindref="member">targ_fired</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>tensor<sp/>stage<sp/>────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1aef20c629bfc6de2990e18c572acf9bec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1aef20c629bfc6de2990e18c572acf9bec" kindref="member">tensor_candidate_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a732a267ca98859b5bfcd562869ad80ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a732a267ca98859b5bfcd562869ad80ee" kindref="member">tensor_routing_reason</ref>;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>graph<sp/>stage<sp/>─────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a1c5219ff5e8f2534daaac60b4e12e5b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a1c5219ff5e8f2534daaac60b4e12e5b0" kindref="member">graph_evidence_count</ref><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1ac2a2b167f9366869b0b61684d5843609" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1ac2a2b167f9366869b0b61684d5843609" kindref="member">graph_routing_reason_code</ref>;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>final-layer<sp/>stage<sp/>───────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a6fd03efa76d1e3e4982d60635870d20a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a6fd03efa76d1e3e4982d60635870d20a" kindref="member">final_resolved</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a6cdb89aa212f126ca50322932f3d9e2a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a6cdb89aa212f126ca50322932f3d9e2a" kindref="member">final_package_id</ref>;</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a425ed24e742511e816d971808e0ad7db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a425ed24e742511e816d971808e0ad7db" kindref="member">final_adapter_id</ref>;</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a488153a4328aaec1225092ce177f0fae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a488153a4328aaec1225092ce177f0fae" kindref="member">final_routing_reason_code</ref>;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>chain<sp/>summary<sp/>───────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1aa75ecd284361da5eac020ca105e26546" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1aa75ecd284361da5eac020ca105e26546" kindref="member">fallback_mode</ref>;</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1af30fc1d1aa224ea1680dcd1a9b14262d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1af30fc1d1aa224ea1680dcd1a9b14262d" kindref="member">fallback_reason_code</ref>;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1adb2d1ac6f75d2a652e77489b217e08e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1adb2d1ac6f75d2a652e77489b217e08e8" kindref="member">chain_complete</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="namespacethemis_1_1observability_1ae3d949b205c6d1ee58ef2fc2c75f02f5" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1observability_1ae3d949b205c6d1ee58ef2fc2c75f02f5" kindref="member">emitProvenanceLog</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_retrieval_provenance_record" kindref="compound">RetrievalProvenanceRecord</ref>&amp;<sp/>r)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>j<sp/>=<sp/>nlohmann::json::object();</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;event&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;retrieval_provenance_record&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>j[std::string(<ref refid="namespacethemis_1_1observability_1_1telemetry_1_1fields_1a8f85e850648da3e9449e6d0b358ad98e" kindref="member">telemetry::fields::kCorrelationId</ref>)]<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>r.<ref refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a2e08654e34a0da53c5cce989e16f1e13" kindref="member">correlation_id</ref>;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>j[std::string(<ref refid="namespacethemis_1_1observability_1_1telemetry_1_1fields_1ac30e570dc3ae91f4adef8cddabb299da" kindref="member">telemetry::fields::kConfidencePolicyVersion</ref>)]<sp/>=<sp/>r.<ref refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1aee8ab473dbd0bf5cef80487cd5f92fc9" kindref="member">confidence_policy_version</ref>;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;trigger_reason_code&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>r.<ref refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a8dc6e01eebfb019ad4a15aea69bcf89d" kindref="member">trigger_reason_code</ref>;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;flare_fired&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>r.<ref refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a46ab3b829bc8a98c87b47ead8bf2e42d" kindref="member">flare_fired</ref>;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;targ_fired&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>r.<ref refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a801f814d84bf47a0c678d474b13b30ee" kindref="member">targ_fired</ref>;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;tensor_candidate_count&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/>=<sp/>r.<ref refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1aef20c629bfc6de2990e18c572acf9bec" kindref="member">tensor_candidate_count</ref>;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;tensor_routing_reason&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/>=<sp/>r.<ref refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a732a267ca98859b5bfcd562869ad80ee" kindref="member">tensor_routing_reason</ref>;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;graph_evidence_count&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/>=<sp/>r.<ref refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a1c5219ff5e8f2534daaac60b4e12e5b0" kindref="member">graph_evidence_count</ref>;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;graph_routing_reason_code&quot;</highlight><highlight class="normal">]=<sp/>r.<ref refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1ac2a2b167f9366869b0b61684d5843609" kindref="member">graph_routing_reason_code</ref>;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;final_resolved&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>r.<ref refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a6fd03efa76d1e3e4982d60635870d20a" kindref="member">final_resolved</ref>;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;final_package_id&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>r.<ref refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a6cdb89aa212f126ca50322932f3d9e2a" kindref="member">final_package_id</ref>;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;final_adapter_id&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>r.<ref refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a425ed24e742511e816d971808e0ad7db" kindref="member">final_adapter_id</ref>;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;final_routing_reason_code&quot;</highlight><highlight class="normal">]=<sp/>r.<ref refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1a488153a4328aaec1225092ce177f0fae" kindref="member">final_routing_reason_code</ref>;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>j[std::string(<ref refid="namespacethemis_1_1observability_1_1telemetry_1_1fields_1a5bbf7e83c4008336a2df60594c3dfc1b" kindref="member">telemetry::fields::kFallbackMode</ref>)]<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>r.<ref refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1aa75ecd284361da5eac020ca105e26546" kindref="member">fallback_mode</ref>;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>j[std::string(<ref refid="namespacethemis_1_1observability_1_1telemetry_1_1fields_1a0a7560894c653e550a6b86215a17ae2f" kindref="member">telemetry::fields::kFallbackReasonCode</ref>)]<sp/><sp/>=<sp/>r.<ref refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1af30fc1d1aa224ea1680dcd1a9b14262d" kindref="member">fallback_reason_code</ref>;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;chain_complete&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>r.<ref refid="structthemis_1_1observability_1_1_retrieval_provenance_record_1adb2d1ac6f75d2a652e77489b217e08e8" kindref="member">chain_complete</ref>;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>THEMIS_INFO(</highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">,<sp/>j.dump());</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::observability</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/observability/retrieval_provenance.h"/>
+  </compounddef>
+</doxygen>

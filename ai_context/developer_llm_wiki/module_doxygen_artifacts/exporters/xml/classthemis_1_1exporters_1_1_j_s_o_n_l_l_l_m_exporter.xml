@@ -1,0 +1,1075 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter" kind="class" language="C++" prot="public">
+    <compoundname>themis::exporters::JSONLLLMExporter</compoundname>
+    <basecompoundref refid="classthemis_1_1exporters_1_1_i_exporter" prot="public" virt="non-virtual">themis::exporters::IExporter</basecompoundref>
+    <includes refid="jsonl__llm__exporter_8h" local="no">jsonl_llm_exporter.h</includes>
+    <innerclass refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1_1_runtime_metrics" prot="private">themis::exporters::JSONLLLMExporter::RuntimeMetrics</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1af39e7ca5b9f7367851a055f696d3d25b" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config" kindref="compound">JSONLLLMConfig</ref></type>
+        <definition>JSONLLLMConfig themis::exporters::JSONLLLMExporter::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::exporters::JSONLLLMExporter::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="228" column="20" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1a1c53db54c58cc7d0766bf0525007107a" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1exporters_1_1_exporter_metrics" kindref="compound">ExporterMetrics</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ExporterMetrics&gt; themis::exporters::JSONLLLMExporter::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::exporters::JSONLLLMExporter::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="229" column="21" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1ab88657b76d69584ef59c67f617e071c4" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1exporters_1_1_i_format_template" kindref="compound">IFormatTemplate</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;IFormatTemplate&gt; themis::exporters::JSONLLLMExporter::format_template_</definition>
+        <argsstring></argsstring>
+        <name>format_template_</name>
+        <qualifiedname>themis::exporters::JSONLLLMExporter::format_template_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="230" column="21" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1ab13ba08d3e512431af6c3e31aea9e210" prot="private" static="no" mutable="no">
+        <type>struct themis::exporters::JSONLLLMExporter::RuntimeMetrics</type>
+        <definition>struct themis::exporters::JSONLLLMExporter::RuntimeMetrics themis::exporters::JSONLLLMExporter::runtime_metrics_</definition>
+        <argsstring></argsstring>
+        <name>runtime_metrics_</name>
+        <qualifiedname>themis::exporters::JSONLLLMExporter::runtime_metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="319" column="22"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1a0fe055d0954c0ffc25b46528eb58fa01" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::exporters::JSONLLLMExporter::JSONLLLMExporter</definition>
+        <argsstring>(const JSONLLLMConfig &amp;config={})</argsstring>
+        <name>JSONLLLMExporter</name>
+        <qualifiedname>themis::exporters::JSONLLLMExporter::JSONLLLMExporter</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config" kindref="compound">JSONLLLMConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="168" column="14" bodyfile="src/exporters/jsonl_llm_exporter.cpp" bodystart="99" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1adf3df9aa55db73e9c36e486184ff2f89" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1exporters_1_1_export_stats" kindref="compound">ExportStats</ref></type>
+        <definition>ExportStats themis::exporters::JSONLLLMExporter::exportEntities</definition>
+        <argsstring>(const std::vector&lt; BaseEntity &gt; &amp;entities, const ExportOptions &amp;options) override</argsstring>
+        <name>exportEntities</name>
+        <qualifiedname>themis::exporters::JSONLLLMExporter::exportEntities</qualifiedname>
+        <reimplements refid="classthemis_1_1exporters_1_1_i_exporter_1a8bb28742250134dd32801cba9ba2acff">exportEntities</reimplements>
+        <param>
+          <type>const std::vector&lt; BaseEntity &gt; &amp;</type>
+          <declname>entities</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1exporters_1_1_export_options" kindref="compound">ExportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Export Entities. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>ExporterException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ExportIOException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="namespacethemis_1_1exporters_1a4317f0c21d3baab4b276c88957dc072e" kindref="member">enforceExportPolicy()</ref>, std::chrono::steady_clock::now(), hasScope(), THEMIS_INFO(), writer(), empty(), size(), isLimitReached(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="170" column="17" bodyfile="src/exporters/jsonl_llm_exporter.cpp" bodystart="112" bodyend="460"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1a5cb68f5e1dd38e224a80a174d157d0b1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::exporters::JSONLLLMExporter::getSupportedFormats</definition>
+        <argsstring>() const override</argsstring>
+        <name>getSupportedFormats</name>
+        <qualifiedname>themis::exporters::JSONLLLMExporter::getSupportedFormats</qualifiedname>
+        <reimplements refid="classthemis_1_1exporters_1_1_i_exporter_1a747594ff4d4052ad41e9046bc63c6287">getSupportedFormats</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="175" column="17" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="175" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1a463d920af4801f48ef0c25eaf650ae60" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::JSONLLLMExporter::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::exporters::JSONLLLMExporter::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1exporters_1_1_i_exporter_1a1a950d7bc59a0667a314b5a1c44e41e9">getName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="179" column="17" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="179" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1a9cb341c2de6b8c04ac61d62b34c50e45" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::JSONLLLMExporter::getVersion</definition>
+        <argsstring>() const override</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>themis::exporters::JSONLLLMExporter::getVersion</qualifiedname>
+        <reimplements refid="classthemis_1_1exporters_1_1_i_exporter_1a9729d229cd3934db0e6d3c948b526908">getVersion</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="180" column="17" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="180" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1aaf178f02a2a9b85d99957fdb66c21415" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::JSONLLLMExporter::setConfig</definition>
+        <argsstring>(const JSONLLLMConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::exporters::JSONLLLMExporter::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config" kindref="compound">JSONLLLMConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="namespacethemis_1_1exporters_1aa55f3e885fbfe60f76f62f4fff7159da" kindref="member">makeFormatTemplate()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="187" column="10" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="187" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1a3d68db9d23beb3a1469e6969a9a30f93" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1exporters_1_1_template_validation_result" kindref="compound">TemplateValidationResult</ref></type>
+        <definition>TemplateValidationResult themis::exporters::JSONLLLMExporter::validateTemplate</definition>
+        <argsstring>(const std::vector&lt; BaseEntity &gt; &amp;sample) const</argsstring>
+        <name>validateTemplate</name>
+        <qualifiedname>themis::exporters::JSONLLLMExporter::validateTemplate</qualifiedname>
+        <param>
+          <type>const std::vector&lt; BaseEntity &gt; &amp;</type>
+          <declname>sample</declname>
+        </param>
+        <briefdescription>
+<para>Validate Template. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sample</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="197" column="30" bodyfile="src/exporters/jsonl_llm_exporter.cpp" bodystart="967" bodyend="969"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1a5e5b19ba5b8f4d45ac2704ff9b4c8614" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config" kindref="compound">JSONLLLMConfig</ref> &amp;</type>
+        <definition>const JSONLLLMConfig &amp; themis::exporters::JSONLLLMExporter::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::exporters::JSONLLLMExporter::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="201" column="26" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="201" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1a8b2d11471a6a382e8eeb65da712373cb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::exporters::JSONLLLMExporter::validateAgainstSchema</definition>
+        <argsstring>(const std::string &amp;json_str, std::string *error=nullptr) const</argsstring>
+        <name>validateAgainstSchema</name>
+        <qualifiedname>themis::exporters::JSONLLLMExporter::validateAgainstSchema</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>json_str</declname>
+        </param>
+        <param>
+          <type>std::string *</type>
+          <declname>error</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="203" column="10" bodyfile="src/exporters/jsonl_llm_exporter.cpp" bodystart="904" bodyend="917"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1ac9687d5a40663b087d0ce358d596899c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::JSONLLLMExporter::getAdapterMetadataJson</definition>
+        <argsstring>() const</argsstring>
+        <name>getAdapterMetadataJson</name>
+        <qualifiedname>themis::exporters::JSONLLLMExporter::getAdapterMetadataJson</qualifiedname>
+        <briefdescription>
+<para>Get Adapter Metadata Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="209" column="17" bodyfile="src/exporters/jsonl_llm_exporter.cpp" bodystart="975" bodyend="1033"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1a813e8a8e59b20be3f90fc04b7bbf82f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::exporters::JSONLLLMExporter::setAdapterMetadataFromJson</definition>
+        <argsstring>(const std::string &amp;json_str, std::string *error=nullptr)</argsstring>
+        <name>setAdapterMetadataFromJson</name>
+        <qualifiedname>themis::exporters::JSONLLLMExporter::setAdapterMetadataFromJson</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>json_str</declname>
+        </param>
+        <param>
+          <type>std::string *</type>
+          <declname>error</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Set Adapter Metadata From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: json::parse(), contains(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="211" column="10" bodyfile="src/exporters/jsonl_llm_exporter.cpp" bodystart="1042" bodyend="1157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1a1d78b4cbe31d8009d610de04bd2dd0c8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::JSONLLLMExporter::getQualityMetricsReport</definition>
+        <argsstring>() const</argsstring>
+        <name>getQualityMetricsReport</name>
+        <qualifiedname>themis::exporters::JSONLLLMExporter::getQualityMetricsReport</qualifiedname>
+        <briefdescription>
+<para>Get Quality Metrics Report. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="217" column="17" bodyfile="src/exporters/jsonl_llm_exporter.cpp" bodystart="1163" bodyend="1202"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1ac58da750bb6ccf4fac797d1555930099" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1exporters_1_1_exporter_metrics" kindref="compound">ExporterMetrics</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ExporterMetrics &gt; themis::exporters::JSONLLLMExporter::getMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetrics</name>
+        <qualifiedname>themis::exporters::JSONLLLMExporter::getMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="219" column="21" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="219" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1abd664f5e4bd2620bdfa93d904d255e52" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::JSONLLLMExporter::resetMetrics</definition>
+        <argsstring>()</argsstring>
+        <name>resetMetrics</name>
+        <qualifiedname>themis::exporters::JSONLLLMExporter::resetMetrics</qualifiedname>
+        <briefdescription>
+<para>Reset Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="225" column="10" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="225" bodyend="225"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1a7b5b064b6d915a5d12d9dc914b561736" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::JSONLLLMExporter::formatInstructionTuning</definition>
+        <argsstring>(const BaseEntity &amp;entity, double &amp;weight, const ExportOptions &amp;options)</argsstring>
+        <name>formatInstructionTuning</name>
+        <qualifiedname>themis::exporters::JSONLLLMExporter::formatInstructionTuning</qualifiedname>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>weight</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1exporters_1_1_export_options" kindref="compound">ExportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Format Instruction Tuning. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">weight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">weight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isFieldAllowed(), getFieldAsString(), empty(), extractMetadata(), json::parse(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="240" column="17" bodyfile="src/exporters/jsonl_llm_exporter.cpp" bodystart="470" bodyend="514"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1ae269c9cb725fc1f59adcf7ef4137d004" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::JSONLLLMExporter::formatChatCompletion</definition>
+        <argsstring>(const BaseEntity &amp;entity, double &amp;weight, const ExportOptions &amp;options)</argsstring>
+        <name>formatChatCompletion</name>
+        <qualifiedname>themis::exporters::JSONLLLMExporter::formatChatCompletion</qualifiedname>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>weight</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1exporters_1_1_export_options" kindref="compound">ExportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Format Chat Completion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">weight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">weight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: json::array(), isFieldAllowed(), getFieldAsString(), empty(), push_back(), extractMetadata(), json::parse(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="249" column="17" bodyfile="src/exporters/jsonl_llm_exporter.cpp" bodystart="524" bodyend="577"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1a96053931a8e3104c093e105dca6eda9a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::JSONLLLMExporter::formatTextCompletion</definition>
+        <argsstring>(const BaseEntity &amp;entity, double &amp;weight, const ExportOptions &amp;options)</argsstring>
+        <name>formatTextCompletion</name>
+        <qualifiedname>themis::exporters::JSONLLLMExporter::formatTextCompletion</qualifiedname>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>weight</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1exporters_1_1_export_options" kindref="compound">ExportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Format Text Completion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">weight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">weight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isFieldAllowed(), getFieldAsString(), extractMetadata(), empty(), json::parse(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="258" column="17" bodyfile="src/exporters/jsonl_llm_exporter.cpp" bodystart="587" bodyend="618"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1a49cfdcf2aa0d8c21b9f09a07b35e861f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::JSONLLLMExporter::formatWithTemplate</definition>
+        <argsstring>(const BaseEntity &amp;entity, double &amp;weight, const ExportOptions &amp;options)</argsstring>
+        <name>formatWithTemplate</name>
+        <qualifiedname>themis::exporters::JSONLLLMExporter::formatWithTemplate</qualifiedname>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>weight</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1exporters_1_1_export_options" kindref="compound">ExportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Format With Template. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">weight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">weight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: render(), empty(), json::parse(), dump(), THEMIS_WARN(), what(), is_object(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="267" column="17" bodyfile="src/exporters/jsonl_llm_exporter.cpp" bodystart="628" bodyend="672"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1ad2706464a3f4ad9f1bb4fd79ac4f8316" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::exporters::JSONLLLMExporter::calculateWeight</definition>
+        <argsstring>(const BaseEntity &amp;entity)</argsstring>
+        <name>calculateWeight</name>
+        <qualifiedname>themis::exporters::JSONLLLMExporter::calculateWeight</qualifiedname>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Weight. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: hasField(), getFieldAsDouble(), std::clamp(), getFieldAsString(), size(), std::min(), std::stoll(), std::chrono::system_clock::time_point(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="275" column="12" bodyfile="src/exporters/jsonl_llm_exporter.cpp" bodystart="680" bodyend="750"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1adbf24c8759c8c1950c07e8b14e54cd7c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::exporters::JSONLLLMExporter::passesQualityFilter</definition>
+        <argsstring>(const BaseEntity &amp;entity)</argsstring>
+        <name>passesQualityFilter</name>
+        <qualifiedname>themis::exporters::JSONLLLMExporter::passesQualityFilter</qualifiedname>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <briefdescription>
+<para>Passes Quality Filter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: getFieldAsString(), empty(), size(), computeToxicityScore(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="281" column="10" bodyfile="src/exporters/jsonl_llm_exporter.cpp" bodystart="786" bodyend="840"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1a1cd14e785f455a58c33abd509be5d829" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::JSONLLLMExporter::extractMetadata</definition>
+        <argsstring>(const BaseEntity &amp;entity, const ExportOptions &amp;options)</argsstring>
+        <name>extractMetadata</name>
+        <qualifiedname>themis::exporters::JSONLLLMExporter::extractMetadata</qualifiedname>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1exporters_1_1_export_options" kindref="compound">ExportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Extract Metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isFieldAllowed(), hasField(), getFieldAsString(), empty(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="288" column="17" bodyfile="src/exporters/jsonl_llm_exporter.cpp" bodystart="849" bodyend="869"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1a194f3cfce40460b4ecba31e3b4260d92" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::exporters::JSONLLLMExporter::validateJsonSchema</definition>
+        <argsstring>(const std::string &amp;json_str, const std::string &amp;schema, std::string *error) const</argsstring>
+        <name>validateJsonSchema</name>
+        <qualifiedname>themis::exporters::JSONLLLMExporter::validateJsonSchema</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>json_str</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <param>
+          <type>std::string *</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+<para>Validate Json Schema. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="309" column="10" bodyfile="src/exporters/jsonl_llm_exporter.cpp" bodystart="919" bodyend="961"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1ac22a6a3f4828cb8ec6989fc49801c911" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::exporters::JSONLLLMExporter::isFieldAllowed</definition>
+        <argsstring>(const std::string &amp;field_name, const std::vector&lt; std::string &gt; &amp;include_fields, const std::vector&lt; std::string &gt; &amp;exclude_fields)</argsstring>
+        <name>isFieldAllowed</name>
+        <qualifiedname>themis::exporters::JSONLLLMExporter::isFieldAllowed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>include_fields</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>exclude_fields</declname>
+        </param>
+        <briefdescription>
+<para>Is Field Allowed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the field. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">include_fields</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">exclude_fields</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the field. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">include_fields</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">exclude_fields</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="297" column="17" bodyfile="src/exporters/jsonl_llm_exporter.cpp" bodystart="879" bodyend="898"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::exporters::IExporter</label>
+        <link refid="classthemis_1_1exporters_1_1_i_exporter"/>
+      </node>
+      <node id="1">
+        <label>themis::exporters::JSONLLLMExporter</label>
+        <link refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::exporters::IExporter</label>
+        <link refid="classthemis_1_1exporters_1_1_i_exporter"/>
+      </node>
+      <node id="1">
+        <label>themis::exporters::JSONLLLMExporter</label>
+        <link refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/exporters/jsonl_llm_exporter.h" line="166" column="1" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="166" bodyend="320"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1ad2706464a3f4ad9f1bb4fd79ac4f8316" prot="private" virt="non-virtual"><scope>themis::exporters::JSONLLLMExporter</scope><name>calculateWeight</name></member>
+      <member refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1af39e7ca5b9f7367851a055f696d3d25b" prot="private" virt="non-virtual"><scope>themis::exporters::JSONLLLMExporter</scope><name>config_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1adf3df9aa55db73e9c36e486184ff2f89" prot="public" virt="virtual"><scope>themis::exporters::JSONLLLMExporter</scope><name>exportEntities</name></member>
+      <member refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1a1cd14e785f455a58c33abd509be5d829" prot="private" virt="non-virtual"><scope>themis::exporters::JSONLLLMExporter</scope><name>extractMetadata</name></member>
+      <member refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1ab88657b76d69584ef59c67f617e071c4" prot="private" virt="non-virtual"><scope>themis::exporters::JSONLLLMExporter</scope><name>format_template_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1ae269c9cb725fc1f59adcf7ef4137d004" prot="private" virt="non-virtual"><scope>themis::exporters::JSONLLLMExporter</scope><name>formatChatCompletion</name></member>
+      <member refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1a7b5b064b6d915a5d12d9dc914b561736" prot="private" virt="non-virtual"><scope>themis::exporters::JSONLLLMExporter</scope><name>formatInstructionTuning</name></member>
+      <member refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1a96053931a8e3104c093e105dca6eda9a" prot="private" virt="non-virtual"><scope>themis::exporters::JSONLLLMExporter</scope><name>formatTextCompletion</name></member>
+      <member refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1a49cfdcf2aa0d8c21b9f09a07b35e861f" prot="private" virt="non-virtual"><scope>themis::exporters::JSONLLLMExporter</scope><name>formatWithTemplate</name></member>
+      <member refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1ac9687d5a40663b087d0ce358d596899c" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMExporter</scope><name>getAdapterMetadataJson</name></member>
+      <member refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1a5e5b19ba5b8f4d45ac2704ff9b4c8614" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMExporter</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1ac58da750bb6ccf4fac797d1555930099" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMExporter</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1a463d920af4801f48ef0c25eaf650ae60" prot="public" virt="virtual"><scope>themis::exporters::JSONLLLMExporter</scope><name>getName</name></member>
+      <member refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1a1d78b4cbe31d8009d610de04bd2dd0c8" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMExporter</scope><name>getQualityMetricsReport</name></member>
+      <member refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1a5cb68f5e1dd38e224a80a174d157d0b1" prot="public" virt="virtual"><scope>themis::exporters::JSONLLLMExporter</scope><name>getSupportedFormats</name></member>
+      <member refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1a9cb341c2de6b8c04ac61d62b34c50e45" prot="public" virt="virtual"><scope>themis::exporters::JSONLLLMExporter</scope><name>getVersion</name></member>
+      <member refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1ac22a6a3f4828cb8ec6989fc49801c911" prot="private" virt="non-virtual"><scope>themis::exporters::JSONLLLMExporter</scope><name>isFieldAllowed</name></member>
+      <member refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1a0fe055d0954c0ffc25b46528eb58fa01" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMExporter</scope><name>JSONLLLMExporter</name></member>
+      <member refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1a1c53db54c58cc7d0766bf0525007107a" prot="private" virt="non-virtual"><scope>themis::exporters::JSONLLLMExporter</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1adbf24c8759c8c1950c07e8b14e54cd7c" prot="private" virt="non-virtual"><scope>themis::exporters::JSONLLLMExporter</scope><name>passesQualityFilter</name></member>
+      <member refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1abd664f5e4bd2620bdfa93d904d255e52" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMExporter</scope><name>resetMetrics</name></member>
+      <member refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1ab13ba08d3e512431af6c3e31aea9e210" prot="private" virt="non-virtual"><scope>themis::exporters::JSONLLLMExporter</scope><name>runtime_metrics_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1a813e8a8e59b20be3f90fc04b7bbf82f5" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMExporter</scope><name>setAdapterMetadataFromJson</name></member>
+      <member refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1aaf178f02a2a9b85d99957fdb66c21415" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMExporter</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1a8b2d11471a6a382e8eeb65da712373cb" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMExporter</scope><name>validateAgainstSchema</name></member>
+      <member refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1a194f3cfce40460b4ecba31e3b4260d92" prot="private" virt="non-virtual"><scope>themis::exporters::JSONLLLMExporter</scope><name>validateJsonSchema</name></member>
+      <member refid="classthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1a3d68db9d23beb3a1469e6969a9a30f93" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMExporter</scope><name>validateTemplate</name></member>
+      <member refid="classthemis_1_1exporters_1_1_i_exporter_1ad03adade7179148b1494ef958b64f267" prot="public" virt="virtual"><scope>themis::exporters::JSONLLLMExporter</scope><name>~IExporter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

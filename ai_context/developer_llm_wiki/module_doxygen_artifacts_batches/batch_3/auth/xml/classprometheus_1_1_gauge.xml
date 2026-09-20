@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classprometheus_1_1_gauge" kind="class" language="C++" prot="public">
+    <compoundname>prometheus::Gauge</compoundname>
+    <includes refid="auth__metrics_8h" local="no">auth_metrics.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classprometheus_1_1_gauge_1af73681eff59786a4072b18c9404ea062" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void prometheus::Gauge::Set</definition>
+        <argsstring>(double)</argsstring>
+        <name>Set</name>
+        <qualifiedname>prometheus::Gauge::Set</qualifiedname>
+        <param>
+          <type>double</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="35" column="29" bodyfile="include/auth/auth_metrics.h" bodystart="35" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classprometheus_1_1_gauge_1ab8abcb4989359f84b1aba9447a4e1c01" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void prometheus::Gauge::Increment</definition>
+        <argsstring>(double=1.0)</argsstring>
+        <name>Increment</name>
+        <qualifiedname>prometheus::Gauge::Increment</qualifiedname>
+        <param>
+          <type>double</type>
+          <defval>1.0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="35" column="39" bodyfile="include/auth/auth_metrics.h" bodystart="35" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classprometheus_1_1_gauge_1a78a10dfaee7c57b3e7a262e391a24c0d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void prometheus::Gauge::Decrement</definition>
+        <argsstring>(double=1.0)</argsstring>
+        <name>Decrement</name>
+        <qualifiedname>prometheus::Gauge::Decrement</qualifiedname>
+        <param>
+          <type>double</type>
+          <defval>1.0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="35" column="57" bodyfile="include/auth/auth_metrics.h" bodystart="35" bodyend="35"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/auth_metrics.h" line="35" column="5" bodyfile="include/auth/auth_metrics.h" bodystart="35" bodyend="35"/>
+    <listofallmembers>
+      <member refid="classprometheus_1_1_gauge_1a78a10dfaee7c57b3e7a262e391a24c0d" prot="public" virt="non-virtual"><scope>prometheus::Gauge</scope><name>Decrement</name></member>
+      <member refid="classprometheus_1_1_gauge_1ab8abcb4989359f84b1aba9447a4e1c01" prot="public" virt="non-virtual"><scope>prometheus::Gauge</scope><name>Increment</name></member>
+      <member refid="classprometheus_1_1_gauge_1af73681eff59786a4072b18c9404ea062" prot="public" virt="non-virtual"><scope>prometheus::Gauge</scope><name>Set</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

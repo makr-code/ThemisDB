@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_histo_aggregate" kind="struct" language="C++" prot="private">
+    <compoundname>themis::core::concerns::LockFreeMetrics::HistoAggregate</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_histo_aggregate_1a16685a8cc9e072f013a8c73d82c8847d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::LockFreeMetrics::HistoAggregate::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::HistoAggregate::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="267" column="22" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="267" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_histo_aggregate_1ad3bf7786442ffb04d77bdf0e8f2c8256" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref></type>
+        <definition>Labels themis::core::concerns::LockFreeMetrics::HistoAggregate::labels</definition>
+        <argsstring></argsstring>
+        <name>labels</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::HistoAggregate::labels</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="268" column="22" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_histo_aggregate_1ad3c022e628b4f48153fcec165a43de29" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::core::concerns::LockFreeMetrics::HistoAggregate::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::HistoAggregate::count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="269" column="22" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="269" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_histo_aggregate_1a2185f8fbb1c5bac7ea2adf1626e6dca5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::core::concerns::LockFreeMetrics::HistoAggregate::sum</definition>
+        <argsstring></argsstring>
+        <name>sum</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::HistoAggregate::sum</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="270" column="22" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="270" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_histo_aggregate_1a17ec81ae3b331483ffd6374daf9367f7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::core::concerns::LockFreeMetrics::HistoAggregate::min_val</definition>
+        <argsstring></argsstring>
+        <name>min_val</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::HistoAggregate::min_val</qualifiedname>
+        <initializer>{std::numeric_limits&lt;double&gt;::max()}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="271" column="22" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="271" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_histo_aggregate_1a106709772084f113a1be3f107024d8c0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::core::concerns::LockFreeMetrics::HistoAggregate::max_val</definition>
+        <argsstring></argsstring>
+        <name>max_val</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::HistoAggregate::max_val</qualifiedname>
+        <initializer>{std::numeric_limits&lt;double&gt;::lowest()}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="272" column="22" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="272" bodyend="272"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/concerns/lockfree_metrics.h" line="266" column="5" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="266" bodyend="273"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_histo_aggregate_1ad3c022e628b4f48153fcec165a43de29" prot="public" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics::HistoAggregate</scope><name>count</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_histo_aggregate_1ad3bf7786442ffb04d77bdf0e8f2c8256" prot="public" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics::HistoAggregate</scope><name>labels</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_histo_aggregate_1a106709772084f113a1be3f107024d8c0" prot="public" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics::HistoAggregate</scope><name>max_val</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_histo_aggregate_1a17ec81ae3b331483ffd6374daf9367f7" prot="public" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics::HistoAggregate</scope><name>min_val</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_histo_aggregate_1a16685a8cc9e072f013a8c73d82c8847d" prot="public" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics::HistoAggregate</scope><name>name</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_histo_aggregate_1a2185f8fbb1c5bac7ea2adf1626e6dca5" prot="public" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics::HistoAggregate</scope><name>sum</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

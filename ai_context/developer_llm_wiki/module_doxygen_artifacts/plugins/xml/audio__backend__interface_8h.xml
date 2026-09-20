@@ -1,0 +1,222 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="audio__backend__interface_8h" kind="file" language="C++">
+    <compoundname>audio_backend_interface.h</compoundname>
+    <includes refid="plugin__interface_8h" local="yes">plugins/plugin_interface.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/plugins/audio_backend_interface.h</label>
+        <link refid="audio__backend__interface_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>plugins/plugin_interface.h</label>
+        <link refid="plugin__interface_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>algorithm</label>
+      </node>
+      <node id="12">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>cstdio</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>tuple</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1audio_1_1_transcription_token" prot="public">themis::audio::TranscriptionToken</innerclass>
+    <innerclass refid="structthemis_1_1audio_1_1_transcription_result" prot="public">themis::audio::TranscriptionResult</innerclass>
+    <innerclass refid="structthemis_1_1audio_1_1_language_detection_result" prot="public">themis::audio::LanguageDetectionResult</innerclass>
+    <innerclass refid="classthemis_1_1audio_1_1_i_audio_backend" prot="public">themis::audio::IAudioBackend</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1audio">themis::audio</innernamespace>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="audio__backend__interface_8h_1aae49a96c33f9b7fd2e33849bcd8eb87f" prot="public" static="no">
+        <name>THEMIS_AUDIO_PLUGIN</name>
+        <param></param>
+        <initializer>extern &quot;C&quot; <ref refid="plugin__interface_8h_1aad7af0582bd588a6d9a88a5d38eceea8" kindref="member">THEMIS_PLUGIN_EXPORT</ref>                                                   \
+    <ref refid="classthemis_1_1audio_1_1_i_audio_backend" kindref="compound">themis::audio::IAudioBackend</ref>* themis_audio_create();                          \
+extern &quot;C&quot; <ref refid="plugin__interface_8h_1aad7af0582bd588a6d9a88a5d38eceea8" kindref="member">THEMIS_PLUGIN_EXPORT</ref>                                                   \
+    void themis_audio_destroy(<ref refid="classthemis_1_1audio_1_1_i_audio_backend" kindref="compound">themis::audio::IAudioBackend</ref>* p)</initializer>
+        <briefdescription>
+<para>Export macro for dynamic loading of audio backend plugins. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add this macro once in the .cpp file of your audio plugin implementation. The host loader will call themis_audio_create() to obtain the plugin instance and themis_audio_destroy() to release it. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/audio_backend_interface.h" line="164" column="9" bodyfile="include/plugins/audio_backend_interface.h" bodystart="164" bodyend="168"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.10 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="plugin__interface_8h" kindref="compound">plugins/plugin_interface.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22" refid="namespacethemis" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23" refid="namespacethemis_1_1audio" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1audio" kindref="compound">audio</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="namespacethemis_1_1audio_1abbe3ca65d1d1d3ecd9e002d4c39437b6" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1audio_1abbe3ca65d1d1d3ecd9e002d4c39437b6" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1audio_1_1_transcription_token" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1audio_1_1_transcription_token" kindref="compound">TranscriptionToken</ref><sp/>{</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1audio_1_1_transcription_token_1a9e414a3b4b58672586d9db595c04e842" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1audio_1_1_transcription_token_1a9e414a3b4b58672586d9db595c04e842" kindref="member">text</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1audio_1_1_transcription_token_1abc84e88230271bdc3dc89ac4a288f13c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1audio_1_1_transcription_token_1abc84e88230271bdc3dc89ac4a288f13c" kindref="member">start_ms</ref><sp/>=<sp/>0.0f;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1audio_1_1_transcription_token_1aa5c6329bd162e067d0ab32814d373927" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1audio_1_1_transcription_token_1aa5c6329bd162e067d0ab32814d373927" kindref="member">end_ms</ref><sp/><sp/><sp/>=<sp/>0.0f;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1audio_1_1_transcription_token_1a23884da8450a67a3cd13d2f3f4ab8e85" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1audio_1_1_transcription_token_1a23884da8450a67a3cd13d2f3f4ab8e85" kindref="member">confidence</ref><sp/>=<sp/>0.0f;<sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1audio_1_1_transcription_token_1a1e202ce7c373c4829bdb1c1a9a00eb30" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1audio_1_1_transcription_token_1a1e202ce7c373c4829bdb1c1a9a00eb30" kindref="member">token_index</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1_1audio_1a325512fb3b8197c824579396b30ed635" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1audio_1a325512fb3b8197c824579396b30ed635" kindref="member">StreamCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1audio_1_1_transcription_token" kindref="compound">TranscriptionToken</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1audio_1_1_transcription_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1audio_1_1_transcription_result" kindref="compound">TranscriptionResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1audio_1_1_transcription_result_1a209d2f5f14de4f0ea0cf82fa99c11d02" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1audio_1_1_transcription_result_1a209d2f5f14de4f0ea0cf82fa99c11d02" kindref="member">text</ref>;</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1audio_1_1_transcription_result_1a5ecc68e5e4e2a2b4f9eae4ed1745495e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1audio_1_1_transcription_result_1a5ecc68e5e4e2a2b4f9eae4ed1745495e" kindref="member">language</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>BCP-47<sp/>language<sp/>code,<sp/>e.g.<sp/>&quot;de&quot;,<sp/>&quot;en&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1audio_1_1_transcription_result_1ad5fccec469e68e33ec5c6000d67c1870" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1audio_1_1_transcription_result_1ad5fccec469e68e33ec5c6000d67c1870" kindref="member">confidence</ref><sp/>=<sp/>0.0f;<sp/><sp/></highlight><highlight class="comment">//<sp/>0..1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1audio_1_1_transcription_result_1af129a05268541ce0efc1418928eda58d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1audio_1_1_transcription_result_1af129a05268541ce0efc1418928eda58d" kindref="member">duration_seconds</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1audio_1_1_transcription_result_1a6ba8be5f85d0414fc7bf6726d7fb2a6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1audio_1_1_transcription_result_1a6ba8be5f85d0414fc7bf6726d7fb2a6f" kindref="member">model_id</ref>;</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1audio_1_1_transcription_result_1a660649c3d545a63ce7e37dee0a92ce16" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1audio_1_1_transcription_result_1a660649c3d545a63ce7e37dee0a92ce16" kindref="member">plugin_version</ref>;</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1audio_1_1_transcription_result_1a48d74b3c8c5006fb2d1478adc47f00fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1audio_1_1_transcription_result_1a48d74b3c8c5006fb2d1478adc47f00fe" kindref="member">ingestion_source_type</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;WHISPER&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>mandatory<sp/>provenance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1audio_1_1_transcription_result_1a159b32415063840e3b1e3ecc2f558b0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1audio_1_1_transcription_result_1a159b32415063840e3b1e3ecc2f558b0f" kindref="member">generation_timestamp</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unix<sp/>epoch<sp/>milliseconds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1audio_1_1_transcription_result_1a7694d4f6b1c7abfa41a4e044a0cde273" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1audio_1_1_transcription_result_1a7694d4f6b1c7abfa41a4e044a0cde273" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1audio_1_1_transcription_result_1a1072d77ffbd67edce0127e387bdd4ef4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1audio_1_1_transcription_result_1a1072d77ffbd67edce0127e387bdd4ef4" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1audio_1_1_language_detection_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1audio_1_1_language_detection_result" kindref="compound">LanguageDetectionResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1audio_1_1_language_detection_result_1a99cc7d64c19a5cb894f8db10cbf9cca1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1audio_1_1_language_detection_result_1a99cc7d64c19a5cb894f8db10cbf9cca1" kindref="member">language</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>BCP-47</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1audio_1_1_language_detection_result_1a93de00775ef8ec55d069cffce323173a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1audio_1_1_language_detection_result_1a93de00775ef8ec55d069cffce323173a" kindref="member">confidence</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="classthemis_1_1audio_1_1_i_audio_backend" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1audio_1_1_i_audio_backend" kindref="compound">IAudioBackend</ref><sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="84" refid="classthemis_1_1audio_1_1_i_audio_backend_1a25caef49f8ef3bdec01993fffb1a03d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1audio_1_1_i_audio_backend_1a25caef49f8ef3bdec01993fffb1a03d6" kindref="member">~IAudioBackend</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="classthemis_1_1audio_1_1_i_audio_backend_1a9061537d85650f4f8104e9ac59ac99bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1audio_1_1_i_audio_backend_1a9061537d85650f4f8104e9ac59ac99bd" kindref="member">initialize</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_path,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1audio_1abbe3ca65d1d1d3ecd9e002d4c39437b6" kindref="member">json</ref>&amp;<sp/>config)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="classthemis_1_1audio_1_1_i_audio_backend_1a3406d60b0a1dd438943d1f27369f3d89" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1audio_1_1_i_audio_backend_1a3406d60b0a1dd438943d1f27369f3d89" kindref="member">isInitialized</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="classthemis_1_1audio_1_1_i_audio_backend_1aebcfd61618736e4eef80c4d3126bccf9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1audio_1_1_transcription_result" kindref="compound">TranscriptionResult</ref><sp/><ref refid="classthemis_1_1audio_1_1_i_audio_backend_1aebcfd61618736e4eef80c4d3126bccf9" kindref="member">transcribe</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>pcm_samples,</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>sample_rate)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="classthemis_1_1audio_1_1_i_audio_backend_1ae4817e69c4bbebe795102709444b6dbe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1audio_1_1_transcription_result" kindref="compound">TranscriptionResult</ref><sp/><ref refid="classthemis_1_1audio_1_1_i_audio_backend_1ae4817e69c4bbebe795102709444b6dbe" kindref="member">transcribeFile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="classthemis_1_1audio_1_1_i_audio_backend_1ade758d12a51e10e09704cc1ffb5f5da2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1audio_1_1_transcription_result" kindref="compound">TranscriptionResult</ref><sp/><ref refid="classthemis_1_1audio_1_1_i_audio_backend_1ade758d12a51e10e09704cc1ffb5f5da2" kindref="member">transcribeStream</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>pcm_samples,</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>sample_rate,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1audio_1a325512fb3b8197c824579396b30ed635" kindref="member">StreamCallback</ref><sp/>callback)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1audio_1_1_i_audio_backend_1aebcfd61618736e4eef80c4d3126bccf9" kindref="member">transcribe</ref>(pcm_samples,<sp/>sample_rate);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result.success<sp/>&amp;&amp;<sp/>callback)<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1audio_1_1_transcription_token" kindref="compound">TranscriptionToken</ref><sp/>tok;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tok.<ref refid="structthemis_1_1audio_1_1_transcription_token_1a9e414a3b4b58672586d9db595c04e842" kindref="member">text</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>result.text;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tok.<ref refid="structthemis_1_1audio_1_1_transcription_token_1a23884da8450a67a3cd13d2f3f4ab8e85" kindref="member">confidence</ref><sp/><sp/>=<sp/>result.confidence;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tok.<ref refid="structthemis_1_1audio_1_1_transcription_token_1a1e202ce7c373c4829bdb1c1a9a00eb30" kindref="member">token_index</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{<sp/>callback(tok);<sp/>}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.success<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.error_message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;transcribeStream:<sp/>callback<sp/>threw<sp/>an<sp/>exception&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="classthemis_1_1audio_1_1_i_audio_backend_1a8d3bf1cbc398206ea7fb6130263c9611" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1audio_1_1_language_detection_result" kindref="compound">LanguageDetectionResult</ref><sp/><ref refid="classthemis_1_1audio_1_1_i_audio_backend_1a8d3bf1cbc398206ea7fb6130263c9611" kindref="member">detectLanguage</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>pcm_samples,</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>sample_rate)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="classthemis_1_1audio_1_1_i_audio_backend_1ac3e26ecf83714ac271bccc8fb0b6cf59" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1audio_1_1_i_audio_backend_1ac3e26ecf83714ac271bccc8fb0b6cf59" kindref="member">getModelId</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="150" refid="classthemis_1_1audio_1_1_i_audio_backend_1a4f794266bebf518ea14f14d5af7825a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1audio_1_1_i_audio_backend_1a4f794266bebf518ea14f14d5af7825a4" kindref="member">getPluginVersion</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="151" refid="classthemis_1_1audio_1_1_i_audio_backend_1ab1e7fd5200330bee629ebf1629e5273e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1audio_1abbe3ca65d1d1d3ecd9e002d4c39437b6" kindref="member">json</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1audio_1_1_i_audio_backend_1ab1e7fd5200330bee629ebf1629e5273e" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>audio</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164" refid="audio__backend__interface_8h_1aae49a96c33f9b7fd2e33849bcd8eb87f" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_AUDIO_PLUGIN()<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="165"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>extern<sp/>&quot;C&quot;<sp/>THEMIS_PLUGIN_EXPORT<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="166"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::audio::IAudioBackend*<sp/>themis_audio_create();<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="167"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>extern<sp/>&quot;C&quot;<sp/>THEMIS_PLUGIN_EXPORT<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="168"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>void<sp/>themis_audio_destroy(themis::audio::IAudioBackend*<sp/>p)</highlight></codeline>
+    </programlisting>
+    <location file="include/plugins/audio_backend_interface.h"/>
+  </compounddef>
+</doxygen>

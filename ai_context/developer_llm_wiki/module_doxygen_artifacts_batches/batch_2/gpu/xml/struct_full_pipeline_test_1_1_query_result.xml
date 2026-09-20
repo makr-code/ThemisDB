@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_full_pipeline_test_1_1_query_result" kind="struct" language="C++" prot="protected">
+    <compoundname>FullPipelineTest::QueryResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_full_pipeline_test_1_1_query_result_1a463102885eaa688d49e9335c2cec7a3e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool FullPipelineTest::QueryResult::used_gpu</definition>
+        <argsstring></argsstring>
+        <name>used_gpu</name>
+        <qualifiedname>FullPipelineTest::QueryResult::used_gpu</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase_c_integration.cpp" line="469" column="10" bodyfile="tests/gpu/test_gpu_phase_c_integration.cpp" bodystart="469" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_full_pipeline_test_1_1_query_result_1a43b43f5128ab1a612e4ce041435c83e5" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float FullPipelineTest::QueryResult::result</definition>
+        <argsstring></argsstring>
+        <name>result</name>
+        <qualifiedname>FullPipelineTest::QueryResult::result</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase_c_integration.cpp" line="470" column="11" bodyfile="tests/gpu/test_gpu_phase_c_integration.cpp" bodystart="470" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/gpu/test_gpu_phase_c_integration.cpp" line="468" column="3" bodyfile="tests/gpu/test_gpu_phase_c_integration.cpp" bodystart="468" bodyend="471"/>
+    <listofallmembers>
+      <member refid="struct_full_pipeline_test_1_1_query_result_1a43b43f5128ab1a612e4ce041435c83e5" prot="public" virt="non-virtual"><scope>FullPipelineTest::QueryResult</scope><name>result</name></member>
+      <member refid="struct_full_pipeline_test_1_1_query_result_1a463102885eaa688d49e9335c2cec7a3e" prot="public" virt="non-virtual"><scope>FullPipelineTest::QueryResult</scope><name>used_gpu</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

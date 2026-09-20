@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_fail_safe_contract" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::FailSafeContract</compoundname>
+    <includes refid="ingestion__error__contract_8h" local="no">ingestion_error_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_fail_safe_contract_1a584742cbd0cd21bf74a7916e933430fa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::FailSafeContract::component_name</definition>
+        <argsstring></argsstring>
+        <name>component_name</name>
+        <qualifiedname>themis::ingestion::FailSafeContract::component_name</qualifiedname>
+        <briefdescription>
+<para>Component name (e.g., &quot;quality_judge&quot;, &quot;api_connector&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_error_contract.h" line="326" column="17" bodyfile="include/ingestion/ingestion_error_contract.h" bodystart="326" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_fail_safe_contract_1a8021afacea968f455dec218deccea19f" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1ingestion_1afbe7d95d044d042bf8eaca0b22dd9c8b" kindref="member">ErrorEscapeValvePolicy</ref></type>
+        <definition>ErrorEscapeValvePolicy themis::ingestion::FailSafeContract::unsupported_feature_policy</definition>
+        <argsstring></argsstring>
+        <name>unsupported_feature_policy</name>
+        <qualifiedname>themis::ingestion::FailSafeContract::unsupported_feature_policy</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1ingestion_1afbe7d95d044d042bf8eaca0b22dd9c8ba7d8e2271b5e4fbbed93c60aa39bf350f" kindref="member">ErrorEscapeValvePolicy::FAIL_CLOSED</ref></initializer>
+        <briefdescription>
+<para>On unsupported feature, should we fail closed or open? </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Fail-closed: reject the item and log Fail-open: try best-effort behavior and accept the item </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_error_contract.h" line="334" column="28" bodyfile="include/ingestion/ingestion_error_contract.h" bodystart="334" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_fail_safe_contract_1a6581918252f8c1d0c145077303e473f4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::FailSafeContract::allow_degraded_mode</definition>
+        <argsstring></argsstring>
+        <name>allow_degraded_mode</name>
+        <qualifiedname>themis::ingestion::FailSafeContract::allow_degraded_mode</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>On degraded mode, should we continue or abort? </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Examples of degraded mode:<itemizedlist>
+<listitem><para>Quality judge: inference model unavailable, using fallback metric</para>
+</listitem><listitem><para>Connector: API rate-limited, using slow synchronous mode</para>
+</listitem><listitem><para>Database: read-only mode due to maintenance </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_error_contract.h" line="344" column="10" bodyfile="include/ingestion/ingestion_error_contract.h" bodystart="344" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_fail_safe_contract_1a8857e594c7668792eba41068f77a7775" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::FailSafeContract::allow_load_shedding</definition>
+        <argsstring></argsstring>
+        <name>allow_load_shedding</name>
+        <qualifiedname>themis::ingestion::FailSafeContract::allow_load_shedding</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>On resource exhaustion, should we shed load or fail? </para>
+        </briefdescription>
+        <detaileddescription>
+<para>true: shed load (drop lower-priority items, apply backpressure) false: fail the operation and return error </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_error_contract.h" line="352" column="10" bodyfile="include/ingestion/ingestion_error_contract.h" bodystart="352" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_fail_safe_contract_1a96749787cb4f655a0e0bbff71ecfb92f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::FailSafeContract::allow_timeout_retry</definition>
+        <argsstring></argsstring>
+        <name>allow_timeout_retry</name>
+        <qualifiedname>themis::ingestion::FailSafeContract::allow_timeout_retry</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>On timeout, should we retry or use escape valve? </para>
+        </briefdescription>
+        <detaileddescription>
+<para>true: retry with exponential backoff false: apply escape valve immediately </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_error_contract.h" line="360" column="10" bodyfile="include/ingestion/ingestion_error_contract.h" bodystart="360" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Specification of fail-safe behavior for a component. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Describes how a component should behave when it encounters errors, is degraded, or is in resource exhaustion conditions. </para>
+    </detaileddescription>
+    <location file="include/ingestion/ingestion_error_contract.h" line="322" column="1" bodyfile="include/ingestion/ingestion_error_contract.h" bodystart="322" bodyend="361"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_fail_safe_contract_1a6581918252f8c1d0c145077303e473f4" prot="public" virt="non-virtual"><scope>themis::ingestion::FailSafeContract</scope><name>allow_degraded_mode</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_fail_safe_contract_1a8857e594c7668792eba41068f77a7775" prot="public" virt="non-virtual"><scope>themis::ingestion::FailSafeContract</scope><name>allow_load_shedding</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_fail_safe_contract_1a96749787cb4f655a0e0bbff71ecfb92f" prot="public" virt="non-virtual"><scope>themis::ingestion::FailSafeContract</scope><name>allow_timeout_retry</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_fail_safe_contract_1a584742cbd0cd21bf74a7916e933430fa" prot="public" virt="non-virtual"><scope>themis::ingestion::FailSafeContract</scope><name>component_name</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_fail_safe_contract_1a8021afacea968f455dec218deccea19f" prot="public" virt="non-virtual"><scope>themis::ingestion::FailSafeContract</scope><name>unsupported_feature_policy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

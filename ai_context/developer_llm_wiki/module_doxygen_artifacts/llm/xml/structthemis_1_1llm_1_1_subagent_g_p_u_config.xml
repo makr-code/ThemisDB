@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_subagent_g_p_u_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::SubagentGPUConfig</compoundname>
+    <includes refid="subagent__config_8h" local="no">subagent_config.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_g_p_u_config_1a4901e0dd6ef1b1df1433c8b60e91d640" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::SubagentGPUConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::llm::SubagentGPUConfig::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="88" column="10" bodyfile="include/llm/subagent_config.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_g_p_u_config_1a4392e0128de16a12c93d34e1813be70d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themis::llm::SubagentGPUConfig::devices</definition>
+        <argsstring></argsstring>
+        <name>devices</name>
+        <qualifiedname>themis::llm::SubagentGPUConfig::devices</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="89" column="17" bodyfile="include/llm/subagent_config.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_g_p_u_config_1a807d5b452fb1b8d6143add71ec552cf9" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1a10ed8f27deb9ca2ebfa80439ed906b2e" kindref="member">SubagentMultiGPUStrategy</ref></type>
+        <definition>SubagentMultiGPUStrategy themis::llm::SubagentGPUConfig::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::llm::SubagentGPUConfig::strategy</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1llm_1a10ed8f27deb9ca2ebfa80439ed906b2ea1ebd8dbf8c34e255f5cbf28f35860b71" kindref="member">SubagentMultiGPUStrategy::ROUND_ROBIN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="90" column="30" bodyfile="include/llm/subagent_config.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_g_p_u_config_1af311911b6ea499067c284941a3e64469" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::SubagentGPUConfig::enable_peer_transfer</definition>
+        <argsstring></argsstring>
+        <name>enable_peer_transfer</name>
+        <qualifiedname>themis::llm::SubagentGPUConfig::enable_peer_transfer</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="91" column="10" bodyfile="include/llm/subagent_config.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_g_p_u_config_1a29b878d76f0e5453a82c1edc793584a5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::SubagentGPUConfig::max_vram_per_gpu_mb</definition>
+        <argsstring></argsstring>
+        <name>max_vram_per_gpu_mb</name>
+        <qualifiedname>themis::llm::SubagentGPUConfig::max_vram_per_gpu_mb</qualifiedname>
+        <initializer>= 24 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="92" column="12" bodyfile="include/llm/subagent_config.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_g_p_u_config_1ac7eaf821e06c399aff077de7c197a027" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::SubagentGPUConfig::enable_load_balancing</definition>
+        <argsstring></argsstring>
+        <name>enable_load_balancing</name>
+        <qualifiedname>themis::llm::SubagentGPUConfig::enable_load_balancing</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="93" column="10" bodyfile="include/llm/subagent_config.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_g_p_u_config_1a03ee1cb6ebe9f60474625c749ad0be3e" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::SubagentGPUConfig::load_balance_threshold</definition>
+        <argsstring></argsstring>
+        <name>load_balance_threshold</name>
+        <qualifiedname>themis::llm::SubagentGPUConfig::load_balance_threshold</qualifiedname>
+        <initializer>= 0.8f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="94" column="11" bodyfile="include/llm/subagent_config.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/subagent_config.h" line="87" column="1" bodyfile="include/llm/subagent_config.h" bodystart="87" bodyend="95"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_subagent_g_p_u_config_1a4392e0128de16a12c93d34e1813be70d" prot="public" virt="non-virtual"><scope>themis::llm::SubagentGPUConfig</scope><name>devices</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_g_p_u_config_1ac7eaf821e06c399aff077de7c197a027" prot="public" virt="non-virtual"><scope>themis::llm::SubagentGPUConfig</scope><name>enable_load_balancing</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_g_p_u_config_1af311911b6ea499067c284941a3e64469" prot="public" virt="non-virtual"><scope>themis::llm::SubagentGPUConfig</scope><name>enable_peer_transfer</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_g_p_u_config_1a4901e0dd6ef1b1df1433c8b60e91d640" prot="public" virt="non-virtual"><scope>themis::llm::SubagentGPUConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_g_p_u_config_1a03ee1cb6ebe9f60474625c749ad0be3e" prot="public" virt="non-virtual"><scope>themis::llm::SubagentGPUConfig</scope><name>load_balance_threshold</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_g_p_u_config_1a29b878d76f0e5453a82c1edc793584a5" prot="public" virt="non-virtual"><scope>themis::llm::SubagentGPUConfig</scope><name>max_vram_per_gpu_mb</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_g_p_u_config_1a807d5b452fb1b8d6143add71ec552cf9" prot="public" virt="non-virtual"><scope>themis::llm::SubagentGPUConfig</scope><name>strategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_cursor_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::CursorInfo</compoundname>
+    <includes refid="cursor_8h" local="no">cursor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_cursor_info_1abc70af552a7f7d3a59a74049e2a8408b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::CursorInfo::pk</definition>
+        <argsstring></argsstring>
+        <name>pk</name>
+        <qualifiedname>themis::utils::CursorInfo::pk</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cursor.h" line="38" column="17" bodyfile="include/utils/cursor.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_cursor_info_1acd7f909d0a6690147c824fdef4de3f9b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::CursorInfo::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themis::utils::CursorInfo::collection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cursor.h" line="39" column="17" bodyfile="include/utils/cursor.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_cursor_info_1af96d6f902364f05ee3c76a16fa8753d9" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::utils::CursorInfo::order_value</definition>
+        <argsstring></argsstring>
+        <name>order_value</name>
+        <qualifiedname>themis::utils::CursorInfo::order_value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cursor.h" line="40" column="19" bodyfile="include/utils/cursor.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_cursor_info_1a262ef942c5b1ca311923c339d4b8c32c" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::utils::CursorInfo::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::utils::CursorInfo::created_at</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cursor.h" line="41" column="13" bodyfile="include/utils/cursor.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_cursor_info_1a66521202a55ab7a193b55f51279383f4" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::utils::CursorInfo::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::utils::CursorInfo::version</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cursor.h" line="42" column="9" bodyfile="include/utils/cursor.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Decoded cursor information </para>
+    </detaileddescription>
+    <location file="include/utils/cursor.h" line="37" column="1" bodyfile="include/utils/cursor.h" bodystart="37" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_cursor_info_1acd7f909d0a6690147c824fdef4de3f9b" prot="public" virt="non-virtual"><scope>themis::utils::CursorInfo</scope><name>collection</name></member>
+      <member refid="structthemis_1_1utils_1_1_cursor_info_1a262ef942c5b1ca311923c339d4b8c32c" prot="public" virt="non-virtual"><scope>themis::utils::CursorInfo</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1utils_1_1_cursor_info_1af96d6f902364f05ee3c76a16fa8753d9" prot="public" virt="non-virtual"><scope>themis::utils::CursorInfo</scope><name>order_value</name></member>
+      <member refid="structthemis_1_1utils_1_1_cursor_info_1abc70af552a7f7d3a59a74049e2a8408b" prot="public" virt="non-virtual"><scope>themis::utils::CursorInfo</scope><name>pk</name></member>
+      <member refid="structthemis_1_1utils_1_1_cursor_info_1a66521202a55ab7a193b55f51279383f4" prot="public" virt="non-virtual"><scope>themis::utils::CursorInfo</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

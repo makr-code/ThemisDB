@@ -1,0 +1,806 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1index_1_1_hnsw_production_defaults" kind="class" language="C++" prot="public">
+    <compoundname>themis::index::HnswProductionDefaults</compoundname>
+    <includes refid="hnsw__production__defaults_8h" local="no">hnsw_production_defaults.h</includes>
+    <innerclass refid="structthemis_1_1index_1_1_hnsw_production_defaults_1_1_hnsw_params" prot="public">themis::index::HnswProductionDefaults::HnswParams</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1index_1_1_hnsw_production_defaults_1a1aed215db8a0bce0bdda9070af965abd" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>PerformanceProfile</name>
+        <qualifiedname>themis::index::HnswProductionDefaults::PerformanceProfile</qualifiedname>
+        <enumvalue id="classthemis_1_1index_1_1_hnsw_production_defaults_1a1aed215db8a0bce0bdda9070af965abda86478b8359d9f257b628b645290993b5" prot="public">
+          <name>LATENCY_OPTIMIZED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1index_1_1_hnsw_production_defaults_1a1aed215db8a0bce0bdda9070af965abda0cb4635d100151dcaac6f91db856c402" prot="public">
+          <name>BALANCED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1index_1_1_hnsw_production_defaults_1a1aed215db8a0bce0bdda9070af965abdab244f4ca373d3135e75085e692828dda" prot="public">
+          <name>RECALL_OPTIMIZED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_production_defaults.h" line="37" column="5" bodyfile="include/index/hnsw_production_defaults.h" bodystart="37" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="enum" id="classthemis_1_1index_1_1_hnsw_production_defaults_1ab7f75688c44ab20557f9690083d20ee4" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>WorkloadType</name>
+        <qualifiedname>themis::index::HnswProductionDefaults::WorkloadType</qualifiedname>
+        <enumvalue id="classthemis_1_1index_1_1_hnsw_production_defaults_1ab7f75688c44ab20557f9690083d20ee4a3edb9cc3b98f151feb21dbde6323e82a" prot="public">
+          <name>OLTP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1index_1_1_hnsw_production_defaults_1ab7f75688c44ab20557f9690083d20ee4abe25776fa91444b6d85c015efeddfc0e" prot="public">
+          <name>ANALYTICS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1index_1_1_hnsw_production_defaults_1ab7f75688c44ab20557f9690083d20ee4a516a2342953891f249b58ff1c3943723" prot="public">
+          <name>MIXED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1index_1_1_hnsw_production_defaults_1ab7f75688c44ab20557f9690083d20ee4afb6a72bbc33faf101b251a60eb3ee087" prot="public">
+          <name>RAG</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1index_1_1_hnsw_production_defaults_1ab7f75688c44ab20557f9690083d20ee4a89d9abcd2b9a1a1442a4011c34e1fd0a" prot="public">
+          <name>BATCH_INSERT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_production_defaults.h" line="43" column="5" bodyfile="include/index/hnsw_production_defaults.h" bodystart="43" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_hnsw_production_defaults_1af2b0289eaa6d1cce1b932edbae918ade" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::index::HnswProductionDefaults::LATENCY_EF_MULTIPLIER</definition>
+        <argsstring></argsstring>
+        <name>LATENCY_EF_MULTIPLIER</name>
+        <qualifiedname>themis::index::HnswProductionDefaults::LATENCY_EF_MULTIPLIER</qualifiedname>
+        <initializer>= 0.7</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_production_defaults.h" line="149" column="29" bodyfile="include/index/hnsw_production_defaults.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_hnsw_production_defaults_1a43874e8ab3b0e6913aa6b7cf68584f1b" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::index::HnswProductionDefaults::BALANCED_EF_MULTIPLIER</definition>
+        <argsstring></argsstring>
+        <name>BALANCED_EF_MULTIPLIER</name>
+        <qualifiedname>themis::index::HnswProductionDefaults::BALANCED_EF_MULTIPLIER</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_production_defaults.h" line="150" column="29" bodyfile="include/index/hnsw_production_defaults.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_hnsw_production_defaults_1adc74118c938bdd751e1adbb45df093be" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::index::HnswProductionDefaults::RECALL_EF_MULTIPLIER</definition>
+        <argsstring></argsstring>
+        <name>RECALL_EF_MULTIPLIER</name>
+        <qualifiedname>themis::index::HnswProductionDefaults::RECALL_EF_MULTIPLIER</qualifiedname>
+        <initializer>= 1.5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_production_defaults.h" line="151" column="29" bodyfile="include/index/hnsw_production_defaults.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_hnsw_production_defaults_1a296c7247e561bffb82e48bbeb9cde51d" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::HnswProductionDefaults::SMALL_DATASET</definition>
+        <argsstring></argsstring>
+        <name>SMALL_DATASET</name>
+        <qualifiedname>themis::index::HnswProductionDefaults::SMALL_DATASET</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_production_defaults.h" line="154" column="29" bodyfile="include/index/hnsw_production_defaults.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_hnsw_production_defaults_1affa16ed1267596571c16c490987a67b9" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::HnswProductionDefaults::MEDIUM_DATASET</definition>
+        <argsstring></argsstring>
+        <name>MEDIUM_DATASET</name>
+        <qualifiedname>themis::index::HnswProductionDefaults::MEDIUM_DATASET</qualifiedname>
+        <initializer>= 100000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_production_defaults.h" line="155" column="29" bodyfile="include/index/hnsw_production_defaults.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_hnsw_production_defaults_1a438f6d501c77f09a9d81574c1dd4903b" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::HnswProductionDefaults::LARGE_DATASET</definition>
+        <argsstring></argsstring>
+        <name>LARGE_DATASET</name>
+        <qualifiedname>themis::index::HnswProductionDefaults::LARGE_DATASET</qualifiedname>
+        <initializer>= 1000000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_production_defaults.h" line="156" column="29" bodyfile="include/index/hnsw_production_defaults.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_hnsw_production_defaults_1adac30f2a425ed3927c2e42329e05a778" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::HnswProductionDefaults::XLARGE_DATASET</definition>
+        <argsstring></argsstring>
+        <name>XLARGE_DATASET</name>
+        <qualifiedname>themis::index::HnswProductionDefaults::XLARGE_DATASET</qualifiedname>
+        <initializer>= 10000000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_production_defaults.h" line="157" column="29" bodyfile="include/index/hnsw_production_defaults.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1_hnsw_production_defaults_1ab2ce270a43269f8404db90a8ccd8838f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_hnsw_production_defaults_1_1_hnsw_params" kindref="compound">HnswParams</ref></type>
+        <definition>HnswProductionDefaults::HnswParams themis::index::HnswProductionDefaults::getRecommendedParams</definition>
+        <argsstring>(size_t dataset_size, size_t dimension, PerformanceProfile profile=PerformanceProfile::BALANCED, WorkloadType workload=WorkloadType::MIXED)</argsstring>
+        <name>getRecommendedParams</name>
+        <qualifiedname>themis::index::HnswProductionDefaults::getRecommendedParams</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>dataset_size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dimension</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1_hnsw_production_defaults_1a1aed215db8a0bce0bdda9070af965abd" kindref="member">PerformanceProfile</ref></type>
+          <declname>profile</declname>
+          <defval><ref refid="classthemis_1_1index_1_1_hnsw_production_defaults_1a1aed215db8a0bce0bdda9070af965abda0cb4635d100151dcaac6f91db856c402" kindref="member">PerformanceProfile::BALANCED</ref></defval>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1_hnsw_production_defaults_1ab7f75688c44ab20557f9690083d20ee4" kindref="member">WorkloadType</ref></type>
+          <declname>workload</declname>
+          <defval><ref refid="classthemis_1_1index_1_1_hnsw_production_defaults_1ab7f75688c44ab20557f9690083d20ee4a516a2342953891f249b58ff1c3943723" kindref="member">WorkloadType::MIXED</ref></defval>
+        </param>
+        <briefdescription>
+<para>Get recommended parameters for dataset and workload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Recommended Params.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dataset_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Expected number of vectors </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector dimensionality </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Performance profile </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>workload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Workload type for optimization </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Optimized HNSW parameters</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dataset_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">workload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1index_1_1_hnsw_production_defaults_1a4a5b88ad2b0dd59691d01e338bc6c454" kindref="member">getRecommendedM()</ref>, std::max(), std::min(), <ref refid="classthemis_1_1index_1_1_hnsw_production_defaults_1a74392271aea1c24a91ffa477a2e735ff" kindref="member">getRecommendedEfConstruction()</ref>, <ref refid="classthemis_1_1index_1_1_hnsw_production_defaults_1ae4a3ae6d97c8352713c76e06b8630fc6" kindref="member">getRecommendedEfSearch()</ref>, std::log(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_production_defaults.h" line="75" column="23" bodyfile="src/index/hnsw_production_defaults.cpp" bodystart="33" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_hnsw_production_defaults_1ac0088efa436d3c408675d684a5e5ffa3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_hnsw_production_defaults_1_1_hnsw_params" kindref="compound">HnswParams</ref></type>
+        <definition>HnswProductionDefaults::HnswParams themis::index::HnswProductionDefaults::getWorkloadOptimizedParams</definition>
+        <argsstring>(size_t dataset_size, size_t dimension, WorkloadType workload)</argsstring>
+        <name>getWorkloadOptimizedParams</name>
+        <qualifiedname>themis::index::HnswProductionDefaults::getWorkloadOptimizedParams</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>dataset_size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dimension</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1_hnsw_production_defaults_1ab7f75688c44ab20557f9690083d20ee4" kindref="member">WorkloadType</ref></type>
+          <declname>workload</declname>
+        </param>
+        <briefdescription>
+<para>Get workload-specific optimized parameters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Workload Optimized Params.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dataset_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Expected number of vectors </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector dimensionality </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>workload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Workload type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Parameters optimized for the specific workload</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dataset_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">workload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1index_1_1_hnsw_production_defaults_1ab2ce270a43269f8404db90a8ccd8838f" kindref="member">getRecommendedParams()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_production_defaults.h" line="88" column="23" bodyfile="src/index/hnsw_production_defaults.cpp" bodystart="161" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_hnsw_production_defaults_1a4a5b88ad2b0dd59691d01e338bc6c454" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::index::HnswProductionDefaults::getRecommendedM</definition>
+        <argsstring>(size_t dataset_size)</argsstring>
+        <name>getRecommendedM</name>
+        <qualifiedname>themis::index::HnswProductionDefaults::getRecommendedM</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>dataset_size</declname>
+        </param>
+        <briefdescription>
+<para>Get M parameter based on dataset size. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_production_defaults.h" line="96" column="16" bodyfile="src/index/hnsw_production_defaults.cpp" bodystart="192" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_hnsw_production_defaults_1a74392271aea1c24a91ffa477a2e735ff" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::index::HnswProductionDefaults::getRecommendedEfConstruction</definition>
+        <argsstring>(int M, size_t dataset_size)</argsstring>
+        <name>getRecommendedEfConstruction</name>
+        <qualifiedname>themis::index::HnswProductionDefaults::getRecommendedEfConstruction</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>M</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dataset_size</declname>
+        </param>
+        <briefdescription>
+<para>Get ef_construction based on M and dataset size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Recommended Ef Construction.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">M</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dataset_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getRecommendedEfConstruction without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_production_defaults.h" line="101" column="16" bodyfile="src/index/hnsw_production_defaults.cpp" bodystart="217" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_hnsw_production_defaults_1ae4a3ae6d97c8352713c76e06b8630fc6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::index::HnswProductionDefaults::getRecommendedEfSearch</definition>
+        <argsstring>(size_t k, PerformanceProfile profile=PerformanceProfile::BALANCED)</argsstring>
+        <name>getRecommendedEfSearch</name>
+        <qualifiedname>themis::index::HnswProductionDefaults::getRecommendedEfSearch</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1_hnsw_production_defaults_1a1aed215db8a0bce0bdda9070af965abd" kindref="member">PerformanceProfile</ref></type>
+          <declname>profile</declname>
+          <defval><ref refid="classthemis_1_1index_1_1_hnsw_production_defaults_1a1aed215db8a0bce0bdda9070af965abda0cb4635d100151dcaac6f91db856c402" kindref="member">PerformanceProfile::BALANCED</ref></defval>
+        </param>
+        <briefdescription>
+<para>Get ef_search based on k and performance profile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Recommended Ef Search.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::max(), std::clamp(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_production_defaults.h" line="106" column="16" bodyfile="src/index/hnsw_production_defaults.cpp" bodystart="244" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_hnsw_production_defaults_1ae0d5cc87c27531053bc91b3711356f1f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_hnsw_production_defaults_1_1_hnsw_params" kindref="compound">HnswParams</ref></type>
+        <definition>HnswProductionDefaults::HnswParams themis::index::HnswProductionDefaults::autoTuneParameters</definition>
+        <argsstring>(size_t dataset_size, size_t dimension, size_t sample_size=100, double target_latency_ms=10.0, double target_recall=0.95)</argsstring>
+        <name>autoTuneParameters</name>
+        <qualifiedname>themis::index::HnswProductionDefaults::autoTuneParameters</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>dataset_size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dimension</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>sample_size</declname>
+          <defval>100</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>target_latency_ms</declname>
+          <defval>10.0</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>target_recall</declname>
+          <defval>0.95</defval>
+        </param>
+        <briefdescription>
+<para>Auto-tune parameters based on initial sample queries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Auto Tune Parameters.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sample_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of sample queries to run </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>target_latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target query latency in milliseconds </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>target_recall</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target recall (0.0-1.0) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Tuned parameters</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dataset_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_recall</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1index_1_1_hnsw_production_defaults_1ac0088efa436d3c408675d684a5e5ffa3" kindref="member">getWorkloadOptimizedParams()</ref>, <ref refid="classthemis_1_1index_1_1_hnsw_production_defaults_1ae4a3ae6d97c8352713c76e06b8630fc6" kindref="member">getRecommendedEfSearch()</ref>, <ref refid="classthemis_1_1index_1_1_hnsw_production_defaults_1a8c1437d82036c52a4d61d19a1a3dbf36" kindref="member">validateParams()</ref>, spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_production_defaults.h" line="117" column="23" bodyfile="src/index/hnsw_production_defaults.cpp" bodystart="286" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_hnsw_production_defaults_1a8c1437d82036c52a4d61d19a1a3dbf36" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::HnswProductionDefaults::validateParams</definition>
+        <argsstring>(const HnswParams &amp;params, size_t dataset_size)</argsstring>
+        <name>validateParams</name>
+        <qualifiedname>themis::index::HnswProductionDefaults::validateParams</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1index_1_1_hnsw_production_defaults_1_1_hnsw_params" kindref="compound">HnswParams</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dataset_size</declname>
+        </param>
+        <briefdescription>
+<para>Validate parameters and warn about suboptimal configurations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate Params.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dataset_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::warn(), <ref refid="classthemis_1_1index_1_1_hnsw_production_defaults_1a3d33f1b3b824f7018734f19ff5826a3e" kindref="member">estimateMemoryUsage()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_production_defaults.h" line="127" column="17" bodyfile="src/index/hnsw_production_defaults.cpp" bodystart="348" bodyend="383"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_hnsw_production_defaults_1a3d33f1b3b824f7018734f19ff5826a3e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::index::HnswProductionDefaults::estimateMemoryUsage</definition>
+        <argsstring>(const HnswParams &amp;params, size_t dataset_size, size_t dimension)</argsstring>
+        <name>estimateMemoryUsage</name>
+        <qualifiedname>themis::index::HnswProductionDefaults::estimateMemoryUsage</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1index_1_1_hnsw_production_defaults_1_1_hnsw_params" kindref="compound">HnswParams</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dataset_size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dimension</declname>
+        </param>
+        <briefdescription>
+<para>Get memory estimate for index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Estimate Memory Usage.</para>
+<para><simplesect kind="return"><para>Estimated memory usage in bytes</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dataset_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements estimateMemoryUsage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_production_defaults.h" line="133" column="19" bodyfile="src/index/hnsw_production_defaults.cpp" bodystart="393" bodyend="414"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_hnsw_production_defaults_1a000c241fc1f18513b7be32e5479ae44b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::index::HnswProductionDefaults::estimateBuildTime</definition>
+        <argsstring>(const HnswParams &amp;params, size_t dataset_size, size_t dimension)</argsstring>
+        <name>estimateBuildTime</name>
+        <qualifiedname>themis::index::HnswProductionDefaults::estimateBuildTime</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1index_1_1_hnsw_production_defaults_1_1_hnsw_params" kindref="compound">HnswParams</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dataset_size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dimension</declname>
+        </param>
+        <briefdescription>
+<para>Get build time estimate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Estimate Build Time.</para>
+<para><simplesect kind="return"><para>Estimated build time in seconds</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dataset_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::sqrt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_production_defaults.h" line="142" column="19" bodyfile="src/index/hnsw_production_defaults.cpp" bodystart="424" bodyend="448"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Production-ready HNSW default parameters. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides optimized default parameters based on:<itemizedlist>
+<listitem><para>Dataset size</para>
+</listitem><listitem><para>Vector dimensionality</para>
+</listitem><listitem><para>Target recall vs latency trade-off</para>
+</listitem><listitem><para>Hardware capabilities</para>
+</listitem><listitem><para>Workload type (OLTP, Analytics, Mixed, RAG)</para>
+</listitem></itemizedlist>
+</para>
+<para>Based on:<itemizedlist>
+<listitem><para>HNSW paper (Malkov &amp; Yashunin, 2018)</para>
+</listitem><listitem><para>ThemisDB benchmark results (BENCHMARK_RESULTS_COMPLETE_2025.md)</para>
+</listitem><listitem><para>Production deployments and A/B testing</para>
+</listitem><listitem><para>PERFORMANCE_TIPS.md workload optimization guidelines </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/index/hnsw_production_defaults.h" line="35" column="1" bodyfile="include/index/hnsw_production_defaults.h" bodystart="35" bodyend="158"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1index_1_1_hnsw_production_defaults_1ae0d5cc87c27531053bc91b3711356f1f" prot="public" virt="non-virtual"><scope>themis::index::HnswProductionDefaults</scope><name>autoTuneParameters</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_production_defaults_1a43874e8ab3b0e6913aa6b7cf68584f1b" prot="private" virt="non-virtual"><scope>themis::index::HnswProductionDefaults</scope><name>BALANCED_EF_MULTIPLIER</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_production_defaults_1a000c241fc1f18513b7be32e5479ae44b" prot="public" virt="non-virtual"><scope>themis::index::HnswProductionDefaults</scope><name>estimateBuildTime</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_production_defaults_1a3d33f1b3b824f7018734f19ff5826a3e" prot="public" virt="non-virtual"><scope>themis::index::HnswProductionDefaults</scope><name>estimateMemoryUsage</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_production_defaults_1a74392271aea1c24a91ffa477a2e735ff" prot="public" virt="non-virtual"><scope>themis::index::HnswProductionDefaults</scope><name>getRecommendedEfConstruction</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_production_defaults_1ae4a3ae6d97c8352713c76e06b8630fc6" prot="public" virt="non-virtual"><scope>themis::index::HnswProductionDefaults</scope><name>getRecommendedEfSearch</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_production_defaults_1a4a5b88ad2b0dd59691d01e338bc6c454" prot="public" virt="non-virtual"><scope>themis::index::HnswProductionDefaults</scope><name>getRecommendedM</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_production_defaults_1ab2ce270a43269f8404db90a8ccd8838f" prot="public" virt="non-virtual"><scope>themis::index::HnswProductionDefaults</scope><name>getRecommendedParams</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_production_defaults_1ac0088efa436d3c408675d684a5e5ffa3" prot="public" virt="non-virtual"><scope>themis::index::HnswProductionDefaults</scope><name>getWorkloadOptimizedParams</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_production_defaults_1a438f6d501c77f09a9d81574c1dd4903b" prot="private" virt="non-virtual"><scope>themis::index::HnswProductionDefaults</scope><name>LARGE_DATASET</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_production_defaults_1af2b0289eaa6d1cce1b932edbae918ade" prot="private" virt="non-virtual"><scope>themis::index::HnswProductionDefaults</scope><name>LATENCY_EF_MULTIPLIER</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_production_defaults_1affa16ed1267596571c16c490987a67b9" prot="private" virt="non-virtual"><scope>themis::index::HnswProductionDefaults</scope><name>MEDIUM_DATASET</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_production_defaults_1a1aed215db8a0bce0bdda9070af965abd" prot="public" virt="non-virtual"><scope>themis::index::HnswProductionDefaults</scope><name>PerformanceProfile</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_production_defaults_1adc74118c938bdd751e1adbb45df093be" prot="private" virt="non-virtual"><scope>themis::index::HnswProductionDefaults</scope><name>RECALL_EF_MULTIPLIER</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_production_defaults_1a296c7247e561bffb82e48bbeb9cde51d" prot="private" virt="non-virtual"><scope>themis::index::HnswProductionDefaults</scope><name>SMALL_DATASET</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_production_defaults_1a8c1437d82036c52a4d61d19a1a3dbf36" prot="public" virt="non-virtual"><scope>themis::index::HnswProductionDefaults</scope><name>validateParams</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_production_defaults_1ab7f75688c44ab20557f9690083d20ee4" prot="public" virt="non-virtual"><scope>themis::index::HnswProductionDefaults</scope><name>WorkloadType</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_production_defaults_1adac30f2a425ed3927c2e42329e05a778" prot="private" virt="non-virtual"><scope>themis::index::HnswProductionDefaults</scope><name>XLARGE_DATASET</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

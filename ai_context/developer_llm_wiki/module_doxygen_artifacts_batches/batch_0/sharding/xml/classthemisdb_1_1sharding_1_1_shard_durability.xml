@@ -1,0 +1,625 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1_shard_durability" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::ShardDurability</compoundname>
+    <includes refid="shard__durability_8h" local="no">shard_durability.h</includes>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_shard_durability_1_1_statistics" prot="public">themisdb::sharding::ShardDurability::Statistics</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemisdb_1_1sharding_1_1_shard_durability_1ad9bda6938b06c647e133e49f08d937f2" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemisdb_1_1sharding_1_1_recovery_stats" kindref="compound">RecoveryStats</ref> &amp;)&gt;</type>
+        <definition>using themisdb::sharding::ShardDurability::RecoveryCallback = std::function&lt;void(const RecoveryStats&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>RecoveryCallback</name>
+        <qualifiedname>themisdb::sharding::ShardDurability::RecoveryCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="93" column="5" bodyfile="include/sharding/shard_durability.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_shard_durability_1a4fc9ba36bef2b76ef490a7fc4ec229b0" prot="private" static="no" mutable="no">
+        <type>rocksdb::TransactionDB *</type>
+        <definition>rocksdb::TransactionDB* themisdb::sharding::ShardDurability::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themisdb::sharding::ShardDurability::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="202" column="28" bodyfile="include/sharding/shard_durability.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_shard_durability_1ac473ebc054277a16e27fc6d52608b1b5" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_shard_durability_config" kindref="compound">ShardDurabilityConfig</ref></type>
+        <definition>ShardDurabilityConfig themisdb::sharding::ShardDurability::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::sharding::ShardDurability::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="203" column="27" bodyfile="include/sharding/shard_durability.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_shard_durability_1ae5442cd962f91422e31fe48ca283f711" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::ShardDurability::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::sharding::ShardDurability::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="204" column="24" bodyfile="include/sharding/shard_durability.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_shard_durability_1a1fd6335a13a5bc34ec0cd5e0c674eb0e" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_shard_durability_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>Statistics themisdb::sharding::ShardDurability::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themisdb::sharding::ShardDurability::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="205" column="16" bodyfile="include/sharding/shard_durability.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_shard_durability_1a60cbeca2d7c8d15f79a47a58b32ff340" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_shard_durability_1ad9bda6938b06c647e133e49f08d937f2" kindref="member">RecoveryCallback</ref></type>
+        <definition>RecoveryCallback themisdb::sharding::ShardDurability::recovery_callback_</definition>
+        <argsstring></argsstring>
+        <name>recovery_callback_</name>
+        <qualifiedname>themisdb::sharding::ShardDurability::recovery_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="206" column="22" bodyfile="include/sharding/shard_durability.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_shard_durability_1a08e5eabf9944d17df3fea99c79c7b7f3" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; rocksdb::Checkpoint &gt;</type>
+        <definition>std::unique_ptr&lt;rocksdb::Checkpoint&gt; themisdb::sharding::ShardDurability::checkpoint_manager_</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_manager_</name>
+        <qualifiedname>themisdb::sharding::ShardDurability::checkpoint_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="208" column="21" bodyfile="include/sharding/shard_durability.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_shard_durability_1a70e5eea654fadb3edd25ee7648753815" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1sharding_1_1_checkpoint_info" kindref="compound">CheckpointInfo</ref> &gt;</type>
+        <definition>std::vector&lt;CheckpointInfo&gt; themisdb::sharding::ShardDurability::checkpoints_</definition>
+        <argsstring></argsstring>
+        <name>checkpoints_</name>
+        <qualifiedname>themisdb::sharding::ShardDurability::checkpoints_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="209" column="17" bodyfile="include/sharding/shard_durability.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_shard_durability_1aaa333ec953dd22cecaa25638836fb268" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::ShardDurability::ShardDurability</definition>
+        <argsstring>(rocksdb::TransactionDB *rocksdb_instance, const ShardDurabilityConfig &amp;config)</argsstring>
+        <name>ShardDurability</name>
+        <qualifiedname>themisdb::sharding::ShardDurability::ShardDurability</qualifiedname>
+        <param>
+          <type>rocksdb::TransactionDB *</type>
+          <declname>rocksdb_instance</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_shard_durability_config" kindref="compound">ShardDurabilityConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>rocksdb_instance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RocksDB TransactionDB instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Durability configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="100" column="14" bodyfile="src/sharding/shard_durability.cpp" bodystart="30" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_shard_durability_1af32a311e2dd583db4b9c1af3265b2a84" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::ShardDurability::~ShardDurability</definition>
+        <argsstring>()</argsstring>
+        <name>~ShardDurability</name>
+        <qualifiedname>themisdb::sharding::ShardDurability::~ShardDurability</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="105" column="5" bodyfile="src/sharding/shard_durability.cpp" bodystart="39" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_shard_durability_1a83669dc267ecff190f90a8883b019c24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ShardDurability::initialize</definition>
+        <argsstring>()</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themisdb::sharding::ShardDurability::initialize</qualifiedname>
+        <briefdescription>
+<para>Initialize durability layer Performs crash recovery if needed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize.</para>
+<para><simplesect kind="return"><para>true on success</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: rocksdb::Checkpoint::Create(), GetBaseDB(), ok(), reset(), empty(), std::filesystem::create_directories(), scanCheckpointDirectory(), <ref refid="classthemisdb_1_1sharding_1_1_shard_durability_1a642cec774e71b46f1ea87217ba37aeb7" kindref="member">performRecovery()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="112" column="10" bodyfile="src/sharding/shard_durability.cpp" bodystart="48" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_shard_durability_1a695f89dd5bc63b64fb7b242426ffcb93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::ShardDurability::shutdown</definition>
+        <argsstring>()</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themisdb::sharding::ShardDurability::shutdown</qualifiedname>
+        <briefdescription>
+<para>Shutdown durability layer Ensures all pending writes are synced. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Shutdown.</para>
+<para>Calls: lock(), <ref refid="classthemisdb_1_1sharding_1_1_shard_durability_1a618d35faeb6999bd16ed2adcbc707dd2" kindref="member">syncWAL()</ref>, reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="118" column="10" bodyfile="src/sharding/shard_durability.cpp" bodystart="86" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_shard_durability_1a618d35faeb6999bd16ed2adcbc707dd2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ShardDurability::syncWAL</definition>
+        <argsstring>()</argsstring>
+        <name>syncWAL</name>
+        <qualifiedname>themisdb::sharding::ShardDurability::syncWAL</qualifiedname>
+        <briefdescription>
+<para>Force sync WAL to disk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Sync WAL.</para>
+<para><simplesect kind="return"><para>true on success</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: GetBaseDB(), Write(), ok(), fetch_add(), std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="124" column="10" bodyfile="src/sharding/shard_durability.cpp" bodystart="102" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_shard_durability_1a8fab49a55b9f96d6fde3bb348c6e80f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1sharding_1_1_checkpoint_info" kindref="compound">CheckpointInfo</ref> &gt;</type>
+        <definition>std::optional&lt; CheckpointInfo &gt; themisdb::sharding::ShardDurability::createCheckpoint</definition>
+        <argsstring>(const std::string &amp;checkpoint_name=&quot;&quot;)</argsstring>
+        <name>createCheckpoint</name>
+        <qualifiedname>themisdb::sharding::ShardDurability::createCheckpoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>checkpoint_name</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Create a checkpoint (point-in-time snapshot). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Checkpoint.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>checkpoint_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional checkpoint name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Checkpoint info on success, nullopt on failure</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the checkpoint. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), empty(), generateCheckpointId(), std::chrono::system_clock::now(), <ref refid="classthemisdb_1_1sharding_1_1_shard_durability_1ace4ae8359bad6410b5ecdaeb6dfb09dd" kindref="member">getCurrentSequenceNumber()</ref>, CreateCheckpoint(), ok(), std::filesystem::recursive_directory_iterator(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="131" column="19" bodyfile="src/sharding/shard_durability.cpp" bodystart="129" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_shard_durability_1ac5a6c7009df2e08bf66372dadd2706c0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1sharding_1_1_checkpoint_info" kindref="compound">CheckpointInfo</ref> &gt;</type>
+        <definition>std::vector&lt; CheckpointInfo &gt; themisdb::sharding::ShardDurability::listCheckpoints</definition>
+        <argsstring>() const</argsstring>
+        <name>listCheckpoints</name>
+        <qualifiedname>themisdb::sharding::ShardDurability::listCheckpoints</qualifiedname>
+        <briefdescription>
+<para>List available checkpoints. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="138" column="17" bodyfile="src/sharding/shard_durability.cpp" bodystart="178" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_shard_durability_1ac7450abbf07992bb50aef899b1c072d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ShardDurability::restoreFromCheckpoint</definition>
+        <argsstring>(const std::string &amp;checkpoint_id)</argsstring>
+        <name>restoreFromCheckpoint</name>
+        <qualifiedname>themisdb::sharding::ShardDurability::restoreFromCheckpoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>checkpoint_id</declname>
+        </param>
+        <briefdescription>
+<para>Restore from a checkpoint WARNING: This operation requires database shutdown and restart. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Restore From Checkpoint.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>checkpoint_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Checkpoint to restore from </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the checkpoint. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), std::find_if(), begin(), end(), validateCheckpoint(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="146" column="10" bodyfile="src/sharding/shard_durability.cpp" bodystart="194" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_shard_durability_1a642cec774e71b46f1ea87217ba37aeb7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_recovery_stats" kindref="compound">RecoveryStats</ref></type>
+        <definition>RecoveryStats themisdb::sharding::ShardDurability::performRecovery</definition>
+        <argsstring>()</argsstring>
+        <name>performRecovery</name>
+        <qualifiedname>themisdb::sharding::ShardDurability::performRecovery</qualifiedname>
+        <briefdescription>
+<para>Perform crash recovery Replays WAL to recover uncommitted transactions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Perform Recovery.</para>
+<para><simplesect kind="return"><para>Recovery statistics</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), <ref refid="classthemisdb_1_1sharding_1_1_shard_durability_1aff13a92791b48efda3bcc4df7b8b1291" kindref="member">verifyWALIntegrity()</ref>, what(), fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="153" column="19" bodyfile="src/sharding/shard_durability.cpp" bodystart="232" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_shard_durability_1aff13a92791b48efda3bcc4df7b8b1291" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ShardDurability::verifyWALIntegrity</definition>
+        <argsstring>() const</argsstring>
+        <name>verifyWALIntegrity</name>
+        <qualifiedname>themisdb::sharding::ShardDurability::verifyWALIntegrity</qualifiedname>
+        <briefdescription>
+<para>Verify WAL integrity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if WAL is intact </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="159" column="10" bodyfile="src/sharding/shard_durability.cpp" bodystart="279" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_shard_durability_1ace4ae8359bad6410b5ecdaeb6dfb09dd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::ShardDurability::getCurrentSequenceNumber</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentSequenceNumber</name>
+        <qualifiedname>themisdb::sharding::ShardDurability::getCurrentSequenceNumber</qualifiedname>
+        <briefdescription>
+<para>Get current WAL sequence number. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="164" column="14" bodyfile="src/sharding/shard_durability.cpp" bodystart="295" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_shard_durability_1aad47fb8cf4c67d8c0e27b58f017c4341" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::ShardDurability::setRecoveryCallback</definition>
+        <argsstring>(RecoveryCallback callback)</argsstring>
+        <name>setRecoveryCallback</name>
+        <qualifiedname>themisdb::sharding::ShardDurability::setRecoveryCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_shard_durability_1ad9bda6938b06c647e133e49f08d937f2" kindref="member">RecoveryCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Set recovery callback Called when recovery is performed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Recovery Callback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="170" column="10" bodyfile="src/sharding/shard_durability.cpp" bodystart="308" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_shard_durability_1aeaea2e99d6fb3689c9d06d4bca1254ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::ShardDurability::updateConfig</definition>
+        <argsstring>(const ShardDurabilityConfig &amp;config)</argsstring>
+        <name>updateConfig</name>
+        <qualifiedname>themisdb::sharding::ShardDurability::updateConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_shard_durability_config" kindref="compound">ShardDurabilityConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update the access control configuration.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New access control configuration.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="175" column="10" bodyfile="src/sharding/shard_durability.cpp" bodystart="318" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_shard_durability_1a77e3ad56857d034c98219b7923fc8ba2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemisdb_1_1sharding_1_1_shard_durability_config" kindref="compound">ShardDurabilityConfig</ref> &amp;</type>
+        <definition>const ShardDurabilityConfig &amp; themisdb::sharding::ShardDurability::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themisdb::sharding::ShardDurability::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="180" column="33" bodyfile="include/sharding/shard_durability.h" bodystart="180" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_shard_durability_1a4bf5d77399e5aa0f11a1186bf3b17c2a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemisdb_1_1sharding_1_1_shard_durability_1_1_statistics" kindref="compound">Statistics</ref> &amp;</type>
+        <definition>const Statistics &amp; themisdb::sharding::ShardDurability::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themisdb::sharding::ShardDurability::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="194" column="22" bodyfile="include/sharding/shard_durability.h" bodystart="194" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_shard_durability_1aec754c9f067279fe1b98681d0e09b8e0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ShardDurability::isDurabilityEnabled</definition>
+        <argsstring>() const</argsstring>
+        <name>isDurabilityEnabled</name>
+        <qualifiedname>themisdb::sharding::ShardDurability::isDurabilityEnabled</qualifiedname>
+        <briefdescription>
+<para>Check if durability is enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="199" column="10" bodyfile="include/sharding/shard_durability.h" bodystart="199" bodyend="199"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_shard_durability_1a56d36e87aac75152d6caca9ce19f816f" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::ShardDurability::generateCheckpointId</definition>
+        <argsstring>() const</argsstring>
+        <name>generateCheckpointId</name>
+        <qualifiedname>themisdb::sharding::ShardDurability::generateCheckpointId</qualifiedname>
+        <briefdescription>
+<para>Generate unique checkpoint ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="214" column="17" bodyfile="src/sharding/shard_durability.cpp" bodystart="323" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_shard_durability_1a62224dbf19a92bc5c9d538ffbca9caef" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::ShardDurability::cleanupOldCheckpoints</definition>
+        <argsstring>()</argsstring>
+        <name>cleanupOldCheckpoints</name>
+        <qualifiedname>themisdb::sharding::ShardDurability::cleanupOldCheckpoints</qualifiedname>
+        <briefdescription>
+<para>Clean up old checkpoints. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cleanup Old Checkpoints.</para>
+<para>Calls: size(), std::sort(), begin(), end(), std::filesystem::remove_all(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="219" column="10" bodyfile="src/sharding/shard_durability.cpp" bodystart="339" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_shard_durability_1a645103af6e213651b41290500e9c8d27" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::ShardDurability::scanCheckpointDirectory</definition>
+        <argsstring>()</argsstring>
+        <name>scanCheckpointDirectory</name>
+        <qualifiedname>themisdb::sharding::ShardDurability::scanCheckpointDirectory</qualifiedname>
+        <briefdescription>
+<para>Scan checkpoint directory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Scan Checkpoint Directory.</para>
+<para>Calls: clear(), std::filesystem::exists(), std::filesystem::directory_iterator(), is_directory(), path(), filename(), string(), validateCheckpoint(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="224" column="10" bodyfile="src/sharding/shard_durability.cpp" bodystart="367" bodyend="414"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_shard_durability_1af1c3fee28ba5481c30b3187600a75cfd" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ShardDurability::validateCheckpoint</definition>
+        <argsstring>(const std::string &amp;checkpoint_path) const</argsstring>
+        <name>validateCheckpoint</name>
+        <qualifiedname>themisdb::sharding::ShardDurability::validateCheckpoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>checkpoint_path</declname>
+        </param>
+        <briefdescription>
+<para>Validate checkpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="229" column="10" bodyfile="src/sharding/shard_durability.cpp" bodystart="416" bodyend="429"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Manages durability guarantees for sharded data. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Integrates with RocksDB&apos;s native WAL (Write-Ahead Log) to provide:<itemizedlist>
+<listitem><para>Configurable durability modes (sync/async/group commit)</para>
+</listitem><listitem><para>Checkpoint management for point-in-time recovery</para>
+</listitem><listitem><para>Automatic crash recovery</para>
+</listitem><listitem><para>Durability guarantees under failure scenarios </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/sharding/shard_durability.h" line="91" column="1" bodyfile="include/sharding/shard_durability.h" bodystart="91" bodyend="230"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1_shard_durability_1a08e5eabf9944d17df3fea99c79c7b7f3" prot="private" virt="non-virtual"><scope>themisdb::sharding::ShardDurability</scope><name>checkpoint_manager_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_shard_durability_1a70e5eea654fadb3edd25ee7648753815" prot="private" virt="non-virtual"><scope>themisdb::sharding::ShardDurability</scope><name>checkpoints_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_shard_durability_1a62224dbf19a92bc5c9d538ffbca9caef" prot="private" virt="non-virtual"><scope>themisdb::sharding::ShardDurability</scope><name>cleanupOldCheckpoints</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_shard_durability_1ac473ebc054277a16e27fc6d52608b1b5" prot="private" virt="non-virtual"><scope>themisdb::sharding::ShardDurability</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_shard_durability_1a8fab49a55b9f96d6fde3bb348c6e80f3" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardDurability</scope><name>createCheckpoint</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_shard_durability_1a4fc9ba36bef2b76ef490a7fc4ec229b0" prot="private" virt="non-virtual"><scope>themisdb::sharding::ShardDurability</scope><name>db_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_shard_durability_1a56d36e87aac75152d6caca9ce19f816f" prot="private" virt="non-virtual"><scope>themisdb::sharding::ShardDurability</scope><name>generateCheckpointId</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_shard_durability_1a77e3ad56857d034c98219b7923fc8ba2" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardDurability</scope><name>getConfig</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_shard_durability_1ace4ae8359bad6410b5ecdaeb6dfb09dd" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardDurability</scope><name>getCurrentSequenceNumber</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_shard_durability_1a4bf5d77399e5aa0f11a1186bf3b17c2a" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardDurability</scope><name>getStatistics</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_shard_durability_1a83669dc267ecff190f90a8883b019c24" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardDurability</scope><name>initialize</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_shard_durability_1aec754c9f067279fe1b98681d0e09b8e0" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardDurability</scope><name>isDurabilityEnabled</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_shard_durability_1ac5a6c7009df2e08bf66372dadd2706c0" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardDurability</scope><name>listCheckpoints</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_shard_durability_1ae5442cd962f91422e31fe48ca283f711" prot="private" virt="non-virtual"><scope>themisdb::sharding::ShardDurability</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_shard_durability_1a642cec774e71b46f1ea87217ba37aeb7" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardDurability</scope><name>performRecovery</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_shard_durability_1a60cbeca2d7c8d15f79a47a58b32ff340" prot="private" virt="non-virtual"><scope>themisdb::sharding::ShardDurability</scope><name>recovery_callback_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_shard_durability_1ad9bda6938b06c647e133e49f08d937f2" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardDurability</scope><name>RecoveryCallback</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_shard_durability_1ac7450abbf07992bb50aef899b1c072d9" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardDurability</scope><name>restoreFromCheckpoint</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_shard_durability_1a645103af6e213651b41290500e9c8d27" prot="private" virt="non-virtual"><scope>themisdb::sharding::ShardDurability</scope><name>scanCheckpointDirectory</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_shard_durability_1aad47fb8cf4c67d8c0e27b58f017c4341" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardDurability</scope><name>setRecoveryCallback</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_shard_durability_1aaa333ec953dd22cecaa25638836fb268" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardDurability</scope><name>ShardDurability</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_shard_durability_1a695f89dd5bc63b64fb7b242426ffcb93" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardDurability</scope><name>shutdown</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_shard_durability_1a1fd6335a13a5bc34ec0cd5e0c674eb0e" prot="private" virt="non-virtual"><scope>themisdb::sharding::ShardDurability</scope><name>stats_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_shard_durability_1a618d35faeb6999bd16ed2adcbc707dd2" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardDurability</scope><name>syncWAL</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_shard_durability_1aeaea2e99d6fb3689c9d06d4bca1254ca" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardDurability</scope><name>updateConfig</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_shard_durability_1af1c3fee28ba5481c30b3187600a75cfd" prot="private" virt="non-virtual"><scope>themisdb::sharding::ShardDurability</scope><name>validateCheckpoint</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_shard_durability_1aff13a92791b48efda3bcc4df7b8b1291" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardDurability</scope><name>verifyWALIntegrity</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_shard_durability_1af32a311e2dd583db4b9c1af3265b2a84" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardDurability</scope><name>~ShardDurability</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_6056dde7d22cd464c8f7fa3465a181c9" kind="dir">
+    <compoundname>benchmarks/network</compoundname>
+    <innerfile refid="bench__network__protocol__path_8cpp">bench_network_protocol_path.cpp</innerfile>
+    <innerfile refid="bench__network__release__gates_8cpp">bench_network_release_gates.cpp</innerfile>
+    <innerfile refid="bench__network__routing__gates_8cpp">bench_network_routing_gates.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/network/"/>
+  </compounddef>
+</doxygen>

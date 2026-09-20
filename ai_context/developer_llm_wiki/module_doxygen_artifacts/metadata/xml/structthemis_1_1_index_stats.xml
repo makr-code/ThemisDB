@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_index_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::IndexStats</compoundname>
+    <includes refid="statistics__collector_8h" local="no">statistics_collector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_index_stats_1a53b8694e4054289dcde8a01fe67a7137" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::IndexStats::table</definition>
+        <argsstring></argsstring>
+        <name>table</name>
+        <qualifiedname>themis::IndexStats::table</qualifiedname>
+        <briefdescription>
+<para>Table/collection name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="114" column="17" bodyfile="include/metadata/statistics_collector.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_index_stats_1a1e1d41bfa2343658a9a7eaf28bee19cc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::IndexStats::column</definition>
+        <argsstring></argsstring>
+        <name>column</name>
+        <qualifiedname>themis::IndexStats::column</qualifiedname>
+        <briefdescription>
+<para>Column name (or col1+col2 for composite). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="115" column="17" bodyfile="include/metadata/statistics_collector.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_index_stats_1a115ff84f08edcee7c04e6f262a4ba527" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::IndexStats::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::IndexStats::type</qualifiedname>
+        <briefdescription>
+<para>&quot;regular&quot;, &quot;range&quot;, &quot;sparse&quot;, &quot;geo&quot;, &quot;ttl&quot;, &quot;fulltext&quot;, &quot;composite&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="116" column="17" bodyfile="include/metadata/statistics_collector.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_index_stats_1a368ad9761a482fa1645aed472b4c6aac" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::IndexStats::entry_count</definition>
+        <argsstring></argsstring>
+        <name>entry_count</name>
+        <qualifiedname>themis::IndexStats::entry_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of index entries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="117" column="12" bodyfile="include/metadata/statistics_collector.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_index_stats_1a2d76093fb38e7f5fb4f8e7578bca2ab8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::IndexStats::estimated_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>estimated_size_bytes</name>
+        <qualifiedname>themis::IndexStats::estimated_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Estimated storage size in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="118" column="12" bodyfile="include/metadata/statistics_collector.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_index_stats_1a6d5dfab35a81406ca7aa2eb7c6fc83a5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::IndexStats::unique</definition>
+        <argsstring></argsstring>
+        <name>unique</name>
+        <qualifiedname>themis::IndexStats::unique</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Unique constraint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="119" column="10" bodyfile="include/metadata/statistics_collector.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_index_stats_1ae30ca0af0656df78ed931a38b306ef1e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::IndexStats::additional_info</definition>
+        <argsstring></argsstring>
+        <name>additional_info</name>
+        <qualifiedname>themis::IndexStats::additional_info</qualifiedname>
+        <briefdescription>
+<para>Type-specific info (e.g., &quot;sorted&quot;, &quot;geohash&quot;, &quot;ttl_seconds=3600&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="120" column="17" bodyfile="include/metadata/statistics_collector.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_index_stats_1ad56e07eff9fcd92bbcdc14a1be73f629" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::IndexStats::last_updated</definition>
+        <argsstring></argsstring>
+        <name>last_updated</name>
+        <qualifiedname>themis::IndexStats::last_updated</qualifiedname>
+        <briefdescription>
+<para>Timestamp of last export. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="121" column="43" bodyfile="include/metadata/statistics_collector.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_index_stats_1aa5454615bf1c9cfcff8658c988f7be2a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref></type>
+        <definition>json themis::IndexStats::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::IndexStats::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="123" column="10" bodyfile="src/metadata/statistics_collector.cpp" bodystart="30" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-index statistics exported from the index module to the metadata module. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/metadata/statistics_collector.h" line="113" column="1" bodyfile="include/metadata/statistics_collector.h" bodystart="113" bodyend="124"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_index_stats_1ae30ca0af0656df78ed931a38b306ef1e" prot="public" virt="non-virtual"><scope>themis::IndexStats</scope><name>additional_info</name></member>
+      <member refid="structthemis_1_1_index_stats_1a1e1d41bfa2343658a9a7eaf28bee19cc" prot="public" virt="non-virtual"><scope>themis::IndexStats</scope><name>column</name></member>
+      <member refid="structthemis_1_1_index_stats_1a368ad9761a482fa1645aed472b4c6aac" prot="public" virt="non-virtual"><scope>themis::IndexStats</scope><name>entry_count</name></member>
+      <member refid="structthemis_1_1_index_stats_1a2d76093fb38e7f5fb4f8e7578bca2ab8" prot="public" virt="non-virtual"><scope>themis::IndexStats</scope><name>estimated_size_bytes</name></member>
+      <member refid="structthemis_1_1_index_stats_1ad56e07eff9fcd92bbcdc14a1be73f629" prot="public" virt="non-virtual"><scope>themis::IndexStats</scope><name>last_updated</name></member>
+      <member refid="structthemis_1_1_index_stats_1a53b8694e4054289dcde8a01fe67a7137" prot="public" virt="non-virtual"><scope>themis::IndexStats</scope><name>table</name></member>
+      <member refid="structthemis_1_1_index_stats_1aa5454615bf1c9cfcff8658c988f7be2a" prot="public" virt="non-virtual"><scope>themis::IndexStats</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1_index_stats_1a115ff84f08edcee7c04e6f262a4ba527" prot="public" virt="non-virtual"><scope>themis::IndexStats</scope><name>type</name></member>
+      <member refid="structthemis_1_1_index_stats_1a6d5dfab35a81406ca7aa2eb7c6fc83a5" prot="public" virt="non-virtual"><scope>themis::IndexStats</scope><name>unique</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

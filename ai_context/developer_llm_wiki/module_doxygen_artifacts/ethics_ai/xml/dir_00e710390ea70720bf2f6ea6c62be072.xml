@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_00e710390ea70720bf2f6ea6c62be072" kind="dir">
+    <compoundname>src/ethics_ai</compoundname>
+    <innerfile refid="argument__store_8cpp">argument_store.cpp</innerfile>
+    <innerfile refid="argument__store_8h">argument_store.h</innerfile>
+    <innerfile refid="chain__visualizer_8cpp">chain_visualizer.cpp</innerfile>
+    <innerfile refid="chain__visualizer_8h">chain_visualizer.h</innerfile>
+    <innerfile refid="convergence__marker__engine_8cpp">convergence_marker_engine.cpp</innerfile>
+    <innerfile refid="cross__school__tension__resolver_8cpp">cross_school_tension_resolver.cpp</innerfile>
+    <innerfile refid="discourse__engine_8cpp">discourse_engine.cpp</innerfile>
+    <innerfile refid="discourse__engine_8h">discourse_engine.h</innerfile>
+    <innerfile refid="discourse__memory__store_8cpp">discourse_memory_store.cpp</innerfile>
+    <innerfile refid="discourse__orchestrator_8cpp">discourse_orchestrator.cpp</innerfile>
+    <innerfile refid="ethics__ai__plugin_8cpp">ethics_ai_plugin.cpp</innerfile>
+    <innerfile refid="ethics__ai__types_8cpp">ethics_ai_types.cpp</innerfile>
+    <innerfile refid="ethics__aql__queries_8h">ethics_aql_queries.h</innerfile>
+    <innerfile refid="ethics__base__entity__adapter_8h">ethics_base_entity_adapter.h</innerfile>
+    <innerfile refid="ethics__evaluator_8cpp">ethics_evaluator.cpp</innerfile>
+    <innerfile refid="ethics__evaluator_8h">ethics_evaluator.h</innerfile>
+    <innerfile refid="ethics__profile__registry_8cpp">ethics_profile_registry.cpp</innerfile>
+    <innerfile refid="src_2ethics__ai_2ethics__profile__registry_8h">ethics_profile_registry.h</innerfile>
+    <innerfile refid="ethics__selection__router_8cpp">ethics_selection_router.cpp</innerfile>
+    <innerfile refid="llm__cascade__router_8cpp">llm_cascade_router.cpp</innerfile>
+    <innerfile refid="meta__verdict__builder_8cpp">meta_verdict_builder.cpp</innerfile>
+    <innerfile refid="mirror__school__handler_8cpp">mirror_school_handler.cpp</innerfile>
+    <innerfile refid="philosophy__loader_8cpp">philosophy_loader.cpp</innerfile>
+    <innerfile refid="philosophy__loader_8h">philosophy_loader.h</innerfile>
+    <innerfile refid="position__abstract__validator_8cpp">position_abstract_validator.cpp</innerfile>
+    <innerfile refid="prior__round__compressor_8cpp">prior_round_compressor.cpp</innerfile>
+    <innerfile refid="rag__context__engine_8cpp">rag_context_engine.cpp</innerfile>
+    <innerfile refid="rag__context__engine_8h">rag_context_engine.h</innerfile>
+    <innerfile refid="synthesis__matrix__builder_8cpp">synthesis_matrix_builder.cpp</innerfile>
+    <innerfile refid="tournament__mode__selector_8cpp">tournament_mode_selector.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/ethics_ai/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_exec_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::VectorizedExecutionEngine::ExecStats</compoundname>
+    <includes refid="vectorized__execution_8h" local="no">vectorized_execution.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_exec_stats_1a5b9b329951bbdeed97ac503b9ada21f9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::VectorizedExecutionEngine::ExecStats::batches_processed</definition>
+        <argsstring></argsstring>
+        <name>batches_processed</name>
+        <qualifiedname>themis::query::VectorizedExecutionEngine::ExecStats::batches_processed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="286" column="16" bodyfile="include/query/vectorized_execution.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_exec_stats_1ab9260738df99acd188ed3ddc8ecf2e7d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::VectorizedExecutionEngine::ExecStats::rows_in</definition>
+        <argsstring></argsstring>
+        <name>rows_in</name>
+        <qualifiedname>themis::query::VectorizedExecutionEngine::ExecStats::rows_in</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="287" column="16" bodyfile="include/query/vectorized_execution.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_exec_stats_1a1ae8bb684160562ff08e0f005fa5b434" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::VectorizedExecutionEngine::ExecStats::rows_out</definition>
+        <argsstring></argsstring>
+        <name>rows_out</name>
+        <qualifiedname>themis::query::VectorizedExecutionEngine::ExecStats::rows_out</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="288" column="16" bodyfile="include/query/vectorized_execution.h" bodystart="288" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_exec_stats_1a276efb510f7d894c8b603fc6912d94bb" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::VectorizedExecutionEngine::ExecStats::elapsed_ms</definition>
+        <argsstring></argsstring>
+        <name>elapsed_ms</name>
+        <qualifiedname>themis::query::VectorizedExecutionEngine::ExecStats::elapsed_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="289" column="16" bodyfile="include/query/vectorized_execution.h" bodystart="289" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/vectorized_execution.h" line="285" column="5" bodyfile="include/query/vectorized_execution.h" bodystart="285" bodyend="290"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_exec_stats_1a5b9b329951bbdeed97ac503b9ada21f9" prot="public" virt="non-virtual"><scope>themis::query::VectorizedExecutionEngine::ExecStats</scope><name>batches_processed</name></member>
+      <member refid="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_exec_stats_1a276efb510f7d894c8b603fc6912d94bb" prot="public" virt="non-virtual"><scope>themis::query::VectorizedExecutionEngine::ExecStats</scope><name>elapsed_ms</name></member>
+      <member refid="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_exec_stats_1ab9260738df99acd188ed3ddc8ecf2e7d" prot="public" virt="non-virtual"><scope>themis::query::VectorizedExecutionEngine::ExecStats</scope><name>rows_in</name></member>
+      <member refid="structthemis_1_1query_1_1_vectorized_execution_engine_1_1_exec_stats_1a1ae8bb684160562ff08e0f005fa5b434" prot="public" virt="non-virtual"><scope>themis::query::VectorizedExecutionEngine::ExecStats</scope><name>rows_out</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

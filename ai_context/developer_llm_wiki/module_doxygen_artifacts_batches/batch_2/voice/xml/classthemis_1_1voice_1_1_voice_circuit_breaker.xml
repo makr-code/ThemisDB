@@ -1,0 +1,396 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_voice_circuit_breaker" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::VoiceCircuitBreaker</compoundname>
+    <includes refid="voice__error__handler_8h" local="no">voice_error_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_circuit_breaker_1a65c7b6f7fc98defb5c9db6634ea3ae67" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceCircuitBreaker::name_</definition>
+        <argsstring></argsstring>
+        <name>name_</name>
+        <qualifiedname>themis::voice::VoiceCircuitBreaker::name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="107" column="17" bodyfile="include/voice/voice_error_handler.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_circuit_breaker_1ac32cfd88b22a4eb2118b687448041f3a" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1voice_1_1_circuit_breaker_config" kindref="compound">CircuitBreakerConfig</ref></type>
+        <definition>CircuitBreakerConfig themis::voice::VoiceCircuitBreaker::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::voice::VoiceCircuitBreaker::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="108" column="26" bodyfile="include/voice/voice_error_handler.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_circuit_breaker_1a88b230bb00d5adf727549526dce391e9" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::voice::VoiceCircuitBreaker::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::voice::VoiceCircuitBreaker::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="109" column="24" bodyfile="include/voice/voice_error_handler.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_circuit_breaker_1afe323d6ff0fb192f1f97f34f12035fdd" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1a8a202fcdbd7e4a30065bb943bf2054f0" kindref="member">CircuitState</ref></type>
+        <definition>CircuitState themis::voice::VoiceCircuitBreaker::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>themis::voice::VoiceCircuitBreaker::state_</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1voice_1a8a202fcdbd7e4a30065bb943bf2054f0a110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">CircuitState::CLOSED</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="111" column="18" bodyfile="include/voice/voice_error_handler.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_circuit_breaker_1a939b2407021f8c2ec40691a3e2dc5e3d" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::VoiceCircuitBreaker::failure_count_</definition>
+        <argsstring></argsstring>
+        <name>failure_count_</name>
+        <qualifiedname>themis::voice::VoiceCircuitBreaker::failure_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="112" column="12" bodyfile="include/voice/voice_error_handler.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_circuit_breaker_1aae6312683465583d7216650661373a7f" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::VoiceCircuitBreaker::success_count_</definition>
+        <argsstring></argsstring>
+        <name>success_count_</name>
+        <qualifiedname>themis::voice::VoiceCircuitBreaker::success_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="113" column="12" bodyfile="include/voice/voice_error_handler.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_circuit_breaker_1a030ce95d3e2616a03d4f95034ee8538a" prot="private" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::VoiceCircuitBreaker::last_failure_time_ms_</definition>
+        <argsstring></argsstring>
+        <name>last_failure_time_ms_</name>
+        <qualifiedname>themis::voice::VoiceCircuitBreaker::last_failure_time_ms_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="114" column="13" bodyfile="include/voice/voice_error_handler.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_circuit_breaker_1adfa27373b3653b8dd809869408d2eafd" prot="private" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::VoiceCircuitBreaker::last_state_change_ms_</definition>
+        <argsstring></argsstring>
+        <name>last_state_change_ms_</name>
+        <qualifiedname>themis::voice::VoiceCircuitBreaker::last_state_change_ms_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="115" column="13" bodyfile="include/voice/voice_error_handler.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_circuit_breaker_1a117cac4dd2861a693b445b0ecaf38da0" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::voice::VoiceCircuitBreaker::total_calls_</definition>
+        <argsstring></argsstring>
+        <name>total_calls_</name>
+        <qualifiedname>themis::voice::VoiceCircuitBreaker::total_calls_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="117" column="14" bodyfile="include/voice/voice_error_handler.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_circuit_breaker_1a904ebf52ea86bf5d19e4091e680925db" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::voice::VoiceCircuitBreaker::successful_calls_</definition>
+        <argsstring></argsstring>
+        <name>successful_calls_</name>
+        <qualifiedname>themis::voice::VoiceCircuitBreaker::successful_calls_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="118" column="14" bodyfile="include/voice/voice_error_handler.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_circuit_breaker_1a5bc8ef6d23b30669cae0fde06926aa2c" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::voice::VoiceCircuitBreaker::rejected_calls_</definition>
+        <argsstring></argsstring>
+        <name>rejected_calls_</name>
+        <qualifiedname>themis::voice::VoiceCircuitBreaker::rejected_calls_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="119" column="14" bodyfile="include/voice/voice_error_handler.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_circuit_breaker_1a0821b099d6f2681b5cf8dd54441ead6a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::VoiceCircuitBreaker::VoiceCircuitBreaker</definition>
+        <argsstring>(const std::string &amp;name, const CircuitBreakerConfig &amp;config={})</argsstring>
+        <name>VoiceCircuitBreaker</name>
+        <qualifiedname>themis::voice::VoiceCircuitBreaker::VoiceCircuitBreaker</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1voice_1_1_circuit_breaker_config" kindref="compound">CircuitBreakerConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="80" column="14" bodyfile="src/voice/voice_error_handler.cpp" bodystart="69" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_circuit_breaker_1a1da106bbd02fea407bcc534f7405fc78" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceCircuitBreaker::call</definition>
+        <argsstring>(Func &amp;&amp;func)</argsstring>
+        <name>call</name>
+        <qualifiedname>themis::voice::VoiceCircuitBreaker::call</qualifiedname>
+        <param>
+          <type>Func &amp;&amp;</type>
+          <declname>func</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="83" column="10" bodyfile="include/voice/voice_error_handler.h" bodystart="83" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_circuit_breaker_1a216b6f7aa771601412ca2a89b3ffbc4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceCircuitBreaker::canCall</definition>
+        <argsstring>()</argsstring>
+        <name>canCall</name>
+        <qualifiedname>themis::voice::VoiceCircuitBreaker::canCall</qualifiedname>
+        <briefdescription>
+<para>Can <ref refid="structthemis_1_1voice_1_1_call" kindref="compound">Call</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), nowMs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="97" column="10" bodyfile="src/voice/voice_error_handler.cpp" bodystart="82" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_circuit_breaker_1a451591b8f2bf59f668575f755c82872e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::VoiceCircuitBreaker::recordSuccess</definition>
+        <argsstring>()</argsstring>
+        <name>recordSuccess</name>
+        <qualifiedname>themis::voice::VoiceCircuitBreaker::recordSuccess</qualifiedname>
+        <briefdescription>
+<para>Record Success. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), nowMs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="98" column="10" bodyfile="src/voice/voice_error_handler.cpp" bodystart="116" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_circuit_breaker_1acb94989231c21f53c065011ec156763d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::VoiceCircuitBreaker::recordFailure</definition>
+        <argsstring>()</argsstring>
+        <name>recordFailure</name>
+        <qualifiedname>themis::voice::VoiceCircuitBreaker::recordFailure</qualifiedname>
+        <briefdescription>
+<para>Record Failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), nowMs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="99" column="10" bodyfile="src/voice/voice_error_handler.cpp" bodystart="136" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_circuit_breaker_1a1332d80010b08ea91edef8da8922f353" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::VoiceCircuitBreaker::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::voice::VoiceCircuitBreaker::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="100" column="10" bodyfile="src/voice/voice_error_handler.cpp" bodystart="157" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_circuit_breaker_1a09c5fc4a53564a3637356c78527d2c14" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1voice_1a8a202fcdbd7e4a30065bb943bf2054f0" kindref="member">CircuitState</ref></type>
+        <definition>CircuitState themis::voice::VoiceCircuitBreaker::getState</definition>
+        <argsstring>() const</argsstring>
+        <name>getState</name>
+        <qualifiedname>themis::voice::VoiceCircuitBreaker::getState</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="102" column="18" bodyfile="src/voice/voice_error_handler.cpp" bodystart="166" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_circuit_breaker_1a28186fee6cfb50e6e40ff76012044abb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceCircuitBreaker::getName</definition>
+        <argsstring>() const</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::voice::VoiceCircuitBreaker::getName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="103" column="17" bodyfile="include/voice/voice_error_handler.h" bodystart="103" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_circuit_breaker_1a22590ab0c9dc3cb7718a864ed177971e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref></type>
+        <definition>json themis::voice::VoiceCircuitBreaker::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::voice::VoiceCircuitBreaker::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="104" column="10" bodyfile="src/voice/voice_error_handler.cpp" bodystart="176" bodyend="192"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_circuit_breaker_1a05ffee52d28d80a9a5000d628d35651d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::VoiceCircuitBreaker::nowMs</definition>
+        <argsstring>() const</argsstring>
+        <name>nowMs</name>
+        <qualifiedname>themis::voice::VoiceCircuitBreaker::nowMs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="121" column="13" bodyfile="src/voice/voice_error_handler.cpp" bodystart="72" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Circuit breaker for voice services. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_error_handler.h" line="78" column="1" bodyfile="include/voice/voice_error_handler.h" bodystart="78" bodyend="122"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_voice_circuit_breaker_1a1da106bbd02fea407bcc534f7405fc78" prot="public" virt="non-virtual"><scope>themis::voice::VoiceCircuitBreaker</scope><name>call</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_circuit_breaker_1a216b6f7aa771601412ca2a89b3ffbc4e" prot="public" virt="non-virtual"><scope>themis::voice::VoiceCircuitBreaker</scope><name>canCall</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_circuit_breaker_1ac32cfd88b22a4eb2118b687448041f3a" prot="private" virt="non-virtual"><scope>themis::voice::VoiceCircuitBreaker</scope><name>config_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_circuit_breaker_1a939b2407021f8c2ec40691a3e2dc5e3d" prot="private" virt="non-virtual"><scope>themis::voice::VoiceCircuitBreaker</scope><name>failure_count_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_circuit_breaker_1a28186fee6cfb50e6e40ff76012044abb" prot="public" virt="non-virtual"><scope>themis::voice::VoiceCircuitBreaker</scope><name>getName</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_circuit_breaker_1a09c5fc4a53564a3637356c78527d2c14" prot="public" virt="non-virtual"><scope>themis::voice::VoiceCircuitBreaker</scope><name>getState</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_circuit_breaker_1a22590ab0c9dc3cb7718a864ed177971e" prot="public" virt="non-virtual"><scope>themis::voice::VoiceCircuitBreaker</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_circuit_breaker_1a030ce95d3e2616a03d4f95034ee8538a" prot="private" virt="non-virtual"><scope>themis::voice::VoiceCircuitBreaker</scope><name>last_failure_time_ms_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_circuit_breaker_1adfa27373b3653b8dd809869408d2eafd" prot="private" virt="non-virtual"><scope>themis::voice::VoiceCircuitBreaker</scope><name>last_state_change_ms_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_circuit_breaker_1a88b230bb00d5adf727549526dce391e9" prot="private" virt="non-virtual"><scope>themis::voice::VoiceCircuitBreaker</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_circuit_breaker_1a65c7b6f7fc98defb5c9db6634ea3ae67" prot="private" virt="non-virtual"><scope>themis::voice::VoiceCircuitBreaker</scope><name>name_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_circuit_breaker_1a05ffee52d28d80a9a5000d628d35651d" prot="private" virt="non-virtual"><scope>themis::voice::VoiceCircuitBreaker</scope><name>nowMs</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_circuit_breaker_1acb94989231c21f53c065011ec156763d" prot="public" virt="non-virtual"><scope>themis::voice::VoiceCircuitBreaker</scope><name>recordFailure</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_circuit_breaker_1a451591b8f2bf59f668575f755c82872e" prot="public" virt="non-virtual"><scope>themis::voice::VoiceCircuitBreaker</scope><name>recordSuccess</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_circuit_breaker_1a5bc8ef6d23b30669cae0fde06926aa2c" prot="private" virt="non-virtual"><scope>themis::voice::VoiceCircuitBreaker</scope><name>rejected_calls_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_circuit_breaker_1a1332d80010b08ea91edef8da8922f353" prot="public" virt="non-virtual"><scope>themis::voice::VoiceCircuitBreaker</scope><name>reset</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_circuit_breaker_1afe323d6ff0fb192f1f97f34f12035fdd" prot="private" virt="non-virtual"><scope>themis::voice::VoiceCircuitBreaker</scope><name>state_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_circuit_breaker_1aae6312683465583d7216650661373a7f" prot="private" virt="non-virtual"><scope>themis::voice::VoiceCircuitBreaker</scope><name>success_count_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_circuit_breaker_1a904ebf52ea86bf5d19e4091e680925db" prot="private" virt="non-virtual"><scope>themis::voice::VoiceCircuitBreaker</scope><name>successful_calls_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_circuit_breaker_1a117cac4dd2861a693b445b0ecaf38da0" prot="private" virt="non-virtual"><scope>themis::voice::VoiceCircuitBreaker</scope><name>total_calls_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_circuit_breaker_1a0821b099d6f2681b5cf8dd54441ead6a" prot="public" virt="non-virtual"><scope>themis::voice::VoiceCircuitBreaker</scope><name>VoiceCircuitBreaker</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

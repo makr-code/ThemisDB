@@ -1,0 +1,308 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_i_cache_partition" kind="struct" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::cache::ICachePartition</compoundname>
+    <derivedcompoundref refid="class_mock_cache_partition" prot="public" virt="non-virtual">MockCachePartition</derivedcompoundref>
+    <includes refid="cache__partition_8h" local="no">cache_partition.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_cache_partition_1a1e7fb764af0ac5d8ff7dc2c9bed3c3d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::cache::ICachePartition::~ICachePartition</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ICachePartition</name>
+        <qualifiedname>themis::cache::ICachePartition::~ICachePartition</qualifiedname>
+        <briefdescription>
+<para>ICache Partition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_partition.h" line="45" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_cache_partition_1aac4ed781fa853ab9d766067d1bf1c7ef" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::cache::ICachePartition::getPartitionId</definition>
+        <argsstring>(const std::string &amp;tenant_id) const =0</argsstring>
+        <name>getPartitionId</name>
+        <qualifiedname>themis::cache::ICachePartition::getPartitionId</qualifiedname>
+        <reimplementedby refid="class_mock_cache_partition_1a1b760127849fea57978b9cc5c752b69b">getPartitionId</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_partition.h" line="51" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_cache_partition_1ae962d43a5688bf17c6ead7baf7633e74" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::cache::ICachePartition::assignTenant</definition>
+        <argsstring>(const std::string &amp;tenant_id, const std::string &amp;partition_id)=0</argsstring>
+        <name>assignTenant</name>
+        <qualifiedname>themis::cache::ICachePartition::assignTenant</qualifiedname>
+        <reimplementedby refid="class_mock_cache_partition_1aace49af1a5f65cfb03c4075d1465704d">assignTenant</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>partition_id</declname>
+        </param>
+        <briefdescription>
+<para>Assign Tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">partition_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the partition. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_partition.h" line="58" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_cache_partition_1a33e2abe1086bf98da9481f164e432d1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::cache::ICachePartition::unassignTenant</definition>
+        <argsstring>(const std::string &amp;tenant_id)=0</argsstring>
+        <name>unassignTenant</name>
+        <qualifiedname>themis::cache::ICachePartition::unassignTenant</qualifiedname>
+        <reimplementedby refid="class_mock_cache_partition_1a3db24ab1532ea3ca504de2ac0ab57955">unassignTenant</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Unassign Tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_partition.h" line="65" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_cache_partition_1a7684c5d9a1a208653b93c55797ac7dcc" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>virtual std::vector&lt; std::string &gt; themis::cache::ICachePartition::listTenants</definition>
+        <argsstring>(const std::string &amp;partition_id) const =0</argsstring>
+        <name>listTenants</name>
+        <qualifiedname>themis::cache::ICachePartition::listTenants</qualifiedname>
+        <reimplementedby refid="class_mock_cache_partition_1a0538981fdcd28a3a41e1fb7662b464d8">listTenants</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>partition_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_partition.h" line="67" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_cache_partition_1abcc17b7cd8ebef23541468448a92c494" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>virtual std::vector&lt; std::string &gt; themis::cache::ICachePartition::listPartitions</definition>
+        <argsstring>() const =0</argsstring>
+        <name>listPartitions</name>
+        <qualifiedname>themis::cache::ICachePartition::listPartitions</qualifiedname>
+        <reimplementedby refid="class_mock_cache_partition_1adf0351eeabfe584feec90e9cb679b3b3">listPartitions</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_partition.h" line="74" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_cache_partition_1a65c8a6ac3d1f50eb54620a469c6f63df" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::cache::ICachePartition::resize</definition>
+        <argsstring>(const std::string &amp;partition_id, size_t new_capacity)=0</argsstring>
+        <name>resize</name>
+        <qualifiedname>themis::cache::ICachePartition::resize</qualifiedname>
+        <reimplementedby refid="class_mock_cache_partition_1ad16d43f963a81c20f632425af9bbddce">resize</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>partition_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>new_capacity</declname>
+        </param>
+        <briefdescription>
+<para>Resize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">partition_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the partition. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_capacity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_partition.h" line="81" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_cache_partition_1a61c57bba489367d34f607f7489ce46c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::cache::ICachePartition::evictPartition</definition>
+        <argsstring>(const std::string &amp;partition_id)=0</argsstring>
+        <name>evictPartition</name>
+        <qualifiedname>themis::cache::ICachePartition::evictPartition</qualifiedname>
+        <reimplementedby refid="class_mock_cache_partition_1ac425930fc15bf8dfcfcc8865204146e2">evictPartition</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>partition_id</declname>
+        </param>
+        <briefdescription>
+<para>Evict Partition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">partition_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the partition. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_partition.h" line="88" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_cache_partition_1ad93881553b0d7cad82c8ce8d8a0d8010" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1cache_1_1_partition_stats" kindref="compound">PartitionStats</ref> &gt;</type>
+        <definition>virtual std::optional&lt; PartitionStats &gt; themis::cache::ICachePartition::getStats</definition>
+        <argsstring>(const std::string &amp;partition_id) const =0</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::cache::ICachePartition::getStats</qualifiedname>
+        <reimplementedby refid="class_mock_cache_partition_1a353e4f2af5cec0214ff6ce224780a85a">getStats</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>partition_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_partition.h" line="94" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_cache_partition_1a288b0c9a5721dfbe2c5e1fe767ed2d87" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1cache_1_1_partition_stats" kindref="compound">PartitionStats</ref> &gt;</type>
+        <definition>virtual std::vector&lt; PartitionStats &gt; themis::cache::ICachePartition::getAllStats</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getAllStats</name>
+        <qualifiedname>themis::cache::ICachePartition::getAllStats</qualifiedname>
+        <reimplementedby refid="class_mock_cache_partition_1a552d3e96a798603d218c81daccb43ec6">getAllStats</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_partition.h" line="97" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_cache_partition_1a226b95a55d700189369f5f0bec53f6d1" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>size_t</type>
+        <definition>virtual size_t themis::cache::ICachePartition::getCapacity</definition>
+        <argsstring>(const std::string &amp;partition_id) const =0</argsstring>
+        <name>getCapacity</name>
+        <qualifiedname>themis::cache::ICachePartition::getCapacity</qualifiedname>
+        <reimplementedby refid="class_mock_cache_partition_1a522c310484b7bc97e10f1eb42fa81296">getCapacity</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>partition_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_partition.h" line="99" column="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>MockCachePartition</label>
+        <link refid="class_mock_cache_partition"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::cache::ICachePartition</label>
+        <link refid="structthemis_1_1cache_1_1_i_cache_partition"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/cache/cache_partition.h" line="40" column="1" bodyfile="include/cache/cache_partition.h" bodystart="40" bodyend="100"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_i_cache_partition_1ae962d43a5688bf17c6ead7baf7633e74" prot="public" virt="pure-virtual"><scope>themis::cache::ICachePartition</scope><name>assignTenant</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_cache_partition_1a61c57bba489367d34f607f7489ce46c1" prot="public" virt="pure-virtual"><scope>themis::cache::ICachePartition</scope><name>evictPartition</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_cache_partition_1a288b0c9a5721dfbe2c5e1fe767ed2d87" prot="public" virt="pure-virtual"><scope>themis::cache::ICachePartition</scope><name>getAllStats</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_cache_partition_1a226b95a55d700189369f5f0bec53f6d1" prot="public" virt="pure-virtual"><scope>themis::cache::ICachePartition</scope><name>getCapacity</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_cache_partition_1aac4ed781fa853ab9d766067d1bf1c7ef" prot="public" virt="pure-virtual"><scope>themis::cache::ICachePartition</scope><name>getPartitionId</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_cache_partition_1ad93881553b0d7cad82c8ce8d8a0d8010" prot="public" virt="pure-virtual"><scope>themis::cache::ICachePartition</scope><name>getStats</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_cache_partition_1abcc17b7cd8ebef23541468448a92c494" prot="public" virt="pure-virtual"><scope>themis::cache::ICachePartition</scope><name>listPartitions</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_cache_partition_1a7684c5d9a1a208653b93c55797ac7dcc" prot="public" virt="pure-virtual"><scope>themis::cache::ICachePartition</scope><name>listTenants</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_cache_partition_1a65c8a6ac3d1f50eb54620a469c6f63df" prot="public" virt="pure-virtual"><scope>themis::cache::ICachePartition</scope><name>resize</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_cache_partition_1a33e2abe1086bf98da9481f164e432d1e" prot="public" virt="pure-virtual"><scope>themis::cache::ICachePartition</scope><name>unassignTenant</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_cache_partition_1a1e7fb764af0ac5d8ff7dc2c9bed3c3d6" prot="public" virt="virtual"><scope>themis::cache::ICachePartition</scope><name>~ICachePartition</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1test_1_1wave__d" kind="namespace" language="C++">
+    <compoundname>themis::test::wave_d</compoundname>
+    <innerclass refid="structthemis_1_1test_1_1wave__d_1_1_stub_token_store" prot="public">themis::test::wave_d::StubTokenStore</innerclass>
+    <innerclass refid="structthemis_1_1test_1_1wave__d_1_1_stub_llama_registry" prot="public">themis::test::wave_d::StubLlamaRegistry</innerclass>
+    <innerclass refid="structthemis_1_1test_1_1wave__d_1_1_stub_llama_accel_guard" prot="public">themis::test::wave_d::StubLlamaAccelGuard</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1test_1_1wave__d_1a46134ef6c5dad0f580c254945b39d4fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::wave_d::TEST</definition>
+        <argsstring>(WaveD_LlamaCppStress, HighCardinalityTokenGeneration)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::wave_d::TEST</qualifiedname>
+        <param>
+          <type>WaveD_LlamaCppStress</type>
+        </param>
+        <param>
+          <type>HighCardinalityTokenGeneration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" line="113" column="1" bodyfile="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" bodystart="113" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1_1wave__d_1ae34fb72e9a5a778c6d31b70bf3b95dba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::wave_d::TEST</definition>
+        <argsstring>(WaveD_LlamaCppStress, ConcurrentModelLoadStress)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::wave_d::TEST</qualifiedname>
+        <param>
+          <type>WaveD_LlamaCppStress</type>
+        </param>
+        <param>
+          <type>ConcurrentModelLoadStress</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" line="145" column="1" bodyfile="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" bodystart="145" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1_1wave__d_1a455207b375e502e867df3a3c26fccaeb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::wave_d::TEST</definition>
+        <argsstring>(WaveD_LlamaCppStress, AccelerationFailClosedStress)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::wave_d::TEST</qualifiedname>
+        <param>
+          <type>WaveD_LlamaCppStress</type>
+        </param>
+        <param>
+          <type>AccelerationFailClosedStress</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" line="176" column="1" bodyfile="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" bodystart="176" bodyend="204"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" line="35" column="1"/>
+  </compounddef>
+</doxygen>

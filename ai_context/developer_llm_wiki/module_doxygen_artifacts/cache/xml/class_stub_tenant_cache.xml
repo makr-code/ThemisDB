@@ -1,0 +1,305 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_tenant_cache" kind="class" language="C++" prot="public">
+    <compoundname>StubTenantCache</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_tenant_cache_1a0e2f32e83c73258b45a3a9fab6f03cb2" prot="private" static="no" mutable="no">
+        <type>const std::size_t</type>
+        <definition>const std::size_t StubTenantCache::capacity_</definition>
+        <argsstring></argsstring>
+        <name>capacity_</name>
+        <qualifiedname>StubTenantCache::capacity_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_highcardinality_stress.cpp" line="117" column="23" bodyfile="tests/cache/test_cache_highcardinality_stress.cpp" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_tenant_cache_1af53197eff8d73bd40084d1117afa442d" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; StubTenantCache::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>StubTenantCache::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_highcardinality_stress.cpp" line="118" column="24" bodyfile="tests/cache/test_cache_highcardinality_stress.cpp" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_tenant_cache_1aa6d259e3694b240d3b75c243f1bd52f4" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, uint64_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, uint64_t&gt; StubTenantCache::seq_</definition>
+        <argsstring></argsstring>
+        <name>seq_</name>
+        <qualifiedname>StubTenantCache::seq_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_highcardinality_stress.cpp" line="119" column="27" bodyfile="tests/cache/test_cache_highcardinality_stress.cpp" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_tenant_cache_1aeee5a40ea6801fb92e03b555cfff0a8b" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t StubTenantCache::seq_counter_</definition>
+        <argsstring></argsstring>
+        <name>seq_counter_</name>
+        <qualifiedname>StubTenantCache::seq_counter_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_highcardinality_stress.cpp" line="120" column="14" bodyfile="tests/cache/test_cache_highcardinality_stress.cpp" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_tenant_cache_1ad43209ec1ec96e8c3463fc7804ff0e71" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex StubTenantCache::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>StubTenantCache::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_highcardinality_stress.cpp" line="121" column="24" bodyfile="tests/cache/test_cache_highcardinality_stress.cpp" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_tenant_cache_1ab96ee78f1c8dc25bf4059d0e22b6a6bb" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubTenantCache::hit_count_</definition>
+        <argsstring></argsstring>
+        <name>hit_count_</name>
+        <qualifiedname>StubTenantCache::hit_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_highcardinality_stress.cpp" line="122" column="17" bodyfile="tests/cache/test_cache_highcardinality_stress.cpp" bodystart="122" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_tenant_cache_1a69e7edfdc94520114cc26d7b9acec35b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubTenantCache::miss_count_</definition>
+        <argsstring></argsstring>
+        <name>miss_count_</name>
+        <qualifiedname>StubTenantCache::miss_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_highcardinality_stress.cpp" line="123" column="17" bodyfile="tests/cache/test_cache_highcardinality_stress.cpp" bodystart="123" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_tenant_cache_1a39a033eb968aa33d8ce317156eb8c920" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubTenantCache::eviction_count_</definition>
+        <argsstring></argsstring>
+        <name>eviction_count_</name>
+        <qualifiedname>StubTenantCache::eviction_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_highcardinality_stress.cpp" line="124" column="17" bodyfile="tests/cache/test_cache_highcardinality_stress.cpp" bodystart="124" bodyend="124"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_tenant_cache_1ab730b5ee8b6befb9099575cd29bb48f7" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>StubTenantCache::StubTenantCache</definition>
+        <argsstring>(std::size_t capacity)</argsstring>
+        <name>StubTenantCache</name>
+        <qualifiedname>StubTenantCache::StubTenantCache</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>capacity</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_highcardinality_stress.cpp" line="59" column="14" bodyfile="tests/cache/test_cache_highcardinality_stress.cpp" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_tenant_cache_1a15785d26f7f27d1e93de7f4c21d08010" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubTenantCache::put</definition>
+        <argsstring>(const std::string &amp;tenant_id, const std::string &amp;key, const std::string &amp;value)</argsstring>
+        <name>put</name>
+        <qualifiedname>StubTenantCache::put</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Put a tenant-namespaced entry; evicts global LRU entry when full. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_highcardinality_stress.cpp" line="62" column="10" bodyfile="tests/cache/test_cache_highcardinality_stress.cpp" bodystart="62" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_tenant_cache_1a9b1fe60d925f0732f0633171c093d57b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubTenantCache::get</definition>
+        <argsstring>(const std::string &amp;tenant_id, const std::string &amp;key, std::string &amp;value_out)</argsstring>
+        <name>get</name>
+        <qualifiedname>StubTenantCache::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>value_out</declname>
+        </param>
+        <briefdescription>
+<para>Get a tenant-namespaced entry; returns true on hit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_highcardinality_stress.cpp" line="84" column="10" bodyfile="tests/cache/test_cache_highcardinality_stress.cpp" bodystart="84" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_tenant_cache_1af71131a4049e700c877a45184ccaef3b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubTenantCache::crossTenantAccessible</definition>
+        <argsstring>(const std::string &amp;tenant_a, const std::string &amp;key, const std::string &amp;tenant_b)</argsstring>
+        <name>crossTenantAccessible</name>
+        <qualifiedname>StubTenantCache::crossTenantAccessible</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_a</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_b</declname>
+        </param>
+        <briefdescription>
+<para>Return true if a key from tenant_b is reachable via tenant_a&apos;s namespace. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_highcardinality_stress.cpp" line="99" column="10" bodyfile="tests/cache/test_cache_highcardinality_stress.cpp" bodystart="99" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_tenant_cache_1a158df00c9f874232dd871b1e10cdeacc" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubTenantCache::hitCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>hitCount</name>
+        <qualifiedname>StubTenantCache::hitCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_highcardinality_stress.cpp" line="107" column="14" bodyfile="tests/cache/test_cache_highcardinality_stress.cpp" bodystart="107" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_tenant_cache_1a670366712bdc459e08a1fc9c8e313354" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubTenantCache::missCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>missCount</name>
+        <qualifiedname>StubTenantCache::missCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_highcardinality_stress.cpp" line="108" column="14" bodyfile="tests/cache/test_cache_highcardinality_stress.cpp" bodystart="108" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_tenant_cache_1a77b78106711ad896d401a2d9092224ca" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubTenantCache::evictionCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>evictionCount</name>
+        <qualifiedname>StubTenantCache::evictionCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_highcardinality_stress.cpp" line="109" column="14" bodyfile="tests/cache/test_cache_highcardinality_stress.cpp" bodystart="109" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_tenant_cache_1a797ba51fcf2a37a0d89e4642f3125caa" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t StubTenantCache::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>StubTenantCache::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_highcardinality_stress.cpp" line="111" column="17" bodyfile="tests/cache/test_cache_highcardinality_stress.cpp" bodystart="111" bodyend="114"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread-safe bounded LRU cache stub with per-tenant namespace isolation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/cache/test_cache_highcardinality_stress.cpp" line="57" column="1" bodyfile="tests/cache/test_cache_highcardinality_stress.cpp" bodystart="57" bodyend="125"/>
+    <listofallmembers>
+      <member refid="class_stub_tenant_cache_1a0e2f32e83c73258b45a3a9fab6f03cb2" prot="private" virt="non-virtual"><scope>StubTenantCache</scope><name>capacity_</name></member>
+      <member refid="class_stub_tenant_cache_1af71131a4049e700c877a45184ccaef3b" prot="public" virt="non-virtual"><scope>StubTenantCache</scope><name>crossTenantAccessible</name></member>
+      <member refid="class_stub_tenant_cache_1a39a033eb968aa33d8ce317156eb8c920" prot="private" virt="non-virtual"><scope>StubTenantCache</scope><name>eviction_count_</name></member>
+      <member refid="class_stub_tenant_cache_1a77b78106711ad896d401a2d9092224ca" prot="public" virt="non-virtual"><scope>StubTenantCache</scope><name>evictionCount</name></member>
+      <member refid="class_stub_tenant_cache_1a9b1fe60d925f0732f0633171c093d57b" prot="public" virt="non-virtual"><scope>StubTenantCache</scope><name>get</name></member>
+      <member refid="class_stub_tenant_cache_1ab96ee78f1c8dc25bf4059d0e22b6a6bb" prot="private" virt="non-virtual"><scope>StubTenantCache</scope><name>hit_count_</name></member>
+      <member refid="class_stub_tenant_cache_1a158df00c9f874232dd871b1e10cdeacc" prot="public" virt="non-virtual"><scope>StubTenantCache</scope><name>hitCount</name></member>
+      <member refid="class_stub_tenant_cache_1a69e7edfdc94520114cc26d7b9acec35b" prot="private" virt="non-virtual"><scope>StubTenantCache</scope><name>miss_count_</name></member>
+      <member refid="class_stub_tenant_cache_1a670366712bdc459e08a1fc9c8e313354" prot="public" virt="non-virtual"><scope>StubTenantCache</scope><name>missCount</name></member>
+      <member refid="class_stub_tenant_cache_1ad43209ec1ec96e8c3463fc7804ff0e71" prot="private" virt="non-virtual"><scope>StubTenantCache</scope><name>mu_</name></member>
+      <member refid="class_stub_tenant_cache_1a15785d26f7f27d1e93de7f4c21d08010" prot="public" virt="non-virtual"><scope>StubTenantCache</scope><name>put</name></member>
+      <member refid="class_stub_tenant_cache_1aa6d259e3694b240d3b75c243f1bd52f4" prot="private" virt="non-virtual"><scope>StubTenantCache</scope><name>seq_</name></member>
+      <member refid="class_stub_tenant_cache_1aeee5a40ea6801fb92e03b555cfff0a8b" prot="private" virt="non-virtual"><scope>StubTenantCache</scope><name>seq_counter_</name></member>
+      <member refid="class_stub_tenant_cache_1a797ba51fcf2a37a0d89e4642f3125caa" prot="public" virt="non-virtual"><scope>StubTenantCache</scope><name>size</name></member>
+      <member refid="class_stub_tenant_cache_1af53197eff8d73bd40084d1117afa442d" prot="private" virt="non-virtual"><scope>StubTenantCache</scope><name>store_</name></member>
+      <member refid="class_stub_tenant_cache_1ab730b5ee8b6befb9099575cd29bb48f7" prot="public" virt="non-virtual"><scope>StubTenantCache</scope><name>StubTenantCache</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

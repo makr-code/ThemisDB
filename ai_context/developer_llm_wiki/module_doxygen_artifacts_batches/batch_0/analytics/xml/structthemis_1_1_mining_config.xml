@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_mining_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::MiningConfig</compoundname>
+    <includes refid="process__mining_8h" local="no">process_mining.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_mining_config_1ae4a40430e46fde4be2ebb8a6e69de6ae" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1ab50865d75f7f0f28997730e174ad8d91" kindref="member">MiningAlgorithm</ref></type>
+        <definition>MiningAlgorithm themis::MiningConfig::algorithm</definition>
+        <argsstring></argsstring>
+        <name>algorithm</name>
+        <qualifiedname>themis::MiningConfig::algorithm</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1ab50865d75f7f0f28997730e174ad8d91a589ab27e5d5232a3590c042c0dbe7818" kindref="member">MiningAlgorithm::HEURISTIC</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="175" column="21" bodyfile="include/analytics/process_mining.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_mining_config_1ad199e923b552e011363674b5b6e336df" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::MiningConfig::dependency_threshold</definition>
+        <argsstring></argsstring>
+        <name>dependency_threshold</name>
+        <qualifiedname>themis::MiningConfig::dependency_threshold</qualifiedname>
+        <initializer>= 0.9</initializer>
+        <briefdescription>
+<para>Min. Abhängigkeit für Kante. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="178" column="12" bodyfile="include/analytics/process_mining.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_mining_config_1a136900e8fadd769725616359fcc32930" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::MiningConfig::positive_observations</definition>
+        <argsstring></argsstring>
+        <name>positive_observations</name>
+        <qualifiedname>themis::MiningConfig::positive_observations</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Min. Häufigkeit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="179" column="12" bodyfile="include/analytics/process_mining.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_mining_config_1a2d58843920fcd3b158013b596054c7cd" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::MiningConfig::relative_to_best</definition>
+        <argsstring></argsstring>
+        <name>relative_to_best</name>
+        <qualifiedname>themis::MiningConfig::relative_to_best</qualifiedname>
+        <initializer>= 0.05</initializer>
+        <briefdescription>
+<para>Relative Threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="180" column="12" bodyfile="include/analytics/process_mining.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_mining_config_1adc64da49889b1813f1ff9477614ec117" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::MiningConfig::noise_threshold</definition>
+        <argsstring></argsstring>
+        <name>noise_threshold</name>
+        <qualifiedname>themis::MiningConfig::noise_threshold</qualifiedname>
+        <initializer>= 0.2</initializer>
+        <briefdescription>
+<para>Erlaubtes Rauschen. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="183" column="12" bodyfile="include/analytics/process_mining.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_mining_config_1a6814f3428b9df53330015d02d101b777" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::MiningConfig::detect_loops</definition>
+        <argsstring></argsstring>
+        <name>detect_loops</name>
+        <qualifiedname>themis::MiningConfig::detect_loops</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="186" column="10" bodyfile="include/analytics/process_mining.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_mining_config_1a0b92a3b917a797d6aca0c28090699888" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::MiningConfig::detect_parallelism</definition>
+        <argsstring></argsstring>
+        <name>detect_parallelism</name>
+        <qualifiedname>themis::MiningConfig::detect_parallelism</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="187" column="10" bodyfile="include/analytics/process_mining.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_mining_config_1a11981f1e32481ee95776a455e92536d7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::MiningConfig::max_activities</definition>
+        <argsstring></argsstring>
+        <name>max_activities</name>
+        <qualifiedname>themis::MiningConfig::max_activities</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Limit für Komplexität. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="188" column="9" bodyfile="include/analytics/process_mining.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/process_mining.h" line="174" column="1" bodyfile="include/analytics/process_mining.h" bodystart="174" bodyend="189"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_mining_config_1ae4a40430e46fde4be2ebb8a6e69de6ae" prot="public" virt="non-virtual"><scope>themis::MiningConfig</scope><name>algorithm</name></member>
+      <member refid="structthemis_1_1_mining_config_1ad199e923b552e011363674b5b6e336df" prot="public" virt="non-virtual"><scope>themis::MiningConfig</scope><name>dependency_threshold</name></member>
+      <member refid="structthemis_1_1_mining_config_1a6814f3428b9df53330015d02d101b777" prot="public" virt="non-virtual"><scope>themis::MiningConfig</scope><name>detect_loops</name></member>
+      <member refid="structthemis_1_1_mining_config_1a0b92a3b917a797d6aca0c28090699888" prot="public" virt="non-virtual"><scope>themis::MiningConfig</scope><name>detect_parallelism</name></member>
+      <member refid="structthemis_1_1_mining_config_1a11981f1e32481ee95776a455e92536d7" prot="public" virt="non-virtual"><scope>themis::MiningConfig</scope><name>max_activities</name></member>
+      <member refid="structthemis_1_1_mining_config_1adc64da49889b1813f1ff9477614ec117" prot="public" virt="non-virtual"><scope>themis::MiningConfig</scope><name>noise_threshold</name></member>
+      <member refid="structthemis_1_1_mining_config_1a136900e8fadd769725616359fcc32930" prot="public" virt="non-virtual"><scope>themis::MiningConfig</scope><name>positive_observations</name></member>
+      <member refid="structthemis_1_1_mining_config_1a2d58843920fcd3b158013b596054c7cd" prot="public" virt="non-virtual"><scope>themis::MiningConfig</scope><name>relative_to_best</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

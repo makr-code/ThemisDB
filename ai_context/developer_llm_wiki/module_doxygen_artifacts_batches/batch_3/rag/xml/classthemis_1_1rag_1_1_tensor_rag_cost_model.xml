@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_tensor_rag_cost_model" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::TensorRagCostModel</compoundname>
+    <includes refid="tensor__rag__cost__model_8h" local="no">tensor_rag_cost_model.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_tensor_rag_cost_model_1ac22055565d31ecacffe3ad7c71cb8f91" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::rag::TensorRagCostModel::embed_coeff_</definition>
+        <argsstring></argsstring>
+        <name>embed_coeff_</name>
+        <qualifiedname>themis::rag::TensorRagCostModel::embed_coeff_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_cost_model.h" line="134" column="11" bodyfile="include/rag/tensor_rag_cost_model.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_tensor_rag_cost_model_1abc51c639a73d42859b257c4c752dc84f" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::rag::TensorRagCostModel::retrieve_coeff_</definition>
+        <argsstring></argsstring>
+        <name>retrieve_coeff_</name>
+        <qualifiedname>themis::rag::TensorRagCostModel::retrieve_coeff_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_cost_model.h" line="135" column="11" bodyfile="include/rag/tensor_rag_cost_model.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_tensor_rag_cost_model_1aa8dc17ac6da136f9eccbb10aee1dad46" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::rag::TensorRagCostModel::rerank_coeff_</definition>
+        <argsstring></argsstring>
+        <name>rerank_coeff_</name>
+        <qualifiedname>themis::rag::TensorRagCostModel::rerank_coeff_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_cost_model.h" line="136" column="11" bodyfile="include/rag/tensor_rag_cost_model.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_tensor_rag_cost_model_1a41a5e7ccdb5c507c6565d9215d4530ff" prot="public" static="no" const="no" explicit="yes" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::TensorRagCostModel::TensorRagCostModel</definition>
+        <argsstring>(float embed_coeff=0.02f, float retrieve_coeff=0.5f, float rerank_coeff=1.2f) noexcept</argsstring>
+        <name>TensorRagCostModel</name>
+        <qualifiedname>themis::rag::TensorRagCostModel::TensorRagCostModel</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>embed_coeff</declname>
+          <defval>0.02f</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>retrieve_coeff</declname>
+          <defval>0.5f</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>rerank_coeff</declname>
+          <defval>1.2f</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a cost model with tuneable per-phase coefficients. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>embed_coeff</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ms per query character for embedding (default 0.02). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>retrieve_coeff</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ms per chunk for ANN retrieval (default 0.5). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rerank_coeff</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ms per chunk for cross-encoder rerank (default 1.2). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_cost_model.h" line="119" column="14" bodyfile="src/rag/tensor_rag_cost_model.cpp" bodystart="16" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_tensor_rag_cost_model_1a4b45753bd46076c70a8b54984dc0035b" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_cost_estimate" kindref="compound">CostEstimate</ref></type>
+        <definition>CostEstimate themis::rag::TensorRagCostModel::estimate</definition>
+        <argsstring>(const std::string &amp;query, const TensorRagConfig &amp;config) const noexcept</argsstring>
+        <name>estimate</name>
+        <qualifiedname>themis::rag::TensorRagCostModel::estimate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_tensor_rag_config" kindref="compound">TensorRagConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Estimates the 5-phase cost of processing <computeroutput>query</computeroutput> with <computeroutput>config</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The raw query string (UTF-8). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Per-query pipeline configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1rag_1_1_cost_estimate" kindref="compound">CostEstimate</ref> with per-phase breakdown and aggregate total. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_cost_model.h" line="130" column="18" bodyfile="src/rag/tensor_rag_cost_model.cpp" bodystart="24" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Linear 5-phase cost model for Tensor-RAG query latency estimation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All phase coefficients are tunable at construction time. The defaults reflect empirical measurements on the ThemisDB reference hardware profile.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">themis::rag::TensorRagCostModel<sp/>model;</highlight></codeline>
+<codeline><highlight class="normal">themis::rag::TensorRagConfig<sp/><sp/><sp/><sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.<ref refid="structthemis_1_1rag_1_1_tensor_rag_config_1a55ced320af1734b3d81b0f9f16038908" kindref="member">num_chunks</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>20;</highlight></codeline>
+<codeline><highlight class="normal">cfg.<ref refid="structthemis_1_1rag_1_1_tensor_rag_config_1a142dad17b8dfe7c3b87611af058b6ddd" kindref="member">reranker_enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">cfg.<ref refid="structthemis_1_1rag_1_1_tensor_rag_config_1a48f68806129479f17ee06e5abb532f3a" kindref="member">cache_hit_rate</ref><sp/><sp/><sp/>=<sp/>0.6f;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>est<sp/>=<sp/>model.<ref refid="classthemis_1_1rag_1_1_tensor_rag_cost_model_1a4b45753bd46076c70a8b54984dc0035b" kindref="member">estimate</ref>(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>*<sp/>FROM<sp/>knowledge<sp/>WHERE<sp/>topic<sp/>=<sp/>&apos;RAG&apos;&quot;</highlight><highlight class="normal">,<sp/>cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>est.total_ms<sp/>≈<sp/>embed<sp/>+<sp/>retrieve<sp/>+<sp/>rerank<sp/>+<sp/>assemble<sp/>+<sp/>generate</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="note"><para>WorkloadType::TENSOR_RAG should be registered in TensorWorkloadClassifier (forward-declared) once that classifier is introduced in the codebase. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/rag/tensor_rag_cost_model.h" line="110" column="1" bodyfile="include/rag/tensor_rag_cost_model.h" bodystart="110" bodyend="137"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_tensor_rag_cost_model_1ac22055565d31ecacffe3ad7c71cb8f91" prot="private" virt="non-virtual"><scope>themis::rag::TensorRagCostModel</scope><name>embed_coeff_</name></member>
+      <member refid="classthemis_1_1rag_1_1_tensor_rag_cost_model_1a4b45753bd46076c70a8b54984dc0035b" prot="public" virt="non-virtual"><scope>themis::rag::TensorRagCostModel</scope><name>estimate</name></member>
+      <member refid="classthemis_1_1rag_1_1_tensor_rag_cost_model_1aa8dc17ac6da136f9eccbb10aee1dad46" prot="private" virt="non-virtual"><scope>themis::rag::TensorRagCostModel</scope><name>rerank_coeff_</name></member>
+      <member refid="classthemis_1_1rag_1_1_tensor_rag_cost_model_1abc51c639a73d42859b257c4c752dc84f" prot="private" virt="non-virtual"><scope>themis::rag::TensorRagCostModel</scope><name>retrieve_coeff_</name></member>
+      <member refid="classthemis_1_1rag_1_1_tensor_rag_cost_model_1a41a5e7ccdb5c507c6565d9215d4530ff" prot="public" virt="non-virtual"><scope>themis::rag::TensorRagCostModel</scope><name>TensorRagCostModel</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

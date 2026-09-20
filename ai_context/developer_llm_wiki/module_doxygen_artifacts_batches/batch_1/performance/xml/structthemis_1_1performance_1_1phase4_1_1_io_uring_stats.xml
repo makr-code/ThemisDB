@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1phase4_1_1_io_uring_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::phase4::IoUringStats</compoundname>
+    <includes refid="io__uring__zero__copy_8h" local="no">io_uring_zero_copy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_io_uring_stats_1a2517811add6c7397b7c45ec02ba7214a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::phase4::IoUringStats::sq_entries_submitted</definition>
+        <argsstring></argsstring>
+        <name>sq_entries_submitted</name>
+        <qualifiedname>themis::performance::phase4::IoUringStats::sq_entries_submitted</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Submission queue entries enqueued. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/io_uring_zero_copy.h" line="55" column="14" bodyfile="include/performance/phase4/io_uring_zero_copy.h" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_io_uring_stats_1a81bb7a674627bd22fd133431181f5961" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::phase4::IoUringStats::cq_entries_completed</definition>
+        <argsstring></argsstring>
+        <name>cq_entries_completed</name>
+        <qualifiedname>themis::performance::phase4::IoUringStats::cq_entries_completed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Completion queue entries consumed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/io_uring_zero_copy.h" line="56" column="14" bodyfile="include/performance/phase4/io_uring_zero_copy.h" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_io_uring_stats_1acd06aff5ceb55593ed2c3dd490f40674" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::phase4::IoUringStats::bytes_sent</definition>
+        <argsstring></argsstring>
+        <name>bytes_sent</name>
+        <qualifiedname>themis::performance::phase4::IoUringStats::bytes_sent</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total bytes sent (zero-copy path). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/io_uring_zero_copy.h" line="57" column="14" bodyfile="include/performance/phase4/io_uring_zero_copy.h" bodystart="57" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_io_uring_stats_1a9310d91f4a7d61eaa713f4eac7322078" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::phase4::IoUringStats::bytes_received</definition>
+        <argsstring></argsstring>
+        <name>bytes_received</name>
+        <qualifiedname>themis::performance::phase4::IoUringStats::bytes_received</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total bytes received. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/io_uring_zero_copy.h" line="58" column="14" bodyfile="include/performance/phase4/io_uring_zero_copy.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_io_uring_stats_1ad335fed603f5b3cf751616a70e476f42" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::phase4::IoUringStats::registered_buffers</definition>
+        <argsstring></argsstring>
+        <name>registered_buffers</name>
+        <qualifiedname>themis::performance::phase4::IoUringStats::registered_buffers</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of currently registered iovec buffers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/io_uring_zero_copy.h" line="59" column="14" bodyfile="include/performance/phase4/io_uring_zero_copy.h" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_io_uring_stats_1a4e530ff3ff4bfa73d369a4b0e3d42697" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::phase4::IoUringStats::fallback_sends</definition>
+        <argsstring></argsstring>
+        <name>fallback_sends</name>
+        <qualifiedname>themis::performance::phase4::IoUringStats::fallback_sends</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Sends that fell back to standard write(). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/io_uring_zero_copy.h" line="60" column="14" bodyfile="include/performance/phase4/io_uring_zero_copy.h" bodystart="60" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_io_uring_stats_1afcd133d93a897f9e5a22079f8a036c2e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::phase4::IoUringStats::fallback_recvs</definition>
+        <argsstring></argsstring>
+        <name>fallback_recvs</name>
+        <qualifiedname>themis::performance::phase4::IoUringStats::fallback_recvs</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Receives that fell back to standard read(). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/io_uring_zero_copy.h" line="61" column="14" bodyfile="include/performance/phase4/io_uring_zero_copy.h" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_io_uring_stats_1a3a6116a3214fcb3fccdac57368f330f1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::phase4::IoUringStats::io_uring_available</definition>
+        <argsstring></argsstring>
+        <name>io_uring_available</name>
+        <qualifiedname>themis::performance::phase4::IoUringStats::io_uring_available</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>false if io_uring_setup(2) is unavailable </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/io_uring_zero_copy.h" line="62" column="14" bodyfile="include/performance/phase4/io_uring_zero_copy.h" bodystart="62" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Operational statistics for the io_uring zero-copy I/O path. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/phase4/io_uring_zero_copy.h" line="54" column="1" bodyfile="include/performance/phase4/io_uring_zero_copy.h" bodystart="54" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_stats_1a9310d91f4a7d61eaa713f4eac7322078" prot="public" virt="non-virtual"><scope>themis::performance::phase4::IoUringStats</scope><name>bytes_received</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_stats_1acd06aff5ceb55593ed2c3dd490f40674" prot="public" virt="non-virtual"><scope>themis::performance::phase4::IoUringStats</scope><name>bytes_sent</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_stats_1a81bb7a674627bd22fd133431181f5961" prot="public" virt="non-virtual"><scope>themis::performance::phase4::IoUringStats</scope><name>cq_entries_completed</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_stats_1afcd133d93a897f9e5a22079f8a036c2e" prot="public" virt="non-virtual"><scope>themis::performance::phase4::IoUringStats</scope><name>fallback_recvs</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_stats_1a4e530ff3ff4bfa73d369a4b0e3d42697" prot="public" virt="non-virtual"><scope>themis::performance::phase4::IoUringStats</scope><name>fallback_sends</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_stats_1a3a6116a3214fcb3fccdac57368f330f1" prot="public" virt="non-virtual"><scope>themis::performance::phase4::IoUringStats</scope><name>io_uring_available</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_stats_1ad335fed603f5b3cf751616a70e476f42" prot="public" virt="non-virtual"><scope>themis::performance::phase4::IoUringStats</scope><name>registered_buffers</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_io_uring_stats_1a2517811add6c7397b7c45ec02ba7214a" prot="public" virt="non-virtual"><scope>themis::performance::phase4::IoUringStats</scope><name>sq_entries_submitted</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

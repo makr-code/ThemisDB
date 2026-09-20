@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb_1_1streaming_1_1_0d341010001014312171362014302356321017303103036272" kind="namespace" language="C++">
+    <compoundname>themisdb::streaming::@341010001014312171362014302356321017303103036272</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/sharding/stream_protocol.cpp" line="49" column="1"/>
+  </compounddef>
+</doxygen>

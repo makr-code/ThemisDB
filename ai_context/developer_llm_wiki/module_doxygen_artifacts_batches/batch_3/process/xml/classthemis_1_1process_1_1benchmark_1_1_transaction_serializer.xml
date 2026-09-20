@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1benchmark_1_1_transaction_serializer" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::benchmark::TransactionSerializer</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1process_1_1benchmark_1_1_transaction_serializer_1a0c6bf313d816eaabe7d112c17560513c" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1process_1_1benchmark_1_1_transaction" kindref="compound">Transaction</ref> &gt;</type>
+        <definition>std::vector&lt;Transaction&gt; themis::process::benchmark::TransactionSerializer::committed_txns_</definition>
+        <argsstring></argsstring>
+        <name>committed_txns_</name>
+        <qualifiedname>themis::process::benchmark::TransactionSerializer::committed_txns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="178" column="17" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="178" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_transaction_serializer_1a0c82e9afef72a23414b8b7a037976dcf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::benchmark::TransactionSerializer::TransactionSerializer</definition>
+        <argsstring>()=default</argsstring>
+        <name>TransactionSerializer</name>
+        <qualifiedname>themis::process::benchmark::TransactionSerializer::TransactionSerializer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="181" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_transaction_serializer_1aaa0aa1cac11c91c827170b3c04e95d98" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::benchmark::TransactionSerializer::commitTransaction</definition>
+        <argsstring>(const Transaction &amp;txn)</argsstring>
+        <name>commitTransaction</name>
+        <qualifiedname>themis::process::benchmark::TransactionSerializer::commitTransaction</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1benchmark_1_1_transaction" kindref="compound">Transaction</ref> &amp;</type>
+          <declname>txn</declname>
+        </param>
+        <briefdescription>
+<para>Serialize and commit a transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="186" column="10" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="186" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_transaction_serializer_1aa28860953949904969a9e779f01e8c39" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::process::benchmark::TransactionSerializer::committedCount</definition>
+        <argsstring>() const</argsstring>
+        <name>committedCount</name>
+        <qualifiedname>themis::process::benchmark::TransactionSerializer::committedCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="211" column="12" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="211" bodyend="211"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="structthemis_1_1process_1_1benchmark_1_1_transaction" kindref="compound">Transaction</ref> serializer for deterministic ordering. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="176" column="1" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="176" bodyend="212"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_transaction_serializer_1a0c6bf313d816eaabe7d112c17560513c" prot="private" virt="non-virtual"><scope>themis::process::benchmark::TransactionSerializer</scope><name>committed_txns_</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_transaction_serializer_1aa28860953949904969a9e779f01e8c39" prot="public" virt="non-virtual"><scope>themis::process::benchmark::TransactionSerializer</scope><name>committedCount</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_transaction_serializer_1aaa0aa1cac11c91c827170b3c04e95d98" prot="public" virt="non-virtual"><scope>themis::process::benchmark::TransactionSerializer</scope><name>commitTransaction</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_transaction_serializer_1a0c82e9afef72a23414b8b7a037976dcf" prot="public" virt="non-virtual"><scope>themis::process::benchmark::TransactionSerializer</scope><name>TransactionSerializer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

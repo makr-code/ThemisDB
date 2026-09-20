@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_dce7065c2927bf3886d6f7965b6b860c" kind="dir">
+    <compoundname>src/evaluation/include</compoundname>
+    <innerfile refid="ablation__framework_8h">ablation_framework.h</innerfile>
+    <innerfile refid="approximation__rules_8h">approximation_rules.h</innerfile>
+    <innerfile refid="artifact__lifecycle_8h">artifact_lifecycle.h</innerfile>
+    <innerfile refid="benchmark__matrix_8h">benchmark_matrix.h</innerfile>
+    <innerfile refid="hardware__profile_8h">hardware_profile.h</innerfile>
+    <innerfile refid="query__planner_8h">query_planner.h</innerfile>
+    <innerfile refid="retrieval__metrics_8h">retrieval_metrics.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/evaluation/include/"/>
+  </compounddef>
+</doxygen>

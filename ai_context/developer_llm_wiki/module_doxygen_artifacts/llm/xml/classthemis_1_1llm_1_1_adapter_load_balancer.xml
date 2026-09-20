@@ -1,0 +1,1697 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_adapter_load_balancer" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::AdapterLoadBalancer</compoundname>
+    <includes refid="adapter__load__balancer_8h" local="no">adapter_load_balancer.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_adapter_placement" prot="public">themis::llm::AdapterLoadBalancer::AdapterPlacement</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats" prot="public">themis::llm::AdapterLoadBalancer::LoadBalanceStats</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_config" prot="public">themis::llm::AdapterLoadBalancer::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_adapter_load_balancer_1a3a4a7cc26340a09dec4ebb3d3c0d35f0" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager" kindref="compound">GPUMemoryManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;GPUMemoryManager&gt; themis::llm::AdapterLoadBalancer::memory_manager_</definition>
+        <argsstring></argsstring>
+        <name>memory_manager_</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::memory_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="231" column="21" bodyfile="include/llm/adapter_load_balancer.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_adapter_load_balancer_1a93b63ab2c46cd8874e8e0c20c20fa166" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::llm::AdapterLoadBalancer::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="232" column="12" bodyfile="include/llm/adapter_load_balancer.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_adapter_load_balancer_1a2d9fdf48e3025694cd0f50a3a6c3d1e1" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::AdapterLoadBalancer::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="234" column="24" bodyfile="include/llm/adapter_load_balancer.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_adapter_load_balancer_1a3f9a12ad3ce6bb8cf69b46a820fb266a" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_adapter_placement" kindref="compound">AdapterPlacement</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, AdapterPlacement&gt; themis::llm::AdapterLoadBalancer::placements_</definition>
+        <argsstring></argsstring>
+        <name>placements_</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::placements_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="235" column="24" bodyfile="include/llm/adapter_load_balancer.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_adapter_load_balancer_1a1078ce96b18f271e537db1b84c494fa6" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt;int, std::vector&lt;std::string&gt; &gt; themis::llm::AdapterLoadBalancer::gpu_to_adapters_</definition>
+        <argsstring></argsstring>
+        <name>gpu_to_adapters_</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::gpu_to_adapters_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="236" column="24" bodyfile="include/llm/adapter_load_balancer.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_adapter_load_balancer_1ae172280c19faf55573cbe45e2f551d14" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::AdapterLoadBalancer::total_migrations_</definition>
+        <argsstring></argsstring>
+        <name>total_migrations_</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::total_migrations_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="239" column="9" bodyfile="include/llm/adapter_load_balancer.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_adapter_load_balancer_1a1b4f8fed1d7151ab6c55f87ed6e0d6a5" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::AdapterLoadBalancer::total_evictions_</definition>
+        <argsstring></argsstring>
+        <name>total_evictions_</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::total_evictions_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="240" column="9" bodyfile="include/llm/adapter_load_balancer.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_adapter_load_balancer_1a8584c5497a99220ce29dd8267fd021a3" prot="private" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::llm::AdapterLoadBalancer::last_rebalance_time_</definition>
+        <argsstring></argsstring>
+        <name>last_rebalance_time_</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::last_rebalance_time_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="241" column="13" bodyfile="include/llm/adapter_load_balancer.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_adapter_load_balancer_1a1e39d03cc7670cb4c7bd77f8f0c2c812" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::llm::AdapterLoadBalancer::hot_loading_adapters_</definition>
+        <argsstring></argsstring>
+        <name>hot_loading_adapters_</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::hot_loading_adapters_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="244" column="24" bodyfile="include/llm/adapter_load_balancer.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_adapter_load_balancer_1a7a27bf45226f3035730793cfb56d0726" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_decision_record_yaml_processor" kindref="compound">DecisionRecordYamlProcessor</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;DecisionRecordYamlProcessor&gt; themis::llm::AdapterLoadBalancer::dr_processor_</definition>
+        <argsstring></argsstring>
+        <name>dr_processor_</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::dr_processor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="247" column="21" bodyfile="include/llm/adapter_load_balancer.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_load_balancer_1a5605e7e3bbb10c48cee7c6a52cbe40e3" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::AdapterLoadBalancer::AdapterLoadBalancer</definition>
+        <argsstring>(std::shared_ptr&lt; GPUMemoryManager &gt; memory_manager, const Config &amp;config)</argsstring>
+        <name>AdapterLoadBalancer</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::AdapterLoadBalancer</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager" kindref="compound">GPUMemoryManager</ref> &gt;</type>
+          <declname>memory_manager</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Adapter Load Balancer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">memory_manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="72" column="14" bodyfile="src/llm/adapter_load_balancer.cpp" bodystart="21" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_load_balancer_1acb4eee96ebfea2bb14c8a82ed6ea3e06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::AdapterLoadBalancer::~AdapterLoadBalancer</definition>
+        <argsstring>()</argsstring>
+        <name>~AdapterLoadBalancer</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::~AdapterLoadBalancer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="75" column="5" bodyfile="src/llm/adapter_load_balancer.cpp" bodystart="34" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_load_balancer_1a9361ef43641043f281bd04cde2fa18e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::AdapterLoadBalancer::selectGPUForAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id, size_t vram_bytes, int priority)</argsstring>
+        <name>selectGPUForAdapter</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::selectGPUForAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>vram_bytes</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+<para>Select GPUFor Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vram_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">priority</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vram_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">priority</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), getHealthyGPUs(), empty(), spdlog::error(), getFreeGPUVRAM(), size(), spdlog::warn(), <ref refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a293d72fcb3704e22636b19ae5651f83c" kindref="member">evictLRUAdapters()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="85" column="9" bodyfile="src/llm/adapter_load_balancer.cpp" bodystart="48" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_load_balancer_1a95ccbe348b7ca42d486fe319c01f4ee7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::AdapterLoadBalancer::placeAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id, int gpu_device_id, size_t vram_bytes, int priority, bool pinned=false)</argsstring>
+        <name>placeAdapter</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::placeAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>gpu_device_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>vram_bytes</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>pinned</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Place Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">gpu_device_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the gpu device. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vram_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">priority</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pinned</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), spdlog::warn(), erase(), std::remove(), begin(), canPlaceOnGPU(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="86" column="10" bodyfile="src/llm/adapter_load_balancer.cpp" bodystart="114" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_load_balancer_1a668f3974cc0dd32c5cbc3ed610cf268a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::AdapterLoadBalancer::removeAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id)</argsstring>
+        <name>removeAdapter</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::removeAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), erase(), std::remove(), begin(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="93" column="10" bodyfile="src/llm/adapter_load_balancer.cpp" bodystart="165" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_load_balancer_1a039c614f4b8868a4c12881777b79c278" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::AdapterLoadBalancer::getAdapterGPU</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>getAdapterGPU</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::getAdapterGPU</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Adapter GPU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="101" column="9" bodyfile="src/llm/adapter_load_balancer.cpp" bodystart="185" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_load_balancer_1ab062cb2c51efb3a76b4be1978cc539c4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::AdapterLoadBalancer::getGPUAdapters</definition>
+        <argsstring>(int gpu_device_id) const</argsstring>
+        <name>getGPUAdapters</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::getGPUAdapters</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>gpu_device_id</declname>
+        </param>
+        <briefdescription>
+<para>Get GPUAdapters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gpu_device_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the gpu device. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="107" column="17" bodyfile="src/llm/adapter_load_balancer.cpp" bodystart="201" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_load_balancer_1a44f8b09ef6a1b4d94c229277fc944429" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_adapter_placement" kindref="compound">AdapterPlacement</ref></type>
+        <definition>AdapterLoadBalancer::AdapterPlacement themis::llm::AdapterLoadBalancer::getAdapterPlacement</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>getAdapterPlacement</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::getAdapterPlacement</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Adapter Placement. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="113" column="22" bodyfile="src/llm/adapter_load_balancer.cpp" bodystart="217" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_load_balancer_1a001747343d36c097c5a88f6b737efabd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::AdapterLoadBalancer::isAdapterLoaded</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>isAdapterLoaded</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::isAdapterLoaded</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Is Adapter Loaded. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="119" column="10" bodyfile="src/llm/adapter_load_balancer.cpp" bodystart="235" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_load_balancer_1a268368d8d7252dddd8432a4a0e522b45" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::AdapterLoadBalancer::pinAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id)</argsstring>
+        <name>pinAdapter</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::pinAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Pin Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), spdlog::error(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="127" column="10" bodyfile="src/llm/adapter_load_balancer.cpp" bodystart="251" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_load_balancer_1a996d82d9fc1011d530df4a8d718c3447" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::AdapterLoadBalancer::unpinAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id)</argsstring>
+        <name>unpinAdapter</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::unpinAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Unpin Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="133" column="10" bodyfile="src/llm/adapter_load_balancer.cpp" bodystart="272" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_load_balancer_1a26d4a81bc583bd271dcb01629ae94ad0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::AdapterLoadBalancer::isAdapterPinned</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>isAdapterPinned</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::isAdapterPinned</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Is Adapter Pinned. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="139" column="10" bodyfile="src/llm/adapter_load_balancer.cpp" bodystart="286" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_load_balancer_1a6dea2985ba45341004899eac3a87a5ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::AdapterLoadBalancer::rebalance</definition>
+        <argsstring>()</argsstring>
+        <name>rebalance</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::rebalance</qualifiedname>
+        <briefdescription>
+<para>Rebalance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), shouldRebalance(), spdlog::info(), getHealthyGPUs(), size(), calculateGPULoad(), push_back(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="146" column="10" bodyfile="src/llm/adapter_load_balancer.cpp" bodystart="307" bodyend="406"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_load_balancer_1a6889e4e4dc5dba2aff67daebb1b3345a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::AdapterLoadBalancer::migrateAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id, int target_gpu_id)</argsstring>
+        <name>migrateAdapter</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::migrateAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>target_gpu_id</declname>
+        </param>
+        <briefdescription>
+<para>Migrate Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_gpu_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the target gpu. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_gpu_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the target gpu. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), spdlog::error(), spdlog::warn(), spdlog::info(), performMigration(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="153" column="10" bodyfile="src/llm/adapter_load_balancer.cpp" bodystart="415" bodyend="447"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_load_balancer_1a293d72fcb3704e22636b19ae5651f83c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::AdapterLoadBalancer::evictLRUAdapters</definition>
+        <argsstring>(int gpu_device_id, size_t required_bytes)</argsstring>
+        <name>evictLRUAdapters</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::evictLRUAdapters</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>gpu_device_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>required_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Evict LRUAdapters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gpu_device_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the gpu device. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">required_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gpu_device_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the gpu device. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">required_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), selectAdaptersForEviction(), find(), end(), performEviction(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="160" column="17" bodyfile="src/llm/adapter_load_balancer.cpp" bodystart="456" bodyend="483"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_load_balancer_1aa2fe0db2b0869b2852d400d025a65746" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::AdapterLoadBalancer::recordAccess</definition>
+        <argsstring>(const std::string &amp;adapter_id)</argsstring>
+        <name>recordAccess</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::recordAccess</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Access tracking (for LRU). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Access.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), getCurrentTimeMs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="166" column="10" bodyfile="src/llm/adapter_load_balancer.cpp" bodystart="490" bodyend="498"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_load_balancer_1af896d804dba0888290b275babbf0cfc9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_adapter_load_balancer_1_1_load_balance_stats" kindref="compound">LoadBalanceStats</ref></type>
+        <definition>AdapterLoadBalancer::LoadBalanceStats themis::llm::AdapterLoadBalancer::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::getStats</qualifiedname>
+        <briefdescription>
+<para>Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="173" column="22" bodyfile="src/llm/adapter_load_balancer.cpp" bodystart="500" bodyend="536"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_load_balancer_1a7a713861cb984e02d3433948fcacc20b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::AdapterLoadBalancer::getGPULoad</definition>
+        <argsstring>(int gpu_device_id) const</argsstring>
+        <name>getGPULoad</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::getGPULoad</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>gpu_device_id</declname>
+        </param>
+        <briefdescription>
+<para>Get GPULoad. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gpu_device_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the gpu device. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="179" column="11" bodyfile="src/llm/adapter_load_balancer.cpp" bodystart="538" bodyend="546"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_load_balancer_1a411abfdc38bfa3d5029f9f1f89e89ff2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::AdapterLoadBalancer::markGPUUnhealthy</definition>
+        <argsstring>(int gpu_device_id)</argsstring>
+        <name>markGPUUnhealthy</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::markGPUUnhealthy</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>gpu_device_id</declname>
+        </param>
+        <briefdescription>
+<para>Mark GPUUnhealthy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gpu_device_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the gpu device.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">gpu_device_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the gpu device.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="186" column="10" bodyfile="src/llm/adapter_load_balancer.cpp" bodystart="553" bodyend="559"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_load_balancer_1aa53140f40024e20aeba63aad93be8fd2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::AdapterLoadBalancer::markGPUHealthy</definition>
+        <argsstring>(int gpu_device_id)</argsstring>
+        <name>markGPUHealthy</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::markGPUHealthy</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>gpu_device_id</declname>
+        </param>
+        <briefdescription>
+<para>Mark GPUHealthy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gpu_device_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the gpu device.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">gpu_device_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the gpu device.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="191" column="10" bodyfile="src/llm/adapter_load_balancer.cpp" bodystart="566" bodyend="572"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_load_balancer_1a9477feba8a0fb6f42aa5f2422a96dc49" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::AdapterLoadBalancer::shouldMigrateFromGPU</definition>
+        <argsstring>(int gpu_device_id) const</argsstring>
+        <name>shouldMigrateFromGPU</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::shouldMigrateFromGPU</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>gpu_device_id</declname>
+        </param>
+        <briefdescription>
+<para>Should Migrate From GPU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gpu_device_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the gpu device. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="197" column="10" bodyfile="src/llm/adapter_load_balancer.cpp" bodystart="574" bodyend="583"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_load_balancer_1a880f038a0768efd0ce80f96f1391c60a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::AdapterLoadBalancer::setDecisionRecordProcessor</definition>
+        <argsstring>(std::shared_ptr&lt; DecisionRecordYamlProcessor &gt; processor)</argsstring>
+        <name>setDecisionRecordProcessor</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::setDecisionRecordProcessor</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_decision_record_yaml_processor" kindref="compound">DecisionRecordYamlProcessor</ref> &gt;</type>
+          <declname>processor</declname>
+        </param>
+        <briefdescription>
+<para>Set Decision Record Processor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">processor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="203" column="10" bodyfile="src/llm/adapter_load_balancer.cpp" bodystart="793" bodyend="803"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_load_balancer_1aa7c06c22e0573d48ec45f7f389bbd39b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::AdapterLoadBalancer::beginHotLoad</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::string &amp;fallback_id=&quot;&quot;)</argsstring>
+        <name>beginHotLoad</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::beginHotLoad</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fallback_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>============================================================================ Hot-load in-progress tracking ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fallback_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the fallback.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), spdlog::info(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="207" column="10" bodyfile="src/llm/adapter_load_balancer.cpp" bodystart="743" bodyend="749"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_load_balancer_1abe1a22d6ae91779ac4eaa96cbb933991" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::AdapterLoadBalancer::endHotLoad</definition>
+        <argsstring>(const std::string &amp;adapter_id)</argsstring>
+        <name>endHotLoad</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::endHotLoad</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>End Hot Load. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="214" column="10" bodyfile="src/llm/adapter_load_balancer.cpp" bodystart="756" bodyend="760"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_load_balancer_1ab2e9b14c08b5f659817e97199ba30af0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::AdapterLoadBalancer::isHotLoadInProgress</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>isHotLoadInProgress</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::isHotLoadInProgress</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Is Hot Load In Progress. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="221" column="10" bodyfile="src/llm/adapter_load_balancer.cpp" bodystart="762" bodyend="770"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_load_balancer_1ab7c4322f9808041a4010c4f24addfc4f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AdapterLoadBalancer::resolveAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>resolveAdapter</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::resolveAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Resolve Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="228" column="17" bodyfile="src/llm/adapter_load_balancer.cpp" bodystart="772" bodyend="787"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_load_balancer_1a7747b41ca232d302e307f6adce51b4c0" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::AdapterLoadBalancer::canPlaceOnGPU</definition>
+        <argsstring>(int gpu_device_id, size_t vram_bytes) const</argsstring>
+        <name>canPlaceOnGPU</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::canPlaceOnGPU</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>gpu_device_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>vram_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Can Place On GPU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gpu_device_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the gpu device. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vram_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="256" column="10" bodyfile="src/llm/adapter_load_balancer.cpp" bodystart="587" bodyend="590"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_load_balancer_1a661e5e2393d126abc3df1f0f45a146e8" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::AdapterLoadBalancer::selectAdaptersForEviction</definition>
+        <argsstring>(int gpu_device_id, size_t required_bytes) const</argsstring>
+        <name>selectAdaptersForEviction</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::selectAdaptersForEviction</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>gpu_device_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>required_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Select Adapters For Eviction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gpu_device_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the gpu device. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">required_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="263" column="17" bodyfile="src/llm/adapter_load_balancer.cpp" bodystart="592" bodyend="626"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_load_balancer_1a39973fb2cfa6cc0fac03f955783fb932" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::AdapterLoadBalancer::shouldRebalance</definition>
+        <argsstring>() const</argsstring>
+        <name>shouldRebalance</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::shouldRebalance</qualifiedname>
+        <briefdescription>
+<para>Should Rebalance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="269" column="10" bodyfile="src/llm/adapter_load_balancer.cpp" bodystart="628" bodyend="637"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_load_balancer_1ad4040c0afb4af3459fe39b552bd12011" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::AdapterLoadBalancer::calculateGPULoad</definition>
+        <argsstring>(int gpu_device_id) const</argsstring>
+        <name>calculateGPULoad</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::calculateGPULoad</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>gpu_device_id</declname>
+        </param>
+        <briefdescription>
+<para>Calculate GPULoad. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gpu_device_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the gpu device. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="275" column="11" bodyfile="src/llm/adapter_load_balancer.cpp" bodystart="639" bodyend="647"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_load_balancer_1a81cabc44f7da0e0f37b43f0ea6d64546" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::AdapterLoadBalancer::findLeastLoadedHealthyGPU</definition>
+        <argsstring>() const</argsstring>
+        <name>findLeastLoadedHealthyGPU</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::findLeastLoadedHealthyGPU</qualifiedname>
+        <briefdescription>
+<para>Find Least Loaded Healthy GPU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="280" column="9" bodyfile="src/llm/adapter_load_balancer.cpp" bodystart="649" bodyend="669"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_load_balancer_1a34bea599752b2b87ca0209e2498cd544" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::AdapterLoadBalancer::performMigration</definition>
+        <argsstring>(const std::string &amp;adapter_id, int source_gpu, int target_gpu)</argsstring>
+        <name>performMigration</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::performMigration</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>source_gpu</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>target_gpu</declname>
+        </param>
+        <briefdescription>
+<para>Perform Migration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">source_gpu</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_gpu</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">source_gpu</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_gpu</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(), end(), erase(), std::remove(), begin(), push_back(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="290" column="10" bodyfile="src/llm/adapter_load_balancer.cpp" bodystart="679" bodyend="704"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_load_balancer_1aa1db1f06852fc582bf15f81cf511b45c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::AdapterLoadBalancer::performEviction</definition>
+        <argsstring>(const std::string &amp;adapter_id)</argsstring>
+        <name>performEviction</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::performEviction</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Perform Eviction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(), end(), erase(), std::remove(), begin(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="296" column="10" bodyfile="src/llm/adapter_load_balancer.cpp" bodystart="712" bodyend="729"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_load_balancer_1a47d4e7838841294437f4ed7dabc5d049" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::llm::AdapterLoadBalancer::getCurrentTimeMs</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentTimeMs</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::getCurrentTimeMs</qualifiedname>
+        <briefdescription>
+<para>Get Current Time Ms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="302" column="13" bodyfile="src/llm/adapter_load_balancer.cpp" bodystart="731" bodyend="734"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_load_balancer_1a403c4b7620387b2e871476e7a0c9d61e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::AdapterLoadBalancer::emitRebalanceRecord</definition>
+        <argsstring>(int migrations, int num_gpus, float avg_load) const</argsstring>
+        <name>emitRebalanceRecord</name>
+        <qualifiedname>themis::llm::AdapterLoadBalancer::emitRebalanceRecord</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>migrations</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>num_gpus</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>avg_load</declname>
+        </param>
+        <briefdescription>
+<para>Emit Rebalance Record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">migrations</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_gpus</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">avg_load</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_load_balancer.h" line="310" column="10" bodyfile="src/llm/adapter_load_balancer.cpp" bodystart="805" bodyend="826"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/adapter_load_balancer.h" line="28" column="1" bodyfile="include/llm/adapter_load_balancer.h" bodystart="28" bodyend="311"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a5605e7e3bbb10c48cee7c6a52cbe40e3" prot="public" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>AdapterLoadBalancer</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1aa7c06c22e0573d48ec45f7f389bbd39b" prot="public" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>beginHotLoad</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1ad4040c0afb4af3459fe39b552bd12011" prot="private" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>calculateGPULoad</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a7747b41ca232d302e307f6adce51b4c0" prot="private" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>canPlaceOnGPU</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a93b63ab2c46cd8874e8e0c20c20fa166" prot="private" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a7a27bf45226f3035730793cfb56d0726" prot="private" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>dr_processor_</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a403c4b7620387b2e871476e7a0c9d61e" prot="private" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>emitRebalanceRecord</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1abe1a22d6ae91779ac4eaa96cbb933991" prot="public" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>endHotLoad</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a293d72fcb3704e22636b19ae5651f83c" prot="public" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>evictLRUAdapters</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a81cabc44f7da0e0f37b43f0ea6d64546" prot="private" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>findLeastLoadedHealthyGPU</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a039c614f4b8868a4c12881777b79c278" prot="public" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>getAdapterGPU</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a44f8b09ef6a1b4d94c229277fc944429" prot="public" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>getAdapterPlacement</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a47d4e7838841294437f4ed7dabc5d049" prot="private" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>getCurrentTimeMs</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1ab062cb2c51efb3a76b4be1978cc539c4" prot="public" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>getGPUAdapters</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a7a713861cb984e02d3433948fcacc20b" prot="public" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>getGPULoad</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1af896d804dba0888290b275babbf0cfc9" prot="public" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a1078ce96b18f271e537db1b84c494fa6" prot="private" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>gpu_to_adapters_</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a1e39d03cc7670cb4c7bd77f8f0c2c812" prot="private" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>hot_loading_adapters_</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a001747343d36c097c5a88f6b737efabd" prot="public" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>isAdapterLoaded</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a26d4a81bc583bd271dcb01629ae94ad0" prot="public" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>isAdapterPinned</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1ab2e9b14c08b5f659817e97199ba30af0" prot="public" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>isHotLoadInProgress</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a8584c5497a99220ce29dd8267fd021a3" prot="private" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>last_rebalance_time_</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1aa53140f40024e20aeba63aad93be8fd2" prot="public" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>markGPUHealthy</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a411abfdc38bfa3d5029f9f1f89e89ff2" prot="public" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>markGPUUnhealthy</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a3a4a7cc26340a09dec4ebb3d3c0d35f0" prot="private" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>memory_manager_</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a6889e4e4dc5dba2aff67daebb1b3345a" prot="public" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>migrateAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a2d9fdf48e3025694cd0f50a3a6c3d1e1" prot="private" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1aa1db1f06852fc582bf15f81cf511b45c" prot="private" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>performEviction</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a34bea599752b2b87ca0209e2498cd544" prot="private" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>performMigration</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a268368d8d7252dddd8432a4a0e522b45" prot="public" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>pinAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a95ccbe348b7ca42d486fe319c01f4ee7" prot="public" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>placeAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a3f9a12ad3ce6bb8cf69b46a820fb266a" prot="private" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>placements_</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a6dea2985ba45341004899eac3a87a5ae" prot="public" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>rebalance</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1aa2fe0db2b0869b2852d400d025a65746" prot="public" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>recordAccess</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a668f3974cc0dd32c5cbc3ed610cf268a" prot="public" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>removeAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1ab7c4322f9808041a4010c4f24addfc4f" prot="public" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>resolveAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a661e5e2393d126abc3df1f0f45a146e8" prot="private" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>selectAdaptersForEviction</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a9361ef43641043f281bd04cde2fa18e2" prot="public" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>selectGPUForAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a880f038a0768efd0ce80f96f1391c60a" prot="public" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>setDecisionRecordProcessor</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a9477feba8a0fb6f42aa5f2422a96dc49" prot="public" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>shouldMigrateFromGPU</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a39973fb2cfa6cc0fac03f955783fb932" prot="private" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>shouldRebalance</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a1b4f8fed1d7151ab6c55f87ed6e0d6a5" prot="private" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>total_evictions_</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1ae172280c19faf55573cbe45e2f551d14" prot="private" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>total_migrations_</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1a996d82d9fc1011d530df4a8d718c3447" prot="public" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>unpinAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_load_balancer_1acb4eee96ebfea2bb14c8a82ed6ea3e06" prot="public" virt="non-virtual"><scope>themis::llm::AdapterLoadBalancer</scope><name>~AdapterLoadBalancer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

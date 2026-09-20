@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1concerns_1_1_no_op_feature_flags" kind="class" language="C++" prot="public">
+    <compoundname>themis::core::concerns::NoOpFeatureFlags</compoundname>
+    <basecompoundref refid="classthemis_1_1core_1_1concerns_1_1_i_feature_flags" prot="public" virt="non-virtual">themis::core::concerns::IFeatureFlags</basecompoundref>
+    <includes refid="noop__implementations_8h" local="no">noop_implementations.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_feature_flags_1a8c39d34010d229b25433ebd04537418f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::core::concerns::NoOpFeatureFlags::isEnabled</definition>
+        <argsstring>(std::string_view) const override</argsstring>
+        <name>isEnabled</name>
+        <qualifiedname>themis::core::concerns::NoOpFeatureFlags::isEnabled</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_feature_flags_1a4b080c880fd7096818ada24a56ce8b0b">isEnabled</reimplements>
+        <param>
+          <type>std::string_view</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="199" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="199" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_feature_flags_1a384ddbbfb1638e6cb2745502d9db29eb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpFeatureFlags::setValue</definition>
+        <argsstring>(std::string_view, bool) override</argsstring>
+        <name>setValue</name>
+        <qualifiedname>themis::core::concerns::NoOpFeatureFlags::setValue</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_feature_flags_1ae01406acdbbe7d5d6565bd652e8aca27">setValue</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set Value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="200" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="200" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_feature_flags_1a25cf15b621409f32c25395f5cb4ce76a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::unordered_map&lt; std::string, bool &gt;</type>
+        <definition>std::unordered_map&lt; std::string, bool &gt; themis::core::concerns::NoOpFeatureFlags::getAllFlags</definition>
+        <argsstring>() const override</argsstring>
+        <name>getAllFlags</name>
+        <qualifiedname>themis::core::concerns::NoOpFeatureFlags::getAllFlags</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_feature_flags_1a260eecd1e9518a0312894e1b19eb6125">getAllFlags</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="201" column="24" bodyfile="include/core/concerns/noop_implementations.h" bodystart="201" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_feature_flags_1a67d252265590818f14d330f3fcbbe0a3" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpFeatureFlags::flush</definition>
+        <argsstring>() noexcept override</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::core::concerns::NoOpFeatureFlags::flush</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_feature_flags_1a3b7290a1792f6376e26eaddb8edf8cfa">flush</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="203" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="203" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_feature_flags_1a700cf55f1c74e053497d7d6653d3a255" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpFeatureFlags::shutdown</definition>
+        <argsstring>() noexcept override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::core::concerns::NoOpFeatureFlags::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_feature_flags_1a3c75a74e46b8cd233006eb068304d0cc">shutdown</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="204" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="204" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_feature_flags_1a3e38496200c04c7a0372292cf84711ae" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result" kindref="compound">ProbeResult</ref></type>
+        <definition>ProbeResult themis::core::concerns::NoOpFeatureFlags::isHealthy</definition>
+        <argsstring>() const override</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>themis::core::concerns::NoOpFeatureFlags::isHealthy</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_feature_flags_1ab4700ee623288e5e4b0fe0b2dce19686">isHealthy</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="205" column="17" bodyfile="include/core/concerns/noop_implementations.h" bodystart="205" bodyend="205"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>No-op feature flag provider — all flags are always disabled. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Use in unit tests or builds where feature-flag evaluation is not needed. <ref refid="classthemis_1_1core_1_1concerns_1_1_no_op_feature_flags_1a384ddbbfb1638e6cb2745502d9db29eb" kindref="member">setValue()</ref> is intentionally ignored and does not persist any state. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::core::concerns::IFeatureFlags</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_feature_flags"/>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::NoOpFeatureFlags</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_no_op_feature_flags"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::core::concerns::IFeatureFlags</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_feature_flags"/>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::NoOpFeatureFlags</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_no_op_feature_flags"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/core/concerns/noop_implementations.h" line="197" column="1" bodyfile="include/core/concerns/noop_implementations.h" bodystart="197" bodyend="206"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_feature_flags_1a67d252265590818f14d330f3fcbbe0a3" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpFeatureFlags</scope><name>flush</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_feature_flags_1a25cf15b621409f32c25395f5cb4ce76a" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpFeatureFlags</scope><name>getAllFlags</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_feature_flags_1a8c39d34010d229b25433ebd04537418f" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpFeatureFlags</scope><name>isEnabled</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_feature_flags_1a3e38496200c04c7a0372292cf84711ae" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpFeatureFlags</scope><name>isHealthy</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_feature_flags_1a384ddbbfb1638e6cb2745502d9db29eb" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpFeatureFlags</scope><name>setValue</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_feature_flags_1a700cf55f1c74e053497d7d6653d3a255" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpFeatureFlags</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_feature_flags_1ac4e0000f9062357cb23f81617c7c85f2" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpFeatureFlags</scope><name>~IFeatureFlags</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

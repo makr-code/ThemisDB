@@ -1,0 +1,595 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__tensor__fingerprint_8cpp" kind="file" language="C++">
+    <compoundname>bench_tensor_fingerprint.cpp</compoundname>
+    <includes local="yes">graph/tensor_fingerprint_graph.h</includes>
+    <includes local="yes">graph/tensor_deduplication_manager.h</includes>
+    <includes local="yes">storage/tensor_train_decomposer.h</includes>
+    <includes local="yes">storage/tensor_network_storage_engine.h</includes>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">random</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/tensor/bench_tensor_fingerprint.cpp</label>
+        <link refid="bench__tensor__fingerprint_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>algorithm</label>
+      </node>
+      <node id="6">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="8">
+        <label>cmath</label>
+      </node>
+      <node id="9">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>graph/tensor_deduplication_manager.h</label>
+      </node>
+      <node id="2">
+        <label>graph/tensor_fingerprint_graph.h</label>
+      </node>
+      <node id="10">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>random</label>
+      </node>
+      <node id="5">
+        <label>storage/tensor_network_storage_engine.h</label>
+      </node>
+      <node id="4">
+        <label>storage/tensor_train_decomposer.h</label>
+      </node>
+      <node id="12">
+        <label>string</label>
+      </node>
+      <node id="13">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_fingerprint_insert_fixture" prot="public">FingerprintInsertFixture</innerclass>
+    <innerclass refid="class_find_similar_fixture" prot="public">FindSimilarFixture</innerclass>
+    <innerclass refid="class_storage_reduction_fixture" prot="public">StorageReductionFixture</innerclass>
+    <innernamespace refid="namespacethemis_1_1graph">themis::graph</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__tensor__fingerprint_8cpp_1a5088577ebaafab9ef72d81cf18579f0f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>static std::vector&lt; float &gt; makeRandVec</definition>
+        <argsstring>(std::size_t n, unsigned seed=42)</argsstring>
+        <name>makeRandVec</name>
+        <param>
+          <type>std::size_t</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>seed</declname>
+          <defval>42</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_fingerprint.cpp" line="28" column="20" bodyfile="benchmarks/tensor/bench_tensor_fingerprint.cpp" bodystart="28" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__tensor__fingerprint_8cpp_1ac2058abcdd0d7052c43552f7574ef01d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>static std::vector&lt; float &gt; makeSharedVec</definition>
+        <argsstring>(std::size_t n, unsigned base_seed, float noise_scale=0.001f)</argsstring>
+        <name>makeSharedVec</name>
+        <param>
+          <type>std::size_t</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>base_seed</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>noise_scale</declname>
+          <defval>0.001f</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_fingerprint.cpp" line="38" column="20" bodyfile="benchmarks/tensor/bench_tensor_fingerprint.cpp" bodystart="38" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__tensor__fingerprint_8cpp_1a4f31fcaa2011e76c89bc9ea84f0ed9a1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>TTTrain</type>
+        <definition>static TTTrain makeBenchTrain</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;data, const std::vector&lt; std::size_t &gt; &amp;shape, double eps=0.05)</argsstring>
+        <name>makeBenchTrain</name>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::size_t &gt; &amp;</type>
+          <declname>shape</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>eps</declname>
+          <defval>0.05</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_fingerprint.cpp" line="49" column="16" bodyfile="benchmarks/tensor/bench_tensor_fingerprint.cpp" bodystart="49" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__tensor__fingerprint_8cpp_1a6840ace10fa37b7a7a17e916da877899" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; TensorNetworkStorageEngine &gt;</type>
+        <definition>static std::shared_ptr&lt; TensorNetworkStorageEngine &gt; makeBenchEngine</definition>
+        <argsstring>()</argsstring>
+        <name>makeBenchEngine</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_fingerprint.cpp" line="60" column="24" bodyfile="benchmarks/tensor/bench_tensor_fingerprint.cpp" bodystart="60" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__tensor__fingerprint_8cpp_1a222d84c4dd2cc9f856be75ea9ffc467a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_DEFINE_F</definition>
+        <argsstring>(FingerprintInsertFixture, BM_FingerprintInsert)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <param>
+          <type><ref refid="class_fingerprint_insert_fixture" kindref="compound">FingerprintInsertFixture</ref></type>
+        </param>
+        <param>
+          <type>BM_FingerprintInsert</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_fingerprint.cpp" line="112" column="1" bodyfile="benchmarks/tensor/bench_tensor_fingerprint.cpp" bodystart="112" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__tensor__fingerprint_8cpp_1a8d46b6ae1997068370b460aa3b6ff9b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Arg</definition>
+        <argsstring>(1) -&gt; Arg(2) -&gt;Arg(4) -&gt;Arg(8) -&gt;Unit(benchmark::kMillisecond) -&gt;Iterations(200)</argsstring>
+        <name>Arg</name>
+        <param>
+          <type>1</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_fingerprint.cpp" line="127" column="5" declfile="benchmarks/tensor/bench_tensor_fingerprint.cpp" declline="127" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__tensor__fingerprint_8cpp_1af97ebdd6dc1e1b590d036e5b38ca6af2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_DEFINE_F</definition>
+        <argsstring>(FindSimilarFixture, BM_FindSimilar_100K)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <param>
+          <type><ref refid="class_find_similar_fixture" kindref="compound">FindSimilarFixture</ref></type>
+        </param>
+        <param>
+          <type>BM_FindSimilar_100K</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_fingerprint.cpp" line="178" column="1" bodyfile="benchmarks/tensor/bench_tensor_fingerprint.cpp" bodystart="178" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__tensor__fingerprint_8cpp_1a447f13e85a07bc5fc3a3d4e4c0ff5d0d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Arg</definition>
+        <argsstring>(100000) -&gt; Unit(benchmark::kMillisecond)</argsstring>
+        <name>Arg</name>
+        <param>
+          <type>100000</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_fingerprint.cpp" line="193" column="5" declfile="benchmarks/tensor/bench_tensor_fingerprint.cpp" declline="193" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__tensor__fingerprint_8cpp_1a0b841ae1eb218ffbbd2d2e73f56c951a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_DEFINE_F</definition>
+        <argsstring>(StorageReductionFixture, BM_StorageReductionRatio)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <param>
+          <type><ref refid="class_storage_reduction_fixture" kindref="compound">StorageReductionFixture</ref></type>
+        </param>
+        <param>
+          <type>BM_StorageReductionRatio</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_fingerprint.cpp" line="263" column="1" bodyfile="benchmarks/tensor/bench_tensor_fingerprint.cpp" bodystart="263" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__tensor__fingerprint_8cpp_1a9aeb9d507a237c55753aab317debf6a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Arg</definition>
+        <argsstring>(10) -&gt; Arg(100) -&gt;Unit(benchmark::kMillisecond)</argsstring>
+        <name>Arg</name>
+        <param>
+          <type>10</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_fingerprint.cpp" line="289" column="5" declfile="benchmarks/tensor/bench_tensor_fingerprint.cpp" declline="289" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__tensor__fingerprint_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_MAIN</definition>
+        <argsstring>()</argsstring>
+        <name>BENCHMARK_MAIN</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_fingerprint.cpp" line="293" column="1" declfile="benchmarks/tensor/bench_tensor_fingerprint.cpp" declline="293" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Benchmark:<sp/>Tensor<sp/>Fingerprint<sp/>Graph<sp/>Performance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Phase<sp/>8.5<sp/>Acceptance<sp/>Criteria:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>•<sp/>Fingerprint<sp/>+<sp/>LSH<sp/>insert<sp/>≤<sp/>10<sp/>ms<sp/>per<sp/>tensor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>•<sp/>Similar-tensor<sp/>graph<sp/>query<sp/>≤<sp/>50<sp/>ms<sp/>for<sp/>100K<sp/>nodes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>•<sp/>≥<sp/>40%<sp/>storage<sp/>reduction<sp/>for<sp/>LLM<sp/>weight<sp/>repositories</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;graph/tensor_fingerprint_graph.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;graph/tensor_deduplication_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/tensor_train_decomposer.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/tensor_network_storage_engine.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::graph;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::storage;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;<sp/>makeRandVec(std::size_t<sp/>n,<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>seed<sp/>=<sp/>42)<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng(seed);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>std::normal_distribution&lt;float&gt;<sp/>dist(0.0f,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>v(n);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>x<sp/>:<sp/>v)<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>x<sp/>=<sp/>dist(rng);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>v;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;<sp/>makeSharedVec(std::size_t<sp/>n,<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>base_seed,</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>noise_scale<sp/>=<sp/>0.001f)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>v<sp/>=<sp/>makeRandVec(n,<sp/>base_seed);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng(base_seed<sp/>^<sp/>0xDEADBEEFU);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>std::normal_distribution&lt;float&gt;<sp/>noise(0.0f,<sp/>noise_scale);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>x<sp/>:<sp/>v)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>x<sp/>+=<sp/>noise(rng);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>v;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>TTTrain<sp/>makeBenchTrain(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>data,</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::size_t&gt;&amp;<sp/>shape,</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>eps<sp/>=<sp/>0.05)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>TensorTrainDecomposer<sp/>dec;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>TensorTrainConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.eps<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>eps;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.max_rank<sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>[[maybe_unused]]<sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[t,<sp/>error]<sp/>=<sp/>dec.decompose(data,<sp/>shape,<sp/>cfg);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::move(t);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;TensorNetworkStorageEngine&gt;<sp/>makeBenchEngine()<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>backend<sp/>=<sp/>std::make_shared&lt;InMemoryTensorBackend&gt;();</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>TensorStorageConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.tt_config.eps<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.05;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.min_compression_ratio<sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_shared&lt;TensorNetworkStorageEngine&gt;(backend,<sp/>cfg);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BM_FingerprintInsert</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Measures<sp/>insert()<sp/>latency<sp/>including<sp/>fingerprint<sp/>computation<sp/>+<sp/>LSH<sp/>bucketing.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Acceptance<sp/>criterion:<sp/>≤<sp/>10<sp/>ms<sp/>per<sp/>tensor<sp/>at<sp/>all<sp/>tested<sp/>modes<sp/>sizes.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="class_fingerprint_insert_fixture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_fingerprint_insert_fixture" kindref="compound">FingerprintInsertFixture</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>benchmark::Fixture<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_fingerprint_insert_fixture_1a475c69881b1dab1c70e94a8c9625c8ec" kindref="member">SetUp</ref>(const<sp/>::benchmark::State&amp;<sp/>state)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FingerprintGraphConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.similarity_threshold<sp/><sp/><sp/>=<sp/>0.95;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.num_hash_funcs<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.num_bands<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.cache_trains_in_memory<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_fingerprint_insert_fixture_1a9f5c84168eef631314628aef7feeb3e4" kindref="member">graph_</ref><sp/>=<sp/>std::make_unique&lt;TensorFingerprintGraph&gt;(cfg);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pre-compute<sp/>tensors<sp/>to<sp/>isolate<sp/>insert<sp/>latency<sp/>from<sp/>decomposition.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>mode_n<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(0));</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::size_t&gt;<sp/>shape(mode_n,<sp/>2U);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>total_elems<sp/>=<sp/>1U;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>mode_n;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total_elems<sp/>*=<sp/>2U;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_fingerprint_insert_fixture_1a9565906dd8c951c90cef1dc65dc24834" kindref="member">trains_</ref>.reserve(<ref refid="class_fingerprint_insert_fixture_1a430fdadbf0128c0354a2d3e0d2d6e9ae" kindref="member">kBatchSize</ref>);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/><ref refid="class_fingerprint_insert_fixture_1a430fdadbf0128c0354a2d3e0d2d6e9ae" kindref="member">kBatchSize</ref>;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>makeRandVec(total_elems,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i));</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_fingerprint_insert_fixture_1a9565906dd8c951c90cef1dc65dc24834" kindref="member">trains_</ref>.push_back(makeBenchTrain(data,<sp/>shape));</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_fingerprint_insert_fixture_1a5d86d033f48a8b28ccec91e272675cf4" kindref="member">counter_</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_fingerprint_insert_fixture_1a2720e39d03767b7b19a7ebc263b3e01e" kindref="member">TearDown</ref>(const<sp/>::benchmark::State&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_fingerprint_insert_fixture_1a9f5c84168eef631314628aef7feeb3e4" kindref="member">graph_</ref>.reset();</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_fingerprint_insert_fixture_1a9565906dd8c951c90cef1dc65dc24834" kindref="member">trains_</ref>.clear();</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;TensorFingerprintGraph&gt;<sp/><ref refid="class_fingerprint_insert_fixture_1a9f5c84168eef631314628aef7feeb3e4" kindref="member">graph_</ref>;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;TTTrain&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_fingerprint_insert_fixture_1a9565906dd8c951c90cef1dc65dc24834" kindref="member">trains_</ref>;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_fingerprint_insert_fixture_1a5d86d033f48a8b28ccec91e272675cf4" kindref="member">counter_</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_fingerprint_insert_fixture_1a430fdadbf0128c0354a2d3e0d2d6e9ae" kindref="member">kBatchSize</ref><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><ref refid="bench__tensor__fingerprint_8cpp_1a222d84c4dd2cc9f856be75ea9ffc467a" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_fingerprint_insert_fixture" kindref="compound">FingerprintInsertFixture</ref>,<sp/>BM_FingerprintInsert)(</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>iter<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>idx<sp/>=<sp/>iter<sp/>%<sp/>trains_.size();</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>graph_-&gt;insert(</highlight><highlight class="stringliteral">&quot;tensor_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(iter),<sp/>trains_[idx]);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++iter;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;inserts_per_sec&quot;</highlight><highlight class="normal">]<sp/>=<sp/>benchmark::Counter(</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(iter),</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::Counter::kIsRate);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Range:<sp/>mode<sp/>counts<sp/>{1,2,4,8}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_fingerprint_insert_fixture" kindref="compound">FingerprintInsertFixture</ref>,<sp/>BM_FingerprintInsert)</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(1)</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(2)</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(4)</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(8)</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond)</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(200);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BM_FindSimilar</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Measures<sp/>findSimilar()<sp/>latency<sp/>on<sp/>a<sp/>pre-populated<sp/>graph<sp/>with<sp/>N<sp/>nodes.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Acceptance<sp/>criterion:<sp/>≤<sp/>50<sp/>ms<sp/>for<sp/>100K<sp/>nodes.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="class_find_similar_fixture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_find_similar_fixture" kindref="compound">FindSimilarFixture</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>benchmark::Fixture<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_find_similar_fixture_1a43dd9e23323ac876899e076b2881d71e" kindref="member">SetUp</ref>(const<sp/>::benchmark::State&amp;<sp/>state)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::size_t<sp/>node_count<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(0));</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FingerprintGraphConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.similarity_threshold<sp/><sp/><sp/>=<sp/>0.95;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.num_hash_funcs<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.num_bands<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.max_candidates<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.top_k<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.cache_trains_in_memory<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_find_similar_fixture_1a043c3f1aca1109a9dcf53f759675118d" kindref="member">graph_</ref><sp/>=<sp/>std::make_unique&lt;TensorFingerprintGraph&gt;(cfg);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Populate<sp/>graph<sp/>with<sp/>unique<sp/>random<sp/>tensors.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>node_count;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>makeRandVec(16,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>+<sp/>1000));</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t<sp/><sp/><sp/><sp/>=<sp/>makeBenchTrain(data,<sp/>{16,<sp/>1});</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_find_similar_fixture_1a043c3f1aca1109a9dcf53f759675118d" kindref="member">graph_</ref>-&gt;insert(</highlight><highlight class="stringliteral">&quot;n_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/>t);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>a<sp/>representative<sp/>query<sp/>tensor<sp/>(similar<sp/>to<sp/>node<sp/>0).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>qdata<sp/>=<sp/>makeSharedVec(16,<sp/>1000,<sp/>0.01f);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_find_similar_fixture_1a55452d6b19865f7398c46528495e0a37" kindref="member">query_</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>makeBenchTrain(qdata,<sp/>{16,<sp/>1});</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_find_similar_fixture_1aabf7cdef634d53884d5f89808e67dfe6" kindref="member">TearDown</ref>(const<sp/>::benchmark::State&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_find_similar_fixture_1a043c3f1aca1109a9dcf53f759675118d" kindref="member">graph_</ref>.reset();</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;TensorFingerprintGraph&gt;<sp/><ref refid="class_find_similar_fixture_1a043c3f1aca1109a9dcf53f759675118d" kindref="member">graph_</ref>;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>TTTrain<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_find_similar_fixture_1a55452d6b19865f7398c46528495e0a37" kindref="member">query_</ref>;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>benchmark<sp/>is<sp/>intentionally<sp/>fixed<sp/>to<sp/>100K<sp/>nodes<sp/>to<sp/>match<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Phase-8.5<sp/>acceptance<sp/>criterion.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><ref refid="bench__tensor__fingerprint_8cpp_1a222d84c4dd2cc9f856be75ea9ffc467a" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_find_similar_fixture" kindref="compound">FindSimilarFixture</ref>,<sp/>BM_FindSimilar_100K)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>queries<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>graph_-&gt;findSimilar(query_,<sp/>50);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(results);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++queries;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;queries_per_sec&quot;</highlight><highlight class="normal">]<sp/>=<sp/>benchmark::Counter(</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(queries),</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::Counter::kIsRate);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;nodes&quot;</highlight><highlight class="normal">]<sp/>=<sp/>benchmark::Counter(</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(0)));</highlight></codeline>
+<codeline lineno="190"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_find_similar_fixture" kindref="compound">FindSimilarFixture</ref>,<sp/>BM_FindSimilar_100K)</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(100000)</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BM_StorageReductionRatio</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Measures<sp/>deduplication<sp/>effectiveness<sp/>on<sp/>simulated<sp/>LLM<sp/>weight<sp/>sets<sp/>with</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>shared<sp/>Transformer<sp/>blocks.<sp/>Acceptance<sp/>criterion:<sp/>≥<sp/>40%<sp/>storage<sp/>reduction.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203" refid="class_storage_reduction_fixture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_storage_reduction_fixture" kindref="compound">StorageReductionFixture</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>benchmark::Fixture<sp/>{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_storage_reduction_fixture_1a5f48db4a96a41edca7bd405717f1a142" kindref="member">SetUp</ref>(const<sp/>::benchmark::State&amp;<sp/>state)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::size_t<sp/>num_weight_sets<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(0));</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::size_t<sp/>shared_blocks<sp/><sp/><sp/>=<sp/>8;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>blocks<sp/>shared<sp/>across<sp/>sets</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::size_t<sp/>unique_blocks<sp/><sp/><sp/>=<sp/>2;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>unique<sp/>blocks<sp/>per<sp/>set</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::size_t<sp/>block_size<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>64;<sp/><sp/></highlight><highlight class="comment">//<sp/>elements<sp/>per<sp/>block</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_storage_reduction_fixture_1ac4c2bdbc09eef7cf1838e995e7413cbf" kindref="member">engine_</ref><sp/>=<sp/>makeBenchEngine();</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FingerprintGraphConfig<sp/>fp_cfg;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fp_cfg.similarity_threshold<sp/><sp/><sp/>=<sp/>0.90;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fp_cfg.num_hash_funcs<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fp_cfg.num_bands<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fp_cfg.cache_trains_in_memory<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fp<sp/><sp/>=<sp/>std::make_shared&lt;TensorFingerprintGraph&gt;(fp_cfg);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>dec<sp/>=<sp/>std::make_shared&lt;TensorTrainDecomposer&gt;();</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>DeduplicationConfig<sp/>dedup_cfg;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dedup_cfg.similarity_threshold<sp/><sp/><sp/><sp/>=<sp/>0.90;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dedup_cfg.allow_full_storage_fallback<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_storage_reduction_fixture_1a81d04fbb2d7250245d78623cf91ae1ce" kindref="member">mgr_</ref><sp/>=<sp/>std::make_unique&lt;TensorDeduplicationManager&gt;(<ref refid="class_storage_reduction_fixture_1ac4c2bdbc09eef7cf1838e995e7413cbf" kindref="member">engine_</ref>,<sp/>fp,<sp/>dec,<sp/>dedup_cfg);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pre-generate<sp/>shared<sp/>Transformer<sp/>block<sp/>data<sp/>(seed<sp/>1..shared_blocks).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_storage_reduction_fixture_1a7c4beefab4367e6e50e6f1b68475779d" kindref="member">shared_blocks_</ref>.resize(shared_blocks);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>b<sp/>=<sp/>0;<sp/>b<sp/>&lt;<sp/>shared_blocks;<sp/>++b)<sp/>{</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_storage_reduction_fixture_1a7c4beefab4367e6e50e6f1b68475779d" kindref="member">shared_blocks_</ref>[b]<sp/>=<sp/>makeRandVec(block_size,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(b<sp/>+<sp/>1));</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Store<sp/>num_weight_sets<sp/>*<sp/>(shared<sp/>+<sp/>unique)<sp/>tensors.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>s<sp/>=<sp/>0;<sp/>s<sp/>&lt;<sp/>num_weight_sets;<sp/>++s)<sp/>{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>b<sp/>=<sp/>0;<sp/>b<sp/>&lt;<sp/>shared_blocks;<sp/>++b)<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>tiny<sp/>noise<sp/>so<sp/>TT-decomposition<sp/>is<sp/>non-trivial.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>makeSharedVec(block_size,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(b<sp/>+<sp/>1),<sp/>5e-4f);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tid<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ws&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(s)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;_shared_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(b);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_storage_reduction_fixture_1a81d04fbb2d7250245d78623cf91ae1ce" kindref="member">mgr_</ref>-&gt;store(tid,<sp/>data,<sp/>{block_size,<sp/>1},<sp/></highlight><highlight class="stringliteral">&quot;bench&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;lm&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;w&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(b));</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>u<sp/>=<sp/>0;<sp/>u<sp/>&lt;<sp/>unique_blocks;<sp/>++u)<sp/>{</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>makeRandVec(</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>block_size,</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(s<sp/>*<sp/>100<sp/>+<sp/>unique_blocks<sp/>+<sp/>u<sp/>+<sp/>9000));</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tid<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ws&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(s)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;_unique_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(u);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_storage_reduction_fixture_1a81d04fbb2d7250245d78623cf91ae1ce" kindref="member">mgr_</ref>-&gt;store(tid,<sp/>data,<sp/>{block_size,<sp/>1},<sp/></highlight><highlight class="stringliteral">&quot;bench&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;lm&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;wu&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(s<sp/>*<sp/>unique_blocks<sp/>+<sp/>u));</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_storage_reduction_fixture_1a34dfc8559fbaf4f1cb1ec4e2a3518098" kindref="member">TearDown</ref>(const<sp/>::benchmark::State&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_storage_reduction_fixture_1a81d04fbb2d7250245d78623cf91ae1ce" kindref="member">mgr_</ref>.reset();</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_storage_reduction_fixture_1ac4c2bdbc09eef7cf1838e995e7413cbf" kindref="member">engine_</ref>.reset();</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_storage_reduction_fixture_1a7c4beefab4367e6e50e6f1b68475779d" kindref="member">shared_blocks_</ref>.clear();</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;TensorNetworkStorageEngine&gt;<sp/><ref refid="class_storage_reduction_fixture_1ac4c2bdbc09eef7cf1838e995e7413cbf" kindref="member">engine_</ref>;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;TensorDeduplicationManager&gt;<sp/><ref refid="class_storage_reduction_fixture_1a81d04fbb2d7250245d78623cf91ae1ce" kindref="member">mgr_</ref>;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_storage_reduction_fixture_1a7c4beefab4367e6e50e6f1b68475779d" kindref="member">shared_blocks_</ref>;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><ref refid="bench__tensor__fingerprint_8cpp_1a222d84c4dd2cc9f856be75ea9ffc467a" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_storage_reduction_fixture" kindref="compound">StorageReductionFixture</ref>,<sp/>BM_StorageReductionRatio)(</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>mgr_-&gt;getStats();</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(stats);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/><sp/><sp/><sp/><sp/>=<sp/>mgr_-&gt;getStats();</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>ratio<sp/><sp/><sp/>=<sp/>stats.dedup_ratio;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>savings<sp/>=<sp/>stats.total_bytes_stored<sp/>&gt;<sp/>0</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>?<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(stats.bytes_saved)<sp/>/</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(stats.bytes_saved<sp/>+<sp/>stats.total_bytes_stored)</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>0.0;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;dedup_ratio&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>benchmark::Counter(ratio);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;savings_pct&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>benchmark::Counter(savings<sp/>*<sp/>100.0);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;total_tensors&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/>=<sp/>benchmark::Counter(</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(stats.total_tensors));</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;canonical_tensors&quot;</highlight><highlight class="normal">]<sp/>=<sp/>benchmark::Counter(</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(stats.canonical_tensors));</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;delta_tensors&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/>=<sp/>benchmark::Counter(</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(stats.delta_tensors));</highlight></codeline>
+<codeline lineno="285"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight><highlight class="comment">//<sp/>10<sp/>and<sp/>100<sp/>weight<sp/>sets<sp/>(100<sp/>=<sp/>target<sp/>for<sp/>acceptance<sp/>criterion)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_storage_reduction_fixture" kindref="compound">StorageReductionFixture</ref>,<sp/>BM_StorageReductionRatio)</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(10)</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(100)</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><ref refid="bench__tensor__fingerprint_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kindref="member">BENCHMARK_MAIN</ref>();</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/tensor/bench_tensor_fingerprint.cpp"/>
+  </compounddef>
+</doxygen>

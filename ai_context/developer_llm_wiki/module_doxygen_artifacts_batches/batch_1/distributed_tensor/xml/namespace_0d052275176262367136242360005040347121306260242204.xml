@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d052275176262367136242360005040347121306260242204" kind="namespace" language="C++">
+    <compoundname>@052275176262367136242360005040347121306260242204</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/distributed_tensor/bench_distributed_tensor_dedicated_gates.cpp" line="35" column="1"/>
+  </compounddef>
+</doxygen>

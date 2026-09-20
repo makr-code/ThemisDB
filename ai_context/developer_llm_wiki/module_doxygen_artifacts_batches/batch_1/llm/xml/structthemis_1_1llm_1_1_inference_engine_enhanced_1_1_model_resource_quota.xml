@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_model_resource_quota" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::InferenceEngineEnhanced::ModelResourceQuota</compoundname>
+    <includes refid="inference__engine__enhanced_8h" local="no">inference_engine_enhanced.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_model_resource_quota_1a0077664925b39615f6eba2e462317367" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::InferenceEngineEnhanced::ModelResourceQuota::max_concurrent_requests</definition>
+        <argsstring></argsstring>
+        <name>max_concurrent_requests</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::ModelResourceQuota::max_concurrent_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="133" column="16" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_model_resource_quota_1a852108fec75e53e5099f9091f63e6fc9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::InferenceEngineEnhanced::ModelResourceQuota::max_memory_mb</definition>
+        <argsstring></argsstring>
+        <name>max_memory_mb</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::ModelResourceQuota::max_memory_mb</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="134" column="16" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/inference_engine_enhanced.h" line="132" column="5" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="132" bodyend="135"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_model_resource_quota_1a0077664925b39615f6eba2e462317367" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::ModelResourceQuota</scope><name>max_concurrent_requests</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_model_resource_quota_1a852108fec75e53e5099f9091f63e6fc9" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::ModelResourceQuota</scope><name>max_memory_mb</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

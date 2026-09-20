@@ -1,0 +1,189 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_p_i_i_type_utils" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::PIITypeUtils</compoundname>
+    <includes refid="pii__detection__engine_8h" local="no">pii_detection_engine.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_p_i_i_type_utils_1abe4d83fe0b7bc81bcf4cf1a7c39d15b5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::PIITypeUtils::toString</definition>
+        <argsstring>(PIIType type)</argsstring>
+        <name>toString</name>
+        <qualifiedname>themis::utils::PIITypeUtils::toString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0bae" kindref="member">PIIType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Convert <ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0bae" kindref="member">PIIType</ref> enum to string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>To String.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PII type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>String representation (e.g., &quot;EMAIL&quot;, &quot;PHONE&quot;)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements toString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_detection_engine.h" line="286" column="24" bodyfile="src/utils/pii_detection_engine.cpp" bodystart="112" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_p_i_i_type_utils_1ad66a1c639421393e42dbe56d39abbc15" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0bae" kindref="member">PIIType</ref></type>
+        <definition>PIIType themis::utils::PIITypeUtils::fromString</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>fromString</name>
+        <qualifiedname>themis::utils::PIITypeUtils::fromString</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Convert string to <ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0bae" kindref="member">PIIType</ref> enum. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>From String.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Type name (case-insensitive) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0bae" kindref="member">PIIType</ref> or <ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0baea696b031073e74bf2cb98e5ef201d4aa3" kindref="member">PIIType::UNKNOWN</ref> if invalid</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements fromString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_detection_engine.h" line="294" column="20" bodyfile="src/utils/pii_detection_engine.cpp" bodystart="135" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_p_i_i_type_utils_1a269644394e0ac308b8a0a0ff5fed4a50" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::PIITypeUtils::maskValue</definition>
+        <argsstring>(PIIType type, const std::string &amp;value, const std::string &amp;mode)</argsstring>
+        <name>maskValue</name>
+        <qualifiedname>themis::utils::PIITypeUtils::maskValue</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0bae" kindref="member">PIIType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+<para>Mask a PII value for logging. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Mask Value.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PII type </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original value </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Redaction mode (&quot;strict&quot;, &quot;partial&quot;, &quot;none&quot;) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Masked value (e.g., &quot;***@example.com&quot;, &quot;**** **** **** 1234&quot;)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::isdigit(), std::min(), push_back(), std::string(), length(), find(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_detection_engine.h" line="304" column="24" bodyfile="src/utils/pii_detection_engine.cpp" bodystart="177" bodyend="300"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Utility functions for PII types. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/pii_detection_engine.h" line="278" column="1" bodyfile="include/utils/pii_detection_engine.h" bodystart="278" bodyend="305"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_p_i_i_type_utils_1ad66a1c639421393e42dbe56d39abbc15" prot="public" virt="non-virtual"><scope>themis::utils::PIITypeUtils</scope><name>fromString</name></member>
+      <member refid="classthemis_1_1utils_1_1_p_i_i_type_utils_1a269644394e0ac308b8a0a0ff5fed4a50" prot="public" virt="non-virtual"><scope>themis::utils::PIITypeUtils</scope><name>maskValue</name></member>
+      <member refid="classthemis_1_1utils_1_1_p_i_i_type_utils_1abe4d83fe0b7bc81bcf4cf1a7c39d15b5" prot="public" virt="non-virtual"><scope>themis::utils::PIITypeUtils</scope><name>toString</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

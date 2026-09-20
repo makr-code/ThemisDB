@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_modality_parse_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::ModalityParseStats</compoundname>
+    <includes refid="modality__parser_8h" local="no">modality_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_modality_parse_stats_1a6285fcadfae22c9d8b3c4d0bc4aff416" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::ModalityParseStats::documents_processed</definition>
+        <argsstring></argsstring>
+        <name>documents_processed</name>
+        <qualifiedname>themis::training::ModalityParseStats::documents_processed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Documents fed to the parser. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="68" column="12" bodyfile="include/training/modality_parser.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_modality_parse_stats_1a8af0b829573742132a9198641871ff5b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::ModalityParseStats::text_clauses_extracted</definition>
+        <argsstring></argsstring>
+        <name>text_clauses_extracted</name>
+        <qualifiedname>themis::training::ModalityParseStats::text_clauses_extracted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>TEXT_CLAUSE samples produced. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="69" column="12" bodyfile="include/training/modality_parser.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_modality_parse_stats_1aed81c09545d08ea92909c80acbe37c9c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::ModalityParseStats::tables_extracted</definition>
+        <argsstring></argsstring>
+        <name>tables_extracted</name>
+        <qualifiedname>themis::training::ModalityParseStats::tables_extracted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>TABLE samples produced. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="70" column="12" bodyfile="include/training/modality_parser.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_modality_parse_stats_1a31bd4ddc58525006c4e3ea95c82422ac" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::ModalityParseStats::citations_extracted</definition>
+        <argsstring></argsstring>
+        <name>citations_extracted</name>
+        <qualifiedname>themis::training::ModalityParseStats::citations_extracted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>CITATION samples produced. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="71" column="12" bodyfile="include/training/modality_parser.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_modality_parse_stats_1aa22d65daa819b638dd3d87265062f4a3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::ModalityParseStats::ocr_pages_processed</definition>
+        <argsstring></argsstring>
+        <name>ocr_pages_processed</name>
+        <qualifiedname>themis::training::ModalityParseStats::ocr_pages_processed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>OCR_IMAGE samples produced. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="72" column="12" bodyfile="include/training/modality_parser.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_modality_parse_stats_1aae38d468d84527b39a1b28da09e28398" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::ModalityParseStats::samples_total</definition>
+        <argsstring></argsstring>
+        <name>samples_total</name>
+        <qualifiedname>themis::training::ModalityParseStats::samples_total</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Sum of all extracted samples. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="73" column="12" bodyfile="include/training/modality_parser.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_modality_parse_stats_1a1f38f894a53779589b3e15c4578bf27e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::ModalityParseStats::elapsed_seconds</definition>
+        <argsstring></argsstring>
+        <name>elapsed_seconds</name>
+        <qualifiedname>themis::training::ModalityParseStats::elapsed_seconds</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="74" column="12" bodyfile="include/training/modality_parser.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_modality_parse_stats_1a5e90d104abe2e797e8ea6500f6262052" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::ModalityParseStats::ModalityParseStats</definition>
+        <argsstring>()=default</argsstring>
+        <name>ModalityParseStats</name>
+        <qualifiedname>themis::training::ModalityParseStats::ModalityParseStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="76" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-modality extraction statistics for a single document or batch. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/modality_parser.h" line="67" column="1" bodyfile="include/training/modality_parser.h" bodystart="67" bodyend="77"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_modality_parse_stats_1a31bd4ddc58525006c4e3ea95c82422ac" prot="public" virt="non-virtual"><scope>themis::training::ModalityParseStats</scope><name>citations_extracted</name></member>
+      <member refid="structthemis_1_1training_1_1_modality_parse_stats_1a6285fcadfae22c9d8b3c4d0bc4aff416" prot="public" virt="non-virtual"><scope>themis::training::ModalityParseStats</scope><name>documents_processed</name></member>
+      <member refid="structthemis_1_1training_1_1_modality_parse_stats_1a1f38f894a53779589b3e15c4578bf27e" prot="public" virt="non-virtual"><scope>themis::training::ModalityParseStats</scope><name>elapsed_seconds</name></member>
+      <member refid="structthemis_1_1training_1_1_modality_parse_stats_1a5e90d104abe2e797e8ea6500f6262052" prot="public" virt="non-virtual"><scope>themis::training::ModalityParseStats</scope><name>ModalityParseStats</name></member>
+      <member refid="structthemis_1_1training_1_1_modality_parse_stats_1aa22d65daa819b638dd3d87265062f4a3" prot="public" virt="non-virtual"><scope>themis::training::ModalityParseStats</scope><name>ocr_pages_processed</name></member>
+      <member refid="structthemis_1_1training_1_1_modality_parse_stats_1aae38d468d84527b39a1b28da09e28398" prot="public" virt="non-virtual"><scope>themis::training::ModalityParseStats</scope><name>samples_total</name></member>
+      <member refid="structthemis_1_1training_1_1_modality_parse_stats_1aed81c09545d08ea92909c80acbe37c9c" prot="public" virt="non-virtual"><scope>themis::training::ModalityParseStats</scope><name>tables_extracted</name></member>
+      <member refid="structthemis_1_1training_1_1_modality_parse_stats_1a8af0b829573742132a9198641871ff5b" prot="public" virt="non-virtual"><scope>themis::training::ModalityParseStats</scope><name>text_clauses_extracted</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

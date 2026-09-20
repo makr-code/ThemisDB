@@ -1,0 +1,290 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_federation_resilience_coordinator" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::FederationResilienceCoordinator</compoundname>
+    <includes refid="federation__resilience_8h" local="no">federation_resilience.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_federation_resilience_coordinator_1a75664922dba6e065cc06f5492e5ff27a" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="classthemis_1_1query_1_1_circuit_breaker" kindref="compound">CircuitBreaker</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, CircuitBreaker&gt; themis::query::FederationResilienceCoordinator::circuit_breakers_</definition>
+        <argsstring></argsstring>
+        <name>circuit_breakers_</name>
+        <qualifiedname>themis::query::FederationResilienceCoordinator::circuit_breakers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="209" column="24" bodyfile="include/query/federation_resilience.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_federation_resilience_coordinator_1a6713f099eea1db356cc61b98abbe875a" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1_degraded_mode_executor" kindref="compound">DegradedModeExecutor</ref></type>
+        <definition>DegradedModeExecutor themis::query::FederationResilienceCoordinator::degraded_executor_</definition>
+        <argsstring></argsstring>
+        <name>degraded_executor_</name>
+        <qualifiedname>themis::query::FederationResilienceCoordinator::degraded_executor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="210" column="26" bodyfile="include/query/federation_resilience.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_federation_resilience_coordinator_1afad7fc66d8f2dcc796f4bc24ed4fbb6c" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="classthemis_1_1query_1_1_recovery_time_tracker" kindref="compound">RecoveryTimeTracker</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, RecoveryTimeTracker&gt; themis::query::FederationResilienceCoordinator::recovery_trackers_</definition>
+        <argsstring></argsstring>
+        <name>recovery_trackers_</name>
+        <qualifiedname>themis::query::FederationResilienceCoordinator::recovery_trackers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="211" column="24" bodyfile="include/query/federation_resilience.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_federation_resilience_coordinator_1a70b23347422f918c38c2d27321cd289b" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::FederationResilienceCoordinator::FederationResilienceCoordinator</definition>
+        <argsstring>(DegradedModeExecutor::Strategy default_strategy=DegradedModeExecutor::Strategy::PARTIAL_RESULTS)</argsstring>
+        <name>FederationResilienceCoordinator</name>
+        <qualifiedname>themis::query::FederationResilienceCoordinator::FederationResilienceCoordinator</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_degraded_mode_executor_1adf9b2b9dfbed9b62bc0dac12ff8a48bf" kindref="member">DegradedModeExecutor::Strategy</ref></type>
+          <declname>default_strategy</declname>
+          <defval><ref refid="classthemis_1_1query_1_1_degraded_mode_executor_1adf9b2b9dfbed9b62bc0dac12ff8a48bfae23297c86884c074c8123c06ba08eb6d" kindref="member">DegradedModeExecutor::Strategy::PARTIAL_RESULTS</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="177" column="14" bodyfile="src/query/federation_resilience.cpp" bodystart="359" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_federation_resilience_coordinator_1acf7d83b2dbd2dd3ba7819dc5601d0b42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_circuit_breaker" kindref="compound">CircuitBreaker</ref> &amp;</type>
+        <definition>CircuitBreaker &amp; themis::query::FederationResilienceCoordinator::getOrCreateCircuitBreaker</definition>
+        <argsstring>(const std::string &amp;shard_id, const CircuitBreaker::Config &amp;config=CircuitBreaker::Config())</argsstring>
+        <name>getOrCreateCircuitBreaker</name>
+        <qualifiedname>themis::query::FederationResilienceCoordinator::getOrCreateCircuitBreaker</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_circuit_breaker_1_1_config" kindref="compound">CircuitBreaker::Config</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1query_1_1_circuit_breaker_1_1_config" kindref="compound">CircuitBreaker::Config</ref>()</defval>
+        </param>
+        <briefdescription>
+<para>Get Or Create Circuit Breaker. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), end(), emplace(), CircuitBreaker(), at(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="181" column="20" bodyfile="src/query/federation_resilience.cpp" bodystart="372" bodyend="380"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_federation_resilience_coordinator_1aa18e67863833bd2dd30f21e21f5ec8d5" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::FederationResilienceCoordinator::isShardAvailable</definition>
+        <argsstring>(const std::string &amp;shard_id) const</argsstring>
+        <name>isShardAvailable</name>
+        <qualifiedname>themis::query::FederationResilienceCoordinator::isShardAvailable</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="184" column="11" bodyfile="src/query/federation_resilience.cpp" bodystart="382" bodyend="389"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_federation_resilience_coordinator_1a454b44d69550f5ab7d4a2a9bb3e28b64" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::query::FederationResilienceCoordinator::getAvailableShardCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getAvailableShardCount</name>
+        <qualifiedname>themis::query::FederationResilienceCoordinator::getAvailableShardCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="186" column="13" bodyfile="src/query/federation_resilience.cpp" bodystart="391" bodyend="399"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_federation_resilience_coordinator_1acc5c1be64e8d47a66e017de2105424bd" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::query::FederationResilienceCoordinator::getDegradedShardCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getDegradedShardCount</name>
+        <qualifiedname>themis::query::FederationResilienceCoordinator::getDegradedShardCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="188" column="13" bodyfile="src/query/federation_resilience.cpp" bodystart="401" bodyend="409"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_federation_resilience_coordinator_1a2694c08eecdf743327a67a3d66b25d83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_degraded_mode_executor" kindref="compound">DegradedModeExecutor</ref> &amp;</type>
+        <definition>DegradedModeExecutor &amp; themis::query::FederationResilienceCoordinator::getDegradedModeExecutor</definition>
+        <argsstring>()</argsstring>
+        <name>getDegradedModeExecutor</name>
+        <qualifiedname>themis::query::FederationResilienceCoordinator::getDegradedModeExecutor</qualifiedname>
+        <briefdescription>
+<para>Get Degraded Mode Executor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getDegradedModeExecutor without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="194" column="26" bodyfile="src/query/federation_resilience.cpp" bodystart="416" bodyend="418"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_federation_resilience_coordinator_1a31df36cdc7e57a3b5021afcce8c52610" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::FederationResilienceCoordinator::registerShardForRecoveryTracking</definition>
+        <argsstring>(const std::string &amp;shard_id, uint64_t recovery_sla_ms=30000)</argsstring>
+        <name>registerShardForRecoveryTracking</name>
+        <qualifiedname>themis::query::FederationResilienceCoordinator::registerShardForRecoveryTracking</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>recovery_sla_ms</declname>
+          <defval>30000</defval>
+        </param>
+        <briefdescription>
+<para>Register Shard For Recovery Tracking. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">recovery_sla_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), emplace(), RecoveryTimeTracker(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="196" column="10" bodyfile="src/query/federation_resilience.cpp" bodystart="426" bodyend="433"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_federation_resilience_coordinator_1a8e0ed764042f32a7f5af10d7c5d1ced1" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::reference_wrapper&lt; <ref refid="classthemis_1_1query_1_1_recovery_time_tracker" kindref="compound">RecoveryTimeTracker</ref> &gt; &gt;</type>
+        <definition>std::optional&lt; std::reference_wrapper&lt; RecoveryTimeTracker &gt; &gt; themis::query::FederationResilienceCoordinator::getRecoveryTracker</definition>
+        <argsstring>(const std::string &amp;shard_id)</argsstring>
+        <name>getRecoveryTracker</name>
+        <qualifiedname>themis::query::FederationResilienceCoordinator::getRecoveryTracker</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="201" column="5" bodyfile="src/query/federation_resilience.cpp" bodystart="436" bodyend="443"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_federation_resilience_coordinator_1a696352b7ca35a9b528743c9b98f91b1c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::FederationResilienceCoordinator::getResilienceStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getResilienceStatistics</name>
+        <qualifiedname>themis::query::FederationResilienceCoordinator::getResilienceStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="203" column="18" bodyfile="src/query/federation_resilience.cpp" bodystart="445" bodyend="454"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_federation_resilience_coordinator_1a24c90ac50e170022f0be8e14b31842bc" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt; std::string, std::string &gt; themis::query::FederationResilienceCoordinator::getShardStatesSummary</definition>
+        <argsstring>() const</argsstring>
+        <name>getShardStatesSummary</name>
+        <qualifiedname>themis::query::FederationResilienceCoordinator::getShardStatesSummary</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="206" column="5" bodyfile="src/query/federation_resilience.cpp" bodystart="457" bodyend="477"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/federation_resilience.h" line="175" column="1" bodyfile="include/query/federation_resilience.h" bodystart="175" bodyend="212"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_federation_resilience_coordinator_1a75664922dba6e065cc06f5492e5ff27a" prot="private" virt="non-virtual"><scope>themis::query::FederationResilienceCoordinator</scope><name>circuit_breakers_</name></member>
+      <member refid="classthemis_1_1query_1_1_federation_resilience_coordinator_1a6713f099eea1db356cc61b98abbe875a" prot="private" virt="non-virtual"><scope>themis::query::FederationResilienceCoordinator</scope><name>degraded_executor_</name></member>
+      <member refid="classthemis_1_1query_1_1_federation_resilience_coordinator_1a70b23347422f918c38c2d27321cd289b" prot="public" virt="non-virtual"><scope>themis::query::FederationResilienceCoordinator</scope><name>FederationResilienceCoordinator</name></member>
+      <member refid="classthemis_1_1query_1_1_federation_resilience_coordinator_1a454b44d69550f5ab7d4a2a9bb3e28b64" prot="public" virt="non-virtual"><scope>themis::query::FederationResilienceCoordinator</scope><name>getAvailableShardCount</name></member>
+      <member refid="classthemis_1_1query_1_1_federation_resilience_coordinator_1a2694c08eecdf743327a67a3d66b25d83" prot="public" virt="non-virtual"><scope>themis::query::FederationResilienceCoordinator</scope><name>getDegradedModeExecutor</name></member>
+      <member refid="classthemis_1_1query_1_1_federation_resilience_coordinator_1acc5c1be64e8d47a66e017de2105424bd" prot="public" virt="non-virtual"><scope>themis::query::FederationResilienceCoordinator</scope><name>getDegradedShardCount</name></member>
+      <member refid="classthemis_1_1query_1_1_federation_resilience_coordinator_1acf7d83b2dbd2dd3ba7819dc5601d0b42" prot="public" virt="non-virtual"><scope>themis::query::FederationResilienceCoordinator</scope><name>getOrCreateCircuitBreaker</name></member>
+      <member refid="classthemis_1_1query_1_1_federation_resilience_coordinator_1a8e0ed764042f32a7f5af10d7c5d1ced1" prot="public" virt="non-virtual"><scope>themis::query::FederationResilienceCoordinator</scope><name>getRecoveryTracker</name></member>
+      <member refid="classthemis_1_1query_1_1_federation_resilience_coordinator_1a696352b7ca35a9b528743c9b98f91b1c" prot="public" virt="non-virtual"><scope>themis::query::FederationResilienceCoordinator</scope><name>getResilienceStatistics</name></member>
+      <member refid="classthemis_1_1query_1_1_federation_resilience_coordinator_1a24c90ac50e170022f0be8e14b31842bc" prot="public" virt="non-virtual"><scope>themis::query::FederationResilienceCoordinator</scope><name>getShardStatesSummary</name></member>
+      <member refid="classthemis_1_1query_1_1_federation_resilience_coordinator_1aa18e67863833bd2dd30f21e21f5ec8d5" prot="public" virt="non-virtual"><scope>themis::query::FederationResilienceCoordinator</scope><name>isShardAvailable</name></member>
+      <member refid="classthemis_1_1query_1_1_federation_resilience_coordinator_1afad7fc66d8f2dcc796f4bc24ed4fbb6c" prot="private" virt="non-virtual"><scope>themis::query::FederationResilienceCoordinator</scope><name>recovery_trackers_</name></member>
+      <member refid="classthemis_1_1query_1_1_federation_resilience_coordinator_1a31df36cdc7e57a3b5021afcce8c52610" prot="public" virt="non-virtual"><scope>themis::query::FederationResilienceCoordinator</scope><name>registerShardForRecoveryTracking</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

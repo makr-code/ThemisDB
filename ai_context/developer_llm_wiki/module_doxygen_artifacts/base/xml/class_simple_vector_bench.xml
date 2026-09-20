@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_simple_vector_bench" kind="class" language="C++" prot="public">
+    <compoundname>SimpleVectorBench</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_simple_vector_bench_1a603930f8eb21c4ee534e395be80491fb" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string SimpleVectorBench::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>SimpleVectorBench::db_path_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_comprehensive.cpp" line="78" column="17" bodyfile="benchmarks/base/bench_comprehensive.cpp" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_simple_vector_bench_1a011d0e8f3eefa3f23d9fb15c84a58c98" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; SimpleVectorBench::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>SimpleVectorBench::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_comprehensive.cpp" line="79" column="21" bodyfile="benchmarks/base/bench_comprehensive.cpp" bodystart="79" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_simple_vector_bench_1ac6a12d7c4c24ac57bbe2601d45ed3e55" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SimpleVectorBench::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>SimpleVectorBench::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_comprehensive.cpp" line="60" column="10" bodyfile="benchmarks/base/bench_comprehensive.cpp" bodystart="60" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="class_simple_vector_bench_1a63e23ecc4287a8c23c38103c6047085d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SimpleVectorBench::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>SimpleVectorBench::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_comprehensive.cpp" line="72" column="10" bodyfile="benchmarks/base/bench_comprehensive.cpp" bodystart="72" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>SimpleVectorBench</label>
+        <link refid="class_simple_vector_bench"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>SimpleVectorBench</label>
+        <link refid="class_simple_vector_bench"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/base/bench_comprehensive.cpp" line="58" column="1" bodyfile="benchmarks/base/bench_comprehensive.cpp" bodystart="58" bodyend="80"/>
+    <listofallmembers>
+      <member refid="class_simple_vector_bench_1a011d0e8f3eefa3f23d9fb15c84a58c98" prot="protected" virt="non-virtual"><scope>SimpleVectorBench</scope><name>db_</name></member>
+      <member refid="class_simple_vector_bench_1a603930f8eb21c4ee534e395be80491fb" prot="protected" virt="non-virtual"><scope>SimpleVectorBench</scope><name>db_path_</name></member>
+      <member refid="class_simple_vector_bench_1ac6a12d7c4c24ac57bbe2601d45ed3e55" prot="public" virt="non-virtual"><scope>SimpleVectorBench</scope><name>SetUp</name></member>
+      <member refid="class_simple_vector_bench_1a63e23ecc4287a8c23c38103c6047085d" prot="public" virt="non-virtual"><scope>SimpleVectorBench</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

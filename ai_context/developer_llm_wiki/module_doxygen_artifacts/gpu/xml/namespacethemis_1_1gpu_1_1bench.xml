@@ -1,0 +1,388 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1gpu_1_1bench" kind="namespace" language="C++">
+    <compoundname>themis::gpu::bench</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1bench_1a77a25dc284b17a5027fd9e3e3f78641b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::gpu::bench::BenchCudaErrorCreation</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BenchCudaErrorCreation</name>
+        <qualifiedname>themis::gpu::bench::BenchCudaErrorCreation</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BP-A8-001: Measure <ref refid="classthemis_1_1gpu_1_1_cuda_error" kindref="compound">CudaError</ref> exception creation overhead.</para>
+<para>Baseline: Verify exception construction doesn&apos;t exceed 1µs (negligible). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_a8_baselines.cpp" line="105" column="13" bodyfile="benchmarks/gpu/bench_gpu_a8_baselines.cpp" bodystart="105" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1bench_1a1bacdd7855c01bd2cd3762d5cbb2d05e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::bench::BENCHMARK</definition>
+        <argsstring>(BenchCudaErrorCreation) -&gt; UseManualTime() -&gt;Repetitions(5)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::gpu::bench::BENCHMARK</qualifiedname>
+        <param>
+          <type>BenchCudaErrorCreation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_a8_baselines.cpp" line="114" column="1" declfile="benchmarks/gpu/bench_gpu_a8_baselines.cpp" declline="114" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1bench_1a3f13912adace46ce5aa8b6b13e8b760f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::gpu::bench::BenchKernelExecutionGuardCreation</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BenchKernelExecutionGuardCreation</name>
+        <qualifiedname>themis::gpu::bench::BenchKernelExecutionGuardCreation</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BP-A8-002: Measure <ref refid="classthemis_1_1gpu_1_1_kernel_execution_guard" kindref="compound">KernelExecutionGuard</ref> construction overhead.</para>
+<para>Baseline: Should be &lt; 10µs (just a timestamp + atomic). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_a8_baselines.cpp" line="121" column="13" bodyfile="benchmarks/gpu/bench_gpu_a8_baselines.cpp" bodystart="121" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1bench_1ad5363253f27538fabd6e41b7b07b5863" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::bench::BENCHMARK</definition>
+        <argsstring>(BenchKernelExecutionGuardCreation) -&gt; UseManualTime() -&gt;Repetitions(5)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::gpu::bench::BENCHMARK</qualifiedname>
+        <param>
+          <type>BenchKernelExecutionGuardCreation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_a8_baselines.cpp" line="127" column="1" declfile="benchmarks/gpu/bench_gpu_a8_baselines.cpp" declline="127" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1bench_1a0366b197325d7ee90bd9a05d046f5cea" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::gpu::bench::BenchKernelTimeoutCheck</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BenchKernelTimeoutCheck</name>
+        <qualifiedname>themis::gpu::bench::BenchKernelTimeoutCheck</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BP-A8-003: Measure timeout check overhead.</para>
+<para>Baseline: has_timed_out() should be &lt; 100ns (timestamp comparison). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_a8_baselines.cpp" line="134" column="13" bodyfile="benchmarks/gpu/bench_gpu_a8_baselines.cpp" bodystart="134" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1bench_1ae33ef68735518049656a2c85058ec6e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::bench::BENCHMARK</definition>
+        <argsstring>(BenchKernelTimeoutCheck) -&gt; UseManualTime() -&gt;Repetitions(5)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::gpu::bench::BENCHMARK</qualifiedname>
+        <param>
+          <type>BenchKernelTimeoutCheck</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_a8_baselines.cpp" line="141" column="1" declfile="benchmarks/gpu/bench_gpu_a8_baselines.cpp" declline="141" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1bench_1a203f01faacdbf41cf158228ce5c3c90a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::gpu::bench::BenchKernelElapsedTime</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BenchKernelElapsedTime</name>
+        <qualifiedname>themis::gpu::bench::BenchKernelElapsedTime</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BP-A8-004: Measure elapsed time calculation.</para>
+<para>Baseline: Should be &lt; 200ns (just time arithmetic). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_a8_baselines.cpp" line="148" column="13" bodyfile="benchmarks/gpu/bench_gpu_a8_baselines.cpp" bodystart="148" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1bench_1aa3c4f906dd5b05616be8ef5b9ef34799" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::bench::BENCHMARK</definition>
+        <argsstring>(BenchKernelElapsedTime) -&gt; UseManualTime() -&gt;Repetitions(5)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::gpu::bench::BENCHMARK</qualifiedname>
+        <param>
+          <type>BenchKernelElapsedTime</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_a8_baselines.cpp" line="155" column="1" declfile="benchmarks/gpu/bench_gpu_a8_baselines.cpp" declline="155" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1bench_1a9ed78148e5f38f81a977b4a9a186052f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::gpu::bench::BenchErrorCodeClassification</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BenchErrorCodeClassification</name>
+        <qualifiedname>themis::gpu::bench::BenchErrorCodeClassification</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BP-A8-005: Measure CUDA error code classification.</para>
+<para>Baseline: <ref refid="namespacethemis_1_1gpu_1afaa92fb12158f0906d44acb26c8b86c6" kindref="member">isFailClosedClass()</ref> should be &lt; 50ns (single comparison). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_a8_baselines.cpp" line="162" column="13" bodyfile="benchmarks/gpu/bench_gpu_a8_baselines.cpp" bodystart="162" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1bench_1a26e3d08141a0891381baec0f86730d0c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::bench::BENCHMARK</definition>
+        <argsstring>(BenchErrorCodeClassification) -&gt; UseManualTime() -&gt;Repetitions(5)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::gpu::bench::BENCHMARK</qualifiedname>
+        <param>
+          <type>BenchErrorCodeClassification</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_a8_baselines.cpp" line="168" column="1" declfile="benchmarks/gpu/bench_gpu_a8_baselines.cpp" declline="168" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1bench_1a70de6f08a299585541c3b9126de50bad" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::gpu::bench::BenchCudaErrorToString</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BenchCudaErrorToString</name>
+        <qualifiedname>themis::gpu::bench::BenchCudaErrorToString</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BP-A8-006: Measure cuda_error_to_string conversion.</para>
+<para>Baseline: Should be &lt; 500ns (just string call). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_a8_baselines.cpp" line="175" column="13" bodyfile="benchmarks/gpu/bench_gpu_a8_baselines.cpp" bodystart="175" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1bench_1a39c02cd7b4a8c288cd3b563be0a9024f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::bench::BENCHMARK</definition>
+        <argsstring>(BenchCudaErrorToString) -&gt; UseManualTime() -&gt;Repetitions(5)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::gpu::bench::BENCHMARK</qualifiedname>
+        <param>
+          <type>BenchCudaErrorToString</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_a8_baselines.cpp" line="181" column="1" declfile="benchmarks/gpu/bench_gpu_a8_baselines.cpp" declline="181" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1bench_1a3cb546e008d34d24999e99c93913d6bc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::gpu::bench::BenchTimingConversions</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BenchTimingConversions</name>
+        <qualifiedname>themis::gpu::bench::BenchTimingConversions</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BP-A8-007: Measure timing utility conversions.</para>
+<para>Baseline: ms_to_us and us_to_ms should be &lt; 50ns (arithmetic only). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_a8_baselines.cpp" line="188" column="13" bodyfile="benchmarks/gpu/bench_gpu_a8_baselines.cpp" bodystart="188" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1bench_1a7cadc905f62d8696b20ded910fb29074" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::bench::BENCHMARK</definition>
+        <argsstring>(BenchTimingConversions) -&gt; UseManualTime() -&gt;Repetitions(5)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::gpu::bench::BENCHMARK</qualifiedname>
+        <param>
+          <type>BenchTimingConversions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_a8_baselines.cpp" line="196" column="1" declfile="benchmarks/gpu/bench_gpu_a8_baselines.cpp" declline="196" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1bench_1a2b9a7f87462b9ef50983155fdea6cb02" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::gpu::bench::BenchKernelTimeoutGuardHotPath</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BenchKernelTimeoutGuardHotPath</name>
+        <qualifiedname>themis::gpu::bench::BenchKernelTimeoutGuardHotPath</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BP-A8-008: Verify <ref refid="classthemis_1_1gpu_1_1_kernel_execution_guard" kindref="compound">KernelExecutionGuard</ref> respects timeout semantics.</para>
+<para>This benchmark verifies that the timeout contract is met:<itemizedlist>
+<listitem><para>Timeout check is O(1)</para>
+</listitem><listitem><para>No hidden allocations</para>
+</listitem><listitem><para>Suitable for use in hot paths </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_a8_baselines.cpp" line="210" column="13" bodyfile="benchmarks/gpu/bench_gpu_a8_baselines.cpp" bodystart="210" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1bench_1afc10e54d965994c67179bcf66853f3f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::bench::BENCHMARK</definition>
+        <argsstring>(BenchKernelTimeoutGuardHotPath) -&gt; UseManualTime() -&gt;Repetitions(5)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::gpu::bench::BENCHMARK</qualifiedname>
+        <param>
+          <type>BenchKernelTimeoutGuardHotPath</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_a8_baselines.cpp" line="224" column="1" declfile="benchmarks/gpu/bench_gpu_a8_baselines.cpp" declline="224" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1bench_1acec708a8b298d7361090f6af51c78265" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::gpu::bench::BenchCompleteErrorHandlingPath</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BenchCompleteErrorHandlingPath</name>
+        <qualifiedname>themis::gpu::bench::BenchCompleteErrorHandlingPath</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BP-A8-009: Verify error handling latency is bounded.</para>
+<para>Tests the complete error path: creation → exception → classification. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_a8_baselines.cpp" line="231" column="13" bodyfile="benchmarks/gpu/bench_gpu_a8_baselines.cpp" bodystart="231" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1bench_1a054e274edaed3776f3bb82bffc9a53fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::bench::BENCHMARK</definition>
+        <argsstring>(BenchCompleteErrorHandlingPath) -&gt; UseManualTime() -&gt;Repetitions(5)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::gpu::bench::BENCHMARK</qualifiedname>
+        <param>
+          <type>BenchCompleteErrorHandlingPath</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_a8_baselines.cpp" line="243" column="1" declfile="benchmarks/gpu/bench_gpu_a8_baselines.cpp" declline="243" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1bench_1a836dbb4a04821941c9a870f8f8c5f6a1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::gpu::bench::BenchBatchErrorClassification</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BenchBatchErrorClassification</name>
+        <qualifiedname>themis::gpu::bench::BenchBatchErrorClassification</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>BP-A8-010: <ref refid="test__gpu__training__loop_8cpp_1af47983e44c7b4c07e44229aedf03c895" kindref="member">Batch</ref> error classification (simulating error queue processing).</para>
+<para>Tests performance of classifying multiple errors in sequence. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_a8_baselines.cpp" line="250" column="13" bodyfile="benchmarks/gpu/bench_gpu_a8_baselines.cpp" bodystart="250" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1bench_1a2cd5f6e3a1e479750a4f9ec9fcf5ab95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::bench::BENCHMARK</definition>
+        <argsstring>(BenchBatchErrorClassification) -&gt; UseManualTime() -&gt;Repetitions(5)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::gpu::bench::BENCHMARK</qualifiedname>
+        <param>
+          <type>BenchBatchErrorClassification</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_a8_baselines.cpp" line="266" column="1" declfile="benchmarks/gpu/bench_gpu_a8_baselines.cpp" declline="266" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/gpu/bench_gpu_a8_baselines.cpp" line="24" column="1"/>
+  </compounddef>
+</doxygen>

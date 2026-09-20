@@ -1,0 +1,216 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__replication__chaos__failover__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_replication_chaos_failover_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="geo__placement_8h" local="yes">replication/geo_placement.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>replication/geo_placement.h</label>
+        <link refid="geo__placement_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>replication/replication_manager.h</label>
+        <link refid="replication__manager_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/replication/test_replication_chaos_failover_focused.cpp</label>
+        <link refid="test__replication__chaos__failover__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>atomic</label>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="13">
+        <label>condition_variable</label>
+      </node>
+      <node id="17">
+        <label>deque</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="18">
+        <label>map</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>mutex</label>
+      </node>
+      <node id="15">
+        <label>optional</label>
+      </node>
+      <node id="16">
+        <label>queue</label>
+      </node>
+      <node id="19">
+        <label>set</label>
+      </node>
+      <node id="12">
+        <label>shared_mutex</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="14">
+        <label>thread</label>
+      </node>
+      <node id="20">
+        <label>unordered_map</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__replication__chaos__failover__focused_8cpp_1a96861a7c3352e49da1327a130d797767" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoPlacementContract, ValidatePlacementReturnsStructuredResult)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoPlacementContract</type>
+        </param>
+        <param>
+          <type>ValidatePlacementReturnsStructuredResult</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_chaos_failover_focused.cpp" line="29" column="1" bodyfile="tests/replication/test_replication_chaos_failover_focused.cpp" bodystart="29" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="test__replication__chaos__failover__focused_8cpp_1a7674e807f52473b172af57239c34c179" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoPlacementContract, SelectLeaderCandidateHonorsAvailability)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoPlacementContract</type>
+        </param>
+        <param>
+          <type>SelectLeaderCandidateHonorsAvailability</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_chaos_failover_focused.cpp" line="39" column="1" bodyfile="tests/replication/test_replication_chaos_failover_focused.cpp" bodystart="39" bodyend="50"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Contract tests for replication geo placement failover APIs. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="geo__placement_8h" kindref="compound">replication/geo_placement.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1replication" kindref="compound">themisdb::replication</ref>;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref><sp/>makeReplica(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dc,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>priority)<sp/>{</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref><sp/>r;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a4e14caea8db5dc2689a15d91f08a5e65" kindref="member">node_id</ref><sp/>=<sp/>id;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a2590844231ca9272d26f534a648301a2" kindref="member">endpoint</ref><sp/>=<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;:1234&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a50ba50793bd1427830d11c8263571f1a" kindref="member">role</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3a8026987f2531b5fa5178a851c108397c" kindref="member">ReplicationRole::FOLLOWER</ref>;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a01b9218022a2247e42f0aed097d951f9" kindref="member">last_applied_sequence</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a6b1eda086b1be216743f2a662e7c1fe7" kindref="member">last_applied_term</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a7471eee8fd9adb4f78eb8529a3e95f7d" kindref="member">last_heartbeat</ref><sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1a1480e359db84b06334e862151d09d728" kindref="member">is_voting_member</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1abd51b09233403c8eb501bfc821c42b15" kindref="member">datacenter</ref><sp/>=<sp/>dc;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1ae07d1da3fd37a2e9a29a4841d49c21d4" kindref="member">priority</ref><sp/>=<sp/>priority;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemisdb_1_1replication_1_1_replica_info_1aaea81695c2770eab6a9ae1120f445763" kindref="member">health_status</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1replication_1a22bb381941cf06c4c30110c4ba7f60aaaf068ebe4133e3e6563080836268ea979" kindref="member">HealthStatus::HEALTHY</ref>;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="27"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><ref refid="test__replication__chaos__failover__focused_8cpp_1a96861a7c3352e49da1327a130d797767" kindref="member">TEST</ref>(GeoPlacementContract,<sp/>ValidatePlacementReturnsStructuredResult)<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager" kindref="compound">GeoReplicaPlacementManager</ref><sp/>mgr;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_placement_constraints" kindref="compound">PlacementConstraints</ref><sp/>constraints;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>constraints.<ref refid="structthemisdb_1_1replication_1_1_placement_constraints_1a583c8efa0af3566e907c367430b43323" kindref="member">required_datacenters</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;dc-a&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ReplicaInfo&gt;<sp/>replicas{makeReplica(</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;dc-a&quot;</highlight><highlight class="normal">,<sp/>10)};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr.<ref refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1a86e45a53e9b5620515f98c4c55bd097e" kindref="member">validatePlacement</ref>(replicas,<sp/>constraints);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.is_valid);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><ref refid="test__replication__chaos__failover__focused_8cpp_1a96861a7c3352e49da1327a130d797767" kindref="member">TEST</ref>(GeoPlacementContract,<sp/>SelectLeaderCandidateHonorsAvailability)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager" kindref="compound">GeoReplicaPlacementManager</ref><sp/>mgr;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_placement_constraints" kindref="compound">PlacementConstraints</ref><sp/>constraints;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ReplicaInfo&gt;<sp/>replicas{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeReplica(</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;dc-a&quot;</highlight><highlight class="normal">,<sp/>5),</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeReplica(</highlight><highlight class="stringliteral">&quot;n2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;dc-b&quot;</highlight><highlight class="normal">,<sp/>10)</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>leader<sp/>=<sp/>mgr.<ref refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager_1afa015959b8589efbde17cad09b099553" kindref="member">selectLeaderCandidate</ref>(replicas,<sp/>constraints);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(leader.has_value());</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/replication/test_replication_chaos_failover_focused.cpp"/>
+  </compounddef>
+</doxygen>

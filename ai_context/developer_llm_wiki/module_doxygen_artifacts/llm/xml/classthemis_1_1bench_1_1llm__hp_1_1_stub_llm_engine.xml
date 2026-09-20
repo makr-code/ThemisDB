@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1bench_1_1llm__hp_1_1_stub_llm_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::bench::llm_hp::StubLlmEngine</compoundname>
+    <innerclass refid="structthemis_1_1bench_1_1llm__hp_1_1_stub_llm_engine_1_1_token" prot="public">themis::bench::llm_hp::StubLlmEngine::Token</innerclass>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1bench_1_1llm__hp_1_1_stub_llm_engine_1a9192e4217d556b93761584db7a0a899b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1bench_1_1llm__hp_1_1_stub_llm_engine_1_1_token" kindref="compound">Token</ref></type>
+        <definition>Token themis::bench::llm_hp::StubLlmEngine::inferSingleToken</definition>
+        <argsstring>(const std::string &amp;prompt, StubCancelToken &amp;tok)</argsstring>
+        <name>inferSingleToken</name>
+        <qualifiedname>themis::bench::llm_hp::StubLlmEngine::inferSingleToken</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1bench_1_1llm__hp_1_1_stub_cancel_token" kindref="compound">StubCancelToken</ref> &amp;</type>
+          <declname>tok</declname>
+        </param>
+        <briefdescription>
+<para>Single-token overhead: pre-inference check + trivial dispatch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="122" column="11" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="122" bodyend="126"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stub inference engine for overhead measurement. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="118" column="1" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="118" bodyend="127"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1bench_1_1llm__hp_1_1_stub_llm_engine_1a9192e4217d556b93761584db7a0a899b" prot="public" virt="non-virtual"><scope>themis::bench::llm_hp::StubLlmEngine</scope><name>inferSingleToken</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

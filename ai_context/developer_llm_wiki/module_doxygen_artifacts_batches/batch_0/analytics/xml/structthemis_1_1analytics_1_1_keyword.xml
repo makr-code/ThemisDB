@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_keyword" kind="struct" language="C++" prot="public">
+    <compoundname>themis::analytics::Keyword</compoundname>
+    <includes refid="nlp__text__analyzer_8h" local="no">nlp_text_analyzer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_keyword_1a35054de4e86fedba8d9781d57f6639f6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::Keyword::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::analytics::Keyword::text</qualifiedname>
+        <briefdescription>
+<para><ref refid="structthemis_1_1analytics_1_1_keyword" kindref="compound">Keyword</ref> text. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="50" column="17" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_keyword_1a903dfd5df70ec5b101ddb92f8274309a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::analytics::Keyword::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themis::analytics::Keyword::score</qualifiedname>
+        <briefdescription>
+<para>TF-IDF or relevance score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="51" column="12" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_keyword_1a5b2b2128d4d87a2d2f0dabfea7c1a97c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::Keyword::frequency</definition>
+        <argsstring></argsstring>
+        <name>frequency</name>
+        <qualifiedname>themis::analytics::Keyword::frequency</qualifiedname>
+        <briefdescription>
+<para>Occurrence count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="52" column="12" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1analytics_1_1_keyword_1a36e297198e13f7b347fc8664add93f0b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::Keyword::Keyword</definition>
+        <argsstring>()</argsstring>
+        <name>Keyword</name>
+        <qualifiedname>themis::analytics::Keyword::Keyword</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="54" column="5" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="54" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1analytics_1_1_keyword_1a74b0afc48bf37d2e01c254d9c15b37b3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::Keyword::Keyword</definition>
+        <argsstring>(std::string t, double s, size_t f=1)</argsstring>
+        <name>Keyword</name>
+        <qualifiedname>themis::analytics::Keyword::Keyword</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>f</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="55" column="5" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="55" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1analytics_1_1_keyword_1ae79380fac680513081e8a3e8897202e4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::analytics::Keyword::operator&lt;</definition>
+        <argsstring>(const Keyword &amp;other) const</argsstring>
+        <name>operator&lt;</name>
+        <qualifiedname>themis::analytics::Keyword::operator&lt;</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1analytics_1_1_keyword_1a36e297198e13f7b347fc8664add93f0b" kindref="member">Keyword</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="58" column="5" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="58" bodyend="60"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/nlp_text_analyzer.h" line="49" column="1" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="49" bodyend="61"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_keyword_1a5b2b2128d4d87a2d2f0dabfea7c1a97c" prot="public" virt="non-virtual"><scope>themis::analytics::Keyword</scope><name>frequency</name></member>
+      <member refid="structthemis_1_1analytics_1_1_keyword_1a36e297198e13f7b347fc8664add93f0b" prot="public" virt="non-virtual"><scope>themis::analytics::Keyword</scope><name>Keyword</name></member>
+      <member refid="structthemis_1_1analytics_1_1_keyword_1a74b0afc48bf37d2e01c254d9c15b37b3" prot="public" virt="non-virtual"><scope>themis::analytics::Keyword</scope><name>Keyword</name></member>
+      <member refid="structthemis_1_1analytics_1_1_keyword_1ae79380fac680513081e8a3e8897202e4" prot="public" virt="non-virtual"><scope>themis::analytics::Keyword</scope><name>operator&lt;</name></member>
+      <member refid="structthemis_1_1analytics_1_1_keyword_1a903dfd5df70ec5b101ddb92f8274309a" prot="public" virt="non-virtual"><scope>themis::analytics::Keyword</scope><name>score</name></member>
+      <member refid="structthemis_1_1analytics_1_1_keyword_1a35054de4e86fedba8d9781d57f6639f6" prot="public" virt="non-virtual"><scope>themis::analytics::Keyword</scope><name>text</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

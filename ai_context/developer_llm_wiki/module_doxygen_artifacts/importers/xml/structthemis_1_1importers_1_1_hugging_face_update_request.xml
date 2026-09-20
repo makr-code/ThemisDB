@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_hugging_face_update_request" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::HuggingFaceUpdateRequest</compoundname>
+    <includes refid="huggingface__ingest__plugin_8h" local="no">huggingface_ingest_plugin.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hugging_face_update_request_1ae5168f87d059493fe3192f6c622752ce" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::HuggingFaceUpdateRequest::dataset_name</definition>
+        <argsstring></argsstring>
+        <name>dataset_name</name>
+        <qualifiedname>themis::importers::HuggingFaceUpdateRequest::dataset_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="53" column="17" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hugging_face_update_request_1a98d7775ed9a1ab0bdf7d4d248aa6db9b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::HuggingFaceUpdateRequest::split</definition>
+        <argsstring></argsstring>
+        <name>split</name>
+        <qualifiedname>themis::importers::HuggingFaceUpdateRequest::split</qualifiedname>
+        <initializer>= &quot;train&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="54" column="17" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hugging_face_update_request_1a01fa7d4303680f31696d044ab1f9f39a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::HuggingFaceUpdateRequest::update_token</definition>
+        <argsstring></argsstring>
+        <name>update_token</name>
+        <qualifiedname>themis::importers::HuggingFaceUpdateRequest::update_token</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="55" column="17" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hugging_face_update_request_1a71e4b14560dbef1cc39b1d765879b22a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &gt;</type>
+        <definition>std::vector&lt;json&gt; themis::importers::HuggingFaceUpdateRequest::changed_rows</definition>
+        <argsstring></argsstring>
+        <name>changed_rows</name>
+        <qualifiedname>themis::importers::HuggingFaceUpdateRequest::changed_rows</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="56" column="17" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hugging_face_update_request_1a3bc402e0c88d7aa3ba4f9d42ce790368" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::HuggingFaceUpdateRequest::resume_from_checkpoint</definition>
+        <argsstring></argsstring>
+        <name>resume_from_checkpoint</name>
+        <qualifiedname>themis::importers::HuggingFaceUpdateRequest::resume_from_checkpoint</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="57" column="10" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/huggingface_ingest_plugin.h" line="52" column="1" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="52" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_hugging_face_update_request_1a71e4b14560dbef1cc39b1d765879b22a" prot="public" virt="non-virtual"><scope>themis::importers::HuggingFaceUpdateRequest</scope><name>changed_rows</name></member>
+      <member refid="structthemis_1_1importers_1_1_hugging_face_update_request_1ae5168f87d059493fe3192f6c622752ce" prot="public" virt="non-virtual"><scope>themis::importers::HuggingFaceUpdateRequest</scope><name>dataset_name</name></member>
+      <member refid="structthemis_1_1importers_1_1_hugging_face_update_request_1a3bc402e0c88d7aa3ba4f9d42ce790368" prot="public" virt="non-virtual"><scope>themis::importers::HuggingFaceUpdateRequest</scope><name>resume_from_checkpoint</name></member>
+      <member refid="structthemis_1_1importers_1_1_hugging_face_update_request_1a98d7775ed9a1ab0bdf7d4d248aa6db9b" prot="public" virt="non-virtual"><scope>themis::importers::HuggingFaceUpdateRequest</scope><name>split</name></member>
+      <member refid="structthemis_1_1importers_1_1_hugging_face_update_request_1a01fa7d4303680f31696d044ab1f9f39a" prot="public" virt="non-virtual"><scope>themis::importers::HuggingFaceUpdateRequest</scope><name>update_token</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

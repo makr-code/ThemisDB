@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_reasoning_step" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::ReasoningStep</compoundname>
+    <includes refid="aql__agent_8h" local="no">aql_agent.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_reasoning_step_1afca3c529509b5692c7143b6955ed1fd2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::ReasoningStep::thought</definition>
+        <argsstring></argsstring>
+        <name>thought</name>
+        <qualifiedname>themis::aql::ReasoningStep::thought</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_agent.h" line="57" column="17" bodyfile="include/aql/aql_agent.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_reasoning_step_1adeac0940f24f8439919de80635597006" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::aql::ReasoningStep::tool_name</definition>
+        <argsstring></argsstring>
+        <name>tool_name</name>
+        <qualifiedname>themis::aql::ReasoningStep::tool_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_agent.h" line="59" column="19" bodyfile="include/aql/aql_agent.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_reasoning_step_1a3da647397f7d68d2dcba0cee8b77d58c" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1aql_1a33b74478135fa9f5b404669fed4bb549" kindref="member">json</ref> &gt;</type>
+        <definition>std::optional&lt;json&gt; themis::aql::ReasoningStep::tool_input</definition>
+        <argsstring></argsstring>
+        <name>tool_input</name>
+        <qualifiedname>themis::aql::ReasoningStep::tool_input</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_agent.h" line="61" column="19" bodyfile="include/aql/aql_agent.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_reasoning_step_1a979683ff4bff4111e63361cc84ffd40d" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1aql_1a33b74478135fa9f5b404669fed4bb549" kindref="member">json</ref> &gt;</type>
+        <definition>std::optional&lt;json&gt; themis::aql::ReasoningStep::tool_output</definition>
+        <argsstring></argsstring>
+        <name>tool_output</name>
+        <qualifiedname>themis::aql::ReasoningStep::tool_output</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_agent.h" line="63" column="19" bodyfile="include/aql/aql_agent.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_reasoning_step_1a539f8ae74bb5e9cce4a31e430ee4e66c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::ReasoningStep::observation</definition>
+        <argsstring></argsstring>
+        <name>observation</name>
+        <qualifiedname>themis::aql::ReasoningStep::observation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_agent.h" line="65" column="17" bodyfile="include/aql/aql_agent.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_agent.h" line="56" column="1" bodyfile="include/aql/aql_agent.h" bodystart="56" bodyend="66"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_reasoning_step_1a539f8ae74bb5e9cce4a31e430ee4e66c" prot="public" virt="non-virtual"><scope>themis::aql::ReasoningStep</scope><name>observation</name></member>
+      <member refid="structthemis_1_1aql_1_1_reasoning_step_1afca3c529509b5692c7143b6955ed1fd2" prot="public" virt="non-virtual"><scope>themis::aql::ReasoningStep</scope><name>thought</name></member>
+      <member refid="structthemis_1_1aql_1_1_reasoning_step_1a3da647397f7d68d2dcba0cee8b77d58c" prot="public" virt="non-virtual"><scope>themis::aql::ReasoningStep</scope><name>tool_input</name></member>
+      <member refid="structthemis_1_1aql_1_1_reasoning_step_1adeac0940f24f8439919de80635597006" prot="public" virt="non-virtual"><scope>themis::aql::ReasoningStep</scope><name>tool_name</name></member>
+      <member refid="structthemis_1_1aql_1_1_reasoning_step_1a979683ff4bff4111e63361cc84ffd40d" prot="public" virt="non-virtual"><scope>themis::aql::ReasoningStep</scope><name>tool_output</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

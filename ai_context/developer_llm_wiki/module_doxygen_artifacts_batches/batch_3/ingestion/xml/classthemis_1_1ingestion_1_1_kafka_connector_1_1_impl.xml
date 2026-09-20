@@ -1,0 +1,663 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::KafkaConnector::Impl</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1a85c37b5f0e207725106bdccdb891a419" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref></type>
+        <definition>SourceConfig themis::ingestion::KafkaConnector::Impl::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::ingestion::KafkaConnector::Impl::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/kafka_connector.cpp" line="601" column="18" bodyfile="src/ingestion/kafka_connector.cpp" bodystart="601" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1a4f9367cde933cd8db7811d60f47d7fe8" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::KafkaConnector::Impl::brokers_</definition>
+        <argsstring></argsstring>
+        <name>brokers_</name>
+        <qualifiedname>themis::ingestion::KafkaConnector::Impl::brokers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/kafka_connector.cpp" line="602" column="18" bodyfile="src/ingestion/kafka_connector.cpp" bodystart="602" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1ac1975fbf4df92bbd2eaa88bd8c834dd2" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::KafkaConnector::Impl::topic_</definition>
+        <argsstring></argsstring>
+        <name>topic_</name>
+        <qualifiedname>themis::ingestion::KafkaConnector::Impl::topic_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/kafka_connector.cpp" line="603" column="18" bodyfile="src/ingestion/kafka_connector.cpp" bodystart="603" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1a5d49f5d5f1d36574b5afc22ec814eee0" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::KafkaConnector::Impl::consumer_group_</definition>
+        <argsstring></argsstring>
+        <name>consumer_group_</name>
+        <qualifiedname>themis::ingestion::KafkaConnector::Impl::consumer_group_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/kafka_connector.cpp" line="604" column="18" bodyfile="src/ingestion/kafka_connector.cpp" bodystart="604" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1a280570075abff83622deec04a36a131d" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::KafkaConnector::Impl::message_format_</definition>
+        <argsstring></argsstring>
+        <name>message_format_</name>
+        <qualifiedname>themis::ingestion::KafkaConnector::Impl::message_format_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/kafka_connector.cpp" line="605" column="18" bodyfile="src/ingestion/kafka_connector.cpp" bodystart="605" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1ab997750491111e0bb64c407c2d6b3317" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::KafkaConnector::Impl::text_field_</definition>
+        <argsstring></argsstring>
+        <name>text_field_</name>
+        <qualifiedname>themis::ingestion::KafkaConnector::Impl::text_field_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/kafka_connector.cpp" line="606" column="18" bodyfile="src/ingestion/kafka_connector.cpp" bodystart="606" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1ac28cad5ad8e86cf0e52bf3e252989e72" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::KafkaConnector::Impl::schema_reg_url_</definition>
+        <argsstring></argsstring>
+        <name>schema_reg_url_</name>
+        <qualifiedname>themis::ingestion::KafkaConnector::Impl::schema_reg_url_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/kafka_connector.cpp" line="607" column="18" bodyfile="src/ingestion/kafka_connector.cpp" bodystart="607" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1a3b4a92f7a0898e9da5e35318664ca9a6" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ingestion::KafkaConnector::Impl::poll_timeout_ms_</definition>
+        <argsstring></argsstring>
+        <name>poll_timeout_ms_</name>
+        <qualifiedname>themis::ingestion::KafkaConnector::Impl::poll_timeout_ms_</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/kafka_connector.cpp" line="608" column="18" bodyfile="src/ingestion/kafka_connector.cpp" bodystart="608" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1abe6a30219883c5e913d9f7ae814453f2" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::KafkaConnector::Impl::max_messages_</definition>
+        <argsstring></argsstring>
+        <name>max_messages_</name>
+        <qualifiedname>themis::ingestion::KafkaConnector::Impl::max_messages_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/kafka_connector.cpp" line="609" column="18" bodyfile="src/ingestion/kafka_connector.cpp" bodystart="609" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1a0c9e433c6877e6c955a5e8b31a00c1a6" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ingestion::KafkaConnector::Impl::session_timeout_ms_</definition>
+        <argsstring></argsstring>
+        <name>session_timeout_ms_</name>
+        <qualifiedname>themis::ingestion::KafkaConnector::Impl::session_timeout_ms_</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/kafka_connector.cpp" line="610" column="18" bodyfile="src/ingestion/kafka_connector.cpp" bodystart="610" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1a2e3fd572a7c172413bd0ffc03be1a210" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::KafkaConnector::Impl::security_protocol_</definition>
+        <argsstring></argsstring>
+        <name>security_protocol_</name>
+        <qualifiedname>themis::ingestion::KafkaConnector::Impl::security_protocol_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/kafka_connector.cpp" line="611" column="18" bodyfile="src/ingestion/kafka_connector.cpp" bodystart="611" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1a6a9f680bb9e3e5ff4461d78b44daa911" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::KafkaConnector::Impl::sasl_mechanism_</definition>
+        <argsstring></argsstring>
+        <name>sasl_mechanism_</name>
+        <qualifiedname>themis::ingestion::KafkaConnector::Impl::sasl_mechanism_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/kafka_connector.cpp" line="612" column="18" bodyfile="src/ingestion/kafka_connector.cpp" bodystart="612" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1a30c8771338fe8cc1f2e45bc668d9e206" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::KafkaConnector::Impl::sasl_username_</definition>
+        <argsstring></argsstring>
+        <name>sasl_username_</name>
+        <qualifiedname>themis::ingestion::KafkaConnector::Impl::sasl_username_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/kafka_connector.cpp" line="613" column="18" bodyfile="src/ingestion/kafka_connector.cpp" bodystart="613" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1a2fba5ae9efb0d0d6ad87909253cb96f1" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::KafkaConnector::Impl::sasl_password_</definition>
+        <argsstring></argsstring>
+        <name>sasl_password_</name>
+        <qualifiedname>themis::ingestion::KafkaConnector::Impl::sasl_password_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/kafka_connector.cpp" line="614" column="18" bodyfile="src/ingestion/kafka_connector.cpp" bodystart="614" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1ad38d9594ecaa49e7e399a4c47ea6aa78" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::KafkaConnector::Impl::ssl_ca_location_</definition>
+        <argsstring></argsstring>
+        <name>ssl_ca_location_</name>
+        <qualifiedname>themis::ingestion::KafkaConnector::Impl::ssl_ca_location_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/kafka_connector.cpp" line="615" column="18" bodyfile="src/ingestion/kafka_connector.cpp" bodystart="615" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1ac9c73fc4f3514d8c2845c208064a6e58" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::KafkaConnector::Impl::auto_offset_reset_</definition>
+        <argsstring></argsstring>
+        <name>auto_offset_reset_</name>
+        <qualifiedname>themis::ingestion::KafkaConnector::Impl::auto_offset_reset_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/kafka_connector.cpp" line="616" column="18" bodyfile="src/ingestion/kafka_connector.cpp" bodystart="616" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1a60461778a2b104c1ee1dad732ca5ebb3" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1ingestion_1_1_retry_config" kindref="compound">RetryConfig</ref></type>
+        <definition>RetryConfig themis::ingestion::KafkaConnector::Impl::retry_config_</definition>
+        <argsstring></argsstring>
+        <name>retry_config_</name>
+        <qualifiedname>themis::ingestion::KafkaConnector::Impl::retry_config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/kafka_connector.cpp" line="617" column="18" bodyfile="src/ingestion/kafka_connector.cpp" bodystart="617" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1a1aae244994e9e8e39281224c9b6399e1" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_checkpoint_store" kindref="compound">CheckpointStore</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;CheckpointStore&gt; themis::ingestion::KafkaConnector::Impl::checkpoint_store_</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_store_</name>
+        <qualifiedname>themis::ingestion::KafkaConnector::Impl::checkpoint_store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/kafka_connector.cpp" line="622" column="21" bodyfile="src/ingestion/kafka_connector.cpp" bodystart="622" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1af66412cef1b1a37c127b40761db39ac7" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1ingestion_1_1_kafka_connector_1a7eb0c27465d2d97dcc2e90d188b93434" kindref="member">KafkaMessageFn</ref></type>
+        <definition>KafkaMessageFn themis::ingestion::KafkaConnector::Impl::message_fn_</definition>
+        <argsstring></argsstring>
+        <name>message_fn_</name>
+        <qualifiedname>themis::ingestion::KafkaConnector::Impl::message_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/kafka_connector.cpp" line="625" column="20" bodyfile="src/ingestion/kafka_connector.cpp" bodystart="625" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1ac2f6deb5258d8589220e8b22c54a38c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::KafkaConnector::Impl::Impl</definition>
+        <argsstring>()=default</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::ingestion::KafkaConnector::Impl::Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/kafka_connector.cpp" line="78" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1ae174cb86b0c047d91984fb0167b4381f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::KafkaConnector::Impl::~Impl</definition>
+        <argsstring>()</argsstring>
+        <name>~Impl</name>
+        <qualifiedname>themis::ingestion::KafkaConnector::Impl::~Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/kafka_connector.cpp" line="79" column="5" bodyfile="src/ingestion/kafka_connector.cpp" bodystart="79" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1a30956fd6d3ac4730e12e3c2c9114ed17" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::KafkaConnector::Impl::initialize</definition>
+        <argsstring>(const SourceConfig &amp;config)</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::ingestion::KafkaConnector::Impl::initialize</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(), end(), opt(), count(), at(), std::stoi(), std::stoull(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/kafka_connector.cpp" line="89" column="10" bodyfile="src/ingestion/kafka_connector.cpp" bodystart="89" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1af741b0cc2dc30ce146a90b09b4e958e3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::KafkaConnector::Impl::isAvailable</definition>
+        <argsstring>() const</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::ingestion::KafkaConnector::Impl::isAvailable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/kafka_connector.cpp" line="136" column="10" bodyfile="src/ingestion/kafka_connector.cpp" bodystart="136" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1a6cd720058c525aa40c9358d818c2ad93" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::KafkaConnector::Impl::getDocumentCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getDocumentCount</name>
+        <qualifiedname>themis::ingestion::KafkaConnector::Impl::getDocumentCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/kafka_connector.cpp" line="171" column="12" bodyfile="src/ingestion/kafka_connector.cpp" bodystart="171" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1afbf56c70419ea264459761b4e62a5a5f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_ingestion_stats" kindref="compound">IngestionStats</ref></type>
+        <definition>IngestionStats themis::ingestion::KafkaConnector::Impl::ingest</definition>
+        <argsstring>(const std::string &amp;, ProgressCallback progress_callback)</argsstring>
+        <name>ingest</name>
+        <qualifiedname>themis::ingestion::KafkaConnector::Impl::ingest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1a08c45a80d5fd20fa7f8af7fd52290e94" kindref="member">ProgressCallback</ref></type>
+          <declname>progress_callback</declname>
+        </param>
+        <briefdescription>
+<para>Ingest. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">progress_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), empty(), addError(), ingestFromMock(), finaliseStats(), ingestFromKafka(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/kafka_connector.cpp" line="183" column="20" bodyfile="src/ingestion/kafka_connector.cpp" bodystart="183" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1ad160b8a2aafc12dd8d2bcdd59472e618" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::KafkaConnector::Impl::setRetryConfig</definition>
+        <argsstring>(const RetryConfig &amp;c)</argsstring>
+        <name>setRetryConfig</name>
+        <qualifiedname>themis::ingestion::KafkaConnector::Impl::setRetryConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_retry_config" kindref="compound">RetryConfig</ref> &amp;</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+<para>Set Retry Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setRetryConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/kafka_connector.cpp" line="225" column="10" bodyfile="src/ingestion/kafka_connector.cpp" bodystart="225" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1ac4d2767e9bd5a3835221e4045b8f772d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::KafkaConnector::Impl::setMessageFetchForTesting</definition>
+        <argsstring>(KafkaMessageFn fn)</argsstring>
+        <name>setMessageFetchForTesting</name>
+        <qualifiedname>themis::ingestion::KafkaConnector::Impl::setMessageFetchForTesting</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1ingestion_1_1_kafka_connector_1a7eb0c27465d2d97dcc2e90d188b93434" kindref="member">KafkaMessageFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Message Fetch For Testing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/kafka_connector.cpp" line="231" column="10" bodyfile="src/ingestion/kafka_connector.cpp" bodystart="231" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1a11c3877d50f6ef864af27be219d60292" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::KafkaConnector::Impl::setCheckpointStore</definition>
+        <argsstring>(std::shared_ptr&lt; CheckpointStore &gt; store)</argsstring>
+        <name>setCheckpointStore</name>
+        <qualifiedname>themis::ingestion::KafkaConnector::Impl::setCheckpointStore</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_checkpoint_store" kindref="compound">CheckpointStore</ref> &gt;</type>
+          <declname>store</declname>
+        </param>
+        <briefdescription>
+<para>Set Checkpoint Store. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">store</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/kafka_connector.cpp" line="237" column="10" bodyfile="src/ingestion/kafka_connector.cpp" bodystart="237" bodyend="239"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1a8d944d151a7b795f1774793899d4f36b" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::KafkaConnector::Impl::writeCheckpoint</definition>
+        <argsstring>(size_t processed_count)</argsstring>
+        <name>writeCheckpoint</name>
+        <qualifiedname>themis::ingestion::KafkaConnector::Impl::writeCheckpoint</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>processed_count</declname>
+        </param>
+        <briefdescription>
+<para>--------------------------------------------------------------------<mdash/> Write a ThemisDB-level checkpoint for this source via the injected store. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">processed_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Called before Kafka offsets are committed (rd_kafka_consumer_close) so that the ThemisDB checkpoint is always written before Kafka forgets the messages, ensuring at-least-once delivery semantics. --------------------------------------------------------------------<mdash/> Calls: std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), gmtime_s(), gmtime_r(), std::strftime(), write(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/kafka_connector.cpp" line="247" column="10" bodyfile="src/ingestion/kafka_connector.cpp" bodystart="247" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1a5bb7aaf11a679f1bfb927f5d6edd1649" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::KafkaConnector::Impl::ingestFromMock</definition>
+        <argsstring>(IngestionStats &amp;stats, ProgressCallback &amp;progress_callback)</argsstring>
+        <name>ingestFromMock</name>
+        <qualifiedname>themis::ingestion::KafkaConnector::Impl::ingestFromMock</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1ingestion_1_1_ingestion_stats" kindref="compound">IngestionStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1a08c45a80d5fd20fa7f8af7fd52290e94" kindref="member">ProgressCallback</ref> &amp;</type>
+          <declname>progress_callback</declname>
+        </param>
+        <briefdescription>
+<para>Ingest From Mock. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">progress_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: message_fn_(), empty(), extractText(), size(), progress_callback(), std::to_string(), addError(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/kafka_connector.cpp" line="289" column="10" bodyfile="src/ingestion/kafka_connector.cpp" bodystart="289" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1a7d237b746de6f6f2815b77638ae1f16a" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::KafkaConnector::Impl::destroyConsumer</definition>
+        <argsstring>()</argsstring>
+        <name>destroyConsumer</name>
+        <qualifiedname>themis::ingestion::KafkaConnector::Impl::destroyConsumer</qualifiedname>
+        <briefdescription>
+<para>Destroy Consumer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements destroyConsumer without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/kafka_connector.cpp" line="558" column="10" bodyfile="src/ingestion/kafka_connector.cpp" bodystart="558" bodyend="558"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1ab22e6c360ae102657adc48815f976b18" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::KafkaConnector::Impl::extractText</definition>
+        <argsstring>(const std::string &amp;payload) const</argsstring>
+        <name>extractText</name>
+        <qualifiedname>themis::ingestion::KafkaConnector::Impl::extractText</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/kafka_connector.cpp" line="564" column="17" bodyfile="src/ingestion/kafka_connector.cpp" bodystart="564" bodyend="586"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1afb841850a47f89d942035ed196d44981" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::KafkaConnector::Impl::finaliseStats</definition>
+        <argsstring>(IngestionStats &amp;stats, const std::chrono::steady_clock::time_point &amp;start) const</argsstring>
+        <name>finaliseStats</name>
+        <qualifiedname>themis::ingestion::KafkaConnector::Impl::finaliseStats</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1ingestion_1_1_ingestion_stats" kindref="compound">IngestionStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <param>
+          <type>const std::chrono::steady_clock::time_point &amp;</type>
+          <declname>start</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/kafka_connector.cpp" line="588" column="10" bodyfile="src/ingestion/kafka_connector.cpp" bodystart="588" bodyend="598"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/ingestion/kafka_connector.cpp" line="76" column="1" bodyfile="src/ingestion/kafka_connector.cpp" bodystart="76" bodyend="626"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1ac9c73fc4f3514d8c2845c208064a6e58" prot="private" virt="non-virtual"><scope>themis::ingestion::KafkaConnector::Impl</scope><name>auto_offset_reset_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1a4f9367cde933cd8db7811d60f47d7fe8" prot="private" virt="non-virtual"><scope>themis::ingestion::KafkaConnector::Impl</scope><name>brokers_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1a1aae244994e9e8e39281224c9b6399e1" prot="private" virt="non-virtual"><scope>themis::ingestion::KafkaConnector::Impl</scope><name>checkpoint_store_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1a85c37b5f0e207725106bdccdb891a419" prot="private" virt="non-virtual"><scope>themis::ingestion::KafkaConnector::Impl</scope><name>config_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1a5d49f5d5f1d36574b5afc22ec814eee0" prot="private" virt="non-virtual"><scope>themis::ingestion::KafkaConnector::Impl</scope><name>consumer_group_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1a7d237b746de6f6f2815b77638ae1f16a" prot="private" virt="non-virtual"><scope>themis::ingestion::KafkaConnector::Impl</scope><name>destroyConsumer</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1ab22e6c360ae102657adc48815f976b18" prot="private" virt="non-virtual"><scope>themis::ingestion::KafkaConnector::Impl</scope><name>extractText</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1afb841850a47f89d942035ed196d44981" prot="private" virt="non-virtual"><scope>themis::ingestion::KafkaConnector::Impl</scope><name>finaliseStats</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1a6cd720058c525aa40c9358d818c2ad93" prot="public" virt="non-virtual"><scope>themis::ingestion::KafkaConnector::Impl</scope><name>getDocumentCount</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1ac2f6deb5258d8589220e8b22c54a38c0" prot="public" virt="non-virtual"><scope>themis::ingestion::KafkaConnector::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1afbf56c70419ea264459761b4e62a5a5f" prot="public" virt="non-virtual"><scope>themis::ingestion::KafkaConnector::Impl</scope><name>ingest</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1a5bb7aaf11a679f1bfb927f5d6edd1649" prot="private" virt="non-virtual"><scope>themis::ingestion::KafkaConnector::Impl</scope><name>ingestFromMock</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1a30956fd6d3ac4730e12e3c2c9114ed17" prot="public" virt="non-virtual"><scope>themis::ingestion::KafkaConnector::Impl</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1af741b0cc2dc30ce146a90b09b4e958e3" prot="public" virt="non-virtual"><scope>themis::ingestion::KafkaConnector::Impl</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1abe6a30219883c5e913d9f7ae814453f2" prot="private" virt="non-virtual"><scope>themis::ingestion::KafkaConnector::Impl</scope><name>max_messages_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1af66412cef1b1a37c127b40761db39ac7" prot="private" virt="non-virtual"><scope>themis::ingestion::KafkaConnector::Impl</scope><name>message_fn_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1a280570075abff83622deec04a36a131d" prot="private" virt="non-virtual"><scope>themis::ingestion::KafkaConnector::Impl</scope><name>message_format_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1a3b4a92f7a0898e9da5e35318664ca9a6" prot="private" virt="non-virtual"><scope>themis::ingestion::KafkaConnector::Impl</scope><name>poll_timeout_ms_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1a60461778a2b104c1ee1dad732ca5ebb3" prot="private" virt="non-virtual"><scope>themis::ingestion::KafkaConnector::Impl</scope><name>retry_config_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1a6a9f680bb9e3e5ff4461d78b44daa911" prot="private" virt="non-virtual"><scope>themis::ingestion::KafkaConnector::Impl</scope><name>sasl_mechanism_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1a2fba5ae9efb0d0d6ad87909253cb96f1" prot="private" virt="non-virtual"><scope>themis::ingestion::KafkaConnector::Impl</scope><name>sasl_password_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1a30c8771338fe8cc1f2e45bc668d9e206" prot="private" virt="non-virtual"><scope>themis::ingestion::KafkaConnector::Impl</scope><name>sasl_username_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1ac28cad5ad8e86cf0e52bf3e252989e72" prot="private" virt="non-virtual"><scope>themis::ingestion::KafkaConnector::Impl</scope><name>schema_reg_url_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1a2e3fd572a7c172413bd0ffc03be1a210" prot="private" virt="non-virtual"><scope>themis::ingestion::KafkaConnector::Impl</scope><name>security_protocol_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1a0c9e433c6877e6c955a5e8b31a00c1a6" prot="private" virt="non-virtual"><scope>themis::ingestion::KafkaConnector::Impl</scope><name>session_timeout_ms_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1a11c3877d50f6ef864af27be219d60292" prot="public" virt="non-virtual"><scope>themis::ingestion::KafkaConnector::Impl</scope><name>setCheckpointStore</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1ac4d2767e9bd5a3835221e4045b8f772d" prot="public" virt="non-virtual"><scope>themis::ingestion::KafkaConnector::Impl</scope><name>setMessageFetchForTesting</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1ad160b8a2aafc12dd8d2bcdd59472e618" prot="public" virt="non-virtual"><scope>themis::ingestion::KafkaConnector::Impl</scope><name>setRetryConfig</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1ad38d9594ecaa49e7e399a4c47ea6aa78" prot="private" virt="non-virtual"><scope>themis::ingestion::KafkaConnector::Impl</scope><name>ssl_ca_location_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1ab997750491111e0bb64c407c2d6b3317" prot="private" virt="non-virtual"><scope>themis::ingestion::KafkaConnector::Impl</scope><name>text_field_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1ac1975fbf4df92bbd2eaa88bd8c834dd2" prot="private" virt="non-virtual"><scope>themis::ingestion::KafkaConnector::Impl</scope><name>topic_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1a8d944d151a7b795f1774793899d4f36b" prot="private" virt="non-virtual"><scope>themis::ingestion::KafkaConnector::Impl</scope><name>writeCheckpoint</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_kafka_connector_1_1_impl_1ae174cb86b0c047d91984fb0167b4381f" prot="public" virt="non-virtual"><scope>themis::ingestion::KafkaConnector::Impl</scope><name>~Impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

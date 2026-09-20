@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_alerting_rule" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::AlertingRule</compoundname>
+    <includes refid="updates__operator__diagnostics_8h" local="no">updates_operator_diagnostics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_alerting_rule_1ab9ebd5b583a3fa0f889a1cb178c1a10b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::AlertingRule::rule_id</definition>
+        <argsstring></argsstring>
+        <name>rule_id</name>
+        <qualifiedname>themis::updates::AlertingRule::rule_id</qualifiedname>
+        <briefdescription>
+<para>Unique identifier for this alert rule. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="76" column="17" bodyfile="include/updates/updates_operator_diagnostics.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_alerting_rule_1acaedac7859d1f173ec759c47f99e7f5c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::AlertingRule::rule_name</definition>
+        <argsstring></argsstring>
+        <name>rule_name</name>
+        <qualifiedname>themis::updates::AlertingRule::rule_name</qualifiedname>
+        <briefdescription>
+<para>Human-readable rule name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="79" column="17" bodyfile="include/updates/updates_operator_diagnostics.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_alerting_rule_1a603447e350546d97b66f0ebefa55b74c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24a" kindref="member">FailureScenario</ref></type>
+        <definition>FailureScenario themis::updates::AlertingRule::scenario</definition>
+        <argsstring></argsstring>
+        <name>scenario</name>
+        <qualifiedname>themis::updates::AlertingRule::scenario</qualifiedname>
+        <briefdescription>
+<para>Failure scenario this rule detects. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="82" column="21" bodyfile="include/updates/updates_operator_diagnostics.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_alerting_rule_1a1d491d7eb847c9b87d8077c84d59ab6a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::AlertingRule::severity</definition>
+        <argsstring></argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::updates::AlertingRule::severity</qualifiedname>
+        <briefdescription>
+<para>Alert severity (INFO, WARN, ERROR, CRITICAL). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="85" column="17" bodyfile="include/updates/updates_operator_diagnostics.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_alerting_rule_1a1595c6d7dfe04e5cb3ea99493652fec7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::AlertingRule::condition</definition>
+        <argsstring></argsstring>
+        <name>condition</name>
+        <qualifiedname>themis::updates::AlertingRule::condition</qualifiedname>
+        <briefdescription>
+<para>Alert condition in Prometheus query language or equivalent. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="88" column="17" bodyfile="include/updates/updates_operator_diagnostics.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_alerting_rule_1aefc3b21bfc77581e37668321ac7d4236" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::AlertingRule::message_template</definition>
+        <argsstring></argsstring>
+        <name>message_template</name>
+        <qualifiedname>themis::updates::AlertingRule::message_template</qualifiedname>
+        <briefdescription>
+<para>Alert message template (supports {{variable}} substitution). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="91" column="17" bodyfile="include/updates/updates_operator_diagnostics.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_alerting_rule_1a858dead371f40a456431b06027c3b36f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::AlertingRule::runbook_url</definition>
+        <argsstring></argsstring>
+        <name>runbook_url</name>
+        <qualifiedname>themis::updates::AlertingRule::runbook_url</qualifiedname>
+        <briefdescription>
+<para>Runbook URL for operator reference. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="94" column="17" bodyfile="include/updates/updates_operator_diagnostics.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_alerting_rule_1abe9cafbbdc429b0528d5f456a02f42f2" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1updates_1a21ecbc1034e7b1e9a5653951e048f8af" kindref="member">RecoveryAction</ref></type>
+        <definition>RecoveryAction themis::updates::AlertingRule::recommended_action</definition>
+        <argsstring></argsstring>
+        <name>recommended_action</name>
+        <qualifiedname>themis::updates::AlertingRule::recommended_action</qualifiedname>
+        <briefdescription>
+<para>Recommended recovery action. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="97" column="20" bodyfile="include/updates/updates_operator_diagnostics.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1updates_1_1_alerting_rule_1af3d356ba31b0eea1c491053c7854d172" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref></type>
+        <definition>json themis::updates::AlertingRule::to_json</definition>
+        <argsstring>() const</argsstring>
+        <name>to_json</name>
+        <qualifiedname>themis::updates::AlertingRule::to_json</qualifiedname>
+        <briefdescription>
+<para>Convert to JSON for serialization. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="100" column="10" bodyfile="src/updates/updates_operator_diagnostics.cpp" bodystart="23" bodyend="33"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Alerting rule for observability tools. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Machine-parseable rule definitions for Prometheus, Grafana, or other alerting systems. </para>
+    </detaileddescription>
+    <location file="include/updates/updates_operator_diagnostics.h" line="74" column="1" bodyfile="include/updates/updates_operator_diagnostics.h" bodystart="74" bodyend="101"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_alerting_rule_1a1595c6d7dfe04e5cb3ea99493652fec7" prot="public" virt="non-virtual"><scope>themis::updates::AlertingRule</scope><name>condition</name></member>
+      <member refid="structthemis_1_1updates_1_1_alerting_rule_1aefc3b21bfc77581e37668321ac7d4236" prot="public" virt="non-virtual"><scope>themis::updates::AlertingRule</scope><name>message_template</name></member>
+      <member refid="structthemis_1_1updates_1_1_alerting_rule_1abe9cafbbdc429b0528d5f456a02f42f2" prot="public" virt="non-virtual"><scope>themis::updates::AlertingRule</scope><name>recommended_action</name></member>
+      <member refid="structthemis_1_1updates_1_1_alerting_rule_1ab9ebd5b583a3fa0f889a1cb178c1a10b" prot="public" virt="non-virtual"><scope>themis::updates::AlertingRule</scope><name>rule_id</name></member>
+      <member refid="structthemis_1_1updates_1_1_alerting_rule_1acaedac7859d1f173ec759c47f99e7f5c" prot="public" virt="non-virtual"><scope>themis::updates::AlertingRule</scope><name>rule_name</name></member>
+      <member refid="structthemis_1_1updates_1_1_alerting_rule_1a858dead371f40a456431b06027c3b36f" prot="public" virt="non-virtual"><scope>themis::updates::AlertingRule</scope><name>runbook_url</name></member>
+      <member refid="structthemis_1_1updates_1_1_alerting_rule_1a603447e350546d97b66f0ebefa55b74c" prot="public" virt="non-virtual"><scope>themis::updates::AlertingRule</scope><name>scenario</name></member>
+      <member refid="structthemis_1_1updates_1_1_alerting_rule_1a1d491d7eb847c9b87d8077c84d59ab6a" prot="public" virt="non-virtual"><scope>themis::updates::AlertingRule</scope><name>severity</name></member>
+      <member refid="structthemis_1_1updates_1_1_alerting_rule_1af3d356ba31b0eea1c491053c7854d172" prot="public" virt="non-virtual"><scope>themis::updates::AlertingRule</scope><name>to_json</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

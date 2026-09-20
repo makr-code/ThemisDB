@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_authn_request_params" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::AuthnRequestParams</compoundname>
+    <includes refid="saml__authenticator_8h" local="no">saml_authenticator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_authn_request_params_1a14a8b9159bbd93f62d666237122b8e53" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::AuthnRequestParams::url</definition>
+        <argsstring></argsstring>
+        <name>url</name>
+        <qualifiedname>themis::auth::AuthnRequestParams::url</qualifiedname>
+        <briefdescription>
+<para>Full redirect URL (SAMLRequest + optional RelayState). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="117" column="17" bodyfile="include/auth/saml_authenticator.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_authn_request_params_1aed77e0576b82d6b50a957ef2c5c9eac8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::AuthnRequestParams::request_id</definition>
+        <argsstring></argsstring>
+        <name>request_id</name>
+        <qualifiedname>themis::auth::AuthnRequestParams::request_id</qualifiedname>
+        <briefdescription>
+<para>NCName-safe AuthnRequest ID for InResponseTo validation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="118" column="17" bodyfile="include/auth/saml_authenticator.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/saml_authenticator.h" line="116" column="1" bodyfile="include/auth/saml_authenticator.h" bodystart="116" bodyend="119"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_authn_request_params_1aed77e0576b82d6b50a957ef2c5c9eac8" prot="public" virt="non-virtual"><scope>themis::auth::AuthnRequestParams</scope><name>request_id</name></member>
+      <member refid="structthemis_1_1auth_1_1_authn_request_params_1a14a8b9159bbd93f62d666237122b8e53" prot="public" virt="non-virtual"><scope>themis::auth::AuthnRequestParams</scope><name>url</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_replug_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::ReplugConfig</compoundname>
+    <includes refid="replug__retriever_8h" local="no">replug_retriever.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_replug_config_1a4fff79ec0195e310be1db5c15ee65419" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::ReplugConfig::llm_weight</definition>
+        <argsstring></argsstring>
+        <name>llm_weight</name>
+        <qualifiedname>themis::rag::ReplugConfig::llm_weight</qualifiedname>
+        <initializer>= 0.5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Interpolation weight λ ∈ [0, 1] between retrieval and LLM scores. λ=0 ⟹ pure retrieval; λ=1 ⟹ pure LLM scoring. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/replug_retriever.h" line="88" column="12" bodyfile="include/rag/replug_retriever.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_replug_config_1a5e26b6b563b426b1fa1bffbd52f5bb41" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::ReplugConfig::top_k</definition>
+        <argsstring></argsstring>
+        <name>top_k</name>
+        <qualifiedname>themis::rag::ReplugConfig::top_k</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Maximum documents returned after fusion (0 = return all). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/replug_retriever.h" line="91" column="12" bodyfile="include/rag/replug_retriever.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_replug_config_1a1c218c0959637c7092f16bd85e83076b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::ReplugConfig::temperature</definition>
+        <argsstring></argsstring>
+        <name>temperature</name>
+        <qualifiedname>themis::rag::ReplugConfig::temperature</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Temperature τ &gt; 0 for softmax normalisation of LLM scores before interpolation. Lower τ sharpens the LLM distribution. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/replug_retriever.h" line="95" column="12" bodyfile="include/rag/replug_retriever.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_replug_config_1a3f03a8a9b3caad1cd62c4c1e0be56be4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::ReplugConfig::enable_weight_update</definition>
+        <argsstring></argsstring>
+        <name>enable_weight_update</name>
+        <qualifiedname>themis::rag::ReplugConfig::enable_weight_update</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable KL-divergence-based retriever weight update step (REPLUG-LSR signal). When true, updateRetrieverWeights() is meaningful; when false it is a no-op. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/replug_retriever.h" line="100" column="10" bodyfile="include/rag/replug_retriever.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_replug_config_1ab8036158894ab66d062df6d23e01d12e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::ReplugConfig::weight_update_lr</definition>
+        <argsstring></argsstring>
+        <name>weight_update_lr</name>
+        <qualifiedname>themis::rag::ReplugConfig::weight_update_lr</qualifiedname>
+        <initializer>= 0.01</initializer>
+        <briefdescription>
+<para>Learning rate η for the weight update step. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/replug_retriever.h" line="103" column="12" bodyfile="include/rag/replug_retriever.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_replug_config_1af6b1cbe88df5f4a79d301eb310d00963" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::ReplugConfig::min_retrieval_score</definition>
+        <argsstring></argsstring>
+        <name>min_retrieval_score</name>
+        <qualifiedname>themis::rag::ReplugConfig::min_retrieval_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Minimum retrieval score to include a document in LLM scoring. Documents below this threshold are dropped before LLM scoring. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/replug_retriever.h" line="107" column="12" bodyfile="include/rag/replug_retriever.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1rag_1_1_replug_retriever" kindref="compound">ReplugRetriever</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/replug_retriever.h" line="85" column="1" bodyfile="include/rag/replug_retriever.h" bodystart="85" bodyend="108"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_replug_config_1a3f03a8a9b3caad1cd62c4c1e0be56be4" prot="public" virt="non-virtual"><scope>themis::rag::ReplugConfig</scope><name>enable_weight_update</name></member>
+      <member refid="structthemis_1_1rag_1_1_replug_config_1a4fff79ec0195e310be1db5c15ee65419" prot="public" virt="non-virtual"><scope>themis::rag::ReplugConfig</scope><name>llm_weight</name></member>
+      <member refid="structthemis_1_1rag_1_1_replug_config_1af6b1cbe88df5f4a79d301eb310d00963" prot="public" virt="non-virtual"><scope>themis::rag::ReplugConfig</scope><name>min_retrieval_score</name></member>
+      <member refid="structthemis_1_1rag_1_1_replug_config_1a1c218c0959637c7092f16bd85e83076b" prot="public" virt="non-virtual"><scope>themis::rag::ReplugConfig</scope><name>temperature</name></member>
+      <member refid="structthemis_1_1rag_1_1_replug_config_1a5e26b6b563b426b1fa1bffbd52f5bb41" prot="public" virt="non-virtual"><scope>themis::rag::ReplugConfig</scope><name>top_k</name></member>
+      <member refid="structthemis_1_1rag_1_1_replug_config_1ab8036158894ab66d062df6d23e01d12e" prot="public" virt="non-virtual"><scope>themis::rag::ReplugConfig</scope><name>weight_update_lr</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

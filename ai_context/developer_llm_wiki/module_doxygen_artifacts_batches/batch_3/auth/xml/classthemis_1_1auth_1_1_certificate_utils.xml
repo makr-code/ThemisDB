@@ -1,0 +1,208 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_certificate_utils" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::CertificateUtils</compoundname>
+    <includes refid="jwks__security_8h" local="no">jwks_security.h</includes>
+    <innerclass refid="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info" prot="public">themis::auth::CertificateUtils::CertInfo</innerclass>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_certificate_utils_1ac4c5c693876c21130402be5f065165a7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::CertificateUtils::computeSPKIHashFromFile</definition>
+        <argsstring>(const std::string &amp;cert_path)</argsstring>
+        <name>computeSPKIHashFromFile</name>
+        <qualifiedname>themis::auth::CertificateUtils::computeSPKIHashFromFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cert_path</declname>
+        </param>
+        <briefdescription>
+<para>Compute SPKIHash From File. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the cert. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the cert. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: openFileRead(), PEM_read_X509(), fclose(), cert(), i2d_X509_PUBKEY(), X509_get_X509_PUBKEY(), get(), spki(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="179" column="24" bodyfile="src/auth/jwks_security.cpp" bodystart="442" bodyend="474"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_certificate_utils_1a30e7fb19f5c74dec6c600a3675379017" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::CertificateUtils::computeSPKIHashFromPEM</definition>
+        <argsstring>(const std::string &amp;cert_pem)</argsstring>
+        <name>computeSPKIHashFromPEM</name>
+        <qualifiedname>themis::auth::CertificateUtils::computeSPKIHashFromPEM</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cert_pem</declname>
+        </param>
+        <briefdescription>
+<para>Compute SPKIHash From PEM. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_pem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_pem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: BIO_new_mem_buf(), c_str(), size(), PEM_read_bio_X509(), BIO_free(), cert(), i2d_X509_PUBKEY(), X509_get_X509_PUBKEY(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="186" column="24" bodyfile="src/auth/jwks_security.cpp" bodystart="483" bodyend="513"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_certificate_utils_1ac90b529f80293ea9da06b6e446bc8544" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::CertificateUtils::verifyCertificate</definition>
+        <argsstring>(const std::string &amp;cert_path)</argsstring>
+        <name>verifyCertificate</name>
+        <qualifiedname>themis::auth::CertificateUtils::verifyCertificate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cert_path</declname>
+        </param>
+        <briefdescription>
+<para>Verify Certificate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the cert. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the cert. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: openFileRead(), PEM_read_X509(), fclose(), X509_get0_notAfter(), ASN1_TIME_diff(), X509_free(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="193" column="17" bodyfile="src/auth/jwks_security.cpp" bodystart="521" bodyend="543"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_certificate_utils_1a4ee230122f577d3df0e3ec7b4a545f01" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info" kindref="compound">CertInfo</ref></type>
+        <definition>CertificateUtils::CertInfo themis::auth::CertificateUtils::getCertificateInfo</definition>
+        <argsstring>(const std::string &amp;cert_path)</argsstring>
+        <name>getCertificateInfo</name>
+        <qualifiedname>themis::auth::CertificateUtils::getCertificateInfo</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cert_path</declname>
+        </param>
+        <briefdescription>
+<para>Get Certificate Info. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the cert. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Cert. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_raw</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="211" column="21" bodyfile="src/auth/jwks_security.cpp" bodystart="546" bodyend="593"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/jwks_security.h" line="172" column="1" bodyfile="include/auth/jwks_security.h" bodystart="172" bodyend="212"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_certificate_utils_1ac4c5c693876c21130402be5f065165a7" prot="public" virt="non-virtual"><scope>themis::auth::CertificateUtils</scope><name>computeSPKIHashFromFile</name></member>
+      <member refid="classthemis_1_1auth_1_1_certificate_utils_1a30e7fb19f5c74dec6c600a3675379017" prot="public" virt="non-virtual"><scope>themis::auth::CertificateUtils</scope><name>computeSPKIHashFromPEM</name></member>
+      <member refid="classthemis_1_1auth_1_1_certificate_utils_1a4ee230122f577d3df0e3ec7b4a545f01" prot="public" virt="non-virtual"><scope>themis::auth::CertificateUtils</scope><name>getCertificateInfo</name></member>
+      <member refid="classthemis_1_1auth_1_1_certificate_utils_1ac90b529f80293ea9da06b6e446bc8544" prot="public" virt="non-virtual"><scope>themis::auth::CertificateUtils</scope><name>verifyCertificate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

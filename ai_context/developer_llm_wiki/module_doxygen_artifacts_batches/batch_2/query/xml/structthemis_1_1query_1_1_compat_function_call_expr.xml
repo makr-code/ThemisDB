@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_compat_function_call_expr" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::CompatFunctionCallExpr</compoundname>
+    <basecompoundref refid="structthemis_1_1query_1_1_expression" prot="public" virt="non-virtual">themis::query::Expression</basecompoundref>
+    <derivedcompoundref refid="structthemis_1_1query_1_1_expression_1_1_function_call_expression" prot="public" virt="non-virtual">themis::query::Expression::FunctionCallExpression</derivedcompoundref>
+    <includes refid="aql__parser_8h" local="no">aql_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_compat_function_call_expr_1ab983eb8f7e85ce05788c04709991e4ed" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::CompatFunctionCallExpr::functionName</definition>
+        <argsstring></argsstring>
+        <name>functionName</name>
+        <qualifiedname>themis::query::CompatFunctionCallExpr::functionName</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="1169" column="17" bodyfile="include/query/aql_parser.h" bodystart="1169" bodyend="1169"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_compat_function_call_expr_1aa05eb3cc2663ea80bd2f4b24440c4523" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;Expression&gt; &gt; themis::query::CompatFunctionCallExpr::arguments</definition>
+        <argsstring></argsstring>
+        <name>arguments</name>
+        <qualifiedname>themis::query::CompatFunctionCallExpr::arguments</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="1170" column="17" bodyfile="include/query/aql_parser.h" bodystart="1170" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_compat_function_call_expr_1a33f2400628a407e30a10b1115afcdab5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::CompatFunctionCallExpr::CompatFunctionCallExpr</definition>
+        <argsstring>()=default</argsstring>
+        <name>CompatFunctionCallExpr</name>
+        <qualifiedname>themis::query::CompatFunctionCallExpr::CompatFunctionCallExpr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="1171" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_compat_function_call_expr_1a5d88139736e83de6f961c4994b93df5e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1query_1aa72605c7cddd48a75529795469cddc8f" kindref="member">ASTNodeType</ref></type>
+        <definition>ASTNodeType themis::query::CompatFunctionCallExpr::getType</definition>
+        <argsstring>() const override</argsstring>
+        <name>getType</name>
+        <qualifiedname>themis::query::CompatFunctionCallExpr::getType</qualifiedname>
+        <reimplements refid="structthemis_1_1query_1_1_expression_1aca4fd2bf776bf08dc9b0462450184d89">getType</reimplements>
+        <briefdescription>
+<para>Get Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="1172" column="17" bodyfile="include/query/aql_parser.h" bodystart="1172" bodyend="1172"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_compat_function_call_expr_1aeea72a1bb3be061586f6e0a4e2bef220" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::CompatFunctionCallExpr::toJSON</definition>
+        <argsstring>() const override</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::query::CompatFunctionCallExpr::toJSON</qualifiedname>
+        <reimplements refid="structthemis_1_1query_1_1_expression_1a50a0c87d39931ce188c1391b61794e20">toJSON</reimplements>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="1173" column="20" bodyfile="include/query/aql_parser.h" bodystart="1173" bodyend="1179"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::query::CompatFunctionCallExpr</label>
+        <link refid="structthemis_1_1query_1_1_compat_function_call_expr"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::query::Expression</label>
+        <link refid="structthemis_1_1query_1_1_expression"/>
+      </node>
+      <node id="3">
+        <label>themis::query::Expression::FunctionCallExpression</label>
+        <link refid="structthemis_1_1query_1_1_expression_1_1_function_call_expression"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::query::CompatFunctionCallExpr</label>
+        <link refid="structthemis_1_1query_1_1_compat_function_call_expr"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::query::Expression</label>
+        <link refid="structthemis_1_1query_1_1_expression"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/aql_parser.h" line="1168" column="1" bodyfile="include/query/aql_parser.h" bodystart="1168" bodyend="1180"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_compat_function_call_expr_1aa05eb3cc2663ea80bd2f4b24440c4523" prot="public" virt="non-virtual"><scope>themis::query::CompatFunctionCallExpr</scope><name>arguments</name></member>
+      <member refid="structthemis_1_1query_1_1_compat_function_call_expr_1a33f2400628a407e30a10b1115afcdab5" prot="public" virt="non-virtual"><scope>themis::query::CompatFunctionCallExpr</scope><name>CompatFunctionCallExpr</name></member>
+      <member refid="structthemis_1_1query_1_1_compat_function_call_expr_1ab983eb8f7e85ce05788c04709991e4ed" prot="public" virt="non-virtual"><scope>themis::query::CompatFunctionCallExpr</scope><name>functionName</name></member>
+      <member refid="structthemis_1_1query_1_1_compat_function_call_expr_1a5d88139736e83de6f961c4994b93df5e" prot="public" virt="virtual"><scope>themis::query::CompatFunctionCallExpr</scope><name>getType</name></member>
+      <member refid="structthemis_1_1query_1_1_compat_function_call_expr_1aeea72a1bb3be061586f6e0a4e2bef220" prot="public" virt="virtual"><scope>themis::query::CompatFunctionCallExpr</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1query_1_1_expression_1ab3ecf845da63bc89b3c506c43c6afc78" prot="public" virt="virtual"><scope>themis::query::CompatFunctionCallExpr</scope><name>~Expression</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1testing_1_1_mock_conversation_context_manager_1_1_conversation_turn" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::testing::MockConversationContextManager::ConversationTurn</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_mock_conversation_context_manager_1_1_conversation_turn_1a9d3db7c17b1550b0b8df8f8109eaf975" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::testing::MockConversationContextManager::ConversationTurn::nl_query</definition>
+        <argsstring></argsstring>
+        <name>nl_query</name>
+        <qualifiedname>themis::aql::testing::MockConversationContextManager::ConversationTurn::nl_query</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_bridge_degradation.cpp" line="73" column="21" bodyfile="tests/aql/test_aql_bridge_degradation.cpp" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_mock_conversation_context_manager_1_1_conversation_turn_1af9aebc5efc2c4138da2ed5b84f61fd9a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::testing::MockConversationContextManager::ConversationTurn::aql_result</definition>
+        <argsstring></argsstring>
+        <name>aql_result</name>
+        <qualifiedname>themis::aql::testing::MockConversationContextManager::ConversationTurn::aql_result</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_bridge_degradation.cpp" line="74" column="21" bodyfile="tests/aql/test_aql_bridge_degradation.cpp" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_mock_conversation_context_manager_1_1_conversation_turn_1a9a5e2221d1e9a0470124a4f67f7a43d4" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::aql::testing::MockConversationContextManager::ConversationTurn::token_count</definition>
+        <argsstring></argsstring>
+        <name>token_count</name>
+        <qualifiedname>themis::aql::testing::MockConversationContextManager::ConversationTurn::token_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_bridge_degradation.cpp" line="75" column="18" bodyfile="tests/aql/test_aql_bridge_degradation.cpp" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/aql/test_aql_bridge_degradation.cpp" line="72" column="5" bodyfile="tests/aql/test_aql_bridge_degradation.cpp" bodystart="72" bodyend="76"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_mock_conversation_context_manager_1_1_conversation_turn_1af9aebc5efc2c4138da2ed5b84f61fd9a" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockConversationContextManager::ConversationTurn</scope><name>aql_result</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_mock_conversation_context_manager_1_1_conversation_turn_1a9d3db7c17b1550b0b8df8f8109eaf975" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockConversationContextManager::ConversationTurn</scope><name>nl_query</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_mock_conversation_context_manager_1_1_conversation_turn_1a9a5e2221d1e9a0470124a4f67f7a43d4" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockConversationContextManager::ConversationTurn</scope><name>token_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

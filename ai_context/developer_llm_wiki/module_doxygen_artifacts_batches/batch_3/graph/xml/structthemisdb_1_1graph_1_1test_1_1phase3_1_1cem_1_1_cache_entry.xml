@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1cem_1_1_cache_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::graph::test::phase3::cem::CacheEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1cem_1_1_cache_entry_1a66d87070c1204e9e7f327b794a48358c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::graph::test::phase3::cem::CacheEntry::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themisdb::graph::test::phase3::cem::CacheEntry::key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="622" column="17" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="622" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1cem_1_1_cache_entry_1aefa9db4a4c29ff6a3b1c16caa915bcfc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::graph::test::phase3::cem::CacheEntry::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themisdb::graph::test::phase3::cem::CacheEntry::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="623" column="17" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="623" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1cem_1_1_cache_entry_1af31a2a7473ba1b570fc7e681f6b8f51d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1_1cem_1a5371ce2969d244346edd3fe394bd52c2" kindref="member">CacheTier</ref></type>
+        <definition>CacheTier themisdb::graph::test::phase3::cem::CacheEntry::tier</definition>
+        <argsstring></argsstring>
+        <name>tier</name>
+        <qualifiedname>themisdb::graph::test::phase3::cem::CacheEntry::tier</qualifiedname>
+        <initializer>{<ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1_1cem_1a5371ce2969d244346edd3fe394bd52c2a3f7ff4daa99912d1b0c8c64340edb9fb" kindref="member">CacheTier::COLD</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="624" column="17" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="624" bodyend="624"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1cem_1_1_cache_entry_1af6a469238a1abab06f05c701fb479893" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::graph::test::phase3::cem::CacheEntry::access_count</definition>
+        <argsstring></argsstring>
+        <name>access_count</name>
+        <qualifiedname>themisdb::graph::test::phase3::cem::CacheEntry::access_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="625" column="17" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="625" bodyend="625"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1cem_1_1_cache_entry_1a815a7c0f1bd8692caa50faf81cc73324" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::graph::test::phase3::cem::CacheEntry::last_access_ts</definition>
+        <argsstring></argsstring>
+        <name>last_access_ts</name>
+        <qualifiedname>themisdb::graph::test::phase3::cem::CacheEntry::last_access_ts</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>monotonic seconds (simulated) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="626" column="17" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="626" bodyend="626"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1cem_1_1_cache_entry_1a1f0eedba5324e002d0a44b679a8de290" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::graph::test::phase3::cem::CacheEntry::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themisdb::graph::test::phase3::cem::CacheEntry::score</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="627" column="17" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="627" bodyend="627"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Single cache entry with tier, frequency, and recency metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/graph/test_graph_phase3_optimization.cpp" line="621" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="621" bodyend="628"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1cem_1_1_cache_entry_1af6a469238a1abab06f05c701fb479893" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::cem::CacheEntry</scope><name>access_count</name></member>
+      <member refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1cem_1_1_cache_entry_1a66d87070c1204e9e7f327b794a48358c" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::cem::CacheEntry</scope><name>key</name></member>
+      <member refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1cem_1_1_cache_entry_1a815a7c0f1bd8692caa50faf81cc73324" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::cem::CacheEntry</scope><name>last_access_ts</name></member>
+      <member refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1cem_1_1_cache_entry_1a1f0eedba5324e002d0a44b679a8de290" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::cem::CacheEntry</scope><name>score</name></member>
+      <member refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1cem_1_1_cache_entry_1af31a2a7473ba1b570fc7e681f6b8f51d" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::cem::CacheEntry</scope><name>tier</name></member>
+      <member refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1cem_1_1_cache_entry_1aefa9db4a4c29ff6a3b1c16caa915bcfc" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::cem::CacheEntry</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

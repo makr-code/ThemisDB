@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_golden_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::GoldenRecord</compoundname>
+    <includes refid="canonical__resolver_8h" local="no">canonical_resolver.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_golden_record_1a1acab1e1357619ccb06a55d8aa766e77" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::GoldenRecord::canonical_id</definition>
+        <argsstring></argsstring>
+        <name>canonical_id</name>
+        <qualifiedname>themis::importers::GoldenRecord::canonical_id</qualifiedname>
+        <briefdescription>
+<para>UUID identifying the golden record. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/canonical_resolver.h" line="45" column="30" bodyfile="include/importers/canonical_resolver.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_golden_record_1ab0ca961e5a960186a5091777fbb2afa5" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::GoldenRecord::merged_data</definition>
+        <argsstring></argsstring>
+        <name>merged_data</name>
+        <qualifiedname>themis::importers::GoldenRecord::merged_data</qualifiedname>
+        <briefdescription>
+<para>Best-of-breed merged entity data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/canonical_resolver.h" line="46" column="30" bodyfile="include/importers/canonical_resolver.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_golden_record_1a93834f82c100999bdeaaa56f204a731d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::GoldenRecord::contributing_ids</definition>
+        <argsstring></argsstring>
+        <name>contributing_ids</name>
+        <qualifiedname>themis::importers::GoldenRecord::contributing_ids</qualifiedname>
+        <briefdescription>
+<para>Source entity IDs merged in. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/canonical_resolver.h" line="47" column="17" bodyfile="include/importers/canonical_resolver.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_golden_record_1a5496db2f7845719f26d17cd6103c203b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::GoldenRecord::completeness_score</definition>
+        <argsstring></argsstring>
+        <name>completeness_score</name>
+        <qualifiedname>themis::importers::GoldenRecord::completeness_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>0–1.0: fraction of fields that are non-null </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/canonical_resolver.h" line="48" column="30" bodyfile="include/importers/canonical_resolver.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_golden_record_1a88379eda1ae3e237fb75409578cc0e93" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::GoldenRecord::field_provenance</definition>
+        <argsstring></argsstring>
+        <name>field_provenance</name>
+        <qualifiedname>themis::importers::GoldenRecord::field_provenance</qualifiedname>
+        <briefdescription>
+<para>{&quot;field_name&quot;: &quot;source_entity_id&quot;, …} </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/canonical_resolver.h" line="49" column="30" bodyfile="include/importers/canonical_resolver.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_golden_record_1a86ec7d206f722c53e056f7a652b6186a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::GoldenRecord::last_reconciliation</definition>
+        <argsstring></argsstring>
+        <name>last_reconciliation</name>
+        <qualifiedname>themis::importers::GoldenRecord::last_reconciliation</qualifiedname>
+        <briefdescription>
+<para>RFC 3339 timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/canonical_resolver.h" line="50" column="30" bodyfile="include/importers/canonical_resolver.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_golden_record_1a5b3f494e11f22269de97d5ec0100bfeb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::GoldenRecord::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::importers::GoldenRecord::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/canonical_resolver.h" line="56" column="10" bodyfile="src/importers/canonical_resolver.cpp" bodystart="27" bodyend="31"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/canonical_resolver.h" line="44" column="1" bodyfile="include/importers/canonical_resolver.h" bodystart="44" bodyend="57"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_golden_record_1a1acab1e1357619ccb06a55d8aa766e77" prot="public" virt="non-virtual"><scope>themis::importers::GoldenRecord</scope><name>canonical_id</name></member>
+      <member refid="structthemis_1_1importers_1_1_golden_record_1a5496db2f7845719f26d17cd6103c203b" prot="public" virt="non-virtual"><scope>themis::importers::GoldenRecord</scope><name>completeness_score</name></member>
+      <member refid="structthemis_1_1importers_1_1_golden_record_1a93834f82c100999bdeaaa56f204a731d" prot="public" virt="non-virtual"><scope>themis::importers::GoldenRecord</scope><name>contributing_ids</name></member>
+      <member refid="structthemis_1_1importers_1_1_golden_record_1a88379eda1ae3e237fb75409578cc0e93" prot="public" virt="non-virtual"><scope>themis::importers::GoldenRecord</scope><name>field_provenance</name></member>
+      <member refid="structthemis_1_1importers_1_1_golden_record_1a86ec7d206f722c53e056f7a652b6186a" prot="public" virt="non-virtual"><scope>themis::importers::GoldenRecord</scope><name>last_reconciliation</name></member>
+      <member refid="structthemis_1_1importers_1_1_golden_record_1ab0ca961e5a960186a5091777fbb2afa5" prot="public" virt="non-virtual"><scope>themis::importers::GoldenRecord</scope><name>merged_data</name></member>
+      <member refid="structthemis_1_1importers_1_1_golden_record_1a5b3f494e11f22269de97d5ec0100bfeb" prot="public" virt="non-virtual"><scope>themis::importers::GoldenRecord</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

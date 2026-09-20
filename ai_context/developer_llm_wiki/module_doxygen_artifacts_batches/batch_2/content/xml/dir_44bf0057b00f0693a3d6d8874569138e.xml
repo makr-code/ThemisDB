@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_44bf0057b00f0693a3d6d8874569138e" kind="dir">
+    <compoundname>include/content/adapters</compoundname>
+    <innerfile refid="format__extractor__adapters_8h">format_extractor_adapters.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/adapters/"/>
+  </compounddef>
+</doxygen>

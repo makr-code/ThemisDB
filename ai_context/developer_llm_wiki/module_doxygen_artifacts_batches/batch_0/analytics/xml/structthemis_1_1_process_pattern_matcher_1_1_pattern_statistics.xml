@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_process_pattern_matcher_1_1_pattern_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ProcessPatternMatcher::PatternStatistics</compoundname>
+    <includes refid="process__pattern__matcher_8h" local="no">process_pattern_matcher.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_process_pattern_matcher_1_1_pattern_statistics_1a633d89914113a8fa62c8b87812aaec74" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ProcessPatternMatcher::PatternStatistics::total_patterns_cached</definition>
+        <argsstring></argsstring>
+        <name>total_patterns_cached</name>
+        <qualifiedname>themis::ProcessPatternMatcher::PatternStatistics::total_patterns_cached</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="194" column="13" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_pattern_matcher_1_1_pattern_statistics_1ac13de71c21cbbcbee3b649289ad2f8fa" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ProcessPatternMatcher::PatternStatistics::total_comparisons_performed</definition>
+        <argsstring></argsstring>
+        <name>total_comparisons_performed</name>
+        <qualifiedname>themis::ProcessPatternMatcher::PatternStatistics::total_comparisons_performed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="195" column="13" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_pattern_matcher_1_1_pattern_statistics_1ae4780873ae694d8bb9150eb8e6476ee5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ProcessPatternMatcher::PatternStatistics::avg_computation_time_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_computation_time_ms</name>
+        <qualifiedname>themis::ProcessPatternMatcher::PatternStatistics::avg_computation_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="196" column="16" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_pattern_matcher_1_1_pattern_statistics_1aa43a75a60691cdfa305beaa181b5ee8c" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, int &gt;</type>
+        <definition>std::map&lt;std::string, int&gt; themis::ProcessPatternMatcher::PatternStatistics::pattern_frequency</definition>
+        <argsstring></argsstring>
+        <name>pattern_frequency</name>
+        <qualifiedname>themis::ProcessPatternMatcher::PatternStatistics::pattern_frequency</qualifiedname>
+        <briefdescription>
+<para>pattern_id -&gt; usage count </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="197" column="18" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_pattern_matcher_1_1_pattern_statistics_1a4115cdad2b37be20e48af796ac6fcd63" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, double &gt;</type>
+        <definition>std::map&lt;std::string, double&gt; themis::ProcessPatternMatcher::PatternStatistics::avg_similarity</definition>
+        <argsstring></argsstring>
+        <name>avg_similarity</name>
+        <qualifiedname>themis::ProcessPatternMatcher::PatternStatistics::avg_similarity</qualifiedname>
+        <briefdescription>
+<para>pattern_id -&gt; average score </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="198" column="18" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/process_pattern_matcher.h" line="193" column="5" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="193" bodyend="199"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_process_pattern_matcher_1_1_pattern_statistics_1ae4780873ae694d8bb9150eb8e6476ee5" prot="public" virt="non-virtual"><scope>themis::ProcessPatternMatcher::PatternStatistics</scope><name>avg_computation_time_ms</name></member>
+      <member refid="structthemis_1_1_process_pattern_matcher_1_1_pattern_statistics_1a4115cdad2b37be20e48af796ac6fcd63" prot="public" virt="non-virtual"><scope>themis::ProcessPatternMatcher::PatternStatistics</scope><name>avg_similarity</name></member>
+      <member refid="structthemis_1_1_process_pattern_matcher_1_1_pattern_statistics_1aa43a75a60691cdfa305beaa181b5ee8c" prot="public" virt="non-virtual"><scope>themis::ProcessPatternMatcher::PatternStatistics</scope><name>pattern_frequency</name></member>
+      <member refid="structthemis_1_1_process_pattern_matcher_1_1_pattern_statistics_1ac13de71c21cbbcbee3b649289ad2f8fa" prot="public" virt="non-virtual"><scope>themis::ProcessPatternMatcher::PatternStatistics</scope><name>total_comparisons_performed</name></member>
+      <member refid="structthemis_1_1_process_pattern_matcher_1_1_pattern_statistics_1a633d89914113a8fa62c8b87812aaec74" prot="public" virt="non-virtual"><scope>themis::ProcessPatternMatcher::PatternStatistics</scope><name>total_patterns_cached</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

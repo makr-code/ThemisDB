@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_temporal_snapshot_manager_test" kind="class" language="C++" prot="public">
+    <compoundname>TemporalSnapshotManagerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_temporal_snapshot_manager_test_1a777710be0bbe5d56123838fbbf99bb81" prot="protected" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+        <definition>Timestamp TemporalSnapshotManagerTest::fake_time_</definition>
+        <argsstring></argsstring>
+        <name>fake_time_</name>
+        <qualifiedname>TemporalSnapshotManagerTest::fake_time_</qualifiedname>
+        <initializer>{<ref refid="namespacethemisdb_1_1temporal_1a311e9facf859fb17560854fa490c2b88" kindref="member">now</ref>() + 10000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_snapshot_manager.cpp" line="20" column="15" bodyfile="tests/temporal/test_snapshot_manager.cpp" bodystart="20" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_temporal_snapshot_manager_test_1ae78ca443fd79cbc9b14fa523a2dc9a9a" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1temporal_1_1_temporal_snapshot_manager" kindref="compound">TemporalSnapshotManager</ref></type>
+        <definition>TemporalSnapshotManager TemporalSnapshotManagerTest::mgr</definition>
+        <argsstring></argsstring>
+        <name>mgr</name>
+        <qualifiedname>TemporalSnapshotManagerTest::mgr</qualifiedname>
+        <initializer>{[this]() { return <ref refid="class_temporal_snapshot_manager_test_1a777710be0bbe5d56123838fbbf99bb81" kindref="member">fake_time_</ref>; }}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_snapshot_manager.cpp" line="22" column="29" bodyfile="tests/temporal/test_snapshot_manager.cpp" bodystart="22" bodyend="22"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_temporal_snapshot_manager_test_1ad0847498a7d8ad160087015e143a9004" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TemporalSnapshotManagerTest::advanceTime</definition>
+        <argsstring>(Timestamp ms)</argsstring>
+        <name>advanceTime</name>
+        <qualifiedname>TemporalSnapshotManagerTest::advanceTime</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>ms</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_snapshot_manager.cpp" line="24" column="10" bodyfile="tests/temporal/test_snapshot_manager.cpp" bodystart="24" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="class_temporal_snapshot_manager_test_1ad4198ce6565dc60e540ac5c6f9f68d4a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TemporalSnapshotManagerTest::populateTable</definition>
+        <argsstring>(SystemVersionedTable &amp;t)</argsstring>
+        <name>populateTable</name>
+        <qualifiedname>TemporalSnapshotManagerTest::populateTable</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref> &amp;</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_snapshot_manager.cpp" line="26" column="10" bodyfile="tests/temporal/test_snapshot_manager.cpp" bodystart="26" bodyend="29"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TemporalSnapshotManagerTest</label>
+        <link refid="class_temporal_snapshot_manager_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TemporalSnapshotManagerTest</label>
+        <link refid="class_temporal_snapshot_manager_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>mgr</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themisdb::temporal::TemporalSnapshotManager</label>
+        <link refid="classthemisdb_1_1temporal_1_1_temporal_snapshot_manager"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/temporal/test_snapshot_manager.cpp" line="15" column="1" bodyfile="tests/temporal/test_snapshot_manager.cpp" bodystart="15" bodyend="30"/>
+    <listofallmembers>
+      <member refid="class_temporal_snapshot_manager_test_1ad0847498a7d8ad160087015e143a9004" prot="protected" virt="non-virtual"><scope>TemporalSnapshotManagerTest</scope><name>advanceTime</name></member>
+      <member refid="class_temporal_snapshot_manager_test_1a777710be0bbe5d56123838fbbf99bb81" prot="protected" virt="non-virtual"><scope>TemporalSnapshotManagerTest</scope><name>fake_time_</name></member>
+      <member refid="class_temporal_snapshot_manager_test_1ae78ca443fd79cbc9b14fa523a2dc9a9a" prot="protected" virt="non-virtual"><scope>TemporalSnapshotManagerTest</scope><name>mgr</name></member>
+      <member refid="class_temporal_snapshot_manager_test_1ad4198ce6565dc60e540ac5c6f9f68d4a" prot="protected" virt="non-virtual"><scope>TemporalSnapshotManagerTest</scope><name>populateTable</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

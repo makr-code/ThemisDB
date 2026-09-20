@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_796fef3b74254217054fe52e52796041" kind="dir">
+    <compoundname>benchmarks/utils</compoundname>
+    <innerfile refid="bench__pii__stream__scanner_8cpp">bench_pii_stream_scanner.cpp</innerfile>
+    <innerfile refid="bench__utils__release__gates_8cpp">bench_utils_release_gates.cpp</innerfile>
+    <innerfile refid="benchmark__runner_8cpp">benchmark_runner.cpp</innerfile>
+    <innerfile refid="phase__a3__benchmark__runner_8cpp">phase_a3_benchmark_runner.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/utils/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graphql_1_1_variable_definition" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graphql::VariableDefinition</compoundname>
+    <includes refid="graphql_8h" local="no">graphql.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_variable_definition_1a3d1899036f393c4853542583be52e394" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graphql::VariableDefinition::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::graphql::VariableDefinition::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="240" column="17" bodyfile="include/api/graphql.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_variable_definition_1afc9fce20f209ce3ee67b2cf600a7f845" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graphql::VariableDefinition::type_name</definition>
+        <argsstring></argsstring>
+        <name>type_name</name>
+        <qualifiedname>themis::graphql::VariableDefinition::type_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="241" column="17" bodyfile="include/api/graphql.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_variable_definition_1ad89750be803d8b4b3f7046a3504e6679" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graphql::VariableDefinition::is_non_null</definition>
+        <argsstring></argsstring>
+        <name>is_non_null</name>
+        <qualifiedname>themis::graphql::VariableDefinition::is_non_null</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="242" column="10" bodyfile="include/api/graphql.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_variable_definition_1a88c11b3fa8fd74be26981f1db5d51390" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graphql::VariableDefinition::is_list</definition>
+        <argsstring></argsstring>
+        <name>is_list</name>
+        <qualifiedname>themis::graphql::VariableDefinition::is_list</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="243" column="10" bodyfile="include/api/graphql.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_variable_definition_1a31fbf9f987d18b7ea293b4317520a6fe" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1graphql_1_1_value" kindref="compound">Value</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;Value&gt; themis::graphql::VariableDefinition::default_value</definition>
+        <argsstring></argsstring>
+        <name>default_value</name>
+        <qualifiedname>themis::graphql::VariableDefinition::default_value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="244" column="21" bodyfile="include/api/graphql.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/graphql.h" line="239" column="1" bodyfile="include/api/graphql.h" bodystart="239" bodyend="245"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graphql_1_1_variable_definition_1a31fbf9f987d18b7ea293b4317520a6fe" prot="public" virt="non-virtual"><scope>themis::graphql::VariableDefinition</scope><name>default_value</name></member>
+      <member refid="structthemis_1_1graphql_1_1_variable_definition_1a88c11b3fa8fd74be26981f1db5d51390" prot="public" virt="non-virtual"><scope>themis::graphql::VariableDefinition</scope><name>is_list</name></member>
+      <member refid="structthemis_1_1graphql_1_1_variable_definition_1ad89750be803d8b4b3f7046a3504e6679" prot="public" virt="non-virtual"><scope>themis::graphql::VariableDefinition</scope><name>is_non_null</name></member>
+      <member refid="structthemis_1_1graphql_1_1_variable_definition_1a3d1899036f393c4853542583be52e394" prot="public" virt="non-virtual"><scope>themis::graphql::VariableDefinition</scope><name>name</name></member>
+      <member refid="structthemis_1_1graphql_1_1_variable_definition_1afc9fce20f209ce3ee67b2cf600a7f845" prot="public" virt="non-virtual"><scope>themis::graphql::VariableDefinition</scope><name>type_name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

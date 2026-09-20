@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1errg_1_1_schema_col" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::errg::SchemaCol</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1errg_1_1_schema_col_1a73e22e2897ae6fce78c6c38474b927a4" prot="public" static="no" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::bench::errg::SchemaCol::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::bench::errg::SchemaCol::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_release_gates.cpp" line="142" column="27" bodyfile="benchmarks/exporters/bench_exporters_release_gates.cpp" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1errg_1_1_schema_col_1a606c34aee58b6e401f5b5c173d220135" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::errg::SchemaCol::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::bench::errg::SchemaCol::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_release_gates.cpp" line="142" column="36" bodyfile="benchmarks/exporters/bench_exporters_release_gates.cpp" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1errg_1_1_schema_col_1a9412043c7650e60b5c9a2ae54265ffb4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::bench::errg::SchemaCol::required</definition>
+        <argsstring></argsstring>
+        <name>required</name>
+        <qualifiedname>themis::bench::errg::SchemaCol::required</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_release_gates.cpp" line="142" column="46" bodyfile="benchmarks/exporters/bench_exporters_release_gates.cpp" bodystart="142" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/exporters/bench_exporters_release_gates.cpp" line="142" column="1" bodyfile="benchmarks/exporters/bench_exporters_release_gates.cpp" bodystart="142" bodyend="142"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1errg_1_1_schema_col_1a73e22e2897ae6fce78c6c38474b927a4" prot="public" virt="non-virtual"><scope>themis::bench::errg::SchemaCol</scope><name>name</name></member>
+      <member refid="structthemis_1_1bench_1_1errg_1_1_schema_col_1a9412043c7650e60b5c9a2ae54265ffb4" prot="public" virt="non-virtual"><scope>themis::bench::errg::SchemaCol</scope><name>required</name></member>
+      <member refid="structthemis_1_1bench_1_1errg_1_1_schema_col_1a606c34aee58b6e401f5b5c173d220135" prot="public" virt="non-virtual"><scope>themis::bench::errg::SchemaCol</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

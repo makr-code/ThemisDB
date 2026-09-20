@@ -1,0 +1,1850 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1_paged_k_v_cache" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::PagedKVCache</compoundname>
+    <includes refid="paged__kv__cache_8h" local="no">paged_kv_cache.h</includes>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_paged_k_v_cache_1_1_request_state" prot="private">themisdb::sharding::PagedKVCache::RequestState</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a520ac7c4528666f26c9c50462ed31ab8" prot="public" static="no">
+        <type>std::function&lt; void *(uint32_t block_id, size_t size)&gt;</type>
+        <definition>using themisdb::sharding::PagedKVCache::BlockAllocator = std::function&lt;void*(uint32_t block_id, size_t size)&gt;</definition>
+        <argsstring></argsstring>
+        <name>BlockAllocator</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::BlockAllocator</qualifiedname>
+        <briefdescription>
+<para>Callback for block allocation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="196" column="5" bodyfile="include/sharding/paged_kv_cache.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ae70f09101b870ec507c05e2a2bff4a71" prot="public" static="no">
+        <type>std::function&lt; void(void *ptr, uint32_t block_id)&gt;</type>
+        <definition>using themisdb::sharding::PagedKVCache::BlockDeallocator = std::function&lt;void(void* ptr, uint32_t block_id)&gt;</definition>
+        <argsstring></argsstring>
+        <name>BlockDeallocator</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::BlockDeallocator</qualifiedname>
+        <briefdescription>
+<para>Callback for block deallocation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="201" column="5" bodyfile="include/sharding/paged_kv_cache.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1acdfb6a40f99f979d50be6046ec30ece5" prot="public" static="no">
+        <type>std::function&lt; void(uint32_t request_id, uint32_t block_id)&gt;</type>
+        <definition>using themisdb::sharding::PagedKVCache::EvictionCallback = std::function&lt;void(uint32_t request_id, uint32_t block_id)&gt;</definition>
+        <argsstring></argsstring>
+        <name>EvictionCallback</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::EvictionCallback</qualifiedname>
+        <briefdescription>
+<para>Callback for cache eviction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="206" column="5" bodyfile="include/sharding/paged_kv_cache.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a1b9f5c74d4cd504b9b395799799483ed" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config" kindref="compound">KVCacheConfig</ref></type>
+        <definition>KVCacheConfig themisdb::sharding::PagedKVCache::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="461" column="19" bodyfile="include/sharding/paged_kv_cache.h" bodystart="461" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a7d2f6234262ea4b798719b6cffa61e89" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler" kindref="compound">ContinuousBatchScheduler</ref> *</type>
+        <definition>ContinuousBatchScheduler* themisdb::sharding::PagedKVCache::scheduler_</definition>
+        <argsstring></argsstring>
+        <name>scheduler_</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::scheduler_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="462" column="30" bodyfile="include/sharding/paged_kv_cache.h" bodystart="462" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1aa1d0ebd1a2294771f21690c7623fc540" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; uint32_t, <ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_block" kindref="compound">KVCacheBlock</ref> &gt;</type>
+        <definition>std::unordered_map&lt;uint32_t, KVCacheBlock&gt; themisdb::sharding::PagedKVCache::blocks_</definition>
+        <argsstring></argsstring>
+        <name>blocks_</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::blocks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="465" column="24" bodyfile="include/sharding/paged_kv_cache.h" bodystart="465" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1aa588973a10072ef6d9b782a174ca082a" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; uint32_t, uint32_t &gt;</type>
+        <definition>std::unordered_map&lt;uint32_t, uint32_t&gt; themisdb::sharding::PagedKVCache::block_ref_counts_</definition>
+        <argsstring></argsstring>
+        <name>block_ref_counts_</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::block_ref_counts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="466" column="24" bodyfile="include/sharding/paged_kv_cache.h" bodystart="466" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a4f7a88bda5d060cce05e747935340960" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; uint32_t, std::vector&lt; float &gt; &gt;</type>
+        <definition>std::unordered_map&lt;uint32_t, std::vector&lt;float&gt; &gt; themisdb::sharding::PagedKVCache::key_block_storage_</definition>
+        <argsstring></argsstring>
+        <name>key_block_storage_</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::key_block_storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="467" column="24" bodyfile="include/sharding/paged_kv_cache.h" bodystart="467" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a90b6de66a8066d2509569609c6c7ca75" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; uint32_t, std::vector&lt; float &gt; &gt;</type>
+        <definition>std::unordered_map&lt;uint32_t, std::vector&lt;float&gt; &gt; themisdb::sharding::PagedKVCache::value_block_storage_</definition>
+        <argsstring></argsstring>
+        <name>value_block_storage_</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::value_block_storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="468" column="24" bodyfile="include/sharding/paged_kv_cache.h" bodystart="468" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ac0c01409e50324269a5ea8a27cc604ae" prot="private" static="no" mutable="no">
+        <type>std::queue&lt; uint32_t &gt;</type>
+        <definition>std::queue&lt;uint32_t&gt; themisdb::sharding::PagedKVCache::free_blocks_</definition>
+        <argsstring></argsstring>
+        <name>free_blocks_</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::free_blocks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="469" column="16" bodyfile="include/sharding/paged_kv_cache.h" bodystart="469" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1acffdcec6d2aa8c7f145e22cefc959c7f" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::PagedKVCache::next_block_id_</definition>
+        <argsstring></argsstring>
+        <name>next_block_id_</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::next_block_id_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="470" column="14" bodyfile="include/sharding/paged_kv_cache.h" bodystart="470" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a729fd1afa800ed4e17da5f4090abc344" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; int64_t, RequestState &gt;</type>
+        <definition>std::unordered_map&lt;int64_t, RequestState&gt; themisdb::sharding::PagedKVCache::requests_</definition>
+        <argsstring></argsstring>
+        <name>requests_</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::requests_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="473" column="24" bodyfile="include/sharding/paged_kv_cache.h" bodystart="473" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a912904778e615d206165d1ce912ba9d6" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats" kindref="compound">KVCacheStats</ref></type>
+        <definition>KVCacheStats themisdb::sharding::PagedKVCache::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="476" column="26" bodyfile="include/sharding/paged_kv_cache.h" bodystart="476" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a3c5951cb740395fa8ea4247eb02696fc" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a520ac7c4528666f26c9c50462ed31ab8" kindref="member">BlockAllocator</ref></type>
+        <definition>BlockAllocator themisdb::sharding::PagedKVCache::block_allocator_</definition>
+        <argsstring></argsstring>
+        <name>block_allocator_</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::block_allocator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="479" column="20" bodyfile="include/sharding/paged_kv_cache.h" bodystart="479" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a955dd0565cbe8626874f416b84816ff1" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ae70f09101b870ec507c05e2a2bff4a71" kindref="member">BlockDeallocator</ref></type>
+        <definition>BlockDeallocator themisdb::sharding::PagedKVCache::block_deallocator_</definition>
+        <argsstring></argsstring>
+        <name>block_deallocator_</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::block_deallocator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="480" column="22" bodyfile="include/sharding/paged_kv_cache.h" bodystart="480" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1aae0dca425057d1b1361e64b2dbaa00cc" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1acdfb6a40f99f979d50be6046ec30ece5" kindref="member">EvictionCallback</ref></type>
+        <definition>EvictionCallback themisdb::sharding::PagedKVCache::eviction_callback_</definition>
+        <argsstring></argsstring>
+        <name>eviction_callback_</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::eviction_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="481" column="22" bodyfile="include/sharding/paged_kv_cache.h" bodystart="481" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1abcc0327121e3c552dc85b13af11260cf" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::PagedKVCache::current_memory_usage_</definition>
+        <argsstring></argsstring>
+        <name>current_memory_usage_</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::current_memory_usage_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="484" column="12" bodyfile="include/sharding/paged_kv_cache.h" bodystart="484" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ae0d28560785351221ec1514a64f72245" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::PagedKVCache::block_memory_size_</definition>
+        <argsstring></argsstring>
+        <name>block_memory_size_</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::block_memory_size_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="485" column="12" bodyfile="include/sharding/paged_kv_cache.h" bodystart="485" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ab24a41ddbba714b13fe270741b78fcd4" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::PagedKVCache::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="488" column="24" bodyfile="include/sharding/paged_kv_cache.h" bodystart="488" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1aa34cf9ccbe056b7423cfbc09586735bb" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::PagedKVCache::PagedKVCache</definition>
+        <argsstring>(const KVCacheConfig &amp;config)</argsstring>
+        <name>PagedKVCache</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::PagedKVCache</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config" kindref="compound">KVCacheConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct <ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache" kindref="compound">PagedKVCache</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Cache configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="212" column="14" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="24" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1aec0d4933de00f38b848ef6991df05d02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::PagedKVCache::~PagedKVCache</definition>
+        <argsstring>()</argsstring>
+        <name>~PagedKVCache</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::~PagedKVCache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="214" column="5" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="39" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a3be145e1c6c500e736751c05a99ad608" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::PagedKVCache::PagedKVCache</definition>
+        <argsstring>(const PagedKVCache &amp;)=delete</argsstring>
+        <name>PagedKVCache</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::PagedKVCache</qualifiedname>
+        <param>
+          <type>const PagedKVCache &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="217" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ad859d384db64cdd1aed4ded04104d437" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1aa34cf9ccbe056b7423cfbc09586735bb" kindref="member">PagedKVCache</ref> &amp;</type>
+        <definition>PagedKVCache &amp; themisdb::sharding::PagedKVCache::operator=</definition>
+        <argsstring>(const PagedKVCache &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1aa34cf9ccbe056b7423cfbc09586735bb" kindref="member">PagedKVCache</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="218" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1af1c9a97101e9d84673b8559e4b2c60a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::PagedKVCache::initialize</definition>
+        <argsstring>()</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::initialize</qualifiedname>
+        <briefdescription>
+<para>Initialize the cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize.</para>
+<para><simplesect kind="return"><para>true if initialization succeeded</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), std::min(), allocateBlockId(), freeBlockId(), spdlog::info(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="228" column="10" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="53" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1acbae3d7dd8da4bb9322c1d7f17cd44ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::PagedKVCache::shutdown</definition>
+        <argsstring>()</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::shutdown</qualifiedname>
+        <briefdescription>
+<para>Shutdown the cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Shutdown.</para>
+<para>Calls: lock(), reserve(), size(), push_back(), destroyBlockUnlocked(), <ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ae5d92a6f5c38b502d0707678cc60a4ae" kindref="member">clear()</ref>, spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="233" column="10" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="87" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a90896a91598c77f8979ae7e5a68d8c04" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::PagedKVCache::reserveRequest</definition>
+        <argsstring>(int64_t request_id, uint32_t initial_tokens)</argsstring>
+        <name>reserveRequest</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::reserveRequest</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>request_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>initial_tokens</declname>
+        </param>
+        <briefdescription>
+<para>Reserve blocks for a new request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reserve Request.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>initial_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of tokens to reserve initially </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if reservation succeeded</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">initial_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), reserveRequestUnlocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="241" column="10" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="123" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ac06a094b456a254d55c60199262ff940" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::PagedKVCache::reserveRequest</definition>
+        <argsstring>(int64_t request_id, const std::vector&lt; int &gt; &amp;initial_token_ids)</argsstring>
+        <name>reserveRequest</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::reserveRequest</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>request_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>initial_token_ids</declname>
+        </param>
+        <briefdescription>
+<para>Reserve blocks for a new request with prompt token metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reserve Request.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>initial_token_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt token sequence used for prefix sharing </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if reservation succeeded</para>
+</simplesect>
+Stores the logical prompt token sequence so prefix-sharing lookups can identify reusable full blocks from already cached requests.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">initial_token_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), reserveRequestUnlocked(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="252" column="10" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="135" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a5346b4a95e6bf7fcb0677444d86c9d0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; uint32_t &gt;</type>
+        <definition>std::optional&lt; uint32_t &gt; themisdb::sharding::PagedKVCache::allocateBlock</definition>
+        <argsstring>(int64_t request_id, uint32_t token_count)</argsstring>
+        <name>allocateBlock</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::allocateBlock</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>request_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>token_count</declname>
+        </param>
+        <briefdescription>
+<para>Allocate a block for a request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Allocate Block.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>token_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of tokens to store </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Block ID or nullopt if allocation failed</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">token_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), spdlog::warn(), size(), std::min(), std::chrono::steady_clock::now(), block_allocator_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="260" column="19" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="151" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a8c462c4476311d7f73fc14c8fbf6b825" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::PagedKVCache::freeBlock</definition>
+        <argsstring>(uint32_t block_id)</argsstring>
+        <name>freeBlock</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::freeBlock</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>block_id</declname>
+        </param>
+        <briefdescription>
+<para>Free a block. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Free Block.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>block_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Block identifier</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">block_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the block.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), destroyBlockUnlocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="266" column="10" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="253" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ab3d8addba2c41ddbf7a777d0d8ba9544" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::PagedKVCache::freeRequest</definition>
+        <argsstring>(int64_t request_id)</argsstring>
+        <name>freeRequest</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::freeRequest</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>request_id</declname>
+        </param>
+        <briefdescription>
+<para>Free all blocks for a request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Free Request.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request identifier</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), spdlog::warn(), releaseRequestBlockUnlocked(), empty(), erase(), updateStats(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="272" column="10" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="263" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ae5d92a6f5c38b502d0707678cc60a4ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::PagedKVCache::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::clear</qualifiedname>
+        <briefdescription>
+<para>Clear the entire cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear.</para>
+<para>Calls: lock(), reserve(), size(), push_back(), destroyBlockUnlocked(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="277" column="10" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="293" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a7cf921ad3daa59a22016730840c99500" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::PagedKVCache::writeBlock</definition>
+        <argsstring>(uint32_t block_id, uint32_t token_offset, const std::vector&lt; float &gt; &amp;key_data, const std::vector&lt; float &gt; &amp;value_data, uint32_t token_count)</argsstring>
+        <name>writeBlock</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::writeBlock</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>block_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>token_offset</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>key_data</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>value_data</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>token_count</declname>
+        </param>
+        <briefdescription>
+<para>Write KV data to a block. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Write Block.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>block_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Block identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>token_offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Offset within the block </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key data (per-token) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Value data (per-token) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>token_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of tokens to write </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if write succeeded</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">block_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the block. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">token_offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">token_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), spdlog::warn(), size(), std::copy_n(), begin(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="292" column="10" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="337" bodyend="393"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a6f962df52404d9ee826178e111fe04c9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::PagedKVCache::readBlock</definition>
+        <argsstring>(uint32_t block_id, uint32_t token_offset, uint32_t token_count, std::vector&lt; float &gt; &amp;key_data, std::vector&lt; float &gt; &amp;value_data) const</argsstring>
+        <name>readBlock</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::readBlock</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>block_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>token_offset</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>token_count</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; float &gt; &amp;</type>
+          <declname>key_data</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; float &gt; &amp;</type>
+          <declname>value_data</declname>
+        </param>
+        <briefdescription>
+<para>Read KV data from a block. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>block_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Block identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>token_offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Offset within the block </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>token_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of tokens to read </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output key data </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output value data </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if read succeeded </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="309" column="10" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="395" bodyend="449"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ac24605217fd4f69bd983c68c395ffbdd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_block" kindref="compound">KVCacheBlock</ref> &gt;</type>
+        <definition>std::optional&lt; KVCacheBlock &gt; themisdb::sharding::PagedKVCache::getBlock</definition>
+        <argsstring>(uint32_t block_id) const</argsstring>
+        <name>getBlock</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::getBlock</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>block_id</declname>
+        </param>
+        <briefdescription>
+<para>Get block information. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>block_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Block identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Block information or nullopt if not found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="322" column="19" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="451" bodyend="463"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a30ab6e967b64c76efc6771eacdf289e6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint32_t &gt;</type>
+        <definition>std::vector&lt; uint32_t &gt; themisdb::sharding::PagedKVCache::getRequestBlocks</definition>
+        <argsstring>(int64_t request_id) const</argsstring>
+        <name>getRequestBlocks</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::getRequestBlocks</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>request_id</declname>
+        </param>
+        <briefdescription>
+<para>Get all blocks for a request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of block IDs </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="329" column="17" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="465" bodyend="477"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a81de10210359c4cdb516e1ef6fd53e46" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; uint32_t &gt;</type>
+        <definition>std::optional&lt; uint32_t &gt; themisdb::sharding::PagedKVCache::findSharedPrefix</definition>
+        <argsstring>(int64_t request_id, const std::vector&lt; int &gt; &amp;token_sequence) const</argsstring>
+        <name>findSharedPrefix</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::findSharedPrefix</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>request_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>token_sequence</declname>
+        </param>
+        <briefdescription>
+<para>Check if a prefix can be shared. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>token_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Token sequence to check </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Block ID of matching prefix or nullopt </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="341" column="19" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="483" bodyend="535"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ae9692e041831242bad2601452920bc5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::PagedKVCache::sharePrefixBlock</definition>
+        <argsstring>(int64_t source_request_id, int64_t target_request_id, uint32_t block_id)</argsstring>
+        <name>sharePrefixBlock</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::sharePrefixBlock</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>source_request_id</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>target_request_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>block_id</declname>
+        </param>
+        <briefdescription>
+<para>Share a prefix block between requests. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Share Prefix Block.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>source_request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source request identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>target_request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target request identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>block_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Block identifier to share </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if sharing succeeded</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the source request. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the target request. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">block_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the block. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), spdlog::warn(), std::find(), begin(), push_back(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="353" column="10" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="545" bodyend="604"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1aba88c97cc575eb6b81daa9aa25b142cd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats" kindref="compound">KVCacheStats</ref></type>
+        <definition>KVCacheStats themisdb::sharding::PagedKVCache::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::getStats</qualifiedname>
+        <briefdescription>
+<para>Get current cache statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="366" column="18" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="610" bodyend="618"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a4d9d2ba3d49838c071be7b7847ed4495" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::sharding::PagedKVCache::getStatsJson</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatsJson</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::getStatsJson</qualifiedname>
+        <briefdescription>
+<para>Get detailed statistics as JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="371" column="20" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="620" bodyend="628"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1aadf9a224a918f46db61193ab0c689883" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::PagedKVCache::resetStats</definition>
+        <argsstring>()</argsstring>
+        <name>resetStats</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::resetStats</qualifiedname>
+        <briefdescription>
+<para>Reset statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset Stats.</para>
+<para>Calls: lock(), KVCacheStats(), size(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="376" column="10" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="634" bodyend="647"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1aff3b1175919f2e4e64b29aea8d808cfd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::PagedKVCache::getMemoryUsage</definition>
+        <argsstring>() const</argsstring>
+        <name>getMemoryUsage</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::getMemoryUsage</qualifiedname>
+        <briefdescription>
+<para>Get memory usage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="381" column="12" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="649" bodyend="657"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1aeb671291597f4c5721b609927f256adc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themisdb::sharding::PagedKVCache::getUtilization</definition>
+        <argsstring>() const</argsstring>
+        <name>getUtilization</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::getUtilization</qualifiedname>
+        <briefdescription>
+<para>Get cache utilization. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="386" column="12" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="659" bodyend="670"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a209e57b6572ceedada3437f8f8aaf5e3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::PagedKVCache::needsEviction</definition>
+        <argsstring>() const</argsstring>
+        <name>needsEviction</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::needsEviction</qualifiedname>
+        <briefdescription>
+<para>Check if cache needs eviction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="391" column="10" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="672" bodyend="674"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a3cfdd6ef0e859fe5da4d209a3013a066" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::PagedKVCache::updateConfig</definition>
+        <argsstring>(const KVCacheConfig &amp;config)</argsstring>
+        <name>updateConfig</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::updateConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config" kindref="compound">KVCacheConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update cache configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update the access control configuration.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New configuration</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New access control configuration.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), isValid(), spdlog::error(), calculateBlockMemorySize(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="401" column="10" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="685" bodyend="697"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a587503026c36aedc63b9f808067b7196" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemisdb_1_1sharding_1_1_k_v_cache_config" kindref="compound">KVCacheConfig</ref> &amp;</type>
+        <definition>const KVCacheConfig &amp; themisdb::sharding::PagedKVCache::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="406" column="25" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="699" bodyend="701"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ad5a403d601413bf333d4e0c95df504f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::PagedKVCache::setBlockAllocator</definition>
+        <argsstring>(BlockAllocator allocator)</argsstring>
+        <name>setBlockAllocator</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::setBlockAllocator</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a520ac7c4528666f26c9c50462ed31ab8" kindref="member">BlockAllocator</ref></type>
+          <declname>allocator</declname>
+        </param>
+        <briefdescription>
+<para>Set block allocator callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Block Allocator.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">allocator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="411" column="10" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="708" bodyend="711"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a2869019d8c5345ca818e8f808a24d482" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::PagedKVCache::setBlockDeallocator</definition>
+        <argsstring>(BlockDeallocator deallocator)</argsstring>
+        <name>setBlockDeallocator</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::setBlockDeallocator</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ae70f09101b870ec507c05e2a2bff4a71" kindref="member">BlockDeallocator</ref></type>
+          <declname>deallocator</declname>
+        </param>
+        <briefdescription>
+<para>Set block deallocator callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Block Deallocator.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">deallocator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="416" column="10" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="718" bodyend="721"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a1b6914cc230a232574a9273495333694" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::PagedKVCache::setEvictionCallback</definition>
+        <argsstring>(EvictionCallback callback)</argsstring>
+        <name>setEvictionCallback</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::setEvictionCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1acdfb6a40f99f979d50be6046ec30ece5" kindref="member">EvictionCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Set eviction callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Eviction Callback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="421" column="10" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="728" bodyend="731"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a4c22e44de8b9c9f33ea0f0b810c0a0e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::PagedKVCache::setScheduler</definition>
+        <argsstring>(ContinuousBatchScheduler *scheduler)</argsstring>
+        <name>setScheduler</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::setScheduler</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler" kindref="compound">ContinuousBatchScheduler</ref> *</type>
+          <declname>scheduler</declname>
+        </param>
+        <briefdescription>
+<para>Set the associated scheduler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Scheduler.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>scheduler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Continuous batch scheduler</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">scheduler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="431" column="10" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="742" bodyend="745"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1adfe9e4d9801d824f2d17275432a65786" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_continuous_batch_scheduler" kindref="compound">ContinuousBatchScheduler</ref> *</type>
+        <definition>ContinuousBatchScheduler * themisdb::sharding::PagedKVCache::getScheduler</definition>
+        <argsstring>()</argsstring>
+        <name>getScheduler</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::getScheduler</qualifiedname>
+        <briefdescription>
+<para>Get the associated scheduler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Scheduler.</para>
+<para><simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Implements getScheduler without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="436" column="30" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="752" bodyend="754"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a102567aa7090404650f1cc60cbec824f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::PagedKVCache::clearRequestCache</definition>
+        <argsstring>(int64_t request_id)</argsstring>
+        <name>clearRequestCache</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::clearRequestCache</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>request_id</declname>
+        </param>
+        <briefdescription>
+<para>Clear cache for a specific request (called by scheduler). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Request Cache.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request identifier</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ab3d8addba2c41ddbf7a777d0d8ba9544" kindref="member">freeRequest()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="442" column="10" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="761" bodyend="763"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a38a0b0c3a05a5816dc453981aeb79869" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::PagedKVCache::calculateBlockMemorySize</definition>
+        <argsstring>() const</argsstring>
+        <name>calculateBlockMemorySize</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::calculateBlockMemorySize</qualifiedname>
+        <briefdescription>
+<para>Calculate block memory size. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="497" column="12" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="769" bodyend="780"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1aa4c3dc463356bc42809092fb2e45c676" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::PagedKVCache::reserveRequestUnlocked</definition>
+        <argsstring>(int64_t request_id, uint32_t initial_tokens, const std::vector&lt; int &gt; *initial_token_ids)</argsstring>
+        <name>reserveRequestUnlocked</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::reserveRequestUnlocked</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>request_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>initial_tokens</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; int &gt; *</type>
+          <declname>initial_token_ids</declname>
+        </param>
+        <briefdescription>
+<para>Reserve request state after external synchronization. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reserve Request Unlocked.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">initial_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">initial_token_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(), end(), spdlog::warn(), spdlog::error(), size(), std::chrono::steady_clock::now(), std::move(), updateStats(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="502" column="10" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="790" bodyend="833"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ace0a6929264ebe1a6f7e1f64a9914d67" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::PagedKVCache::allocateBlockId</definition>
+        <argsstring>()</argsstring>
+        <name>allocateBlockId</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::allocateBlockId</qualifiedname>
+        <briefdescription>
+<para>Allocate a new block ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Allocate Block Id.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements allocateBlockId without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="509" column="14" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="840" bodyend="846"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ae7973a217b69d6a860831f6c706a84a6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::PagedKVCache::freeBlockId</definition>
+        <argsstring>(uint32_t block_id)</argsstring>
+        <name>freeBlockId</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::freeBlockId</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>block_id</declname>
+        </param>
+        <briefdescription>
+<para>Free a block ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Free Block Id.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">block_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the block.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="514" column="10" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="853" bodyend="855"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a39f1a4cf268e1a8c38fd0ba6ffe7b95f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::PagedKVCache::evictBlocks</definition>
+        <argsstring>(uint32_t needed_blocks)</argsstring>
+        <name>evictBlocks</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::evictBlocks</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>needed_blocks</declname>
+        </param>
+        <briefdescription>
+<para>Evict blocks to make space. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Evict Blocks.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>needed_blocks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of blocks needed </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if eviction succeeded</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">needed_blocks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), empty(), findLRUBlock(), spdlog::warn(), spdlog::debug(), emplace_back(), destroyBlockUnlocked(), unlock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="521" column="10" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="863" bodyend="905"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ad4c31267c005b18e97d6384e317ccf43" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::PagedKVCache::releaseRequestBlockUnlocked</definition>
+        <argsstring>(int64_t request_id, uint32_t block_id)</argsstring>
+        <name>releaseRequestBlockUnlocked</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::releaseRequestBlockUnlocked</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>request_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>block_id</declname>
+        </param>
+        <briefdescription>
+<para>Release a shared or owned block from one request after locking. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Release Request Block Unlocked.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">block_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the block.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), std::find(), begin(), erase(), destroyBlockUnlocked(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="526" column="10" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="931" bodyend="969"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a3efc50288b0bf782e63071f5bac70d3d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::PagedKVCache::destroyBlockUnlocked</definition>
+        <argsstring>(uint32_t block_id)</argsstring>
+        <name>destroyBlockUnlocked</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::destroyBlockUnlocked</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>block_id</declname>
+        </param>
+        <briefdescription>
+<para>Destroy a block and detach it from all requests after locking. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Destroy Block Unlocked.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">block_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the block.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), spdlog::warn(), block_deallocator_(), begin(), size(), erase(), std::remove(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="531" column="10" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="976" bodyend="1027"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a9ffc932c774128428ecd78607cacd43c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::pair&lt; uint32_t, int64_t &gt; &gt;</type>
+        <definition>std::optional&lt; std::pair&lt; uint32_t, int64_t &gt; &gt; themisdb::sharding::PagedKVCache::findLRUBlock</definition>
+        <argsstring>() const</argsstring>
+        <name>findLRUBlock</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::findLRUBlock</qualifiedname>
+        <briefdescription>
+<para>Find the least recently used block after external synchronization. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Block ID and request ID or nullopt </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="537" column="19" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="907" bodyend="923"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a9f40512a4b62d454a3e46b04b584c753" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::PagedKVCache::updateStats</definition>
+        <argsstring>()</argsstring>
+        <name>updateStats</name>
+        <qualifiedname>themisdb::sharding::PagedKVCache::updateStats</qualifiedname>
+        <briefdescription>
+<para>Update statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Stats.</para>
+<para>Calls: size(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="542" column="10" bodyfile="src/sharding/paged_kv_cache.cpp" bodystart="1033" bodyend="1043"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Paged KV Cache for LLM Inference. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implements a vLLM-style paged attention KV cache that:<itemizedlist>
+<listitem><para>Divides KV cache into fixed-size blocks</para>
+</listitem><listitem><para>Allocates blocks on-demand for each request</para>
+</listitem><listitem><para>Supports sharing of common prefix blocks between requests</para>
+</listitem><listitem><para>Implements LRU eviction when cache is full</para>
+</listitem><listitem><para>Tracks memory usage and provides statistics</para>
+</listitem></itemizedlist>
+</para>
+<para>This cache is designed for per-shard inference in a converged storage-retrieval-inference architecture. </para>
+    </detaileddescription>
+    <location file="include/sharding/paged_kv_cache.h" line="191" column="1" bodyfile="include/sharding/paged_kv_cache.h" bodystart="191" bodyend="543"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a5346b4a95e6bf7fcb0677444d86c9d0f" prot="public" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>allocateBlock</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ace0a6929264ebe1a6f7e1f64a9914d67" prot="private" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>allocateBlockId</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a3c5951cb740395fa8ea4247eb02696fc" prot="private" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>block_allocator_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a955dd0565cbe8626874f416b84816ff1" prot="private" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>block_deallocator_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ae0d28560785351221ec1514a64f72245" prot="private" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>block_memory_size_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1aa588973a10072ef6d9b782a174ca082a" prot="private" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>block_ref_counts_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a520ac7c4528666f26c9c50462ed31ab8" prot="public" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>BlockAllocator</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ae70f09101b870ec507c05e2a2bff4a71" prot="public" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>BlockDeallocator</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1aa1d0ebd1a2294771f21690c7623fc540" prot="private" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>blocks_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a38a0b0c3a05a5816dc453981aeb79869" prot="private" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>calculateBlockMemorySize</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ae5d92a6f5c38b502d0707678cc60a4ae" prot="public" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>clear</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a102567aa7090404650f1cc60cbec824f" prot="public" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>clearRequestCache</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a1b9f5c74d4cd504b9b395799799483ed" prot="private" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1abcc0327121e3c552dc85b13af11260cf" prot="private" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>current_memory_usage_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a3efc50288b0bf782e63071f5bac70d3d" prot="private" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>destroyBlockUnlocked</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a39f1a4cf268e1a8c38fd0ba6ffe7b95f" prot="private" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>evictBlocks</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1aae0dca425057d1b1361e64b2dbaa00cc" prot="private" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>eviction_callback_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1acdfb6a40f99f979d50be6046ec30ece5" prot="public" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>EvictionCallback</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a9ffc932c774128428ecd78607cacd43c" prot="private" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>findLRUBlock</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a81de10210359c4cdb516e1ef6fd53e46" prot="public" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>findSharedPrefix</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ac0c01409e50324269a5ea8a27cc604ae" prot="private" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>free_blocks_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a8c462c4476311d7f73fc14c8fbf6b825" prot="public" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>freeBlock</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ae7973a217b69d6a860831f6c706a84a6" prot="private" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>freeBlockId</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ab3d8addba2c41ddbf7a777d0d8ba9544" prot="public" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>freeRequest</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ac24605217fd4f69bd983c68c395ffbdd" prot="public" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>getBlock</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a587503026c36aedc63b9f808067b7196" prot="public" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>getConfig</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1aff3b1175919f2e4e64b29aea8d808cfd" prot="public" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>getMemoryUsage</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a30ab6e967b64c76efc6771eacdf289e6" prot="public" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>getRequestBlocks</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1adfe9e4d9801d824f2d17275432a65786" prot="public" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>getScheduler</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1aba88c97cc575eb6b81daa9aa25b142cd" prot="public" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>getStats</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a4d9d2ba3d49838c071be7b7847ed4495" prot="public" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>getStatsJson</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1aeb671291597f4c5721b609927f256adc" prot="public" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>getUtilization</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1af1c9a97101e9d84673b8559e4b2c60a4" prot="public" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>initialize</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a4f7a88bda5d060cce05e747935340960" prot="private" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>key_block_storage_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ab24a41ddbba714b13fe270741b78fcd4" prot="private" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a209e57b6572ceedada3437f8f8aaf5e3" prot="public" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>needsEviction</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1acffdcec6d2aa8c7f145e22cefc959c7f" prot="private" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>next_block_id_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ad859d384db64cdd1aed4ded04104d437" prot="public" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1aa34cf9ccbe056b7423cfbc09586735bb" prot="public" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>PagedKVCache</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a3be145e1c6c500e736751c05a99ad608" prot="public" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>PagedKVCache</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a6f962df52404d9ee826178e111fe04c9" prot="public" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>readBlock</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ad4c31267c005b18e97d6384e317ccf43" prot="private" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>releaseRequestBlockUnlocked</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a729fd1afa800ed4e17da5f4090abc344" prot="private" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>requests_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a90896a91598c77f8979ae7e5a68d8c04" prot="public" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>reserveRequest</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ac06a094b456a254d55c60199262ff940" prot="public" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>reserveRequest</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1aa4c3dc463356bc42809092fb2e45c676" prot="private" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>reserveRequestUnlocked</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1aadf9a224a918f46db61193ab0c689883" prot="public" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>resetStats</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a7d2f6234262ea4b798719b6cffa61e89" prot="private" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>scheduler_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ad5a403d601413bf333d4e0c95df504f2" prot="public" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>setBlockAllocator</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a2869019d8c5345ca818e8f808a24d482" prot="public" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>setBlockDeallocator</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a1b6914cc230a232574a9273495333694" prot="public" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>setEvictionCallback</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a4c22e44de8b9c9f33ea0f0b810c0a0e0" prot="public" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>setScheduler</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1ae9692e041831242bad2601452920bc5e" prot="public" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>sharePrefixBlock</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1acbae3d7dd8da4bb9322c1d7f17cd44ae" prot="public" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>shutdown</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a912904778e615d206165d1ce912ba9d6" prot="private" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>stats_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a3cfdd6ef0e859fe5da4d209a3013a066" prot="public" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>updateConfig</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a9f40512a4b62d454a3e46b04b584c753" prot="private" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>updateStats</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a90b6de66a8066d2509569609c6c7ca75" prot="private" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>value_block_storage_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1a7cf921ad3daa59a22016730840c99500" prot="public" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>writeBlock</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_paged_k_v_cache_1aec0d4933de00f38b848ef6991df05d02" prot="public" virt="non-virtual"><scope>themisdb::sharding::PagedKVCache</scope><name>~PagedKVCache</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

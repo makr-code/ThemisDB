@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::CrossShardSSIManager::Config</compoundname>
+    <includes refid="cross__shard__ssi__manager_8h" local="no">cross_shard_ssi_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1_1_config_1a725d431e7bb70e3274b1692227d29fba" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::CrossShardSSIManager::Config::enable_predicate_locking</definition>
+        <argsstring></argsstring>
+        <name>enable_predicate_locking</name>
+        <qualifiedname>themisdb::sharding::CrossShardSSIManager::Config::enable_predicate_locking</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable predicate-lock tracking and cross-shard conflict detection. When false, <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1a526d2831966852aadc7d421b44c3676a" kindref="member">validateAtPrepare()</ref> always returns an empty vector (no conflict detected), effectively degrading SERIALIZABLE to SNAPSHOT_ISOLATION. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_ssi_manager.h" line="116" column="14" bodyfile="include/sharding/cross_shard_ssi_manager.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1_1_config_1a619c22530fe05d913f430e99f5b08b6e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::CrossShardSSIManager::Config::max_predicate_locks_per_txn</definition>
+        <argsstring></argsstring>
+        <name>max_predicate_locks_per_txn</name>
+        <qualifiedname>themisdb::sharding::CrossShardSSIManager::Config::max_predicate_locks_per_txn</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of predicate lock ranges that may be registered per transaction. When the per-transaction limit is reached additional <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1aa5810789e1636d113600a7d85ea006c9" kindref="member">registerReadSet()</ref> calls are silently ignored; the missing coverage may increase the false-negative rate (missed anomalies). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_ssi_manager.h" line="122" column="16" bodyfile="include/sharding/cross_shard_ssi_manager.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1_1_config_1ac5fc690588c92e9b45bd5edd9ccb5a92" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::CrossShardSSIManager::Config::max_write_keys_per_txn</definition>
+        <argsstring></argsstring>
+        <name>max_write_keys_per_txn</name>
+        <qualifiedname>themisdb::sharding::CrossShardSSIManager::Config::max_write_keys_per_txn</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of write keys tracked per transaction. Excess keys are silently dropped, which may increase the false-negative rate. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_ssi_manager.h" line="126" column="16" bodyfile="include/sharding/cross_shard_ssi_manager.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Runtime configuration for distributed SSI. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tune these values to balance memory usage, false-positive abort rate, and conflict-detection coverage. </para>
+    </detaileddescription>
+    <location file="include/sharding/cross_shard_ssi_manager.h" line="111" column="5" bodyfile="include/sharding/cross_shard_ssi_manager.h" bodystart="111" bodyend="127"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1_1_config_1a725d431e7bb70e3274b1692227d29fba" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSSIManager::Config</scope><name>enable_predicate_locking</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1_1_config_1a619c22530fe05d913f430e99f5b08b6e" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSSIManager::Config</scope><name>max_predicate_locks_per_txn</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_s_s_i_manager_1_1_config_1ac5fc690588c92e9b45bd5edd9ccb5a92" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSSIManager::Config</scope><name>max_write_keys_per_txn</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,659 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_session_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::SessionManager</compoundname>
+    <includes refid="session__manager_8h" local="no">session_manager.h</includes>
+    <innerclass refid="structthemis_1_1auth_1_1_session_manager_1_1_session_limits" prot="public">themis::auth::SessionManager::SessionLimits</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_session_manager_1_1_session_info" prot="public">themis::auth::SessionManager::SessionInfo</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_session_manager_1_1_validation_result" prot="public">themis::auth::SessionManager::ValidationResult</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_session_manager_1a0b6619ed1ff02e279b9da8e4e8c1d3af" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1auth_1_1_session_manager_1_1_session_limits" kindref="compound">SessionLimits</ref></type>
+        <definition>SessionLimits themis::auth::SessionManager::limits_</definition>
+        <argsstring></argsstring>
+        <name>limits_</name>
+        <qualifiedname>themis::auth::SessionManager::limits_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/session_manager.h" line="155" column="19" bodyfile="include/auth/session_manager.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_session_manager_1a19875653dbc720ac546bddd45c690175" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1auth_1_1_session_manager_1_1_session_info" kindref="compound">SessionInfo</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, SessionInfo&gt; themis::auth::SessionManager::sessions_</definition>
+        <argsstring></argsstring>
+        <name>sessions_</name>
+        <qualifiedname>themis::auth::SessionManager::sessions_</qualifiedname>
+        <briefdescription>
+<para>id -&gt; info </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/session_manager.h" line="156" column="24" bodyfile="include/auth/session_manager.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_session_manager_1a1473e5dc3df81ebf3a903e995e6ee502" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::auth::SessionManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::auth::SessionManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/session_manager.h" line="157" column="24" bodyfile="include/auth/session_manager.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_session_manager_1a3e0c499ef62f6bdc94121566de85b9f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::SessionManager::SessionManager</definition>
+        <argsstring>()</argsstring>
+        <name>SessionManager</name>
+        <qualifiedname>themis::auth::SessionManager::SessionManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/session_manager.h" line="70" column="5" bodyfile="src/auth/session_manager.cpp" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_session_manager_1a0d574e7def680063d43d7188dbb3efe4" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::SessionManager::SessionManager</definition>
+        <argsstring>(const SessionLimits &amp;limits)</argsstring>
+        <name>SessionManager</name>
+        <qualifiedname>themis::auth::SessionManager::SessionManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_session_manager_1_1_session_limits" kindref="compound">SessionLimits</ref> &amp;</type>
+          <declname>limits</declname>
+        </param>
+        <briefdescription>
+<para>Session Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">limits</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/session_manager.h" line="76" column="14" bodyfile="src/auth/session_manager.cpp" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_session_manager_1aff292ccbb201af427b3036c1a352cb78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::SessionManager::~SessionManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~SessionManager</name>
+        <qualifiedname>themis::auth::SessionManager::~SessionManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/session_manager.h" line="77" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_session_manager_1a9df228e2f784563236cdba0deff9654b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::SessionManager::SessionManager</definition>
+        <argsstring>(const SessionManager &amp;)=delete</argsstring>
+        <name>SessionManager</name>
+        <qualifiedname>themis::auth::SessionManager::SessionManager</qualifiedname>
+        <param>
+          <type>const SessionManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/session_manager.h" line="80" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_session_manager_1aeb4a866c79224f7449df2ed0c15f3bd9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1auth_1_1_session_manager_1a3e0c499ef62f6bdc94121566de85b9f9" kindref="member">SessionManager</ref> &amp;</type>
+        <definition>SessionManager &amp; themis::auth::SessionManager::operator=</definition>
+        <argsstring>(const SessionManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::auth::SessionManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1auth_1_1_session_manager_1a3e0c499ef62f6bdc94121566de85b9f9" kindref="member">SessionManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/session_manager.h" line="81" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_session_manager_1a2cda5b27150377045e0a162bb152fb5c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::SessionManager::SessionManager</definition>
+        <argsstring>(SessionManager &amp;&amp;) noexcept=default</argsstring>
+        <name>SessionManager</name>
+        <qualifiedname>themis::auth::SessionManager::SessionManager</qualifiedname>
+        <param>
+          <type>SessionManager &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/session_manager.h" line="82" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_session_manager_1a7365a84eb6d93b3866b8ae8d6c455ff6" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1auth_1_1_session_manager_1a3e0c499ef62f6bdc94121566de85b9f9" kindref="member">SessionManager</ref> &amp;</type>
+        <definition>SessionManager &amp; themis::auth::SessionManager::operator=</definition>
+        <argsstring>(SessionManager &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::auth::SessionManager::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1auth_1_1_session_manager_1a3e0c499ef62f6bdc94121566de85b9f9" kindref="member">SessionManager</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/session_manager.h" line="83" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_session_manager_1a27bda1b15396f09af311e9c3282b5459" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::SessionManager::createSession</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;device_fingerprint={}, const std::string &amp;ip_address={}, const std::string &amp;user_agent={})</argsstring>
+        <name>createSession</name>
+        <qualifiedname>themis::auth::SessionManager::createSession</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>device_fingerprint</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ip_address</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_agent</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Create a session for an authenticated user. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">device_fingerprint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ip_address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_agent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Session token. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), lock(), pruneExpiredLocked(), enforceSessionLimits(), std::chrono::system_clock::now(), count(), std::chrono::system_clock::time_point::max(), <ref refid="classthemis_1_1auth_1_1_session_manager_1a8b6f3a44007dbfcdbb2b4360b3351fdd" kindref="member">generateSessionId()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/session_manager.h" line="89" column="17" bodyfile="src/auth/session_manager.cpp" bodystart="163" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_session_manager_1ad1be91118d89ae46093033638136659b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_session_manager_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>SessionManager::ValidationResult themis::auth::SessionManager::validateSession</definition>
+        <argsstring>(const std::string &amp;session_id, const std::string &amp;current_ip={})</argsstring>
+        <name>validateSession</name>
+        <qualifiedname>themis::auth::SessionManager::validateSession</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>current_ip</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Validate a session token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Validated session on success.</para>
+</simplesect>
+Calls: empty(), lock(), find(), hashSessionId(), end(), isExpired(), erase(), std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/session_manager.h" line="96" column="22" bodyfile="src/auth/session_manager.cpp" bodystart="210" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_session_manager_1a6a73c9ed20eb00836d85c94de6536ee0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::SessionManager::terminateSession</definition>
+        <argsstring>(const std::string &amp;session_id)</argsstring>
+        <name>terminateSession</name>
+        <qualifiedname>themis::auth::SessionManager::terminateSession</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+<para>Terminate Session. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), hashSessionId(), end(), THEMIS_INFO(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/session_manager.h" line="105" column="10" bodyfile="src/auth/session_manager.cpp" bodystart="246" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_session_manager_1afd9cd2b43bf1018758d2862bda92b1b0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::SessionManager::invalidateSession</definition>
+        <argsstring>(const std::string &amp;session_id)</argsstring>
+        <name>invalidateSession</name>
+        <qualifiedname>themis::auth::SessionManager::invalidateSession</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate a session token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1auth_1_1_session_manager_1a6a73c9ed20eb00836d85c94de6536ee0" kindref="member">terminateSession()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/session_manager.h" line="112" column="10" bodyfile="include/auth/session_manager.h" bodystart="112" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_session_manager_1ae8de415d672676a1a567a5d8c234d68f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::auth::SessionManager::terminateAllOtherSessions</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;keep_session_id={})</argsstring>
+        <name>terminateAllOtherSessions</name>
+        <qualifiedname>themis::auth::SessionManager::terminateAllOtherSessions</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>keep_session_id</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Terminate All Other Sessions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">keep_session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the keep session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), constantTimeSessionIdEquals(), push_back(), erase(), THEMIS_INFO(), <ref refid="classthemis_1_1auth_1_1_session_manager_1a43854f473b7021d1c94f6a66078a95bc" kindref="member">size()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/session_manager.h" line="116" column="9" bodyfile="src/auth/session_manager.cpp" bodystart="274" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_session_manager_1aff6ce9c44ca5212a85c0af16f658dc67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1auth_1_1_session_manager_1_1_session_info" kindref="compound">SessionInfo</ref> &gt;</type>
+        <definition>std::vector&lt; SessionManager::SessionInfo &gt; themis::auth::SessionManager::listSessions</definition>
+        <argsstring>(const std::string &amp;user_id)</argsstring>
+        <name>listSessions</name>
+        <qualifiedname>themis::auth::SessionManager::listSessions</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>List Sessions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), isExpired(), push_back(), erase(), std::sort(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/session_manager.h" line="130" column="17" bodyfile="src/auth/session_manager.cpp" bodystart="307" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_session_manager_1a43854f473b7021d1c94f6a66078a95bc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::auth::SessionManager::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::auth::SessionManager::size</qualifiedname>
+        <briefdescription>
+<para>Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/session_manager.h" line="136" column="12" bodyfile="src/auth/session_manager.cpp" bodystart="338" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_session_manager_1a2c39feac88633f8016f465d4678cbc48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::auth::SessionManager::pruneExpired</definition>
+        <argsstring>()</argsstring>
+        <name>pruneExpired</name>
+        <qualifiedname>themis::auth::SessionManager::pruneExpired</qualifiedname>
+        <briefdescription>
+<para>Prune Expired. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), pruneExpiredLocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/session_manager.h" line="142" column="12" bodyfile="src/auth/session_manager.cpp" bodystart="353" bodyend="356"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_session_manager_1a8b6f3a44007dbfcdbb2b4360b3351fdd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::SessionManager::generateSessionId</definition>
+        <argsstring>()</argsstring>
+        <name>generateSessionId</name>
+        <qualifiedname>themis::auth::SessionManager::generateSessionId</qualifiedname>
+        <briefdescription>
+<para>Generate Session Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: RAND_bytes(), std::setw(), std::setfill(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/session_manager.h" line="152" column="24" bodyfile="src/auth/session_manager.cpp" bodystart="79" bodyend="90"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_session_manager_1a9980e9bc1a93eb476e356dd0e201f51d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::SessionManager::isExpired</definition>
+        <argsstring>(const SessionInfo &amp;s) const</argsstring>
+        <name>isExpired</name>
+        <qualifiedname>themis::auth::SessionManager::isExpired</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_session_manager_1_1_session_info" kindref="compound">SessionInfo</ref> &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Is Expired. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/session_manager.h" line="164" column="10" bodyfile="src/auth/session_manager.cpp" bodystart="96" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_session_manager_1a5b369ecbba00d0f59820d97b1bc3f6f0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::SessionManager::enforceSessionLimits</definition>
+        <argsstring>(const std::string &amp;user_id)</argsstring>
+        <name>enforceSessionLimits</name>
+        <qualifiedname>themis::auth::SessionManager::enforceSessionLimits</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Enforce Session Limits. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: emplace_back(), <ref refid="classthemis_1_1auth_1_1_session_manager_1a43854f473b7021d1c94f6a66078a95bc" kindref="member">size()</ref>, std::sort(), begin(), end(), THEMIS_INFO(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/session_manager.h" line="170" column="10" bodyfile="src/auth/session_manager.cpp" bodystart="121" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_session_manager_1abe238ce0dce38d4349926044601ee5a9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::auth::SessionManager::pruneExpiredLocked</definition>
+        <argsstring>()</argsstring>
+        <name>pruneExpiredLocked</name>
+        <qualifiedname>themis::auth::SessionManager::pruneExpiredLocked</qualifiedname>
+        <briefdescription>
+<para>Prune Expired Locked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isExpired(), push_back(), erase(), <ref refid="classthemis_1_1auth_1_1_session_manager_1a43854f473b7021d1c94f6a66078a95bc" kindref="member">size()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/session_manager.h" line="176" column="12" bodyfile="src/auth/session_manager.cpp" bodystart="363" bodyend="375"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/session_manager.h" line="25" column="1" bodyfile="include/auth/session_manager.h" bodystart="25" bodyend="177"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_session_manager_1a27bda1b15396f09af311e9c3282b5459" prot="public" virt="non-virtual"><scope>themis::auth::SessionManager</scope><name>createSession</name></member>
+      <member refid="classthemis_1_1auth_1_1_session_manager_1a5b369ecbba00d0f59820d97b1bc3f6f0" prot="private" virt="non-virtual"><scope>themis::auth::SessionManager</scope><name>enforceSessionLimits</name></member>
+      <member refid="classthemis_1_1auth_1_1_session_manager_1a8b6f3a44007dbfcdbb2b4360b3351fdd" prot="public" virt="non-virtual"><scope>themis::auth::SessionManager</scope><name>generateSessionId</name></member>
+      <member refid="classthemis_1_1auth_1_1_session_manager_1afd9cd2b43bf1018758d2862bda92b1b0" prot="public" virt="non-virtual"><scope>themis::auth::SessionManager</scope><name>invalidateSession</name></member>
+      <member refid="classthemis_1_1auth_1_1_session_manager_1a9980e9bc1a93eb476e356dd0e201f51d" prot="private" virt="non-virtual"><scope>themis::auth::SessionManager</scope><name>isExpired</name></member>
+      <member refid="classthemis_1_1auth_1_1_session_manager_1a0b6619ed1ff02e279b9da8e4e8c1d3af" prot="private" virt="non-virtual"><scope>themis::auth::SessionManager</scope><name>limits_</name></member>
+      <member refid="classthemis_1_1auth_1_1_session_manager_1aff6ce9c44ca5212a85c0af16f658dc67" prot="public" virt="non-virtual"><scope>themis::auth::SessionManager</scope><name>listSessions</name></member>
+      <member refid="classthemis_1_1auth_1_1_session_manager_1a1473e5dc3df81ebf3a903e995e6ee502" prot="private" virt="non-virtual"><scope>themis::auth::SessionManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1auth_1_1_session_manager_1aeb4a866c79224f7449df2ed0c15f3bd9" prot="public" virt="non-virtual"><scope>themis::auth::SessionManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1auth_1_1_session_manager_1a7365a84eb6d93b3866b8ae8d6c455ff6" prot="public" virt="non-virtual"><scope>themis::auth::SessionManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1auth_1_1_session_manager_1a2c39feac88633f8016f465d4678cbc48" prot="public" virt="non-virtual"><scope>themis::auth::SessionManager</scope><name>pruneExpired</name></member>
+      <member refid="classthemis_1_1auth_1_1_session_manager_1abe238ce0dce38d4349926044601ee5a9" prot="private" virt="non-virtual"><scope>themis::auth::SessionManager</scope><name>pruneExpiredLocked</name></member>
+      <member refid="classthemis_1_1auth_1_1_session_manager_1a3e0c499ef62f6bdc94121566de85b9f9" prot="public" virt="non-virtual"><scope>themis::auth::SessionManager</scope><name>SessionManager</name></member>
+      <member refid="classthemis_1_1auth_1_1_session_manager_1a0d574e7def680063d43d7188dbb3efe4" prot="public" virt="non-virtual"><scope>themis::auth::SessionManager</scope><name>SessionManager</name></member>
+      <member refid="classthemis_1_1auth_1_1_session_manager_1a9df228e2f784563236cdba0deff9654b" prot="public" virt="non-virtual"><scope>themis::auth::SessionManager</scope><name>SessionManager</name></member>
+      <member refid="classthemis_1_1auth_1_1_session_manager_1a2cda5b27150377045e0a162bb152fb5c" prot="public" virt="non-virtual"><scope>themis::auth::SessionManager</scope><name>SessionManager</name></member>
+      <member refid="classthemis_1_1auth_1_1_session_manager_1a19875653dbc720ac546bddd45c690175" prot="private" virt="non-virtual"><scope>themis::auth::SessionManager</scope><name>sessions_</name></member>
+      <member refid="classthemis_1_1auth_1_1_session_manager_1a43854f473b7021d1c94f6a66078a95bc" prot="public" virt="non-virtual"><scope>themis::auth::SessionManager</scope><name>size</name></member>
+      <member refid="classthemis_1_1auth_1_1_session_manager_1ae8de415d672676a1a567a5d8c234d68f" prot="public" virt="non-virtual"><scope>themis::auth::SessionManager</scope><name>terminateAllOtherSessions</name></member>
+      <member refid="classthemis_1_1auth_1_1_session_manager_1a6a73c9ed20eb00836d85c94de6536ee0" prot="public" virt="non-virtual"><scope>themis::auth::SessionManager</scope><name>terminateSession</name></member>
+      <member refid="classthemis_1_1auth_1_1_session_manager_1ad1be91118d89ae46093033638136659b" prot="public" virt="non-virtual"><scope>themis::auth::SessionManager</scope><name>validateSession</name></member>
+      <member refid="classthemis_1_1auth_1_1_session_manager_1aff292ccbb201af427b3036c1a352cb78" prot="public" virt="non-virtual"><scope>themis::auth::SessionManager</scope><name>~SessionManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

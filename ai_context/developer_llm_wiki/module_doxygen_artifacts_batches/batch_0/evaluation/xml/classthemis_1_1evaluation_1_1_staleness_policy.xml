@@ -1,0 +1,343 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1evaluation_1_1_staleness_policy" kind="class" language="C++" prot="public">
+    <compoundname>themis::evaluation::StalenessPolicy</compoundname>
+    <includes refid="artifact__lifecycle_8h" local="no">artifact_lifecycle.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1evaluation_1_1_staleness_policy_1a0079462e442545b23c6419abba41bb4d" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; std::uint32_t &gt;</type>
+        <definition>std::optional&lt;std::uint32_t&gt; themis::evaluation::StalenessPolicy::age_threshold_ms_</definition>
+        <argsstring></argsstring>
+        <name>age_threshold_ms_</name>
+        <qualifiedname>themis::evaluation::StalenessPolicy::age_threshold_ms_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="208" column="19" bodyfile="src/evaluation/include/artifact_lifecycle.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1evaluation_1_1_staleness_policy_1a75307b05cdd0ba60f3b3ff18b7c872a3" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; std::uint64_t &gt;</type>
+        <definition>std::optional&lt;std::uint64_t&gt; themis::evaluation::StalenessPolicy::delta_lag_threshold_</definition>
+        <argsstring></argsstring>
+        <name>delta_lag_threshold_</name>
+        <qualifiedname>themis::evaluation::StalenessPolicy::delta_lag_threshold_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="209" column="19" bodyfile="src/evaluation/include/artifact_lifecycle.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1evaluation_1_1_staleness_policy_1a6f1b73d4febb2bf0776fca8782e35235" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; double &gt;</type>
+        <definition>std::optional&lt;double&gt; themis::evaluation::StalenessPolicy::residual_threshold_</definition>
+        <argsstring></argsstring>
+        <name>residual_threshold_</name>
+        <qualifiedname>themis::evaluation::StalenessPolicy::residual_threshold_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="210" column="19" bodyfile="src/evaluation/include/artifact_lifecycle.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1evaluation_1_1_staleness_policy_1ae0d9271b34e42fc2d117d40559c43bfc" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; std::uint32_t &gt;</type>
+        <definition>std::optional&lt;std::uint32_t&gt; themis::evaluation::StalenessPolicy::rank_cap_threshold_</definition>
+        <argsstring></argsstring>
+        <name>rank_cap_threshold_</name>
+        <qualifiedname>themis::evaluation::StalenessPolicy::rank_cap_threshold_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="211" column="19" bodyfile="src/evaluation/include/artifact_lifecycle.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1evaluation_1_1_staleness_policy_1ac7efcbf8b4634a6ad51b139e69190cde" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; double &gt;</type>
+        <definition>std::optional&lt;double&gt; themis::evaluation::StalenessPolicy::residual_variance_threshold_</definition>
+        <argsstring></argsstring>
+        <name>residual_variance_threshold_</name>
+        <qualifiedname>themis::evaluation::StalenessPolicy::residual_variance_threshold_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="212" column="19" bodyfile="src/evaluation/include/artifact_lifecycle.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_staleness_policy_1a65dcb561c02aec9bbc9c404a33653126" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::evaluation::StalenessPolicy::StalenessPolicy</definition>
+        <argsstring>()=default</argsstring>
+        <name>StalenessPolicy</name>
+        <qualifiedname>themis::evaluation::StalenessPolicy::StalenessPolicy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="130" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_staleness_policy_1afe2bc8d11050ebd3ccc1c5bf830c7e02" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1evaluation_1_1_staleness_policy_1a65dcb561c02aec9bbc9c404a33653126" kindref="member">StalenessPolicy</ref> &amp;</type>
+        <definition>StalenessPolicy &amp; themis::evaluation::StalenessPolicy::withAgeThresholdMs</definition>
+        <argsstring>(std::uint32_t threshold_ms)</argsstring>
+        <name>withAgeThresholdMs</name>
+        <qualifiedname>themis::evaluation::StalenessPolicy::withAgeThresholdMs</qualifiedname>
+        <param>
+          <type>std::uint32_t</type>
+          <declname>threshold_ms</declname>
+        </param>
+        <briefdescription>
+<para>With Age Threshold Ms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">threshold_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements withAgeThresholdMs without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="138" column="21" bodyfile="src/evaluation/include/artifact_lifecycle.h" bodystart="138" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_staleness_policy_1afaeec2b5b653b758049ed199c3c9f5a7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1evaluation_1_1_staleness_policy_1a65dcb561c02aec9bbc9c404a33653126" kindref="member">StalenessPolicy</ref> &amp;</type>
+        <definition>StalenessPolicy &amp; themis::evaluation::StalenessPolicy::withDeltaLagThreshold</definition>
+        <argsstring>(std::uint64_t threshold)</argsstring>
+        <name>withDeltaLagThreshold</name>
+        <qualifiedname>themis::evaluation::StalenessPolicy::withDeltaLagThreshold</qualifiedname>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>threshold</declname>
+        </param>
+        <briefdescription>
+<para>With Delta Lag Threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements withDeltaLagThreshold without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="149" column="21" bodyfile="src/evaluation/include/artifact_lifecycle.h" bodystart="149" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_staleness_policy_1a505c3b76334484ec638ab2d687587147" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1evaluation_1_1_staleness_policy_1a65dcb561c02aec9bbc9c404a33653126" kindref="member">StalenessPolicy</ref> &amp;</type>
+        <definition>StalenessPolicy &amp; themis::evaluation::StalenessPolicy::withResidualThreshold</definition>
+        <argsstring>(double threshold)</argsstring>
+        <name>withResidualThreshold</name>
+        <qualifiedname>themis::evaluation::StalenessPolicy::withResidualThreshold</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>threshold</declname>
+        </param>
+        <briefdescription>
+<para>With Residual Threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements withResidualThreshold without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="160" column="21" bodyfile="src/evaluation/include/artifact_lifecycle.h" bodystart="160" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_staleness_policy_1aca819445e2612cffbe91fc2567f40d13" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1evaluation_1_1_staleness_policy_1a65dcb561c02aec9bbc9c404a33653126" kindref="member">StalenessPolicy</ref> &amp;</type>
+        <definition>StalenessPolicy &amp; themis::evaluation::StalenessPolicy::withRankCapThreshold</definition>
+        <argsstring>(std::uint32_t threshold)</argsstring>
+        <name>withRankCapThreshold</name>
+        <qualifiedname>themis::evaluation::StalenessPolicy::withRankCapThreshold</qualifiedname>
+        <param>
+          <type>std::uint32_t</type>
+          <declname>threshold</declname>
+        </param>
+        <briefdescription>
+<para>With Rank Cap Threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements withRankCapThreshold without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="171" column="21" bodyfile="src/evaluation/include/artifact_lifecycle.h" bodystart="171" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_staleness_policy_1ad0831dd26824fae5600c5b86d632566f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1evaluation_1_1_staleness_policy_1a65dcb561c02aec9bbc9c404a33653126" kindref="member">StalenessPolicy</ref> &amp;</type>
+        <definition>StalenessPolicy &amp; themis::evaluation::StalenessPolicy::withResidualVarianceThreshold</definition>
+        <argsstring>(double threshold)</argsstring>
+        <name>withResidualVarianceThreshold</name>
+        <qualifiedname>themis::evaluation::StalenessPolicy::withResidualVarianceThreshold</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>threshold</declname>
+        </param>
+        <briefdescription>
+<para>With Residual Variance Threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements withResidualVarianceThreshold without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="182" column="21" bodyfile="src/evaluation/include/artifact_lifecycle.h" bodystart="182" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_staleness_policy_1a43dacfe56ee30af80edf1f84aa0078ed" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; std::uint32_t &gt;</type>
+        <definition>std::optional&lt; std::uint32_t &gt; themis::evaluation::StalenessPolicy::ageThresholdMs</definition>
+        <argsstring>() const</argsstring>
+        <name>ageThresholdMs</name>
+        <qualifiedname>themis::evaluation::StalenessPolicy::ageThresholdMs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="187" column="20" bodyfile="src/evaluation/include/artifact_lifecycle.h" bodystart="187" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_staleness_policy_1a140806a39ccba2673b693e95f26f9650" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; std::uint64_t &gt;</type>
+        <definition>std::optional&lt; std::uint64_t &gt; themis::evaluation::StalenessPolicy::deltaLagThreshold</definition>
+        <argsstring>() const</argsstring>
+        <name>deltaLagThreshold</name>
+        <qualifiedname>themis::evaluation::StalenessPolicy::deltaLagThreshold</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="191" column="20" bodyfile="src/evaluation/include/artifact_lifecycle.h" bodystart="191" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_staleness_policy_1a3f4bf51b2b7461031a883280982dd45f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; double &gt;</type>
+        <definition>std::optional&lt; double &gt; themis::evaluation::StalenessPolicy::residualThreshold</definition>
+        <argsstring>() const</argsstring>
+        <name>residualThreshold</name>
+        <qualifiedname>themis::evaluation::StalenessPolicy::residualThreshold</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="195" column="20" bodyfile="src/evaluation/include/artifact_lifecycle.h" bodystart="195" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_staleness_policy_1aacdb9c079f211a004bd5e2b59fa5cf24" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; std::uint32_t &gt;</type>
+        <definition>std::optional&lt; std::uint32_t &gt; themis::evaluation::StalenessPolicy::rankCapThreshold</definition>
+        <argsstring>() const</argsstring>
+        <name>rankCapThreshold</name>
+        <qualifiedname>themis::evaluation::StalenessPolicy::rankCapThreshold</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="199" column="20" bodyfile="src/evaluation/include/artifact_lifecycle.h" bodystart="199" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_staleness_policy_1a5579d37386fdf47d9305d7eace88498c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; double &gt;</type>
+        <definition>std::optional&lt; double &gt; themis::evaluation::StalenessPolicy::residualVarianceThreshold</definition>
+        <argsstring>() const</argsstring>
+        <name>residualVarianceThreshold</name>
+        <qualifiedname>themis::evaluation::StalenessPolicy::residualVarianceThreshold</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="203" column="20" bodyfile="src/evaluation/include/artifact_lifecycle.h" bodystart="203" bodyend="205"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/evaluation/include/artifact_lifecycle.h" line="128" column="1" bodyfile="src/evaluation/include/artifact_lifecycle.h" bodystart="128" bodyend="213"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1evaluation_1_1_staleness_policy_1a0079462e442545b23c6419abba41bb4d" prot="private" virt="non-virtual"><scope>themis::evaluation::StalenessPolicy</scope><name>age_threshold_ms_</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_staleness_policy_1a43dacfe56ee30af80edf1f84aa0078ed" prot="public" virt="non-virtual"><scope>themis::evaluation::StalenessPolicy</scope><name>ageThresholdMs</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_staleness_policy_1a75307b05cdd0ba60f3b3ff18b7c872a3" prot="private" virt="non-virtual"><scope>themis::evaluation::StalenessPolicy</scope><name>delta_lag_threshold_</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_staleness_policy_1a140806a39ccba2673b693e95f26f9650" prot="public" virt="non-virtual"><scope>themis::evaluation::StalenessPolicy</scope><name>deltaLagThreshold</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_staleness_policy_1ae0d9271b34e42fc2d117d40559c43bfc" prot="private" virt="non-virtual"><scope>themis::evaluation::StalenessPolicy</scope><name>rank_cap_threshold_</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_staleness_policy_1aacdb9c079f211a004bd5e2b59fa5cf24" prot="public" virt="non-virtual"><scope>themis::evaluation::StalenessPolicy</scope><name>rankCapThreshold</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_staleness_policy_1a6f1b73d4febb2bf0776fca8782e35235" prot="private" virt="non-virtual"><scope>themis::evaluation::StalenessPolicy</scope><name>residual_threshold_</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_staleness_policy_1ac7efcbf8b4634a6ad51b139e69190cde" prot="private" virt="non-virtual"><scope>themis::evaluation::StalenessPolicy</scope><name>residual_variance_threshold_</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_staleness_policy_1a3f4bf51b2b7461031a883280982dd45f" prot="public" virt="non-virtual"><scope>themis::evaluation::StalenessPolicy</scope><name>residualThreshold</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_staleness_policy_1a5579d37386fdf47d9305d7eace88498c" prot="public" virt="non-virtual"><scope>themis::evaluation::StalenessPolicy</scope><name>residualVarianceThreshold</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_staleness_policy_1a65dcb561c02aec9bbc9c404a33653126" prot="public" virt="non-virtual"><scope>themis::evaluation::StalenessPolicy</scope><name>StalenessPolicy</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_staleness_policy_1afe2bc8d11050ebd3ccc1c5bf830c7e02" prot="public" virt="non-virtual"><scope>themis::evaluation::StalenessPolicy</scope><name>withAgeThresholdMs</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_staleness_policy_1afaeec2b5b653b758049ed199c3c9f5a7" prot="public" virt="non-virtual"><scope>themis::evaluation::StalenessPolicy</scope><name>withDeltaLagThreshold</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_staleness_policy_1aca819445e2612cffbe91fc2567f40d13" prot="public" virt="non-virtual"><scope>themis::evaluation::StalenessPolicy</scope><name>withRankCapThreshold</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_staleness_policy_1a505c3b76334484ec638ab2d687587147" prot="public" virt="non-virtual"><scope>themis::evaluation::StalenessPolicy</scope><name>withResidualThreshold</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_staleness_policy_1ad0831dd26824fae5600c5b86d632566f" prot="public" virt="non-virtual"><scope>themis::evaluation::StalenessPolicy</scope><name>withResidualVarianceThreshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,263 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="recoverable__two__phase__coordinator_8h" kind="file" language="C++">
+    <compoundname>recoverable_two_phase_coordinator.h</compoundname>
+    <includes refid="in__doubt__recovery__coordinator_8h" local="yes">transaction/in_doubt_recovery_coordinator.h</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="distributed__transaction__manager_8h" local="yes">include/transaction/distributed_transaction_manager.h</includedby>
+    <includedby refid="global__transaction__manager_8h" local="yes">include/transaction/global_transaction_manager.h</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>transaction/in_doubt_recovery_coordinator.h</label>
+        <link refid="in__doubt__recovery__coordinator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/transaction/recoverable_two_phase_coordinator.h</label>
+        <link refid="recoverable__two__phase__coordinator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>benchmarks/transaction/bench_transaction_phase4.cpp</label>
+        <link refid="bench__transaction__phase4_8cpp"/>
+      </node>
+      <node id="2">
+        <label>include/transaction/distributed_transaction_manager.h</label>
+        <link refid="distributed__transaction__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>include/transaction/global_transaction_manager.h</label>
+        <link refid="global__transaction__manager_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/transaction/grpc_rpc_adapter.h</label>
+        <link refid="grpc__rpc__adapter_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/transaction/recoverable_two_phase_coordinator.h</label>
+        <link refid="recoverable__two__phase__coordinator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>src/transaction/distributed_transaction_manager.cpp</label>
+        <link refid="distributed__transaction__manager_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/transaction/global_transaction_manager.cpp</label>
+        <link refid="global__transaction__manager_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/transaction/grpc_rpc_adapter.cpp</label>
+        <link refid="grpc__rpc__adapter_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/transaction/test_cross_coordinator_wal_recovery.cpp</label>
+        <link refid="test__cross__coordinator__wal__recovery_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/transaction/test_grpc_rpc_adapter.cpp</label>
+        <link refid="test__grpc__rpc__adapter_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/transaction/test_transaction_distributed_2pc.cpp</label>
+        <link refid="test__transaction__distributed__2pc_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/transaction/test_transaction_distributed_phase2.cpp</label>
+        <link refid="test__transaction__distributed__phase2_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1transaction_1_1_recoverable_two_phase_transaction" prot="public">themis::transaction::RecoverableTwoPhaseTransaction</innerclass>
+    <innerclass refid="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator" prot="public">themis::transaction::IRecoverableTwoPhaseCoordinator</innerclass>
+    <innerclass refid="structthemis_1_1transaction_1_1_recoverable_two_phase_coordinator_report" prot="public">themis::transaction::RecoverableTwoPhaseCoordinatorReport</innerclass>
+    <innerclass refid="structthemis_1_1transaction_1_1_global_two_phase_commit_recovery_report" prot="public">themis::transaction::GlobalTwoPhaseCommitRecoveryReport</innerclass>
+    <innerclass refid="classthemis_1_1transaction_1_1_global_two_phase_commit_recovery_manager" prot="public">themis::transaction::GlobalTwoPhaseCommitRecoveryManager</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1transaction">themis::transaction</innernamespace>
+    <briefdescription>
+<para>Two-phase commit coordinator with WAL-based crash recovery. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Extends the base 2PC coordinator with a durable write-ahead log so that in-doubt transactions survive coordinator crashes. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>2025<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Licensed<sp/>under<sp/>MIT<sp/>License</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Unified<sp/>2PC<sp/>Recovery<sp/>Interface<sp/>—<sp/>shared<sp/>contract<sp/>for<sp/>all<sp/>2PC<sp/>coordinators.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Three<sp/>independent<sp/>coordinator<sp/>implementations<sp/>exist<sp/>in<sp/>ThemisDB:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>1.<sp/>TwoPhaseCommitCoordinator<sp/><sp/><sp/><sp/><sp/><sp/>(sharding/two_phase_commit_coordinator.h)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>2.<sp/>GlobalTransactionManager<sp/><sp/><sp/><sp/><sp/><sp/><sp/>(transaction/global_transaction_manager.h)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>3.<sp/>DistributedTransactionManager<sp/><sp/>(transaction/distributed_transaction_manager.h)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>header<sp/>provides:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>IRecoverableTwoPhaseCoordinator<sp/>—<sp/>extended<sp/>interface<sp/>that<sp/>every<sp/>coordinator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>must<sp/>implement<sp/>to<sp/>participate<sp/>in<sp/>global<sp/>recovery<sp/>passes.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>GlobalTwoPhaseCommitRecoveryManager<sp/>—<sp/>header-only<sp/>orchestrator<sp/>that<sp/>drives</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>one<sp/>recovery<sp/>pass<sp/>across<sp/>all<sp/>registered<sp/>coordinators<sp/>and<sp/>returns<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>unified<sp/>report.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="in__doubt__recovery__coordinator_8h" kindref="compound">transaction/in_doubt_recovery_coordinator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1transaction" kindref="compound">themis::transaction</ref><sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Canonical<sp/>normalized<sp/>recovery<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="namespacethemis_1_1transaction_1af8b4af73abcea3103bb74bc8e6452454" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1transaction_1af8b4af73abcea3103bb74bc8e6452454" kindref="member">RecoverableTwoPhaseState</ref><sp/>{</highlight></codeline>
+<codeline lineno="47" refid="namespacethemis_1_1transaction_1af8b4af73abcea3103bb74bc8e6452454a18ff74f43da410c5529f7d6fca84f115" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1transaction_1a94650c9bb9025f850c17018f28761fafa18ff74f43da410c5529f7d6fca84f115" kindref="member">ACTIVE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1_1transaction_1af8b4af73abcea3103bb74bc8e6452454abd6a3a60251e4e52cdc9c393f33cbe10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1transaction_1a6b17f28399c363619d3424db07254398abd6a3a60251e4e52cdc9c393f33cbe10" kindref="member">PREPARING</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="namespacethemis_1_1transaction_1af8b4af73abcea3103bb74bc8e6452454a6bbfc22048d63183dd626a026e63e497" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1transaction_1a6b17f28399c363619d3424db07254398a6bbfc22048d63183dd626a026e63e497" kindref="member">PREPARED</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1_1transaction_1af8b4af73abcea3103bb74bc8e6452454a001d8fa76b26eee4f6d7c8a8d44c73ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1transaction_1a6b17f28399c363619d3424db07254398a001d8fa76b26eee4f6d7c8a8d44c73ef" kindref="member">COMMITTING</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="namespacethemis_1_1transaction_1af8b4af73abcea3103bb74bc8e6452454a0f7fb3ad9bfa0a293be603d57f9fa02c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1transaction_1a6b17f28399c363619d3424db07254398a0f7fb3ad9bfa0a293be603d57f9fa02c" kindref="member">ABORTING</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="namespacethemis_1_1transaction_1af8b4af73abcea3103bb74bc8e6452454a8f7afecbc8fbc4cd0f50a57d1172482e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1transaction_1a94650c9bb9025f850c17018f28761fafa8f7afecbc8fbc4cd0f50a57d1172482e" kindref="member">COMPLETED</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1transaction_1af8b4af73abcea3103bb74bc8e6452454ab9e14d9b2886bcff408b85aefa780419" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1transaction_1a94650c9bb9025f850c17018f28761fafab9e14d9b2886bcff408b85aefa780419" kindref="member">FAILED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="namespacethemis_1_1transaction_1af8b4af73abcea3103bb74bc8e6452454a696b031073e74bf2cb98e5ef201d4aa3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1transaction_1af8b4af73abcea3103bb74bc8e6452454a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">UNKNOWN</ref><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Per-transaction<sp/>recovery<sp/>snapshot</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1transaction_1_1_recoverable_two_phase_transaction" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1transaction_1_1_recoverable_two_phase_transaction" kindref="compound">RecoverableTwoPhaseTransaction</ref><sp/>{</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1transaction_1_1_recoverable_two_phase_transaction_1a71c537642fd340e537f234b1ffdc9697" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_recoverable_two_phase_transaction_1a71c537642fd340e537f234b1ffdc9697" kindref="member">transaction_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1transaction_1_1_recoverable_two_phase_transaction_1a72b1efa5e77a8966150b248c55ff2945" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1transaction_1af8b4af73abcea3103bb74bc8e6452454" kindref="member">RecoverableTwoPhaseState</ref><sp/><ref refid="structthemis_1_1transaction_1_1_recoverable_two_phase_transaction_1a72b1efa5e77a8966150b248c55ff2945" kindref="member">state</ref><sp/>=<sp/><ref refid="namespacethemis_1_1transaction_1af8b4af73abcea3103bb74bc8e6452454a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">RecoverableTwoPhaseState::UNKNOWN</ref>;<sp/></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1transaction_1_1_recoverable_two_phase_transaction_1a1c1efd87ea5eaeaacb9488854cb7b5d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_recoverable_two_phase_transaction_1a1c1efd87ea5eaeaacb9488854cb7b5d5" kindref="member">decision_recorded</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1transaction_1_1_recoverable_two_phase_transaction_1aca4e66fd924e48706b259b49d1964997" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_recoverable_two_phase_transaction_1aca4e66fd924e48706b259b49d1964997" kindref="member">decision_commit</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="73"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IRecoverableTwoPhaseCoordinator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator" kindref="compound">IRecoverableTwoPhaseCoordinator</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_i_in_doubt_recovery_coordinator" kindref="compound">IInDoubtRecoveryCoordinator</ref><sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="93" refid="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator_1a7ce953ae55f220fd6ed76521d7a829c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator_1a7ce953ae55f220fd6ed76521d7a829c6" kindref="member">~IRecoverableTwoPhaseCoordinator</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator_1a6aaf8efa06e194acfa2590ada2449700" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator_1a6aaf8efa06e194acfa2590ada2449700" kindref="member">recoveryCoordinatorName</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator_1a2d4aedbbba89842774501e3b4f15ad50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator_1a2d4aedbbba89842774501e3b4f15ad50" kindref="member">recoveryBackendName</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;RecoverableTwoPhaseTransaction&gt;</highlight></codeline>
+<codeline lineno="116" refid="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator_1a9a0c50bc7f8da31d51b9f44f1c7e7cb1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator_1a9a0c50bc7f8da31d51b9f44f1c7e7cb1" kindref="member">getRecoverableTransactions</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Recovery<sp/>report<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1transaction_1_1_recoverable_two_phase_coordinator_report" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1transaction_1_1_recoverable_two_phase_coordinator_report" kindref="compound">RecoverableTwoPhaseCoordinatorReport</ref><sp/>{</highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1transaction_1_1_recoverable_two_phase_coordinator_report_1ab986390720654f04c12d8bd8c262d973" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1transaction_1_1_recoverable_two_phase_coordinator_report_1ab986390720654f04c12d8bd8c262d973" kindref="member">coordinator_name</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1transaction_1_1_recoverable_two_phase_coordinator_report_1ad4354a8864bc779e27f83a12bbe456e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1transaction_1_1_recoverable_two_phase_coordinator_report_1ad4354a8864bc779e27f83a12bbe456e5" kindref="member">backend_name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1transaction_1_1_recoverable_two_phase_coordinator_report_1a330f8fc74528a5b8f09663c2ee378acf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_recoverable_two_phase_coordinator_report_1a330f8fc74528a5b8f09663c2ee378acf" kindref="member">in_doubt_before</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1transaction_1_1_recoverable_two_phase_coordinator_report_1a32d14247172d552f755183853bdc01c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_recoverable_two_phase_coordinator_report_1a32d14247172d552f755183853bdc01c3" kindref="member">resolved</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1transaction_1_1_recoverable_two_phase_coordinator_report_1a356e8a6b68977bf31d58edd129add21a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_recoverable_two_phase_coordinator_report_1a356e8a6b68977bf31d58edd129add21a" kindref="member">in_doubt_after</ref><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="132"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1transaction_1_1_global_two_phase_commit_recovery_report" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1transaction_1_1_global_two_phase_commit_recovery_report" kindref="compound">GlobalTwoPhaseCommitRecoveryReport</ref><sp/>{</highlight></codeline>
+<codeline lineno="138" refid="structthemis_1_1transaction_1_1_global_two_phase_commit_recovery_report_1ad1d10da7d64c9b9a86777f4e95003b2e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1transaction_1_1_global_two_phase_commit_recovery_report_1ad1d10da7d64c9b9a86777f4e95003b2e" kindref="member">coordinator_count</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1transaction_1_1_global_two_phase_commit_recovery_report_1a3e5425775534eb059c4eb3ebcfcf2147" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1transaction_1_1_global_two_phase_commit_recovery_report_1a3e5425775534eb059c4eb3ebcfcf2147" kindref="member">in_doubt_before</ref><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1transaction_1_1_global_two_phase_commit_recovery_report_1a62f860736a32b9c0a2543edefd5d34cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1transaction_1_1_global_two_phase_commit_recovery_report_1a62f860736a32b9c0a2543edefd5d34cc" kindref="member">resolved</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="141" refid="structthemis_1_1transaction_1_1_global_two_phase_commit_recovery_report_1a8928e4e53e4d0dd4b175c87b3790c24f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1transaction_1_1_global_two_phase_commit_recovery_report_1a8928e4e53e4d0dd4b175c87b3790c24f" kindref="member">in_doubt_after</ref><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="structthemis_1_1transaction_1_1_global_two_phase_commit_recovery_report_1a3c7deb4ef78bc580e4a2684d37d4bab5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RecoverableTwoPhaseCoordinatorReport&gt;<sp/><ref refid="structthemis_1_1transaction_1_1_global_two_phase_commit_recovery_report_1a3c7deb4ef78bc580e4a2684d37d4bab5" kindref="member">coordinators</ref>;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GlobalTwoPhaseCommitRecoveryManager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167" refid="classthemis_1_1transaction_1_1_global_two_phase_commit_recovery_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1transaction_1_1_global_two_phase_commit_recovery_manager" kindref="compound">GlobalTwoPhaseCommitRecoveryManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="179" refid="classthemis_1_1transaction_1_1_global_two_phase_commit_recovery_manager_1ae6689872fb24f8b102003a91a8720925" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1transaction_1_1_global_two_phase_commit_recovery_report" kindref="compound">GlobalTwoPhaseCommitRecoveryReport</ref><sp/><ref refid="classthemis_1_1transaction_1_1_global_two_phase_commit_recovery_manager_1ae6689872fb24f8b102003a91a8720925" kindref="member">recoverAll</ref>(</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;IRecoverableTwoPhaseCoordinator*&gt;&amp;<sp/>coordinators</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_global_two_phase_commit_recovery_report" kindref="compound">GlobalTwoPhaseCommitRecoveryReport</ref><sp/>report;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>report.<ref refid="structthemis_1_1transaction_1_1_global_two_phase_commit_recovery_report_1ad1d10da7d64c9b9a86777f4e95003b2e" kindref="member">coordinator_count</ref><sp/>=<sp/>coordinators.size();</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>report.<ref refid="structthemis_1_1transaction_1_1_global_two_phase_commit_recovery_report_1a3c7deb4ef78bc580e4a2684d37d4bab5" kindref="member">coordinators</ref>.reserve(coordinators.size());</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>coordinator<sp/>:<sp/>coordinators)<sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!coordinator)<sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_recoverable_two_phase_coordinator_report" kindref="compound">RecoverableTwoPhaseCoordinatorReport</ref><sp/>coordinator_report;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coordinator_report.<ref refid="structthemis_1_1transaction_1_1_recoverable_two_phase_coordinator_report_1ab986390720654f04c12d8bd8c262d973" kindref="member">coordinator_name</ref><sp/>=<sp/>coordinator-&gt;recoveryCoordinatorName();</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coordinator_report.<ref refid="structthemis_1_1transaction_1_1_recoverable_two_phase_coordinator_report_1ad4354a8864bc779e27f83a12bbe456e5" kindref="member">backend_name</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>coordinator-&gt;recoveryBackendName();</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coordinator_report.<ref refid="structthemis_1_1transaction_1_1_recoverable_two_phase_coordinator_report_1a330f8fc74528a5b8f09663c2ee378acf" kindref="member">in_doubt_before</ref><sp/><sp/>=</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coordinator-&gt;getRecoverableTransactions().size();</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coordinator_report.<ref refid="structthemis_1_1transaction_1_1_recoverable_two_phase_coordinator_report_1a32d14247172d552f755183853bdc01c3" kindref="member">resolved</ref><sp/>=</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coordinator-&gt;recoverInDoubtTransactions();</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coordinator_report.<ref refid="structthemis_1_1transaction_1_1_recoverable_two_phase_coordinator_report_1a356e8a6b68977bf31d58edd129add21a" kindref="member">in_doubt_after</ref><sp/>=</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coordinator-&gt;getRecoverableTransactions().size();</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>report.<ref refid="structthemis_1_1transaction_1_1_global_two_phase_commit_recovery_report_1a3e5425775534eb059c4eb3ebcfcf2147" kindref="member">in_doubt_before</ref><sp/>+=<sp/>coordinator_report.<ref refid="structthemis_1_1transaction_1_1_recoverable_two_phase_coordinator_report_1a330f8fc74528a5b8f09663c2ee378acf" kindref="member">in_doubt_before</ref>;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>report.<ref refid="structthemis_1_1transaction_1_1_global_two_phase_commit_recovery_report_1a62f860736a32b9c0a2543edefd5d34cc" kindref="member">resolved</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>+=<sp/>coordinator_report.<ref refid="structthemis_1_1transaction_1_1_recoverable_two_phase_coordinator_report_1a32d14247172d552f755183853bdc01c3" kindref="member">resolved</ref>;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>report.<ref refid="structthemis_1_1transaction_1_1_global_two_phase_commit_recovery_report_1a8928e4e53e4d0dd4b175c87b3790c24f" kindref="member">in_doubt_after</ref><sp/><sp/>+=<sp/>coordinator_report.<ref refid="structthemis_1_1transaction_1_1_recoverable_two_phase_coordinator_report_1a356e8a6b68977bf31d58edd129add21a" kindref="member">in_doubt_after</ref>;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>report.<ref refid="structthemis_1_1transaction_1_1_global_two_phase_commit_recovery_report_1a3c7deb4ef78bc580e4a2684d37d4bab5" kindref="member">coordinators</ref>.push_back(std::move(coordinator_report));</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>report;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="211"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::transaction</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/transaction/recoverable_two_phase_coordinator.h"/>
+  </compounddef>
+</doxygen>

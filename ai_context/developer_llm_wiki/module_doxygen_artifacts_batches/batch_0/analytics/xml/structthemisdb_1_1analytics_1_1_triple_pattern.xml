@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_triple_pattern" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::TriplePattern</compoundname>
+    <includes refid="knowledge__base_8h" local="no">knowledge_base.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_triple_pattern_1a30026f2ddbdf97c1f6e3672a1a3c82cc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::TriplePattern::subject</definition>
+        <argsstring></argsstring>
+        <name>subject</name>
+        <qualifiedname>themisdb::analytics::TriplePattern::subject</qualifiedname>
+        <briefdescription>
+<para>e.g. &quot;?incident&quot; or &quot;Alice&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="57" column="17" bodyfile="include/analytics/knowledge_base.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_triple_pattern_1aa275e3e63accf035ecf4c075468af26b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::TriplePattern::predicate</definition>
+        <argsstring></argsstring>
+        <name>predicate</name>
+        <qualifiedname>themisdb::analytics::TriplePattern::predicate</qualifiedname>
+        <briefdescription>
+<para>e.g. &quot;type&quot; or &quot;?p&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="58" column="17" bodyfile="include/analytics/knowledge_base.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_triple_pattern_1af0706cbc7327a446eb948bbf9e5ebd33" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::TriplePattern::object</definition>
+        <argsstring></argsstring>
+        <name>object</name>
+        <qualifiedname>themisdb::analytics::TriplePattern::object</qualifiedname>
+        <briefdescription>
+<para>e.g. &quot;SecurityIncident&quot; or &quot;?count&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="59" column="17" bodyfile="include/analytics/knowledge_base.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/knowledge_base.h" line="56" column="1" bodyfile="include/analytics/knowledge_base.h" bodystart="56" bodyend="60"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_triple_pattern_1af0706cbc7327a446eb948bbf9e5ebd33" prot="public" virt="non-virtual"><scope>themisdb::analytics::TriplePattern</scope><name>object</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_triple_pattern_1aa275e3e63accf035ecf4c075468af26b" prot="public" virt="non-virtual"><scope>themisdb::analytics::TriplePattern</scope><name>predicate</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_triple_pattern_1a30026f2ddbdf97c1f6e3672a1a3c82cc" prot="public" virt="non-virtual"><scope>themisdb::analytics::TriplePattern</scope><name>subject</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

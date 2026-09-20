@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_soft_h_s_m_integration_test" kind="class" language="C++" prot="public">
+    <compoundname>SoftHSMIntegrationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_soft_h_s_m_integration_test_1ada5e394c631858e195ed287d05e2574d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SoftHSMIntegrationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>SoftHSMIntegrationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pkcs11_wrapper.cpp" line="757" column="10" bodyfile="tests/security/test_pkcs11_wrapper.cpp" bodystart="757" bodyend="762"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>SoftHSMIntegrationTest</label>
+        <link refid="class_soft_h_s_m_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>SoftHSMIntegrationTest</label>
+        <link refid="class_soft_h_s_m_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_pkcs11_wrapper.cpp" line="755" column="1" bodyfile="tests/security/test_pkcs11_wrapper.cpp" bodystart="755" bodyend="763"/>
+    <listofallmembers>
+      <member refid="class_soft_h_s_m_integration_test_1ada5e394c631858e195ed287d05e2574d" prot="protected" virt="non-virtual"><scope>SoftHSMIntegrationTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

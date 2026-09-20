@@ -1,0 +1,284 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__simple__insert__test_8cpp" kind="file" language="C++">
+    <compoundname>bench_simple_insert_test.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes refid="base__entity_8h" local="yes">storage/base_entity.h</includes>
+    <includes refid="rocksdb__wrapper_8h" local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="yes">index/secondary_index.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">iostream</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/storage/bench_simple_insert_test.cpp</label>
+        <link refid="bench__simple__insert__test_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>storage/base_entity.h</label>
+        <link refid="base__entity_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>storage/nvme_manager.h</label>
+        <link refid="nvme__manager_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>storage/rocksdb_wrapper.h</label>
+        <link refid="rocksdb__wrapper_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="16">
+        <label>condition_variable</label>
+      </node>
+      <node id="19">
+        <label>cstddef</label>
+      </node>
+      <node id="20">
+        <label>cstdint</label>
+      </node>
+      <node id="22">
+        <label>filesystem</label>
+      </node>
+      <node id="13">
+        <label>functional</label>
+      </node>
+      <node id="21">
+        <label>index/secondary_index.h</label>
+      </node>
+      <node id="23">
+        <label>iostream</label>
+      </node>
+      <node id="9">
+        <label>map</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="15">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>string_view</label>
+      </node>
+      <node id="17">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="11">
+        <label>utils/geo/ewkb.h</label>
+      </node>
+      <node id="10">
+        <label>variant</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__simple__insert__test_8cpp_1a9964ece6bf3cebc9b0f74c991e1e1cf0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_SimpleInsert</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SimpleInsert</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_simple_insert_test.cpp" line="11" column="13" bodyfile="benchmarks/storage/bench_simple_insert_test.cpp" bodystart="11" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__simple__insert__test_8cpp_1a85d36edf0c6aacd0e32ca53e69e26ee6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_SimpleInsert)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_SimpleInsert</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_simple_insert_test.cpp" line="77" column="1" declfile="benchmarks/storage/bench_simple_insert_test.cpp" declline="77" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__simple__insert__test_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_MAIN</definition>
+        <argsstring>()</argsstring>
+        <name>BENCHMARK_MAIN</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_simple_insert_test.cpp" line="78" column="1" declfile="benchmarks/storage/bench_simple_insert_test.cpp" declline="78" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Simple<sp/>test<sp/>to<sp/>debug<sp/>insert<sp/>issues</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="base__entity_8h" kindref="compound">storage/base_entity.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rocksdb__wrapper_8h" kindref="compound">storage/rocksdb_wrapper.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/secondary_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_SimpleInsert(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>DB_PATH<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;simple_test_db&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Clean<sp/>up</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::filesystem::exists(DB_PATH))<sp/>{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(DB_PATH);</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Open<sp/>database</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config" kindref="compound">RocksDBWrapper::Config</ref><sp/>config;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1aac7b570e259673885921721d3e43aef4" kindref="member">db_path</ref><sp/>=<sp/>DB_PATH;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ad598c4a96b419c948d13927bc647b51a" kindref="member">compression_default</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;lz4&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1aafc6288f91766d2d39057f0a0e88d3b3" kindref="member">block_cache_size_mb</ref><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a9db1897ef0f00f30436b86546523f915" kindref="member">disable_wal_for_benchmark</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>WAL<sp/>for<sp/>safety</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1a9f7602d4738f192191261a5768826143" kindref="member">memtable_size_mb</ref><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1abe1fd789914ad79f0eab27c76d8707e5" kindref="member">max_write_buffer_number</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1aef584594e719a8cdbd3503adf150d6b4" kindref="member">allow_concurrent_memtable_write</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ac9e7cc86be35b0e3eb67d81471e1ad8c" kindref="member">enable_statistics</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ae30db4b39dcca5f181385bdb1018326d" kindref="member">enable_blobdb</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">RocksDBWrapper</ref><sp/>db(config);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!db.open())<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>open<sp/>database&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.SkipWithError(</highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>open<sp/>database&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>SecondaryIndexManager<sp/>indexMgr(db);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>indexes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>st<sp/>=<sp/>indexMgr.createIndex(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!st.ok)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>create<sp/>email<sp/>index:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>st.message<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>st<sp/>=<sp/>indexMgr.createIndex(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;username&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!st.ok)<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>create<sp/>username<sp/>index:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>st.message<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>entity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_base_entity" kindref="compound">BaseEntity</ref><sp/>entity(</highlight><highlight class="stringliteral">&quot;test_user_1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entity.setField(</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test@example.com&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entity.setField(</highlight><highlight class="stringliteral">&quot;username&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;testuser&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entity.setField(</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;25&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Try<sp/>to<sp/>insert</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>status<sp/>=<sp/>indexMgr.put(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>entity);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!status.ok)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Insert<sp/>failed:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>status.message<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.SkipWithError((</highlight><highlight class="stringliteral">&quot;Insert<sp/>failed:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>status.message).c_str());</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Clean<sp/>up<sp/>for<sp/>next<sp/>iteration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>indexMgr.erase(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test_user_1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cleanup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>db.close();</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::filesystem::exists(DB_PATH))<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(DB_PATH);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><ref refid="bench__simple__insert__test_8cpp_1a85d36edf0c6aacd0e32ca53e69e26ee6" kindref="member">BENCHMARK</ref>(BM_SimpleInsert);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><ref refid="bench__simple__insert__test_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kindref="member">BENCHMARK_MAIN</ref>();</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/storage/bench_simple_insert_test.cpp"/>
+  </compounddef>
+</doxygen>

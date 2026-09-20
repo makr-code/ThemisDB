@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="document__lifecycle_8h" kind="file" language="C++">
+    <compoundname>document_lifecycle.h</compoundname>
+    <includes refid="document__store_8h" local="yes">document/document_store.h</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includedby refid="document__manager_8h" local="yes">include/document/document_manager.h</includedby>
+    <includedby refid="test__document__store_8cpp" local="yes">tests/document/test_document_store.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/document/document_lifecycle.h</label>
+        <link refid="document__lifecycle_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>document/document_store.h</label>
+        <link refid="document__store_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>cstddef</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="4">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="11">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="13">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/document/document_lifecycle.h</label>
+        <link refid="document__lifecycle_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/document/document_manager.h</label>
+        <link refid="document__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>tests/document/test_document_store.cpp</label>
+        <link refid="test__document__store_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1document_1_1_document_lifecycle_event" prot="public">themis::document::DocumentLifecycleEvent</innerclass>
+    <innerclass refid="classthemis_1_1document_1_1_i_document_lifecycle_hook" prot="public">themis::document::IDocumentLifecycleHook</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1document">themis::document</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.3 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"><sp/>*<sp/>ThemisDB<sp/>—<sp/>Document<sp/>Module</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"><sp/>*<sp/>File:<sp/><sp/><sp/><sp/>document_lifecycle.h</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/>*<sp/>Module:<sp/><sp/>include/document/</highlight></codeline>
+<codeline lineno="17"><highlight class="comment"><sp/>*<sp/>Purpose:<sp/>IDocumentLifecycleHook<sp/>interface<sp/>and<sp/>DocumentLifecycleEvent</highlight></codeline>
+<codeline lineno="18"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>for<sp/>audit<sp/>and<sp/>side-effect<sp/>dispatch<sp/>on<sp/>document<sp/>CRUD<sp/>operations.</highlight></codeline>
+<codeline lineno="19"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="20"><highlight class="comment"><sp/>*<sp/>Version:<sp/>1.3.0</highlight></codeline>
+<codeline lineno="21"><highlight class="comment"><sp/>*<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight></codeline>
+<codeline lineno="22"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="document__store_8h" kindref="compound">document/document_store.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1document" kindref="compound">document</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DocumentEventType</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1document_1a39e1a431790cd431158fe58c45562abe" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a39e1a431790cd431158fe58c45562abe" kindref="member">DocumentEventType</ref><sp/>{</highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1document_1a39e1a431790cd431158fe58c45562abea3d9ed096df2b22cfcc9b49daf5022de6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1document_1a39e1a431790cd431158fe58c45562abea3d9ed096df2b22cfcc9b49daf5022de6" kindref="member">BEFORE_CREATE</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1document_1a39e1a431790cd431158fe58c45562abeaf9f0c567941ff6968e99dcbfbd84e468" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1document_1a39e1a431790cd431158fe58c45562abeaf9f0c567941ff6968e99dcbfbd84e468" kindref="member">AFTER_CREATE</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1document_1a39e1a431790cd431158fe58c45562abea27a387fe7ad532f190dac2b2f42b3e1c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1document_1a39e1a431790cd431158fe58c45562abea27a387fe7ad532f190dac2b2f42b3e1c" kindref="member">BEFORE_UPDATE</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1document_1a39e1a431790cd431158fe58c45562abea8ff09e86ed0c93f96b69e957e962c766" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1document_1a39e1a431790cd431158fe58c45562abea8ff09e86ed0c93f96b69e957e962c766" kindref="member">AFTER_UPDATE</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42" refid="namespacethemis_1_1document_1a39e1a431790cd431158fe58c45562abea4b63d18d59849ea96b1cdeef41db3b4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1document_1a39e1a431790cd431158fe58c45562abea4b63d18d59849ea96b1cdeef41db3b4e" kindref="member">BEFORE_DELETE</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="43" refid="namespacethemis_1_1document_1a39e1a431790cd431158fe58c45562abea18c0172c3dd99fd4827ff996f7f4e120" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1document_1a39e1a431790cd431158fe58c45562abea18c0172c3dd99fd4827ff996f7f4e120" kindref="member">AFTER_DELETE</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DocumentLifecycleEvent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1document_1_1_document_lifecycle_event" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1document_1_1_document_lifecycle_event" kindref="compound">DocumentLifecycleEvent</ref><sp/>{</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1document_1_1_document_lifecycle_event_1a90644f53fef83f3a52a45203a862f6d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1document_1_1_document_lifecycle_event_1a90644f53fef83f3a52a45203a862f6d5" kindref="member">document_id</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1document_1_1_document_lifecycle_event_1a8527ba15c8d5829131cca0facb397d2c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1document_1_1_document_lifecycle_event_1a8527ba15c8d5829131cca0facb397d2c" kindref="member">collection_id</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1document_1_1_document_lifecycle_event_1a8f393756ab1d269591e902c2dfb0e151" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1document_1a39e1a431790cd431158fe58c45562abe" kindref="member">DocumentEventType</ref><sp/><ref refid="structthemis_1_1document_1_1_document_lifecycle_event_1a8f393756ab1d269591e902c2dfb0e151" kindref="member">type</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1document_1_1_document_lifecycle_event_1ab73555255b8b1467f21235965bff6211" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1document_1_1_document_lifecycle_event_1ab73555255b8b1467f21235965bff6211" kindref="member">timestamp_ms</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1document_1_1_document_lifecycle_event_1a6e5bfa89d69e196021a42ed8a0ad4c9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1document_1_1_document_lifecycle_event_1a6e5bfa89d69e196021a42ed8a0ad4c9b" kindref="member">actor</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IDocumentLifecycleHook</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="classthemis_1_1document_1_1_i_document_lifecycle_hook" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1document_1_1_i_document_lifecycle_hook" kindref="compound">IDocumentLifecycleHook</ref><sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="68" refid="classthemis_1_1document_1_1_i_document_lifecycle_hook_1a88736b081ee82d7d90a8ed4bd9052f8e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1document_1_1_i_document_lifecycle_hook_1a88736b081ee82d7d90a8ed4bd9052f8e" kindref="member">~IDocumentLifecycleHook</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="classthemis_1_1document_1_1_i_document_lifecycle_hook_1a221377863a4e8da14dda902466cae32e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1document_1_1_i_document_lifecycle_hook_1a221377863a4e8da14dda902466cae32e" kindref="member">beforeCreate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1document_1_1_document_lifecycle_event" kindref="compound">DocumentLifecycleEvent</ref>&amp;<sp/>evt)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="81" refid="classthemis_1_1document_1_1_i_document_lifecycle_hook_1a8ed069a99ddc2202430077e346c6adcd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1document_1_1_i_document_lifecycle_hook_1a8ed069a99ddc2202430077e346c6adcd" kindref="member">afterCreate</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1document_1_1_document_lifecycle_event" kindref="compound">DocumentLifecycleEvent</ref>&amp;<sp/>evt)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="87" refid="classthemis_1_1document_1_1_i_document_lifecycle_hook_1ac9bdb6cc49ad9a5fe9637987f063a344" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1document_1_1_i_document_lifecycle_hook_1ac9bdb6cc49ad9a5fe9637987f063a344" kindref="member">beforeUpdate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1document_1_1_document_lifecycle_event" kindref="compound">DocumentLifecycleEvent</ref>&amp;<sp/>evt)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="93" refid="classthemis_1_1document_1_1_i_document_lifecycle_hook_1a5fad58a6bcfb16ce28396a8c0e103f87" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1document_1_1_i_document_lifecycle_hook_1a5fad58a6bcfb16ce28396a8c0e103f87" kindref="member">afterUpdate</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1document_1_1_document_lifecycle_event" kindref="compound">DocumentLifecycleEvent</ref>&amp;<sp/>evt)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="99" refid="classthemis_1_1document_1_1_i_document_lifecycle_hook_1a984af5ae4e27cec99427499d0f36fd95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1document_1_1_i_document_lifecycle_hook_1a984af5ae4e27cec99427499d0f36fd95" kindref="member">beforeDelete</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1document_1_1_document_lifecycle_event" kindref="compound">DocumentLifecycleEvent</ref>&amp;<sp/>evt)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="105" refid="classthemis_1_1document_1_1_i_document_lifecycle_hook_1a1e48928cd00dcba8cbd5be8cfbe86977" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1document_1_1_i_document_lifecycle_hook_1a1e48928cd00dcba8cbd5be8cfbe86977" kindref="member">afterDelete</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1document_1_1_document_lifecycle_event" kindref="compound">DocumentLifecycleEvent</ref>&amp;<sp/>evt)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>document</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/document/document_lifecycle.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1transaction_1_1_grpc_rpc_phase2_adapter" kind="class" language="C++" prot="public">
+    <compoundname>themis::transaction::GrpcRpcPhase2Adapter</compoundname>
+    <includes refid="grpc__rpc__adapter_8h" local="no">grpc_rpc_adapter.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_grpc_rpc_phase2_adapter_1a48bf7a579a356c72fb55b64c191fc9b2" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a97bf8dc0da7c049c87ae8db6974b49fc" kindref="member">DistributedTransactionManager::RpcPhase2Fn</ref></type>
+        <definition>DistributedTransactionManager::RpcPhase2Fn themis::transaction::GrpcRpcPhase2Adapter::make</definition>
+        <argsstring>(const std::map&lt; std::string, std::string &gt; &amp;node_addresses, std::chrono::milliseconds timeout, std::optional&lt; MtlsConfig &gt; mtls=std::nullopt)</argsstring>
+        <name>make</name>
+        <qualifiedname>themis::transaction::GrpcRpcPhase2Adapter::make</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>node_addresses</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="structthemis_1_1transaction_1_1_mtls_config" kindref="compound">MtlsConfig</ref> &gt;</type>
+          <declname>mtls</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Create a <computeroutput>RpcPhase2Fn</computeroutput> callable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node_addresses</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Map from node_id → &quot;host:port&quot;. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Per-attempt gRPC deadline. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mtls</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional mTLS credential bundle (see <computeroutput><ref refid="classthemis_1_1transaction_1_1_grpc_rpc_phase1_adapter_1a2f716e6a8509f6f1847b1e2852d5a59b" kindref="member">GrpcRpcPhase1Adapter::make</ref></computeroutput> for semantics). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Callable compatible with <computeroutput><ref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a97bf8dc0da7c049c87ae8db6974b49fc" kindref="member">DistributedTransactionManager::RpcPhase2Fn</ref></computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/grpc_rpc_adapter.h" line="163" column="56" bodyfile="src/transaction/grpc_rpc_adapter.cpp" bodystart="241" bodyend="372"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Factory for a <computeroutput>RpcPhase2Fn</computeroutput> that sends Phase-2 COMMIT/ROLLBACK over gRPC, with exponential-backoff retry (3 attempts: 100 ms / 200 ms / 400 ms). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Usage: <programlisting><codeline><highlight class="preprocessor">#ifdef<sp/>THEMIS_HAS_CORE_GRPC</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a41bbdde61b6b2747ffedf7f58eb675b6" kindref="member">DistributedTransactionManager::setRpcPhase2Fn</ref>(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_grpc_rpc_phase2_adapter_1a48bf7a579a356c72fb55b64c191fc9b2" kindref="member">GrpcRpcPhase2Adapter::make</ref>(node_addresses,<sp/>2000<ref refid="test__wave4c__t1t4__hardening_8cpp_1ac3a080cca78ca980a69d1cb9b76615eb" kindref="member">ms</ref>));</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+</programlisting></para>
+<para>The callable throws <computeroutput>std::runtime_error</computeroutput> after all retries are exhausted so the coordinator&apos;s <computeroutput>runPhase2Unlocked()</computeroutput> can surface the partial-failure to its WAL and caller. </para>
+    </detaileddescription>
+    <location file="include/transaction/grpc_rpc_adapter.h" line="151" column="1" bodyfile="include/transaction/grpc_rpc_adapter.h" bodystart="151" bodyend="167"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1transaction_1_1_grpc_rpc_phase2_adapter_1a48bf7a579a356c72fb55b64c191fc9b2" prot="public" virt="non-virtual"><scope>themis::transaction::GrpcRpcPhase2Adapter</scope><name>make</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

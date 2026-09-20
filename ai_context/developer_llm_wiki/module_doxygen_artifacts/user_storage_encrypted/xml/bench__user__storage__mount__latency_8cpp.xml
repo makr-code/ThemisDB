@@ -1,0 +1,521 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__user__storage__mount__latency_8cpp" kind="file" language="C++">
+    <compoundname>bench_user_storage_mount_latency.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes refid="gocryptfs__backend_8hpp" local="yes">user_storage_encrypted/gocryptfs_backend.hpp</includes>
+    <includes refid="key__derivation__service_8hpp" local="yes">user_storage_encrypted/key_derivation_service.hpp</includes>
+    <includes refid="encryption__backend__interface_8hpp" local="yes">user_storage_encrypted/encryption_backend_interface.hpp</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp</label>
+        <link refid="bench__user__storage__mount__latency_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>encryption_backend_interface.hpp</label>
+        <link refid="encryption__backend__interface_8hpp"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>user_storage_encrypted/gocryptfs_backend.hpp</label>
+        <link refid="gocryptfs__backend_8hpp"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>key_derivation_service.hpp</label>
+        <link refid="key__derivation__service_8hpp"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>security_level.hpp</label>
+        <link refid="security__level_8hpp"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="11">
+        <label>cstdint</label>
+      </node>
+      <node id="13">
+        <label>filesystem</label>
+      </node>
+      <node id="12">
+        <label>functional</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>stdexcept</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_gocryptfs_bench_fixture" prot="public">GocryptfsBenchFixture</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="bench__user__storage__mount__latency_8cpp_1a69ebe097f822cc188c9ae5a9bc63c54a" prot="public" static="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* kBenchDir</definition>
+        <argsstring></argsstring>
+        <name>kBenchDir</name>
+        <initializer>= &quot;/tmp/themis_bench_enc&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp" line="49" column="19" bodyfile="benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="bench__user__storage__mount__latency_8cpp_1af5d34df836128bbcf5617bb20bb51f9e" prot="public" static="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* kBenchMount</definition>
+        <argsstring></argsstring>
+        <name>kBenchMount</name>
+        <initializer>= &quot;/tmp/themis_bench_mount&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp" line="50" column="19" bodyfile="benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__user__storage__mount__latency_8cpp_1a40ce9f4ff53d5c44223c703b628b19d8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>static std::vector&lt; uint8_t &gt; makeKey</definition>
+        <argsstring>(size_t len=32)</argsstring>
+        <name>makeKey</name>
+        <param>
+          <type>size_t</type>
+          <declname>len</declname>
+          <defval>32</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp" line="41" column="20" bodyfile="benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp" bodystart="41" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__user__storage__mount__latency_8cpp_1a6bdee4a92a6786a85b06ddeff4dc040e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(GocryptfsBenchFixture, Initialize)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_gocryptfs_bench_fixture" kindref="compound">GocryptfsBenchFixture</ref></type>
+        </param>
+        <param>
+          <type>Initialize</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp" line="70" column="1" bodyfile="benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp" bodystart="70" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__user__storage__mount__latency_8cpp_1ab21459d447faf09288281ca318183230" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(GocryptfsBenchFixture, CheckAvailability)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_gocryptfs_bench_fixture" kindref="compound">GocryptfsBenchFixture</ref></type>
+        </param>
+        <param>
+          <type>CheckAvailability</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp" line="81" column="1" bodyfile="benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp" bodystart="81" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__user__storage__mount__latency_8cpp_1a79703d73b98fd17325333aec42cdb136" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(GocryptfsBenchFixture, IsMounted)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_gocryptfs_bench_fixture" kindref="compound">GocryptfsBenchFixture</ref></type>
+        </param>
+        <param>
+          <type>IsMounted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp" line="91" column="1" bodyfile="benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp" bodystart="91" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__user__storage__mount__latency_8cpp_1a5164890782377b53f532ca0347d3c44d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(GocryptfsBenchFixture, MountContainer_FastFail)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_gocryptfs_bench_fixture" kindref="compound">GocryptfsBenchFixture</ref></type>
+        </param>
+        <param>
+          <type>MountContainer_FastFail</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp" line="104" column="1" bodyfile="benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp" bodystart="104" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__user__storage__mount__latency_8cpp_1a7d7312958a7ba6bca55cae8a5623d92a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(GocryptfsBenchFixture, UnmountContainer_FastFail)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_gocryptfs_bench_fixture" kindref="compound">GocryptfsBenchFixture</ref></type>
+        </param>
+        <param>
+          <type>UnmountContainer_FastFail</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp" line="120" column="1" bodyfile="benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp" bodystart="120" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__user__storage__mount__latency_8cpp_1a936b57fbe5529a477833074d6cd9928d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(GocryptfsBenchFixture, MountUnmountCycle)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_gocryptfs_bench_fixture" kindref="compound">GocryptfsBenchFixture</ref></type>
+        </param>
+        <param>
+          <type>MountUnmountCycle</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp" line="134" column="1" bodyfile="benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp" bodystart="134" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__user__storage__mount__latency_8cpp_1abc746eeccce55f5b5548b00c0a2ec407" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>UseRealTime</definition>
+        <argsstring>() -&gt; Unit(benchmark::kMillisecond)</argsstring>
+        <name>UseRealTime</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp" line="157" column="5" declfile="benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp" declline="157" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__user__storage__mount__latency_8cpp_1ac49925cb5219ccb7a4942d1af18429bc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_MountDispatch_NoKDF</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_MountDispatch_NoKDF</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp" line="167" column="13" bodyfile="benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp" bodystart="167" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__user__storage__mount__latency_8cpp_1a6aa101202eec04822ce02104d0a84a07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_MountDispatch_NoKDF)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_MountDispatch_NoKDF</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp" line="181" column="1" declfile="benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp" declline="181" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__user__storage__mount__latency_8cpp_1a9ab6e4ee126f25b85786e7ea73692d8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(GocryptfsBenchFixture, BackendMeta)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_gocryptfs_bench_fixture" kindref="compound">GocryptfsBenchFixture</ref></type>
+        </param>
+        <param>
+          <type>BackendMeta</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp" line="185" column="1" bodyfile="benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp" bodystart="185" bodyend="193"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Mount-latency benchmark: pipe-based key delivery vs. legacy file approach. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Validates: USE-PHASE5: Benchmark mount latency (pipe vs. file approach)</para>
+<para>Scenarios:<itemizedlist>
+<listitem><para><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a21337816c8b532759835417425d73617" kindref="member">GocryptfsBackend::initialize()</ref> — backend setup latency</para>
+</listitem><listitem><para>checkAvailability() — availability probe latency</para>
+</listitem><listitem><para>mountContainer() fast-fail path (directory not found, measures dispatch overhead)</para>
+</listitem><listitem><para>unmountContainer() fast-fail path</para>
+</listitem><listitem><para>isMounted() query latency</para>
+</listitem><listitem><para>Key-material resolve (KDF disabled) vs. KDF-enabled path overhead</para>
+</listitem><listitem><para>Repeated mount/unmount cycle overhead</para>
+</listitem></itemizedlist>
+</para>
+<para>Pipe vs File approach: The <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend" kindref="compound">GocryptfsBackend</ref> v0.1.0+ delivers key material via stdin pipe (executeCommandWithStdin) instead of mkstemp(3) temp files. This benchmark profiles the overhead of both code paths via microbenchmarks of the public API. True end-to-end mount benchmarks require a running gocryptfs binary; those scenarios are marked <ref refid="bench__user__storage__mount__latency_8cpp_1abc746eeccce55f5b5548b00c0a2ec407" kindref="member">UseRealTime()</ref> and log a note when gocryptfs is unavailable. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gocryptfs__backend_8hpp" kindref="compound">user_storage_encrypted/gocryptfs_backend.hpp</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="key__derivation__service_8hpp" kindref="compound">user_storage_encrypted/key_derivation_service.hpp</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="encryption__backend__interface_8hpp" kindref="compound">user_storage_encrypted/encryption_backend_interface.hpp</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1user__storage" kindref="compound">themis::plugins::user_storage</ref>;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>helpers<sp/>─────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/>makeKey(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>len<sp/>=<sp/>32)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>key(len);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>len;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>key[i]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>&amp;<sp/>0xFF);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>key;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>kBenchDir<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/themis_bench_enc&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>kBenchMount<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/themis_bench_mount&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>Fixture<sp/>─────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="class_gocryptfs_bench_fixture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_gocryptfs_bench_fixture" kindref="compound">GocryptfsBenchFixture</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>benchmark::Fixture<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_gocryptfs_bench_fixture_1aa67267d94a5cd241cfbf5ad797c9396e" kindref="member">SetUp</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>benchmark::State&amp;<sp/></highlight><highlight class="comment">/*s*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_gocryptfs_bench_fixture_1a29f936cbb5ebf32ef2c6e93453bc3227" kindref="member">backend</ref><sp/>=<sp/>std::make_unique&lt;GocryptfsBackend&gt;();</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_gocryptfs_bench_fixture_1a29f936cbb5ebf32ef2c6e93453bc3227" kindref="member">backend</ref>-&gt;initialize(</highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_gocryptfs_bench_fixture_1a47f8dc2a2563767e2f374e4acb36a87c" kindref="member">TearDown</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>benchmark::State&amp;<sp/></highlight><highlight class="comment">/*s*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_gocryptfs_bench_fixture_1a29f936cbb5ebf32ef2c6e93453bc3227" kindref="member">backend</ref>.reset();</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;GocryptfsBackend&gt;<sp/><ref refid="class_gocryptfs_bench_fixture_1a29f936cbb5ebf32ef2c6e93453bc3227" kindref="member">backend</ref>;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>1.<sp/>initialize()<sp/>latency<sp/>─────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><ref refid="bench__user__storage__mount__latency_8cpp_1a6bdee4a92a6786a85b06ddeff4dc040e" kindref="member">BENCHMARK_F</ref>(<ref refid="class_gocryptfs_bench_fixture" kindref="compound">GocryptfsBenchFixture</ref>,<sp/>Initialize)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b<sp/>=<sp/>std::make_unique&lt;GocryptfsBackend&gt;();</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>b-&gt;initialize(</highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result.isSuccess());</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;GocryptfsBackend::initialize()<sp/>overhead&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>2.<sp/>checkAvailability()<sp/>latency<sp/>──────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><ref refid="bench__user__storage__mount__latency_8cpp_1a6bdee4a92a6786a85b06ddeff4dc040e" kindref="member">BENCHMARK_F</ref>(<ref refid="class_gocryptfs_bench_fixture" kindref="compound">GocryptfsBenchFixture</ref>,<sp/>CheckAvailability)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>backend-&gt;checkAvailability();</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result.isSuccess());</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;checkAvailability()<sp/>—<sp/>probes<sp/>gocryptfs<sp/>binary<sp/>presence&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>3.<sp/>isMounted()<sp/>query<sp/>latency<sp/>────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><ref refid="bench__user__storage__mount__latency_8cpp_1a6bdee4a92a6786a85b06ddeff4dc040e" kindref="member">BENCHMARK_F</ref>(<ref refid="class_gocryptfs_bench_fixture" kindref="compound">GocryptfsBenchFixture</ref>,<sp/>IsMounted)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>mounted<sp/>=<sp/>backend-&gt;isMounted(kBenchMount);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(mounted);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;isMounted()<sp/>query<sp/>cost&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>4.<sp/>mountContainer()<sp/>fast-fail<sp/>—<sp/>missing<sp/>directory<sp/>───────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Measures<sp/>dispatch<sp/>+<sp/>validation<sp/>overhead<sp/>before<sp/>any<sp/>process<sp/>is<sp/>spawned.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>directory<sp/>does<sp/>not<sp/>exist,<sp/>so<sp/>gocryptfs<sp/>is<sp/>never<sp/>invoked.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><ref refid="bench__user__storage__mount__latency_8cpp_1a6bdee4a92a6786a85b06ddeff4dc040e" kindref="member">BENCHMARK_F</ref>(<ref refid="class_gocryptfs_bench_fixture" kindref="compound">GocryptfsBenchFixture</ref>,<sp/>MountContainer_FastFail)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>key<sp/>=<sp/>makeKey();</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>backend-&gt;mountContainer(</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;/tmp/nonexistent_bench_enc_dir_xyz&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;/tmp/nonexistent_bench_mount_xyz&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>key);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result.isSuccess());</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;mountContainer()<sp/>fast-fail<sp/>(missing<sp/>cipher-dir)&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>5.<sp/>unmountContainer()<sp/>fast-fail<sp/>─────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><ref refid="bench__user__storage__mount__latency_8cpp_1a6bdee4a92a6786a85b06ddeff4dc040e" kindref="member">BENCHMARK_F</ref>(<ref refid="class_gocryptfs_bench_fixture" kindref="compound">GocryptfsBenchFixture</ref>,<sp/>UnmountContainer_FastFail)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>backend-&gt;unmountContainer(</highlight><highlight class="stringliteral">&quot;/tmp/nonexistent_bench_mount_xyz&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result.isSuccess());</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;unmountContainer()<sp/>fast-fail<sp/>(not<sp/>mounted)&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>6.<sp/>Mount+Unmount<sp/>cycle<sp/>overhead<sp/>─────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Only<sp/>exercises<sp/>the<sp/>public<sp/>API<sp/>call<sp/>overhead;<sp/>real<sp/>gocryptfs<sp/>binary<sp/>may<sp/>not</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>be<sp/>present<sp/>on<sp/>CI.<sp/><sp/>The<sp/>benchmark<sp/>measures<sp/>the<sp/>full<sp/>round-trip<sp/>path<sp/>cost</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>including<sp/>process-spawn<sp/>overhead<sp/>when<sp/>the<sp/>binary<sp/>IS<sp/>available.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><ref refid="bench__user__storage__mount__latency_8cpp_1a6bdee4a92a6786a85b06ddeff4dc040e" kindref="member">BENCHMARK_F</ref>(<ref refid="class_gocryptfs_bench_fixture" kindref="compound">GocryptfsBenchFixture</ref>,<sp/>MountUnmountCycle)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>key<sp/>=<sp/>makeKey();</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Best-effort<sp/>cleanup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::create_directories(kBenchDir);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::create_directories(kBenchMount);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>mr<sp/>=<sp/>backend-&gt;mountContainer(kBenchDir,<sp/>kBenchMount,<sp/>key);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(mr.isSuccess())<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ur<sp/>=<sp/>backend-&gt;unmountContainer(kBenchMount);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(ur.isSuccess());</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(mr.isSuccess());</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::remove_all(kBenchDir);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::remove_all(kBenchMount);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;full<sp/>mount+unmount<sp/>cycle<sp/>(requires<sp/>gocryptfs<sp/>binary)&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_gocryptfs_bench_fixture" kindref="compound">GocryptfsBenchFixture</ref>,<sp/>MountUnmountCycle)</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseRealTime()</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>7.<sp/>Pipe-key<sp/>vs.<sp/>File-key<sp/>dispatch<sp/>comparison<sp/>────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Both<sp/>approaches<sp/>share<sp/>the<sp/>same<sp/>mountContainer()<sp/>public<sp/>API.<sp/><sp/>This<sp/>benchmark</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>instantiates<sp/>backends<sp/>with<sp/>and<sp/>without<sp/>a<sp/>KDF<sp/>to<sp/>profile:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Direct<sp/>key<sp/>path<sp/>(KDF=nullptr)<sp/>—<sp/>pipe<sp/>delivery<sp/>only</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>KDF-enabled<sp/>path<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>—<sp/>derive<sp/>subkey<sp/>before<sp/>pipe<sp/>delivery</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_MountDispatch_NoKDF(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend" kindref="compound">GocryptfsBackend</ref><sp/>backend_no_kdf(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>backend_no_kdf.initialize(</highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>key<sp/>=<sp/>makeKey();</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>backend_no_kdf.mountContainer(</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;/tmp/nonexistent_enc_nokdf&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;/tmp/nonexistent_mnt_nokdf&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>key);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result.isSuccess());</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;mountContainer()<sp/>—<sp/>direct<sp/>key<sp/>(no<sp/>KDF),<sp/>fast-fail<sp/>path&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><ref refid="bench__user__storage__mount__latency_8cpp_1a6aa101202eec04822ce02104d0a84a07" kindref="member">BENCHMARK</ref>(BM_MountDispatch_NoKDF);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>8.<sp/>getBackendName()<sp/>/<sp/>getBackendVersion()<sp/>overhead<sp/>──────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><ref refid="bench__user__storage__mount__latency_8cpp_1a6bdee4a92a6786a85b06ddeff4dc040e" kindref="member">BENCHMARK_F</ref>(<ref refid="class_gocryptfs_bench_fixture" kindref="compound">GocryptfsBenchFixture</ref>,<sp/>BackendMeta)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>name<sp/><sp/><sp/><sp/>=<sp/>backend-&gt;getBackendName();</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>version<sp/>=<sp/>backend-&gt;getBackendVersion();</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(name);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(version);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;getBackendName()<sp/>+<sp/>getBackendVersion()&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp"/>
+  </compounddef>
+</doxygen>

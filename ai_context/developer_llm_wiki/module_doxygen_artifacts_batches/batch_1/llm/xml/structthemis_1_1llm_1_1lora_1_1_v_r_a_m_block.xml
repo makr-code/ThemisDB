@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_v_r_a_m_block" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::VRAMBlock</compoundname>
+    <includes refid="vram__allocator_8h" local="no">vram_allocator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_v_r_a_m_block_1a0ee80b84798f5049fe975ba56d15f0b6" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::llm::lora::VRAMBlock::ptr</definition>
+        <argsstring></argsstring>
+        <name>ptr</name>
+        <qualifiedname>themis::llm::lora::VRAMBlock::ptr</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="31" column="10" bodyfile="include/llm/lora_framework/vram_allocator.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_v_r_a_m_block_1a4de3ce0f6e61a84c6a69e91d421aaa3e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::VRAMBlock::size</definition>
+        <argsstring></argsstring>
+        <name>size</name>
+        <qualifiedname>themis::llm::lora::VRAMBlock::size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="32" column="12" bodyfile="include/llm/lora_framework/vram_allocator.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_v_r_a_m_block_1a5c0d3ad2eb6ef67eb909d0d7786d0884" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::VRAMBlock::is_free</definition>
+        <argsstring></argsstring>
+        <name>is_free</name>
+        <qualifiedname>themis::llm::lora::VRAMBlock::is_free</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="33" column="10" bodyfile="include/llm/lora_framework/vram_allocator.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_v_r_a_m_block_1a768fb6b7cd8ba244e194acd68d48b78e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::VRAMBlock::alignment</definition>
+        <argsstring></argsstring>
+        <name>alignment</name>
+        <qualifiedname>themis::llm::lora::VRAMBlock::alignment</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="34" column="12" bodyfile="include/llm/lora_framework/vram_allocator.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_v_r_a_m_block_1a34d0182401e3e7004abf48821a2385a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::lora::VRAMBlock::~VRAMBlock</definition>
+        <argsstring>()=default</argsstring>
+        <name>~VRAMBlock</name>
+        <qualifiedname>themis::llm::lora::VRAMBlock::~VRAMBlock</qualifiedname>
+        <briefdescription>
+<para><ref refid="structthemis_1_1llm_1_1lora_1_1_v_r_a_m_block" kindref="compound">VRAMBlock</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="30" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/vram_allocator.h" line="25" column="1" bodyfile="include/llm/lora_framework/vram_allocator.h" bodystart="25" bodyend="35"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_v_r_a_m_block_1a768fb6b7cd8ba244e194acd68d48b78e" prot="public" virt="non-virtual"><scope>themis::llm::lora::VRAMBlock</scope><name>alignment</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_v_r_a_m_block_1a5c0d3ad2eb6ef67eb909d0d7786d0884" prot="public" virt="non-virtual"><scope>themis::llm::lora::VRAMBlock</scope><name>is_free</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_v_r_a_m_block_1a0ee80b84798f5049fe975ba56d15f0b6" prot="public" virt="non-virtual"><scope>themis::llm::lora::VRAMBlock</scope><name>ptr</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_v_r_a_m_block_1a4de3ce0f6e61a84c6a69e91d421aaa3e" prot="public" virt="non-virtual"><scope>themis::llm::lora::VRAMBlock</scope><name>size</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_v_r_a_m_block_1a34d0182401e3e7004abf48821a2385a1" prot="public" virt="virtual"><scope>themis::llm::lora::VRAMBlock</scope><name>~VRAMBlock</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

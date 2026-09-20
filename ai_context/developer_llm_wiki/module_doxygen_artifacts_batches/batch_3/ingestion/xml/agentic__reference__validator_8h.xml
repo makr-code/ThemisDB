@@ -1,0 +1,198 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="agentic__reference__validator_8h" kind="file" language="C++">
+    <compoundname>agentic_reference_validator.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">unordered_set</includes>
+    <includes local="no">functional</includes>
+    <includedby refid="agentic__reference__validator_8cpp" local="yes">src/ingestion/agentic_reference_validator.cpp</includedby>
+    <includedby refid="ingestion__manager_8cpp" local="yes">src/ingestion/ingestion_manager.cpp</includedby>
+    <includedby refid="legal__reference__step_8cpp" local="yes">src/ingestion/steps/legal_reference_step.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/ingestion/agentic_reference_validator.h</label>
+        <link refid="agentic__reference__validator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>unordered_set</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/ingestion/agentic_reference_validator.h</label>
+        <link refid="agentic__reference__validator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/ingestion/agentic_reference_validator.cpp</label>
+        <link refid="agentic__reference__validator_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/ingestion/ingestion_manager.cpp</label>
+        <link refid="ingestion__manager_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/ingestion/steps/legal_reference_step.cpp</label>
+        <link refid="legal__reference__step_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1ingestion_1_1_legal_reference" prot="public">themis::ingestion::LegalReference</innerclass>
+    <innerclass refid="structthemis_1_1ingestion_1_1_reference_validation_result" prot="public">themis::ingestion::ReferenceValidationResult</innerclass>
+    <innerclass refid="structthemis_1_1ingestion_1_1_reference_validation_report" prot="public">themis::ingestion::ReferenceValidationReport</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1_agentic_reference_validator" prot="public">themis::ingestion::AgenticReferenceValidator</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1ingestion">themis::ingestion</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1ingestion" kindref="compound">ingestion</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Reference<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1ingestion_1_1_legal_reference" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1ingestion_1_1_legal_reference_1a08ad5f9a4d4ca27f420cd867f9bde0a0" kindref="member">LegalReference</ref><sp/>{</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1ingestion_1_1_legal_reference_1a3755c791b3d4f189e2ad459b660d3b36" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1ingestion_1_1_legal_reference_1a3755c791b3d4f189e2ad459b660d3b36" kindref="member">raw_text</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1ingestion_1_1_legal_reference_1ad731eb4791af4c7ef5fa2ab6becc723d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1ingestion_1_1_legal_reference_1ad731eb4791af4c7ef5fa2ab6becc723d" kindref="member">law_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1ingestion_1_1_legal_reference_1aba1f5ee37d46ae98f1f81b282462597f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1ingestion_1_1_legal_reference_1aba1f5ee37d46ae98f1f81b282462597f" kindref="member">section</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1ingestion_1_1_legal_reference_1a0d218d72e590e23e33348f5d5c16873f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1ingestion_1_1_legal_reference_1a0d218d72e590e23e33348f5d5c16873f" kindref="member">subsection</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1ingestion_1_1_legal_reference_1ad6d527230449eb63700ecdb1e1118f77" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1ingestion_1_1_legal_reference_1ad6d527230449eb63700ecdb1e1118f77" kindref="member">item</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1ingestion_1_1_legal_reference_1a08ad5f9a4d4ca27f420cd867f9bde0a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_reference_1a08ad5f9a4d4ca27f420cd867f9bde0a0" kindref="member">LegalReference</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1ingestion_1_1_legal_reference_1a3345023620a85fa262dce4895fccbb7c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_reference_1a3345023620a85fa262dce4895fccbb7c" kindref="member">LegalReference</ref>(std::string<sp/>raw,<sp/>std::string<sp/>law,</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>sec,<sp/>std::string<sp/>sub<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>std::string<sp/>it<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="structthemis_1_1ingestion_1_1_legal_reference_1a3755c791b3d4f189e2ad459b660d3b36" kindref="member">raw_text</ref>(std::move(raw)),<sp/><ref refid="structthemis_1_1ingestion_1_1_legal_reference_1ad731eb4791af4c7ef5fa2ab6becc723d" kindref="member">law_id</ref>(std::move(law)),</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_reference_1aba1f5ee37d46ae98f1f81b282462597f" kindref="member">section</ref>(std::move(sec)),<sp/><ref refid="structthemis_1_1ingestion_1_1_legal_reference_1a0d218d72e590e23e33348f5d5c16873f" kindref="member">subsection</ref>(std::move(sub)),</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_reference_1ad6d527230449eb63700ecdb1e1118f77" kindref="member">item</ref>(std::move(it))<sp/>{}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1ingestion_1_1_legal_reference_1a926cb89cde48089b5de07427e90b326a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1ingestion_1_1_legal_reference_1a926cb89cde48089b5de07427e90b326a" kindref="member">canonicalId</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/><ref refid="structthemis_1_1ingestion_1_1_legal_reference_1ad731eb4791af4c7ef5fa2ab6becc723d" kindref="member">law_id</ref>.empty()<sp/>?<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"><sp/>:<sp/>(<ref refid="structthemis_1_1ingestion_1_1_legal_reference_1ad731eb4791af4c7ef5fa2ab6becc723d" kindref="member">law_id</ref><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;:&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;§&quot;</highlight><highlight class="normal"><sp/>+<sp/><ref refid="structthemis_1_1ingestion_1_1_legal_reference_1aba1f5ee37d46ae98f1f81b282462597f" kindref="member">section</ref>;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="structthemis_1_1ingestion_1_1_legal_reference_1a0d218d72e590e23e33348f5d5c16873f" kindref="member">subsection</ref>.empty())<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;.Abs.&quot;</highlight><highlight class="normal"><sp/>+<sp/><ref refid="structthemis_1_1ingestion_1_1_legal_reference_1a0d218d72e590e23e33348f5d5c16873f" kindref="member">subsection</ref>;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="structthemis_1_1ingestion_1_1_legal_reference_1ad6d527230449eb63700ecdb1e1118f77" kindref="member">item</ref>.empty())<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;.Nr.&quot;</highlight><highlight class="normal"><sp/>+<sp/><ref refid="structthemis_1_1ingestion_1_1_legal_reference_1ad6d527230449eb63700ecdb1e1118f77" kindref="member">item</ref>;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>id;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Reference<sp/>validation<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1ingestion_1_1_reference_validation_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1ingestion_1_1_reference_validation_result_1aa25b279d3baf459658be2f75db2e6ffe" kindref="member">ReferenceValidationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1ingestion_1_1_reference_validation_result_1a0899b73c6bc08127c841489d8cdf4adb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_reference" kindref="compound">LegalReference</ref><sp/><ref refid="structthemis_1_1ingestion_1_1_reference_validation_result_1a0899b73c6bc08127c841489d8cdf4adb" kindref="member">reference</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1ingestion_1_1_reference_validation_result_1ae49e61d64ad035c1dc792ead5cff79e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_reference_validation_result_1ae49e61d64ad035c1dc792ead5cff79e8" kindref="member">found</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1ingestion_1_1_reference_validation_result_1adfc64630989209b9fcee8794cce4ffb9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_reference_validation_result_1adfc64630989209b9fcee8794cce4ffb9" kindref="member">confidence</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1ingestion_1_1_reference_validation_result_1abad4cb18ee8dd13f2e4c325682965b8f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_reference_validation_result_1abad4cb18ee8dd13f2e4c325682965b8f" kindref="member">message</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1ingestion_1_1_reference_validation_result_1aa25b279d3baf459658be2f75db2e6ffe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_reference_validation_result_1aa25b279d3baf459658be2f75db2e6ffe" kindref="member">ReferenceValidationResult</ref>()<sp/>:<sp/><ref refid="structthemis_1_1ingestion_1_1_reference_validation_result_1ae49e61d64ad035c1dc792ead5cff79e8" kindref="member">found</ref>(true),<sp/><ref refid="structthemis_1_1ingestion_1_1_reference_validation_result_1adfc64630989209b9fcee8794cce4ffb9" kindref="member">confidence</ref>(1.0)<sp/>{}</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1ingestion_1_1_reference_validation_result_1acb00d734b820ec07f2fda18306a9f577" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_reference_validation_result_1acb00d734b820ec07f2fda18306a9f577" kindref="member">ReferenceValidationResult</ref>(<ref refid="structthemis_1_1ingestion_1_1_legal_reference" kindref="compound">LegalReference</ref><sp/>ref,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found_,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>conf,</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>msg<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="structthemis_1_1ingestion_1_1_reference_validation_result_1a0899b73c6bc08127c841489d8cdf4adb" kindref="member">reference</ref>(std::move(ref)),<sp/><ref refid="structthemis_1_1ingestion_1_1_reference_validation_result_1ae49e61d64ad035c1dc792ead5cff79e8" kindref="member">found</ref>(found_),<sp/><ref refid="structthemis_1_1ingestion_1_1_reference_validation_result_1adfc64630989209b9fcee8794cce4ffb9" kindref="member">confidence</ref>(conf),</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_reference_validation_result_1abad4cb18ee8dd13f2e4c325682965b8f" kindref="member">message</ref>(std::move(msg))<sp/>{}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1ingestion_1_1_reference_validation_report" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1ingestion_1_1_reference_validation_report_1a8774ec86c568d9a05c7303780fb17f57" kindref="member">ReferenceValidationReport</ref><sp/>{</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1ingestion_1_1_reference_validation_report_1a2b77f4e89e2bc3dbd97b271105789666" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;LegalReference&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_reference_validation_report_1a2b77f4e89e2bc3dbd97b271105789666" kindref="member">extracted</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1ingestion_1_1_reference_validation_report_1a37fcc1430e69498b9aa97a482bb4f414" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ReferenceValidationResult&gt;<sp/><ref refid="structthemis_1_1ingestion_1_1_reference_validation_report_1a37fcc1430e69498b9aa97a482bb4f414" kindref="member">validated</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1ingestion_1_1_reference_validation_report_1abb8ec7c1afc0db7fc9f492119c1d9d30" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_reference_validation_report_1abb8ec7c1afc0db7fc9f492119c1d9d30" kindref="member">dangling_count</ref>;<sp/></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1ingestion_1_1_reference_validation_report_1a7dbc4f65c0d794f340ffbaef4818b985" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_reference_validation_report_1a7dbc4f65c0d794f340ffbaef4818b985" kindref="member">warnings</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1ingestion_1_1_reference_validation_report_1a8774ec86c568d9a05c7303780fb17f57" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_reference_validation_report_1a8774ec86c568d9a05c7303780fb17f57" kindref="member">ReferenceValidationReport</ref>()<sp/>:<sp/><ref refid="structthemis_1_1ingestion_1_1_reference_validation_report_1abb8ec7c1afc0db7fc9f492119c1d9d30" kindref="member">dangling_count</ref>(0)<sp/>{}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1ingestion_1_1_reference_validation_report_1ac2bc577c737995fe5efbacaef641d3c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_reference_validation_report_1ac2bc577c737995fe5efbacaef641d3c1" kindref="member">hasNoDanglingRefs</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_reference_validation_report_1abb8ec7c1afc0db7fc9f492119c1d9d30" kindref="member">dangling_count</ref><sp/>==<sp/>0;<sp/>}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AgenticReferenceValidator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="classthemis_1_1ingestion_1_1_agentic_reference_validator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_agentic_reference_validator_1a125e375a5d8f768399895ea34bda18a8" kindref="member">AgenticReferenceValidator</ref><sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="136" refid="classthemis_1_1ingestion_1_1_agentic_reference_validator_1aa1801f2a585e980e350abd43835b5afd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_agentic_reference_validator_1aa1801f2a585e980e350abd43835b5afd" kindref="member">ExtractorFn</ref><sp/>=<sp/>std::function&lt;std::vector&lt;LegalReference&gt;(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)&gt;;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_agentic_reference_validator_1a125e375a5d8f768399895ea34bda18a8" kindref="member">AgenticReferenceValidator</ref>();</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_reference_validation_report" kindref="compound">ReferenceValidationReport</ref><sp/><ref refid="classthemis_1_1ingestion_1_1_agentic_reference_validator_1a40861d39e9795f7380375fe8b6a71c26" kindref="member">validate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;LegalReference&gt;<sp/><ref refid="classthemis_1_1ingestion_1_1_agentic_reference_validator_1a2d28998fff74711b5d782b5b69e11cec" kindref="member">extract</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_agentic_reference_validator_1a3e919e46abe19fb3011af18ace398353" kindref="member">addKnownLaw</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>law_id);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_agentic_reference_validator_1ab51693d285bbbd7cd4ba95df34fbb334" kindref="member">addKnownSection</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>law_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>section);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_agentic_reference_validator_1a717ef0cbc267095529c5fdb700beec09" kindref="member">clearKnowledgeBase</ref>();</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_agentic_reference_validator_1a7676f974925c10516b115b4ed8a1d77b" kindref="member">knownLawCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_agentic_reference_validator_1ae4858830cbd19833b7d113a126dcd41b" kindref="member">setExtractorFn</ref>(<ref refid="classthemis_1_1ingestion_1_1_agentic_reference_validator_1aa1801f2a585e980e350abd43835b5afd" kindref="member">ExtractorFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;LegalReference&gt;<sp/>extractRegex(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_reference_validation_result" kindref="compound">ReferenceValidationResult</ref><sp/>checkReference(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_reference" kindref="compound">LegalReference</ref>&amp;<sp/>ref)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;<sp/>known_laws_;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::unordered_set&lt;std::string&gt;&gt;<sp/>known_sections_;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_agentic_reference_validator_1aa1801f2a585e980e350abd43835b5afd" kindref="member">ExtractorFn</ref><sp/>extractor_fn_;<sp/><sp/></highlight></codeline>
+<codeline lineno="204"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ingestion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/ingestion/agentic_reference_validator.h"/>
+  </compounddef>
+</doxygen>

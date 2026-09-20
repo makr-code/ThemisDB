@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_metrics_collector_1_1_histogram" kind="struct" language="C++" prot="private">
+    <compoundname>themis::observability::MetricsCollector::Histogram</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metrics_collector_1_1_histogram_1a317129f16e053e170c97659435019867" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::observability::MetricsCollector::Histogram::values</definition>
+        <argsstring></argsstring>
+        <name>values</name>
+        <qualifiedname>themis::observability::MetricsCollector::Histogram::values</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="258" column="21" bodyfile="include/observability/metrics_collector.h" bodystart="258" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metrics_collector_1_1_histogram_1a45ad297dc0de2d18e554685af1c95bd1" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::observability::MetricsCollector::Histogram::last_reset</definition>
+        <argsstring></argsstring>
+        <name>last_reset</name>
+        <qualifiedname>themis::observability::MetricsCollector::Histogram::last_reset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="259" column="47" bodyfile="include/observability/metrics_collector.h" bodystart="259" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metrics_collector_1_1_histogram_1a8a9f8b4876495a9f828b50373fbe37b4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::MetricsCollector::Histogram::max_samples</definition>
+        <argsstring></argsstring>
+        <name>max_samples</name>
+        <qualifiedname>themis::observability::MetricsCollector::Histogram::max_samples</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="260" column="16" bodyfile="include/observability/metrics_collector.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metrics_collector_1_1_histogram_1a73cb94333c74678c1e2db87b66eb69f9" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1observability_1_1_exemplar" kindref="compound">Exemplar</ref></type>
+        <definition>Exemplar themis::observability::MetricsCollector::Histogram::latest_exemplar</definition>
+        <argsstring></argsstring>
+        <name>latest_exemplar</name>
+        <qualifiedname>themis::observability::MetricsCollector::Histogram::latest_exemplar</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Most recent exemplar attached to this histogram (optional). Empty trace_id means no exemplar has been recorded yet. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="263" column="18" bodyfile="include/observability/metrics_collector.h" bodystart="263" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_metrics_collector_1_1_histogram_1a6c3341d4c06085eb9287b5377d60c9b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsCollector::Histogram::observe</definition>
+        <argsstring>(double value)</argsstring>
+        <name>observe</name>
+        <qualifiedname>themis::observability::MetricsCollector::Histogram::observe</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Observe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), size(), erase(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="265" column="14" bodyfile="src/observability/metrics_collector.cpp" bodystart="758" bodyend="766"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_metrics_collector_1_1_histogram_1a251eb8e85c0d5fe88d4f1fb0c66f78cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricsCollector::Histogram::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::observability::MetricsCollector::Histogram::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: clear(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="266" column="14" bodyfile="src/observability/metrics_collector.cpp" bodystart="772" bodyend="776"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_metrics_collector_1_1_histogram_1a8c8840cb5837494f0568463219c7f670" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::observability::MetricsCollector::Histogram::percentile</definition>
+        <argsstring>(double p) const</argsstring>
+        <name>percentile</name>
+        <qualifiedname>themis::observability::MetricsCollector::Histogram::percentile</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="267" column="16" bodyfile="src/observability/metrics_collector.cpp" bodystart="778" bodyend="788"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_metrics_collector_1_1_histogram_1a4fd7f1bff1c965f204a592b813804704" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::observability::MetricsCollector::Histogram::mean</definition>
+        <argsstring>() const</argsstring>
+        <name>mean</name>
+        <qualifiedname>themis::observability::MetricsCollector::Histogram::mean</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metrics_collector.h" line="268" column="16" bodyfile="src/observability/metrics_collector.cpp" bodystart="790" bodyend="795"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::observability::Exemplar</label>
+        <link refid="structthemis_1_1observability_1_1_exemplar"/>
+      </node>
+      <node id="1">
+        <label>themis::observability::MetricsCollector::Histogram</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>latest_exemplar</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/observability/metrics_collector.h" line="257" column="5" bodyfile="include/observability/metrics_collector.h" bodystart="257" bodyend="269"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_metrics_collector_1_1_histogram_1a45ad297dc0de2d18e554685af1c95bd1" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector::Histogram</scope><name>last_reset</name></member>
+      <member refid="structthemis_1_1observability_1_1_metrics_collector_1_1_histogram_1a73cb94333c74678c1e2db87b66eb69f9" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector::Histogram</scope><name>latest_exemplar</name></member>
+      <member refid="structthemis_1_1observability_1_1_metrics_collector_1_1_histogram_1a8a9f8b4876495a9f828b50373fbe37b4" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector::Histogram</scope><name>max_samples</name></member>
+      <member refid="structthemis_1_1observability_1_1_metrics_collector_1_1_histogram_1a4fd7f1bff1c965f204a592b813804704" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector::Histogram</scope><name>mean</name></member>
+      <member refid="structthemis_1_1observability_1_1_metrics_collector_1_1_histogram_1a6c3341d4c06085eb9287b5377d60c9b4" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector::Histogram</scope><name>observe</name></member>
+      <member refid="structthemis_1_1observability_1_1_metrics_collector_1_1_histogram_1a8c8840cb5837494f0568463219c7f670" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector::Histogram</scope><name>percentile</name></member>
+      <member refid="structthemis_1_1observability_1_1_metrics_collector_1_1_histogram_1a251eb8e85c0d5fe88d4f1fb0c66f78cb" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector::Histogram</scope><name>reset</name></member>
+      <member refid="structthemis_1_1observability_1_1_metrics_collector_1_1_histogram_1a317129f16e053e170c97659435019867" prot="public" virt="non-virtual"><scope>themis::observability::MetricsCollector::Histogram</scope><name>values</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

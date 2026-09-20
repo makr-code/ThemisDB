@@ -1,0 +1,287 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__path__constraints__semantic_8cpp" kind="file" language="C++">
+    <compoundname>test_path_constraints_semantic.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="path__constraints_8h" local="yes">graph/path_constraints.h</includes>
+    <includes refid="ontology__manager_8h" local="yes">graph/ontology_manager.h</includes>
+    <incdepgraph>
+      <node id="5">
+        <label>graph/ontology_manager.h</label>
+        <link refid="ontology__manager_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>graph/path_constraints.h</label>
+        <link refid="path__constraints_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/graph/test_path_constraints_semantic.cpp</label>
+        <link refid="test__path__constraints__semantic_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="9">
+        <label>list</label>
+      </node>
+      <node id="12">
+        <label>memory</label>
+      </node>
+      <node id="14">
+        <label>optional</label>
+      </node>
+      <node id="13">
+        <label>shared_mutex</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>string_view</label>
+      </node>
+      <node id="10">
+        <label>unordered_map</label>
+      </node>
+      <node id="11">
+        <label>unordered_set</label>
+      </node>
+      <node id="15">
+        <label>utility</label>
+      </node>
+      <node id="4">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1graph">themis::graph</innernamespace>
+    <briefdescription>
+<para>Semantic PathConstraints tests — SC-01..SC-10. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests cover: SC-01 addSemanticConstraint attaches ontology (API smoke test) SC-02 validateSemanticPath with no graph_mgr returns empty violations SC-03 OntologyManager::isEdgeTypeAllowed — valid edge accepted SC-04 OntologyManager::isEdgeTypeAllowed — invalid edge type rejected SC-05 STRICT vs WARN ruleset modes stored correctly SC-06 lastViolations() reflects the last validateSemanticPath call SC-07 isEdgeTypeAllowed unknown source class → true (graceful degradation) SC-08 isEdgeTypeAllowed unknown target class → true (graceful degradation) SC-09 allowedEdgeTypes empty when no axioms restrict source/target pair SC-10 PathConstraints clearConstraints preserves semantic state </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="path__constraints_8h" kindref="compound">graph/path_constraints.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ontology__manager_8h" kindref="compound">graph/ontology_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1graph" kindref="compound">graph</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper:<sp/>build<sp/>a<sp/>simple<sp/>ontology<sp/>for<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;OntologyManager&gt;<sp/>makeTestOntology()<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>onto<sp/>=<sp/>std::make_shared&lt;OntologyManager&gt;();</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>onto-&gt;addConcept(</highlight><highlight class="stringliteral">&quot;Entity&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>onto-&gt;addConcept(</highlight><highlight class="stringliteral">&quot;LegalEntity&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;Entity&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>onto-&gt;addConcept(</highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;LegalEntity&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>onto-&gt;addConcept(</highlight><highlight class="stringliteral">&quot;Case&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>onto-&gt;addConcept(</highlight><highlight class="stringliteral">&quot;Statute&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>onto-&gt;addAxiom(</highlight><highlight class="stringliteral">&quot;LegalEntity&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hasParty&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LegalEntity&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>onto-&gt;addAxiom(</highlight><highlight class="stringliteral">&quot;Case&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ruledBy&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="stringliteral">&quot;Statute&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>onto-&gt;addAxiom(</highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;knows&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>onto-&gt;build();</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>onto;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SC-01:<sp/>addSemanticConstraint<sp/>API<sp/>smoke<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><ref refid="test__category__b__parity__bfs_8cpp_1aa26d2aa27563c8f650838b5cf7a7a58f" kindref="member">TEST</ref>(PathConstraintsSemanticFocusedTests,<sp/>SC01_AddSemanticConstraintSmokeTest)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints" kindref="compound">PathConstraints</ref><sp/>pc;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>onto<sp/>=<sp/>makeTestOntology();</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>not<sp/>throw</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(pc.addSemanticConstraint(onto.get(),<sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager_1a2ac5b51c29204dfaf0761ee050339cf8a2e979835dd62324f5bfe217449ba4974" kindref="member">OntologyManager::Ruleset::Strict</ref>));</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Violations<sp/>list<sp/>starts<sp/>empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(pc.lastViolations().empty());</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SC-02:<sp/>validateSemanticPath<sp/>with<sp/>no<sp/>graph_mgr<sp/>returns<sp/>empty<sp/>violations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><ref refid="test__category__b__parity__bfs_8cpp_1aa26d2aa27563c8f650838b5cf7a7a58f" kindref="member">TEST</ref>(PathConstraintsSemanticFocusedTests,<sp/>SC02_ValidateWithoutGraphMgrIsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints" kindref="compound">PathConstraints</ref><sp/>pc;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>onto<sp/>=<sp/>makeTestOntology();</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>pc.addSemanticConstraint(onto.get(),<sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager_1a2ac5b51c29204dfaf0761ee050339cf8a2e979835dd62324f5bfe217449ba4974" kindref="member">OntologyManager::Ruleset::Strict</ref>);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_path_result" kindref="compound">PathConstraints::PathResult</ref><sp/>result;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>result.<ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_path_result_1a8f13528cfc7371b565e7946a4bb09a2d" kindref="member">nodes</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;node_a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;node_b&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>result.edges<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;edge_ab&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Without<sp/>a<sp/>GraphIndexManager,<sp/>class<sp/>lookups<sp/>fail<sp/>→<sp/>no<sp/>violations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>violations<sp/>=<sp/>pc.validateSemanticPath(result);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(violations.empty());</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SC-03:<sp/>isEdgeTypeAllowed<sp/>—<sp/>valid<sp/>edge<sp/>accepted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><ref refid="test__category__b__parity__bfs_8cpp_1aa26d2aa27563c8f650838b5cf7a7a58f" kindref="member">TEST</ref>(PathConstraintsSemanticFocusedTests,<sp/>SC03_ValidEdgeTypeAccepted)<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>onto<sp/>=<sp/>makeTestOntology();</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Person<sp/>isA<sp/>LegalEntity<sp/>→<sp/>&quot;hasParty&quot;<sp/>is<sp/>valid<sp/>between<sp/>any<sp/>two<sp/>Persons</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(onto-&gt;isEdgeTypeAllowed(</highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hasParty&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(onto-&gt;isEdgeTypeAllowed(</highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;knows&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(onto-&gt;isEdgeTypeAllowed(</highlight><highlight class="stringliteral">&quot;Case&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Statute&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ruledBy&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SC-04:<sp/>isEdgeTypeAllowed<sp/>—<sp/>invalid<sp/>edge<sp/>type<sp/>rejected<sp/>(STRICT<sp/>semantics)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><ref refid="test__category__b__parity__bfs_8cpp_1aa26d2aa27563c8f650838b5cf7a7a58f" kindref="member">TEST</ref>(PathConstraintsSemanticFocusedTests,<sp/>SC04_InvalidEdgeTypeRejected)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>onto<sp/>=<sp/>makeTestOntology();</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;ruledBy&quot;<sp/>is<sp/>only<sp/>valid<sp/>between<sp/>Case<sp/>and<sp/>Statute,<sp/>not<sp/>Person→Person</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(onto-&gt;isEdgeTypeAllowed(</highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ruledBy&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;knows&quot;<sp/>is<sp/>only<sp/>valid<sp/>for<sp/>Person→Person,<sp/>not<sp/>Case→Statute</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(onto-&gt;isEdgeTypeAllowed(</highlight><highlight class="stringliteral">&quot;Case&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Statute&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;knows&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SC-05:<sp/>STRICT<sp/>vs<sp/>WARN<sp/>ruleset<sp/>modes<sp/>stored<sp/>correctly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><ref refid="test__category__b__parity__bfs_8cpp_1aa26d2aa27563c8f650838b5cf7a7a58f" kindref="member">TEST</ref>(PathConstraintsSemanticFocusedTests,<sp/>SC05_RulesetStoredCorrectly)<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>onto<sp/>=<sp/>makeTestOntology();</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints" kindref="compound">PathConstraints</ref><sp/>pc_strict;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>pc_strict.<ref refid="classthemis_1_1graph_1_1_path_constraints_1a8bafef53cfacf035a287479e0154bee8" kindref="member">addSemanticConstraint</ref>(onto.get(),<sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager_1a2ac5b51c29204dfaf0761ee050339cf8a2e979835dd62324f5bfe217449ba4974" kindref="member">OntologyManager::Ruleset::Strict</ref>);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints" kindref="compound">PathConstraints</ref><sp/>pc_warn;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>pc_warn.<ref refid="classthemis_1_1graph_1_1_path_constraints_1a8bafef53cfacf035a287479e0154bee8" kindref="member">addSemanticConstraint</ref>(onto.get(),<sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager_1a2ac5b51c29204dfaf0761ee050339cf8a56525ae64d370c0b448ac0d60710ef17" kindref="member">OntologyManager::Ruleset::Warn</ref>);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>can<sp/>call<sp/>validateSemanticPath<sp/>without<sp/>crash<sp/>(no<sp/>graph_mgr<sp/>→<sp/>empty)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_path_result" kindref="compound">PathConstraints::PathResult</ref><sp/>dummy;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(pc_strict.validateSemanticPath(dummy));</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(pc_warn.validateSemanticPath(dummy));</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SC-06:<sp/>lastViolations()<sp/>reflects<sp/>the<sp/>last<sp/>call</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><ref refid="test__category__b__parity__bfs_8cpp_1aa26d2aa27563c8f650838b5cf7a7a58f" kindref="member">TEST</ref>(PathConstraintsSemanticFocusedTests,<sp/>SC06_LastViolationsReflectsLastCall)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints" kindref="compound">PathConstraints</ref><sp/>pc;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>onto<sp/>=<sp/>makeTestOntology();</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>pc.addSemanticConstraint(onto.get());</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>call<sp/>with<sp/>empty<sp/>result<sp/>→<sp/>empty<sp/>violations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_path_result" kindref="compound">PathConstraints::PathResult</ref><sp/>dummy;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>pc.validateSemanticPath(dummy);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(pc.lastViolations().empty());</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Calling<sp/>again<sp/>with<sp/>a<sp/>different<sp/>(still<sp/>empty)<sp/>result<sp/>also<sp/>gives<sp/>empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_path_result" kindref="compound">PathConstraints::PathResult</ref><sp/>dummy2;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>dummy2.<ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_path_result_1a8f13528cfc7371b565e7946a4bb09a2d" kindref="member">nodes</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>pc.validateSemanticPath(dummy2);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(pc.lastViolations().empty());</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SC-07:<sp/>isEdgeTypeAllowed<sp/>—<sp/>unknown<sp/>source<sp/>class<sp/>→<sp/>true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><ref refid="test__category__b__parity__bfs_8cpp_1aa26d2aa27563c8f650838b5cf7a7a58f" kindref="member">TEST</ref>(PathConstraintsSemanticFocusedTests,<sp/>SC07_UnknownSourceClassUnconstrained)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>onto<sp/>=<sp/>makeTestOntology();</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(onto-&gt;isEdgeTypeAllowed(</highlight><highlight class="stringliteral">&quot;UnknownSource&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hasParty&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SC-08:<sp/>isEdgeTypeAllowed<sp/>—<sp/>unknown<sp/>target<sp/>class<sp/>→<sp/>true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><ref refid="test__category__b__parity__bfs_8cpp_1aa26d2aa27563c8f650838b5cf7a7a58f" kindref="member">TEST</ref>(PathConstraintsSemanticFocusedTests,<sp/>SC08_UnknownTargetClassUnconstrained)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>onto<sp/>=<sp/>makeTestOntology();</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(onto-&gt;isEdgeTypeAllowed(</highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;UnknownTarget&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hasParty&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="148"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SC-09:<sp/>allowedEdgeTypes<sp/>empty<sp/>when<sp/>no<sp/>axioms<sp/>restrict<sp/>the<sp/>pair</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><ref refid="test__category__b__parity__bfs_8cpp_1aa26d2aa27563c8f650838b5cf7a7a58f" kindref="member">TEST</ref>(PathConstraintsSemanticFocusedTests,<sp/>SC09_AllowedEdgeTypesEmptyForUnrelatedPair)<sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>onto<sp/>=<sp/>makeTestOntology();</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Case→Person<sp/>has<sp/>no<sp/>axiom<sp/>→<sp/>empty<sp/>set<sp/>(no<sp/>restriction<sp/>means<sp/>any<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>is<sp/>technically<sp/>unconstrained,<sp/>but<sp/>allowedEdgeTypes<sp/>returns<sp/>∅<sp/>to<sp/>signal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>absence<sp/>of<sp/>explicit<sp/>permissions)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>allowed<sp/>=<sp/>onto-&gt;allowedEdgeTypes(</highlight><highlight class="stringliteral">&quot;Case&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(allowed.empty());</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SC-10:<sp/>clearConstraints<sp/>does<sp/>not<sp/>affect<sp/>semantic<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><ref refid="test__category__b__parity__bfs_8cpp_1aa26d2aa27563c8f650838b5cf7a7a58f" kindref="member">TEST</ref>(PathConstraintsSemanticFocusedTests,<sp/>SC10_ClearConstraintsPreservesSemanticConstraint)<sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints" kindref="compound">PathConstraints</ref><sp/>pc;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>onto<sp/>=<sp/>makeTestOntology();</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>pc.addMinLength(1);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>pc.addSemanticConstraint(onto.get(),<sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager_1a2ac5b51c29204dfaf0761ee050339cf8a2e979835dd62324f5bfe217449ba4974" kindref="member">OntologyManager::Ruleset::Strict</ref>);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Standard<sp/>constraints<sp/>should<sp/>be<sp/>present</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(pc.getConstraints().empty());</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>pc.clearConstraints();</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Standard<sp/>constraints<sp/>cleared;<sp/>semantic<sp/>ptr<sp/>cleared<sp/>too<sp/>(semantics<sp/>TBD<sp/>by<sp/>impl)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>We<sp/>merely<sp/>verify<sp/>no<sp/>crash<sp/>occurs<sp/>when<sp/>calling<sp/>validate<sp/>after<sp/>clear</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_path_result" kindref="compound">PathConstraints::PathResult</ref><sp/>dummy;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(pc.validateSemanticPath(dummy));</highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>graph</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/graph/test_path_constraints_semantic.cpp"/>
+  </compounddef>
+</doxygen>

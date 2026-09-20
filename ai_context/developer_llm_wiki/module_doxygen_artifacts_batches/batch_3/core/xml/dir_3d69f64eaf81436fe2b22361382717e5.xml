@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_3d69f64eaf81436fe2b22361382717e5" kind="dir">
+    <compoundname>include/core</compoundname>
+    <innerdir refid="dir_39d63249add476b585f846bdf72681e0">include/core/concerns</innerdir>
+    <innerfile refid="config__hot__reloader_8h">config_hot_reloader.h</innerfile>
+    <innerfile refid="config__validator_8h">config_validator.h</innerfile>
+    <innerfile refid="health__probe_8h">health_probe.h</innerfile>
+    <innerfile refid="index__initialization_8h">index_initialization.h</innerfile>
+    <innerfile refid="production__mode_8h">production_mode.h</innerfile>
+    <innerfile refid="query__engine__builder_8h">query_engine_builder.h</innerfile>
+    <innerfile refid="security__initialization_8h">security_initialization.h</innerfile>
+    <innerfile refid="storage__initialization_8h">storage_initialization.h</innerfile>
+    <innerfile refid="timestamp_8h">timestamp.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/"/>
+  </compounddef>
+</doxygen>

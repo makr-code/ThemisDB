@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_log_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::LogEntry</compoundname>
+    <includes refid="log__aggregator_8h" local="no">log_aggregator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_log_entry_1aefe8dea4e5299dd47817b7b61b83a98e" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::observability::LogEntry::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::observability::LogEntry::timestamp</qualifiedname>
+        <briefdescription>
+<para>Wall-clock timestamp of the event. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_aggregator.h" line="40" column="43" bodyfile="include/observability/log_aggregator.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_log_entry_1ad715c1ce4d0e44fde841cd6cd197676b" prot="public" static="no" mutable="no">
+        <type>core::concerns::ILogger::Level</type>
+        <definition>core::concerns::ILogger::Level themis::observability::LogEntry::level</definition>
+        <argsstring></argsstring>
+        <name>level</name>
+        <qualifiedname>themis::observability::LogEntry::level</qualifiedname>
+        <initializer>{core::concerns::ILogger::Level::INFO}</initializer>
+        <briefdescription>
+<para>Severity level (maps to ILogger::Level). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_aggregator.h" line="43" column="36" bodyfile="include/observability/log_aggregator.h" bodystart="43" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_log_entry_1a698a15567d60a23b2d079e7165554b93" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::LogEntry::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::observability::LogEntry::message</qualifiedname>
+        <briefdescription>
+<para>Human-readable message. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_aggregator.h" line="46" column="17" bodyfile="include/observability/log_aggregator.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_log_entry_1aaa6177b7b0fc3417b2b2ba26707dac3c" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::observability::LogEntry::fields</definition>
+        <argsstring></argsstring>
+        <name>fields</name>
+        <qualifiedname>themis::observability::LogEntry::fields</qualifiedname>
+        <briefdescription>
+<para>Arbitrary key/value metadata (query IDs, latencies, operator names — no PII). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_aggregator.h" line="49" column="14" bodyfile="include/observability/log_aggregator.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_log_entry_1aaa4cfd2747637a3b6ba727cb75bf8f30" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::LogEntry::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::observability::LogEntry::toJson</qualifiedname>
+        <briefdescription>
+<para>Serialise to a single-line JSON string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_aggregator.h" line="52" column="17" bodyfile="src/observability/log_aggregator.cpp" bodystart="128" bodyend="139"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single structured log entry retained in the in-process buffer. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Every entry is serialisable to JSON for machine-readable ingestion. </para>
+    </detaileddescription>
+    <location file="include/observability/log_aggregator.h" line="38" column="1" bodyfile="include/observability/log_aggregator.h" bodystart="38" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_log_entry_1aaa6177b7b0fc3417b2b2ba26707dac3c" prot="public" virt="non-virtual"><scope>themis::observability::LogEntry</scope><name>fields</name></member>
+      <member refid="structthemis_1_1observability_1_1_log_entry_1ad715c1ce4d0e44fde841cd6cd197676b" prot="public" virt="non-virtual"><scope>themis::observability::LogEntry</scope><name>level</name></member>
+      <member refid="structthemis_1_1observability_1_1_log_entry_1a698a15567d60a23b2d079e7165554b93" prot="public" virt="non-virtual"><scope>themis::observability::LogEntry</scope><name>message</name></member>
+      <member refid="structthemis_1_1observability_1_1_log_entry_1aefe8dea4e5299dd47817b7b61b83a98e" prot="public" virt="non-virtual"><scope>themis::observability::LogEntry</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1observability_1_1_log_entry_1aaa4cfd2747637a3b6ba727cb75bf8f30" prot="public" virt="non-virtual"><scope>themis::observability::LogEntry</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

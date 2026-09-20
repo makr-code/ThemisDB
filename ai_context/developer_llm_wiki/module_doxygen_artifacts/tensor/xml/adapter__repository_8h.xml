@@ -1,0 +1,377 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="adapter__repository_8h" kind="file" language="C++">
+    <compoundname>adapter_repository.h</compoundname>
+    <includes local="yes">storage/tensor_train_decomposer.h</includes>
+    <includes local="yes">storage/tensor_network_storage_engine.h</includes>
+    <includes refid="tensor__fingerprint__graph_8h" local="yes">tensor/tensor_fingerprint_graph.h</includes>
+    <includes refid="tensor__compat_8h" local="yes">tensor/tensor_compat.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">shared_mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="bench__tensor__integration__baseline_8cpp" local="yes">benchmarks/tensor/bench_tensor_integration_baseline.cpp</includedby>
+    <includedby refid="tensor__mid__layer_8h" local="yes">include/tensor/tensor_mid_layer.h</includedby>
+    <includedby refid="adapter__repository_8cpp" local="yes">src/tensor/adapter_repository.cpp</includedby>
+    <includedby refid="test__federated__tensor__summaries_8cpp" local="yes">tests/tensor/test_federated_tensor_summaries.cpp</includedby>
+    <includedby refid="test__tensor__mid__layer__integration_8cpp" local="yes">tests/tensor/test_tensor_mid_layer_integration.cpp</includedby>
+    <includedby refid="test__tensor__phase3_8cpp" local="yes">tests/tensor/test_tensor_phase3.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/tensor/adapter_repository.h</label>
+        <link refid="adapter__repository_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>tensor/tensor_compat.h</label>
+        <link refid="tensor__compat_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>tensor/tensor_fingerprint_graph.h</label>
+        <link refid="tensor__fingerprint__graph_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>cstddef</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="16">
+        <label>memory</label>
+      </node>
+      <node id="17">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="10">
+        <label>shared_mutex</label>
+      </node>
+      <node id="3">
+        <label>storage/tensor_network_storage_engine.h</label>
+      </node>
+      <node id="2">
+        <label>storage/tensor_train_decomposer.h</label>
+      </node>
+      <node id="11">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>string_view</label>
+      </node>
+      <node id="13">
+        <label>unordered_map</label>
+      </node>
+      <node id="14">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/tensor/bench_tensor_integration_baseline.cpp</label>
+        <link refid="bench__tensor__integration__baseline_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/tensor/adapter_repository.h</label>
+        <link refid="adapter__repository_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/tensor/tensor_mid_layer.h</label>
+        <link refid="tensor__mid__layer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>src/tensor/adapter_repository.cpp</label>
+        <link refid="adapter__repository_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/tensor/tensor_mid_layer.cpp</label>
+        <link refid="tensor__mid__layer_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/tensor/test_federated_tensor_summaries.cpp</label>
+        <link refid="test__federated__tensor__summaries_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/tensor/test_tensor_mid_layer_integration.cpp</label>
+        <link refid="test__tensor__mid__layer__integration_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/tensor/test_tensor_phase3.cpp</label>
+        <link refid="test__tensor__phase3_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1tensor_1_1_ggml_core_descriptor" prot="public">themis::tensor::GgmlCoreDescriptor</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_adapter_metadata" prot="public">themis::tensor::AdapterMetadata</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_adapter_repository" prot="public">themis::tensor::AdapterRepository</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_adapter_repository_1_1_repository_stats" prot="public">themis::tensor::AdapterRepository::RepositoryStats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1index">themis::index</innernamespace>
+    <innernamespace refid="namespacethemis_1_1tensor">themis::tensor</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 88/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/tensor_train_decomposer.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/tensor_network_storage_engine.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="tensor__fingerprint__graph_8h" kindref="compound">tensor/tensor_fingerprint_graph.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="tensor__compat_8h" kindref="compound">tensor/tensor_compat.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="namespacethemis" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1index" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1index" kindref="compound">index</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">AnnFrontdoor;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1tensor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1tensor" kindref="compound">tensor</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GgmlCoreDescriptor<sp/>—<sp/>handle<sp/>returned<sp/>by<sp/>loadAdapter()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1tensor_1_1_ggml_core_descriptor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1tensor_1_1_ggml_core_descriptor" kindref="compound">GgmlCoreDescriptor</ref><sp/>{</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1tensor_1_1_ggml_core_descriptor_1ad6570d44dd640dbd21a82b459a31b65d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1tensor_1_1_ggml_core_descriptor_1ad6570d44dd640dbd21a82b459a31b65d" kindref="member">valid</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1tensor_1_1_ggml_core_descriptor_1adc93036f714ceeb89ae532a011ee65f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>storage::TTTrain<sp/><ref refid="structthemis_1_1tensor_1_1_ggml_core_descriptor_1adc93036f714ceeb89ae532a011ee65f9" kindref="member">train</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1tensor_1_1_ggml_core_descriptor_1af4be158836f201a20ae7dd91e038969b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_ggml_core_descriptor_1af4be158836f201a20ae7dd91e038969b" kindref="member">adapter_key</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1tensor_1_1_ggml_core_descriptor_1afe3cb82e842912b12547ab31e94de2ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_ggml_core_descriptor_1afe3cb82e842912b12547ab31e94de2ee" kindref="member">tenant_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1tensor_1_1_ggml_core_descriptor_1a0614b2162e3c7d1cc96ea92b6a0bc647" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_ggml_core_descriptor_1a0614b2162e3c7d1cc96ea92b6a0bc647" kindref="member">domain</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1tensor_1_1_ggml_core_descriptor_1a7282ecae13021bc0dfe607c9e509ddf4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_ggml_core_descriptor_1a7282ecae13021bc0dfe607c9e509ddf4" kindref="member">base_model_id</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1tensor_1_1_ggml_core_descriptor_1a25642f710de115d8ea00fde1b6930569" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::size_t<sp/><ref refid="structthemis_1_1tensor_1_1_ggml_core_descriptor_1a25642f710de115d8ea00fde1b6930569" kindref="member">paramCount</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_ggml_core_descriptor_1adc93036f714ceeb89ae532a011ee65f9" kindref="member">train</ref>.totalParams();</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AdapterMetadata<sp/>—<sp/>optional<sp/>provenance<sp/>stored<sp/>alongside<sp/>the<sp/>adapter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1tensor_1_1_adapter_metadata" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1tensor_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref><sp/>{</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1tensor_1_1_adapter_metadata_1a6adab10fe761b25b1fd28b555aa6811a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_adapter_metadata_1a6adab10fe761b25b1fd28b555aa6811a" kindref="member">author</ref>;</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1tensor_1_1_adapter_metadata_1a9fb3fbd7333d45e58de91e56359366cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_adapter_metadata_1a9fb3fbd7333d45e58de91e56359366cf" kindref="member">created_at</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1tensor_1_1_adapter_metadata_1a19b530dfc27d48be92f18da2956a090d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_adapter_metadata_1a19b530dfc27d48be92f18da2956a090d" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1tensor_1_1_adapter_metadata_1a8e8e085f2678a0526879734c4bf92fd6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1tensor_1_1_adapter_metadata_1a8e8e085f2678a0526879734c4bf92fd6" kindref="member">achieved_eps</ref><sp/>=<sp/>0.0f;<sp/><sp/></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1tensor_1_1_adapter_metadata_1a884eb51a2d91827e3978450623fab937" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1tensor_1_1_adapter_metadata_1a884eb51a2d91827e3978450623fab937" kindref="member">max_rank</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AdapterRepository</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="classthemis_1_1tensor_1_1_adapter_repository" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1tensor_1_1_adapter_repository_1a42acb6854deb6d19d597426ae19f6c73" kindref="member">AdapterRepository</ref><sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="109" refid="classthemis_1_1tensor_1_1_adapter_repository_1a10f5de33b36bc8166511cb5a4ff0e32d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1tensor_1_1_adapter_repository_1a10f5de33b36bc8166511cb5a4ff0e32d" kindref="member">MmapLoadFn</ref><sp/>=<sp/>std::function&lt;<ref refid="structthemis_1_1tensor_1_1_ggml_core_descriptor" kindref="compound">GgmlCoreDescriptor</ref>(</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id,</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>domain,</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>base_model_id,</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_key,</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;storage::ITensorStorageBackend&gt;&amp;<sp/>backend)&gt;;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="classthemis_1_1tensor_1_1_adapter_repository_1a3770661f3dcb103b56ca449603c4ae81" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1tensor_1_1_adapter_repository_1a3770661f3dcb103b56ca449603c4ae81" kindref="member">ExactSimilarityFn</ref><sp/>=<sp/>std::function&lt;std::vector&lt;SimilarityResult&gt;(</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_key,</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>k,</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;storage::ITensorStorageBackend&gt;&amp;<sp/>backend)&gt;;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_adapter_repository_1af732d025a6e3f9e100f769ebd29f28eb" kindref="member">AdapterRepository</ref>(</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;storage::ITensorStorageBackend&gt;<sp/>backend,</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tenant_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;default&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="classthemis_1_1tensor_1_1_adapter_repository_1af732d025a6e3f9e100f769ebd29f28eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1tensor_1_1_adapter_repository_1af732d025a6e3f9e100f769ebd29f28eb" kindref="member">AdapterRepository</ref>()<sp/>:<sp/><ref refid="classthemis_1_1tensor_1_1_adapter_repository_1a42acb6854deb6d19d597426ae19f6c73" kindref="member">AdapterRepository</ref>(std::make_shared&lt;storage::InMemoryTensorBackend&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;default&quot;</highlight><highlight class="normal">)<sp/>{}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Write<sp/>API<sp/>───────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_adapter_repository_1a68f51bbcf5cc1d7f808d280415a2ecf3" kindref="member">store</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/>domain,</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/>base_model_id,</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>storage::TTTrain&amp;<sp/>adapter_train,</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref>&amp;<sp/><sp/>meta<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Backwards-compatible<sp/>overloads<sp/>used<sp/>by<sp/>older<sp/>tests<sp/>and<sp/>adapters.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Legacy<sp/>call-site:<sp/>store(tenant_id,<sp/>domain,<sp/>adapter_key,<sp/>core_descriptor);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167" refid="classthemis_1_1tensor_1_1_adapter_repository_1ab00b8b717a7cedcd35893e07f59208ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_adapter_repository_1ab00b8b717a7cedcd35893e07f59208ef" kindref="member">store</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id,</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>domain,</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_key,</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_tensor_train_core" kindref="compound">TensorTrainCore</ref>&amp;<sp/>core)<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Ignore<sp/>tenant_id<sp/>for<sp/>now<sp/>(repository<sp/>constructed<sp/>per-tenant<sp/>in<sp/>tests);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)tenant_id;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_adapter_repository_1a68f51bbcf5cc1d7f808d280415a2ecf3" kindref="member">store</ref>(domain,<sp/>adapter_key,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="normal">storage::TTTrain&amp;</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(core),<sp/><ref refid="structthemis_1_1tensor_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref>{});</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176" refid="classthemis_1_1tensor_1_1_adapter_repository_1ac0e56516dacc1846675d51de2293e157" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_adapter_repository_1ac0e56516dacc1846675d51de2293e157" kindref="member">store</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id,</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>domain,</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_key,</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>serialized_train)<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>tests<sp/>pass<sp/>a<sp/>serialized<sp/>string,<sp/>treat<sp/>it<sp/>as<sp/>a<sp/>no-op<sp/>placeholder<sp/>and<sp/>fail<sp/>gracefully.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)tenant_id;<sp/>(void)domain;<sp/>(void)adapter_key;<sp/>(void)serialized_train;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_adapter_repository_1ac299d347b8a3a1443df50e4142559c7c" kindref="member">remove</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>domain,</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>base_model_id);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Read<sp/>API<sp/>─────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1tensor_1_1_ggml_core_descriptor" kindref="compound">GgmlCoreDescriptor</ref></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1tensor_1_1_adapter_repository_1a9e061f9c6fb88909dc855a82aa98b0d9" kindref="member">loadAdapter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>domain,</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>base_model_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1tensor_1_1_adapter_repository_1a0306e667d64dab802bb546e0d7fd94f8" kindref="member">listDomains</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1tensor_1_1_adapter_repository_1a144429fed6f5316310d5ef6656106069" kindref="member">listAdapters</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Fingerprint<sp/>Graph<sp/>Integration<sp/>(Phase<sp/>4<sp/>prep)<sp/>────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_adapter_repository_1addad6ba5bc2d26a7eb5ef327fd9e7adf" kindref="member">setFingerprintGraph</ref>(std::shared_ptr&lt;TensorFingerprintGraph&gt;<sp/>graph);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;SimilarityResult&gt;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1tensor_1_1_adapter_repository_1a3f56b7e2a55ed51ba4ef64fbe4a6eb1d" kindref="member">findSimilarAdapters</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>domain,</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>base_model_id,</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>k)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Diagnostics<sp/>─────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272" refid="structthemis_1_1tensor_1_1_adapter_repository_1_1_repository_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1tensor_1_1_adapter_repository_1_1_repository_stats" kindref="compound">RepositoryStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="273" refid="structthemis_1_1tensor_1_1_adapter_repository_1_1_repository_stats_1ab4721a69c656056c5858c30d46906830" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1tensor_1_1_adapter_repository_1_1_repository_stats_1ab4721a69c656056c5858c30d46906830" kindref="member">total_adapters</ref><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="274" refid="structthemis_1_1tensor_1_1_adapter_repository_1_1_repository_stats_1a172f4d1bea97a8357cbe60ccd469ada2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1tensor_1_1_adapter_repository_1_1_repository_stats_1a172f4d1bea97a8357cbe60ccd469ada2" kindref="member">total_param_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="275" refid="structthemis_1_1tensor_1_1_adapter_repository_1_1_repository_stats_1a304f349c0980e55fac02c1fb4150dd3d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1tensor_1_1_adapter_repository_1_1_repository_stats_1a304f349c0980e55fac02c1fb4150dd3d" kindref="member">load_hits</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="276" refid="structthemis_1_1tensor_1_1_adapter_repository_1_1_repository_stats_1af8184ea484e7ba0ddf2ded7a1510098b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1tensor_1_1_adapter_repository_1_1_repository_stats_1af8184ea484e7ba0ddf2ded7a1510098b" kindref="member">load_misses</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1tensor_1_1_adapter_repository_1_1_repository_stats" kindref="compound">RepositoryStats</ref><sp/><ref refid="classthemis_1_1tensor_1_1_adapter_repository_1a558d4c9eaf639e99315e968ea7747f7f" kindref="member">stats</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Bridge<sp/>injection<sp/>API<sp/>(STUB<sp/>#265<sp/>/<sp/>#266)<sp/>────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_adapter_repository_1a24a7bfcf3dca4ba64550e3fa50d64ab6" kindref="member">setMmapLoadFn</ref>(<ref refid="classthemis_1_1tensor_1_1_adapter_repository_1a10f5de33b36bc8166511cb5a4ff0e32d" kindref="member">MmapLoadFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_adapter_repository_1aba0ab9b4db07b24b886b6074af2907d8" kindref="member">clearMmapLoadFn</ref>();</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_adapter_repository_1a2ba872f5ba8487213c6f4e7ab7d6deb8" kindref="member">setExactSimilarityFn</ref>(<ref refid="classthemis_1_1tensor_1_1_adapter_repository_1a3770661f3dcb103b56ca449603c4ae81" kindref="member">ExactSimilarityFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_adapter_repository_1a7c6522100bf3278158331572cdfa2455" kindref="member">clearExactSimilarityFn</ref>();</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_adapter_repository_1a7bf1c4af55ad975e36eee41467973a05" kindref="member">setAnnFrontdoor</ref>(std::shared_ptr&lt;<ref refid="namespacethemis_1_1index" kindref="compound">index</ref>::AnnFrontdoor&gt;<sp/>frontdoor);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>makeKey(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>domain,</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>base_model_id)<sp/>const;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;storage::ITensorStorageBackend&gt;<sp/>backend_;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tenant_id_;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/>std::shared_mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>graph_mutex_;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;<ref refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph" kindref="compound">TensorFingerprintGraph</ref>&gt;<sp/>fingerprint_graph_;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;<ref refid="namespacethemis_1_1index" kindref="compound">index</ref>::AnnFrontdoor&gt;<sp/><sp/><sp/><sp/>ann_frontdoor_;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/>std::shared_mutex<sp/>stats_mutex_;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/><ref refid="structthemis_1_1tensor_1_1_adapter_repository_1_1_repository_stats" kindref="compound">RepositoryStats</ref><sp/><sp/><sp/>stats_;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>tensor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/tensor/adapter_repository.h"/>
+  </compounddef>
+</doxygen>

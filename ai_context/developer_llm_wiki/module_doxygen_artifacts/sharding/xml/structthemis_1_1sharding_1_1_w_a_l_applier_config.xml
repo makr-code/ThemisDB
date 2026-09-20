@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_w_a_l_applier_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::WALApplierConfig</compoundname>
+    <includes refid="wal__applier_8h" local="no">wal_applier.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_applier_config_1aa54405a6abaee3effe6216ccb5ea8b63" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::WALApplierConfig::replica_id</definition>
+        <argsstring></argsstring>
+        <name>replica_id</name>
+        <qualifiedname>themis::sharding::WALApplierConfig::replica_id</qualifiedname>
+        <briefdescription>
+<para>Replica identifier used for diagnostics/metrics labeling. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_applier.h" line="48" column="17" bodyfile="include/sharding/wal_applier.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_applier_config_1af9b49aa7890fb290636d34f785ba3d09" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::WALApplierConfig::strict_mode</definition>
+        <argsstring></argsstring>
+        <name>strict_mode</name>
+        <qualifiedname>themis::sharding::WALApplierConfig::strict_mode</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enforce fail-closed <ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> ordering. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When enabled, each applied entry must be either:<itemizedlist>
+<listitem><para>the immediate successor of the current replica <ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref>, or</para>
+</listitem><listitem><para>a bootstrap replay of <computeroutput>0/0</computeroutput> when the replica is still at its initial position.</para>
+</listitem></itemizedlist>
+</para>
+<para>Duplicate, stale, and out-of-order entries are rejected. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_applier.h" line="58" column="10" bodyfile="include/sharding/wal_applier.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_applier_config_1a3e1dc621827835620e8960e52382bddd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::WALApplierConfig::enable_conflict_detection</definition>
+        <argsstring></argsstring>
+        <name>enable_conflict_detection</name>
+        <qualifiedname>themis::sharding::WALApplierConfig::enable_conflict_detection</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable conflict accounting hooks during apply. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_applier.h" line="60" column="10" bodyfile="include/sharding/wal_applier.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_applier_config_1a4866536a9bfca7405c51755aeaff45e0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::WALApplierConfig::max_apply_retries</definition>
+        <argsstring></argsstring>
+        <name>max_apply_retries</name>
+        <qualifiedname>themis::sharding::WALApplierConfig::max_apply_retries</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Maximum number of times <computeroutput>applyEntry()</computeroutput> attempts the apply handler. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_applier.h" line="62" column="12" bodyfile="include/sharding/wal_applier.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_applier_config_1a2a77eff24db415069a4fda4420b7b686" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::WALApplierConfig::retry_initial_delay_ms</definition>
+        <argsstring></argsstring>
+        <name>retry_initial_delay_ms</name>
+        <qualifiedname>themis::sharding::WALApplierConfig::retry_initial_delay_ms</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Initial delay before the first retry in milliseconds. Each subsequent delay doubles (exponential backoff). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_applier.h" line="65" column="14" bodyfile="include/sharding/wal_applier.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Runtime configuration for replica-side WAL apply behavior. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/wal_applier.h" line="46" column="1" bodyfile="include/sharding/wal_applier.h" bodystart="46" bodyend="66"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_applier_config_1a3e1dc621827835620e8960e52382bddd" prot="public" virt="non-virtual"><scope>themis::sharding::WALApplierConfig</scope><name>enable_conflict_detection</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_applier_config_1a4866536a9bfca7405c51755aeaff45e0" prot="public" virt="non-virtual"><scope>themis::sharding::WALApplierConfig</scope><name>max_apply_retries</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_applier_config_1aa54405a6abaee3effe6216ccb5ea8b63" prot="public" virt="non-virtual"><scope>themis::sharding::WALApplierConfig</scope><name>replica_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_applier_config_1a2a77eff24db415069a4fda4420b7b686" prot="public" virt="non-virtual"><scope>themis::sharding::WALApplierConfig</scope><name>retry_initial_delay_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_applier_config_1af9b49aa7890fb290636d34f785ba3d09" prot="public" virt="non-virtual"><scope>themis::sharding::WALApplierConfig</scope><name>strict_mode</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

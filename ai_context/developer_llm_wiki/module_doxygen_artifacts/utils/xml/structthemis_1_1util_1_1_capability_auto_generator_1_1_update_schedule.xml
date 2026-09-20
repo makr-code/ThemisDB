@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1util_1_1_capability_auto_generator_1_1_update_schedule" kind="struct" language="C++" prot="public">
+    <compoundname>themis::util::CapabilityAutoGenerator::UpdateSchedule</compoundname>
+    <includes refid="capability__auto__generator_8h" local="no">capability_auto_generator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_capability_auto_generator_1_1_update_schedule_1aeb41bcc37b37af01ed1dd6f94262d536" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::util::CapabilityAutoGenerator::UpdateSchedule::shard_type</definition>
+        <argsstring></argsstring>
+        <name>shard_type</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::UpdateSchedule::shard_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="52" column="21" bodyfile="include/utils/capability_auto_generator.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_capability_auto_generator_1_1_update_schedule_1a938cbfd08fdcb3e4e81bb2a73f7ced1c" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::util::CapabilityAutoGenerator::UpdateSchedule::interval</definition>
+        <argsstring></argsstring>
+        <name>interval</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::UpdateSchedule::interval</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="53" column="30" bodyfile="include/utils/capability_auto_generator.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_capability_auto_generator_1_1_update_schedule_1a696481209532fdaa95db4eb97a5d403c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::util::CapabilityAutoGenerator::UpdateSchedule::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::UpdateSchedule::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="54" column="14" bodyfile="include/utils/capability_auto_generator.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_capability_auto_generator_1_1_update_schedule_1a89159856c58baee38852824a215787ec" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::util::CapabilityAutoGenerator::UpdateSchedule::min_document_change</definition>
+        <argsstring></argsstring>
+        <name>min_document_change</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::UpdateSchedule::min_document_change</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="57" column="18" bodyfile="include/utils/capability_auto_generator.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_capability_auto_generator_1_1_update_schedule_1a7d1f1e46ecff0c43724d3b08dc97ca52" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::util::CapabilityAutoGenerator::UpdateSchedule::min_keyword_change</definition>
+        <argsstring></argsstring>
+        <name>min_keyword_change</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::UpdateSchedule::min_keyword_change</qualifiedname>
+        <initializer>= 0.05</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="58" column="16" bodyfile="include/utils/capability_auto_generator.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_capability_auto_generator_1_1_update_schedule_1a76461137b1404d14818c0e25612cba5d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::util::CapabilityAutoGenerator::UpdateSchedule::require_review</definition>
+        <argsstring></argsstring>
+        <name>require_review</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::UpdateSchedule::require_review</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="61" column="14" bodyfile="include/utils/capability_auto_generator.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_capability_auto_generator_1_1_update_schedule_1a0a8f6939bf5179d47801c3d229436dc9" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::util::CapabilityAutoGenerator::UpdateSchedule::auto_approve_threshold</definition>
+        <argsstring></argsstring>
+        <name>auto_approve_threshold</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::UpdateSchedule::auto_approve_threshold</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="62" column="18" bodyfile="include/utils/capability_auto_generator.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Update schedule configuration for different shard types </para>
+    </detaileddescription>
+    <location file="include/utils/capability_auto_generator.h" line="51" column="5" bodyfile="include/utils/capability_auto_generator.h" bodystart="51" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_update_schedule_1a0a8f6939bf5179d47801c3d229436dc9" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator::UpdateSchedule</scope><name>auto_approve_threshold</name></member>
+      <member refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_update_schedule_1a696481209532fdaa95db4eb97a5d403c" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator::UpdateSchedule</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_update_schedule_1a938cbfd08fdcb3e4e81bb2a73f7ced1c" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator::UpdateSchedule</scope><name>interval</name></member>
+      <member refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_update_schedule_1a89159856c58baee38852824a215787ec" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator::UpdateSchedule</scope><name>min_document_change</name></member>
+      <member refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_update_schedule_1a7d1f1e46ecff0c43724d3b08dc97ca52" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator::UpdateSchedule</scope><name>min_keyword_change</name></member>
+      <member refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_update_schedule_1a76461137b1404d14818c0e25612cba5d" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator::UpdateSchedule</scope><name>require_review</name></member>
+      <member refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_update_schedule_1aeb41bcc37b37af01ed1dd6f94262d536" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator::UpdateSchedule</scope><name>shard_type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

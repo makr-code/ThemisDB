@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structllm_1_1_adapter_deployment_manager_1_1_health_check_result" kind="struct" language="C++" prot="public">
+    <compoundname>llm::AdapterDeploymentManager::HealthCheckResult</compoundname>
+    <includes refid="adapter__deployment__manager_8h" local="no">adapter_deployment_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structllm_1_1_adapter_deployment_manager_1_1_health_check_result_1a20576a50614e796faf8f649f3e71c4a3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string llm::AdapterDeploymentManager::HealthCheckResult::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>llm::AdapterDeploymentManager::HealthCheckResult::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="315" column="21" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="315" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_adapter_deployment_manager_1_1_health_check_result_1a1656f68e367b084fb60a165906ad5b65" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool llm::AdapterDeploymentManager::HealthCheckResult::is_healthy</definition>
+        <argsstring></argsstring>
+        <name>is_healthy</name>
+        <qualifiedname>llm::AdapterDeploymentManager::HealthCheckResult::is_healthy</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="316" column="14" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="316" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_adapter_deployment_manager_1_1_health_check_result_1abf9537064719198f4e74ac04a0e21b59" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string llm::AdapterDeploymentManager::HealthCheckResult::adapter_id</definition>
+        <argsstring></argsstring>
+        <name>adapter_id</name>
+        <qualifiedname>llm::AdapterDeploymentManager::HealthCheckResult::adapter_id</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="317" column="21" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="317" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_adapter_deployment_manager_1_1_health_check_result_1a9216b08859564e30fa2f0e093f0fd7bb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string llm::AdapterDeploymentManager::HealthCheckResult::issue_description</definition>
+        <argsstring></argsstring>
+        <name>issue_description</name>
+        <qualifiedname>llm::AdapterDeploymentManager::HealthCheckResult::issue_description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="318" column="21" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="318" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_adapter_deployment_manager_1_1_health_check_result_1ad9e64f13a7a385b545295b5329f696d6" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t llm::AdapterDeploymentManager::HealthCheckResult::last_check_timestamp</definition>
+        <argsstring></argsstring>
+        <name>last_check_timestamp</name>
+        <qualifiedname>llm::AdapterDeploymentManager::HealthCheckResult::last_check_timestamp</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="319" column="17" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="319" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/adapter_deployment_manager.h" line="314" column="5" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="314" bodyend="320"/>
+    <listofallmembers>
+      <member refid="structllm_1_1_adapter_deployment_manager_1_1_health_check_result_1abf9537064719198f4e74ac04a0e21b59" prot="public" virt="non-virtual"><scope>llm::AdapterDeploymentManager::HealthCheckResult</scope><name>adapter_id</name></member>
+      <member refid="structllm_1_1_adapter_deployment_manager_1_1_health_check_result_1a1656f68e367b084fb60a165906ad5b65" prot="public" virt="non-virtual"><scope>llm::AdapterDeploymentManager::HealthCheckResult</scope><name>is_healthy</name></member>
+      <member refid="structllm_1_1_adapter_deployment_manager_1_1_health_check_result_1a9216b08859564e30fa2f0e093f0fd7bb" prot="public" virt="non-virtual"><scope>llm::AdapterDeploymentManager::HealthCheckResult</scope><name>issue_description</name></member>
+      <member refid="structllm_1_1_adapter_deployment_manager_1_1_health_check_result_1ad9e64f13a7a385b545295b5329f696d6" prot="public" virt="non-virtual"><scope>llm::AdapterDeploymentManager::HealthCheckResult</scope><name>last_check_timestamp</name></member>
+      <member refid="structllm_1_1_adapter_deployment_manager_1_1_health_check_result_1a20576a50614e796faf8f649f3e71c4a3" prot="public" virt="non-virtual"><scope>llm::AdapterDeploymentManager::HealthCheckResult</scope><name>shard_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

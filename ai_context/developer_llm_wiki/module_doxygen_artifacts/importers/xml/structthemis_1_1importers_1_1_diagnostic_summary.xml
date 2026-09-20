@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_diagnostic_summary" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::DiagnosticSummary</compoundname>
+    <includes refid="diagnostics_8h" local="no">diagnostics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_diagnostic_summary_1a9f9a2d9da4626599c9a66b07c264269e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::DiagnosticSummary::import_id</definition>
+        <argsstring></argsstring>
+        <name>import_id</name>
+        <qualifiedname>themis::importers::DiagnosticSummary::import_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/diagnostics.h" line="85" column="17" bodyfile="include/importers/diagnostics.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_diagnostic_summary_1a1a27766d826f377e8454a320de843511" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::importers::DiagnosticSummary::import_duration_ms</definition>
+        <argsstring></argsstring>
+        <name>import_duration_ms</name>
+        <qualifiedname>themis::importers::DiagnosticSummary::import_duration_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/diagnostics.h" line="87" column="14" bodyfile="include/importers/diagnostics.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_diagnostic_summary_1adf82588952132a8ddaa79206b3a39703" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::importers::DiagnosticSummary::total_records_attempted</definition>
+        <argsstring></argsstring>
+        <name>total_records_attempted</name>
+        <qualifiedname>themis::importers::DiagnosticSummary::total_records_attempted</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/diagnostics.h" line="89" column="14" bodyfile="include/importers/diagnostics.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_diagnostic_summary_1aeb0708f31e274ce376852cc693e51090" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::importers::DiagnosticSummary::failure_count</definition>
+        <argsstring></argsstring>
+        <name>failure_count</name>
+        <qualifiedname>themis::importers::DiagnosticSummary::failure_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/diagnostics.h" line="91" column="14" bodyfile="include/importers/diagnostics.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_diagnostic_summary_1a4ae836a74db14dda8faacc1e23f3a23c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::importers::DiagnosticSummary::warning_count</definition>
+        <argsstring></argsstring>
+        <name>warning_count</name>
+        <qualifiedname>themis::importers::DiagnosticSummary::warning_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/diagnostics.h" line="93" column="14" bodyfile="include/importers/diagnostics.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_diagnostic_summary_1a3c7309e15770b8481cea8e40592fc94f" prot="public" static="no" mutable="no">
+        <type>std::map&lt; <ref refid="namespacethemis_1_1importers_1a190b9c6027d26494aef9c7d1a92f5ff5" kindref="member">FailureCategory</ref>, uint32_t &gt;</type>
+        <definition>std::map&lt;FailureCategory, uint32_t&gt; themis::importers::DiagnosticSummary::failures_by_category</definition>
+        <argsstring></argsstring>
+        <name>failures_by_category</name>
+        <qualifiedname>themis::importers::DiagnosticSummary::failures_by_category</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/diagnostics.h" line="95" column="14" bodyfile="include/importers/diagnostics.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_diagnostic_summary_1abcdeca519677ffcac3ea8f6cce54521b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, uint32_t &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, uint32_t&gt; &gt; themis::importers::DiagnosticSummary::top_5_root_causes</definition>
+        <argsstring></argsstring>
+        <name>top_5_root_causes</name>
+        <qualifiedname>themis::importers::DiagnosticSummary::top_5_root_causes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/diagnostics.h" line="97" column="17" bodyfile="include/importers/diagnostics.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_diagnostic_summary_1ae4111a6de02f91d5b412c4d3d31d38e7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::DiagnosticSummary::common_remediation</definition>
+        <argsstring></argsstring>
+        <name>common_remediation</name>
+        <qualifiedname>themis::importers::DiagnosticSummary::common_remediation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/diagnostics.h" line="99" column="17" bodyfile="include/importers/diagnostics.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_diagnostic_summary_1a543a15a0f4212f9685422137b5c962ec" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_diagnostic_record" kindref="compound">DiagnosticRecord</ref> &gt;</type>
+        <definition>std::vector&lt;DiagnosticRecord&gt; themis::importers::DiagnosticSummary::all_diagnostics</definition>
+        <argsstring></argsstring>
+        <name>all_diagnostics</name>
+        <qualifiedname>themis::importers::DiagnosticSummary::all_diagnostics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/diagnostics.h" line="101" column="17" bodyfile="include/importers/diagnostics.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_diagnostic_summary_1af42ca34839d45b805b46d712a1174a62" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::DiagnosticSummary::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::importers::DiagnosticSummary::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/diagnostics.h" line="103" column="10" bodyfile="include/importers/diagnostics.h" bodystart="103" bodyend="135"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/diagnostics.h" line="84" column="1" bodyfile="include/importers/diagnostics.h" bodystart="84" bodyend="136"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_diagnostic_summary_1a543a15a0f4212f9685422137b5c962ec" prot="public" virt="non-virtual"><scope>themis::importers::DiagnosticSummary</scope><name>all_diagnostics</name></member>
+      <member refid="structthemis_1_1importers_1_1_diagnostic_summary_1ae4111a6de02f91d5b412c4d3d31d38e7" prot="public" virt="non-virtual"><scope>themis::importers::DiagnosticSummary</scope><name>common_remediation</name></member>
+      <member refid="structthemis_1_1importers_1_1_diagnostic_summary_1aeb0708f31e274ce376852cc693e51090" prot="public" virt="non-virtual"><scope>themis::importers::DiagnosticSummary</scope><name>failure_count</name></member>
+      <member refid="structthemis_1_1importers_1_1_diagnostic_summary_1a3c7309e15770b8481cea8e40592fc94f" prot="public" virt="non-virtual"><scope>themis::importers::DiagnosticSummary</scope><name>failures_by_category</name></member>
+      <member refid="structthemis_1_1importers_1_1_diagnostic_summary_1a1a27766d826f377e8454a320de843511" prot="public" virt="non-virtual"><scope>themis::importers::DiagnosticSummary</scope><name>import_duration_ms</name></member>
+      <member refid="structthemis_1_1importers_1_1_diagnostic_summary_1a9f9a2d9da4626599c9a66b07c264269e" prot="public" virt="non-virtual"><scope>themis::importers::DiagnosticSummary</scope><name>import_id</name></member>
+      <member refid="structthemis_1_1importers_1_1_diagnostic_summary_1af42ca34839d45b805b46d712a1174a62" prot="public" virt="non-virtual"><scope>themis::importers::DiagnosticSummary</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1importers_1_1_diagnostic_summary_1abcdeca519677ffcac3ea8f6cce54521b" prot="public" virt="non-virtual"><scope>themis::importers::DiagnosticSummary</scope><name>top_5_root_causes</name></member>
+      <member refid="structthemis_1_1importers_1_1_diagnostic_summary_1adf82588952132a8ddaa79206b3a39703" prot="public" virt="non-virtual"><scope>themis::importers::DiagnosticSummary</scope><name>total_records_attempted</name></member>
+      <member refid="structthemis_1_1importers_1_1_diagnostic_summary_1a4ae836a74db14dda8faacc1e23f3a23c" prot="public" virt="non-virtual"><scope>themis::importers::DiagnosticSummary</scope><name>warning_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__44___processor_inventory_coverage" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::test::CMT_FIN_44_ProcessorInventoryCoverage</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__44___processor_inventory_coverage_1af578412b7b414f7f3a6fe5eaf0ec6777" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path themis::content::test::CMT_FIN_44_ProcessorInventoryCoverage::content_module_path</definition>
+        <argsstring></argsstring>
+        <name>content_module_path</name>
+        <qualifiedname>themis::content::test::CMT_FIN_44_ProcessorInventoryCoverage::content_module_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_docs_linkset_validation.cpp" line="212" column="14" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__44___processor_inventory_coverage_1ae1260369a9c2975297541ff972a6368c" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path themis::content::test::CMT_FIN_44_ProcessorInventoryCoverage::root_path</definition>
+        <argsstring></argsstring>
+        <name>root_path</name>
+        <qualifiedname>themis::content::test::CMT_FIN_44_ProcessorInventoryCoverage::root_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_docs_linkset_validation.cpp" line="213" column="14" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="213" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__44___processor_inventory_coverage_1ac052c917bc7760b5aa46fee29963c2fb" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt; std::string &gt; themis::content::test::CMT_FIN_44_ProcessorInventoryCoverage::extractProcessorNames</definition>
+        <argsstring>(const std::string &amp;content)</argsstring>
+        <name>extractProcessorNames</name>
+        <qualifiedname>themis::content::test::CMT_FIN_44_ProcessorInventoryCoverage::extractProcessorNames</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_docs_linkset_validation.cpp" line="215" column="14" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="215" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__44___processor_inventory_coverage_1a3d192e64566f9942ec72af6951e4cca6" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::test::CMT_FIN_44_ProcessorInventoryCoverage::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::content::test::CMT_FIN_44_ProcessorInventoryCoverage::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_docs_linkset_validation.cpp" line="235" column="10" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="235" bodyend="239"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::content::test::CMT_FIN_44_ProcessorInventoryCoverage</label>
+        <link refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__44___processor_inventory_coverage"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::content::test::CMT_FIN_44_ProcessorInventoryCoverage</label>
+        <link refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__44___processor_inventory_coverage"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/content/test_content_docs_linkset_validation.cpp" line="210" column="1" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="210" bodyend="240"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__44___processor_inventory_coverage_1af578412b7b414f7f3a6fe5eaf0ec6777" prot="protected" virt="non-virtual"><scope>themis::content::test::CMT_FIN_44_ProcessorInventoryCoverage</scope><name>content_module_path</name></member>
+      <member refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__44___processor_inventory_coverage_1ac052c917bc7760b5aa46fee29963c2fb" prot="protected" virt="non-virtual"><scope>themis::content::test::CMT_FIN_44_ProcessorInventoryCoverage</scope><name>extractProcessorNames</name></member>
+      <member refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__44___processor_inventory_coverage_1ae1260369a9c2975297541ff972a6368c" prot="protected" virt="non-virtual"><scope>themis::content::test::CMT_FIN_44_ProcessorInventoryCoverage</scope><name>root_path</name></member>
+      <member refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__44___processor_inventory_coverage_1a3d192e64566f9942ec72af6951e4cca6" prot="protected" virt="non-virtual"><scope>themis::content::test::CMT_FIN_44_ProcessorInventoryCoverage</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

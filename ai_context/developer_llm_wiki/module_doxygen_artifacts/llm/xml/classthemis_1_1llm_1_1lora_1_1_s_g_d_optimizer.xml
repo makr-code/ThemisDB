@@ -1,0 +1,246 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_s_g_d_optimizer" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::SGDOptimizer</compoundname>
+    <includes refid="lora__layers_8h" local="no">lora_layers.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_s_g_d_optimizer_1a8bcee3bfe0530f69c65eccc959d7bd52" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::SGDOptimizer::learning_rate_</definition>
+        <argsstring></argsstring>
+        <name>learning_rate_</name>
+        <qualifiedname>themis::llm::lora::SGDOptimizer::learning_rate_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="280" column="11" bodyfile="include/llm/lora_framework/lora_layers.h" bodystart="280" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_s_g_d_optimizer_1a70747b5c28fb9a77013441e7d8af652c" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::SGDOptimizer::momentum_</definition>
+        <argsstring></argsstring>
+        <name>momentum_</name>
+        <qualifiedname>themis::llm::lora::SGDOptimizer::momentum_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="281" column="11" bodyfile="include/llm/lora_framework/lora_layers.h" bodystart="281" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_s_g_d_optimizer_1a693a61cb82032f04cadd724729d1fce1" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::SGDOptimizer::weight_decay_</definition>
+        <argsstring></argsstring>
+        <name>weight_decay_</name>
+        <qualifiedname>themis::llm::lora::SGDOptimizer::weight_decay_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="282" column="11" bodyfile="include/llm/lora_framework/lora_layers.h" bodystart="282" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_s_g_d_optimizer_1a238bedc006779b4b964e8664f924bc6e" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> * &gt;</type>
+        <definition>std::vector&lt;Tensor*&gt; themis::llm::lora::SGDOptimizer::parameters_</definition>
+        <argsstring></argsstring>
+        <name>parameters_</name>
+        <qualifiedname>themis::llm::lora::SGDOptimizer::parameters_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="283" column="17" bodyfile="include/llm/lora_framework/lora_layers.h" bodystart="283" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_s_g_d_optimizer_1aa9d47aa42d243be194a854ce894368e1" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> *, <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> &gt;</type>
+        <definition>std::unordered_map&lt;Tensor*, Tensor&gt; themis::llm::lora::SGDOptimizer::momentum_buffers_</definition>
+        <argsstring></argsstring>
+        <name>momentum_buffers_</name>
+        <qualifiedname>themis::llm::lora::SGDOptimizer::momentum_buffers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="286" column="24" bodyfile="include/llm/lora_framework/lora_layers.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_s_g_d_optimizer_1a8ab5b1ddd9f0006bc2e5a2eba5c4f018" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::SGDOptimizer::SGDOptimizer</definition>
+        <argsstring>(float learning_rate=0.001f, float momentum=0.0f, float weight_decay=0.0f)</argsstring>
+        <name>SGDOptimizer</name>
+        <qualifiedname>themis::llm::lora::SGDOptimizer::SGDOptimizer</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>learning_rate</declname>
+          <defval>0.001f</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>momentum</declname>
+          <defval>0.0f</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>weight_decay</declname>
+          <defval>0.0f</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="252" column="14" bodyfile="src/llm/lora_framework/lora_layers.cpp" bodystart="648" bodyend="654"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_s_g_d_optimizer_1a248af20b5555d24b35b3968e8e8fd4cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::SGDOptimizer::add_parameters</definition>
+        <argsstring>(const std::vector&lt; Tensor * &gt; &amp;params)</argsstring>
+        <name>add_parameters</name>
+        <qualifiedname>themis::llm::lora::SGDOptimizer::add_parameters</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> * &gt; &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Register parameters to optimize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add parameters.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: insert(), end(), begin(), spdlog::debug(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="258" column="10" bodyfile="src/llm/lora_framework/lora_layers.cpp" bodystart="661" bodyend="665"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_s_g_d_optimizer_1a8fc36751bb905a4eac841c5de8b9f814" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::SGDOptimizer::step</definition>
+        <argsstring>()</argsstring>
+        <name>step</name>
+        <qualifiedname>themis::llm::lora::SGDOptimizer::step</qualifiedname>
+        <briefdescription>
+<para>Perform optimization step (update parameters using gradients). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Step.</para>
+<para>Calls: find(), end(), Tensor(), shape(), data(), size(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="263" column="10" bodyfile="src/llm/lora_framework/lora_layers.cpp" bodystart="671" bodyend="709"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_s_g_d_optimizer_1a0e5c5731e39eaf0c70e91bd289a3ae11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::SGDOptimizer::zero_grad</definition>
+        <argsstring>()</argsstring>
+        <name>zero_grad</name>
+        <qualifiedname>themis::llm::lora::SGDOptimizer::zero_grad</qualifiedname>
+        <briefdescription>
+<para>Zero out all gradients. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Zero grad.</para>
+<para>Calls: zero(), spdlog::debug(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="268" column="10" bodyfile="src/llm/lora_framework/lora_layers.cpp" bodystart="715" bodyend="722"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_s_g_d_optimizer_1ac1defdb5b9a99b3a7e5429080ae6b2cd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::lora::SGDOptimizer::learning_rate</definition>
+        <argsstring>() const</argsstring>
+        <name>learning_rate</name>
+        <qualifiedname>themis::llm::lora::SGDOptimizer::learning_rate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="271" column="11" bodyfile="include/llm/lora_framework/lora_layers.h" bodystart="271" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_s_g_d_optimizer_1ae21155f18bf8c78d4f2358c90f2dadc3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::SGDOptimizer::set_learning_rate</definition>
+        <argsstring>(float lr)</argsstring>
+        <name>set_learning_rate</name>
+        <qualifiedname>themis::llm::lora::SGDOptimizer::set_learning_rate</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>lr</declname>
+        </param>
+        <briefdescription>
+<para>Set learning rate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements set_learning_rate without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="277" column="10" bodyfile="include/llm/lora_framework/lora_layers.h" bodystart="277" bodyend="277"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/lora_layers.h" line="250" column="1" bodyfile="include/llm/lora_framework/lora_layers.h" bodystart="250" bodyend="287"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_s_g_d_optimizer_1a248af20b5555d24b35b3968e8e8fd4cf" prot="public" virt="non-virtual"><scope>themis::llm::lora::SGDOptimizer</scope><name>add_parameters</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_s_g_d_optimizer_1ac1defdb5b9a99b3a7e5429080ae6b2cd" prot="public" virt="non-virtual"><scope>themis::llm::lora::SGDOptimizer</scope><name>learning_rate</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_s_g_d_optimizer_1a8bcee3bfe0530f69c65eccc959d7bd52" prot="private" virt="non-virtual"><scope>themis::llm::lora::SGDOptimizer</scope><name>learning_rate_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_s_g_d_optimizer_1a70747b5c28fb9a77013441e7d8af652c" prot="private" virt="non-virtual"><scope>themis::llm::lora::SGDOptimizer</scope><name>momentum_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_s_g_d_optimizer_1aa9d47aa42d243be194a854ce894368e1" prot="private" virt="non-virtual"><scope>themis::llm::lora::SGDOptimizer</scope><name>momentum_buffers_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_s_g_d_optimizer_1a238bedc006779b4b964e8664f924bc6e" prot="private" virt="non-virtual"><scope>themis::llm::lora::SGDOptimizer</scope><name>parameters_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_s_g_d_optimizer_1ae21155f18bf8c78d4f2358c90f2dadc3" prot="public" virt="non-virtual"><scope>themis::llm::lora::SGDOptimizer</scope><name>set_learning_rate</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_s_g_d_optimizer_1a8ab5b1ddd9f0006bc2e5a2eba5c4f018" prot="public" virt="non-virtual"><scope>themis::llm::lora::SGDOptimizer</scope><name>SGDOptimizer</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_s_g_d_optimizer_1a8fc36751bb905a4eac841c5de8b9f814" prot="public" virt="non-virtual"><scope>themis::llm::lora::SGDOptimizer</scope><name>step</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_s_g_d_optimizer_1a693a61cb82032f04cadd724729d1fce1" prot="private" virt="non-virtual"><scope>themis::llm::lora::SGDOptimizer</scope><name>weight_decay_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_s_g_d_optimizer_1a0e5c5731e39eaf0c70e91bd289a3ae11" prot="public" virt="non-virtual"><scope>themis::llm::lora::SGDOptimizer</scope><name>zero_grad</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

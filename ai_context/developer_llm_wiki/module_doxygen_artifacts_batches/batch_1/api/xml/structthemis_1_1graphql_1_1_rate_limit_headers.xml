@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graphql_1_1_rate_limit_headers" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graphql::RateLimitHeaders</compoundname>
+    <includes refid="rate__limiter_8h" local="no">rate_limiter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_rate_limit_headers_1a977c14893204b11fcdfc06eca6b4a9f6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graphql::RateLimitHeaders::limit</definition>
+        <argsstring></argsstring>
+        <name>limit</name>
+        <qualifiedname>themis::graphql::RateLimitHeaders::limit</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/rate_limiter.h" line="295" column="12" bodyfile="include/api/rate_limiter.h" bodystart="295" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_rate_limit_headers_1a445a1cec57a4b3ce203f91f8b176904f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graphql::RateLimitHeaders::remaining</definition>
+        <argsstring></argsstring>
+        <name>remaining</name>
+        <qualifiedname>themis::graphql::RateLimitHeaders::remaining</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/rate_limiter.h" line="296" column="12" bodyfile="include/api/rate_limiter.h" bodystart="296" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_rate_limit_headers_1ab3ad7eaadc5b5a93b3ee44a7b44f76d1" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::graphql::RateLimitHeaders::reset</definition>
+        <argsstring></argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::graphql::RateLimitHeaders::reset</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/rate_limiter.h" line="297" column="26" bodyfile="include/api/rate_limiter.h" bodystart="297" bodyend="297"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_rate_limit_headers_1a86282f40b514703323dddc836ebb837c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt; std::string, std::string &gt; themis::graphql::RateLimitHeaders::toHeaders</definition>
+        <argsstring>() const</argsstring>
+        <name>toHeaders</name>
+        <qualifiedname>themis::graphql::RateLimitHeaders::toHeaders</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/rate_limiter.h" line="299" column="24" bodyfile="include/api/rate_limiter.h" bodystart="299" bodyend="305"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/rate_limiter.h" line="294" column="1" bodyfile="include/api/rate_limiter.h" bodystart="294" bodyend="306"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graphql_1_1_rate_limit_headers_1a977c14893204b11fcdfc06eca6b4a9f6" prot="public" virt="non-virtual"><scope>themis::graphql::RateLimitHeaders</scope><name>limit</name></member>
+      <member refid="structthemis_1_1graphql_1_1_rate_limit_headers_1a445a1cec57a4b3ce203f91f8b176904f" prot="public" virt="non-virtual"><scope>themis::graphql::RateLimitHeaders</scope><name>remaining</name></member>
+      <member refid="structthemis_1_1graphql_1_1_rate_limit_headers_1ab3ad7eaadc5b5a93b3ee44a7b44f76d1" prot="public" virt="non-virtual"><scope>themis::graphql::RateLimitHeaders</scope><name>reset</name></member>
+      <member refid="structthemis_1_1graphql_1_1_rate_limit_headers_1a86282f40b514703323dddc836ebb837c" prot="public" virt="non-virtual"><scope>themis::graphql::RateLimitHeaders</scope><name>toHeaders</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

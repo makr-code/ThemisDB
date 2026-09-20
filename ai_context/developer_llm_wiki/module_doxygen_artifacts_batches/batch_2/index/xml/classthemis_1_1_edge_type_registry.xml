@@ -1,0 +1,757 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_edge_type_registry" kind="class" language="C++" prot="public">
+    <compoundname>themis::EdgeTypeRegistry</compoundname>
+    <includes refid="edge__types_8h" local="no">edge_types.h</includes>
+    <innerclass refid="structthemis_1_1_edge_type_registry_1_1_status" prot="public">themis::EdgeTypeRegistry::Status</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1_edge_type_registry_1a233eecc765e47becf3d16b075d914b77" prot="public" static="no">
+        <type>std::function&lt; bool(const std::string &amp;type, const class BaseEntity &amp;edge)&gt;</type>
+        <definition>using themis::EdgeTypeRegistry::ValidationFunc = std::function&lt;bool(const std::string&amp; type, const class BaseEntity&amp; edge)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ValidationFunc</name>
+        <qualifiedname>themis::EdgeTypeRegistry::ValidationFunc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/edge_types.h" line="48" column="5" bodyfile="include/index/edge_types.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_edge_type_registry_1a21cf87f5776cded9510d4e0cfa6d6aaa" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1_edge_type_info" kindref="compound">EdgeTypeInfo</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, EdgeTypeInfo&gt; themis::EdgeTypeRegistry::types_</definition>
+        <argsstring></argsstring>
+        <name>types_</name>
+        <qualifiedname>themis::EdgeTypeRegistry::types_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/edge_types.h" line="163" column="24" bodyfile="include/index/edge_types.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_edge_type_registry_1ab7eb1c47afeab308f677f545638e62cf" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="classthemis_1_1_edge_type_registry_1a233eecc765e47becf3d16b075d914b77" kindref="member">ValidationFunc</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, ValidationFunc&gt; themis::EdgeTypeRegistry::validators_</definition>
+        <argsstring></argsstring>
+        <name>validators_</name>
+        <qualifiedname>themis::EdgeTypeRegistry::validators_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/edge_types.h" line="164" column="24" bodyfile="include/index/edge_types.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_edge_type_registry_1a8e35c55f8d381779e1b5dfcee9b2d008" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="namespacethemis_1a2c28054804de81e270b1be226f2dc787" kindref="member">EdgeCategory</ref>, std::unordered_set&lt; std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt;EdgeCategory, std::unordered_set&lt;std::string&gt; &gt; themis::EdgeTypeRegistry::category_index_</definition>
+        <argsstring></argsstring>
+        <name>category_index_</name>
+        <qualifiedname>themis::EdgeTypeRegistry::category_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/edge_types.h" line="165" column="24" bodyfile="include/index/edge_types.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_edge_type_registry_1ac9ab6a7132491d3dfb91a7a307bb2f75" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::EdgeTypeRegistry::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::EdgeTypeRegistry::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/edge_types.h" line="166" column="10" bodyfile="include/index/edge_types.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_edge_type_registry_1a84f53622d6107793f7800b34451d21c0" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::EdgeTypeRegistry::registry_mutex_</definition>
+        <argsstring></argsstring>
+        <name>registry_mutex_</name>
+        <qualifiedname>themis::EdgeTypeRegistry::registry_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/edge_types.h" line="167" column="31" bodyfile="include/index/edge_types.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_edge_type_registry_1a74124b0cc1a4fb950db9713da34894a1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>EdgeTypeRegistry &amp;</type>
+        <definition>EdgeTypeRegistry &amp; themis::EdgeTypeRegistry::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::EdgeTypeRegistry::instance</qualifiedname>
+        <briefdescription>
+<para>Instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::call_once(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/edge_types.h" line="72" column="29" bodyfile="src/index/edge_types.cpp" bodystart="29" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_edge_type_registry_1a4e860ceafd8f2ba892919e7916fe1d98" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::EdgeTypeRegistry::categoryToString</definition>
+        <argsstring>(EdgeCategory category)</argsstring>
+        <name>categoryToString</name>
+        <qualifiedname>themis::EdgeTypeRegistry::categoryToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1a2c28054804de81e270b1be226f2dc787" kindref="member">EdgeCategory</ref></type>
+          <declname>category</declname>
+        </param>
+        <briefdescription>
+<para>Category To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">category</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">category</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements categoryToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/edge_types.h" line="148" column="24" bodyfile="src/index/edge_types.cpp" bodystart="497" bodyend="508"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_edge_type_registry_1aa684049224b73938c17a8a2212e809f8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1a2c28054804de81e270b1be226f2dc787" kindref="member">EdgeCategory</ref> &gt;</type>
+        <definition>std::optional&lt; EdgeCategory &gt; themis::EdgeTypeRegistry::categoryFromString</definition>
+        <argsstring>(std::string_view str)</argsstring>
+        <name>categoryFromString</name>
+        <qualifiedname>themis::EdgeTypeRegistry::categoryFromString</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+<para>Category From String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements categoryFromString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/edge_types.h" line="155" column="26" bodyfile="src/index/edge_types.cpp" bodystart="516" bodyend="539"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_edge_type_registry_1aaaaabdd0cd7e543239f197480ae86d8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::EdgeTypeRegistry::initializeBuiltinTypes</definition>
+        <argsstring>()</argsstring>
+        <name>initializeBuiltinTypes</name>
+        <qualifiedname>themis::EdgeTypeRegistry::initializeBuiltinTypes</qualifiedname>
+        <briefdescription>
+<para>Initialize Builtin Types. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: registerBuiltinType_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/edge_types.h" line="77" column="10" bodyfile="src/index/edge_types.cpp" bodystart="41" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_edge_type_registry_1ae236c68bed484b690963a6525d4ab086" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_edge_type_registry_1_1_status" kindref="compound">Status</ref></type>
+        <definition>EdgeTypeRegistry::Status themis::EdgeTypeRegistry::registerType</definition>
+        <argsstring>(const EdgeTypeInfo &amp;info)</argsstring>
+        <name>registerType</name>
+        <qualifiedname>themis::EdgeTypeRegistry::registerType</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_edge_type_info" kindref="compound">EdgeTypeInfo</ref> &amp;</type>
+          <declname>info</declname>
+        </param>
+        <briefdescription>
+<para>Register Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), <ref refid="structthemis_1_1_edge_type_registry_1_1_status_1afd2a2ded5b4863476ca073bdd3e2bcbf" kindref="member">Status::Error()</ref>, lock(), count(), insert(), <ref refid="structthemis_1_1_edge_type_registry_1_1_status_1af5689d3036f497c9738a274873d117fe" kindref="member">Status::OK()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/edge_types.h" line="84" column="12" bodyfile="src/index/edge_types.cpp" bodystart="326" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_edge_type_registry_1a2e028a15d0f294a2e7ac6f6973d86b3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_edge_type_registry_1_1_status" kindref="compound">Status</ref></type>
+        <definition>EdgeTypeRegistry::Status themis::EdgeTypeRegistry::registerType</definition>
+        <argsstring>(const EdgeTypeInfo &amp;info, ValidationFunc validator)</argsstring>
+        <name>registerType</name>
+        <qualifiedname>themis::EdgeTypeRegistry::registerType</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_edge_type_info" kindref="compound">EdgeTypeInfo</ref> &amp;</type>
+          <declname>info</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_edge_type_registry_1a233eecc765e47becf3d16b075d914b77" kindref="member">ValidationFunc</ref></type>
+          <declname>validator</declname>
+        </param>
+        <briefdescription>
+<para>Register Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">validator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">validator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), <ref refid="structthemis_1_1_edge_type_registry_1_1_status_1afd2a2ded5b4863476ca073bdd3e2bcbf" kindref="member">Status::Error()</ref>, lock(), count(), insert(), std::move(), <ref refid="structthemis_1_1_edge_type_registry_1_1_status_1af5689d3036f497c9738a274873d117fe" kindref="member">Status::OK()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/edge_types.h" line="92" column="12" bodyfile="src/index/edge_types.cpp" bodystart="350" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_edge_type_registry_1ac11a338d35af5d399b3bb51482983abd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::EdgeTypeRegistry::isRegistered</definition>
+        <argsstring>(std::string_view type_name) const</argsstring>
+        <name>isRegistered</name>
+        <qualifiedname>themis::EdgeTypeRegistry::isRegistered</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>type_name</declname>
+        </param>
+        <briefdescription>
+<para>Is Registered. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the type. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/edge_types.h" line="99" column="10" bodyfile="src/index/edge_types.cpp" bodystart="367" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_edge_type_registry_1a74395e0b3840b9de7e670aaea51d0107" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_edge_type_info" kindref="compound">EdgeTypeInfo</ref> &gt;</type>
+        <definition>std::optional&lt; EdgeTypeInfo &gt; themis::EdgeTypeRegistry::getTypeInfo</definition>
+        <argsstring>(std::string_view type_name) const</argsstring>
+        <name>getTypeInfo</name>
+        <qualifiedname>themis::EdgeTypeRegistry::getTypeInfo</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>type_name</declname>
+        </param>
+        <briefdescription>
+<para>Get Type Info. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the type. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/edge_types.h" line="106" column="19" bodyfile="src/index/edge_types.cpp" bodystart="377" bodyend="389"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_edge_type_registry_1a6548a50b5531d228e0d1b7658154163f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::EdgeTypeRegistry::getTypesByCategory</definition>
+        <argsstring>(EdgeCategory category) const</argsstring>
+        <name>getTypesByCategory</name>
+        <qualifiedname>themis::EdgeTypeRegistry::getTypesByCategory</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1a2c28054804de81e270b1be226f2dc787" kindref="member">EdgeCategory</ref></type>
+          <declname>category</declname>
+        </param>
+        <briefdescription>
+<para>Get Types By Category. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">category</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/edge_types.h" line="113" column="17" bodyfile="src/index/edge_types.cpp" bodystart="391" bodyend="404"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_edge_type_registry_1a1c0fe9ea2f3b30e0fcd5fa33cc2f474f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1a2c28054804de81e270b1be226f2dc787" kindref="member">EdgeCategory</ref> &gt;</type>
+        <definition>std::optional&lt; EdgeCategory &gt; themis::EdgeTypeRegistry::getCategoryForType</definition>
+        <argsstring>(std::string_view type_name) const</argsstring>
+        <name>getCategoryForType</name>
+        <qualifiedname>themis::EdgeTypeRegistry::getCategoryForType</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>type_name</declname>
+        </param>
+        <briefdescription>
+<para>Get Category For Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the type. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>A-2. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+5: Thread-safe read-only iterator access with shared_lock</para>
+        </inbodydescription>
+        <location file="include/index/edge_types.h" line="120" column="19" bodyfile="src/index/edge_types.cpp" bodystart="406" bodyend="419"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_edge_type_registry_1ac322f1139a4f748146e161800967ff6d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_edge_type_registry_1_1_status" kindref="compound">Status</ref></type>
+        <definition>EdgeTypeRegistry::Status themis::EdgeTypeRegistry::validateEdge</definition>
+        <argsstring>(std::string_view type_name, const class BaseEntity &amp;edge) const</argsstring>
+        <name>validateEdge</name>
+        <qualifiedname>themis::EdgeTypeRegistry::validateEdge</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>type_name</declname>
+        </param>
+        <param>
+          <type>const class BaseEntity &amp;</type>
+          <declname>edge</declname>
+        </param>
+        <briefdescription>
+<para>Validate Edge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the type. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">edge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/edge_types.h" line="128" column="12" bodyfile="src/index/edge_types.cpp" bodystart="421" bodyend="459"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_edge_type_registry_1a38d05bf7ede368180802d87119326bc7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::EdgeTypeRegistry::getInverseType</definition>
+        <argsstring>(std::string_view type_name) const</argsstring>
+        <name>getInverseType</name>
+        <qualifiedname>themis::EdgeTypeRegistry::getInverseType</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>type_name</declname>
+        </param>
+        <briefdescription>
+<para>Get Inverse Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the type. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/edge_types.h" line="135" column="19" bodyfile="src/index/edge_types.cpp" bodystart="461" bodyend="473"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_edge_type_registry_1a0950fcd61dc972fce6f7b15c84a6edcf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::EdgeTypeRegistry::listAllTypes</definition>
+        <argsstring>() const</argsstring>
+        <name>listAllTypes</name>
+        <qualifiedname>themis::EdgeTypeRegistry::listAllTypes</qualifiedname>
+        <briefdescription>
+<para>List All Types. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/edge_types.h" line="141" column="17" bodyfile="src/index/edge_types.cpp" bodystart="475" bodyend="489"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_edge_type_registry_1af2c220f3a849ed0bc4cdc93b1fc581b3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::EdgeTypeRegistry::EdgeTypeRegistry</definition>
+        <argsstring>()</argsstring>
+        <name>EdgeTypeRegistry</name>
+        <qualifiedname>themis::EdgeTypeRegistry::EdgeTypeRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/edge_types.h" line="158" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_edge_type_registry_1a420ff71f647ba8eb922d5a254282097e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::EdgeTypeRegistry::~EdgeTypeRegistry</definition>
+        <argsstring>()=default</argsstring>
+        <name>~EdgeTypeRegistry</name>
+        <qualifiedname>themis::EdgeTypeRegistry::~EdgeTypeRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/edge_types.h" line="159" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_edge_type_registry_1a7c491c2310c77c3e74e3fb9840b2f0a2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::EdgeTypeRegistry::EdgeTypeRegistry</definition>
+        <argsstring>(const EdgeTypeRegistry &amp;)=delete</argsstring>
+        <name>EdgeTypeRegistry</name>
+        <qualifiedname>themis::EdgeTypeRegistry::EdgeTypeRegistry</qualifiedname>
+        <param>
+          <type>const EdgeTypeRegistry &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/edge_types.h" line="160" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_edge_type_registry_1a7bf92d6eaa944b8ae3b02c540263351a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>EdgeTypeRegistry &amp;</type>
+        <definition>EdgeTypeRegistry &amp; themis::EdgeTypeRegistry::operator=</definition>
+        <argsstring>(const EdgeTypeRegistry &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::EdgeTypeRegistry::operator=</qualifiedname>
+        <param>
+          <type>const EdgeTypeRegistry &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/edge_types.h" line="161" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_edge_type_registry_1ac001c5b477e36703e2ac00000b017bdc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::EdgeTypeRegistry::registerBuiltinType_</definition>
+        <argsstring>(const EdgeTypeInfo &amp;info)</argsstring>
+        <name>registerBuiltinType_</name>
+        <qualifiedname>themis::EdgeTypeRegistry::registerBuiltinType_</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_edge_type_info" kindref="compound">EdgeTypeInfo</ref> &amp;</type>
+          <declname>info</declname>
+        </param>
+        <briefdescription>
+<para>Register Builtin Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: insert(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/edge_types.h" line="173" column="10" bodyfile="src/index/edge_types.cpp" bodystart="315" bodyend="318"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/edge_types.h" line="46" column="1" bodyfile="include/index/edge_types.h" bodystart="46" bodyend="174"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_edge_type_registry_1a8e35c55f8d381779e1b5dfcee9b2d008" prot="private" virt="non-virtual"><scope>themis::EdgeTypeRegistry</scope><name>category_index_</name></member>
+      <member refid="classthemis_1_1_edge_type_registry_1aa684049224b73938c17a8a2212e809f8" prot="public" virt="non-virtual"><scope>themis::EdgeTypeRegistry</scope><name>categoryFromString</name></member>
+      <member refid="classthemis_1_1_edge_type_registry_1a4e860ceafd8f2ba892919e7916fe1d98" prot="public" virt="non-virtual"><scope>themis::EdgeTypeRegistry</scope><name>categoryToString</name></member>
+      <member refid="classthemis_1_1_edge_type_registry_1af2c220f3a849ed0bc4cdc93b1fc581b3" prot="private" virt="non-virtual"><scope>themis::EdgeTypeRegistry</scope><name>EdgeTypeRegistry</name></member>
+      <member refid="classthemis_1_1_edge_type_registry_1a7c491c2310c77c3e74e3fb9840b2f0a2" prot="private" virt="non-virtual"><scope>themis::EdgeTypeRegistry</scope><name>EdgeTypeRegistry</name></member>
+      <member refid="classthemis_1_1_edge_type_registry_1a1c0fe9ea2f3b30e0fcd5fa33cc2f474f" prot="public" virt="non-virtual"><scope>themis::EdgeTypeRegistry</scope><name>getCategoryForType</name></member>
+      <member refid="classthemis_1_1_edge_type_registry_1a38d05bf7ede368180802d87119326bc7" prot="public" virt="non-virtual"><scope>themis::EdgeTypeRegistry</scope><name>getInverseType</name></member>
+      <member refid="classthemis_1_1_edge_type_registry_1a74395e0b3840b9de7e670aaea51d0107" prot="public" virt="non-virtual"><scope>themis::EdgeTypeRegistry</scope><name>getTypeInfo</name></member>
+      <member refid="classthemis_1_1_edge_type_registry_1a6548a50b5531d228e0d1b7658154163f" prot="public" virt="non-virtual"><scope>themis::EdgeTypeRegistry</scope><name>getTypesByCategory</name></member>
+      <member refid="classthemis_1_1_edge_type_registry_1aaaaabdd0cd7e543239f197480ae86d8d" prot="public" virt="non-virtual"><scope>themis::EdgeTypeRegistry</scope><name>initializeBuiltinTypes</name></member>
+      <member refid="classthemis_1_1_edge_type_registry_1ac9ab6a7132491d3dfb91a7a307bb2f75" prot="private" virt="non-virtual"><scope>themis::EdgeTypeRegistry</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1_edge_type_registry_1a74124b0cc1a4fb950db9713da34894a1" prot="public" virt="non-virtual"><scope>themis::EdgeTypeRegistry</scope><name>instance</name></member>
+      <member refid="classthemis_1_1_edge_type_registry_1ac11a338d35af5d399b3bb51482983abd" prot="public" virt="non-virtual"><scope>themis::EdgeTypeRegistry</scope><name>isRegistered</name></member>
+      <member refid="classthemis_1_1_edge_type_registry_1a0950fcd61dc972fce6f7b15c84a6edcf" prot="public" virt="non-virtual"><scope>themis::EdgeTypeRegistry</scope><name>listAllTypes</name></member>
+      <member refid="classthemis_1_1_edge_type_registry_1a7bf92d6eaa944b8ae3b02c540263351a" prot="private" virt="non-virtual"><scope>themis::EdgeTypeRegistry</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_edge_type_registry_1ac001c5b477e36703e2ac00000b017bdc" prot="private" virt="non-virtual"><scope>themis::EdgeTypeRegistry</scope><name>registerBuiltinType_</name></member>
+      <member refid="classthemis_1_1_edge_type_registry_1ae236c68bed484b690963a6525d4ab086" prot="public" virt="non-virtual"><scope>themis::EdgeTypeRegistry</scope><name>registerType</name></member>
+      <member refid="classthemis_1_1_edge_type_registry_1a2e028a15d0f294a2e7ac6f6973d86b3e" prot="public" virt="non-virtual"><scope>themis::EdgeTypeRegistry</scope><name>registerType</name></member>
+      <member refid="classthemis_1_1_edge_type_registry_1a84f53622d6107793f7800b34451d21c0" prot="private" virt="non-virtual"><scope>themis::EdgeTypeRegistry</scope><name>registry_mutex_</name></member>
+      <member refid="classthemis_1_1_edge_type_registry_1a21cf87f5776cded9510d4e0cfa6d6aaa" prot="private" virt="non-virtual"><scope>themis::EdgeTypeRegistry</scope><name>types_</name></member>
+      <member refid="classthemis_1_1_edge_type_registry_1ac322f1139a4f748146e161800967ff6d" prot="public" virt="non-virtual"><scope>themis::EdgeTypeRegistry</scope><name>validateEdge</name></member>
+      <member refid="classthemis_1_1_edge_type_registry_1a233eecc765e47becf3d16b075d914b77" prot="public" virt="non-virtual"><scope>themis::EdgeTypeRegistry</scope><name>ValidationFunc</name></member>
+      <member refid="classthemis_1_1_edge_type_registry_1ab7eb1c47afeab308f677f545638e62cf" prot="private" virt="non-virtual"><scope>themis::EdgeTypeRegistry</scope><name>validators_</name></member>
+      <member refid="classthemis_1_1_edge_type_registry_1a420ff71f647ba8eb922d5a254282097e" prot="private" virt="non-virtual"><scope>themis::EdgeTypeRegistry</scope><name>~EdgeTypeRegistry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

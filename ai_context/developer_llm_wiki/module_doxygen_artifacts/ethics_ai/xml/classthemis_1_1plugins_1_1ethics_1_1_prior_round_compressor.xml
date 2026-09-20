@@ -1,0 +1,580 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::PriorRoundCompressor</compoundname>
+    <includes refid="prior__round__compressor_8h" local="no">prior_round_compressor.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1ab1e2543c7d477849e8e231c76561453f" prot="public" static="no">
+        <type>std::function&lt; std::string( const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument" kindref="compound">EthicalArgument</ref> &amp;arg, int max_tokens)&gt;</type>
+        <definition>using themis::plugins::ethics::PriorRoundCompressor::LlmSummaryFn = std::function&lt;std::string(
+       const EthicalArgument&amp; arg, int max_tokens)&gt;</definition>
+        <argsstring></argsstring>
+        <name>LlmSummaryFn</name>
+        <qualifiedname>themis::plugins::ethics::PriorRoundCompressor::LlmSummaryFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/prior_round_compressor.h" line="88" column="5" bodyfile="include/ethics_ai/prior_round_compressor.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1ad690cd9ee30ef34b59d1bc9817a334cd" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1ab1e2543c7d477849e8e231c76561453f" kindref="member">LlmSummaryFn</ref></type>
+        <definition>LlmSummaryFn themis::plugins::ethics::PriorRoundCompressor::llm_summary_fn_</definition>
+        <argsstring></argsstring>
+        <name>llm_summary_fn_</name>
+        <qualifiedname>themis::plugins::ethics::PriorRoundCompressor::llm_summary_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/prior_round_compressor.h" line="161" column="18" bodyfile="include/ethics_ai/prior_round_compressor.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1adf8d6265a2a6c361e2e86259e08b452c" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::plugins::ethics::PriorRoundCompressor::llm_fn_mutex_</definition>
+        <argsstring></argsstring>
+        <name>llm_fn_mutex_</name>
+        <qualifiedname>themis::plugins::ethics::PriorRoundCompressor::llm_fn_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/prior_round_compressor.h" line="163" column="24" bodyfile="include/ethics_ai/prior_round_compressor.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1af8c012ae531296b59e2d5c24b6a5cd01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::PriorRoundCompressor::PriorRoundCompressor</definition>
+        <argsstring>()=default</argsstring>
+        <name>PriorRoundCompressor</name>
+        <qualifiedname>themis::plugins::ethics::PriorRoundCompressor::PriorRoundCompressor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/prior_round_compressor.h" line="50" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1a3f345d073391274d806bd94e27818839" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_compression_result" kindref="compound">CompressionResult</ref></type>
+        <definition>CompressionResult themis::plugins::ethics::PriorRoundCompressor::compressPriorRound</definition>
+        <argsstring>(const std::vector&lt; EthicalArgument &gt; &amp;round_arguments, const CompressionConfig &amp;config, int current_round) const</argsstring>
+        <name>compressPriorRound</name>
+        <qualifiedname>themis::plugins::ethics::PriorRoundCompressor::compressPriorRound</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument" kindref="compound">EthicalArgument</ref> &gt; &amp;</type>
+          <declname>round_arguments</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_compression_config" kindref="compound">CompressionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>current_round</declname>
+        </param>
+        <briefdescription>
+<para>Compress Prior Round. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">round_arguments</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current_round</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/prior_round_compressor.h" line="59" column="23" bodyfile="src/ethics_ai/prior_round_compressor.cpp" bodystart="426" bodyend="484"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1ab6388ed37d41c775218ba2c8ed44180d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::PriorRoundCompressor::buildPriorContext</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; EthicalArgument &gt; &gt; &amp;all_rounds, const CompressionConfig &amp;config, int current_round, int max_total_tokens) const</argsstring>
+        <name>buildPriorContext</name>
+        <qualifiedname>themis::plugins::ethics::PriorRoundCompressor::buildPriorContext</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument" kindref="compound">EthicalArgument</ref> &gt; &gt; &amp;</type>
+          <declname>all_rounds</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_compression_config" kindref="compound">CompressionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>current_round</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_total_tokens</declname>
+        </param>
+        <briefdescription>
+<para>Build Prior Context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">all_rounds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current_round</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_total_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/prior_round_compressor.h" line="72" column="17" bodyfile="src/ethics_ai/prior_round_compressor.cpp" bodystart="486" bodyend="527"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1a8c9d053d80c1037c27871e342fabf81f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::plugins::ethics::PriorRoundCompressor::measureDcLoss</definition>
+        <argsstring>(const std::string &amp;original_arg, const std::string &amp;compressed_arg) const</argsstring>
+        <name>measureDcLoss</name>
+        <qualifiedname>themis::plugins::ethics::PriorRoundCompressor::measureDcLoss</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>original_arg</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>compressed_arg</declname>
+        </param>
+        <briefdescription>
+<para>Measure Dc Loss. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">original_arg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">compressed_arg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Iss. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/ethics_ai/prior_round_compressor.h" line="84" column="11" bodyfile="src/ethics_ai/prior_round_compressor.cpp" bodystart="529" bodyend="567"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1acc398c8261d66eaa02cd9a9ed99b3361" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::ethics::PriorRoundCompressor::setLlmSummaryFn</definition>
+        <argsstring>(LlmSummaryFn fn)</argsstring>
+        <name>setLlmSummaryFn</name>
+        <qualifiedname>themis::plugins::ethics::PriorRoundCompressor::setLlmSummaryFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1ab1e2543c7d477849e8e231c76561453f" kindref="member">LlmSummaryFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Llm Summary Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/prior_round_compressor.h" line="95" column="10" bodyfile="src/ethics_ai/prior_round_compressor.cpp" bodystart="35" bodyend="38"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1a512977d825de5cd79f153db300b7f94f" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::plugins::ethics::PriorRoundCompressor::countTokens</definition>
+        <argsstring>(const std::string &amp;text) noexcept</argsstring>
+        <name>countTokens</name>
+        <qualifiedname>themis::plugins::ethics::PriorRoundCompressor::countTokens</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Count Tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/prior_round_compressor.h" line="103" column="16" bodyfile="src/ethics_ai/prior_round_compressor.cpp" bodystart="44" bodyend="46"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1ae7d2d0d334c2ec8554604ae7c0a83697" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::plugins::ethics::PriorRoundCompressor::extractPrincipleCitations</definition>
+        <argsstring>(const std::string &amp;content)</argsstring>
+        <name>extractPrincipleCitations</name>
+        <qualifiedname>themis::plugins::ethics::PriorRoundCompressor::extractPrincipleCitations</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <briefdescription>
+<para>Extract Principle Citations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: re(), std::sregex_iterator(), begin(), end(), str(), insert(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/prior_round_compressor.h" line="112" column="24" bodyfile="src/ethics_ai/prior_round_compressor.cpp" bodystart="54" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1a3c9291697745777f396b3b27b001ebae" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::PriorRoundCompressor::extractVerdict</definition>
+        <argsstring>(const std::string &amp;content)</argsstring>
+        <name>extractVerdict</name>
+        <qualifiedname>themis::plugins::ethics::PriorRoundCompressor::extractVerdict</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <briefdescription>
+<para>Extract Verdict. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/prior_round_compressor.h" line="120" column="24" bodyfile="src/ethics_ai/prior_round_compressor.cpp" bodystart="109" bodyend="119"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1aa390284713cc1abd73af13bc569c8ea9" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_compression_result" kindref="compound">CompressionResult</ref></type>
+        <definition>CompressionResult themis::plugins::ethics::PriorRoundCompressor::compressPrincipleCitationsOnly</definition>
+        <argsstring>(const EthicalArgument &amp;arg, const CompressionConfig &amp;config) const</argsstring>
+        <name>compressPrincipleCitationsOnly</name>
+        <qualifiedname>themis::plugins::ethics::PriorRoundCompressor::compressPrincipleCitationsOnly</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument" kindref="compound">EthicalArgument</ref> &amp;</type>
+          <declname>arg</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_compression_config" kindref="compound">CompressionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Compress Principle Citations Only. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">arg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/prior_round_compressor.h" line="128" column="23" bodyfile="src/ethics_ai/prior_round_compressor.cpp" bodystart="125" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1ad37a2ffef2b63a5791339f5fe1acab7c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_compression_result" kindref="compound">CompressionResult</ref></type>
+        <definition>CompressionResult themis::plugins::ethics::PriorRoundCompressor::compressHeadline</definition>
+        <argsstring>(const EthicalArgument &amp;arg, const CompressionConfig &amp;config) const</argsstring>
+        <name>compressHeadline</name>
+        <qualifiedname>themis::plugins::ethics::PriorRoundCompressor::compressHeadline</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument" kindref="compound">EthicalArgument</ref> &amp;</type>
+          <declname>arg</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_compression_config" kindref="compound">CompressionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Compress Headline. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">arg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/prior_round_compressor.h" line="138" column="23" bodyfile="src/ethics_ai/prior_round_compressor.cpp" bodystart="169" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1aa257f174309c9514d4e05e8c8a57675a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_compression_result" kindref="compound">CompressionResult</ref></type>
+        <definition>CompressionResult themis::plugins::ethics::PriorRoundCompressor::compressStructuredSummary</definition>
+        <argsstring>(const EthicalArgument &amp;arg, const CompressionConfig &amp;config) const</argsstring>
+        <name>compressStructuredSummary</name>
+        <qualifiedname>themis::plugins::ethics::PriorRoundCompressor::compressStructuredSummary</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument" kindref="compound">EthicalArgument</ref> &amp;</type>
+          <declname>arg</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_compression_config" kindref="compound">CompressionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Compress Structured Summary. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">arg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">llm_fn_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+TF component: sum of word frequencies COMPLEXITY FIX: word_freq is unordered_map, so find() is O(1) avg case (HIGH: o_n_squared) <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/ethics_ai/prior_round_compressor.h" line="157" column="23" bodyfile="src/ethics_ai/prior_round_compressor.cpp" bodystart="208" bodyend="420"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/prior_round_compressor.h" line="48" column="1" bodyfile="include/ethics_ai/prior_round_compressor.h" bodystart="48" bodyend="164"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1ab6388ed37d41c775218ba2c8ed44180d" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::PriorRoundCompressor</scope><name>buildPriorContext</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1ad37a2ffef2b63a5791339f5fe1acab7c" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::PriorRoundCompressor</scope><name>compressHeadline</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1aa390284713cc1abd73af13bc569c8ea9" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::PriorRoundCompressor</scope><name>compressPrincipleCitationsOnly</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1a3f345d073391274d806bd94e27818839" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::PriorRoundCompressor</scope><name>compressPriorRound</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1aa257f174309c9514d4e05e8c8a57675a" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::PriorRoundCompressor</scope><name>compressStructuredSummary</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1a512977d825de5cd79f153db300b7f94f" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::PriorRoundCompressor</scope><name>countTokens</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1ae7d2d0d334c2ec8554604ae7c0a83697" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::PriorRoundCompressor</scope><name>extractPrincipleCitations</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1a3c9291697745777f396b3b27b001ebae" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::PriorRoundCompressor</scope><name>extractVerdict</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1adf8d6265a2a6c361e2e86259e08b452c" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::PriorRoundCompressor</scope><name>llm_fn_mutex_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1ad690cd9ee30ef34b59d1bc9817a334cd" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::PriorRoundCompressor</scope><name>llm_summary_fn_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1ab1e2543c7d477849e8e231c76561453f" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::PriorRoundCompressor</scope><name>LlmSummaryFn</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1a8c9d053d80c1037c27871e342fabf81f" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::PriorRoundCompressor</scope><name>measureDcLoss</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1af8c012ae531296b59e2d5c24b6a5cd01" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::PriorRoundCompressor</scope><name>PriorRoundCompressor</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1acc398c8261d66eaa02cd9a9ed99b3361" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::PriorRoundCompressor</scope><name>setLlmSummaryFn</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

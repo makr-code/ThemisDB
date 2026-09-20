@@ -1,0 +1,510 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__dpr__vectorizer_8cpp" kind="file" language="C++">
+    <compoundname>test_dpr_vectorizer.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="dpr__vectorizer_8h" local="yes">rag/dpr_vectorizer.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">fstream</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>rag/dpr_vectorizer.h</label>
+        <link refid="dpr__vectorizer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>rag/vectorizer_interface.h</label>
+        <link refid="vectorizer__interface_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/rag/test_dpr_vectorizer.cpp</label>
+        <link refid="test__dpr__vectorizer_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>atomic</label>
+      </node>
+      <node id="11">
+        <label>filesystem</label>
+      </node>
+      <node id="12">
+        <label>fstream</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="9">
+        <label>stdexcept</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__dpr__vectorizer_8cpp_1a377ebf8ed1a88524390a784705dc3655" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DPRVectorizer, DPR_01_ConstructsWithConfig)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer" kindref="compound">DPRVectorizer</ref></type>
+        </param>
+        <param>
+          <type>DPR_01_ConstructsWithConfig</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_dpr_vectorizer.cpp" line="38" column="1" bodyfile="tests/rag/test_dpr_vectorizer.cpp" bodystart="38" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="test__dpr__vectorizer_8cpp_1a18cfa945346d210c1af82aeed675f0c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DPRVectorizer, DPR_02_InitializeSucceeds)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer" kindref="compound">DPRVectorizer</ref></type>
+        </param>
+        <param>
+          <type>DPR_02_InitializeSucceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_dpr_vectorizer.cpp" line="52" column="1" bodyfile="tests/rag/test_dpr_vectorizer.cpp" bodystart="52" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="test__dpr__vectorizer_8cpp_1a27d92661e09993838f59e3d110c89cd2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DPRVectorizer, DPR_03_InitializeFailsWithEmptyQueryModel)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer" kindref="compound">DPRVectorizer</ref></type>
+        </param>
+        <param>
+          <type>DPR_03_InitializeFailsWithEmptyQueryModel</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_dpr_vectorizer.cpp" line="65" column="1" bodyfile="tests/rag/test_dpr_vectorizer.cpp" bodystart="65" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="test__dpr__vectorizer_8cpp_1a42e4d3f12fe41e49a9ea8786b213dea7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DPRVectorizer, DPR_04_InitializeFailsWithEmptyPassageModel)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer" kindref="compound">DPRVectorizer</ref></type>
+        </param>
+        <param>
+          <type>DPR_04_InitializeFailsWithEmptyPassageModel</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_dpr_vectorizer.cpp" line="79" column="1" bodyfile="tests/rag/test_dpr_vectorizer.cpp" bodystart="79" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="test__dpr__vectorizer_8cpp_1a0bf59194afe57ade11a740c6a605907b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DPRVectorizer, DPR_05_EncodeQueryFailsWhenNotInitialized)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer" kindref="compound">DPRVectorizer</ref></type>
+        </param>
+        <param>
+          <type>DPR_05_EncodeQueryFailsWhenNotInitialized</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_dpr_vectorizer.cpp" line="93" column="1" bodyfile="tests/rag/test_dpr_vectorizer.cpp" bodystart="93" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="test__dpr__vectorizer_8cpp_1a0b5c587198cf62bf673d0d486c2a924d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DPRVectorizer, DPR_06_EncodeQueryFailsWithEmptyQuery)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer" kindref="compound">DPRVectorizer</ref></type>
+        </param>
+        <param>
+          <type>DPR_06_EncodeQueryFailsWithEmptyQuery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_dpr_vectorizer.cpp" line="106" column="1" bodyfile="tests/rag/test_dpr_vectorizer.cpp" bodystart="106" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="test__dpr__vectorizer_8cpp_1a5b53bcd6eecc80675cf1ce8956a8ec15" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DPRVectorizer, DPR_07_EncodeQueryReturnsCorrectDimension)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer" kindref="compound">DPRVectorizer</ref></type>
+        </param>
+        <param>
+          <type>DPR_07_EncodeQueryReturnsCorrectDimension</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_dpr_vectorizer.cpp" line="120" column="1" bodyfile="tests/rag/test_dpr_vectorizer.cpp" bodystart="120" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="test__dpr__vectorizer_8cpp_1ae22a9f56b53643ba3282f5959f29d6f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DPRVectorizer, DPR_08_EncodePassageWorks)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer" kindref="compound">DPRVectorizer</ref></type>
+        </param>
+        <param>
+          <type>DPR_08_EncodePassageWorks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_dpr_vectorizer.cpp" line="137" column="1" bodyfile="tests/rag/test_dpr_vectorizer.cpp" bodystart="137" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="test__dpr__vectorizer_8cpp_1ae0316a96b3b7ede9b9ffbd10a0b6ad61" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DPRVectorizer, DPR_09_EncodePassageBatchWorks)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer" kindref="compound">DPRVectorizer</ref></type>
+        </param>
+        <param>
+          <type>DPR_09_EncodePassageBatchWorks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_dpr_vectorizer.cpp" line="153" column="1" bodyfile="tests/rag/test_dpr_vectorizer.cpp" bodystart="153" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="test__dpr__vectorizer_8cpp_1a1fff1c0ed9b8573481c7f729aee13f9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DPRVectorizer, DPR_10_GetConfigReturnsParameters)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer" kindref="compound">DPRVectorizer</ref></type>
+        </param>
+        <param>
+          <type>DPR_10_GetConfigReturnsParameters</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_dpr_vectorizer.cpp" line="178" column="1" bodyfile="tests/rag/test_dpr_vectorizer.cpp" bodystart="178" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="test__dpr__vectorizer_8cpp_1a650b1a1c79165c4f52178992272531fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DPRVectorizer, DPR_11_EncodePassageBatchEmptyInputReturnsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer" kindref="compound">DPRVectorizer</ref></type>
+        </param>
+        <param>
+          <type>DPR_11_EncodePassageBatchEmptyInputReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_dpr_vectorizer.cpp" line="199" column="1" bodyfile="tests/rag/test_dpr_vectorizer.cpp" bodystart="199" bodyend="213"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for <ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer" kindref="compound">DPRVectorizer</ref> (Wave A2: Dense Passage Retrieval). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Test IDs: DPR-01 .. DPR-10</para>
+<para>Covers:<itemizedlist>
+<listitem><para>Initialization and configuration</para>
+</listitem><listitem><para>Query encoding</para>
+</listitem><listitem><para>Passage encoding (single and batch)</para>
+</listitem><listitem><para>Embedding dimension reporting</para>
+</listitem><listitem><para>Error handling for uninitialized state</para>
+</listitem><listitem><para>Batch processing consistency </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="dpr__vectorizer_8h" kindref="compound">rag/dpr_vectorizer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag" kindref="compound">themis::rag</ref>;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal">std::string<sp/>createTempModelFile(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name)<sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>dir<sp/>=<sp/>std::filesystem::temp_directory_path()<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;themis_dpr_tests&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::create_directories(dir);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>path<sp/>=<sp/>dir<sp/>/<sp/>name;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ofstream<sp/>file(path,<sp/>std::ios::binary);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>file<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;onnx&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>file.close();</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>path.string();</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DPR-01:<sp/>DPRVectorizer<sp/>constructs<sp/>with<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><ref refid="test__dpr__vectorizer_8cpp_1a377ebf8ed1a88524390a784705dc3655" kindref="member">TEST</ref>(<ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer" kindref="compound">DPRVectorizer</ref>,<sp/>DPR_01_ConstructsWithConfig)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config" kindref="compound">DPRVectorizerConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1af629710266011ca32cdafd71afb9c74f" kindref="member">query_model_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/path/to/query_model&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1a8849e256a4a4a3e41e71223d615ceb8f" kindref="member">passage_model_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/path/to/passage_model&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1ad37c9c49a826963531abb67c2fe1d060" kindref="member">embedding_dimension</ref><sp/>=<sp/>384;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer" kindref="compound">DPRVectorizer</ref><sp/>vectorizer(config);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(vectorizer.isInitialized());</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(vectorizer.getConfig().embedding_dimension,<sp/>384u);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DPR-02:<sp/>Initialize<sp/>returns<sp/>OK<sp/>with<sp/>valid<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><ref refid="test__dpr__vectorizer_8cpp_1a377ebf8ed1a88524390a784705dc3655" kindref="member">TEST</ref>(<ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer" kindref="compound">DPRVectorizer</ref>,<sp/>DPR_02_InitializeSucceeds)<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config" kindref="compound">DPRVectorizerConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1af629710266011ca32cdafd71afb9c74f" kindref="member">query_model_path</ref><sp/>=<sp/>createTempModelFile(</highlight><highlight class="stringliteral">&quot;query_model.onnx&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1a8849e256a4a4a3e41e71223d615ceb8f" kindref="member">passage_model_path</ref><sp/>=<sp/>createTempModelFile(</highlight><highlight class="stringliteral">&quot;passage_model.onnx&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer" kindref="compound">DPRVectorizer</ref><sp/>vectorizer(config);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(vectorizer.initialize());</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(vectorizer.isInitialized());</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DPR-03:<sp/>Initialize<sp/>fails<sp/>with<sp/>empty<sp/>query_model_path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><ref refid="test__dpr__vectorizer_8cpp_1a377ebf8ed1a88524390a784705dc3655" kindref="member">TEST</ref>(<ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer" kindref="compound">DPRVectorizer</ref>,<sp/>DPR_03_InitializeFailsWithEmptyQueryModel)<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config" kindref="compound">DPRVectorizerConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1af629710266011ca32cdafd71afb9c74f" kindref="member">query_model_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1a8849e256a4a4a3e41e71223d615ceb8f" kindref="member">passage_model_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/path/to/passage_model&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer" kindref="compound">DPRVectorizer</ref><sp/>vectorizer(config);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(vectorizer.initialize(),<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(vectorizer.isInitialized());</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DPR-04:<sp/>Initialize<sp/>fails<sp/>with<sp/>empty<sp/>passage_model_path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><ref refid="test__dpr__vectorizer_8cpp_1a377ebf8ed1a88524390a784705dc3655" kindref="member">TEST</ref>(<ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer" kindref="compound">DPRVectorizer</ref>,<sp/>DPR_04_InitializeFailsWithEmptyPassageModel)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config" kindref="compound">DPRVectorizerConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1af629710266011ca32cdafd71afb9c74f" kindref="member">query_model_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/path/to/query_model&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1a8849e256a4a4a3e41e71223d615ceb8f" kindref="member">passage_model_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer" kindref="compound">DPRVectorizer</ref><sp/>vectorizer(config);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(vectorizer.initialize(),<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(vectorizer.isInitialized());</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DPR-05:<sp/>encodeQuery<sp/>fails<sp/>when<sp/>not<sp/>initialized</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><ref refid="test__dpr__vectorizer_8cpp_1a377ebf8ed1a88524390a784705dc3655" kindref="member">TEST</ref>(<ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer" kindref="compound">DPRVectorizer</ref>,<sp/>DPR_05_EncodeQueryFailsWhenNotInitialized)<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config" kindref="compound">DPRVectorizerConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1af629710266011ca32cdafd71afb9c74f" kindref="member">query_model_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/path/to/query_model&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1a8849e256a4a4a3e41e71223d615ceb8f" kindref="member">passage_model_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/path/to/passage_model&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer" kindref="compound">DPRVectorizer</ref><sp/>vectorizer(config);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(vectorizer.encodeQuery(</highlight><highlight class="stringliteral">&quot;test<sp/>query&quot;</highlight><highlight class="normal">),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DPR-06:<sp/>encodeQuery<sp/>fails<sp/>with<sp/>empty<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><ref refid="test__dpr__vectorizer_8cpp_1a377ebf8ed1a88524390a784705dc3655" kindref="member">TEST</ref>(<ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer" kindref="compound">DPRVectorizer</ref>,<sp/>DPR_06_EncodeQueryFailsWithEmptyQuery)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config" kindref="compound">DPRVectorizerConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1af629710266011ca32cdafd71afb9c74f" kindref="member">query_model_path</ref><sp/>=<sp/>createTempModelFile(</highlight><highlight class="stringliteral">&quot;query_model_06.onnx&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1a8849e256a4a4a3e41e71223d615ceb8f" kindref="member">passage_model_path</ref><sp/>=<sp/>createTempModelFile(</highlight><highlight class="stringliteral">&quot;passage_model_06.onnx&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer" kindref="compound">DPRVectorizer</ref><sp/>vectorizer(config);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>vectorizer.initialize();</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(vectorizer.encodeQuery(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">),<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DPR-07:<sp/>encodeQuery<sp/>returns<sp/>vector<sp/>of<sp/>correct<sp/>dimension</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><ref refid="test__dpr__vectorizer_8cpp_1a377ebf8ed1a88524390a784705dc3655" kindref="member">TEST</ref>(<ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer" kindref="compound">DPRVectorizer</ref>,<sp/>DPR_07_EncodeQueryReturnsCorrectDimension)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config" kindref="compound">DPRVectorizerConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1af629710266011ca32cdafd71afb9c74f" kindref="member">query_model_path</ref><sp/>=<sp/>createTempModelFile(</highlight><highlight class="stringliteral">&quot;query_model_07.onnx&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1a8849e256a4a4a3e41e71223d615ceb8f" kindref="member">passage_model_path</ref><sp/>=<sp/>createTempModelFile(</highlight><highlight class="stringliteral">&quot;passage_model_07.onnx&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1ad37c9c49a826963531abb67c2fe1d060" kindref="member">embedding_dimension</ref><sp/>=<sp/>384;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer" kindref="compound">DPRVectorizer</ref><sp/>vectorizer(config);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>vectorizer.initialize();</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>embedding<sp/>=<sp/>vectorizer.encodeQuery(</highlight><highlight class="stringliteral">&quot;test<sp/>query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(embedding.size(),<sp/>384u);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(vectorizer.getEmbeddingDimension(),<sp/>384u);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DPR-08:<sp/>encodePassage<sp/>works<sp/>correctly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><ref refid="test__dpr__vectorizer_8cpp_1a377ebf8ed1a88524390a784705dc3655" kindref="member">TEST</ref>(<ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer" kindref="compound">DPRVectorizer</ref>,<sp/>DPR_08_EncodePassageWorks)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config" kindref="compound">DPRVectorizerConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1af629710266011ca32cdafd71afb9c74f" kindref="member">query_model_path</ref><sp/>=<sp/>createTempModelFile(</highlight><highlight class="stringliteral">&quot;query_model_08.onnx&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1a8849e256a4a4a3e41e71223d615ceb8f" kindref="member">passage_model_path</ref><sp/>=<sp/>createTempModelFile(</highlight><highlight class="stringliteral">&quot;passage_model_08.onnx&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1ad37c9c49a826963531abb67c2fe1d060" kindref="member">embedding_dimension</ref><sp/>=<sp/>768;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer" kindref="compound">DPRVectorizer</ref><sp/>vectorizer(config);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>vectorizer.initialize();</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>embedding<sp/>=<sp/>vectorizer.encodePassage(</highlight><highlight class="stringliteral">&quot;test<sp/>passage&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(embedding.size(),<sp/>768u);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DPR-09:<sp/>encodePassageBatch<sp/>returns<sp/>correct<sp/>number<sp/>of<sp/>embeddings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><ref refid="test__dpr__vectorizer_8cpp_1a377ebf8ed1a88524390a784705dc3655" kindref="member">TEST</ref>(<ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer" kindref="compound">DPRVectorizer</ref>,<sp/>DPR_09_EncodePassageBatchWorks)<sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config" kindref="compound">DPRVectorizerConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1af629710266011ca32cdafd71afb9c74f" kindref="member">query_model_path</ref><sp/>=<sp/>createTempModelFile(</highlight><highlight class="stringliteral">&quot;query_model_09.onnx&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1a8849e256a4a4a3e41e71223d615ceb8f" kindref="member">passage_model_path</ref><sp/>=<sp/>createTempModelFile(</highlight><highlight class="stringliteral">&quot;passage_model_09.onnx&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1ad37c9c49a826963531abb67c2fe1d060" kindref="member">embedding_dimension</ref><sp/>=<sp/>384;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer" kindref="compound">DPRVectorizer</ref><sp/>vectorizer(config);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>vectorizer.initialize();</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>passages<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;passage<sp/>one&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;passage<sp/>two&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;passage<sp/>three&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>vectorizer.encodePassageBatch(passages);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>embedding<sp/>:<sp/>results)<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(embedding.size(),<sp/>384u);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DPR-10:<sp/>getConfig<sp/>returns<sp/>configured<sp/>parameters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><ref refid="test__dpr__vectorizer_8cpp_1a377ebf8ed1a88524390a784705dc3655" kindref="member">TEST</ref>(<ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer" kindref="compound">DPRVectorizer</ref>,<sp/>DPR_10_GetConfigReturnsParameters)<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config" kindref="compound">DPRVectorizerConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1af629710266011ca32cdafd71afb9c74f" kindref="member">query_model_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/custom/query/path&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1a8849e256a4a4a3e41e71223d615ceb8f" kindref="member">passage_model_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/custom/passage/path&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1a113aa159591e1bac52ea1a40889415e0" kindref="member">device</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;cuda&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1ab3ebeb5546bff6200cc3e9da6f7d7e81" kindref="member">batch_size</ref><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1ad37c9c49a826963531abb67c2fe1d060" kindref="member">embedding_dimension</ref><sp/>=<sp/>512;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer" kindref="compound">DPRVectorizer</ref><sp/>vectorizer(config);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>retrieved_config<sp/>=<sp/>vectorizer.getConfig();</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved_config.query_model_path,<sp/></highlight><highlight class="stringliteral">&quot;/custom/query/path&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved_config.passage_model_path,<sp/></highlight><highlight class="stringliteral">&quot;/custom/passage/path&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved_config.device,<sp/></highlight><highlight class="stringliteral">&quot;cuda&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved_config.batch_size,<sp/>64u);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved_config.embedding_dimension,<sp/>512u);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DPR-11:<sp/>encodePassageBatch<sp/>with<sp/>empty<sp/>input<sp/>returns<sp/>empty<sp/>vector<sp/>(no<sp/>throw)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><ref refid="test__dpr__vectorizer_8cpp_1a377ebf8ed1a88524390a784705dc3655" kindref="member">TEST</ref>(<ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer" kindref="compound">DPRVectorizer</ref>,<sp/>DPR_11_EncodePassageBatchEmptyInputReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config" kindref="compound">DPRVectorizerConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1af629710266011ca32cdafd71afb9c74f" kindref="member">query_model_path</ref><sp/>=<sp/>createTempModelFile(</highlight><highlight class="stringliteral">&quot;query_model_11.onnx&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1a8849e256a4a4a3e41e71223d615ceb8f" kindref="member">passage_model_path</ref><sp/>=<sp/>createTempModelFile(</highlight><highlight class="stringliteral">&quot;passage_model_11.onnx&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1ad37c9c49a826963531abb67c2fe1d060" kindref="member">embedding_dimension</ref><sp/>=<sp/>384;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer" kindref="compound">DPRVectorizer</ref><sp/>vectorizer(config);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>vectorizer.initialize();</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>An<sp/>empty<sp/>passages<sp/>list<sp/>must<sp/>return<sp/>an<sp/>empty<sp/>result<sp/>without<sp/>any<sp/>exception.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/>empty_passages;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;<sp/>results;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW(results<sp/>=<sp/>vectorizer.encodePassageBatch(empty_passages));</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(results.empty());</highlight></codeline>
+<codeline lineno="213"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/rag/test_dpr_vectorizer.cpp"/>
+  </compounddef>
+</doxygen>

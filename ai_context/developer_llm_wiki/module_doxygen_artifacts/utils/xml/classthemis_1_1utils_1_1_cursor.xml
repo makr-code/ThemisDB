@@ -1,0 +1,400 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_cursor" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::Cursor</compoundname>
+    <includes refid="cursor_8h" local="no">cursor.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_cursor_1a47867068a0b8d60a3bc6c001a7bfc3fb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::Cursor::encode</definition>
+        <argsstring>(const std::string &amp;last_pk, const std::string &amp;collection, const std::optional&lt; std::string &gt; &amp;order_value=std::nullopt)</argsstring>
+        <name>encode</name>
+        <qualifiedname>themis::utils::Cursor::encode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>last_pk</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>order_value</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Encode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Encode a cursor from the last primary key and collection name.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>last_pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The primary key of the last item in the current page </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The collection name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>order_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional ORDER BY value for keyset pagination </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Base64-encoded cursor token</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">last_pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">order_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getCurrentTimestamp(), has_value(), dump(), <ref refid="classthemis_1_1utils_1_1_cursor_1ad8058a9ab5403dee5a857a31290c91e3" kindref="member">base64Encode()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cursor.h" line="69" column="24" bodyfile="src/utils/cursor.cpp" bodystart="116" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_cursor_1a322a79ff5c060e9e0005813dcaeb8ffc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1utils_1_1_cursor_info" kindref="compound">CursorInfo</ref> &gt;</type>
+        <definition>std::optional&lt; CursorInfo &gt; themis::utils::Cursor::decodeDetailed</definition>
+        <argsstring>(const std::string &amp;cursor_token)</argsstring>
+        <name>decodeDetailed</name>
+        <qualifiedname>themis::utils::Cursor::decodeDetailed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cursor_token</declname>
+        </param>
+        <briefdescription>
+<para>Decode Detailed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Decode a cursor token to extract cursor information.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cursor_token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Base64-encoded cursor string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Optional <ref refid="structthemis_1_1utils_1_1_cursor_info" kindref="compound">CursorInfo</ref>, nullopt if invalid</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cursor_token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1utils_1_1_cursor_1a7bf46f2729c6efccb8fd7ef19abb39f7" kindref="member">base64Decode()</ref>, has_value(), nlohmann::json::parse(), contains(), is_null(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cursor.h" line="81" column="26" bodyfile="src/utils/cursor.cpp" bodystart="142" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_cursor_1a854cbaa5e1d605baf53fbee77ae47728" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::optional&lt; std::pair&lt; std::string, std::string &gt; &gt; themis::utils::Cursor::decode</definition>
+        <argsstring>(const std::string &amp;cursor_token)</argsstring>
+        <name>decode</name>
+        <qualifiedname>themis::utils::Cursor::decode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cursor_token</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Decode a cursor token to extract the primary key and collection (legacy).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cursor_token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Base64-encoded cursor string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Optional pair of (pk, collection), nullopt if invalid/expired </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cursor.h" line="89" column="26" bodyfile="src/utils/cursor.cpp" bodystart="179" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_cursor_1aedc98a371b54467828471462cb1a33cd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::Cursor::isValid</definition>
+        <argsstring>(const std::string &amp;cursor_token, int64_t ttl_seconds=0)</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::utils::Cursor::isValid</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cursor_token</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>ttl_seconds</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Is Valid. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate if a cursor is still valid (not expired).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cursor_token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Base64-encoded cursor string </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ttl_seconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Time-to-live in seconds (0 = no expiration check) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if cursor is valid and not expired</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cursor_token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ttl_seconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1utils_1_1_cursor_1a322a79ff5c060e9e0005813dcaeb8ffc" kindref="member">decodeDetailed()</ref>, has_value(), getCurrentTimestamp(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cursor.h" line="98" column="17" bodyfile="src/utils/cursor.cpp" bodystart="195" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_cursor_1ab35c14754c02e1d049bc864274dd5387" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::utils::Cursor::normalizePageSize</definition>
+        <argsstring>(size_t requested_size, const PaginationConfig &amp;config)</argsstring>
+        <name>normalizePageSize</name>
+        <qualifiedname>themis::utils::Cursor::normalizePageSize</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>requested_size</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1utils_1_1_pagination_config" kindref="compound">PaginationConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Normalize Page Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Normalize page size to be within configured limits.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>requested_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Requested page size </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pagination configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Normalized page size within [min, max]</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">requested_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements normalizePageSize without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cursor.h" line="107" column="19" bodyfile="src/utils/cursor.cpp" bodystart="220" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_cursor_1ad8058a9ab5403dee5a857a31290c91e3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::Cursor::base64Encode</definition>
+        <argsstring>(const std::string &amp;input)</argsstring>
+        <name>base64Encode</name>
+        <qualifiedname>themis::utils::Cursor::base64Encode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Base64 Encode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: push_back(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cursor.h" line="110" column="24" bodyfile="src/utils/cursor.cpp" bodystart="36" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_cursor_1a7bf46f2729c6efccb8fd7ef19abb39f7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::utils::Cursor::base64Decode</definition>
+        <argsstring>(const std::string &amp;input)</argsstring>
+        <name>base64Decode</name>
+        <qualifiedname>themis::utils::Cursor::base64Decode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Base64 Decode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), T(), push_back(), char(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cursor.h" line="111" column="26" bodyfile="src/utils/cursor.cpp" bodystart="67" bodyend="95"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_cursor_1ab07a5d445f45f7189c5e5929d35e886c" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::utils::Cursor::getCurrentTimestamp</definition>
+        <argsstring>()</argsstring>
+        <name>getCurrentTimestamp</name>
+        <qualifiedname>themis::utils::Cursor::getCurrentTimestamp</qualifiedname>
+        <briefdescription>
+<para>Get Current Timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cursor.h" line="116" column="20" bodyfile="src/utils/cursor.cpp" bodystart="102" bodyend="106"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1utils_1_1_cursor" kindref="compound">Cursor</ref> encoding/decoding utilities for pagination.</para>
+<para>Cursors encode the last seen primary key or index position to enable stateless pagination. Supports multiple pagination strategies:<itemizedlist>
+<listitem><para>Basic cursor pagination (pk-based)</para>
+</listitem><listitem><para>Keyset pagination (ORDER BY value + pk)</para>
+</listitem><listitem><para><ref refid="classthemis_1_1utils_1_1_cursor" kindref="compound">Cursor</ref> expiration and versioning</para>
+</listitem></itemizedlist>
+</para>
+<para>Format: base64(json({pk, collection, order_value?, created_at, version}))</para>
+<para>Security Note: <ref refid="classthemis_1_1utils_1_1_cursor" kindref="compound">Cursor</ref> tokens use Base64 encoding (not encryption). This is appropriate for position markers but should not contain sensitive data. </para>
+    </detaileddescription>
+    <location file="include/utils/cursor.h" line="59" column="1" bodyfile="include/utils/cursor.h" bodystart="59" bodyend="117"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_cursor_1a7bf46f2729c6efccb8fd7ef19abb39f7" prot="public" virt="non-virtual"><scope>themis::utils::Cursor</scope><name>base64Decode</name></member>
+      <member refid="classthemis_1_1utils_1_1_cursor_1ad8058a9ab5403dee5a857a31290c91e3" prot="public" virt="non-virtual"><scope>themis::utils::Cursor</scope><name>base64Encode</name></member>
+      <member refid="classthemis_1_1utils_1_1_cursor_1a854cbaa5e1d605baf53fbee77ae47728" prot="public" virt="non-virtual"><scope>themis::utils::Cursor</scope><name>decode</name></member>
+      <member refid="classthemis_1_1utils_1_1_cursor_1a322a79ff5c060e9e0005813dcaeb8ffc" prot="public" virt="non-virtual"><scope>themis::utils::Cursor</scope><name>decodeDetailed</name></member>
+      <member refid="classthemis_1_1utils_1_1_cursor_1a47867068a0b8d60a3bc6c001a7bfc3fb" prot="public" virt="non-virtual"><scope>themis::utils::Cursor</scope><name>encode</name></member>
+      <member refid="classthemis_1_1utils_1_1_cursor_1ab07a5d445f45f7189c5e5929d35e886c" prot="private" virt="non-virtual"><scope>themis::utils::Cursor</scope><name>getCurrentTimestamp</name></member>
+      <member refid="classthemis_1_1utils_1_1_cursor_1aedc98a371b54467828471462cb1a33cd" prot="public" virt="non-virtual"><scope>themis::utils::Cursor</scope><name>isValid</name></member>
+      <member refid="classthemis_1_1utils_1_1_cursor_1ab35c14754c02e1d049bc864274dd5387" prot="public" virt="non-virtual"><scope>themis::utils::Cursor</scope><name>normalizePageSize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

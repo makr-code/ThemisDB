@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_compliance_template" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::ComplianceTemplate</compoundname>
+    <basecompoundref refid="classthemis_1_1governance_1_1_policy_template" prot="public" virt="non-virtual">themis::governance::PolicyTemplate</basecompoundref>
+    <includes refid="policy__template_8h" local="no">policy_template.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_template_1ab6b35ff840afcea3c14de4b11f76b8cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::ComplianceTemplate::ComplianceTemplate</definition>
+        <argsstring>()</argsstring>
+        <name>ComplianceTemplate</name>
+        <qualifiedname>themis::governance::ComplianceTemplate::ComplianceTemplate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_template.h" line="156" column="5" bodyfile="src/governance/policy_template.cpp" bodystart="260" bodyend="286"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_template_1acd34b451c862e6bf6caa45fbd3cd7e5d" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref></type>
+        <definition>PolicyRule themis::governance::ComplianceTemplate::instantiateImpl</definition>
+        <argsstring>(const nlohmann::json &amp;params, const std::string &amp;rule_id) const override</argsstring>
+        <name>instantiateImpl</name>
+        <qualifiedname>themis::governance::ComplianceTemplate::instantiateImpl</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_policy_template_1a1b802692e0c6c814ff5df37d29bfece7">instantiateImpl</reimplements>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Instantiate Impl. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_template.h" line="159" column="16" bodyfile="src/governance/policy_template.cpp" bodystart="288" bodyend="309"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::governance::ComplianceTemplate</label>
+        <link refid="classthemis_1_1governance_1_1_compliance_template"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::governance::PolicyTemplate</label>
+        <link refid="classthemis_1_1governance_1_1_policy_template"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::governance::ComplianceTemplate</label>
+        <link refid="classthemis_1_1governance_1_1_compliance_template"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::governance::PolicyTemplate</label>
+        <link refid="classthemis_1_1governance_1_1_policy_template"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/governance/policy_template.h" line="154" column="1" bodyfile="include/governance/policy_template.h" bodystart="154" bodyend="163"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_policy_template_1a79e6094a51eecdac75a42f3d46a805c4" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceTemplate</scope><name>addParameter</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_template_1a8d364ffab08620270a0598fe6b1acbf0" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceTemplate</scope><name>category</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_template_1ab6b35ff840afcea3c14de4b11f76b8cc" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceTemplate</scope><name>ComplianceTemplate</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_template_1a54a6b483f93bf8dbcbe37bd4246b932b" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceTemplate</scope><name>description</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_template_1a64b682d65cf5a4759916dd0d41ecfd16" prot="protected" virt="non-virtual"><scope>themis::governance::ComplianceTemplate</scope><name>getParam</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_template_1a248a4c5352ad69db12b0cb9ba2995b0a" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceTemplate</scope><name>id</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_template_1abbe5281f8c8a87e50c4d4c59943bc348" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceTemplate</scope><name>instantiate</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_template_1acd34b451c862e6bf6caa45fbd3cd7e5d" prot="protected" virt="virtual"><scope>themis::governance::ComplianceTemplate</scope><name>instantiateImpl</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_template_1abc27d6995b79479c5b83fddd7d18c58a" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceTemplate</scope><name>name</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_template_1afe50952152c427c505cc0c031992e213" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceTemplate</scope><name>parameters</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_template_1a95764d8783cae5f4c52a127e42eb4487" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceTemplate</scope><name>PolicyTemplate</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_template_1a3df26c409f77be643633b74a922cb3a4" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceTemplate</scope><name>PolicyTemplate</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_template_1af3f34889eb662d5aa606dca289ea98d1" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceTemplate</scope><name>preview</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_template_1a3816c49f43067d8d2f7a0fb42fba12eb" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceTemplate</scope><name>toJson</name></member>
+      <member refid="classthemis_1_1governance_1_1_policy_template_1aac0fcc16b40fc70a422bc4cb697b4480" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceTemplate</scope><name>validateParameters</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1test_1_1_atomic_data_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::test::AtomicDataGuard</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1test_1_1_atomic_data_guard_1a05fdaeeebfea939f171b61abe856545e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; themis::llm::test::AtomicDataGuard::value_</definition>
+        <argsstring></argsstring>
+        <name>value_</name>
+        <qualifiedname>themis::llm::test::AtomicDataGuard::value_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="263" column="15" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="263" bodyend="263"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1test_1_1_atomic_data_guard_1a2868b0d1f9ac005a2089d5db224a2911" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::test::AtomicDataGuard::setValue</definition>
+        <argsstring>(int value)</argsstring>
+        <name>setValue</name>
+        <qualifiedname>themis::llm::test::AtomicDataGuard::setValue</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="254" column="8" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="254" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1test_1_1_atomic_data_guard_1a9cdd6d0e77a169cd9de40ee3ea636aa9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::test::AtomicDataGuard::getValue</definition>
+        <argsstring>() const</argsstring>
+        <name>getValue</name>
+        <qualifiedname>themis::llm::test::AtomicDataGuard::getValue</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="258" column="7" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="258" bodyend="260"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="252" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="252" bodyend="264"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1test_1_1_atomic_data_guard_1a9cdd6d0e77a169cd9de40ee3ea636aa9" prot="public" virt="non-virtual"><scope>themis::llm::test::AtomicDataGuard</scope><name>getValue</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_atomic_data_guard_1a2868b0d1f9ac005a2089d5db224a2911" prot="public" virt="non-virtual"><scope>themis::llm::test::AtomicDataGuard</scope><name>setValue</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_atomic_data_guard_1a05fdaeeebfea939f171b61abe856545e" prot="private" virt="non-virtual"><scope>themis::llm::test::AtomicDataGuard</scope><name>value_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

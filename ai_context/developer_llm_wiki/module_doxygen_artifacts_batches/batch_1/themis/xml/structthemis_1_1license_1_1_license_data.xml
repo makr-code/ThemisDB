@@ -1,0 +1,214 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1license_1_1_license_data" kind="struct" language="C++" prot="public">
+    <compoundname>themis::license::LicenseData</compoundname>
+    <includes refid="license__info_8h" local="no">license_info.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1license_1_1_license_data_1a1bb0287ab1ae5f61e00674b9d24aeff2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::license::LicenseData::organization_name</definition>
+        <argsstring></argsstring>
+        <name>organization_name</name>
+        <qualifiedname>themis::license::LicenseData::organization_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/license_info.h" line="38" column="17" bodyfile="include/themis/license_info.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1license_1_1_license_data_1a51e29193c06bb39f1cbc2b0fca93b703" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::license::LicenseData::organization_id</definition>
+        <argsstring></argsstring>
+        <name>organization_id</name>
+        <qualifiedname>themis::license::LicenseData::organization_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/license_info.h" line="39" column="17" bodyfile="include/themis/license_info.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1license_1_1_license_data_1a62f57b18472534423729ad8361f0708a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::license::LicenseData::contact_email</definition>
+        <argsstring></argsstring>
+        <name>contact_email</name>
+        <qualifiedname>themis::license::LicenseData::contact_email</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/license_info.h" line="40" column="17" bodyfile="include/themis/license_info.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1license_1_1_license_data_1aff48bf31aaf356260f2e11224b068106" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::license::LicenseData::license_key</definition>
+        <argsstring></argsstring>
+        <name>license_key</name>
+        <qualifiedname>themis::license::LicenseData::license_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/license_info.h" line="43" column="17" bodyfile="include/themis/license_info.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1license_1_1_license_data_1aece40843b93e8b98e6235f9bbd7f0fe7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::license::LicenseData::edition</definition>
+        <argsstring></argsstring>
+        <name>edition</name>
+        <qualifiedname>themis::license::LicenseData::edition</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/license_info.h" line="44" column="17" bodyfile="include/themis/license_info.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1license_1_1_license_data_1ac74e03fdea5cab9b75deb29ea918535b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::license::LicenseData::issued_date</definition>
+        <argsstring></argsstring>
+        <name>issued_date</name>
+        <qualifiedname>themis::license::LicenseData::issued_date</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/license_info.h" line="47" column="17" bodyfile="include/themis/license_info.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1license_1_1_license_data_1a45c211ed4a8c40b3416b06b57a36358e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::license::LicenseData::expiry_date</definition>
+        <argsstring></argsstring>
+        <name>expiry_date</name>
+        <qualifiedname>themis::license::LicenseData::expiry_date</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/license_info.h" line="48" column="17" bodyfile="include/themis/license_info.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1license_1_1_license_data_1a86fac1248abbc872a7674a17171d2d3f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::license::LicenseData::max_nodes</definition>
+        <argsstring></argsstring>
+        <name>max_nodes</name>
+        <qualifiedname>themis::license::LicenseData::max_nodes</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/license_info.h" line="51" column="9" bodyfile="include/themis/license_info.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1license_1_1_license_data_1a3b62506dc0f303de351f177f6ce4724d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::license::LicenseData::max_cores</definition>
+        <argsstring></argsstring>
+        <name>max_cores</name>
+        <qualifiedname>themis::license::LicenseData::max_cores</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/license_info.h" line="52" column="9" bodyfile="include/themis/license_info.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1license_1_1_license_data_1a226c860a3817d26836ea8ae717b340a3" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::license::LicenseData::max_storage_tb</definition>
+        <argsstring></argsstring>
+        <name>max_storage_tb</name>
+        <qualifiedname>themis::license::LicenseData::max_storage_tb</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/license_info.h" line="53" column="9" bodyfile="include/themis/license_info.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1license_1_1_license_data_1a9533ab2077f1dd382762dbd542bf9ef3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::license::LicenseData::build_id</definition>
+        <argsstring></argsstring>
+        <name>build_id</name>
+        <qualifiedname>themis::license::LicenseData::build_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/license_info.h" line="56" column="17" bodyfile="include/themis/license_info.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1license_1_1_license_data_1ab6c412ae0558711ed2b0809ddc308a05" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::license::LicenseData::build_timestamp</definition>
+        <argsstring></argsstring>
+        <name>build_timestamp</name>
+        <qualifiedname>themis::license::LicenseData::build_timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/license_info.h" line="57" column="17" bodyfile="include/themis/license_info.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1license_1_1_license_data_1afb77c98db9013a670c3b42e3408dff5f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::license::LicenseData::signature</definition>
+        <argsstring></argsstring>
+        <name>signature</name>
+        <qualifiedname>themis::license::LicenseData::signature</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/license_info.h" line="60" column="17" bodyfile="include/themis/license_info.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/license_info.h" line="36" column="1" bodyfile="include/themis/license_info.h" bodystart="36" bodyend="61"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1license_1_1_license_data_1a9533ab2077f1dd382762dbd542bf9ef3" prot="public" virt="non-virtual"><scope>themis::license::LicenseData</scope><name>build_id</name></member>
+      <member refid="structthemis_1_1license_1_1_license_data_1ab6c412ae0558711ed2b0809ddc308a05" prot="public" virt="non-virtual"><scope>themis::license::LicenseData</scope><name>build_timestamp</name></member>
+      <member refid="structthemis_1_1license_1_1_license_data_1a62f57b18472534423729ad8361f0708a" prot="public" virt="non-virtual"><scope>themis::license::LicenseData</scope><name>contact_email</name></member>
+      <member refid="structthemis_1_1license_1_1_license_data_1aece40843b93e8b98e6235f9bbd7f0fe7" prot="public" virt="non-virtual"><scope>themis::license::LicenseData</scope><name>edition</name></member>
+      <member refid="structthemis_1_1license_1_1_license_data_1a45c211ed4a8c40b3416b06b57a36358e" prot="public" virt="non-virtual"><scope>themis::license::LicenseData</scope><name>expiry_date</name></member>
+      <member refid="structthemis_1_1license_1_1_license_data_1ac74e03fdea5cab9b75deb29ea918535b" prot="public" virt="non-virtual"><scope>themis::license::LicenseData</scope><name>issued_date</name></member>
+      <member refid="structthemis_1_1license_1_1_license_data_1aff48bf31aaf356260f2e11224b068106" prot="public" virt="non-virtual"><scope>themis::license::LicenseData</scope><name>license_key</name></member>
+      <member refid="structthemis_1_1license_1_1_license_data_1a3b62506dc0f303de351f177f6ce4724d" prot="public" virt="non-virtual"><scope>themis::license::LicenseData</scope><name>max_cores</name></member>
+      <member refid="structthemis_1_1license_1_1_license_data_1a86fac1248abbc872a7674a17171d2d3f" prot="public" virt="non-virtual"><scope>themis::license::LicenseData</scope><name>max_nodes</name></member>
+      <member refid="structthemis_1_1license_1_1_license_data_1a226c860a3817d26836ea8ae717b340a3" prot="public" virt="non-virtual"><scope>themis::license::LicenseData</scope><name>max_storage_tb</name></member>
+      <member refid="structthemis_1_1license_1_1_license_data_1a51e29193c06bb39f1cbc2b0fca93b703" prot="public" virt="non-virtual"><scope>themis::license::LicenseData</scope><name>organization_id</name></member>
+      <member refid="structthemis_1_1license_1_1_license_data_1a1bb0287ab1ae5f61e00674b9d24aeff2" prot="public" virt="non-virtual"><scope>themis::license::LicenseData</scope><name>organization_name</name></member>
+      <member refid="structthemis_1_1license_1_1_license_data_1afb77c98db9013a670c3b42e3408dff5f" prot="public" virt="non-virtual"><scope>themis::license::LicenseData</scope><name>signature</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

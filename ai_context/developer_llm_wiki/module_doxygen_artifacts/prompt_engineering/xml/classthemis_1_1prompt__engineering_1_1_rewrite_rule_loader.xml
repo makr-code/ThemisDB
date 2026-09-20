@@ -1,0 +1,293 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_rewrite_rule_loader" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::RewriteRuleLoader</compoundname>
+    <includes refid="rewrite__rule__loader_8h" local="no">rewrite_rule_loader.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_rewrite_rule_loader_1a4ff87f165833157ea41d673ab6acb6e7" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::RewriteRuleLoader::last_error_</definition>
+        <argsstring></argsstring>
+        <name>last_error_</name>
+        <qualifiedname>themis::prompt_engineering::RewriteRuleLoader::last_error_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_rule_loader.h" line="74" column="17" bodyfile="include/prompt_engineering/rewrite_rule_loader.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_rewrite_rule_loader_1a3e5bf6bac1c0e36675768060dda996e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::RewriteRuleLoader::RewriteRuleLoader</definition>
+        <argsstring>()</argsstring>
+        <name>RewriteRuleLoader</name>
+        <qualifiedname>themis::prompt_engineering::RewriteRuleLoader::RewriteRuleLoader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_rule_loader.h" line="38" column="5" bodyfile="src/prompt_engineering/rewrite_rule_loader.cpp" bodystart="27" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_rewrite_rule_loader_1afb0794b4aeb9f3149dbb7fcc21b0ff7f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::RewriteRuleLoader::~RewriteRuleLoader</definition>
+        <argsstring>()</argsstring>
+        <name>~RewriteRuleLoader</name>
+        <qualifiedname>themis::prompt_engineering::RewriteRuleLoader::~RewriteRuleLoader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_rule_loader.h" line="39" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_rewrite_rule_loader_1a398cc1724245e17e92237f94b9883ff4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::RewriteRuleLoader::load_rules_from_yaml</definition>
+        <argsstring>(const std::string &amp;yaml_path, std::vector&lt; std::shared_ptr&lt; IRewriteRule &gt; &gt; &amp;rules)</argsstring>
+        <name>load_rules_from_yaml</name>
+        <qualifiedname>themis::prompt_engineering::RewriteRuleLoader::load_rules_from_yaml</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>yaml_path</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_rule" kindref="compound">IRewriteRule</ref> &gt; &gt; &amp;</type>
+          <declname>rules</declname>
+        </param>
+        <briefdescription>
+<para>Load rules from YAML file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load rules from yaml.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>yaml_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to YAML configuration file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">rules</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of loaded rules (appended to, not cleared) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if load succeeded, false if parse/validation error</para>
+</simplesect>
+On failure, no rules are added to the output vector (all-or-nothing semantics). Errors are logged but not thrown.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">yaml_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the yaml. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">rules</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::get(), spdlog::stderr_color_mt(), file(), is_open(), error(), rdbuf(), close(), YAML::Load(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_rule_loader.h" line="51" column="10" bodyfile="src/prompt_engineering/rewrite_rule_loader.cpp" bodystart="39" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_rewrite_rule_loader_1acc73b7070d51f1381f28f1c0bf69947d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::RewriteRuleLoader::last_error</definition>
+        <argsstring>() const</argsstring>
+        <name>last_error</name>
+        <qualifiedname>themis::prompt_engineering::RewriteRuleLoader::last_error</qualifiedname>
+        <briefdescription>
+<para>Get last error message from load attempt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Error message (empty if last load succeeded) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_rule_loader.h" line="61" column="17" bodyfile="src/prompt_engineering/rewrite_rule_loader.cpp" bodystart="152" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_rewrite_rule_loader_1a335b3c9ef8eda7a94f57ff20db7daaad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::RewriteRuleLoader::validate_yaml_rules</definition>
+        <argsstring>(const std::string &amp;yaml_content)</argsstring>
+        <name>validate_yaml_rules</name>
+        <qualifiedname>themis::prompt_engineering::RewriteRuleLoader::validate_yaml_rules</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>yaml_content</declname>
+        </param>
+        <briefdescription>
+<para>Validate YAML rule definition before loading. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate yaml rules.</para>
+<para>Checks structure, required fields, regex compilation, etc.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>yaml_content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>YAML text to validate </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if structure is valid, false otherwise</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">yaml_content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::get(), spdlog::stderr_color_mt(), YAML::Load(), IsSequence(), test_pattern(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_rule_loader.h" line="71" column="10" bodyfile="src/prompt_engineering/rewrite_rule_loader.cpp" bodystart="162" bodyend="228"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_rewrite_rule_loader_1a251ecc674a5cfab9daba6c400da62eff" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_rule" kindref="compound">IRewriteRule</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; IRewriteRule &gt; themis::prompt_engineering::RewriteRuleLoader::parse_rule_definition</definition>
+        <argsstring>(const std::string &amp;rule_id, const std::string &amp;rule_type, const std::string &amp;phase_str, uint8_t priority, const std::string &amp;description, const nlohmann::json &amp;rule_config)</argsstring>
+        <name>parse_rule_definition</name>
+        <qualifiedname>themis::prompt_engineering::RewriteRuleLoader::parse_rule_definition</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>phase_str</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>priority</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>description</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>rule_config</declname>
+        </param>
+        <briefdescription>
+<para>Parse rule definition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">phase_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">priority</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: spdlog::get(), spdlog::stderr_color_mt(), empty(), contains(), error(), items(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_rule_loader.h" line="77" column="21" bodyfile="src/prompt_engineering/rewrite_rule_loader.cpp" bodystart="241" bodyend="312"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Loads and validates rewrite rules from YAML configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>YAML rules are restricted to:<itemizedlist>
+<listitem><para><ref refid="classthemis_1_1prompt__engineering_1_1_regex_rewrite_rule" kindref="compound">RegexRewriteRule</ref> (type: regex)</para>
+</listitem><listitem><para><ref refid="classthemis_1_1prompt__engineering_1_1_dictionary_rewrite_rule" kindref="compound">DictionaryRewriteRule</ref> (type: dictionary)</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-safe for loading and rule creation, but not for concurrent modifications. </para>
+    </detaileddescription>
+    <location file="include/prompt_engineering/rewrite_rule_loader.h" line="36" column="1" bodyfile="include/prompt_engineering/rewrite_rule_loader.h" bodystart="36" bodyend="85"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_rewrite_rule_loader_1acc73b7070d51f1381f28f1c0bf69947d" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteRuleLoader</scope><name>last_error</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_rewrite_rule_loader_1a4ff87f165833157ea41d673ab6acb6e7" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::RewriteRuleLoader</scope><name>last_error_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_rewrite_rule_loader_1a398cc1724245e17e92237f94b9883ff4" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteRuleLoader</scope><name>load_rules_from_yaml</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_rewrite_rule_loader_1a251ecc674a5cfab9daba6c400da62eff" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::RewriteRuleLoader</scope><name>parse_rule_definition</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_rewrite_rule_loader_1a3e5bf6bac1c0e36675768060dda996e0" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteRuleLoader</scope><name>RewriteRuleLoader</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_rewrite_rule_loader_1a335b3c9ef8eda7a94f57ff20db7daaad" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteRuleLoader</scope><name>validate_yaml_rules</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_rewrite_rule_loader_1afb0794b4aeb9f3149dbb7fcc21b0ff7f" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteRuleLoader</scope><name>~RewriteRuleLoader</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

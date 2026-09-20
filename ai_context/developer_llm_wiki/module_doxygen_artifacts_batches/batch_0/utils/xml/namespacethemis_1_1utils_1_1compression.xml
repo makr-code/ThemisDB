@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1utils_1_1compression" kind="namespace" language="C++">
+    <compoundname>themis::utils::compression</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1utils_1_1compression_1a60de6b45b1ebc3f25bf059cb62bc4588" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::compression::MAX_INPUT_SIZE</definition>
+        <argsstring></argsstring>
+        <name>MAX_INPUT_SIZE</name>
+        <qualifiedname>themis::utils::compression::MAX_INPUT_SIZE</qualifiedname>
+        <initializer>= 1024ULL * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/zstd_codec.h" line="29" column="22" bodyfile="include/utils/zstd_codec.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1utils_1_1compression_1a17f2cdf81dbd9324c5156dac235374dc" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::compression::MAX_OUTPUT_SIZE</definition>
+        <argsstring></argsstring>
+        <name>MAX_OUTPUT_SIZE</name>
+        <qualifiedname>themis::utils::compression::MAX_OUTPUT_SIZE</qualifiedname>
+        <initializer>= 1024ULL * 1024 * 1024 * 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/zstd_codec.h" line="30" column="22" bodyfile="include/utils/zstd_codec.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1utils_1_1compression_1aa04d6d099d906f4964ee715288e9ad3e" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::compression::MAX_DECOMPRESSED_SIZE</definition>
+        <argsstring></argsstring>
+        <name>MAX_DECOMPRESSED_SIZE</name>
+        <qualifiedname>themis::utils::compression::MAX_DECOMPRESSED_SIZE</qualifiedname>
+        <initializer>= 1024ULL * 1024 * 1024 * 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/zstd_codec.h" line="31" column="22" bodyfile="include/utils/zstd_codec.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1utils_1_1compression_1aa5f066c553da46d3ee22b1e1836aafe2" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::compression::MAX_COMPRESSION_RATIO</definition>
+        <argsstring></argsstring>
+        <name>MAX_COMPRESSION_RATIO</name>
+        <qualifiedname>themis::utils::compression::MAX_COMPRESSION_RATIO</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/zstd_codec.h" line="32" column="22" bodyfile="include/utils/zstd_codec.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1utils_1_1compression_1addb012e1e20306741b8c16b060d0527d" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::compression::STREAM_CHUNK_SIZE</definition>
+        <argsstring></argsstring>
+        <name>STREAM_CHUNK_SIZE</name>
+        <qualifiedname>themis::utils::compression::STREAM_CHUNK_SIZE</qualifiedname>
+        <initializer>= 256 * 1024</initializer>
+        <briefdescription>
+<para>Recommended chunk size for streaming APIs (256 KB). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/zstd_codec.h" line="34" column="22" bodyfile="include/utils/zstd_codec.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/zstd_codec.h" line="28" column="1"/>
+  </compounddef>
+</doxygen>

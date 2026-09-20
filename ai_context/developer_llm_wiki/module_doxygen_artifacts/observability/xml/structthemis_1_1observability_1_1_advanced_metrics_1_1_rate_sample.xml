@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_advanced_metrics_1_1_rate_sample" kind="struct" language="C++" prot="private">
+    <compoundname>themis::observability::AdvancedMetrics::RateSample</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_advanced_metrics_1_1_rate_sample_1a8ac9443f8115776d0e032678957a7b36" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::AdvancedMetrics::RateSample::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::observability::AdvancedMetrics::RateSample::value</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="284" column="16" bodyfile="include/observability/advanced_metrics.h" bodystart="284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_advanced_metrics_1_1_rate_sample_1a4bca7f10962077cf85727d7cafcf89f2" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::observability::AdvancedMetrics::RateSample::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::observability::AdvancedMetrics::RateSample::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="285" column="47" bodyfile="include/observability/advanced_metrics.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/advanced_metrics.h" line="283" column="5" bodyfile="include/observability/advanced_metrics.h" bodystart="283" bodyend="286"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_advanced_metrics_1_1_rate_sample_1a4bca7f10962077cf85727d7cafcf89f2" prot="public" virt="non-virtual"><scope>themis::observability::AdvancedMetrics::RateSample</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1observability_1_1_advanced_metrics_1_1_rate_sample_1a8ac9443f8115776d0e032678957a7b36" prot="public" virt="non-virtual"><scope>themis::observability::AdvancedMetrics::RateSample</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

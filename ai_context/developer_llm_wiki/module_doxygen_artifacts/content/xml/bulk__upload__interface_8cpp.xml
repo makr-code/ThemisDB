@@ -1,0 +1,171 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bulk__upload__interface_8cpp" kind="file" language="C++">
+    <compoundname>bulk_upload_interface.cpp</compoundname>
+    <includes refid="bulk__upload__interface_8h" local="yes">content/pipeline/bulk_upload_interface.h</includes>
+    <includes local="no">sstream</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>content/pipeline/bulk_upload_interface.h</label>
+        <link refid="bulk__upload__interface_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/content/pipeline/bulk_upload_interface.cpp</label>
+        <link refid="bulk__upload__interface_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>sstream</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1content">themis::content</innernamespace>
+    <innernamespace refid="namespacethemis_1_1content_1_1pipeline">themis::content::pipeline</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2024<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>MIT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="bulk__upload__interface_8h" kindref="compound">content/pipeline/bulk_upload_interface.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1content_1_1pipeline" kindref="compound">themis::content::pipeline</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><ref refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_upload_result" kindref="compound">BulkUploadInterface::UploadResult</ref><sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1a46c491bd19a025b829adea39dedbc6fc" kindref="member">BulkUploadInterface::upload</ref>(</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>content,</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ContentMetadata&amp;<sp/>metadata)<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simple<sp/>implementation<sp/>for<sp/>basic<sp/>use<sp/>cases</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>production<sp/>use<sp/>with<sp/>ContentManager<sp/>integration,<sp/>consider<sp/>using</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>AsyncIngestionWorker<sp/>which<sp/>provides:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>Async<sp/>processing<sp/>with<sp/>worker<sp/>thread<sp/>pool</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>Job<sp/>queue<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>Integration<sp/>with<sp/>ContentManager::ingest()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>Progress<sp/>tracking<sp/>via<sp/>IngestionJob</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>can<sp/>be<sp/>extended<sp/>to<sp/>wrap<sp/>AsyncIngestionWorker<sp/>or<sp/>directly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>use<sp/>ContentManager::ingest()<sp/>for<sp/>actual<sp/>storage.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_upload_result" kindref="compound">UploadResult</ref><sp/>result;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>result.<ref refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_upload_result_1ad1f8c11361610ac00d974494632da8e6" kindref="member">content_id</ref><sp/>=<sp/>metadata.content_id;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>result.bytes_uploaded<sp/>=<sp/>content.size();</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>result.status<sp/>=<sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1aa434a6678d3f4d14293c0b379b8f08bba8f7afecbc8fbc4cd0f50a57d1172482e" kindref="member">UploadStatus::COMPLETED</ref>;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Notify<sp/>progress<sp/>if<sp/>callback<sp/>is<sp/>set</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1ab9a57602471a9fc36cda5075ade1b874" kindref="member">progress_callback_</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1ab9a57602471a9fc36cda5075ade1b874" kindref="member">progress_callback_</ref>(metadata.content_id,content.size(),content.size());</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal">std::vector&lt;BulkUploadInterface::UploadResult&gt;<sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1a093e79ece6884bb2f268b376e718589f" kindref="member">BulkUploadInterface::bulk_upload</ref>(</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;uint8_t&gt;&gt;&amp;<sp/>contents,</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ContentMetadata&gt;&amp;<sp/>metadata_list)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simple<sp/>sequential<sp/>implementation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>parallel<sp/>batch<sp/>processing,<sp/>use<sp/>AsyncIngestionWorker<sp/>with:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>IngestionJobType::BATCH_FILES<sp/>for<sp/>multiple<sp/>files</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>Configurable<sp/>worker<sp/>thread<sp/>pool<sp/>(AsyncIngestionConfig)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>Automatic<sp/>parallelization<sp/>and<sp/>queue<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>implementation<sp/>provides<sp/>a<sp/>simple<sp/>interface<sp/>for<sp/>testing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>and<sp/>can<sp/>be<sp/>extended<sp/>to<sp/>delegate<sp/>to<sp/>AsyncIngestionWorker.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;UploadResult&gt;<sp/>results;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(contents.size()<sp/>!=<sp/>metadata_list.size())<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Return<sp/>error<sp/>results<sp/>if<sp/>sizes<sp/>don&apos;t<sp/>match</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>contents.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_upload_result" kindref="compound">UploadResult</ref><sp/>result;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_upload_result_1ae84fd50f9293fa7f43c69de0fdbd9bbe" kindref="member">status</ref><sp/>=<sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1aa434a6678d3f4d14293c0b379b8f08bbab9e14d9b2886bcff408b85aefa780419" kindref="member">UploadStatus::FAILED</ref>;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.error_message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Metadata<sp/>count<sp/>mismatch&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(metadata_list.size()<sp/>&gt;<sp/>i)<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.content_id<sp/>=<sp/>metadata_list[i].content_id;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>results.push_back(result);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>results;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sequential<sp/>upload<sp/>(can<sp/>be<sp/>parallelized<sp/>via<sp/>AsyncIngestionWorker)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>contents.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>results.push_back(<ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1a46c491bd19a025b829adea39dedbc6fc" kindref="member">upload</ref>(contents[i],<sp/>metadata_list[i]));</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>results;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1a6e809b3c768aca588ee0b8697b655aa3" kindref="member">BulkUploadInterface::set_progress_callback</ref>(ProgressCallback<sp/>callback)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1ab9a57602471a9fc36cda5075ade1b874" kindref="member">progress_callback_</ref><sp/>=<sp/>callback;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1a14f9a15a9986da6509c4060c52603614" kindref="member">BulkUploadInterface::cancel_upload</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*content_id*/</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simple<sp/>implementation<sp/>doesn&apos;t<sp/>support<sp/>cancellation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>AsyncIngestionWorker<sp/>for<sp/>cancellation<sp/>support<sp/>via<sp/>cancelJob()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1aa434a6678d3f4d14293c0b379b8f08bb" kindref="member">BulkUploadInterface::UploadStatus</ref><sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1a8147f7c7b9af70215284f58d0511afd3" kindref="member">BulkUploadInterface::get_upload_status</ref>(</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*content_id*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simple<sp/>implementation<sp/>doesn&apos;t<sp/>track<sp/>status</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>AsyncIngestionWorker<sp/>for<sp/>status<sp/>tracking<sp/>via<sp/>getJobStatus()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1aa434a6678d3f4d14293c0b379b8f08bba8f7afecbc8fbc4cd0f50a57d1172482e" kindref="member">UploadStatus::COMPLETED</ref>;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::content::pipeline</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/content/pipeline/bulk_upload_interface.cpp"/>
+  </compounddef>
+</doxygen>

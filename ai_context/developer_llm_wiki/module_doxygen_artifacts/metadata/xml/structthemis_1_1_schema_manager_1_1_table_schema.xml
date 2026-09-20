@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_schema_manager_1_1_table_schema" kind="struct" language="C++" prot="public">
+    <compoundname>themis::SchemaManager::TableSchema</compoundname>
+    <includes refid="schema__manager_8h" local="no">schema_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_schema_manager_1_1_table_schema_1a6b4c1d0652b1b08f0e5e7523ac99c9c3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::SchemaManager::TableSchema::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::SchemaManager::TableSchema::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_manager.h" line="126" column="21" bodyfile="include/metadata/schema_manager.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_schema_manager_1_1_table_schema_1ac8dbecaf7e33861d7acdfe967f749283" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::SchemaManager::TableSchema::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::SchemaManager::TableSchema::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_manager.h" line="127" column="21" bodyfile="include/metadata/schema_manager.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_schema_manager_1_1_table_schema_1aa026c87a390275400814b6eb20a6136b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_schema_manager_1_1_property_info" kindref="compound">PropertyInfo</ref> &gt;</type>
+        <definition>std::vector&lt;PropertyInfo&gt; themis::SchemaManager::TableSchema::properties</definition>
+        <argsstring></argsstring>
+        <name>properties</name>
+        <qualifiedname>themis::SchemaManager::TableSchema::properties</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_manager.h" line="128" column="21" bodyfile="include/metadata/schema_manager.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_schema_manager_1_1_table_schema_1ac7988ec26997e693ab7c32198c3b6490" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_schema_manager_1_1_index_info" kindref="compound">IndexInfo</ref> &gt;</type>
+        <definition>std::vector&lt;IndexInfo&gt; themis::SchemaManager::TableSchema::indexes</definition>
+        <argsstring></argsstring>
+        <name>indexes</name>
+        <qualifiedname>themis::SchemaManager::TableSchema::indexes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_manager.h" line="129" column="21" bodyfile="include/metadata/schema_manager.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_schema_manager_1_1_table_schema_1a7e39421d0c53176af457e08e5b50c1ce" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::SchemaManager::TableSchema::estimated_row_count</definition>
+        <argsstring></argsstring>
+        <name>estimated_row_count</name>
+        <qualifiedname>themis::SchemaManager::TableSchema::estimated_row_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_manager.h" line="130" column="16" bodyfile="include/metadata/schema_manager.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_schema_manager_1_1_table_schema_1a6d521e410055baa029e1046e93a97d74" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref></type>
+        <definition>json themis::SchemaManager::TableSchema::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::SchemaManager::TableSchema::toJSON</qualifiedname>
+        <briefdescription>
+<para>Serialise this table schema to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON object representing the table metadata. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_manager.h" line="136" column="14" bodyfile="src/metadata/schema_manager.cpp" bodystart="59" bodyend="78"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Schema snapshot for one table or collection. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/metadata/schema_manager.h" line="125" column="5" bodyfile="include/metadata/schema_manager.h" bodystart="125" bodyend="137"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_schema_manager_1_1_table_schema_1a7e39421d0c53176af457e08e5b50c1ce" prot="public" virt="non-virtual"><scope>themis::SchemaManager::TableSchema</scope><name>estimated_row_count</name></member>
+      <member refid="structthemis_1_1_schema_manager_1_1_table_schema_1ac7988ec26997e693ab7c32198c3b6490" prot="public" virt="non-virtual"><scope>themis::SchemaManager::TableSchema</scope><name>indexes</name></member>
+      <member refid="structthemis_1_1_schema_manager_1_1_table_schema_1a6b4c1d0652b1b08f0e5e7523ac99c9c3" prot="public" virt="non-virtual"><scope>themis::SchemaManager::TableSchema</scope><name>name</name></member>
+      <member refid="structthemis_1_1_schema_manager_1_1_table_schema_1aa026c87a390275400814b6eb20a6136b" prot="public" virt="non-virtual"><scope>themis::SchemaManager::TableSchema</scope><name>properties</name></member>
+      <member refid="structthemis_1_1_schema_manager_1_1_table_schema_1a6d521e410055baa029e1046e93a97d74" prot="public" virt="non-virtual"><scope>themis::SchemaManager::TableSchema</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1_schema_manager_1_1_table_schema_1ac8dbecaf7e33861d7acdfe967f749283" prot="public" virt="non-virtual"><scope>themis::SchemaManager::TableSchema</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_changefeed_1_1_retention_policy" kind="struct" language="C++" prot="public">
+    <compoundname>Changefeed::RetentionPolicy</compoundname>
+    <includes refid="changefeed_8h" local="no">changefeed.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="struct_changefeed_1_1_retention_policy_1adf35895bcc414f85378a690852d43702" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::Changefeed::RetentionPolicy::DEFAULT_MAX_SIZE_BYTES</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_MAX_SIZE_BYTES</name>
+        <qualifiedname>Changefeed::RetentionPolicy::DEFAULT_MAX_SIZE_BYTES</qualifiedname>
+        <initializer>= 100ULL * 1024 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="90" column="33" bodyfile="include/cdc/changefeed.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_changefeed_1_1_retention_policy_1adad3321cce00e385353ca28ad5b50398" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::Changefeed::RetentionPolicy::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>Changefeed::RetentionPolicy::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="92" column="14" bodyfile="include/cdc/changefeed.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_changefeed_1_1_retention_policy_1a9e22c96b489a022722c5d817dcaed616" prot="public" static="no" mutable="no">
+        <type>std::chrono::hours</type>
+        <definition>std::chrono::hours themis::Changefeed::RetentionPolicy::max_age_hours</definition>
+        <argsstring></argsstring>
+        <name>max_age_hours</name>
+        <qualifiedname>Changefeed::RetentionPolicy::max_age_hours</qualifiedname>
+        <initializer>{168}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="93" column="28" bodyfile="include/cdc/changefeed.h" bodystart="93" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_changefeed_1_1_retention_policy_1a4c9377fcb702e7fbdb07e303352d1c40" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::Changefeed::RetentionPolicy::max_event_count</definition>
+        <argsstring></argsstring>
+        <name>max_event_count</name>
+        <qualifiedname>Changefeed::RetentionPolicy::max_event_count</qualifiedname>
+        <initializer>= 1000000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="94" column="18" bodyfile="include/cdc/changefeed.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_changefeed_1_1_retention_policy_1a6eefb7fbc0b5cb7f116be4f1eb10d0c0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::Changefeed::RetentionPolicy::max_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_size_bytes</name>
+        <qualifiedname>Changefeed::RetentionPolicy::max_size_bytes</qualifiedname>
+        <initializer>= <ref refid="struct_changefeed_1_1_retention_policy_1adf35895bcc414f85378a690852d43702" kindref="member">DEFAULT_MAX_SIZE_BYTES</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="95" column="16" bodyfile="include/cdc/changefeed.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_changefeed_1_1_retention_policy_1ad2a6bf4e05dc907c7f36dd7ab8b5f10c" prot="public" static="no" mutable="no">
+        <type>std::chrono::minutes</type>
+        <definition>std::chrono::minutes themis::Changefeed::RetentionPolicy::cleanup_interval</definition>
+        <argsstring></argsstring>
+        <name>cleanup_interval</name>
+        <qualifiedname>Changefeed::RetentionPolicy::cleanup_interval</qualifiedname>
+        <initializer>{60}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="96" column="30" bodyfile="include/cdc/changefeed.h" bodystart="96" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_changefeed_1_1_retention_policy_1af6415a5adfa2c7d420e01356e0dab195" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::Changefeed::RetentionPolicy::compact_on_cleanup</definition>
+        <argsstring></argsstring>
+        <name>compact_on_cleanup</name>
+        <qualifiedname>Changefeed::RetentionPolicy::compact_on_cleanup</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="97" column="14" bodyfile="include/cdc/changefeed.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="struct_changefeed_1_1_retention_policy_1a4a838fe42bfe3a4112fd01c50eb36bfd" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_changefeed_1_1_retention_policy" kindref="compound">RetentionPolicy</ref></type>
+        <definition>static RetentionPolicy themis::Changefeed::RetentionPolicy::defaults</definition>
+        <argsstring>()</argsstring>
+        <name>defaults</name>
+        <qualifiedname>Changefeed::RetentionPolicy::defaults</qualifiedname>
+        <briefdescription>
+<para>Defaults. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements defaults without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="104" column="32" bodyfile="include/cdc/changefeed.h" bodystart="104" bodyend="104"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/changefeed.h" line="89" column="5" bodyfile="include/cdc/changefeed.h" bodystart="89" bodyend="105"/>
+    <listofallmembers>
+      <member refid="struct_changefeed_1_1_retention_policy_1ad2a6bf4e05dc907c7f36dd7ab8b5f10c" prot="public" virt="non-virtual"><scope>Changefeed::RetentionPolicy</scope><name>cleanup_interval</name></member>
+      <member refid="struct_changefeed_1_1_retention_policy_1af6415a5adfa2c7d420e01356e0dab195" prot="public" virt="non-virtual"><scope>Changefeed::RetentionPolicy</scope><name>compact_on_cleanup</name></member>
+      <member refid="struct_changefeed_1_1_retention_policy_1adf35895bcc414f85378a690852d43702" prot="public" virt="non-virtual"><scope>Changefeed::RetentionPolicy</scope><name>DEFAULT_MAX_SIZE_BYTES</name></member>
+      <member refid="struct_changefeed_1_1_retention_policy_1a4a838fe42bfe3a4112fd01c50eb36bfd" prot="public" virt="non-virtual"><scope>Changefeed::RetentionPolicy</scope><name>defaults</name></member>
+      <member refid="struct_changefeed_1_1_retention_policy_1adad3321cce00e385353ca28ad5b50398" prot="public" virt="non-virtual"><scope>Changefeed::RetentionPolicy</scope><name>enabled</name></member>
+      <member refid="struct_changefeed_1_1_retention_policy_1a9e22c96b489a022722c5d817dcaed616" prot="public" virt="non-virtual"><scope>Changefeed::RetentionPolicy</scope><name>max_age_hours</name></member>
+      <member refid="struct_changefeed_1_1_retention_policy_1a4c9377fcb702e7fbdb07e303352d1c40" prot="public" virt="non-virtual"><scope>Changefeed::RetentionPolicy</scope><name>max_event_count</name></member>
+      <member refid="struct_changefeed_1_1_retention_policy_1a6eefb7fbc0b5cb7f116be4f1eb10d0c0" prot="public" virt="non-virtual"><scope>Changefeed::RetentionPolicy</scope><name>max_size_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

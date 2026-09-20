@@ -1,0 +1,247 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__column__lineage__traversal__edge__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_column_lineage_traversal_edge_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="column__lineage_8h" local="yes">metadata/column_lineage.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>metadata/column_lineage.h</label>
+        <link refid="column__lineage_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/metadata/test_column_lineage_traversal_edge_focused.cpp</label>
+        <link refid="test__column__lineage__traversal__edge__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>atomic</label>
+      </node>
+      <node id="10">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="11">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__column__lineage__traversal__edge__focused_8cpp_1ae4459c0fde2796d34048f440fd0b62af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ColumnLineageTraversalEdgeTest, MCHLLN01_ColumnRefEquality)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ColumnLineageTraversalEdgeTest</type>
+        </param>
+        <param>
+          <type>MCHLLN01_ColumnRefEquality</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_column_lineage_traversal_edge_focused.cpp" line="39" column="1" bodyfile="tests/metadata/test_column_lineage_traversal_edge_focused.cpp" bodystart="39" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="test__column__lineage__traversal__edge__focused_8cpp_1ac713e0e3d749afb3835dd0b40e45d990" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ColumnLineageTraversalEdgeTest, MCHLLN02_ColumnRefToString)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ColumnLineageTraversalEdgeTest</type>
+        </param>
+        <param>
+          <type>MCHLLN02_ColumnRefToString</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_column_lineage_traversal_edge_focused.cpp" line="53" column="1" bodyfile="tests/metadata/test_column_lineage_traversal_edge_focused.cpp" bodystart="53" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="test__column__lineage__traversal__edge__focused_8cpp_1a1ebd370607160752fbbc046392264f75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ColumnLineageTraversalEdgeTest, MCHLLN03_ColumnRefJsonRoundTrip)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ColumnLineageTraversalEdgeTest</type>
+        </param>
+        <param>
+          <type>MCHLLN03_ColumnRefJsonRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_column_lineage_traversal_edge_focused.cpp" line="64" column="1" bodyfile="tests/metadata/test_column_lineage_traversal_edge_focused.cpp" bodystart="64" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="test__column__lineage__traversal__edge__focused_8cpp_1a1e5efd45978e26b435fb525895423330" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ColumnLineageTraversalEdgeTest, MCHLLN04_TransformationTypeRoundTrip)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ColumnLineageTraversalEdgeTest</type>
+        </param>
+        <param>
+          <type>MCHLLN04_TransformationTypeRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_column_lineage_traversal_edge_focused.cpp" line="77" column="1" bodyfile="tests/metadata/test_column_lineage_traversal_edge_focused.cpp" bodystart="77" bodyend="97"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase B2: Traversal edge-case tests for <ref refid="classthemis_1_1metadata_1_1_column_lineage_tracker" kindref="compound">ColumnLineageTracker</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para>Test IDs: MCH-LN01..MCH-LN04</para>
+</simplesect>
+MCH-LN01 <ref refid="structthemis_1_1metadata_1_1_column_ref" kindref="compound">ColumnRef</ref> equality and inequality operators work correctly MCH-LN02 <ref refid="structthemis_1_1metadata_1_1_column_ref_1a5f21f16e59e39b3d454d41be8a2b803e" kindref="member">ColumnRef::toString()</ref> returns &quot;table.column&quot; canonical format MCH-LN03 <ref refid="structthemis_1_1metadata_1_1_column_ref_1accb3fcec5d0bfa8fe16108650ef6db1a" kindref="member">ColumnRef::toJSON()</ref> / fromJSON() round-trip preserves all fields MCH-LN04 <ref refid="namespacethemis_1_1metadata_1aae7ca3e7a55cd13ba52c35097bc8b085" kindref="member">TransformationType</ref> string conversion round-trips for all types</para>
+<para>Self-contained: no RocksDB, no network I/O, no background threads. Canonical PRNG seed: kLineageSeed = 42.</para>
+<para><simplesect kind="see"><para><ref refid="column__lineage_8h" kindref="compound">include/metadata/column_lineage.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/metadata/ROADMAP.md — Phase B lineage traversal items </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="column__lineage_8h" kindref="compound">metadata/column_lineage.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1metadata" kindref="compound">themis::metadata</ref>;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal">[[maybe_unused]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kLineageSeed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCH-LN01:<sp/>ColumnRef<sp/>equality<sp/>and<sp/>inequality<sp/>operators<sp/>work<sp/>correctly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><ref refid="test__column__lineage__traversal__edge__focused_8cpp_1ae4459c0fde2796d34048f440fd0b62af" kindref="member">TEST</ref>(ColumnLineageTraversalEdgeTest,<sp/>MCHLLN01_ColumnRefEquality)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1metadata_1_1_column_ref" kindref="compound">ColumnRef</ref><sp/>a{</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;customer_id&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1metadata_1_1_column_ref" kindref="compound">ColumnRef</ref><sp/>b{</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;customer_id&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1metadata_1_1_column_ref" kindref="compound">ColumnRef</ref><sp/>c{</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;order_date&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1metadata_1_1_column_ref" kindref="compound">ColumnRef</ref><sp/>d{</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="stringliteral">&quot;customer_id&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(a,<sp/>b);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(a,<sp/>c);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(a,<sp/>d);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCH-LN02:<sp/>ColumnRef::toString()<sp/>returns<sp/>&quot;table.column&quot;<sp/>canonical<sp/>format</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><ref refid="test__column__lineage__traversal__edge__focused_8cpp_1ae4459c0fde2796d34048f440fd0b62af" kindref="member">TEST</ref>(ColumnLineageTraversalEdgeTest,<sp/>MCHLLN02_ColumnRefToString)<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1metadata_1_1_column_ref" kindref="compound">ColumnRef</ref><sp/>ref{</highlight><highlight class="stringliteral">&quot;shipments&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;tracking_id&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ref.<ref refid="structthemis_1_1metadata_1_1_column_ref_1a5f21f16e59e39b3d454d41be8a2b803e" kindref="member">toString</ref>(),<sp/></highlight><highlight class="stringliteral">&quot;shipments.tracking_id&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1metadata_1_1_column_ref" kindref="compound">ColumnRef</ref><sp/>empty{</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(empty.<ref refid="structthemis_1_1metadata_1_1_column_ref_1a5f21f16e59e39b3d454d41be8a2b803e" kindref="member">toString</ref>(),<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCH-LN03:<sp/>ColumnRef::toJSON()<sp/>/<sp/>fromJSON()<sp/>round-trip<sp/>preserves<sp/>all<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><ref refid="test__column__lineage__traversal__edge__focused_8cpp_1ae4459c0fde2796d34048f440fd0b62af" kindref="member">TEST</ref>(ColumnLineageTraversalEdgeTest,<sp/>MCHLLN03_ColumnRefJsonRoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1metadata_1_1_column_ref" kindref="compound">ColumnRef</ref><sp/>original{</highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;sku&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>original.<ref refid="structthemis_1_1metadata_1_1_column_ref_1accb3fcec5d0bfa8fe16108650ef6db1a" kindref="member">toJSON</ref>();</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>restored<sp/>=<sp/><ref refid="structthemis_1_1metadata_1_1_column_ref_1a00e621f48a9816b40baac364c3a3b3c8" kindref="member">ColumnRef::fromJSON</ref>(j);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.table_name,<sp/><sp/>original.<ref refid="structthemis_1_1metadata_1_1_column_ref_1acdf02b248adc6a824aab3e45c5cc3fc4" kindref="member">table_name</ref>);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.column_name,<sp/>original.<ref refid="structthemis_1_1metadata_1_1_column_ref_1aafb0f4a0b0f88784daa38f2e1cdf8e1c" kindref="member">column_name</ref>);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored,<sp/>original);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCH-LN04:<sp/>TransformationType<sp/>string<sp/>conversion<sp/>round-trips<sp/>for<sp/>all<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><ref refid="test__column__lineage__traversal__edge__focused_8cpp_1ae4459c0fde2796d34048f440fd0b62af" kindref="member">TEST</ref>(ColumnLineageTraversalEdgeTest,<sp/>MCHLLN04_TransformationTypeRoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;TransformationType&gt;<sp/>all_types<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1metadata_1aae7ca3e7a55cd13ba52c35097bc8b085a869f7a49d94bf28c279b78d4f8cffce3" kindref="member">TransformationType::DIRECT_COPY</ref>,</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1metadata_1aae7ca3e7a55cd13ba52c35097bc8b085a507f09f72160920edb481656c350e76c" kindref="member">TransformationType::RENAME</ref>,</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1metadata_1aae7ca3e7a55cd13ba52c35097bc8b085a283929907641c5acaf4c5b67986fc1db" kindref="member">TransformationType::CAST</ref>,</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1metadata_1aae7ca3e7a55cd13ba52c35097bc8b085a6be453b0bddc1cb07f6ac2cf460e77fd" kindref="member">TransformationType::COMPUTED</ref>,</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1metadata_1aae7ca3e7a55cd13ba52c35097bc8b085af4c9f5462147735029052b713da1ce44" kindref="member">TransformationType::AGGREGATION</ref>,</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1metadata_1aae7ca3e7a55cd13ba52c35097bc8b085a0a5d774452fc707b70a657fec29b2bc4" kindref="member">TransformationType::ANONYMIZATION</ref>,</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1metadata_1aae7ca3e7a55cd13ba52c35097bc8b085a7c9cb569785ae44f42a6a7cae0ba1082" kindref="member">TransformationType::ENRICHMENT</ref>,</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1metadata_1aae7ca3e7a55cd13ba52c35097bc8b085a72baef04098f035e8a320b03ad197818" kindref="member">TransformationType::CUSTOM</ref>,</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t<sp/>:<sp/>all_types)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>s<sp/>=<sp/><ref refid="namespacethemis_1_1metadata_1a4244e347bd3c10198e0a0fef093ca26c" kindref="member">transformationTypeToString</ref>(t);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(s.empty())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;transformationTypeToString()<sp/>returned<sp/>empty<sp/>for<sp/>type&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1metadata_1aae7ca3e7a55cd13ba52c35097bc8b085" kindref="member">TransformationType</ref><sp/>restored<sp/>=<sp/><ref refid="namespacethemis_1_1metadata_1a1d2c14e52a681cd2c50748580b0e25fc" kindref="member">transformationTypeFromString</ref>(s);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(restored,<sp/>t)</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Round-trip<sp/>failed<sp/>for:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>s;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/metadata/test_column_lineage_traversal_edge_focused.cpp"/>
+  </compounddef>
+</doxygen>

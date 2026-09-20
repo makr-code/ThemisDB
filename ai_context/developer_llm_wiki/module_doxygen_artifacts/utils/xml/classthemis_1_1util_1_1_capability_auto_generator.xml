@@ -1,0 +1,1137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1util_1_1_capability_auto_generator" kind="class" language="C++" prot="public">
+    <compoundname>themis::util::CapabilityAutoGenerator</compoundname>
+    <includes refid="capability__auto__generator_8h" local="no">capability_auto_generator.h</includes>
+    <innerclass refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_update_schedule" prot="public">themis::util::CapabilityAutoGenerator::UpdateSchedule</innerclass>
+    <innerclass refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_config" prot="public">themis::util::CapabilityAutoGenerator::Config</innerclass>
+    <innerclass refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_analysis_result" prot="public">themis::util::CapabilityAutoGenerator::AnalysisResult</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1util_1_1_capability_auto_generator_1adef182662b119109ec179de6616f54b4" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::util::CapabilityAutoGenerator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="237" column="12" bodyfile="include/utils/capability_auto_generator.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1util_1_1_capability_auto_generator_1a6f7e92385dfab2052a432ebccbe2a76e" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; sharding::ShardTopology &gt;</type>
+        <definition>std::shared_ptr&lt;sharding::ShardTopology&gt; themis::util::CapabilityAutoGenerator::topology_</definition>
+        <argsstring></argsstring>
+        <name>topology_</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::topology_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="238" column="21" bodyfile="include/utils/capability_auto_generator.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1util_1_1_capability_auto_generator_1a56e9356bba45fb16b3106eb2fa801898" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1util_1_1_self_awareness" kindref="compound">SelfAwareness</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;SelfAwareness&gt; themis::util::CapabilityAutoGenerator::self_awareness_</definition>
+        <argsstring></argsstring>
+        <name>self_awareness_</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::self_awareness_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="239" column="21" bodyfile="include/utils/capability_auto_generator.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1util_1_1_capability_auto_generator_1a610c15fd98dff6be5c7a91f63dbb236a" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::util::CapabilityAutoGenerator::state_db_</definition>
+        <argsstring></argsstring>
+        <name>state_db_</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::state_db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="240" column="21" bodyfile="include/utils/capability_auto_generator.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1util_1_1_capability_auto_generator_1ac0edad33337af2b6641f26c11661df06" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; std::thread &gt;</type>
+        <definition>std::unique_ptr&lt;std::thread&gt; themis::util::CapabilityAutoGenerator::worker_thread_</definition>
+        <argsstring></argsstring>
+        <name>worker_thread_</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::worker_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="243" column="21" bodyfile="include/utils/capability_auto_generator.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1util_1_1_capability_auto_generator_1abdb6ad06080150d03c65264abc953d57" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::util::CapabilityAutoGenerator::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="244" column="17" bodyfile="include/utils/capability_auto_generator.h" bodystart="244" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1util_1_1_capability_auto_generator_1a368788c5f2b602e3e342632ce556a851" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::util::CapabilityAutoGenerator::stop_requested_</definition>
+        <argsstring></argsstring>
+        <name>stop_requested_</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::stop_requested_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="245" column="17" bodyfile="include/utils/capability_auto_generator.h" bodystart="245" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1util_1_1_capability_auto_generator_1abac4950b5f9c8caf467bcab4bcb4653d" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::util::CapabilityAutoGenerator::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="246" column="24" bodyfile="include/utils/capability_auto_generator.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1util_1_1_capability_auto_generator_1a7bd0f1571f3bbb3633566f404e84923a" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, int64_t &gt;</type>
+        <definition>std::map&lt;std::string, int64_t&gt; themis::util::CapabilityAutoGenerator::last_run_timestamps_</definition>
+        <argsstring></argsstring>
+        <name>last_run_timestamps_</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::last_run_timestamps_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="249" column="15" bodyfile="include/utils/capability_auto_generator.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1util_1_1_capability_auto_generator_1a044aa677312d78da104024a3269a3f14" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, uint64_t &gt;</type>
+        <definition>std::map&lt;std::string, uint64_t&gt; themis::util::CapabilityAutoGenerator::last_document_counts_</definition>
+        <argsstring></argsstring>
+        <name>last_document_counts_</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::last_document_counts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="250" column="14" bodyfile="include/utils/capability_auto_generator.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1util_1_1_capability_auto_generator_1a07176edcc443d8f55bb31fd51a4f9a11" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::util::CapabilityAutoGenerator::total_generations_</definition>
+        <argsstring></argsstring>
+        <name>total_generations_</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::total_generations_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="253" column="17" bodyfile="include/utils/capability_auto_generator.h" bodystart="253" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1util_1_1_capability_auto_generator_1aaed0915a47bdcf7b2d0ea7128a76b8a4" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::util::CapabilityAutoGenerator::successful_generations_</definition>
+        <argsstring></argsstring>
+        <name>successful_generations_</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::successful_generations_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="254" column="17" bodyfile="include/utils/capability_auto_generator.h" bodystart="254" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1util_1_1_capability_auto_generator_1a3efdfc204cf949e94896c571e39ef585" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::util::CapabilityAutoGenerator::failed_generations_</definition>
+        <argsstring></argsstring>
+        <name>failed_generations_</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::failed_generations_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="255" column="17" bodyfile="include/utils/capability_auto_generator.h" bodystart="255" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1util_1_1_capability_auto_generator_1a6c5562face07eb79f95d2bd72164cb04" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::util::CapabilityAutoGenerator::auto_approved_</definition>
+        <argsstring></argsstring>
+        <name>auto_approved_</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::auto_approved_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="256" column="17" bodyfile="include/utils/capability_auto_generator.h" bodystart="256" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1util_1_1_capability_auto_generator_1a4c0a009a18503f650bb5c9146de6d87d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::util::CapabilityAutoGenerator::manual_review_required_</definition>
+        <argsstring></argsstring>
+        <name>manual_review_required_</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::manual_review_required_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="257" column="17" bodyfile="include/utils/capability_auto_generator.h" bodystart="257" bodyend="257"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1util_1_1_capability_auto_generator_1a3ccd3dc8b26c0b79483e83c6269b53b3" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::util::CapabilityAutoGenerator::CapabilityAutoGenerator</definition>
+        <argsstring>(const Config &amp;config, std::shared_ptr&lt; sharding::ShardTopology &gt; topology, std::shared_ptr&lt; SelfAwareness &gt; self_awareness=nullptr, std::shared_ptr&lt; RocksDBWrapper &gt; state_db=nullptr)</argsstring>
+        <name>CapabilityAutoGenerator</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::CapabilityAutoGenerator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; sharding::ShardTopology &gt;</type>
+          <declname>topology</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1util_1_1_self_awareness" kindref="compound">SelfAwareness</ref> &gt;</type>
+          <declname>self_awareness</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+          <declname>state_db</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Construct capability auto-generator</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard topology manager </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>self_awareness</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional self-awareness system (for audit trigger) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>state_db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional RocksDB instance for persisting schedule/count state </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="127" column="14" bodyfile="src/utils/capability_auto_generator.cpp" bodystart="114" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1util_1_1_capability_auto_generator_1a0b2abe80958c4494d10e8b42cd987e2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::util::CapabilityAutoGenerator::~CapabilityAutoGenerator</definition>
+        <argsstring>()</argsstring>
+        <name>~CapabilityAutoGenerator</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::~CapabilityAutoGenerator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Destructor - stops background thread </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="137" column="5" bodyfile="src/utils/capability_auto_generator.cpp" bodystart="127" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1util_1_1_capability_auto_generator_1ab7f09fd9d04a3dce65c63f7a579a0cbe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::util::CapabilityAutoGenerator::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::start</qualifiedname>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start background update thread</para>
+<para>Implements start without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="142" column="10" bodyfile="src/utils/capability_auto_generator.cpp" bodystart="135" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1util_1_1_capability_auto_generator_1a5f902748d7226a89fc5e9fe86617e2c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::util::CapabilityAutoGenerator::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::stop</qualifiedname>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop background update thread</para>
+<para>Calls: joinable(), join(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="147" column="10" bodyfile="src/utils/capability_auto_generator.cpp" bodystart="154" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1util_1_1_capability_auto_generator_1ab65935e1e7c9fa786c00005dd22021f0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::util::CapabilityAutoGenerator::isRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::isRunning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if auto-generator is running </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="152" column="10" bodyfile="include/utils/capability_auto_generator.h" bodystart="152" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1util_1_1_capability_auto_generator_1a79c744570039b8c9e2f942f4fcc2364b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::util::CapabilityAutoGenerator::generateCapability</definition>
+        <argsstring>(const std::string &amp;shard_id, bool force=false)</argsstring>
+        <name>generateCapability</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::generateCapability</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>force</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Manually trigger capability generation for a specific shard</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>force</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Force update even if no changes detected </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="161" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1util_1_1_capability_auto_generator_1a8d73141b6fc6a1fd62de6342b702dac0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_analysis_result" kindref="compound">AnalysisResult</ref></type>
+        <definition>CapabilityAutoGenerator::AnalysisResult themis::util::CapabilityAutoGenerator::analyzeShardData</definition>
+        <argsstring>(const std::string &amp;shard_id, const std::string &amp;data_path)</argsstring>
+        <name>analyzeShardData</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::analyzeShardData</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data_path</declname>
+        </param>
+        <briefdescription>
+<para>Analyze Shard Data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Analyze RocksDB data for a shard</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to RocksDB data directory </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Analysis result with extracted metadata</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the data. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="namespacethemis_1_1storage_1_1detail_1ad7cad3395f213fdefe4ad19218163647" kindref="member">themis::storage::detail::openDbForReadOnlyCompat()</ref>, ok(), ToString(), db_owner(), it(), NewIterator(), rocksdb::ReadOptions(), SeekToFirst(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="170" column="20" bodyfile="src/utils/capability_auto_generator.cpp" bodystart="287" bodyend="398"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1util_1_1_capability_auto_generator_1a5be8d1e5b43d069f24bc043686359f73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>sharding::DomainCapability</type>
+        <definition>sharding::DomainCapability themis::util::CapabilityAutoGenerator::generateFromAnalysis</definition>
+        <argsstring>(const AnalysisResult &amp;result, const sharding::DomainCapability *previous_capability=nullptr)</argsstring>
+        <name>generateFromAnalysis</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::generateFromAnalysis</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_analysis_result" kindref="compound">AnalysisResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>const sharding::DomainCapability *</type>
+          <declname>previous_capability</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Generate From Analysis. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Generate capability YAML from analysis result</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Analysis result </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>previous_capability</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Previous capability (if exists) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Generated capability</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">previous_capability</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::find(), begin(), end(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="179" column="32" bodyfile="src/utils/capability_auto_generator.cpp" bodystart="407" bodyend="431"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1util_1_1_capability_auto_generator_1a213bad203a0e82d54aa6effeae9d782d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::util::CapabilityAutoGenerator::saveCapability</definition>
+        <argsstring>(const std::string &amp;shard_id, const sharding::DomainCapability &amp;capability, const nlohmann::json &amp;audit_info)</argsstring>
+        <name>saveCapability</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::saveCapability</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const sharding::DomainCapability &amp;</type>
+          <declname>capability</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>audit_info</declname>
+        </param>
+        <briefdescription>
+<para>Save Capability. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Save capability to YAML file with audit trail</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>capability</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Capability to save </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>audit_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Audit information (user, reason, etc.) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if successful</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">capability</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">audit_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: auditLog(), out_dir(), fs::create_directories(), empty(), emitSeq(), ofs(), string(), c_str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="192" column="10" bodyfile="src/utils/capability_auto_generator.cpp" bodystart="523" bodyend="600"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1util_1_1_capability_auto_generator_1aae055b5d2da50e432149d4a91f3fddb8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::util::CapabilityAutoGenerator::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get statistics about auto-generation</para>
+<para><simplesect kind="return"><para>Statistics as JSON </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="203" column="20" bodyfile="src/utils/capability_auto_generator.cpp" bodystart="682" bodyend="691"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1util_1_1_capability_auto_generator_1a50307bce57aabe1dab1a9a8310b92f11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::util::CapabilityAutoGenerator::updateConfig</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>updateConfig</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::updateConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Update configuration at runtime</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="210" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1util_1_1_capability_auto_generator_1abeaeafb6d2ca587477bc7d36ec9abaf6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::util::CapabilityAutoGenerator::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get current configuration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="215" column="12" bodyfile="include/utils/capability_auto_generator.h" bodystart="215" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1util_1_1_capability_auto_generator_1aa99bfb79573839a9c4c92dcb39f93fe4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::util::CapabilityAutoGenerator::persistState</definition>
+        <argsstring>(const std::string &amp;shard_id, int64_t timestamp, uint64_t doc_count)</argsstring>
+        <name>persistState</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::persistState</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>timestamp</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>doc_count</declname>
+        </param>
+        <briefdescription>
+<para>Persist State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Persist the last-run timestamp and document count for a shard.</para>
+<para>Updates both the in-memory maps (used by the schedule gate and shouldUpdate) and the durable RocksDB state key &quot;utils_capgen_state:&lt;shard_id&gt;&quot;. No-op on the RocksDB side when state_db_ is null. This method is public so that callers can pre-seed or reset persisted state (e.g. during migration, testing, or manual override).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unix epoch seconds to record as last run time </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>doc_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Document count to record as last known count</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">doc_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), put(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="234" column="10" bodyfile="src/utils/capability_auto_generator.cpp" bodystart="750" bodyend="772"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1util_1_1_capability_auto_generator_1ae25829487fb84647e5875d98b1e59f98" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::util::CapabilityAutoGenerator::workerThread</definition>
+        <argsstring>()</argsstring>
+        <name>workerThread</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::workerThread</qualifiedname>
+        <briefdescription>
+<para>Worker Thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Background worker thread function</para>
+<para>Calls: getAllShards(), processShard(), std::this_thread::sleep_for(), std::chrono::milliseconds(), min_interval(), auditLog(), what(), std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="262" column="10" bodyfile="src/utils/capability_auto_generator.cpp" bodystart="172" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1util_1_1_capability_auto_generator_1a840f815b40f625762f9bd6935b45b166" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::util::CapabilityAutoGenerator::processShard</definition>
+        <argsstring>(const sharding::ShardInfo &amp;shard)</argsstring>
+        <name>processShard</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::processShard</qualifiedname>
+        <param>
+          <type>const sharding::ShardInfo &amp;</type>
+          <declname>shard</declname>
+        </param>
+        <briefdescription>
+<para>Process Shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Process a single shard</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: getScheduleForShard(), lock(), find(), end(), std::chrono::system_clock::now(), time_since_epoch(), count(), <ref refid="classthemis_1_1util_1_1_capability_auto_generator_1a8d73141b6fc6a1fd62de6342b702dac0" kindref="member">analyzeShardData()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="267" column="10" bodyfile="src/utils/capability_auto_generator.cpp" bodystart="218" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1util_1_1_capability_auto_generator_1a6a26d45f60ec36f2a554a5ab886405a1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::util::CapabilityAutoGenerator::shouldUpdate</definition>
+        <argsstring>(const sharding::ShardInfo &amp;shard, const AnalysisResult &amp;current)</argsstring>
+        <name>shouldUpdate</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::shouldUpdate</qualifiedname>
+        <param>
+          <type>const sharding::ShardInfo &amp;</type>
+          <declname>shard</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_analysis_result" kindref="compound">AnalysisResult</ref> &amp;</type>
+          <declname>current</declname>
+        </param>
+        <briefdescription>
+<para>Should Update. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if shard should be updated</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: isEmpty(), lock(), find(), end(), getScheduleForShard(), prev_set(), begin(), curr_set(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="272" column="10" bodyfile="src/utils/capability_auto_generator.cpp" bodystart="440" bodyend="485"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1util_1_1_capability_auto_generator_1ad0c987d7a3339bb384abd205e80aa27b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::util::CapabilityAutoGenerator::calculateChangeSignificance</definition>
+        <argsstring>(const sharding::DomainCapability &amp;old_cap, const AnalysisResult &amp;new_result)</argsstring>
+        <name>calculateChangeSignificance</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::calculateChangeSignificance</qualifiedname>
+        <param>
+          <type>const sharding::DomainCapability &amp;</type>
+          <declname>old_cap</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_analysis_result" kindref="compound">AnalysisResult</ref> &amp;</type>
+          <declname>new_result</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Calculate change significance between old and new </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="277" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1util_1_1_capability_auto_generator_1abb3a3a914ab21e34a2070ac63aa313cf" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::util::CapabilityAutoGenerator::extractKeywords</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;documents, uint32_t max_keywords)</argsstring>
+        <name>extractKeywords</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::extractKeywords</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>max_keywords</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Extract keywords using TF-IDF </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="285" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1util_1_1_capability_auto_generator_1a544dc456827462ab745613e52e382c09" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::util::CapabilityAutoGenerator::generateAuditTrail</definition>
+        <argsstring>(const std::string &amp;shard_id, const sharding::DomainCapability *previous, const AnalysisResult &amp;current)</argsstring>
+        <name>generateAuditTrail</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::generateAuditTrail</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const sharding::DomainCapability *</type>
+          <declname>previous</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_analysis_result" kindref="compound">AnalysisResult</ref> &amp;</type>
+          <declname>current</declname>
+        </param>
+        <briefdescription>
+<para>Generate Audit Trail. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Generate audit trail</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">previous</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), prev_set(), begin(), end(), curr_set(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="293" column="20" bodyfile="src/utils/capability_auto_generator.cpp" bodystart="643" bodyend="679"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1util_1_1_capability_auto_generator_1a8d5babbb34785fd72c738b6a0b79e633" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::util::CapabilityAutoGenerator::generateSignature</definition>
+        <argsstring>(const sharding::DomainCapability &amp;capability, const std::string &amp;private_key_path)</argsstring>
+        <name>generateSignature</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::generateSignature</qualifiedname>
+        <param>
+          <type>const sharding::DomainCapability &amp;</type>
+          <declname>capability</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>private_key_path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create cryptographic signature </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="302" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1util_1_1_capability_auto_generator_1a20635170f12a8a9f563df4d3f87663bc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::util::CapabilityAutoGenerator::auditLog</definition>
+        <argsstring>(const std::string &amp;shard_id, const nlohmann::json &amp;entry)</argsstring>
+        <name>auditLog</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::auditLog</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Audit Log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log to audit file</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: log(), std::chrono::system_clock::now(), time_since_epoch(), count(), dump(), onAuditSigning(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="310" column="10" bodyfile="src/utils/capability_auto_generator.cpp" bodystart="608" bodyend="633"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1util_1_1_capability_auto_generator_1a169935f381fc27a1a723b74bd14e0ce0" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1util_1_1_capability_auto_generator_1_1_update_schedule" kindref="compound">UpdateSchedule</ref></type>
+        <definition>CapabilityAutoGenerator::UpdateSchedule themis::util::CapabilityAutoGenerator::getScheduleForShard</definition>
+        <argsstring>(const sharding::ShardInfo &amp;shard) const</argsstring>
+        <name>getScheduleForShard</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::getScheduleForShard</qualifiedname>
+        <param>
+          <type>const sharding::ShardInfo &amp;</type>
+          <declname>shard</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get update schedule for shard </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="315" column="20" bodyfile="src/utils/capability_auto_generator.cpp" bodystart="488" bodyend="498"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1util_1_1_capability_auto_generator_1af3a3b58787314578e3f743c4ea2b66be" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::util::CapabilityAutoGenerator::determineShardType</definition>
+        <argsstring>(const sharding::ShardInfo &amp;shard) const</argsstring>
+        <name>determineShardType</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::determineShardType</qualifiedname>
+        <param>
+          <type>const sharding::ShardInfo &amp;</type>
+          <declname>shard</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Determine shard type from metadata </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="320" column="17" bodyfile="src/utils/capability_auto_generator.cpp" bodystart="501" bodyend="513"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1util_1_1_capability_auto_generator_1a494482bb6d1bda2fc5ae4fadec1e2452" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::util::CapabilityAutoGenerator::loadPersistedState</definition>
+        <argsstring>()</argsstring>
+        <name>loadPersistedState</name>
+        <qualifiedname>themis::util::CapabilityAutoGenerator::loadPersistedState</qualifiedname>
+        <briefdescription>
+<para>Load Persisted State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load persisted schedule/count state from state_db_ into in-memory maps. Called once in the constructor when state_db_ is non-null.</para>
+<para>Calls: start_key(), back(), lock(), iterateRange(), size(), shard_id(), substr(), nlohmann::json::parse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/capability_auto_generator.h" line="326" column="10" bodyfile="src/utils/capability_auto_generator.cpp" bodystart="697" bodyend="741"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Capability Auto-Generator</para>
+<para>Utility for automatically generating and updating shard capability configurations by analyzing RocksDB data. Runs as background thread with configurable update schedules.</para>
+<para>Features:<itemizedlist>
+<listitem><para>Automatic metadata extraction from RocksDB</para>
+</listitem><listitem><para>Keyword analysis (TF-IDF)</para>
+</listitem><listitem><para>Configurable update frequencies per shard type</para>
+</listitem><listitem><para>Audit trail with signatures</para>
+</listitem><listitem><para>YAML-based configuration </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/utils/capability_auto_generator.h" line="46" column="1" bodyfile="include/utils/capability_auto_generator.h" bodystart="46" bodyend="327"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1a8d73141b6fc6a1fd62de6342b702dac0" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>analyzeShardData</name></member>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1a20635170f12a8a9f563df4d3f87663bc" prot="private" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>auditLog</name></member>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1a6c5562face07eb79f95d2bd72164cb04" prot="private" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>auto_approved_</name></member>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1ad0c987d7a3339bb384abd205e80aa27b" prot="private" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>calculateChangeSignificance</name></member>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1a3ccd3dc8b26c0b79483e83c6269b53b3" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>CapabilityAutoGenerator</name></member>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1adef182662b119109ec179de6616f54b4" prot="private" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1af3a3b58787314578e3f743c4ea2b66be" prot="private" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>determineShardType</name></member>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1abb3a3a914ab21e34a2070ac63aa313cf" prot="private" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>extractKeywords</name></member>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1a3efdfc204cf949e94896c571e39ef585" prot="private" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>failed_generations_</name></member>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1a544dc456827462ab745613e52e382c09" prot="private" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>generateAuditTrail</name></member>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1a79c744570039b8c9e2f942f4fcc2364b" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>generateCapability</name></member>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1a5be8d1e5b43d069f24bc043686359f73" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>generateFromAnalysis</name></member>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1a8d5babbb34785fd72c738b6a0b79e633" prot="private" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>generateSignature</name></member>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1abeaeafb6d2ca587477bc7d36ec9abaf6" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1a169935f381fc27a1a723b74bd14e0ce0" prot="private" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>getScheduleForShard</name></member>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1aae055b5d2da50e432149d4a91f3fddb8" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1ab65935e1e7c9fa786c00005dd22021f0" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1a044aa677312d78da104024a3269a3f14" prot="private" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>last_document_counts_</name></member>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1a7bd0f1571f3bbb3633566f404e84923a" prot="private" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>last_run_timestamps_</name></member>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1a494482bb6d1bda2fc5ae4fadec1e2452" prot="private" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>loadPersistedState</name></member>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1a4c0a009a18503f650bb5c9146de6d87d" prot="private" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>manual_review_required_</name></member>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1abac4950b5f9c8caf467bcab4bcb4653d" prot="private" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1aa99bfb79573839a9c4c92dcb39f93fe4" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>persistState</name></member>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1a840f815b40f625762f9bd6935b45b166" prot="private" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>processShard</name></member>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1abdb6ad06080150d03c65264abc953d57" prot="private" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>running_</name></member>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1a213bad203a0e82d54aa6effeae9d782d" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>saveCapability</name></member>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1a56e9356bba45fb16b3106eb2fa801898" prot="private" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>self_awareness_</name></member>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1a6a26d45f60ec36f2a554a5ab886405a1" prot="private" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>shouldUpdate</name></member>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1ab7f09fd9d04a3dce65c63f7a579a0cbe" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>start</name></member>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1a610c15fd98dff6be5c7a91f63dbb236a" prot="private" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>state_db_</name></member>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1a5f902748d7226a89fc5e9fe86617e2c8" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>stop</name></member>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1a368788c5f2b602e3e342632ce556a851" prot="private" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>stop_requested_</name></member>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1aaed0915a47bdcf7b2d0ea7128a76b8a4" prot="private" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>successful_generations_</name></member>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1a6f7e92385dfab2052a432ebccbe2a76e" prot="private" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>topology_</name></member>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1a07176edcc443d8f55bb31fd51a4f9a11" prot="private" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>total_generations_</name></member>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1a50307bce57aabe1dab1a9a8310b92f11" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>updateConfig</name></member>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1ac0edad33337af2b6641f26c11661df06" prot="private" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>worker_thread_</name></member>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1ae25829487fb84647e5875d98b1e59f98" prot="private" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>workerThread</name></member>
+      <member refid="classthemis_1_1util_1_1_capability_auto_generator_1a0b2abe80958c4494d10e8b42cd987e2c" prot="public" virt="non-virtual"><scope>themis::util::CapabilityAutoGenerator</scope><name>~CapabilityAutoGenerator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

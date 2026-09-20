@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb_1_1llm_1_1_target_modules" kind="namespace" language="C++">
+    <compoundname>themisdb::llm::TargetModules</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemisdb_1_1llm_1_1_target_modules_1ad327632356dda6bd706d4af83df6f019" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themisdb::llm::TargetModules::QV_ONLY</definition>
+        <argsstring>()</argsstring>
+        <name>QV_ONLY</name>
+        <qualifiedname>themisdb::llm::TargetModules::QV_ONLY</qualifiedname>
+        <briefdescription>
+<para>QV ONLY. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements QV_ONLY without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_training_backend.h" line="116" column="24" bodyfile="include/llm/llamacpp_training_backend.h" bodystart="116" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1llm_1_1_target_modules_1a3de37bb1cfe79b712220eb95220126a7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themisdb::llm::TargetModules::QKV</definition>
+        <argsstring>()</argsstring>
+        <name>QKV</name>
+        <qualifiedname>themisdb::llm::TargetModules::QKV</qualifiedname>
+        <briefdescription>
+<para>QKV. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements QKV without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_training_backend.h" line="122" column="24" bodyfile="include/llm/llamacpp_training_backend.h" bodystart="122" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1llm_1_1_target_modules_1abdf083d32b4363a7e1e603f8cd7aec1b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themisdb::llm::TargetModules::QKVO</definition>
+        <argsstring>()</argsstring>
+        <name>QKVO</name>
+        <qualifiedname>themisdb::llm::TargetModules::QKVO</qualifiedname>
+        <briefdescription>
+<para>QKVO. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements QKVO without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_training_backend.h" line="128" column="24" bodyfile="include/llm/llamacpp_training_backend.h" bodystart="128" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1llm_1_1_target_modules_1a2448e67153e6610a84fb2d79d63b3c9b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themisdb::llm::TargetModules::ALL_LINEAR</definition>
+        <argsstring>()</argsstring>
+        <name>ALL_LINEAR</name>
+        <qualifiedname>themisdb::llm::TargetModules::ALL_LINEAR</qualifiedname>
+        <briefdescription>
+<para>ALL LINEAR. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements ALL_LINEAR without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_training_backend.h" line="134" column="24" bodyfile="include/llm/llamacpp_training_backend.h" bodystart="134" bodyend="137"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llamacpp_training_backend.h" line="110" column="1"/>
+  </compounddef>
+</doxygen>

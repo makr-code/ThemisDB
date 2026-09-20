@@ -1,0 +1,699 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::CustomAllReduce</compoundname>
+    <includes refid="custom__allreduce_8h" local="no">custom_allreduce.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1ac89deac1b69f75b710d19f0fe94ee533" prot="public" static="no">
+        <type>std::function&lt; bool(<ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;, bool)&gt;</type>
+        <definition>using themis::llm::lora::CustomAllReduce::RingAllreduceFn = std::function&lt;bool(GPUTensor&amp;, bool )&gt;</definition>
+        <argsstring></argsstring>
+        <name>RingAllreduceFn</name>
+        <qualifiedname>themis::llm::lora::CustomAllReduce::RingAllreduceFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/custom_allreduce.h" line="27" column="5" bodyfile="include/llm/lora_framework/custom_allreduce.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1a1a25785dd5b20ed2180c8f4aba54791a" prot="private" static="no" mutable="no">
+        <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_context" kindref="compound">MultiGPUContext</ref> &amp;</type>
+        <definition>const MultiGPUContext&amp; themis::llm::lora::CustomAllReduce::ctx_</definition>
+        <argsstring></argsstring>
+        <name>ctx_</name>
+        <qualifiedname>themis::llm::lora::CustomAllReduce::ctx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/custom_allreduce.h" line="73" column="27" bodyfile="include/llm/lora_framework/custom_allreduce.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1a58ee7c4b5c82e5f27fc01c6fa254820f" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::CustomAllReduce::rank_</definition>
+        <argsstring></argsstring>
+        <name>rank_</name>
+        <qualifiedname>themis::llm::lora::CustomAllReduce::rank_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/custom_allreduce.h" line="74" column="9" bodyfile="include/llm/lora_framework/custom_allreduce.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1abc231da940e66b7d278438170bf1da4e" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::CustomAllReduce::world_size_</definition>
+        <argsstring></argsstring>
+        <name>world_size_</name>
+        <qualifiedname>themis::llm::lora::CustomAllReduce::world_size_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/custom_allreduce.h" line="75" column="9" bodyfile="include/llm/lora_framework/custom_allreduce.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1af95b7e0358f93abb52bbd3afc50b4643" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::CustomAllReduce::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::llm::lora::CustomAllReduce::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/custom_allreduce.h" line="76" column="10" bodyfile="include/llm/lora_framework/custom_allreduce.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1aa78ecb5b2c9ab72d728b36d0400c4471" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::CustomAllReduce::p2p_enabled_</definition>
+        <argsstring></argsstring>
+        <name>p2p_enabled_</name>
+        <qualifiedname>themis::llm::lora::CustomAllReduce::p2p_enabled_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/custom_allreduce.h" line="77" column="10" bodyfile="include/llm/lora_framework/custom_allreduce.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1a809b48994b3a2ceef1c709d6a7c51b08" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1ac89deac1b69f75b710d19f0fe94ee533" kindref="member">RingAllreduceFn</ref> &gt;</type>
+        <definition>std::optional&lt;RingAllreduceFn&gt; themis::llm::lora::CustomAllReduce::ring_allreduce_fn_</definition>
+        <argsstring></argsstring>
+        <name>ring_allreduce_fn_</name>
+        <qualifiedname>themis::llm::lora::CustomAllReduce::ring_allreduce_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/custom_allreduce.h" line="102" column="19" bodyfile="include/llm/lora_framework/custom_allreduce.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1a9b53558e4f3cb02c128e8535b1bb7c58" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::CustomAllReduce::CustomAllReduce</definition>
+        <argsstring>(const MultiGPUContext &amp;ctx, int rank, int world_size)</argsstring>
+        <name>CustomAllReduce</name>
+        <qualifiedname>themis::llm::lora::CustomAllReduce::CustomAllReduce</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_context" kindref="compound">MultiGPUContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>rank</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>world_size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/custom_allreduce.h" line="28" column="5" bodyfile="src/llm/lora_framework/custom_allreduce.cpp" bodystart="29" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1a42ed1f4228e74dd20671ab78c68b27be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::CustomAllReduce::~CustomAllReduce</definition>
+        <argsstring>()=default</argsstring>
+        <name>~CustomAllReduce</name>
+        <qualifiedname>themis::llm::lora::CustomAllReduce::~CustomAllReduce</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/custom_allreduce.h" line="30" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1ac33c16ba57e32a34edc85d60d4ec5077" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::CustomAllReduce::CustomAllReduce</definition>
+        <argsstring>(const CustomAllReduce &amp;)=delete</argsstring>
+        <name>CustomAllReduce</name>
+        <qualifiedname>themis::llm::lora::CustomAllReduce::CustomAllReduce</qualifiedname>
+        <param>
+          <type>const CustomAllReduce &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/custom_allreduce.h" line="33" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1a8747afde6b379a4dd061fc198f02d892" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1a9b53558e4f3cb02c128e8535b1bb7c58" kindref="member">CustomAllReduce</ref> &amp;</type>
+        <definition>CustomAllReduce &amp; themis::llm::lora::CustomAllReduce::operator=</definition>
+        <argsstring>(const CustomAllReduce &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::lora::CustomAllReduce::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1a9b53558e4f3cb02c128e8535b1bb7c58" kindref="member">CustomAllReduce</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/custom_allreduce.h" line="34" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1a70417db0b0171535b8b0aa0573b8090b" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::CustomAllReduce::CustomAllReduce</definition>
+        <argsstring>(CustomAllReduce &amp;&amp;) noexcept=default</argsstring>
+        <name>CustomAllReduce</name>
+        <qualifiedname>themis::llm::lora::CustomAllReduce::CustomAllReduce</qualifiedname>
+        <param>
+          <type>CustomAllReduce &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/custom_allreduce.h" line="35" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1a85a946f915c17660f03e67daf857573e" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1a9b53558e4f3cb02c128e8535b1bb7c58" kindref="member">CustomAllReduce</ref> &amp;</type>
+        <definition>CustomAllReduce &amp; themis::llm::lora::CustomAllReduce::operator=</definition>
+        <argsstring>(CustomAllReduce &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::lora::CustomAllReduce::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1a9b53558e4f3cb02c128e8535b1bb7c58" kindref="member">CustomAllReduce</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/custom_allreduce.h" line="36" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1ab06a7f289511a6e0105b7fe403c668da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::CustomAllReduce::initialize</definition>
+        <argsstring>()</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::llm::lora::CustomAllReduce::initialize</qualifiedname>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::warn(), spdlog::info(), enable_p2p_access(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/custom_allreduce.h" line="42" column="10" bodyfile="src/llm/lora_framework/custom_allreduce.cpp" bodystart="41" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1ab6b44a4eec763e86498375e40dba2c77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::CustomAllReduce::finalize</definition>
+        <argsstring>()</argsstring>
+        <name>finalize</name>
+        <qualifiedname>themis::llm::lora::CustomAllReduce::finalize</qualifiedname>
+        <briefdescription>
+<para>Finalize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/custom_allreduce.h" line="47" column="10" bodyfile="src/llm/lora_framework/custom_allreduce.cpp" bodystart="61" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1aca8cf6475cbf86eaecf6396170796033" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::CustomAllReduce::is_initialized</definition>
+        <argsstring>() const</argsstring>
+        <name>is_initialized</name>
+        <qualifiedname>themis::llm::lora::CustomAllReduce::is_initialized</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/custom_allreduce.h" line="49" column="10" bodyfile="include/llm/lora_framework/custom_allreduce.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1ac0cfaea320e1e27bcf7ed01840ac0c74" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::CustomAllReduce::allreduce</definition>
+        <argsstring>(std::vector&lt; GPUTensor * &gt; &amp;tensors, bool average=true)</argsstring>
+        <name>allreduce</name>
+        <qualifiedname>themis::llm::lora::CustomAllReduce::allreduce</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> * &gt; &amp;</type>
+          <declname>tensors</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>average</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Allreduce. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">tensors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">average</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::error(), empty(), reserve(), size(), spdlog::warn(), cpu_data(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/custom_allreduce.h" line="51" column="10" bodyfile="src/llm/lora_framework/custom_allreduce.cpp" bodystart="77" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1a75023f28b162367f86eb672ac17dfa00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::CustomAllReduce::allreduce</definition>
+        <argsstring>(GPUTensor &amp;tensor, bool average=true)</argsstring>
+        <name>allreduce</name>
+        <qualifiedname>themis::llm::lora::CustomAllReduce::allreduce</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>tensor</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>average</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Allreduce. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">tensor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">average</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements allreduce without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/custom_allreduce.h" line="53" column="10" bodyfile="src/llm/lora_framework/custom_allreduce.cpp" bodystart="144" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1a95d6ada3a625a9525f00f51f9e28a069" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::CustomAllReduce::broadcast</definition>
+        <argsstring>(GPUTensor &amp;tensor, int root=0)</argsstring>
+        <name>broadcast</name>
+        <qualifiedname>themis::llm::lora::CustomAllReduce::broadcast</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>tensor</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>root</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Broadcast. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">tensor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">root</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::error(), get_device(), target_tensor(), size(), gpu_to_gpu_copy(), synchronize_all(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/custom_allreduce.h" line="55" column="10" bodyfile="src/llm/lora_framework/custom_allreduce.cpp" bodystart="156" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1abb0b78baae109a949ca455cdd6adbdc4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::CustomAllReduce::barrier</definition>
+        <argsstring>()</argsstring>
+        <name>barrier</name>
+        <qualifiedname>themis::llm::lora::CustomAllReduce::barrier</qualifiedname>
+        <briefdescription>
+<para>Barrier. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: dummy(), get_device(), fill(), <ref refid="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1ac0cfaea320e1e27bcf7ed01840ac0c74" kindref="member">allreduce()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/custom_allreduce.h" line="60" column="10" bodyfile="src/llm/lora_framework/custom_allreduce.cpp" bodystart="194" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1a9acf73c7af12e698414aa62fad3a1550" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::CustomAllReduce::setRingAllreduceFn</definition>
+        <argsstring>(RingAllreduceFn fn)</argsstring>
+        <name>setRingAllreduceFn</name>
+        <qualifiedname>themis::llm::lora::CustomAllReduce::setRingAllreduceFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1ac89deac1b69f75b710d19f0fe94ee533" kindref="member">RingAllreduceFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Ring Allreduce Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/custom_allreduce.h" line="66" column="10" bodyfile="src/llm/lora_framework/custom_allreduce.cpp" bodystart="210" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1a72785f23558fec0145d39e6ec7752484" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::lora::CustomAllReduce::rank</definition>
+        <argsstring>() const</argsstring>
+        <name>rank</name>
+        <qualifiedname>themis::llm::lora::CustomAllReduce::rank</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/custom_allreduce.h" line="68" column="9" bodyfile="include/llm/lora_framework/custom_allreduce.h" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1a001c7303bb3a8f4442d323fa4e3e868f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::lora::CustomAllReduce::world_size</definition>
+        <argsstring>() const</argsstring>
+        <name>world_size</name>
+        <qualifiedname>themis::llm::lora::CustomAllReduce::world_size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/custom_allreduce.h" line="70" column="9" bodyfile="include/llm/lora_framework/custom_allreduce.h" bodystart="70" bodyend="70"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1a664424319a12a9e2804c16a4952a4ef0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::CustomAllReduce::ring_allreduce</definition>
+        <argsstring>(GPUTensor &amp;tensor, bool average)</argsstring>
+        <name>ring_allreduce</name>
+        <qualifiedname>themis::llm::lora::CustomAllReduce::ring_allreduce</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>tensor</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>average</declname>
+        </param>
+        <briefdescription>
+<para>Ring all-reduce implementation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Ring allreduce.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">tensor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">average</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">tensor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">average</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/custom_allreduce.h" line="85" column="10" bodyfile="src/llm/lora_framework/custom_allreduce.cpp" bodystart="221" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1af338fde2b29452f33b23197cd0b6431c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::CustomAllReduce::gpu_to_gpu_copy</definition>
+        <argsstring>(const GPUTensor &amp;src, GPUTensor &amp;dst, size_t offset, size_t count)</argsstring>
+        <name>gpu_to_gpu_copy</name>
+        <qualifiedname>themis::llm::lora::CustomAllReduce::gpu_to_gpu_copy</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>dst</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>offset</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Helper: Transfer data between GPUs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gpu to gpu copy.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">dst</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">dst</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: cpu_data(), size(), partial(), begin(), upload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/custom_allreduce.h" line="94" column="10" bodyfile="src/llm/lora_framework/custom_allreduce.cpp" bodystart="243" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1abb09f3c23308a3211eedddcccbdfd7b2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::CustomAllReduce::enable_p2p_access</definition>
+        <argsstring>()</argsstring>
+        <name>enable_p2p_access</name>
+        <qualifiedname>themis::llm::lora::CustomAllReduce::enable_p2p_access</qualifiedname>
+        <briefdescription>
+<para>Helper: Enable P2P access if supported. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable p2p access.</para>
+<para>Calls: gpu_type(), is_homogeneous(), cudaDeviceCanAccessPeer(), get_device(), spdlog::warn(), cudaSetDevice(), cudaGetErrorString(), cudaDeviceEnablePeerAccess(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/custom_allreduce.h" line="100" column="10" bodyfile="src/llm/lora_framework/custom_allreduce.cpp" bodystart="263" bodyend="349"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/custom_allreduce.h" line="25" column="1" bodyfile="include/llm/lora_framework/custom_allreduce.h" bodystart="25" bodyend="103"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1ac0cfaea320e1e27bcf7ed01840ac0c74" prot="public" virt="non-virtual"><scope>themis::llm::lora::CustomAllReduce</scope><name>allreduce</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1a75023f28b162367f86eb672ac17dfa00" prot="public" virt="non-virtual"><scope>themis::llm::lora::CustomAllReduce</scope><name>allreduce</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1abb0b78baae109a949ca455cdd6adbdc4" prot="public" virt="non-virtual"><scope>themis::llm::lora::CustomAllReduce</scope><name>barrier</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1a95d6ada3a625a9525f00f51f9e28a069" prot="public" virt="non-virtual"><scope>themis::llm::lora::CustomAllReduce</scope><name>broadcast</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1a1a25785dd5b20ed2180c8f4aba54791a" prot="private" virt="non-virtual"><scope>themis::llm::lora::CustomAllReduce</scope><name>ctx_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1a9b53558e4f3cb02c128e8535b1bb7c58" prot="public" virt="non-virtual"><scope>themis::llm::lora::CustomAllReduce</scope><name>CustomAllReduce</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1ac33c16ba57e32a34edc85d60d4ec5077" prot="public" virt="non-virtual"><scope>themis::llm::lora::CustomAllReduce</scope><name>CustomAllReduce</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1a70417db0b0171535b8b0aa0573b8090b" prot="public" virt="non-virtual"><scope>themis::llm::lora::CustomAllReduce</scope><name>CustomAllReduce</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1abb09f3c23308a3211eedddcccbdfd7b2" prot="private" virt="non-virtual"><scope>themis::llm::lora::CustomAllReduce</scope><name>enable_p2p_access</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1ab6b44a4eec763e86498375e40dba2c77" prot="public" virt="non-virtual"><scope>themis::llm::lora::CustomAllReduce</scope><name>finalize</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1af338fde2b29452f33b23197cd0b6431c" prot="private" virt="non-virtual"><scope>themis::llm::lora::CustomAllReduce</scope><name>gpu_to_gpu_copy</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1ab06a7f289511a6e0105b7fe403c668da" prot="public" virt="non-virtual"><scope>themis::llm::lora::CustomAllReduce</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1af95b7e0358f93abb52bbd3afc50b4643" prot="private" virt="non-virtual"><scope>themis::llm::lora::CustomAllReduce</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1aca8cf6475cbf86eaecf6396170796033" prot="public" virt="non-virtual"><scope>themis::llm::lora::CustomAllReduce</scope><name>is_initialized</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1a8747afde6b379a4dd061fc198f02d892" prot="public" virt="non-virtual"><scope>themis::llm::lora::CustomAllReduce</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1a85a946f915c17660f03e67daf857573e" prot="public" virt="non-virtual"><scope>themis::llm::lora::CustomAllReduce</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1aa78ecb5b2c9ab72d728b36d0400c4471" prot="private" virt="non-virtual"><scope>themis::llm::lora::CustomAllReduce</scope><name>p2p_enabled_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1a72785f23558fec0145d39e6ec7752484" prot="public" virt="non-virtual"><scope>themis::llm::lora::CustomAllReduce</scope><name>rank</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1a58ee7c4b5c82e5f27fc01c6fa254820f" prot="private" virt="non-virtual"><scope>themis::llm::lora::CustomAllReduce</scope><name>rank_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1a664424319a12a9e2804c16a4952a4ef0" prot="private" virt="non-virtual"><scope>themis::llm::lora::CustomAllReduce</scope><name>ring_allreduce</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1a809b48994b3a2ceef1c709d6a7c51b08" prot="private" virt="non-virtual"><scope>themis::llm::lora::CustomAllReduce</scope><name>ring_allreduce_fn_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1ac89deac1b69f75b710d19f0fe94ee533" prot="public" virt="non-virtual"><scope>themis::llm::lora::CustomAllReduce</scope><name>RingAllreduceFn</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1a9acf73c7af12e698414aa62fad3a1550" prot="public" virt="non-virtual"><scope>themis::llm::lora::CustomAllReduce</scope><name>setRingAllreduceFn</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1a001c7303bb3a8f4442d323fa4e3e868f" prot="public" virt="non-virtual"><scope>themis::llm::lora::CustomAllReduce</scope><name>world_size</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1abc231da940e66b7d278438170bf1da4e" prot="private" virt="non-virtual"><scope>themis::llm::lora::CustomAllReduce</scope><name>world_size_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce_1a42ed1f4228e74dd20671ab78c68b27be" prot="public" virt="non-virtual"><scope>themis::llm::lora::CustomAllReduce</scope><name>~CustomAllReduce</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_trace_exporter_stress" kind="class" language="C++" prot="public">
+    <compoundname>StubTraceExporterStress</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_trace_exporter_stress_1add61f64e8c10000d0f6499ac11c7be83" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubTraceExporterStress::exported_</definition>
+        <argsstring></argsstring>
+        <name>exported_</name>
+        <qualifiedname>StubTraceExporterStress::exported_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_exporters_highcardinality_stress.cpp" line="56" column="17" bodyfile="tests/exporters/test_exporters_highcardinality_stress.cpp" bodystart="56" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_trace_exporter_stress_1a40284df5257ff376b4386000124acf5c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubTraceExporterStress::exportTrace</definition>
+        <argsstring>(const std::string &amp;trace_id, const std::string &amp;span)</argsstring>
+        <name>exportTrace</name>
+        <qualifiedname>StubTraceExporterStress::exportTrace</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>trace_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>span</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_exporters_highcardinality_stress.cpp" line="50" column="10" bodyfile="tests/exporters/test_exporters_highcardinality_stress.cpp" bodystart="50" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_trace_exporter_stress_1ae1a24521e7c570ba6bb82085c5469b3d" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubTraceExporterStress::exported</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>exported</name>
+        <qualifiedname>StubTraceExporterStress::exported</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_exporters_highcardinality_stress.cpp" line="54" column="14" bodyfile="tests/exporters/test_exporters_highcardinality_stress.cpp" bodystart="54" bodyend="54"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/exporters/test_exporters_highcardinality_stress.cpp" line="48" column="1" bodyfile="tests/exporters/test_exporters_highcardinality_stress.cpp" bodystart="48" bodyend="57"/>
+    <listofallmembers>
+      <member refid="class_stub_trace_exporter_stress_1ae1a24521e7c570ba6bb82085c5469b3d" prot="public" virt="non-virtual"><scope>StubTraceExporterStress</scope><name>exported</name></member>
+      <member refid="class_stub_trace_exporter_stress_1add61f64e8c10000d0f6499ac11c7be83" prot="private" virt="non-virtual"><scope>StubTraceExporterStress</scope><name>exported_</name></member>
+      <member refid="class_stub_trace_exporter_stress_1a40284df5257ff376b4386000124acf5c" prot="public" virt="non-virtual"><scope>StubTraceExporterStress</scope><name>exportTrace</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

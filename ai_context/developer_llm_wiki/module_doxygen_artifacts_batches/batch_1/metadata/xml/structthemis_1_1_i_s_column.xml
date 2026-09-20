@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_i_s_column" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ISColumn</compoundname>
+    <includes refid="information__schema_8h" local="no">information_schema.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_i_s_column_1a7132064443a7ed51d55e28ead03d084f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ISColumn::table_catalog</definition>
+        <argsstring></argsstring>
+        <name>table_catalog</name>
+        <qualifiedname>themis::ISColumn::table_catalog</qualifiedname>
+        <briefdescription>
+<para>Always &quot;def&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="54" column="17" bodyfile="include/metadata/information_schema.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_s_column_1a1636e7a2697456c14292f9f02f256e0a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ISColumn::table_schema</definition>
+        <argsstring></argsstring>
+        <name>table_schema</name>
+        <qualifiedname>themis::ISColumn::table_schema</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="55" column="17" bodyfile="include/metadata/information_schema.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_s_column_1a3c266193fcc6212b5fc90db80f00341e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ISColumn::table_name</definition>
+        <argsstring></argsstring>
+        <name>table_name</name>
+        <qualifiedname>themis::ISColumn::table_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="56" column="17" bodyfile="include/metadata/information_schema.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_s_column_1a6b68f41c2e083baa8ccbc3e5e337180c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ISColumn::column_name</definition>
+        <argsstring></argsstring>
+        <name>column_name</name>
+        <qualifiedname>themis::ISColumn::column_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="57" column="17" bodyfile="include/metadata/information_schema.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_s_column_1ad15229130ff0d95d2b470caddcb48cca" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::ISColumn::ordinal_position</definition>
+        <argsstring></argsstring>
+        <name>ordinal_position</name>
+        <qualifiedname>themis::ISColumn::ordinal_position</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>1-based column position </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="58" column="14" bodyfile="include/metadata/information_schema.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_s_column_1a687fa4239e703031d07e1a30d8d0a0e0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ISColumn::data_type</definition>
+        <argsstring></argsstring>
+        <name>data_type</name>
+        <qualifiedname>themis::ISColumn::data_type</qualifiedname>
+        <briefdescription>
+<para>&quot;string&quot;, &quot;integer&quot;, &quot;double&quot;, … </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="59" column="17" bodyfile="include/metadata/information_schema.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_s_column_1abc05287c37365d85ae96e9116b48a986" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ISColumn::is_nullable</definition>
+        <argsstring></argsstring>
+        <name>is_nullable</name>
+        <qualifiedname>themis::ISColumn::is_nullable</qualifiedname>
+        <briefdescription>
+<para>&quot;YES&quot; or &quot;NO&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="60" column="17" bodyfile="include/metadata/information_schema.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_s_column_1a66af703cdc02e5ab248b9c0a680a5f68" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::ISColumn::column_default</definition>
+        <argsstring></argsstring>
+        <name>column_default</name>
+        <qualifiedname>themis::ISColumn::column_default</qualifiedname>
+        <briefdescription>
+<para>Default value expression. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="61" column="19" bodyfile="include/metadata/information_schema.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_s_column_1ae3a3cd0961e8e85387d08f7e4756e738" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ISColumn::extra</definition>
+        <argsstring></argsstring>
+        <name>extra</name>
+        <qualifiedname>themis::ISColumn::extra</qualifiedname>
+        <briefdescription>
+<para>&quot;auto_increment&quot;, &quot;indexed&quot;, … </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="62" column="17" bodyfile="include/metadata/information_schema.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_i_s_column_1a92d17c72899189ed20cccd10aacc7f85" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref></type>
+        <definition>json themis::ISColumn::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::ISColumn::toJSON</qualifiedname>
+        <briefdescription>
+<para>Serialise this COLUMNS row to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON object representing the row fields. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="68" column="10" bodyfile="src/metadata/information_schema.cpp" bodystart="43" bodyend="60"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Row model for <computeroutput>INFORMATION_SCHEMA.COLUMNS</computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/metadata/information_schema.h" line="53" column="1" bodyfile="include/metadata/information_schema.h" bodystart="53" bodyend="69"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_i_s_column_1a66af703cdc02e5ab248b9c0a680a5f68" prot="public" virt="non-virtual"><scope>themis::ISColumn</scope><name>column_default</name></member>
+      <member refid="structthemis_1_1_i_s_column_1a6b68f41c2e083baa8ccbc3e5e337180c" prot="public" virt="non-virtual"><scope>themis::ISColumn</scope><name>column_name</name></member>
+      <member refid="structthemis_1_1_i_s_column_1a687fa4239e703031d07e1a30d8d0a0e0" prot="public" virt="non-virtual"><scope>themis::ISColumn</scope><name>data_type</name></member>
+      <member refid="structthemis_1_1_i_s_column_1ae3a3cd0961e8e85387d08f7e4756e738" prot="public" virt="non-virtual"><scope>themis::ISColumn</scope><name>extra</name></member>
+      <member refid="structthemis_1_1_i_s_column_1abc05287c37365d85ae96e9116b48a986" prot="public" virt="non-virtual"><scope>themis::ISColumn</scope><name>is_nullable</name></member>
+      <member refid="structthemis_1_1_i_s_column_1ad15229130ff0d95d2b470caddcb48cca" prot="public" virt="non-virtual"><scope>themis::ISColumn</scope><name>ordinal_position</name></member>
+      <member refid="structthemis_1_1_i_s_column_1a7132064443a7ed51d55e28ead03d084f" prot="public" virt="non-virtual"><scope>themis::ISColumn</scope><name>table_catalog</name></member>
+      <member refid="structthemis_1_1_i_s_column_1a3c266193fcc6212b5fc90db80f00341e" prot="public" virt="non-virtual"><scope>themis::ISColumn</scope><name>table_name</name></member>
+      <member refid="structthemis_1_1_i_s_column_1a1636e7a2697456c14292f9f02f256e0a" prot="public" virt="non-virtual"><scope>themis::ISColumn</scope><name>table_schema</name></member>
+      <member refid="structthemis_1_1_i_s_column_1a92d17c72899189ed20cccd10aacc7f85" prot="public" virt="non-virtual"><scope>themis::ISColumn</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

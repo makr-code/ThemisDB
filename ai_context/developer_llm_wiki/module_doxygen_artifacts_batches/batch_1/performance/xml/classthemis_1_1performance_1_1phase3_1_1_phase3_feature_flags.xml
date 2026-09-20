@@ -1,0 +1,590 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::phase3::Phase3FeatureFlags</compoundname>
+    <includes refid="phase3_2feature__flags_8h" local="no">feature_flags.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a051db82af055ae9b3bb2d16998938550" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::performance::phase3::Phase3FeatureFlags::diskann_enabled_</definition>
+        <argsstring></argsstring>
+        <name>diskann_enabled_</name>
+        <qualifiedname>themis::performance::phase3::Phase3FeatureFlags::diskann_enabled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="98" column="17" bodyfile="include/performance/phase3/feature_flags.h" bodystart="98" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1ab73ba5f19969db8641282fbfa7a0778a" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::performance::phase3::Phase3FeatureFlags::bwtree_enabled_</definition>
+        <argsstring></argsstring>
+        <name>bwtree_enabled_</name>
+        <qualifiedname>themis::performance::phase3::Phase3FeatureFlags::bwtree_enabled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="99" column="17" bodyfile="include/performance/phase3/feature_flags.h" bodystart="99" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a87c71df5efab76e714b130b519d77327" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::performance::phase3::Phase3FeatureFlags::splinterdb_enabled_</definition>
+        <argsstring></argsstring>
+        <name>splinterdb_enabled_</name>
+        <qualifiedname>themis::performance::phase3::Phase3FeatureFlags::splinterdb_enabled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="100" column="17" bodyfile="include/performance/phase3/feature_flags.h" bodystart="100" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1ac833ce5b6eaeb894b188e313070e3e23" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::performance::phase3::Phase3FeatureFlags::gunrock_enabled_</definition>
+        <argsstring></argsstring>
+        <name>gunrock_enabled_</name>
+        <qualifiedname>themis::performance::phase3::Phase3FeatureFlags::gunrock_enabled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="101" column="17" bodyfile="include/performance/phase3/feature_flags.h" bodystart="101" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1ae17f13f48978718a8d20614cdf051df6" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::performance::phase3::Phase3FeatureFlags::bao_enabled_</definition>
+        <argsstring></argsstring>
+        <name>bao_enabled_</name>
+        <qualifiedname>themis::performance::phase3::Phase3FeatureFlags::bao_enabled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="102" column="17" bodyfile="include/performance/phase3/feature_flags.h" bodystart="102" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a4ae414516f462c67385700df51ab3ce8" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::performance::phase3::Phase3FeatureFlags::per_query_cost_model_enabled_</definition>
+        <argsstring></argsstring>
+        <name>per_query_cost_model_enabled_</name>
+        <qualifiedname>themis::performance::phase3::Phase3FeatureFlags::per_query_cost_model_enabled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="103" column="17" bodyfile="include/performance/phase3/feature_flags.h" bodystart="103" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a18fc7984dcd18cc5db8eb31108be17e6" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::performance::phase3::Phase3FeatureFlags::memory_pressure_enabled_</definition>
+        <argsstring></argsstring>
+        <name>memory_pressure_enabled_</name>
+        <qualifiedname>themis::performance::phase3::Phase3FeatureFlags::memory_pressure_enabled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="104" column="17" bodyfile="include/performance/phase3/feature_flags.h" bodystart="104" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a8f8c5f2be6a60e9b3733d345376bc801" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::performance::phase3::Phase3FeatureFlags::avx512_distance_enabled_</definition>
+        <argsstring></argsstring>
+        <name>avx512_distance_enabled_</name>
+        <qualifiedname>themis::performance::phase3::Phase3FeatureFlags::avx512_distance_enabled_</qualifiedname>
+        <initializer>{
+
+
+
+        false
+
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="105" column="17" bodyfile="include/performance/phase3/feature_flags.h" bodystart="105" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a3226e97b543df37c59bfbb865febaa0b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::performance::phase3::Phase3FeatureFlags::adaptive_batch_tuner_enabled_</definition>
+        <argsstring></argsstring>
+        <name>adaptive_batch_tuner_enabled_</name>
+        <qualifiedname>themis::performance::phase3::Phase3FeatureFlags::adaptive_batch_tuner_enabled_</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="112" column="17" bodyfile="include/performance/phase3/feature_flags.h" bodystart="112" bodyend="112"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a657592616ed937fb79ded7a9a00c5933" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Phase3FeatureFlags &amp;</type>
+        <definition>static Phase3FeatureFlags &amp; themis::performance::phase3::Phase3FeatureFlags::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::performance::phase3::Phase3FeatureFlags::instance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="33" column="31" bodyfile="include/performance/phase3/feature_flags.h" bodystart="33" bodyend="36"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a0385e012ebb64ad5382851ff7ef64d28" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::phase3::Phase3FeatureFlags::diskann_enabled</definition>
+        <argsstring>() const</argsstring>
+        <name>diskann_enabled</name>
+        <qualifiedname>themis::performance::phase3::Phase3FeatureFlags::diskann_enabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="40" column="10" bodyfile="include/performance/phase3/feature_flags.h" bodystart="40" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a9b072a35efdcc062acda39f0008fffe2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase3::Phase3FeatureFlags::set_diskann_enabled</definition>
+        <argsstring>(bool enabled)</argsstring>
+        <name>set_diskann_enabled</name>
+        <qualifiedname>themis::performance::phase3::Phase3FeatureFlags::set_diskann_enabled</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="41" column="10" bodyfile="include/performance/phase3/feature_flags.h" bodystart="41" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a36c01ea42fd6dbb1af395456c640c8b9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::phase3::Phase3FeatureFlags::bwtree_enabled</definition>
+        <argsstring>() const</argsstring>
+        <name>bwtree_enabled</name>
+        <qualifiedname>themis::performance::phase3::Phase3FeatureFlags::bwtree_enabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="45" column="10" bodyfile="include/performance/phase3/feature_flags.h" bodystart="45" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a8129c1aff642f8ca709dbf50d9274cf1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase3::Phase3FeatureFlags::set_bwtree_enabled</definition>
+        <argsstring>(bool enabled)</argsstring>
+        <name>set_bwtree_enabled</name>
+        <qualifiedname>themis::performance::phase3::Phase3FeatureFlags::set_bwtree_enabled</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="46" column="10" bodyfile="include/performance/phase3/feature_flags.h" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a7d9950214af56725e2df6ec8efd70e9e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::phase3::Phase3FeatureFlags::splinterdb_enabled</definition>
+        <argsstring>() const</argsstring>
+        <name>splinterdb_enabled</name>
+        <qualifiedname>themis::performance::phase3::Phase3FeatureFlags::splinterdb_enabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="50" column="10" bodyfile="include/performance/phase3/feature_flags.h" bodystart="50" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a3b58a5864f9038ace1746fdd5f50ec7c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase3::Phase3FeatureFlags::set_splinterdb_enabled</definition>
+        <argsstring>(bool enabled)</argsstring>
+        <name>set_splinterdb_enabled</name>
+        <qualifiedname>themis::performance::phase3::Phase3FeatureFlags::set_splinterdb_enabled</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="51" column="10" bodyfile="include/performance/phase3/feature_flags.h" bodystart="51" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1af10abba4cf5ee86bcf943abb99d7ed72" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::phase3::Phase3FeatureFlags::gunrock_enabled</definition>
+        <argsstring>() const</argsstring>
+        <name>gunrock_enabled</name>
+        <qualifiedname>themis::performance::phase3::Phase3FeatureFlags::gunrock_enabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="55" column="10" bodyfile="include/performance/phase3/feature_flags.h" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1ac99f896c0b92486572f4fe923768cf5e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase3::Phase3FeatureFlags::set_gunrock_enabled</definition>
+        <argsstring>(bool enabled)</argsstring>
+        <name>set_gunrock_enabled</name>
+        <qualifiedname>themis::performance::phase3::Phase3FeatureFlags::set_gunrock_enabled</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="56" column="10" bodyfile="include/performance/phase3/feature_flags.h" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1af7c2d7563c6c48a4c700dae729ae1ca9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::phase3::Phase3FeatureFlags::bao_enabled</definition>
+        <argsstring>() const</argsstring>
+        <name>bao_enabled</name>
+        <qualifiedname>themis::performance::phase3::Phase3FeatureFlags::bao_enabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="60" column="10" bodyfile="include/performance/phase3/feature_flags.h" bodystart="60" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a79f474dd127a2011ab83523961707df3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase3::Phase3FeatureFlags::set_bao_enabled</definition>
+        <argsstring>(bool enabled)</argsstring>
+        <name>set_bao_enabled</name>
+        <qualifiedname>themis::performance::phase3::Phase3FeatureFlags::set_bao_enabled</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="61" column="10" bodyfile="include/performance/phase3/feature_flags.h" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a7c70f08425316437411290a7e116868d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::phase3::Phase3FeatureFlags::per_query_cost_model_enabled</definition>
+        <argsstring>() const</argsstring>
+        <name>per_query_cost_model_enabled</name>
+        <qualifiedname>themis::performance::phase3::Phase3FeatureFlags::per_query_cost_model_enabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="66" column="10" bodyfile="include/performance/phase3/feature_flags.h" bodystart="66" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a8f2ddaabb02e03b8836806335ad1a8b6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase3::Phase3FeatureFlags::set_per_query_cost_model_enabled</definition>
+        <argsstring>(bool enabled)</argsstring>
+        <name>set_per_query_cost_model_enabled</name>
+        <qualifiedname>themis::performance::phase3::Phase3FeatureFlags::set_per_query_cost_model_enabled</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="67" column="10" bodyfile="include/performance/phase3/feature_flags.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a837bac0e450481a62afc772f9848f410" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::phase3::Phase3FeatureFlags::memory_pressure_enabled</definition>
+        <argsstring>() const</argsstring>
+        <name>memory_pressure_enabled</name>
+        <qualifiedname>themis::performance::phase3::Phase3FeatureFlags::memory_pressure_enabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="71" column="10" bodyfile="include/performance/phase3/feature_flags.h" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a7e9576a9403493a54bfe8817c61e5e33" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase3::Phase3FeatureFlags::set_memory_pressure_enabled</definition>
+        <argsstring>(bool enabled)</argsstring>
+        <name>set_memory_pressure_enabled</name>
+        <qualifiedname>themis::performance::phase3::Phase3FeatureFlags::set_memory_pressure_enabled</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="72" column="10" bodyfile="include/performance/phase3/feature_flags.h" bodystart="72" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a7f59079f4f25f22ecb41905910a246c2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::phase3::Phase3FeatureFlags::avx512_distance_enabled</definition>
+        <argsstring>() const</argsstring>
+        <name>avx512_distance_enabled</name>
+        <qualifiedname>themis::performance::phase3::Phase3FeatureFlags::avx512_distance_enabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="79" column="10" bodyfile="include/performance/phase3/feature_flags.h" bodystart="79" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a1377cb1f433ac10c58936deeaefd5bd0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase3::Phase3FeatureFlags::set_avx512_distance_enabled</definition>
+        <argsstring>(bool enabled)</argsstring>
+        <name>set_avx512_distance_enabled</name>
+        <qualifiedname>themis::performance::phase3::Phase3FeatureFlags::set_avx512_distance_enabled</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="80" column="10" bodyfile="include/performance/phase3/feature_flags.h" bodystart="80" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a0b4cfefccab111aa6fe6efa56ab28af1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::phase3::Phase3FeatureFlags::adaptive_batch_tuner_enabled</definition>
+        <argsstring>() const</argsstring>
+        <name>adaptive_batch_tuner_enabled</name>
+        <qualifiedname>themis::performance::phase3::Phase3FeatureFlags::adaptive_batch_tuner_enabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="86" column="10" bodyfile="include/performance/phase3/feature_flags.h" bodystart="86" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a5872668a6af0aa759fa454c779f7721c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase3::Phase3FeatureFlags::set_adaptive_batch_tuner_enabled</definition>
+        <argsstring>(bool enabled)</argsstring>
+        <name>set_adaptive_batch_tuner_enabled</name>
+        <qualifiedname>themis::performance::phase3::Phase3FeatureFlags::set_adaptive_batch_tuner_enabled</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="87" column="10" bodyfile="include/performance/phase3/feature_flags.h" bodystart="87" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1af6e464815a696eda9c88aeb5bbd55838" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase3::Phase3FeatureFlags::load_from_config</definition>
+        <argsstring>(const std::string &amp;config_path)</argsstring>
+        <name>load_from_config</name>
+        <qualifiedname>themis::performance::phase3::Phase3FeatureFlags::load_from_config</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config_path</declname>
+        </param>
+        <briefdescription>
+<para>Load from config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the retention policy configuration file.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: file(), is_open(), contains(), <ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a9b072a35efdcc062acda39f0008fffe2" kindref="member">set_diskann_enabled()</ref>, <ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a8129c1aff642f8ca709dbf50d9274cf1" kindref="member">set_bwtree_enabled()</ref>, <ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a3b58a5864f9038ace1746fdd5f50ec7c" kindref="member">set_splinterdb_enabled()</ref>, <ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1ac99f896c0b92486572f4fe923768cf5e" kindref="member">set_gunrock_enabled()</ref>, <ref refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a79f474dd127a2011ab83523961707df3" kindref="member">set_bao_enabled()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="90" column="10" bodyfile="src/performance/phase3/feature_flags.cpp" bodystart="26" bodyend="70"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a068a77d2326c6ca14cad4499f3d41b97" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase3::Phase3FeatureFlags::Phase3FeatureFlags</definition>
+        <argsstring>()=default</argsstring>
+        <name>Phase3FeatureFlags</name>
+        <qualifiedname>themis::performance::phase3::Phase3FeatureFlags::Phase3FeatureFlags</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="93" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1ad656983d7488429b5ce828c5cd8d5c6c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase3::Phase3FeatureFlags::~Phase3FeatureFlags</definition>
+        <argsstring>()=default</argsstring>
+        <name>~Phase3FeatureFlags</name>
+        <qualifiedname>themis::performance::phase3::Phase3FeatureFlags::~Phase3FeatureFlags</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="94" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a82a49e74676d0f802be68b62ba288921" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase3::Phase3FeatureFlags::Phase3FeatureFlags</definition>
+        <argsstring>(const Phase3FeatureFlags &amp;)=delete</argsstring>
+        <name>Phase3FeatureFlags</name>
+        <qualifiedname>themis::performance::phase3::Phase3FeatureFlags::Phase3FeatureFlags</qualifiedname>
+        <param>
+          <type>const Phase3FeatureFlags &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="95" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a1dfa16d9e639bb6e5146bfacbb30e79f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Phase3FeatureFlags &amp;</type>
+        <definition>Phase3FeatureFlags &amp; themis::performance::phase3::Phase3FeatureFlags::operator=</definition>
+        <argsstring>(const Phase3FeatureFlags &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::performance::phase3::Phase3FeatureFlags::operator=</qualifiedname>
+        <param>
+          <type>const Phase3FeatureFlags &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/feature_flags.h" line="96" column="24"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Thread-safe singleton for Phase 3 performance feature flags Allows runtime toggling of optimizations without recompilation </para>
+    </detaileddescription>
+    <location file="include/performance/phase3/feature_flags.h" line="31" column="1" bodyfile="include/performance/phase3/feature_flags.h" bodystart="31" bodyend="113"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a0b4cfefccab111aa6fe6efa56ab28af1" prot="public" virt="non-virtual"><scope>themis::performance::phase3::Phase3FeatureFlags</scope><name>adaptive_batch_tuner_enabled</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a3226e97b543df37c59bfbb865febaa0b" prot="private" virt="non-virtual"><scope>themis::performance::phase3::Phase3FeatureFlags</scope><name>adaptive_batch_tuner_enabled_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a7f59079f4f25f22ecb41905910a246c2" prot="public" virt="non-virtual"><scope>themis::performance::phase3::Phase3FeatureFlags</scope><name>avx512_distance_enabled</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a8f8c5f2be6a60e9b3733d345376bc801" prot="private" virt="non-virtual"><scope>themis::performance::phase3::Phase3FeatureFlags</scope><name>avx512_distance_enabled_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1af7c2d7563c6c48a4c700dae729ae1ca9" prot="public" virt="non-virtual"><scope>themis::performance::phase3::Phase3FeatureFlags</scope><name>bao_enabled</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1ae17f13f48978718a8d20614cdf051df6" prot="private" virt="non-virtual"><scope>themis::performance::phase3::Phase3FeatureFlags</scope><name>bao_enabled_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a36c01ea42fd6dbb1af395456c640c8b9" prot="public" virt="non-virtual"><scope>themis::performance::phase3::Phase3FeatureFlags</scope><name>bwtree_enabled</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1ab73ba5f19969db8641282fbfa7a0778a" prot="private" virt="non-virtual"><scope>themis::performance::phase3::Phase3FeatureFlags</scope><name>bwtree_enabled_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a0385e012ebb64ad5382851ff7ef64d28" prot="public" virt="non-virtual"><scope>themis::performance::phase3::Phase3FeatureFlags</scope><name>diskann_enabled</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a051db82af055ae9b3bb2d16998938550" prot="private" virt="non-virtual"><scope>themis::performance::phase3::Phase3FeatureFlags</scope><name>diskann_enabled_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1af10abba4cf5ee86bcf943abb99d7ed72" prot="public" virt="non-virtual"><scope>themis::performance::phase3::Phase3FeatureFlags</scope><name>gunrock_enabled</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1ac833ce5b6eaeb894b188e313070e3e23" prot="private" virt="non-virtual"><scope>themis::performance::phase3::Phase3FeatureFlags</scope><name>gunrock_enabled_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a657592616ed937fb79ded7a9a00c5933" prot="public" virt="non-virtual"><scope>themis::performance::phase3::Phase3FeatureFlags</scope><name>instance</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1af6e464815a696eda9c88aeb5bbd55838" prot="public" virt="non-virtual"><scope>themis::performance::phase3::Phase3FeatureFlags</scope><name>load_from_config</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a837bac0e450481a62afc772f9848f410" prot="public" virt="non-virtual"><scope>themis::performance::phase3::Phase3FeatureFlags</scope><name>memory_pressure_enabled</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a18fc7984dcd18cc5db8eb31108be17e6" prot="private" virt="non-virtual"><scope>themis::performance::phase3::Phase3FeatureFlags</scope><name>memory_pressure_enabled_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a1dfa16d9e639bb6e5146bfacbb30e79f" prot="private" virt="non-virtual"><scope>themis::performance::phase3::Phase3FeatureFlags</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a7c70f08425316437411290a7e116868d" prot="public" virt="non-virtual"><scope>themis::performance::phase3::Phase3FeatureFlags</scope><name>per_query_cost_model_enabled</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a4ae414516f462c67385700df51ab3ce8" prot="private" virt="non-virtual"><scope>themis::performance::phase3::Phase3FeatureFlags</scope><name>per_query_cost_model_enabled_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a068a77d2326c6ca14cad4499f3d41b97" prot="private" virt="non-virtual"><scope>themis::performance::phase3::Phase3FeatureFlags</scope><name>Phase3FeatureFlags</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a82a49e74676d0f802be68b62ba288921" prot="private" virt="non-virtual"><scope>themis::performance::phase3::Phase3FeatureFlags</scope><name>Phase3FeatureFlags</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a5872668a6af0aa759fa454c779f7721c" prot="public" virt="non-virtual"><scope>themis::performance::phase3::Phase3FeatureFlags</scope><name>set_adaptive_batch_tuner_enabled</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a1377cb1f433ac10c58936deeaefd5bd0" prot="public" virt="non-virtual"><scope>themis::performance::phase3::Phase3FeatureFlags</scope><name>set_avx512_distance_enabled</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a79f474dd127a2011ab83523961707df3" prot="public" virt="non-virtual"><scope>themis::performance::phase3::Phase3FeatureFlags</scope><name>set_bao_enabled</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a8129c1aff642f8ca709dbf50d9274cf1" prot="public" virt="non-virtual"><scope>themis::performance::phase3::Phase3FeatureFlags</scope><name>set_bwtree_enabled</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a9b072a35efdcc062acda39f0008fffe2" prot="public" virt="non-virtual"><scope>themis::performance::phase3::Phase3FeatureFlags</scope><name>set_diskann_enabled</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1ac99f896c0b92486572f4fe923768cf5e" prot="public" virt="non-virtual"><scope>themis::performance::phase3::Phase3FeatureFlags</scope><name>set_gunrock_enabled</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a7e9576a9403493a54bfe8817c61e5e33" prot="public" virt="non-virtual"><scope>themis::performance::phase3::Phase3FeatureFlags</scope><name>set_memory_pressure_enabled</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a8f2ddaabb02e03b8836806335ad1a8b6" prot="public" virt="non-virtual"><scope>themis::performance::phase3::Phase3FeatureFlags</scope><name>set_per_query_cost_model_enabled</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a3b58a5864f9038ace1746fdd5f50ec7c" prot="public" virt="non-virtual"><scope>themis::performance::phase3::Phase3FeatureFlags</scope><name>set_splinterdb_enabled</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a7d9950214af56725e2df6ec8efd70e9e" prot="public" virt="non-virtual"><scope>themis::performance::phase3::Phase3FeatureFlags</scope><name>splinterdb_enabled</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1a87c71df5efab76e714b130b519d77327" prot="private" virt="non-virtual"><scope>themis::performance::phase3::Phase3FeatureFlags</scope><name>splinterdb_enabled_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_phase3_feature_flags_1ad656983d7488429b5ce828c5cd8d5c6c" prot="private" virt="non-virtual"><scope>themis::performance::phase3::Phase3FeatureFlags</scope><name>~Phase3FeatureFlags</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

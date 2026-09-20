@@ -1,0 +1,200 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_wiki_eval_metrics_test" kind="class" language="C++" prot="public">
+    <compoundname>WikiEvalMetricsTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_wiki_eval_metrics_test_1a14a3897c9efe097cdbf3cd0825b38bfc" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string WikiEvalMetricsTest::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>WikiEvalMetricsTest::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wiki_eval_metrics.cpp" line="106" column="44" bodyfile="tests/llm/test_wiki_eval_metrics.cpp" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_wiki_eval_metrics_test_1a396f48951596ddb1c4ce8504c83ece76" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; WikiEvalMetricsTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>WikiEvalMetricsTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wiki_eval_metrics.cpp" line="107" column="28" bodyfile="tests/llm/test_wiki_eval_metrics.cpp" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_wiki_eval_metrics_test_1a57b0e207d0a15fa8776d2ea86ac314ce" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;SecondaryIndexManager&gt; WikiEvalMetricsTest::sim_</definition>
+        <argsstring></argsstring>
+        <name>sim_</name>
+        <qualifiedname>WikiEvalMetricsTest::sim_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wiki_eval_metrics.cpp" line="108" column="21" bodyfile="tests/llm/test_wiki_eval_metrics.cpp" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_wiki_eval_metrics_test_1aab6dfc912551e7028ff2cf7ce9e0ba8e" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; VectorIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;VectorIndexManager&gt; WikiEvalMetricsTest::vim_</definition>
+        <argsstring></argsstring>
+        <name>vim_</name>
+        <qualifiedname>WikiEvalMetricsTest::vim_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wiki_eval_metrics.cpp" line="109" column="24" bodyfile="tests/llm/test_wiki_eval_metrics.cpp" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_wiki_eval_metrics_test_1a72b6e4c23bb35cbd69b53c7a32af332c" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_embedded_l_l_m" kindref="compound">EmbeddedLLM</ref></type>
+        <definition>EmbeddedLLM WikiEvalMetricsTest::llm_</definition>
+        <argsstring></argsstring>
+        <name>llm_</name>
+        <qualifiedname>WikiEvalMetricsTest::llm_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wiki_eval_metrics.cpp" line="110" column="44" bodyfile="tests/llm/test_wiki_eval_metrics.cpp" bodystart="110" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_wiki_eval_metrics_test_1aaacce4f3a423f57a182033a49c846a2b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void WikiEvalMetricsTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>WikiEvalMetricsTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wiki_eval_metrics.cpp" line="52" column="10" bodyfile="tests/llm/test_wiki_eval_metrics.cpp" bodystart="52" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="class_wiki_eval_metrics_test_1a2ed48635f41f508b36c70acf8fc306d1" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void WikiEvalMetricsTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>WikiEvalMetricsTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wiki_eval_metrics.cpp" line="77" column="10" bodyfile="tests/llm/test_wiki_eval_metrics.cpp" bodystart="77" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="class_wiki_eval_metrics_test_1ae81072beb2878da37afc5be6c7467713" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_wiki_index_store" kindref="compound">WikiIndexStore</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; WikiIndexStore &gt; WikiEvalMetricsTest::makeStore</definition>
+        <argsstring>(const std::string &amp;table)</argsstring>
+        <name>makeStore</name>
+        <qualifiedname>WikiEvalMetricsTest::makeStore</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wiki_eval_metrics.cpp" line="84" column="21" bodyfile="tests/llm/test_wiki_eval_metrics.cpp" bodystart="84" bodyend="94"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_wiki_eval_metrics_test_1a31929b332da220956a7b502849afe41a" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_wiki_chunk" kindref="compound">WikiChunk</ref></type>
+        <definition>static WikiChunk WikiEvalMetricsTest::makeChunk</definition>
+        <argsstring>(const std::string &amp;chunk_id, const std::string &amp;text, const std::string &amp;doc_id)</argsstring>
+        <name>makeChunk</name>
+        <qualifiedname>WikiEvalMetricsTest::makeChunk</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>chunk_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wiki_eval_metrics.cpp" line="96" column="22" bodyfile="tests/llm/test_wiki_eval_metrics.cpp" bodystart="96" bodyend="104"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>WikiEvalMetricsTest</label>
+        <link refid="class_wiki_eval_metrics_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>WikiEvalMetricsTest</label>
+        <link refid="class_wiki_eval_metrics_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>llm_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::llm::EmbeddedLLM</label>
+        <link refid="classthemis_1_1llm_1_1_embedded_l_l_m"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_wiki_eval_metrics.cpp" line="50" column="1" bodyfile="tests/llm/test_wiki_eval_metrics.cpp" bodystart="50" bodyend="111"/>
+    <listofallmembers>
+      <member refid="class_wiki_eval_metrics_test_1a396f48951596ddb1c4ce8504c83ece76" prot="protected" virt="non-virtual"><scope>WikiEvalMetricsTest</scope><name>db_</name></member>
+      <member refid="class_wiki_eval_metrics_test_1a14a3897c9efe097cdbf3cd0825b38bfc" prot="protected" virt="non-virtual"><scope>WikiEvalMetricsTest</scope><name>db_path_</name></member>
+      <member refid="class_wiki_eval_metrics_test_1a72b6e4c23bb35cbd69b53c7a32af332c" prot="protected" virt="non-virtual"><scope>WikiEvalMetricsTest</scope><name>llm_</name></member>
+      <member refid="class_wiki_eval_metrics_test_1a31929b332da220956a7b502849afe41a" prot="protected" virt="non-virtual"><scope>WikiEvalMetricsTest</scope><name>makeChunk</name></member>
+      <member refid="class_wiki_eval_metrics_test_1ae81072beb2878da37afc5be6c7467713" prot="protected" virt="non-virtual"><scope>WikiEvalMetricsTest</scope><name>makeStore</name></member>
+      <member refid="class_wiki_eval_metrics_test_1aaacce4f3a423f57a182033a49c846a2b" prot="protected" virt="non-virtual"><scope>WikiEvalMetricsTest</scope><name>SetUp</name></member>
+      <member refid="class_wiki_eval_metrics_test_1a57b0e207d0a15fa8776d2ea86ac314ce" prot="protected" virt="non-virtual"><scope>WikiEvalMetricsTest</scope><name>sim_</name></member>
+      <member refid="class_wiki_eval_metrics_test_1a2ed48635f41f508b36c70acf8fc306d1" prot="protected" virt="non-virtual"><scope>WikiEvalMetricsTest</scope><name>TearDown</name></member>
+      <member refid="class_wiki_eval_metrics_test_1aab6dfc912551e7028ff2cf7ce9e0ba8e" prot="protected" virt="non-virtual"><scope>WikiEvalMetricsTest</scope><name>vim_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

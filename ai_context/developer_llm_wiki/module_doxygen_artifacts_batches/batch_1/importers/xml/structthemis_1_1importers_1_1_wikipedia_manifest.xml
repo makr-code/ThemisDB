@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_wikipedia_manifest" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::WikipediaManifest</compoundname>
+    <includes refid="wikipedia__types_8hpp" local="no">wikipedia_types.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_manifest_1a43863a9841737ef3e495504192d9ceae" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::WikipediaManifest::dump_source</definition>
+        <argsstring></argsstring>
+        <name>dump_source</name>
+        <qualifiedname>themis::importers::WikipediaManifest::dump_source</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="402" column="17" bodyfile="include/importers/wikipedia_types.hpp" bodystart="402" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_manifest_1a23847e556ff44c12b387aa81069f0cdd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::WikipediaManifest::importer_version</definition>
+        <argsstring></argsstring>
+        <name>importer_version</name>
+        <qualifiedname>themis::importers::WikipediaManifest::importer_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="403" column="17" bodyfile="include/importers/wikipedia_types.hpp" bodystart="403" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_manifest_1a2f7ccce663a102d851e63381c79efac7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::WikipediaManifest::generated_at</definition>
+        <argsstring></argsstring>
+        <name>generated_at</name>
+        <qualifiedname>themis::importers::WikipediaManifest::generated_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="404" column="17" bodyfile="include/importers/wikipedia_types.hpp" bodystart="404" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_manifest_1aa27fb9537bb94dff58c89f96f2b0f434" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, size_t &gt;</type>
+        <definition>std::map&lt;std::string, size_t&gt; themis::importers::WikipediaManifest::row_counts</definition>
+        <argsstring></argsstring>
+        <name>row_counts</name>
+        <qualifiedname>themis::importers::WikipediaManifest::row_counts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="405" column="14" bodyfile="include/importers/wikipedia_types.hpp" bodystart="405" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_manifest_1a7a3502e2483bfba60bd27e820f0a6965" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::importers::WikipediaManifest::checksums</definition>
+        <argsstring></argsstring>
+        <name>checksums</name>
+        <qualifiedname>themis::importers::WikipediaManifest::checksums</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="406" column="14" bodyfile="include/importers/wikipedia_types.hpp" bodystart="406" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_manifest_1a34f69748d937da413219cda5823c4048" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::WikipediaManifest::external_tool_references</definition>
+        <argsstring></argsstring>
+        <name>external_tool_references</name>
+        <qualifiedname>themis::importers::WikipediaManifest::external_tool_references</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="407" column="17" bodyfile="include/importers/wikipedia_types.hpp" bodystart="407" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_wikipedia_manifest_1aa94c20e8bc86a990028de6f81db566db" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::WikipediaManifest::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::importers::WikipediaManifest::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="409" column="11" bodyfile="include/importers/wikipedia_types.hpp" bodystart="409" bodyend="418"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Portable export manifest written next to the wikipedia.db artifact. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/wikipedia_types.hpp" line="401" column="1" bodyfile="include/importers/wikipedia_types.hpp" bodystart="401" bodyend="419"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_manifest_1a7a3502e2483bfba60bd27e820f0a6965" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaManifest</scope><name>checksums</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_manifest_1a43863a9841737ef3e495504192d9ceae" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaManifest</scope><name>dump_source</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_manifest_1a34f69748d937da413219cda5823c4048" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaManifest</scope><name>external_tool_references</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_manifest_1a2f7ccce663a102d851e63381c79efac7" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaManifest</scope><name>generated_at</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_manifest_1a23847e556ff44c12b387aa81069f0cdd" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaManifest</scope><name>importer_version</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_manifest_1aa27fb9537bb94dff58c89f96f2b0f434" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaManifest</scope><name>row_counts</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_manifest_1aa94c20e8bc86a990028de6f81db566db" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaManifest</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

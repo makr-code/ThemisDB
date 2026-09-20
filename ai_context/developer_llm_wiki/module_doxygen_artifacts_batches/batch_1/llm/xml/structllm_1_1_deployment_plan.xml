@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structllm_1_1_deployment_plan" kind="struct" language="C++" prot="public">
+    <compoundname>llm::DeploymentPlan</compoundname>
+    <includes refid="adapter__deployment__manager_8h" local="no">adapter_deployment_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structllm_1_1_deployment_plan_1a0e5ab6b418d5387c3acd433038342024" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string llm::DeploymentPlan::adapter_id</definition>
+        <argsstring></argsstring>
+        <name>adapter_id</name>
+        <qualifiedname>llm::DeploymentPlan::adapter_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="133" column="17" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_deployment_plan_1a2c4ced2bb1dca520f29fa7f222204432" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacellm_1ad8ca0df4b5395bd8ff0df69c92798395" kindref="member">DeploymentStrategy</ref></type>
+        <definition>DeploymentStrategy llm::DeploymentPlan::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>llm::DeploymentPlan::strategy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="134" column="24" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_deployment_plan_1ac7d02ee1a8043177c9adc7d8eb790511" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structllm_1_1_adapter_placement" kindref="compound">AdapterPlacement</ref> &gt;</type>
+        <definition>std::vector&lt;AdapterPlacement&gt; llm::DeploymentPlan::placements</definition>
+        <argsstring></argsstring>
+        <name>placements</name>
+        <qualifiedname>llm::DeploymentPlan::placements</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="135" column="17" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_deployment_plan_1a9e11dc772138bf071a2ba04babddaf9e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int llm::DeploymentPlan::estimated_total_time_seconds</definition>
+        <argsstring></argsstring>
+        <name>estimated_total_time_seconds</name>
+        <qualifiedname>llm::DeploymentPlan::estimated_total_time_seconds</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="136" column="9" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_deployment_plan_1a63a54f5273d4b6971db329883823bbf3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t llm::DeploymentPlan::total_bandwidth_required_mbps</definition>
+        <argsstring></argsstring>
+        <name>total_bandwidth_required_mbps</name>
+        <qualifiedname>llm::DeploymentPlan::total_bandwidth_required_mbps</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="137" column="12" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_deployment_plan_1ad0cbc196dbd0dcab79f52f44365fcb98" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; llm::DeploymentPlan::prerequisites</definition>
+        <argsstring></argsstring>
+        <name>prerequisites</name>
+        <qualifiedname>llm::DeploymentPlan::prerequisites</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="138" column="17" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_deployment_plan_1a499691ae5d710e3ebd11c10d52ac92f3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string llm::DeploymentPlan::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>llm::DeploymentPlan::created_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="139" column="17" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structllm_1_1_deployment_plan_1a28cd0d96aa1c3eb3f3461d962f59e006" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual llm::DeploymentPlan::~DeploymentPlan</definition>
+        <argsstring>()=default</argsstring>
+        <name>~DeploymentPlan</name>
+        <qualifiedname>llm::DeploymentPlan::~DeploymentPlan</qualifiedname>
+        <briefdescription>
+<para>Deployment Plan. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="132" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structllm_1_1_deployment_plan_1a64b0b6a77ac8256350effebd9976ac55" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string llm::DeploymentPlan::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>llm::DeploymentPlan::toJSON</qualifiedname>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="145" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structllm_1_1_deployment_plan_1a9c1aafea224207ee18f02a9e97c57c03" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structllm_1_1_deployment_plan" kindref="compound">DeploymentPlan</ref></type>
+        <definition>static DeploymentPlan llm::DeploymentPlan::fromJSON</definition>
+        <argsstring>(const std::string &amp;json)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>llm::DeploymentPlan::fromJSON</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>json</declname>
+        </param>
+        <briefdescription>
+<para>From JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="151" column="27"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/adapter_deployment_manager.h" line="127" column="1" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="127" bodyend="152"/>
+    <listofallmembers>
+      <member refid="structllm_1_1_deployment_plan_1a0e5ab6b418d5387c3acd433038342024" prot="public" virt="non-virtual"><scope>llm::DeploymentPlan</scope><name>adapter_id</name></member>
+      <member refid="structllm_1_1_deployment_plan_1a499691ae5d710e3ebd11c10d52ac92f3" prot="public" virt="non-virtual"><scope>llm::DeploymentPlan</scope><name>created_at</name></member>
+      <member refid="structllm_1_1_deployment_plan_1a9e11dc772138bf071a2ba04babddaf9e" prot="public" virt="non-virtual"><scope>llm::DeploymentPlan</scope><name>estimated_total_time_seconds</name></member>
+      <member refid="structllm_1_1_deployment_plan_1a9c1aafea224207ee18f02a9e97c57c03" prot="public" virt="non-virtual"><scope>llm::DeploymentPlan</scope><name>fromJSON</name></member>
+      <member refid="structllm_1_1_deployment_plan_1ac7d02ee1a8043177c9adc7d8eb790511" prot="public" virt="non-virtual"><scope>llm::DeploymentPlan</scope><name>placements</name></member>
+      <member refid="structllm_1_1_deployment_plan_1ad0cbc196dbd0dcab79f52f44365fcb98" prot="public" virt="non-virtual"><scope>llm::DeploymentPlan</scope><name>prerequisites</name></member>
+      <member refid="structllm_1_1_deployment_plan_1a2c4ced2bb1dca520f29fa7f222204432" prot="public" virt="non-virtual"><scope>llm::DeploymentPlan</scope><name>strategy</name></member>
+      <member refid="structllm_1_1_deployment_plan_1a64b0b6a77ac8256350effebd9976ac55" prot="public" virt="non-virtual"><scope>llm::DeploymentPlan</scope><name>toJSON</name></member>
+      <member refid="structllm_1_1_deployment_plan_1a63a54f5273d4b6971db329883823bbf3" prot="public" virt="non-virtual"><scope>llm::DeploymentPlan</scope><name>total_bandwidth_required_mbps</name></member>
+      <member refid="structllm_1_1_deployment_plan_1a28cd0d96aa1c3eb3f3461d962f59e006" prot="public" virt="virtual"><scope>llm::DeploymentPlan</scope><name>~DeploymentPlan</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

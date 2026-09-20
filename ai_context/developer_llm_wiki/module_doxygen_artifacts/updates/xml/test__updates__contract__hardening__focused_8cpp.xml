@@ -1,0 +1,552 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__updates__contract__hardening__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_updates_contract_hardening_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="updates__api__contract_8h" local="yes">updates/updates_api_contract.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">random</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>updates/updates_api_contract.h</label>
+        <link refid="updates__api__contract_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/updates/test_updates_contract_hardening_focused.cpp</label>
+        <link refid="test__updates__contract__hardening__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>algorithm</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>random</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_updates_contract_test" prot="public">UpdatesContractTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__updates__contract__hardening__focused_8cpp_1a8c3fd31b56090f50c332c4b4a67efe65" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UpdatesContractTest, UPD01_ErrorCodesAreUnique)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_updates_contract_test" kindref="compound">UpdatesContractTest</ref></type>
+        </param>
+        <param>
+          <type>UPD01_ErrorCodesAreUnique</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_contract_hardening_focused.cpp" line="28" column="1" bodyfile="tests/updates/test_updates_contract_hardening_focused.cpp" bodystart="28" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__contract__hardening__focused_8cpp_1a77e2f99fa127b55558d3f05fe80325d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UpdatesContractTest, UPD02_ErrorCodesInRange)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_updates_contract_test" kindref="compound">UpdatesContractTest</ref></type>
+        </param>
+        <param>
+          <type>UPD02_ErrorCodesInRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_contract_hardening_focused.cpp" line="42" column="1" bodyfile="tests/updates/test_updates_contract_hardening_focused.cpp" bodystart="42" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__contract__hardening__focused_8cpp_1a7b4f07adf68c1bdaf1ea5a774fa5ebff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UpdatesContractTest, UPD03_DeploymentSlotValuesDistinct)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_updates_contract_test" kindref="compound">UpdatesContractTest</ref></type>
+        </param>
+        <param>
+          <type>UPD03_DeploymentSlotValuesDistinct</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_contract_hardening_focused.cpp" line="56" column="1" bodyfile="tests/updates/test_updates_contract_hardening_focused.cpp" bodystart="56" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__contract__hardening__focused_8cpp_1ab84c542a0677d16c079768c7bfafadc1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UpdatesContractTest, UPD04_SlotValues)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_updates_contract_test" kindref="compound">UpdatesContractTest</ref></type>
+        </param>
+        <param>
+          <type>UPD04_SlotValues</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_contract_hardening_focused.cpp" line="62" column="1" bodyfile="tests/updates/test_updates_contract_hardening_focused.cpp" bodystart="62" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__contract__hardening__focused_8cpp_1a0bc48f4d899361ce3d7a9e0b3fffb044" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UpdatesContractTest, UPD05_VerificationResultDefaultInvalid)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_updates_contract_test" kindref="compound">UpdatesContractTest</ref></type>
+        </param>
+        <param>
+          <type>UPD05_VerificationResultDefaultInvalid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_contract_hardening_focused.cpp" line="68" column="1" bodyfile="tests/updates/test_updates_contract_hardening_focused.cpp" bodystart="68" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__contract__hardening__focused_8cpp_1a67613f620d0295bcfc93c1b34ca064f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UpdatesContractTest, UPD06_ValidResultHasToken)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_updates_contract_test" kindref="compound">UpdatesContractTest</ref></type>
+        </param>
+        <param>
+          <type>UPD06_ValidResultHasToken</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_contract_hardening_focused.cpp" line="75" column="1" bodyfile="tests/updates/test_updates_contract_hardening_focused.cpp" bodystart="75" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__contract__hardening__focused_8cpp_1af71070cde8732c9d58ce3d1f68981051" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UpdatesContractTest, UPD07_ChecksumDistinctFromArtifactMissing)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_updates_contract_test" kindref="compound">UpdatesContractTest</ref></type>
+        </param>
+        <param>
+          <type>UPD07_ChecksumDistinctFromArtifactMissing</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_contract_hardening_focused.cpp" line="84" column="1" bodyfile="tests/updates/test_updates_contract_hardening_focused.cpp" bodystart="84" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__contract__hardening__focused_8cpp_1a33094ba31a54045ca762cb27ecba842f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UpdatesContractTest, UPD08_SwitchDistinctFromCanaryAborted)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_updates_contract_test" kindref="compound">UpdatesContractTest</ref></type>
+        </param>
+        <param>
+          <type>UPD08_SwitchDistinctFromCanaryAborted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_contract_hardening_focused.cpp" line="90" column="1" bodyfile="tests/updates/test_updates_contract_hardening_focused.cpp" bodystart="90" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__contract__hardening__focused_8cpp_1ab2a4dc0ba41edbcd11978f59a88672e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UpdatesContractTest, UPD09_NoRollbackTargetLowest)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_updates_contract_test" kindref="compound">UpdatesContractTest</ref></type>
+        </param>
+        <param>
+          <type>UPD09_NoRollbackTargetLowest</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_contract_hardening_focused.cpp" line="96" column="1" bodyfile="tests/updates/test_updates_contract_hardening_focused.cpp" bodystart="96" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__contract__hardening__focused_8cpp_1aac1f557e001cb17c7742d00d57a3b17a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UpdatesContractTest, UPD10_DefaultErrorIsChecksumMismatch)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_updates_contract_test" kindref="compound">UpdatesContractTest</ref></type>
+        </param>
+        <param>
+          <type>UPD10_DefaultErrorIsChecksumMismatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_contract_hardening_focused.cpp" line="103" column="1" bodyfile="tests/updates/test_updates_contract_hardening_focused.cpp" bodystart="103" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__contract__hardening__focused_8cpp_1a14492cabf06246a27b700b6dfd365a53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UpdatesContractTest, UPD11_SlotSwitchDispatch)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_updates_contract_test" kindref="compound">UpdatesContractTest</ref></type>
+        </param>
+        <param>
+          <type>UPD11_SlotSwitchDispatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_contract_hardening_focused.cpp" line="109" column="1" bodyfile="tests/updates/test_updates_contract_hardening_focused.cpp" bodystart="109" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__contract__hardening__focused_8cpp_1adb60354794be546f45f496f770b87858" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UpdatesContractTest, UPD12_ErrorSwitchDispatch)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_updates_contract_test" kindref="compound">UpdatesContractTest</ref></type>
+        </param>
+        <param>
+          <type>UPD12_ErrorSwitchDispatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_contract_hardening_focused.cpp" line="120" column="1" bodyfile="tests/updates/test_updates_contract_hardening_focused.cpp" bodystart="120" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__contract__hardening__focused_8cpp_1a259402345e73e3ccbec68ba4caa0251a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UpdatesContractTest, UPD13_VerificationResultCopyConstructible)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_updates_contract_test" kindref="compound">UpdatesContractTest</ref></type>
+        </param>
+        <param>
+          <type>UPD13_VerificationResultCopyConstructible</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_contract_hardening_focused.cpp" line="135" column="1" bodyfile="tests/updates/test_updates_contract_hardening_focused.cpp" bodystart="135" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__contract__hardening__focused_8cpp_1ab3cf4a30bfc6a13cde39117b305b97e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UpdatesContractTest, UPD14_VerificationResultMoveConstructible)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_updates_contract_test" kindref="compound">UpdatesContractTest</ref></type>
+        </param>
+        <param>
+          <type>UPD14_VerificationResultMoveConstructible</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_contract_hardening_focused.cpp" line="145" column="1" bodyfile="tests/updates/test_updates_contract_hardening_focused.cpp" bodystart="145" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__contract__hardening__focused_8cpp_1adecac9695794dd8ffd9c378e483aa6ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UpdatesContractTest, UPD15_ResultInstancesIndependent)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_updates_contract_test" kindref="compound">UpdatesContractTest</ref></type>
+        </param>
+        <param>
+          <type>UPD15_ResultInstancesIndependent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_contract_hardening_focused.cpp" line="156" column="1" bodyfile="tests/updates/test_updates_contract_hardening_focused.cpp" bodystart="156" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__contract__hardening__focused_8cpp_1a361e2d671b87ce224b7aa5b2d9d89253" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(UpdatesContractTest, UPD16_RandomisedCoverage)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_updates_contract_test" kindref="compound">UpdatesContractTest</ref></type>
+        </param>
+        <param>
+          <type>UPD16_RandomisedCoverage</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_contract_hardening_focused.cpp" line="165" column="1" bodyfile="tests/updates/test_updates_contract_hardening_focused.cpp" bodystart="165" bodyend="180"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 1–6 contract-hardening tests for the updates module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para>Test IDs: UPD-01..UPD-16 </para>
+</simplesect>
+<simplesect kind="note"><para>Coverage: error taxonomy, deployment slot enum, verification result, rollback contract, canary abort, checksum mismatch, artifact missing, patch incompatible. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="updates__api__contract_8h" kindref="compound">updates/updates_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1updates" kindref="compound">themis::updates</ref>;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="class_updates_contract_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_updates_contract_test" kindref="compound">UpdatesContractTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="class_updates_contract_test_1a206979977ae315e3e99078e5e37f9222" kindref="member">kSeed</ref><sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/><ref refid="class_updates_contract_test_1ae6879e6141b274275018901e8d928a2a" kindref="member">rng_</ref>{<ref refid="class_updates_contract_test_1a206979977ae315e3e99078e5e37f9222" kindref="member">kSeed</ref>};</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UPD-01:<sp/>Error<sp/>codes<sp/>are<sp/>unique</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><ref refid="test__updates__contract__hardening__focused_8cpp_1a8c3fd31b56090f50c332c4b4a67efe65" kindref="member">TEST_F</ref>(<ref refid="class_updates_contract_test" kindref="compound">UpdatesContractTest</ref>,<sp/>UPD01_ErrorCodesAreUnique)<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int32_t&gt;<sp/>codes<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaaf80e32da8beb05fa5c71267998ea0c9a" kindref="member">UpdatesError::kNoRollbackTarget</ref>),</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaa7e296be9253ed9ec1f9e2a6910459740" kindref="member">UpdatesError::kChecksumMismatch</ref>),</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaa06191f02e256f57553faf1ad941b7308" kindref="member">UpdatesError::kArtifactMissing</ref>),</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaa9de7962ec8946f55afde6f4bd67609c7" kindref="member">UpdatesError::kPatchIncompatible</ref>),</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaa306f6148ff0bb8762477c4ee29c51ed4" kindref="member">UpdatesError::kSwitchInProgress</ref>),</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaaa9310378f62c7c151bcf1ecd606df526" kindref="member">UpdatesError::kCanaryAborted</ref>),</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>std::sort(codes.begin(),<sp/>codes.end());</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::unique(codes.begin(),<sp/>codes.end()),<sp/>codes.end());</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UPD-02:<sp/>Error<sp/>codes<sp/>in<sp/>range<sp/>[7400,<sp/>7499]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><ref refid="test__updates__contract__hardening__focused_8cpp_1a8c3fd31b56090f50c332c4b4a67efe65" kindref="member">TEST_F</ref>(<ref refid="class_updates_contract_test" kindref="compound">UpdatesContractTest</ref>,<sp/>UPD02_ErrorCodesInRange)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>check<sp/>=<sp/>[](<ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daa" kindref="member">UpdatesError</ref><sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int32_t<sp/>v<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(e);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(v,<sp/>7400);<sp/>EXPECT_LE(v,<sp/>7499);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>check(<ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaaf80e32da8beb05fa5c71267998ea0c9a" kindref="member">UpdatesError::kNoRollbackTarget</ref>);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>check(<ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaa7e296be9253ed9ec1f9e2a6910459740" kindref="member">UpdatesError::kChecksumMismatch</ref>);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>check(<ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaa06191f02e256f57553faf1ad941b7308" kindref="member">UpdatesError::kArtifactMissing</ref>);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>check(<ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaa9de7962ec8946f55afde6f4bd67609c7" kindref="member">UpdatesError::kPatchIncompatible</ref>);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>check(<ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaa306f6148ff0bb8762477c4ee29c51ed4" kindref="member">UpdatesError::kSwitchInProgress</ref>);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>check(<ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaaa9310378f62c7c151bcf1ecd606df526" kindref="member">UpdatesError::kCanaryAborted</ref>);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UPD-03:<sp/>DeploymentSlot<sp/>values<sp/>are<sp/>distinct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><ref refid="test__updates__contract__hardening__focused_8cpp_1a8c3fd31b56090f50c332c4b4a67efe65" kindref="member">TEST_F</ref>(<ref refid="class_updates_contract_test" kindref="compound">UpdatesContractTest</ref>,<sp/>UPD03_DeploymentSlotValuesDistinct)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556a8d069917ec494cc042c27acaad671f52" kindref="member">DeploymentSlot::kBlue</ref>),</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556a1299e6e2ec6371a79385cd3a862f7cc9" kindref="member">DeploymentSlot::kGreen</ref>));</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UPD-04:<sp/>Blue<sp/>slot<sp/>is<sp/>value<sp/>0,<sp/>Green<sp/>is<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><ref refid="test__updates__contract__hardening__focused_8cpp_1a8c3fd31b56090f50c332c4b4a67efe65" kindref="member">TEST_F</ref>(<ref refid="class_updates_contract_test" kindref="compound">UpdatesContractTest</ref>,<sp/>UPD04_SlotValues)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556a8d069917ec494cc042c27acaad671f52" kindref="member">DeploymentSlot::kBlue</ref>),<sp/><sp/>0);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556a1299e6e2ec6371a79385cd3a862f7cc9" kindref="member">DeploymentSlot::kGreen</ref>),<sp/>1);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UPD-05:<sp/>VerificationResult<sp/>default<sp/>is<sp/>invalid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><ref refid="test__updates__contract__hardening__focused_8cpp_1a8c3fd31b56090f50c332c4b4a67efe65" kindref="member">TEST_F</ref>(<ref refid="class_updates_contract_test" kindref="compound">UpdatesContractTest</ref>,<sp/>UPD05_VerificationResultDefaultInvalid)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_verification_result" kindref="compound">VerificationResult</ref><sp/>r;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.<ref refid="structthemis_1_1updates_1_1_verification_result_1a1dfc9c898c50ed87a878b3fdd45012d5" kindref="member">valid</ref>);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.<ref refid="structthemis_1_1updates_1_1_verification_result_1ad2d3a7a96a6d98b48bc052cbbe5bc25c" kindref="member">signatureToken</ref>.empty());</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UPD-06:<sp/>Valid<sp/>VerificationResult<sp/>has<sp/>non-empty<sp/>token</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><ref refid="test__updates__contract__hardening__focused_8cpp_1a8c3fd31b56090f50c332c4b4a67efe65" kindref="member">TEST_F</ref>(<ref refid="class_updates_contract_test" kindref="compound">UpdatesContractTest</ref>,<sp/>UPD06_ValidResultHasToken)<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_verification_result" kindref="compound">VerificationResult</ref><sp/>r;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1updates_1_1_verification_result_1a1dfc9c898c50ed87a878b3fdd45012d5" kindref="member">valid</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1updates_1_1_verification_result_1ad2d3a7a96a6d98b48bc052cbbe5bc25c" kindref="member">signatureToken</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;sha256:abc123&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.<ref refid="structthemis_1_1updates_1_1_verification_result_1a1dfc9c898c50ed87a878b3fdd45012d5" kindref="member">valid</ref>);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.<ref refid="structthemis_1_1updates_1_1_verification_result_1ad2d3a7a96a6d98b48bc052cbbe5bc25c" kindref="member">signatureToken</ref>.empty());</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UPD-07:<sp/>kChecksumMismatch<sp/>is<sp/>distinct<sp/>from<sp/>kArtifactMissing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><ref refid="test__updates__contract__hardening__focused_8cpp_1a8c3fd31b56090f50c332c4b4a67efe65" kindref="member">TEST_F</ref>(<ref refid="class_updates_contract_test" kindref="compound">UpdatesContractTest</ref>,<sp/>UPD07_ChecksumDistinctFromArtifactMissing)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaa7e296be9253ed9ec1f9e2a6910459740" kindref="member">UpdatesError::kChecksumMismatch</ref>),</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaa06191f02e256f57553faf1ad941b7308" kindref="member">UpdatesError::kArtifactMissing</ref>));</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UPD-08:<sp/>kSwitchInProgress<sp/>is<sp/>distinct<sp/>from<sp/>kCanaryAborted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><ref refid="test__updates__contract__hardening__focused_8cpp_1a8c3fd31b56090f50c332c4b4a67efe65" kindref="member">TEST_F</ref>(<ref refid="class_updates_contract_test" kindref="compound">UpdatesContractTest</ref>,<sp/>UPD08_SwitchDistinctFromCanaryAborted)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaa306f6148ff0bb8762477c4ee29c51ed4" kindref="member">UpdatesError::kSwitchInProgress</ref>),</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaaa9310378f62c7c151bcf1ecd606df526" kindref="member">UpdatesError::kCanaryAborted</ref>));</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UPD-09:<sp/>kNoRollbackTarget<sp/>is<sp/>the<sp/>lowest<sp/>error<sp/>code</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="test__updates__contract__hardening__focused_8cpp_1a8c3fd31b56090f50c332c4b4a67efe65" kindref="member">TEST_F</ref>(<ref refid="class_updates_contract_test" kindref="compound">UpdatesContractTest</ref>,<sp/>UPD09_NoRollbackTargetLowest)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>int32_t<sp/>v<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaaf80e32da8beb05fa5c71267998ea0c9a" kindref="member">UpdatesError::kNoRollbackTarget</ref>);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(v,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaa7e296be9253ed9ec1f9e2a6910459740" kindref="member">UpdatesError::kChecksumMismatch</ref>));</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(v,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaaa9310378f62c7c151bcf1ecd606df526" kindref="member">UpdatesError::kCanaryAborted</ref>));</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UPD-10:<sp/>VerificationResult<sp/>error<sp/>field<sp/>defaults<sp/>to<sp/>kChecksumMismatch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><ref refid="test__updates__contract__hardening__focused_8cpp_1a8c3fd31b56090f50c332c4b4a67efe65" kindref="member">TEST_F</ref>(<ref refid="class_updates_contract_test" kindref="compound">UpdatesContractTest</ref>,<sp/>UPD10_DefaultErrorIsChecksumMismatch)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_verification_result" kindref="compound">VerificationResult</ref><sp/>r;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.<ref refid="structthemis_1_1updates_1_1_verification_result_1a12e642dfb1d334881be6a9350e836ae1" kindref="member">error</ref>,<sp/><ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaa7e296be9253ed9ec1f9e2a6910459740" kindref="member">UpdatesError::kChecksumMismatch</ref>);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UPD-11:<sp/>DeploymentSlot<sp/>switch<sp/>dispatch<sp/>works</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><ref refid="test__updates__contract__hardening__focused_8cpp_1a8c3fd31b56090f50c332c4b4a67efe65" kindref="member">TEST_F</ref>(<ref refid="class_updates_contract_test" kindref="compound">UpdatesContractTest</ref>,<sp/>UPD11_SlotSwitchDispatch)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556" kindref="member">DeploymentSlot</ref><sp/>slot<sp/>=<sp/><ref refid="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556a1299e6e2ec6371a79385cd3a862f7cc9" kindref="member">DeploymentSlot::kGreen</ref>;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>name<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(slot)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556a8d069917ec494cc042c27acaad671f52" kindref="member">DeploymentSlot::kBlue</ref>:<sp/><sp/>name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;blue&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556a1299e6e2ec6371a79385cd3a862f7cc9" kindref="member">DeploymentSlot::kGreen</ref>:<sp/>name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;green&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(name,<sp/></highlight><highlight class="stringliteral">&quot;green&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UPD-12:<sp/>UpdatesError<sp/>switch<sp/>dispatch<sp/>covers<sp/>all<sp/>codes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><ref refid="test__updates__contract__hardening__focused_8cpp_1a8c3fd31b56090f50c332c4b4a67efe65" kindref="member">TEST_F</ref>(<ref refid="class_updates_contract_test" kindref="compound">UpdatesContractTest</ref>,<sp/>UPD12_ErrorSwitchDispatch)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daa" kindref="member">UpdatesError</ref><sp/>err<sp/>=<sp/><ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaa9de7962ec8946f55afde6f4bd67609c7" kindref="member">UpdatesError::kPatchIncompatible</ref>;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>handled<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(err)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaaf80e32da8beb05fa5c71267998ea0c9a" kindref="member">UpdatesError::kNoRollbackTarget</ref>:<sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaa7e296be9253ed9ec1f9e2a6910459740" kindref="member">UpdatesError::kChecksumMismatch</ref>:<sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaa06191f02e256f57553faf1ad941b7308" kindref="member">UpdatesError::kArtifactMissing</ref>:<sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaa9de7962ec8946f55afde6f4bd67609c7" kindref="member">UpdatesError::kPatchIncompatible</ref>:<sp/>handled<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaa306f6148ff0bb8762477c4ee29c51ed4" kindref="member">UpdatesError::kSwitchInProgress</ref>:<sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaaa9310378f62c7c151bcf1ecd606df526" kindref="member">UpdatesError::kCanaryAborted</ref>:<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(handled);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UPD-13:<sp/>VerificationResult<sp/>is<sp/>copy-constructible</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><ref refid="test__updates__contract__hardening__focused_8cpp_1a8c3fd31b56090f50c332c4b4a67efe65" kindref="member">TEST_F</ref>(<ref refid="class_updates_contract_test" kindref="compound">UpdatesContractTest</ref>,<sp/>UPD13_VerificationResultCopyConstructible)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_verification_result" kindref="compound">VerificationResult</ref><sp/>orig;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>orig.<ref refid="structthemis_1_1updates_1_1_verification_result_1a1dfc9c898c50ed87a878b3fdd45012d5" kindref="member">valid</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>orig.<ref refid="structthemis_1_1updates_1_1_verification_result_1ad2d3a7a96a6d98b48bc052cbbe5bc25c" kindref="member">signatureToken</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;token-xyz&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_verification_result" kindref="compound">VerificationResult</ref><sp/>copy<sp/>=<sp/>orig;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(copy.<ref refid="structthemis_1_1updates_1_1_verification_result_1a1dfc9c898c50ed87a878b3fdd45012d5" kindref="member">valid</ref>,<sp/>orig.<ref refid="structthemis_1_1updates_1_1_verification_result_1a1dfc9c898c50ed87a878b3fdd45012d5" kindref="member">valid</ref>);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(copy.<ref refid="structthemis_1_1updates_1_1_verification_result_1ad2d3a7a96a6d98b48bc052cbbe5bc25c" kindref="member">signatureToken</ref>,<sp/>orig.<ref refid="structthemis_1_1updates_1_1_verification_result_1ad2d3a7a96a6d98b48bc052cbbe5bc25c" kindref="member">signatureToken</ref>);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UPD-14:<sp/>VerificationResult<sp/>is<sp/>move-constructible</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><ref refid="test__updates__contract__hardening__focused_8cpp_1a8c3fd31b56090f50c332c4b4a67efe65" kindref="member">TEST_F</ref>(<ref refid="class_updates_contract_test" kindref="compound">UpdatesContractTest</ref>,<sp/>UPD14_VerificationResultMoveConstructible)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_verification_result" kindref="compound">VerificationResult</ref><sp/>orig;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>orig.<ref refid="structthemis_1_1updates_1_1_verification_result_1a1dfc9c898c50ed87a878b3fdd45012d5" kindref="member">valid</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>orig.<ref refid="structthemis_1_1updates_1_1_verification_result_1ad2d3a7a96a6d98b48bc052cbbe5bc25c" kindref="member">signatureToken</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;move-token&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>expectedToken<sp/>=<sp/>orig.<ref refid="structthemis_1_1updates_1_1_verification_result_1ad2d3a7a96a6d98b48bc052cbbe5bc25c" kindref="member">signatureToken</ref>;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_verification_result" kindref="compound">VerificationResult</ref><sp/>moved<sp/>=<sp/>std::move(orig);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(moved.<ref refid="structthemis_1_1updates_1_1_verification_result_1a1dfc9c898c50ed87a878b3fdd45012d5" kindref="member">valid</ref>);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(moved.<ref refid="structthemis_1_1updates_1_1_verification_result_1ad2d3a7a96a6d98b48bc052cbbe5bc25c" kindref="member">signatureToken</ref>,<sp/>expectedToken);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UPD-15:<sp/>Multiple<sp/>VerificationResult<sp/>instances<sp/>are<sp/>independent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><ref refid="test__updates__contract__hardening__focused_8cpp_1a8c3fd31b56090f50c332c4b4a67efe65" kindref="member">TEST_F</ref>(<ref refid="class_updates_contract_test" kindref="compound">UpdatesContractTest</ref>,<sp/>UPD15_ResultInstancesIndependent)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_verification_result" kindref="compound">VerificationResult</ref><sp/>a,<sp/>b;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>a.<ref refid="structthemis_1_1updates_1_1_verification_result_1a1dfc9c898c50ed87a878b3fdd45012d5" kindref="member">valid</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>a.<ref refid="structthemis_1_1updates_1_1_verification_result_1ad2d3a7a96a6d98b48bc052cbbe5bc25c" kindref="member">signatureToken</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;tok-a&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>b.<ref refid="structthemis_1_1updates_1_1_verification_result_1a1dfc9c898c50ed87a878b3fdd45012d5" kindref="member">valid</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(a.<ref refid="structthemis_1_1updates_1_1_verification_result_1a1dfc9c898c50ed87a878b3fdd45012d5" kindref="member">valid</ref>);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(b.<ref refid="structthemis_1_1updates_1_1_verification_result_1a1dfc9c898c50ed87a878b3fdd45012d5" kindref="member">valid</ref>);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UPD-16:<sp/>Randomised<sp/>slot<sp/>and<sp/>error<sp/>coverage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><ref refid="test__updates__contract__hardening__focused_8cpp_1a8c3fd31b56090f50c332c4b4a67efe65" kindref="member">TEST_F</ref>(<ref refid="class_updates_contract_test" kindref="compound">UpdatesContractTest</ref>,<sp/>UPD16_RandomisedCoverage)<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daa" kindref="member">UpdatesError</ref><sp/>kErrors[]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaaf80e32da8beb05fa5c71267998ea0c9a" kindref="member">UpdatesError::kNoRollbackTarget</ref>,</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaa7e296be9253ed9ec1f9e2a6910459740" kindref="member">UpdatesError::kChecksumMismatch</ref>,</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaa06191f02e256f57553faf1ad941b7308" kindref="member">UpdatesError::kArtifactMissing</ref>,</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaa9de7962ec8946f55afde6f4bd67609c7" kindref="member">UpdatesError::kPatchIncompatible</ref>,</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaa306f6148ff0bb8762477c4ee29c51ed4" kindref="member">UpdatesError::kSwitchInProgress</ref>,</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaaa9310378f62c7c151bcf1ecd606df526" kindref="member">UpdatesError::kCanaryAborted</ref>,</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>60;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>kErrors[rng_()<sp/>%<sp/>6];</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int32_t<sp/>v<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(err);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(v,<sp/>7400);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(v,<sp/>7499);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/updates/test_updates_contract_hardening_focused.cpp"/>
+  </compounddef>
+</doxygen>

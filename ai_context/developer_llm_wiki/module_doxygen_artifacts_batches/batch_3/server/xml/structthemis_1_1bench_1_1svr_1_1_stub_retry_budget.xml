@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1svr_1_1_stub_retry_budget" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::svr::StubRetryBudget</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1svr_1_1_stub_retry_budget_1ad8b1c5816fbdb6ac6563f8953ad2d2b3" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::svr::StubRetryBudget::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::bench::svr::StubRetryBudget::max_retries</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1server_1a3df3c1d52c55578320956007df1a7042" kindref="member">kDefaultMaxRetries</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_hotpaths.cpp" line="153" column="9" bodyfile="benchmarks/server/bench_server_hotpaths.cpp" bodystart="153" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1svr_1_1_stub_retry_budget_1a43d90fe56e1bcfa2b5680125db762f0b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::svr::StubRetryBudget::current_attempt</definition>
+        <argsstring></argsstring>
+        <name>current_attempt</name>
+        <qualifiedname>themis::bench::svr::StubRetryBudget::current_attempt</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_hotpaths.cpp" line="154" column="9" bodyfile="benchmarks/server/bench_server_hotpaths.cpp" bodystart="154" bodyend="154"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1bench_1_1svr_1_1_stub_retry_budget_1a4ea5626407d261da7f421924c60113fb" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::bench::svr::StubRetryBudget::hasBudget</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>hasBudget</name>
+        <qualifiedname>themis::bench::svr::StubRetryBudget::hasBudget</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_hotpaths.cpp" line="155" column="10" bodyfile="benchmarks/server/bench_server_hotpaths.cpp" bodystart="155" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1bench_1_1svr_1_1_stub_retry_budget_1a9ea0f8c417a2236a2eeb77f37977cee8" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::svr::StubRetryBudget::reset</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::bench::svr::StubRetryBudget::reset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_hotpaths.cpp" line="158" column="10" bodyfile="benchmarks/server/bench_server_hotpaths.cpp" bodystart="158" bodyend="158"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stub retry budget: synchronous check only (no sleep). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/server/bench_server_hotpaths.cpp" line="152" column="1" bodyfile="benchmarks/server/bench_server_hotpaths.cpp" bodystart="152" bodyend="159"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1svr_1_1_stub_retry_budget_1a43d90fe56e1bcfa2b5680125db762f0b" prot="public" virt="non-virtual"><scope>themis::bench::svr::StubRetryBudget</scope><name>current_attempt</name></member>
+      <member refid="structthemis_1_1bench_1_1svr_1_1_stub_retry_budget_1a4ea5626407d261da7f421924c60113fb" prot="public" virt="non-virtual"><scope>themis::bench::svr::StubRetryBudget</scope><name>hasBudget</name></member>
+      <member refid="structthemis_1_1bench_1_1svr_1_1_stub_retry_budget_1ad8b1c5816fbdb6ac6563f8953ad2d2b3" prot="public" virt="non-virtual"><scope>themis::bench::svr::StubRetryBudget</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1bench_1_1svr_1_1_stub_retry_budget_1a9ea0f8c417a2236a2eeb77f37977cee8" prot="public" virt="non-virtual"><scope>themis::bench::svr::StubRetryBudget</scope><name>reset</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

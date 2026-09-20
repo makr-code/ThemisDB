@@ -1,0 +1,1394 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__aql__api__stability_8cpp" kind="file" language="C++">
+    <compoundname>test_aql_api_stability.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">type_traits</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includes refid="llm__aql__handler_8h" local="yes">aql/llm_aql_handler.h</includes>
+    <includes refid="llm__error__codes_8h" local="yes">aql/llm_error_codes.h</includes>
+    <incdepgraph>
+      <node id="11">
+        <label>aql/aql_confidence_scorer.h</label>
+        <link refid="aql__confidence__scorer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>aql/aql_fewshot_example_library.h</label>
+        <link refid="aql__fewshot__example__library_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>aql/aql_syntax_highlighter.h</label>
+        <link refid="aql__syntax__highlighter_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>aql/llm_aql_handler.h</label>
+        <link refid="llm__aql__handler_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>aql/llm_error_codes.h</label>
+        <link refid="llm__error__codes_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>aql/llm_timeout_manager.h</label>
+        <link refid="llm__timeout__manager_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>aql/llm_token_estimator.h</label>
+        <link refid="llm__token__estimator_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>aql/llm_validation_pipeline.h</label>
+        <link refid="llm__validation__pipeline_8h"/>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/aql/test_aql_api_stability.cpp</label>
+        <link refid="test__aql__api__stability_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>atomic</label>
+      </node>
+      <node id="20">
+        <label>chrono</label>
+      </node>
+      <node id="10">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="14">
+        <label>functional</label>
+      </node>
+      <node id="21">
+        <label>future</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="28">
+        <label>llm/llama_wrapper.h</label>
+      </node>
+      <node id="26">
+        <label>llm/llm_client.h</label>
+      </node>
+      <node id="27">
+        <label>llm/llm_plugin_interface.h</label>
+      </node>
+      <node id="22">
+        <label>memory</label>
+      </node>
+      <node id="31">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="13">
+        <label>optional</label>
+      </node>
+      <node id="25">
+        <label>query/aql_parser_service.h</label>
+      </node>
+      <node id="29">
+        <label>sharding/circuit_breaker.h</label>
+      </node>
+      <node id="17">
+        <label>stdexcept</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="23">
+        <label>thread</label>
+      </node>
+      <node id="5">
+        <label>type_traits</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="30">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, ApiVersionConstantIsDefined)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>ApiVersionConstantIsDefined</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="45" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="45" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1a733e80251b96dcca259da6532e3b71d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, ApiVersionConstantIsUint32)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>ApiVersionConstantIsUint32</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="52" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="52" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1a7bff2bee53bee2801c45e3fd5999d807" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, ErrorCodeUnderlyingTypeIsInt)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>ErrorCodeUnderlyingTypeIsInt</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="62" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="62" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1aefd75e4b7471ad7138418cdec7bd5496" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, ErrorCodeInvalidPromptIs1001)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>ErrorCodeInvalidPromptIs1001</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="68" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="68" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1ac1b4f4038ba1c2184d04e25bf037bb57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, ErrorCodePromptTooLongIs1002)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>ErrorCodePromptTooLongIs1002</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="74" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="74" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1a08eab1cde06658f69ad0bac1e0851970" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, ErrorCodeInvalidModelIdIs1003)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>ErrorCodeInvalidModelIdIs1003</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="80" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="80" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1af3b23ba28451f60925e24666a44ffcb1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, ErrorCodeInvalidLoraIdIs1004)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>ErrorCodeInvalidLoraIdIs1004</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="86" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="86" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1ab8ecb105e7b1ecd8a3dfb1af261d3b51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, ErrorCodePromptInjectionIs1007)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>ErrorCodePromptInjectionIs1007</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="92" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="92" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1a3f02df3df52272b569e2783c92f7e1c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, ErrorCodeModelNotFoundIs2001)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>ErrorCodeModelNotFoundIs2001</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="98" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="98" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1acea4a8856a101b2668c6b2773abeb2e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, ErrorCodeLoraNotFoundIs3001)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>ErrorCodeLoraNotFoundIs3001</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="104" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="104" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1aaf02f5a05f1d6347ce784b2e49c4428e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, ErrorCodeInferenceFailedIs4001)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>ErrorCodeInferenceFailedIs4001</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="110" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="110" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1a757fb471c0bcbd758cdaf042828b6901" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, ErrorCodeTimeoutIs4004)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>ErrorCodeTimeoutIs4004</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="116" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="116" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1aee21c07bf109db9a535f8c3616ab2342" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, ErrorCodeInternalErrorIs9001)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>ErrorCodeInternalErrorIs9001</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="122" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="122" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1ae30bdd21ebd39f55da3ed9d46a5e07d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, MaxPromptLengthIs128000)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>MaxPromptLengthIs128000</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="132" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="132" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1ad9bba1d17a972f5065294432514bd740" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, MaxNlQueryLengthIs4096)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>MaxNlQueryLengthIs4096</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="138" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="138" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1a0efb0a6c3835a09830eb79244a35aea5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, MaxSchemaContextLengthIs32768)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>MaxSchemaContextLengthIs32768</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="144" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="144" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1abba10e3783d1c9ccffc9a6e27897fb42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, MaxRagTopKIs100)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>MaxRagTopKIs100</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="150" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="150" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1a67a95fbe63e07ab067409c3761e03cbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, MinRagTopKIs1)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>MinRagTopKIs1</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="156" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="156" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1a22bc4e31247e45362fef49692c475cd5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, ConversationTurnHasNlQueryField)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>ConversationTurnHasNlQueryField</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="166" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="166" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1a4fd0f01e0bd713aabdd96112349f3781" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, ConversationTurnHasAqlResultField)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>ConversationTurnHasAqlResultField</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="172" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="172" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1ad3a374bfe9e3705e1932c26743d8e7c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, BatchInferRequestHasPromptField)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>BatchInferRequestHasPromptField</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="182" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="182" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1a025966a9decc574596316c396b049f38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, BatchInferRequestHasModelIdField)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>BatchInferRequestHasModelIdField</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="188" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="188" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1a5c11aebe8a45ccc56d6b5d0b7fc1dee1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, BatchInferRequestHasLoraIdField)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>BatchInferRequestHasLoraIdField</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="194" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="194" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1a7d58aa9d2cc17939566c86614978ce4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, BatchInferRequestHasOptionsField)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>BatchInferRequestHasOptionsField</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="200" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="200" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1a8ce498b8b1b1591e44c9f48fd53ab87e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, BatchNLToAQLRequestHasNlQueryField)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>BatchNLToAQLRequestHasNlQueryField</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="210" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="210" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1a2feecdbbfb337186d65cdf7fad691215" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, BatchNLToAQLRequestHasSchemaContextField)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>BatchNLToAQLRequestHasSchemaContextField</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="216" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="216" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1ad2db77afb03901ae4ba11641ef1eabdb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, BatchNLToAQLResultHasAqlQueryField)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>BatchNLToAQLResultHasAqlQueryField</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="222" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="222" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1a79b5a494a2dbe73a77cdc76eb88d4cd8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, BatchNLToAQLResultHasErrorField)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>BatchNLToAQLResultHasErrorField</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="228" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="228" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1a11232554016b49298ece2bdb033f2940" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, BatchNLToAQLResultHasSuccessField)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>BatchNLToAQLResultHasSuccessField</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="234" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="234" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1a1b7e19e57dcd55fc6d3b59a8d904f628" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, AQLTranslationResultHasAqlQueryField)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>AQLTranslationResultHasAqlQueryField</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="246" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="246" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1aad28d57e29dcef8eb32660e2fbb112b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, AQLTranslationResultHasConfidenceField)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>AQLTranslationResultHasConfidenceField</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="252" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="252" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1a82733d747c6d1d3521a9bdcec43033e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, QueryConfidenceScoreHasScoreField)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>QueryConfidenceScoreHasScoreField</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="264" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="264" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1a52e8384c09c8f08dbd437121362819c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, QueryConfidenceScoreHasExplanationField)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>QueryConfidenceScoreHasExplanationField</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="270" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="270" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1a7b588d489308f1f1d445697fc752683f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, QueryConfidenceScoreHasSuggestionsField)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>QueryConfidenceScoreHasSuggestionsField</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="276" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="276" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1a4f2bc109b342091df06072e5a7e4772a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, LLMExceptionCarriesErrorCode)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>LLMExceptionCarriesErrorCode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="287" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="287" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1aa37344411e8f2e2f07634c9f39653bd8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, LLMExceptionExtendsStdRuntimeError)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>LLMExceptionExtendsStdRuntimeError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="292" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="292" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1a74c74e8f0465b0c8ae78ac6d58a3323c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, LLMExceptionGetSafeMessageNeverEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>LLMExceptionGetSafeMessageNeverEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="299" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="299" bodyend="302"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1a56daa05d75055afbef3d1ccf6dcf8211" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, LLMExceptionWithCorrelationId)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>LLMExceptionWithCorrelationId</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="304" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="304" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1a9f6b03fd88c729ff4cb30876e20778bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, AQLConversationSessionStartsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>AQLConversationSessionStartsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="313" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="313" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1ab9c95f8a4d9631ef5c3ad2fa38b0ba05" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, AQLConversationSessionAddTurnIncreasesSize)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>AQLConversationSessionAddTurnIncreasesSize</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="319" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="319" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1a3e07bab3ae04c577ba6a4bd5760ef3fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, AQLConversationSessionGetHistoryReturnsAllTurns)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>AQLConversationSessionGetHistoryReturnsAllTurns</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="326" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="326" bodyend="336"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__api__stability_8cpp_1ad8546695d653f68eeccc357a77303fd6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlApiStability, AQLConversationSessionClearResetsHistory)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlApiStability</type>
+        </param>
+        <param>
+          <type>AQLConversationSessionClearResetsHistory</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_api_stability.cpp" line="338" column="1" bodyfile="tests/aql/test_aql_api_stability.cpp" bodystart="338" bodyend="345"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 87/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>AQL<sp/>LLM<sp/>Handler<sp/>API<sp/>Stability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Validates<sp/>the<sp/>stability<sp/>guarantees<sp/>for<sp/>the<sp/>public<sp/>LLM<sp/>AQL<sp/>handler</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>contracts<sp/>defined<sp/>in:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>include/aql/llm_aql_handler.h</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>include/aql/llm_error_codes.h</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>These<sp/>tests<sp/>act<sp/>as<sp/>a<sp/>canary:<sp/>if<sp/>any<sp/>of<sp/>the<sp/>declared-stable<sp/>enum<sp/>values,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>struct<sp/>field<sp/>layouts,<sp/>or<sp/>version<sp/>constants<sp/>change,<sp/>the<sp/>corresponding<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>will<sp/>fail<sp/>at<sp/>compile-time<sp/>or<sp/>runtime,<sp/>alerting<sp/>maintainers<sp/>to<sp/>bump</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LLM_AQL_HANDLER_API_VERSION<sp/>and<sp/>update<sp/>the<sp/>breaking-changes<sp/>log.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Every<sp/>test<sp/>that<sp/>verifies<sp/>a<sp/>numeric<sp/>enum<sp/>value<sp/>uses<sp/>a<sp/>static_assert<sp/>(compile</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>time)<sp/>AND<sp/>a<sp/>runtime<sp/>EXPECT_EQ<sp/>(for<sp/>clean<sp/>failure<sp/>messages<sp/>in<sp/>CI<sp/>logs).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Platform:<sp/>No<sp/>GPU<sp/>or<sp/>LLM<sp/>model<sp/>required<sp/>—<sp/>all<sp/>checks<sp/>are<sp/>CPU-side.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;type_traits&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llm__aql__handler_8h" kindref="compound">aql/llm_aql_handler.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llm__error__codes_8h" kindref="compound">aql/llm_error_codes.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1aql" kindref="compound">themis::aql</ref>;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>API<sp/>version<sp/>constant</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>ApiVersionConstantIsDefined)<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LLM_AQL_HANDLER_API_VERSION<sp/>must<sp/>be<sp/>accessible<sp/>and<sp/>equal<sp/>to<sp/>100<sp/>(v1.0).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1aql_1a2f1478bcc3f0312a8f818ff6ac599685" kindref="member">LLM_AQL_HANDLER_API_VERSION</ref><sp/>==<sp/>100u,</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;LLM_AQL_HANDLER_API_VERSION<sp/>must<sp/>be<sp/>100<sp/>(v1.0);<sp/>bump<sp/>only<sp/>on<sp/>breaking<sp/>changes&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1aql_1a2f1478bcc3f0312a8f818ff6ac599685" kindref="member">LLM_AQL_HANDLER_API_VERSION</ref>,<sp/>100u);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>ApiVersionConstantIsUint32)<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::is_same&lt;</highlight><highlight class="keyword">decltype</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1aql_1a2f1478bcc3f0312a8f818ff6ac599685" kindref="member">LLM_AQL_HANDLER_API_VERSION</ref>),<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint32_t&gt;::value,</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;LLM_AQL_HANDLER_API_VERSION<sp/>must<sp/>be<sp/>uint32_t&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LLMErrorCode<sp/>enum<sp/>value<sp/>stability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>ErrorCodeUnderlyingTypeIsInt)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::is_integral&lt;std::underlying_type&lt;LLMErrorCode&gt;::type&gt;::value,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;LLMErrorCode<sp/>underlying<sp/>type<sp/>must<sp/>remain<sp/>integral&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>ErrorCodeInvalidPromptIs1001)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a96a4f99744f9ddc8a93f79e5f97b909e" kindref="member">LLMErrorCode::INVALID_PROMPT</ref>)<sp/>==<sp/>1001,</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;LLMErrorCode::INVALID_PROMPT<sp/>must<sp/>equal<sp/>1001;<sp/>this<sp/>value<sp/>is<sp/>frozen&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a96a4f99744f9ddc8a93f79e5f97b909e" kindref="member">LLMErrorCode::INVALID_PROMPT</ref>),<sp/>1001);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>ErrorCodePromptTooLongIs1002)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217ac4010e270bab1c12468f18698c5bfe29" kindref="member">LLMErrorCode::PROMPT_TOO_LONG</ref>)<sp/>==<sp/>1002,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;LLMErrorCode::PROMPT_TOO_LONG<sp/>must<sp/>equal<sp/>1002;<sp/>this<sp/>value<sp/>is<sp/>frozen&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217ac4010e270bab1c12468f18698c5bfe29" kindref="member">LLMErrorCode::PROMPT_TOO_LONG</ref>),<sp/>1002);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>ErrorCodeInvalidModelIdIs1003)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a688545e1a10e09c7c2184364f7b3295b" kindref="member">LLMErrorCode::INVALID_MODEL_ID</ref>)<sp/>==<sp/>1003,</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;LLMErrorCode::INVALID_MODEL_ID<sp/>must<sp/>equal<sp/>1003;<sp/>this<sp/>value<sp/>is<sp/>frozen&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a688545e1a10e09c7c2184364f7b3295b" kindref="member">LLMErrorCode::INVALID_MODEL_ID</ref>),<sp/>1003);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>ErrorCodeInvalidLoraIdIs1004)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217af6aaed6c00dc050d45098f8d4e5514ef" kindref="member">LLMErrorCode::INVALID_LORA_ID</ref>)<sp/>==<sp/>1004,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;LLMErrorCode::INVALID_LORA_ID<sp/>must<sp/>equal<sp/>1004;<sp/>this<sp/>value<sp/>is<sp/>frozen&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217af6aaed6c00dc050d45098f8d4e5514ef" kindref="member">LLMErrorCode::INVALID_LORA_ID</ref>),<sp/>1004);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>ErrorCodePromptInjectionIs1007)<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217aa6ac4db48d599bfc1c70461012c07c9c" kindref="member">LLMErrorCode::PROMPT_INJECTION</ref>)<sp/>==<sp/>1007,</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;LLMErrorCode::PROMPT_INJECTION<sp/>must<sp/>equal<sp/>1007;<sp/>this<sp/>value<sp/>is<sp/>frozen&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217aa6ac4db48d599bfc1c70461012c07c9c" kindref="member">LLMErrorCode::PROMPT_INJECTION</ref>),<sp/>1007);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>ErrorCodeModelNotFoundIs2001)<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a7910c61dde2815d5f45995864ffb7f15" kindref="member">LLMErrorCode::MODEL_NOT_FOUND</ref>)<sp/>==<sp/>2001,</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;LLMErrorCode::MODEL_NOT_FOUND<sp/>must<sp/>equal<sp/>2001;<sp/>this<sp/>value<sp/>is<sp/>frozen&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a7910c61dde2815d5f45995864ffb7f15" kindref="member">LLMErrorCode::MODEL_NOT_FOUND</ref>),<sp/>2001);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>ErrorCodeLoraNotFoundIs3001)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a703d17982b46efd820b764e23ec7a2c9" kindref="member">LLMErrorCode::LORA_NOT_FOUND</ref>)<sp/>==<sp/>3001,</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;LLMErrorCode::LORA_NOT_FOUND<sp/>must<sp/>equal<sp/>3001;<sp/>this<sp/>value<sp/>is<sp/>frozen&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a703d17982b46efd820b764e23ec7a2c9" kindref="member">LLMErrorCode::LORA_NOT_FOUND</ref>),<sp/>3001);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>ErrorCodeInferenceFailedIs4001)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217acc6010972c9fec39edc95265b65c3a51" kindref="member">LLMErrorCode::INFERENCE_FAILED</ref>)<sp/>==<sp/>4001,</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;LLMErrorCode::INFERENCE_FAILED<sp/>must<sp/>equal<sp/>4001;<sp/>this<sp/>value<sp/>is<sp/>frozen&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217acc6010972c9fec39edc95265b65c3a51" kindref="member">LLMErrorCode::INFERENCE_FAILED</ref>),<sp/>4001);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>ErrorCodeTimeoutIs4004)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a070a0fb40f6c308ab544b227660aadff" kindref="member">LLMErrorCode::TIMEOUT</ref>)<sp/>==<sp/>4004,</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;LLMErrorCode::TIMEOUT<sp/>must<sp/>equal<sp/>4004;<sp/>this<sp/>value<sp/>is<sp/>frozen&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a070a0fb40f6c308ab544b227660aadff" kindref="member">LLMErrorCode::TIMEOUT</ref>),<sp/>4004);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>ErrorCodeInternalErrorIs9001)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217ae8c0c70879b5895c615677261d64a1ee" kindref="member">LLMErrorCode::INTERNAL_ERROR</ref>)<sp/>==<sp/>9001,</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;LLMErrorCode::INTERNAL_ERROR<sp/>must<sp/>equal<sp/>9001;<sp/>this<sp/>value<sp/>is<sp/>frozen&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217ae8c0c70879b5895c615677261d64a1ee" kindref="member">LLMErrorCode::INTERNAL_ERROR</ref>),<sp/>9001);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ValidationLimits<sp/>constants<sp/>stability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>MaxPromptLengthIs128000)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a26e729d5393f7c72f0f7ce5714e71159" kindref="member">ValidationLimits::MAX_PROMPT_LENGTH</ref><sp/>==<sp/>128000u,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ValidationLimits::MAX_PROMPT_LENGTH<sp/>must<sp/>remain<sp/>128000;<sp/>frozen<sp/>for<sp/>API<sp/>compat&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a26e729d5393f7c72f0f7ce5714e71159" kindref="member">ValidationLimits::MAX_PROMPT_LENGTH</ref>,<sp/>128000u);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>MaxNlQueryLengthIs4096)<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a8d569744ab237f009740da8139c1d766" kindref="member">ValidationLimits::MAX_NL_QUERY_LENGTH</ref><sp/>==<sp/>4096u,</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ValidationLimits::MAX_NL_QUERY_LENGTH<sp/>must<sp/>remain<sp/>4096;<sp/>frozen<sp/>for<sp/>API<sp/>compat&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a8d569744ab237f009740da8139c1d766" kindref="member">ValidationLimits::MAX_NL_QUERY_LENGTH</ref>,<sp/>4096u);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>MaxSchemaContextLengthIs32768)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a49e45d1335a3d59cca48241dc6f08397" kindref="member">ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH</ref><sp/>==<sp/>32768u,</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH<sp/>must<sp/>remain<sp/>32768;<sp/>frozen<sp/>for<sp/>API<sp/>compat&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a49e45d1335a3d59cca48241dc6f08397" kindref="member">ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH</ref>,<sp/>32768u);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>MaxRagTopKIs100)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a4d0715f67eeb8dd075d96ae0f02011d9" kindref="member">ValidationLimits::MAX_RAG_TOP_K</ref><sp/>==<sp/>100,</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ValidationLimits::MAX_RAG_TOP_K<sp/>must<sp/>remain<sp/>100;<sp/>frozen<sp/>for<sp/>API<sp/>compat&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a4d0715f67eeb8dd075d96ae0f02011d9" kindref="member">ValidationLimits::MAX_RAG_TOP_K</ref>,<sp/>100);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>MinRagTopKIs1)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a29cf8283aaa042aeb1c3565520ed9c9f" kindref="member">ValidationLimits::MIN_RAG_TOP_K</ref><sp/>==<sp/>1,</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ValidationLimits::MIN_RAG_TOP_K<sp/>must<sp/>remain<sp/>1;<sp/>frozen<sp/>for<sp/>API<sp/>compat&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a29cf8283aaa042aeb1c3565520ed9c9f" kindref="member">ValidationLimits::MIN_RAG_TOP_K</ref>,<sp/>1);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ConversationTurn<sp/>struct<sp/>field<sp/>layout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>ConversationTurnHasNlQueryField)<sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_conversation_turn" kindref="compound">ConversationTurn</ref><sp/>turn;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>turn.<ref refid="structthemis_1_1aql_1_1_conversation_turn_1a83615b710937a4ae23df577f67fe7e9e" kindref="member">nl_query</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test<sp/>query&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(turn.<ref refid="structthemis_1_1aql_1_1_conversation_turn_1a83615b710937a4ae23df577f67fe7e9e" kindref="member">nl_query</ref>,<sp/></highlight><highlight class="stringliteral">&quot;test<sp/>query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>ConversationTurnHasAqlResultField)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_conversation_turn" kindref="compound">ConversationTurn</ref><sp/>turn;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>turn.<ref refid="structthemis_1_1aql_1_1_conversation_turn_1a160bfcda77a508b9de54fa2b393a2988" kindref="member">aql_result</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(turn.<ref refid="structthemis_1_1aql_1_1_conversation_turn_1a160bfcda77a508b9de54fa2b393a2988" kindref="member">aql_result</ref>,<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LLMAQLHandler::BatchInferRequest<sp/>struct<sp/>field<sp/>layout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>BatchInferRequestHasPromptField)<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_infer_request" kindref="compound">LLMAQLHandler::BatchInferRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_infer_request_1a764be60d50823500423ca2f54efdadd6" kindref="member">prompt</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Test<sp/>prompt&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(req.<ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_infer_request_1a764be60d50823500423ca2f54efdadd6" kindref="member">prompt</ref>,<sp/></highlight><highlight class="stringliteral">&quot;Test<sp/>prompt&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>BatchInferRequestHasModelIdField)<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_infer_request" kindref="compound">LLMAQLHandler::BatchInferRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_infer_request_1abc48200f6de8c05fa4c321b5bf16fe68" kindref="member">model_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;my-model&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(req.<ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_infer_request_1abc48200f6de8c05fa4c321b5bf16fe68" kindref="member">model_id</ref>,<sp/></highlight><highlight class="stringliteral">&quot;my-model&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>BatchInferRequestHasLoraIdField)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_infer_request" kindref="compound">LLMAQLHandler::BatchInferRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_infer_request_1a0db3e31c7c88d218bf4d5119ba456658" kindref="member">lora_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;my-lora&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(req.<ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_infer_request_1a0db3e31c7c88d218bf4d5119ba456658" kindref="member">lora_id</ref>,<sp/></highlight><highlight class="stringliteral">&quot;my-lora&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>BatchInferRequestHasOptionsField)<sp/>{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_infer_request" kindref="compound">LLMAQLHandler::BatchInferRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_infer_request_1a7f8dd3c7c0f3e2a2f88984d9bff92a8c" kindref="member">options</ref>[</highlight><highlight class="stringliteral">&quot;max_tokens&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;100&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(req.<ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_infer_request_1a7f8dd3c7c0f3e2a2f88984d9bff92a8c" kindref="member">options</ref>.at(</highlight><highlight class="stringliteral">&quot;max_tokens&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;100&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LLMAQLHandler::BatchNLToAQLRequest<sp/>/<sp/>BatchNLToAQLResult<sp/>struct<sp/>layout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>BatchNLToAQLRequestHasNlQueryField)<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_n_l_to_a_q_l_request" kindref="compound">LLMAQLHandler::BatchNLToAQLRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_n_l_to_a_q_l_request_1aedadeaedd88d3314d04631a00eacb0f9" kindref="member">nl_query</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Find<sp/>all<sp/>users&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(req.<ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_n_l_to_a_q_l_request_1aedadeaedd88d3314d04631a00eacb0f9" kindref="member">nl_query</ref>,<sp/></highlight><highlight class="stringliteral">&quot;Find<sp/>all<sp/>users&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>BatchNLToAQLRequestHasSchemaContextField)<sp/>{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_n_l_to_a_q_l_request" kindref="compound">LLMAQLHandler::BatchNLToAQLRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_n_l_to_a_q_l_request_1a503ede9a091a498275be3783ad6f0724" kindref="member">schema_context</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;users:<sp/>{name,<sp/>age}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(req.<ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_n_l_to_a_q_l_request_1a503ede9a091a498275be3783ad6f0724" kindref="member">schema_context</ref>,<sp/></highlight><highlight class="stringliteral">&quot;users:<sp/>{name,<sp/>age}&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>BatchNLToAQLResultHasAqlQueryField)<sp/>{</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_n_l_to_a_q_l_result" kindref="compound">LLMAQLHandler::BatchNLToAQLResult</ref><sp/>res;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>res.<ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_n_l_to_a_q_l_result_1a8b5d06832e6260b107a859b8b4bab257" kindref="member">aql_query</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>RETURN<sp/>u&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res.<ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_n_l_to_a_q_l_result_1a8b5d06832e6260b107a859b8b4bab257" kindref="member">aql_query</ref>,<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>RETURN<sp/>u&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>BatchNLToAQLResultHasErrorField)<sp/>{</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_n_l_to_a_q_l_result" kindref="compound">LLMAQLHandler::BatchNLToAQLResult</ref><sp/>res;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>res.<ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_n_l_to_a_q_l_result_1a3db7beaf2c1011d6d18b0d1e51ec8018" kindref="member">error</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;translation<sp/>failed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res.<ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_n_l_to_a_q_l_result_1a3db7beaf2c1011d6d18b0d1e51ec8018" kindref="member">error</ref>,<sp/></highlight><highlight class="stringliteral">&quot;translation<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>BatchNLToAQLResultHasSuccessField)<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_n_l_to_a_q_l_result" kindref="compound">LLMAQLHandler::BatchNLToAQLResult</ref><sp/>res;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>res.<ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_n_l_to_a_q_l_result_1aa945a969aaba4d0e97217c0d0125accd" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(res.<ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_n_l_to_a_q_l_result_1aa945a969aaba4d0e97217c0d0125accd" kindref="member">success</ref>);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>res.<ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_n_l_to_a_q_l_result_1aa945a969aaba4d0e97217c0d0125accd" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(res.<ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_n_l_to_a_q_l_result_1aa945a969aaba4d0e97217c0d0125accd" kindref="member">success</ref>);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LLMAQLHandler::AQLTranslationResult<sp/>struct<sp/>layout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>AQLTranslationResultHasAqlQueryField)<sp/>{</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_a_q_l_translation_result" kindref="compound">LLMAQLHandler::AQLTranslationResult</ref><sp/>result;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>result.<ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_a_q_l_translation_result_1adde905bc31d32fc9b96ca6955535fc88" kindref="member">aql_query</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.<ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_a_q_l_translation_result_1adde905bc31d32fc9b96ca6955535fc88" kindref="member">aql_query</ref>,<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>docs<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>AQLTranslationResultHasConfidenceField)<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>confidence<sp/>field<sp/>is<sp/>of<sp/>type<sp/>AQLConfidenceScore<sp/>(from<sp/>aql_confidence_scorer.h);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>verify<sp/>it<sp/>is<sp/>accessible<sp/>on<sp/>the<sp/>AQLTranslationResult<sp/>struct.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_a_q_l_translation_result" kindref="compound">LLMAQLHandler::AQLTranslationResult</ref><sp/>result;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)result.<ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_a_q_l_translation_result_1a9f77d214434c1cca326e38c46f84396d" kindref="member">confidence</ref>;<sp/></highlight><highlight class="comment">//<sp/>field<sp/>must<sp/>exist<sp/>and<sp/>be<sp/>accessible</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="258"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LLMAQLHandler::QueryConfidenceScore<sp/>struct<sp/>layout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>QueryConfidenceScoreHasScoreField)<sp/>{</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_query_confidence_score" kindref="compound">LLMAQLHandler::QueryConfidenceScore</ref><sp/>s;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_query_confidence_score_1a2bad9d29e889087c925945431d093b0e" kindref="member">score</ref><sp/>=<sp/>0.9f;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(s.<ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_query_confidence_score_1a2bad9d29e889087c925945431d093b0e" kindref="member">score</ref>,<sp/>0.9f);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>QueryConfidenceScoreHasExplanationField)<sp/>{</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_query_confidence_score" kindref="compound">LLMAQLHandler::QueryConfidenceScore</ref><sp/>s;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_query_confidence_score_1ab31994f435b141156e17826630188c27" kindref="member">explanation</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;High<sp/>confidence&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_query_confidence_score_1ab31994f435b141156e17826630188c27" kindref="member">explanation</ref>,<sp/></highlight><highlight class="stringliteral">&quot;High<sp/>confidence&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>QueryConfidenceScoreHasSuggestionsField)<sp/>{</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_query_confidence_score" kindref="compound">LLMAQLHandler::QueryConfidenceScore</ref><sp/>s;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_query_confidence_score_1a775fc7df643e5f5ac05a4acfb02e1e2c" kindref="member">suggestions</ref>.push_back(</highlight><highlight class="stringliteral">&quot;Use<sp/>LIMIT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_query_confidence_score_1a775fc7df643e5f5ac05a4acfb02e1e2c" kindref="member">suggestions</ref>.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_query_confidence_score_1a775fc7df643e5f5ac05a4acfb02e1e2c" kindref="member">suggestions</ref>[0],<sp/></highlight><highlight class="stringliteral">&quot;Use<sp/>LIMIT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LLMException<sp/>stability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>LLMExceptionCarriesErrorCode)<sp/>{</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_exception" kindref="compound">LLMException</ref><sp/>ex(<ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217aa6ac4db48d599bfc1c70461012c07c9c" kindref="member">LLMErrorCode::PROMPT_INJECTION</ref>,<sp/></highlight><highlight class="stringliteral">&quot;injection<sp/>detected&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ex.getErrorCode(),<sp/><ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217aa6ac4db48d599bfc1c70461012c07c9c" kindref="member">LLMErrorCode::PROMPT_INJECTION</ref>);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>LLMExceptionExtendsStdRuntimeError)<sp/>{</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::is_base_of&lt;std::runtime_error,<sp/>LLMException&gt;::value,</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;LLMException<sp/>must<sp/>remain<sp/>derived<sp/>from<sp/>std::runtime_error&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="297"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>LLMExceptionGetSafeMessageNeverEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_exception" kindref="compound">LLMException</ref><sp/>ex(<ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217ae8c0c70879b5895c615677261d64a1ee" kindref="member">LLMErrorCode::INTERNAL_ERROR</ref>,<sp/></highlight><highlight class="stringliteral">&quot;internal<sp/>detail&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ex.getSafeMessage().empty());</highlight></codeline>
+<codeline lineno="302"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>LLMExceptionWithCorrelationId)<sp/>{</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_exception" kindref="compound">LLMException</ref><sp/>ex(<ref refid="namespacethemis_1_1aql_1a6cf876c8d0a74c651ce3895521eac217a070a0fb40f6c308ab544b227660aadff" kindref="member">LLMErrorCode::TIMEOUT</ref>,<sp/></highlight><highlight class="stringliteral">&quot;timed<sp/>out&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;req-123&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ex.getCorrelationId(),<sp/></highlight><highlight class="stringliteral">&quot;req-123&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AQLConversationSession<sp/>API<sp/>stability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>AQLConversationSessionStartsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_conversation_session" kindref="compound">AQLConversationSession</ref><sp/>session;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(session.<ref refid="classthemis_1_1aql_1_1_a_q_l_conversation_session_1a3dfdaae436ed695dcfb4cae840cd896d" kindref="member">empty</ref>());</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(session.<ref refid="classthemis_1_1aql_1_1_a_q_l_conversation_session_1af1fc2cb67bba20df3ff05dcde363a9fa" kindref="member">size</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>AQLConversationSessionAddTurnIncreasesSize)<sp/>{</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_conversation_session" kindref="compound">AQLConversationSession</ref><sp/>session;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>session.<ref refid="classthemis_1_1aql_1_1_a_q_l_conversation_session_1a730edc9dce58058dbde263fb7af5cec3" kindref="member">addTurn</ref>(</highlight><highlight class="stringliteral">&quot;Find<sp/>users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>RETURN<sp/>u&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(session.<ref refid="classthemis_1_1aql_1_1_a_q_l_conversation_session_1a3dfdaae436ed695dcfb4cae840cd896d" kindref="member">empty</ref>());</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(session.<ref refid="classthemis_1_1aql_1_1_a_q_l_conversation_session_1af1fc2cb67bba20df3ff05dcde363a9fa" kindref="member">size</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>AQLConversationSessionGetHistoryReturnsAllTurns)<sp/>{</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_conversation_session" kindref="compound">AQLConversationSession</ref><sp/>session;</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>session.<ref refid="classthemis_1_1aql_1_1_a_q_l_conversation_session_1a730edc9dce58058dbde263fb7af5cec3" kindref="member">addTurn</ref>(</highlight><highlight class="stringliteral">&quot;Query<sp/>A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;AQL<sp/>A&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>session.<ref refid="classthemis_1_1aql_1_1_a_q_l_conversation_session_1a730edc9dce58058dbde263fb7af5cec3" kindref="member">addTurn</ref>(</highlight><highlight class="stringliteral">&quot;Query<sp/>B&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;AQL<sp/>B&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>history<sp/>=<sp/>session.<ref refid="classthemis_1_1aql_1_1_a_q_l_conversation_session_1a0c0c65d7d49d9a875ccd56f45763da99" kindref="member">getHistory</ref>();</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(history.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(history[0].nl_query,<sp/></highlight><highlight class="stringliteral">&quot;Query<sp/>A&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(history[0].aql_result,<sp/></highlight><highlight class="stringliteral">&quot;AQL<sp/>A&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(history[1].nl_query,<sp/></highlight><highlight class="stringliteral">&quot;Query<sp/>B&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(history[1].aql_result,<sp/></highlight><highlight class="stringliteral">&quot;AQL<sp/>B&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="336"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><ref refid="test__aql__api__stability_8cpp_1a5ebbde6a388d3c52f103a269c76b0c37" kindref="member">TEST</ref>(AqlApiStability,<sp/>AQLConversationSessionClearResetsHistory)<sp/>{</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_conversation_session" kindref="compound">AQLConversationSession</ref><sp/>session;</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>session.<ref refid="classthemis_1_1aql_1_1_a_q_l_conversation_session_1a730edc9dce58058dbde263fb7af5cec3" kindref="member">addTurn</ref>(</highlight><highlight class="stringliteral">&quot;Find<sp/>users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>RETURN<sp/>u&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(session.<ref refid="classthemis_1_1aql_1_1_a_q_l_conversation_session_1af1fc2cb67bba20df3ff05dcde363a9fa" kindref="member">size</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>session.<ref refid="classthemis_1_1aql_1_1_a_q_l_conversation_session_1a4e99c59fa8dedbadbee32909abc92f4a" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(session.<ref refid="classthemis_1_1aql_1_1_a_q_l_conversation_session_1a3dfdaae436ed695dcfb4cae840cd896d" kindref="member">empty</ref>());</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(session.<ref refid="classthemis_1_1aql_1_1_a_q_l_conversation_session_1af1fc2cb67bba20df3ff05dcde363a9fa" kindref="member">size</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="345"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/aql/test_aql_api_stability.cpp"/>
+  </compounddef>
+</doxygen>

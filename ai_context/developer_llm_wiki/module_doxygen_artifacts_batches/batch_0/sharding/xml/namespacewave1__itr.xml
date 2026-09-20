@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacewave1__itr" kind="namespace" language="C++">
+    <compoundname>wave1_itr</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacewave1__itr_1aa0aabb966fdab1e564abc046131fab91" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t wave1_itr::kMaxEntriesPerScan</definition>
+        <argsstring></argsstring>
+        <name>kMaxEntriesPerScan</name>
+        <qualifiedname>wave1_itr::kMaxEntriesPerScan</qualifiedname>
+        <initializer>= 1000u</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="276" column="27" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="276" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacewave1__itr_1af274cd77b059dd2f0e47f7b0f4538261" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint64_t &gt;</type>
+        <definition>std::vector&lt; uint64_t &gt; wave1_itr::boundedLogScan</definition>
+        <argsstring>(const std::map&lt; uint64_t, uint64_t &gt; &amp;log, uint64_t start_index, uint64_t end_index)</argsstring>
+        <name>boundedLogScan</name>
+        <qualifiedname>wave1_itr::boundedLogScan</qualifiedname>
+        <param>
+          <type>const std::map&lt; uint64_t, uint64_t &gt; &amp;</type>
+          <declname>log</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>start_index</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>end_index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Models the bounded log scan pattern from RaftLog::getEntries() / GossipConsensusAdapter::getCommittedEntries(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="280" column="13" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="280" bodyend="305"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="274" column="1"/>
+  </compounddef>
+</doxygen>

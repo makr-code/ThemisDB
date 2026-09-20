@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_guard_decision" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::GuardDecision</compoundname>
+    <includes refid="ai__operation__guard_8h" local="no">ai_operation_guard.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_guard_decision_1a1d5599b74b072103bd063e4e43bc5cf8" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1security_1abd828ece4c767f6031b0d4bca0aa2d72" kindref="member">OperationClass</ref></type>
+        <definition>OperationClass themis::security::GuardDecision::op_class</definition>
+        <argsstring></argsstring>
+        <name>op_class</name>
+        <qualifiedname>themis::security::GuardDecision::op_class</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="101" column="22" bodyfile="include/security/ai_operation_guard.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_guard_decision_1aec174e9752d9bfb290e64ecb57b07f65" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1security_1_1_operation_preview" kindref="compound">OperationPreview</ref></type>
+        <definition>OperationPreview themis::security::GuardDecision::preview</definition>
+        <argsstring></argsstring>
+        <name>preview</name>
+        <qualifiedname>themis::security::GuardDecision::preview</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="102" column="22" bodyfile="include/security/ai_operation_guard.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_guard_decision_1a82e3cfa6cc0cb6373a45a91fba418786" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::GuardDecision::requires_approval</definition>
+        <argsstring></argsstring>
+        <name>requires_approval</name>
+        <qualifiedname>themis::security::GuardDecision::requires_approval</qualifiedname>
+        <briefdescription>
+<para>= op_class &gt;= approval_threshold </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="103" column="22" bodyfile="include/security/ai_operation_guard.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_guard_decision_1ab3e6ebe7b4afe7a226f9a17a5bff3f6a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::GuardDecision::operation_id</definition>
+        <argsstring></argsstring>
+        <name>operation_id</name>
+        <qualifiedname>themis::security::GuardDecision::operation_id</qualifiedname>
+        <briefdescription>
+<para>UUID for HILG tracking. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="104" column="22" bodyfile="include/security/ai_operation_guard.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_guard_decision_1a317768a6121750da9bb58706797df2c5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::GuardDecision::block_reason</definition>
+        <argsstring></argsstring>
+        <name>block_reason</name>
+        <qualifiedname>themis::security::GuardDecision::block_reason</qualifiedname>
+        <briefdescription>
+<para>Non-empty → hard-block; no approval. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="105" column="22" bodyfile="include/security/ai_operation_guard.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::security::GuardDecision</label>
+        <link refid="structthemis_1_1security_1_1_guard_decision"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>preview</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::security::OperationPreview</label>
+        <link refid="structthemis_1_1security_1_1_operation_preview"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/security/ai_operation_guard.h" line="100" column="1" bodyfile="include/security/ai_operation_guard.h" bodystart="100" bodyend="106"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_guard_decision_1a317768a6121750da9bb58706797df2c5" prot="public" virt="non-virtual"><scope>themis::security::GuardDecision</scope><name>block_reason</name></member>
+      <member refid="structthemis_1_1security_1_1_guard_decision_1a1d5599b74b072103bd063e4e43bc5cf8" prot="public" virt="non-virtual"><scope>themis::security::GuardDecision</scope><name>op_class</name></member>
+      <member refid="structthemis_1_1security_1_1_guard_decision_1ab3e6ebe7b4afe7a226f9a17a5bff3f6a" prot="public" virt="non-virtual"><scope>themis::security::GuardDecision</scope><name>operation_id</name></member>
+      <member refid="structthemis_1_1security_1_1_guard_decision_1aec174e9752d9bfb290e64ecb57b07f65" prot="public" virt="non-virtual"><scope>themis::security::GuardDecision</scope><name>preview</name></member>
+      <member refid="structthemis_1_1security_1_1_guard_decision_1a82e3cfa6cc0cb6373a45a91fba418786" prot="public" virt="non-virtual"><scope>themis::security::GuardDecision</scope><name>requires_approval</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

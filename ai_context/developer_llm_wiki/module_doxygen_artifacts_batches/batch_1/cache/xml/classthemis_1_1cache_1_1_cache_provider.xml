@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cache_1_1_cache_provider" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::cache::CacheProvider</compoundname>
+    <includes refid="cache__provider_8h" local="no">cache_provider.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_provider_1ac1b43a605dfb69bb58688f43a11dbe40" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::cache::CacheProvider::~CacheProvider</definition>
+        <argsstring>()=default</argsstring>
+        <name>~CacheProvider</name>
+        <qualifiedname>themis::cache::CacheProvider::~CacheProvider</qualifiedname>
+        <briefdescription>
+<para>Cache Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_provider.h" line="32" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_provider_1a8728aaf2f23f3ac2606b73a0e2210c81" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::cache::CacheProvider::Get</definition>
+        <argsstring>(std::string_view key, CacheValue &amp;out)=0</argsstring>
+        <name>Get</name>
+        <qualifiedname>themis::cache::CacheProvider::Get</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1cache_1_1_cache_value" kindref="compound">CacheValue</ref> &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_provider.h" line="33" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_provider_1a63bc8964f3e3861a12ec9088ae138c6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::cache::CacheProvider::Put</definition>
+        <argsstring>(std::string_view key, const CacheValue &amp;v, uint64_t ttl_ms)=0</argsstring>
+        <name>Put</name>
+        <qualifiedname>themis::cache::CacheProvider::Put</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1cache_1_1_cache_value" kindref="compound">CacheValue</ref> &amp;</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>ttl_ms</declname>
+        </param>
+        <briefdescription>
+<para>Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ttl_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_provider.h" line="40" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_cache_provider_1aabab12d7d58473b2a3814664e03ee096" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::cache::CacheProvider::Invalidate</definition>
+        <argsstring>(std::string_view key)=0</argsstring>
+        <name>Invalidate</name>
+        <qualifiedname>themis::cache::CacheProvider::Invalidate</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_provider.h" line="45" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/cache_provider.h" line="26" column="1" bodyfile="include/cache/cache_provider.h" bodystart="26" bodyend="46"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cache_1_1_cache_provider_1a8728aaf2f23f3ac2606b73a0e2210c81" prot="public" virt="pure-virtual"><scope>themis::cache::CacheProvider</scope><name>Get</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_provider_1aabab12d7d58473b2a3814664e03ee096" prot="public" virt="pure-virtual"><scope>themis::cache::CacheProvider</scope><name>Invalidate</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_provider_1a63bc8964f3e3861a12ec9088ae138c6d" prot="public" virt="pure-virtual"><scope>themis::cache::CacheProvider</scope><name>Put</name></member>
+      <member refid="classthemis_1_1cache_1_1_cache_provider_1ac1b43a605dfb69bb58688f43a11dbe40" prot="public" virt="virtual"><scope>themis::cache::CacheProvider</scope><name>~CacheProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

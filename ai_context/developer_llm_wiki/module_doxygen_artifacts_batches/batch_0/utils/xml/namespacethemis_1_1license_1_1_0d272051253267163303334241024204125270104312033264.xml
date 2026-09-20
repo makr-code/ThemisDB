@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1license_1_1_0d272051253267163303334241024204125270104312033264" kind="namespace" language="C++">
+    <compoundname>themis::license::@272051253267163303334241024204125270104312033264</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/utils/runtime_license_gate.cpp" line="68" column="1"/>
+  </compounddef>
+</doxygen>

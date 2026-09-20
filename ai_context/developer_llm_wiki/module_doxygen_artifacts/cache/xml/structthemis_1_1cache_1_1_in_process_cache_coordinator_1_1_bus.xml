@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_in_process_cache_coordinator_1_1_bus" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::InProcessCacheCoordinator::Bus</compoundname>
+    <includes refid="cache__replication__coordinator_8h" local="no">cache_replication_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_in_process_cache_coordinator_1_1_bus_1a3a40248d5d99e08a4bbaf44d5717e7ae" prot="public" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::cache::InProcessCacheCoordinator::Bus::mutex</definition>
+        <argsstring></argsstring>
+        <name>mutex</name>
+        <qualifiedname>themis::cache::InProcessCacheCoordinator::Bus::mutex</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="119" column="49" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="119" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_in_process_cache_coordinator_1_1_bus_1a67fdad7626775d9dd1dd48b91f9e9ad9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classthemis_1_1cache_1_1_in_process_cache_coordinator_1a5eb4e05ac3471cfd6e97bf97a57adc98" kindref="member">InProcessCacheCoordinator</ref> * &gt;</type>
+        <definition>std::vector&lt;InProcessCacheCoordinator*&gt; themis::cache::InProcessCacheCoordinator::Bus::peers</definition>
+        <argsstring></argsstring>
+        <name>peers</name>
+        <qualifiedname>themis::cache::InProcessCacheCoordinator::Bus::peers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="120" column="21" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_in_process_cache_coordinator_1_1_bus_1a2d0c3ea3ab09a58f36cbd1d5e5d24e71" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::InProcessCacheCoordinator::Bus::addPeer</definition>
+        <argsstring>(InProcessCacheCoordinator *peer)</argsstring>
+        <name>addPeer</name>
+        <qualifiedname>themis::cache::InProcessCacheCoordinator::Bus::addPeer</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_in_process_cache_coordinator_1a5eb4e05ac3471cfd6e97bf97a57adc98" kindref="member">InProcessCacheCoordinator</ref> *</type>
+          <declname>peer</declname>
+        </param>
+        <briefdescription>
+<para>Add Peer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">peer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="127" column="14" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="127" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_in_process_cache_coordinator_1_1_bus_1a576f02a9addbc6b8b316bbabc3915d2c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::InProcessCacheCoordinator::Bus::removePeer</definition>
+        <argsstring>(InProcessCacheCoordinator *peer)</argsstring>
+        <name>removePeer</name>
+        <qualifiedname>themis::cache::InProcessCacheCoordinator::Bus::removePeer</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_in_process_cache_coordinator_1a5eb4e05ac3471cfd6e97bf97a57adc98" kindref="member">InProcessCacheCoordinator</ref> *</type>
+          <declname>peer</declname>
+        </param>
+        <briefdescription>
+<para>Remove Peer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">peer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), erase(), std::remove(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="137" column="14" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="137" bodyend="140"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/cache_replication_coordinator.h" line="118" column="5" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="118" bodyend="141"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_in_process_cache_coordinator_1_1_bus_1a2d0c3ea3ab09a58f36cbd1d5e5d24e71" prot="public" virt="non-virtual"><scope>themis::cache::InProcessCacheCoordinator::Bus</scope><name>addPeer</name></member>
+      <member refid="structthemis_1_1cache_1_1_in_process_cache_coordinator_1_1_bus_1a3a40248d5d99e08a4bbaf44d5717e7ae" prot="public" virt="non-virtual"><scope>themis::cache::InProcessCacheCoordinator::Bus</scope><name>mutex</name></member>
+      <member refid="structthemis_1_1cache_1_1_in_process_cache_coordinator_1_1_bus_1a67fdad7626775d9dd1dd48b91f9e9ad9" prot="public" virt="non-virtual"><scope>themis::cache::InProcessCacheCoordinator::Bus</scope><name>peers</name></member>
+      <member refid="structthemis_1_1cache_1_1_in_process_cache_coordinator_1_1_bus_1a576f02a9addbc6b8b316bbabc3915d2c" prot="public" virt="non-virtual"><scope>themis::cache::InProcessCacheCoordinator::Bus</scope><name>removePeer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

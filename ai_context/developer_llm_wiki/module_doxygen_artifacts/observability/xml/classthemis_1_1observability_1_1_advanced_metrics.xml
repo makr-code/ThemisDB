@@ -1,0 +1,914 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_advanced_metrics" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::AdvancedMetrics</compoundname>
+    <includes refid="advanced__metrics_8h" local="no">advanced_metrics.h</includes>
+    <innerclass refid="structthemis_1_1observability_1_1_advanced_metrics_1_1_summary_data" prot="private">themis::observability::AdvancedMetrics::SummaryData</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_advanced_metrics_1_1_exp_hist_data" prot="private">themis::observability::AdvancedMetrics::ExpHistData</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_advanced_metrics_1_1_t_w_a_sample" prot="private">themis::observability::AdvancedMetrics::TWASample</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_advanced_metrics_1_1_rate_sample" prot="private">themis::observability::AdvancedMetrics::RateSample</innerclass>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_advanced_metrics_1ac4c2067a64658a89d40f2a052188d842" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::AdvancedMetrics::kMaxSummarySamples</definition>
+        <argsstring></argsstring>
+        <name>kMaxSummarySamples</name>
+        <qualifiedname>themis::observability::AdvancedMetrics::kMaxSummarySamples</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Maximum number of raw values retained per summary metric. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="89" column="29" bodyfile="include/observability/advanced_metrics.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_advanced_metrics_1a777c5ef231019bedc002a604e87b4433" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::AdvancedMetrics::kMaxExpHistSamples</definition>
+        <argsstring></argsstring>
+        <name>kMaxExpHistSamples</name>
+        <qualifiedname>themis::observability::AdvancedMetrics::kMaxExpHistSamples</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+<para>Maximum number of raw values retained per exponential histogram metric. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="92" column="29" bodyfile="include/observability/advanced_metrics.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_advanced_metrics_1a81805df964174745ae260fc30098dc32" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, SummaryData &gt;</type>
+        <definition>std::map&lt;std::string, SummaryData&gt; themis::observability::AdvancedMetrics::summary_data_</definition>
+        <argsstring></argsstring>
+        <name>summary_data_</name>
+        <qualifiedname>themis::observability::AdvancedMetrics::summary_data_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="257" column="14" bodyfile="include/observability/advanced_metrics.h" bodystart="257" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_advanced_metrics_1aa08f769ea30531ae7046d889d7e3784d" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, ExpHistData &gt;</type>
+        <definition>std::map&lt;std::string, ExpHistData&gt; themis::observability::AdvancedMetrics::exp_hist_data_</definition>
+        <argsstring></argsstring>
+        <name>exp_hist_data_</name>
+        <qualifiedname>themis::observability::AdvancedMetrics::exp_hist_data_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="267" column="14" bodyfile="include/observability/advanced_metrics.h" bodystart="267" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_advanced_metrics_1a20767de8c848eb7640f06274455bfdd7" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::unordered_set&lt; std::string &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::unordered_set&lt;std::string&gt; &gt; themis::observability::AdvancedMetrics::cardinality_sets_</definition>
+        <argsstring></argsstring>
+        <name>cardinality_sets_</name>
+        <qualifiedname>themis::observability::AdvancedMetrics::cardinality_sets_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="271" column="14" bodyfile="include/observability/advanced_metrics.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_advanced_metrics_1ab83807b70e4297f136ae89d9590d13f4" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::deque&lt; TWASample &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::deque&lt;TWASample&gt; &gt; themis::observability::AdvancedMetrics::twa_samples_</definition>
+        <argsstring></argsstring>
+        <name>twa_samples_</name>
+        <qualifiedname>themis::observability::AdvancedMetrics::twa_samples_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="279" column="14" bodyfile="include/observability/advanced_metrics.h" bodystart="279" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_advanced_metrics_1a76b1c2013b4a86b01d9f551ce0a1162e" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::deque&lt; RateSample &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::deque&lt;RateSample&gt; &gt; themis::observability::AdvancedMetrics::rate_samples_</definition>
+        <argsstring></argsstring>
+        <name>rate_samples_</name>
+        <qualifiedname>themis::observability::AdvancedMetrics::rate_samples_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="287" column="14" bodyfile="include/observability/advanced_metrics.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_advanced_metrics_1a3acebe68e5c2b27421de75b320867b84" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::observability::AdvancedMetrics::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::observability::AdvancedMetrics::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="291" column="24" bodyfile="include/observability/advanced_metrics.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_advanced_metrics_1aad14f825da44c4ca1119257349fc7345" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::AdvancedMetrics::AdvancedMetrics</definition>
+        <argsstring>()=default</argsstring>
+        <name>AdvancedMetrics</name>
+        <qualifiedname>themis::observability::AdvancedMetrics::AdvancedMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="94" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_advanced_metrics_1a0b91295abda22019d22676c9e500dc53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::AdvancedMetrics::~AdvancedMetrics</definition>
+        <argsstring>()=default</argsstring>
+        <name>~AdvancedMetrics</name>
+        <qualifiedname>themis::observability::AdvancedMetrics::~AdvancedMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="95" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_advanced_metrics_1a69f94cb6496db26990b7714d76f9f85d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::AdvancedMetrics::AdvancedMetrics</definition>
+        <argsstring>(const AdvancedMetrics &amp;)=delete</argsstring>
+        <name>AdvancedMetrics</name>
+        <qualifiedname>themis::observability::AdvancedMetrics::AdvancedMetrics</qualifiedname>
+        <param>
+          <type>const AdvancedMetrics &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="98" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_advanced_metrics_1a1bcaf0c1bcb5a683da5586441933638c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1observability_1_1_advanced_metrics_1aad14f825da44c4ca1119257349fc7345" kindref="member">AdvancedMetrics</ref> &amp;</type>
+        <definition>AdvancedMetrics &amp; themis::observability::AdvancedMetrics::operator=</definition>
+        <argsstring>(const AdvancedMetrics &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::observability::AdvancedMetrics::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1observability_1_1_advanced_metrics_1aad14f825da44c4ca1119257349fc7345" kindref="member">AdvancedMetrics</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="99" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_advanced_metrics_1aef6be6a653a6448f9362f09f3ea1656d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::AdvancedMetrics::AdvancedMetrics</definition>
+        <argsstring>(AdvancedMetrics &amp;&amp;)=delete</argsstring>
+        <name>AdvancedMetrics</name>
+        <qualifiedname>themis::observability::AdvancedMetrics::AdvancedMetrics</qualifiedname>
+        <param>
+          <type>AdvancedMetrics &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="100" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_advanced_metrics_1a47f1f6be56125b20e9828985ff6e9dab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1observability_1_1_advanced_metrics_1aad14f825da44c4ca1119257349fc7345" kindref="member">AdvancedMetrics</ref> &amp;</type>
+        <definition>AdvancedMetrics &amp; themis::observability::AdvancedMetrics::operator=</definition>
+        <argsstring>(AdvancedMetrics &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::observability::AdvancedMetrics::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1_advanced_metrics_1aad14f825da44c4ca1119257349fc7345" kindref="member">AdvancedMetrics</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="101" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_advanced_metrics_1ae3c57354c135a53539f443edadce0bbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::AdvancedMetrics::recordSummary</definition>
+        <argsstring>(const std::string &amp;name, double value)</argsstring>
+        <name>recordSummary</name>
+        <qualifiedname>themis::observability::AdvancedMetrics::recordSummary</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Record a value for a summary metric. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Summary.</para>
+<para>Up to <computeroutput><ref refid="classthemis_1_1observability_1_1_advanced_metrics_1ac4c2067a64658a89d40f2a052188d842" kindref="member">kMaxSummarySamples</ref></computeroutput> most-recent observations are retained per metric name (oldest are evicted when the buffer is full). Quantiles are computed lazily when <computeroutput><ref refid="classthemis_1_1observability_1_1_advanced_metrics_1a802a40d918ea4d9f765a994013975f02" kindref="member">getSummary()</ref></computeroutput> is called.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1observability_1_1_metric" kindref="compound">Metric</ref> name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Observed value.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(), size(), front(), pop_front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="117" column="10" bodyfile="src/observability/advanced_metrics.cpp" bodystart="56" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_advanced_metrics_1a802a40d918ea4d9f765a994013975f02" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_summary_result" kindref="compound">SummaryResult</ref></type>
+        <definition>SummaryResult themis::observability::AdvancedMetrics::getSummary</definition>
+        <argsstring>(const std::string &amp;name, const std::vector&lt; double &gt; &amp;quantiles={0.5, 0.9, 0.95, 0.99}) const</argsstring>
+        <name>getSummary</name>
+        <qualifiedname>themis::observability::AdvancedMetrics::getSummary</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>quantiles</declname>
+          <defval>{0.5, 0.9, 0.95, 0.99}</defval>
+        </param>
+        <briefdescription>
+<para>Compute quantile values for a named summary metric. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1observability_1_1_metric" kindref="compound">Metric</ref> name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>quantiles</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Quantiles to compute; each must be in [0, 1]. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1observability_1_1_summary_result" kindref="compound">SummaryResult</ref> containing computed quantile_values, count, and sum. If no samples exist, quantile_values are 0.0 and count is 0. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="127" column="19" bodyfile="src/observability/advanced_metrics.cpp" bodystart="67" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_advanced_metrics_1a341aa777824b951a8d02d311449e4dc3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::AdvancedMetrics::recordExponentialHistogram</definition>
+        <argsstring>(const std::string &amp;name, double value, double scale=2.0)</argsstring>
+        <name>recordExponentialHistogram</name>
+        <qualifiedname>themis::observability::AdvancedMetrics::recordExponentialHistogram</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>scale</declname>
+          <defval>2.0</defval>
+        </param>
+        <briefdescription>
+<para>Record a value for an exponential histogram metric. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Exponential Histogram.</para>
+<para>Non-positive values are counted separately in <computeroutput>zero_count</computeroutput> and are not bucketed. The exponential base (scale) is locked in on the first call for a given metric name; subsequent calls with a different scale are silently ignored.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1observability_1_1_metric" kindref="compound">Metric</ref> name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Observed value. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>scale</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Exponential base for bucket boundaries (must be &gt; 1.0). Defaults to 2.0.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scale</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), empty(), push_back(), size(), front(), pop_front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="148" column="10" bodyfile="src/observability/advanced_metrics.cpp" bodystart="113" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_advanced_metrics_1a17a72e98336ad1af4db0492d0574dd2d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_exponential_histogram_result" kindref="compound">ExponentialHistogramResult</ref></type>
+        <definition>ExponentialHistogramResult themis::observability::AdvancedMetrics::getExponentialHistogram</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>getExponentialHistogram</name>
+        <qualifiedname>themis::observability::AdvancedMetrics::getExponentialHistogram</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Return the current exponential histogram for <computeroutput>name</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Bucket boundaries are computed from the stored observations using the scale locked in at first recording.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1observability_1_1_metric" kindref="compound">Metric</ref> name. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1observability_1_1_exponential_histogram_result" kindref="compound">ExponentialHistogramResult</ref> (empty buckets if no values recorded). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="160" column="32" bodyfile="src/observability/advanced_metrics.cpp" bodystart="136" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_advanced_metrics_1a6d64adab65b52695f88408552a755968" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::AdvancedMetrics::recordCardinality</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;value)</argsstring>
+        <name>recordCardinality</name>
+        <qualifiedname>themis::observability::AdvancedMetrics::recordCardinality</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Record a string value for a cardinality metric. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Cardinality.</para>
+<para>Each unique value is counted once per metric name.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1observability_1_1_metric" kindref="compound">Metric</ref> name (e.g. &quot;active_tenants&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>String value to track (e.g. a tenant ID).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), insert(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="174" column="10" bodyfile="src/observability/advanced_metrics.cpp" bodystart="195" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_advanced_metrics_1a2ba4a0c4a0a3231d67298b2f65c7b912" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::observability::AdvancedMetrics::getCardinalityEstimate</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>getCardinalityEstimate</name>
+        <qualifiedname>themis::observability::AdvancedMetrics::getCardinalityEstimate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Return the number of distinct values recorded for <computeroutput>name</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1observability_1_1_metric" kindref="compound">Metric</ref> name. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Exact cardinality, or 0 if the metric has not been recorded. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="182" column="12" bodyfile="src/observability/advanced_metrics.cpp" bodystart="201" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_advanced_metrics_1a61ac7e33fd069933facfb8ebce58f940" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::AdvancedMetrics::recordTimeWeightedAverage</definition>
+        <argsstring>(const std::string &amp;name, double value, std::chrono::seconds window)</argsstring>
+        <name>recordTimeWeightedAverage</name>
+        <qualifiedname>themis::observability::AdvancedMetrics::recordTimeWeightedAverage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>window</declname>
+        </param>
+        <briefdescription>
+<para>Record a value for a time-weighted average metric. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Time Weighted Average.</para>
+<para>Samples older than <computeroutput>window</computeroutput> are pruned on each call. The time-weighted average integrates <computeroutput>value × dt</computeroutput> over the retained window.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1observability_1_1_metric" kindref="compound">Metric</ref> name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Observed gauge value. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sliding window; samples older than this are discarded.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::chrono::steady_clock::now(), push_back(), count(), size(), front(), pop_front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="198" column="10" bodyfile="src/observability/advanced_metrics.cpp" bodystart="223" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_advanced_metrics_1a06fd945e48520da1b1ddb1e7d9d777d0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::observability::AdvancedMetrics::getTimeWeightedAverage</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>getTimeWeightedAverage</name>
+        <qualifiedname>themis::observability::AdvancedMetrics::getTimeWeightedAverage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Compute the current time-weighted average for <computeroutput>name</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>With a single retained sample the sample value itself is returned. Returns 0.0 if no samples exist.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1observability_1_1_metric" kindref="compound">Metric</ref> name. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Time-weighted average of the gauge over the retained window. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="210" column="12" bodyfile="src/observability/advanced_metrics.cpp" bodystart="240" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_advanced_metrics_1a67ceb8d65315c94996acfaa6560a610d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::AdvancedMetrics::recordRate</definition>
+        <argsstring>(const std::string &amp;name, double value, std::chrono::seconds interval)</argsstring>
+        <name>recordRate</name>
+        <qualifiedname>themis::observability::AdvancedMetrics::recordRate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>interval</declname>
+        </param>
+        <briefdescription>
+<para>Record a raw value sample for a rate metric. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Rate.</para>
+<para>Unlike the integer-counter rate in <computeroutput><ref refid="classthemis_1_1observability_1_1_metric_aggregator" kindref="compound">MetricAggregator</ref></computeroutput>, this method accepts arbitrary double values. Samples older than <computeroutput>interval</computeroutput> are pruned on each call.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1observability_1_1_metric" kindref="compound">Metric</ref> name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw sample value. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>interval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sliding window; samples older than this are discarded.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">interval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::chrono::steady_clock::now(), push_back(), count(), size(), front(), pop_front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="227" column="10" bodyfile="src/observability/advanced_metrics.cpp" bodystart="290" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_advanced_metrics_1afa993bcc5971b583924bd90a2de29750" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::observability::AdvancedMetrics::getRate</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>getRate</name>
+        <qualifiedname>themis::observability::AdvancedMetrics::getRate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Compute the per-second rate of change for <computeroutput>name</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Rate is computed as <computeroutput>(newest_value - oldest_value) / elapsed_seconds</computeroutput> from the retained samples. Returns 0.0 if fewer than two samples exist.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1observability_1_1_metric" kindref="compound">Metric</ref> name. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Per-second rate, or 0.0 when insufficient samples exist. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="239" column="12" bodyfile="src/observability/advanced_metrics.cpp" bodystart="306" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_advanced_metrics_1afbf152f753302ec62fa5f857f4aa990d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::AdvancedMetrics::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::observability::AdvancedMetrics::reset</qualifiedname>
+        <briefdescription>
+<para>Clear all stored data for all metric types. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset the modification detection flag.</para>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="248" column="10" bodyfile="src/observability/advanced_metrics.cpp" bodystart="338" bodyend="345"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_advanced_metrics_1a95112fe8c44d4ac21f6681180294ed3d" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::observability::AdvancedMetrics::computeQuantile</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;sorted_vals, double q)</argsstring>
+        <name>computeQuantile</name>
+        <qualifiedname>themis::observability::AdvancedMetrics::computeQuantile</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>sorted_vals</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>q</declname>
+        </param>
+        <briefdescription>
+<para>Compute Quantile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute the <computeroutput>q</computeroutput> quantile from a sorted vector using the nearest-rank method. <computeroutput>q</computeroutput> must be in [0, 1].</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sorted_vals</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">q</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), front(), back(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="297" column="19" bodyfile="src/observability/advanced_metrics.cpp" bodystart="29" bodyend="47"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Extended metric types beyond counters, gauges, and histograms. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>See file-level documentation for a description of the five metric types and usage examples. </para>
+    </detaileddescription>
+    <location file="include/observability/advanced_metrics.h" line="86" column="1" bodyfile="include/observability/advanced_metrics.h" bodystart="86" bodyend="298"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_advanced_metrics_1aad14f825da44c4ca1119257349fc7345" prot="public" virt="non-virtual"><scope>themis::observability::AdvancedMetrics</scope><name>AdvancedMetrics</name></member>
+      <member refid="classthemis_1_1observability_1_1_advanced_metrics_1a69f94cb6496db26990b7714d76f9f85d" prot="public" virt="non-virtual"><scope>themis::observability::AdvancedMetrics</scope><name>AdvancedMetrics</name></member>
+      <member refid="classthemis_1_1observability_1_1_advanced_metrics_1aef6be6a653a6448f9362f09f3ea1656d" prot="public" virt="non-virtual"><scope>themis::observability::AdvancedMetrics</scope><name>AdvancedMetrics</name></member>
+      <member refid="classthemis_1_1observability_1_1_advanced_metrics_1a20767de8c848eb7640f06274455bfdd7" prot="private" virt="non-virtual"><scope>themis::observability::AdvancedMetrics</scope><name>cardinality_sets_</name></member>
+      <member refid="classthemis_1_1observability_1_1_advanced_metrics_1a95112fe8c44d4ac21f6681180294ed3d" prot="private" virt="non-virtual"><scope>themis::observability::AdvancedMetrics</scope><name>computeQuantile</name></member>
+      <member refid="classthemis_1_1observability_1_1_advanced_metrics_1aa08f769ea30531ae7046d889d7e3784d" prot="private" virt="non-virtual"><scope>themis::observability::AdvancedMetrics</scope><name>exp_hist_data_</name></member>
+      <member refid="classthemis_1_1observability_1_1_advanced_metrics_1a2ba4a0c4a0a3231d67298b2f65c7b912" prot="public" virt="non-virtual"><scope>themis::observability::AdvancedMetrics</scope><name>getCardinalityEstimate</name></member>
+      <member refid="classthemis_1_1observability_1_1_advanced_metrics_1a17a72e98336ad1af4db0492d0574dd2d" prot="public" virt="non-virtual"><scope>themis::observability::AdvancedMetrics</scope><name>getExponentialHistogram</name></member>
+      <member refid="classthemis_1_1observability_1_1_advanced_metrics_1afa993bcc5971b583924bd90a2de29750" prot="public" virt="non-virtual"><scope>themis::observability::AdvancedMetrics</scope><name>getRate</name></member>
+      <member refid="classthemis_1_1observability_1_1_advanced_metrics_1a802a40d918ea4d9f765a994013975f02" prot="public" virt="non-virtual"><scope>themis::observability::AdvancedMetrics</scope><name>getSummary</name></member>
+      <member refid="classthemis_1_1observability_1_1_advanced_metrics_1a06fd945e48520da1b1ddb1e7d9d777d0" prot="public" virt="non-virtual"><scope>themis::observability::AdvancedMetrics</scope><name>getTimeWeightedAverage</name></member>
+      <member refid="classthemis_1_1observability_1_1_advanced_metrics_1a777c5ef231019bedc002a604e87b4433" prot="public" virt="non-virtual"><scope>themis::observability::AdvancedMetrics</scope><name>kMaxExpHistSamples</name></member>
+      <member refid="classthemis_1_1observability_1_1_advanced_metrics_1ac4c2067a64658a89d40f2a052188d842" prot="public" virt="non-virtual"><scope>themis::observability::AdvancedMetrics</scope><name>kMaxSummarySamples</name></member>
+      <member refid="classthemis_1_1observability_1_1_advanced_metrics_1a3acebe68e5c2b27421de75b320867b84" prot="private" virt="non-virtual"><scope>themis::observability::AdvancedMetrics</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1observability_1_1_advanced_metrics_1a1bcaf0c1bcb5a683da5586441933638c" prot="public" virt="non-virtual"><scope>themis::observability::AdvancedMetrics</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1observability_1_1_advanced_metrics_1a47f1f6be56125b20e9828985ff6e9dab" prot="public" virt="non-virtual"><scope>themis::observability::AdvancedMetrics</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1observability_1_1_advanced_metrics_1a76b1c2013b4a86b01d9f551ce0a1162e" prot="private" virt="non-virtual"><scope>themis::observability::AdvancedMetrics</scope><name>rate_samples_</name></member>
+      <member refid="classthemis_1_1observability_1_1_advanced_metrics_1a6d64adab65b52695f88408552a755968" prot="public" virt="non-virtual"><scope>themis::observability::AdvancedMetrics</scope><name>recordCardinality</name></member>
+      <member refid="classthemis_1_1observability_1_1_advanced_metrics_1a341aa777824b951a8d02d311449e4dc3" prot="public" virt="non-virtual"><scope>themis::observability::AdvancedMetrics</scope><name>recordExponentialHistogram</name></member>
+      <member refid="classthemis_1_1observability_1_1_advanced_metrics_1a67ceb8d65315c94996acfaa6560a610d" prot="public" virt="non-virtual"><scope>themis::observability::AdvancedMetrics</scope><name>recordRate</name></member>
+      <member refid="classthemis_1_1observability_1_1_advanced_metrics_1ae3c57354c135a53539f443edadce0bbd" prot="public" virt="non-virtual"><scope>themis::observability::AdvancedMetrics</scope><name>recordSummary</name></member>
+      <member refid="classthemis_1_1observability_1_1_advanced_metrics_1a61ac7e33fd069933facfb8ebce58f940" prot="public" virt="non-virtual"><scope>themis::observability::AdvancedMetrics</scope><name>recordTimeWeightedAverage</name></member>
+      <member refid="classthemis_1_1observability_1_1_advanced_metrics_1afbf152f753302ec62fa5f857f4aa990d" prot="public" virt="non-virtual"><scope>themis::observability::AdvancedMetrics</scope><name>reset</name></member>
+      <member refid="classthemis_1_1observability_1_1_advanced_metrics_1a81805df964174745ae260fc30098dc32" prot="private" virt="non-virtual"><scope>themis::observability::AdvancedMetrics</scope><name>summary_data_</name></member>
+      <member refid="classthemis_1_1observability_1_1_advanced_metrics_1ab83807b70e4297f136ae89d9590d13f4" prot="private" virt="non-virtual"><scope>themis::observability::AdvancedMetrics</scope><name>twa_samples_</name></member>
+      <member refid="classthemis_1_1observability_1_1_advanced_metrics_1a0b91295abda22019d22676c9e500dc53" prot="public" virt="non-virtual"><scope>themis::observability::AdvancedMetrics</scope><name>~AdvancedMetrics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

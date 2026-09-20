@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm__wiki_1_1_workspace_state" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm_wiki::WorkspaceState</compoundname>
+    <includes refid="workspace__state__manager_8h" local="no">workspace_state_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm__wiki_1_1_workspace_state_1a2e94c12ccc87c2feaac5f787dd615223" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm_wiki::WorkspaceState::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::llm_wiki::WorkspaceState::version</qualifiedname>
+        <initializer>= &quot;1.0.0&quot;</initializer>
+        <briefdescription>
+<para>Schema version (for compatibility management). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/workspace_state_manager.h" line="105" column="17" bodyfile="include/llm_wiki/workspace_state_manager.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm__wiki_1_1_workspace_state_1ad03d2715979bb47d7eda552c826375b0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm_wiki::WorkspaceState::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::llm_wiki::WorkspaceState::created_at</qualifiedname>
+        <briefdescription>
+<para>Timestamp when workspace was created. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/workspace_state_manager.h" line="108" column="17" bodyfile="include/llm_wiki/workspace_state_manager.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm__wiki_1_1_workspace_state_1a27657c024721d91eb48d16092cee7f36" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm_wiki::WorkspaceState::last_updated</definition>
+        <argsstring></argsstring>
+        <name>last_updated</name>
+        <qualifiedname>themis::llm_wiki::WorkspaceState::last_updated</qualifiedname>
+        <briefdescription>
+<para>Last update timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/workspace_state_manager.h" line="111" column="17" bodyfile="include/llm_wiki/workspace_state_manager.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm__wiki_1_1_workspace_state_1a1c5d3342adf34fccf69e3aba155fc40b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm_wiki::WorkspaceState::checksum</definition>
+        <argsstring></argsstring>
+        <name>checksum</name>
+        <qualifiedname>themis::llm_wiki::WorkspaceState::checksum</qualifiedname>
+        <briefdescription>
+<para>SHA-256 checksum of the JSON (computed at save time). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/workspace_state_manager.h" line="114" column="17" bodyfile="include/llm_wiki/workspace_state_manager.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm__wiki_1_1_workspace_state_1a92960e04c01012464e6b1d4e9a490111" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm_wiki::WorkspaceState::workspace_root</definition>
+        <argsstring></argsstring>
+        <name>workspace_root</name>
+        <qualifiedname>themis::llm_wiki::WorkspaceState::workspace_root</qualifiedname>
+        <briefdescription>
+<para>Root directory of the workspace. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/workspace_state_manager.h" line="117" column="17" bodyfile="include/llm_wiki/workspace_state_manager.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm__wiki_1_1_workspace_state_1a571cbf76a1f7743061b8e3c640616d4f" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;std::string&gt; &gt; themis::llm_wiki::WorkspaceState::links</definition>
+        <argsstring></argsstring>
+        <name>links</name>
+        <qualifiedname>themis::llm_wiki::WorkspaceState::links</qualifiedname>
+        <briefdescription>
+<para>Link graph: page -&gt; [referenced pages]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/workspace_state_manager.h" line="120" column="24" bodyfile="include/llm_wiki/workspace_state_manager.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm__wiki_1_1_workspace_state_1af9a730a36c3c58fa2e81723527e22ca3" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unordered_map&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unordered_map&lt;std::string, std::string&gt; &gt; themis::llm_wiki::WorkspaceState::tasks</definition>
+        <argsstring></argsstring>
+        <name>tasks</name>
+        <qualifiedname>themis::llm_wiki::WorkspaceState::tasks</qualifiedname>
+        <briefdescription>
+<para>Tasks: task_id -&gt; task details. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/workspace_state_manager.h" line="123" column="24" bodyfile="include/llm_wiki/workspace_state_manager.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>In-memory representation of persistent workspace state. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm_wiki/workspace_state_manager.h" line="103" column="1" bodyfile="include/llm_wiki/workspace_state_manager.h" bodystart="103" bodyend="124"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a1c5d3342adf34fccf69e3aba155fc40b" prot="public" virt="non-virtual"><scope>themis::llm_wiki::WorkspaceState</scope><name>checksum</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_workspace_state_1ad03d2715979bb47d7eda552c826375b0" prot="public" virt="non-virtual"><scope>themis::llm_wiki::WorkspaceState</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a27657c024721d91eb48d16092cee7f36" prot="public" virt="non-virtual"><scope>themis::llm_wiki::WorkspaceState</scope><name>last_updated</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a571cbf76a1f7743061b8e3c640616d4f" prot="public" virt="non-virtual"><scope>themis::llm_wiki::WorkspaceState</scope><name>links</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_workspace_state_1af9a730a36c3c58fa2e81723527e22ca3" prot="public" virt="non-virtual"><scope>themis::llm_wiki::WorkspaceState</scope><name>tasks</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a2e94c12ccc87c2feaac5f787dd615223" prot="public" virt="non-virtual"><scope>themis::llm_wiki::WorkspaceState</scope><name>version</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_workspace_state_1a92960e04c01012464e6b1d4e9a490111" prot="public" virt="non-virtual"><scope>themis::llm_wiki::WorkspaceState</scope><name>workspace_root</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

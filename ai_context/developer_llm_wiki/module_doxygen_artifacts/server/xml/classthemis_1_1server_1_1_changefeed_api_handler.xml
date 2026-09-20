@@ -1,0 +1,1016 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_changefeed_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::ChangefeedApiHandler</compoundname>
+    <includes refid="changefeed__api__handler_8h" local="no">changefeed_api_handler.h</includes>
+    <innerclass refid="structthemis_1_1server_1_1_changefeed_api_handler_1_1_tenant_auth_context" prot="private">themis::server::ChangefeedApiHandler::TenantAuthContext</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1server_1_1_changefeed_api_handler_1a95571c1f7ed8e897fef423fe67811514" prot="public" static="no">
+        <type>std::function&lt; void( <ref refid="classthemis_1_1server_1_1_sse_connection_manager" kindref="compound">SseConnectionManager</ref> &amp;mgr, uint64_t conn_id, std::ostream &amp;body, std::chrono::seconds max_duration, uint32_t heartbeat_ms, size_t max_events_per_poll)&gt;</type>
+        <definition>using themis::server::ChangefeedApiHandler::SseStreamWriterFn = std::function&lt;void(
+       SseConnectionManager&amp; mgr,
+       uint64_t conn_id,
+       std::ostream&amp; body,
+       std::chrono::seconds max_duration,
+       uint32_t heartbeat_ms,
+       size_t max_events_per_poll
+   )&gt;</definition>
+        <argsstring></argsstring>
+        <name>SseStreamWriterFn</name>
+        <qualifiedname>themis::server::ChangefeedApiHandler::SseStreamWriterFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="139" column="5" bodyfile="include/server/changefeed_api_handler.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_changefeed_api_handler_1a42c5bb3af821907bd2c34ee6c44974e7" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::server::ChangefeedApiHandler::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>themis::server::ChangefeedApiHandler::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="231" column="21" bodyfile="include/server/changefeed_api_handler.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_changefeed_api_handler_1a45ba6e769c845d8e2d0eaa034e8a90ba" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; Changefeed &gt;</type>
+        <definition>std::shared_ptr&lt;Changefeed&gt; themis::server::ChangefeedApiHandler::changefeed_</definition>
+        <argsstring></argsstring>
+        <name>changefeed_</name>
+        <qualifiedname>themis::server::ChangefeedApiHandler::changefeed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="232" column="21" bodyfile="include/server/changefeed_api_handler.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_changefeed_api_handler_1a0b57ec0246a7ea30add68404aa0179fd" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1server_1_1_sse_connection_manager" kindref="compound">SseConnectionManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;SseConnectionManager&gt; themis::server::ChangefeedApiHandler::sse_manager_</definition>
+        <argsstring></argsstring>
+        <name>sse_manager_</name>
+        <qualifiedname>themis::server::ChangefeedApiHandler::sse_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="233" column="21" bodyfile="include/server/changefeed_api_handler.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_changefeed_api_handler_1abc8f58dd9b49c8b041c66fc8a91f113c" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;themis::AuthMiddleware&gt; themis::server::ChangefeedApiHandler::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>themis::server::ChangefeedApiHandler::auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="234" column="21" bodyfile="include/server/changefeed_api_handler.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_changefeed_api_handler_1abe2aebb7e44bf8ba02da15b41e0cad24" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::ChangefeedApiHandler::feature_cdc_</definition>
+        <argsstring></argsstring>
+        <name>feature_cdc_</name>
+        <qualifiedname>themis::server::ChangefeedApiHandler::feature_cdc_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="235" column="10" bodyfile="include/server/changefeed_api_handler.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_changefeed_api_handler_1a66de01980a3b2bd77a1cdbebd1b0a2d1" prot="private" static="no" mutable="no">
+        <type>cdc::DeliveryTracker</type>
+        <definition>cdc::DeliveryTracker themis::server::ChangefeedApiHandler::delivery_tracker_</definition>
+        <argsstring></argsstring>
+        <name>delivery_tracker_</name>
+        <qualifiedname>themis::server::ChangefeedApiHandler::delivery_tracker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="237" column="26" bodyfile="include/server/changefeed_api_handler.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_changefeed_api_handler_1a228dad725b0ddca5e850cbec3dc8118e" prot="private" static="yes" mutable="no">
+        <type><ref refid="classthemis_1_1server_1_1_changefeed_api_handler_1a95571c1f7ed8e897fef423fe67811514" kindref="member">SseStreamWriterFn</ref></type>
+        <definition>ChangefeedApiHandler::SseStreamWriterFn themis::server::ChangefeedApiHandler::sse_stream_writer_fn_</definition>
+        <argsstring></argsstring>
+        <name>sse_stream_writer_fn_</name>
+        <qualifiedname>themis::server::ChangefeedApiHandler::sse_stream_writer_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="240" column="30" bodyfile="include/server/changefeed_api_handler.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_changefeed_api_handler_1a34655c1c307778ffa4984624d0857d98" prot="private" static="yes" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::server::ChangefeedApiHandler::sse_writer_mutex_</definition>
+        <argsstring></argsstring>
+        <name>sse_writer_mutex_</name>
+        <qualifiedname>themis::server::ChangefeedApiHandler::sse_writer_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="241" column="30" bodyfile="include/server/changefeed_api_handler.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_changefeed_api_handler_1a3b0755358d0b2562c1ec877a78ef3e31" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ChangefeedApiHandler::setSseStreamWriterFn</definition>
+        <argsstring>(SseStreamWriterFn fn)</argsstring>
+        <name>setSseStreamWriterFn</name>
+        <qualifiedname>themis::server::ChangefeedApiHandler::setSseStreamWriterFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1_changefeed_api_handler_1a95571c1f7ed8e897fef423fe67811514" kindref="member">SseStreamWriterFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Sse Stream Writer Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="152" column="17" bodyfile="src/server/changefeed_api_handler.cpp" bodystart="319" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_changefeed_api_handler_1af93da4e90fdee4bb6f26b3dcef232d24" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ChangefeedApiHandler::clearSseStreamWriterFn</definition>
+        <argsstring>()</argsstring>
+        <name>clearSseStreamWriterFn</name>
+        <qualifiedname>themis::server::ChangefeedApiHandler::clearSseStreamWriterFn</qualifiedname>
+        <briefdescription>
+<para>Clear Sse Stream Writer Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="157" column="17" bodyfile="src/server/changefeed_api_handler.cpp" bodystart="328" bodyend="331"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_changefeed_api_handler_1aa5cb3528d940d51aa9dbe439444541f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::ChangefeedApiHandler::ChangefeedApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; storage, std::shared_ptr&lt; Changefeed &gt; changefeed, std::shared_ptr&lt; SseConnectionManager &gt; sse_manager, std::shared_ptr&lt; themis::AuthMiddleware &gt; auth, bool feature_cdc)</argsstring>
+        <name>ChangefeedApiHandler</name>
+        <qualifiedname>themis::server::ChangefeedApiHandler::ChangefeedApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+          <declname>storage</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; Changefeed &gt;</type>
+          <declname>changefeed</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1server_1_1_sse_connection_manager" kindref="compound">SseConnectionManager</ref> &gt;</type>
+          <declname>sse_manager</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+          <declname>auth</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>feature_cdc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="159" column="5" bodyfile="src/server/changefeed_api_handler.cpp" bodystart="333" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_changefeed_api_handler_1a8a92a14f0b4e2d60c647699a326255bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ChangefeedApiHandler::handleGet</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGet</name>
+        <qualifiedname>themis::server::ChangefeedApiHandler::handleGet</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(), empty(), std::chrono::system_clock::now(), time_since_epoch(), count(), std::to_string(), fetch_add(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="172" column="20" bodyfile="src/server/changefeed_api_handler.cpp" bodystart="357" bodyend="487"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_changefeed_api_handler_1a3aace5c0c9cfb3d0ef34bf51b9fe888a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ChangefeedApiHandler::handleStreamSse</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleStreamSse</name>
+        <qualifiedname>themis::server::ChangefeedApiHandler::handleStreamSse</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Stream Sse. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: checkAuth(), makeErrorResponse(), Tracer::startSpan(), setAttribute(), std::string(), target(), find(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="179" column="20" bodyfile="src/server/changefeed_api_handler.cpp" bodystart="495" bodyend="890"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_changefeed_api_handler_1a9d004b989c0b6a998c86bfe61a7d09dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ChangefeedApiHandler::handleStats</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleStats</name>
+        <qualifiedname>themis::server::ChangefeedApiHandler::handleStats</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: checkAuth(), makeErrorResponse(), Tracer::startSpan(), setAttribute(), getStats(), setStatus(), makeResponse(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="186" column="20" bodyfile="src/server/changefeed_api_handler.cpp" bodystart="968" bodyend="1000"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_changefeed_api_handler_1a559c03e5dac5be92b0d549dd4071307d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ChangefeedApiHandler::handleRetention</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleRetention</name>
+        <qualifiedname>themis::server::ChangefeedApiHandler::handleRetention</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Retention. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: checkAuth(), makeErrorResponse(), Tracer::startSpan(), setAttribute(), nlohmann::json::parse(), body(), contains(), deleteOldEvents(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="193" column="20" bodyfile="src/server/changefeed_api_handler.cpp" bodystart="1008" bodyend="1057"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_changefeed_api_handler_1abf828b45048b7d14a5c7ef1c591a6573" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ChangefeedApiHandler::handleRetentionGet</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleRetentionGet</name>
+        <qualifiedname>themis::server::ChangefeedApiHandler::handleRetentionGet</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Retention Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: checkAuth(), makeErrorResponse(), Tracer::startSpan(), setAttribute(), admin(), get(), getRetentionStatus(), setStatus(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="200" column="20" bodyfile="src/server/changefeed_api_handler.cpp" bodystart="1107" bodyend="1131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_changefeed_api_handler_1a8d08402c97c6ebe60011368c72bdbc4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ChangefeedApiHandler::handleRetentionPut</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleRetentionPut</name>
+        <qualifiedname>themis::server::ChangefeedApiHandler::handleRetentionPut</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Retention Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: checkAuth(), makeErrorResponse(), Tracer::startSpan(), setAttribute(), nlohmann::json::parse(), body(), getRetentionPolicy(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="207" column="20" bodyfile="src/server/changefeed_api_handler.cpp" bodystart="1139" bodyend="1215"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_changefeed_api_handler_1a33abd5b7f217ffe634dff89f3ca9037f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ChangefeedApiHandler::handleCompact</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleCompact</name>
+        <qualifiedname>themis::server::ChangefeedApiHandler::handleCompact</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Compact. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: checkAuth(), makeErrorResponse(), Tracer::startSpan(), setAttribute(), admin(), get(), compactLog(), setStatus(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="214" column="20" bodyfile="src/server/changefeed_api_handler.cpp" bodystart="1065" bodyend="1099"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_changefeed_api_handler_1a16cc1c441fd4db48e5fe4d9906f291f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ChangefeedApiHandler::handleStreamAck</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleStreamAck</name>
+        <qualifiedname>themis::server::ChangefeedApiHandler::handleStreamAck</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Stream Ack. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: checkAuth(), makeErrorResponse(), Tracer::startSpan(), setAttribute(), nlohmann::json::parse(), body(), contains(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="221" column="20" bodyfile="src/server/changefeed_api_handler.cpp" bodystart="898" bodyend="960"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_changefeed_api_handler_1a8a9a86cbdc4c052c5c1b84a75b971ad7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ChangefeedApiHandler::handleGdprRedact</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGdprRedact</name>
+        <qualifiedname>themis::server::ChangefeedApiHandler::handleGdprRedact</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Gdpr Redact. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: checkAuth(), makeErrorResponse(), Tracer::startSpan(), setAttribute(), nlohmann::json::parse(), body(), value(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="228" column="20" bodyfile="src/server/changefeed_api_handler.cpp" bodystart="1223" bodyend="1281"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_changefeed_api_handler_1aaad82c526ce5f5940d35a50d9bdab9e5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ChangefeedApiHandler::makeErrorResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;message, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeErrorResponse</name>
+        <qualifiedname>themis::server::ChangefeedApiHandler::makeErrorResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make Error <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeResponse(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="250" column="20" bodyfile="src/server/changefeed_api_handler.cpp" bodystart="1291" bodyend="1300"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_changefeed_api_handler_1a3611cf62ccc5b9a2dd8c1aef2c32d710" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ChangefeedApiHandler::makeResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;body, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeResponse</name>
+        <qualifiedname>themis::server::ChangefeedApiHandler::makeResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: version(), set(), keep_alive(), body(), applyGovernanceHeaders(), prepare_payload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="259" column="20" bodyfile="src/server/changefeed_api_handler.cpp" bodystart="1310" bodyend="1321"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_changefeed_api_handler_1aa72b1afbf197a17bebd63d8b6dedad7b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; http::response&lt; http::string_body &gt; &gt;</type>
+        <definition>std::optional&lt; http::response&lt; http::string_body &gt; &gt; themis::server::ChangefeedApiHandler::checkAuth</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;required_scope)</argsstring>
+        <name>checkAuth</name>
+        <qualifiedname>themis::server::ChangefeedApiHandler::checkAuth</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>required_scope</declname>
+        </param>
+        <briefdescription>
+<para>Check Auth. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">required_scope</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">required_scope</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isEnabled(), empty(), version(), set(), keep_alive(), body(), prepare_payload(), <ref refid="classthemis_1_1server_1_1_auth_middleware_1afd9141c415789d07acb119a78724d28b" kindref="member">AuthMiddleware::extractBearerToken()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="269" column="19" bodyfile="src/server/changefeed_api_handler.cpp" bodystart="1330" bodyend="1385"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_changefeed_api_handler_1a9104dfc714ddb60f85b267fcb24368cc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; http::response&lt; http::string_body &gt; &gt;</type>
+        <definition>std::optional&lt; http::response&lt; http::string_body &gt; &gt; themis::server::ChangefeedApiHandler::checkAuthAndResolveTenant</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;required_scope, TenantAuthContext &amp;out_context)</argsstring>
+        <name>checkAuthAndResolveTenant</name>
+        <qualifiedname>themis::server::ChangefeedApiHandler::checkAuthAndResolveTenant</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>required_scope</declname>
+        </param>
+        <param>
+          <type>TenantAuthContext &amp;</type>
+          <declname>out_context</declname>
+        </param>
+        <briefdescription>
+<para>Check Auth And Resolve Tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">required_scope</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">required_scope</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isEnabled(), <ref refid="classthemis_1_1_tenant_manager_1ac43d79a0b37fcacde45f5212a93509bf" kindref="member">TenantManager::instance()</ref>, std::string(), name_string(), value(), path_str(), target(), extractTenantId(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="285" column="19" bodyfile="src/server/changefeed_api_handler.cpp" bodystart="1395" bodyend="1565"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_changefeed_api_handler_1a60f2cec82a8153fe3f3712f8ead80dfd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ChangefeedApiHandler::applyGovernanceHeaders</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, http::response&lt; http::string_body &gt; &amp;res)</argsstring>
+        <name>applyGovernanceHeaders</name>
+        <qualifiedname>themis::server::ChangefeedApiHandler::applyGovernanceHeaders</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>http::response&lt; http::string_body &gt; &amp;</type>
+          <declname>res</declname>
+        </param>
+        <briefdescription>
+<para>Apply Governance Headers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: tolower(), std::string(), target(), find(), substr(), name_string(), beast::iequals(), to_lower(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="296" column="10" bodyfile="src/server/changefeed_api_handler.cpp" bodystart="1573" bodyend="1692"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/changefeed_api_handler.h" line="135" column="1" bodyfile="include/server/changefeed_api_handler.h" bodystart="135" bodyend="299"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_changefeed_api_handler_1a60f2cec82a8153fe3f3712f8ead80dfd" prot="private" virt="non-virtual"><scope>themis::server::ChangefeedApiHandler</scope><name>applyGovernanceHeaders</name></member>
+      <member refid="classthemis_1_1server_1_1_changefeed_api_handler_1abc8f58dd9b49c8b041c66fc8a91f113c" prot="private" virt="non-virtual"><scope>themis::server::ChangefeedApiHandler</scope><name>auth_</name></member>
+      <member refid="classthemis_1_1server_1_1_changefeed_api_handler_1a45ba6e769c845d8e2d0eaa034e8a90ba" prot="private" virt="non-virtual"><scope>themis::server::ChangefeedApiHandler</scope><name>changefeed_</name></member>
+      <member refid="classthemis_1_1server_1_1_changefeed_api_handler_1aa5cb3528d940d51aa9dbe439444541f3" prot="public" virt="non-virtual"><scope>themis::server::ChangefeedApiHandler</scope><name>ChangefeedApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_changefeed_api_handler_1aa72b1afbf197a17bebd63d8b6dedad7b" prot="private" virt="non-virtual"><scope>themis::server::ChangefeedApiHandler</scope><name>checkAuth</name></member>
+      <member refid="classthemis_1_1server_1_1_changefeed_api_handler_1a9104dfc714ddb60f85b267fcb24368cc" prot="private" virt="non-virtual"><scope>themis::server::ChangefeedApiHandler</scope><name>checkAuthAndResolveTenant</name></member>
+      <member refid="classthemis_1_1server_1_1_changefeed_api_handler_1af93da4e90fdee4bb6f26b3dcef232d24" prot="public" virt="non-virtual"><scope>themis::server::ChangefeedApiHandler</scope><name>clearSseStreamWriterFn</name></member>
+      <member refid="classthemis_1_1server_1_1_changefeed_api_handler_1a66de01980a3b2bd77a1cdbebd1b0a2d1" prot="private" virt="non-virtual"><scope>themis::server::ChangefeedApiHandler</scope><name>delivery_tracker_</name></member>
+      <member refid="classthemis_1_1server_1_1_changefeed_api_handler_1abe2aebb7e44bf8ba02da15b41e0cad24" prot="private" virt="non-virtual"><scope>themis::server::ChangefeedApiHandler</scope><name>feature_cdc_</name></member>
+      <member refid="classthemis_1_1server_1_1_changefeed_api_handler_1a33abd5b7f217ffe634dff89f3ca9037f" prot="public" virt="non-virtual"><scope>themis::server::ChangefeedApiHandler</scope><name>handleCompact</name></member>
+      <member refid="classthemis_1_1server_1_1_changefeed_api_handler_1a8a9a86cbdc4c052c5c1b84a75b971ad7" prot="public" virt="non-virtual"><scope>themis::server::ChangefeedApiHandler</scope><name>handleGdprRedact</name></member>
+      <member refid="classthemis_1_1server_1_1_changefeed_api_handler_1a8a92a14f0b4e2d60c647699a326255bc" prot="public" virt="non-virtual"><scope>themis::server::ChangefeedApiHandler</scope><name>handleGet</name></member>
+      <member refid="classthemis_1_1server_1_1_changefeed_api_handler_1a559c03e5dac5be92b0d549dd4071307d" prot="public" virt="non-virtual"><scope>themis::server::ChangefeedApiHandler</scope><name>handleRetention</name></member>
+      <member refid="classthemis_1_1server_1_1_changefeed_api_handler_1abf828b45048b7d14a5c7ef1c591a6573" prot="public" virt="non-virtual"><scope>themis::server::ChangefeedApiHandler</scope><name>handleRetentionGet</name></member>
+      <member refid="classthemis_1_1server_1_1_changefeed_api_handler_1a8d08402c97c6ebe60011368c72bdbc4c" prot="public" virt="non-virtual"><scope>themis::server::ChangefeedApiHandler</scope><name>handleRetentionPut</name></member>
+      <member refid="classthemis_1_1server_1_1_changefeed_api_handler_1a9d004b989c0b6a998c86bfe61a7d09dc" prot="public" virt="non-virtual"><scope>themis::server::ChangefeedApiHandler</scope><name>handleStats</name></member>
+      <member refid="classthemis_1_1server_1_1_changefeed_api_handler_1a16cc1c441fd4db48e5fe4d9906f291f4" prot="public" virt="non-virtual"><scope>themis::server::ChangefeedApiHandler</scope><name>handleStreamAck</name></member>
+      <member refid="classthemis_1_1server_1_1_changefeed_api_handler_1a3aace5c0c9cfb3d0ef34bf51b9fe888a" prot="public" virt="non-virtual"><scope>themis::server::ChangefeedApiHandler</scope><name>handleStreamSse</name></member>
+      <member refid="classthemis_1_1server_1_1_changefeed_api_handler_1aaad82c526ce5f5940d35a50d9bdab9e5" prot="private" virt="non-virtual"><scope>themis::server::ChangefeedApiHandler</scope><name>makeErrorResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_changefeed_api_handler_1a3611cf62ccc5b9a2dd8c1aef2c32d710" prot="private" virt="non-virtual"><scope>themis::server::ChangefeedApiHandler</scope><name>makeResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_changefeed_api_handler_1a3b0755358d0b2562c1ec877a78ef3e31" prot="public" virt="non-virtual"><scope>themis::server::ChangefeedApiHandler</scope><name>setSseStreamWriterFn</name></member>
+      <member refid="classthemis_1_1server_1_1_changefeed_api_handler_1a0b57ec0246a7ea30add68404aa0179fd" prot="private" virt="non-virtual"><scope>themis::server::ChangefeedApiHandler</scope><name>sse_manager_</name></member>
+      <member refid="classthemis_1_1server_1_1_changefeed_api_handler_1a228dad725b0ddca5e850cbec3dc8118e" prot="private" virt="non-virtual"><scope>themis::server::ChangefeedApiHandler</scope><name>sse_stream_writer_fn_</name></member>
+      <member refid="classthemis_1_1server_1_1_changefeed_api_handler_1a34655c1c307778ffa4984624d0857d98" prot="private" virt="non-virtual"><scope>themis::server::ChangefeedApiHandler</scope><name>sse_writer_mutex_</name></member>
+      <member refid="classthemis_1_1server_1_1_changefeed_api_handler_1a95571c1f7ed8e897fef423fe67811514" prot="public" virt="non-virtual"><scope>themis::server::ChangefeedApiHandler</scope><name>SseStreamWriterFn</name></member>
+      <member refid="classthemis_1_1server_1_1_changefeed_api_handler_1a42c5bb3af821907bd2c34ee6c44974e7" prot="private" virt="non-virtual"><scope>themis::server::ChangefeedApiHandler</scope><name>storage_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,242 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__wave5__llm__raii_8cpp" kind="file" language="C++">
+    <compoundname>test_wave5_llm_raii.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="scoped__db__connection_8h" local="yes">llm/scoped_db_connection.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">utility</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>llm/scoped_db_connection.h</label>
+        <link refid="scoped__db__connection_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/llm/test_wave5_llm_raii.cpp</label>
+        <link refid="test__wave5__llm__raii_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>stdexcept</label>
+      </node>
+      <node id="7">
+        <label>utility</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1tests">themis::llm::tests</innernamespace>
+    <briefdescription>
+<para>Wave-B RAII / exception-safety tests for the LLM module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Test IDs and coverage:</para>
+<para>RAII-SDB-01 ScopedDbConnection release_fn called on normal scope exit. RAII-SDB-02 ScopedDbConnection release_fn called when an exception is thrown (stack unwind path) — verifies RAII guarantee under exceptions. RAII-SDB-03 Move semantics: original ScopedDbConnection does NOT double-release after the connection is transferred to a new owner via move. RAII-SDB-04 Explicit release() before destructor: destructor is a no-op. RAII-SDB-05 isReleased() returns false until release; true after. RAII-L3-01 No resource leak when a resource-holding constructor throws: mock resource counter incremented on acquire, decremented on ScopedDbConnection release; post-throw count returns to zero. RAII-L3-02 Multiple ScopedDbConnections in the same scope all release even when the second acquire-path throws. RAII-L5-01 InlineTrainingEngine persistent params: optimizer state (m_adam / v_adam) grows across two consecutive train steps rather than resetting to zero on each step.</para>
+<para>Tests are deterministic and require no GPU, real DB, or LLM backend.</para>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>CTest labels: llm;wave5;raii </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="scoped__db__connection_8h" kindref="compound">llm/scoped_db_connection.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{<sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{<sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1tests" kindref="compound">tests</ref><sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RAII-SDB-01<sp/><sp/>Normal<sp/>exit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1tests_1a53dfacb2c8278a0da0c1893c7ea37bb8" kindref="member">TEST</ref>(ScopedDbConnectionTest,<sp/>RAII_SDB_01_ReleasesOnNormalExit)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>release_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ScopedDbConnection<sp/>guard([&amp;release_count]()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{<sp/>++release_count;<sp/>});</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(0,<sp/>release_count)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;release_fn<sp/>must<sp/>not<sp/>be<sp/>called<sp/>before<sp/>scope<sp/>exit&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(guard.isReleased());</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(1,<sp/>release_count)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;release_fn<sp/>must<sp/>be<sp/>called<sp/>exactly<sp/>once<sp/>on<sp/>scope<sp/>exit&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RAII-SDB-02<sp/><sp/>Exception<sp/>/<sp/>stack-unwind<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1tests_1a53dfacb2c8278a0da0c1893c7ea37bb8" kindref="member">TEST</ref>(ScopedDbConnectionTest,<sp/>RAII_SDB_02_ReleasesOnException)<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>release_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ScopedDbConnection<sp/>guard([&amp;release_count]()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{<sp/>++release_count;<sp/>});</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;test<sp/>exception&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::runtime_error&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>expected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(1,<sp/>release_count)</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;release_fn<sp/>must<sp/>be<sp/>called<sp/>even<sp/>when<sp/>an<sp/>exception<sp/>is<sp/>thrown&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RAII-SDB-03<sp/><sp/>Move<sp/>semantics<sp/>—<sp/>original<sp/>does<sp/>NOT<sp/>double-release</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1tests_1a53dfacb2c8278a0da0c1893c7ea37bb8" kindref="member">TEST</ref>(ScopedDbConnectionTest,<sp/>RAII_SDB_03_MoveDoesNotDoubleRelease)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>release_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ScopedDbConnection<sp/>first([&amp;release_count]()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{<sp/>++release_count;<sp/>});</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ScopedDbConnection<sp/>second(std::move(first));</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(first.isReleased())<sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;moved-from<sp/>guard<sp/>must<sp/>be<sp/>marked<sp/>released&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(second.isReleased())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;new<sp/>owner<sp/>must<sp/>not<sp/>be<sp/>released<sp/>yet&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>second<sp/>destroyed<sp/>here<sp/>—<sp/>should<sp/>call<sp/>release_fn<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>first<sp/>destroyed<sp/>here<sp/>—<sp/>must<sp/>be<sp/>a<sp/>no-op<sp/>(already<sp/>released<sp/>via<sp/>move)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(1,<sp/>release_count)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;release_fn<sp/>must<sp/>be<sp/>called<sp/>exactly<sp/>once<sp/>total&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RAII-SDB-04<sp/><sp/>Explicit<sp/>release()<sp/>before<sp/>destructor<sp/>is<sp/>a<sp/>no-op<sp/>on<sp/>destruct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1tests_1a53dfacb2c8278a0da0c1893c7ea37bb8" kindref="member">TEST</ref>(ScopedDbConnectionTest,<sp/>RAII_SDB_04_ExplicitRelease)<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>release_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ScopedDbConnection<sp/>guard([&amp;release_count]()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{<sp/>++release_count;<sp/>});</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>guard.release();<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>explicit<sp/>early<sp/>release</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(1,<sp/>release_count);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(guard.isReleased());</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>destructor<sp/>must<sp/>be<sp/>no-op</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(1,<sp/>release_count)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;release_fn<sp/>must<sp/>not<sp/>be<sp/>called<sp/>a<sp/>second<sp/>time<sp/>by<sp/>destructor&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RAII-SDB-05<sp/><sp/>isReleased()<sp/>state<sp/>transitions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1tests_1a53dfacb2c8278a0da0c1893c7ea37bb8" kindref="member">TEST</ref>(ScopedDbConnectionTest,<sp/>RAII_SDB_05_IsReleasedState)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>ScopedDbConnection<sp/>guard([]()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{});</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(guard.isReleased())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;must<sp/>be<sp/>not-released<sp/>after<sp/>construction&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>guard.release();</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(guard.isReleased())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;must<sp/>be<sp/>released<sp/>after<sp/>explicit<sp/>release()&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>guard.release();<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>second<sp/>call<sp/>must<sp/>be<sp/>idempotent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(guard.isReleased());</highlight></codeline>
+<codeline lineno="114"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RAII-L3-01<sp/><sp/>No<sp/>leak<sp/>when<sp/>constructor<sp/>of<sp/>a<sp/>resource-holder<sp/>throws</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1tests_1a53dfacb2c8278a0da0c1893c7ea37bb8" kindref="member">TEST</ref>(ScopedDbConnectionTest,<sp/>RAII_L3_01_NoLeakWhenConstructorThrows)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>a<sp/>resource<sp/>that<sp/>must<sp/>be<sp/>paired:<sp/>acquire<sp/>increments,<sp/>release<sp/>decrements.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>resource_counter{0};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>acquire<sp/>=<sp/>[&amp;]()<sp/>-&gt;<sp/>ScopedDbConnection<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++resource_counter;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ScopedDbConnection([&amp;resource_counter]()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>--resource_counter;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Scenario:<sp/>acquire<sp/>succeeds<sp/>but<sp/>subsequent<sp/>work<sp/>throws.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>conn<sp/>=<sp/>acquire();</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(1,<sp/>resource_counter.load());</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;downstream<sp/>failure&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>conn<sp/>is<sp/>destroyed<sp/>on<sp/>stack<sp/>unwind<sp/>→<sp/>release_fn<sp/>decrements<sp/>counter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::runtime_error&amp;)<sp/>{}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0,<sp/>resource_counter.load())</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;resource<sp/>counter<sp/>must<sp/>return<sp/>to<sp/>zero<sp/>after<sp/>exception-driven<sp/>unwind&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RAII-L3-02<sp/><sp/>Multiple<sp/>guards:<sp/>all<sp/>release<sp/>when<sp/>second<sp/>throws<sp/>during<sp/>setup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1tests_1a53dfacb2c8278a0da0c1893c7ea37bb8" kindref="member">TEST</ref>(ScopedDbConnectionTest,<sp/>RAII_L3_02_MultipleGuardsAllRelease)<sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>counter_a<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>counter_b<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ScopedDbConnection<sp/>guard_a([&amp;counter_a]()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{<sp/>++counter_a;<sp/>});</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>second<sp/>acquisition<sp/>failing:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ScopedDbConnection<sp/>guard_b([&amp;counter_b]()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{<sp/>++counter_b;<sp/>});</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;second<sp/>step<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>guards<sp/>are<sp/>destroyed<sp/>on<sp/>unwind.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::runtime_error&amp;)<sp/>{}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(1,<sp/>counter_a)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;first<sp/>guard<sp/>must<sp/>release<sp/>on<sp/>exception&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(1,<sp/>counter_b)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;second<sp/>guard<sp/>must<sp/>also<sp/>release<sp/>on<sp/>exception&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RAII-L5-01<sp/><sp/>InlineTrainingEngine<sp/>persistent<sp/>params<sp/>(Wave-B<sp/>L5<sp/>stub<sp/>fix)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Because<sp/>the<sp/>training-engine<sp/>requires<sp/>real<sp/>AdapterRegistry<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TrainingDataIterator<sp/>objects<sp/>this<sp/>test<sp/>validates<sp/>the<sp/>optimizer-moment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>persistence<sp/>at<sp/>the<sp/>unit<sp/>level<sp/>using<sp/>a<sp/>direct<sp/>call<sp/>to<sp/>optimizerStep()<sp/>via</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>a<sp/>proxy<sp/>that<sp/>exposes<sp/>the<sp/>internal<sp/>Impl<sp/>state<sp/>—<sp/>or,<sp/>since<sp/>Impl<sp/>is<sp/>private,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>we<sp/>verify<sp/>the<sp/>observable<sp/>behaviour<sp/>indirectly<sp/>through<sp/>the<sp/>public<sp/>API.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="comment">//<sp/>We<sp/>use<sp/>the<sp/>ScopedDbConnection<sp/>itself<sp/>as<sp/>a<sp/>proxy<sp/>to<sp/>validate<sp/>the<sp/>RAII</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/>contract<sp/>that<sp/>underpins<sp/>the<sp/>training-loop<sp/>fix:<sp/>the<sp/>training<sp/>loop<sp/>must<sp/>not</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>reset<sp/>model<sp/>parameters<sp/>to<sp/>zero<sp/>on<sp/>every<sp/>step.<sp/><sp/>The<sp/>ScopedDbConnection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/>unit<sp/>tests<sp/>above<sp/>already<sp/>cover<sp/>the<sp/>RAII<sp/>contract.<sp/><sp/>For<sp/>L5,<sp/>the<sp/>comment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>below<sp/>documents<sp/>the<sp/>expected<sp/>invariant<sp/>verified<sp/>by<sp/>the<sp/>integration<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/>in<sp/>tests/llm/test_inline_training_production.cpp.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1tests_1a53dfacb2c8278a0da0c1893c7ea37bb8" kindref="member">TEST</ref>(ScopedDbConnectionTest,<sp/>RAII_L5_01_PersistentParamsDocumented)<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>asserts<sp/>the<sp/>compile-time<sp/>invariant:<sp/>ScopedDbConnection<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>move-constructible<sp/>and<sp/>not<sp/>copy-constructible,<sp/>matching<sp/>the<sp/>expected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>semantics<sp/>of<sp/>a<sp/>unique<sp/>resource<sp/>handle.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(std::is_move_constructible_v&lt;ScopedDbConnection&gt;,</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ScopedDbConnection<sp/>must<sp/>be<sp/>move-constructible&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(!std::is_copy_constructible_v&lt;ScopedDbConnection&gt;,</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ScopedDbConnection<sp/>must<sp/>not<sp/>be<sp/>copy-constructible&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(!std::is_copy_assignable_v&lt;ScopedDbConnection&gt;,</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ScopedDbConnection<sp/>must<sp/>not<sp/>be<sp/>copy-assignable&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Persistent<sp/>parameter<sp/>fix<sp/>(Wave-B<sp/>L5)<sp/>in<sp/>InlineTrainingEngine:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>impl_-&gt;model_params_<sp/>is<sp/>retained<sp/>across<sp/>calls<sp/>to<sp/>optimizerStep<sp/>so<sp/>that</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>optimizer<sp/>moments<sp/>accumulate<sp/>correctly.<sp/><sp/>The<sp/>integration<sp/>gate<sp/>is<sp/>in</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>tests/llm/test_inline_training_production.cpp<sp/>(loss<sp/>must<sp/>decrease<sp/>over</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>10<sp/>epochs<sp/>on<sp/>synthetic<sp/>data).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="196"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal">}<sp/>}<sp/>}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::llm::tests</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/llm/test_wave5_llm_raii.cpp"/>
+  </compounddef>
+</doxygen>

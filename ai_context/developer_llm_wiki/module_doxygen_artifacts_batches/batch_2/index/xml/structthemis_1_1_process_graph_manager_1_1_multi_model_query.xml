@@ -1,0 +1,174 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_process_graph_manager_1_1_multi_model_query" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ProcessGraphManager::MultiModelQuery</compoundname>
+    <includes refid="process__graph_8h" local="no">process_graph.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_multi_model_query_1a1677a3bd6cf2604d896fd95b3fa0a156" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::ProcessGraphManager::MultiModelQuery::start_node</definition>
+        <argsstring></argsstring>
+        <name>start_node</name>
+        <qualifiedname>themis::ProcessGraphManager::MultiModelQuery::start_node</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="896" column="23" bodyfile="include/index/process_graph.h" bodystart="896" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_multi_model_query_1af96ec2080a03658557e05ff2d12aea85" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int &gt;</type>
+        <definition>std::optional&lt;int&gt; themis::ProcessGraphManager::MultiModelQuery::max_depth</definition>
+        <argsstring></argsstring>
+        <name>max_depth</name>
+        <qualifiedname>themis::ProcessGraphManager::MultiModelQuery::max_depth</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="897" column="23" bodyfile="include/index/process_graph.h" bodystart="897" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_multi_model_query_1a4ac44ad92371326ae96b552e940dca79" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ProcessGraphManager::MultiModelQuery::edge_types</definition>
+        <argsstring></argsstring>
+        <name>edge_types</name>
+        <qualifiedname>themis::ProcessGraphManager::MultiModelQuery::edge_types</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="898" column="21" bodyfile="include/index/process_graph.h" bodystart="898" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_multi_model_query_1a01d58cbb3905f9672818386b02122b30" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::ProcessGraphManager::MultiModelQuery::filter_conditions</definition>
+        <argsstring></argsstring>
+        <name>filter_conditions</name>
+        <qualifiedname>themis::ProcessGraphManager::MultiModelQuery::filter_conditions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="901" column="24" bodyfile="include/index/process_graph.h" bodystart="901" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_multi_model_query_1a5f972d694b739f2609deb0a7c133add2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ProcessGraphManager::MultiModelQuery::select_fields</definition>
+        <argsstring></argsstring>
+        <name>select_fields</name>
+        <qualifiedname>themis::ProcessGraphManager::MultiModelQuery::select_fields</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="902" column="21" bodyfile="include/index/process_graph.h" bodystart="902" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_multi_model_query_1af4d2920cd188c4f92648a5fef4e146a0" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::optional&lt;std::vector&lt;float&gt; &gt; themis::ProcessGraphManager::MultiModelQuery::similarity_vector</definition>
+        <argsstring></argsstring>
+        <name>similarity_vector</name>
+        <qualifiedname>themis::ProcessGraphManager::MultiModelQuery::similarity_vector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="905" column="23" bodyfile="include/index/process_graph.h" bodystart="905" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_multi_model_query_1a9d2e96b85822701aa92c00f84b66326e" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; float &gt;</type>
+        <definition>std::optional&lt;float&gt; themis::ProcessGraphManager::MultiModelQuery::min_similarity</definition>
+        <argsstring></argsstring>
+        <name>min_similarity</name>
+        <qualifiedname>themis::ProcessGraphManager::MultiModelQuery::min_similarity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="906" column="23" bodyfile="include/index/process_graph.h" bodystart="906" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_multi_model_query_1a5fd593f59cdd0b985f66d21eb9564c25" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::ProcessGraphManager::MultiModelQuery::within_geofence</definition>
+        <argsstring></argsstring>
+        <name>within_geofence</name>
+        <qualifiedname>themis::ProcessGraphManager::MultiModelQuery::within_geofence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="909" column="23" bodyfile="include/index/process_graph.h" bodystart="909" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_multi_model_query_1a300f4c1ca8d7a6690d85e0dd75643d3b" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; double &gt;</type>
+        <definition>std::optional&lt;double&gt; themis::ProcessGraphManager::MultiModelQuery::max_distance_km</definition>
+        <argsstring></argsstring>
+        <name>max_distance_km</name>
+        <qualifiedname>themis::ProcessGraphManager::MultiModelQuery::max_distance_km</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="910" column="23" bodyfile="include/index/process_graph.h" bodystart="910" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_multi_model_query_1a762868c5892b72ddc5705af7372d793e" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::pair&lt; double, double &gt; &gt;</type>
+        <definition>std::optional&lt;std::pair&lt;double, double&gt; &gt; themis::ProcessGraphManager::MultiModelQuery::from_location</definition>
+        <argsstring></argsstring>
+        <name>from_location</name>
+        <qualifiedname>themis::ProcessGraphManager::MultiModelQuery::from_location</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="911" column="23" bodyfile="include/index/process_graph.h" bodystart="911" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Combined multi-model query. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Execute a query that spans all model aspects:<itemizedlist>
+<listitem><para>Graph: Traversal constraints</para>
+</listitem><listitem><para>Relational: Filter conditions</para>
+</listitem><listitem><para>Vector: Similarity constraints</para>
+</listitem><listitem><para>Geo: Spatial constraints </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/index/process_graph.h" line="894" column="5" bodyfile="include/index/process_graph.h" bodystart="894" bodyend="912"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_multi_model_query_1a4ac44ad92371326ae96b552e940dca79" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::MultiModelQuery</scope><name>edge_types</name></member>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_multi_model_query_1a01d58cbb3905f9672818386b02122b30" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::MultiModelQuery</scope><name>filter_conditions</name></member>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_multi_model_query_1a762868c5892b72ddc5705af7372d793e" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::MultiModelQuery</scope><name>from_location</name></member>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_multi_model_query_1af96ec2080a03658557e05ff2d12aea85" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::MultiModelQuery</scope><name>max_depth</name></member>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_multi_model_query_1a300f4c1ca8d7a6690d85e0dd75643d3b" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::MultiModelQuery</scope><name>max_distance_km</name></member>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_multi_model_query_1a9d2e96b85822701aa92c00f84b66326e" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::MultiModelQuery</scope><name>min_similarity</name></member>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_multi_model_query_1a5f972d694b739f2609deb0a7c133add2" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::MultiModelQuery</scope><name>select_fields</name></member>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_multi_model_query_1af4d2920cd188c4f92648a5fef4e146a0" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::MultiModelQuery</scope><name>similarity_vector</name></member>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_multi_model_query_1a1677a3bd6cf2604d896fd95b3fa0a156" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::MultiModelQuery</scope><name>start_node</name></member>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_multi_model_query_1a5fd593f59cdd0b985f66d21eb9564c25" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::MultiModelQuery</scope><name>within_geofence</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

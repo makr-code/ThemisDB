@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_table_schema" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::TableSchema</compoundname>
+    <includes refid="adaptive__query__compiler_8h" local="no">adaptive_query_compiler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_table_schema_1af056c32a5c9aacb8cd84608d1f535dd5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::performance::TableSchema::table_name</definition>
+        <argsstring></argsstring>
+        <name>table_name</name>
+        <qualifiedname>themis::performance::TableSchema::table_name</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="115" column="30" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="115" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_table_schema_1a351bf0a1f69cdeb8f1e494e2b0dcc753" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1performance_1_1_column_schema" kindref="compound">ColumnSchema</ref> &gt;</type>
+        <definition>std::vector&lt;ColumnSchema&gt; themis::performance::TableSchema::columns</definition>
+        <argsstring></argsstring>
+        <name>columns</name>
+        <qualifiedname>themis::performance::TableSchema::columns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="116" column="17" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1performance_1_1_table_schema_1a52a5968b41c724f24c5005009e8fe835" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1performance_1a1344dcc296fb0b3d28c0b5b17befec97" kindref="member">ColumnType</ref></type>
+        <definition>ColumnType themis::performance::TableSchema::columnType</definition>
+        <argsstring>(const std::string &amp;col_name) const</argsstring>
+        <name>columnType</name>
+        <qualifiedname>themis::performance::TableSchema::columnType</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>col_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="118" column="16" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="118" bodyend="125"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Lightweight schema descriptor for a single table. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/adaptive_query_compiler.h" line="114" column="1" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="114" bodyend="126"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_table_schema_1a351bf0a1f69cdeb8f1e494e2b0dcc753" prot="public" virt="non-virtual"><scope>themis::performance::TableSchema</scope><name>columns</name></member>
+      <member refid="structthemis_1_1performance_1_1_table_schema_1a52a5968b41c724f24c5005009e8fe835" prot="public" virt="non-virtual"><scope>themis::performance::TableSchema</scope><name>columnType</name></member>
+      <member refid="structthemis_1_1performance_1_1_table_schema_1af056c32a5c9aacb8cd84608d1f535dd5" prot="public" virt="non-virtual"><scope>themis::performance::TableSchema</scope><name>table_name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

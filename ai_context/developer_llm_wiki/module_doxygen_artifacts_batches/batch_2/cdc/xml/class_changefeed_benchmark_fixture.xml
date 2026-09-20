@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_changefeed_benchmark_fixture" kind="class" language="C++" prot="public">
+    <compoundname>ChangefeedBenchmarkFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_changefeed_benchmark_fixture_1a73bd6c42e5a26daf3045fe4fade15b83" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ChangefeedBenchmarkFixture::test_db_path_</definition>
+        <argsstring></argsstring>
+        <name>test_db_path_</name>
+        <qualifiedname>ChangefeedBenchmarkFixture::test_db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_changefeed_throughput.cpp" line="67" column="17" bodyfile="benchmarks/cdc/bench_changefeed_throughput.cpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_changefeed_benchmark_fixture_1a02b9d5e1f7b6b4c2b464fa9e2bfa5ffc" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; ChangefeedBenchmarkFixture::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>ChangefeedBenchmarkFixture::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_changefeed_throughput.cpp" line="68" column="21" bodyfile="benchmarks/cdc/bench_changefeed_throughput.cpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_changefeed_benchmark_fixture_1ab502474c0c659fb906848056560d6c99" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_changefeed" kindref="compound">Changefeed</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Changefeed&gt; ChangefeedBenchmarkFixture::changefeed_</definition>
+        <argsstring></argsstring>
+        <name>changefeed_</name>
+        <qualifiedname>ChangefeedBenchmarkFixture::changefeed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_changefeed_throughput.cpp" line="69" column="21" bodyfile="benchmarks/cdc/bench_changefeed_throughput.cpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_changefeed_benchmark_fixture_1a68e1b0ef8336c42dd7682a945b9c2955" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ChangefeedBenchmarkFixture::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ChangefeedBenchmarkFixture::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_changefeed_throughput.cpp" line="24" column="10" bodyfile="benchmarks/cdc/bench_changefeed_throughput.cpp" bodystart="24" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="class_changefeed_benchmark_fixture_1a022456790447d1d7a96e32e19cd0eae9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ChangefeedBenchmarkFixture::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ChangefeedBenchmarkFixture::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_changefeed_throughput.cpp" line="55" column="10" bodyfile="benchmarks/cdc/bench_changefeed_throughput.cpp" bodystart="55" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ChangefeedBenchmarkFixture</label>
+        <link refid="class_changefeed_benchmark_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ChangefeedBenchmarkFixture</label>
+        <link refid="class_changefeed_benchmark_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/cdc/bench_changefeed_throughput.cpp" line="22" column="1" bodyfile="benchmarks/cdc/bench_changefeed_throughput.cpp" bodystart="22" bodyend="70"/>
+    <listofallmembers>
+      <member refid="class_changefeed_benchmark_fixture_1ab502474c0c659fb906848056560d6c99" prot="protected" virt="non-virtual"><scope>ChangefeedBenchmarkFixture</scope><name>changefeed_</name></member>
+      <member refid="class_changefeed_benchmark_fixture_1a02b9d5e1f7b6b4c2b464fa9e2bfa5ffc" prot="protected" virt="non-virtual"><scope>ChangefeedBenchmarkFixture</scope><name>db_</name></member>
+      <member refid="class_changefeed_benchmark_fixture_1a68e1b0ef8336c42dd7682a945b9c2955" prot="public" virt="non-virtual"><scope>ChangefeedBenchmarkFixture</scope><name>SetUp</name></member>
+      <member refid="class_changefeed_benchmark_fixture_1a022456790447d1d7a96e32e19cd0eae9" prot="public" virt="non-virtual"><scope>ChangefeedBenchmarkFixture</scope><name>TearDown</name></member>
+      <member refid="class_changefeed_benchmark_fixture_1a73bd6c42e5a26daf3045fe4fade15b83" prot="protected" virt="non-virtual"><scope>ChangefeedBenchmarkFixture</scope><name>test_db_path_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

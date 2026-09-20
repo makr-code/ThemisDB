@@ -1,0 +1,689 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_l_l_m_model_storage" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::LLMModelStorage</compoundname>
+    <includes refid="llm__model__storage_8h" local="no">llm_model_storage.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_l_l_m_model_storage_1_1_config" prot="public">themis::llm::LLMModelStorage::Config</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_l_l_m_model_storage_1_1_impl" prot="public">themis::llm::LLMModelStorage::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_l_l_m_model_storage_1ad2c2763e3ea23baeb61e315f5f9dd2ff" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_l_l_m_model_storage_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::llm::LLMModelStorage::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::llm::LLMModelStorage::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="325" column="21" bodyfile="include/llm/llm_model_storage.h" bodystart="325" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_l_l_m_model_storage_1ab34af1519e2f4fa15c0b9633eba862d6" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_l_l_m_model_storage_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::llm::LLMModelStorage::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::LLMModelStorage::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="326" column="12" bodyfile="include/llm/llm_model_storage.h" bodystart="326" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_model_storage_1af469795ce38dee2955afc3b6d5054c9e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::LLMModelStorage::LLMModelStorage</definition>
+        <argsstring>()</argsstring>
+        <name>LLMModelStorage</name>
+        <qualifiedname>themis::llm::LLMModelStorage::LLMModelStorage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="212" column="5" bodyfile="src/llm/llm_model_storage.cpp" bodystart="1079" bodyend="1081"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_model_storage_1a1e7bf66abeee0a5d0b05329bbbc9b796" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::LLMModelStorage::LLMModelStorage</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>LLMModelStorage</name>
+        <qualifiedname>themis::llm::LLMModelStorage::LLMModelStorage</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_l_l_m_model_storage_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>LLMModel Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="218" column="14" bodyfile="src/llm/llm_model_storage.cpp" bodystart="1083" bodyend="1084"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_model_storage_1a999f16d6a3535c3f5de514499c61d129" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::LLMModelStorage::~LLMModelStorage</definition>
+        <argsstring>()</argsstring>
+        <name>~LLMModelStorage</name>
+        <qualifiedname>themis::llm::LLMModelStorage::~LLMModelStorage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="219" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_model_storage_1adf9716411162aa16264b811bd6805998" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMModelStorage::storeModel</definition>
+        <argsstring>(const LLMModelMetadata &amp;metadata, const std::optional&lt; std::vector&lt; uint8_t &gt; &gt; &amp;model_data=std::nullopt)</argsstring>
+        <name>storeModel</name>
+        <qualifiedname>themis::llm::LLMModelStorage::storeModel</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_l_l_m_model_metadata" kindref="compound">LLMModelMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::vector&lt; uint8_t &gt; &gt; &amp;</type>
+          <declname>model_data</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Store Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements storeModel without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="225" column="10" bodyfile="src/llm/llm_model_storage.cpp" bodystart="1095" bodyend="1100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_model_storage_1a75a7b4022e613fee6673285e28e1542f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_l_l_m_model_metadata" kindref="compound">LLMModelMetadata</ref> &gt;</type>
+        <definition>std::optional&lt; LLMModelMetadata &gt; themis::llm::LLMModelStorage::loadModel</definition>
+        <argsstring>(const std::string &amp;model_id)</argsstring>
+        <name>loadModel</name>
+        <qualifiedname>themis::llm::LLMModelStorage::loadModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Load Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements loadModel without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="235" column="19" bodyfile="src/llm/llm_model_storage.cpp" bodystart="1108" bodyend="1110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_model_storage_1a46b9192c20de9fa00c0acc4081292cac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; uint8_t &gt; &gt; themis::llm::LLMModelStorage::loadModelBlob</definition>
+        <argsstring>(const std::string &amp;model_id)</argsstring>
+        <name>loadModelBlob</name>
+        <qualifiedname>themis::llm::LLMModelStorage::loadModelBlob</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Load Model Blob. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements loadModelBlob without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="242" column="19" bodyfile="src/llm/llm_model_storage.cpp" bodystart="1118" bodyend="1120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_model_storage_1a753d60881b3f929fe7e4e989e6075314" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMModelStorage::updateModel</definition>
+        <argsstring>(const std::string &amp;model_id, const LLMModelMetadata &amp;metadata)</argsstring>
+        <name>updateModel</name>
+        <qualifiedname>themis::llm::LLMModelStorage::updateModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_l_l_m_model_metadata" kindref="compound">LLMModelMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+<para>Update Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements updateModel without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="250" column="10" bodyfile="src/llm/llm_model_storage.cpp" bodystart="1129" bodyend="1131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_model_storage_1afa1d3873867d9040cf45fb672f212af0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMModelStorage::deleteModel</definition>
+        <argsstring>(const std::string &amp;model_id)</argsstring>
+        <name>deleteModel</name>
+        <qualifiedname>themis::llm::LLMModelStorage::deleteModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Delete Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements deleteModel without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="257" column="10" bodyfile="src/llm/llm_model_storage.cpp" bodystart="1139" bodyend="1141"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_model_storage_1adcdcb22bbd728dba2a1ae6fa24bfe7e4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMModelStorage::exists</definition>
+        <argsstring>(const std::string &amp;model_id) const</argsstring>
+        <name>exists</name>
+        <qualifiedname>themis::llm::LLMModelStorage::exists</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Exists. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="264" column="10" bodyfile="src/llm/llm_model_storage.cpp" bodystart="1143" bodyend="1145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_model_storage_1ab6b5faa7d1131ecfd068ccc36a12b583" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::LLMModelStorage::listModels</definition>
+        <argsstring>(const std::optional&lt; std::string &gt; &amp;filter=std::nullopt) const</argsstring>
+        <name>listModels</name>
+        <qualifiedname>themis::llm::LLMModelStorage::listModels</qualifiedname>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>filter</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="266" column="17" bodyfile="src/llm/llm_model_storage.cpp" bodystart="1147" bodyend="1149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_model_storage_1aad9c27a6bd7d5a4c50ef0048f1510b40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMModelStorage::addEdge</definition>
+        <argsstring>(const std::string &amp;from_id, const std::string &amp;to_id, LLMEdgeType edge_type, float weight=1.0f)</argsstring>
+        <name>addEdge</name>
+        <qualifiedname>themis::llm::LLMModelStorage::addEdge</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>from_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>to_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1a001ec3cc5eedce7ebbb08203619c9fcf" kindref="member">LLMEdgeType</ref></type>
+          <declname>edge_type</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>weight</declname>
+          <defval>1.0f</defval>
+        </param>
+        <briefdescription>
+<para>Add Edge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">from_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the from. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the to. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">edge_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">weight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements addEdge without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="272" column="10" bodyfile="src/llm/llm_model_storage.cpp" bodystart="1160" bodyend="1167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_model_storage_1ad6794ef5c396f18d085ded8708dabac8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &gt;</type>
+        <definition>std::vector&lt; json &gt; themis::llm::LLMModelStorage::getEdges</definition>
+        <argsstring>(const std::string &amp;model_id, const std::string &amp;direction=&quot;both&quot;) const</argsstring>
+        <name>getEdges</name>
+        <qualifiedname>themis::llm::LLMModelStorage::getEdges</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>direction</declname>
+          <defval>&quot;both&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="279" column="17" bodyfile="src/llm/llm_model_storage.cpp" bodystart="1169" bodyend="1174"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_model_storage_1a885b93fb0135312795488e46e11e2202" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMModelStorage::storeEmbedding</definition>
+        <argsstring>(const std::string &amp;model_id, const std::vector&lt; float &gt; &amp;embedding)</argsstring>
+        <name>storeEmbedding</name>
+        <qualifiedname>themis::llm::LLMModelStorage::storeEmbedding</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>embedding</declname>
+        </param>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ Vector Operations ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Store Embedding.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements storeEmbedding without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="291" column="10" bodyfile="src/llm/llm_model_storage.cpp" bodystart="1183" bodyend="1188"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_model_storage_1ac1279cb6ecaf2e7c4d8c0577a585c0c7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; std::string, float &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; std::string, float &gt; &gt; themis::llm::LLMModelStorage::findSimilarModels</definition>
+        <argsstring>(const std::string &amp;model_id, int k=10, float threshold=0.7f) const</argsstring>
+        <name>findSimilarModels</name>
+        <qualifiedname>themis::llm::LLMModelStorage::findSimilarModels</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>k</declname>
+          <defval>10</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>threshold</declname>
+          <defval>0.7f</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="296" column="17" bodyfile="src/llm/llm_model_storage.cpp" bodystart="1190" bodyend="1196"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_model_storage_1af41a05d582cde99534bffc2f780be96f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMModelStorage::updateUsageStats</definition>
+        <argsstring>(const std::string &amp;model_id, int64_t tokens_generated)</argsstring>
+        <name>updateUsageStats</name>
+        <qualifiedname>themis::llm::LLMModelStorage::updateUsageStats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>tokens_generated</declname>
+        </param>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ Statistics &amp; Monitoring ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Usage Stats.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tokens_generated</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tokens_generated</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements updateUsageStats without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="309" column="10" bodyfile="src/llm/llm_model_storage.cpp" bodystart="1205" bodyend="1207"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_model_storage_1af8a08b8150293b1b48e18e0e86419e0b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::LLMModelStorage::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::llm::LLMModelStorage::getStats</qualifiedname>
+        <briefdescription>
+<para>Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="315" column="10" bodyfile="src/llm/llm_model_storage.cpp" bodystart="1209" bodyend="1211"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_model_storage_1abb5d9805cf2d0361eabda34822f83dd9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1llm_1_1_l_l_m_model_storage_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const LLMModelStorage::Config &amp; themis::llm::LLMModelStorage::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::llm::LLMModelStorage::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1llm_1_1_l_l_m_model_storage_1_1_config" kindref="compound">Config</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="321" column="18" bodyfile="src/llm/llm_model_storage.cpp" bodystart="1213" bodyend="1215"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llm_model_storage.h" line="189" column="1" bodyfile="include/llm/llm_model_storage.h" bodystart="189" bodyend="327"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_model_storage_1aad9c27a6bd7d5a4c50ef0048f1510b40" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelStorage</scope><name>addEdge</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_model_storage_1ab34af1519e2f4fa15c0b9633eba862d6" prot="private" virt="non-virtual"><scope>themis::llm::LLMModelStorage</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_model_storage_1afa1d3873867d9040cf45fb672f212af0" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelStorage</scope><name>deleteModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_model_storage_1adcdcb22bbd728dba2a1ae6fa24bfe7e4" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelStorage</scope><name>exists</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_model_storage_1ac1279cb6ecaf2e7c4d8c0577a585c0c7" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelStorage</scope><name>findSimilarModels</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_model_storage_1abb5d9805cf2d0361eabda34822f83dd9" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelStorage</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_model_storage_1ad6794ef5c396f18d085ded8708dabac8" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelStorage</scope><name>getEdges</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_model_storage_1af8a08b8150293b1b48e18e0e86419e0b" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelStorage</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_model_storage_1ad2c2763e3ea23baeb61e315f5f9dd2ff" prot="private" virt="non-virtual"><scope>themis::llm::LLMModelStorage</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_model_storage_1ab6b5faa7d1131ecfd068ccc36a12b583" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelStorage</scope><name>listModels</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_model_storage_1af469795ce38dee2955afc3b6d5054c9e" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelStorage</scope><name>LLMModelStorage</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_model_storage_1a1e7bf66abeee0a5d0b05329bbbc9b796" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelStorage</scope><name>LLMModelStorage</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_model_storage_1a75a7b4022e613fee6673285e28e1542f" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelStorage</scope><name>loadModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_model_storage_1a46b9192c20de9fa00c0acc4081292cac" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelStorage</scope><name>loadModelBlob</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_model_storage_1a885b93fb0135312795488e46e11e2202" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelStorage</scope><name>storeEmbedding</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_model_storage_1adf9716411162aa16264b811bd6805998" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelStorage</scope><name>storeModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_model_storage_1a753d60881b3f929fe7e4e989e6075314" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelStorage</scope><name>updateModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_model_storage_1af41a05d582cde99534bffc2f780be96f" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelStorage</scope><name>updateUsageStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_model_storage_1a999f16d6a3535c3f5de514499c61d129" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelStorage</scope><name>~LLMModelStorage</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

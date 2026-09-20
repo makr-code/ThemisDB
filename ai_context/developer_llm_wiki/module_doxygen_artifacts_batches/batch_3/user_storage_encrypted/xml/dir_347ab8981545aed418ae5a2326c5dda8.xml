@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_347ab8981545aed418ae5a2326c5dda8" kind="dir">
+    <compoundname>src/user_storage_encrypted</compoundname>
+    <innerfile refid="diagnostic__events_8cpp">diagnostic_events.cpp</innerfile>
+    <innerfile refid="gocryptfs__backend_8cpp">gocryptfs_backend.cpp</innerfile>
+    <innerfile refid="key__derivation__service_8cpp">key_derivation_service.cpp</innerfile>
+    <innerfile refid="key__rotation__scheduler_8cpp">key_rotation_scheduler.cpp</innerfile>
+    <innerfile refid="multi__level__storage_8cpp">multi_level_storage.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/user_storage_encrypted/"/>
+  </compounddef>
+</doxygen>

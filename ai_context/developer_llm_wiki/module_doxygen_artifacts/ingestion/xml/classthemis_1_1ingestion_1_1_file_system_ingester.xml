@@ -1,0 +1,543 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_file_system_ingester" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::FileSystemIngester</compoundname>
+    <basecompoundref refid="classthemis_1_1ingestion_1_1_i_source_connector" prot="public" virt="non-virtual">themis::ingestion::ISourceConnector</basecompoundref>
+    <includes refid="filesystem__ingester_8h" local="no">filesystem_ingester.h</includes>
+    <innerclass refid="classthemis_1_1ingestion_1_1_file_system_ingester_1_1_impl" prot="public">themis::ingestion::FileSystemIngester::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_file_system_ingester_1a573995055e30c1096be3e91d3e0951ed" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_file_system_ingester_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::ingestion::FileSystemIngester::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::ingestion::FileSystemIngester::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/filesystem_ingester.h" line="254" column="21" bodyfile="include/ingestion/filesystem_ingester.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_file_system_ingester_1a3bfac90854710f35360f5d37cf903c1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::FileSystemIngester::FileSystemIngester</definition>
+        <argsstring>()</argsstring>
+        <name>FileSystemIngester</name>
+        <qualifiedname>themis::ingestion::FileSystemIngester::FileSystemIngester</qualifiedname>
+        <briefdescription>
+<para>Construct filesystem ingester. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/filesystem_ingester.h" line="165" column="5" bodyfile="src/ingestion/filesystem_ingester.cpp" bodystart="835" bodyend="837"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_file_system_ingester_1a53970728daea6f46215fc8f0b61b4990" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::FileSystemIngester::~FileSystemIngester</definition>
+        <argsstring>() override</argsstring>
+        <name>~FileSystemIngester</name>
+        <qualifiedname>themis::ingestion::FileSystemIngester::~FileSystemIngester</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/filesystem_ingester.h" line="167" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_file_system_ingester_1a200b394e00e6539f919c0bd9d436d1e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::FileSystemIngester::FileSystemIngester</definition>
+        <argsstring>(const FileSystemIngester &amp;)=delete</argsstring>
+        <name>FileSystemIngester</name>
+        <qualifiedname>themis::ingestion::FileSystemIngester::FileSystemIngester</qualifiedname>
+        <param>
+          <type>const FileSystemIngester &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/filesystem_ingester.h" line="170" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_file_system_ingester_1afce231711b93770c0ad123f16042670c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ingestion_1_1_file_system_ingester_1a3bfac90854710f35360f5d37cf903c1c" kindref="member">FileSystemIngester</ref> &amp;</type>
+        <definition>FileSystemIngester &amp; themis::ingestion::FileSystemIngester::operator=</definition>
+        <argsstring>(const FileSystemIngester &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::ingestion::FileSystemIngester::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1ingestion_1_1_file_system_ingester_1a3bfac90854710f35360f5d37cf903c1c" kindref="member">FileSystemIngester</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/filesystem_ingester.h" line="171" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_file_system_ingester_1aefcb324c5a8ccc1f274561d83003ce7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::FileSystemIngester::initialize</definition>
+        <argsstring>(const SourceConfig &amp;config) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::ingestion::FileSystemIngester::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_source_connector_1ab6a018a611fc4bcc353665f96b59bfd5">initialize</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize ingester with configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source configuration with:<itemizedlist>
+<listitem><para>location: filesystem path (directory or file)</para>
+</listitem><listitem><para>options[&quot;format&quot;]: file format (auto/pdf/docx/txt/html/xml/json)</para>
+</listitem><listitem><para>options[&quot;ocr_enabled&quot;]: &quot;true&quot; to enable OCR</para>
+</listitem><listitem><para>options[&quot;ocr_language&quot;]: Tesseract language codes</para>
+</listitem><listitem><para>options[&quot;recursive&quot;]: &quot;true&quot; to scan subdirectories </para>
+</listitem></itemizedlist>
+</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if initialization successful</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements initialize without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/filesystem_ingester.h" line="183" column="10" bodyfile="src/ingestion/filesystem_ingester.cpp" bodystart="847" bodyend="849"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_file_system_ingester_1a05c982f2feed2f8814c55adb630a5c54" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::FileSystemIngester::isAvailable</definition>
+        <argsstring>() const override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::ingestion::FileSystemIngester::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_source_connector_1ae6d4963df23947b6546b6a943f8a7d2d">isAvailable</reimplements>
+        <briefdescription>
+<para>Check if filesystem path is accessible. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if path exists and is readable </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/filesystem_ingester.h" line="189" column="10" bodyfile="src/ingestion/filesystem_ingester.cpp" bodystart="851" bodyend="853"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_file_system_ingester_1a665c683e2befd68ec70a464bd27acf37" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::FileSystemIngester::getDocumentCount</definition>
+        <argsstring>() const override</argsstring>
+        <name>getDocumentCount</name>
+        <qualifiedname>themis::ingestion::FileSystemIngester::getDocumentCount</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_source_connector_1a22a97b14d4935c62895fa668e021ab4e">getDocumentCount</reimplements>
+        <briefdescription>
+<para>Get total number of documents matching filter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Document count </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/filesystem_ingester.h" line="195" column="12" bodyfile="src/ingestion/filesystem_ingester.cpp" bodystart="855" bodyend="857"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_file_system_ingester_1a34c293d840b60c844fc798960c1de3f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_ingestion_stats" kindref="compound">IngestionStats</ref></type>
+        <definition>IngestionStats themis::ingestion::FileSystemIngester::ingest</definition>
+        <argsstring>(const std::string &amp;target_collection, ProgressCallback progress_callback) override</argsstring>
+        <name>ingest</name>
+        <qualifiedname>themis::ingestion::FileSystemIngester::ingest</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_source_connector_1add9fbbb52139b936dba9a2236a80edbb">ingest</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_collection</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1a08c45a80d5fd20fa7f8af7fd52290e94" kindref="member">ProgressCallback</ref></type>
+          <declname>progress_callback</declname>
+        </param>
+        <briefdescription>
+<para>Ingest documents from filesystem. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Ingest.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>target_collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target collection in ThemisDB </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>progress_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional progress callback </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ingestion statistics</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target_collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">progress_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements ingest without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/filesystem_ingester.h" line="203" column="20" bodyfile="src/ingestion/filesystem_ingester.cpp" bodystart="866" bodyend="869"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_file_system_ingester_1a3479f16f6930461b7219fe3ccc5338e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::FileSystemIngester::setOCRConfig</definition>
+        <argsstring>(const OCRConfig &amp;config)</argsstring>
+        <name>setOCRConfig</name>
+        <qualifiedname>themis::ingestion::FileSystemIngester::setOCRConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_o_c_r_config" kindref="compound">OCRConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set OCR configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set <ref refid="structthemis_1_1ingestion_1_1_o_c_r_config" kindref="compound">OCRConfig</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>OCR settings</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setOCRConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/filesystem_ingester.h" line="210" column="10" bodyfile="src/ingestion/filesystem_ingester.cpp" bodystart="876" bodyend="878"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_file_system_ingester_1a9df887fb5f6f2e2e24e405edfcdc9217" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::FileSystemIngester::setFileFilter</definition>
+        <argsstring>(const FileFilter &amp;filter)</argsstring>
+        <name>setFileFilter</name>
+        <qualifiedname>themis::ingestion::FileSystemIngester::setFileFilter</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_file_filter" kindref="compound">FileFilter</ref> &amp;</type>
+          <declname>filter</declname>
+        </param>
+        <briefdescription>
+<para>Set file filter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set File Filter.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>File filter settings</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setFileFilter without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/filesystem_ingester.h" line="216" column="10" bodyfile="src/ingestion/filesystem_ingester.cpp" bodystart="885" bodyend="887"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_file_system_ingester_1a401c5860102c5819dae422aeb986f4ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::FileSystemIngester::setFileFormat</definition>
+        <argsstring>(FileFormat format)</argsstring>
+        <name>setFileFormat</name>
+        <qualifiedname>themis::ingestion::FileSystemIngester::setFileFormat</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1a74053f889a5dfc4afffbb4b710073cae" kindref="member">FileFormat</ref></type>
+          <declname>format</declname>
+        </param>
+        <briefdescription>
+<para>Set file format for processing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set File Format.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>format</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target file format (AUTO = auto-detect)</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">format</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setFileFormat without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/filesystem_ingester.h" line="222" column="10" bodyfile="src/ingestion/filesystem_ingester.cpp" bodystart="894" bodyend="896"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_file_system_ingester_1a4af1a392752d4162b3263075f9e4f5ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::FileSystemIngester::setMetadataExtraction</definition>
+        <argsstring>(bool enabled)</argsstring>
+        <name>setMetadataExtraction</name>
+        <qualifiedname>themis::ingestion::FileSystemIngester::setMetadataExtraction</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+<para>Enable/disable metadata extraction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Metadata Extraction.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to extract file metadata (author, date, etc.)</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setMetadataExtraction without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/filesystem_ingester.h" line="228" column="10" bodyfile="src/ingestion/filesystem_ingester.cpp" bodystart="903" bodyend="905"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_file_system_ingester_1a91d07e487c0c5d59fe5af072da248f52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::FileSystemIngester::setBinaryConverter</definition>
+        <argsstring>(const BinaryConverter &amp;config)</argsstring>
+        <name>setBinaryConverter</name>
+        <qualifiedname>themis::ingestion::FileSystemIngester::setBinaryConverter</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_binary_converter" kindref="compound">BinaryConverter</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set external binary-format converter paths. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Binary Converter.</para>
+<para>When configured, PDF and DOCX files are converted to plain text by spawning the specified command-line tools. An empty converter path disables conversion for that format and the file is silently skipped.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Converter paths and detection settings</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setBinaryConverter without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/filesystem_ingester.h" line="239" column="10" bodyfile="src/ingestion/filesystem_ingester.cpp" bodystart="912" bodyend="914"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_file_system_ingester_1ab047a7a3a4fc24d1f1e0da569d8cbdcc" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::FileSystemIngester::setDocumentValidator</definition>
+        <argsstring>(DocumentValidatorFn validator) override</argsstring>
+        <name>setDocumentValidator</name>
+        <qualifiedname>themis::ingestion::FileSystemIngester::setDocumentValidator</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_source_connector_1a762b4b0305a9c2a3e466d00c6e05df84">setDocumentValidator</reimplements>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1a9b9e88e0ec7ef5e4f0a5afc3bc61bb1b" kindref="member">DocumentValidatorFn</ref></type>
+          <declname>validator</declname>
+        </param>
+        <briefdescription>
+<para>Inject a per-document validator called before each write. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Document Validator.</para>
+<para>When set, the validator is called for every extracted document. Documents that fail validation are counted as failed (not processed). Pass an empty <computeroutput><ref refid="namespacethemis_1_1ingestion_1a9b9e88e0ec7ef5e4f0a5afc3bc61bb1b" kindref="member">DocumentValidatorFn</ref></computeroutput> to remove a previously set validator.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>validator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Validator callback; empty = disable</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">validator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/filesystem_ingester.h" line="250" column="10" bodyfile="src/ingestion/filesystem_ingester.cpp" bodystart="921" bodyend="923"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Filesystem data ingester. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Reads documents from local filesystem with OCR support for scanned PDFs. Supports multiple formats: PDF, DOCX, TXT, HTML, XML, JSON.</para>
+<para>Example usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_file_system_ingester_1a3bfac90854710f35360f5d37cf903c1c" kindref="member">FileSystemIngester</ref><sp/>ingester;</highlight></codeline>
+<codeline><highlight class="normal">SourceConfig<sp/>config{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.source_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;custom_docs&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.type<sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1ac26ea3ec62832c4278b31929df0e755fa8c4bad9563596861cd35a1829152b866" kindref="member">SourceType::FILESYSTEM</ref>,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.location<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/mnt/verwaltung/vorschriften&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.priority<sp/>=<sp/>10</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal">ingester.initialize(config);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">OCRConfig<sp/>ocr;</highlight></codeline>
+<codeline><highlight class="normal">ocr.enabled<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">ocr.language<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;deu&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">ingester.setOCRConfig(ocr);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">FileFilter<sp/>filter;</highlight></codeline>
+<codeline><highlight class="normal">filter.extensions<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;.pdf&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;.docx&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal">ingester.setFileFilter(filter);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>ingester.ingest(</highlight><highlight class="stringliteral">&quot;legal_documents&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::ingestion::FileSystemIngester</label>
+        <link refid="classthemis_1_1ingestion_1_1_file_system_ingester"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::ingestion::ISourceConnector</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_source_connector"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::ingestion::FileSystemIngester</label>
+        <link refid="classthemis_1_1ingestion_1_1_file_system_ingester"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::ingestion::ISourceConnector</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_source_connector"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/ingestion/filesystem_ingester.h" line="160" column="1" bodyfile="include/ingestion/filesystem_ingester.h" bodystart="160" bodyend="255"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_file_system_ingester_1a3bfac90854710f35360f5d37cf903c1c" prot="public" virt="non-virtual"><scope>themis::ingestion::FileSystemIngester</scope><name>FileSystemIngester</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_file_system_ingester_1a200b394e00e6539f919c0bd9d436d1e3" prot="public" virt="non-virtual"><scope>themis::ingestion::FileSystemIngester</scope><name>FileSystemIngester</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_file_system_ingester_1a665c683e2befd68ec70a464bd27acf37" prot="public" virt="virtual"><scope>themis::ingestion::FileSystemIngester</scope><name>getDocumentCount</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_file_system_ingester_1a573995055e30c1096be3e91d3e0951ed" prot="private" virt="non-virtual"><scope>themis::ingestion::FileSystemIngester</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_file_system_ingester_1a34c293d840b60c844fc798960c1de3f4" prot="public" virt="virtual"><scope>themis::ingestion::FileSystemIngester</scope><name>ingest</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_file_system_ingester_1aefcb324c5a8ccc1f274561d83003ce7d" prot="public" virt="virtual"><scope>themis::ingestion::FileSystemIngester</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_file_system_ingester_1a05c982f2feed2f8814c55adb630a5c54" prot="public" virt="virtual"><scope>themis::ingestion::FileSystemIngester</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_file_system_ingester_1afce231711b93770c0ad123f16042670c" prot="public" virt="non-virtual"><scope>themis::ingestion::FileSystemIngester</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_file_system_ingester_1a91d07e487c0c5d59fe5af072da248f52" prot="public" virt="non-virtual"><scope>themis::ingestion::FileSystemIngester</scope><name>setBinaryConverter</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_file_system_ingester_1ab047a7a3a4fc24d1f1e0da569d8cbdcc" prot="public" virt="virtual"><scope>themis::ingestion::FileSystemIngester</scope><name>setDocumentValidator</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_file_system_ingester_1a9df887fb5f6f2e2e24e405edfcdc9217" prot="public" virt="non-virtual"><scope>themis::ingestion::FileSystemIngester</scope><name>setFileFilter</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_file_system_ingester_1a401c5860102c5819dae422aeb986f4ee" prot="public" virt="non-virtual"><scope>themis::ingestion::FileSystemIngester</scope><name>setFileFormat</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_file_system_ingester_1a4af1a392752d4162b3263075f9e4f5ac" prot="public" virt="non-virtual"><scope>themis::ingestion::FileSystemIngester</scope><name>setMetadataExtraction</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_file_system_ingester_1a3479f16f6930461b7219fe3ccc5338e2" prot="public" virt="non-virtual"><scope>themis::ingestion::FileSystemIngester</scope><name>setOCRConfig</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_file_system_ingester_1a53970728daea6f46215fc8f0b61b4990" prot="public" virt="non-virtual"><scope>themis::ingestion::FileSystemIngester</scope><name>~FileSystemIngester</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_source_connector_1af3935b3583056d092875221c07ecf7d4" prot="public" virt="virtual"><scope>themis::ingestion::FileSystemIngester</scope><name>~ISourceConnector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

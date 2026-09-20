@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_ef50c0c9dcca699704cf9fddf4d19315" kind="dir">
+    <compoundname>benchmarks/process</compoundname>
+    <innerfile refid="bench__cross__functional__end__to__end_8cpp">bench_cross_functional_end_to_end.cpp</innerfile>
+    <innerfile refid="bench__process__advanced__workflows_8cpp">bench_process_advanced_workflows.cpp</innerfile>
+    <innerfile refid="bench__process__concurrency__gates_8cpp">bench_process_concurrency_gates.cpp</innerfile>
+    <innerfile refid="bench__process__dedicated__gates_8cpp">bench_process_dedicated_gates.cpp</innerfile>
+    <innerfile refid="bench__process__determinism__gates_8cpp">bench_process_determinism_gates.cpp</innerfile>
+    <innerfile refid="bench__process__diagnostics__overhead_8cpp">bench_process_diagnostics_overhead.cpp</innerfile>
+    <innerfile refid="bench__process__import__retrieval_8cpp">bench_process_import_retrieval.cpp</innerfile>
+    <innerfile refid="bench__process__linker__gates_8cpp">bench_process_linker_gates.cpp</innerfile>
+    <innerfile refid="bench__process__mining_8cpp">bench_process_mining.cpp</innerfile>
+    <innerfile refid="bench__process__parser__gates_8cpp">bench_process_parser_gates.cpp</innerfile>
+    <innerfile refid="bench__process__release__gates_8cpp">bench_process_release_gates.cpp</innerfile>
+    <innerfile refid="bench__process__retrieval_8cpp">bench_process_retrieval.cpp</innerfile>
+    <innerfile refid="bench__process__retriever__gates_8cpp">bench_process_retriever_gates.cpp</innerfile>
+    <innerfile refid="bench__video__processor_8cpp">bench_video_processor.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/process/"/>
+  </compounddef>
+</doxygen>

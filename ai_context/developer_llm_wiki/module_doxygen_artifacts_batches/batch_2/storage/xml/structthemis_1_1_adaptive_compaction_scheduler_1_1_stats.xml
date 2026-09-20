@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_adaptive_compaction_scheduler_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::AdaptiveCompactionScheduler::Stats</compoundname>
+    <includes refid="adaptive__compaction_8h" local="no">adaptive_compaction.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_compaction_scheduler_1_1_stats_1a1f6b85a8e3000832d94ea2f1088b2735" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::AdaptiveCompactionScheduler::Stats::total_reads</definition>
+        <argsstring></argsstring>
+        <name>total_reads</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::Stats::total_reads</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Cumulative recorded reads. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="192" column="18" bodyfile="include/storage/adaptive_compaction.h" bodystart="192" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_compaction_scheduler_1_1_stats_1afdf773e3f5ff3892773fd3619dcd626d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::AdaptiveCompactionScheduler::Stats::total_writes</definition>
+        <argsstring></argsstring>
+        <name>total_writes</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::Stats::total_writes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Cumulative recorded writes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="193" column="18" bodyfile="include/storage/adaptive_compaction.h" bodystart="193" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_compaction_scheduler_1_1_stats_1a79bd69726a15201c119eba3e1ac8c5c2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::AdaptiveCompactionScheduler::Stats::ema_read_rate</definition>
+        <argsstring></argsstring>
+        <name>ema_read_rate</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::Stats::ema_read_rate</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Current EMA reads/s. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="194" column="18" bodyfile="include/storage/adaptive_compaction.h" bodystart="194" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_compaction_scheduler_1_1_stats_1a4e233b2a3eeabddea27d05d8a988574a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::AdaptiveCompactionScheduler::Stats::ema_write_rate</definition>
+        <argsstring></argsstring>
+        <name>ema_write_rate</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::Stats::ema_write_rate</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Current EMA writes/s. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="195" column="18" bodyfile="include/storage/adaptive_compaction.h" bodystart="195" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_compaction_scheduler_1_1_stats_1acb12615b0972a943511d52ff2634799a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::AdaptiveCompactionScheduler::Stats::compaction_schedules</definition>
+        <argsstring></argsstring>
+        <name>compaction_schedules</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::Stats::compaction_schedules</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Times <ref refid="classthemis_1_1_adaptive_compaction_scheduler_1a365ff6af9824bba4a8ed7f66a7406739" kindref="member">shouldTriggerCompaction()</ref> returned true. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="196" column="18" bodyfile="include/storage/adaptive_compaction.h" bodystart="196" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_compaction_scheduler_1_1_stats_1aaffffc7379fc98ad514d8cbd41fdfd81" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::AdaptiveCompactionScheduler::Stats::trigger_adjustments</definition>
+        <argsstring></argsstring>
+        <name>trigger_adjustments</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::Stats::trigger_adjustments</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Times thresholds were updated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="197" column="18" bodyfile="include/storage/adaptive_compaction.h" bodystart="197" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_compaction_scheduler_1_1_stats_1a577d71ab3c215f82227445498e62c65a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::AdaptiveCompactionScheduler::Stats::sample_count</definition>
+        <argsstring></argsstring>
+        <name>sample_count</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::Stats::sample_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Samples currently in the window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="198" column="18" bodyfile="include/storage/adaptive_compaction.h" bodystart="198" bodyend="198"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Statistics snapshot returned by <ref refid="classthemis_1_1_adaptive_compaction_scheduler_1a499c7ba9d9524b9402bd8d2ce33d6fc9" kindref="member">stats()</ref>. </para>
+    </detaileddescription>
+    <location file="include/storage/adaptive_compaction.h" line="191" column="5" bodyfile="include/storage/adaptive_compaction.h" bodystart="191" bodyend="199"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_stats_1acb12615b0972a943511d52ff2634799a" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler::Stats</scope><name>compaction_schedules</name></member>
+      <member refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_stats_1a79bd69726a15201c119eba3e1ac8c5c2" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler::Stats</scope><name>ema_read_rate</name></member>
+      <member refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_stats_1a4e233b2a3eeabddea27d05d8a988574a" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler::Stats</scope><name>ema_write_rate</name></member>
+      <member refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_stats_1a577d71ab3c215f82227445498e62c65a" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler::Stats</scope><name>sample_count</name></member>
+      <member refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_stats_1a1f6b85a8e3000832d94ea2f1088b2735" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler::Stats</scope><name>total_reads</name></member>
+      <member refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_stats_1afdf773e3f5ff3892773fd3619dcd626d" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler::Stats</scope><name>total_writes</name></member>
+      <member refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_stats_1aaffffc7379fc98ad514d8cbd41fdfd81" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler::Stats</scope><name>trigger_adjustments</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

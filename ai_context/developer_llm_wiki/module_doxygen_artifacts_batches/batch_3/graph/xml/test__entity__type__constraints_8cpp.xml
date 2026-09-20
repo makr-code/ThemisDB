@@ -1,0 +1,374 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__entity__type__constraints_8cpp" kind="file" language="C++">
+    <compoundname>test_entity_type_constraints.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="ontology__manager_8h" local="yes">graph/ontology_manager.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>graph/ontology_manager.h</label>
+        <link refid="ontology__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/graph/test_entity_type_constraints.cpp</label>
+        <link refid="test__entity__type__constraints_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>list</label>
+      </node>
+      <node id="10">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>optional</label>
+      </node>
+      <node id="11">
+        <label>shared_mutex</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>string_view</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="9">
+        <label>unordered_set</label>
+      </node>
+      <node id="13">
+        <label>utility</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1graph">themis::graph</innernamespace>
+    <briefdescription>
+<para>Entity Type Constraint validation tests — ETC-01..ETC-13. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests cover: ETC-01 Reject edge between incompatible entity types (strict mode) ETC-02 Accept edge between compatible entity types (subsumption chain) ETC-03 Schema enforcement: addConcept chains hierarchy correctly ETC-04 Type subsumption: isA returns true for subtype-supertype pairs ETC-05 Axiom enforcement: isEdgeTypeAllowed respects declared restrictions ETC-06 Multiple inheritance: concept inherits from multiple parents ETC-07 Reflexive edges: entity can connect to itself (self-loop) ETC-08 Transitive edge permissions: indirect inheritance propagates permissions ETC-09 Unknown edge types: graceful fallback for undeclared edge types ETC-10 Schema evolution: adding constraints after build() is idempotent ETC-11 Type subsumption chains: deep hierarchies resolved correctly ETC-12 Edge type propagation: axioms propagate through inheritance tree ETC-13 Constraint negation: forbidden edge types correctly rejected </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ontology__manager_8h" kindref="compound">graph/ontology_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1graph" kindref="compound">graph</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper:<sp/>build<sp/>a<sp/>legal/financial<sp/>ontology<sp/>with<sp/>constraints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;OntologyManager&gt;<sp/>makeLegalFinanceOntology()<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>onto<sp/>=<sp/>std::make_shared&lt;OntologyManager&gt;();</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Entity<sp/>hierarchy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>onto-&gt;addConcept(</highlight><highlight class="stringliteral">&quot;Entity&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>onto-&gt;addConcept(</highlight><highlight class="stringliteral">&quot;LegalEntity&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;Entity&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>onto-&gt;addConcept(</highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;LegalEntity&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>onto-&gt;addConcept(</highlight><highlight class="stringliteral">&quot;Organization&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;LegalEntity&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>onto-&gt;addConcept(</highlight><highlight class="stringliteral">&quot;FinancialEntity&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;Entity&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>onto-&gt;addConcept(</highlight><highlight class="stringliteral">&quot;Account&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;FinancialEntity&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>onto-&gt;addConcept(</highlight><highlight class="stringliteral">&quot;Transaction&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;FinancialEntity&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Edge<sp/>type<sp/>constraints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>onto-&gt;addAxiom(</highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;knows&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>onto-&gt;addAxiom(</highlight><highlight class="stringliteral">&quot;LegalEntity&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hasParty&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LegalEntity&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>onto-&gt;addAxiom(</highlight><highlight class="stringliteral">&quot;Organization&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;owns&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Account&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>onto-&gt;addAxiom(</highlight><highlight class="stringliteral">&quot;Transaction&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;transfers&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Account&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>onto-&gt;addAxiom(</highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;controls&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Account&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>onto-&gt;addAxiom(</highlight><highlight class="stringliteral">&quot;Account&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;tracks&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Transaction&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>onto-&gt;build();</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>onto;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ETC-01:<sp/>Reject<sp/>edge<sp/>between<sp/>incompatible<sp/>entity<sp/>types<sp/>(strict<sp/>mode)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><ref refid="test__category__b__parity__bfs_8cpp_1aa26d2aa27563c8f650838b5cf7a7a58f" kindref="member">TEST</ref>(EntityTypeConstraintTests,<sp/>ETC01_RejectIncompatibleTypes)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>onto<sp/>=<sp/>makeLegalFinanceOntology();</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Person<sp/>knows<sp/>Person:<sp/>allowed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(onto-&gt;isEdgeTypeAllowed(</highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;knows&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Person<sp/>knows<sp/>Account:<sp/>NOT<sp/>allowed<sp/>(no<sp/>axiom)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unknown<sp/>classes<sp/>gracefully<sp/>return<sp/>true,<sp/>but<sp/>for<sp/>known<sp/>classes<sp/>should<sp/>enforce</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>allowed<sp/>=<sp/>onto-&gt;allowedEdgeTypes(</highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Account&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(allowed.count(</highlight><highlight class="stringliteral">&quot;knows&quot;</highlight><highlight class="normal">)<sp/>&gt;<sp/>0);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ETC-02:<sp/>Accept<sp/>edge<sp/>between<sp/>compatible<sp/>entity<sp/>types<sp/>(subsumption<sp/>chain)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><ref refid="test__category__b__parity__bfs_8cpp_1aa26d2aa27563c8f650838b5cf7a7a58f" kindref="member">TEST</ref>(EntityTypeConstraintTests,<sp/>ETC02_AcceptCompatibleTypes)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>onto<sp/>=<sp/>makeLegalFinanceOntology();</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Organization<sp/>isA<sp/>LegalEntity,<sp/>LegalEntity<sp/>hasParty<sp/>LegalEntity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>So<sp/>Organization<sp/>hasParty<sp/>Organization<sp/>should<sp/>be<sp/>allowed<sp/>(via<sp/>subsumption)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>allowed<sp/>=<sp/>onto-&gt;allowedEdgeTypes(</highlight><highlight class="stringliteral">&quot;Organization&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Organization&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(allowed.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(allowed.count(</highlight><highlight class="stringliteral">&quot;hasParty&quot;</highlight><highlight class="normal">)<sp/>&gt;<sp/>0);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ETC-03:<sp/>Schema<sp/>enforcement:<sp/>addConcept<sp/>chains<sp/>hierarchy<sp/>correctly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><ref refid="test__category__b__parity__bfs_8cpp_1aa26d2aa27563c8f650838b5cf7a7a58f" kindref="member">TEST</ref>(EntityTypeConstraintTests,<sp/>ETC03_SchemaHierarchyEnforcement)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager" kindref="compound">OntologyManager</ref><sp/>onto;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>a<sp/>simple<sp/>hierarchy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>onto.<ref refid="classthemis_1_1graph_1_1_ontology_manager_1afe1bb0b0e4c75f05115e2316ea6c8bfb" kindref="member">addConcept</ref>(</highlight><highlight class="stringliteral">&quot;Root&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>onto.addConcept(</highlight><highlight class="stringliteral">&quot;Child1&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;Root&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>onto.addConcept(</highlight><highlight class="stringliteral">&quot;Child2&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;Root&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>onto.addConcept(</highlight><highlight class="stringliteral">&quot;GrandChild&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;Child1&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>onto.build();</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>hierarchy<sp/>is<sp/>correct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(onto.isA(</highlight><highlight class="stringliteral">&quot;GrandChild&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Child1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(onto.isA(</highlight><highlight class="stringliteral">&quot;GrandChild&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Root&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(onto.isA(</highlight><highlight class="stringliteral">&quot;Child1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Root&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(onto.isA(</highlight><highlight class="stringliteral">&quot;Root&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Child1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ETC-04:<sp/>Type<sp/>subsumption:<sp/>isA<sp/>returns<sp/>true<sp/>for<sp/>subtype-supertype<sp/>pairs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><ref refid="test__category__b__parity__bfs_8cpp_1aa26d2aa27563c8f650838b5cf7a7a58f" kindref="member">TEST</ref>(EntityTypeConstraintTests,<sp/>ETC04_TypeSubsumption)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>onto<sp/>=<sp/>makeLegalFinanceOntology();</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Person<sp/>isA<sp/>LegalEntity<sp/>isA<sp/>Entity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(onto-&gt;isA(</highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LegalEntity&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(onto-&gt;isA(</highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Entity&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(onto-&gt;isA(</highlight><highlight class="stringliteral">&quot;LegalEntity&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Entity&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reverse<sp/>is<sp/>false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(onto-&gt;isA(</highlight><highlight class="stringliteral">&quot;Entity&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(onto-&gt;isA(</highlight><highlight class="stringliteral">&quot;LegalEntity&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ETC-05:<sp/>Axiom<sp/>enforcement:<sp/>isEdgeTypeAllowed<sp/>respects<sp/>declared<sp/>restrictions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><ref refid="test__category__b__parity__bfs_8cpp_1aa26d2aa27563c8f650838b5cf7a7a58f" kindref="member">TEST</ref>(EntityTypeConstraintTests,<sp/>ETC05_AxiomEnforcement)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>onto<sp/>=<sp/>makeLegalFinanceOntology();</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Organization<sp/>owns<sp/>Account:<sp/>allowed<sp/>(direct<sp/>axiom)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(onto-&gt;isEdgeTypeAllowed(</highlight><highlight class="stringliteral">&quot;Organization&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Account&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;owns&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Organization<sp/>transfers<sp/>Account:<sp/>NOT<sp/>allowed<sp/>(no<sp/>axiom<sp/>for<sp/>this<sp/>pair)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>allowed<sp/>=<sp/>onto-&gt;allowedEdgeTypes(</highlight><highlight class="stringliteral">&quot;Organization&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Account&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(allowed.count(</highlight><highlight class="stringliteral">&quot;transfers&quot;</highlight><highlight class="normal">)<sp/>&gt;<sp/>0);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ETC-06:<sp/>Multiple<sp/>inheritance:<sp/>concept<sp/>inherits<sp/>from<sp/>multiple<sp/>parents</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><ref refid="test__category__b__parity__bfs_8cpp_1aa26d2aa27563c8f650838b5cf7a7a58f" kindref="member">TEST</ref>(EntityTypeConstraintTests,<sp/>ETC06_MultipleInheritance)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager" kindref="compound">OntologyManager</ref><sp/>onto;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>diamond<sp/>inheritance<sp/>pattern</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>onto.<ref refid="classthemis_1_1graph_1_1_ontology_manager_1afe1bb0b0e4c75f05115e2316ea6c8bfb" kindref="member">addConcept</ref>(</highlight><highlight class="stringliteral">&quot;Base&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>onto.addConcept(</highlight><highlight class="stringliteral">&quot;Left&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;Base&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>onto.addConcept(</highlight><highlight class="stringliteral">&quot;Right&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;Base&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>onto.addConcept(</highlight><highlight class="stringliteral">&quot;Diamond&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;Left&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Right&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>onto.addAxiom(</highlight><highlight class="stringliteral">&quot;Base&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;connects&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Base&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>onto.build();</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Diamond<sp/>should<sp/>inherit<sp/>the<sp/>permission<sp/>through<sp/>both<sp/>parents</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(onto.isA(</highlight><highlight class="stringliteral">&quot;Diamond&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Base&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(onto.isA(</highlight><highlight class="stringliteral">&quot;Diamond&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Left&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(onto.isA(</highlight><highlight class="stringliteral">&quot;Diamond&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Right&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>allowed<sp/>=<sp/>onto.allowedEdgeTypes(</highlight><highlight class="stringliteral">&quot;Diamond&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Diamond&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(allowed.count(</highlight><highlight class="stringliteral">&quot;connects&quot;</highlight><highlight class="normal">)<sp/>&gt;<sp/>0);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ETC-07:<sp/>Reflexive<sp/>edges:<sp/>entity<sp/>can<sp/>connect<sp/>to<sp/>itself<sp/>(self-loop)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><ref refid="test__category__b__parity__bfs_8cpp_1aa26d2aa27563c8f650838b5cf7a7a58f" kindref="member">TEST</ref>(EntityTypeConstraintTests,<sp/>ETC07_ReflexiveEdges)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>onto<sp/>=<sp/>makeLegalFinanceOntology();</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Person<sp/>knows<sp/>Person:<sp/>reflexive<sp/>edge<sp/>allowed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(onto-&gt;isEdgeTypeAllowed(</highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;knows&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Transaction<sp/>transfers<sp/>Account:<sp/>check<sp/>this<sp/>specific<sp/>pair</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>allowed<sp/>=<sp/>onto-&gt;allowedEdgeTypes(</highlight><highlight class="stringliteral">&quot;Transaction&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Account&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(allowed.count(</highlight><highlight class="stringliteral">&quot;transfers&quot;</highlight><highlight class="normal">)<sp/>&gt;<sp/>0);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ETC-08:<sp/>Transitive<sp/>edge<sp/>permissions:<sp/>indirect<sp/>inheritance<sp/>propagates<sp/>permissions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><ref refid="test__category__b__parity__bfs_8cpp_1aa26d2aa27563c8f650838b5cf7a7a58f" kindref="member">TEST</ref>(EntityTypeConstraintTests,<sp/>ETC08_TransitivePermissions)<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>onto<sp/>=<sp/>makeLegalFinanceOntology();</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Person<sp/>isA<sp/>LegalEntity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LegalEntity<sp/>hasParty<sp/>LegalEntity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>So<sp/>Person<sp/>hasParty<sp/>Person<sp/>should<sp/>be<sp/>allowed<sp/>(via<sp/>transitive<sp/>subsumption)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>allowed<sp/>=<sp/>onto-&gt;allowedEdgeTypes(</highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(allowed.count(</highlight><highlight class="stringliteral">&quot;hasParty&quot;</highlight><highlight class="normal">)<sp/>&gt;<sp/>0);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(allowed.count(</highlight><highlight class="stringliteral">&quot;knows&quot;</highlight><highlight class="normal">)<sp/>&gt;<sp/>0);<sp/></highlight><highlight class="comment">//<sp/>direct<sp/>axiom<sp/>too</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ETC-09:<sp/>Unknown<sp/>edge<sp/>types:<sp/>graceful<sp/>fallback<sp/>for<sp/>undeclared<sp/>edge<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><ref refid="test__category__b__parity__bfs_8cpp_1aa26d2aa27563c8f650838b5cf7a7a58f" kindref="member">TEST</ref>(EntityTypeConstraintTests,<sp/>ETC09_UnknownEdgeTypes)<sp/>{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>onto<sp/>=<sp/>makeLegalFinanceOntology();</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unknown<sp/>edge<sp/>type<sp/>on<sp/>unknown<sp/>classes:<sp/>graceful<sp/>return<sp/>true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(onto-&gt;isEdgeTypeAllowed(</highlight><highlight class="stringliteral">&quot;Unknown1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Unknown2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;unknownEdge&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unknown<sp/>edge<sp/>type<sp/>on<sp/>known<sp/>classes:<sp/>still<sp/>allows<sp/>(no<sp/>axiom<sp/>restricts<sp/>it)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(onto-&gt;isEdgeTypeAllowed(</highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;unknownEdge&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="199"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ETC-10:<sp/>Schema<sp/>evolution:<sp/>adding<sp/>constraints<sp/>after<sp/>build()<sp/>is<sp/>idempotent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><ref refid="test__category__b__parity__bfs_8cpp_1aa26d2aa27563c8f650838b5cf7a7a58f" kindref="member">TEST</ref>(EntityTypeConstraintTests,<sp/>ETC10_SchemaEvolutionIdempotent)<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>onto<sp/>=<sp/>std::make_shared&lt;OntologyManager&gt;();</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>onto-&gt;addConcept(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>onto-&gt;addConcept(</highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>onto-&gt;addAxiom(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;edge1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>onto-&gt;build();</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>build(),<sp/>add<sp/>more<sp/>constraints<sp/>(should<sp/>be<sp/>no-op)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>axiom_count_before<sp/>=<sp/>onto-&gt;axiomCount();</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>onto-&gt;addConcept(</highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>no-op</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>onto-&gt;addAxiom(</highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;edge2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>no-op</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(axiom_count_before,<sp/>onto-&gt;axiomCount());</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(onto-&gt;isBuilt());</highlight></codeline>
+<codeline lineno="219"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ETC-11:<sp/>Type<sp/>subsumption<sp/>chains:<sp/>deep<sp/>hierarchies<sp/>resolved<sp/>correctly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><ref refid="test__category__b__parity__bfs_8cpp_1aa26d2aa27563c8f650838b5cf7a7a58f" kindref="member">TEST</ref>(EntityTypeConstraintTests,<sp/>ETC11_DeepHierarchies)<sp/>{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager" kindref="compound">OntologyManager</ref><sp/>onto;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>deep<sp/>chain:<sp/>L0<sp/>-&gt;<sp/>L1<sp/>-&gt;<sp/>L2<sp/>-&gt;<sp/>L3<sp/>-&gt;<sp/>L4</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>onto.<ref refid="classthemis_1_1graph_1_1_ontology_manager_1afe1bb0b0e4c75f05115e2316ea6c8bfb" kindref="member">addConcept</ref>(</highlight><highlight class="stringliteral">&quot;L0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>onto.addConcept(</highlight><highlight class="stringliteral">&quot;L1&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;L0&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>onto.addConcept(</highlight><highlight class="stringliteral">&quot;L2&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;L1&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>onto.addConcept(</highlight><highlight class="stringliteral">&quot;L3&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;L2&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>onto.addConcept(</highlight><highlight class="stringliteral">&quot;L4&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;L3&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>onto.addAxiom(</highlight><highlight class="stringliteral">&quot;L0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;deep&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;L0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>onto.build();</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>L4<sp/>should<sp/>be<sp/>recognized<sp/>as<sp/>L0<sp/>(through<sp/>chain)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(onto.isA(</highlight><highlight class="stringliteral">&quot;L4&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;L0&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(onto.isA(</highlight><highlight class="stringliteral">&quot;L3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;L0&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(onto.isA(</highlight><highlight class="stringliteral">&quot;L2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;L0&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(onto.isA(</highlight><highlight class="stringliteral">&quot;L1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;L0&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Permission<sp/>should<sp/>propagate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>allowed<sp/>=<sp/>onto.allowedEdgeTypes(</highlight><highlight class="stringliteral">&quot;L4&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;L4&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(allowed.count(</highlight><highlight class="stringliteral">&quot;deep&quot;</highlight><highlight class="normal">)<sp/>&gt;<sp/>0);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ETC-12:<sp/>Edge<sp/>type<sp/>propagation:<sp/>axioms<sp/>propagate<sp/>through<sp/>inheritance<sp/>tree</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><ref refid="test__category__b__parity__bfs_8cpp_1aa26d2aa27563c8f650838b5cf7a7a58f" kindref="member">TEST</ref>(EntityTypeConstraintTests,<sp/>ETC12_EdgeTypePropagarion)<sp/>{</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager" kindref="compound">OntologyManager</ref><sp/>onto;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>onto.<ref refid="classthemis_1_1graph_1_1_ontology_manager_1afe1bb0b0e4c75f05115e2316ea6c8bfb" kindref="member">addConcept</ref>(</highlight><highlight class="stringliteral">&quot;Parent&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>onto.addConcept(</highlight><highlight class="stringliteral">&quot;Child&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;Parent&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>onto.addConcept(</highlight><highlight class="stringliteral">&quot;GrandChild&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;Child&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Define<sp/>edge<sp/>on<sp/>parent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>onto.addAxiom(</highlight><highlight class="stringliteral">&quot;Parent&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;parentEdge&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Parent&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>onto.build();</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Child<sp/>and<sp/>GrandChild<sp/>should<sp/>inherit<sp/>the<sp/>permission</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(onto.isEdgeTypeAllowed(</highlight><highlight class="stringliteral">&quot;Child&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Child&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;parentEdge&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(onto.isEdgeTypeAllowed(</highlight><highlight class="stringliteral">&quot;GrandChild&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;GrandChild&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;parentEdge&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(onto.isEdgeTypeAllowed(</highlight><highlight class="stringliteral">&quot;Child&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Parent&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;parentEdge&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(onto.isEdgeTypeAllowed(</highlight><highlight class="stringliteral">&quot;GrandChild&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Parent&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;parentEdge&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="266"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ETC-13:<sp/>Constraint<sp/>negation:<sp/>forbidden<sp/>edge<sp/>types<sp/>correctly<sp/>rejected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><ref refid="test__category__b__parity__bfs_8cpp_1aa26d2aa27563c8f650838b5cf7a7a58f" kindref="member">TEST</ref>(EntityTypeConstraintTests,<sp/>ETC13_ConstraintNegation)<sp/>{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager" kindref="compound">OntologyManager</ref><sp/>onto;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>onto.<ref refid="classthemis_1_1graph_1_1_ontology_manager_1afe1bb0b0e4c75f05115e2316ea6c8bfb" kindref="member">addConcept</ref>(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>onto.addConcept(</highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>onto.addConcept(</highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Allow<sp/>A<sp/>-&gt;<sp/>B<sp/>with<sp/>&quot;allowed_edge&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>onto.addAxiom(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;allowed_edge&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>onto.build();</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>-&gt;<sp/>B<sp/>with<sp/>allowed_edge:<sp/>yes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(onto.isEdgeTypeAllowed(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;allowed_edge&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>-&gt;<sp/>C<sp/>with<sp/>allowed_edge:<sp/>no<sp/>(no<sp/>axiom<sp/>for<sp/>A<sp/>-&gt;<sp/>C)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(onto.isEdgeTypeAllowed(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;allowed_edge&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>-&gt;<sp/>B<sp/>with<sp/>forbidden_edge:<sp/>no<sp/>(not<sp/>in<sp/>any<sp/>axiom)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>allowed<sp/>=<sp/>onto.allowedEdgeTypes(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(allowed.count(</highlight><highlight class="stringliteral">&quot;forbidden_edge&quot;</highlight><highlight class="normal">)<sp/>&gt;<sp/>0);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>graph</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/graph/test_entity_type_constraints.cpp"/>
+  </compounddef>
+</doxygen>

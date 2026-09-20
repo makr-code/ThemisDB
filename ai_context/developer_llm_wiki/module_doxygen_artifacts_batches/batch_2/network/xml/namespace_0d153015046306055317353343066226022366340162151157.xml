@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d153015046306055317353343066226022366340162151157" kind="namespace" language="C++">
+    <compoundname>@153015046306055317353343066226022366340162151157</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/network/test_wire_protocol_ipv6.cpp" line="127" column="1"/>
+  </compounddef>
+</doxygen>

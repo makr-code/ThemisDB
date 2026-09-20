@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_cluster_node_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::ClusterNodeStatus</compoundname>
+    <includes refid="cluster__update__manager_8h" local="no">cluster_update_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_cluster_node_status_1a95e0e0f18f2b104b354d6472254752d4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::ClusterNodeStatus::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::updates::ClusterNodeStatus::node_id</qualifiedname>
+        <briefdescription>
+<para>Node identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="70" column="17" bodyfile="include/updates/cluster_update_manager.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_cluster_node_status_1a8aebc1613a00d262b0b3e10c18cb7744" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1updates_1a7330b8d50a823f1480ec17ad47247de0" kindref="member">ClusterNodeState</ref></type>
+        <definition>ClusterNodeState themis::updates::ClusterNodeStatus::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::updates::ClusterNodeStatus::state</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1updates_1a7330b8d50a823f1480ec17ad47247de0ac69f06e1a9b016d133907b4e5f5864d2" kindref="member">ClusterNodeState::PENDING</ref></initializer>
+        <briefdescription>
+<para>Current state machine state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="73" column="22" bodyfile="include/updates/cluster_update_manager.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_cluster_node_status_1ab3fee51f2fffd3634965ee32b39411a3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::ClusterNodeStatus::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::updates::ClusterNodeStatus::error_message</qualifiedname>
+        <briefdescription>
+<para>Non-empty on failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="76" column="17" bodyfile="include/updates/cluster_update_manager.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_cluster_node_status_1a43b0287062c361d0ab22cbb119d7d087" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::ClusterNodeStatus::applied_version</definition>
+        <argsstring></argsstring>
+        <name>applied_version</name>
+        <qualifiedname>themis::updates::ClusterNodeStatus::applied_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Version string that was applied to this node. Set when the node transitions to HEALTH_CHECK state (immediately after the NodeUpdateFunc succeeds) and remains populated through COMPLETED or ROLLED_BACK. Empty while the node is in PENDING, DRAINING, or APPLYING state, or if the NodeUpdateFunc itself failed. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="83" column="17" bodyfile="include/updates/cluster_update_manager.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_cluster_node_status_1ad0e8385b8163685b3cdb07cc3beac761" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::ClusterNodeStatus::is_leader</definition>
+        <argsstring></argsstring>
+        <name>is_leader</name>
+        <qualifiedname>themis::updates::ClusterNodeStatus::is_leader</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true when this status entry describes the coordinator node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="86" column="10" bodyfile="include/updates/cluster_update_manager.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Live status snapshot for a single node in the cluster update. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/updates/cluster_update_manager.h" line="68" column="1" bodyfile="include/updates/cluster_update_manager.h" bodystart="68" bodyend="87"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_cluster_node_status_1a43b0287062c361d0ab22cbb119d7d087" prot="public" virt="non-virtual"><scope>themis::updates::ClusterNodeStatus</scope><name>applied_version</name></member>
+      <member refid="structthemis_1_1updates_1_1_cluster_node_status_1ab3fee51f2fffd3634965ee32b39411a3" prot="public" virt="non-virtual"><scope>themis::updates::ClusterNodeStatus</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1updates_1_1_cluster_node_status_1ad0e8385b8163685b3cdb07cc3beac761" prot="public" virt="non-virtual"><scope>themis::updates::ClusterNodeStatus</scope><name>is_leader</name></member>
+      <member refid="structthemis_1_1updates_1_1_cluster_node_status_1a95e0e0f18f2b104b354d6472254752d4" prot="public" virt="non-virtual"><scope>themis::updates::ClusterNodeStatus</scope><name>node_id</name></member>
+      <member refid="structthemis_1_1updates_1_1_cluster_node_status_1a8aebc1613a00d262b0b3e10c18cb7744" prot="public" virt="non-virtual"><scope>themis::updates::ClusterNodeStatus</scope><name>state</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

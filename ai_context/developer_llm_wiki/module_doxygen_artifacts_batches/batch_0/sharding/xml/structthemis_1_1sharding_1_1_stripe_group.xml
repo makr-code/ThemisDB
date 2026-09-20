@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_stripe_group" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::StripeGroup</compoundname>
+    <includes refid="redundancy__strategy_8h" local="no">redundancy_strategy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_stripe_group_1a9cb2172a5c2032c0342d8a98756b7c6c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::StripeGroup::document_id</definition>
+        <argsstring></argsstring>
+        <name>document_id</name>
+        <qualifiedname>themis::sharding::StripeGroup::document_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="256" column="17" bodyfile="include/sharding/redundancy_strategy.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_stripe_group_1a9c69ccf05e5523e2f3978dfc84c8d94e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_chunk_info" kindref="compound">ChunkInfo</ref> &gt;</type>
+        <definition>std::vector&lt;ChunkInfo&gt; themis::sharding::StripeGroup::data_chunks</definition>
+        <argsstring></argsstring>
+        <name>data_chunks</name>
+        <qualifiedname>themis::sharding::StripeGroup::data_chunks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="257" column="17" bodyfile="include/sharding/redundancy_strategy.h" bodystart="257" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_stripe_group_1a58819042943725009b7ce82532331576" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_chunk_info" kindref="compound">ChunkInfo</ref> &gt;</type>
+        <definition>std::vector&lt;ChunkInfo&gt; themis::sharding::StripeGroup::parity_chunks</definition>
+        <argsstring></argsstring>
+        <name>parity_chunks</name>
+        <qualifiedname>themis::sharding::StripeGroup::parity_chunks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="258" column="17" bodyfile="include/sharding/redundancy_strategy.h" bodystart="258" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_stripe_group_1a8ef5107558c432c170995e143962f0ce" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::sharding::StripeGroup::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::sharding::StripeGroup::created_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="259" column="43" bodyfile="include/sharding/redundancy_strategy.h" bodystart="259" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_stripe_group_1a6885ed6e08ce1b44c865356501f36067" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::StripeGroup::total_size</definition>
+        <argsstring></argsstring>
+        <name>total_size</name>
+        <qualifiedname>themis::sharding::StripeGroup::total_size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="260" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_stripe_group_1a8a30628993a3c0830241d8a1ea4e0d9d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::StripeGroup::isComplete</definition>
+        <argsstring>() const</argsstring>
+        <name>isComplete</name>
+        <qualifiedname>themis::sharding::StripeGroup::isComplete</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="263" column="10" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="246" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_stripe_group_1a51866dabf8cb11d39d6b8bbda94c957c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint32_t &gt;</type>
+        <definition>std::vector&lt; uint32_t &gt; themis::sharding::StripeGroup::getMissingChunks</definition>
+        <argsstring>() const</argsstring>
+        <name>getMissingChunks</name>
+        <qualifiedname>themis::sharding::StripeGroup::getMissingChunks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="266" column="17" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="255" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_stripe_group_1ae895e4a9c47e049256ab48f0c799243f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::StripeGroup::canRecover</definition>
+        <argsstring>(uint32_t data_shards, uint32_t parity_shards) const</argsstring>
+        <name>canRecover</name>
+        <qualifiedname>themis::sharding::StripeGroup::canRecover</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>data_shards</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>parity_shards</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="269" column="10" bodyfile="src/sharding/redundancy_strategy.cpp" bodystart="266" bodyend="281"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Logical chunk group representing one striped/parity document layout. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/redundancy_strategy.h" line="255" column="1" bodyfile="include/sharding/redundancy_strategy.h" bodystart="255" bodyend="270"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_stripe_group_1ae895e4a9c47e049256ab48f0c799243f" prot="public" virt="non-virtual"><scope>themis::sharding::StripeGroup</scope><name>canRecover</name></member>
+      <member refid="structthemis_1_1sharding_1_1_stripe_group_1a8ef5107558c432c170995e143962f0ce" prot="public" virt="non-virtual"><scope>themis::sharding::StripeGroup</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1sharding_1_1_stripe_group_1a9c69ccf05e5523e2f3978dfc84c8d94e" prot="public" virt="non-virtual"><scope>themis::sharding::StripeGroup</scope><name>data_chunks</name></member>
+      <member refid="structthemis_1_1sharding_1_1_stripe_group_1a9cb2172a5c2032c0342d8a98756b7c6c" prot="public" virt="non-virtual"><scope>themis::sharding::StripeGroup</scope><name>document_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_stripe_group_1a51866dabf8cb11d39d6b8bbda94c957c" prot="public" virt="non-virtual"><scope>themis::sharding::StripeGroup</scope><name>getMissingChunks</name></member>
+      <member refid="structthemis_1_1sharding_1_1_stripe_group_1a8a30628993a3c0830241d8a1ea4e0d9d" prot="public" virt="non-virtual"><scope>themis::sharding::StripeGroup</scope><name>isComplete</name></member>
+      <member refid="structthemis_1_1sharding_1_1_stripe_group_1a58819042943725009b7ce82532331576" prot="public" virt="non-virtual"><scope>themis::sharding::StripeGroup</scope><name>parity_chunks</name></member>
+      <member refid="structthemis_1_1sharding_1_1_stripe_group_1a6885ed6e08ce1b44c865356501f36067" prot="public" virt="non-virtual"><scope>themis::sharding::StripeGroup</scope><name>total_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

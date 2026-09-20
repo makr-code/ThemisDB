@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1fp23_1_1_mock_recovery_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::fp23::MockRecoveryStats</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1fp23_1_1_mock_recovery_stats_1a90b6d7b9f62e145b9f1099bad8b254e1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::fp23::MockRecoveryStats::total_retry_attempts</definition>
+        <argsstring></argsstring>
+        <name>total_retry_attempts</name>
+        <qualifiedname>themis::bench::fp23::MockRecoveryStats::total_retry_attempts</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" line="214" column="14" bodyfile="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" bodystart="214" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1fp23_1_1_mock_recovery_stats_1a9a37a72ddb3c8289b1d69258ef92569c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::fp23::MockRecoveryStats::failed_retries</definition>
+        <argsstring></argsstring>
+        <name>failed_retries</name>
+        <qualifiedname>themis::bench::fp23::MockRecoveryStats::failed_retries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" line="215" column="14" bodyfile="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" bodystart="215" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1fp23_1_1_mock_recovery_stats_1ae793def1ae0a32736b55426dbc244862" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::fp23::MockRecoveryStats::successful_retries</definition>
+        <argsstring></argsstring>
+        <name>successful_retries</name>
+        <qualifiedname>themis::bench::fp23::MockRecoveryStats::successful_retries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" line="216" column="14" bodyfile="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" bodystart="216" bodyend="216"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" line="213" column="1" bodyfile="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" bodystart="213" bodyend="217"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1fp23_1_1_mock_recovery_stats_1a9a37a72ddb3c8289b1d69258ef92569c" prot="public" virt="non-virtual"><scope>themis::bench::fp23::MockRecoveryStats</scope><name>failed_retries</name></member>
+      <member refid="structthemis_1_1bench_1_1fp23_1_1_mock_recovery_stats_1ae793def1ae0a32736b55426dbc244862" prot="public" virt="non-virtual"><scope>themis::bench::fp23::MockRecoveryStats</scope><name>successful_retries</name></member>
+      <member refid="structthemis_1_1bench_1_1fp23_1_1_mock_recovery_stats_1a90b6d7b9f62e145b9f1099bad8b254e1" prot="public" virt="non-virtual"><scope>themis::bench::fp23::MockRecoveryStats</scope><name>total_retry_attempts</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,438 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_l_l_m_interaction_store" kind="class" language="C++" prot="public">
+    <compoundname>themis::LLMInteractionStore</compoundname>
+    <includes refid="llm__interaction__store_8h" local="no">llm_interaction_store.h</includes>
+    <innerclass refid="structthemis_1_1_l_l_m_interaction_store_1_1_interaction" prot="public">themis::LLMInteractionStore::Interaction</innerclass>
+    <innerclass refid="structthemis_1_1_l_l_m_interaction_store_1_1_list_options" prot="public">themis::LLMInteractionStore::ListOptions</innerclass>
+    <innerclass refid="structthemis_1_1_l_l_m_interaction_store_1_1_stats" prot="public">themis::LLMInteractionStore::Stats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_l_l_m_interaction_store_1a6e40eb51fdf9816884b0e1a1a6852c21" prot="private" static="no" mutable="no">
+        <type>rocksdb::TransactionDB *</type>
+        <definition>rocksdb::TransactionDB* themis::LLMInteractionStore::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::LLMInteractionStore::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_interaction_store.h" line="129" column="28" bodyfile="include/llm/llm_interaction_store.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_l_l_m_interaction_store_1ac035a4585c29349fadd0859313af2abc" prot="private" static="no" mutable="no">
+        <type>rocksdb::ColumnFamilyHandle *</type>
+        <definition>rocksdb::ColumnFamilyHandle* themis::LLMInteractionStore::cf_</definition>
+        <argsstring></argsstring>
+        <name>cf_</name>
+        <qualifiedname>themis::LLMInteractionStore::cf_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_interaction_store.h" line="130" column="33" bodyfile="include/llm/llm_interaction_store.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_l_l_m_interaction_store_1aadeda026c2a9e936b7518275abd0b9aa" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::LLMInteractionStore::KEY_PREFIX</definition>
+        <argsstring></argsstring>
+        <name>KEY_PREFIX</name>
+        <qualifiedname>themis::LLMInteractionStore::KEY_PREFIX</qualifiedname>
+        <initializer>= &quot;llm_interaction:&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_interaction_store.h" line="132" column="33" bodyfile="include/llm/llm_interaction_store.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_l_l_m_interaction_store_1a059c7f3d39f5005345724478cdebb3ad" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::LLMInteractionStore::LLMInteractionStore</definition>
+        <argsstring>(rocksdb::TransactionDB *db, rocksdb::ColumnFamilyHandle *cf=nullptr)</argsstring>
+        <name>LLMInteractionStore</name>
+        <qualifiedname>themis::LLMInteractionStore::LLMInteractionStore</qualifiedname>
+        <param>
+          <type>rocksdb::TransactionDB *</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>rocksdb::ColumnFamilyHandle *</type>
+          <declname>cf</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_interaction_store.h" line="71" column="14" bodyfile="src/llm/llm_interaction_store.cpp" bodystart="78" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_l_l_m_interaction_store_1a9d506f04cb38e803d586c32d17fd674e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::LLMInteractionStore::~LLMInteractionStore</definition>
+        <argsstring>()=default</argsstring>
+        <name>~LLMInteractionStore</name>
+        <qualifiedname>themis::LLMInteractionStore::~LLMInteractionStore</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_interaction_store.h" line="74" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_l_l_m_interaction_store_1a5e1253eec3413cb5e995345f03563fad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_l_l_m_interaction_store_1_1_interaction" kindref="compound">Interaction</ref></type>
+        <definition>LLMInteractionStore::Interaction themis::LLMInteractionStore::createInteraction</definition>
+        <argsstring>(Interaction interaction)</argsstring>
+        <name>createInteraction</name>
+        <qualifiedname>themis::LLMInteractionStore::createInteraction</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_l_l_m_interaction_store_1_1_interaction" kindref="compound">Interaction</ref></type>
+          <declname>interaction</declname>
+        </param>
+        <briefdescription>
+<para>Create <ref refid="structthemis_1_1_l_l_m_interaction_store_1_1_interaction" kindref="compound">Interaction</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">interaction</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">interaction</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), generateId(), std::chrono::system_clock::now(), time_since_epoch(), count(), toJson(), dump(), makeKey(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_interaction_store.h" line="81" column="17" bodyfile="src/llm/llm_interaction_store.cpp" bodystart="115" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_l_l_m_interaction_store_1adeb9a49b45a9407149c84b3154cb69c4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_l_l_m_interaction_store_1_1_interaction" kindref="compound">Interaction</ref> &gt;</type>
+        <definition>std::optional&lt; LLMInteractionStore::Interaction &gt; themis::LLMInteractionStore::getInteraction</definition>
+        <argsstring>(const std::string &amp;id) const</argsstring>
+        <name>getInteraction</name>
+        <qualifiedname>themis::LLMInteractionStore::getInteraction</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1_l_l_m_interaction_store_1_1_interaction" kindref="compound">Interaction</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_interaction_store.h" line="88" column="19" bodyfile="src/llm/llm_interaction_store.cpp" bodystart="152" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_l_l_m_interaction_store_1ab0c3188d1a2879f13a7e267a4c3cefba" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_l_l_m_interaction_store_1_1_interaction" kindref="compound">Interaction</ref> &gt;</type>
+        <definition>std::vector&lt; LLMInteractionStore::Interaction &gt; themis::LLMInteractionStore::listInteractions</definition>
+        <argsstring>() const</argsstring>
+        <name>listInteractions</name>
+        <qualifiedname>themis::LLMInteractionStore::listInteractions</qualifiedname>
+        <briefdescription>
+<para>List Interactions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_interaction_store.h" line="94" column="17" bodyfile="src/llm/llm_interaction_store.cpp" bodystart="278" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_l_l_m_interaction_store_1ac535b1f22ed4de9289eeabb8d0f07b36" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_l_l_m_interaction_store_1_1_interaction" kindref="compound">Interaction</ref> &gt;</type>
+        <definition>std::vector&lt; LLMInteractionStore::Interaction &gt; themis::LLMInteractionStore::listInteractions</definition>
+        <argsstring>(const ListOptions &amp;options) const</argsstring>
+        <name>listInteractions</name>
+        <qualifiedname>themis::LLMInteractionStore::listInteractions</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_l_l_m_interaction_store_1_1_list_options" kindref="compound">ListOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>List Interactions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_interaction_store.h" line="100" column="17" bodyfile="src/llm/llm_interaction_store.cpp" bodystart="198" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_l_l_m_interaction_store_1a1c36591415a40b3f604b921cb6426f50" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_l_l_m_interaction_store_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>LLMInteractionStore::Stats themis::LLMInteractionStore::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::LLMInteractionStore::getStats</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1_l_l_m_interaction_store_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_interaction_store.h" line="106" column="11" bodyfile="src/llm/llm_interaction_store.cpp" bodystart="282" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_l_l_m_interaction_store_1ad183ca1156faff702ea6f7e6eb2fd30b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::LLMInteractionStore::deleteInteraction</definition>
+        <argsstring>(const std::string &amp;id)</argsstring>
+        <name>deleteInteraction</name>
+        <qualifiedname>themis::LLMInteractionStore::deleteInteraction</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Delete <ref refid="structthemis_1_1_l_l_m_interaction_store_1_1_interaction" kindref="compound">Interaction</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: makeKey(), Delete(), IsNotFound(), ok(), THEMIS_ERROR(), ToString(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_interaction_store.h" line="113" column="10" bodyfile="src/llm/llm_interaction_store.cpp" bodystart="348" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_l_l_m_interaction_store_1a9d381e87b596c7ed92dd685fd5e7ee71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::LLMInteractionStore::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::LLMInteractionStore::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: reset(), NewIterator(), THEMIS_ERROR(), Seek(), Valid(), Next(), key(), ToString(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_interaction_store.h" line="118" column="10" bodyfile="src/llm/llm_interaction_store.cpp" bodystart="377" bodyend="416"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_l_l_m_interaction_store_1aa1d24a293eae53a54d511a39a7c4fee6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::LLMInteractionStore::updateMetadata</definition>
+        <argsstring>(const std::string &amp;id, const nlohmann::json &amp;metadata_updates)</argsstring>
+        <name>updateMetadata</name>
+        <qualifiedname>themis::LLMInteractionStore::updateMetadata</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>metadata_updates</declname>
+        </param>
+        <briefdescription>
+<para>Update Metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata_updates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata_updates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_l_l_m_interaction_store_1adeb9a49b45a9407149c84b3154cb69c4" kindref="member">getInteraction()</ref>, has_value(), THEMIS_WARN(), items(), toJson(), dump(), makeKey(), Put(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_interaction_store.h" line="126" column="10" bodyfile="src/llm/llm_interaction_store.cpp" bodystart="425" bodyend="460"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_l_l_m_interaction_store_1a59108090e297a686fa4cd27de41e74f5" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::LLMInteractionStore::makeKey</definition>
+        <argsstring>(const std::string &amp;id) const</argsstring>
+        <name>makeKey</name>
+        <qualifiedname>themis::LLMInteractionStore::makeKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Make Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_interaction_store.h" line="139" column="17" bodyfile="src/llm/llm_interaction_store.cpp" bodystart="86" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_l_l_m_interaction_store_1ab042a1f5e380b337d7c81840922c7739" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::LLMInteractionStore::generateId</definition>
+        <argsstring>() const</argsstring>
+        <name>generateId</name>
+        <qualifiedname>themis::LLMInteractionStore::generateId</qualifiedname>
+        <briefdescription>
+<para>Generate Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_interaction_store.h" line="144" column="17" bodyfile="src/llm/llm_interaction_store.cpp" bodystart="90" bodyend="106"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llm_interaction_store.h" line="29" column="1" bodyfile="include/llm/llm_interaction_store.h" bodystart="29" bodyend="145"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_l_l_m_interaction_store_1ac035a4585c29349fadd0859313af2abc" prot="private" virt="non-virtual"><scope>themis::LLMInteractionStore</scope><name>cf_</name></member>
+      <member refid="classthemis_1_1_l_l_m_interaction_store_1a9d381e87b596c7ed92dd685fd5e7ee71" prot="public" virt="non-virtual"><scope>themis::LLMInteractionStore</scope><name>clear</name></member>
+      <member refid="classthemis_1_1_l_l_m_interaction_store_1a5e1253eec3413cb5e995345f03563fad" prot="public" virt="non-virtual"><scope>themis::LLMInteractionStore</scope><name>createInteraction</name></member>
+      <member refid="classthemis_1_1_l_l_m_interaction_store_1a6e40eb51fdf9816884b0e1a1a6852c21" prot="private" virt="non-virtual"><scope>themis::LLMInteractionStore</scope><name>db_</name></member>
+      <member refid="classthemis_1_1_l_l_m_interaction_store_1ad183ca1156faff702ea6f7e6eb2fd30b" prot="public" virt="non-virtual"><scope>themis::LLMInteractionStore</scope><name>deleteInteraction</name></member>
+      <member refid="classthemis_1_1_l_l_m_interaction_store_1ab042a1f5e380b337d7c81840922c7739" prot="private" virt="non-virtual"><scope>themis::LLMInteractionStore</scope><name>generateId</name></member>
+      <member refid="classthemis_1_1_l_l_m_interaction_store_1adeb9a49b45a9407149c84b3154cb69c4" prot="public" virt="non-virtual"><scope>themis::LLMInteractionStore</scope><name>getInteraction</name></member>
+      <member refid="classthemis_1_1_l_l_m_interaction_store_1a1c36591415a40b3f604b921cb6426f50" prot="public" virt="non-virtual"><scope>themis::LLMInteractionStore</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1_l_l_m_interaction_store_1aadeda026c2a9e936b7518275abd0b9aa" prot="private" virt="non-virtual"><scope>themis::LLMInteractionStore</scope><name>KEY_PREFIX</name></member>
+      <member refid="classthemis_1_1_l_l_m_interaction_store_1ab0c3188d1a2879f13a7e267a4c3cefba" prot="public" virt="non-virtual"><scope>themis::LLMInteractionStore</scope><name>listInteractions</name></member>
+      <member refid="classthemis_1_1_l_l_m_interaction_store_1ac535b1f22ed4de9289eeabb8d0f07b36" prot="public" virt="non-virtual"><scope>themis::LLMInteractionStore</scope><name>listInteractions</name></member>
+      <member refid="classthemis_1_1_l_l_m_interaction_store_1a059c7f3d39f5005345724478cdebb3ad" prot="public" virt="non-virtual"><scope>themis::LLMInteractionStore</scope><name>LLMInteractionStore</name></member>
+      <member refid="classthemis_1_1_l_l_m_interaction_store_1a59108090e297a686fa4cd27de41e74f5" prot="private" virt="non-virtual"><scope>themis::LLMInteractionStore</scope><name>makeKey</name></member>
+      <member refid="classthemis_1_1_l_l_m_interaction_store_1aa1d24a293eae53a54d511a39a7c4fee6" prot="public" virt="non-virtual"><scope>themis::LLMInteractionStore</scope><name>updateMetadata</name></member>
+      <member refid="classthemis_1_1_l_l_m_interaction_store_1a9d506f04cb38e803d586c32d17fd674e" prot="public" virt="non-virtual"><scope>themis::LLMInteractionStore</scope><name>~LLMInteractionStore</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

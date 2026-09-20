@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_resolver" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::CrossSchoolTensionResolver</compoundname>
+    <includes refid="cross__school__tension__resolver_8h" local="no">cross_school_tension_resolver.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_resolver_1ad1d1b97c11047449ac40eb14b6d939a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::CrossSchoolTensionResolver::CrossSchoolTensionResolver</definition>
+        <argsstring>()=default</argsstring>
+        <name>CrossSchoolTensionResolver</name>
+        <qualifiedname>themis::plugins::ethics::CrossSchoolTensionResolver::CrossSchoolTensionResolver</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/cross_school_tension_resolver.h" line="40" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_resolver_1a766aa6575fa6b6d0bc1c8efb22a2e2c0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_injection_decision" kindref="compound">InjectionDecision</ref> &gt;</type>
+        <definition>std::vector&lt; InjectionDecision &gt; themis::plugins::ethics::CrossSchoolTensionResolver::resolveOpponentInjections</definition>
+        <argsstring>(const std::string &amp;own_school_id, const std::vector&lt; std::string &gt; &amp;opponent_school_ids, const std::vector&lt; EthicalArgument &gt; &amp;opponent_round_args, const std::vector&lt; SchoolTension &gt; &amp;tensions, float full_injection_threshold=0.6f, int max_full_injections=2) const</argsstring>
+        <name>resolveOpponentInjections</name>
+        <qualifiedname>themis::plugins::ethics::CrossSchoolTensionResolver::resolveOpponentInjections</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>own_school_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>opponent_school_ids</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument" kindref="compound">EthicalArgument</ref> &gt; &amp;</type>
+          <declname>opponent_round_args</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_school_tension" kindref="compound">SchoolTension</ref> &gt; &amp;</type>
+          <declname>tensions</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>full_injection_threshold</declname>
+          <defval>0.6f</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_full_injections</declname>
+          <defval>2</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/cross_school_tension_resolver.h" line="42" column="17" bodyfile="src/ethics_ai/cross_school_tension_resolver.cpp" bodystart="94" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_resolver_1a7397132589ded1895196971513060a8c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_school_tension" kindref="compound">SchoolTension</ref> &gt;</type>
+        <definition>std::vector&lt; SchoolTension &gt; themis::plugins::ethics::CrossSchoolTensionResolver::loadTensions</definition>
+        <argsstring>(const PhilosophyProfile &amp;profile) const</argsstring>
+        <name>loadTensions</name>
+        <qualifiedname>themis::plugins::ethics::CrossSchoolTensionResolver::loadTensions</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile" kindref="compound">PhilosophyProfile</ref> &amp;</type>
+          <declname>profile</declname>
+        </param>
+        <briefdescription>
+<para>Load Tensions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Ss. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Val ss. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/ethics_ai/cross_school_tension_resolver.h" line="55" column="17" bodyfile="src/ethics_ai/cross_school_tension_resolver.cpp" bodystart="23" bodyend="92"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/cross_school_tension_resolver.h" line="38" column="1" bodyfile="include/ethics_ai/cross_school_tension_resolver.h" bodystart="38" bodyend="57"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_resolver_1ad1d1b97c11047449ac40eb14b6d939a8" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::CrossSchoolTensionResolver</scope><name>CrossSchoolTensionResolver</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_resolver_1a7397132589ded1895196971513060a8c" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::CrossSchoolTensionResolver</scope><name>loadTensions</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_resolver_1a766aa6575fa6b6d0bc1c8efb22a2e2c0" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::CrossSchoolTensionResolver</scope><name>resolveOpponentInjections</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

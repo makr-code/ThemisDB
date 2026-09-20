@@ -1,0 +1,321 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::util::SelfAwareness::HealthMetrics</compoundname>
+    <includes refid="self__awareness_8h" local="no">self_awareness.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics_1a4674b4962c76abcc6cd2239609d1bad3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::util::SelfAwareness::HealthMetrics::cpu_usage_percent</definition>
+        <argsstring></argsstring>
+        <name>cpu_usage_percent</name>
+        <qualifiedname>themis::util::SelfAwareness::HealthMetrics::cpu_usage_percent</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="45" column="16" bodyfile="include/utils/self_awareness.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics_1ad18d99d902315664956e51f88cc0043a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::util::SelfAwareness::HealthMetrics::cpu_load_1min</definition>
+        <argsstring></argsstring>
+        <name>cpu_load_1min</name>
+        <qualifiedname>themis::util::SelfAwareness::HealthMetrics::cpu_load_1min</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="46" column="16" bodyfile="include/utils/self_awareness.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics_1a53839309b874880768db04fc95edfaa2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::util::SelfAwareness::HealthMetrics::cpu_load_5min</definition>
+        <argsstring></argsstring>
+        <name>cpu_load_5min</name>
+        <qualifiedname>themis::util::SelfAwareness::HealthMetrics::cpu_load_5min</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="47" column="16" bodyfile="include/utils/self_awareness.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics_1abe8192564dda0ab487e892c1768a7db9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::util::SelfAwareness::HealthMetrics::cpu_load_15min</definition>
+        <argsstring></argsstring>
+        <name>cpu_load_15min</name>
+        <qualifiedname>themis::util::SelfAwareness::HealthMetrics::cpu_load_15min</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="48" column="16" bodyfile="include/utils/self_awareness.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics_1a15bd9d67ed254516f732d9e2ecf72792" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::util::SelfAwareness::HealthMetrics::memory_total_bytes</definition>
+        <argsstring></argsstring>
+        <name>memory_total_bytes</name>
+        <qualifiedname>themis::util::SelfAwareness::HealthMetrics::memory_total_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="51" column="18" bodyfile="include/utils/self_awareness.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics_1a53e22f148134bb148f33b23be79eb89f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::util::SelfAwareness::HealthMetrics::memory_used_bytes</definition>
+        <argsstring></argsstring>
+        <name>memory_used_bytes</name>
+        <qualifiedname>themis::util::SelfAwareness::HealthMetrics::memory_used_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="52" column="18" bodyfile="include/utils/self_awareness.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics_1a87a192b0460ce1e59bba5e70214467c9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::util::SelfAwareness::HealthMetrics::memory_available_bytes</definition>
+        <argsstring></argsstring>
+        <name>memory_available_bytes</name>
+        <qualifiedname>themis::util::SelfAwareness::HealthMetrics::memory_available_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="53" column="18" bodyfile="include/utils/self_awareness.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics_1a221b64066132cab26ab7a0783fd7b43d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::util::SelfAwareness::HealthMetrics::memory_usage_percent</definition>
+        <argsstring></argsstring>
+        <name>memory_usage_percent</name>
+        <qualifiedname>themis::util::SelfAwareness::HealthMetrics::memory_usage_percent</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="54" column="16" bodyfile="include/utils/self_awareness.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics_1a74f40c905abfe7b9fd4cabc01c0f7243" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::util::SelfAwareness::HealthMetrics::disk_total_bytes</definition>
+        <argsstring></argsstring>
+        <name>disk_total_bytes</name>
+        <qualifiedname>themis::util::SelfAwareness::HealthMetrics::disk_total_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="57" column="18" bodyfile="include/utils/self_awareness.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics_1a0408f611fbc5b5ce53e960983f8c05ce" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::util::SelfAwareness::HealthMetrics::disk_used_bytes</definition>
+        <argsstring></argsstring>
+        <name>disk_used_bytes</name>
+        <qualifiedname>themis::util::SelfAwareness::HealthMetrics::disk_used_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="58" column="18" bodyfile="include/utils/self_awareness.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics_1ac989606f1def3c8be80f56143ea96fd7" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::util::SelfAwareness::HealthMetrics::disk_available_bytes</definition>
+        <argsstring></argsstring>
+        <name>disk_available_bytes</name>
+        <qualifiedname>themis::util::SelfAwareness::HealthMetrics::disk_available_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="59" column="18" bodyfile="include/utils/self_awareness.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics_1a71c30e1c6964a698760c8a3e88f21eef" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::util::SelfAwareness::HealthMetrics::disk_usage_percent</definition>
+        <argsstring></argsstring>
+        <name>disk_usage_percent</name>
+        <qualifiedname>themis::util::SelfAwareness::HealthMetrics::disk_usage_percent</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="60" column="16" bodyfile="include/utils/self_awareness.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics_1a2c12b8084de2339979c4d906db761e8c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::util::SelfAwareness::HealthMetrics::network_bytes_in</definition>
+        <argsstring></argsstring>
+        <name>network_bytes_in</name>
+        <qualifiedname>themis::util::SelfAwareness::HealthMetrics::network_bytes_in</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="63" column="18" bodyfile="include/utils/self_awareness.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics_1a59a2c54fe721dbee8e19d61b921e4a6b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::util::SelfAwareness::HealthMetrics::network_bytes_out</definition>
+        <argsstring></argsstring>
+        <name>network_bytes_out</name>
+        <qualifiedname>themis::util::SelfAwareness::HealthMetrics::network_bytes_out</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="64" column="18" bodyfile="include/utils/self_awareness.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics_1aac2e6153c9e00621c7adbd98d18e5c68" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::util::SelfAwareness::HealthMetrics::network_packets_in</definition>
+        <argsstring></argsstring>
+        <name>network_packets_in</name>
+        <qualifiedname>themis::util::SelfAwareness::HealthMetrics::network_packets_in</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="65" column="18" bodyfile="include/utils/self_awareness.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics_1a7b9f94d01b6a987fca43875b954d5c6b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::util::SelfAwareness::HealthMetrics::network_packets_out</definition>
+        <argsstring></argsstring>
+        <name>network_packets_out</name>
+        <qualifiedname>themis::util::SelfAwareness::HealthMetrics::network_packets_out</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="66" column="18" bodyfile="include/utils/self_awareness.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics_1aa2b10894bd89b2fff75507860ed85f2b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::util::SelfAwareness::HealthMetrics::thread_count</definition>
+        <argsstring></argsstring>
+        <name>thread_count</name>
+        <qualifiedname>themis::util::SelfAwareness::HealthMetrics::thread_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="69" column="18" bodyfile="include/utils/self_awareness.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics_1ac2c3cc348fe064e5a0fb50a2b4ec65a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::util::SelfAwareness::HealthMetrics::open_file_descriptors</definition>
+        <argsstring></argsstring>
+        <name>open_file_descriptors</name>
+        <qualifiedname>themis::util::SelfAwareness::HealthMetrics::open_file_descriptors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="70" column="18" bodyfile="include/utils/self_awareness.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics_1aa047bf7b9ddb53970ce8934c8b24231f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::util::SelfAwareness::HealthMetrics::uptime_seconds</definition>
+        <argsstring></argsstring>
+        <name>uptime_seconds</name>
+        <qualifiedname>themis::util::SelfAwareness::HealthMetrics::uptime_seconds</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/self_awareness.h" line="71" column="18" bodyfile="include/utils/self_awareness.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>System health metrics </para>
+    </detaileddescription>
+    <location file="include/utils/self_awareness.h" line="43" column="5" bodyfile="include/utils/self_awareness.h" bodystart="43" bodyend="72"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics_1abe8192564dda0ab487e892c1768a7db9" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::HealthMetrics</scope><name>cpu_load_15min</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics_1ad18d99d902315664956e51f88cc0043a" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::HealthMetrics</scope><name>cpu_load_1min</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics_1a53839309b874880768db04fc95edfaa2" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::HealthMetrics</scope><name>cpu_load_5min</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics_1a4674b4962c76abcc6cd2239609d1bad3" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::HealthMetrics</scope><name>cpu_usage_percent</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics_1ac989606f1def3c8be80f56143ea96fd7" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::HealthMetrics</scope><name>disk_available_bytes</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics_1a74f40c905abfe7b9fd4cabc01c0f7243" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::HealthMetrics</scope><name>disk_total_bytes</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics_1a71c30e1c6964a698760c8a3e88f21eef" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::HealthMetrics</scope><name>disk_usage_percent</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics_1a0408f611fbc5b5ce53e960983f8c05ce" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::HealthMetrics</scope><name>disk_used_bytes</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics_1a87a192b0460ce1e59bba5e70214467c9" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::HealthMetrics</scope><name>memory_available_bytes</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics_1a15bd9d67ed254516f732d9e2ecf72792" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::HealthMetrics</scope><name>memory_total_bytes</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics_1a221b64066132cab26ab7a0783fd7b43d" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::HealthMetrics</scope><name>memory_usage_percent</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics_1a53e22f148134bb148f33b23be79eb89f" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::HealthMetrics</scope><name>memory_used_bytes</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics_1a2c12b8084de2339979c4d906db761e8c" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::HealthMetrics</scope><name>network_bytes_in</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics_1a59a2c54fe721dbee8e19d61b921e4a6b" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::HealthMetrics</scope><name>network_bytes_out</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics_1aac2e6153c9e00621c7adbd98d18e5c68" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::HealthMetrics</scope><name>network_packets_in</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics_1a7b9f94d01b6a987fca43875b954d5c6b" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::HealthMetrics</scope><name>network_packets_out</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics_1ac2c3cc348fe064e5a0fb50a2b4ec65a7" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::HealthMetrics</scope><name>open_file_descriptors</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics_1aa2b10894bd89b2fff75507860ed85f2b" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::HealthMetrics</scope><name>thread_count</name></member>
+      <member refid="structthemis_1_1util_1_1_self_awareness_1_1_health_metrics_1aa047bf7b9ddb53970ce8934c8b24231f" prot="public" virt="non-virtual"><scope>themis::util::SelfAwareness::HealthMetrics</scope><name>uptime_seconds</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

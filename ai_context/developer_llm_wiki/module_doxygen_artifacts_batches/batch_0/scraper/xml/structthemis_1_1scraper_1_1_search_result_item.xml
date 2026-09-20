@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1scraper_1_1_search_result_item" kind="struct" language="C++" prot="public">
+    <compoundname>themis::scraper::SearchResultItem</compoundname>
+    <includes refid="scraper__search__engine_8h" local="no">scraper_search_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_search_result_item_1ad1cf3b0d4c26e7f9b2e8e83f6e038e26" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::scraper::SearchResultItem::rank</definition>
+        <argsstring></argsstring>
+        <name>rank</name>
+        <qualifiedname>themis::scraper::SearchResultItem::rank</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_search_engine.h" line="46" column="17" bodyfile="include/scraper/scraper_search_engine.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_search_result_item_1acbfc3a2954aa62430ecff15d875c55a9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::SearchResultItem::title</definition>
+        <argsstring></argsstring>
+        <name>title</name>
+        <qualifiedname>themis::scraper::SearchResultItem::title</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_search_engine.h" line="47" column="17" bodyfile="include/scraper/scraper_search_engine.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_search_result_item_1a354bf438fbd6c1e6f445170ec762af9e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::SearchResultItem::url</definition>
+        <argsstring></argsstring>
+        <name>url</name>
+        <qualifiedname>themis::scraper::SearchResultItem::url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_search_engine.h" line="48" column="17" bodyfile="include/scraper/scraper_search_engine.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_search_result_item_1adfc85e85a266f302279863ff87a46da7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::SearchResultItem::snippet</definition>
+        <argsstring></argsstring>
+        <name>snippet</name>
+        <qualifiedname>themis::scraper::SearchResultItem::snippet</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_search_engine.h" line="49" column="17" bodyfile="include/scraper/scraper_search_engine.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_search_result_item_1a4e15a797610ba20b16e09f82d09dbe97" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::SearchResultItem::date</definition>
+        <argsstring></argsstring>
+        <name>date</name>
+        <qualifiedname>themis::scraper::SearchResultItem::date</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_search_engine.h" line="50" column="17" bodyfile="include/scraper/scraper_search_engine.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_search_result_item_1ac1d38406c861534d000a12c47b7a1d11" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::SearchResultItem::source_label</definition>
+        <argsstring></argsstring>
+        <name>source_label</name>
+        <qualifiedname>themis::scraper::SearchResultItem::source_label</qualifiedname>
+        <briefdescription>
+<para>Court name, publisher, etc. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_search_engine.h" line="51" column="17" bodyfile="include/scraper/scraper_search_engine.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_search_result_item_1a7c1032e81a6f1d1bd128950bb0284fb2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::SearchResultItem::document_type</definition>
+        <argsstring></argsstring>
+        <name>document_type</name>
+        <qualifiedname>themis::scraper::SearchResultItem::document_type</qualifiedname>
+        <briefdescription>
+<para>Urteil, Beschluss, Gesetz, … </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_search_engine.h" line="52" column="17" bodyfile="include/scraper/scraper_search_engine.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_search_result_item_1a1504fb3659b749489b20d23dddd289ab" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::scraper::SearchResultItem::extra</definition>
+        <argsstring></argsstring>
+        <name>extra</name>
+        <qualifiedname>themis::scraper::SearchResultItem::extra</qualifiedname>
+        <briefdescription>
+<para>Site-specific metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_search_engine.h" line="53" column="14" bodyfile="include/scraper/scraper_search_engine.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single item in a search result list. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/scraper/scraper_search_engine.h" line="45" column="1" bodyfile="include/scraper/scraper_search_engine.h" bodystart="45" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1scraper_1_1_search_result_item_1a4e15a797610ba20b16e09f82d09dbe97" prot="public" virt="non-virtual"><scope>themis::scraper::SearchResultItem</scope><name>date</name></member>
+      <member refid="structthemis_1_1scraper_1_1_search_result_item_1a7c1032e81a6f1d1bd128950bb0284fb2" prot="public" virt="non-virtual"><scope>themis::scraper::SearchResultItem</scope><name>document_type</name></member>
+      <member refid="structthemis_1_1scraper_1_1_search_result_item_1a1504fb3659b749489b20d23dddd289ab" prot="public" virt="non-virtual"><scope>themis::scraper::SearchResultItem</scope><name>extra</name></member>
+      <member refid="structthemis_1_1scraper_1_1_search_result_item_1ad1cf3b0d4c26e7f9b2e8e83f6e038e26" prot="public" virt="non-virtual"><scope>themis::scraper::SearchResultItem</scope><name>rank</name></member>
+      <member refid="structthemis_1_1scraper_1_1_search_result_item_1adfc85e85a266f302279863ff87a46da7" prot="public" virt="non-virtual"><scope>themis::scraper::SearchResultItem</scope><name>snippet</name></member>
+      <member refid="structthemis_1_1scraper_1_1_search_result_item_1ac1d38406c861534d000a12c47b7a1d11" prot="public" virt="non-virtual"><scope>themis::scraper::SearchResultItem</scope><name>source_label</name></member>
+      <member refid="structthemis_1_1scraper_1_1_search_result_item_1acbfc3a2954aa62430ecff15d875c55a9" prot="public" virt="non-virtual"><scope>themis::scraper::SearchResultItem</scope><name>title</name></member>
+      <member refid="structthemis_1_1scraper_1_1_search_result_item_1a354bf438fbd6c1e6f445170ec762af9e" prot="public" virt="non-virtual"><scope>themis::scraper::SearchResultItem</scope><name>url</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

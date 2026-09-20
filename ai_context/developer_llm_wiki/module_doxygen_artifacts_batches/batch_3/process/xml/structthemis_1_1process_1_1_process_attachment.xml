@@ -1,0 +1,214 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_process_attachment" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::ProcessAttachment</compoundname>
+    <includes refid="process__linker_8h" local="no">process_linker.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_attachment_1a1fe7bac79170e4c4621bddc004f4c3fc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessAttachment::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::process::ProcessAttachment::id</qualifiedname>
+        <briefdescription>
+<para>&quot;attach:&lt;instance_id&gt;:&lt;object_id&gt;&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_linker.h" line="84" column="17" bodyfile="include/process/process_linker.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_attachment_1a6faf8145637767b9cbf057280ebf4d52" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessAttachment::instance_id</definition>
+        <argsstring></argsstring>
+        <name>instance_id</name>
+        <qualifiedname>themis::process::ProcessAttachment::instance_id</qualifiedname>
+        <briefdescription>
+<para>Process instance the object is attached to. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_linker.h" line="85" column="17" bodyfile="include/process/process_linker.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_attachment_1ad1bae836c617a541301735842886c812" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessAttachment::object_id</definition>
+        <argsstring></argsstring>
+        <name>object_id</name>
+        <qualifiedname>themis::process::ProcessAttachment::object_id</qualifiedname>
+        <briefdescription>
+<para>ID of the attached object. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_linker.h" line="86" column="17" bodyfile="include/process/process_linker.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_attachment_1a98fc8b8f773c2737569f0531a41738e9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessAttachment::object_collection</definition>
+        <argsstring></argsstring>
+        <name>object_collection</name>
+        <qualifiedname>themis::process::ProcessAttachment::object_collection</qualifiedname>
+        <briefdescription>
+<para>Collection name: &quot;documents&quot;, &quot;metadata&quot;, &quot;cases&quot;, … </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_linker.h" line="87" column="17" bodyfile="include/process/process_linker.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_attachment_1aea0b273e214c9204c4bf59bb9cc79cc6" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1a8d0ffb5cc058d2dd891e1252c3879939" kindref="member">ProcessLinkType</ref></type>
+        <definition>ProcessLinkType themis::process::ProcessAttachment::link_type</definition>
+        <argsstring></argsstring>
+        <name>link_type</name>
+        <qualifiedname>themis::process::ProcessAttachment::link_type</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1process_1a8d0ffb5cc058d2dd891e1252c3879939ab0124d60e7a9b89b0540d568e6d5f10f" kindref="member">ProcessLinkType::HAS_DOCUMENT</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_linker.h" line="88" column="21" bodyfile="include/process/process_linker.h" bodystart="88" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_attachment_1a362a9a50255501f204c2634ad5f30cf4" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::process::ProcessAttachment::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::process::ProcessAttachment::node_id</qualifiedname>
+        <briefdescription>
+<para>Process node this attachment belongs to. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_linker.h" line="89" column="19" bodyfile="include/process/process_linker.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_attachment_1a87cae9e9fc6676071ee5213646cf3bf2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessAttachment::attached_by</definition>
+        <argsstring></argsstring>
+        <name>attached_by</name>
+        <qualifiedname>themis::process::ProcessAttachment::attached_by</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_linker.h" line="90" column="17" bodyfile="include/process/process_linker.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_attachment_1aedc871443c418e4b037c7dffd14e6a1d" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::ProcessAttachment::attached_at_ms</definition>
+        <argsstring></argsstring>
+        <name>attached_at_ms</name>
+        <qualifiedname>themis::process::ProcessAttachment::attached_at_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_linker.h" line="91" column="13" bodyfile="include/process/process_linker.h" bodystart="91" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_attachment_1a0d0ace95531c87d18f016ffea8ed0e1c" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::process::ProcessAttachment::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::process::ProcessAttachment::metadata</qualifiedname>
+        <briefdescription>
+<para>Additional link metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_linker.h" line="92" column="20" bodyfile="include/process/process_linker.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_process_attachment_1ad864cf71fe6d46407150286f91aa56c3" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::process::ProcessAttachment::toDocument</definition>
+        <argsstring>() const</argsstring>
+        <name>toDocument</name>
+        <qualifiedname>themis::process::ProcessAttachment::toDocument</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_linker.h" line="94" column="21" bodyfile="src/process/process_linker.cpp" bodystart="101" bodyend="115"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_process_attachment_1a85b3be99c556cedc41393bbc4a2b7941" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_process_attachment" kindref="compound">ProcessAttachment</ref></type>
+        <definition>ProcessAttachment themis::process::ProcessAttachment::fromDocument</definition>
+        <argsstring>(const nlohmann::json &amp;doc)</argsstring>
+        <name>fromDocument</name>
+        <qualifiedname>themis::process::ProcessAttachment::fromDocument</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <briefdescription>
+<para>From Document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(), <ref refid="namespacethemis_1_1process_1afe0c3356eb7230184b169a2d21cc3f94" kindref="member">processLinkTypeFromString()</ref>, json::object(), contains(), is_null(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_linker.h" line="95" column="30" bodyfile="src/process/process_linker.cpp" bodystart="123" bodyend="137"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Descriptor of a data object attached to a process instance. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Stored in RocksDB under the key prefix <computeroutput>proc:attach:</computeroutput> &lt;instance_id&gt;:&lt;object_id&gt;.</para>
+<para>The <computeroutput>metadata</computeroutput> field carries link-specific properties, e.g.: <programlisting filename=".json"><codeline><highlight class="normal">{<sp/>&quot;required&quot;:<sp/>true,<sp/>&quot;doc_type&quot;:<sp/>&quot;Bauzeichnung&quot;,<sp/>&quot;pages&quot;:<sp/>4<sp/>}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/process/process_linker.h" line="83" column="1" bodyfile="include/process/process_linker.h" bodystart="83" bodyend="96"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_process_attachment_1aedc871443c418e4b037c7dffd14e6a1d" prot="public" virt="non-virtual"><scope>themis::process::ProcessAttachment</scope><name>attached_at_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_process_attachment_1a87cae9e9fc6676071ee5213646cf3bf2" prot="public" virt="non-virtual"><scope>themis::process::ProcessAttachment</scope><name>attached_by</name></member>
+      <member refid="structthemis_1_1process_1_1_process_attachment_1a85b3be99c556cedc41393bbc4a2b7941" prot="public" virt="non-virtual"><scope>themis::process::ProcessAttachment</scope><name>fromDocument</name></member>
+      <member refid="structthemis_1_1process_1_1_process_attachment_1a1fe7bac79170e4c4621bddc004f4c3fc" prot="public" virt="non-virtual"><scope>themis::process::ProcessAttachment</scope><name>id</name></member>
+      <member refid="structthemis_1_1process_1_1_process_attachment_1a6faf8145637767b9cbf057280ebf4d52" prot="public" virt="non-virtual"><scope>themis::process::ProcessAttachment</scope><name>instance_id</name></member>
+      <member refid="structthemis_1_1process_1_1_process_attachment_1aea0b273e214c9204c4bf59bb9cc79cc6" prot="public" virt="non-virtual"><scope>themis::process::ProcessAttachment</scope><name>link_type</name></member>
+      <member refid="structthemis_1_1process_1_1_process_attachment_1a0d0ace95531c87d18f016ffea8ed0e1c" prot="public" virt="non-virtual"><scope>themis::process::ProcessAttachment</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1process_1_1_process_attachment_1a362a9a50255501f204c2634ad5f30cf4" prot="public" virt="non-virtual"><scope>themis::process::ProcessAttachment</scope><name>node_id</name></member>
+      <member refid="structthemis_1_1process_1_1_process_attachment_1a98fc8b8f773c2737569f0531a41738e9" prot="public" virt="non-virtual"><scope>themis::process::ProcessAttachment</scope><name>object_collection</name></member>
+      <member refid="structthemis_1_1process_1_1_process_attachment_1ad1bae836c617a541301735842886c812" prot="public" virt="non-virtual"><scope>themis::process::ProcessAttachment</scope><name>object_id</name></member>
+      <member refid="structthemis_1_1process_1_1_process_attachment_1ad864cf71fe6d46407150286f91aa56c3" prot="public" virt="non-virtual"><scope>themis::process::ProcessAttachment</scope><name>toDocument</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

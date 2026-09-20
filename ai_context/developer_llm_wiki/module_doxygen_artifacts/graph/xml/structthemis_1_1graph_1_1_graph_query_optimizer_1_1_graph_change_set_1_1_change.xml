@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_change_set_1_1_change" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::GraphQueryOptimizer::GraphChangeSet::Change</compoundname>
+    <includes refid="graph__query__optimizer_8h" local="no">graph_query_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_change_set_1_1_change_1a7ec2e80bb43aa1ca54acc5193174f0c0" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_change_set_1a670fc08961895a4e4c1524113ace865a" kindref="member">ChangeType</ref></type>
+        <definition>ChangeType themis::graph::GraphQueryOptimizer::GraphChangeSet::Change::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::GraphChangeSet::Change::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="288" column="24" bodyfile="include/graph/graph_query_optimizer.h" bodystart="288" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_change_set_1_1_change_1a16714637698cd34c4ad75773ca3a82cb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::GraphQueryOptimizer::GraphChangeSet::Change::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::GraphChangeSet::Change::id</qualifiedname>
+        <briefdescription>
+<para><ref refid="structthemis_1_1graph_1_1_edge" kindref="compound">Edge</ref> ID or vertex ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="289" column="25" bodyfile="include/graph/graph_query_optimizer.h" bodystart="289" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_change_set_1_1_change_1a3c8e055c8c4893c340a3f7ac4f11cccd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::GraphQueryOptimizer::GraphChangeSet::Change::from</definition>
+        <argsstring></argsstring>
+        <name>from</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::GraphChangeSet::Change::from</qualifiedname>
+        <briefdescription>
+<para>Source vertex (EDGE_ADDED / EDGE_REMOVED only). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="290" column="25" bodyfile="include/graph/graph_query_optimizer.h" bodystart="290" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_change_set_1_1_change_1a7027954bd7df43ca581c8e4392cc368e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::GraphQueryOptimizer::GraphChangeSet::Change::to</definition>
+        <argsstring></argsstring>
+        <name>to</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::GraphChangeSet::Change::to</qualifiedname>
+        <briefdescription>
+<para>Target vertex (EDGE_ADDED / EDGE_REMOVED only). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="291" column="25" bodyfile="include/graph/graph_query_optimizer.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_query_optimizer.h" line="287" column="9" bodyfile="include/graph/graph_query_optimizer.h" bodystart="287" bodyend="292"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_change_set_1_1_change_1a3c8e055c8c4893c340a3f7ac4f11cccd" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::GraphChangeSet::Change</scope><name>from</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_change_set_1_1_change_1a16714637698cd34c4ad75773ca3a82cb" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::GraphChangeSet::Change</scope><name>id</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_change_set_1_1_change_1a7027954bd7df43ca581c8e4392cc368e" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::GraphChangeSet::Change</scope><name>to</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_graph_change_set_1_1_change_1a7ec2e80bb43aa1ca54acc5193174f0c0" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::GraphChangeSet::Change</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_in_place_migration_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::InPlaceMigrationResult</compoundname>
+    <includes refid="in__place__schema__migrator_8h" local="no">in_place_schema_migrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_in_place_migration_result_1a00ca640c9e959e6d50e71cb3ec53e123" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::InPlaceMigrationResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::updates::InPlaceMigrationResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true if the migration was applied successfully </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/in_place_schema_migrator.h" line="29" column="10" bodyfile="include/updates/in_place_schema_migrator.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_in_place_migration_result_1a811825a3e778538ebc29f5616f0cad8a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::InPlaceMigrationResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::updates::InPlaceMigrationResult::error_message</qualifiedname>
+        <briefdescription>
+<para>Non-empty on failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/in_place_schema_migrator.h" line="30" column="17" bodyfile="include/updates/in_place_schema_migrator.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_in_place_migration_result_1a955564fcc3d267355bff8abdfa61217b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::updates::InPlaceMigrationResult::added_columns</definition>
+        <argsstring></argsstring>
+        <name>added_columns</name>
+        <qualifiedname>themis::updates::InPlaceMigrationResult::added_columns</qualifiedname>
+        <briefdescription>
+<para>Column names that were added. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/in_place_schema_migrator.h" line="31" column="17" bodyfile="include/updates/in_place_schema_migrator.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_in_place_migration_result_1abf72f867dd0a6112b629d78e713dba4d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::updates::InPlaceMigrationResult::schema_version</definition>
+        <argsstring></argsstring>
+        <name>schema_version</name>
+        <qualifiedname>themis::updates::InPlaceMigrationResult::schema_version</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>New schema version recorded in SchemaVersionManager. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/in_place_schema_migrator.h" line="32" column="14" bodyfile="include/updates/in_place_schema_migrator.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of an in-place schema migration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/updates/in_place_schema_migrator.h" line="28" column="1" bodyfile="include/updates/in_place_schema_migrator.h" bodystart="28" bodyend="33"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_in_place_migration_result_1a955564fcc3d267355bff8abdfa61217b" prot="public" virt="non-virtual"><scope>themis::updates::InPlaceMigrationResult</scope><name>added_columns</name></member>
+      <member refid="structthemis_1_1updates_1_1_in_place_migration_result_1a811825a3e778538ebc29f5616f0cad8a" prot="public" virt="non-virtual"><scope>themis::updates::InPlaceMigrationResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1updates_1_1_in_place_migration_result_1abf72f867dd0a6112b629d78e713dba4d" prot="public" virt="non-virtual"><scope>themis::updates::InPlaceMigrationResult</scope><name>schema_version</name></member>
+      <member refid="structthemis_1_1updates_1_1_in_place_migration_result_1a00ca640c9e959e6d50e71cb3ec53e123" prot="public" virt="non-virtual"><scope>themis::updates::InPlaceMigrationResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

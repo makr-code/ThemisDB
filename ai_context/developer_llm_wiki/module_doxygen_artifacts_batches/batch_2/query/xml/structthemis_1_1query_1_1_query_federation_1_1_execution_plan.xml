@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_query_federation_1_1_execution_plan" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::QueryFederation::ExecutionPlan</compoundname>
+    <includes refid="query__federation_8h" local="no">query_federation.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a8f881b11551a037d1b9e1b5340e35da6" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Strategy</name>
+        <qualifiedname>themis::query::QueryFederation::ExecutionPlan::Strategy</qualifiedname>
+        <enumvalue id="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a8f881b11551a037d1b9e1b5340e35da6a9bac194ce9ab1aff4edc121e77d0f28c" prot="public">
+          <name>SCATTER_GATHER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a8f881b11551a037d1b9e1b5340e35da6acdb986c441aea0feb2ba4297521982d9" prot="public">
+          <name>PARTITION_PRUNING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a8f881b11551a037d1b9e1b5340e35da6a54fafd6b4597a357bf581a0b70b3a4d4" prot="public">
+          <name>BROADCAST_JOIN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a8f881b11551a037d1b9e1b5340e35da6ad69a12752371d1d651bc5a79eccadb73" prot="public">
+          <name>SHUFFLE_JOIN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a8f881b11551a037d1b9e1b5340e35da6a91b1882ce945244ff50b5f1f3558c59b" prot="public">
+          <name>MAP_REDUCE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="53" column="9" bodyfile="include/query/query_federation.h" bodystart="53" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a77dc513f3824402ae9c4011b64729414" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a8f881b11551a037d1b9e1b5340e35da6" kindref="member">Strategy</ref></type>
+        <definition>Strategy themis::query::QueryFederation::ExecutionPlan::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::query::QueryFederation::ExecutionPlan::strategy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="61" column="18" bodyfile="include/query/query_federation.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a4eed6537f3c354d23ae0fe8e4fa44a90" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::query::QueryFederation::ExecutionPlan::target_shards</definition>
+        <argsstring></argsstring>
+        <name>target_shards</name>
+        <qualifiedname>themis::query::QueryFederation::ExecutionPlan::target_shards</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="62" column="21" bodyfile="include/query/query_federation.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a97052f44f9312a7285966655912fbeac" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::query::QueryFederation::ExecutionPlan::sub_queries</definition>
+        <argsstring></argsstring>
+        <name>sub_queries</name>
+        <qualifiedname>themis::query::QueryFederation::ExecutionPlan::sub_queries</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="63" column="21" bodyfile="include/query/query_federation.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a313472f3d01a7c1b6c8ae6865dbe9722" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::QueryFederation::ExecutionPlan::merge_operation</definition>
+        <argsstring></argsstring>
+        <name>merge_operation</name>
+        <qualifiedname>themis::query::QueryFederation::ExecutionPlan::merge_operation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="64" column="21" bodyfile="include/query/query_federation.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a4d203de03151ed69db04c27658f6bde8" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::QueryFederation::ExecutionPlan::estimated_cost</definition>
+        <argsstring></argsstring>
+        <name>estimated_cost</name>
+        <qualifiedname>themis::query::QueryFederation::ExecutionPlan::estimated_cost</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="65" column="18" bodyfile="include/query/query_federation.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_federation.h" line="52" column="5" bodyfile="include/query/query_federation.h" bodystart="52" bodyend="66"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a4d203de03151ed69db04c27658f6bde8" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation::ExecutionPlan</scope><name>estimated_cost</name></member>
+      <member refid="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a313472f3d01a7c1b6c8ae6865dbe9722" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation::ExecutionPlan</scope><name>merge_operation</name></member>
+      <member refid="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a8f881b11551a037d1b9e1b5340e35da6" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation::ExecutionPlan</scope><name>Strategy</name></member>
+      <member refid="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a77dc513f3824402ae9c4011b64729414" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation::ExecutionPlan</scope><name>strategy</name></member>
+      <member refid="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a97052f44f9312a7285966655912fbeac" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation::ExecutionPlan</scope><name>sub_queries</name></member>
+      <member refid="structthemis_1_1query_1_1_query_federation_1_1_execution_plan_1a4eed6537f3c354d23ae0fe8e4fa44a90" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation::ExecutionPlan</scope><name>target_shards</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

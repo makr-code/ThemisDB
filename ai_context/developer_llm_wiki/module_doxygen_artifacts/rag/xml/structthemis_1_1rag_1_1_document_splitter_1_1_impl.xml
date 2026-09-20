@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_document_splitter_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::DocumentSplitter::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_document_splitter_1_1_impl_1a1ece31d2b8219f6fb1fc5eb92f246b32" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1_document_splitter_config" kindref="compound">DocumentSplitterConfig</ref></type>
+        <definition>DocumentSplitterConfig themis::rag::DocumentSplitter::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::rag::DocumentSplitter::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/document_splitter.cpp" line="139" column="28" bodyfile="src/rag/document_splitter.cpp" bodystart="139" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1rag_1_1_document_splitter_1_1_impl_1a82f608762427eba81319814e04df47b5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1_document_chunk" kindref="compound">DocumentChunk</ref> &gt;</type>
+        <definition>std::vector&lt; DocumentChunk &gt; themis::rag::DocumentSplitter::Impl::splitFixed</definition>
+        <argsstring>(const std::string &amp;text, const std::string &amp;doc_id) const</argsstring>
+        <name>splitFixed</name>
+        <qualifiedname>themis::rag::DocumentSplitter::Impl::splitFixed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_id</declname>
+        </param>
+        <briefdescription>
+<para>--<mdash/> Fixed strategy --------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">doc_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the doc. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/document_splitter.cpp" line="147" column="17" bodyfile="src/rag/document_splitter.cpp" bodystart="173" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1_document_splitter_1_1_impl_1a7f8581e3a2e8dfbcc8a1ef0f4df5a522" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1_document_chunk" kindref="compound">DocumentChunk</ref> &gt;</type>
+        <definition>std::vector&lt; DocumentChunk &gt; themis::rag::DocumentSplitter::Impl::splitSliding</definition>
+        <argsstring>(const std::string &amp;text, const std::string &amp;doc_id) const</argsstring>
+        <name>splitSliding</name>
+        <qualifiedname>themis::rag::DocumentSplitter::Impl::splitSliding</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_id</declname>
+        </param>
+        <briefdescription>
+<para>--<mdash/> Sliding strategy ------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">doc_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the doc. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/document_splitter.cpp" line="156" column="17" bodyfile="src/rag/document_splitter.cpp" bodystart="229" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1_document_splitter_1_1_impl_1ab6eafa25c9abc46a660b836eeb4fe634" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1_document_chunk" kindref="compound">DocumentChunk</ref> &gt;</type>
+        <definition>std::vector&lt; DocumentChunk &gt; themis::rag::DocumentSplitter::Impl::splitSentence</definition>
+        <argsstring>(const std::string &amp;text, const std::string &amp;doc_id) const</argsstring>
+        <name>splitSentence</name>
+        <qualifiedname>themis::rag::DocumentSplitter::Impl::splitSentence</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_id</declname>
+        </param>
+        <briefdescription>
+<para>--<mdash/> Sentence strategy -----------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">doc_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the doc. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/document_splitter.cpp" line="165" column="17" bodyfile="src/rag/document_splitter.cpp" bodystart="277" bodyend="354"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::rag::DocumentSplitter::Impl</label>
+        <link refid="structthemis_1_1rag_1_1_document_splitter_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::rag::DocumentSplitterConfig</label>
+        <link refid="structthemis_1_1rag_1_1_document_splitter_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/rag/document_splitter.cpp" line="138" column="1" bodyfile="src/rag/document_splitter.cpp" bodystart="138" bodyend="167"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_document_splitter_1_1_impl_1a1ece31d2b8219f6fb1fc5eb92f246b32" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSplitter::Impl</scope><name>config</name></member>
+      <member refid="structthemis_1_1rag_1_1_document_splitter_1_1_impl_1a82f608762427eba81319814e04df47b5" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSplitter::Impl</scope><name>splitFixed</name></member>
+      <member refid="structthemis_1_1rag_1_1_document_splitter_1_1_impl_1ab6eafa25c9abc46a660b836eeb4fe634" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSplitter::Impl</scope><name>splitSentence</name></member>
+      <member refid="structthemis_1_1rag_1_1_document_splitter_1_1_impl_1a7f8581e3a2e8dfbcc8a1ef0f4df5a522" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSplitter::Impl</scope><name>splitSliding</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

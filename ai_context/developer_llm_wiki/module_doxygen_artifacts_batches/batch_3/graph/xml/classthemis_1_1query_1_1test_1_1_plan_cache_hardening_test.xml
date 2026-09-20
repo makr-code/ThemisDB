@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::test::PlanCacheHardeningTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test_1a2688d42986259eae76265ca3db2fe78e" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; PlanCache &gt;</type>
+        <definition>std::unique_ptr&lt;PlanCache&gt; themis::query::test::PlanCacheHardeningTest::cache_</definition>
+        <argsstring></argsstring>
+        <name>cache_</name>
+        <qualifiedname>themis::query::test::PlanCacheHardeningTest::cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_plan_cache_hardening.cpp" line="77" column="21" bodyfile="tests/graph/test_graph_plan_cache_hardening.cpp" bodystart="77" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test_1a53054cf611b0439e23b9ce91c1217dcf" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::test::PlanCacheHardeningTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::query::test::PlanCacheHardeningTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_plan_cache_hardening.cpp" line="67" column="10" bodyfile="tests/graph/test_graph_plan_cache_hardening.cpp" bodystart="67" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test_1ab4b6296d5432357f0630d194483ca4a7" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::test::PlanCacheHardeningTest::putSimple</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; std::string &gt; &amp;tables={})</argsstring>
+        <name>putSimple</name>
+        <qualifiedname>themis::query::test::PlanCacheHardeningTest::putSimple</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>tables</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Put a plan for <computeroutput>query</computeroutput> referencing <computeroutput>tables</computeroutput> with neutral stats. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_plan_cache_hardening.cpp" line="72" column="10" bodyfile="tests/graph/test_graph_plan_cache_hardening.cpp" bodystart="72" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::query::test::PlanCacheHardeningTest</label>
+        <link refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::query::test::PlanCacheHardeningTest</label>
+        <link refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/graph/test_graph_plan_cache_hardening.cpp" line="65" column="1" bodyfile="tests/graph/test_graph_plan_cache_hardening.cpp" bodystart="65" bodyend="78"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test_1a2688d42986259eae76265ca3db2fe78e" prot="protected" virt="non-virtual"><scope>themis::query::test::PlanCacheHardeningTest</scope><name>cache_</name></member>
+      <member refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test_1ab4b6296d5432357f0630d194483ca4a7" prot="protected" virt="non-virtual"><scope>themis::query::test::PlanCacheHardeningTest</scope><name>putSimple</name></member>
+      <member refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test_1a53054cf611b0439e23b9ce91c1217dcf" prot="protected" virt="non-virtual"><scope>themis::query::test::PlanCacheHardeningTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

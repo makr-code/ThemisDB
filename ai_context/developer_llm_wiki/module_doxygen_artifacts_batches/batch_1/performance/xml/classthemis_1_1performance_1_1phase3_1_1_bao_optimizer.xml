@@ -1,0 +1,235 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1phase3_1_1_bao_optimizer" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::phase3::BaoOptimizer</compoundname>
+    <includes refid="bao_8h" local="no">bao.h</includes>
+    <innerclass refid="structthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1_1_stats" prot="public">themis::performance::phase3::BaoOptimizer::Stats</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1_1_impl" prot="public">themis::performance::phase3::BaoOptimizer::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1a841d068b779c6a4f30ae3ba277fd7203" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::performance::phase3::BaoOptimizer::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::performance::phase3::BaoOptimizer::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/bao.h" line="84" column="21" bodyfile="include/performance/phase3/bao.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1a4e4cf90968d86dcdceb8cc852c036e22" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::pair&lt; double, double &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::pair&lt;double, double&gt; &gt; themis::performance::phase3::BaoOptimizer::arms_</definition>
+        <argsstring></argsstring>
+        <name>arms_</name>
+        <qualifiedname>themis::performance::phase3::BaoOptimizer::arms_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/bao.h" line="87" column="24" bodyfile="include/performance/phase3/bao.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1a455112c187f430f4051e35d4a1eb23ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase3::BaoOptimizer::BaoOptimizer</definition>
+        <argsstring>()</argsstring>
+        <name>BaoOptimizer</name>
+        <qualifiedname>themis::performance::phase3::BaoOptimizer::BaoOptimizer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/bao.h" line="48" column="5" bodyfile="src/performance/phase3/bao.cpp" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1aad2b4b0a52833a873c7b37bc04e7f22e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase3::BaoOptimizer::~BaoOptimizer</definition>
+        <argsstring>()</argsstring>
+        <name>~BaoOptimizer</name>
+        <qualifiedname>themis::performance::phase3::BaoOptimizer::~BaoOptimizer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/bao.h" line="49" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1aa4253b6d0125e4e0e62657839cb8fa54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1performance_1_1phase3_1_1_query_plan" kindref="compound">QueryPlan</ref> &gt;</type>
+        <definition>std::vector&lt; QueryPlan &gt; themis::performance::phase3::BaoOptimizer::generate_plans</definition>
+        <argsstring>(const std::string &amp;query)</argsstring>
+        <name>generate_plans</name>
+        <qualifiedname>themis::performance::phase3::BaoOptimizer::generate_plans</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Generate plans. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), std::to_string(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/bao.h" line="52" column="17" bodyfile="src/performance/phase3/bao.cpp" bodystart="69" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1aa3d997eafbcc201914d26101aa927041" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1performance_1_1phase3_1_1_query_plan" kindref="compound">QueryPlan</ref></type>
+        <definition>QueryPlan themis::performance::phase3::BaoOptimizer::select_plan</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; QueryPlan &gt; &amp;plans)</argsstring>
+        <name>select_plan</name>
+        <qualifiedname>themis::performance::phase3::BaoOptimizer::select_plan</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1performance_1_1phase3_1_1_query_plan" kindref="compound">QueryPlan</ref> &gt; &amp;</type>
+          <declname>plans</declname>
+        </param>
+        <briefdescription>
+<para>Select plan. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">plans</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), QueryPlan(), find(), end(), sample_beta(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/bao.h" line="55" column="15" bodyfile="src/performance/phase3/bao.cpp" bodystart="113" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1a1419d1bcb7ac7704988984d4dddc01f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase3::BaoOptimizer::update_model</definition>
+        <argsstring>(const QueryPlan &amp;plan, const QueryResult &amp;result)</argsstring>
+        <name>update_model</name>
+        <qualifiedname>themis::performance::phase3::BaoOptimizer::update_model</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1performance_1_1phase3_1_1_query_plan" kindref="compound">QueryPlan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1performance_1_1phase3_1_1_query_result" kindref="compound">QueryResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Update model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/bao.h" line="58" column="10" bodyfile="src/performance/phase3/bao.cpp" bodystart="151" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1a5b444f9c58c357e55aa8e4d3b506f539" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>BaoOptimizer::Stats themis::performance::phase3::BaoOptimizer::get_stats</definition>
+        <argsstring>() const</argsstring>
+        <name>get_stats</name>
+        <qualifiedname>themis::performance::phase3::BaoOptimizer::get_stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/bao.h" line="66" column="11" bodyfile="src/performance/phase3/bao.cpp" bodystart="182" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1a605bccbb14f5447dc99ab2220490933c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::performance::phase3::BaoOptimizer::getMissRate</definition>
+        <argsstring>() const</argsstring>
+        <name>getMissRate</name>
+        <qualifiedname>themis::performance::phase3::BaoOptimizer::getMissRate</qualifiedname>
+        <briefdescription>
+<para>Return the current plan-selection miss rate in [0.0, 1.0]. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Miss rate = fraction of queries where the selected plan was later flagged as sub-optimal by the <ref refid="classthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1a1419d1bcb7ac7704988984d4dddc01f9" kindref="member">update_model()</ref> feedback loop.</para>
+<para>Used by Loop 1 (HNSW/Query) in ContinuousLearningOrchestrator to decide whether to trigger retraining (threshold: &gt; 0.15).</para>
+<para><simplesect kind="return"><para>Miss rate in [0.0, 1.0]. Returns 0.0 when no queries have been optimized yet. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/bao.h" line="80" column="13" bodyfile="src/performance/phase3/bao.cpp" bodystart="192" bodyend="198"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Bao ML-based query optimizer. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/phase3/bao.h" line="46" column="1" bodyfile="include/performance/phase3/bao.h" bodystart="46" bodyend="88"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1a4e4cf90968d86dcdceb8cc852c036e22" prot="private" virt="non-virtual"><scope>themis::performance::phase3::BaoOptimizer</scope><name>arms_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1a455112c187f430f4051e35d4a1eb23ec" prot="public" virt="non-virtual"><scope>themis::performance::phase3::BaoOptimizer</scope><name>BaoOptimizer</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1aa4253b6d0125e4e0e62657839cb8fa54" prot="public" virt="non-virtual"><scope>themis::performance::phase3::BaoOptimizer</scope><name>generate_plans</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1a5b444f9c58c357e55aa8e4d3b506f539" prot="public" virt="non-virtual"><scope>themis::performance::phase3::BaoOptimizer</scope><name>get_stats</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1a605bccbb14f5447dc99ab2220490933c" prot="public" virt="non-virtual"><scope>themis::performance::phase3::BaoOptimizer</scope><name>getMissRate</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1a841d068b779c6a4f30ae3ba277fd7203" prot="private" virt="non-virtual"><scope>themis::performance::phase3::BaoOptimizer</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1aa3d997eafbcc201914d26101aa927041" prot="public" virt="non-virtual"><scope>themis::performance::phase3::BaoOptimizer</scope><name>select_plan</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1a1419d1bcb7ac7704988984d4dddc01f9" prot="public" virt="non-virtual"><scope>themis::performance::phase3::BaoOptimizer</scope><name>update_model</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_bao_optimizer_1aad2b4b0a52833a873c7b37bc04e7f22e" prot="public" virt="non-virtual"><scope>themis::performance::phase3::BaoOptimizer</scope><name>~BaoOptimizer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

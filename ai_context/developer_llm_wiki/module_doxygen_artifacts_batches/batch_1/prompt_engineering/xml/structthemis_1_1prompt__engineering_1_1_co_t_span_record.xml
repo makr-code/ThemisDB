@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_co_t_span_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::CoTSpanRecord</compoundname>
+    <includes refid="cot__tracer_8h" local="no">cot_tracer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_co_t_span_record_1ae4768509c71066b7f0933209370c3900" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1prompt__engineering_1ac6e6b01dd412c7044c3297dbeb3ead9a" kindref="member">StepId</ref></type>
+        <definition>StepId themis::prompt_engineering::CoTSpanRecord::step_index</definition>
+        <argsstring></argsstring>
+        <name>step_index</name>
+        <qualifiedname>themis::prompt_engineering::CoTSpanRecord::step_index</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/cot_tracer.h" line="43" column="17" bodyfile="include/prompt_engineering/cot_tracer.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_co_t_span_record_1ae32561c0fe87836c902e094883d6eccf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::CoTSpanRecord::label</definition>
+        <argsstring></argsstring>
+        <name>label</name>
+        <qualifiedname>themis::prompt_engineering::CoTSpanRecord::label</qualifiedname>
+        <briefdescription>
+<para>Auto-numbered or explicit label. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/cot_tracer.h" line="44" column="17" bodyfile="include/prompt_engineering/cot_tracer.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_co_t_span_record_1ab9a5bffacb77c85caa2ab295a272224f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::CoTSpanRecord::content</definition>
+        <argsstring></argsstring>
+        <name>content</name>
+        <qualifiedname>themis::prompt_engineering::CoTSpanRecord::content</qualifiedname>
+        <briefdescription>
+<para>Step content text. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/cot_tracer.h" line="45" column="17" bodyfile="include/prompt_engineering/cot_tracer.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_co_t_span_record_1a1d861e8188cbd56bf323f3ec6af0119b" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::prompt_engineering::CoTSpanRecord::token_count</definition>
+        <argsstring></argsstring>
+        <name>token_count</name>
+        <qualifiedname>themis::prompt_engineering::CoTSpanRecord::token_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Approximate BPE token count (chars/4). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/cot_tracer.h" line="46" column="17" bodyfile="include/prompt_engineering/cot_tracer.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_co_t_span_record_1a29d3735fda6ffaf1005382c1213e6f8c" prot="public" static="no" mutable="no">
+        <type>std::chrono::microseconds</type>
+        <definition>std::chrono::microseconds themis::prompt_engineering::CoTSpanRecord::duration</definition>
+        <argsstring></argsstring>
+        <name>duration</name>
+        <qualifiedname>themis::prompt_engineering::CoTSpanRecord::duration</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Wall-clock span duration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/cot_tracer.h" line="47" column="31" bodyfile="include/prompt_engineering/cot_tracer.h" bodystart="47" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_co_t_span_record_1a47007df10dd30306da82e3d01f27f63f" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::prompt_engineering::CoTSpanRecord::start_time</definition>
+        <argsstring></argsstring>
+        <name>start_time</name>
+        <qualifiedname>themis::prompt_engineering::CoTSpanRecord::start_time</qualifiedname>
+        <briefdescription>
+<para>Span start timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/cot_tracer.h" line="48" column="43" bodyfile="include/prompt_engineering/cot_tracer.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_co_t_span_record_1af268484ae7b14b6440aebd8bc09b5cb7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::prompt_engineering::CoTSpanRecord::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::prompt_engineering::CoTSpanRecord::toJson</qualifiedname>
+        <briefdescription>
+<para>Serialise to JSON for logging / timeseries storage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/cot_tracer.h" line="51" column="20" bodyfile="src/prompt_engineering/cot_tracer.cpp" bodystart="23" bodyend="34"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Immutable record of a single chain-of-thought step span. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Produced by <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_recording_co_t_tracer" kindref="compound">RecordingCoTTracer</ref></computeroutput> and <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_co_t_trace_collector_1af6192a193a1dfae756bbe651d6a79c8f" kindref="member">CoTTraceCollector::spans()</ref></computeroutput>. </para>
+    </detaileddescription>
+    <location file="include/prompt_engineering/cot_tracer.h" line="42" column="1" bodyfile="include/prompt_engineering/cot_tracer.h" bodystart="42" bodyend="52"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_co_t_span_record_1ab9a5bffacb77c85caa2ab295a272224f" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::CoTSpanRecord</scope><name>content</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_co_t_span_record_1a29d3735fda6ffaf1005382c1213e6f8c" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::CoTSpanRecord</scope><name>duration</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_co_t_span_record_1ae32561c0fe87836c902e094883d6eccf" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::CoTSpanRecord</scope><name>label</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_co_t_span_record_1a47007df10dd30306da82e3d01f27f63f" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::CoTSpanRecord</scope><name>start_time</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_co_t_span_record_1ae4768509c71066b7f0933209370c3900" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::CoTSpanRecord</scope><name>step_index</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_co_t_span_record_1af268484ae7b14b6440aebd8bc09b5cb7" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::CoTSpanRecord</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_co_t_span_record_1a1d861e8188cbd56bf323f3ec6af0119b" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::CoTSpanRecord</scope><name>token_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1sharding_1_1_0d344145322237305137053166316234116360317247123216" kind="namespace" language="C++">
+    <compoundname>themis::sharding::@344145322237305137053166316234116360317247123216</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/sharding/distributed_coordinator.cpp" line="22" column="1"/>
+  </compounddef>
+</doxygen>

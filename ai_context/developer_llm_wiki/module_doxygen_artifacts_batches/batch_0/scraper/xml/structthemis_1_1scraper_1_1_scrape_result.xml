@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1scraper_1_1_scrape_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::scraper::ScrapeResult</compoundname>
+    <includes refid="scraper__api__contract_8h" local="no">scraper_api_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scrape_result_1a7162b127d24e33e382389aa759489bcf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ScrapeResult::source_url</definition>
+        <argsstring></argsstring>
+        <name>source_url</name>
+        <qualifiedname>themis::scraper::ScrapeResult::source_url</qualifiedname>
+        <briefdescription>
+<para>URL that was scraped. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_contract.h" line="124" column="18" bodyfile="include/scraper/scraper_api_contract.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scrape_result_1a24b60ac180fefbbdb0e441e0ad1b23d1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::scraper::ScrapeResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::scraper::ScrapeResult::success</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Whether the overall scrape succeeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_contract.h" line="125" column="18" bodyfile="include/scraper/scraper_api_contract.h" bodystart="125" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scrape_result_1a1805d3b3fcab089700397cccbcb8a8e8" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0" kindref="member">ScraperError</ref></type>
+        <definition>ScraperError themis::scraper::ScrapeResult::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::scraper::ScrapeResult::error</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a8c632159fa131f09d04f94e3cbcd8782" kindref="member">ScraperError::kSuccess</ref>}</initializer>
+        <briefdescription>
+<para>Error code on failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_contract.h" line="126" column="18" bodyfile="include/scraper/scraper_api_contract.h" bodystart="126" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scrape_result_1acf91b0323148ee9def710706c89c7423" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::scraper::ScrapeResult::pages_scraped</definition>
+        <argsstring></argsstring>
+        <name>pages_scraped</name>
+        <qualifiedname>themis::scraper::ScrapeResult::pages_scraped</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of pages successfully processed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_contract.h" line="127" column="18" bodyfile="include/scraper/scraper_api_contract.h" bodystart="127" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scrape_result_1af44e1d5f689532443e4a892cec7a8411" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ScrapeResult::metadata_record_id</definition>
+        <argsstring></argsstring>
+        <name>metadata_record_id</name>
+        <qualifiedname>themis::scraper::ScrapeResult::metadata_record_id</qualifiedname>
+        <briefdescription>
+<para>Persisted metadata record ID (if written). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_contract.h" line="128" column="18" bodyfile="include/scraper/scraper_api_contract.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Lightweight result descriptor returned from a scrape operation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/scraper/scraper_api_contract.h" line="123" column="1" bodyfile="include/scraper/scraper_api_contract.h" bodystart="123" bodyend="129"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1scraper_1_1_scrape_result_1a1805d3b3fcab089700397cccbcb8a8e8" prot="public" virt="non-virtual"><scope>themis::scraper::ScrapeResult</scope><name>error</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scrape_result_1af44e1d5f689532443e4a892cec7a8411" prot="public" virt="non-virtual"><scope>themis::scraper::ScrapeResult</scope><name>metadata_record_id</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scrape_result_1acf91b0323148ee9def710706c89c7423" prot="public" virt="non-virtual"><scope>themis::scraper::ScrapeResult</scope><name>pages_scraped</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scrape_result_1a7162b127d24e33e382389aa759489bcf" prot="public" virt="non-virtual"><scope>themis::scraper::ScrapeResult</scope><name>source_url</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scrape_result_1a24b60ac180fefbbdb0e441e0ad1b23d1" prot="public" virt="non-virtual"><scope>themis::scraper::ScrapeResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

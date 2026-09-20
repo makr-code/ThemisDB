@@ -1,0 +1,181 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_i_passkey_authenticator" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::auth::IPasskeyAuthenticator</compoundname>
+    <derivedcompoundref refid="classthemis_1_1auth_1_1_passkey_authenticator" prot="public" virt="non-virtual">themis::auth::PasskeyAuthenticator</derivedcompoundref>
+    <includes refid="passkey__authenticator_8h" local="no">passkey_authenticator.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_i_passkey_authenticator_1ae8f6d6fc2bf2e6a61abf0938ffc0d228" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::auth::IPasskeyAuthenticator::~IPasskeyAuthenticator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IPasskeyAuthenticator</name>
+        <qualifiedname>themis::auth::IPasskeyAuthenticator::~IPasskeyAuthenticator</qualifiedname>
+        <briefdescription>
+<para>IPasskey Authenticator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/passkey_authenticator.h" line="88" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_i_passkey_authenticator_1a38cc358aca87d9480844bd8646897ddd" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_passkey_challenge" kindref="compound">PasskeyChallenge</ref></type>
+        <definition>virtual PasskeyChallenge themis::auth::IPasskeyAuthenticator::beginRegistration</definition>
+        <argsstring>(const std::string &amp;user_id)=0</argsstring>
+        <name>beginRegistration</name>
+        <qualifiedname>themis::auth::IPasskeyAuthenticator::beginRegistration</qualifiedname>
+        <reimplementedby refid="classthemis_1_1auth_1_1_passkey_authenticator_1a36a82838686c36b43cba39d394db3a31">beginRegistration</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/passkey_authenticator.h" line="94" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_i_passkey_authenticator_1a058b764a9d47e94c69c5e240d5f52669" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::auth::IPasskeyAuthenticator::completeRegistration</definition>
+        <argsstring>(const std::string &amp;challenge_id, const PasskeyCredential &amp;credential)=0</argsstring>
+        <name>completeRegistration</name>
+        <qualifiedname>themis::auth::IPasskeyAuthenticator::completeRegistration</qualifiedname>
+        <reimplementedby refid="classthemis_1_1auth_1_1_passkey_authenticator_1a4eb318d5c297a7abad716e74b30c3cff">completeRegistration</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>challenge_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_passkey_credential" kindref="compound">PasskeyCredential</ref> &amp;</type>
+          <declname>credential</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/passkey_authenticator.h" line="96" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_i_passkey_authenticator_1a3f27d5f47878d469a7f642322a221dc9" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_passkey_challenge" kindref="compound">PasskeyChallenge</ref></type>
+        <definition>virtual PasskeyChallenge themis::auth::IPasskeyAuthenticator::beginAuthentication</definition>
+        <argsstring>(const std::string &amp;user_id=&quot;&quot;)=0</argsstring>
+        <name>beginAuthentication</name>
+        <qualifiedname>themis::auth::IPasskeyAuthenticator::beginAuthentication</qualifiedname>
+        <reimplementedby refid="classthemis_1_1auth_1_1_passkey_authenticator_1a0883643839139d5316cdcca884d88611">beginAuthentication</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/passkey_authenticator.h" line="105" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_i_passkey_authenticator_1a2316523c7d34618e875094437f8fa95a" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1auth_1aa5b76caa18858c8db6ca8195847688d7" kindref="member">PasskeyVerifyResult</ref></type>
+        <definition>virtual PasskeyVerifyResult themis::auth::IPasskeyAuthenticator::completeAuthentication</definition>
+        <argsstring>(const std::string &amp;challenge_id, const PasskeyAssertionResponse &amp;response, std::string &amp;out_user_id)=0</argsstring>
+        <name>completeAuthentication</name>
+        <qualifiedname>themis::auth::IPasskeyAuthenticator::completeAuthentication</qualifiedname>
+        <reimplementedby refid="classthemis_1_1auth_1_1_passkey_authenticator_1a07519fed1e0eccb84e4587c8b6b6a710">completeAuthentication</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>challenge_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_passkey_assertion_response" kindref="compound">PasskeyAssertionResponse</ref> &amp;</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>out_user_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/passkey_authenticator.h" line="109" column="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_i_passkey_authenticator_1a82b81de4b5507e98cacaaa17e27d2e2f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1auth_1_1_passkey_credential" kindref="compound">PasskeyCredential</ref> &gt;</type>
+        <definition>virtual std::vector&lt; PasskeyCredential &gt; themis::auth::IPasskeyAuthenticator::listCredentials</definition>
+        <argsstring>(const std::string &amp;user_id) const =0</argsstring>
+        <name>listCredentials</name>
+        <qualifiedname>themis::auth::IPasskeyAuthenticator::listCredentials</qualifiedname>
+        <reimplementedby refid="classthemis_1_1auth_1_1_passkey_authenticator_1af843635342999f1036b83920d392e49a">listCredentials</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/passkey_authenticator.h" line="119" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_i_passkey_authenticator_1a98f2c9d8b202042e272e490761b985b5" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::auth::IPasskeyAuthenticator::revokeCredential</definition>
+        <argsstring>(const std::string &amp;credential_id)=0</argsstring>
+        <name>revokeCredential</name>
+        <qualifiedname>themis::auth::IPasskeyAuthenticator::revokeCredential</qualifiedname>
+        <reimplementedby refid="classthemis_1_1auth_1_1_passkey_authenticator_1a0513ea3295bebb2ec217bd6259086806">revokeCredential</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>credential_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/passkey_authenticator.h" line="123" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::auth::IPasskeyAuthenticator</label>
+        <link refid="classthemis_1_1auth_1_1_i_passkey_authenticator"/>
+      </node>
+      <node id="2">
+        <label>themis::auth::PasskeyAuthenticator</label>
+        <link refid="classthemis_1_1auth_1_1_passkey_authenticator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/auth/passkey_authenticator.h" line="82" column="1" bodyfile="include/auth/passkey_authenticator.h" bodystart="82" bodyend="124"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_i_passkey_authenticator_1a3f27d5f47878d469a7f642322a221dc9" prot="public" virt="pure-virtual"><scope>themis::auth::IPasskeyAuthenticator</scope><name>beginAuthentication</name></member>
+      <member refid="classthemis_1_1auth_1_1_i_passkey_authenticator_1a38cc358aca87d9480844bd8646897ddd" prot="public" virt="pure-virtual"><scope>themis::auth::IPasskeyAuthenticator</scope><name>beginRegistration</name></member>
+      <member refid="classthemis_1_1auth_1_1_i_passkey_authenticator_1a2316523c7d34618e875094437f8fa95a" prot="public" virt="pure-virtual"><scope>themis::auth::IPasskeyAuthenticator</scope><name>completeAuthentication</name></member>
+      <member refid="classthemis_1_1auth_1_1_i_passkey_authenticator_1a058b764a9d47e94c69c5e240d5f52669" prot="public" virt="pure-virtual"><scope>themis::auth::IPasskeyAuthenticator</scope><name>completeRegistration</name></member>
+      <member refid="classthemis_1_1auth_1_1_i_passkey_authenticator_1a82b81de4b5507e98cacaaa17e27d2e2f" prot="public" virt="pure-virtual"><scope>themis::auth::IPasskeyAuthenticator</scope><name>listCredentials</name></member>
+      <member refid="classthemis_1_1auth_1_1_i_passkey_authenticator_1a98f2c9d8b202042e272e490761b985b5" prot="public" virt="pure-virtual"><scope>themis::auth::IPasskeyAuthenticator</scope><name>revokeCredential</name></member>
+      <member refid="classthemis_1_1auth_1_1_i_passkey_authenticator_1ae8f6d6fc2bf2e6a61abf0938ffc0d228" prot="public" virt="virtual"><scope>themis::auth::IPasskeyAuthenticator</scope><name>~IPasskeyAuthenticator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

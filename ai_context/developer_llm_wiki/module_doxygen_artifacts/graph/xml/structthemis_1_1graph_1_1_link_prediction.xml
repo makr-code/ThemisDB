@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_link_prediction" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::LinkPrediction</compoundname>
+    <includes refid="rotate__completion_8h" local="no">rotate_completion.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_link_prediction_1a8202cdae3faeb523c1164aefd1c3b349" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::LinkPrediction::entity</definition>
+        <argsstring></argsstring>
+        <name>entity</name>
+        <qualifiedname>themis::graph::LinkPrediction::entity</qualifiedname>
+        <briefdescription>
+<para>Predicted entity (head or tail). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/rotate_completion.h" line="35" column="17" bodyfile="include/graph/rotate_completion.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_link_prediction_1a01a3acddd2035cdc6cafd7abecc47885" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::LinkPrediction::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themis::graph::LinkPrediction::score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Distance score (lower = more plausible). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/rotate_completion.h" line="36" column="17" bodyfile="include/graph/rotate_completion.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_link_prediction_1ae1249f0d410a434a31204740d790ec44" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::LinkPrediction::rank</definition>
+        <argsstring></argsstring>
+        <name>rank</name>
+        <qualifiedname>themis::graph::LinkPrediction::rank</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Predicted rank among all entities (1-based). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/rotate_completion.h" line="37" column="17" bodyfile="include/graph/rotate_completion.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/rotate_completion.h" line="34" column="1" bodyfile="include/graph/rotate_completion.h" bodystart="34" bodyend="38"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_link_prediction_1a8202cdae3faeb523c1164aefd1c3b349" prot="public" virt="non-virtual"><scope>themis::graph::LinkPrediction</scope><name>entity</name></member>
+      <member refid="structthemis_1_1graph_1_1_link_prediction_1ae1249f0d410a434a31204740d790ec44" prot="public" virt="non-virtual"><scope>themis::graph::LinkPrediction</scope><name>rank</name></member>
+      <member refid="structthemis_1_1graph_1_1_link_prediction_1a01a3acddd2035cdc6cafd7abecc47885" prot="public" virt="non-virtual"><scope>themis::graph::LinkPrediction</scope><name>score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

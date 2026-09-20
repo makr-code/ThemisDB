@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_secondary_index_metadata_cache_1_1_cache_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::SecondaryIndexMetadataCache::CacheStats</compoundname>
+    <includes refid="secondary__index__metadata__cache_8h" local="no">secondary_index_metadata_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_secondary_index_metadata_cache_1_1_cache_stats_1a66fe0a9876a3d0b5aadc0d1531c44f0b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::SecondaryIndexMetadataCache::CacheStats::total_lookups</definition>
+        <argsstring></argsstring>
+        <name>total_lookups</name>
+        <qualifiedname>themis::SecondaryIndexMetadataCache::CacheStats::total_lookups</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index_metadata_cache.h" line="79" column="16" bodyfile="include/index/secondary_index_metadata_cache.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_secondary_index_metadata_cache_1_1_cache_stats_1a5c2c22288030a748626d4892d626ee80" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::SecondaryIndexMetadataCache::CacheStats::cache_hits</definition>
+        <argsstring></argsstring>
+        <name>cache_hits</name>
+        <qualifiedname>themis::SecondaryIndexMetadataCache::CacheStats::cache_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index_metadata_cache.h" line="80" column="16" bodyfile="include/index/secondary_index_metadata_cache.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_secondary_index_metadata_cache_1_1_cache_stats_1af998550fa9df6ef5f37bc5ae09248e19" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::SecondaryIndexMetadataCache::CacheStats::cache_misses</definition>
+        <argsstring></argsstring>
+        <name>cache_misses</name>
+        <qualifiedname>themis::SecondaryIndexMetadataCache::CacheStats::cache_misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index_metadata_cache.h" line="81" column="16" bodyfile="include/index/secondary_index_metadata_cache.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_secondary_index_metadata_cache_1_1_cache_stats_1a0219aee9a6e78bc01b9e0370a57eadb7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::SecondaryIndexMetadataCache::CacheStats::hit_rate</definition>
+        <argsstring>() const</argsstring>
+        <name>hit_rate</name>
+        <qualifiedname>themis::SecondaryIndexMetadataCache::CacheStats::hit_rate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index_metadata_cache.h" line="82" column="16" bodyfile="include/index/secondary_index_metadata_cache.h" bodystart="82" bodyend="84"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Cache Statistiken. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/secondary_index_metadata_cache.h" line="78" column="5" bodyfile="include/index/secondary_index_metadata_cache.h" bodystart="78" bodyend="85"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cache_stats_1a5c2c22288030a748626d4892d626ee80" prot="public" virt="non-virtual"><scope>themis::SecondaryIndexMetadataCache::CacheStats</scope><name>cache_hits</name></member>
+      <member refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cache_stats_1af998550fa9df6ef5f37bc5ae09248e19" prot="public" virt="non-virtual"><scope>themis::SecondaryIndexMetadataCache::CacheStats</scope><name>cache_misses</name></member>
+      <member refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cache_stats_1a0219aee9a6e78bc01b9e0370a57eadb7" prot="public" virt="non-virtual"><scope>themis::SecondaryIndexMetadataCache::CacheStats</scope><name>hit_rate</name></member>
+      <member refid="structthemis_1_1_secondary_index_metadata_cache_1_1_cache_stats_1a66fe0a9876a3d0b5aadc0d1531c44f0b" prot="public" virt="non-virtual"><scope>themis::SecondaryIndexMetadataCache::CacheStats</scope><name>total_lookups</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

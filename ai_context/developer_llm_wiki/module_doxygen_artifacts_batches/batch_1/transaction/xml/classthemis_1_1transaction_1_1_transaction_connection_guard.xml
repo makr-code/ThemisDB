@@ -1,0 +1,424 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1transaction_1_1_transaction_connection_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::transaction::TransactionConnectionGuard</compoundname>
+    <includes refid="connection__resource__guard_8h" local="no">connection_resource_guard.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_transaction_connection_guard_1a179c14061e61ce54ce8914a8fba7b9e6" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::transaction::TransactionConnectionGuard::txn_id_</definition>
+        <argsstring></argsstring>
+        <name>txn_id_</name>
+        <qualifiedname>themis::transaction::TransactionConnectionGuard::txn_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/connection_resource_guard.h" line="203" column="14" bodyfile="include/transaction/connection_resource_guard.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_transaction_connection_guard_1aeff592057fc90f37c6e8c8381874fb3c" prot="private" static="no" mutable="no">
+        <type>storage::DatabaseConnectionManager *</type>
+        <definition>storage::DatabaseConnectionManager* themis::transaction::TransactionConnectionGuard::manager_</definition>
+        <argsstring></argsstring>
+        <name>manager_</name>
+        <qualifiedname>themis::transaction::TransactionConnectionGuard::manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/connection_resource_guard.h" line="204" column="40" bodyfile="include/transaction/connection_resource_guard.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_transaction_connection_guard_1a2e510ed91126454c813cb5bc42050937" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; storage::DatabaseConnectionManager::Connection &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;storage::DatabaseConnectionManager::Connection&gt; &gt; themis::transaction::TransactionConnectionGuard::connections_</definition>
+        <argsstring></argsstring>
+        <name>connections_</name>
+        <qualifiedname>themis::transaction::TransactionConnectionGuard::connections_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/connection_resource_guard.h" line="205" column="17" bodyfile="include/transaction/connection_resource_guard.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_transaction_connection_guard_1a87d5e04b4bede4c34980e0a11e62adf5" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classthemis_1_1transaction_1_1_connection_scope_tracker" kindref="compound">ConnectionScopeTracker</ref> &gt;</type>
+        <definition>std::vector&lt;ConnectionScopeTracker&gt; themis::transaction::TransactionConnectionGuard::trackers_</definition>
+        <argsstring></argsstring>
+        <name>trackers_</name>
+        <qualifiedname>themis::transaction::TransactionConnectionGuard::trackers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/connection_resource_guard.h" line="206" column="17" bodyfile="include/transaction/connection_resource_guard.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_transaction_connection_guard_1ad4a4803acaa542187778a1baf6a9aec1" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::transaction::TransactionConnectionGuard::success_count_</definition>
+        <argsstring></argsstring>
+        <name>success_count_</name>
+        <qualifiedname>themis::transaction::TransactionConnectionGuard::success_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/connection_resource_guard.h" line="207" column="12" bodyfile="include/transaction/connection_resource_guard.h" bodystart="207" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_transaction_connection_guard_1a25475273d032b99a0fcf59af103f8714" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::transaction::TransactionConnectionGuard::failure_count_</definition>
+        <argsstring></argsstring>
+        <name>failure_count_</name>
+        <qualifiedname>themis::transaction::TransactionConnectionGuard::failure_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/connection_resource_guard.h" line="208" column="12" bodyfile="include/transaction/connection_resource_guard.h" bodystart="208" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_transaction_connection_guard_1a7729122241b701899f7b76b814d025e2" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::transaction::TransactionConnectionGuard::total_connection_time_ms_</definition>
+        <argsstring></argsstring>
+        <name>total_connection_time_ms_</name>
+        <qualifiedname>themis::transaction::TransactionConnectionGuard::total_connection_time_ms_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/connection_resource_guard.h" line="209" column="14" bodyfile="include/transaction/connection_resource_guard.h" bodystart="209" bodyend="209"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_transaction_connection_guard_1a292386242243ec17061228ea6667beb1" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::TransactionConnectionGuard::TransactionConnectionGuard</definition>
+        <argsstring>(uint64_t txn_id, storage::DatabaseConnectionManager &amp;manager)</argsstring>
+        <name>TransactionConnectionGuard</name>
+        <qualifiedname>themis::transaction::TransactionConnectionGuard::TransactionConnectionGuard</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>storage::DatabaseConnectionManager &amp;</type>
+          <declname>manager</declname>
+        </param>
+        <briefdescription>
+<para>Transaction Connection Guard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/connection_resource_guard.h" line="133" column="14" bodyfile="src/transaction/connection_resource_guard.cpp" bodystart="172" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_transaction_connection_guard_1a3413bbc2e45fdf8c23d9c934aa80c016" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::TransactionConnectionGuard::~TransactionConnectionGuard</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~TransactionConnectionGuard</name>
+        <qualifiedname>themis::transaction::TransactionConnectionGuard::~TransactionConnectionGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/connection_resource_guard.h" line="138" column="5" bodyfile="src/transaction/connection_resource_guard.cpp" bodystart="185" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_transaction_connection_guard_1a97b258dd68ec36cd37c911d7ff3c01a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::TransactionConnectionGuard::TransactionConnectionGuard</definition>
+        <argsstring>(const TransactionConnectionGuard &amp;)=delete</argsstring>
+        <name>TransactionConnectionGuard</name>
+        <qualifiedname>themis::transaction::TransactionConnectionGuard::TransactionConnectionGuard</qualifiedname>
+        <param>
+          <type>const TransactionConnectionGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/connection_resource_guard.h" line="141" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_transaction_connection_guard_1a10fac0e22b00589405f5e7b3735a9952" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1transaction_1_1_transaction_connection_guard_1a292386242243ec17061228ea6667beb1" kindref="member">TransactionConnectionGuard</ref> &amp;</type>
+        <definition>TransactionConnectionGuard &amp; themis::transaction::TransactionConnectionGuard::operator=</definition>
+        <argsstring>(const TransactionConnectionGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::transaction::TransactionConnectionGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1transaction_1_1_transaction_connection_guard_1a292386242243ec17061228ea6667beb1" kindref="member">TransactionConnectionGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/connection_resource_guard.h" line="142" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_transaction_connection_guard_1af8f161b37fe2f70f13a786468e43f408" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; storage::DatabaseConnectionManager::Connection &gt;</type>
+        <definition>std::shared_ptr&lt; storage::DatabaseConnectionManager::Connection &gt; themis::transaction::TransactionConnectionGuard::acquireConnection</definition>
+        <argsstring>(std::string_view operation_name, bool is_write=false) noexcept</argsstring>
+        <name>acquireConnection</name>
+        <qualifiedname>themis::transaction::TransactionConnectionGuard::acquireConnection</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>operation_name</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>is_write</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/connection_resource_guard.h" line="145" column="5" bodyfile="src/transaction/connection_resource_guard.cpp" bodystart="197" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_transaction_connection_guard_1a4d7006a5b1791695f74c1f302bd03632" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::TransactionConnectionGuard::recordSuccess</definition>
+        <argsstring>(std::string_view operation_name) noexcept</argsstring>
+        <name>recordSuccess</name>
+        <qualifiedname>themis::transaction::TransactionConnectionGuard::recordSuccess</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>operation_name</declname>
+        </param>
+        <briefdescription>
+<para>Record Success. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">operation_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the operation. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/connection_resource_guard.h" line="155" column="10" bodyfile="src/transaction/connection_resource_guard.cpp" bodystart="223" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_transaction_connection_guard_1a7eed3e5cd337c934410cab26de7fdf3a" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::TransactionConnectionGuard::recordFailure</definition>
+        <argsstring>(std::string_view operation_name, std::string_view error_msg) noexcept</argsstring>
+        <name>recordFailure</name>
+        <qualifiedname>themis::transaction::TransactionConnectionGuard::recordFailure</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>operation_name</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>error_msg</declname>
+        </param>
+        <briefdescription>
+<para>Record Failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">operation_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the operation. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error_msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/connection_resource_guard.h" line="163" column="10" bodyfile="src/transaction/connection_resource_guard.cpp" bodystart="237" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_transaction_connection_guard_1acec4f90c7783e3e430e4727ea80bb151" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::transaction::TransactionConnectionGuard::getConnectionTimeMs</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getConnectionTimeMs</name>
+        <qualifiedname>themis::transaction::TransactionConnectionGuard::getConnectionTimeMs</qualifiedname>
+        <briefdescription>
+<para>Get Connection Time Ms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/connection_resource_guard.h" line="173" column="14" bodyfile="src/transaction/connection_resource_guard.cpp" bodystart="252" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_transaction_connection_guard_1accd1d393497f4aa992bac406e3f40591" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::transaction::TransactionConnectionGuard::getConnectionCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getConnectionCount</name>
+        <qualifiedname>themis::transaction::TransactionConnectionGuard::getConnectionCount</qualifiedname>
+        <briefdescription>
+<para>Get Connection Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/connection_resource_guard.h" line="180" column="12" bodyfile="src/transaction/connection_resource_guard.cpp" bodystart="256" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_transaction_connection_guard_1a604ef2abab2da0993148ab7a2adc6ccc" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::transaction::TransactionConnectionGuard::getSuccessCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getSuccessCount</name>
+        <qualifiedname>themis::transaction::TransactionConnectionGuard::getSuccessCount</qualifiedname>
+        <briefdescription>
+<para>Get Success Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/connection_resource_guard.h" line="187" column="12" bodyfile="src/transaction/connection_resource_guard.cpp" bodystart="260" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_transaction_connection_guard_1ae74549a5a16c34e8ea559e96ff550776" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::transaction::TransactionConnectionGuard::getFailureCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getFailureCount</name>
+        <qualifiedname>themis::transaction::TransactionConnectionGuard::getFailureCount</qualifiedname>
+        <briefdescription>
+<para>Get Failure Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/connection_resource_guard.h" line="194" column="12" bodyfile="src/transaction/connection_resource_guard.cpp" bodystart="264" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_transaction_connection_guard_1a151957631d5ee750ada8bb89cdbae59e" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::TransactionConnectionGuard::releaseAllConnections</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>releaseAllConnections</name>
+        <qualifiedname>themis::transaction::TransactionConnectionGuard::releaseAllConnections</qualifiedname>
+        <briefdescription>
+<para>Release All Connections. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/connection_resource_guard.h" line="200" column="10" bodyfile="src/transaction/connection_resource_guard.cpp" bodystart="268" bodyend="287"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/connection_resource_guard.h" line="125" column="1" bodyfile="include/transaction/connection_resource_guard.h" bodystart="125" bodyend="210"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1transaction_1_1_transaction_connection_guard_1af8f161b37fe2f70f13a786468e43f408" prot="public" virt="non-virtual"><scope>themis::transaction::TransactionConnectionGuard</scope><name>acquireConnection</name></member>
+      <member refid="classthemis_1_1transaction_1_1_transaction_connection_guard_1a2e510ed91126454c813cb5bc42050937" prot="private" virt="non-virtual"><scope>themis::transaction::TransactionConnectionGuard</scope><name>connections_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_transaction_connection_guard_1a25475273d032b99a0fcf59af103f8714" prot="private" virt="non-virtual"><scope>themis::transaction::TransactionConnectionGuard</scope><name>failure_count_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_transaction_connection_guard_1accd1d393497f4aa992bac406e3f40591" prot="public" virt="non-virtual"><scope>themis::transaction::TransactionConnectionGuard</scope><name>getConnectionCount</name></member>
+      <member refid="classthemis_1_1transaction_1_1_transaction_connection_guard_1acec4f90c7783e3e430e4727ea80bb151" prot="public" virt="non-virtual"><scope>themis::transaction::TransactionConnectionGuard</scope><name>getConnectionTimeMs</name></member>
+      <member refid="classthemis_1_1transaction_1_1_transaction_connection_guard_1ae74549a5a16c34e8ea559e96ff550776" prot="public" virt="non-virtual"><scope>themis::transaction::TransactionConnectionGuard</scope><name>getFailureCount</name></member>
+      <member refid="classthemis_1_1transaction_1_1_transaction_connection_guard_1a604ef2abab2da0993148ab7a2adc6ccc" prot="public" virt="non-virtual"><scope>themis::transaction::TransactionConnectionGuard</scope><name>getSuccessCount</name></member>
+      <member refid="classthemis_1_1transaction_1_1_transaction_connection_guard_1aeff592057fc90f37c6e8c8381874fb3c" prot="private" virt="non-virtual"><scope>themis::transaction::TransactionConnectionGuard</scope><name>manager_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_transaction_connection_guard_1a10fac0e22b00589405f5e7b3735a9952" prot="public" virt="non-virtual"><scope>themis::transaction::TransactionConnectionGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1transaction_1_1_transaction_connection_guard_1a7eed3e5cd337c934410cab26de7fdf3a" prot="public" virt="non-virtual"><scope>themis::transaction::TransactionConnectionGuard</scope><name>recordFailure</name></member>
+      <member refid="classthemis_1_1transaction_1_1_transaction_connection_guard_1a4d7006a5b1791695f74c1f302bd03632" prot="public" virt="non-virtual"><scope>themis::transaction::TransactionConnectionGuard</scope><name>recordSuccess</name></member>
+      <member refid="classthemis_1_1transaction_1_1_transaction_connection_guard_1a151957631d5ee750ada8bb89cdbae59e" prot="public" virt="non-virtual"><scope>themis::transaction::TransactionConnectionGuard</scope><name>releaseAllConnections</name></member>
+      <member refid="classthemis_1_1transaction_1_1_transaction_connection_guard_1ad4a4803acaa542187778a1baf6a9aec1" prot="private" virt="non-virtual"><scope>themis::transaction::TransactionConnectionGuard</scope><name>success_count_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_transaction_connection_guard_1a7729122241b701899f7b76b814d025e2" prot="private" virt="non-virtual"><scope>themis::transaction::TransactionConnectionGuard</scope><name>total_connection_time_ms_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_transaction_connection_guard_1a87d5e04b4bede4c34980e0a11e62adf5" prot="private" virt="non-virtual"><scope>themis::transaction::TransactionConnectionGuard</scope><name>trackers_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_transaction_connection_guard_1a292386242243ec17061228ea6667beb1" prot="public" virt="non-virtual"><scope>themis::transaction::TransactionConnectionGuard</scope><name>TransactionConnectionGuard</name></member>
+      <member refid="classthemis_1_1transaction_1_1_transaction_connection_guard_1a97b258dd68ec36cd37c911d7ff3c01a9" prot="public" virt="non-virtual"><scope>themis::transaction::TransactionConnectionGuard</scope><name>TransactionConnectionGuard</name></member>
+      <member refid="classthemis_1_1transaction_1_1_transaction_connection_guard_1a179c14061e61ce54ce8914a8fba7b9e6" prot="private" virt="non-virtual"><scope>themis::transaction::TransactionConnectionGuard</scope><name>txn_id_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_transaction_connection_guard_1a3413bbc2e45fdf8c23d9c934aa80c016" prot="public" virt="non-virtual"><scope>themis::transaction::TransactionConnectionGuard</scope><name>~TransactionConnectionGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

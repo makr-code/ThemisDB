@@ -1,0 +1,251 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1test_1_1_coordinator2_p_c" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::test::Coordinator2PC</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1test_1_1_coordinator2_p_c_1aa959dd176f33e3fc0ef5f3cc86db8708" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_sim_w_a_l" kindref="compound">SimWAL</ref> *</type>
+        <definition>SimWAL* themisdb::sharding::test::Coordinator2PC::wal_</definition>
+        <argsstring></argsstring>
+        <name>wal_</name>
+        <qualifiedname>themisdb::sharding::test::Coordinator2PC::wal_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="438" column="33" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="438" bodyend="438"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1test_1_1_coordinator2_p_c_1affd68cd3cffb7f59a6b4d74cf363745e" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::test::Coordinator2PC::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themisdb::sharding::test::Coordinator2PC::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="439" column="34" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="439" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1test_1_1_coordinator2_p_c_1a687d46655fa18e52caf5a70ea98d4f01" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classthemisdb_1_1sharding_1_1test_1_1_sim_participant" kindref="compound">SimParticipant</ref> * &gt;</type>
+        <definition>std::vector&lt;SimParticipant*&gt; themisdb::sharding::test::Coordinator2PC::participants_</definition>
+        <argsstring></argsstring>
+        <name>participants_</name>
+        <qualifiedname>themisdb::sharding::test::Coordinator2PC::participants_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="440" column="17" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="440" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1test_1_1_coordinator2_p_c_1a821fba42e6985284a1fc872d8aab84ce" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1sharding_1_1test_1aad80460880a0aa7790de8af770d30b42" kindref="member">Coord2PCState</ref></type>
+        <definition>Coord2PCState themisdb::sharding::test::Coordinator2PC::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>themisdb::sharding::test::Coordinator2PC::state_</qualifiedname>
+        <initializer>{<ref refid="namespacethemisdb_1_1sharding_1_1test_1aad80460880a0aa7790de8af770d30b42afaee4ca3c30ee18148ce3ada37466498" kindref="member">Coord2PCState::INIT</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="441" column="34" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="441" bodyend="441"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_coordinator2_p_c_1a1dbe0abd93510a7b105ea8a63d1db96b" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::Coordinator2PC::Coordinator2PC</definition>
+        <argsstring>(SimWAL *wal)</argsstring>
+        <name>Coordinator2PC</name>
+        <qualifiedname>themisdb::sharding::test::Coordinator2PC::Coordinator2PC</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_sim_w_a_l" kindref="compound">SimWAL</ref> *</type>
+          <declname>wal</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="328" column="14" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="328" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_coordinator2_p_c_1a79f1d0691fd2b06e5c95e784574e5d28" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::test::Coordinator2PC::addParticipant</definition>
+        <argsstring>(SimParticipant *p)</argsstring>
+        <name>addParticipant</name>
+        <qualifiedname>themisdb::sharding::test::Coordinator2PC::addParticipant</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_sim_participant" kindref="compound">SimParticipant</ref> *</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="330" column="10" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="330" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_coordinator2_p_c_1a830ea86d1fedbadf5c64ef903cb997a9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemisdb_1_1sharding_1_1test_1aad80460880a0aa7790de8af770d30b42" kindref="member">Coord2PCState</ref></type>
+        <definition>Coord2PCState themisdb::sharding::test::Coordinator2PC::state</definition>
+        <argsstring>() const</argsstring>
+        <name>state</name>
+        <qualifiedname>themisdb::sharding::test::Coordinator2PC::state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="335" column="19" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="335" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_coordinator2_p_c_1a1135e85f0251791b77e4387d5e25476d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::test::Coordinator2PC::execute</definition>
+        <argsstring>(const std::string &amp;txn_id, std::chrono::milliseconds timeout=500ms)</argsstring>
+        <name>execute</name>
+        <qualifiedname>themisdb::sharding::test::Coordinator2PC::execute</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+          <defval>500ms</defval>
+        </param>
+        <briefdescription>
+<para>Execute full 2PC returning true on COMMIT. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="341" column="10" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="341" bodyend="379"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_coordinator2_p_c_1aea2ecfc5036d9ca016352244a64ae260" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::test::Coordinator2PC::executeUntilCrashAfterPrepare</definition>
+        <argsstring>(const std::string &amp;txn_id)</argsstring>
+        <name>executeUntilCrashAfterPrepare</name>
+        <qualifiedname>themisdb::sharding::test::Coordinator2PC::executeUntilCrashAfterPrepare</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Simulate coordinator crash after Phase-1 (PREPARE logged, no decision). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if all participants voted yes (in-doubt scenario). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="385" column="10" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="385" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_coordinator2_p_c_1ab2785efac03639efa8b1a4b1bd1c4a81" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::test::Coordinator2PC::recoverAndCommit</definition>
+        <argsstring>(const std::string &amp;txn_id)</argsstring>
+        <name>recoverAndCommit</name>
+        <qualifiedname>themisdb::sharding::test::Coordinator2PC::recoverAndCommit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>WAL-driven recovery: re-drive in-doubt transaction to COMMIT. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if the transaction was successfully committed. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="401" column="10" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="401" bodyend="417"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_coordinator2_p_c_1a49d2bcd400b127ebc1cec0196c9ddeaf" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>static size_t themisdb::sharding::test::Coordinator2PC::inDoubtCount</definition>
+        <argsstring>(const SimWAL &amp;wal, const std::vector&lt; std::string &gt; &amp;txn_ids)</argsstring>
+        <name>inDoubtCount</name>
+        <qualifiedname>themisdb::sharding::test::Coordinator2PC::inDoubtCount</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1sharding_1_1test_1_1_sim_w_a_l" kindref="compound">SimWAL</ref> &amp;</type>
+          <declname>wal</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>txn_ids</declname>
+        </param>
+        <briefdescription>
+<para>Count transactions that have PREPARE but no COMMIT/ABORT. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="420" column="19" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="420" bodyend="430"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_coordinator2_p_c_1ad8af2edfea698b5ce78c567f1dc9693b" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::test::Coordinator2PC::setState</definition>
+        <argsstring>(Coord2PCState s)</argsstring>
+        <name>setState</name>
+        <qualifiedname>themisdb::sharding::test::Coordinator2PC::setState</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1_1test_1aad80460880a0aa7790de8af770d30b42" kindref="member">Coord2PCState</ref></type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="433" column="10" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="433" bodyend="436"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>In-process 2PC coordinator with WAL and crash/recovery simulation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="326" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="326" bodyend="442"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_coordinator2_p_c_1a79f1d0691fd2b06e5c95e784574e5d28" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::Coordinator2PC</scope><name>addParticipant</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_coordinator2_p_c_1a1dbe0abd93510a7b105ea8a63d1db96b" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::Coordinator2PC</scope><name>Coordinator2PC</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_coordinator2_p_c_1a1135e85f0251791b77e4387d5e25476d" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::Coordinator2PC</scope><name>execute</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_coordinator2_p_c_1aea2ecfc5036d9ca016352244a64ae260" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::Coordinator2PC</scope><name>executeUntilCrashAfterPrepare</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_coordinator2_p_c_1a49d2bcd400b127ebc1cec0196c9ddeaf" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::Coordinator2PC</scope><name>inDoubtCount</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_coordinator2_p_c_1affd68cd3cffb7f59a6b4d74cf363745e" prot="private" virt="non-virtual"><scope>themisdb::sharding::test::Coordinator2PC</scope><name>mu_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_coordinator2_p_c_1a687d46655fa18e52caf5a70ea98d4f01" prot="private" virt="non-virtual"><scope>themisdb::sharding::test::Coordinator2PC</scope><name>participants_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_coordinator2_p_c_1ab2785efac03639efa8b1a4b1bd1c4a81" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::Coordinator2PC</scope><name>recoverAndCommit</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_coordinator2_p_c_1ad8af2edfea698b5ce78c567f1dc9693b" prot="private" virt="non-virtual"><scope>themisdb::sharding::test::Coordinator2PC</scope><name>setState</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_coordinator2_p_c_1a830ea86d1fedbadf5c64ef903cb997a9" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::Coordinator2PC</scope><name>state</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_coordinator2_p_c_1a821fba42e6985284a1fc872d8aab84ce" prot="private" virt="non-virtual"><scope>themisdb::sharding::test::Coordinator2PC</scope><name>state_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_coordinator2_p_c_1aa959dd176f33e3fc0ef5f3cc86db8708" prot="private" virt="non-virtual"><scope>themisdb::sharding::test::Coordinator2PC</scope><name>wal_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

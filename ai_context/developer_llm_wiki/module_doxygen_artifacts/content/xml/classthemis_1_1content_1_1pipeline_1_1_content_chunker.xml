@@ -1,0 +1,240 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1pipeline_1_1_content_chunker" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::pipeline::ContentChunker</compoundname>
+    <includes refid="content__chunker_8h" local="no">content_chunker.h</includes>
+    <innerclass refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_config" prot="public">themis::content::pipeline::ContentChunker::ChunkConfig</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk" prot="public">themis::content::pipeline::ContentChunker::Chunk</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1pipeline_1_1_content_chunker_1a71328c691d880a7996d7eb5f45073fb7" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_config" kindref="compound">ChunkConfig</ref></type>
+        <definition>ChunkConfig themis::content::pipeline::ContentChunker::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::content::pipeline::ContentChunker::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/content_chunker.h" line="75" column="17" bodyfile="include/content/pipeline/content_chunker.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1pipeline_1_1_content_chunker_1afa481660f15ab24df41d3b0055bf30b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::pipeline::ContentChunker::ContentChunker</definition>
+        <argsstring>()</argsstring>
+        <name>ContentChunker</name>
+        <qualifiedname>themis::content::pipeline::ContentChunker::ContentChunker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/content_chunker.h" line="39" column="5" bodyfile="src/content/pipeline/content_chunker.cpp" bodystart="20" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1pipeline_1_1_content_chunker_1a086e6642c93ab21092656dee96928b74" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::pipeline::ContentChunker::ContentChunker</definition>
+        <argsstring>(const ChunkConfig &amp;config)</argsstring>
+        <name>ContentChunker</name>
+        <qualifiedname>themis::content::pipeline::ContentChunker::ContentChunker</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_config" kindref="compound">ChunkConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Content Chunker. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/content_chunker.h" line="45" column="14" bodyfile="src/content/pipeline/content_chunker.cpp" bodystart="24" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1pipeline_1_1_content_chunker_1add3bebb482d6ac0b1e485ea333fb077e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::pipeline::ContentChunker::~ContentChunker</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ContentChunker</name>
+        <qualifiedname>themis::content::pipeline::ContentChunker::~ContentChunker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/content_chunker.h" line="46" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1pipeline_1_1_content_chunker_1a909b3ac0e19f1b8c51011f4e419e1cff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk" kindref="compound">Chunk</ref> &gt;</type>
+        <definition>std::vector&lt; ContentChunker::Chunk &gt; themis::content::pipeline::ContentChunker::chunk</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>chunk</name>
+        <qualifiedname>themis::content::pipeline::ContentChunker::chunk</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk" kindref="compound">Chunk</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), std::min(), begin(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/content_chunker.h" line="53" column="17" bodyfile="src/content/pipeline/content_chunker.cpp" bodystart="34" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1pipeline_1_1_content_chunker_1aaf410b9a58b22ed51aa863171766bfd8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::content::pipeline::ContentChunker::reassemble</definition>
+        <argsstring>(const std::vector&lt; Chunk &gt; &amp;chunks)</argsstring>
+        <name>reassemble</name>
+        <qualifiedname>themis::content::pipeline::ContentChunker::reassemble</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk" kindref="compound">Chunk</ref> &gt; &amp;</type>
+          <declname>chunks</declname>
+        </param>
+        <briefdescription>
+<para>Reassemble. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chunks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chunks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: insert(), end(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/content_chunker.h" line="60" column="17" bodyfile="src/content/pipeline/content_chunker.cpp" bodystart="79" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1pipeline_1_1_content_chunker_1a5520962faa0472c94d9780b06f638aee" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_config" kindref="compound">ChunkConfig</ref> &amp;</type>
+        <definition>const ContentChunker::ChunkConfig &amp; themis::content::pipeline::ContentChunker::get_config</definition>
+        <argsstring>() const</argsstring>
+        <name>get_config</name>
+        <qualifiedname>themis::content::pipeline::ContentChunker::get_config</qualifiedname>
+        <briefdescription>
+<para>Get config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/content_chunker.h" line="66" column="23" bodyfile="src/content/pipeline/content_chunker.cpp" bodystart="94" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1pipeline_1_1_content_chunker_1a9174fd107fb6f62ef45484efc49b554a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::pipeline::ContentChunker::set_config</definition>
+        <argsstring>(const ChunkConfig &amp;config)</argsstring>
+        <name>set_config</name>
+        <qualifiedname>themis::content::pipeline::ContentChunker::set_config</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1pipeline_1_1_content_chunker_1_1_chunk_config" kindref="compound">ChunkConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements set_config without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/content_chunker.h" line="72" column="10" bodyfile="src/content/pipeline/content_chunker.cpp" bodystart="103" bodyend="105"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/pipeline/content_chunker.h" line="24" column="1" bodyfile="include/content/pipeline/content_chunker.h" bodystart="24" bodyend="76"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_content_chunker_1a909b3ac0e19f1b8c51011f4e419e1cff" prot="public" virt="non-virtual"><scope>themis::content::pipeline::ContentChunker</scope><name>chunk</name></member>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_content_chunker_1a71328c691d880a7996d7eb5f45073fb7" prot="private" virt="non-virtual"><scope>themis::content::pipeline::ContentChunker</scope><name>config_</name></member>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_content_chunker_1afa481660f15ab24df41d3b0055bf30b9" prot="public" virt="non-virtual"><scope>themis::content::pipeline::ContentChunker</scope><name>ContentChunker</name></member>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_content_chunker_1a086e6642c93ab21092656dee96928b74" prot="public" virt="non-virtual"><scope>themis::content::pipeline::ContentChunker</scope><name>ContentChunker</name></member>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_content_chunker_1a5520962faa0472c94d9780b06f638aee" prot="public" virt="non-virtual"><scope>themis::content::pipeline::ContentChunker</scope><name>get_config</name></member>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_content_chunker_1aaf410b9a58b22ed51aa863171766bfd8" prot="public" virt="non-virtual"><scope>themis::content::pipeline::ContentChunker</scope><name>reassemble</name></member>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_content_chunker_1a9174fd107fb6f62ef45484efc49b554a" prot="public" virt="non-virtual"><scope>themis::content::pipeline::ContentChunker</scope><name>set_config</name></member>
+      <member refid="classthemis_1_1content_1_1pipeline_1_1_content_chunker_1add3bebb482d6ac0b1e485ea333fb077e" prot="public" virt="non-virtual"><scope>themis::content::pipeline::ContentChunker</scope><name>~ContentChunker</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

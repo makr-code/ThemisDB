@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1document_1_1_key_rotation_descriptor" kind="struct" language="C++" prot="public">
+    <compoundname>themis::document::KeyRotationDescriptor</compoundname>
+    <includes refid="document__manager_8h" local="no">document_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_key_rotation_descriptor_1a0ea3fcd85b3d5063f9d6c458433bed7b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::document::KeyRotationDescriptor::old_key_id</definition>
+        <argsstring></argsstring>
+        <name>old_key_id</name>
+        <qualifiedname>themis::document::KeyRotationDescriptor::old_key_id</qualifiedname>
+        <briefdescription>
+<para>Identifier of the current encryption key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_manager.h" line="50" column="17" bodyfile="include/document/document_manager.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_key_rotation_descriptor_1a9d74ee5f19d9c896a4b72e62c1ba723c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::document::KeyRotationDescriptor::new_key_id</definition>
+        <argsstring></argsstring>
+        <name>new_key_id</name>
+        <qualifiedname>themis::document::KeyRotationDescriptor::new_key_id</qualifiedname>
+        <briefdescription>
+<para>Identifier of the replacement key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_manager.h" line="51" column="17" bodyfile="include/document/document_manager.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_key_rotation_descriptor_1a94e8d3b45762beeef0c0ef5016047546" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::document::KeyRotationDescriptor::rotation_timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>rotation_timestamp_ms</name>
+        <qualifiedname>themis::document::KeyRotationDescriptor::rotation_timestamp_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Unix epoch ms (0 = use current time). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_manager.h" line="52" column="17" bodyfile="include/document/document_manager.h" bodystart="52" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/document/document_manager.h" line="49" column="1" bodyfile="include/document/document_manager.h" bodystart="49" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1document_1_1_key_rotation_descriptor_1a9d74ee5f19d9c896a4b72e62c1ba723c" prot="public" virt="non-virtual"><scope>themis::document::KeyRotationDescriptor</scope><name>new_key_id</name></member>
+      <member refid="structthemis_1_1document_1_1_key_rotation_descriptor_1a0ea3fcd85b3d5063f9d6c458433bed7b" prot="public" virt="non-virtual"><scope>themis::document::KeyRotationDescriptor</scope><name>old_key_id</name></member>
+      <member refid="structthemis_1_1document_1_1_key_rotation_descriptor_1a94e8d3b45762beeef0c0ef5016047546" prot="public" virt="non-virtual"><scope>themis::document::KeyRotationDescriptor</scope><name>rotation_timestamp_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

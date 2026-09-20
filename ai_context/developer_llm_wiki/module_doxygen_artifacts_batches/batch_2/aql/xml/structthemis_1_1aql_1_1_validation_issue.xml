@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_validation_issue" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::ValidationIssue</compoundname>
+    <includes refid="aql__query__validator_8h" local="no">aql_query_validator.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1aql_1_1_validation_issue_1a84a072f33f5bfd102a041055cc693801" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Severity</name>
+        <qualifiedname>themis::aql::ValidationIssue::Severity</qualifiedname>
+        <enumvalue id="structthemis_1_1aql_1_1_validation_issue_1a84a072f33f5bfd102a041055cc693801abb1ca97ec761fc37101737ba0aa2e7c5" prot="public">
+          <name>ERROR</name>
+          <briefdescription>
+<para>Query cannot be executed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1aql_1_1_validation_issue_1a84a072f33f5bfd102a041055cc693801a059e9861e0400dfbe05c98a841f3f96b" prot="public">
+          <name>WARNING</name>
+          <briefdescription>
+<para>Query may produce unexpected results. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1aql_1_1_validation_issue_1a84a072f33f5bfd102a041055cc693801a551b723eafd6a31d444fcb2f5920fbd3" prot="public">
+          <name>INFO</name>
+          <briefdescription>
+<para>Stylistic or performance suggestion. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_validator.h" line="29" column="5" bodyfile="include/aql/aql_query_validator.h" bodystart="29" bodyend="33"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_validation_issue_1ab06f9d7f2613623c94cb2b0b6213d969" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1aql_1_1_validation_issue_1a84a072f33f5bfd102a041055cc693801" kindref="member">Severity</ref></type>
+        <definition>Severity themis::aql::ValidationIssue::severity</definition>
+        <argsstring></argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::aql::ValidationIssue::severity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_validator.h" line="35" column="17" bodyfile="include/aql/aql_query_validator.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_validation_issue_1a5e74476925b1b4ba9122a45ef985eb99" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::ValidationIssue::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::aql::ValidationIssue::message</qualifiedname>
+        <briefdescription>
+<para>Human-readable description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_validator.h" line="36" column="17" bodyfile="include/aql/aql_query_validator.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_validation_issue_1aaec8cb158dd14666eb60593ef52cc16a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::ValidationIssue::clause</definition>
+        <argsstring></argsstring>
+        <name>clause</name>
+        <qualifiedname>themis::aql::ValidationIssue::clause</qualifiedname>
+        <briefdescription>
+<para>Which part of the query triggered the issue. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_validator.h" line="37" column="17" bodyfile="include/aql/aql_query_validator.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_query_validator.h" line="28" column="1" bodyfile="include/aql/aql_query_validator.h" bodystart="28" bodyend="38"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_validation_issue_1aaec8cb158dd14666eb60593ef52cc16a" prot="public" virt="non-virtual"><scope>themis::aql::ValidationIssue</scope><name>clause</name></member>
+      <member refid="structthemis_1_1aql_1_1_validation_issue_1a5e74476925b1b4ba9122a45ef985eb99" prot="public" virt="non-virtual"><scope>themis::aql::ValidationIssue</scope><name>message</name></member>
+      <member refid="structthemis_1_1aql_1_1_validation_issue_1a84a072f33f5bfd102a041055cc693801" prot="public" virt="non-virtual"><scope>themis::aql::ValidationIssue</scope><name>Severity</name></member>
+      <member refid="structthemis_1_1aql_1_1_validation_issue_1ab06f9d7f2613623c94cb2b0b6213d969" prot="public" virt="non-virtual"><scope>themis::aql::ValidationIssue</scope><name>severity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

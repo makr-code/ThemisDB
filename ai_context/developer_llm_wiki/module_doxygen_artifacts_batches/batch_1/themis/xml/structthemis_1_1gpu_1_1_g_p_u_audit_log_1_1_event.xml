@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_audit_log_1_1_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUAuditLog::Event</compoundname>
+    <includes refid="audit__log_8h" local="no">audit_log.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_audit_log_1_1_event_1a9697bec8f2b647bb06e60f60ece117fe" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a2e31cb27044e8490ecb37dc77721b42d" kindref="member">EventType</ref></type>
+        <definition>EventType themis::gpu::GPUAuditLog::Event::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::gpu::GPUAuditLog::Event::type</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log_1a2e31cb27044e8490ecb37dc77721b42da0add549dbe8b6d79f39b12ee2454b1ef" kindref="member">EventType::ALLOC_SUCCESS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/audit_log.h" line="52" column="21" bodyfile="include/themis/gpu/audit_log.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_audit_log_1_1_event_1a092d7a01701159713211bfd7e266d838" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUAuditLog::Event::size_bytes</definition>
+        <argsstring></argsstring>
+        <name>size_bytes</name>
+        <qualifiedname>themis::gpu::GPUAuditLog::Event::size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Bytes requested/freed (0 if N/A). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/audit_log.h" line="53" column="21" bodyfile="include/themis/gpu/audit_log.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_audit_log_1_1_event_1ace6469378ebc5a237e50dd0d010c4cd1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::GPUAuditLog::Event::tag</definition>
+        <argsstring></argsstring>
+        <name>tag</name>
+        <qualifiedname>themis::gpu::GPUAuditLog::Event::tag</qualifiedname>
+        <briefdescription>
+<para>Caller-supplied reason/owner. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/audit_log.h" line="54" column="21" bodyfile="include/themis/gpu/audit_log.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_audit_log_1_1_event_1a07465ae1fe960d9722a9f360800f7cfe" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::GPUAuditLog::Event::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::gpu::GPUAuditLog::Event::tenant_id</qualifiedname>
+        <briefdescription>
+<para>Empty = global / no tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/audit_log.h" line="55" column="21" bodyfile="include/themis/gpu/audit_log.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_audit_log_1_1_event_1a619c62fa21ffd47eb3e1fda5203718d6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::GPUAuditLog::Event::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::gpu::GPUAuditLog::Event::message</qualifiedname>
+        <briefdescription>
+<para>Human-readable detail. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/audit_log.h" line="56" column="21" bodyfile="include/themis/gpu/audit_log.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_audit_log_1_1_event_1ada91c02687d01a8757f0ff2a0651dce9" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::gpu::GPUAuditLog::Event::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::gpu::GPUAuditLog::Event::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/audit_log.h" line="57" column="47" bodyfile="include/themis/gpu/audit_log.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/audit_log.h" line="51" column="5" bodyfile="include/themis/gpu/audit_log.h" bodystart="51" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_audit_log_1_1_event_1a619c62fa21ffd47eb3e1fda5203718d6" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAuditLog::Event</scope><name>message</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_audit_log_1_1_event_1a092d7a01701159713211bfd7e266d838" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAuditLog::Event</scope><name>size_bytes</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_audit_log_1_1_event_1ace6469378ebc5a237e50dd0d010c4cd1" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAuditLog::Event</scope><name>tag</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_audit_log_1_1_event_1a07465ae1fe960d9722a9f360800f7cfe" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAuditLog::Event</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_audit_log_1_1_event_1ada91c02687d01a8757f0ff2a0651dce9" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAuditLog::Event</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_audit_log_1_1_event_1a9697bec8f2b647bb06e60f60ece117fe" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAuditLog::Event</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

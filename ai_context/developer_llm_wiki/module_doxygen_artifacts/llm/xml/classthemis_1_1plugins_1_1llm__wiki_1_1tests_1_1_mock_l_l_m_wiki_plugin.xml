@@ -1,0 +1,171 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_l_l_m_wiki_plugin" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::llm_wiki::tests::MockLLMWikiPlugin</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_l_l_m_wiki_plugin_1a3c57f4852d97dc8e19db276dd8f5cba1" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::llm_wiki::tests::MockLLMWikiPlugin::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::plugins::llm_wiki::tests::MockLLMWikiPlugin::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" line="322" column="17" bodyfile="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" bodystart="322" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_l_l_m_wiki_plugin_1a731cd2f51b6736c564db8c75243a32d7" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::llm_wiki::tests::MockLLMWikiPlugin::rocksdb_active_</definition>
+        <argsstring></argsstring>
+        <name>rocksdb_active_</name>
+        <qualifiedname>themis::plugins::llm_wiki::tests::MockLLMWikiPlugin::rocksdb_active_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" line="323" column="17" bodyfile="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" bodystart="323" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_l_l_m_wiki_plugin_1a759014387c910c0a6eb4acc8584e68b0" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::llm_wiki::tests::MockLLMWikiPlugin::rocksdb_requested_path_</definition>
+        <argsstring></argsstring>
+        <name>rocksdb_requested_path_</name>
+        <qualifiedname>themis::plugins::llm_wiki::tests::MockLLMWikiPlugin::rocksdb_requested_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" line="324" column="17" bodyfile="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" bodystart="324" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_l_l_m_wiki_plugin_1aeee59a0be86f37d6943c72006d23e8d0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_status" kindref="compound">MockStatus</ref></type>
+        <definition>MockStatus themis::plugins::llm_wiki::tests::MockLLMWikiPlugin::initialize</definition>
+        <argsstring>(const std::string &amp;config_json)</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::plugins::llm_wiki::tests::MockLLMWikiPlugin::initialize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config_json</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" line="271" column="16" bodyfile="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" bodystart="271" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_l_l_m_wiki_plugin_1a7b0c0e5d75c1c8c1b65d132abd9e8f2a" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::llm_wiki::tests::MockLLMWikiPlugin::shutdown</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::plugins::llm_wiki::tests::MockLLMWikiPlugin::shutdown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" line="303" column="10" bodyfile="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" bodystart="303" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_l_l_m_wiki_plugin_1a8f77cd12f528f3a68a777a45de98b272" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::llm_wiki::tests::MockLLMWikiPlugin::isInitialized</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isInitialized</name>
+        <qualifiedname>themis::plugins::llm_wiki::tests::MockLLMWikiPlugin::isInitialized</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" line="316" column="10" bodyfile="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" bodystart="316" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_l_l_m_wiki_plugin_1a25afb39d4f4f6d51458db6cc2e2196d2" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::llm_wiki::tests::MockLLMWikiPlugin::isRocksDbActive</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isRocksDbActive</name>
+        <qualifiedname>themis::plugins::llm_wiki::tests::MockLLMWikiPlugin::isRocksDbActive</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" line="317" column="10" bodyfile="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" bodystart="317" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_l_l_m_wiki_plugin_1ac75d48604a94c6d2754b200e9983cb49" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::llm_wiki::tests::MockLLMWikiPlugin::~MockLLMWikiPlugin</definition>
+        <argsstring>()</argsstring>
+        <name>~MockLLMWikiPlugin</name>
+        <qualifiedname>themis::plugins::llm_wiki::tests::MockLLMWikiPlugin::~MockLLMWikiPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" line="319" column="5" bodyfile="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" bodystart="319" bodyend="319"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_l_l_m_wiki_plugin_1aa1d68754fb0dbe382ed2e437b649c8ef" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::plugins::llm_wiki::tests::MockLLMWikiPlugin::extractField</definition>
+        <argsstring>(const std::string &amp;json, const std::string &amp;field)</argsstring>
+        <name>extractField</name>
+        <qualifiedname>themis::plugins::llm_wiki::tests::MockLLMWikiPlugin::extractField</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>json</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field</declname>
+        </param>
+        <briefdescription>
+<para>Minimal JSON field extractor (no external JSON library dependency). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" line="331" column="24" bodyfile="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" bodystart="331" bodyend="344"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Minimal mock plugin that models the RocksDB vs. in-memory branch. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>When <computeroutput>config_json</computeroutput> contains <computeroutput>"rocksdb_dir"</computeroutput> and the value is non-empty, <computeroutput><ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_l_l_m_wiki_plugin_1aeee59a0be86f37d6943c72006d23e8d0" kindref="member">initialize()</ref></computeroutput> records that the RocksDB path was requested. Otherwise it falls back to the in-memory path. </para>
+    </detaileddescription>
+    <location file="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" line="269" column="1" bodyfile="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" bodystart="269" bodyend="345"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_l_l_m_wiki_plugin_1aa1d68754fb0dbe382ed2e437b649c8ef" prot="private" virt="non-virtual"><scope>themis::plugins::llm_wiki::tests::MockLLMWikiPlugin</scope><name>extractField</name></member>
+      <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_l_l_m_wiki_plugin_1aeee59a0be86f37d6943c72006d23e8d0" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::tests::MockLLMWikiPlugin</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_l_l_m_wiki_plugin_1a3c57f4852d97dc8e19db276dd8f5cba1" prot="private" virt="non-virtual"><scope>themis::plugins::llm_wiki::tests::MockLLMWikiPlugin</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_l_l_m_wiki_plugin_1a8f77cd12f528f3a68a777a45de98b272" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::tests::MockLLMWikiPlugin</scope><name>isInitialized</name></member>
+      <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_l_l_m_wiki_plugin_1a25afb39d4f4f6d51458db6cc2e2196d2" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::tests::MockLLMWikiPlugin</scope><name>isRocksDbActive</name></member>
+      <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_l_l_m_wiki_plugin_1a731cd2f51b6736c564db8c75243a32d7" prot="private" virt="non-virtual"><scope>themis::plugins::llm_wiki::tests::MockLLMWikiPlugin</scope><name>rocksdb_active_</name></member>
+      <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_l_l_m_wiki_plugin_1a759014387c910c0a6eb4acc8584e68b0" prot="private" virt="non-virtual"><scope>themis::plugins::llm_wiki::tests::MockLLMWikiPlugin</scope><name>rocksdb_requested_path_</name></member>
+      <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_l_l_m_wiki_plugin_1a7b0c0e5d75c1c8c1b65d132abd9e8f2a" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::tests::MockLLMWikiPlugin</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_l_l_m_wiki_plugin_1ac75d48604a94c6d2754b200e9983cb49" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::tests::MockLLMWikiPlugin</scope><name>~MockLLMWikiPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

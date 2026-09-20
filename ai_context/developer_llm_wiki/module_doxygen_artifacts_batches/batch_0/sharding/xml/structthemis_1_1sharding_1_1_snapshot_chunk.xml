@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_snapshot_chunk" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::SnapshotChunk</compoundname>
+    <includes refid="wal__shipper_8h" local="no">wal_shipper.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_snapshot_chunk_1a61cf3897b449bac587a7c20800f5ca2e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::SnapshotChunk::snapshot_index</definition>
+        <argsstring></argsstring>
+        <name>snapshot_index</name>
+        <qualifiedname>themis::sharding::SnapshotChunk::snapshot_index</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Identifies the snapshot this chunk belongs to. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="108" column="14" bodyfile="include/sharding/wal_shipper.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_snapshot_chunk_1a13db42cb699d7a32ab202f03c55206a4" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::SnapshotChunk::snapshot_term</definition>
+        <argsstring></argsstring>
+        <name>snapshot_term</name>
+        <qualifiedname>themis::sharding::SnapshotChunk::snapshot_term</qualifiedname>
+        <briefdescription>
+<para>Raft term of the last entry covered by the snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="109" column="14" bodyfile="include/sharding/wal_shipper.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_snapshot_chunk_1a413dc53acd204a7aa3054f23790b6290" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::SnapshotChunk::chunk_index</definition>
+        <argsstring></argsstring>
+        <name>chunk_index</name>
+        <qualifiedname>themis::sharding::SnapshotChunk::chunk_index</qualifiedname>
+        <briefdescription>
+<para>0-based index of this chunk within the snapshot </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="110" column="14" bodyfile="include/sharding/wal_shipper.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_snapshot_chunk_1a6b9d5525a15d960d1b6ea848752cc2f7" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::SnapshotChunk::total_chunks</definition>
+        <argsstring></argsstring>
+        <name>total_chunks</name>
+        <qualifiedname>themis::sharding::SnapshotChunk::total_chunks</qualifiedname>
+        <briefdescription>
+<para>Total number of chunks for this snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="111" column="14" bodyfile="include/sharding/wal_shipper.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_snapshot_chunk_1a8891b786aa9ae9e7b58abf3ce34fcc4a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::sharding::SnapshotChunk::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::sharding::SnapshotChunk::data</qualifiedname>
+        <briefdescription>
+<para>Compressed chunk payload. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="112" column="17" bodyfile="include/sharding/wal_shipper.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_snapshot_chunk_1a8850b102d6cf101e6e3efc34d2346e92" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::SnapshotChunk::checksum</definition>
+        <argsstring></argsstring>
+        <name>checksum</name>
+        <qualifiedname>themis::sharding::SnapshotChunk::checksum</qualifiedname>
+        <briefdescription>
+<para>SHA-256 of this chunk&apos;s data (hex string). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="113" column="17" bodyfile="include/sharding/wal_shipper.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_snapshot_chunk_1aff5c4f561baf60230a486ff761950e95" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::SnapshotChunk::last_chunk</definition>
+        <argsstring></argsstring>
+        <name>last_chunk</name>
+        <qualifiedname>themis::sharding::SnapshotChunk::last_chunk</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True if this is the final chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="114" column="10" bodyfile="include/sharding/wal_shipper.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>A single chunk of a snapshot being transferred to a lagging replica.</para>
+<para>Snapshot data is compressed on the sender side (e.g. with ZSTD) and split into fixed-size pieces. Each piece carries a SHA-256 checksum of its own payload so the receiver can detect corruption independently of adjacent chunks, tolerating network interruption and partial retries. </para>
+    </detaileddescription>
+    <location file="include/sharding/wal_shipper.h" line="107" column="1" bodyfile="include/sharding/wal_shipper.h" bodystart="107" bodyend="115"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_snapshot_chunk_1a8850b102d6cf101e6e3efc34d2346e92" prot="public" virt="non-virtual"><scope>themis::sharding::SnapshotChunk</scope><name>checksum</name></member>
+      <member refid="structthemis_1_1sharding_1_1_snapshot_chunk_1a413dc53acd204a7aa3054f23790b6290" prot="public" virt="non-virtual"><scope>themis::sharding::SnapshotChunk</scope><name>chunk_index</name></member>
+      <member refid="structthemis_1_1sharding_1_1_snapshot_chunk_1a8891b786aa9ae9e7b58abf3ce34fcc4a" prot="public" virt="non-virtual"><scope>themis::sharding::SnapshotChunk</scope><name>data</name></member>
+      <member refid="structthemis_1_1sharding_1_1_snapshot_chunk_1aff5c4f561baf60230a486ff761950e95" prot="public" virt="non-virtual"><scope>themis::sharding::SnapshotChunk</scope><name>last_chunk</name></member>
+      <member refid="structthemis_1_1sharding_1_1_snapshot_chunk_1a61cf3897b449bac587a7c20800f5ca2e" prot="public" virt="non-virtual"><scope>themis::sharding::SnapshotChunk</scope><name>snapshot_index</name></member>
+      <member refid="structthemis_1_1sharding_1_1_snapshot_chunk_1a13db42cb699d7a32ab202f03c55206a4" prot="public" virt="non-virtual"><scope>themis::sharding::SnapshotChunk</scope><name>snapshot_term</name></member>
+      <member refid="structthemis_1_1sharding_1_1_snapshot_chunk_1a6b9d5525a15d960d1b6ea848752cc2f7" prot="public" virt="non-virtual"><scope>themis::sharding::SnapshotChunk</scope><name>total_chunks</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

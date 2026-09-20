@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_mutation_undo_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::MutationUndoEntry</compoundname>
+    <includes refid="mutation__transaction_8h" local="no">mutation_transaction.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1query_1_1_mutation_undo_entry_1a86a6f859567cc7358d16f807d39c30c9" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Op</name>
+        <qualifiedname>themis::query::MutationUndoEntry::Op</qualifiedname>
+        <enumvalue id="structthemis_1_1query_1_1_mutation_undo_entry_1a86a6f859567cc7358d16f807d39c30c9af2a6c498fb90ee345d997f888fce3b18" prot="public">
+          <name>Delete</name>
+          <briefdescription>
+<para>Undo an INSERT: remove the newly-inserted key. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_mutation_undo_entry_1a86a6f859567cc7358d16f807d39c30c9ad0bf1810982e9728fcf3ac444a015373" prot="public">
+          <name>Put</name>
+          <briefdescription>
+<para>Undo an UPDATE/REPLACE: restore the original document. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_mutation_undo_entry_1a86a6f859567cc7358d16f807d39c30c9aa458be0f08b7e4ff3c0f633c100176c0" prot="public">
+          <name>Insert</name>
+          <briefdescription>
+<para>Undo a REMOVE/DELETE: re-insert the original document. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/mutation_transaction.h" line="28" column="5" bodyfile="include/query/mutation_transaction.h" bodystart="28" bodyend="32"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_mutation_undo_entry_1a5d444719560239509429d4634d341947" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_mutation_undo_entry_1a86a6f859567cc7358d16f807d39c30c9" kindref="member">Op</ref></type>
+        <definition>Op themis::query::MutationUndoEntry::op</definition>
+        <argsstring></argsstring>
+        <name>op</name>
+        <qualifiedname>themis::query::MutationUndoEntry::op</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/mutation_transaction.h" line="34" column="17" bodyfile="include/query/mutation_transaction.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_mutation_undo_entry_1ab3c3ee80869c43a4368dacc1fe4ff63a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::MutationUndoEntry::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themis::query::MutationUndoEntry::collection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/mutation_transaction.h" line="35" column="17" bodyfile="include/query/mutation_transaction.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_mutation_undo_entry_1ad5b9ff66ae59264b2c64d71da324d0e7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::MutationUndoEntry::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::query::MutationUndoEntry::key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/mutation_transaction.h" line="36" column="17" bodyfile="include/query/mutation_transaction.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_mutation_undo_entry_1aba2c67540796b1bb555cb0d4c48c56ba" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::MutationUndoEntry::original_value</definition>
+        <argsstring></argsstring>
+        <name>original_value</name>
+        <qualifiedname>themis::query::MutationUndoEntry::original_value</qualifiedname>
+        <briefdescription>
+<para>Non-empty for Put and Insert ops. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/mutation_transaction.h" line="37" column="17" bodyfile="include/query/mutation_transaction.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/mutation_transaction.h" line="27" column="1" bodyfile="include/query/mutation_transaction.h" bodystart="27" bodyend="38"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_mutation_undo_entry_1ab3c3ee80869c43a4368dacc1fe4ff63a" prot="public" virt="non-virtual"><scope>themis::query::MutationUndoEntry</scope><name>collection</name></member>
+      <member refid="structthemis_1_1query_1_1_mutation_undo_entry_1ad5b9ff66ae59264b2c64d71da324d0e7" prot="public" virt="non-virtual"><scope>themis::query::MutationUndoEntry</scope><name>key</name></member>
+      <member refid="structthemis_1_1query_1_1_mutation_undo_entry_1a86a6f859567cc7358d16f807d39c30c9" prot="public" virt="non-virtual"><scope>themis::query::MutationUndoEntry</scope><name>Op</name></member>
+      <member refid="structthemis_1_1query_1_1_mutation_undo_entry_1a5d444719560239509429d4634d341947" prot="public" virt="non-virtual"><scope>themis::query::MutationUndoEntry</scope><name>op</name></member>
+      <member refid="structthemis_1_1query_1_1_mutation_undo_entry_1aba2c67540796b1bb555cb0d4c48c56ba" prot="public" virt="non-virtual"><scope>themis::query::MutationUndoEntry</scope><name>original_value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_hybrid_search_1_1_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::HybridSearch::Result</compoundname>
+    <includes refid="hybrid__search_8h" local="no">hybrid_search.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_search_1_1_result_1a5f98f4a5ae5e0b6136e5748854649cb8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::HybridSearch::Result::document_id</definition>
+        <argsstring></argsstring>
+        <name>document_id</name>
+        <qualifiedname>themis::HybridSearch::Result::document_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/hybrid_search.h" line="107" column="21" bodyfile="include/search/hybrid_search.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_search_1_1_result_1a4c7f6f683c9aa48a467ecd0634a955eb" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::HybridSearch::Result::bm25_score</definition>
+        <argsstring></argsstring>
+        <name>bm25_score</name>
+        <qualifiedname>themis::HybridSearch::Result::bm25_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/hybrid_search.h" line="108" column="16" bodyfile="include/search/hybrid_search.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_search_1_1_result_1a9efb285ce451e53a0599494f96bebe25" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::HybridSearch::Result::vector_score</definition>
+        <argsstring></argsstring>
+        <name>vector_score</name>
+        <qualifiedname>themis::HybridSearch::Result::vector_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/hybrid_search.h" line="109" column="16" bodyfile="include/search/hybrid_search.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_search_1_1_result_1a5af5cc78f00a97e73c08c53e1b3803af" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::HybridSearch::Result::hybrid_score</definition>
+        <argsstring></argsstring>
+        <name>hybrid_score</name>
+        <qualifiedname>themis::HybridSearch::Result::hybrid_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/hybrid_search.h" line="110" column="16" bodyfile="include/search/hybrid_search.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_search_1_1_result_1a890e8eb9ec9d2d6a0ca79d6adfd0f791" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::HybridSearch::Result::bm25_rank</definition>
+        <argsstring></argsstring>
+        <name>bm25_rank</name>
+        <qualifiedname>themis::HybridSearch::Result::bm25_rank</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/hybrid_search.h" line="111" column="13" bodyfile="include/search/hybrid_search.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_search_1_1_result_1a2dcf839e1974d770f8fc2fe5b7a8c46e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::HybridSearch::Result::vector_rank</definition>
+        <argsstring></argsstring>
+        <name>vector_rank</name>
+        <qualifiedname>themis::HybridSearch::Result::vector_rank</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/hybrid_search.h" line="112" column="13" bodyfile="include/search/hybrid_search.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_search_1_1_result_1a9cae698ec67a3289295acc26d61122f7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::HybridSearch::Result::content</definition>
+        <argsstring></argsstring>
+        <name>content</name>
+        <qualifiedname>themis::HybridSearch::Result::content</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/hybrid_search.h" line="113" column="21" bodyfile="include/search/hybrid_search.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_search_1_1_result_1a80889b95aac8b0c168d944b291f5117c" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; double &gt;</type>
+        <definition>std::optional&lt;double&gt; themis::HybridSearch::Result::geo_distance</definition>
+        <argsstring></argsstring>
+        <name>geo_distance</name>
+        <qualifiedname>themis::HybridSearch::Result::geo_distance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/hybrid_search.h" line="114" column="23" bodyfile="include/search/hybrid_search.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/hybrid_search.h" line="106" column="5" bodyfile="include/search/hybrid_search.h" bodystart="106" bodyend="115"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_hybrid_search_1_1_result_1a890e8eb9ec9d2d6a0ca79d6adfd0f791" prot="public" virt="non-virtual"><scope>themis::HybridSearch::Result</scope><name>bm25_rank</name></member>
+      <member refid="structthemis_1_1_hybrid_search_1_1_result_1a4c7f6f683c9aa48a467ecd0634a955eb" prot="public" virt="non-virtual"><scope>themis::HybridSearch::Result</scope><name>bm25_score</name></member>
+      <member refid="structthemis_1_1_hybrid_search_1_1_result_1a9cae698ec67a3289295acc26d61122f7" prot="public" virt="non-virtual"><scope>themis::HybridSearch::Result</scope><name>content</name></member>
+      <member refid="structthemis_1_1_hybrid_search_1_1_result_1a5f98f4a5ae5e0b6136e5748854649cb8" prot="public" virt="non-virtual"><scope>themis::HybridSearch::Result</scope><name>document_id</name></member>
+      <member refid="structthemis_1_1_hybrid_search_1_1_result_1a80889b95aac8b0c168d944b291f5117c" prot="public" virt="non-virtual"><scope>themis::HybridSearch::Result</scope><name>geo_distance</name></member>
+      <member refid="structthemis_1_1_hybrid_search_1_1_result_1a5af5cc78f00a97e73c08c53e1b3803af" prot="public" virt="non-virtual"><scope>themis::HybridSearch::Result</scope><name>hybrid_score</name></member>
+      <member refid="structthemis_1_1_hybrid_search_1_1_result_1a2dcf839e1974d770f8fc2fe5b7a8c46e" prot="public" virt="non-virtual"><scope>themis::HybridSearch::Result</scope><name>vector_rank</name></member>
+      <member refid="structthemis_1_1_hybrid_search_1_1_result_1a9efb285ce451e53a0599494f96bebe25" prot="public" virt="non-virtual"><scope>themis::HybridSearch::Result</scope><name>vector_score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

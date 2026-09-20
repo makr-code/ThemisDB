@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_async_engine_timeout_cancel_test" kind="class" language="C++" prot="public">
+    <compoundname>AsyncEngineTimeoutCancelTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_async_engine_timeout_cancel_test_1aff1c1d607001fd7e77559bd9f831a4c6" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config" kindref="compound">AsyncInferenceEngine::Config</ref></type>
+        <definition>AsyncInferenceEngine::Config AsyncEngineTimeoutCancelTest::cfg</definition>
+        <argsstring></argsstring>
+        <name>cfg</name>
+        <qualifiedname>AsyncEngineTimeoutCancelTest::cfg</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_timeout_cancellation.cpp" line="184" column="34" bodyfile="tests/llm/test_llm_timeout_cancellation.cpp" bodystart="184" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_async_engine_timeout_cancel_test_1ab4480361b233637de1ab2043ae0cf983" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AsyncEngineTimeoutCancelTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AsyncEngineTimeoutCancelTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_timeout_cancellation.cpp" line="185" column="10" bodyfile="tests/llm/test_llm_timeout_cancellation.cpp" bodystart="185" bodyend="188"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AsyncEngineTimeoutCancelTest</label>
+        <link refid="class_async_engine_timeout_cancel_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AsyncEngineTimeoutCancelTest</label>
+        <link refid="class_async_engine_timeout_cancel_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>cfg</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::llm::AsyncInferenceEngine::Config</label>
+        <link refid="structthemis_1_1llm_1_1_async_inference_engine_1_1_config"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>dedup_cache_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::llm::EmbeddedLLM</label>
+        <link refid="classthemis_1_1llm_1_1_embedded_l_l_m"/>
+      </node>
+      <node id="4">
+        <label>themis::llm::LLMResponseCache::Config</label>
+        <link refid="structthemis_1_1llm_1_1_l_l_m_response_cache_1_1_config"/>
+        <childnode refid="5" relation="usage">
+          <edgelabel>llm_ptr</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llm_timeout_cancellation.cpp" line="182" column="1" bodyfile="tests/llm/test_llm_timeout_cancellation.cpp" bodystart="182" bodyend="189"/>
+    <listofallmembers>
+      <member refid="class_async_engine_timeout_cancel_test_1aff1c1d607001fd7e77559bd9f831a4c6" prot="protected" virt="non-virtual"><scope>AsyncEngineTimeoutCancelTest</scope><name>cfg</name></member>
+      <member refid="class_async_engine_timeout_cancel_test_1ab4480361b233637de1ab2043ae0cf983" prot="protected" virt="non-virtual"><scope>AsyncEngineTimeoutCancelTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

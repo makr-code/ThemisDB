@@ -1,0 +1,310 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::image::TesseractOCRPlugin::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1_1_impl_1ab5bd23ec2b1c6b419ab953713709af77" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::image::TesseractOCRPlugin::Impl::tessdata_path</definition>
+        <argsstring></argsstring>
+        <name>tessdata_path</name>
+        <qualifiedname>themis::plugins::image::TesseractOCRPlugin::Impl::tessdata_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/image_analysis/tesseract_ocr_plugin.cpp" line="64" column="17" bodyfile="src/image_analysis/tesseract_ocr_plugin.cpp" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1_1_impl_1a3914984b289fc05e7b2df7eae090dee5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::image::TesseractOCRPlugin::Impl::language</definition>
+        <argsstring></argsstring>
+        <name>language</name>
+        <qualifiedname>themis::plugins::image::TesseractOCRPlugin::Impl::language</qualifiedname>
+        <initializer>= &quot;eng&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/image_analysis/tesseract_ocr_plugin.cpp" line="65" column="17" bodyfile="src/image_analysis/tesseract_ocr_plugin.cpp" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1_1_impl_1a4535a4e609f1889cf369f431c26ee92b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::image::TesseractOCRPlugin::Impl::page_seg_mode</definition>
+        <argsstring></argsstring>
+        <name>page_seg_mode</name>
+        <qualifiedname>themis::plugins::image::TesseractOCRPlugin::Impl::page_seg_mode</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/image_analysis/tesseract_ocr_plugin.cpp" line="66" column="10" bodyfile="src/image_analysis/tesseract_ocr_plugin.cpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1_1_impl_1a4ec102334f71d99eee0eeb51d9968d36" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::image::TesseractOCRPlugin::Impl::dpi</definition>
+        <argsstring></argsstring>
+        <name>dpi</name>
+        <qualifiedname>themis::plugins::image::TesseractOCRPlugin::Impl::dpi</qualifiedname>
+        <initializer>= 70</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/image_analysis/tesseract_ocr_plugin.cpp" line="67" column="10" bodyfile="src/image_analysis/tesseract_ocr_plugin.cpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1_1_impl_1aa39840401db32c63713c733184d1360b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::image::TesseractOCRPlugin::Impl::whitelist</definition>
+        <argsstring></argsstring>
+        <name>whitelist</name>
+        <qualifiedname>themis::plugins::image::TesseractOCRPlugin::Impl::whitelist</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/image_analysis/tesseract_ocr_plugin.cpp" line="68" column="17" bodyfile="src/image_analysis/tesseract_ocr_plugin.cpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1_1_impl_1ae3913615a3c83d1e5e215996d284c10e" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::plugins::image::TesseractOCRPlugin::Impl::min_confidence_cfg</definition>
+        <argsstring></argsstring>
+        <name>min_confidence_cfg</name>
+        <qualifiedname>themis::plugins::image::TesseractOCRPlugin::Impl::min_confidence_cfg</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/image_analysis/tesseract_ocr_plugin.cpp" line="69" column="11" bodyfile="src/image_analysis/tesseract_ocr_plugin.cpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1_1_impl_1ae7f939484db9c05a56e1f814701f7065" prot="public" static="no" mutable="no">
+        <type>BackendType</type>
+        <definition>BackendType themis::plugins::image::TesseractOCRPlugin::Impl::backend</definition>
+        <argsstring></argsstring>
+        <name>backend</name>
+        <qualifiedname>themis::plugins::image::TesseractOCRPlugin::Impl::backend</qualifiedname>
+        <initializer>= BackendType::CPU</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/image_analysis/tesseract_ocr_plugin.cpp" line="71" column="17" bodyfile="src/image_analysis/tesseract_ocr_plugin.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1_1_impl_1a987ae8f52426c93354714d77d2fcb779" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::plugins::image::TesseractOCRPlugin::Impl::ready</definition>
+        <argsstring></argsstring>
+        <name>ready</name>
+        <qualifiedname>themis::plugins::image::TesseractOCRPlugin::Impl::ready</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/image_analysis/tesseract_ocr_plugin.cpp" line="72" column="17" bodyfile="src/image_analysis/tesseract_ocr_plugin.cpp" bodystart="72" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1_1_impl_1a4a3049e8d69d7a9cb0c1670768fb3a3c" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themis::plugins::image::TesseractOCRPlugin::Impl::inference_total</definition>
+        <argsstring></argsstring>
+        <name>inference_total</name>
+        <qualifiedname>themis::plugins::image::TesseractOCRPlugin::Impl::inference_total</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/image_analysis/tesseract_ocr_plugin.cpp" line="75" column="17" bodyfile="src/image_analysis/tesseract_ocr_plugin.cpp" bodystart="75" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1_1_impl_1ada60340a835aff2ce0072f77af891d25" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themis::plugins::image::TesseractOCRPlugin::Impl::inference_errors</definition>
+        <argsstring></argsstring>
+        <name>inference_errors</name>
+        <qualifiedname>themis::plugins::image::TesseractOCRPlugin::Impl::inference_errors</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/image_analysis/tesseract_ocr_plugin.cpp" line="76" column="17" bodyfile="src/image_analysis/tesseract_ocr_plugin.cpp" bodystart="76" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1_1_impl_1a02c0b7f3aede09fb03a52d9ff2717c57" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themis::plugins::image::TesseractOCRPlugin::Impl::latency_ms_sum</definition>
+        <argsstring></argsstring>
+        <name>latency_ms_sum</name>
+        <qualifiedname>themis::plugins::image::TesseractOCRPlugin::Impl::latency_ms_sum</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/image_analysis/tesseract_ocr_plugin.cpp" line="77" column="17" bodyfile="src/image_analysis/tesseract_ocr_plugin.cpp" bodystart="77" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1_1_impl_1a89eba054259a6a11f151022ae2c08e2b" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themis::plugins::image::TesseractOCRPlugin::Impl::latency_ms_count</definition>
+        <argsstring></argsstring>
+        <name>latency_ms_count</name>
+        <qualifiedname>themis::plugins::image::TesseractOCRPlugin::Impl::latency_ms_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/image_analysis/tesseract_ocr_plugin.cpp" line="78" column="17" bodyfile="src/image_analysis/tesseract_ocr_plugin.cpp" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1_1_impl_1ac286c54486f2a1bcd4405513d659bd3a" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themis::plugins::image::TesseractOCRPlugin::Impl::words_total</definition>
+        <argsstring></argsstring>
+        <name>words_total</name>
+        <qualifiedname>themis::plugins::image::TesseractOCRPlugin::Impl::words_total</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/image_analysis/tesseract_ocr_plugin.cpp" line="79" column="17" bodyfile="src/image_analysis/tesseract_ocr_plugin.cpp" bodystart="79" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1_1_impl_1a22cdf191734ac7dcd5cd3f7d3aa3b711" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::image::TesseractOCRPlugin::Impl::init</definition>
+        <argsstring>(const PluginConfig &amp;config, BackendType)</argsstring>
+        <name>init</name>
+        <qualifiedname>themis::plugins::image::TesseractOCRPlugin::Impl::init</qualifiedname>
+        <param>
+          <type>const PluginConfig &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>BackendType</type>
+        </param>
+        <briefdescription>
+<para>Init. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">BackendType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), c_str(), Init(), reset(), SetPageSegMode(), SetVariable(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/image_analysis/tesseract_ocr_plugin.cpp" line="96" column="10" bodyfile="src/image_analysis/tesseract_ocr_plugin.cpp" bodystart="96" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1_1_impl_1a6821ecee0e896e341a72ebdd6f6caba4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>OcrResult</type>
+        <definition>OcrResult themis::plugins::image::TesseractOCRPlugin::Impl::runOcr</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;image_data, float effective_conf_01)</argsstring>
+        <name>runOcr</name>
+        <qualifiedname>themis::plugins::image::TesseractOCRPlugin::Impl::runOcr</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>image_data</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>effective_conf_01</declname>
+        </param>
+        <briefdescription>
+<para>--------------------------------------------------------------------<mdash/> Perform OCR on raw image bytes --------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">image_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">effective_conf_01</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), encoded(), size(), data(), cv::imdecode(), empty(), SetImage(), SetSourceResolution(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/image_analysis/tesseract_ocr_plugin.cpp" line="135" column="15" bodyfile="src/image_analysis/tesseract_ocr_plugin.cpp" bodystart="135" bodyend="217"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/image_analysis/tesseract_ocr_plugin.cpp" line="62" column="1" bodyfile="src/image_analysis/tesseract_ocr_plugin.cpp" bodystart="62" bodyend="218"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1_1_impl_1ae7f939484db9c05a56e1f814701f7065" prot="public" virt="non-virtual"><scope>themis::plugins::image::TesseractOCRPlugin::Impl</scope><name>backend</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1_1_impl_1a4ec102334f71d99eee0eeb51d9968d36" prot="public" virt="non-virtual"><scope>themis::plugins::image::TesseractOCRPlugin::Impl</scope><name>dpi</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1_1_impl_1ada60340a835aff2ce0072f77af891d25" prot="public" virt="non-virtual"><scope>themis::plugins::image::TesseractOCRPlugin::Impl</scope><name>inference_errors</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1_1_impl_1a4a3049e8d69d7a9cb0c1670768fb3a3c" prot="public" virt="non-virtual"><scope>themis::plugins::image::TesseractOCRPlugin::Impl</scope><name>inference_total</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1_1_impl_1a22cdf191734ac7dcd5cd3f7d3aa3b711" prot="public" virt="non-virtual"><scope>themis::plugins::image::TesseractOCRPlugin::Impl</scope><name>init</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1_1_impl_1a3914984b289fc05e7b2df7eae090dee5" prot="public" virt="non-virtual"><scope>themis::plugins::image::TesseractOCRPlugin::Impl</scope><name>language</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1_1_impl_1a89eba054259a6a11f151022ae2c08e2b" prot="public" virt="non-virtual"><scope>themis::plugins::image::TesseractOCRPlugin::Impl</scope><name>latency_ms_count</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1_1_impl_1a02c0b7f3aede09fb03a52d9ff2717c57" prot="public" virt="non-virtual"><scope>themis::plugins::image::TesseractOCRPlugin::Impl</scope><name>latency_ms_sum</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1_1_impl_1ae3913615a3c83d1e5e215996d284c10e" prot="public" virt="non-virtual"><scope>themis::plugins::image::TesseractOCRPlugin::Impl</scope><name>min_confidence_cfg</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1_1_impl_1a4535a4e609f1889cf369f431c26ee92b" prot="public" virt="non-virtual"><scope>themis::plugins::image::TesseractOCRPlugin::Impl</scope><name>page_seg_mode</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1_1_impl_1a987ae8f52426c93354714d77d2fcb779" prot="public" virt="non-virtual"><scope>themis::plugins::image::TesseractOCRPlugin::Impl</scope><name>ready</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1_1_impl_1a6821ecee0e896e341a72ebdd6f6caba4" prot="public" virt="non-virtual"><scope>themis::plugins::image::TesseractOCRPlugin::Impl</scope><name>runOcr</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1_1_impl_1ab5bd23ec2b1c6b419ab953713709af77" prot="public" virt="non-virtual"><scope>themis::plugins::image::TesseractOCRPlugin::Impl</scope><name>tessdata_path</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1_1_impl_1aa39840401db32c63713c733184d1360b" prot="public" virt="non-virtual"><scope>themis::plugins::image::TesseractOCRPlugin::Impl</scope><name>whitelist</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1_1_impl_1ac286c54486f2a1bcd4405513d659bd3a" prot="public" virt="non-virtual"><scope>themis::plugins::image::TesseractOCRPlugin::Impl</scope><name>words_total</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

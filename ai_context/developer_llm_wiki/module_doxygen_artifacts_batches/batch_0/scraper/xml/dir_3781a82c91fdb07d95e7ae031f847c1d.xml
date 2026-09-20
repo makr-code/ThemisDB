@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_3781a82c91fdb07d95e7ae031f847c1d" kind="dir">
+    <compoundname>include/scraper</compoundname>
+    <innerfile refid="gov__source__catalog_8h">gov_source_catalog.h</innerfile>
+    <innerfile refid="scraper__api__client_8h">scraper_api_client.h</innerfile>
+    <innerfile refid="scraper__api__contract_8h">scraper_api_contract.h</innerfile>
+    <innerfile refid="scraper__burst__controller_8h">scraper_burst_controller.h</innerfile>
+    <innerfile refid="scraper__config_8h">scraper_config.h</innerfile>
+    <innerfile refid="scraper__diagnostics_8h">scraper_diagnostics.h</innerfile>
+    <innerfile refid="scraper__js__renderer_8h">scraper_js_renderer.h</innerfile>
+    <innerfile refid="scraper__llm__evaluator_8h">scraper_llm_evaluator.h</innerfile>
+    <innerfile refid="scraper__metadata__writer_8h">scraper_metadata_writer.h</innerfile>
+    <innerfile refid="scraper__plugin_8h">scraper_plugin.h</innerfile>
+    <innerfile refid="scraper__render__contract_8h">scraper_render_contract.h</innerfile>
+    <innerfile refid="scraper__robots_8h">scraper_robots.h</innerfile>
+    <innerfile refid="scraper__run__summary_8h">scraper_run_summary.h</innerfile>
+    <innerfile refid="scraper__search__engine_8h">scraper_search_engine.h</innerfile>
+    <innerfile refid="scraper__sitemap_8h">scraper_sitemap.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/scraper/"/>
+  </compounddef>
+</doxygen>

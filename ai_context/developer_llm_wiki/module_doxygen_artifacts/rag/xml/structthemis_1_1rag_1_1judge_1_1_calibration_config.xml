@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_calibration_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::CalibrationConfig</compoundname>
+    <includes refid="calibration__manager_8h" local="no">calibration_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_calibration_config_1a1fee27ca1e655d4589ab8c656564434d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1judge_1ac0616f111cb2c59957a3e2f12ce27cd9" kindref="member">CalibrationMethod</ref></type>
+        <definition>CalibrationMethod themis::rag::judge::CalibrationConfig::method</definition>
+        <argsstring></argsstring>
+        <name>method</name>
+        <qualifiedname>themis::rag::judge::CalibrationConfig::method</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1rag_1_1judge_1ac0616f111cb2c59957a3e2f12ce27cd9a8c15b5925727b083c8e4ae44af62db02" kindref="member">CalibrationMethod::TEMPERATURE_SCALING</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/calibration_manager.h" line="68" column="23" bodyfile="include/rag/calibration_manager.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_calibration_config_1a129b5bd375f0f90a1be5e0607675b62e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::rag::judge::CalibrationConfig::num_bins</definition>
+        <argsstring></argsstring>
+        <name>num_bins</name>
+        <qualifiedname>themis::rag::judge::CalibrationConfig::num_bins</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Number of bins for ECE calculation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/calibration_manager.h" line="69" column="9" bodyfile="include/rag/calibration_manager.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_calibration_config_1aeadf27502db8959573b052b7d237ded5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::CalibrationConfig::confidence_threshold</definition>
+        <argsstring></argsstring>
+        <name>confidence_threshold</name>
+        <qualifiedname>themis::rag::judge::CalibrationConfig::confidence_threshold</qualifiedname>
+        <initializer>= 0.5</initializer>
+        <briefdescription>
+<para>Minimum confidence for predictions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/calibration_manager.h" line="70" column="12" bodyfile="include/rag/calibration_manager.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_calibration_config_1a1b8c6c78e5f8c3ff46d0a4ed9855f9a7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::CalibrationConfig::apply_to_all_dimensions</definition>
+        <argsstring></argsstring>
+        <name>apply_to_all_dimensions</name>
+        <qualifiedname>themis::rag::judge::CalibrationConfig::apply_to_all_dimensions</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Apply calibration to all dimensions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/calibration_manager.h" line="71" column="10" bodyfile="include/rag/calibration_manager.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for calibration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/calibration_manager.h" line="67" column="1" bodyfile="include/rag/calibration_manager.h" bodystart="67" bodyend="72"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_calibration_config_1a1b8c6c78e5f8c3ff46d0a4ed9855f9a7" prot="public" virt="non-virtual"><scope>themis::rag::judge::CalibrationConfig</scope><name>apply_to_all_dimensions</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_calibration_config_1aeadf27502db8959573b052b7d237ded5" prot="public" virt="non-virtual"><scope>themis::rag::judge::CalibrationConfig</scope><name>confidence_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_calibration_config_1a1fee27ca1e655d4589ab8c656564434d" prot="public" virt="non-virtual"><scope>themis::rag::judge::CalibrationConfig</scope><name>method</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_calibration_config_1a129b5bd375f0f90a1be5e0607675b62e" prot="public" virt="non-virtual"><scope>themis::rag::judge::CalibrationConfig</scope><name>num_bins</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

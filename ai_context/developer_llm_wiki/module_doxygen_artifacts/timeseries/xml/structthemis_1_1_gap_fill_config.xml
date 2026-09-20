@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_gap_fill_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::GapFillConfig</compoundname>
+    <includes refid="gap__fill_8h" local="no">gap_fill.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_gap_fill_config_1acc535cba9ef5891ae10cb44e64d3cda0" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1af3fec8d15013b13e8111c8bcac143303" kindref="member">GapFillMethod</ref></type>
+        <definition>GapFillMethod themis::GapFillConfig::method</definition>
+        <argsstring></argsstring>
+        <name>method</name>
+        <qualifiedname>themis::GapFillConfig::method</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1af3fec8d15013b13e8111c8bcac143303a6633bda6a8019da3fdeea254eb22416c" kindref="member">GapFillMethod::ForwardFill</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gap_fill.h" line="43" column="19" bodyfile="include/timeseries/gap_fill.h" bodystart="43" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_gap_fill_config_1a137ee086d8a8d28c0822dd54ee36cb6b" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::GapFillConfig::max_gap_ms</definition>
+        <argsstring></argsstring>
+        <name>max_gap_ms</name>
+        <qualifiedname>themis::GapFillConfig::max_gap_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum gap length (ms) that will be filled. A value of 0 means no limit — all gaps are filled regardless of size. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gap_fill.h" line="47" column="13" bodyfile="include/timeseries/gap_fill.h" bodystart="47" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_gap_fill_config_1a8dbcb4715ce3e884df387a446cbd3963" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::GapFillConfig::null_fill_value</definition>
+        <argsstring></argsstring>
+        <name>null_fill_value</name>
+        <qualifiedname>themis::GapFillConfig::null_fill_value</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Constant value inserted for NullFill and for gaps that exceed max_gap_ms when the caller still wants a placeholder. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gap_fill.h" line="51" column="12" bodyfile="include/timeseries/gap_fill.h" bodystart="51" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/gap_fill.h" line="42" column="1" bodyfile="include/timeseries/gap_fill.h" bodystart="42" bodyend="52"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_gap_fill_config_1a137ee086d8a8d28c0822dd54ee36cb6b" prot="public" virt="non-virtual"><scope>themis::GapFillConfig</scope><name>max_gap_ms</name></member>
+      <member refid="structthemis_1_1_gap_fill_config_1acc535cba9ef5891ae10cb44e64d3cda0" prot="public" virt="non-virtual"><scope>themis::GapFillConfig</scope><name>method</name></member>
+      <member refid="structthemis_1_1_gap_fill_config_1a8dbcb4715ce3e884df387a446cbd3963" prot="public" virt="non-virtual"><scope>themis::GapFillConfig</scope><name>null_fill_value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

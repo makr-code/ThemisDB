@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_suggestion" kind="struct" language="C++" prot="public">
+    <compoundname>themis::Suggestion</compoundname>
+    <includes refid="autocomplete_8h" local="no">autocomplete.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_suggestion_1a6d3dcce660fea8fd18aee41c18b94bfd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::Suggestion::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::Suggestion::text</qualifiedname>
+        <briefdescription>
+<para>Suggested completion text. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/autocomplete.h" line="25" column="17" bodyfile="include/search/autocomplete.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_suggestion_1a33b328d0306381da297254f71bc93a0c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::Suggestion::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themis::Suggestion::score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Relevance score (higher is better). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/autocomplete.h" line="26" column="12" bodyfile="include/search/autocomplete.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_suggestion_1a9b42a220a16bdaee54894c7c71e0cc97" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::Suggestion::is_popular</definition>
+        <argsstring></argsstring>
+        <name>is_popular</name>
+        <qualifiedname>themis::Suggestion::is_popular</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True if derived from popular-query history. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/autocomplete.h" line="27" column="10" bodyfile="include/search/autocomplete.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single autocomplete suggestion. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/autocomplete.h" line="24" column="1" bodyfile="include/search/autocomplete.h" bodystart="24" bodyend="28"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_suggestion_1a9b42a220a16bdaee54894c7c71e0cc97" prot="public" virt="non-virtual"><scope>themis::Suggestion</scope><name>is_popular</name></member>
+      <member refid="structthemis_1_1_suggestion_1a33b328d0306381da297254f71bc93a0c" prot="public" virt="non-virtual"><scope>themis::Suggestion</scope><name>score</name></member>
+      <member refid="structthemis_1_1_suggestion_1a6d3dcce660fea8fd18aee41c18b94bfd" prot="public" virt="non-virtual"><scope>themis::Suggestion</scope><name>text</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

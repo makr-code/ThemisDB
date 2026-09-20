@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_process_graph_manager_1_1_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ProcessGraphManager::Status</compoundname>
+    <includes refid="process__graph_8h" local="no">process_graph.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_status_1af88b09b045f8297ae5321b36b4b81977" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ProcessGraphManager::Status::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::ProcessGraphManager::Status::ok</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="508" column="14" bodyfile="include/index/process_graph.h" bodystart="508" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_status_1ad289beecde69b5622f61a82e093841f1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ProcessGraphManager::Status::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::ProcessGraphManager::Status::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="509" column="21" bodyfile="include/index/process_graph.h" bodystart="509" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_process_graph_manager_1_1_status_1aab49ec76c3b9fe1e5736d45a1547bd5a" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_process_graph_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>static Status themis::ProcessGraphManager::Status::OK</definition>
+        <argsstring>()</argsstring>
+        <name>OK</name>
+        <qualifiedname>themis::ProcessGraphManager::Status::OK</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="510" column="23" bodyfile="include/index/process_graph.h" bodystart="510" bodyend="510"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_process_graph_manager_1_1_status_1aa59dfbba5b41419691f58998a9e55eaf" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_process_graph_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>static Status themis::ProcessGraphManager::Status::Error</definition>
+        <argsstring>(std::string msg)</argsstring>
+        <name>Error</name>
+        <qualifiedname>themis::ProcessGraphManager::Status::Error</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="511" column="23" bodyfile="include/index/process_graph.h" bodystart="511" bodyend="511"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/process_graph.h" line="507" column="5" bodyfile="include/index/process_graph.h" bodystart="507" bodyend="512"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_status_1aa59dfbba5b41419691f58998a9e55eaf" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::Status</scope><name>Error</name></member>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_status_1ad289beecde69b5622f61a82e093841f1" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::Status</scope><name>message</name></member>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_status_1aab49ec76c3b9fe1e5736d45a1547bd5a" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::Status</scope><name>OK</name></member>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_status_1af88b09b045f8297ae5321b36b4b81977" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::Status</scope><name>ok</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

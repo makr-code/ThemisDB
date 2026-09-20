@@ -1,0 +1,251 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_mock_storage" kind="struct" language="C++" prot="public">
+    <compoundname>MockStorage</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">MutationExecutor::StorageContext</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_mock_storage_1ac5d6cbbcdcd6a583050cadb370edc38a" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; MockStorage::store</definition>
+        <argsstring></argsstring>
+        <name>store</name>
+        <qualifiedname>MockStorage::store</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_mutations_phase5.cpp" line="55" column="14" bodyfile="tests/aql/test_aql_mutations_phase5.cpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mock_storage_1af3a336c3b7204a903e49ab7635361f10" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; MockStorage::wal_log</definition>
+        <argsstring></argsstring>
+        <name>wal_log</name>
+        <qualifiedname>MockStorage::wal_log</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_mutations_phase5.cpp" line="56" column="27" bodyfile="tests/aql/test_aql_mutations_phase5.cpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mock_storage_1a23bd6ddf3249251c4e4b51c5c88e9640" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; MockStorage::key_ctr</definition>
+        <argsstring></argsstring>
+        <name>key_ctr</name>
+        <qualifiedname>MockStorage::key_ctr</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_mutations_phase5.cpp" line="57" column="35" bodyfile="tests/aql/test_aql_mutations_phase5.cpp" bodystart="57" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mock_storage_1a9be7927d20136c6ecc09d755c95cdd55" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool MockStorage::fail_put</definition>
+        <argsstring></argsstring>
+        <name>fail_put</name>
+        <qualifiedname>MockStorage::fail_put</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_mutations_phase5.cpp" line="58" column="40" bodyfile="tests/aql/test_aql_mutations_phase5.cpp" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mock_storage_1a212330ba534c0575a00d7c716d11d70d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool MockStorage::fail_remove</definition>
+        <argsstring></argsstring>
+        <name>fail_remove</name>
+        <qualifiedname>MockStorage::fail_remove</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_mutations_phase5.cpp" line="59" column="40" bodyfile="tests/aql/test_aql_mutations_phase5.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_mock_storage_1a60b192066deedec0b7b2d54e53814ab1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool MockStorage::put</definition>
+        <argsstring>(std::string_view, std::string_view key, std::string_view val) override</argsstring>
+        <name>put</name>
+        <qualifiedname>MockStorage::put</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_mutations_phase5.cpp" line="61" column="10" bodyfile="tests/aql/test_aql_mutations_phase5.cpp" bodystart="61" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_mock_storage_1a21250ce5c2d310d34c845af02d9ef631" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool MockStorage::remove</definition>
+        <argsstring>(std::string_view, std::string_view key) override</argsstring>
+        <name>remove</name>
+        <qualifiedname>MockStorage::remove</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_mutations_phase5.cpp" line="69" column="10" bodyfile="tests/aql/test_aql_mutations_phase5.cpp" bodystart="69" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_mock_storage_1a0b39dc9b0d8b9f6a802241110b7f24cc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool MockStorage::exists</definition>
+        <argsstring>(std::string_view, std::string_view key) override</argsstring>
+        <name>exists</name>
+        <qualifiedname>MockStorage::exists</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_mutations_phase5.cpp" line="77" column="10" bodyfile="tests/aql/test_aql_mutations_phase5.cpp" bodystart="77" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_mock_storage_1aac8009f6461ebb7efddcb903705ed812" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string MockStorage::generateKey</definition>
+        <argsstring>(std::string_view col) override</argsstring>
+        <name>generateKey</name>
+        <qualifiedname>MockStorage::generateKey</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>col</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_mutations_phase5.cpp" line="81" column="17" bodyfile="tests/aql/test_aql_mutations_phase5.cpp" bodystart="81" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_mock_storage_1a2e5e30e4c519d90b0929c7681b8f773a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool MockStorage::writeWAL</definition>
+        <argsstring>(std::string_view, const nlohmann::json &amp;entry) override</argsstring>
+        <name>writeWAL</name>
+        <qualifiedname>MockStorage::writeWAL</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_mutations_phase5.cpp" line="85" column="10" bodyfile="tests/aql/test_aql_mutations_phase5.cpp" bodystart="85" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_mock_storage_1a016dc74e1b624f4132286849dc86bfc6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; MockStorage::get</definition>
+        <argsstring>(std::string_view, std::string_view key) override</argsstring>
+        <name>get</name>
+        <qualifiedname>MockStorage::get</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_mutations_phase5.cpp" line="90" column="19" bodyfile="tests/aql/test_aql_mutations_phase5.cpp" bodystart="90" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MockStorage</label>
+        <link refid="struct_mock_storage"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>MutationExecutor::StorageContext</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MockStorage</label>
+        <link refid="struct_mock_storage"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>MutationExecutor::StorageContext</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/aql/test_aql_mutations_phase5.cpp" line="54" column="1" bodyfile="tests/aql/test_aql_mutations_phase5.cpp" bodystart="54" bodyend="97"/>
+    <listofallmembers>
+      <member refid="struct_mock_storage_1a0b39dc9b0d8b9f6a802241110b7f24cc" prot="public" virt="non-virtual"><scope>MockStorage</scope><name>exists</name></member>
+      <member refid="struct_mock_storage_1a9be7927d20136c6ecc09d755c95cdd55" prot="public" virt="non-virtual"><scope>MockStorage</scope><name>fail_put</name></member>
+      <member refid="struct_mock_storage_1a212330ba534c0575a00d7c716d11d70d" prot="public" virt="non-virtual"><scope>MockStorage</scope><name>fail_remove</name></member>
+      <member refid="struct_mock_storage_1aac8009f6461ebb7efddcb903705ed812" prot="public" virt="non-virtual"><scope>MockStorage</scope><name>generateKey</name></member>
+      <member refid="struct_mock_storage_1a016dc74e1b624f4132286849dc86bfc6" prot="public" virt="non-virtual"><scope>MockStorage</scope><name>get</name></member>
+      <member refid="struct_mock_storage_1a23bd6ddf3249251c4e4b51c5c88e9640" prot="public" virt="non-virtual"><scope>MockStorage</scope><name>key_ctr</name></member>
+      <member refid="struct_mock_storage_1a60b192066deedec0b7b2d54e53814ab1" prot="public" virt="non-virtual"><scope>MockStorage</scope><name>put</name></member>
+      <member refid="struct_mock_storage_1a21250ce5c2d310d34c845af02d9ef631" prot="public" virt="non-virtual"><scope>MockStorage</scope><name>remove</name></member>
+      <member refid="struct_mock_storage_1ac5d6cbbcdcd6a583050cadb370edc38a" prot="public" virt="non-virtual"><scope>MockStorage</scope><name>store</name></member>
+      <member refid="struct_mock_storage_1af3a336c3b7204a903e49ab7635361f10" prot="public" virt="non-virtual"><scope>MockStorage</scope><name>wal_log</name></member>
+      <member refid="struct_mock_storage_1a2e5e30e4c519d90b0929c7681b8f773a" prot="public" virt="non-virtual"><scope>MockStorage</scope><name>writeWAL</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

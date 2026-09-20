@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::FaithfulnessEvaluator::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_impl_1a87aa628a421e14730fc95027532e631b" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::rag::judge::FaithfulnessEvaluator::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::rag::judge::FaithfulnessEvaluator::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/faithfulness_evaluator.cpp" line="28" column="12" bodyfile="src/rag/faithfulness_evaluator.cpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_impl_1a77582df79abc25bade803118c3ffe031" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration" kindref="compound">LLMJudgeIntegration</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;LLMJudgeIntegration&gt; themis::rag::judge::FaithfulnessEvaluator::Impl::llm_integration</definition>
+        <argsstring></argsstring>
+        <name>llm_integration</name>
+        <qualifiedname>themis::rag::judge::FaithfulnessEvaluator::Impl::llm_integration</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/faithfulness_evaluator.cpp" line="29" column="21" bodyfile="src/rag/faithfulness_evaluator.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_impl_1a08c386273221699c87238ef6dee0a2dc" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier" kindref="compound">NLIFaithfulnessVerifier</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;NLIFaithfulnessVerifier&gt; themis::rag::judge::FaithfulnessEvaluator::Impl::nli_verifier</definition>
+        <argsstring></argsstring>
+        <name>nli_verifier</name>
+        <qualifiedname>themis::rag::judge::FaithfulnessEvaluator::Impl::nli_verifier</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/faithfulness_evaluator.cpp" line="30" column="21" bodyfile="src/rag/faithfulness_evaluator.cpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_impl_1a5d997d647f494b053e6ddeea74da62b2" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1rag_1_1judge_1_1_response_parser" kindref="compound">ResponseParser</ref></type>
+        <definition>ResponseParser themis::rag::judge::FaithfulnessEvaluator::Impl::parser</definition>
+        <argsstring></argsstring>
+        <name>parser</name>
+        <qualifiedname>themis::rag::judge::FaithfulnessEvaluator::Impl::parser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/faithfulness_evaluator.cpp" line="31" column="20" bodyfile="src/rag/faithfulness_evaluator.cpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_impl_1af7d64436bd1ffeaca3fb0e0c683983f7" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::rag::judge::FaithfulnessEvaluator::Impl::state_mutex</definition>
+        <argsstring></argsstring>
+        <name>state_mutex</name>
+        <qualifiedname>themis::rag::judge::FaithfulnessEvaluator::Impl::state_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/faithfulness_evaluator.cpp" line="32" column="24" bodyfile="src/rag/faithfulness_evaluator.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_impl_1a920c56bb0f492321339aef714ce179cd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1rag_1_1judge_1a9a728c8fa25e8d98b45275916d29376b" kindref="member">SupportLevel</ref></type>
+        <definition>SupportLevel themis::rag::judge::FaithfulnessEvaluator::Impl::checkNLIEntailment</definition>
+        <argsstring>(const std::string &amp;claim, const std::string &amp;document)</argsstring>
+        <name>checkNLIEntailment</name>
+        <qualifiedname>themis::rag::judge::FaithfulnessEvaluator::Impl::checkNLIEntailment</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>claim</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document</declname>
+        </param>
+        <briefdescription>
+<para>NLI-based entailment check: uses <ref refid="classthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier" kindref="compound">NLIFaithfulnessVerifier</ref> when loaded, falls back to term-overlap heuristic when no model is configured. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">claim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">document</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), <ref refid="classthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1a0890b263d2f957f4b977dd9d121c6580" kindref="member">checkEntailment()</ref>, std::transform(), begin(), end(), claim_stream(), length(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/faithfulness_evaluator.cpp" line="41" column="18" bodyfile="src/rag/faithfulness_evaluator.cpp" bodystart="41" bodyend="98"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::rag::judge::FaithfulnessEvaluator::Config</label>
+        <link refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_config"/>
+      </node>
+      <node id="1">
+        <label>themis::rag::judge::FaithfulnessEvaluator::Impl</label>
+        <link refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>parser</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::rag::judge::ResponseParser</label>
+        <link refid="classthemis_1_1rag_1_1judge_1_1_response_parser"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/rag/faithfulness_evaluator.cpp" line="27" column="1" bodyfile="src/rag/faithfulness_evaluator.cpp" bodystart="27" bodyend="99"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_impl_1a920c56bb0f492321339aef714ce179cd" prot="public" virt="non-virtual"><scope>themis::rag::judge::FaithfulnessEvaluator::Impl</scope><name>checkNLIEntailment</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_impl_1a87aa628a421e14730fc95027532e631b" prot="public" virt="non-virtual"><scope>themis::rag::judge::FaithfulnessEvaluator::Impl</scope><name>config</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_impl_1a77582df79abc25bade803118c3ffe031" prot="public" virt="non-virtual"><scope>themis::rag::judge::FaithfulnessEvaluator::Impl</scope><name>llm_integration</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_impl_1a08c386273221699c87238ef6dee0a2dc" prot="public" virt="non-virtual"><scope>themis::rag::judge::FaithfulnessEvaluator::Impl</scope><name>nli_verifier</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_impl_1a5d997d647f494b053e6ddeea74da62b2" prot="public" virt="non-virtual"><scope>themis::rag::judge::FaithfulnessEvaluator::Impl</scope><name>parser</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator_1_1_impl_1af7d64436bd1ffeaca3fb0e0c683983f7" prot="public" virt="non-virtual"><scope>themis::rag::judge::FaithfulnessEvaluator::Impl</scope><name>state_mutex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

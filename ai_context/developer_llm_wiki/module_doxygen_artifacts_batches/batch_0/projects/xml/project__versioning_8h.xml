@@ -1,0 +1,236 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="project__versioning_8h" kind="file" language="C++">
+    <compoundname>project_versioning.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">variant</includes>
+    <includes local="no">shared_mutex</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes refid="document__manager_8h" local="yes">projects/DocumentManager/document_manager.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includedby refid="project__diff_8h" local="yes">include/projects/project_diff.h</includedby>
+    <includedby refid="project__versioning_8cpp" local="yes">src/projects/project_versioning.cpp</includedby>
+    <includedby refid="test__projects_8cpp" local="yes">tests/projects/test_projects.cpp</includedby>
+    <includedby refid="test__projects__phase4__hardening__focused_8cpp" local="yes">tests/projects/test_projects_phase4_hardening_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="9">
+        <label>projects/DocumentManager/document_manager.h</label>
+        <link refid="document__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/projects/project_versioning.h</label>
+        <link refid="project__versioning_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>index/graph_index.h</label>
+      </node>
+      <node id="12">
+        <label>index/vector_index.h</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="7">
+        <label>shared_mutex</label>
+      </node>
+      <node id="10">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="11">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>variant</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/projects/project_diff.h</label>
+        <link refid="project__diff_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/projects/project_versioning.h</label>
+        <link refid="project__versioning_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/projects/project_diff.cpp</label>
+        <link refid="project__diff_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/projects/project_versioning.cpp</label>
+        <link refid="project__versioning_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/projects/test_projects.cpp</label>
+        <link refid="test__projects_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/projects/test_projects_phase4_hardening_focused.cpp</label>
+        <link refid="test__projects__phase4__hardening__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1projects_1_1_snapshot_meta" prot="public">themis::projects::SnapshotMeta</innerclass>
+    <innerclass refid="classthemis_1_1projects_1_1_project_versioning" prot="public">themis::projects::ProjectVersioning</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1projects">themis::projects</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.3 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;variant&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="document__manager_8h" kindref="compound">projects/DocumentManager/document_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1projects" kindref="compound">projects</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1projects_1aa6ebfecbbf761b81a776c2845d5200d7" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1projects_1a904262ebb886578d2e21ef7718def9be" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1projects_1a904262ebb886578d2e21ef7718def9be" kindref="member">SnapshotId</ref><sp/>=<sp/>std::string;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1projects_1ae12285e4416206b25da7ad0755116906" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1projects_1ae12285e4416206b25da7ad0755116906" kindref="member">Sha256Digest</ref><sp/>=<sp/>std::string;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1projects_1_1_snapshot_meta" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1projects_1_1_snapshot_meta" kindref="compound">SnapshotMeta</ref><sp/>{</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1projects_1_1_snapshot_meta_1a10c14dcbbaef5ff48943e51646787a4f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1projects_1a904262ebb886578d2e21ef7718def9be" kindref="member">SnapshotId</ref><sp/><sp/><ref refid="structthemis_1_1projects_1_1_snapshot_meta_1a10c14dcbbaef5ff48943e51646787a4f" kindref="member">id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1projects_1_1_snapshot_meta_1aa3ba99a796b33384dcb97154b7b3166f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1projects_1_1_snapshot_meta_1aa3ba99a796b33384dcb97154b7b3166f" kindref="member">project_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1projects_1_1_snapshot_meta_1a36d07a80c534706751de945805845d7d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1projects_1_1_snapshot_meta_1a36d07a80c534706751de945805845d7d" kindref="member">description</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1projects_1_1_snapshot_meta_1a0fc1fe76ee1e1a1f152620ad0a830d03" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1projects_1_1_snapshot_meta_1a0fc1fe76ee1e1a1f152620ad0a830d03" kindref="member">created_at</ref><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1projects_1_1_snapshot_meta_1a10801e02157f6bbc4271cf81c8658b1c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1projects_1ae12285e4416206b25da7ad0755116906" kindref="member">Sha256Digest</ref><sp/><ref refid="structthemis_1_1projects_1_1_snapshot_meta_1a10801e02157f6bbc4271cf81c8658b1c" kindref="member">checksum</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1projects_1_1_snapshot_meta_1a55fa31b941066153571fddaae6d22d57" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1projects_1_1_snapshot_meta_1a55fa31b941066153571fddaae6d22d57" kindref="member">document_count</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1projects_1_1_snapshot_meta_1a64bf27eb92260d31d20a0112c5c5ac7d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1projects_1aa6ebfecbbf761b81a776c2845d5200d7" kindref="member">json</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1projects_1_1_snapshot_meta_1a64bf27eb92260d31d20a0112c5c5ac7d" kindref="member">metadata</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1projects_1aa6ebfecbbf761b81a776c2845d5200d7" kindref="member">json</ref><sp/><ref refid="structthemis_1_1projects_1_1_snapshot_meta_1a59d5026ce7c4c7c7bb2121773d9dd665" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1projects_1_1_snapshot_meta" kindref="compound">SnapshotMeta</ref><sp/><ref refid="structthemis_1_1projects_1_1_snapshot_meta_1a5533f3ede8a2a03d51415ef1881f2605" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1projects_1aa6ebfecbbf761b81a776c2845d5200d7" kindref="member">json</ref>&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="classthemis_1_1projects_1_1_project_versioning" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1projects_1_1_project_versioning_1a7ff870ee323bdfc1da25261a96ac25b2" kindref="member">ProjectVersioning</ref><sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1projects_1_1_project_versioning_1a7ff870ee323bdfc1da25261a96ac25b2" kindref="member">ProjectVersioning</ref>(std::shared_ptr&lt;RocksDBWrapper&gt;<sp/>storage);</highlight></codeline>
+<codeline lineno="74" refid="classthemis_1_1projects_1_1_project_versioning_1ad388f581778bfcd4aa297535f0bbf4cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1projects_1_1_project_versioning_1ad388f581778bfcd4aa297535f0bbf4cf" kindref="member">~ProjectVersioning</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>std::variant&lt;SnapshotId,<sp/>Status&gt;<sp/><ref refid="classthemis_1_1projects_1_1_project_versioning_1abfaadb02ceaf86180cc4a2a6f8c05259" kindref="member">createSnapshot</ref>(</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>project_id,</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>description<sp/>=<sp/>{},</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1projects_1aa6ebfecbbf761b81a776c2845d5200d7" kindref="member">json</ref>&amp;<sp/>metadata<sp/>=<sp/>json::object()</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;SnapshotMeta&gt;<sp/><ref refid="classthemis_1_1projects_1_1_project_versioning_1a24aeb89c53d850c4efd4be6fdc1ef44f" kindref="member">getSnapshot</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1projects_1a904262ebb886578d2e21ef7718def9be" kindref="member">SnapshotId</ref>&amp;<sp/>snap_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SnapshotMeta&gt;<sp/><ref refid="classthemis_1_1projects_1_1_project_versioning_1ad0c7097f0a9cd5a83e02963e0763f1e8" kindref="member">listSnapshots</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>project_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1projects_1_1_status" kindref="compound">Status</ref><sp/><ref refid="classthemis_1_1projects_1_1_project_versioning_1a008a1e3ad50549bf20a0a9af95657b03" kindref="member">deleteSnapshot</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1projects_1a904262ebb886578d2e21ef7718def9be" kindref="member">SnapshotId</ref>&amp;<sp/>snap_id);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1projects_1_1_status" kindref="compound">Status</ref><sp/><ref refid="classthemis_1_1projects_1_1_project_versioning_1addd6150e316d3876af7826c530e0293e" kindref="member">restoreSnapshot</ref>(</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1projects_1a904262ebb886578d2e21ef7718def9be" kindref="member">SnapshotId</ref>&amp;<sp/>snap_id,</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target_project_id</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1projects_1_1_project_versioning_1a016933cbc00c1d7124db66783ec64939" kindref="member">verifySnapshot</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1projects_1a904262ebb886578d2e21ef7718def9be" kindref="member">SnapshotId</ref>&amp;<sp/>snap_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;RocksDBWrapper&gt;<sp/><sp/><sp/>storage_;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mutex_;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>generateUuid()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1projects_1ae12285e4416206b25da7ad0755116906" kindref="member">Sha256Digest</ref><sp/>computeChecksum(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>data)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>collectProjectDocKeys(</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>project_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>projects</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/projects/project_versioning.h"/>
+  </compounddef>
+</doxygen>

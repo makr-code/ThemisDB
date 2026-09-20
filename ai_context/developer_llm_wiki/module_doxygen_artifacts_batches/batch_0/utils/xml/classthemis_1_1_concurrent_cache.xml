@@ -1,0 +1,558 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_concurrent_cache" kind="class" language="C++" prot="public">
+    <compoundname>themis::ConcurrentCache</compoundname>
+    <includes refid="concurrent__cache_8h" local="no">concurrent_cache.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename Key</type>
+      </param>
+      <param>
+        <type>typename Value</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1_concurrent_cache_1afad6a108426e56bd5452003e163c058c" prot="public" static="no">
+        <type>std::unordered_map&lt; Key, Value &gt;</type>
+        <definition>using themis::ConcurrentCache&lt; Key, Value &gt;::MapType = std::unordered_map&lt;Key, Value&gt;</definition>
+        <argsstring></argsstring>
+        <name>MapType</name>
+        <qualifiedname>themis::ConcurrentCache::MapType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/concurrent_cache.h" line="32" column="5" bodyfile="include/utils/concurrent_cache.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1_concurrent_cache_1add9a7182b5eca47ec563b9acfceae003" prot="public" static="no">
+        <type>std::nullptr_t</type>
+        <definition>using themis::ConcurrentCache&lt; Key, Value &gt;::Accessor = std::nullptr_t</definition>
+        <argsstring></argsstring>
+        <name>Accessor</name>
+        <qualifiedname>themis::ConcurrentCache::Accessor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/concurrent_cache.h" line="33" column="5" bodyfile="include/utils/concurrent_cache.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1_concurrent_cache_1a68a2957d29e14f8729b55c298b6cc711" prot="public" static="no">
+        <type>std::nullptr_t</type>
+        <definition>using themis::ConcurrentCache&lt; Key, Value &gt;::ConstAccessor = std::nullptr_t</definition>
+        <argsstring></argsstring>
+        <name>ConstAccessor</name>
+        <qualifiedname>themis::ConcurrentCache::ConstAccessor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/concurrent_cache.h" line="34" column="5" bodyfile="include/utils/concurrent_cache.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_concurrent_cache_1a73f8582de46b9e3c37a7cd5c14af3f93" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::ConcurrentCache&lt; Key, Value &gt;::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::ConcurrentCache::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/concurrent_cache.h" line="160" column="24" bodyfile="include/utils/concurrent_cache.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_concurrent_cache_1a8e8882862bca74845f52a5ff1cfdc812" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_concurrent_cache_1afad6a108426e56bd5452003e163c058c" kindref="member">MapType</ref></type>
+        <definition>MapType themis::ConcurrentCache&lt; Key, Value &gt;::map_</definition>
+        <argsstring></argsstring>
+        <name>map_</name>
+        <qualifiedname>themis::ConcurrentCache::map_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/concurrent_cache.h" line="161" column="13" bodyfile="include/utils/concurrent_cache.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_concurrent_cache_1a410a99bede6ba2baa9d53af40588e3b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ConcurrentCache&lt; Key, Value &gt;::ConcurrentCache</definition>
+        <argsstring>()=default</argsstring>
+        <name>ConcurrentCache</name>
+        <qualifiedname>themis::ConcurrentCache::ConcurrentCache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/concurrent_cache.h" line="36" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_concurrent_cache_1aa29d3677a70595be0a159f06e45de2fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ConcurrentCache&lt; Key, Value &gt;::~ConcurrentCache</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ConcurrentCache</name>
+        <qualifiedname>themis::ConcurrentCache::~ConcurrentCache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/concurrent_cache.h" line="37" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_concurrent_cache_1a221d72ee0daa3d61ea602027d8d89f54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ConcurrentCache&lt; Key, Value &gt;::ConcurrentCache</definition>
+        <argsstring>(const ConcurrentCache &amp;)=delete</argsstring>
+        <name>ConcurrentCache</name>
+        <qualifiedname>themis::ConcurrentCache::ConcurrentCache</qualifiedname>
+        <param>
+          <type>const ConcurrentCache &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/concurrent_cache.h" line="40" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_concurrent_cache_1ae6cf223c627441f47ef248d889d15f1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_concurrent_cache_1a410a99bede6ba2baa9d53af40588e3b1" kindref="member">ConcurrentCache</ref> &amp;</type>
+        <definition>ConcurrentCache &amp; themis::ConcurrentCache&lt; Key, Value &gt;::operator=</definition>
+        <argsstring>(const ConcurrentCache &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::ConcurrentCache::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_concurrent_cache_1a410a99bede6ba2baa9d53af40588e3b1" kindref="member">ConcurrentCache</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/concurrent_cache.h" line="41" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_concurrent_cache_1a2539f32e755fdf67631518ba72e412cf" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ConcurrentCache&lt; Key, Value &gt;::ConcurrentCache</definition>
+        <argsstring>(ConcurrentCache &amp;&amp;) noexcept=default</argsstring>
+        <name>ConcurrentCache</name>
+        <qualifiedname>themis::ConcurrentCache::ConcurrentCache</qualifiedname>
+        <param>
+          <type>ConcurrentCache &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/concurrent_cache.h" line="42" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_concurrent_cache_1a5a98fcd5a7c7b143b8b4051541a5eb2e" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_concurrent_cache_1a410a99bede6ba2baa9d53af40588e3b1" kindref="member">ConcurrentCache</ref> &amp;</type>
+        <definition>ConcurrentCache &amp; themis::ConcurrentCache&lt; Key, Value &gt;::operator=</definition>
+        <argsstring>(ConcurrentCache &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::ConcurrentCache::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_concurrent_cache_1a410a99bede6ba2baa9d53af40588e3b1" kindref="member">ConcurrentCache</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/concurrent_cache.h" line="43" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_concurrent_cache_1a658fd74f94be4873b34d7a8f77712295" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ConcurrentCache&lt; Key, Value &gt;::insert</definition>
+        <argsstring>(const Key &amp;key, const Value &amp;value)</argsstring>
+        <name>insert</name>
+        <qualifiedname>themis::ConcurrentCache::insert</qualifiedname>
+        <param>
+          <type>const Key &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const Value &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Inserts or overwrites a value for a key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key to insert or update. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Value to store. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/concurrent_cache.h" line="50" column="10" bodyfile="include/utils/concurrent_cache.h" bodystart="50" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_concurrent_cache_1a79aeb6d6956b10db81fbb0f375e3a826" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; Value &gt;</type>
+        <definition>std::optional&lt; Value &gt; themis::ConcurrentCache&lt; Key, Value &gt;::get</definition>
+        <argsstring>(const Key &amp;key) const</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::ConcurrentCache::get</qualifiedname>
+        <param>
+          <type>const Key &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Gets a copy of the value for a key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key to look up. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Stored value when present, otherwise std::nullopt. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/concurrent_cache.h" line="60" column="19" bodyfile="include/utils/concurrent_cache.h" bodystart="60" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_concurrent_cache_1a4220ca06cd2ff08dc6aa5d219d5b77db" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ConcurrentCache&lt; Key, Value &gt;::try_update</definition>
+        <argsstring>(const Key &amp;key, const Value &amp;value)</argsstring>
+        <name>try_update</name>
+        <qualifiedname>themis::ConcurrentCache::try_update</qualifiedname>
+        <param>
+          <type>const Key &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const Value &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Updates an existing value for a key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key to update. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Replacement value. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when key exists and was updated; false when key is missing. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/concurrent_cache.h" line="75" column="10" bodyfile="include/utils/concurrent_cache.h" bodystart="75" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_concurrent_cache_1aef2ad3b8cb7acb00077a1027d67fd825" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ConcurrentCache&lt; Key, Value &gt;::erase</definition>
+        <argsstring>(const Key &amp;key)</argsstring>
+        <name>erase</name>
+        <qualifiedname>themis::ConcurrentCache::erase</qualifiedname>
+        <param>
+          <type>const Key &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Removes a key from the cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key to erase. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when an entry was removed, otherwise false. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/concurrent_cache.h" line="90" column="10" bodyfile="include/utils/concurrent_cache.h" bodystart="90" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_concurrent_cache_1a5ec89f3c008a880002f56e5a5e2e0dbb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ConcurrentCache&lt; Key, Value &gt;::contains</definition>
+        <argsstring>(const Key &amp;key) const</argsstring>
+        <name>contains</name>
+        <qualifiedname>themis::ConcurrentCache::contains</qualifiedname>
+        <param>
+          <type>const Key &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Checks whether a key exists. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key to probe. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when the key exists, otherwise false. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/concurrent_cache.h" line="100" column="10" bodyfile="include/utils/concurrent_cache.h" bodystart="100" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_concurrent_cache_1aaedb981d15d2cad7b90483e66b713528" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::ConcurrentCache&lt; Key, Value &gt;::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::ConcurrentCache::size</qualifiedname>
+        <briefdescription>
+<para>Returns the number of entries in the cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Entry count. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/concurrent_cache.h" line="109" column="12" bodyfile="include/utils/concurrent_cache.h" bodystart="109" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_concurrent_cache_1adbc8206f7994c2d749443a297c31ffb4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ConcurrentCache&lt; Key, Value &gt;::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::ConcurrentCache::clear</qualifiedname>
+        <briefdescription>
+<para>Removes all entries from the cache. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/concurrent_cache.h" line="117" column="10" bodyfile="include/utils/concurrent_cache.h" bodystart="117" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_concurrent_cache_1a4c3645818545b8cc135124b02716d016" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void themis::ConcurrentCache&lt; Key, Value &gt;::for_each</definition>
+        <argsstring>(Func fn) const</argsstring>
+        <name>for_each</name>
+        <qualifiedname>themis::ConcurrentCache::for_each</qualifiedname>
+        <param>
+          <type>Func</type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Executes a callback for each entry in the current snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>Func</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable type accepting <computeroutput>(const Key&amp;, const Value&amp;)</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback invoked for each cache entry. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>No value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/concurrent_cache.h" line="129" column="10" bodyfile="include/utils/concurrent_cache.h" bodystart="129" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_concurrent_cache_1a13445e92859019d0cc1110a2ba7f711e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_concurrent_cache_1afad6a108426e56bd5452003e163c058c" kindref="member">MapType</ref> &amp;</type>
+        <definition>MapType &amp; themis::ConcurrentCache&lt; Key, Value &gt;::map</definition>
+        <argsstring>()</argsstring>
+        <name>map</name>
+        <qualifiedname>themis::ConcurrentCache::map</qualifiedname>
+        <briefdescription>
+<para>Returns mutable access to the underlying map. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Mutable reference to the backing map. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/concurrent_cache.h" line="140" column="13" bodyfile="include/utils/concurrent_cache.h" bodystart="140" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_concurrent_cache_1a6c28b9ca6ad464887283e9a19348eefc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1_concurrent_cache_1afad6a108426e56bd5452003e163c058c" kindref="member">MapType</ref> &amp;</type>
+        <definition>const MapType &amp; themis::ConcurrentCache&lt; Key, Value &gt;::map</definition>
+        <argsstring>() const</argsstring>
+        <name>map</name>
+        <qualifiedname>themis::ConcurrentCache::map</qualifiedname>
+        <briefdescription>
+<para>Returns read-only access to the underlying map. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Const reference to the backing map. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/concurrent_cache.h" line="146" column="19" bodyfile="include/utils/concurrent_cache.h" bodystart="146" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_concurrent_cache_1a043fd5f63cdddc5fc310d7cf3c8cad48" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const Value *</type>
+        <definition>const Value * themis::ConcurrentCache&lt; Key, Value &gt;::find_ptr</definition>
+        <argsstring>(const Key &amp;key) const</argsstring>
+        <name>find_ptr</name>
+        <qualifiedname>themis::ConcurrentCache::find_ptr</qualifiedname>
+        <param>
+          <type>const Key &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Finds a value while holding the cache mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key to look up. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the stored value when present, otherwise nullptr. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/concurrent_cache.h" line="153" column="17" bodyfile="include/utils/concurrent_cache.h" bodystart="153" bodyend="157"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread-safe cache wrapper using a std::unordered_map + mutex. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides a simple concurrent cache implementation when TBB containers are unavailable in the build environment.</para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>Key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key type used for map lookup. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Value type stored in the cache. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <location file="include/utils/concurrent_cache.h" line="30" column="1" bodyfile="include/utils/concurrent_cache.h" bodystart="30" bodyend="162"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_concurrent_cache_1add9a7182b5eca47ec563b9acfceae003" prot="public" virt="non-virtual"><scope>themis::ConcurrentCache</scope><name>Accessor</name></member>
+      <member refid="classthemis_1_1_concurrent_cache_1adbc8206f7994c2d749443a297c31ffb4" prot="public" virt="non-virtual"><scope>themis::ConcurrentCache</scope><name>clear</name></member>
+      <member refid="classthemis_1_1_concurrent_cache_1a410a99bede6ba2baa9d53af40588e3b1" prot="public" virt="non-virtual"><scope>themis::ConcurrentCache</scope><name>ConcurrentCache</name></member>
+      <member refid="classthemis_1_1_concurrent_cache_1a221d72ee0daa3d61ea602027d8d89f54" prot="public" virt="non-virtual"><scope>themis::ConcurrentCache</scope><name>ConcurrentCache</name></member>
+      <member refid="classthemis_1_1_concurrent_cache_1a2539f32e755fdf67631518ba72e412cf" prot="public" virt="non-virtual"><scope>themis::ConcurrentCache</scope><name>ConcurrentCache</name></member>
+      <member refid="classthemis_1_1_concurrent_cache_1a68a2957d29e14f8729b55c298b6cc711" prot="public" virt="non-virtual"><scope>themis::ConcurrentCache</scope><name>ConstAccessor</name></member>
+      <member refid="classthemis_1_1_concurrent_cache_1a5ec89f3c008a880002f56e5a5e2e0dbb" prot="public" virt="non-virtual"><scope>themis::ConcurrentCache</scope><name>contains</name></member>
+      <member refid="classthemis_1_1_concurrent_cache_1aef2ad3b8cb7acb00077a1027d67fd825" prot="public" virt="non-virtual"><scope>themis::ConcurrentCache</scope><name>erase</name></member>
+      <member refid="classthemis_1_1_concurrent_cache_1a043fd5f63cdddc5fc310d7cf3c8cad48" prot="public" virt="non-virtual"><scope>themis::ConcurrentCache</scope><name>find_ptr</name></member>
+      <member refid="classthemis_1_1_concurrent_cache_1a4c3645818545b8cc135124b02716d016" prot="public" virt="non-virtual"><scope>themis::ConcurrentCache</scope><name>for_each</name></member>
+      <member refid="classthemis_1_1_concurrent_cache_1a79aeb6d6956b10db81fbb0f375e3a826" prot="public" virt="non-virtual"><scope>themis::ConcurrentCache</scope><name>get</name></member>
+      <member refid="classthemis_1_1_concurrent_cache_1a658fd74f94be4873b34d7a8f77712295" prot="public" virt="non-virtual"><scope>themis::ConcurrentCache</scope><name>insert</name></member>
+      <member refid="classthemis_1_1_concurrent_cache_1a13445e92859019d0cc1110a2ba7f711e" prot="public" virt="non-virtual"><scope>themis::ConcurrentCache</scope><name>map</name></member>
+      <member refid="classthemis_1_1_concurrent_cache_1a6c28b9ca6ad464887283e9a19348eefc" prot="public" virt="non-virtual"><scope>themis::ConcurrentCache</scope><name>map</name></member>
+      <member refid="classthemis_1_1_concurrent_cache_1a8e8882862bca74845f52a5ff1cfdc812" prot="private" virt="non-virtual"><scope>themis::ConcurrentCache</scope><name>map_</name></member>
+      <member refid="classthemis_1_1_concurrent_cache_1afad6a108426e56bd5452003e163c058c" prot="public" virt="non-virtual"><scope>themis::ConcurrentCache</scope><name>MapType</name></member>
+      <member refid="classthemis_1_1_concurrent_cache_1a73f8582de46b9e3c37a7cd5c14af3f93" prot="private" virt="non-virtual"><scope>themis::ConcurrentCache</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1_concurrent_cache_1ae6cf223c627441f47ef248d889d15f1a" prot="public" virt="non-virtual"><scope>themis::ConcurrentCache</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_concurrent_cache_1a5a98fcd5a7c7b143b8b4051541a5eb2e" prot="public" virt="non-virtual"><scope>themis::ConcurrentCache</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_concurrent_cache_1aaedb981d15d2cad7b90483e66b713528" prot="public" virt="non-virtual"><scope>themis::ConcurrentCache</scope><name>size</name></member>
+      <member refid="classthemis_1_1_concurrent_cache_1a4220ca06cd2ff08dc6aa5d219d5b77db" prot="public" virt="non-virtual"><scope>themis::ConcurrentCache</scope><name>try_update</name></member>
+      <member refid="classthemis_1_1_concurrent_cache_1aa29d3677a70595be0a159f06e45de2fd" prot="public" virt="non-virtual"><scope>themis::ConcurrentCache</scope><name>~ConcurrentCache</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

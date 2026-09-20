@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_onnx_clip_hot_swap_test" kind="class" language="C++" prot="public">
+    <compoundname>OnnxClipHotSwapTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_onnx_clip_hot_swap_test_1a00dfc59afc597c3f8f9b2562111c3ba3" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin" kindref="compound">ONNXClipPlugin</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ONNXClipPlugin&gt; OnnxClipHotSwapTest::plugin_</definition>
+        <argsstring></argsstring>
+        <name>plugin_</name>
+        <qualifiedname>OnnxClipHotSwapTest::plugin_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/onnx_clip/test_onnx_clip_hot_swap_focused.cpp" line="66" column="21" bodyfile="tests/onnx_clip/test_onnx_clip_hot_swap_focused.cpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_onnx_clip_hot_swap_test_1a274ae41d8094f4c1841aac71cfffe413" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void OnnxClipHotSwapTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>OnnxClipHotSwapTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/onnx_clip/test_onnx_clip_hot_swap_focused.cpp" line="68" column="10" bodyfile="tests/onnx_clip/test_onnx_clip_hot_swap_focused.cpp" bodystart="68" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="class_onnx_clip_hot_swap_test_1a9f1aa998903df866ae944e5eb1cefb25" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void OnnxClipHotSwapTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>OnnxClipHotSwapTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/onnx_clip/test_onnx_clip_hot_swap_focused.cpp" line="77" column="10" bodyfile="tests/onnx_clip/test_onnx_clip_hot_swap_focused.cpp" bodystart="77" bodyend="81"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>OnnxClipHotSwapTest</label>
+        <link refid="class_onnx_clip_hot_swap_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>OnnxClipHotSwapTest</label>
+        <link refid="class_onnx_clip_hot_swap_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/onnx_clip/test_onnx_clip_hot_swap_focused.cpp" line="64" column="1" bodyfile="tests/onnx_clip/test_onnx_clip_hot_swap_focused.cpp" bodystart="64" bodyend="82"/>
+    <listofallmembers>
+      <member refid="class_onnx_clip_hot_swap_test_1a00dfc59afc597c3f8f9b2562111c3ba3" prot="protected" virt="non-virtual"><scope>OnnxClipHotSwapTest</scope><name>plugin_</name></member>
+      <member refid="class_onnx_clip_hot_swap_test_1a274ae41d8094f4c1841aac71cfffe413" prot="protected" virt="non-virtual"><scope>OnnxClipHotSwapTest</scope><name>SetUp</name></member>
+      <member refid="class_onnx_clip_hot_swap_test_1a9f1aa998903df866ae944e5eb1cefb25" prot="protected" virt="non-virtual"><scope>OnnxClipHotSwapTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,259 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_retry_counter" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::RetryCounter</compoundname>
+    <includes refid="wave__d__high__cardinality__metrics_8h" local="no">wave_d_high_cardinality_metrics.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_retry_counter_1aceb9f77eb393a3baadb701bd8ea0a161" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::observability::RetryCounter::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::observability::RetryCounter::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="211" column="31" bodyfile="include/observability/wave_d_high_cardinality_metrics.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_retry_counter_1a502821df258a1cf197dadef74d6ce6bd" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, int64_t &gt;</type>
+        <definition>std::map&lt;std::string, int64_t&gt; themis::observability::RetryCounter::retry_counts_</definition>
+        <argsstring></argsstring>
+        <name>retry_counts_</name>
+        <qualifiedname>themis::observability::RetryCounter::retry_counts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="214" column="14" bodyfile="include/observability/wave_d_high_cardinality_metrics.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_retry_counter_1a1831e5695437ecbc728fd242b233ec47" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::RetryCounter::kMaxReasonCardinality</definition>
+        <argsstring></argsstring>
+        <name>kMaxReasonCardinality</name>
+        <qualifiedname>themis::observability::RetryCounter::kMaxReasonCardinality</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="217" column="29" bodyfile="include/observability/wave_d_high_cardinality_metrics.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_retry_counter_1a23c677fe57edb708a15c7f6f4788daf1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::RetryCounter::recordRetry</definition>
+        <argsstring>(const std::string &amp;reason, int64_t count=1)</argsstring>
+        <name>recordRetry</name>
+        <qualifiedname>themis::observability::RetryCounter::recordRetry</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>count</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+<para>Increment retry counter for a specific failure reason. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Retry.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Failure reason (e.g., &quot;timeout&quot;, &quot;connection_reset&quot;, &quot;byzantine&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of retry attempts (default 1).</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Thread-safe. </para>
+</simplesect>
+<simplesect kind="note"><para>Reason cardinality is enforced: max 10 unique failure reasons. </para>
+</simplesect>
+<simplesect kind="note"><para>Silent drop if cardinality limit exceeded.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), lock(), size(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="183" column="10" bodyfile="src/observability/wave_d_high_cardinality_metrics.cpp" bodystart="206" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_retry_counter_1ac61af5d439fb1cf34e6701fedbad98c9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::observability::RetryCounter::getRetryCount</definition>
+        <argsstring>(const std::string &amp;reason) const</argsstring>
+        <name>getRetryCount</name>
+        <qualifiedname>themis::observability::RetryCounter::getRetryCount</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Get total retry count for a specific reason. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Failure reason. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Total number of retries observed for this reason. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="191" column="13" bodyfile="src/observability/wave_d_high_cardinality_metrics.cpp" bodystart="222" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_retry_counter_1a66f1471451d9b1ebad8a4df48ec16e79" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, int64_t &gt;</type>
+        <definition>std::map&lt; std::string, int64_t &gt; themis::observability::RetryCounter::getAllRetries</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllRetries</name>
+        <qualifiedname>themis::observability::RetryCounter::getAllRetries</qualifiedname>
+        <briefdescription>
+<para>Get all retry counts (map of reason -&gt; count). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Map of failure reasons to retry counts. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="197" column="14" bodyfile="src/observability/wave_d_high_cardinality_metrics.cpp" bodystart="237" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_retry_counter_1a8265899608722af4410f91536682f557" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::observability::RetryCounter::getTotalRetries</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalRetries</name>
+        <qualifiedname>themis::observability::RetryCounter::getTotalRetries</qualifiedname>
+        <briefdescription>
+<para>Get the total number of retries across all reasons. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Sum of all retry attempts. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="203" column="13" bodyfile="src/observability/wave_d_high_cardinality_metrics.cpp" bodystart="247" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_retry_counter_1ace07b4b5534ac4c0a10017cdfa5737b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::RetryCounter::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::observability::RetryCounter::reset</qualifiedname>
+        <briefdescription>
+<para>Reset all retry counters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset the modification detection flag.</para>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="208" column="10" bodyfile="src/observability/wave_d_high_cardinality_metrics.cpp" bodystart="266" bodyend="269"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Retry counter with failure reason tracking. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tracks retry attempts by failure reason (e.g., &quot;timeout&quot;, &quot;connection_reset&quot;, &quot;byzantine&quot;). Useful for identifying which failure modes are most common. </para>
+    </detaileddescription>
+    <location file="include/observability/wave_d_high_cardinality_metrics.h" line="171" column="1" bodyfile="include/observability/wave_d_high_cardinality_metrics.h" bodystart="171" bodyend="218"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_retry_counter_1a66f1471451d9b1ebad8a4df48ec16e79" prot="public" virt="non-virtual"><scope>themis::observability::RetryCounter</scope><name>getAllRetries</name></member>
+      <member refid="classthemis_1_1observability_1_1_retry_counter_1ac61af5d439fb1cf34e6701fedbad98c9" prot="public" virt="non-virtual"><scope>themis::observability::RetryCounter</scope><name>getRetryCount</name></member>
+      <member refid="classthemis_1_1observability_1_1_retry_counter_1a8265899608722af4410f91536682f557" prot="public" virt="non-virtual"><scope>themis::observability::RetryCounter</scope><name>getTotalRetries</name></member>
+      <member refid="classthemis_1_1observability_1_1_retry_counter_1a1831e5695437ecbc728fd242b233ec47" prot="private" virt="non-virtual"><scope>themis::observability::RetryCounter</scope><name>kMaxReasonCardinality</name></member>
+      <member refid="classthemis_1_1observability_1_1_retry_counter_1aceb9f77eb393a3baadb701bd8ea0a161" prot="private" virt="non-virtual"><scope>themis::observability::RetryCounter</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1observability_1_1_retry_counter_1a23c677fe57edb708a15c7f6f4788daf1" prot="public" virt="non-virtual"><scope>themis::observability::RetryCounter</scope><name>recordRetry</name></member>
+      <member refid="classthemis_1_1observability_1_1_retry_counter_1ace07b4b5534ac4c0a10017cdfa5737b1" prot="public" virt="non-virtual"><scope>themis::observability::RetryCounter</scope><name>reset</name></member>
+      <member refid="classthemis_1_1observability_1_1_retry_counter_1a502821df258a1cf197dadef74d6ce6bd" prot="private" virt="non-virtual"><scope>themis::observability::RetryCounter</scope><name>retry_counts_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

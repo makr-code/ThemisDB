@@ -1,0 +1,471 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_lookup_decoder" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::LookupDecoder</compoundname>
+    <includes refid="lookup__decoder_8h" local="no">lookup_decoder.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_lookup_decoder_1_1_vector_hash" prot="public">themis::llm::LookupDecoder::VectorHash</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_lookup_decoder_1_1_config" prot="public">themis::llm::LookupDecoder::Config</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_lookup_decoder_1_1_stats" prot="public">themis::llm::LookupDecoder::Stats</innerclass>
+    <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1_lookup_decoder_1af3eadefe446722c5a777c69b821adb84" prot="private" static="no">
+        <type>std::unordered_map&lt; std::vector&lt; int &gt;, std::vector&lt; int &gt;, <ref refid="structthemis_1_1llm_1_1_lookup_decoder_1_1_vector_hash" kindref="compound">VectorHash</ref> &gt;</type>
+        <definition>using themis::llm::LookupDecoder::NGramMap = std::unordered_map&lt;std::vector&lt;int&gt;, std::vector&lt;int&gt;, VectorHash&gt;</definition>
+        <argsstring></argsstring>
+        <name>NGramMap</name>
+        <qualifiedname>themis::llm::LookupDecoder::NGramMap</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lookup_decoder.h" line="115" column="5" bodyfile="include/llm/lookup_decoder.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_lookup_decoder_1ae0a36322ad70a227ca5cb6adb80ecafc" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_lookup_decoder_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::llm::LookupDecoder::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::LookupDecoder::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lookup_decoder.h" line="111" column="12" bodyfile="include/llm/lookup_decoder.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_lookup_decoder_1a0e9dcaa0d1c6bf833ddb0818edebb64b" prot="private" static="no" mutable="no">
+        <type>NGramMap</type>
+        <definition>NGramMap themis::llm::LookupDecoder::index_</definition>
+        <argsstring></argsstring>
+        <name>index_</name>
+        <qualifiedname>themis::llm::LookupDecoder::index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lookup_decoder.h" line="116" column="14" bodyfile="include/llm/lookup_decoder.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_lookup_decoder_1affaacd4659f62f5b3481ea36e5f22d67" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::LookupDecoder::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::llm::LookupDecoder::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lookup_decoder.h" line="117" column="24" bodyfile="include/llm/lookup_decoder.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_lookup_decoder_1ae4bd17c797e08509806aa1b0174e234f" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; int &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;int&gt; &gt; themis::llm::LookupDecoder::insertion_order_</definition>
+        <argsstring></argsstring>
+        <name>insertion_order_</name>
+        <qualifiedname>themis::llm::LookupDecoder::insertion_order_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lookup_decoder.h" line="120" column="17" bodyfile="include/llm/lookup_decoder.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_lookup_decoder_1aba81889fbf93eb02a21cd885237a245a" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1llm_1_1_lookup_decoder_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::llm::LookupDecoder::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::llm::LookupDecoder::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lookup_decoder.h" line="122" column="19" bodyfile="include/llm/lookup_decoder.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lookup_decoder_1aae09aaba6cef551f58f023cadc7803da" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::LookupDecoder::~LookupDecoder</definition>
+        <argsstring>()=default</argsstring>
+        <name>~LookupDecoder</name>
+        <qualifiedname>themis::llm::LookupDecoder::~LookupDecoder</qualifiedname>
+        <briefdescription>
+<para>Lookup Decoder. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lookup_decoder.h" line="29" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lookup_decoder_1a279f07fd423a21d137bca9c00d9823d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::LookupDecoder::LookupDecoder</definition>
+        <argsstring>()</argsstring>
+        <name>LookupDecoder</name>
+        <qualifiedname>themis::llm::LookupDecoder::LookupDecoder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lookup_decoder.h" line="61" column="5" bodyfile="src/llm/lookup_decoder.cpp" bodystart="34" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lookup_decoder_1a63b5770af940293d2885c731e45966f8" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::LookupDecoder::LookupDecoder</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>LookupDecoder</name>
+        <qualifiedname>themis::llm::LookupDecoder::LookupDecoder</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_lookup_decoder_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Lookup Decoder. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lookup_decoder.h" line="67" column="14" bodyfile="src/llm/lookup_decoder.cpp" bodystart="36" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lookup_decoder_1a3e1b98f3d1c18e8bac7034106b7158f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LookupDecoder::buildFromPrompt</definition>
+        <argsstring>(const std::vector&lt; int &gt; &amp;tokens)</argsstring>
+        <name>buildFromPrompt</name>
+        <qualifiedname>themis::llm::LookupDecoder::buildFromPrompt</qualifiedname>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>tokens</declname>
+        </param>
+        <briefdescription>
+<para>── Index construction ─────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── Index construction ───────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), <ref refid="classthemis_1_1llm_1_1_lookup_decoder_1a4de48852a232ee20d93bb8b374a4d3f8" kindref="member">clear()</ref>, indexTokens(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lookup_decoder.h" line="74" column="10" bodyfile="src/llm/lookup_decoder.cpp" bodystart="56" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lookup_decoder_1a426e2dd9bfe7899a39b39431273b46af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LookupDecoder::updateFromTokens</definition>
+        <argsstring>(const std::vector&lt; int &gt; &amp;new_tokens)</argsstring>
+        <name>updateFromTokens</name>
+        <qualifiedname>themis::llm::LookupDecoder::updateFromTokens</qualifiedname>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>new_tokens</declname>
+        </param>
+        <briefdescription>
+<para>Update From Tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">new_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), lock(), indexTokens(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lookup_decoder.h" line="80" column="10" bodyfile="src/llm/lookup_decoder.cpp" bodystart="68" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lookup_decoder_1aa688099eca689850ef296533d05b1322" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LookupDecoder::loadStaticNgrams</definition>
+        <argsstring>(const std::unordered_map&lt; std::vector&lt; int &gt;, std::vector&lt; int &gt;, VectorHash &gt; &amp;ngrams)</argsstring>
+        <name>loadStaticNgrams</name>
+        <qualifiedname>themis::llm::LookupDecoder::loadStaticNgrams</qualifiedname>
+        <param>
+          <type>const std::unordered_map&lt; std::vector&lt; int &gt;, std::vector&lt; int &gt;, <ref refid="structthemis_1_1llm_1_1_lookup_decoder_1_1_vector_hash" kindref="compound">VectorHash</ref> &gt; &amp;</type>
+          <declname>ngrams</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/lookup_decoder.h" line="82" column="10" bodyfile="src/llm/lookup_decoder.cpp" bodystart="76" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lookup_decoder_1a4de48852a232ee20d93bb8b374a4d3f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LookupDecoder::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::llm::LookupDecoder::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lookup_decoder.h" line="90" column="10" bodyfile="src/llm/lookup_decoder.cpp" bodystart="104" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lookup_decoder_1add6f4801791229c73d1f7c45cf054193" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt; int &gt; themis::llm::LookupDecoder::proposeDraftTokens</definition>
+        <argsstring>(const std::vector&lt; int &gt; &amp;context_tokens, size_t max_draft=0) const</argsstring>
+        <name>proposeDraftTokens</name>
+        <qualifiedname>themis::llm::LookupDecoder::proposeDraftTokens</qualifiedname>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>context_tokens</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_draft</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/lookup_decoder.h" line="94" column="17" bodyfile="src/llm/lookup_decoder.cpp" bodystart="112" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lookup_decoder_1a3c6b3c8b46bb9ac9783aa15032e78d02" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_lookup_decoder_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>LookupDecoder::Stats themis::llm::LookupDecoder::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::llm::LookupDecoder::getStats</qualifiedname>
+        <briefdescription>
+<para>── Statistics ─────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/lookup_decoder.h" line="104" column="11" bodyfile="src/llm/lookup_decoder.cpp" bodystart="162" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lookup_decoder_1ad1c123ae589edba7a426b2db95ac0c58" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LookupDecoder::resetStats</definition>
+        <argsstring>()</argsstring>
+        <name>resetStats</name>
+        <qualifiedname>themis::llm::LookupDecoder::resetStats</qualifiedname>
+        <briefdescription>
+<para>Reset <ref refid="structthemis_1_1llm_1_1_lookup_decoder_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lookup_decoder.h" line="108" column="11" bodyfile="src/llm/lookup_decoder.cpp" bodystart="176" bodyend="179"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lookup_decoder_1adc671c0ec7745d29a64df4a1538dc0cc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LookupDecoder::insertEntry</definition>
+        <argsstring>(std::vector&lt; int &gt; key, std::vector&lt; int &gt; continuation)</argsstring>
+        <name>insertEntry</name>
+        <qualifiedname>themis::llm::LookupDecoder::insertEntry</qualifiedname>
+        <param>
+          <type>std::vector&lt; int &gt;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; int &gt;</type>
+          <declname>continuation</declname>
+        </param>
+        <briefdescription>
+<para>Insert Entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── Internal helpers ─────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">continuation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lookup_decoder.h" line="131" column="10" bodyfile="src/llm/lookup_decoder.cpp" bodystart="187" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_lookup_decoder_1abf2f60aa51a4e32dd98026adbb1aa64f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LookupDecoder::indexTokens</definition>
+        <argsstring>(const std::vector&lt; int &gt; &amp;tokens)</argsstring>
+        <name>indexTokens</name>
+        <qualifiedname>themis::llm::LookupDecoder::indexTokens</qualifiedname>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>tokens</declname>
+        </param>
+        <briefdescription>
+<para>Index Tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), key(), begin(), std::min(), cont(), empty(), insertEntry(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lookup_decoder.h" line="137" column="10" bodyfile="src/llm/lookup_decoder.cpp" bodystart="209" bodyend="228"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lookup_decoder.h" line="23" column="1" bodyfile="include/llm/lookup_decoder.h" bodystart="23" bodyend="138"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_lookup_decoder_1a3e1b98f3d1c18e8bac7034106b7158f2" prot="public" virt="non-virtual"><scope>themis::llm::LookupDecoder</scope><name>buildFromPrompt</name></member>
+      <member refid="classthemis_1_1llm_1_1_lookup_decoder_1a4de48852a232ee20d93bb8b374a4d3f8" prot="public" virt="non-virtual"><scope>themis::llm::LookupDecoder</scope><name>clear</name></member>
+      <member refid="classthemis_1_1llm_1_1_lookup_decoder_1ae0a36322ad70a227ca5cb6adb80ecafc" prot="private" virt="non-virtual"><scope>themis::llm::LookupDecoder</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1_lookup_decoder_1a3c6b3c8b46bb9ac9783aa15032e78d02" prot="public" virt="non-virtual"><scope>themis::llm::LookupDecoder</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_lookup_decoder_1a0e9dcaa0d1c6bf833ddb0818edebb64b" prot="private" virt="non-virtual"><scope>themis::llm::LookupDecoder</scope><name>index_</name></member>
+      <member refid="classthemis_1_1llm_1_1_lookup_decoder_1abf2f60aa51a4e32dd98026adbb1aa64f" prot="private" virt="non-virtual"><scope>themis::llm::LookupDecoder</scope><name>indexTokens</name></member>
+      <member refid="classthemis_1_1llm_1_1_lookup_decoder_1adc671c0ec7745d29a64df4a1538dc0cc" prot="private" virt="non-virtual"><scope>themis::llm::LookupDecoder</scope><name>insertEntry</name></member>
+      <member refid="classthemis_1_1llm_1_1_lookup_decoder_1ae4bd17c797e08509806aa1b0174e234f" prot="private" virt="non-virtual"><scope>themis::llm::LookupDecoder</scope><name>insertion_order_</name></member>
+      <member refid="classthemis_1_1llm_1_1_lookup_decoder_1aa688099eca689850ef296533d05b1322" prot="public" virt="non-virtual"><scope>themis::llm::LookupDecoder</scope><name>loadStaticNgrams</name></member>
+      <member refid="classthemis_1_1llm_1_1_lookup_decoder_1a279f07fd423a21d137bca9c00d9823d8" prot="public" virt="non-virtual"><scope>themis::llm::LookupDecoder</scope><name>LookupDecoder</name></member>
+      <member refid="classthemis_1_1llm_1_1_lookup_decoder_1a63b5770af940293d2885c731e45966f8" prot="public" virt="non-virtual"><scope>themis::llm::LookupDecoder</scope><name>LookupDecoder</name></member>
+      <member refid="classthemis_1_1llm_1_1_lookup_decoder_1affaacd4659f62f5b3481ea36e5f22d67" prot="private" virt="non-virtual"><scope>themis::llm::LookupDecoder</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_lookup_decoder_1af3eadefe446722c5a777c69b821adb84" prot="private" virt="non-virtual"><scope>themis::llm::LookupDecoder</scope><name>NGramMap</name></member>
+      <member refid="classthemis_1_1llm_1_1_lookup_decoder_1add6f4801791229c73d1f7c45cf054193" prot="public" virt="non-virtual"><scope>themis::llm::LookupDecoder</scope><name>proposeDraftTokens</name></member>
+      <member refid="classthemis_1_1llm_1_1_lookup_decoder_1ad1c123ae589edba7a426b2db95ac0c58" prot="public" virt="non-virtual"><scope>themis::llm::LookupDecoder</scope><name>resetStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_lookup_decoder_1aba81889fbf93eb02a21cd885237a245a" prot="private" virt="non-virtual"><scope>themis::llm::LookupDecoder</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1llm_1_1_lookup_decoder_1a426e2dd9bfe7899a39b39431273b46af" prot="public" virt="non-virtual"><scope>themis::llm::LookupDecoder</scope><name>updateFromTokens</name></member>
+      <member refid="classthemis_1_1llm_1_1_lookup_decoder_1aae09aaba6cef551f58f023cadc7803da" prot="public" virt="virtual"><scope>themis::llm::LookupDecoder</scope><name>~LookupDecoder</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

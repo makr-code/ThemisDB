@@ -1,0 +1,1112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_kafka_importer" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::KafkaImporter</compoundname>
+    <basecompoundref refid="classthemis_1_1importers_1_1_i_importer" prot="public" virt="non-virtual">themis::importers::IImporter</basecompoundref>
+    <includes refid="kafka__importer_8h" local="no">kafka_importer.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1importers_1_1_kafka_importer_1a7322f68acd11fed845a689be1a6ecab4" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; std::string &gt;()&gt;</type>
+        <definition>using themis::importers::KafkaImporter::KafkaMessageFn = std::function&lt;std::vector&lt;std::string&gt;()&gt;</definition>
+        <argsstring></argsstring>
+        <name>KafkaMessageFn</name>
+        <qualifiedname>themis::importers::KafkaImporter::KafkaMessageFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/kafka_importer.h" line="65" column="5" bodyfile="include/importers/kafka_importer.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_kafka_importer_1aa2a3c259630f982367130957237278d8" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::KafkaImporter::default_brokers_</definition>
+        <argsstring></argsstring>
+        <name>default_brokers_</name>
+        <qualifiedname>themis::importers::KafkaImporter::default_brokers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/kafka_importer.h" line="87" column="17" bodyfile="include/importers/kafka_importer.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_kafka_importer_1ade09387552153ce1e896368988d06f03" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::KafkaImporter::consumer_group_</definition>
+        <argsstring></argsstring>
+        <name>consumer_group_</name>
+        <qualifiedname>themis::importers::KafkaImporter::consumer_group_</qualifiedname>
+        <initializer>= &quot;themis-import&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/kafka_importer.h" line="88" column="17" bodyfile="include/importers/kafka_importer.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_kafka_importer_1a8fc90b1fdcd376c3187b31d94ee37c58" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::KafkaImporter::message_format_</definition>
+        <argsstring></argsstring>
+        <name>message_format_</name>
+        <qualifiedname>themis::importers::KafkaImporter::message_format_</qualifiedname>
+        <initializer>= &quot;json&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/kafka_importer.h" line="89" column="17" bodyfile="include/importers/kafka_importer.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_kafka_importer_1a5d7c3182ab4733c616bae1282a17c91e" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::KafkaImporter::text_field_</definition>
+        <argsstring></argsstring>
+        <name>text_field_</name>
+        <qualifiedname>themis::importers::KafkaImporter::text_field_</qualifiedname>
+        <initializer>= &quot;text&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/kafka_importer.h" line="90" column="17" bodyfile="include/importers/kafka_importer.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_kafka_importer_1afc311c58f62e23ee2d4f823b8b52a99b" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::importers::KafkaImporter::poll_timeout_ms_</definition>
+        <argsstring></argsstring>
+        <name>poll_timeout_ms_</name>
+        <qualifiedname>themis::importers::KafkaImporter::poll_timeout_ms_</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/kafka_importer.h" line="91" column="17" bodyfile="include/importers/kafka_importer.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_kafka_importer_1ad591ddb669f9eb21ac08139d596ea32d" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::KafkaImporter::max_messages_</definition>
+        <argsstring></argsstring>
+        <name>max_messages_</name>
+        <qualifiedname>themis::importers::KafkaImporter::max_messages_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/kafka_importer.h" line="92" column="17" bodyfile="include/importers/kafka_importer.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_kafka_importer_1a18c2dcbf3b7b320b9034178d20c83e9c" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::importers::KafkaImporter::session_timeout_ms_</definition>
+        <argsstring></argsstring>
+        <name>session_timeout_ms_</name>
+        <qualifiedname>themis::importers::KafkaImporter::session_timeout_ms_</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/kafka_importer.h" line="93" column="17" bodyfile="include/importers/kafka_importer.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_kafka_importer_1a3e2f6a26fefdbeeb963d7f6e2a41ce27" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::KafkaImporter::security_protocol_</definition>
+        <argsstring></argsstring>
+        <name>security_protocol_</name>
+        <qualifiedname>themis::importers::KafkaImporter::security_protocol_</qualifiedname>
+        <initializer>= &quot;plaintext&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/kafka_importer.h" line="94" column="17" bodyfile="include/importers/kafka_importer.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_kafka_importer_1acab1cd3a34eab4938757f3f5c2b81473" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::KafkaImporter::sasl_mechanism_</definition>
+        <argsstring></argsstring>
+        <name>sasl_mechanism_</name>
+        <qualifiedname>themis::importers::KafkaImporter::sasl_mechanism_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/kafka_importer.h" line="95" column="17" bodyfile="include/importers/kafka_importer.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_kafka_importer_1a0e1adfa3f293e6fe6ef508b3aed5724e" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::KafkaImporter::sasl_username_</definition>
+        <argsstring></argsstring>
+        <name>sasl_username_</name>
+        <qualifiedname>themis::importers::KafkaImporter::sasl_username_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/kafka_importer.h" line="96" column="17" bodyfile="include/importers/kafka_importer.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_kafka_importer_1aed7ceb80edaa85e00a846967d41bcee2" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::KafkaImporter::sasl_password_</definition>
+        <argsstring></argsstring>
+        <name>sasl_password_</name>
+        <qualifiedname>themis::importers::KafkaImporter::sasl_password_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/kafka_importer.h" line="97" column="17" bodyfile="include/importers/kafka_importer.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_kafka_importer_1a3a4a5c376bfdb79bb44907bb8a91437c" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::KafkaImporter::ssl_ca_location_</definition>
+        <argsstring></argsstring>
+        <name>ssl_ca_location_</name>
+        <qualifiedname>themis::importers::KafkaImporter::ssl_ca_location_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/kafka_importer.h" line="98" column="17" bodyfile="include/importers/kafka_importer.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_kafka_importer_1a75e72fadee916f0484cd9000a1a96534" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::KafkaImporter::auto_offset_reset_</definition>
+        <argsstring></argsstring>
+        <name>auto_offset_reset_</name>
+        <qualifiedname>themis::importers::KafkaImporter::auto_offset_reset_</qualifiedname>
+        <initializer>= &quot;earliest&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/kafka_importer.h" line="99" column="17" bodyfile="include/importers/kafka_importer.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_kafka_importer_1a544391247ec2dde3d76485c18e318986" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::KafkaImporter::max_buffer_messages_</definition>
+        <argsstring></argsstring>
+        <name>max_buffer_messages_</name>
+        <qualifiedname>themis::importers::KafkaImporter::max_buffer_messages_</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Max messages in buffer before pausing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/kafka_importer.h" line="102" column="17" bodyfile="include/importers/kafka_importer.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_kafka_importer_1adaf48b988587e535036e46adc16ef863" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::KafkaImporter::buffer_drain_threshold_</definition>
+        <argsstring></argsstring>
+        <name>buffer_drain_threshold_</name>
+        <qualifiedname>themis::importers::KafkaImporter::buffer_drain_threshold_</qualifiedname>
+        <initializer>= 500</initializer>
+        <briefdescription>
+<para>Resume when buffer drains below this. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/kafka_importer.h" line="103" column="17" bodyfile="include/importers/kafka_importer.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_kafka_importer_1a3104f4421a663f565719a605e4489f2a" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::importers::KafkaImporter::cancelled_</definition>
+        <argsstring></argsstring>
+        <name>cancelled_</name>
+        <qualifiedname>themis::importers::KafkaImporter::cancelled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/kafka_importer.h" line="105" column="17" bodyfile="include/importers/kafka_importer.h" bodystart="105" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_kafka_importer_1a7158afd8229d64cb0a9db6ab3306d92c" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1importers_1_1_kafka_importer_1a7322f68acd11fed845a689be1a6ecab4" kindref="member">KafkaMessageFn</ref></type>
+        <definition>KafkaMessageFn themis::importers::KafkaImporter::message_fn_</definition>
+        <argsstring></argsstring>
+        <name>message_fn_</name>
+        <qualifiedname>themis::importers::KafkaImporter::message_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/kafka_importer.h" line="108" column="20" bodyfile="include/importers/kafka_importer.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_kafka_importer_1a65058e649966713c5fcf41aeda6c2fcd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::KafkaImporter::KafkaImporter</definition>
+        <argsstring>()</argsstring>
+        <name>KafkaImporter</name>
+        <qualifiedname>themis::importers::KafkaImporter::KafkaImporter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/kafka_importer.h" line="26" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_kafka_importer_1ad5c8e619080ca97fe0019f7217945dc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::KafkaImporter::~KafkaImporter</definition>
+        <argsstring>() override</argsstring>
+        <name>~KafkaImporter</name>
+        <qualifiedname>themis::importers::KafkaImporter::~KafkaImporter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/kafka_importer.h" line="27" column="5" bodyfile="src/importers/kafka_importer.cpp" bodystart="313" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_kafka_importer_1a542df4a192a67766d61e65acb0740591" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::KafkaImporter::KafkaImporter</definition>
+        <argsstring>(const KafkaImporter &amp;)=delete</argsstring>
+        <name>KafkaImporter</name>
+        <qualifiedname>themis::importers::KafkaImporter::KafkaImporter</qualifiedname>
+        <param>
+          <type>const KafkaImporter &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/kafka_importer.h" line="30" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_kafka_importer_1a4818ddc2d9888250b7990a05a9a277cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1importers_1_1_kafka_importer_1a65058e649966713c5fcf41aeda6c2fcd" kindref="member">KafkaImporter</ref> &amp;</type>
+        <definition>KafkaImporter &amp; themis::importers::KafkaImporter::operator=</definition>
+        <argsstring>(const KafkaImporter &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::importers::KafkaImporter::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1importers_1_1_kafka_importer_1a65058e649966713c5fcf41aeda6c2fcd" kindref="member">KafkaImporter</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/kafka_importer.h" line="31" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_kafka_importer_1aab9e094cbc7583808b98423dec370c14" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * themis::importers::KafkaImporter::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::importers::KafkaImporter::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1aa17b5c532ea2e9928379e77fe1385212">getName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/kafka_importer.h" line="37" column="16" bodyfile="include/importers/kafka_importer.h" bodystart="37" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_kafka_importer_1abd7d828b5f42bb6805f8ca75f132bac6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::importers::KafkaImporter::getSupportedTypes</definition>
+        <argsstring>() const override</argsstring>
+        <name>getSupportedTypes</name>
+        <qualifiedname>themis::importers::KafkaImporter::getSupportedTypes</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1a26a442906fade935ddfe41f8e91a15e6">getSupportedTypes</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/kafka_importer.h" line="39" column="17" bodyfile="src/importers/kafka_importer.cpp" bodystart="321" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_kafka_importer_1a8d193817716f6633669f1ce5aab7193c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::KafkaImporter::initialize</definition>
+        <argsstring>(const std::string &amp;config) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::importers::KafkaImporter::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1ae57ccf0cf0c3b0dbe9647f43be339afc">initialize</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), THEMIS_INFO(), json::parse(), contains(), is_string(), opt_str(), is_number_integer(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/kafka_importer.h" line="41" column="10" bodyfile="src/importers/kafka_importer.cpp" bodystart="331" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_kafka_importer_1a04a50f08ecb67ebbac70250209a45893" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::KafkaImporter::validateSource</definition>
+        <argsstring>(const std::string &amp;source_path, std::vector&lt; std::string &gt; &amp;errors) override</argsstring>
+        <name>validateSource</name>
+        <qualifiedname>themis::importers::KafkaImporter::validateSource</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1af2e09c4be51c0440e2ab1717ceeb2de5">validateSource</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>errors</declname>
+        </param>
+        <briefdescription>
+<para>Validate Source. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">errors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1importers_1_1_kafka_importer_1a8f746815c715a2e0944d50c8eca136ec" kindref="member">parseKafkaUrl()</ref>, push_back(), empty(), rd_kafka_conf_new(), rd_kafka_conf_set(), c_str(), rd_kafka_new(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/kafka_importer.h" line="43" column="10" bodyfile="src/importers/kafka_importer.cpp" bodystart="390" bodyend="450"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_kafka_importer_1a10df037853541a72192716fdf23fdd48" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref></type>
+        <definition>ImportStats themis::importers::KafkaImporter::importData</definition>
+        <argsstring>(const std::string &amp;source_path, const ImportOptions &amp;options, ProgressCallback progress_callback=nullptr) override</argsstring>
+        <name>importData</name>
+        <qualifiedname>themis::importers::KafkaImporter::importData</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1a93d10ab9f3f1d941d17ac2a54a5ddc02">importData</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1af0b9616504935ed9689a3c01900b05e9" kindref="member">ProgressCallback</ref></type>
+          <declname>progress_callback</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Import Data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">progress_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), permission_check(), addError(), <ref refid="classthemis_1_1importers_1_1_kafka_importer_1a8f746815c715a2e0944d50c8eca136ec" kindref="member">parseKafkaUrl()</ref>, empty(), THEMIS_INFO(), emitSpan(), consumeFromMock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/kafka_importer.h" line="46" column="17" bodyfile="src/importers/kafka_importer.cpp" bodystart="460" bodyend="550"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_kafka_importer_1ad9b304a21a63e77dcd5881ebe7a44aa3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::shared_ptr&lt; <ref refid="struct_import_handle" kindref="compound">ImportHandle</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ImportHandle &gt; themis::importers::KafkaImporter::importDataAsync</definition>
+        <argsstring>(const std::string &amp;source_path, const ImportOptions &amp;options) override</argsstring>
+        <name>importDataAsync</name>
+        <qualifiedname>themis::importers::KafkaImporter::importDataAsync</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1af837fb18957347a51357191ee61a04a8">importDataAsync</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Import Data Async. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), std::to_string(), get(), store(), setStage(), get_future(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/kafka_importer.h" line="52" column="21" bodyfile="src/importers/kafka_importer.cpp" bodystart="559" bodyend="620"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_kafka_importer_1a9604ff6a1a9773166eb7ebb8e2787225" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::importers::KafkaImporter::cancel</definition>
+        <argsstring>() override</argsstring>
+        <name>cancel</name>
+        <qualifiedname>themis::importers::KafkaImporter::cancel</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1abda4e925d1f832cbf0e07f294b96c526">cancel</reimplements>
+        <briefdescription>
+<para>Cancel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: store(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/kafka_importer.h" line="57" column="10" bodyfile="src/importers/kafka_importer.cpp" bodystart="626" bodyend="629"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_kafka_importer_1a3fe1cb0e0651444719a5cc7961a72c37" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::KafkaImporter::getSourceSchema</definition>
+        <argsstring>(const std::string &amp;source_path) override</argsstring>
+        <name>getSourceSchema</name>
+        <qualifiedname>themis::importers::KafkaImporter::getSourceSchema</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1a45b011aef76cd697e53d1e847dac430a">getSourceSchema</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <briefdescription>
+<para>Get Source Schema. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1importers_1_1_kafka_importer_1a8f746815c715a2e0944d50c8eca136ec" kindref="member">parseKafkaUrl()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/kafka_importer.h" line="59" column="10" bodyfile="src/importers/kafka_importer.cpp" bodystart="637" bodyend="645"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_kafka_importer_1a6ef3cb307cc486dcb0111746f61b2904" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::KafkaImporter::setMessageFetchForTesting</definition>
+        <argsstring>(KafkaMessageFn fn)</argsstring>
+        <name>setMessageFetchForTesting</name>
+        <qualifiedname>themis::importers::KafkaImporter::setMessageFetchForTesting</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1_kafka_importer_1a7322f68acd11fed845a689be1a6ecab4" kindref="member">KafkaMessageFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Message Fetch For Testing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/kafka_importer.h" line="71" column="10" bodyfile="src/importers/kafka_importer.cpp" bodystart="652" bodyend="654"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_kafka_importer_1a8f746815c715a2e0944d50c8eca136ec" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::KafkaImporter::parseKafkaUrl</definition>
+        <argsstring>(const std::string &amp;url, std::string &amp;brokers, std::string &amp;topic)</argsstring>
+        <name>parseKafkaUrl</name>
+        <qualifiedname>themis::importers::KafkaImporter::parseKafkaUrl</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>brokers</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>topic</declname>
+        </param>
+        <briefdescription>
+<para>----------------------------------------------------------------------<mdash/> URL parsing helper (public for testability) ----------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Parse Kafka Url.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">brokers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">topic</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">brokers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">topic</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: clear(), empty(), substr(), size(), rfind(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/kafka_importer.h" line="81" column="17" bodyfile="src/importers/kafka_importer.cpp" bodystart="668" bodyend="695"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_kafka_importer_1aea3ef743a48f5cdbd76b1af9146f1745" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::KafkaImporter::extractEntity</definition>
+        <argsstring>(const std::string &amp;payload) const</argsstring>
+        <name>extractEntity</name>
+        <qualifiedname>themis::importers::KafkaImporter::extractEntity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+<para>Extract Entity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/kafka_importer.h" line="119" column="10" bodyfile="src/importers/kafka_importer.cpp" bodystart="1122" bodyend="1165"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_kafka_importer_1a151332187ce6852b0e5438a135cd3c12" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::KafkaImporter::consumeFromMock</definition>
+        <argsstring>(const std::string &amp;topic, const ImportOptions &amp;options, ImportStats &amp;stats, ProgressCallback &amp;progress_cb)</argsstring>
+        <name>consumeFromMock</name>
+        <qualifiedname>themis::importers::KafkaImporter::consumeFromMock</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>topic</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1af0b9616504935ed9689a3c01900b05e9" kindref="member">ProgressCallback</ref> &amp;</type>
+          <declname>progress_cb</declname>
+        </param>
+        <briefdescription>
+<para>Consume From Mock. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">topic</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">progress_cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">topic</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">progress_cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: load(), THEMIS_WARN(), addError(), std::to_string(), emitMetric(), std::this_thread::sleep_for(), std::chrono::milliseconds(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/kafka_importer.h" line="128" column="10" bodyfile="src/importers/kafka_importer.cpp" bodystart="709" bodyend="814"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_kafka_importer_1ac5924c90ab952976efe95ba269e68e85" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::KafkaImporter::addError</definition>
+        <argsstring>(ImportStats &amp;stats, ImportErrorCode code, ImportErrorSeverity severity, const std::string &amp;message, const std::string &amp;location=&quot;&quot;) const</argsstring>
+        <name>addError</name>
+        <qualifiedname>themis::importers::KafkaImporter::addError</qualifiedname>
+        <param>
+          <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1a7ab8f0c7a8a3d9ee85ae85e2dc82739f" kindref="member">ImportErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1ab84e8d97ff72a5766b99d350cbe478d0" kindref="member">ImportErrorSeverity</ref></type>
+          <declname>severity</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>location</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/kafka_importer.h" line="149" column="10" bodyfile="src/importers/kafka_importer.cpp" bodystart="1171" bodyend="1183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_kafka_importer_1a231427263b9229492106300f5c038c0b" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::KafkaImporter::emitMetric</definition>
+        <argsstring>(const ImportOptions &amp;options, const std::string &amp;metric, const std::map&lt; std::string, std::string &gt; &amp;labels, double value) const</argsstring>
+        <name>emitMetric</name>
+        <qualifiedname>themis::importers::KafkaImporter::emitMetric</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>labels</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/kafka_importer.h" line="155" column="10" bodyfile="src/importers/kafka_importer.cpp" bodystart="1185" bodyend="1192"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_kafka_importer_1a7db9dbd0118f1a77c8d53ff0adbaaab2" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::KafkaImporter::emitSpan</definition>
+        <argsstring>(const ImportOptions &amp;options, const std::string &amp;operation, const std::map&lt; std::string, std::string &gt; &amp;attributes, double duration_seconds) const</argsstring>
+        <name>emitSpan</name>
+        <qualifiedname>themis::importers::KafkaImporter::emitSpan</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>attributes</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>duration_seconds</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/kafka_importer.h" line="160" column="10" bodyfile="src/importers/kafka_importer.cpp" bodystart="1194" bodyend="1201"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_kafka_importer_1acc523c34aa273cfc1d7528bf63dd907b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::KafkaImporter::reportProgress</definition>
+        <argsstring>(ProgressCallback &amp;callback, const std::string &amp;stage, size_t current, size_t total)</argsstring>
+        <name>reportProgress</name>
+        <qualifiedname>themis::importers::KafkaImporter::reportProgress</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1af0b9616504935ed9689a3c01900b05e9" kindref="member">ProgressCallback</ref> &amp;</type>
+          <declname>callback</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>stage</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>current</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>total</declname>
+        </param>
+        <briefdescription>
+<para>Report Progress. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">total</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">total</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: callback(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/kafka_importer.h" line="172" column="10" bodyfile="src/importers/kafka_importer.cpp" bodystart="1211" bodyend="1218"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::importers::IImporter</label>
+        <link refid="classthemis_1_1importers_1_1_i_importer"/>
+      </node>
+      <node id="1">
+        <label>themis::importers::KafkaImporter</label>
+        <link refid="classthemis_1_1importers_1_1_kafka_importer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::importers::IImporter</label>
+        <link refid="classthemis_1_1importers_1_1_i_importer"/>
+      </node>
+      <node id="1">
+        <label>themis::importers::KafkaImporter</label>
+        <link refid="classthemis_1_1importers_1_1_kafka_importer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/importers/kafka_importer.h" line="24" column="1" bodyfile="include/importers/kafka_importer.h" bodystart="24" bodyend="176"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_kafka_importer_1ac5924c90ab952976efe95ba269e68e85" prot="private" virt="non-virtual"><scope>themis::importers::KafkaImporter</scope><name>addError</name></member>
+      <member refid="classthemis_1_1importers_1_1_kafka_importer_1a75e72fadee916f0484cd9000a1a96534" prot="private" virt="non-virtual"><scope>themis::importers::KafkaImporter</scope><name>auto_offset_reset_</name></member>
+      <member refid="classthemis_1_1importers_1_1_kafka_importer_1adaf48b988587e535036e46adc16ef863" prot="private" virt="non-virtual"><scope>themis::importers::KafkaImporter</scope><name>buffer_drain_threshold_</name></member>
+      <member refid="classthemis_1_1importers_1_1_kafka_importer_1a9604ff6a1a9773166eb7ebb8e2787225" prot="public" virt="virtual"><scope>themis::importers::KafkaImporter</scope><name>cancel</name></member>
+      <member refid="classthemis_1_1importers_1_1_kafka_importer_1a3104f4421a663f565719a605e4489f2a" prot="private" virt="non-virtual"><scope>themis::importers::KafkaImporter</scope><name>cancelled_</name></member>
+      <member refid="classthemis_1_1importers_1_1_kafka_importer_1a151332187ce6852b0e5438a135cd3c12" prot="private" virt="non-virtual"><scope>themis::importers::KafkaImporter</scope><name>consumeFromMock</name></member>
+      <member refid="classthemis_1_1importers_1_1_kafka_importer_1ade09387552153ce1e896368988d06f03" prot="private" virt="non-virtual"><scope>themis::importers::KafkaImporter</scope><name>consumer_group_</name></member>
+      <member refid="classthemis_1_1importers_1_1_kafka_importer_1aa2a3c259630f982367130957237278d8" prot="private" virt="non-virtual"><scope>themis::importers::KafkaImporter</scope><name>default_brokers_</name></member>
+      <member refid="classthemis_1_1importers_1_1_kafka_importer_1a231427263b9229492106300f5c038c0b" prot="private" virt="non-virtual"><scope>themis::importers::KafkaImporter</scope><name>emitMetric</name></member>
+      <member refid="classthemis_1_1importers_1_1_kafka_importer_1a7db9dbd0118f1a77c8d53ff0adbaaab2" prot="private" virt="non-virtual"><scope>themis::importers::KafkaImporter</scope><name>emitSpan</name></member>
+      <member refid="classthemis_1_1importers_1_1_kafka_importer_1aea3ef743a48f5cdbd76b1af9146f1745" prot="private" virt="non-virtual"><scope>themis::importers::KafkaImporter</scope><name>extractEntity</name></member>
+      <member refid="classthemis_1_1importers_1_1_kafka_importer_1aab9e094cbc7583808b98423dec370c14" prot="public" virt="virtual"><scope>themis::importers::KafkaImporter</scope><name>getName</name></member>
+      <member refid="classthemis_1_1importers_1_1_kafka_importer_1a3fe1cb0e0651444719a5cc7961a72c37" prot="public" virt="virtual"><scope>themis::importers::KafkaImporter</scope><name>getSourceSchema</name></member>
+      <member refid="classthemis_1_1importers_1_1_kafka_importer_1abd7d828b5f42bb6805f8ca75f132bac6" prot="public" virt="virtual"><scope>themis::importers::KafkaImporter</scope><name>getSupportedTypes</name></member>
+      <member refid="classthemis_1_1importers_1_1_kafka_importer_1a10df037853541a72192716fdf23fdd48" prot="public" virt="virtual"><scope>themis::importers::KafkaImporter</scope><name>importData</name></member>
+      <member refid="classthemis_1_1importers_1_1_kafka_importer_1ad9b304a21a63e77dcd5881ebe7a44aa3" prot="public" virt="virtual"><scope>themis::importers::KafkaImporter</scope><name>importDataAsync</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_importer_1a0790bcc7450b9294f9d9d7ae891eed52" prot="public" virt="virtual"><scope>themis::importers::KafkaImporter</scope><name>importDataStreaming</name></member>
+      <member refid="classthemis_1_1importers_1_1_kafka_importer_1a8d193817716f6633669f1ce5aab7193c" prot="public" virt="virtual"><scope>themis::importers::KafkaImporter</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1importers_1_1_kafka_importer_1a65058e649966713c5fcf41aeda6c2fcd" prot="public" virt="non-virtual"><scope>themis::importers::KafkaImporter</scope><name>KafkaImporter</name></member>
+      <member refid="classthemis_1_1importers_1_1_kafka_importer_1a542df4a192a67766d61e65acb0740591" prot="public" virt="non-virtual"><scope>themis::importers::KafkaImporter</scope><name>KafkaImporter</name></member>
+      <member refid="classthemis_1_1importers_1_1_kafka_importer_1a7322f68acd11fed845a689be1a6ecab4" prot="public" virt="non-virtual"><scope>themis::importers::KafkaImporter</scope><name>KafkaMessageFn</name></member>
+      <member refid="classthemis_1_1importers_1_1_kafka_importer_1a544391247ec2dde3d76485c18e318986" prot="private" virt="non-virtual"><scope>themis::importers::KafkaImporter</scope><name>max_buffer_messages_</name></member>
+      <member refid="classthemis_1_1importers_1_1_kafka_importer_1ad591ddb669f9eb21ac08139d596ea32d" prot="private" virt="non-virtual"><scope>themis::importers::KafkaImporter</scope><name>max_messages_</name></member>
+      <member refid="classthemis_1_1importers_1_1_kafka_importer_1a7158afd8229d64cb0a9db6ab3306d92c" prot="private" virt="non-virtual"><scope>themis::importers::KafkaImporter</scope><name>message_fn_</name></member>
+      <member refid="classthemis_1_1importers_1_1_kafka_importer_1a8fc90b1fdcd376c3187b31d94ee37c58" prot="private" virt="non-virtual"><scope>themis::importers::KafkaImporter</scope><name>message_format_</name></member>
+      <member refid="classthemis_1_1importers_1_1_kafka_importer_1a4818ddc2d9888250b7990a05a9a277cb" prot="public" virt="non-virtual"><scope>themis::importers::KafkaImporter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1importers_1_1_kafka_importer_1a8f746815c715a2e0944d50c8eca136ec" prot="public" virt="non-virtual"><scope>themis::importers::KafkaImporter</scope><name>parseKafkaUrl</name></member>
+      <member refid="classthemis_1_1importers_1_1_kafka_importer_1afc311c58f62e23ee2d4f823b8b52a99b" prot="private" virt="non-virtual"><scope>themis::importers::KafkaImporter</scope><name>poll_timeout_ms_</name></member>
+      <member refid="classthemis_1_1importers_1_1_kafka_importer_1acc523c34aa273cfc1d7528bf63dd907b" prot="private" virt="non-virtual"><scope>themis::importers::KafkaImporter</scope><name>reportProgress</name></member>
+      <member refid="classthemis_1_1importers_1_1_kafka_importer_1acab1cd3a34eab4938757f3f5c2b81473" prot="private" virt="non-virtual"><scope>themis::importers::KafkaImporter</scope><name>sasl_mechanism_</name></member>
+      <member refid="classthemis_1_1importers_1_1_kafka_importer_1aed7ceb80edaa85e00a846967d41bcee2" prot="private" virt="non-virtual"><scope>themis::importers::KafkaImporter</scope><name>sasl_password_</name></member>
+      <member refid="classthemis_1_1importers_1_1_kafka_importer_1a0e1adfa3f293e6fe6ef508b3aed5724e" prot="private" virt="non-virtual"><scope>themis::importers::KafkaImporter</scope><name>sasl_username_</name></member>
+      <member refid="classthemis_1_1importers_1_1_kafka_importer_1a3e2f6a26fefdbeeb963d7f6e2a41ce27" prot="private" virt="non-virtual"><scope>themis::importers::KafkaImporter</scope><name>security_protocol_</name></member>
+      <member refid="classthemis_1_1importers_1_1_kafka_importer_1a18c2dcbf3b7b320b9034178d20c83e9c" prot="private" virt="non-virtual"><scope>themis::importers::KafkaImporter</scope><name>session_timeout_ms_</name></member>
+      <member refid="classthemis_1_1importers_1_1_kafka_importer_1a6ef3cb307cc486dcb0111746f61b2904" prot="public" virt="non-virtual"><scope>themis::importers::KafkaImporter</scope><name>setMessageFetchForTesting</name></member>
+      <member refid="classthemis_1_1importers_1_1_kafka_importer_1a3a4a5c376bfdb79bb44907bb8a91437c" prot="private" virt="non-virtual"><scope>themis::importers::KafkaImporter</scope><name>ssl_ca_location_</name></member>
+      <member refid="classthemis_1_1importers_1_1_kafka_importer_1a5d7c3182ab4733c616bae1282a17c91e" prot="private" virt="non-virtual"><scope>themis::importers::KafkaImporter</scope><name>text_field_</name></member>
+      <member refid="classthemis_1_1importers_1_1_kafka_importer_1a04a50f08ecb67ebbac70250209a45893" prot="public" virt="virtual"><scope>themis::importers::KafkaImporter</scope><name>validateSource</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_importer_1a72b3cba1bf78aee41b2dfb19c8b91629" prot="public" virt="virtual"><scope>themis::importers::KafkaImporter</scope><name>~IImporter</name></member>
+      <member refid="classthemis_1_1importers_1_1_kafka_importer_1ad5c8e619080ca97fe0019f7217945dc5" prot="public" virt="non-virtual"><scope>themis::importers::KafkaImporter</scope><name>~KafkaImporter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

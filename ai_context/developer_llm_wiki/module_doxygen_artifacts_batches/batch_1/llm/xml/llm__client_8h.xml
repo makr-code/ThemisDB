@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="llm__client_8h" kind="file" language="C++">
+    <compoundname>llm_client.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includedby refid="llm__client_8cpp" local="yes">src/llm/llm_client.cpp</includedby>
+    <includedby refid="llm__client__default_8cpp" local="yes">src/llm/llm_client_default.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm/llm_client.h</label>
+        <link refid="llm__client_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/llm_client.h</label>
+        <link refid="llm__client_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/llm/llm_client.cpp</label>
+        <link refid="llm__client_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/llm/llm_client_default.cpp</label>
+        <link refid="llm__client__default_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1_generation_options" prot="public">themis::llm::GenerationOptions</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_generation_result" prot="public">themis::llm::GenerationResult</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_l_l_m_client" prot="public">themis::llm::LLMClient</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <briefdescription>
+<para>Abstract interface for LLM inference clients. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Defines the contract for generating text/AQL via LLM backends. Implementations can wrap OpenAI, Anthropic, local Ollama, etc.</para>
+<para><simplesect kind="author"><para>ThemisDB Team </para>
+</simplesect>
+<simplesect kind="date"><para>2026-06-18 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">themis::llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20" refid="structthemis_1_1llm_1_1_generation_options" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_generation_options" kindref="compound">GenerationOptions</ref><sp/>{</highlight></codeline>
+<codeline lineno="21" refid="structthemis_1_1llm_1_1_generation_options_1a40368a7fad203107dfbaef7a511cb1c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_generation_options_1a40368a7fad203107dfbaef7a511cb1c3" kindref="member">max_tokens</ref><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="23" refid="structthemis_1_1llm_1_1_generation_options_1a5553ac16e72ee5c3a6779f3222c45234" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_generation_options_1a5553ac16e72ee5c3a6779f3222c45234" kindref="member">temperature</ref><sp/>=<sp/>0.7f;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="25" refid="structthemis_1_1llm_1_1_generation_options_1ad387cee1765870d9ba589072033f5503" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_generation_options_1ad387cee1765870d9ba589072033f5503" kindref="member">top_k</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1llm_1_1_generation_options_1a09e3c4bb9b0cc77d32ebe92171132c56" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_generation_options_1a09e3c4bb9b0cc77d32ebe92171132c56" kindref="member">top_p</ref><sp/>=<sp/>0.9f;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1llm_1_1_generation_options_1a125715e22485abacf37c8c43fd89667e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_generation_options_1a125715e22485abacf37c8c43fd89667e" kindref="member">stop_sequences</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1llm_1_1_generation_options_1a978856e0cc090cc144d7326608c521fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1llm_1_1_generation_options_1a978856e0cc090cc144d7326608c521fb" kindref="member">timeout_ms</ref><sp/>=<sp/>10000;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1llm_1_1_generation_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_generation_result" kindref="compound">GenerationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1llm_1_1_generation_result_1af43ba2eb7093aa85990964ffb7ee8d16" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_generation_result_1af43ba2eb7093aa85990964ffb7ee8d16" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1llm_1_1_generation_result_1a13dc7d6e0777a0de4c49ffae257b35bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_generation_result_1a13dc7d6e0777a0de4c49ffae257b35bb" kindref="member">text</ref>;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1llm_1_1_generation_result_1a6650d22ba8726db6638a9e5dc2ed65c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_generation_result_1a6650d22ba8726db6638a9e5dc2ed65c1" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1llm_1_1_generation_result_1ae85e3f938d681d38fe0f90c346d0c4d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_generation_result_1ae85e3f938d681d38fe0f90c346d0c4d7" kindref="member">prompt_tokens</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1llm_1_1_generation_result_1ae7f13db4351cfa119efcabc36a0a7b56" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_generation_result_1ae7f13db4351cfa119efcabc36a0a7b56" kindref="member">completion_tokens</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1llm_1_1_generation_result_1a62b4366b256c3f7ee2aef3bc26bfd5d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_generation_result_1a62b4366b256c3f7ee2aef3bc26bfd5d2" kindref="member">finish_reason</ref>;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="classthemis_1_1llm_1_1_l_l_m_client" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_l_l_m_client" kindref="compound">LLMClient</ref><sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="54" refid="classthemis_1_1llm_1_1_l_l_m_client_1aa189199dcfc29dcfb86b0ab32d22325f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_client_1aa189199dcfc29dcfb86b0ab32d22325f" kindref="member">~LLMClient</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="classthemis_1_1llm_1_1_l_l_m_client_1a6dab76f58c3129c43fb945273710bbb2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_generation_result" kindref="compound">GenerationResult</ref><sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_client_1a6dab76f58c3129c43fb945273710bbb2" kindref="member">generate</ref>(</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt,</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_generation_options" kindref="compound">GenerationOptions</ref>&amp;<sp/>options<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="classthemis_1_1llm_1_1_l_l_m_client_1a28355fc018a93195ed6e2447cf285e39" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_generation_result" kindref="compound">GenerationResult</ref><sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_client_1a28355fc018a93195ed6e2447cf285e39" kindref="member">generateAQL</ref>(</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>nl_query,</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>schema_context<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_generation_options" kindref="compound">GenerationOptions</ref>&amp;<sp/>options<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72" refid="classthemis_1_1llm_1_1_l_l_m_client_1a9381befbc31ee64eb09c6030c2197a70" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_client_1a9381befbc31ee64eb09c6030c2197a70" kindref="member">estimateTokens</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78" refid="classthemis_1_1llm_1_1_l_l_m_client_1a07b1dc767eadf81dc87d085500e8fc41" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_client_1a07b1dc767eadf81dc87d085500e8fc41" kindref="member">getProviderName</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84" refid="classthemis_1_1llm_1_1_l_l_m_client_1af9242aa31df1a4ca0858fe64841aca23" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_client_1af9242aa31df1a4ca0858fe64841aca23" kindref="member">isReady</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::llm</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/llm_client.h"/>
+  </compounddef>
+</doxygen>

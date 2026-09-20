@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_reload_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::ReloadResult</compoundname>
+    <includes refid="hot__reload__engine_8h" local="no">hot_reload_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_reload_result_1a0c4459e5d4fb314e00b3205748a5c78e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::ReloadResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::updates::ReloadResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hot_reload_engine.h" line="30" column="10" bodyfile="include/updates/hot_reload_engine.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_reload_result_1ac5c3b1c81a4d40cfdeb553c3eedc8629" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::ReloadResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::updates::ReloadResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hot_reload_engine.h" line="31" column="17" bodyfile="include/updates/hot_reload_engine.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_reload_result_1a7c244a803af64a7473bf44a98df5b8df" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::updates::ReloadResult::files_updated</definition>
+        <argsstring></argsstring>
+        <name>files_updated</name>
+        <qualifiedname>themis::updates::ReloadResult::files_updated</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hot_reload_engine.h" line="32" column="17" bodyfile="include/updates/hot_reload_engine.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_reload_result_1a937f1a0247c72d92581abcbc26bdd60d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::ReloadResult::rollback_id</definition>
+        <argsstring></argsstring>
+        <name>rollback_id</name>
+        <qualifiedname>themis::updates::ReloadResult::rollback_id</qualifiedname>
+        <briefdescription>
+<para>For rollback capability. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hot_reload_engine.h" line="33" column="17" bodyfile="include/updates/hot_reload_engine.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_reload_result_1a19fd9f593f4b44e1ac9f6128861a7827" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::ReloadResult::health_check_failed</definition>
+        <argsstring></argsstring>
+        <name>health_check_failed</name>
+        <qualifiedname>themis::updates::ReloadResult::health_check_failed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true if a post-update health check caused rollback </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hot_reload_engine.h" line="34" column="10" bodyfile="include/updates/hot_reload_engine.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a hot-reload operation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/updates/hot_reload_engine.h" line="29" column="1" bodyfile="include/updates/hot_reload_engine.h" bodystart="29" bodyend="35"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_reload_result_1ac5c3b1c81a4d40cfdeb553c3eedc8629" prot="public" virt="non-virtual"><scope>themis::updates::ReloadResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1updates_1_1_reload_result_1a7c244a803af64a7473bf44a98df5b8df" prot="public" virt="non-virtual"><scope>themis::updates::ReloadResult</scope><name>files_updated</name></member>
+      <member refid="structthemis_1_1updates_1_1_reload_result_1a19fd9f593f4b44e1ac9f6128861a7827" prot="public" virt="non-virtual"><scope>themis::updates::ReloadResult</scope><name>health_check_failed</name></member>
+      <member refid="structthemis_1_1updates_1_1_reload_result_1a937f1a0247c72d92581abcbc26bdd60d" prot="public" virt="non-virtual"><scope>themis::updates::ReloadResult</scope><name>rollback_id</name></member>
+      <member refid="structthemis_1_1updates_1_1_reload_result_1a0c4459e5d4fb314e00b3205748a5c78e" prot="public" virt="non-virtual"><scope>themis::updates::ReloadResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

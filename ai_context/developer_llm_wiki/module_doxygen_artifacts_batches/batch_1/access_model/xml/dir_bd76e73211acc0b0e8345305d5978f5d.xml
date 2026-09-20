@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_bd76e73211acc0b0e8345305d5978f5d" kind="dir">
+    <compoundname>tests/access_model</compoundname>
+    <innerfile refid="test__access__coordinator_8cpp">test_access_coordinator.cpp</innerfile>
+    <innerfile refid="test__access__coordinator__focused_8cpp">test_access_coordinator_focused.cpp</innerfile>
+    <innerfile refid="test__access__model__e2e_8cpp">test_access_model_e2e.cpp</innerfile>
+    <innerfile refid="test__access__model__observability_8cpp">test_access_model_observability.cpp</innerfile>
+    <innerfile refid="test__cache__storage__integration_8cpp">test_cache_storage_integration.cpp</innerfile>
+    <innerfile refid="test__coordination__concurrency_8cpp">test_coordination_concurrency.cpp</innerfile>
+    <innerfile refid="test__promotion__demotion_8cpp">test_promotion_demotion.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/access_model/"/>
+  </compounddef>
+</doxygen>

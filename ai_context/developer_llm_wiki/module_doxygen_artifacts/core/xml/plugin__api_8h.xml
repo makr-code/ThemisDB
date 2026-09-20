@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="plugin__api_8h" kind="file" language="C++">
+    <compoundname>plugin_api.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includedby refid="adapter__registry_8h" local="yes">include/core/concerns/adapter_registry.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/core/concerns/plugin_api.h</label>
+        <link refid="plugin__api_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/core/concerns/adapter_registry.h</label>
+        <link refid="adapter__registry_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/core/concerns/concerns_context.h</label>
+        <link refid="concerns__context_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/core/concerns/plugin_api.h</label>
+        <link refid="plugin__api_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>src/core/concerns/adapter_registry.cpp</label>
+        <link refid="adapter__registry_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/core/concerns/concerns_context.cpp</label>
+        <link refid="concerns__context_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/core/test_adapter_registry_focused.cpp</label>
+        <link refid="test__adapter__registry__focused_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/core/test_adapter_signing_focused.cpp</label>
+        <link refid="test__adapter__signing__focused_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/core/test_concerns_context_focused.cpp</label>
+        <link refid="test__concerns__context__focused_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/core/test_plugin_loading_focused.cpp</label>
+        <link refid="test__plugin__loading__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1core">themis::core</innernamespace>
+    <innernamespace refid="namespacethemis_1_1core_1_1concerns">themis::core::concerns</innernamespace>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="plugin__api_8h_1ad9111e7b9c4174c7384e924810516edf" prot="public" static="no">
+        <name>THEMIS_DEFINE_PLUGIN_INIT</name>
+        <initializer>extern &quot;C&quot; int themis_plugin_register(                               \
+    <ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry" kindref="compound">::themis::core::concerns::AdapterRegistry</ref>* registry,             \
+    const char*                               requested_adapter_id,  \
+    uint32_t                                  host_api_version)</initializer>
+        <briefdescription>
+<para>Emit the required extern-&quot;C&quot; entry point for a ThemisDB adapter plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Usage — place in exactly one translation unit in the plugin library:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="preprocessor">#include<sp/>&quot;<ref refid="plugin__api_8h" kindref="compound">core/concerns/plugin_api.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="plugin__api_8h_1ad9111e7b9c4174c7384e924810516edf" kindref="member">THEMIS_DEFINE_PLUGIN_INIT</ref><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>register<sp/>adapters<sp/>here,<sp/>return<sp/>0<sp/>on<sp/>success</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/plugin_api.h" line="139" column="9" bodyfile="include/core/concerns/plugin_api.h" bodystart="139" bodyend="143"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>ThemisDB adapter plugin ABI contract for runtime dynamic loading. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 93/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready</para>
+</simplesect>
+</para>
+<sect1 id="plugin__api_8h_1autotoc_md2_1s1"><sect2 id="plugin__api_8h_1autotoc_md2">
+<title>Plugin ABI Contract</title><para>Every shared library that provides a dynamically-loadable ThemisDB adapter <bold>must</bold> export the C-linkage function:</para>
+<para><programlisting filename=".c"><codeline><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>themis_plugin_register(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry" kindref="compound">themis::core::concerns::AdapterRegistry</ref>*<sp/>registry,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>requested_adapter_id,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/>host_api_version);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The AdapterRegistry instance to register into. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>requested_adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput>adapter_id</computeroutput> string passed to AdapterRegistry::loadFromPlugin(). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>host_api_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value of kPluginAbiVersion at load time. Plugins should reject if this is incompatible. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>0 on success; any non-zero value causes loadFromPlugin() to return false and the library handle to be released.</para>
+</simplesect>
+Inside the function the plugin calls <computeroutput>registry-&gt;registerAdapter&lt;T&gt;(...)</computeroutput> for each adapter it provides. Because AdapterRegistry is a fully typed header, plugins compile against the same <computeroutput><ref refid="adapter__registry_8h" kindref="compound">adapter_registry.h</ref></computeroutput> header to preserve type safety.</para>
+<para><heading level="3">Minimal plugin example (C++)</heading>
+</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="preprocessor">#include<sp/>&quot;<ref refid="adapter__registry_8h" kindref="compound">core/concerns/adapter_registry.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="plugin__api_8h" kindref="compound">core/concerns/plugin_api.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;my_logger_impl.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="plugin__api_8h_1ad9111e7b9c4174c7384e924810516edf" kindref="member">THEMIS_DEFINE_PLUGIN_INIT</ref><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>(void)requested_adapter_id;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(host_api_version<sp/>&lt;<sp/>1)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>1;<sp/></highlight><highlight class="comment">//<sp/>incompatible</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>registry-&gt;registerAdapter&lt;ILogger&gt;(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;my_logger&quot;</highlight><highlight class="normal">,<sp/>std::make_shared&lt;MyLoggerImpl&gt;());</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para><heading level="3">Security note</heading>
+</para>
+<para>The host validates file permissions and optionally verifies the plugin library&apos;s SHA-256 digest via AdapterSignature before calling <computeroutput>themis_plugin_register</computeroutput>. Unsigned libraries are accepted only when <computeroutput>AdapterTrustPolicy::kTrustAll</computeroutput> is active (development default). </para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward-declare<sp/>AdapterRegistry<sp/>so<sp/>the<sp/>function<sp/>pointer<sp/>type<sp/>compiles</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>without<sp/>pulling<sp/>in<sp/>the<sp/>full<sp/>header<sp/>here.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1core" kindref="compound">core</ref><sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1core_1_1concerns" kindref="compound">concerns</ref><sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry" kindref="compound">AdapterRegistry</ref>;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>concerns</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>core</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1core" kindref="compound">core</ref><sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1core_1_1concerns" kindref="compound">concerns</ref><sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Version<sp/>constant</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/>kPluginAbiVersion<sp/>=<sp/>1u;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Plugin<sp/>entry-point<sp/>symbol<sp/>name</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>kPluginInitSymbol<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themis_plugin_register&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Plugin<sp/>entry-point<sp/>function<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="namespacethemis_1_1core_1_1concerns_1a10c54eca9bfb670d58d2197bd5493adc" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1core_1_1concerns_1a10c54eca9bfb670d58d2197bd5493adc" kindref="member">ThemisPluginRegisterFn</ref><sp/>=<sp/>int<sp/>(*)(</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry" kindref="compound">AdapterRegistry</ref>*<sp/>registry,</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/>requested_adapter_id,</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>host_api_version);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>concerns</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>core</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Convenience<sp/>macro<sp/>for<sp/>plugin<sp/>authors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="plugin__api_8h_1ad9111e7b9c4174c7384e924810516edf" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_DEFINE_PLUGIN_INIT<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="140"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>extern<sp/>&quot;C&quot;<sp/>int<sp/>themis_plugin_register(<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="141"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>::themis::core::concerns::AdapterRegistry*<sp/>registry,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="142"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>char*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>requested_adapter_id,<sp/><sp/>\</highlight></codeline>
+<codeline lineno="143"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>host_api_version)</highlight></codeline>
+    </programlisting>
+    <location file="include/core/concerns/plugin_api.h"/>
+  </compounddef>
+</doxygen>

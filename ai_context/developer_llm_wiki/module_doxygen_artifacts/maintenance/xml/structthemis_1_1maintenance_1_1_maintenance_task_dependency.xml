@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1maintenance_1_1_maintenance_task_dependency" kind="struct" language="C++" prot="public">
+    <compoundname>themis::maintenance::MaintenanceTaskDependency</compoundname>
+    <includes refid="maintenance__schedule_8h" local="no">maintenance_schedule.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_maintenance_task_dependency_1a05126727c3f283cb6ad4e01a15ade23e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8" kindref="member">MaintenanceTaskType</ref></type>
+        <definition>MaintenanceTaskType themis::maintenance::MaintenanceTaskDependency::task_type</definition>
+        <argsstring></argsstring>
+        <name>task_type</name>
+        <qualifiedname>themis::maintenance::MaintenanceTaskDependency::task_type</qualifiedname>
+        <briefdescription>
+<para>The task that has dependencies. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule.h" line="100" column="38" bodyfile="include/maintenance/maintenance_schedule.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1_maintenance_task_dependency_1a2ac9b43de53c69a3df482477219f0069" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8" kindref="member">MaintenanceTaskType</ref> &gt;</type>
+        <definition>std::vector&lt;MaintenanceTaskType&gt; themis::maintenance::MaintenanceTaskDependency::depends_on</definition>
+        <argsstring></argsstring>
+        <name>depends_on</name>
+        <qualifiedname>themis::maintenance::MaintenanceTaskDependency::depends_on</qualifiedname>
+        <briefdescription>
+<para>Tasks that must complete before task_type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule.h" line="101" column="17" bodyfile="include/maintenance/maintenance_schedule.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1maintenance_1_1_maintenance_task_dependency_1ac0e0e9b067239f9729825a39dbc3737a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::maintenance::MaintenanceTaskDependency::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::maintenance::MaintenanceTaskDependency::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule.h" line="103" column="20" bodyfile="include/maintenance/maintenance_schedule.h" bodystart="103" bodyend="112"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1maintenance_1_1_maintenance_task_dependency_1a8d09b8539d6b32fcc476b50d0122d349" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1maintenance_1_1_maintenance_task_dependency" kindref="compound">MaintenanceTaskDependency</ref></type>
+        <definition>static MaintenanceTaskDependency themis::maintenance::MaintenanceTaskDependency::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::maintenance::MaintenanceTaskDependency::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_schedule.h" line="114" column="38" bodyfile="include/maintenance/maintenance_schedule.h" bodystart="114" bodyend="135"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Declares explicit execution dependencies for a single task type. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>When one or more <ref refid="structthemis_1_1maintenance_1_1_maintenance_task_dependency" kindref="compound">MaintenanceTaskDependency</ref> entries are present in a <ref refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry_1a8e2dba0d1ffdbcf60e4bc162bcf90417" kindref="member">MaintenanceScheduleEntry::task_dependencies</ref> list the orchestrator will topologically sort the task execution graph instead of relying on the positional order of the <computeroutput>tasks</computeroutput> vector.</para>
+<para>Example: to express &quot;run storage_compaction only after mvcc_cleanup&quot;: <programlisting><codeline><highlight class="normal">MaintenanceTaskDependency<sp/>dep;</highlight></codeline>
+<codeline><highlight class="normal">dep.task_type<sp/><sp/>=<sp/><ref refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8a01379fc604f07ec6c9c0002ee6f6c308" kindref="member">MaintenanceTaskType::STORAGE_COMPACTION</ref>;</highlight></codeline>
+<codeline><highlight class="normal">dep.depends_on<sp/>=<sp/>{<sp/><ref refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8a5daef987791f6d59d0292b235ab51ba3" kindref="member">MaintenanceTaskType::MVCC_CLEANUP</ref><sp/>};</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/maintenance/maintenance_schedule.h" line="99" column="1" bodyfile="include/maintenance/maintenance_schedule.h" bodystart="99" bodyend="136"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_task_dependency_1a2ac9b43de53c69a3df482477219f0069" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceTaskDependency</scope><name>depends_on</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_task_dependency_1a8d09b8539d6b32fcc476b50d0122d349" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceTaskDependency</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_task_dependency_1a05126727c3f283cb6ad4e01a15ade23e" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceTaskDependency</scope><name>task_type</name></member>
+      <member refid="structthemis_1_1maintenance_1_1_maintenance_task_dependency_1ac0e0e9b067239f9729825a39dbc3737a" prot="public" virt="non-virtual"><scope>themis::maintenance::MaintenanceTaskDependency</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

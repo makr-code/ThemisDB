@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_recovery_plan" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::RecoveryPlan</compoundname>
+    <includes refid="recovery__manager_8h" local="no">recovery_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_recovery_plan_1a08ecc91394a86e839799681ab9f30e7f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::RecoveryPlan::artifact_id</definition>
+        <argsstring></argsstring>
+        <name>artifact_id</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryPlan::artifact_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="95" column="15" bodyfile="include/distributed_tensor/recovery_manager.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_recovery_plan_1adb97aa3ae007025f559f46d5e6b639f7" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1distributed__tensor_1a4fd78c00dbe16c1cb7ad9ef5e97f52dd" kindref="member">RecoveryStrategy</ref></type>
+        <definition>RecoveryStrategy themis::distributed_tensor::RecoveryPlan::recovery_strategy</definition>
+        <argsstring></argsstring>
+        <name>recovery_strategy</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryPlan::recovery_strategy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="97" column="20" bodyfile="include/distributed_tensor/recovery_manager.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_recovery_plan_1a5a9d4b5cc818665efcc68bcc6b80502a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::distributed_tensor::RecoveryPlan::shards_to_recover</definition>
+        <argsstring></argsstring>
+        <name>shards_to_recover</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryPlan::shards_to_recover</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="99" column="15" bodyfile="include/distributed_tensor/recovery_manager.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_recovery_plan_1a7813f8556e97982e6d5536df806a2d95" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::RecoveryPlan::estimated_total_recovery_time_ms</definition>
+        <argsstring></argsstring>
+        <name>estimated_total_recovery_time_ms</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryPlan::estimated_total_recovery_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="101" column="12" bodyfile="include/distributed_tensor/recovery_manager.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_recovery_plan_1a61545821ca9038b25d4ba2ddb3a5669e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::distributed_tensor::RecoveryPlan::priority_level</definition>
+        <argsstring></argsstring>
+        <name>priority_level</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryPlan::priority_level</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="103" column="12" bodyfile="include/distributed_tensor/recovery_manager.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_recovery_plan_1adb226efd135d5518e684c42b36b76ca1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::RecoveryPlan::allow_degraded_mode</definition>
+        <argsstring></argsstring>
+        <name>allow_degraded_mode</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryPlan::allow_degraded_mode</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="105" column="8" bodyfile="include/distributed_tensor/recovery_manager.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_recovery_plan_1a84083e71e521aee8e366e134c2f079ca" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::RecoveryPlan::is_recoverable</definition>
+        <argsstring></argsstring>
+        <name>is_recoverable</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryPlan::is_recoverable</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="107" column="8" bodyfile="include/distributed_tensor/recovery_manager.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_recovery_plan_1aa1765662c228d2a93f901411b31c41e6" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1distributed__tensor_1a827f47cd542baa0b1f2829bc59214190" kindref="member">RecoveryFailureMode</ref> &gt;</type>
+        <definition>std::optional&lt;RecoveryFailureMode&gt; themis::distributed_tensor::RecoveryPlan::blocking_failure_mode</definition>
+        <argsstring></argsstring>
+        <name>blocking_failure_mode</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryPlan::blocking_failure_mode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="109" column="17" bodyfile="include/distributed_tensor/recovery_manager.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_recovery_plan_1ac7edab62987916c8ec3a0b6c65a28755" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::RecoveryPlan::blocking_reason</definition>
+        <argsstring></argsstring>
+        <name>blocking_reason</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryPlan::blocking_reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="111" column="15" bodyfile="include/distributed_tensor/recovery_manager.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_recovery_plan_1af25fd8d50bed04e3d86b477efa57c4a1" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::distributed_tensor::RecoveryPlan::custom_parameters</definition>
+        <argsstring></argsstring>
+        <name>custom_parameters</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryPlan::custom_parameters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="113" column="22" bodyfile="include/distributed_tensor/recovery_manager.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_tensor/recovery_manager.h" line="94" column="1" bodyfile="include/distributed_tensor/recovery_manager.h" bodystart="94" bodyend="114"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_recovery_plan_1adb226efd135d5518e684c42b36b76ca1" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RecoveryPlan</scope><name>allow_degraded_mode</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_recovery_plan_1a08ecc91394a86e839799681ab9f30e7f" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RecoveryPlan</scope><name>artifact_id</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_recovery_plan_1aa1765662c228d2a93f901411b31c41e6" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RecoveryPlan</scope><name>blocking_failure_mode</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_recovery_plan_1ac7edab62987916c8ec3a0b6c65a28755" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RecoveryPlan</scope><name>blocking_reason</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_recovery_plan_1af25fd8d50bed04e3d86b477efa57c4a1" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RecoveryPlan</scope><name>custom_parameters</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_recovery_plan_1a7813f8556e97982e6d5536df806a2d95" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RecoveryPlan</scope><name>estimated_total_recovery_time_ms</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_recovery_plan_1a84083e71e521aee8e366e134c2f079ca" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RecoveryPlan</scope><name>is_recoverable</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_recovery_plan_1a61545821ca9038b25d4ba2ddb3a5669e" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RecoveryPlan</scope><name>priority_level</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_recovery_plan_1adb97aa3ae007025f559f46d5e6b639f7" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RecoveryPlan</scope><name>recovery_strategy</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_recovery_plan_1a5a9d4b5cc818665efcc68bcc6b80502a" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RecoveryPlan</scope><name>shards_to_recover</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

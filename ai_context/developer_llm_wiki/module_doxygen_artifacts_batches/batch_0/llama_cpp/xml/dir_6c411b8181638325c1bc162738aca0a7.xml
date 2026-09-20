@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_6c411b8181638325c1bc162738aca0a7" kind="dir">
+    <compoundname>benchmarks/llama_cpp</compoundname>
+    <innerfile refid="bench__llama__cpp__inference_8cpp">bench_llama_cpp_inference.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/llama_cpp/"/>
+  </compounddef>
+</doxygen>

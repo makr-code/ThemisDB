@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPULauncher::Stats</compoundname>
+    <includes refid="launcher_8h" local="no">launcher.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_stats_1aeb780c1c12b37372c4fc5ca8f9728062" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPULauncher::Stats::submitted</definition>
+        <argsstring></argsstring>
+        <name>submitted</name>
+        <qualifiedname>themis::gpu::GPULauncher::Stats::submitted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/launcher.h" line="110" column="16" bodyfile="include/themis/gpu/launcher.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_stats_1a12bf454968f38ef7da73b67fd40b8335" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPULauncher::Stats::succeeded</definition>
+        <argsstring></argsstring>
+        <name>succeeded</name>
+        <qualifiedname>themis::gpu::GPULauncher::Stats::succeeded</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/launcher.h" line="111" column="16" bodyfile="include/themis/gpu/launcher.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_stats_1a061d1d3eeaff8a88ebbb2dfd6e068abb" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPULauncher::Stats::failed</definition>
+        <argsstring></argsstring>
+        <name>failed</name>
+        <qualifiedname>themis::gpu::GPULauncher::Stats::failed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/launcher.h" line="112" column="16" bodyfile="include/themis/gpu/launcher.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_stats_1a48fb3c425b88fa230fbd4dbf46d24f71" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPULauncher::Stats::timed_out</definition>
+        <argsstring></argsstring>
+        <name>timed_out</name>
+        <qualifiedname>themis::gpu::GPULauncher::Stats::timed_out</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/launcher.h" line="113" column="16" bodyfile="include/themis/gpu/launcher.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_stats_1a07759b118eea0733a2b3dbc266442f76" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPULauncher::Stats::batches_submitted</definition>
+        <argsstring></argsstring>
+        <name>batches_submitted</name>
+        <qualifiedname>themis::gpu::GPULauncher::Stats::batches_submitted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/launcher.h" line="114" column="16" bodyfile="include/themis/gpu/launcher.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/launcher.h" line="109" column="5" bodyfile="include/themis/gpu/launcher.h" bodystart="109" bodyend="115"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_stats_1a07759b118eea0733a2b3dbc266442f76" prot="public" virt="non-virtual"><scope>themis::gpu::GPULauncher::Stats</scope><name>batches_submitted</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_stats_1a061d1d3eeaff8a88ebbb2dfd6e068abb" prot="public" virt="non-virtual"><scope>themis::gpu::GPULauncher::Stats</scope><name>failed</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_stats_1aeb780c1c12b37372c4fc5ca8f9728062" prot="public" virt="non-virtual"><scope>themis::gpu::GPULauncher::Stats</scope><name>submitted</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_stats_1a12bf454968f38ef7da73b67fd40b8335" prot="public" virt="non-virtual"><scope>themis::gpu::GPULauncher::Stats</scope><name>succeeded</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_stats_1a48fb3c425b88fa230fbd4dbf46d24f71" prot="public" virt="non-virtual"><scope>themis::gpu::GPULauncher::Stats</scope><name>timed_out</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

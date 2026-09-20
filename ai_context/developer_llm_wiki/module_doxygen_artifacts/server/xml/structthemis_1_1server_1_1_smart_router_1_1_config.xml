@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_smart_router_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::SmartRouter::Config</compoundname>
+    <includes refid="smart__routing_8h" local="no">smart_routing.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_smart_router_1_1_config_1ad1ba7f5348a74dcd616f5657cc0a371e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::SmartRouter::Config::latency_window_size</definition>
+        <argsstring></argsstring>
+        <name>latency_window_size</name>
+        <qualifiedname>themis::server::SmartRouter::Config::latency_window_size</qualifiedname>
+        <initializer>{100}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="49" column="18" bodyfile="include/server/smart_routing.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_smart_router_1_1_config_1a3d72f26a060f78fa9afd515a87c87898" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::server::SmartRouter::Config::tail_latency_threshold_ms</definition>
+        <argsstring></argsstring>
+        <name>tail_latency_threshold_ms</name>
+        <qualifiedname>themis::server::SmartRouter::Config::tail_latency_threshold_ms</qualifiedname>
+        <initializer>{500.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="51" column="16" bodyfile="include/server/smart_routing.h" bodystart="51" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_smart_router_1_1_config_1ace6c6754d154666c45decab0d0bd8e4c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::SmartRouter::Config::min_cache_prediction_hits</definition>
+        <argsstring></argsstring>
+        <name>min_cache_prediction_hits</name>
+        <qualifiedname>themis::server::SmartRouter::Config::min_cache_prediction_hits</qualifiedname>
+        <initializer>{3}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="53" column="18" bodyfile="include/server/smart_routing.h" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_smart_router_1_1_config_1aaafbd6a9bd4b91d23fdd91ac03b00a7c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::SmartRouter::Config::enable_cache_prediction</definition>
+        <argsstring></argsstring>
+        <name>enable_cache_prediction</name>
+        <qualifiedname>themis::server::SmartRouter::Config::enable_cache_prediction</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="55" column="14" bodyfile="include/server/smart_routing.h" bodystart="55" bodyend="55"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/smart_routing.h" line="48" column="5" bodyfile="include/server/smart_routing.h" bodystart="48" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_smart_router_1_1_config_1aaafbd6a9bd4b91d23fdd91ac03b00a7c" prot="public" virt="non-virtual"><scope>themis::server::SmartRouter::Config</scope><name>enable_cache_prediction</name></member>
+      <member refid="structthemis_1_1server_1_1_smart_router_1_1_config_1ad1ba7f5348a74dcd616f5657cc0a371e" prot="public" virt="non-virtual"><scope>themis::server::SmartRouter::Config</scope><name>latency_window_size</name></member>
+      <member refid="structthemis_1_1server_1_1_smart_router_1_1_config_1ace6c6754d154666c45decab0d0bd8e4c" prot="public" virt="non-virtual"><scope>themis::server::SmartRouter::Config</scope><name>min_cache_prediction_hits</name></member>
+      <member refid="structthemis_1_1server_1_1_smart_router_1_1_config_1a3d72f26a060f78fa9afd515a87c87898" prot="public" virt="non-virtual"><scope>themis::server::SmartRouter::Config</scope><name>tail_latency_threshold_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

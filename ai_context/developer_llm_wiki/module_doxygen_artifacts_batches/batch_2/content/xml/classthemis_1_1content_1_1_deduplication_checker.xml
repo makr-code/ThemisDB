@@ -1,0 +1,516 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1_deduplication_checker" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::DeduplicationChecker</compoundname>
+    <includes refid="deduplication__checker_8h" local="no">deduplication_checker.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_deduplication_checker_1a68c81f9d4c86a7bbcd299d6f4ecd9dc6" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::content::DeduplicationChecker::kNumHashFunctions</definition>
+        <argsstring></argsstring>
+        <name>kNumHashFunctions</name>
+        <qualifiedname>themis::content::DeduplicationChecker::kNumHashFunctions</qualifiedname>
+        <initializer>= 128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/deduplication_checker.h" line="32" column="29" bodyfile="include/content/deduplication_checker.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_deduplication_checker_1a6fd29ab060c002b3bc04fdb44192a385" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::content::DeduplicationChecker::kNumBands</definition>
+        <argsstring></argsstring>
+        <name>kNumBands</name>
+        <qualifiedname>themis::content::DeduplicationChecker::kNumBands</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/deduplication_checker.h" line="33" column="29" bodyfile="include/content/deduplication_checker.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_deduplication_checker_1a54e876125744077b45f392d2b9387aff" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::content::DeduplicationChecker::kBandRows</definition>
+        <argsstring></argsstring>
+        <name>kBandRows</name>
+        <qualifiedname>themis::content::DeduplicationChecker::kBandRows</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/deduplication_checker.h" line="34" column="29" bodyfile="include/content/deduplication_checker.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_deduplication_checker_1ac59a4d5e743ee2876f906601bc7de425" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::content::DeduplicationChecker::kPHashThreshold</definition>
+        <argsstring></argsstring>
+        <name>kPHashThreshold</name>
+        <qualifiedname>themis::content::DeduplicationChecker::kPHashThreshold</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/deduplication_checker.h" line="35" column="31" bodyfile="include/content/deduplication_checker.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_deduplication_checker_1a2a6923e53c5f876503b4f9497281926b" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::content::DeduplicationChecker::kJaccardThreshold</definition>
+        <argsstring></argsstring>
+        <name>kJaccardThreshold</name>
+        <qualifiedname>themis::content::DeduplicationChecker::kJaccardThreshold</qualifiedname>
+        <initializer>= 0.85</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/deduplication_checker.h" line="36" column="29" bodyfile="include/content/deduplication_checker.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_deduplication_checker_1a8525975c77f5c07ce1dbfa3fe9060e3b" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::content::DeduplicationChecker::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>themis::content::DeduplicationChecker::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/deduplication_checker.h" line="76" column="21" bodyfile="include/content/deduplication_checker.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_deduplication_checker_1a5d4f1662c7ce9d82e45b616dce3f22d2" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; cache::BoundedLRUCache &gt;</type>
+        <definition>std::unique_ptr&lt;cache::BoundedLRUCache&gt; themis::content::DeduplicationChecker::band_cache_</definition>
+        <argsstring></argsstring>
+        <name>band_cache_</name>
+        <qualifiedname>themis::content::DeduplicationChecker::band_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/deduplication_checker.h" line="84" column="21" bodyfile="include/content/deduplication_checker.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_deduplication_checker_1a1a14a905fcca0ac48cf1ed4a5826501d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::DeduplicationChecker::DeduplicationChecker</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; storage, size_t max_band_entries=200 &apos;000)</argsstring>
+        <name>DeduplicationChecker</name>
+        <qualifiedname>themis::content::DeduplicationChecker::DeduplicationChecker</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+          <declname>storage</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_band_entries</declname>
+          <defval>200 &apos;000</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/deduplication_checker.h" line="38" column="14" bodyfile="src/content/deduplication_checker.cpp" bodystart="23" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_deduplication_checker_1aa3e1d5940d87413f03cdfae109aac6ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::DeduplicationChecker::DeduplicationChecker</definition>
+        <argsstring>(const DeduplicationChecker &amp;)=delete</argsstring>
+        <name>DeduplicationChecker</name>
+        <qualifiedname>themis::content::DeduplicationChecker::DeduplicationChecker</qualifiedname>
+        <param>
+          <type>const DeduplicationChecker &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/deduplication_checker.h" line="44" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_deduplication_checker_1a7c957f120ad82ebaff9acbd392f3778b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1content_1_1_deduplication_checker_1a1a14a905fcca0ac48cf1ed4a5826501d" kindref="member">DeduplicationChecker</ref> &amp;</type>
+        <definition>DeduplicationChecker &amp; themis::content::DeduplicationChecker::operator=</definition>
+        <argsstring>(const DeduplicationChecker &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::content::DeduplicationChecker::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1content_1_1_deduplication_checker_1a1a14a905fcca0ac48cf1ed4a5826501d" kindref="member">DeduplicationChecker</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/deduplication_checker.h" line="45" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_deduplication_checker_1a970c942d724e1a578224d684c62f1f36" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1content_1_1_duplicate_of" kindref="compound">DuplicateOf</ref> &gt;</type>
+        <definition>std::optional&lt; DuplicateOf &gt; themis::content::DeduplicationChecker::isDuplicateImage</definition>
+        <argsstring>(const std::string &amp;phash_hex) const</argsstring>
+        <name>isDuplicateImage</name>
+        <qualifiedname>themis::content::DeduplicationChecker::isDuplicateImage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>phash_hex</declname>
+        </param>
+        <briefdescription>
+<para>Is Duplicate Image. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">phash_hex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Cid. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/content/deduplication_checker.h" line="52" column="19" bodyfile="src/content/deduplication_checker.cpp" bodystart="108" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_deduplication_checker_1a56660f141bd894bd6f10ca7e7b18ddd7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1content_1_1_duplicate_of" kindref="compound">DuplicateOf</ref> &gt;</type>
+        <definition>std::optional&lt; DuplicateOf &gt; themis::content::DeduplicationChecker::isDuplicateText</definition>
+        <argsstring>(const std::vector&lt; uint32_t &gt; &amp;minhash) const</argsstring>
+        <name>isDuplicateText</name>
+        <qualifiedname>themis::content::DeduplicationChecker::isDuplicateText</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint32_t &gt; &amp;</type>
+          <declname>minhash</declname>
+        </param>
+        <briefdescription>
+<para>Is Duplicate Text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">minhash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/deduplication_checker.h" line="59" column="19" bodyfile="src/content/deduplication_checker.cpp" bodystart="168" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_deduplication_checker_1a9a5a87cf8fd2c30e92706e03c541cc1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::DeduplicationChecker::registerImage</definition>
+        <argsstring>(const std::string &amp;content_id, const std::string &amp;phash_hex)</argsstring>
+        <name>registerImage</name>
+        <qualifiedname>themis::content::DeduplicationChecker::registerImage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>phash_hex</declname>
+        </param>
+        <briefdescription>
+<para>Register Image. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">phash_hex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">phash_hex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), put(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/deduplication_checker.h" line="66" column="10" bodyfile="src/content/deduplication_checker.cpp" bodystart="153" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_deduplication_checker_1ae5d82f64c772b781f2590c825ceeaff5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::DeduplicationChecker::registerText</definition>
+        <argsstring>(const std::string &amp;content_id, const std::vector&lt; uint32_t &gt; &amp;minhash)</argsstring>
+        <name>registerText</name>
+        <qualifiedname>themis::content::DeduplicationChecker::registerText</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint32_t &gt; &amp;</type>
+          <declname>minhash</declname>
+        </param>
+        <briefdescription>
+<para>Register Text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">minhash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">content_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the content. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">minhash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), empty(), bandHash(), makeBandKey(), get(), put(), nlohmann::json(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/deduplication_checker.h" line="73" column="10" bodyfile="src/content/deduplication_checker.cpp" bodystart="194" bodyend="211"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_deduplication_checker_1a4122f88b99cf78f80c01698801354626" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::content::DeduplicationChecker::hammingDistance</definition>
+        <argsstring>(const std::string &amp;a, const std::string &amp;b)</argsstring>
+        <name>hammingDistance</name>
+        <qualifiedname>themis::content::DeduplicationChecker::hammingDistance</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Hamming Distance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/deduplication_checker.h" line="93" column="21" bodyfile="src/content/deduplication_checker.cpp" bodystart="64" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_deduplication_checker_1a5adc9c1f7634ef1873105d3c29bbf544" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::content::DeduplicationChecker::bandHash</definition>
+        <argsstring>(const std::vector&lt; uint32_t &gt; &amp;sig, size_t band)</argsstring>
+        <name>bandHash</name>
+        <qualifiedname>themis::content::DeduplicationChecker::bandHash</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint32_t &gt; &amp;</type>
+          <declname>sig</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>band</declname>
+        </param>
+        <briefdescription>
+<para>Band Hash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sig</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">band</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/deduplication_checker.h" line="100" column="21" bodyfile="src/content/deduplication_checker.cpp" bodystart="80" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_deduplication_checker_1a662b005ddd68e0b9961e61a6fe6fcdec" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::DeduplicationChecker::makeBandKey</definition>
+        <argsstring>(size_t band, uint64_t hash_val)</argsstring>
+        <name>makeBandKey</name>
+        <qualifiedname>themis::content::DeduplicationChecker::makeBandKey</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>band</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>hash_val</declname>
+        </param>
+        <briefdescription>
+<para>Make Band Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">band</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hash_val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/deduplication_checker.h" line="107" column="24" bodyfile="src/content/deduplication_checker.cpp" bodystart="98" bodyend="102"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/deduplication_checker.h" line="30" column="1" bodyfile="include/content/deduplication_checker.h" bodystart="30" bodyend="108"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1_deduplication_checker_1a5d4f1662c7ce9d82e45b616dce3f22d2" prot="private" virt="non-virtual"><scope>themis::content::DeduplicationChecker</scope><name>band_cache_</name></member>
+      <member refid="classthemis_1_1content_1_1_deduplication_checker_1a5adc9c1f7634ef1873105d3c29bbf544" prot="private" virt="non-virtual"><scope>themis::content::DeduplicationChecker</scope><name>bandHash</name></member>
+      <member refid="classthemis_1_1content_1_1_deduplication_checker_1a1a14a905fcca0ac48cf1ed4a5826501d" prot="public" virt="non-virtual"><scope>themis::content::DeduplicationChecker</scope><name>DeduplicationChecker</name></member>
+      <member refid="classthemis_1_1content_1_1_deduplication_checker_1aa3e1d5940d87413f03cdfae109aac6ae" prot="public" virt="non-virtual"><scope>themis::content::DeduplicationChecker</scope><name>DeduplicationChecker</name></member>
+      <member refid="classthemis_1_1content_1_1_deduplication_checker_1a4122f88b99cf78f80c01698801354626" prot="private" virt="non-virtual"><scope>themis::content::DeduplicationChecker</scope><name>hammingDistance</name></member>
+      <member refid="classthemis_1_1content_1_1_deduplication_checker_1a970c942d724e1a578224d684c62f1f36" prot="public" virt="non-virtual"><scope>themis::content::DeduplicationChecker</scope><name>isDuplicateImage</name></member>
+      <member refid="classthemis_1_1content_1_1_deduplication_checker_1a56660f141bd894bd6f10ca7e7b18ddd7" prot="public" virt="non-virtual"><scope>themis::content::DeduplicationChecker</scope><name>isDuplicateText</name></member>
+      <member refid="classthemis_1_1content_1_1_deduplication_checker_1a54e876125744077b45f392d2b9387aff" prot="public" virt="non-virtual"><scope>themis::content::DeduplicationChecker</scope><name>kBandRows</name></member>
+      <member refid="classthemis_1_1content_1_1_deduplication_checker_1a2a6923e53c5f876503b4f9497281926b" prot="public" virt="non-virtual"><scope>themis::content::DeduplicationChecker</scope><name>kJaccardThreshold</name></member>
+      <member refid="classthemis_1_1content_1_1_deduplication_checker_1a6fd29ab060c002b3bc04fdb44192a385" prot="public" virt="non-virtual"><scope>themis::content::DeduplicationChecker</scope><name>kNumBands</name></member>
+      <member refid="classthemis_1_1content_1_1_deduplication_checker_1a68c81f9d4c86a7bbcd299d6f4ecd9dc6" prot="public" virt="non-virtual"><scope>themis::content::DeduplicationChecker</scope><name>kNumHashFunctions</name></member>
+      <member refid="classthemis_1_1content_1_1_deduplication_checker_1ac59a4d5e743ee2876f906601bc7de425" prot="public" virt="non-virtual"><scope>themis::content::DeduplicationChecker</scope><name>kPHashThreshold</name></member>
+      <member refid="classthemis_1_1content_1_1_deduplication_checker_1a662b005ddd68e0b9961e61a6fe6fcdec" prot="private" virt="non-virtual"><scope>themis::content::DeduplicationChecker</scope><name>makeBandKey</name></member>
+      <member refid="classthemis_1_1content_1_1_deduplication_checker_1a7c957f120ad82ebaff9acbd392f3778b" prot="public" virt="non-virtual"><scope>themis::content::DeduplicationChecker</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1content_1_1_deduplication_checker_1a9a5a87cf8fd2c30e92706e03c541cc1f" prot="public" virt="non-virtual"><scope>themis::content::DeduplicationChecker</scope><name>registerImage</name></member>
+      <member refid="classthemis_1_1content_1_1_deduplication_checker_1ae5d82f64c772b781f2590c825ceeaff5" prot="public" virt="non-virtual"><scope>themis::content::DeduplicationChecker</scope><name>registerText</name></member>
+      <member refid="classthemis_1_1content_1_1_deduplication_checker_1a8525975c77f5c07ce1dbfa3fe9060e3b" prot="private" virt="non-virtual"><scope>themis::content::DeduplicationChecker</scope><name>storage_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

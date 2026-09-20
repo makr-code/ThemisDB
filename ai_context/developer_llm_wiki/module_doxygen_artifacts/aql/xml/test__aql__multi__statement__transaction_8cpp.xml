@@ -1,0 +1,667 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__aql__multi__statement__transaction_8cpp" kind="file" language="C++">
+    <compoundname>test_aql_multi_statement_transaction.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">string</includes>
+    <includes local="yes">query/aql_parser.h</includes>
+    <includes local="yes">query/aql_runner.h</includes>
+    <includes local="yes">query/query_engine.h</includes>
+    <includes local="yes">index/secondary_index.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="yes">storage/base_entity.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/aql/test_aql_multi_statement_transaction.cpp</label>
+        <link refid="test__aql__multi__statement__transaction_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>filesystem</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="9">
+        <label>index/secondary_index.h</label>
+      </node>
+      <node id="6">
+        <label>query/aql_parser.h</label>
+      </node>
+      <node id="7">
+        <label>query/aql_runner.h</label>
+      </node>
+      <node id="8">
+        <label>query/query_engine.h</label>
+      </node>
+      <node id="11">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="10">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_multi_statement_aql_runner_test" prot="public">MultiStatementAqlRunnerTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__aql__multi__statement__transaction_8cpp_1ae4f54d3e1260cbe0696f4a9586a34775" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlMultiStatementTransactionParser, ParseBeginCommit)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlMultiStatementTransactionParser</type>
+        </param>
+        <param>
+          <type>ParseBeginCommit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_multi_statement_transaction.cpp" line="22" column="1" bodyfile="tests/aql/test_aql_multi_statement_transaction.cpp" bodystart="22" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__multi__statement__transaction_8cpp_1a6b9b7ebd2d550ea174a440f8f8ff8ffb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlMultiStatementTransactionParser, ParseBeginRollback)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlMultiStatementTransactionParser</type>
+        </param>
+        <param>
+          <type>ParseBeginRollback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_multi_statement_transaction.cpp" line="32" column="1" bodyfile="tests/aql/test_aql_multi_statement_transaction.cpp" bodystart="32" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__multi__statement__transaction_8cpp_1af8c1f56e5e64786b297da8c1cc8e3635" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlMultiStatementTransactionParser, ParseMultipleStatements)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlMultiStatementTransactionParser</type>
+        </param>
+        <param>
+          <type>ParseMultipleStatements</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_multi_statement_transaction.cpp" line="41" column="1" bodyfile="tests/aql/test_aql_multi_statement_transaction.cpp" bodystart="41" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__multi__statement__transaction_8cpp_1a63c11218dc7efcc05256a952b3713fd9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlMultiStatementTransactionParser, ParsePostgresStyleSemicolons)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlMultiStatementTransactionParser</type>
+        </param>
+        <param>
+          <type>ParsePostgresStyleSemicolons</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_multi_statement_transaction.cpp" line="52" column="1" bodyfile="tests/aql/test_aql_multi_statement_transaction.cpp" bodystart="52" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__multi__statement__transaction_8cpp_1a2ec55061b4b1b79fc10d7cd07ed83c0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlMultiStatementTransactionParser, ErrorMissingBegin)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlMultiStatementTransactionParser</type>
+        </param>
+        <param>
+          <type>ErrorMissingBegin</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_multi_statement_transaction.cpp" line="61" column="1" bodyfile="tests/aql/test_aql_multi_statement_transaction.cpp" bodystart="61" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__multi__statement__transaction_8cpp_1a4e79ff3275224376365a3e9382c90096" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlMultiStatementTransactionParser, ErrorMissingTerminator)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlMultiStatementTransactionParser</type>
+        </param>
+        <param>
+          <type>ErrorMissingTerminator</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_multi_statement_transaction.cpp" line="68" column="1" bodyfile="tests/aql/test_aql_multi_statement_transaction.cpp" bodystart="68" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__multi__statement__transaction_8cpp_1a882284e2dbe7de2c9e87529881428f93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlMultiStatementTransactionParser, ErrorTrailingTokensAfterTerminator)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlMultiStatementTransactionParser</type>
+        </param>
+        <param>
+          <type>ErrorTrailingTokensAfterTerminator</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_multi_statement_transaction.cpp" line="75" column="1" bodyfile="tests/aql/test_aql_multi_statement_transaction.cpp" bodystart="75" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__multi__statement__transaction_8cpp_1ac2ceba68b3d4aa17f9c2e4672d4f01f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlMultiStatementTransactionParser, EmptyBlockCommit)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlMultiStatementTransactionParser</type>
+        </param>
+        <param>
+          <type>EmptyBlockCommit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_multi_statement_transaction.cpp" line="82" column="1" bodyfile="tests/aql/test_aql_multi_statement_transaction.cpp" bodystart="82" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__multi__statement__transaction_8cpp_1aa0137ba313578a8ef5f81d45747181d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlMultiStatementTransactionParser, ToJsonCommit)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlMultiStatementTransactionParser</type>
+        </param>
+        <param>
+          <type>ToJsonCommit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_multi_statement_transaction.cpp" line="92" column="1" bodyfile="tests/aql/test_aql_multi_statement_transaction.cpp" bodystart="92" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__multi__statement__transaction_8cpp_1ad426bfa3bb73d695932c1ff0dc47e93e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlMultiStatementTransactionParser, ToJsonRollback)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlMultiStatementTransactionParser</type>
+        </param>
+        <param>
+          <type>ToJsonRollback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_multi_statement_transaction.cpp" line="103" column="1" bodyfile="tests/aql/test_aql_multi_statement_transaction.cpp" bodystart="103" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__multi__statement__transaction_8cpp_1a0126f5fc47fdd793b6a5425fa42de5f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlMultiStatementTransactionParser, ParseWithCteSingleStatement)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlMultiStatementTransactionParser</type>
+        </param>
+        <param>
+          <type>ParseWithCteSingleStatement</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_multi_statement_transaction.cpp" line="112" column="1" bodyfile="tests/aql/test_aql_multi_statement_transaction.cpp" bodystart="112" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__multi__statement__transaction_8cpp_1af00f492a6f45c664bb373920433fec78" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string tmpPath</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>tmpPath</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_multi_statement_transaction.cpp" line="130" column="20" bodyfile="tests/aql/test_aql_multi_statement_transaction.cpp" bodystart="130" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__multi__statement__transaction_8cpp_1a4b2bb35750dea348c33bbf2523867268" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MultiStatementAqlRunnerTest, CommitReturnsCombinedResults)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_multi_statement_aql_runner_test" kindref="compound">MultiStatementAqlRunnerTest</ref></type>
+        </param>
+        <param>
+          <type>CommitReturnsCombinedResults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_multi_statement_transaction.cpp" line="177" column="1" bodyfile="tests/aql/test_aql_multi_statement_transaction.cpp" bodystart="177" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__multi__statement__transaction_8cpp_1a9deca60cea08c70f6224c337e0e3b90b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MultiStatementAqlRunnerTest, CommitWithSemicolonsReturnsCombinedResults)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_multi_statement_aql_runner_test" kindref="compound">MultiStatementAqlRunnerTest</ref></type>
+        </param>
+        <param>
+          <type>CommitWithSemicolonsReturnsCombinedResults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_multi_statement_transaction.cpp" line="186" column="1" bodyfile="tests/aql/test_aql_multi_statement_transaction.cpp" bodystart="186" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__multi__statement__transaction_8cpp_1a4a7495f70ac8113237a65f31e02b8326" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MultiStatementAqlRunnerTest, RollbackReturnsMetadataOnly)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_multi_statement_aql_runner_test" kindref="compound">MultiStatementAqlRunnerTest</ref></type>
+        </param>
+        <param>
+          <type>RollbackReturnsMetadataOnly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_multi_statement_transaction.cpp" line="195" column="1" bodyfile="tests/aql/test_aql_multi_statement_transaction.cpp" bodystart="195" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__multi__statement__transaction_8cpp_1acacab886fcbd32829829a3b0b8f8de34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MultiStatementAqlRunnerTest, EmptyCommitSucceeds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_multi_statement_aql_runner_test" kindref="compound">MultiStatementAqlRunnerTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyCommitSucceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_multi_statement_transaction.cpp" line="204" column="1" bodyfile="tests/aql/test_aql_multi_statement_transaction.cpp" bodystart="204" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__multi__statement__transaction_8cpp_1a86086e857d793f540ce230fd461ddbda" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MultiStatementAqlRunnerTest, ParseErrorReturnsErr)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_multi_statement_aql_runner_test" kindref="compound">MultiStatementAqlRunnerTest</ref></type>
+        </param>
+        <param>
+          <type>ParseErrorReturnsErr</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_multi_statement_transaction.cpp" line="212" column="1" bodyfile="tests/aql/test_aql_multi_statement_transaction.cpp" bodystart="212" bodyend="216"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Tests<sp/>for<sp/>multi-statement<sp/>transaction<sp/>AQL<sp/>(BEGIN/COMMIT/ROLLBACK)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;query/aql_parser.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;query/aql_runner.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;query/query_engine.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/secondary_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/base_entity.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::query;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Parser<sp/>tests<sp/>(no<sp/>DB<sp/>required)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><ref refid="test__aql__multi__statement__transaction_8cpp_1ae4f54d3e1260cbe0696f4a9586a34775" kindref="member">TEST</ref>(AqlMultiStatementTransactionParser,<sp/>ParseBeginCommit)<sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>AQLParser<sp/>parser;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(</highlight></codeline>
+<codeline lineno="25"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BEGIN</highlight></codeline>
+<codeline lineno="26"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FOR<sp/>doc<sp/>IN<sp/>users<sp/>FILTER<sp/>doc.active<sp/>==<sp/>true<sp/>RETURN<sp/>doc</highlight></codeline>
+<codeline lineno="27"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>COMMIT</highlight></codeline>
+<codeline lineno="28"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>)&quot;;</highlight></codeline>
+<codeline lineno="29"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>parser.parseTransactionBlock(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result)<sp/>&lt;&lt;<sp/>(result<sp/>?<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"><sp/>:<sp/>result.error().message());</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result-&gt;action,<sp/>AqlTransactionAction::Commit);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result-&gt;statements.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result-&gt;statements[0],<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><ref refid="test__aql__multi__statement__transaction_8cpp_1ae4f54d3e1260cbe0696f4a9586a34775" kindref="member">TEST</ref>(AqlMultiStatementTransactionParser,<sp/>ParseBeginRollback)<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>AQLParser<sp/>parser;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(</highlight></codeline>
+<codeline lineno="39"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BEGIN</highlight></codeline>
+<codeline lineno="40"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FOR<sp/>doc<sp/>IN<sp/>orders<sp/>RETURN<sp/>doc</highlight></codeline>
+<codeline lineno="41"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ROLLBACK</highlight></codeline>
+<codeline lineno="42"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>)&quot;;</highlight></codeline>
+<codeline lineno="43"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>parser.parseTransactionBlock(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result)<sp/>&lt;&lt;<sp/>(result<sp/>?<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"><sp/>:<sp/>result.error().message());</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result-&gt;action,<sp/>AqlTransactionAction::Rollback);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result-&gt;statements.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><ref refid="test__aql__multi__statement__transaction_8cpp_1ae4f54d3e1260cbe0696f4a9586a34775" kindref="member">TEST</ref>(AqlMultiStatementTransactionParser,<sp/>ParseMultipleStatements)<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>AQLParser<sp/>parser;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(</highlight></codeline>
+<codeline lineno="52"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BEGIN</highlight></codeline>
+<codeline lineno="53"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FOR<sp/>doc<sp/>IN<sp/>users<sp/>FILTER<sp/>doc.active<sp/>==<sp/>true<sp/>RETURN<sp/>doc</highlight></codeline>
+<codeline lineno="54"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FOR<sp/>order<sp/>IN<sp/>orders<sp/>RETURN<sp/>order</highlight></codeline>
+<codeline lineno="55"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>COMMIT</highlight></codeline>
+<codeline lineno="56"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>)&quot;;</highlight></codeline>
+<codeline lineno="57"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>parser.parseTransactionBlock(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result)<sp/>&lt;&lt;<sp/>(result<sp/>?<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"><sp/>:<sp/>result.error().message());</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result-&gt;action,<sp/>AqlTransactionAction::Commit);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result-&gt;statements.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result-&gt;statements[0],<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result-&gt;statements[1],<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><ref refid="test__aql__multi__statement__transaction_8cpp_1ae4f54d3e1260cbe0696f4a9586a34775" kindref="member">TEST</ref>(AqlMultiStatementTransactionParser,<sp/>ParsePostgresStyleSemicolons)<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>AQLParser<sp/>parser;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(</highlight></codeline>
+<codeline lineno="68"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BEGIN;</highlight></codeline>
+<codeline lineno="69"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FOR<sp/>doc<sp/>IN<sp/>users<sp/>FILTER<sp/>doc.active<sp/>==<sp/>true<sp/>RETURN<sp/>doc;</highlight></codeline>
+<codeline lineno="70"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FOR<sp/>order<sp/>IN<sp/>orders<sp/>RETURN<sp/>order;</highlight></codeline>
+<codeline lineno="71"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>COMMIT;</highlight></codeline>
+<codeline lineno="72"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>)&quot;;</highlight></codeline>
+<codeline lineno="73"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>parser.parseTransactionBlock(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result)<sp/>&lt;&lt;<sp/>(result<sp/>?<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"><sp/>:<sp/>result.error().message());</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result-&gt;action,<sp/>AqlTransactionAction::Commit);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result-&gt;statements.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><ref refid="test__aql__multi__statement__transaction_8cpp_1ae4f54d3e1260cbe0696f4a9586a34775" kindref="member">TEST</ref>(AqlMultiStatementTransactionParser,<sp/>ErrorMissingBegin)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>AQLParser<sp/>parser;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>doc<sp/>IN<sp/>users<sp/>RETURN<sp/>doc<sp/>COMMIT&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>parser.parseTransactionBlock(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><ref refid="test__aql__multi__statement__transaction_8cpp_1ae4f54d3e1260cbe0696f4a9586a34775" kindref="member">TEST</ref>(AqlMultiStatementTransactionParser,<sp/>ErrorMissingTerminator)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>AQLParser<sp/>parser;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(</highlight></codeline>
+<codeline lineno="89"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BEGIN</highlight></codeline>
+<codeline lineno="90"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FOR<sp/>doc<sp/>IN<sp/>users<sp/>RETURN<sp/>doc</highlight></codeline>
+<codeline lineno="91"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>)&quot;;</highlight></codeline>
+<codeline lineno="92"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>parser.parseTransactionBlock(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="test__aql__multi__statement__transaction_8cpp_1ae4f54d3e1260cbe0696f4a9586a34775" kindref="member">TEST</ref>(AqlMultiStatementTransactionParser,<sp/>ErrorTrailingTokensAfterTerminator)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>AQLParser<sp/>parser;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;BEGIN<sp/>COMMIT<sp/>FOR<sp/>doc<sp/>IN<sp/>users<sp/>RETURN<sp/>doc&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>parser.parseTransactionBlock(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><ref refid="test__aql__multi__statement__transaction_8cpp_1ae4f54d3e1260cbe0696f4a9586a34775" kindref="member">TEST</ref>(AqlMultiStatementTransactionParser,<sp/>EmptyBlockCommit)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>An<sp/>empty<sp/>transaction<sp/>block<sp/>(no<sp/>statements)<sp/>with<sp/>COMMIT<sp/>is<sp/>valid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>AQLParser<sp/>parser;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;BEGIN<sp/>COMMIT&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>parser.parseTransactionBlock(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result)<sp/>&lt;&lt;<sp/>(result<sp/>?<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"><sp/>:<sp/>result.error().message());</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result-&gt;action,<sp/>AqlTransactionAction::Commit);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result-&gt;statements.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><ref refid="test__aql__multi__statement__transaction_8cpp_1ae4f54d3e1260cbe0696f4a9586a34775" kindref="member">TEST</ref>(AqlMultiStatementTransactionParser,<sp/>ToJsonCommit)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>AQLParser<sp/>parser;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(</highlight></codeline>
+<codeline lineno="116"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BEGIN</highlight></codeline>
+<codeline lineno="117"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FOR<sp/>doc<sp/>IN<sp/>users<sp/>RETURN<sp/>doc</highlight></codeline>
+<codeline lineno="118"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>COMMIT</highlight></codeline>
+<codeline lineno="119"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>)&quot;;</highlight></codeline>
+<codeline lineno="120"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>parser.parseTransactionBlock(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>result-&gt;toJSON();</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;transaction_block&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;action&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;COMMIT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;statements&quot;</highlight><highlight class="normal">].size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><ref refid="test__aql__multi__statement__transaction_8cpp_1ae4f54d3e1260cbe0696f4a9586a34775" kindref="member">TEST</ref>(AqlMultiStatementTransactionParser,<sp/>ToJsonRollback)<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>AQLParser<sp/>parser;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(</highlight></codeline>
+<codeline lineno="131"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BEGIN</highlight></codeline>
+<codeline lineno="132"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FOR<sp/>doc<sp/>IN<sp/>users<sp/>RETURN<sp/>doc</highlight></codeline>
+<codeline lineno="133"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ROLLBACK</highlight></codeline>
+<codeline lineno="134"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>)&quot;;</highlight></codeline>
+<codeline lineno="135"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>parser.parseTransactionBlock(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>);</highlight></codeline>
+<codeline lineno="136" refid="class_multi_statement_aql_runner_test" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>result-&gt;toJSON();</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;action&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;ROLLBACK&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><ref refid="test__aql__multi__statement__transaction_8cpp_1ae4f54d3e1260cbe0696f4a9586a34775" kindref="member">TEST</ref>(AqlMultiStatementTransactionParser,<sp/>ParseWithCteSingleStatement)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verifies<sp/>that<sp/>a<sp/>FOR<sp/>inside<sp/>a<sp/>CTE<sp/>subquery<sp/>is<sp/>not<sp/>mistaken<sp/>for<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>new<sp/>top-level<sp/>statement<sp/>(parenthesis-depth<sp/>tracking<sp/>fix).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>AQLParser<sp/>parser;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(</highlight></codeline>
+<codeline lineno="146"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BEGIN</highlight></codeline>
+<codeline lineno="147"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>WITH<sp/>expensive<sp/>AS<sp/>(FOR<sp/>x<sp/>IN<sp/>products<sp/>FILTER<sp/>x.price<sp/>&gt;<sp/>100<sp/>RETURN<sp/>x)</highlight></codeline>
+<codeline lineno="148"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FOR<sp/>doc<sp/>IN<sp/>expensive<sp/>RETURN<sp/>doc</highlight></codeline>
+<codeline lineno="149"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>COMMIT</highlight></codeline>
+<codeline lineno="150"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>)&quot;;</highlight></codeline>
+<codeline lineno="151"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>parser.parseTransactionBlock(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result)<sp/>&lt;&lt;<sp/>(result<sp/>?<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"><sp/>:<sp/>result.error().message());</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result-&gt;action,<sp/>AqlTransactionAction::Commit);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>WITH<sp/>clause<sp/>+<sp/>its<sp/>FOR<sp/>loop<sp/>must<sp/>be<sp/>parsed<sp/>as<sp/>ONE<sp/>statement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result-&gt;statements.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result-&gt;statements[0],<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result-&gt;statements[0]-&gt;with_clause,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Runner<sp/>tests<sp/>(require<sp/>DB)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>tmpPath(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>now<sp/>=<sp/>std::chrono::high_resolution_clock::now().time_since_epoch().count();</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(fs::temp_directory_path()<sp/>/<sp/>(name<sp/>+<sp/>std::to_string(now))).string();</highlight></codeline>
+<codeline lineno="168"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_multi_statement_aql_runner_test" kindref="compound">MultiStatementAqlRunnerTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;RocksDBWrapper&gt;<sp/><ref refid="class_multi_statement_aql_runner_test_1ac52fbf521418a7f4b7232005687e3295" kindref="member">db_</ref>;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;SecondaryIndexManager&gt;<sp/><ref refid="class_multi_statement_aql_runner_test_1a17bf04753a28768f6ad29801cefee9b8" kindref="member">idx_</ref>;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;QueryEngine&gt;<sp/><ref refid="class_multi_statement_aql_runner_test_1a3819faddd0785b9736c20ddac7a034dd" kindref="member">engine_</ref>;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_multi_statement_aql_runner_test_1a201e5f74729ea188b9fb4aedb79f3bb5" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RocksDBWrapper::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.db_path<sp/>=<sp/>tmpPath(</highlight><highlight class="stringliteral">&quot;themis_mstx_&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.enable_blobdb<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_multi_statement_aql_runner_test_1ac52fbf521418a7f4b7232005687e3295" kindref="member">db_</ref><sp/>=<sp/>std::make_unique&lt;RocksDBWrapper&gt;(cfg);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_multi_statement_aql_runner_test_1ac52fbf521418a7f4b7232005687e3295" kindref="member">db_</ref>-&gt;open());</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_multi_statement_aql_runner_test_1a17bf04753a28768f6ad29801cefee9b8" kindref="member">idx_</ref><sp/>=<sp/>std::make_unique&lt;SecondaryIndexManager&gt;(*<ref refid="class_multi_statement_aql_runner_test_1ac52fbf521418a7f4b7232005687e3295" kindref="member">db_</ref>);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_multi_statement_aql_runner_test_1a17bf04753a28768f6ad29801cefee9b8" kindref="member">idx_</ref>-&gt;createIndex(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;active&quot;</highlight><highlight class="normal">).ok);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_multi_statement_aql_runner_test_1a17bf04753a28768f6ad29801cefee9b8" kindref="member">idx_</ref>-&gt;createIndex(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">).ok);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Store<sp/>entities<sp/>directly<sp/>(not<sp/>via<sp/>lambda)<sp/>so<sp/>that<sp/>ASSERT_TRUE<sp/>aborts<sp/>SetUp<sp/>on<sp/>failure.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e<sp/>=<sp/>BaseEntity::fromFields(</highlight><highlight class="stringliteral">&quot;u1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;active&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal">)},<sp/>{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">)}});</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_multi_statement_aql_runner_test_1a17bf04753a28768f6ad29801cefee9b8" kindref="member">idx_</ref>-&gt;put(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>e).ok);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e<sp/>=<sp/>BaseEntity::fromFields(</highlight><highlight class="stringliteral">&quot;u2&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;active&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;false&quot;</highlight><highlight class="normal">)},<sp/>{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;Bob&quot;</highlight><highlight class="normal">)}});</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_multi_statement_aql_runner_test_1a17bf04753a28768f6ad29801cefee9b8" kindref="member">idx_</ref>-&gt;put(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>e).ok);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e<sp/>=<sp/>BaseEntity::fromFields(</highlight><highlight class="stringliteral">&quot;o1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;open&quot;</highlight><highlight class="normal">)},<sp/>{</highlight><highlight class="stringliteral">&quot;user_id&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;u1&quot;</highlight><highlight class="normal">)}});</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_multi_statement_aql_runner_test_1a17bf04753a28768f6ad29801cefee9b8" kindref="member">idx_</ref>-&gt;put(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/>e).ok);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_multi_statement_aql_runner_test_1a3819faddd0785b9736c20ddac7a034dd" kindref="member">engine_</ref><sp/>=<sp/>std::make_unique&lt;QueryEngine&gt;(*<ref refid="class_multi_statement_aql_runner_test_1ac52fbf521418a7f4b7232005687e3295" kindref="member">db_</ref>,<sp/>*<ref refid="class_multi_statement_aql_runner_test_1a17bf04753a28768f6ad29801cefee9b8" kindref="member">idx_</ref>);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_multi_statement_aql_runner_test_1aeb60792595cc4cdf69ca74f78b29e7cc" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_multi_statement_aql_runner_test_1a3819faddd0785b9736c20ddac7a034dd" kindref="member">engine_</ref>.reset();</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_multi_statement_aql_runner_test_1a17bf04753a28768f6ad29801cefee9b8" kindref="member">idx_</ref>.reset();</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_multi_statement_aql_runner_test_1ac52fbf521418a7f4b7232005687e3295" kindref="member">db_</ref>-&gt;close();</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_multi_statement_aql_runner_test_1ac52fbf521418a7f4b7232005687e3295" kindref="member">db_</ref>.reset();</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><ref refid="test__aql__multi__statement__transaction_8cpp_1a4b2bb35750dea348c33bbf2523867268" kindref="member">TEST_F</ref>(<ref refid="class_multi_statement_aql_runner_test" kindref="compound">MultiStatementAqlRunnerTest</ref>,<sp/>CommitReturnsCombinedResults)<sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(</highlight></codeline>
+<codeline lineno="213"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BEGIN</highlight></codeline>
+<codeline lineno="214"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FOR<sp/>doc<sp/>IN<sp/>users<sp/>FILTER<sp/>doc.active<sp/>==<sp/>&quot;true&quot;<sp/>RETURN<sp/>doc</highlight></codeline>
+<codeline lineno="215"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FOR<sp/>order<sp/>IN<sp/>orders<sp/>FILTER<sp/>order.status<sp/>==<sp/>&quot;open&quot;<sp/>RETURN<sp/>order</highlight></codeline>
+<codeline lineno="216"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>COMMIT</highlight></codeline>
+<codeline lineno="217"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>)&quot;;</highlight></codeline>
+<codeline lineno="218"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>executeMultiStatementAql(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>,<sp/>*engine_);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result)<sp/>&lt;&lt;<sp/>(result<sp/>?<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"><sp/>:<sp/>result.error().message());</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>j<sp/>=<sp/>*result;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;commit&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;results&quot;</highlight><highlight class="normal">].size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><ref refid="test__aql__multi__statement__transaction_8cpp_1a4b2bb35750dea348c33bbf2523867268" kindref="member">TEST_F</ref>(<ref refid="class_multi_statement_aql_runner_test" kindref="compound">MultiStatementAqlRunnerTest</ref>,<sp/>CommitWithSemicolonsReturnsCombinedResults)<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(</highlight></codeline>
+<codeline lineno="227"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BEGIN;</highlight></codeline>
+<codeline lineno="228"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FOR<sp/>doc<sp/>IN<sp/>users<sp/>FILTER<sp/>doc.active<sp/>==<sp/>&quot;true&quot;<sp/>RETURN<sp/>doc;</highlight></codeline>
+<codeline lineno="229"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FOR<sp/>order<sp/>IN<sp/>orders<sp/>FILTER<sp/>order.status<sp/>==<sp/>&quot;open&quot;<sp/>RETURN<sp/>order;</highlight></codeline>
+<codeline lineno="230"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>COMMIT;</highlight></codeline>
+<codeline lineno="231"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>)&quot;;</highlight></codeline>
+<codeline lineno="232"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>executeMultiStatementAql(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>,<sp/>*engine_);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result)<sp/>&lt;&lt;<sp/>(result<sp/>?<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"><sp/>:<sp/>result.error().message());</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>j<sp/>=<sp/>*result;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;commit&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;results&quot;</highlight><highlight class="normal">].size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><ref refid="test__aql__multi__statement__transaction_8cpp_1a4b2bb35750dea348c33bbf2523867268" kindref="member">TEST_F</ref>(<ref refid="class_multi_statement_aql_runner_test" kindref="compound">MultiStatementAqlRunnerTest</ref>,<sp/>RollbackReturnsMetadataOnly)<sp/>{</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(</highlight></codeline>
+<codeline lineno="241"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BEGIN</highlight></codeline>
+<codeline lineno="242"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FOR<sp/>doc<sp/>IN<sp/>users<sp/>RETURN<sp/>doc</highlight></codeline>
+<codeline lineno="243"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ROLLBACK</highlight></codeline>
+<codeline lineno="244"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>)&quot;;</highlight></codeline>
+<codeline lineno="245"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>executeMultiStatementAql(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>,<sp/>*engine_);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result)<sp/>&lt;&lt;<sp/>(result<sp/>?<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"><sp/>:<sp/>result.error().message());</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>j<sp/>=<sp/>*result;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;rollback&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;statements&quot;</highlight><highlight class="normal">],<sp/>1u);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><ref refid="test__aql__multi__statement__transaction_8cpp_1a4b2bb35750dea348c33bbf2523867268" kindref="member">TEST_F</ref>(<ref refid="class_multi_statement_aql_runner_test" kindref="compound">MultiStatementAqlRunnerTest</ref>,<sp/>EmptyCommitSucceeds)<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;BEGIN<sp/>COMMIT&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>executeMultiStatementAql(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>,<sp/>*engine_);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result)<sp/>&lt;&lt;<sp/>(result<sp/>?<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"><sp/>:<sp/>result.error().message());</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ((*result)[</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;commit&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ((*result)[</highlight><highlight class="stringliteral">&quot;results&quot;</highlight><highlight class="normal">].size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><ref refid="test__aql__multi__statement__transaction_8cpp_1a4b2bb35750dea348c33bbf2523867268" kindref="member">TEST_F</ref>(<ref refid="class_multi_statement_aql_runner_test" kindref="compound">MultiStatementAqlRunnerTest</ref>,<sp/>ParseErrorReturnsErr)<sp/>{</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>doc<sp/>IN<sp/>users<sp/>RETURN<sp/>doc&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>missing<sp/>BEGIN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>executeMultiStatementAql(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>,<sp/>*engine_);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/aql/test_aql_multi_statement_transaction.cpp"/>
+  </compounddef>
+</doxygen>

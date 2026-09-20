@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_cross_lingual_search_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::CrossLingualSearch::Config</compoundname>
+    <includes refid="cross__lingual__search_8h" local="no">cross_lingual_search.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_cross_lingual_search_1_1_config_1ad1679f31c14dcd3102649dd898dc50fd" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::CrossLingualSearch::Config::k</definition>
+        <argsstring></argsstring>
+        <name>k</name>
+        <qualifiedname>themis::CrossLingualSearch::Config::k</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Maximum results to return. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/cross_lingual_search.h" line="89" column="16" bodyfile="include/search/cross_lingual_search.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_cross_lingual_search_1_1_config_1a541de2e1e791a933d755f2418d9f24e0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::CrossLingualSearch::Config::candidates</definition>
+        <argsstring></argsstring>
+        <name>candidates</name>
+        <qualifiedname>themis::CrossLingualSearch::Config::candidates</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>kNN candidates to retrieve per query </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/cross_lingual_search.h" line="90" column="16" bodyfile="include/search/cross_lingual_search.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_cross_lingual_search_1_1_config_1a137b6afc14c13cbaea7bf461d0de31c2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::CrossLingualSearch::Config::score_threshold</definition>
+        <argsstring></argsstring>
+        <name>score_threshold</name>
+        <qualifiedname>themis::CrossLingualSearch::Config::score_threshold</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Minimum similarity score [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/cross_lingual_search.h" line="91" column="16" bodyfile="include/search/cross_lingual_search.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_cross_lingual_search_1_1_config_1af22e02c6362175346b4f2db47cfc8a75" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::CrossLingualSearch::Config::rrf_k</definition>
+        <argsstring></argsstring>
+        <name>rrf_k</name>
+        <qualifiedname>themis::CrossLingualSearch::Config::rrf_k</qualifiedname>
+        <initializer>= 60.0</initializer>
+        <briefdescription>
+<para>RRF smoothing constant (multi-embedding). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/cross_lingual_search.h" line="92" column="16" bodyfile="include/search/cross_lingual_search.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_cross_lingual_search_1_1_config_1ac4036bf6a80458b3d3d2fb67a37491a9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::CrossLingualSearch::Config::max_k</definition>
+        <argsstring></argsstring>
+        <name>max_k</name>
+        <qualifiedname>themis::CrossLingualSearch::Config::max_k</qualifiedname>
+        <initializer>= 10&apos;000</initializer>
+        <briefdescription>
+<para>Hard upper bound for k. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/cross_lingual_search.h" line="93" column="16" bodyfile="include/search/cross_lingual_search.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_cross_lingual_search_1_1_config_1a9977bf8bc2e5e89179b494ceb382369d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::CrossLingualSearch::Config::max_candidates</definition>
+        <argsstring></argsstring>
+        <name>max_candidates</name>
+        <qualifiedname>themis::CrossLingualSearch::Config::max_candidates</qualifiedname>
+        <initializer>= 10&apos;000</initializer>
+        <briefdescription>
+<para>Hard upper bound for candidates. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/cross_lingual_search.h" line="94" column="16" bodyfile="include/search/cross_lingual_search.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Engine-level configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/cross_lingual_search.h" line="88" column="5" bodyfile="include/search/cross_lingual_search.h" bodystart="88" bodyend="95"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_cross_lingual_search_1_1_config_1a541de2e1e791a933d755f2418d9f24e0" prot="public" virt="non-virtual"><scope>themis::CrossLingualSearch::Config</scope><name>candidates</name></member>
+      <member refid="structthemis_1_1_cross_lingual_search_1_1_config_1ad1679f31c14dcd3102649dd898dc50fd" prot="public" virt="non-virtual"><scope>themis::CrossLingualSearch::Config</scope><name>k</name></member>
+      <member refid="structthemis_1_1_cross_lingual_search_1_1_config_1a9977bf8bc2e5e89179b494ceb382369d" prot="public" virt="non-virtual"><scope>themis::CrossLingualSearch::Config</scope><name>max_candidates</name></member>
+      <member refid="structthemis_1_1_cross_lingual_search_1_1_config_1ac4036bf6a80458b3d3d2fb67a37491a9" prot="public" virt="non-virtual"><scope>themis::CrossLingualSearch::Config</scope><name>max_k</name></member>
+      <member refid="structthemis_1_1_cross_lingual_search_1_1_config_1af22e02c6362175346b4f2db47cfc8a75" prot="public" virt="non-virtual"><scope>themis::CrossLingualSearch::Config</scope><name>rrf_k</name></member>
+      <member refid="structthemis_1_1_cross_lingual_search_1_1_config_1a137b6afc14c13cbaea7bf461d0de31c2" prot="public" virt="non-virtual"><scope>themis::CrossLingualSearch::Config</scope><name>score_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

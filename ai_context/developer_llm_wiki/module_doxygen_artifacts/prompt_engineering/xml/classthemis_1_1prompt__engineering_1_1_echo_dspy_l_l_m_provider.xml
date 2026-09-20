@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_echo_dspy_l_l_m_provider" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::EchoDspyLLMProvider</compoundname>
+    <basecompoundref refid="classthemis_1_1prompt__engineering_1_1_i_dspy_l_l_m_provider" prot="public" virt="non-virtual">themis::prompt_engineering::IDspyLLMProvider</basecompoundref>
+    <includes refid="dspy__module_8h" local="no">dspy_module.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_echo_dspy_l_l_m_provider_1a4959b1716fbede21459ef3f16d57a03b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::EchoDspyLLMProvider::complete</definition>
+        <argsstring>(const std::string &amp;prompt) override</argsstring>
+        <name>complete</name>
+        <qualifiedname>themis::prompt_engineering::EchoDspyLLMProvider::complete</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_dspy_l_l_m_provider_1a7be7493e1419fb6a7966e1d44c02804c">complete</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+<para>Complete. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Scan the prompt for output field labels (lines ending with &quot;:&quot;) <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/dspy_module.h" line="178" column="17" bodyfile="src/prompt_engineering/dspy_module.cpp" bodystart="184" bodyend="241"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Echo LLM provider that returns a synthetic response without an LLM. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>For each output field declared in the prompt, the provider generates a placeholder value of the form &quot;&lt;field_name&gt;: [echo]&quot;. Suitable for testing signature building and response parsing. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::prompt_engineering::EchoDspyLLMProvider</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_echo_dspy_l_l_m_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::prompt_engineering::IDspyLLMProvider</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_dspy_l_l_m_provider"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::prompt_engineering::EchoDspyLLMProvider</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_echo_dspy_l_l_m_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::prompt_engineering::IDspyLLMProvider</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_dspy_l_l_m_provider"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/prompt_engineering/dspy_module.h" line="176" column="1" bodyfile="include/prompt_engineering/dspy_module.h" bodystart="176" bodyend="179"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_echo_dspy_l_l_m_provider_1a4959b1716fbede21459ef3f16d57a03b" prot="public" virt="virtual"><scope>themis::prompt_engineering::EchoDspyLLMProvider</scope><name>complete</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_dspy_l_l_m_provider_1a3f87e7afba95bd6eab52058060744a62" prot="public" virt="virtual"><scope>themis::prompt_engineering::EchoDspyLLMProvider</scope><name>~IDspyLLMProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_shard_router_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::ShardRouter::Config</compoundname>
+    <includes refid="shard__router_8h" local="no">shard_router.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_router_1_1_config_1a565c9e9565250f1da4cfff0647c0b61e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardRouter::Config::local_shard_id</definition>
+        <argsstring></argsstring>
+        <name>local_shard_id</name>
+        <qualifiedname>themis::sharding::ShardRouter::Config::local_shard_id</qualifiedname>
+        <briefdescription>
+<para>Identifier of the shard hosting this router instance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="70" column="21" bodyfile="include/sharding/shard_router.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_router_1_1_config_1a6200a5a228748d76aa509decba8907b2" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::ShardRouter::Config::scatter_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>scatter_timeout_ms</name>
+        <qualifiedname>themis::sharding::ShardRouter::Config::scatter_timeout_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+<para>Per-batch wait timeout for scatter-gather futures. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="72" column="18" bodyfile="include/sharding/shard_router.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_router_1_1_config_1a7149c8563277b0590a804492a4b87d52" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::ShardRouter::Config::max_concurrent_shards</definition>
+        <argsstring></argsstring>
+        <name>max_concurrent_shards</name>
+        <qualifiedname>themis::sharding::ShardRouter::Config::max_concurrent_shards</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Upper bound for concurrent shard RPCs in one batch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="73" column="16" bodyfile="include/sharding/shard_router.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_router_1_1_config_1a6920b9ea02a37b26a9bbd9809911a785" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::ShardRouter::Config::enable_query_pushdown</definition>
+        <argsstring></argsstring>
+        <name>enable_query_pushdown</name>
+        <qualifiedname>themis::sharding::ShardRouter::Config::enable_query_pushdown</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enables predicate pushdown into shard-local execution. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="75" column="14" bodyfile="include/sharding/shard_router.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_router_1_1_config_1a21ce92434b73e9eefe9c013d7605bdb6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::ShardRouter::Config::enable_result_caching</definition>
+        <argsstring></argsstring>
+        <name>enable_result_caching</name>
+        <qualifiedname>themis::sharding::ShardRouter::Config::enable_result_caching</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Enables router-side result caching when supported. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_router.h" line="76" column="14" bodyfile="include/sharding/shard_router.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Runtime configuration for <ref refid="classthemis_1_1sharding_1_1_shard_router" kindref="compound">ShardRouter</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/shard_router.h" line="69" column="5" bodyfile="include/sharding/shard_router.h" bodystart="69" bodyend="77"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_shard_router_1_1_config_1a6920b9ea02a37b26a9bbd9809911a785" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRouter::Config</scope><name>enable_query_pushdown</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_router_1_1_config_1a21ce92434b73e9eefe9c013d7605bdb6" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRouter::Config</scope><name>enable_result_caching</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_router_1_1_config_1a565c9e9565250f1da4cfff0647c0b61e" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRouter::Config</scope><name>local_shard_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_router_1_1_config_1a7149c8563277b0590a804492a4b87d52" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRouter::Config</scope><name>max_concurrent_shards</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_router_1_1_config_1a6200a5a228748d76aa509decba8907b2" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRouter::Config</scope><name>scatter_timeout_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_server_endpoint_breadth_test" kind="class" language="C++" prot="public">
+    <compoundname>ServerEndpointBreadthTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_server_endpoint_breadth_test_1a69ed4199452f01c945a516e73d804e5e" prot="protected" static="no" mutable="no">
+        <type>ServerFixtureHelper</type>
+        <definition>ServerFixtureHelper ServerEndpointBreadthTest::fixture_</definition>
+        <argsstring></argsstring>
+        <name>fixture_</name>
+        <qualifiedname>ServerEndpointBreadthTest::fixture_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_integration_complete.cpp" line="1087" column="25" bodyfile="tests/server/test_server_integration_complete.cpp" bodystart="1087" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_server_endpoint_breadth_test_1aa6920fa4539bd691b49b988f2f7e0d20" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ServerEndpointBreadthTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ServerEndpointBreadthTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_integration_complete.cpp" line="1055" column="10" bodyfile="tests/server/test_server_integration_complete.cpp" bodystart="1055" bodyend="1058"/>
+      </memberdef>
+      <memberdef kind="function" id="class_server_endpoint_breadth_test_1a06cfe0ef2fd2cd227b14d2dd91d17b99" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ServerEndpointBreadthTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ServerEndpointBreadthTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_integration_complete.cpp" line="1060" column="10" bodyfile="tests/server/test_server_integration_complete.cpp" bodystart="1060" bodyend="1062"/>
+      </memberdef>
+      <memberdef kind="function" id="class_server_endpoint_breadth_test_1a0b14e5a6f2b4963e60313810f3de27b9" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ServerEndpointBreadthTest::expectReachable</definition>
+        <argsstring>(const std::string &amp;path, const std::string &amp;auth=&quot;&quot;)</argsstring>
+        <name>expectReachable</name>
+        <qualifiedname>ServerEndpointBreadthTest::expectReachable</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>auth</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Run GET and verify the response is valid HTTP and the body (if non-empty) is parseable JSON. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_integration_complete.cpp" line="1075" column="10" bodyfile="tests/server/test_server_integration_complete.cpp" bodystart="1075" bodyend="1085"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_server_endpoint_breadth_test_1ad81caa82af6b9960d6365fd9bc947e01" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool ServerEndpointBreadthTest::isLiveServerResponse</definition>
+        <argsstring>(const http::response&lt; http::string_body &gt; &amp;res)</argsstring>
+        <name>isLiveServerResponse</name>
+        <qualifiedname>ServerEndpointBreadthTest::isLiveServerResponse</qualifiedname>
+        <param>
+          <type>const http::response&lt; http::string_body &gt; &amp;</type>
+          <declname>res</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns true when the response came from the live server (any valid HTTP status 200–599), distinguishing it from the internal &quot;connection failed&quot; sentinel (HTTP 500 with a &quot;connection error:&quot; prefix in the body). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_integration_complete.cpp" line="1067" column="17" bodyfile="tests/server/test_server_integration_complete.cpp" bodystart="1067" bodyend="1071"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ServerEndpointBreadthTest</label>
+        <link refid="class_server_endpoint_breadth_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ServerEndpointBreadthTest</label>
+        <link refid="class_server_endpoint_breadth_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>fixture_</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>anonymous:fixture_</label>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/server/test_server_integration_complete.cpp" line="1053" column="1" bodyfile="tests/server/test_server_integration_complete.cpp" bodystart="1053" bodyend="1088"/>
+    <listofallmembers>
+      <member refid="class_server_endpoint_breadth_test_1a0b14e5a6f2b4963e60313810f3de27b9" prot="protected" virt="non-virtual"><scope>ServerEndpointBreadthTest</scope><name>expectReachable</name></member>
+      <member refid="class_server_endpoint_breadth_test_1a69ed4199452f01c945a516e73d804e5e" prot="protected" virt="non-virtual"><scope>ServerEndpointBreadthTest</scope><name>fixture_</name></member>
+      <member refid="class_server_endpoint_breadth_test_1ad81caa82af6b9960d6365fd9bc947e01" prot="protected" virt="non-virtual"><scope>ServerEndpointBreadthTest</scope><name>isLiveServerResponse</name></member>
+      <member refid="class_server_endpoint_breadth_test_1aa6920fa4539bd691b49b988f2f7e0d20" prot="protected" virt="non-virtual"><scope>ServerEndpointBreadthTest</scope><name>SetUp</name></member>
+      <member refid="class_server_endpoint_breadth_test_1a06cfe0ef2fd2cd227b14d2dd91d17b99" prot="protected" virt="non-virtual"><scope>ServerEndpointBreadthTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

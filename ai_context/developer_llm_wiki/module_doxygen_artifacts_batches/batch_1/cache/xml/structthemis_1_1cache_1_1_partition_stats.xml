@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_partition_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::PartitionStats</compoundname>
+    <includes refid="cache__partition_8h" local="no">cache_partition.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_partition_stats_1aafcaeea5ef9fb722f4a3df0f4efe1289" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::PartitionStats::partition_id</definition>
+        <argsstring></argsstring>
+        <name>partition_id</name>
+        <qualifiedname>themis::cache::PartitionStats::partition_id</qualifiedname>
+        <briefdescription>
+<para>Unique partition identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_partition.h" line="27" column="17" bodyfile="include/cache/cache_partition.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_partition_stats_1a9600e36fae6016ace9c16525df953906" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cache::PartitionStats::capacity</definition>
+        <argsstring></argsstring>
+        <name>capacity</name>
+        <qualifiedname>themis::cache::PartitionStats::capacity</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Maximum entries allowed in this partition. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_partition.h" line="28" column="17" bodyfile="include/cache/cache_partition.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_partition_stats_1aa51cceae1244ba4eebddb5c5184f156c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cache::PartitionStats::current_size</definition>
+        <argsstring></argsstring>
+        <name>current_size</name>
+        <qualifiedname>themis::cache::PartitionStats::current_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Current number of entries held. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_partition.h" line="29" column="17" bodyfile="include/cache/cache_partition.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_partition_stats_1a72bfe1e4d6ccdceae19bad816854d23f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::PartitionStats::hit_count</definition>
+        <argsstring></argsstring>
+        <name>hit_count</name>
+        <qualifiedname>themis::cache::PartitionStats::hit_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Cache hits attributed to this partition. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_partition.h" line="30" column="17" bodyfile="include/cache/cache_partition.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_partition_stats_1a89eb5ff28d674395ab6c2de43ab760b3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::PartitionStats::miss_count</definition>
+        <argsstring></argsstring>
+        <name>miss_count</name>
+        <qualifiedname>themis::cache::PartitionStats::miss_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Cache misses attributed to this partition. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_partition.h" line="31" column="17" bodyfile="include/cache/cache_partition.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_partition_stats_1a52e086911e9cac36fc397ec47caa4eb0" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::PartitionStats::eviction_count</definition>
+        <argsstring></argsstring>
+        <name>eviction_count</name>
+        <qualifiedname>themis::cache::PartitionStats::eviction_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Entries evicted from this partition. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_partition.h" line="32" column="17" bodyfile="include/cache/cache_partition.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_partition_stats_1a6fbb1ce2e00e7ff3e035c9703744e48c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cache::PartitionStats::tenant_count</definition>
+        <argsstring></argsstring>
+        <name>tenant_count</name>
+        <qualifiedname>themis::cache::PartitionStats::tenant_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of tenants assigned to this partition. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_partition.h" line="33" column="17" bodyfile="include/cache/cache_partition.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/cache_partition.h" line="26" column="1" bodyfile="include/cache/cache_partition.h" bodystart="26" bodyend="34"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_partition_stats_1a9600e36fae6016ace9c16525df953906" prot="public" virt="non-virtual"><scope>themis::cache::PartitionStats</scope><name>capacity</name></member>
+      <member refid="structthemis_1_1cache_1_1_partition_stats_1aa51cceae1244ba4eebddb5c5184f156c" prot="public" virt="non-virtual"><scope>themis::cache::PartitionStats</scope><name>current_size</name></member>
+      <member refid="structthemis_1_1cache_1_1_partition_stats_1a52e086911e9cac36fc397ec47caa4eb0" prot="public" virt="non-virtual"><scope>themis::cache::PartitionStats</scope><name>eviction_count</name></member>
+      <member refid="structthemis_1_1cache_1_1_partition_stats_1a72bfe1e4d6ccdceae19bad816854d23f" prot="public" virt="non-virtual"><scope>themis::cache::PartitionStats</scope><name>hit_count</name></member>
+      <member refid="structthemis_1_1cache_1_1_partition_stats_1a89eb5ff28d674395ab6c2de43ab760b3" prot="public" virt="non-virtual"><scope>themis::cache::PartitionStats</scope><name>miss_count</name></member>
+      <member refid="structthemis_1_1cache_1_1_partition_stats_1aafcaeea5ef9fb722f4a3df0f4efe1289" prot="public" virt="non-virtual"><scope>themis::cache::PartitionStats</scope><name>partition_id</name></member>
+      <member refid="structthemis_1_1cache_1_1_partition_stats_1a6fbb1ce2e00e7ff3e035c9703744e48c" prot="public" virt="non-virtual"><scope>themis::cache::PartitionStats</scope><name>tenant_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

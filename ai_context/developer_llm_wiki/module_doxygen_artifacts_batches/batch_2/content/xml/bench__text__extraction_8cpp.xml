@@ -1,0 +1,488 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__text__extraction_8cpp" kind="file" language="C++">
+    <compoundname>bench_text_extraction.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">sstream</includes>
+    <includes local="no">regex</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/content/bench_text_extraction.cpp</label>
+        <link refid="bench__text__extraction_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="6">
+        <label>regex</label>
+      </node>
+      <node id="5">
+        <label>sstream</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_text_extractor" prot="public">TextExtractor</innerclass>
+    <innerclass refid="struct_text_extractor_1_1_extraction_result" prot="public">TextExtractor::ExtractionResult</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__text__extraction_8cpp_1a4f0d68bae91b0cc23368702cebc59a47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string generate_mock_pdf</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>generate_mock_pdf</name>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/content/bench_text_extraction.cpp" line="91" column="13" bodyfile="benchmarks/content/bench_text_extraction.cpp" bodystart="91" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__text__extraction_8cpp_1a04d57cde62a2f4c8d20db1475ffc06f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string generate_mock_docx</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>generate_mock_docx</name>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/content/bench_text_extraction.cpp" line="106" column="13" bodyfile="benchmarks/content/bench_text_extraction.cpp" bodystart="106" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__text__extraction_8cpp_1ac8075925f56ba4867c70a0087dc3e957" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string generate_mock_html</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>generate_mock_html</name>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/content/bench_text_extraction.cpp" line="117" column="13" bodyfile="benchmarks/content/bench_text_extraction.cpp" bodystart="117" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__text__extraction_8cpp_1a7691f788485322c1386f988b4d85dcb4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_PDFExtraction</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_PDFExtraction</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/content/bench_text_extraction.cpp" line="129" column="13" bodyfile="benchmarks/content/bench_text_extraction.cpp" bodystart="129" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__text__extraction_8cpp_1a0b1526e80943c0c1e427174ea8183b9f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_PDFExtraction) -&gt; Arg(1024) -&gt;Arg(10 *1024) -&gt;Arg(100 *1024) -&gt;Arg(1024 *1024)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_PDFExtraction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/content/bench_text_extraction.cpp" line="145" column="1" declfile="benchmarks/content/bench_text_extraction.cpp" declline="145" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__text__extraction_8cpp_1abcce0d29c1018b54e26bc0a81215ce19" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_DOCXExtraction</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_DOCXExtraction</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/content/bench_text_extraction.cpp" line="148" column="13" bodyfile="benchmarks/content/bench_text_extraction.cpp" bodystart="148" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__text__extraction_8cpp_1a4daef6619abd4bb3f5dc98a825052764" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_DOCXExtraction) -&gt; Arg(1024) -&gt;Arg(10 *1024) -&gt;Arg(100 *1024) -&gt;Arg(1024 *1024)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_DOCXExtraction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/content/bench_text_extraction.cpp" line="160" column="1" declfile="benchmarks/content/bench_text_extraction.cpp" declline="160" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__text__extraction_8cpp_1a657657972495a24fd1d568ff132f3263" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_HTMLExtraction</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_HTMLExtraction</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/content/bench_text_extraction.cpp" line="163" column="13" bodyfile="benchmarks/content/bench_text_extraction.cpp" bodystart="163" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__text__extraction_8cpp_1a77ce12679d323ed352ec50b21ef67d25" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_HTMLExtraction) -&gt; Arg(1024) -&gt;Arg(10 *1024) -&gt;Arg(100 *1024) -&gt;Arg(1024 *1024)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_HTMLExtraction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/content/bench_text_extraction.cpp" line="175" column="1" declfile="benchmarks/content/bench_text_extraction.cpp" declline="175" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__text__extraction_8cpp_1a46fffba8d27b698f2c810ac6418db203" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_PlainTextExtraction</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_PlainTextExtraction</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/content/bench_text_extraction.cpp" line="178" column="13" bodyfile="benchmarks/content/bench_text_extraction.cpp" bodystart="178" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__text__extraction_8cpp_1ae818a4dd9cd9cab5f81f85836a71e009" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_PlainTextExtraction) -&gt; Arg(1024) -&gt;Arg(10 *1024) -&gt;Arg(100 *1024) -&gt;Arg(1024 *1024)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_PlainTextExtraction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/content/bench_text_extraction.cpp" line="190" column="1" declfile="benchmarks/content/bench_text_extraction.cpp" declline="190" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__text__extraction_8cpp_1ac7dc3a93dafd8e01a3ac45fb87df40ae" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_ConcurrentExtraction</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ConcurrentExtraction</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/content/bench_text_extraction.cpp" line="193" column="13" bodyfile="benchmarks/content/bench_text_extraction.cpp" bodystart="193" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__text__extraction_8cpp_1ada7af13f6c1cd16051c9fca86ed4307a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_ConcurrentExtraction) -&gt; Threads(1) -&gt;Threads(2) -&gt;Threads(4) -&gt;Threads(8)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_ConcurrentExtraction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/content/bench_text_extraction.cpp" line="204" column="1" declfile="benchmarks/content/bench_text_extraction.cpp" declline="204" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__text__extraction_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_MAIN</definition>
+        <argsstring>()</argsstring>
+        <name>BENCHMARK_MAIN</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/content/bench_text_extraction.cpp" line="206" column="1" declfile="benchmarks/content/bench_text_extraction.cpp" declline="206" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Benchmark:<sp/>Text<sp/>Extraction<sp/>from<sp/>Various<sp/>Document<sp/>Formats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tests<sp/>extraction<sp/>performance<sp/>for<sp/>PDF,<sp/>DOCX,<sp/>HTML,<sp/>and<sp/>plain<sp/>text</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;regex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Mock<sp/>text<sp/>extraction<sp/>system</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11" refid="class_text_extractor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_text_extractor" kindref="compound">TextExtractor</ref><sp/>{</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="13" refid="struct_text_extractor_1_1_extraction_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_text_extractor_1_1_extraction_result" kindref="compound">ExtractionResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_text_extractor_1_1_extraction_result_1a361660841464358f0b06b7033398936c" kindref="member">text</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="struct_text_extractor_1_1_extraction_result_1afe80f7dbd2abbdfdd1dd4d685ef929a6" kindref="member">character_count</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="struct_text_extractor_1_1_extraction_result_1a682ea1db849fb32fae766f083772f380" kindref="member">quality_score</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_text_extractor_1_1_extraction_result" kindref="compound">ExtractionResult</ref><sp/><ref refid="class_text_extractor_1a68fd6be824b4436c7d10e5056c1e0f69" kindref="member">extract_from_pdf</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>pdf_data)<sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mock<sp/>PDF<sp/>extraction<sp/>(simulates<sp/>parsing<sp/>PDF<sp/>structure)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_text_extractor_1_1_extraction_result" kindref="compound">ExtractionResult</ref><sp/>result;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="struct_text_extractor_1_1_extraction_result_1a361660841464358f0b06b7033398936c" kindref="member">text</ref><sp/>=<sp/>simulate_pdf_parsing(pdf_data);</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="struct_text_extractor_1_1_extraction_result_1afe80f7dbd2abbdfdd1dd4d685ef929a6" kindref="member">character_count</ref><sp/>=<sp/>result.<ref refid="struct_text_extractor_1_1_extraction_result_1a361660841464358f0b06b7033398936c" kindref="member">text</ref>.size();</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="struct_text_extractor_1_1_extraction_result_1a682ea1db849fb32fae766f083772f380" kindref="member">quality_score</ref><sp/>=<sp/>0.95;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>ExtractionResult<sp/><ref refid="class_text_extractor_1a6d3da03bce85ccd0e3c364c5c4c4e51a" kindref="member">extract_from_docx</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>docx_data)<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mock<sp/>DOCX<sp/>extraction<sp/>(simulates<sp/>XML<sp/>parsing)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ExtractionResult<sp/>result;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="struct_text_extractor_1_1_extraction_result_1a361660841464358f0b06b7033398936c" kindref="member">text</ref><sp/>=<sp/>simulate_docx_parsing(docx_data);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.character_count<sp/>=<sp/>result.text.size();</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.quality_score<sp/>=<sp/>0.98;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_text_extractor_1_1_extraction_result" kindref="compound">ExtractionResult</ref><sp/><ref refid="class_text_extractor_1a67f77a4efce75fe6be16e4fcd172e35b" kindref="member">extract_from_html</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>html_data)<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mock<sp/>HTML<sp/>extraction<sp/>(strips<sp/>tags)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_text_extractor_1_1_extraction_result" kindref="compound">ExtractionResult</ref><sp/>result;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="struct_text_extractor_1_1_extraction_result_1a361660841464358f0b06b7033398936c" kindref="member">text</ref><sp/>=<sp/>strip_html_tags(html_data);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.character_count<sp/>=<sp/>result.text.size();</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.quality_score<sp/>=<sp/>0.99;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_text_extractor_1_1_extraction_result" kindref="compound">ExtractionResult</ref><sp/><ref refid="class_text_extractor_1a3d3ce859c294b4955dd135bea74e4e12" kindref="member">extract_from_plaintext</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text_data)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_text_extractor_1_1_extraction_result" kindref="compound">ExtractionResult</ref><sp/>result;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="struct_text_extractor_1_1_extraction_result_1a361660841464358f0b06b7033398936c" kindref="member">text</ref><sp/>=<sp/>text_data;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.character_count<sp/>=<sp/>text_data.size();</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.quality_score<sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>simulate_pdf_parsing(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>data)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>PDF<sp/>parsing<sp/>overhead</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>result<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.reserve(data.size());</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>data.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(data[i]<sp/>&gt;=<sp/>32<sp/>&amp;&amp;<sp/>data[i]<sp/>&lt;=<sp/>126)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result<sp/>+=<sp/>data[i];</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>simulate_docx_parsing(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>data)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>XML<sp/>parsing<sp/>from<sp/>DOCX</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>result<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.reserve(data.size()<sp/>/<sp/>2);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>in_tag<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>c<sp/>:<sp/>data)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(c<sp/>==<sp/></highlight><highlight class="charliteral">&apos;&lt;&apos;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>in_tag<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(c<sp/>==<sp/></highlight><highlight class="charliteral">&apos;&gt;&apos;</highlight><highlight class="normal">)<sp/>in_tag<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!in_tag<sp/>&amp;&amp;<sp/>c<sp/>&gt;=<sp/>32<sp/>&amp;&amp;<sp/>c<sp/>&lt;=<sp/>126)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result<sp/>+=<sp/>c;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>strip_html_tags(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>html)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::regex<sp/>tag_regex(</highlight><highlight class="stringliteral">&quot;&lt;[^&gt;]*&gt;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::regex_replace(html,<sp/>tag_regex,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Generate<sp/>mock<sp/>document<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal">std::string<sp/><ref refid="bench__text__extraction_8cpp_1a4f0d68bae91b0cc23368702cebc59a47" kindref="member">generate_mock_pdf</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>pdf<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;%PDF-1.4\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>pdf<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;1<sp/>0<sp/>obj&lt;&lt;/Type/Catalog/Pages<sp/>2<sp/>0<sp/>R&gt;&gt;endobj\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>pdf<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;2<sp/>0<sp/>obj&lt;&lt;/Type/Pages/Kids[3<sp/>0<sp/>R]/Count<sp/>1&gt;&gt;endobj\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>pdf<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;3<sp/>0<sp/>obj&lt;&lt;/Type/Page/MediaBox[0<sp/>0<sp/>612<sp/>792]/Parent<sp/>2<sp/>0<sp/>R/Contents<sp/>4<sp/>0<sp/>R&gt;&gt;endobj\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>pdf<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;4<sp/>0<sp/>obj&lt;&lt;/Length<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(size)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;&gt;&gt;stream\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>size;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pdf<sp/>+=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">char</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(</highlight><highlight class="charliteral">&apos;A&apos;</highlight><highlight class="normal"><sp/>+<sp/>(i<sp/>%<sp/>26));</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>pdf<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;\nendstream\nendobj\nxref\n0<sp/>5\ntrailer&lt;&lt;/Size<sp/>5/Root<sp/>1<sp/>0<sp/>R&gt;&gt;%%EOF&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>pdf;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal">std::string<sp/><ref refid="bench__text__extraction_8cpp_1a04d57cde62a2f4c8d20db1475ffc06f8" kindref="member">generate_mock_docx</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>docx<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&lt;?xml<sp/>version=\&quot;1.0\&quot;?&gt;&lt;document&gt;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>size<sp/>/<sp/>20;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>docx<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;&lt;p&gt;Sample<sp/>text<sp/>paragraph<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;&lt;/p&gt;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>docx<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;&lt;/document&gt;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>docx;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal">std::string<sp/><ref refid="bench__text__extraction_8cpp_1ac8075925f56ba4867c70a0087dc3e957" kindref="member">generate_mock_html</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>html<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&lt;!DOCTYPE<sp/>html&gt;&lt;html&gt;&lt;body&gt;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>size<sp/>/<sp/>30;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>html<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;&lt;p&gt;This<sp/>is<sp/>paragraph<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>with<sp/>some<sp/>content.&lt;/p&gt;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>html<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;&lt;/body&gt;&lt;/html&gt;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>html;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Benchmark:<sp/>PDF<sp/>text<sp/>extraction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_PDFExtraction(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>doc_size<sp/>=<sp/>state.range(0);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_text_extractor" kindref="compound">TextExtractor</ref><sp/>extractor;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>pdf_data<sp/>=<sp/><ref refid="bench__text__extraction_8cpp_1a4f0d68bae91b0cc23368702cebc59a47" kindref="member">generate_mock_pdf</ref>(doc_size);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>extractor.<ref refid="class_text_extractor_1a68fd6be824b4436c7d10e5056c1e0f69" kindref="member">extract_from_pdf</ref>(pdf_data);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetBytesProcessed(state.iterations()<sp/>*<sp/>doc_size);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>state.counters[</highlight><highlight class="stringliteral">&quot;throughput_MB/s&quot;</highlight><highlight class="normal">]<sp/>=<sp/>benchmark::Counter(</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.iterations()<sp/>*<sp/>doc_size,<sp/></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::Counter::kIsRate</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><ref refid="bench__text__extraction_8cpp_1a0b1526e80943c0c1e427174ea8183b9f" kindref="member">BENCHMARK</ref>(BM_PDFExtraction)-&gt;Arg(1024)-&gt;Arg(10*1024)-&gt;Arg(100*1024)-&gt;Arg(1024*1024);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Benchmark:<sp/>DOCX<sp/>text<sp/>extraction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_DOCXExtraction(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>doc_size<sp/>=<sp/>state.range(0);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_text_extractor" kindref="compound">TextExtractor</ref><sp/>extractor;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>docx_data<sp/>=<sp/><ref refid="bench__text__extraction_8cpp_1a04d57cde62a2f4c8d20db1475ffc06f8" kindref="member">generate_mock_docx</ref>(doc_size);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>extractor.<ref refid="class_text_extractor_1a6d3da03bce85ccd0e3c364c5c4c4e51a" kindref="member">extract_from_docx</ref>(docx_data);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetBytesProcessed(state.iterations()<sp/>*<sp/>docx_data.size());</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><ref refid="bench__text__extraction_8cpp_1a0b1526e80943c0c1e427174ea8183b9f" kindref="member">BENCHMARK</ref>(BM_DOCXExtraction)-&gt;Arg(1024)-&gt;Arg(10*1024)-&gt;Arg(100*1024)-&gt;Arg(1024*1024);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Benchmark:<sp/>HTML<sp/>text<sp/>extraction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_HTMLExtraction(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>doc_size<sp/>=<sp/>state.range(0);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_text_extractor" kindref="compound">TextExtractor</ref><sp/>extractor;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>html_data<sp/>=<sp/><ref refid="bench__text__extraction_8cpp_1ac8075925f56ba4867c70a0087dc3e957" kindref="member">generate_mock_html</ref>(doc_size);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>extractor.<ref refid="class_text_extractor_1a67f77a4efce75fe6be16e4fcd172e35b" kindref="member">extract_from_html</ref>(html_data);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetBytesProcessed(state.iterations()<sp/>*<sp/>html_data.size());</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><ref refid="bench__text__extraction_8cpp_1a0b1526e80943c0c1e427174ea8183b9f" kindref="member">BENCHMARK</ref>(BM_HTMLExtraction)-&gt;Arg(1024)-&gt;Arg(10*1024)-&gt;Arg(100*1024)-&gt;Arg(1024*1024);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Benchmark:<sp/>Plain<sp/>text<sp/>processing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_PlainTextExtraction(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>doc_size<sp/>=<sp/>state.range(0);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_text_extractor" kindref="compound">TextExtractor</ref><sp/>extractor;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>text_data(doc_size,<sp/></highlight><highlight class="charliteral">&apos;A&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>extractor.<ref refid="class_text_extractor_1a3d3ce859c294b4955dd135bea74e4e12" kindref="member">extract_from_plaintext</ref>(text_data);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetBytesProcessed(state.iterations()<sp/>*<sp/>doc_size);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><ref refid="bench__text__extraction_8cpp_1a0b1526e80943c0c1e427174ea8183b9f" kindref="member">BENCHMARK</ref>(BM_PlainTextExtraction)-&gt;Arg(1024)-&gt;Arg(10*1024)-&gt;Arg(100*1024)-&gt;Arg(1024*1024);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Benchmark:<sp/>Concurrent<sp/>extraction<sp/>workers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_ConcurrentExtraction(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_text_extractor" kindref="compound">TextExtractor</ref><sp/>extractor;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>html_data<sp/>=<sp/><ref refid="bench__text__extraction_8cpp_1ac8075925f56ba4867c70a0087dc3e957" kindref="member">generate_mock_html</ref>(10<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>extractor.<ref refid="class_text_extractor_1a67f77a4efce75fe6be16e4fcd172e35b" kindref="member">extract_from_html</ref>(html_data);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetBytesProcessed(state.iterations()<sp/>*<sp/>html_data.size());</highlight></codeline>
+<codeline lineno="203"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><ref refid="bench__text__extraction_8cpp_1a0b1526e80943c0c1e427174ea8183b9f" kindref="member">BENCHMARK</ref>(BM_ConcurrentExtraction)-&gt;Threads(1)-&gt;Threads(2)-&gt;Threads(4)-&gt;Threads(8);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><ref refid="bench__text__extraction_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kindref="member">BENCHMARK_MAIN</ref>();</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/content/bench_text_extraction.cpp"/>
+  </compounddef>
+</doxygen>

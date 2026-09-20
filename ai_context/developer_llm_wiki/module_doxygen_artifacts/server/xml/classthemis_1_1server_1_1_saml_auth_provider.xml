@@ -1,0 +1,512 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_saml_auth_provider" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::SamlAuthProvider</compoundname>
+    <includes refid="saml__auth__provider_8h" local="no">saml_auth_provider.h</includes>
+    <innerclass refid="structthemis_1_1server_1_1_saml_auth_provider_1_1_config" prot="public">themis::server::SamlAuthProvider::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_saml_auth_provider_1a7316e7fab944cd5cff8cf5a6acf14ef9" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1server_1_1_saml_auth_provider_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::server::SamlAuthProvider::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::server::SamlAuthProvider::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/saml_auth_provider.h" line="84" column="12" bodyfile="include/server/saml_auth_provider.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_saml_auth_provider_1a2a9a87c50df7ba388d162f0f8a685eb1" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; auth::SAMLAuthenticator &gt;</type>
+        <definition>std::unique_ptr&lt;auth::SAMLAuthenticator&gt; themis::server::SamlAuthProvider::authenticator_</definition>
+        <argsstring></argsstring>
+        <name>authenticator_</name>
+        <qualifiedname>themis::server::SamlAuthProvider::authenticator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/saml_auth_provider.h" line="85" column="21" bodyfile="include/server/saml_auth_provider.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_saml_auth_provider_1a5904a63390d846132eb9abf57774a9a2" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::server::SamlAuthProvider::pending_mutex_</definition>
+        <argsstring></argsstring>
+        <name>pending_mutex_</name>
+        <qualifiedname>themis::server::SamlAuthProvider::pending_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/saml_auth_provider.h" line="87" column="24" bodyfile="include/server/saml_auth_provider.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_saml_auth_provider_1a2a4541f5b26b7bd73455d244491293f2" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::chrono::system_clock::time_point &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::chrono::system_clock::time_point&gt; themis::server::SamlAuthProvider::pending_requests_</definition>
+        <argsstring></argsstring>
+        <name>pending_requests_</name>
+        <qualifiedname>themis::server::SamlAuthProvider::pending_requests_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/saml_auth_provider.h" line="88" column="24" bodyfile="include/server/saml_auth_provider.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_saml_auth_provider_1a7f665302b48e8f546c62c0d58c937a54" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::SamlAuthProvider::SamlAuthProvider</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>SamlAuthProvider</name>
+        <qualifiedname>themis::server::SamlAuthProvider::SamlAuthProvider</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_saml_auth_provider_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Saml Auth Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/saml_auth_provider.h" line="50" column="14" bodyfile="src/server/saml_auth_provider.cpp" bodystart="72" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_saml_auth_provider_1af025415e9845702841bffab3ce45ba0c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::SamlAuthProvider::~SamlAuthProvider</definition>
+        <argsstring>()=default</argsstring>
+        <name>~SamlAuthProvider</name>
+        <qualifiedname>themis::server::SamlAuthProvider::~SamlAuthProvider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/saml_auth_provider.h" line="52" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_saml_auth_provider_1af07653dba7b352d73c6b883af14eaa6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::SamlAuthProvider::SamlAuthProvider</definition>
+        <argsstring>(const SamlAuthProvider &amp;)=delete</argsstring>
+        <name>SamlAuthProvider</name>
+        <qualifiedname>themis::server::SamlAuthProvider::SamlAuthProvider</qualifiedname>
+        <param>
+          <type>const SamlAuthProvider &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/saml_auth_provider.h" line="55" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_saml_auth_provider_1ab501ea03f7db387c185068d0aee6293b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1server_1_1_saml_auth_provider_1a7f665302b48e8f546c62c0d58c937a54" kindref="member">SamlAuthProvider</ref> &amp;</type>
+        <definition>SamlAuthProvider &amp; themis::server::SamlAuthProvider::operator=</definition>
+        <argsstring>(const SamlAuthProvider &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::server::SamlAuthProvider::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1server_1_1_saml_auth_provider_1a7f665302b48e8f546c62c0d58c937a54" kindref="member">SamlAuthProvider</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/saml_auth_provider.h" line="56" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_saml_auth_provider_1aa3ec30e94c9bccd3d00b38d47d269501" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::SamlAuthProvider::SamlAuthProvider</definition>
+        <argsstring>(SamlAuthProvider &amp;&amp;) noexcept=default</argsstring>
+        <name>SamlAuthProvider</name>
+        <qualifiedname>themis::server::SamlAuthProvider::SamlAuthProvider</qualifiedname>
+        <param>
+          <type>SamlAuthProvider &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/saml_auth_provider.h" line="57" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_saml_auth_provider_1a6c4bf41d870c622094c2cf583b769b29" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1server_1_1_saml_auth_provider_1a7f665302b48e8f546c62c0d58c937a54" kindref="member">SamlAuthProvider</ref> &amp;</type>
+        <definition>SamlAuthProvider &amp; themis::server::SamlAuthProvider::operator=</definition>
+        <argsstring>(SamlAuthProvider &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::server::SamlAuthProvider::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1_saml_auth_provider_1a7f665302b48e8f546c62c0d58c937a54" kindref="member">SamlAuthProvider</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/saml_auth_provider.h" line="58" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_saml_auth_provider_1ac8260369fde8905e438b71817f48c9f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::SamlAuthProvider::handleLogin</definition>
+        <argsstring>(const std::string &amp;relay_state=&quot;&quot;)</argsstring>
+        <name>handleLogin</name>
+        <qualifiedname>themis::server::SamlAuthProvider::handleLogin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>relay_state</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>------------------------------------------------------------------------<mdash/> Login – SP-initiated SSO redirect ------------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">relay_state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pending_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/saml_auth_provider.h" line="65" column="20" bodyfile="src/server/saml_auth_provider.cpp" bodystart="89" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_saml_auth_provider_1a932a6613ad3886acae57cc58eba2944a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::SamlAuthProvider::handleAcs</definition>
+        <argsstring>(const std::string &amp;saml_response_b64, const std::string &amp;relay_state=&quot;&quot;, const std::string &amp;in_response_to=&quot;&quot;)</argsstring>
+        <name>handleAcs</name>
+        <qualifiedname>themis::server::SamlAuthProvider::handleAcs</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>saml_response_b64</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>relay_state</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>in_response_to</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Handle Acs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">saml_response_b64</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">relay_state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">in_response_to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pending_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/saml_auth_provider.h" line="67" column="20" bodyfile="src/server/saml_auth_provider.cpp" bodystart="129" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_saml_auth_provider_1a2d0652e8782bdcfbe76966ac29f0f643" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::SamlAuthProvider::handleSlo</definition>
+        <argsstring>(const std::string &amp;session_index=&quot;&quot;)</argsstring>
+        <name>handleSlo</name>
+        <qualifiedname>themis::server::SamlAuthProvider::handleSlo</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_index</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Handle Slo. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/saml_auth_provider.h" line="72" column="20" bodyfile="src/server/saml_auth_provider.cpp" bodystart="234" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_saml_auth_provider_1ad4ac412e4297d054ba80d3f9a25b0e19" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::SamlAuthProvider::buildMetadataXml</definition>
+        <argsstring>() const</argsstring>
+        <name>buildMetadataXml</name>
+        <qualifiedname>themis::server::SamlAuthProvider::buildMetadataXml</qualifiedname>
+        <briefdescription>
+<para>Build Metadata Xml. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/saml_auth_provider.h" line="78" column="17" bodyfile="src/server/saml_auth_provider.cpp" bodystart="266" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_saml_auth_provider_1a6b508655dd4aa536fda11af26d41d53c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::SamlAuthProvider::setClockForTesting</definition>
+        <argsstring>(std::function&lt; std::chrono::system_clock::time_point()&gt; clock)</argsstring>
+        <name>setClockForTesting</name>
+        <qualifiedname>themis::server::SamlAuthProvider::setClockForTesting</qualifiedname>
+        <param>
+          <type>std::function&lt; std::chrono::system_clock::time_point()&gt;</type>
+          <declname>clock</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/saml_auth_provider.h" line="80" column="10" bodyfile="src/server/saml_auth_provider.cpp" bodystart="315" bodyend="319"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_saml_auth_provider_1ac5cc201cb16686f34773e0ac0cd2d81e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::SamlAuthProvider::evictExpiredPendingRequests</definition>
+        <argsstring>()</argsstring>
+        <name>evictExpiredPendingRequests</name>
+        <qualifiedname>themis::server::SamlAuthProvider::evictExpiredPendingRequests</qualifiedname>
+        <briefdescription>
+<para>Evict Expired Pending Requests. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/saml_auth_provider.h" line="93" column="10" bodyfile="src/server/saml_auth_provider.cpp" bodystart="324" bodyend="335"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_saml_auth_provider_1a046b55263bebe523b1715333639d179c" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::SamlAuthProvider::makeError</definition>
+        <argsstring>(int status_code, const std::string &amp;message)</argsstring>
+        <name>makeError</name>
+        <qualifiedname>themis::server::SamlAuthProvider::makeError</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>status_code</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Make Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/saml_auth_provider.h" line="101" column="27" bodyfile="src/server/saml_auth_provider.cpp" bodystart="29" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_saml_auth_provider_1a40bed2875334ef0ce7f9661362847835" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::SamlAuthProvider::defaultTokenFactory</definition>
+        <argsstring>(const auth::SAMLClaims &amp;claims)</argsstring>
+        <name>defaultTokenFactory</name>
+        <qualifiedname>themis::server::SamlAuthProvider::defaultTokenFactory</qualifiedname>
+        <param>
+          <type>const auth::SAMLClaims &amp;</type>
+          <declname>claims</declname>
+        </param>
+        <briefdescription>
+<para>Default Token Factory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">claims</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/saml_auth_provider.h" line="108" column="24" bodyfile="src/server/saml_auth_provider.cpp" bodystart="35" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_saml_auth_provider_1aa00b2f51fffa84a12ca50bd3fdce3950" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::SamlAuthProvider::urlEncode</definition>
+        <argsstring>(const std::string &amp;input)</argsstring>
+        <name>urlEncode</name>
+        <qualifiedname>themis::server::SamlAuthProvider::urlEncode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Url Encode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/saml_auth_provider.h" line="115" column="24" bodyfile="src/server/saml_auth_provider.cpp" bodystart="53" bodyend="66"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/saml_auth_provider.h" line="27" column="1" bodyfile="include/server/saml_auth_provider.h" bodystart="27" bodyend="116"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_saml_auth_provider_1a2a9a87c50df7ba388d162f0f8a685eb1" prot="private" virt="non-virtual"><scope>themis::server::SamlAuthProvider</scope><name>authenticator_</name></member>
+      <member refid="classthemis_1_1server_1_1_saml_auth_provider_1ad4ac412e4297d054ba80d3f9a25b0e19" prot="public" virt="non-virtual"><scope>themis::server::SamlAuthProvider</scope><name>buildMetadataXml</name></member>
+      <member refid="classthemis_1_1server_1_1_saml_auth_provider_1a7316e7fab944cd5cff8cf5a6acf14ef9" prot="private" virt="non-virtual"><scope>themis::server::SamlAuthProvider</scope><name>config_</name></member>
+      <member refid="classthemis_1_1server_1_1_saml_auth_provider_1a40bed2875334ef0ce7f9661362847835" prot="private" virt="non-virtual"><scope>themis::server::SamlAuthProvider</scope><name>defaultTokenFactory</name></member>
+      <member refid="classthemis_1_1server_1_1_saml_auth_provider_1ac5cc201cb16686f34773e0ac0cd2d81e" prot="private" virt="non-virtual"><scope>themis::server::SamlAuthProvider</scope><name>evictExpiredPendingRequests</name></member>
+      <member refid="classthemis_1_1server_1_1_saml_auth_provider_1a932a6613ad3886acae57cc58eba2944a" prot="public" virt="non-virtual"><scope>themis::server::SamlAuthProvider</scope><name>handleAcs</name></member>
+      <member refid="classthemis_1_1server_1_1_saml_auth_provider_1ac8260369fde8905e438b71817f48c9f3" prot="public" virt="non-virtual"><scope>themis::server::SamlAuthProvider</scope><name>handleLogin</name></member>
+      <member refid="classthemis_1_1server_1_1_saml_auth_provider_1a2d0652e8782bdcfbe76966ac29f0f643" prot="public" virt="non-virtual"><scope>themis::server::SamlAuthProvider</scope><name>handleSlo</name></member>
+      <member refid="classthemis_1_1server_1_1_saml_auth_provider_1a046b55263bebe523b1715333639d179c" prot="private" virt="non-virtual"><scope>themis::server::SamlAuthProvider</scope><name>makeError</name></member>
+      <member refid="classthemis_1_1server_1_1_saml_auth_provider_1ab501ea03f7db387c185068d0aee6293b" prot="public" virt="non-virtual"><scope>themis::server::SamlAuthProvider</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1server_1_1_saml_auth_provider_1a6c4bf41d870c622094c2cf583b769b29" prot="public" virt="non-virtual"><scope>themis::server::SamlAuthProvider</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1server_1_1_saml_auth_provider_1a5904a63390d846132eb9abf57774a9a2" prot="private" virt="non-virtual"><scope>themis::server::SamlAuthProvider</scope><name>pending_mutex_</name></member>
+      <member refid="classthemis_1_1server_1_1_saml_auth_provider_1a2a4541f5b26b7bd73455d244491293f2" prot="private" virt="non-virtual"><scope>themis::server::SamlAuthProvider</scope><name>pending_requests_</name></member>
+      <member refid="classthemis_1_1server_1_1_saml_auth_provider_1a7f665302b48e8f546c62c0d58c937a54" prot="public" virt="non-virtual"><scope>themis::server::SamlAuthProvider</scope><name>SamlAuthProvider</name></member>
+      <member refid="classthemis_1_1server_1_1_saml_auth_provider_1af07653dba7b352d73c6b883af14eaa6d" prot="public" virt="non-virtual"><scope>themis::server::SamlAuthProvider</scope><name>SamlAuthProvider</name></member>
+      <member refid="classthemis_1_1server_1_1_saml_auth_provider_1aa3ec30e94c9bccd3d00b38d47d269501" prot="public" virt="non-virtual"><scope>themis::server::SamlAuthProvider</scope><name>SamlAuthProvider</name></member>
+      <member refid="classthemis_1_1server_1_1_saml_auth_provider_1a6b508655dd4aa536fda11af26d41d53c" prot="public" virt="non-virtual"><scope>themis::server::SamlAuthProvider</scope><name>setClockForTesting</name></member>
+      <member refid="classthemis_1_1server_1_1_saml_auth_provider_1aa00b2f51fffa84a12ca50bd3fdce3950" prot="private" virt="non-virtual"><scope>themis::server::SamlAuthProvider</scope><name>urlEncode</name></member>
+      <member refid="classthemis_1_1server_1_1_saml_auth_provider_1af025415e9845702841bffab3ce45ba0c" prot="public" virt="non-virtual"><scope>themis::server::SamlAuthProvider</scope><name>~SamlAuthProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,433 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.17.0" xml:lang="en-US">
+  <compound refid="classthemis_1_1whisper_1_1_composite_audio_chunk_reader" kind="class"><name>themis::whisper::CompositeAudioChunkReader</name>
+    <member refid="classthemis_1_1whisper_1_1_composite_audio_chunk_reader_1a352251c5b74cd22e2f99bd452ec27334" kind="variable"><name>readers_</name></member>
+    <member refid="classthemis_1_1whisper_1_1_composite_audio_chunk_reader_1a416945b6d907f42ab0abef98fbab4e5a" kind="function"><name>addReader</name></member>
+    <member refid="classthemis_1_1whisper_1_1_composite_audio_chunk_reader_1a03276621d830ce905af3dfd60a9f7b3f" kind="function"><name>readFile</name></member>
+    <member refid="classthemis_1_1whisper_1_1_composite_audio_chunk_reader_1a29b75428f8fabf806a5d5271d1eb4ef3" kind="function"><name>canRead</name></member>
+    <member refid="classthemis_1_1whisper_1_1_composite_audio_chunk_reader_1a9e2dd791b1e09d90438e022ecae041ff" kind="function"><name>getMetadata</name></member>
+  </compound>
+  <compound refid="structthemis_1_1whisper_1_1_diarisation_config" kind="struct"><name>themis::whisper::DiarisationConfig</name>
+    <member refid="structthemis_1_1whisper_1_1_diarisation_config_1a4628a84455c3b0687f2fec2972044ccc" kind="variable"><name>min_speakers</name></member>
+    <member refid="structthemis_1_1whisper_1_1_diarisation_config_1a5d76d67bd0dfdfcbbebeead43f90a1b5" kind="variable"><name>max_speakers</name></member>
+  </compound>
+  <compound refid="structthemis_1_1whisper_1_1_diarisation_result" kind="struct"><name>themis::whisper::DiarisationResult</name>
+    <member refid="structthemis_1_1whisper_1_1_diarisation_result_1a1130f3d548ad8335af57cde9d43e8d06" kind="variable"><name>segments</name></member>
+    <member refid="structthemis_1_1whisper_1_1_diarisation_result_1ac0ce02fc6d2e54001125ce5aee6baff4" kind="variable"><name>model_id</name></member>
+    <member refid="structthemis_1_1whisper_1_1_diarisation_result_1a479a0d49df62e5485a71b2ae4c6fa715" kind="variable"><name>plugin_version</name></member>
+    <member refid="structthemis_1_1whisper_1_1_diarisation_result_1a889899b90e268f269d50f2c9f0f1a68a" kind="variable"><name>ingestion_source_type</name></member>
+    <member refid="structthemis_1_1whisper_1_1_diarisation_result_1a3ecd2b0aae8c923f9699e5653cbf14e1" kind="variable"><name>generation_timestamp</name></member>
+    <member refid="structthemis_1_1whisper_1_1_diarisation_result_1a2531084211b7ad3548769e693ff31fe7" kind="variable"><name>success</name></member>
+    <member refid="structthemis_1_1whisper_1_1_diarisation_result_1aabe1d2908a1d329504569d7a3e63d994" kind="variable"><name>error_message</name></member>
+  </compound>
+  <compound refid="structthemis_1_1whisper_1_1_diarisation_segment" kind="struct"><name>themis::whisper::DiarisationSegment</name>
+    <member refid="structthemis_1_1whisper_1_1_diarisation_segment_1ab663fc691f29cacdcc38380fb1a04012" kind="variable"><name>speaker_id</name></member>
+    <member refid="structthemis_1_1whisper_1_1_diarisation_segment_1a1f948e7a492ffe821d2763bc234866bb" kind="variable"><name>start_ms</name></member>
+    <member refid="structthemis_1_1whisper_1_1_diarisation_segment_1a2b2d546c5e39389dd8c429769ed4f309" kind="variable"><name>end_ms</name></member>
+    <member refid="structthemis_1_1whisper_1_1_diarisation_segment_1a9b5e0a0f94b295a329ce1bcb7b7970d6" kind="variable"><name>text</name></member>
+  </compound>
+  <compound refid="classthemis_1_1whisper_1_1_energy_threshold_vad" kind="class"><name>themis::whisper::EnergyThresholdVad</name>
+    <member refid="classthemis_1_1whisper_1_1_energy_threshold_vad_1aa545e69295499699b1b985bdd940860c" kind="function"><name>detect</name></member>
+    <member refid="classthemis_1_1whisper_1_1_energy_threshold_vad_1afbe3b8e914cebef02b8b18bd6b90a37d" kind="function"><name>frameRms</name></member>
+  </compound>
+  <compound refid="classthemis_1_1whisper_1_1_ffmpeg_audio_chunk_reader" kind="class"><name>themis::whisper::FfmpegAudioChunkReader</name>
+    <member refid="classthemis_1_1whisper_1_1_ffmpeg_audio_chunk_reader_1ad00548c8d8b71fa10968889c6fea3bdf" kind="variable"><name>kMaxOutputBytes</name></member>
+    <member refid="classthemis_1_1whisper_1_1_ffmpeg_audio_chunk_reader_1af57e8022f23e4222cfa2aa90156c98b3" kind="function"><name>readFile</name></member>
+    <member refid="classthemis_1_1whisper_1_1_ffmpeg_audio_chunk_reader_1a173fd8bfb2e2d4a902f33b8e95a6a47e" kind="function"><name>canRead</name></member>
+    <member refid="classthemis_1_1whisper_1_1_ffmpeg_audio_chunk_reader_1ad80ff00f1b1eae68d7fb99084f1de0c4" kind="function"><name>getMetadata</name></member>
+    <member refid="classthemis_1_1whisper_1_1_ffmpeg_audio_chunk_reader_1aa1b7d62357ac40a6ce7e7594a24fc720" kind="function"><name>shellEscape</name></member>
+  </compound>
+  <compound refid="classthemis_1_1whisper_1_1_i_audio_chunk_reader" kind="class"><name>themis::whisper::IAudioChunkReader</name>
+    <member refid="classthemis_1_1whisper_1_1_i_audio_chunk_reader_1a9e356312eb0cb2547505524aaddf5c98" kind="function"><name>~IAudioChunkReader</name></member>
+    <member refid="classthemis_1_1whisper_1_1_i_audio_chunk_reader_1abc2bf64cd0e996a2da833653ca8cce99" kind="function"><name>readFile</name></member>
+    <member refid="classthemis_1_1whisper_1_1_i_audio_chunk_reader_1a51f166398ee42f4888aa9b1c4b16af98" kind="function"><name>canRead</name></member>
+    <member refid="classthemis_1_1whisper_1_1_i_audio_chunk_reader_1a1d4d89be3f4601bda04e42e5f0b26f05" kind="function"><name>getMetadata</name></member>
+  </compound>
+  <compound refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber" kind="class"><name>themis::whisper::InMemoryWhisperTranscriber</name>
+    <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a624561e27a0940668019fa02b16853ea" kind="variable"><name>initialized_</name></member>
+    <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a5480a5c0ad8c415bb747f83dcfee9c6b" kind="variable"><name>model_id_</name></member>
+    <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a19ba983c4e9b407bddc6aeda02662419" kind="variable"><name>next_result_</name></member>
+    <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a152d726868962327adb26d2dceed6bcc" kind="variable"><name>next_lang_</name></member>
+    <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1ac444271f81f5d02935a78dbeba08fa54" kind="variable"><name>stream_tokens_</name></member>
+    <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a2e3d638a398ffb47660223bfaf052ad5" kind="variable"><name>next_diarisation_</name></member>
+    <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1af1116542db16a8941e8f56fbd4e35d2d" kind="function"><name>setNextResult</name></member>
+    <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1af2d109ec66cd3da190c651d9e195673f" kind="function"><name>setNextLanguage</name></member>
+    <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a842cda88a20d32b3c46c102aab7700b4" kind="function"><name>setStreamTokens</name></member>
+    <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1ad7f80423953face9935f8fdd0a1e1afa" kind="function"><name>initialize</name></member>
+    <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a252527da0a6d26f985977ccf54c76e83" kind="function"><name>isInitialized</name></member>
+    <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a332857301ec1b32886668c470fef28a7" kind="function"><name>transcribe</name></member>
+    <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a7c65ccb248d6dc3abd7b7cdeccba335a" kind="function"><name>detectLanguage</name></member>
+    <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a8854c76c3e5ab16f277ac3e2ea7e7e0d" kind="function"><name>diarize</name></member>
+    <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a25b9b46ee1179973e28bdb7a822aae91" kind="function"><name>setNextDiarisationResult</name></member>
+    <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a25cbe89fcb3bf5f84127758bc504d2c9" kind="function"><name>transcribeStream</name></member>
+    <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1afb21f68eace7f45203a3c37782d3847f" kind="function"><name>getModelId</name></member>
+    <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1aa18d5e0068159e2ac9a9d37cb8842e48" kind="function"><name>serialize</name></member>
+    <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a50804426d349a79809be31dce09fe22e" kind="function"><name>loadState</name></member>
+    <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1ac33f3eedb3ccd65da5e814c0bf2f6cec" kind="function"><name>serialize</name></member>
+    <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1aa9960e501aa2ccf714d6163d2c870159" kind="function"><name>deserialize</name></member>
+    <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a251527c3026830a86142f7c012702dc6" kind="function"><name>isVersionSupported</name></member>
+  </compound>
+  <compound refid="classthemis_1_1whisper_1_1_i_voice_activity_detector" kind="interface"><name>themis::whisper::IVoiceActivityDetector</name>
+    <member refid="classthemis_1_1whisper_1_1_i_voice_activity_detector_1a24f1972cf6cc2b84887e438e0ce2e1e4" kind="function"><name>~IVoiceActivityDetector</name></member>
+    <member refid="classthemis_1_1whisper_1_1_i_voice_activity_detector_1ab011728d8f3893425386b9a4e537ad4c" kind="function"><name>detect</name></member>
+  </compound>
+  <compound refid="classthemis_1_1whisper_1_1_i_whisper_transcriber" kind="class"><name>themis::whisper::IWhisperTranscriber</name>
+    <member refid="classthemis_1_1whisper_1_1_i_whisper_transcriber_1a0bb0ea5c27ee9f854a61bc4f72dc0ca1" kind="function"><name>~IWhisperTranscriber</name></member>
+    <member refid="classthemis_1_1whisper_1_1_i_whisper_transcriber_1ab70bb83e60352106b03d6fe48d3e36de" kind="function"><name>initialize</name></member>
+    <member refid="classthemis_1_1whisper_1_1_i_whisper_transcriber_1aa38ea828c26fe586b5e0d5fbf85b882a" kind="function"><name>isInitialized</name></member>
+    <member refid="classthemis_1_1whisper_1_1_i_whisper_transcriber_1ae8bd3cfb125f5ff57b2d743af383306c" kind="function"><name>transcribe</name></member>
+    <member refid="classthemis_1_1whisper_1_1_i_whisper_transcriber_1a21a43bab1449c0e21bc01d3edac2e663" kind="function"><name>detectLanguage</name></member>
+    <member refid="classthemis_1_1whisper_1_1_i_whisper_transcriber_1a941065d9859b667da351a64caf9f4eed" kind="function"><name>diarize</name></member>
+    <member refid="classthemis_1_1whisper_1_1_i_whisper_transcriber_1a58de0f52f46e0282d4b30486d8f1cb6e" kind="function"><name>getLastError</name></member>
+    <member refid="classthemis_1_1whisper_1_1_i_whisper_transcriber_1a872868c25446c4d290505775e4ec1228" kind="function"><name>transcribeStream</name></member>
+    <member refid="classthemis_1_1whisper_1_1_i_whisper_transcriber_1ade250e7750ac847dc0335952fcbddbef" kind="function"><name>getModelId</name></member>
+    <member refid="classthemis_1_1whisper_1_1_i_whisper_transcriber_1a3c843dc58781c27c5d19439b77e5aad4" kind="function"><name>serialize</name></member>
+    <member refid="classthemis_1_1whisper_1_1_i_whisper_transcriber_1aaf9016337e0b36f7750b691b7a855244" kind="function"><name>loadState</name></member>
+    <member refid="classthemis_1_1whisper_1_1_i_whisper_transcriber_1ac778b4d1d4875dd01b18e0bc1cf22780" kind="function"><name>serialize</name></member>
+    <member refid="classthemis_1_1whisper_1_1_i_whisper_transcriber_1af763d3bcf20c0ccd6f5c9a91bb516022" kind="function"><name>deserialize</name></member>
+    <member refid="classthemis_1_1whisper_1_1_i_whisper_transcriber_1a6eaa1a4cc1f7bbe9e5d88fc39048e95d" kind="function"><name>isVersionSupported</name></member>
+  </compound>
+  <compound refid="class_preset_reader" kind="class"><name>PresetReader</name>
+    <member refid="class_preset_reader_1ab8fbd5ace671a8fb26643544e7e4e979" kind="variable"><name>samples_</name></member>
+    <member refid="class_preset_reader_1a13a3f913d6a345a2e6e798c93b1e5456" kind="variable"><name>sr_</name></member>
+    <member refid="class_preset_reader_1a1ef6b689f8faadde074c002ac13eac42" kind="variable"><name>throws_</name></member>
+    <member refid="class_preset_reader_1a68561c318ba40f69e519ecfbea3d2ecc" kind="function"><name>PresetReader</name></member>
+    <member refid="class_preset_reader_1a0a5adaed2cd4e7a226278205e93e849a" kind="function"><name>readFile</name></member>
+    <member refid="class_preset_reader_1aea4638a8a44fdf580c71d8e6abd1a37b" kind="function"><name>canRead</name></member>
+    <member refid="class_preset_reader_1ad59bfd13c36c0bd2b8f1ccd9209c262e" kind="function"><name>getMetadata</name></member>
+  </compound>
+  <compound refid="structthemis_1_1whisper_1_1_speech_segment" kind="struct"><name>themis::whisper::SpeechSegment</name>
+    <member refid="structthemis_1_1whisper_1_1_speech_segment_1a00d18e488e9361c4ce38a189675825b3" kind="variable"><name>start_sample</name></member>
+    <member refid="structthemis_1_1whisper_1_1_speech_segment_1a96776d7c926be7a602a48b60c807110a" kind="variable"><name>end_sample</name></member>
+  </compound>
+  <compound refid="class_stub_model_registry" kind="class"><name>StubModelRegistry</name>
+    <member refid="class_stub_model_registry_1a09190896d7815de13a894ad2e5ea3a18" kind="variable"><name>loads_</name></member>
+    <member refid="class_stub_model_registry_1a3d083eecb014eda6065c5d115ea271ba" kind="variable"><name>unloads_</name></member>
+    <member refid="class_stub_model_registry_1a57ad16c87d88b4e23bd8c36b0b58a452" kind="function"><name>loadModel</name></member>
+    <member refid="class_stub_model_registry_1accc74271e71fb7b816454809826f3b9e" kind="function"><name>unload</name></member>
+    <member refid="class_stub_model_registry_1aa640af4ab1fcf8f0e309bfa4abcb3763" kind="function"><name>loads</name></member>
+    <member refid="class_stub_model_registry_1a98a1be0846d4277bb4f1d1cf5491468c" kind="function"><name>unloads</name></member>
+  </compound>
+  <compound refid="class_stub_transcriber" kind="class"><name>StubTranscriber</name>
+    <member refid="class_stub_transcriber_1a9b0955ea69d1d973f31bd87283f7d1b9" kind="variable"><name>ops_</name></member>
+    <member refid="class_stub_transcriber_1a862cd6d6b29f3498a84911df5adaf66a" kind="function"><name>transcribe</name></member>
+    <member refid="class_stub_transcriber_1a51572d9757c92e4a0e23b4ead28fd8b7" kind="function"><name>totalOps</name></member>
+  </compound>
+  <compound refid="struct_transcript_record" kind="struct"><name>TranscriptRecord</name>
+    <member refid="struct_transcript_record_1a6470d4cd11afeac0153377f10eb5710f" kind="variable"><name>audio_id</name></member>
+    <member refid="struct_transcript_record_1a06aeb46d510a5d8afaefc98cceceb446" kind="variable"><name>success</name></member>
+    <member refid="struct_transcript_record_1af61e5a489be43db5bde8207cbb6cb78f" kind="variable"><name>token_count</name></member>
+  </compound>
+  <compound refid="structthemis_1_1whisper_1_1_vad_config" kind="struct"><name>themis::whisper::VadConfig</name>
+    <member refid="structthemis_1_1whisper_1_1_vad_config_1a5808466a6b7a701234738134bee546c6" kind="variable"><name>rms_threshold</name></member>
+    <member refid="structthemis_1_1whisper_1_1_vad_config_1affff38e953df857267a6500da44cc638" kind="variable"><name>energy_threshold</name></member>
+    <member refid="structthemis_1_1whisper_1_1_vad_config_1ac2e4c6e1fd75c8bdba5d777356d526b5" kind="variable"><name>min_speech_ms</name></member>
+    <member refid="structthemis_1_1whisper_1_1_vad_config_1aac03c630a899cd440af6a2ea92889f40" kind="variable"><name>frame_ms</name></member>
+  </compound>
+  <compound refid="classthemis_1_1whisper_1_1_wav_audio_chunk_reader" kind="class"><name>themis::whisper::WavAudioChunkReader</name>
+    <member refid="classthemis_1_1whisper_1_1_wav_audio_chunk_reader_1ad94a17de7838c64c9d5207a3ecd21116" kind="function"><name>readFile</name></member>
+    <member refid="classthemis_1_1whisper_1_1_wav_audio_chunk_reader_1aaa18f47f906e9b8e10edbd63f6860c21" kind="function"><name>canRead</name></member>
+    <member refid="classthemis_1_1whisper_1_1_wav_audio_chunk_reader_1a4cb24e7f039934290c98336fb291f7dc" kind="function"><name>getMetadata</name></member>
+    <member refid="classthemis_1_1whisper_1_1_wav_audio_chunk_reader_1ad6bda59cb848a169caa71d7b42780d29" kind="function"><name>parseWav</name></member>
+  </compound>
+  <compound refid="structthemis_1_1whisper_1_1_whisper_config" kind="struct"><name>themis::whisper::WhisperConfig</name>
+    <member refid="structthemis_1_1whisper_1_1_whisper_config_1a8b6fb71d07ccd70c5b89d6205e1c779b" kind="variable"><name>model_path</name></member>
+    <member refid="structthemis_1_1whisper_1_1_whisper_config_1a366ffe7f9530687336c729eedd72f09f" kind="variable"><name>model_sha256</name></member>
+    <member refid="structthemis_1_1whisper_1_1_whisper_config_1a9df5d67c191959597228cf76bd987320" kind="variable"><name>language</name></member>
+    <member refid="structthemis_1_1whisper_1_1_whisper_config_1a55929d4be78ddd3a86455a144f045ff6" kind="variable"><name>n_threads</name></member>
+    <member refid="structthemis_1_1whisper_1_1_whisper_config_1a516049bb4064e277ea490b11a7e7bab4" kind="variable"><name>translate</name></member>
+    <member refid="structthemis_1_1whisper_1_1_whisper_config_1abe87d01c701080d01028fcaf920cf002" kind="variable"><name>beam_size</name></member>
+    <member refid="structthemis_1_1whisper_1_1_whisper_config_1aa27b6c817fbd1de67dc9af1d2ecfb9d7" kind="variable"><name>print_progress</name></member>
+    <member refid="structthemis_1_1whisper_1_1_whisper_config_1a9e42c75b706045d0f3d03523d812b073" kind="variable"><name>quality_threshold</name></member>
+    <member refid="structthemis_1_1whisper_1_1_whisper_config_1a4b4743c100b1fe409f61cfb87eb3501e" kind="variable"><name>language_confidence_threshold</name></member>
+    <member refid="structthemis_1_1whisper_1_1_whisper_config_1a771adaccabed92e44277a693751c83a1" kind="function"><name>fromJson</name></member>
+    <member refid="structthemis_1_1whisper_1_1_whisper_config_1a9f7945702f011e4843fb7510c5332db3" kind="function"><name>toJson</name></member>
+  </compound>
+  <compound refid="classthemis_1_1whisper_1_1_whisper_plugin" kind="class"><name>themis::whisper::WhisperPlugin</name>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1aeb61cdefcf75d5865d664f7cf3e91d14" kind="typedef"><name>StubTranscriberFactoryFn</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1a5c91d21182c324150b94630186324eb5" kind="variable"><name>transcriber_</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1a84b40b12a08a33104e0a8cb0d131239e" kind="variable"><name>reader_</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1af7e9734e98c7af7d68b965c41129e18c" kind="variable"><name>vad_</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1a3d95f10bb6cb507d0a381d93399d2b35" kind="variable"><name>vad_cfg_</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1a98bced94bd3081cfd4be47ae147fd975" kind="variable"><name>initialized_</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1ae15d6d50f86fd7b8a82b13444c503755" kind="variable"><name>transcription_count_</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1a550070cdd79d9771608126bab2f4c72c" kind="variable"><name>error_count_</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1a07513e134ffdc65dcd6367301c7ffab0" kind="variable"><name>model_path_</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1aa21b2c73813779a7d673880a0af6f522" kind="variable"><name>cfg_</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1a54b045dd200bb1c38ef606996bcc97c4" kind="variable"><name>last_error_message_</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1a1ccc0254251ed98e06dc169884986270" kind="variable"><name>transcriber_mutex_</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1aab862176acd408ea897710789c7fad3d" kind="variable"><name>vad_mutex_</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1acf526837f2c5a6b8ec342772d157dc5e" kind="variable"><name>error_mutex_</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1abdf08190b3e5e3b11d5a9b87035cda6f" kind="function"><name>WhisperPlugin</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1a84ade9ddf94f4944a0e70fa6f821f6d4" kind="function"><name>WhisperPlugin</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1a011d8f9cc988d6f8d64d4140c830d71f" kind="function"><name>~WhisperPlugin</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1ac5a7f6196ef379da78acc0b36bdd058e" kind="function"><name>initialize</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1a0120e8821469f4ffd7a88cdd9407c000" kind="function"><name>isInitialized</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1a45a100a7f3c0ce6d8e757c9aabada5e0" kind="function"><name>transcribe</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1abd180b54b6014f5aaf95c54f94a7275b" kind="function"><name>transcribeFile</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1a63a97b5fdb0a167c6ebed71478746da0" kind="function"><name>transcribeStream</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1a2004c11cf9c0e2273bee3d5dc415721e" kind="function"><name>detectLanguage</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1a35d9042fd92ebe95526763cc5dacf800" kind="function"><name>transcribeWithDiarisation</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1a8b49b8ff68e5f46530d34e616a6ef36c" kind="function"><name>getModelId</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1a272d107763ea212811378126a57f1371" kind="function"><name>getPluginVersion</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1aa0d7bf24074d03facffdb31a0d4d27d0" kind="function"><name>getStatistics</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1a730f9ec94913860c2ca0048e62f26c8d" kind="function"><name>setVoiceActivityDetector</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1a007fbc5647b6ea4e5f5406d7e07de943" kind="function"><name>setStubTranscriberFactoryFn</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1accd925250c190db5c2a0759964117f23" kind="function"><name>applyVad</name></member>
+  </compound>
+  <compound refid="classthemis_1_1whisper_1_1_whisper_plugin_adapter" kind="class"><name>themis::whisper::WhisperPluginAdapter</name>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a1b8b38361807154f266ba498de3a0fa6" kind="variable"><name>whisper_plugin_</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a51d1132266da11e3db0bc1128ae24476" kind="variable"><name>model_path_</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a0a023a4a466d7b9f56facafaf2601212" kind="function"><name>WhisperPluginAdapter</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a665c038f94b061e75a5d48f42c8ea391" kind="function"><name>getName</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a510ce11bba0d48373958b1324b51d3ff" kind="function"><name>getVersion</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a0d8b6928a2bbb6d4597f1a6647cfb3f1" kind="function"><name>getType</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a465d3caeb57c033bf6ba30613d6b4fad" kind="function"><name>getCapabilities</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a5db4382790e6302fe8dfe8ff475541ea" kind="function"><name>initialize</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a4fe687a5345aae15f7f2add631979f6e" kind="function"><name>shutdown</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a7c7ff51185511588edf68d77b9629dc5" kind="function"><name>getInstance</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a83f291e74371b2f4f2d6349ea0eb2572" kind="function"><name>getWhisperPlugin</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_adapter_1a42f5d6db05fcc7f0828c457d50d48b8a" kind="function"><name>getWhisperPlugin</name></member>
+  </compound>
+  <compound refid="class_whisper_plugin_fixture" kind="class"><name>WhisperPluginFixture</name>
+    <member refid="class_whisper_plugin_fixture_1a40c0ba2273709f25701c6a31c28352c3" kind="variable"><name>plugin</name></member>
+    <member refid="class_whisper_plugin_fixture_1aa908266db474a5a7b6e4967f108f814b" kind="variable"><name>pcm_1s</name></member>
+    <member refid="class_whisper_plugin_fixture_1a59a223c9c37a2fe7884f0d02bb0d58c5" kind="variable"><name>pcm_5s</name></member>
+    <member refid="class_whisper_plugin_fixture_1a6d52387607c37fcf0dd1d7612d89966d" kind="variable"><name>pcm_30s</name></member>
+    <member refid="class_whisper_plugin_fixture_1a9a1d74516f990be96cdef2e5cfcf7f47" kind="function"><name>SetUp</name></member>
+    <member refid="class_whisper_plugin_fixture_1a60395457668bc4eddf892c78e102a787" kind="function"><name>TearDown</name></member>
+  </compound>
+  <compound refid="classthemis_1_1whisper_1_1_whisper_plugin_registrar" kind="class"><name>themis::whisper::WhisperPluginRegistrar</name>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_registrar_1a3127ef78038be3d24684aa2e89bc60ee" kind="typedef"><name>ReloadCallback</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_registrar_1a00b637d7c615d3269609bdd91cfb476d" kind="function"><name>createPlugin</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_registrar_1ae5b4c56752f77f935a140247d1134fb4" kind="function"><name>createAdapter</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_registrar_1a633e86c298a84946ecfb2347e3512207" kind="function"><name>defaultReloadCallback</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_registrar_1a38e58471ed4f47a2bdf232748407e13a" kind="function"><name>enableHotPlug</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_registrar_1ab347ce3b11c5b60c42b79eda95c6ebc2" kind="function"><name>disableHotPlug</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_plugin_registrar_1a1fedf734e61a732a728f46777f5383e5" kind="function"><name>WhisperPluginRegistrar</name></member>
+  </compound>
+  <compound refid="classthemis_1_1whisper_1_1_whisper_stub_transcriber" kind="class"><name>themis::whisper::WhisperStubTranscriber</name>
+    <member refid="classthemis_1_1whisper_1_1_whisper_stub_transcriber_1a3310ab6c348286de81475d428d4439ee" kind="typedef"><name>TranscribeFn</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_stub_transcriber_1ae5644648405f59c91b5ddffabf882178" kind="variable"><name>initialized_</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_stub_transcriber_1acbce31598b39b26faac4a416329e07b2" kind="variable"><name>model_id_</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_stub_transcriber_1a1ca818030e80621600b194ceac6d878e" kind="variable"><name>transcribe_fn_</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_stub_transcriber_1a8ac5e2afd17f8589427a997494d4af41" kind="variable"><name>transcribe_fn_mutex_</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_stub_transcriber_1ad6eea0f7a487bb43ad18c15f83760805" kind="variable"><name>next_diarisation_</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_stub_transcriber_1a7d885675329771523dc0199cbb5d22b1" kind="function"><name>initialize</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_stub_transcriber_1ad6549410f03bef5d1fd2f6b556479d91" kind="function"><name>isInitialized</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_stub_transcriber_1ac969a797e020420cd27c90590828d117" kind="function"><name>setTranscribeFn</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_stub_transcriber_1ac8e4bc96b813b2aba4b686fd3cf5f3bd" kind="function"><name>transcribe</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_stub_transcriber_1a9a789e1b4088499c003f5dc70b8ece59" kind="function"><name>detectLanguage</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_stub_transcriber_1a57eaec7ec18ad665929f83a1b15a3724" kind="function"><name>diarize</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_stub_transcriber_1abafabc7a41b9bca2bf0d247544e41ae1" kind="function"><name>setNextDiarisationResult</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_stub_transcriber_1aa6bcc00a601af1560af5afe027b5bcab" kind="function"><name>getModelId</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_stub_transcriber_1af18ae82e6817cfec38300cd1803fc260" kind="function"><name>serialize</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_stub_transcriber_1ac6589d7110f3de815a1a7a520af800a4" kind="function"><name>loadState</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_stub_transcriber_1a3d5f0962af4b88e96d363b04d68cf446" kind="function"><name>serialize</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_stub_transcriber_1a02e9098fa886e728e9c55b7d25f20a83" kind="function"><name>deserialize</name></member>
+    <member refid="classthemis_1_1whisper_1_1_whisper_stub_transcriber_1a0367457723c0b8274d67b0305714361c" kind="function"><name>isVersionSupported</name></member>
+  </compound>
+  <compound refid="class_whisper_stub_transcriber" kind="class"><name>WhisperStubTranscriber</name>
+    <member refid="class_whisper_stub_transcriber_1a473bdc947ff046cdfea9623c1f5cc281" kind="function"><name>WhisperStubTranscriber</name></member>
+    <member refid="class_whisper_stub_transcriber_1a8e2588341f42f159919088b8724f32bd" kind="function"><name>~WhisperStubTranscriber</name></member>
+    <member refid="class_whisper_stub_transcriber_1ad7c62d41757ed415e90af345fb394c1b" kind="function"><name>initialize</name></member>
+    <member refid="class_whisper_stub_transcriber_1a79d6f5f1c8ad3881199bdf0959f9cc1b" kind="function"><name>isInitialized</name></member>
+    <member refid="class_whisper_stub_transcriber_1a55df38bc65d8d039e9a214c2f6d14b01" kind="function"><name>transcribe</name></member>
+    <member refid="class_whisper_stub_transcriber_1ac414db547d26f93ff2628b7fbe35c1db" kind="function"><name>detectLanguage</name></member>
+    <member refid="class_whisper_stub_transcriber_1a5a660c5bc4c9cff1a4f5c7de42fd04fc" kind="function"><name>transcribeStream</name></member>
+    <member refid="class_whisper_stub_transcriber_1a38d65733ee8be4f0b5a7786f43e0cb3e" kind="function"><name>getModelId</name></member>
+    <member refid="class_whisper_stub_transcriber_1aafd230555c0ea400f880d819d951674b" kind="function"><name>serialize</name></member>
+    <member refid="class_whisper_stub_transcriber_1acc4cee66a67c76e990324c822b5db71d" kind="function"><name>loadState</name></member>
+    <member refid="class_whisper_stub_transcriber_1ae7e7959cecd29e7803612657a28d764f" kind="function"><name>serialize</name></member>
+    <member refid="class_whisper_stub_transcriber_1a355e110a6607a4d0b5edadff926fb336" kind="function"><name>deserialize</name></member>
+    <member refid="class_whisper_stub_transcriber_1a68cfaefdaf03f3560206251e41019e52" kind="function"><name>isVersionSupported</name></member>
+    <member refid="class_whisper_stub_transcriber_1ac57522983b07d09b917efb53455dfed6" kind="function"><name>isModelVersionSupported</name></member>
+  </compound>
+  <compound refid="namespace_0d260171210011301133255203365112043144120054305322" kind="namespace"><name>@260171210011301133255203365112043144120054305322</name>
+  </compound>
+  <compound refid="namespaceaudio" kind="namespace"><name>audio</name>
+  </compound>
+  <compound refid="namespacebenchmark" kind="namespace"><name>benchmark</name>
+  </compound>
+  <compound refid="namespaceplugins" kind="namespace"><name>plugins</name>
+  </compound>
+  <compound refid="namespacethemis" kind="namespace"><name>themis</name>
+  </compound>
+  <compound refid="namespacethemis_1_1audio" kind="namespace"><name>themis::audio</name>
+  </compound>
+  <compound refid="namespacethemis_1_1plugins" kind="namespace"><name>themis::plugins</name>
+  </compound>
+  <compound refid="namespacethemis_1_1whisper" kind="namespace"><name>themis::whisper</name>
+    <member refid="namespacethemis_1_1whisper_1ab119c863c14e07d61bec7f07db01c336" kind="typedef"><name>json</name></member>
+    <member refid="namespacethemis_1_1whisper_1a5a7e871ea499c642ebaf46411c26c4aa" kind="function"><name>toLower</name></member>
+    <member refid="namespacethemis_1_1whisper_1af930a014fb5d30396e11c7f274d328d2" kind="function"><name>readU16LE</name></member>
+    <member refid="namespacethemis_1_1whisper_1a0d34b6ebfa73e920e4f02e61deb117c0" kind="function"><name>readU32LE</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1whisper_1_1_0d326041076141103153274003167121323146322377321353" kind="namespace"><name>themis::whisper::@326041076141103153274003167121323146322377321353</name>
+  </compound>
+  <compound refid="bench__whisper__transcription_8cpp" kind="file"><name>bench_whisper_transcription.cpp</name>
+    <member refid="bench__whisper__transcription_8cpp_1a459c8c209283549d2e54692a7bfe82ee" kind="define"><name>THEMIS_BENCH_STRINGIFY_INNER</name></member>
+    <member refid="bench__whisper__transcription_8cpp_1ae0a43f617e38626029df8e19a2e85c83" kind="define"><name>THEMIS_BENCH_STRINGIFY</name></member>
+    <member refid="bench__whisper__transcription_8cpp_1a1071dc9110d884aca14767020bb68298" kind="function"><name>resolveCompileTimeWhisperModelPath</name></member>
+    <member refid="bench__whisper__transcription_8cpp_1a786e17edfeaf0cd32cf376549952ce9f" kind="function"><name>resolveWhisperModelPath</name></member>
+    <member refid="bench__whisper__transcription_8cpp_1ab17b59bcc1582dc1698e9845a2f46588" kind="function"><name>makePCM</name></member>
+    <member refid="bench__whisper__transcription_8cpp_1a770a9814163a83cbc9d60ee1f5fd99ad" kind="function"><name>BENCHMARK_F</name></member>
+    <member refid="bench__whisper__transcription_8cpp_1acca602f95c26553ea5744a82a8457e17" kind="function"><name>BENCHMARK_F</name></member>
+    <member refid="bench__whisper__transcription_8cpp_1a24b2db04e8361a02f52e0181a03366cd" kind="function"><name>BENCHMARK_F</name></member>
+    <member refid="bench__whisper__transcription_8cpp_1a85253e02db6837c031c15b5168a85884" kind="function"><name>BENCHMARK_F</name></member>
+    <member refid="bench__whisper__transcription_8cpp_1a3b1ef57e915cd1f5569274ae457e817a" kind="function"><name>BENCHMARK_F</name></member>
+    <member refid="bench__whisper__transcription_8cpp_1a338d16cff32a92dffc806addb584e191" kind="function"><name>BENCHMARK_F</name></member>
+    <member refid="bench__whisper__transcription_8cpp_1a4c7cde9e01976214719f6051cb058127" kind="function"><name>BENCHMARK_F</name></member>
+    <member refid="bench__whisper__transcription_8cpp_1aa9c6212da29145ca4fdfa950dd082feb" kind="function"><name>BM_WhisperStub_Direct</name></member>
+    <member refid="bench__whisper__transcription_8cpp_1aa1b4c3ece45b55c2d9819059b4181d6a" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__whisper__transcription_8cpp_1a746872b29baede66a272d2af1aa0c7e4" kind="function"><name>BM_Transcribe_BufferSize</name></member>
+    <member refid="bench__whisper__transcription_8cpp_1ab68cdfcebde826883aef5c6348e7aa89" kind="function"><name>Arg</name></member>
+  </compound>
+  <compound refid="audio__chunk__reader_8h" kind="file"><name>audio_chunk_reader.h</name>
+  </compound>
+  <compound refid="voice__activity__detector_8h" kind="file"><name>voice_activity_detector.h</name>
+  </compound>
+  <compound refid="whisper__config_8h" kind="file"><name>whisper_config.h</name>
+  </compound>
+  <compound refid="whisper__plugin_8h" kind="file"><name>whisper_plugin.h</name>
+    <member refid="whisper__plugin_8h_1abce9102179d0bbaefe750f063854601e" kind="function"><name>THEMIS_AUDIO_PLUGIN</name></member>
+  </compound>
+  <compound refid="whisper__plugin__registrar_8h" kind="file"><name>whisper_plugin_registrar.h</name>
+  </compound>
+  <compound refid="include_2whisper_2whisper__transcriber_8cpp" kind="file"><name>whisper_transcriber.cpp</name>
+    <member refid="include_2whisper_2whisper__transcriber_8cpp_1ab67040590c826e5b8d5139835dd764c5" kind="function"><name>serialize</name></member>
+    <member refid="include_2whisper_2whisper__transcriber_8cpp_1a57f1f1e127c495c59fd0149c2e6e7d70" kind="function"><name>deserialize</name></member>
+    <member refid="include_2whisper_2whisper__transcriber_8cpp_1a9bcfbdd6264df328af3ff52fa59b6dee" kind="function"><name>isVersionSupported</name></member>
+    <member refid="include_2whisper_2whisper__transcriber_8cpp_1a35cefdc8380f8e8aeb52700b7d6f9b17" kind="function"><name>isModelVersionSupported</name></member>
+    <member refid="include_2whisper_2whisper__transcriber_8cpp_1ad6220c7e5c328aba9a58395a524bc0c9" kind="function"><name>run_transcription_demo</name></member>
+  </compound>
+  <compound refid="src_2whisper_2whisper__transcriber_8cpp" kind="file"><name>whisper_transcriber.cpp</name>
+  </compound>
+  <compound refid="whisper__transcriber_8h" kind="file"><name>whisper_transcriber.h</name>
+  </compound>
+  <compound refid="audio__chunk__reader_8cpp" kind="file"><name>audio_chunk_reader.cpp</name>
+    <member refid="audio__chunk__reader_8cpp_1a2516914a5e37cf4d4ffd13316f6eb657" kind="define"><name>THEMIS_POPEN</name></member>
+    <member refid="audio__chunk__reader_8cpp_1ab279cb7a49a2b9db717d2eb41d6ccab6" kind="define"><name>THEMIS_PCLOSE</name></member>
+  </compound>
+  <compound refid="test__whisper__plugin_8cpp" kind="file"><name>test_whisper_plugin.cpp</name>
+    <member refid="test__whisper__plugin_8cpp_1affbe963d86ad67b02a2ec2ce07386d2e" kind="function"><name>writeTmpFile</name></member>
+    <member refid="test__whisper__plugin_8cpp_1afcaf22cff040b1d14c609a14145d2718" kind="function"><name>joinThreadWithTimeout</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a615d57b1cf0ab824a9d5f1693722eaf5" kind="function"><name>minimalWav</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a3d91392bee33932b11880764eaf2373b" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1ae49a61c3071ea0648f0173af87673e35" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a8d8b09d7d99368afca53b4c9c3b0eaf4" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a2789d70f0b3413274ca405404b377876" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a619cb8daa1e4d7f1fad359e3bcd82818" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1ad8050ec80f7705df6a704d0b7719977c" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a15d7bafbaf3bb5d2619cdb45a6bab3b2" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1ab840a1ca5441f2654d2bbddc10ee3b98" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1aa39ff03a03bf95fda3a641756924919b" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1ab141317863302d73dc685e808aab8b4d" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a7adfe1c20e6b1b4adbc7c7d04397dcf8" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1aa829b3db42e8dcc657e6a0919aa86ae6" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1ac791d5f8b89a796c1f87d257a8da251a" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a8c515db408b5e5924fe6828c2599134f" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a960d770f01cdc9d1fa3b2958049ebf22" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1adb46cdfd50c76a61c88a40f40a0b3be7" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a9944a58ee70ad053e1fd6aeb1bd63802" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1ac0358d995a476c9ad9e5dec49b54653e" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1aab808fae4d78e311e476d442fe40e156" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1ac53aff39742aee0935a0bb86f676471f" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1ad353bc875ad6ae7e27bc4ba4a4995029" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1addc8742e8aaf4d30a227dc70eb16a8ef" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a028bbf970bdfb42dc5a5ef6ab90bbb77" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a78b603d0a1d3a82e5cf1b234089be923" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1ab8313c59f141b426b05e17415c8f6a1c" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a26abe9e76ad6927b504445087cc6b731" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a82cd56de3a7d62fe65bcefece5ba1d2e" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a7c9f0c1e12e30004aef4ad8e067732a2" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a015a5bfd4f2379177cec6a5fa104172e" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a7b69a259a4583e296e9dc677f301744f" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a7053353ba97a787772746d2b1193515e" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1ad3d57159669105fab866a02649d22552" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1ac16f3ef3189c00a17696746c4a01c8b1" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1ad26a50e5bfeb1fcb282152c40f364370" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a121420fda17326093f9ad66e84fc5a61" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a1a7fdd6848d1733791e176877ce0dd14" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1ae5cc0b52655af5a6036f5b52cf11648b" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a6734cbbf0222d78a51273498361f10f1" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a3d9294ad452e6aaaf411eeb8890e3389" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a9732e9071a7ad90d04f0d937fcc7b83a" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1aefa892bbc82eeced9c82061855f25b79" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1af7897a38986d436cdac935cde6b4519a" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1acf79136fbf0113df507c96c9bc098e01" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a9525abf45254c0809ed87ee0feec3ae3" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1aaa50400267300784a326342f01270c13" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a96d653bf4f6a52c76a79d53efb3c7933" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a466f24fe0ed26a5de359ec556482530b" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a58c6f947e662220fb91a2920bef19e8f" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a8ef605b6f7b1047ac2759497a18df4b5" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a3aea4a0d86cac3a02ee13574a6337208" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a67296d6f4767dc89188dfad2602e1c7d" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a10b94f276bae3a7b7a314a30beca7afc" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a89f59f33f371467d6cec3537b9101a16" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a0188aed891f6a6b68c864d237a16b265" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a6950603cdac46824657cdfe9c21025b3" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a444268fc4a8fb0fb27d3cb439f55296d" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a43d1b21c883c51ff7e2b905af20cea60" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1abe97b3d3c55d1b3457167a8132cc6fb1" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1aa3a5c1e10e977478ff2859d407123626" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a412da8a20c383a7bca374081611fda0e" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a15231217acb5c0ebc10bf0250c6431f0" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a002bd7b5c7c68300d1532b931ddd8e4f" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a6b1af57dae47b9cb3ad2ffde80ac038f" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1ab3dcb84db7dc87dbf9f44687816cfe7e" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a778653996bc91885d029f8d44cf94ed9" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a7a0ad9903027b7e1247ef7ab81c6f865" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a2aefea7c7eebad6977ff78064c277eb0" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin_8cpp_1a3bf92e66f48178fb167a4ff4d7949e4c" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__whisper__plugin__registrar_8cpp" kind="file"><name>test_whisper_plugin_registrar.cpp</name>
+    <member refid="test__whisper__plugin__registrar_8cpp_1a9e201fd7120d00e9c8270a6624e5992c" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin__registrar_8cpp_1ab2e006d26859762776cbf2efb5c2d366" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin__registrar_8cpp_1ab55e0f3783b43d888401c313ee90e7fb" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin__registrar_8cpp_1a8a7149f165cf526da090704bf6f17527" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin__registrar_8cpp_1ad697dc27a59ce98a7efce554ca017f35" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin__registrar_8cpp_1ac8dcd91f79530fb2f474be04d67e24fb" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin__registrar_8cpp_1af39a89309ef630d41adab8c382a0ce9b" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin__registrar_8cpp_1a3ac2002dbe405185ae4456cbb82ac238" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin__registrar_8cpp_1a99be0a9518c1b11514a698c7fd6387d4" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin__registrar_8cpp_1aaba5902560bed46b116da277a9d3245e" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin__registrar_8cpp_1ae431b69219ef7e6738baaf407e6ab4a0" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__plugin__registrar_8cpp_1a2d5bcd10198b4209a21bde7416d9ba61" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="whisper__config_8cpp" kind="file"><name>whisper_config.cpp</name>
+  </compound>
+  <compound refid="whisper__plugin_8cpp" kind="file"><name>whisper_plugin.cpp</name>
+  </compound>
+  <compound refid="whisper__plugin__registrar_8cpp" kind="file"><name>whisper_plugin_registrar.cpp</name>
+  </compound>
+  <compound refid="test__whisper__highcardinality__stress_8cpp" kind="file"><name>test_whisper_highcardinality_stress.cpp</name>
+    <member refid="test__whisper__highcardinality__stress_8cpp_1ae680d9d2584296a884d934703ab12513" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__highcardinality__stress_8cpp_1a4cda8e934b102a61db77be1c6ffbafee" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__highcardinality__stress_8cpp_1a34db8f10d5a1dd07b2b917b00bdb2a8b" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__whisper__stub__transcribe__bridge_8cpp" kind="file"><name>test_whisper_stub_transcribe_bridge.cpp</name>
+    <member refid="test__whisper__stub__transcribe__bridge_8cpp_1a40902cccc7d1325e16412af815851300" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__stub__transcribe__bridge_8cpp_1a825d4496aedfa7d1ab0fb02b2400c347" kind="function"><name>TEST</name></member>
+    <member refid="test__whisper__stub__transcribe__bridge_8cpp_1ae11cad621922d8950fd47613f795beb0" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="dir_13a41d9ad64fb9ae396cb953294783cf" kind="dir"><name>benchmarks</name>
+  </compound>
+  <compound refid="dir_d44c64559bbebec7f509842c48db8b23" kind="dir"><name>include</name>
+  </compound>
+  <compound refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir"><name>src</name>
+  </compound>
+  <compound refid="dir_6170b968f4e6c9cc77fd3c14bc9c945c" kind="dir"><name>src/whisper/tests</name>
+  </compound>
+  <compound refid="dir_59425e443f801f1f2fd8bbe4959a3ccf" kind="dir"><name>tests</name>
+  </compound>
+  <compound refid="dir_24d60a6eb36b45493fb2d048470386d0" kind="dir"><name>benchmarks/whisper</name>
+  </compound>
+  <compound refid="dir_34cf23a437ea79b4b4de3e9c9d37a224" kind="dir"><name>include/whisper</name>
+  </compound>
+  <compound refid="dir_2d522c6ae93622a0bd35350b0965ae6b" kind="dir"><name>src/whisper</name>
+  </compound>
+  <compound refid="dir_441ec8107d3386bdd4e7993106ec9584" kind="dir"><name>tests/whisper</name>
+  </compound>
+</doxygenindex>

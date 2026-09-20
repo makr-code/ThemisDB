@@ -1,0 +1,447 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_process_model_generator" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::ProcessModelGenerator</compoundname>
+    <includes refid="process__model__generator_8h" local="no">process_model_generator.h</includes>
+    <innerclass refid="structthemis_1_1process_1_1_process_model_generator_1_1_config" prot="public">themis::process::ProcessModelGenerator::Config</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_process_model_generator_1_1_validation_result" prot="public">themis::process::ProcessModelGenerator::ValidationResult</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1process_1_1_process_model_generator_1a4f8fc7cfdbf8b121b222b5dd94fa3c60" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ValidationError</name>
+        <qualifiedname>themis::process::ProcessModelGenerator::ValidationError</qualifiedname>
+        <enumvalue id="classthemis_1_1process_1_1_process_model_generator_1a4f8fc7cfdbf8b121b222b5dd94fa3c60a866aa973cf448025990c195476cdb570" prot="public">
+          <name>NO_START_EVENT</name>
+          <briefdescription>
+<para>No start event node found. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1process_1_1_process_model_generator_1a4f8fc7cfdbf8b121b222b5dd94fa3c60a7e7e056aaafcf0b8f459be382878cf48" prot="public">
+          <name>NO_END_EVENT</name>
+          <briefdescription>
+<para>No end event node found. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1process_1_1_process_model_generator_1a4f8fc7cfdbf8b121b222b5dd94fa3c60a17efe8078120159c17409db950ef976c" prot="public">
+          <name>ISOLATED_NODE</name>
+          <briefdescription>
+<para>Node with no incoming or outgoing edges. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1process_1_1_process_model_generator_1a4f8fc7cfdbf8b121b222b5dd94fa3c60a4b721f323ba19526fee0ba4847099a05" prot="public">
+          <name>GATEWAY_NO_OUTGOING</name>
+          <briefdescription>
+<para>Gateway node with no outgoing edges. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1process_1_1_process_model_generator_1a4f8fc7cfdbf8b121b222b5dd94fa3c60a96243cd8325020a508bd0055e0dbba96" prot="public">
+          <name>INVALID_JSON</name>
+          <briefdescription>
+<para>LLM response is not valid JSON. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Validation error category. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_generator.h" line="91" column="5" bodyfile="include/process/process_model_generator.h" bodystart="91" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1process_1_1_process_model_generator_1ade37f1b8fa67b749087e7a06e51944a8" prot="public" static="no">
+        <type>std::function&lt; std::string(const std::string &amp;prompt)&gt;</type>
+        <definition>using themis::process::ProcessModelGenerator::LlmBackend = std::function&lt;std::string(const std::string&amp; prompt)&gt;</definition>
+        <argsstring></argsstring>
+        <name>LlmBackend</name>
+        <qualifiedname>themis::process::ProcessModelGenerator::LlmBackend</qualifiedname>
+        <briefdescription>
+<para>LLM backend callable: receives a prompt string, returns the LLM&apos;s text response. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_generator.h" line="75" column="5" bodyfile="include/process/process_model_generator.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_process_model_generator_1a4cb18d4b6b2e6c23f6659d63d0804519" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1process_1_1_process_model_generator_1ade37f1b8fa67b749087e7a06e51944a8" kindref="member">LlmBackend</ref></type>
+        <definition>LlmBackend themis::process::ProcessModelGenerator::llm_backend_</definition>
+        <argsstring></argsstring>
+        <name>llm_backend_</name>
+        <qualifiedname>themis::process::ProcessModelGenerator::llm_backend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_generator.h" line="199" column="16" bodyfile="include/process/process_model_generator.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_generator_1aa0c2135ea45e130328769a26c65e3acf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::ProcessModelGenerator::ProcessModelGenerator</definition>
+        <argsstring>()=default</argsstring>
+        <name>ProcessModelGenerator</name>
+        <qualifiedname>themis::process::ProcessModelGenerator::ProcessModelGenerator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_generator.h" line="109" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_generator_1a97110a099f0037c541e4f8db81a2599d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::ProcessModelGenerator::setLlmBackend</definition>
+        <argsstring>(LlmBackend backend)</argsstring>
+        <name>setLlmBackend</name>
+        <qualifiedname>themis::process::ProcessModelGenerator::setLlmBackend</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1process_1_1_process_model_generator_1ade37f1b8fa67b749087e7a06e51944a8" kindref="member">LlmBackend</ref></type>
+          <declname>backend</declname>
+        </param>
+        <briefdescription>
+<para>Register the LLM backend callable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Llm Backend.</para>
+<para>Must be called before <computeroutput><ref refid="classthemis_1_1process_1_1_process_model_generator_1a04a2af455501771770aca9027016a541" kindref="member">generateFromDescription()</ref></computeroutput> or <computeroutput><ref refid="classthemis_1_1process_1_1_process_model_generator_1a407d09ea920b3c81345650faeb3e7917" kindref="member">refine()</ref></computeroutput>. If not set, both methods return <computeroutput>{false</computeroutput>, {}}.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_generator.h" line="117" column="10" bodyfile="src/process/process_model_generator.cpp" bodystart="138" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_generator_1a04a2af455501771770aca9027016a541" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; bool, <ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref> &gt;</type>
+        <definition>std::pair&lt; bool, ProcessModelRecord &gt; themis::process::ProcessModelGenerator::generateFromDescription</definition>
+        <argsstring>(std::string_view description, const Config &amp;cfg={}) const</argsstring>
+        <name>generateFromDescription</name>
+        <qualifiedname>themis::process::ProcessModelGenerator::generateFromDescription</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>description</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_process_model_generator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>cfg</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Generate a <computeroutput><ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref></computeroutput> from a free-text description. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls the LLM backend up to <computeroutput><ref refid="structthemis_1_1process_1_1_process_model_generator_1_1_config_1a5ef4c07c0ba64f5c7b6680eb05b438e9" kindref="member">Config::max_retries</ref></computeroutput> times, validating the result after each attempt and feeding errors back to the LLM.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Natural language process description (DE or EN). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Generation configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>{true, record} on success; {false, {}} on failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_generator.h" line="131" column="16" bodyfile="src/process/process_model_generator.cpp" bodystart="415" bodyend="460"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_generator_1a407d09ea920b3c81345650faeb3e7917" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; bool, <ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref> &gt;</type>
+        <definition>std::pair&lt; bool, ProcessModelRecord &gt; themis::process::ProcessModelGenerator::refine</definition>
+        <argsstring>(const ProcessModelRecord &amp;existing, std::string_view feedback, const Config &amp;cfg={}) const</argsstring>
+        <name>refine</name>
+        <qualifiedname>themis::process::ProcessModelGenerator::refine</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref> &amp;</type>
+          <declname>existing</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>feedback</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_process_model_generator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>cfg</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Refine an existing <computeroutput><ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref></computeroutput> based on textual feedback (e.g. from a user review). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Sends the current model definition together with the feedback to the LLM and returns the updated model after validation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>existing</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current model to refine. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>feedback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Natural language correction instructions. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Generation configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>{true, refined_record} on success; {false, existing} on failure (original model unchanged). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_generator.h" line="149" column="16" bodyfile="src/process/process_model_generator.cpp" bodystart="466" bodyend="520"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_generator_1ab0b8c8f741164accaa80077bc576817b" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_process_model_generator_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>ProcessModelGenerator::ValidationResult themis::process::ProcessModelGenerator::validate</definition>
+        <argsstring>(const nlohmann::json &amp;normalized_graph)</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::process::ProcessModelGenerator::validate</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>normalized_graph</declname>
+        </param>
+        <briefdescription>
+<para>Validate BPMN semantic constraints on a normalised process graph. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Rules checked:<itemizedlist>
+<listitem><para>At least one <computeroutput>startEvent</computeroutput> node.</para>
+</listitem><listitem><para>At least one <computeroutput>endEvent</computeroutput> node.</para>
+</listitem><listitem><para>No isolated nodes (every node must have ≥1 edge).</para>
+</listitem><listitem><para>Every gateway node has ≥1 outgoing edge.</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>normalized_graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JSON object with <computeroutput>&quot;nodes&quot;</computeroutput> and <computeroutput>&quot;edges&quot;</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1process_1_1_process_model_generator_1_1_validation_result" kindref="compound">ValidationResult</ref> with error list. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_generator.h" line="169" column="30" bodyfile="src/process/process_model_generator.cpp" bodystart="258" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_generator_1af6b0bdbe93291e9a83b793cf86cde2c5" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref></type>
+        <definition>ProcessModelRecord themis::process::ProcessModelGenerator::fromLlmJson</definition>
+        <argsstring>(const nlohmann::json &amp;llm_json, ProcessDomain domain=ProcessDomain::BUSINESS)</argsstring>
+        <name>fromLlmJson</name>
+        <qualifiedname>themis::process::ProcessModelGenerator::fromLlmJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>llm_json</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83" kindref="member">ProcessDomain</ref></type>
+          <declname>domain</declname>
+          <defval><ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83a124f71327e0b6686ec9acf8336784424" kindref="member">ProcessDomain::BUSINESS</ref></defval>
+        </param>
+        <briefdescription>
+<para>Convert an LLM JSON response to a <computeroutput><ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Expected LLM JSON schema: <programlisting filename=".json"><codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;id&quot;:<sp/><sp/><sp/>&quot;proc_id&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;name&quot;:<sp/>&quot;Prozessname&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;domain&quot;:<sp/>&quot;ADMINISTRATION&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;activities&quot;:<sp/>[{&quot;id&quot;:&quot;a1&quot;,&quot;name&quot;:&quot;Schritt<sp/>1&quot;,&quot;type&quot;:&quot;userTask&quot;,&quot;sla_hours&quot;:24}],</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;gateways&quot;:<sp/><sp/><sp/>[{&quot;id&quot;:&quot;g1&quot;,&quot;name&quot;:&quot;Entscheidung&quot;,&quot;type&quot;:&quot;exclusiveGateway&quot;}],</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;events&quot;:<sp/><sp/><sp/><sp/><sp/>[{&quot;id&quot;:&quot;s1&quot;,&quot;type&quot;:&quot;startEvent&quot;},{&quot;id&quot;:&quot;e1&quot;,&quot;type&quot;:&quot;endEvent&quot;}],</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&quot;edges&quot;:<sp/><sp/><sp/><sp/><sp/><sp/>[{&quot;from&quot;:&quot;s1&quot;,&quot;to&quot;:&quot;a1&quot;,&quot;type&quot;:&quot;sequenceFlow&quot;}]</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>llm_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Parsed LLM JSON response. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Default domain if not present in JSON. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Populated <computeroutput><ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref></computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_generator.h" line="193" column="32" bodyfile="src/process/process_model_generator.cpp" bodystart="338" bodyend="409"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_generator_1a966c96ec0a48ef605c36e73203ef8798" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessModelGenerator::buildGenerationPrompt_</definition>
+        <argsstring>(std::string_view description, const Config &amp;cfg) const</argsstring>
+        <name>buildGenerationPrompt_</name>
+        <qualifiedname>themis::process::ProcessModelGenerator::buildGenerationPrompt_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>description</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_process_model_generator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Build the initial generation prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_generator.h" line="202" column="18" bodyfile="src/process/process_model_generator.cpp" bodystart="146" bodyend="207"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_generator_1a8619bfc7aedfce85ce4d65c86d8d6103" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessModelGenerator::buildFixPrompt_</definition>
+        <argsstring>(const nlohmann::json &amp;current_json, const std::vector&lt; std::string &gt; &amp;errors, std::string_view language)</argsstring>
+        <name>buildFixPrompt_</name>
+        <qualifiedname>themis::process::ProcessModelGenerator::buildFixPrompt_</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>current_json</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>errors</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>language</declname>
+        </param>
+        <briefdescription>
+<para>Build a fix/correction prompt given the current model JSON and errors. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_generator.h" line="208" column="25" bodyfile="src/process/process_model_generator.cpp" bodystart="213" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_model_generator_1a763c433aabcb539f6ef57d150218983f" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::process::ProcessModelGenerator::extractJson_</definition>
+        <argsstring>(const std::string &amp;llm_text)</argsstring>
+        <name>extractJson_</name>
+        <qualifiedname>themis::process::ProcessModelGenerator::extractJson_</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>llm_text</declname>
+        </param>
+        <briefdescription>
+<para>Parse the LLM text response, extracting the JSON block. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_generator.h" line="215" column="28" bodyfile="src/process/process_model_generator.cpp" bodystart="235" bodyend="252"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Generate <computeroutput><ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref></computeroutput> instances from natural language descriptions via an LLM backend. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The generation pipeline (based on ProcessGPT, Busch 2023):<orderedlist>
+<listitem><para>Build a structured prompt instructing the LLM to produce a JSON process model description.</para>
+</listitem><listitem><para>Parse the LLM response and convert to a <computeroutput><ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref></computeroutput>.</para>
+</listitem><listitem><para>Validate BPMN semantics: ≥1 start event, ≥1 end event, no isolated nodes, all gateways have ≥1 outgoing edge.</para>
+</listitem><listitem><para>On validation failure, re-prompt with error messages (up to <computeroutput><ref refid="structthemis_1_1process_1_1_process_model_generator_1_1_config_1a5ef4c07c0ba64f5c7b6680eb05b438e9" kindref="member">Config::max_retries</ref></computeroutput> times).</para>
+</listitem></orderedlist>
+</para>
+<para>The LLM backend is injected as a callable to avoid a hard dependency on any particular HTTP client or LLM library.</para>
+<para><programlisting><codeline><highlight class="comment">//<sp/>Example<sp/>usage:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1process_1_1_process_model_generator_1aa0c2135ea45e130328769a26c65e3acf" kindref="member">ProcessModelGenerator</ref><sp/>gen;</highlight></codeline>
+<codeline><highlight class="normal">gen.setLlmBackend([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt)<sp/>-&gt;<sp/>std::string<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>call<sp/>your<sp/>LLM<sp/>endpoint<sp/>here</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>llm_response_json;</highlight></codeline>
+<codeline><highlight class="normal">});</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[ok,<sp/>model]<sp/>=<sp/>gen.generateFromDescription(</highlight><highlight class="stringliteral">&quot;Bauantragsverfahren<sp/>...&quot;</highlight><highlight class="normal">);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/process/process_model_generator.h" line="67" column="1" bodyfile="include/process/process_model_generator.h" bodystart="67" bodyend="216"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_process_model_generator_1a8619bfc7aedfce85ce4d65c86d8d6103" prot="private" virt="non-virtual"><scope>themis::process::ProcessModelGenerator</scope><name>buildFixPrompt_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_generator_1a966c96ec0a48ef605c36e73203ef8798" prot="private" virt="non-virtual"><scope>themis::process::ProcessModelGenerator</scope><name>buildGenerationPrompt_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_generator_1a763c433aabcb539f6ef57d150218983f" prot="private" virt="non-virtual"><scope>themis::process::ProcessModelGenerator</scope><name>extractJson_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_generator_1af6b0bdbe93291e9a83b793cf86cde2c5" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelGenerator</scope><name>fromLlmJson</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_generator_1a04a2af455501771770aca9027016a541" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelGenerator</scope><name>generateFromDescription</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_generator_1a4cb18d4b6b2e6c23f6659d63d0804519" prot="private" virt="non-virtual"><scope>themis::process::ProcessModelGenerator</scope><name>llm_backend_</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_generator_1ade37f1b8fa67b749087e7a06e51944a8" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelGenerator</scope><name>LlmBackend</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_generator_1aa0c2135ea45e130328769a26c65e3acf" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelGenerator</scope><name>ProcessModelGenerator</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_generator_1a407d09ea920b3c81345650faeb3e7917" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelGenerator</scope><name>refine</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_generator_1a97110a099f0037c541e4f8db81a2599d" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelGenerator</scope><name>setLlmBackend</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_generator_1ab0b8c8f741164accaa80077bc576817b" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelGenerator</scope><name>validate</name></member>
+      <member refid="classthemis_1_1process_1_1_process_model_generator_1a4f8fc7cfdbf8b121b222b5dd94fa3c60" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelGenerator</scope><name>ValidationError</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

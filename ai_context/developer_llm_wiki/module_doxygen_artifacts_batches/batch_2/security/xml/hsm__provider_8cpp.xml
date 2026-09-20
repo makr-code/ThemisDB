@@ -1,0 +1,749 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="hsm__provider_8cpp" kind="file" language="C++">
+    <compoundname>hsm_provider.cpp</compoundname>
+    <includes refid="hsm__provider_8h" local="yes">security/hsm_provider.h</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="yes">core/production_mode.h</includes>
+    <includes local="yes">themis/runtime_license_gate.h</includes>
+    <includes local="yes">utils/logger.h</includes>
+    <includes local="no">openssl/evp.h</includes>
+    <includes local="no">openssl/err.h</includes>
+    <includes local="no">openssl/rand.h</includes>
+    <includes local="no">openssl/sha.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">sstream</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">atomic</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>security/hsm_provider.h</label>
+        <link refid="hsm__provider_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/security/hsm_provider.cpp</label>
+        <link refid="hsm__provider_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>atomic</label>
+      </node>
+      <node id="19">
+        <label>chrono</label>
+      </node>
+      <node id="11">
+        <label>core/production_mode.h</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="15">
+        <label>openssl/err.h</label>
+      </node>
+      <node id="14">
+        <label>openssl/evp.h</label>
+      </node>
+      <node id="16">
+        <label>openssl/rand.h</label>
+      </node>
+      <node id="17">
+        <label>openssl/sha.h</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="18">
+        <label>sstream</label>
+      </node>
+      <node id="10">
+        <label>stdexcept</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>themis/runtime_license_gate.h</label>
+      </node>
+      <node id="13">
+        <label>utils/logger.h</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1security_1_1_h_s_m_provider_1_1_impl" prot="public">themis::security::HSMProvider::Impl</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1security">themis::security</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 80/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Clean<sp/>minimal<sp/>stub<sp/>implementation<sp/>of<sp/>HSMProvider.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Provides<sp/>deterministic,<sp/>nicht-kryptographische<sp/>Operationen<sp/>fuer<sp/>Developer-Fallback.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Wird<sp/>nur<sp/>eingebaut,<sp/>wenn<sp/>THEMIS_ENABLE_HSM_REAL<sp/>NICHT<sp/>definiert<sp/>ist.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_HSM_REAL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Real<sp/>PKCS#11<sp/>Implementierung<sp/>in<sp/>hsm_provider_pkcs11.cpp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PERMANENT<sp/>FALLBACK<sp/>NOTE:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Purpose:<sp/>Software-only<sp/>AES-256-GCM<sp/>fallback<sp/>for<sp/>HSMProvider<sp/>when<sp/>no<sp/>real<sp/>HSM<sp/>hardware</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>is<sp/>present.<sp/>Provides<sp/>deterministic<sp/>key-wrap/unwrap<sp/>for<sp/>developer<sp/>and<sp/>CI<sp/>use.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Production<sp/>mode<sp/>is<sp/>explicitly<sp/>blocked<sp/>unless<sp/>THEMIS_ALLOW_HSM_STUB=1<sp/>env<sp/>var</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>is<sp/>set,<sp/>or<sp/>the<sp/>--allow-stub-hsm<sp/>server<sp/>flag<sp/>is<sp/>passed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Activation:<sp/>Compiled<sp/>when<sp/>THEMIS_ENABLE_HSM_REAL<sp/>is<sp/>NOT<sp/>defined<sp/>(default<sp/>in<sp/>dev<sp/>builds).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Build<sp/>with<sp/>-DTHEMIS_ENABLE_HSM_REAL=ON<sp/>(Wave-2<sp/>CMake<sp/>guard)<sp/>to<sp/>activate<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>real<sp/>PKCS#11<sp/>implementation<sp/>in<sp/>hsm_provider_pkcs11.cpp<sp/>instead.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Production<sp/>Delta:<sp/>Uses<sp/>a<sp/>randomly-generated<sp/>in-memory<sp/>KEK<sp/>(not<sp/>persisted<sp/>across<sp/>restarts,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>not<sp/>protected<sp/>by<sp/>HSM<sp/>hardware).<sp/>All<sp/>crypto<sp/>is<sp/>software-only<sp/>OpenSSL.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Not<sp/>suitable<sp/>for<sp/>production<sp/>key<sp/>management.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>fallback<sp/>path<sp/>is<sp/>PERMANENT<sp/>for<sp/>no-HSM<sp/>builds;<sp/>it<sp/>is<sp/>a<sp/>compile-time<sp/>safety<sp/>net.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>No<sp/>v1.x<sp/>production<sp/>deployment<sp/>ships<sp/>without<sp/>a<sp/>real<sp/>HSM<sp/>backend.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Roadmap<sp/>ref:<sp/>src/security/FUTURE_ENHANCEMENTS.md<sp/>§<sp/>&quot;Stub/Simulation<sp/>Lifecycle&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="hsm__provider_8h" kindref="compound">security/hsm_provider.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;core/production_mode.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/runtime_license_gate.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/logger.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/evp.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/err.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/rand.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/sha.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{<sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1security" kindref="compound">security</ref><sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>RAII<sp/>Wrappers<sp/>for<sp/>OpenSSL<sp/>objects<sp/>─────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">EVP_CIPHER_CTX_Deleter<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>operator()(EVP_CIPHER_CTX*<sp/>p)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(p)<sp/>EVP_CIPHER_CTX_free(p);<sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">EVP_CIPHER_CTX_ptr<sp/>=<sp/>std::unique_ptr&lt;EVP_CIPHER_CTX,<sp/>EVP_CIPHER_CTX_Deleter&gt;;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="classthemis_1_1security_1_1_h_s_m_provider_1_1_impl" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1_1_impl" kindref="compound">HSMProvider::Impl</ref><sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1_1_impl_1a3c89dd1826f546da3dad1741c7ba1b45" kindref="member">stub_kek</ref>;<sp/></highlight><highlight class="comment">//<sp/>32-byte<sp/>AES-256<sp/>KEK<sp/>for<sp/>stub<sp/>wrap/unwrap</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Performance<sp/>stats<sp/>(atomic<sp/>for<sp/>thread<sp/>safety)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1_1_impl_1aac36c4950a9b9c93962ddb51bc0cc386" kindref="member">sign_count</ref>{0};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1_1_impl_1aec066de45b8e2cf99b4cf009f457d5b9" kindref="member">verify_count</ref>{0};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1_1_impl_1aa7d065f4989308cd1df17e36b3f46616" kindref="member">sign_errors</ref>{0};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1_1_impl_1a363f850da4d165724d191892754b1a82" kindref="member">verify_errors</ref>{0};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1_1_impl_1ad6c04d03f1c326a22c1c4636f260b73b" kindref="member">total_sign_time_us</ref>{0};</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1_1_impl_1a6006aaa777c08e868236c433cc108300" kindref="member">total_verify_time_us</ref>{0};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>to_hex(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>d<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;0123456789abcdef&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>out;<sp/>out.reserve(data.size()*2);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b<sp/>:<sp/>data)<sp/>{<sp/>out.push_back(d[(b&gt;&gt;4)&amp;0xF]);<sp/>out.push_back(d[b&amp;0xF]);<sp/>}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>out;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>pseudo_b64(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::string(</highlight><highlight class="stringliteral">&quot;hex:&quot;</highlight><highlight class="normal">)<sp/>+<sp/>to_hex(data);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>derive_fallback_cert_serial(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>cert_pem,</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>fallback_context)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>seed<sp/>=<sp/>cert_pem;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(seed.empty())<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>seed<sp/>=<sp/>fallback_context;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(seed.empty())<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>digest[SHA256_DIGEST_LENGTH]<sp/>=<sp/>{0};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!SHA256(</highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(seed.data()),seed.size(),<sp/>digest))<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>prefix(digest,<sp/>digest<sp/>+<sp/>8);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;stub-&quot;</highlight><highlight class="normal"><sp/>+<sp/>to_hex(prefix);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>ossl_error()<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>code<sp/>=<sp/>ERR_peek_last_error();</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!code)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Unknown<sp/>OpenSSL<sp/>error&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>buf[256]<sp/>=<sp/>{0};</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>ERR_error_string_n(code,<sp/>buf,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(buf));</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>ERR_clear_error();</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::string(buf);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/>stub_aes_encrypt(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data)<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(key.size()<sp/>!=<sp/>32)<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;AES-256-GCM<sp/>encryption:<sp/>invalid<sp/>key<sp/>size<sp/>(expected<sp/>32<sp/>bytes,<sp/>got<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::to_string(key.size())<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;)&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>iv(12);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(RAND_bytes(iv.data(),<sp/>12)<sp/>!=<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;AES-256-GCM<sp/>encryption:<sp/>RAND_bytes<sp/>failed:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>ossl_error());</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EVP_CIPHER_CTX_ptr<sp/>ctx(EVP_CIPHER_CTX_new());</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!ctx)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;AES-256-GCM<sp/>encryption:<sp/>EVP_CIPHER_CTX_new<sp/>failed:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>ossl_error());</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>ciphertext(data.size()<sp/>+<sp/>16);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>tag(16);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>len<sp/>=<sp/>0,<sp/>ct_len<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EVP_EncryptInit_ex(ctx.get(),<sp/>EVP_aes_256_gcm(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>==<sp/>1<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EVP_CIPHER_CTX_ctrl(ctx.get(),<sp/>EVP_CTRL_GCM_SET_IVLEN,<sp/>12,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>==<sp/>1<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EVP_EncryptInit_ex(ctx.get(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>key.data(),<sp/>iv.data())<sp/>==<sp/>1<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EVP_EncryptUpdate(ctx.get(),<sp/>ciphertext.data(),<sp/>&amp;len,<sp/>data.data(),<sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">)data.size())<sp/>==<sp/>1;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>ct_len<sp/>=<sp/>len;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ok)<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>ok<sp/>=<sp/>EVP_EncryptFinal_ex(ctx.get(),<sp/>ciphertext.data()<sp/>+<sp/>len,<sp/>&amp;len)<sp/>==<sp/>1;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>ct_len<sp/>+=<sp/>len;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ok)<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>ok<sp/>=<sp/>EVP_CIPHER_CTX_ctrl(ctx.get(),<sp/>EVP_CTRL_GCM_GET_TAG,<sp/>16,<sp/>tag.data())<sp/>==<sp/>1;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!ok)<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;AES-256-GCM<sp/>encryption<sp/>failed:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>ossl_error());</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>ciphertext.resize(ct_len);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>result;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>result.insert(result.end(),<sp/>iv.begin(),<sp/>iv.end());</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>result.insert(result.end(),<sp/>ciphertext.begin(),<sp/>ciphertext.end());</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>result.insert(result.end(),<sp/>tag.begin(),<sp/>tag.end());</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/>stub_aes_decrypt(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>encrypted)<sp/>{</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(key.size()<sp/>!=<sp/>32)<sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;AES-256-GCM<sp/>decryption:<sp/>invalid<sp/>key<sp/>size<sp/>(expected<sp/>32<sp/>bytes,<sp/>got<sp/>&quot;</highlight><highlight class="normal"><sp/>+</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::to_string(key.size())<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;)&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(encrypted.size()<sp/>&lt;<sp/>12<sp/>+<sp/>16)<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;AES-256-GCM<sp/>decryption:<sp/>encrypted<sp/>data<sp/>too<sp/>short<sp/>(expected<sp/>at<sp/>least<sp/>&quot;</highlight><highlight class="normal"><sp/>+</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::to_string(12<sp/>+<sp/>16)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>bytes,<sp/>got<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::to_string(encrypted.size())<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;)&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t*<sp/>iv<sp/><sp/>=<sp/>encrypted.data();</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>ct_len<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>encrypted.size()<sp/>-<sp/>12<sp/>-<sp/>16;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t*<sp/>ct<sp/><sp/>=<sp/>encrypted.data()<sp/>+<sp/>12;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t*<sp/>tag<sp/>=<sp/>encrypted.data()<sp/>+<sp/>12<sp/>+<sp/>ct_len;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>EVP_CIPHER_CTX_ptr<sp/>ctx(EVP_CIPHER_CTX_new());</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!ctx)<sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;AES-256-GCM<sp/>decryption:<sp/>EVP_CIPHER_CTX_new<sp/>failed:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>ossl_error());</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>plaintext(ct_len);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>len<sp/>=<sp/>0,<sp/>pt_len<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EVP_DecryptInit_ex(ctx.get(),<sp/>EVP_aes_256_gcm(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>==<sp/>1<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EVP_CIPHER_CTX_ctrl(ctx.get(),<sp/>EVP_CTRL_GCM_SET_IVLEN,<sp/>12,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>==<sp/>1<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EVP_DecryptInit_ex(ctx.get(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>key.data(),<sp/>iv)<sp/>==<sp/>1<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EVP_DecryptUpdate(ctx.get(),<sp/>plaintext.data(),<sp/>&amp;len,<sp/>ct,<sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">)ct_len)<sp/>==<sp/>1;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>pt_len<sp/>=<sp/>len;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ok)<sp/>{</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>ok<sp/>=<sp/>EVP_CIPHER_CTX_ctrl(ctx.get(),<sp/>EVP_CTRL_GCM_SET_TAG,<sp/>16,<sp/>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*)tag)<sp/>==<sp/>1;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ok)<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>ok<sp/>=<sp/>EVP_DecryptFinal_ex(ctx.get(),<sp/>plaintext.data()<sp/>+<sp/>len,<sp/>&amp;len)<sp/>&gt;<sp/>0;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!ok)<sp/>{</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;AES-256-GCM<sp/>decryption<sp/>failed<sp/>(possible<sp/>tag<sp/>mismatch):<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>ossl_error());</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>plaintext.resize(pt_len);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>plaintext;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1abe0107f0faa5f36df11fda3c80b7d109" kindref="member">HSMProvider::HSMProvider</ref>(<ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref><sp/>config)</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/>impl_(std::make_unique&lt;Impl&gt;()),<sp/>config_(std::move(config))<sp/>{}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a34eb5a2640eee1dfe0c665319f79b88e" kindref="member">HSMProvider::~HSMProvider</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1abe0107f0faa5f36df11fda3c80b7d109" kindref="member">HSMProvider::HSMProvider</ref>(<ref refid="classthemis_1_1security_1_1_h_s_m_provider_1abe0107f0faa5f36df11fda3c80b7d109" kindref="member">HSMProvider</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1abe0107f0faa5f36df11fda3c80b7d109" kindref="member">HSMProvider</ref>&amp;<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1abe0107f0faa5f36df11fda3c80b7d109" kindref="member">HSMProvider</ref>::operator=(<ref refid="classthemis_1_1security_1_1_h_s_m_provider_1abe0107f0faa5f36df11fda3c80b7d109" kindref="member">HSMProvider</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1abe0107f0faa5f36df11fda3c80b7d109" kindref="member">HSMProvider</ref>::<ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a0c5ba90379563c9c442735d2d70caeb7" kindref="member">initialize</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(initialized_)<sp/>{</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Runtime<sp/>license<sp/>gate:<sp/>HSM<sp/>is<sp/>an<sp/>Enterprise/Hyperscaler<sp/>feature.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>license_error<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!license::RuntimeLicenseGate::instance().isFeatureAllowed(</highlight><highlight class="stringliteral">&quot;hsm&quot;</highlight><highlight class="normal">,<sp/>license_error))<sp/>{</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>last_error_<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;HSM<sp/>unavailable:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>license_error;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>THEMIS_ERROR(</highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">,<sp/>last_error_);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SECURITY<sp/>HARDENING:<sp/>Check<sp/>for<sp/>explicit<sp/>opt-in<sp/>to<sp/>use<sp/>stub<sp/>provider</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>prevents<sp/>accidental<sp/>production<sp/>deployment<sp/>with<sp/>insecure<sp/>stub</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>allow_stub<sp/>=<sp/>std::getenv(</highlight><highlight class="stringliteral">&quot;THEMIS_ALLOW_HSM_STUB&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Hard<sp/>fail-fast:<sp/>reject<sp/>stub<sp/>in<sp/>any<sp/>Themis<sp/>production<sp/>environment.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Covers<sp/>THEMIS_PRODUCTION_MODE<sp/>(all<sp/>truthy<sp/>values)<sp/>and<sp/>THEMIS_ENVIRONMENT=production|prod.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>cannot<sp/>be<sp/>overridden<sp/>by<sp/>THEMIS_ALLOW_HSM_STUB.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(core::ProductionMode::isEnabled())<sp/>{</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>last_error_<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;HSM<sp/>stub<sp/>provider<sp/>cannot<sp/>be<sp/>used<sp/>in<sp/>production<sp/>mode.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Build<sp/>with<sp/>-DTHEMIS_ENABLE_HSM_REAL=ON,<sp/>or<sp/>disable<sp/>production<sp/>mode<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;(THEMIS_PRODUCTION_MODE<sp/>/<sp/>THEMIS_ENVIRONMENT).&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>THEMIS_ERROR(</highlight><highlight class="stringliteral">&quot;SECURITY<sp/>ERROR:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>last_error_);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Soft<sp/>fail:<sp/>Without<sp/>explicit<sp/>opt-in,<sp/>refuse<sp/>to<sp/>initialize<sp/>if<sp/>other</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>production-like<sp/>environment<sp/>indicators<sp/>are<sp/>detected<sp/>(ENVIRONMENT,<sp/>NODE_ENV).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!allow_stub<sp/>||<sp/>std::string(allow_stub)<sp/>!=<sp/></highlight><highlight class="stringliteral">&quot;1&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>for<sp/>production-like<sp/>indicators</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>env_type<sp/>=<sp/>std::getenv(</highlight><highlight class="stringliteral">&quot;ENVIRONMENT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>node_env<sp/>=<sp/>std::getenv(</highlight><highlight class="stringliteral">&quot;NODE_ENV&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>production_indicators<sp/>=<sp/></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(env_type<sp/>&amp;&amp;<sp/>(std::string(env_type)<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;production&quot;</highlight><highlight class="normal"><sp/>||<sp/>std::string(env_type)<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;prod&quot;</highlight><highlight class="normal">))<sp/>||</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(node_env<sp/>&amp;&amp;<sp/>std::string(node_env)<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;production&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(production_indicators)<sp/>{</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>last_error_<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;HSM<sp/>stub<sp/>provider<sp/>detected<sp/>production<sp/>environment<sp/>but<sp/>THEMIS_ALLOW_HSM_STUB<sp/>is<sp/>not<sp/>set.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Set<sp/>THEMIS_ALLOW_HSM_STUB=1<sp/>to<sp/>explicitly<sp/>allow<sp/>insecure<sp/>stub,<sp/>or<sp/>use<sp/>real<sp/>HSM.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>THEMIS_ERROR(</highlight><highlight class="stringliteral">&quot;SECURITY<sp/>ERROR:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>last_error_);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>initialized_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Recreate<sp/>Impl<sp/>if<sp/>finalize()<sp/>was<sp/>called<sp/>previously<sp/>(impl_<sp/>would<sp/>be<sp/>nullptr)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!impl_)<sp/>{</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>impl_<sp/>=<sp/>std::make_unique&lt;Impl&gt;();</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Generate<sp/>stub<sp/>KEK<sp/>for<sp/>consistent<sp/>wrap/unwrap<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>impl_-&gt;stub_kek.resize(32);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(RAND_bytes(impl_-&gt;stub_kek.data(),<sp/>32)<sp/>!=<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>last_error_<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>generate<sp/>stub<sp/>KEK&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>THEMIS_ERROR(</highlight><highlight class="stringliteral">&quot;HSMProvider<sp/>stub:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>last_error_);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>initialized_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CRITICAL<sp/>SECURITY<sp/>WARNING:<sp/>Stub<sp/>provider<sp/>active</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>THEMIS_WARN(</highlight><highlight class="stringliteral">&quot;╔═══════════════════════════════════════════════════════════════╗&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>THEMIS_WARN(</highlight><highlight class="stringliteral">&quot;║<sp/><sp/>⚠️<sp/><sp/>INSECURE<sp/>CONFIGURATION:<sp/>HSM<sp/>STUB<sp/>PROVIDER<sp/>ACTIVE!<sp/><sp/>⚠️<sp/><sp/><sp/>║&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>THEMIS_WARN(</highlight><highlight class="stringliteral">&quot;╠═══════════════════════════════════════════════════════════════╣&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>THEMIS_WARN(</highlight><highlight class="stringliteral">&quot;║<sp/><sp/>Master<sp/>keys<sp/>are<sp/>NOT<sp/>protected<sp/>by<sp/>hardware<sp/>security.<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>║&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>THEMIS_WARN(</highlight><highlight class="stringliteral">&quot;║<sp/><sp/>This<sp/>configuration<sp/>is<sp/>for<sp/>DEVELOPMENT<sp/>ONLY.<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>║&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>THEMIS_WARN(</highlight><highlight class="stringliteral">&quot;║<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>║&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>THEMIS_WARN(</highlight><highlight class="stringliteral">&quot;║<sp/><sp/>Production<sp/>deployment<sp/>REQUIRES<sp/>real<sp/>HSM<sp/>configuration:<sp/><sp/><sp/><sp/><sp/><sp/>║&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>THEMIS_WARN(</highlight><highlight class="stringliteral">&quot;║<sp/><sp/>-<sp/>Build<sp/>with<sp/>-DTHEMIS_ENABLE_HSM_REAL=ON<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>║&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>THEMIS_WARN(</highlight><highlight class="stringliteral">&quot;║<sp/><sp/>-<sp/>Configure<sp/>PKCS#11<sp/>HSM<sp/>(Luna,<sp/>CloudHSM,<sp/>etc.)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>║&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>THEMIS_WARN(</highlight><highlight class="stringliteral">&quot;║<sp/><sp/>-<sp/>Or<sp/>use<sp/>cloud<sp/>KMS<sp/>(AWS<sp/>KMS,<sp/>Azure<sp/>Key<sp/>Vault,<sp/>GCP<sp/>KMS)<sp/><sp/><sp/><sp/><sp/>║&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>THEMIS_WARN(</highlight><highlight class="stringliteral">&quot;║<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>║&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>THEMIS_WARN(</highlight><highlight class="stringliteral">&quot;║<sp/><sp/>To<sp/>explicitly<sp/>allow<sp/>stub<sp/>(dev<sp/>only):<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>║&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>THEMIS_WARN(</highlight><highlight class="stringliteral">&quot;║<sp/><sp/>-<sp/>Set<sp/>THEMIS_ALLOW_HSM_STUB=1<sp/>environment<sp/>variable<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>║&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>THEMIS_WARN(</highlight><highlight class="stringliteral">&quot;║<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>║&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>THEMIS_WARN(</highlight><highlight class="stringliteral">&quot;║<sp/><sp/>See:<sp/>docs/security/HSM_PRODUCTION_SETUP.md<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>║&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>THEMIS_WARN(</highlight><highlight class="stringliteral">&quot;╚═══════════════════════════════════════════════════════════════╝&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1ad7c2f07e587a9bab673ccc6d7b22c6e1" kindref="member">HSMProvider::finalize</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>initialized_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>impl_.reset();</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>THEMIS_INFO(</highlight><highlight class="stringliteral">&quot;HSMProvider<sp/>stub<sp/>finalized&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="339"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal">HSMSignatureResult<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a83d3d14e92db113fb90b69392fef7cf2" kindref="member">HSMProvider::sign</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_label)<sp/>{</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a3462d021aa390aa401fd94ce70a1f166" kindref="member">signHash</ref>(data,<sp/>key_label);<sp/></highlight><highlight class="comment">//<sp/>treat<sp/>data<sp/>as<sp/>pre-hash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal">HSMSignatureResult<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a3462d021aa390aa401fd94ce70a1f166" kindref="member">HSMProvider::signHash</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>hash,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_label)<sp/>{</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>startTime<sp/>=<sp/>std::chrono::high_resolution_clock::now();</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>HSMSignatureResult<sp/>r<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!initialized_<sp/>||<sp/>!impl_)<sp/>{</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.error_message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;HSM<sp/>stub<sp/>not<sp/>initialized&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(impl_)<sp/>{</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>impl_-&gt;sign_errors.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>initialize()<sp/>already<sp/>enforces<sp/>the<sp/>stub<sp/>production-mode<sp/>restrictions<sp/>before</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>`initialized_`<sp/>becomes<sp/>true,<sp/>so<sp/>an<sp/>injected<sp/>bridge<sp/>cannot<sp/>bypass<sp/>them.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1aa8a75ca22c5363b6bb2dd9b4f108c593" kindref="member">SignHashFn</ref><sp/>fn;</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(HSMProvider::signHashFnMutex());</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fn<sp/>=<sp/>HSMProvider::signHashFnStorage();</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fn)<sp/>{</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>fn(hash,<sp/>key_label.empty()<sp/>?<sp/>config_.key_label<sp/>:<sp/>key_label);</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result.success)<sp/>{</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>impl_-&gt;sign_count.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>impl_-&gt;sign_errors.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::microseconds&gt;(</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::high_resolution_clock::now()<sp/>-<sp/>startTime).count();</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>impl_-&gt;total_sign_time_us.fetch_add(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(elapsed),<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.error_message<sp/>=<sp/>std::string(</highlight><highlight class="stringliteral">&quot;signHash<sp/>callback<sp/>failed:<sp/>&quot;</highlight><highlight class="normal">)<sp/>+<sp/>e.what();</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>impl_-&gt;sign_errors.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.error_message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;signHash<sp/>callback<sp/>failed:<sp/>unknown<sp/>exception&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>impl_-&gt;sign_errors.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"></highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/>THEMIS_WARN(</highlight><highlight class="stringliteral">&quot;HSMProvider<sp/>STUB<sp/>signing<sp/>-<sp/>NOT<sp/>cryptographically<sp/>secure!&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/>r.success<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/>r.signature_b64<sp/>=<sp/>pseudo_b64(hash);</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/>r.algorithm<sp/>=<sp/>config_.signature_algorithm;</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/>r.key_id<sp/>=<sp/>key_label.empty()<sp/>?<sp/>config_.key_label<sp/>:<sp/>key_label;</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/>r.cert_serial<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;STUB-CERT&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/>r.timestamp_ms<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::now().time_since_epoch()).count();</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/>impl_-&gt;sign_count.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::microseconds&gt;(</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::high_resolution_clock::now()<sp/>-<sp/>startTime).count();</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/>impl_-&gt;total_sign_time_us.fetch_add(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(elapsed),<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="413"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"></highlight></codeline>
+<codeline lineno="423"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a0ee3d32114e6c965ba26a8da0dc5f62b" kindref="member">HSMProvider::verify</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>signature_b64,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_label)<sp/>{</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>startTime<sp/>=<sp/>std::chrono::high_resolution_clock::now();</highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1abaa76e7ae49ddbf55ef2236cda01c7ee" kindref="member">VerifyFn</ref><sp/>fn;</highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(HSMProvider::verifyFnMutex());</highlight></codeline>
+<codeline lineno="428"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fn<sp/>=<sp/>HSMProvider::verifyFnStorage();</highlight></codeline>
+<codeline lineno="429"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fn)<sp/>{</highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ok<sp/>=<sp/>fn(data,<sp/>signature_b64,<sp/>key_label.empty()<sp/>?<sp/>config_.key_label<sp/>:<sp/>key_label);</highlight></codeline>
+<codeline lineno="434"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ok<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>expected<sp/>=<sp/>pseudo_b64(data);</highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ok<sp/>=<sp/>(expected<sp/>==<sp/>signature_b64);</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"><sp/><sp/><sp/><sp/>THEMIS_DEBUG(</highlight><highlight class="stringliteral">&quot;HSMProvider<sp/>stub<sp/>verify<sp/>key=&apos;{}&apos;<sp/>ok={}&quot;</highlight><highlight class="normal">,<sp/>key_label.empty()?config_.key_label:key_label,<sp/>ok);</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(impl_)<sp/>{</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ok)<sp/>{</highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>impl_-&gt;verify_count.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>impl_-&gt;verify_errors.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::microseconds&gt;(</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::high_resolution_clock::now()<sp/>-<sp/>startTime).count();</highlight></codeline>
+<codeline lineno="449"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>impl_-&gt;total_verify_time_us.fetch_add(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(elapsed),<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ok;</highlight></codeline>
+<codeline lineno="452"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="453"><highlight class="normal"></highlight></codeline>
+<codeline lineno="459"><highlight class="normal">std::vector&lt;HSMKeyInfo&gt;<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a75fdc73fd6c716e445908ed03b2d55e1" kindref="member">HSMProvider::listKeys</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="460"><highlight class="normal"><sp/><sp/><sp/><sp/>HSMKeyInfo<sp/>info;</highlight></codeline>
+<codeline lineno="461"><highlight class="normal"><sp/><sp/><sp/><sp/>info.label<sp/>=<sp/>config_.key_label;</highlight></codeline>
+<codeline lineno="462"><highlight class="normal"><sp/><sp/><sp/><sp/>info.id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;stub-id&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="463"><highlight class="normal"><sp/><sp/><sp/><sp/>info.algorithm<sp/>=<sp/>config_.signature_algorithm;</highlight></codeline>
+<codeline lineno="464"><highlight class="normal"><sp/><sp/><sp/><sp/>info.can_sign<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="465"><highlight class="normal"><sp/><sp/><sp/><sp/>info.can_verify<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="466"><highlight class="normal"><sp/><sp/><sp/><sp/>info.extractable<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="467"><highlight class="normal"><sp/><sp/><sp/><sp/>info.key_size<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{info};</highlight></codeline>
+<codeline lineno="469"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="470"><highlight class="normal"></highlight></codeline>
+<codeline lineno="478"><highlight class="normal">std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a8f32d7c75388aafaf456055a6573abb0" kindref="member">HSMProvider::encryptData</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_label)<sp/>{</highlight></codeline>
+<codeline lineno="479"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!initialized_)<sp/>{<sp/>last_error_<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;HSM<sp/>stub<sp/>not<sp/>initialized&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(data.empty())<sp/>{<sp/>last_error_<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Cannot<sp/>encrypt<sp/>empty<sp/>data&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="481"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1acb3981a60f6831c67bf102793d57c4ff" kindref="member">EncryptDataFn</ref><sp/>fn;</highlight></codeline>
+<codeline lineno="482"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="483"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(HSMProvider::encryptDataFnMutex());</highlight></codeline>
+<codeline lineno="484"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fn<sp/>=<sp/>HSMProvider::encryptDataFnStorage();</highlight></codeline>
+<codeline lineno="485"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="486"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fn)<sp/>{</highlight></codeline>
+<codeline lineno="487"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="488"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fn(data,<sp/>key_label.empty()<sp/>?<sp/>config_.key_label<sp/>:<sp/>key_label);</highlight></codeline>
+<codeline lineno="489"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="490"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>last_error_<sp/>=<sp/>std::string(</highlight><highlight class="stringliteral">&quot;encryptData<sp/>callback<sp/>failed:<sp/>&quot;</highlight><highlight class="normal">)<sp/>+<sp/>e.what();</highlight></codeline>
+<codeline lineno="491"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="492"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{</highlight></codeline>
+<codeline lineno="493"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>last_error_<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;encryptData<sp/>callback<sp/>failed:<sp/>unknown<sp/>exception&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="494"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="495"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="496"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="497"><highlight class="normal"><sp/><sp/><sp/><sp/>THEMIS_WARN(</highlight><highlight class="stringliteral">&quot;HSMProvider<sp/>STUB<sp/>encryptData<sp/>-<sp/>NOT<sp/>hardware-protected,<sp/>for<sp/>development<sp/>only!&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="498"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="499"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>stub_aes_encrypt(impl_-&gt;stub_kek,<sp/>data);</highlight></codeline>
+<codeline lineno="500"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="501"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>last_error_<sp/>=<sp/>std::string(</highlight><highlight class="stringliteral">&quot;Stub<sp/>AES<sp/>encrypt<sp/>failed:<sp/>&quot;</highlight><highlight class="normal">)<sp/>+<sp/>e.what();</highlight></codeline>
+<codeline lineno="502"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="503"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="504"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="505"><highlight class="normal"></highlight></codeline>
+<codeline lineno="513"><highlight class="normal">std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1aab3971ba487348d677f4e9a6c5642c3b" kindref="member">HSMProvider::decryptData</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>encrypted,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_label)<sp/>{</highlight></codeline>
+<codeline lineno="514"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!initialized_)<sp/>{<sp/>last_error_<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;HSM<sp/>stub<sp/>not<sp/>initialized&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="515"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(encrypted.empty())<sp/>{<sp/>last_error_<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Cannot<sp/>decrypt<sp/>empty<sp/>data&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="516"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a7a57eace51f34370793a5444663d709b" kindref="member">DecryptDataFn</ref><sp/>fn;</highlight></codeline>
+<codeline lineno="517"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="518"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(HSMProvider::decryptDataFnMutex());</highlight></codeline>
+<codeline lineno="519"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fn<sp/>=<sp/>HSMProvider::decryptDataFnStorage();</highlight></codeline>
+<codeline lineno="520"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="521"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fn)<sp/>{</highlight></codeline>
+<codeline lineno="522"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="523"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fn(encrypted,<sp/>key_label.empty()<sp/>?<sp/>config_.key_label<sp/>:<sp/>key_label);</highlight></codeline>
+<codeline lineno="524"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="525"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>last_error_<sp/>=<sp/>std::string(</highlight><highlight class="stringliteral">&quot;decryptData<sp/>callback<sp/>failed:<sp/>&quot;</highlight><highlight class="normal">)<sp/>+<sp/>e.what();</highlight></codeline>
+<codeline lineno="526"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="527"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{</highlight></codeline>
+<codeline lineno="528"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>last_error_<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;decryptData<sp/>callback<sp/>failed:<sp/>unknown<sp/>exception&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="529"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="530"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="531"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="532"><highlight class="normal"><sp/><sp/><sp/><sp/>THEMIS_WARN(</highlight><highlight class="stringliteral">&quot;HSMProvider<sp/>STUB<sp/>decryptData<sp/>-<sp/>NOT<sp/>hardware-protected,<sp/>for<sp/>development<sp/>only!&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="533"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="534"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>stub_aes_decrypt(impl_-&gt;stub_kek,<sp/>encrypted);</highlight></codeline>
+<codeline lineno="535"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="536"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>last_error_<sp/>=<sp/>std::string(</highlight><highlight class="stringliteral">&quot;Stub<sp/>AES<sp/>decrypt<sp/>failed:<sp/>&quot;</highlight><highlight class="normal">)<sp/>+<sp/>e.what();</highlight></codeline>
+<codeline lineno="537"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="538"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="539"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="540"><highlight class="normal"></highlight></codeline>
+<codeline lineno="549"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a393d7a43b188b2237bbd6a2507513496" kindref="member">HSMProvider::generateKeyPair</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>label,<sp/>uint32_t<sp/>key_size,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>extractable)<sp/>{</highlight></codeline>
+<codeline lineno="550"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a3c55d95ab265ee24ccd8f24159b80b72" kindref="member">GenerateKeyPairFn</ref><sp/>fn;</highlight></codeline>
+<codeline lineno="551"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="552"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(HSMProvider::generateKeyPairFnMutex());</highlight></codeline>
+<codeline lineno="553"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fn<sp/>=<sp/>HSMProvider::generateKeyPairFnStorage();</highlight></codeline>
+<codeline lineno="554"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="555"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fn)<sp/>{</highlight></codeline>
+<codeline lineno="556"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="557"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fn(label,<sp/>key_size,<sp/>extractable);</highlight></codeline>
+<codeline lineno="558"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="559"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>last_error_<sp/>=<sp/>std::string(</highlight><highlight class="stringliteral">&quot;generateKeyPair<sp/>callback<sp/>failed:<sp/>&quot;</highlight><highlight class="normal">)<sp/>+<sp/>e.what();</highlight></codeline>
+<codeline lineno="560"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>THEMIS_ERROR(</highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">,<sp/>last_error_);</highlight></codeline>
+<codeline lineno="561"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="562"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{</highlight></codeline>
+<codeline lineno="563"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>last_error_<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;generateKeyPair<sp/>callback<sp/>failed:<sp/>unknown<sp/>exception&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="564"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>THEMIS_ERROR(</highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">,<sp/>last_error_);</highlight></codeline>
+<codeline lineno="565"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="566"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="567"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="568"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stub:<sp/>unused</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="569"><highlight class="normal"><sp/><sp/><sp/><sp/>THEMIS_WARN(</highlight><highlight class="stringliteral">&quot;HSMProvider<sp/>stub<sp/>generateKeyPair<sp/>ignored<sp/>(label=&apos;{}&apos;)&quot;</highlight><highlight class="normal">,<sp/>label);</highlight></codeline>
+<codeline lineno="570"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="571"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="572"><highlight class="normal"></highlight></codeline>
+<codeline lineno="580"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1aa106745ccd5285c4800f75955a1c7258" kindref="member">HSMProvider::importCertificate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_label,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>cert_pem)<sp/>{</highlight></codeline>
+<codeline lineno="581"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1adc799135ab90a64c2bb2c7da04a0cc1e" kindref="member">ImportCertificateFn</ref><sp/>fn;</highlight></codeline>
+<codeline lineno="582"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="583"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(HSMProvider::importCertificateFnMutex());</highlight></codeline>
+<codeline lineno="584"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fn<sp/>=<sp/>HSMProvider::importCertificateFnStorage();</highlight></codeline>
+<codeline lineno="585"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="586"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fn)<sp/>{</highlight></codeline>
+<codeline lineno="587"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="588"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fn(key_label,<sp/>cert_pem);</highlight></codeline>
+<codeline lineno="589"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="590"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>last_error_<sp/>=<sp/>std::string(</highlight><highlight class="stringliteral">&quot;importCertificate<sp/>callback<sp/>failed:<sp/>&quot;</highlight><highlight class="normal">)<sp/>+<sp/>e.what();</highlight></codeline>
+<codeline lineno="591"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>THEMIS_ERROR(</highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">,<sp/>last_error_);</highlight></codeline>
+<codeline lineno="592"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="593"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{</highlight></codeline>
+<codeline lineno="594"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>last_error_<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;importCertificate<sp/>callback<sp/>failed:<sp/>unknown<sp/>exception&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="595"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>THEMIS_ERROR(</highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">,<sp/>last_error_);</highlight></codeline>
+<codeline lineno="596"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="597"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="598"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="599"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stub:<sp/>unused</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="600"><highlight class="normal"><sp/><sp/><sp/><sp/>THEMIS_WARN(</highlight><highlight class="stringliteral">&quot;HSMProvider<sp/>stub<sp/>importCertificate<sp/>ignored<sp/>(key=&apos;{}&apos;)&quot;</highlight><highlight class="normal">,<sp/>key_label);</highlight></codeline>
+<codeline lineno="601"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="602"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="603"><highlight class="normal"></highlight></codeline>
+<codeline lineno="610"><highlight class="normal">std::optional&lt;std::string&gt;<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a0c5fffb072d68c42fcc41b6d17972cf0" kindref="member">HSMProvider::getCertificate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_label)<sp/>{</highlight></codeline>
+<codeline lineno="611"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1ad0c91a7aadbf690288b299b778a55732" kindref="member">GetCertificateFn</ref><sp/>fn;</highlight></codeline>
+<codeline lineno="612"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="613"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(HSMProvider::getCertificateFnMutex());</highlight></codeline>
+<codeline lineno="614"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fn<sp/>=<sp/>HSMProvider::getCertificateFnStorage();</highlight></codeline>
+<codeline lineno="615"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="616"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fn)<sp/>{</highlight></codeline>
+<codeline lineno="617"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="618"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fn(key_label);</highlight></codeline>
+<codeline lineno="619"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="620"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>last_error_<sp/>=<sp/>std::string(</highlight><highlight class="stringliteral">&quot;getCertificate<sp/>callback<sp/>failed:<sp/>&quot;</highlight><highlight class="normal">)<sp/>+<sp/>e.what();</highlight></codeline>
+<codeline lineno="621"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>THEMIS_ERROR(</highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">,<sp/>last_error_);</highlight></codeline>
+<codeline lineno="622"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;</highlight></codeline>
+<codeline lineno="623"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{</highlight></codeline>
+<codeline lineno="624"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>last_error_<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;getCertificate<sp/>callback<sp/>failed:<sp/>unknown<sp/>exception&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="625"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>THEMIS_ERROR(</highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">,<sp/>last_error_);</highlight></codeline>
+<codeline lineno="626"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;</highlight></codeline>
+<codeline lineno="627"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="628"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="629"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fail-closed<sp/>by<sp/>default:<sp/>returning<sp/>a<sp/>dummy<sp/>PEM<sp/>to<sp/>an<sp/>unsuspecting<sp/>caller<sp/>is<sp/>dangerous.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="630"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>caller<sp/>that<sp/>trusts<sp/>the<sp/>returned<sp/>certificate<sp/>for<sp/>authentication<sp/>or<sp/>TLS<sp/>would<sp/>use</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="631"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>a<sp/>meaningless<sp/>stub<sp/>cert,<sp/>opening<sp/>the<sp/>door<sp/>to<sp/>certificate-validation<sp/>bypass.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="632"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Require<sp/>explicit<sp/>opt-in<sp/>to<sp/>the<sp/>insecure<sp/>stub<sp/>path.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="633"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>allow_stub<sp/>=<sp/>std::getenv(</highlight><highlight class="stringliteral">&quot;THEMIS_ALLOW_HSM_STUB&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="634"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!allow_stub<sp/>||<sp/>std::string(allow_stub)<sp/>!=<sp/></highlight><highlight class="stringliteral">&quot;1&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="635"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>THEMIS_ERROR(</highlight></codeline>
+<codeline lineno="636"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;HSMProvider<sp/>stub<sp/>getCertificate(&apos;{}&apos;)<sp/>refused:<sp/>returning<sp/>a<sp/>dummy<sp/>PEM<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="637"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;is<sp/>insecure.<sp/>Set<sp/>THEMIS_ALLOW_HSM_STUB=1<sp/>for<sp/>explicit<sp/>development<sp/>override,<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="638"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;or<sp/>build<sp/>with<sp/>-DTHEMIS_ENABLE_HSM_REAL=ON.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="639"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>key_label);</highlight></codeline>
+<codeline lineno="640"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;</highlight></codeline>
+<codeline lineno="641"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="642"><highlight class="normal"><sp/><sp/><sp/><sp/>THEMIS_WARN(</highlight></codeline>
+<codeline lineno="643"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;HSMProvider<sp/>stub<sp/>getCertificate(&apos;{}&apos;)<sp/>returning<sp/>hardcoded<sp/>dummy<sp/>PEM<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="644"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;(THEMIS_ALLOW_HSM_STUB=1).<sp/>Not<sp/>suitable<sp/>for<sp/>production.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="645"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>key_label);</highlight></codeline>
+<codeline lineno="646"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::string(</highlight><highlight class="stringliteral">&quot;-----BEGIN<sp/>CERTIFICATE-----\nSTUB\n-----END<sp/>CERTIFICATE-----\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="647"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="648"><highlight class="normal"></highlight></codeline>
+<codeline lineno="649"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a825dd7d8d3bfaf92ad4a0ebba9c8f673" kindref="member">HSMProvider::isReady</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>initialized_;<sp/>}</highlight></codeline>
+<codeline lineno="650"><highlight class="normal"></highlight></codeline>
+<codeline lineno="651"><highlight class="normal">std::string<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a07ef101fc9e90eb643f8087a5bd9ef12" kindref="member">HSMProvider::getTokenInfo</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="652"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ostringstream<sp/>oss;<sp/>oss<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;HSM<sp/>stub/fallback<sp/>label=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>config_.key_label<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>ready=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(initialized_?</highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal">:</highlight><highlight class="stringliteral">&quot;false&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="653"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>oss.str();</highlight></codeline>
+<codeline lineno="654"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="655"><highlight class="normal"></highlight></codeline>
+<codeline lineno="656"><highlight class="normal">std::string<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1ace1a272d65f3fa9a8578f6aa2889c720" kindref="member">HSMProvider::getLastError</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>last_error_;<sp/>}</highlight></codeline>
+<codeline lineno="657"><highlight class="normal"></highlight></codeline>
+<codeline lineno="658"><highlight class="normal">HSMPerformanceStats<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a97cdb599d6e83f85e94dcd286f73141f" kindref="member">HSMProvider::getStats</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="659"><highlight class="normal"><sp/><sp/><sp/><sp/>HSMPerformanceStats<sp/>stats;</highlight></codeline>
+<codeline lineno="660"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.<ref refid="structthemis_1_1security_1_1_h_s_m_performance_stats_1af84f96ca141e5d5de030e2b309967445" kindref="member">sign_count</ref><sp/>=<sp/>impl_<sp/>?<sp/>impl_-&gt;sign_count.load(std::memory_order_relaxed)<sp/>:<sp/>0;</highlight></codeline>
+<codeline lineno="661"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.verify_count<sp/>=<sp/>impl_<sp/>?<sp/>impl_-&gt;verify_count.load(std::memory_order_relaxed)<sp/>:<sp/>0;</highlight></codeline>
+<codeline lineno="662"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.sign_errors<sp/>=<sp/>impl_<sp/>?<sp/>impl_-&gt;sign_errors.load(std::memory_order_relaxed)<sp/>:<sp/>0;</highlight></codeline>
+<codeline lineno="663"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.verify_errors<sp/>=<sp/>impl_<sp/>?<sp/>impl_-&gt;verify_errors.load(std::memory_order_relaxed)<sp/>:<sp/>0;</highlight></codeline>
+<codeline lineno="664"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.total_sign_time_us<sp/>=<sp/>impl_<sp/>?<sp/>impl_-&gt;total_sign_time_us.load(std::memory_order_relaxed)<sp/>:<sp/>0;</highlight></codeline>
+<codeline lineno="665"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.total_verify_time_us<sp/>=<sp/>impl_<sp/>?<sp/>impl_-&gt;total_verify_time_us.load(std::memory_order_relaxed)<sp/>:<sp/>0;</highlight></codeline>
+<codeline lineno="666"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.pool_size<sp/>=<sp/>0;<sp/></highlight><highlight class="comment">//<sp/>No<sp/>real<sp/>pool<sp/>in<sp/>stub</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="667"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.pool_round_robin_hits<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="668"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>stats;</highlight></codeline>
+<codeline lineno="669"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="670"><highlight class="normal"></highlight></codeline>
+<codeline lineno="675"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a38ab02f6cd052a400677e9f73fae9059" kindref="member">HSMProvider::resetStats</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="676"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!impl_)<sp/>{</highlight></codeline>
+<codeline lineno="677"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="678"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="679"><highlight class="normal"><sp/><sp/><sp/><sp/>impl_-&gt;sign_count.store(0,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="680"><highlight class="normal"><sp/><sp/><sp/><sp/>impl_-&gt;verify_count.store(0,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="681"><highlight class="normal"><sp/><sp/><sp/><sp/>impl_-&gt;sign_errors.store(0,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="682"><highlight class="normal"><sp/><sp/><sp/><sp/>impl_-&gt;verify_errors.store(0,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="683"><highlight class="normal"><sp/><sp/><sp/><sp/>impl_-&gt;total_sign_time_us.store(0,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="684"><highlight class="normal"><sp/><sp/><sp/><sp/>impl_-&gt;total_verify_time_us.store(0,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="685"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="686"><highlight class="normal"></highlight></codeline>
+<codeline lineno="687"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1a2c079865a72130beda7e571594882d2d" kindref="member">HSMProvider::isStubProvider</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="688"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Always<sp/>true<sp/>for<sp/>stub<sp/>implementation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="689"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="690"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="691"><highlight class="normal"></highlight></codeline>
+<codeline lineno="696"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider_1ae72e56d2ae904f9e9bc3df12e4f3f3e5" kindref="member">HSMProvider::periodicSecurityCheck</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="697"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!initialized_)<sp/>{</highlight></codeline>
+<codeline lineno="698"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="699"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="700"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="701"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Log<sp/>ERROR-level<sp/>warning<sp/>for<sp/>production<sp/>monitoring</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="702"><highlight class="normal"><sp/><sp/><sp/><sp/>THEMIS_ERROR(</highlight><highlight class="stringliteral">&quot;⚠️<sp/><sp/>HSM<sp/>SECURITY<sp/>WARNING:<sp/>Using<sp/>stub<sp/>provider<sp/>in<sp/>production!&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="703"><highlight class="normal"><sp/><sp/><sp/><sp/>THEMIS_ERROR(</highlight><highlight class="stringliteral">&quot;Master<sp/>keys<sp/>are<sp/>NOT<sp/>hardware-protected.<sp/>Configure<sp/>proper<sp/>HSM<sp/>immediately.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="704"><highlight class="normal"><sp/><sp/><sp/><sp/>THEMIS_ERROR(</highlight><highlight class="stringliteral">&quot;Compliance<sp/>impact:<sp/>NIST<sp/>SP<sp/>800-53<sp/>SC-12,<sp/>PCI<sp/>DSS<sp/>3.6,<sp/>GDPR<sp/>Art.<sp/>32&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="705"><highlight class="normal"><sp/><sp/><sp/><sp/>THEMIS_ERROR(</highlight><highlight class="stringliteral">&quot;See:<sp/>docs/security/HSM_PRODUCTION_SETUP.md&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="706"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="707"><highlight class="normal"></highlight></codeline>
+<codeline lineno="708"><highlight class="normal"></highlight><highlight class="comment">//<sp/>HSMPKIClient</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="709"><highlight class="normal"><ref refid="classthemis_1_1security_1_1_h_s_m_p_k_i_client_1aa31899937ce9a6d9c9537398cba200ef" kindref="member">HSMPKIClient::HSMPKIClient</ref>(HSMConfig<sp/>config)<sp/>:<sp/>hsm_(std::make_unique&lt;<ref refid="classthemis_1_1security_1_1_h_s_m_provider_1abe0107f0faa5f36df11fda3c80b7d109" kindref="member">HSMProvider</ref>&gt;(std::move(config)))<sp/>{<sp/>hsm_-&gt;initialize();<sp/>}</highlight></codeline>
+<codeline lineno="710"><highlight class="normal"><ref refid="classthemis_1_1security_1_1_h_s_m_p_k_i_client_1a47901057964bbef71640e0f37f051825" kindref="member">HSMPKIClient::~HSMPKIClient</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(hsm_)<sp/>hsm_-&gt;finalize();<sp/>}</highlight></codeline>
+<codeline lineno="717"><highlight class="normal">HSMSignatureResult<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_p_k_i_client_1afe8ea018674f882dd2931ab4bb1e4f80" kindref="member">HSMPKIClient::sign</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>hsm_-&gt;sign(data);<sp/>}</highlight></codeline>
+<codeline lineno="725"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_p_k_i_client_1ab723d788463a6e00ee57bb2fc1be28b9" kindref="member">HSMPKIClient::verify</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>signature_b64)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>hsm_-&gt;verify(data,<sp/>signature_b64);<sp/>}</highlight></codeline>
+<codeline lineno="731"><highlight class="normal">std::optional&lt;std::string&gt;<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_p_k_i_client_1a3beb2c410a168323c4fd5d8c00a86a53" kindref="member">HSMPKIClient::getCertSerial</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="732"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cert<sp/>=<sp/>hsm_<sp/>?<sp/>hsm_-&gt;getCertificate(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/>:<sp/>std::optional&lt;std::string&gt;{};</highlight></codeline>
+<codeline lineno="733"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>fallback_context<sp/>=<sp/>hsm_<sp/>?<sp/>hsm_-&gt;getTokenInfo()<sp/>:<sp/>std::string{};</highlight></codeline>
+<codeline lineno="734"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>serial<sp/>=<sp/>derive_fallback_cert_serial(cert.value_or(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">),<sp/>fallback_context);</highlight></codeline>
+<codeline lineno="735"><highlight class="normal"></highlight></codeline>
+<codeline lineno="736"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(serial.empty())<sp/>{</highlight></codeline>
+<codeline lineno="737"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>THEMIS_WARN(</highlight><highlight class="stringliteral">&quot;HSMPKIClient::getCertSerial()<sp/>could<sp/>not<sp/>derive<sp/>a<sp/>fallback<sp/>serial.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="738"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;</highlight></codeline>
+<codeline lineno="739"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="740"><highlight class="normal"></highlight></codeline>
+<codeline lineno="741"><highlight class="normal"><sp/><sp/><sp/><sp/>THEMIS_INFO(</highlight><highlight class="stringliteral">&quot;HSMPKIClient::getCertSerial()<sp/>derived<sp/>deterministic<sp/>fallback<sp/>serial<sp/>&apos;{}&apos;&quot;</highlight><highlight class="normal">,<sp/>serial);</highlight></codeline>
+<codeline lineno="742"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>serial;</highlight></codeline>
+<codeline lineno="743"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="744"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_p_k_i_client_1a1cbb8eedb445c7db500d4d014c9dac5d" kindref="member">HSMPKIClient::isReady</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>hsm_-&gt;isReady();<sp/>}</highlight></codeline>
+<codeline lineno="745"><highlight class="normal"></highlight></codeline>
+<codeline lineno="746"><highlight class="normal">}<sp/>}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::security</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="747"><highlight class="normal"></highlight></codeline>
+<codeline lineno="748"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>!THEMIS_ENABLE_HSM_REAL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="749"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/security/hsm_provider.cpp"/>
+  </compounddef>
+</doxygen>

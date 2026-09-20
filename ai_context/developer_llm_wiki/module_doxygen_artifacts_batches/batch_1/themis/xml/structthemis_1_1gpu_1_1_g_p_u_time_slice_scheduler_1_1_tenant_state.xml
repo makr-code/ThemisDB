@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_state" kind="struct" language="C++" prot="private">
+    <compoundname>themis::gpu::GPUTimeSliceScheduler::TenantState</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_state_1a9ed0951a00ee45e6192ae6cc0448a74f" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_config" kindref="compound">TenantConfig</ref></type>
+        <definition>TenantConfig themis::gpu::GPUTimeSliceScheduler::TenantState::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::gpu::GPUTimeSliceScheduler::TenantState::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/time_slice_scheduler.h" line="234" column="45" bodyfile="include/themis/gpu/time_slice_scheduler.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_state_1ad8201ba06516e8b7b1cd0a31f38ad9a6" prot="public" static="no" mutable="no">
+        <type>std::deque&lt; <ref refid="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_work_item" kindref="compound">GPULauncher::WorkItem</ref> &gt;</type>
+        <definition>std::deque&lt;GPULauncher::WorkItem&gt; themis::gpu::GPUTimeSliceScheduler::TenantState::queue</definition>
+        <argsstring></argsstring>
+        <name>queue</name>
+        <qualifiedname>themis::gpu::GPUTimeSliceScheduler::TenantState::queue</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/time_slice_scheduler.h" line="235" column="22" bodyfile="include/themis/gpu/time_slice_scheduler.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_state_1a84ca9197af7bc82ff1cf8ea2fd2081b0" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats" kindref="compound">TenantStats</ref></type>
+        <definition>TenantStats themis::gpu::GPUTimeSliceScheduler::TenantState::stats</definition>
+        <argsstring></argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::gpu::GPUTimeSliceScheduler::TenantState::stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/time_slice_scheduler.h" line="236" column="45" bodyfile="include/themis/gpu/time_slice_scheduler.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::gpu::GPUTimeSliceScheduler::TenantConfig</label>
+        <link refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_config"/>
+      </node>
+      <node id="1">
+        <label>themis::gpu::GPUTimeSliceScheduler::TenantState</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>stats</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::gpu::GPUTimeSliceScheduler::TenantStats</label>
+        <link refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/themis/gpu/time_slice_scheduler.h" line="233" column="5" bodyfile="include/themis/gpu/time_slice_scheduler.h" bodystart="233" bodyend="237"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_state_1a9ed0951a00ee45e6192ae6cc0448a74f" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTimeSliceScheduler::TenantState</scope><name>config</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_state_1ad8201ba06516e8b7b1cd0a31f38ad9a6" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTimeSliceScheduler::TenantState</scope><name>queue</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_state_1a84ca9197af7bc82ff1cf8ea2fd2081b0" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTimeSliceScheduler::TenantState</scope><name>stats</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

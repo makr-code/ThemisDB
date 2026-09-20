@@ -1,0 +1,407 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="lock__free__linker__contract_8h" kind="file" language="C++">
+    <compoundname>lock_free_linker_contract.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">optional</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/process/lock_free_linker_contract.h</label>
+        <link refid="lock__free__linker__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1process_1_1_versioned_link_state" prot="public">themis::process::VersionedLinkState</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_lock_free_link_entry" prot="public">themis::process::LockFreeLinkEntry</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_epoch_manager" prot="public">themis::process::EpochManager</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_lock_free_hash_table" prot="public">themis::process::LockFreeHashTable</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_batch_queue_entry" prot="public">themis::process::BatchQueueEntry</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_lock_free_batch_queue" prot="public">themis::process::LockFreeBatchQueue</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_lock_free_linker_config" prot="public">themis::process::LockFreeLinkerConfig</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_lock_free_linker_metrics" prot="public">themis::process::LockFreeLinkerMetrics</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1process">themis::process</innernamespace>
+    <briefdescription>
+<para>Lock-free data structures and performance scaling for process linking under high contention. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>2.1.0-beta</para>
+</simplesect>
+</para>
+<sect1 id="process__stress__scenarios_8h_1purpose">
+<title>Purpose</title><para>Defines lock-free linking layer for process module to support &gt;10,000 concurrent link operations/sec with P99 latency &lt; 1ms. Replaces contended mutex-based linking with atomic CAS operations, lock-free hash tables, and epoch-based memory reclamation.</para>
+</sect1>
+<sect1 id="lock__free__linker__contract_8h_1motivation">
+<title>Motivation</title><para>Current (Phase 1-6) ProcessLinker uses fine-grained per-link mutex locking:<itemizedlist>
+<listitem><para>Latency: 1-10ms per link operation (acceptable for low churn)</para>
+</listitem><listitem><para>Throughput: ~100-500 links/sec per core</para>
+</listitem><listitem><para>Problem: Under &gt;500 concurrent operations, lock contention becomes bottleneck</para>
+</listitem></itemizedlist>
+</para>
+<para>Lock-free redesign:<itemizedlist>
+<listitem><para>Target throughput: ≥10,000 links/sec per core</para>
+</listitem><listitem><para>Target latency: P99 &lt; 1ms</para>
+</listitem><listitem><para>Backward compatible: single-shard path unaffected; opt-in for federated deployments</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="model__history__contract_8h_1architecture">
+<title>Architecture</title><para><heading level="3">Layered Design</heading>
+</para>
+<para><programlisting><codeline><highlight class="normal">Client<sp/>Layer<sp/>(ProcessLinker<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>API)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>↓<sp/>(dispatcher:<sp/>check<sp/>lock_free<sp/>flag)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>├─<sp/>Lock-Free<sp/>Path<sp/>(opt-in,<sp/>high<sp/>throughput)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>│<sp/><sp/><sp/>├─<sp/>Lock-Free<sp/>Hash<sp/>Table<sp/>(link<sp/>registry)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>│<sp/><sp/><sp/>├─<sp/>Atomic<sp/>CAS<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>link<sp/>state<sp/>transitions</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>│<sp/><sp/><sp/>├─<sp/>Epoch-based<sp/>memory<sp/>reclamation</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>│<sp/><sp/><sp/>└─<sp/>Batch<sp/>commit<sp/>ring<sp/>buffer</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>│</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>└─<sp/>Traditional<sp/>Lock<sp/>Path<sp/>(fallback,<sp/>low<sp/>latency)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>├─<sp/>Per-link<sp/>mutex</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>├─<sp/>Snapshot<sp/>isolation</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>└─<sp/>Simple<sp/>FIFO<sp/>queue</highlight></codeline>
+</programlisting></para>
+<para><heading level="3">Lock-Free Link Registry</heading>
+</para>
+<para><itemizedlist>
+<listitem><para>Hash table: <computeroutput>ConcurrentHashMap&lt;LinkId, LinkState&gt;</computeroutput></para>
+</listitem><listitem><para>Per-bucket locking: minimal (only during resize, not on lookup)</para>
+</listitem><listitem><para>Link state includes: status (PENDING/ACTIVE/DELETED), version, references count</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Link State Machine (Atomic)</heading>
+</para>
+<para><programlisting><codeline><highlight class="normal"><ref refid="namespacethemis_1_1process_1a2aa962a0f0bab21681cfd4dbb1ddf44bac69f06e1a9b016d133907b4e5f5864d2" kindref="member">PENDING</ref><sp/>--[commit]--&gt;<sp/><ref refid="namespacethemis_1_1process_1a2aa962a0f0bab21681cfd4dbb1ddf44ba18ff74f43da410c5529f7d6fca84f115" kindref="member">ACTIVE</ref><sp/>--[</highlight><highlight class="keyword">delete</highlight><highlight class="normal">]--&gt;<sp/><ref refid="namespacethemis_1_1process_1a2aa962a0f0bab21681cfd4dbb1ddf44ba63c2867fdcae0e8e8413d7ac21b69b59" kindref="member">DELETED</ref></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>↑<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>↓</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>└─────[mark_stale]────┘</highlight></codeline>
+</programlisting> Transitions via atomic CAS; ABA problem mitigated via versioning.</para>
+<para><heading level="3">Memory Reclamation</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><bold>Epoch-based:</bold> Global epoch counter; threads announce current epoch</para>
+</listitem><listitem><para><bold>Deferred deletion:</bold> Marked-deleted entries deferred until all threads past epoch</para>
+</listitem><listitem><para><bold>Simplicity:</bold> No hazard pointers or RCU; trade complexity for latency predictability</para>
+</listitem><listitem><para><bold>Overhead:</bold> ~epoch_duration (usually 1-10ms) additional memory before reclamation</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Batch Operation Queue</heading>
+</para>
+<para><itemizedlist>
+<listitem><para>Lock-free ring buffer for staging link commits</para>
+</listitem><listitem><para>Producer: link creation appends to buffer (atomic pointer CAS)</para>
+</listitem><listitem><para>Consumer: background thread batches commits (atomic swap)</para>
+</listitem><listitem><para>Backpressure: if buffer full, apply retry/backoff to producer</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="lock__free__linker__contract_8h_1progress_guarantees">
+<title>Progress Guarantees</title><para><table rows="4" cols="4"><row>
+<entry thead="yes"><para>Term  </para>
+</entry><entry thead="yes"><para>Definition  </para>
+</entry><entry thead="yes"><para>Scope  </para>
+</entry><entry thead="yes"><para>Guarantee  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Wait-Free  </para>
+</entry><entry thead="no"><para>Bounded operations; no waiting  </para>
+</entry><entry thead="no"><para>Single link creation  </para>
+</entry><entry thead="no"><para>Link create/delete in O(1) CAS attempts (99.9%+ first-try)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Lock-Free  </para>
+</entry><entry thead="no"><para>≥1 thread progresses  </para>
+</entry><entry thead="no"><para>Batch operations  </para>
+</entry><entry thead="no"><para>≥1 batch commits despite contention  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Obstruction-Free  </para>
+</entry><entry thead="no"><para>Progresses if uncontended  </para>
+</entry><entry thead="no"><para>All operations  </para>
+</entry><entry thead="no"><para>Guaranteed progress if no contention  </para>
+</entry></row>
+</table>
+</para>
+<para><bold>Achieved levels:</bold><itemizedlist>
+<listitem><para>Link creation: wait-free (single atomic CAS)</para>
+</listitem><listitem><para>Link deletion: obstruction-free (epoch-based cleanup)</para>
+</listitem><listitem><para>Batch commit: lock-free (ring buffer atomic swap)</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="lock__free__linker__contract_8h_1aba_mitigation">
+<title>ABA Problem Mitigation</title><para><bold>Problem:</bold> Thread A reads value V1, is preempted, reads value V1 again later. Between reads, other threads may have changed V1 → V2 → V1 (identical value, different state). CAS succeeds even though state changed.</para>
+<para><bold>Solution:</bold> Version tagging <programlisting filename=".cpp"><codeline><highlight class="keyword">struct<sp/></highlight><highlight class="normal">VersionedLinkState<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a2aa962a0f0bab21681cfd4dbb1ddf44b" kindref="member">LinkState</ref><sp/>state;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>PENDING,<sp/>ACTIVE,<sp/>DELETED</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>version;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Incremented<sp/>on<sp/>every<sp/>state<sp/>change</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>CAS<sp/>compares<sp/>both<sp/>state<sp/>and<sp/>version</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">compare_and_swap(link_state,<sp/>{<ref refid="namespacethemis_1_1process_1a2aa962a0f0bab21681cfd4dbb1ddf44ba18ff74f43da410c5529f7d6fca84f115" kindref="member">ACTIVE</ref>,<sp/>v1},<sp/>{<ref refid="namespacethemis_1_1process_1a2aa962a0f0bab21681cfd4dbb1ddf44ba63c2867fdcae0e8e8413d7ac21b69b59" kindref="member">DELETED</ref>,<sp/>v1+1})</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fails<sp/>if<sp/>version<sp/>changed,<sp/>even<sp/>if<sp/>state<sp/>coincidentally<sp/>same</highlight></codeline>
+</programlisting></para>
+<para><bold>Alternative:</bold> Epoch-based prevention (simpler, lower overhead)<itemizedlist>
+<listitem><para>Epoch advances periodically (every 1-10ms)</para>
+</listitem><listitem><para>Versioning happens only across epochs</para>
+</listitem><listitem><para>Within epoch, ABA probability negligible</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="lock__free__linker__contract_8h_1memory_ordering">
+<title>Memory Ordering</title><para>All atomic operations use <computeroutput>std::memory_order_acq_rel</computeroutput> (acquire-release):<itemizedlist>
+<listitem><para>Read: acquire semantics (prevent later ops from moving before read)</para>
+</listitem><listitem><para>Write: release semantics (ensure all prior ops complete before write visible)</para>
+</listitem><listitem><para>CAS: both (full synchronization)</para>
+</listitem></itemizedlist>
+</para>
+<para>Stronger than necessary (seq_cst not needed) but simpler than hand-tuned ordering.</para>
+</sect1>
+<sect1 id="process__determinism__spec_8h_1contract_freeze">
+<title>Contract Freeze</title><para>This contract is frozen for ThemisDB v2.1; breaking changes require v3.0. </para>
+</sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1process" kindref="compound">themis::process</ref><sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Lock-Free<sp/>Link<sp/>State<sp/>Machine</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="namespacethemis_1_1process_1a2aa962a0f0bab21681cfd4dbb1ddf44b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1a2aa962a0f0bab21681cfd4dbb1ddf44b" kindref="member">LinkState</ref><sp/>:<sp/>uint32_t<sp/>{</highlight></codeline>
+<codeline lineno="138" refid="namespacethemis_1_1process_1a2aa962a0f0bab21681cfd4dbb1ddf44bac69f06e1a9b016d133907b4e5f5864d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a2aa962a0f0bab21681cfd4dbb1ddf44bac69f06e1a9b016d133907b4e5f5864d2" kindref="member">PENDING</ref><sp/>=<sp/>6400,</highlight></codeline>
+<codeline lineno="140" refid="namespacethemis_1_1process_1a2aa962a0f0bab21681cfd4dbb1ddf44ba18ff74f43da410c5529f7d6fca84f115" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a2aa962a0f0bab21681cfd4dbb1ddf44ba18ff74f43da410c5529f7d6fca84f115" kindref="member">ACTIVE</ref><sp/>=<sp/>6401,</highlight></codeline>
+<codeline lineno="142" refid="namespacethemis_1_1process_1a2aa962a0f0bab21681cfd4dbb1ddf44baa488109fd17a4edd100dc2f5a94408a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a2aa962a0f0bab21681cfd4dbb1ddf44baa488109fd17a4edd100dc2f5a94408a3" kindref="member">MARKED_FOR_DELETION</ref><sp/>=<sp/>6402,</highlight></codeline>
+<codeline lineno="144" refid="namespacethemis_1_1process_1a2aa962a0f0bab21681cfd4dbb1ddf44ba63c2867fdcae0e8e8413d7ac21b69b59" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a2aa962a0f0bab21681cfd4dbb1ddf44ba63c2867fdcae0e8e8413d7ac21b69b59" kindref="member">DELETED</ref><sp/>=<sp/>6403,</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153" refid="structthemis_1_1process_1_1_versioned_link_state" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_versioned_link_state" kindref="compound">VersionedLinkState</ref><sp/>{</highlight></codeline>
+<codeline lineno="155" refid="structthemis_1_1process_1_1_versioned_link_state_1a9d99f3312cd6c0883a84b0857aecbc65" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a2aa962a0f0bab21681cfd4dbb1ddf44b" kindref="member">LinkState</ref><sp/><ref refid="structthemis_1_1process_1_1_versioned_link_state_1a9d99f3312cd6c0883a84b0857aecbc65" kindref="member">state</ref><sp/>=<sp/><ref refid="namespacethemis_1_1process_1a2aa962a0f0bab21681cfd4dbb1ddf44bac69f06e1a9b016d133907b4e5f5864d2" kindref="member">LinkState::PENDING</ref>;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="structthemis_1_1process_1_1_versioned_link_state_1a76405232eac98af96e4886405f39085e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1process_1_1_versioned_link_state_1a76405232eac98af96e4886405f39085e" kindref="member">version</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161" refid="structthemis_1_1process_1_1_versioned_link_state_1ae775282a2fbff48a5fb7dbac849df857" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint32_t&gt;<sp/><ref refid="structthemis_1_1process_1_1_versioned_link_state_1ae775282a2fbff48a5fb7dbac849df857" kindref="member">ref_count</ref>{0};</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171" refid="structthemis_1_1process_1_1_versioned_link_state_1a8fcfe994438de0255f03560abc8e0b00" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_versioned_link_state_1a8fcfe994438de0255f03560abc8e0b00" kindref="member">tryTransition</ref>(<ref refid="namespacethemis_1_1process_1a2aa962a0f0bab21681cfd4dbb1ddf44b" kindref="member">LinkState</ref><sp/>expected_state,<sp/>uint32_t<sp/>expected_version,</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a2aa962a0f0bab21681cfd4dbb1ddf44b" kindref="member">LinkState</ref><sp/>new_state)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180" refid="structthemis_1_1process_1_1_lock_free_link_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_lock_free_link_entry" kindref="compound">LockFreeLinkEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="182" refid="structthemis_1_1process_1_1_lock_free_link_entry_1a46ebc3c778062906f6295416f4a47c93" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_lock_free_link_entry_1a46ebc3c778062906f6295416f4a47c93" kindref="member">link_id</ref>;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185" refid="structthemis_1_1process_1_1_lock_free_link_entry_1ad1b3cb382417a11bb7bd5c3065d4c92c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_lock_free_link_entry_1ad1b3cb382417a11bb7bd5c3065d4c92c" kindref="member">source_model_id</ref>;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188" refid="structthemis_1_1process_1_1_lock_free_link_entry_1a6ad38bdc7686d0583ff387ecffd2fa21" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_lock_free_link_entry_1a6ad38bdc7686d0583ff387ecffd2fa21" kindref="member">target_id</ref>;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191" refid="structthemis_1_1process_1_1_lock_free_link_entry_1ac75adf7ea4f88d34d3796186cb74eb2c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_lock_free_link_entry_1ac75adf7ea4f88d34d3796186cb74eb2c" kindref="member">link_type</ref>;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194" refid="structthemis_1_1process_1_1_lock_free_link_entry_1a1ea9888851bd8ccd04560740f3cd228e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_versioned_link_state" kindref="compound">VersionedLinkState</ref><sp/><ref refid="structthemis_1_1process_1_1_lock_free_link_entry_1a1ea9888851bd8ccd04560740f3cd228e" kindref="member">versioned_state</ref>;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197" refid="structthemis_1_1process_1_1_lock_free_link_entry_1a8324aa1481133a35f82d8b32aad88c61" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1process_1_1_lock_free_link_entry_1a8324aa1481133a35f82d8b32aad88c61" kindref="member">created_at_ns</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200" refid="structthemis_1_1process_1_1_lock_free_link_entry_1acaf703bf3f9d3d15a0c0d680a851ff50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1process_1_1_lock_free_link_entry_1acaf703bf3f9d3d15a0c0d680a851ff50" kindref="member">modified_at_ns</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203" refid="structthemis_1_1process_1_1_lock_free_link_entry_1a268920c8e5c11614b8f9700be466543d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_lock_free_link_entry_1a268920c8e5c11614b8f9700be466543d" kindref="member">creator_principal</ref>;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206" refid="structthemis_1_1process_1_1_lock_free_link_entry_1af6968339b3d153a74ffc71a976d1397d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/><ref refid="structthemis_1_1process_1_1_lock_free_link_entry_1af6968339b3d153a74ffc71a976d1397d" kindref="member">is_stale</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211" refid="structthemis_1_1process_1_1_lock_free_link_entry_1a0abb140c739d2928918c7601c70c2d9f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_lock_free_link_entry_1a0abb140c739d2928918c7601c70c2d9f" kindref="member">acquireRef</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_lock_free_link_entry_1a1ea9888851bd8ccd04560740f3cd228e" kindref="member">versioned_state</ref>.ref_count.fetch_add(1,<sp/>std::memory_order_acq_rel);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218" refid="structthemis_1_1process_1_1_lock_free_link_entry_1adfa2a6c9461ed1952ee993db8466eaff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_lock_free_link_entry_1adfa2a6c9461ed1952ee993db8466eaff" kindref="member">releaseRef</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_lock_free_link_entry_1a1ea9888851bd8ccd04560740f3cd228e" kindref="member">versioned_state</ref>.ref_count.fetch_sub(1,<sp/>std::memory_order_acq_rel);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226" refid="structthemis_1_1process_1_1_lock_free_link_entry_1a9a3d7b2eb79dd1f116205a425a60f1e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1process_1_1_lock_free_link_entry_1a9a3d7b2eb79dd1f116205a425a60f1e1" kindref="member">getRefCount</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_lock_free_link_entry_1a1ea9888851bd8ccd04560740f3cd228e" kindref="member">versioned_state</ref>.ref_count.load(std::memory_order_acquire);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Epoch-Based<sp/>Memory<sp/>Reclamation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241" refid="classthemis_1_1process_1_1_epoch_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">EpochManager<sp/>{</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="247" refid="classthemis_1_1process_1_1_epoch_manager_1a0190c253d38852f92e2014040ed6b7c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>EpochManager&amp;<sp/><ref refid="classthemis_1_1process_1_1_epoch_manager_1a0190c253d38852f92e2014040ed6b7c1" kindref="member">instance</ref>();</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253" refid="classthemis_1_1process_1_1_epoch_manager_1a01dc7141ce513ef5b3b0cea1056deb82" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1process_1_1_epoch_manager_1a01dc7141ce513ef5b3b0cea1056deb82" kindref="member">currentEpoch</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>global_epoch_.load(std::memory_order_acquire);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265" refid="classthemis_1_1process_1_1_epoch_manager_1a803cf73e86cba598edfdccadfd133a95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_epoch_manager_1a803cf73e86cba598edfdccadfd133a95" kindref="member">enterEpoch</ref>(uint64_t<sp/>epoch)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272" refid="classthemis_1_1process_1_1_epoch_manager_1a108b36b62d42b0f34a24ea475bf3e605" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_epoch_manager_1a108b36b62d42b0f34a24ea475bf3e605" kindref="member">leaveEpoch</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284" refid="classthemis_1_1process_1_1_epoch_manager_1ac7a3b8c9fc6bcc2b18d945a688104894" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_epoch_manager_1ac7a3b8c9fc6bcc2b18d945a688104894" kindref="member">waitForEpoch</ref>(uint64_t<sp/>epoch,<sp/>uint32_t<sp/>timeout_ms<sp/>=<sp/>0)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292" refid="classthemis_1_1process_1_1_epoch_manager_1ae31107208e51cfe4ead1e21672dba10d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_epoch_manager_1ae31107208e51cfe4ead1e21672dba10d" kindref="member">advanceEpoch</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>template&lt;typename<sp/>Deleter&gt;</highlight></codeline>
+<codeline lineno="304" refid="classthemis_1_1process_1_1_epoch_manager_1a2d6163355174ff121b14a152450f81fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_epoch_manager_1a2d6163355174ff121b14a152450f81fa" kindref="member">deferDeletion</ref>(uint64_t<sp/>epoch,<sp/>Deleter<sp/>deleter);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>EpochManager()<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>~EpochManager()<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>global_epoch_{0};</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Additional<sp/>internal<sp/>state<sp/>for<sp/>thread<sp/>tracking<sp/>(implementation-specific)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Lock-Free<sp/>Hash<sp/>Table</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Key,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Value&gt;</highlight></codeline>
+<codeline lineno="324" refid="classthemis_1_1process_1_1_lock_free_hash_table" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1process_1_1_lock_free_hash_table" kindref="compound">LockFreeHashTable</ref><sp/>{</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="335" refid="classthemis_1_1process_1_1_lock_free_hash_table_1a164c31012cc361808f95841bab68571c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_lock_free_hash_table_1a164c31012cc361808f95841bab68571c" kindref="member">insert</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Key&amp;<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Value&amp;<sp/>value);</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345" refid="classthemis_1_1process_1_1_lock_free_hash_table_1aac4ffb6b82f1d39c0c66472c3838e0e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;Value&gt;<sp/><ref refid="classthemis_1_1process_1_1_lock_free_hash_table_1aac4ffb6b82f1d39c0c66472c3838e0e2" kindref="member">lookup</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Key&amp;<sp/>key)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355" refid="classthemis_1_1process_1_1_lock_free_hash_table_1a757a52ce50c180d02e06bf071d9f515f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_lock_free_hash_table_1a757a52ce50c180d02e06bf071d9f515f" kindref="member">erase</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Key&amp;<sp/>key);</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight></codeline>
+<codeline lineno="361" refid="classthemis_1_1process_1_1_lock_free_hash_table_1ac9eaaf1f3111fab7d9563d9d28cd1858" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_lock_free_hash_table_1ac9eaaf1f3111fab7d9563d9d28cd1858" kindref="member">size</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/>template&lt;typename<sp/>Visitor&gt;</highlight></codeline>
+<codeline lineno="371" refid="classthemis_1_1process_1_1_lock_free_hash_table_1a17176e51d8030826e9192e590f06234d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_lock_free_hash_table_1a17176e51d8030826e9192e590f06234d" kindref="member">forEach</ref>(Visitor<sp/>visitor)<sp/>const;</highlight></codeline>
+<codeline lineno="372"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Lock-Free<sp/>Batch<sp/>Queue</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"></highlight></codeline>
+<codeline lineno="384" refid="structthemis_1_1process_1_1_batch_queue_entry" refkind="compound"><highlight class="normal">struct<sp/><ref refid="structthemis_1_1process_1_1_batch_queue_entry" kindref="compound">BatchQueueEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="386" refid="structthemis_1_1process_1_1_batch_queue_entry_1ac6a2d73c424c1c634aeabceda49fd473" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;LockFreeLinkEntry&gt;<sp/><ref refid="structthemis_1_1process_1_1_batch_queue_entry_1ac6a2d73c424c1c634aeabceda49fd473" kindref="member">link_entry</ref>;</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"></highlight></codeline>
+<codeline lineno="389" refid="structthemis_1_1process_1_1_batch_queue_entry_1a9ef9295887589f7636af13c0dff89187" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1process_1_1_batch_queue_entry_1a9ef9295887589f7636af13c0dff89187" kindref="member">created_at_ns</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"></highlight></codeline>
+<codeline lineno="392" refid="structthemis_1_1process_1_1_batch_queue_entry_1ad60ac385f5b5b27f72f206a28cc974b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_batch_queue_entry_1ad60ac385f5b5b27f72f206a28cc974b6" kindref="member">trace_id</ref>;</highlight></codeline>
+<codeline lineno="393"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"></highlight></codeline>
+<codeline lineno="401" refid="classthemis_1_1process_1_1_lock_free_batch_queue" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1process_1_1_lock_free_batch_queue_1ac7a0da27bcc7ace628ba8e96d0577032" kindref="member">LockFreeBatchQueue</ref><sp/>{</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="407" refid="classthemis_1_1process_1_1_lock_free_batch_queue_1ac7a0da27bcc7ace628ba8e96d0577032" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_lock_free_batch_queue_1ac7a0da27bcc7ace628ba8e96d0577032" kindref="member">LockFreeBatchQueue</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_lock_free_batch_queue_1a6d43104045f51023add3d344889f1adf" kindref="member">capacity</ref>);</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"></highlight></codeline>
+<codeline lineno="415" refid="classthemis_1_1process_1_1_lock_free_batch_queue_1a1c2c2d9c0c921d0fd598b28953638fb6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_lock_free_batch_queue_1a1c2c2d9c0c921d0fd598b28953638fb6" kindref="member">tryEnqueue</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_batch_queue_entry" kindref="compound">BatchQueueEntry</ref>&amp;<sp/>entry)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"></highlight></codeline>
+<codeline lineno="425" refid="classthemis_1_1process_1_1_lock_free_batch_queue_1a1678ac0ace6cbba6856d9e25fd477775" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;BatchQueueEntry&gt;<sp/><ref refid="classthemis_1_1process_1_1_lock_free_batch_queue_1a1678ac0ace6cbba6856d9e25fd477775" kindref="member">drain</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="426"><highlight class="normal"></highlight></codeline>
+<codeline lineno="431" refid="classthemis_1_1process_1_1_lock_free_batch_queue_1ac3cf3daa008ad60e3240a9a38ad07c77" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_lock_free_batch_queue_1ac3cf3daa008ad60e3240a9a38ad07c77" kindref="member">depth</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="432"><highlight class="normal"></highlight></codeline>
+<codeline lineno="437" refid="classthemis_1_1process_1_1_lock_free_batch_queue_1a6d43104045f51023add3d344889f1adf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_lock_free_batch_queue_1a6d43104045f51023add3d344889f1adf" kindref="member">capacity</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="438"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="439"><highlight class="normal"></highlight></codeline>
+<codeline lineno="440"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="441"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Lock-Free<sp/>Linker<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="442"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="443"><highlight class="normal"></highlight></codeline>
+<codeline lineno="447" refid="structthemis_1_1process_1_1_lock_free_linker_config" refkind="compound"><highlight class="normal">struct<sp/><ref refid="structthemis_1_1process_1_1_lock_free_linker_config" kindref="compound">LockFreeLinkerConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="449" refid="structthemis_1_1process_1_1_lock_free_linker_config_1a67a5a8ab6edc8cd9738725986cc5e2a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_lock_free_linker_config_1a67a5a8ab6edc8cd9738725986cc5e2a0" kindref="member">enable_lock_free</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="450"><highlight class="normal"></highlight></codeline>
+<codeline lineno="452" refid="structthemis_1_1process_1_1_lock_free_linker_config_1ab1f610de716404551f106d7af1166f66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1process_1_1_lock_free_linker_config_1ab1f610de716404551f106d7af1166f66" kindref="member">batch_queue_capacity</ref><sp/>=<sp/>10000;</highlight></codeline>
+<codeline lineno="453"><highlight class="normal"></highlight></codeline>
+<codeline lineno="455" refid="structthemis_1_1process_1_1_lock_free_linker_config_1ab41a0dfacd18a38b3e0fb6d43c318d28" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1process_1_1_lock_free_linker_config_1ab41a0dfacd18a38b3e0fb6d43c318d28" kindref="member">batch_commit_interval_ms</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="456"><highlight class="normal"></highlight></codeline>
+<codeline lineno="458" refid="structthemis_1_1process_1_1_lock_free_linker_config_1a984ee965014ae206f8494810c8f11250" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1process_1_1_lock_free_linker_config_1a984ee965014ae206f8494810c8f11250" kindref="member">epoch_duration_ms</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="459"><highlight class="normal"></highlight></codeline>
+<codeline lineno="461" refid="structthemis_1_1process_1_1_lock_free_linker_config_1acf5bf6425089040821b36a7bd952da1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1process_1_1_lock_free_linker_config_1acf5bf6425089040821b36a7bd952da1b" kindref="member">epoch_sync_timeout_ms</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="462"><highlight class="normal"></highlight></codeline>
+<codeline lineno="464" refid="structthemis_1_1process_1_1_lock_free_linker_config_1a5a4eddcc5d674eed4b842a8db45e2df3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1process_1_1_lock_free_linker_config_1a5a4eddcc5d674eed4b842a8db45e2df3" kindref="member">hash_table_initial_size</ref><sp/>=<sp/>16384;</highlight></codeline>
+<codeline lineno="465"><highlight class="normal"></highlight></codeline>
+<codeline lineno="467" refid="structthemis_1_1process_1_1_lock_free_linker_config_1a9f22642660487cd6b601faddb660e3a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_lock_free_linker_config_1a9f22642660487cd6b601faddb660e3a0" kindref="member">hash_table_max_load_factor</ref><sp/>=<sp/>0.75;</highlight></codeline>
+<codeline lineno="468"><highlight class="normal"></highlight></codeline>
+<codeline lineno="470" refid="structthemis_1_1process_1_1_lock_free_linker_config_1ac53960486530243ffc350850b6d46a4f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_lock_free_linker_config_1ac53960486530243ffc350850b6d46a4f" kindref="member">enable_profiling</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="471"><highlight class="normal"></highlight></codeline>
+<codeline lineno="473" refid="structthemis_1_1process_1_1_lock_free_linker_config_1a69ad213bf62ca279e6d846d8d451d188" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_lock_free_linker_config_1a69ad213bf62ca279e6d846d8d451d188" kindref="member">trace_id</ref>;</highlight></codeline>
+<codeline lineno="474"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="475"><highlight class="normal"></highlight></codeline>
+<codeline lineno="476"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="477"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Performance<sp/>Monitoring</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="478"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="479"><highlight class="normal"></highlight></codeline>
+<codeline lineno="483" refid="structthemis_1_1process_1_1_lock_free_linker_metrics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_lock_free_linker_metrics" kindref="compound">LockFreeLinkerMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="485" refid="structthemis_1_1process_1_1_lock_free_linker_metrics_1ad88bb51df5c3dda7e041600d9a645d5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1process_1_1_lock_free_linker_metrics_1ad88bb51df5c3dda7e041600d9a645d5f" kindref="member">total_creates</ref>{0};</highlight></codeline>
+<codeline lineno="486"><highlight class="normal"></highlight></codeline>
+<codeline lineno="488" refid="structthemis_1_1process_1_1_lock_free_linker_metrics_1ad23920b1c37df86e6407192d8a3c5c00" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1process_1_1_lock_free_linker_metrics_1ad23920b1c37df86e6407192d8a3c5c00" kindref="member">successful_creates</ref>{0};</highlight></codeline>
+<codeline lineno="489"><highlight class="normal"></highlight></codeline>
+<codeline lineno="491" refid="structthemis_1_1process_1_1_lock_free_linker_metrics_1ae54be33728cfb2f64575ab2a7de5d0d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1process_1_1_lock_free_linker_metrics_1ae54be33728cfb2f64575ab2a7de5d0d3" kindref="member">failed_creates</ref>{0};</highlight></codeline>
+<codeline lineno="492"><highlight class="normal"></highlight></codeline>
+<codeline lineno="494" refid="structthemis_1_1process_1_1_lock_free_linker_metrics_1aab76b474a72d7d2dd38f79fee92be77f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1process_1_1_lock_free_linker_metrics_1aab76b474a72d7d2dd38f79fee92be77f" kindref="member">cas_attempts</ref>{0};</highlight></codeline>
+<codeline lineno="495"><highlight class="normal"></highlight></codeline>
+<codeline lineno="497" refid="structthemis_1_1process_1_1_lock_free_linker_metrics_1ac116d64e9c2dba47602eadba56302b31" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_lock_free_linker_metrics_1ac116d64e9c2dba47602eadba56302b31" kindref="member">cas_first_try_rate</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="498"><highlight class="normal"></highlight></codeline>
+<codeline lineno="500" refid="structthemis_1_1process_1_1_lock_free_linker_metrics_1ab0f991eabee8faf960c9f5e045ff963f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_lock_free_linker_metrics_1ab0f991eabee8faf960c9f5e045ff963f" kindref="member">avg_create_latency_us</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="501"><highlight class="normal"></highlight></codeline>
+<codeline lineno="503" refid="structthemis_1_1process_1_1_lock_free_linker_metrics_1a115a5e66408f682eb1227e131d744047" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_lock_free_linker_metrics_1a115a5e66408f682eb1227e131d744047" kindref="member">p99_create_latency_us</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="504"><highlight class="normal"></highlight></codeline>
+<codeline lineno="506" refid="structthemis_1_1process_1_1_lock_free_linker_metrics_1a61db8ca4a39b97e490089b2838bedf40" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1process_1_1_lock_free_linker_metrics_1a61db8ca4a39b97e490089b2838bedf40" kindref="member">batch_queue_overflows</ref>{0};</highlight></codeline>
+<codeline lineno="507"><highlight class="normal"></highlight></codeline>
+<codeline lineno="509" refid="structthemis_1_1process_1_1_lock_free_linker_metrics_1a6e3ec16b493108936e69dce4e11b822d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1process_1_1_lock_free_linker_metrics_1a6e3ec16b493108936e69dce4e11b822d" kindref="member">epoch_sync_timeouts</ref>{0};</highlight></codeline>
+<codeline lineno="510"><highlight class="normal"></highlight></codeline>
+<codeline lineno="512" refid="structthemis_1_1process_1_1_lock_free_linker_metrics_1a1e981b7943581be3290f0bbb5b4b5f6b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1process_1_1_lock_free_linker_metrics_1a1e981b7943581be3290f0bbb5b4b5f6b" kindref="member">deferred_memory_bytes</ref>{0};</highlight></codeline>
+<codeline lineno="513"><highlight class="normal"></highlight></codeline>
+<codeline lineno="515" refid="structthemis_1_1process_1_1_lock_free_linker_metrics_1ada529bf4d9bee0b47b503e4980bec1a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1process_1_1_lock_free_linker_metrics_1ada529bf4d9bee0b47b503e4980bec1a6" kindref="member">hash_table_resizes</ref>{0};</highlight></codeline>
+<codeline lineno="516"><highlight class="normal"></highlight></codeline>
+<codeline lineno="521" refid="structthemis_1_1process_1_1_lock_free_linker_metrics_1a187b04fca89696cc27b2fb2cf231e7e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1process_1_1_lock_free_linker_metrics_1a187b04fca89696cc27b2fb2cf231e7e0" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="522"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="523"><highlight class="normal"></highlight></codeline>
+<codeline lineno="524"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="525"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fallback<sp/>and<sp/>Safety</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="526"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="527"><highlight class="normal"></highlight></codeline>
+<codeline lineno="534" refid="namespacethemis_1_1process_1aba823db106df48bd5bc22615f51835b1" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1aba823db106df48bd5bc22615f51835b1" kindref="member">LockFreeMode</ref><sp/>:<sp/>int32_t<sp/>{</highlight></codeline>
+<codeline lineno="536" refid="namespacethemis_1_1process_1aba823db106df48bd5bc22615f51835b1aab31bec9f225c267404c10484d05dd91" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1aba823db106df48bd5bc22615f51835b1aab31bec9f225c267404c10484d05dd91" kindref="member">LOCK_FREE_ENABLED</ref><sp/>=<sp/>6410,</highlight></codeline>
+<codeline lineno="538" refid="namespacethemis_1_1process_1aba823db106df48bd5bc22615f51835b1ae1c76faed7826e10c1d4b37070914195" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1aba823db106df48bd5bc22615f51835b1ae1c76faed7826e10c1d4b37070914195" kindref="member">LOCK_FREE_DISABLED</ref><sp/>=<sp/>6411,</highlight></codeline>
+<codeline lineno="539"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="540"><highlight class="normal"></highlight></codeline>
+<codeline lineno="541"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::process</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/process/lock_free_linker_contract.h"/>
+  </compounddef>
+</doxygen>

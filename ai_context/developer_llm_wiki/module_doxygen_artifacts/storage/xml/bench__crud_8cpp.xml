@@ -1,0 +1,428 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__crud_8cpp" kind="file" language="C++">
+    <compoundname>bench_crud.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes refid="base__entity_8h" local="yes">storage/base_entity.h</includes>
+    <includes refid="rocksdb__wrapper_8h" local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="yes">index/secondary_index.h</includes>
+    <includes local="no">random</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">chrono</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/storage/bench_crud.cpp</label>
+        <link refid="bench__crud_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>storage/base_entity.h</label>
+        <link refid="base__entity_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>storage/nvme_manager.h</label>
+        <link refid="nvme__manager_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>storage/rocksdb_wrapper.h</label>
+        <link refid="rocksdb__wrapper_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="24">
+        <label>chrono</label>
+      </node>
+      <node id="16">
+        <label>condition_variable</label>
+      </node>
+      <node id="19">
+        <label>cstddef</label>
+      </node>
+      <node id="20">
+        <label>cstdint</label>
+      </node>
+      <node id="23">
+        <label>filesystem</label>
+      </node>
+      <node id="13">
+        <label>functional</label>
+      </node>
+      <node id="21">
+        <label>index/secondary_index.h</label>
+      </node>
+      <node id="9">
+        <label>map</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="15">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="22">
+        <label>random</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>string_view</label>
+      </node>
+      <node id="17">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="11">
+        <label>utils/geo/ewkb.h</label>
+      </node>
+      <node id="10">
+        <label>variant</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_c_r_u_d_fixture" prot="public">CRUDFixture</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__crud_8cpp_1aeb801fa1b3e5f480ccac15d284193a61" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_DEFINE_F</definition>
+        <argsstring>(CRUDFixture, InsertWithAllIndexes)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <param>
+          <type><ref refid="class_c_r_u_d_fixture" kindref="compound">CRUDFixture</ref></type>
+        </param>
+        <param>
+          <type>InsertWithAllIndexes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_crud.cpp" line="85" column="1" bodyfile="benchmarks/storage/bench_crud.cpp" bodystart="85" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__crud_8cpp_1a9ea24fdfbfc5c184bf97b87ca66bf1cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Unit</definition>
+        <argsstring>(benchmark::kMillisecond) -&gt; UseRealTime()</argsstring>
+        <name>Unit</name>
+        <param>
+          <type>benchmark::kMillisecond</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_crud.cpp" line="98" column="5" declfile="benchmarks/storage/bench_crud.cpp" declline="98" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__crud_8cpp_1afd1a76795ff3b6d48124a2e7a2efc46c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_DEFINE_F</definition>
+        <argsstring>(CRUDFixture, LookupBySecondaryIndex)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <param>
+          <type><ref refid="class_c_r_u_d_fixture" kindref="compound">CRUDFixture</ref></type>
+        </param>
+        <param>
+          <type>LookupBySecondaryIndex</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_crud.cpp" line="103" column="1" bodyfile="benchmarks/storage/bench_crud.cpp" bodystart="103" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__crud_8cpp_1ae75b92cf9d10572a42a19113eb4815a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Unit</definition>
+        <argsstring>(benchmark::kMicrosecond) -&gt; UseRealTime()</argsstring>
+        <name>Unit</name>
+        <param>
+          <type>benchmark::kMicrosecond</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_crud.cpp" line="111" column="5" declfile="benchmarks/storage/bench_crud.cpp" declline="111" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__crud_8cpp_1a26ab25b8537902dd694d7ecbb213e986" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_DEFINE_F</definition>
+        <argsstring>(CRUDFixture, RangeScanAge)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <param>
+          <type><ref refid="class_c_r_u_d_fixture" kindref="compound">CRUDFixture</ref></type>
+        </param>
+        <param>
+          <type>RangeScanAge</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_crud.cpp" line="116" column="1" bodyfile="benchmarks/storage/bench_crud.cpp" bodystart="116" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__crud_8cpp_1a990736f530785050adc889fe9f0a7095" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_DEFINE_F</definition>
+        <argsstring>(CRUDFixture, FulltextSearch)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <param>
+          <type><ref refid="class_c_r_u_d_fixture" kindref="compound">CRUDFixture</ref></type>
+        </param>
+        <param>
+          <type>FulltextSearch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_crud.cpp" line="129" column="1" bodyfile="benchmarks/storage/bench_crud.cpp" bodystart="129" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__crud_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_MAIN</definition>
+        <argsstring>()</argsstring>
+        <name>BENCHMARK_MAIN</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_crud.cpp" line="140" column="1" declfile="benchmarks/storage/bench_crud.cpp" declline="140" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="base__entity_8h" kindref="compound">storage/base_entity.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rocksdb__wrapper_8h" kindref="compound">storage/rocksdb_wrapper.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/secondary_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Deterministic,<sp/>fixed<sp/>seed<sp/>for<sp/>reproducible<sp/>benchmark<sp/>measurements.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Seeding<sp/>from<sp/>std::random_device<sp/>is<sp/>intentionally<sp/>avoided.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>makeRandomString(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>len)<sp/>{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>charset[]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;abcdefghijklmnopqrstuvwxyz0123456789&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::mt19937<sp/>rng{42};</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::uniform_int_distribution&lt;size_t&gt;<sp/>dist(0,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(charset)<sp/>-<sp/>2);</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>s<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s.reserve(len);</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>len;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s<sp/>+=<sp/>charset[dist(rng)];</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>s;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>cleanupTestDB(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path)<sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::error_code<sp/>ec<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(path,<sp/>ec);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="class_c_r_u_d_fixture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_c_r_u_d_fixture" kindref="compound">CRUDFixture</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>benchmark::Fixture<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_c_r_u_d_fixture_1a91099447a065bfadc5284eb51ec9c4aa" kindref="member">SetUp</ref>(const<sp/>::benchmark::State&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unique<sp/>path<sp/>under<sp/>the<sp/>OS<sp/>temp<sp/>directory<sp/>prevents<sp/>collisions<sp/>between</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>concurrent<sp/>or<sp/>repeated<sp/>benchmark<sp/>runs.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ts<sp/>=<sp/>std::chrono::steady_clock::now().time_since_epoch().count();</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_c_r_u_d_fixture_1adb0639741f2f12d66471d75620f913f9" kindref="member">db_path_</ref><sp/>=<sp/>(std::filesystem::temp_directory_path()<sp/>/</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&quot;themis_bench_crud_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(ts))).string();</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cleanupTestDB(<ref refid="class_c_r_u_d_fixture_1adb0639741f2f12d66471d75620f913f9" kindref="member">db_path_</ref>);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config" kindref="compound">themis::RocksDBWrapper::Config</ref><sp/>config;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1aac7b570e259673885921721d3e43aef4" kindref="member">db_path</ref><sp/>=<sp/><ref refid="class_c_r_u_d_fixture_1adb0639741f2f12d66471d75620f913f9" kindref="member">db_path_</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ad598c4a96b419c948d13927bc647b51a" kindref="member">compression_default</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;lz4&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1ab142b9b8ebb7fdfdff90750d5fb8ae74" kindref="member">compression_bottommost</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;zstd&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config_1aafc6288f91766d2d39057f0a0e88d3b3" kindref="member">block_cache_size_mb</ref><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_c_r_u_d_fixture_1a759470e429cb57049725386e12e2d1c8" kindref="member">db_</ref><sp/>=<sp/>std::make_unique&lt;themis::RocksDBWrapper&gt;(config);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="class_c_r_u_d_fixture_1a759470e429cb57049725386e12e2d1c8" kindref="member">db_</ref>-&gt;open())<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>open<sp/>RocksDB<sp/>in<sp/>CRUDFixture&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_c_r_u_d_fixture_1ac9381d1efcd798a68129e204cfed6be4" kindref="member">secondary_</ref><sp/>=<sp/>std::make_unique&lt;themis::SecondaryIndexManager&gt;(*<ref refid="class_c_r_u_d_fixture_1a759470e429cb57049725386e12e2d1c8" kindref="member">db_</ref>);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Indizes:<sp/>Regular,<sp/>Range,<sp/>Sparse,<sp/>Geo,<sp/>TTL,<sp/>Fulltext</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_c_r_u_d_fixture_1ac9381d1efcd798a68129e204cfed6be4" kindref="member">secondary_</ref>-&gt;createIndex(</highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_c_r_u_d_fixture_1ac9381d1efcd798a68129e204cfed6be4" kindref="member">secondary_</ref>-&gt;createRangeIndex(</highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_c_r_u_d_fixture_1ac9381d1efcd798a68129e204cfed6be4" kindref="member">secondary_</ref>-&gt;createSparseIndex(</highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;nickname&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_c_r_u_d_fixture_1ac9381d1efcd798a68129e204cfed6be4" kindref="member">secondary_</ref>-&gt;createGeoIndex(</highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;location&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_c_r_u_d_fixture_1ac9381d1efcd798a68129e204cfed6be4" kindref="member">secondary_</ref>-&gt;createTTLIndex(</highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;expires_at&quot;</highlight><highlight class="normal">,<sp/>3600);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_c_r_u_d_fixture_1ac9381d1efcd798a68129e204cfed6be4" kindref="member">secondary_</ref>-&gt;createFulltextIndex(</highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bio&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Warmup:<sp/>100<sp/>Entities</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_base_entity" kindref="compound">themis::BaseEntity</ref><sp/>entity(</highlight><highlight class="stringliteral">&quot;person_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entity.<ref refid="classthemis_1_1_base_entity_1a29981747736031b50833370c3b9b243a" kindref="member">setField</ref>(</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,<sp/>makeRandomString(20));</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entity.<ref refid="classthemis_1_1_base_entity_1a29981747736031b50833370c3b9b243a" kindref="member">setField</ref>(</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(25<sp/>+<sp/>(i<sp/>%<sp/>50)));</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entity.<ref refid="classthemis_1_1_base_entity_1a29981747736031b50833370c3b9b243a" kindref="member">setField</ref>(</highlight><highlight class="stringliteral">&quot;nickname&quot;</highlight><highlight class="normal">,<sp/>i<sp/>%<sp/>3<sp/>==<sp/>0<sp/>?<sp/><ref refid="namespacethemis_1accce58ed831f36f773c788820ecc97f8" kindref="member">themis::Value</ref>{}<sp/>:<sp/><ref refid="namespacethemis_1accce58ed831f36f773c788820ecc97f8" kindref="member">themis::Value</ref>{makeRandomString(8)});</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entity.<ref refid="classthemis_1_1_base_entity_1a29981747736031b50833370c3b9b243a" kindref="member">setField</ref>(</highlight><highlight class="stringliteral">&quot;bio&quot;</highlight><highlight class="normal">,<sp/>makeRandomString(200));</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_c_r_u_d_fixture_1ac9381d1efcd798a68129e204cfed6be4" kindref="member">secondary_</ref>-&gt;put(</highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">,<sp/>entity);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_c_r_u_d_fixture_1a60525e3d833dec321b936ae5b1b83bee" kindref="member">TearDown</ref>(const<sp/>::benchmark::State&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_c_r_u_d_fixture_1ac9381d1efcd798a68129e204cfed6be4" kindref="member">secondary_</ref>.reset();</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_c_r_u_d_fixture_1a759470e429cb57049725386e12e2d1c8" kindref="member">db_</ref>.reset();</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cleanupTestDB(<ref refid="class_c_r_u_d_fixture_1adb0639741f2f12d66471d75620f913f9" kindref="member">db_path_</ref>);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_c_r_u_d_fixture_1adb0639741f2f12d66471d75620f913f9" kindref="member">db_path_</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;themis::RocksDBWrapper&gt;<sp/><ref refid="class_c_r_u_d_fixture_1a759470e429cb57049725386e12e2d1c8" kindref="member">db_</ref>;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;themis::SecondaryIndexManager&gt;<sp/><ref refid="class_c_r_u_d_fixture_1ac9381d1efcd798a68129e204cfed6be4" kindref="member">secondary_</ref>;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---<sp/>Write<sp/>Benchmarks<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><ref refid="bench__crud_8cpp_1aeb801fa1b3e5f480ccac15d284193a61" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_c_r_u_d_fixture" kindref="compound">CRUDFixture</ref>,<sp/>InsertWithAllIndexes)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>counter<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_base_entity" kindref="compound">themis::BaseEntity</ref><sp/>entity(</highlight><highlight class="stringliteral">&quot;person_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(counter++));</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entity.setField(</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,<sp/>makeRandomString(20));</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entity.setField(</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(25<sp/>+<sp/>(counter<sp/>%<sp/>50)));</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entity.setField(</highlight><highlight class="stringliteral">&quot;nickname&quot;</highlight><highlight class="normal">,<sp/>counter<sp/>%<sp/>3<sp/>==<sp/>0<sp/>?<sp/><ref refid="namespacethemis_1accce58ed831f36f773c788820ecc97f8" kindref="member">themis::Value</ref>{}<sp/>:<sp/><ref refid="namespacethemis_1accce58ed831f36f773c788820ecc97f8" kindref="member">themis::Value</ref>{makeRandomString(8)});</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entity.setField(</highlight><highlight class="stringliteral">&quot;bio&quot;</highlight><highlight class="normal">,<sp/>makeRandomString(200));</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>secondary_-&gt;put(</highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">,<sp/>entity);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><ref refid="bench__insert__profiling_8cpp_1adb617256f04413fdc79755238084d578" kindref="member">BENCHMARK_REGISTER_F</ref>(<ref refid="class_c_r_u_d_fixture" kindref="compound">CRUDFixture</ref>,<sp/>InsertWithAllIndexes)</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond)</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseRealTime();</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---<sp/>Read<sp/>Benchmarks<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><ref refid="bench__crud_8cpp_1aeb801fa1b3e5f480ccac15d284193a61" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_c_r_u_d_fixture" kindref="compound">CRUDFixture</ref>,<sp/>LookupBySecondaryIndex)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[status,<sp/>pks]<sp/>=<sp/>secondary_-&gt;scanKeysEqual(</highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test42@example.com&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(pks);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="109"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><ref refid="bench__insert__profiling_8cpp_1adb617256f04413fdc79755238084d578" kindref="member">BENCHMARK_REGISTER_F</ref>(<ref refid="class_c_r_u_d_fixture" kindref="compound">CRUDFixture</ref>,<sp/>LookupBySecondaryIndex)</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond)</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseRealTime();</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---<sp/>Range-Index<sp/>Benchmark<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><ref refid="bench__crud_8cpp_1aeb801fa1b3e5f480ccac15d284193a61" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_c_r_u_d_fixture" kindref="compound">CRUDFixture</ref>,<sp/>RangeScanAge)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[status,<sp/>pks]<sp/>=<sp/>secondary_-&gt;scanKeysRange(</highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">,<sp/>std::optional&lt;std::string&gt;(</highlight><highlight class="stringliteral">&quot;25&quot;</highlight><highlight class="normal">),<sp/>std::optional&lt;std::string&gt;(</highlight><highlight class="stringliteral">&quot;35&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>100,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(pks);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><ref refid="bench__insert__profiling_8cpp_1adb617256f04413fdc79755238084d578" kindref="member">BENCHMARK_REGISTER_F</ref>(<ref refid="class_c_r_u_d_fixture" kindref="compound">CRUDFixture</ref>,<sp/>RangeScanAge)</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond)</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseRealTime();</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---<sp/>Fulltext-Index<sp/>Benchmark<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><ref refid="bench__crud_8cpp_1aeb801fa1b3e5f480ccac15d284193a61" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_c_r_u_d_fixture" kindref="compound">CRUDFixture</ref>,<sp/>FulltextSearch)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[status,<sp/>pks]<sp/>=<sp/>secondary_-&gt;scanFulltext(</highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bio&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;quick<sp/>brown<sp/>fox&quot;</highlight><highlight class="normal">,<sp/>100);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(pks);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><ref refid="bench__insert__profiling_8cpp_1adb617256f04413fdc79755238084d578" kindref="member">BENCHMARK_REGISTER_F</ref>(<ref refid="class_c_r_u_d_fixture" kindref="compound">CRUDFixture</ref>,<sp/>FulltextSearch)</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond)</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseRealTime();</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><ref refid="bench__crud_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kindref="member">BENCHMARK_MAIN</ref>();</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/storage/bench_crud.cpp"/>
+  </compounddef>
+</doxygen>

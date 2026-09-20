@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_a_r_c_cache_1_1_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::cache::ARCCache::Entry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_a_r_c_cache_1_1_entry_1a2207ca3bf35d13cdd0adfa6661e73bb5" prot="public" static="no" mutable="no">
+        <type>K</type>
+        <definition>K themis::cache::ARCCache&lt; K, V &gt;::Entry::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::cache::ARCCache::Entry::key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="301" column="11" bodyfile="include/cache/arc_cache.h" bodystart="301" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_a_r_c_cache_1_1_entry_1ae313dc0cc589c6acb81a3d2348e9dffa" prot="public" static="no" mutable="no">
+        <type>V</type>
+        <definition>V themis::cache::ARCCache&lt; K, V &gt;::Entry::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::cache::ARCCache::Entry::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="302" column="11" bodyfile="include/cache/arc_cache.h" bodystart="302" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/arc_cache.h" line="300" column="5" bodyfile="include/cache/arc_cache.h" bodystart="300" bodyend="303"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_a_r_c_cache_1_1_entry_1a2207ca3bf35d13cdd0adfa6661e73bb5" prot="public" virt="non-virtual"><scope>themis::cache::ARCCache::Entry</scope><name>key</name></member>
+      <member refid="structthemis_1_1cache_1_1_a_r_c_cache_1_1_entry_1ae313dc0cc589c6acb81a3d2348e9dffa" prot="public" virt="non-virtual"><scope>themis::cache::ARCCache::Entry</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

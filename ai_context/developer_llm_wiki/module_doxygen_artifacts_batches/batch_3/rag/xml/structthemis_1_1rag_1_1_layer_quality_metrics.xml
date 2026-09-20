@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_layer_quality_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::LayerQualityMetrics</compoundname>
+    <includes refid="rag__quality__monitor_8h" local="no">rag_quality_monitor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_layer_quality_metrics_1a459ff3fce8b448bac3898cfaef600521" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::rag::LayerQualityMetrics::ann_recall_at_10</definition>
+        <argsstring></argsstring>
+        <name>ann_recall_at_10</name>
+        <qualifiedname>themis::rag::LayerQualityMetrics::ann_recall_at_10</qualifiedname>
+        <initializer>{0.0f}</initializer>
+        <briefdescription>
+<para>ANN Recall@10 [0.0, 1.0]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_quality_monitor.h" line="41" column="11" bodyfile="include/rag/rag_quality_monitor.h" bodystart="41" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_layer_quality_metrics_1a9ceda983d392ab60ca5587f78f3cf161" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::rag::LayerQualityMetrics::tensor_routing_accuracy</definition>
+        <argsstring></argsstring>
+        <name>tensor_routing_accuracy</name>
+        <qualifiedname>themis::rag::LayerQualityMetrics::tensor_routing_accuracy</qualifiedname>
+        <initializer>{0.0f}</initializer>
+        <briefdescription>
+<para>Tensor routing accuracy [0.0, 1.0]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_quality_monitor.h" line="44" column="11" bodyfile="include/rag/rag_quality_monitor.h" bodystart="44" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_layer_quality_metrics_1afd0bbe0e1d8ab1e12b7eba0f1d397241" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::rag::LayerQualityMetrics::graph_provenance_precision</definition>
+        <argsstring></argsstring>
+        <name>graph_provenance_precision</name>
+        <qualifiedname>themis::rag::LayerQualityMetrics::graph_provenance_precision</qualifiedname>
+        <initializer>{0.0f}</initializer>
+        <briefdescription>
+<para>Graph provenance precision [0.0, 1.0]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_quality_monitor.h" line="47" column="11" bodyfile="include/rag/rag_quality_monitor.h" bodystart="47" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_layer_quality_metrics_1a23f59c3639382d9568c0c8ebe4766a80" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::rag::LayerQualityMetrics::llm_rouge_l</definition>
+        <argsstring></argsstring>
+        <name>llm_rouge_l</name>
+        <qualifiedname>themis::rag::LayerQualityMetrics::llm_rouge_l</qualifiedname>
+        <initializer>{0.0f}</initializer>
+        <briefdescription>
+<para>LLM ROUGE-L score [0.0, 1.0]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_quality_monitor.h" line="50" column="11" bodyfile="include/rag/rag_quality_monitor.h" bodystart="50" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_layer_quality_metrics_1a67737512c8e10a421e659c2971e2c40e" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::rag::LayerQualityMetrics::query_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>query_latency_ms</name>
+        <qualifiedname>themis::rag::LayerQualityMetrics::query_latency_ms</qualifiedname>
+        <initializer>{0.0f}</initializer>
+        <briefdescription>
+<para>End-to-end query latency in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_quality_monitor.h" line="53" column="11" bodyfile="include/rag/rag_quality_monitor.h" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_layer_quality_metrics_1a029922b525bd82dfada420165e62a1e0" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::rag::LayerQualityMetrics::guardrail_deny_rate</definition>
+        <argsstring></argsstring>
+        <name>guardrail_deny_rate</name>
+        <qualifiedname>themis::rag::LayerQualityMetrics::guardrail_deny_rate</qualifiedname>
+        <initializer>{0.0f}</initializer>
+        <briefdescription>
+<para>Fraction of queries denied by the retrieval guardrail [0.0, 1.0]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_quality_monitor.h" line="56" column="11" bodyfile="include/rag/rag_quality_monitor.h" bodystart="56" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One sample of per-layer RAG quality metrics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/rag_quality_monitor.h" line="39" column="1" bodyfile="include/rag/rag_quality_monitor.h" bodystart="39" bodyend="57"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_layer_quality_metrics_1a459ff3fce8b448bac3898cfaef600521" prot="public" virt="non-virtual"><scope>themis::rag::LayerQualityMetrics</scope><name>ann_recall_at_10</name></member>
+      <member refid="structthemis_1_1rag_1_1_layer_quality_metrics_1afd0bbe0e1d8ab1e12b7eba0f1d397241" prot="public" virt="non-virtual"><scope>themis::rag::LayerQualityMetrics</scope><name>graph_provenance_precision</name></member>
+      <member refid="structthemis_1_1rag_1_1_layer_quality_metrics_1a029922b525bd82dfada420165e62a1e0" prot="public" virt="non-virtual"><scope>themis::rag::LayerQualityMetrics</scope><name>guardrail_deny_rate</name></member>
+      <member refid="structthemis_1_1rag_1_1_layer_quality_metrics_1a23f59c3639382d9568c0c8ebe4766a80" prot="public" virt="non-virtual"><scope>themis::rag::LayerQualityMetrics</scope><name>llm_rouge_l</name></member>
+      <member refid="structthemis_1_1rag_1_1_layer_quality_metrics_1a67737512c8e10a421e659c2971e2c40e" prot="public" virt="non-virtual"><scope>themis::rag::LayerQualityMetrics</scope><name>query_latency_ms</name></member>
+      <member refid="structthemis_1_1rag_1_1_layer_quality_metrics_1a9ceda983d392ab60ca5587f78f3cf161" prot="public" virt="non-virtual"><scope>themis::rag::LayerQualityMetrics</scope><name>tensor_routing_accuracy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

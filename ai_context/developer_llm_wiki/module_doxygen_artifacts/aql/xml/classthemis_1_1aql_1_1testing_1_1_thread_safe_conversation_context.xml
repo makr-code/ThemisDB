@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1testing_1_1_thread_safe_conversation_context" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::testing::ThreadSafeConversationContext</compoundname>
+    <innerclass refid="structthemis_1_1aql_1_1testing_1_1_thread_safe_conversation_context_1_1_turn" prot="public">themis::aql::testing::ThreadSafeConversationContext::Turn</innerclass>
+    <innerclass refid="structthemis_1_1aql_1_1testing_1_1_thread_safe_conversation_context_1_1_add_result" prot="public">themis::aql::testing::ThreadSafeConversationContext::AddResult</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1testing_1_1_thread_safe_conversation_context_1a09c3fb536be380a5ae97a53d3d77df88" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::aql::testing::ThreadSafeConversationContext::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::aql::testing::ThreadSafeConversationContext::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_concurrency.cpp" line="85" column="24" bodyfile="tests/aql/test_aql_conversation_concurrency.cpp" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1testing_1_1_thread_safe_conversation_context_1a80f26fae4e8c59c3fcb8777bae045fd8" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1aql_1_1testing_1_1_thread_safe_conversation_context_1_1_turn" kindref="compound">Turn</ref> &gt;</type>
+        <definition>std::vector&lt;Turn&gt; themis::aql::testing::ThreadSafeConversationContext::turns_</definition>
+        <argsstring></argsstring>
+        <name>turns_</name>
+        <qualifiedname>themis::aql::testing::ThreadSafeConversationContext::turns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_concurrency.cpp" line="86" column="18" bodyfile="tests/aql/test_aql_conversation_concurrency.cpp" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1testing_1_1_thread_safe_conversation_context_1a4c04b505879e6c421929f5f5a1b44c97" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::aql::testing::ThreadSafeConversationContext::max_tokens_</definition>
+        <argsstring></argsstring>
+        <name>max_tokens_</name>
+        <qualifiedname>themis::aql::testing::ThreadSafeConversationContext::max_tokens_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_concurrency.cpp" line="87" column="24" bodyfile="tests/aql/test_aql_conversation_concurrency.cpp" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1testing_1_1_thread_safe_conversation_context_1a097e4f12c03f94dfde8f1b6b55c6bd2b" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::aql::testing::ThreadSafeConversationContext::current_tokens_</definition>
+        <argsstring></argsstring>
+        <name>current_tokens_</name>
+        <qualifiedname>themis::aql::testing::ThreadSafeConversationContext::current_tokens_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_concurrency.cpp" line="88" column="24" bodyfile="tests/aql/test_aql_conversation_concurrency.cpp" bodystart="88" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_thread_safe_conversation_context_1a5dbb234405ce753b88c66300b6cd70e9" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::ThreadSafeConversationContext::ThreadSafeConversationContext</definition>
+        <argsstring>(uint32_t max_tokens=4096)</argsstring>
+        <name>ThreadSafeConversationContext</name>
+        <qualifiedname>themis::aql::testing::ThreadSafeConversationContext::ThreadSafeConversationContext</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>max_tokens</declname>
+          <defval>4096</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_concurrency.cpp" line="50" column="14" bodyfile="tests/aql/test_aql_conversation_concurrency.cpp" bodystart="50" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_thread_safe_conversation_context_1a3f7b629475027aaac144e28edd98f5d8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1aql_1_1testing_1_1_thread_safe_conversation_context_1_1_add_result" kindref="compound">AddResult</ref></type>
+        <definition>AddResult themis::aql::testing::ThreadSafeConversationContext::addTurn</definition>
+        <argsstring>(const std::string &amp;nl, const std::string &amp;aql)</argsstring>
+        <name>addTurn</name>
+        <qualifiedname>themis::aql::testing::ThreadSafeConversationContext::addTurn</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>nl</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_concurrency.cpp" line="55" column="15" bodyfile="tests/aql/test_aql_conversation_concurrency.cpp" bodystart="55" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_thread_safe_conversation_context_1a580eef1da64f747e3702ec0d0973e950" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::aql::testing::ThreadSafeConversationContext::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::aql::testing::ThreadSafeConversationContext::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_concurrency.cpp" line="72" column="17" bodyfile="tests/aql/test_aql_conversation_concurrency.cpp" bodystart="72" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_thread_safe_conversation_context_1a105eb7c37d29b34769402fad1729a5a6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::aql::testing::ThreadSafeConversationContext::currentTokens</definition>
+        <argsstring>() const</argsstring>
+        <name>currentTokens</name>
+        <qualifiedname>themis::aql::testing::ThreadSafeConversationContext::currentTokens</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_concurrency.cpp" line="77" column="14" bodyfile="tests/aql/test_aql_conversation_concurrency.cpp" bodystart="77" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_thread_safe_conversation_context_1a50d26cd9a3ad6719f8fbe0f1ab755f75" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::aql::testing::ThreadSafeConversationContext::maxTokens</definition>
+        <argsstring>() const</argsstring>
+        <name>maxTokens</name>
+        <qualifiedname>themis::aql::testing::ThreadSafeConversationContext::maxTokens</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_concurrency.cpp" line="82" column="14" bodyfile="tests/aql/test_aql_conversation_concurrency.cpp" bodystart="82" bodyend="82"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread-safe token-bounded conversation history. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/aql/test_aql_conversation_concurrency.cpp" line="42" column="1" bodyfile="tests/aql/test_aql_conversation_concurrency.cpp" bodystart="42" bodyend="89"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_thread_safe_conversation_context_1a3f7b629475027aaac144e28edd98f5d8" prot="public" virt="non-virtual"><scope>themis::aql::testing::ThreadSafeConversationContext</scope><name>addTurn</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_thread_safe_conversation_context_1a097e4f12c03f94dfde8f1b6b55c6bd2b" prot="private" virt="non-virtual"><scope>themis::aql::testing::ThreadSafeConversationContext</scope><name>current_tokens_</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_thread_safe_conversation_context_1a105eb7c37d29b34769402fad1729a5a6" prot="public" virt="non-virtual"><scope>themis::aql::testing::ThreadSafeConversationContext</scope><name>currentTokens</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_thread_safe_conversation_context_1a4c04b505879e6c421929f5f5a1b44c97" prot="private" virt="non-virtual"><scope>themis::aql::testing::ThreadSafeConversationContext</scope><name>max_tokens_</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_thread_safe_conversation_context_1a50d26cd9a3ad6719f8fbe0f1ab755f75" prot="public" virt="non-virtual"><scope>themis::aql::testing::ThreadSafeConversationContext</scope><name>maxTokens</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_thread_safe_conversation_context_1a09c3fb536be380a5ae97a53d3d77df88" prot="private" virt="non-virtual"><scope>themis::aql::testing::ThreadSafeConversationContext</scope><name>mu_</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_thread_safe_conversation_context_1a580eef1da64f747e3702ec0d0973e950" prot="public" virt="non-virtual"><scope>themis::aql::testing::ThreadSafeConversationContext</scope><name>size</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_thread_safe_conversation_context_1a5dbb234405ce753b88c66300b6cd70e9" prot="public" virt="non-virtual"><scope>themis::aql::testing::ThreadSafeConversationContext</scope><name>ThreadSafeConversationContext</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_thread_safe_conversation_context_1a80f26fae4e8c59c3fcb8777bae045fd8" prot="private" virt="non-virtual"><scope>themis::aql::testing::ThreadSafeConversationContext</scope><name>turns_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

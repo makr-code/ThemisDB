@@ -1,0 +1,294 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1imggen_1_1_s_d_stub_generator" kind="class" language="C++" prot="public">
+    <compoundname>themis::imggen::SDStubGenerator</compoundname>
+    <basecompoundref refid="classthemis_1_1imggen_1_1_i_s_d_generator" prot="public" virt="non-virtual">themis::imggen::ISDGenerator</basecompoundref>
+    <includes refid="sd__generator_8h" local="no">sd_generator.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1imggen_1_1_s_d_stub_generator_1ae552eb3b7571786ad3efa51e21aded55" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::imggen::SDStubGenerator::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::imggen::SDStubGenerator::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="150" column="17" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1imggen_1_1_s_d_stub_generator_1a9de042dca91b7601574604a6aecd012a" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::imggen::SDStubGenerator::model_id_</definition>
+        <argsstring></argsstring>
+        <name>model_id_</name>
+        <qualifiedname>themis::imggen::SDStubGenerator::model_id_</qualifiedname>
+        <initializer>= &quot;stub&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="151" column="17" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_stub_generator_1adbce9bc09b21adb5e70958a1f4147233" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::imggen::SDStubGenerator::initialize</definition>
+        <argsstring>(const SDConfig &amp;cfg) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::imggen::SDStubGenerator::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1imggen_1_1_i_s_d_generator_1ad0cd30841df2b1d5fd9b68cce018769a">initialize</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1imggen_1_1_s_d_config" kindref="compound">SDConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="112" column="10" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="112" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_stub_generator_1a83234f39ac4f12f5aebf64052929efac" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::imggen::SDStubGenerator::isInitialized</definition>
+        <argsstring>() const override</argsstring>
+        <name>isInitialized</name>
+        <qualifiedname>themis::imggen::SDStubGenerator::isInitialized</qualifiedname>
+        <reimplements refid="classthemis_1_1imggen_1_1_i_s_d_generator_1a9defb19fbe5f596d05a743283893b552">isInitialized</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="117" column="10" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="117" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_stub_generator_1a0aaf5642d107ef6bd413a51fb36eef40" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::imggen::SDStubGenerator::generate</definition>
+        <argsstring>(const std::string &amp;, const SDGenerationConfig &amp;cfg, int &amp;out_w, int &amp;out_h, uint64_t &amp;out_seed) override</argsstring>
+        <name>generate</name>
+        <qualifiedname>themis::imggen::SDStubGenerator::generate</qualifiedname>
+        <reimplements refid="classthemis_1_1imggen_1_1_i_s_d_generator_1a4847d318384466186d1585c2bf00c741">generate</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const SDGenerationConfig &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>out_width</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>out_height</declname>
+        </param>
+        <param>
+          <type>uint64_t &amp;</type>
+          <declname>out_seed</declname>
+        </param>
+        <briefdescription>
+<para>Generate raw RGB pixel data for a given prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sanitized text prompt. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Per-request generation config. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out_width</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Actual width of the generated image. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out_height</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Actual height of the generated image. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out_seed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Seed that was actually used (important for -1 random seeds). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Raw RGB byte buffer (width * height * 3 bytes). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="119" column="17" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="119" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_stub_generator_1a4415ec42cae3288084409004e5125377" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::imggen::SDStubGenerator::generateImg2Img</definition>
+        <argsstring>(const std::string &amp;prompt, const Img2ImgConfig &amp;cfg, int &amp;out_w, int &amp;out_h, uint64_t &amp;out_seed) override</argsstring>
+        <name>generateImg2Img</name>
+        <qualifiedname>themis::imggen::SDStubGenerator::generateImg2Img</qualifiedname>
+        <reimplements refid="classthemis_1_1imggen_1_1_i_s_d_generator_1ac1e9e28534394283082f52bce24469c8">generateImg2Img</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const Img2ImgConfig &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>out_width</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>out_height</declname>
+        </param>
+        <param>
+          <type>uint64_t &amp;</type>
+          <declname>out_seed</declname>
+        </param>
+        <briefdescription>
+<para>Img2Img: generate raw RGB pixel data conditioned on an input image. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Default implementation ignores the input image and delegates to <ref refid="classthemis_1_1imggen_1_1_s_d_stub_generator_1a0aaf5642d107ef6bd413a51fb36eef40" kindref="member">generate()</ref>. SDCppGenerator will override this with real denoising inference.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sanitized text prompt. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Img2Img config (includes input_image_rgb, strength, mask). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out_width</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Actual width of the generated image. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out_height</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Actual height of the generated image. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out_seed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Seed actually used. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Raw RGB byte buffer (width * height * 3 bytes). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="130" column="17" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="130" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1imggen_1_1_s_d_stub_generator_1abba4013e5989ad2df58da553956560a6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::imggen::SDStubGenerator::getModelId</definition>
+        <argsstring>() const override</argsstring>
+        <name>getModelId</name>
+        <qualifiedname>themis::imggen::SDStubGenerator::getModelId</qualifiedname>
+        <reimplements refid="classthemis_1_1imggen_1_1_i_s_d_generator_1a35a4c3fe7186b5c40f0b058c2421f60f">getModelId</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/stable_diffusion/sd_generator.h" line="147" column="17" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="147" bodyend="147"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stub generator that returns a solid-black 1×1 PNG without a model. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Used in CI builds that do not have a model file. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::imggen::ISDGenerator</label>
+        <link refid="classthemis_1_1imggen_1_1_i_s_d_generator"/>
+      </node>
+      <node id="1">
+        <label>themis::imggen::SDStubGenerator</label>
+        <link refid="classthemis_1_1imggen_1_1_s_d_stub_generator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::imggen::ISDGenerator</label>
+        <link refid="classthemis_1_1imggen_1_1_i_s_d_generator"/>
+      </node>
+      <node id="1">
+        <label>themis::imggen::SDStubGenerator</label>
+        <link refid="classthemis_1_1imggen_1_1_s_d_stub_generator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/stable_diffusion/sd_generator.h" line="110" column="1" bodyfile="include/stable_diffusion/sd_generator.h" bodystart="110" bodyend="152"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1imggen_1_1_i_s_d_generator_1a7482335dd5fecd46ccbb84c42654a01e" prot="public" virt="virtual"><scope>themis::imggen::SDStubGenerator</scope><name>applyLoRA</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_stub_generator_1a0aaf5642d107ef6bd413a51fb36eef40" prot="public" virt="virtual"><scope>themis::imggen::SDStubGenerator</scope><name>generate</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_stub_generator_1a4415ec42cae3288084409004e5125377" prot="public" virt="virtual"><scope>themis::imggen::SDStubGenerator</scope><name>generateImg2Img</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_stub_generator_1abba4013e5989ad2df58da553956560a6" prot="public" virt="virtual"><scope>themis::imggen::SDStubGenerator</scope><name>getModelId</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_stub_generator_1adbce9bc09b21adb5e70958a1f4147233" prot="public" virt="virtual"><scope>themis::imggen::SDStubGenerator</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_stub_generator_1ae552eb3b7571786ad3efa51e21aded55" prot="private" virt="non-virtual"><scope>themis::imggen::SDStubGenerator</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_stub_generator_1a83234f39ac4f12f5aebf64052929efac" prot="public" virt="virtual"><scope>themis::imggen::SDStubGenerator</scope><name>isInitialized</name></member>
+      <member refid="classthemis_1_1imggen_1_1_s_d_stub_generator_1a9de042dca91b7601574604a6aecd012a" prot="private" virt="non-virtual"><scope>themis::imggen::SDStubGenerator</scope><name>model_id_</name></member>
+      <member refid="classthemis_1_1imggen_1_1_i_s_d_generator_1a1cac8c129aba6caccfa55ea79695d8f0" prot="public" virt="virtual"><scope>themis::imggen::SDStubGenerator</scope><name>~ISDGenerator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

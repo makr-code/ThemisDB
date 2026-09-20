@@ -1,0 +1,620 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::PagedAdamWOptimizer</compoundname>
+    <includes refid="paged__optimizer_8h" local="no">paged_optimizer.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1a7b1e9fb87639898ba8bb7e1a5c54bda0" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::PagedAdamWOptimizer::learning_rate_</definition>
+        <argsstring></argsstring>
+        <name>learning_rate_</name>
+        <qualifiedname>themis::llm::lora::PagedAdamWOptimizer::learning_rate_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="151" column="11" bodyfile="include/llm/lora_framework/paged_optimizer.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1aedb5d47ffa8add9c223e20bcf8dd044f" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::PagedAdamWOptimizer::beta1_</definition>
+        <argsstring></argsstring>
+        <name>beta1_</name>
+        <qualifiedname>themis::llm::lora::PagedAdamWOptimizer::beta1_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="152" column="11" bodyfile="include/llm/lora_framework/paged_optimizer.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1a6e91bd8de5ffe44e04a7528705e07ad3" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::PagedAdamWOptimizer::beta2_</definition>
+        <argsstring></argsstring>
+        <name>beta2_</name>
+        <qualifiedname>themis::llm::lora::PagedAdamWOptimizer::beta2_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="153" column="11" bodyfile="include/llm/lora_framework/paged_optimizer.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1a56d004030f153e1ae06d928aa505c282" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::PagedAdamWOptimizer::epsilon_</definition>
+        <argsstring></argsstring>
+        <name>epsilon_</name>
+        <qualifiedname>themis::llm::lora::PagedAdamWOptimizer::epsilon_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="154" column="11" bodyfile="include/llm/lora_framework/paged_optimizer.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1a88754d0d935227038a7fe1d9f0d3d59a" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::PagedAdamWOptimizer::weight_decay_</definition>
+        <argsstring></argsstring>
+        <name>weight_decay_</name>
+        <qualifiedname>themis::llm::lora::PagedAdamWOptimizer::weight_decay_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="155" column="11" bodyfile="include/llm/lora_framework/paged_optimizer.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1a57b50656d1e48ebb12ed771fdc3209ca" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::PagedAdamWOptimizer::step_count_</definition>
+        <argsstring></argsstring>
+        <name>step_count_</name>
+        <qualifiedname>themis::llm::lora::PagedAdamWOptimizer::step_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="156" column="9" bodyfile="include/llm/lora_framework/paged_optimizer.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1a7dcc864d7cd0d0fd2dd6da0bca05e699" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_config" kindref="compound">PagedOptimizerConfig</ref></type>
+        <definition>PagedOptimizerConfig themis::llm::lora::PagedAdamWOptimizer::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::lora::PagedAdamWOptimizer::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="159" column="26" bodyfile="include/llm/lora_framework/paged_optimizer.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1a74e14c9b2326582e12b4412ffdc46b07" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager" kindref="compound">PagedMemoryManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;PagedMemoryManager&gt; themis::llm::lora::PagedAdamWOptimizer::memory_manager_</definition>
+        <argsstring></argsstring>
+        <name>memory_manager_</name>
+        <qualifiedname>themis::llm::lora::PagedAdamWOptimizer::memory_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="162" column="21" bodyfile="include/llm/lora_framework/paged_optimizer.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1a084e48d8cda4a13529f4378fcd8592ac" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> * &gt;</type>
+        <definition>std::vector&lt;Tensor*&gt; themis::llm::lora::PagedAdamWOptimizer::parameters_</definition>
+        <argsstring></argsstring>
+        <name>parameters_</name>
+        <qualifiedname>themis::llm::lora::PagedAdamWOptimizer::parameters_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="165" column="17" bodyfile="include/llm/lora_framework/paged_optimizer.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1adecd073515d08d805ea9537741f3627b" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> *, <ref refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_state" kindref="compound">PagedOptimizerState</ref> &gt;</type>
+        <definition>std::unordered_map&lt;Tensor*, PagedOptimizerState&gt; themis::llm::lora::PagedAdamWOptimizer::states_</definition>
+        <argsstring></argsstring>
+        <name>states_</name>
+        <qualifiedname>themis::llm::lora::PagedAdamWOptimizer::states_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="168" column="24" bodyfile="include/llm/lora_framework/paged_optimizer.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1ae74990d9a0932d16ab471f04916703eb" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_paging_metrics" kindref="compound">PagingMetrics</ref></type>
+        <definition>PagingMetrics themis::llm::lora::PagedAdamWOptimizer::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::llm::lora::PagedAdamWOptimizer::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="171" column="19" bodyfile="include/llm/lora_framework/paged_optimizer.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1a10a6d539df086bdfae6e3804a84f551b" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::llm::lora::PagedAdamWOptimizer::compute_stream_</definition>
+        <argsstring></argsstring>
+        <name>compute_stream_</name>
+        <qualifiedname>themis::llm::lora::PagedAdamWOptimizer::compute_stream_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="174" column="10" bodyfile="include/llm/lora_framework/paged_optimizer.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1affce3834e05e6eea5a643f21748c09e7" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::PagedAdamWOptimizer::PagedAdamWOptimizer</definition>
+        <argsstring>(float learning_rate=1e-3f, float beta1=0.9f, float beta2=0.999f, float weight_decay=0.01f, float epsilon=1e-8f, const PagedOptimizerConfig &amp;config=PagedOptimizerConfig())</argsstring>
+        <name>PagedAdamWOptimizer</name>
+        <qualifiedname>themis::llm::lora::PagedAdamWOptimizer::PagedAdamWOptimizer</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>learning_rate</declname>
+          <defval>1e-3f</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>beta1</declname>
+          <defval>0.9f</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>beta2</declname>
+          <defval>0.999f</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>weight_decay</declname>
+          <defval>0.01f</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>epsilon</declname>
+          <defval>1e-8f</defval>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_config" kindref="compound">PagedOptimizerConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_config" kindref="compound">PagedOptimizerConfig</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="97" column="14" bodyfile="src/llm/lora_framework/paged_optimizer.cpp" bodystart="23" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1ae15f915fe28644e1cfaff05ae493a869" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::PagedAdamWOptimizer::~PagedAdamWOptimizer</definition>
+        <argsstring>()=default</argsstring>
+        <name>~PagedAdamWOptimizer</name>
+        <qualifiedname>themis::llm::lora::PagedAdamWOptimizer::~PagedAdamWOptimizer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="106" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1a0731903b8bcb46c70b7eb72daacd68d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::PagedAdamWOptimizer::add_parameters</definition>
+        <argsstring>(const std::vector&lt; Tensor * &gt; &amp;params)</argsstring>
+        <name>add_parameters</name>
+        <qualifiedname>themis::llm::lora::PagedAdamWOptimizer::add_parameters</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> * &gt; &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Add parameters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), size(), allocate(), <ref refid="structthemis_1_1llm_1_1lora_1_1_device_1ae024491592a4bfea3823e46dd1186544" kindref="member">Device::cpu()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="112" column="10" bodyfile="src/llm/lora_framework/paged_optimizer.cpp" bodystart="48" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1a72a83d9b9cbaf342d8366ef2f50b3e3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::PagedAdamWOptimizer::step</definition>
+        <argsstring>()</argsstring>
+        <name>step</name>
+        <qualifiedname>themis::llm::lora::PagedAdamWOptimizer::step</qualifiedname>
+        <briefdescription>
+<para>Step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::chrono::high_resolution_clock::now(), find(), end(), <ref refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1a379aa946e42e09645b3d95971b04990e" kindref="member">is_cuda_available()</ref>, ensureStateOnGPU(), updateParameterGPU(), updateParameterCPU(), evictLRU(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="117" column="10" bodyfile="src/llm/lora_framework/paged_optimizer.cpp" bodystart="190" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1ad14a6148096a2d375211eab77da26253" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::PagedAdamWOptimizer::zero_grad</definition>
+        <argsstring>()</argsstring>
+        <name>zero_grad</name>
+        <qualifiedname>themis::llm::lora::PagedAdamWOptimizer::zero_grad</qualifiedname>
+        <briefdescription>
+<para>Zero grad. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: zero(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="122" column="10" bodyfile="src/llm/lora_framework/paged_optimizer.cpp" bodystart="269" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1a0791cf4c329b8af5a555446abae2afe2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::lora::PagedAdamWOptimizer::learning_rate</definition>
+        <argsstring>() const</argsstring>
+        <name>learning_rate</name>
+        <qualifiedname>themis::llm::lora::PagedAdamWOptimizer::learning_rate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="124" column="11" bodyfile="include/llm/lora_framework/paged_optimizer.h" bodystart="124" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1ae171c977b755b3aedd31df276c8a611d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::PagedAdamWOptimizer::set_learning_rate</definition>
+        <argsstring>(float lr)</argsstring>
+        <name>set_learning_rate</name>
+        <qualifiedname>themis::llm::lora::PagedAdamWOptimizer::set_learning_rate</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>lr</declname>
+        </param>
+        <briefdescription>
+<para>Set learning rate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements set_learning_rate without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="131" column="10" bodyfile="include/llm/lora_framework/paged_optimizer.h" bodystart="131" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1a2dacd82407390da1dbb59a1a4bda3c1b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::lora::PagedAdamWOptimizer::step_count</definition>
+        <argsstring>() const</argsstring>
+        <name>step_count</name>
+        <qualifiedname>themis::llm::lora::PagedAdamWOptimizer::step_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="133" column="9" bodyfile="include/llm/lora_framework/paged_optimizer.h" bodystart="133" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1ad50ac1abab64e9dadd31f84b1ac7cedc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_paging_metrics" kindref="compound">PagingMetrics</ref> &amp;</type>
+        <definition>const PagingMetrics &amp; themis::llm::lora::PagedAdamWOptimizer::get_metrics</definition>
+        <argsstring>() const</argsstring>
+        <name>get_metrics</name>
+        <qualifiedname>themis::llm::lora::PagedAdamWOptimizer::get_metrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="135" column="25" bodyfile="include/llm/lora_framework/paged_optimizer.h" bodystart="135" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1aeb28ea92c7ed4af46971a2ce62ea732a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::PagedAdamWOptimizer::reset_metrics</definition>
+        <argsstring>()</argsstring>
+        <name>reset_metrics</name>
+        <qualifiedname>themis::llm::lora::PagedAdamWOptimizer::reset_metrics</qualifiedname>
+        <briefdescription>
+<para>Reset metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="141" column="10" bodyfile="include/llm/lora_framework/paged_optimizer.h" bodystart="141" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1afe8a3b7a8d1adcb07d5ce59a1e50fb7e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::PagedAdamWOptimizer::is_paging_enabled</definition>
+        <argsstring>() const</argsstring>
+        <name>is_paging_enabled</name>
+        <qualifiedname>themis::llm::lora::PagedAdamWOptimizer::is_paging_enabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="143" column="10" bodyfile="include/llm/lora_framework/paged_optimizer.h" bodystart="143" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1a379aa946e42e09645b3d95971b04990e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::PagedAdamWOptimizer::is_cuda_available</definition>
+        <argsstring>() const</argsstring>
+        <name>is_cuda_available</name>
+        <qualifiedname>themis::llm::lora::PagedAdamWOptimizer::is_cuda_available</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="145" column="10" bodyfile="include/llm/lora_framework/paged_optimizer.h" bodystart="145" bodyend="147"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1acba610adc0cc0976c21b3995b6ad4694" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::PagedAdamWOptimizer::ensureStateOnGPU</definition>
+        <argsstring>(PagedOptimizerState &amp;state)</argsstring>
+        <name>ensureStateOnGPU</name>
+        <qualifiedname>themis::llm::lora::PagedAdamWOptimizer::ensureStateOnGPU</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_state" kindref="compound">PagedOptimizerState</ref> &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Ensure State On GPU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: pageIn(), isOnGPU(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="181" column="10" bodyfile="src/llm/lora_framework/paged_optimizer.cpp" bodystart="80" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1aa0ea33ac22565c66e7f4d6712a92144d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::PagedAdamWOptimizer::updateParameterCPU</definition>
+        <argsstring>(Tensor *param, PagedOptimizerState &amp;state)</argsstring>
+        <name>updateParameterCPU</name>
+        <qualifiedname>themis::llm::lora::PagedAdamWOptimizer::updateParameterCPU</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> *</type>
+          <declname>param</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_state" kindref="compound">PagedOptimizerState</ref> &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Update Parameter CPU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: data(), empty(), size(), resize(), std::pow(), std::sqrt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="188" column="10" bodyfile="src/llm/lora_framework/paged_optimizer.cpp" bodystart="116" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1aea5bff9c450187606363b281e3790c6c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::PagedAdamWOptimizer::updateParameterGPU</definition>
+        <argsstring>(Tensor *param, PagedOptimizerState &amp;state)</argsstring>
+        <name>updateParameterGPU</name>
+        <qualifiedname>themis::llm::lora::PagedAdamWOptimizer::updateParameterGPU</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> *</type>
+          <declname>param</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1lora_1_1_paged_optimizer_state" kindref="compound">PagedOptimizerState</ref> &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Update Parameter GPU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: updateParameterCPU(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_optimizer.h" line="195" column="10" bodyfile="src/llm/lora_framework/paged_optimizer.cpp" bodystart="180" bodyend="184"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/paged_optimizer.h" line="95" column="1" bodyfile="include/llm/lora_framework/paged_optimizer.h" bodystart="95" bodyend="196"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1a0731903b8bcb46c70b7eb72daacd68d2" prot="public" virt="non-virtual"><scope>themis::llm::lora::PagedAdamWOptimizer</scope><name>add_parameters</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1aedb5d47ffa8add9c223e20bcf8dd044f" prot="private" virt="non-virtual"><scope>themis::llm::lora::PagedAdamWOptimizer</scope><name>beta1_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1a6e91bd8de5ffe44e04a7528705e07ad3" prot="private" virt="non-virtual"><scope>themis::llm::lora::PagedAdamWOptimizer</scope><name>beta2_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1a10a6d539df086bdfae6e3804a84f551b" prot="private" virt="non-virtual"><scope>themis::llm::lora::PagedAdamWOptimizer</scope><name>compute_stream_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1a7dcc864d7cd0d0fd2dd6da0bca05e699" prot="private" virt="non-virtual"><scope>themis::llm::lora::PagedAdamWOptimizer</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1acba610adc0cc0976c21b3995b6ad4694" prot="private" virt="non-virtual"><scope>themis::llm::lora::PagedAdamWOptimizer</scope><name>ensureStateOnGPU</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1a56d004030f153e1ae06d928aa505c282" prot="private" virt="non-virtual"><scope>themis::llm::lora::PagedAdamWOptimizer</scope><name>epsilon_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1ad50ac1abab64e9dadd31f84b1ac7cedc" prot="public" virt="non-virtual"><scope>themis::llm::lora::PagedAdamWOptimizer</scope><name>get_metrics</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1a379aa946e42e09645b3d95971b04990e" prot="public" virt="non-virtual"><scope>themis::llm::lora::PagedAdamWOptimizer</scope><name>is_cuda_available</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1afe8a3b7a8d1adcb07d5ce59a1e50fb7e" prot="public" virt="non-virtual"><scope>themis::llm::lora::PagedAdamWOptimizer</scope><name>is_paging_enabled</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1a0791cf4c329b8af5a555446abae2afe2" prot="public" virt="non-virtual"><scope>themis::llm::lora::PagedAdamWOptimizer</scope><name>learning_rate</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1a7b1e9fb87639898ba8bb7e1a5c54bda0" prot="private" virt="non-virtual"><scope>themis::llm::lora::PagedAdamWOptimizer</scope><name>learning_rate_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1a74e14c9b2326582e12b4412ffdc46b07" prot="private" virt="non-virtual"><scope>themis::llm::lora::PagedAdamWOptimizer</scope><name>memory_manager_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1ae74990d9a0932d16ab471f04916703eb" prot="private" virt="non-virtual"><scope>themis::llm::lora::PagedAdamWOptimizer</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1affce3834e05e6eea5a643f21748c09e7" prot="public" virt="non-virtual"><scope>themis::llm::lora::PagedAdamWOptimizer</scope><name>PagedAdamWOptimizer</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1a084e48d8cda4a13529f4378fcd8592ac" prot="private" virt="non-virtual"><scope>themis::llm::lora::PagedAdamWOptimizer</scope><name>parameters_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1aeb28ea92c7ed4af46971a2ce62ea732a" prot="public" virt="non-virtual"><scope>themis::llm::lora::PagedAdamWOptimizer</scope><name>reset_metrics</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1ae171c977b755b3aedd31df276c8a611d" prot="public" virt="non-virtual"><scope>themis::llm::lora::PagedAdamWOptimizer</scope><name>set_learning_rate</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1adecd073515d08d805ea9537741f3627b" prot="private" virt="non-virtual"><scope>themis::llm::lora::PagedAdamWOptimizer</scope><name>states_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1a72a83d9b9cbaf342d8366ef2f50b3e3c" prot="public" virt="non-virtual"><scope>themis::llm::lora::PagedAdamWOptimizer</scope><name>step</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1a2dacd82407390da1dbb59a1a4bda3c1b" prot="public" virt="non-virtual"><scope>themis::llm::lora::PagedAdamWOptimizer</scope><name>step_count</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1a57b50656d1e48ebb12ed771fdc3209ca" prot="private" virt="non-virtual"><scope>themis::llm::lora::PagedAdamWOptimizer</scope><name>step_count_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1aa0ea33ac22565c66e7f4d6712a92144d" prot="private" virt="non-virtual"><scope>themis::llm::lora::PagedAdamWOptimizer</scope><name>updateParameterCPU</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1aea5bff9c450187606363b281e3790c6c" prot="private" virt="non-virtual"><scope>themis::llm::lora::PagedAdamWOptimizer</scope><name>updateParameterGPU</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1a88754d0d935227038a7fe1d9f0d3d59a" prot="private" virt="non-virtual"><scope>themis::llm::lora::PagedAdamWOptimizer</scope><name>weight_decay_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1ad14a6148096a2d375211eab77da26253" prot="public" virt="non-virtual"><scope>themis::llm::lora::PagedAdamWOptimizer</scope><name>zero_grad</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_adam_w_optimizer_1ae15f915fe28644e1cfaff05ae493a869" prot="public" virt="non-virtual"><scope>themis::llm::lora::PagedAdamWOptimizer</scope><name>~PagedAdamWOptimizer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

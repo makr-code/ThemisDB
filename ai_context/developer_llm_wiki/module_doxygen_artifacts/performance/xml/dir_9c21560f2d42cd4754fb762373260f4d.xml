@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_9c21560f2d42cd4754fb762373260f4d" kind="dir">
+    <compoundname>include/performance</compoundname>
+    <innerdir refid="dir_2fee6b2e9aa199193e60a0ff84caa00d">include/performance/phase3</innerdir>
+    <innerdir refid="dir_4613d3c00635767f24970a537180c0cf">include/performance/phase4</innerdir>
+    <innerfile refid="adaptive__query__compiler_8h">adaptive_query_compiler.h</innerfile>
+    <innerfile refid="advanced__cache__manager_8h">advanced_cache_manager.h</innerfile>
+    <innerfile refid="alignment__examples_8h">alignment_examples.h</innerfile>
+    <innerfile refid="alignment__helpers_8h">alignment_helpers.h</innerfile>
+    <innerfile refid="allocator_8h">allocator.h</innerfile>
+    <innerfile refid="cicada_8h">cicada.h</innerfile>
+    <innerfile refid="cycle__metrics_8h">cycle_metrics.h</innerfile>
+    <innerfile refid="cycle__metrics__config_8h">cycle_metrics_config.h</innerfile>
+    <innerfile refid="dostoevsky_8h">dostoevsky.h</innerfile>
+    <innerfile refid="expected__cycles_8h">expected_cycles.h</innerfile>
+    <innerfile refid="feature__flags_8h">feature_flags.h</innerfile>
+    <innerfile refid="feature__flags__examples_8h">feature_flags_examples.h</innerfile>
+    <innerfile refid="hardware__accelerator_8h">hardware_accelerator.h</innerfile>
+    <innerfile refid="huge__pages_8h">huge_pages.h</innerfile>
+    <innerfile refid="intelligent__prefetcher_8h">intelligent_prefetcher.h</innerfile>
+    <innerfile refid="ligra_8h">ligra.h</innerfile>
+    <innerfile refid="lirs__cache_8h">lirs_cache.h</innerfile>
+    <innerfile refid="lockfree__histogram_8h">lockfree_histogram.h</innerfile>
+    <innerfile refid="lockfree__metrics__buffer_8h">lockfree_metrics_buffer.h</innerfile>
+    <innerfile refid="numa__memory__manager_8h">numa_memory_manager.h</innerfile>
+    <innerfile refid="numa__topology_8h">numa_topology.h</innerfile>
+    <innerfile refid="performance__api__contract_8h">performance_api_contract.h</innerfile>
+    <innerfile refid="phase2__feature__flags_8h">phase2_feature_flags.h</innerfile>
+    <innerfile refid="prefetch__hints_8h">prefetch_hints.h</innerfile>
+    <innerfile refid="rabitq_8h">rabitq.h</innerfile>
+    <innerfile refid="rcu_8h">rcu.h</innerfile>
+    <innerfile refid="rcu__hash__table_8h">rcu_hash_table.h</innerfile>
+    <innerfile refid="runtime__config_8h">runtime_config.h</innerfile>
+    <innerfile refid="wisckey_8h">wisckey.h</innerfile>
+    <innerfile refid="workload__adaptive__optimizer_8h">workload_adaptive_optimizer.h</innerfile>
+    <innerfile refid="workload__predictor_8h">workload_predictor.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/"/>
+  </compounddef>
+</doxygen>

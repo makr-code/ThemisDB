@@ -1,0 +1,279 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_tx_handle" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::TxHandle</compoundname>
+    <includes refid="sharding__interfaces_8h" local="no">sharding_interfaces.h</includes>
+    <sectiondef kind="friend">
+      <memberdef kind="friend" id="classthemis_1_1sharding_1_1_tx_handle_1a6e16002e753f93f492f1416e72937b36" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class IDistributedTxCoordinator</definition>
+        <argsstring></argsstring>
+        <name>IDistributedTxCoordinator</name>
+        <qualifiedname>themis::sharding::TxHandle::IDistributedTxCoordinator</qualifiedname>
+        <param>
+          <type>IDistributedTxCoordinator</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="191" column="18" bodyfile="include/sharding/sharding_interfaces.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_tx_handle_1aa19615ddaf5b226770eaea1864c44544" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::TxHandle::tx_id_</definition>
+        <argsstring></argsstring>
+        <name>tx_id_</name>
+        <qualifiedname>themis::sharding::TxHandle::tx_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="207" column="17" bodyfile="include/sharding/sharding_interfaces.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_tx_handle_1af0d050f000751a4f11040cf98829d96d" prot="private" static="no" mutable="no">
+        <type>std::function&lt; void(const std::string &amp;)&gt;</type>
+        <definition>std::function&lt;void(const std::string&amp;)&gt; themis::sharding::TxHandle::abort_fn_</definition>
+        <argsstring></argsstring>
+        <name>abort_fn_</name>
+        <qualifiedname>themis::sharding::TxHandle::abort_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="208" column="19" bodyfile="include/sharding/sharding_interfaces.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_tx_handle_1abfce835d3e00fcc3196f4b6ca2a5007d" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::TxHandle::finalized_</definition>
+        <argsstring></argsstring>
+        <name>finalized_</name>
+        <qualifiedname>themis::sharding::TxHandle::finalized_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="209" column="10" bodyfile="include/sharding/sharding_interfaces.h" bodystart="209" bodyend="209"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_tx_handle_1a039ea41c9eea18e2bf49013e6d040dec" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::TxHandle::TxHandle</definition>
+        <argsstring>() noexcept=default</argsstring>
+        <name>TxHandle</name>
+        <qualifiedname>themis::sharding::TxHandle::TxHandle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="161" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_tx_handle_1a49719aefd0e44ca3c23babab3961cd7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::TxHandle::TxHandle</definition>
+        <argsstring>(const TxHandle &amp;)=delete</argsstring>
+        <name>TxHandle</name>
+        <qualifiedname>themis::sharding::TxHandle::TxHandle</qualifiedname>
+        <param>
+          <type>const TxHandle &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="162" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_tx_handle_1aa93e837a99e48b12ca9620532c1b2458" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1sharding_1_1_tx_handle_1a039ea41c9eea18e2bf49013e6d040dec" kindref="member">TxHandle</ref> &amp;</type>
+        <definition>TxHandle &amp; themis::sharding::TxHandle::operator=</definition>
+        <argsstring>(const TxHandle &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::sharding::TxHandle::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1sharding_1_1_tx_handle_1a039ea41c9eea18e2bf49013e6d040dec" kindref="member">TxHandle</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="163" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_tx_handle_1a5b92db965cd7702b94d647f8757b2dae" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::TxHandle::TxHandle</definition>
+        <argsstring>(TxHandle &amp;&amp;other) noexcept</argsstring>
+        <name>TxHandle</name>
+        <qualifiedname>themis::sharding::TxHandle::TxHandle</qualifiedname>
+        <param>
+          <type>TxHandle &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="165" column="5" bodyfile="include/sharding/sharding_interfaces.h" bodystart="165" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_tx_handle_1a100592603943129ead37627fa9b9402f" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1sharding_1_1_tx_handle_1a039ea41c9eea18e2bf49013e6d040dec" kindref="member">TxHandle</ref> &amp;</type>
+        <definition>TxHandle &amp; themis::sharding::TxHandle::operator=</definition>
+        <argsstring>(TxHandle &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::sharding::TxHandle::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_tx_handle_1a039ea41c9eea18e2bf49013e6d040dec" kindref="member">TxHandle</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="172" column="14" bodyfile="include/sharding/sharding_interfaces.h" bodystart="172" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_tx_handle_1a51af502b6eada961ecfea91f64efb17e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::TxHandle::~TxHandle</definition>
+        <argsstring>()</argsstring>
+        <name>~TxHandle</name>
+        <qualifiedname>themis::sharding::TxHandle::~TxHandle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="183" column="5" bodyfile="include/sharding/sharding_interfaces.h" bodystart="183" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_tx_handle_1a754b900e90df0d60c786bc65fb927ecc" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::sharding::TxHandle::txId</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>txId</name>
+        <qualifiedname>themis::sharding::TxHandle::txId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="185" column="23" bodyfile="include/sharding/sharding_interfaces.h" bodystart="185" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_tx_handle_1aa33fe10f5e54f02dfc4e796ad2c27c08" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::TxHandle::isActive</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isActive</name>
+        <qualifiedname>themis::sharding::TxHandle::isActive</qualifiedname>
+        <briefdescription>
+<para>Returns true if neither commit() nor abort() has been called yet. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="188" column="10" bodyfile="include/sharding/sharding_interfaces.h" bodystart="188" bodyend="188"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_tx_handle_1a23883b2becd4b32ea61e144c47e30595" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::TxHandle::TxHandle</definition>
+        <argsstring>(std::string id, std::function&lt; void(const std::string &amp;)&gt; abort_fn)</argsstring>
+        <name>TxHandle</name>
+        <qualifiedname>themis::sharding::TxHandle::TxHandle</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>std::function&lt; void(const std::string &amp;)&gt;</type>
+          <declname>abort_fn</declname>
+        </param>
+        <briefdescription>
+<para>Only <ref refid="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1afdaeef254ee1ba3d0135057ca8122547" kindref="member">IDistributedTxCoordinator::begin()</ref> calls this constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="194" column="5" bodyfile="include/sharding/sharding_interfaces.h" bodystart="194" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_tx_handle_1a90ffe415332eb5c581068eb7a0917eb3" prot="private" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::TxHandle::markFinalized</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>markFinalized</name>
+        <qualifiedname>themis::sharding::TxHandle::markFinalized</qualifiedname>
+        <briefdescription>
+<para>Called by commit() / abort() implementations to prevent double-abort. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="198" column="10" bodyfile="include/sharding/sharding_interfaces.h" bodystart="198" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_tx_handle_1ade375b8712d4d8d53e32208d2c4ccf0e" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::TxHandle::abortIfNeeded</definition>
+        <argsstring>()</argsstring>
+        <name>abortIfNeeded</name>
+        <qualifiedname>themis::sharding::TxHandle::abortIfNeeded</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="200" column="10" bodyfile="include/sharding/sharding_interfaces.h" bodystart="200" bodyend="205"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Move-only RAII handle for an in-flight distributed transaction.</para>
+<para>Destruction: if neither commit() nor abort() was called on the owning coordinator with this handle, the destructor issues an abort so that no transaction is ever silently abandoned.</para>
+<para>Construction: only <ref refid="classthemis_1_1sharding_1_1_i_distributed_tx_coordinator_1afdaeef254ee1ba3d0135057ca8122547" kindref="member">IDistributedTxCoordinator::begin()</ref> may construct a valid <ref refid="classthemis_1_1sharding_1_1_tx_handle" kindref="compound">TxHandle</ref>. </para>
+    </detaileddescription>
+    <location file="include/sharding/sharding_interfaces.h" line="159" column="1" bodyfile="include/sharding/sharding_interfaces.h" bodystart="159" bodyend="210"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_tx_handle_1af0d050f000751a4f11040cf98829d96d" prot="private" virt="non-virtual"><scope>themis::sharding::TxHandle</scope><name>abort_fn_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_tx_handle_1ade375b8712d4d8d53e32208d2c4ccf0e" prot="private" virt="non-virtual"><scope>themis::sharding::TxHandle</scope><name>abortIfNeeded</name></member>
+      <member refid="classthemis_1_1sharding_1_1_tx_handle_1abfce835d3e00fcc3196f4b6ca2a5007d" prot="private" virt="non-virtual"><scope>themis::sharding::TxHandle</scope><name>finalized_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_tx_handle_1a6e16002e753f93f492f1416e72937b36" prot="private" virt="non-virtual"><scope>themis::sharding::TxHandle</scope><name>IDistributedTxCoordinator</name></member>
+      <member refid="classthemis_1_1sharding_1_1_tx_handle_1aa33fe10f5e54f02dfc4e796ad2c27c08" prot="public" virt="non-virtual"><scope>themis::sharding::TxHandle</scope><name>isActive</name></member>
+      <member refid="classthemis_1_1sharding_1_1_tx_handle_1a90ffe415332eb5c581068eb7a0917eb3" prot="private" virt="non-virtual"><scope>themis::sharding::TxHandle</scope><name>markFinalized</name></member>
+      <member refid="classthemis_1_1sharding_1_1_tx_handle_1aa93e837a99e48b12ca9620532c1b2458" prot="public" virt="non-virtual"><scope>themis::sharding::TxHandle</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1sharding_1_1_tx_handle_1a100592603943129ead37627fa9b9402f" prot="public" virt="non-virtual"><scope>themis::sharding::TxHandle</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1sharding_1_1_tx_handle_1aa19615ddaf5b226770eaea1864c44544" prot="private" virt="non-virtual"><scope>themis::sharding::TxHandle</scope><name>tx_id_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_tx_handle_1a039ea41c9eea18e2bf49013e6d040dec" prot="public" virt="non-virtual"><scope>themis::sharding::TxHandle</scope><name>TxHandle</name></member>
+      <member refid="classthemis_1_1sharding_1_1_tx_handle_1a49719aefd0e44ca3c23babab3961cd7a" prot="public" virt="non-virtual"><scope>themis::sharding::TxHandle</scope><name>TxHandle</name></member>
+      <member refid="classthemis_1_1sharding_1_1_tx_handle_1a5b92db965cd7702b94d647f8757b2dae" prot="public" virt="non-virtual"><scope>themis::sharding::TxHandle</scope><name>TxHandle</name></member>
+      <member refid="classthemis_1_1sharding_1_1_tx_handle_1a23883b2becd4b32ea61e144c47e30595" prot="private" virt="non-virtual"><scope>themis::sharding::TxHandle</scope><name>TxHandle</name></member>
+      <member refid="classthemis_1_1sharding_1_1_tx_handle_1a754b900e90df0d60c786bc65fb927ecc" prot="public" virt="non-virtual"><scope>themis::sharding::TxHandle</scope><name>txId</name></member>
+      <member refid="classthemis_1_1sharding_1_1_tx_handle_1a51af502b6eada961ecfea91f64efb17e" prot="public" virt="non-virtual"><scope>themis::sharding::TxHandle</scope><name>~TxHandle</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,536 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__gpu__policy_8cpp" kind="file" language="C++">
+    <compoundname>test_gpu_policy.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">themis/gpu/policy.h</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">atomic</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/gpu/test_gpu_policy.cpp</label>
+        <link refid="test__gpu__policy_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>themis/gpu/policy.h</label>
+      </node>
+      <node id="4">
+        <label>thread</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__gpu__policy_8cpp_1a29e9525a5ce073a0687b45191b10681c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUPolicyTest, DefaultDeny_UnknownCaller_Rejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUPolicyTest</type>
+        </param>
+        <param>
+          <type>DefaultDeny_UnknownCaller_Rejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_policy.cpp" line="13" column="1" bodyfile="tests/gpu/test_gpu_policy.cpp" bodystart="13" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__policy_8cpp_1acc0fa43c945aba176e3d4cd21856279f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUPolicyTest, DefaultDeny_CheckReturnsReason)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUPolicyTest</type>
+        </param>
+        <param>
+          <type>DefaultDeny_CheckReturnsReason</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_policy.cpp" line="20" column="1" bodyfile="tests/gpu/test_gpu_policy.cpp" bodystart="20" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__policy_8cpp_1ad0897bba58e66f68fd3e7af275ce61c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUPolicyTest, GrantedCount_ZeroOnConstruction)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUPolicyTest</type>
+        </param>
+        <param>
+          <type>GrantedCount_ZeroOnConstruction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_policy.cpp" line="29" column="1" bodyfile="tests/gpu/test_gpu_policy.cpp" bodystart="29" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__policy_8cpp_1a394c0ac227f7b28842778cbf17876c41" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUPolicyTest, Grant_SingleCapability_AllowsIt)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUPolicyTest</type>
+        </param>
+        <param>
+          <type>Grant_SingleCapability_AllowsIt</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_policy.cpp" line="38" column="1" bodyfile="tests/gpu/test_gpu_policy.cpp" bodystart="38" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__policy_8cpp_1aa8bfe520978d5bc5a641c4420531daa5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUPolicyTest, Grant_GPUAny_AllowsAllCapabilities)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUPolicyTest</type>
+        </param>
+        <param>
+          <type>Grant_GPUAny_AllowsAllCapabilities</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_policy.cpp" line="45" column="1" bodyfile="tests/gpu/test_gpu_policy.cpp" bodystart="45" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__policy_8cpp_1aae4e222448b9955aa02020aa0ef3b2bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUPolicyTest, Grant_PolicyDecision_HasGrantedReason)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUPolicyTest</type>
+        </param>
+        <param>
+          <type>Grant_PolicyDecision_HasGrantedReason</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_policy.cpp" line="53" column="1" bodyfile="tests/gpu/test_gpu_policy.cpp" bodystart="53" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__policy_8cpp_1af15768cecf39af363f9aa71eed6f4abd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUPolicyTest, GrantedCount_IncreasesOnGrant)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUPolicyTest</type>
+        </param>
+        <param>
+          <type>GrantedCount_IncreasesOnGrant</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_policy.cpp" line="61" column="1" bodyfile="tests/gpu/test_gpu_policy.cpp" bodystart="61" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__policy_8cpp_1a268f1de4fa5ee01c99a533750afb0638" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUPolicyTest, GrantedCallers_ContainsGrantedIds)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUPolicyTest</type>
+        </param>
+        <param>
+          <type>GrantedCallers_ContainsGrantedIds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_policy.cpp" line="68" column="1" bodyfile="tests/gpu/test_gpu_policy.cpp" bodystart="68" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__policy_8cpp_1ab44efcfee2247aef5cdb3864158f067f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUPolicyTest, CapabilitiesOf_ListsGrantedCaps)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUPolicyTest</type>
+        </param>
+        <param>
+          <type>CapabilitiesOf_ListsGrantedCaps</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_policy.cpp" line="87" column="1" bodyfile="tests/gpu/test_gpu_policy.cpp" bodystart="87" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__policy_8cpp_1a8b5082e3c6156ed97b8644030016bbfb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUPolicyTest, CapabilitiesOf_UnknownCaller_ReturnsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUPolicyTest</type>
+        </param>
+        <param>
+          <type>CapabilitiesOf_UnknownCaller_ReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_policy.cpp" line="95" column="1" bodyfile="tests/gpu/test_gpu_policy.cpp" bodystart="95" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__policy_8cpp_1a1b327fee5a52e9197143cb29f9f2f3b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUPolicyTest, Revoke_SingleCapability_DeniesToThatCap)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUPolicyTest</type>
+        </param>
+        <param>
+          <type>Revoke_SingleCapability_DeniesToThatCap</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_policy.cpp" line="104" column="1" bodyfile="tests/gpu/test_gpu_policy.cpp" bodystart="104" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__policy_8cpp_1aa91a9be9cd776a3119ae27c0061d14ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUPolicyTest, RevokeAll_RemovesAllCaps)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUPolicyTest</type>
+        </param>
+        <param>
+          <type>RevokeAll_RemovesAllCaps</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_policy.cpp" line="112" column="1" bodyfile="tests/gpu/test_gpu_policy.cpp" bodystart="112" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__policy_8cpp_1a4a41b727b75c464314a989551af0948a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUPolicyTest, Revoke_UnknownCaller_NoOp)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUPolicyTest</type>
+        </param>
+        <param>
+          <type>Revoke_UnknownCaller_NoOp</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_policy.cpp" line="120" column="1" bodyfile="tests/gpu/test_gpu_policy.cpp" bodystart="120" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__policy_8cpp_1a082024797071e6782149742f53a57a80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUPolicyTest, PreGrantedConstructor_AllowsListedCallers)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUPolicyTest</type>
+        </param>
+        <param>
+          <type>PreGrantedConstructor_AllowsListedCallers</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_policy.cpp" line="130" column="1" bodyfile="tests/gpu/test_gpu_policy.cpp" bodystart="130" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__policy_8cpp_1acd01476dfd7b2cfdf317afa6ed866ee4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUPolicyTest, CapabilityName_KnownValues)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUPolicyTest</type>
+        </param>
+        <param>
+          <type>CapabilityName_KnownValues</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_policy.cpp" line="141" column="1" bodyfile="tests/gpu/test_gpu_policy.cpp" bodystart="141" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__policy_8cpp_1a3c3a3f81f68bcadf5f26d2995c49c1ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUPolicyTest, Concurrent_GrantRevoke_NoDataRace)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUPolicyTest</type>
+        </param>
+        <param>
+          <type>Concurrent_GrantRevoke_NoDataRace</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_policy.cpp" line="153" column="1" bodyfile="tests/gpu/test_gpu_policy.cpp" bodystart="153" bodyend="181"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/policy.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu" kindref="compound">themis::gpu</ref>;</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Default-deny</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><ref refid="test__gpu__policy_8cpp_1a29e9525a5ce073a0687b45191b10681c" kindref="member">TEST</ref>(GPUPolicyTest,<sp/>DefaultDeny_UnknownCaller_Rejected)<sp/>{</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUPolicy<sp/>pol;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(pol.isAllowed(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/>GPUPolicy::Capability::GPU_ALLOCATE));</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(pol.isAllowed(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/>GPUPolicy::Capability::GPU_FREE));</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(pol.isAllowed(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/>GPUPolicy::Capability::GPU_ADMIN));</highlight></codeline>
+<codeline lineno="18"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><ref refid="test__gpu__policy_8cpp_1a29e9525a5ce073a0687b45191b10681c" kindref="member">TEST</ref>(GPUPolicyTest,<sp/>DefaultDeny_CheckReturnsReason)<sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUPolicy<sp/>pol;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>d<sp/>=<sp/>pol.check(</highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">,<sp/>GPUPolicy::Capability::GPU_ALLOCATE);</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(d.allowed);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(d.reason.empty());</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(d.reason.find(</highlight><highlight class="stringliteral">&quot;default-deny&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(d.caller_id,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><ref refid="test__gpu__policy_8cpp_1a29e9525a5ce073a0687b45191b10681c" kindref="member">TEST</ref>(GPUPolicyTest,<sp/>GrantedCount_ZeroOnConstruction)<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUPolicy<sp/>pol;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(pol.grantedCount(),<sp/>0u);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Grant</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><ref refid="test__gpu__policy_8cpp_1a29e9525a5ce073a0687b45191b10681c" kindref="member">TEST</ref>(GPUPolicyTest,<sp/>Grant_SingleCapability_AllowsIt)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUPolicy<sp/>pol;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>pol.grant(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/>GPUPolicy::Capability::GPU_ALLOCATE);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(pol.isAllowed(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/>GPUPolicy::Capability::GPU_ALLOCATE));</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(pol.isAllowed(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/>GPUPolicy::Capability::GPU_ADMIN));</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><ref refid="test__gpu__policy_8cpp_1a29e9525a5ce073a0687b45191b10681c" kindref="member">TEST</ref>(GPUPolicyTest,<sp/>Grant_GPUAny_AllowsAllCapabilities)<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUPolicy<sp/>pol;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>pol.grant(</highlight><highlight class="stringliteral">&quot;svc&quot;</highlight><highlight class="normal">,<sp/>GPUPolicy::Capability::GPU_ANY);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(pol.isAllowed(</highlight><highlight class="stringliteral">&quot;svc&quot;</highlight><highlight class="normal">,<sp/>GPUPolicy::Capability::GPU_ALLOCATE));</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(pol.isAllowed(</highlight><highlight class="stringliteral">&quot;svc&quot;</highlight><highlight class="normal">,<sp/>GPUPolicy::Capability::GPU_FREE));</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(pol.isAllowed(</highlight><highlight class="stringliteral">&quot;svc&quot;</highlight><highlight class="normal">,<sp/>GPUPolicy::Capability::GPU_ADMIN));</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><ref refid="test__gpu__policy_8cpp_1a29e9525a5ce073a0687b45191b10681c" kindref="member">TEST</ref>(GPUPolicyTest,<sp/>Grant_PolicyDecision_HasGrantedReason)<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUPolicy<sp/>pol;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>pol.grant(</highlight><highlight class="stringliteral">&quot;svc&quot;</highlight><highlight class="normal">,<sp/>GPUPolicy::Capability::GPU_ALLOCATE);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>d<sp/>=<sp/>pol.check(</highlight><highlight class="stringliteral">&quot;svc&quot;</highlight><highlight class="normal">,<sp/>GPUPolicy::Capability::GPU_ALLOCATE);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(d.allowed);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(d.reason,<sp/></highlight><highlight class="stringliteral">&quot;granted&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><ref refid="test__gpu__policy_8cpp_1a29e9525a5ce073a0687b45191b10681c" kindref="member">TEST</ref>(GPUPolicyTest,<sp/>GrantedCount_IncreasesOnGrant)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUPolicy<sp/>pol;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>pol.grant(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>pol.grant(</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(pol.grantedCount(),<sp/>2u);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><ref refid="test__gpu__policy_8cpp_1a29e9525a5ce073a0687b45191b10681c" kindref="member">TEST</ref>(GPUPolicyTest,<sp/>GrantedCallers_ContainsGrantedIds)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUPolicy<sp/>pol;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>pol.grant(</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>pol.grant(</highlight><highlight class="stringliteral">&quot;y&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>callers<sp/>=<sp/>pol.grantedCallers();</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(callers.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>has_x<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>has_y<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>c<sp/>:<sp/>callers)<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(c<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>has_x<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(c<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;y&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>has_y<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(has_x);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(has_y);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><ref refid="test__gpu__policy_8cpp_1a29e9525a5ce073a0687b45191b10681c" kindref="member">TEST</ref>(GPUPolicyTest,<sp/>CapabilitiesOf_ListsGrantedCaps)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUPolicy<sp/>pol;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>pol.grant(</highlight><highlight class="stringliteral">&quot;svc&quot;</highlight><highlight class="normal">,<sp/>GPUPolicy::Capability::GPU_ALLOCATE);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>pol.grant(</highlight><highlight class="stringliteral">&quot;svc&quot;</highlight><highlight class="normal">,<sp/>GPUPolicy::Capability::GPU_FREE);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>caps<sp/>=<sp/>pol.capabilitiesOf(</highlight><highlight class="stringliteral">&quot;svc&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(caps.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><ref refid="test__gpu__policy_8cpp_1a29e9525a5ce073a0687b45191b10681c" kindref="member">TEST</ref>(GPUPolicyTest,<sp/>CapabilitiesOf_UnknownCaller_ReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUPolicy<sp/>pol;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(pol.capabilitiesOf(</highlight><highlight class="stringliteral">&quot;unknown&quot;</highlight><highlight class="normal">).empty());</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Revoke</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><ref refid="test__gpu__policy_8cpp_1a29e9525a5ce073a0687b45191b10681c" kindref="member">TEST</ref>(GPUPolicyTest,<sp/>Revoke_SingleCapability_DeniesToThatCap)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUPolicy<sp/>pol;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>pol.grant(</highlight><highlight class="stringliteral">&quot;svc&quot;</highlight><highlight class="normal">,<sp/>GPUPolicy::Capability::GPU_ANY);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>pol.revoke(</highlight><highlight class="stringliteral">&quot;svc&quot;</highlight><highlight class="normal">,<sp/>GPUPolicy::Capability::GPU_ADMIN);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(pol.isAllowed(</highlight><highlight class="stringliteral">&quot;svc&quot;</highlight><highlight class="normal">,<sp/>GPUPolicy::Capability::GPU_ALLOCATE));</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(pol.isAllowed(</highlight><highlight class="stringliteral">&quot;svc&quot;</highlight><highlight class="normal">,<sp/>GPUPolicy::Capability::GPU_ADMIN));</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><ref refid="test__gpu__policy_8cpp_1a29e9525a5ce073a0687b45191b10681c" kindref="member">TEST</ref>(GPUPolicyTest,<sp/>RevokeAll_RemovesAllCaps)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUPolicy<sp/>pol;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>pol.grant(</highlight><highlight class="stringliteral">&quot;svc&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>pol.revokeAll(</highlight><highlight class="stringliteral">&quot;svc&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(pol.isAllowed(</highlight><highlight class="stringliteral">&quot;svc&quot;</highlight><highlight class="normal">,<sp/>GPUPolicy::Capability::GPU_ALLOCATE));</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(pol.grantedCount(),<sp/>0u);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><ref refid="test__gpu__policy_8cpp_1a29e9525a5ce073a0687b45191b10681c" kindref="member">TEST</ref>(GPUPolicyTest,<sp/>Revoke_UnknownCaller_NoOp)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUPolicy<sp/>pol;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(pol.revoke(</highlight><highlight class="stringliteral">&quot;nobody&quot;</highlight><highlight class="normal">,<sp/>GPUPolicy::Capability::GPU_ALLOCATE));</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(pol.revokeAll(</highlight><highlight class="stringliteral">&quot;nobody&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Pre-granted<sp/>constructor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><ref refid="test__gpu__policy_8cpp_1a29e9525a5ce073a0687b45191b10681c" kindref="member">TEST</ref>(GPUPolicyTest,<sp/>PreGrantedConstructor_AllowsListedCallers)<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUPolicy<sp/>pol({</highlight><highlight class="stringliteral">&quot;svc_a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;svc_b&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(pol.isAllowed(</highlight><highlight class="stringliteral">&quot;svc_a&quot;</highlight><highlight class="normal">,<sp/>GPUPolicy::Capability::GPU_ALLOCATE));</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(pol.isAllowed(</highlight><highlight class="stringliteral">&quot;svc_b&quot;</highlight><highlight class="normal">,<sp/>GPUPolicy::Capability::GPU_ALLOCATE));</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(pol.isAllowed(</highlight><highlight class="stringliteral">&quot;svc_c&quot;</highlight><highlight class="normal">,<sp/>GPUPolicy::Capability::GPU_ALLOCATE));</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>capabilityName<sp/>helper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><ref refid="test__gpu__policy_8cpp_1a29e9525a5ce073a0687b45191b10681c" kindref="member">TEST</ref>(GPUPolicyTest,<sp/>CapabilityName_KnownValues)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(<ref refid="namespacethemis_1_1gpu_1a87e15caf280604c56c64888b0634af81" kindref="member">capabilityName</ref>(GPUPolicy::Capability::GPU_ALLOCATE),</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;GPU_ALLOCATE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(<ref refid="namespacethemis_1_1gpu_1a87e15caf280604c56c64888b0634af81" kindref="member">capabilityName</ref>(GPUPolicy::Capability::GPU_FREE),<sp/></highlight><highlight class="stringliteral">&quot;GPU_FREE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(<ref refid="namespacethemis_1_1gpu_1a87e15caf280604c56c64888b0634af81" kindref="member">capabilityName</ref>(GPUPolicy::Capability::GPU_ADMIN),<sp/></highlight><highlight class="stringliteral">&quot;GPU_ADMIN&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(<ref refid="namespacethemis_1_1gpu_1a87e15caf280604c56c64888b0634af81" kindref="member">capabilityName</ref>(GPUPolicy::Capability::GPU_ANY),<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;GPU_ANY&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Thread<sp/>safety</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><ref refid="test__gpu__policy_8cpp_1a29e9525a5ce073a0687b45191b10681c" kindref="member">TEST</ref>(GPUPolicyTest,<sp/>Concurrent_GrantRevoke_NoDataRace)<sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUPolicy<sp/>pol;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>THREADS<sp/>=<sp/>8,<sp/>OPS<sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>allowed_count{0};</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>worker<sp/>=<sp/>[&amp;](</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>id)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>caller<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;caller_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>OPS;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pol.grant(caller,<sp/>GPUPolicy::Capability::GPU_ALLOCATE);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(pol.isAllowed(caller,<sp/>GPUPolicy::Capability::GPU_ALLOCATE))<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>allowed_count.fetch_add(1);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pol.revokeAll(caller);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>THREADS;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back(worker,<sp/>t);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>th<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>th.join();</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>all<sp/>threads<sp/>revoke,<sp/>no<sp/>caller<sp/>should<sp/>hold<sp/>capabilities.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(pol.grantedCount(),<sp/>0u);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(allowed_count.load(),<sp/>0);<sp/><sp/></highlight><highlight class="comment">//<sp/>Some<sp/>grants<sp/>must<sp/>have<sp/>been<sp/>seen.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/gpu/test_gpu_policy.cpp"/>
+  </compounddef>
+</doxygen>

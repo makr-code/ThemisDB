@@ -1,0 +1,508 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::phase4::PMemPool</compoundname>
+    <includes refid="pmem__storage_8h" local="no">pmem_storage.h</includes>
+    <innerclass refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_config" prot="public">themis::performance::phase4::PMemPool::Config</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_stats" prot="public">themis::performance::phase4::PMemPool::Stats</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_p_mem_pool_header" prot="private">themis::performance::phase4::PMemPool::PMemPoolHeader</innerclass>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1a26b368a002d63d79327c78bfa98b41ff" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::phase4::PMemPool::kMagic</definition>
+        <argsstring></argsstring>
+        <name>kMagic</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::kMagic</qualifiedname>
+        <initializer>= 0x504D454D544845DBULL</initializer>
+        <briefdescription>
+<para>&quot;PMEMTHEDB&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="230" column="31" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1afd3e7f1c16a6e2e8361aa8d785cf719d" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::performance::phase4::PMemPool::base_</definition>
+        <argsstring></argsstring>
+        <name>base_</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::base_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="239" column="24" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="239" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1abfcc477ef7b7306cce4603cad89463b8" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase4::PMemPool::mapped_size_</definition>
+        <argsstring></argsstring>
+        <name>mapped_size_</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::mapped_size_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="240" column="25" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="240" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1a413a050153060a22d84a44bac1b5a596" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::phase4::PMemPool::is_dax_</definition>
+        <argsstring></argsstring>
+        <name>is_dax_</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::is_dax_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="241" column="25" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="241" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1ac90a65c795b39a8a8cc954bc778cf9d5" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase4::PMemPool::alignment_</definition>
+        <argsstring></argsstring>
+        <name>alignment_</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::alignment_</qualifiedname>
+        <initializer>{kPMemCacheLineSize}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="242" column="25" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="242" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1a443e7d330b1bdd1dc58bafe6f33ca8b8" prot="private" static="no" mutable="no">
+        <type>PMemPoolHeader *</type>
+        <definition>PMemPoolHeader* themis::performance::phase4::PMemPool::header_</definition>
+        <argsstring></argsstring>
+        <name>header_</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::header_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+<para>Points into base_. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="243" column="24" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="243" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1afddc4d6f58d3225538e9769a517ca26b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::performance::phase4::PMemPool::bump_</definition>
+        <argsstring></argsstring>
+        <name>bump_</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::bump_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Shadow of header_-&gt;bump_offset. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="244" column="17" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="244" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1a95bca320564be411159fe646da4fbe04" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::performance::phase4::PMemPool::flush_count_</definition>
+        <argsstring></argsstring>
+        <name>flush_count_</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::flush_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="245" column="25" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="245" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1a3ebe7dea06b9a19a798401431f1084ae" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::performance::phase4::PMemPool::fd_</definition>
+        <argsstring></argsstring>
+        <name>fd_</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::fd_</qualifiedname>
+        <initializer>{-1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="248" column="9" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="248" bodyend="248"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1ad078257e9cf391c5a66247db72d20e73" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase4::PMemPool::PMemPool</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>PMemPool</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::PMemPool</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Open (or create) a PMem pool at <computeroutput>config.path</computeroutput>. Throws std::runtime_error if the pool cannot be mapped. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="177" column="14" bodyfile="src/performance/phase4/pmem_storage.cpp" bodystart="96" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1ac70f37e834c7fcaf2b4829df7a68fb8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase4::PMemPool::~PMemPool</definition>
+        <argsstring>()</argsstring>
+        <name>~PMemPool</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::~PMemPool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="179" column="5" bodyfile="src/performance/phase4/pmem_storage.cpp" bodystart="111" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1a760266e680408fde0b7d284901403454" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase4::PMemPool::PMemPool</definition>
+        <argsstring>(const PMemPool &amp;)=delete</argsstring>
+        <name>PMemPool</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::PMemPool</qualifiedname>
+        <param>
+          <type>const PMemPool &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="182" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1aa1af2de8d1b9b8de0eade0f7cccbe6ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1ad078257e9cf391c5a66247db72d20e73" kindref="member">PMemPool</ref> &amp;</type>
+        <definition>PMemPool &amp; themis::performance::phase4::PMemPool::operator=</definition>
+        <argsstring>(const PMemPool &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1ad078257e9cf391c5a66247db72d20e73" kindref="member">PMemPool</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="183" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1aefbcea03a66971062bf12bf0e52429f6" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase4::PMemPool::PMemPool</definition>
+        <argsstring>(PMemPool &amp;&amp;) noexcept</argsstring>
+        <name>PMemPool</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::PMemPool</qualifiedname>
+        <param>
+          <type>PMemPool &amp;&amp;</type>
+          <defname>o</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="184" column="5" bodyfile="src/performance/phase4/pmem_storage.cpp" bodystart="121" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1a000983f95686f2e87639d0fd5d4b0962" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1ad078257e9cf391c5a66247db72d20e73" kindref="member">PMemPool</ref> &amp;</type>
+        <definition>PMemPool &amp; themis::performance::phase4::PMemPool::operator=</definition>
+        <argsstring>(PMemPool &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1ad078257e9cf391c5a66247db72d20e73" kindref="member">PMemPool</ref> &amp;&amp;</type>
+          <defname>o</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="185" column="14" bodyfile="src/performance/phase4/pmem_storage.cpp" bodystart="136" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1aab97cb685d54ec98ae6fb390e9f7a483" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::performance::phase4::PMemPool::allocate</definition>
+        <argsstring>(size_t size) noexcept</argsstring>
+        <name>allocate</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::allocate</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Allocate <computeroutput>size</computeroutput> bytes from the pool, aligned to config.alignment. Returns nullptr when the pool is exhausted. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="189" column="10" bodyfile="src/performance/phase4/pmem_storage.cpp" bodystart="300" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1a8f5d6df12c7b9de0cad38d435b0a1179" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase4::PMemPool::free</definition>
+        <argsstring>(void *ptr, size_t size) noexcept</argsstring>
+        <name>free</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::free</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Mark the <computeroutput>size</computeroutput> bytes at <computeroutput>ptr</computeroutput> as free. The bytes remain accessible (in-place) until compaction. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="193" column="10" bodyfile="src/performance/phase4/pmem_storage.cpp" bodystart="329" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1ab6b1495e181dd3135b8af4fdc61f9265" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase4::PMemPool::persist</definition>
+        <argsstring>(const void *ptr, size_t size) noexcept</argsstring>
+        <name>persist</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::persist</qualifiedname>
+        <param>
+          <type>const void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Persist (flush + sfence) the <computeroutput>size</computeroutput> bytes at <computeroutput>ptr</computeroutput>. Call this after writing into memory obtained from <ref refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1aab97cb685d54ec98ae6fb390e9f7a483" kindref="member">allocate()</ref> to guarantee crash-consistency. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="198" column="10" bodyfile="src/performance/phase4/pmem_storage.cpp" bodystart="337" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1a53928ef148c8dc4337ade39a5101125d" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::performance::phase4::PMemPool::base</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>base</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::base</qualifiedname>
+        <briefdescription>
+<para>Return the base address of the mapped pool. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="201" column="10" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="201" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1abc8ccfece6fc21e902e4a34170499402" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>PMemPool::Stats themis::performance::phase4::PMemPool::get_stats</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>get_stats</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::get_stats</qualifiedname>
+        <briefdescription>
+<para>Return pool statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="204" column="11" bodyfile="src/performance/phase4/pmem_storage.cpp" bodystart="342" bodyend="357"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1a2a732df7ba8cff6200af1b833778046e" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::phase4::PMemPool::is_dax</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>is_dax</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::is_dax</qualifiedname>
+        <briefdescription>
+<para>Check whether the pool is backed by DAX-capable storage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="207" column="10" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="207" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1a904d9567d2adffa9be323c7ed9ed07b0" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::phase4::PMemPool::recover</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>recover</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::recover</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Recover allocation metadata from the persisted header. Called automatically on open when <ref refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_config_1a1a76109f4a3ff7bd7d3b6ecf96179a8c" kindref="member">Config::recover_on_open</ref> is true. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="211" column="10" bodyfile="src/performance/phase4/pmem_storage.cpp" bodystart="291" bodyend="298"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1a35253f207518d4b04039a1c574f42ada" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase4::PMemPool::map_region</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>map_region</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::map_region</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Map region. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: align_up(), CreateFileA(), c_str(), SetFilePointerEx(), SetEndOfFile(), CreateFileMappingA(), CloseHandle(), MapViewOfFile(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="232" column="12" bodyfile="src/performance/phase4/pmem_storage.cpp" bodystart="165" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1ab2d1daf12ba816df7afbf384d4f165a6" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase4::PMemPool::unmap_region</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>unmap_region</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::unmap_region</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="233" column="12" bodyfile="src/performance/phase4/pmem_storage.cpp" bodystart="253" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1a2a11e1662580d389cddaec3a1b6a5203" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase4::PMemPool::init_header</definition>
+        <argsstring>(size_t pool_size, size_t alignment) noexcept</argsstring>
+        <name>init_header</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::init_header</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>pool_size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>alignment</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="234" column="12" bodyfile="src/performance/phase4/pmem_storage.cpp" bodystart="267" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1a4b892edf6549ac968a45c5719e3b666a" prot="private" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase4::PMemPool::align_up</definition>
+        <argsstring>(size_t v, size_t align) const noexcept</argsstring>
+        <name>align_up</name>
+        <qualifiedname>themis::performance::phase4::PMemPool::align_up</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>align</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="235" column="12" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="235" bodyend="237"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>A crash-consistent, byte-addressable memory pool backed by PMem.</para>
+<para>Layout within the mapped region: [ PMemPoolHeader (256 B) | AllocBitmap | Data arena ]</para>
+<para>The header and bitmap are persisted with clwb+sfence after every allocation so the pool can be recovered after a crash.</para>
+<para>Thread-safety: all public methods are thread-safe via an internal CAS-based bump allocator. Concurrent frees are supported via the bitmap. The pool does NOT support arbitrary in-place reuse of freed blocks (append-only with compaction via rebuild()). </para>
+    </detaileddescription>
+    <location file="include/performance/phase4/pmem_storage.h" line="151" column="1" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="151" bodyend="249"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1a4b892edf6549ac968a45c5719e3b666a" prot="private" virt="non-virtual"><scope>themis::performance::phase4::PMemPool</scope><name>align_up</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1ac90a65c795b39a8a8cc954bc778cf9d5" prot="private" virt="non-virtual"><scope>themis::performance::phase4::PMemPool</scope><name>alignment_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1aab97cb685d54ec98ae6fb390e9f7a483" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemPool</scope><name>allocate</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1a53928ef148c8dc4337ade39a5101125d" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemPool</scope><name>base</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1afd3e7f1c16a6e2e8361aa8d785cf719d" prot="private" virt="non-virtual"><scope>themis::performance::phase4::PMemPool</scope><name>base_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1afddc4d6f58d3225538e9769a517ca26b" prot="private" virt="non-virtual"><scope>themis::performance::phase4::PMemPool</scope><name>bump_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1a3ebe7dea06b9a19a798401431f1084ae" prot="private" virt="non-virtual"><scope>themis::performance::phase4::PMemPool</scope><name>fd_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1a95bca320564be411159fe646da4fbe04" prot="private" virt="non-virtual"><scope>themis::performance::phase4::PMemPool</scope><name>flush_count_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1a8f5d6df12c7b9de0cad38d435b0a1179" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemPool</scope><name>free</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1abc8ccfece6fc21e902e4a34170499402" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemPool</scope><name>get_stats</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1a443e7d330b1bdd1dc58bafe6f33ca8b8" prot="private" virt="non-virtual"><scope>themis::performance::phase4::PMemPool</scope><name>header_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1a2a11e1662580d389cddaec3a1b6a5203" prot="private" virt="non-virtual"><scope>themis::performance::phase4::PMemPool</scope><name>init_header</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1a2a732df7ba8cff6200af1b833778046e" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemPool</scope><name>is_dax</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1a413a050153060a22d84a44bac1b5a596" prot="private" virt="non-virtual"><scope>themis::performance::phase4::PMemPool</scope><name>is_dax_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1a26b368a002d63d79327c78bfa98b41ff" prot="private" virt="non-virtual"><scope>themis::performance::phase4::PMemPool</scope><name>kMagic</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1a35253f207518d4b04039a1c574f42ada" prot="private" virt="non-virtual"><scope>themis::performance::phase4::PMemPool</scope><name>map_region</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1abfcc477ef7b7306cce4603cad89463b8" prot="private" virt="non-virtual"><scope>themis::performance::phase4::PMemPool</scope><name>mapped_size_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1aa1af2de8d1b9b8de0eade0f7cccbe6ae" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemPool</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1a000983f95686f2e87639d0fd5d4b0962" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemPool</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1ab6b1495e181dd3135b8af4fdc61f9265" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemPool</scope><name>persist</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1ad078257e9cf391c5a66247db72d20e73" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemPool</scope><name>PMemPool</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1a760266e680408fde0b7d284901403454" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemPool</scope><name>PMemPool</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1aefbcea03a66971062bf12bf0e52429f6" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemPool</scope><name>PMemPool</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1a904d9567d2adffa9be323c7ed9ed07b0" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemPool</scope><name>recover</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1ab2d1daf12ba816df7afbf384d4f165a6" prot="private" virt="non-virtual"><scope>themis::performance::phase4::PMemPool</scope><name>unmap_region</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_pool_1ac70f37e834c7fcaf2b4829df7a68fb8f" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemPool</scope><name>~PMemPool</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

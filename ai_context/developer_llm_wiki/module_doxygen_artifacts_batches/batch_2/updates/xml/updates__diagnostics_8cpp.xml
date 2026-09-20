@@ -1,0 +1,203 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="updates__diagnostics_8cpp" kind="file" language="C++">
+    <compoundname>updates_diagnostics.cpp</compoundname>
+    <includes refid="updates__diagnostics_8h" local="yes">updates/updates_diagnostics.h</includes>
+    <includes local="no">iomanip</includes>
+    <includes local="no">sstream</includes>
+    <incdepgraph>
+      <node id="6">
+        <label>updates/update_state_machine.h</label>
+        <link refid="update__state__machine_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>updates/updates_diagnostics.h</label>
+        <link refid="updates__diagnostics_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/updates/updates_diagnostics.cpp</label>
+        <link refid="updates__diagnostics_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="13">
+        <label>iomanip</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="11">
+        <label>optional</label>
+      </node>
+      <node id="14">
+        <label>sstream</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1updates">themis::updates</innernamespace>
+    <briefdescription>
+<para>Implementation of diagnostics primitives for the Updates module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="since"><para>1.8.1 (Q3 2026) </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="updates__diagnostics_8h" kindref="compound">updates/updates_diagnostics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iomanip&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1updates" kindref="compound">updates</ref><sp/>{</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ErrorContext<sp/>serialization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref><sp/><ref refid="structthemis_1_1updates_1_1_error_context_1a782e9e5de071b4e515424401ea71da04" kindref="member">ErrorContext::toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>time_t_val<sp/>=<sp/>std::chrono::system_clock::to_time_t(<ref refid="structthemis_1_1updates_1_1_error_context_1a56c89a406b9b1555e215eac26ddf6472" kindref="member">timestamp</ref>);</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>std::tm<sp/>tm_val<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>_WIN32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>gmtime_s(&amp;tm_val,<sp/>&amp;time_t_val);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>gmtime_r(&amp;time_t_val,<sp/>&amp;tm_val);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>buf[64];</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>std::strftime(buf,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(buf),<sp/></highlight><highlight class="stringliteral">&quot;%Y-%m-%dT%H:%M:%SZ&quot;</highlight><highlight class="normal">,<sp/>&amp;tm_val);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref><sp/>j;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;timestamp&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>buf;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;error_code&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemis_1_1updates_1_1_error_context_1a896189f4e413bfcf6fa9fd429bd62229" kindref="member">error_code</ref>);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;error_name&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1updates_1a551f8cb28440f631a62c3ba3266f4c6f" kindref="member">errorCodeName</ref>(<ref refid="structthemis_1_1updates_1_1_error_context_1a896189f4e413bfcf6fa9fd429bd62229" kindref="member">error_code</ref>);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;severity&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1updates_1a7d3b048d913cf96944f1be200e0c652f" kindref="member">severityName</ref>(<ref refid="structthemis_1_1updates_1_1_error_context_1afc2020e840c58889bde43dd5b73581b7" kindref="member">severity</ref>);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;root_cause&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemis_1_1updates_1_1_error_context_1adbd7525c4851eeab965a5c14af359f86" kindref="member">root_cause</ref>);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;message&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1updates_1_1_error_context_1a683dafbeae5e2109449787790a21bfed" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;operation&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1updates_1_1_error_context_1a2420776cb10dc87218457bf877979c03" kindref="member">operation</ref>;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;phase&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1updates_1_1_error_context_1ad17d60f1ad4d838ffbdd31244ccba01b" kindref="member">phase</ref>;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;node_id&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1updates_1_1_error_context_1abfd2d0efcabfa5151ab9ede2dcd808a8" kindref="member">node_id</ref>;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;version&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1updates_1_1_error_context_1ab8f614067159e331204198ecaca62bce" kindref="member">version</ref>;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;extra_context&quot;</highlight><highlight class="normal">]<sp/><sp/>=<sp/><ref refid="structthemis_1_1updates_1_1_error_context_1a08138da309021dfefeeb42a103e18bae" kindref="member">extra_context</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>j;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal">std::optional&lt;ErrorContext&gt;<sp/><ref refid="structthemis_1_1updates_1_1_error_context_1a7fb20d34ddc333b287f1355f628726f6" kindref="member">ErrorContext::fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref>&amp;<sp/>j)<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ErrorContext<sp/>ctx;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Parse<sp/>timestamp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>ts<sp/>=<sp/>j.value(</highlight><highlight class="stringliteral">&quot;timestamp&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!ts.empty())<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::tm<sp/>tm_val<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::istringstream<sp/>ss(ts);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ss<sp/>&gt;&gt;<sp/>std::get_time(&amp;tm_val,<sp/></highlight><highlight class="stringliteral">&quot;%Y-%m-%dT%H:%M:%SZ&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!ss.fail())<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>_WIN32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>time_t_val<sp/>=<sp/>_mkgmtime(&amp;tm_val);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>time_t_val<sp/>=<sp/>timegm(&amp;tm_val);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx.timestamp<sp/>=<sp/>std::chrono::system_clock::from_time_t(time_t_val);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx.timestamp<sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Parse<sp/>error<sp/>code</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint16_t<sp/>code<sp/>=<sp/>j.value(</highlight><highlight class="stringliteral">&quot;error_code&quot;</highlight><highlight class="normal">,<sp/>7499);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx.error_code<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465" kindref="member">DiagnosticErrorCode</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(code);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Parse<sp/>severity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>sev<sp/>=<sp/>j.value(</highlight><highlight class="stringliteral">&quot;severity&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ERROR&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(sev<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;INFO&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx.severity<sp/>=<sp/><ref refid="namespacethemis_1_1updates_1a76a19f06c0d0177d4ee1be662fbcb57da551b723eafd6a31d444fcb2f5920fbd3" kindref="member">DiagnosticSeverity::INFO</ref>;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(sev<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;WARN&quot;</highlight><highlight class="normal">)<sp/>ctx.severity<sp/>=<sp/><ref refid="namespacethemis_1_1updates_1a76a19f06c0d0177d4ee1be662fbcb57da32bd8a1db2275458673903bdb84cb277" kindref="member">DiagnosticSeverity::WARN</ref>;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(sev<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;CRITICAL&quot;</highlight><highlight class="normal">)<sp/>ctx.severity<sp/>=<sp/><ref refid="namespacethemis_1_1updates_1a76a19f06c0d0177d4ee1be662fbcb57da99cd1c61610c76a57cb8d10d6df6b870" kindref="member">DiagnosticSeverity::CRITICAL</ref>;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>ctx.severity<sp/>=<sp/><ref refid="namespacethemis_1_1updates_1a76a19f06c0d0177d4ee1be662fbcb57dabb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">DiagnosticSeverity::ERROR</ref>;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Parse<sp/>root<sp/>cause</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint16_t<sp/>cause<sp/>=<sp/>j.value(</highlight><highlight class="stringliteral">&quot;root_cause&quot;</highlight><highlight class="normal">,<sp/>7);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx.root_cause<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemis_1_1updates_1af6168213612402069ae83cc1231c7a7a" kindref="member">RootCauseClass</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(cause);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Parse<sp/>other<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx.message<sp/>=<sp/>j.value(</highlight><highlight class="stringliteral">&quot;message&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx.operation<sp/>=<sp/>j.value(</highlight><highlight class="stringliteral">&quot;operation&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx.phase<sp/>=<sp/>j.value(</highlight><highlight class="stringliteral">&quot;phase&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx.node_id<sp/>=<sp/>j.value(</highlight><highlight class="stringliteral">&quot;node_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx.version<sp/>=<sp/>j.value(</highlight><highlight class="stringliteral">&quot;version&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.contains(</highlight><highlight class="stringliteral">&quot;extra_context&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx.extra_context<sp/>=<sp/>j[</highlight><highlight class="stringliteral">&quot;extra_context&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ctx;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>updates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/updates/updates_diagnostics.cpp"/>
+  </compounddef>
+</doxygen>

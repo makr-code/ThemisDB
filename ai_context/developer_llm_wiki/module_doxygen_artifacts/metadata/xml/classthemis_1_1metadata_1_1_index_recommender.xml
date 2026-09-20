@@ -1,0 +1,834 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1metadata_1_1_index_recommender" kind="class" language="C++" prot="public">
+    <compoundname>themis::metadata::IndexRecommender</compoundname>
+    <includes refid="index__recommender_8h" local="no">index_recommender.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1metadata_1_1_index_recommender_1a00894503c64f0012a7e282506d53b447" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>AccessType</name>
+        <qualifiedname>themis::metadata::IndexRecommender::AccessType</qualifiedname>
+        <enumvalue id="classthemis_1_1metadata_1_1_index_recommender_1a00894503c64f0012a7e282506d53b447ae75ab17a550f46adbbe891b819cf951d" prot="public">
+          <name>FILTER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1metadata_1_1_index_recommender_1a00894503c64f0012a7e282506d53b447aa7bdfbfac6ba2252b889996b1430abb4" prot="public">
+          <name>SORT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Controls whether a column was used as a filter predicate or for sorting. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="90" column="5" bodyfile="include/metadata/index_recommender.h" bodystart="90" bodyend="90"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1metadata_1_1_index_recommender_1a644c25ecbe67a22cb66f83997d351145" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::metadata::IndexRecommender::kAddThreshold</definition>
+        <argsstring></argsstring>
+        <name>kAddThreshold</name>
+        <qualifiedname>themis::metadata::IndexRecommender::kAddThreshold</qualifiedname>
+        <initializer>= 20.0</initializer>
+        <briefdescription>
+<para>Benefit score above which an ADD recommendation is generated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="93" column="29" bodyfile="include/metadata/index_recommender.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1metadata_1_1_index_recommender_1a38a5a0fc467f9e52284240104ee874dc" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::metadata::IndexRecommender::kDropThreshold</definition>
+        <argsstring></argsstring>
+        <name>kDropThreshold</name>
+        <qualifiedname>themis::metadata::IndexRecommender::kDropThreshold</qualifiedname>
+        <initializer>= 5.0</initializer>
+        <briefdescription>
+<para>Benefit score below which a DROP recommendation is generated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="96" column="29" bodyfile="include/metadata/index_recommender.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1metadata_1_1_index_recommender_1a32fe7de9f3135b4e7cbcd86a3b011156" prot="private" static="no" mutable="no">
+        <type>RocksDBWrapper *</type>
+        <definition>RocksDBWrapper* themis::metadata::IndexRecommender::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::metadata::IndexRecommender::db_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+<para>Optional RocksDB backend. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="201" column="30" bodyfile="include/metadata/index_recommender.h" bodystart="201" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1metadata_1_1_index_recommender_1adadb1d62cd917dd8aff0868f650129b4" prot="private" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::metadata::IndexRecommender::persist_interval_</definition>
+        <argsstring></argsstring>
+        <name>persist_interval_</name>
+        <qualifiedname>themis::metadata::IndexRecommender::persist_interval_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>0 = no background thread </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="202" column="31" bodyfile="include/metadata/index_recommender.h" bodystart="202" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1metadata_1_1_index_recommender_1afebcf60555ccd3b0be04d79167470288" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::metadata::IndexRecommender::stop_persist_</definition>
+        <argsstring></argsstring>
+        <name>stop_persist_</name>
+        <qualifiedname>themis::metadata::IndexRecommender::stop_persist_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="204" column="20" bodyfile="include/metadata/index_recommender.h" bodystart="204" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1metadata_1_1_index_recommender_1a022c354f8b3072c28e9e129c539c5a4f" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::metadata::IndexRecommender::persist_mutex_</definition>
+        <argsstring></argsstring>
+        <name>persist_mutex_</name>
+        <qualifiedname>themis::metadata::IndexRecommender::persist_mutex_</qualifiedname>
+        <briefdescription>
+<para>Protects condition variable. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="205" column="26" bodyfile="include/metadata/index_recommender.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1metadata_1_1_index_recommender_1accca5b82a64338fbab84f0115e9333bc" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::metadata::IndexRecommender::persist_cv_</definition>
+        <argsstring></argsstring>
+        <name>persist_cv_</name>
+        <qualifiedname>themis::metadata::IndexRecommender::persist_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="206" column="29" bodyfile="include/metadata/index_recommender.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1metadata_1_1_index_recommender_1a1368fc57a118c1bd9f7510b65fd90a5d" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::metadata::IndexRecommender::persist_thread_</definition>
+        <argsstring></argsstring>
+        <name>persist_thread_</name>
+        <qualifiedname>themis::metadata::IndexRecommender::persist_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="207" column="26" bodyfile="include/metadata/index_recommender.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1metadata_1_1_index_recommender_1a0d2ce86970f855cc06a1f27bbf915d6c" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_statistics_collector" kindref="compound">StatisticsCollector</ref> *</type>
+        <definition>StatisticsCollector* themis::metadata::IndexRecommender::stats_collector_</definition>
+        <argsstring></argsstring>
+        <name>stats_collector_</name>
+        <qualifiedname>themis::metadata::IndexRecommender::stats_collector_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+<para>Optional, for cost-model scoring. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="210" column="39" bodyfile="include/metadata/index_recommender.h" bodystart="210" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1metadata_1_1_index_recommender_1a993404a46d9b78690d0a405ded2e13f5" prot="private" static="no" mutable="no">
+        <type>observability::MetricsCollector *</type>
+        <definition>observability::MetricsCollector* themis::metadata::IndexRecommender::metrics_collector_</definition>
+        <argsstring></argsstring>
+        <name>metrics_collector_</name>
+        <qualifiedname>themis::metadata::IndexRecommender::metrics_collector_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+<para>Optional, for telemetry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="211" column="39" bodyfile="include/metadata/index_recommender.h" bodystart="211" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1metadata_1_1_index_recommender_1a8bce46b631acee71fc0f28f1aec8c0f8" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::metadata::IndexRecommender::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::metadata::IndexRecommender::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="215" column="60" bodyfile="include/metadata/index_recommender.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1metadata_1_1_index_recommender_1a555b767bbaff5912f3d52a6b17fa4b16" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::map&lt; std::string, <ref refid="structthemis_1_1metadata_1_1_column_access" kindref="compound">ColumnAccess</ref> &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::map&lt;std::string, ColumnAccess&gt; &gt; themis::metadata::IndexRecommender::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::metadata::IndexRecommender::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="216" column="14" bodyfile="include/metadata/index_recommender.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1metadata_1_1_index_recommender_1af1ed9aba3628d88edefbee160515454b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::metadata::IndexRecommender::total_queries_</definition>
+        <argsstring></argsstring>
+        <name>total_queries_</name>
+        <qualifiedname>themis::metadata::IndexRecommender::total_queries_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="217" column="50" bodyfile="include/metadata/index_recommender.h" bodystart="217" bodyend="217"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_index_recommender_1a1db7e7afa6917d6f8938c037cbf80534" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::metadata::IndexRecommender::IndexRecommender</definition>
+        <argsstring>()=default</argsstring>
+        <name>IndexRecommender</name>
+        <qualifiedname>themis::metadata::IndexRecommender::IndexRecommender</qualifiedname>
+        <briefdescription>
+<para>Default constructor — in-memory only (no persistence). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="99" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_index_recommender_1a7c9366fb7ba0800c171cd0f35fd5af34" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::metadata::IndexRecommender::IndexRecommender</definition>
+        <argsstring>(RocksDBWrapper *db, std::chrono::milliseconds persist_interval=std::chrono::seconds(300))</argsstring>
+        <name>IndexRecommender</name>
+        <qualifiedname>themis::metadata::IndexRecommender::IndexRecommender</qualifiedname>
+        <param>
+          <type>RocksDBWrapper *</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>persist_interval</declname>
+          <defval>std::chrono::seconds(300)</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Persistence-enabled constructor. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RocksDB instance for loading and persisting access stats. Pass nullptr for in-memory-only mode (same as default ctor). The pointed-to instance MUST outlive this <ref refid="classthemis_1_1metadata_1_1_index_recommender" kindref="compound">IndexRecommender</ref>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>persist_interval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Background thread flush interval. Defaults to 5 minutes. Pass 0 to disable the background thread (stats are still flushed on destruction and <ref refid="classthemis_1_1metadata_1_1_index_recommender_1aaae9db069dd937d08401754b44c3481d" kindref="member">reset()</ref>). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="108" column="14" bodyfile="src/metadata/index_recommender.cpp" bodystart="60" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_index_recommender_1a4ebc2dc842131b7ab4eaa26d9160a4c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::metadata::IndexRecommender::~IndexRecommender</definition>
+        <argsstring>()</argsstring>
+        <name>~IndexRecommender</name>
+        <qualifiedname>themis::metadata::IndexRecommender::~IndexRecommender</qualifiedname>
+        <briefdescription>
+<para>Destructor — stops the background persist thread and flushes stats to RocksDB. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="114" column="5" bodyfile="src/metadata/index_recommender.cpp" bodystart="75" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_index_recommender_1afc141605e2e751d5e2f32eeb13fec2ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::metadata::IndexRecommender::IndexRecommender</definition>
+        <argsstring>(const IndexRecommender &amp;)=delete</argsstring>
+        <name>IndexRecommender</name>
+        <qualifiedname>themis::metadata::IndexRecommender::IndexRecommender</qualifiedname>
+        <param>
+          <type>const IndexRecommender &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="117" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_index_recommender_1afe12ebfab1b06ccd816808dd7a900db7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1metadata_1_1_index_recommender_1a1db7e7afa6917d6f8938c037cbf80534" kindref="member">IndexRecommender</ref> &amp;</type>
+        <definition>IndexRecommender &amp; themis::metadata::IndexRecommender::operator=</definition>
+        <argsstring>(const IndexRecommender &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::metadata::IndexRecommender::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1metadata_1_1_index_recommender_1a1db7e7afa6917d6f8938c037cbf80534" kindref="member">IndexRecommender</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="118" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_index_recommender_1af25b04ecd1ec9bd087c98520704f525c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::metadata::IndexRecommender::recordAccess</definition>
+        <argsstring>(std::string_view table_name, std::string_view column_name, AccessType access_type, double selectivity=1.0)</argsstring>
+        <name>recordAccess</name>
+        <qualifiedname>themis::metadata::IndexRecommender::recordAccess</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>column_name</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1metadata_1_1_index_recommender_1a00894503c64f0012a7e282506d53b447" kindref="member">AccessType</ref></type>
+          <declname>access_type</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>selectivity</declname>
+          <defval>1.0</defval>
+        </param>
+        <briefdescription>
+<para>Record Access. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record that a column was accessed in a query. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table the column belongs to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>column_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Column that was accessed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>access_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the column was used as a filter or sort key </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>selectivity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Fraction of rows that matched the predicate (0 = very selective)</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">column_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the column. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">access_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">selectivity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="129" column="10" bodyfile="src/metadata/index_recommender.cpp" bodystart="114" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_index_recommender_1ad132df1b0e2cbc16ede7b2e2b594e610" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::metadata::IndexRecommender::recordQuery</definition>
+        <argsstring>()</argsstring>
+        <name>recordQuery</name>
+        <qualifiedname>themis::metadata::IndexRecommender::recordQuery</qualifiedname>
+        <briefdescription>
+<para>Increment the total query counter (used for normalising benefit scores). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Query.</para>
+<para>Implements recordQuery without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="137" column="10" bodyfile="src/metadata/index_recommender.cpp" bodystart="151" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_index_recommender_1a9383f815e486d2fa7578dadcf7415184" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1metadata_1_1_index_recommendation" kindref="compound">IndexRecommendation</ref> &gt;</type>
+        <definition>std::vector&lt; IndexRecommendation &gt; themis::metadata::IndexRecommender::recommend</definition>
+        <argsstring>(std::string_view table_name, const std::vector&lt; std::string &gt; &amp;existing_indexes={}) const</argsstring>
+        <name>recommend</name>
+        <qualifiedname>themis::metadata::IndexRecommender::recommend</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>existing_indexes</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Generate recommendations for a specific table. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table to analyse </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>existing_indexes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Names of columns that already have an index </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Sorted vector of recommendations (highest benefit first) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="143" column="17" bodyfile="src/metadata/index_recommender.cpp" bodystart="155" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_index_recommender_1aa601b85142db6b9395d8a152a1f35777" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1metadata_1_1_index_recommendation" kindref="compound">IndexRecommendation</ref> &gt; &gt;</type>
+        <definition>std::map&lt; std::string, std::vector&lt; IndexRecommendation &gt; &gt; themis::metadata::IndexRecommender::recommendAll</definition>
+        <argsstring>(const std::map&lt; std::string, std::vector&lt; std::string &gt; &gt; &amp;existing_indexes={}) const</argsstring>
+        <name>recommendAll</name>
+        <qualifiedname>themis::metadata::IndexRecommender::recommendAll</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, std::vector&lt; std::string &gt; &gt; &amp;</type>
+          <declname>existing_indexes</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Generate recommendations for all tracked tables. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="149" column="14" bodyfile="src/metadata/index_recommender.cpp" bodystart="241" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_index_recommender_1a6b6cb64945baf437a47773d29ffc0563" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1metadata_1_1_column_access" kindref="compound">ColumnAccess</ref> &gt;</type>
+        <definition>std::vector&lt; ColumnAccess &gt; themis::metadata::IndexRecommender::getAccessStats</definition>
+        <argsstring>(std::string_view table_name) const</argsstring>
+        <name>getAccessStats</name>
+        <qualifiedname>themis::metadata::IndexRecommender::getAccessStats</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>Return the raw access statistics for a table. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="154" column="17" bodyfile="src/metadata/index_recommender.cpp" bodystart="271" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_index_recommender_1aaae9db069dd937d08401754b44c3481d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::metadata::IndexRecommender::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::metadata::IndexRecommender::reset</qualifiedname>
+        <briefdescription>
+<para>Reset all tracked access statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset the modification detection flag.</para>
+<para>Calls: lock(), push_back(), clear(), store(), del(), spdlog::debug(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="157" column="10" bodyfile="src/metadata/index_recommender.cpp" bodystart="295" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_index_recommender_1a6a1be9dc6f9d28738c62597896bd762a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1metadata_1a8efd44656ac5d0cf26226df8e9a7fbc2" kindref="member">json</ref></type>
+        <definition>json themis::metadata::IndexRecommender::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::metadata::IndexRecommender::toJSON</qualifiedname>
+        <briefdescription>
+<para>Serialise all access stats to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="160" column="10" bodyfile="src/metadata/index_recommender.cpp" bodystart="319" bodyend="336"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_index_recommender_1a99a8e2c7ace9a6ba12d61ad7e2db5098" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::metadata::IndexRecommender::persistStats</definition>
+        <argsstring>()</argsstring>
+        <name>persistStats</name>
+        <qualifiedname>themis::metadata::IndexRecommender::persistStats</qualifiedname>
+        <briefdescription>
+<para>Persist Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Flush all in-memory access stats to RocksDB immediately. No-op when no RocksDB instance was provided at construction.</para>
+<para>Calls: lock(), load(), json::array(), push_back(), <ref refid="classthemis_1_1metadata_1_1_index_recommender_1a6a1be9dc6f9d28738c62597896bd762a" kindref="member">toJSON()</ref>, dump(), put(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="164" column="10" bodyfile="src/metadata/index_recommender.cpp" bodystart="346" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_index_recommender_1af257f910f8f310998b8c35c6878e8e08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::metadata::IndexRecommender::setStatisticsCollector</definition>
+        <argsstring>(StatisticsCollector *collector)</argsstring>
+        <name>setStatisticsCollector</name>
+        <qualifiedname>themis::metadata::IndexRecommender::setStatisticsCollector</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_statistics_collector" kindref="compound">StatisticsCollector</ref> *</type>
+          <declname>collector</declname>
+        </param>
+        <briefdescription>
+<para>Set Statistics Collector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Attach a <ref refid="classthemis_1_1_statistics_collector" kindref="compound">StatisticsCollector</ref> to enable cost-model benefit scoring. When set, <computeroutput><ref refid="classthemis_1_1metadata_1_1_index_recommender_1a9383f815e486d2fa7578dadcf7415184" kindref="member">recommend()</ref></computeroutput> uses <ref refid="classthemis_1_1_statistics_collector" kindref="compound">StatisticsCollector</ref> cardinality and selectivity data together with a write-amplification penalty to produce more accurate benefit scores than the simple heuristic model. Pass nullptr to revert to the heuristic model. The pointed-to instance MUST outlive this <ref refid="classthemis_1_1metadata_1_1_index_recommender" kindref="compound">IndexRecommender</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">collector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setStatisticsCollector without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="172" column="10" bodyfile="src/metadata/index_recommender.cpp" bodystart="94" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_index_recommender_1adb8039c48ab846487e857c974249be5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::metadata::IndexRecommender::setMetricsCollector</definition>
+        <argsstring>(observability::MetricsCollector *metrics)</argsstring>
+        <name>setMetricsCollector</name>
+        <qualifiedname>themis::metadata::IndexRecommender::setMetricsCollector</qualifiedname>
+        <param>
+          <type>observability::MetricsCollector *</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+<para>Set Metrics Collector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Attach a MetricsCollector for emitting recommendation telemetry. When set, each call to <computeroutput><ref refid="classthemis_1_1metadata_1_1_index_recommender_1a9383f815e486d2fa7578dadcf7415184" kindref="member">recommend()</ref></computeroutput> increments the counter <computeroutput>metadata.index_recommendation.generated_total</computeroutput> labelled with the table name. Pass nullptr to stop emitting metrics. The pointed-to instance MUST outlive this <ref refid="classthemis_1_1metadata_1_1_index_recommender" kindref="compound">IndexRecommender</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setMetricsCollector without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="179" column="10" bodyfile="src/metadata/index_recommender.cpp" bodystart="103" bodyend="105"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_index_recommender_1a9e8826f9937c9f4576c794d8373d258f" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::metadata::IndexRecommender::computeBenefit</definition>
+        <argsstring>(const ColumnAccess &amp;ca) const</argsstring>
+        <name>computeBenefit</name>
+        <qualifiedname>themis::metadata::IndexRecommender::computeBenefit</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1metadata_1_1_column_access" kindref="compound">ColumnAccess</ref> &amp;</type>
+          <declname>ca</declname>
+        </param>
+        <briefdescription>
+<para>Compute the benefit score for a <ref refid="structthemis_1_1metadata_1_1_column_access" kindref="compound">ColumnAccess</ref> record. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="187" column="12" bodyfile="src/metadata/index_recommender.cpp" bodystart="500" bodyend="520"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_index_recommender_1a768a13d6669da259391625ec652137c5" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::metadata::IndexRecommender::computeCostModelBenefit</definition>
+        <argsstring>(const ColumnAccess &amp;ca, const TableStats &amp;tbl_stats) const</argsstring>
+        <name>computeCostModelBenefit</name>
+        <qualifiedname>themis::metadata::IndexRecommender::computeCostModelBenefit</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1metadata_1_1_column_access" kindref="compound">ColumnAccess</ref> &amp;</type>
+          <declname>ca</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_table_stats" kindref="compound">TableStats</ref> &amp;</type>
+          <declname>tbl_stats</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute the benefit score using <ref refid="classthemis_1_1_statistics_collector" kindref="compound">StatisticsCollector</ref> data (cost-model). Uses <ref refid="classthemis_1_1_statistics_collector" kindref="compound">StatisticsCollector</ref> column selectivity for a more accurate estimate and applies a write-amplification penalty based on table row count. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="192" column="12" bodyfile="src/metadata/index_recommender.cpp" bodystart="522" bodyend="565"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_index_recommender_1ad4d182a826eb12c5d5c8303e43de2bbd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::metadata::IndexRecommender::loadStats</definition>
+        <argsstring>()</argsstring>
+        <name>loadStats</name>
+        <qualifiedname>themis::metadata::IndexRecommender::loadStats</qualifiedname>
+        <briefdescription>
+<para>Load access stats from RocksDB into stats_ (called once in constructor). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load Stats.</para>
+<para>Calls: start_key(), back(), lock(), iterateRange(), size(), table_name(), substr(), std::stoull(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="195" column="10" bodyfile="src/metadata/index_recommender.cpp" bodystart="392" bodyend="482"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_index_recommender_1aee28e527a6bf86427244aedc11a9b2e2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::metadata::IndexRecommender::persistLoop_</definition>
+        <argsstring>()</argsstring>
+        <name>persistLoop_</name>
+        <qualifiedname>themis::metadata::IndexRecommender::persistLoop_</qualifiedname>
+        <briefdescription>
+<para>Background persist loop — wakes every persist_interval_ and calls <ref refid="classthemis_1_1metadata_1_1_index_recommender_1a99a8e2c7ace9a6ba12d61ad7e2db5098" kindref="member">persistStats()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Persist Loop.</para>
+<para>Calls: load(), lk(), wait_for(), <ref refid="classthemis_1_1metadata_1_1_index_recommender_1a99a8e2c7ace9a6ba12d61ad7e2db5098" kindref="member">persistStats()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/index_recommender.h" line="198" column="10" bodyfile="src/metadata/index_recommender.cpp" bodystart="488" bodyend="498"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1metadata_1_1_index_recommender" kindref="compound">IndexRecommender</ref> – lightweight auto index recommendation engine</para>
+<para>Records column access patterns via <computeroutput><ref refid="classthemis_1_1metadata_1_1_index_recommender_1af25b04ecd1ec9bd087c98520704f525c" kindref="member">recordAccess()</ref></computeroutput> and then analyses them with <computeroutput><ref refid="classthemis_1_1metadata_1_1_index_recommender_1a9383f815e486d2fa7578dadcf7415184" kindref="member">recommend()</ref></computeroutput> to suggest indexes that would improve query performance.</para>
+<para>The engine uses a simple scoring model: benefit_score = (filter_count × (1 – avg_selectivity) × 100) / total_queries</para>
+<para>Recommendations with benefit_score &gt; ADD_THRESHOLD are returned as ADD. Indexed columns that have never been accessed and have benefit_score &lt; DROP_THRESHOLD are returned as DROP (requires the caller to supply existing_indexes).</para>
+<para>Thread-safety: <computeroutput><ref refid="classthemis_1_1metadata_1_1_index_recommender_1af25b04ecd1ec9bd087c98520704f525c" kindref="member">recordAccess()</ref></computeroutput> is thread-safe (uses a mutex). <computeroutput><ref refid="classthemis_1_1metadata_1_1_index_recommender_1a9383f815e486d2fa7578dadcf7415184" kindref="member">recommend()</ref></computeroutput> is also thread-safe.</para>
+<para>Usage: <ref refid="classthemis_1_1metadata_1_1_index_recommender" kindref="compound">IndexRecommender</ref> rec; rec.recordAccess(&quot;users&quot;, &quot;email&quot;, <ref refid="classthemis_1_1metadata_1_1_index_recommender_1a00894503c64f0012a7e282506d53b447ae75ab17a550f46adbbe891b819cf951d" kindref="member">IndexRecommender::AccessType::FILTER</ref>, 0.01); auto recs = rec.recommend(&quot;users&quot;); </para>
+    </detaileddescription>
+    <location file="include/metadata/index_recommender.h" line="87" column="1" bodyfile="include/metadata/index_recommender.h" bodystart="87" bodyend="218"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1metadata_1_1_index_recommender_1a00894503c64f0012a7e282506d53b447" prot="public" virt="non-virtual"><scope>themis::metadata::IndexRecommender</scope><name>AccessType</name></member>
+      <member refid="classthemis_1_1metadata_1_1_index_recommender_1a9e8826f9937c9f4576c794d8373d258f" prot="private" virt="non-virtual"><scope>themis::metadata::IndexRecommender</scope><name>computeBenefit</name></member>
+      <member refid="classthemis_1_1metadata_1_1_index_recommender_1a768a13d6669da259391625ec652137c5" prot="private" virt="non-virtual"><scope>themis::metadata::IndexRecommender</scope><name>computeCostModelBenefit</name></member>
+      <member refid="classthemis_1_1metadata_1_1_index_recommender_1a32fe7de9f3135b4e7cbcd86a3b011156" prot="private" virt="non-virtual"><scope>themis::metadata::IndexRecommender</scope><name>db_</name></member>
+      <member refid="classthemis_1_1metadata_1_1_index_recommender_1a6b6cb64945baf437a47773d29ffc0563" prot="public" virt="non-virtual"><scope>themis::metadata::IndexRecommender</scope><name>getAccessStats</name></member>
+      <member refid="classthemis_1_1metadata_1_1_index_recommender_1a1db7e7afa6917d6f8938c037cbf80534" prot="public" virt="non-virtual"><scope>themis::metadata::IndexRecommender</scope><name>IndexRecommender</name></member>
+      <member refid="classthemis_1_1metadata_1_1_index_recommender_1a7c9366fb7ba0800c171cd0f35fd5af34" prot="public" virt="non-virtual"><scope>themis::metadata::IndexRecommender</scope><name>IndexRecommender</name></member>
+      <member refid="classthemis_1_1metadata_1_1_index_recommender_1afc141605e2e751d5e2f32eeb13fec2ca" prot="public" virt="non-virtual"><scope>themis::metadata::IndexRecommender</scope><name>IndexRecommender</name></member>
+      <member refid="classthemis_1_1metadata_1_1_index_recommender_1a644c25ecbe67a22cb66f83997d351145" prot="public" virt="non-virtual"><scope>themis::metadata::IndexRecommender</scope><name>kAddThreshold</name></member>
+      <member refid="classthemis_1_1metadata_1_1_index_recommender_1a38a5a0fc467f9e52284240104ee874dc" prot="public" virt="non-virtual"><scope>themis::metadata::IndexRecommender</scope><name>kDropThreshold</name></member>
+      <member refid="classthemis_1_1metadata_1_1_index_recommender_1ad4d182a826eb12c5d5c8303e43de2bbd" prot="private" virt="non-virtual"><scope>themis::metadata::IndexRecommender</scope><name>loadStats</name></member>
+      <member refid="classthemis_1_1metadata_1_1_index_recommender_1a993404a46d9b78690d0a405ded2e13f5" prot="private" virt="non-virtual"><scope>themis::metadata::IndexRecommender</scope><name>metrics_collector_</name></member>
+      <member refid="classthemis_1_1metadata_1_1_index_recommender_1a8bce46b631acee71fc0f28f1aec8c0f8" prot="private" virt="non-virtual"><scope>themis::metadata::IndexRecommender</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1metadata_1_1_index_recommender_1afe12ebfab1b06ccd816808dd7a900db7" prot="public" virt="non-virtual"><scope>themis::metadata::IndexRecommender</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1metadata_1_1_index_recommender_1accca5b82a64338fbab84f0115e9333bc" prot="private" virt="non-virtual"><scope>themis::metadata::IndexRecommender</scope><name>persist_cv_</name></member>
+      <member refid="classthemis_1_1metadata_1_1_index_recommender_1adadb1d62cd917dd8aff0868f650129b4" prot="private" virt="non-virtual"><scope>themis::metadata::IndexRecommender</scope><name>persist_interval_</name></member>
+      <member refid="classthemis_1_1metadata_1_1_index_recommender_1a022c354f8b3072c28e9e129c539c5a4f" prot="private" virt="non-virtual"><scope>themis::metadata::IndexRecommender</scope><name>persist_mutex_</name></member>
+      <member refid="classthemis_1_1metadata_1_1_index_recommender_1a1368fc57a118c1bd9f7510b65fd90a5d" prot="private" virt="non-virtual"><scope>themis::metadata::IndexRecommender</scope><name>persist_thread_</name></member>
+      <member refid="classthemis_1_1metadata_1_1_index_recommender_1aee28e527a6bf86427244aedc11a9b2e2" prot="private" virt="non-virtual"><scope>themis::metadata::IndexRecommender</scope><name>persistLoop_</name></member>
+      <member refid="classthemis_1_1metadata_1_1_index_recommender_1a99a8e2c7ace9a6ba12d61ad7e2db5098" prot="public" virt="non-virtual"><scope>themis::metadata::IndexRecommender</scope><name>persistStats</name></member>
+      <member refid="classthemis_1_1metadata_1_1_index_recommender_1a9383f815e486d2fa7578dadcf7415184" prot="public" virt="non-virtual"><scope>themis::metadata::IndexRecommender</scope><name>recommend</name></member>
+      <member refid="classthemis_1_1metadata_1_1_index_recommender_1aa601b85142db6b9395d8a152a1f35777" prot="public" virt="non-virtual"><scope>themis::metadata::IndexRecommender</scope><name>recommendAll</name></member>
+      <member refid="classthemis_1_1metadata_1_1_index_recommender_1af25b04ecd1ec9bd087c98520704f525c" prot="public" virt="non-virtual"><scope>themis::metadata::IndexRecommender</scope><name>recordAccess</name></member>
+      <member refid="classthemis_1_1metadata_1_1_index_recommender_1ad132df1b0e2cbc16ede7b2e2b594e610" prot="public" virt="non-virtual"><scope>themis::metadata::IndexRecommender</scope><name>recordQuery</name></member>
+      <member refid="classthemis_1_1metadata_1_1_index_recommender_1aaae9db069dd937d08401754b44c3481d" prot="public" virt="non-virtual"><scope>themis::metadata::IndexRecommender</scope><name>reset</name></member>
+      <member refid="classthemis_1_1metadata_1_1_index_recommender_1adb8039c48ab846487e857c974249be5d" prot="public" virt="non-virtual"><scope>themis::metadata::IndexRecommender</scope><name>setMetricsCollector</name></member>
+      <member refid="classthemis_1_1metadata_1_1_index_recommender_1af257f910f8f310998b8c35c6878e8e08" prot="public" virt="non-virtual"><scope>themis::metadata::IndexRecommender</scope><name>setStatisticsCollector</name></member>
+      <member refid="classthemis_1_1metadata_1_1_index_recommender_1a555b767bbaff5912f3d52a6b17fa4b16" prot="private" virt="non-virtual"><scope>themis::metadata::IndexRecommender</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1metadata_1_1_index_recommender_1a0d2ce86970f855cc06a1f27bbf915d6c" prot="private" virt="non-virtual"><scope>themis::metadata::IndexRecommender</scope><name>stats_collector_</name></member>
+      <member refid="classthemis_1_1metadata_1_1_index_recommender_1afebcf60555ccd3b0be04d79167470288" prot="private" virt="non-virtual"><scope>themis::metadata::IndexRecommender</scope><name>stop_persist_</name></member>
+      <member refid="classthemis_1_1metadata_1_1_index_recommender_1a6a1be9dc6f9d28738c62597896bd762a" prot="public" virt="non-virtual"><scope>themis::metadata::IndexRecommender</scope><name>toJSON</name></member>
+      <member refid="classthemis_1_1metadata_1_1_index_recommender_1af1ed9aba3628d88edefbee160515454b" prot="private" virt="non-virtual"><scope>themis::metadata::IndexRecommender</scope><name>total_queries_</name></member>
+      <member refid="classthemis_1_1metadata_1_1_index_recommender_1a4ebc2dc842131b7ab4eaa26d9160a4c6" prot="public" virt="non-virtual"><scope>themis::metadata::IndexRecommender</scope><name>~IndexRecommender</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

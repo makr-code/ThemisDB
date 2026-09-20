@@ -1,0 +1,2596 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1_plugin_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::PluginManager</compoundname>
+    <includes refid="plugin__manager_8h" local="no">plugin_manager.h</includes>
+    <innerclass refid="structthemis_1_1plugins_1_1_plugin_manager_1_1_plugin_entry" prot="private">themis::plugins::PluginManager::PluginEntry</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_plugin_manager_1_1_plugin_error_state" prot="private">themis::plugins::PluginManager::PluginErrorState</innerclass>
+    <sectiondef kind="friend">
+      <memberdef kind="friend" id="classthemis_1_1plugins_1_1_plugin_manager_1ad7cdaef06dd2a8d23511f489b6627b73" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>struct</type>
+        <definition>friend struct PluginManagerTestAccess</definition>
+        <argsstring></argsstring>
+        <name>PluginManagerTestAccess</name>
+        <qualifiedname>themis::plugins::PluginManager::PluginManagerTestAccess</qualifiedname>
+        <param>
+          <type>PluginManagerTestAccess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="86" column="19" bodyfile="include/plugins/plugin_manager.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_plugin_manager_1a7cf35ecc9d9597b630cc21cadbbe7c27" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, PluginEntry &gt;</type>
+        <definition>std::unordered_map&lt;std::string, PluginEntry&gt; themis::plugins::PluginManager::plugins_</definition>
+        <argsstring></argsstring>
+        <name>plugins_</name>
+        <qualifiedname>themis::plugins::PluginManager::plugins_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="149" column="24" bodyfile="include/plugins/plugin_manager.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_plugin_manager_1aa67103d5a8f0e814c455cb8b0c483c7c" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="namespacethemis_1_1plugins_1a69594568f8b761bc4ddc46b693ffcd12" kindref="member">PluginType</ref>, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt;PluginType, std::vector&lt;std::string&gt; &gt; themis::plugins::PluginManager::type_index_</definition>
+        <argsstring></argsstring>
+        <name>type_index_</name>
+        <qualifiedname>themis::plugins::PluginManager::type_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="150" column="24" bodyfile="include/plugins/plugin_manager.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_plugin_manager_1a0659f1071d996275d64e70635cb5372c" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1plugins_1_1_plugin_metrics" kindref="compound">PluginMetrics</ref></type>
+        <definition>PluginMetrics themis::plugins::PluginManager::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::plugins::PluginManager::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="151" column="19" bodyfile="include/plugins/plugin_manager.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_plugin_manager_1a1e535cdb526fcfbf3d6ba178cab71047" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1plugins_1_1_plugin_hot_plug_monitor" kindref="compound">PluginHotPlugMonitor</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;PluginHotPlugMonitor&gt; themis::plugins::PluginManager::hot_plug_monitor_</definition>
+        <argsstring></argsstring>
+        <name>hot_plug_monitor_</name>
+        <qualifiedname>themis::plugins::PluginManager::hot_plug_monitor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="152" column="21" bodyfile="include/plugins/plugin_manager.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_plugin_manager_1a46ce9669894c1dde47262b85cb076ac4" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1plugins_1af1290a82c12885cd665259c4f3e5185a" kindref="member">PluginReloadListener</ref> &gt;</type>
+        <definition>std::vector&lt;PluginReloadListener&gt; themis::plugins::PluginManager::reload_listeners_</definition>
+        <argsstring></argsstring>
+        <name>reload_listeners_</name>
+        <qualifiedname>themis::plugins::PluginManager::reload_listeners_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="153" column="17" bodyfile="include/plugins/plugin_manager.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_plugin_manager_1aa7a0d27b9ade54f7a853818a2de84d04" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1plugins_1_1_plugin_health_monitor" kindref="compound">PluginHealthMonitor</ref> *</type>
+        <definition>PluginHealthMonitor* themis::plugins::PluginManager::health_monitor_</definition>
+        <argsstring></argsstring>
+        <name>health_monitor_</name>
+        <qualifiedname>themis::plugins::PluginManager::health_monitor_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="154" column="25" bodyfile="include/plugins/plugin_manager.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_plugin_manager_1ab4bd06560304dfc5fb702647f9eafc43" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::plugins::PluginManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::plugins::PluginManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="155" column="24" bodyfile="include/plugins/plugin_manager.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_plugin_manager_1a7950478d9e64fbb0e4aea2b44611c090" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, PluginErrorState &gt;</type>
+        <definition>std::unordered_map&lt;std::string, PluginErrorState&gt; themis::plugins::PluginManager::error_states_</definition>
+        <argsstring></argsstring>
+        <name>error_states_</name>
+        <qualifiedname>themis::plugins::PluginManager::error_states_</qualifiedname>
+        <briefdescription>
+<para>Track error state per plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="393" column="24" bodyfile="include/plugins/plugin_manager.h" bodystart="393" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1a2b3d78b2d653b2b350f270d49cda72f4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * PluginManager::loadLibrary</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>loadLibrary</name>
+        <qualifiedname>themis::plugins::PluginManager::loadLibrary</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Load a shared library from disk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ Platform-specific DLL loading (reused from acceleration/plugin_loader.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Absolute or relative path to the plugin binary. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Native library handle on success, nullptr on failure. </para>
+</simplesect>
+<simplesect kind="note"><para>Thread-safe under <ref refid="classthemis_1_1plugins_1_1_plugin_manager" kindref="compound">PluginManager</ref> external locking discipline.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+cpp) ============================================================================ Calls: LoadLibraryA(), c_str(), dlopen(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="164" column="10" bodyfile="src/plugins/plugin_manager.cpp" bodystart="154" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1ad4e4d0488b68d4e964624de52371cd19" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * PluginManager::getSymbol</definition>
+        <argsstring>(void *handle, const std::string &amp;symbolName)</argsstring>
+        <name>getSymbol</name>
+        <qualifiedname>themis::plugins::PluginManager::getSymbol</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>symbolName</declname>
+        </param>
+        <briefdescription>
+<para>Resolve an exported symbol from a loaded library handle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Symbol.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Native library handle returned by loadLibrary(). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>symbolName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Exported symbol name to resolve. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the resolved symbol, or nullptr if not found.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">symbolName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: GetProcAddress(), c_str(), dlsym(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="172" column="10" bodyfile="src/plugins/plugin_manager.cpp" bodystart="169" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1a9487cb32dcdea0d8c3de6947c2f8edd2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void PluginManager::unloadLibrary</definition>
+        <argsstring>(void *handle)</argsstring>
+        <name>unloadLibrary</name>
+        <qualifiedname>themis::plugins::PluginManager::unloadLibrary</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Unload a previously loaded library handle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Unload Library.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Native library handle. nullptr is ignored.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: FreeLibrary(), dlclose(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="178" column="10" bodyfile="src/plugins/plugin_manager.cpp" bodystart="182" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1a066048f98c2a29c4cfc582e07f6cf2ae" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1plugins_1_1_plugin_manifest" kindref="compound">PluginManifest</ref> &gt;</type>
+        <definition>std::optional&lt; PluginManifest &gt; PluginManager::loadManifest</definition>
+        <argsstring>(const std::string &amp;manifest_path)</argsstring>
+        <name>loadManifest</name>
+        <qualifiedname>themis::plugins::PluginManager::loadManifest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>manifest_path</declname>
+        </param>
+        <briefdescription>
+<para>Load and validate a plugin manifest from JSON file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load Manifest.</para>
+<para><simplesect kind="note"><para>Includes fail-closed guards (QW-43) for path traversal in plugin names. </para>
+</simplesect>
+<simplesect kind="return"><para>nullopt if validation fails or manifest is malformed; manifest otherwise.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">manifest_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the manifest. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: fs::exists(), THEMIS_WARN(), verifyManifestSignature(), THEMIS_ERROR(), file(), value(), isValidPluginName(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="184" column="19" bodyfile="src/plugins/plugin_manager.cpp" bodystart="455" bodyend="595"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1aceeece15238da407e4f109dc58ebb30a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763" kindref="member">PluginsError</ref></type>
+        <definition>PluginsError PluginManager::validatePluginForLoad</definition>
+        <argsstring>(const PluginManifest &amp;manifest, const std::string &amp;manifest_path, const std::string &amp;plugin_binary_path, std::string &amp;error_details)</argsstring>
+        <name>validatePluginForLoad</name>
+        <qualifiedname>themis::plugins::PluginManager::validatePluginForLoad</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1_plugin_manifest" kindref="compound">PluginManifest</ref> &amp;</type>
+          <declname>manifest</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>manifest_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_binary_path</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error_details</declname>
+        </param>
+        <briefdescription>
+<para>Validate a plugin manifest and binary for load operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ Phase 2C: Unified Plugin Validation Logic ============================================================================</para>
+<para>This function implements a 4-stage validation contract:<orderedlist>
+<listitem><para>Manifest schema validation (required fields, types)</para>
+</listitem><listitem><para>Manifest semantic validation (constraints, dependencies)</para>
+</listitem><listitem><para>Signature verification (detached signature checks)</para>
+</listitem><listitem><para>Capability validation (required capabilities available)</para>
+</listitem></orderedlist>
+</para>
+<para>Fail-safe semantics: If any stage fails, the plugin remains in UNLOADED state and no partial activation occurs.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The plugin manifest to validate. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>manifest_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the manifest file (for signature verification). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>plugin_binary_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the plugin binary (for binary verification). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error_details</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output error description when validation fails. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a8c632159fa131f09d04f94e3cbcd8782" kindref="member">PluginsError::kSuccess</ref> on success, or appropriate error code on failure. </para>
+</simplesect>
+<simplesect kind="see"><para>src/plugins/ROADMAP.md — Phase 2C implementation</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">manifest_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the manifest. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin_binary_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the plugin binary. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error_details</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), THEMIS_ERROR(), isValidPluginName(), manifestAllowsCurrentEdition(), fmt::format(), std::string(), THEMIS_WARN(), license::RuntimeLicenseGate::instance(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="206" column="18" bodyfile="src/plugins/plugin_manager.cpp" bodystart="385" bodyend="442"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1a17236f82b8a4695ee5a575e4073ed77b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1a2b4140078f14706c0b9f133ede3b222b" kindref="member">ManifestErrorCode</ref></type>
+        <definition>ManifestErrorCode PluginManager::validateManifestEditionRestrictions</definition>
+        <argsstring>(const PluginManifest &amp;manifest, std::string &amp;error_details)</argsstring>
+        <name>validateManifestEditionRestrictions</name>
+        <qualifiedname>themis::plugins::PluginManager::validateManifestEditionRestrictions</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1_plugin_manifest" kindref="compound">PluginManifest</ref> &amp;</type>
+          <declname>manifest</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error_details</declname>
+        </param>
+        <briefdescription>
+<para>Validate edition restrictions and license gates (Wave C Batch 2). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate Manifest Edition Restrictions.</para>
+<para>Fail-closed validation of edition allowlists and license feature gates.</para>
+<para>Behavior:<itemizedlist>
+<listitem><para>If manifest.allowed_editions is non-empty AND current edition not in list → FAIL</para>
+</listitem><listitem><para>If manifest.license_feature is set AND license gate returns false → FAIL</para>
+</listitem><listitem><para>Returns detailed error codes (PLUGIN_EDITION_MISMATCH, PLUGIN_LICENSE_DENIED, etc.)</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin manifest to validate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error_details</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output error message on failure </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="namespacethemis_1_1plugins_1a2b4140078f14706c0b9f133ede3b222bad79fcf0f524e425f727383d4e2de362c" kindref="member">ManifestErrorCode::MANIFEST_OK</ref> on success, or error code</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error_details</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::islower(), std::isdigit(), std::string(), normalizeEditionName(), std::any_of(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="227" column="23" bodyfile="src/plugins/plugin_manager.cpp" bodystart="2568" bodyend="2629"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1a0a1f380ef7956bf4f8e87f08d737f640" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1a2b4140078f14706c0b9f133ede3b222b" kindref="member">ManifestErrorCode</ref></type>
+        <definition>ManifestErrorCode PluginManager::validateManifestPublicPrivateBoundary</definition>
+        <argsstring>(const PluginManifest &amp;manifest, const std::string &amp;plugin_path, std::string &amp;error_details)</argsstring>
+        <name>validateManifestPublicPrivateBoundary</name>
+        <qualifiedname>themis::plugins::PluginManager::validateManifestPublicPrivateBoundary</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1_plugin_manifest" kindref="compound">PluginManifest</ref> &amp;</type>
+          <declname>manifest</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_path</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error_details</declname>
+        </param>
+        <briefdescription>
+<para>Validate public/private boundary constraints (Wave C Batch 2). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate Manifest Public Private Boundary.</para>
+<para>Enforces edition and visibility boundary rules:<itemizedlist>
+<listitem><para>If visibility=&quot;private&quot; AND current edition=&quot;community&quot; → FAIL-CLOSED</para>
+</listitem><listitem><para>If plugin_path contains &quot;private/&quot; BUT visibility!=&quot;private&quot; → WARN/BLOCK</para>
+</listitem><listitem><para>If visibility=&quot;restricted&quot; AND no scoped-checkout context → FAIL-CLOSED</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin manifest to validate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>plugin_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Filesystem path to the plugin </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error_details</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output error message on failure </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="namespacethemis_1_1plugins_1a2b4140078f14706c0b9f133ede3b222bad79fcf0f524e425f727383d4e2de362c" kindref="member">ManifestErrorCode::MANIFEST_OK</ref> on success, or error code</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the plugin. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error_details</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), reserve(), size(), std::tolower(), normalizeEditionName(), std::string(), find(), std::getenv(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="245" column="23" bodyfile="src/plugins/plugin_manager.cpp" bodystart="2639" bodyend="2681"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1a6125580402b62a1a128623018d5f503e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool PluginManager::verifyManifestSignature</definition>
+        <argsstring>(const std::string &amp;manifest_path, std::string &amp;error_message)</argsstring>
+        <name>verifyManifestSignature</name>
+        <qualifiedname>themis::plugins::PluginManager::verifyManifestSignature</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>manifest_path</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error_message</declname>
+        </param>
+        <briefdescription>
+<para>Verify the detached signature for a plugin manifest. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify Manifest Signature.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>manifest_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to plugin.json manifest. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error_message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output error detail when verification fails. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if signature policy is satisfied for the current build mode. </para>
+</simplesect>
+<simplesect kind="note"><para>Production builds require a valid <computeroutput>.sig</computeroutput> file; development builds warn and continue.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">manifest_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the manifest. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error_message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: THEMIS_INFO(), defined(), fs::exists(), THEMIS_ERROR(), sig_file(), std::getline(), erase(), find_first_not_of(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="259" column="10" bodyfile="src/plugins/plugin_manager.cpp" bodystart="281" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1a735b1af1eefd72cac76b48b62ba831e3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool PluginManager::verifyPlugin</definition>
+        <argsstring>(const std::string &amp;path, std::string &amp;error_message)</argsstring>
+        <name>verifyPlugin</name>
+        <qualifiedname>themis::plugins::PluginManager::verifyPlugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error_message</declname>
+        </param>
+        <briefdescription>
+<para>Validate plugin binary against configured security policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify Plugin.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to plugin shared library. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error_message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output error detail on verification failure. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the plugin passes policy checks, false otherwise.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error_message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: verifier(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="268" column="10" bodyfile="src/plugins/plugin_manager.cpp" bodystart="251" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1ad18f675e8ccf4a96dda6388ea2dcb283" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string PluginManager::calculateFileHash</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>calculateFileHash</name>
+        <qualifiedname>themis::plugins::PluginManager::calculateFileHash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Compute SHA-256 hash for a file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calculate File Hash.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>File path to hash. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Lower-case hex digest string, or empty string on I/O/crypto failure.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: file(), EVP_MD_CTX_new(), EVP_DigestInit_ex(), EVP_sha256(), EVP_MD_CTX_free(), read(), gcount(), EVP_DigestUpdate(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="275" column="17" bodyfile="src/plugins/plugin_manager.cpp" bodystart="204" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1ac9f39a4faaeb67fb7af0caf35567ee7d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; PluginManager::findDependentPlugins</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>findDependentPlugins</name>
+        <qualifiedname>themis::plugins::PluginManager::findDependentPlugins</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Find loaded plugins that depend on <computeroutput>name</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin name to resolve reverse dependencies for. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Dependent plugin names in unspecified order. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="283" column="17" bodyfile="src/plugins/plugin_manager.cpp" bodystart="2105" bodyend="2122"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1ad534e503070a746d1b7294983a397479" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void PluginManager::notifyPluginReload</definition>
+        <argsstring>(const std::string &amp;name, PluginReloadPhase phase)</argsstring>
+        <name>notifyPluginReload</name>
+        <qualifiedname>themis::plugins::PluginManager::notifyPluginReload</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1a9c78b2d33a3f0b52923a8e8784c68279" kindref="member">PluginReloadPhase</ref></type>
+          <declname>phase</declname>
+        </param>
+        <briefdescription>
+<para>Notify registered reload listeners for a plugin lifecycle phase. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Notify Plugin Reload.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin name associated with the event. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>phase</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reload phase being emitted.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">phase</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), listener(), THEMIS_WARN(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="290" column="10" bodyfile="src/plugins/plugin_manager.cpp" bodystart="2130" bodyend="2146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1ad4d5988273e6f27b8b84c13cae324749" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763" kindref="member">PluginsError</ref></type>
+        <definition>PluginsError PluginManager::validateConcurrentStateChange</definition>
+        <argsstring>(const PluginEntry &amp;plugin_entry, PluginLifecycleState requested_state)</argsstring>
+        <name>validateConcurrentStateChange</name>
+        <qualifiedname>themis::plugins::PluginManager::validateConcurrentStateChange</qualifiedname>
+        <param>
+          <type>const PluginEntry &amp;</type>
+          <declname>plugin_entry</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71cc" kindref="member">PluginLifecycleState</ref></type>
+          <declname>requested_state</declname>
+        </param>
+        <briefdescription>
+<para>Detect and handle concurrent load/unload attempts on the same plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ Phase 3: Error Handling and Edge Cases ============================================================================</para>
+<para>Validates that a plugin is not in a transition state (LOADING/UNLOADING) before allowing new operations. Returns appropriate error codes for concurrent attempts.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>plugin_entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reference to the plugin entry to check </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>requested_state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target state for the operation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a8c632159fa131f09d04f94e3cbcd8782" kindref="member">PluginsError::kSuccess</ref> if transition is allowed, error code otherwise</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin_entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">requested_state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: state_lock(), THEMIS_ERROR(), <ref refid="namespacethemis_1_1plugins_1a3e2ad9ac929dcdf91edcb84bf6575b9f" kindref="member">lifecycleStateToString()</ref>, <ref refid="namespacethemis_1_1plugins_1a747d5dbd259d608892be0cb99faeb801" kindref="member">isValidLifecycleTransition()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="303" column="18" bodyfile="src/plugins/plugin_manager.cpp" bodystart="2258" bodyend="2286"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1a8e764ce6070aac836273992039904f29" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763" kindref="member">PluginsError</ref></type>
+        <definition>PluginsError PluginManager::recoverPartialRegistryState</definition>
+        <argsstring>(const std::string &amp;plugin_name)</argsstring>
+        <name>recoverPartialRegistryState</name>
+        <qualifiedname>themis::plugins::PluginManager::recoverPartialRegistryState</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_name</declname>
+        </param>
+        <briefdescription>
+<para>Recover from partial registry state after failed plugin operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Recover Partial Registry State.</para>
+<para>When a plugin load/unload fails mid-operation, this function restores the registry to a consistent state by rolling back the partial changes and logging diagnostics.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>plugin_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the plugin with partial state </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a8c632159fa131f09d04f94e3cbcd8782" kindref="member">PluginsError::kSuccess</ref> on successful recovery</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the plugin. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), THEMIS_WARN(), <ref refid="namespacethemis_1_1plugins_1a3e2ad9ac929dcdf91edcb84bf6575b9f" kindref="member">lifecycleStateToString()</ref>, state_lock(), reset(), unloadLibrary(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="314" column="18" bodyfile="src/plugins/plugin_manager.cpp" bodystart="2294" bodyend="2338"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1a41558bf92b4b0b6d6c876c2872628867" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763" kindref="member">PluginsError</ref></type>
+        <definition>PluginsError PluginManager::validateManifestOptionalFields</definition>
+        <argsstring>(PluginManifest &amp;manifest)</argsstring>
+        <name>validateManifestOptionalFields</name>
+        <qualifiedname>themis::plugins::PluginManager::validateManifestOptionalFields</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1plugins_1_1_plugin_manifest" kindref="compound">PluginManifest</ref> &amp;</type>
+          <declname>manifest</declname>
+        </param>
+        <briefdescription>
+<para>Handle manifest with missing optional fields gracefully. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate Manifest Optional Fields.</para>
+<para>Some manifest fields like allowed_editions and license_feature are optional. This function validates and applies defaults when fields are missing.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Manifest to validate and correct </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a8c632159fa131f09d04f94e3cbcd8782" kindref="member">PluginsError::kSuccess</ref> if manifest is valid after correction</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), THEMIS_DEBUG(), std::transform(), begin(), end(), std::tolower(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="325" column="18" bodyfile="src/plugins/plugin_manager.cpp" bodystart="2346" bodyend="2388"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1a44c5219c849451130fb3c34c23798adf" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763" kindref="member">PluginsError</ref></type>
+        <definition>PluginsError PluginManager::validateABICompatibility</definition>
+        <argsstring>(const PluginEntry &amp;previous_entry, const PluginManifest &amp;new_manifest)</argsstring>
+        <name>validateABICompatibility</name>
+        <qualifiedname>themis::plugins::PluginManager::validateABICompatibility</qualifiedname>
+        <param>
+          <type>const PluginEntry &amp;</type>
+          <declname>previous_entry</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1_plugin_manifest" kindref="compound">PluginManifest</ref> &amp;</type>
+          <declname>new_manifest</declname>
+        </param>
+        <briefdescription>
+<para>Detect ABI compatibility issues during hot-reload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate ABICompatibility.</para>
+<para>Checks for ABI incompatibilities when reloading a plugin that was previously loaded. Detects changes in plugin interface version, symbol availability, and calling conventions.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>previous_entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Previous plugin entry before reload </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>new_manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Manifest of the new plugin version </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a8c632159fa131f09d04f94e3cbcd8782" kindref="member">PluginsError::kSuccess</ref> if ABI is compatible</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">previous_entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: sscanf(), c_str(), parse_version(), THEMIS_ERROR(), THEMIS_WARN(), check_cap(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="337" column="18" bodyfile="src/plugins/plugin_manager.cpp" bodystart="2397" bodyend="2452"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1aa8f5320c347fd297b11602394060b059" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool PluginManager::verifyManifestSignatureWithTimeout</definition>
+        <argsstring>(const std::string &amp;manifest_path, uint32_t timeout_ms, std::string &amp;error_details)</argsstring>
+        <name>verifyManifestSignatureWithTimeout</name>
+        <qualifiedname>themis::plugins::PluginManager::verifyManifestSignatureWithTimeout</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>manifest_path</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>timeout_ms</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error_details</declname>
+        </param>
+        <briefdescription>
+<para>Implement timeout handling for long-running signature verification. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify Manifest Signature With Timeout.</para>
+<para>Signature verification on large files or with slow crypto hardware can hang. This function implements configurable timeout with graceful degradation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>manifest_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to manifest to verify </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Timeout in milliseconds (0 = no timeout) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error_details</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output error message on timeout </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if verification succeeded within timeout</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">manifest_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the manifest. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error_details</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: verifyManifestSignature(), THEMIS_DEBUG(), fs::exists(), std::chrono::steady_clock::now(), count(), THEMIS_WARN(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="350" column="10" bodyfile="src/plugins/plugin_manager.cpp" bodystart="2462" bodyend="2501"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1a592523e95748175685d1c75e30352dcc" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1ab547de4562831812e9d0c228715ff0b5" kindref="member">json</ref></type>
+        <definition>json PluginManager::getDiagnosticsForPlugin</definition>
+        <argsstring>(const std::string &amp;plugin_name) const</argsstring>
+        <name>getDiagnosticsForPlugin</name>
+        <qualifiedname>themis::plugins::PluginManager::getDiagnosticsForPlugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_name</declname>
+        </param>
+        <briefdescription>
+<para>Get diagnostic information about a plugin&apos;s error state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Produces structured diagnostic output including lifecycle state, error history, last error code, and recovery options.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>plugin_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the plugin to diagnose </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>JSON object with diagnostic information </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="365" column="10" bodyfile="src/plugins/plugin_manager.cpp" bodystart="2503" bodyend="2559"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1a3d85ac0a08af06791acb9fe00631443a" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string PluginManager::formatDiagnosticMessage</definition>
+        <argsstring>(PluginsError error_code, const std::string &amp;context, const std::string &amp;plugin_name=&quot;&quot;)</argsstring>
+        <name>formatDiagnosticMessage</name>
+        <qualifiedname>themis::plugins::PluginManager::formatDiagnosticMessage</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763" kindref="member">PluginsError</ref></type>
+          <declname>error_code</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_name</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Format error messages with consistent tagging for operator logs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Format Diagnostic Message.</para>
+<para>All error messages should be tagged with [VALIDATION:*], [LIFECYCLE:*], [SECURITY:*] to enable structured logging and filtering.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763" kindref="member">PluginsError</ref> code </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Additional context about the error </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>plugin_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the affected plugin </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Formatted error message with appropriate tags</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the plugin. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="378" column="24" bodyfile="src/plugins/plugin_manager.cpp" bodystart="2691" bodyend="2751"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1acfbe8d7114f84d02cbd79eabb0d484b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::PluginManager::PluginManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>PluginManager</name>
+        <qualifiedname>themis::plugins::PluginManager::PluginManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="396" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1ab657302ef5af357907ae11ad817f5dfc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>PluginManager::~PluginManager</definition>
+        <argsstring>()</argsstring>
+        <name>~PluginManager</name>
+        <qualifiedname>themis::plugins::PluginManager::~PluginManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="397" column="5" bodyfile="src/plugins/plugin_manager.cpp" bodystart="1884" bodyend="1886"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1af33982e2010a9bcace45a5add12c4787" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::PluginManager::PluginManager</definition>
+        <argsstring>(const PluginManager &amp;)=delete</argsstring>
+        <name>PluginManager</name>
+        <qualifiedname>themis::plugins::PluginManager::PluginManager</qualifiedname>
+        <param>
+          <type>const <ref refid="class_plugin_manager" kindref="compound">PluginManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="400" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1ae30c7d06074799821aa2f3cdb744ec0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_plugin_manager" kindref="compound">PluginManager</ref> &amp;</type>
+        <definition>PluginManager &amp; themis::plugins::PluginManager::operator=</definition>
+        <argsstring>(const PluginManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::plugins::PluginManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="class_plugin_manager" kindref="compound">PluginManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="401" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1aa39fefd8eee92abd305c2f8251f933ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; size_t &gt;</type>
+        <definition>Result&lt; size_t &gt; PluginManager::scanPluginDirectory</definition>
+        <argsstring>(const std::string &amp;directory)</argsstring>
+        <name>scanPluginDirectory</name>
+        <qualifiedname>themis::plugins::PluginManager::scanPluginDirectory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>directory</declname>
+        </param>
+        <briefdescription>
+<para>Scan plugin directory for manifests. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Scan Plugin Directory.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>directory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to plugin directory </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;size_t&gt; - Number of plugins discovered or error</para>
+</simplesect>
+<simplesect kind="note"><para>Fail-closed guards (QW-43): Validates plugin names against path traversal attacks. Rejects plugin names containing directory separators (/, ), path traversal (..), absolute paths (C:\, /etc/), or special characters. Only alphanumeric, underscore (_), and hyphen (-) are permitted. Manifests with invalid names are rejected (fail-closed).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">directory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: span(), setAttribute(), lock(), fs::exists(), fs::is_directory(), THEMIS_WARN(), setStatus(), fmt::format(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="413" column="12" bodyfile="src/plugins/plugin_manager.cpp" bodystart="607" bodyend="745"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1a8860c5eb734bf7ccfa14dbdf2c758f4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="classthemis_1_1plugins_1_1_i_themis_plugin" kindref="compound">IThemisPlugin</ref> * &gt;</type>
+        <definition>Result&lt; IThemisPlugin * &gt; PluginManager::loadPlugin</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>loadPlugin</name>
+        <qualifiedname>themis::plugins::PluginManager::loadPlugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Load a plugin by name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load Plugin.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin name (from manifest) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;IThemisPlugin*&gt; with loaded plugin instance or error</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: span(), setAttribute(), std::chrono::steady_clock::now(), lock(), find(), end(), THEMIS_ERROR(), recordError(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="420" column="12" bodyfile="src/plugins/plugin_manager.cpp" bodystart="753" bodyend="1082"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1a661cf855ba363826c4fa6329ef3520e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="classthemis_1_1plugins_1_1_i_themis_plugin" kindref="compound">IThemisPlugin</ref> * &gt;</type>
+        <definition>Result&lt; IThemisPlugin * &gt; PluginManager::loadPluginFromPath</definition>
+        <argsstring>(const std::string &amp;path, const std::string &amp;config=&quot;{}&quot;)</argsstring>
+        <name>loadPluginFromPath</name>
+        <qualifiedname>themis::plugins::PluginManager::loadPluginFromPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config</declname>
+          <defval>&quot;{}&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Load a plugin from explicit path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load Plugin From Path.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to plugin DLL/SO </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional configuration JSON </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;IThemisPlugin*&gt; with loaded plugin instance or error</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), lock(), verifyPlugin(), THEMIS_ERROR(), fmt::format(), loadLibrary(), getSymbol(), unloadLibrary(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="428" column="12" bodyfile="src/plugins/plugin_manager.cpp" bodystart="1091" bodyend="1180"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1a81dc3d8c24982b129330ecaf006a01d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="classthemis_1_1plugins_1_1_i_themis_plugin" kindref="compound">IThemisPlugin</ref> * &gt;</type>
+        <definition>Result&lt; IThemisPlugin * &gt; PluginManager::loadPluginFromOci</definition>
+        <argsstring>(const std::string &amp;oci_ref, const std::string &amp;cache_dir=&quot;&quot;, const std::string &amp;auth_token=&quot;&quot;)</argsstring>
+        <name>loadPluginFromOci</name>
+        <qualifiedname>themis::plugins::PluginManager::loadPluginFromOci</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>oci_ref</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cache_dir</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>auth_token</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Pull a plugin from an OCI registry and load it. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load Plugin From Oci.</para>
+<para>Parses the OCI reference, downloads the plugin binary layer into <computeroutput>cache_dir</computeroutput> (reusing a cached copy when the SHA-256 digest matches), verifies the binary, and delegates to <ref refid="classthemis_1_1plugins_1_1_plugin_manager_1a661cf855ba363826c4fa6329ef3520e5" kindref="member">loadPluginFromPath()</ref>.</para>
+<para>OCI reference format: [registry/]name[:tag][@digest] Example: &quot;ghcr.io/themisdb/plugins/s3_blob:1.2.0&quot;</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>oci_ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>OCI image reference string. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cache_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Local directory for cached plugin binaries. Defaults to the system temp directory when empty. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>auth_token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional Bearer token for authenticated registries. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;IThemisPlugin*&gt; with loaded plugin or error.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">oci_ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">auth_token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="449" column="12" bodyfile="src/plugins/plugin_manager.cpp" bodystart="1189" bodyend="1229"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1a9e6467f8607c110a2350b523cf4fd387" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; PluginManager::unloadPlugin</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>unloadPlugin</name>
+        <qualifiedname>themis::plugins::PluginManager::unloadPlugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Unload a plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Unload Plugin.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;void&gt; - success or error</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), ErrVoid(), fmt::format(), state_lock(), THEMIS_ERROR(), <ref refid="namespacethemis_1_1plugins_1a3e2ad9ac929dcdf91edcb84bf6575b9f" kindref="member">lifecycleStateToString()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="460" column="12" bodyfile="src/plugins/plugin_manager.cpp" bodystart="1237" bodyend="1324"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1ae3fe1cd07674627e23bc17f3c8c7e7b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; PluginManager::unloadAllPlugins</definition>
+        <argsstring>()</argsstring>
+        <name>unloadAllPlugins</name>
+        <qualifiedname>themis::plugins::PluginManager::unloadAllPlugins</qualifiedname>
+        <briefdescription>
+<para>Unload all plugins. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Unload All Plugins.</para>
+<para><simplesect kind="return"><para>Result&lt;void&gt; - success or error</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), shutdown(), getSymbol(), destroyFunc(), release(), reset(), unloadLibrary(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="466" column="12" bodyfile="src/plugins/plugin_manager.cpp" bodystart="1331" bodyend="1367"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1ae001ff366e2b903bcd6cd23d8259cfc7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="classthemis_1_1plugins_1_1_i_themis_plugin" kindref="compound">IThemisPlugin</ref> * &gt;</type>
+        <definition>Result&lt; IThemisPlugin * &gt; PluginManager::getPlugin</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>getPlugin</name>
+        <qualifiedname>themis::plugins::PluginManager::getPlugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Get loaded plugin by name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;IThemisPlugin*&gt; with plugin instance or ERR_PLUGIN_NOT_FOUND if not loaded </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="473" column="12" bodyfile="src/plugins/plugin_manager.cpp" bodystart="1369" bodyend="1384"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1a5413f6791c42a3ba2e33b21e4819755c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="classthemis_1_1plugins_1_1_i_themis_plugin" kindref="compound">IThemisPlugin</ref> * &gt;</type>
+        <definition>std::vector&lt; IThemisPlugin * &gt; PluginManager::getPluginsByType</definition>
+        <argsstring>(PluginType type) const</argsstring>
+        <name>getPluginsByType</name>
+        <qualifiedname>themis::plugins::PluginManager::getPluginsByType</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1a69594568f8b761bc4ddc46b693ffcd12" kindref="member">PluginType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Get all plugins of a specific type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of plugin instances </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="480" column="17" bodyfile="src/plugins/plugin_manager.cpp" bodystart="1386" bodyend="1407"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1a916aefa544f80a9c756859ff000dcaa2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1plugins_1_1_plugin_manifest" kindref="compound">PluginManifest</ref> &gt;</type>
+        <definition>std::vector&lt; PluginManifest &gt; PluginManager::listPlugins</definition>
+        <argsstring>() const</argsstring>
+        <name>listPlugins</name>
+        <qualifiedname>themis::plugins::PluginManager::listPlugins</qualifiedname>
+        <briefdescription>
+<para>List all discovered plugins (loaded or not). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Vector of plugin manifests </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="486" column="17" bodyfile="src/plugins/plugin_manager.cpp" bodystart="1409" bodyend="1424"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1adca72ec53e0dca2b0c7e9216f86952f7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; PluginManager::listLoadedPlugins</definition>
+        <argsstring>() const</argsstring>
+        <name>listLoadedPlugins</name>
+        <qualifiedname>themis::plugins::PluginManager::listLoadedPlugins</qualifiedname>
+        <briefdescription>
+<para>List loaded plugins. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Vector of plugin names </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="492" column="17" bodyfile="src/plugins/plugin_manager.cpp" bodystart="1426" bodyend="1443"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1ac979557ac34ea531a7231a2215d22949" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool PluginManager::isPluginLoaded</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>isPluginLoaded</name>
+        <qualifiedname>themis::plugins::PluginManager::isPluginLoaded</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Check if plugin is loaded. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if loaded </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="499" column="10" bodyfile="src/plugins/plugin_manager.cpp" bodystart="1445" bodyend="1455"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1a604c84ab0ddaeb8499402a438f7f602d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; PluginManager::reloadPlugin</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>reloadPlugin</name>
+        <qualifiedname>themis::plugins::PluginManager::reloadPlugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Hot-reload a plugin without server restart (atomic with rollback). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reload Plugin.</para>
+<para>Reload process:<orderedlist>
+<listitem><para>Validate plugin is loaded; fail if dependents exist</para>
+</listitem><listitem><para>Save <ref refid="classthemis_1_1plugins_1_1_i_stateful_plugin" kindref="compound">IStatefulPlugin</ref> state (if applicable)</para>
+</listitem><listitem><para>Verify new binary (hash + signature) — old plugin still running</para>
+</listitem><listitem><para>Load new binary, create instance, initialize, restore state</para>
+</listitem><listitem><para>If any of the above fail: return error, old plugin continues unaffected</para>
+</listitem><listitem><para>Atomically swap old entry for new entry under mutex</para>
+</listitem><listitem><para>Notify BEFORE_UNLOAD / AFTER_UNLOAD listeners</para>
+</listitem><listitem><para>Shutdown and unload old binary (outside mutex)</para>
+</listitem><listitem><para>Notify AFTER_LOAD listeners</para>
+</listitem></orderedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;void&gt; - success or error; old plugin remains running on failure</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), lock(), find(), end(), ErrVoid(), fmt::format(), findDependentPlugins(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="518" column="12" bodyfile="src/plugins/plugin_manager.cpp" bodystart="1463" bodyend="1750"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1a07acb385374057bb2f7900510d439c95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; size_t &gt;</type>
+        <definition>Result&lt; size_t &gt; PluginManager::autoLoadPlugins</definition>
+        <argsstring>()</argsstring>
+        <name>autoLoadPlugins</name>
+        <qualifiedname>themis::plugins::PluginManager::autoLoadPlugins</qualifiedname>
+        <briefdescription>
+<para>Auto-load plugins marked with auto_load=true. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Auto Load Plugins.</para>
+<para><simplesect kind="return"><para>Result&lt;size_t&gt; - Number of plugins loaded or error</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), <ref refid="classthemis_1_1plugins_1_1_plugin_dependency_resolver_1a65a0ef6e4ae9d2773899ac912f68698c" kindref="member">PluginDependencyResolver::buildGraph()</ref>, <ref refid="classthemis_1_1plugins_1_1_plugin_dependency_resolver_1aa7937e4475071b4e920dcb1e2cb7513e" kindref="member">PluginDependencyResolver::detectCircularDependencies()</ref>, empty(), size(), fmt::format(), THEMIS_ERROR(), <ref refid="classthemis_1_1plugins_1_1_plugin_dependency_resolver_1a8fbddf7410f8ef7d3d21ef84192786ae" kindref="member">PluginDependencyResolver::validateDependencies()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="524" column="12" bodyfile="src/plugins/plugin_manager.cpp" bodystart="1757" bodyend="1836"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1a4c405587bed608447e97fe565978585a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1plugins_1_1_plugin_manifest" kindref="compound">PluginManifest</ref> &gt;</type>
+        <definition>Result&lt; PluginManifest &gt; PluginManager::getManifest</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>getManifest</name>
+        <qualifiedname>themis::plugins::PluginManager::getManifest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Get plugin manifest. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;PluginManifest&gt; - Manifest or error if not found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="531" column="12" bodyfile="src/plugins/plugin_manager.cpp" bodystart="1838" bodyend="1853"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1ad2796980a77cf294308ad8dea458eeb9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1_plugin_negotiation_result" kindref="compound">PluginNegotiationResult</ref></type>
+        <definition>PluginNegotiationResult PluginManager::negotiateCapabilities</definition>
+        <argsstring>(const std::string &amp;name, const std::vector&lt; PluginCapabilityRequirement &gt; &amp;requirements) const</argsstring>
+        <name>negotiateCapabilities</name>
+        <qualifiedname>themis::plugins::PluginManager::negotiateCapabilities</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1plugins_1_1_plugin_capability_requirement" kindref="compound">PluginCapabilityRequirement</ref> &gt; &amp;</type>
+          <declname>requirements</declname>
+        </param>
+        <briefdescription>
+<para>Negotiate capabilities between a loaded plugin and a set of requirements. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Checks that the named plugin is loaded, then delegates to <ref refid="classthemis_1_1plugins_1_1_plugin_capability_negotiator_1a11998fe126f1fbeaa76c2f45a2b1d92a" kindref="member">PluginCapabilityNegotiator::negotiate()</ref> to verify each requirement against the plugin&apos;s capability flags and version.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the loaded plugin. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>requirements</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>List of capability requirements (name + optional version range). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1plugins_1_1_plugin_negotiation_result" kindref="compound">PluginNegotiationResult</ref> with success flag and per-requirement details. If the plugin is not found/loaded, success is false and error_message is set. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="545" column="29" bodyfile="src/plugins/plugin_manager.cpp" bodystart="1855" bodyend="1882"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1a11a5146923298a9e7d00d08bc9b81acc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; PluginManager::checkCapabilityEscalation</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>checkCapabilityEscalation</name>
+        <qualifiedname>themis::plugins::PluginManager::checkCapabilityEscalation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Check whether a loaded plugin has escalated its capabilities beyond what was declared in the manifest at load time. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Check Capability Escalation.</para>
+<para>The capabilities returned by the plugin&apos;s getCapabilities() are compared against the snapshot frozen at load time. If the current capabilities are a strict superset (i.e. any flag that was false at load is now true), the plugin is marked RESTRICTED and ERR_PLUGIN_CAPABILITY_ESCALATION is returned.</para>
+<para>This method is a no-op on the hot call path: capabilities are only checked when this method is explicitly called (e.g. from a periodic security scan or after an explicit re-negotiation request).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the loaded plugin. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ok(void) if no escalation is detected. Err(ERR_PLUGIN_CAPABILITY_ESCALATION) if escalation is detected; the plugin is also marked as RESTRICTED in the registry. Err(ERR_PLUGIN_NOT_FOUND) if the plugin is not loaded.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="568" column="12" bodyfile="src/plugins/plugin_manager.cpp" bodystart="1897" bodyend="1941"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1ac98c4f3d00b263976c4da7a490c01e81" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool PluginManager::isPluginRestricted</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>isPluginRestricted</name>
+        <qualifiedname>themis::plugins::PluginManager::isPluginRestricted</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Query whether a plugin has been marked RESTRICTED due to a capability escalation attempt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin name. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the plugin exists, is loaded, and has been marked RESTRICTED; false in all other cases. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="578" column="10" bodyfile="src/plugins/plugin_manager.cpp" bodystart="1943" bodyend="1956"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1a11693503e57e5143f629a8e77198ca9f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1plugins_1_1_plugin_metrics" kindref="compound">PluginMetrics</ref> &amp;</type>
+        <definition>const PluginMetrics &amp; themis::plugins::PluginManager::getMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetrics</name>
+        <qualifiedname>themis::plugins::PluginManager::getMetrics</qualifiedname>
+        <briefdescription>
+<para>Get plugin metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Reference to plugin metrics </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="584" column="25" bodyfile="include/plugins/plugin_manager.h" bodystart="584" bodyend="584"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1a43b5e0869a650590dbc1c46dbd638209" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1_plugin_metrics" kindref="compound">PluginMetrics</ref> &amp;</type>
+        <definition>PluginMetrics &amp; themis::plugins::PluginManager::getMetricsMutable</definition>
+        <argsstring>()</argsstring>
+        <name>getMetricsMutable</name>
+        <qualifiedname>themis::plugins::PluginManager::getMetricsMutable</qualifiedname>
+        <briefdescription>
+<para>Get mutable plugin metrics (for testing). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Mutable reference to plugin metrics </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="590" column="19" bodyfile="include/plugins/plugin_manager.h" bodystart="590" bodyend="590"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1a18c172b469ed04fd9796206df65f1431" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool PluginManager::enableHotPlug</definition>
+        <argsstring>(const std::string &amp;directory, const HotPlugConfig &amp;config=HotPlugConfig())</argsstring>
+        <name>enableHotPlug</name>
+        <qualifiedname>themis::plugins::PluginManager::enableHotPlug</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>directory</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1_hot_plug_config" kindref="compound">HotPlugConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1plugins_1_1_hot_plug_config" kindref="compound">HotPlugConfig</ref>()</defval>
+        </param>
+        <briefdescription>
+<para>Enable hot-plug monitoring for a directory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable Hot Plug.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>directory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Directory to monitor </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Hot-plug configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if monitoring started successfully</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">directory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), THEMIS_WARN(), start(), reset(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="598" column="10" bodyfile="src/plugins/plugin_manager.cpp" bodystart="2031" bodyend="2049"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1a3be685f2c11e4e3effd4af134466e31c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void PluginManager::disableHotPlug</definition>
+        <argsstring>()</argsstring>
+        <name>disableHotPlug</name>
+        <qualifiedname>themis::plugins::PluginManager::disableHotPlug</qualifiedname>
+        <briefdescription>
+<para>Disable hot-plug monitoring. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Disable Hot Plug.</para>
+<para>Calls: lock(), stop(), reset(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="603" column="10" bodyfile="src/plugins/plugin_manager.cpp" bodystart="2055" bodyend="2066"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1a1fea8e7c1df03fd19afd80fe5074d60c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool PluginManager::isHotPlugEnabled</definition>
+        <argsstring>() const</argsstring>
+        <name>isHotPlugEnabled</name>
+        <qualifiedname>themis::plugins::PluginManager::isHotPlugEnabled</qualifiedname>
+        <briefdescription>
+<para>Check if hot-plug monitoring is enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if monitoring is active </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="609" column="10" bodyfile="src/plugins/plugin_manager.cpp" bodystart="2068" bodyend="2076"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1a3d3905a5a35929fbcc17e89ac78d56f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void PluginManager::registerReloadListener</definition>
+        <argsstring>(PluginReloadListener listener)</argsstring>
+        <name>registerReloadListener</name>
+        <qualifiedname>themis::plugins::PluginManager::registerReloadListener</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1af1290a82c12885cd665259c4f3e5185a" kindref="member">PluginReloadListener</ref></type>
+          <declname>listener</declname>
+        </param>
+        <briefdescription>
+<para>Register a reload event listener. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Reload Listener.</para>
+<para>Listeners are notified during plugin reload phases:<itemizedlist>
+<listitem><para>BEFORE_UNLOAD: Before unloading old plugin</para>
+</listitem><listitem><para>AFTER_UNLOAD: After unloading old plugin</para>
+</listitem><listitem><para>AFTER_LOAD: After loading new plugin</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>listener</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback function to be notified </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Thread-safe: Can be called from any thread</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">listener</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="622" column="10" bodyfile="src/plugins/plugin_manager.cpp" bodystart="2087" bodyend="2090"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1acf13efbb3ae1f69514a8e00eb8f7106f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void PluginManager::clearReloadListeners</definition>
+        <argsstring>()</argsstring>
+        <name>clearReloadListeners</name>
+        <qualifiedname>themis::plugins::PluginManager::clearReloadListeners</qualifiedname>
+        <briefdescription>
+<para>Clear all reload event listeners. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Reload Listeners.</para>
+<para><simplesect kind="note"><para>Thread-safe: Can be called from any thread</para>
+</simplesect>
+Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="628" column="10" bodyfile="src/plugins/plugin_manager.cpp" bodystart="2096" bodyend="2099"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1ae0027211f619dbe9beda6643e9838406" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void PluginManager::attachHealthMonitor</definition>
+        <argsstring>(PluginHealthMonitor *monitor)</argsstring>
+        <name>attachHealthMonitor</name>
+        <qualifiedname>themis::plugins::PluginManager::attachHealthMonitor</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1_plugin_health_monitor" kindref="compound">PluginHealthMonitor</ref> *</type>
+          <declname>monitor</declname>
+        </param>
+        <briefdescription>
+<para>Attach a health monitor to observe loaded self-healing plugins. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Attach Health Monitor.</para>
+<para>When set, every plugin that implements <ref refid="classthemis_1_1plugins_1_1_i_self_healing_plugin" kindref="compound">ISelfHealingPlugin</ref> is automatically registered with the monitor on load and unregistered on unload.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>monitor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an existing <ref refid="classthemis_1_1plugins_1_1_plugin_health_monitor" kindref="compound">PluginHealthMonitor</ref> (non-owning). Pass nullptr to detach the current monitor. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Thread-safe: Can be called from any thread</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">monitor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), THEMIS_INFO(), get(), registerPlugin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="640" column="10" bodyfile="src/plugins/plugin_manager.cpp" bodystart="2153" bodyend="2174"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1a19a14a35966008a2185d9b21b8c64e43" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_plugin_manager" kindref="compound">PluginManager</ref> &amp;</type>
+        <definition>PluginManager &amp; PluginManager::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::plugins::PluginManager::instance</qualifiedname>
+        <briefdescription>
+<para>Singleton instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Instance.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements instance without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="645" column="26" bodyfile="src/plugins/plugin_manager.cpp" bodystart="1964" bodyend="1967"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1a0dbf2847f8a8b061b1a4b6495e14ec3b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool PluginManager::isEditionSupported</definition>
+        <argsstring>()</argsstring>
+        <name>isEditionSupported</name>
+        <qualifiedname>themis::plugins::PluginManager::isEditionSupported</qualifiedname>
+        <briefdescription>
+<para>Check whether the running edition supports plugins (compile-time gate). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Is Edition Supported.</para>
+<para><simplesect kind="return"><para>true for Enterprise / Hyperscaler editions.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements isEditionSupported without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="655" column="17" bodyfile="src/plugins/plugin_manager.cpp" bodystart="2185" bodyend="2187"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1ab9ea61c601f82bf3c7b94125f8400c83" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool PluginManager::isLicensed</definition>
+        <argsstring>()</argsstring>
+        <name>isLicensed</name>
+        <qualifiedname>themis::plugins::PluginManager::isLicensed</qualifiedname>
+        <briefdescription>
+<para>Check whether the runtime license allows the enterprise_plugins feature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Is Licensed.</para>
+<para><simplesect kind="return"><para>true when the runtime license grants plugin loading.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: license::RuntimeLicenseGate::instance(), isFeatureAllowed(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="661" column="17" bodyfile="src/plugins/plugin_manager.cpp" bodystart="2194" bodyend="2196"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1a10023f0ed25987a9911157233b11056d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string PluginManager::communityUnavailableMessage</definition>
+        <argsstring>(const std::string &amp;plugin_name)</argsstring>
+        <name>communityUnavailableMessage</name>
+        <qualifiedname>themis::plugins::PluginManager::communityUnavailableMessage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_name</declname>
+        </param>
+        <briefdescription>
+<para>Human-readable error message for Community-edition plugin load attempts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Community Unavailable Message.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the plugin. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements communityUnavailableMessage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="666" column="24" bodyfile="src/plugins/plugin_manager.cpp" bodystart="2204" bodyend="2209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1a8e3d3533c3636ab62f828fa6a6e8b080" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string PluginManager::marketplaceInfo</definition>
+        <argsstring>()</argsstring>
+        <name>marketplaceInfo</name>
+        <qualifiedname>themis::plugins::PluginManager::marketplaceInfo</qualifiedname>
+        <briefdescription>
+<para>Returns marketplace availability info for the running edition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Marketplace Info.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: edition::EditionInfo::Get(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="671" column="24" bodyfile="src/plugins/plugin_manager.cpp" bodystart="2216" bodyend="2229"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_manager_1a9262c382d2111c90668420bae3507082" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string PluginManager::installationInstructions</definition>
+        <argsstring>()</argsstring>
+        <name>installationInstructions</name>
+        <qualifiedname>themis::plugins::PluginManager::installationInstructions</qualifiedname>
+        <briefdescription>
+<para>Returns installation instructions, gated by edition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Installation Instructions.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="676" column="24" bodyfile="src/plugins/plugin_manager.cpp" bodystart="2236" bodyend="2248"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unified Plugin Manager. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Consolidates existing plugin systems:<orderedlist>
+<listitem><para>acceleration::PluginLoader (compute backends)</para>
+</listitem><listitem><para>HSM PKCS#11 dynamic loading</para>
+</listitem><listitem><para>ZLUDA dynamic loading</para>
+</listitem></orderedlist>
+</para>
+<para>New capabilities:<itemizedlist>
+<listitem><para>Plugin manifest (plugin.json) support</para>
+</listitem><listitem><para>Type-based plugin registry</para>
+</listitem><listitem><para>Auto-discovery from plugin directory</para>
+</listitem><listitem><para>Dependency resolution</para>
+</listitem><listitem><para>Hot-reload support</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-Safety: All methods are thread-safe </para>
+    </detaileddescription>
+    <location file="include/plugins/plugin_manager.h" line="84" column="1" bodyfile="include/plugins/plugin_manager.h" bodystart="84" bodyend="677"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1ae0027211f619dbe9beda6643e9838406" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>attachHealthMonitor</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1a07acb385374057bb2f7900510d439c95" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>autoLoadPlugins</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1ad18f675e8ccf4a96dda6388ea2dcb283" prot="private" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>calculateFileHash</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1a11a5146923298a9e7d00d08bc9b81acc" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>checkCapabilityEscalation</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1acf13efbb3ae1f69514a8e00eb8f7106f" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>clearReloadListeners</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1a10023f0ed25987a9911157233b11056d" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>communityUnavailableMessage</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1a3be685f2c11e4e3effd4af134466e31c" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>disableHotPlug</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1a18c172b469ed04fd9796206df65f1431" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>enableHotPlug</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1a7950478d9e64fbb0e4aea2b44611c090" prot="private" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>error_states_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1ac9f39a4faaeb67fb7af0caf35567ee7d" prot="private" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>findDependentPlugins</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1a3d85ac0a08af06791acb9fe00631443a" prot="private" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>formatDiagnosticMessage</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1a592523e95748175685d1c75e30352dcc" prot="private" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>getDiagnosticsForPlugin</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1a4c405587bed608447e97fe565978585a" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>getManifest</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1a11693503e57e5143f629a8e77198ca9f" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1a43b5e0869a650590dbc1c46dbd638209" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>getMetricsMutable</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1ae001ff366e2b903bcd6cd23d8259cfc7" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>getPlugin</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1a5413f6791c42a3ba2e33b21e4819755c" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>getPluginsByType</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1ad4e4d0488b68d4e964624de52371cd19" prot="private" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>getSymbol</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1aa7a0d27b9ade54f7a853818a2de84d04" prot="private" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>health_monitor_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1a1e535cdb526fcfbf3d6ba178cab71047" prot="private" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>hot_plug_monitor_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1a9262c382d2111c90668420bae3507082" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>installationInstructions</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1a19a14a35966008a2185d9b21b8c64e43" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>instance</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1a0dbf2847f8a8b061b1a4b6495e14ec3b" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>isEditionSupported</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1a1fea8e7c1df03fd19afd80fe5074d60c" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>isHotPlugEnabled</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1ab9ea61c601f82bf3c7b94125f8400c83" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>isLicensed</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1ac979557ac34ea531a7231a2215d22949" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>isPluginLoaded</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1ac98c4f3d00b263976c4da7a490c01e81" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>isPluginRestricted</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1adca72ec53e0dca2b0c7e9216f86952f7" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>listLoadedPlugins</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1a916aefa544f80a9c756859ff000dcaa2" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>listPlugins</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1a2b3d78b2d653b2b350f270d49cda72f4" prot="private" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>loadLibrary</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1a066048f98c2a29c4cfc582e07f6cf2ae" prot="private" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>loadManifest</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1a8860c5eb734bf7ccfa14dbdf2c758f4e" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>loadPlugin</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1a81dc3d8c24982b129330ecaf006a01d0" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>loadPluginFromOci</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1a661cf855ba363826c4fa6329ef3520e5" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>loadPluginFromPath</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1a8e3d3533c3636ab62f828fa6a6e8b080" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>marketplaceInfo</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1a0659f1071d996275d64e70635cb5372c" prot="private" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1ab4bd06560304dfc5fb702647f9eafc43" prot="private" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1ad2796980a77cf294308ad8dea458eeb9" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>negotiateCapabilities</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1ad534e503070a746d1b7294983a397479" prot="private" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>notifyPluginReload</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1ae30c7d06074799821aa2f3cdb744ec0e" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1acfbe8d7114f84d02cbd79eabb0d484b0" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>PluginManager</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1af33982e2010a9bcace45a5add12c4787" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>PluginManager</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1ad7cdaef06dd2a8d23511f489b6627b73" prot="private" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>PluginManagerTestAccess</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1a7cf35ecc9d9597b630cc21cadbbe7c27" prot="private" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>plugins_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1a8e764ce6070aac836273992039904f29" prot="private" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>recoverPartialRegistryState</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1a3d3905a5a35929fbcc17e89ac78d56f1" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>registerReloadListener</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1a46ce9669894c1dde47262b85cb076ac4" prot="private" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>reload_listeners_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1a604c84ab0ddaeb8499402a438f7f602d" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>reloadPlugin</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1aa39fefd8eee92abd305c2f8251f933ca" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>scanPluginDirectory</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1aa67103d5a8f0e814c455cb8b0c483c7c" prot="private" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>type_index_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1ae3fe1cd07674627e23bc17f3c8c7e7b8" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>unloadAllPlugins</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1a9487cb32dcdea0d8c3de6947c2f8edd2" prot="private" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>unloadLibrary</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1a9e6467f8607c110a2350b523cf4fd387" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>unloadPlugin</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1a44c5219c849451130fb3c34c23798adf" prot="private" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>validateABICompatibility</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1ad4d5988273e6f27b8b84c13cae324749" prot="private" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>validateConcurrentStateChange</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1a17236f82b8a4695ee5a575e4073ed77b" prot="private" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>validateManifestEditionRestrictions</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1a41558bf92b4b0b6d6c876c2872628867" prot="private" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>validateManifestOptionalFields</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1a0a1f380ef7956bf4f8e87f08d737f640" prot="private" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>validateManifestPublicPrivateBoundary</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1aceeece15238da407e4f109dc58ebb30a" prot="private" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>validatePluginForLoad</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1a6125580402b62a1a128623018d5f503e" prot="private" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>verifyManifestSignature</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1aa8f5320c347fd297b11602394060b059" prot="private" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>verifyManifestSignatureWithTimeout</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1a735b1af1eefd72cac76b48b62ba831e3" prot="private" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>verifyPlugin</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_manager_1ab657302ef5af357907ae11ad817f5dfc" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager</scope><name>~PluginManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

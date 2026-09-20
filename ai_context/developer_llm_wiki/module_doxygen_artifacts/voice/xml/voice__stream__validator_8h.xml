@@ -1,0 +1,235 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="voice__stream__validator_8h" kind="file" language="C++">
+    <compoundname>voice_stream_validator.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">stdexcept</includes>
+    <includedby refid="bench__voice__a8__baselines_8cpp" local="yes">benchmarks/voice/bench_voice_a8_baselines.cpp</includedby>
+    <includedby refid="voice__stream__validator_8cpp" local="yes">src/voice/voice_stream_validator.cpp</includedby>
+    <includedby refid="test__voice__session__chaos__isolation_8cpp" local="yes">tests/voice/test_voice_session_chaos_isolation.cpp</includedby>
+    <includedby refid="test__voice__stream__validation_8cpp" local="yes">tests/voice/test_voice_stream_validation.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/voice/voice_stream_validator.h</label>
+        <link refid="voice__stream__validator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>stdexcept</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/voice/bench_voice_a8_baselines.cpp</label>
+        <link refid="bench__voice__a8__baselines_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/voice/voice_stream_validator.h</label>
+        <link refid="voice__stream__validator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/voice/voice_stream_validator.cpp</label>
+        <link refid="voice__stream__validator_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/voice/test_voice_session_chaos_isolation.cpp</label>
+        <link refid="test__voice__session__chaos__isolation_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/voice/test_voice_stream_validation.cpp</label>
+        <link refid="test__voice__stream__validation_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1voice_1_1_stream_validation_error" prot="public">themis::voice::StreamValidationError</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1_stream_validation_policy" prot="public">themis::voice::StreamValidationPolicy</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_validated_audio_chunk" prot="public">themis::voice::ValidatedAudioChunk</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1_voice_stream_validator" prot="public">themis::voice::VoiceStreamValidator</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1voice">themis::voice</innernamespace>
+    <briefdescription>
+<para>Voice stream chunk validation and malformed/oversized input rejection. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="date"><para>2026-08-16</para>
+</simplesect>
+Wave A-8 Voice hardening: enforces fail-closed validation for audio stream chunks, rejecting malformed data, oversized payloads, and invalid session transitions.</para>
+<para>All validation errors trigger immediate stream termination and CPU-safe fallback.</para>
+<para><simplesect kind="see"><para>src/voice/ROADMAP.md § Wave A Scope for voice </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice" kindref="compound">voice</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Error<sp/>Types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="classthemis_1_1voice_1_1_stream_validation_error" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1_stream_validation_error_1ae2a813950099e7c6393a74eb3edb4927" kindref="member">StreamValidationError</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>std::runtime_error<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="44" refid="classthemis_1_1voice_1_1_stream_validation_error_1ae2a813950099e7c6393a74eb3edb4927" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_stream_validation_error_1ae2a813950099e7c6393a74eb3edb4927" kindref="member">StreamValidationError</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reason,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_stream_validation_error_1afcd2d496fda2e62a7d9c97cfe1f91d53" kindref="member">chunk_size</ref>,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_stream_validation_error_1a84c2ce9efe0c0a003e5b0f2288c6072b" kindref="member">line</ref>)</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>std::runtime_error(build_message(reason,<sp/><ref refid="classthemis_1_1voice_1_1_stream_validation_error_1afcd2d496fda2e62a7d9c97cfe1f91d53" kindref="member">chunk_size</ref>,<sp/><ref refid="classthemis_1_1voice_1_1_stream_validation_error_1a84c2ce9efe0c0a003e5b0f2288c6072b" kindref="member">line</ref>)),</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>chunk_size_(<ref refid="classthemis_1_1voice_1_1_stream_validation_error_1afcd2d496fda2e62a7d9c97cfe1f91d53" kindref="member">chunk_size</ref>),<sp/>line_(<ref refid="classthemis_1_1voice_1_1_stream_validation_error_1a84c2ce9efe0c0a003e5b0f2288c6072b" kindref="member">line</ref>)<sp/>{}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="classthemis_1_1voice_1_1_stream_validation_error_1afcd2d496fda2e62a7d9c97cfe1f91d53" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_stream_validation_error_1afcd2d496fda2e62a7d9c97cfe1f91d53" kindref="member">chunk_size</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>chunk_size_;<sp/>}</highlight></codeline>
+<codeline lineno="49" refid="classthemis_1_1voice_1_1_stream_validation_error_1a84c2ce9efe0c0a003e5b0f2288c6072b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_stream_validation_error_1a84c2ce9efe0c0a003e5b0f2288c6072b" kindref="member">line</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>line_;<sp/>}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>chunk_size_;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>line_;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>build_message(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reason,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_stream_validation_error_1afcd2d496fda2e62a7d9c97cfe1f91d53" kindref="member">chunk_size</ref>,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_stream_validation_error_1a84c2ce9efe0c0a003e5b0f2288c6072b" kindref="member">line</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Stream<sp/>validation<sp/>failed<sp/>at<sp/>line<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(<ref refid="classthemis_1_1voice_1_1_stream_validation_error_1a84c2ce9efe0c0a003e5b0f2288c6072b" kindref="member">line</ref>)<sp/>+<sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>reason<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>(chunk_size=&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(<ref refid="classthemis_1_1voice_1_1_stream_validation_error_1afcd2d496fda2e62a7d9c97cfe1f91d53" kindref="member">chunk_size</ref>)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Stream<sp/>Chunk<sp/>Validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="classthemis_1_1voice_1_1_stream_validation_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1_stream_validation_policy" kindref="compound">StreamValidationPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="74" refid="classthemis_1_1voice_1_1_stream_validation_policy_1a4d2dd22c902f186b15540ae41c736619" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_stream_validation_policy_1a4d2dd22c902f186b15540ae41c736619" kindref="member">MAX_CHUNK_SIZE_BYTES</ref><sp/>=<sp/>16<sp/>*<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77" refid="classthemis_1_1voice_1_1_stream_validation_policy_1abe701d55d408b2c1af14bd9088dd05a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_stream_validation_policy_1abe701d55d408b2c1af14bd9088dd05a6" kindref="member">MIN_CHUNK_SIZE_BYTES</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80" refid="classthemis_1_1voice_1_1_stream_validation_policy_1af31273c354261a83697c94509fcff2c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="classthemis_1_1voice_1_1_stream_validation_policy_1af31273c354261a83697c94509fcff2c0" kindref="member">MAX_SAMPLES_PER_CHUNK</ref><sp/>=<sp/>48000<sp/>*<sp/>10;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83" refid="classthemis_1_1voice_1_1_stream_validation_policy_1adcfb3b511755627c171acaf4c0780c33" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="classthemis_1_1voice_1_1_stream_validation_policy_1adcfb3b511755627c171acaf4c0780c33" kindref="member">VALID_SAMPLE_RATES</ref>[]<sp/>=<sp/>{8000,<sp/>16000,<sp/>22050,<sp/>44100,<sp/>48000};</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86" refid="classthemis_1_1voice_1_1_stream_validation_policy_1a0c22d5324ab8bbaed7075524078322d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint8_t<sp/><ref refid="classthemis_1_1voice_1_1_stream_validation_policy_1a0c22d5324ab8bbaed7075524078322d5" kindref="member">VALID_BIT_DEPTHS</ref>[]<sp/>=<sp/>{8,<sp/>16,<sp/>24,<sp/>32};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89" refid="classthemis_1_1voice_1_1_stream_validation_policy_1a21f096b9161d3f1c42acba49902de5a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="classthemis_1_1voice_1_1_stream_validation_policy_1a21f096b9161d3f1c42acba49902de5a7" kindref="member">MAX_STREAM_DURATION_SECONDS</ref><sp/>=<sp/>3600;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1voice_1_1_validated_audio_chunk" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_validated_audio_chunk" kindref="compound">ValidatedAudioChunk</ref><sp/>{</highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1voice_1_1_validated_audio_chunk_1a6e69977b8941186edc6db5f1f882b2ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1voice_1_1_validated_audio_chunk_1a6e69977b8941186edc6db5f1f882b2ef" kindref="member">data</ref>;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1voice_1_1_validated_audio_chunk_1ab242b00f4041bf8f9a511a7e70263a51" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1voice_1_1_validated_audio_chunk_1ab242b00f4041bf8f9a511a7e70263a51" kindref="member">sample_rate</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1voice_1_1_validated_audio_chunk_1a0641ade6d2125e1e2e61e814958dac90" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/><ref refid="structthemis_1_1voice_1_1_validated_audio_chunk_1a0641ade6d2125e1e2e61e814958dac90" kindref="member">num_channels</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1voice_1_1_validated_audio_chunk_1a6707557a0ae384be5d71e3aace1ce06d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/><ref refid="structthemis_1_1voice_1_1_validated_audio_chunk_1a6707557a0ae384be5d71e3aace1ce06d" kindref="member">bit_depth</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1voice_1_1_validated_audio_chunk_1a1adf4c7886f7fdd53f0e9f4a6f055802" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1voice_1_1_validated_audio_chunk_1a1adf4c7886f7fdd53f0e9f4a6f055802" kindref="member">sequence_num</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1voice_1_1_validated_audio_chunk_1a8ee9f0687c336f5dea39daacee0e8a46" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1voice_1_1_validated_audio_chunk_1a8ee9f0687c336f5dea39daacee0e8a46" kindref="member">timestamp_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1voice_1_1_validated_audio_chunk_1ab49752abbfc3553875ee9d5c18f8574a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_validated_audio_chunk_1ab49752abbfc3553875ee9d5c18f8574a" kindref="member">is_final_chunk</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="classthemis_1_1voice_1_1_voice_stream_validator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1_voice_stream_validator_1ab3ed8f561e84c94352941fe64df24e89" kindref="member">VoiceStreamValidator</ref><sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_stream_validator_1ab3ed8f561e84c94352941fe64df24e89" kindref="member">VoiceStreamValidator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1voice_1_1_voice_stream_validator_1a1a0daeebbc41d55e1a43a6897f669c4e" kindref="member">session_id</ref>,</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>expected_sample_rate,</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint8_t<sp/>expected_channels,</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint8_t<sp/>expected_bit_depth);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1voice_1_1_validated_audio_chunk" kindref="compound">ValidatedAudioChunk</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_stream_validator_1a2570a9a3c6103ddb6a3414316f3bcc1f" kindref="member">validate_chunk</ref>(</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t*<sp/>chunk,</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>chunk_size,</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>sequence_num,</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>timestamp_ms<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_final<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_stream_validator_1aef4aff15dd37b02a29d4d758bd3dda5f" kindref="member">is_chunk_malformed</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t*<sp/>chunk,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>chunk_size)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194" refid="classthemis_1_1voice_1_1_voice_stream_validator_1a9dbbf5fb9351c794ab144e960afda10c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>uint64_t<sp/><ref refid="classthemis_1_1voice_1_1_voice_stream_validator_1a9dbbf5fb9351c794ab144e960afda10c" kindref="member">total_bytes_validated</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>total_bytes_;<sp/>}</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199" refid="classthemis_1_1voice_1_1_voice_stream_validator_1a5b70ba00503eaf22d29dfdec6de372a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>uint32_t<sp/><ref refid="classthemis_1_1voice_1_1_voice_stream_validator_1a5b70ba00503eaf22d29dfdec6de372a8" kindref="member">chunks_validated</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>chunks_validated_;<sp/>}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204" refid="classthemis_1_1voice_1_1_voice_stream_validator_1a0fc2bccbac30da0e61ae22c8ac68305a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>uint32_t<sp/><ref refid="classthemis_1_1voice_1_1_voice_stream_validator_1a0fc2bccbac30da0e61ae22c8ac68305a" kindref="member">last_sequence_num</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>last_sequence_num_;<sp/>}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209" refid="classthemis_1_1voice_1_1_voice_stream_validator_1a1a0daeebbc41d55e1a43a6897f669c4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1voice_1_1_voice_stream_validator_1a1a0daeebbc41d55e1a43a6897f669c4e" kindref="member">session_id</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>session_id_;<sp/>}</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214" refid="classthemis_1_1voice_1_1_voice_stream_validator_1a0053a1173585c7579b7dfdf0d46dee7d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_stream_validator_1a0053a1173585c7579b7dfdf0d46dee7d" kindref="member">is_complete</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>stream_complete_;<sp/>}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_stream_validator_1a42f19dbefce5a9dd4792876ec05ab814" kindref="member">reset</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>session_id_;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>expected_sample_rate_;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>expected_channels_;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>expected_bit_depth_;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>total_bytes_;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>chunks_validated_;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>last_sequence_num_;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>stream_complete_;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>validate_size(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>chunk_size);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>validate_sequence(uint32_t<sp/>sequence_num);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>validate_duration(uint64_t<sp/>timestamp_ms);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244" refid="namespacethemis_1_1voice_1a3c35c9289e6cf1580776e64da50a3e1d" refkind="member"><highlight class="normal">[[nodiscard]]<sp/>inline<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1voice_1a3c35c9289e6cf1580776e64da50a3e1d" kindref="member">is_valid_sample_rate</ref>(uint32_t<sp/>sample_rate)<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>valid_rate<sp/>:<sp/><ref refid="classthemis_1_1voice_1_1_stream_validation_policy_1adcfb3b511755627c171acaf4c0780c33" kindref="member">StreamValidationPolicy::VALID_SAMPLE_RATES</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(sample_rate<sp/>==<sp/>valid_rate)<sp/>{</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259" refid="namespacethemis_1_1voice_1a20acfc7801f9f4db3a5351d0a45de187" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1voice_1a20acfc7801f9f4db3a5351d0a45de187" kindref="member">is_valid_bit_depth</ref>(uint8_t<sp/>bit_depth)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>valid_depth<sp/>:<sp/><ref refid="classthemis_1_1voice_1_1_stream_validation_policy_1a0c22d5324ab8bbaed7075524078322d5" kindref="member">StreamValidationPolicy::VALID_BIT_DEPTHS</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(bit_depth<sp/>==<sp/>valid_depth)<sp/>{</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>voice</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/voice/voice_stream_validator.h"/>
+  </compounddef>
+</doxygen>

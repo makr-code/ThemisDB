@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_model_health_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::ModelHealthMetrics</compoundname>
+    <includes refid="model__serving_8h" local="no">model_serving.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_model_health_metrics_1a736111d506ed515213eea772f1339211" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::ModelHealthMetrics::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themisdb::analytics::ModelHealthMetrics::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/model_serving.h" line="106" column="17" bodyfile="include/analytics/model_serving.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_model_health_metrics_1a5b4d423baaa3f32228141cc4ce9971b1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::ModelHealthMetrics::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themisdb::analytics::ModelHealthMetrics::version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/model_serving.h" line="107" column="17" bodyfile="include/analytics/model_serving.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_model_health_metrics_1aa450353d5f54b7d5a600792b6acee2fb" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::ModelHealthMetrics::total_predictions</definition>
+        <argsstring></argsstring>
+        <name>total_predictions</name>
+        <qualifiedname>themisdb::analytics::ModelHealthMetrics::total_predictions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Cumulative single-record predictions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/model_serving.h" line="109" column="14" bodyfile="include/analytics/model_serving.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_model_health_metrics_1afbb6e788aa4f57da5832805226449962" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::ModelHealthMetrics::total_batch_calls</definition>
+        <argsstring></argsstring>
+        <name>total_batch_calls</name>
+        <qualifiedname>themisdb::analytics::ModelHealthMetrics::total_batch_calls</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Cumulative batch inference calls. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/model_serving.h" line="110" column="14" bodyfile="include/analytics/model_serving.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_model_health_metrics_1adb7f0a44824871785abe125dc8e64589" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::ModelHealthMetrics::total_batch_records</definition>
+        <argsstring></argsstring>
+        <name>total_batch_records</name>
+        <qualifiedname>themisdb::analytics::ModelHealthMetrics::total_batch_records</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Cumulative records processed in batches. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/model_serving.h" line="111" column="14" bodyfile="include/analytics/model_serving.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_model_health_metrics_1ad01d7350210d3d92554269f0c83a5bc6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::ModelHealthMetrics::avg_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_latency_ms</name>
+        <qualifiedname>themisdb::analytics::ModelHealthMetrics::avg_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Rolling average of per-call latency. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/model_serving.h" line="113" column="14" bodyfile="include/analytics/model_serving.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_model_health_metrics_1ac2e14b7f323b4023c08c7213c538f6ba" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::ModelHealthMetrics::p99_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>p99_latency_ms</name>
+        <qualifiedname>themisdb::analytics::ModelHealthMetrics::p99_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>p99 latency over the latency_window </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/model_serving.h" line="114" column="14" bodyfile="include/analytics/model_serving.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_model_health_metrics_1a45a495a5e9d1231ba9d2be41bd73cfd2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::ModelHealthMetrics::last_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>last_latency_ms</name>
+        <qualifiedname>themisdb::analytics::ModelHealthMetrics::last_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Latency of the most recent call. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/model_serving.h" line="115" column="14" bodyfile="include/analytics/model_serving.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_model_health_metrics_1ae3b98650103e2bcbb9e96126ed5178fb" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::analytics::ModelHealthMetrics::last_used_ms</definition>
+        <argsstring></argsstring>
+        <name>last_used_ms</name>
+        <qualifiedname>themisdb::analytics::ModelHealthMetrics::last_used_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Epoch-ms of last inference call (0 = never). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/model_serving.h" line="117" column="14" bodyfile="include/analytics/model_serving.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/model_serving.h" line="105" column="1" bodyfile="include/analytics/model_serving.h" bodystart="105" bodyend="118"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_model_health_metrics_1ad01d7350210d3d92554269f0c83a5bc6" prot="public" virt="non-virtual"><scope>themisdb::analytics::ModelHealthMetrics</scope><name>avg_latency_ms</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_model_health_metrics_1a45a495a5e9d1231ba9d2be41bd73cfd2" prot="public" virt="non-virtual"><scope>themisdb::analytics::ModelHealthMetrics</scope><name>last_latency_ms</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_model_health_metrics_1ae3b98650103e2bcbb9e96126ed5178fb" prot="public" virt="non-virtual"><scope>themisdb::analytics::ModelHealthMetrics</scope><name>last_used_ms</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_model_health_metrics_1a736111d506ed515213eea772f1339211" prot="public" virt="non-virtual"><scope>themisdb::analytics::ModelHealthMetrics</scope><name>name</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_model_health_metrics_1ac2e14b7f323b4023c08c7213c538f6ba" prot="public" virt="non-virtual"><scope>themisdb::analytics::ModelHealthMetrics</scope><name>p99_latency_ms</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_model_health_metrics_1afbb6e788aa4f57da5832805226449962" prot="public" virt="non-virtual"><scope>themisdb::analytics::ModelHealthMetrics</scope><name>total_batch_calls</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_model_health_metrics_1adb7f0a44824871785abe125dc8e64589" prot="public" virt="non-virtual"><scope>themisdb::analytics::ModelHealthMetrics</scope><name>total_batch_records</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_model_health_metrics_1aa450353d5f54b7d5a600792b6acee2fb" prot="public" virt="non-virtual"><scope>themisdb::analytics::ModelHealthMetrics</scope><name>total_predictions</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_model_health_metrics_1a5b4d423baaa3f32228141cc4ce9971b1" prot="public" virt="non-virtual"><scope>themisdb::analytics::ModelHealthMetrics</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

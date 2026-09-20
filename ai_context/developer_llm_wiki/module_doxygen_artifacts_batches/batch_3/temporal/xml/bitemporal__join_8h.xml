@@ -1,0 +1,203 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bitemporal__join_8h" kind="file" language="C++">
+    <compoundname>bitemporal_join.h</compoundname>
+    <includes refid="temporal__types_8h" local="yes">temporal/temporal_types.h</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">utility</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="bitemporal__join_8cpp" local="yes">src/temporal/bitemporal_join.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/temporal/bitemporal_join.h</label>
+        <link refid="bitemporal__join_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>temporal/temporal_types.h</label>
+        <link refid="temporal__types_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="6">
+        <label>limits</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>utility</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/temporal/bitemporal_join.h</label>
+        <link refid="bitemporal__join_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/temporal/bitemporal_join.cpp</label>
+        <link refid="bitemporal__join_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_bi_temporal_row" prot="public">themisdb::temporal::BiTemporalRow</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_result" prot="public">themisdb::temporal::BiTemporalJoinResult</innerclass>
+    <innerclass refid="classthemisdb_1_1temporal_1_1_bi_temporal_join" prot="public">themisdb::temporal::BiTemporalJoin</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_1_1_config" prot="public">themisdb::temporal::BiTemporalJoin::Config</innerclass>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1temporal">themisdb::temporal</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="temporal__types_8h" kindref="compound">temporal/temporal_types.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18" refid="namespacethemisdb" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb" kindref="compound">themisdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="19" refid="namespacethemisdb_1_1temporal" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1temporal" kindref="compound">temporal</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BiTemporalRow<sp/>–<sp/>one<sp/>versioned<sp/>row<sp/>from<sp/>either<sp/>input<sp/>table</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="structthemisdb_1_1temporal_1_1_bi_temporal_row" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_row" kindref="compound">BiTemporalRow</ref><sp/>{</highlight></codeline>
+<codeline lineno="29" refid="structthemisdb_1_1temporal_1_1_bi_temporal_row_1a1cb0b2de0c98bd61fdee62a55029cd0c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_row_1a1cb0b2de0c98bd61fdee62a55029cd0c" kindref="member">key</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30" refid="structthemisdb_1_1temporal_1_1_bi_temporal_row_1a80c43905af1311550f2e370bf4e0028d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1a00c22a4045b18e63643ee17fded088a0" kindref="member">Document</ref><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_row_1a80c43905af1311550f2e370bf4e0028d" kindref="member">payload</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="structthemisdb_1_1temporal_1_1_bi_temporal_row_1a95cb728caa6131b22319f52743153465" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_row_1a95cb728caa6131b22319f52743153465" kindref="member">sys_time</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="structthemisdb_1_1temporal_1_1_bi_temporal_row_1a01cee45284cd45532d9e49d336d235ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_row_1a01cee45284cd45532d9e49d336d235ce" kindref="member">valid_time</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BiTemporalJoinResult<sp/>–<sp/>output<sp/>row<sp/>from<sp/>a<sp/>join</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_result" kindref="compound">BiTemporalJoinResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="46" refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_result_1a8d09f07afc6308acc5acf1cdecd69493" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_result_1a8d09f07afc6308acc5acf1cdecd69493" kindref="member">key</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_result_1a52aaae0e5d87f3c8e9fe5f8bce43a47a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1a00c22a4045b18e63643ee17fded088a0" kindref="member">Document</ref><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_result_1a52aaae0e5d87f3c8e9fe5f8bce43a47a" kindref="member">left_payload</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_result_1ad8ae8ea2aebdc5b60d80956312a30eec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1a00c22a4045b18e63643ee17fded088a0" kindref="member">Document</ref><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_result_1ad8ae8ea2aebdc5b60d80956312a30eec" kindref="member">right_payload</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_result_1aa1a6aac1473934e27fb7ba4276f0b22a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_result_1aa1a6aac1473934e27fb7ba4276f0b22a" kindref="member">sys_time_overlap</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_result_1acd11f63c439c14e69e41cb74a19bc2c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_result_1acd11f63c439c14e69e41cb74a19bc2c4" kindref="member">valid_time_overlap</ref>;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_result_1af03e9fc5cab64007a95cbf2f673042a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_result_1af03e9fc5cab64007a95cbf2f673042a3" kindref="member">operator==</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_result" kindref="compound">BiTemporalJoinResult</ref>&amp;<sp/>o)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_result_1a8d09f07afc6308acc5acf1cdecd69493" kindref="member">key</ref><sp/>==<sp/>o.key;<sp/><sp/></highlight><highlight class="comment">//<sp/>Simplified<sp/>equality<sp/>(key<sp/>+<sp/>period<sp/>uniqueness)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BiTemporalJoin</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="classthemisdb_1_1temporal_1_1_bi_temporal_join" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1ab5fbe911238af9d69df32c5d93f57ec4" kindref="member">BiTemporalJoin</ref><sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="73" refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a9df7ecf5e6fdbc86722393ffd5c12bb3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a9df7ecf5e6fdbc86722393ffd5c12bb3" kindref="member">JoinMode</ref><sp/>{</highlight></codeline>
+<codeline lineno="75" refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a9df7ecf5e6fdbc86722393ffd5c12bb3acccfe17114c661dae430f95367cfc2b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a9df7ecf5e6fdbc86722393ffd5c12bb3acccfe17114c661dae430f95367cfc2b4" kindref="member">SEQUENCED</ref>,</highlight></codeline>
+<codeline lineno="77" refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a9df7ecf5e6fdbc86722393ffd5c12bb3ab8808da933992995439ebaf29c2280c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a9df7ecf5e6fdbc86722393ffd5c12bb3ab8808da933992995439ebaf29c2280c0" kindref="member">NON_SEQUENCED</ref>,</highlight></codeline>
+<codeline lineno="79" refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a9df7ecf5e6fdbc86722393ffd5c12bb3aa2770969c827f0f2910f6179418462df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a9df7ecf5e6fdbc86722393ffd5c12bb3aa2770969c827f0f2910f6179418462df" kindref="member">CURRENT</ref>,</highlight></codeline>
+<codeline lineno="81" refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a9df7ecf5e6fdbc86722393ffd5c12bb3a41d9a66d842e561ef815a7e5f383434e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a9df7ecf5e6fdbc86722393ffd5c12bb3a41d9a66d842e561ef815a7e5f383434e" kindref="member">CONTAINED_IN</ref>,</highlight></codeline>
+<codeline lineno="83" refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a9df7ecf5e6fdbc86722393ffd5c12bb3a63cbe58e7309f03c6c6d5f13925e383a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a9df7ecf5e6fdbc86722393ffd5c12bb3a63cbe58e7309f03c6c6d5f13925e383a" kindref="member">OVERLAPPING</ref>,</highlight></codeline>
+<codeline lineno="85" refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a9df7ecf5e6fdbc86722393ffd5c12bb3a46b8744c6bc840d2cb241fa165f3e204" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a9df7ecf5e6fdbc86722393ffd5c12bb3a46b8744c6bc840d2cb241fa165f3e204" kindref="member">SNAPSHOT</ref>,</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="92" refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_1_1_config_1a9c8f79bf9ecc17b90b2efccc3fead1e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a9df7ecf5e6fdbc86722393ffd5c12bb3" kindref="member">JoinMode</ref><sp/><ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_1_1_config_1a9c8f79bf9ecc17b90b2efccc3fead1e4" kindref="member">mode</ref><sp/>=<sp/><ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a9df7ecf5e6fdbc86722393ffd5c12bb3acccfe17114c661dae430f95367cfc2b4" kindref="member">JoinMode::SEQUENCED</ref>;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_1_1_config_1ac7a391ed91caf58f9f644d134da8f6a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref><sp/><ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_1_1_config_1ac7a391ed91caf58f9f644d134da8f6a8" kindref="member">as_of</ref><sp/>=<sp/>kMaxTimestamp;<sp/><sp/></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_1_1_config_1aaae2463fb3f274d34789046f6e2de05b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_1_1_config_1aaae2463fb3f274d34789046f6e2de05b" kindref="member">apply_sys_time_predicate</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_1_1_config_1aa2a466bf64550440f1edf700c930e970" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;std::string(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_row" kindref="compound">BiTemporalRow</ref>&amp;)&gt;<sp/><ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_1_1_config_1aa2a466bf64550440f1edf700c930e970" kindref="member">left_key_fn</ref>;</highlight></codeline>
+<codeline lineno="103" refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_1_1_config_1a0dec04da6cb4af5c44606d050f0a37ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;std::string(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_row" kindref="compound">BiTemporalRow</ref>&amp;)&gt;<sp/><ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_1_1_config_1a0dec04da6cb4af5c44606d050f0a37ab" kindref="member">right_key_fn</ref>;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1ab5fbe911238af9d69df32c5d93f57ec4" kindref="member">BiTemporalJoin</ref>(std::vector&lt;BiTemporalRow&gt;<sp/>left,</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;BiTemporalRow&gt;<sp/>right);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1ab5fbe911238af9d69df32c5d93f57ec4" kindref="member">BiTemporalJoin</ref>(std::vector&lt;BiTemporalRow&gt;<sp/>left,</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;BiTemporalRow&gt;<sp/>right,</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_1_1_config" kindref="compound">Config</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1ab38ec410075e19a1c10efd31f3cf463f" kindref="member">config</ref>);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;BiTemporalJoinResult&gt;<sp/><ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a2ca5001e80cfe2ae4c38e139ec613e4c" kindref="member">execute</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1ac5406ef1af172cc43041ccba91e69dcd" kindref="member">forEach</ref>(std::function&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">(<ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_result" kindref="compound">BiTemporalJoinResult</ref>)&gt;<sp/>cb)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1ab38ec410075e19a1c10efd31f3cf463f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_1_1_config" kindref="compound">Config</ref>&amp;<sp/><ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1ab38ec410075e19a1c10efd31f3cf463f" kindref="member">config</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Static<sp/>predicate<sp/>helpers<sp/>(exposed<sp/>for<sp/>testing)<sp/>────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1af20e09ca959de94f4e1ccba44f7240f2" kindref="member">overlaps</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref>&amp;<sp/>a,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref>&amp;<sp/>b)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a207d00f5c1f3183b90c508acb049061f" kindref="member">containedIn</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref>&amp;<sp/>inner,</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref>&amp;<sp/>outer)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref><sp/><ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a4c500231d166d235c430237cdf19251c" kindref="member">intersection</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref>&amp;<sp/>a,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref>&amp;<sp/>b)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;BiTemporalRow&gt;<sp/>left_;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;BiTemporalRow&gt;<sp/>right_;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config_;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>rowMatches(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_row" kindref="compound">BiTemporalRow</ref>&amp;<sp/>l,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_row" kindref="compound">BiTemporalRow</ref>&amp;<sp/>r)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_result" kindref="compound">BiTemporalJoinResult</ref><sp/>makeResult(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_row" kindref="compound">BiTemporalRow</ref>&amp;<sp/>l,</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_row" kindref="compound">BiTemporalRow</ref>&amp;<sp/>r)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>temporal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/temporal/bitemporal_join.h"/>
+  </compounddef>
+</doxygen>

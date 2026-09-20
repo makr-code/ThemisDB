@@ -1,0 +1,667 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__ai__decision__auditor_8cpp" kind="file" language="C++">
+    <compoundname>test_ai_decision_auditor.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">llm/ai_decision_auditor.h</includes>
+    <includes local="yes">security/mock_key_provider.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">rocksdb/db.h</includes>
+    <includes local="no">rocksdb/utilities/transaction_db.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/ai/test_ai_decision_auditor.cpp</label>
+        <link refid="test__ai__decision__auditor_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>filesystem</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>llm/ai_decision_auditor.h</label>
+      </node>
+      <node id="6">
+        <label>rocksdb/db.h</label>
+      </node>
+      <node id="7">
+        <label>rocksdb/utilities/transaction_db.h</label>
+      </node>
+      <node id="4">
+        <label>security/mock_key_provider.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_a_i_decision_auditor_test" prot="public">AIDecisionAuditorTest</innerclass>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__ai__decision__auditor_8cpp_1a69b95ae702cadb6c93d7c90b58e14930" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AIDecisionAuditorTest, LogDecisionWithCompleteContext)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_i_decision_auditor_test" kindref="compound">AIDecisionAuditorTest</ref></type>
+        </param>
+        <param>
+          <type>LogDecisionWithCompleteContext</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_decision_auditor.cpp" line="84" column="1" bodyfile="tests/ai/test_ai_decision_auditor.cpp" bodystart="84" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ai__decision__auditor_8cpp_1a62d4aeda7ae700490d50ede0f2a6ecee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AIDecisionAuditorTest, RetrieveDecisionById)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_i_decision_auditor_test" kindref="compound">AIDecisionAuditorTest</ref></type>
+        </param>
+        <param>
+          <type>RetrieveDecisionById</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_decision_auditor.cpp" line="101" column="1" bodyfile="tests/ai/test_ai_decision_auditor.cpp" bodystart="101" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ai__decision__auditor_8cpp_1a411fc263d40b9921c8ca72bdf3ed7fa4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AIDecisionAuditorTest, LowConfidenceAutoFlagsForReview)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_i_decision_auditor_test" kindref="compound">AIDecisionAuditorTest</ref></type>
+        </param>
+        <param>
+          <type>LowConfidenceAutoFlagsForReview</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_decision_auditor.cpp" line="115" column="1" bodyfile="tests/ai/test_ai_decision_auditor.cpp" bodystart="115" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ai__decision__auditor_8cpp_1a05529b799d6891d90edf0ca92f04bb8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AIDecisionAuditorTest, HighConfidenceNotFlagged)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_i_decision_auditor_test" kindref="compound">AIDecisionAuditorTest</ref></type>
+        </param>
+        <param>
+          <type>HighConfidenceNotFlagged</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_decision_auditor.cpp" line="125" column="1" bodyfile="tests/ai/test_ai_decision_auditor.cpp" bodystart="125" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ai__decision__auditor_8cpp_1a725c8ffa9b646e5d0d2a03690ec7e012" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AIDecisionAuditorTest, FlagForReview)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_i_decision_auditor_test" kindref="compound">AIDecisionAuditorTest</ref></type>
+        </param>
+        <param>
+          <type>FlagForReview</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_decision_auditor.cpp" line="135" column="1" bodyfile="tests/ai/test_ai_decision_auditor.cpp" bodystart="135" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ai__decision__auditor_8cpp_1a5bb18bdf7b37ed79c97cff5d16d5e9d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AIDecisionAuditorTest, RecordHumanOverride)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_i_decision_auditor_test" kindref="compound">AIDecisionAuditorTest</ref></type>
+        </param>
+        <param>
+          <type>RecordHumanOverride</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_decision_auditor.cpp" line="152" column="1" bodyfile="tests/ai/test_ai_decision_auditor.cpp" bodystart="152" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ai__decision__auditor_8cpp_1a6ac3394c05f5de4d89e9500071dbfccb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AIDecisionAuditorTest, GenerateExplanation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_i_decision_auditor_test" kindref="compound">AIDecisionAuditorTest</ref></type>
+        </param>
+        <param>
+          <type>GenerateExplanation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_decision_auditor.cpp" line="172" column="1" bodyfile="tests/ai/test_ai_decision_auditor.cpp" bodystart="172" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ai__decision__auditor_8cpp_1a7a605b9f24cd199fa4a3bda999e3e7c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AIDecisionAuditorTest, QueryByUserFilter)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_i_decision_auditor_test" kindref="compound">AIDecisionAuditorTest</ref></type>
+        </param>
+        <param>
+          <type>QueryByUserFilter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_decision_auditor.cpp" line="186" column="1" bodyfile="tests/ai/test_ai_decision_auditor.cpp" bodystart="186" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ai__decision__auditor_8cpp_1abf05b0fe5a3a1f75e1018d6cae66598e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AIDecisionAuditorTest, QueryByConfidenceRange)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_i_decision_auditor_test" kindref="compound">AIDecisionAuditorTest</ref></type>
+        </param>
+        <param>
+          <type>QueryByConfidenceRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_decision_auditor.cpp" line="212" column="1" bodyfile="tests/ai/test_ai_decision_auditor.cpp" bodystart="212" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ai__decision__auditor_8cpp_1a99344360cf6c8d89069129d0f709330c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AIDecisionAuditorTest, QueryByReviewFlag)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_i_decision_auditor_test" kindref="compound">AIDecisionAuditorTest</ref></type>
+        </param>
+        <param>
+          <type>QueryByReviewFlag</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_decision_auditor.cpp" line="238" column="1" bodyfile="tests/ai/test_ai_decision_auditor.cpp" bodystart="238" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ai__decision__auditor_8cpp_1aeb3bec1912882d9ed6a69e0a0d66a55c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AIDecisionAuditorTest, GetStatistics)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_i_decision_auditor_test" kindref="compound">AIDecisionAuditorTest</ref></type>
+        </param>
+        <param>
+          <type>GetStatistics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_decision_auditor.cpp" line="260" column="1" bodyfile="tests/ai/test_ai_decision_auditor.cpp" bodystart="260" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ai__decision__auditor_8cpp_1a2d31aa19b26f07004eea8eb8025ec5ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AIDecisionAuditorTest, ExportForCompliance)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_i_decision_auditor_test" kindref="compound">AIDecisionAuditorTest</ref></type>
+        </param>
+        <param>
+          <type>ExportForCompliance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_decision_auditor.cpp" line="286" column="1" bodyfile="tests/ai/test_ai_decision_auditor.cpp" bodystart="286" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ai__decision__auditor_8cpp_1a2e18002e37542985e0fa3d260eee692f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AIDecisionAuditorTest, VerifyIntegrity)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_i_decision_auditor_test" kindref="compound">AIDecisionAuditorTest</ref></type>
+        </param>
+        <param>
+          <type>VerifyIntegrity</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_decision_auditor.cpp" line="314" column="1" bodyfile="tests/ai/test_ai_decision_auditor.cpp" bodystart="314" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ai__decision__auditor_8cpp_1a6b8371651b56632f2b758182f6d8d2fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AIDecisionAuditorTest, SerializationRoundTrip)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_i_decision_auditor_test" kindref="compound">AIDecisionAuditorTest</ref></type>
+        </param>
+        <param>
+          <type>SerializationRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_decision_auditor.cpp" line="323" column="1" bodyfile="tests/ai/test_ai_decision_auditor.cpp" bodystart="323" bodyend="338"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 83/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;llm/ai_decision_auditor.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;security/mock_key_provider.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;rocksdb/db.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;rocksdb/utilities/transaction_db.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::llm;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22" refid="class_a_i_decision_auditor_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_i_decision_auditor_test" kindref="compound">AIDecisionAuditorTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_i_decision_auditor_test_1a3b5d9adc0be161370f5573b0ff427411" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Setup<sp/>temporary<sp/>database</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_i_decision_auditor_test_1ae7a420839d40213c71c31de3e146eab8" kindref="member">db_path_</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;data/test_ai_audit_db&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="class_a_i_decision_auditor_test_1ae7a420839d40213c71c31de3e146eab8" kindref="member">db_path_</ref>);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::create_directories(<ref refid="class_a_i_decision_auditor_test_1ae7a420839d40213c71c31de3e146eab8" kindref="member">db_path_</ref>);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Open<sp/>RocksDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rocksdb::TransactionDBOptions<sp/>txn_options;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rocksdb::Options<sp/>options;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>options.create_if_missing<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rocksdb::TransactionDB*<sp/>db_ptr;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>rocksdb::TransactionDB::Open(</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>options,<sp/>txn_options,<sp/><ref refid="class_a_i_decision_auditor_test_1ae7a420839d40213c71c31de3e146eab8" kindref="member">db_path_</ref>,<sp/>&amp;db_ptr</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(s.ok())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>open<sp/>database:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>s.ToString();</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_i_decision_auditor_test_1a6cd79a3173404c271053b9ea2ff610b8" kindref="member">db_</ref>.reset(db_ptr);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>auditor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_i_decision_auditor_test_1a72bd7a29e1535dfd7a4754e965ae3a69" kindref="member">auditor_</ref><sp/>=<sp/>std::make_unique&lt;AIDecisionAuditor&gt;(<ref refid="class_a_i_decision_auditor_test_1a6cd79a3173404c271053b9ea2ff610b8" kindref="member">db_</ref>.get());</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_i_decision_auditor_test_1af2c207e43a17a8f13aaca92b0d57a9d2" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_i_decision_auditor_test_1a72bd7a29e1535dfd7a4754e965ae3a69" kindref="member">auditor_</ref>.reset();</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_i_decision_auditor_test_1a6cd79a3173404c271053b9ea2ff610b8" kindref="member">db_</ref>.reset();</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="class_a_i_decision_auditor_test_1ae7a420839d40213c71c31de3e146eab8" kindref="member">db_path_</ref>);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>AIDecisionAudit<sp/><ref refid="class_a_i_decision_auditor_test_1ab70bb6fe976bec747b1ff9b795100661" kindref="member">createTestAudit</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AIDecisionAudit<sp/>audit;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>audit.user_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;user_123&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>audit.session_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;session_456&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>audit.query<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France?&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>audit.model_name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test-model&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>audit.model_version<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>audit.response<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Paris&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>audit.confidence_score<sp/>=<sp/>0.95f;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>audit.latency_ms<sp/>=<sp/>150;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>audit.token_count<sp/>=<sp/>25;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>audit.reasoning_steps<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Parsed<sp/>query<sp/>intent&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Identified<sp/>geographical<sp/>question&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Retrieved<sp/>fact<sp/>from<sp/>knowledge<sp/>base&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Generated<sp/>response&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>audit.key_factors<sp/>=<sp/>json::object();</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>audit.key_factors[</highlight><highlight class="stringliteral">&quot;query_type&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;factual&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>audit.key_factors[</highlight><highlight class="stringliteral">&quot;knowledge_base&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;geography&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>audit;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_i_decision_auditor_test_1ae7a420839d40213c71c31de3e146eab8" kindref="member">db_path_</ref>;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;rocksdb::TransactionDB&gt;<sp/><ref refid="class_a_i_decision_auditor_test_1a6cd79a3173404c271053b9ea2ff610b8" kindref="member">db_</ref>;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;AIDecisionAuditor&gt;<sp/><ref refid="class_a_i_decision_auditor_test_1a72bd7a29e1535dfd7a4754e965ae3a69" kindref="member">auditor_</ref>;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><ref refid="test__ai__decision__auditor_8cpp_1a69b95ae702cadb6c93d7c90b58e14930" kindref="member">TEST_F</ref>(<ref refid="class_a_i_decision_auditor_test" kindref="compound">AIDecisionAuditorTest</ref>,<sp/>LogDecisionWithCompleteContext)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>audit<sp/>=<sp/>createTestAudit();</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Log<sp/>the<sp/>decision</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stored<sp/>=<sp/>auditor_-&gt;logDecision(audit);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>ID<sp/>was<sp/>generated</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(stored.decision_id.empty());</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>all<sp/>fields<sp/>preserved</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stored.user_id,<sp/>audit.user_id);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stored.query,<sp/>audit.query);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stored.response,<sp/>audit.response);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(stored.confidence_score,<sp/>audit.confidence_score);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stored.reasoning_steps.size(),<sp/>4);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><ref refid="test__ai__decision__auditor_8cpp_1a69b95ae702cadb6c93d7c90b58e14930" kindref="member">TEST_F</ref>(<ref refid="class_a_i_decision_auditor_test" kindref="compound">AIDecisionAuditorTest</ref>,<sp/>RetrieveDecisionById)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>audit<sp/>=<sp/>createTestAudit();</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stored<sp/>=<sp/>auditor_-&gt;logDecision(audit);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Retrieve<sp/>the<sp/>decision</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>retrieved<sp/>=<sp/>auditor_-&gt;getDecision(stored.decision_id);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(retrieved.has_value());</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved-&gt;decision_id,<sp/>stored.decision_id);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved-&gt;query,<sp/>stored.query);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved-&gt;response,<sp/>stored.response);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(retrieved-&gt;confidence_score,<sp/>stored.confidence_score);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><ref refid="test__ai__decision__auditor_8cpp_1a69b95ae702cadb6c93d7c90b58e14930" kindref="member">TEST_F</ref>(<ref refid="class_a_i_decision_auditor_test" kindref="compound">AIDecisionAuditorTest</ref>,<sp/>LowConfidenceAutoFlagsForReview)<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>audit<sp/>=<sp/>createTestAudit();</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>audit.confidence_score<sp/>=<sp/>0.5f;<sp/></highlight><highlight class="comment">//<sp/>Below<sp/>0.7<sp/>threshold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stored<sp/>=<sp/>auditor_-&gt;logDecision(audit);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>be<sp/>automatically<sp/>flagged</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stored.requires_human_review);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><ref refid="test__ai__decision__auditor_8cpp_1a69b95ae702cadb6c93d7c90b58e14930" kindref="member">TEST_F</ref>(<ref refid="class_a_i_decision_auditor_test" kindref="compound">AIDecisionAuditorTest</ref>,<sp/>HighConfidenceNotFlagged)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>audit<sp/>=<sp/>createTestAudit();</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>audit.confidence_score<sp/>=<sp/>0.95f;<sp/></highlight><highlight class="comment">//<sp/>Above<sp/>threshold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stored<sp/>=<sp/>auditor_-&gt;logDecision(audit);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>not<sp/>be<sp/>flagged</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(stored.requires_human_review);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><ref refid="test__ai__decision__auditor_8cpp_1a69b95ae702cadb6c93d7c90b58e14930" kindref="member">TEST_F</ref>(<ref refid="class_a_i_decision_auditor_test" kindref="compound">AIDecisionAuditorTest</ref>,<sp/>FlagForReview)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>audit<sp/>=<sp/>createTestAudit();</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stored<sp/>=<sp/>auditor_-&gt;logDecision(audit);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initially<sp/>not<sp/>flagged</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(stored.requires_human_review);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Flag<sp/>for<sp/>review</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>success<sp/>=<sp/>auditor_-&gt;flagForReview(stored.decision_id,<sp/></highlight><highlight class="stringliteral">&quot;Suspicious<sp/>response&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(success);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>flagged</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>retrieved<sp/>=<sp/>auditor_-&gt;getDecision(stored.decision_id);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(retrieved.has_value());</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(retrieved-&gt;requires_human_review);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><ref refid="test__ai__decision__auditor_8cpp_1a69b95ae702cadb6c93d7c90b58e14930" kindref="member">TEST_F</ref>(<ref refid="class_a_i_decision_auditor_test" kindref="compound">AIDecisionAuditorTest</ref>,<sp/>RecordHumanOverride)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>audit<sp/>=<sp/>createTestAudit();</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stored<sp/>=<sp/>auditor_-&gt;logDecision(audit);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>override</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>success<sp/>=<sp/>auditor_-&gt;recordOverride(</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stored.decision_id,</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Corrected<sp/>response&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;reviewer_789&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(success);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>override<sp/>recorded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>retrieved<sp/>=<sp/>auditor_-&gt;getDecision(stored.decision_id);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(retrieved.has_value());</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved-&gt;human_override,<sp/></highlight><highlight class="stringliteral">&quot;Corrected<sp/>response&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved-&gt;reviewer_id,<sp/></highlight><highlight class="stringliteral">&quot;reviewer_789&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(retrieved-&gt;requires_human_review);<sp/></highlight><highlight class="comment">//<sp/>Should<sp/>clear<sp/>flag</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><ref refid="test__ai__decision__auditor_8cpp_1a69b95ae702cadb6c93d7c90b58e14930" kindref="member">TEST_F</ref>(<ref refid="class_a_i_decision_auditor_test" kindref="compound">AIDecisionAuditorTest</ref>,<sp/>GenerateExplanation)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>audit<sp/>=<sp/>createTestAudit();</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>audit.explanation<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>Clear<sp/>default<sp/>explanation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stored<sp/>=<sp/>auditor_-&gt;logDecision(audit);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Generate<sp/>explanation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>explanation<sp/>=<sp/>auditor_-&gt;generateExplanation(stored.decision_id);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(explanation.empty());</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(explanation.find(</highlight><highlight class="stringliteral">&quot;Query:&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(explanation.find(</highlight><highlight class="stringliteral">&quot;Model:&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(explanation.find(</highlight><highlight class="stringliteral">&quot;Confidence:&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><ref refid="test__ai__decision__auditor_8cpp_1a69b95ae702cadb6c93d7c90b58e14930" kindref="member">TEST_F</ref>(<ref refid="class_a_i_decision_auditor_test" kindref="compound">AIDecisionAuditorTest</ref>,<sp/>QueryByUserFilter)<sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>multiple<sp/>decisions<sp/>for<sp/>different<sp/>users</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>audit1<sp/>=<sp/>createTestAudit();</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>audit1.user_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;user_A&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>auditor_-&gt;logDecision(audit1);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>audit2<sp/>=<sp/>createTestAudit();</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>audit2.user_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;user_B&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>auditor_-&gt;logDecision(audit2);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>audit3<sp/>=<sp/>createTestAudit();</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>audit3.user_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;user_A&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>auditor_-&gt;logDecision(audit3);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>for<sp/>user_A</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>AIDecisionAuditor::QueryFilter<sp/>filter;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>filter.user_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;user_A&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>auditor_-&gt;queryAuditLog(filter);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results.size(),<sp/>2);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>result<sp/>:<sp/>results)<sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(result.user_id,<sp/></highlight><highlight class="stringliteral">&quot;user_A&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="210"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><ref refid="test__ai__decision__auditor_8cpp_1a69b95ae702cadb6c93d7c90b58e14930" kindref="member">TEST_F</ref>(<ref refid="class_a_i_decision_auditor_test" kindref="compound">AIDecisionAuditorTest</ref>,<sp/>QueryByConfidenceRange)<sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>decisions<sp/>with<sp/>different<sp/>confidence<sp/>levels</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>audit1<sp/>=<sp/>createTestAudit();</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>audit1.confidence_score<sp/>=<sp/>0.95f;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>auditor_-&gt;logDecision(audit1);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>audit2<sp/>=<sp/>createTestAudit();</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>audit2.confidence_score<sp/>=<sp/>0.6f;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>auditor_-&gt;logDecision(audit2);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>audit3<sp/>=<sp/>createTestAudit();</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>audit3.confidence_score<sp/>=<sp/>0.85f;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>auditor_-&gt;logDecision(audit3);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>for<sp/>high<sp/>confidence<sp/>(&gt;=<sp/>0.8)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>AIDecisionAuditor::QueryFilter<sp/>filter;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>filter.min_confidence<sp/>=<sp/>0.8f;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>auditor_-&gt;queryAuditLog(filter);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results.size(),<sp/>2);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>result<sp/>:<sp/>results)<sp/>{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(result.confidence_score,<sp/>0.8f);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="236"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><ref refid="test__ai__decision__auditor_8cpp_1a69b95ae702cadb6c93d7c90b58e14930" kindref="member">TEST_F</ref>(<ref refid="class_a_i_decision_auditor_test" kindref="compound">AIDecisionAuditorTest</ref>,<sp/>QueryByReviewFlag)<sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>decisions<sp/>with<sp/>different<sp/>review<sp/>flags</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>audit1<sp/>=<sp/>createTestAudit();</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>audit1.confidence_score<sp/>=<sp/>0.95f;<sp/></highlight><highlight class="comment">//<sp/>Won&apos;t<sp/>be<sp/>flagged</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>auditor_-&gt;logDecision(audit1);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>audit2<sp/>=<sp/>createTestAudit();</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>audit2.confidence_score<sp/>=<sp/>0.5f;<sp/></highlight><highlight class="comment">//<sp/>Will<sp/>be<sp/>auto-flagged</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>auditor_-&gt;logDecision(audit2);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>for<sp/>decisions<sp/>needing<sp/>review</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>AIDecisionAuditor::QueryFilter<sp/>filter;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>filter.requires_review<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>auditor_-&gt;queryAuditLog(filter);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(results.size(),<sp/>1);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>result<sp/>:<sp/>results)<sp/>{</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.requires_human_review);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="258"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><ref refid="test__ai__decision__auditor_8cpp_1a69b95ae702cadb6c93d7c90b58e14930" kindref="member">TEST_F</ref>(<ref refid="class_a_i_decision_auditor_test" kindref="compound">AIDecisionAuditorTest</ref>,<sp/>GetStatistics)<sp/>{</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>multiple<sp/>decisions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>audit1<sp/>=<sp/>createTestAudit();</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>audit1.confidence_score<sp/>=<sp/>0.9f;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>auditor_-&gt;logDecision(audit1);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>audit2<sp/>=<sp/>createTestAudit();</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>audit2.confidence_score<sp/>=<sp/>0.6f;<sp/></highlight><highlight class="comment">//<sp/>Will<sp/>be<sp/>flagged</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>auditor_-&gt;logDecision(audit2);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>audit3<sp/>=<sp/>createTestAudit();</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>audit3.confidence_score<sp/>=<sp/>0.8f;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stored3<sp/>=<sp/>auditor_-&gt;logDecision(audit3);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Override<sp/>one<sp/>decision</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>auditor_-&gt;recordOverride(stored3.decision_id,<sp/></highlight><highlight class="stringliteral">&quot;Override&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;reviewer&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>stats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>auditor_-&gt;getStats();</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.total_decisions,<sp/>3);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(stats.flagged_for_review,<sp/>1);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.human_overrides,<sp/>1);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(stats.avg_confidence,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><ref refid="test__ai__decision__auditor_8cpp_1a69b95ae702cadb6c93d7c90b58e14930" kindref="member">TEST_F</ref>(<ref refid="class_a_i_decision_auditor_test" kindref="compound">AIDecisionAuditorTest</ref>,<sp/>ExportForCompliance)<sp/>{</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>test<sp/>decisions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>audit<sp/>=<sp/>createTestAudit();</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>auditor_-&gt;logDecision(audit);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>export_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;data/test_compliance_export.json&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>std::error_code<sp/>cleanup_ec<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::remove(export_path,<sp/>cleanup_ec);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Export</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>AIDecisionAuditor::QueryFilter<sp/>filter;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>success<sp/>=<sp/>auditor_-&gt;exportForCompliance(export_path,<sp/>filter);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(success);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::filesystem::exists(export_path));</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>export<sp/>contains<sp/>valid<sp/>JSON</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ifstream<sp/>ifs(export_path);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1ai_1abd40e188cc223709e1ef37fc1d31161d" kindref="member">json</ref><sp/>export_data<sp/>=<sp/>json::parse(ifs);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>ifs.close();</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(export_data.contains(</highlight><highlight class="stringliteral">&quot;total_decisions&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(export_data.contains(</highlight><highlight class="stringliteral">&quot;decisions&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(export_data[</highlight><highlight class="stringliteral">&quot;total_decisions&quot;</highlight><highlight class="normal">].get&lt;int&gt;(),<sp/>0);</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::remove(export_path,<sp/>cleanup_ec);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><ref refid="test__ai__decision__auditor_8cpp_1a69b95ae702cadb6c93d7c90b58e14930" kindref="member">TEST_F</ref>(<ref refid="class_a_i_decision_auditor_test" kindref="compound">AIDecisionAuditorTest</ref>,<sp/>VerifyIntegrity)<sp/>{</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>audit<sp/>=<sp/>createTestAudit();</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stored<sp/>=<sp/>auditor_-&gt;logDecision(audit);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>integrity<sp/>(should<sp/>pass<sp/>even<sp/>without<sp/>PKI<sp/>client<sp/>for<sp/>basic<sp/>hash)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>valid<sp/>=<sp/>auditor_-&gt;verifyIntegrity(stored.decision_id);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(valid);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><ref refid="test__ai__decision__auditor_8cpp_1a69b95ae702cadb6c93d7c90b58e14930" kindref="member">TEST_F</ref>(<ref refid="class_a_i_decision_auditor_test" kindref="compound">AIDecisionAuditorTest</ref>,<sp/>SerializationRoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>audit<sp/>=<sp/>createTestAudit();</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Serialize<sp/>to<sp/>JSON</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1ai_1abd40e188cc223709e1ef37fc1d31161d" kindref="member">json</ref><sp/>j<sp/>=<sp/>audit.toJson();</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Deserialize<sp/>back</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>deserialized<sp/>=<sp/>AIDecisionAudit::fromJson(j);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>fields<sp/>match</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(deserialized.user_id,<sp/>audit.user_id);</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(deserialized.query,<sp/>audit.query);</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(deserialized.response,<sp/>audit.response);</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(deserialized.confidence_score,<sp/>audit.confidence_score);</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(deserialized.reasoning_steps.size(),<sp/>audit.reasoning_steps.size());</highlight></codeline>
+<codeline lineno="338"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/ai/test_ai_decision_auditor.cpp"/>
+  </compounddef>
+</doxygen>

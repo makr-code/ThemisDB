@@ -1,0 +1,258 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="metric__anomaly__detector_8h" kind="file" language="C++">
+    <compoundname>metric_anomaly_detector.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="yes">analytics/anomaly_detection.h</includes>
+    <includedby refid="metric__anomaly__detector_8cpp" local="yes">src/observability/metric_anomaly_detector.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/observability/metric_anomaly_detector.h</label>
+        <link refid="metric__anomaly__detector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>analytics/anomaly_detection.h</label>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/observability/metric_anomaly_detector.h</label>
+        <link refid="metric__anomaly__detector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/observability/metric_anomaly_detector.cpp</label>
+        <link refid="metric__anomaly__detector_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1observability_1_1_metric_anomaly" prot="public">themis::observability::MetricAnomaly</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_monitored_metric" prot="public">themis::observability::MonitoredMetric</innerclass>
+    <innerclass refid="classthemis_1_1observability_1_1_metric_anomaly_detector" prot="public">themis::observability::MetricAnomalyDetector</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_metric_anomaly_detector_1_1_stream_state" prot="private">themis::observability::MetricAnomalyDetector::StreamState</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability">themis::observability</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Bring<sp/>in<sp/>the<sp/>analytics<sp/>anomaly-detection<sp/>primitives<sp/>(DataPoint,<sp/>AnomalyResult,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>StreamingAnomalyDetector,<sp/>…).<sp/><sp/>The<sp/>analytics<sp/>module<sp/>uses<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>themisdb::analytics;<sp/>the<sp/>observability<sp/>bridge<sp/>lives<sp/>in<sp/>themis::observability.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;analytics/anomaly_detection.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability" kindref="compound">observability</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Convenience<sp/>aliases<sp/>for<sp/>the<sp/>analytics<sp/>types<sp/>we<sp/>expose<sp/>in<sp/>the<sp/>bridge<sp/>API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1observability_1a63a93d46eae88f7ce9ecbf92a71441e5" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability_1a63a93d46eae88f7ce9ecbf92a71441e5" kindref="member">AnomalyMethod</ref><sp/>=<sp/>themisdb::analytics::AnomalyMethod;</highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1observability_1ab777031693a7ddb5fa6698d6dae3801d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability_1ab777031693a7ddb5fa6698d6dae3801d" kindref="member">AnomalyResult</ref><sp/>=<sp/>themisdb::analytics::AnomalyResult;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MetricAnomaly<sp/>–<sp/>an<sp/>anomaly<sp/>detected<sp/>on<sp/>a<sp/>specific<sp/>metric<sp/>series</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1observability_1_1_metric_anomaly" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_metric_anomaly" kindref="compound">MetricAnomaly</ref><sp/>{</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1observability_1_1_metric_anomaly_1a2efbdff0930b116b350ab3b0951b00df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_metric_anomaly_1a2efbdff0930b116b350ab3b0951b00df" kindref="member">metric_name</ref>;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1observability_1_1_metric_anomaly_1ac2d6cecc1a84d886a2bd6cb941ae97e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_metric_anomaly_1ac2d6cecc1a84d886a2bd6cb941ae97e0" kindref="member">score</ref>{0.0};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1observability_1_1_metric_anomaly_1a193a45afe666eae00c0b3a70b80a2002" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_metric_anomaly_1a193a45afe666eae00c0b3a70b80a2002" kindref="member">is_anomaly</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1observability_1_1_metric_anomaly_1aa58f2648325e2b1c16a6fb2ac108411f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_metric_anomaly_1aa58f2648325e2b1c16a6fb2ac108411f" kindref="member">observed_value</ref>{0.0};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1observability_1_1_metric_anomaly_1aa20b0a222e6ef62703b4e6501bc6b9e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_metric_anomaly_1aa20b0a222e6ef62703b4e6501bc6b9e0" kindref="member">severity</ref>;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1observability_1_1_metric_anomaly_1a191a5feebc12c04018f0b5f2ef015628" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1observability_1_1_metric_anomaly_1a191a5feebc12c04018f0b5f2ef015628" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1observability_1_1_metric_anomaly_1a148e834540e473ebe67eb25e9981f5fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_metric_anomaly_1a148e834540e473ebe67eb25e9981f5fd" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref><sp/><ref refid="structthemis_1_1observability_1_1_metric_anomaly_1aa3bc2f8bcc58df364190d2382dab241d" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MonitoredMetric<sp/>–<sp/>configuration<sp/>for<sp/>one<sp/>metric<sp/>stream</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1observability_1_1_monitored_metric" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_monitored_metric" kindref="compound">MonitoredMetric</ref><sp/>{</highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1observability_1_1_monitored_metric_1a02f8511adb68e5af06b4514e3abfda28" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_monitored_metric_1a02f8511adb68e5af06b4514e3abfda28" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1observability_1_1_monitored_metric_1a4182b7cbe698b30622309f150cc261cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a63a93d46eae88f7ce9ecbf92a71441e5" kindref="member">AnomalyMethod</ref><sp/><ref refid="structthemis_1_1observability_1_1_monitored_metric_1a4182b7cbe698b30622309f150cc261cf" kindref="member">method</ref>{AnomalyMethod::Z_SCORE};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1observability_1_1_monitored_metric_1a1e76f653326839f1682338a67201087f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_monitored_metric_1a1e76f653326839f1682338a67201087f" kindref="member">threshold</ref>{0.7};</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1observability_1_1_monitored_metric_1a65c9d9df5069ae9e2d067b17680ecd88" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_monitored_metric_1a65c9d9df5069ae9e2d067b17680ecd88" kindref="member">window_size</ref>{500};</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1observability_1_1_monitored_metric_1aae40fd0396c558a2c8ebb1cd884de4bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_monitored_metric_1aae40fd0396c558a2c8ebb1cd884de4bc" kindref="member">auto_train_after</ref>{50};</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1observability_1_1_monitored_metric_1a2aba066910dbafa4a4669a79509e014b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_monitored_metric_1a2aba066910dbafa4a4669a79509e014b" kindref="member">retrain_on_window</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MetricAnomalyDetector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189" refid="classthemis_1_1observability_1_1_metric_anomaly_detector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_metric_anomaly_detector_1af07341f9ccf7f806296b5ebe2a000afe" kindref="member">MetricAnomalyDetector</ref><sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="196" refid="classthemis_1_1observability_1_1_metric_anomaly_detector_1adcba0a6837f419fbd707b2fc88ba236f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_metric_anomaly_detector_1adcba0a6837f419fbd707b2fc88ba236f" kindref="member">AnomalyCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_metric_anomaly" kindref="compound">MetricAnomaly</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198" refid="classthemis_1_1observability_1_1_metric_anomaly_detector_1af07341f9ccf7f806296b5ebe2a000afe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_metric_anomaly_detector_1af07341f9ccf7f806296b5ebe2a000afe" kindref="member">MetricAnomalyDetector</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="199" refid="classthemis_1_1observability_1_1_metric_anomaly_detector_1ae681208d7e6d41d4e2b61811ec6f822c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_metric_anomaly_detector_1ae681208d7e6d41d4e2b61811ec6f822c" kindref="member">~MetricAnomalyDetector</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202" refid="classthemis_1_1observability_1_1_metric_anomaly_detector_1a3a2e304a52deeb4627d2bcdcd9f75b01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_metric_anomaly_detector_1a3a2e304a52deeb4627d2bcdcd9f75b01" kindref="member">MetricAnomalyDetector</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_metric_anomaly_detector_1af07341f9ccf7f806296b5ebe2a000afe" kindref="member">MetricAnomalyDetector</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="203" refid="classthemis_1_1observability_1_1_metric_anomaly_detector_1a38758cb33e305e7a13c8cea4a2366cde" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_metric_anomaly_detector_1af07341f9ccf7f806296b5ebe2a000afe" kindref="member">MetricAnomalyDetector</ref>&amp;<sp/><ref refid="classthemis_1_1observability_1_1_metric_anomaly_detector_1a38758cb33e305e7a13c8cea4a2366cde" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_metric_anomaly_detector_1af07341f9ccf7f806296b5ebe2a000afe" kindref="member">MetricAnomalyDetector</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_metric_anomaly_detector_1ae0999c97562837afcc080f4265384696" kindref="member">monitor</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_monitored_metric" kindref="compound">MonitoredMetric</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_metric_anomaly_detector_1ad495ba91baf5f8afdcd4b2e263c2a5d2" kindref="member">unmonitor</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>metric_name);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;MetricAnomaly&gt;<sp/><ref refid="classthemis_1_1observability_1_1_metric_anomaly_detector_1ade250c33631416af3c3eea3f5cb72cd1" kindref="member">observe</ref>(</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>metric_name,</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>value,</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>timestamp<sp/>=</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::now());</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MetricAnomaly&gt;<sp/><ref refid="classthemis_1_1observability_1_1_metric_anomaly_detector_1a6253a5377b89418c31cff07e346e2a7d" kindref="member">getAnomalies</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>metric_name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MetricAnomaly&gt;<sp/><ref refid="classthemis_1_1observability_1_1_metric_anomaly_detector_1a2f8d9b88d92b3eef3a694b3a2220b995" kindref="member">getAllAnomalies</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_metric_anomaly_detector_1acc6709f4cf5c15e2bed9b364ff2cfc47" kindref="member">clearAnomalies</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>metric_name);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_metric_anomaly_detector_1a854c490e359a6a6f658716616c836e15" kindref="member">clearAllAnomalies</ref>();</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_metric_anomaly_detector_1aff84968e2b8c731ae4e9e544b732d264" kindref="member">setCallback</ref>(<ref refid="classthemis_1_1observability_1_1_metric_anomaly_detector_1adcba0a6837f419fbd707b2fc88ba236f" kindref="member">AnomalyCallback</ref><sp/>cb);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_metric_anomaly_detector_1ae78133d27abd6375b3d93efd101469a8" kindref="member">publishMetrics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1observability_1_1_metric_anomaly_detector_1a093011803f547ae6ffcd6a287edf22f5" kindref="member">generateReport</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref><sp/><ref refid="classthemis_1_1observability_1_1_metric_anomaly_detector_1a5e3110550f80feda6c305391faed18aa" kindref="member">generateReportJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_metric_anomaly_detector_1af2d2b8a629800fb4a27f62d6f764cd0f" kindref="member">monitoredCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1observability_1_1_metric_anomaly_detector_1a96ec6d79abbef5685408275adfc33124" kindref="member">monitoredNames</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-stream<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">StreamState<sp/>{</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_monitored_metric" kindref="compound">MonitoredMetric</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themisdb::analytics::StreamingAnomalyDetector<sp/>sad;</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;MetricAnomaly&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>anomalies;</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>points_seen{0};</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/>StreamState(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_monitored_metric" kindref="compound">MonitoredMetric</ref>&amp;<sp/>cfg);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>scoreSeverity(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>score)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>State</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mutex_;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::unique_ptr&lt;StreamState&gt;&gt;<sp/>streams_;</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_metric_anomaly_detector_1adcba0a6837f419fbd707b2fc88ba236f" kindref="member">AnomalyCallback</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>callback_;</highlight></codeline>
+<codeline lineno="328"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>observability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/observability/metric_anomaly_detector.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_round_aggregation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::FederatedImportCoordinator::FederatedTrainingCoordinator::RoundAggregationResult</compoundname>
+    <includes refid="federated__learning_8h" local="no">federated_learning.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_round_aggregation_result_1a93465cb2b314e1f99744fad3e001f491" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::importers::FederatedImportCoordinator::FederatedTrainingCoordinator::RoundAggregationResult::aggregated_gradient</definition>
+        <argsstring></argsstring>
+        <name>aggregated_gradient</name>
+        <qualifiedname>themis::importers::FederatedImportCoordinator::FederatedTrainingCoordinator::RoundAggregationResult::aggregated_gradient</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/federated_learning.h" line="119" column="25" bodyfile="include/importers/federated_learning.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_round_aggregation_result_1a59d309647e32c5d0fceacc2f6a671859" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::importers::FederatedImportCoordinator::FederatedTrainingCoordinator::RoundAggregationResult::participants</definition>
+        <argsstring></argsstring>
+        <name>participants</name>
+        <qualifiedname>themis::importers::FederatedImportCoordinator::FederatedTrainingCoordinator::RoundAggregationResult::participants</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/federated_learning.h" line="120" column="25" bodyfile="include/importers/federated_learning.h" bodystart="120" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_round_aggregation_result_1ae209a54b16d55404ded67ef15cadb103" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::importers::FederatedImportCoordinator::FederatedTrainingCoordinator::RoundAggregationResult::total_samples</definition>
+        <argsstring></argsstring>
+        <name>total_samples</name>
+        <qualifiedname>themis::importers::FederatedImportCoordinator::FederatedTrainingCoordinator::RoundAggregationResult::total_samples</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/federated_learning.h" line="121" column="25" bodyfile="include/importers/federated_learning.h" bodystart="121" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_round_aggregation_result_1a84de83754982dc23113cbff2b746fce7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::FederatedImportCoordinator::FederatedTrainingCoordinator::RoundAggregationResult::algorithm_used</definition>
+        <argsstring></argsstring>
+        <name>algorithm_used</name>
+        <qualifiedname>themis::importers::FederatedImportCoordinator::FederatedTrainingCoordinator::RoundAggregationResult::algorithm_used</qualifiedname>
+        <initializer>{&quot;FedAvg&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/federated_learning.h" line="122" column="25" bodyfile="include/importers/federated_learning.h" bodystart="122" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_round_aggregation_result_1a373ae588a89e6667c933f86afc99df0b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::FederatedImportCoordinator::FederatedTrainingCoordinator::RoundAggregationResult::secure_aggregation_used</definition>
+        <argsstring></argsstring>
+        <name>secure_aggregation_used</name>
+        <qualifiedname>themis::importers::FederatedImportCoordinator::FederatedTrainingCoordinator::RoundAggregationResult::secure_aggregation_used</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/federated_learning.h" line="123" column="18" bodyfile="include/importers/federated_learning.h" bodystart="123" bodyend="123"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/federated_learning.h" line="118" column="9" bodyfile="include/importers/federated_learning.h" bodystart="118" bodyend="124"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_round_aggregation_result_1a93465cb2b314e1f99744fad3e001f491" prot="public" virt="non-virtual"><scope>themis::importers::FederatedImportCoordinator::FederatedTrainingCoordinator::RoundAggregationResult</scope><name>aggregated_gradient</name></member>
+      <member refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_round_aggregation_result_1a84de83754982dc23113cbff2b746fce7" prot="public" virt="non-virtual"><scope>themis::importers::FederatedImportCoordinator::FederatedTrainingCoordinator::RoundAggregationResult</scope><name>algorithm_used</name></member>
+      <member refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_round_aggregation_result_1a59d309647e32c5d0fceacc2f6a671859" prot="public" virt="non-virtual"><scope>themis::importers::FederatedImportCoordinator::FederatedTrainingCoordinator::RoundAggregationResult</scope><name>participants</name></member>
+      <member refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_round_aggregation_result_1a373ae588a89e6667c933f86afc99df0b" prot="public" virt="non-virtual"><scope>themis::importers::FederatedImportCoordinator::FederatedTrainingCoordinator::RoundAggregationResult</scope><name>secure_aggregation_used</name></member>
+      <member refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator_1_1_round_aggregation_result_1ae209a54b16d55404ded67ef15cadb103" prot="public" virt="non-virtual"><scope>themis::importers::FederatedImportCoordinator::FederatedTrainingCoordinator::RoundAggregationResult</scope><name>total_samples</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

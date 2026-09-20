@@ -1,0 +1,228 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_cosine_annealing_warm_restarts_l_r" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::CosineAnnealingWarmRestartsLR</compoundname>
+    <basecompoundref refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler" prot="public" virt="non-virtual">themis::llm::lora::LRScheduler</basecompoundref>
+    <includes refid="lr__scheduler_8h" local="no">lr_scheduler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_cosine_annealing_warm_restarts_l_r_1a8dde6ed8ae25a8b575807ef1de64327b" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::CosineAnnealingWarmRestartsLR::max_lr_</definition>
+        <argsstring></argsstring>
+        <name>max_lr_</name>
+        <qualifiedname>themis::llm::lora::CosineAnnealingWarmRestartsLR::max_lr_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="224" column="11" bodyfile="include/llm/lora_framework/lr_scheduler.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_cosine_annealing_warm_restarts_l_r_1a6737c4b17252d52b13cdde3b9dada3f7" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::CosineAnnealingWarmRestartsLR::min_lr_</definition>
+        <argsstring></argsstring>
+        <name>min_lr_</name>
+        <qualifiedname>themis::llm::lora::CosineAnnealingWarmRestartsLR::min_lr_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="225" column="11" bodyfile="include/llm/lora_framework/lr_scheduler.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_cosine_annealing_warm_restarts_l_r_1a29c88cce6a0d53ddee96d298e0b92183" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::CosineAnnealingWarmRestartsLR::period_</definition>
+        <argsstring></argsstring>
+        <name>period_</name>
+        <qualifiedname>themis::llm::lora::CosineAnnealingWarmRestartsLR::period_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="226" column="9" bodyfile="include/llm/lora_framework/lr_scheduler.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_cosine_annealing_warm_restarts_l_r_1aff721f91c32fd75a92e6a8fd464d3a58" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::CosineAnnealingWarmRestartsLR::num_cycles_</definition>
+        <argsstring></argsstring>
+        <name>num_cycles_</name>
+        <qualifiedname>themis::llm::lora::CosineAnnealingWarmRestartsLR::num_cycles_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="227" column="9" bodyfile="include/llm/lora_framework/lr_scheduler.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_cosine_annealing_warm_restarts_l_r_1a61c609864823f30cc1528c8d95eada26" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::CosineAnnealingWarmRestartsLR::CosineAnnealingWarmRestartsLR</definition>
+        <argsstring>(float max_lr, float min_lr, int period, int num_cycles=1)</argsstring>
+        <name>CosineAnnealingWarmRestartsLR</name>
+        <qualifiedname>themis::llm::lora::CosineAnnealingWarmRestartsLR::CosineAnnealingWarmRestartsLR</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>max_lr</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>min_lr</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>period</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>num_cycles</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="215" column="5" bodyfile="include/llm/lora_framework/lr_scheduler.h" bodystart="215" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_cosine_annealing_warm_restarts_l_r_1aa3f29624d7188f5aa306ff2a111cbd0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::CosineAnnealingWarmRestartsLR::~CosineAnnealingWarmRestartsLR</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~CosineAnnealingWarmRestartsLR</name>
+        <qualifiedname>themis::llm::lora::CosineAnnealingWarmRestartsLR::~CosineAnnealingWarmRestartsLR</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="217" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_cosine_annealing_warm_restarts_l_r_1abf4ff7e4f899a8992beb72f6264a0dfe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>float</type>
+        <definition>float themis::llm::lora::CosineAnnealingWarmRestartsLR::get_lr</definition>
+        <argsstring>(int step) const override</argsstring>
+        <name>get_lr</name>
+        <qualifiedname>themis::llm::lora::CosineAnnealingWarmRestartsLR::get_lr</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler_1a905c0c3ee0eaac8261866f2e6bec5688">get_lr</reimplements>
+        <param>
+          <type>int</type>
+          <declname>step</declname>
+        </param>
+        <briefdescription>
+<para>Get lr. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="219" column="11" bodyfile="src/llm/lora_framework/lr_scheduler.cpp" bodystart="79" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_cosine_annealing_warm_restarts_l_r_1acf104fc13fb18f71baada3f1a005f9f5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1a0540e61447eb923825a59599692b7359" kindref="member">SchedulerType</ref></type>
+        <definition>SchedulerType themis::llm::lora::CosineAnnealingWarmRestartsLR::type</definition>
+        <argsstring>() const override</argsstring>
+        <name>type</name>
+        <qualifiedname>themis::llm::lora::CosineAnnealingWarmRestartsLR::type</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler_1a7048b5e15ba36ca63863eac93bc1ca1e">type</reimplements>
+        <briefdescription>
+<para>Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="220" column="19" bodyfile="include/llm/lora_framework/lr_scheduler.h" bodystart="220" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_cosine_annealing_warm_restarts_l_r_1a9fcd4a27036c60f90f04749d5c6e8a74" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_l_r_scheduler_config" kindref="compound">LRSchedulerConfig</ref></type>
+        <definition>LRSchedulerConfig themis::llm::lora::CosineAnnealingWarmRestartsLR::config</definition>
+        <argsstring>() const override</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::llm::lora::CosineAnnealingWarmRestartsLR::config</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler_1a90c87567122b5d4efe777820ffa5109a">config</reimplements>
+        <briefdescription>
+<para>Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lr_scheduler.h" line="221" column="23" bodyfile="src/llm/lora_framework/lr_scheduler.cpp" bodystart="94" bodyend="102"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::llm::lora::CosineAnnealingWarmRestartsLR</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_cosine_annealing_warm_restarts_l_r"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::lora::LRScheduler</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::llm::lora::CosineAnnealingWarmRestartsLR</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_cosine_annealing_warm_restarts_l_r"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::lora::LRScheduler</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/lora_framework/lr_scheduler.h" line="213" column="1" bodyfile="include/llm/lora_framework/lr_scheduler.h" bodystart="213" bodyend="228"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_cosine_annealing_warm_restarts_l_r_1a9fcd4a27036c60f90f04749d5c6e8a74" prot="public" virt="virtual"><scope>themis::llm::lora::CosineAnnealingWarmRestartsLR</scope><name>config</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_cosine_annealing_warm_restarts_l_r_1a61c609864823f30cc1528c8d95eada26" prot="public" virt="non-virtual"><scope>themis::llm::lora::CosineAnnealingWarmRestartsLR</scope><name>CosineAnnealingWarmRestartsLR</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_cosine_annealing_warm_restarts_l_r_1abf4ff7e4f899a8992beb72f6264a0dfe" prot="public" virt="virtual"><scope>themis::llm::lora::CosineAnnealingWarmRestartsLR</scope><name>get_lr</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_cosine_annealing_warm_restarts_l_r_1a8dde6ed8ae25a8b575807ef1de64327b" prot="private" virt="non-virtual"><scope>themis::llm::lora::CosineAnnealingWarmRestartsLR</scope><name>max_lr_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_cosine_annealing_warm_restarts_l_r_1a6737c4b17252d52b13cdde3b9dada3f7" prot="private" virt="non-virtual"><scope>themis::llm::lora::CosineAnnealingWarmRestartsLR</scope><name>min_lr_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_cosine_annealing_warm_restarts_l_r_1aff721f91c32fd75a92e6a8fd464d3a58" prot="private" virt="non-virtual"><scope>themis::llm::lora::CosineAnnealingWarmRestartsLR</scope><name>num_cycles_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_cosine_annealing_warm_restarts_l_r_1a29c88cce6a0d53ddee96d298e0b92183" prot="private" virt="non-virtual"><scope>themis::llm::lora::CosineAnnealingWarmRestartsLR</scope><name>period_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_cosine_annealing_warm_restarts_l_r_1acf104fc13fb18f71baada3f1a005f9f5" prot="public" virt="virtual"><scope>themis::llm::lora::CosineAnnealingWarmRestartsLR</scope><name>type</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_cosine_annealing_warm_restarts_l_r_1aa3f29624d7188f5aa306ff2a111cbd0a" prot="public" virt="non-virtual"><scope>themis::llm::lora::CosineAnnealingWarmRestartsLR</scope><name>~CosineAnnealingWarmRestartsLR</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_l_r_scheduler_1a55400958819352469981cae8a4cfc66d" prot="public" virt="virtual"><scope>themis::llm::lora::CosineAnnealingWarmRestartsLR</scope><name>~LRScheduler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

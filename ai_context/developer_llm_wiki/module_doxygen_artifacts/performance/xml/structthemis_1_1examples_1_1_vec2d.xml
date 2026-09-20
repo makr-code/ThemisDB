@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1examples_1_1_vec2d" kind="struct" language="C++" prot="public">
+    <compoundname>themis::examples::Vec2d</compoundname>
+    <includes refid="alignment__examples_8h" local="no">alignment_examples.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1examples_1_1_vec2d_1a1f02390a1e2017e1f2fa71ab99f189b9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::examples::Vec2d::x</definition>
+        <argsstring></argsstring>
+        <name>x</name>
+        <qualifiedname>themis::examples::Vec2d::x</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="88" column="12" bodyfile="include/performance/alignment_examples.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1examples_1_1_vec2d_1a2c55742b7259aeb25e58444df8af049a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::examples::Vec2d::y</definition>
+        <argsstring></argsstring>
+        <name>y</name>
+        <qualifiedname>themis::examples::Vec2d::y</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="88" column="14" bodyfile="include/performance/alignment_examples.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1examples_1_1_vec2d_1aac1502c04595d16eba584bff91ce0198" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::examples::Vec2d::Vec2d</definition>
+        <argsstring>()</argsstring>
+        <name>Vec2d</name>
+        <qualifiedname>themis::examples::Vec2d::Vec2d</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="90" column="5" bodyfile="include/performance/alignment_examples.h" bodystart="90" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1examples_1_1_vec2d_1a9a5afe8cf6fa37b118fd5965b10a0a7f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::examples::Vec2d::Vec2d</definition>
+        <argsstring>(double x_, double y_)</argsstring>
+        <name>Vec2d</name>
+        <qualifiedname>themis::examples::Vec2d::Vec2d</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>x_</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>y_</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="91" column="5" bodyfile="include/performance/alignment_examples.h" bodystart="91" bodyend="91"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>2-component double vector for SIMD operations </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Used in scientific computing and high-precision calculations </para>
+    </detaileddescription>
+    <location file="include/performance/alignment_examples.h" line="87" column="1" bodyfile="include/performance/alignment_examples.h" bodystart="87" bodyend="92"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1examples_1_1_vec2d_1aac1502c04595d16eba584bff91ce0198" prot="public" virt="non-virtual"><scope>themis::examples::Vec2d</scope><name>Vec2d</name></member>
+      <member refid="structthemis_1_1examples_1_1_vec2d_1a9a5afe8cf6fa37b118fd5965b10a0a7f" prot="public" virt="non-virtual"><scope>themis::examples::Vec2d</scope><name>Vec2d</name></member>
+      <member refid="structthemis_1_1examples_1_1_vec2d_1a1f02390a1e2017e1f2fa71ab99f189b9" prot="public" virt="non-virtual"><scope>themis::examples::Vec2d</scope><name>x</name></member>
+      <member refid="structthemis_1_1examples_1_1_vec2d_1a2c55742b7259aeb25e58444df8af049a" prot="public" virt="non-virtual"><scope>themis::examples::Vec2d</scope><name>y</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,222 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="huggingface__ingestion__plugin_8h" kind="file" language="C++">
+    <compoundname>huggingface_ingestion_plugin.h</compoundname>
+    <includes local="yes">content/async_ingestion_worker.h</includes>
+    <includes local="no">curl/curl.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">map</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/plugins/huggingface_ingestion_plugin.h</label>
+        <link refid="huggingface__ingestion__plugin_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>atomic</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>content/async_ingestion_worker.h</label>
+      </node>
+      <node id="3">
+        <label>curl/curl.h</label>
+      </node>
+      <node id="6">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin" prot="public">themis::plugins::HuggingFaceIngestionPlugin</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config" prot="public">themis::plugins::HuggingFaceIngestionPlugin::Config</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_dataset_metadata" prot="public">themis::plugins::HuggingFaceIngestionPlugin::DatasetMetadata</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_fetch_result" prot="private">themis::plugins::HuggingFaceIngestionPlugin::FetchResult</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins">themis::plugins</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;content/async_ingestion_worker.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;curl/curl.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins" kindref="compound">plugins</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1plugins_1ab547de4562831812e9d0c228715ff0b5" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1ab547de4562831812e9d0c228715ff0b5" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a4b64c188c8d9ed71632f2b9334667ec7" kindref="member">HuggingFaceIngestionPlugin</ref><sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1abb750fdedfa36c9fc24fd4e55e515139" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1abb750fdedfa36c9fc24fd4e55e515139" kindref="member">dataset_name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a5037485db662a779e002d78663b10ff8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a5037485db662a779e002d78663b10ff8" kindref="member">split</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;train&quot;</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1ac64da13f6fa64a825e16b89f831f4467" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1ac64da13f6fa64a825e16b89f831f4467" kindref="member">streaming</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1ac2272204f5e31210e3d4f4dc1ad2e8a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1ac2272204f5e31210e3d4f4dc1ad2e8a3" kindref="member">chunk_size</ref><sp/>=<sp/>1000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1aa8214a55f24332739430e16109c31a4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1aa8214a55f24332739430e16109c31a4e" kindref="member">auth_token</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Schema<sp/>mapping</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a90e9bee8e988692284994d552ba04330" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a90e9bee8e988692284994d552ba04330" kindref="member">text_field</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;text&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a16facac1cbe62c768ad922d512169af8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a16facac1cbe62c768ad922d512169af8" kindref="member">label_field</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;label&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a034c8df151ed2365eec4adaf1ded4f5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a034c8df151ed2365eec4adaf1ded4f5b" kindref="member">custom_fields</ref>;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Caching</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a87322ab9e1fb81d4b533aa05e8dfbc7c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a87322ab9e1fb81d4b533aa05e8dfbc7c" kindref="member">cache_dir</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;./cache/huggingface&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a614f68bd46bfcdb8cb988e5ea53860a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a614f68bd46bfcdb8cb988e5ea53860a5" kindref="member">use_cache</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rate<sp/>limiting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a55b7c47ce545d738c9afb78c7996cd22" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a55b7c47ce545d738c9afb78c7996cd22" kindref="member">max_requests_per_second</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Retry<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a712db5b9ef5e267b4c072a492c07891b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a712db5b9ef5e267b4c072a492c07891b" kindref="member">max_retries</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a8951e5473777be8c579dbecb2d097b07" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a8951e5473777be8c579dbecb2d097b07" kindref="member">retry_delay_ms</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a8a4d8a60602eaf7e42d234080f24c7c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1ab547de4562831812e9d0c228715ff0b5" kindref="member">json</ref><sp/><ref refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a8a4d8a60602eaf7e42d234080f24c7c3" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1ab83db1eb0697434894935f8e136e4457" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config" kindref="compound">Config</ref><sp/><ref refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1ab83db1eb0697434894935f8e136e4457" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1ab547de4562831812e9d0c228715ff0b5" kindref="member">json</ref>&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91" refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a4b64c188c8d9ed71632f2b9334667ec7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a4b64c188c8d9ed71632f2b9334667ec7" kindref="member">HuggingFaceIngestionPlugin</ref>(</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config,</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;content::ContentManager&gt;<sp/>content_manager</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a4835a6c3d629ba2cdb14170c133a6642" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a4835a6c3d629ba2cdb14170c133a6642" kindref="member">~HuggingFaceIngestionPlugin</ref>();</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103" refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a0014e1f96d40ee4420a529daf98dc4d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a0014e1f96d40ee4420a529daf98dc4d7" kindref="member">registerWithWorker</ref>(content::AsyncIngestionWorker&amp;<sp/>worker);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113" refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a7c2313a94957f280046cfd1e2de6cac6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a7c2313a94957f280046cfd1e2de6cac6" kindref="member">submitDatasetJob</ref>(</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dataset_name,</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>split<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1ab547de4562831812e9d0c228715ff0b5" kindref="member">json</ref>&amp;<sp/>config<sp/>=<sp/>json::object()</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_dataset_metadata" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_dataset_metadata" kindref="compound">DatasetMetadata</ref><sp/>{</highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_dataset_metadata_1a1914983ca4805ecd188f5637e7183fb9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_dataset_metadata_1a1914983ca4805ecd188f5637e7183fb9" kindref="member">dataset_id</ref>;</highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_dataset_metadata_1a8822a8cfae8d26c660480ec6fe887512" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_dataset_metadata_1a8822a8cfae8d26c660480ec6fe887512" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_dataset_metadata_1a83aa2b3706750c8342b065efcdbc9a63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_dataset_metadata_1a83aa2b3706750c8342b065efcdbc9a63" kindref="member">total_rows</ref>;</highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_dataset_metadata_1a5eb4edba0fbc85548da1661a3b48f9db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_dataset_metadata_1a5eb4edba0fbc85548da1661a3b48f9db" kindref="member">splits</ref>;</highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_dataset_metadata_1a98a1988db6bbc14b51a09fc2bec44de9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_dataset_metadata_1a98a1988db6bbc14b51a09fc2bec44de9" kindref="member">columns</ref>;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_dataset_metadata_1a4836e49feb292890b25852b589bd10f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1ab547de4562831812e9d0c228715ff0b5" kindref="member">json</ref><sp/><ref refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_dataset_metadata_1a4836e49feb292890b25852b589bd10f9" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="132" refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a647db40b400be2f19fb4de0b3d51de1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_dataset_metadata" kindref="compound">DatasetMetadata</ref><sp/><ref refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a647db40b400be2f19fb4de0b3d51de1d" kindref="member">getDatasetMetadata</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dataset_name);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="137" refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a61012b43164a1b3e90d26bbbd4284262" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a61012b43164a1b3e90d26bbbd4284262" kindref="member">estimateDatasetSize</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dataset_name);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;content::ContentManager&gt;<sp/>content_manager_;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>content::AsyncIngestionWorker*<sp/>worker_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Non-owning<sp/>pointer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>CURL*<sp/>curl_handle_;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>2A<sp/>Data<sp/>Race<sp/>Protection:<sp/>Mutex<sp/>guards<sp/>for<sp/>concurrent<sp/>access</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>config_state_mutex_;<sp/><sp/></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>2A<sp/>Progress<sp/>Tracking:<sp/>Atomic<sp/>counters<sp/>for<sp/>thread-safe<sp/>updates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>progress_rows_processed_{0};<sp/><sp/></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>progress_errors_count_{0};<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>progress_batches_completed_{0};<sp/></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>HTTP<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>httpGet(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>url);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1ab547de4562831812e9d0c228715ff0b5" kindref="member">json</ref><sp/>httpGetJson(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>url);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Dataset<sp/>fetching</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">FetchResult<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;json&gt;<sp/>documents;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>has_more;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>offset;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>FetchResult<sp/>fetchBatch(</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dataset_name,</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>split,</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>offset,</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>limit</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Caching</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>getCachePath(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dataset_name,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>split)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>loadFromCache(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dataset_name,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>split,<sp/>std::vector&lt;json&gt;&amp;<sp/>docs);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>saveToCache(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dataset_name,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>split,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;json&gt;&amp;<sp/>docs);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rate<sp/>limiting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>waitForRateLimit();</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>last_request_time_;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Job<sp/>processing<sp/>(static<sp/>so<sp/>it<sp/>can<sp/>be<sp/>used<sp/>as<sp/>callback)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>processHuggingFaceJob(</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>content::IngestionJob&amp;<sp/>job,</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1a4b64c188c8d9ed71632f2b9334667ec7" kindref="member">HuggingFaceIngestionPlugin</ref>*<sp/>plugin</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>to<sp/>convert<sp/>HF<sp/>document<sp/>to<sp/>ContentManager<sp/>format</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1ab547de4562831812e9d0c228715ff0b5" kindref="member">json</ref><sp/>documentToContentSpec(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1ab547de4562831812e9d0c228715ff0b5" kindref="member">json</ref>&amp;<sp/>doc,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dataset_name,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>index);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>plugins</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/plugins/huggingface_ingestion_plugin.h"/>
+  </compounddef>
+</doxygen>

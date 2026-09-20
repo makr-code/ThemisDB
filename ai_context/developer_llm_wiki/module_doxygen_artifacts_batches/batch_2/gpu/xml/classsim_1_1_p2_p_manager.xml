@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classsim_1_1_p2_p_manager" kind="class" language="C++" prot="public">
+    <compoundname>sim::P2PManager</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classsim_1_1_p2_p_manager_1ae77bc5b68dd094e35d7caab9c45ded33" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex sim::P2PManager::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>sim::P2PManager::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="138" column="24" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsim_1_1_p2_p_manager_1a587c4e5088ddff95bc2701e0bb3decbe" prot="private" static="no" mutable="no">
+        <type><ref refid="structsim_1_1_p2_p_stats" kindref="compound">P2PStats</ref></type>
+        <definition>P2PStats sim::P2PManager::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>sim::P2PManager::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="139" column="14" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="139" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsim_1_1_p2_p_manager_1a6097a609e9a5ac944d3e6d981f7862d2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void sim::P2PManager::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>sim::P2PManager::reset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="91" column="10" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="91" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classsim_1_1_p2_p_manager_1a35a882849efb4f5425ad30fe5a3761b9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structsim_1_1_transfer_result" kindref="compound">TransferResult</ref></type>
+        <definition>TransferResult sim::P2PManager::transfer</definition>
+        <argsstring>(const TransferRequest &amp;req, const std::vector&lt; DeviceInfo &gt; &amp;devs)</argsstring>
+        <name>transfer</name>
+        <qualifiedname>sim::P2PManager::transfer</qualifiedname>
+        <param>
+          <type>const <ref refid="structsim_1_1_transfer_request" kindref="compound">TransferRequest</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structsim_1_1_device_info" kindref="compound">DeviceInfo</ref> &gt; &amp;</type>
+          <declname>devs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="96" column="20" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="96" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classsim_1_1_p2_p_manager_1af96bd2067eab55fb6cb064f95997613d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structsim_1_1_p2_p_stats" kindref="compound">P2PStats</ref></type>
+        <definition>P2PStats sim::P2PManager::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>sim::P2PManager::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="132" column="14" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="132" bodyend="135"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="89" column="1" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="89" bodyend="140"/>
+    <listofallmembers>
+      <member refid="classsim_1_1_p2_p_manager_1af96bd2067eab55fb6cb064f95997613d" prot="public" virt="non-virtual"><scope>sim::P2PManager</scope><name>getStats</name></member>
+      <member refid="classsim_1_1_p2_p_manager_1ae77bc5b68dd094e35d7caab9c45ded33" prot="private" virt="non-virtual"><scope>sim::P2PManager</scope><name>mu_</name></member>
+      <member refid="classsim_1_1_p2_p_manager_1a6097a609e9a5ac944d3e6d981f7862d2" prot="public" virt="non-virtual"><scope>sim::P2PManager</scope><name>reset</name></member>
+      <member refid="classsim_1_1_p2_p_manager_1a587c4e5088ddff95bc2701e0bb3decbe" prot="private" virt="non-virtual"><scope>sim::P2PManager</scope><name>stats_</name></member>
+      <member refid="classsim_1_1_p2_p_manager_1a35a882849efb4f5425ad30fe5a3761b9" prot="public" virt="non-virtual"><scope>sim::P2PManager</scope><name>transfer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

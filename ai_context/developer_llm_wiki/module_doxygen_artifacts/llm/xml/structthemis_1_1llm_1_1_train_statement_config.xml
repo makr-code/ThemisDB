@@ -1,0 +1,322 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_train_statement_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::TrainStatementConfig</compoundname>
+    <basecompoundref refid="structthemis_1_1llm_1_1_training_config" prot="public" virt="non-virtual">themis::llm::TrainingConfig</basecompoundref>
+    <includes refid="aql__train__parser_8h" local="no">aql_train_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_train_statement_config_1aa7e4242fd417303b20476a81956e86a7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::TrainStatementConfig::base_model_name</definition>
+        <argsstring></argsstring>
+        <name>base_model_name</name>
+        <qualifiedname>themis::llm::TrainStatementConfig::base_model_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="33" column="17" bodyfile="include/llm/aql_train_parser.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_train_statement_config_1a2a762e9da8e93de4bb0e5adbd9e9e096" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a7b2ae7f73f109410567ce78c9182cf41" kindref="member">GGUFSTConfig::SizeMode</ref></type>
+        <definition>GGUFSTConfig::SizeMode themis::llm::TrainStatementConfig::size_mode</definition>
+        <argsstring></argsstring>
+        <name>size_mode</name>
+        <qualifiedname>themis::llm::TrainStatementConfig::size_mode</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a7b2ae7f73f109410567ce78c9182cf41abbd53c25a2b976c1757ce1f9dbe8bd1f" kindref="member">GGUFSTConfig::SizeMode::COMPACT</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="36" column="28" bodyfile="include/llm/aql_train_parser.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_train_statement_config_1a413f52b9c592718a0fa21331a79e2713" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ad4c67ae8aff425d0597b1e5521948212" kindref="member">GGUFSTConfig::QuantizationType</ref></type>
+        <definition>GGUFSTConfig::QuantizationType themis::llm::TrainStatementConfig::quantization_type</definition>
+        <argsstring></argsstring>
+        <name>quantization_type</name>
+        <qualifiedname>themis::llm::TrainStatementConfig::quantization_type</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ad4c67ae8aff425d0597b1e5521948212ae9903780fa1d9b91f0542bd40fea13f2" kindref="member">GGUFSTConfig::QuantizationType::Q4_K_M</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="37" column="36" bodyfile="include/llm/aql_train_parser.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_train_statement_config_1a53c84c86ade2f348660d07681f9d1a3d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::TrainStatementConfig::compress_manifest</definition>
+        <argsstring></argsstring>
+        <name>compress_manifest</name>
+        <qualifiedname>themis::llm::TrainStatementConfig::compress_manifest</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="38" column="10" bodyfile="include/llm/aql_train_parser.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_train_statement_config_1a7ab1f57f4aa9c20b5d8ed1f82f3b88ad" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::TrainStatementConfig::embed_safetensors</definition>
+        <argsstring></argsstring>
+        <name>embed_safetensors</name>
+        <qualifiedname>themis::llm::TrainStatementConfig::embed_safetensors</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="39" column="10" bodyfile="include/llm/aql_train_parser.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_train_statement_config_1a970594f9194badb4aede0103d690c6da" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::TrainStatementConfig::sign_adapter</definition>
+        <argsstring></argsstring>
+        <name>sign_adapter</name>
+        <qualifiedname>themis::llm::TrainStatementConfig::sign_adapter</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="42" column="10" bodyfile="include/llm/aql_train_parser.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_train_statement_config_1a09bb8bee18845c5f2f1dfcd4f8141d61" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::TrainStatementConfig::adapter_version</definition>
+        <argsstring></argsstring>
+        <name>adapter_version</name>
+        <qualifiedname>themis::llm::TrainStatementConfig::adapter_version</qualifiedname>
+        <initializer>= &quot;1.0.0&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="43" column="17" bodyfile="include/llm/aql_train_parser.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_train_statement_config_1a5a5941b8cc4a63a14701a4e9c33198be" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::llm::TrainStatementConfig::custom_metadata</definition>
+        <argsstring></argsstring>
+        <name>custom_metadata</name>
+        <qualifiedname>themis::llm::TrainStatementConfig::custom_metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="44" column="14" bodyfile="include/llm/aql_train_parser.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_train_statement_config_1a6c53aa511bc611b784d945e166419975" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::TrainStatementConfig::validation_split</definition>
+        <argsstring></argsstring>
+        <name>validation_split</name>
+        <qualifiedname>themis::llm::TrainStatementConfig::validation_split</qualifiedname>
+        <initializer>= 0.1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="47" column="12" bodyfile="include/llm/aql_train_parser.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_train_statement_config_1a3842417792ec1fa83d2f510a0d8c049b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::TrainStatementConfig::shuffle</definition>
+        <argsstring></argsstring>
+        <name>shuffle</name>
+        <qualifiedname>themis::llm::TrainStatementConfig::shuffle</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="48" column="10" bodyfile="include/llm/aql_train_parser.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_train_statement_config_1ae686df6511e6f09f2b04632684b09c83" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::TrainStatementConfig::random_seed</definition>
+        <argsstring></argsstring>
+        <name>random_seed</name>
+        <qualifiedname>themis::llm::TrainStatementConfig::random_seed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="49" column="9" bodyfile="include/llm/aql_train_parser.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_train_statement_config_1a0b1cd3d127073d7cec40761020204dbc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::TrainStatementConfig::~TrainStatementConfig</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~TrainStatementConfig</name>
+        <qualifiedname>themis::llm::TrainStatementConfig::~TrainStatementConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="31" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_train_statement_config_1a3ba401f67ec8593c38467395694866c9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::llm::TrainStatementConfig::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::TrainStatementConfig::toJSON</qualifiedname>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="55" column="20" bodyfile="src/llm/aql_train_parser.cpp" bodystart="168" bodyend="193"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_train_statement_config_1abf42dda5e82aa198d200cda3b483daaf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_train_statement_config" kindref="compound">TrainStatementConfig</ref></type>
+        <definition>TrainStatementConfig themis::llm::TrainStatementConfig::fromJSON</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::llm::TrainStatementConfig::fromJSON</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: contains(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="61" column="33" bodyfile="src/llm/aql_train_parser.cpp" bodystart="202" bodyend="271"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::llm::TrainStatementConfig</label>
+        <link refid="structthemis_1_1llm_1_1_train_statement_config"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::TrainingConfig</label>
+        <link refid="structthemis_1_1llm_1_1_training_config"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::llm::TrainStatementConfig</label>
+        <link refid="structthemis_1_1llm_1_1_train_statement_config"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::TrainingConfig</label>
+        <link refid="structthemis_1_1llm_1_1_training_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/aql_train_parser.h" line="30" column="1" bodyfile="include/llm/aql_train_parser.h" bodystart="30" bodyend="62"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_train_statement_config_1a09bb8bee18845c5f2f1dfcd4f8141d61" prot="public" virt="non-virtual"><scope>themis::llm::TrainStatementConfig</scope><name>adapter_version</name></member>
+      <member refid="structthemis_1_1llm_1_1_train_statement_config_1aa7e4242fd417303b20476a81956e86a7" prot="public" virt="non-virtual"><scope>themis::llm::TrainStatementConfig</scope><name>base_model_name</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_config_1a94b3ae1c599c9a5e7b027dfc3b078d0b" prot="public" virt="non-virtual"><scope>themis::llm::TrainStatementConfig</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_train_statement_config_1a53c84c86ade2f348660d07681f9d1a3d" prot="public" virt="non-virtual"><scope>themis::llm::TrainStatementConfig</scope><name>compress_manifest</name></member>
+      <member refid="structthemis_1_1llm_1_1_train_statement_config_1a5a5941b8cc4a63a14701a4e9c33198be" prot="public" virt="non-virtual"><scope>themis::llm::TrainStatementConfig</scope><name>custom_metadata</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_config_1a24b6f2cb14a70ef675f5d4fef084a3f3" prot="public" virt="non-virtual"><scope>themis::llm::TrainStatementConfig</scope><name>dataset_name</name></member>
+      <member refid="structthemis_1_1llm_1_1_train_statement_config_1a7ab1f57f4aa9c20b5d8ed1f82f3b88ad" prot="public" virt="non-virtual"><scope>themis::llm::TrainStatementConfig</scope><name>embed_safetensors</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_config_1acfe02bf13d7e1bda6a7710696ccde520" prot="public" virt="non-virtual"><scope>themis::llm::TrainStatementConfig</scope><name>epochs</name></member>
+      <member refid="structthemis_1_1llm_1_1_train_statement_config_1abf42dda5e82aa198d200cda3b483daaf" prot="public" virt="non-virtual"><scope>themis::llm::TrainStatementConfig</scope><name>fromJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_config_1a32ef329b2fc7b7b2e6b67608ffef43e7" prot="public" virt="non-virtual"><scope>themis::llm::TrainStatementConfig</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_config_1ade934a750616c7caa7335af782d65564" prot="public" virt="non-virtual"><scope>themis::llm::TrainStatementConfig</scope><name>gradient_accumulation_steps</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_config_1a77581bd62a1a11614854ae89be6fe35a" prot="public" virt="non-virtual"><scope>themis::llm::TrainStatementConfig</scope><name>learning_rate</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_config_1af4c84c145312ab3c3ab0c85df57d71fb" prot="public" virt="non-virtual"><scope>themis::llm::TrainStatementConfig</scope><name>lora_alpha</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_config_1a522558ff6b60866fce791933c6d4c4c2" prot="public" virt="non-virtual"><scope>themis::llm::TrainStatementConfig</scope><name>lora_dropout</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_config_1a13a783fd3bc5529074e5158937bec34a" prot="public" virt="non-virtual"><scope>themis::llm::TrainStatementConfig</scope><name>lora_rank</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_config_1abd81edfe37003a6c8a15aefaf230d073" prot="public" virt="non-virtual"><scope>themis::llm::TrainStatementConfig</scope><name>lr_scheduler</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_config_1ac581f3d9451b31c93037f1629c48335b" prot="public" virt="non-virtual"><scope>themis::llm::TrainStatementConfig</scope><name>max_seq_length</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_config_1a9a698918b58dc88e50759a277a7d26d8" prot="public" virt="non-virtual"><scope>themis::llm::TrainStatementConfig</scope><name>num_samples</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_config_1a93dbfcb79a8fb14ab0e8b89299f0b975" prot="public" virt="non-virtual"><scope>themis::llm::TrainStatementConfig</scope><name>optimizer</name></member>
+      <member refid="structthemis_1_1llm_1_1_train_statement_config_1a413f52b9c592718a0fa21331a79e2713" prot="public" virt="non-virtual"><scope>themis::llm::TrainStatementConfig</scope><name>quantization_type</name></member>
+      <member refid="structthemis_1_1llm_1_1_train_statement_config_1ae686df6511e6f09f2b04632684b09c83" prot="public" virt="non-virtual"><scope>themis::llm::TrainStatementConfig</scope><name>random_seed</name></member>
+      <member refid="structthemis_1_1llm_1_1_train_statement_config_1a3842417792ec1fa83d2f510a0d8c049b" prot="public" virt="non-virtual"><scope>themis::llm::TrainStatementConfig</scope><name>shuffle</name></member>
+      <member refid="structthemis_1_1llm_1_1_train_statement_config_1a970594f9194badb4aede0103d690c6da" prot="public" virt="non-virtual"><scope>themis::llm::TrainStatementConfig</scope><name>sign_adapter</name></member>
+      <member refid="structthemis_1_1llm_1_1_train_statement_config_1a2a762e9da8e93de4bb0e5adbd9e9e096" prot="public" virt="non-virtual"><scope>themis::llm::TrainStatementConfig</scope><name>size_mode</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_config_1ad836eb59406a93b786b17da3a0d208fd" prot="public" virt="non-virtual"><scope>themis::llm::TrainStatementConfig</scope><name>target_modules</name></member>
+      <member refid="structthemis_1_1llm_1_1_train_statement_config_1a3ba401f67ec8593c38467395694866c9" prot="public" virt="non-virtual"><scope>themis::llm::TrainStatementConfig</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_config_1a54b0015f62a4b17d356e85f8eed18824" prot="public" virt="non-virtual"><scope>themis::llm::TrainStatementConfig</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1llm_1_1_train_statement_config_1a6c53aa511bc611b784d945e166419975" prot="public" virt="non-virtual"><scope>themis::llm::TrainStatementConfig</scope><name>validation_split</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_config_1ad92b40452a02dbc61dff46a9fd683d0d" prot="public" virt="non-virtual"><scope>themis::llm::TrainStatementConfig</scope><name>warmup_ratio</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_config_1af1e1b6301c13afecd8a7da0b267b7da9" prot="public" virt="virtual"><scope>themis::llm::TrainStatementConfig</scope><name>~TrainingConfig</name></member>
+      <member refid="structthemis_1_1llm_1_1_train_statement_config_1a0b1cd3d127073d7cec40761020204dbc" prot="public" virt="non-virtual"><scope>themis::llm::TrainStatementConfig</scope><name>~TrainStatementConfig</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

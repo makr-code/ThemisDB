@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1aql_1_1_translation_error" kind="namespace" language="C++">
+    <compoundname>themis::aql::TranslationError</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1aql_1_1_translation_error_1a9f6f5bb7419459f90ab0ae98b91e3f9c" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::aql::TranslationError::GenerationFailed</definition>
+        <argsstring></argsstring>
+        <name>GenerationFailed</name>
+        <qualifiedname>themis::aql::TranslationError::GenerationFailed</qualifiedname>
+        <initializer>= &quot;GenerationFailed&quot;</initializer>
+        <briefdescription>
+<para>LLM generation failed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="202" column="26" bodyfile="include/aql/aql_error_types.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1aql_1_1_translation_error_1a46aab1d85d1e0b7733f4a264d8f8ae34" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::aql::TranslationError::RetryExhausted</definition>
+        <argsstring></argsstring>
+        <name>RetryExhausted</name>
+        <qualifiedname>themis::aql::TranslationError::RetryExhausted</qualifiedname>
+        <initializer>= &quot;RetryExhausted&quot;</initializer>
+        <briefdescription>
+<para>Retry attempts exhausted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="203" column="26" bodyfile="include/aql/aql_error_types.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1aql_1_1_translation_error_1a19af3680b676ba08478b3b822c3b1634" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::aql::TranslationError::ContextOverflow</definition>
+        <argsstring></argsstring>
+        <name>ContextOverflow</name>
+        <qualifiedname>themis::aql::TranslationError::ContextOverflow</qualifiedname>
+        <initializer>= &quot;ContextOverflow&quot;</initializer>
+        <briefdescription>
+<para>Context window exhausted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="204" column="26" bodyfile="include/aql/aql_error_types.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1aql_1_1_translation_error_1a21128566234ef0e484839049bf2f522b" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::aql::TranslationError::ProviderUnavailable</definition>
+        <argsstring></argsstring>
+        <name>ProviderUnavailable</name>
+        <qualifiedname>themis::aql::TranslationError::ProviderUnavailable</qualifiedname>
+        <initializer>= &quot;ProviderUnavailable&quot;</initializer>
+        <briefdescription>
+<para>LLM provider not available. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="205" column="26" bodyfile="include/aql/aql_error_types.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1aql_1_1_translation_error_1aad61657728b3fadfbd35336b436183d8" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::aql::TranslationError::TimeoutExceeded</definition>
+        <argsstring></argsstring>
+        <name>TimeoutExceeded</name>
+        <qualifiedname>themis::aql::TranslationError::TimeoutExceeded</qualifiedname>
+        <initializer>= &quot;TimeoutExceeded&quot;</initializer>
+        <briefdescription>
+<para>Generation timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="206" column="26" bodyfile="include/aql/aql_error_types.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1aql_1_1_translation_error_1a82d5bb0b29b72f8f968ffc1102db80bd" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::aql::TranslationError::InvalidResponse</definition>
+        <argsstring></argsstring>
+        <name>InvalidResponse</name>
+        <qualifiedname>themis::aql::TranslationError::InvalidResponse</qualifiedname>
+        <initializer>= &quot;InvalidResponse&quot;</initializer>
+        <briefdescription>
+<para>LLM response failed post-generation validation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_error_types.h" line="207" column="26" bodyfile="include/aql/aql_error_types.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_error_types.h" line="201" column="1"/>
+  </compounddef>
+</doxygen>

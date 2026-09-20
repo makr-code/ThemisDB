@@ -1,0 +1,903 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph" kind="class" language="C++" prot="public">
+    <compoundname>themis::tensor::PersistentTensorFingerprintGraph</compoundname>
+    <includes refid="persistent__tensor__fingerprint__graph_8h" local="no">persistent_tensor_fingerprint_graph.h</includes>
+    <innerclass refid="structthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1_1_persisted_entry" prot="private">themis::tensor::PersistentTensorFingerprintGraph::PersistedEntry</innerclass>
+    <sectiondef kind="private-type">
+      <memberdef kind="enum" id="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1a63cb13ad27041d2a03a640d42f38529a" prot="private" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>JournalOp</name>
+        <qualifiedname>themis::tensor::PersistentTensorFingerprintGraph::JournalOp</qualifiedname>
+        <enumvalue id="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1a63cb13ad27041d2a03a640d42f38529aad0bf1810982e9728fcf3ac444a015373" prot="private">
+          <name>Put</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1a63cb13ad27041d2a03a640d42f38529aaf2a6c498fb90ee345d997f888fce3b18" prot="private">
+          <name>Delete</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/persistent_tensor_fingerprint_graph.h" line="53" column="5" bodyfile="include/tensor/persistent_tensor_fingerprint_graph.h" bodystart="53" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1afaaf2708d2ded019294d39c357fcdff3" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph" kindref="compound">TensorFingerprintGraph</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TensorFingerprintGraph&gt; themis::tensor::PersistentTensorFingerprintGraph::graph_</definition>
+        <argsstring></argsstring>
+        <name>graph_</name>
+        <qualifiedname>themis::tensor::PersistentTensorFingerprintGraph::graph_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/persistent_tensor_fingerprint_graph.h" line="86" column="21" bodyfile="include/tensor/persistent_tensor_fingerprint_graph.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1ade79671cbbc8826b2f17b7612fc04693" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; storage::ITensorStorageBackend &gt;</type>
+        <definition>std::shared_ptr&lt;storage::ITensorStorageBackend&gt; themis::tensor::PersistentTensorFingerprintGraph::backend_</definition>
+        <argsstring></argsstring>
+        <name>backend_</name>
+        <qualifiedname>themis::tensor::PersistentTensorFingerprintGraph::backend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/persistent_tensor_fingerprint_graph.h" line="87" column="21" bodyfile="include/tensor/persistent_tensor_fingerprint_graph.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1a9a17f335e6182e9fb8e8df35412c205b" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::PersistentTensorFingerprintGraph::tenant_id_</definition>
+        <argsstring></argsstring>
+        <name>tenant_id_</name>
+        <qualifiedname>themis::tensor::PersistentTensorFingerprintGraph::tenant_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/persistent_tensor_fingerprint_graph.h" line="88" column="17" bodyfile="include/tensor/persistent_tensor_fingerprint_graph.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1a0a979b5430f8d3d9ac6feaebb566e864" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::PersistentTensorFingerprintGraph::domain_</definition>
+        <argsstring></argsstring>
+        <name>domain_</name>
+        <qualifiedname>themis::tensor::PersistentTensorFingerprintGraph::domain_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/persistent_tensor_fingerprint_graph.h" line="89" column="17" bodyfile="include/tensor/persistent_tensor_fingerprint_graph.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1a80317ec26b04f8b7c6cda6bd9e008734" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::PersistentTensorFingerprintGraph::PersistentTensorFingerprintGraph</definition>
+        <argsstring>(std::shared_ptr&lt; TensorFingerprintGraph &gt; graph, std::shared_ptr&lt; storage::ITensorStorageBackend &gt; backend, std::string tenant_id, std::string domain)</argsstring>
+        <name>PersistentTensorFingerprintGraph</name>
+        <qualifiedname>themis::tensor::PersistentTensorFingerprintGraph::PersistentTensorFingerprintGraph</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph" kindref="compound">TensorFingerprintGraph</ref> &gt;</type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; storage::ITensorStorageBackend &gt;</type>
+          <declname>backend</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>domain</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/persistent_tensor_fingerprint_graph.h" line="29" column="5" bodyfile="src/tensor/persistent_tensor_fingerprint_graph.cpp" bodystart="54" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1a71a7375e18d206fb207e050bd640158b" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::PersistentTensorFingerprintGraph::rehydrate</definition>
+        <argsstring>()</argsstring>
+        <name>rehydrate</name>
+        <qualifiedname>themis::tensor::PersistentTensorFingerprintGraph::rehydrate</qualifiedname>
+        <briefdescription>
+<para>Rehydrate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: recoverJournal(), adapterKeys(), <ref refid="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1a8fcc0fdcd1308f5b39d92aad96ee1d0a" kindref="member">removeAdapter()</ref>, listKeys(), entryPrefix(), readEntry(), storage::TTTrain::deserialize(), <ref refid="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1ab7ecff07ca4b6ed98f12c8d4d83963d5" kindref="member">addAdapter()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/persistent_tensor_fingerprint_graph.h" line="34" column="11" bodyfile="src/tensor/persistent_tensor_fingerprint_graph.cpp" bodystart="69" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1ab7ecff07ca4b6ed98f12c8d4d83963d5" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::PersistentTensorFingerprintGraph::addAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_key, const storage::TTTrain &amp;train, const std::string &amp;base_model_id)</argsstring>
+        <name>addAdapter</name>
+        <qualifiedname>themis::tensor::PersistentTensorFingerprintGraph::addAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_key</declname>
+        </param>
+        <param>
+          <type>const storage::TTTrain &amp;</type>
+          <declname>train</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_model_id</declname>
+        </param>
+        <briefdescription>
+<para>Add Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">train</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">base_model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the base model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), serialize(), writeEntry(), <ref refid="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1a8fcc0fdcd1308f5b39d92aad96ee1d0a" kindref="member">removeAdapter()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/persistent_tensor_fingerprint_graph.h" line="36" column="11" bodyfile="src/tensor/persistent_tensor_fingerprint_graph.cpp" bodystart="114" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1a8fcc0fdcd1308f5b39d92aad96ee1d0a" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::PersistentTensorFingerprintGraph::removeAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_key)</argsstring>
+        <name>removeAdapter</name>
+        <qualifiedname>themis::tensor::PersistentTensorFingerprintGraph::removeAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_key</declname>
+        </param>
+        <briefdescription>
+<para>Remove Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), entry(), deleteEntry(), <ref refid="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1ab7ecff07ca4b6ed98f12c8d4d83963d5" kindref="member">addAdapter()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/persistent_tensor_fingerprint_graph.h" line="40" column="11" bodyfile="src/tensor/persistent_tensor_fingerprint_graph.cpp" bodystart="146" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1a3be2816807da00772b2b9dfa48f791c3" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph" kindref="compound">TensorFingerprintGraph</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; TensorFingerprintGraph &gt; themis::tensor::PersistentTensorFingerprintGraph::graph</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>graph</name>
+        <qualifiedname>themis::tensor::PersistentTensorFingerprintGraph::graph</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/persistent_tensor_fingerprint_graph.h" line="42" column="22" bodyfile="include/tensor/persistent_tensor_fingerprint_graph.h" bodystart="42" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1a2f6dd9de6a514a8630c11c478e234621" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::PersistentTensorFingerprintGraph::entryPrefix</definition>
+        <argsstring>() const</argsstring>
+        <name>entryPrefix</name>
+        <qualifiedname>themis::tensor::PersistentTensorFingerprintGraph::entryPrefix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/persistent_tensor_fingerprint_graph.h" line="55" column="18" bodyfile="src/tensor/persistent_tensor_fingerprint_graph.cpp" bodystart="169" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1a61f6292126199d433c899ec6c73329e5" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::PersistentTensorFingerprintGraph::entryKeyFor</definition>
+        <argsstring>(const std::string &amp;adapter_key) const</argsstring>
+        <name>entryKeyFor</name>
+        <qualifiedname>themis::tensor::PersistentTensorFingerprintGraph::entryKeyFor</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/persistent_tensor_fingerprint_graph.h" line="56" column="18" bodyfile="src/tensor/persistent_tensor_fingerprint_graph.cpp" bodystart="173" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1aba674dcb05e747388f3d46f2649e11fe" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::PersistentTensorFingerprintGraph::journalPrefix</definition>
+        <argsstring>() const</argsstring>
+        <name>journalPrefix</name>
+        <qualifiedname>themis::tensor::PersistentTensorFingerprintGraph::journalPrefix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/persistent_tensor_fingerprint_graph.h" line="57" column="18" bodyfile="src/tensor/persistent_tensor_fingerprint_graph.cpp" bodystart="177" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1a4584013751a5c43499e1faec07ae2130" prot="private" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::PersistentTensorFingerprintGraph::writeEntry</definition>
+        <argsstring>(const PersistedEntry &amp;entry)</argsstring>
+        <name>writeEntry</name>
+        <qualifiedname>themis::tensor::PersistentTensorFingerprintGraph::writeEntry</qualifiedname>
+        <param>
+          <type>const PersistedEntry &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Write Entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: entryKeyFor(), writeWithJournal(), serializeEntry(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/persistent_tensor_fingerprint_graph.h" line="59" column="11" bodyfile="src/tensor/persistent_tensor_fingerprint_graph.cpp" bodystart="187" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1ad80e57bddf26bf67788a96b00071b5a5" prot="private" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::PersistentTensorFingerprintGraph::deleteEntry</definition>
+        <argsstring>(const std::string &amp;adapter_key)</argsstring>
+        <name>deleteEntry</name>
+        <qualifiedname>themis::tensor::PersistentTensorFingerprintGraph::deleteEntry</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_key</declname>
+        </param>
+        <briefdescription>
+<para>Delete Entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: entryKeyFor(), writeWithJournal(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/persistent_tensor_fingerprint_graph.h" line="60" column="11" bodyfile="src/tensor/persistent_tensor_fingerprint_graph.cpp" bodystart="198" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1ae986ada1056f4c36fd63bd78d472f822" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; PersistedEntry &gt;</type>
+        <definition>std::optional&lt; PersistentTensorFingerprintGraph::PersistedEntry &gt; themis::tensor::PersistentTensorFingerprintGraph::readEntry</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>readEntry</name>
+        <qualifiedname>themis::tensor::PersistentTensorFingerprintGraph::readEntry</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/persistent_tensor_fingerprint_graph.h" line="61" column="20" bodyfile="src/tensor/persistent_tensor_fingerprint_graph.cpp" bodystart="204" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1aa956c1015101b1aebd009c47b01167b2" prot="private" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::PersistentTensorFingerprintGraph::writeWithJournal</definition>
+        <argsstring>(JournalOp op, const std::string &amp;target_key, const std::vector&lt; uint8_t &gt; &amp;payload)</argsstring>
+        <name>writeWithJournal</name>
+        <qualifiedname>themis::tensor::PersistentTensorFingerprintGraph::writeWithJournal</qualifiedname>
+        <param>
+          <type>JournalOp</type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+<para>Write With Journal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: makeJournalKey(), journalPrefix(), serializeJournalRecord(), put(), deleteIfPresent(), del(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/persistent_tensor_fingerprint_graph.h" line="63" column="11" bodyfile="src/tensor/persistent_tensor_fingerprint_graph.cpp" bodystart="220" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1aeaeaa45613d0f71ff8c33e8e11044629" prot="private" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::PersistentTensorFingerprintGraph::recoverJournal</definition>
+        <argsstring>()</argsstring>
+        <name>recoverJournal</name>
+        <qualifiedname>themis::tensor::PersistentTensorFingerprintGraph::recoverJournal</qualifiedname>
+        <briefdescription>
+<para>Recover Journal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: listKeys(), journalPrefix(), get(), deserializeJournalRecord(), put(), deleteIfPresent(), del(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/persistent_tensor_fingerprint_graph.h" line="66" column="11" bodyfile="src/tensor/persistent_tensor_fingerprint_graph.cpp" bodystart="248" bodyend="280"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1a63e06d0f94bfc954271df333a11246ed" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::tensor::PersistentTensorFingerprintGraph::serializeEntry</definition>
+        <argsstring>(const PersistedEntry &amp;entry)</argsstring>
+        <name>serializeEntry</name>
+        <qualifiedname>themis::tensor::PersistentTensorFingerprintGraph::serializeEntry</qualifiedname>
+        <param>
+          <type>const PersistedEntry &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/persistent_tensor_fingerprint_graph.h" line="68" column="24" bodyfile="src/tensor/persistent_tensor_fingerprint_graph.cpp" bodystart="283" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1ad5abcec7c2a7f54360da51fb9135a91a" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; PersistedEntry &gt;</type>
+        <definition>std::optional&lt; PersistentTensorFingerprintGraph::PersistedEntry &gt; themis::tensor::PersistentTensorFingerprintGraph::deserializeEntry</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;bytes)</argsstring>
+        <name>deserializeEntry</name>
+        <qualifiedname>themis::tensor::PersistentTensorFingerprintGraph::deserializeEntry</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/persistent_tensor_fingerprint_graph.h" line="69" column="26" bodyfile="src/tensor/persistent_tensor_fingerprint_graph.cpp" bodystart="295" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1a04213aed95d62bab538a61885f5dd89c" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::tensor::PersistentTensorFingerprintGraph::serializeJournalRecord</definition>
+        <argsstring>(JournalOp op, const std::string &amp;target_key, const std::vector&lt; uint8_t &gt; &amp;payload)</argsstring>
+        <name>serializeJournalRecord</name>
+        <qualifiedname>themis::tensor::PersistentTensorFingerprintGraph::serializeJournalRecord</qualifiedname>
+        <param>
+          <type>JournalOp</type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/persistent_tensor_fingerprint_graph.h" line="71" column="24" bodyfile="src/tensor/persistent_tensor_fingerprint_graph.cpp" bodystart="318" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1a75a789ad728155351d95a066d0066e51" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::PersistentTensorFingerprintGraph::deserializeJournalRecord</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;bytes, JournalOp &amp;op, std::string &amp;target_key, std::vector&lt; uint8_t &gt; &amp;payload)</argsstring>
+        <name>deserializeJournalRecord</name>
+        <qualifiedname>themis::tensor::PersistentTensorFingerprintGraph::deserializeJournalRecord</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>bytes</declname>
+        </param>
+        <param>
+          <type>JournalOp &amp;</type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>target_key</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+<para>Deserialize Journal Record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">target_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: readU32(), size(), readString(), readBytes(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/persistent_tensor_fingerprint_graph.h" line="74" column="17" bodyfile="src/tensor/persistent_tensor_fingerprint_graph.cpp" bodystart="338" bodyend="362"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1ab8734a6d5f1a0a742a1aee317ac8cce0" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::PersistentTensorFingerprintGraph::appendU32</definition>
+        <argsstring>(std::vector&lt; uint8_t &gt; &amp;out, uint32_t v)</argsstring>
+        <name>appendU32</name>
+        <qualifiedname>themis::tensor::PersistentTensorFingerprintGraph::appendU32</qualifiedname>
+        <param>
+          <type>std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>out</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Append U32. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/persistent_tensor_fingerprint_graph.h" line="79" column="17" bodyfile="src/tensor/persistent_tensor_fingerprint_graph.cpp" bodystart="370" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1a056e37968de855e89b15b26f9214bf1a" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::PersistentTensorFingerprintGraph::readU32</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;in, std::size_t &amp;off, uint32_t &amp;v)</argsstring>
+        <name>readU32</name>
+        <qualifiedname>themis::tensor::PersistentTensorFingerprintGraph::readU32</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>in</declname>
+        </param>
+        <param>
+          <type>std::size_t &amp;</type>
+          <declname>off</declname>
+        </param>
+        <param>
+          <type>uint32_t &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Read U32. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">in</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">off</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/persistent_tensor_fingerprint_graph.h" line="80" column="17" bodyfile="src/tensor/persistent_tensor_fingerprint_graph.cpp" bodystart="385" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1ad531fc68aa36007f59309f74036495bc" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::PersistentTensorFingerprintGraph::appendString</definition>
+        <argsstring>(std::vector&lt; uint8_t &gt; &amp;out, const std::string &amp;v)</argsstring>
+        <name>appendString</name>
+        <qualifiedname>themis::tensor::PersistentTensorFingerprintGraph::appendString</qualifiedname>
+        <param>
+          <type>std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>out</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Append String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: appendU32(), size(), insert(), end(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/persistent_tensor_fingerprint_graph.h" line="81" column="17" bodyfile="src/tensor/persistent_tensor_fingerprint_graph.cpp" bodystart="403" bodyend="406"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1a8770e790728d37537feb2d2555f35392" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::PersistentTensorFingerprintGraph::readString</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;in, std::size_t &amp;off, std::string &amp;v)</argsstring>
+        <name>readString</name>
+        <qualifiedname>themis::tensor::PersistentTensorFingerprintGraph::readString</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>in</declname>
+        </param>
+        <param>
+          <type>std::size_t &amp;</type>
+          <declname>off</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Read String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">in</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">off</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: readU32(), size(), assign(), data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/persistent_tensor_fingerprint_graph.h" line="82" column="17" bodyfile="src/tensor/persistent_tensor_fingerprint_graph.cpp" bodystart="416" bodyend="429"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1aab66b8a6b8c3bcac9170fb1a55039d0a" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::PersistentTensorFingerprintGraph::appendBytes</definition>
+        <argsstring>(std::vector&lt; uint8_t &gt; &amp;out, const std::vector&lt; uint8_t &gt; &amp;v)</argsstring>
+        <name>appendBytes</name>
+        <qualifiedname>themis::tensor::PersistentTensorFingerprintGraph::appendBytes</qualifiedname>
+        <param>
+          <type>std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>out</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Append Bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: appendU32(), size(), insert(), end(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/persistent_tensor_fingerprint_graph.h" line="83" column="17" bodyfile="src/tensor/persistent_tensor_fingerprint_graph.cpp" bodystart="437" bodyend="440"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1af1d0bde0a38426aeecc8af3def09b112" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::PersistentTensorFingerprintGraph::readBytes</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;in, std::size_t &amp;off, std::vector&lt; uint8_t &gt; &amp;v)</argsstring>
+        <name>readBytes</name>
+        <qualifiedname>themis::tensor::PersistentTensorFingerprintGraph::readBytes</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>in</declname>
+        </param>
+        <param>
+          <type>std::size_t &amp;</type>
+          <declname>off</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Read Bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">in</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">off</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: readU32(), size(), assign(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/persistent_tensor_fingerprint_graph.h" line="84" column="17" bodyfile="src/tensor/persistent_tensor_fingerprint_graph.cpp" bodystart="450" bodyend="464"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Durable wrapper for <ref refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph" kindref="compound">TensorFingerprintGraph</ref> using ITensorStorageBackend. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Persists each fingerprint graph entry under tenant/domain scoped keys and uses a small operation journal for crash-safe recovery of partial writes. </para>
+    </detaileddescription>
+    <location file="include/tensor/persistent_tensor_fingerprint_graph.h" line="27" column="1" bodyfile="include/tensor/persistent_tensor_fingerprint_graph.h" bodystart="27" bodyend="90"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1ab7ecff07ca4b6ed98f12c8d4d83963d5" prot="public" virt="non-virtual"><scope>themis::tensor::PersistentTensorFingerprintGraph</scope><name>addAdapter</name></member>
+      <member refid="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1aab66b8a6b8c3bcac9170fb1a55039d0a" prot="private" virt="non-virtual"><scope>themis::tensor::PersistentTensorFingerprintGraph</scope><name>appendBytes</name></member>
+      <member refid="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1ad531fc68aa36007f59309f74036495bc" prot="private" virt="non-virtual"><scope>themis::tensor::PersistentTensorFingerprintGraph</scope><name>appendString</name></member>
+      <member refid="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1ab8734a6d5f1a0a742a1aee317ac8cce0" prot="private" virt="non-virtual"><scope>themis::tensor::PersistentTensorFingerprintGraph</scope><name>appendU32</name></member>
+      <member refid="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1ade79671cbbc8826b2f17b7612fc04693" prot="private" virt="non-virtual"><scope>themis::tensor::PersistentTensorFingerprintGraph</scope><name>backend_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1ad80e57bddf26bf67788a96b00071b5a5" prot="private" virt="non-virtual"><scope>themis::tensor::PersistentTensorFingerprintGraph</scope><name>deleteEntry</name></member>
+      <member refid="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1ad5abcec7c2a7f54360da51fb9135a91a" prot="private" virt="non-virtual"><scope>themis::tensor::PersistentTensorFingerprintGraph</scope><name>deserializeEntry</name></member>
+      <member refid="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1a75a789ad728155351d95a066d0066e51" prot="private" virt="non-virtual"><scope>themis::tensor::PersistentTensorFingerprintGraph</scope><name>deserializeJournalRecord</name></member>
+      <member refid="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1a0a979b5430f8d3d9ac6feaebb566e864" prot="private" virt="non-virtual"><scope>themis::tensor::PersistentTensorFingerprintGraph</scope><name>domain_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1a61f6292126199d433c899ec6c73329e5" prot="private" virt="non-virtual"><scope>themis::tensor::PersistentTensorFingerprintGraph</scope><name>entryKeyFor</name></member>
+      <member refid="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1a2f6dd9de6a514a8630c11c478e234621" prot="private" virt="non-virtual"><scope>themis::tensor::PersistentTensorFingerprintGraph</scope><name>entryPrefix</name></member>
+      <member refid="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1a3be2816807da00772b2b9dfa48f791c3" prot="public" virt="non-virtual"><scope>themis::tensor::PersistentTensorFingerprintGraph</scope><name>graph</name></member>
+      <member refid="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1afaaf2708d2ded019294d39c357fcdff3" prot="private" virt="non-virtual"><scope>themis::tensor::PersistentTensorFingerprintGraph</scope><name>graph_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1a63cb13ad27041d2a03a640d42f38529a" prot="private" virt="non-virtual"><scope>themis::tensor::PersistentTensorFingerprintGraph</scope><name>JournalOp</name></member>
+      <member refid="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1aba674dcb05e747388f3d46f2649e11fe" prot="private" virt="non-virtual"><scope>themis::tensor::PersistentTensorFingerprintGraph</scope><name>journalPrefix</name></member>
+      <member refid="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1a80317ec26b04f8b7c6cda6bd9e008734" prot="public" virt="non-virtual"><scope>themis::tensor::PersistentTensorFingerprintGraph</scope><name>PersistentTensorFingerprintGraph</name></member>
+      <member refid="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1af1d0bde0a38426aeecc8af3def09b112" prot="private" virt="non-virtual"><scope>themis::tensor::PersistentTensorFingerprintGraph</scope><name>readBytes</name></member>
+      <member refid="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1ae986ada1056f4c36fd63bd78d472f822" prot="private" virt="non-virtual"><scope>themis::tensor::PersistentTensorFingerprintGraph</scope><name>readEntry</name></member>
+      <member refid="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1a8770e790728d37537feb2d2555f35392" prot="private" virt="non-virtual"><scope>themis::tensor::PersistentTensorFingerprintGraph</scope><name>readString</name></member>
+      <member refid="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1a056e37968de855e89b15b26f9214bf1a" prot="private" virt="non-virtual"><scope>themis::tensor::PersistentTensorFingerprintGraph</scope><name>readU32</name></member>
+      <member refid="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1aeaeaa45613d0f71ff8c33e8e11044629" prot="private" virt="non-virtual"><scope>themis::tensor::PersistentTensorFingerprintGraph</scope><name>recoverJournal</name></member>
+      <member refid="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1a71a7375e18d206fb207e050bd640158b" prot="public" virt="non-virtual"><scope>themis::tensor::PersistentTensorFingerprintGraph</scope><name>rehydrate</name></member>
+      <member refid="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1a8fcc0fdcd1308f5b39d92aad96ee1d0a" prot="public" virt="non-virtual"><scope>themis::tensor::PersistentTensorFingerprintGraph</scope><name>removeAdapter</name></member>
+      <member refid="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1a63e06d0f94bfc954271df333a11246ed" prot="private" virt="non-virtual"><scope>themis::tensor::PersistentTensorFingerprintGraph</scope><name>serializeEntry</name></member>
+      <member refid="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1a04213aed95d62bab538a61885f5dd89c" prot="private" virt="non-virtual"><scope>themis::tensor::PersistentTensorFingerprintGraph</scope><name>serializeJournalRecord</name></member>
+      <member refid="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1a9a17f335e6182e9fb8e8df35412c205b" prot="private" virt="non-virtual"><scope>themis::tensor::PersistentTensorFingerprintGraph</scope><name>tenant_id_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1a4584013751a5c43499e1faec07ae2130" prot="private" virt="non-virtual"><scope>themis::tensor::PersistentTensorFingerprintGraph</scope><name>writeEntry</name></member>
+      <member refid="classthemis_1_1tensor_1_1_persistent_tensor_fingerprint_graph_1aa956c1015101b1aebd009c47b01167b2" prot="private" virt="non-virtual"><scope>themis::tensor::PersistentTensorFingerprintGraph</scope><name>writeWithJournal</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

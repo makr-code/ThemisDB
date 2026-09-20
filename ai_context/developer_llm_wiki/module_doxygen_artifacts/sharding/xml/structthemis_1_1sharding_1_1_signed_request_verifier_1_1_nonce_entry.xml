@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_signed_request_verifier_1_1_nonce_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::sharding::SignedRequestVerifier::NonceEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_signed_request_verifier_1_1_nonce_entry_1a4ddabc0af6591fb7b765c6a8866158d2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::SignedRequestVerifier::NonceEntry::nonce</definition>
+        <argsstring></argsstring>
+        <name>nonce</name>
+        <qualifiedname>themis::sharding::SignedRequestVerifier::NonceEntry::nonce</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="184" column="18" bodyfile="include/sharding/signed_request.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_signed_request_verifier_1_1_nonce_entry_1a3fee4245dc845d689d673f2ccac8b90b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::SignedRequestVerifier::NonceEntry::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::sharding::SignedRequestVerifier::NonceEntry::timestamp_ms</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="185" column="18" bodyfile="include/sharding/signed_request.h" bodystart="185" bodyend="185"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/signed_request.h" line="183" column="5" bodyfile="include/sharding/signed_request.h" bodystart="183" bodyend="186"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_signed_request_verifier_1_1_nonce_entry_1a4ddabc0af6591fb7b765c6a8866158d2" prot="public" virt="non-virtual"><scope>themis::sharding::SignedRequestVerifier::NonceEntry</scope><name>nonce</name></member>
+      <member refid="structthemis_1_1sharding_1_1_signed_request_verifier_1_1_nonce_entry_1a3fee4245dc845d689d673f2ccac8b90b" prot="public" virt="non-virtual"><scope>themis::sharding::SignedRequestVerifier::NonceEntry</scope><name>timestamp_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

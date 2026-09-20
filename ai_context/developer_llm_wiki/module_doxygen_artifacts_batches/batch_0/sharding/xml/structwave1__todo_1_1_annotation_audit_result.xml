@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structwave1__todo_1_1_annotation_audit_result" kind="struct" language="C++" prot="public">
+    <compoundname>wave1_todo::AnnotationAuditResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structwave1__todo_1_1_annotation_audit_result_1a9577838e019de4abe4535cfa74607d45" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string wave1_todo::AnnotationAuditResult::path_name</definition>
+        <argsstring></argsstring>
+        <name>path_name</name>
+        <qualifiedname>wave1_todo::AnnotationAuditResult::path_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="616" column="17" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="616" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structwave1__todo_1_1_annotation_audit_result_1a5189b59908acae5802b9debe9e510d99" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool wave1_todo::AnnotationAuditResult::has_stub_note</definition>
+        <argsstring></argsstring>
+        <name>has_stub_note</name>
+        <qualifiedname>wave1_todo::AnnotationAuditResult::has_stub_note</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Carries STUB/SIMULATION NOTE. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="617" column="17" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="617" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structwave1__todo_1_1_annotation_audit_result_1ab3cd8f0f86128651dbd9a17612142057" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool wave1_todo::AnnotationAuditResult::has_bare_todo</definition>
+        <argsstring></argsstring>
+        <name>has_bare_todo</name>
+        <qualifiedname>wave1_todo::AnnotationAuditResult::has_bare_todo</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Carries unresolved bare TODO. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="618" column="17" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="618" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structwave1__todo_1_1_annotation_audit_result_1a60544abc6009d0ec0e2e7d230a02ebdb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool wave1_todo::AnnotationAuditResult::implementation_present</definition>
+        <argsstring></argsstring>
+        <name>implementation_present</name>
+        <qualifiedname>wave1_todo::AnnotationAuditResult::implementation_present</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Has real code, not just comment. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="619" column="17" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="619" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structwave1__todo_1_1_annotation_audit_result_1a2561a7f470f64a6e8fbe1e6f91f3bf59" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool wave1_todo::AnnotationAuditResult::isCriticalPathCompliant</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isCriticalPathCompliant</name>
+        <qualifiedname>wave1_todo::AnnotationAuditResult::isCriticalPathCompliant</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="621" column="11" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="621" bodyend="623"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Represents a production-path code path annotation audit result. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="615" column="1" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="615" bodyend="624"/>
+    <listofallmembers>
+      <member refid="structwave1__todo_1_1_annotation_audit_result_1ab3cd8f0f86128651dbd9a17612142057" prot="public" virt="non-virtual"><scope>wave1_todo::AnnotationAuditResult</scope><name>has_bare_todo</name></member>
+      <member refid="structwave1__todo_1_1_annotation_audit_result_1a5189b59908acae5802b9debe9e510d99" prot="public" virt="non-virtual"><scope>wave1_todo::AnnotationAuditResult</scope><name>has_stub_note</name></member>
+      <member refid="structwave1__todo_1_1_annotation_audit_result_1a60544abc6009d0ec0e2e7d230a02ebdb" prot="public" virt="non-virtual"><scope>wave1_todo::AnnotationAuditResult</scope><name>implementation_present</name></member>
+      <member refid="structwave1__todo_1_1_annotation_audit_result_1a2561a7f470f64a6e8fbe1e6f91f3bf59" prot="public" virt="non-virtual"><scope>wave1_todo::AnnotationAuditResult</scope><name>isCriticalPathCompliant</name></member>
+      <member refid="structwave1__todo_1_1_annotation_audit_result_1a9577838e019de4abe4535cfa74607d45" prot="public" virt="non-virtual"><scope>wave1_todo::AnnotationAuditResult</scope><name>path_name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,265 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_run_metadata" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::RunMetadata</compoundname>
+    <includes refid="ai__orchestrator_8h" local="no">ai_orchestrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_run_metadata_1a9715c2f93fb822f1c696dae9ec371a7d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::RunMetadata::mode_id</definition>
+        <argsstring></argsstring>
+        <name>mode_id</name>
+        <qualifiedname>themis::llm::RunMetadata::mode_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="316" column="17" bodyfile="include/llm/ai_orchestrator.h" bodystart="316" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_run_metadata_1a39b6fbb24980cb2a2a7a769c46077758" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::RunMetadata::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::llm::RunMetadata::model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="317" column="17" bodyfile="include/llm/ai_orchestrator.h" bodystart="317" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_run_metadata_1a047a39a947e8fe7c7b2537ac4da1f044" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::RunMetadata::request_id</definition>
+        <argsstring></argsstring>
+        <name>request_id</name>
+        <qualifiedname>themis::llm::RunMetadata::request_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="318" column="17" bodyfile="include/llm/ai_orchestrator.h" bodystart="318" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_run_metadata_1afb05be68b1e16b16181b59b711e89713" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::RunMetadata::retrieved_docs</definition>
+        <argsstring></argsstring>
+        <name>retrieved_docs</name>
+        <qualifiedname>themis::llm::RunMetadata::retrieved_docs</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="321" column="11" bodyfile="include/llm/ai_orchestrator.h" bodystart="321" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_run_metadata_1aa8c3037758a94b6ccc839e2c72b00ac3" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::RunMetadata::avg_relevance</definition>
+        <argsstring></argsstring>
+        <name>avg_relevance</name>
+        <qualifiedname>themis::llm::RunMetadata::avg_relevance</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="322" column="11" bodyfile="include/llm/ai_orchestrator.h" bodystart="322" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_run_metadata_1a85ae1a35ea28db7a02cf4223d5b71356" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::RunMetadata::adapter_candidates</definition>
+        <argsstring></argsstring>
+        <name>adapter_candidates</name>
+        <qualifiedname>themis::llm::RunMetadata::adapter_candidates</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="325" column="11" bodyfile="include/llm/ai_orchestrator.h" bodystart="325" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_run_metadata_1a9032c1e71140c7974be05ffc7a7da855" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::llm::RunMetadata::selected_adapter_id</definition>
+        <argsstring></argsstring>
+        <name>selected_adapter_id</name>
+        <qualifiedname>themis::llm::RunMetadata::selected_adapter_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="326" column="19" bodyfile="include/llm/ai_orchestrator.h" bodystart="326" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_run_metadata_1a2adadefaf279d6722bbb8cee18affe44" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::llm::RunMetadata::adapter_selection_reason</definition>
+        <argsstring></argsstring>
+        <name>adapter_selection_reason</name>
+        <qualifiedname>themis::llm::RunMetadata::adapter_selection_reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="327" column="19" bodyfile="include/llm/ai_orchestrator.h" bodystart="327" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_run_metadata_1a6940fb4e2d2c3d022913ad837739d202" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::RunMetadata::tool_calls_made</definition>
+        <argsstring></argsstring>
+        <name>tool_calls_made</name>
+        <qualifiedname>themis::llm::RunMetadata::tool_calls_made</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="330" column="17" bodyfile="include/llm/ai_orchestrator.h" bodystart="330" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_run_metadata_1a586f125562bfec4458102d8ecc8bba93" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::RunMetadata::tokens_prompt</definition>
+        <argsstring></argsstring>
+        <name>tokens_prompt</name>
+        <qualifiedname>themis::llm::RunMetadata::tokens_prompt</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="333" column="9" bodyfile="include/llm/ai_orchestrator.h" bodystart="333" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_run_metadata_1a8472b02c06c6f15894be9f725c608707" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::RunMetadata::tokens_generated</definition>
+        <argsstring></argsstring>
+        <name>tokens_generated</name>
+        <qualifiedname>themis::llm::RunMetadata::tokens_generated</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="334" column="9" bodyfile="include/llm/ai_orchestrator.h" bodystart="334" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_run_metadata_1a8dca90aabcd785a7f76d533837c61b4a" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_run_latency" kindref="compound">RunLatency</ref></type>
+        <definition>RunLatency themis::llm::RunMetadata::latency</definition>
+        <argsstring></argsstring>
+        <name>latency</name>
+        <qualifiedname>themis::llm::RunMetadata::latency</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="337" column="16" bodyfile="include/llm/ai_orchestrator.h" bodystart="337" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_run_metadata_1af49972cbe142d0a1fc8515965b442903" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; float &gt;</type>
+        <definition>std::optional&lt;float&gt; themis::llm::RunMetadata::judge_score</definition>
+        <argsstring></argsstring>
+        <name>judge_score</name>
+        <qualifiedname>themis::llm::RunMetadata::judge_score</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="340" column="19" bodyfile="include/llm/ai_orchestrator.h" bodystart="340" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_run_metadata_1a7d687da1034a892bcee775c038c54ffd" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::RunMetadata::extra</definition>
+        <argsstring></argsstring>
+        <name>extra</name>
+        <qualifiedname>themis::llm::RunMetadata::extra</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="343" column="10" bodyfile="include/llm/ai_orchestrator.h" bodystart="343" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_run_metadata_1aa210ee7a1b020689c9d8013193c88e08" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::RunMetadata::~RunMetadata</definition>
+        <argsstring>()=default</argsstring>
+        <name>~RunMetadata</name>
+        <qualifiedname>themis::llm::RunMetadata::~RunMetadata</qualifiedname>
+        <briefdescription>
+<para>Run Metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="315" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::RunLatency</label>
+        <link refid="structthemis_1_1llm_1_1_run_latency"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::RunMetadata</label>
+        <link refid="structthemis_1_1llm_1_1_run_metadata"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>latency</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/ai_orchestrator.h" line="310" column="1" bodyfile="include/llm/ai_orchestrator.h" bodystart="310" bodyend="344"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_run_metadata_1a85ae1a35ea28db7a02cf4223d5b71356" prot="public" virt="non-virtual"><scope>themis::llm::RunMetadata</scope><name>adapter_candidates</name></member>
+      <member refid="structthemis_1_1llm_1_1_run_metadata_1a2adadefaf279d6722bbb8cee18affe44" prot="public" virt="non-virtual"><scope>themis::llm::RunMetadata</scope><name>adapter_selection_reason</name></member>
+      <member refid="structthemis_1_1llm_1_1_run_metadata_1aa8c3037758a94b6ccc839e2c72b00ac3" prot="public" virt="non-virtual"><scope>themis::llm::RunMetadata</scope><name>avg_relevance</name></member>
+      <member refid="structthemis_1_1llm_1_1_run_metadata_1a7d687da1034a892bcee775c038c54ffd" prot="public" virt="non-virtual"><scope>themis::llm::RunMetadata</scope><name>extra</name></member>
+      <member refid="structthemis_1_1llm_1_1_run_metadata_1af49972cbe142d0a1fc8515965b442903" prot="public" virt="non-virtual"><scope>themis::llm::RunMetadata</scope><name>judge_score</name></member>
+      <member refid="structthemis_1_1llm_1_1_run_metadata_1a8dca90aabcd785a7f76d533837c61b4a" prot="public" virt="non-virtual"><scope>themis::llm::RunMetadata</scope><name>latency</name></member>
+      <member refid="structthemis_1_1llm_1_1_run_metadata_1a9715c2f93fb822f1c696dae9ec371a7d" prot="public" virt="non-virtual"><scope>themis::llm::RunMetadata</scope><name>mode_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_run_metadata_1a39b6fbb24980cb2a2a7a769c46077758" prot="public" virt="non-virtual"><scope>themis::llm::RunMetadata</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_run_metadata_1a047a39a947e8fe7c7b2537ac4da1f044" prot="public" virt="non-virtual"><scope>themis::llm::RunMetadata</scope><name>request_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_run_metadata_1afb05be68b1e16b16181b59b711e89713" prot="public" virt="non-virtual"><scope>themis::llm::RunMetadata</scope><name>retrieved_docs</name></member>
+      <member refid="structthemis_1_1llm_1_1_run_metadata_1a9032c1e71140c7974be05ffc7a7da855" prot="public" virt="non-virtual"><scope>themis::llm::RunMetadata</scope><name>selected_adapter_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_run_metadata_1a8472b02c06c6f15894be9f725c608707" prot="public" virt="non-virtual"><scope>themis::llm::RunMetadata</scope><name>tokens_generated</name></member>
+      <member refid="structthemis_1_1llm_1_1_run_metadata_1a586f125562bfec4458102d8ecc8bba93" prot="public" virt="non-virtual"><scope>themis::llm::RunMetadata</scope><name>tokens_prompt</name></member>
+      <member refid="structthemis_1_1llm_1_1_run_metadata_1a6940fb4e2d2c3d022913ad837739d202" prot="public" virt="non-virtual"><scope>themis::llm::RunMetadata</scope><name>tool_calls_made</name></member>
+      <member refid="structthemis_1_1llm_1_1_run_metadata_1aa210ee7a1b020689c9d8013193c88e08" prot="public" virt="virtual"><scope>themis::llm::RunMetadata</scope><name>~RunMetadata</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

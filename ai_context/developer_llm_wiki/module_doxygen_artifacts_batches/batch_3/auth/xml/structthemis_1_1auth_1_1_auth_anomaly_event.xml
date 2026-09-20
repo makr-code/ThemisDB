@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_auth_anomaly_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::AuthAnomalyEvent</compoundname>
+    <includes refid="auth__rate__limiter_8h" local="no">auth_rate_limiter.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1auth_1_1_auth_anomaly_event_1adad5c3fc6ae8ffb7ec4f138e5e91685e" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Type</name>
+        <qualifiedname>themis::auth::AuthAnomalyEvent::Type</qualifiedname>
+        <enumvalue id="structthemis_1_1auth_1_1_auth_anomaly_event_1adad5c3fc6ae8ffb7ec4f138e5e91685ea5de834ab1a6cb119c11cc28778ce706a" prot="public">
+          <name>BRUTE_FORCE_DETECTED</name>
+          <briefdescription>
+<para>Account locked after repeated failures from an IP. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1auth_1_1_auth_anomaly_event_1adad5c3fc6ae8ffb7ec4f138e5e91685ea908f6c24d52ad7eccad87f9c4e359b0c" prot="public">
+          <name>CREDENTIAL_STUFFING_SUSPECTED</name>
+          <briefdescription>
+<para>Many distinct usernames tried from one IP. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1auth_1_1_auth_anomaly_event_1adad5c3fc6ae8ffb7ec4f138e5e91685eae8792cad8079cb2f6336d84f3ae40445" prot="public">
+          <name>ACCOUNT_LOCKOUT_TRIGGERED</name>
+          <briefdescription>
+<para>Account locked due to failed-attempt threshold. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="93" column="5" bodyfile="include/auth/auth_rate_limiter.h" bodystart="93" bodyend="97"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_auth_anomaly_event_1a1f260a9f07789d764e3633beee515014" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1auth_1_1_auth_anomaly_event_1adad5c3fc6ae8ffb7ec4f138e5e91685e" kindref="member">Type</ref></type>
+        <definition>Type themis::auth::AuthAnomalyEvent::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::auth::AuthAnomalyEvent::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="98" column="17" bodyfile="include/auth/auth_rate_limiter.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_auth_anomaly_event_1ab0a0f77eecccfcdce5de1a6ec8e7931f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::AuthAnomalyEvent::ip</definition>
+        <argsstring></argsstring>
+        <name>ip</name>
+        <qualifiedname>themis::auth::AuthAnomalyEvent::ip</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="99" column="17" bodyfile="include/auth/auth_rate_limiter.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_auth_anomaly_event_1a2e638e94210601e2012bb269b4aeccfc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::AuthAnomalyEvent::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::auth::AuthAnomalyEvent::user_id</qualifiedname>
+        <briefdescription>
+<para>empty for IP-level events </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="100" column="17" bodyfile="include/auth/auth_rate_limiter.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_auth_anomaly_event_1ab600defe1427fc9a1530b7417b6491fd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::AuthAnomalyEvent::detail</definition>
+        <argsstring></argsstring>
+        <name>detail</name>
+        <qualifiedname>themis::auth::AuthAnomalyEvent::detail</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="101" column="17" bodyfile="include/auth/auth_rate_limiter.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_auth_anomaly_event_1a4dc62ffef2c8bfdb5f30ddaeb24174ac" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::auth::AuthAnomalyEvent::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::auth::AuthAnomalyEvent::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="102" column="43" bodyfile="include/auth/auth_rate_limiter.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_auth_anomaly_event_1adc3845889d7fff1fadc17f4258908f0b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1auth_1ac7d6b4ac0ba21600479d41e737d954a4" kindref="member">CredentialStuffingOutcome</ref></type>
+        <definition>CredentialStuffingOutcome themis::auth::AuthAnomalyEvent::cs_outcome</definition>
+        <argsstring></argsstring>
+        <name>cs_outcome</name>
+        <qualifiedname>themis::auth::AuthAnomalyEvent::cs_outcome</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1auth_1ac7d6b4ac0ba21600479d41e737d954a4a9725825c796122ef40f01b2d8794f902" kindref="member">CredentialStuffingOutcome::ALLOWED</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="104" column="31" bodyfile="include/auth/auth_rate_limiter.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/auth_rate_limiter.h" line="92" column="1" bodyfile="include/auth/auth_rate_limiter.h" bodystart="92" bodyend="105"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_auth_anomaly_event_1adc3845889d7fff1fadc17f4258908f0b" prot="public" virt="non-virtual"><scope>themis::auth::AuthAnomalyEvent</scope><name>cs_outcome</name></member>
+      <member refid="structthemis_1_1auth_1_1_auth_anomaly_event_1ab600defe1427fc9a1530b7417b6491fd" prot="public" virt="non-virtual"><scope>themis::auth::AuthAnomalyEvent</scope><name>detail</name></member>
+      <member refid="structthemis_1_1auth_1_1_auth_anomaly_event_1ab0a0f77eecccfcdce5de1a6ec8e7931f" prot="public" virt="non-virtual"><scope>themis::auth::AuthAnomalyEvent</scope><name>ip</name></member>
+      <member refid="structthemis_1_1auth_1_1_auth_anomaly_event_1a4dc62ffef2c8bfdb5f30ddaeb24174ac" prot="public" virt="non-virtual"><scope>themis::auth::AuthAnomalyEvent</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1auth_1_1_auth_anomaly_event_1adad5c3fc6ae8ffb7ec4f138e5e91685e" prot="public" virt="non-virtual"><scope>themis::auth::AuthAnomalyEvent</scope><name>Type</name></member>
+      <member refid="structthemis_1_1auth_1_1_auth_anomaly_event_1a1f260a9f07789d764e3633beee515014" prot="public" virt="non-virtual"><scope>themis::auth::AuthAnomalyEvent</scope><name>type</name></member>
+      <member refid="structthemis_1_1auth_1_1_auth_anomaly_event_1a2e638e94210601e2012bb269b4aeccfc" prot="public" virt="non-virtual"><scope>themis::auth::AuthAnomalyEvent</scope><name>user_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

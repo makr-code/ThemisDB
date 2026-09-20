@@ -1,0 +1,327 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_t_s_auto_buffer_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TSAutoBufferStats</compoundname>
+    <includes refid="ts__auto__buffer_8h" local="no">ts_auto_buffer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_stats_1a5ee309afa9501116a5e3edc9be77f968" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TSAutoBufferStats::points_buffered</definition>
+        <argsstring></argsstring>
+        <name>points_buffered</name>
+        <qualifiedname>themis::TSAutoBufferStats::points_buffered</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="105" column="17" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="105" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_stats_1a6cf11823c6c1508ef2ad7283577df134" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TSAutoBufferStats::points_flushed</definition>
+        <argsstring></argsstring>
+        <name>points_flushed</name>
+        <qualifiedname>themis::TSAutoBufferStats::points_flushed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="106" column="17" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="106" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_stats_1a2cb6a8662a1a2527342c026e0e75b425" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TSAutoBufferStats::flush_count</definition>
+        <argsstring></argsstring>
+        <name>flush_count</name>
+        <qualifiedname>themis::TSAutoBufferStats::flush_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="107" column="17" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="107" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_stats_1a8a853350758141d04418e735bc4374d1" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TSAutoBufferStats::auto_flush_count</definition>
+        <argsstring></argsstring>
+        <name>auto_flush_count</name>
+        <qualifiedname>themis::TSAutoBufferStats::auto_flush_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="108" column="17" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="108" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_stats_1a7c9796550652a2b29ad80477c9fae994" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TSAutoBufferStats::manual_flush_count</definition>
+        <argsstring></argsstring>
+        <name>manual_flush_count</name>
+        <qualifiedname>themis::TSAutoBufferStats::manual_flush_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="109" column="17" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="109" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_stats_1acc349badaf6b68528f1b53a09b5cd6b1" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TSAutoBufferStats::size_triggered_flush</definition>
+        <argsstring></argsstring>
+        <name>size_triggered_flush</name>
+        <qualifiedname>themis::TSAutoBufferStats::size_triggered_flush</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="110" column="17" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="110" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_stats_1a95202aae04816708913b6638063dd765" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TSAutoBufferStats::time_triggered_flush</definition>
+        <argsstring></argsstring>
+        <name>time_triggered_flush</name>
+        <qualifiedname>themis::TSAutoBufferStats::time_triggered_flush</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="111" column="17" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="111" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_stats_1a4d519886348daa735ae1b21282f09125" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TSAutoBufferStats::buffer_overflow_count</definition>
+        <argsstring></argsstring>
+        <name>buffer_overflow_count</name>
+        <qualifiedname>themis::TSAutoBufferStats::buffer_overflow_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="112" column="17" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="112" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_stats_1aae088d62eb0aa2da49d77ca628ffb4a2" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TSAutoBufferStats::dedup_dropped_count</definition>
+        <argsstring></argsstring>
+        <name>dedup_dropped_count</name>
+        <qualifiedname>themis::TSAutoBufferStats::dedup_dropped_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="113" column="17" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="113" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_stats_1a90bf4a87d73c806d9afdf7d2e5303132" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TSAutoBufferStats::memory_limit_rejected_count</definition>
+        <argsstring></argsstring>
+        <name>memory_limit_rejected_count</name>
+        <qualifiedname>themis::TSAutoBufferStats::memory_limit_rejected_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="114" column="17" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="114" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_stats_1a34d681148f858e7ac4861c58ff74388c" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TSAutoBufferStats::backpressure_events</definition>
+        <argsstring></argsstring>
+        <name>backpressure_events</name>
+        <qualifiedname>themis::TSAutoBufferStats::backpressure_events</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="115" column="17" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="115" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_stats_1a68e9f9e545754fdd2bec2b039bffedac" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TSAutoBufferStats::current_buffer_size</definition>
+        <argsstring></argsstring>
+        <name>current_buffer_size</name>
+        <qualifiedname>themis::TSAutoBufferStats::current_buffer_size</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="117" column="12" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="117" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_stats_1a2245d67088310db98f1c7db04f4ed870" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TSAutoBufferStats::current_buffer_memory</definition>
+        <argsstring></argsstring>
+        <name>current_buffer_memory</name>
+        <qualifiedname>themis::TSAutoBufferStats::current_buffer_memory</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="118" column="12" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="118" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_stats_1a89efcc60d18ba7f0dda7a5e66221c775" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::TSAutoBufferStats::current_ewma_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>current_ewma_latency_ms</name>
+        <qualifiedname>themis::TSAutoBufferStats::current_ewma_latency_ms</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="119" column="12" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="119" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_stats_1afb7ebdf5afa7551c0301dfe7f9710e95" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TSAutoBufferStats::current_adaptive_batch_size</definition>
+        <argsstring></argsstring>
+        <name>current_adaptive_batch_size</name>
+        <qualifiedname>themis::TSAutoBufferStats::current_adaptive_batch_size</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="120" column="12" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="120" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_stats_1a0a3193e35988b7be374f3bef34056388" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::TSAutoBufferStats::last_flush_time</definition>
+        <argsstring></argsstring>
+        <name>last_flush_time</name>
+        <qualifiedname>themis::TSAutoBufferStats::last_flush_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="122" column="43" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_t_s_auto_buffer_stats_1a4bbc11be9f87e5cad04e28ae002050af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::TSAutoBufferStats::TSAutoBufferStats</definition>
+        <argsstring>()=default</argsstring>
+        <name>TSAutoBufferStats</name>
+        <qualifiedname>themis::TSAutoBufferStats::TSAutoBufferStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="124" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_t_s_auto_buffer_stats_1a2e252b92db0019d1936e64e6b58fb1ca" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::TSAutoBufferStats::TSAutoBufferStats</definition>
+        <argsstring>(const TSAutoBufferStats &amp;other)</argsstring>
+        <name>TSAutoBufferStats</name>
+        <qualifiedname>themis::TSAutoBufferStats::TSAutoBufferStats</qualifiedname>
+        <param>
+          <type>const TSAutoBufferStats &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="126" column="5" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="126" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_t_s_auto_buffer_stats_1a05643423a18c76afb7a53c44fa9a4dcc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_t_s_auto_buffer_stats_1a4bbc11be9f87e5cad04e28ae002050af" kindref="member">TSAutoBufferStats</ref> &amp;</type>
+        <definition>TSAutoBufferStats &amp; themis::TSAutoBufferStats::operator=</definition>
+        <argsstring>(const TSAutoBufferStats &amp;other)</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::TSAutoBufferStats::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_t_s_auto_buffer_stats_1a4bbc11be9f87e5cad04e28ae002050af" kindref="member">TSAutoBufferStats</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="144" column="23" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="144" bodyend="164"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Statistics for auto-batching buffer. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/ts_auto_buffer.h" line="104" column="1" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="104" bodyend="165"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_t_s_auto_buffer_stats_1a8a853350758141d04418e735bc4374d1" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferStats</scope><name>auto_flush_count</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_stats_1a34d681148f858e7ac4861c58ff74388c" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferStats</scope><name>backpressure_events</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_stats_1a4d519886348daa735ae1b21282f09125" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferStats</scope><name>buffer_overflow_count</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_stats_1afb7ebdf5afa7551c0301dfe7f9710e95" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferStats</scope><name>current_adaptive_batch_size</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_stats_1a2245d67088310db98f1c7db04f4ed870" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferStats</scope><name>current_buffer_memory</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_stats_1a68e9f9e545754fdd2bec2b039bffedac" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferStats</scope><name>current_buffer_size</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_stats_1a89efcc60d18ba7f0dda7a5e66221c775" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferStats</scope><name>current_ewma_latency_ms</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_stats_1aae088d62eb0aa2da49d77ca628ffb4a2" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferStats</scope><name>dedup_dropped_count</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_stats_1a2cb6a8662a1a2527342c026e0e75b425" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferStats</scope><name>flush_count</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_stats_1a0a3193e35988b7be374f3bef34056388" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferStats</scope><name>last_flush_time</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_stats_1a7c9796550652a2b29ad80477c9fae994" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferStats</scope><name>manual_flush_count</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_stats_1a90bf4a87d73c806d9afdf7d2e5303132" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferStats</scope><name>memory_limit_rejected_count</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_stats_1a05643423a18c76afb7a53c44fa9a4dcc" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferStats</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_stats_1a5ee309afa9501116a5e3edc9be77f968" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferStats</scope><name>points_buffered</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_stats_1a6cf11823c6c1508ef2ad7283577df134" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferStats</scope><name>points_flushed</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_stats_1acc349badaf6b68528f1b53a09b5cd6b1" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferStats</scope><name>size_triggered_flush</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_stats_1a95202aae04816708913b6638063dd765" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferStats</scope><name>time_triggered_flush</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_stats_1a4bbc11be9f87e5cad04e28ae002050af" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferStats</scope><name>TSAutoBufferStats</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_stats_1a2e252b92db0019d1936e64e6b58fb1ca" prot="public" virt="non-virtual"><scope>themis::TSAutoBufferStats</scope><name>TSAutoBufferStats</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

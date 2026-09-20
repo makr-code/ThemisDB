@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1content_1_1adapters_1_1_0d264016357016025167250205336126254136216321111172" kind="namespace" language="C++">
+    <compoundname>themis::content::adapters::@264016357016025167250205336126254136216321111172</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/content/adapters/image_extractor_adapter.cpp" line="22" column="1"/>
+  </compounddef>
+</doxygen>

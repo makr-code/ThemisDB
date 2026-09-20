@@ -1,0 +1,744 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__mtls__client_8cpp" kind="file" language="C++">
+    <compoundname>test_mtls_client.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">sharding/mtls_client.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/security/test_mtls_client.cpp</label>
+        <link refid="test__mtls__client_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>sharding/mtls_client.h</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis_1_1sharding">themis::sharding</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__mtls__client_8cpp_1adc75d7fdcfc00aa6bb1d61646292bfe7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSClientTest, ConfigurationStructure)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSClientTest</type>
+        </param>
+        <param>
+          <type>ConfigurationStructure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_client.cpp" line="9" column="1" bodyfile="tests/security/test_mtls_client.cpp" bodystart="9" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__client_8cpp_1aa54da00de60bdb635cdc6e9cf60d52a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSClientTest, ResponseStructure)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSClientTest</type>
+        </param>
+        <param>
+          <type>ResponseStructure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_client.cpp" line="26" column="1" bodyfile="tests/security/test_mtls_client.cpp" bodystart="26" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__client_8cpp_1abe5d141aa00a1d90b6a429ee4ea48a80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSClientTest, DefaultConfiguration)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSClientTest</type>
+        </param>
+        <param>
+          <type>DefaultConfiguration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_client.cpp" line="39" column="1" bodyfile="tests/security/test_mtls_client.cpp" bodystart="39" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__client_8cpp_1a08a0386e241ed7304facb39c9f8e72cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSClientTest, IsReadyWithoutConfig)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSClientTest</type>
+        </param>
+        <param>
+          <type>IsReadyWithoutConfig</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_client.cpp" line="52" column="1" bodyfile="tests/security/test_mtls_client.cpp" bodystart="52" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__client_8cpp_1a0cd3ea4443a89ec24b649755164a08f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSClientTest, EndpointParsing)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSClientTest</type>
+        </param>
+        <param>
+          <type>EndpointParsing</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_client.cpp" line="64" column="1" bodyfile="tests/security/test_mtls_client.cpp" bodystart="64" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__client_8cpp_1a0d6ff36f50b06979c01476ce30d0b02d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSClientTest, RetryConfiguration)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSClientTest</type>
+        </param>
+        <param>
+          <type>RetryConfiguration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_client.cpp" line="76" column="1" bodyfile="tests/security/test_mtls_client.cpp" bodystart="76" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__client_8cpp_1ae8511e64a134159088480527d1cf9000" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSClientTest, ConnectionPoolingConfig)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSClientTest</type>
+        </param>
+        <param>
+          <type>ConnectionPoolingConfig</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_client.cpp" line="85" column="1" bodyfile="tests/security/test_mtls_client.cpp" bodystart="85" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__client_8cpp_1a5e65ce606854e81e3338d29a93815820" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSClientTest, ParseEndpoint_IPv4_WithPort)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSClientTest</type>
+        </param>
+        <param>
+          <type>ParseEndpoint_IPv4_WithPort</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_client.cpp" line="100" column="1" bodyfile="tests/security/test_mtls_client.cpp" bodystart="100" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__client_8cpp_1a86818b339eb2eed52d0bfd45ec5561f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSClientTest, ParseEndpoint_IPv4_WithoutPort)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSClientTest</type>
+        </param>
+        <param>
+          <type>ParseEndpoint_IPv4_WithoutPort</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_client.cpp" line="106" column="1" bodyfile="tests/security/test_mtls_client.cpp" bodystart="106" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__client_8cpp_1aa9c528a3d7d281e3c8283f3d39f0c1d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSClientTest, ParseEndpoint_IPv4_WithProtocol)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSClientTest</type>
+        </param>
+        <param>
+          <type>ParseEndpoint_IPv4_WithProtocol</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_client.cpp" line="112" column="1" bodyfile="tests/security/test_mtls_client.cpp" bodystart="112" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__client_8cpp_1a77ef7b45d91963540f4dc1b856671b7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSClientTest, ParseEndpoint_IPv6_WithBracketsAndPort)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSClientTest</type>
+        </param>
+        <param>
+          <type>ParseEndpoint_IPv6_WithBracketsAndPort</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_client.cpp" line="118" column="1" bodyfile="tests/security/test_mtls_client.cpp" bodystart="118" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__client_8cpp_1acb665405e3878f318ae24fe66220fac8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSClientTest, ParseEndpoint_IPv6_WithBracketsWithoutPort)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSClientTest</type>
+        </param>
+        <param>
+          <type>ParseEndpoint_IPv6_WithBracketsWithoutPort</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_client.cpp" line="124" column="1" bodyfile="tests/security/test_mtls_client.cpp" bodystart="124" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__client_8cpp_1a2815e0ed2e90977379cb0ae6b46b2aff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSClientTest, ParseEndpoint_IPv6_WithoutBracketsWithoutPort)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSClientTest</type>
+        </param>
+        <param>
+          <type>ParseEndpoint_IPv6_WithoutBracketsWithoutPort</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_client.cpp" line="130" column="1" bodyfile="tests/security/test_mtls_client.cpp" bodystart="130" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__client_8cpp_1a869bd4c8f6e8657e0b0b3964804ba035" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSClientTest, ParseEndpoint_IPv6_WithProtocolAndPort)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSClientTest</type>
+        </param>
+        <param>
+          <type>ParseEndpoint_IPv6_WithProtocolAndPort</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_client.cpp" line="137" column="1" bodyfile="tests/security/test_mtls_client.cpp" bodystart="137" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__client_8cpp_1a38a11de0da9bf35083b03f5e59426e63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSClientTest, ParseEndpoint_IPv6_Localhost)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSClientTest</type>
+        </param>
+        <param>
+          <type>ParseEndpoint_IPv6_Localhost</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_client.cpp" line="143" column="1" bodyfile="tests/security/test_mtls_client.cpp" bodystart="143" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__client_8cpp_1a4908db4aeb3c15ee3bba9cf1c341b6a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSClientTest, ParseEndpoint_IPv6_LocalhostWithoutPort)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSClientTest</type>
+        </param>
+        <param>
+          <type>ParseEndpoint_IPv6_LocalhostWithoutPort</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_client.cpp" line="149" column="1" bodyfile="tests/security/test_mtls_client.cpp" bodystart="149" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__client_8cpp_1a7ddf3a4e820858f6370d98638d0636e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSClientTest, ParseEndpoint_IPv6_FullAddress)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSClientTest</type>
+        </param>
+        <param>
+          <type>ParseEndpoint_IPv6_FullAddress</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_client.cpp" line="155" column="1" bodyfile="tests/security/test_mtls_client.cpp" bodystart="155" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__client_8cpp_1a2fb249398958a0c90d0538f4e66fdaff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSClientTest, ParseEndpoint_IPv6_CompressedZeros)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSClientTest</type>
+        </param>
+        <param>
+          <type>ParseEndpoint_IPv6_CompressedZeros</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_client.cpp" line="161" column="1" bodyfile="tests/security/test_mtls_client.cpp" bodystart="161" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__client_8cpp_1a3ba9a921beedad3494473a2007effc86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSClientTest, ParseEndpoint_Hostname_WithPort)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSClientTest</type>
+        </param>
+        <param>
+          <type>ParseEndpoint_Hostname_WithPort</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_client.cpp" line="167" column="1" bodyfile="tests/security/test_mtls_client.cpp" bodystart="167" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__client_8cpp_1aa35613d16410c5cfcb255d75ca57c30a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSClientTest, ParseEndpoint_Hostname_WithoutPort)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSClientTest</type>
+        </param>
+        <param>
+          <type>ParseEndpoint_Hostname_WithoutPort</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_client.cpp" line="173" column="1" bodyfile="tests/security/test_mtls_client.cpp" bodystart="173" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__client_8cpp_1a60b6788cac0c0d949a67d3712e0dcc60" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSClientTest, ParseEndpoint_Hostname_WithProtocol)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSClientTest</type>
+        </param>
+        <param>
+          <type>ParseEndpoint_Hostname_WithProtocol</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_client.cpp" line="179" column="1" bodyfile="tests/security/test_mtls_client.cpp" bodystart="179" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__client_8cpp_1a1ee251a4a167e8d94af47b47210469a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSClientTest, ParseEndpoint_Localhost_WithPort)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSClientTest</type>
+        </param>
+        <param>
+          <type>ParseEndpoint_Localhost_WithPort</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_client.cpp" line="185" column="1" bodyfile="tests/security/test_mtls_client.cpp" bodystart="185" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__client_8cpp_1ad8ec5347dd2e8c89ec727dd78e997beb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSClientTest, ParseEndpoint_Localhost_WithoutPort)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSClientTest</type>
+        </param>
+        <param>
+          <type>ParseEndpoint_Localhost_WithoutPort</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_client.cpp" line="191" column="1" bodyfile="tests/security/test_mtls_client.cpp" bodystart="191" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__client_8cpp_1a9a8c121ddb8b4b2d76d75dae9924ff7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSClientTest, ParseEndpoint_IPv6_MalformedBrackets)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSClientTest</type>
+        </param>
+        <param>
+          <type>ParseEndpoint_IPv6_MalformedBrackets</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_client.cpp" line="197" column="1" bodyfile="tests/security/test_mtls_client.cpp" bodystart="197" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__client_8cpp_1a297864a935d8a50e27c41b74b2cb7ff6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSClientTest, ParseEndpoint_IPv6_LinkLocal)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSClientTest</type>
+        </param>
+        <param>
+          <type>ParseEndpoint_IPv6_LinkLocal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_client.cpp" line="205" column="1" bodyfile="tests/security/test_mtls_client.cpp" bodystart="205" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__client_8cpp_1abaf234f59086db2435a8a43ebc96093f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSClientTest, ParseEndpoint_IPv6_AllZeros)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSClientTest</type>
+        </param>
+        <param>
+          <type>ParseEndpoint_IPv6_AllZeros</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_client.cpp" line="211" column="1" bodyfile="tests/security/test_mtls_client.cpp" bodystart="211" bodyend="215"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;sharding/mtls_client.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::sharding;</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Note:<sp/>These<sp/>are<sp/>structure<sp/>and<sp/>configuration<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Full<sp/>integration<sp/>tests<sp/>would<sp/>require<sp/>actual<sp/>TLS<sp/>certificates<sp/>and<sp/>a<sp/>test<sp/>server</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><ref refid="test__mtls__client_8cpp_1adc75d7fdcfc00aa6bb1d61646292bfe7" kindref="member">TEST</ref>(MTLSClientTest,<sp/>ConfigurationStructure)<sp/>{</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSClient::Config<sp/>config;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/>config.cert_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/path/to/shard-001.crt&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/>config.key_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/path/to/shard-001.key&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/>config.ca_cert_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/path/to/root-ca.crt&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>config.tls_version<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;TLSv1.3&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>config.verify_peer<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>config.connect_timeout_ms<sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>config.request_timeout_ms<sp/>=<sp/>30000;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.cert_path,<sp/></highlight><highlight class="stringliteral">&quot;/path/to/shard-001.crt&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.key_path,<sp/></highlight><highlight class="stringliteral">&quot;/path/to/shard-001.key&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.ca_cert_path,<sp/></highlight><highlight class="stringliteral">&quot;/path/to/root-ca.crt&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.tls_version,<sp/></highlight><highlight class="stringliteral">&quot;TLSv1.3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.verify_peer);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><ref refid="test__mtls__client_8cpp_1adc75d7fdcfc00aa6bb1d61646292bfe7" kindref="member">TEST</ref>(MTLSClientTest,<sp/>ResponseStructure)<sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSClient::Response<sp/>response;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>response.status_code<sp/>=<sp/>200;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>response.status_message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;OK&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>response.success<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>response.body<sp/>=<sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response.status_code,<sp/>200);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response.status_message,<sp/></highlight><highlight class="stringliteral">&quot;OK&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(response.success);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response.body[</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><ref refid="test__mtls__client_8cpp_1adc75d7fdcfc00aa6bb1d61646292bfe7" kindref="member">TEST</ref>(MTLSClientTest,<sp/>DefaultConfiguration)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSClient::Config<sp/>config;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>defaults</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.tls_version,<sp/></highlight><highlight class="stringliteral">&quot;TLSv1.3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.verify_peer);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.verify_hostname);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.connect_timeout_ms,<sp/>5000u);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.request_timeout_ms,<sp/>30000u);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.max_retries,<sp/>3u);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.enable_pooling);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><ref refid="test__mtls__client_8cpp_1adc75d7fdcfc00aa6bb1d61646292bfe7" kindref="member">TEST</ref>(MTLSClientTest,<sp/>IsReadyWithoutConfig)<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Note:<sp/>Cannot<sp/>create<sp/>MTLSClient<sp/>without<sp/>valid<sp/>certificates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>just<sp/>verifies<sp/>the<sp/>structure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSClient::Config<sp/>config;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>config.cert_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>config.key_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>config.ca_cert_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Would<sp/>fail<sp/>in<sp/>real<sp/>initialization,<sp/>but<sp/>we&apos;re<sp/>testing<sp/>structure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.cert_path.empty());</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><ref refid="test__mtls__client_8cpp_1adc75d7fdcfc00aa6bb1d61646292bfe7" kindref="member">TEST</ref>(MTLSClientTest,<sp/>EndpointParsing)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>endpoint<sp/>parsing<sp/>logic<sp/>(would<sp/>be<sp/>tested<sp/>via<sp/>private<sp/>method<sp/>in<sp/>real<sp/>impl)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>endpoint1<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;https://shard-001.dc1:8080&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>endpoint2<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard-002.dc1:9090&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>endpoint3<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;localhost:8765&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Just<sp/>verify<sp/>the<sp/>format<sp/>is<sp/>reasonable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(endpoint1.find(</highlight><highlight class="stringliteral">&quot;://&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(endpoint2.find(</highlight><highlight class="stringliteral">&quot;:&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(endpoint3.find(</highlight><highlight class="stringliteral">&quot;:&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><ref refid="test__mtls__client_8cpp_1adc75d7fdcfc00aa6bb1d61646292bfe7" kindref="member">TEST</ref>(MTLSClientTest,<sp/>RetryConfiguration)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSClient::Config<sp/>config;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>config.max_retries<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>config.retry_delay_ms<sp/>=<sp/>2000;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.max_retries,<sp/>5u);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.retry_delay_ms,<sp/>2000u);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><ref refid="test__mtls__client_8cpp_1adc75d7fdcfc00aa6bb1d61646292bfe7" kindref="member">TEST</ref>(MTLSClientTest,<sp/>ConnectionPoolingConfig)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSClient::Config<sp/>config;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>config.enable_pooling<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>config.max_connections<sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>config.idle_timeout_ms<sp/>=<sp/>120000;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(config.enable_pooling);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.max_connections,<sp/>20u);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.idle_timeout_ms,<sp/>120000u);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IPv6<sp/>Endpoint<sp/>Parsing<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><ref refid="test__mtls__client_8cpp_1adc75d7fdcfc00aa6bb1d61646292bfe7" kindref="member">TEST</ref>(MTLSClientTest,<sp/>ParseEndpoint_IPv4_WithPort)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[host,<sp/>port]<sp/>=<sp/>MTLSClient::parseEndpoint(</highlight><highlight class="stringliteral">&quot;192.168.1.1:8080&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(host,<sp/></highlight><highlight class="stringliteral">&quot;192.168.1.1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(port,<sp/></highlight><highlight class="stringliteral">&quot;8080&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><ref refid="test__mtls__client_8cpp_1adc75d7fdcfc00aa6bb1d61646292bfe7" kindref="member">TEST</ref>(MTLSClientTest,<sp/>ParseEndpoint_IPv4_WithoutPort)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[host,<sp/>port]<sp/>=<sp/>MTLSClient::parseEndpoint(</highlight><highlight class="stringliteral">&quot;192.168.1.1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(host,<sp/></highlight><highlight class="stringliteral">&quot;192.168.1.1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(port,<sp/></highlight><highlight class="stringliteral">&quot;8080&quot;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>port</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><ref refid="test__mtls__client_8cpp_1adc75d7fdcfc00aa6bb1d61646292bfe7" kindref="member">TEST</ref>(MTLSClientTest,<sp/>ParseEndpoint_IPv4_WithProtocol)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[host,<sp/>port]<sp/>=<sp/>MTLSClient::parseEndpoint(</highlight><highlight class="stringliteral">&quot;https://192.168.1.1:9090&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(host,<sp/></highlight><highlight class="stringliteral">&quot;192.168.1.1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(port,<sp/></highlight><highlight class="stringliteral">&quot;9090&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><ref refid="test__mtls__client_8cpp_1adc75d7fdcfc00aa6bb1d61646292bfe7" kindref="member">TEST</ref>(MTLSClientTest,<sp/>ParseEndpoint_IPv6_WithBracketsAndPort)<sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[host,<sp/>port]<sp/>=<sp/>MTLSClient::parseEndpoint(</highlight><highlight class="stringliteral">&quot;[2001:db8::1]:8080&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(host,<sp/></highlight><highlight class="stringliteral">&quot;2001:db8::1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(port,<sp/></highlight><highlight class="stringliteral">&quot;8080&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><ref refid="test__mtls__client_8cpp_1adc75d7fdcfc00aa6bb1d61646292bfe7" kindref="member">TEST</ref>(MTLSClientTest,<sp/>ParseEndpoint_IPv6_WithBracketsWithoutPort)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[host,<sp/>port]<sp/>=<sp/>MTLSClient::parseEndpoint(</highlight><highlight class="stringliteral">&quot;[2001:db8::1]&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(host,<sp/></highlight><highlight class="stringliteral">&quot;2001:db8::1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(port,<sp/></highlight><highlight class="stringliteral">&quot;8080&quot;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>port</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><ref refid="test__mtls__client_8cpp_1adc75d7fdcfc00aa6bb1d61646292bfe7" kindref="member">TEST</ref>(MTLSClientTest,<sp/>ParseEndpoint_IPv6_WithoutBracketsWithoutPort)<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IPv6<sp/>without<sp/>brackets<sp/>and<sp/>without<sp/>port<sp/>(multiple<sp/>colons)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[host,<sp/>port]<sp/>=<sp/>MTLSClient::parseEndpoint(</highlight><highlight class="stringliteral">&quot;2001:db8::1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(host,<sp/></highlight><highlight class="stringliteral">&quot;2001:db8::1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(port,<sp/></highlight><highlight class="stringliteral">&quot;8080&quot;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>port</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><ref refid="test__mtls__client_8cpp_1adc75d7fdcfc00aa6bb1d61646292bfe7" kindref="member">TEST</ref>(MTLSClientTest,<sp/>ParseEndpoint_IPv6_WithProtocolAndPort)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[host,<sp/>port]<sp/>=<sp/>MTLSClient::parseEndpoint(</highlight><highlight class="stringliteral">&quot;https://[2001:db8::1]:9090&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(host,<sp/></highlight><highlight class="stringliteral">&quot;2001:db8::1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(port,<sp/></highlight><highlight class="stringliteral">&quot;9090&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><ref refid="test__mtls__client_8cpp_1adc75d7fdcfc00aa6bb1d61646292bfe7" kindref="member">TEST</ref>(MTLSClientTest,<sp/>ParseEndpoint_IPv6_Localhost)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[host,<sp/>port]<sp/>=<sp/>MTLSClient::parseEndpoint(</highlight><highlight class="stringliteral">&quot;[::1]:8080&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(host,<sp/></highlight><highlight class="stringliteral">&quot;::1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(port,<sp/></highlight><highlight class="stringliteral">&quot;8080&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><ref refid="test__mtls__client_8cpp_1adc75d7fdcfc00aa6bb1d61646292bfe7" kindref="member">TEST</ref>(MTLSClientTest,<sp/>ParseEndpoint_IPv6_LocalhostWithoutPort)<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[host,<sp/>port]<sp/>=<sp/>MTLSClient::parseEndpoint(</highlight><highlight class="stringliteral">&quot;::1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(host,<sp/></highlight><highlight class="stringliteral">&quot;::1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(port,<sp/></highlight><highlight class="stringliteral">&quot;8080&quot;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>port</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><ref refid="test__mtls__client_8cpp_1adc75d7fdcfc00aa6bb1d61646292bfe7" kindref="member">TEST</ref>(MTLSClientTest,<sp/>ParseEndpoint_IPv6_FullAddress)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[host,<sp/>port]<sp/>=<sp/>MTLSClient::parseEndpoint(</highlight><highlight class="stringliteral">&quot;[2001:0db8:85a3:0000:0000:8a2e:0370:7334]:443&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(host,<sp/></highlight><highlight class="stringliteral">&quot;2001:0db8:85a3:0000:0000:8a2e:0370:7334&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(port,<sp/></highlight><highlight class="stringliteral">&quot;443&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><ref refid="test__mtls__client_8cpp_1adc75d7fdcfc00aa6bb1d61646292bfe7" kindref="member">TEST</ref>(MTLSClientTest,<sp/>ParseEndpoint_IPv6_CompressedZeros)<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[host,<sp/>port]<sp/>=<sp/>MTLSClient::parseEndpoint(</highlight><highlight class="stringliteral">&quot;[fe80::1]:8080&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(host,<sp/></highlight><highlight class="stringliteral">&quot;fe80::1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(port,<sp/></highlight><highlight class="stringliteral">&quot;8080&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><ref refid="test__mtls__client_8cpp_1adc75d7fdcfc00aa6bb1d61646292bfe7" kindref="member">TEST</ref>(MTLSClientTest,<sp/>ParseEndpoint_Hostname_WithPort)<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[host,<sp/>port]<sp/>=<sp/>MTLSClient::parseEndpoint(</highlight><highlight class="stringliteral">&quot;shard-001.dc1.example.com:8080&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(host,<sp/></highlight><highlight class="stringliteral">&quot;shard-001.dc1.example.com&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(port,<sp/></highlight><highlight class="stringliteral">&quot;8080&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><ref refid="test__mtls__client_8cpp_1adc75d7fdcfc00aa6bb1d61646292bfe7" kindref="member">TEST</ref>(MTLSClientTest,<sp/>ParseEndpoint_Hostname_WithoutPort)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[host,<sp/>port]<sp/>=<sp/>MTLSClient::parseEndpoint(</highlight><highlight class="stringliteral">&quot;shard-001.dc1.example.com&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(host,<sp/></highlight><highlight class="stringliteral">&quot;shard-001.dc1.example.com&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(port,<sp/></highlight><highlight class="stringliteral">&quot;8080&quot;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>port</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><ref refid="test__mtls__client_8cpp_1adc75d7fdcfc00aa6bb1d61646292bfe7" kindref="member">TEST</ref>(MTLSClientTest,<sp/>ParseEndpoint_Hostname_WithProtocol)<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[host,<sp/>port]<sp/>=<sp/>MTLSClient::parseEndpoint(</highlight><highlight class="stringliteral">&quot;https://shard-001.dc1.example.com:9090&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(host,<sp/></highlight><highlight class="stringliteral">&quot;shard-001.dc1.example.com&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(port,<sp/></highlight><highlight class="stringliteral">&quot;9090&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><ref refid="test__mtls__client_8cpp_1adc75d7fdcfc00aa6bb1d61646292bfe7" kindref="member">TEST</ref>(MTLSClientTest,<sp/>ParseEndpoint_Localhost_WithPort)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[host,<sp/>port]<sp/>=<sp/>MTLSClient::parseEndpoint(</highlight><highlight class="stringliteral">&quot;localhost:8765&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(host,<sp/></highlight><highlight class="stringliteral">&quot;localhost&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(port,<sp/></highlight><highlight class="stringliteral">&quot;8765&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><ref refid="test__mtls__client_8cpp_1adc75d7fdcfc00aa6bb1d61646292bfe7" kindref="member">TEST</ref>(MTLSClientTest,<sp/>ParseEndpoint_Localhost_WithoutPort)<sp/>{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[host,<sp/>port]<sp/>=<sp/>MTLSClient::parseEndpoint(</highlight><highlight class="stringliteral">&quot;localhost&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(host,<sp/></highlight><highlight class="stringliteral">&quot;localhost&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(port,<sp/></highlight><highlight class="stringliteral">&quot;8080&quot;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>port</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><ref refid="test__mtls__client_8cpp_1adc75d7fdcfc00aa6bb1d61646292bfe7" kindref="member">TEST</ref>(MTLSClientTest,<sp/>ParseEndpoint_IPv6_MalformedBrackets)<sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Malformed:<sp/>missing<sp/>closing<sp/>bracket</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[host,<sp/>port]<sp/>=<sp/>MTLSClient::parseEndpoint(</highlight><highlight class="stringliteral">&quot;[2001:db8::1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>treat<sp/>entire<sp/>string<sp/>as<sp/>host</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(host,<sp/></highlight><highlight class="stringliteral">&quot;[2001:db8::1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(port,<sp/></highlight><highlight class="stringliteral">&quot;8080&quot;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>port</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><ref refid="test__mtls__client_8cpp_1adc75d7fdcfc00aa6bb1d61646292bfe7" kindref="member">TEST</ref>(MTLSClientTest,<sp/>ParseEndpoint_IPv6_LinkLocal)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[host,<sp/>port]<sp/>=<sp/>MTLSClient::parseEndpoint(</highlight><highlight class="stringliteral">&quot;[fe80::a00:27ff:fe4e:66a1]:8080&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(host,<sp/></highlight><highlight class="stringliteral">&quot;fe80::a00:27ff:fe4e:66a1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(port,<sp/></highlight><highlight class="stringliteral">&quot;8080&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><ref refid="test__mtls__client_8cpp_1adc75d7fdcfc00aa6bb1d61646292bfe7" kindref="member">TEST</ref>(MTLSClientTest,<sp/>ParseEndpoint_IPv6_AllZeros)<sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[host,<sp/>port]<sp/>=<sp/>MTLSClient::parseEndpoint(</highlight><highlight class="stringliteral">&quot;[::]:8080&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(host,<sp/></highlight><highlight class="stringliteral">&quot;::&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(port,<sp/></highlight><highlight class="stringliteral">&quot;8080&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/security/test_mtls_client.cpp"/>
+  </compounddef>
+</doxygen>

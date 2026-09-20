@@ -1,0 +1,240 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="wire__retry__policy_8h" kind="file" language="C++">
+    <compoundname>wire_retry_policy.h</compoundname>
+    <includes local="no">boost/system/error_code.hpp</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">random</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includedby refid="wire__protocol__server_8cpp" local="yes">src/network/wire_protocol_server.cpp</includedby>
+    <includedby refid="wire__retry__policy_8cpp" local="yes">src/network/wire_retry_policy.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/network/wire_retry_policy.h</label>
+        <link refid="wire__retry__policy_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>algorithm</label>
+      </node>
+      <node id="2">
+        <label>boost/system/error_code.hpp</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="8">
+        <label>random</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>string_view</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/network/wire_retry_policy.h</label>
+        <link refid="wire__retry__policy_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/network/wire_protocol_server.cpp</label>
+        <link refid="wire__protocol__server_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/network/wire_retry_policy.cpp</label>
+        <link refid="wire__retry__policy_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1network_1_1_wire_retry_policy" prot="public">themis::network::WireRetryPolicy</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_retry_context" prot="public">themis::network::RetryContext</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1network">themis::network</innernamespace>
+    <briefdescription>
+<para>Exponential-backoff retry policy for the ThemisDB wire protocol server. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides a configurable, jitter-aware retry policy used by the wire protocol server for transient failures on bind/listen start-up and per-connection transient I/O errors.</para>
+<para>Design goals:<itemizedlist>
+<listitem><para>Zero allocation in the hot retry path (all state is value-type).</para>
+</listitem><listitem><para>Deterministic delay bounds (max_delay_ms hard-caps the backoff).</para>
+</listitem><listitem><para>Optional full-jitter (uniformly distributed in [0, delay]) to spread reconnect storms across multiple server instances.</para>
+</listitem><listitem><para>Thread-safe: each RetryContext is owned by a single call-site.</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 92/100 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;boost/system/error_code.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1network" kindref="compound">themis::network</ref><sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="namespacethemis_1_1network_1ae173c6fe5161e764c0222cd9dad6de95" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1network_1ae173c6fe5161e764c0222cd9dad6de95" kindref="member">WireErrorClass</ref><sp/>{</highlight></codeline>
+<codeline lineno="43" refid="namespacethemis_1_1network_1ae173c6fe5161e764c0222cd9dad6de95a17ac956ba1257a6d5a99867ecd5ddac2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1ae173c6fe5161e764c0222cd9dad6de95a17ac956ba1257a6d5a99867ecd5ddac2" kindref="member">kTransient</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44" refid="namespacethemis_1_1network_1ae173c6fe5161e764c0222cd9dad6de95a7856d2103ed1847108138f139e32b956" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1ae173c6fe5161e764c0222cd9dad6de95a7856d2103ed1847108138f139e32b956" kindref="member">kPermanent</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="namespacethemis_1_1network_1ae173c6fe5161e764c0222cd9dad6de95a25c2dc47991b3df171ed5192bcf70390" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728a25c2dc47991b3df171ed5192bcf70390" kindref="member">kUnknown</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1network_1_1_wire_retry_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1network_1_1_wire_retry_policy" kindref="compound">WireRetryPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1network_1_1_wire_retry_policy_1a998d6369ffda72dfd745b214a06a90f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1network_1_1_wire_retry_policy_1a998d6369ffda72dfd745b214a06a90f7" kindref="member">max_attempts</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1network_1_1_wire_retry_policy_1ab65967344c914aec46641c0691651271" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1network_1_1_wire_retry_policy_1ab65967344c914aec46641c0691651271" kindref="member">base_delay_ms</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1network_1_1_wire_retry_policy_1aae65971d41218c089800fd8075e2c26f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1network_1_1_wire_retry_policy_1aae65971d41218c089800fd8075e2c26f" kindref="member">max_delay_ms</ref><sp/>=<sp/>30&apos;000;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1network_1_1_wire_retry_policy_1a16c65afbf8ec8258c0ecc983b3ecd3a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_wire_retry_policy_1a16c65afbf8ec8258c0ecc983b3ecd3a6" kindref="member">multiplier</ref><sp/>=<sp/>2.0;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1network_1_1_wire_retry_policy_1a151e2f1d83c937573efb1914e4aac39e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_wire_retry_policy_1a151e2f1d83c937573efb1914e4aac39e" kindref="member">enable_jitter</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>std::vector&lt;int&gt;<sp/>retryable_codes;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1network_1_1_wire_retry_policy_1ae20695243b356e1078cb1fb7f27c5ef6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_wire_retry_policy" kindref="compound">WireRetryPolicy</ref><sp/><ref refid="structthemis_1_1network_1_1_wire_retry_policy_1ae20695243b356e1078cb1fb7f27c5ef6" kindref="member">forBindListen</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_wire_retry_policy" kindref="compound">WireRetryPolicy</ref><sp/>p;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p.<ref refid="structthemis_1_1network_1_1_wire_retry_policy_1a998d6369ffda72dfd745b214a06a90f7" kindref="member">max_attempts</ref><sp/><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p.<ref refid="structthemis_1_1network_1_1_wire_retry_policy_1ab65967344c914aec46641c0691651271" kindref="member">base_delay_ms</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p.<ref refid="structthemis_1_1network_1_1_wire_retry_policy_1aae65971d41218c089800fd8075e2c26f" kindref="member">max_delay_ms</ref><sp/><sp/>=<sp/>2&apos;000;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p.<ref refid="structthemis_1_1network_1_1_wire_retry_policy_1a16c65afbf8ec8258c0ecc983b3ecd3a6" kindref="member">multiplier</ref><sp/><sp/><sp/><sp/>=<sp/>2.0;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p.<ref refid="structthemis_1_1network_1_1_wire_retry_policy_1a151e2f1d83c937573efb1914e4aac39e" kindref="member">enable_jitter</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>deterministic<sp/>delays<sp/>on<sp/>startup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>p;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1network_1_1_wire_retry_policy_1a8dea51002d332b86b09d49907ee81583" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_wire_retry_policy" kindref="compound">WireRetryPolicy</ref><sp/><ref refid="structthemis_1_1network_1_1_wire_retry_policy_1a8dea51002d332b86b09d49907ee81583" kindref="member">forConnectionIO</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_wire_retry_policy" kindref="compound">WireRetryPolicy</ref><sp/>p;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p.<ref refid="structthemis_1_1network_1_1_wire_retry_policy_1a998d6369ffda72dfd745b214a06a90f7" kindref="member">max_attempts</ref><sp/><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p.<ref refid="structthemis_1_1network_1_1_wire_retry_policy_1ab65967344c914aec46641c0691651271" kindref="member">base_delay_ms</ref><sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p.<ref refid="structthemis_1_1network_1_1_wire_retry_policy_1aae65971d41218c089800fd8075e2c26f" kindref="member">max_delay_ms</ref><sp/><sp/>=<sp/>10&apos;000;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p.<ref refid="structthemis_1_1network_1_1_wire_retry_policy_1a16c65afbf8ec8258c0ecc983b3ecd3a6" kindref="member">multiplier</ref><sp/><sp/><sp/><sp/>=<sp/>2.0;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p.<ref refid="structthemis_1_1network_1_1_wire_retry_policy_1a151e2f1d83c937573efb1914e4aac39e" kindref="member">enable_jitter</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>p;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1network_1_1_wire_retry_policy_1a2e1b969ad4da58a865b6988587502994" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_wire_retry_policy" kindref="compound">WireRetryPolicy</ref><sp/><ref refid="structthemis_1_1network_1_1_wire_retry_policy_1a2e1b969ad4da58a865b6988587502994" kindref="member">forTesting</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_wire_retry_policy" kindref="compound">WireRetryPolicy</ref><sp/>p;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p.<ref refid="structthemis_1_1network_1_1_wire_retry_policy_1a998d6369ffda72dfd745b214a06a90f7" kindref="member">max_attempts</ref><sp/><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p.<ref refid="structthemis_1_1network_1_1_wire_retry_policy_1ab65967344c914aec46641c0691651271" kindref="member">base_delay_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p.<ref refid="structthemis_1_1network_1_1_wire_retry_policy_1aae65971d41218c089800fd8075e2c26f" kindref="member">max_delay_ms</ref><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p.<ref refid="structthemis_1_1network_1_1_wire_retry_policy_1a16c65afbf8ec8258c0ecc983b3ecd3a6" kindref="member">multiplier</ref><sp/><sp/><sp/><sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p.<ref refid="structthemis_1_1network_1_1_wire_retry_policy_1a151e2f1d83c937573efb1914e4aac39e" kindref="member">enable_jitter</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>p;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153" refid="classthemis_1_1network_1_1_retry_context" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1network_1_1_retry_context_1ae33ba3da9b28854ece98af4f0b1c4d97" kindref="member">RetryContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="160" refid="classthemis_1_1network_1_1_retry_context_1ae33ba3da9b28854ece98af4f0b1c4d97" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_retry_context_1ae33ba3da9b28854ece98af4f0b1c4d97" kindref="member">RetryContext</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_wire_retry_policy" kindref="compound">WireRetryPolicy</ref>&amp;<sp/><ref refid="classthemis_1_1network_1_1_retry_context_1a436d63da67d92cb7b202b3e26da46c4f" kindref="member">policy</ref>)<sp/>noexcept</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>policy_(<ref refid="classthemis_1_1network_1_1_retry_context_1a436d63da67d92cb7b202b3e26da46c4f" kindref="member">policy</ref>)</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/>attempt_(0)</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/>rng_(std::random_device{}())</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>{}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167" refid="classthemis_1_1network_1_1_retry_context_1a40c67b4aa9813fb96756de8d1168ffb2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>uint32_t<sp/><ref refid="classthemis_1_1network_1_1_retry_context_1a40c67b4aa9813fb96756de8d1168ffb2" kindref="member">attempts</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>attempt_;<sp/>}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170" refid="classthemis_1_1network_1_1_retry_context_1a1d0a1db68fbb76b85f375449c274c4c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_retry_context_1a1d0a1db68fbb76b85f375449c274c4c4" kindref="member">canRetry</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>attempt_<sp/>&lt;<sp/>policy_.max_attempts;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::optional&lt;std::chrono::milliseconds&gt;</highlight></codeline>
+<codeline lineno="185" refid="classthemis_1_1network_1_1_retry_context_1ac7874ab8770c855cca44a7f0563474d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_retry_context_1ac7874ab8770c855cca44a7f0563474d6" kindref="member">nextDelay</ref>(<ref refid="namespacethemis_1_1network_1ae173c6fe5161e764c0222cd9dad6de95" kindref="member">WireErrorClass</ref><sp/>err_class<sp/>=<sp/><ref refid="namespacethemis_1_1network_1ae173c6fe5161e764c0222cd9dad6de95a17ac956ba1257a6d5a99867ecd5ddac2" kindref="member">WireErrorClass::kTransient</ref>)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(err_class<sp/>==<sp/><ref refid="namespacethemis_1_1network_1ae173c6fe5161e764c0222cd9dad6de95a7856d2103ed1847108138f139e32b956" kindref="member">WireErrorClass::kPermanent</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(attempt_<sp/>&gt;=<sp/>policy_.max_attempts)<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>exponential<sp/>delay:<sp/>base<sp/>*<sp/>multiplier^attempt</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>raw_ms<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(policy_.base_delay_ms)</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>std::pow(std::max(1.0,<sp/>policy_.multiplier),</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(attempt_));</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>capped_ms<sp/>=<sp/>std::min(raw_ms,</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(policy_.max_delay_ms));</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>delay_ms<sp/>=<sp/>capped_ms;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(policy_.enable_jitter<sp/>&amp;&amp;<sp/>capped_ms<sp/>&gt;<sp/>0.0)<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Full-jitter:<sp/>uniform<sp/>in<sp/>[0,<sp/>capped_ms]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uniform_real_distribution&lt;double&gt;<sp/>dist(0.0,<sp/>capped_ms);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>delay_ms<sp/>=<sp/>dist(rng_);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++attempt_;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::chrono::milliseconds(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(delay_ms));</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214" refid="classthemis_1_1network_1_1_retry_context_1a7dd2b190cb76d5171881597a4bbbb5ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_retry_context_1a7dd2b190cb76d5171881597a4bbbb5ad" kindref="member">reset</ref>()<sp/>noexcept<sp/>{<sp/>attempt_<sp/>=<sp/>0;<sp/>}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217" refid="classthemis_1_1network_1_1_retry_context_1a436d63da67d92cb7b202b3e26da46c4f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_wire_retry_policy" kindref="compound">WireRetryPolicy</ref>&amp;<sp/><ref refid="classthemis_1_1network_1_1_retry_context_1a436d63da67d92cb7b202b3e26da46c4f" kindref="member">policy</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>policy_;<sp/>}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_wire_retry_policy" kindref="compound">WireRetryPolicy</ref><sp/><sp/>policy_;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>attempt_;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/><sp/><sp/><sp/><sp/>rng_;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal">[[nodiscard]]<sp/><ref refid="namespacethemis_1_1network_1ae173c6fe5161e764c0222cd9dad6de95" kindref="member">WireErrorClass</ref><sp/><ref refid="namespacethemis_1_1network_1aef6001dc14da9588281b88ab1dda60e2" kindref="member">classifyBoostError</ref>(</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>boost::system::error_code&amp;<sp/>ec)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1network_1a0d6591c1e247273a59c8e2f64a86edaf" kindref="member">retryWithPolicy</ref>(</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>WireRetryPolicy&amp;<sp/>policy,</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">()&gt;<sp/>op,</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(uint32_t<sp/></highlight><highlight class="comment">/*attempt*/</highlight><highlight class="normal">,<sp/>int64_t<sp/></highlight><highlight class="comment">/*delay_ms*/</highlight><highlight class="normal">)&gt;<sp/>on_fail<sp/>=<sp/>{})<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::network</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/network/wire_retry_policy.h"/>
+  </compounddef>
+</doxygen>

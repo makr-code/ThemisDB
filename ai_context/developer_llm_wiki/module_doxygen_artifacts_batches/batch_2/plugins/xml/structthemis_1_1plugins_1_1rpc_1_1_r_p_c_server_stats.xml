@@ -1,0 +1,255 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::rpc::RPCServerStats</compoundname>
+    <includes refid="rpc__plugin__interface_8h" local="no">rpc_plugin_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1a347599348c957735defbff51ece1f766" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::plugins::rpc::RPCServerStats::total_requests</definition>
+        <argsstring></argsstring>
+        <name>total_requests</name>
+        <qualifiedname>themis::plugins::rpc::RPCServerStats::total_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total number of requests processed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="96" column="14" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1a5e0b2aea27966ef78ee88d5aa0e223f5" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::plugins::rpc::RPCServerStats::successful_requests</definition>
+        <argsstring></argsstring>
+        <name>successful_requests</name>
+        <qualifiedname>themis::plugins::rpc::RPCServerStats::successful_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of successful requests. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="97" column="14" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1af7617124afed2ea797c1037d4eb94a9d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::plugins::rpc::RPCServerStats::failed_requests</definition>
+        <argsstring></argsstring>
+        <name>failed_requests</name>
+        <qualifiedname>themis::plugins::rpc::RPCServerStats::failed_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of failed requests. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="98" column="14" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1a9edd600c59ac56219e28562c42b86050" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::plugins::rpc::RPCServerStats::active_connections</definition>
+        <argsstring></argsstring>
+        <name>active_connections</name>
+        <qualifiedname>themis::plugins::rpc::RPCServerStats::active_connections</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Current active connections. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="99" column="14" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1a6d89e8bd389554c04f76c4ba190271a6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::rpc::RPCServerStats::avg_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_latency_ms</name>
+        <qualifiedname>themis::plugins::rpc::RPCServerStats::avg_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Average latency. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="102" column="12" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1aaa6f61eda3908c51df52defba4e90c49" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::rpc::RPCServerStats::p50_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>p50_latency_ms</name>
+        <qualifiedname>themis::plugins::rpc::RPCServerStats::p50_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>50th percentile (median) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="103" column="12" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1a4e6c6866f97bc6ea1941ed9d558ce738" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::rpc::RPCServerStats::p95_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>p95_latency_ms</name>
+        <qualifiedname>themis::plugins::rpc::RPCServerStats::p95_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>95th percentile </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="104" column="12" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1a0bdc792ec9580ee77b61f4229c933cf2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::rpc::RPCServerStats::p99_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>p99_latency_ms</name>
+        <qualifiedname>themis::plugins::rpc::RPCServerStats::p99_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>99th percentile </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="105" column="12" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1aba5edce289641ec3d8344463357883ec" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::plugins::rpc::RPCServerStats::bytes_sent</definition>
+        <argsstring></argsstring>
+        <name>bytes_sent</name>
+        <qualifiedname>themis::plugins::rpc::RPCServerStats::bytes_sent</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total bytes sent. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="108" column="14" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1a30f6f7b6b23664e3b1b11cc781fde833" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::plugins::rpc::RPCServerStats::bytes_received</definition>
+        <argsstring></argsstring>
+        <name>bytes_received</name>
+        <qualifiedname>themis::plugins::rpc::RPCServerStats::bytes_received</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total bytes received. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="109" column="14" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1aae55db3e52ea4e2dfed42a02e30e3e62" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::plugins::rpc::RPCServerStats::auth_failures</definition>
+        <argsstring></argsstring>
+        <name>auth_failures</name>
+        <qualifiedname>themis::plugins::rpc::RPCServerStats::auth_failures</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Authentication failures. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="112" column="14" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1a8953e562771f993e835b2f4d821c5a90" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::plugins::rpc::RPCServerStats::timeout_errors</definition>
+        <argsstring></argsstring>
+        <name>timeout_errors</name>
+        <qualifiedname>themis::plugins::rpc::RPCServerStats::timeout_errors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Timeout errors. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="113" column="14" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1a95524c8fc404f41ccfa86eae93a55575" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::plugins::rpc::RPCServerStats::connection_errors</definition>
+        <argsstring></argsstring>
+        <name>connection_errors</name>
+        <qualifiedname>themis::plugins::rpc::RPCServerStats::connection_errors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Connection errors. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="114" column="14" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1aeb0be73225c8ce5202f51f92e7a4abce" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::plugins::rpc::RPCServerStats::uptime_seconds</definition>
+        <argsstring></argsstring>
+        <name>uptime_seconds</name>
+        <qualifiedname>themis::plugins::rpc::RPCServerStats::uptime_seconds</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Server uptime in seconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="117" column="14" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RPC Server Statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/plugins/rpc_plugin_interface.h" line="95" column="1" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="95" bodyend="118"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1a9edd600c59ac56219e28562c42b86050" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServerStats</scope><name>active_connections</name></member>
+      <member refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1aae55db3e52ea4e2dfed42a02e30e3e62" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServerStats</scope><name>auth_failures</name></member>
+      <member refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1a6d89e8bd389554c04f76c4ba190271a6" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServerStats</scope><name>avg_latency_ms</name></member>
+      <member refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1a30f6f7b6b23664e3b1b11cc781fde833" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServerStats</scope><name>bytes_received</name></member>
+      <member refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1aba5edce289641ec3d8344463357883ec" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServerStats</scope><name>bytes_sent</name></member>
+      <member refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1a95524c8fc404f41ccfa86eae93a55575" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServerStats</scope><name>connection_errors</name></member>
+      <member refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1af7617124afed2ea797c1037d4eb94a9d" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServerStats</scope><name>failed_requests</name></member>
+      <member refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1aaa6f61eda3908c51df52defba4e90c49" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServerStats</scope><name>p50_latency_ms</name></member>
+      <member refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1a4e6c6866f97bc6ea1941ed9d558ce738" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServerStats</scope><name>p95_latency_ms</name></member>
+      <member refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1a0bdc792ec9580ee77b61f4229c933cf2" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServerStats</scope><name>p99_latency_ms</name></member>
+      <member refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1a5e0b2aea27966ef78ee88d5aa0e223f5" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServerStats</scope><name>successful_requests</name></member>
+      <member refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1a8953e562771f993e835b2f4d821c5a90" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServerStats</scope><name>timeout_errors</name></member>
+      <member refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1a347599348c957735defbff51ece1f766" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServerStats</scope><name>total_requests</name></member>
+      <member refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1aeb0be73225c8ce5202f51f92e7a4abce" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCServerStats</scope><name>uptime_seconds</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_persistent_replication_state_1_1_state" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::PersistentReplicationState::State</compoundname>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_persistent_replication_state_1_1_state_1ad332bb67cb7d8d91957a133559d88578" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::PersistentReplicationState::State::last_applied_sequence</definition>
+        <argsstring></argsstring>
+        <name>last_applied_sequence</name>
+        <qualifiedname>themisdb::replication::PersistentReplicationState::State::last_applied_sequence</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1262" column="21" bodyfile="include/replication/replication_manager.h" bodystart="1262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_persistent_replication_state_1_1_state_1a51843165d821376795ee5b164c968123" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::PersistentReplicationState::State::current_term</definition>
+        <argsstring></argsstring>
+        <name>current_term</name>
+        <qualifiedname>themisdb::replication::PersistentReplicationState::State::current_term</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1263" column="21" bodyfile="include/replication/replication_manager.h" bodystart="1263" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_persistent_replication_state_1_1_state_1aae02c57214b7f2b97655229ce83f292e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::PersistentReplicationState::State::voted_for</definition>
+        <argsstring></argsstring>
+        <name>voted_for</name>
+        <qualifiedname>themisdb::replication::PersistentReplicationState::State::voted_for</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1264" column="21" bodyfile="include/replication/replication_manager.h" bodystart="1264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_persistent_replication_state_1_1_state_1acd839c14b6fd164a9f095145a18c7946" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::PersistentReplicationState::State::leader_id</definition>
+        <argsstring></argsstring>
+        <name>leader_id</name>
+        <qualifiedname>themisdb::replication::PersistentReplicationState::State::leader_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1265" column="21" bodyfile="include/replication/replication_manager.h" bodystart="1265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_persistent_replication_state_1_1_state_1a56421ddb5f876619c220bd6eba962a14" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::replication::PersistentReplicationState::State::persisted_at</definition>
+        <argsstring></argsstring>
+        <name>persisted_at</name>
+        <qualifiedname>themisdb::replication::PersistentReplicationState::State::persisted_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1266" column="47" bodyfile="include/replication/replication_manager.h" bodystart="1266" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/replication/replication_manager.h" line="1261" column="5" bodyfile="include/replication/replication_manager.h" bodystart="1261" bodyend="1267"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_persistent_replication_state_1_1_state_1a51843165d821376795ee5b164c968123" prot="public" virt="non-virtual"><scope>themisdb::replication::PersistentReplicationState::State</scope><name>current_term</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_persistent_replication_state_1_1_state_1ad332bb67cb7d8d91957a133559d88578" prot="public" virt="non-virtual"><scope>themisdb::replication::PersistentReplicationState::State</scope><name>last_applied_sequence</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_persistent_replication_state_1_1_state_1acd839c14b6fd164a9f095145a18c7946" prot="public" virt="non-virtual"><scope>themisdb::replication::PersistentReplicationState::State</scope><name>leader_id</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_persistent_replication_state_1_1_state_1a56421ddb5f876619c220bd6eba962a14" prot="public" virt="non-virtual"><scope>themisdb::replication::PersistentReplicationState::State</scope><name>persisted_at</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_persistent_replication_state_1_1_state_1aae02c57214b7f2b97655229ce83f292e" prot="public" virt="non-virtual"><scope>themisdb::replication::PersistentReplicationState::State</scope><name>voted_for</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1049 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_distributed_training_coordinator" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::DistributedTrainingCoordinator</compoundname>
+    <includes refid="distributed__training__coordinator_8h" local="no">distributed_training_coordinator.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_distributed_training_coordinator_1_1_step_result" prot="public">themis::llm::DistributedTrainingCoordinator::StepResult</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1a04f81182aa75e2c03b14b7f084de6804" prot="public" static="no">
+        <type>std::function&lt; void(int step, const <ref refid="structthemis_1_1llm_1_1_distributed_training_coordinator_1_1_step_result" kindref="compound">StepResult</ref> &amp;result)&gt;</type>
+        <definition>using themis::llm::DistributedTrainingCoordinator::ProgressCallback = std::function&lt;void(int step, const StepResult&amp; result)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ProgressCallback</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::ProgressCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="529" column="5" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="529" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1a4e0bfc17baf008afb1bb2d6c9fe3c833" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="namespacethemis_1_1llm_1a691d3f0683107eeb15c27082b50e9440" kindref="member">ShardRouter</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ShardRouter&gt; themis::llm::DistributedTrainingCoordinator::shard_router_</definition>
+        <argsstring></argsstring>
+        <name>shard_router_</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::shard_router_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="550" column="21" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="550" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1a8c110c3e04391608ba09ff22519c5685" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="namespacethemis_1_1llm_1add27dba3127de868ee641cb8d4a60c11" kindref="member">ShardTopology</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ShardTopology&gt; themis::llm::DistributedTrainingCoordinator::shard_topology_</definition>
+        <argsstring></argsstring>
+        <name>shard_topology_</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::shard_topology_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="551" column="21" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="551" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1a4a06dfde88dc49b672ffa15d8ede5de0" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_distributed_training_config" kindref="compound">DistributedTrainingConfig</ref></type>
+        <definition>DistributedTrainingConfig themis::llm::DistributedTrainingCoordinator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="554" column="31" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="554" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1a494e01fabc29a0182f42279888fe4352" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::DistributedTrainingCoordinator::adapter_id_</definition>
+        <argsstring></argsstring>
+        <name>adapter_id_</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::adapter_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="557" column="17" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="557" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1a25231a2de017a088381d2240b88f87e2" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::DistributedTrainingCoordinator::is_initialized_</definition>
+        <argsstring></argsstring>
+        <name>is_initialized_</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::is_initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="558" column="10" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="558" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1a0761a725254af3fe6c717343673e7d65" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::DistributedTrainingCoordinator::is_running_</definition>
+        <argsstring></argsstring>
+        <name>is_running_</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::is_running_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="559" column="10" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="559" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1af01811e8e14d4a0d793bb6573881417a" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::DistributedTrainingCoordinator::current_step_</definition>
+        <argsstring></argsstring>
+        <name>current_step_</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::current_step_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="560" column="9" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="560" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1ab818f09fc6a4721b63877360078d5c9c" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1llm_1_1_shard_training_state" kindref="compound">ShardTrainingState</ref> &gt;</type>
+        <definition>std::map&lt;std::string, ShardTrainingState&gt; themis::llm::DistributedTrainingCoordinator::shard_states_</definition>
+        <argsstring></argsstring>
+        <name>shard_states_</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::shard_states_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="563" column="14" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="563" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1acb353aee6df2b1588c4a85848aedca45" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::DistributedTrainingCoordinator::active_shards_</definition>
+        <argsstring></argsstring>
+        <name>active_shards_</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::active_shards_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="564" column="17" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="564" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1acc9b2970b53898ed761b5c8f96649bc9" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_gradient_aggregator" kindref="compound">GradientAggregator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;GradientAggregator&gt; themis::llm::DistributedTrainingCoordinator::aggregator_</definition>
+        <argsstring></argsstring>
+        <name>aggregator_</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::aggregator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="567" column="21" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="567" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1a72d9c90eb19509292ea7435f629af08b" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_byzantine_detector" kindref="compound">ByzantineDetector</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ByzantineDetector&gt; themis::llm::DistributedTrainingCoordinator::byzantine_detector_</definition>
+        <argsstring></argsstring>
+        <name>byzantine_detector_</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::byzantine_detector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="570" column="21" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="570" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1aaee4616ffa155ca556602dcf1b577375" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_distributed_training_stats" kindref="compound">DistributedTrainingStats</ref></type>
+        <definition>DistributedTrainingStats themis::llm::DistributedTrainingCoordinator::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="573" column="30" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="573" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1a57c4a11b49d56713ecd2bc56456eb127" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::llm::DistributedTrainingCoordinator::start_time_</definition>
+        <argsstring></argsstring>
+        <name>start_time_</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::start_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="574" column="43" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="574" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1aa930ca05f064d6072463becacca73150" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1a04f81182aa75e2c03b14b7f084de6804" kindref="member">ProgressCallback</ref></type>
+        <definition>ProgressCallback themis::llm::DistributedTrainingCoordinator::progress_callback_</definition>
+        <argsstring></argsstring>
+        <name>progress_callback_</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::progress_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="577" column="22" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="577" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1a3fbbfe7a60b3df2aef160a63f0bf3313" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::DistributedTrainingCoordinator::DistributedTrainingCoordinator</definition>
+        <argsstring>(std::shared_ptr&lt; ShardRouter &gt; shard_router, std::shared_ptr&lt; ShardTopology &gt; shard_topology, const DistributedTrainingConfig &amp;config)</argsstring>
+        <name>DistributedTrainingCoordinator</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::DistributedTrainingCoordinator</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="namespacethemis_1_1llm_1a691d3f0683107eeb15c27082b50e9440" kindref="member">ShardRouter</ref> &gt;</type>
+          <declname>shard_router</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="namespacethemis_1_1llm_1add27dba3127de868ee641cb8d4a60c11" kindref="member">ShardTopology</ref> &gt;</type>
+          <declname>shard_topology</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_distributed_training_config" kindref="compound">DistributedTrainingConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="401" column="5" bodyfile="src/llm/distributed_training_coordinator.cpp" bodystart="791" bodyend="806"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1a6c974620d32a5058e4555e61715d55a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::DistributedTrainingCoordinator::~DistributedTrainingCoordinator</definition>
+        <argsstring>()</argsstring>
+        <name>~DistributedTrainingCoordinator</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::~DistributedTrainingCoordinator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="407" column="5" bodyfile="src/llm/distributed_training_coordinator.cpp" bodystart="808" bodyend="812"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1a44ac6d945260f014ad5239e471531057" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::DistributedTrainingCoordinator::initialize</definition>
+        <argsstring>(const std::string &amp;adapter_id, const TrainingConfig &amp;training_config)</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::initialize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_training_config" kindref="compound">TrainingConfig</ref> &amp;</type>
+          <declname>training_config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize distributed training session. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">training_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::warn(), spdlog::info(), initializeAggregator(), initializeByzantineDetector(), validateShardParticipation(), spdlog::error(), std::chrono::system_clock::now(), time_since_epoch(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="419" column="10" bodyfile="src/llm/distributed_training_coordinator.cpp" bodystart="821" bodyend="877"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1ac5a3c52914d84190e64c488b845c8155" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_distributed_training_coordinator_1_1_step_result" kindref="compound">StepResult</ref></type>
+        <definition>DistributedTrainingCoordinator::StepResult themis::llm::DistributedTrainingCoordinator::executeStep</definition>
+        <argsstring>()</argsstring>
+        <name>executeStep</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::executeStep</qualifiedname>
+        <briefdescription>
+<para>Execute Step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: spdlog::error(), std::chrono::high_resolution_clock::now(), <ref refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1a8877b2d8aa53390a5d65656a2a23e4c7" kindref="member">collectGradients()</ref>, empty(), <ref refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1a9a7d10beb18977bbcd469a44dc0cf8a1" kindref="member">aggregateGradients()</ref>, <ref refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1aa559bee2e0a1c86ed920040503a6e54e" kindref="member">aggregateLoss()</ref>, has_value(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="437" column="16" bodyfile="src/llm/distributed_training_coordinator.cpp" bodystart="884" bodyend="966"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1a7da3f7988721aafe5ec81a60d417252b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::DistributedTrainingCoordinator::finalize</definition>
+        <argsstring>()</argsstring>
+        <name>finalize</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::finalize</qualifiedname>
+        <briefdescription>
+<para>Finalize training and collect final adapters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Finalize.</para>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), <ref refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1abc2aa14e0b499d6409ccbc7b16b14580" kindref="member">saveCheckpoint()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="443" column="10" bodyfile="src/llm/distributed_training_coordinator.cpp" bodystart="973" bodyend="992"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1a48e5dd7ce0a66da928f30656c89a19fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::DistributedTrainingCoordinator::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::stop</qualifiedname>
+        <briefdescription>
+<para>Stop training (graceful shutdown). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop.</para>
+<para>Calls: spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="448" column="10" bodyfile="src/llm/distributed_training_coordinator.cpp" bodystart="998" bodyend="1001"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1a8877b2d8aa53390a5d65656a2a23e4c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1llm_1_1_gradient_tensor" kindref="compound">GradientTensor</ref> &gt; &gt;</type>
+        <definition>std::map&lt; std::string, std::vector&lt; GradientTensor &gt; &gt; themis::llm::DistributedTrainingCoordinator::collectGradients</definition>
+        <argsstring>(int step_number)</argsstring>
+        <name>collectGradients</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::collectGradients</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>step_number</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="455" column="14" bodyfile="src/llm/distributed_training_coordinator.cpp" bodystart="1004" bodyend="1062"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1a9a7d10beb18977bbcd469a44dc0cf8a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_gradient_tensor" kindref="compound">GradientTensor</ref> &gt;</type>
+        <definition>std::vector&lt; GradientTensor &gt; themis::llm::DistributedTrainingCoordinator::aggregateGradients</definition>
+        <argsstring>(const std::map&lt; std::string, std::vector&lt; GradientTensor &gt; &gt; &amp;shard_gradients)</argsstring>
+        <name>aggregateGradients</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::aggregateGradients</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1llm_1_1_gradient_tensor" kindref="compound">GradientTensor</ref> &gt; &gt; &amp;</type>
+          <declname>shard_gradients</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="458" column="17" bodyfile="src/llm/distributed_training_coordinator.cpp" bodystart="1064" bodyend="1147"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1aa559bee2e0a1c86ed920040503a6e54e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; float &gt;</type>
+        <definition>std::optional&lt; float &gt; themis::llm::DistributedTrainingCoordinator::aggregateLoss</definition>
+        <argsstring>(const std::map&lt; std::string, std::vector&lt; GradientTensor &gt; &gt; &amp;shard_gradients)</argsstring>
+        <name>aggregateLoss</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::aggregateLoss</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1llm_1_1_gradient_tensor" kindref="compound">GradientTensor</ref> &gt; &gt; &amp;</type>
+          <declname>shard_gradients</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="463" column="19" bodyfile="src/llm/distributed_training_coordinator.cpp" bodystart="1149" bodyend="1185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1a2356540584d8d307edb29f85749b00aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::DistributedTrainingCoordinator::computeWeightedLoss</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; float, int &gt; &gt; &amp;shard_losses_and_counts)</argsstring>
+        <name>computeWeightedLoss</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::computeWeightedLoss</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; float, int &gt; &gt; &amp;</type>
+          <declname>shard_losses_and_counts</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="468" column="11" bodyfile="src/llm/distributed_training_coordinator.cpp" bodystart="1187" bodyend="1214"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1ab6b7105f3cdadb4988fd524bba2303a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::DistributedTrainingCoordinator::broadcastGradients</definition>
+        <argsstring>(const std::vector&lt; GradientTensor &gt; &amp;gradients, int step_number)</argsstring>
+        <name>broadcastGradients</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::broadcastGradients</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1llm_1_1_gradient_tensor" kindref="compound">GradientTensor</ref> &gt; &amp;</type>
+          <declname>gradients</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>step_number</declname>
+        </param>
+        <briefdescription>
+<para>Broadcast aggregated gradients to all shards. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Broadcast Gradients.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gradients</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">step_number</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gradients</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">step_number</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::debug(), size(), spdlog::error(), spdlog::info(), compressGradients(), push_back(), std::async(), json::array(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="478" column="10" bodyfile="src/llm/distributed_training_coordinator.cpp" bodystart="1223" bodyend="1303"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1ac3dbad050559bc53f853a58ed6365192" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1llm_1_1_shard_training_state" kindref="compound">ShardTrainingState</ref> &gt;</type>
+        <definition>std::map&lt; std::string, ShardTrainingState &gt; themis::llm::DistributedTrainingCoordinator::checkShardHealth</definition>
+        <argsstring>()</argsstring>
+        <name>checkShardHealth</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::checkShardHealth</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="485" column="14" bodyfile="src/llm/distributed_training_coordinator.cpp" bodystart="1306" bodyend="1380"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1ab03d5d721bdfeff48687219e98bbe826" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::DistributedTrainingCoordinator::handleShardFailure</definition>
+        <argsstring>(const std::string &amp;failed_shard)</argsstring>
+        <name>handleShardFailure</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::handleShardFailure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>failed_shard</declname>
+        </param>
+        <briefdescription>
+<para>Handle shard failure (remove from training, redistribute work). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Handle Shard Failure.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">failed_shard</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">failed_shard</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::warn(), erase(), std::remove(), begin(), end(), count(), empty(), spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="492" column="10" bodyfile="src/llm/distributed_training_coordinator.cpp" bodystart="1388" bodyend="1413"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1abc2aa14e0b499d6409ccbc7b16b14580" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::DistributedTrainingCoordinator::saveCheckpoint</definition>
+        <argsstring>(int step_number)</argsstring>
+        <name>saveCheckpoint</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::saveCheckpoint</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>step_number</declname>
+        </param>
+        <briefdescription>
+<para>Save Checkpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">step_number</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">step_number</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), spdlog::warn(), toJSON(), json::object(), std::to_string(), file(), is_open(), spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="500" column="10" bodyfile="src/llm/distributed_training_coordinator.cpp" bodystart="1421" bodyend="1462"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1a05af2034bc108351849454a60f48a1aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::DistributedTrainingCoordinator::resumeFromCheckpoint</definition>
+        <argsstring>(const std::string &amp;checkpoint_path)</argsstring>
+        <name>resumeFromCheckpoint</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::resumeFromCheckpoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>checkpoint_path</declname>
+        </param>
+        <briefdescription>
+<para>Resume From Checkpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the checkpoint. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the checkpoint. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: file(), is_open(), spdlog::error(), close(), contains(), clear(), items(), <ref refid="structthemis_1_1llm_1_1_shard_training_state_1ab80fc26dff2a3b9a4179cceb30c162fc" kindref="member">ShardTrainingState::fromJSON()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="508" column="10" bodyfile="src/llm/distributed_training_coordinator.cpp" bodystart="1470" bodyend="1515"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1a0383f6a3d3294ef8f29e4fc8fac485bf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_distributed_training_stats" kindref="compound">DistributedTrainingStats</ref></type>
+        <definition>DistributedTrainingStats themis::llm::DistributedTrainingCoordinator::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return access control statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Access control statistics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="518" column="30" bodyfile="src/llm/distributed_training_coordinator.cpp" bodystart="1517" bodyend="1519"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1ac4f3bef86f361a69ed2e13581c2f5915" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1llm_1_1_shard_training_state" kindref="compound">ShardTrainingState</ref> &gt;</type>
+        <definition>std::map&lt; std::string, ShardTrainingState &gt; themis::llm::DistributedTrainingCoordinator::getShardStates</definition>
+        <argsstring>() const</argsstring>
+        <name>getShardStates</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::getShardStates</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="520" column="14" bodyfile="src/llm/distributed_training_coordinator.cpp" bodystart="1522" bodyend="1524"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1aa65df2aa0e09c6602667eb466f82e6d9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::DistributedTrainingCoordinator::estimateRemainingTime</definition>
+        <argsstring>() const</argsstring>
+        <name>estimateRemainingTime</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::estimateRemainingTime</qualifiedname>
+        <briefdescription>
+<para>Estimate Remaining Time. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="526" column="11" bodyfile="src/llm/distributed_training_coordinator.cpp" bodystart="1526" bodyend="1549"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1a2ae7c691e9a0e471d5e63ddbd9c5439d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::DistributedTrainingCoordinator::setProgressCallback</definition>
+        <argsstring>(ProgressCallback callback)</argsstring>
+        <name>setProgressCallback</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::setProgressCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1a04f81182aa75e2c03b14b7f084de6804" kindref="member">ProgressCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Set Progress Callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setProgressCallback without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="534" column="10" bodyfile="src/llm/distributed_training_coordinator.cpp" bodystart="1556" bodyend="1558"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1a9fce4b6c8e5f66eb6835ce4da231a1dd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_distributed_training_config" kindref="compound">DistributedTrainingConfig</ref></type>
+        <definition>DistributedTrainingConfig themis::llm::DistributedTrainingCoordinator::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="540" column="31" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="540" bodyend="540"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1a3b763e2b8270673c7e8c195bf033e688" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::DistributedTrainingCoordinator::updateConfig</definition>
+        <argsstring>(const DistributedTrainingConfig &amp;config)</argsstring>
+        <name>updateConfig</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::updateConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_distributed_training_config" kindref="compound">DistributedTrainingConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update the access control configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New access control configuration.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New access control configuration.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: initializeAggregator(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="546" column="10" bodyfile="src/llm/distributed_training_coordinator.cpp" bodystart="1565" bodyend="1572"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1a4f1389ddeae914b95ea267bf2c6c184c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::DistributedTrainingCoordinator::initializeAggregator</definition>
+        <argsstring>()</argsstring>
+        <name>initializeAggregator</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::initializeAggregator</qualifiedname>
+        <briefdescription>
+<para>Initialize Aggregator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: spdlog::info(), size(), setRingTopology(), std::move(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="583" column="10" bodyfile="src/llm/distributed_training_coordinator.cpp" bodystart="1578" bodyend="1615"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1a6043f1105482656df79ba143ca84a479" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::DistributedTrainingCoordinator::initializeByzantineDetector</definition>
+        <argsstring>()</argsstring>
+        <name>initializeByzantineDetector</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::initializeByzantineDetector</qualifiedname>
+        <briefdescription>
+<para>Initialize Byzantine Detector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: <ref refid="classthemis_1_1llm_1_1_byzantine_detector_factory_1a259f3f15a133506a5dfb1e5163c6b459" kindref="member">ByzantineDetectorFactory::create()</ref>, spdlog::info(), getName(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="587" column="10" bodyfile="src/llm/distributed_training_coordinator.cpp" bodystart="1621" bodyend="1633"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1addce78965031ce172e527c6af226408c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::DistributedTrainingCoordinator::validateShardParticipation</definition>
+        <argsstring>()</argsstring>
+        <name>validateShardParticipation</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::validateShardParticipation</qualifiedname>
+        <briefdescription>
+<para>Validate Shard Participation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), spdlog::error(), spdlog::warn(), spdlog::info(), getHealthyShards(), insert(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="592" column="10" bodyfile="src/llm/distributed_training_coordinator.cpp" bodystart="1688" bodyend="1751"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1a4a49384e65ac6ba44ca8877a930f154f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::DistributedTrainingCoordinator::updateStatistics</definition>
+        <argsstring>(const StepResult &amp;result)</argsstring>
+        <name>updateStatistics</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::updateStatistics</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_distributed_training_coordinator_1_1_step_result" kindref="compound">StepResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Update Statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements updateStatistics without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="597" column="10" bodyfile="src/llm/distributed_training_coordinator.cpp" bodystart="1758" bodyend="1760"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1a130f8121ed3a51353dfb22ae31a6c4b1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_gradient_tensor" kindref="compound">GradientTensor</ref> &gt;</type>
+        <definition>std::vector&lt; GradientTensor &gt; themis::llm::DistributedTrainingCoordinator::compressGradients</definition>
+        <argsstring>(const std::vector&lt; GradientTensor &gt; &amp;gradients)</argsstring>
+        <name>compressGradients</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::compressGradients</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1llm_1_1_gradient_tensor" kindref="compound">GradientTensor</ref> &gt; &amp;</type>
+          <declname>gradients</declname>
+        </param>
+        <briefdescription>
+<para>Compress Gradients. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gradients</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gradients</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), compress(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="603" column="17" bodyfile="src/llm/distributed_training_coordinator.cpp" bodystart="1768" bodyend="1783"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1a3a8f546995bf36748e332c66451924ab" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_gradient_tensor" kindref="compound">GradientTensor</ref> &gt;</type>
+        <definition>std::vector&lt; GradientTensor &gt; themis::llm::DistributedTrainingCoordinator::decompressGradients</definition>
+        <argsstring>(const std::vector&lt; GradientTensor &gt; &amp;gradients)</argsstring>
+        <name>decompressGradients</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::decompressGradients</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1llm_1_1_gradient_tensor" kindref="compound">GradientTensor</ref> &gt; &amp;</type>
+          <declname>gradients</declname>
+        </param>
+        <briefdescription>
+<para>Decompress Gradients. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gradients</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gradients</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), decompress(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="609" column="17" bodyfile="src/llm/distributed_training_coordinator.cpp" bodystart="1791" bodyend="1804"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_distributed_training_coordinator_1a26eb60cf3ee5389e9691140bc70223c2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::DistributedTrainingCoordinator::clipAnomalousGradients</definition>
+        <argsstring>(std::map&lt; std::string, std::vector&lt; GradientTensor &gt; &gt; &amp;shard_gradients, const DetectionResult &amp;detection_result)</argsstring>
+        <name>clipAnomalousGradients</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::clipAnomalousGradients</qualifiedname>
+        <param>
+          <type>std::map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1llm_1_1_gradient_tensor" kindref="compound">GradientTensor</ref> &gt; &gt; &amp;</type>
+          <declname>shard_gradients</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_detection_result" kindref="compound">DetectionResult</ref> &amp;</type>
+          <declname>detection_result</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="610" column="10" bodyfile="src/llm/distributed_training_coordinator.cpp" bodystart="1635" bodyend="1681"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/distributed_training_coordinator.h" line="399" column="1" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="399" bodyend="614"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1acb353aee6df2b1588c4a85848aedca45" prot="private" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>active_shards_</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1a494e01fabc29a0182f42279888fe4352" prot="private" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>adapter_id_</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1a9a7d10beb18977bbcd469a44dc0cf8a1" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>aggregateGradients</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1aa559bee2e0a1c86ed920040503a6e54e" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>aggregateLoss</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1acc9b2970b53898ed761b5c8f96649bc9" prot="private" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>aggregator_</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1ab6b7105f3cdadb4988fd524bba2303a2" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>broadcastGradients</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1a72d9c90eb19509292ea7435f629af08b" prot="private" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>byzantine_detector_</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1ac3dbad050559bc53f853a58ed6365192" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>checkShardHealth</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1a26eb60cf3ee5389e9691140bc70223c2" prot="private" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>clipAnomalousGradients</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1a8877b2d8aa53390a5d65656a2a23e4c7" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>collectGradients</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1a130f8121ed3a51353dfb22ae31a6c4b1" prot="private" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>compressGradients</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1a2356540584d8d307edb29f85749b00aa" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>computeWeightedLoss</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1a4a06dfde88dc49b672ffa15d8ede5de0" prot="private" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1af01811e8e14d4a0d793bb6573881417a" prot="private" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>current_step_</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1a3a8f546995bf36748e332c66451924ab" prot="private" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>decompressGradients</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1a3fbbfe7a60b3df2aef160a63f0bf3313" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>DistributedTrainingCoordinator</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1aa65df2aa0e09c6602667eb466f82e6d9" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>estimateRemainingTime</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1ac5a3c52914d84190e64c488b845c8155" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>executeStep</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1a7da3f7988721aafe5ec81a60d417252b" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>finalize</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1a9fce4b6c8e5f66eb6835ce4da231a1dd" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1ac4f3bef86f361a69ed2e13581c2f5915" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>getShardStates</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1a0383f6a3d3294ef8f29e4fc8fac485bf" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1ab03d5d721bdfeff48687219e98bbe826" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>handleShardFailure</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1a44ac6d945260f014ad5239e471531057" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1a4f1389ddeae914b95ea267bf2c6c184c" prot="private" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>initializeAggregator</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1a6043f1105482656df79ba143ca84a479" prot="private" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>initializeByzantineDetector</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1a25231a2de017a088381d2240b88f87e2" prot="private" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>is_initialized_</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1a0761a725254af3fe6c717343673e7d65" prot="private" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>is_running_</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1aa930ca05f064d6072463becacca73150" prot="private" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>progress_callback_</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1a04f81182aa75e2c03b14b7f084de6804" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>ProgressCallback</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1a05af2034bc108351849454a60f48a1aa" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>resumeFromCheckpoint</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1abc2aa14e0b499d6409ccbc7b16b14580" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>saveCheckpoint</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1a2ae7c691e9a0e471d5e63ddbd9c5439d" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>setProgressCallback</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1a4e0bfc17baf008afb1bb2d6c9fe3c833" prot="private" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>shard_router_</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1ab818f09fc6a4721b63877360078d5c9c" prot="private" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>shard_states_</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1a8c110c3e04391608ba09ff22519c5685" prot="private" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>shard_topology_</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1a57c4a11b49d56713ecd2bc56456eb127" prot="private" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>start_time_</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1aaee4616ffa155ca556602dcf1b577375" prot="private" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1a48e5dd7ce0a66da928f30656c89a19fd" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>stop</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1a3b763e2b8270673c7e8c195bf033e688" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>updateConfig</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1a4a49384e65ac6ba44ca8877a930f154f" prot="private" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>updateStatistics</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1addce78965031ce172e527c6af226408c" prot="private" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>validateShardParticipation</name></member>
+      <member refid="classthemis_1_1llm_1_1_distributed_training_coordinator_1a6c974620d32a5058e4555e61715d55a1" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator</scope><name>~DistributedTrainingCoordinator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

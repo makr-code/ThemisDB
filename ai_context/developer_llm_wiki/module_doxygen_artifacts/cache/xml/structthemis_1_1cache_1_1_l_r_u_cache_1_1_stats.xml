@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_l_r_u_cache_1_1_stats" kind="struct" language="C++" prot="private">
+    <compoundname>themis::cache::LRUCache::Stats</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_l_r_u_cache_1_1_stats_1a028332d8f246acb8c4e46146b843744e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::LRUCache&lt; Key, Value &gt;::Stats::hits</definition>
+        <argsstring></argsstring>
+        <name>hits</name>
+        <qualifiedname>themis::cache::LRUCache::Stats::hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="171" column="18" bodyfile="include/cache/lru_cache.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_l_r_u_cache_1_1_stats_1a9317e8230becb144df98b1687ce49632" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::LRUCache&lt; Key, Value &gt;::Stats::misses</definition>
+        <argsstring></argsstring>
+        <name>misses</name>
+        <qualifiedname>themis::cache::LRUCache::Stats::misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="172" column="18" bodyfile="include/cache/lru_cache.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_l_r_u_cache_1_1_stats_1a5056c9f3d03fa294ac998e2d43836369" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::LRUCache&lt; Key, Value &gt;::Stats::evictions</definition>
+        <argsstring></argsstring>
+        <name>evictions</name>
+        <qualifiedname>themis::cache::LRUCache::Stats::evictions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="173" column="18" bodyfile="include/cache/lru_cache.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/lru_cache.h" line="170" column="5" bodyfile="include/cache/lru_cache.h" bodystart="170" bodyend="174"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_l_r_u_cache_1_1_stats_1a5056c9f3d03fa294ac998e2d43836369" prot="public" virt="non-virtual"><scope>themis::cache::LRUCache::Stats</scope><name>evictions</name></member>
+      <member refid="structthemis_1_1cache_1_1_l_r_u_cache_1_1_stats_1a028332d8f246acb8c4e46146b843744e" prot="public" virt="non-virtual"><scope>themis::cache::LRUCache::Stats</scope><name>hits</name></member>
+      <member refid="structthemis_1_1cache_1_1_l_r_u_cache_1_1_stats_1a9317e8230becb144df98b1687ce49632" prot="public" virt="non-virtual"><scope>themis::cache::LRUCache::Stats</scope><name>misses</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

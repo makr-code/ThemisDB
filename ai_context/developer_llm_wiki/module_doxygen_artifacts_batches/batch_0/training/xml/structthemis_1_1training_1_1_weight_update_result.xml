@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_weight_update_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::WeightUpdateResult</compoundname>
+    <includes refid="lora__adapter_8h" local="no">lora_adapter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_weight_update_result_1a57ac53b80f4cd10c13089de7139e122e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::WeightUpdateResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::training::WeightUpdateResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_adapter.h" line="61" column="17" bodyfile="include/training/lora_adapter.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_weight_update_result_1a2cff11b9aea05a3b3d73763d41bda677" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::WeightUpdateResult::layers_updated</definition>
+        <argsstring></argsstring>
+        <name>layers_updated</name>
+        <qualifiedname>themis::training::WeightUpdateResult::layers_updated</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of layers actually modified. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_adapter.h" line="62" column="17" bodyfile="include/training/lora_adapter.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_weight_update_result_1ad5b36c04675615f5c5e6d0367cff1aa0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::WeightUpdateResult::layers_skipped</definition>
+        <argsstring></argsstring>
+        <name>layers_skipped</name>
+        <qualifiedname>themis::training::WeightUpdateResult::layers_skipped</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Unknown layer names that were skipped. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_adapter.h" line="63" column="17" bodyfile="include/training/lora_adapter.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_weight_update_result_1a42bd988720a94dec6d77fc05c224ba56" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::WeightUpdateResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::training::WeightUpdateResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_adapter.h" line="64" column="17" bodyfile="include/training/lora_adapter.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result returned by weight-update operations. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/lora_adapter.h" line="60" column="1" bodyfile="include/training/lora_adapter.h" bodystart="60" bodyend="65"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_weight_update_result_1a42bd988720a94dec6d77fc05c224ba56" prot="public" virt="non-virtual"><scope>themis::training::WeightUpdateResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1training_1_1_weight_update_result_1ad5b36c04675615f5c5e6d0367cff1aa0" prot="public" virt="non-virtual"><scope>themis::training::WeightUpdateResult</scope><name>layers_skipped</name></member>
+      <member refid="structthemis_1_1training_1_1_weight_update_result_1a2cff11b9aea05a3b3d73763d41bda677" prot="public" virt="non-virtual"><scope>themis::training::WeightUpdateResult</scope><name>layers_updated</name></member>
+      <member refid="structthemis_1_1training_1_1_weight_update_result_1a57ac53b80f4cd10c13089de7139e122e" prot="public" virt="non-virtual"><scope>themis::training::WeightUpdateResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

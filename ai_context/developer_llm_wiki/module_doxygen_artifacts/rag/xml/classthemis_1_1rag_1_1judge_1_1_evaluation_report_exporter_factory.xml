@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1judge_1_1_evaluation_report_exporter_factory" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::judge::EvaluationReportExporterFactory</compoundname>
+    <includes refid="evaluation__report__exporter_8h" local="no">evaluation_report_exporter.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_evaluation_report_exporter_factory_1a26c4da8d85f3161dd42521361026c181" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1judge_1_1_evaluation_report_exporter" kindref="compound">EvaluationReportExporter</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; EvaluationReportExporter &gt; themis::rag::judge::EvaluationReportExporterFactory::create</definition>
+        <argsstring>()</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::rag::judge::EvaluationReportExporterFactory::create</qualifiedname>
+        <briefdescription>
+<para>Create a default exporter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements create without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/evaluation_report_exporter.h" line="126" column="28" bodyfile="src/rag/evaluation_report_exporter.cpp" bodystart="462" bodyend="464"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Factory helpers for creating <ref refid="classthemis_1_1rag_1_1judge_1_1_evaluation_report_exporter" kindref="compound">EvaluationReportExporter</ref> instances. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/evaluation_report_exporter.h" line="121" column="1" bodyfile="include/rag/evaluation_report_exporter.h" bodystart="121" bodyend="127"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_evaluation_report_exporter_factory_1a26c4da8d85f3161dd42521361026c181" prot="public" virt="non-virtual"><scope>themis::rag::judge::EvaluationReportExporterFactory</scope><name>create</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

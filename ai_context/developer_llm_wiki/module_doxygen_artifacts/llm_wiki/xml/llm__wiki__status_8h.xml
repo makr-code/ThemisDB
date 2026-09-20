@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="llm__wiki__status_8h" kind="file" language="C++">
+    <compoundname>llm_wiki_status.h</compoundname>
+    <includes local="no">string</includes>
+    <includedby refid="llm__wiki__plugin__interface_8h" local="yes">include/llm_wiki/llm_wiki_plugin_interface.h</includedby>
+    <includedby refid="rocksdb__wiki__store_8h" local="yes">include/llm_wiki/rocksdb_wiki_store.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm_wiki/llm_wiki_status.h</label>
+        <link refid="llm__wiki__status_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/llm_wiki/llm_wiki_plugin_interface.h</label>
+        <link refid="llm__wiki__plugin__interface_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm_wiki/llm_wiki_status.h</label>
+        <link refid="llm__wiki__status_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/llm_wiki/rocksdb_wiki_store.h</label>
+        <link refid="rocksdb__wiki__store_8h"/>
+      </node>
+      <node id="4">
+        <label>src/llm_wiki/edition_gate.cpp</label>
+        <link refid="edition__gate_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/llm_wiki/edition_gate.h</label>
+        <link refid="edition__gate_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>src/llm_wiki/wikipedia/llm_wiki_plugin_factory.cpp</label>
+        <link refid="llm__wiki__plugin__factory_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/llm_wiki/test_llm_wiki_llm_integration_focused.cpp</label>
+        <link refid="test__llm__wiki__llm__integration__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status" prot="public">themis::plugins::llm_wiki::Status</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins">themis::plugins</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins_1_1llm__wiki">themis::plugins::llm_wiki</innernamespace>
+    <briefdescription>
+<para>Lightweight <computeroutput>Status</computeroutput> result type for LLM Wiki plugin operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Extracted from <computeroutput><ref refid="llm__wiki__plugin__interface_8h" kindref="compound">llm_wiki_plugin_interface.h</ref></computeroutput> so that low-level implementation headers (e.g., <computeroutput><ref refid="rocksdb__wiki__store_8h" kindref="compound">rocksdb_wiki_store.h</ref></computeroutput>) can include this single lightweight header without pulling in the full plugin interface (which transitively includes <computeroutput>llm/wiki_index_store.h</computeroutput> → TBB → CUDA).</para>
+<para><computeroutput><ref refid="llm__wiki__plugin__interface_8h" kindref="compound">llm_wiki_plugin_interface.h</ref></computeroutput> includes this header in place of its previous inline Status definition; callers who included <computeroutput><ref refid="llm__wiki__plugin__interface_8h" kindref="compound">llm_wiki_plugin_interface.h</ref></computeroutput> continue to get <computeroutput>Status</computeroutput> unchanged.</para>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="date"><para>2026-08-26 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins" kindref="compound">plugins</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1llm__wiki" kindref="compound">llm_wiki</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status" kindref="compound">Status</ref><sp/>{</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a07f071fd6e477a60378d14f8937a878c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a07f071fd6e477a60378d14f8937a878c" kindref="member">Code</ref><sp/>{</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a07f071fd6e477a60378d14f8937a878caa60852f204ed8028c1c58808b746d115" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a34b5c0c5020ded76a271c1aee6d63b36" kindref="member">Ok</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a07f071fd6e477a60378d14f8937a878ca902b0d55fddef6f8d651fe1035b7d4bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a34847d45fb3d85cb4cd3344cbadd15a7" kindref="member">Error</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a07f071fd6e477a60378d14f8937a878ca4b33a686be73bb172407d73b26356275" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1aec39157a3baceccb4b4c01dc3ed987a4" kindref="member">PermissionDenied</ref>,<sp/></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a07f071fd6e477a60378d14f8937a878ca253ca7dd096ee0956cccee4d376cab8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a75478ac033d73371c1522da88ab5a3fe" kindref="member">InvalidArgument</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a07f071fd6e477a60378d14f8937a878ca9646ad3a1c3e708b4fa8b4b4270fbab6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a154b9fcf798b18d04e37b671eee624dc" kindref="member">NotInitialized</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a371b99511d4d6b22328695121ae46b2b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a07f071fd6e477a60378d14f8937a878c" kindref="member">Code</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a371b99511d4d6b22328695121ae46b2b" kindref="member">code</ref><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a07f071fd6e477a60378d14f8937a878caa60852f204ed8028c1c58808b746d115" kindref="member">Code::Ok</ref>;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a27f76e3d4bf3a07f071d9fef5cd94ee1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a27f76e3d4bf3a07f071d9fef5cd94ee1" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a1c6a84d78e81fb99b233e477977b16a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a1c6a84d78e81fb99b233e477977b16a5" kindref="member">ok</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a371b99511d4d6b22328695121ae46b2b" kindref="member">code</ref><sp/>==<sp/><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a07f071fd6e477a60378d14f8937a878caa60852f204ed8028c1c58808b746d115" kindref="member">Code::Ok</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a34b5c0c5020ded76a271c1aee6d63b36" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status" kindref="compound">Status</ref><sp/><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a34b5c0c5020ded76a271c1aee6d63b36" kindref="member">Ok</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{<ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a07f071fd6e477a60378d14f8937a878caa60852f204ed8028c1c58808b746d115" kindref="member">Code::Ok</ref>,<sp/>{}};<sp/>}</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a34847d45fb3d85cb4cd3344cbadd15a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status" kindref="compound">Status</ref><sp/><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a34847d45fb3d85cb4cd3344cbadd15a7" kindref="member">Error</ref>(std::string<sp/>msg)</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{<ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a07f071fd6e477a60378d14f8937a878ca902b0d55fddef6f8d651fe1035b7d4bd" kindref="member">Code::Error</ref>,<sp/>std::move(msg)};<sp/>}</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1aec39157a3baceccb4b4c01dc3ed987a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status" kindref="compound">Status</ref><sp/><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1aec39157a3baceccb4b4c01dc3ed987a4" kindref="member">PermissionDenied</ref>(std::string<sp/>msg)</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{<ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a07f071fd6e477a60378d14f8937a878ca4b33a686be73bb172407d73b26356275" kindref="member">Code::PermissionDenied</ref>,<sp/>std::move(msg)};<sp/>}</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a75478ac033d73371c1522da88ab5a3fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status" kindref="compound">Status</ref><sp/><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a75478ac033d73371c1522da88ab5a3fe" kindref="member">InvalidArgument</ref>(std::string<sp/>msg)</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{<ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a07f071fd6e477a60378d14f8937a878ca253ca7dd096ee0956cccee4d376cab8b" kindref="member">Code::InvalidArgument</ref>,<sp/>std::move(msg)};<sp/>}</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a154b9fcf798b18d04e37b671eee624dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status" kindref="compound">Status</ref><sp/><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a154b9fcf798b18d04e37b671eee624dc" kindref="member">NotInitialized</ref>()</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{<ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a07f071fd6e477a60378d14f8937a878ca9646ad3a1c3e708b4fa8b4b4270fbab6" kindref="member">Code::NotInitialized</ref>,</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;plugin<sp/>not<sp/>initialized;<sp/>call<sp/>initialize()<sp/>first&quot;</highlight><highlight class="normal">};<sp/>}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm_wiki</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>plugins</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm_wiki/llm_wiki_status.h"/>
+  </compounddef>
+</doxygen>

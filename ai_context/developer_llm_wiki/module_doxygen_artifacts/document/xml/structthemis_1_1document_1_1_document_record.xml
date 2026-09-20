@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1document_1_1_document_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::document::DocumentRecord</compoundname>
+    <includes refid="document__store_8h" local="no">document_store.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_document_record_1af4cd1d2dc09218050e968ff354534f78" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref></type>
+        <definition>DocumentId themis::document::DocumentRecord::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::document::DocumentRecord::id</qualifiedname>
+        <briefdescription>
+<para>Document unique identifier (non-empty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_store.h" line="54" column="20" bodyfile="include/document/document_store.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_document_record_1ada290ea198510d414ad8836370a987ab" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref></type>
+        <definition>CollectionId themis::document::DocumentRecord::collection_id</definition>
+        <argsstring></argsstring>
+        <name>collection_id</name>
+        <qualifiedname>themis::document::DocumentRecord::collection_id</qualifiedname>
+        <briefdescription>
+<para>Owning collection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_store.h" line="55" column="20" bodyfile="include/document/document_store.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_document_record_1a887b750687445d46f0d8388035282493" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::document::DocumentRecord::body</definition>
+        <argsstring></argsstring>
+        <name>body</name>
+        <qualifiedname>themis::document::DocumentRecord::body</qualifiedname>
+        <briefdescription>
+<para>Mutable document payload. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_store.h" line="56" column="20" bodyfile="include/document/document_store.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_document_record_1aa43e970b430dcac0c3c669a160761767" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::document::DocumentRecord::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::document::DocumentRecord::created_at</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Unix epoch ms (set on first insert). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_store.h" line="57" column="20" bodyfile="include/document/document_store.h" bodystart="57" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_document_record_1a6f7a1b4227ded1b5ebf6c7b10fe95f45" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::document::DocumentRecord::updated_at</definition>
+        <argsstring></argsstring>
+        <name>updated_at</name>
+        <qualifiedname>themis::document::DocumentRecord::updated_at</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Unix epoch ms (updated on every write). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_store.h" line="58" column="20" bodyfile="include/document/document_store.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/document/document_store.h" line="53" column="1" bodyfile="include/document/document_store.h" bodystart="53" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1document_1_1_document_record_1a887b750687445d46f0d8388035282493" prot="public" virt="non-virtual"><scope>themis::document::DocumentRecord</scope><name>body</name></member>
+      <member refid="structthemis_1_1document_1_1_document_record_1ada290ea198510d414ad8836370a987ab" prot="public" virt="non-virtual"><scope>themis::document::DocumentRecord</scope><name>collection_id</name></member>
+      <member refid="structthemis_1_1document_1_1_document_record_1aa43e970b430dcac0c3c669a160761767" prot="public" virt="non-virtual"><scope>themis::document::DocumentRecord</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1document_1_1_document_record_1af4cd1d2dc09218050e968ff354534f78" prot="public" virt="non-virtual"><scope>themis::document::DocumentRecord</scope><name>id</name></member>
+      <member refid="structthemis_1_1document_1_1_document_record_1a6f7a1b4227ded1b5ebf6c7b10fe95f45" prot="public" virt="non-virtual"><scope>themis::document::DocumentRecord</scope><name>updated_at</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_cross_shard_feedback_sync_test" kind="class" language="C++" prot="public">
+    <compoundname>CrossShardFeedbackSyncTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_cross_shard_feedback_sync_test_1a3b31766ff706c4e9e938b16704376878" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_sync_config" kindref="compound">FeedbackSyncConfig</ref></type>
+        <definition>FeedbackSyncConfig CrossShardFeedbackSyncTest::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>CrossShardFeedbackSyncTest::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_cross_shard_feedback_sync_focused.cpp" line="41" column="24" bodyfile="tests/distributed_knowledge/test_cross_shard_feedback_sync_focused.cpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cross_shard_feedback_sync_test_1a877abeddd55518fcd2975090081f3847" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="test__adapter__capability__announcement__focused_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref> &gt;</type>
+        <definition>std::vector&lt;json&gt; CrossShardFeedbackSyncTest::gossip_messages_</definition>
+        <argsstring></argsstring>
+        <name>gossip_messages_</name>
+        <qualifiedname>CrossShardFeedbackSyncTest::gossip_messages_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_cross_shard_feedback_sync_focused.cpp" line="42" column="18" bodyfile="tests/distributed_knowledge/test_cross_shard_feedback_sync_focused.cpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_cross_shard_feedback_sync_test_1aef179ef431fa179e80bbb76dce58a919" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CrossShardFeedbackSyncTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>CrossShardFeedbackSyncTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_cross_shard_feedback_sync_focused.cpp" line="34" column="10" bodyfile="tests/distributed_knowledge/test_cross_shard_feedback_sync_focused.cpp" bodystart="34" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cross_shard_feedback_sync_test_1a6d6b9567e8595c5c8ab43c2502875232" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>auto</type>
+        <definition>auto CrossShardFeedbackSyncTest::make_gossip_fn</definition>
+        <argsstring>()</argsstring>
+        <name>make_gossip_fn</name>
+        <qualifiedname>CrossShardFeedbackSyncTest::make_gossip_fn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_cross_shard_feedback_sync_focused.cpp" line="44" column="10" bodyfile="tests/distributed_knowledge/test_cross_shard_feedback_sync_focused.cpp" bodystart="44" bodyend="46"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_cross_shard_feedback_sync_test_1a2d449c42ce185cea0cef0ecca052db6f" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary" kindref="compound">FeedbackSummary</ref></type>
+        <definition>static FeedbackSummary CrossShardFeedbackSyncTest::makeSummary</definition>
+        <argsstring>(const std::string &amp;id, const std::string &amp;type_label=&quot;USER_NEGATIVE&quot;)</argsstring>
+        <name>makeSummary</name>
+        <qualifiedname>CrossShardFeedbackSyncTest::makeSummary</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>type_label</declname>
+          <defval>&quot;USER_NEGATIVE&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Build a minimal <ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary" kindref="compound">FeedbackSummary</ref> with a 4-float embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_cross_shard_feedback_sync_focused.cpp" line="49" column="28" bodyfile="tests/distributed_knowledge/test_cross_shard_feedback_sync_focused.cpp" bodystart="49" bodyend="57"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CrossShardFeedbackSyncTest</label>
+        <link refid="class_cross_shard_feedback_sync_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CrossShardFeedbackSyncTest</label>
+        <link refid="class_cross_shard_feedback_sync_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>cfg_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::distributed_knowledge::FeedbackSyncConfig</label>
+        <link refid="structthemis_1_1distributed__knowledge_1_1_feedback_sync_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/distributed_knowledge/test_cross_shard_feedback_sync_focused.cpp" line="32" column="1" bodyfile="tests/distributed_knowledge/test_cross_shard_feedback_sync_focused.cpp" bodystart="32" bodyend="58"/>
+    <listofallmembers>
+      <member refid="class_cross_shard_feedback_sync_test_1a3b31766ff706c4e9e938b16704376878" prot="protected" virt="non-virtual"><scope>CrossShardFeedbackSyncTest</scope><name>cfg_</name></member>
+      <member refid="class_cross_shard_feedback_sync_test_1a877abeddd55518fcd2975090081f3847" prot="protected" virt="non-virtual"><scope>CrossShardFeedbackSyncTest</scope><name>gossip_messages_</name></member>
+      <member refid="class_cross_shard_feedback_sync_test_1a6d6b9567e8595c5c8ab43c2502875232" prot="protected" virt="non-virtual"><scope>CrossShardFeedbackSyncTest</scope><name>make_gossip_fn</name></member>
+      <member refid="class_cross_shard_feedback_sync_test_1a2d449c42ce185cea0cef0ecca052db6f" prot="protected" virt="non-virtual"><scope>CrossShardFeedbackSyncTest</scope><name>makeSummary</name></member>
+      <member refid="class_cross_shard_feedback_sync_test_1aef179ef431fa179e80bbb76dce58a919" prot="protected" virt="non-virtual"><scope>CrossShardFeedbackSyncTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

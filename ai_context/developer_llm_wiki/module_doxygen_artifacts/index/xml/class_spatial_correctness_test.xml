@@ -1,0 +1,239 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_spatial_correctness_test" kind="class" language="C++" prot="public">
+    <compoundname>SpatialCorrectnessTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_spatial_correctness_test_1a973f9d534e7465981f9d696b353069db" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* SpatialCorrectnessTest::kTable</definition>
+        <argsstring></argsstring>
+        <name>kTable</name>
+        <qualifiedname>SpatialCorrectnessTest::kTable</qualifiedname>
+        <initializer>= &quot;correctness_table&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_spatial_correctness_integration.cpp" line="43" column="33" bodyfile="tests/index/test_spatial_correctness_integration.cpp" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_spatial_correctness_test_1a73c90c5625bd0819486826bf33937cea" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string SpatialCorrectnessTest::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>SpatialCorrectnessTest::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_spatial_correctness_integration.cpp" line="107" column="43" bodyfile="tests/index/test_spatial_correctness_integration.cpp" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_spatial_correctness_test_1a85ea806521d73a948526a784fa80f1c5" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; SpatialCorrectnessTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>SpatialCorrectnessTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_spatial_correctness_integration.cpp" line="108" column="27" bodyfile="tests/index/test_spatial_correctness_integration.cpp" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_spatial_correctness_test_1a3a0711928ff789cdf194ff7bb198816d" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1index_1_1_spatial_index_manager" kindref="compound">SpatialIndexManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;SpatialIndexManager&gt; SpatialCorrectnessTest::mgr_</definition>
+        <argsstring></argsstring>
+        <name>mgr_</name>
+        <qualifiedname>SpatialCorrectnessTest::mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_spatial_correctness_integration.cpp" line="109" column="22" bodyfile="tests/index/test_spatial_correctness_integration.cpp" bodystart="109" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_spatial_correctness_test_1afb483737b198fa774eddb018b9bcc095" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SpatialCorrectnessTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>SpatialCorrectnessTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_spatial_correctness_integration.cpp" line="45" column="10" bodyfile="tests/index/test_spatial_correctness_integration.cpp" bodystart="45" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="class_spatial_correctness_test_1ad5c754d8e4744cb96dcebc20291c8ac6" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SpatialCorrectnessTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>SpatialCorrectnessTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_spatial_correctness_integration.cpp" line="69" column="10" bodyfile="tests/index/test_spatial_correctness_integration.cpp" bodystart="69" bodyend="73"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_spatial_correctness_test_1a4147f72b2ab59b407d5144a38fd828ec" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>GeoSidecar</type>
+        <definition>static GeoSidecar SpatialCorrectnessTest::pointSidecar</definition>
+        <argsstring>(double lon, double lat)</argsstring>
+        <name>pointSidecar</name>
+        <qualifiedname>SpatialCorrectnessTest::pointSidecar</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>lon</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lat</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_spatial_correctness_integration.cpp" line="77" column="23" bodyfile="tests/index/test_spatial_correctness_integration.cpp" bodystart="77" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="class_spatial_correctness_test_1a2910959cf43fd7aaf4cc78e570dff5a6" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>GeoSidecar</type>
+        <definition>static GeoSidecar SpatialCorrectnessTest::boxSidecar</definition>
+        <argsstring>(double minx, double miny, double maxx, double maxy)</argsstring>
+        <name>boxSidecar</name>
+        <qualifiedname>SpatialCorrectnessTest::boxSidecar</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>minx</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>miny</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>maxx</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>maxy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_spatial_correctness_integration.cpp" line="84" column="23" bodyfile="tests/index/test_spatial_correctness_integration.cpp" bodystart="84" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="class_spatial_correctness_test_1a93d0078f6062ef4ca93b182f6af7c83c" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>GeoSidecar</type>
+        <definition>static GeoSidecar SpatialCorrectnessTest::pointSidecar3D</definition>
+        <argsstring>(double lon, double lat, double z)</argsstring>
+        <name>pointSidecar3D</name>
+        <qualifiedname>SpatialCorrectnessTest::pointSidecar3D</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>lon</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lat</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>z</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_spatial_correctness_integration.cpp" line="92" column="23" bodyfile="tests/index/test_spatial_correctness_integration.cpp" bodystart="92" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="class_spatial_correctness_test_1a623e0c016dd9e621d537ea1843291b57" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool SpatialCorrectnessTest::hasKey</definition>
+        <argsstring>(const std::vector&lt; SpatialResult &gt; &amp;v, const std::string &amp;k)</argsstring>
+        <name>hasKey</name>
+        <qualifiedname>SpatialCorrectnessTest::hasKey</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1index_1_1_spatial_result" kindref="compound">SpatialResult</ref> &gt; &amp;</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_spatial_correctness_integration.cpp" line="101" column="17" bodyfile="tests/index/test_spatial_correctness_integration.cpp" bodystart="101" bodyend="105"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>SpatialCorrectnessTest</label>
+        <link refid="class_spatial_correctness_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>SpatialCorrectnessTest</label>
+        <link refid="class_spatial_correctness_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/index/test_spatial_correctness_integration.cpp" line="41" column="1" bodyfile="tests/index/test_spatial_correctness_integration.cpp" bodystart="41" bodyend="110"/>
+    <listofallmembers>
+      <member refid="class_spatial_correctness_test_1a2910959cf43fd7aaf4cc78e570dff5a6" prot="protected" virt="non-virtual"><scope>SpatialCorrectnessTest</scope><name>boxSidecar</name></member>
+      <member refid="class_spatial_correctness_test_1a85ea806521d73a948526a784fa80f1c5" prot="protected" virt="non-virtual"><scope>SpatialCorrectnessTest</scope><name>db_</name></member>
+      <member refid="class_spatial_correctness_test_1a73c90c5625bd0819486826bf33937cea" prot="protected" virt="non-virtual"><scope>SpatialCorrectnessTest</scope><name>db_path_</name></member>
+      <member refid="class_spatial_correctness_test_1a623e0c016dd9e621d537ea1843291b57" prot="protected" virt="non-virtual"><scope>SpatialCorrectnessTest</scope><name>hasKey</name></member>
+      <member refid="class_spatial_correctness_test_1a973f9d534e7465981f9d696b353069db" prot="protected" virt="non-virtual"><scope>SpatialCorrectnessTest</scope><name>kTable</name></member>
+      <member refid="class_spatial_correctness_test_1a3a0711928ff789cdf194ff7bb198816d" prot="protected" virt="non-virtual"><scope>SpatialCorrectnessTest</scope><name>mgr_</name></member>
+      <member refid="class_spatial_correctness_test_1a4147f72b2ab59b407d5144a38fd828ec" prot="protected" virt="non-virtual"><scope>SpatialCorrectnessTest</scope><name>pointSidecar</name></member>
+      <member refid="class_spatial_correctness_test_1a93d0078f6062ef4ca93b182f6af7c83c" prot="protected" virt="non-virtual"><scope>SpatialCorrectnessTest</scope><name>pointSidecar3D</name></member>
+      <member refid="class_spatial_correctness_test_1afb483737b198fa774eddb018b9bcc095" prot="protected" virt="non-virtual"><scope>SpatialCorrectnessTest</scope><name>SetUp</name></member>
+      <member refid="class_spatial_correctness_test_1ad5c754d8e4744cb96dcebc20291c8ac6" prot="protected" virt="non-virtual"><scope>SpatialCorrectnessTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

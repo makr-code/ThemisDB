@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1gpu_1_1_0d116156116336335035374003153370265100042120311272" kind="namespace" language="C++">
+    <compoundname>themis::gpu::@116156116336335035374003153370265100042120311272</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/gpu/gpu_error.cpp" line="34" column="1"/>
+  </compounddef>
+</doxygen>

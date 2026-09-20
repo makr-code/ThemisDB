@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1test_1_1wave__d_1_1_stub_llama_accel_guard" kind="struct" language="C++" prot="public">
+    <compoundname>themis::test::wave_d::StubLlamaAccelGuard</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_stub_llama_accel_guard_1a1c9b5a174534ed3f3570deb76a53d78f" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::test::wave_d::StubLlamaAccelGuard::available_</definition>
+        <argsstring></argsstring>
+        <name>available_</name>
+        <qualifiedname>themis::test::wave_d::StubLlamaAccelGuard::available_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" line="104" column="10" bodyfile="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_stub_llama_accel_guard_1aa204062d3a7df80d61d993b3113da8f7" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; long &gt;</type>
+        <definition>std::atomic&lt;long&gt; themis::test::wave_d::StubLlamaAccelGuard::attempts_</definition>
+        <argsstring></argsstring>
+        <name>attempts_</name>
+        <qualifiedname>themis::test::wave_d::StubLlamaAccelGuard::attempts_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" line="105" column="17" bodyfile="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" bodystart="105" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_stub_llama_accel_guard_1ae1e9846cce63a0c4df58239f23edb451" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; long &gt;</type>
+        <definition>std::atomic&lt;long&gt; themis::test::wave_d::StubLlamaAccelGuard::accelerated_</definition>
+        <argsstring></argsstring>
+        <name>accelerated_</name>
+        <qualifiedname>themis::test::wave_d::StubLlamaAccelGuard::accelerated_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" line="106" column="17" bodyfile="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" bodystart="106" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_stub_llama_accel_guard_1a2a852417d6d5651ff60d5fb150f8fbd1" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; long &gt;</type>
+        <definition>std::atomic&lt;long&gt; themis::test::wave_d::StubLlamaAccelGuard::fallbacks_</definition>
+        <argsstring></argsstring>
+        <name>fallbacks_</name>
+        <qualifiedname>themis::test::wave_d::StubLlamaAccelGuard::fallbacks_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" line="107" column="17" bodyfile="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" bodystart="107" bodyend="107"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_llama_accel_guard_1a0c614d3c062ad4dd4b5ea16c3623df54" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::wave_d::StubLlamaAccelGuard::StubLlamaAccelGuard</definition>
+        <argsstring>(bool available)</argsstring>
+        <name>StubLlamaAccelGuard</name>
+        <qualifiedname>themis::test::wave_d::StubLlamaAccelGuard::StubLlamaAccelGuard</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>available</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" line="90" column="14" bodyfile="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" bodystart="90" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_llama_accel_guard_1a0210b312ede38a6427a2b761c6c3ee7d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::wave_d::StubLlamaAccelGuard::handleRequest</definition>
+        <argsstring>(uint64_t)</argsstring>
+        <name>handleRequest</name>
+        <qualifiedname>themis::test::wave_d::StubLlamaAccelGuard::handleRequest</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" line="92" column="10" bodyfile="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" bodystart="92" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_llama_accel_guard_1af41497e07a345052fbd1f114aec5a74c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>long</type>
+        <definition>long themis::test::wave_d::StubLlamaAccelGuard::attempts</definition>
+        <argsstring>() const</argsstring>
+        <name>attempts</name>
+        <qualifiedname>themis::test::wave_d::StubLlamaAccelGuard::attempts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" line="99" column="10" bodyfile="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" bodystart="99" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_llama_accel_guard_1a7ef9f2f8ec5a7087c2e33a95d89aa78c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>long</type>
+        <definition>long themis::test::wave_d::StubLlamaAccelGuard::accelerated</definition>
+        <argsstring>() const</argsstring>
+        <name>accelerated</name>
+        <qualifiedname>themis::test::wave_d::StubLlamaAccelGuard::accelerated</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" line="100" column="10" bodyfile="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" bodystart="100" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_llama_accel_guard_1a3a57065eeb5dcaeec34251ee4affc706" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>long</type>
+        <definition>long themis::test::wave_d::StubLlamaAccelGuard::fallbacks</definition>
+        <argsstring>() const</argsstring>
+        <name>fallbacks</name>
+        <qualifiedname>themis::test::wave_d::StubLlamaAccelGuard::fallbacks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" line="101" column="10" bodyfile="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" bodystart="101" bodyend="101"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" line="89" column="1" bodyfile="tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp" bodystart="89" bodyend="108"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_llama_accel_guard_1a7ef9f2f8ec5a7087c2e33a95d89aa78c" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubLlamaAccelGuard</scope><name>accelerated</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_llama_accel_guard_1ae1e9846cce63a0c4df58239f23edb451" prot="private" virt="non-virtual"><scope>themis::test::wave_d::StubLlamaAccelGuard</scope><name>accelerated_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_llama_accel_guard_1af41497e07a345052fbd1f114aec5a74c" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubLlamaAccelGuard</scope><name>attempts</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_llama_accel_guard_1aa204062d3a7df80d61d993b3113da8f7" prot="private" virt="non-virtual"><scope>themis::test::wave_d::StubLlamaAccelGuard</scope><name>attempts_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_llama_accel_guard_1a1c9b5a174534ed3f3570deb76a53d78f" prot="private" virt="non-virtual"><scope>themis::test::wave_d::StubLlamaAccelGuard</scope><name>available_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_llama_accel_guard_1a3a57065eeb5dcaeec34251ee4affc706" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubLlamaAccelGuard</scope><name>fallbacks</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_llama_accel_guard_1a2a852417d6d5651ff60d5fb150f8fbd1" prot="private" virt="non-virtual"><scope>themis::test::wave_d::StubLlamaAccelGuard</scope><name>fallbacks_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_llama_accel_guard_1a0210b312ede38a6427a2b761c6c3ee7d" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubLlamaAccelGuard</scope><name>handleRequest</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_llama_accel_guard_1a0c614d3c062ad4dd4b5ea16c3623df54" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubLlamaAccelGuard</scope><name>StubLlamaAccelGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

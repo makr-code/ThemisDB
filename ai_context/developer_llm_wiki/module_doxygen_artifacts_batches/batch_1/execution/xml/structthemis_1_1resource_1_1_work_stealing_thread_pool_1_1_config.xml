@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1resource_1_1_work_stealing_thread_pool_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::resource::WorkStealingThreadPool::Config</compoundname>
+    <includes refid="thread__pool__manager_8h" local="no">thread_pool_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1resource_1_1_work_stealing_thread_pool_1_1_config_1adb485cd5e809e646674d184487758de4" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::resource::WorkStealingThreadPool::Config::min_threads</definition>
+        <argsstring></argsstring>
+        <name>min_threads</name>
+        <qualifiedname>themis::resource::WorkStealingThreadPool::Config::min_threads</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>Minimum worker threads. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/thread_pool_manager.h" line="59" column="21" bodyfile="include/execution/thread_pool_manager.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1resource_1_1_work_stealing_thread_pool_1_1_config_1a5c0dbbd77da3e6194b9c9d011c90a8fb" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::resource::WorkStealingThreadPool::Config::max_threads</definition>
+        <argsstring></argsstring>
+        <name>max_threads</name>
+        <qualifiedname>themis::resource::WorkStealingThreadPool::Config::max_threads</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>0 = 4 × hardware_concurrency. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/thread_pool_manager.h" line="60" column="21" bodyfile="include/execution/thread_pool_manager.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1resource_1_1_work_stealing_thread_pool_1_1_config_1a462fc0169d59eabf6af814d04c12dc33" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::resource::WorkStealingThreadPool::Config::max_queue_depth</definition>
+        <argsstring></argsstring>
+        <name>max_queue_depth</name>
+        <qualifiedname>themis::resource::WorkStealingThreadPool::Config::max_queue_depth</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Backpressure trigger. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/thread_pool_manager.h" line="61" column="21" bodyfile="include/execution/thread_pool_manager.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1resource_1_1_work_stealing_thread_pool_1_1_config_1ac4bcca152299f7644a348f9160f2ec28" prot="public" static="no" mutable="no">
+        <type>long</type>
+        <definition>long themis::resource::WorkStealingThreadPool::Config::idle_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>idle_timeout_ms</name>
+        <qualifiedname>themis::resource::WorkStealingThreadPool::Config::idle_timeout_ms</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/thread_pool_manager.h" line="62" column="21" bodyfile="include/execution/thread_pool_manager.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/execution/thread_pool_manager.h" line="58" column="5" bodyfile="include/execution/thread_pool_manager.h" bodystart="58" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1resource_1_1_work_stealing_thread_pool_1_1_config_1ac4bcca152299f7644a348f9160f2ec28" prot="public" virt="non-virtual"><scope>themis::resource::WorkStealingThreadPool::Config</scope><name>idle_timeout_ms</name></member>
+      <member refid="structthemis_1_1resource_1_1_work_stealing_thread_pool_1_1_config_1a462fc0169d59eabf6af814d04c12dc33" prot="public" virt="non-virtual"><scope>themis::resource::WorkStealingThreadPool::Config</scope><name>max_queue_depth</name></member>
+      <member refid="structthemis_1_1resource_1_1_work_stealing_thread_pool_1_1_config_1a5c0dbbd77da3e6194b9c9d011c90a8fb" prot="public" virt="non-virtual"><scope>themis::resource::WorkStealingThreadPool::Config</scope><name>max_threads</name></member>
+      <member refid="structthemis_1_1resource_1_1_work_stealing_thread_pool_1_1_config_1adb485cd5e809e646674d184487758de4" prot="public" virt="non-virtual"><scope>themis::resource::WorkStealingThreadPool::Config</scope><name>min_threads</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_queue_item_size_3_01std_1_1string_01_4" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::QueueItemSize&lt; std::string &gt;</compoundname>
+    <includes refid="bounded__queue_8h" local="no">bounded_queue.h</includes>
+    <templateparamlist>
+    </templateparamlist>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_queue_item_size_3_01std_1_1string_01_4_1ac6524e50bccd0c0c26b6e7055eb717fa" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>static std::size_t themis::ingestion::QueueItemSize&lt; std::string &gt;::getSize</definition>
+        <argsstring>(const std::string &amp;item)</argsstring>
+        <name>getSize</name>
+        <qualifiedname>themis::ingestion::QueueItemSize&lt; std::string &gt;::getSize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="153" column="24" bodyfile="include/ingestion/bounded_queue.h" bodystart="153" bodyend="155"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ingestion/bounded_queue.h" line="152" column="1" bodyfile="include/ingestion/bounded_queue.h" bodystart="152" bodyend="156"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_queue_item_size_3_01std_1_1string_01_4_1ac6524e50bccd0c0c26b6e7055eb717fa" prot="public" virt="non-virtual"><scope>themis::ingestion::QueueItemSize&lt; std::string &gt;</scope><name>getSize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

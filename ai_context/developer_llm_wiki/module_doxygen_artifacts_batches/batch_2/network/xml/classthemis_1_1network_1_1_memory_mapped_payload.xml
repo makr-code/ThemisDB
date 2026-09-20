@@ -1,0 +1,325 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1network_1_1_memory_mapped_payload" kind="class" language="C++" prot="public">
+    <compoundname>themis::network::MemoryMappedPayload</compoundname>
+    <includes refid="wire__protocol__zero__copy_8h" local="no">wire_protocol_zero_copy.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_memory_mapped_payload_1ac734d9c49d0633261c628d4dabf75aed" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::MemoryMappedPayload::MAX_MAP_SIZE</definition>
+        <argsstring></argsstring>
+        <name>MAX_MAP_SIZE</name>
+        <qualifiedname>themis::network::MemoryMappedPayload::MAX_MAP_SIZE</qualifiedname>
+        <initializer>= 256ULL * 1024 * 1024</initializer>
+        <briefdescription>
+<para>Maximum file size that may be mapped (256 MiB). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_zero_copy.h" line="251" column="29" bodyfile="include/network/wire_protocol_zero_copy.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_memory_mapped_payload_1a06c58da4824f67196e56aebbae2470b1" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::network::MemoryMappedPayload::addr_</definition>
+        <argsstring></argsstring>
+        <name>addr_</name>
+        <qualifiedname>themis::network::MemoryMappedPayload::addr_</qualifiedname>
+        <initializer>= MAP_FAILED</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_zero_copy.h" line="254" column="11" bodyfile="include/network/wire_protocol_zero_copy.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_memory_mapped_payload_1ac31026d6c13e460977dd563c5cfb6b88" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::MemoryMappedPayload::size_</definition>
+        <argsstring></argsstring>
+        <name>size_</name>
+        <qualifiedname>themis::network::MemoryMappedPayload::size_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_zero_copy.h" line="255" column="12" bodyfile="include/network/wire_protocol_zero_copy.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_memory_mapped_payload_1a22b64b87a9147a4d4ee6791f522e4878" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::network::MemoryMappedPayload::fd_</definition>
+        <argsstring></argsstring>
+        <name>fd_</name>
+        <qualifiedname>themis::network::MemoryMappedPayload::fd_</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+<para>Open file descriptor (−1 for anonymous mappings). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_zero_copy.h" line="256" column="12" bodyfile="include/network/wire_protocol_zero_copy.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_memory_mapped_payload_1a8c9771502d6e3233178bebace396f854" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::MemoryMappedPayload::MemoryMappedPayload</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>MemoryMappedPayload</name>
+        <qualifiedname>themis::network::MemoryMappedPayload::MemoryMappedPayload</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Map the contents of <computeroutput>path</computeroutput> into the process address space. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::system_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on open(2) or mmap(2) failure. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if the file is empty or too large (&gt; <ref refid="classthemis_1_1network_1_1_memory_mapped_payload_1ac734d9c49d0633261c628d4dabf75aed" kindref="member">MemoryMappedPayload::MAX_MAP_SIZE</ref> bytes). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_zero_copy.h" line="213" column="14" bodyfile="src/network/wire_protocol_zero_copy.cpp" bodystart="302" bodyend="377"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_memory_mapped_payload_1a804d4563c7022faba8820d4a3f00446d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::MemoryMappedPayload::MemoryMappedPayload</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>MemoryMappedPayload</name>
+        <qualifiedname>themis::network::MemoryMappedPayload::MemoryMappedPayload</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Map an anonymous region of <computeroutput>size</computeroutput> bytes (zero-initialised). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Useful for testing and for building large payloads in-memory without additional heap allocations.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::system_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on mmap(2) failure. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if <computeroutput>size</computeroutput> == 0. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_zero_copy.h" line="224" column="14" bodyfile="src/network/wire_protocol_zero_copy.cpp" bodystart="379" bodyend="401"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_memory_mapped_payload_1aad014009d8901a246a6b7a530a9e104c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::MemoryMappedPayload::~MemoryMappedPayload</definition>
+        <argsstring>()</argsstring>
+        <name>~MemoryMappedPayload</name>
+        <qualifiedname>themis::network::MemoryMappedPayload::~MemoryMappedPayload</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_zero_copy.h" line="226" column="5" bodyfile="src/network/wire_protocol_zero_copy.cpp" bodystart="403" bodyend="419"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_memory_mapped_payload_1a180dfcabaf1f4b1c4d5148f3565036d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::MemoryMappedPayload::MemoryMappedPayload</definition>
+        <argsstring>(const MemoryMappedPayload &amp;)=delete</argsstring>
+        <name>MemoryMappedPayload</name>
+        <qualifiedname>themis::network::MemoryMappedPayload::MemoryMappedPayload</qualifiedname>
+        <param>
+          <type>const MemoryMappedPayload &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_zero_copy.h" line="229" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_memory_mapped_payload_1a125ea7bc3554031ce40fc9511233c82a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_memory_mapped_payload_1a8c9771502d6e3233178bebace396f854" kindref="member">MemoryMappedPayload</ref> &amp;</type>
+        <definition>MemoryMappedPayload &amp; themis::network::MemoryMappedPayload::operator=</definition>
+        <argsstring>(const MemoryMappedPayload &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::network::MemoryMappedPayload::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1network_1_1_memory_mapped_payload_1a8c9771502d6e3233178bebace396f854" kindref="member">MemoryMappedPayload</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_zero_copy.h" line="230" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_memory_mapped_payload_1a6b53c3c8de0886ace85e6c4bd22af999" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::MemoryMappedPayload::MemoryMappedPayload</definition>
+        <argsstring>(MemoryMappedPayload &amp;&amp;) noexcept</argsstring>
+        <name>MemoryMappedPayload</name>
+        <qualifiedname>themis::network::MemoryMappedPayload::MemoryMappedPayload</qualifiedname>
+        <param>
+          <type>MemoryMappedPayload &amp;&amp;</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_zero_copy.h" line="231" column="5" bodyfile="src/network/wire_protocol_zero_copy.cpp" bodystart="421" bodyend="427"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_memory_mapped_payload_1aa6980969b72a052988f403b9b42f204f" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_memory_mapped_payload_1a8c9771502d6e3233178bebace396f854" kindref="member">MemoryMappedPayload</ref> &amp;</type>
+        <definition>MemoryMappedPayload &amp; themis::network::MemoryMappedPayload::operator=</definition>
+        <argsstring>(MemoryMappedPayload &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::network::MemoryMappedPayload::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_memory_mapped_payload_1a8c9771502d6e3233178bebace396f854" kindref="member">MemoryMappedPayload</ref> &amp;&amp;</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_zero_copy.h" line="232" column="25" bodyfile="src/network/wire_protocol_zero_copy.cpp" bodystart="429" bodyend="455"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_memory_mapped_payload_1a14249cce47afdecaf26a9dc4e2f1d7f3" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const uint8_t *</type>
+        <definition>const uint8_t * themis::network::MemoryMappedPayload::data</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>data</name>
+        <qualifiedname>themis::network::MemoryMappedPayload::data</qualifiedname>
+        <briefdescription>
+<para>Pointer to the first mapped byte. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_zero_copy.h" line="235" column="19" bodyfile="include/network/wire_protocol_zero_copy.h" bodystart="235" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_memory_mapped_payload_1adfb97c9212feced4b1eb2c6ed3c625f2" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint8_t *</type>
+        <definition>uint8_t * themis::network::MemoryMappedPayload::mutableData</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>mutableData</name>
+        <qualifiedname>themis::network::MemoryMappedPayload::mutableData</qualifiedname>
+        <briefdescription>
+<para>Mutable pointer (only valid for anonymous mappings). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_zero_copy.h" line="240" column="13" bodyfile="include/network/wire_protocol_zero_copy.h" bodystart="240" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_memory_mapped_payload_1afd30d2253ebf7f4a948d6ee02a06e610" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::network::MemoryMappedPayload::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::network::MemoryMappedPayload::size</qualifiedname>
+        <briefdescription>
+<para>Number of mapped bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_zero_copy.h" line="245" column="12" bodyfile="include/network/wire_protocol_zero_copy.h" bodystart="245" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_memory_mapped_payload_1a23b3f2abbbbab33d2e9d52a7c082ad0b" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::MemoryMappedPayload::valid</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>valid</name>
+        <qualifiedname>themis::network::MemoryMappedPayload::valid</qualifiedname>
+        <briefdescription>
+<para>Return true if the mapping is valid (not moved-from). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_zero_copy.h" line="248" column="10" bodyfile="include/network/wire_protocol_zero_copy.h" bodystart="248" bodyend="248"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII wrapper for a read-only memory-mapped payload. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>For large payloads (&gt; a few hundred KiB) that reside in files, memory mapping avoids a read(2) call that would copy the data into userspace. When the mapped region is later passed to writev/sendfile the kernel can transfer bytes directly from the page cache, eliminating the copy entirely on supporting platforms.</para>
+<para>Example: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1network_1_1_memory_mapped_payload_1a8c9771502d6e3233178bebace396f854" kindref="member">MemoryMappedPayload</ref><sp/>mmp(</highlight><highlight class="stringliteral">&quot;/var/data/large_blob.bin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">ZeroCopyFrameBuilder<sp/>builder(opcode,<sp/>flags,<sp/>mmp.data(),<sp/>mmp.size());</highlight></codeline>
+<codeline><highlight class="normal">builder.writeTo(socket_fd);</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="note"><para>The mapping is released automatically on destruction. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/network/wire_protocol_zero_copy.h" line="204" column="1" bodyfile="include/network/wire_protocol_zero_copy.h" bodystart="204" bodyend="257"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1network_1_1_memory_mapped_payload_1a06c58da4824f67196e56aebbae2470b1" prot="private" virt="non-virtual"><scope>themis::network::MemoryMappedPayload</scope><name>addr_</name></member>
+      <member refid="classthemis_1_1network_1_1_memory_mapped_payload_1a14249cce47afdecaf26a9dc4e2f1d7f3" prot="public" virt="non-virtual"><scope>themis::network::MemoryMappedPayload</scope><name>data</name></member>
+      <member refid="classthemis_1_1network_1_1_memory_mapped_payload_1a22b64b87a9147a4d4ee6791f522e4878" prot="private" virt="non-virtual"><scope>themis::network::MemoryMappedPayload</scope><name>fd_</name></member>
+      <member refid="classthemis_1_1network_1_1_memory_mapped_payload_1ac734d9c49d0633261c628d4dabf75aed" prot="public" virt="non-virtual"><scope>themis::network::MemoryMappedPayload</scope><name>MAX_MAP_SIZE</name></member>
+      <member refid="classthemis_1_1network_1_1_memory_mapped_payload_1a8c9771502d6e3233178bebace396f854" prot="public" virt="non-virtual"><scope>themis::network::MemoryMappedPayload</scope><name>MemoryMappedPayload</name></member>
+      <member refid="classthemis_1_1network_1_1_memory_mapped_payload_1a804d4563c7022faba8820d4a3f00446d" prot="public" virt="non-virtual"><scope>themis::network::MemoryMappedPayload</scope><name>MemoryMappedPayload</name></member>
+      <member refid="classthemis_1_1network_1_1_memory_mapped_payload_1a180dfcabaf1f4b1c4d5148f3565036d9" prot="public" virt="non-virtual"><scope>themis::network::MemoryMappedPayload</scope><name>MemoryMappedPayload</name></member>
+      <member refid="classthemis_1_1network_1_1_memory_mapped_payload_1a6b53c3c8de0886ace85e6c4bd22af999" prot="public" virt="non-virtual"><scope>themis::network::MemoryMappedPayload</scope><name>MemoryMappedPayload</name></member>
+      <member refid="classthemis_1_1network_1_1_memory_mapped_payload_1adfb97c9212feced4b1eb2c6ed3c625f2" prot="public" virt="non-virtual"><scope>themis::network::MemoryMappedPayload</scope><name>mutableData</name></member>
+      <member refid="classthemis_1_1network_1_1_memory_mapped_payload_1a125ea7bc3554031ce40fc9511233c82a" prot="public" virt="non-virtual"><scope>themis::network::MemoryMappedPayload</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1network_1_1_memory_mapped_payload_1aa6980969b72a052988f403b9b42f204f" prot="public" virt="non-virtual"><scope>themis::network::MemoryMappedPayload</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1network_1_1_memory_mapped_payload_1afd30d2253ebf7f4a948d6ee02a06e610" prot="public" virt="non-virtual"><scope>themis::network::MemoryMappedPayload</scope><name>size</name></member>
+      <member refid="classthemis_1_1network_1_1_memory_mapped_payload_1ac31026d6c13e460977dd563c5cfb6b88" prot="private" virt="non-virtual"><scope>themis::network::MemoryMappedPayload</scope><name>size_</name></member>
+      <member refid="classthemis_1_1network_1_1_memory_mapped_payload_1a23b3f2abbbbab33d2e9d52a7c082ad0b" prot="public" virt="non-virtual"><scope>themis::network::MemoryMappedPayload</scope><name>valid</name></member>
+      <member refid="classthemis_1_1network_1_1_memory_mapped_payload_1aad014009d8901a246a6b7a530a9e104c" prot="public" virt="non-virtual"><scope>themis::network::MemoryMappedPayload</scope><name>~MemoryMappedPayload</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

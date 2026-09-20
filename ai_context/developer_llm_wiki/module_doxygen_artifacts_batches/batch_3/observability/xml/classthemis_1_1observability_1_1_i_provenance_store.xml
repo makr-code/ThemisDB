@@ -1,0 +1,280 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_i_provenance_store" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::observability::IProvenanceStore</compoundname>
+    <derivedcompoundref refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store" prot="public" virt="non-virtual">themis::observability::RocksDBProvenanceStore</derivedcompoundref>
+    <includes refid="provenance__store_8h" local="no">provenance_store.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_i_provenance_store_1a4fc0a75a025b3f8b7c86fca6dfe5552d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::observability::IProvenanceStore::~IProvenanceStore</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IProvenanceStore</name>
+        <qualifiedname>themis::observability::IProvenanceStore::~IProvenanceStore</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/provenance_store.h" line="63" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_i_provenance_store_1a766978376f7a631e7f408339c8c2b422" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::observability::IProvenanceStore::storeRecord</definition>
+        <argsstring>(const std::string &amp;query_id, int step_number, const ProvenanceStepRecord &amp;record)=0</argsstring>
+        <name>storeRecord</name>
+        <qualifiedname>themis::observability::IProvenanceStore::storeRecord</qualifiedname>
+        <reimplementedby refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1a982b07b893faa7579739024a87b7f511">storeRecord</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>step_number</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_provenance_step_record" kindref="compound">ProvenanceStepRecord</ref> &amp;</type>
+          <declname>record</declname>
+        </param>
+        <briefdescription>
+<para>Store a provenance record in the index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique query identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>step_number</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Step ordinal within the query execution. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Provenance record to persist. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if record was stored successfully, false on error. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/provenance_store.h" line="73" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_i_provenance_store_1a07bc0aed982766af8a97299f49734018" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1observability_1_1_provenance_step_record" kindref="compound">ProvenanceStepRecord</ref> &gt;</type>
+        <definition>virtual std::optional&lt; ProvenanceStepRecord &gt; themis::observability::IProvenanceStore::getRecord</definition>
+        <argsstring>(const std::string &amp;query_id, int step_number)=0</argsstring>
+        <name>getRecord</name>
+        <qualifiedname>themis::observability::IProvenanceStore::getRecord</qualifiedname>
+        <reimplementedby refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1af9d68af1ac82c5ab193dc3c8aab7e962">getRecord</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>step_number</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve a single provenance record by query_id and step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>step_number</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Step ordinal. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Record if found; empty optional if not found or on error. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/provenance_store.h" line="84" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_i_provenance_store_1a27adcd0e61952d00873ffb9a0b10afcd" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_provenance_step_record" kindref="compound">ProvenanceStepRecord</ref> &gt;</type>
+        <definition>virtual std::vector&lt; ProvenanceStepRecord &gt; themis::observability::IProvenanceStore::getProvenanceChain</definition>
+        <argsstring>(const std::string &amp;query_id)=0</argsstring>
+        <name>getProvenanceChain</name>
+        <qualifiedname>themis::observability::IProvenanceStore::getProvenanceChain</qualifiedname>
+        <reimplementedby refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1a4ced15550a9e6368626791e5bbd9748c">getProvenanceChain</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_id</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve the complete provenance chain for a query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of records ordered by step_number (ascending). Empty vector if query_id not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/provenance_store.h" line="94" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_i_provenance_store_1a97f4804122060c27e0ac3cf2ecf52006" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_provenance_step_record" kindref="compound">ProvenanceStepRecord</ref> &gt;</type>
+        <definition>virtual std::vector&lt; ProvenanceStepRecord &gt; themis::observability::IProvenanceStore::getRecordsByTimeRange</definition>
+        <argsstring>(int64_t start_ts_ms, int64_t end_ts_ms)=0</argsstring>
+        <name>getRecordsByTimeRange</name>
+        <qualifiedname>themis::observability::IProvenanceStore::getRecordsByTimeRange</qualifiedname>
+        <reimplementedby refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1a882be6c61f645bd02d2778b9f3a264dd">getRecordsByTimeRange</reimplementedby>
+        <param>
+          <type>int64_t</type>
+          <declname>start_ts_ms</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>end_ts_ms</declname>
+        </param>
+        <briefdescription>
+<para>Query provenance records by timestamp range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Useful for audit windows and forensic analysis.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>start_ts_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Start timestamp (milliseconds since epoch). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>end_ts_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>End timestamp (milliseconds since epoch). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of all records within the range, sorted by timestamp. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/provenance_store.h" line="106" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_i_provenance_store_1a5ae2ba84c7a5520072002a6eec430ab7" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>virtual std::vector&lt; std::string &gt; themis::observability::IProvenanceStore::listQueryIds</definition>
+        <argsstring>()=0</argsstring>
+        <name>listQueryIds</name>
+        <qualifiedname>themis::observability::IProvenanceStore::listQueryIds</qualifiedname>
+        <reimplementedby refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1a8bae5d2cb48f4de19fecc9763848567b">listQueryIds</reimplementedby>
+        <briefdescription>
+<para>List all unique query_ids in the store. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Vector of query identifiers. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/provenance_store.h" line="114" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_i_provenance_store_1a7f7c7fc35a360df25de6809f122c248e" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::observability::IProvenanceStore::deleteQuery</definition>
+        <argsstring>(const std::string &amp;query_id)=0</argsstring>
+        <name>deleteQuery</name>
+        <qualifiedname>themis::observability::IProvenanceStore::deleteQuery</qualifiedname>
+        <reimplementedby refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store_1a2fe09258c21101adda26a64c6dbd4194">deleteQuery</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_id</declname>
+        </param>
+        <briefdescription>
+<para>Delete all provenance records for a query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query identifier to purge. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if purge succeeded, false on error. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/provenance_store.h" line="122" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract interface for persistent provenance storage. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Supports ACID semantics for individual record storage and efficient range queries on (query_id, timestamp). </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::observability::IProvenanceStore</label>
+        <link refid="classthemis_1_1observability_1_1_i_provenance_store"/>
+      </node>
+      <node id="2">
+        <label>themis::observability::RocksDBProvenanceStore</label>
+        <link refid="classthemis_1_1observability_1_1_rocks_d_b_provenance_store"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/observability/provenance_store.h" line="61" column="1" bodyfile="include/observability/provenance_store.h" bodystart="61" bodyend="123"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_i_provenance_store_1a7f7c7fc35a360df25de6809f122c248e" prot="public" virt="pure-virtual"><scope>themis::observability::IProvenanceStore</scope><name>deleteQuery</name></member>
+      <member refid="classthemis_1_1observability_1_1_i_provenance_store_1a27adcd0e61952d00873ffb9a0b10afcd" prot="public" virt="pure-virtual"><scope>themis::observability::IProvenanceStore</scope><name>getProvenanceChain</name></member>
+      <member refid="classthemis_1_1observability_1_1_i_provenance_store_1a07bc0aed982766af8a97299f49734018" prot="public" virt="pure-virtual"><scope>themis::observability::IProvenanceStore</scope><name>getRecord</name></member>
+      <member refid="classthemis_1_1observability_1_1_i_provenance_store_1a97f4804122060c27e0ac3cf2ecf52006" prot="public" virt="pure-virtual"><scope>themis::observability::IProvenanceStore</scope><name>getRecordsByTimeRange</name></member>
+      <member refid="classthemis_1_1observability_1_1_i_provenance_store_1a5ae2ba84c7a5520072002a6eec430ab7" prot="public" virt="pure-virtual"><scope>themis::observability::IProvenanceStore</scope><name>listQueryIds</name></member>
+      <member refid="classthemis_1_1observability_1_1_i_provenance_store_1a766978376f7a631e7f408339c8c2b422" prot="public" virt="pure-virtual"><scope>themis::observability::IProvenanceStore</scope><name>storeRecord</name></member>
+      <member refid="classthemis_1_1observability_1_1_i_provenance_store_1a4fc0a75a025b3f8b7c86fca6dfe5552d" prot="public" virt="virtual"><scope>themis::observability::IProvenanceStore</scope><name>~IProvenanceStore</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

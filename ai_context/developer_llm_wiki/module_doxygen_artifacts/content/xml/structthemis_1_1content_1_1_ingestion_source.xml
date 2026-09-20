@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_ingestion_source" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::IngestionSource</compoundname>
+    <includes refid="ingestion__plugin_8h" local="no">ingestion_plugin.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ingestion_source_1af92a07beb67bc11fabc3a542c3dbe186" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::IngestionSource::source_id</definition>
+        <argsstring></argsstring>
+        <name>source_id</name>
+        <qualifiedname>themis::content::IngestionSource::source_id</qualifiedname>
+        <briefdescription>
+<para>Unique identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/ingestion_plugin.h" line="60" column="17" bodyfile="include/content/ingestion_plugin.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ingestion_source_1a2f015c242d2ae31970d55ba52fa918bb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::IngestionSource::plugin_name</definition>
+        <argsstring></argsstring>
+        <name>plugin_name</name>
+        <qualifiedname>themis::content::IngestionSource::plugin_name</qualifiedname>
+        <briefdescription>
+<para>Which plugin handles this. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/ingestion_plugin.h" line="61" column="17" bodyfile="include/content/ingestion_plugin.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ingestion_source_1a110546ecd33e7be7c7eafec1e47d46e4" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1content_1a46fad40779ffd0b8637a18e5160f912b" kindref="member">IngestionJobType</ref></type>
+        <definition>IngestionJobType themis::content::IngestionSource::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::content::IngestionSource::type</qualifiedname>
+        <briefdescription>
+<para>Job type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/ingestion_plugin.h" line="62" column="22" bodyfile="include/content/ingestion_plugin.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ingestion_source_1a49c0e5455c97158f700aeb3640c8e20d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::IngestionSource::location</definition>
+        <argsstring></argsstring>
+        <name>location</name>
+        <qualifiedname>themis::content::IngestionSource::location</qualifiedname>
+        <briefdescription>
+<para>URL, path, connection string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/ingestion_plugin.h" line="63" column="17" bodyfile="include/content/ingestion_plugin.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ingestion_source_1aedf7fec9b681eac6b99186d2c953edc1" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::IngestionSource::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::content::IngestionSource::config</qualifiedname>
+        <briefdescription>
+<para>Plugin-specific configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/ingestion_plugin.h" line="64" column="10" bodyfile="include/content/ingestion_plugin.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ingestion_source_1af88260ce72135b8ad9a36993f3d37362" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::IngestionSource::priority</definition>
+        <argsstring></argsstring>
+        <name>priority</name>
+        <qualifiedname>themis::content::IngestionSource::priority</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Higher = preferred in conflicts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/ingestion_plugin.h" line="65" column="9" bodyfile="include/content/ingestion_plugin.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ingestion_source_1ae9c7c2daa62b6e21654deb75418f92d4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::content::IngestionSource::tags</definition>
+        <argsstring></argsstring>
+        <name>tags</name>
+        <qualifiedname>themis::content::IngestionSource::tags</qualifiedname>
+        <briefdescription>
+<para>Classification tags. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/ingestion_plugin.h" line="66" column="17" bodyfile="include/content/ingestion_plugin.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ingestion_source_1ade6c53e4b654a0e3a55713443a79e860" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::IngestionSource::incremental</definition>
+        <argsstring></argsstring>
+        <name>incremental</name>
+        <qualifiedname>themis::content::IngestionSource::incremental</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Only fetch new data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/ingestion_plugin.h" line="67" column="10" bodyfile="include/content/ingestion_plugin.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1content_1_1_ingestion_source_1a9dd4ba59bc1b59a38c7327edd1ff5874" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::IngestionSource::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::content::IngestionSource::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/ingestion_plugin.h" line="73" column="10" bodyfile="src/content/ingestion_plugin.cpp" bodystart="20" bodyend="31"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1content_1_1_ingestion_source_1aca79da00796897c020614e0921fbf85c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_ingestion_source" kindref="compound">IngestionSource</ref></type>
+        <definition>IngestionSource themis::content::IngestionSource::fromJson</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::content::IngestionSource::fromJson</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: at(), value(), json::object(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/ingestion_plugin.h" line="80" column="28" bodyfile="src/content/ingestion_plugin.cpp" bodystart="39" bodyend="50"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/ingestion_plugin.h" line="59" column="1" bodyfile="include/content/ingestion_plugin.h" bodystart="59" bodyend="81"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_ingestion_source_1aedf7fec9b681eac6b99186d2c953edc1" prot="public" virt="non-virtual"><scope>themis::content::IngestionSource</scope><name>config</name></member>
+      <member refid="structthemis_1_1content_1_1_ingestion_source_1aca79da00796897c020614e0921fbf85c" prot="public" virt="non-virtual"><scope>themis::content::IngestionSource</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1content_1_1_ingestion_source_1ade6c53e4b654a0e3a55713443a79e860" prot="public" virt="non-virtual"><scope>themis::content::IngestionSource</scope><name>incremental</name></member>
+      <member refid="structthemis_1_1content_1_1_ingestion_source_1a49c0e5455c97158f700aeb3640c8e20d" prot="public" virt="non-virtual"><scope>themis::content::IngestionSource</scope><name>location</name></member>
+      <member refid="structthemis_1_1content_1_1_ingestion_source_1a2f015c242d2ae31970d55ba52fa918bb" prot="public" virt="non-virtual"><scope>themis::content::IngestionSource</scope><name>plugin_name</name></member>
+      <member refid="structthemis_1_1content_1_1_ingestion_source_1af88260ce72135b8ad9a36993f3d37362" prot="public" virt="non-virtual"><scope>themis::content::IngestionSource</scope><name>priority</name></member>
+      <member refid="structthemis_1_1content_1_1_ingestion_source_1af92a07beb67bc11fabc3a542c3dbe186" prot="public" virt="non-virtual"><scope>themis::content::IngestionSource</scope><name>source_id</name></member>
+      <member refid="structthemis_1_1content_1_1_ingestion_source_1ae9c7c2daa62b6e21654deb75418f92d4" prot="public" virt="non-virtual"><scope>themis::content::IngestionSource</scope><name>tags</name></member>
+      <member refid="structthemis_1_1content_1_1_ingestion_source_1a9dd4ba59bc1b59a38c7327edd1ff5874" prot="public" virt="non-virtual"><scope>themis::content::IngestionSource</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1content_1_1_ingestion_source_1a110546ecd33e7be7c7eafec1e47d46e4" prot="public" virt="non-virtual"><scope>themis::content::IngestionSource</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

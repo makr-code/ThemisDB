@@ -1,0 +1,396 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_lo_r_a_slot" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::LoRASlot</compoundname>
+    <includes refid="multi__lora__manager_8h" local="no">multi_lora_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_slot_1ab394eb18007474ddb43433623bf7ec48" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LoRASlot::lora_id</definition>
+        <argsstring></argsstring>
+        <name>lora_id</name>
+        <qualifiedname>themis::llm::LoRASlot::lora_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="230" column="17" bodyfile="include/llm/multi_lora_manager.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_slot_1a60182347d5e0e8e63b15c422138fe675" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LoRASlot::path</definition>
+        <argsstring></argsstring>
+        <name>path</name>
+        <qualifiedname>themis::llm::LoRASlot::path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="231" column="17" bodyfile="include/llm/multi_lora_manager.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_slot_1a0677e0f2a7a1abef9d6b27b0a8c61364" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LoRASlot::base_model_id</definition>
+        <argsstring></argsstring>
+        <name>base_model_id</name>
+        <qualifiedname>themis::llm::LoRASlot::base_model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="232" column="17" bodyfile="include/llm/multi_lora_manager.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_slot_1ac341184a5a2352a371f410f8c56afbd6" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::llm::LoRASlot::adapter_handle</definition>
+        <argsstring></argsstring>
+        <name>adapter_handle</name>
+        <qualifiedname>themis::llm::LoRASlot::adapter_handle</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="234" column="10" bodyfile="include/llm/multi_lora_manager.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_slot_1a5f6f2bc2d7d8a113cf5c0a76e623efd5" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::LoRASlot::scale</definition>
+        <argsstring></argsstring>
+        <name>scale</name>
+        <qualifiedname>themis::llm::LoRASlot::scale</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="235" column="11" bodyfile="include/llm/multi_lora_manager.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_slot_1a4f463decaddf04effd90b41a12e74bf2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LoRASlot::vram_bytes</definition>
+        <argsstring></argsstring>
+        <name>vram_bytes</name>
+        <qualifiedname>themis::llm::LoRASlot::vram_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="237" column="12" bodyfile="include/llm/multi_lora_manager.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_slot_1a64612f3ec13f75fc233c0ce0da0fea2d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LoRASlot::rank</definition>
+        <argsstring></argsstring>
+        <name>rank</name>
+        <qualifiedname>themis::llm::LoRASlot::rank</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="238" column="12" bodyfile="include/llm/multi_lora_manager.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_slot_1af0f5e57d2bb4ce814a4b22f445c79f9d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LoRASlot::alpha</definition>
+        <argsstring></argsstring>
+        <name>alpha</name>
+        <qualifiedname>themis::llm::LoRASlot::alpha</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="239" column="12" bodyfile="include/llm/multi_lora_manager.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_slot_1a97ff22123bba3e59bcc391d6d4a57481" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::LoRASlot::loaded_at</definition>
+        <argsstring></argsstring>
+        <name>loaded_at</name>
+        <qualifiedname>themis::llm::LoRASlot::loaded_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="241" column="43" bodyfile="include/llm/multi_lora_manager.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_slot_1a6fde490962822b96392373e64e311a9a" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::LoRASlot::last_used</definition>
+        <argsstring></argsstring>
+        <name>last_used</name>
+        <qualifiedname>themis::llm::LoRASlot::last_used</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="242" column="43" bodyfile="include/llm/multi_lora_manager.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_slot_1a4fbdd680bb0d2513ff429b60bd94dcd1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LoRASlot::use_count</definition>
+        <argsstring></argsstring>
+        <name>use_count</name>
+        <qualifiedname>themis::llm::LoRASlot::use_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="243" column="12" bodyfile="include/llm/multi_lora_manager.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_slot_1a6fb8b45c82486371d3328d04c6193539" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LoRASlot::is_active</definition>
+        <argsstring></argsstring>
+        <name>is_active</name>
+        <qualifiedname>themis::llm::LoRASlot::is_active</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="245" column="10" bodyfile="include/llm/multi_lora_manager.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_slot_1ac2eb19332f518f61f0848f8674f649c7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LoRASlot::keep_loaded</definition>
+        <argsstring></argsstring>
+        <name>keep_loaded</name>
+        <qualifiedname>themis::llm::LoRASlot::keep_loaded</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="246" column="10" bodyfile="include/llm/multi_lora_manager.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_slot_1a33d548dabf4c52df2c2ac657b51d004b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LoRASlot::is_quantized</definition>
+        <argsstring></argsstring>
+        <name>is_quantized</name>
+        <qualifiedname>themis::llm::LoRASlot::is_quantized</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="249" column="10" bodyfile="include/llm/multi_lora_manager.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_slot_1ac07e9421ad1be6729eefe3fb66cbcf35" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1a8d79a8ce3b1a69133c35cb18ac9ecbd9" kindref="member">QuantizationMode</ref></type>
+        <definition>QuantizationMode themis::llm::LoRASlot::quantization_mode</definition>
+        <argsstring></argsstring>
+        <name>quantization_mode</name>
+        <qualifiedname>themis::llm::LoRASlot::quantization_mode</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1llm_1a8d79a8ce3b1a69133c35cb18ac9ecbd9ab50339a10e1de285ac99d4c3990b8693" kindref="member">QuantizationMode::NONE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="250" column="22" bodyfile="include/llm/multi_lora_manager.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_slot_1af7f7b3a932c7f8792af37ec091935eea" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LoRASlot::original_vram_bytes</definition>
+        <argsstring></argsstring>
+        <name>original_vram_bytes</name>
+        <qualifiedname>themis::llm::LoRASlot::original_vram_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="251" column="12" bodyfile="include/llm/multi_lora_manager.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_slot_1a1dc5672b310e4d07768c7f395e65255b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::llm::LoRASlot::scale_factors</definition>
+        <argsstring></argsstring>
+        <name>scale_factors</name>
+        <qualifiedname>themis::llm::LoRASlot::scale_factors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="252" column="17" bodyfile="include/llm/multi_lora_manager.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_slot_1ab2ee536fd270f18232e864aaf887cc0a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::llm::LoRASlot::quantized_weights</definition>
+        <argsstring></argsstring>
+        <name>quantized_weights</name>
+        <qualifiedname>themis::llm::LoRASlot::quantized_weights</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="253" column="17" bodyfile="include/llm/multi_lora_manager.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_slot_1a558ed51c2619bcb31cc3e46a203d940d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1af7ad23f31ec3c36e676fc0b2489c5f14" kindref="member">GPUPlacement</ref></type>
+        <definition>GPUPlacement themis::llm::LoRASlot::gpu_placement</definition>
+        <argsstring></argsstring>
+        <name>gpu_placement</name>
+        <qualifiedname>themis::llm::LoRASlot::gpu_placement</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1llm_1af7ad23f31ec3c36e676fc0b2489c5f14a31d23ab5afa345d7d914d769388a2df8" kindref="member">GPUPlacement::SINGLE_GPU</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="256" column="18" bodyfile="include/llm/multi_lora_manager.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_slot_1a30566e44371254ad8c0d88b400d55125" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themis::llm::LoRASlot::assigned_gpus</definition>
+        <argsstring></argsstring>
+        <name>assigned_gpus</name>
+        <qualifiedname>themis::llm::LoRASlot::assigned_gpus</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="257" column="17" bodyfile="include/llm/multi_lora_manager.h" bodystart="257" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_slot_1aefc689685ebc79ae5bfcbfe4929f3a96" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::LoRASlot::primary_gpu</definition>
+        <argsstring></argsstring>
+        <name>primary_gpu</name>
+        <qualifiedname>themis::llm::LoRASlot::primary_gpu</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="258" column="9" bodyfile="include/llm/multi_lora_manager.h" bodystart="258" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_slot_1a703e03119d1bd14c40e16d18c8467a8f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LoRASlot::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::llm::LoRASlot::tenant_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="261" column="17" bodyfile="include/llm/multi_lora_manager.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_slot_1a5bdd5f37de838b8caafb61dead5471a2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LoRASlot::is_replicated</definition>
+        <argsstring></argsstring>
+        <name>is_replicated</name>
+        <qualifiedname>themis::llm::LoRASlot::is_replicated</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="262" column="10" bodyfile="include/llm/multi_lora_manager.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_lo_r_a_slot_1a68dc55a55872ffd703f109dfda75006a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::LoRASlot::~LoRASlot</definition>
+        <argsstring>()=default</argsstring>
+        <name>~LoRASlot</name>
+        <qualifiedname>themis::llm::LoRASlot::~LoRASlot</qualifiedname>
+        <briefdescription>
+<para>Lo RASlot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="229" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/multi_lora_manager.h" line="224" column="1" bodyfile="include/llm/multi_lora_manager.h" bodystart="224" bodyend="263"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_slot_1ac341184a5a2352a371f410f8c56afbd6" prot="public" virt="non-virtual"><scope>themis::llm::LoRASlot</scope><name>adapter_handle</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_slot_1af0f5e57d2bb4ce814a4b22f445c79f9d" prot="public" virt="non-virtual"><scope>themis::llm::LoRASlot</scope><name>alpha</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_slot_1a30566e44371254ad8c0d88b400d55125" prot="public" virt="non-virtual"><scope>themis::llm::LoRASlot</scope><name>assigned_gpus</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_slot_1a0677e0f2a7a1abef9d6b27b0a8c61364" prot="public" virt="non-virtual"><scope>themis::llm::LoRASlot</scope><name>base_model_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_slot_1a558ed51c2619bcb31cc3e46a203d940d" prot="public" virt="non-virtual"><scope>themis::llm::LoRASlot</scope><name>gpu_placement</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_slot_1a6fb8b45c82486371d3328d04c6193539" prot="public" virt="non-virtual"><scope>themis::llm::LoRASlot</scope><name>is_active</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_slot_1a33d548dabf4c52df2c2ac657b51d004b" prot="public" virt="non-virtual"><scope>themis::llm::LoRASlot</scope><name>is_quantized</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_slot_1a5bdd5f37de838b8caafb61dead5471a2" prot="public" virt="non-virtual"><scope>themis::llm::LoRASlot</scope><name>is_replicated</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_slot_1ac2eb19332f518f61f0848f8674f649c7" prot="public" virt="non-virtual"><scope>themis::llm::LoRASlot</scope><name>keep_loaded</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_slot_1a6fde490962822b96392373e64e311a9a" prot="public" virt="non-virtual"><scope>themis::llm::LoRASlot</scope><name>last_used</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_slot_1a97ff22123bba3e59bcc391d6d4a57481" prot="public" virt="non-virtual"><scope>themis::llm::LoRASlot</scope><name>loaded_at</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_slot_1ab394eb18007474ddb43433623bf7ec48" prot="public" virt="non-virtual"><scope>themis::llm::LoRASlot</scope><name>lora_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_slot_1af7f7b3a932c7f8792af37ec091935eea" prot="public" virt="non-virtual"><scope>themis::llm::LoRASlot</scope><name>original_vram_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_slot_1a60182347d5e0e8e63b15c422138fe675" prot="public" virt="non-virtual"><scope>themis::llm::LoRASlot</scope><name>path</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_slot_1aefc689685ebc79ae5bfcbfe4929f3a96" prot="public" virt="non-virtual"><scope>themis::llm::LoRASlot</scope><name>primary_gpu</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_slot_1ac07e9421ad1be6729eefe3fb66cbcf35" prot="public" virt="non-virtual"><scope>themis::llm::LoRASlot</scope><name>quantization_mode</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_slot_1ab2ee536fd270f18232e864aaf887cc0a" prot="public" virt="non-virtual"><scope>themis::llm::LoRASlot</scope><name>quantized_weights</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_slot_1a64612f3ec13f75fc233c0ce0da0fea2d" prot="public" virt="non-virtual"><scope>themis::llm::LoRASlot</scope><name>rank</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_slot_1a5f6f2bc2d7d8a113cf5c0a76e623efd5" prot="public" virt="non-virtual"><scope>themis::llm::LoRASlot</scope><name>scale</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_slot_1a1dc5672b310e4d07768c7f395e65255b" prot="public" virt="non-virtual"><scope>themis::llm::LoRASlot</scope><name>scale_factors</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_slot_1a703e03119d1bd14c40e16d18c8467a8f" prot="public" virt="non-virtual"><scope>themis::llm::LoRASlot</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_slot_1a4fbdd680bb0d2513ff429b60bd94dcd1" prot="public" virt="non-virtual"><scope>themis::llm::LoRASlot</scope><name>use_count</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_slot_1a4f463decaddf04effd90b41a12e74bf2" prot="public" virt="non-virtual"><scope>themis::llm::LoRASlot</scope><name>vram_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_slot_1a68dc55a55872ffd703f109dfda75006a" prot="public" virt="virtual"><scope>themis::llm::LoRASlot</scope><name>~LoRASlot</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

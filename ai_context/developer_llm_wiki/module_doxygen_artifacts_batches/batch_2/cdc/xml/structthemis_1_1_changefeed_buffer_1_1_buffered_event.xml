@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_changefeed_buffer_1_1_buffered_event" kind="struct" language="C++" prot="private">
+    <compoundname>themis::ChangefeedBuffer::BufferedEvent</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_changefeed_buffer_1_1_buffered_event_1af4170c5e46d8d5913e41ec887ef409a8" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref></type>
+        <definition>Changefeed::ChangeEvent themis::ChangefeedBuffer::BufferedEvent::event</definition>
+        <argsstring></argsstring>
+        <name>event</name>
+        <qualifiedname>themis::ChangefeedBuffer::BufferedEvent::event</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed_buffer.h" line="188" column="33" bodyfile="include/cdc/changefeed_buffer.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_changefeed_buffer_1_1_buffered_event_1ad1cd9c01ecfaa2960812b1f9c6d3f5f2" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::ChangefeedBuffer::BufferedEvent::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::ChangefeedBuffer::BufferedEvent::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed_buffer.h" line="189" column="47" bodyfile="include/cdc/changefeed_buffer.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_changefeed_buffer_1_1_buffered_event_1a3da93d18c4529897f9fcb331f249cd55" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ChangefeedBuffer::BufferedEvent::memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>memory_bytes</name>
+        <qualifiedname>themis::ChangefeedBuffer::BufferedEvent::memory_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed_buffer.h" line="190" column="16" bodyfile="include/cdc/changefeed_buffer.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_changefeed_buffer_1_1_buffered_event_1ae572e55b30847f6423ada8e46cad9e79" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ChangefeedBuffer::BufferedEvent::compressed</definition>
+        <argsstring></argsstring>
+        <name>compressed</name>
+        <qualifiedname>themis::ChangefeedBuffer::BufferedEvent::compressed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed_buffer.h" line="191" column="14" bodyfile="include/cdc/changefeed_buffer.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_changefeed_buffer_1_1_buffered_event_1ae849d18ae6bb574777668109b8085112" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ChangefeedBuffer::BufferedEvent::BufferedEvent</definition>
+        <argsstring>(const Changefeed::ChangeEvent &amp;e)</argsstring>
+        <name>BufferedEvent</name>
+        <qualifiedname>themis::ChangefeedBuffer::BufferedEvent::BufferedEvent</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref> &amp;</type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed_buffer.h" line="193" column="9" bodyfile="include/cdc/changefeed_buffer.h" bodystart="193" bodyend="199"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::Changefeed::ChangeEvent</label>
+        <link refid="structthemis_1_1_changefeed_1_1_change_event"/>
+      </node>
+      <node id="1">
+        <label>themis::ChangefeedBuffer::BufferedEvent</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>event</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/cdc/changefeed_buffer.h" line="187" column="5" bodyfile="include/cdc/changefeed_buffer.h" bodystart="187" bodyend="200"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_changefeed_buffer_1_1_buffered_event_1ae849d18ae6bb574777668109b8085112" prot="public" virt="non-virtual"><scope>themis::ChangefeedBuffer::BufferedEvent</scope><name>BufferedEvent</name></member>
+      <member refid="structthemis_1_1_changefeed_buffer_1_1_buffered_event_1ae572e55b30847f6423ada8e46cad9e79" prot="public" virt="non-virtual"><scope>themis::ChangefeedBuffer::BufferedEvent</scope><name>compressed</name></member>
+      <member refid="structthemis_1_1_changefeed_buffer_1_1_buffered_event_1af4170c5e46d8d5913e41ec887ef409a8" prot="public" virt="non-virtual"><scope>themis::ChangefeedBuffer::BufferedEvent</scope><name>event</name></member>
+      <member refid="structthemis_1_1_changefeed_buffer_1_1_buffered_event_1a3da93d18c4529897f9fcb331f249cd55" prot="public" virt="non-virtual"><scope>themis::ChangefeedBuffer::BufferedEvent</scope><name>memory_bytes</name></member>
+      <member refid="structthemis_1_1_changefeed_buffer_1_1_buffered_event_1ad1cd9c01ecfaa2960812b1f9c6d3f5f2" prot="public" virt="non-virtual"><scope>themis::ChangefeedBuffer::BufferedEvent</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,928 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_tensor_train_decomposer" kind="class" language="C++" prot="public">
+    <compoundname>themis::storage::TensorTrainDecomposer</compoundname>
+    <includes refid="tensor__train__decomposer_8h" local="no">tensor_train_decomposer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_train_decomposer_1aca3484d03b5e465de92a422460dbc171" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::TensorTrainDecomposer::TensorTrainDecomposer</definition>
+        <argsstring>()=default</argsstring>
+        <name>TensorTrainDecomposer</name>
+        <qualifiedname>themis::storage::TensorTrainDecomposer::TensorTrainDecomposer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_train_decomposer.h" line="194" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_train_decomposer_1a546d5e1d36cca5d5d39d04089e65f8c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::TensorTrainDecomposer::~TensorTrainDecomposer</definition>
+        <argsstring>()=default</argsstring>
+        <name>~TensorTrainDecomposer</name>
+        <qualifiedname>themis::storage::TensorTrainDecomposer::~TensorTrainDecomposer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_train_decomposer.h" line="195" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_train_decomposer_1a4b76420312876cb37fce9eabe5235719" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::TensorTrainDecomposer::TensorTrainDecomposer</definition>
+        <argsstring>(const TensorTrainDecomposer &amp;)=default</argsstring>
+        <name>TensorTrainDecomposer</name>
+        <qualifiedname>themis::storage::TensorTrainDecomposer::TensorTrainDecomposer</qualifiedname>
+        <param>
+          <type>const TensorTrainDecomposer &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_train_decomposer.h" line="197" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_train_decomposer_1af6c4b995d4f1cabfd7f67251ae6cc540" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_tensor_train_decomposer_1aca3484d03b5e465de92a422460dbc171" kindref="member">TensorTrainDecomposer</ref> &amp;</type>
+        <definition>TensorTrainDecomposer &amp; themis::storage::TensorTrainDecomposer::operator=</definition>
+        <argsstring>(const TensorTrainDecomposer &amp;)=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::storage::TensorTrainDecomposer::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1storage_1_1_tensor_train_decomposer_1aca3484d03b5e465de92a422460dbc171" kindref="member">TensorTrainDecomposer</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_train_decomposer.h" line="198" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_train_decomposer_1adf0042d8ed9c7aff9fb882244b1b6c9a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1storage_1_1_t_t_train" kindref="compound">TTTrain</ref>, <ref refid="structthemis_1_1storage_1_1_decomposition_stats" kindref="compound">DecompositionStats</ref> &gt;</type>
+        <definition>std::pair&lt; TTTrain, DecompositionStats &gt; themis::storage::TensorTrainDecomposer::decompose</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;data, const std::vector&lt; std::size_t &gt; &amp;mode_sizes, const TensorTrainConfig &amp;cfg={}) const</argsstring>
+        <name>decompose</name>
+        <qualifiedname>themis::storage::TensorTrainDecomposer::decompose</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::size_t &gt; &amp;</type>
+          <declname>mode_sizes</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_tensor_train_config" kindref="compound">TensorTrainConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Decompose a dense float32 tensor into TT-format. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Flat row-major tensor data (length = ∏ mode_sizes). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mode_sizes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sizes of each mode (d ≥ 2). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Decomposition configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pair {<ref refid="structthemis_1_1storage_1_1_t_t_train" kindref="compound">TTTrain</ref>, <ref refid="structthemis_1_1storage_1_1_decomposition_stats" kindref="compound">DecompositionStats</ref>}. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if data.size() != ∏ mode_sizes or d &lt; 2. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_train_decomposer.h" line="212" column="5" bodyfile="src/storage/tensor_train_decomposer.cpp" bodystart="697" bodyend="812"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_train_decomposer_1aec67c834808e67d945fa8c4b6bc4fb22" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1storage_1_1_t_t_train" kindref="compound">TTTrain</ref>, <ref refid="structthemis_1_1storage_1_1_decomposition_stats" kindref="compound">DecompositionStats</ref> &gt;</type>
+        <definition>std::pair&lt; TTTrain, DecompositionStats &gt; themis::storage::TensorTrainDecomposer::decomposeF64</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;data, const std::vector&lt; std::size_t &gt; &amp;mode_sizes, const TensorTrainConfig &amp;cfg={}) const</argsstring>
+        <name>decomposeF64</name>
+        <qualifiedname>themis::storage::TensorTrainDecomposer::decomposeF64</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::size_t &gt; &amp;</type>
+          <declname>mode_sizes</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_tensor_train_config" kindref="compound">TensorTrainConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Decompose a dense float64 tensor (downcast to float32 for cores). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_train_decomposer.h" line="220" column="5" bodyfile="src/storage/tensor_train_decomposer.cpp" bodystart="815" bodyend="822"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_train_decomposer_1a1d829fd125556e64e680439c36a43d9b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_t_t_train" kindref="compound">TTTrain</ref></type>
+        <definition>TTTrain themis::storage::TensorTrainDecomposer::round</definition>
+        <argsstring>(const TTTrain &amp;train, const TensorTrainConfig &amp;cfg) const</argsstring>
+        <name>round</name>
+        <qualifiedname>themis::storage::TensorTrainDecomposer::round</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_t_t_train" kindref="compound">TTTrain</ref> &amp;</type>
+          <declname>train</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_tensor_train_config" kindref="compound">TensorTrainConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Re-compress an existing <ref refid="structthemis_1_1storage_1_1_t_t_train" kindref="compound">TTTrain</ref> to a tighter eps or lower max_rank. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements right-to-left orthogonalisation + left-to-right truncation (Oseledets 2011, Algorithm 2 / TT-rounding).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>train</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source TT-train. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New (tighter) configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Rounded <ref refid="structthemis_1_1storage_1_1_t_t_train" kindref="compound">TTTrain</ref> with reduced ranks. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_train_decomposer.h" line="236" column="13" bodyfile="src/storage/tensor_train_decomposer.cpp" bodystart="824" bodyend="832"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_train_decomposer_1a8b6bf0ddd5a11cc723d67b5a512b5059" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_t_t_train" kindref="compound">TTTrain</ref></type>
+        <definition>TTTrain themis::storage::TensorTrainDecomposer::recompress</definition>
+        <argsstring>(const TTTrain &amp;train, const TensorTrainConfig &amp;cfg) const</argsstring>
+        <name>recompress</name>
+        <qualifiedname>themis::storage::TensorTrainDecomposer::recompress</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_t_t_train" kindref="compound">TTTrain</ref> &amp;</type>
+          <declname>train</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_tensor_train_config" kindref="compound">TensorTrainConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Re-compress an existing <ref refid="structthemis_1_1storage_1_1_t_t_train" kindref="compound">TTTrain</ref> without full reconstruction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements the efficient TT-rounding algorithm (Oseledets 2011, Algorithm 2):<orderedlist>
+<listitem><para>Right-to-left LQ orthogonalisation (Modified Gram-Schmidt on rows) redistributes the Frobenius norm into the first core.</para>
+</listitem><listitem><para>Left-to-right truncated-SVD sweep discards singular values below δ = ε · ‖T‖_F / √(d−1), reducing bond dimensions.</para>
+</listitem></orderedlist>
+</para>
+<para>Complexity: O(d · r² · n) — avoids the O(∏ n_k) cost of full reconstruction used by <computeroutput><ref refid="classthemis_1_1storage_1_1_tensor_train_decomposer_1a1d829fd125556e64e680439c36a43d9b" kindref="member">round()</ref></computeroutput>.</para>
+<para>Never increases any bond dimension: if the train is already compact at the requested <computeroutput>eps</computeroutput>, it is returned unchanged (same ranks).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>train</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source TT-train. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target configuration (eps / max_rank). Typically the same or tighter than the original decomposition parameters. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Recompressed <ref refid="structthemis_1_1storage_1_1_t_t_train" kindref="compound">TTTrain</ref> with equal or lower bond dimensions. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Unfold G_k as M: r_left x (n_k * r_right) [right-unfolding] <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">ncols</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Fm. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">rr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Unfold G_k as M: (r_left * n_k) x r_right [left-unfolding] <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Transfer T = diag(S) . <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Vt: new_r x n</para>
+<para>G1 mat. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">cols1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/tensor_train_decomposer.h" line="259" column="13" bodyfile="src/storage/tensor_train_decomposer.cpp" bodystart="857" bodyend="1012"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_train_decomposer_1ac81ce09aa0e0902aaf95b342018a0c46" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::storage::TensorTrainDecomposer::innerProduct</definition>
+        <argsstring>(const TTTrain &amp;a, const TTTrain &amp;b)</argsstring>
+        <name>innerProduct</name>
+        <qualifiedname>themis::storage::TensorTrainDecomposer::innerProduct</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_t_t_train" kindref="compound">TTTrain</ref> &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_t_t_train" kindref="compound">TTTrain</ref> &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Compute ⟨A, B⟩ = ∑ A(i₁…id)·B(i₁…id) without reconstructing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ Inner product / cosine similarity in compressed domain ============================================================================</para>
+<para>Complexity: O(d · n · r³) using the transfer-matrix technique.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if A and B have incompatible mode_sizes.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), Mnew(), std::abs(), at(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_train_decomposer.h" line="270" column="19" bodyfile="src/storage/tensor_train_decomposer.cpp" bodystart="1023" bodyend="1067"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_train_decomposer_1a2baa9c51a821cff49d880c818b2cd392" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::storage::TensorTrainDecomposer::frobeniusNorm</definition>
+        <argsstring>(const TTTrain &amp;a)</argsstring>
+        <name>frobeniusNorm</name>
+        <qualifiedname>themis::storage::TensorTrainDecomposer::frobeniusNorm</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_t_t_train" kindref="compound">TTTrain</ref> &amp;</type>
+          <declname>a</declname>
+        </param>
+        <briefdescription>
+<para>Compute ‖A‖_F = sqrt(⟨A,A⟩) in compressed domain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Frobenius Norm.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1storage_1_1_tensor_train_decomposer_1ac81ce09aa0e0902aaf95b342018a0c46" kindref="member">innerProduct()</ref>, std::sqrt(), std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_train_decomposer.h" line="275" column="19" bodyfile="src/storage/tensor_train_decomposer.cpp" bodystart="1075" bodyend="1078"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_train_decomposer_1a32f679d5ce0833472280ebb61af1c66a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::storage::TensorTrainDecomposer::cosineSimilarity</definition>
+        <argsstring>(const TTTrain &amp;a, const TTTrain &amp;b)</argsstring>
+        <name>cosineSimilarity</name>
+        <qualifiedname>themis::storage::TensorTrainDecomposer::cosineSimilarity</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_t_t_train" kindref="compound">TTTrain</ref> &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_t_t_train" kindref="compound">TTTrain</ref> &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Cosine similarity cos(A,B) = ⟨A,B⟩ / (‖A‖·‖B‖) in [−1, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cosine Similarity.</para>
+<para>Returns 0.0 when either norm is zero.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1storage_1_1_tensor_train_decomposer_1a2baa9c51a821cff49d880c818b2cd392" kindref="member">frobeniusNorm()</ref>, <ref refid="classthemis_1_1storage_1_1_tensor_train_decomposer_1ac81ce09aa0e0902aaf95b342018a0c46" kindref="member">innerProduct()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_train_decomposer.h" line="282" column="19" bodyfile="src/storage/tensor_train_decomposer.cpp" bodystart="1087" bodyend="1095"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_train_decomposer_1aff55c92b4019e4e2b95d2f69702c0dd9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::TensorTrainDecomposer::truncatedSVDShared</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;mat, std::size_t m, std::size_t n, double delta, std::size_t max_rank_cap, std::vector&lt; float &gt; &amp;U, std::vector&lt; float &gt; &amp;S, std::vector&lt; float &gt; &amp;Vt, std::size_t &amp;rank_out)</argsstring>
+        <name>truncatedSVDShared</name>
+        <qualifiedname>themis::storage::TensorTrainDecomposer::truncatedSVDShared</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>mat</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>m</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>delta</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>max_rank_cap</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; float &gt; &amp;</type>
+          <declname>U</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; float &gt; &amp;</type>
+          <declname>S</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; float &gt; &amp;</type>
+          <declname>Vt</declname>
+        </param>
+        <param>
+          <type>std::size_t &amp;</type>
+          <declname>rank_out</declname>
+        </param>
+        <briefdescription>
+<para>Shared truncated-SVD helper for cross-decomposer reuse. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Truncated SVDShared.</para>
+<para>Exposes the production Golub-Reinsch truncated SVD implementation used internally by TT-SVD so other decomposers (for example HT) can avoid maintaining duplicate low-level SVD code paths.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>mat</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input matrix in row-major layout (m×n). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>m</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of rows. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of columns. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>delta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Truncation threshold for singular values. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_rank_cap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Hard cap for retained rank (0 = no extra cap). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>U</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output left singular vectors (m×rank_out). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>S</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output singular values (rank_out). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Vt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output right singular vectors transposed (rank_out×n). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rank_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Chosen truncated rank (&gt;= 1 for non-empty matrices).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mat</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">m</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">delta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_rank_cap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">U</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">S</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">Vt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">rank_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_train_decomposer.h" line="301" column="17" bodyfile="src/storage/tensor_train_decomposer.cpp" bodystart="606" bodyend="618"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_train_decomposer_1ae0f54bc8d4280b3fe158c5d1c1acc420" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::TensorTrainDecomposer::truncatedSVD</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;mat, std::size_t m, std::size_t n, double delta, std::size_t max_rank_cap, std::vector&lt; float &gt; &amp;U, std::vector&lt; float &gt; &amp;S, std::vector&lt; float &gt; &amp;Vt, std::size_t &amp;rank_out)</argsstring>
+        <name>truncatedSVD</name>
+        <qualifiedname>themis::storage::TensorTrainDecomposer::truncatedSVD</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>mat</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>m</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>delta</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>max_rank_cap</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; float &gt; &amp;</type>
+          <declname>U</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; float &gt; &amp;</type>
+          <declname>S</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; float &gt; &amp;</type>
+          <declname>Vt</declname>
+        </param>
+        <param>
+          <type>std::size_t &amp;</type>
+          <declname>rank_out</declname>
+        </param>
+        <briefdescription>
+<para>Truncated SVD. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Perform truncated SVD of an m×n matrix. Returns U, S, Vt truncated to <computeroutput>rank</computeroutput> columns/rows (rank chosen so that σ_{rank+1} ≤ delta, or by max_rank cap). Uses Householder bidiagonalisation (Golub-Reinsch).</para>
+<para>Exposed for other tensor decomposers (e.g. HT) to reuse the same numerically robust truncation routine.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mat</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">m</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">delta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_rank_cap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">U</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">S</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">Vt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">rank_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_train_decomposer.h" line="317" column="17" bodyfile="src/storage/tensor_train_decomposer.cpp" bodystart="632" bodyend="690"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_train_decomposer_1a4f4102c2ba93a9bf1a60e5818f09717b" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::storage::TensorTrainDecomposer::matMul</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;A, const std::vector&lt; float &gt; &amp;B, std::size_t m, std::size_t k, std::size_t n)</argsstring>
+        <name>matMul</name>
+        <qualifiedname>themis::storage::TensorTrainDecomposer::matMul</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>B</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>m</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Matrix multiply C = A·B where A is (m×k) and B is (k×n) — row-major. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Mat Mul.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">m</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: C(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_train_decomposer.h" line="328" column="24" bodyfile="src/storage/tensor_train_decomposer.cpp" bodystart="580" bodyend="592"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_train_decomposer_1aa995029d86f187afc21b5c3a071ed3c5" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::storage::TensorTrainDecomposer::vecNorm</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;v) noexcept</argsstring>
+        <name>vecNorm</name>
+        <qualifiedname>themis::storage::TensorTrainDecomposer::vecNorm</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Compute Frobenius norm of a flat vector. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_train_decomposer.h" line="335" column="19" bodyfile="src/storage/tensor_train_decomposer.cpp" bodystart="562" bodyend="568"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stateless engine for Tensor-Train decomposition (TT-SVD). </para>
+    </briefdescription>
+    <detaileddescription>
+<para><heading level="3">Algorithm (Oseledets 2011, Algorithm 1)</heading>
+</para>
+<para><orderedlist>
+<listitem><para>Compute Frobenius norm ‖T‖_F and derive per-step truncation δ = ε/√(d-1)·‖T‖_F.</para>
+</listitem><listitem><para>For k = 1 … d-1: a. Unfold residual into matrix C of shape (r_{k-1}·n_k) × (n_{k+1}·…·n_d). b. Truncated SVD: C ≈ U Σ Vᵀ, keeping r_k singular values with σᵢ &gt; δ. c. G_k ← reshape(U·diag(Σ)^{1/2}, r_{k-1}, n_k, r_k). d. Residual ← reshape(diag(Σ)^{1/2}·Vᵀ, r_k, n_{k+1}·…·n_d).</para>
+</listitem><listitem><para>G_d ← residual (shape 1 × n_d × 1 after division by ‖T‖_F or similar).</para>
+</listitem></orderedlist>
+</para>
+<para><heading level="3">Usage</heading>
+</para>
+<para><programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1storage_1_1_tensor_train_decomposer_1aca3484d03b5e465de92a422460dbc171" kindref="member">TensorTrainDecomposer</ref><sp/>decomposer;</highlight></codeline>
+<codeline><highlight class="normal">TensorTrainConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.eps<sp/>=<sp/>0.01;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>dense<sp/>6D<sp/>tensor<sp/>of<sp/>shape<sp/>{4,4,4,4,4,4}</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">std::vector&lt;float&gt;<sp/>dense(4096,<sp/>0.0f);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>…<sp/>fill<sp/>dense<sp/>…</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[train,<sp/>stats]<sp/>=<sp/>decomposer.decompose(dense,<sp/>{4,4,4,4,4,4},<sp/>cfg);</highlight></codeline>
+<codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;compression<sp/>ratio:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>stats.compression_ratio<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/storage/tensor_train_decomposer.h" line="192" column="1" bodyfile="include/storage/tensor_train_decomposer.h" bodystart="192" bodyend="336"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_tensor_train_decomposer_1a32f679d5ce0833472280ebb61af1c66a" prot="public" virt="non-virtual"><scope>themis::storage::TensorTrainDecomposer</scope><name>cosineSimilarity</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_train_decomposer_1adf0042d8ed9c7aff9fb882244b1b6c9a" prot="public" virt="non-virtual"><scope>themis::storage::TensorTrainDecomposer</scope><name>decompose</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_train_decomposer_1aec67c834808e67d945fa8c4b6bc4fb22" prot="public" virt="non-virtual"><scope>themis::storage::TensorTrainDecomposer</scope><name>decomposeF64</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_train_decomposer_1a2baa9c51a821cff49d880c818b2cd392" prot="public" virt="non-virtual"><scope>themis::storage::TensorTrainDecomposer</scope><name>frobeniusNorm</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_train_decomposer_1ac81ce09aa0e0902aaf95b342018a0c46" prot="public" virt="non-virtual"><scope>themis::storage::TensorTrainDecomposer</scope><name>innerProduct</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_train_decomposer_1a4f4102c2ba93a9bf1a60e5818f09717b" prot="private" virt="non-virtual"><scope>themis::storage::TensorTrainDecomposer</scope><name>matMul</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_train_decomposer_1af6c4b995d4f1cabfd7f67251ae6cc540" prot="public" virt="non-virtual"><scope>themis::storage::TensorTrainDecomposer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_train_decomposer_1a8b6bf0ddd5a11cc723d67b5a512b5059" prot="public" virt="non-virtual"><scope>themis::storage::TensorTrainDecomposer</scope><name>recompress</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_train_decomposer_1a1d829fd125556e64e680439c36a43d9b" prot="public" virt="non-virtual"><scope>themis::storage::TensorTrainDecomposer</scope><name>round</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_train_decomposer_1aca3484d03b5e465de92a422460dbc171" prot="public" virt="non-virtual"><scope>themis::storage::TensorTrainDecomposer</scope><name>TensorTrainDecomposer</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_train_decomposer_1a4b76420312876cb37fce9eabe5235719" prot="public" virt="non-virtual"><scope>themis::storage::TensorTrainDecomposer</scope><name>TensorTrainDecomposer</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_train_decomposer_1ae0f54bc8d4280b3fe158c5d1c1acc420" prot="private" virt="non-virtual"><scope>themis::storage::TensorTrainDecomposer</scope><name>truncatedSVD</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_train_decomposer_1aff55c92b4019e4e2b95d2f69702c0dd9" prot="public" virt="non-virtual"><scope>themis::storage::TensorTrainDecomposer</scope><name>truncatedSVDShared</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_train_decomposer_1aa995029d86f187afc21b5c3a071ed3c5" prot="private" virt="non-virtual"><scope>themis::storage::TensorTrainDecomposer</scope><name>vecNorm</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_train_decomposer_1a546d5e1d36cca5d5d39d04089e65f8c8" prot="public" virt="non-virtual"><scope>themis::storage::TensorTrainDecomposer</scope><name>~TensorTrainDecomposer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

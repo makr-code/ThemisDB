@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1fi__test_1_1_percolator_lock_registry_1_1_lock_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themisdb::sharding::fi_test::PercolatorLockRegistry::LockEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1fi__test_1_1_percolator_lock_registry_1_1_lock_entry_1a6f5255d22b96949db07cd7f5de54ca48" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::fi_test::PercolatorLockRegistry::LockEntry::txn_id</definition>
+        <argsstring></argsstring>
+        <name>txn_id</name>
+        <qualifiedname>themisdb::sharding::fi_test::PercolatorLockRegistry::LockEntry::txn_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="986" column="32" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="986" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1fi__test_1_1_percolator_lock_registry_1_1_lock_entry_1a1c4ef24301c35f7cb6a60396cee8e12a" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themisdb::sharding::fi_test::PercolatorLockRegistry::LockEntry::expiry</definition>
+        <argsstring></argsstring>
+        <name>expiry</name>
+        <qualifiedname>themisdb::sharding::fi_test::PercolatorLockRegistry::LockEntry::expiry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="986" column="77" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="986" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="986" column="5" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="986" bodyend="986"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1fi__test_1_1_percolator_lock_registry_1_1_lock_entry_1a1c4ef24301c35f7cb6a60396cee8e12a" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::PercolatorLockRegistry::LockEntry</scope><name>expiry</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1fi__test_1_1_percolator_lock_registry_1_1_lock_entry_1a6f5255d22b96949db07cd7f5de54ca48" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::PercolatorLockRegistry::LockEntry</scope><name>txn_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_sentence_citation_mapping" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::SentenceCitationMapping</compoundname>
+    <includes refid="citation__highlighter_8h" local="no">citation_highlighter.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1_sentence_citation_mapping_1_1_secondary_source" prot="public">themis::rag::SentenceCitationMapping::SecondarySource</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_sentence_citation_mapping_1af6cb3979f96479c3a9029ce4c9a30c88" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::SentenceCitationMapping::answer_sentence</definition>
+        <argsstring></argsstring>
+        <name>answer_sentence</name>
+        <qualifiedname>themis::rag::SentenceCitationMapping::answer_sentence</qualifiedname>
+        <briefdescription>
+<para>The answer sentence (leading/trailing whitespace stripped). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/citation_highlighter.h" line="39" column="17" bodyfile="include/rag/citation_highlighter.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_sentence_citation_mapping_1a8a38d98d618101411840d31898dd2f37" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::SentenceCitationMapping::sentence_index</definition>
+        <argsstring></argsstring>
+        <name>sentence_index</name>
+        <qualifiedname>themis::rag::SentenceCitationMapping::sentence_index</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Index of this sentence in the original answer (0-based). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/citation_highlighter.h" line="41" column="17" bodyfile="include/rag/citation_highlighter.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_sentence_citation_mapping_1af23b4efdcfc7b07016c9847144a8633f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::SentenceCitationMapping::primary_chunk_id</definition>
+        <argsstring></argsstring>
+        <name>primary_chunk_id</name>
+        <qualifiedname>themis::rag::SentenceCitationMapping::primary_chunk_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>doc_id of the primary (best-matching) source chunk. Empty string when no chunk exceeded the minimum threshold. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/citation_highlighter.h" line="45" column="17" bodyfile="include/rag/citation_highlighter.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_sentence_citation_mapping_1a89d54a7da60ea2afae2a8d128a0f7acb" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::SentenceCitationMapping::primary_chunk_index</definition>
+        <argsstring></argsstring>
+        <name>primary_chunk_index</name>
+        <qualifiedname>themis::rag::SentenceCitationMapping::primary_chunk_index</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>chunk_index of the primary source chunk </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/citation_highlighter.h" line="47" column="17" bodyfile="include/rag/citation_highlighter.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_sentence_citation_mapping_1aa761ff0afe8f4eb837ddc135cd5eb811" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::SentenceCitationMapping::similarity_score</definition>
+        <argsstring></argsstring>
+        <name>similarity_score</name>
+        <qualifiedname>themis::rag::SentenceCitationMapping::similarity_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Similarity score for the primary chunk [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/citation_highlighter.h" line="49" column="17" bodyfile="include/rag/citation_highlighter.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_sentence_citation_mapping_1a7656c9a218e95024e5c59e009aef0f49" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1_sentence_citation_mapping_1_1_secondary_source" kindref="compound">SecondarySource</ref> &gt;</type>
+        <definition>std::vector&lt;SecondarySource&gt; themis::rag::SentenceCitationMapping::secondary_sources</definition>
+        <argsstring></argsstring>
+        <name>secondary_sources</name>
+        <qualifiedname>themis::rag::SentenceCitationMapping::secondary_sources</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/citation_highlighter.h" line="57" column="17" bodyfile="include/rag/citation_highlighter.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1rag_1_1_sentence_citation_mapping_1a2b47980c421d565d44aa0b338c3708ce" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::SentenceCitationMapping::has_citation</definition>
+        <argsstring>() const</argsstring>
+        <name>has_citation</name>
+        <qualifiedname>themis::rag::SentenceCitationMapping::has_citation</qualifiedname>
+        <briefdescription>
+<para>True when at least one chunk exceeded the minimum similarity threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/citation_highlighter.h" line="60" column="10" bodyfile="include/rag/citation_highlighter.h" bodystart="60" bodyend="60"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Mapping of one answer sentence to its best-matching source chunk(s). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/citation_highlighter.h" line="37" column="1" bodyfile="include/rag/citation_highlighter.h" bodystart="37" bodyend="61"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_sentence_citation_mapping_1af6cb3979f96479c3a9029ce4c9a30c88" prot="public" virt="non-virtual"><scope>themis::rag::SentenceCitationMapping</scope><name>answer_sentence</name></member>
+      <member refid="structthemis_1_1rag_1_1_sentence_citation_mapping_1a2b47980c421d565d44aa0b338c3708ce" prot="public" virt="non-virtual"><scope>themis::rag::SentenceCitationMapping</scope><name>has_citation</name></member>
+      <member refid="structthemis_1_1rag_1_1_sentence_citation_mapping_1af23b4efdcfc7b07016c9847144a8633f" prot="public" virt="non-virtual"><scope>themis::rag::SentenceCitationMapping</scope><name>primary_chunk_id</name></member>
+      <member refid="structthemis_1_1rag_1_1_sentence_citation_mapping_1a89d54a7da60ea2afae2a8d128a0f7acb" prot="public" virt="non-virtual"><scope>themis::rag::SentenceCitationMapping</scope><name>primary_chunk_index</name></member>
+      <member refid="structthemis_1_1rag_1_1_sentence_citation_mapping_1a7656c9a218e95024e5c59e009aef0f49" prot="public" virt="non-virtual"><scope>themis::rag::SentenceCitationMapping</scope><name>secondary_sources</name></member>
+      <member refid="structthemis_1_1rag_1_1_sentence_citation_mapping_1a8a38d98d618101411840d31898dd2f37" prot="public" virt="non-virtual"><scope>themis::rag::SentenceCitationMapping</scope><name>sentence_index</name></member>
+      <member refid="structthemis_1_1rag_1_1_sentence_citation_mapping_1aa761ff0afe8f4eb837ddc135cd5eb811" prot="public" virt="non-virtual"><scope>themis::rag::SentenceCitationMapping</scope><name>similarity_score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

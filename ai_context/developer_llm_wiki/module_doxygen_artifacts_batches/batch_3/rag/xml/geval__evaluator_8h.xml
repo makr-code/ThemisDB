@@ -1,0 +1,202 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="geval__evaluator_8h" kind="file" language="C++">
+    <compoundname>geval_evaluator.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">unordered_map</includes>
+    <includedby refid="quality__control__factory_8h" local="yes">include/rag/quality_control_factory.h</includedby>
+    <includedby refid="quality__control__pipeline_8h" local="yes">include/rag/quality_control_pipeline.h</includedby>
+    <includedby refid="geval__evaluator_8cpp" local="yes">src/rag/geval_evaluator.cpp</includedby>
+    <includedby refid="test__rag__judge__phase3_8cpp" local="yes">tests/rag/test_rag_judge_phase3.cpp</includedby>
+    <includedby refid="test__rag__judge__phase4_8cpp" local="yes">tests/rag/test_rag_judge_phase4.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/rag/geval_evaluator.h</label>
+        <link refid="geval__evaluator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="5">
+        <label>include/rag/continuous_learning_client.h</label>
+        <link refid="continuous__learning__client_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/rag/geval_evaluator.h</label>
+        <link refid="geval__evaluator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/rag/quality_control_factory.h</label>
+        <link refid="quality__control__factory_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/rag/quality_control_pipeline.h</label>
+        <link refid="quality__control__pipeline_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>src/rag/continuous_learning_client.cpp</label>
+        <link refid="continuous__learning__client_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/rag/geval_evaluator.cpp</label>
+        <link refid="geval__evaluator_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/rag/quality_control_factory.cpp</label>
+        <link refid="quality__control__factory_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/rag/quality_control_pipeline.cpp</label>
+        <link refid="quality__control__pipeline_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/rag/test_rag_judge_phase3.cpp</label>
+        <link refid="test__rag__judge__phase3_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/rag/test_rag_judge_phase4.cpp</label>
+        <link refid="test__rag__judge__phase4_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_g_eval_result" prot="public">themis::rag::judge::GEvalResult</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator" prot="public">themis::rag::judge::GEvalEvaluator</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1_1_config" prot="public">themis::rag::judge::GEvalEvaluator::Config</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag">themis::rag</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag_1_1judge">themis::rag::judge</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">themis::rag::judge</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="namespacethemis_1_1rag_1_1judge_1ad553e4e2f49eda32bd9acd795725920b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1ad553e4e2f49eda32bd9acd795725920b" kindref="member">AggregationMethod</ref><sp/>{</highlight></codeline>
+<codeline lineno="24" refid="namespacethemis_1_1rag_1_1judge_1ad553e4e2f49eda32bd9acd795725920ba4ea6d1161ea24d7599365f574aff6610" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1ad553e4e2f49eda32bd9acd795725920ba4ea6d1161ea24d7599365f574aff6610" kindref="member">MEAN</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="25" refid="namespacethemis_1_1rag_1_1judge_1ad553e4e2f49eda32bd9acd795725920ba8ab0c3a037e882577dec378985477074" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1ad553e4e2f49eda32bd9acd795725920ba8ab0c3a037e882577dec378985477074" kindref="member">MEDIAN</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1rag_1_1judge_1ad553e4e2f49eda32bd9acd795725920bab742db58b16f1d7de716d5e8a8afabbb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1ad553e4e2f49eda32bd9acd795725920bab742db58b16f1d7de716d5e8a8afabbb" kindref="member">MODE</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="27"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/>kNumScoreLevels<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1rag_1_1judge_1_1_g_eval_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1judge_1_1_g_eval_result" kindref="compound">GEvalResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1rag_1_1judge_1_1_g_eval_result_1a8c785d77d24f2771d6051248f0dac168" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_g_eval_result_1a8c785d77d24f2771d6051248f0dac168" kindref="member">geval_score</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1rag_1_1judge_1_1_g_eval_result_1a1d515386f66f7c82dba77845ca001d4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_g_eval_result_1a1d515386f66f7c82dba77845ca001d4b" kindref="member">token_probabilities</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1rag_1_1judge_1_1_g_eval_result_1a585d432ea10b77079c3e287cffd16262" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_g_eval_result_1a585d432ea10b77079c3e287cffd16262" kindref="member">confidence</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1rag_1_1judge_1_1_g_eval_result_1ad2740c4eafd82bcf9d7e87f6b4c4a59a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_g_eval_result_1ad2740c4eafd82bcf9d7e87f6b4c4a59a" kindref="member">sample_scores</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1rag_1_1judge_1_1_g_eval_result_1aca958065966dc7e68dc17d02193834f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_g_eval_result_1aca958065966dc7e68dc17d02193834f2" kindref="member">variance</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1rag_1_1judge_1_1_g_eval_result_1a763c7e0872cecf9c78390a12078bf21c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_g_eval_result_1a763c7e0872cecf9c78390a12078bf21c" kindref="member">dimension</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1rag_1_1judge_1_1_g_eval_result_1a111270531c3c516d939e8740d69b45bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_g_eval_result_1a111270531c3c516d939e8740d69b45bf" kindref="member">reasoning</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1a5bcd7acff2f48e66d7ac51011762b2ac" kindref="member">GEvalEvaluator</ref><sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1_1_config_1abddce6fd68045f5c1fa3a299a2e080c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1_1_config_1abddce6fd68045f5c1fa3a299a2e080c7" kindref="member">num_samples</ref><sp/>=<sp/>3;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1_1_config_1a7f90040625bc225981da194cd0f3717f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1ad553e4e2f49eda32bd9acd795725920b" kindref="member">AggregationMethod</ref><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1_1_config_1a7f90040625bc225981da194cd0f3717f" kindref="member">aggregation</ref><sp/>=<sp/><ref refid="namespacethemis_1_1rag_1_1judge_1ad553e4e2f49eda32bd9acd795725920ba4ea6d1161ea24d7599365f574aff6610" kindref="member">AggregationMethod::MEAN</ref>;</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1_1_config_1afaa3e60b6ea9e6ade7e1d4782fadee8f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1_1_config_1afaa3e60b6ea9e6ade7e1d4782fadee8f" kindref="member">temperature</ref><sp/>=<sp/>0.7;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1_1_config_1aa6e17d1afa21e180ec021f8cb23a7247" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1_1_config_1aa6e17d1afa21e180ec021f8cb23a7247" kindref="member">extract_reasoning</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1_1_config_1a5cf291c5731796d59678556ae48bc081" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1_1_config_1a5cf291c5731796d59678556ae48bc081" kindref="member">confidence_threshold</ref><sp/>=<sp/>0.6;<sp/><sp/></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1a5bcd7acff2f48e66d7ac51011762b2ac" kindref="member">GEvalEvaluator</ref>();</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1a5bcd7acff2f48e66d7ac51011762b2ac" kindref="member">GEvalEvaluator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76" refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1adcd1d6acef056ed022abdbbdd86dd7a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1adcd1d6acef056ed022abdbbdd86dd7a6" kindref="member">~GEvalEvaluator</ref>();</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_g_eval_result" kindref="compound">GEvalResult</ref><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1a72d7866ad315506c87d91e5396173884" kindref="member">evaluate</ref>(</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>answer,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;&amp;<sp/>documents,</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dimension<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;overall&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1ac605e9751f23d01963db18c018ab38ce" kindref="member">extractTokenProbabilities</ref>(</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt,</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;int&gt;&amp;<sp/>score_tokens</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1ad0b0a62583ee019dc02c617cc3607f5a" kindref="member">computeGEvalScore</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;&amp;<sp/>probabilities);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1afde1f63e37442d1b815cd65d31e115b4" kindref="member">computeConfidence</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;&amp;<sp/>probabilities);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1a5ba5a295167c4d67102fd33099810de4" kindref="member">aggregateScores</ref>(</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;&amp;<sp/>samples,</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1ad553e4e2f49eda32bd9acd795725920b" kindref="member">AggregationMethod</ref><sp/>method</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::rag::judge</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/rag/geval_evaluator.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_tesseract_plugin_test" kind="class" language="C++" prot="public">
+    <compoundname>TesseractPluginTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_tesseract_plugin_test_1a273dcf665004495c620792ba1e657a7e" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; TesseractOCRPlugin &gt;</type>
+        <definition>std::unique_ptr&lt;TesseractOCRPlugin&gt; TesseractPluginTest::plugin_</definition>
+        <argsstring></argsstring>
+        <name>plugin_</name>
+        <qualifiedname>TesseractPluginTest::plugin_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/image_analysis/test_image_analysis_phase1_focused.cpp" line="219" column="21" bodyfile="tests/image_analysis/test_image_analysis_phase1_focused.cpp" bodystart="219" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_tesseract_plugin_test_1a32cc29d72148559516a5a2e90ecfed03" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TesseractPluginTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>TesseractPluginTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/image_analysis/test_image_analysis_phase1_focused.cpp" line="206" column="10" bodyfile="tests/image_analysis/test_image_analysis_phase1_focused.cpp" bodystart="206" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="class_tesseract_plugin_test_1abb635739035fc11522b2ef547f63ea04" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TesseractPluginTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>TesseractPluginTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/image_analysis/test_image_analysis_phase1_focused.cpp" line="213" column="10" bodyfile="tests/image_analysis/test_image_analysis_phase1_focused.cpp" bodystart="213" bodyend="217"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TesseractPluginTest</label>
+        <link refid="class_tesseract_plugin_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TesseractPluginTest</label>
+        <link refid="class_tesseract_plugin_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/image_analysis/test_image_analysis_phase1_focused.cpp" line="204" column="1" bodyfile="tests/image_analysis/test_image_analysis_phase1_focused.cpp" bodystart="204" bodyend="220"/>
+    <listofallmembers>
+      <member refid="class_tesseract_plugin_test_1a273dcf665004495c620792ba1e657a7e" prot="protected" virt="non-virtual"><scope>TesseractPluginTest</scope><name>plugin_</name></member>
+      <member refid="class_tesseract_plugin_test_1a32cc29d72148559516a5a2e90ecfed03" prot="protected" virt="non-virtual"><scope>TesseractPluginTest</scope><name>SetUp</name></member>
+      <member refid="class_tesseract_plugin_test_1abb635739035fc11522b2ef547f63ea04" prot="protected" virt="non-virtual"><scope>TesseractPluginTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

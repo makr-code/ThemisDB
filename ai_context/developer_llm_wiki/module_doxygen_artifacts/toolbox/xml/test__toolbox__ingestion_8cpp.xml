@@ -1,0 +1,960 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__toolbox__ingestion_8cpp" kind="file" language="C++">
+    <compoundname>test_toolbox_ingestion.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="ingestion__toolbox_8h" local="yes">toolbox/ingestion_toolbox.h</includes>
+    <includes local="yes">aql/aql_ingestion_bridge.h</includes>
+    <includes local="yes">aql/aql_query_builder.h</includes>
+    <includes local="yes">aql/llm_aql_handler.h</includes>
+    <includes local="yes">ingestion/ingestion_sinks.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>toolbox/ingestion_toolbox.h</label>
+        <link refid="ingestion__toolbox_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/toolbox/test_toolbox_ingestion.cpp</label>
+        <link refid="test__toolbox__ingestion_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>aql/aql_ingestion_bridge.h</label>
+      </node>
+      <node id="16">
+        <label>aql/aql_query_builder.h</label>
+      </node>
+      <node id="17">
+        <label>aql/llm_aql_handler.h</label>
+      </node>
+      <node id="10">
+        <label>atomic</label>
+      </node>
+      <node id="11">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>ingestion/base_entity.h</label>
+      </node>
+      <node id="5">
+        <label>ingestion/builtin_step_factories.h</label>
+      </node>
+      <node id="8">
+        <label>ingestion/extraction_context.h</label>
+      </node>
+      <node id="9">
+        <label>ingestion/file_manifest.h</label>
+      </node>
+      <node id="6">
+        <label>ingestion/inference_backend.h</label>
+      </node>
+      <node id="18">
+        <label>ingestion/ingestion_sinks.h</label>
+      </node>
+      <node id="4">
+        <label>ingestion/workflow_engine.h</label>
+      </node>
+      <node id="12">
+        <label>memory</label>
+      </node>
+      <node id="13">
+        <label>string</label>
+      </node>
+      <node id="14">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis_1_1ingestion">themis::ingestion</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__toolbox__ingestion_8cpp_1a1e4cf9dcebc97b9a8748feb705d76f6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionToolbox, IT01_DefaultConstruct)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref></type>
+        </param>
+        <param>
+          <type>IT01_DefaultConstruct</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_ingestion.cpp" line="55" column="1" bodyfile="tests/toolbox/test_toolbox_ingestion.cpp" bodystart="55" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__ingestion_8cpp_1a2e6521075003c3d2f5ddc4928982faa8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionToolbox, IT02_CreateDefault)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref></type>
+        </param>
+        <param>
+          <type>IT02_CreateDefault</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_ingestion.cpp" line="60" column="1" bodyfile="tests/toolbox/test_toolbox_ingestion.cpp" bodystart="60" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__ingestion_8cpp_1a95d008ce6cc335a0bf7b287afe02711a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionToolbox, IT03_WorkflowEngineNeverNull)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref></type>
+        </param>
+        <param>
+          <type>IT03_WorkflowEngineNeverNull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_ingestion.cpp" line="66" column="1" bodyfile="tests/toolbox/test_toolbox_ingestion.cpp" bodystart="66" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__ingestion_8cpp_1a332e7d3eb559a60a0a838a9fdff55a98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionToolbox, IT04_DefaultTextBackendIsNull)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref></type>
+        </param>
+        <param>
+          <type>IT04_DefaultTextBackendIsNull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_ingestion.cpp" line="71" column="1" bodyfile="tests/toolbox/test_toolbox_ingestion.cpp" bodystart="71" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__ingestion_8cpp_1a4c2d1ec9222b5fbdcac1a2bf4974103c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionToolbox, IT05_SetTextBackendNullReinstatesNull)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref></type>
+        </param>
+        <param>
+          <type>IT05_SetTextBackendNullReinstatesNull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_ingestion.cpp" line="79" column="1" bodyfile="tests/toolbox/test_toolbox_ingestion.cpp" bodystart="79" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__ingestion_8cpp_1a696c37cc25f90967e26f3ac93e103c88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionToolbox, IT06_SetWorkflowEngineNullThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref></type>
+        </param>
+        <param>
+          <type>IT06_SetWorkflowEngineNullThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_ingestion.cpp" line="88" column="1" bodyfile="tests/toolbox/test_toolbox_ingestion.cpp" bodystart="88" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__ingestion_8cpp_1ad6d765aa2053a45930522f83bccf2b1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionToolbox, IT07_SetWorkflowEngineReplaces)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref></type>
+        </param>
+        <param>
+          <type>IT07_SetWorkflowEngineReplaces</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_ingestion.cpp" line="93" column="1" bodyfile="tests/toolbox/test_toolbox_ingestion.cpp" bodystart="93" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__ingestion_8cpp_1a22d2d3885b934d6aa79688d78fc740ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionToolbox, IT08_StepRegistryAccessible)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref></type>
+        </param>
+        <param>
+          <type>IT08_StepRegistryAccessible</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_ingestion.cpp" line="102" column="1" bodyfile="tests/toolbox/test_toolbox_ingestion.cpp" bodystart="102" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__ingestion_8cpp_1a4a92c5ec95d125ea30ac21a447a2dec2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionToolbox, IT09_ExtractEntitiesEmptyTextReturnsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref></type>
+        </param>
+        <param>
+          <type>IT09_ExtractEntitiesEmptyTextReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_ingestion.cpp" line="110" column="1" bodyfile="tests/toolbox/test_toolbox_ingestion.cpp" bodystart="110" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__ingestion_8cpp_1aadc3d8a18542e500c14aa433c26f552d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionToolbox, IT10_ExtractEntitiesTextNoCrash)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref></type>
+        </param>
+        <param>
+          <type>IT10_ExtractEntitiesTextNoCrash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_ingestion.cpp" line="116" column="1" bodyfile="tests/toolbox/test_toolbox_ingestion.cpp" bodystart="116" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__ingestion_8cpp_1af04385c6abf8376075b98aac8c3bb82f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionToolbox, IT11_MetricsTrackEmptyExtractions)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref></type>
+        </param>
+        <param>
+          <type>IT11_MetricsTrackEmptyExtractions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_ingestion.cpp" line="125" column="1" bodyfile="tests/toolbox/test_toolbox_ingestion.cpp" bodystart="125" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__ingestion_8cpp_1a83c3cbb31da01804a7c3cd6056f04e79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionToolbox, IT12_ExtractEntitySetWithEmptyText)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref></type>
+        </param>
+        <param>
+          <type>IT12_ExtractEntitySetWithEmptyText</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_ingestion.cpp" line="138" column="1" bodyfile="tests/toolbox/test_toolbox_ingestion.cpp" bodystart="138" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__ingestion_8cpp_1abf31aef691e364a24fa83b2523ca02da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLIngestionBridge, AB01_ConstructWithValidToolbox)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLIngestionBridge</type>
+        </param>
+        <param>
+          <type>AB01_ConstructWithValidToolbox</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_ingestion.cpp" line="161" column="1" bodyfile="tests/toolbox/test_toolbox_ingestion.cpp" bodystart="161" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__ingestion_8cpp_1a35fd5b3bc288aa1992950fdea04e86cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLIngestionBridge, AB02_ConstructWithNullToolboxThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLIngestionBridge</type>
+        </param>
+        <param>
+          <type>AB02_ConstructWithNullToolboxThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_ingestion.cpp" line="166" column="1" bodyfile="tests/toolbox/test_toolbox_ingestion.cpp" bodystart="166" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__ingestion_8cpp_1a2be846415b9ad20637a476ee214aafb5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLIngestionBridge, AB03_ToolboxAccessor)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLIngestionBridge</type>
+        </param>
+        <param>
+          <type>AB03_ToolboxAccessor</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_ingestion.cpp" line="170" column="1" bodyfile="tests/toolbox/test_toolbox_ingestion.cpp" bodystart="170" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__ingestion_8cpp_1af5447eb51df733fa5ff202c78643d601" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLIngestionBridge, AB04_GraphWriterNullByDefault)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLIngestionBridge</type>
+        </param>
+        <param>
+          <type>AB04_GraphWriterNullByDefault</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_ingestion.cpp" line="176" column="1" bodyfile="tests/toolbox/test_toolbox_ingestion.cpp" bodystart="176" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__ingestion_8cpp_1a97397624438bbe1d9683f3ea2b709c96" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLIngestionBridge, AB05_EnrichNonObjectIsNoop)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLIngestionBridge</type>
+        </param>
+        <param>
+          <type>AB05_EnrichNonObjectIsNoop</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_ingestion.cpp" line="182" column="1" bodyfile="tests/toolbox/test_toolbox_ingestion.cpp" bodystart="182" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__ingestion_8cpp_1a47024ce79e047ed9ef8634b700dd58bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLIngestionBridge, AB06_EnrichObjectWithoutTextField)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLIngestionBridge</type>
+        </param>
+        <param>
+          <type>AB06_EnrichObjectWithoutTextField</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_ingestion.cpp" line="192" column="1" bodyfile="tests/toolbox/test_toolbox_ingestion.cpp" bodystart="192" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__ingestion_8cpp_1a9d9459b6ff231ca834313160b320d0b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLIngestionBridge, AB07_EnrichObjectWithTextFieldNoCrash)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLIngestionBridge</type>
+        </param>
+        <param>
+          <type>AB07_EnrichObjectWithTextFieldNoCrash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_ingestion.cpp" line="202" column="1" bodyfile="tests/toolbox/test_toolbox_ingestion.cpp" bodystart="202" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__ingestion_8cpp_1afee6f8ed690703f69cce67082ffe5ae4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLIngestionBridge, AB08_ExtractEntitiesForContextEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLIngestionBridge</type>
+        </param>
+        <param>
+          <type>AB08_ExtractEntitiesForContextEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_ingestion.cpp" line="212" column="1" bodyfile="tests/toolbox/test_toolbox_ingestion.cpp" bodystart="212" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__ingestion_8cpp_1a42780f55939a4ee0637bd906f4a07710" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLIngestionBridge, AB09_BuildEntityContextEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLIngestionBridge</type>
+        </param>
+        <param>
+          <type>AB09_BuildEntityContextEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_ingestion.cpp" line="219" column="1" bodyfile="tests/toolbox/test_toolbox_ingestion.cpp" bodystart="219" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__ingestion_8cpp_1ab98fa72686ad97d04911f6614c7631e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLIngestionBridge, AB10_BuildEntityContextNonEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLIngestionBridge</type>
+        </param>
+        <param>
+          <type>AB10_BuildEntityContextNonEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_ingestion.cpp" line="224" column="1" bodyfile="tests/toolbox/test_toolbox_ingestion.cpp" bodystart="224" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__ingestion_8cpp_1a0e1ea080067e25a4c72b37cb08b84e5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLQueryBuilderEnrichment, QB01_DefaultFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLQueryBuilderEnrichment</type>
+        </param>
+        <param>
+          <type>QB01_DefaultFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_ingestion.cpp" line="241" column="1" bodyfile="tests/toolbox/test_toolbox_ingestion.cpp" bodystart="241" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__ingestion_8cpp_1aeacf160148776c734f4674d6b3add84e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLQueryBuilderEnrichment, QB02_SetTrue)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLQueryBuilderEnrichment</type>
+        </param>
+        <param>
+          <type>QB02_SetTrue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_ingestion.cpp" line="246" column="1" bodyfile="tests/toolbox/test_toolbox_ingestion.cpp" bodystart="246" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__ingestion_8cpp_1a9a94f3bae8a93aba0d593e69eb53ebb1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLQueryBuilderEnrichment, QB03_SetFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLQueryBuilderEnrichment</type>
+        </param>
+        <param>
+          <type>QB03_SetFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_ingestion.cpp" line="252" column="1" bodyfile="tests/toolbox/test_toolbox_ingestion.cpp" bodystart="252" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__ingestion_8cpp_1afe3092400968f57f6e1f24740d58df68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLQueryBuilderEnrichment, QB04_Fluent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLQueryBuilderEnrichment</type>
+        </param>
+        <param>
+          <type>QB04_Fluent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_ingestion.cpp" line="259" column="1" bodyfile="tests/toolbox/test_toolbox_ingestion.cpp" bodystart="259" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__ingestion_8cpp_1adc04d3d70b7bf7152f2302b7d9c9fff0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMAQLHandlerBridge, LH01_SetNullBridgeAccepted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMAQLHandlerBridge</type>
+        </param>
+        <param>
+          <type>LH01_SetNullBridgeAccepted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_ingestion.cpp" line="270" column="1" bodyfile="tests/toolbox/test_toolbox_ingestion.cpp" bodystart="270" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__ingestion_8cpp_1a42f6aa747440e815162e0a73c185592c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMAQLHandlerBridge, LH02_BridgeNullByDefault)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMAQLHandlerBridge</type>
+        </param>
+        <param>
+          <type>LH02_BridgeNullByDefault</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_ingestion.cpp" line="275" column="1" bodyfile="tests/toolbox/test_toolbox_ingestion.cpp" bodystart="275" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__ingestion_8cpp_1acbd6094db129e11200e77ee982d54104" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMAQLHandlerBridge, LH03_SetBridgeStoredAndRetrievable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMAQLHandlerBridge</type>
+        </param>
+        <param>
+          <type>LH03_SetBridgeStoredAndRetrievable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_ingestion.cpp" line="280" column="1" bodyfile="tests/toolbox/test_toolbox_ingestion.cpp" bodystart="280" bodyend="286"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>ThemisDB<sp/>—<sp/>Toolbox<sp/>+<sp/>AQLIngestionBridge<sp/>unit<sp/>tests</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*<sp/>Tests:</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*<sp/><sp/><sp/>IT-01<sp/><sp/>IngestionToolbox:<sp/>default<sp/>constructor<sp/>creates<sp/>non-null<sp/>instance</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*<sp/><sp/><sp/>IT-02<sp/><sp/>IngestionToolbox::createDefault()<sp/>returns<sp/>valid<sp/>shared_ptr</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/>*<sp/><sp/><sp/>IT-03<sp/><sp/>IngestionToolbox::workflowEngine()<sp/>never<sp/>null<sp/>after<sp/>construction</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"><sp/>*<sp/><sp/><sp/>IT-04<sp/><sp/>IngestionToolbox::textBackend()<sp/>returns<sp/>NullTextGenerationBackend<sp/>by<sp/>default</highlight></codeline>
+<codeline lineno="9"><highlight class="comment"><sp/>*<sp/><sp/><sp/>IT-05<sp/><sp/>IngestionToolbox::setTextBackend(nullptr)<sp/>reinstates<sp/>NullTextGenerationBackend</highlight></codeline>
+<codeline lineno="10"><highlight class="comment"><sp/>*<sp/><sp/><sp/>IT-06<sp/><sp/>IngestionToolbox::setWorkflowEngine(null)<sp/>throws</highlight></codeline>
+<codeline lineno="11"><highlight class="comment"><sp/>*<sp/><sp/><sp/>IT-07<sp/><sp/>IngestionToolbox::setWorkflowEngine(real)<sp/>replaces<sp/>engine</highlight></codeline>
+<codeline lineno="12"><highlight class="comment"><sp/>*<sp/><sp/><sp/>IT-08<sp/><sp/>IngestionToolbox::stepRegistry()<sp/>accessible<sp/>(list<sp/>returns<sp/>vector)</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"><sp/>*<sp/><sp/><sp/>IT-09<sp/><sp/>IngestionToolbox::extractEntities(&quot;&quot;)<sp/>returns<sp/>empty<sp/>vector</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/>*<sp/><sp/><sp/>IT-10<sp/><sp/>IngestionToolbox::extractEntities(text)<sp/>returns<sp/>vector<sp/>(no<sp/>crash)</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"><sp/>*<sp/><sp/><sp/>AB-01<sp/><sp/>AQLIngestionBridge:<sp/>construction<sp/>with<sp/>valid<sp/>toolbox<sp/>succeeds</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/>*<sp/><sp/><sp/>AB-02<sp/><sp/>AQLIngestionBridge:<sp/>construction<sp/>with<sp/>null<sp/>toolbox<sp/>throws</highlight></codeline>
+<codeline lineno="17"><highlight class="comment"><sp/>*<sp/><sp/><sp/>AB-03<sp/><sp/>AQLIngestionBridge::toolbox()<sp/>returns<sp/>injected<sp/>toolbox</highlight></codeline>
+<codeline lineno="18"><highlight class="comment"><sp/>*<sp/><sp/><sp/>AB-04<sp/><sp/>AQLIngestionBridge::graphWriter()<sp/>returns<sp/>nullptr<sp/>when<sp/>not<sp/>injected</highlight></codeline>
+<codeline lineno="19"><highlight class="comment"><sp/>*<sp/><sp/><sp/>AB-05<sp/><sp/>AQLIngestionBridge::enrichInsertPayload()<sp/>non-object<sp/>JSON<sp/>is<sp/>no-op</highlight></codeline>
+<codeline lineno="20"><highlight class="comment"><sp/>*<sp/><sp/><sp/>AB-06<sp/><sp/>AQLIngestionBridge::enrichInsertPayload()<sp/>object<sp/>without<sp/>text<sp/>field<sp/>is<sp/>no-op</highlight></codeline>
+<codeline lineno="21"><highlight class="comment"><sp/>*<sp/><sp/><sp/>AB-07<sp/><sp/>AQLIngestionBridge::enrichInsertPayload()<sp/>with<sp/>text<sp/>field<sp/>does<sp/>not<sp/>crash</highlight></codeline>
+<codeline lineno="22"><highlight class="comment"><sp/>*<sp/><sp/><sp/>AB-08<sp/><sp/>AQLIngestionBridge::extractEntitiesForContext(&quot;&quot;)<sp/>returns<sp/>empty</highlight></codeline>
+<codeline lineno="23"><highlight class="comment"><sp/>*<sp/><sp/><sp/>AB-09<sp/><sp/>AQLIngestionBridge::buildEntityContext({})<sp/>returns<sp/>empty<sp/>string</highlight></codeline>
+<codeline lineno="24"><highlight class="comment"><sp/>*<sp/><sp/><sp/>AB-10<sp/><sp/>AQLIngestionBridge::buildEntityContext(entities)<sp/>contains<sp/>&quot;Extracted<sp/>entities:&quot;</highlight></codeline>
+<codeline lineno="25"><highlight class="comment"><sp/>*<sp/><sp/><sp/>QB-01<sp/><sp/>AQLQueryBuilder::withIngestionEnrichment()<sp/>defaults<sp/>to<sp/>false</highlight></codeline>
+<codeline lineno="26"><highlight class="comment"><sp/>*<sp/><sp/><sp/>QB-02<sp/><sp/>AQLQueryBuilder::withIngestionEnrichment(true)<sp/>sets<sp/>flag</highlight></codeline>
+<codeline lineno="27"><highlight class="comment"><sp/>*<sp/><sp/><sp/>QB-03<sp/><sp/>AQLQueryBuilder::withIngestionEnrichment(false)<sp/>unsets<sp/>flag</highlight></codeline>
+<codeline lineno="28"><highlight class="comment"><sp/>*<sp/><sp/><sp/>QB-04<sp/><sp/>withIngestionEnrichment()<sp/>is<sp/>fluent<sp/>(returns<sp/>*this)</highlight></codeline>
+<codeline lineno="29"><highlight class="comment"><sp/>*<sp/><sp/><sp/>LH-01<sp/><sp/>LLMAQLHandler::setIngestionBridge(nullptr)<sp/>accepted</highlight></codeline>
+<codeline lineno="30"><highlight class="comment"><sp/>*<sp/><sp/><sp/>LH-02<sp/><sp/>LLMAQLHandler::ingestionBridge()<sp/>returns<sp/>nullptr<sp/>when<sp/>not<sp/>set</highlight></codeline>
+<codeline lineno="31"><highlight class="comment"><sp/>*<sp/><sp/><sp/>LH-03<sp/><sp/>LLMAQLHandler::setIngestionBridge(bridge)<sp/>stored<sp/>and<sp/>retrievable</highlight></codeline>
+<codeline lineno="32"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ingestion__toolbox_8h" kindref="compound">toolbox/ingestion_toolbox.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;aql/aql_ingestion_bridge.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;aql/aql_query_builder.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;aql/llm_aql_handler.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ingestion/ingestion_sinks.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1toolbox" kindref="compound">themis::toolbox</ref>;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1aql" kindref="compound">themis::aql</ref>;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::ingestion;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IngestionToolbox<sp/>tests<sp/>(IT-*)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><ref refid="test__toolbox__ingestion_8cpp_1a1e4cf9dcebc97b9a8748feb705d76f6c" kindref="member">TEST</ref>(<ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox" kindref="compound">IngestionToolbox</ref>,<sp/>IT01_DefaultConstruct)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox" kindref="compound">IngestionToolbox</ref><sp/><ref refid="namespacethemis_1_1toolbox" kindref="compound">toolbox</ref>;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1toolbox" kindref="compound">toolbox</ref>.workflowEngine(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="test__toolbox__ingestion_8cpp_1a1e4cf9dcebc97b9a8748feb705d76f6c" kindref="member">TEST</ref>(<ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox" kindref="compound">IngestionToolbox</ref>,<sp/>IT02_CreateDefault)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tb<sp/>=<sp/><ref refid="class_ingestion_toolbox_1a49622a75716aa4535acdf5e84c5aa871" kindref="member">IngestionToolbox::createDefault</ref>();</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(tb,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(tb-&gt;workflowEngine(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><ref refid="test__toolbox__ingestion_8cpp_1a1e4cf9dcebc97b9a8748feb705d76f6c" kindref="member">TEST</ref>(<ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox" kindref="compound">IngestionToolbox</ref>,<sp/>IT03_WorkflowEngineNeverNull)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox" kindref="compound">IngestionToolbox</ref><sp/>tb;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(tb.<ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1ae82309c1d91e66bab932542f5a3810f9" kindref="member">workflowEngine</ref>(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><ref refid="test__toolbox__ingestion_8cpp_1a1e4cf9dcebc97b9a8748feb705d76f6c" kindref="member">TEST</ref>(<ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox" kindref="compound">IngestionToolbox</ref>,<sp/>IT04_DefaultTextBackendIsNull)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox" kindref="compound">IngestionToolbox</ref><sp/>tb;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>backend<sp/>=<sp/>tb.<ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a108aad122de096def1394a6bd5c7ebf8" kindref="member">textBackend</ref>();</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(backend,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>default<sp/>is<sp/>NullTextGenerationBackend<sp/>—<sp/>it<sp/>is<sp/>unavailable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(backend-&gt;isAvailable());</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><ref refid="test__toolbox__ingestion_8cpp_1a1e4cf9dcebc97b9a8748feb705d76f6c" kindref="member">TEST</ref>(<ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox" kindref="compound">IngestionToolbox</ref>,<sp/>IT05_SetTextBackendNullReinstatesNull)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tb<sp/>=<sp/><ref refid="class_ingestion_toolbox_1a49622a75716aa4535acdf5e84c5aa871" kindref="member">IngestionToolbox::createDefault</ref>();</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Inject<sp/>a<sp/>real-ish<sp/>backend,<sp/>then<sp/>reset<sp/>with<sp/>nullptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>dummy<sp/>=<sp/>std::make_shared&lt;NullTextGenerationBackend&gt;();</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>tb-&gt;<ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a1e8e208ea9a06265a0528db9f61196d7" kindref="member">setTextBackend</ref>(dummy);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>tb-&gt;<ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a1e8e208ea9a06265a0528db9f61196d7" kindref="member">setTextBackend</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>must<sp/>reinstate<sp/>NullTextGenerationBackend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(tb-&gt;<ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a108aad122de096def1394a6bd5c7ebf8" kindref="member">textBackend</ref>()-&gt;isAvailable());</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><ref refid="test__toolbox__ingestion_8cpp_1a1e4cf9dcebc97b9a8748feb705d76f6c" kindref="member">TEST</ref>(<ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox" kindref="compound">IngestionToolbox</ref>,<sp/>IT06_SetWorkflowEngineNullThrows)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox" kindref="compound">IngestionToolbox</ref><sp/>tb;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(tb.<ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a6c27ee57faf4a9df0f21890820ed4435" kindref="member">setWorkflowEngine</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">),<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><ref refid="test__toolbox__ingestion_8cpp_1a1e4cf9dcebc97b9a8748feb705d76f6c" kindref="member">TEST</ref>(<ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox" kindref="compound">IngestionToolbox</ref>,<sp/>IT07_SetWorkflowEngineReplaces)<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox" kindref="compound">IngestionToolbox</ref><sp/>tb;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>old_engine<sp/>=<sp/>tb.<ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1ae82309c1d91e66bab932542f5a3810f9" kindref="member">workflowEngine</ref>();</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>new_engine<sp/>=<sp/>std::make_shared&lt;ingestion::WorkflowEngine&gt;();</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>tb.<ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a6c27ee57faf4a9df0f21890820ed4435" kindref="member">setWorkflowEngine</ref>(new_engine);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tb.<ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1ae82309c1d91e66bab932542f5a3810f9" kindref="member">workflowEngine</ref>(),<sp/>new_engine);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(tb.<ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1ae82309c1d91e66bab932542f5a3810f9" kindref="member">workflowEngine</ref>(),<sp/>old_engine);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><ref refid="test__toolbox__ingestion_8cpp_1a1e4cf9dcebc97b9a8748feb705d76f6c" kindref="member">TEST</ref>(<ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox" kindref="compound">IngestionToolbox</ref>,<sp/>IT08_StepRegistryAccessible)<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox" kindref="compound">IngestionToolbox</ref><sp/>tb;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>reg<sp/>=<sp/>tb.<ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a472e6c5dc8b90dfeabc8ac75b2af69bb" kindref="member">stepRegistry</ref>();</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>listSteps()<sp/>should<sp/>return<sp/>a<sp/>vector<sp/>(possibly<sp/>empty<sp/>or<sp/>pre-populated)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>steps<sp/>=<sp/>reg.listSteps();</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(steps.size(),<sp/>0u);<sp/></highlight><highlight class="comment">//<sp/>at<sp/>least<sp/>doesn&apos;t<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><ref refid="test__toolbox__ingestion_8cpp_1a1e4cf9dcebc97b9a8748feb705d76f6c" kindref="member">TEST</ref>(<ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox" kindref="compound">IngestionToolbox</ref>,<sp/>IT09_ExtractEntitiesEmptyTextReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tb<sp/>=<sp/><ref refid="class_ingestion_toolbox_1a49622a75716aa4535acdf5e84c5aa871" kindref="member">IngestionToolbox::createDefault</ref>();</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>entities<sp/>=<sp/>tb-&gt;<ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1affd43cdad59ce49fcfa9f83f381e4a7f" kindref="member">extractEntities</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(entities.empty());</highlight></codeline>
+<codeline lineno="114"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><ref refid="test__toolbox__ingestion_8cpp_1a1e4cf9dcebc97b9a8748feb705d76f6c" kindref="member">TEST</ref>(<ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox" kindref="compound">IngestionToolbox</ref>,<sp/>IT10_ExtractEntitiesTextNoCrash)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tb<sp/>=<sp/><ref refid="class_ingestion_toolbox_1a49622a75716aa4535acdf5e84c5aa871" kindref="member">IngestionToolbox::createDefault</ref>();</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>profiles<sp/>loaded<sp/>→<sp/>execute<sp/>returns<sp/>ERR_WORKFLOW_NO_MATCHING_PROFILE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>→<sp/>extractEntities()<sp/>degrades<sp/>gracefully<sp/>and<sp/>returns<sp/>{}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>entities<sp/>=<sp/>tb-&gt;<ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1affd43cdad59ce49fcfa9f83f381e4a7f" kindref="member">extractEntities</ref>(</highlight><highlight class="stringliteral">&quot;Der<sp/>Antragsteller<sp/>beantragt<sp/>die<sp/>Genehmigung.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Result<sp/>may<sp/>be<sp/>empty<sp/>(no<sp/>profiles<sp/>loaded)<sp/>or<sp/>non-empty;<sp/>must<sp/>not<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><ref refid="test__toolbox__ingestion_8cpp_1a1e4cf9dcebc97b9a8748feb705d76f6c" kindref="member">TEST</ref>(<ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox" kindref="compound">IngestionToolbox</ref>,<sp/>IT11_MetricsTrackEmptyExtractions)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tb<sp/>=<sp/><ref refid="class_ingestion_toolbox_1a49622a75716aa4535acdf5e84c5aa871" kindref="member">IngestionToolbox::createDefault</ref>();</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Extract<sp/>with<sp/>empty<sp/>result<sp/>(null<sp/>backend<sp/>returns<sp/>empty)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result1<sp/>=<sp/>tb-&gt;<ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a19df1cedc0cdf6fecf649ade1e2b7572" kindref="member">extractEntitySet</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result1.nodes.empty()<sp/>&amp;&amp;<sp/>result1.chunks.empty());</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Metrics<sp/>should<sp/>reflect<sp/>the<sp/>call</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>metrics<sp/>=<sp/>tb-&gt;<ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1ac0b1290261e7a9b2d061b85af49a312c" kindref="member">getMetricsText</ref>();</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(metrics.find(</highlight><highlight class="stringliteral">&quot;toolbox_extract_calls_total&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(metrics.find(</highlight><highlight class="stringliteral">&quot;toolbox_extract_empty_results_total&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><ref refid="test__toolbox__ingestion_8cpp_1a1e4cf9dcebc97b9a8748feb705d76f6c" kindref="member">TEST</ref>(<ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox" kindref="compound">IngestionToolbox</ref>,<sp/>IT12_ExtractEntitySetWithEmptyText)<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tb<sp/>=<sp/><ref refid="class_ingestion_toolbox_1a49622a75716aa4535acdf5e84c5aa871" kindref="member">IngestionToolbox::createDefault</ref>();</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>tb-&gt;<ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a19df1cedc0cdf6fecf649ade1e2b7572" kindref="member">extractEntitySet</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;text/plain&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;file.txt&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Empty<sp/>text<sp/>should<sp/>produce<sp/>empty<sp/>entity<sp/>set</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.nodes.empty());</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.chunks.empty());</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>metrics<sp/>track<sp/>this<sp/>as<sp/>empty<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>metrics<sp/>=<sp/>tb-&gt;<ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1ac0b1290261e7a9b2d061b85af49a312c" kindref="member">getMetricsText</ref>();</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(metrics.empty());</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AQLIngestionBridge<sp/>tests<sp/>(AB-*)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">std::shared_ptr&lt;IngestionToolbox&gt;<sp/>makeToolbox()<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_ingestion_toolbox_1a49622a75716aa4535acdf5e84c5aa871" kindref="member">IngestionToolbox::createDefault</ref>();</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><ref refid="test__toolbox__ingestion_8cpp_1a1e4cf9dcebc97b9a8748feb705d76f6c" kindref="member">TEST</ref>(AQLIngestionBridge,<sp/>AB01_ConstructWithValidToolbox)<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tb<sp/>=<sp/>makeToolbox();</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(AQLIngestionBridge<sp/>bridge(tb));</highlight></codeline>
+<codeline lineno="164"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><ref refid="test__toolbox__ingestion_8cpp_1a1e4cf9dcebc97b9a8748feb705d76f6c" kindref="member">TEST</ref>(AQLIngestionBridge,<sp/>AB02_ConstructWithNullToolboxThrows)<sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(AQLIngestionBridge<sp/>bridge(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">),<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><ref refid="test__toolbox__ingestion_8cpp_1a1e4cf9dcebc97b9a8748feb705d76f6c" kindref="member">TEST</ref>(AQLIngestionBridge,<sp/>AB03_ToolboxAccessor)<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tb<sp/>=<sp/>makeToolbox();</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>AQLIngestionBridge<sp/>bridge(tb);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(bridge.toolbox(),<sp/>tb);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><ref refid="test__toolbox__ingestion_8cpp_1a1e4cf9dcebc97b9a8748feb705d76f6c" kindref="member">TEST</ref>(AQLIngestionBridge,<sp/>AB04_GraphWriterNullByDefault)<sp/>{</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tb<sp/>=<sp/>makeToolbox();</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>AQLIngestionBridge<sp/>bridge(tb);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(bridge.graphWriter(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><ref refid="test__toolbox__ingestion_8cpp_1a1e4cf9dcebc97b9a8748feb705d76f6c" kindref="member">TEST</ref>(AQLIngestionBridge,<sp/>AB05_EnrichNonObjectIsNoop)<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tb<sp/>=<sp/>makeToolbox();</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>AQLIngestionBridge<sp/>bridge(tb);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>arr<sp/>=<sp/>nlohmann::json::array();</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>bridge.enrichInsertPayload(arr);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ctx.empty());</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(arr.is_array());<sp/></highlight><highlight class="comment">//<sp/>unchanged</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><ref refid="test__toolbox__ingestion_8cpp_1a1e4cf9dcebc97b9a8748feb705d76f6c" kindref="member">TEST</ref>(AQLIngestionBridge,<sp/>AB06_EnrichObjectWithoutTextField)<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tb<sp/>=<sp/>makeToolbox();</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>AQLIngestionBridge<sp/>bridge(tb);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>doc<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">,<sp/>30}};</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>bridge.enrichInsertPayload(doc);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ctx.empty());</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(doc.contains(</highlight><highlight class="stringliteral">&quot;_entities&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><ref refid="test__toolbox__ingestion_8cpp_1a1e4cf9dcebc97b9a8748feb705d76f6c" kindref="member">TEST</ref>(AQLIngestionBridge,<sp/>AB07_EnrichObjectWithTextFieldNoCrash)<sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tb<sp/>=<sp/>makeToolbox();</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>AQLIngestionBridge<sp/>bridge(tb);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>doc<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;text&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Some<sp/>legal<sp/>text<sp/>about<sp/>§<sp/>4<sp/>BImSchG.&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(bridge.enrichInsertPayload(doc));</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>_entities<sp/>may<sp/>or<sp/>may<sp/>not<sp/>be<sp/>added<sp/>depending<sp/>on<sp/>workflow<sp/>profiles<sp/>loaded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="210"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><ref refid="test__toolbox__ingestion_8cpp_1a1e4cf9dcebc97b9a8748feb705d76f6c" kindref="member">TEST</ref>(AQLIngestionBridge,<sp/>AB08_ExtractEntitiesForContextEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tb<sp/>=<sp/>makeToolbox();</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>AQLIngestionBridge<sp/>bridge(tb);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>entities<sp/>=<sp/>bridge.extractEntitiesForContext(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(entities.empty());</highlight></codeline>
+<codeline lineno="217"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><ref refid="test__toolbox__ingestion_8cpp_1a1e4cf9dcebc97b9a8748feb705d76f6c" kindref="member">TEST</ref>(AQLIngestionBridge,<sp/>AB09_BuildEntityContextEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>ctx<sp/>=<sp/>AQLIngestionBridge::buildEntityContext({});</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ctx.empty());</highlight></codeline>
+<codeline lineno="222"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><ref refid="test__toolbox__ingestion_8cpp_1a1e4cf9dcebc97b9a8748feb705d76f6c" kindref="member">TEST</ref>(AQLIngestionBridge,<sp/>AB10_BuildEntityContextNonEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseEntity<sp/>e;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>e.id<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;law:BGB:§823&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>e.entity_type<sp/>=<sp/>EntityType::LEGAL_PROVISION;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>e.text<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;§<sp/>823<sp/>BGB&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>AQLIngestionBridge::buildEntityContext({e});</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ctx.empty());</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(ctx.find(</highlight><highlight class="stringliteral">&quot;Extracted<sp/>entities:&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(ctx.find(</highlight><highlight class="stringliteral">&quot;LEGAL_PROVISION&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(ctx.find(</highlight><highlight class="stringliteral">&quot;law:BGB:§823&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AQLQueryBuilder<sp/>enrichment<sp/>flag<sp/>tests<sp/>(QB-*)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><ref refid="test__toolbox__ingestion_8cpp_1a1e4cf9dcebc97b9a8748feb705d76f6c" kindref="member">TEST</ref>(AQLQueryBuilderEnrichment,<sp/>QB01_DefaultFalse)<sp/>{</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>AQLQueryBuilder<sp/>builder;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(builder.hasIngestionEnrichment());</highlight></codeline>
+<codeline lineno="244"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><ref refid="test__toolbox__ingestion_8cpp_1a1e4cf9dcebc97b9a8748feb705d76f6c" kindref="member">TEST</ref>(AQLQueryBuilderEnrichment,<sp/>QB02_SetTrue)<sp/>{</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>AQLQueryBuilder<sp/>builder;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>builder.withIngestionEnrichment(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(builder.hasIngestionEnrichment());</highlight></codeline>
+<codeline lineno="250"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><ref refid="test__toolbox__ingestion_8cpp_1a1e4cf9dcebc97b9a8748feb705d76f6c" kindref="member">TEST</ref>(AQLQueryBuilderEnrichment,<sp/>QB03_SetFalse)<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>AQLQueryBuilder<sp/>builder;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>builder.withIngestionEnrichment(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>builder.withIngestionEnrichment(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(builder.hasIngestionEnrichment());</highlight></codeline>
+<codeline lineno="257"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><ref refid="test__toolbox__ingestion_8cpp_1a1e4cf9dcebc97b9a8748feb705d76f6c" kindref="member">TEST</ref>(AQLQueryBuilderEnrichment,<sp/>QB04_Fluent)<sp/>{</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>AQLQueryBuilder<sp/>builder;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>withIngestionEnrichment<sp/>must<sp/>return<sp/>*this<sp/>for<sp/>fluent<sp/>chaining</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>ref<sp/>=<sp/>builder.withIngestionEnrichment(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(&amp;ref,<sp/>&amp;builder);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LLMAQLHandler<sp/>bridge<sp/>injection<sp/>tests<sp/>(LH-*)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><ref refid="test__toolbox__ingestion_8cpp_1a1e4cf9dcebc97b9a8748feb705d76f6c" kindref="member">TEST</ref>(LLMAQLHandlerBridge,<sp/>LH01_SetNullBridgeAccepted)<sp/>{</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>LLMAQLHandler<sp/>handler;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(handler.setIngestionBridge(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="273"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><ref refid="test__toolbox__ingestion_8cpp_1a1e4cf9dcebc97b9a8748feb705d76f6c" kindref="member">TEST</ref>(LLMAQLHandlerBridge,<sp/>LH02_BridgeNullByDefault)<sp/>{</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>LLMAQLHandler<sp/>handler;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(handler.ingestionBridge(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><ref refid="test__toolbox__ingestion_8cpp_1a1e4cf9dcebc97b9a8748feb705d76f6c" kindref="member">TEST</ref>(LLMAQLHandlerBridge,<sp/>LH03_SetBridgeStoredAndRetrievable)<sp/>{</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>LLMAQLHandler<sp/>handler;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tb<sp/><sp/><sp/><sp/><sp/>=<sp/>makeToolbox();</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bridge<sp/>=<sp/>std::make_shared&lt;AQLIngestionBridge&gt;(tb);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>handler.setIngestionBridge(bridge);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(handler.ingestionBridge(),<sp/>bridge);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/toolbox/test_toolbox_ingestion.cpp"/>
+  </compounddef>
+</doxygen>

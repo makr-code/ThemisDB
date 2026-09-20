@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1test_1_1_wave_a_noisy_wake_word_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::test::WaveANoisyWakeWordTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1test_1_1_wave_a_noisy_wake_word_test_1a1c426b4ccc70e174e3328d9b09267203" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::test::WaveANoisyWakeWordTest::kWakeWordThreshold</definition>
+        <argsstring></argsstring>
+        <name>kWakeWordThreshold</name>
+        <qualifiedname>themis::voice::test::WaveANoisyWakeWordTest::kWakeWordThreshold</qualifiedname>
+        <initializer>= 0.7f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" line="188" column="28" bodyfile="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1test_1_1_wave_a_noisy_wake_word_test_1a1186b9a54c67d88bc20ece31677634e8" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::test::WaveANoisyWakeWordTest::kMaxNoiseDegradation</definition>
+        <argsstring></argsstring>
+        <name>kMaxNoiseDegradation</name>
+        <qualifiedname>themis::voice::test::WaveANoisyWakeWordTest::kMaxNoiseDegradation</qualifiedname>
+        <initializer>= 0.8f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" line="189" column="28" bodyfile="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" bodystart="189" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1test_1_1_wave_a_noisy_wake_word_test_1a5798e66ccb7a78929f0692488c1d955a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::voice::test::WaveANoisyWakeWordTest::makeAudio</definition>
+        <argsstring>(size_t bytes=16000)</argsstring>
+        <name>makeAudio</name>
+        <qualifiedname>themis::voice::test::WaveANoisyWakeWordTest::makeAudio</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+          <defval>16000</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" line="191" column="17" bodyfile="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" bodystart="191" bodyend="193"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::voice::test::WaveANoisyWakeWordTest</label>
+        <link refid="classthemis_1_1voice_1_1test_1_1_wave_a_noisy_wake_word_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::voice::test::WaveANoisyWakeWordTest</label>
+        <link refid="classthemis_1_1voice_1_1test_1_1_wave_a_noisy_wake_word_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" line="186" column="1" bodyfile="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" bodystart="186" bodyend="194"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1test_1_1_wave_a_noisy_wake_word_test_1a1186b9a54c67d88bc20ece31677634e8" prot="protected" virt="non-virtual"><scope>themis::voice::test::WaveANoisyWakeWordTest</scope><name>kMaxNoiseDegradation</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_wave_a_noisy_wake_word_test_1a1c426b4ccc70e174e3328d9b09267203" prot="protected" virt="non-virtual"><scope>themis::voice::test::WaveANoisyWakeWordTest</scope><name>kWakeWordThreshold</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_wave_a_noisy_wake_word_test_1a5798e66ccb7a78929f0692488c1d955a" prot="protected" virt="non-virtual"><scope>themis::voice::test::WaveANoisyWakeWordTest</scope><name>makeAudio</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_15c9d87c2868e95da891370609a33196" kind="dir">
+    <compoundname>src/content/adapters</compoundname>
+    <innerfile refid="archive__extractor__adapter_8cpp">archive_extractor_adapter.cpp</innerfile>
+    <innerfile refid="audio__extractor__adapter_8cpp">audio_extractor_adapter.cpp</innerfile>
+    <innerfile refid="format__extractor__factory_8cpp">format_extractor_factory.cpp</innerfile>
+    <innerfile refid="image__extractor__adapter_8cpp">image_extractor_adapter.cpp</innerfile>
+    <innerfile refid="office__extractor__adapter_8cpp">office_extractor_adapter.cpp</innerfile>
+    <innerfile refid="pdf__extractor__adapter_8cpp">pdf_extractor_adapter.cpp</innerfile>
+    <innerfile refid="text__extractor__adapter_8cpp">text_extractor_adapter.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/content/adapters/"/>
+  </compounddef>
+</doxygen>

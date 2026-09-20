@@ -1,0 +1,311 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::InMemorySSMStateStore</compoundname>
+    <basecompoundref refid="structthemis_1_1llm_1_1_i_s_s_m_state_store" prot="public" virt="non-virtual">themis::llm::ISSMStateStore</basecompoundref>
+    <includes refid="ssm__state__store_8h" local="no">ssm_state_store.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1afc71d379bcf83bdf85e8bb3e33dfa324" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1llm_1_1_s_s_m_state_snapshot" kindref="compound">SSMStateSnapshot</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;SSMStateSnapshot&gt; &gt; themis::llm::InMemorySSMStateStore::state_by_session_</definition>
+        <argsstring></argsstring>
+        <name>state_by_session_</name>
+        <qualifiedname>themis::llm::InMemorySSMStateStore::state_by_session_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_store.h" line="84" column="9" bodyfile="include/llm/ssm_state_store.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1a44ec270701a5ef1f8b897a13c6c5b5a0" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::InMemorySSMStateStore::max_snapshots_per_session_</definition>
+        <argsstring></argsstring>
+        <name>max_snapshots_per_session_</name>
+        <qualifiedname>themis::llm::InMemorySSMStateStore::max_snapshots_per_session_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_store.h" line="86" column="12" bodyfile="include/llm/ssm_state_store.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1ac6a20eeea49feea71c39aa4af24361e0" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::InMemorySSMStateStore::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::llm::InMemorySSMStateStore::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_store.h" line="88" column="24" bodyfile="include/llm/ssm_state_store.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1afa073c79956e496afe66fd5debe016b1" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::InMemorySSMStateStore::InMemorySSMStateStore</definition>
+        <argsstring>(size_t max_snapshots_per_session=10)</argsstring>
+        <name>InMemorySSMStateStore</name>
+        <qualifiedname>themis::llm::InMemorySSMStateStore::InMemorySSMStateStore</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>max_snapshots_per_session</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>In Memory SSMState Store. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">max_snapshots_per_session</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_store.h" line="66" column="14" bodyfile="include/llm/ssm_state_store.h" bodystart="101" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1ab495eaf5392eaa6dbdf105d865bc3b6b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::InMemorySSMStateStore::checkpoint</definition>
+        <argsstring>(const std::string &amp;session_id, const SSMStateSnapshot &amp;snapshot) override</argsstring>
+        <name>checkpoint</name>
+        <qualifiedname>themis::llm::InMemorySSMStateStore::checkpoint</qualifiedname>
+        <reimplements refid="structthemis_1_1llm_1_1_i_s_s_m_state_store_1a4e60ff6ad46841495b8274f605b72ce6">checkpoint</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_s_s_m_state_snapshot" kindref="compound">SSMStateSnapshot</ref> &amp;</type>
+          <declname>snapshot</declname>
+        </param>
+        <briefdescription>
+<para>Checkpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), push_back(), size(), erase(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_store.h" line="68" column="10" bodyfile="include/llm/ssm_state_store.h" bodystart="111" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1aae7b393a25d76f8fc56a3bf6a37d6447" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_s_s_m_state_snapshot" kindref="compound">SSMStateSnapshot</ref> &gt;</type>
+        <definition>std::optional&lt; SSMStateSnapshot &gt; themis::llm::InMemorySSMStateStore::resume</definition>
+        <argsstring>(const std::string &amp;session_id, const std::optional&lt; HLCTimestamp &gt; &amp;snapshot_ts=std::nullopt) override</argsstring>
+        <name>resume</name>
+        <qualifiedname>themis::llm::InMemorySSMStateStore::resume</qualifiedname>
+        <reimplements refid="structthemis_1_1llm_1_1_i_s_s_m_state_store_1a7d520be67201a61955405215bcb9ec8b">resume</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; HLCTimestamp &gt; &amp;</type>
+          <declname>snapshot_ts</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Resume. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot_ts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), find(), end(), empty(), has_value(), value(), back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_store.h" line="71" column="19" bodyfile="include/llm/ssm_state_store.h" bodystart="133" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1a5bab218c152f68e3330790cbb17cabf9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::InMemorySSMStateStore::invalidate</definition>
+        <argsstring>(const std::string &amp;session_id) override</argsstring>
+        <name>invalidate</name>
+        <qualifiedname>themis::llm::InMemorySSMStateStore::invalidate</qualifiedname>
+        <reimplements refid="structthemis_1_1llm_1_1_i_s_s_m_state_store_1a4c26c6b2a920d4111506f01841c32f02">invalidate</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_store.h" line="76" column="10" bodyfile="include/llm/ssm_state_store.h" bodystart="156" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1aed7f42fcd76868dc1620708e539934bf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::InMemorySSMStateStore::compact</definition>
+        <argsstring>(uint64_t retention_window_ms) override</argsstring>
+        <name>compact</name>
+        <qualifiedname>themis::llm::InMemorySSMStateStore::compact</qualifiedname>
+        <reimplements refid="structthemis_1_1llm_1_1_i_s_s_m_state_store_1ae5150687cbca614d4a6c4139281233b5">compact</reimplements>
+        <param>
+          <type>uint64_t</type>
+          <declname>retention_window_ms</declname>
+        </param>
+        <briefdescription>
+<para>Compact. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">uint64_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements compact without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_store.h" line="78" column="14" bodyfile="include/llm/ssm_state_store.h" bodystart="167" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1afd91f8f36ce13718ad15d6e391ef27d4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::InMemorySSMStateStore::getStats</definition>
+        <argsstring>() const override</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::llm::InMemorySSMStateStore::getStats</qualifiedname>
+        <reimplements refid="structthemis_1_1llm_1_1_i_s_s_m_state_store_1ad398a86b16c0cfe4a84ca387a7f0eb9a">getStats</reimplements>
+        <briefdescription>
+<para>Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/ssm_state_store.h" line="80" column="17" bodyfile="include/llm/ssm_state_store.h" bodystart="172" bodyend="185"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::llm::ISSMStateStore</label>
+        <link refid="structthemis_1_1llm_1_1_i_s_s_m_state_store"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::InMemorySSMStateStore</label>
+        <link refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::ISSMStateStore</label>
+        <link refid="structthemis_1_1llm_1_1_i_s_s_m_state_store"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::InMemorySSMStateStore</label>
+        <link refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/ssm_state_store.h" line="64" column="1" bodyfile="include/llm/ssm_state_store.h" bodystart="64" bodyend="89"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1ab495eaf5392eaa6dbdf105d865bc3b6b" prot="public" virt="virtual"><scope>themis::llm::InMemorySSMStateStore</scope><name>checkpoint</name></member>
+      <member refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1aed7f42fcd76868dc1620708e539934bf" prot="public" virt="virtual"><scope>themis::llm::InMemorySSMStateStore</scope><name>compact</name></member>
+      <member refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1afd91f8f36ce13718ad15d6e391ef27d4" prot="public" virt="virtual"><scope>themis::llm::InMemorySSMStateStore</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1afa073c79956e496afe66fd5debe016b1" prot="public" virt="non-virtual"><scope>themis::llm::InMemorySSMStateStore</scope><name>InMemorySSMStateStore</name></member>
+      <member refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1a5bab218c152f68e3330790cbb17cabf9" prot="public" virt="virtual"><scope>themis::llm::InMemorySSMStateStore</scope><name>invalidate</name></member>
+      <member refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1a44ec270701a5ef1f8b897a13c6c5b5a0" prot="private" virt="non-virtual"><scope>themis::llm::InMemorySSMStateStore</scope><name>max_snapshots_per_session_</name></member>
+      <member refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1ac6a20eeea49feea71c39aa4af24361e0" prot="private" virt="non-virtual"><scope>themis::llm::InMemorySSMStateStore</scope><name>mu_</name></member>
+      <member refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1aae7b393a25d76f8fc56a3bf6a37d6447" prot="public" virt="virtual"><scope>themis::llm::InMemorySSMStateStore</scope><name>resume</name></member>
+      <member refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1afc71d379bcf83bdf85e8bb3e33dfa324" prot="private" virt="non-virtual"><scope>themis::llm::InMemorySSMStateStore</scope><name>state_by_session_</name></member>
+      <member refid="structthemis_1_1llm_1_1_i_s_s_m_state_store_1a885727007764981a42486f792f059024" prot="public" virt="virtual"><scope>themis::llm::InMemorySSMStateStore</scope><name>~ISSMStateStore</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

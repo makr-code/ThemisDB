@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_argon2_bridge_test" kind="class" language="C++" prot="public">
+    <compoundname>Argon2BridgeTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_argon2_bridge_test_1a00520821f28bcc65831d1c11ce407c0d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Argon2BridgeTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>Argon2BridgeTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_kdf_argon2_bridge.cpp" line="21" column="10" bodyfile="tests/security/test_kdf_argon2_bridge.cpp" bodystart="21" bodyend="23"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>Argon2BridgeTest</label>
+        <link refid="class_argon2_bridge_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>Argon2BridgeTest</label>
+        <link refid="class_argon2_bridge_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_kdf_argon2_bridge.cpp" line="19" column="1" bodyfile="tests/security/test_kdf_argon2_bridge.cpp" bodystart="19" bodyend="24"/>
+    <listofallmembers>
+      <member refid="class_argon2_bridge_test_1a00520821f28bcc65831d1c11ce407c0d" prot="protected" virt="non-virtual"><scope>Argon2BridgeTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

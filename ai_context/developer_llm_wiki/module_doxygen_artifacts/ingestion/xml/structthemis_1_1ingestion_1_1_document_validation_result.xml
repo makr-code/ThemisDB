@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_document_validation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::DocumentValidationResult</compoundname>
+    <includes refid="ingestion__manager_8h" local="no">ingestion_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_document_validation_result_1a754b15ef122fc7864bd809630880b86a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::DocumentValidationResult::is_valid</definition>
+        <argsstring></argsstring>
+        <name>is_valid</name>
+        <qualifiedname>themis::ingestion::DocumentValidationResult::is_valid</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="364" column="10" bodyfile="include/ingestion/ingestion_manager.h" bodystart="364" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_document_validation_result_1a580acd3f400a10859686946a4bfb5718" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_document_validation_violation" kindref="compound">DocumentValidationViolation</ref> &gt;</type>
+        <definition>std::vector&lt;DocumentValidationViolation&gt; themis::ingestion::DocumentValidationResult::violations</definition>
+        <argsstring></argsstring>
+        <name>violations</name>
+        <qualifiedname>themis::ingestion::DocumentValidationResult::violations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="365" column="17" bodyfile="include/ingestion/ingestion_manager.h" bodystart="365" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_document_validation_result_1a8a6bbcc51221d7feeaa2fac78bbea738" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::DocumentValidationResult::DocumentValidationResult</definition>
+        <argsstring>()=default</argsstring>
+        <name>DocumentValidationResult</name>
+        <qualifiedname>themis::ingestion::DocumentValidationResult::DocumentValidationResult</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="367" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_document_validation_result_1af3c244ee316092a476ffbbb60c81f42d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::DocumentValidationResult::addViolation</definition>
+        <argsstring>(const std::string &amp;field, const std::string &amp;message)</argsstring>
+        <name>addViolation</name>
+        <qualifiedname>themis::ingestion::DocumentValidationResult::addViolation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Add a violation and mark the result invalid. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="370" column="10" bodyfile="include/ingestion/ingestion_manager.h" bodystart="370" bodyend="373"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_document_validation_result_1aa58d67b2cf18c9fe689ab9f2612e888a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::DocumentValidationResult::summary</definition>
+        <argsstring>() const</argsstring>
+        <name>summary</name>
+        <qualifiedname>themis::ingestion::DocumentValidationResult::summary</qualifiedname>
+        <briefdescription>
+<para>Return all violation messages joined by &quot;; &quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="376" column="17" bodyfile="include/ingestion/ingestion_manager.h" bodystart="376" bodyend="386"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of validating a document against a <ref refid="structthemis_1_1ingestion_1_1_schema_config" kindref="compound">SchemaConfig</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ingestion/ingestion_manager.h" line="363" column="1" bodyfile="include/ingestion/ingestion_manager.h" bodystart="363" bodyend="387"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_document_validation_result_1af3c244ee316092a476ffbbb60c81f42d" prot="public" virt="non-virtual"><scope>themis::ingestion::DocumentValidationResult</scope><name>addViolation</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_document_validation_result_1a8a6bbcc51221d7feeaa2fac78bbea738" prot="public" virt="non-virtual"><scope>themis::ingestion::DocumentValidationResult</scope><name>DocumentValidationResult</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_document_validation_result_1a754b15ef122fc7864bd809630880b86a" prot="public" virt="non-virtual"><scope>themis::ingestion::DocumentValidationResult</scope><name>is_valid</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_document_validation_result_1aa58d67b2cf18c9fe689ab9f2612e888a" prot="public" virt="non-virtual"><scope>themis::ingestion::DocumentValidationResult</scope><name>summary</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_document_validation_result_1a580acd3f400a10859686946a4bfb5718" prot="public" virt="non-virtual"><scope>themis::ingestion::DocumentValidationResult</scope><name>violations</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

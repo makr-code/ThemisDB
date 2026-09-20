@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_ingestion_checkpoint" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::IngestionCheckpoint</compoundname>
+    <includes refid="ingestion__manager_8h" local="no">ingestion_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_checkpoint_1a5a646c890f39750f00da1b3e34563637" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::IngestionCheckpoint::source_id</definition>
+        <argsstring></argsstring>
+        <name>source_id</name>
+        <qualifiedname>themis::ingestion::IngestionCheckpoint::source_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="666" column="17" bodyfile="include/ingestion/ingestion_manager.h" bodystart="666" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_checkpoint_1ab77e159b8aa189dd0c2a55622561c4c1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::IngestionCheckpoint::processed_count</definition>
+        <argsstring></argsstring>
+        <name>processed_count</name>
+        <qualifiedname>themis::ingestion::IngestionCheckpoint::processed_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Documents successfully processed so far. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="667" column="12" bodyfile="include/ingestion/ingestion_manager.h" bodystart="667" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_checkpoint_1a830721287af3584ed3bae2919911d47b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::IngestionCheckpoint::byte_offset</definition>
+        <argsstring></argsstring>
+        <name>byte_offset</name>
+        <qualifiedname>themis::ingestion::IngestionCheckpoint::byte_offset</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Byte-level offset (for streaming sources). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="668" column="12" bodyfile="include/ingestion/ingestion_manager.h" bodystart="668" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_checkpoint_1aabfec99e46918d1e4df95e0d92abb828" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::IngestionCheckpoint::cursor</definition>
+        <argsstring></argsstring>
+        <name>cursor</name>
+        <qualifiedname>themis::ingestion::IngestionCheckpoint::cursor</qualifiedname>
+        <briefdescription>
+<para>Opaque pagination cursor (API / HF streaming). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="669" column="17" bodyfile="include/ingestion/ingestion_manager.h" bodystart="669" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_checkpoint_1acbdcc91dd30960e330a8d0159c1b2d85" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::IngestionCheckpoint::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::ingestion::IngestionCheckpoint::timestamp</qualifiedname>
+        <briefdescription>
+<para>ISO-8601 timestamp of the last write. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="670" column="17" bodyfile="include/ingestion/ingestion_manager.h" bodystart="670" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_ingestion_checkpoint_1a193b65ad5012f5f7d49398523b325804" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::IngestionCheckpoint::IngestionCheckpoint</definition>
+        <argsstring>()=default</argsstring>
+        <name>IngestionCheckpoint</name>
+        <qualifiedname>themis::ingestion::IngestionCheckpoint::IngestionCheckpoint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="672" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Persistent checkpoint for a single ingestion source. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Checkpoints allow incremental ingestion: when the same source is ingested again, already-processed documents are skipped and processing resumes from the stored offset. </para>
+    </detaileddescription>
+    <location file="include/ingestion/ingestion_manager.h" line="665" column="1" bodyfile="include/ingestion/ingestion_manager.h" bodystart="665" bodyend="673"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_checkpoint_1a830721287af3584ed3bae2919911d47b" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionCheckpoint</scope><name>byte_offset</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_checkpoint_1aabfec99e46918d1e4df95e0d92abb828" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionCheckpoint</scope><name>cursor</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_checkpoint_1a193b65ad5012f5f7d49398523b325804" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionCheckpoint</scope><name>IngestionCheckpoint</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_checkpoint_1ab77e159b8aa189dd0c2a55622561c4c1" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionCheckpoint</scope><name>processed_count</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_checkpoint_1a5a646c890f39750f00da1b3e34563637" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionCheckpoint</scope><name>source_id</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_checkpoint_1acbdcc91dd30960e330a8d0159c1b2d85" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionCheckpoint</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

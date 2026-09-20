@@ -1,0 +1,499 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_multi_primary_coordinator" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::MultiPrimaryCoordinator</compoundname>
+    <includes refid="multi__primary__coordinator_8h" local="no">multi_primary_coordinator.h</includes>
+    <innerclass refid="structthemis_1_1sharding_1_1_multi_primary_coordinator_1_1_statistics" prot="public">themis::sharding::MultiPrimaryCoordinator::Statistics</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_multi_primary_coordinator_1af9a76c1adae66438606827e8aa18d103" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_multi_primary_config" kindref="compound">MultiPrimaryConfig</ref></type>
+        <definition>MultiPrimaryConfig themis::sharding::MultiPrimaryCoordinator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::sharding::MultiPrimaryCoordinator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="185" column="24" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_multi_primary_coordinator_1a7ccb28a24c9badae61df9aea42d5c97d" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::MultiPrimaryCoordinator::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::sharding::MultiPrimaryCoordinator::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="186" column="24" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_multi_primary_coordinator_1a45347f03716a80024411c25cafc30edc" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1sharding_1_1_primary_node_info" kindref="compound">PrimaryNodeInfo</ref> &gt;</type>
+        <definition>std::map&lt;std::string, PrimaryNodeInfo&gt; themis::sharding::MultiPrimaryCoordinator::primaries_</definition>
+        <argsstring></argsstring>
+        <name>primaries_</name>
+        <qualifiedname>themis::sharding::MultiPrimaryCoordinator::primaries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="188" column="14" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_multi_primary_coordinator_1a85b68f5df55a36c7f11b185662c2912a" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::MultiPrimaryCoordinator::conflicts_resolved_</definition>
+        <argsstring></argsstring>
+        <name>conflicts_resolved_</name>
+        <qualifiedname>themis::sharding::MultiPrimaryCoordinator::conflicts_resolved_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="189" column="25" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="189" bodyend="189"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_multi_primary_coordinator_1a7af9afa3f63256384b7ecc609bdcbfd9" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::MultiPrimaryCoordinator::MultiPrimaryCoordinator</definition>
+        <argsstring>(const MultiPrimaryConfig &amp;config)</argsstring>
+        <name>MultiPrimaryCoordinator</name>
+        <qualifiedname>themis::sharding::MultiPrimaryCoordinator::MultiPrimaryCoordinator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_multi_primary_config" kindref="compound">MultiPrimaryConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="111" column="14" bodyfile="src/sharding/multi_primary_coordinator.cpp" bodystart="17" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_multi_primary_coordinator_1a57ddbb762354b57ef6fe3b0330d0909f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::MultiPrimaryCoordinator::~MultiPrimaryCoordinator</definition>
+        <argsstring>()</argsstring>
+        <name>~MultiPrimaryCoordinator</name>
+        <qualifiedname>themis::sharding::MultiPrimaryCoordinator::~MultiPrimaryCoordinator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="112" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_multi_primary_coordinator_1a08bb06dd031c528b80911bcde95c3747" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::MultiPrimaryCoordinator::registerPrimary</definition>
+        <argsstring>(const std::string &amp;node_id, const std::string &amp;endpoint)</argsstring>
+        <name>registerPrimary</name>
+        <qualifiedname>themis::sharding::MultiPrimaryCoordinator::registerPrimary</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <briefdescription>
+<para>Register Primary. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register a primary node</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="117" column="10" bodyfile="src/sharding/multi_primary_coordinator.cpp" bodystart="49" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_multi_primary_coordinator_1a1f782e1d79a60f9f03cd9d41690f809f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::MultiPrimaryCoordinator::promoteToPrimary</definition>
+        <argsstring>(const std::string &amp;node_id)</argsstring>
+        <name>promoteToPrimary</name>
+        <qualifiedname>themis::sharding::MultiPrimaryCoordinator::promoteToPrimary</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Promote To Primary. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Promote a standby to active primary Manual operation, no automatic election</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="123" column="10" bodyfile="src/sharding/multi_primary_coordinator.cpp" bodystart="68" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_multi_primary_coordinator_1aed985b53fefe1d4f15ccc3c7bf0afd1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::MultiPrimaryCoordinator::demoteToStandby</definition>
+        <argsstring>(const std::string &amp;node_id)</argsstring>
+        <name>demoteToStandby</name>
+        <qualifiedname>themis::sharding::MultiPrimaryCoordinator::demoteToStandby</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Demote To Standby. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Demote an active primary to standby</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="128" column="10" bodyfile="src/sharding/multi_primary_coordinator.cpp" bodystart="94" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_multi_primary_coordinator_1aa70216fe754745a4230d39fc6a6cf5c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::MultiPrimaryCoordinator::markPrimaryOffline</definition>
+        <argsstring>(const std::string &amp;node_id)</argsstring>
+        <name>markPrimaryOffline</name>
+        <qualifiedname>themis::sharding::MultiPrimaryCoordinator::markPrimaryOffline</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Mark Primary Offline. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Mark primary as offline (failed health check)</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="133" column="10" bodyfile="src/sharding/multi_primary_coordinator.cpp" bodystart="117" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_multi_primary_coordinator_1aba0fe5bc05d6dba90b281e8dbabf4651" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::MultiPrimaryCoordinator::updateHeartbeat</definition>
+        <argsstring>(const std::string &amp;node_id, const LSN &amp;current_lsn)</argsstring>
+        <name>updateHeartbeat</name>
+        <qualifiedname>themis::sharding::MultiPrimaryCoordinator::updateHeartbeat</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> &amp;</type>
+          <declname>current_lsn</declname>
+        </param>
+        <briefdescription>
+<para>Update Heartbeat. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update primary heartbeat</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current_lsn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="138" column="10" bodyfile="src/sharding/multi_primary_coordinator.cpp" bodystart="132" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_multi_primary_coordinator_1a016daf952555a784628636b6f627c935" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_primary_node_info" kindref="compound">PrimaryNodeInfo</ref> &gt;</type>
+        <definition>std::vector&lt; PrimaryNodeInfo &gt; themis::sharding::MultiPrimaryCoordinator::getActivePrimaries</definition>
+        <argsstring>() const</argsstring>
+        <name>getActivePrimaries</name>
+        <qualifiedname>themis::sharding::MultiPrimaryCoordinator::getActivePrimaries</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get all active primaries </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="143" column="17" bodyfile="src/sharding/multi_primary_coordinator.cpp" bodystart="147" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_multi_primary_coordinator_1a967cb6298ae34481fed4cb0638ba7be1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1sharding_1_1_primary_node_info" kindref="compound">PrimaryNodeInfo</ref> &gt;</type>
+        <definition>std::optional&lt; PrimaryNodeInfo &gt; themis::sharding::MultiPrimaryCoordinator::getPrimaryInfo</definition>
+        <argsstring>(const std::string &amp;node_id) const</argsstring>
+        <name>getPrimaryInfo</name>
+        <qualifiedname>themis::sharding::MultiPrimaryCoordinator::getPrimaryInfo</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get primary info </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="148" column="19" bodyfile="src/sharding/multi_primary_coordinator.cpp" bodystart="166" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_multi_primary_coordinator_1ae6528ed41fef16aebd5349f34b87855b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::MultiPrimaryCoordinator::isCurrentNodeActive</definition>
+        <argsstring>() const</argsstring>
+        <name>isCurrentNodeActive</name>
+        <qualifiedname>themis::sharding::MultiPrimaryCoordinator::isCurrentNodeActive</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if current node is active primary </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="153" column="10" bodyfile="src/sharding/multi_primary_coordinator.cpp" bodystart="182" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_multi_primary_coordinator_1a093df2bfb823ddd87e522fe11bc6adaf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref></type>
+        <definition>LSN themis::sharding::MultiPrimaryCoordinator::resolveConflict</definition>
+        <argsstring>(const WriteConflict &amp;conflict) const</argsstring>
+        <name>resolveConflict</name>
+        <qualifiedname>themis::sharding::MultiPrimaryCoordinator::resolveConflict</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_write_conflict" kindref="compound">WriteConflict</ref> &amp;</type>
+          <declname>conflict</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Resolve write conflict (LWW) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="158" column="9" bodyfile="src/sharding/multi_primary_coordinator.cpp" bodystart="198" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_multi_primary_coordinator_1a57d9fbe7fb99050b4d14cdcced60a296" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::MultiPrimaryCoordinator::recordWrite</definition>
+        <argsstring>(const LSN &amp;lsn)</argsstring>
+        <name>recordWrite</name>
+        <qualifiedname>themis::sharding::MultiPrimaryCoordinator::recordWrite</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> &amp;</type>
+          <declname>lsn</declname>
+        </param>
+        <briefdescription>
+<para>Record Write. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Increment write count for current node</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lsn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="163" column="10" bodyfile="src/sharding/multi_primary_coordinator.cpp" bodystart="214" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_multi_primary_coordinator_1ad38659513b4fb22fc346c77be4f64b22" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::sharding::MultiPrimaryCoordinator::getMostCurrentPrimary</definition>
+        <argsstring>() const</argsstring>
+        <name>getMostCurrentPrimary</name>
+        <qualifiedname>themis::sharding::MultiPrimaryCoordinator::getMostCurrentPrimary</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get primary with most recent <ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> (for routing reads) </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="168" column="19" bodyfile="src/sharding/multi_primary_coordinator.cpp" bodystart="224" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_multi_primary_coordinator_1a4ac9385c94c351af876d7c3aac912995" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_multi_primary_coordinator_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>MultiPrimaryCoordinator::Statistics themis::sharding::MultiPrimaryCoordinator::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::sharding::MultiPrimaryCoordinator::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="182" column="16" bodyfile="src/sharding/multi_primary_coordinator.cpp" bodystart="249" bodyend="282"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Multi-Primary Coordinator</para>
+<para>Coordinates multiple primary nodes without traditional leader election. Features:<itemizedlist>
+<listitem><para>Multiple primaries accept writes simultaneously</para>
+</listitem><listitem><para>Conflict resolution via Last-Write-Wins (timestamp-based)</para>
+</listitem><listitem><para>Cross-primary replication for eventual consistency</para>
+</listitem><listitem><para>Manual promotion on primary failure (no automatic election) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/sharding/multi_primary_coordinator.h" line="109" column="1" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="109" bodyend="190"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_multi_primary_coordinator_1af9a76c1adae66438606827e8aa18d103" prot="private" virt="non-virtual"><scope>themis::sharding::MultiPrimaryCoordinator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_multi_primary_coordinator_1a85b68f5df55a36c7f11b185662c2912a" prot="private" virt="non-virtual"><scope>themis::sharding::MultiPrimaryCoordinator</scope><name>conflicts_resolved_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_multi_primary_coordinator_1aed985b53fefe1d4f15ccc3c7bf0afd1a" prot="public" virt="non-virtual"><scope>themis::sharding::MultiPrimaryCoordinator</scope><name>demoteToStandby</name></member>
+      <member refid="classthemis_1_1sharding_1_1_multi_primary_coordinator_1a016daf952555a784628636b6f627c935" prot="public" virt="non-virtual"><scope>themis::sharding::MultiPrimaryCoordinator</scope><name>getActivePrimaries</name></member>
+      <member refid="classthemis_1_1sharding_1_1_multi_primary_coordinator_1ad38659513b4fb22fc346c77be4f64b22" prot="public" virt="non-virtual"><scope>themis::sharding::MultiPrimaryCoordinator</scope><name>getMostCurrentPrimary</name></member>
+      <member refid="classthemis_1_1sharding_1_1_multi_primary_coordinator_1a967cb6298ae34481fed4cb0638ba7be1" prot="public" virt="non-virtual"><scope>themis::sharding::MultiPrimaryCoordinator</scope><name>getPrimaryInfo</name></member>
+      <member refid="classthemis_1_1sharding_1_1_multi_primary_coordinator_1a4ac9385c94c351af876d7c3aac912995" prot="public" virt="non-virtual"><scope>themis::sharding::MultiPrimaryCoordinator</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1sharding_1_1_multi_primary_coordinator_1ae6528ed41fef16aebd5349f34b87855b" prot="public" virt="non-virtual"><scope>themis::sharding::MultiPrimaryCoordinator</scope><name>isCurrentNodeActive</name></member>
+      <member refid="classthemis_1_1sharding_1_1_multi_primary_coordinator_1aa70216fe754745a4230d39fc6a6cf5c6" prot="public" virt="non-virtual"><scope>themis::sharding::MultiPrimaryCoordinator</scope><name>markPrimaryOffline</name></member>
+      <member refid="classthemis_1_1sharding_1_1_multi_primary_coordinator_1a7af9afa3f63256384b7ecc609bdcbfd9" prot="public" virt="non-virtual"><scope>themis::sharding::MultiPrimaryCoordinator</scope><name>MultiPrimaryCoordinator</name></member>
+      <member refid="classthemis_1_1sharding_1_1_multi_primary_coordinator_1a7ccb28a24c9badae61df9aea42d5c97d" prot="private" virt="non-virtual"><scope>themis::sharding::MultiPrimaryCoordinator</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_multi_primary_coordinator_1a45347f03716a80024411c25cafc30edc" prot="private" virt="non-virtual"><scope>themis::sharding::MultiPrimaryCoordinator</scope><name>primaries_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_multi_primary_coordinator_1a1f782e1d79a60f9f03cd9d41690f809f" prot="public" virt="non-virtual"><scope>themis::sharding::MultiPrimaryCoordinator</scope><name>promoteToPrimary</name></member>
+      <member refid="classthemis_1_1sharding_1_1_multi_primary_coordinator_1a57d9fbe7fb99050b4d14cdcced60a296" prot="public" virt="non-virtual"><scope>themis::sharding::MultiPrimaryCoordinator</scope><name>recordWrite</name></member>
+      <member refid="classthemis_1_1sharding_1_1_multi_primary_coordinator_1a08bb06dd031c528b80911bcde95c3747" prot="public" virt="non-virtual"><scope>themis::sharding::MultiPrimaryCoordinator</scope><name>registerPrimary</name></member>
+      <member refid="classthemis_1_1sharding_1_1_multi_primary_coordinator_1a093df2bfb823ddd87e522fe11bc6adaf" prot="public" virt="non-virtual"><scope>themis::sharding::MultiPrimaryCoordinator</scope><name>resolveConflict</name></member>
+      <member refid="classthemis_1_1sharding_1_1_multi_primary_coordinator_1aba0fe5bc05d6dba90b281e8dbabf4651" prot="public" virt="non-virtual"><scope>themis::sharding::MultiPrimaryCoordinator</scope><name>updateHeartbeat</name></member>
+      <member refid="classthemis_1_1sharding_1_1_multi_primary_coordinator_1a57ddbb762354b57ef6fe3b0330d0909f" prot="public" virt="non-virtual"><scope>themis::sharding::MultiPrimaryCoordinator</scope><name>~MultiPrimaryCoordinator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

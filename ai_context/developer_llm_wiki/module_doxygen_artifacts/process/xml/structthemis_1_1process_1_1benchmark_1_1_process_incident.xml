@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1benchmark_1_1_process_incident" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::benchmark::ProcessIncident</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_process_incident_1ae5aa088c6a12cf02824fd9525d08dca1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::benchmark::ProcessIncident::incident_id</definition>
+        <argsstring></argsstring>
+        <name>incident_id</name>
+        <qualifiedname>themis::process::benchmark::ProcessIncident::incident_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_diagnostics_overhead.cpp" line="53" column="17" bodyfile="benchmarks/process/bench_process_diagnostics_overhead.cpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_process_incident_1a0a50fbf7fc3230a38dcd302fde961091" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1_1benchmark_1a6ea09fa534c71e14229b4b9e5226c6bd" kindref="member">IncidentType</ref></type>
+        <definition>IncidentType themis::process::benchmark::ProcessIncident::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::process::benchmark::ProcessIncident::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_diagnostics_overhead.cpp" line="54" column="18" bodyfile="benchmarks/process/bench_process_diagnostics_overhead.cpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_process_incident_1a5e978967a5e327a2dc4c3c9f50df9739" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1process_1_1benchmark_1_1_diagnostic_event" kindref="compound">DiagnosticEvent</ref> &gt;</type>
+        <definition>std::vector&lt;DiagnosticEvent&gt; themis::process::benchmark::ProcessIncident::events</definition>
+        <argsstring></argsstring>
+        <name>events</name>
+        <qualifiedname>themis::process::benchmark::ProcessIncident::events</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_diagnostics_overhead.cpp" line="55" column="17" bodyfile="benchmarks/process/bench_process_diagnostics_overhead.cpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_process_incident_1addfe36d5979f19fc74faf8a2bff42ec3" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::benchmark::ProcessIncident::first_event_ms</definition>
+        <argsstring></argsstring>
+        <name>first_event_ms</name>
+        <qualifiedname>themis::process::benchmark::ProcessIncident::first_event_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_diagnostics_overhead.cpp" line="56" column="13" bodyfile="benchmarks/process/bench_process_diagnostics_overhead.cpp" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_process_incident_1a266523fb4e3114e4b4a9ae66fc82bc3d" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::benchmark::ProcessIncident::last_event_ms</definition>
+        <argsstring></argsstring>
+        <name>last_event_ms</name>
+        <qualifiedname>themis::process::benchmark::ProcessIncident::last_event_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_diagnostics_overhead.cpp" line="57" column="13" bodyfile="benchmarks/process/bench_process_diagnostics_overhead.cpp" bodystart="57" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_process_incident_1a277b2acac43535a4393febb81e3736e1" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::process::benchmark::ProcessIncident::classification_score</definition>
+        <argsstring></argsstring>
+        <name>classification_score</name>
+        <qualifiedname>themis::process::benchmark::ProcessIncident::classification_score</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_diagnostics_overhead.cpp" line="58" column="9" bodyfile="benchmarks/process/bench_process_diagnostics_overhead.cpp" bodystart="58" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Simulated incident for classification. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/process/bench_process_diagnostics_overhead.cpp" line="52" column="1" bodyfile="benchmarks/process/bench_process_diagnostics_overhead.cpp" bodystart="52" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_process_incident_1a277b2acac43535a4393febb81e3736e1" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessIncident</scope><name>classification_score</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_process_incident_1a5e978967a5e327a2dc4c3c9f50df9739" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessIncident</scope><name>events</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_process_incident_1addfe36d5979f19fc74faf8a2bff42ec3" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessIncident</scope><name>first_event_ms</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_process_incident_1ae5aa088c6a12cf02824fd9525d08dca1" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessIncident</scope><name>incident_id</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_process_incident_1a266523fb4e3114e4b4a9ae66fc82bc3d" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessIncident</scope><name>last_event_ms</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_process_incident_1a0a50fbf7fc3230a38dcd302fde961091" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessIncident</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

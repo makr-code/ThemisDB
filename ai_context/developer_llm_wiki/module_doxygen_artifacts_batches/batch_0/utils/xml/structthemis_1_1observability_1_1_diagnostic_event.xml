@@ -1,0 +1,250 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_diagnostic_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::DiagnosticEvent</compoundname>
+    <includes refid="field__diagnostics__schema_8h" local="no">field_diagnostics_schema.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_diagnostic_event_1a6c3d77aed844b7203b22b755d8272602" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::observability::DiagnosticEvent::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::observability::DiagnosticEvent::timestamp</qualifiedname>
+        <briefdescription>
+<para>Timestamp when event occurred. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/field_diagnostics_schema.h" line="193" column="43" bodyfile="include/utils/field_diagnostics_schema.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_diagnostic_event_1ae22a939f2646134713fde16b00108acd" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1observability_1aaae27066c203328c7cbe7ed960797b07" kindref="member">DiagnosticFailureCategory</ref></type>
+        <definition>DiagnosticFailureCategory themis::observability::DiagnosticEvent::failure_category</definition>
+        <argsstring></argsstring>
+        <name>failure_category</name>
+        <qualifiedname>themis::observability::DiagnosticEvent::failure_category</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1observability_1aaae27066c203328c7cbe7ed960797b07a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">DiagnosticFailureCategory::UNKNOWN</ref>}</initializer>
+        <briefdescription>
+<para>Classification of failure/issue. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/field_diagnostics_schema.h" line="196" column="31" bodyfile="include/utils/field_diagnostics_schema.h" bodystart="196" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_diagnostic_event_1a1f9d3091b41aa6224bbab60b6523caf6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::DiagnosticEvent::module_name</definition>
+        <argsstring></argsstring>
+        <name>module_name</name>
+        <qualifiedname>themis::observability::DiagnosticEvent::module_name</qualifiedname>
+        <briefdescription>
+<para>Module/component name (e.g., &quot;rag&quot;, &quot;sharding&quot;, &quot;cache&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/field_diagnostics_schema.h" line="199" column="17" bodyfile="include/utils/field_diagnostics_schema.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_diagnostic_event_1aef9850455ec5dc8c0160bd8eefea2724" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::DiagnosticEvent::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::observability::DiagnosticEvent::error_message</qualifiedname>
+        <briefdescription>
+<para>[PII] Sanitized error message (query strings, user IDs must be redacted) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/field_diagnostics_schema.h" line="202" column="17" bodyfile="include/utils/field_diagnostics_schema.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_diagnostic_event_1a9962dc262734ed467ccd35dcdcff2d8d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1observability_1aad859bd0fd97c664175b51448043b2d1" kindref="member">DiagnosticSeverity</ref></type>
+        <definition>DiagnosticSeverity themis::observability::DiagnosticEvent::severity_level</definition>
+        <argsstring></argsstring>
+        <name>severity_level</name>
+        <qualifiedname>themis::observability::DiagnosticEvent::severity_level</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1observability_1aad859bd0fd97c664175b51448043b2d1a551b723eafd6a31d444fcb2f5920fbd3" kindref="member">DiagnosticSeverity::INFO</ref>}</initializer>
+        <briefdescription>
+<para>Severity/importance level. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/field_diagnostics_schema.h" line="205" column="24" bodyfile="include/utils/field_diagnostics_schema.h" bodystart="205" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_diagnostic_event_1a5b9dd10349e062a2eb9dbfc0edd3d3f8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::DiagnosticEvent::deployment_environment</definition>
+        <argsstring></argsstring>
+        <name>deployment_environment</name>
+        <qualifiedname>themis::observability::DiagnosticEvent::deployment_environment</qualifiedname>
+        <briefdescription>
+<para>Deployment environment (e.g., &quot;production&quot;, &quot;staging&quot;, &quot;development&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/field_diagnostics_schema.h" line="208" column="17" bodyfile="include/utils/field_diagnostics_schema.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_diagnostic_event_1a932d46f79487cd829bef3dfa03ab3b2c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::DiagnosticEvent::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::observability::DiagnosticEvent::version</qualifiedname>
+        <briefdescription>
+<para>Semantic version of themis binary (e.g., &quot;1.5.0&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/field_diagnostics_schema.h" line="211" column="17" bodyfile="include/utils/field_diagnostics_schema.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_diagnostic_event_1a9d272623027e10fc4f40ae23f5c70fe6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::DiagnosticEvent::stacktrace_hash</definition>
+        <argsstring></argsstring>
+        <name>stacktrace_hash</name>
+        <qualifiedname>themis::observability::DiagnosticEvent::stacktrace_hash</qualifiedname>
+        <briefdescription>
+<para>[PII] Abbreviated stack trace hash for correlation (SHA256 first 16 chars) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/field_diagnostics_schema.h" line="214" column="17" bodyfile="include/utils/field_diagnostics_schema.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_diagnostic_event_1a2ba620583829cfd3475545d5a95ca294" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::observability::DiagnosticEvent::affected_user_count</definition>
+        <argsstring></argsstring>
+        <name>affected_user_count</name>
+        <qualifiedname>themis::observability::DiagnosticEvent::affected_user_count</qualifiedname>
+        <initializer>{-1}</initializer>
+        <briefdescription>
+<para>Optional: number of users affected by this event. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/field_diagnostics_schema.h" line="217" column="13" bodyfile="include/utils/field_diagnostics_schema.h" bodystart="217" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_diagnostic_event_1a288c6bf832144bca07e399db33ad95e7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::DiagnosticEvent::request_id</definition>
+        <argsstring></argsstring>
+        <name>request_id</name>
+        <qualifiedname>themis::observability::DiagnosticEvent::request_id</qualifiedname>
+        <briefdescription>
+<para>Optional: request ID for tracing (UUID or trace ID). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/field_diagnostics_schema.h" line="220" column="17" bodyfile="include/utils/field_diagnostics_schema.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_diagnostic_event_1a0026565f0381fd42d96f04e80c0803bb" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::observability::DiagnosticEvent::context_data</definition>
+        <argsstring></argsstring>
+        <name>context_data</name>
+        <qualifiedname>themis::observability::DiagnosticEvent::context_data</qualifiedname>
+        <briefdescription>
+<para>Optional: additional context as key-value pairs (should be pre-sanitized). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/field_diagnostics_schema.h" line="223" column="14" bodyfile="include/utils/field_diagnostics_schema.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_diagnostic_event_1a5fe49f23042affaad4cd1ea7c3f965bd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref></type>
+        <definition>json themis::observability::DiagnosticEvent::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::observability::DiagnosticEvent::toJson</qualifiedname>
+        <briefdescription>
+<para>Serialize event to JSON for observability backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Assumes all string fields have been pre-sanitized for PII. The timestamp is serialized as an ISO 8601 UTC string with millisecond precision (e.g. <computeroutput>"2026-07-19T10:30:00.123Z"</computeroutput>).</para>
+<para>Thread-safety: this method is safe to call concurrently; it does not rely on <computeroutput>std::gmtime()</computeroutput> (which uses static storage).</para>
+<para><simplesect kind="return"><para>JSON object with event data </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/field_diagnostics_schema.h" line="237" column="10" bodyfile="include/utils/field_diagnostics_schema.h" bodystart="237" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_diagnostic_event_1ac2c4b0441efe539d009037c0cd73f49c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::DiagnosticEvent::toString</definition>
+        <argsstring>() const</argsstring>
+        <name>toString</name>
+        <qualifiedname>themis::observability::DiagnosticEvent::toString</qualifiedname>
+        <briefdescription>
+<para>Return brief string representation for logging. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Single-line summary of event </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/field_diagnostics_schema.h" line="288" column="17" bodyfile="include/utils/field_diagnostics_schema.h" bodystart="288" bodyend="294"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Structured diagnostic event. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Captures operational telemetry from field deployments for analysis and debugging. All string fields should be sanitized before emission to prevent PII leaks.</para>
+<para>Example usage: <programlisting filename=".cpp"><codeline><highlight class="normal">DiagnosticEvent<sp/>evt{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.timestamp<sp/>=<sp/>std::chrono::system_clock::now(),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.failure_category<sp/>=<sp/><ref refid="namespacethemis_1_1observability_1aaae27066c203328c7cbe7ed960797b07a8842eef2fb460ac2c6c7a1cd320be72d" kindref="member">DiagnosticFailureCategory::NLI_INFERENCE</ref>,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.module_name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;rag&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.error_message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ONNX<sp/>model<sp/>inference<sp/>failed&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.severity_level<sp/>=<sp/><ref refid="namespacethemis_1_1observability_1aad859bd0fd97c664175b51448043b2d1abb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">DiagnosticSeverity::ERROR</ref>,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.deployment_environment<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;production&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.version<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.5.0&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.stacktrace_hash<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;abc123def456&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/utils/field_diagnostics_schema.h" line="191" column="1" bodyfile="include/utils/field_diagnostics_schema.h" bodystart="191" bodyend="295"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_diagnostic_event_1a2ba620583829cfd3475545d5a95ca294" prot="public" virt="non-virtual"><scope>themis::observability::DiagnosticEvent</scope><name>affected_user_count</name></member>
+      <member refid="structthemis_1_1observability_1_1_diagnostic_event_1a0026565f0381fd42d96f04e80c0803bb" prot="public" virt="non-virtual"><scope>themis::observability::DiagnosticEvent</scope><name>context_data</name></member>
+      <member refid="structthemis_1_1observability_1_1_diagnostic_event_1a5b9dd10349e062a2eb9dbfc0edd3d3f8" prot="public" virt="non-virtual"><scope>themis::observability::DiagnosticEvent</scope><name>deployment_environment</name></member>
+      <member refid="structthemis_1_1observability_1_1_diagnostic_event_1aef9850455ec5dc8c0160bd8eefea2724" prot="public" virt="non-virtual"><scope>themis::observability::DiagnosticEvent</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1observability_1_1_diagnostic_event_1ae22a939f2646134713fde16b00108acd" prot="public" virt="non-virtual"><scope>themis::observability::DiagnosticEvent</scope><name>failure_category</name></member>
+      <member refid="structthemis_1_1observability_1_1_diagnostic_event_1a1f9d3091b41aa6224bbab60b6523caf6" prot="public" virt="non-virtual"><scope>themis::observability::DiagnosticEvent</scope><name>module_name</name></member>
+      <member refid="structthemis_1_1observability_1_1_diagnostic_event_1a288c6bf832144bca07e399db33ad95e7" prot="public" virt="non-virtual"><scope>themis::observability::DiagnosticEvent</scope><name>request_id</name></member>
+      <member refid="structthemis_1_1observability_1_1_diagnostic_event_1a9962dc262734ed467ccd35dcdcff2d8d" prot="public" virt="non-virtual"><scope>themis::observability::DiagnosticEvent</scope><name>severity_level</name></member>
+      <member refid="structthemis_1_1observability_1_1_diagnostic_event_1a9d272623027e10fc4f40ae23f5c70fe6" prot="public" virt="non-virtual"><scope>themis::observability::DiagnosticEvent</scope><name>stacktrace_hash</name></member>
+      <member refid="structthemis_1_1observability_1_1_diagnostic_event_1a6c3d77aed844b7203b22b755d8272602" prot="public" virt="non-virtual"><scope>themis::observability::DiagnosticEvent</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1observability_1_1_diagnostic_event_1a5fe49f23042affaad4cd1ea7c3f965bd" prot="public" virt="non-virtual"><scope>themis::observability::DiagnosticEvent</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1observability_1_1_diagnostic_event_1ac2c4b0441efe539d009037c0cd73f49c" prot="public" virt="non-virtual"><scope>themis::observability::DiagnosticEvent</scope><name>toString</name></member>
+      <member refid="structthemis_1_1observability_1_1_diagnostic_event_1a932d46f79487cd829bef3dfa03ab3b2c" prot="public" virt="non-virtual"><scope>themis::observability::DiagnosticEvent</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

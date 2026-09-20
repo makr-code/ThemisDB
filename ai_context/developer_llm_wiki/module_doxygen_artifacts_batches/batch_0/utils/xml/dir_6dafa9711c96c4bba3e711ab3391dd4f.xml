@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_6dafa9711c96c4bba3e711ab3391dd4f" kind="dir">
+    <compoundname>tests/utils</compoundname>
+    <innerfile refid="fault__injector_8cpp">fault_injector.cpp</innerfile>
+    <innerfile refid="fault__injector_8h">fault_injector.h</innerfile>
+    <innerfile refid="mock__clock_8h">mock_clock.h</innerfile>
+    <innerfile refid="raid__simulator_8cpp">raid_simulator.cpp</innerfile>
+    <innerfile refid="raid__simulator_8h">raid_simulator.h</innerfile>
+    <innerfile refid="shard__failure__injector_8cpp">shard_failure_injector.cpp</innerfile>
+    <innerfile refid="shard__failure__injector_8h">shard_failure_injector.h</innerfile>
+    <innerfile refid="test__ner__detection__engine_8cpp">test_ner_detection_engine.cpp</innerfile>
+    <innerfile refid="test__phase1__resource__management_8cpp">test_phase1_resource_management.cpp</innerfile>
+    <innerfile refid="test__regex__detection__engine_8cpp">test_regex_detection_engine.cpp</innerfile>
+    <innerfile refid="test__serialization_8cpp">test_serialization.cpp</innerfile>
+    <innerfile refid="test__stability_8h">test_stability.h</innerfile>
+    <innerfile refid="test__tsan__stress__concurrent_8cpp">test_tsan_stress_concurrent.cpp</innerfile>
+    <innerfile refid="test__utils__audit__logger__hardening_8cpp">test_utils_audit_logger_hardening.cpp</innerfile>
+    <innerfile refid="test__utils__audit__logger__stress__concurrent__writers_8cpp">test_utils_audit_logger_stress_concurrent_writers.cpp</innerfile>
+    <innerfile refid="test__utils__compression__hardening_8cpp">test_utils_compression_hardening.cpp</innerfile>
+    <innerfile refid="test__utils__contract__hardening__focused_8cpp">test_utils_contract_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__utils__crypto__hardening_8cpp">test_utils_crypto_hardening.cpp</innerfile>
+    <innerfile refid="test__utils__future__interfaces_8cpp">test_utils_future_interfaces.cpp</innerfile>
+    <innerfile refid="test__utils__interfaces_8cpp">test_utils_interfaces.cpp</innerfile>
+    <innerfile refid="test__utils__lek__rotation__atomic_8cpp">test_utils_lek_rotation_atomic.cpp</innerfile>
+    <innerfile refid="test__utils__llm__path__focused_8cpp">test_utils_llm_path_focused.cpp</innerfile>
+    <innerfile refid="test__utils__observability__error__contracts_8cpp">test_utils_observability_error_contracts.cpp</innerfile>
+    <innerfile refid="test__utils__pii__unicode__edge__cases_8cpp">test_utils_pii_unicode_edge_cases.cpp</innerfile>
+    <innerfile refid="test__utils__privacy__audit__hardening_8cpp">test_utils_privacy_audit_hardening.cpp</innerfile>
+    <innerfile refid="test__utils__privacy__hardening_8cpp">test_utils_privacy_hardening.cpp</innerfile>
+    <innerfile refid="test__utils__rate__limiter_8cpp">test_utils_rate_limiter.cpp</innerfile>
+    <innerfile refid="test__utils__runtime__hardening_8cpp">test_utils_runtime_hardening.cpp</innerfile>
+    <innerfile refid="test__utils__standalone_8cpp">test_utils_standalone.cpp</innerfile>
+    <innerfile refid="test__utils__stress__concurrency_8cpp">test_utils_stress_concurrency.cpp</innerfile>
+    <innerfile refid="test__utils__thread__pool__stress__saturation_8cpp">test_utils_thread_pool_stress_saturation.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/utils/"/>
+  </compounddef>
+</doxygen>

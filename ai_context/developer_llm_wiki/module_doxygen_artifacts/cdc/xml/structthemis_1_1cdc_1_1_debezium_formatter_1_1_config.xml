@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cdc_1_1_debezium_formatter_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cdc::DebeziumFormatter::Config</compoundname>
+    <includes refid="debezium__format_8h" local="no">debezium_format.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_debezium_formatter_1_1_config_1a556035d0993db42ecd112eeb55ceaad1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::DebeziumFormatter::Config::server_name</definition>
+        <argsstring></argsstring>
+        <name>server_name</name>
+        <qualifiedname>themis::cdc::DebeziumFormatter::Config::server_name</qualifiedname>
+        <initializer>= &quot;themis&quot;</initializer>
+        <briefdescription>
+<para>Logical server / cluster name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/debezium_format.h" line="196" column="21" bodyfile="include/cdc/debezium_format.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_debezium_formatter_1_1_config_1a2869b9a62a674b70d4158be993efcd96" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::DebeziumFormatter::Config::db_name</definition>
+        <argsstring></argsstring>
+        <name>db_name</name>
+        <qualifiedname>themis::cdc::DebeziumFormatter::Config::db_name</qualifiedname>
+        <initializer>= &quot;themisdb&quot;</initializer>
+        <briefdescription>
+<para>Database name in source block. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/debezium_format.h" line="197" column="21" bodyfile="include/cdc/debezium_format.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_debezium_formatter_1_1_config_1a2fd9ab3d460ced0c18bcbfc2d3fd9a7b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::DebeziumFormatter::Config::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::cdc::DebeziumFormatter::Config::version</qualifiedname>
+        <initializer>= &quot;1.5.0-dev&quot;</initializer>
+        <briefdescription>
+<para>Connector version string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/debezium_format.h" line="198" column="21" bodyfile="include/cdc/debezium_format.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/debezium_format.h" line="195" column="5" bodyfile="include/cdc/debezium_format.h" bodystart="195" bodyend="199"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cdc_1_1_debezium_formatter_1_1_config_1a2869b9a62a674b70d4158be993efcd96" prot="public" virt="non-virtual"><scope>themis::cdc::DebeziumFormatter::Config</scope><name>db_name</name></member>
+      <member refid="structthemis_1_1cdc_1_1_debezium_formatter_1_1_config_1a556035d0993db42ecd112eeb55ceaad1" prot="public" virt="non-virtual"><scope>themis::cdc::DebeziumFormatter::Config</scope><name>server_name</name></member>
+      <member refid="structthemis_1_1cdc_1_1_debezium_formatter_1_1_config_1a2fd9ab3d460ced0c18bcbfc2d3fd9a7b" prot="public" virt="non-virtual"><scope>themis::cdc::DebeziumFormatter::Config</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

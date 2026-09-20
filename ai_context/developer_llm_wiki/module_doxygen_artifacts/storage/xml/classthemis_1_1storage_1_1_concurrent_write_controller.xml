@@ -1,0 +1,655 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_concurrent_write_controller" kind="class" language="C++" prot="public">
+    <compoundname>themis::storage::ConcurrentWriteController</compoundname>
+    <includes refid="concurrent__write__controller_8h" local="no">concurrent_write_controller.h</includes>
+    <innerclass refid="structthemis_1_1storage_1_1_concurrent_write_controller_1_1_waiter" prot="private">themis::storage::ConcurrentWriteController::Waiter</innerclass>
+    <sectiondef kind="friend">
+      <memberdef kind="friend" id="classthemis_1_1storage_1_1_concurrent_write_controller_1a34f64c79e67bb12e217e117d6d2d10ac" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class WriteGuard</definition>
+        <argsstring></argsstring>
+        <name>WriteGuard</name>
+        <qualifiedname>themis::storage::ConcurrentWriteController::WriteGuard</qualifiedname>
+        <param>
+          <type>WriteGuard</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="181" column="18" bodyfile="include/storage/concurrent_write_controller.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_concurrent_write_controller_1ac8055d10327ff266f0c6e10552d2d320" prot="private" static="no" mutable="no">
+        <type>const size_t</type>
+        <definition>const size_t themis::storage::ConcurrentWriteController::max_slots_</definition>
+        <argsstring></argsstring>
+        <name>max_slots_</name>
+        <qualifiedname>themis::storage::ConcurrentWriteController::max_slots_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="197" column="43" bodyfile="include/storage/concurrent_write_controller.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_concurrent_write_controller_1aeff003f4a5493a10510ae8e0bb86b733" prot="private" static="no" mutable="no">
+        <type>const size_t</type>
+        <definition>const size_t themis::storage::ConcurrentWriteController::max_queue_depth_</definition>
+        <argsstring></argsstring>
+        <name>max_queue_depth_</name>
+        <qualifiedname>themis::storage::ConcurrentWriteController::max_queue_depth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="198" column="43" bodyfile="include/storage/concurrent_write_controller.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_concurrent_write_controller_1a40078fd2123e805ef5c23cfd8914e223" prot="private" static="no" mutable="no">
+        <type>const std::chrono::milliseconds</type>
+        <definition>const std::chrono::milliseconds themis::storage::ConcurrentWriteController::acquire_timeout_</definition>
+        <argsstring></argsstring>
+        <name>acquire_timeout_</name>
+        <qualifiedname>themis::storage::ConcurrentWriteController::acquire_timeout_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="199" column="43" bodyfile="include/storage/concurrent_write_controller.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_concurrent_write_controller_1a52ba8d86fc3f6afb7c85f5899a348a6f" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::storage::ConcurrentWriteController::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::storage::ConcurrentWriteController::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="202" column="43" bodyfile="include/storage/concurrent_write_controller.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_concurrent_write_controller_1af2b23f0a43eee50f5e59aa0bf763a1fc" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::ConcurrentWriteController::active_</definition>
+        <argsstring></argsstring>
+        <name>active_</name>
+        <qualifiedname>themis::storage::ConcurrentWriteController::active_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="203" column="43" bodyfile="include/storage/concurrent_write_controller.h" bodystart="203" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_concurrent_write_controller_1ad8299cf5baefabbff3a354ce4286050a" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; std::shared_ptr&lt; Waiter &gt; &gt;</type>
+        <definition>std::deque&lt;std::shared_ptr&lt;Waiter&gt; &gt; themis::storage::ConcurrentWriteController::waiters_</definition>
+        <argsstring></argsstring>
+        <name>waiters_</name>
+        <qualifiedname>themis::storage::ConcurrentWriteController::waiters_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="204" column="18" bodyfile="include/storage/concurrent_write_controller.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_concurrent_write_controller_1abb275c653a64d0938bb9374f3aff5e7b" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::ConcurrentWriteController::shutdown_</definition>
+        <argsstring></argsstring>
+        <name>shutdown_</name>
+        <qualifiedname>themis::storage::ConcurrentWriteController::shutdown_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="205" column="43" bodyfile="include/storage/concurrent_write_controller.h" bodystart="205" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_concurrent_write_controller_1a7cc547c6b500cd6cb268186efd498e31" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::storage::ConcurrentWriteController::total_acquired_</definition>
+        <argsstring></argsstring>
+        <name>total_acquired_</name>
+        <qualifiedname>themis::storage::ConcurrentWriteController::total_acquired_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="208" column="33" bodyfile="include/storage/concurrent_write_controller.h" bodystart="208" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_concurrent_write_controller_1ad3caecbae7541a1e1cfc926b2f88ad1a" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::storage::ConcurrentWriteController::total_rejected_</definition>
+        <argsstring></argsstring>
+        <name>total_rejected_</name>
+        <qualifiedname>themis::storage::ConcurrentWriteController::total_rejected_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="209" column="33" bodyfile="include/storage/concurrent_write_controller.h" bodystart="209" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_concurrent_write_controller_1a2e9c2f607aa5fcfc9097fddb997eca10" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themis::storage::ConcurrentWriteController::ewma_wait_us_scaled_</definition>
+        <argsstring></argsstring>
+        <name>ewma_wait_us_scaled_</name>
+        <qualifiedname>themis::storage::ConcurrentWriteController::ewma_wait_us_scaled_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="211" column="34" bodyfile="include/storage/concurrent_write_controller.h" bodystart="211" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_concurrent_write_controller_1a315dc0e902e64df2489e337cf4e3a35e" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::storage::ConcurrentWriteController::window_mutex_</definition>
+        <argsstring></argsstring>
+        <name>window_mutex_</name>
+        <qualifiedname>themis::storage::ConcurrentWriteController::window_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="215" column="43" bodyfile="include/storage/concurrent_write_controller.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_concurrent_write_controller_1a34d1cf5ff58e7d3149474ef7abc2ab51" prot="private" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::storage::ConcurrentWriteController::wait_window_[kWindowSize]</definition>
+        <argsstring>[kWindowSize]</argsstring>
+        <name>wait_window_</name>
+        <qualifiedname>themis::storage::ConcurrentWriteController::wait_window_</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="216" column="43" bodyfile="include/storage/concurrent_write_controller.h" bodystart="216" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_concurrent_write_controller_1a65da962ac63a2635945635132b51dca4" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::ConcurrentWriteController::window_pos_</definition>
+        <argsstring></argsstring>
+        <name>window_pos_</name>
+        <qualifiedname>themis::storage::ConcurrentWriteController::window_pos_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="217" column="43" bodyfile="include/storage/concurrent_write_controller.h" bodystart="217" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_concurrent_write_controller_1aa10099f7e86bcb42802632d7df05df6c" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::ConcurrentWriteController::window_count_</definition>
+        <argsstring></argsstring>
+        <name>window_count_</name>
+        <qualifiedname>themis::storage::ConcurrentWriteController::window_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="218" column="43" bodyfile="include/storage/concurrent_write_controller.h" bodystart="218" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_concurrent_write_controller_1a2e94689280201e59b557625137a907ff" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themis::storage::ConcurrentWriteController::max_wait_us_</definition>
+        <argsstring></argsstring>
+        <name>max_wait_us_</name>
+        <qualifiedname>themis::storage::ConcurrentWriteController::max_wait_us_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="220" column="34" bodyfile="include/storage/concurrent_write_controller.h" bodystart="220" bodyend="220"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_concurrent_write_controller_1a9c8f45110da2ca7f04eb90d50445daf5" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::ConcurrentWriteController::kWindowSize</definition>
+        <argsstring></argsstring>
+        <name>kWindowSize</name>
+        <qualifiedname>themis::storage::ConcurrentWriteController::kWindowSize</qualifiedname>
+        <initializer>= 128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="214" column="43" bodyfile="include/storage/concurrent_write_controller.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_concurrent_write_controller_1aeb6f2e4bbac758f57a4bf75afdaacf2a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::ConcurrentWriteController::ConcurrentWriteController</definition>
+        <argsstring>(ConcurrentWriteControllerConfig config={})</argsstring>
+        <name>ConcurrentWriteController</name>
+        <qualifiedname>themis::storage::ConcurrentWriteController::ConcurrentWriteController</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1storage_1_1_concurrent_write_controller_config" kindref="compound">ConcurrentWriteControllerConfig</ref></type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="133" column="14" bodyfile="src/storage/concurrent_write_controller.cpp" bodystart="79" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_concurrent_write_controller_1a7dff8a5b435fcbc30c14eddced674e63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::ConcurrentWriteController::~ConcurrentWriteController</definition>
+        <argsstring>()</argsstring>
+        <name>~ConcurrentWriteController</name>
+        <qualifiedname>themis::storage::ConcurrentWriteController::~ConcurrentWriteController</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="135" column="5" bodyfile="src/storage/concurrent_write_controller.cpp" bodystart="87" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_concurrent_write_controller_1aee70cf30f72ccc175d55f7e894451d3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::ConcurrentWriteController::ConcurrentWriteController</definition>
+        <argsstring>(const ConcurrentWriteController &amp;)=delete</argsstring>
+        <name>ConcurrentWriteController</name>
+        <qualifiedname>themis::storage::ConcurrentWriteController::ConcurrentWriteController</qualifiedname>
+        <param>
+          <type>const ConcurrentWriteController &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="138" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_concurrent_write_controller_1ae973acb34083fd55e3524f02ef681c82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_concurrent_write_controller_1aeb6f2e4bbac758f57a4bf75afdaacf2a" kindref="member">ConcurrentWriteController</ref> &amp;</type>
+        <definition>ConcurrentWriteController &amp; themis::storage::ConcurrentWriteController::operator=</definition>
+        <argsstring>(const ConcurrentWriteController &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::storage::ConcurrentWriteController::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1storage_1_1_concurrent_write_controller_1aeb6f2e4bbac758f57a4bf75afdaacf2a" kindref="member">ConcurrentWriteController</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="139" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_concurrent_write_controller_1aa503e2a76c5f16689d8e01ad7b1d3d56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::ConcurrentWriteController::ConcurrentWriteController</definition>
+        <argsstring>(ConcurrentWriteController &amp;&amp;)=delete</argsstring>
+        <name>ConcurrentWriteController</name>
+        <qualifiedname>themis::storage::ConcurrentWriteController::ConcurrentWriteController</qualifiedname>
+        <param>
+          <type>ConcurrentWriteController &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="140" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_concurrent_write_controller_1a060be6ff6c00bb08543fe10c40dab834" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_concurrent_write_controller_1aeb6f2e4bbac758f57a4bf75afdaacf2a" kindref="member">ConcurrentWriteController</ref> &amp;</type>
+        <definition>ConcurrentWriteController &amp; themis::storage::ConcurrentWriteController::operator=</definition>
+        <argsstring>(ConcurrentWriteController &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::storage::ConcurrentWriteController::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1storage_1_1_concurrent_write_controller_1aeb6f2e4bbac758f57a4bf75afdaacf2a" kindref="member">ConcurrentWriteController</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="141" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_concurrent_write_controller_1a5f4c2d3f5c0bde0affb396fd0b69647e" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_concurrent_write_controller_1a34f64c79e67bb12e217e117d6d2d10ac" kindref="member">WriteGuard</ref></type>
+        <definition>WriteGuard themis::storage::ConcurrentWriteController::acquire</definition>
+        <argsstring>()</argsstring>
+        <name>acquire</name>
+        <qualifiedname>themis::storage::ConcurrentWriteController::acquire</qualifiedname>
+        <briefdescription>
+<para>Acquire a write slot, waiting in FIFO order if necessary. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Acquire.</para>
+<para><simplesect kind="return"><para>A RAII <computeroutput><ref refid="classthemis_1_1storage_1_1_write_guard" kindref="compound">WriteGuard</ref></computeroutput>; the slot is released when the guard is destroyed or <computeroutput>release()</computeroutput> is called.</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>wrapping <computeroutput><ref refid="namespacethemis_1_1storage_1a2b7548f58e3bc5a605db5f5b21ae27dc" kindref="member">ConcurrentWriteAcquireError</ref></computeroutput> if the queue is full, the timeout fires, or the controller is shut down.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::steady_clock::now(), lk(), fetch_add(), unlock(), recordWait(), <ref refid="classthemis_1_1storage_1_1_concurrent_write_controller_1a34f64c79e67bb12e217e117d6d2d10ac" kindref="member">WriteGuard()</ref>, size(), get_future(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="154" column="17" bodyfile="src/storage/concurrent_write_controller.cpp" bodystart="135" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_concurrent_write_controller_1ab1dce90529384445a5b6ddbdfb10e1c0" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="classthemis_1_1storage_1_1_concurrent_write_controller_1a34f64c79e67bb12e217e117d6d2d10ac" kindref="member">WriteGuard</ref> &gt;</type>
+        <definition>std::optional&lt; WriteGuard &gt; themis::storage::ConcurrentWriteController::tryAcquire</definition>
+        <argsstring>()</argsstring>
+        <name>tryAcquire</name>
+        <qualifiedname>themis::storage::ConcurrentWriteController::tryAcquire</qualifiedname>
+        <briefdescription>
+<para>Try to acquire a slot without blocking. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Try Acquire.</para>
+<para><simplesect kind="return"><para>A <computeroutput><ref refid="classthemis_1_1storage_1_1_write_guard" kindref="compound">WriteGuard</ref></computeroutput> on success; <computeroutput>std::nullopt</computeroutput> if no slot is immediately available.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), fetch_add(), <ref refid="classthemis_1_1storage_1_1_concurrent_write_controller_1a34f64c79e67bb12e217e117d6d2d10ac" kindref="member">WriteGuard()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="162" column="20" bodyfile="src/storage/concurrent_write_controller.cpp" bodystart="238" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_concurrent_write_controller_1ac9cac693d63e313d0cf739ee38541af6" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::ConcurrentWriteController::shutdown</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::storage::ConcurrentWriteController::shutdown</qualifiedname>
+        <briefdescription>
+<para>Shut down the controller. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Unblocks all current waiters (they receive <computeroutput>SHUTDOWN</computeroutput> error) and prevents future <computeroutput><ref refid="classthemis_1_1storage_1_1_concurrent_write_controller_1a5f4c2d3f5c0bde0affb396fd0b69647e" kindref="member">acquire()</ref></computeroutput> calls from succeeding. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="172" column="10" bodyfile="src/storage/concurrent_write_controller.cpp" bodystart="95" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_concurrent_write_controller_1a5c8127753e3efd09c9267426fa4b258a" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_concurrent_write_stats" kindref="compound">ConcurrentWriteStats</ref></type>
+        <definition>ConcurrentWriteStats themis::storage::ConcurrentWriteController::getStats</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::storage::ConcurrentWriteController::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">window_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="176" column="26" bodyfile="src/storage/concurrent_write_controller.cpp" bodystart="337" bodyend="376"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_concurrent_write_controller_1aa8d28abcb47ebba6f160c834a97ba7bd" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::storage::ConcurrentWriteController::maxConcurrentWrites</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>maxConcurrentWrites</name>
+        <qualifiedname>themis::storage::ConcurrentWriteController::maxConcurrentWrites</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="178" column="12" bodyfile="include/storage/concurrent_write_controller.h" bodystart="178" bodyend="178"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_concurrent_write_controller_1aae223d554094ca4a91f9cfa77e4ce480" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::ConcurrentWriteController::releaseSlot</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>releaseSlot</name>
+        <qualifiedname>themis::storage::ConcurrentWriteController::releaseSlot</qualifiedname>
+        <briefdescription>
+<para>Called by <ref refid="classthemis_1_1storage_1_1_write_guard" kindref="compound">WriteGuard</ref> destructor / release() to return a slot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="188" column="10" bodyfile="src/storage/concurrent_write_controller.cpp" bodystart="252" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_concurrent_write_controller_1a9ddddae61b93ce0eb662dd08b38ae181" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::ConcurrentWriteController::recordWait</definition>
+        <argsstring>(int64_t wait_us) noexcept</argsstring>
+        <name>recordWait</name>
+        <qualifiedname>themis::storage::ConcurrentWriteController::recordWait</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>wait_us</declname>
+        </param>
+        <briefdescription>
+<para>Record a successful acquire wait time and update EWMA / sliding window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">window_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="191" column="10" bodyfile="src/storage/concurrent_write_controller.cpp" bodystart="298" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_concurrent_write_controller_1aa5272dcc4954e9ff879f60b09dd5778d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::ConcurrentWriteController::removeWaiterLocked</definition>
+        <argsstring>(const std::shared_ptr&lt; Waiter &gt; &amp;waiter)</argsstring>
+        <name>removeWaiterLocked</name>
+        <qualifiedname>themis::storage::ConcurrentWriteController::removeWaiterLocked</qualifiedname>
+        <param>
+          <type>const std::shared_ptr&lt; Waiter &gt; &amp;</type>
+          <declname>waiter</declname>
+        </param>
+        <briefdescription>
+<para>Remove a still-queued waiter after timeout/cancellation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove Waiter Locked.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">waiter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::find(), begin(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="194" column="10" bodyfile="src/storage/concurrent_write_controller.cpp" bodystart="284" bodyend="292"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Bounded FIFO counting semaphore for storage write operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Limits concurrent writers to <computeroutput>config.max_concurrent_writes</computeroutput>. Excess callers wait in FIFO order, removing the thundering-herd pattern that causes high latency variance under concurrent HTTP clients.</para>
+<sect1 id="classthemis_1_1storage_1_1_concurrent_write_controller_1autotoc_md4_1s1"><sect2 id="classthemis_1_1storage_1_1_concurrent_write_controller_1autotoc_md4">
+<title>Lifecycle</title><para><itemizedlist>
+<listitem><para>Default-constructed and ready to use.</para>
+</listitem><listitem><para><computeroutput><ref refid="classthemis_1_1storage_1_1_concurrent_write_controller_1ac9cac693d63e313d0cf739ee38541af6" kindref="member">shutdown()</ref></computeroutput> unblocks all waiters and prevents new acquires.</para>
+</listitem><listitem><para>The destructor calls <computeroutput><ref refid="classthemis_1_1storage_1_1_concurrent_write_controller_1ac9cac693d63e313d0cf739ee38541af6" kindref="member">shutdown()</ref></computeroutput>.</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1storage_1_1_concurrent_write_controller_1autotoc_md5_1s1"><sect2 id="classthemis_1_1storage_1_1_concurrent_write_controller_1autotoc_md5">
+<title>Acquiring a slot</title><para><itemizedlist>
+<listitem><para><computeroutput><ref refid="classthemis_1_1storage_1_1_concurrent_write_controller_1a5f4c2d3f5c0bde0affb396fd0b69647e" kindref="member">acquire()</ref></computeroutput> → blocks until a slot is available; returns a <computeroutput><ref refid="classthemis_1_1storage_1_1_write_guard" kindref="compound">WriteGuard</ref></computeroutput>.</para>
+</listitem><listitem><para><computeroutput><ref refid="classthemis_1_1storage_1_1_concurrent_write_controller_1ab1dce90529384445a5b6ddbdfb10e1c0" kindref="member">tryAcquire()</ref></computeroutput> → non-blocking; returns <computeroutput>std::nullopt</computeroutput> if no slot.</para>
+</listitem><listitem><para>Both raise <computeroutput><ref refid="namespacethemis_1_1storage_1a2b7548f58e3bc5a605db5f5b21ae27dc" kindref="member">ConcurrentWriteAcquireError</ref></computeroutput> on queue-full / timeout / shutdown. </para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/storage/concurrent_write_controller.h" line="131" column="1" bodyfile="include/storage/concurrent_write_controller.h" bodystart="131" bodyend="221"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_concurrent_write_controller_1a5f4c2d3f5c0bde0affb396fd0b69647e" prot="public" virt="non-virtual"><scope>themis::storage::ConcurrentWriteController</scope><name>acquire</name></member>
+      <member refid="classthemis_1_1storage_1_1_concurrent_write_controller_1a40078fd2123e805ef5c23cfd8914e223" prot="private" virt="non-virtual"><scope>themis::storage::ConcurrentWriteController</scope><name>acquire_timeout_</name></member>
+      <member refid="classthemis_1_1storage_1_1_concurrent_write_controller_1af2b23f0a43eee50f5e59aa0bf763a1fc" prot="private" virt="non-virtual"><scope>themis::storage::ConcurrentWriteController</scope><name>active_</name></member>
+      <member refid="classthemis_1_1storage_1_1_concurrent_write_controller_1aeb6f2e4bbac758f57a4bf75afdaacf2a" prot="public" virt="non-virtual"><scope>themis::storage::ConcurrentWriteController</scope><name>ConcurrentWriteController</name></member>
+      <member refid="classthemis_1_1storage_1_1_concurrent_write_controller_1aee70cf30f72ccc175d55f7e894451d3f" prot="public" virt="non-virtual"><scope>themis::storage::ConcurrentWriteController</scope><name>ConcurrentWriteController</name></member>
+      <member refid="classthemis_1_1storage_1_1_concurrent_write_controller_1aa503e2a76c5f16689d8e01ad7b1d3d56" prot="public" virt="non-virtual"><scope>themis::storage::ConcurrentWriteController</scope><name>ConcurrentWriteController</name></member>
+      <member refid="classthemis_1_1storage_1_1_concurrent_write_controller_1a2e9c2f607aa5fcfc9097fddb997eca10" prot="private" virt="non-virtual"><scope>themis::storage::ConcurrentWriteController</scope><name>ewma_wait_us_scaled_</name></member>
+      <member refid="classthemis_1_1storage_1_1_concurrent_write_controller_1a5c8127753e3efd09c9267426fa4b258a" prot="public" virt="non-virtual"><scope>themis::storage::ConcurrentWriteController</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1storage_1_1_concurrent_write_controller_1a9c8f45110da2ca7f04eb90d50445daf5" prot="private" virt="non-virtual"><scope>themis::storage::ConcurrentWriteController</scope><name>kWindowSize</name></member>
+      <member refid="classthemis_1_1storage_1_1_concurrent_write_controller_1aeff003f4a5493a10510ae8e0bb86b733" prot="private" virt="non-virtual"><scope>themis::storage::ConcurrentWriteController</scope><name>max_queue_depth_</name></member>
+      <member refid="classthemis_1_1storage_1_1_concurrent_write_controller_1ac8055d10327ff266f0c6e10552d2d320" prot="private" virt="non-virtual"><scope>themis::storage::ConcurrentWriteController</scope><name>max_slots_</name></member>
+      <member refid="classthemis_1_1storage_1_1_concurrent_write_controller_1a2e94689280201e59b557625137a907ff" prot="private" virt="non-virtual"><scope>themis::storage::ConcurrentWriteController</scope><name>max_wait_us_</name></member>
+      <member refid="classthemis_1_1storage_1_1_concurrent_write_controller_1aa8d28abcb47ebba6f160c834a97ba7bd" prot="public" virt="non-virtual"><scope>themis::storage::ConcurrentWriteController</scope><name>maxConcurrentWrites</name></member>
+      <member refid="classthemis_1_1storage_1_1_concurrent_write_controller_1a52ba8d86fc3f6afb7c85f5899a348a6f" prot="private" virt="non-virtual"><scope>themis::storage::ConcurrentWriteController</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1storage_1_1_concurrent_write_controller_1ae973acb34083fd55e3524f02ef681c82" prot="public" virt="non-virtual"><scope>themis::storage::ConcurrentWriteController</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1storage_1_1_concurrent_write_controller_1a060be6ff6c00bb08543fe10c40dab834" prot="public" virt="non-virtual"><scope>themis::storage::ConcurrentWriteController</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1storage_1_1_concurrent_write_controller_1a9ddddae61b93ce0eb662dd08b38ae181" prot="private" virt="non-virtual"><scope>themis::storage::ConcurrentWriteController</scope><name>recordWait</name></member>
+      <member refid="classthemis_1_1storage_1_1_concurrent_write_controller_1aae223d554094ca4a91f9cfa77e4ce480" prot="private" virt="non-virtual"><scope>themis::storage::ConcurrentWriteController</scope><name>releaseSlot</name></member>
+      <member refid="classthemis_1_1storage_1_1_concurrent_write_controller_1aa5272dcc4954e9ff879f60b09dd5778d" prot="private" virt="non-virtual"><scope>themis::storage::ConcurrentWriteController</scope><name>removeWaiterLocked</name></member>
+      <member refid="classthemis_1_1storage_1_1_concurrent_write_controller_1ac9cac693d63e313d0cf739ee38541af6" prot="public" virt="non-virtual"><scope>themis::storage::ConcurrentWriteController</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1storage_1_1_concurrent_write_controller_1abb275c653a64d0938bb9374f3aff5e7b" prot="private" virt="non-virtual"><scope>themis::storage::ConcurrentWriteController</scope><name>shutdown_</name></member>
+      <member refid="classthemis_1_1storage_1_1_concurrent_write_controller_1a7cc547c6b500cd6cb268186efd498e31" prot="private" virt="non-virtual"><scope>themis::storage::ConcurrentWriteController</scope><name>total_acquired_</name></member>
+      <member refid="classthemis_1_1storage_1_1_concurrent_write_controller_1ad3caecbae7541a1e1cfc926b2f88ad1a" prot="private" virt="non-virtual"><scope>themis::storage::ConcurrentWriteController</scope><name>total_rejected_</name></member>
+      <member refid="classthemis_1_1storage_1_1_concurrent_write_controller_1ab1dce90529384445a5b6ddbdfb10e1c0" prot="public" virt="non-virtual"><scope>themis::storage::ConcurrentWriteController</scope><name>tryAcquire</name></member>
+      <member refid="classthemis_1_1storage_1_1_concurrent_write_controller_1a34d1cf5ff58e7d3149474ef7abc2ab51" prot="private" virt="non-virtual"><scope>themis::storage::ConcurrentWriteController</scope><name>wait_window_</name></member>
+      <member refid="classthemis_1_1storage_1_1_concurrent_write_controller_1ad8299cf5baefabbff3a354ce4286050a" prot="private" virt="non-virtual"><scope>themis::storage::ConcurrentWriteController</scope><name>waiters_</name></member>
+      <member refid="classthemis_1_1storage_1_1_concurrent_write_controller_1aa10099f7e86bcb42802632d7df05df6c" prot="private" virt="non-virtual"><scope>themis::storage::ConcurrentWriteController</scope><name>window_count_</name></member>
+      <member refid="classthemis_1_1storage_1_1_concurrent_write_controller_1a315dc0e902e64df2489e337cf4e3a35e" prot="private" virt="non-virtual"><scope>themis::storage::ConcurrentWriteController</scope><name>window_mutex_</name></member>
+      <member refid="classthemis_1_1storage_1_1_concurrent_write_controller_1a65da962ac63a2635945635132b51dca4" prot="private" virt="non-virtual"><scope>themis::storage::ConcurrentWriteController</scope><name>window_pos_</name></member>
+      <member refid="classthemis_1_1storage_1_1_concurrent_write_controller_1a34f64c79e67bb12e217e117d6d2d10ac" prot="private" virt="non-virtual"><scope>themis::storage::ConcurrentWriteController</scope><name>WriteGuard</name></member>
+      <member refid="classthemis_1_1storage_1_1_concurrent_write_controller_1a7dff8a5b435fcbc30c14eddced674e63" prot="public" virt="non-virtual"><scope>themis::storage::ConcurrentWriteController</scope><name>~ConcurrentWriteController</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

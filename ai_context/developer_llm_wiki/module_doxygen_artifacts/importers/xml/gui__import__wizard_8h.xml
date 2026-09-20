@@ -1,0 +1,302 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="gui__import__wizard_8h" kind="file" language="C++">
+    <compoundname>gui_import_wizard.h</compoundname>
+    <includes refid="importer__interface_8h" local="yes">importers/importer_interface.h</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="gui__import__wizard_8cpp" local="yes">src/importers/gui_import_wizard.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/importers/gui_import_wizard.h</label>
+        <link refid="gui__import__wizard_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>importers/importer_interface.h</label>
+        <link refid="importer__interface_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>atomic</label>
+      </node>
+      <node id="12">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="11">
+        <label>future</label>
+      </node>
+      <node id="7">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="15">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="13">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="16">
+        <label>unordered_map</label>
+      </node>
+      <node id="14">
+        <label>utility</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/importers/gui_import_wizard.h</label>
+        <link refid="gui__import__wizard_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/importers/gui_import_wizard.cpp</label>
+        <link refid="gui__import__wizard_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1importers_1_1_column_mapping" prot="public">themis::importers::ColumnMapping</innerclass>
+    <innerclass refid="structthemis_1_1importers_1_1_import_wizard_state" prot="public">themis::importers::ImportWizardState</innerclass>
+    <innerclass refid="classthemis_1_1importers_1_1_import_wizard" prot="public">themis::importers::ImportWizard</innerclass>
+    <innerclass refid="structthemis_1_1importers_1_1_import_wizard_1_1_config" prot="public">themis::importers::ImportWizard::Config</innerclass>
+    <innerclass refid="classthemis_1_1importers_1_1_import_wizard_manager" prot="public">themis::importers::ImportWizardManager</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1importers">themis::importers</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="importer__interface_8h" kindref="compound">importers/importer_interface.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1importers" kindref="compound">importers</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Wizard<sp/>step<sp/>enumeration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1importers_1a2b769aec7a3c306db49ad9fb5a8de08d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1importers_1a2b769aec7a3c306db49ad9fb5a8de08d" kindref="member">WizardStep</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1importers_1a2b769aec7a3c306db49ad9fb5a8de08dae60b4854b44ccfb2d92aa6f035171bb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a2b769aec7a3c306db49ad9fb5a8de08dae60b4854b44ccfb2d92aa6f035171bb4" kindref="member">SOURCE</ref><sp/><sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1importers_1a2b769aec7a3c306db49ad9fb5a8de08dab57e2519e26151feacdbe52076bc39ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a2b769aec7a3c306db49ad9fb5a8de08dab57e2519e26151feacdbe52076bc39ec" kindref="member">CONNECT</ref><sp/><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1importers_1a2b769aec7a3c306db49ad9fb5a8de08da16146de8c60e5b0d74bf6d2a78d4f576" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a2b769aec7a3c306db49ad9fb5a8de08da16146de8c60e5b0d74bf6d2a78d4f576" kindref="member">PREVIEW</ref><sp/><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1importers_1a2b769aec7a3c306db49ad9fb5a8de08da5af1a3a285c2bdee4192223e31e1f833" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a2b769aec7a3c306db49ad9fb5a8de08da5af1a3a285c2bdee4192223e31e1f833" kindref="member">MAP</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1importers_1a2b769aec7a3c306db49ad9fb5a8de08da164dd62adb30ca051b5289672a572f9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a2b769aec7a3c306db49ad9fb5a8de08da164dd62adb30ca051b5289672a572f9b" kindref="member">OPTIONS</ref><sp/><sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1importers_1a2b769aec7a3c306db49ad9fb5a8de08daa9b685a9e8c2047d4b9faac6217d7b4a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a2b769aec7a3c306db49ad9fb5a8de08daa9b685a9e8c2047d4b9faac6217d7b4a" kindref="member">CONFIRM</ref><sp/><sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1importers_1a2b769aec7a3c306db49ad9fb5a8de08dad9c89e6459f4fbd0b03b5bc093e87919" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a2b769aec7a3c306db49ad9fb5a8de08dad9c89e6459f4fbd0b03b5bc093e87919" kindref="member">IMPORT</ref><sp/><sp/><sp/>=<sp/>6,</highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1importers_1a2b769aec7a3c306db49ad9fb5a8de08da2ba22e58ca17bb728d522bba36cf8350" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a2b769aec7a3c306db49ad9fb5a8de08da2ba22e58ca17bb728d522bba36cf8350" kindref="member">DONE</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>7,</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal">std::string<sp/><ref refid="namespacethemis_1_1importers_1a5dcdc18e757ac7d2c738be20bf687cb9" kindref="member">wizardStepName</ref>(<ref refid="namespacethemis_1_1importers_1a2b769aec7a3c306db49ad9fb5a8de08d" kindref="member">WizardStep</ref><sp/>step);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ImportWizardState</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1importers_1_1_column_mapping" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1importers_1_1_column_mapping" kindref="compound">ColumnMapping</ref><sp/>{</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1importers_1_1_column_mapping_1aab9fa17d58f5091bba8e689f14d1f855" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_column_mapping_1aab9fa17d58f5091bba8e689f14d1f855" kindref="member">source_column</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1importers_1_1_column_mapping_1a0f5d7335b5e4ab9f3bc59f5c499f4d9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_column_mapping_1a0f5d7335b5e4ab9f3bc59f5c499f4d9b" kindref="member">target_field</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1importers_1_1_column_mapping_1afb85f2e4d3b907568ee4952edc41c097" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_column_mapping_1afb85f2e4d3b907568ee4952edc41c097" kindref="member">target_type</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1importers_1_1_column_mapping_1a26dd9c11158e83daef661fe507984844" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1importers_1_1_column_mapping_1a26dd9c11158e83daef661fe507984844" kindref="member">skip</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1importers_1_1_import_wizard_state" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1importers_1_1_import_wizard_state" kindref="compound">ImportWizardState</ref><sp/>{</highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1importers_1_1_import_wizard_state_1aafe6120ddec49ecfe7b303d993b0ae9d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_import_wizard_state_1aafe6120ddec49ecfe7b303d993b0ae9d" kindref="member">session_id</ref>;</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1importers_1_1_import_wizard_state_1a515cfcb6935bc0d977a124b670d7ebcd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a2b769aec7a3c306db49ad9fb5a8de08d" kindref="member">WizardStep</ref><sp/><sp/><ref refid="structthemis_1_1importers_1_1_import_wizard_state_1a515cfcb6935bc0d977a124b670d7ebcd" kindref="member">current_step</ref><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1importers_1a2b769aec7a3c306db49ad9fb5a8de08dae60b4854b44ccfb2d92aa6f035171bb4" kindref="member">WizardStep::SOURCE</ref>;</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1importers_1_1_import_wizard_state_1a21d2290290a7d85167510002529f1227" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1importers_1_1_import_wizard_state_1a21d2290290a7d85167510002529f1227" kindref="member">completed</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1importers_1_1_import_wizard_state_1a5f05016e5d4dcaab2cb41d27f6fb550f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_import_wizard_state_1a5f05016e5d4dcaab2cb41d27f6fb550f" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Step<sp/>1:<sp/>SOURCE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1importers_1_1_import_wizard_state_1a27593dad812cd051890439bbea9bc178" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_import_wizard_state_1a27593dad812cd051890439bbea9bc178" kindref="member">source_type</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Step<sp/>2:<sp/>CONNECT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1importers_1_1_import_wizard_state_1abc1d92bcc11ab75304801f79d06600e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref><sp/><ref refid="structthemis_1_1importers_1_1_import_wizard_state_1abc1d92bcc11ab75304801f79d06600e4" kindref="member">connection_params</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Step<sp/>3:<sp/>PREVIEW</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1importers_1_1_import_wizard_state_1a520ee80077638942ea7e7ba1e8a3ea4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref><sp/><ref refid="structthemis_1_1importers_1_1_import_wizard_state_1a520ee80077638942ea7e7ba1e8a3ea4e" kindref="member">preview_schema</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1importers_1_1_import_wizard_state_1aa15fb5eab09150c7f7532b32774ed52a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref><sp/><ref refid="structthemis_1_1importers_1_1_import_wizard_state_1aa15fb5eab09150c7f7532b32774ed52a" kindref="member">preview_rows</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Step<sp/>4:<sp/>MAP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1importers_1_1_import_wizard_state_1a845b1685b6ddffd9d03455a9f4f29bdf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ColumnMapping&gt;<sp/><ref refid="structthemis_1_1importers_1_1_import_wizard_state_1a845b1685b6ddffd9d03455a9f4f29bdf" kindref="member">column_mappings</ref>;</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1importers_1_1_import_wizard_state_1a38fc143b72f945f6f9bc3f20d4789355" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_import_wizard_state_1a38fc143b72f945f6f9bc3f20d4789355" kindref="member">target_collection</ref>;<sp/></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Step<sp/>5:<sp/>OPTIONS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1importers_1_1_import_wizard_state_1a88d0d50e16d73f9c16d8d131e8ef9f00" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_import_wizard_state_1a88d0d50e16d73f9c16d8d131e8ef9f00" kindref="member">conflict_strategy</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;upsert&quot;</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1importers_1_1_import_wizard_state_1a26d8ba56b1b1ed8b9256de3d0af2d4b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1importers_1_1_import_wizard_state_1a26d8ba56b1b1ed8b9256de3d0af2d4b7" kindref="member">batch_size</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1importers_1_1_import_wizard_state_1a032bb0716d57cbc4e2c35f6212bcce9f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1importers_1_1_import_wizard_state_1a032bb0716d57cbc4e2c35f6212bcce9f" kindref="member">dry_run</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1importers_1_1_import_wizard_state_1a95bccded6462a7a2b34c3219ad2640f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1importers_1_1_import_wizard_state_1a95bccded6462a7a2b34c3219ad2640f0" kindref="member">enable_schema_validation</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Step<sp/>7:<sp/>IMPORT<sp/>progress</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1importers_1_1_import_wizard_state_1a533920f831ee9b5c4da9fcbabee722e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1importers_1_1_import_wizard_state_1a533920f831ee9b5c4da9fcbabee722e1" kindref="member">rows_processed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1importers_1_1_import_wizard_state_1a93a9e5b123c380ce488386894a882686" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1importers_1_1_import_wizard_state_1a93a9e5b123c380ce488386894a882686" kindref="member">rows_imported</ref><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1importers_1_1_import_wizard_state_1a1b5fcdeec680746884202eababd3712c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1importers_1_1_import_wizard_state_1a1b5fcdeec680746884202eababd3712c" kindref="member">rows_failed</ref><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1importers_1_1_import_wizard_state_1a068da6f22037614acc7eb7f81b866652" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1importers_1_1_import_wizard_state_1a068da6f22037614acc7eb7f81b866652" kindref="member">progress_pct</ref><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1importers_1_1_import_wizard_state_1afeff27b51dc020e2ac55cfc495f2a0e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_import_wizard_state_1afeff27b51dc020e2ac55cfc495f2a0e3" kindref="member">started_at</ref>;</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1importers_1_1_import_wizard_state_1a3f7c016fe64c22a4da385b2fc8518c25" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_import_wizard_state_1a3f7c016fe64c22a4da385b2fc8518c25" kindref="member">finished_at</ref>;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref><sp/><ref refid="structthemis_1_1importers_1_1_import_wizard_state_1a4e41e47dcfd977659e284c4a288abb05" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_import_wizard_state" kindref="compound">ImportWizardState</ref><sp/><ref refid="structthemis_1_1importers_1_1_import_wizard_state_1a37e97acbe4e209b54c9c7abeadbcd2fd" kindref="member">fromJSON</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref>&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ImportWizard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="classthemis_1_1importers_1_1_import_wizard" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1importers_1_1_import_wizard_1ad4f6dd3f5cce2056c68b2c429c108e31" kindref="member">ImportWizard</ref><sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="112" refid="classthemis_1_1importers_1_1_import_wizard_1a0a11e822824e8ec2d08aa5bc7c0f1c82" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1importers_1_1_import_wizard_1a0a11e822824e8ec2d08aa5bc7c0f1c82" kindref="member">ProgressCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_import_wizard_state" kindref="compound">ImportWizardState</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1importers_1_1_import_wizard_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1importers_1_1_import_wizard_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1importers_1_1_import_wizard_1_1_config_1a5220c2047a508c64332289d3f3625987" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_import_wizard_1_1_config_1a5220c2047a508c64332289d3f3625987" kindref="member">preview_max_rows</ref><sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1importers_1_1_import_wizard_1_1_config_1a0d537f03ea8e33e1ac3ef3bcc5fa25c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_import_wizard_1_1_config_1a0d537f03ea8e33e1ac3ef3bcc5fa25c1" kindref="member">max_sessions</ref><sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,</highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1importers_1_1_import_wizard_1_1_config_1a22fcc7f3a9ce09c711bc0f39d9dfe9a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;std::unique_ptr&lt;IImporter&gt;()&gt;&gt;<sp/><ref refid="structthemis_1_1importers_1_1_import_wizard_1_1_config_1a22fcc7f3a9ce09c711bc0f39d9dfe9a0" kindref="member">importer_factories</ref>;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1importers_1_1_import_wizard_1ad4f6dd3f5cce2056c68b2c429c108e31" kindref="member">ImportWizard</ref>();</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1importers_1_1_import_wizard_1ad4f6dd3f5cce2056c68b2c429c108e31" kindref="member">ImportWizard</ref>(<ref refid="structthemis_1_1importers_1_1_import_wizard_1_1_config" kindref="compound">Config</ref><sp/>config);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1importers_1_1_import_wizard_1ac40c6cc9b7f4ad3f49678213280e650d" kindref="member">createSession</ref>();</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_import_wizard_state" kindref="compound">ImportWizardState</ref>&amp;<sp/><ref refid="classthemis_1_1importers_1_1_import_wizard_1a1137cc0ef5311a35cb2e9657908749d1" kindref="member">getState</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1importers_1_1_import_wizard_state" kindref="compound">ImportWizardState</ref>&amp;<sp/><ref refid="classthemis_1_1importers_1_1_import_wizard_1a0e5f2a9feb61ab9a1c4d35df9d62d76a" kindref="member">setSource</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id,</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>source_type);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1importers_1_1_import_wizard_state" kindref="compound">ImportWizardState</ref>&amp;<sp/><ref refid="classthemis_1_1importers_1_1_import_wizard_1a100ca193846a594bfbd8bd7178504ad2" kindref="member">connect</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id,</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>connection_params);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1importers_1_1_import_wizard_state" kindref="compound">ImportWizardState</ref>&amp;<sp/><ref refid="classthemis_1_1importers_1_1_import_wizard_1ad47970b083a02cb1dbd72c2c10163640" kindref="member">setColumnMappings</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>session_id,</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ColumnMapping&gt;&amp;<sp/>mappings,</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>target_collection);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1importers_1_1_import_wizard_state" kindref="compound">ImportWizardState</ref>&amp;<sp/><ref refid="classthemis_1_1importers_1_1_import_wizard_1a0c6cc36a2ef5a6aef5b922154337ebb8" kindref="member">setOptions</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id,</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>conflict_strategy,</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>batch_size,</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dry_run);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1importers_1_1_import_wizard_1a85a83b8439c302fbed7d8dbcde5e819e" kindref="member">runImport</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id,</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1importers_1_1_import_wizard_1a0a11e822824e8ec2d08aa5bc7c0f1c82" kindref="member">ProgressCallback</ref><sp/><sp/><sp/>on_progress<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1importers_1_1_import_wizard_1a257a9592e124144e7b7442137afc4e17" kindref="member">cancel</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1importers_1_1_import_wizard_1a19acc5055f334fc15a4d0a5dc9516ad5" kindref="member">deleteSession</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1importers_1_1_import_wizard_1a3216bc22b9e09d2f46a9d35abc8104cc" kindref="member">activeSessions</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/>config_;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>ImportWizardState&gt;<sp/>sessions_;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1importers_1_1_import_wizard_state" kindref="compound">ImportWizardState</ref>&amp;<sp/>requireSession(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>generateSessionId()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ImportWizardManager<sp/>(process-singleton<sp/>convenience<sp/>wrapper)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232" refid="classthemis_1_1importers_1_1_import_wizard_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">ImportWizardManager<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>ImportWizardManager&amp;<sp/><ref refid="classthemis_1_1importers_1_1_import_wizard_manager_1aa87bdaa4e0068a3aa775ef575cc830da" kindref="member">instance</ref>();</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1importers_1_1_import_wizard_manager_1a2cff0b91a8ced909f28ef875e7d8188e" kindref="member">configure</ref>(<ref refid="structthemis_1_1importers_1_1_import_wizard_1_1_config" kindref="compound">ImportWizard::Config</ref><sp/>config);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1importers_1_1_import_wizard" kindref="compound">ImportWizard</ref>&amp;<sp/><ref refid="classthemis_1_1importers_1_1_import_wizard_manager_1a59cc62d488ceda166717e3f9c8ae3918" kindref="member">wizard</ref>();</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>ImportWizardManager()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;ImportWizard&gt;<sp/>wizard_;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>importers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/importers/gui_import_wizard.h"/>
+  </compounddef>
+</doxygen>

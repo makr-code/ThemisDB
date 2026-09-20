@@ -1,0 +1,1083 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__rag__reranker_8cpp" kind="file" language="C++">
+    <compoundname>test_rag_reranker.cpp</compoundname>
+    <includes refid="reranker_8h" local="yes">rag/reranker.h</includes>
+    <includes local="no">gtest/gtest.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>rag/rag_judge.h</label>
+        <link refid="rag__judge_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>rag/reranker.h</label>
+        <link refid="reranker_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/rag/test_rag_reranker.cpp</label>
+        <link refid="test__rag__reranker_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>chrono</label>
+      </node>
+      <node id="10">
+        <label>cmath</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="12">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_reranker_scoring_test" prot="public">RerankerScoringTest</innerclass>
+    <innerclass refid="class_reranker_rerank_test" prot="public">RerankerRerankTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__rag__reranker_8cpp_1a20e689f6ff24c6d0b80ce805090cf683" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt;</type>
+        <definition>static std::vector&lt; RetrievedDocument &gt; makeDocuments</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;id_content)</argsstring>
+        <name>makeDocuments</name>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>id_content</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_reranker.cpp" line="29" column="20" bodyfile="tests/rag/test_rag_reranker.cpp" bodystart="29" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__reranker_8cpp_1a3d2c5eb57bb4cd46a211271adabbdbaf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RerankerScoringTest, ScoreRangeValid)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_reranker_scoring_test" kindref="compound">RerankerScoringTest</ref></type>
+        </param>
+        <param>
+          <type>ScoreRangeValid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_reranker.cpp" line="54" column="1" bodyfile="tests/rag/test_rag_reranker.cpp" bodystart="54" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__reranker_8cpp_1a28efef05145f2444010a017c132c24cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RerankerScoringTest, RelevantDocScoresHigherThanIrrelevant)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_reranker_scoring_test" kindref="compound">RerankerScoringTest</ref></type>
+        </param>
+        <param>
+          <type>RelevantDocScoresHigherThanIrrelevant</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_reranker.cpp" line="60" column="1" bodyfile="tests/rag/test_rag_reranker.cpp" bodystart="60" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__reranker_8cpp_1abf22035fd04d053f2f7c16f2d9e79c04" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RerankerScoringTest, EmptyQueryReturnsZero)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_reranker_scoring_test" kindref="compound">RerankerScoringTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyQueryReturnsZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_reranker.cpp" line="69" column="1" bodyfile="tests/rag/test_rag_reranker.cpp" bodystart="69" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__reranker_8cpp_1aff38c86e89e911e0a8f654139d0f1218" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RerankerScoringTest, EmptyDocumentReturnsZero)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_reranker_scoring_test" kindref="compound">RerankerScoringTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyDocumentReturnsZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_reranker.cpp" line="73" column="1" bodyfile="tests/rag/test_rag_reranker.cpp" bodystart="73" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__reranker_8cpp_1a2a1b8b3226d3168effd9e7245fcdb388" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RerankerScoringTest, IdenticalQueryAndDocHighScore)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_reranker_scoring_test" kindref="compound">RerankerScoringTest</ref></type>
+        </param>
+        <param>
+          <type>IdenticalQueryAndDocHighScore</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_reranker.cpp" line="77" column="1" bodyfile="tests/rag/test_rag_reranker.cpp" bodystart="77" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__reranker_8cpp_1ac2fec65a87b772788b4cd09e2066131e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RerankerBatchTest, BatchConsistentWithSingle)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RerankerBatchTest</type>
+        </param>
+        <param>
+          <type>BatchConsistentWithSingle</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_reranker.cpp" line="88" column="1" bodyfile="tests/rag/test_rag_reranker.cpp" bodystart="88" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__reranker_8cpp_1ad07517af11a2d4f1c899431d513347a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RerankerBatchTest, EmptyDocListReturnsEmptyScores)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RerankerBatchTest</type>
+        </param>
+        <param>
+          <type>EmptyDocListReturnsEmptyScores</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_reranker.cpp" line="106" column="1" bodyfile="tests/rag/test_rag_reranker.cpp" bodystart="106" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__reranker_8cpp_1a9b219ae68b55ce113a1bd3c3b00ee9a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RerankerRerankTest, ResultCountRespectsTopK)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_reranker_rerank_test" kindref="compound">RerankerRerankTest</ref></type>
+        </param>
+        <param>
+          <type>ResultCountRespectsTopK</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_reranker.cpp" line="130" column="1" bodyfile="tests/rag/test_rag_reranker.cpp" bodystart="130" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__reranker_8cpp_1a73de2cf8cb10a9369dbe617b5a2bc25e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RerankerRerankTest, TopKOverrideAtCallSite)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_reranker_rerank_test" kindref="compound">RerankerRerankTest</ref></type>
+        </param>
+        <param>
+          <type>TopKOverrideAtCallSite</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_reranker.cpp" line="139" column="1" bodyfile="tests/rag/test_rag_reranker.cpp" bodystart="139" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__reranker_8cpp_1a8283abbf0e0d36f4d1d8dc4821bb8947" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RerankerRerankTest, DocumentsOrderedByScore)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_reranker_rerank_test" kindref="compound">RerankerRerankTest</ref></type>
+        </param>
+        <param>
+          <type>DocumentsOrderedByScore</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_reranker.cpp" line="146" column="1" bodyfile="tests/rag/test_rag_reranker.cpp" bodystart="146" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__reranker_8cpp_1aa08ef2efca0b99efda7b6c94df3a8cdb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RerankerRerankTest, ScoresVectorMatchesDocumentScores)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_reranker_rerank_test" kindref="compound">RerankerRerankTest</ref></type>
+        </param>
+        <param>
+          <type>ScoresVectorMatchesDocumentScores</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_reranker.cpp" line="157" column="1" bodyfile="tests/rag/test_rag_reranker.cpp" bodystart="157" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__reranker_8cpp_1a381c35c90a402e1f9243cded52d0eb52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RerankerRerankTest, RelevantDocRanksHigher)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_reranker_rerank_test" kindref="compound">RerankerRerankTest</ref></type>
+        </param>
+        <param>
+          <type>RelevantDocRanksHigher</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_reranker.cpp" line="170" column="1" bodyfile="tests/rag/test_rag_reranker.cpp" bodystart="170" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__reranker_8cpp_1a0a5c375a72e83d943d06108f10bd586b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RerankerRerankTest, EmptyQueryReturnsEmptyResult)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_reranker_rerank_test" kindref="compound">RerankerRerankTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyQueryReturnsEmptyResult</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_reranker.cpp" line="191" column="1" bodyfile="tests/rag/test_rag_reranker.cpp" bodystart="191" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__reranker_8cpp_1a9d74b356f689f55f0f66d7512e41e3d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RerankerRerankTest, EmptyCandidatesReturnsEmptyResult)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_reranker_rerank_test" kindref="compound">RerankerRerankTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyCandidatesReturnsEmptyResult</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_reranker.cpp" line="197" column="1" bodyfile="tests/rag/test_rag_reranker.cpp" bodystart="197" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__reranker_8cpp_1a4811f6110f65420725af9edaee7f09d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RerankerRerankTest, RerankTimeIsSet)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_reranker_rerank_test" kindref="compound">RerankerRerankTest</ref></type>
+        </param>
+        <param>
+          <type>RerankTimeIsSet</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_reranker.cpp" line="203" column="1" bodyfile="tests/rag/test_rag_reranker.cpp" bodystart="203" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__reranker_8cpp_1ad867dd8071a53ac06aa2f607260ed677" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RerankerRerankTest, UsedModelFalseWithoutLoadedModel)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_reranker_rerank_test" kindref="compound">RerankerRerankTest</ref></type>
+        </param>
+        <param>
+          <type>UsedModelFalseWithoutLoadedModel</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_reranker.cpp" line="211" column="1" bodyfile="tests/rag/test_rag_reranker.cpp" bodystart="211" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__reranker_8cpp_1a1ed118360075d970545a2231b4401e50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RerankerThresholdTest, ThresholdFiltersLowScoringDocuments)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RerankerThresholdTest</type>
+        </param>
+        <param>
+          <type>ThresholdFiltersLowScoringDocuments</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_reranker.cpp" line="221" column="1" bodyfile="tests/rag/test_rag_reranker.cpp" bodystart="221" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__reranker_8cpp_1a77c08aba55891b7596723e25a9dcb1ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RerankerCacheTest, CacheHitReturnsSameScore)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RerankerCacheTest</type>
+        </param>
+        <param>
+          <type>CacheHitReturnsSameScore</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_reranker.cpp" line="242" column="1" bodyfile="tests/rag/test_rag_reranker.cpp" bodystart="242" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__reranker_8cpp_1a5481b735df57daf57cb5ac1d86018d93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RerankerCacheTest, ClearCacheInvalidatesEntries)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RerankerCacheTest</type>
+        </param>
+        <param>
+          <type>ClearCacheInvalidatesEntries</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_reranker.cpp" line="255" column="1" bodyfile="tests/rag/test_rag_reranker.cpp" bodystart="255" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__reranker_8cpp_1aa13c14d10031de601c5309665174deb5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RerankerCacheTest, SetConfigWithChangedCacheSizeClearsCache)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RerankerCacheTest</type>
+        </param>
+        <param>
+          <type>SetConfigWithChangedCacheSizeClearsCache</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_reranker.cpp" line="268" column="1" bodyfile="tests/rag/test_rag_reranker.cpp" bodystart="268" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__reranker_8cpp_1a9302f299174976e2712b3eb26c22bba7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RerankerModelTest, IsModelLoadedFalseByDefault)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RerankerModelTest</type>
+        </param>
+        <param>
+          <type>IsModelLoadedFalseByDefault</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_reranker.cpp" line="290" column="1" bodyfile="tests/rag/test_rag_reranker.cpp" bodystart="290" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__reranker_8cpp_1a7be2e6b00ef9d47c6dece892c86264f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RerankerModelTest, LoadModelEmptyPathReturnsFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RerankerModelTest</type>
+        </param>
+        <param>
+          <type>LoadModelEmptyPathReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_reranker.cpp" line="295" column="1" bodyfile="tests/rag/test_rag_reranker.cpp" bodystart="295" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__reranker_8cpp_1a0a9936510b4d6b46e701d376cef5832b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RerankerModelTest, LoadModelNonEmptyPathReturnsTrue)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RerankerModelTest</type>
+        </param>
+        <param>
+          <type>LoadModelNonEmptyPathReturnsTrue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_reranker.cpp" line="301" column="1" bodyfile="tests/rag/test_rag_reranker.cpp" bodystart="301" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__reranker_8cpp_1a257cf5e7c9d77c04e2d826a7ef2f5988" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RerankerModelTest, UsedModelTrueAfterLoadModel)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RerankerModelTest</type>
+        </param>
+        <param>
+          <type>UsedModelTrueAfterLoadModel</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_reranker.cpp" line="309" column="1" bodyfile="tests/rag/test_rag_reranker.cpp" bodystart="309" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__reranker_8cpp_1a422f2240f178a19e31aa671ddfbfbbe2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RerankerConfigTest, GetConfigReturnsInitialConfig)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RerankerConfigTest</type>
+        </param>
+        <param>
+          <type>GetConfigReturnsInitialConfig</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_reranker.cpp" line="323" column="1" bodyfile="tests/rag/test_rag_reranker.cpp" bodystart="323" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__reranker_8cpp_1a159a67132f5f613f9b59948ca324225b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RerankerConfigTest, SetConfigUpdatesConfig)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RerankerConfigTest</type>
+        </param>
+        <param>
+          <type>SetConfigUpdatesConfig</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_reranker.cpp" line="333" column="1" bodyfile="tests/rag/test_rag_reranker.cpp" bodystart="333" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__reranker_8cpp_1af8178a547f759dd3ce6573ad6b648314" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RerankerFactoryTest, CreateFastReturnsInstance)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RerankerFactoryTest</type>
+        </param>
+        <param>
+          <type>CreateFastReturnsInstance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_reranker.cpp" line="345" column="1" bodyfile="tests/rag/test_rag_reranker.cpp" bodystart="345" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__reranker_8cpp_1a8a643ab1f3d493020fa9af8ac71ae485" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RerankerFactoryTest, CreateBalancedNoModelReturnsInstance)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RerankerFactoryTest</type>
+        </param>
+        <param>
+          <type>CreateBalancedNoModelReturnsInstance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_reranker.cpp" line="351" column="1" bodyfile="tests/rag/test_rag_reranker.cpp" bodystart="351" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__reranker_8cpp_1a092419a436f45b6675906f08cc25e2ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RerankerFactoryTest, CreateAccurateNoModelReturnsInstance)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RerankerFactoryTest</type>
+        </param>
+        <param>
+          <type>CreateAccurateNoModelReturnsInstance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_reranker.cpp" line="357" column="1" bodyfile="tests/rag/test_rag_reranker.cpp" bodystart="357" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__reranker_8cpp_1aa24c033ba2427123ea8ae3cc080e3f3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RerankerFactoryTest, CreateBalancedWithModelPathLoadsModel)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RerankerFactoryTest</type>
+        </param>
+        <param>
+          <type>CreateBalancedWithModelPathLoadsModel</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_reranker.cpp" line="363" column="1" bodyfile="tests/rag/test_rag_reranker.cpp" bodystart="363" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__reranker_8cpp_1a29e807ba60ef4d255d1441cee6d6becb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RerankerFactoryTest, FactoryRerankerProducesValidScores)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RerankerFactoryTest</type>
+        </param>
+        <param>
+          <type>FactoryRerankerProducesValidScores</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_reranker.cpp" line="369" column="1" bodyfile="tests/rag/test_rag_reranker.cpp" bodystart="369" bodyend="382"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for the <ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker" kindref="compound">CrossEncoderReranker</ref> (re-ranking layer). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests cover:<itemizedlist>
+<listitem><para>Score range validity [0, 1]</para>
+</listitem><listitem><para>Relevant document ranked above irrelevant document</para>
+</listitem><listitem><para>top_k truncation</para>
+</listitem><listitem><para>Empty query / empty candidates edge cases</para>
+</listitem><listitem><para>Score cache behaviour (hit/miss/invalidation on setConfig)</para>
+</listitem><listitem><para>Batch scoring consistency with single scoring</para>
+</listitem><listitem><para>loadModel() / isModelLoaded() lifecycle</para>
+</listitem><listitem><para><ref refid="classthemis_1_1rag_1_1_cross_encoder_factory" kindref="compound">CrossEncoderFactory</ref> helpers</para>
+</listitem><listitem><para><ref refid="structthemis_1_1rag_1_1_rerank_result" kindref="compound">RerankResult</ref> metadata (used_model, rerank_time, scores vector)</para>
+</listitem><listitem><para>min_score_threshold filtering</para>
+</listitem><listitem><para>Score ordering in <ref refid="structthemis_1_1rag_1_1_rerank_result_1a63e74abd11ecd045601740c7f79ed788" kindref="member">RerankResult::scores</ref> </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="reranker_8h" kindref="compound">rag/reranker.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag" kindref="compound">themis::rag</ref>;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">themis::rag::judge</ref>;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>makeDocuments(</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;&amp;<sp/>id_content)</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>docs<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>docs.reserve(id_content.size());</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>id_content.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref><sp/>d;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>d.<ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document_1ab4c5dbdcc47ac579d33603f713d1a370" kindref="member">id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>id_content[i].first;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>d.<ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document_1a13a7721cc1eaad3d89335467a5aca5c6" kindref="member">content</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>id_content[i].second;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>d.<ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document_1a470d2fdc59604430e11a52a1fedaf51f" kindref="member">similarity_score</ref><sp/>=<sp/>1.0<sp/>-<sp/>0.1<sp/>*<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i);<sp/><sp/></highlight><highlight class="comment">//<sp/>initial<sp/>scores</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>docs.push_back(d);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>docs;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CrossEncoderReranker<sp/>–<sp/>basic<sp/>scoring</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="class_reranker_scoring_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_reranker_scoring_test" kindref="compound">RerankerScoringTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker" kindref="compound">CrossEncoderReranker</ref><sp/><ref refid="class_reranker_scoring_test_1a4e16f392c982a89512aacbba81af04f7" kindref="member">reranker</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>default<sp/>config,<sp/>heuristic<sp/>scorer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><ref refid="test__rag__reranker_8cpp_1a3d2c5eb57bb4cd46a211271adabbdbaf" kindref="member">TEST_F</ref>(<ref refid="class_reranker_scoring_test" kindref="compound">RerankerScoringTest</ref>,<sp/>ScoreRangeValid)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>reranker.score(</highlight><highlight class="stringliteral">&quot;capital<sp/>of<sp/>France&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(s,<sp/>0.0);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(s,<sp/>1.0);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="test__rag__reranker_8cpp_1a3d2c5eb57bb4cd46a211271adabbdbaf" kindref="member">TEST_F</ref>(<ref refid="class_reranker_scoring_test" kindref="compound">RerankerScoringTest</ref>,<sp/>RelevantDocScoresHigherThanIrrelevant)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France?&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>relevant<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France<sp/>and<sp/>a<sp/>major<sp/>European<sp/>city.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>irrelevant<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Bananas<sp/>are<sp/>a<sp/>tropical<sp/>fruit<sp/>rich<sp/>in<sp/>potassium.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(reranker.score(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>relevant),</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>reranker.score(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>irrelevant));</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><ref refid="test__rag__reranker_8cpp_1a3d2c5eb57bb4cd46a211271adabbdbaf" kindref="member">TEST_F</ref>(<ref refid="class_reranker_scoring_test" kindref="compound">RerankerScoringTest</ref>,<sp/>EmptyQueryReturnsZero)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(reranker.score(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Some<sp/>document<sp/>text.&quot;</highlight><highlight class="normal">),<sp/>0.0);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><ref refid="test__rag__reranker_8cpp_1a3d2c5eb57bb4cd46a211271adabbdbaf" kindref="member">TEST_F</ref>(<ref refid="class_reranker_scoring_test" kindref="compound">RerankerScoringTest</ref>,<sp/>EmptyDocumentReturnsZero)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(reranker.score(</highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>AI?&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">),<sp/>0.0);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><ref refid="test__rag__reranker_8cpp_1a3d2c5eb57bb4cd46a211271adabbdbaf" kindref="member">TEST_F</ref>(<ref refid="class_reranker_scoring_test" kindref="compound">RerankerScoringTest</ref>,<sp/>IdenticalQueryAndDocHighScore)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>document<sp/>that<sp/>exactly<sp/>repeats<sp/>the<sp/>query<sp/>should<sp/>score<sp/>high</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>text<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;machine<sp/>learning<sp/>classification<sp/>supervised<sp/>learning&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>reranker.score(text,<sp/>text);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(s,<sp/>0.5);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CrossEncoderReranker<sp/>–<sp/>batch<sp/>scoring</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><ref refid="test__rag__reranker_8cpp_1ac2fec65a87b772788b4cd09e2066131e" kindref="member">TEST</ref>(RerankerBatchTest,<sp/>BatchConsistentWithSingle)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker" kindref="compound">CrossEncoderReranker</ref><sp/>reranker;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;capital<sp/>of<sp/>France&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>docs<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Bananas<sp/>are<sp/>rich<sp/>in<sp/>potassium.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;France<sp/>is<sp/>located<sp/>in<sp/>Western<sp/>Europe.&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>batch<sp/>=<sp/>reranker.<ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1a76ec961e33be7690ead81c49ee22686b" kindref="member">scoreBatch</ref>(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>docs);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(batch.size(),<sp/>docs.size());</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>docs.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NEAR(batch[i],<sp/>reranker.<ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1a2e98f617d7c74f060364dff8486d55a3" kindref="member">score</ref>(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>docs[i]),<sp/>1e-9)</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Mismatch<sp/>at<sp/>index<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><ref refid="test__rag__reranker_8cpp_1ac2fec65a87b772788b4cd09e2066131e" kindref="member">TEST</ref>(RerankerBatchTest,<sp/>EmptyDocListReturnsEmptyScores)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker" kindref="compound">CrossEncoderReranker</ref><sp/>reranker;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>scores<sp/>=<sp/>reranker.<ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1a76ec961e33be7690ead81c49ee22686b" kindref="member">scoreBatch</ref>(</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(scores.empty());</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CrossEncoderReranker<sp/>–<sp/>rerank()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="class_reranker_rerank_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_reranker_rerank_test" kindref="compound">RerankerRerankTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_cross_encoder_config" kindref="compound">CrossEncoderConfig</ref><sp/><ref refid="class_reranker_rerank_test_1a6e1c9df99d56ed1cfa4638c10d7a3614" kindref="member">config</ref>;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_reranker_rerank_test_1a787b9f5922f9b4dab430c554f2927037" kindref="member">query</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>machine<sp/>learning?&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/><ref refid="class_reranker_rerank_test_1a8c3dd0cab46f8eb90e353ac4fe1c1c10" kindref="member">candidates</ref><sp/>=<sp/>makeDocuments({</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Machine<sp/>learning<sp/>is<sp/>a<sp/>subset<sp/>of<sp/>artificial<sp/>intelligence.&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;doc2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Quantum<sp/>computing<sp/>leverages<sp/>quantum<sp/>mechanics.&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;doc3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Machine<sp/>learning<sp/>algorithms<sp/>learn<sp/>from<sp/>data<sp/>automatically.&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;doc4&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;The<sp/>weather<sp/>in<sp/>Paris<sp/>is<sp/>mild<sp/>in<sp/>spring.&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;doc5&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Supervised<sp/>machine<sp/>learning<sp/>requires<sp/>labelled<sp/>training<sp/>data.&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><ref refid="test__rag__reranker_8cpp_1a3d2c5eb57bb4cd46a211271adabbdbaf" kindref="member">TEST_F</ref>(<ref refid="class_reranker_rerank_test" kindref="compound">RerankerRerankTest</ref>,<sp/>ResultCountRespectsTopK)<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>config.top_k<sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker" kindref="compound">CrossEncoderReranker</ref><sp/>reranker(config);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>reranker.<ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1aad4678603030cd5334842163169923a7" kindref="member">rerank</ref>(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>candidates);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result.documents.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.documents.size(),<sp/>result.scores.size());</highlight></codeline>
+<codeline lineno="137"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><ref refid="test__rag__reranker_8cpp_1a3d2c5eb57bb4cd46a211271adabbdbaf" kindref="member">TEST_F</ref>(<ref refid="class_reranker_rerank_test" kindref="compound">RerankerRerankTest</ref>,<sp/>TopKOverrideAtCallSite)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker" kindref="compound">CrossEncoderReranker</ref><sp/>reranker(config);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>reranker.<ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1aad4678603030cd5334842163169923a7" kindref="member">rerank</ref>(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>candidates,<sp/>2);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result.documents.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><ref refid="test__rag__reranker_8cpp_1a3d2c5eb57bb4cd46a211271adabbdbaf" kindref="member">TEST_F</ref>(<ref refid="class_reranker_rerank_test" kindref="compound">RerankerRerankTest</ref>,<sp/>DocumentsOrderedByScore)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker" kindref="compound">CrossEncoderReranker</ref><sp/>reranker(config);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>reranker.<ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1aad4678603030cd5334842163169923a7" kindref="member">rerank</ref>(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>candidates);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;<sp/>result.documents.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(result.documents[i<sp/>-<sp/>1].similarity_score,</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.documents[i].similarity_score)</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Documents<sp/>not<sp/>in<sp/>descending<sp/>score<sp/>order<sp/>at<sp/>index<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><ref refid="test__rag__reranker_8cpp_1a3d2c5eb57bb4cd46a211271adabbdbaf" kindref="member">TEST_F</ref>(<ref refid="class_reranker_rerank_test" kindref="compound">RerankerRerankTest</ref>,<sp/>ScoresVectorMatchesDocumentScores)<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker" kindref="compound">CrossEncoderReranker</ref><sp/>reranker(config);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>reranker.<ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1aad4678603030cd5334842163169923a7" kindref="member">rerank</ref>(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>candidates);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result.documents.size(),<sp/>result.scores.size());</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>result.documents.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NEAR(result.documents[i].similarity_score,</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.scores[i].relevance_score,<sp/>1e-9)</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Score<sp/>mismatch<sp/>at<sp/>rank<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(result.scores[i].reranked_rank,<sp/>i);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><ref refid="test__rag__reranker_8cpp_1a3d2c5eb57bb4cd46a211271adabbdbaf" kindref="member">TEST_F</ref>(<ref refid="class_reranker_rerank_test" kindref="compound">RerankerRerankTest</ref>,<sp/>RelevantDocRanksHigher)<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker" kindref="compound">CrossEncoderReranker</ref><sp/>reranker(config);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>reranker.<ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1aad4678603030cd5334842163169923a7" kindref="member">rerank</ref>(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>candidates,<sp/>candidates.size());</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>doc1,<sp/>doc3,<sp/>or<sp/>doc5<sp/>(all<sp/>mention<sp/>&quot;machine<sp/>learning&quot;)<sp/>should<sp/>outrank<sp/>doc2/doc4</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>findRank<sp/>=<sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>id)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>result.documents.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result.documents[i].id<sp/>==<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>i;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result.documents.size();</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>rank_ml<sp/><sp/>=<sp/>findRank(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>rank_unrelated<sp/>=<sp/>findRank(</highlight><highlight class="stringliteral">&quot;doc4&quot;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;weather<sp/>in<sp/>Paris&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(rank_ml,<sp/>rank_unrelated)</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;doc1<sp/>(machine<sp/>learning)<sp/>should<sp/>rank<sp/>above<sp/>doc4<sp/>(unrelated)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><ref refid="test__rag__reranker_8cpp_1a3d2c5eb57bb4cd46a211271adabbdbaf" kindref="member">TEST_F</ref>(<ref refid="class_reranker_rerank_test" kindref="compound">RerankerRerankTest</ref>,<sp/>EmptyQueryReturnsEmptyResult)<sp/>{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker" kindref="compound">CrossEncoderReranker</ref><sp/>reranker(config);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>reranker.<ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1aad4678603030cd5334842163169923a7" kindref="member">rerank</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>candidates);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.documents.empty());</highlight></codeline>
+<codeline lineno="195"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><ref refid="test__rag__reranker_8cpp_1a3d2c5eb57bb4cd46a211271adabbdbaf" kindref="member">TEST_F</ref>(<ref refid="class_reranker_rerank_test" kindref="compound">RerankerRerankTest</ref>,<sp/>EmptyCandidatesReturnsEmptyResult)<sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker" kindref="compound">CrossEncoderReranker</ref><sp/>reranker(config);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>reranker.<ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1aad4678603030cd5334842163169923a7" kindref="member">rerank</ref>(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>{});</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.documents.empty());</highlight></codeline>
+<codeline lineno="201"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><ref refid="test__rag__reranker_8cpp_1a3d2c5eb57bb4cd46a211271adabbdbaf" kindref="member">TEST_F</ref>(<ref refid="class_reranker_rerank_test" kindref="compound">RerankerRerankTest</ref>,<sp/>RerankTimeIsSet)<sp/>{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker" kindref="compound">CrossEncoderReranker</ref><sp/>reranker(config);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>reranker.<ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1aad4678603030cd5334842163169923a7" kindref="member">rerank</ref>(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>candidates);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Time<sp/>must<sp/>be<sp/>set<sp/>(≥<sp/>0);<sp/>for<sp/>a<sp/>tiny<sp/>test<sp/>corpus<sp/>it<sp/>should<sp/>be<sp/>&lt;1000<sp/>ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.rerank_time.count(),<sp/>0);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(result.rerank_time.count(),<sp/>1000);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><ref refid="test__rag__reranker_8cpp_1a3d2c5eb57bb4cd46a211271adabbdbaf" kindref="member">TEST_F</ref>(<ref refid="class_reranker_rerank_test" kindref="compound">RerankerRerankTest</ref>,<sp/>UsedModelFalseWithoutLoadedModel)<sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker" kindref="compound">CrossEncoderReranker</ref><sp/>reranker(config);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>reranker.<ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1aad4678603030cd5334842163169923a7" kindref="member">rerank</ref>(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>candidates);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.used_model);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CrossEncoderReranker<sp/>–<sp/>min_score_threshold<sp/>filtering</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><ref refid="test__rag__reranker_8cpp_1ac2fec65a87b772788b4cd09e2066131e" kindref="member">TEST</ref>(RerankerThresholdTest,<sp/>ThresholdFiltersLowScoringDocuments)<sp/>{</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_cross_encoder_config" kindref="compound">CrossEncoderConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_cross_encoder_config_1a96346e5b5d7ee1263fdec63b1357e6c6" kindref="member">min_score_threshold</ref><sp/>=<sp/>0.99;<sp/><sp/></highlight><highlight class="comment">//<sp/>very<sp/>strict<sp/>→<sp/>only<sp/>near-perfect<sp/>docs<sp/>pass</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker" kindref="compound">CrossEncoderReranker</ref><sp/>reranker(cfg);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeDocuments({</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;capital<sp/>France<sp/>Paris&quot;</highlight><highlight class="normal">},<sp/><sp/></highlight><highlight class="comment">//<sp/>high<sp/>overlap<sp/>with<sp/>query<sp/>below</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;doc2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bananas<sp/>tropical<sp/>fruit&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>reranker.<ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1aad4678603030cd5334842163169923a7" kindref="member">rerank</ref>(</highlight><highlight class="stringliteral">&quot;capital<sp/>France<sp/>Paris&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>d<sp/>:<sp/>result.documents)<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(d.similarity_score,<sp/>0.99)</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Document<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>d.id<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>below<sp/>threshold<sp/>should<sp/>have<sp/>been<sp/>filtered&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="236"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CrossEncoderReranker<sp/>–<sp/>score<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><ref refid="test__rag__reranker_8cpp_1ac2fec65a87b772788b4cd09e2066131e" kindref="member">TEST</ref>(RerankerCacheTest,<sp/>CacheHitReturnsSameScore)<sp/>{</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_cross_encoder_config" kindref="compound">CrossEncoderConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_cross_encoder_config_1a3cb30b67d13ea674113d414bd4e63e2f" kindref="member">enable_score_cache</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker" kindref="compound">CrossEncoderReranker</ref><sp/>reranker(cfg);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;quantum<sp/>computing<sp/>qubits&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>doc<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Quantum<sp/>computing<sp/>uses<sp/>qubits<sp/>instead<sp/>of<sp/>classical<sp/>bits.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>s1<sp/>=<sp/>reranker.<ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1a2e98f617d7c74f060364dff8486d55a3" kindref="member">score</ref>(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>doc);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>s2<sp/>=<sp/>reranker.<ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1a2e98f617d7c74f060364dff8486d55a3" kindref="member">score</ref>(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>doc);<sp/><sp/></highlight><highlight class="comment">//<sp/>should<sp/>hit<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(s1,<sp/>s2);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><ref refid="test__rag__reranker_8cpp_1ac2fec65a87b772788b4cd09e2066131e" kindref="member">TEST</ref>(RerankerCacheTest,<sp/>ClearCacheInvalidatesEntries)<sp/>{</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_cross_encoder_config" kindref="compound">CrossEncoderConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_cross_encoder_config_1a3cb30b67d13ea674113d414bd4e63e2f" kindref="member">enable_score_cache</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker" kindref="compound">CrossEncoderReranker</ref><sp/>reranker(cfg);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>s1<sp/>=<sp/>reranker.<ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1a2e98f617d7c74f060364dff8486d55a3" kindref="member">score</ref>(</highlight><highlight class="stringliteral">&quot;test<sp/>query&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test<sp/>document&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>reranker.<ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1ae631993c259caf81cda0fc2781903f3a" kindref="member">clearCache</ref>();</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>s2<sp/>=<sp/>reranker.<ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1a2e98f617d7c74f060364dff8486d55a3" kindref="member">score</ref>(</highlight><highlight class="stringliteral">&quot;test<sp/>query&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test<sp/>document&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>clearing,<sp/>the<sp/>score<sp/>is<sp/>recomputed<sp/>–<sp/>must<sp/>still<sp/>be<sp/>equal<sp/>(deterministic)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(s1,<sp/>s2);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><ref refid="test__rag__reranker_8cpp_1ac2fec65a87b772788b4cd09e2066131e" kindref="member">TEST</ref>(RerankerCacheTest,<sp/>SetConfigWithChangedCacheSizeClearsCache)<sp/>{</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_cross_encoder_config" kindref="compound">CrossEncoderConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_cross_encoder_config_1a3cb30b67d13ea674113d414bd4e63e2f" kindref="member">enable_score_cache</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_cross_encoder_config_1a943c5a3c579c843333d50fd4c3dcedb7" kindref="member">max_cache_size</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker" kindref="compound">CrossEncoderReranker</ref><sp/>reranker(cfg);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>reranker.<ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1a2e98f617d7c74f060364dff8486d55a3" kindref="member">score</ref>(</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_cross_encoder_config" kindref="compound">CrossEncoderConfig</ref><sp/>cfg2<sp/>=<sp/>cfg;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg2.<ref refid="structthemis_1_1rag_1_1_cross_encoder_config_1a943c5a3c579c843333d50fd4c3dcedb7" kindref="member">max_cache_size</ref><sp/>=<sp/>200;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>reranker.<ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1a4752b0006eb9874280c1e13e8e27b686" kindref="member">setConfig</ref>(cfg2);<sp/><sp/></highlight><highlight class="comment">//<sp/>should<sp/>clear<sp/>cache<sp/>due<sp/>to<sp/>changed<sp/>setting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>setConfig<sp/>the<sp/>reranker<sp/>is<sp/>still<sp/>functional</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>reranker.<ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1a2e98f617d7c74f060364dff8486d55a3" kindref="member">score</ref>(</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doc&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(s,<sp/>0.0);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(s,<sp/>1.0);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CrossEncoderReranker<sp/>–<sp/>model<sp/>lifecycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><ref refid="test__rag__reranker_8cpp_1ac2fec65a87b772788b4cd09e2066131e" kindref="member">TEST</ref>(RerankerModelTest,<sp/>IsModelLoadedFalseByDefault)<sp/>{</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker" kindref="compound">CrossEncoderReranker</ref><sp/>reranker;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(reranker.<ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1a80828699fac2b1bde5a0dc8e2c42464f" kindref="member">isModelLoaded</ref>());</highlight></codeline>
+<codeline lineno="293"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><ref refid="test__rag__reranker_8cpp_1ac2fec65a87b772788b4cd09e2066131e" kindref="member">TEST</ref>(RerankerModelTest,<sp/>LoadModelEmptyPathReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker" kindref="compound">CrossEncoderReranker</ref><sp/>reranker;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(reranker.<ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1a512d3ac85b3fcb19dbf2378d28a59dc5" kindref="member">loadModel</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(reranker.<ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1a80828699fac2b1bde5a0dc8e2c42464f" kindref="member">isModelLoaded</ref>());</highlight></codeline>
+<codeline lineno="299"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><ref refid="test__rag__reranker_8cpp_1ac2fec65a87b772788b4cd09e2066131e" kindref="member">TEST</ref>(RerankerModelTest,<sp/>LoadModelNonEmptyPathReturnsTrue)<sp/>{</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker" kindref="compound">CrossEncoderReranker</ref><sp/>reranker;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stub<sp/>path<sp/>–<sp/>no<sp/>actual<sp/>file<sp/>required<sp/>for<sp/>the<sp/>interface<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>reranker.<ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1a512d3ac85b3fcb19dbf2378d28a59dc5" kindref="member">loadModel</ref>(</highlight><highlight class="stringliteral">&quot;models/cross-encoder-ms-marco.onnx&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ok);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(reranker.<ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1a80828699fac2b1bde5a0dc8e2c42464f" kindref="member">isModelLoaded</ref>());</highlight></codeline>
+<codeline lineno="307"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><ref refid="test__rag__reranker_8cpp_1ac2fec65a87b772788b4cd09e2066131e" kindref="member">TEST</ref>(RerankerModelTest,<sp/>UsedModelTrueAfterLoadModel)<sp/>{</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker" kindref="compound">CrossEncoderReranker</ref><sp/>reranker;</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>reranker.<ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1a512d3ac85b3fcb19dbf2378d28a59dc5" kindref="member">loadModel</ref>(</highlight><highlight class="stringliteral">&quot;models/cross-encoder-ms-marco.onnx&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeDocuments({{</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>reranker.<ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1aad4678603030cd5334842163169923a7" kindref="member">rerank</ref>(</highlight><highlight class="stringliteral">&quot;capital<sp/>of<sp/>France&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.used_model);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CrossEncoderReranker<sp/>–<sp/>getConfig<sp/>/<sp/>setConfig</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><ref refid="test__rag__reranker_8cpp_1ac2fec65a87b772788b4cd09e2066131e" kindref="member">TEST</ref>(RerankerConfigTest,<sp/>GetConfigReturnsInitialConfig)<sp/>{</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_cross_encoder_config" kindref="compound">CrossEncoderConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_cross_encoder_config_1aafd93c706d5678db0533c5a767616845" kindref="member">top_k</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>7;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_cross_encoder_config_1a1e95091211d2e8bccaea5426413c3c34" kindref="member">batch_size</ref><sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker" kindref="compound">CrossEncoderReranker</ref><sp/>reranker(cfg);</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(reranker.<ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1a4a5f07165be02b8174e2bcf83b999dd4" kindref="member">getConfig</ref>().<ref refid="structthemis_1_1rag_1_1_cross_encoder_config_1aafd93c706d5678db0533c5a767616845" kindref="member">top_k</ref>,<sp/><sp/><sp/><sp/><sp/><sp/>7u);</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(reranker.<ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1a4a5f07165be02b8174e2bcf83b999dd4" kindref="member">getConfig</ref>().<ref refid="structthemis_1_1rag_1_1_cross_encoder_config_1a1e95091211d2e8bccaea5426413c3c34" kindref="member">batch_size</ref>,<sp/>16u);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><ref refid="test__rag__reranker_8cpp_1ac2fec65a87b772788b4cd09e2066131e" kindref="member">TEST</ref>(RerankerConfigTest,<sp/>SetConfigUpdatesConfig)<sp/>{</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker" kindref="compound">CrossEncoderReranker</ref><sp/>reranker;</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_cross_encoder_config" kindref="compound">CrossEncoderConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1_cross_encoder_config_1aafd93c706d5678db0533c5a767616845" kindref="member">top_k</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>reranker.<ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1a4752b0006eb9874280c1e13e8e27b686" kindref="member">setConfig</ref>(cfg);</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(reranker.<ref refid="classthemis_1_1rag_1_1_cross_encoder_reranker_1a4a5f07165be02b8174e2bcf83b999dd4" kindref="member">getConfig</ref>().<ref refid="structthemis_1_1rag_1_1_cross_encoder_config_1aafd93c706d5678db0533c5a767616845" kindref="member">top_k</ref>,<sp/>5u);</highlight></codeline>
+<codeline lineno="339"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CrossEncoderFactory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><ref refid="test__rag__reranker_8cpp_1ac2fec65a87b772788b4cd09e2066131e" kindref="member">TEST</ref>(RerankerFactoryTest,<sp/>CreateFastReturnsInstance)<sp/>{</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1_cross_encoder_factory_1ae01653b8f63e244301f3e26dc6dbfeae" kindref="member">CrossEncoderFactory::createFast</ref>();</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(r,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r-&gt;isModelLoaded());</highlight></codeline>
+<codeline lineno="349"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><ref refid="test__rag__reranker_8cpp_1ac2fec65a87b772788b4cd09e2066131e" kindref="member">TEST</ref>(RerankerFactoryTest,<sp/>CreateBalancedNoModelReturnsInstance)<sp/>{</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1_cross_encoder_factory_1a8febbcee00ab8ce79451e133579d4c18" kindref="member">CrossEncoderFactory::createBalanced</ref>();</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(r,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r-&gt;isModelLoaded());</highlight></codeline>
+<codeline lineno="355"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><ref refid="test__rag__reranker_8cpp_1ac2fec65a87b772788b4cd09e2066131e" kindref="member">TEST</ref>(RerankerFactoryTest,<sp/>CreateAccurateNoModelReturnsInstance)<sp/>{</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1_cross_encoder_factory_1a4285f62c1cad2ca4ba1d1a64c57c773c" kindref="member">CrossEncoderFactory::createAccurate</ref>();</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(r,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r-&gt;isModelLoaded());</highlight></codeline>
+<codeline lineno="361"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><ref refid="test__rag__reranker_8cpp_1ac2fec65a87b772788b4cd09e2066131e" kindref="member">TEST</ref>(RerankerFactoryTest,<sp/>CreateBalancedWithModelPathLoadsModel)<sp/>{</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1_cross_encoder_factory_1a8febbcee00ab8ce79451e133579d4c18" kindref="member">CrossEncoderFactory::createBalanced</ref>(</highlight><highlight class="stringliteral">&quot;dummy/path/model.onnx&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(r,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r-&gt;isModelLoaded());</highlight></codeline>
+<codeline lineno="367"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><ref refid="test__rag__reranker_8cpp_1ac2fec65a87b772788b4cd09e2066131e" kindref="member">TEST</ref>(RerankerFactoryTest,<sp/>FactoryRerankerProducesValidScores)<sp/>{</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1rag_1_1_cross_encoder_factory_1ae01653b8f63e244301f3e26dc6dbfeae" kindref="member">CrossEncoderFactory::createFast</ref>();</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeDocuments({</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Python<sp/>is<sp/>a<sp/>high-level<sp/>programming<sp/>language.&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;d2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;The<sp/>Amazon<sp/>river<sp/>is<sp/>the<sp/>largest<sp/>in<sp/>South<sp/>America.&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>r-&gt;rerank(</highlight><highlight class="stringliteral">&quot;Python<sp/>programming<sp/>language&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(result.documents.empty());</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>d<sp/>:<sp/>result.documents)<sp/>{</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(d.similarity_score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(d.similarity_score,<sp/>1.0);</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="382"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/rag/test_rag_reranker.cpp"/>
+  </compounddef>
+</doxygen>

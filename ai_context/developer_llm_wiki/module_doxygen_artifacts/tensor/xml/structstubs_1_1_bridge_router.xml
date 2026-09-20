@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structstubs_1_1_bridge_router" kind="struct" language="C++" prot="public">
+    <compoundname>stubs::BridgeRouter</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structstubs_1_1_bridge_router_1a2de0dde9073a689c24fbe06bffdd7fd1" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; stubs::BridgeRouter::routed</definition>
+        <argsstring></argsstring>
+        <name>routed</name>
+        <qualifiedname>stubs::BridgeRouter::routed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_dedicated_gates.cpp" line="52" column="17" bodyfile="benchmarks/tensor/bench_tensor_dedicated_gates.cpp" bodystart="52" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structstubs_1_1_bridge_router_1a3a0373c57e120b72e38176c4193173a4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool stubs::BridgeRouter::route</definition>
+        <argsstring>(uint64_t tok)</argsstring>
+        <name>route</name>
+        <qualifiedname>stubs::BridgeRouter::route</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>tok</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_dedicated_gates.cpp" line="53" column="10" bodyfile="benchmarks/tensor/bench_tensor_dedicated_gates.cpp" bodystart="53" bodyend="57"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/tensor/bench_tensor_dedicated_gates.cpp" line="51" column="1" bodyfile="benchmarks/tensor/bench_tensor_dedicated_gates.cpp" bodystart="51" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structstubs_1_1_bridge_router_1a3a0373c57e120b72e38176c4193173a4" prot="public" virt="non-virtual"><scope>stubs::BridgeRouter</scope><name>route</name></member>
+      <member refid="structstubs_1_1_bridge_router_1a2de0dde9073a689c24fbe06bffdd7fd1" prot="public" virt="non-virtual"><scope>stubs::BridgeRouter</scope><name>routed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

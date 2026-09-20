@@ -1,0 +1,516 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1analytics_1_1_columnar_store" kind="class" language="C++" prot="public">
+    <compoundname>themis::analytics::ColumnarStore</compoundname>
+    <includes refid="olap_8h" local="no">olap.h</includes>
+    <innerclass refid="structthemis_1_1analytics_1_1_columnar_store_1_1_column_stats" prot="public">themis::analytics::ColumnarStore::ColumnStats</innerclass>
+    <innerclass refid="classthemis_1_1analytics_1_1_columnar_store_1_1_impl" prot="public">themis::analytics::ColumnarStore::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_columnar_store_1ac0327b076d222a7f2b6a0761b393c0cf" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1analytics_1_1_columnar_store_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::analytics::ColumnarStore::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::analytics::ColumnarStore::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="435" column="21" bodyfile="include/analytics/olap.h" bodystart="435" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_columnar_store_1a9ee4a7d88066a835ed14652b4b4d3251" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::ColumnarStore::ColumnarStore</definition>
+        <argsstring>()</argsstring>
+        <name>ColumnarStore</name>
+        <qualifiedname>themis::analytics::ColumnarStore::ColumnarStore</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="330" column="5" bodyfile="src/analytics/olap.cpp" bodystart="1410" bodyend="1410"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_columnar_store_1a47e03ccad11f3f682e13cf505d6c1409" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::ColumnarStore::~ColumnarStore</definition>
+        <argsstring>()</argsstring>
+        <name>~ColumnarStore</name>
+        <qualifiedname>themis::analytics::ColumnarStore::~ColumnarStore</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="331" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_columnar_store_1aaece4689a2bdd53799856d455d3fa56c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::analytics::ColumnarStore::createColumn</definition>
+        <argsstring>(std::string_view name, std::string_view type)</argsstring>
+        <name>createColumn</name>
+        <qualifiedname>themis::analytics::ColumnarStore::createColumn</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Create Column. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::string(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="339" column="10" bodyfile="src/analytics/olap.cpp" bodystart="1419" bodyend="1424"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_columnar_store_1ab5a37495276683afee504c7f18c6d02c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::analytics::ColumnarStore::dropColumn</definition>
+        <argsstring>(std::string_view name)</argsstring>
+        <name>dropColumn</name>
+        <qualifiedname>themis::analytics::ColumnarStore::dropColumn</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Drop Column. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: erase(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="344" column="10" bodyfile="src/analytics/olap.cpp" bodystart="1431" bodyend="1433"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_columnar_store_1ad5f7f16602e2f76b4195124268665cd3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::analytics::ColumnarStore::hasColumn</definition>
+        <argsstring>(std::string_view name) const</argsstring>
+        <name>hasColumn</name>
+        <qualifiedname>themis::analytics::ColumnarStore::hasColumn</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Has Column. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="350" column="10" bodyfile="src/analytics/olap.cpp" bodystart="1435" bodyend="1437"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_columnar_store_1ad99a66d2ee61f3ece609e78089e7de79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::analytics::ColumnarStore::appendRows</definition>
+        <argsstring>(const std::vector&lt; std::unordered_map&lt; std::string, std::variant&lt; std::nullptr_t, bool, int64_t, double, std::string &gt; &gt; &gt; &amp;rows)</argsstring>
+        <name>appendRows</name>
+        <qualifiedname>themis::analytics::ColumnarStore::appendRows</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::unordered_map&lt; std::string, std::variant&lt; std::nullptr_t, bool, int64_t, double, std::string &gt; &gt; &gt; &amp;</type>
+          <declname>rows</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="353" column="10" bodyfile="src/analytics/olap.cpp" bodystart="1439" bodyend="1453"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_columnar_store_1aa5547e3b7424cbefefa37f81bffbca2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::analytics::ColumnarStore::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::analytics::ColumnarStore::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements clear without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="360" column="10" bodyfile="src/analytics/olap.cpp" bodystart="1459" bodyend="1464"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_columnar_store_1a18db2c93a32e8eb8892d94fc42eac897" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::ColumnarStore::rowCount</definition>
+        <argsstring>() const</argsstring>
+        <name>rowCount</name>
+        <qualifiedname>themis::analytics::ColumnarStore::rowCount</qualifiedname>
+        <briefdescription>
+<para>Row Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="365" column="12" bodyfile="src/analytics/olap.cpp" bodystart="1466" bodyend="1468"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_columnar_store_1a841d0bf3dfcb04ab0614a8730e93db6a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::analytics::ColumnarStore::sum</definition>
+        <argsstring>(std::string_view column) const</argsstring>
+        <name>sum</name>
+        <qualifiedname>themis::analytics::ColumnarStore::sum</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>column</declname>
+        </param>
+        <briefdescription>
+<para>Sum. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="373" column="12" bodyfile="src/analytics/olap.cpp" bodystart="1470" bodyend="1478"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_columnar_store_1a5ce710d5a978c7245011da3de9eeaaa6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::analytics::ColumnarStore::avg</definition>
+        <argsstring>(std::string_view column) const</argsstring>
+        <name>avg</name>
+        <qualifiedname>themis::analytics::ColumnarStore::avg</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>column</declname>
+        </param>
+        <briefdescription>
+<para>Avg. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="379" column="12" bodyfile="src/analytics/olap.cpp" bodystart="1480" bodyend="1491"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_columnar_store_1a559aed7dcbd11518d75014b63861c4e1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::analytics::ColumnarStore::min</definition>
+        <argsstring>(std::string_view column) const</argsstring>
+        <name>min</name>
+        <qualifiedname>themis::analytics::ColumnarStore::min</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>column</declname>
+        </param>
+        <briefdescription>
+<para>Min. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="385" column="12" bodyfile="src/analytics/olap.cpp" bodystart="1493" bodyend="1504"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_columnar_store_1abbd3c794e15310c0bb44d97c56e24c05" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::analytics::ColumnarStore::max</definition>
+        <argsstring>(std::string_view column) const</argsstring>
+        <name>max</name>
+        <qualifiedname>themis::analytics::ColumnarStore::max</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>column</declname>
+        </param>
+        <briefdescription>
+<para>Max. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="391" column="12" bodyfile="src/analytics/olap.cpp" bodystart="1506" bodyend="1517"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_columnar_store_1a38f97d5311dd16a8830a7f6adce73cc1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::analytics::ColumnarStore::count</definition>
+        <argsstring>(std::string_view column) const</argsstring>
+        <name>count</name>
+        <qualifiedname>themis::analytics::ColumnarStore::count</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>column</declname>
+        </param>
+        <briefdescription>
+<para>Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="397" column="13" bodyfile="src/analytics/olap.cpp" bodystart="1519" bodyend="1532"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_columnar_store_1a11cd2f9145871761fe0b31ca1312d34e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::analytics::ColumnarStore::countDistinct</definition>
+        <argsstring>(std::string_view column) const</argsstring>
+        <name>countDistinct</name>
+        <qualifiedname>themis::analytics::ColumnarStore::countDistinct</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>column</declname>
+        </param>
+        <briefdescription>
+<para>Count Distinct. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="403" column="13" bodyfile="src/analytics/olap.cpp" bodystart="1534" bodyend="1552"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_columnar_store_1a292fa62f4ae5057524ca1368300b7041" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::analytics::ColumnarStore::sumWhere</definition>
+        <argsstring>(std::string_view column, const std::vector&lt; bool &gt; &amp;mask) const</argsstring>
+        <name>sumWhere</name>
+        <qualifiedname>themis::analytics::ColumnarStore::sumWhere</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>column</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; bool &gt; &amp;</type>
+          <declname>mask</declname>
+        </param>
+        <briefdescription>
+<para>Sum Where. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mask</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="412" column="12" bodyfile="src/analytics/olap.cpp" bodystart="1554" bodyend="1573"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_columnar_store_1afb41a1b60330ea2aecefe55c58dacbd9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1analytics_1_1_columnar_store_1_1_column_stats" kindref="compound">ColumnStats</ref></type>
+        <definition>ColumnarStore::ColumnStats themis::analytics::ColumnarStore::getColumnStats</definition>
+        <argsstring>(std::string_view column) const</argsstring>
+        <name>getColumnStats</name>
+        <qualifiedname>themis::analytics::ColumnarStore::getColumnStats</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>column</declname>
+        </param>
+        <briefdescription>
+<para>Get Column Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="431" column="17" bodyfile="src/analytics/olap.cpp" bodystart="1575" bodyend="1626"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/olap.h" line="328" column="1" bodyfile="include/analytics/olap.h" bodystart="328" bodyend="436"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1analytics_1_1_columnar_store_1ad99a66d2ee61f3ece609e78089e7de79" prot="public" virt="non-virtual"><scope>themis::analytics::ColumnarStore</scope><name>appendRows</name></member>
+      <member refid="classthemis_1_1analytics_1_1_columnar_store_1a5ce710d5a978c7245011da3de9eeaaa6" prot="public" virt="non-virtual"><scope>themis::analytics::ColumnarStore</scope><name>avg</name></member>
+      <member refid="classthemis_1_1analytics_1_1_columnar_store_1aa5547e3b7424cbefefa37f81bffbca2f" prot="public" virt="non-virtual"><scope>themis::analytics::ColumnarStore</scope><name>clear</name></member>
+      <member refid="classthemis_1_1analytics_1_1_columnar_store_1a9ee4a7d88066a835ed14652b4b4d3251" prot="public" virt="non-virtual"><scope>themis::analytics::ColumnarStore</scope><name>ColumnarStore</name></member>
+      <member refid="classthemis_1_1analytics_1_1_columnar_store_1a38f97d5311dd16a8830a7f6adce73cc1" prot="public" virt="non-virtual"><scope>themis::analytics::ColumnarStore</scope><name>count</name></member>
+      <member refid="classthemis_1_1analytics_1_1_columnar_store_1a11cd2f9145871761fe0b31ca1312d34e" prot="public" virt="non-virtual"><scope>themis::analytics::ColumnarStore</scope><name>countDistinct</name></member>
+      <member refid="classthemis_1_1analytics_1_1_columnar_store_1aaece4689a2bdd53799856d455d3fa56c" prot="public" virt="non-virtual"><scope>themis::analytics::ColumnarStore</scope><name>createColumn</name></member>
+      <member refid="classthemis_1_1analytics_1_1_columnar_store_1ab5a37495276683afee504c7f18c6d02c" prot="public" virt="non-virtual"><scope>themis::analytics::ColumnarStore</scope><name>dropColumn</name></member>
+      <member refid="classthemis_1_1analytics_1_1_columnar_store_1afb41a1b60330ea2aecefe55c58dacbd9" prot="public" virt="non-virtual"><scope>themis::analytics::ColumnarStore</scope><name>getColumnStats</name></member>
+      <member refid="classthemis_1_1analytics_1_1_columnar_store_1ad5f7f16602e2f76b4195124268665cd3" prot="public" virt="non-virtual"><scope>themis::analytics::ColumnarStore</scope><name>hasColumn</name></member>
+      <member refid="classthemis_1_1analytics_1_1_columnar_store_1ac0327b076d222a7f2b6a0761b393c0cf" prot="private" virt="non-virtual"><scope>themis::analytics::ColumnarStore</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1analytics_1_1_columnar_store_1abbd3c794e15310c0bb44d97c56e24c05" prot="public" virt="non-virtual"><scope>themis::analytics::ColumnarStore</scope><name>max</name></member>
+      <member refid="classthemis_1_1analytics_1_1_columnar_store_1a559aed7dcbd11518d75014b63861c4e1" prot="public" virt="non-virtual"><scope>themis::analytics::ColumnarStore</scope><name>min</name></member>
+      <member refid="classthemis_1_1analytics_1_1_columnar_store_1a18db2c93a32e8eb8892d94fc42eac897" prot="public" virt="non-virtual"><scope>themis::analytics::ColumnarStore</scope><name>rowCount</name></member>
+      <member refid="classthemis_1_1analytics_1_1_columnar_store_1a841d0bf3dfcb04ab0614a8730e93db6a" prot="public" virt="non-virtual"><scope>themis::analytics::ColumnarStore</scope><name>sum</name></member>
+      <member refid="classthemis_1_1analytics_1_1_columnar_store_1a292fa62f4ae5057524ca1368300b7041" prot="public" virt="non-virtual"><scope>themis::analytics::ColumnarStore</scope><name>sumWhere</name></member>
+      <member refid="classthemis_1_1analytics_1_1_columnar_store_1a47e03ccad11f3f682e13cf505d6c1409" prot="public" virt="non-virtual"><scope>themis::analytics::ColumnarStore</scope><name>~ColumnarStore</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

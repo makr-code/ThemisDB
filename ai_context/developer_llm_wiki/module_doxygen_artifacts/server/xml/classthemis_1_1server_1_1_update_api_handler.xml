@@ -1,0 +1,448 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_update_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::UpdateApiHandler</compoundname>
+    <includes refid="update__api__handler_8h" local="no">update_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_update_api_handler_1ac2f472040913c24af24794ec0982b33d" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; utils::UpdateChecker &gt;</type>
+        <definition>std::shared_ptr&lt;utils::UpdateChecker&gt; themis::server::UpdateApiHandler::checker_</definition>
+        <argsstring></argsstring>
+        <name>checker_</name>
+        <qualifiedname>themis::server::UpdateApiHandler::checker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/update_api_handler.h" line="44" column="21" bodyfile="include/server/update_api_handler.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_update_api_handler_1a16488f686a74b0a76f010f73c6c80644" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::UpdateApiHandler::UpdateApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; utils::UpdateChecker &gt; checker)</argsstring>
+        <name>UpdateApiHandler</name>
+        <qualifiedname>themis::server::UpdateApiHandler::UpdateApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; utils::UpdateChecker &gt;</type>
+          <declname>checker</declname>
+        </param>
+        <briefdescription>
+<para>Update Api Handler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">checker</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/update_api_handler.h" line="32" column="14" bodyfile="src/server/update_api_handler.cpp" bodystart="26" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_update_api_handler_1a67d0762f38cd2efec632a05a859cd301" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::UpdateApiHandler::handleRequest</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleRequest</name>
+        <qualifiedname>themis::server::UpdateApiHandler::handleRequest</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle <ref refid="structthemis_1_1server_1_1_request" kindref="compound">Request</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), std::string(), target(), method(), handleGetStatus(), handleCheckNow(), handleGetConfig(), handleUpdateConfig(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/update_api_handler.h" line="39" column="20" bodyfile="src/server/update_api_handler.cpp" bodystart="36" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_update_api_handler_1a1054c8de33b977fa2f9b6ff186dcef5b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::UpdateApiHandler::handleGetStatus</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGetStatus</name>
+        <qualifiedname>themis::server::UpdateApiHandler::handleGetStatus</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), getLastResult(), toJson(), createJsonResponse(), <ref refid="hot__reload__api__handler_8cpp_1ad4a9117ce894e3319e903142347a0f63" kindref="member">LOG_ERROR()</ref>, what(), createErrorResponse(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/update_api_handler.h" line="51" column="20" bodyfile="src/server/update_api_handler.cpp" bodystart="67" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_update_api_handler_1affc9c5c2bd3fe01f4b979a1031c63e2b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::UpdateApiHandler::handleCheckNow</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleCheckNow</name>
+        <qualifiedname>themis::server::UpdateApiHandler::handleCheckNow</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Check Now. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), <ref refid="hot__reload__api__handler_8cpp_1a378e28bfcb78d17285210d6bbb70a083" kindref="member">LOG_INFO()</ref>, checkNow(), toJson(), createJsonResponse(), <ref refid="hot__reload__api__handler_8cpp_1ad4a9117ce894e3319e903142347a0f63" kindref="member">LOG_ERROR()</ref>, what(), createErrorResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/update_api_handler.h" line="60" column="20" bodyfile="src/server/update_api_handler.cpp" bodystart="92" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_update_api_handler_1ab7a4597b119a2bc7b542092a700280d9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::UpdateApiHandler::handleGetConfig</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGetConfig</name>
+        <qualifiedname>themis::server::UpdateApiHandler::handleGetConfig</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get <ref refid="test__server__integration__complete_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), getConfig(), toJson(), isRunning(), createJsonResponse(), <ref refid="hot__reload__api__handler_8cpp_1ad4a9117ce894e3319e903142347a0f63" kindref="member">LOG_ERROR()</ref>, what(), createErrorResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/update_api_handler.h" line="69" column="20" bodyfile="src/server/update_api_handler.cpp" bodystart="120" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_update_api_handler_1aa6b7f4ac8f44048fdf208c35d49104f0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::UpdateApiHandler::handleUpdateConfig</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleUpdateConfig</name>
+        <qualifiedname>themis::server::UpdateApiHandler::handleUpdateConfig</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Update <ref refid="test__server__integration__complete_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), json::parse(), body(), createErrorResponse(), std::string(), what(), utils::UpdateCheckerConfig::fromJson(), updateConfig(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/update_api_handler.h" line="78" column="20" bodyfile="src/server/update_api_handler.cpp" bodystart="148" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_update_api_handler_1a2f9b6665b37955aaba6b6e8d932e6d10" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::UpdateApiHandler::createJsonResponse</definition>
+        <argsstring>(http::status status, const nlohmann::json &amp;body, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>createJsonResponse</name>
+        <qualifiedname>themis::server::UpdateApiHandler::createJsonResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Create Json <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), version(), set(), body(), dump(), prepare_payload(), keep_alive(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/update_api_handler.h" line="89" column="20" bodyfile="src/server/update_api_handler.cpp" bodystart="198" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_update_api_handler_1ae08e42bfac6b8286823ea8cdf1dff827" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::UpdateApiHandler::createErrorResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;message, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>createErrorResponse</name>
+        <qualifiedname>themis::server::UpdateApiHandler::createErrorResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Create Error <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: createJsonResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/update_api_handler.h" line="102" column="20" bodyfile="src/server/update_api_handler.cpp" bodystart="221" bodyend="231"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/update_api_handler.h" line="25" column="1" bodyfile="include/server/update_api_handler.h" bodystart="25" bodyend="107"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_update_api_handler_1ac2f472040913c24af24794ec0982b33d" prot="private" virt="non-virtual"><scope>themis::server::UpdateApiHandler</scope><name>checker_</name></member>
+      <member refid="classthemis_1_1server_1_1_update_api_handler_1ae08e42bfac6b8286823ea8cdf1dff827" prot="private" virt="non-virtual"><scope>themis::server::UpdateApiHandler</scope><name>createErrorResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_update_api_handler_1a2f9b6665b37955aaba6b6e8d932e6d10" prot="private" virt="non-virtual"><scope>themis::server::UpdateApiHandler</scope><name>createJsonResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_update_api_handler_1affc9c5c2bd3fe01f4b979a1031c63e2b" prot="private" virt="non-virtual"><scope>themis::server::UpdateApiHandler</scope><name>handleCheckNow</name></member>
+      <member refid="classthemis_1_1server_1_1_update_api_handler_1ab7a4597b119a2bc7b542092a700280d9" prot="private" virt="non-virtual"><scope>themis::server::UpdateApiHandler</scope><name>handleGetConfig</name></member>
+      <member refid="classthemis_1_1server_1_1_update_api_handler_1a1054c8de33b977fa2f9b6ff186dcef5b" prot="private" virt="non-virtual"><scope>themis::server::UpdateApiHandler</scope><name>handleGetStatus</name></member>
+      <member refid="classthemis_1_1server_1_1_update_api_handler_1a67d0762f38cd2efec632a05a859cd301" prot="public" virt="non-virtual"><scope>themis::server::UpdateApiHandler</scope><name>handleRequest</name></member>
+      <member refid="classthemis_1_1server_1_1_update_api_handler_1aa6b7f4ac8f44048fdf208c35d49104f0" prot="private" virt="non-virtual"><scope>themis::server::UpdateApiHandler</scope><name>handleUpdateConfig</name></member>
+      <member refid="classthemis_1_1server_1_1_update_api_handler_1a16488f686a74b0a76f010f73c6c80644" prot="public" virt="non-virtual"><scope>themis::server::UpdateApiHandler</scope><name>UpdateApiHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

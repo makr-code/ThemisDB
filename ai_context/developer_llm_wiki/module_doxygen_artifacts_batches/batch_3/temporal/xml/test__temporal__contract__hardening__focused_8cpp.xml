@@ -1,0 +1,375 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__temporal__contract__hardening__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_temporal_contract_hardening_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="temporal__api__contract_8h" local="yes">temporal/temporal_api_contract.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">random</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>temporal/temporal_api_contract.h</label>
+        <link refid="temporal__api__contract_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/temporal/test_temporal_contract_hardening_focused.cpp</label>
+        <link refid="test__temporal__contract__hardening__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>algorithm</label>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="8">
+        <label>random</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1temporal_1_1test_1_1_bi_temporal_row" prot="public">themis::temporal::test::BiTemporalRow</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1temporal">themis::temporal</innernamespace>
+    <innernamespace refid="namespacethemis_1_1temporal_1_1test">themis::temporal::test</innernamespace>
+    <briefdescription>
+<para>Phase 4 temporal contract-hardening focused test suite (TCH-01..TCH-16). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Verifies the normative contracts defined in <ref refid="temporal__api__contract_8h" kindref="compound">include/temporal/temporal_api_contract.h</ref> using deterministic, mock-I/O test cases. All tests use kTemporalContractSeed = 42.</para>
+<sect1 id="test__temporal__contract__hardening__focused_8cpp_1autotoc_md27_1s1"><sect2 id="test__temporal__contract__hardening__focused_8cpp_1autotoc_md27">
+<title>Test families</title><para><heading level="3">TCH-01..04 — Bi-temporal insert / query contract</heading>
+</para>
+<para>TCH-01 Bi-temporal row with valid valid_time range is accepted TCH-02 Row with end &lt; start raises TEMPORAL_RANGE_INVALID TCH-03 Transaction-time ordering: later insert has higher tx_time TCH-04 Overlap semantics: overlapping intervals are both returned</para>
+<para><heading level="3">TCH-05..08 — Snapshot contract</heading>
+</para>
+<para>TCH-05 Snapshot at T returns rows with valid_time ∩ [T,T] ≠ ∅ TCH-06 Snapshot at T excludes rows outside valid_time TCH-07 Concurrent write after snapshot request is not visible TCH-08 Snapshot on empty store returns empty result</para>
+<para><heading level="3">TCH-09..12 — Retention contract</heading>
+</para>
+<para>TCH-09 Soft-delete marker set for expired rows TCH-10 GC does not remove rows within retention window TCH-11 Row past retention boundary is marked soft-deleted TCH-12 Retention policy conflict → RETENTION_POLICY_CONFLICT</para>
+<para><heading level="3">TCH-13..16 — PITR contract</heading>
+</para>
+<para>TCH-13 Valid PITR timestamp returns non-empty state TCH-14 Future PITR timestamp → PITR_TIMESTAMP_BEFORE_OLDEST TCH-15 PITR on empty history → empty result TCH-16 kTemporalOpenEnd is INT64_MAX (sentinel check)</para>
+<para><simplesect kind="see"><para><ref refid="temporal__api__contract_8h" kindref="compound">include/temporal/temporal_api_contract.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/temporal/ROADMAP.md — Phase 4 items </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="temporal__api__contract_8h" kindref="compound">temporal/temporal_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1temporal" kindref="compound">temporal</ref><sp/>{</highlight></codeline>
+<codeline lineno="54" refid="namespacethemis_1_1temporal_1_1test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1temporal_1_1test" kindref="compound">test</ref><sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kTemporalContractSeed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Mock<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1temporal_1_1test_1_1_bi_temporal_row" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1temporal_1_1test_1_1_bi_temporal_row" kindref="compound">BiTemporalRow</ref><sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/><ref refid="structthemis_1_1temporal_1_1test_1_1_bi_temporal_row_1af1c9249f6730fbc749aa7c2efac3d2a7" kindref="member">valid_start</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/><ref refid="structthemis_1_1temporal_1_1test_1_1_bi_temporal_row_1accde511d342575dbf012460f37ff67aa" kindref="member">valid_end</ref>;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>kTemporalOpenEnd<sp/>for<sp/>open<sp/>interval</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/><ref refid="structthemis_1_1temporal_1_1test_1_1_bi_temporal_row_1a6d65b7095941dea8148be9f4e9926ea6" kindref="member">tx_time</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1temporal_1_1test_1_1_bi_temporal_row_1a8cf2648b3bbe97f305c60900d38f0dd9" kindref="member">soft_deleted</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;TemporalErrorCode&gt;<sp/>mockValidateRange(</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::int64_t<sp/>start,<sp/>std::int64_t<sp/>end)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(start<sp/>&lt;<sp/><ref refid="namespacethemis_1_1temporal_1a28a27fde7f959c49abf21389dc820574" kindref="member">kTemporalMinTimestampNs</ref><sp/>||<sp/>end<sp/>&lt;<sp/><ref refid="namespacethemis_1_1temporal_1a28a27fde7f959c49abf21389dc820574" kindref="member">kTemporalMinTimestampNs</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da40da9fc3a51ad1391af03ce450e603e1" kindref="member">TemporalErrorCode::TEMPORAL_RANGE_INVALID</ref>;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(start<sp/>&gt;<sp/>end)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da40da9fc3a51ad1391af03ce450e603e1" kindref="member">TemporalErrorCode::TEMPORAL_RANGE_INVALID</ref>;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;BiTemporalRow&gt;<sp/>mockSnapshotAt(</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;BiTemporalRow&gt;&amp;<sp/>store,</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::int64_t<sp/>t,</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::int64_t<sp/>snapshot_tx)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;BiTemporalRow&gt;<sp/>result<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>row<sp/>:<sp/>store)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(row.soft_deleted)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(row.tx_time<sp/>&gt;<sp/>snapshot_tx)<sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>committed<sp/>after<sp/>snapshot</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(row.valid_start<sp/>&lt;=<sp/>t<sp/>&amp;&amp;<sp/>t<sp/>&lt;=<sp/>row.valid_end)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.push_back(row);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>mockApplyRetention(</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;BiTemporalRow&gt;&amp;<sp/>store,</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::int64_t<sp/>now_ns,</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::int64_t<sp/>retention_ns)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/>boundary<sp/>=<sp/>now_ns<sp/>-<sp/>retention_ns;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>row<sp/>:<sp/>store)<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(row.valid_end<sp/>&lt;<sp/>boundary)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>row.soft_deleted<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::size_t<sp/>mockGcCount(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;BiTemporalRow&gt;&amp;<sp/>store)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>row<sp/>:<sp/>store)<sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(row.soft_deleted)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++count;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>count;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;TemporalErrorCode&gt;<sp/>mockPitrRestore(</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::int64_t<sp/>requested_ts,</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::int64_t<sp/>oldest_anchor,</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::int64_t<sp/>now_ns)<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(requested_ts<sp/>&lt;<sp/>oldest_anchor<sp/>||<sp/>requested_ts<sp/>&gt;<sp/>now_ns)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da56791bbeab30edbbe2a7d15519b2c6dc" kindref="member">TemporalErrorCode::PITR_TIMESTAMP_BEFORE_OLDEST</ref>;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TCH-01..04<sp/>—<sp/>Bi-temporal<sp/>insert<sp/>/<sp/>query<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><ref refid="namespacethemis_1_1temporal_1_1test_1a207fb1ffd95e5c87db48e0072bacdfca" kindref="member">TEST</ref>(TemporalContractHardening,<sp/>TCH01_ValidRangeAccepted)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>mockValidateRange(1000LL,<sp/>5000LL);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(err.has_value());</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><ref refid="namespacethemis_1_1temporal_1_1test_1a207fb1ffd95e5c87db48e0072bacdfca" kindref="member">TEST</ref>(TemporalContractHardening,<sp/>TCH02_InvalidRangeRejected)<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>mockValidateRange(5000LL,<sp/>1000LL);<sp/></highlight><highlight class="comment">//<sp/>end<sp/>&lt;<sp/>start</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(err.has_value());</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*err,<sp/><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da40da9fc3a51ad1391af03ce450e603e1" kindref="member">TemporalErrorCode::TEMPORAL_RANGE_INVALID</ref>);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1temporal_1a697bb58de45f39e2b42baeccece0df10" kindref="member">isHardTemporalError</ref>(*err));</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><ref refid="namespacethemis_1_1temporal_1_1test_1a207fb1ffd95e5c87db48e0072bacdfca" kindref="member">TEST</ref>(TemporalContractHardening,<sp/>TCH03_TransactionTimeOrdering)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;BiTemporalRow&gt;<sp/>rows;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/>tx<sp/>=<sp/>100LL;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rows.push_back({i,<sp/>1000LL<sp/>*<sp/>i,<sp/>1000LL<sp/>*<sp/>(i<sp/>+<sp/>1),<sp/>tx,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++tx;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;<sp/>rows.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GT(rows[i].tx_time,<sp/>rows[i<sp/>-<sp/>1].tx_time);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><ref refid="namespacethemis_1_1temporal_1_1test_1a207fb1ffd95e5c87db48e0072bacdfca" kindref="member">TEST</ref>(TemporalContractHardening,<sp/>TCH04_OverlappingIntervalsReturned)<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/><ref refid="namespacethemisdb_1_1temporal_1a311e9facf859fb17560854fa490c2b88" kindref="member">now</ref><sp/>=<sp/>1&apos;000&apos;000LL;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;BiTemporalRow&gt;<sp/>store<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{1,<sp/>100LL,<sp/>5000LL,<sp/><ref refid="namespacethemisdb_1_1temporal_1a311e9facf859fb17560854fa490c2b88" kindref="member">now</ref><sp/>-<sp/>10,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">},<sp/><sp/></highlight><highlight class="comment">//<sp/>spans<sp/>query<sp/>point</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{2,<sp/>200LL,<sp/>4000LL,<sp/><ref refid="namespacethemisdb_1_1temporal_1a311e9facf859fb17560854fa490c2b88" kindref="member">now</ref><sp/>-<sp/>5,<sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">},<sp/><sp/></highlight><highlight class="comment">//<sp/>also<sp/>spans<sp/>query<sp/>point</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{3,<sp/>6000LL,<sp/>9000LL,<sp/><ref refid="namespacethemisdb_1_1temporal_1a311e9facf859fb17560854fa490c2b88" kindref="member">now</ref><sp/>-<sp/>1,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">},<sp/><sp/></highlight><highlight class="comment">//<sp/>does<sp/>NOT<sp/>span<sp/>query<sp/>point</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mockSnapshotAt(store,<sp/>3000LL,<sp/>now);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>row<sp/>1<sp/>and<sp/>row<sp/>2<sp/>should<sp/>be<sp/>present</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>has_1<sp/>=<sp/>std::any_of(result.begin(),<sp/>result.end(),<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>r){<sp/>return<sp/>r.id<sp/>==<sp/>1;<sp/>});</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>has_2<sp/>=<sp/>std::any_of(result.begin(),<sp/>result.end(),<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>r){<sp/>return<sp/>r.id<sp/>==<sp/>2;<sp/>});</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(has_1);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(has_2);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TCH-05..08<sp/>—<sp/>Snapshot<sp/>contract<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><ref refid="namespacethemis_1_1temporal_1_1test_1a207fb1ffd95e5c87db48e0072bacdfca" kindref="member">TEST</ref>(TemporalContractHardening,<sp/>TCH05_SnapshotAtTConsistent)<sp/>{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/><ref refid="namespacethemisdb_1_1temporal_1a311e9facf859fb17560854fa490c2b88" kindref="member">now</ref><sp/>=<sp/>10000LL;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;BiTemporalRow&gt;<sp/>store<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{1,<sp/>100LL,<sp/>500LL,<sp/><ref refid="namespacethemisdb_1_1temporal_1a311e9facf859fb17560854fa490c2b88" kindref="member">now</ref><sp/>-<sp/>5,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{2,<sp/>400LL,<sp/>800LL,<sp/><ref refid="namespacethemisdb_1_1temporal_1a311e9facf859fb17560854fa490c2b88" kindref="member">now</ref><sp/>-<sp/>3,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>at<sp/>T=450<sp/>—<sp/>both<sp/>rows<sp/>span<sp/>[100,500]<sp/>and<sp/>[400,800]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mockSnapshotAt(store,<sp/>450LL,<sp/>now);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><ref refid="namespacethemis_1_1temporal_1_1test_1a207fb1ffd95e5c87db48e0072bacdfca" kindref="member">TEST</ref>(TemporalContractHardening,<sp/>TCH06_SnapshotExcludesOutOfRange)<sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/><ref refid="namespacethemisdb_1_1temporal_1a311e9facf859fb17560854fa490c2b88" kindref="member">now</ref><sp/>=<sp/>10000LL;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;BiTemporalRow&gt;<sp/>store<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{1,<sp/>100LL,<sp/><sp/>300LL,<sp/><ref refid="namespacethemisdb_1_1temporal_1a311e9facf859fb17560854fa490c2b88" kindref="member">now</ref><sp/>-<sp/>2,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{2,<sp/>500LL,<sp/>1000LL,<sp/><ref refid="namespacethemisdb_1_1temporal_1a311e9facf859fb17560854fa490c2b88" kindref="member">now</ref><sp/>-<sp/>1,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>at<sp/>T=400<sp/>—<sp/>neither<sp/>row<sp/>spans<sp/>400</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mockSnapshotAt(store,<sp/>400LL,<sp/>now);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.empty());</highlight></codeline>
+<codeline lineno="211"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><ref refid="namespacethemis_1_1temporal_1_1test_1a207fb1ffd95e5c87db48e0072bacdfca" kindref="member">TEST</ref>(TemporalContractHardening,<sp/>TCH07_ConcurrentWriteNotVisible)<sp/>{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/>snapshot_tx<sp/>=<sp/>1000LL;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;BiTemporalRow&gt;<sp/>store<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{1,<sp/>100LL,<sp/>5000LL,<sp/>999LL,<sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">},<sp/><sp/></highlight><highlight class="comment">//<sp/>before<sp/>snapshot<sp/>→<sp/>visible</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{2,<sp/>100LL,<sp/>5000LL,<sp/>1001LL,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">},<sp/><sp/></highlight><highlight class="comment">//<sp/>after<sp/>snapshot<sp/>→<sp/>invisible</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mockSnapshotAt(store,<sp/>2000LL,<sp/>snapshot_tx);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[0].</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><ref refid="namespacethemis_1_1temporal_1_1test_1a207fb1ffd95e5c87db48e0072bacdfca" kindref="member">TEST</ref>(TemporalContractHardening,<sp/>TCH08_EmptyStoreEmptySnapshot)<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;BiTemporalRow&gt;<sp/>empty_store;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mockSnapshotAt(empty_store,<sp/>1000LL,<sp/>9999LL);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.empty());</highlight></codeline>
+<codeline lineno="230"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TCH-09..12<sp/>—<sp/>Retention<sp/>contract<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><ref refid="namespacethemis_1_1temporal_1_1test_1a207fb1ffd95e5c87db48e0072bacdfca" kindref="member">TEST</ref>(TemporalContractHardening,<sp/>TCH09_ExpiredRowSoftDeleted)<sp/>{</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/>now_ns<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1&apos;000&apos;000&apos;000LL;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/>retention_ns<sp/>=<sp/><sp/><sp/>100&apos;000&apos;000LL;<sp/></highlight><highlight class="comment">//<sp/>100ms<sp/>retention</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/>boundary<sp/><sp/><sp/><sp/><sp/>=<sp/>now_ns<sp/>-<sp/>retention_ns;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;BiTemporalRow&gt;<sp/>store<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{1,<sp/>100LL,<sp/>boundary<sp/>-<sp/>1,<sp/>50LL,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">},<sp/><sp/></highlight><highlight class="comment">//<sp/>expired</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{2,<sp/>100LL,<sp/>boundary<sp/>+<sp/>1,<sp/>60LL,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">},<sp/><sp/></highlight><highlight class="comment">//<sp/>within<sp/>retention</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>mockApplyRetention(store,<sp/>now_ns,<sp/>retention_ns);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(store[0].soft_deleted);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(store[1].soft_deleted);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><ref refid="namespacethemis_1_1temporal_1_1test_1a207fb1ffd95e5c87db48e0072bacdfca" kindref="member">TEST</ref>(TemporalContractHardening,<sp/>TCH10_GcPreservesRetainedRows)<sp/>{</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;BiTemporalRow&gt;<sp/>store<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{1,<sp/>100LL,<sp/>500LL,<sp/><sp/>50LL,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">},<sp/><sp/></highlight><highlight class="comment">//<sp/>not<sp/>soft-deleted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{2,<sp/>200LL,<sp/>300LL,<sp/>60LL,<sp/><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">},<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>soft-deleted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GC<sp/>would<sp/>only<sp/>process<sp/>soft-deleted<sp/>rows;<sp/>verify<sp/>count</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>gc_eligible<sp/>=<sp/>mockGcCount(store);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(gc_eligible,<sp/>1u);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(store[0].soft_deleted);<sp/></highlight><highlight class="comment">//<sp/>still<sp/>present</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><ref refid="namespacethemis_1_1temporal_1_1test_1a207fb1ffd95e5c87db48e0072bacdfca" kindref="member">TEST</ref>(TemporalContractHardening,<sp/>TCH11_SoftDeleteMarkersPresent)<sp/>{</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/><ref refid="namespacethemisdb_1_1temporal_1a311e9facf859fb17560854fa490c2b88" kindref="member">now</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>10&apos;000&apos;000LL;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/>retention<sp/>=<sp/><sp/>1&apos;000&apos;000LL;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;BiTemporalRow&gt;<sp/>store<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{1,<sp/>1LL,<sp/>100LL,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>5LL,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">},<sp/><sp/></highlight><highlight class="comment">//<sp/>very<sp/>old,<sp/>expired</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{2,<sp/>1LL,<sp/><ref refid="namespacethemisdb_1_1temporal_1a311e9facf859fb17560854fa490c2b88" kindref="member">now</ref><sp/>-<sp/>500LL,<sp/>6LL,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">},<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>recent,<sp/>within<sp/>retention</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>mockApplyRetention(store,<sp/>now,<sp/>retention);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Row<sp/>1:<sp/>valid_end<sp/>(100)<sp/>&lt;<sp/>boundary<sp/>(now<sp/>-<sp/>retention)<sp/>→<sp/>soft-deleted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(store[0].soft_deleted);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Row<sp/>2:<sp/>valid_end<sp/>is<sp/>within<sp/>retention<sp/>window<sp/>→<sp/>not<sp/>soft-deleted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(store[1].soft_deleted);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><ref refid="namespacethemis_1_1temporal_1_1test_1a207fb1ffd95e5c87db48e0072bacdfca" kindref="member">TEST</ref>(TemporalContractHardening,<sp/>TCH12_RetentionPolicyConflict)<sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate:<sp/>adding<sp/>a<sp/>policy<sp/>when<sp/>kMaxRetentionPoliciesPerTable<sp/>is<sp/>exceeded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>current_policies<sp/>=<sp/><ref refid="namespacethemis_1_1temporal_1a4037aea35684c8ab71f0e2407c613031" kindref="member">kMaxRetentionPoliciesPerTable</ref>;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Contract:<sp/>adding<sp/>one<sp/>more<sp/>would<sp/>conflict</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>conflicts<sp/>=<sp/>(current_policies<sp/>&gt;=<sp/><ref refid="namespacethemis_1_1temporal_1a4037aea35684c8ab71f0e2407c613031" kindref="member">kMaxRetentionPoliciesPerTable</ref>);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(conflicts);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>the<sp/>error<sp/>code<sp/>exists<sp/>and<sp/>is<sp/>lifecycle-classifiable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1d" kindref="member">TemporalErrorCode</ref><sp/>err<sp/>=<sp/><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da8570bbd815731ae6ee454e40d4958657" kindref="member">TemporalErrorCode::RETENTION_POLICY_CONFLICT</ref>;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1temporal_1a3cead857661ef4245eef4e283460e63e" kindref="member">isLifecycleError</ref>(err));</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1temporal_1a697bb58de45f39e2b42baeccece0df10" kindref="member">isHardTemporalError</ref>(err));</highlight></codeline>
+<codeline lineno="294"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TCH-13..16<sp/>—<sp/>PITR<sp/>contract<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><ref refid="namespacethemis_1_1temporal_1_1test_1a207fb1ffd95e5c87db48e0072bacdfca" kindref="member">TEST</ref>(TemporalContractHardening,<sp/>TCH13_ValidPitrTimestamp)<sp/>{</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/>oldest<sp/>=<sp/>1000LL;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/><ref refid="namespacethemisdb_1_1temporal_1a311e9facf859fb17560854fa490c2b88" kindref="member">now</ref><sp/><sp/><sp/><sp/>=<sp/>9999LL;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/>target<sp/>=<sp/>5000LL;<sp/><sp/></highlight><highlight class="comment">//<sp/>within<sp/>range</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>mockPitrRestore(target,<sp/>oldest,<sp/>now);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(err.has_value());</highlight></codeline>
+<codeline lineno="308"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><ref refid="namespacethemis_1_1temporal_1_1test_1a207fb1ffd95e5c87db48e0072bacdfca" kindref="member">TEST</ref>(TemporalContractHardening,<sp/>TCH14_FuturePitrTimestampError)<sp/>{</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/>oldest<sp/>=<sp/>1000LL;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/><ref refid="namespacethemisdb_1_1temporal_1a311e9facf859fb17560854fa490c2b88" kindref="member">now</ref><sp/><sp/><sp/><sp/>=<sp/>9999LL;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/>future<sp/>=<sp/>99999LL;<sp/></highlight><highlight class="comment">//<sp/>after<sp/>now</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>mockPitrRestore(future,<sp/>oldest,<sp/>now);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(err.has_value());</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*err,<sp/><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da56791bbeab30edbbe2a7d15519b2c6dc" kindref="member">TemporalErrorCode::PITR_TIMESTAMP_BEFORE_OLDEST</ref>);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1temporal_1a3cead857661ef4245eef4e283460e63e" kindref="member">isLifecycleError</ref>(*err));</highlight></codeline>
+<codeline lineno="320"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><ref refid="namespacethemis_1_1temporal_1_1test_1a207fb1ffd95e5c87db48e0072bacdfca" kindref="member">TEST</ref>(TemporalContractHardening,<sp/>TCH15_PitrBeforeOldestAnchor)<sp/>{</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/>oldest<sp/>=<sp/>5000LL;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/><ref refid="namespacethemisdb_1_1temporal_1a311e9facf859fb17560854fa490c2b88" kindref="member">now</ref><sp/><sp/><sp/><sp/>=<sp/>9999LL;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/>before<sp/>=<sp/>1000LL;<sp/></highlight><highlight class="comment">//<sp/>before<sp/>oldest<sp/>anchor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>mockPitrRestore(before,<sp/>oldest,<sp/>now);</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(err.has_value());</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*err,<sp/><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da56791bbeab30edbbe2a7d15519b2c6dc" kindref="member">TemporalErrorCode::PITR_TIMESTAMP_BEFORE_OLDEST</ref>);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><ref refid="namespacethemis_1_1temporal_1_1test_1a207fb1ffd95e5c87db48e0072bacdfca" kindref="member">TEST</ref>(TemporalContractHardening,<sp/>TCH16_OpenEndSentinelIsInt64Max)<sp/>{</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1temporal_1a11f35fa1b4fddbcf5fd1203decf8fa86" kindref="member">kTemporalOpenEnd</ref>,<sp/>INT64_MAX);</highlight></codeline>
+<codeline lineno="336"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>temporal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/temporal/test_temporal_contract_hardening_focused.cpp"/>
+  </compounddef>
+</doxygen>

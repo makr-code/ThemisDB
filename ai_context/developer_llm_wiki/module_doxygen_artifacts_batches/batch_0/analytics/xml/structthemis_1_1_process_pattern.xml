@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_process_pattern" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ProcessPattern</compoundname>
+    <includes refid="process__pattern__matcher_8h" local="no">process_pattern_matcher.h</includes>
+    <innerclass refid="structthemis_1_1_process_pattern_1_1_behavioral_constraint" prot="public">themis::ProcessPattern::BehavioralConstraint</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_process_pattern_1a937201c5259feeb8520b5c93715a3210" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ProcessPattern::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::ProcessPattern::id</qualifiedname>
+        <briefdescription>
+<para>Pattern identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="40" column="17" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_pattern_1aa203eac1763127c5110bf628750583ea" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ProcessPattern::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::ProcessPattern::name</qualifiedname>
+        <briefdescription>
+<para>Human-readable name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="41" column="17" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_pattern_1aded45520048701cdae58e186d161b84e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ProcessPattern::activities</definition>
+        <argsstring></argsstring>
+        <name>activities</name>
+        <qualifiedname>themis::ProcessPattern::activities</qualifiedname>
+        <briefdescription>
+<para>Activity names. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="42" column="17" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_pattern_1abd51fea971f0e030dd59dd9dbb276c31" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, std::string&gt; &gt; themis::ProcessPattern::edges</definition>
+        <argsstring></argsstring>
+        <name>edges</name>
+        <qualifiedname>themis::ProcessPattern::edges</qualifiedname>
+        <briefdescription>
+<para>Control flow edges. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="43" column="17" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_pattern_1a2788fca744bc352e03bd6c8781cb476c" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::optional&lt;std::vector&lt;float&gt; &gt; themis::ProcessPattern::pattern_embedding</definition>
+        <argsstring></argsstring>
+        <name>pattern_embedding</name>
+        <qualifiedname>themis::ProcessPattern::pattern_embedding</qualifiedname>
+        <briefdescription>
+<para>Embedding of entire pattern. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="46" column="19" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_pattern_1a0e78b190115f1c2cd5694709e830c0bb" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; float &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;float&gt; &gt; themis::ProcessPattern::activity_embeddings</definition>
+        <argsstring></argsstring>
+        <name>activity_embeddings</name>
+        <qualifiedname>themis::ProcessPattern::activity_embeddings</qualifiedname>
+        <briefdescription>
+<para>Per-activity embeddings. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="47" column="14" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_pattern_1a82c0b5fc5268c88cffe7e23b6bcc1b39" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_process_pattern_1_1_behavioral_constraint" kindref="compound">BehavioralConstraint</ref> &gt;</type>
+        <definition>std::vector&lt;BehavioralConstraint&gt; themis::ProcessPattern::constraints</definition>
+        <argsstring></argsstring>
+        <name>constraints</name>
+        <qualifiedname>themis::ProcessPattern::constraints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="54" column="17" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_pattern_1ab4c984eb18c0150ac02fb9cd83f2c4e1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ProcessPattern::structural_tolerance</definition>
+        <argsstring></argsstring>
+        <name>structural_tolerance</name>
+        <qualifiedname>themis::ProcessPattern::structural_tolerance</qualifiedname>
+        <initializer>= 0.2</initializer>
+        <briefdescription>
+<para>Allow 20% structural differences. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="57" column="12" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_pattern_1adeaa6ab3aba257e5f0484f7fcab78d53" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ProcessPattern::semantic_tolerance</definition>
+        <argsstring></argsstring>
+        <name>semantic_tolerance</name>
+        <qualifiedname>themis::ProcessPattern::semantic_tolerance</qualifiedname>
+        <initializer>= 0.1</initializer>
+        <briefdescription>
+<para>Allow 10% semantic differences. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="58" column="12" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/process_pattern_matcher.h" line="39" column="1" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="39" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_process_pattern_1aded45520048701cdae58e186d161b84e" prot="public" virt="non-virtual"><scope>themis::ProcessPattern</scope><name>activities</name></member>
+      <member refid="structthemis_1_1_process_pattern_1a0e78b190115f1c2cd5694709e830c0bb" prot="public" virt="non-virtual"><scope>themis::ProcessPattern</scope><name>activity_embeddings</name></member>
+      <member refid="structthemis_1_1_process_pattern_1a82c0b5fc5268c88cffe7e23b6bcc1b39" prot="public" virt="non-virtual"><scope>themis::ProcessPattern</scope><name>constraints</name></member>
+      <member refid="structthemis_1_1_process_pattern_1abd51fea971f0e030dd59dd9dbb276c31" prot="public" virt="non-virtual"><scope>themis::ProcessPattern</scope><name>edges</name></member>
+      <member refid="structthemis_1_1_process_pattern_1a937201c5259feeb8520b5c93715a3210" prot="public" virt="non-virtual"><scope>themis::ProcessPattern</scope><name>id</name></member>
+      <member refid="structthemis_1_1_process_pattern_1aa203eac1763127c5110bf628750583ea" prot="public" virt="non-virtual"><scope>themis::ProcessPattern</scope><name>name</name></member>
+      <member refid="structthemis_1_1_process_pattern_1a2788fca744bc352e03bd6c8781cb476c" prot="public" virt="non-virtual"><scope>themis::ProcessPattern</scope><name>pattern_embedding</name></member>
+      <member refid="structthemis_1_1_process_pattern_1adeaa6ab3aba257e5f0484f7fcab78d53" prot="public" virt="non-virtual"><scope>themis::ProcessPattern</scope><name>semantic_tolerance</name></member>
+      <member refid="structthemis_1_1_process_pattern_1ab4c984eb18c0150ac02fb9cd83f2c4e1" prot="public" virt="non-virtual"><scope>themis::ProcessPattern</scope><name>structural_tolerance</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,676 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cdc_1_1_delivery_tracker" kind="class" language="C++" prot="public">
+    <compoundname>themis::cdc::DeliveryTracker</compoundname>
+    <includes refid="delivery__tracker_8h" local="no">delivery_tracker.h</includes>
+    <innerclass refid="structthemis_1_1cdc_1_1_delivery_tracker_1_1_pending_event" prot="private">themis::cdc::DeliveryTracker::PendingEvent</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_delivery_tracker_1_1_consumer_state" prot="private">themis::cdc::DeliveryTracker::ConsumerState</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1cdc_1_1_delivery_tracker_1ae829badcdd4d995d64b5dc08b0a1d83b" prot="public" static="no">
+        <type>std::function&lt; void(const std::string &amp;consumer_id, const std::vector&lt; <ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref> &gt; &amp;events)&gt;</type>
+        <definition>using themis::cdc::DeliveryTracker::RedeliveryCallback = 
+std::function&lt;void(const std::string&amp; consumer_id,
+                   const std::vector&lt;Changefeed::ChangeEvent&gt;&amp; events)&gt;</definition>
+        <argsstring></argsstring>
+        <name>RedeliveryCallback</name>
+        <qualifiedname>themis::cdc::DeliveryTracker::RedeliveryCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/delivery_tracker.h" line="73" column="5" bodyfile="include/cdc/delivery_tracker.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_delivery_tracker_1add1fa4f8027b8280811f827bb51e784c" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1cdc_1_1_delivery_tracker_config" kindref="compound">DeliveryTrackerConfig</ref></type>
+        <definition>DeliveryTrackerConfig themis::cdc::DeliveryTracker::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::cdc::DeliveryTracker::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/delivery_tracker.h" line="165" column="27" bodyfile="include/cdc/delivery_tracker.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_delivery_tracker_1ad97c4aaacb3e6024c20267363338ee74" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1cdc_1_1_delivery_tracker_1ae829badcdd4d995d64b5dc08b0a1d83b" kindref="member">RedeliveryCallback</ref></type>
+        <definition>RedeliveryCallback themis::cdc::DeliveryTracker::redelivery_callback_</definition>
+        <argsstring></argsstring>
+        <name>redelivery_callback_</name>
+        <qualifiedname>themis::cdc::DeliveryTracker::redelivery_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/delivery_tracker.h" line="166" column="24" bodyfile="include/cdc/delivery_tracker.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_delivery_tracker_1a63d94b464fc29f2636ed90a58ce0ec53" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::cdc::DeliveryTracker::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::cdc::DeliveryTracker::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/delivery_tracker.h" line="168" column="24" bodyfile="include/cdc/delivery_tracker.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_delivery_tracker_1a7641d4946567eafe01bf08a06377abd0" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, ConsumerState &gt;</type>
+        <definition>std::map&lt;std::string, ConsumerState&gt; themis::cdc::DeliveryTracker::consumers_</definition>
+        <argsstring></argsstring>
+        <name>consumers_</name>
+        <qualifiedname>themis::cdc::DeliveryTracker::consumers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/delivery_tracker.h" line="169" column="14" bodyfile="include/cdc/delivery_tracker.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_delivery_tracker_1ae2f5417275d58ffd121a1744b50d1373" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::cdc::DeliveryTracker::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::cdc::DeliveryTracker::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/delivery_tracker.h" line="171" column="17" bodyfile="include/cdc/delivery_tracker.h" bodystart="171" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_delivery_tracker_1a64bfc192afdd066e172188ef577c9ee0" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::cdc::DeliveryTracker::redelivery_thread_</definition>
+        <argsstring></argsstring>
+        <name>redelivery_thread_</name>
+        <qualifiedname>themis::cdc::DeliveryTracker::redelivery_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/delivery_tracker.h" line="172" column="17" bodyfile="include/cdc/delivery_tracker.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_delivery_tracker_1a0e0c6b289fdf56d968235482c1cc65b3" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::cdc::DeliveryTracker::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>themis::cdc::DeliveryTracker::cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/delivery_tracker.h" line="173" column="29" bodyfile="include/cdc/delivery_tracker.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_delivery_tracker_1ae78467d10855c02ce587e1e6d0745c4a" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::cdc::DeliveryTracker::cv_mutex_</definition>
+        <argsstring></argsstring>
+        <name>cv_mutex_</name>
+        <qualifiedname>themis::cdc::DeliveryTracker::cv_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/delivery_tracker.h" line="174" column="16" bodyfile="include/cdc/delivery_tracker.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_delivery_tracker_1ac417f97fce29a1a130d5527d41e7da58" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::DeliveryTracker::DeliveryTracker</definition>
+        <argsstring>(DeliveryTrackerConfig config={}, RedeliveryCallback callback=nullptr)</argsstring>
+        <name>DeliveryTracker</name>
+        <qualifiedname>themis::cdc::DeliveryTracker::DeliveryTracker</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1cdc_1_1_delivery_tracker_config" kindref="compound">DeliveryTrackerConfig</ref></type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1cdc_1_1_delivery_tracker_1ae829badcdd4d995d64b5dc08b0a1d83b" kindref="member">RedeliveryCallback</ref></type>
+          <declname>callback</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/delivery_tracker.h" line="77" column="14" bodyfile="src/cdc/delivery_tracker.cpp" bodystart="18" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_delivery_tracker_1acd48bb7d65a20f406fde0c2a34c0b1ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::DeliveryTracker::~DeliveryTracker</definition>
+        <argsstring>()</argsstring>
+        <name>~DeliveryTracker</name>
+        <qualifiedname>themis::cdc::DeliveryTracker::~DeliveryTracker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/delivery_tracker.h" line="80" column="5" bodyfile="src/cdc/delivery_tracker.cpp" bodystart="25" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_delivery_tracker_1a7a320481e56f8f845e84ba5d71f4c802" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::DeliveryTracker::DeliveryTracker</definition>
+        <argsstring>(const DeliveryTracker &amp;)=delete</argsstring>
+        <name>DeliveryTracker</name>
+        <qualifiedname>themis::cdc::DeliveryTracker::DeliveryTracker</qualifiedname>
+        <param>
+          <type>const DeliveryTracker &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/delivery_tracker.h" line="83" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_delivery_tracker_1a3242f17bcb8680310fb24d465b1ffe11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cdc_1_1_delivery_tracker_1ac417f97fce29a1a130d5527d41e7da58" kindref="member">DeliveryTracker</ref> &amp;</type>
+        <definition>DeliveryTracker &amp; themis::cdc::DeliveryTracker::operator=</definition>
+        <argsstring>(const DeliveryTracker &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::cdc::DeliveryTracker::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1cdc_1_1_delivery_tracker_1ac417f97fce29a1a130d5527d41e7da58" kindref="member">DeliveryTracker</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/delivery_tracker.h" line="84" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_delivery_tracker_1a3bdd91e6e518cfbd273aca1c57b67ab9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cdc::DeliveryTracker::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::cdc::DeliveryTracker::start</qualifiedname>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: exchange(), std::thread(), THEMIS_INFO(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/delivery_tracker.h" line="89" column="10" bodyfile="src/cdc/delivery_tracker.cpp" bodystart="33" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_delivery_tracker_1a5aa4e93869fdf738abb8512d508fb26c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cdc::DeliveryTracker::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::cdc::DeliveryTracker::stop</qualifiedname>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: exchange(), notify_all(), joinable(), join(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/delivery_tracker.h" line="94" column="10" bodyfile="src/cdc/delivery_tracker.cpp" bodystart="49" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_delivery_tracker_1a9ba679810b65035c00844c679e605f2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cdc::DeliveryTracker::trackDelivery</definition>
+        <argsstring>(const std::string &amp;consumer_id, const std::vector&lt; Changefeed::ChangeEvent &gt; &amp;events)</argsstring>
+        <name>trackDelivery</name>
+        <qualifiedname>themis::cdc::DeliveryTracker::trackDelivery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>consumer_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref> &gt; &amp;</type>
+          <declname>events</declname>
+        </param>
+        <briefdescription>
+<para>Track Delivery. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">consumer_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the consumer. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">events</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">consumer_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the consumer. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">events</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), lock(), size(), THEMIS_WARN(), std::chrono::steady_clock::now(), emplace(), std::move(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/delivery_tracker.h" line="102" column="10" bodyfile="src/cdc/delivery_tracker.cpp" bodystart="70" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_delivery_tracker_1aee20f096513f9e914e375fe89b451e84" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cdc::DeliveryTracker::acknowledge</definition>
+        <argsstring>(const std::string &amp;consumer_id, uint64_t sequence)</argsstring>
+        <name>acknowledge</name>
+        <qualifiedname>themis::cdc::DeliveryTracker::acknowledge</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>consumer_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>sequence</declname>
+        </param>
+        <briefdescription>
+<para>Acknowledge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">consumer_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the consumer. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">consumer_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the consumer. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), erase(), THEMIS_DEBUG(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/delivery_tracker.h" line="111" column="10" bodyfile="src/cdc/delivery_tracker.cpp" bodystart="112" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_delivery_tracker_1a0c418a42cf0893f7b23d5a853016b886" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::cdc::DeliveryTracker::acknowledgeUpTo</definition>
+        <argsstring>(const std::string &amp;consumer_id, uint64_t up_to_sequence)</argsstring>
+        <name>acknowledgeUpTo</name>
+        <qualifiedname>themis::cdc::DeliveryTracker::acknowledgeUpTo</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>consumer_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>up_to_sequence</declname>
+        </param>
+        <briefdescription>
+<para>Acknowledge Up To. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">consumer_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the consumer. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">up_to_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">consumer_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the consumer. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">up_to_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), begin(), erase(), THEMIS_DEBUG(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/delivery_tracker.h" line="119" column="12" bodyfile="src/cdc/delivery_tracker.cpp" bodystart="141" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_delivery_tracker_1a8878da2f052211d51bf59f63ebf0e546" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref> &gt;</type>
+        <definition>std::vector&lt; Changefeed::ChangeEvent &gt; themis::cdc::DeliveryTracker::getPendingRedelivery</definition>
+        <argsstring>(const std::string &amp;consumer_id, std::optional&lt; std::chrono::milliseconds &gt; timeout_override=std::nullopt)</argsstring>
+        <name>getPendingRedelivery</name>
+        <qualifiedname>themis::cdc::DeliveryTracker::getPendingRedelivery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>consumer_id</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; std::chrono::milliseconds &gt;</type>
+          <declname>timeout_override</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/delivery_tracker.h" line="121" column="17" bodyfile="src/cdc/delivery_tracker.cpp" bodystart="169" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_delivery_tracker_1abe9573383cd51532ba2afb06f55dd822" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cdc::DeliveryTracker::removeConsumer</definition>
+        <argsstring>(const std::string &amp;consumer_id)</argsstring>
+        <name>removeConsumer</name>
+        <qualifiedname>themis::cdc::DeliveryTracker::removeConsumer</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>consumer_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove Consumer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">consumer_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the consumer.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">consumer_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the consumer.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/delivery_tracker.h" line="129" column="10" bodyfile="src/cdc/delivery_tracker.cpp" bodystart="229" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_delivery_tracker_1a05931d7be476635ad562d1a7d6819aa9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1cdc_1_1_consumer_delivery_stats" kindref="compound">ConsumerDeliveryStats</ref> &gt;</type>
+        <definition>std::optional&lt; ConsumerDeliveryStats &gt; themis::cdc::DeliveryTracker::getStats</definition>
+        <argsstring>(const std::string &amp;consumer_id) const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::cdc::DeliveryTracker::getStats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>consumer_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">consumer_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the consumer. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/delivery_tracker.h" line="136" column="19" bodyfile="src/cdc/delivery_tracker.cpp" bodystart="238" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_delivery_tracker_1aa2dd5ffee30e04870ea306766e3bb5af" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1cdc_1_1_consumer_delivery_stats" kindref="compound">ConsumerDeliveryStats</ref> &gt;</type>
+        <definition>std::vector&lt; ConsumerDeliveryStats &gt; themis::cdc::DeliveryTracker::getAllStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllStats</name>
+        <qualifiedname>themis::cdc::DeliveryTracker::getAllStats</qualifiedname>
+        <briefdescription>
+<para>Get All Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/delivery_tracker.h" line="142" column="17" bodyfile="src/cdc/delivery_tracker.cpp" bodystart="262" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_delivery_tracker_1a8a850709e1191228bc3d62caeb4f55dc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::cdc::DeliveryTracker::consumerCount</definition>
+        <argsstring>() const</argsstring>
+        <name>consumerCount</name>
+        <qualifiedname>themis::cdc::DeliveryTracker::consumerCount</qualifiedname>
+        <briefdescription>
+<para>Consumer Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/delivery_tracker.h" line="148" column="12" bodyfile="src/cdc/delivery_tracker.cpp" bodystart="286" bodyend="294"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_delivery_tracker_1a8f6dfcccfdc72c79d3fb0bdade693546" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cdc::DeliveryTracker::redeliveryThreadFunc</definition>
+        <argsstring>()</argsstring>
+        <name>redeliveryThreadFunc</name>
+        <qualifiedname>themis::cdc::DeliveryTracker::redeliveryThreadFunc</qualifiedname>
+        <briefdescription>
+<para>Redelivery Thread Func. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>===== Background Redelivery Thread =====</para>
+<para>Calls: THEMIS_DEBUG(), load(), lock(), wait_for(), checkAndRedeliver(), THEMIS_ERROR(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/delivery_tracker.h" line="179" column="10" bodyfile="src/cdc/delivery_tracker.cpp" bodystart="301" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_delivery_tracker_1a541fa3176d3295a5e65fde5abeddb43a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cdc::DeliveryTracker::checkAndRedeliver</definition>
+        <argsstring>()</argsstring>
+        <name>checkAndRedeliver</name>
+        <qualifiedname>themis::cdc::DeliveryTracker::checkAndRedeliver</qualifiedname>
+        <briefdescription>
+<para>Check And Redeliver. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), reserve(), size(), push_back(), <ref refid="classthemis_1_1cdc_1_1_delivery_tracker_1a8878da2f052211d51bf59f63ebf0e546" kindref="member">getPendingRedelivery()</ref>, empty(), redelivery_callback_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/delivery_tracker.h" line="183" column="10" bodyfile="src/cdc/delivery_tracker.cpp" bodystart="330" bodyend="352"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/delivery_tracker.h" line="71" column="1" bodyfile="include/cdc/delivery_tracker.h" bodystart="71" bodyend="184"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cdc_1_1_delivery_tracker_1aee20f096513f9e914e375fe89b451e84" prot="public" virt="non-virtual"><scope>themis::cdc::DeliveryTracker</scope><name>acknowledge</name></member>
+      <member refid="classthemis_1_1cdc_1_1_delivery_tracker_1a0c418a42cf0893f7b23d5a853016b886" prot="public" virt="non-virtual"><scope>themis::cdc::DeliveryTracker</scope><name>acknowledgeUpTo</name></member>
+      <member refid="classthemis_1_1cdc_1_1_delivery_tracker_1a541fa3176d3295a5e65fde5abeddb43a" prot="private" virt="non-virtual"><scope>themis::cdc::DeliveryTracker</scope><name>checkAndRedeliver</name></member>
+      <member refid="classthemis_1_1cdc_1_1_delivery_tracker_1add1fa4f8027b8280811f827bb51e784c" prot="private" virt="non-virtual"><scope>themis::cdc::DeliveryTracker</scope><name>config_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_delivery_tracker_1a8a850709e1191228bc3d62caeb4f55dc" prot="public" virt="non-virtual"><scope>themis::cdc::DeliveryTracker</scope><name>consumerCount</name></member>
+      <member refid="classthemis_1_1cdc_1_1_delivery_tracker_1a7641d4946567eafe01bf08a06377abd0" prot="private" virt="non-virtual"><scope>themis::cdc::DeliveryTracker</scope><name>consumers_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_delivery_tracker_1a0e0c6b289fdf56d968235482c1cc65b3" prot="private" virt="non-virtual"><scope>themis::cdc::DeliveryTracker</scope><name>cv_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_delivery_tracker_1ae78467d10855c02ce587e1e6d0745c4a" prot="private" virt="non-virtual"><scope>themis::cdc::DeliveryTracker</scope><name>cv_mutex_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_delivery_tracker_1ac417f97fce29a1a130d5527d41e7da58" prot="public" virt="non-virtual"><scope>themis::cdc::DeliveryTracker</scope><name>DeliveryTracker</name></member>
+      <member refid="classthemis_1_1cdc_1_1_delivery_tracker_1a7a320481e56f8f845e84ba5d71f4c802" prot="public" virt="non-virtual"><scope>themis::cdc::DeliveryTracker</scope><name>DeliveryTracker</name></member>
+      <member refid="classthemis_1_1cdc_1_1_delivery_tracker_1aa2dd5ffee30e04870ea306766e3bb5af" prot="public" virt="non-virtual"><scope>themis::cdc::DeliveryTracker</scope><name>getAllStats</name></member>
+      <member refid="classthemis_1_1cdc_1_1_delivery_tracker_1a8878da2f052211d51bf59f63ebf0e546" prot="public" virt="non-virtual"><scope>themis::cdc::DeliveryTracker</scope><name>getPendingRedelivery</name></member>
+      <member refid="classthemis_1_1cdc_1_1_delivery_tracker_1a05931d7be476635ad562d1a7d6819aa9" prot="public" virt="non-virtual"><scope>themis::cdc::DeliveryTracker</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1cdc_1_1_delivery_tracker_1a63d94b464fc29f2636ed90a58ce0ec53" prot="private" virt="non-virtual"><scope>themis::cdc::DeliveryTracker</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_delivery_tracker_1a3242f17bcb8680310fb24d465b1ffe11" prot="public" virt="non-virtual"><scope>themis::cdc::DeliveryTracker</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1cdc_1_1_delivery_tracker_1ad97c4aaacb3e6024c20267363338ee74" prot="private" virt="non-virtual"><scope>themis::cdc::DeliveryTracker</scope><name>redelivery_callback_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_delivery_tracker_1a64bfc192afdd066e172188ef577c9ee0" prot="private" virt="non-virtual"><scope>themis::cdc::DeliveryTracker</scope><name>redelivery_thread_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_delivery_tracker_1ae829badcdd4d995d64b5dc08b0a1d83b" prot="public" virt="non-virtual"><scope>themis::cdc::DeliveryTracker</scope><name>RedeliveryCallback</name></member>
+      <member refid="classthemis_1_1cdc_1_1_delivery_tracker_1a8f6dfcccfdc72c79d3fb0bdade693546" prot="private" virt="non-virtual"><scope>themis::cdc::DeliveryTracker</scope><name>redeliveryThreadFunc</name></member>
+      <member refid="classthemis_1_1cdc_1_1_delivery_tracker_1abe9573383cd51532ba2afb06f55dd822" prot="public" virt="non-virtual"><scope>themis::cdc::DeliveryTracker</scope><name>removeConsumer</name></member>
+      <member refid="classthemis_1_1cdc_1_1_delivery_tracker_1ae2f5417275d58ffd121a1744b50d1373" prot="private" virt="non-virtual"><scope>themis::cdc::DeliveryTracker</scope><name>running_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_delivery_tracker_1a3bdd91e6e518cfbd273aca1c57b67ab9" prot="public" virt="non-virtual"><scope>themis::cdc::DeliveryTracker</scope><name>start</name></member>
+      <member refid="classthemis_1_1cdc_1_1_delivery_tracker_1a5aa4e93869fdf738abb8512d508fb26c" prot="public" virt="non-virtual"><scope>themis::cdc::DeliveryTracker</scope><name>stop</name></member>
+      <member refid="classthemis_1_1cdc_1_1_delivery_tracker_1a9ba679810b65035c00844c679e605f2a" prot="public" virt="non-virtual"><scope>themis::cdc::DeliveryTracker</scope><name>trackDelivery</name></member>
+      <member refid="classthemis_1_1cdc_1_1_delivery_tracker_1acd48bb7d65a20f406fde0c2a34c0b1ef" prot="public" virt="non-virtual"><scope>themis::cdc::DeliveryTracker</scope><name>~DeliveryTracker</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

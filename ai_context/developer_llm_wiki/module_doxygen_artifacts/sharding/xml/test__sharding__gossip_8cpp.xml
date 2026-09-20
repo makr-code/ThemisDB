@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__sharding__gossip_8cpp" kind="file" language="C++">
+    <compoundname>test_sharding_gossip.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="gossip__protocol_8h" local="yes">sharding/gossip_protocol.h</includes>
+    <includes local="no">memory</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>sharding/gossip_protocol.h</label>
+        <link refid="gossip__protocol_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/sharding/test_sharding_gossip.cpp</label>
+        <link refid="test__sharding__gossip_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>atomic</label>
+      </node>
+      <node id="11">
+        <label>chrono</label>
+      </node>
+      <node id="12">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>map</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="13">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>thread</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__sharding__gossip_8cpp_1a3c2efc22afd32ec0ea3095de9504e060" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GossipConfigTest, DefaultsAreReasonable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GossipConfigTest</type>
+        </param>
+        <param>
+          <type>DefaultsAreReasonable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_gossip.cpp" line="8" column="1" bodyfile="tests/sharding/test_sharding_gossip.cpp" bodystart="8" bodyend="14"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sharding__gossip_8cpp_1a2065d80d31781058555c86611f7f9020" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GossipConfigTest, DisabledByDefault)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GossipConfigTest</type>
+        </param>
+        <param>
+          <type>DisabledByDefault</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_gossip.cpp" line="16" column="1" bodyfile="tests/sharding/test_sharding_gossip.cpp" bodystart="16" bodyend="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gossip__protocol_8h" kindref="compound">sharding/gossip_protocol.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding" kindref="compound">themis::sharding</ref>;</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><ref refid="test__sharding__gossip_8cpp_1a3c2efc22afd32ec0ea3095de9504e060" kindref="member">TEST</ref>(GossipConfigTest,<sp/>DefaultsAreReasonable)<sp/>{</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_gossip_config" kindref="compound">GossipConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cfg.<ref refid="structthemis_1_1sharding_1_1_gossip_config_1aa69bf2c2e6825aae871a8f0d518755d1" kindref="member">gossip_interval_sec</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cfg.<ref refid="structthemis_1_1sharding_1_1_gossip_config_1a823f377cc4e1d2b3f241fe9dc517327d" kindref="member">max_peers</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cfg.<ref refid="structthemis_1_1sharding_1_1_gossip_config_1a22deabd45e56fb8d7ed62b89e7c77912" kindref="member">fanout</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cfg.<ref refid="structthemis_1_1sharding_1_1_gossip_config_1a60ed482aa5109c038271c1fbcbecffee" kindref="member">peer_timeout_sec</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="14"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><ref refid="test__sharding__gossip_8cpp_1a3c2efc22afd32ec0ea3095de9504e060" kindref="member">TEST</ref>(GossipConfigTest,<sp/>DisabledByDefault)<sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_gossip_config" kindref="compound">GossipConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cfg.<ref refid="structthemis_1_1sharding_1_1_gossip_config_1a66fcfee971bd98d1f00ed74a3ae164b6" kindref="member">enabled</ref>);</highlight></codeline>
+<codeline lineno="19"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/sharding/test_sharding_gossip.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_gate_criterion" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::GateCriterion</compoundname>
+    <includes refid="graph__phase__gate__orchestrator_8h" local="no">graph_phase_gate_orchestrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_gate_criterion_1a9455926e0b0e9578e5135016b7db49bb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::GateCriterion::metric_key</definition>
+        <argsstring></argsstring>
+        <name>metric_key</name>
+        <qualifiedname>themis::graph::GateCriterion::metric_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="66" column="17" bodyfile="include/graph/graph_phase_gate_orchestrator.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_gate_criterion_1ae673927758c31b23589984e2d79ab599" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::graph::GateCriterion::threshold</definition>
+        <argsstring></argsstring>
+        <name>threshold</name>
+        <qualifiedname>themis::graph::GateCriterion::threshold</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="67" column="11" bodyfile="include/graph/graph_phase_gate_orchestrator.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_gate_criterion_1a47196a3011fff538b485dd89ddd61474" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::GateCriterion::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::graph::GateCriterion::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="68" column="17" bodyfile="include/graph/graph_phase_gate_orchestrator.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_phase_gate_orchestrator.h" line="65" column="1" bodyfile="include/graph/graph_phase_gate_orchestrator.h" bodystart="65" bodyend="69"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_gate_criterion_1a47196a3011fff538b485dd89ddd61474" prot="public" virt="non-virtual"><scope>themis::graph::GateCriterion</scope><name>description</name></member>
+      <member refid="structthemis_1_1graph_1_1_gate_criterion_1a9455926e0b0e9578e5135016b7db49bb" prot="public" virt="non-virtual"><scope>themis::graph::GateCriterion</scope><name>metric_key</name></member>
+      <member refid="structthemis_1_1graph_1_1_gate_criterion_1ae673927758c31b23589984e2d79ab599" prot="public" virt="non-virtual"><scope>themis::graph::GateCriterion</scope><name>threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

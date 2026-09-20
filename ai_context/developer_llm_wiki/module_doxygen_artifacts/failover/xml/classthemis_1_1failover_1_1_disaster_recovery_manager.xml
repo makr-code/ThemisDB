@@ -1,0 +1,1164 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1failover_1_1_disaster_recovery_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::failover::DisasterRecoveryManager</compoundname>
+    <includes refid="disaster__recovery__manager_8h" local="no">disaster_recovery_manager.h</includes>
+    <innerclass refid="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_statistics" prot="public">themis::failover::DisasterRecoveryManager::Statistics</innerclass>
+    <innerclass refid="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_enum_hash" prot="private">themis::failover::DisasterRecoveryManager::EnumHash</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1failover_1_1_disaster_recovery_manager_1ace9e094909066612baaf308780aaae58" prot="public" static="no">
+        <type>std::function&lt; bool(const <ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan" kindref="compound">DisasterRecoveryPlan</ref> &amp;, std::string &amp;)&gt;</type>
+        <definition>using themis::failover::DisasterRecoveryManager::StepHook = std::function&lt;bool(const DisasterRecoveryPlan&amp;, std::string&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>StepHook</name>
+        <qualifiedname>themis::failover::DisasterRecoveryManager::StepHook</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="97" column="5" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_disaster_recovery_manager_1a90f90c2a2452927548bb482502655c1e" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1failover_1_1_disaster_recovery_config" kindref="compound">DisasterRecoveryConfig</ref></type>
+        <definition>DisasterRecoveryConfig themis::failover::DisasterRecoveryManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::failover::DisasterRecoveryManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="257" column="28" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="257" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_disaster_recovery_manager_1a8126f792f1c96c2d55947ba19a35dde6" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themisdb::replication::ReplicationManager &gt;</type>
+        <definition>std::shared_ptr&lt;themisdb::replication::ReplicationManager&gt; themis::failover::DisasterRecoveryManager::replication_mgr_</definition>
+        <argsstring></argsstring>
+        <name>replication_mgr_</name>
+        <qualifiedname>themis::failover::DisasterRecoveryManager::replication_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="258" column="21" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="258" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_disaster_recovery_manager_1a8fc7e0208ca393e366ef4f02356cd162" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; sharding::EpochFencingManager &gt;</type>
+        <definition>std::shared_ptr&lt;sharding::EpochFencingManager&gt; themis::failover::DisasterRecoveryManager::fencing_mgr_</definition>
+        <argsstring></argsstring>
+        <name>fencing_mgr_</name>
+        <qualifiedname>themis::failover::DisasterRecoveryManager::fencing_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="259" column="21" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="259" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_disaster_recovery_manager_1ab888c61441780911c7da2cf6b8f1daa1" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66" kindref="member">DisasterRecoveryStep</ref>, <ref refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1ace9e094909066612baaf308780aaae58" kindref="member">StepHook</ref>, EnumHash &gt;</type>
+        <definition>std::unordered_map&lt;DisasterRecoveryStep, StepHook, EnumHash&gt; themis::failover::DisasterRecoveryManager::hooks_</definition>
+        <argsstring></argsstring>
+        <name>hooks_</name>
+        <qualifiedname>themis::failover::DisasterRecoveryManager::hooks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="261" column="24" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_disaster_recovery_manager_1a24b5e890af2f632859675fb112794da1" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::failover::DisasterRecoveryManager::state_mutex_</definition>
+        <argsstring></argsstring>
+        <name>state_mutex_</name>
+        <qualifiedname>themis::failover::DisasterRecoveryManager::state_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="263" column="24" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="263" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_disaster_recovery_manager_1abc0f0e634161f17259d92ce0f05e3a52" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; <ref refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326" kindref="member">DisasterRecoveryState</ref> &gt;</type>
+        <definition>std::atomic&lt;DisasterRecoveryState&gt; themis::failover::DisasterRecoveryManager::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>themis::failover::DisasterRecoveryManager::state_</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326aa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">DisasterRecoveryState::IDLE</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="264" column="17" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="264" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_disaster_recovery_manager_1a8db1fd9419b166af7b74cda39fa1b4ee" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::failover::DisasterRecoveryManager::execution_mutex_</definition>
+        <argsstring></argsstring>
+        <name>execution_mutex_</name>
+        <qualifiedname>themis::failover::DisasterRecoveryManager::execution_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="267" column="24" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="267" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_disaster_recovery_manager_1a52e30b6b941aace61c3d3b608b5f9f9f" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::failover::DisasterRecoveryManager::idempotency_mutex_</definition>
+        <argsstring></argsstring>
+        <name>idempotency_mutex_</name>
+        <qualifiedname>themis::failover::DisasterRecoveryManager::idempotency_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="269" column="24" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="269" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_disaster_recovery_manager_1abec87a53021c9172ce50eae558d1891e" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1failover_1_1_disaster_recovery_result" kindref="compound">DisasterRecoveryResult</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, DisasterRecoveryResult&gt; themis::failover::DisasterRecoveryManager::completed_plans_</definition>
+        <argsstring></argsstring>
+        <name>completed_plans_</name>
+        <qualifiedname>themis::failover::DisasterRecoveryManager::completed_plans_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="270" column="24" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="270" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_disaster_recovery_manager_1aed644fb57da1d27b7f8808b54f79b2ec" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::failover::DisasterRecoveryManager::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themis::failover::DisasterRecoveryManager::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="272" column="24" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="272" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_disaster_recovery_manager_1a45a70361b05b44cf0c7a0c8eeee48fcf" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>Statistics themis::failover::DisasterRecoveryManager::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::failover::DisasterRecoveryManager::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="273" column="16" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="273" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_disaster_recovery_manager_1a334501e7502ecb956d16cbbd1800ad20" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::chrono::milliseconds &gt;</type>
+        <definition>std::vector&lt;std::chrono::milliseconds&gt; themis::failover::DisasterRecoveryManager::durations_</definition>
+        <argsstring></argsstring>
+        <name>durations_</name>
+        <qualifiedname>themis::failover::DisasterRecoveryManager::durations_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="274" column="17" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_disaster_recovery_manager_1a7c1416ee75001a8760052ea117f6d5b8" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::failover::DisasterRecoveryManager::DisasterRecoveryManager</definition>
+        <argsstring>(DisasterRecoveryConfig config, std::shared_ptr&lt; themisdb::replication::ReplicationManager &gt; replication_mgr, std::shared_ptr&lt; sharding::EpochFencingManager &gt; fencing_mgr)</argsstring>
+        <name>DisasterRecoveryManager</name>
+        <qualifiedname>themis::failover::DisasterRecoveryManager::DisasterRecoveryManager</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1failover_1_1_disaster_recovery_config" kindref="compound">DisasterRecoveryConfig</ref></type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; themisdb::replication::ReplicationManager &gt;</type>
+          <declname>replication_mgr</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; sharding::EpochFencingManager &gt;</type>
+          <declname>fencing_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Disaster Recovery Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">replication_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fencing_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="106" column="14" bodyfile="src/failover/disaster_recovery_manager.cpp" bodystart="23" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_disaster_recovery_manager_1a4935f0ef7306fab7a33084cd965ba98c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1failover_1_1_disaster_recovery_result" kindref="compound">DisasterRecoveryResult</ref></type>
+        <definition>DisasterRecoveryResult themis::failover::DisasterRecoveryManager::executePlan</definition>
+        <argsstring>(const DisasterRecoveryPlan &amp;plan)</argsstring>
+        <name>executePlan</name>
+        <qualifiedname>themis::failover::DisasterRecoveryManager::executePlan</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan" kindref="compound">DisasterRecoveryPlan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <briefdescription>
+<para>Execute Plan. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: idem_lock(), find(), end(), spdlog::info(), exec_lock(), owns_lock(), spdlog::error(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="116" column="28" bodyfile="src/failover/disaster_recovery_manager.cpp" bodystart="37" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_disaster_recovery_manager_1afdcaf061adabd69d3c75c259ecf9e373" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::failover::DisasterRecoveryManager::validatePlan</definition>
+        <argsstring>(const DisasterRecoveryPlan &amp;plan, std::string &amp;error) const</argsstring>
+        <name>validatePlan</name>
+        <qualifiedname>themis::failover::DisasterRecoveryManager::validatePlan</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan" kindref="compound">DisasterRecoveryPlan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+<para>Validate Plan. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="124" column="10" bodyfile="src/failover/disaster_recovery_manager.cpp" bodystart="150" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_disaster_recovery_manager_1aa448b50e95845469e51935e3e17e7c68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::failover::DisasterRecoveryManager::setStepHook</definition>
+        <argsstring>(DisasterRecoveryStep step, StepHook hook)</argsstring>
+        <name>setStepHook</name>
+        <qualifiedname>themis::failover::DisasterRecoveryManager::setStepHook</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66" kindref="member">DisasterRecoveryStep</ref></type>
+          <declname>step</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1ace9e094909066612baaf308780aaae58" kindref="member">StepHook</ref></type>
+          <declname>hook</declname>
+        </param>
+        <briefdescription>
+<para>Set Step Hook. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hook</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hook</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="131" column="10" bodyfile="src/failover/disaster_recovery_manager.cpp" bodystart="176" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_disaster_recovery_manager_1a5cd1a9dc5659577aeeb39eaead1ced8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::failover::DisasterRecoveryManager::clearStepHooks</definition>
+        <argsstring>()</argsstring>
+        <name>clearStepHooks</name>
+        <qualifiedname>themis::failover::DisasterRecoveryManager::clearStepHooks</qualifiedname>
+        <briefdescription>
+<para>Clear Step Hooks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="135" column="10" bodyfile="src/failover/disaster_recovery_manager.cpp" bodystart="184" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_disaster_recovery_manager_1ac15855c7331d23b4cc5bd94c8ff3aba3" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326" kindref="member">DisasterRecoveryState</ref></type>
+        <definition>DisasterRecoveryState themis::failover::DisasterRecoveryManager::getState</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getState</name>
+        <qualifiedname>themis::failover::DisasterRecoveryManager::getState</qualifiedname>
+        <briefdescription>
+<para>Get State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="142" column="27" bodyfile="src/failover/disaster_recovery_manager.cpp" bodystart="188" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_disaster_recovery_manager_1a0d549e94129b9472bab9a501397ea10e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>DisasterRecoveryManager::Statistics themis::failover::DisasterRecoveryManager::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::failover::DisasterRecoveryManager::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return access control statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Access control statistics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="156" column="16" bodyfile="src/failover/disaster_recovery_manager.cpp" bodystart="192" bodyend="200"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_disaster_recovery_manager_1a56550d803d43fbb366f0ee43f157a330" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::failover::DisasterRecoveryManager::runStep</definition>
+        <argsstring>(DisasterRecoveryStep step, DisasterRecoveryState state, const DisasterRecoveryPlan &amp;plan, DisasterRecoveryResult &amp;result, std::string &amp;error, uint64_t &amp;fenced_epoch)</argsstring>
+        <name>runStep</name>
+        <qualifiedname>themis::failover::DisasterRecoveryManager::runStep</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66" kindref="member">DisasterRecoveryStep</ref></type>
+          <declname>step</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326" kindref="member">DisasterRecoveryState</ref></type>
+          <declname>state</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan" kindref="compound">DisasterRecoveryPlan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1failover_1_1_disaster_recovery_result" kindref="compound">DisasterRecoveryResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error</declname>
+        </param>
+        <param>
+          <type>uint64_t &amp;</type>
+          <declname>fenced_epoch</declname>
+        </param>
+        <briefdescription>
+<para>Run Step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">fenced_epoch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">fenced_epoch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: transitionState(), find(), end(), second(), runPrechecks(), validateSnapshot(), applyEpochFencing(), runRestore(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="187" column="10" bodyfile="src/failover/disaster_recovery_manager.cpp" bodystart="213" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_disaster_recovery_manager_1ade087f1d69776430c1fbc734c7cefd53" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::failover::DisasterRecoveryManager::runPrechecks</definition>
+        <argsstring>(const DisasterRecoveryPlan &amp;plan, std::string &amp;detail)</argsstring>
+        <name>runPrechecks</name>
+        <qualifiedname>themis::failover::DisasterRecoveryManager::runPrechecks</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan" kindref="compound">DisasterRecoveryPlan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>detail</declname>
+        </param>
+        <briefdescription>
+<para>Run Prechecks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: hasQuorum(), getClusterHealth(), std::any_of(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="200" column="10" bodyfile="src/failover/disaster_recovery_manager.cpp" bodystart="268" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_disaster_recovery_manager_1a4e5a336e33f0bdff55df7baac21a5adb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::failover::DisasterRecoveryManager::validateSnapshot</definition>
+        <argsstring>(const DisasterRecoveryPlan &amp;plan, std::string &amp;detail)</argsstring>
+        <name>validateSnapshot</name>
+        <qualifiedname>themis::failover::DisasterRecoveryManager::validateSnapshot</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan" kindref="compound">DisasterRecoveryPlan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>detail</declname>
+        </param>
+        <briefdescription>
+<para>Validate Snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="207" column="10" bodyfile="src/failover/disaster_recovery_manager.cpp" bodystart="308" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_disaster_recovery_manager_1a0fa675859acce919068360c2470d8f19" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::failover::DisasterRecoveryManager::applyEpochFencing</definition>
+        <argsstring>(const DisasterRecoveryPlan &amp;plan, std::string &amp;detail, uint64_t &amp;fenced_epoch)</argsstring>
+        <name>applyEpochFencing</name>
+        <qualifiedname>themis::failover::DisasterRecoveryManager::applyEpochFencing</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan" kindref="compound">DisasterRecoveryPlan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>detail</declname>
+        </param>
+        <param>
+          <type>uint64_t &amp;</type>
+          <declname>fenced_epoch</declname>
+        </param>
+        <briefdescription>
+<para>Apply Epoch Fencing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">fenced_epoch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">fenced_epoch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: bumpEpoch(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="215" column="10" bodyfile="src/failover/disaster_recovery_manager.cpp" bodystart="331" bodyend="358"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_disaster_recovery_manager_1a58e20b645d17a1c89d0b7f7a25cb1aeb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::failover::DisasterRecoveryManager::runRestore</definition>
+        <argsstring>(const DisasterRecoveryPlan &amp;plan, std::string &amp;detail)</argsstring>
+        <name>runRestore</name>
+        <qualifiedname>themis::failover::DisasterRecoveryManager::runRestore</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan" kindref="compound">DisasterRecoveryPlan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>detail</declname>
+        </param>
+        <briefdescription>
+<para>Run Restore. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements runRestore without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="222" column="10" bodyfile="src/failover/disaster_recovery_manager.cpp" bodystart="367" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_disaster_recovery_manager_1a90f82ff9134f408592d7aff8ecbae858" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::failover::DisasterRecoveryManager::waitForCatchup</definition>
+        <argsstring>(const DisasterRecoveryPlan &amp;plan, std::string &amp;detail)</argsstring>
+        <name>waitForCatchup</name>
+        <qualifiedname>themis::failover::DisasterRecoveryManager::waitForCatchup</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan" kindref="compound">DisasterRecoveryPlan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>detail</declname>
+        </param>
+        <briefdescription>
+<para>Wait For Catchup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), hasQuorum(), std::this_thread::sleep_for(), std::chrono::milliseconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="229" column="10" bodyfile="src/failover/disaster_recovery_manager.cpp" bodystart="384" bodyend="406"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_disaster_recovery_manager_1ae9ef5328838be620932fe578f0660f4b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::failover::DisasterRecoveryManager::shiftTraffic</definition>
+        <argsstring>(const DisasterRecoveryPlan &amp;plan, std::string &amp;detail)</argsstring>
+        <name>shiftTraffic</name>
+        <qualifiedname>themis::failover::DisasterRecoveryManager::shiftTraffic</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan" kindref="compound">DisasterRecoveryPlan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>detail</declname>
+        </param>
+        <briefdescription>
+<para>Shift Traffic. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements shiftTraffic without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="236" column="10" bodyfile="src/failover/disaster_recovery_manager.cpp" bodystart="415" bodyend="428"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_disaster_recovery_manager_1a25de7bb2a7a5bc52f9cede47ce5ef4c6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::failover::DisasterRecoveryManager::verifyRecoveredState</definition>
+        <argsstring>(const DisasterRecoveryPlan &amp;plan, std::string &amp;detail)</argsstring>
+        <name>verifyRecoveredState</name>
+        <qualifiedname>themis::failover::DisasterRecoveryManager::verifyRecoveredState</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan" kindref="compound">DisasterRecoveryPlan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>detail</declname>
+        </param>
+        <briefdescription>
+<para>Verify Recovered State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: getClusterHealth(), std::any_of(), begin(), end(), hasQuorum(), std::this_thread::sleep_for(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="243" column="10" bodyfile="src/failover/disaster_recovery_manager.cpp" bodystart="437" bodyend="463"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_disaster_recovery_manager_1af1a2eb7dfcdebc78fe8fcb868d3f3788" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::failover::DisasterRecoveryManager::transitionState</definition>
+        <argsstring>(DisasterRecoveryState next) noexcept</argsstring>
+        <name>transitionState</name>
+        <qualifiedname>themis::failover::DisasterRecoveryManager::transitionState</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326" kindref="member">DisasterRecoveryState</ref></type>
+          <declname>next</declname>
+        </param>
+        <briefdescription>
+<para>Transition State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">next</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="250" column="10" bodyfile="src/failover/disaster_recovery_manager.cpp" bodystart="465" bodyend="467"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_disaster_recovery_manager_1abbb540fac82335626d3796841b685c07" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::failover::DisasterRecoveryManager::updateStatistics</definition>
+        <argsstring>(const DisasterRecoveryResult &amp;result)</argsstring>
+        <name>updateStatistics</name>
+        <qualifiedname>themis::failover::DisasterRecoveryManager::updateStatistics</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1failover_1_1_disaster_recovery_result" kindref="compound">DisasterRecoveryResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Update <ref refid="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_statistics" kindref="compound">Statistics</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(), std::accumulate(), begin(), end(), std::chrono::milliseconds(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="255" column="10" bodyfile="src/failover/disaster_recovery_manager.cpp" bodystart="474" bodyend="490"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/failover/disaster_recovery_manager.h" line="95" column="1" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="95" bodyend="275"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a0fa675859acce919068360c2470d8f19" prot="private" virt="non-virtual"><scope>themis::failover::DisasterRecoveryManager</scope><name>applyEpochFencing</name></member>
+      <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a5cd1a9dc5659577aeeb39eaead1ced8a" prot="public" virt="non-virtual"><scope>themis::failover::DisasterRecoveryManager</scope><name>clearStepHooks</name></member>
+      <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1abec87a53021c9172ce50eae558d1891e" prot="private" virt="non-virtual"><scope>themis::failover::DisasterRecoveryManager</scope><name>completed_plans_</name></member>
+      <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a90f90c2a2452927548bb482502655c1e" prot="private" virt="non-virtual"><scope>themis::failover::DisasterRecoveryManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a7c1416ee75001a8760052ea117f6d5b8" prot="public" virt="non-virtual"><scope>themis::failover::DisasterRecoveryManager</scope><name>DisasterRecoveryManager</name></member>
+      <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a334501e7502ecb956d16cbbd1800ad20" prot="private" virt="non-virtual"><scope>themis::failover::DisasterRecoveryManager</scope><name>durations_</name></member>
+      <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a4935f0ef7306fab7a33084cd965ba98c" prot="public" virt="non-virtual"><scope>themis::failover::DisasterRecoveryManager</scope><name>executePlan</name></member>
+      <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a8db1fd9419b166af7b74cda39fa1b4ee" prot="private" virt="non-virtual"><scope>themis::failover::DisasterRecoveryManager</scope><name>execution_mutex_</name></member>
+      <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a8fc7e0208ca393e366ef4f02356cd162" prot="private" virt="non-virtual"><scope>themis::failover::DisasterRecoveryManager</scope><name>fencing_mgr_</name></member>
+      <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1ac15855c7331d23b4cc5bd94c8ff3aba3" prot="public" virt="non-virtual"><scope>themis::failover::DisasterRecoveryManager</scope><name>getState</name></member>
+      <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a0d549e94129b9472bab9a501397ea10e" prot="public" virt="non-virtual"><scope>themis::failover::DisasterRecoveryManager</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1ab888c61441780911c7da2cf6b8f1daa1" prot="private" virt="non-virtual"><scope>themis::failover::DisasterRecoveryManager</scope><name>hooks_</name></member>
+      <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a52e30b6b941aace61c3d3b608b5f9f9f" prot="private" virt="non-virtual"><scope>themis::failover::DisasterRecoveryManager</scope><name>idempotency_mutex_</name></member>
+      <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a8126f792f1c96c2d55947ba19a35dde6" prot="private" virt="non-virtual"><scope>themis::failover::DisasterRecoveryManager</scope><name>replication_mgr_</name></member>
+      <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1ade087f1d69776430c1fbc734c7cefd53" prot="private" virt="non-virtual"><scope>themis::failover::DisasterRecoveryManager</scope><name>runPrechecks</name></member>
+      <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a58e20b645d17a1c89d0b7f7a25cb1aeb" prot="private" virt="non-virtual"><scope>themis::failover::DisasterRecoveryManager</scope><name>runRestore</name></member>
+      <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a56550d803d43fbb366f0ee43f157a330" prot="private" virt="non-virtual"><scope>themis::failover::DisasterRecoveryManager</scope><name>runStep</name></member>
+      <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1aa448b50e95845469e51935e3e17e7c68" prot="public" virt="non-virtual"><scope>themis::failover::DisasterRecoveryManager</scope><name>setStepHook</name></member>
+      <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1ae9ef5328838be620932fe578f0660f4b" prot="private" virt="non-virtual"><scope>themis::failover::DisasterRecoveryManager</scope><name>shiftTraffic</name></member>
+      <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1abc0f0e634161f17259d92ce0f05e3a52" prot="private" virt="non-virtual"><scope>themis::failover::DisasterRecoveryManager</scope><name>state_</name></member>
+      <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a24b5e890af2f632859675fb112794da1" prot="private" virt="non-virtual"><scope>themis::failover::DisasterRecoveryManager</scope><name>state_mutex_</name></member>
+      <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a45a70361b05b44cf0c7a0c8eeee48fcf" prot="private" virt="non-virtual"><scope>themis::failover::DisasterRecoveryManager</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1aed644fb57da1d27b7f8808b54f79b2ec" prot="private" virt="non-virtual"><scope>themis::failover::DisasterRecoveryManager</scope><name>stats_mutex_</name></member>
+      <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1ace9e094909066612baaf308780aaae58" prot="public" virt="non-virtual"><scope>themis::failover::DisasterRecoveryManager</scope><name>StepHook</name></member>
+      <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1af1a2eb7dfcdebc78fe8fcb868d3f3788" prot="private" virt="non-virtual"><scope>themis::failover::DisasterRecoveryManager</scope><name>transitionState</name></member>
+      <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1abbb540fac82335626d3796841b685c07" prot="private" virt="non-virtual"><scope>themis::failover::DisasterRecoveryManager</scope><name>updateStatistics</name></member>
+      <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1afdcaf061adabd69d3c75c259ecf9e373" prot="public" virt="non-virtual"><scope>themis::failover::DisasterRecoveryManager</scope><name>validatePlan</name></member>
+      <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a4e5a336e33f0bdff55df7baac21a5adb" prot="private" virt="non-virtual"><scope>themis::failover::DisasterRecoveryManager</scope><name>validateSnapshot</name></member>
+      <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a25de7bb2a7a5bc52f9cede47ce5ef4c6" prot="private" virt="non-virtual"><scope>themis::failover::DisasterRecoveryManager</scope><name>verifyRecoveredState</name></member>
+      <member refid="classthemis_1_1failover_1_1_disaster_recovery_manager_1a90f82ff9134f408592d7aff8ecbae858" prot="private" virt="non-virtual"><scope>themis::failover::DisasterRecoveryManager</scope><name>waitForCatchup</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

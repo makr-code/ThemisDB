@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1tests_1_1_metrics_cardinality_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::tests::MetricsCardinalityTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1tests_1_1_metrics_cardinality_test_1aa1b36e21a9f577bc58364457a11f43b1" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::observability::tests::MetricsCardinalityTest::MAX_SAFE_CARDINALITY</definition>
+        <argsstring></argsstring>
+        <name>MAX_SAFE_CARDINALITY</name>
+        <qualifiedname>themis::observability::tests::MetricsCardinalityTest::MAX_SAFE_CARDINALITY</qualifiedname>
+        <initializer>= 50000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_high_cardinality_metrics.cpp" line="36" column="24" bodyfile="tests/observability/test_high_cardinality_metrics.cpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1tests_1_1_metrics_cardinality_test_1a7bd6fb6687ff828f1ec54a97b9640343" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::tests::MetricsCardinalityTest::MAX_MEMORY_MB</definition>
+        <argsstring></argsstring>
+        <name>MAX_MEMORY_MB</name>
+        <qualifiedname>themis::observability::tests::MetricsCardinalityTest::MAX_MEMORY_MB</qualifiedname>
+        <initializer>= 512.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_high_cardinality_metrics.cpp" line="37" column="27" bodyfile="tests/observability/test_high_cardinality_metrics.cpp" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1tests_1_1_metrics_cardinality_test_1ad85f7c173fc370b3585f31592cccc660" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::tests::MetricsCardinalityTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::observability::tests::MetricsCardinalityTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_high_cardinality_metrics.cpp" line="39" column="8" bodyfile="tests/observability/test_high_cardinality_metrics.cpp" bodystart="39" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::observability::tests::MetricsCardinalityTest</label>
+        <link refid="classthemis_1_1observability_1_1tests_1_1_metrics_cardinality_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::observability::tests::MetricsCardinalityTest</label>
+        <link refid="classthemis_1_1observability_1_1tests_1_1_metrics_cardinality_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/observability/test_high_cardinality_metrics.cpp" line="34" column="1" bodyfile="tests/observability/test_high_cardinality_metrics.cpp" bodystart="34" bodyend="43"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1tests_1_1_metrics_cardinality_test_1a7bd6fb6687ff828f1ec54a97b9640343" prot="protected" virt="non-virtual"><scope>themis::observability::tests::MetricsCardinalityTest</scope><name>MAX_MEMORY_MB</name></member>
+      <member refid="classthemis_1_1observability_1_1tests_1_1_metrics_cardinality_test_1aa1b36e21a9f577bc58364457a11f43b1" prot="protected" virt="non-virtual"><scope>themis::observability::tests::MetricsCardinalityTest</scope><name>MAX_SAFE_CARDINALITY</name></member>
+      <member refid="classthemis_1_1observability_1_1tests_1_1_metrics_cardinality_test_1ad85f7c173fc370b3585f31592cccc660" prot="protected" virt="non-virtual"><scope>themis::observability::tests::MetricsCardinalityTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,610 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="compute__future_8h" kind="file" language="C++">
+    <compoundname>compute_future.h</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">future</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">stdexcept</includes>
+    <includedby refid="compute__backend_8h" local="yes">include/acceleration/compute_backend.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/acceleration/compute_future.h</label>
+        <link refid="compute__future_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>future</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>stdexcept</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="10">
+        <label>benchmarks/acceleration/bench_acceleration_cuda_gates.cpp</label>
+        <link refid="bench__acceleration__cuda__gates_8cpp"/>
+      </node>
+      <node id="11">
+        <label>benchmarks/acceleration/bench_acceleration_dispatch.cpp</label>
+        <link refid="bench__acceleration__dispatch_8cpp"/>
+      </node>
+      <node id="12">
+        <label>benchmarks/acceleration/bench_category_b_gpu_cpu_parity.cpp</label>
+        <link refid="bench__category__b__gpu__cpu__parity_8cpp"/>
+      </node>
+      <node id="3">
+        <label>include/acceleration/ai_hardware_dispatcher.h</label>
+        <link refid="ai__hardware__dispatcher_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/acceleration/compute_backend.h</label>
+        <link refid="compute__backend_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/acceleration/compute_future.h</label>
+        <link refid="compute__future_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>include/acceleration/cpu_backend.h</label>
+        <link refid="cpu__backend_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>include/acceleration/cuda_backend.h</label>
+        <link refid="cuda__backend_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>include/acceleration/device_manager.h</label>
+        <link refid="device__manager_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>include/acceleration/faiss_gpu_backend.h</label>
+        <link refid="faiss__gpu__backend_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>include/acceleration/geo_acceleration_bridge.h</label>
+        <link refid="geo__acceleration__bridge_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>include/acceleration/graphics_backends.h</label>
+        <link refid="graphics__backends_8h"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="35">
+        <label>include/acceleration/hip_backend.h</label>
+        <link refid="hip__backend_8h"/>
+        <childnode refid="36" relation="include">
+        </childnode>
+      </node>
+      <node id="37">
+        <label>include/acceleration/kernel_registry.h</label>
+        <link refid="kernel__registry_8h"/>
+      </node>
+      <node id="38">
+        <label>include/acceleration/multi_gpu_backend.h</label>
+        <link refid="multi__gpu__backend_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="39">
+        <label>include/acceleration/nccl_vector_backend.h</label>
+        <link refid="nccl__vector__backend_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+      </node>
+      <node id="42">
+        <label>include/acceleration/opencl_backend.h</label>
+        <link refid="opencl__backend_8h"/>
+        <childnode refid="43" relation="include">
+        </childnode>
+      </node>
+      <node id="44">
+        <label>include/acceleration/plugin_loader.h</label>
+        <link refid="plugin__loader_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+      </node>
+      <node id="47">
+        <label>include/acceleration/quantized_backend.h</label>
+        <link refid="quantized__backend_8h"/>
+      </node>
+      <node id="48">
+        <label>include/acceleration/rccl_vector_backend.h</label>
+        <link refid="rccl__vector__backend_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>include/acceleration/vulkan_backend.h</label>
+        <link refid="vulkan__backend_8h"/>
+      </node>
+      <node id="50">
+        <label>include/acceleration/zluda_backend.h</label>
+        <link refid="zluda__backend_8h"/>
+        <childnode refid="51" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/acceleration/ai_hardware_dispatcher.cpp</label>
+        <link refid="ai__hardware__dispatcher_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/acceleration/backend_registry.cpp</label>
+        <link refid="backend__registry_8cpp"/>
+      </node>
+      <node id="52">
+        <label>src/acceleration/compute_backend.cpp</label>
+        <link refid="compute__backend_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/acceleration/cpu_backend.cpp</label>
+        <link refid="cpu__backend_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/acceleration/cpu_backend_mt.cpp</label>
+        <link refid="cpu__backend__mt_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/acceleration/cpu_backend_tbb.cpp</label>
+        <link refid="cpu__backend__tbb_8cpp"/>
+      </node>
+      <node id="17">
+        <label>src/acceleration/cuda_backend.cpp</label>
+        <link refid="cuda__backend_8cpp"/>
+      </node>
+      <node id="26">
+        <label>src/acceleration/device_manager.cpp</label>
+        <link refid="device__manager_8cpp"/>
+      </node>
+      <node id="32">
+        <label>src/acceleration/directx_backend_full.cpp</label>
+        <link refid="directx__backend__full_8cpp"/>
+      </node>
+      <node id="28">
+        <label>src/acceleration/faiss_gpu_backend.cpp</label>
+        <link refid="faiss__gpu__backend_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/acceleration/geo_acceleration_bridge.cpp</label>
+        <link refid="geo__acceleration__bridge_8cpp"/>
+      </node>
+      <node id="33">
+        <label>src/acceleration/graphics_backends.cpp</label>
+        <link refid="graphics__backends_8cpp"/>
+      </node>
+      <node id="36">
+        <label>src/acceleration/hip_backend.cpp</label>
+        <link refid="hip__backend_8cpp"/>
+      </node>
+      <node id="53">
+        <label>src/acceleration/kernel_registry.cpp</label>
+        <link refid="kernel__registry_8cpp"/>
+      </node>
+      <node id="19">
+        <label>src/acceleration/multi_gpu_backend.cpp</label>
+        <link refid="multi__gpu__backend_8cpp"/>
+      </node>
+      <node id="40">
+        <label>src/acceleration/nccl_vector_backend.cpp</label>
+        <link refid="nccl__vector__backend_8cpp"/>
+      </node>
+      <node id="54">
+        <label>src/acceleration/oneapi_backend.cpp</label>
+        <link refid="oneapi__backend_8cpp"/>
+      </node>
+      <node id="43">
+        <label>src/acceleration/opencl_backend.cpp</label>
+        <link refid="opencl__backend_8cpp"/>
+      </node>
+      <node id="45">
+        <label>src/acceleration/plugin_loader.cpp</label>
+        <link refid="plugin__loader_8cpp"/>
+      </node>
+      <node id="49">
+        <label>src/acceleration/rccl_vector_backend.cpp</label>
+        <link refid="rccl__vector__backend_8cpp"/>
+      </node>
+      <node id="20">
+        <label>src/acceleration/vllm_resource_manager.cpp</label>
+        <link refid="vllm__resource__manager_8cpp"/>
+      </node>
+      <node id="34">
+        <label>src/acceleration/vulkan_backend_full.cpp</label>
+        <link refid="vulkan__backend__full_8cpp"/>
+      </node>
+      <node id="51">
+        <label>src/acceleration/zluda_backend.cpp</label>
+        <link refid="zluda__backend_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/acceleration/test_acceleration.cpp</label>
+        <link refid="test__acceleration_8cpp"/>
+      </node>
+      <node id="21">
+        <label>tests/acceleration/test_acceleration_coverage.cpp</label>
+        <link refid="test__acceleration__coverage_8cpp"/>
+      </node>
+      <node id="22">
+        <label>tests/acceleration/test_acceleration_dispatch.cpp</label>
+        <link refid="test__acceleration__dispatch_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/acceleration/test_acceleration_failure_handling.cpp</label>
+        <link refid="test__acceleration__failure__handling_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/acceleration/test_acceleration_performance_gates.cpp</label>
+        <link refid="test__acceleration__performance__gates_8cpp"/>
+      </node>
+      <node id="46">
+        <label>tests/acceleration/test_acceleration_plugin_security_hardening.cpp</label>
+        <link refid="test__acceleration__plugin__security__hardening_8cpp"/>
+      </node>
+      <node id="23">
+        <label>tests/acceleration/test_acceleration_regression.cpp</label>
+        <link refid="test__acceleration__regression_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/acceleration/test_ai_hardware_dispatcher.cpp</label>
+        <link refid="test__ai__hardware__dispatcher_8cpp"/>
+      </node>
+      <node id="55">
+        <label>tests/acceleration/test_backend_registry_thread_safety.cpp</label>
+        <link refid="test__backend__registry__thread__safety_8cpp"/>
+      </node>
+      <node id="41">
+        <label>tests/acceleration/test_nccl_merge_topk.cpp</label>
+        <link refid="test__nccl__merge__topk_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1acceleration_1_1_cancellation_token" prot="public">themis::acceleration::CancellationToken</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_dispatch_stats" prot="public">themis::acceleration::DispatchStats</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_compute_future" prot="public">themis::acceleration::ComputeFuture</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1acceleration">themis::acceleration</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.12 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 94/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;future&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1acceleration" kindref="compound">acceleration</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CancellationToken</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="classthemis_1_1acceleration_1_1_cancellation_token" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1acceleration_1_1_cancellation_token_1a8054aca166861ebdb3d15ff5aa78778d" kindref="member">CancellationToken</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="29" refid="classthemis_1_1acceleration_1_1_cancellation_token_1a8054aca166861ebdb3d15ff5aa78778d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_cancellation_token_1a8054aca166861ebdb3d15ff5aa78778d" kindref="member">CancellationToken</ref>()</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>flag_(std::make_shared&lt;std::atomic&lt;bool&gt;&gt;(false))<sp/>{}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Copyable<sp/>—<sp/>each<sp/>copy<sp/>shares<sp/>the<sp/>same<sp/>cancellation<sp/>flag.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="classthemis_1_1acceleration_1_1_cancellation_token_1aedaf19c0aa4db8d9bbfe3eb0d8dbe600" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_cancellation_token_1aedaf19c0aa4db8d9bbfe3eb0d8dbe600" kindref="member">CancellationToken</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_cancellation_token_1a8054aca166861ebdb3d15ff5aa78778d" kindref="member">CancellationToken</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="34" refid="classthemis_1_1acceleration_1_1_cancellation_token_1a30139d638f10dc05201e25a8aca7a8b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_cancellation_token_1a8054aca166861ebdb3d15ff5aa78778d" kindref="member">CancellationToken</ref>&amp;<sp/><ref refid="classthemis_1_1acceleration_1_1_cancellation_token_1a30139d638f10dc05201e25a8aca7a8b2" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_cancellation_token_1a8054aca166861ebdb3d15ff5aa78778d" kindref="member">CancellationToken</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="35" refid="classthemis_1_1acceleration_1_1_cancellation_token_1aa07985c767955ca59d4bba5a3b854958" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_cancellation_token_1aa07985c767955ca59d4bba5a3b854958" kindref="member">CancellationToken</ref>(<ref refid="classthemis_1_1acceleration_1_1_cancellation_token_1a8054aca166861ebdb3d15ff5aa78778d" kindref="member">CancellationToken</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="36" refid="classthemis_1_1acceleration_1_1_cancellation_token_1a65238621a8da89661890982217dfa445" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_cancellation_token_1a8054aca166861ebdb3d15ff5aa78778d" kindref="member">CancellationToken</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1acceleration_1_1_cancellation_token_1a8054aca166861ebdb3d15ff5aa78778d" kindref="member">CancellationToken</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="classthemis_1_1acceleration_1_1_cancellation_token_1a0c0e19c0e7022d7704d285ea58c63c47" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_cancellation_token_1a0c0e19c0e7022d7704d285ea58c63c47" kindref="member">cancel</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(flag_)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>flag_-&gt;store(</highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>std::memory_order_release);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="classthemis_1_1acceleration_1_1_cancellation_token_1a2bd7f3f87dbf032151bff5b6a0d1400f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_cancellation_token_1a2bd7f3f87dbf032151bff5b6a0d1400f" kindref="member">is_cancelled</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>flag_<sp/>&amp;&amp;<sp/>flag_-&gt;load(std::memory_order_acquire);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="classthemis_1_1acceleration_1_1_cancellation_token_1ad1f0fe8bc180f0fb1f7dc0d58af234fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_cancellation_token_1ad1f0fe8bc180f0fb1f7dc0d58af234fb" kindref="member">valid</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>flag_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;std::atomic&lt;bool&gt;&gt;<sp/>flag_;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DispatchStats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1acceleration_1_1_dispatch_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1acceleration_1_1_dispatch_stats" kindref="compound">DispatchStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1acceleration_1_1_dispatch_stats_1ae1dd88bc28a63dc62b27b4a2ba066d1c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1acceleration_1_1_dispatch_stats_1ae1dd88bc28a63dc62b27b4a2ba066d1c" kindref="member">submit_time_ns</ref><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1acceleration_1_1_dispatch_stats_1a0f8ce28210127f4bd0624f3c3b49d96e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1acceleration_1_1_dispatch_stats_1a0f8ce28210127f4bd0624f3c3b49d96e" kindref="member">start_time_ns</ref><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1acceleration_1_1_dispatch_stats_1a18351d0a52df49d57f6f0a499a9db4cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1acceleration_1_1_dispatch_stats_1a18351d0a52df49d57f6f0a499a9db4cc" kindref="member">finish_time_ns</ref><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1acceleration_1_1_dispatch_stats_1a4948df2a7a14e3fcbf1da15045db68e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1acceleration_1_1_dispatch_stats_1a4948df2a7a14e3fcbf1da15045db68e0" kindref="member">queue_depth</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1acceleration_1_1_dispatch_stats_1a28c9de3e67378e1e35f800cfe2b516ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_dispatch_stats_1a28c9de3e67378e1e35f800cfe2b516ee" kindref="member">from_cache</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Derived<sp/>helpers<sp/>────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1acceleration_1_1_dispatch_stats_1a98a2cb45b282614ad9b3bf9a8591dbbb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1acceleration_1_1_dispatch_stats_1a98a2cb45b282614ad9b3bf9a8591dbbb" kindref="member">kernel_latency_ns</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1acceleration_1_1_dispatch_stats_1a18351d0a52df49d57f6f0a499a9db4cc" kindref="member">finish_time_ns</ref><sp/>&gt;=<sp/><ref refid="structthemis_1_1acceleration_1_1_dispatch_stats_1a0f8ce28210127f4bd0624f3c3b49d96e" kindref="member">start_time_ns</ref><sp/>&amp;&amp;<sp/><ref refid="structthemis_1_1acceleration_1_1_dispatch_stats_1a0f8ce28210127f4bd0624f3c3b49d96e" kindref="member">start_time_ns</ref><sp/>&gt;<sp/>0)</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>?<sp/><ref refid="structthemis_1_1acceleration_1_1_dispatch_stats_1a18351d0a52df49d57f6f0a499a9db4cc" kindref="member">finish_time_ns</ref><sp/>-<sp/><ref refid="structthemis_1_1acceleration_1_1_dispatch_stats_1a0f8ce28210127f4bd0624f3c3b49d96e" kindref="member">start_time_ns</ref><sp/>:<sp/>0;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1acceleration_1_1_dispatch_stats_1a594f0b019bf91fd2f05224d36d326fb0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1acceleration_1_1_dispatch_stats_1a594f0b019bf91fd2f05224d36d326fb0" kindref="member">total_latency_ns</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1acceleration_1_1_dispatch_stats_1a18351d0a52df49d57f6f0a499a9db4cc" kindref="member">finish_time_ns</ref><sp/>&gt;=<sp/><ref refid="structthemis_1_1acceleration_1_1_dispatch_stats_1ae1dd88bc28a63dc62b27b4a2ba066d1c" kindref="member">submit_time_ns</ref><sp/>&amp;&amp;<sp/><ref refid="structthemis_1_1acceleration_1_1_dispatch_stats_1ae1dd88bc28a63dc62b27b4a2ba066d1c" kindref="member">submit_time_ns</ref><sp/>&gt;<sp/>0)</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>?<sp/><ref refid="structthemis_1_1acceleration_1_1_dispatch_stats_1a18351d0a52df49d57f6f0a499a9db4cc" kindref="member">finish_time_ns</ref><sp/>-<sp/><ref refid="structthemis_1_1acceleration_1_1_dispatch_stats_1ae1dd88bc28a63dc62b27b4a2ba066d1c" kindref="member">submit_time_ns</ref><sp/>:<sp/>0;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ComputeFuture&lt;T&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T&gt;</highlight></codeline>
+<codeline lineno="87" refid="classthemis_1_1acceleration_1_1_compute_future" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1acceleration_1_1_compute_future_1ab36f2827c9fe866c7a43c3f40ad3eff0" kindref="member">ComputeFuture</ref><sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Construction<sp/>─────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="classthemis_1_1acceleration_1_1_compute_future_1ab36f2827c9fe866c7a43c3f40ad3eff0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_compute_future_1ab36f2827c9fe866c7a43c3f40ad3eff0" kindref="member">ComputeFuture</ref>(std::shared_future&lt;T&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fut,</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_cancellation_token" kindref="compound">CancellationToken</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>token,</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_dispatch_stats" kindref="compound">DispatchStats</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_compute_future_1a581afdba433104a9a40d4adbdb8bbb4a" kindref="member">stats</ref>)</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>fut_(std::move(fut))</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/>token_(std::move(token))</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/>stats_(<ref refid="classthemis_1_1acceleration_1_1_compute_future_1a581afdba433104a9a40d4adbdb8bbb4a" kindref="member">stats</ref>)<sp/>{}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="classthemis_1_1acceleration_1_1_compute_future_1a9f0de2a75f85ad3454c8ef2381ddf3f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_compute_future_1ab36f2827c9fe866c7a43c3f40ad3eff0" kindref="member">ComputeFuture</ref><sp/><ref refid="classthemis_1_1acceleration_1_1_compute_future_1a9f0de2a75f85ad3454c8ef2381ddf3f4" kindref="member">make_ready</ref>(T<sp/>value,<sp/><ref refid="structthemis_1_1acceleration_1_1_dispatch_stats" kindref="compound">DispatchStats</ref><sp/><ref refid="classthemis_1_1acceleration_1_1_compute_future_1a581afdba433104a9a40d4adbdb8bbb4a" kindref="member">stats</ref><sp/>=<sp/>{})<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::promise&lt;T&gt;<sp/>p;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p.set_value(std::move(value));</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_compute_future_1a2a418a121b6583a5d1465865cb9acbbc" kindref="member">ComputeFuture</ref>(p.get_future().share(),<sp/><ref refid="classthemis_1_1acceleration_1_1_cancellation_token" kindref="compound">CancellationToken</ref>{},<sp/><ref refid="classthemis_1_1acceleration_1_1_compute_future_1a581afdba433104a9a40d4adbdb8bbb4a" kindref="member">stats</ref>);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="classthemis_1_1acceleration_1_1_compute_future_1accf7b0e52f3428c23a18548e88e681ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_compute_future_1ab36f2827c9fe866c7a43c3f40ad3eff0" kindref="member">ComputeFuture</ref><sp/><ref refid="classthemis_1_1acceleration_1_1_compute_future_1accf7b0e52f3428c23a18548e88e681ae" kindref="member">make_exceptional</ref>(std::exception_ptr<sp/>exc,</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_dispatch_stats" kindref="compound">DispatchStats</ref><sp/><ref refid="classthemis_1_1acceleration_1_1_compute_future_1a581afdba433104a9a40d4adbdb8bbb4a" kindref="member">stats</ref><sp/>=<sp/>{})<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::promise&lt;T&gt;<sp/>p;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p.set_exception(exc);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_compute_future_1a2a418a121b6583a5d1465865cb9acbbc" kindref="member">ComputeFuture</ref>(p.get_future().share(),<sp/><ref refid="classthemis_1_1acceleration_1_1_cancellation_token" kindref="compound">CancellationToken</ref>{},<sp/><ref refid="classthemis_1_1acceleration_1_1_compute_future_1a581afdba433104a9a40d4adbdb8bbb4a" kindref="member">stats</ref>);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="classthemis_1_1acceleration_1_1_compute_future_1a2a418a121b6583a5d1465865cb9acbbc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_compute_future_1a2a418a121b6583a5d1465865cb9acbbc" kindref="member">ComputeFuture</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="classthemis_1_1acceleration_1_1_compute_future_1a5998725ec0360a4a4010a8fd3b071ebf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_compute_future_1a5998725ec0360a4a4010a8fd3b071ebf" kindref="member">ComputeFuture</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_compute_future_1ab36f2827c9fe866c7a43c3f40ad3eff0" kindref="member">ComputeFuture</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115" refid="classthemis_1_1acceleration_1_1_compute_future_1a3b7ec764bd6b2b09f952df8eee9a15c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_compute_future_1ab36f2827c9fe866c7a43c3f40ad3eff0" kindref="member">ComputeFuture</ref>&amp;<sp/><ref refid="classthemis_1_1acceleration_1_1_compute_future_1a3b7ec764bd6b2b09f952df8eee9a15c6" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_compute_future_1ab36f2827c9fe866c7a43c3f40ad3eff0" kindref="member">ComputeFuture</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116" refid="classthemis_1_1acceleration_1_1_compute_future_1a90b20a6813a536be47b08eae8ea768c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_compute_future_1a90b20a6813a536be47b08eae8ea768c7" kindref="member">ComputeFuture</ref>(<ref refid="classthemis_1_1acceleration_1_1_compute_future_1ab36f2827c9fe866c7a43c3f40ad3eff0" kindref="member">ComputeFuture</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="117" refid="classthemis_1_1acceleration_1_1_compute_future_1a8fa804c89fd5b8991c08f11647a5dfd7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_compute_future_1ab36f2827c9fe866c7a43c3f40ad3eff0" kindref="member">ComputeFuture</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1acceleration_1_1_compute_future_1ab36f2827c9fe866c7a43c3f40ad3eff0" kindref="member">ComputeFuture</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Core<sp/>API<sp/>─────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="classthemis_1_1acceleration_1_1_compute_future_1a661c1b70fba9769d82e27846142b0a78" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>T<sp/><ref refid="classthemis_1_1acceleration_1_1_compute_future_1a661c1b70fba9769d82e27846142b0a78" kindref="member">get</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!fut_.valid())<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>throw<sp/>std::future_error(std::future_errc::no_state);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fut_.get();</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>F&gt;</highlight></codeline>
+<codeline lineno="139" refid="classthemis_1_1acceleration_1_1_compute_future_1aec3f82f199b5db82d5d7f10c991d686c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_compute_future_1aec3f82f199b5db82d5d7f10c991d686c" kindref="member">then</ref>(F&amp;&amp;<sp/>callback)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>then_<sp/>=<sp/>std::forward&lt;F&gt;(callback);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="classthemis_1_1acceleration_1_1_compute_future_1aea0ab3fdc481dd32f499724fde062079" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_compute_future_1aea0ab3fdc481dd32f499724fde062079" kindref="member">invoke_then</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>T&amp;<sp/>result)<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(then_)<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>then_(result);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Cancellation<sp/>─────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="classthemis_1_1acceleration_1_1_compute_future_1afd3058211e093763cf3ab3ca4516dc66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_compute_future_1afd3058211e093763cf3ab3ca4516dc66" kindref="member">cancel</ref>()<sp/>noexcept<sp/>{<sp/>token_.cancel();<sp/>}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="classthemis_1_1acceleration_1_1_compute_future_1a7f10dfc6c47b4fc173d40cd209aaf6e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_compute_future_1a7f10dfc6c47b4fc173d40cd209aaf6e1" kindref="member">is_cancelled</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>token_.is_cancelled();<sp/>}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="classthemis_1_1acceleration_1_1_compute_future_1a9135077f10802fcc2ea96cad90420178" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_cancellation_token" kindref="compound">CancellationToken</ref>&amp;<sp/><ref refid="classthemis_1_1acceleration_1_1_compute_future_1a9135077f10802fcc2ea96cad90420178" kindref="member">cancellation_token</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>token_;<sp/>}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Diagnostics<sp/>──────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164" refid="classthemis_1_1acceleration_1_1_compute_future_1a680d62b73b76c182f6ba9436da0cbc01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_compute_future_1a680d62b73b76c182f6ba9436da0cbc01" kindref="member">valid</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fut_.valid();<sp/>}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166" refid="classthemis_1_1acceleration_1_1_compute_future_1a581afdba433104a9a40d4adbdb8bbb4a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_dispatch_stats" kindref="compound">DispatchStats</ref><sp/><ref refid="classthemis_1_1acceleration_1_1_compute_future_1a581afdba433104a9a40d4adbdb8bbb4a" kindref="member">stats</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>stats_;<sp/>}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_future&lt;T&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fut_;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_cancellation_token" kindref="compound">CancellationToken</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>token_;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_dispatch_stats" kindref="compound">DispatchStats</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stats_;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>T&amp;)&gt;<sp/>then_;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>acceleration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/acceleration/compute_future.h"/>
+  </compounddef>
+</doxygen>

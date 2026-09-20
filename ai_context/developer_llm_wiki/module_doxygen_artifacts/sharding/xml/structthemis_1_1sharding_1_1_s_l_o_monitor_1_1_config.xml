@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::SLOMonitor::Config</compoundname>
+    <includes refid="slo__monitor_8h" local="no">slo_monitor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_config_1ac29dc39e2d05df2bed5eb2a73026d9d4" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_s_l_o_target" kindref="compound">SLOTarget</ref></type>
+        <definition>SLOTarget themis::sharding::SLOMonitor::Config::targets</definition>
+        <argsstring></argsstring>
+        <name>targets</name>
+        <qualifiedname>themis::sharding::SLOMonitor::Config::targets</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="134" column="19" bodyfile="include/sharding/slo_monitor.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_config_1a0ac6c514ae7d5b135a0997b89a438eea" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::sharding::SLOMonitor::Config::window_duration</definition>
+        <argsstring></argsstring>
+        <name>window_duration</name>
+        <qualifiedname>themis::sharding::SLOMonitor::Config::window_duration</qualifiedname>
+        <initializer>= std::chrono::hours(24)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="135" column="30" bodyfile="include/sharding/slo_monitor.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_config_1ab47f19ec351143846ba456c1ced3d007" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::SLOMonitor::Config::enable_alerting</definition>
+        <argsstring></argsstring>
+        <name>enable_alerting</name>
+        <qualifiedname>themis::sharding::SLOMonitor::Config::enable_alerting</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="136" column="14" bodyfile="include/sharding/slo_monitor.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_config_1a1e29edbe401b9f709cf73736cfe76ada" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::SLOMonitor::Config::alert_threshold</definition>
+        <argsstring></argsstring>
+        <name>alert_threshold</name>
+        <qualifiedname>themis::sharding::SLOMonitor::Config::alert_threshold</qualifiedname>
+        <initializer>= 0.9</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="137" column="16" bodyfile="include/sharding/slo_monitor.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_config_1a0f13ffc98a49fbc96a7ff2d443abad84" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_config" kindref="compound">Config</ref></type>
+        <definition>static Config themis::sharding::SLOMonitor::Config::defaults</definition>
+        <argsstring>()</argsstring>
+        <name>defaults</name>
+        <qualifiedname>themis::sharding::SLOMonitor::Config::defaults</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="138" column="23" bodyfile="include/sharding/slo_monitor.h" bodystart="138" bodyend="138"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::sharding::SLOMonitor::Config</label>
+        <link refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>targets</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::sharding::SLOTarget</label>
+        <link refid="structthemis_1_1sharding_1_1_s_l_o_target"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/slo_monitor.h" line="133" column="5" bodyfile="include/sharding/slo_monitor.h" bodystart="133" bodyend="139"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_config_1a1e29edbe401b9f709cf73736cfe76ada" prot="public" virt="non-virtual"><scope>themis::sharding::SLOMonitor::Config</scope><name>alert_threshold</name></member>
+      <member refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_config_1a0f13ffc98a49fbc96a7ff2d443abad84" prot="public" virt="non-virtual"><scope>themis::sharding::SLOMonitor::Config</scope><name>defaults</name></member>
+      <member refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_config_1ab47f19ec351143846ba456c1ced3d007" prot="public" virt="non-virtual"><scope>themis::sharding::SLOMonitor::Config</scope><name>enable_alerting</name></member>
+      <member refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_config_1ac29dc39e2d05df2bed5eb2a73026d9d4" prot="public" virt="non-virtual"><scope>themis::sharding::SLOMonitor::Config</scope><name>targets</name></member>
+      <member refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_config_1a0ac6c514ae7d5b135a0997b89a438eea" prot="public" virt="non-virtual"><scope>themis::sharding::SLOMonitor::Config</scope><name>window_duration</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

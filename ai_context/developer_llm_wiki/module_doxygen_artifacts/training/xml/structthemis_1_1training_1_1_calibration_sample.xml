@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_calibration_sample" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::CalibrationSample</compoundname>
+    <includes refid="training__interfaces_8h" local="no">training_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_calibration_sample_1a06d6ca2c75d8efdcbe07444a6dc663a6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::CalibrationSample::category</definition>
+        <argsstring></argsstring>
+        <name>category</name>
+        <qualifiedname>themis::training::CalibrationSample::category</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="129" column="17" bodyfile="include/training/training_interfaces.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_calibration_sample_1a989fcf0b31c6371a8917d66376ce7590" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::training::CalibrationSample::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::training::CalibrationSample::confidence</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="130" column="17" bodyfile="include/training/training_interfaces.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_calibration_sample_1a621b710d0e6a7342568f281e8a7ee030" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::CalibrationSample::model_correct</definition>
+        <argsstring></argsstring>
+        <name>model_correct</name>
+        <qualifiedname>themis::training::CalibrationSample::model_correct</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="131" column="17" bodyfile="include/training/training_interfaces.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_calibration_sample_1a89bf06ab993f5bececa1b842588e4dec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::CalibrationSample::CalibrationSample</definition>
+        <argsstring>()=default</argsstring>
+        <name>CalibrationSample</name>
+        <qualifiedname>themis::training::CalibrationSample::CalibrationSample</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="133" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A labelled sample used as calibration input. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/training_interfaces.h" line="128" column="1" bodyfile="include/training/training_interfaces.h" bodystart="128" bodyend="134"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_calibration_sample_1a89bf06ab993f5bececa1b842588e4dec" prot="public" virt="non-virtual"><scope>themis::training::CalibrationSample</scope><name>CalibrationSample</name></member>
+      <member refid="structthemis_1_1training_1_1_calibration_sample_1a06d6ca2c75d8efdcbe07444a6dc663a6" prot="public" virt="non-virtual"><scope>themis::training::CalibrationSample</scope><name>category</name></member>
+      <member refid="structthemis_1_1training_1_1_calibration_sample_1a989fcf0b31c6371a8917d66376ce7590" prot="public" virt="non-virtual"><scope>themis::training::CalibrationSample</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1training_1_1_calibration_sample_1a621b710d0e6a7342568f281e8a7ee030" prot="public" virt="non-virtual"><scope>themis::training::CalibrationSample</scope><name>model_correct</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_cypher_rel_pattern" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::CypherRelPattern</compoundname>
+    <includes refid="cypher__parser_8h" local="no">cypher_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cypher_rel_pattern_1a6c32d46b1bd50b507d77aa29d3cc3d89" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::CypherRelPattern::variable</definition>
+        <argsstring></argsstring>
+        <name>variable</name>
+        <qualifiedname>themis::query::CypherRelPattern::variable</qualifiedname>
+        <briefdescription>
+<para>empty when anonymous </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cypher_parser.h" line="69" column="17" bodyfile="include/query/cypher_parser.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cypher_rel_pattern_1abf09615839a5a7c0653e14aeaf8bb071" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::query::CypherRelPattern::types</definition>
+        <argsstring></argsstring>
+        <name>types</name>
+        <qualifiedname>themis::query::CypherRelPattern::types</qualifiedname>
+        <briefdescription>
+<para>edge type labels </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cypher_parser.h" line="70" column="17" bodyfile="include/query/cypher_parser.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cypher_rel_pattern_1abf653b8d67c86df03df9a82c8996c8db" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1aaf9bc00eb5cacc2ccd3b8fe478e39f4a" kindref="member">CypherRelDirection</ref></type>
+        <definition>CypherRelDirection themis::query::CypherRelPattern::direction</definition>
+        <argsstring></argsstring>
+        <name>direction</name>
+        <qualifiedname>themis::query::CypherRelPattern::direction</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1query_1aaf9bc00eb5cacc2ccd3b8fe478e39f4aa7c147cda9e49590f6abe83d118b7353b" kindref="member">CypherRelDirection::Out</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cypher_parser.h" line="71" column="24" bodyfile="include/query/cypher_parser.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cypher_rel_pattern_1af5e46cbdee61e567a90622be4e170cce" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int &gt;</type>
+        <definition>std::optional&lt;int&gt; themis::query::CypherRelPattern::min_hops</definition>
+        <argsstring></argsstring>
+        <name>min_hops</name>
+        <qualifiedname>themis::query::CypherRelPattern::min_hops</qualifiedname>
+        <briefdescription>
+<para>variable-length: *min..max </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cypher_parser.h" line="72" column="19" bodyfile="include/query/cypher_parser.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cypher_rel_pattern_1ab91d5c3c847a9911215c3f4c0252406d" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int &gt;</type>
+        <definition>std::optional&lt;int&gt; themis::query::CypherRelPattern::max_hops</definition>
+        <argsstring></argsstring>
+        <name>max_hops</name>
+        <qualifiedname>themis::query::CypherRelPattern::max_hops</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cypher_parser.h" line="73" column="19" bodyfile="include/query/cypher_parser.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/cypher_parser.h" line="68" column="1" bodyfile="include/query/cypher_parser.h" bodystart="68" bodyend="74"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_cypher_rel_pattern_1abf653b8d67c86df03df9a82c8996c8db" prot="public" virt="non-virtual"><scope>themis::query::CypherRelPattern</scope><name>direction</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_rel_pattern_1ab91d5c3c847a9911215c3f4c0252406d" prot="public" virt="non-virtual"><scope>themis::query::CypherRelPattern</scope><name>max_hops</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_rel_pattern_1af5e46cbdee61e567a90622be4e170cce" prot="public" virt="non-virtual"><scope>themis::query::CypherRelPattern</scope><name>min_hops</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_rel_pattern_1abf09615839a5a7c0653e14aeaf8bb071" prot="public" virt="non-virtual"><scope>themis::query::CypherRelPattern</scope><name>types</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_rel_pattern_1a6c32d46b1bd50b507d77aa29d3cc3d89" prot="public" virt="non-virtual"><scope>themis::query::CypherRelPattern</scope><name>variable</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

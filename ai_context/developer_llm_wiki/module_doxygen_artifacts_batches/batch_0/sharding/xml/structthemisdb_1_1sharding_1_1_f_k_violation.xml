@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_f_k_violation" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::FKViolation</compoundname>
+    <includes refid="cross__shard__fk__validator_8h" local="no">cross_shard_fk_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_f_k_violation_1a5d6737fa9a8a332ff194e4aba4bdc34c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::FKViolation::constraint_name</definition>
+        <argsstring></argsstring>
+        <name>constraint_name</name>
+        <qualifiedname>themisdb::sharding::FKViolation::constraint_name</qualifiedname>
+        <briefdescription>
+<para>Name of the violated constraint (from <ref refid="structthemisdb_1_1sharding_1_1_cross_shard_f_k_constraint_1a7f34b5f07dbbdad132917fa0170c2a4d" kindref="member">CrossShardFKConstraint::name</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_fk_validator.h" line="109" column="17" bodyfile="include/sharding/cross_shard_fk_validator.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_f_k_violation_1ac001d3f837f92dfadb3ca032bf67de5b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::FKViolation::table</definition>
+        <argsstring></argsstring>
+        <name>table</name>
+        <qualifiedname>themisdb::sharding::FKViolation::table</qualifiedname>
+        <briefdescription>
+<para>Table that issued the violating write or delete. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_fk_validator.h" line="112" column="17" bodyfile="include/sharding/cross_shard_fk_validator.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_f_k_violation_1a4d3ac153cca376babae6d9370c7fd811" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::FKViolation::column</definition>
+        <argsstring></argsstring>
+        <name>column</name>
+        <qualifiedname>themisdb::sharding::FKViolation::column</qualifiedname>
+        <briefdescription>
+<para>Column involved in the violation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_fk_validator.h" line="115" column="17" bodyfile="include/sharding/cross_shard_fk_validator.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_f_k_violation_1aba83df21a5d77007fa5f6c0d8f511b12" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::FKViolation::key_value</definition>
+        <argsstring></argsstring>
+        <name>key_value</name>
+        <qualifiedname>themisdb::sharding::FKViolation::key_value</qualifiedname>
+        <briefdescription>
+<para>FK value or parent key that was dangling / still referenced. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_fk_validator.h" line="118" column="17" bodyfile="include/sharding/cross_shard_fk_validator.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_f_k_violation_1a252e861b63e189ca3984b533c6687506" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::FKViolation::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themisdb::sharding::FKViolation::message</qualifiedname>
+        <briefdescription>
+<para>Human-readable description of the violation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_fk_validator.h" line="121" column="17" bodyfile="include/sharding/cross_shard_fk_validator.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_f_k_violation_1a1c1b5cb716756a219e17501cef8754a3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::FKViolation::deferrable</definition>
+        <argsstring></argsstring>
+        <name>deferrable</name>
+        <qualifiedname>themisdb::sharding::FKViolation::deferrable</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether the violated constraint is deferrable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When true the coordinator may choose to accept eventual consistency rather than aborting the transaction. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_fk_validator.h" line="129" column="10" bodyfile="include/sharding/cross_shard_fk_validator.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_f_k_violation_1ad219140869be03e70843cf9b8cb71955" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::FKViolation::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themisdb::sharding::FKViolation::toJson</qualifiedname>
+        <briefdescription>
+<para>Serialise this violation to a JSON-compatible string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_fk_validator.h" line="132" column="18" bodyfile="src/sharding/cross_shard_fk_validator.cpp" bodystart="47" bodyend="57"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Describes a single foreign-key constraint violation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Returned by <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_foreign_key_validator_1a3f99171d787b0931802b1ad376e86e23" kindref="member">CrossShardForeignKeyValidator::validate()</ref> for every constraint that cannot be satisfied. </para>
+    </detaileddescription>
+    <location file="include/sharding/cross_shard_fk_validator.h" line="107" column="1" bodyfile="include/sharding/cross_shard_fk_validator.h" bodystart="107" bodyend="133"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_f_k_violation_1a4d3ac153cca376babae6d9370c7fd811" prot="public" virt="non-virtual"><scope>themisdb::sharding::FKViolation</scope><name>column</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_f_k_violation_1a5d6737fa9a8a332ff194e4aba4bdc34c" prot="public" virt="non-virtual"><scope>themisdb::sharding::FKViolation</scope><name>constraint_name</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_f_k_violation_1a1c1b5cb716756a219e17501cef8754a3" prot="public" virt="non-virtual"><scope>themisdb::sharding::FKViolation</scope><name>deferrable</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_f_k_violation_1aba83df21a5d77007fa5f6c0d8f511b12" prot="public" virt="non-virtual"><scope>themisdb::sharding::FKViolation</scope><name>key_value</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_f_k_violation_1a252e861b63e189ca3984b533c6687506" prot="public" virt="non-virtual"><scope>themisdb::sharding::FKViolation</scope><name>message</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_f_k_violation_1ac001d3f837f92dfadb3ca032bf67de5b" prot="public" virt="non-virtual"><scope>themisdb::sharding::FKViolation</scope><name>table</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_f_k_violation_1ad219140869be03e70843cf9b8cb71955" prot="public" virt="non-virtual"><scope>themisdb::sharding::FKViolation</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

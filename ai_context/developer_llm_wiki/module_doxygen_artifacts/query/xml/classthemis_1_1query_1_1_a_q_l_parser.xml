@@ -1,0 +1,496 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_a_q_l_parser" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::AQLParser</compoundname>
+    <includes refid="aql__parser_8h" local="no">aql_parser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_a_q_l_parser_1a038c37601481c253de1e02e2136baa83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::AQLParser::AQLParser</definition>
+        <argsstring>()=default</argsstring>
+        <name>AQLParser</name>
+        <qualifiedname>themis::query::AQLParser::AQLParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="1051" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_a_q_l_parser_1a1df4d0bfa69a675fe181b07f2769e008" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::AQLParser::~AQLParser</definition>
+        <argsstring>()=default</argsstring>
+        <name>~AQLParser</name>
+        <qualifiedname>themis::query::AQLParser::~AQLParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="1052" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_a_q_l_parser_1a516956bd72c7b985f23b763aadfd892e" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::AQLParser::AQLParser</definition>
+        <argsstring>(AQLParser &amp;&amp;) noexcept=default</argsstring>
+        <name>AQLParser</name>
+        <qualifiedname>themis::query::AQLParser::AQLParser</qualifiedname>
+        <param>
+          <type>AQLParser &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="1054" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_a_q_l_parser_1ae07b954a3d31f4e3d4fb0e6cf7241d3e" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_a_q_l_parser_1a038c37601481c253de1e02e2136baa83" kindref="member">AQLParser</ref> &amp;</type>
+        <definition>AQLParser &amp; themis::query::AQLParser::operator=</definition>
+        <argsstring>(AQLParser &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::query::AQLParser::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_a_q_l_parser_1a038c37601481c253de1e02e2136baa83" kindref="member">AQLParser</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="1056" column="15"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_a_q_l_parser_1aeb63a705eea0c5094b5f9c0a204eebb3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::AQLParser::AQLParser</definition>
+        <argsstring>(const AQLParser &amp;)=delete</argsstring>
+        <name>AQLParser</name>
+        <qualifiedname>themis::query::AQLParser::AQLParser</qualifiedname>
+        <param>
+          <type>const AQLParser &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="1059" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_a_q_l_parser_1a76493670e0292f965316a956e642d480" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_a_q_l_parser_1a038c37601481c253de1e02e2136baa83" kindref="member">AQLParser</ref> &amp;</type>
+        <definition>AQLParser &amp; themis::query::AQLParser::operator=</definition>
+        <argsstring>(const AQLParser &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::query::AQLParser::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1query_1_1_a_q_l_parser_1a038c37601481c253de1e02e2136baa83" kindref="member">AQLParser</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="1060" column="15"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_a_q_l_parser_1a740b183921f946a8f9d4fe79075fa812" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> &gt; &gt;</type>
+        <definition>Result&lt; std::shared_ptr&lt; Query &gt; &gt; themis::query::AQLParser::parse</definition>
+        <argsstring>(const std::string &amp;query_string)</argsstring>
+        <name>parse</name>
+        <qualifiedname>themis::query::AQLParser::parse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_string</declname>
+        </param>
+        <briefdescription>
+<para>Parse. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_string</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_string</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: tokenizer(), tokenize(), parser(), std::move(), fmt::format(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="1067" column="12" bodyfile="src/query/aql_parser.cpp" bodystart="2273" bodyend="2288"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_a_q_l_parser_1ab005d1292ce60dc5f747b1a37afc4bb6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1query_1_1_aql_transaction_block" kindref="compound">AqlTransactionBlock</ref> &gt;</type>
+        <definition>Result&lt; AqlTransactionBlock &gt; themis::query::AQLParser::parseTransactionBlock</definition>
+        <argsstring>(const std::string &amp;input)</argsstring>
+        <name>parseTransactionBlock</name>
+        <qualifiedname>themis::query::AQLParser::parseTransactionBlock</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Parse Transaction Block. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>JSON Serialization moved to src/query/aql_parser_json.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+cpp to reduce compile-time pressure on this translation unit. Calls: tokenizer(), tokenize(), empty(), size(), isMutationStart(), isSeparator(), isTerminator(), isStatementStart(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="1074" column="12" bodyfile="src/query/aql_parser.cpp" bodystart="2395" bodyend="2575"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_a_q_l_parser_1a8a5a61b547948607e0557cbd5fcdc00b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; Expression &gt; themis::query::AQLParser::parseExpression</definition>
+        <argsstring>(const std::string &amp;expr_str)</argsstring>
+        <name>parseExpression</name>
+        <qualifiedname>themis::query::AQLParser::parseExpression</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expr_str</declname>
+        </param>
+        <briefdescription>
+<para>Parse <ref refid="structthemis_1_1query_1_1_expression" kindref="compound">Expression</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">expr_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">expr_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: tokenizer(), tokenize(), parser(), std::move(), parseStandaloneExpression(), error(), message(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="1081" column="21" bodyfile="src/query/aql_parser.cpp" bodystart="2297" bodyend="2308"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_a_q_l_parser_1a6c58bfe883e90f41bdf4a249b545b34b" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1query_1_1_continuous_query_d_d_l" kindref="compound">ContinuousQueryDDL</ref> &gt;</type>
+        <definition>Result&lt; ContinuousQueryDDL &gt; themis::query::AQLParser::parseDDL</definition>
+        <argsstring>(const std::string &amp;input)</argsstring>
+        <name>parseDDL</name>
+        <qualifiedname>themis::query::AQLParser::parseDDL</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Parse DDL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find_first_not_of(), make_err(), find_last_not_of(), substr(), std::transform(), begin(), end(), std::toupper(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="1083" column="13" bodyfile="src/query/aql_parser.cpp" bodystart="2631" bodyend="2853"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_a_q_l_parser_1a2a98ab549a4ba8c40f6474ad7d7a3afb" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_mutation_node" kindref="compound">MutationNode</ref> &gt; &gt;</type>
+        <definition>Result&lt; std::shared_ptr&lt; MutationNode &gt; &gt; themis::query::AQLParser::parseMutation</definition>
+        <argsstring>(const std::string &amp;input)</argsstring>
+        <name>parseMutation</name>
+        <qualifiedname>themis::query::AQLParser::parseMutation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>============================================================================ <ref refid="classthemis_1_1query_1_1_a_q_l_parser_1a2a98ab549a4ba8c40f6474ad7d7a3afb" kindref="member">AQLParser::parseMutation</ref> ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: tokenizer(), tokenize(), p(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="1085" column="13" bodyfile="src/query/aql_parser.cpp" bodystart="2862" bodyend="2867"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_a_q_l_parser_1a3167ccffa6ffdfebbaaee5c69a681848" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1query_1_1_schema_d_d_l" kindref="compound">SchemaDDL</ref> &gt;</type>
+        <definition>Result&lt; SchemaDDL &gt; themis::query::AQLParser::parseSchemaDDL</definition>
+        <argsstring>(const std::string &amp;input)</argsstring>
+        <name>parseSchemaDDL</name>
+        <qualifiedname>themis::query::AQLParser::parseSchemaDDL</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Parse Schema DDL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find_first_not_of(), make_err(), find_last_not_of(), substr(), std::transform(), begin(), end(), std::toupper(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="1087" column="13" bodyfile="src/query/aql_parser.cpp" bodystart="2961" bodyend="3278"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_a_q_l_parser_1ac4731669a587acb122aaea6f20373a55" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; Expression &gt; themis::query::AQLParser::parsePrimaryExpression</definition>
+        <argsstring>(const std::string &amp;expr_str)</argsstring>
+        <name>parsePrimaryExpression</name>
+        <qualifiedname>themis::query::AQLParser::parsePrimaryExpression</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expr_str</declname>
+        </param>
+        <briefdescription>
+<para>Helper methods (implemented in aql_parser. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Parse Primary <ref refid="structthemis_1_1query_1_1_expression" kindref="compound">Expression</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">expr_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+cpp)</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">expr_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1query_1_1_a_q_l_parser_1a8a5a61b547948607e0557cbd5fcdc00b" kindref="member">parseExpression()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="1096" column="21" bodyfile="src/query/aql_parser.cpp" bodystart="2316" bodyend="2318"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_a_q_l_parser_1a557c51bcac4fdb4473c89adc233f51c4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1query_1affc80a450a05256c6310ab5a93827f10" kindref="member">BinaryOperator</ref></type>
+        <definition>BinaryOperator themis::query::AQLParser::stringToOperator</definition>
+        <argsstring>(const std::string &amp;op_str)</argsstring>
+        <name>stringToOperator</name>
+        <qualifiedname>themis::query::AQLParser::stringToOperator</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>op_str</declname>
+        </param>
+        <briefdescription>
+<para>String To Operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">op_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">op_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements stringToOperator without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="1102" column="20" bodyfile="src/query/aql_parser.cpp" bodystart="2327" bodyend="2374"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_a_q_l_parser_1a01e6205f8e2b0cedc762dda5fa43b694" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; Expression &gt; themis::query::AQLParser::parseMembership</definition>
+        <argsstring>(std::shared_ptr&lt; Expression &gt; left)</argsstring>
+        <name>parseMembership</name>
+        <qualifiedname>themis::query::AQLParser::parseMembership</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt;</type>
+          <declname>left</declname>
+        </param>
+        <briefdescription>
+<para>New: parse membership expression left IN right. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Parse Membership.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">left</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">left</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="1108" column="21" bodyfile="src/query/aql_parser.cpp" bodystart="2382" bodyend="2385"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/aql_parser.h" line="1049" column="1" bodyfile="include/query/aql_parser.h" bodystart="1049" bodyend="1109"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_a_q_l_parser_1a038c37601481c253de1e02e2136baa83" prot="public" virt="non-virtual"><scope>themis::query::AQLParser</scope><name>AQLParser</name></member>
+      <member refid="classthemis_1_1query_1_1_a_q_l_parser_1a516956bd72c7b985f23b763aadfd892e" prot="public" virt="non-virtual"><scope>themis::query::AQLParser</scope><name>AQLParser</name></member>
+      <member refid="classthemis_1_1query_1_1_a_q_l_parser_1aeb63a705eea0c5094b5f9c0a204eebb3" prot="public" virt="non-virtual"><scope>themis::query::AQLParser</scope><name>AQLParser</name></member>
+      <member refid="classthemis_1_1query_1_1_a_q_l_parser_1ae07b954a3d31f4e3d4fb0e6cf7241d3e" prot="public" virt="non-virtual"><scope>themis::query::AQLParser</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1query_1_1_a_q_l_parser_1a76493670e0292f965316a956e642d480" prot="public" virt="non-virtual"><scope>themis::query::AQLParser</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1query_1_1_a_q_l_parser_1a740b183921f946a8f9d4fe79075fa812" prot="public" virt="non-virtual"><scope>themis::query::AQLParser</scope><name>parse</name></member>
+      <member refid="classthemis_1_1query_1_1_a_q_l_parser_1a6c58bfe883e90f41bdf4a249b545b34b" prot="public" virt="non-virtual"><scope>themis::query::AQLParser</scope><name>parseDDL</name></member>
+      <member refid="classthemis_1_1query_1_1_a_q_l_parser_1a8a5a61b547948607e0557cbd5fcdc00b" prot="public" virt="non-virtual"><scope>themis::query::AQLParser</scope><name>parseExpression</name></member>
+      <member refid="classthemis_1_1query_1_1_a_q_l_parser_1a01e6205f8e2b0cedc762dda5fa43b694" prot="private" virt="non-virtual"><scope>themis::query::AQLParser</scope><name>parseMembership</name></member>
+      <member refid="classthemis_1_1query_1_1_a_q_l_parser_1a2a98ab549a4ba8c40f6474ad7d7a3afb" prot="public" virt="non-virtual"><scope>themis::query::AQLParser</scope><name>parseMutation</name></member>
+      <member refid="classthemis_1_1query_1_1_a_q_l_parser_1ac4731669a587acb122aaea6f20373a55" prot="private" virt="non-virtual"><scope>themis::query::AQLParser</scope><name>parsePrimaryExpression</name></member>
+      <member refid="classthemis_1_1query_1_1_a_q_l_parser_1a3167ccffa6ffdfebbaaee5c69a681848" prot="public" virt="non-virtual"><scope>themis::query::AQLParser</scope><name>parseSchemaDDL</name></member>
+      <member refid="classthemis_1_1query_1_1_a_q_l_parser_1ab005d1292ce60dc5f747b1a37afc4bb6" prot="public" virt="non-virtual"><scope>themis::query::AQLParser</scope><name>parseTransactionBlock</name></member>
+      <member refid="classthemis_1_1query_1_1_a_q_l_parser_1a557c51bcac4fdb4473c89adc233f51c4" prot="private" virt="non-virtual"><scope>themis::query::AQLParser</scope><name>stringToOperator</name></member>
+      <member refid="classthemis_1_1query_1_1_a_q_l_parser_1a1df4d0bfa69a675fe181b07f2769e008" prot="public" virt="non-virtual"><scope>themis::query::AQLParser</scope><name>~AQLParser</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

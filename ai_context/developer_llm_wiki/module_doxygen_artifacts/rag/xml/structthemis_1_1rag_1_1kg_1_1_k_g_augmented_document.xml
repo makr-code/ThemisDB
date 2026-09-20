@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1kg_1_1_k_g_augmented_document" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::kg::KGAugmentedDocument</compoundname>
+    <includes refid="knowledge__graph__retriever_8h" local="no">knowledge_graph_retriever.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_k_g_augmented_document_1a3f8eaffbdff5b895173895494199a75b" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">judge::RetrievedDocument</ref></type>
+        <definition>judge::RetrievedDocument themis::rag::kg::KGAugmentedDocument::document</definition>
+        <argsstring></argsstring>
+        <name>document</name>
+        <qualifiedname>themis::rag::kg::KGAugmentedDocument::document</qualifiedname>
+        <briefdescription>
+<para>Original retrieved document. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="109" column="34" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_k_g_augmented_document_1a1fd75e0554b3a9a53276dd94f8c417a8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1kg_1_1_entity_linking_match" kindref="compound">EntityLinkingMatch</ref> &gt;</type>
+        <definition>std::vector&lt;EntityLinkingMatch&gt; themis::rag::kg::KGAugmentedDocument::entity_links</definition>
+        <argsstring></argsstring>
+        <name>entity_links</name>
+        <qualifiedname>themis::rag::kg::KGAugmentedDocument::entity_links</qualifiedname>
+        <briefdescription>
+<para>Entities found in this document. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="110" column="17" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_k_g_augmented_document_1a3b1b71cdf6df4190c0ff15813debb7ce" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::kg::KGAugmentedDocument::kg_boost</definition>
+        <argsstring></argsstring>
+        <name>kg_boost</name>
+        <qualifiedname>themis::rag::kg::KGAugmentedDocument::kg_boost</qualifiedname>
+        <briefdescription>
+<para>Score boost from graph traversal. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="111" column="34" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_k_g_augmented_document_1aac88f06979ba97ed3508a1e919b53036" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::kg::KGAugmentedDocument::final_score</definition>
+        <argsstring></argsstring>
+        <name>final_score</name>
+        <qualifiedname>themis::rag::kg::KGAugmentedDocument::final_score</qualifiedname>
+        <briefdescription>
+<para>Fused relevance score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="112" column="34" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A retrieved document augmented with entity-linking information. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::rag::judge::RetrievedDocument</label>
+        <link refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document"/>
+      </node>
+      <node id="1">
+        <label>themis::rag::kg::KGAugmentedDocument</label>
+        <link refid="structthemis_1_1rag_1_1kg_1_1_k_g_augmented_document"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>document</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/rag/knowledge_graph_retriever.h" line="108" column="1" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="108" bodyend="113"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_k_g_augmented_document_1a3f8eaffbdff5b895173895494199a75b" prot="public" virt="non-virtual"><scope>themis::rag::kg::KGAugmentedDocument</scope><name>document</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_k_g_augmented_document_1a1fd75e0554b3a9a53276dd94f8c417a8" prot="public" virt="non-virtual"><scope>themis::rag::kg::KGAugmentedDocument</scope><name>entity_links</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_k_g_augmented_document_1aac88f06979ba97ed3508a1e919b53036" prot="public" virt="non-virtual"><scope>themis::rag::kg::KGAugmentedDocument</scope><name>final_score</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_k_g_augmented_document_1a3b1b71cdf6df4190c0ff15813debb7ce" prot="public" virt="non-virtual"><scope>themis::rag::kg::KGAugmentedDocument</scope><name>kg_boost</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

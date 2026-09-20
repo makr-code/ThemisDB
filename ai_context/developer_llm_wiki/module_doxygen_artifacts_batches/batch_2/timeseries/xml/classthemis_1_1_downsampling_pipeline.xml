@@ -1,0 +1,648 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_downsampling_pipeline" kind="class" language="C++" prot="public">
+    <compoundname>themis::DownsamplingPipeline</compoundname>
+    <includes refid="downsampling_8h" local="no">downsampling.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_downsampling_pipeline_1acf6d4df306dab1e9d2b2af672006bf5e" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref> *</type>
+        <definition>TSStore* themis::DownsamplingPipeline::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>themis::DownsamplingPipeline::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/downsampling.h" line="210" column="13" bodyfile="include/timeseries/downsampling.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_downsampling_pipeline_1a19347cfe44096e16b1f98ce84df50b8c" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_continuous_aggregate_manager" kindref="compound">ContinuousAggregateManager</ref></type>
+        <definition>ContinuousAggregateManager themis::DownsamplingPipeline::agg_manager_</definition>
+        <argsstring></argsstring>
+        <name>agg_manager_</name>
+        <qualifiedname>themis::DownsamplingPipeline::agg_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/downsampling.h" line="211" column="32" bodyfile="include/timeseries/downsampling.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_downsampling_pipeline_1ac45460c080f600728623eba328e70ccb" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_tier_selector" kindref="compound">TierSelector</ref></type>
+        <definition>TierSelector themis::DownsamplingPipeline::tier_selector_</definition>
+        <argsstring></argsstring>
+        <name>tier_selector_</name>
+        <qualifiedname>themis::DownsamplingPipeline::tier_selector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/downsampling.h" line="212" column="18" bodyfile="include/timeseries/downsampling.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_downsampling_pipeline_1a4d05ffe09f97752072c62cc365838e0d" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1_downsampling_policy" kindref="compound">DownsamplingPolicy</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, DownsamplingPolicy&gt; themis::DownsamplingPipeline::policies_</definition>
+        <argsstring></argsstring>
+        <name>policies_</name>
+        <qualifiedname>themis::DownsamplingPipeline::policies_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/downsampling.h" line="215" column="24" bodyfile="include/timeseries/downsampling.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_downsampling_pipeline_1afbd05bb5c40e26a78f2ed0e414b730b6" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, int64_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, int64_t&gt; themis::DownsamplingPipeline::watermarks_</definition>
+        <argsstring></argsstring>
+        <name>watermarks_</name>
+        <qualifiedname>themis::DownsamplingPipeline::watermarks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/downsampling.h" line="218" column="24" bodyfile="include/timeseries/downsampling.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_downsampling_pipeline_1a00b3157544a0099e2d5241687b10a09f" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::DownsamplingPipeline::DownsamplingPipeline</definition>
+        <argsstring>(TSStore *store)</argsstring>
+        <name>DownsamplingPipeline</name>
+        <qualifiedname>themis::DownsamplingPipeline::DownsamplingPipeline</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref> *</type>
+          <declname>store</declname>
+        </param>
+        <briefdescription>
+<para>Downsampling Pipeline. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>store</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref> to read raw/tier data from and write tier output to. Not owned; must outlive the pipeline. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/downsampling.h" line="145" column="14" bodyfile="src/timeseries/downsampling.cpp" bodystart="159" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_downsampling_pipeline_1ae8e4a2799f03aa3863e560816a61e6a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::DownsamplingPipeline::~DownsamplingPipeline</definition>
+        <argsstring>()=default</argsstring>
+        <name>~DownsamplingPipeline</name>
+        <qualifiedname>themis::DownsamplingPipeline::~DownsamplingPipeline</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/downsampling.h" line="146" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_downsampling_pipeline_1ab2fb2d608ff7b6b12b69e9fa5f0462c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::DownsamplingPipeline::DownsamplingPipeline</definition>
+        <argsstring>(const DownsamplingPipeline &amp;)=delete</argsstring>
+        <name>DownsamplingPipeline</name>
+        <qualifiedname>themis::DownsamplingPipeline::DownsamplingPipeline</qualifiedname>
+        <param>
+          <type>const DownsamplingPipeline &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/downsampling.h" line="148" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_downsampling_pipeline_1a028ce57e64d75bdda0b680ee74e39a47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_downsampling_pipeline_1a00b3157544a0099e2d5241687b10a09f" kindref="member">DownsamplingPipeline</ref> &amp;</type>
+        <definition>DownsamplingPipeline &amp; themis::DownsamplingPipeline::operator=</definition>
+        <argsstring>(const DownsamplingPipeline &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::DownsamplingPipeline::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_downsampling_pipeline_1a00b3157544a0099e2d5241687b10a09f" kindref="member">DownsamplingPipeline</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/downsampling.h" line="149" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_downsampling_pipeline_1a1da6b251870f8c08b1aca026173b932b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::DownsamplingPipeline::addPolicy</definition>
+        <argsstring>(const DownsamplingPolicy &amp;policy)</argsstring>
+        <name>addPolicy</name>
+        <qualifiedname>themis::DownsamplingPipeline::addPolicy</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_downsampling_policy" kindref="compound">DownsamplingPolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Register a downsampling policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Policy.</para>
+<para>Must be called before any <ref refid="classthemis_1_1_downsampling_pipeline_1ad82493a14682b6d23ff7bd2d1be8f5b1" kindref="member">refresh()</ref> for the given metric. Registers the policy&apos;s tiers with the internal <ref refid="classthemis_1_1_tier_selector" kindref="compound">TierSelector</ref>. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), registerPolicy(), THEMIS_INFO(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/downsampling.h" line="158" column="10" bodyfile="src/timeseries/downsampling.cpp" bodystart="174" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_downsampling_pipeline_1ad82493a14682b6d23ff7bd2d1be8f5b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::DownsamplingPipeline::refresh</definition>
+        <argsstring>(int64_t to_ms=0)</argsstring>
+        <name>refresh</name>
+        <qualifiedname>themis::DownsamplingPipeline::refresh</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>to_ms</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Process all registered metrics from their stored watermark up to <computeroutput>to_ms</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Refresh.</para>
+<para>For each registered metric, this method iterates through the tier list from finest to coarsest. Each tier reads from its input source (raw data for tier[0], tier[i-1] output for tier[i]) over the window [watermark, to_ms) and writes aggregate results back to <ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref> under the derived metric name produced by <ref refid="classthemis_1_1_continuous_aggregate_manager_1a5c08da389c51794339466931f880ba82" kindref="member">ContinuousAggregateManager::derivedMetricName()</ref>.</para>
+<para>After a successful write the per-tier watermark is advanced to <computeroutput>to_ms</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>to_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Upper bound of the refresh window (ms since epoch). Defaults to now() when 0. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Total number of aggregate data points written across all tiers.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">to_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_downsampling_pipeline_1aa13c8c1ecf9c1a928a9fd050ad6670d5" kindref="member">refreshMetric()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/downsampling.h" line="175" column="12" bodyfile="src/timeseries/downsampling.cpp" bodystart="195" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_downsampling_pipeline_1aa13c8c1ecf9c1a928a9fd050ad6670d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::DownsamplingPipeline::refreshMetric</definition>
+        <argsstring>(const std::string &amp;metric, int64_t to_ms=0)</argsstring>
+        <name>refreshMetric</name>
+        <qualifiedname>themis::DownsamplingPipeline::refreshMetric</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>to_ms</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Refresh a single metric. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Refresh Metric.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Metric name (must be registered via <ref refid="classthemis_1_1_downsampling_pipeline_1a1da6b251870f8c08b1aca026173b932b" kindref="member">addPolicy()</ref>). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>to_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Upper bound of refresh window (0 = now). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of aggregate points written.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), end(), THEMIS_WARN(), nowMs(), <ref refid="classthemis_1_1_downsampling_pipeline_1a3ce9afe649f4ef9c6a47982d19f2da85" kindref="member">getWatermark()</ref>, THEMIS_DEBUG(), <ref refid="classthemis_1_1_continuous_aggregate_manager_1a5c08da389c51794339466931f880ba82" kindref="member">ContinuousAggregateManager::derivedMetricName()</ref>, refreshTier(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/downsampling.h" line="184" column="12" bodyfile="src/timeseries/downsampling.cpp" bodystart="211" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_downsampling_pipeline_1aabf974510597796815e9ff16c2ee13a5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1_tier_selector" kindref="compound">TierSelector</ref> &amp;</type>
+        <definition>const TierSelector &amp; themis::DownsamplingPipeline::tierSelector</definition>
+        <argsstring>() const</argsstring>
+        <name>tierSelector</name>
+        <qualifiedname>themis::DownsamplingPipeline::tierSelector</qualifiedname>
+        <briefdescription>
+<para>Return the internal <ref refid="classthemis_1_1_tier_selector" kindref="compound">TierSelector</ref> for integration with <ref refid="classthemis_1_1_t_s_query_optimizer" kindref="compound">TSQueryOptimizer</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/downsampling.h" line="189" column="24" bodyfile="include/timeseries/downsampling.h" bodystart="189" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_downsampling_pipeline_1a3ce9afe649f4ef9c6a47982d19f2da85" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::DownsamplingPipeline::getWatermark</definition>
+        <argsstring>(const std::string &amp;metric, const std::string &amp;tier_name) const</argsstring>
+        <name>getWatermark</name>
+        <qualifiedname>themis::DownsamplingPipeline::getWatermark</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tier_name</declname>
+        </param>
+        <briefdescription>
+<para>Get the current watermark for a metric:tier combination. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns 0 if no data has been processed yet for that tier. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tier_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/downsampling.h" line="199" column="13" bodyfile="src/timeseries/downsampling.cpp" bodystart="283" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_downsampling_pipeline_1abf4fb02a09853dc752fbd854386229f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::DownsamplingPipeline::setWatermark</definition>
+        <argsstring>(const std::string &amp;metric, const std::string &amp;tier_name, int64_t watermark_ms)</argsstring>
+        <name>setWatermark</name>
+        <qualifiedname>themis::DownsamplingPipeline::setWatermark</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tier_name</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>watermark_ms</declname>
+        </param>
+        <briefdescription>
+<para>Manually set a watermark (e.g. for backfill or disaster recovery). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Watermark.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tier_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">watermark_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tier_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the tier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">watermark_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/downsampling.h" line="207" column="10" bodyfile="src/timeseries/downsampling.cpp" bodystart="298" bodyend="304"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1_downsampling_pipeline_1a9821126827c1eb9a0f113122ec9488d6" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::DownsamplingPipeline::watermarkKey</definition>
+        <argsstring>(const std::string &amp;metric, const std::string &amp;tier_name)</argsstring>
+        <name>watermarkKey</name>
+        <qualifiedname>themis::DownsamplingPipeline::watermarkKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tier_name</declname>
+        </param>
+        <briefdescription>
+<para>Watermark Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tier_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tier_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the tier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/downsampling.h" line="226" column="24" bodyfile="src/timeseries/downsampling.cpp" bodystart="312" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_downsampling_pipeline_1a8458ee56199ce6d71561f397a7c1bf6a" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::DownsamplingPipeline::nowMs</definition>
+        <argsstring>()</argsstring>
+        <name>nowMs</name>
+        <qualifiedname>themis::DownsamplingPipeline::nowMs</qualifiedname>
+        <briefdescription>
+<para>Returns current epoch time in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Now Ms.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: system_clock::now(), time_since_epoch(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/downsampling.h" line="232" column="20" bodyfile="src/timeseries/downsampling.cpp" bodystart="324" bodyend="327"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_downsampling_pipeline_1ae9140c54a363198a8f84772c70a67b50" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::DownsamplingPipeline::refreshTier</definition>
+        <argsstring>(const DownsamplingPolicy &amp;policy, const DownsamplingTier &amp;tier, const std::string &amp;input_metric, int64_t from_ms, int64_t to_ms)</argsstring>
+        <name>refreshTier</name>
+        <qualifiedname>themis::DownsamplingPipeline::refreshTier</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_downsampling_policy" kindref="compound">DownsamplingPolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_downsampling_tier" kindref="compound">DownsamplingTier</ref> &amp;</type>
+          <declname>tier</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input_metric</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>from_ms</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>to_ms</declname>
+        </param>
+        <briefdescription>
+<para>Refresh a single tier for a metric, reading from input_metric over [from_ms, to_ms). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Refresh Tier.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input_metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/downsampling.h" line="243" column="12" bodyfile="src/timeseries/downsampling.cpp" bodystart="261" bodyend="281"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Orchestrates multi-tier downsampling for one or more metrics. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The pipeline owns a <ref refid="classthemis_1_1_continuous_aggregate_manager" kindref="compound">ContinuousAggregateManager</ref> and per-metric watermarks. Callers invoke <ref refid="classthemis_1_1_downsampling_pipeline_1ad82493a14682b6d23ff7bd2d1be8f5b1" kindref="member">refresh()</ref> periodically (e.g. from <ref refid="classthemis_1_1_aggregate_scheduler" kindref="compound">AggregateScheduler</ref>) to process newly ingested data from the last watermark up to <computeroutput>now</computeroutput>.</para>
+<para>Thread safety: <ref refid="classthemis_1_1_downsampling_pipeline_1ad82493a14682b6d23ff7bd2d1be8f5b1" kindref="member">refresh()</ref> is NOT thread-safe. External callers must serialise concurrent refreshes for the same pipeline instance. </para>
+    </detaileddescription>
+    <location file="include/timeseries/downsampling.h" line="137" column="1" bodyfile="include/timeseries/downsampling.h" bodystart="137" bodyend="248"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_downsampling_pipeline_1a1da6b251870f8c08b1aca026173b932b" prot="public" virt="non-virtual"><scope>themis::DownsamplingPipeline</scope><name>addPolicy</name></member>
+      <member refid="classthemis_1_1_downsampling_pipeline_1a19347cfe44096e16b1f98ce84df50b8c" prot="private" virt="non-virtual"><scope>themis::DownsamplingPipeline</scope><name>agg_manager_</name></member>
+      <member refid="classthemis_1_1_downsampling_pipeline_1a00b3157544a0099e2d5241687b10a09f" prot="public" virt="non-virtual"><scope>themis::DownsamplingPipeline</scope><name>DownsamplingPipeline</name></member>
+      <member refid="classthemis_1_1_downsampling_pipeline_1ab2fb2d608ff7b6b12b69e9fa5f0462c3" prot="public" virt="non-virtual"><scope>themis::DownsamplingPipeline</scope><name>DownsamplingPipeline</name></member>
+      <member refid="classthemis_1_1_downsampling_pipeline_1a3ce9afe649f4ef9c6a47982d19f2da85" prot="public" virt="non-virtual"><scope>themis::DownsamplingPipeline</scope><name>getWatermark</name></member>
+      <member refid="classthemis_1_1_downsampling_pipeline_1a8458ee56199ce6d71561f397a7c1bf6a" prot="private" virt="non-virtual"><scope>themis::DownsamplingPipeline</scope><name>nowMs</name></member>
+      <member refid="classthemis_1_1_downsampling_pipeline_1a028ce57e64d75bdda0b680ee74e39a47" prot="public" virt="non-virtual"><scope>themis::DownsamplingPipeline</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_downsampling_pipeline_1a4d05ffe09f97752072c62cc365838e0d" prot="private" virt="non-virtual"><scope>themis::DownsamplingPipeline</scope><name>policies_</name></member>
+      <member refid="classthemis_1_1_downsampling_pipeline_1ad82493a14682b6d23ff7bd2d1be8f5b1" prot="public" virt="non-virtual"><scope>themis::DownsamplingPipeline</scope><name>refresh</name></member>
+      <member refid="classthemis_1_1_downsampling_pipeline_1aa13c8c1ecf9c1a928a9fd050ad6670d5" prot="public" virt="non-virtual"><scope>themis::DownsamplingPipeline</scope><name>refreshMetric</name></member>
+      <member refid="classthemis_1_1_downsampling_pipeline_1ae9140c54a363198a8f84772c70a67b50" prot="private" virt="non-virtual"><scope>themis::DownsamplingPipeline</scope><name>refreshTier</name></member>
+      <member refid="classthemis_1_1_downsampling_pipeline_1abf4fb02a09853dc752fbd854386229f7" prot="public" virt="non-virtual"><scope>themis::DownsamplingPipeline</scope><name>setWatermark</name></member>
+      <member refid="classthemis_1_1_downsampling_pipeline_1acf6d4df306dab1e9d2b2af672006bf5e" prot="private" virt="non-virtual"><scope>themis::DownsamplingPipeline</scope><name>store_</name></member>
+      <member refid="classthemis_1_1_downsampling_pipeline_1ac45460c080f600728623eba328e70ccb" prot="private" virt="non-virtual"><scope>themis::DownsamplingPipeline</scope><name>tier_selector_</name></member>
+      <member refid="classthemis_1_1_downsampling_pipeline_1aabf974510597796815e9ff16c2ee13a5" prot="public" virt="non-virtual"><scope>themis::DownsamplingPipeline</scope><name>tierSelector</name></member>
+      <member refid="classthemis_1_1_downsampling_pipeline_1a9821126827c1eb9a0f113122ec9488d6" prot="private" virt="non-virtual"><scope>themis::DownsamplingPipeline</scope><name>watermarkKey</name></member>
+      <member refid="classthemis_1_1_downsampling_pipeline_1afbd05bb5c40e26a78f2ed0e414b730b6" prot="private" virt="non-virtual"><scope>themis::DownsamplingPipeline</scope><name>watermarks_</name></member>
+      <member refid="classthemis_1_1_downsampling_pipeline_1ae8e4a2799f03aa3863e560816a61e6a4" prot="public" virt="non-virtual"><scope>themis::DownsamplingPipeline</scope><name>~DownsamplingPipeline</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

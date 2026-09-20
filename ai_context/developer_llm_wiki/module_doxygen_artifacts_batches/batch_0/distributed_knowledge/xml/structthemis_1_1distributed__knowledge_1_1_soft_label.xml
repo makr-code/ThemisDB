@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__knowledge_1_1_soft_label" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_knowledge::SoftLabel</compoundname>
+    <includes refid="federated__distillation__coordinator_8h" local="no">federated_distillation_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_soft_label_1a34d5ab8927927c80cac8a3c1c483ab1d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_knowledge::SoftLabel::query_id</definition>
+        <argsstring></argsstring>
+        <name>query_id</name>
+        <qualifiedname>themis::distributed_knowledge::SoftLabel::query_id</qualifiedname>
+        <briefdescription>
+<para>Opaque identifier (e.g. hash of query). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="33" column="30" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_soft_label_1a0db6fb3f9f8dbbc3e216027841715872" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::distributed_knowledge::SoftLabel::probabilities</definition>
+        <argsstring></argsstring>
+        <name>probabilities</name>
+        <qualifiedname>themis::distributed_knowledge::SoftLabel::probabilities</qualifiedname>
+        <briefdescription>
+<para>Temperature-scaled softmax distribution. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="34" column="22" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_soft_label_1a0e04aa801cf4ab4c709905536d71475d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_knowledge::SoftLabel::temperature</definition>
+        <argsstring></argsstring>
+        <name>temperature</name>
+        <qualifiedname>themis::distributed_knowledge::SoftLabel::temperature</qualifiedname>
+        <briefdescription>
+<para>Distillation temperature T (1.0 = argmax). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="35" column="30" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_soft_label_1a6866c6c024e9d568ff536f2a06a0e21a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_knowledge::SoftLabel::teacher_id</definition>
+        <argsstring></argsstring>
+        <name>teacher_id</name>
+        <qualifiedname>themis::distributed_knowledge::SoftLabel::teacher_id</qualifiedname>
+        <briefdescription>
+<para>Opaque teacher model identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="36" column="30" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1distributed__knowledge_1_1_soft_label_1a97e9cad377236d38306672c54b0f1715" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::distributed_knowledge::SoftLabel::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::distributed_knowledge::SoftLabel::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="38" column="21" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="38" bodyend="43"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1distributed__knowledge_1_1_soft_label_1a3542bc90fd695b5dd55e8d394f24cc33" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label" kindref="compound">SoftLabel</ref></type>
+        <definition>static SoftLabel themis::distributed_knowledge::SoftLabel::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::distributed_knowledge::SoftLabel::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="45" column="23" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="45" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="32" column="1" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="32" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_soft_label_1a3542bc90fd695b5dd55e8d394f24cc33" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::SoftLabel</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_soft_label_1a0db6fb3f9f8dbbc3e216027841715872" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::SoftLabel</scope><name>probabilities</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_soft_label_1a34d5ab8927927c80cac8a3c1c483ab1d" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::SoftLabel</scope><name>query_id</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_soft_label_1a6866c6c024e9d568ff536f2a06a0e21a" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::SoftLabel</scope><name>teacher_id</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_soft_label_1a0e04aa801cf4ab4c709905536d71475d" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::SoftLabel</scope><name>temperature</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_soft_label_1a97e9cad377236d38306672c54b0f1715" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::SoftLabel</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

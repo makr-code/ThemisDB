@@ -1,0 +1,553 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1failover_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::failover::test</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1failover_1_1test_1a7247b38d0d1dfd9a10eccab63c695809" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::failover::test::TEST</definition>
+        <argsstring>(FailoverChaosScenarios, IdempotentDoubleStart)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::failover::test::TEST</qualifiedname>
+        <param>
+          <type>FailoverChaosScenarios</type>
+        </param>
+        <param>
+          <type>IdempotentDoubleStart</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_chaos_scenarios.cpp" line="58" column="1" bodyfile="tests/failover/test_failover_chaos_scenarios.cpp" bodystart="58" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1failover_1_1test_1a3918a29eb5e66d77d24bbd0b72d040b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::failover::test::TEST</definition>
+        <argsstring>(FailoverChaosScenarios, IdempotentDoubleStop)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::failover::test::TEST</qualifiedname>
+        <param>
+          <type>FailoverChaosScenarios</type>
+        </param>
+        <param>
+          <type>IdempotentDoubleStop</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_chaos_scenarios.cpp" line="69" column="1" bodyfile="tests/failover/test_failover_chaos_scenarios.cpp" bodystart="69" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1failover_1_1test_1aa87b5e392ef075c1e34c7149dcf87902" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::failover::test::TEST</definition>
+        <argsstring>(FailoverChaosScenarios, StartStopMultipleCycles)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::failover::test::TEST</qualifiedname>
+        <param>
+          <type>FailoverChaosScenarios</type>
+        </param>
+        <param>
+          <type>StartStopMultipleCycles</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_chaos_scenarios.cpp" line="78" column="1" bodyfile="tests/failover/test_failover_chaos_scenarios.cpp" bodystart="78" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1failover_1_1test_1a43eafb8ad5072f57bcbf13b786a4dbbb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::failover::test::TEST</definition>
+        <argsstring>(FailoverChaosScenarios, QueueSaturationDropsTasks)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::failover::test::TEST</qualifiedname>
+        <param>
+          <type>FailoverChaosScenarios</type>
+        </param>
+        <param>
+          <type>QueueSaturationDropsTasks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_chaos_scenarios.cpp" line="92" column="1" bodyfile="tests/failover/test_failover_chaos_scenarios.cpp" bodystart="92" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1failover_1_1test_1acd57fd32682f8963712d76c73ee4b2e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::failover::test::TEST</definition>
+        <argsstring>(FailoverChaosScenarios, QueueDepthTracked)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::failover::test::TEST</qualifiedname>
+        <param>
+          <type>FailoverChaosScenarios</type>
+        </param>
+        <param>
+          <type>QueueDepthTracked</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_chaos_scenarios.cpp" line="118" column="1" bodyfile="tests/failover/test_failover_chaos_scenarios.cpp" bodystart="118" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1failover_1_1test_1aaf6545e5270662fcd0a64de4741c1c42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::failover::test::TEST</definition>
+        <argsstring>(FailoverChaosScenarios, QueuePressureEventEmittedAtThreshold)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::failover::test::TEST</qualifiedname>
+        <param>
+          <type>FailoverChaosScenarios</type>
+        </param>
+        <param>
+          <type>QueuePressureEventEmittedAtThreshold</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_chaos_scenarios.cpp" line="139" column="1" bodyfile="tests/failover/test_failover_chaos_scenarios.cpp" bodystart="139" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1failover_1_1test_1ab285521046c448f8cf559236d76d5428" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::failover::test::TEST</definition>
+        <argsstring>(FailoverChaosScenarios, StatisticsAfterMultipleFailoverCycles)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::failover::test::TEST</qualifiedname>
+        <param>
+          <type>FailoverChaosScenarios</type>
+        </param>
+        <param>
+          <type>StatisticsAfterMultipleFailoverCycles</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_chaos_scenarios.cpp" line="172" column="1" bodyfile="tests/failover/test_failover_chaos_scenarios.cpp" bodystart="172" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1failover_1_1test_1a2feb13e42735d39a00a9d8c32b4c8835" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::failover::test::TEST</definition>
+        <argsstring>(FailoverChaosScenarios, DropCountDoesNotAffectTotalFailovers)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::failover::test::TEST</qualifiedname>
+        <param>
+          <type>FailoverChaosScenarios</type>
+        </param>
+        <param>
+          <type>DropCountDoesNotAffectTotalFailovers</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_chaos_scenarios.cpp" line="195" column="1" bodyfile="tests/failover/test_failover_chaos_scenarios.cpp" bodystart="195" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1failover_1_1test_1a8c6558f550a3c6f787074044eb8b1411" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::failover::test::TEST</definition>
+        <argsstring>(FailoverChaosScenarios, RapidEnqueueDrainCycle)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::failover::test::TEST</qualifiedname>
+        <param>
+          <type>FailoverChaosScenarios</type>
+        </param>
+        <param>
+          <type>RapidEnqueueDrainCycle</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_chaos_scenarios.cpp" line="221" column="1" bodyfile="tests/failover/test_failover_chaos_scenarios.cpp" bodystart="221" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1failover_1_1test_1a3e4ed73a419b9e30d185143d2b131d39" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::failover::test::TEST</definition>
+        <argsstring>(FailoverChaosScenarios, ConfigHotUpdateWhileRunning)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::failover::test::TEST</qualifiedname>
+        <param>
+          <type>FailoverChaosScenarios</type>
+        </param>
+        <param>
+          <type>ConfigHotUpdateWhileRunning</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_chaos_scenarios.cpp" line="245" column="1" bodyfile="tests/failover/test_failover_chaos_scenarios.cpp" bodystart="245" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1failover_1_1test_1a8524121ddc8cf204135e8e94b2218e74" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::failover::test::TEST</definition>
+        <argsstring>(FailoverChaosScenarios, EventCallbacksReceiveNodeFailureEvents)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::failover::test::TEST</qualifiedname>
+        <param>
+          <type>FailoverChaosScenarios</type>
+        </param>
+        <param>
+          <type>EventCallbacksReceiveNodeFailureEvents</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_chaos_scenarios.cpp" line="265" column="1" bodyfile="tests/failover/test_failover_chaos_scenarios.cpp" bodystart="265" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1failover_1_1test_1a72697a3f2c1f14f0b0bef5df3492073e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::failover::test::TEST</definition>
+        <argsstring>(FailoverChaosScenarios, MultipleCallbacksAreAllInvoked)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::failover::test::TEST</qualifiedname>
+        <param>
+          <type>FailoverChaosScenarios</type>
+        </param>
+        <param>
+          <type>MultipleCallbacksAreAllInvoked</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_chaos_scenarios.cpp" line="287" column="1" bodyfile="tests/failover/test_failover_chaos_scenarios.cpp" bodystart="287" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1failover_1_1test_1ad1dc2ec12188b77363acfcfa52e6d31a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::failover::test::TEST</definition>
+        <argsstring>(FailoverChaosScenarios, GetFailingNodesInitiallyEmpty)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::failover::test::TEST</qualifiedname>
+        <param>
+          <type>FailoverChaosScenarios</type>
+        </param>
+        <param>
+          <type>GetFailingNodesInitiallyEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_chaos_scenarios.cpp" line="312" column="1" bodyfile="tests/failover/test_failover_chaos_scenarios.cpp" bodystart="312" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1failover_1_1test_1a93cc6a37d857cb82cbe717e37a8c3354" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::failover::test::TEST</definition>
+        <argsstring>(FailoverChaosScenarios, LastFailoverResultNullBeforeAnyFailover)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::failover::test::TEST</qualifiedname>
+        <param>
+          <type>FailoverChaosScenarios</type>
+        </param>
+        <param>
+          <type>LastFailoverResultNullBeforeAnyFailover</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_chaos_scenarios.cpp" line="320" column="1" bodyfile="tests/failover/test_failover_chaos_scenarios.cpp" bodystart="320" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1failover_1_1test_1a465a69584d3a011d7f2973a9ca0e67d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::failover::test::TEST</definition>
+        <argsstring>(FailoverChaosScenarios, LastFailoverResultPopulatedAfterFailover)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::failover::test::TEST</qualifiedname>
+        <param>
+          <type>FailoverChaosScenarios</type>
+        </param>
+        <param>
+          <type>LastFailoverResultPopulatedAfterFailover</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_chaos_scenarios.cpp" line="326" column="1" bodyfile="tests/failover/test_failover_chaos_scenarios.cpp" bodystart="326" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1failover_1_1test_1a72f72a15e44480f3558b0ff471da2006" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::failover::test::TEST</definition>
+        <argsstring>(FailoverChaosScenarios, StateIsIdleAfterStop)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::failover::test::TEST</qualifiedname>
+        <param>
+          <type>FailoverChaosScenarios</type>
+        </param>
+        <param>
+          <type>StateIsIdleAfterStop</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_chaos_scenarios.cpp" line="343" column="1" bodyfile="tests/failover/test_failover_chaos_scenarios.cpp" bodystart="343" bodyend="351"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1failover_1_1test_1a33e6490084254fc6f9f5372326273793" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::failover::test::TEST</definition>
+        <argsstring>(FailoverChaosScenarios, ConcurrentTriggersSafe)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::failover::test::TEST</qualifiedname>
+        <param>
+          <type>FailoverChaosScenarios</type>
+        </param>
+        <param>
+          <type>ConcurrentTriggersSafe</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_chaos_scenarios.cpp" line="355" column="1" bodyfile="tests/failover/test_failover_chaos_scenarios.cpp" bodystart="355" bodyend="394"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1failover_1_1test_1aeedab8da1ac9d7c383ea720ad4723d93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::failover::test::TEST</definition>
+        <argsstring>(TopologyVersioning, VersionIncrementOnNewNode)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::failover::test::TEST</qualifiedname>
+        <param>
+          <type>TopologyVersioning</type>
+        </param>
+        <param>
+          <type>VersionIncrementOnNewNode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_wave_a_topology_versioning.cpp" line="59" column="1" bodyfile="tests/failover/test_failover_wave_a_topology_versioning.cpp" bodystart="59" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1failover_1_1test_1adc90196fde3358ff276f6d7ba810a504" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::failover::test::TEST</definition>
+        <argsstring>(TopologyVersioning, VersionIncrementSequential)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::failover::test::TEST</qualifiedname>
+        <param>
+          <type>TopologyVersioning</type>
+        </param>
+        <param>
+          <type>VersionIncrementSequential</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_wave_a_topology_versioning.cpp" line="103" column="1" bodyfile="tests/failover/test_failover_wave_a_topology_versioning.cpp" bodystart="103" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1failover_1_1test_1ab5fc9d4aa0eb947b4599b90ed97d4a23" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::failover::test::TEST</definition>
+        <argsstring>(TopologyVersioning, SnapshotDiffDetectsAddedNodes)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::failover::test::TEST</qualifiedname>
+        <param>
+          <type>TopologyVersioning</type>
+        </param>
+        <param>
+          <type>SnapshotDiffDetectsAddedNodes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_wave_a_topology_versioning.cpp" line="134" column="1" bodyfile="tests/failover/test_failover_wave_a_topology_versioning.cpp" bodystart="134" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1failover_1_1test_1ad27391d97e1602047ef7da02088969b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::failover::test::TEST</definition>
+        <argsstring>(TopologyVersioning, SnapshotDiffDetectsRemovedNodes)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::failover::test::TEST</qualifiedname>
+        <param>
+          <type>TopologyVersioning</type>
+        </param>
+        <param>
+          <type>SnapshotDiffDetectsRemovedNodes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_wave_a_topology_versioning.cpp" line="151" column="1" bodyfile="tests/failover/test_failover_wave_a_topology_versioning.cpp" bodystart="151" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1failover_1_1test_1af14aa417430a0d270d1621aa6275f6b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::failover::test::TEST</definition>
+        <argsstring>(TopologyVersioning, SnapshotSameNoChange)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::failover::test::TEST</qualifiedname>
+        <param>
+          <type>TopologyVersioning</type>
+        </param>
+        <param>
+          <type>SnapshotSameNoChange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_wave_a_topology_versioning.cpp" line="171" column="1" bodyfile="tests/failover/test_failover_wave_a_topology_versioning.cpp" bodystart="171" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1failover_1_1test_1a9cc9bc8b7b1a09f364ec0e7ccef03d32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::failover::test::TEST</definition>
+        <argsstring>(TopologyVersioning, SnapshotSameDifferentVersionStillNoSetChange)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::failover::test::TEST</qualifiedname>
+        <param>
+          <type>TopologyVersioning</type>
+        </param>
+        <param>
+          <type>SnapshotSameDifferentVersionStillNoSetChange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_wave_a_topology_versioning.cpp" line="182" column="1" bodyfile="tests/failover/test_failover_wave_a_topology_versioning.cpp" bodystart="182" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1failover_1_1test_1a1e7423191702727166a38e033fa237c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::failover::test::TEST</definition>
+        <argsstring>(TopologyVersioning, RaceDetectTriggersRetry)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::failover::test::TEST</qualifiedname>
+        <param>
+          <type>TopologyVersioning</type>
+        </param>
+        <param>
+          <type>RaceDetectTriggersRetry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_wave_a_topology_versioning.cpp" line="194" column="1" bodyfile="tests/failover/test_failover_wave_a_topology_versioning.cpp" bodystart="194" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1failover_1_1test_1a7ba76ca15750c2cbfc52706b85210704" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::failover::test::TEST</definition>
+        <argsstring>(TopologyVersioning, CaptureProducesSortedDeterministicNodeList)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::failover::test::TEST</qualifiedname>
+        <param>
+          <type>TopologyVersioning</type>
+        </param>
+        <param>
+          <type>CaptureProducesSortedDeterministicNodeList</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_wave_a_topology_versioning.cpp" line="224" column="1" bodyfile="tests/failover/test_failover_wave_a_topology_versioning.cpp" bodystart="224" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1failover_1_1test_1a68ec0badc088fb2571f930c943f60e93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::failover::test::TEST</definition>
+        <argsstring>(TopologyVersioning, CaptureEmptyMapGivesEmptySnapshot)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::failover::test::TEST</qualifiedname>
+        <param>
+          <type>TopologyVersioning</type>
+        </param>
+        <param>
+          <type>CaptureEmptyMapGivesEmptySnapshot</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_wave_a_topology_versioning.cpp" line="247" column="1" bodyfile="tests/failover/test_failover_wave_a_topology_versioning.cpp" bodystart="247" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1failover_1_1test_1a92015c61c4ba0d8b5a02c7986ec8753d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::failover::test::TEST</definition>
+        <argsstring>(TopologyVersioning, CapturePreservesFailureCounts)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::failover::test::TEST</qualifiedname>
+        <param>
+          <type>TopologyVersioning</type>
+        </param>
+        <param>
+          <type>CapturePreservesFailureCounts</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_wave_a_topology_versioning.cpp" line="255" column="1" bodyfile="tests/failover/test_failover_wave_a_topology_versioning.cpp" bodystart="255" bodyend="260"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/failover/test_failover_chaos_scenarios.cpp" line="54" column="33"/>
+  </compounddef>
+</doxygen>

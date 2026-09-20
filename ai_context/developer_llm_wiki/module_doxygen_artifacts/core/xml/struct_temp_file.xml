@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_temp_file" kind="struct" language="C++" prot="public">
+    <compoundname>TempFile</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_temp_file_1a5d886f9d26ef2427a4fb5b905043eba9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string TempFile::path</definition>
+        <argsstring></argsstring>
+        <name>path</name>
+        <qualifiedname>TempFile::path</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_plugin_loading_focused.cpp" line="17" column="17" bodyfile="tests/core/test_plugin_loading_focused.cpp" bodystart="17" bodyend="17"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_temp_file_1aba19b8ea902a82460ab1133fce27dce0" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>TempFile::TempFile</definition>
+        <argsstring>(const std::string &amp;suffix, const std::string &amp;content=&quot;&quot;)</argsstring>
+        <name>TempFile</name>
+        <qualifiedname>TempFile::TempFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>suffix</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_plugin_loading_focused.cpp" line="19" column="14" bodyfile="tests/core/test_plugin_loading_focused.cpp" bodystart="19" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_temp_file_1a2ca3f5fbdcb1acc1d673806b4860c802" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>TempFile::~TempFile</definition>
+        <argsstring>()</argsstring>
+        <name>~TempFile</name>
+        <qualifiedname>TempFile::~TempFile</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_plugin_loading_focused.cpp" line="29" column="5" bodyfile="tests/core/test_plugin_loading_focused.cpp" bodystart="29" bodyend="32"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/core/test_plugin_loading_focused.cpp" line="16" column="1" bodyfile="tests/core/test_plugin_loading_focused.cpp" bodystart="16" bodyend="33"/>
+    <listofallmembers>
+      <member refid="struct_temp_file_1a5d886f9d26ef2427a4fb5b905043eba9" prot="public" virt="non-virtual"><scope>TempFile</scope><name>path</name></member>
+      <member refid="struct_temp_file_1aba19b8ea902a82460ab1133fce27dce0" prot="public" virt="non-virtual"><scope>TempFile</scope><name>TempFile</name></member>
+      <member refid="struct_temp_file_1a2ca3f5fbdcb1acc1d673806b4860c802" prot="public" virt="non-virtual"><scope>TempFile</scope><name>~TempFile</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

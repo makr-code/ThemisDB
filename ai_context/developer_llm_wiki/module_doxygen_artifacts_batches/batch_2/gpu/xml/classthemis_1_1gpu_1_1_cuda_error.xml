@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_cuda_error" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::CudaError</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::runtime_error</basecompoundref>
+    <includes refid="gpu__safe__operations_8h" local="no">gpu_safe_operations.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_cuda_error_1a44b6911cd7a51c8bf8ca3733a6bdabcd" prot="private" static="no" mutable="no">
+        <type><ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref></type>
+        <definition>cudaError_t themis::gpu::CudaError::error_code_</definition>
+        <argsstring></argsstring>
+        <name>error_code_</name>
+        <qualifiedname>themis::gpu::CudaError::error_code_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="109" column="17" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_error_1af2afef8ce8c94200f998779247a5cf07" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::CudaError::CudaError</definition>
+        <argsstring>(const char *call_str, cudaError_t err, const char *file, int line)</argsstring>
+        <name>CudaError</name>
+        <qualifiedname>themis::gpu::CudaError::CudaError</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>call_str</declname>
+        </param>
+        <param>
+          <type><ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref></type>
+          <declname>err</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>file</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>line</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="102" column="5" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="102" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_error_1a41e188762cc8e3a1248ca5408c72310e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref></type>
+        <definition>cudaError_t themis::gpu::CudaError::error_code</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>error_code</name>
+        <qualifiedname>themis::gpu::CudaError::error_code</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="106" column="18" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="106" bodyend="106"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_error_1ac2d6f758d60e572d6f9995a1c171ac3f" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::gpu::CudaError::build_message</definition>
+        <argsstring>(const char *call_str, cudaError_t err, const char *file, int line)</argsstring>
+        <name>build_message</name>
+        <qualifiedname>themis::gpu::CudaError::build_message</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>call_str</declname>
+        </param>
+        <param>
+          <type><ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref></type>
+          <declname>err</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>file</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>line</declname>
+        </param>
+        <briefdescription>
+<para>Build message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">call_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">line</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::to_string(), <ref refid="gpu__safe__operations_8h_1a888156d4d16b516a753d5b21b17c84ea" kindref="member">cudaGetErrorString()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="120" column="24" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="120" bodyend="131"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::gpu::CudaError</label>
+        <link refid="classthemis_1_1gpu_1_1_cuda_error"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::gpu::CudaError</label>
+        <link refid="classthemis_1_1gpu_1_1_cuda_error"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/gpu/gpu_safe_operations.h" line="100" column="1" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="100" bodyend="132"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_cuda_error_1ac2d6f758d60e572d6f9995a1c171ac3f" prot="private" virt="non-virtual"><scope>themis::gpu::CudaError</scope><name>build_message</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_error_1af2afef8ce8c94200f998779247a5cf07" prot="public" virt="non-virtual"><scope>themis::gpu::CudaError</scope><name>CudaError</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_error_1a41e188762cc8e3a1248ca5408c72310e" prot="public" virt="non-virtual"><scope>themis::gpu::CudaError</scope><name>error_code</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_error_1a44b6911cd7a51c8bf8ca3733a6bdabcd" prot="private" virt="non-virtual"><scope>themis::gpu::CudaError</scope><name>error_code_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

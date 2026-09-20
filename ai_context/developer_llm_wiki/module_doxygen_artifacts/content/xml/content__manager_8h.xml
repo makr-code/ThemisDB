@@ -1,0 +1,683 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="content__manager_8h" kind="file" language="C++">
+    <compoundname>content_manager.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">istream</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes refid="content__type_8h" local="yes">content/content_type.h</includes>
+    <includes refid="content__processor_8h" local="yes">content/content_processor.h</includes>
+    <includes refid="deduplication__checker_8h" local="yes">content/deduplication_checker.h</includes>
+    <includes refid="embedding__pipeline_8h" local="yes">content/embedding_pipeline.h</includes>
+    <includes refid="mime__detector_8h" local="yes">content/mime_detector.h</includes>
+    <includes refid="processor__chain__config_8h" local="yes">content/processor_chain_config.h</includes>
+    <includes local="yes">storage/base_entity.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="yes">index/vector_index.h</includes>
+    <includes local="yes">index/graph_index.h</includes>
+    <includes local="yes">index/secondary_index.h</includes>
+    <includes local="yes">security/encryption.h</includes>
+    <includes local="yes">security/malware_scanner.h</includes>
+    <includedby refid="async__ingestion__worker_8cpp" local="yes">src/content/async_ingestion_worker.cpp</includedby>
+    <includedby refid="content__manager_8cpp" local="yes">src/content/content_manager.cpp</includedby>
+    <includedby refid="content__manager__embedding_8cpp" local="yes">src/content/content_manager_embedding.cpp</includedby>
+    <includedby refid="content__manager__llm_8cpp" local="yes">src/content/content_manager_llm.cpp</includedby>
+    <includedby refid="test__content__deduplication_8cpp" local="yes">tests/content/test_content_deduplication.cpp</includedby>
+    <includedby refid="test__content__fulltext__index_8cpp" local="yes">tests/content/test_content_fulltext_index.cpp</includedby>
+    <includedby refid="test__content__toolbox__bridge_8cpp" local="yes">tests/content/test_content_toolbox_bridge.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/content/content_manager.h</label>
+        <link refid="content__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>content/content_policy.h</label>
+        <link refid="content__policy_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>content/content_processor.h</label>
+        <link refid="content__processor_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>content/content_type.h</label>
+        <link refid="content__type_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>content/deduplication_checker.h</label>
+        <link refid="deduplication__checker_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>content/embedding_pipeline.h</label>
+        <link refid="embedding__pipeline_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>content/mime_detector.h</label>
+        <link refid="mime__detector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>content/processor_chain_config.h</label>
+        <link refid="processor__chain__config_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="15">
+        <label>cache/bounded_lru_cache.h</label>
+      </node>
+      <node id="18">
+        <label>chrono</label>
+      </node>
+      <node id="14">
+        <label>cstdint</label>
+      </node>
+      <node id="11">
+        <label>functional</label>
+      </node>
+      <node id="27">
+        <label>index/graph_index.h</label>
+      </node>
+      <node id="28">
+        <label>index/secondary_index.h</label>
+      </node>
+      <node id="26">
+        <label>index/vector_index.h</label>
+      </node>
+      <node id="8">
+        <label>istream</label>
+      </node>
+      <node id="23">
+        <label>map</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="29">
+        <label>security/encryption.h</label>
+      </node>
+      <node id="30">
+        <label>security/malware_scanner.h</label>
+      </node>
+      <node id="21">
+        <label>set</label>
+      </node>
+      <node id="25">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="16">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="20">
+        <label>string_view</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/content/content_manager.h</label>
+        <link refid="content__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/content/async_ingestion_worker.cpp</label>
+        <link refid="async__ingestion__worker_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/content/content_manager.cpp</label>
+        <link refid="content__manager_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/content/content_manager_embedding.cpp</label>
+        <link refid="content__manager__embedding_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/content/content_manager_llm.cpp</label>
+        <link refid="content__manager__llm_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/content/test_content_deduplication.cpp</label>
+        <link refid="test__content__deduplication_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/content/test_content_fulltext_index.cpp</label>
+        <link refid="test__content__fulltext__index_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/content/test_content_toolbox_bridge.cpp</label>
+        <link refid="test__content__toolbox__bridge_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1content_1_1_content_meta" prot="public">themis::content::ContentMeta</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_chunk_meta" prot="public">themis::content::ChunkMeta</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_content_assembly" prot="public">themis::content::ContentAssembly</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_status" prot="public">themis::content::Status</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_content_manager" prot="public">themis::content::ContentManager</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_content_manager_1_1_ingest_result" prot="public">themis::content::ContentManager::IngestResult</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_content_manager_1_1_ingest_result_1_1_stage_outcome" prot="public">themis::content::ContentManager::IngestResult::StageOutcome</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_content_manager_1_1_stats" prot="public">themis::content::ContentManager::Stats</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_content_manager_1_1_metrics" prot="public">themis::content::ContentManager::Metrics</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1content">themis::content</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;istream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="content__type_8h" kindref="compound">content/content_type.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="content__processor_8h" kindref="compound">content/content_processor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="deduplication__checker_8h" kindref="compound">content/deduplication_checker.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="embedding__pipeline_8h" kindref="compound">content/embedding_pipeline.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="mime__detector_8h" kindref="compound">content/mime_detector.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="processor__chain__config_8h" kindref="compound">content/processor_chain_config.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/base_entity.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/vector_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/graph_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/secondary_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;security/encryption.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;security/malware_scanner.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1content" kindref="compound">content</ref><sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1content_1_1_content_meta" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1_content_meta" kindref="compound">ContentMeta</ref><sp/>{</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1content_1_1_content_meta_1a2c0d3851df6271190d2d3054faa6bcea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_content_meta_1a2c0d3851df6271190d2d3054faa6bcea" kindref="member">id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Content<sp/>UUID<sp/>(without<sp/>&quot;content:&quot;<sp/>prefix)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1content_1_1_content_meta_1ab967a4a9b0ad069732c272e4ff32f2b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_content_meta_1ab967a4a9b0ad069732c272e4ff32f2b2" kindref="member">mime_type</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>MIME<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1content_1_1_content_meta_1a503b04ec71fea51f9a617afeebc9efd5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_category" kindref="compound">ContentCategory</ref><sp/><ref refid="structthemis_1_1content_1_1_content_meta_1a503b04ec71fea51f9a617afeebc9efd5" kindref="member">category</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Category</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1content_1_1_content_meta_1aa5bd8371e448287c36384e7e6e892c63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_content_meta_1aa5bd8371e448287c36384e7e6e892c63" kindref="member">original_filename</ref>;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Original<sp/>filename</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1content_1_1_content_meta_1a718a5b03891d88754bc8e279eb1870c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1content_1_1_content_meta_1a718a5b03891d88754bc8e279eb1870c1" kindref="member">size_bytes</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Original<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compression/Encryption<sp/>flags<sp/>for<sp/>stored<sp/>blob</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1content_1_1_content_meta_1a197a9903b030769a8e5f1abb8109232a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_meta_1a197a9903b030769a8e5f1abb8109232a" kindref="member">compressed</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>True<sp/>if<sp/>original<sp/>blob<sp/>stored<sp/>compressed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1content_1_1_content_meta_1a81191ac9a2d34a902807fb3557c2d2a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_content_meta_1a81191ac9a2d34a902807fb3557c2d2a5" kindref="member">compression_type</ref>;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e.g.,<sp/>&quot;zstd&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1content_1_1_content_meta_1a185dda315d22b4c9644d998a6b810af2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_meta_1a185dda315d22b4c9644d998a6b810af2" kindref="member">encrypted</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>True<sp/>if<sp/>blob<sp/>stored<sp/>encrypted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1content_1_1_content_meta_1ade206b71bd2e3db0a855ee489f1d7d9e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_content_meta_1ade206b71bd2e3db0a855ee489f1d7d9e" kindref="member">encryption_type</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e.g.,<sp/>&quot;aes-256-gcm&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1content_1_1_content_meta_1a7db40ca8cd28e5a0ae2a9ecad06d3145" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1content_1_1_content_meta_1a7db40ca8cd28e5a0ae2a9ecad06d3145" kindref="member">created_at</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Upload<sp/>timestamp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1content_1_1_content_meta_1aded0400c8f0ddbd917527a41cd7763be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1content_1_1_content_meta_1aded0400c8f0ddbd917527a41cd7763be" kindref="member">modified_at</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Last<sp/>modification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1content_1_1_content_meta_1a5319fc7e738640433d0d185be23d518f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_content_meta_1a5319fc7e738640433d0d185be23d518f" kindref="member">hash_sha256</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Content<sp/>hash<sp/>(for<sp/>deduplication)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Processing<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1content_1_1_content_meta_1a7ff5ef3668b6d662eaed88416e0481c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_meta_1a7ff5ef3668b6d662eaed88416e0481c0" kindref="member">text_extracted</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Text<sp/>extraction<sp/>successful</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1content_1_1_content_meta_1af03c56f892a625b48efe131c9ac51efb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_meta_1af03c56f892a625b48efe131c9ac51efb" kindref="member">chunked</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Content<sp/>has<sp/>been<sp/>chunked</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1content_1_1_content_meta_1a353ecf16a4d36d4964dac0202024a535" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_meta_1a353ecf16a4d36d4964dac0202024a535" kindref="member">indexed</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Chunks<sp/>indexed<sp/>in<sp/>VectorIndex</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1content_1_1_content_meta_1ab8df252e83a19dc7c79bc7df7889d002" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_meta_1ab8df252e83a19dc7c79bc7df7889d002" kindref="member">chunk_count</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Number<sp/>of<sp/>chunks<sp/>created</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1content_1_1_content_meta_1a497ab985e01122cc5e06662e9e5adf4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_meta_1a497ab985e01122cc5e06662e9e5adf4b" kindref="member">embedding_dim</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Embedding<sp/>dimension<sp/>(if<sp/>applicable)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Type-specific<sp/>metadata<sp/>(from<sp/>extraction)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1content_1_1_content_meta_1a49480b225fb6496f0415ba8257c0493b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref><sp/><ref refid="structthemis_1_1content_1_1_content_meta_1a49480b225fb6496f0415ba8257c0493b" kindref="member">extracted_metadata</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>EXIF,<sp/>ID3,<sp/>CAD<sp/>properties,<sp/>etc.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>User<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1content_1_1_content_meta_1af8ad1ab8cceeb4aef4fe8bb287f19475" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref><sp/><ref refid="structthemis_1_1content_1_1_content_meta_1af8ad1ab8cceeb4aef4fe8bb287f19475" kindref="member">user_metadata</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Application-defined<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1content_1_1_content_meta_1a2db06e8601197f3d24b4c74bca94d10f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_meta_1a2db06e8601197f3d24b4c74bca94d10f" kindref="member">tags</ref>;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>User-defined<sp/>tags</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Relations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1content_1_1_content_meta_1aeb2a26bb4a2d69842fa520c4988125f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_content_meta_1aeb2a26bb4a2d69842fa520c4988125f5" kindref="member">parent_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Parent<sp/>content<sp/>(e.g.,<sp/>archive<sp/>member)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1content_1_1_content_meta_1a897a278d8a832fd103d6825291d96da1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_meta_1a897a278d8a832fd103d6825291d96da1" kindref="member">child_ids</ref>;<sp/></highlight><highlight class="comment">//<sp/>Child<sp/>content<sp/>(e.g.,<sp/>CAD<sp/>parts,<sp/>archive<sp/>files)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Virtual<sp/>Filesystem</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1content_1_1_content_meta_1ae5bf872c52261f448267b801a8ffc0fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_content_meta_1ae5bf872c52261f448267b801a8ffc0fe" kindref="member">virtual_path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Virtual<sp/>filesystem<sp/>path<sp/>(e.g.,<sp/>&quot;/documents/report.pdf&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1content_1_1_content_meta_1a8c36f85f4a5dfbdba0141184f81a524b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_meta_1a8c36f85f4a5dfbdba0141184f81a524b" kindref="member">is_directory</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>True<sp/>if<sp/>this<sp/>represents<sp/>a<sp/>directory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref><sp/><ref refid="structthemis_1_1content_1_1_content_meta_1aacb5281fffd0fc5db0a73b53e007a94b" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_meta" kindref="compound">ContentMeta</ref><sp/><ref refid="structthemis_1_1content_1_1_content_meta_1a41bbc2a8de9e8672f97e23fb44432768" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref>&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1content_1_1_chunk_meta" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1_chunk_meta" kindref="compound">ChunkMeta</ref><sp/>{</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1content_1_1_chunk_meta_1a42cc2ec2706abfd9f1faa3aa272862c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_chunk_meta_1a42cc2ec2706abfd9f1faa3aa272862c5" kindref="member">id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Chunk<sp/>UUID<sp/>(without<sp/>&quot;chunk:&quot;<sp/>prefix)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1content_1_1_chunk_meta_1ae2f4dc08af282d174a553e9972338cb1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_chunk_meta_1ae2f4dc08af282d174a553e9972338cb1" kindref="member">content_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Parent<sp/>content<sp/>ID<sp/>(FK<sp/>to<sp/>Content)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1content_1_1_chunk_meta_1a3d3706b3ace5d31f57a5cdbab717e9b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_chunk_meta_1a3d3706b3ace5d31f57a5cdbab717e9b0" kindref="member">seq_num</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sequence<sp/>number<sp/>within<sp/>content<sp/>(0-based)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1content_1_1_chunk_meta_1a92933006143842d0e02a17a3ba97dcdd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_chunk_meta_1a92933006143842d0e02a17a3ba97dcdd" kindref="member">chunk_type</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;text&quot;,<sp/>&quot;image_region&quot;,<sp/>&quot;audio_segment&quot;,<sp/>&quot;table_row&quot;,<sp/>etc.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Chunk<sp/>data<sp/>(type-dependent)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1content_1_1_chunk_meta_1abb0f0ab81fdc95eb678ab472ec8bfcc4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_chunk_meta_1abb0f0ab81fdc95eb678ab472ec8bfcc4" kindref="member">text</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>text<sp/>chunks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1content_1_1_chunk_meta_1a7fe7d91b06094b0e78a076c527ec625b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref><sp/><ref refid="structthemis_1_1content_1_1_chunk_meta_1a7fe7d91b06094b0e78a076c527ec625b" kindref="member">data</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>structured<sp/>chunks<sp/>(JSON,<sp/>CSV<sp/>row,<sp/>etc.)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1content_1_1_chunk_meta_1ac23a870ab5548b0428fd1905c553da99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_chunk_meta_1ac23a870ab5548b0428fd1905c553da99" kindref="member">blob_ref</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reference<sp/>to<sp/>blob<sp/>storage<sp/>(for<sp/>binary<sp/>chunks)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Positional<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1content_1_1_chunk_meta_1ad07889e47d177c7a2bd079446bdea65c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_chunk_meta_1ad07889e47d177c7a2bd079446bdea65c" kindref="member">start_offset</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Start<sp/>position<sp/>in<sp/>original<sp/>content</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1content_1_1_chunk_meta_1a77ee2ca66073cd5900e0e34119c6a655" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_chunk_meta_1a77ee2ca66073cd5900e0e34119c6a655" kindref="member">end_offset</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>End<sp/>position<sp/>in<sp/>original<sp/>content</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Embedding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1content_1_1_chunk_meta_1ae71c78b33b512c5e1b15b51b3c76e491" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="structthemis_1_1content_1_1_chunk_meta_1ae71c78b33b512c5e1b15b51b3c76e491" kindref="member">embedding</ref>;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional:<sp/>Store<sp/>embedding<sp/>directly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1content_1_1_chunk_meta_1a1f0c2463a03bc162bfa923c914ce3a22" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_chunk_meta_1a1f0c2463a03bc162bfa923c914ce3a22" kindref="member">embedding_indexed</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>True<sp/>if<sp/>in<sp/>VectorIndex</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1content_1_1_chunk_meta_1a6389a747f461a9d36f2196fcb5995fc0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1content_1_1_chunk_meta_1a6389a747f461a9d36f2196fcb5995fc0" kindref="member">created_at</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Creation<sp/>timestamp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref><sp/><ref refid="structthemis_1_1content_1_1_chunk_meta_1ab3d5f10597ff7e85db9d5320732f0417" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_chunk_meta" kindref="compound">ChunkMeta</ref><sp/><ref refid="structthemis_1_1content_1_1_chunk_meta_1a54fa9b57eb3bba45cab4b79df4b737df" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref>&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1content_1_1_content_assembly" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1_content_assembly" kindref="compound">ContentAssembly</ref><sp/>{</highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1content_1_1_content_assembly_1aa6a5ecdd93ac2abccd3cb691a907255f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_meta" kindref="compound">ContentMeta</ref><sp/><ref refid="structthemis_1_1content_1_1_content_assembly_1aa6a5ecdd93ac2abccd3cb691a907255f" kindref="member">metadata</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Content<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1content_1_1_content_assembly_1a7b066bab2923961cbf7a587f543e63d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ChunkMeta&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_assembly_1a7b066bab2923961cbf7a587f543e63d0" kindref="member">chunks</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>chunks<sp/>(ordered<sp/>by<sp/>seq_num)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1content_1_1_content_assembly_1a4767c5007bb17042c6b172c71c1b90b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_assembly_1a4767c5007bb17042c6b172c71c1b90b2" kindref="member">assembled_text</ref>;<sp/></highlight><highlight class="comment">//<sp/>Full<sp/>text<sp/>(lazy:<sp/>only<sp/>if<sp/>requested)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1content_1_1_content_assembly_1a48b912d00f0923f2442948c599c608e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1content_1_1_content_assembly_1a48b912d00f0923f2442948c599c608e4" kindref="member">total_size_bytes</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Total<sp/>size<sp/>of<sp/>all<sp/>chunks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;ChunkMeta&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_assembly_1ae944c1dd18b06f056bfb2f4ce0a1f270" kindref="member">getChunkBySeqNum</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>seq_num)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Ingestion<sp/>wurde<sp/>entfernt.<sp/>Stattdessen<sp/>erwartet<sp/>der<sp/>Server<sp/>bereits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>vorverarbeitete,<sp/>strukturierte<sp/>JSON-Objekte<sp/>über<sp/>/content/import.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="structthemis_1_1content_1_1_status" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1_status" kindref="compound">Status</ref><sp/>{</highlight></codeline>
+<codeline lineno="143" refid="structthemis_1_1content_1_1_status_1ad928e99536fcf274bc98b58be559f9b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_status_1ad928e99536fcf274bc98b58be559f9b2" kindref="member">ok</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144" refid="structthemis_1_1content_1_1_status_1a5c2ad576e20088fef687f196eb74f694" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_status_1a5c2ad576e20088fef687f196eb74f694" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="150" refid="structthemis_1_1content_1_1_status_1a75c7ffdeccb08a9087db244f55ef3e7d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_status" kindref="compound">Status</ref><sp/><ref refid="structthemis_1_1content_1_1_status_1a75c7ffdeccb08a9087db244f55ef3e7d" kindref="member">OK</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="157" refid="structthemis_1_1content_1_1_status_1a436e87233b7b5cacb9043db1bbb983ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_status" kindref="compound">Status</ref><sp/><ref refid="structthemis_1_1content_1_1_status_1a436e87233b7b5cacb9043db1bbb983ac" kindref="member">Error</ref>(std::string<sp/>msg)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_status" kindref="compound">Status</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>std::move(msg)};<sp/>}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="classthemis_1_1content_1_1_content_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1content_1_1_content_manager_1aaed95adc8342ce826fb094e6e7f999e4" kindref="member">ContentManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_content_manager_1aaed95adc8342ce826fb094e6e7f999e4" kindref="member">ContentManager</ref>(</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;RocksDBWrapper&gt;<sp/><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref>,</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;VectorIndexManager&gt;<sp/>vector_index,</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;GraphIndexManager&gt;<sp/>graph_index,</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;SecondaryIndexManager&gt;<sp/>secondary_index,</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;FieldEncryption&gt;<sp/>field_encryption<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="170" refid="classthemis_1_1content_1_1_content_manager_1a8214d20fcc04fa0e237e2c761f714a6e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_content_manager_1a8214d20fcc04fa0e237e2c761f714a6e" kindref="member">~ContentManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_content_manager_1a71a11f761314bbff1a87c61b27b6c860" kindref="member">registerProcessor</ref>(std::unique_ptr&lt;IContentProcessor&gt;<sp/>processor);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>user_context:<sp/>z.B.<sp/>Benutzer-ID<sp/>für<sp/>kontextabhängige<sp/>Verschlüsselung</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1content_1_1_status" kindref="compound">Status</ref><sp/><ref refid="classthemis_1_1content_1_1_content_manager_1a59f46ae90d81b341eca4a12d077ba636" kindref="member">importContent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref>&amp;<sp/>spec,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;std::string&gt;&amp;<sp/>blob<sp/>=<sp/>std::nullopt,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_context<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181" refid="structthemis_1_1content_1_1_content_manager_1_1_ingest_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1_content_manager_1_1_ingest_result" kindref="compound">IngestResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="182" refid="structthemis_1_1content_1_1_content_manager_1_1_ingest_result_1a503e1c5fa7a976a9cbd8e32c66f52bd6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_manager_1_1_ingest_result_1a503e1c5fa7a976a9cbd8e32c66f52bd6" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="183" refid="structthemis_1_1content_1_1_content_manager_1_1_ingest_result_1a6f13293a7d0b33eb79a405377f4d63e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_content_manager_1_1_ingest_result_1a6f13293a7d0b33eb79a405377f4d63e9" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="184" refid="structthemis_1_1content_1_1_content_manager_1_1_ingest_result_1a5e1a86e0ee180cccb7740ef7c17d3d6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_content_manager_1_1_ingest_result_1a5e1a86e0ee180cccb7740ef7c17d3d6f" kindref="member">primary_content_id</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Main<sp/>content<sp/>ID<sp/>(archive<sp/>or<sp/>single<sp/>file)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185" refid="structthemis_1_1content_1_1_content_manager_1_1_ingest_result_1aebfb1b20fb4ded7d71a6cc7e62056089" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_manager_1_1_ingest_result_1aebfb1b20fb4ded7d71a6cc7e62056089" kindref="member">extracted_content_ids</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>IDs<sp/>of<sp/>extracted<sp/>files<sp/>(for<sp/>archives)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186" refid="structthemis_1_1content_1_1_content_manager_1_1_ingest_result_1af1249fd7e56b2ecc3c1b2e895e48c8c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref><sp/><ref refid="structthemis_1_1content_1_1_content_manager_1_1_ingest_result_1af1249fd7e56b2ecc3c1b2e895e48c8c1" kindref="member">metadata</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Additional<sp/>metadata<sp/>about<sp/>the<sp/>ingestion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188" refid="structthemis_1_1content_1_1_content_manager_1_1_ingest_result_1_1_stage_outcome" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1_content_manager_1_1_ingest_result_1_1_stage_outcome" kindref="compound">StageOutcome</ref><sp/>{</highlight></codeline>
+<codeline lineno="189" refid="structthemis_1_1content_1_1_content_manager_1_1_ingest_result_1_1_stage_outcome_1a5cf8b23e1a22e3612d41c7b432e1d1b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_content_manager_1_1_ingest_result_1_1_stage_outcome_1a5cf8b23e1a22e3612d41c7b432e1d1b7" kindref="member">stage_name</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="190" refid="structthemis_1_1content_1_1_content_manager_1_1_ingest_result_1_1_stage_outcome_1ad59a3751fbfe6598321d38fd77be8efe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_manager_1_1_ingest_result_1_1_stage_outcome_1ad59a3751fbfe6598321d38fd77be8efe" kindref="member">succeeded</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="191" refid="structthemis_1_1content_1_1_content_manager_1_1_ingest_result_1_1_stage_outcome_1ad4b3388e5047edb3c2f4f322c1ca1a00" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_manager_1_1_ingest_result_1_1_stage_outcome_1ad4b3388e5047edb3c2f4f322c1ca1a00" kindref="member">skipped</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="192" refid="structthemis_1_1content_1_1_content_manager_1_1_ingest_result_1_1_stage_outcome_1aa1c1f51d27f155c1752004650ea2e830" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_manager_1_1_ingest_result_1_1_stage_outcome_1aa1c1f51d27f155c1752004650ea2e830" kindref="member">attempts</ref><sp/>=<sp/>1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="193" refid="structthemis_1_1content_1_1_content_manager_1_1_ingest_result_1_1_stage_outcome_1a8dee99b0fa96b51c893640c9dc9b8f52" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_content_manager_1_1_ingest_result_1_1_stage_outcome_1a8dee99b0fa96b51c893640c9dc9b8f52" kindref="member">error_message</ref>;<sp/></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="195" refid="structthemis_1_1content_1_1_content_manager_1_1_ingest_result_1ac427c42f3fe4b478645986082e5bfba2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;StageOutcome&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_manager_1_1_ingest_result_1ac427c42f3fe4b478645986082e5bfba2" kindref="member">stage_outcomes</ref>;<sp/></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1content_1_1_content_manager_1_1_ingest_result" kindref="compound">IngestResult</ref><sp/><ref refid="classthemis_1_1content_1_1_content_manager_1abc9a391645dcd3569d0599c2162ceebd" kindref="member">ingestRawBlob</ref>(</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>blob,</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filename,</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>mime_type<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_context<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref>&amp;<sp/>config<sp/>=<sp/>json::object()</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1content_1_1_content_manager_1_1_ingest_result" kindref="compound">IngestResult</ref><sp/><ref refid="classthemis_1_1content_1_1_content_manager_1ad5e3035922424741dbe72388253b3d02" kindref="member">ingestStream</ref>(</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::istream&amp;<sp/>stream,</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filename,</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>mime_type<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_context<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref>&amp;<sp/>config<sp/>=<sp/>json::object()</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>content<sp/>metadata;<sp/>optional<sp/>user_context<sp/>can<sp/>be<sp/>provided<sp/>for<sp/>contextual<sp/>decryption</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;ContentMeta&gt;<sp/><ref refid="classthemis_1_1content_1_1_content_manager_1a84881d1c3c69e361c0aaa2e34244aba1" kindref="member">getContentMeta</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_context<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="classthemis_1_1content_1_1_content_manager_1a81dd10a44a52464d63c30b6f8c51d7b1" kindref="member">getContentBlob</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_context<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ChunkMeta&gt;<sp/><ref refid="classthemis_1_1content_1_1_content_manager_1adceeb0908c21bdb802fed09ff9c3a506" kindref="member">getContentChunks</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content_id);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;ChunkMeta&gt;<sp/><ref refid="classthemis_1_1content_1_1_content_manager_1a6eaa4de04b29d99d61c2ecdf35c441e5" kindref="member">getChunk</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>chunk_id);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;ContentAssembly&gt;<sp/><ref refid="classthemis_1_1content_1_1_content_manager_1a65882eef6d29c6a9ac05b67ce1ed1b52" kindref="member">assembleContent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content_id,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>include_text<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;ChunkMeta&gt;<sp/><ref refid="classthemis_1_1content_1_1_content_manager_1a64bb95041700f863158204445f8932c9" kindref="member">getNextChunk</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>chunk_id);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;ChunkMeta&gt;<sp/><ref refid="classthemis_1_1content_1_1_content_manager_1ae3d6437cbd79073806e4d8acaaf14cdd" kindref="member">getPreviousChunk</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>chunk_id);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ChunkMeta&gt;<sp/><ref refid="classthemis_1_1content_1_1_content_manager_1a76c82e4c2c862250e11a43057c456ba4" kindref="member">getChunkRange</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content_id,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>start_seq,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>count);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>float&gt;&gt;<sp/><ref refid="classthemis_1_1content_1_1_content_manager_1ae23f2b4b49d71cc511c2b481b96d8a1d" kindref="member">searchContent</ref>(</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_text,</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>k,</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref>&amp;<sp/>filters<sp/>=<sp/>json::object()</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>float&gt;&gt;<sp/><ref refid="classthemis_1_1content_1_1_content_manager_1aa805ac700ca4a84488cd6b1cdc630300" kindref="member">searchContentHybrid</ref>(</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_text,</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>k,</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref>&amp;<sp/>filters<sp/>=<sp/>json::object(),</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>vector_weight<sp/>=<sp/>0.5f,</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>fulltext_weight<sp/>=<sp/>0.5f,</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>rrf_k<sp/>=<sp/>60.0f</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>float&gt;&gt;<sp/><ref refid="classthemis_1_1content_1_1_content_manager_1a2c6a8eabfd623eb57947e233ca5a1235" kindref="member">searchWithExpansion</ref>(</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_text,</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>k,</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>expansion_hops,</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref>&amp;<sp/>filters<sp/>=<sp/>json::object()</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1content_1_1_status" kindref="compound">Status</ref><sp/><ref refid="classthemis_1_1content_1_1_content_manager_1a09e336dc814fe7354f26a328496e2a70" kindref="member">deleteContent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content_id);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="classthemis_1_1content_1_1_content_manager_1a313e6b978b0dc2a9b502a71629c8d521" kindref="member">resolvePath</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>virtual_path);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ContentMeta&gt;<sp/><ref refid="classthemis_1_1content_1_1_content_manager_1a21794a0f885bbad798813d8b90f0ba22" kindref="member">listDirectory</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>virtual_path);</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1content_1_1_status" kindref="compound">Status</ref><sp/><ref refid="classthemis_1_1content_1_1_content_manager_1a9407674d58c8c0cc7f2630ca856721bc" kindref="member">createDirectory</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>virtual_path,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>recursive<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1content_1_1_status" kindref="compound">Status</ref><sp/><ref refid="classthemis_1_1content_1_1_content_manager_1a4d970af42dd4f5855a6a69558e59bfb3" kindref="member">registerPath</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>virtual_path);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_i_content_processor" kindref="compound">IContentProcessor</ref>*<sp/><ref refid="classthemis_1_1content_1_1_content_manager_1affea32cf178f17645404e09d14231698" kindref="member">getProcessor</ref>(<ref refid="structthemis_1_1content_1_1_content_category" kindref="compound">ContentCategory</ref><sp/>category);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307" refid="structthemis_1_1content_1_1_content_manager_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1_content_manager_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="308" refid="structthemis_1_1content_1_1_content_manager_1_1_stats_1a21d1ea6c63c6c666db48f5184f986964" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_manager_1_1_stats_1a21d1ea6c63c6c666db48f5184f986964" kindref="member">total_content_items</ref><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="309" refid="structthemis_1_1content_1_1_content_manager_1_1_stats_1a29447025b6cf4f2fd1796098a1a67a76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_manager_1_1_stats_1a29447025b6cf4f2fd1796098a1a67a76" kindref="member">total_chunks</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="310" refid="structthemis_1_1content_1_1_content_manager_1_1_stats_1a62aa141721b6833ec7054ca7904057eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_manager_1_1_stats_1a62aa141721b6833ec7054ca7904057eb" kindref="member">total_embeddings</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="311" refid="structthemis_1_1content_1_1_content_manager_1_1_stats_1a469a8a18c0fcbcab03cabf94f31243d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;ContentCategory,<sp/>int&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_manager_1_1_stats_1a469a8a18c0fcbcab03cabf94f31243d5" kindref="member">items_by_category</ref>;</highlight></codeline>
+<codeline lineno="312" refid="structthemis_1_1content_1_1_content_manager_1_1_stats_1aec57359c2b9667e50164af5bd17efc89" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1content_1_1_content_manager_1_1_stats_1aec57359c2b9667e50164af5bd17efc89" kindref="member">total_storage_bytes</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_manager_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemis_1_1content_1_1_content_manager_1aec276825f935f7a96365ef3a07c89a9b" kindref="member">getStats</ref>();</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320" refid="structthemis_1_1content_1_1_content_manager_1_1_metrics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1_content_manager_1_1_metrics" kindref="compound">Metrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="321" refid="structthemis_1_1content_1_1_content_manager_1_1_metrics_1ae3576a65efc187ee5d58aa4f7fb70da0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_manager_1_1_metrics_1ae3576a65efc187ee5d58aa4f7fb70da0" kindref="member">compressed_bytes_total</ref>{0};</highlight></codeline>
+<codeline lineno="322" refid="structthemis_1_1content_1_1_content_manager_1_1_metrics_1a19ffb048ba0bd574e886f5646c56bf2f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_manager_1_1_metrics_1a19ffb048ba0bd574e886f5646c56bf2f" kindref="member">uncompressed_bytes_total</ref>{0};</highlight></codeline>
+<codeline lineno="323" refid="structthemis_1_1content_1_1_content_manager_1_1_metrics_1ad6b6e0a5fc2a6070eb81b33917afbb81" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_manager_1_1_metrics_1ad6b6e0a5fc2a6070eb81b33917afbb81" kindref="member">compression_skipped_total</ref>{0};</highlight></codeline>
+<codeline lineno="324" refid="structthemis_1_1content_1_1_content_manager_1_1_metrics_1a465670d1f512c6485dc1414e77f4abc5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_manager_1_1_metrics_1a465670d1f512c6485dc1414e77f4abc5" kindref="member">compression_skipped_image_total</ref>{0};</highlight></codeline>
+<codeline lineno="325" refid="structthemis_1_1content_1_1_content_manager_1_1_metrics_1a92284c22e6e67d4d48addf771f750840" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_manager_1_1_metrics_1a92284c22e6e67d4d48addf771f750840" kindref="member">compression_skipped_video_total</ref>{0};</highlight></codeline>
+<codeline lineno="326" refid="structthemis_1_1content_1_1_content_manager_1_1_metrics_1abc124a00de37472cccd5f9c599af88ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_manager_1_1_metrics_1abc124a00de37472cccd5f9c599af88ef" kindref="member">compression_skipped_zip_total</ref>{0};</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compression<sp/>ratio<sp/>histogram-like<sp/>buckets<sp/>(per-upload)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="329" refid="structthemis_1_1content_1_1_content_manager_1_1_metrics_1a0447ad6d8b3cd19d4005a06ff38f821f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_manager_1_1_metrics_1a0447ad6d8b3cd19d4005a06ff38f821f" kindref="member">comp_ratio_le_1</ref>{0};</highlight></codeline>
+<codeline lineno="330" refid="structthemis_1_1content_1_1_content_manager_1_1_metrics_1ab897655c737f1568dc31e46fdbc26ca7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_manager_1_1_metrics_1ab897655c737f1568dc31e46fdbc26ca7" kindref="member">comp_ratio_le_1_5</ref>{0};</highlight></codeline>
+<codeline lineno="331" refid="structthemis_1_1content_1_1_content_manager_1_1_metrics_1aa3dde5e956ed0976ac351aeb1eb7ea8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_manager_1_1_metrics_1aa3dde5e956ed0976ac351aeb1eb7ea8c" kindref="member">comp_ratio_le_2</ref>{0};</highlight></codeline>
+<codeline lineno="332" refid="structthemis_1_1content_1_1_content_manager_1_1_metrics_1a139982cfc54de1a329a2ecab2dc26c38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_manager_1_1_metrics_1a139982cfc54de1a329a2ecab2dc26c38" kindref="member">comp_ratio_le_3</ref>{0};</highlight></codeline>
+<codeline lineno="333" refid="structthemis_1_1content_1_1_content_manager_1_1_metrics_1a0f980ccfb6361619322cf90264e91ebe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_manager_1_1_metrics_1a0f980ccfb6361619322cf90264e91ebe" kindref="member">comp_ratio_le_5</ref>{0};</highlight></codeline>
+<codeline lineno="334" refid="structthemis_1_1content_1_1_content_manager_1_1_metrics_1a076293c74c6309dd5946b0ab434418c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_manager_1_1_metrics_1a076293c74c6309dd5946b0ab434418c8" kindref="member">comp_ratio_le_10</ref>{0};</highlight></codeline>
+<codeline lineno="335" refid="structthemis_1_1content_1_1_content_manager_1_1_metrics_1a9bf73c581ad9002d0d2044f1ed6754e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_manager_1_1_metrics_1a9bf73c581ad9002d0d2044f1ed6754e8" kindref="member">comp_ratio_le_100</ref>{0};</highlight></codeline>
+<codeline lineno="336" refid="structthemis_1_1content_1_1_content_manager_1_1_metrics_1a5276ce352734512fda381c582a18cc38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_manager_1_1_metrics_1a5276ce352734512fda381c582a18cc38" kindref="member">comp_ratio_le_inf</ref>{0};</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sum/count<sp/>for<sp/>average<sp/>compression<sp/>ratio<sp/>(sum<sp/>stored<sp/>as<sp/>milli<sp/>*<sp/>1000)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="339" refid="structthemis_1_1content_1_1_content_manager_1_1_metrics_1a0f81b867f961695bb9f3ba0d2ada25b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_manager_1_1_metrics_1a0f81b867f961695bb9f3ba0d2ada25b9" kindref="member">comp_ratio_sum_milli</ref>{0};</highlight></codeline>
+<codeline lineno="340" refid="structthemis_1_1content_1_1_content_manager_1_1_metrics_1a711af2b512fd5cdfee4ec9f0a486e9df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_manager_1_1_metrics_1a711af2b512fd5cdfee4ec9f0a486e9df" kindref="member">comp_ratio_count</ref>{0};</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Deduplication<sp/>counters<sp/>(content_dedup_checks_total<sp/>/<sp/>content_dedup_hits_total)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="343" refid="structthemis_1_1content_1_1_content_manager_1_1_metrics_1a78a41484db93fdd27fce8a14d54fe1c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_manager_1_1_metrics_1a78a41484db93fdd27fce8a14d54fe1c7" kindref="member">dedup_checks_total</ref>{0};<sp/><sp/></highlight></codeline>
+<codeline lineno="344" refid="structthemis_1_1content_1_1_content_manager_1_1_metrics_1aa40cff533e4a9188ac4c9b33558d7c0d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_manager_1_1_metrics_1aa40cff533e4a9188ac4c9b33558d7c0d" kindref="member">dedup_hits_total</ref>{0};<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Metrics&amp;<sp/><ref refid="classthemis_1_1content_1_1_content_manager_1af17181743cf2383c0786ff8dfbbacfa4" kindref="member">getMetrics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_content_manager_1ad59250daae582807773ea7d094f66342" kindref="member">setMalwareFilter</ref>(std::shared_ptr&lt;themis::security::MalwareFilterManager&gt;<sp/>malware_filter);</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::security::MalwareFilterManager&gt;<sp/><ref refid="classthemis_1_1content_1_1_content_manager_1a3f5d31dee3622b4d9cd9d33f6041eead" kindref="member">getMalwareFilter</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Embedding<sp/>Pipeline</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_content_manager_1a0368e08f3d48cb5f5524a205e341bc4c" kindref="member">setEmbeddingPipeline</ref>(std::shared_ptr&lt;EmbeddingPipeline&gt;<sp/><ref refid="namespacethemis_1_1content_1_1pipeline" kindref="compound">pipeline</ref>);</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="classthemis_1_1content_1_1_content_manager_1a473f5f6d22695d384f17f05c1aeb7688" kindref="member">generateEmbedding</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text,</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"></highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LLM-assisted<sp/>content<sp/>analysis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="381"><highlight class="normal"></highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref><sp/><ref refid="classthemis_1_1content_1_1_content_manager_1a9df0a2e84c6aef30e95060a16781fa9c" kindref="member">analyzeContent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content_id);</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"></highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1content_1_1_content_manager_1aa043c1ca4da526ae10ee7c191ceecd9a" kindref="member">generateTags</ref>(</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content_id,</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_tags<sp/>=<sp/>10</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"></highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1content_1_1_content_manager_1aa7541c3dc5013e8485e65c1f63a51659" kindref="member">summarizeContent</ref>(</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content_id,</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_words<sp/>=<sp/>100</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"></highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1content_1_1_content_manager_1afda9b78a12f5ac055da7e700ee4aa258" kindref="member">classifyContent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content_id);</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"></highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref><sp/><ref refid="classthemis_1_1content_1_1_content_manager_1a8b2485457721331078f848d038187012" kindref="member">extractEntities</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content_id);</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"></highlight></codeline>
+<codeline lineno="417"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_content_manager_1aec70d121f8202e98d81b78615a511cb3" kindref="member">setDeduplicationChecker</ref>(std::shared_ptr&lt;DeduplicationChecker&gt;<sp/>checker);</highlight></codeline>
+<codeline lineno="418"><highlight class="normal"></highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;DeduplicationChecker&gt;<sp/><ref refid="classthemis_1_1content_1_1_content_manager_1a6831daaa40cba196ac9c9f187376ae1b" kindref="member">getDeduplicationChecker</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"></highlight></codeline>
+<codeline lineno="429"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_content_manager_1a9e88f6bbcd55233702329be05a6104be" kindref="member">setProcessorChainConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_processor_chain_config" kindref="compound">ProcessorChainConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"></highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_processor_chain_config" kindref="compound">ProcessorChainConfig</ref>&amp;<sp/><ref refid="classthemis_1_1content_1_1_content_manager_1a3d5710ccfd1ffed6d64121b69ba2fe48" kindref="member">getProcessorChainConfig</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"></highlight></codeline>
+<codeline lineno="437"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;RocksDBWrapper&gt;<sp/>storage_;</highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;VectorIndexManager&gt;<sp/>vector_index_;</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;GraphIndexManager&gt;<sp/>graph_index_;</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;SecondaryIndexManager&gt;<sp/>secondary_index_;</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;FieldEncryption&gt;<sp/>field_encryption_;</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::security::MalwareFilterManager&gt;<sp/>malware_filter_;</highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;EmbeddingPipeline&gt;<sp/>embedding_pipeline_;</highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;DeduplicationChecker&gt;<sp/>dedup_checker_;</highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_processor_chain_config" kindref="compound">ProcessorChainConfig</ref><sp/>processor_chain_config_;<sp/><sp/></highlight></codeline>
+<codeline lineno="447"><highlight class="normal"></highlight></codeline>
+<codeline lineno="448"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_mime_detector" kindref="compound">MimeDetector</ref><sp/>mime_detector_;</highlight></codeline>
+<codeline lineno="449"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Processor<sp/>registry<sp/>(Category<sp/>→<sp/>Processor)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;ContentCategory,<sp/>std::unique_ptr&lt;IContentProcessor&gt;&gt;<sp/>processors_;</highlight></codeline>
+<codeline lineno="452"><highlight class="normal"></highlight></codeline>
+<codeline lineno="453"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Metrics<sp/>instance<sp/>(atomics)<sp/>for<sp/>Prometheus<sp/>exposition</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="454"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>Metrics<sp/>metrics_;</highlight></codeline>
+<codeline lineno="455"><highlight class="normal"></highlight></codeline>
+<codeline lineno="456"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="461"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>generateUuid();</highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>normalizeId(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prefix);</highlight></codeline>
+<codeline lineno="474"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>computeSHA256(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>blob);</highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/>checkDuplicateByHash(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>hash);</highlight></codeline>
+<codeline lineno="481"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="488"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>createChunkGraph(</highlight></codeline>
+<codeline lineno="489"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>chunk_ids,</highlight></codeline>
+<codeline lineno="490"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content_id,</highlight></codeline>
+<codeline lineno="491"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>chunk_type</highlight></codeline>
+<codeline lineno="492"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="493"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="500"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>createHierarchicalGraph(</highlight></codeline>
+<codeline lineno="501"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>parent_id,</highlight></codeline>
+<codeline lineno="502"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>child_ids,</highlight></codeline>
+<codeline lineno="503"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>edge_type</highlight></codeline>
+<codeline lineno="504"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="505"><highlight class="normal"></highlight></codeline>
+<codeline lineno="512"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref><sp/>parseAnalysisResult(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>analysis_text,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_meta" kindref="compound">ContentMeta</ref>&amp;<sp/>meta);</highlight></codeline>
+<codeline lineno="518"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>parseTags(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tags_text);</highlight></codeline>
+<codeline lineno="524"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref><sp/>parseEntities(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>entities_text);</highlight></codeline>
+<codeline lineno="530"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>getExtractedText(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content_id);</highlight></codeline>
+<codeline lineno="531"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="532"><highlight class="normal"></highlight></codeline>
+<codeline lineno="533"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>content</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="534"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="535"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/content/content_manager.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_product_quantizer_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ProductQuantizer::Config</compoundname>
+    <includes refid="product__quantizer_8h" local="no">product_quantizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_product_quantizer_1_1_config_1aa6dd1e4740ef081912288ed22e6e6a30" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ProductQuantizer::Config::num_subquantizers</definition>
+        <argsstring></argsstring>
+        <name>num_subquantizers</name>
+        <qualifiedname>themis::ProductQuantizer::Config::num_subquantizers</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/product_quantizer.h" line="69" column="13" bodyfile="include/index/product_quantizer.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_product_quantizer_1_1_config_1a4c3ecc96d7825132de274bfbf0364d82" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ProductQuantizer::Config::num_centroids</definition>
+        <argsstring></argsstring>
+        <name>num_centroids</name>
+        <qualifiedname>themis::ProductQuantizer::Config::num_centroids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/product_quantizer.h" line="70" column="13" bodyfile="include/index/product_quantizer.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_product_quantizer_1_1_config_1a87333cce042be57617e1692a84942863" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ProductQuantizer::Config::max_iterations</definition>
+        <argsstring></argsstring>
+        <name>max_iterations</name>
+        <qualifiedname>themis::ProductQuantizer::Config::max_iterations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/product_quantizer.h" line="71" column="13" bodyfile="include/index/product_quantizer.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_product_quantizer_1_1_config_1a132bcf9bcf64044315826b7f2fb8ab17" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::ProductQuantizer::Config::convergence_threshold</definition>
+        <argsstring></argsstring>
+        <name>convergence_threshold</name>
+        <qualifiedname>themis::ProductQuantizer::Config::convergence_threshold</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/product_quantizer.h" line="72" column="15" bodyfile="include/index/product_quantizer.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_product_quantizer_1_1_config_1acd1ea61d8e6846ab1fb4aeeb7586a15f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ProductQuantizer::Config::prefer_faiss</definition>
+        <argsstring></argsstring>
+        <name>prefer_faiss</name>
+        <qualifiedname>themis::ProductQuantizer::Config::prefer_faiss</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/product_quantizer.h" line="73" column="14" bodyfile="include/index/product_quantizer.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_product_quantizer_1_1_config_1a0393ed6ef8f8d10e23af0897f323dc29" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ProductQuantizer::Config::Config</definition>
+        <argsstring>()</argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::ProductQuantizer::Config::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/product_quantizer.h" line="76" column="9" bodyfile="include/index/product_quantizer.h" bodystart="76" bodyend="82"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/product_quantizer.h" line="68" column="5" bodyfile="include/index/product_quantizer.h" bodystart="68" bodyend="83"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_product_quantizer_1_1_config_1a0393ed6ef8f8d10e23af0897f323dc29" prot="public" virt="non-virtual"><scope>themis::ProductQuantizer::Config</scope><name>Config</name></member>
+      <member refid="structthemis_1_1_product_quantizer_1_1_config_1a132bcf9bcf64044315826b7f2fb8ab17" prot="public" virt="non-virtual"><scope>themis::ProductQuantizer::Config</scope><name>convergence_threshold</name></member>
+      <member refid="structthemis_1_1_product_quantizer_1_1_config_1a87333cce042be57617e1692a84942863" prot="public" virt="non-virtual"><scope>themis::ProductQuantizer::Config</scope><name>max_iterations</name></member>
+      <member refid="structthemis_1_1_product_quantizer_1_1_config_1a4c3ecc96d7825132de274bfbf0364d82" prot="public" virt="non-virtual"><scope>themis::ProductQuantizer::Config</scope><name>num_centroids</name></member>
+      <member refid="structthemis_1_1_product_quantizer_1_1_config_1aa6dd1e4740ef081912288ed22e6e6a30" prot="public" virt="non-virtual"><scope>themis::ProductQuantizer::Config</scope><name>num_subquantizers</name></member>
+      <member refid="structthemis_1_1_product_quantizer_1_1_config_1acd1ea61d8e6846ab1fb4aeeb7586a15f" prot="public" virt="non-virtual"><scope>themis::ProductQuantizer::Config</scope><name>prefer_faiss</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

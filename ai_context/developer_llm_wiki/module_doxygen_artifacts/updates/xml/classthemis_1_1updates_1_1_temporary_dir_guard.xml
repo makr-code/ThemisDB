@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1_temporary_dir_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::updates::TemporaryDirGuard</compoundname>
+    <includes refid="batch5__safety__helpers_8h" local="no">batch5_safety_helpers.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_temporary_dir_guard_1a57700ee850d8e546959aa341d56d4f55" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::TemporaryDirGuard::path_</definition>
+        <argsstring></argsstring>
+        <name>path_</name>
+        <qualifiedname>themis::updates::TemporaryDirGuard::path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/batch5_safety_helpers.h" line="150" column="17" bodyfile="include/updates/batch5_safety_helpers.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_temporary_dir_guard_1a2515c263a644274506cc505f99788ad2" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::TemporaryDirGuard::TemporaryDirGuard</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>TemporaryDirGuard</name>
+        <qualifiedname>themis::updates::TemporaryDirGuard::TemporaryDirGuard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Construct but do NOT clean up the directory yet. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the temporary directory </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/batch5_safety_helpers.h" line="108" column="14" bodyfile="include/updates/batch5_safety_helpers.h" bodystart="108" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_temporary_dir_guard_1a82e52572d075a96f33b6c6a92588fe78" prot="public" static="no" const="no" explicit="no" inline="yes" noexceptexpression="false" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::TemporaryDirGuard::~TemporaryDirGuard</definition>
+        <argsstring>()</argsstring>
+        <name>~TemporaryDirGuard</name>
+        <qualifiedname>themis::updates::TemporaryDirGuard::~TemporaryDirGuard</qualifiedname>
+        <briefdescription>
+<para>Destructor: cleanup with exception suppression. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Marked noexcept(false) to allow exceptions during cleanup (though we catch them internally). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/batch5_safety_helpers.h" line="115" column="5" bodyfile="include/updates/batch5_safety_helpers.h" bodystart="115" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_temporary_dir_guard_1a4279d214ff139b45a98ae3f736dfcb4e" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::TemporaryDirGuard::TemporaryDirGuard</definition>
+        <argsstring>(TemporaryDirGuard &amp;&amp;other) noexcept</argsstring>
+        <name>TemporaryDirGuard</name>
+        <qualifiedname>themis::updates::TemporaryDirGuard::TemporaryDirGuard</qualifiedname>
+        <param>
+          <type>TemporaryDirGuard &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/batch5_safety_helpers.h" line="132" column="5" bodyfile="include/updates/batch5_safety_helpers.h" bodystart="132" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_temporary_dir_guard_1a199f803602a1a2eb8fcb1c4dc187453d" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1updates_1_1_temporary_dir_guard_1a2515c263a644274506cc505f99788ad2" kindref="member">TemporaryDirGuard</ref> &amp;</type>
+        <definition>TemporaryDirGuard &amp; themis::updates::TemporaryDirGuard::operator=</definition>
+        <argsstring>(TemporaryDirGuard &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::updates::TemporaryDirGuard::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1_temporary_dir_guard_1a2515c263a644274506cc505f99788ad2" kindref="member">TemporaryDirGuard</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/batch5_safety_helpers.h" line="137" column="23" bodyfile="include/updates/batch5_safety_helpers.h" bodystart="137" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_temporary_dir_guard_1a7fd1876a74f202310d12904d187be823" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::TemporaryDirGuard::TemporaryDirGuard</definition>
+        <argsstring>(const TemporaryDirGuard &amp;)=delete</argsstring>
+        <name>TemporaryDirGuard</name>
+        <qualifiedname>themis::updates::TemporaryDirGuard::TemporaryDirGuard</qualifiedname>
+        <param>
+          <type>const TemporaryDirGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/batch5_safety_helpers.h" line="146" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_temporary_dir_guard_1a91eb792e53e6da2b7925d661fbf57794" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1updates_1_1_temporary_dir_guard_1a2515c263a644274506cc505f99788ad2" kindref="member">TemporaryDirGuard</ref> &amp;</type>
+        <definition>TemporaryDirGuard &amp; themis::updates::TemporaryDirGuard::operator=</definition>
+        <argsstring>(const TemporaryDirGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::updates::TemporaryDirGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1updates_1_1_temporary_dir_guard_1a2515c263a644274506cc505f99788ad2" kindref="member">TemporaryDirGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/batch5_safety_helpers.h" line="147" column="23"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII guard for temporary directory cleanup with exception safety. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para>Error Code: 7501</para>
+</simplesect>
+The destructor wraps fs::remove_all() in try-catch to handle:<itemizedlist>
+<listitem><para>Files still open (permission issues on Windows/some Unix)</para>
+</listitem><listitem><para>Concurrent access from other processes</para>
+</listitem><listitem><para>Symlink attacks or other filesystem issues</para>
+</listitem></itemizedlist>
+</para>
+<para>Example: { <ref refid="classthemis_1_1updates_1_1_temporary_dir_guard" kindref="compound">TemporaryDirGuard</ref> temp_dir(&quot;/tmp/build_verify_123&quot;); // ... do work ... } // Destructor safely cleans up, suppressing exceptions </para>
+    </detaileddescription>
+    <location file="include/updates/batch5_safety_helpers.h" line="102" column="1" bodyfile="include/updates/batch5_safety_helpers.h" bodystart="102" bodyend="151"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1updates_1_1_temporary_dir_guard_1a199f803602a1a2eb8fcb1c4dc187453d" prot="public" virt="non-virtual"><scope>themis::updates::TemporaryDirGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1updates_1_1_temporary_dir_guard_1a91eb792e53e6da2b7925d661fbf57794" prot="public" virt="non-virtual"><scope>themis::updates::TemporaryDirGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1updates_1_1_temporary_dir_guard_1a57700ee850d8e546959aa341d56d4f55" prot="private" virt="non-virtual"><scope>themis::updates::TemporaryDirGuard</scope><name>path_</name></member>
+      <member refid="classthemis_1_1updates_1_1_temporary_dir_guard_1a2515c263a644274506cc505f99788ad2" prot="public" virt="non-virtual"><scope>themis::updates::TemporaryDirGuard</scope><name>TemporaryDirGuard</name></member>
+      <member refid="classthemis_1_1updates_1_1_temporary_dir_guard_1a4279d214ff139b45a98ae3f736dfcb4e" prot="public" virt="non-virtual"><scope>themis::updates::TemporaryDirGuard</scope><name>TemporaryDirGuard</name></member>
+      <member refid="classthemis_1_1updates_1_1_temporary_dir_guard_1a7fd1876a74f202310d12904d187be823" prot="public" virt="non-virtual"><scope>themis::updates::TemporaryDirGuard</scope><name>TemporaryDirGuard</name></member>
+      <member refid="classthemis_1_1updates_1_1_temporary_dir_guard_1a82e52572d075a96f33b6c6a92588fe78" prot="public" virt="non-virtual"><scope>themis::updates::TemporaryDirGuard</scope><name>~TemporaryDirGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

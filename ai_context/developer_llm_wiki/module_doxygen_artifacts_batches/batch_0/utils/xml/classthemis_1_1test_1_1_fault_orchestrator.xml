@@ -1,0 +1,349 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1test_1_1_fault_orchestrator" kind="class" language="C++" prot="public">
+    <compoundname>themis::test::FaultOrchestrator</compoundname>
+    <includes refid="fault__injector_8h" local="no">fault_injector.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_fault_orchestrator_1afbcd701c57f0b6433705d31034ec42c2" prot="private" static="no" mutable="no">
+        <type>std::map&lt; int, std::unique_ptr&lt; <ref refid="classthemis_1_1test_1_1_fault_injector" kindref="compound">FaultInjector</ref> &gt; &gt;</type>
+        <definition>std::map&lt;int, std::unique_ptr&lt;FaultInjector&gt; &gt; themis::test::FaultOrchestrator::injectors_</definition>
+        <argsstring></argsstring>
+        <name>injectors_</name>
+        <qualifiedname>themis::test::FaultOrchestrator::injectors_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="513" column="14" bodyfile="tests/utils/fault_injector.h" bodystart="513" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_fault_orchestrator_1aa34dbc68cb9bd1b36ce14543a6bad284" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::test::FaultOrchestrator::next_id_</definition>
+        <argsstring></argsstring>
+        <name>next_id_</name>
+        <qualifiedname>themis::test::FaultOrchestrator::next_id_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="514" column="9" bodyfile="tests/utils/fault_injector.h" bodystart="514" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_fault_orchestrator_1a000ff533e0e4aaace2089f568175d4b9" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::test::FaultOrchestrator::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::test::FaultOrchestrator::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="515" column="24" bodyfile="tests/utils/fault_injector.h" bodystart="515" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_orchestrator_1a7994185ccf6dfe9c1ffd170d16f7b85d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::FaultOrchestrator::FaultOrchestrator</definition>
+        <argsstring>()=default</argsstring>
+        <name>FaultOrchestrator</name>
+        <qualifiedname>themis::test::FaultOrchestrator::FaultOrchestrator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="448" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_orchestrator_1a1caea9c9dc6cb432a9c6775a3cb33cab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::FaultOrchestrator::~FaultOrchestrator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~FaultOrchestrator</name>
+        <qualifiedname>themis::test::FaultOrchestrator::~FaultOrchestrator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="449" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_orchestrator_1a5a62583f8c3a3859c44dcee749c1824d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::FaultOrchestrator::FaultOrchestrator</definition>
+        <argsstring>(const FaultOrchestrator &amp;)=delete</argsstring>
+        <name>FaultOrchestrator</name>
+        <qualifiedname>themis::test::FaultOrchestrator::FaultOrchestrator</qualifiedname>
+        <param>
+          <type>const FaultOrchestrator &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="452" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_orchestrator_1a1c0b4217188c2df0ed8656d1a7dc67c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1test_1_1_fault_orchestrator_1a7994185ccf6dfe9c1ffd170d16f7b85d" kindref="member">FaultOrchestrator</ref> &amp;</type>
+        <definition>FaultOrchestrator &amp; themis::test::FaultOrchestrator::operator=</definition>
+        <argsstring>(const FaultOrchestrator &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::test::FaultOrchestrator::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1test_1_1_fault_orchestrator_1a7994185ccf6dfe9c1ffd170d16f7b85d" kindref="member">FaultOrchestrator</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="453" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_orchestrator_1ab4709d76bc17874452e8c2c1bd06e8cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::test::FaultOrchestrator::addInjector</definition>
+        <argsstring>(std::unique_ptr&lt; FaultInjector &gt; injector)</argsstring>
+        <name>addInjector</name>
+        <qualifiedname>themis::test::FaultOrchestrator::addInjector</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classthemis_1_1test_1_1_fault_injector" kindref="compound">FaultInjector</ref> &gt;</type>
+          <declname>injector</declname>
+        </param>
+        <briefdescription>
+<para>Add fault injector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>injector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Injector to add </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Injector ID for tracking </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="460" column="9" bodyfile="tests/utils/fault_injector.cpp" bodystart="332" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_orchestrator_1a8759c6591da3454f4731bf993ab0b350" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::test::FaultOrchestrator::removeInjector</definition>
+        <argsstring>(int id)</argsstring>
+        <name>removeInjector</name>
+        <qualifiedname>themis::test::FaultOrchestrator::removeInjector</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Remove injector by ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="465" column="10" bodyfile="tests/utils/fault_injector.cpp" bodystart="339" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_orchestrator_1aa4e79b5108cf214e0e02b8e5c74d67e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::test::FaultOrchestrator::injectAll</definition>
+        <argsstring>()</argsstring>
+        <name>injectAll</name>
+        <qualifiedname>themis::test::FaultOrchestrator::injectAll</qualifiedname>
+        <briefdescription>
+<para>Inject all registered faults. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="470" column="10" bodyfile="tests/utils/fault_injector.cpp" bodystart="344" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_orchestrator_1acdcb1a27b675e47b823993bc82c5dd89" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::test::FaultOrchestrator::recoverAll</definition>
+        <argsstring>()</argsstring>
+        <name>recoverAll</name>
+        <qualifiedname>themis::test::FaultOrchestrator::recoverAll</qualifiedname>
+        <briefdescription>
+<para>Recover all injected faults. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="475" column="10" bodyfile="tests/utils/fault_injector.cpp" bodystart="355" bodyend="364"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_orchestrator_1a9cf1e3e95772ddd89db1361f5912cd12" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::test::FaultOrchestrator::updateAll</definition>
+        <argsstring>()</argsstring>
+        <name>updateAll</name>
+        <qualifiedname>themis::test::FaultOrchestrator::updateAll</qualifiedname>
+        <briefdescription>
+<para>Update all injectors (call periodically). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="480" column="10" bodyfile="tests/utils/fault_injector.cpp" bodystart="366" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_orchestrator_1ae73de362f62910ae1b5b936b9c26ab69" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::FaultOrchestrator::hasActiveFaults</definition>
+        <argsstring>() const</argsstring>
+        <name>hasActiveFaults</name>
+        <qualifiedname>themis::test::FaultOrchestrator::hasActiveFaults</qualifiedname>
+        <briefdescription>
+<para>Check if any fault is currently active. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="485" column="10" bodyfile="tests/utils/fault_injector.cpp" bodystart="373" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_orchestrator_1aa813318637c0abb3a189e315c9656395" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::test::FaultOrchestrator::getActiveFaultCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getActiveFaultCount</name>
+        <qualifiedname>themis::test::FaultOrchestrator::getActiveFaultCount</qualifiedname>
+        <briefdescription>
+<para>Get active fault count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="490" column="12" bodyfile="tests/utils/fault_injector.cpp" bodystart="383" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_orchestrator_1a717365f507d019106b6238e14c3c6082" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1test_1_1_fault_injector" kindref="compound">FaultInjector</ref> *</type>
+        <definition>FaultInjector * themis::test::FaultOrchestrator::getInjector</definition>
+        <argsstring>(int id)</argsstring>
+        <name>getInjector</name>
+        <qualifiedname>themis::test::FaultOrchestrator::getInjector</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Get injector by ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="495" column="19" bodyfile="tests/utils/fault_injector.cpp" bodystart="394" bodyend="401"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_orchestrator_1a6848f1d9e32e9398e77ab7e51f3326ca" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt; int &gt; themis::test::FaultOrchestrator::getAllInjectorIds</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllInjectorIds</name>
+        <qualifiedname>themis::test::FaultOrchestrator::getAllInjectorIds</qualifiedname>
+        <briefdescription>
+<para>Get all injector IDs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="500" column="17" bodyfile="tests/utils/fault_injector.cpp" bodystart="403" bodyend="411"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_orchestrator_1aa7b3696234c4fac557f1de30725706ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::test::FaultOrchestrator::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::test::FaultOrchestrator::clear</qualifiedname>
+        <briefdescription>
+<para>Clear all injectors. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="505" column="10" bodyfile="tests/utils/fault_injector.cpp" bodystart="413" bodyend="416"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_orchestrator_1a69269fe86aa6af144e2df000b7918fb6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, int &gt;</type>
+        <definition>std::map&lt; std::string, int &gt; themis::test::FaultOrchestrator::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::test::FaultOrchestrator::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Get statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="510" column="14" bodyfile="tests/utils/fault_injector.cpp" bodystart="418" bodyend="438"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_orchestrator_1a09dac05ef46f1dca8fa81f1da88911ff" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::test::FaultOrchestrator::generateId</definition>
+        <argsstring>()</argsstring>
+        <name>generateId</name>
+        <qualifiedname>themis::test::FaultOrchestrator::generateId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="517" column="9" bodyfile="tests/utils/fault_injector.h" bodystart="517" bodyend="520"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Manages multiple fault injectors for complex scenarios. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Usage: <ref refid="classthemis_1_1test_1_1_fault_orchestrator" kindref="compound">FaultOrchestrator</ref> orch; orch.addInjector(crash_cfg); orch.addInjector(network_cfg); orch.injectAll(); // ... execute operations orch.recoverAll(); </para>
+    </detaileddescription>
+    <location file="tests/utils/fault_injector.h" line="446" column="1" bodyfile="tests/utils/fault_injector.h" bodystart="446" bodyend="521"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1test_1_1_fault_orchestrator_1ab4709d76bc17874452e8c2c1bd06e8cd" prot="public" virt="non-virtual"><scope>themis::test::FaultOrchestrator</scope><name>addInjector</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_orchestrator_1aa7b3696234c4fac557f1de30725706ab" prot="public" virt="non-virtual"><scope>themis::test::FaultOrchestrator</scope><name>clear</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_orchestrator_1a7994185ccf6dfe9c1ffd170d16f7b85d" prot="public" virt="non-virtual"><scope>themis::test::FaultOrchestrator</scope><name>FaultOrchestrator</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_orchestrator_1a5a62583f8c3a3859c44dcee749c1824d" prot="public" virt="non-virtual"><scope>themis::test::FaultOrchestrator</scope><name>FaultOrchestrator</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_orchestrator_1a09dac05ef46f1dca8fa81f1da88911ff" prot="private" virt="non-virtual"><scope>themis::test::FaultOrchestrator</scope><name>generateId</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_orchestrator_1aa813318637c0abb3a189e315c9656395" prot="public" virt="non-virtual"><scope>themis::test::FaultOrchestrator</scope><name>getActiveFaultCount</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_orchestrator_1a6848f1d9e32e9398e77ab7e51f3326ca" prot="public" virt="non-virtual"><scope>themis::test::FaultOrchestrator</scope><name>getAllInjectorIds</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_orchestrator_1a717365f507d019106b6238e14c3c6082" prot="public" virt="non-virtual"><scope>themis::test::FaultOrchestrator</scope><name>getInjector</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_orchestrator_1a69269fe86aa6af144e2df000b7918fb6" prot="public" virt="non-virtual"><scope>themis::test::FaultOrchestrator</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_orchestrator_1ae73de362f62910ae1b5b936b9c26ab69" prot="public" virt="non-virtual"><scope>themis::test::FaultOrchestrator</scope><name>hasActiveFaults</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_orchestrator_1aa4e79b5108cf214e0e02b8e5c74d67e8" prot="public" virt="non-virtual"><scope>themis::test::FaultOrchestrator</scope><name>injectAll</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_orchestrator_1afbcd701c57f0b6433705d31034ec42c2" prot="private" virt="non-virtual"><scope>themis::test::FaultOrchestrator</scope><name>injectors_</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_orchestrator_1a000ff533e0e4aaace2089f568175d4b9" prot="private" virt="non-virtual"><scope>themis::test::FaultOrchestrator</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_orchestrator_1aa34dbc68cb9bd1b36ce14543a6bad284" prot="private" virt="non-virtual"><scope>themis::test::FaultOrchestrator</scope><name>next_id_</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_orchestrator_1a1c0b4217188c2df0ed8656d1a7dc67c0" prot="public" virt="non-virtual"><scope>themis::test::FaultOrchestrator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_orchestrator_1acdcb1a27b675e47b823993bc82c5dd89" prot="public" virt="non-virtual"><scope>themis::test::FaultOrchestrator</scope><name>recoverAll</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_orchestrator_1a8759c6591da3454f4731bf993ab0b350" prot="public" virt="non-virtual"><scope>themis::test::FaultOrchestrator</scope><name>removeInjector</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_orchestrator_1a9cf1e3e95772ddd89db1361f5912cd12" prot="public" virt="non-virtual"><scope>themis::test::FaultOrchestrator</scope><name>updateAll</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_orchestrator_1a1caea9c9dc6cb432a9c6775a3cb33cab" prot="public" virt="non-virtual"><scope>themis::test::FaultOrchestrator</scope><name>~FaultOrchestrator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

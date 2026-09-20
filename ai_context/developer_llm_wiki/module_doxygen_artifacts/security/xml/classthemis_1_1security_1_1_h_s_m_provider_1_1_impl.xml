@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_h_s_m_provider_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::HSMProvider::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_h_s_m_provider_1_1_impl_1a3c89dd1826f546da3dad1741c7ba1b45" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::security::HSMProvider::Impl::stub_kek</definition>
+        <argsstring></argsstring>
+        <name>stub_kek</name>
+        <qualifiedname>themis::security::HSMProvider::Impl::stub_kek</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/hsm_provider.cpp" line="64" column="17" bodyfile="src/security/hsm_provider.cpp" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_h_s_m_provider_1_1_impl_1aac36c4950a9b9c93962ddb51bc0cc386" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::security::HSMProvider::Impl::sign_count</definition>
+        <argsstring></argsstring>
+        <name>sign_count</name>
+        <qualifiedname>themis::security::HSMProvider::Impl::sign_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/hsm_provider.cpp" line="67" column="17" bodyfile="src/security/hsm_provider.cpp" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_h_s_m_provider_1_1_impl_1aec066de45b8e2cf99b4cf009f457d5b9" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::security::HSMProvider::Impl::verify_count</definition>
+        <argsstring></argsstring>
+        <name>verify_count</name>
+        <qualifiedname>themis::security::HSMProvider::Impl::verify_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/hsm_provider.cpp" line="68" column="17" bodyfile="src/security/hsm_provider.cpp" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_h_s_m_provider_1_1_impl_1aa7d065f4989308cd1df17e36b3f46616" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::security::HSMProvider::Impl::sign_errors</definition>
+        <argsstring></argsstring>
+        <name>sign_errors</name>
+        <qualifiedname>themis::security::HSMProvider::Impl::sign_errors</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/hsm_provider.cpp" line="69" column="17" bodyfile="src/security/hsm_provider.cpp" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_h_s_m_provider_1_1_impl_1a363f850da4d165724d191892754b1a82" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::security::HSMProvider::Impl::verify_errors</definition>
+        <argsstring></argsstring>
+        <name>verify_errors</name>
+        <qualifiedname>themis::security::HSMProvider::Impl::verify_errors</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/hsm_provider.cpp" line="70" column="17" bodyfile="src/security/hsm_provider.cpp" bodystart="70" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_h_s_m_provider_1_1_impl_1ad6c04d03f1c326a22c1c4636f260b73b" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::security::HSMProvider::Impl::total_sign_time_us</definition>
+        <argsstring></argsstring>
+        <name>total_sign_time_us</name>
+        <qualifiedname>themis::security::HSMProvider::Impl::total_sign_time_us</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/hsm_provider.cpp" line="71" column="17" bodyfile="src/security/hsm_provider.cpp" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_h_s_m_provider_1_1_impl_1a6006aaa777c08e868236c433cc108300" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::security::HSMProvider::Impl::total_verify_time_us</definition>
+        <argsstring></argsstring>
+        <name>total_verify_time_us</name>
+        <qualifiedname>themis::security::HSMProvider::Impl::total_verify_time_us</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/hsm_provider.cpp" line="72" column="17" bodyfile="src/security/hsm_provider.cpp" bodystart="72" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/security/hsm_provider.cpp" line="62" column="1" bodyfile="src/security/hsm_provider.cpp" bodystart="62" bodyend="73"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1_1_impl_1aac36c4950a9b9c93962ddb51bc0cc386" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider::Impl</scope><name>sign_count</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1_1_impl_1aa7d065f4989308cd1df17e36b3f46616" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider::Impl</scope><name>sign_errors</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1_1_impl_1a3c89dd1826f546da3dad1741c7ba1b45" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider::Impl</scope><name>stub_kek</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1_1_impl_1ad6c04d03f1c326a22c1c4636f260b73b" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider::Impl</scope><name>total_sign_time_us</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1_1_impl_1a6006aaa777c08e868236c433cc108300" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider::Impl</scope><name>total_verify_time_us</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1_1_impl_1aec066de45b8e2cf99b4cf009f457d5b9" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider::Impl</scope><name>verify_count</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_provider_1_1_impl_1a363f850da4d165724d191892754b1a82" prot="public" virt="non-virtual"><scope>themis::security::HSMProvider::Impl</scope><name>verify_errors</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

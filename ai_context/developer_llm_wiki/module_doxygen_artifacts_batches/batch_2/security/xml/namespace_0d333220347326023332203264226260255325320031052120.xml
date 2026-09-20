@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d333220347326023332203264226260255325320031052120" kind="namespace" language="C++">
+    <compoundname>@333220347326023332203264226260255325320031052120</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/security/test_webauthn_authenticator.cpp" line="25" column="1"/>
+  </compounddef>
+</doxygen>

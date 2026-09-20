@@ -1,0 +1,189 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structsharding_1_1_transaction_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>sharding::TransactionSnapshot</compoundname>
+    <includes refid="transaction__snapshot_8h" local="no">transaction_snapshot.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structsharding_1_1_transaction_snapshot_1a83a66003df9c4247c9422586d472f34f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t sharding::TransactionSnapshot::snapshot_id</definition>
+        <argsstring></argsstring>
+        <name>snapshot_id</name>
+        <qualifiedname>sharding::TransactionSnapshot::snapshot_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_snapshot.h" line="99" column="14" bodyfile="include/sharding/transaction_snapshot.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsharding_1_1_transaction_snapshot_1aaf9465d4208812fbfb5d7e4809d77c9a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacesharding_1aaa073ca87add131a1679dac974a0ab01" kindref="member">LSN</ref></type>
+        <definition>LSN sharding::TransactionSnapshot::last_applied_lsn</definition>
+        <argsstring></argsstring>
+        <name>last_applied_lsn</name>
+        <qualifiedname>sharding::TransactionSnapshot::last_applied_lsn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_snapshot.h" line="100" column="9" bodyfile="include/sharding/transaction_snapshot.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsharding_1_1_transaction_snapshot_1a89d7a55de72637df97811a272664a878" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string sharding::TransactionSnapshot::coordinator_id</definition>
+        <argsstring></argsstring>
+        <name>coordinator_id</name>
+        <qualifiedname>sharding::TransactionSnapshot::coordinator_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_snapshot.h" line="101" column="17" bodyfile="include/sharding/transaction_snapshot.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsharding_1_1_transaction_snapshot_1ac8b39b6125175fa43e04fba903108162" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t sharding::TransactionSnapshot::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>sharding::TransactionSnapshot::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_snapshot.h" line="102" column="14" bodyfile="include/sharding/transaction_snapshot.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsharding_1_1_transaction_snapshot_1a8c2d5504c4c77b51e8b28e15c9c830b2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structsharding_1_1_transaction_snapshot_entry" kindref="compound">TransactionSnapshotEntry</ref> &gt;</type>
+        <definition>std::vector&lt;TransactionSnapshotEntry&gt; sharding::TransactionSnapshot::active_transactions</definition>
+        <argsstring></argsstring>
+        <name>active_transactions</name>
+        <qualifiedname>sharding::TransactionSnapshot::active_transactions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_snapshot.h" line="103" column="17" bodyfile="include/sharding/transaction_snapshot.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsharding_1_1_transaction_snapshot_1a0bafdbf5171a97d26b5ff8857433e97d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string sharding::TransactionSnapshot::checksum</definition>
+        <argsstring></argsstring>
+        <name>checksum</name>
+        <qualifiedname>sharding::TransactionSnapshot::checksum</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_snapshot.h" line="104" column="17" bodyfile="include/sharding/transaction_snapshot.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsharding_1_1_transaction_snapshot_1aa3abb68224ba485e6ac6c17e65c81362" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t sharding::TransactionSnapshot::total_transactions</definition>
+        <argsstring></argsstring>
+        <name>total_transactions</name>
+        <qualifiedname>sharding::TransactionSnapshot::total_transactions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_snapshot.h" line="105" column="12" bodyfile="include/sharding/transaction_snapshot.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structsharding_1_1_transaction_snapshot_1aee59dbc4b5e2d8ddc3d9ad168066496b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json sharding::TransactionSnapshot::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>sharding::TransactionSnapshot::toJson</qualifiedname>
+        <briefdescription>
+<para>Serialize snapshot content (without auto-checksum recompute) to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_snapshot.h" line="108" column="20" bodyfile="src/sharding/transaction_snapshot.cpp" bodystart="275" bodyend="285"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structsharding_1_1_transaction_snapshot_1a4d75afda5021b1efcfc97d30f88a9c12" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structsharding_1_1_transaction_snapshot" kindref="compound">TransactionSnapshot</ref> &gt;</type>
+        <definition>std::optional&lt; TransactionSnapshot &gt; sharding::TransactionSnapshot::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>sharding::TransactionSnapshot::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Parse snapshot payload from JSON document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>From Json.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: at(), <ref refid="structthemis_1_1sharding_1_1_l_s_n_1abf5d2bd022cce4532fc3f70b75c467bd" kindref="member">LSN::fromString()</ref>, contains(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_snapshot.h" line="111" column="26" bodyfile="src/sharding/transaction_snapshot.cpp" bodystart="293" bodyend="310"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Complete transaction snapshot payload including checksum metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>sharding::TransactionSnapshot</label>
+        <link refid="structsharding_1_1_transaction_snapshot"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>last_applied_lsn</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::sharding::LSN</label>
+        <link refid="structthemis_1_1sharding_1_1_l_s_n"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/transaction_snapshot.h" line="98" column="1" bodyfile="include/sharding/transaction_snapshot.h" bodystart="98" bodyend="112"/>
+    <listofallmembers>
+      <member refid="structsharding_1_1_transaction_snapshot_1a8c2d5504c4c77b51e8b28e15c9c830b2" prot="public" virt="non-virtual"><scope>sharding::TransactionSnapshot</scope><name>active_transactions</name></member>
+      <member refid="structsharding_1_1_transaction_snapshot_1a0bafdbf5171a97d26b5ff8857433e97d" prot="public" virt="non-virtual"><scope>sharding::TransactionSnapshot</scope><name>checksum</name></member>
+      <member refid="structsharding_1_1_transaction_snapshot_1a89d7a55de72637df97811a272664a878" prot="public" virt="non-virtual"><scope>sharding::TransactionSnapshot</scope><name>coordinator_id</name></member>
+      <member refid="structsharding_1_1_transaction_snapshot_1a4d75afda5021b1efcfc97d30f88a9c12" prot="public" virt="non-virtual"><scope>sharding::TransactionSnapshot</scope><name>fromJson</name></member>
+      <member refid="structsharding_1_1_transaction_snapshot_1aaf9465d4208812fbfb5d7e4809d77c9a" prot="public" virt="non-virtual"><scope>sharding::TransactionSnapshot</scope><name>last_applied_lsn</name></member>
+      <member refid="structsharding_1_1_transaction_snapshot_1a83a66003df9c4247c9422586d472f34f" prot="public" virt="non-virtual"><scope>sharding::TransactionSnapshot</scope><name>snapshot_id</name></member>
+      <member refid="structsharding_1_1_transaction_snapshot_1ac8b39b6125175fa43e04fba903108162" prot="public" virt="non-virtual"><scope>sharding::TransactionSnapshot</scope><name>timestamp</name></member>
+      <member refid="structsharding_1_1_transaction_snapshot_1aee59dbc4b5e2d8ddc3d9ad168066496b" prot="public" virt="non-virtual"><scope>sharding::TransactionSnapshot</scope><name>toJson</name></member>
+      <member refid="structsharding_1_1_transaction_snapshot_1aa3abb68224ba485e6ac6c17e65c81362" prot="public" virt="non-virtual"><scope>sharding::TransactionSnapshot</scope><name>total_transactions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1ahp_1_1themis_1_1auth" kind="namespace" language="C++">
+    <compoundname>themis::bench::ahp::themis::auth</compoundname>
+    <innerclass refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_auth_audit_logger" prot="public">themis::bench::ahp::themis::auth::AuthAuditLogger</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_connection_pool" prot="public">themis::bench::ahp::themis::auth::LDAPConnectionPool</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_pool_config" prot="public">themis::bench::ahp::themis::auth::LDAPPoolConfig</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_pooled_connection" prot="public">themis::bench::ahp::themis::auth::PooledConnection</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1bench_1_1ahp_1_1themis_1_1auth_1ac5b126ae3b571d33714f0f49a54e7f06" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>DecisionClass</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::DecisionClass</qualifiedname>
+        <enumvalue id="namespacethemis_1_1bench_1_1ahp_1_1themis_1_1auth_1ac5b126ae3b571d33714f0f49a54e7f06ad415f0e30c471dfdd9bc4f827329ef48" prot="public">
+          <name>unspecified</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1bench_1_1ahp_1_1themis_1_1auth_1ac5b126ae3b571d33714f0f49a54e7f06a6fa691d2c07bea6ae78b7022c80e9d20" prot="public">
+          <name>authentication</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1bench_1_1ahp_1_1themis_1_1auth_1ac5b126ae3b571d33714f0f49a54e7f06af4af8b5789576c000ce9105b25609bd6" prot="public">
+          <name>policy</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1bench_1_1ahp_1_1themis_1_1auth_1ac5b126ae3b571d33714f0f49a54e7f06adf99cee44099ff57acbf7932670614dd" prot="public">
+          <name>revocation</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1bench_1_1ahp_1_1themis_1_1auth_1ac5b126ae3b571d33714f0f49a54e7f06ab153f2b8e34c0a72595c3da74b08067c" prot="public">
+          <name>federation</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="25" column="1" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="25" bodyend="31"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/auth_audit_logger.h" line="23" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,328 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespaceanalytics__test_1_1streaming__cep__tests" kind="namespace" language="C++">
+    <compoundname>analytics_test::streaming_cep_tests</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceanalytics__test_1_1streaming__cep__tests_1ad39f54f868b8af499db432b370241e04" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::streaming_cep_tests::TEST</definition>
+        <argsstring>(StreamingCEP, SC_01_sequence_pattern)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::streaming_cep_tests::TEST</qualifiedname>
+        <param>
+          <type>StreamingCEP</type>
+        </param>
+        <param>
+          <type>SC_01_sequence_pattern</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SC-01: Sequence Pattern NFA Expected: valid NFA </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="441" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="441" bodyend="445"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1streaming__cep__tests_1abb7becfd6539f4da8265b23df8357d6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::streaming_cep_tests::TEST</definition>
+        <argsstring>(StreamingCEP, SC_02_alternation_pattern)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::streaming_cep_tests::TEST</qualifiedname>
+        <param>
+          <type>StreamingCEP</type>
+        </param>
+        <param>
+          <type>SC_02_alternation_pattern</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SC-02: Alternation Pattern Expected: OR logic correct </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="451" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="451" bodyend="455"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1streaming__cep__tests_1a8a71ff5ea6656e6a32d11b728ed7798c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::streaming_cep_tests::TEST</definition>
+        <argsstring>(StreamingCEP, SC_03_invalid_pattern)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::streaming_cep_tests::TEST</qualifiedname>
+        <param>
+          <type>StreamingCEP</type>
+        </param>
+        <param>
+          <type>SC_03_invalid_pattern</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SC-03: Invalid Pattern Expected: Status::Error() </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="461" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="461" bodyend="465"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1streaming__cep__tests_1aee927262e281444338b11311d3c7a3ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::streaming_cep_tests::TEST</definition>
+        <argsstring>(StreamingCEP, SC_04_window_transition)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::streaming_cep_tests::TEST</qualifiedname>
+        <param>
+          <type>StreamingCEP</type>
+        </param>
+        <param>
+          <type>SC_04_window_transition</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SC-04: Window Transition Expected: aggregation triggered </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="471" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="471" bodyend="475"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1streaming__cep__tests_1a517df5cee417c61eed7ccdc6526c5cb3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::streaming_cep_tests::TEST</definition>
+        <argsstring>(StreamingCEP, SC_05_backpressure)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::streaming_cep_tests::TEST</qualifiedname>
+        <param>
+          <type>StreamingCEP</type>
+        </param>
+        <param>
+          <type>SC_05_backpressure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SC-05: Backpressure Expected: respects buffer limits </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="481" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="481" bodyend="485"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1streaming__cep__tests_1a7ceb7df07461577b5838bef8c58d6c33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::streaming_cep_tests::TEST</definition>
+        <argsstring>(StreamingCEP, SC_06_expired_window)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::streaming_cep_tests::TEST</qualifiedname>
+        <param>
+          <type>StreamingCEP</type>
+        </param>
+        <param>
+          <type>SC_06_expired_window</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SC-06: Expired Window Expected: auto-flushes </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="491" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="491" bodyend="495"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1streaming__cep__tests_1a5d18b83afc7b353da9a2db422e8e0cf0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::streaming_cep_tests::TEST</definition>
+        <argsstring>(StreamingCEP, SC_07_tumbling_semantics)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::streaming_cep_tests::TEST</qualifiedname>
+        <param>
+          <type>StreamingCEP</type>
+        </param>
+        <param>
+          <type>SC_07_tumbling_semantics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SC-07: Tumbling Semantics Expected: non-overlapping </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="501" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="501" bodyend="505"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1streaming__cep__tests_1ac6733291905ddaf11027689cf4b3c7cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::streaming_cep_tests::TEST</definition>
+        <argsstring>(StreamingCEP, SC_08_sliding_semantics)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::streaming_cep_tests::TEST</qualifiedname>
+        <param>
+          <type>StreamingCEP</type>
+        </param>
+        <param>
+          <type>SC_08_sliding_semantics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SC-08: Sliding Semantics Expected: overlapping </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="511" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="511" bodyend="515"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1streaming__cep__tests_1ae42e4138588f01da898fcf2392663923" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::streaming_cep_tests::TEST</definition>
+        <argsstring>(StreamingCEP, SC_09_window_boundary)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::streaming_cep_tests::TEST</qualifiedname>
+        <param>
+          <type>StreamingCEP</type>
+        </param>
+        <param>
+          <type>SC_09_window_boundary</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SC-09: Window Boundary Expected: correct element inclusion </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="521" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="521" bodyend="525"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1streaming__cep__tests_1a1cb3af7bee7814711ee87273df8c77ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::streaming_cep_tests::TEST</definition>
+        <argsstring>(StreamingCEP, SC_10_aggregation_output)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::streaming_cep_tests::TEST</qualifiedname>
+        <param>
+          <type>StreamingCEP</type>
+        </param>
+        <param>
+          <type>SC_10_aggregation_output</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SC-10: Aggregation Output Expected: correct result </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="531" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="531" bodyend="535"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1streaming__cep__tests_1ae1efe9c78ee1f4a1a6242c84445fd259" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::streaming_cep_tests::TEST</definition>
+        <argsstring>(StreamingCEP, SC_11_empty_window)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::streaming_cep_tests::TEST</qualifiedname>
+        <param>
+          <type>StreamingCEP</type>
+        </param>
+        <param>
+          <type>SC_11_empty_window</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SC-11: Empty Window Expected: handled gracefully </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="541" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="541" bodyend="545"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1streaming__cep__tests_1a14fcf2ebd8eef5ca8890c9ce864e0951" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::streaming_cep_tests::TEST</definition>
+        <argsstring>(StreamingCEP, SC_12_multiple_flushes)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::streaming_cep_tests::TEST</qualifiedname>
+        <param>
+          <type>StreamingCEP</type>
+        </param>
+        <param>
+          <type>SC_12_multiple_flushes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SC-12: Multiple Flushes Expected: idempotent </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="551" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="551" bodyend="555"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1streaming__cep__tests_1a64ab40e8ba6c45f91c4e607732d32350" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::streaming_cep_tests::TEST</definition>
+        <argsstring>(StreamingCEP, SC_13_sum_aggregation)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::streaming_cep_tests::TEST</qualifiedname>
+        <param>
+          <type>StreamingCEP</type>
+        </param>
+        <param>
+          <type>SC_13_sum_aggregation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SC-13: Sum Aggregation Expected: O(1) update </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="561" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="561" bodyend="565"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1streaming__cep__tests_1a2583254e26bae4c0aefea92a1a19b9a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::streaming_cep_tests::TEST</definition>
+        <argsstring>(StreamingCEP, SC_14_average_aggregation)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::streaming_cep_tests::TEST</qualifiedname>
+        <param>
+          <type>StreamingCEP</type>
+        </param>
+        <param>
+          <type>SC_14_average_aggregation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SC-14: Average Aggregation Expected: maintains running avg </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="571" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="571" bodyend="575"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceanalytics__test_1_1streaming__cep__tests_1af98f9b5947b6793f4fc4056255cba905" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>analytics_test::streaming_cep_tests::TEST</definition>
+        <argsstring>(StreamingCEP, SC_15_count_aggregation)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>analytics_test::streaming_cep_tests::TEST</qualifiedname>
+        <param>
+          <type>StreamingCEP</type>
+        </param>
+        <param>
+          <type>SC_15_count_aggregation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SC-15: Count Aggregation Expected: correct count </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_gap_closure.cpp" line="581" column="1" bodyfile="tests/analytics/test_analytics_gap_closure.cpp" bodystart="581" bodyend="585"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/analytics/test_analytics_gap_closure.cpp" line="435" column="1"/>
+  </compounddef>
+</doxygen>

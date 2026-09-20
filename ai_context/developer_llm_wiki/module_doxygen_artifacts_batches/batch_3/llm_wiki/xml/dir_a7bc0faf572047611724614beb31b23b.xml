@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_a7bc0faf572047611724614beb31b23b" kind="dir">
+    <compoundname>tests/llm_wiki</compoundname>
+    <innerfile refid="test__llm__wiki__core__focused_8cpp">test_llm_wiki_core_focused.cpp</innerfile>
+    <innerfile refid="test__llm__wiki__edge__cases__focused_8cpp">test_llm_wiki_edge_cases_focused.cpp</innerfile>
+    <innerfile refid="test__llm__wiki__highcardinality__stress_8cpp">test_llm_wiki_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__llm__wiki__llm__integration__focused_8cpp">test_llm_wiki_llm_integration_focused.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm_wiki/"/>
+  </compounddef>
+</doxygen>

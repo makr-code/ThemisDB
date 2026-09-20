@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_operator_remediation_engine_phase_three_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::OperatorRemediationEnginePhaseThreeTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_operator_remediation_engine_phase_three_test_1a257ba6bfea0ade98d238639d0225e320" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1observability_1_1_operator_remediation_engine" kindref="compound">OperatorRemediationEngine</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;OperatorRemediationEngine&gt; themis::observability::OperatorRemediationEnginePhaseThreeTest::engine</definition>
+        <argsstring></argsstring>
+        <name>engine</name>
+        <qualifiedname>themis::observability::OperatorRemediationEnginePhaseThreeTest::engine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_phase3_continuation_focused.cpp" line="68" column="21" bodyfile="tests/observability/test_observability_phase3_continuation_focused.cpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_operator_remediation_engine_phase_three_test_1ab328dd5b49f38186ec75cc24946ed955" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::OperatorRemediationEnginePhaseThreeTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::observability::OperatorRemediationEnginePhaseThreeTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_phase3_continuation_focused.cpp" line="64" column="10" bodyfile="tests/observability/test_observability_phase3_continuation_focused.cpp" bodystart="64" bodyend="66"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::observability::OperatorRemediationEnginePhaseThreeTest</label>
+        <link refid="classthemis_1_1observability_1_1_operator_remediation_engine_phase_three_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::observability::OperatorRemediationEnginePhaseThreeTest</label>
+        <link refid="classthemis_1_1observability_1_1_operator_remediation_engine_phase_three_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/observability/test_observability_phase3_continuation_focused.cpp" line="62" column="1" bodyfile="tests/observability/test_observability_phase3_continuation_focused.cpp" bodystart="62" bodyend="69"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_operator_remediation_engine_phase_three_test_1a257ba6bfea0ade98d238639d0225e320" prot="protected" virt="non-virtual"><scope>themis::observability::OperatorRemediationEnginePhaseThreeTest</scope><name>engine</name></member>
+      <member refid="classthemis_1_1observability_1_1_operator_remediation_engine_phase_three_test_1ab328dd5b49f38186ec75cc24946ed955" prot="protected" virt="non-virtual"><scope>themis::observability::OperatorRemediationEnginePhaseThreeTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

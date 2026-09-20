@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_score_query_confidence_test" kind="class" language="C++" prot="public">
+    <compoundname>ScoreQueryConfidenceTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_score_query_confidence_test_1aba83ec4db12e6895442194f15cfc7d34" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler" kindref="compound">LLMAQLHandler</ref></type>
+        <definition>LLMAQLHandler ScoreQueryConfidenceTest::handler</definition>
+        <argsstring></argsstring>
+        <name>handler</name>
+        <qualifiedname>ScoreQueryConfidenceTest::handler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_validator.cpp" line="380" column="19" bodyfile="tests/aql/test_aql_query_validator.cpp" bodystart="380" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ScoreQueryConfidenceTest</label>
+        <link refid="class_score_query_confidence_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ScoreQueryConfidenceTest</label>
+        <link refid="class_score_query_confidence_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>handler</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::aql::LLMAQLHandler</label>
+        <link refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/aql/test_aql_query_validator.cpp" line="378" column="1" bodyfile="tests/aql/test_aql_query_validator.cpp" bodystart="378" bodyend="381"/>
+    <listofallmembers>
+      <member refid="class_score_query_confidence_test_1aba83ec4db12e6895442194f15cfc7d34" prot="protected" virt="non-virtual"><scope>ScoreQueryConfidenceTest</scope><name>handler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

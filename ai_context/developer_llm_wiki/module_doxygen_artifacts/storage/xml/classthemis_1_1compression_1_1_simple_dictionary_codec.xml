@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1compression_1_1_simple_dictionary_codec" kind="class" language="C++" prot="public">
+    <compoundname>themis::compression::SimpleDictionaryCodec</compoundname>
+    <includes refid="compression__strategy_8h" local="no">compression_strategy.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1compression_1_1_simple_dictionary_codec_1a18203eca5383436c2f6243ef66b3524f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::compression::SimpleDictionaryCodec::compress</definition>
+        <argsstring>(const uint8_t *data, size_t size)</argsstring>
+        <name>compress</name>
+        <qualifiedname>themis::compression::SimpleDictionaryCodec::compress</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Compress using dictionary encoding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compress.</para>
+<para>Efficient for data with repeated patterns/blocks. Format: [dict_size:4][dict_entries...][indices...]</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), find(), end(), size(), push_back(), THEMIS_DEBUG(), insert(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="285" column="24" bodyfile="src/storage/compression_strategy.cpp" bodystart="813" bodyend="857"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1compression_1_1_simple_dictionary_codec_1a413e82743ebb8a331820e1f3b201a28a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::compression::SimpleDictionaryCodec::decompress</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>decompress</name>
+        <qualifiedname>themis::compression::SimpleDictionaryCodec::decompress</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Decompress dictionary-encoded data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Decompress.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), THEMIS_WARN(), dictionary(), begin(), reserve(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="290" column="24" bodyfile="src/storage/compression_strategy.cpp" bodystart="865" bodyend="893"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Simple dictionary encoding utilities. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/compression_strategy.h" line="277" column="1" bodyfile="include/storage/compression_strategy.h" bodystart="277" bodyend="291"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1compression_1_1_simple_dictionary_codec_1a18203eca5383436c2f6243ef66b3524f" prot="public" virt="non-virtual"><scope>themis::compression::SimpleDictionaryCodec</scope><name>compress</name></member>
+      <member refid="classthemis_1_1compression_1_1_simple_dictionary_codec_1a413e82743ebb8a331820e1f3b201a28a" prot="public" virt="non-virtual"><scope>themis::compression::SimpleDictionaryCodec</scope><name>decompress</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

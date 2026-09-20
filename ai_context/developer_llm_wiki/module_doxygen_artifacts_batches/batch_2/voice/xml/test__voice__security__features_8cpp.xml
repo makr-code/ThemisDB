@@ -1,0 +1,1055 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__voice__security__features_8cpp" kind="file" language="C++">
+    <compoundname>test_voice_security_features.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="voice__tts__customizer_8h" local="yes">voice/voice_tts_customizer.h</includes>
+    <includes refid="voice__model__cache_8h" local="yes">voice/voice_model_cache.h</includes>
+    <includes refid="voice__browser__streaming_8h" local="yes">voice/voice_browser_streaming.h</includes>
+    <includes local="yes">utils/logger.h</includes>
+    <incdepgraph>
+      <node id="14">
+        <label>voice/voice_browser_streaming.h</label>
+        <link refid="voice__browser__streaming_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>voice/voice_model_cache.h</label>
+        <link refid="voice__model__cache_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>voice/voice_tts_customizer.h</label>
+        <link refid="voice__tts__customizer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/voice/test_voice_security_features.cpp</label>
+        <link refid="test__voice__security__features_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>atomic</label>
+      </node>
+      <node id="16">
+        <label>chrono</label>
+      </node>
+      <node id="13">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="11">
+        <label>list</label>
+      </node>
+      <node id="6">
+        <label>map</label>
+      </node>
+      <node id="17">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="18">
+        <label>unordered_map</label>
+      </node>
+      <node id="19">
+        <label>utils/logger.h</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_s_s_m_l_sanitization_test" prot="public">SSMLSanitizationTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__voice__security__features_8cpp_1a84e93304fb2b99797f4a837e7eda714a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SSMLSanitizationTest, CleanSSMLPassesThrough)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_s_s_m_l_sanitization_test" kindref="compound">SSMLSanitizationTest</ref></type>
+        </param>
+        <param>
+          <type>CleanSSMLPassesThrough</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_security_features.cpp" line="33" column="1" bodyfile="tests/voice/test_voice_security_features.cpp" bodystart="33" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__security__features_8cpp_1a2d54abbe7b1a8663ba562f617217c2ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SSMLSanitizationTest, AllowedProsodyTagKept)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_s_s_m_l_sanitization_test" kindref="compound">SSMLSanitizationTest</ref></type>
+        </param>
+        <param>
+          <type>AllowedProsodyTagKept</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_security_features.cpp" line="42" column="1" bodyfile="tests/voice/test_voice_security_features.cpp" bodystart="42" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__security__features_8cpp_1a605136abbd54768b816a54819ce1fe93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SSMLSanitizationTest, AllowedBreakTagKept)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_s_s_m_l_sanitization_test" kindref="compound">SSMLSanitizationTest</ref></type>
+        </param>
+        <param>
+          <type>AllowedBreakTagKept</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_security_features.cpp" line="49" column="1" bodyfile="tests/voice/test_voice_security_features.cpp" bodystart="49" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__security__features_8cpp_1ab3f9ec13211ce929e7ffc262ffa812a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SSMLSanitizationTest, AllowedEmphasisTagKept)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_s_s_m_l_sanitization_test" kindref="compound">SSMLSanitizationTest</ref></type>
+        </param>
+        <param>
+          <type>AllowedEmphasisTagKept</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_security_features.cpp" line="56" column="1" bodyfile="tests/voice/test_voice_security_features.cpp" bodystart="56" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__security__features_8cpp_1abe5976f9743392261e24715fccd6c95e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SSMLSanitizationTest, ScriptTagIsRejected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_s_s_m_l_sanitization_test" kindref="compound">SSMLSanitizationTest</ref></type>
+        </param>
+        <param>
+          <type>ScriptTagIsRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_security_features.cpp" line="63" column="1" bodyfile="tests/voice/test_voice_security_features.cpp" bodystart="63" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__security__features_8cpp_1a773481b4b95c7516523b77bcdff16036" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SSMLSanitizationTest, HTMLStyleTagIsRejected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_s_s_m_l_sanitization_test" kindref="compound">SSMLSanitizationTest</ref></type>
+        </param>
+        <param>
+          <type>HTMLStyleTagIsRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_security_features.cpp" line="73" column="1" bodyfile="tests/voice/test_voice_security_features.cpp" bodystart="73" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__security__features_8cpp_1ace84b620b1a6a153b55b625cd7e9eb6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SSMLSanitizationTest, IframeTagIsRejected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_s_s_m_l_sanitization_test" kindref="compound">SSMLSanitizationTest</ref></type>
+        </param>
+        <param>
+          <type>IframeTagIsRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_security_features.cpp" line="80" column="1" bodyfile="tests/voice/test_voice_security_features.cpp" bodystart="80" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__security__features_8cpp_1ad636ccab84d86b7e4711101ba80273f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SSMLSanitizationTest, UnknownAttributeIsStripped)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_s_s_m_l_sanitization_test" kindref="compound">SSMLSanitizationTest</ref></type>
+        </param>
+        <param>
+          <type>UnknownAttributeIsStripped</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_security_features.cpp" line="87" column="1" bodyfile="tests/voice/test_voice_security_features.cpp" bodystart="87" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__security__features_8cpp_1a8801c37b1ecbafd82daf09a9385488c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SSMLSanitizationTest, AttributeValueWithAngleBracketsIsRejected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_s_s_m_l_sanitization_test" kindref="compound">SSMLSanitizationTest</ref></type>
+        </param>
+        <param>
+          <type>AttributeValueWithAngleBracketsIsRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_security_features.cpp" line="98" column="1" bodyfile="tests/voice/test_voice_security_features.cpp" bodystart="98" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__security__features_8cpp_1a86078c6fb373af02f1b678450e89bd97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SSMLSanitizationTest, AttributeValueWithScriptKeywordIsRejected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_s_s_m_l_sanitization_test" kindref="compound">SSMLSanitizationTest</ref></type>
+        </param>
+        <param>
+          <type>AttributeValueWithScriptKeywordIsRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_security_features.cpp" line="104" column="1" bodyfile="tests/voice/test_voice_security_features.cpp" bodystart="104" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__security__features_8cpp_1ad2113663d744cc09b5329682e43e50ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SSMLSanitizationTest, PlainTextPassesThrough)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_s_s_m_l_sanitization_test" kindref="compound">SSMLSanitizationTest</ref></type>
+        </param>
+        <param>
+          <type>PlainTextPassesThrough</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_security_features.cpp" line="110" column="1" bodyfile="tests/voice/test_voice_security_features.cpp" bodystart="110" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__security__features_8cpp_1aebd0b39b789776fec822e56b0d1b17eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SSMLSanitizationTest, MixedAllowedAndDisallowedTags)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_s_s_m_l_sanitization_test" kindref="compound">SSMLSanitizationTest</ref></type>
+        </param>
+        <param>
+          <type>MixedAllowedAndDisallowedTags</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_security_features.cpp" line="117" column="1" bodyfile="tests/voice/test_voice_security_features.cpp" bodystart="117" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__security__features_8cpp_1a9ddd543518535ef68fe13181601e602c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SSMLSanitizationTest, IsSSMLSafeReturnsTrueForCleanInput)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_s_s_m_l_sanitization_test" kindref="compound">SSMLSanitizationTest</ref></type>
+        </param>
+        <param>
+          <type>IsSSMLSafeReturnsTrueForCleanInput</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_security_features.cpp" line="127" column="1" bodyfile="tests/voice/test_voice_security_features.cpp" bodystart="127" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__security__features_8cpp_1a837f8443381d027c9bb3e44dee4101f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SSMLSanitizationTest, IsSSMLSafeReturnsFalseForMalicious)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_s_s_m_l_sanitization_test" kindref="compound">SSMLSanitizationTest</ref></type>
+        </param>
+        <param>
+          <type>IsSSMLSafeReturnsFalseForMalicious</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_security_features.cpp" line="131" column="1" bodyfile="tests/voice/test_voice_security_features.cpp" bodystart="131" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__security__features_8cpp_1a7a0ee74755d26255ae0fe20bac3a6dce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ModelCachePathTest, SafeRelativePathAccepted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ModelCachePathTest</type>
+        </param>
+        <param>
+          <type>SafeRelativePathAccepted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_security_features.cpp" line="139" column="1" bodyfile="tests/voice/test_voice_security_features.cpp" bodystart="139" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__security__features_8cpp_1adbda2e7aef74af4cb22fdb8f45a7382f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ModelCachePathTest, SafeAbsolutePathAccepted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ModelCachePathTest</type>
+        </param>
+        <param>
+          <type>SafeAbsolutePathAccepted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_security_features.cpp" line="143" column="1" bodyfile="tests/voice/test_voice_security_features.cpp" bodystart="143" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__security__features_8cpp_1a34b01fa34a8532b46b8f0750c91e8341" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ModelCachePathTest, EmptyPathRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ModelCachePathTest</type>
+        </param>
+        <param>
+          <type>EmptyPathRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_security_features.cpp" line="147" column="1" bodyfile="tests/voice/test_voice_security_features.cpp" bodystart="147" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__security__features_8cpp_1ac1ee273966ca740f11a052b6c4681ab4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ModelCachePathTest, DotDotTraversalRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ModelCachePathTest</type>
+        </param>
+        <param>
+          <type>DotDotTraversalRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_security_features.cpp" line="151" column="1" bodyfile="tests/voice/test_voice_security_features.cpp" bodystart="151" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__security__features_8cpp_1a970a56c215f273a393f6d11d2d865c47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ModelCachePathTest, EmbeddedDotDotRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ModelCachePathTest</type>
+        </param>
+        <param>
+          <type>EmbeddedDotDotRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_security_features.cpp" line="155" column="1" bodyfile="tests/voice/test_voice_security_features.cpp" bodystart="155" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__security__features_8cpp_1a08e95d3e02acdaeec83cc29cc02a0fd4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ModelCachePathTest, NullByteRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ModelCachePathTest</type>
+        </param>
+        <param>
+          <type>NullByteRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_security_features.cpp" line="159" column="1" bodyfile="tests/voice/test_voice_security_features.cpp" bodystart="159" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__security__features_8cpp_1ad9b9be9e55919bfc608ab477c744f4bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ModelCachePathTest, SemicolonShellMetacharRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ModelCachePathTest</type>
+        </param>
+        <param>
+          <type>SemicolonShellMetacharRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_security_features.cpp" line="166" column="1" bodyfile="tests/voice/test_voice_security_features.cpp" bodystart="166" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__security__features_8cpp_1a79b5b7cd6b00a3575b0ce8728682762a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ModelCachePathTest, PipeShellMetacharRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ModelCachePathTest</type>
+        </param>
+        <param>
+          <type>PipeShellMetacharRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_security_features.cpp" line="170" column="1" bodyfile="tests/voice/test_voice_security_features.cpp" bodystart="170" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__security__features_8cpp_1a78aaf26d1bf9091a2bc8dce38ed091c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ModelCachePathTest, BacktickShellMetacharRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ModelCachePathTest</type>
+        </param>
+        <param>
+          <type>BacktickShellMetacharRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_security_features.cpp" line="174" column="1" bodyfile="tests/voice/test_voice_security_features.cpp" bodystart="174" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__security__features_8cpp_1a866d179f394d25d894c4f594f28ddbdc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ModelCachePathTest, DollarShellMetacharRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ModelCachePathTest</type>
+        </param>
+        <param>
+          <type>DollarShellMetacharRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_security_features.cpp" line="178" column="1" bodyfile="tests/voice/test_voice_security_features.cpp" bodystart="178" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__security__features_8cpp_1a1803f4c237e1ab5a47648c587cf8efe6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ModelCachePathTest, PathWithSpaceAccepted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ModelCachePathTest</type>
+        </param>
+        <param>
+          <type>PathWithSpaceAccepted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_security_features.cpp" line="182" column="1" bodyfile="tests/voice/test_voice_security_features.cpp" bodystart="182" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__security__features_8cpp_1a63c4a953b5bc9ae9a63c6a45aab7f414" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ModelCachePathTest, GetRejectsUnsafePathWithoutLoader)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ModelCachePathTest</type>
+        </param>
+        <param>
+          <type>GetRejectsUnsafePathWithoutLoader</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_security_features.cpp" line="188" column="1" bodyfile="tests/voice/test_voice_security_features.cpp" bodystart="188" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__security__features_8cpp_1a858c07186ff46423af99edf72023e9ff" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config" kindref="compound">VoiceStreamingSession::Config</ref></type>
+        <definition>static VoiceStreamingSession::Config makeConfig</definition>
+        <argsstring>()</argsstring>
+        <name>makeConfig</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_security_features.cpp" line="201" column="38" bodyfile="tests/voice/test_voice_security_features.cpp" bodystart="201" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__security__features_8cpp_1a0ebf232375ed48c66abf6f79d1da3bdd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OriginAllowlistTest, EmptyAllowlistPermitsAnyOrigin)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OriginAllowlistTest</type>
+        </param>
+        <param>
+          <type>EmptyAllowlistPermitsAnyOrigin</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_security_features.cpp" line="210" column="1" bodyfile="tests/voice/test_voice_security_features.cpp" bodystart="210" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__security__features_8cpp_1a23a20ea4bb46a9fed7731bf95746e815" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OriginAllowlistTest, NonEmptyAllowlistPermitsListedOrigin)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OriginAllowlistTest</type>
+        </param>
+        <param>
+          <type>NonEmptyAllowlistPermitsListedOrigin</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_security_features.cpp" line="218" column="1" bodyfile="tests/voice/test_voice_security_features.cpp" bodystart="218" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__security__features_8cpp_1afef82175d29f30d41864545597d04b56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OriginAllowlistTest, NonEmptyAllowlistBlocksUnlistedOrigin)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OriginAllowlistTest</type>
+        </param>
+        <param>
+          <type>NonEmptyAllowlistBlocksUnlistedOrigin</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_security_features.cpp" line="226" column="1" bodyfile="tests/voice/test_voice_security_features.cpp" bodystart="226" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__security__features_8cpp_1aa228c4669f6c25429ef3f003e50aeb80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OriginAllowlistTest, ComparisonIsCaseSensitive)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OriginAllowlistTest</type>
+        </param>
+        <param>
+          <type>ComparisonIsCaseSensitive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_security_features.cpp" line="235" column="1" bodyfile="tests/voice/test_voice_security_features.cpp" bodystart="235" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__security__features_8cpp_1adff96877266dcedee0930beed358ae3d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OriginAllowlistTest, EmptyOriginStringBlockedWhenAllowlistSet)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OriginAllowlistTest</type>
+        </param>
+        <param>
+          <type>EmptyOriginStringBlockedWhenAllowlistSet</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_security_features.cpp" line="243" column="1" bodyfile="tests/voice/test_voice_security_features.cpp" bodystart="243" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__security__features_8cpp_1ae5f6b8f2f8022a22b3bd45f23f15acac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OriginAllowlistTest, SingleWildcardStyleNotSupported)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OriginAllowlistTest</type>
+        </param>
+        <param>
+          <type>SingleWildcardStyleNotSupported</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_security_features.cpp" line="250" column="1" bodyfile="tests/voice/test_voice_security_features.cpp" bodystart="250" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__security__features_8cpp_1ab70cf753fb6bb75f8b2f813710b33944" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OriginAllowlistTest, SessionStartsAndAudioFlowsWithAllowedOrigin)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OriginAllowlistTest</type>
+        </param>
+        <param>
+          <type>SessionStartsAndAudioFlowsWithAllowedOrigin</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_security_features.cpp" line="259" column="1" bodyfile="tests/voice/test_voice_security_features.cpp" bodystart="259" bodyend="272"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Focused tests for voice module Q2 2026 security features: </para>
+    </briefdescription>
+    <detaileddescription>
+<para><itemizedlist>
+<listitem><para>SSML injection sanitization (<ref refid="classthemis_1_1voice_1_1_voice_t_t_s_customizer_1a00a7d409ef6ce0bef488ff521914bba0" kindref="member">VoiceTTSCustomizer::sanitizeSSML</ref> / isSSMLSafe)</para>
+</listitem><listitem><para>Path traversal protection (<ref refid="classthemis_1_1voice_1_1_voice_model_cache_1abb9047ecd1cdc395998a8fc364eb9fe1" kindref="member">VoiceModelCache::isSafeModelPath</ref>)</para>
+</listitem><listitem><para>WebRTC origin allowlist (<ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a29bb6cd242bfaa744900d1d8be2b5622" kindref="member">VoiceStreamingSession::checkOrigin</ref>) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="voice__tts__customizer_8h" kindref="compound">voice/voice_tts_customizer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="voice__model__cache_8h" kindref="compound">voice/voice_model_cache.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="voice__browser__streaming_8h" kindref="compound">voice/voice_browser_streaming.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Provide<sp/>stub<sp/>definitions<sp/>for<sp/>Logger<sp/>static<sp/>members<sp/>so<sp/>the<sp/>test<sp/>binary<sp/>links</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>without<sp/>the<sp/>full<sp/>themis_core<sp/>library.<sp/><sp/>The<sp/>templates<sp/>check<sp/>`if<sp/>(logger_)`</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>before<sp/>dereferencing,<sp/>so<sp/>a<sp/>null<sp/>shared_ptr<sp/>produces<sp/>safe<sp/>no-ops.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(_WIN32)<sp/>&amp;&amp;<sp/>!defined(THEMIS_BASE_EXPORTS)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_BASE_EXPORTS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/logger.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice" kindref="compound">themis::voice</ref>;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SSML<sp/>Injection<sp/>Sanitization<sp/>–<sp/>VoiceTTSCustomizer::sanitizeSSML</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="class_s_s_m_l_sanitization_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_s_s_m_l_sanitization_test" kindref="compound">SSMLSanitizationTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_t_t_s_customizer" kindref="compound">VoiceTTSCustomizer</ref><sp/><ref refid="class_s_s_m_l_sanitization_test_1a3cf1741b2216dfd9cf45cb683e5b17ac" kindref="member">customizer</ref>;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1ad791733d0293c8af300f31d43479614e" kindref="member">TEST_F</ref>(<ref refid="class_s_s_m_l_sanitization_test" kindref="compound">SSMLSanitizationTest</ref>,<sp/>CleanSSMLPassesThrough)<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>input<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&lt;speak&gt;&lt;p&gt;Hello<sp/>world.&lt;/p&gt;&lt;/speak&gt;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>customizer.sanitizeSSML(input);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.had_injection_attempt);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.rejected_tags.empty());</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Clean<sp/>input<sp/>should<sp/>round-trip<sp/>intact</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.sanitized_text,<sp/>input);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1ad791733d0293c8af300f31d43479614e" kindref="member">TEST_F</ref>(<ref refid="class_s_s_m_l_sanitization_test" kindref="compound">SSMLSanitizationTest</ref>,<sp/>AllowedProsodyTagKept)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>input<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;prosody<sp/>rate=&quot;1.2&quot;<sp/>pitch=&quot;0.9&quot;&gt;Fast<sp/>speech.&lt;/prosody&gt;)&quot;;</highlight></codeline>
+<codeline lineno="44"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>customizer.sanitizeSSML(input);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.had_injection_attempt);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.sanitized_text.find(</highlight><highlight class="stringliteral">&quot;&lt;prosody&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1ad791733d0293c8af300f31d43479614e" kindref="member">TEST_F</ref>(<ref refid="class_s_s_m_l_sanitization_test" kindref="compound">SSMLSanitizationTest</ref>,<sp/>AllowedBreakTagKept)<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>input<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;break<sp/>time=&quot;500ms&quot;/&gt;)&quot;;</highlight></codeline>
+<codeline lineno="51"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>customizer.sanitizeSSML(input);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.had_injection_attempt);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.sanitized_text.find(</highlight><highlight class="stringliteral">&quot;&lt;break&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1ad791733d0293c8af300f31d43479614e" kindref="member">TEST_F</ref>(<ref refid="class_s_s_m_l_sanitization_test" kindref="compound">SSMLSanitizationTest</ref>,<sp/>AllowedEmphasisTagKept)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>input<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;emphasis<sp/>level=&quot;strong&quot;&gt;Important!&lt;/emphasis&gt;)&quot;;</highlight></codeline>
+<codeline lineno="58"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>customizer.sanitizeSSML(input);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.had_injection_attempt);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.sanitized_text.find(</highlight><highlight class="stringliteral">&quot;&lt;emphasis&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1ad791733d0293c8af300f31d43479614e" kindref="member">TEST_F</ref>(<ref refid="class_s_s_m_l_sanitization_test" kindref="compound">SSMLSanitizationTest</ref>,<sp/>ScriptTagIsRejected)<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>input<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&lt;script&gt;alert(&apos;xss&apos;)&lt;/script&gt;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>customizer.sanitizeSSML(input);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.had_injection_attempt);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sanitized<sp/>output<sp/>must<sp/>NOT<sp/>contain<sp/>the<sp/>script<sp/>tag</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.sanitized_text.find(</highlight><highlight class="stringliteral">&quot;&lt;script&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tag<sp/>name<sp/>should<sp/>appear<sp/>in<sp/>rejected<sp/>list</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::count(result.rejected_tags.begin(),<sp/>result.rejected_tags.end(),<sp/></highlight><highlight class="stringliteral">&quot;script&quot;</highlight><highlight class="normal">),<sp/>1);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1ad791733d0293c8af300f31d43479614e" kindref="member">TEST_F</ref>(<ref refid="class_s_s_m_l_sanitization_test" kindref="compound">SSMLSanitizationTest</ref>,<sp/>HTMLStyleTagIsRejected)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>input<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&lt;style&gt;body{display:none}&lt;/style&gt;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>customizer.sanitizeSSML(input);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.had_injection_attempt);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.sanitized_text.find(</highlight><highlight class="stringliteral">&quot;&lt;style&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1ad791733d0293c8af300f31d43479614e" kindref="member">TEST_F</ref>(<ref refid="class_s_s_m_l_sanitization_test" kindref="compound">SSMLSanitizationTest</ref>,<sp/>IframeTagIsRejected)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>input<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&lt;iframe<sp/>src=\&quot;evil.com\&quot;/&gt;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>customizer.sanitizeSSML(input);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.had_injection_attempt);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.sanitized_text.find(</highlight><highlight class="stringliteral">&quot;&lt;iframe&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1ad791733d0293c8af300f31d43479614e" kindref="member">TEST_F</ref>(<ref refid="class_s_s_m_l_sanitization_test" kindref="compound">SSMLSanitizationTest</ref>,<sp/>UnknownAttributeIsStripped)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&apos;onmouseover&apos;<sp/>is<sp/>not<sp/>in<sp/>the<sp/>prosody<sp/>allowlist</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>input<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;DEL(&lt;prosody<sp/>rate=&quot;1.0&quot;<sp/>onmouseover=&quot;evil()&quot;&gt;text&lt;/prosody&gt;)DEL&quot;;</highlight></codeline>
+<codeline lineno="90"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>customizer.sanitizeSSML(input);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.had_injection_attempt);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>tag<sp/>itself<sp/>should<sp/>still<sp/>be<sp/>present</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.sanitized_text.find(</highlight><highlight class="stringliteral">&quot;&lt;prosody&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>But<sp/>the<sp/>injected<sp/>attribute<sp/>must<sp/>be<sp/>gone</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.sanitized_text.find(</highlight><highlight class="stringliteral">&quot;onmouseover&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1ad791733d0293c8af300f31d43479614e" kindref="member">TEST_F</ref>(<ref refid="class_s_s_m_l_sanitization_test" kindref="compound">SSMLSanitizationTest</ref>,<sp/>AttributeValueWithAngleBracketsIsRejected)<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>input<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;prosody<sp/>rate=&quot;&lt;bad&gt;&quot;&gt;text&lt;/prosody&gt;)&quot;;</highlight></codeline>
+<codeline lineno="100"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>customizer.sanitizeSSML(input);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.had_injection_attempt);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1ad791733d0293c8af300f31d43479614e" kindref="member">TEST_F</ref>(<ref refid="class_s_s_m_l_sanitization_test" kindref="compound">SSMLSanitizationTest</ref>,<sp/>AttributeValueWithScriptKeywordIsRejected)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>input<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;DEL(&lt;prosody<sp/>rate=&quot;javascript:void(0)&quot;&gt;text&lt;/prosody&gt;)DEL&quot;;</highlight></codeline>
+<codeline lineno="106"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>customizer.sanitizeSSML(input);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.had_injection_attempt);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1ad791733d0293c8af300f31d43479614e" kindref="member">TEST_F</ref>(<ref refid="class_s_s_m_l_sanitization_test" kindref="compound">SSMLSanitizationTest</ref>,<sp/>PlainTextPassesThrough)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>input<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Hello,<sp/>how<sp/>are<sp/>you?&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>customizer.sanitizeSSML(input);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.had_injection_attempt);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.sanitized_text,<sp/>input);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1ad791733d0293c8af300f31d43479614e" kindref="member">TEST_F</ref>(<ref refid="class_s_s_m_l_sanitization_test" kindref="compound">SSMLSanitizationTest</ref>,<sp/>MixedAllowedAndDisallowedTags)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>input<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&lt;speak&gt;&lt;script&gt;bad&lt;/script&gt;&lt;p&gt;good&lt;/p&gt;&lt;/speak&gt;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>customizer.sanitizeSSML(input);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.had_injection_attempt);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>speak<sp/>and<sp/>p<sp/>must<sp/>survive;<sp/>script<sp/>must<sp/>be<sp/>stripped</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.sanitized_text.find(</highlight><highlight class="stringliteral">&quot;&lt;speak&gt;&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.sanitized_text.find(</highlight><highlight class="stringliteral">&quot;&lt;p&gt;&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.sanitized_text.find(</highlight><highlight class="stringliteral">&quot;&lt;script&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1ad791733d0293c8af300f31d43479614e" kindref="member">TEST_F</ref>(<ref refid="class_s_s_m_l_sanitization_test" kindref="compound">SSMLSanitizationTest</ref>,<sp/>IsSSMLSafeReturnsTrueForCleanInput)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(customizer.isSSMLSafe(</highlight><highlight class="stringliteral">&quot;&lt;speak&gt;&lt;p&gt;OK&lt;/p&gt;&lt;/speak&gt;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1ad791733d0293c8af300f31d43479614e" kindref="member">TEST_F</ref>(<ref refid="class_s_s_m_l_sanitization_test" kindref="compound">SSMLSanitizationTest</ref>,<sp/>IsSSMLSafeReturnsFalseForMalicious)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(customizer.isSSMLSafe(</highlight><highlight class="stringliteral">&quot;&lt;script&gt;alert(1)&lt;/script&gt;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="133"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Path<sp/>Traversal<sp/>Protection<sp/>–<sp/>VoiceModelCache::isSafeModelPath</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><ref refid="test__voice__security__features_8cpp_1a7a0ee74755d26255ae0fe20bac3a6dce" kindref="member">TEST</ref>(ModelCachePathTest,<sp/>SafeRelativePathAccepted)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1voice_1_1_voice_model_cache_1abb9047ecd1cdc395998a8fc364eb9fe1" kindref="member">VoiceModelCache::isSafeModelPath</ref>(</highlight><highlight class="stringliteral">&quot;models/whisper-base.bin&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="141"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><ref refid="test__voice__security__features_8cpp_1a7a0ee74755d26255ae0fe20bac3a6dce" kindref="member">TEST</ref>(ModelCachePathTest,<sp/>SafeAbsolutePathAccepted)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1voice_1_1_voice_model_cache_1abb9047ecd1cdc395998a8fc364eb9fe1" kindref="member">VoiceModelCache::isSafeModelPath</ref>(</highlight><highlight class="stringliteral">&quot;/opt/models/whisper.bin&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><ref refid="test__voice__security__features_8cpp_1a7a0ee74755d26255ae0fe20bac3a6dce" kindref="member">TEST</ref>(ModelCachePathTest,<sp/>EmptyPathRejected)<sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1voice_1_1_voice_model_cache_1abb9047ecd1cdc395998a8fc364eb9fe1" kindref="member">VoiceModelCache::isSafeModelPath</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><ref refid="test__voice__security__features_8cpp_1a7a0ee74755d26255ae0fe20bac3a6dce" kindref="member">TEST</ref>(ModelCachePathTest,<sp/>DotDotTraversalRejected)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1voice_1_1_voice_model_cache_1abb9047ecd1cdc395998a8fc364eb9fe1" kindref="member">VoiceModelCache::isSafeModelPath</ref>(</highlight><highlight class="stringliteral">&quot;../../etc/passwd&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><ref refid="test__voice__security__features_8cpp_1a7a0ee74755d26255ae0fe20bac3a6dce" kindref="member">TEST</ref>(ModelCachePathTest,<sp/>EmbeddedDotDotRejected)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1voice_1_1_voice_model_cache_1abb9047ecd1cdc395998a8fc364eb9fe1" kindref="member">VoiceModelCache::isSafeModelPath</ref>(</highlight><highlight class="stringliteral">&quot;/opt/models/../../../etc/shadow&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><ref refid="test__voice__security__features_8cpp_1a7a0ee74755d26255ae0fe20bac3a6dce" kindref="member">TEST</ref>(ModelCachePathTest,<sp/>NullByteRejected)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/opt/models/model.bin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>path.push_back(</highlight><highlight class="charliteral">&apos;\0&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>path<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;.evil&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1voice_1_1_voice_model_cache_1abb9047ecd1cdc395998a8fc364eb9fe1" kindref="member">VoiceModelCache::isSafeModelPath</ref>(path));</highlight></codeline>
+<codeline lineno="164"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><ref refid="test__voice__security__features_8cpp_1a7a0ee74755d26255ae0fe20bac3a6dce" kindref="member">TEST</ref>(ModelCachePathTest,<sp/>SemicolonShellMetacharRejected)<sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1voice_1_1_voice_model_cache_1abb9047ecd1cdc395998a8fc364eb9fe1" kindref="member">VoiceModelCache::isSafeModelPath</ref>(</highlight><highlight class="stringliteral">&quot;/models/good.bin;rm<sp/>-rf<sp/>/&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="168"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><ref refid="test__voice__security__features_8cpp_1a7a0ee74755d26255ae0fe20bac3a6dce" kindref="member">TEST</ref>(ModelCachePathTest,<sp/>PipeShellMetacharRejected)<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1voice_1_1_voice_model_cache_1abb9047ecd1cdc395998a8fc364eb9fe1" kindref="member">VoiceModelCache::isSafeModelPath</ref>(</highlight><highlight class="stringliteral">&quot;/models/good.bin|cat<sp/>/etc/passwd&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><ref refid="test__voice__security__features_8cpp_1a7a0ee74755d26255ae0fe20bac3a6dce" kindref="member">TEST</ref>(ModelCachePathTest,<sp/>BacktickShellMetacharRejected)<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1voice_1_1_voice_model_cache_1abb9047ecd1cdc395998a8fc364eb9fe1" kindref="member">VoiceModelCache::isSafeModelPath</ref>(</highlight><highlight class="stringliteral">&quot;/models/`id`&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><ref refid="test__voice__security__features_8cpp_1a7a0ee74755d26255ae0fe20bac3a6dce" kindref="member">TEST</ref>(ModelCachePathTest,<sp/>DollarShellMetacharRejected)<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1voice_1_1_voice_model_cache_1abb9047ecd1cdc395998a8fc364eb9fe1" kindref="member">VoiceModelCache::isSafeModelPath</ref>(</highlight><highlight class="stringliteral">&quot;/models/$HOME/.ssh/key&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><ref refid="test__voice__security__features_8cpp_1a7a0ee74755d26255ae0fe20bac3a6dce" kindref="member">TEST</ref>(ModelCachePathTest,<sp/>PathWithSpaceAccepted)<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Spaces<sp/>are<sp/>legitimate<sp/>in<sp/>paths</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1voice_1_1_voice_model_cache_1abb9047ecd1cdc395998a8fc364eb9fe1" kindref="member">VoiceModelCache::isSafeModelPath</ref>(</highlight><highlight class="stringliteral">&quot;/opt/my<sp/>models/whisper.bin&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="185"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Verify<sp/>that<sp/>get()<sp/>rejects<sp/>traversal<sp/>paths<sp/>even<sp/>when<sp/>a<sp/>loader<sp/>is<sp/>registered</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><ref refid="test__voice__security__features_8cpp_1a7a0ee74755d26255ae0fe20bac3a6dce" kindref="member">TEST</ref>(ModelCachePathTest,<sp/>GetRejectsUnsafePathWithoutLoader)<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_model_cache" kindref="compound">VoiceModelCache</ref><sp/>cache;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.<ref refid="classthemis_1_1voice_1_1_voice_model_cache_1a30350f5297ee86b2cd7d4f1c80504ed4" kindref="member">registerLoader</ref>(</highlight><highlight class="stringliteral">&quot;stt&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/>},</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*)<sp/>{});</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>cache.<ref refid="classthemis_1_1voice_1_1_voice_model_cache_1ad9fbc86096a347184f55e0eef7fb15dc" kindref="member">get</ref>(</highlight><highlight class="stringliteral">&quot;id1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;../../etc/passwd&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;stt&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.has_value());</highlight></codeline>
+<codeline lineno="195"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WebRTC<sp/>Origin<sp/>Allowlist<sp/>–<sp/>VoiceStreamingSession::checkOrigin</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config" kindref="compound">VoiceStreamingSession::Config</ref><sp/>makeConfig()<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config" kindref="compound">VoiceStreamingSession::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1acb524d7e6466ad4d5ff16f01d89cc28c" kindref="member">session_id</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test-session&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1ab41620a734393e3d3ac5e924adbf9c93" kindref="member">user_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test-user&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1a20d622990ef41c6601538b1fdaa27c75" kindref="member">max_frame_bytes</ref><sp/>=<sp/>65536;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1voice_1_1_voice_streaming_session_1_1_config_1a388382620b5b6b6ca51026038228ddf3" kindref="member">max_duration_s</ref><sp/><sp/>=<sp/>600;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><ref refid="test__voice__security__features_8cpp_1a7a0ee74755d26255ae0fe20bac3a6dce" kindref="member">TEST</ref>(OriginAllowlistTest,<sp/>EmptyAllowlistPermitsAnyOrigin)<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>makeConfig();</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>origin_allowlist<sp/>is<sp/>empty<sp/>by<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>session<sp/>=<sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a3f638ecbef58b78f6d06d77cab665d0e" kindref="member">VoiceStreamingSession::create</ref>(cfg);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(session-&gt;checkOrigin(</highlight><highlight class="stringliteral">&quot;https://anything.example.com&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(session-&gt;checkOrigin(</highlight><highlight class="stringliteral">&quot;https://evil.example.com&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="216"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><ref refid="test__voice__security__features_8cpp_1a7a0ee74755d26255ae0fe20bac3a6dce" kindref="member">TEST</ref>(OriginAllowlistTest,<sp/>NonEmptyAllowlistPermitsListedOrigin)<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>makeConfig();</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.origin_allowlist<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;https://app.example.com&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;https://admin.example.com&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>session<sp/>=<sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a3f638ecbef58b78f6d06d77cab665d0e" kindref="member">VoiceStreamingSession::create</ref>(cfg);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(session-&gt;checkOrigin(</highlight><highlight class="stringliteral">&quot;https://app.example.com&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(session-&gt;checkOrigin(</highlight><highlight class="stringliteral">&quot;https://admin.example.com&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="224"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><ref refid="test__voice__security__features_8cpp_1a7a0ee74755d26255ae0fe20bac3a6dce" kindref="member">TEST</ref>(OriginAllowlistTest,<sp/>NonEmptyAllowlistBlocksUnlistedOrigin)<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>makeConfig();</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.origin_allowlist<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;https://app.example.com&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>session<sp/>=<sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a3f638ecbef58b78f6d06d77cab665d0e" kindref="member">VoiceStreamingSession::create</ref>(cfg);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(session-&gt;checkOrigin(</highlight><highlight class="stringliteral">&quot;https://evil.example.com&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(session-&gt;checkOrigin(</highlight><highlight class="stringliteral">&quot;http://app.example.com&quot;</highlight><highlight class="normal">));<sp/></highlight><highlight class="comment">//<sp/>wrong<sp/>scheme</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(session-&gt;checkOrigin(</highlight><highlight class="stringliteral">&quot;https://app.example.com:8443&quot;</highlight><highlight class="normal">));<sp/></highlight><highlight class="comment">//<sp/>wrong<sp/>port</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><ref refid="test__voice__security__features_8cpp_1a7a0ee74755d26255ae0fe20bac3a6dce" kindref="member">TEST</ref>(OriginAllowlistTest,<sp/>ComparisonIsCaseSensitive)<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>makeConfig();</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.origin_allowlist<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;https://App.Example.COM&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>session<sp/>=<sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a3f638ecbef58b78f6d06d77cab665d0e" kindref="member">VoiceStreamingSession::create</ref>(cfg);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(session-&gt;checkOrigin(</highlight><highlight class="stringliteral">&quot;https://App.Example.COM&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(session-&gt;checkOrigin(</highlight><highlight class="stringliteral">&quot;https://app.example.com&quot;</highlight><highlight class="normal">));<sp/></highlight><highlight class="comment">//<sp/>different<sp/>case</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><ref refid="test__voice__security__features_8cpp_1a7a0ee74755d26255ae0fe20bac3a6dce" kindref="member">TEST</ref>(OriginAllowlistTest,<sp/>EmptyOriginStringBlockedWhenAllowlistSet)<sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>makeConfig();</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.origin_allowlist<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;https://app.example.com&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>session<sp/>=<sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a3f638ecbef58b78f6d06d77cab665d0e" kindref="member">VoiceStreamingSession::create</ref>(cfg);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(session-&gt;checkOrigin(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="248"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><ref refid="test__voice__security__features_8cpp_1a7a0ee74755d26255ae0fe20bac3a6dce" kindref="member">TEST</ref>(OriginAllowlistTest,<sp/>SingleWildcardStyleNotSupported)<sp/>{</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>implementation<sp/>requires<sp/>exact<sp/>matches;<sp/>&quot;*&quot;<sp/>is<sp/>NOT<sp/>treated<sp/>as<sp/>wildcard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>makeConfig();</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.origin_allowlist<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;*&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>session<sp/>=<sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a3f638ecbef58b78f6d06d77cab665d0e" kindref="member">VoiceStreamingSession::create</ref>(cfg);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(session-&gt;checkOrigin(</highlight><highlight class="stringliteral">&quot;https://app.example.com&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(session-&gt;checkOrigin(</highlight><highlight class="stringliteral">&quot;*&quot;</highlight><highlight class="normal">));<sp/></highlight><highlight class="comment">//<sp/>literal<sp/>match<sp/>only</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><ref refid="test__voice__security__features_8cpp_1a7a0ee74755d26255ae0fe20bac3a6dce" kindref="member">TEST</ref>(OriginAllowlistTest,<sp/>SessionStartsAndAudioFlowsWithAllowedOrigin)<sp/>{</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>makeConfig();</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.origin_allowlist<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;https://trusted.example.com&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>session<sp/>=<sp/><ref refid="classthemis_1_1voice_1_1_voice_streaming_session_1a3f638ecbef58b78f6d06d77cab665d0e" kindref="member">VoiceStreamingSession::create</ref>(cfg);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(session-&gt;checkOrigin(</highlight><highlight class="stringliteral">&quot;https://trusted.example.com&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Session<sp/>should<sp/>start<sp/>and<sp/>accept<sp/>audio<sp/>normally</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>session-&gt;start();</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">.empty());</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(session-&gt;isActive());</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>chunk(1024,<sp/>0);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pt<sp/>=<sp/>session-&gt;sendAudioChunk(chunk);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(session-&gt;bytesReceived(),<sp/>1024u);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>session-&gt;end();</highlight></codeline>
+<codeline lineno="272"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/voice/test_voice_security_features.cpp"/>
+  </compounddef>
+</doxygen>

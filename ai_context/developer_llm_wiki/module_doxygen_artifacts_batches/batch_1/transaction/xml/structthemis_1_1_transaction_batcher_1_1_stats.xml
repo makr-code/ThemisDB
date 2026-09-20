@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_transaction_batcher_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TransactionBatcher::Stats</compoundname>
+    <includes refid="transaction__batcher_8h" local="no">transaction_batcher.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_transaction_batcher_1_1_stats_1ac499d4f8ad87fa546e965e6b85bcaa08" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TransactionBatcher::Stats::batches_flushed</definition>
+        <argsstring></argsstring>
+        <name>batches_flushed</name>
+        <qualifiedname>themis::TransactionBatcher::Stats::batches_flushed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="76" column="18" bodyfile="include/transaction/transaction_batcher.h" bodystart="76" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_batcher_1_1_stats_1a205610cb52c94519f66f79cec1d42820" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TransactionBatcher::Stats::transactions_committed</definition>
+        <argsstring></argsstring>
+        <name>transactions_committed</name>
+        <qualifiedname>themis::TransactionBatcher::Stats::transactions_committed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="78" column="18" bodyfile="include/transaction/transaction_batcher.h" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_batcher_1_1_stats_1ab992144cb2bb9e95f456e7b0242256ca" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TransactionBatcher::Stats::transactions_failed</definition>
+        <argsstring></argsstring>
+        <name>transactions_failed</name>
+        <qualifiedname>themis::TransactionBatcher::Stats::transactions_failed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="80" column="18" bodyfile="include/transaction/transaction_batcher.h" bodystart="80" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_batcher_1_1_stats_1ae1127de81d8eb80d1f389a9d49c34005" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::TransactionBatcher::Stats::avg_batch_size</definition>
+        <argsstring></argsstring>
+        <name>avg_batch_size</name>
+        <qualifiedname>themis::TransactionBatcher::Stats::avg_batch_size</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="82" column="16" bodyfile="include/transaction/transaction_batcher.h" bodystart="82" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_batcher_1_1_stats_1a4b48b049ecd24ba9b8ce76b5d01652b2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::TransactionBatcher::Stats::avg_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_latency_ms</name>
+        <qualifiedname>themis::TransactionBatcher::Stats::avg_latency_ms</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="84" column="16" bodyfile="include/transaction/transaction_batcher.h" bodystart="84" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_batcher_1_1_stats_1ac5d32bbf5dae6ebb7b063c28da663cf1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TransactionBatcher::Stats::adaptive_adjustments</definition>
+        <argsstring></argsstring>
+        <name>adaptive_adjustments</name>
+        <qualifiedname>themis::TransactionBatcher::Stats::adaptive_adjustments</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="86" column="18" bodyfile="include/transaction/transaction_batcher.h" bodystart="86" bodyend="86"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/transaction_batcher.h" line="75" column="5" bodyfile="include/transaction/transaction_batcher.h" bodystart="75" bodyend="87"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_transaction_batcher_1_1_stats_1ac5d32bbf5dae6ebb7b063c28da663cf1" prot="public" virt="non-virtual"><scope>themis::TransactionBatcher::Stats</scope><name>adaptive_adjustments</name></member>
+      <member refid="structthemis_1_1_transaction_batcher_1_1_stats_1ae1127de81d8eb80d1f389a9d49c34005" prot="public" virt="non-virtual"><scope>themis::TransactionBatcher::Stats</scope><name>avg_batch_size</name></member>
+      <member refid="structthemis_1_1_transaction_batcher_1_1_stats_1a4b48b049ecd24ba9b8ce76b5d01652b2" prot="public" virt="non-virtual"><scope>themis::TransactionBatcher::Stats</scope><name>avg_latency_ms</name></member>
+      <member refid="structthemis_1_1_transaction_batcher_1_1_stats_1ac499d4f8ad87fa546e965e6b85bcaa08" prot="public" virt="non-virtual"><scope>themis::TransactionBatcher::Stats</scope><name>batches_flushed</name></member>
+      <member refid="structthemis_1_1_transaction_batcher_1_1_stats_1a205610cb52c94519f66f79cec1d42820" prot="public" virt="non-virtual"><scope>themis::TransactionBatcher::Stats</scope><name>transactions_committed</name></member>
+      <member refid="structthemis_1_1_transaction_batcher_1_1_stats_1ab992144cb2bb9e95f456e7b0242256ca" prot="public" virt="non-virtual"><scope>themis::TransactionBatcher::Stats</scope><name>transactions_failed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

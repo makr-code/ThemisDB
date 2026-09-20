@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_i_storage_engine_1_1_scan_range" kind="struct" language="C++" prot="public">
+    <compoundname>themis::IStorageEngine::ScanRange</compoundname>
+    <includes refid="storage__interface_8h" local="no">storage_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_i_storage_engine_1_1_scan_range_1aeab210436666ec06b21d0f6dac46e214" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::IStorageEngine::ScanRange::start_key</definition>
+        <argsstring></argsstring>
+        <name>start_key</name>
+        <qualifiedname>themis::IStorageEngine::ScanRange::start_key</qualifiedname>
+        <briefdescription>
+<para>Inclusive lower bound (empty = beginning). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/storage_interface.h" line="125" column="21" bodyfile="include/themis/base/interfaces/storage_interface.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_i_storage_engine_1_1_scan_range_1a2cdf50f3a98c59f57b2a5435e179caa5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::IStorageEngine::ScanRange::end_key</definition>
+        <argsstring></argsstring>
+        <name>end_key</name>
+        <qualifiedname>themis::IStorageEngine::ScanRange::end_key</qualifiedname>
+        <briefdescription>
+<para>Exclusive upper bound (empty = end). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/storage_interface.h" line="126" column="21" bodyfile="include/themis/base/interfaces/storage_interface.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single key range for use with <ref refid="classthemis_1_1_i_storage_engine_1ac7a88d8dbb495fd9b7ea2688569558f2" kindref="member">scanMultiRange()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/base/interfaces/storage_interface.h" line="124" column="5" bodyfile="include/themis/base/interfaces/storage_interface.h" bodystart="124" bodyend="127"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_i_storage_engine_1_1_scan_range_1a2cdf50f3a98c59f57b2a5435e179caa5" prot="public" virt="non-virtual"><scope>themis::IStorageEngine::ScanRange</scope><name>end_key</name></member>
+      <member refid="structthemis_1_1_i_storage_engine_1_1_scan_range_1aeab210436666ec06b21d0f6dac46e214" prot="public" virt="non-virtual"><scope>themis::IStorageEngine::ScanRange</scope><name>start_key</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

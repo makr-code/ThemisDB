@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1image_1_1_request_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::image::RequestGuard</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1image_1_1_request_guard_1a06243c7b809d4f41816420281cc1a09b" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl" kindref="compound">ONNXClipPlugin::Impl</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ONNXClipPlugin::Impl&gt; themis::plugins::image::RequestGuard::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::plugins::image::RequestGuard::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.cpp" line="546" column="21" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="546" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_request_guard_1a9d5bebd27edcb453f4fb1093c90ef125" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::image::RequestGuard::RequestGuard</definition>
+        <argsstring>(std::shared_ptr&lt; ONNXClipPlugin::Impl &gt; impl)</argsstring>
+        <name>RequestGuard</name>
+        <qualifiedname>themis::plugins::image::RequestGuard::RequestGuard</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="structthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1_1_impl" kindref="compound">ONNXClipPlugin::Impl</ref> &gt;</type>
+          <declname>impl</declname>
+        </param>
+        <briefdescription>
+<para>Request Guard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">impl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.cpp" line="526" column="14" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="526" bodyend="529"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_request_guard_1a61be17357f3cbd46b68e5fc78bc7ff7e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::image::RequestGuard::~RequestGuard</definition>
+        <argsstring>()</argsstring>
+        <name>~RequestGuard</name>
+        <qualifiedname>themis::plugins::image::RequestGuard::~RequestGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.cpp" line="531" column="5" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="531" bodyend="537"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_request_guard_1a1b75603d20aa43c7d346062d0f3a3405" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::image::RequestGuard::RequestGuard</definition>
+        <argsstring>(const RequestGuard &amp;)=delete</argsstring>
+        <name>RequestGuard</name>
+        <qualifiedname>themis::plugins::image::RequestGuard::RequestGuard</qualifiedname>
+        <param>
+          <type>const RequestGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.cpp" line="540" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_request_guard_1a78c826c50d50580d29c8a3c648d02b75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1image_1_1_request_guard_1a9d5bebd27edcb453f4fb1093c90ef125" kindref="member">RequestGuard</ref> &amp;</type>
+        <definition>RequestGuard &amp; themis::plugins::image::RequestGuard::operator=</definition>
+        <argsstring>(const RequestGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::plugins::image::RequestGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1plugins_1_1image_1_1_request_guard_1a9d5bebd27edcb453f4fb1093c90ef125" kindref="member">RequestGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.cpp" line="541" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_request_guard_1a79f81fdcac02fd3be3dca0ace457268e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::image::RequestGuard::RequestGuard</definition>
+        <argsstring>(RequestGuard &amp;&amp;)=delete</argsstring>
+        <name>RequestGuard</name>
+        <qualifiedname>themis::plugins::image::RequestGuard::RequestGuard</qualifiedname>
+        <param>
+          <type>RequestGuard &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.cpp" line="542" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_request_guard_1a7fc3affcc07b921712f9d7973aa5826c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1image_1_1_request_guard_1a9d5bebd27edcb453f4fb1093c90ef125" kindref="member">RequestGuard</ref> &amp;</type>
+        <definition>RequestGuard &amp; themis::plugins::image::RequestGuard::operator=</definition>
+        <argsstring>(RequestGuard &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::plugins::image::RequestGuard::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1image_1_1_request_guard_1a9d5bebd27edcb453f4fb1093c90ef125" kindref="member">RequestGuard</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/onnx_clip/onnx_clip_plugin.cpp" line="543" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/onnx_clip/onnx_clip_plugin.cpp" line="519" column="1" bodyfile="src/onnx_clip/onnx_clip_plugin.cpp" bodystart="519" bodyend="547"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_request_guard_1a06243c7b809d4f41816420281cc1a09b" prot="private" virt="non-virtual"><scope>themis::plugins::image::RequestGuard</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_request_guard_1a78c826c50d50580d29c8a3c648d02b75" prot="public" virt="non-virtual"><scope>themis::plugins::image::RequestGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_request_guard_1a7fc3affcc07b921712f9d7973aa5826c" prot="public" virt="non-virtual"><scope>themis::plugins::image::RequestGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_request_guard_1a9d5bebd27edcb453f4fb1093c90ef125" prot="public" virt="non-virtual"><scope>themis::plugins::image::RequestGuard</scope><name>RequestGuard</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_request_guard_1a1b75603d20aa43c7d346062d0f3a3405" prot="public" virt="non-virtual"><scope>themis::plugins::image::RequestGuard</scope><name>RequestGuard</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_request_guard_1a79f81fdcac02fd3be3dca0ace457268e" prot="public" virt="non-virtual"><scope>themis::plugins::image::RequestGuard</scope><name>RequestGuard</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_request_guard_1a61be17357f3cbd46b68e5fc78bc7ff7e" prot="public" virt="non-virtual"><scope>themis::plugins::image::RequestGuard</scope><name>~RequestGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

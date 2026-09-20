@@ -1,0 +1,254 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_llama_model_handle" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::LlamaModelHandle</compoundname>
+    <includes refid="llama__resource__manager_8h" local="no">llama_resource_manager.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_llama_model_handle_1_1_model_deleter" prot="private">themis::llm::LlamaModelHandle::ModelDeleter</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_llama_model_handle_1a475aeb62314e9153f589d6432c4519d1" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; llama_model, ModelDeleter &gt;</type>
+        <definition>std::unique_ptr&lt;llama_model, ModelDeleter&gt; themis::llm::LlamaModelHandle::model_</definition>
+        <argsstring></argsstring>
+        <name>model_</name>
+        <qualifiedname>themis::llm::LlamaModelHandle::model_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="142" column="21" bodyfile="include/llm/llama_resource_manager.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_llama_model_handle_1ac63bfb456070f81eb86241f990c8bb4c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::LlamaModelHandle::LlamaModelHandle</definition>
+        <argsstring>(const std::string &amp;model_path, const llama_model_params &amp;params)</argsstring>
+        <name>LlamaModelHandle</name>
+        <qualifiedname>themis::llm::LlamaModelHandle::LlamaModelHandle</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_path</declname>
+        </param>
+        <param>
+          <type>const llama_model_params &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Llama Model Handle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="107" column="14" bodyfile="src/llm/llama_resource_manager.cpp" bodystart="27" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_llama_model_handle_1a6769057f31d483ff1187debb462c5ae4" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::LlamaModelHandle::~LlamaModelHandle</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~LlamaModelHandle</name>
+        <qualifiedname>themis::llm::LlamaModelHandle::~LlamaModelHandle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="109" column="5" bodyfile="src/llm/llama_resource_manager.cpp" bodystart="45" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_llama_model_handle_1aed82d71800861dda0da59be10f22c3f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::LlamaModelHandle::LlamaModelHandle</definition>
+        <argsstring>(const LlamaModelHandle &amp;)=delete</argsstring>
+        <name>LlamaModelHandle</name>
+        <qualifiedname>themis::llm::LlamaModelHandle::LlamaModelHandle</qualifiedname>
+        <param>
+          <type>const LlamaModelHandle &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="112" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_llama_model_handle_1a0cab09cf9e69b590af1e83085727c02a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_llama_model_handle_1ac63bfb456070f81eb86241f990c8bb4c" kindref="member">LlamaModelHandle</ref> &amp;</type>
+        <definition>LlamaModelHandle &amp; themis::llm::LlamaModelHandle::operator=</definition>
+        <argsstring>(const LlamaModelHandle &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::LlamaModelHandle::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1_llama_model_handle_1ac63bfb456070f81eb86241f990c8bb4c" kindref="member">LlamaModelHandle</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="113" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_llama_model_handle_1a191cf766827c993c389bb2be9f6f35a8" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::LlamaModelHandle::LlamaModelHandle</definition>
+        <argsstring>(LlamaModelHandle &amp;&amp;other) noexcept</argsstring>
+        <name>LlamaModelHandle</name>
+        <qualifiedname>themis::llm::LlamaModelHandle::LlamaModelHandle</qualifiedname>
+        <param>
+          <type>LlamaModelHandle &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="114" column="5" bodyfile="src/llm/llama_resource_manager.cpp" bodystart="53" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_llama_model_handle_1a2396e1fa597c1950ac866c9b0b2ac608" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_llama_model_handle_1ac63bfb456070f81eb86241f990c8bb4c" kindref="member">LlamaModelHandle</ref> &amp;</type>
+        <definition>LlamaModelHandle &amp; themis::llm::LlamaModelHandle::operator=</definition>
+        <argsstring>(LlamaModelHandle &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::LlamaModelHandle::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_llama_model_handle_1ac63bfb456070f81eb86241f990c8bb4c" kindref="member">LlamaModelHandle</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="115" column="22" bodyfile="src/llm/llama_resource_manager.cpp" bodystart="57" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_llama_model_handle_1aab2b26b781a204e1c03acd23c15f188d" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>llama_model *</type>
+        <definition>llama_model * themis::llm::LlamaModelHandle::get</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::llm::LlamaModelHandle::get</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="117" column="17" bodyfile="include/llm/llama_resource_manager.h" bodystart="117" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_llama_model_handle_1a9f8105b62eafd86b5a59369d86dc20fe" prot="public" static="no" const="yes" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::LlamaModelHandle::operator bool</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>operator bool</name>
+        <qualifiedname>themis::llm::LlamaModelHandle::operator bool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="118" column="14" bodyfile="include/llm/llama_resource_manager.h" bodystart="118" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_llama_model_handle_1a6aa2f4232a43e3ce1f830bf3cb93ac1f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LlamaModelHandle::n_vocab</definition>
+        <argsstring>() const</argsstring>
+        <name>n_vocab</name>
+        <qualifiedname>themis::llm::LlamaModelHandle::n_vocab</qualifiedname>
+        <briefdescription>
+<para>N vocab. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="125" column="12" bodyfile="src/llm/llama_resource_manager.cpp" bodystart="71" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_llama_model_handle_1af2429c9b10c96dd340fc30a74bac6b6e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LlamaModelHandle::n_embd</definition>
+        <argsstring>() const</argsstring>
+        <name>n_embd</name>
+        <qualifiedname>themis::llm::LlamaModelHandle::n_embd</qualifiedname>
+        <briefdescription>
+<para>N embd. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="130" column="12" bodyfile="src/llm/llama_resource_manager.cpp" bodystart="75" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_llama_model_handle_1aef3953a69b30aebdcc6312ed4aa3e4e7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LlamaModelHandle::model_type</definition>
+        <argsstring>() const</argsstring>
+        <name>model_type</name>
+        <qualifiedname>themis::llm::LlamaModelHandle::model_type</qualifiedname>
+        <briefdescription>
+<para>Model type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="135" column="17" bodyfile="src/llm/llama_resource_manager.cpp" bodystart="79" bodyend="97"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llama_resource_manager.h" line="99" column="1" bodyfile="include/llm/llama_resource_manager.h" bodystart="99" bodyend="143"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_llama_model_handle_1aab2b26b781a204e1c03acd23c15f188d" prot="public" virt="non-virtual"><scope>themis::llm::LlamaModelHandle</scope><name>get</name></member>
+      <member refid="classthemis_1_1llm_1_1_llama_model_handle_1ac63bfb456070f81eb86241f990c8bb4c" prot="public" virt="non-virtual"><scope>themis::llm::LlamaModelHandle</scope><name>LlamaModelHandle</name></member>
+      <member refid="classthemis_1_1llm_1_1_llama_model_handle_1aed82d71800861dda0da59be10f22c3f9" prot="public" virt="non-virtual"><scope>themis::llm::LlamaModelHandle</scope><name>LlamaModelHandle</name></member>
+      <member refid="classthemis_1_1llm_1_1_llama_model_handle_1a191cf766827c993c389bb2be9f6f35a8" prot="public" virt="non-virtual"><scope>themis::llm::LlamaModelHandle</scope><name>LlamaModelHandle</name></member>
+      <member refid="classthemis_1_1llm_1_1_llama_model_handle_1a475aeb62314e9153f589d6432c4519d1" prot="private" virt="non-virtual"><scope>themis::llm::LlamaModelHandle</scope><name>model_</name></member>
+      <member refid="classthemis_1_1llm_1_1_llama_model_handle_1aef3953a69b30aebdcc6312ed4aa3e4e7" prot="public" virt="non-virtual"><scope>themis::llm::LlamaModelHandle</scope><name>model_type</name></member>
+      <member refid="classthemis_1_1llm_1_1_llama_model_handle_1af2429c9b10c96dd340fc30a74bac6b6e" prot="public" virt="non-virtual"><scope>themis::llm::LlamaModelHandle</scope><name>n_embd</name></member>
+      <member refid="classthemis_1_1llm_1_1_llama_model_handle_1a6aa2f4232a43e3ce1f830bf3cb93ac1f" prot="public" virt="non-virtual"><scope>themis::llm::LlamaModelHandle</scope><name>n_vocab</name></member>
+      <member refid="classthemis_1_1llm_1_1_llama_model_handle_1a9f8105b62eafd86b5a59369d86dc20fe" prot="public" virt="non-virtual"><scope>themis::llm::LlamaModelHandle</scope><name>operator bool</name></member>
+      <member refid="classthemis_1_1llm_1_1_llama_model_handle_1a0cab09cf9e69b590af1e83085727c02a" prot="public" virt="non-virtual"><scope>themis::llm::LlamaModelHandle</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_llama_model_handle_1a2396e1fa597c1950ac866c9b0b2ac608" prot="public" virt="non-virtual"><scope>themis::llm::LlamaModelHandle</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_llama_model_handle_1a6769057f31d483ff1187debb462c5ae4" prot="public" virt="non-virtual"><scope>themis::llm::LlamaModelHandle</scope><name>~LlamaModelHandle</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

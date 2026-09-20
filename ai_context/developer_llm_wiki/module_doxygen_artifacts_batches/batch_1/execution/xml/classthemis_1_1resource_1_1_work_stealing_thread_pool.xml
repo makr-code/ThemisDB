@@ -1,0 +1,688 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1resource_1_1_work_stealing_thread_pool" kind="class" language="C++" prot="public">
+    <compoundname>themis::resource::WorkStealingThreadPool</compoundname>
+    <includes refid="thread__pool__manager_8h" local="no">thread_pool_manager.h</includes>
+    <innerclass refid="structthemis_1_1resource_1_1_work_stealing_thread_pool_1_1_config" prot="public">themis::resource::WorkStealingThreadPool::Config</innerclass>
+    <innerclass refid="structthemis_1_1resource_1_1_work_stealing_thread_pool_1_1_statistics" prot="public">themis::resource::WorkStealingThreadPool::Statistics</innerclass>
+    <innerclass refid="structthemis_1_1resource_1_1_work_stealing_thread_pool_1_1_thread_queue" prot="private">themis::resource::WorkStealingThreadPool::ThreadQueue</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a5ccbc25c6217eed45368e998dd08e141" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1resource_1_1_work_stealing_thread_pool_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::resource::WorkStealingThreadPool::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::resource::WorkStealingThreadPool::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/thread_pool_manager.h" line="146" column="13" bodyfile="include/execution/thread_pool_manager.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a965a3ea8b5e1f6d5676af1f669871527" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; <ref refid="structthemis_1_1resource_1_1_work_item" kindref="compound">WorkItem</ref> &gt;</type>
+        <definition>std::deque&lt;WorkItem&gt; themis::resource::WorkStealingThreadPool::dispatch_queue_</definition>
+        <argsstring></argsstring>
+        <name>dispatch_queue_</name>
+        <qualifiedname>themis::resource::WorkStealingThreadPool::dispatch_queue_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/thread_pool_manager.h" line="149" column="20" bodyfile="include/execution/thread_pool_manager.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a08e08a186830b3eddcb686ecc47e60c1" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::resource::WorkStealingThreadPool::dispatch_mutex_</definition>
+        <argsstring></argsstring>
+        <name>dispatch_mutex_</name>
+        <qualifiedname>themis::resource::WorkStealingThreadPool::dispatch_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/thread_pool_manager.h" line="150" column="30" bodyfile="include/execution/thread_pool_manager.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a658eb5ddbe291b23fcf40f677bf81d85" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::resource::WorkStealingThreadPool::dispatch_cv_</definition>
+        <argsstring></argsstring>
+        <name>dispatch_cv_</name>
+        <qualifiedname>themis::resource::WorkStealingThreadPool::dispatch_cv_</qualifiedname>
+        <briefdescription>
+<para>Notified when queue non-empty. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/thread_pool_manager.h" line="151" column="30" bodyfile="include/execution/thread_pool_manager.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_work_stealing_thread_pool_1ac076967b096f2a7081d96e511860e748" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::resource::WorkStealingThreadPool::capacity_cv_</definition>
+        <argsstring></argsstring>
+        <name>capacity_cv_</name>
+        <qualifiedname>themis::resource::WorkStealingThreadPool::capacity_cv_</qualifiedname>
+        <briefdescription>
+<para>Notified when queue drains. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/thread_pool_manager.h" line="152" column="30" bodyfile="include/execution/thread_pool_manager.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_work_stealing_thread_pool_1ad86ab6cd2687bf392204ac8166834944" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; ThreadQueue &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;ThreadQueue&gt; &gt; themis::resource::WorkStealingThreadPool::queues_</definition>
+        <argsstring></argsstring>
+        <name>queues_</name>
+        <qualifiedname>themis::resource::WorkStealingThreadPool::queues_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/thread_pool_manager.h" line="154" column="17" bodyfile="include/execution/thread_pool_manager.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a55c92e4404d9a98578d528fc8cec615a" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::resource::WorkStealingThreadPool::queues_mutex_</definition>
+        <argsstring></argsstring>
+        <name>queues_mutex_</name>
+        <qualifiedname>themis::resource::WorkStealingThreadPool::queues_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/thread_pool_manager.h" line="155" column="47" bodyfile="include/execution/thread_pool_manager.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a841d7f391668ca5d1ceda581f22702ce" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::thread &gt;</type>
+        <definition>std::vector&lt;std::thread&gt; themis::resource::WorkStealingThreadPool::workers_</definition>
+        <argsstring></argsstring>
+        <name>workers_</name>
+        <qualifiedname>themis::resource::WorkStealingThreadPool::workers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/thread_pool_manager.h" line="157" column="17" bodyfile="include/execution/thread_pool_manager.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_work_stealing_thread_pool_1ae79272f9aa8cd9d010f4f248b9f67444" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::resource::WorkStealingThreadPool::workers_mutex_</definition>
+        <argsstring></argsstring>
+        <name>workers_mutex_</name>
+        <qualifiedname>themis::resource::WorkStealingThreadPool::workers_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/thread_pool_manager.h" line="158" column="30" bodyfile="include/execution/thread_pool_manager.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_work_stealing_thread_pool_1abb2aef48f65103544ee4c5f8300341a7" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::resource::WorkStealingThreadPool::shutdown_</definition>
+        <argsstring></argsstring>
+        <name>shutdown_</name>
+        <qualifiedname>themis::resource::WorkStealingThreadPool::shutdown_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/thread_pool_manager.h" line="160" column="24" bodyfile="include/execution/thread_pool_manager.h" bodystart="160" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a8f3b7b6a22541f8a2d6d1f6357f903e1" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; std::size_t &gt;</type>
+        <definition>std::atomic&lt;std::size_t&gt; themis::resource::WorkStealingThreadPool::active_threads_</definition>
+        <argsstring></argsstring>
+        <name>active_threads_</name>
+        <qualifiedname>themis::resource::WorkStealingThreadPool::active_threads_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/thread_pool_manager.h" line="161" column="17" bodyfile="include/execution/thread_pool_manager.h" bodystart="161" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_work_stealing_thread_pool_1af55ead05051d89aa74edf235ca346323" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; std::size_t &gt;</type>
+        <definition>std::atomic&lt;std::size_t&gt; themis::resource::WorkStealingThreadPool::queued_count_</definition>
+        <argsstring></argsstring>
+        <name>queued_count_</name>
+        <qualifiedname>themis::resource::WorkStealingThreadPool::queued_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/thread_pool_manager.h" line="162" column="17" bodyfile="include/execution/thread_pool_manager.h" bodystart="162" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a842a7dbcd0b40fa27d4835026e8e227b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::resource::WorkStealingThreadPool::completed_</definition>
+        <argsstring></argsstring>
+        <name>completed_</name>
+        <qualifiedname>themis::resource::WorkStealingThreadPool::completed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/thread_pool_manager.h" line="163" column="20" bodyfile="include/execution/thread_pool_manager.h" bodystart="163" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a30dd1e1384e04c8944d54ca346252119" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::resource::WorkStealingThreadPool::failed_</definition>
+        <argsstring></argsstring>
+        <name>failed_</name>
+        <qualifiedname>themis::resource::WorkStealingThreadPool::failed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/thread_pool_manager.h" line="164" column="20" bodyfile="include/execution/thread_pool_manager.h" bodystart="164" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_work_stealing_thread_pool_1aafdaa1c9087d7d03d106d3d247205a48" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::resource::WorkStealingThreadPool::latency_mutex_</definition>
+        <argsstring></argsstring>
+        <name>latency_mutex_</name>
+        <qualifiedname>themis::resource::WorkStealingThreadPool::latency_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/thread_pool_manager.h" line="167" column="30" bodyfile="include/execution/thread_pool_manager.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_work_stealing_thread_pool_1ad04a23b2355a1501d6fe6eb069e2d183" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::resource::WorkStealingThreadPool::latency_samples_us_</definition>
+        <argsstring></argsstring>
+        <name>latency_samples_us_</name>
+        <qualifiedname>themis::resource::WorkStealingThreadPool::latency_samples_us_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/thread_pool_manager.h" line="168" column="22" bodyfile="include/execution/thread_pool_manager.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_work_stealing_thread_pool_1ae8b9db47ee2612a9344a95edd2ad97d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::resource::WorkStealingThreadPool::WorkStealingThreadPool</definition>
+        <argsstring>()</argsstring>
+        <name>WorkStealingThreadPool</name>
+        <qualifiedname>themis::resource::WorkStealingThreadPool::WorkStealingThreadPool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/thread_pool_manager.h" line="74" column="5" bodyfile="src/execution/thread_pool_manager.cpp" bodystart="22" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_work_stealing_thread_pool_1ada6f42ccf5985bf7829ff77e1fcabc3d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::resource::WorkStealingThreadPool::WorkStealingThreadPool</definition>
+        <argsstring>(const Config &amp;cfg)</argsstring>
+        <name>WorkStealingThreadPool</name>
+        <qualifiedname>themis::resource::WorkStealingThreadPool::WorkStealingThreadPool</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1resource_1_1_work_stealing_thread_pool_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Work Stealing Thread Pool. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queues_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">workers_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/execution/thread_pool_manager.h" line="81" column="14" bodyfile="src/execution/thread_pool_manager.cpp" bodystart="25" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a01a2cf9c5fa76f80051891bf349008ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::resource::WorkStealingThreadPool::~WorkStealingThreadPool</definition>
+        <argsstring>()</argsstring>
+        <name>~WorkStealingThreadPool</name>
+        <qualifiedname>themis::resource::WorkStealingThreadPool::~WorkStealingThreadPool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/thread_pool_manager.h" line="83" column="5" bodyfile="src/execution/thread_pool_manager.cpp" bodystart="65" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a2da919a0763cdbf24319dd87ec40057c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::resource::WorkStealingThreadPool::WorkStealingThreadPool</definition>
+        <argsstring>(const WorkStealingThreadPool &amp;)=delete</argsstring>
+        <name>WorkStealingThreadPool</name>
+        <qualifiedname>themis::resource::WorkStealingThreadPool::WorkStealingThreadPool</qualifiedname>
+        <param>
+          <type>const WorkStealingThreadPool &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/thread_pool_manager.h" line="86" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_work_stealing_thread_pool_1ac32ce45cbbe82531f4e0ae3c1f19b099" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1ae8b9db47ee2612a9344a95edd2ad97d0" kindref="member">WorkStealingThreadPool</ref> &amp;</type>
+        <definition>WorkStealingThreadPool &amp; themis::resource::WorkStealingThreadPool::operator=</definition>
+        <argsstring>(const WorkStealingThreadPool &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::resource::WorkStealingThreadPool::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1ae8b9db47ee2612a9344a95edd2ad97d0" kindref="member">WorkStealingThreadPool</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/thread_pool_manager.h" line="87" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a867480718368cc26f5d50c75de922e12" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::resource::WorkStealingThreadPool::submit</definition>
+        <argsstring>(WorkItem item, std::chrono::milliseconds timeout=std::chrono::seconds(5))</argsstring>
+        <name>submit</name>
+        <qualifiedname>themis::resource::WorkStealingThreadPool::submit</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1resource_1_1_work_item" kindref="compound">WorkItem</ref></type>
+          <declname>item</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+          <defval>std::chrono::seconds(5)</defval>
+        </param>
+        <briefdescription>
+<para>Submit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">item</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: load(), std::chrono::steady_clock::now(), lk(), wait_until(), push_back(), std::move(), fetch_add(), unlock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/thread_pool_manager.h" line="89" column="10" bodyfile="src/execution/thread_pool_manager.cpp" bodystart="80" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a429a75181a81eb69661d3b5d632db475" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::resource::WorkStealingThreadPool::submit</definition>
+        <argsstring>(std::function&lt; void()&gt; fn, std::string name={}, std::chrono::milliseconds timeout=std::chrono::seconds(5))</argsstring>
+        <name>submit</name>
+        <qualifiedname>themis::resource::WorkStealingThreadPool::submit</qualifiedname>
+        <param>
+          <type>std::function&lt; void()&gt;</type>
+          <declname>fn</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+          <defval>std::chrono::seconds(5)</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/thread_pool_manager.h" line="92" column="10" bodyfile="src/execution/thread_pool_manager.cpp" bodystart="106" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_work_stealing_thread_pool_1aafe8e684de31db481b528f65b93f5452" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::resource::WorkStealingThreadPool::waitAll</definition>
+        <argsstring>(std::chrono::milliseconds timeout=std::chrono::seconds(30))</argsstring>
+        <name>waitAll</name>
+        <qualifiedname>themis::resource::WorkStealingThreadPool::waitAll</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+          <defval>std::chrono::seconds(30)</defval>
+        </param>
+        <briefdescription>
+<para>Wait All. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), lk(), empty(), load(), std::this_thread::sleep_for(), std::chrono::milliseconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/thread_pool_manager.h" line="95" column="10" bodyfile="src/execution/thread_pool_manager.cpp" bodystart="215" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_work_stealing_thread_pool_1ad01ff5777adf35563586b691d1e5c52f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1resource_1_1_work_stealing_thread_pool_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>WorkStealingThreadPool::Statistics themis::resource::WorkStealingThreadPool::statistics</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>statistics</name>
+        <qualifiedname>themis::resource::WorkStealingThreadPool::statistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/execution/thread_pool_manager.h" line="97" column="17" bodyfile="src/execution/thread_pool_manager.cpp" bodystart="235" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_work_stealing_thread_pool_1aa78f307962e49cc50c924999d51c24c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::resource::WorkStealingThreadPool::shutdown</definition>
+        <argsstring>(std::chrono::milliseconds drain_timeout=std::chrono::seconds(30))</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::resource::WorkStealingThreadPool::shutdown</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>drain_timeout</declname>
+          <defval>std::chrono::seconds(30)</defval>
+        </param>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">drain_timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: exchange(), <ref refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1aafe8e684de31db481b528f65b93f5452" kindref="member">waitAll()</ref>, notify_all(), lk(), joinable(), join(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/thread_pool_manager.h" line="99" column="10" bodyfile="src/execution/thread_pool_manager.cpp" bodystart="275" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a0893fb88e5f36a20fcda092dfebab210" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::resource::WorkStealingThreadPool::is_shutdown</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>is_shutdown</name>
+        <qualifiedname>themis::resource::WorkStealingThreadPool::is_shutdown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/thread_pool_manager.h" line="101" column="11" bodyfile="include/execution/thread_pool_manager.h" bodystart="101" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a843283ce938ca4d1c64b1c07fc597868" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::resource::WorkStealingThreadPool::thread_count</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>thread_count</name>
+        <qualifiedname>themis::resource::WorkStealingThreadPool::thread_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/thread_pool_manager.h" line="105" column="18" bodyfile="src/execution/thread_pool_manager.cpp" bodystart="262" bodyend="264"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_work_stealing_thread_pool_1ae4a99fa1f2624473191f3a2b1dedda16" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::resource::WorkStealingThreadPool::workerLoop</definition>
+        <argsstring>(std::size_t thread_idx)</argsstring>
+        <name>workerLoop</name>
+        <qualifiedname>themis::resource::WorkStealingThreadPool::workerLoop</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>thread_idx</declname>
+        </param>
+        <briefdescription>
+<para>Worker Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">thread_idx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">thread_idx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::milliseconds(), load(), tryGetWork(), lk(), wait_for(), empty(), std::chrono::steady_clock::now(), fn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/thread_pool_manager.h" line="137" column="10" bodyfile="src/execution/thread_pool_manager.cpp" bodystart="145" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a9e82ef8f38c8564fae5482d78210ac28" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::resource::WorkStealingThreadPool::tryGetWork</definition>
+        <argsstring>(std::size_t own_idx, WorkItem &amp;out)</argsstring>
+        <name>tryGetWork</name>
+        <qualifiedname>themis::resource::WorkStealingThreadPool::tryGetWork</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>own_idx</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1resource_1_1_work_item" kindref="compound">WorkItem</ref> &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+<para>Try Get Work. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> tryGetWork — try dispatch queue first, then steal from peers ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">own_idx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), empty(), std::move(), front(), pop_front(), fetch_sub(), notify_one(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/thread_pool_manager.h" line="144" column="10" bodyfile="src/execution/thread_pool_manager.cpp" bodystart="119" bodyend="134"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/execution/thread_pool_manager.h" line="56" column="1" bodyfile="include/execution/thread_pool_manager.h" bodystart="56" bodyend="169"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a8f3b7b6a22541f8a2d6d1f6357f903e1" prot="private" virt="non-virtual"><scope>themis::resource::WorkStealingThreadPool</scope><name>active_threads_</name></member>
+      <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1ac076967b096f2a7081d96e511860e748" prot="private" virt="non-virtual"><scope>themis::resource::WorkStealingThreadPool</scope><name>capacity_cv_</name></member>
+      <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a5ccbc25c6217eed45368e998dd08e141" prot="private" virt="non-virtual"><scope>themis::resource::WorkStealingThreadPool</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a842a7dbcd0b40fa27d4835026e8e227b" prot="private" virt="non-virtual"><scope>themis::resource::WorkStealingThreadPool</scope><name>completed_</name></member>
+      <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a658eb5ddbe291b23fcf40f677bf81d85" prot="private" virt="non-virtual"><scope>themis::resource::WorkStealingThreadPool</scope><name>dispatch_cv_</name></member>
+      <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a08e08a186830b3eddcb686ecc47e60c1" prot="private" virt="non-virtual"><scope>themis::resource::WorkStealingThreadPool</scope><name>dispatch_mutex_</name></member>
+      <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a965a3ea8b5e1f6d5676af1f669871527" prot="private" virt="non-virtual"><scope>themis::resource::WorkStealingThreadPool</scope><name>dispatch_queue_</name></member>
+      <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a30dd1e1384e04c8944d54ca346252119" prot="private" virt="non-virtual"><scope>themis::resource::WorkStealingThreadPool</scope><name>failed_</name></member>
+      <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a0893fb88e5f36a20fcda092dfebab210" prot="public" virt="non-virtual"><scope>themis::resource::WorkStealingThreadPool</scope><name>is_shutdown</name></member>
+      <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1aafdaa1c9087d7d03d106d3d247205a48" prot="private" virt="non-virtual"><scope>themis::resource::WorkStealingThreadPool</scope><name>latency_mutex_</name></member>
+      <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1ad04a23b2355a1501d6fe6eb069e2d183" prot="private" virt="non-virtual"><scope>themis::resource::WorkStealingThreadPool</scope><name>latency_samples_us_</name></member>
+      <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1ac32ce45cbbe82531f4e0ae3c1f19b099" prot="public" virt="non-virtual"><scope>themis::resource::WorkStealingThreadPool</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1af55ead05051d89aa74edf235ca346323" prot="private" virt="non-virtual"><scope>themis::resource::WorkStealingThreadPool</scope><name>queued_count_</name></member>
+      <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1ad86ab6cd2687bf392204ac8166834944" prot="private" virt="non-virtual"><scope>themis::resource::WorkStealingThreadPool</scope><name>queues_</name></member>
+      <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a55c92e4404d9a98578d528fc8cec615a" prot="private" virt="non-virtual"><scope>themis::resource::WorkStealingThreadPool</scope><name>queues_mutex_</name></member>
+      <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1aa78f307962e49cc50c924999d51c24c8" prot="public" virt="non-virtual"><scope>themis::resource::WorkStealingThreadPool</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1abb2aef48f65103544ee4c5f8300341a7" prot="private" virt="non-virtual"><scope>themis::resource::WorkStealingThreadPool</scope><name>shutdown_</name></member>
+      <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1ad01ff5777adf35563586b691d1e5c52f" prot="public" virt="non-virtual"><scope>themis::resource::WorkStealingThreadPool</scope><name>statistics</name></member>
+      <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a867480718368cc26f5d50c75de922e12" prot="public" virt="non-virtual"><scope>themis::resource::WorkStealingThreadPool</scope><name>submit</name></member>
+      <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a429a75181a81eb69661d3b5d632db475" prot="public" virt="non-virtual"><scope>themis::resource::WorkStealingThreadPool</scope><name>submit</name></member>
+      <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a843283ce938ca4d1c64b1c07fc597868" prot="public" virt="non-virtual"><scope>themis::resource::WorkStealingThreadPool</scope><name>thread_count</name></member>
+      <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a9e82ef8f38c8564fae5482d78210ac28" prot="private" virt="non-virtual"><scope>themis::resource::WorkStealingThreadPool</scope><name>tryGetWork</name></member>
+      <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1aafe8e684de31db481b528f65b93f5452" prot="public" virt="non-virtual"><scope>themis::resource::WorkStealingThreadPool</scope><name>waitAll</name></member>
+      <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1ae4a99fa1f2624473191f3a2b1dedda16" prot="private" virt="non-virtual"><scope>themis::resource::WorkStealingThreadPool</scope><name>workerLoop</name></member>
+      <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a841d7f391668ca5d1ceda581f22702ce" prot="private" virt="non-virtual"><scope>themis::resource::WorkStealingThreadPool</scope><name>workers_</name></member>
+      <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1ae79272f9aa8cd9d010f4f248b9f67444" prot="private" virt="non-virtual"><scope>themis::resource::WorkStealingThreadPool</scope><name>workers_mutex_</name></member>
+      <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1ae8b9db47ee2612a9344a95edd2ad97d0" prot="public" virt="non-virtual"><scope>themis::resource::WorkStealingThreadPool</scope><name>WorkStealingThreadPool</name></member>
+      <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1ada6f42ccf5985bf7829ff77e1fcabc3d" prot="public" virt="non-virtual"><scope>themis::resource::WorkStealingThreadPool</scope><name>WorkStealingThreadPool</name></member>
+      <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a2da919a0763cdbf24319dd87ec40057c" prot="public" virt="non-virtual"><scope>themis::resource::WorkStealingThreadPool</scope><name>WorkStealingThreadPool</name></member>
+      <member refid="classthemis_1_1resource_1_1_work_stealing_thread_pool_1a01a2cf9c5fa76f80051891bf349008ab" prot="public" virt="non-virtual"><scope>themis::resource::WorkStealingThreadPool</scope><name>~WorkStealingThreadPool</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

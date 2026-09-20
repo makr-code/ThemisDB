@@ -1,0 +1,240 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1modules_1_1_module_registry" kind="class" language="C++" prot="public">
+    <compoundname>themis::modules::ModuleRegistry</compoundname>
+    <includes refid="module__loader_8h" local="no">module_loader.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_module_registry_1a1cd9cb44b8c4a2bb69e3f058eb7ccfd8" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1modules_1_1_loaded_module" kindref="compound">LoadedModule</ref> &gt;</type>
+        <definition>std::vector&lt;LoadedModule&gt; themis::modules::ModuleRegistry::modules_</definition>
+        <argsstring></argsstring>
+        <name>modules_</name>
+        <qualifiedname>themis::modules::ModuleRegistry::modules_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="841" column="17" bodyfile="include/themis/base/module_loader.h" bodystart="841" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_registry_1a8af9eca1422ec1a7516c242191a1b760" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ModuleRegistry &amp;</type>
+        <definition>ModuleRegistry &amp; themis::modules::ModuleRegistry::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::modules::ModuleRegistry::instance</qualifiedname>
+        <briefdescription>
+<para>Instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements instance without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="808" column="27" bodyfile="src/themis/module_loader.cpp" bodystart="680" bodyend="683"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_registry_1acf25817c22a421f7d222ccbf115df7f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ModuleRegistry::registerModule</definition>
+        <argsstring>(const LoadedModule &amp;module)</argsstring>
+        <name>registerModule</name>
+        <qualifiedname>themis::modules::ModuleRegistry::registerModule</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1modules_1_1_loaded_module" kindref="compound">LoadedModule</ref> &amp;</type>
+          <declname>module</declname>
+        </param>
+        <briefdescription>
+<para>Register a loaded module. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Module.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">module</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="813" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="690" bodyend="693"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_registry_1a5d07993654774d601b50f52b0e1e4336" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ModuleRegistry::unregisterModule</definition>
+        <argsstring>(const std::string &amp;moduleName)</argsstring>
+        <name>unregisterModule</name>
+        <qualifiedname>themis::modules::ModuleRegistry::unregisterModule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>moduleName</declname>
+        </param>
+        <briefdescription>
+<para>Unregister a module. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Unregister Module.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">moduleName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::find_if(), begin(), end(), erase(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="818" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="700" bodyend="709"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_registry_1a67846f227844617658f15f791f22303e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleRegistry::isRegistered</definition>
+        <argsstring>(const std::string &amp;moduleName) const</argsstring>
+        <name>isRegistered</name>
+        <qualifiedname>themis::modules::ModuleRegistry::isRegistered</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>moduleName</declname>
+        </param>
+        <briefdescription>
+<para>Check if module is registered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="823" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="711" bodyend="717"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_registry_1a26b314c7f6b0007c256013f09d9fa8ea" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1modules_1_1_loaded_module" kindref="compound">LoadedModule</ref> &gt;</type>
+        <definition>std::vector&lt; LoadedModule &gt; themis::modules::ModuleRegistry::getAllModules</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllModules</name>
+        <qualifiedname>themis::modules::ModuleRegistry::getAllModules</qualifiedname>
+        <briefdescription>
+<para>Get all registered modules. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="828" column="17" bodyfile="src/themis/module_loader.cpp" bodystart="719" bodyend="721"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_registry_1adab152482dee1eb0fcb5092e2741138f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ModuleRegistry::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::modules::ModuleRegistry::clear</qualifiedname>
+        <briefdescription>
+<para>Clear all registrations (for testing). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear.</para>
+<para>Implements clear without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="833" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="727" bodyend="729"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_registry_1a118f107aade8b35d9ad67590779e5ae8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::ModuleRegistry::ModuleRegistry</definition>
+        <argsstring>()=default</argsstring>
+        <name>ModuleRegistry</name>
+        <qualifiedname>themis::modules::ModuleRegistry::ModuleRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="836" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_registry_1a1de7fc376dae2a9c490b9aedafe70e50" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::ModuleRegistry::~ModuleRegistry</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ModuleRegistry</name>
+        <qualifiedname>themis::modules::ModuleRegistry::~ModuleRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="837" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_registry_1aaf244acaa3c3019d5960c4f56f7ae389" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::ModuleRegistry::ModuleRegistry</definition>
+        <argsstring>(const ModuleRegistry &amp;)=delete</argsstring>
+        <name>ModuleRegistry</name>
+        <qualifiedname>themis::modules::ModuleRegistry::ModuleRegistry</qualifiedname>
+        <param>
+          <type>const ModuleRegistry &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="838" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_registry_1af5405951e1bf6887d3995cde510e88dc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ModuleRegistry &amp;</type>
+        <definition>ModuleRegistry &amp; themis::modules::ModuleRegistry::operator=</definition>
+        <argsstring>(const ModuleRegistry &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::modules::ModuleRegistry::operator=</qualifiedname>
+        <param>
+          <type>const ModuleRegistry &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="839" column="20"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Singleton module registry. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tracks all loaded modules globally to prevent duplicate loading and provide system-wide module status. </para>
+    </detaileddescription>
+    <location file="include/themis/base/module_loader.h" line="806" column="1" bodyfile="include/themis/base/module_loader.h" bodystart="806" bodyend="842"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1modules_1_1_module_registry_1adab152482dee1eb0fcb5092e2741138f" prot="public" virt="non-virtual"><scope>themis::modules::ModuleRegistry</scope><name>clear</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_registry_1a26b314c7f6b0007c256013f09d9fa8ea" prot="public" virt="non-virtual"><scope>themis::modules::ModuleRegistry</scope><name>getAllModules</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_registry_1a8af9eca1422ec1a7516c242191a1b760" prot="public" virt="non-virtual"><scope>themis::modules::ModuleRegistry</scope><name>instance</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_registry_1a67846f227844617658f15f791f22303e" prot="public" virt="non-virtual"><scope>themis::modules::ModuleRegistry</scope><name>isRegistered</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_registry_1a118f107aade8b35d9ad67590779e5ae8" prot="private" virt="non-virtual"><scope>themis::modules::ModuleRegistry</scope><name>ModuleRegistry</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_registry_1aaf244acaa3c3019d5960c4f56f7ae389" prot="private" virt="non-virtual"><scope>themis::modules::ModuleRegistry</scope><name>ModuleRegistry</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_registry_1a1cd9cb44b8c4a2bb69e3f058eb7ccfd8" prot="private" virt="non-virtual"><scope>themis::modules::ModuleRegistry</scope><name>modules_</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_registry_1af5405951e1bf6887d3995cde510e88dc" prot="private" virt="non-virtual"><scope>themis::modules::ModuleRegistry</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_registry_1acf25817c22a421f7d222ccbf115df7f1" prot="public" virt="non-virtual"><scope>themis::modules::ModuleRegistry</scope><name>registerModule</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_registry_1a5d07993654774d601b50f52b0e1e4336" prot="public" virt="non-virtual"><scope>themis::modules::ModuleRegistry</scope><name>unregisterModule</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_registry_1a1de7fc376dae2a9c490b9aedafe70e50" prot="private" virt="non-virtual"><scope>themis::modules::ModuleRegistry</scope><name>~ModuleRegistry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

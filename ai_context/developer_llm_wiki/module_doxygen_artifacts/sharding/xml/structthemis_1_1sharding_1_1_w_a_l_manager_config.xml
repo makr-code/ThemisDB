@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_w_a_l_manager_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::WALManagerConfig</compoundname>
+    <includes refid="wal__manager_8h" local="no">wal_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_manager_config_1a2ed2393af1ee1c6cdad113f9a680ed1a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::WALManagerConfig::wal_directory</definition>
+        <argsstring></argsstring>
+        <name>wal_directory</name>
+        <qualifiedname>themis::sharding::WALManagerConfig::wal_directory</qualifiedname>
+        <initializer>= &quot;./wal&quot;</initializer>
+        <briefdescription>
+<para>Directory containing WAL segment files. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="151" column="17" bodyfile="include/sharding/wal_manager.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_manager_config_1a99baba57e5879b316c535b122428859f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::WALManagerConfig::segment_size</definition>
+        <argsstring></argsstring>
+        <name>segment_size</name>
+        <qualifiedname>themis::sharding::WALManagerConfig::segment_size</qualifiedname>
+        <initializer>= 16 * 1024 * 1024</initializer>
+        <briefdescription>
+<para>Max bytes per segment before rotating to next segment file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="153" column="12" bodyfile="include/sharding/wal_manager.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_manager_config_1a73c961ed8e1a6c61f781e9ef43ed6797" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::WALManagerConfig::max_segments</definition>
+        <argsstring></argsstring>
+        <name>max_segments</name>
+        <qualifiedname>themis::sharding::WALManagerConfig::max_segments</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Maximum number of WAL segments retained on disk. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="155" column="12" bodyfile="include/sharding/wal_manager.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_manager_config_1aae2873dc8ee2541dc1f5a06804c465ff" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::WALManagerConfig::sync_on_write</definition>
+        <argsstring></argsstring>
+        <name>sync_on_write</name>
+        <qualifiedname>themis::sharding::WALManagerConfig::sync_on_write</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Flush stream on each append (durability over throughput). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="157" column="10" bodyfile="include/sharding/wal_manager.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_manager_config_1abb44ff37ab190ba254f75cbfd052de9f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::WALManagerConfig::write_buffer_size</definition>
+        <argsstring></argsstring>
+        <name>write_buffer_size</name>
+        <qualifiedname>themis::sharding::WALManagerConfig::write_buffer_size</qualifiedname>
+        <initializer>= 64 * 1024</initializer>
+        <briefdescription>
+<para>Buffered-write threshold before forced flush. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="159" column="12" bodyfile="include/sharding/wal_manager.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Runtime WAL storage/retention and fsync policy configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/wal_manager.h" line="149" column="1" bodyfile="include/sharding/wal_manager.h" bodystart="149" bodyend="160"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_manager_config_1a73c961ed8e1a6c61f781e9ef43ed6797" prot="public" virt="non-virtual"><scope>themis::sharding::WALManagerConfig</scope><name>max_segments</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_manager_config_1a99baba57e5879b316c535b122428859f" prot="public" virt="non-virtual"><scope>themis::sharding::WALManagerConfig</scope><name>segment_size</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_manager_config_1aae2873dc8ee2541dc1f5a06804c465ff" prot="public" virt="non-virtual"><scope>themis::sharding::WALManagerConfig</scope><name>sync_on_write</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_manager_config_1a2ed2393af1ee1c6cdad113f9a680ed1a" prot="public" virt="non-virtual"><scope>themis::sharding::WALManagerConfig</scope><name>wal_directory</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_manager_config_1abb44ff37ab190ba254f75cbfd052de9f" prot="public" virt="non-virtual"><scope>themis::sharding::WALManagerConfig</scope><name>write_buffer_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

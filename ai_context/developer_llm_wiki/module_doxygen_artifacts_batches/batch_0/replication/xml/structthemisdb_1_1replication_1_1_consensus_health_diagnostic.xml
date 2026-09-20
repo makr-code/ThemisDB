@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_consensus_health_diagnostic" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::ConsensusHealthDiagnostic</compoundname>
+    <includes refid="replication__failover__diagnostics_8h" local="no">replication_failover_diagnostics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_consensus_health_diagnostic_1ad24b4842158ab75857057febb8f18263" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ConsensusHealthDiagnostic::has_leader</definition>
+        <argsstring></argsstring>
+        <name>has_leader</name>
+        <qualifiedname>themisdb::replication::ConsensusHealthDiagnostic::has_leader</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Is a leader currently elected? </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="307" column="10" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="307" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_consensus_health_diagnostic_1a733f727b4e38919b2dc10bc79990115c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::ConsensusHealthDiagnostic::leader_id</definition>
+        <argsstring></argsstring>
+        <name>leader_id</name>
+        <qualifiedname>themisdb::replication::ConsensusHealthDiagnostic::leader_id</qualifiedname>
+        <briefdescription>
+<para>Current leader node ID (empty if no leader). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="310" column="17" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_consensus_health_diagnostic_1a9c3088a10a5f166cbea58716cc0e91b4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ConsensusHealthDiagnostic::leader_responsive</definition>
+        <argsstring></argsstring>
+        <name>leader_responsive</name>
+        <qualifiedname>themisdb::replication::ConsensusHealthDiagnostic::leader_responsive</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Is the leader responsive (recent heartbeat)? </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="313" column="10" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="313" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_consensus_health_diagnostic_1ac98a1377ba9998ebef041679a50024c3" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::replication::ConsensusHealthDiagnostic::time_since_heartbeat</definition>
+        <argsstring></argsstring>
+        <name>time_since_heartbeat</name>
+        <qualifiedname>themisdb::replication::ConsensusHealthDiagnostic::time_since_heartbeat</qualifiedname>
+        <briefdescription>
+<para>Time since last leader heartbeat. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="316" column="31" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="316" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_consensus_health_diagnostic_1acc142c71805a86038cd8cc58b03cabc3" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themisdb::replication::ConsensusHealthDiagnostic::quorum_size</definition>
+        <argsstring></argsstring>
+        <name>quorum_size</name>
+        <qualifiedname>themisdb::replication::ConsensusHealthDiagnostic::quorum_size</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of replicas in quorum. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="319" column="13" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="319" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_consensus_health_diagnostic_1ac69667ce324fec032d092c664123dca4" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themisdb::replication::ConsensusHealthDiagnostic::replicas_reachable</definition>
+        <argsstring></argsstring>
+        <name>replicas_reachable</name>
+        <qualifiedname>themisdb::replication::ConsensusHealthDiagnostic::replicas_reachable</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of replicas currently reachable. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="322" column="13" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="322" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_consensus_health_diagnostic_1a06387849a819310cba3a33aa36d60dd7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::ConsensusHealthDiagnostic::quorum_healthy</definition>
+        <argsstring></argsstring>
+        <name>quorum_healthy</name>
+        <qualifiedname>themisdb::replication::ConsensusHealthDiagnostic::quorum_healthy</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Is quorum healthy (reachable &gt;= quorum_size / 2 + 1)? </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="325" column="10" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="325" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_consensus_health_diagnostic_1afcbddddc40cacc74a58acf7e676c18a4" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::ConsensusHealthDiagnostic::current_term</definition>
+        <argsstring></argsstring>
+        <name>current_term</name>
+        <qualifiedname>themisdb::replication::ConsensusHealthDiagnostic::current_term</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Current election term. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="328" column="14" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="328" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_consensus_health_diagnostic_1a7e5d4b87c0116b9e26def7bfd73b6ebe" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::ConsensusHealthDiagnostic::elections_last_hour</definition>
+        <argsstring></argsstring>
+        <name>elections_last_hour</name>
+        <qualifiedname>themisdb::replication::ConsensusHealthDiagnostic::elections_last_hour</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of elections in the last hour. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="331" column="14" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="331" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_consensus_health_diagnostic_1aa6bffcc841c6b1cebd608b50b960956b" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::replication::ConsensusHealthDiagnostic::captured_at</definition>
+        <argsstring></argsstring>
+        <name>captured_at</name>
+        <qualifiedname>themisdb::replication::ConsensusHealthDiagnostic::captured_at</qualifiedname>
+        <briefdescription>
+<para>Time of diagnostic capture. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="334" column="43" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="334" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Diagnostic information about consensus layer health. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tracks quorum health, leader heartbeat, and other consensus-layer indicators that affect failover readiness. </para>
+    </detaileddescription>
+    <location file="include/replication/replication_failover_diagnostics.h" line="305" column="1" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="305" bodyend="335"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_consensus_health_diagnostic_1aa6bffcc841c6b1cebd608b50b960956b" prot="public" virt="non-virtual"><scope>themisdb::replication::ConsensusHealthDiagnostic</scope><name>captured_at</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_consensus_health_diagnostic_1afcbddddc40cacc74a58acf7e676c18a4" prot="public" virt="non-virtual"><scope>themisdb::replication::ConsensusHealthDiagnostic</scope><name>current_term</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_consensus_health_diagnostic_1a7e5d4b87c0116b9e26def7bfd73b6ebe" prot="public" virt="non-virtual"><scope>themisdb::replication::ConsensusHealthDiagnostic</scope><name>elections_last_hour</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_consensus_health_diagnostic_1ad24b4842158ab75857057febb8f18263" prot="public" virt="non-virtual"><scope>themisdb::replication::ConsensusHealthDiagnostic</scope><name>has_leader</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_consensus_health_diagnostic_1a733f727b4e38919b2dc10bc79990115c" prot="public" virt="non-virtual"><scope>themisdb::replication::ConsensusHealthDiagnostic</scope><name>leader_id</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_consensus_health_diagnostic_1a9c3088a10a5f166cbea58716cc0e91b4" prot="public" virt="non-virtual"><scope>themisdb::replication::ConsensusHealthDiagnostic</scope><name>leader_responsive</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_consensus_health_diagnostic_1a06387849a819310cba3a33aa36d60dd7" prot="public" virt="non-virtual"><scope>themisdb::replication::ConsensusHealthDiagnostic</scope><name>quorum_healthy</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_consensus_health_diagnostic_1acc142c71805a86038cd8cc58b03cabc3" prot="public" virt="non-virtual"><scope>themisdb::replication::ConsensusHealthDiagnostic</scope><name>quorum_size</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_consensus_health_diagnostic_1ac69667ce324fec032d092c664123dca4" prot="public" virt="non-virtual"><scope>themisdb::replication::ConsensusHealthDiagnostic</scope><name>replicas_reachable</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_consensus_health_diagnostic_1ac98a1377ba9998ebef041679a50024c3" prot="public" virt="non-virtual"><scope>themisdb::replication::ConsensusHealthDiagnostic</scope><name>time_since_heartbeat</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

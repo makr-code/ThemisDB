@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_shard_executor" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>StubShardExecutor</compoundname>
+    <basecompoundref refid="classthemis_1_1graph_1_1_shard_graph_executor" prot="public" virt="non-virtual">themis::graph::ShardGraphExecutor</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_shard_executor_1a5cedcda8ac11ab5496cc1720b23bc242" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string StubShardExecutor::id_</definition>
+        <argsstring></argsstring>
+        <name>id_</name>
+        <qualifiedname>StubShardExecutor::id_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="429" column="17" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="429" bodyend="429"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_shard_executor_1af6041e3b4f4061137fa23067fec41534" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>StubShardExecutor::StubShardExecutor</definition>
+        <argsstring>(std::string id)</argsstring>
+        <name>StubShardExecutor</name>
+        <qualifiedname>StubShardExecutor::StubShardExecutor</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="414" column="14" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="414" bodyend="414"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_shard_executor_1aa99ca3839a037bd8da18e6f63cfeb722" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string StubShardExecutor::shardId</definition>
+        <argsstring>() const override</argsstring>
+        <name>shardId</name>
+        <qualifiedname>StubShardExecutor::shardId</qualifiedname>
+        <reimplements refid="classthemis_1_1graph_1_1_shard_graph_executor_1ae55148424f227bf12ada68410c234b08">shardId</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="415" column="17" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="415" bodyend="415"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_shard_executor_1af1092c10c1fa5d54cbd4b566aa6fe7c9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>themis::Result&lt; std::vector&lt; std::string &gt; &gt;</type>
+        <definition>themis::Result&lt; std::vector&lt; std::string &gt; &gt; StubShardExecutor::executeBFS</definition>
+        <argsstring>(const std::string &amp;, int, const themis::graph::GraphQueryOptimizer::QueryConstraints &amp;) override</argsstring>
+        <name>executeBFS</name>
+        <qualifiedname>StubShardExecutor::executeBFS</qualifiedname>
+        <reimplements refid="classthemis_1_1graph_1_1_shard_graph_executor_1af89bfbf41f8983b0a03f9d7477446dd9">executeBFS</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>int</type>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">themis::graph::GraphQueryOptimizer::QueryConstraints</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="416" column="20" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="416" bodyend="420"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_shard_executor_1a902cc743416cb0cf141aab1b1f09fbc6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>themis::Result&lt; themis::GraphIndexManager::PathResult &gt;</type>
+        <definition>themis::Result&lt; themis::GraphIndexManager::PathResult &gt; StubShardExecutor::executeDijkstra</definition>
+        <argsstring>(const std::string &amp;, const std::string &amp;, const themis::graph::GraphQueryOptimizer::QueryConstraints &amp;) override</argsstring>
+        <name>executeDijkstra</name>
+        <qualifiedname>StubShardExecutor::executeDijkstra</qualifiedname>
+        <reimplements refid="classthemis_1_1graph_1_1_shard_graph_executor_1a5aa46aa913a83f6b544213c023a93559">executeDijkstra</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">themis::graph::GraphQueryOptimizer::QueryConstraints</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_distributed.cpp" line="421" column="20" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="421" bodyend="427"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>StubShardExecutor</label>
+        <link refid="class_stub_shard_executor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::graph::ShardGraphExecutor</label>
+        <link refid="classthemis_1_1graph_1_1_shard_graph_executor"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>StubShardExecutor</label>
+        <link refid="class_stub_shard_executor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::graph::ShardGraphExecutor</label>
+        <link refid="classthemis_1_1graph_1_1_shard_graph_executor"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/graph/test_graph_distributed.cpp" line="412" column="1" bodyfile="tests/graph/test_graph_distributed.cpp" bodystart="412" bodyend="430"/>
+    <listofallmembers>
+      <member refid="class_stub_shard_executor_1af1092c10c1fa5d54cbd4b566aa6fe7c9" prot="public" virt="virtual"><scope>StubShardExecutor</scope><name>executeBFS</name></member>
+      <member refid="class_stub_shard_executor_1a902cc743416cb0cf141aab1b1f09fbc6" prot="public" virt="virtual"><scope>StubShardExecutor</scope><name>executeDijkstra</name></member>
+      <member refid="class_stub_shard_executor_1a5cedcda8ac11ab5496cc1720b23bc242" prot="private" virt="non-virtual"><scope>StubShardExecutor</scope><name>id_</name></member>
+      <member refid="classthemis_1_1graph_1_1_shard_graph_executor_1a09337af08e486135af27629b31c8159a" prot="public" virt="virtual"><scope>StubShardExecutor</scope><name>isHealthy</name></member>
+      <member refid="classthemis_1_1graph_1_1_shard_graph_executor_1a58674a4327d0aee8fe1cd9cf00919530" prot="public" virt="non-virtual"><scope>StubShardExecutor</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1graph_1_1_shard_graph_executor_1a8baf968fa2bed845f1ddf481122c1db6" prot="public" virt="non-virtual"><scope>StubShardExecutor</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1graph_1_1_shard_graph_executor_1a4d3585b367a5b6b6667e186f082a5f68" prot="public" virt="non-virtual"><scope>StubShardExecutor</scope><name>ShardGraphExecutor</name></member>
+      <member refid="classthemis_1_1graph_1_1_shard_graph_executor_1a09b817d06fdc909c79a948d1014dedfc" prot="public" virt="non-virtual"><scope>StubShardExecutor</scope><name>ShardGraphExecutor</name></member>
+      <member refid="classthemis_1_1graph_1_1_shard_graph_executor_1a5a6c753b033fd11edd5e7001662d56c4" prot="protected" virt="non-virtual"><scope>StubShardExecutor</scope><name>ShardGraphExecutor</name></member>
+      <member refid="class_stub_shard_executor_1aa99ca3839a037bd8da18e6f63cfeb722" prot="public" virt="virtual"><scope>StubShardExecutor</scope><name>shardId</name></member>
+      <member refid="class_stub_shard_executor_1af6041e3b4f4061137fa23067fec41534" prot="public" virt="non-virtual"><scope>StubShardExecutor</scope><name>StubShardExecutor</name></member>
+      <member refid="classthemis_1_1graph_1_1_shard_graph_executor_1ac0ad66db21ec1fdf57a01dc308c10340" prot="public" virt="virtual"><scope>StubShardExecutor</scope><name>~ShardGraphExecutor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::MTLSConnectionFactory::Config</compoundname>
+    <includes refid="mtls__connection__factory_8h" local="no">mtls_connection_factory.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1_1_config_1ada8790940ce782a6c4110bacc1a4fbf7" prot="public" static="no" mutable="no">
+        <type><ref refid="mtls__connection__factory_8h_1a1a21892c1193ee6eb572c2c72d3924ca" kindref="member">SSL_CTX</ref> *</type>
+        <definition>SSL_CTX* themis::sharding::MTLSConnectionFactory::Config::ssl_context</definition>
+        <argsstring></argsstring>
+        <name>ssl_context</name>
+        <qualifiedname>themis::sharding::MTLSConnectionFactory::Config::ssl_context</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_factory.h" line="102" column="17" bodyfile="include/sharding/mtls_connection_factory.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1_1_config_1a75684aa4d238ac978cbbc12f0df0ebdd" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::MTLSConnectionFactory::Config::connect_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>connect_timeout_ms</name>
+        <qualifiedname>themis::sharding::MTLSConnectionFactory::Config::connect_timeout_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_factory.h" line="105" column="18" bodyfile="include/sharding/mtls_connection_factory.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1_1_config_1a03990aa909a780b6c263e089b2c313cb" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::MTLSConnectionFactory::Config::tls_handshake_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>tls_handshake_timeout_ms</name>
+        <qualifiedname>themis::sharding::MTLSConnectionFactory::Config::tls_handshake_timeout_ms</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_factory.h" line="106" column="18" bodyfile="include/sharding/mtls_connection_factory.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1_1_config_1a359897d5eb7413eff530037a7d67180c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::MTLSConnectionFactory::Config::verify_peer</definition>
+        <argsstring></argsstring>
+        <name>verify_peer</name>
+        <qualifiedname>themis::sharding::MTLSConnectionFactory::Config::verify_peer</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_factory.h" line="109" column="14" bodyfile="include/sharding/mtls_connection_factory.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1_1_config_1a8ea78c64dc0e03b4f820e42bde330884" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::MTLSConnectionFactory::Config::verify_hostname</definition>
+        <argsstring></argsstring>
+        <name>verify_hostname</name>
+        <qualifiedname>themis::sharding::MTLSConnectionFactory::Config::verify_hostname</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_factory.h" line="110" column="14" bodyfile="include/sharding/mtls_connection_factory.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1_1_config_1a4a2a18b3c3ef1e4a84db791433682600" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::MTLSConnectionFactory::Config::enable_logging</definition>
+        <argsstring></argsstring>
+        <name>enable_logging</name>
+        <qualifiedname>themis::sharding::MTLSConnectionFactory::Config::enable_logging</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_connection_factory.h" line="113" column="14" bodyfile="include/sharding/mtls_connection_factory.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for connection factory. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/mtls_connection_factory.h" line="100" column="5" bodyfile="include/sharding/mtls_connection_factory.h" bodystart="100" bodyend="114"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1_1_config_1a75684aa4d238ac978cbbc12f0df0ebdd" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSConnectionFactory::Config</scope><name>connect_timeout_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1_1_config_1a4a2a18b3c3ef1e4a84db791433682600" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSConnectionFactory::Config</scope><name>enable_logging</name></member>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1_1_config_1ada8790940ce782a6c4110bacc1a4fbf7" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSConnectionFactory::Config</scope><name>ssl_context</name></member>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1_1_config_1a03990aa909a780b6c263e089b2c313cb" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSConnectionFactory::Config</scope><name>tls_handshake_timeout_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1_1_config_1a8ea78c64dc0e03b4f820e42bde330884" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSConnectionFactory::Config</scope><name>verify_hostname</name></member>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_factory_1_1_config_1a359897d5eb7413eff530037a7d67180c" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSConnectionFactory::Config</scope><name>verify_peer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

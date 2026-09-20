@@ -1,0 +1,221 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="distributed__lock__manager_8h" kind="file" language="C++">
+    <compoundname>distributed_lock_manager.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">map</includes>
+    <includes local="no">mutex</includes>
+    <includedby refid="snapshot__update__worker_8h" local="yes">src/distributed_tensor/include/snapshot_update_worker.h</includedby>
+    <includedby refid="distributed__lock__manager_8cc" local="yes">src/distributed_tensor/src/distributed_lock_manager.cc</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>src/distributed_tensor/include/distributed_lock_manager.h</label>
+        <link refid="distributed__lock__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>map</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>src/distributed_tensor/include/distributed_lock_manager.h</label>
+        <link refid="distributed__lock__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/distributed_tensor/include/snapshot_update_worker.h</label>
+        <link refid="snapshot__update__worker_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/distributed_tensor/src/distributed_lock_manager.cc</label>
+        <link refid="distributed__lock__manager_8cc"/>
+      </node>
+      <node id="3">
+        <label>src/distributed_tensor/src/snapshot_update_worker.cc</label>
+        <link refid="snapshot__update__worker_8cc"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_distributed_lock" prot="public">themis::distributed_tensor::DistributedLock</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager" prot="public">themis::distributed_tensor::DistributedLockManager</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1_1_lock_stats" prot="public">themis::distributed_tensor::DistributedLockManager::LockStats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1distributed__tensor">themis::distributed_tensor</innernamespace>
+    <briefdescription>
+<para>Distributed lock management for tensor artifacts. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>ThemisDB EPIC 3 Implementation Team </para>
+</simplesect>
+<simplesect kind="date"><para>2026-07-03</para>
+</simplesect>
+This header defines distributed locking for exclusive artifact access during long-running update operations.</para>
+<sect1 id="distributed__lock__manager_8h_1autotoc_md6_1s1"><sect2 id="distributed__lock__manager_8h_1autotoc_md6">
+<title>Design</title><para>Locks support:<itemizedlist>
+<listitem><para>Exclusive (single writer) semantics</para>
+</listitem><listitem><para>Time-to-live (TTL) expiry for crash recovery</para>
+</listitem><listitem><para>Automatic lock renewal during long operations</para>
+</listitem><listitem><para>Release on operation completion</para>
+</listitem><listitem><para>Timeout detection and escalation</para>
+</listitem></itemizedlist>
+</para>
+<para>Lock states:<itemizedlist>
+<listitem><para>UNLOCKED: Available for acquisition</para>
+</listitem><listitem><para>LOCKED: Held by a worker/operator</para>
+</listitem><listitem><para>EXPIRED: TTL exceeded, available for forceful acquisition</para>
+</listitem><listitem><para>HELD_WITH_RENEWAL: Being renewed by holder </para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1distributed__tensor" kindref="compound">distributed_tensor</ref><sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1distributed__tensor_1a739e5948c1c988d8461ad215d4331e8a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a739e5948c1c988d8461ad215d4331e8a" kindref="member">LockStatus</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1distributed__tensor_1a739e5948c1c988d8461ad215d4331e8aae0aa021e21dddbd6d8cecec71e9cf564" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1af758624e81b186ccd110b1082f9d2739ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">OK</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1distributed__tensor_1a739e5948c1c988d8461ad215d4331e8aaaeff3f3f2731681b2ed6a27786a56203" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a739e5948c1c988d8461ad215d4331e8aaaeff3f3f2731681b2ed6a27786a56203" kindref="member">LOCKED</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1distributed__tensor_1a739e5948c1c988d8461ad215d4331e8aa070a0fb40f6c308ab544b227660aadff" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a739e5948c1c988d8461ad215d4331e8aa070a0fb40f6c308ab544b227660aadff" kindref="member">TIMEOUT</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="namespacethemis_1_1distributed__tensor_1a739e5948c1c988d8461ad215d4331e8aa3381d60e190ff0788f875d2f7770e794" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a739e5948c1c988d8461ad215d4331e8aa3381d60e190ff0788f875d2f7770e794" kindref="member">HOLDER_MISMATCH</ref><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="namespacethemis_1_1distributed__tensor_1a739e5948c1c988d8461ad215d4331e8aafc9f43bae9ccdf57bec817d9c7c23f36" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a739e5948c1c988d8461ad215d4331e8aafc9f43bae9ccdf57bec817d9c7c23f36" kindref="member">NOT_HELD</ref><sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="namespacethemis_1_1distributed__tensor_1a739e5948c1c988d8461ad215d4331e8aa38afd7ae34bd5e3e6fc170d8b09178a3" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a739e5948c1c988d8461ad215d4331e8aa38afd7ae34bd5e3e6fc170d8b09178a3" kindref="member">EXPIRED</ref><sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="namespacethemis_1_1distributed__tensor_1a739e5948c1c988d8461ad215d4331e8aa7ae7f2a13f0d5a18b0db91af9c5aef34" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a739e5948c1c988d8461ad215d4331e8aa7ae7f2a13f0d5a18b0db91af9c5aef34" kindref="member">STORAGE_ERROR</ref><sp/>=<sp/>6,</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="namespacethemis_1_1distributed__tensor_1a739e5948c1c988d8461ad215d4331e8aa9a10f345b0f755d461a8673a5e9ef6b4" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a6d6fa140bb987a44102c8c4921aa16d6a9a10f345b0f755d461a8673a5e9ef6b4" kindref="member">UNKNOWN_ERROR</ref><sp/>=<sp/>7,</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1distributed__tensor_1_1_distributed_lock" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_distributed_lock" kindref="compound">DistributedLock</ref><sp/>{</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1distributed__tensor_1_1_distributed_lock_1a931a49a5f9ed56f5a7fce9f6e6507911" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_distributed_lock_1a931a49a5f9ed56f5a7fce9f6e6507911" kindref="member">artifact_id</ref>;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1distributed__tensor_1_1_distributed_lock_1a8d63b111e2d7c6823c6421e7af28ec44" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_distributed_lock_1a8d63b111e2d7c6823c6421e7af28ec44" kindref="member">holder_id</ref>;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1distributed__tensor_1_1_distributed_lock_1ac2c0beca595b0c1a940910061468ad6c" refkind="member"><highlight class="normal"><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_distributed_lock_1ac2c0beca595b0c1a940910061468ad6c" kindref="member">acquired_at_unix_sec</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1distributed__tensor_1_1_distributed_lock_1a78ad59f58a69d4360994f7a496249243" refkind="member"><highlight class="normal"><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_distributed_lock_1a78ad59f58a69d4360994f7a496249243" kindref="member">ttl_seconds</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1distributed__tensor_1_1_distributed_lock_1ab17ba9af760c1a619ceb574d8f3ac395" refkind="member"><highlight class="normal"><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_distributed_lock_1ab17ba9af760c1a619ceb574d8f3ac395" kindref="member">expires_at_unix_sec</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1distributed__tensor_1_1_distributed_lock_1a46cdb2b3d8c69198cd729bf41dc30532" refkind="member"><highlight class="normal"><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_distributed_lock_1a46cdb2b3d8c69198cd729bf41dc30532" kindref="member">renewal_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1distributed__tensor_1_1_distributed_lock_1a29828d03b88b31154fea6107a30dac41" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_distributed_lock_1a29828d03b88b31154fea6107a30dac41" kindref="member">lock_reason</ref>;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a9273574865dcc9d733e676f340788dc5" kindref="member">DistributedLockManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a9273574865dcc9d733e676f340788dc5" kindref="member">DistributedLockManager</ref>();</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1af8ed47f28fb8f36713462106d2328aba" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1af8ed47f28fb8f36713462106d2328aba" kindref="member">~DistributedLockManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Prevent<sp/>copy/move</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a80a04fa736a4d1b89e6c02a4532ed866" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a80a04fa736a4d1b89e6c02a4532ed866" kindref="member">DistributedLockManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a9273574865dcc9d733e676f340788dc5" kindref="member">DistributedLockManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82" refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a1520c58393c5ca450d4a67eb0e53f2e2" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a9273574865dcc9d733e676f340788dc5" kindref="member">DistributedLockManager</ref>&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a1520c58393c5ca450d4a67eb0e53f2e2" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a9273574865dcc9d733e676f340788dc5" kindref="member">DistributedLockManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83" refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a7dd2ce6636999b63a25a0ae22df6d5c4" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a7dd2ce6636999b63a25a0ae22df6d5c4" kindref="member">DistributedLockManager</ref>(<ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a9273574865dcc9d733e676f340788dc5" kindref="member">DistributedLockManager</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84" refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a7447cc7e94c05abf8bded6f941bbbe08" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a9273574865dcc9d733e676f340788dc5" kindref="member">DistributedLockManager</ref>&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a7447cc7e94c05abf8bded6f941bbbe08" kindref="member">operator=</ref>(<ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a9273574865dcc9d733e676f340788dc5" kindref="member">DistributedLockManager</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a739e5948c1c988d8461ad215d4331e8a" kindref="member">LockStatus</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a42c3df353c4be10185106137f6a3f48a" kindref="member">acquireLock</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>artifact_id,</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>holder_id,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>ttl_seconds<sp/>=<sp/>3600,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>lock_reason<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a739e5948c1c988d8461ad215d4331e8a" kindref="member">LockStatus</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1ac80ea399846a14404adad32618757d02" kindref="member">releaseLock</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>artifact_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>holder_id);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a739e5948c1c988d8461ad215d4331e8a" kindref="member">LockStatus</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1ad70e59905e33eed45a765f0395b1b2b5" kindref="member">renewLock</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>artifact_id,</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>holder_id,</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>ttl_seconds<sp/>=<sp/>3600);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a9f7e56b59c8fd9fdd08347f4a008512f" kindref="member">isLocked</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>artifact_id);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::optional&lt;DistributedLock&gt;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a8550e49219d5853ebfe7902b6db52a40" kindref="member">getLockInfo</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>artifact_id);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a739e5948c1c988d8461ad215d4331e8a" kindref="member">LockStatus</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a862b46837d4836be7db8b4267e4632f7" kindref="member">forcefullyAcquireLock</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>artifact_id,</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>holder_id,</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>ttl_seconds<sp/>=<sp/>3600);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a29d55d41a74a738f811e0354ad37ac2b" kindref="member">cleanupExpiredLocks</ref>();</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1_1_lock_stats" refkind="compound"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1_1_lock_stats" kindref="compound">LockStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1_1_lock_stats_1ada2fa342d57b78773aafbd432976d487" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1_1_lock_stats_1ada2fa342d57b78773aafbd432976d487" kindref="member">active_locks</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1_1_lock_stats_1ace8ad74929cb5e2ed3202beb1a5d5c5c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1_1_lock_stats_1ace8ad74929cb5e2ed3202beb1a5d5c5c" kindref="member">total_acquisitions</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1_1_lock_stats_1ae830531363fdad704d260a1c7cae0442" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1_1_lock_stats_1ae830531363fdad704d260a1c7cae0442" kindref="member">contentions</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1_1_lock_stats_1a2c0b14d15730509a7e1481b7cd52c11f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1_1_lock_stats_1a2c0b14d15730509a7e1481b7cd52c11f" kindref="member">expirations</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1_1_lock_stats_1aafce43e6f2fde6238e5e50043beae573" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1_1_lock_stats_1aafce43e6f2fde6238e5e50043beae573" kindref="member">average_hold_time_sec</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/>};</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1_1_lock_stats" kindref="compound">LockStats</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1abbded0d4287ffb9bd8c95f3bc28c81b9" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1ac2a0c4a55aa5fc3aaaaffee82b337b23" kindref="member">clearAllLocks</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>force<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Thread-safe<sp/>storage<sp/>of<sp/>locks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a0a83273cd2f972d6ae7e4efcdc26d49a" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a0a83273cd2f972d6ae7e4efcdc26d49a" kindref="member">locks_mutex_</ref>;</highlight></codeline>
+<codeline lineno="150" refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a8b5f2ee67207021410506025973b05ea" refkind="member"><highlight class="normal"><sp/><sp/>std::map&lt;std::string,<sp/>DistributedLock&gt;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a8b5f2ee67207021410506025973b05ea" kindref="member">locks_</ref>;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153" refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1aca74c5507e9246d9e096dc8c3177bdd0" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1_1_lock_stats" kindref="compound">LockStats</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1aca74c5507e9246d9e096dc8c3177bdd0" kindref="member">stats_</ref>;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a0b3b3180ef459cfdfa73950f14e52d84" kindref="member">isExpired</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_distributed_lock" kindref="compound">DistributedLock</ref>&amp;<sp/>lock);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/>int64_t<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1ab486f7f678224753ec2c5c1798b5fe38" kindref="member">getCurrentTimeUnixSec</ref>();</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>distributed_tensor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/distributed_tensor/include/distributed_lock_manager.h"/>
+  </compounddef>
+</doxygen>

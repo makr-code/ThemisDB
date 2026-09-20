@@ -1,0 +1,238 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_improvement_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::ImprovementConfig</compoundname>
+    <includes refid="self__improvement__orchestrator_8h" local="no">self_improvement_orchestrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_improvement_config_1aaa753fedaade4567f8b1010baa7d74fe" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::ImprovementConfig::min_success_rate</definition>
+        <argsstring></argsstring>
+        <name>min_success_rate</name>
+        <qualifiedname>themis::prompt_engineering::ImprovementConfig::min_success_rate</qualifiedname>
+        <initializer>= 0.8</initializer>
+        <briefdescription>
+<para>Trigger optimization if below this. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="37" column="12" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_improvement_config_1a9cb5b9d85e5abe1c7add9a7a00e0202a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::ImprovementConfig::min_executions</definition>
+        <argsstring></argsstring>
+        <name>min_executions</name>
+        <qualifiedname>themis::prompt_engineering::ImprovementConfig::min_executions</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Minimum executions before optimization. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="38" column="12" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_improvement_config_1aa69d260f6f8bf3f206f6c2f1b9669101" prot="public" static="no" mutable="no">
+        <type>std::chrono::hours</type>
+        <definition>std::chrono::hours themis::prompt_engineering::ImprovementConfig::reoptimize_interval</definition>
+        <argsstring></argsstring>
+        <name>reoptimize_interval</name>
+        <qualifiedname>themis::prompt_engineering::ImprovementConfig::reoptimize_interval</qualifiedname>
+        <initializer>{24}</initializer>
+        <briefdescription>
+<para>Time between re-optimizations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="39" column="24" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="39" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_improvement_config_1a872f7ab84aeb5dd03b4ecf1218731535" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::ImprovementConfig::max_iterations</definition>
+        <argsstring></argsstring>
+        <name>max_iterations</name>
+        <qualifiedname>themis::prompt_engineering::ImprovementConfig::max_iterations</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Maximum optimization iterations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="42" column="12" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_improvement_config_1ad2050a50fd644ce8cc068bab308671d1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::ImprovementConfig::target_improvement</definition>
+        <argsstring></argsstring>
+        <name>target_improvement</name>
+        <qualifiedname>themis::prompt_engineering::ImprovementConfig::target_improvement</qualifiedname>
+        <initializer>= 0.1</initializer>
+        <briefdescription>
+<para>Target improvement (10%). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="43" column="12" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_improvement_config_1a858a097a9e1d50f2a97fd12b8f09b135" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::ImprovementConfig::enable_ab_testing</definition>
+        <argsstring></argsstring>
+        <name>enable_ab_testing</name>
+        <qualifiedname>themis::prompt_engineering::ImprovementConfig::enable_ab_testing</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable A/B testing before full deployment. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="46" column="10" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_improvement_config_1a8f232f653b466377ef33dbc015863d1a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::ImprovementConfig::ab_test_sample_size</definition>
+        <argsstring></argsstring>
+        <name>ab_test_sample_size</name>
+        <qualifiedname>themis::prompt_engineering::ImprovementConfig::ab_test_sample_size</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Number of samples for A/B test. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="47" column="12" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_improvement_config_1a4abf556f5c6cca4a9c218569fabf4d3a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::ImprovementConfig::ab_test_confidence</definition>
+        <argsstring></argsstring>
+        <name>ab_test_confidence</name>
+        <qualifiedname>themis::prompt_engineering::ImprovementConfig::ab_test_confidence</qualifiedname>
+        <initializer>= 0.95</initializer>
+        <briefdescription>
+<para>Confidence level for A/B test. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="48" column="12" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_improvement_config_1a8fdc5657a479e3ab067a7c85fee1ba96" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::ImprovementConfig::enable_auto_rollback</definition>
+        <argsstring></argsstring>
+        <name>enable_auto_rollback</name>
+        <qualifiedname>themis::prompt_engineering::ImprovementConfig::enable_auto_rollback</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable automatic rollback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="51" column="10" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_improvement_config_1a9d7b96cd9c82d7c8bdde362b1e27f19f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::ImprovementConfig::rollback_threshold</definition>
+        <argsstring></argsstring>
+        <name>rollback_threshold</name>
+        <qualifiedname>themis::prompt_engineering::ImprovementConfig::rollback_threshold</qualifiedname>
+        <initializer>= 0.9</initializer>
+        <briefdescription>
+<para>Rollback if performance drops below this factor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="52" column="12" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_improvement_config_1af0cee56abdb715275809cf08d66627c4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::ImprovementConfig::rollback_grace_period_samples</definition>
+        <argsstring></argsstring>
+        <name>rollback_grace_period_samples</name>
+        <qualifiedname>themis::prompt_engineering::ImprovementConfig::rollback_grace_period_samples</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+<para>Samples to observe before rollback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="53" column="12" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_improvement_config_1aebb326f68c4618c39b5f17d331bb5c2a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::ImprovementConfig::enable_scheduled_optimization</definition>
+        <argsstring></argsstring>
+        <name>enable_scheduled_optimization</name>
+        <qualifiedname>themis::prompt_engineering::ImprovementConfig::enable_scheduled_optimization</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Enable time-based optimization. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="56" column="10" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_improvement_config_1ab141302542f964aad41986c9815cd38f" prot="public" static="no" mutable="no">
+        <type>std::chrono::hours</type>
+        <definition>std::chrono::hours themis::prompt_engineering::ImprovementConfig::schedule_interval</definition>
+        <argsstring></argsstring>
+        <name>schedule_interval</name>
+        <qualifiedname>themis::prompt_engineering::ImprovementConfig::schedule_interval</qualifiedname>
+        <initializer>{168}</initializer>
+        <briefdescription>
+<para>Weekly optimization by default. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="57" column="24" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="57" bodyend="57"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for self-improvement orchestration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/self_improvement_orchestrator.h" line="35" column="1" bodyfile="include/prompt_engineering/self_improvement_orchestrator.h" bodystart="35" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_improvement_config_1a4abf556f5c6cca4a9c218569fabf4d3a" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ImprovementConfig</scope><name>ab_test_confidence</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_improvement_config_1a8f232f653b466377ef33dbc015863d1a" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ImprovementConfig</scope><name>ab_test_sample_size</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_improvement_config_1a858a097a9e1d50f2a97fd12b8f09b135" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ImprovementConfig</scope><name>enable_ab_testing</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_improvement_config_1a8fdc5657a479e3ab067a7c85fee1ba96" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ImprovementConfig</scope><name>enable_auto_rollback</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_improvement_config_1aebb326f68c4618c39b5f17d331bb5c2a" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ImprovementConfig</scope><name>enable_scheduled_optimization</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_improvement_config_1a872f7ab84aeb5dd03b4ecf1218731535" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ImprovementConfig</scope><name>max_iterations</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_improvement_config_1a9cb5b9d85e5abe1c7add9a7a00e0202a" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ImprovementConfig</scope><name>min_executions</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_improvement_config_1aaa753fedaade4567f8b1010baa7d74fe" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ImprovementConfig</scope><name>min_success_rate</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_improvement_config_1aa69d260f6f8bf3f206f6c2f1b9669101" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ImprovementConfig</scope><name>reoptimize_interval</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_improvement_config_1af0cee56abdb715275809cf08d66627c4" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ImprovementConfig</scope><name>rollback_grace_period_samples</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_improvement_config_1a9d7b96cd9c82d7c8bdde362b1e27f19f" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ImprovementConfig</scope><name>rollback_threshold</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_improvement_config_1ab141302542f964aad41986c9815cd38f" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ImprovementConfig</scope><name>schedule_interval</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_improvement_config_1ad2050a50fd644ce8cc068bab308671d1" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ImprovementConfig</scope><name>target_improvement</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

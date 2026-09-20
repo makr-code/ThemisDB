@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_health_monitor_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::HealthMonitorConfig</compoundname>
+    <includes refid="health__monitor_8h" local="no">health_monitor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_health_monitor_config_1a5dd790929f1cd8e329456d65eadfd56e" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::sharding::HealthMonitorConfig::heartbeat_interval</definition>
+        <argsstring></argsstring>
+        <name>heartbeat_interval</name>
+        <qualifiedname>themis::sharding::HealthMonitorConfig::heartbeat_interval</qualifiedname>
+        <initializer>{1000}</initializer>
+        <briefdescription>
+<para>Period between monitoring iterations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="88" column="31" bodyfile="include/sharding/health_monitor.h" bodystart="88" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_health_monitor_config_1ad5d575df6d0da84b857aaf08f738962f" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::sharding::HealthMonitorConfig::health_check_timeout</definition>
+        <argsstring></argsstring>
+        <name>health_check_timeout</name>
+        <qualifiedname>themis::sharding::HealthMonitorConfig::health_check_timeout</qualifiedname>
+        <initializer>{500}</initializer>
+        <briefdescription>
+<para>Timeout for each HTTP health check request. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="90" column="31" bodyfile="include/sharding/health_monitor.h" bodystart="90" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_health_monitor_config_1a3a9e09e972ddc7a2628a0fcfbeebb95b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::HealthMonitorConfig::max_consecutive_failures</definition>
+        <argsstring></argsstring>
+        <name>max_consecutive_failures</name>
+        <qualifiedname>themis::sharding::HealthMonitorConfig::max_consecutive_failures</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Failure threshold before node is considered DOWN. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="92" column="14" bodyfile="include/sharding/health_monitor.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_health_monitor_config_1a82b66732f87f46cb89572ea6bca138f3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::HealthMonitorConfig::successes_for_recovery</definition>
+        <argsstring></argsstring>
+        <name>successes_for_recovery</name>
+        <qualifiedname>themis::sharding::HealthMonitorConfig::successes_for_recovery</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Success threshold to transition RECOVERING to HEALTHY. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="94" column="14" bodyfile="include/sharding/health_monitor.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_health_monitor_config_1aa9c22262262e48e76c71f9c83b759053" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::HealthMonitorConfig::auto_failover_enabled</definition>
+        <argsstring></argsstring>
+        <name>auto_failover_enabled</name>
+        <qualifiedname>themis::sharding::HealthMonitorConfig::auto_failover_enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable or disable automatic failover handling. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="97" column="10" bodyfile="include/sharding/health_monitor.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_health_monitor_config_1ac06c8b6ba6ff11e8c2f37af96df88001" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::HealthMonitorConfig::auto_promote_standby</definition>
+        <argsstring></argsstring>
+        <name>auto_promote_standby</name>
+        <qualifiedname>themis::sharding::HealthMonitorConfig::auto_promote_standby</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Allow automatic standby promotion when failover triggers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="99" column="10" bodyfile="include/sharding/health_monitor.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_health_monitor_config_1a9e974f1f301dae9d109863b3fe420591" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::sharding::HealthMonitorConfig::failover_cooldown</definition>
+        <argsstring></argsstring>
+        <name>failover_cooldown</name>
+        <qualifiedname>themis::sharding::HealthMonitorConfig::failover_cooldown</qualifiedname>
+        <initializer>{10000}</initializer>
+        <briefdescription>
+<para>Minimum interval between automatic failover actions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="101" column="31" bodyfile="include/sharding/health_monitor.h" bodystart="101" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_health_monitor_config_1ac567520d65976cd84527466a6132ed9a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::HealthMonitorConfig::health_check_path</definition>
+        <argsstring></argsstring>
+        <name>health_check_path</name>
+        <qualifiedname>themis::sharding::HealthMonitorConfig::health_check_path</qualifiedname>
+        <initializer>= &quot;/health&quot;</initializer>
+        <briefdescription>
+<para>Relative health check path appended to node endpoint base URL. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_monitor.h" line="105" column="17" bodyfile="include/sharding/health_monitor.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Runtime tuning for heartbeat checks and failover behavior. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/health_monitor.h" line="86" column="1" bodyfile="include/sharding/health_monitor.h" bodystart="86" bodyend="106"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_health_monitor_config_1aa9c22262262e48e76c71f9c83b759053" prot="public" virt="non-virtual"><scope>themis::sharding::HealthMonitorConfig</scope><name>auto_failover_enabled</name></member>
+      <member refid="structthemis_1_1sharding_1_1_health_monitor_config_1ac06c8b6ba6ff11e8c2f37af96df88001" prot="public" virt="non-virtual"><scope>themis::sharding::HealthMonitorConfig</scope><name>auto_promote_standby</name></member>
+      <member refid="structthemis_1_1sharding_1_1_health_monitor_config_1a9e974f1f301dae9d109863b3fe420591" prot="public" virt="non-virtual"><scope>themis::sharding::HealthMonitorConfig</scope><name>failover_cooldown</name></member>
+      <member refid="structthemis_1_1sharding_1_1_health_monitor_config_1ac567520d65976cd84527466a6132ed9a" prot="public" virt="non-virtual"><scope>themis::sharding::HealthMonitorConfig</scope><name>health_check_path</name></member>
+      <member refid="structthemis_1_1sharding_1_1_health_monitor_config_1ad5d575df6d0da84b857aaf08f738962f" prot="public" virt="non-virtual"><scope>themis::sharding::HealthMonitorConfig</scope><name>health_check_timeout</name></member>
+      <member refid="structthemis_1_1sharding_1_1_health_monitor_config_1a5dd790929f1cd8e329456d65eadfd56e" prot="public" virt="non-virtual"><scope>themis::sharding::HealthMonitorConfig</scope><name>heartbeat_interval</name></member>
+      <member refid="structthemis_1_1sharding_1_1_health_monitor_config_1a3a9e09e972ddc7a2628a0fcfbeebb95b" prot="public" virt="non-virtual"><scope>themis::sharding::HealthMonitorConfig</scope><name>max_consecutive_failures</name></member>
+      <member refid="structthemis_1_1sharding_1_1_health_monitor_config_1a82b66732f87f46cb89572ea6bca138f3" prot="public" virt="non-virtual"><scope>themis::sharding::HealthMonitorConfig</scope><name>successes_for_recovery</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

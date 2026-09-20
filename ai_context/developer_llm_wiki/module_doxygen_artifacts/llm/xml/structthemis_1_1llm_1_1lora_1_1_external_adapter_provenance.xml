@@ -1,0 +1,244 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_external_adapter_provenance" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::ExternalAdapterProvenance</compoundname>
+    <includes refid="lora__provenance_8h" local="no">lora_provenance.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_external_adapter_provenance_1a0ee6a98f1c75b517be3a3fb6a4bdb100" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::ExternalAdapterProvenance::source_url</definition>
+        <argsstring></argsstring>
+        <name>source_url</name>
+        <qualifiedname>themis::llm::lora::ExternalAdapterProvenance::source_url</qualifiedname>
+        <briefdescription>
+<para>URL of the upstream repository / registry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="71" column="17" bodyfile="include/llm/lora_framework/lora_provenance.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_external_adapter_provenance_1ad512741984fc5b533fe7d081d9dc24e9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::ExternalAdapterProvenance::commit_hash</definition>
+        <argsstring></argsstring>
+        <name>commit_hash</name>
+        <qualifiedname>themis::llm::lora::ExternalAdapterProvenance::commit_hash</qualifiedname>
+        <briefdescription>
+<para>Git commit SHA or equivalent VCS identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="72" column="17" bodyfile="include/llm/lora_framework/lora_provenance.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_external_adapter_provenance_1af9ff925546dff010c569ba9815c80623" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::ExternalAdapterProvenance::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::llm::lora::ExternalAdapterProvenance::description</qualifiedname>
+        <briefdescription>
+<para>Human-readable description of the adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="73" column="17" bodyfile="include/llm/lora_framework/lora_provenance.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_external_adapter_provenance_1af5fce038460b38aed7e76b3e7c5e75e1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::ExternalAdapterProvenance::adapter_hash</definition>
+        <argsstring></argsstring>
+        <name>adapter_hash</name>
+        <qualifiedname>themis::llm::lora::ExternalAdapterProvenance::adapter_hash</qualifiedname>
+        <briefdescription>
+<para>SHA-256 of the imported adapter weights. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="76" column="17" bodyfile="include/llm/lora_framework/lora_provenance.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_external_adapter_provenance_1a48f88a98cae851905677291ed37f71b0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::ExternalAdapterProvenance::provenance_signature</definition>
+        <argsstring></argsstring>
+        <name>provenance_signature</name>
+        <qualifiedname>themis::llm::lora::ExternalAdapterProvenance::provenance_signature</qualifiedname>
+        <briefdescription>
+<para>Supplier&apos;s digital signature over the record. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="77" column="17" bodyfile="include/llm/lora_framework/lora_provenance.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_external_adapter_provenance_1ace62b727890c75f3e5025525b0f6a9dc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::ExternalAdapterProvenance::certificate_chain</definition>
+        <argsstring></argsstring>
+        <name>certificate_chain</name>
+        <qualifiedname>themis::llm::lora::ExternalAdapterProvenance::certificate_chain</qualifiedname>
+        <briefdescription>
+<para>PEM-encoded supplier certificate chain. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="78" column="17" bodyfile="include/llm/lora_framework/lora_provenance.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_external_adapter_provenance_1a5352a2023c7ba0085e94ccfd58d2f6ec" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::ExternalAdapterProvenance::import_timestamp</definition>
+        <argsstring></argsstring>
+        <name>import_timestamp</name>
+        <qualifiedname>themis::llm::lora::ExternalAdapterProvenance::import_timestamp</qualifiedname>
+        <briefdescription>
+<para>ISO 8601 UTC timestamp of the import. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="81" column="17" bodyfile="include/llm/lora_framework/lora_provenance.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_external_adapter_provenance_1ada47e1ec42d8c138eba8b34dbe51e4b1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::ExternalAdapterProvenance::signature_valid</definition>
+        <argsstring></argsstring>
+        <name>signature_valid</name>
+        <qualifiedname>themis::llm::lora::ExternalAdapterProvenance::signature_valid</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when signature verification passed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="82" column="17" bodyfile="include/llm/lora_framework/lora_provenance.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_external_adapter_provenance_1a52407ae311ea7597b7b4e6c6b63a7094" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::ExternalAdapterProvenance::cert_chain_valid</definition>
+        <argsstring></argsstring>
+        <name>cert_chain_valid</name>
+        <qualifiedname>themis::llm::lora::ExternalAdapterProvenance::cert_chain_valid</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when certificate chain is trusted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="83" column="17" bodyfile="include/llm/lora_framework/lora_provenance.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_external_adapter_provenance_1acd46bc40745ff5352e50fce07cc40be9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::lora::ExternalAdapterProvenance::validation_errors</definition>
+        <argsstring></argsstring>
+        <name>validation_errors</name>
+        <qualifiedname>themis::llm::lora::ExternalAdapterProvenance::validation_errors</qualifiedname>
+        <briefdescription>
+<para>Non-empty when validation failed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="84" column="17" bodyfile="include/llm/lora_framework/lora_provenance.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_external_adapter_provenance_1ad9ca534503576709979a6bb535bb6464" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::ExternalAdapterProvenance::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::lora::ExternalAdapterProvenance::toJSON</qualifiedname>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="90" column="10" bodyfile="src/llm/lora_framework/lora_provenance.cpp" bodystart="148" bodyend="161"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_external_adapter_provenance_1a88df01acb39e325c99346f2b2799a645" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_external_adapter_provenance" kindref="compound">ExternalAdapterProvenance</ref></type>
+        <definition>ExternalAdapterProvenance themis::llm::lora::ExternalAdapterProvenance::fromJSON</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::llm::lora::ExternalAdapterProvenance::fromJSON</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(), is_string(), get_str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="96" column="38" bodyfile="src/llm/lora_framework/lora_provenance.cpp" bodystart="169" bodyend="192"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/lora_provenance.h" line="69" column="1" bodyfile="include/llm/lora_framework/lora_provenance.h" bodystart="69" bodyend="97"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_external_adapter_provenance_1af5fce038460b38aed7e76b3e7c5e75e1" prot="public" virt="non-virtual"><scope>themis::llm::lora::ExternalAdapterProvenance</scope><name>adapter_hash</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_external_adapter_provenance_1a52407ae311ea7597b7b4e6c6b63a7094" prot="public" virt="non-virtual"><scope>themis::llm::lora::ExternalAdapterProvenance</scope><name>cert_chain_valid</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_external_adapter_provenance_1ace62b727890c75f3e5025525b0f6a9dc" prot="public" virt="non-virtual"><scope>themis::llm::lora::ExternalAdapterProvenance</scope><name>certificate_chain</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_external_adapter_provenance_1ad512741984fc5b533fe7d081d9dc24e9" prot="public" virt="non-virtual"><scope>themis::llm::lora::ExternalAdapterProvenance</scope><name>commit_hash</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_external_adapter_provenance_1af9ff925546dff010c569ba9815c80623" prot="public" virt="non-virtual"><scope>themis::llm::lora::ExternalAdapterProvenance</scope><name>description</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_external_adapter_provenance_1a88df01acb39e325c99346f2b2799a645" prot="public" virt="non-virtual"><scope>themis::llm::lora::ExternalAdapterProvenance</scope><name>fromJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_external_adapter_provenance_1a5352a2023c7ba0085e94ccfd58d2f6ec" prot="public" virt="non-virtual"><scope>themis::llm::lora::ExternalAdapterProvenance</scope><name>import_timestamp</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_external_adapter_provenance_1a48f88a98cae851905677291ed37f71b0" prot="public" virt="non-virtual"><scope>themis::llm::lora::ExternalAdapterProvenance</scope><name>provenance_signature</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_external_adapter_provenance_1ada47e1ec42d8c138eba8b34dbe51e4b1" prot="public" virt="non-virtual"><scope>themis::llm::lora::ExternalAdapterProvenance</scope><name>signature_valid</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_external_adapter_provenance_1a0ee6a98f1c75b517be3a3fb6a4bdb100" prot="public" virt="non-virtual"><scope>themis::llm::lora::ExternalAdapterProvenance</scope><name>source_url</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_external_adapter_provenance_1ad9ca534503576709979a6bb535bb6464" prot="public" virt="non-virtual"><scope>themis::llm::lora::ExternalAdapterProvenance</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_external_adapter_provenance_1acd46bc40745ff5352e50fce07cc40be9" prot="public" virt="non-virtual"><scope>themis::llm::lora::ExternalAdapterProvenance</scope><name>validation_errors</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

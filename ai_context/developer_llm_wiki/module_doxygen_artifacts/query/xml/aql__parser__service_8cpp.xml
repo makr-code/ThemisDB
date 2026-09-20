@@ -1,0 +1,237 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="aql__parser__service_8cpp" kind="file" language="C++">
+    <compoundname>aql_parser_service.cpp</compoundname>
+    <includes refid="aql__parser__service_8h" local="yes">query/aql_parser_service.h</includes>
+    <includes refid="aql__parser_8h" local="yes">query/aql_parser.h</includes>
+    <includes local="no">spdlog/spdlog.h</includes>
+    <includes local="no">utility</includes>
+    <incdepgraph>
+      <node id="7">
+        <label>query/aql_parser.h</label>
+        <link refid="aql__parser_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>query/aql_parser_service.h</label>
+        <link refid="aql__parser__service_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/query/aql_parser_service.cpp</label>
+        <link refid="aql__parser__service_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="9">
+        <label>set</label>
+      </node>
+      <node id="13">
+        <label>spdlog/spdlog.h</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>unordered_set</label>
+      </node>
+      <node id="14">
+        <label>utility</label>
+      </node>
+      <node id="12">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="8">
+        <label>variant</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1_1_impl" prot="public">themis::query::AQLParserServiceImpl::Impl</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <briefdescription>
+<para>Implementation of AQL parser service interface. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Wraps existing AQLParser to expose clean service interface for SOC/OOP.</para>
+<para><simplesect kind="author"><para>ThemisDB Team </para>
+</simplesect>
+<simplesect kind="date"><para>2026-06-18 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="aql__parser__service_8h" kindref="compound">query/aql_parser_service.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="aql__parser_8h" kindref="compound">query/aql_parser.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;spdlog/spdlog.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">themis::query</ref><sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19" refid="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1_1_impl" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1_1_impl" kindref="compound">AQLParserServiceImpl::Impl</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1_1_impl_1a5e7d75c86dff288ec45db65044e6834d" kindref="member">Impl</ref>(</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enable_mutations<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enable_ddl<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enable_geospatial<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1_1_impl_1a936730d58c9eac6a7fe142978f8ed04e" kindref="member">parser_</ref>(),</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1_1_impl_1a999ba132f16547de2f2d46b8837bb348" kindref="member">enable_mutations_</ref>(enable_mutations),</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1_1_impl_1a9e87a2147cf23a57a7cb42dc558b8c22" kindref="member">enable_ddl_</ref>(enable_ddl),</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1_1_impl_1ad8a3241b7c5d28579603dcd71c9dcd37" kindref="member">enable_geospatial_</ref>(enable_geospatial)<sp/>{}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_a_q_l_parser" kindref="compound">AQLParser</ref><sp/><ref refid="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1_1_impl_1a936730d58c9eac6a7fe142978f8ed04e" kindref="member">parser_</ref>;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1_1_impl_1a999ba132f16547de2f2d46b8837bb348" kindref="member">enable_mutations_</ref>;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1_1_impl_1a9e87a2147cf23a57a7cb42dc558b8c22" kindref="member">enable_ddl_</ref>;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1_1_impl_1ad8a3241b7c5d28579603dcd71c9dcd37" kindref="member">enable_geospatial_</ref>;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AQLParserServiceImpl<sp/>Implementation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><ref refid="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1af20c72a853a1cb8585473728cf4d6efb" kindref="member">AQLParserServiceImpl::AQLParserServiceImpl</ref>(</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enable_mutations,</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enable_ddl,</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enable_geospatial)</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/>impl_(std::make_unique&lt;<ref refid="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1_1_impl" kindref="compound">Impl</ref>&gt;(enable_mutations,<sp/>enable_ddl,<sp/>enable_geospatial))<sp/>{}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><ref refid="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1ac00b045f078425ef5610168ab1c755e7" kindref="member">AQLParserServiceImpl::~AQLParserServiceImpl</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><ref refid="structthemis_1_1query_1_1_parse_result" kindref="compound">ParseResult</ref><sp/><ref refid="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1a407a1d65ba46574c1ad8e020a26ad82c" kindref="member">AQLParserServiceImpl::parse</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>aql_query)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_parse_result" kindref="compound">ParseResult</ref><sp/>result<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(aql_query.empty())<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="structthemis_1_1query_1_1_parse_result_1a41de8c8877033698616a96009f593d2a" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="structthemis_1_1query_1_1_parse_result_1ad74d47605c58a51f1eab1597412866d4" kindref="member">diagnostics</ref>.<ref refid="structthemis_1_1query_1_1_parser_diagnostics_1aa9ca4fbf8377dee601805b7efe728a2d" kindref="member">error_message</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Empty<sp/>query&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="structthemis_1_1query_1_1_parse_result_1ad74d47605c58a51f1eab1597412866d4" kindref="member">diagnostics</ref>.<ref refid="structthemis_1_1query_1_1_parser_diagnostics_1afc76ada9e205fff7e914951994b5e9b8" kindref="member">error_category</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;EMPTY_QUERY&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>existing<sp/>AQLParser<sp/>to<sp/>parse<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ast<sp/>=<sp/>impl_-&gt;parser_.parse(aql_query);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!ast)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="structthemis_1_1query_1_1_parse_result_1a41de8c8877033698616a96009f593d2a" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Extract<sp/>diagnostic<sp/>info<sp/>from<sp/>parser<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>NOTE:<sp/>Assumes<sp/>AQLParser<sp/>has<sp/>diagnostics()<sp/>method<sp/>or<sp/>similar</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>now,<sp/>provide<sp/>generic<sp/>error;<sp/>will<sp/>be<sp/>enhanced<sp/>when<sp/>parser</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>exposes<sp/>detailed<sp/>diagnostic<sp/>info</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="structthemis_1_1query_1_1_parse_result_1ad74d47605c58a51f1eab1597412866d4" kindref="member">diagnostics</ref>.<ref refid="structthemis_1_1query_1_1_parser_diagnostics_1aa9ca4fbf8377dee601805b7efe728a2d" kindref="member">error_message</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Parse<sp/>failed<sp/>(details<sp/>pending<sp/>parser<sp/>enhancement)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="structthemis_1_1query_1_1_parse_result_1ad74d47605c58a51f1eab1597412866d4" kindref="member">diagnostics</ref>.<ref refid="structthemis_1_1query_1_1_parser_diagnostics_1afc76ada9e205fff7e914951994b5e9b8" kindref="member">error_category</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;SYNTAX_ERROR&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="structthemis_1_1query_1_1_parse_result_1ad74d47605c58a51f1eab1597412866d4" kindref="member">diagnostics</ref>.<ref refid="structthemis_1_1query_1_1_parser_diagnostics_1aa3ae8e1533ecedba166a9876a2a4e16e" kindref="member">error_context</ref><sp/>=<sp/>aql_query;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="structthemis_1_1query_1_1_parse_result_1a41de8c8877033698616a96009f593d2a" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>PHASE<sp/>GATE:<sp/>AST<sp/>is<sp/>not<sp/>exposed<sp/>in<sp/>ParseResult<sp/>until<sp/>Phase<sp/>1.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>0.3<sp/>limitation:<sp/>Full<sp/>AST<sp/>access<sp/>deferred<sp/>pending<sp/>ASTNode<sp/>exposure.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="structthemis_1_1query_1_1_parse_result_1a41de8c8877033698616a96009f593d2a" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="structthemis_1_1query_1_1_parse_result_1ad74d47605c58a51f1eab1597412866d4" kindref="member">diagnostics</ref>.<ref refid="structthemis_1_1query_1_1_parser_diagnostics_1aa9ca4fbf8377dee601805b7efe728a2d" kindref="member">error_message</ref><sp/>=<sp/>std::string(</highlight><highlight class="stringliteral">&quot;Parse<sp/>exception:<sp/>&quot;</highlight><highlight class="normal">)<sp/>+<sp/>e.what();</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="structthemis_1_1query_1_1_parse_result_1ad74d47605c58a51f1eab1597412866d4" kindref="member">diagnostics</ref>.<ref refid="structthemis_1_1query_1_1_parser_diagnostics_1afc76ada9e205fff7e914951994b5e9b8" kindref="member">error_category</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;PARSE_EXCEPTION&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>spdlog::debug(</highlight><highlight class="stringliteral">&quot;AQLParser<sp/>threw<sp/>exception:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>e.what());</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal">std::string<sp/><ref refid="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1a1554c0140800ca916b824c8fca26ebc8" kindref="member">AQLParserServiceImpl::version</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>base<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;AQL<sp/>v1.3<sp/>(read-only)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(impl_-&gt;enable_mutations_)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>base<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;<sp/>+mutations&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(impl_-&gt;enable_ddl_)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>base<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;<sp/>+ddl&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>base;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_a_q_l_parser_service_impl_1a26c24a5598d41ef27ac35b6d6d5d9462" kindref="member">AQLParserServiceImpl::supportsFeature</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>feature)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(feature<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;mutations&quot;</highlight><highlight class="normal"><sp/>||<sp/>feature<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;dml&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>impl_-&gt;enable_mutations_;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(feature<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;ddl&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>impl_-&gt;enable_ddl_;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(feature<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;geospatial&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>impl_-&gt;enable_geospatial_;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(feature<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;for&quot;</highlight><highlight class="normal"><sp/>||<sp/>feature<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;filter&quot;</highlight><highlight class="normal"><sp/>||<sp/>feature<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;sort&quot;</highlight><highlight class="normal"><sp/>||<sp/></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>feature<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;limit&quot;</highlight><highlight class="normal"><sp/>||<sp/>feature<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;return&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Core<sp/>features<sp/>always<sp/>supported</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal">std::shared_ptr&lt;AQLParserService&gt;<sp/><ref refid="classthemis_1_1query_1_1_a_q_l_parser_service_factory_1a9d24efd4f1d7dec18bbd3e73eacbc217" kindref="member">AQLParserServiceFactory::create</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_shared&lt;AQLParserServiceImpl&gt;();</highlight></codeline>
+<codeline lineno="137"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal">std::shared_ptr&lt;AQLParserService&gt;<sp/><ref refid="classthemis_1_1query_1_1_a_q_l_parser_service_factory_1ac462b7b5c8e29eec48c1d62e312f2b8a" kindref="member">AQLParserServiceFactory::createWithFeatures</ref>(</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enable_mutations,</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enable_ddl,</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enable_geospatial)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_shared&lt;AQLParserServiceImpl&gt;(</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>enable_mutations,</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>enable_ddl,</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>enable_geospatial</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::query</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/query/aql_parser_service.cpp"/>
+  </compounddef>
+</doxygen>

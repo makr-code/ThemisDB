@@ -1,0 +1,758 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__cdc__delivery__gates_8cpp" kind="file" language="C++">
+    <compoundname>bench_cdc_delivery_gates.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes refid="changefeed_8h" local="yes">cdc/changefeed.h</includes>
+    <includes refid="consumer__group_8h" local="yes">cdc/consumer_group.h</includes>
+    <includes refid="delivery__tracker_8h" local="yes">cdc/delivery_tracker.h</includes>
+    <includes refid="icdc__replay__controller_8h" local="yes">cdc/icdc_replay_controller.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/cdc/bench_cdc_delivery_gates.cpp</label>
+        <link refid="bench__cdc__delivery__gates_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>cdc/cdc_error.h</label>
+        <link refid="cdc__error_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cdc/changefeed.h</label>
+        <link refid="changefeed_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>cdc/consumer_group.h</label>
+        <link refid="consumer__group_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>cdc/delivery_tracker.h</label>
+        <link refid="delivery__tracker_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>cdc/icdc_replay_controller.h</label>
+        <link refid="icdc__replay__controller_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="13">
+        <label>chrono</label>
+      </node>
+      <node id="11">
+        <label>condition_variable</label>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="25">
+        <label>filesystem</label>
+      </node>
+      <node id="15">
+        <label>functional</label>
+      </node>
+      <node id="22">
+        <label>map</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="17">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="14">
+        <label>set</label>
+      </node>
+      <node id="20">
+        <label>stdexcept</label>
+      </node>
+      <node id="24">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>thread</label>
+      </node>
+      <node id="16">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_cdc_delivery_gate_fixture" prot="public">CdcDeliveryGateFixture</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="bench__cdc__delivery__gates_8cpp_1a90404f376711b391c2ec126c3086e9f1" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t kCdgCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kCdgCanonicalSeed</name>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical PRNG seed for all CDG benchmarks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_cdc_delivery_gates.cpp" line="71" column="27" bodyfile="benchmarks/cdc/bench_cdc_delivery_gates.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="bench__cdc__delivery__gates_8cpp_1a9d31281e8728c8ccb2a56410f88ba640" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Repetitions per benchmark for variance estimation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_cdc_delivery_gates.cpp" line="74" column="22" bodyfile="benchmarks/cdc/bench_cdc_delivery_gates.cpp" bodystart="74" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__cdc__delivery__gates_8cpp_1a33bacaaac2899ecb51f199b67641ee05" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_DEFINE_F</definition>
+        <argsstring>(CdcDeliveryGateFixture, CDG01_TrackDelivery10Events)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <param>
+          <type><ref refid="class_cdc_delivery_gate_fixture" kindref="compound">CdcDeliveryGateFixture</ref></type>
+        </param>
+        <param>
+          <type>CDG01_TrackDelivery10Events</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_cdc_delivery_gates.cpp" line="159" column="1" bodyfile="benchmarks/cdc/bench_cdc_delivery_gates.cpp" bodystart="159" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__cdc__delivery__gates_8cpp_1a936aec74f365aa737a6d990e95746f7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Unit</definition>
+        <argsstring>(benchmark::kMicrosecond) -&gt; Repetitions(kRepetitions) -&gt;Iterations(500) -&gt;UseRealTime()</argsstring>
+        <name>Unit</name>
+        <param>
+          <type>benchmark::kMicrosecond</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_cdc_delivery_gates.cpp" line="177" column="5" declfile="benchmarks/cdc/bench_cdc_delivery_gates.cpp" declline="177" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__cdc__delivery__gates_8cpp_1a7c5de97da11ec9a226e778aa3074e01b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_DEFINE_F</definition>
+        <argsstring>(CdcDeliveryGateFixture, CDG02_AcknowledgeSingleEvent)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <param>
+          <type><ref refid="class_cdc_delivery_gate_fixture" kindref="compound">CdcDeliveryGateFixture</ref></type>
+        </param>
+        <param>
+          <type>CDG02_AcknowledgeSingleEvent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_cdc_delivery_gates.cpp" line="187" column="1" bodyfile="benchmarks/cdc/bench_cdc_delivery_gates.cpp" bodystart="187" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__cdc__delivery__gates_8cpp_1a4677a97cdfabf194e52412173d8789ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_DEFINE_F</definition>
+        <argsstring>(CdcDeliveryGateFixture, CDG03_AcknowledgeUpTo100Events)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <param>
+          <type><ref refid="class_cdc_delivery_gate_fixture" kindref="compound">CdcDeliveryGateFixture</ref></type>
+        </param>
+        <param>
+          <type>CDG03_AcknowledgeUpTo100Events</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_cdc_delivery_gates.cpp" line="216" column="1" bodyfile="benchmarks/cdc/bench_cdc_delivery_gates.cpp" bodystart="216" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__cdc__delivery__gates_8cpp_1aeb6dbf9731c71dcacb8dd9ef5df54d7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_DEFINE_F</definition>
+        <argsstring>(CdcDeliveryGateFixture, CDG04_CreateDeleteGroup)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <param>
+          <type><ref refid="class_cdc_delivery_gate_fixture" kindref="compound">CdcDeliveryGateFixture</ref></type>
+        </param>
+        <param>
+          <type>CDG04_CreateDeleteGroup</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_cdc_delivery_gates.cpp" line="242" column="1" bodyfile="benchmarks/cdc/bench_cdc_delivery_gates.cpp" bodystart="242" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__cdc__delivery__gates_8cpp_1a84d225e8ff959e89c1657700687b3a48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_DEFINE_F</definition>
+        <argsstring>(CdcDeliveryGateFixture, CDG05_FetchEventsAtLeastOnce50)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <param>
+          <type><ref refid="class_cdc_delivery_gate_fixture" kindref="compound">CdcDeliveryGateFixture</ref></type>
+        </param>
+        <param>
+          <type>CDG05_FetchEventsAtLeastOnce50</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_cdc_delivery_gates.cpp" line="270" column="1" bodyfile="benchmarks/cdc/bench_cdc_delivery_gates.cpp" bodystart="270" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__cdc__delivery__gates_8cpp_1ad07efb869976db562e1b298e8bf050c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Unit</definition>
+        <argsstring>(benchmark::kMillisecond) -&gt; Repetitions(kRepetitions) -&gt;Iterations(200) -&gt;UseRealTime()</argsstring>
+        <name>Unit</name>
+        <param>
+          <type>benchmark::kMillisecond</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_cdc_delivery_gates.cpp" line="287" column="5" declfile="benchmarks/cdc/bench_cdc_delivery_gates.cpp" declline="287" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__cdc__delivery__gates_8cpp_1a2a8b8ac50f1a89e53102f9f1f30c5e02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_DEFINE_F</definition>
+        <argsstring>(CdcDeliveryGateFixture, CDG06_ReplayFromSequenceDrain100)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <param>
+          <type><ref refid="class_cdc_delivery_gate_fixture" kindref="compound">CdcDeliveryGateFixture</ref></type>
+        </param>
+        <param>
+          <type>CDG06_ReplayFromSequenceDrain100</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_cdc_delivery_gates.cpp" line="297" column="1" bodyfile="benchmarks/cdc/bench_cdc_delivery_gates.cpp" bodystart="297" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__cdc__delivery__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_MAIN</definition>
+        <argsstring>()</argsstring>
+        <name>BENCHMARK_MAIN</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_cdc_delivery_gates.cpp" line="321" column="1" declfile="benchmarks/cdc/bench_cdc_delivery_gates.cpp" declline="321" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 5 CDC delivery hot-path release-gate benchmarks. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides reproducible latency and throughput measurements for the CDC delivery, replay, and consumer-group hot paths identified in the CDC module roadmap (Phase 5 — Performance and Hardening). Results are used as release gates; a regression beyond 10% vs. the baseline blocks promotion.</para>
+<sect1 id="bench__cdc__delivery__gates_8cpp_1autotoc_md6_1s1"><sect2 id="bench__cdc__delivery__gates_8cpp_1autotoc_md6">
+<title>Benchmark families</title><para><heading level="3">CDG-01..03 — <ref refid="classthemis_1_1cdc_1_1_delivery_tracker" kindref="compound">DeliveryTracker</ref> hot paths</heading>
+</para>
+<para>CDG-01 <ref refid="classthemis_1_1cdc_1_1_delivery_tracker" kindref="compound">DeliveryTracker</ref> trackDelivery (10-event batch) CDG-02 <ref refid="classthemis_1_1cdc_1_1_delivery_tracker" kindref="compound">DeliveryTracker</ref> acknowledge (single sequence) CDG-03 <ref refid="classthemis_1_1cdc_1_1_delivery_tracker" kindref="compound">DeliveryTracker</ref> acknowledgeUpTo (cumulative ack, 100 events)</para>
+<para><heading level="3">CDG-04..05 — <ref refid="classthemis_1_1cdc_1_1_consumer_group_manager" kindref="compound">ConsumerGroupManager</ref> hot paths</heading>
+</para>
+<para>CDG-04 <ref refid="classthemis_1_1cdc_1_1_consumer_group_manager" kindref="compound">ConsumerGroupManager</ref> createGroup / deleteGroup round-trip CDG-05 <ref refid="classthemis_1_1cdc_1_1_consumer_group_manager" kindref="compound">ConsumerGroupManager</ref> fetchEventsAtLeastOnce (50 events, 1 consumer)</para>
+<para><heading level="3">CDG-06 — <ref refid="classthemis_1_1cdc_1_1_in_memory_replay_controller" kindref="compound">InMemoryReplayController</ref> hot path</heading>
+</para>
+<para>CDG-06 <ref refid="classthemis_1_1cdc_1_1_in_memory_replay_controller_1a0a7f4b3648a34cf0e0f9a40206bc7d22" kindref="member">InMemoryReplayController::replayFromSequence</ref> + full drain (100 events)</para>
+</sect2></sect1>
+<sect1 id="bench__cdc__delivery__gates_8cpp_1autotoc_md7_1s1"><sect2 id="bench__cdc__delivery__gates_8cpp_1autotoc_md7">
+<title>Hard release gates</title><para><table rows="7" cols="3"><row>
+<entry thead="yes"><para>Gate ID  </para>
+</entry><entry thead="yes"><para>Benchmark  </para>
+</entry><entry thead="yes"><para>Threshold  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-CDC-01  </para>
+</entry><entry thead="no"><para>CDG-01  </para>
+</entry><entry thead="no"><para>p99 ≤ 500 µs  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-CDC-02  </para>
+</entry><entry thead="no"><para>CDG-02  </para>
+</entry><entry thead="no"><para>p99 ≤ 10 µs  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-CDC-03  </para>
+</entry><entry thead="no"><para>CDG-03  </para>
+</entry><entry thead="no"><para>p99 ≤ 200 µs  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-CDC-04  </para>
+</entry><entry thead="no"><para>CDG-04  </para>
+</entry><entry thead="no"><para>p99 ≤ 1 ms  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-CDC-05  </para>
+</entry><entry thead="no"><para>CDG-05  </para>
+</entry><entry thead="no"><para>p99 ≤ 5 ms  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-CDC-06  </para>
+</entry><entry thead="no"><para>CDG-06  </para>
+</entry><entry thead="no"><para>p99 ≤ 5 ms (100 events)  </para>
+</entry></row>
+</table>
+</para>
+<para>All benchmarks:<itemizedlist>
+<listitem><para>Use kCdgCanonicalSeed = 42 for deterministic event data.</para>
+</listitem><listitem><para>Run with Repetitions(kRepetitions) to capture variance.</para>
+</listitem><listitem><para>I/O-bound registrations use UseRealTime().</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para>src/cdc/ROADMAP.md — Phase 5 items </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="cdc__delivery__contract_8h" kindref="compound">include/cdc/cdc_delivery_contract.h</ref> — §2 delivery semantics, §6 group consistency </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="bench__cdc__pipeline_8cpp" kindref="compound">benchmarks/cdc/bench_cdc_pipeline.cpp</ref> — pipeline / fan-out benchmarks </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="changefeed_8h" kindref="compound">cdc/changefeed.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="consumer__group_8h" kindref="compound">cdc/consumer_group.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="delivery__tracker_8h" kindref="compound">cdc/delivery_tracker.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="icdc__replay__controller_8h" kindref="compound">cdc/icdc_replay_controller.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1cdc" kindref="compound">themis::cdc</ref>;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Constants<sp/>—<sp/>deterministic,<sp/>release-pinned</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kCdgCanonicalSeed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kRepetitions<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Shared<sp/>fixture<sp/>—<sp/>RocksDB-backed<sp/>CDC<sp/>components</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="class_cdc_delivery_gate_fixture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_cdc_delivery_gate_fixture" kindref="compound">CdcDeliveryGateFixture</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>benchmark::Fixture<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_cdc_delivery_gate_fixture_1ad6a20e9758738a66d0a0ca9f51d1ae11" kindref="member">SetUp</ref>(const<sp/>::benchmark::State&amp;<sp/></highlight><highlight class="comment">/*state*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_cdc_delivery_gate_fixture_1a3a7065b84342c5bb516d78d8702017e5" kindref="member">db_path_</ref><sp/>=<sp/>fs::temp_directory_path()</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>/<sp/>(</highlight><highlight class="stringliteral">&quot;bench_cdc_dlvgates_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic_fetch_add(&amp;instance_counter_,<sp/>1)));</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fs::exists(<ref refid="class_cdc_delivery_gate_fixture_1a3a7065b84342c5bb516d78d8702017e5" kindref="member">db_path_</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_cdc_delivery_gate_fixture_1a3a7065b84342c5bb516d78d8702017e5" kindref="member">db_path_</ref>);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RocksDBWrapper::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.db_path<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="class_cdc_delivery_gate_fixture_1a3a7065b84342c5bb516d78d8702017e5" kindref="member">db_path_</ref>.string();</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.memtable_size_mb<sp/><sp/><sp/><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.block_cache_size_mb<sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_cdc_delivery_gate_fixture_1afd03ec761c9c4af828b5657685cbb8dc" kindref="member">db_</ref><sp/>=<sp/>std::make_unique&lt;RocksDBWrapper&gt;(cfg);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_cdc_delivery_gate_fixture_1afd03ec761c9c4af828b5657685cbb8dc" kindref="member">db_</ref>-&gt;open();</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>raw<sp/>=<sp/><ref refid="class_cdc_delivery_gate_fixture_1afd03ec761c9c4af828b5657685cbb8dc" kindref="member">db_</ref>-&gt;getDB();</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_changefeed_1_1_retention_policy" kindref="compound">Changefeed::RetentionPolicy</ref><sp/>ret;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret.<ref refid="struct_changefeed_1_1_retention_policy_1adad3321cce00e385353ca28ad5b50398" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_cdc_delivery_gate_fixture_1ae21625563b719bf3ecd5ae8bd14a870f" kindref="member">changefeed_</ref><sp/>=<sp/>std::make_unique&lt;Changefeed&gt;(raw,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>ret);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_cdc_delivery_gate_fixture_1ae325f4d951114cef256c9f29522fcdfb" kindref="member">manager_</ref><sp/><sp/><sp/><sp/>=<sp/>std::make_unique&lt;ConsumerGroupManager&gt;(raw,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_cdc_delivery_gate_fixture_1aa86896e77877feb468e594a7f26f8bf1" kindref="member">TearDown</ref>(const<sp/>::benchmark::State&amp;<sp/></highlight><highlight class="comment">/*state*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_cdc_delivery_gate_fixture_1ae325f4d951114cef256c9f29522fcdfb" kindref="member">manager_</ref>.reset();</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_cdc_delivery_gate_fixture_1ae21625563b719bf3ecd5ae8bd14a870f" kindref="member">changefeed_</ref>.reset();</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_cdc_delivery_gate_fixture_1afd03ec761c9c4af828b5657685cbb8dc" kindref="member">db_</ref>-&gt;close();</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_cdc_delivery_gate_fixture_1afd03ec761c9c4af828b5657685cbb8dc" kindref="member">db_</ref>.reset();</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fs::exists(<ref refid="class_cdc_delivery_gate_fixture_1a3a7065b84342c5bb516d78d8702017e5" kindref="member">db_path_</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_cdc_delivery_gate_fixture_1a3a7065b84342c5bb516d78d8702017e5" kindref="member">db_path_</ref>);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_cdc_delivery_gate_fixture_1a76d392640eef97778e4bc01cbab72d66" kindref="member">seedEvents</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n)<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>n;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref><sp/>ev;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a883b176a3fb4c5abc1dc20e30eb608a9" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0a6cb4b5ef33ab335211f73af9fbd56d3b" kindref="member">Changefeed::ChangeEventType::EVENT_PUT</ref>;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a3a217971c867a92b478cb1b593bec7f7" kindref="member">key</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;k:&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1ad2d3a461fdb9d4deefc9935feb9d8c50" kindref="member">value</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;v&quot;:)&quot;<sp/>+<sp/>std::to_string(i)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1aa6cfc276ad4f8bd518cb0f27278905ae" kindref="member">timestamp_ms</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(kCdgCanonicalSeed)<sp/>*<sp/>1000000LL<sp/>+<sp/>i;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_cdc_delivery_gate_fixture_1ae21625563b719bf3ecd5ae8bd14a870f" kindref="member">changefeed_</ref>-&gt;recordEvent(ev);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;Changefeed::ChangeEvent&gt;<sp/><ref refid="class_cdc_delivery_gate_fixture_1a416ffbf5983d7f0d64babcb4a78171d6" kindref="member">makeSyntheticEvents</ref>(</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>count,<sp/>uint64_t<sp/>base_seq<sp/>=<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Changefeed::ChangeEvent&gt;<sp/>evs;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>evs.reserve(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(count));</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>count;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref><sp/>ev;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a6768432c72d8a143488ea46d4ce45856" kindref="member">sequence</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>base_seq<sp/>+<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a883b176a3fb4c5abc1dc20e30eb608a9" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0a6cb4b5ef33ab335211f73af9fbd56d3b" kindref="member">Changefeed::ChangeEventType::EVENT_PUT</ref>;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a3a217971c867a92b478cb1b593bec7f7" kindref="member">key</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;bk:&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1ad2d3a461fdb9d4deefc9935feb9d8c50" kindref="member">value</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1aa6cfc276ad4f8bd518cb0f27278905ae" kindref="member">timestamp_ms</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(base_seq)<sp/>*<sp/>1000LL<sp/>+<sp/>i;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>evs.push_back(ev);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>evs;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::path<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_cdc_delivery_gate_fixture_1a3a7065b84342c5bb516d78d8702017e5" kindref="member">db_path_</ref>;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;RocksDBWrapper&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_cdc_delivery_gate_fixture_1afd03ec761c9c4af828b5657685cbb8dc" kindref="member">db_</ref>;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Changefeed&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_cdc_delivery_gate_fixture_1ae21625563b719bf3ecd5ae8bd14a870f" kindref="member">changefeed_</ref>;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;ConsumerGroupManager&gt;<sp/><ref refid="class_cdc_delivery_gate_fixture_1ae325f4d951114cef256c9f29522fcdfb" kindref="member">manager_</ref>;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::atomic&lt;int&gt;<sp/>instance_counter_;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal">std::atomic&lt;int&gt;<sp/>CdcDeliveryGateFixture::instance_counter_{0};</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CDG-01<sp/><sp/>GATE-CDC-01:<sp/>DeliveryTracker<sp/>trackDelivery<sp/>(10-event<sp/>batch)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Threshold:<sp/>p99<sp/>≤<sp/>500<sp/>µs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><ref refid="bench__cdc__delivery__gates_8cpp_1a33bacaaac2899ecb51f199b67641ee05" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_cdc_delivery_gate_fixture" kindref="compound">CdcDeliveryGateFixture</ref>,<sp/>CDG01_TrackDelivery10Events)(</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>evs<sp/>=<sp/>makeSyntheticEvents(10);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_delivery_tracker" kindref="compound">DeliveryTracker</ref><sp/>tracker;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>base{1000};</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Give<sp/>each<sp/>iteration<sp/>a<sp/>unique<sp/>sequence<sp/>range<sp/>to<sp/>avoid<sp/>pending-full<sp/>rejection.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>b<sp/>=<sp/>base.fetch_add(10,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>batch<sp/>=<sp/>makeSyntheticEvents(10,<sp/>b);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>tracker.<ref refid="classthemis_1_1cdc_1_1_delivery_tracker_1a9ba679810b65035c00844c679e605f2a" kindref="member">trackDelivery</ref>(</highlight><highlight class="stringliteral">&quot;bench_consumer&quot;</highlight><highlight class="normal">,<sp/>batch);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(ok);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Acknowledge<sp/>immediately<sp/>to<sp/>keep<sp/>pending<sp/>count<sp/>from<sp/>growing.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tracker.<ref refid="classthemis_1_1cdc_1_1_delivery_tracker_1a0c418a42cf0893f7b23d5a853016b886" kindref="member">acknowledgeUpTo</ref>(</highlight><highlight class="stringliteral">&quot;bench_consumer&quot;</highlight><highlight class="normal">,<sp/>b<sp/>+<sp/>9);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations()<sp/>*<sp/>10);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_cdc_delivery_gate_fixture" kindref="compound">CdcDeliveryGateFixture</ref>,<sp/>CDG01_TrackDelivery10Events)</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond)</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(500)</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseRealTime();</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CDG-02<sp/><sp/>GATE-CDC-02:<sp/>DeliveryTracker<sp/>acknowledge<sp/>(single<sp/>sequence)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Threshold:<sp/>p99<sp/>≤<sp/>10<sp/>µs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><ref refid="bench__cdc__delivery__gates_8cpp_1a33bacaaac2899ecb51f199b67641ee05" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_cdc_delivery_gate_fixture" kindref="compound">CdcDeliveryGateFixture</ref>,<sp/>CDG02_AcknowledgeSingleEvent)(</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_delivery_tracker" kindref="compound">DeliveryTracker</ref><sp/>tracker;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>seq{1};</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>s<sp/>=<sp/>seq.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ev_batch<sp/>=<sp/>makeSyntheticEvents(1,<sp/>s);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tracker.<ref refid="classthemis_1_1cdc_1_1_delivery_tracker_1a9ba679810b65035c00844c679e605f2a" kindref="member">trackDelivery</ref>(</highlight><highlight class="stringliteral">&quot;bench_ack_consumer&quot;</highlight><highlight class="normal">,<sp/>ev_batch);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.PauseTiming();</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pause:<sp/>set<sp/>up<sp/>only;<sp/>measurement<sp/>is<sp/>the<sp/>acknowledge<sp/>call<sp/>below.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.ResumeTiming();</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>tracker.<ref refid="classthemis_1_1cdc_1_1_delivery_tracker_1aee20f096513f9e914e375fe89b451e84" kindref="member">acknowledge</ref>(</highlight><highlight class="stringliteral">&quot;bench_ack_consumer&quot;</highlight><highlight class="normal">,<sp/>s);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(ok);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="205"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_cdc_delivery_gate_fixture" kindref="compound">CdcDeliveryGateFixture</ref>,<sp/>CDG02_AcknowledgeSingleEvent)</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond)</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(2000);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CDG-03<sp/><sp/>GATE-CDC-03:<sp/>DeliveryTracker<sp/>acknowledgeUpTo<sp/>(100<sp/>events)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Threshold:<sp/>p99<sp/>≤<sp/>200<sp/>µs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><ref refid="bench__cdc__delivery__gates_8cpp_1a33bacaaac2899ecb51f199b67641ee05" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_cdc_delivery_gate_fixture" kindref="compound">CdcDeliveryGateFixture</ref>,<sp/>CDG03_AcknowledgeUpTo100Events)(</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_delivery_tracker" kindref="compound">DeliveryTracker</ref><sp/>tracker;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>base{1};</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>b<sp/>=<sp/>base.fetch_add(100,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>batch<sp/>=<sp/>makeSyntheticEvents(100,<sp/>b);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tracker.<ref refid="classthemis_1_1cdc_1_1_delivery_tracker_1a9ba679810b65035c00844c679e605f2a" kindref="member">trackDelivery</ref>(</highlight><highlight class="stringliteral">&quot;bench_upto_consumer&quot;</highlight><highlight class="normal">,<sp/>batch);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>removed<sp/>=<sp/>tracker.<ref refid="classthemis_1_1cdc_1_1_delivery_tracker_1a0c418a42cf0893f7b23d5a853016b886" kindref="member">acknowledgeUpTo</ref>(</highlight><highlight class="stringliteral">&quot;bench_upto_consumer&quot;</highlight><highlight class="normal">,<sp/>b<sp/>+<sp/>99);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(removed);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations()<sp/>*<sp/>100);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_cdc_delivery_gate_fixture" kindref="compound">CdcDeliveryGateFixture</ref>,<sp/>CDG03_AcknowledgeUpTo100Events)</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond)</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(500)</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseRealTime();</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CDG-04<sp/><sp/>GATE-CDC-04:<sp/>ConsumerGroupManager<sp/>createGroup<sp/>/<sp/>deleteGroup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Threshold:<sp/>p99<sp/>≤<sp/>1<sp/>ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><ref refid="bench__cdc__delivery__gates_8cpp_1a33bacaaac2899ecb51f199b67641ee05" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_cdc_delivery_gate_fixture" kindref="compound">CdcDeliveryGateFixture</ref>,<sp/>CDG04_CreateDeleteGroup)(</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>counter{0};</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>counter.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>gid<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;cdg04_grp_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_consumer_group_config" kindref="compound">ConsumerGroupConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1cdc_1_1_consumer_group_config_1a886c470318a748072ddb420ba50a82b8" kindref="member">group_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>gid;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1cdc_1_1_consumer_group_config_1a2e412b45966bda830ab6868cb99d2750" kindref="member">consumer_count</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>manager_-&gt;createGroup(cfg);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>manager_-&gt;deleteGroup(gid);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="258"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="259"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_cdc_delivery_gate_fixture" kindref="compound">CdcDeliveryGateFixture</ref>,<sp/>CDG04_CreateDeleteGroup)</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond)</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(1000)</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseRealTime();</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CDG-05<sp/><sp/>GATE-CDC-05:<sp/>fetchEventsAtLeastOnce<sp/>(50<sp/>events,<sp/>1<sp/>consumer)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Threshold:<sp/>p99<sp/>≤<sp/>5<sp/>ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><ref refid="bench__cdc__delivery__gates_8cpp_1a33bacaaac2899ecb51f199b67641ee05" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_cdc_delivery_gate_fixture" kindref="compound">CdcDeliveryGateFixture</ref>,<sp/>CDG05_FetchEventsAtLeastOnce50)(</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>seedEvents(50);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_consumer_group_config" kindref="compound">ConsumerGroupConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1cdc_1_1_consumer_group_config_1a886c470318a748072ddb420ba50a82b8" kindref="member">group_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;cdg05_grp&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1cdc_1_1_consumer_group_config_1a2e412b45966bda830ab6868cb99d2750" kindref="member">consumer_count</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;createGroup(cfg);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>events<sp/>=<sp/>manager_-&gt;fetchEventsAtLeastOnce(</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;cdg05_grp&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;consumer_0&quot;</highlight><highlight class="normal">,<sp/>*changefeed_,<sp/>50);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(events);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations()<sp/>*<sp/>50);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="286"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_cdc_delivery_gate_fixture" kindref="compound">CdcDeliveryGateFixture</ref>,<sp/>CDG05_FetchEventsAtLeastOnce50)</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond)</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(200)</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseRealTime();</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CDG-06<sp/><sp/>GATE-CDC-06:<sp/>InMemoryReplayController::replayFromSequence<sp/>+<sp/>full<sp/>drain</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Threshold:<sp/>p99<sp/>≤<sp/>5<sp/>ms<sp/>(100<sp/>events)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><ref refid="bench__cdc__delivery__gates_8cpp_1a33bacaaac2899ecb51f199b67641ee05" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_cdc_delivery_gate_fixture" kindref="compound">CdcDeliveryGateFixture</ref>,<sp/>CDG06_ReplayFromSequenceDrain100)(</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>seedEvents(100);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_in_memory_replay_controller" kindref="compound">InMemoryReplayController</ref><sp/>ctrl(changefeed_.get());</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>session<sp/>=<sp/>ctrl.replayFromSequence(0);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>total<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(!session-&gt;done())<sp/>{</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>batch<sp/>=<sp/>session-&gt;nextBatch();</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total<sp/>+=<sp/>batch.size();</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(total);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations()<sp/>*<sp/>100);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="315"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_cdc_delivery_gate_fixture" kindref="compound">CdcDeliveryGateFixture</ref>,<sp/>CDG06_ReplayFromSequenceDrain100)</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond)</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(200)</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseRealTime();</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><ref refid="bench__cdc__delivery__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kindref="member">BENCHMARK_MAIN</ref>();</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/cdc/bench_cdc_delivery_gates.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_d513ec0f1f8aed93f024eadf6a6a2356" kind="dir">
+    <compoundname>src/scraper</compoundname>
+    <innerfile refid="gov__source__catalog_8cpp">gov_source_catalog.cpp</innerfile>
+    <innerfile refid="scraper__api__client_8cpp">scraper_api_client.cpp</innerfile>
+    <innerfile refid="scraper__config_8cpp">scraper_config.cpp</innerfile>
+    <innerfile refid="scraper__js__renderer_8cpp">scraper_js_renderer.cpp</innerfile>
+    <innerfile refid="scraper__llm__evaluator_8cpp">scraper_llm_evaluator.cpp</innerfile>
+    <innerfile refid="scraper__metadata__writer_8cpp">scraper_metadata_writer.cpp</innerfile>
+    <innerfile refid="scraper__plugin_8cpp">scraper_plugin.cpp</innerfile>
+    <innerfile refid="scraper__robots_8cpp">scraper_robots.cpp</innerfile>
+    <innerfile refid="scraper__search__engine_8cpp">scraper_search_engine.cpp</innerfile>
+    <innerfile refid="scraper__sitemap_8cpp">scraper_sitemap.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/scraper/"/>
+  </compounddef>
+</doxygen>

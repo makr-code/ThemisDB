@@ -1,0 +1,290 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="circuit__breaker_8h" kind="file" language="C++">
+    <compoundname>circuit_breaker.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includedby refid="remote__executor_8h" local="yes">include/sharding/remote_executor.h</includedby>
+    <includedby refid="circuit__breaker_8cpp" local="yes">src/sharding/circuit_breaker.cpp</includedby>
+    <includedby refid="remote__executor_8cpp" local="yes">src/sharding/remote_executor.cpp</includedby>
+    <includedby refid="shard__rpc__client_8cpp" local="yes">src/sharding/shard_rpc_client.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/sharding/circuit_breaker.h</label>
+        <link refid="circuit__breaker_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>mutex</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>benchmarks/sharding/bench_shard_routing.cpp</label>
+        <link refid="bench__shard__routing_8cpp"/>
+      </node>
+      <node id="4">
+        <label>benchmarks/sharding/bench_sharding_performance.cpp</label>
+        <link refid="bench__sharding__performance_8cpp"/>
+      </node>
+      <node id="6">
+        <label>include/sharding/adaptive_shard_router.h</label>
+        <link refid="adaptive__shard__router_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/sharding/circuit_breaker.h</label>
+        <link refid="circuit__breaker_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/sharding/remote_executor.h</label>
+        <link refid="remote__executor_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/sharding/shard_router.h</label>
+        <link refid="shard__router_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>src/sharding/adaptive_shard_router.cpp</label>
+        <link refid="adaptive__shard__router_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/sharding/circuit_breaker.cpp</label>
+        <link refid="circuit__breaker_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/sharding/cloud_agent.cpp</label>
+        <link refid="cloud__agent_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/sharding/remote_executor.cpp</label>
+        <link refid="remote__executor_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/sharding/shard_router.cpp</label>
+        <link refid="shard__router_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/sharding/shard_rpc_client.cpp</label>
+        <link refid="shard__rpc__client_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/sharding/test_sharding_e2e.cpp</label>
+        <link refid="test__sharding__e2e_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/sharding/test_sharding_integration.cpp</label>
+        <link refid="test__sharding__integration_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/sharding/test_sharding_phase2_hardening.cpp</label>
+        <link refid="test__sharding__phase2__hardening_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1sharding_1_1_circuit_breaker" prot="public">themis::sharding::CircuitBreaker</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_circuit_breaker_1_1_config" prot="public">themis::sharding::CircuitBreaker::Config</innerclass>
+    <innerclass refid="classthemis_1_1sharding_1_1_circuit_breaker_manager" prot="public">themis::sharding::CircuitBreakerManager</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_circuit_breaker_manager_1_1_state_count" prot="public">themis::sharding::CircuitBreakerManager::StateCount</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1sharding">themis::sharding</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding" kindref="compound">themis::sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="classthemis_1_1sharding_1_1_circuit_breaker" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_circuit_breaker_1a2fa7fb4637d9a66644a27962ae086181" kindref="member">CircuitBreaker</ref><sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="46" refid="classthemis_1_1sharding_1_1_circuit_breaker_1a3b754eda20d8bc9736ea618dba55e8f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_circuit_breaker_1a3b754eda20d8bc9736ea618dba55e8f3" kindref="member">State</ref><sp/>{</highlight></codeline>
+<codeline lineno="47" refid="classthemis_1_1sharding_1_1_circuit_breaker_1a3b754eda20d8bc9736ea618dba55e8f3a110ccf2f5d2ff4eda1fd1a494293467d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_circuit_breaker_1a3b754eda20d8bc9736ea618dba55e8f3a110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">CLOSED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Normal<sp/>operation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="classthemis_1_1sharding_1_1_circuit_breaker_1a3b754eda20d8bc9736ea618dba55e8f3aa38bd5138bf35514df41a1795ebbf5c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_circuit_breaker_1a3b754eda20d8bc9736ea618dba55e8f3aa38bd5138bf35514df41a1795ebbf5c3" kindref="member">OPEN</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Circuit<sp/>tripped<sp/>(failures<sp/>exceeded<sp/>threshold)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="classthemis_1_1sharding_1_1_circuit_breaker_1a3b754eda20d8bc9736ea618dba55e8f3a5c1c0fca237f238d3c656d55a4db3ca4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_circuit_breaker_1a3b754eda20d8bc9736ea618dba55e8f3a5c1c0fca237f238d3c656d55a4db3ca4" kindref="member">HALF_OPEN</ref><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Testing<sp/>recovery</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1sharding_1_1_circuit_breaker_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_circuit_breaker_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Failure<sp/>threshold<sp/>before<sp/>opening<sp/>circuit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1sharding_1_1_circuit_breaker_1_1_config_1a68ff3d42d9eebd8ad4aff5e94d35637a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_circuit_breaker_1_1_config_1a68ff3d42d9eebd8ad4aff5e94d35637a" kindref="member">failure_threshold</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Timeout<sp/>before<sp/>attempting<sp/>recovery<sp/>(OPEN<sp/>→<sp/>HALF_OPEN)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1sharding_1_1_circuit_breaker_1_1_config_1a05db475c0e71993a46fff37c644d56ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1sharding_1_1_circuit_breaker_1_1_config_1a05db475c0e71993a46fff37c644d56ef" kindref="member">timeout</ref><sp/>=<sp/>std::chrono::seconds(30);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Success<sp/>threshold<sp/>in<sp/>HALF_OPEN<sp/>before<sp/>closing<sp/>circuit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1sharding_1_1_circuit_breaker_1_1_config_1a4daaa7d00bb246088f06916cb493cc5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_circuit_breaker_1_1_config_1a4daaa7d00bb246088f06916cb493cc5f" kindref="member">success_threshold</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Window<sp/>for<sp/>counting<sp/>failures<sp/>(rolling<sp/>window)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1sharding_1_1_circuit_breaker_1_1_config_1a9704af27ca364865ae56b6041a68d4ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1sharding_1_1_circuit_breaker_1_1_config_1a9704af27ca364865ae56b6041a68d4ff" kindref="member">failure_window</ref><sp/>=<sp/>std::chrono::seconds(60);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_circuit_breaker_1a2fa7fb4637d9a66644a27962ae086181" kindref="member">CircuitBreaker</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_circuit_breaker_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_circuit_breaker_1a9bc7627d5ca382c493f516efed4eb77e" kindref="member">allowRequest</ref>();</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_circuit_breaker_1a786844e90645a5a57250b96e5a8fcd4c" kindref="member">recordSuccess</ref>();</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_circuit_breaker_1a48fccbcd4289e464bdddf48d82ba4fc0" kindref="member">recordFailure</ref>();</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_circuit_breaker_1a3b754eda20d8bc9736ea618dba55e8f3" kindref="member">State</ref><sp/><ref refid="classthemis_1_1sharding_1_1_circuit_breaker_1a8b76a577b9c365d3eaf7708fa9746995" kindref="member">getState</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_circuit_breaker_1ad282488f4a886c8337f0d7f351717c4e" kindref="member">getFailureCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_circuit_breaker_1a0072dd76900cefc662b2210e8c40738d" kindref="member">getSuccessCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_circuit_breaker_1a1f8269194bb3562b4fda6fd996dd040a" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_circuit_breaker_1addce4222947026b670fdbdc4fd7c5b9c" kindref="member">forceOpen</ref>();</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1sharding_1_1_circuit_breaker_1a2c041dd3212c02d96a736a0402d5b80b" kindref="member">stateToString</ref>(<ref refid="classthemis_1_1sharding_1_1_circuit_breaker_1a3b754eda20d8bc9736ea618dba55e8f3" kindref="member">State</ref><sp/>state);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_circuit_breaker_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;State&gt;<sp/>state_{<ref refid="classthemis_1_1sharding_1_1_circuit_breaker_1a3b754eda20d8bc9736ea618dba55e8f3a110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">State::CLOSED</ref>};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Failure<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::chrono::steady_clock::time_point&gt;<sp/>failure_timestamps_;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>consecutive_failures_{0};</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>HALF_OPEN<sp/>state<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>half_open_successes_{0};</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Timestamp<sp/>when<sp/>circuit<sp/>was<sp/>opened</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>open_timestamp_;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>transitionTo(<ref refid="classthemis_1_1sharding_1_1_circuit_breaker_1a3b754eda20d8bc9736ea618dba55e8f3" kindref="member">State</ref><sp/>new_state);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isTimeoutElapsed()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>cleanupOldFailures();</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>getCurrentFailureCount()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162" refid="classthemis_1_1sharding_1_1_circuit_breaker_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_circuit_breaker_manager" kindref="compound">CircuitBreakerManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_circuit_breaker" kindref="compound">CircuitBreaker</ref>&amp;<sp/><ref refid="classthemis_1_1sharding_1_1_circuit_breaker_manager_1a0a76b1c24f9b865b33eaccc1f416c4a1" kindref="member">getCircuitBreaker</ref>(</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_circuit_breaker_1_1_config" kindref="compound">CircuitBreaker::Config</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1sharding_1_1_circuit_breaker_1_1_config" kindref="compound">CircuitBreaker::Config</ref>{}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_circuit_breaker_manager_1adc1bf2ffeb431e837196fb669d08ac59" kindref="member">hasCircuitBreaker</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_circuit_breaker_manager_1aedd3eb7a2fa2d6bf9f8bedac48ee692d" kindref="member">removeCircuitBreaker</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_circuit_breaker_manager_1a224df0a327d39afe15078f73312b9046" kindref="member">resetAll</ref>();</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_circuit_breaker_manager_1ad4e90273491cb5039f96a276b23c32bc" kindref="member">getAllShardIds</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="198" refid="structthemis_1_1sharding_1_1_circuit_breaker_manager_1_1_state_count" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_circuit_breaker_manager_1_1_state_count" kindref="compound">StateCount</ref><sp/>{</highlight></codeline>
+<codeline lineno="199" refid="structthemis_1_1sharding_1_1_circuit_breaker_manager_1_1_state_count_1a7bc0a47dbf4c117953091a88782ea764" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_circuit_breaker_manager_1_1_state_count_1a7bc0a47dbf4c117953091a88782ea764" kindref="member">closed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="200" refid="structthemis_1_1sharding_1_1_circuit_breaker_manager_1_1_state_count_1aac124c083bc40ca25b8ac1857b5738e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_circuit_breaker_manager_1_1_state_count_1aac124c083bc40ca25b8ac1857b5738e9" kindref="member">open</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="201" refid="structthemis_1_1sharding_1_1_circuit_breaker_manager_1_1_state_count_1a8a220ca4726fcd4569d1d9c123775d21" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_circuit_breaker_manager_1_1_state_count_1a8a220ca4726fcd4569d1d9c123775d21" kindref="member">half_open</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_circuit_breaker_manager_1_1_state_count" kindref="compound">StateCount</ref><sp/><ref refid="classthemis_1_1sharding_1_1_circuit_breaker_manager_1aefc0cff476899db30ef10e130386b5d6" kindref="member">getStateCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::unique_ptr&lt;CircuitBreaker&gt;&gt;<sp/>circuit_breakers_;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::sharding</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/sharding/circuit_breaker.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_counting_scorer" kind="class" language="C++" prot="public">
+    <compoundname>CountingScorer</compoundname>
+    <basecompoundref refid="classthemis_1_1rag_1_1_i_l_l_m_scorer" prot="public" virt="non-virtual">themis::rag::ILLMScorer</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_counting_scorer_1ad5662043593b2a624a2890ee3b2d21b0" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string CountingScorer::token_</definition>
+        <argsstring></argsstring>
+        <name>token_</name>
+        <qualifiedname>CountingScorer::token_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_replug_retriever.cpp" line="123" column="17" bodyfile="tests/rag/test_rag_replug_retriever.cpp" bodystart="123" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_counting_scorer_1a304e2dda3d7168a71ab46f6f3fcc73d1" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>CountingScorer::CountingScorer</definition>
+        <argsstring>(const std::string &amp;token)</argsstring>
+        <name>CountingScorer</name>
+        <qualifiedname>CountingScorer::CountingScorer</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>token</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_replug_retriever.cpp" line="105" column="14" bodyfile="tests/rag/test_rag_replug_retriever.cpp" bodystart="105" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="class_counting_scorer_1af0a48c0218915baf524eab566c247baa" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>double</type>
+        <definition>double CountingScorer::score</definition>
+        <argsstring>(const std::string &amp;, const std::string &amp;document) const override</argsstring>
+        <name>score</name>
+        <qualifiedname>CountingScorer::score</qualifiedname>
+        <reimplements refid="classthemis_1_1rag_1_1_i_l_l_m_scorer_1a07ee0f571f37c796b89a152f46a230ed">score</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document</declname>
+        </param>
+        <briefdescription>
+<para>Score how well the document supports the query from the LLM&apos;s perspective (higher = more likely / lower perplexity). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The user&apos;s query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>document</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Candidate document content. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Score in [0, 1]. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_replug_retriever.cpp" line="107" column="12" bodyfile="tests/rag/test_rag_replug_retriever.cpp" bodystart="107" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="class_counting_scorer_1a31ed56c675a8b5934e62099889634741" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string CountingScorer::name</definition>
+        <argsstring>() const override</argsstring>
+        <name>name</name>
+        <qualifiedname>CountingScorer::name</qualifiedname>
+        <reimplements refid="classthemis_1_1rag_1_1_i_l_l_m_scorer_1ab1e53805042ea6241d3dadadc581955e">name</reimplements>
+        <briefdescription>
+<para>Human-readable name for logging. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_replug_retriever.cpp" line="120" column="17" bodyfile="tests/rag/test_rag_replug_retriever.cpp" bodystart="120" bodyend="120"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CountingScorer</label>
+        <link refid="class_counting_scorer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::rag::ILLMScorer</label>
+        <link refid="classthemis_1_1rag_1_1_i_l_l_m_scorer"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CountingScorer</label>
+        <link refid="class_counting_scorer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::rag::ILLMScorer</label>
+        <link refid="classthemis_1_1rag_1_1_i_l_l_m_scorer"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/rag/test_rag_replug_retriever.cpp" line="103" column="1" bodyfile="tests/rag/test_rag_replug_retriever.cpp" bodystart="103" bodyend="124"/>
+    <listofallmembers>
+      <member refid="class_counting_scorer_1a304e2dda3d7168a71ab46f6f3fcc73d1" prot="public" virt="non-virtual"><scope>CountingScorer</scope><name>CountingScorer</name></member>
+      <member refid="class_counting_scorer_1a31ed56c675a8b5934e62099889634741" prot="public" virt="virtual"><scope>CountingScorer</scope><name>name</name></member>
+      <member refid="class_counting_scorer_1af0a48c0218915baf524eab566c247baa" prot="public" virt="virtual"><scope>CountingScorer</scope><name>score</name></member>
+      <member refid="class_counting_scorer_1ad5662043593b2a624a2890ee3b2d21b0" prot="private" virt="non-virtual"><scope>CountingScorer</scope><name>token_</name></member>
+      <member refid="classthemis_1_1rag_1_1_i_l_l_m_scorer_1a9cc6e7ded3cbd84d6ad17926f31a7d2e" prot="public" virt="virtual"><scope>CountingScorer</scope><name>~ILLMScorer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

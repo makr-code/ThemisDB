@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_2dee495a834933d8462e560c85a96703" kind="dir">
+    <compoundname>src/distributed_tensor</compoundname>
+    <innerdir refid="dir_ac9e9eb797afc719fec31e95c8b224ea">src/distributed_tensor/include</innerdir>
+    <innerdir refid="dir_6889a8bb1af05c0b19d4331a8cbad7eb">src/distributed_tensor/src</innerdir>
+    <innerfile refid="artifact__manifest_8cc">artifact_manifest.cc</innerfile>
+    <innerfile refid="distributed__planner_8cc">distributed_planner.cc</innerfile>
+    <innerfile refid="integrity__verification_8cc">integrity_verification.cc</innerfile>
+    <innerfile refid="recovery__manager_8cc">recovery_manager.cc</innerfile>
+    <innerfile refid="shard__placement_8cc">shard_placement.cc</innerfile>
+    <innerfile refid="tensor__artifact__classes_8cc">tensor_artifact_classes.cc</innerfile>
+    <innerfile refid="tensor__infrastructure_8cc">tensor_infrastructure.cc</innerfile>
+    <innerfile refid="tensor__training__coordinator_8cc">tensor_training_coordinator.cc</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/"/>
+  </compounddef>
+</doxygen>

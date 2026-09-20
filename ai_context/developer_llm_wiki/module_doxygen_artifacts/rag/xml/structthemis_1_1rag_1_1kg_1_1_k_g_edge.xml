@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1kg_1_1_k_g_edge" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::kg::KGEdge</compoundname>
+    <includes refid="knowledge__graph__retriever_8h" local="no">knowledge_graph_retriever.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_k_g_edge_1a79e40fb9425ddb3f500ab7af3b532cf2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::kg::KGEdge::from_id</definition>
+        <argsstring></argsstring>
+        <name>from_id</name>
+        <qualifiedname>themis::rag::kg::KGEdge::from_id</qualifiedname>
+        <briefdescription>
+<para>Source node identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="89" column="18" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_k_g_edge_1a18918e854a81e13a0883845816aa4bf0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::kg::KGEdge::to_id</definition>
+        <argsstring></argsstring>
+        <name>to_id</name>
+        <qualifiedname>themis::rag::kg::KGEdge::to_id</qualifiedname>
+        <briefdescription>
+<para>Target node identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="90" column="18" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_k_g_edge_1a519f3a18aab143d3e1a11a2c9f49190b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1kg_1a1c99ffaa7f64149541f4cbd0cd4b6bc7" kindref="member">RelationType</ref></type>
+        <definition>RelationType themis::rag::kg::KGEdge::relation</definition>
+        <argsstring></argsstring>
+        <name>relation</name>
+        <qualifiedname>themis::rag::kg::KGEdge::relation</qualifiedname>
+        <briefdescription>
+<para>Semantic relation type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="91" column="18" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_k_g_edge_1afe6d4f2d7ca9251bb3531207a1ea8f23" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::kg::KGEdge::weight</definition>
+        <argsstring></argsstring>
+        <name>weight</name>
+        <qualifiedname>themis::rag::kg::KGEdge::weight</qualifiedname>
+        <briefdescription>
+<para>Edge weight / confidence in [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="92" column="18" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A directed, weighted edge in the knowledge graph. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/knowledge_graph_retriever.h" line="88" column="1" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="88" bodyend="93"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_k_g_edge_1a79e40fb9425ddb3f500ab7af3b532cf2" prot="public" virt="non-virtual"><scope>themis::rag::kg::KGEdge</scope><name>from_id</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_k_g_edge_1a519f3a18aab143d3e1a11a2c9f49190b" prot="public" virt="non-virtual"><scope>themis::rag::kg::KGEdge</scope><name>relation</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_k_g_edge_1a18918e854a81e13a0883845816aa4bf0" prot="public" virt="non-virtual"><scope>themis::rag::kg::KGEdge</scope><name>to_id</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_k_g_edge_1afe6d4f2d7ca9251bb3531207a1ea8f23" prot="public" virt="non-virtual"><scope>themis::rag::kg::KGEdge</scope><name>weight</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

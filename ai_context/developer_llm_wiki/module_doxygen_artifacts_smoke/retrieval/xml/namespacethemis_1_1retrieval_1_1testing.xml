@@ -1,0 +1,207 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1retrieval_1_1testing" kind="namespace" language="C++">
+    <compoundname>themis::retrieval::testing</compoundname>
+    <innerclass refid="structthemis_1_1retrieval_1_1testing_1_1_retrieval_result" prot="public">themis::retrieval::testing::RetrievalResult</innerclass>
+    <innerclass refid="classthemis_1_1retrieval_1_1testing_1_1_mock_exact_retriever" prot="public">themis::retrieval::testing::MockExactRetriever</innerclass>
+    <innerclass refid="classthemis_1_1retrieval_1_1testing_1_1_mock_a_n_n_retriever" prot="public">themis::retrieval::testing::MockANNRetriever</innerclass>
+    <innerclass refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_engine" prot="public">themis::retrieval::testing::HybridRetrieverEngine</innerclass>
+    <innerclass refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_parity_test" prot="public">themis::retrieval::testing::HybridRetrieverParityTest</innerclass>
+    <innerclass refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_parity_contract_test" prot="public">themis::retrieval::testing::HybridRetrieverParityContractTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1retrieval_1_1testing_1aae0c67b82fb3220b79c10a6de95f963e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::retrieval::testing::TEST_F</definition>
+        <argsstring>(HybridRetrieverParityTest, HYB01_ExactMatchBypassANN)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::retrieval::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_parity_test" kindref="compound">HybridRetrieverParityTest</ref></type>
+        </param>
+        <param>
+          <type>HYB01_ExactMatchBypassANN</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>HYB-01: Exact match found, bypass ANN </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="331" column="1" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="331" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1retrieval_1_1testing_1a4cf31404a11868f8178e4e141bb2a331" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::retrieval::testing::TEST_F</definition>
+        <argsstring>(HybridRetrieverParityTest, HYB02_NoExactMatchUseANN)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::retrieval::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_parity_test" kindref="compound">HybridRetrieverParityTest</ref></type>
+        </param>
+        <param>
+          <type>HYB02_NoExactMatchUseANN</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>HYB-02: No exact match, use ANN </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="352" column="1" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="352" bodyend="368"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1retrieval_1_1testing_1a3a3f8c416138e46fdd5ea6e3f2b5ecae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::retrieval::testing::TEST_F</definition>
+        <argsstring>(HybridRetrieverParityTest, HYB03_MixedDatasetParityValidation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::retrieval::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_parity_test" kindref="compound">HybridRetrieverParityTest</ref></type>
+        </param>
+        <param>
+          <type>HYB03_MixedDatasetParityValidation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>HYB-03: Mixed dataset - exact + ANN candidates </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="373" column="1" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="373" bodyend="388"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1retrieval_1_1testing_1afbe712ee09ffe47a684237f04248f496" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::retrieval::testing::TEST_F</definition>
+        <argsstring>(HybridRetrieverParityTest, HYB04_HighCardinalityExactCandidates)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::retrieval::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_parity_test" kindref="compound">HybridRetrieverParityTest</ref></type>
+        </param>
+        <param>
+          <type>HYB04_HighCardinalityExactCandidates</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>HYB-04: High-cardinality exact candidates </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="393" column="1" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="393" bodyend="413"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1retrieval_1_1testing_1a09c79639690328fb71489520b59474a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::retrieval::testing::TEST_F</definition>
+        <argsstring>(HybridRetrieverParityTest, HYB05_EmptyExactResultsFallback)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::retrieval::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_parity_test" kindref="compound">HybridRetrieverParityTest</ref></type>
+        </param>
+        <param>
+          <type>HYB05_EmptyExactResultsFallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>HYB-05: Empty exact results, ANN fallback </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="418" column="1" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="418" bodyend="432"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1retrieval_1_1testing_1a3a73ce1db8cfff0632340b6a3756503b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::retrieval::testing::TEST_F</definition>
+        <argsstring>(HybridRetrieverParityTest, HYB06_ConcurrentQuerieThreadSafety)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::retrieval::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_parity_test" kindref="compound">HybridRetrieverParityTest</ref></type>
+        </param>
+        <param>
+          <type>HYB06_ConcurrentQuerieThreadSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>HYB-06: Concurrent exact + ANN queries (thread-safety) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="437" column="1" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="437" bodyend="472"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1retrieval_1_1testing_1a3c699841539d50707bb76ecb589a6800" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::retrieval::testing::TEST_F</definition>
+        <argsstring>(HybridRetrieverParityTest, HYB07_LatencyComparisonExactVsANN)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::retrieval::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_parity_test" kindref="compound">HybridRetrieverParityTest</ref></type>
+        </param>
+        <param>
+          <type>HYB07_LatencyComparisonExactVsANN</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>HYB-07: Latency comparison (exact vs ANN) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="477" column="1" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="477" bodyend="514"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1retrieval_1_1testing_1a452aac7213b574e9a496b0107d84bd51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::retrieval::testing::TEST_F</definition>
+        <argsstring>(HybridRetrieverParityTest, HYB08_EdgeCasesFailClosedBehavior)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::retrieval::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_parity_test" kindref="compound">HybridRetrieverParityTest</ref></type>
+        </param>
+        <param>
+          <type>HYB08_EdgeCasesFailClosedBehavior</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>HYB-08: Edge case - NULL/empty/malformed inputs </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="519" column="1" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="519" bodyend="552"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1retrieval_1_1testing_1aa5bf9b57dbac3260c0fdc87c3a594450" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::retrieval::testing::TEST_F</definition>
+        <argsstring>(HybridRetrieverParityContractTest, VerifyParityContract)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::retrieval::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1retrieval_1_1testing_1_1_hybrid_retriever_parity_contract_test" kindref="compound">HybridRetrieverParityContractTest</ref></type>
+        </param>
+        <param>
+          <type>VerifyParityContract</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="561" column="1" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="561" bodyend="587"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="32" column="1"/>
+  </compounddef>
+</doxygen>

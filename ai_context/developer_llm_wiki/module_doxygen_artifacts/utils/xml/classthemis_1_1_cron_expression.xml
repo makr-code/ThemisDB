@@ -1,0 +1,859 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_cron_expression" kind="class" language="C++" prot="public">
+    <compoundname>themis::CronExpression</compoundname>
+    <includes refid="cron__parser_8h" local="no">cron_parser.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_cron_expression_1ac69a5d95f3202ff10836b62709344d0d" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::CronExpression::expression_</definition>
+        <argsstring></argsstring>
+        <name>expression_</name>
+        <qualifiedname>themis::CronExpression::expression_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cron_parser.h" line="116" column="17" bodyfile="include/utils/cron_parser.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_cron_expression_1ab53825425c514a447f5782d13493cc17" prot="private" static="no" mutable="no">
+        <type>std::set&lt; int &gt;</type>
+        <definition>std::set&lt;int&gt; themis::CronExpression::minutes_</definition>
+        <argsstring></argsstring>
+        <name>minutes_</name>
+        <qualifiedname>themis::CronExpression::minutes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cron_parser.h" line="117" column="14" bodyfile="include/utils/cron_parser.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_cron_expression_1ab1912206b6b243df33ac752559e872f2" prot="private" static="no" mutable="no">
+        <type>std::set&lt; int &gt;</type>
+        <definition>std::set&lt;int&gt; themis::CronExpression::hours_</definition>
+        <argsstring></argsstring>
+        <name>hours_</name>
+        <qualifiedname>themis::CronExpression::hours_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cron_parser.h" line="118" column="14" bodyfile="include/utils/cron_parser.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_cron_expression_1a79bca91d23c196f9530fe9f02b2fa8f7" prot="private" static="no" mutable="no">
+        <type>std::set&lt; int &gt;</type>
+        <definition>std::set&lt;int&gt; themis::CronExpression::days_</definition>
+        <argsstring></argsstring>
+        <name>days_</name>
+        <qualifiedname>themis::CronExpression::days_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cron_parser.h" line="119" column="14" bodyfile="include/utils/cron_parser.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_cron_expression_1a5f92592aae77521c9cea2d1a7fcf22a8" prot="private" static="no" mutable="no">
+        <type>std::set&lt; int &gt;</type>
+        <definition>std::set&lt;int&gt; themis::CronExpression::months_</definition>
+        <argsstring></argsstring>
+        <name>months_</name>
+        <qualifiedname>themis::CronExpression::months_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cron_parser.h" line="120" column="14" bodyfile="include/utils/cron_parser.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_cron_expression_1ac22e4e2a3773ed0cf241177ba47040b1" prot="private" static="no" mutable="no">
+        <type>std::set&lt; int &gt;</type>
+        <definition>std::set&lt;int&gt; themis::CronExpression::weekdays_</definition>
+        <argsstring></argsstring>
+        <name>weekdays_</name>
+        <qualifiedname>themis::CronExpression::weekdays_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cron_parser.h" line="121" column="14" bodyfile="include/utils/cron_parser.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_cron_expression_1ae9e71637cec94e6d5954880557fb4355" prot="private" static="no" mutable="no">
+        <type>std::set&lt; int &gt;</type>
+        <definition>std::set&lt;int&gt; themis::CronExpression::years_</definition>
+        <argsstring></argsstring>
+        <name>years_</name>
+        <qualifiedname>themis::CronExpression::years_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cron_parser.h" line="122" column="14" bodyfile="include/utils/cron_parser.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_cron_expression_1a28bdddc78c81ab1203b5f3083724549c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; CronExpression &gt;</type>
+        <definition>std::optional&lt; CronExpression &gt; themis::CronExpression::parse</definition>
+        <argsstring>(const std::string &amp;expression)</argsstring>
+        <name>parse</name>
+        <qualifiedname>themis::CronExpression::parse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expression</declname>
+        </param>
+        <briefdescription>
+<para>Parse a cron expression string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Parse.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>expression</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Cron expression (5 fields: minute hour day month weekday, or 6 fields: minute hour day month weekday year) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Parsed cron expression or error</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">expression</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), back(), pop_back(), parseWildcard(), CronExpression(), <ref refid="logger_8h_1ac57df04ff125f5183ff1d602a0cad21f" kindref="member">THEMIS_ERROR()</ref>, iss(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cron_parser.h" line="42" column="26" bodyfile="src/utils/cron_parser.cpp" bodystart="59" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_cron_expression_1a7a4a2297552754fe7d5f8f61ea79ada2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_cron_validation_result" kindref="compound">CronValidationResult</ref></type>
+        <definition>CronValidationResult themis::CronExpression::validate</definition>
+        <argsstring>(const std::string &amp;expression)</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::CronExpression::validate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expression</declname>
+        </param>
+        <briefdescription>
+<para>Validate a cron expression without parsing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>expression</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Cron expression to validate (5 or 6 fields) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Validation result with error details</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">expression</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), back(), pop_back(), count(), <ref refid="classthemis_1_1_cron_expression_1a28bdddc78c81ab1203b5f3083724549c" kindref="member">parse()</ref>, iss(), push_back(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cron_parser.h" line="49" column="33" bodyfile="src/utils/cron_parser.cpp" bodystart="156" bodyend="233"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_cron_expression_1a70ff049752f74fd88eb202cab874d2e4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::chrono::system_clock::time_point &gt;</type>
+        <definition>std::optional&lt; std::chrono::system_clock::time_point &gt; themis::CronExpression::getNextExecution</definition>
+        <argsstring>(const std::chrono::system_clock::time_point &amp;from) const</argsstring>
+        <name>getNextExecution</name>
+        <qualifiedname>themis::CronExpression::getNextExecution</qualifiedname>
+        <param>
+          <type>const std::chrono::system_clock::time_point &amp;</type>
+          <declname>from</declname>
+        </param>
+        <briefdescription>
+<para>Calculate the next execution time from a given time point (local time). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Starting time point </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Next execution time, or nullopt if no valid next time exists </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cron_parser.h" line="56" column="19" bodyfile="src/utils/cron_parser.cpp" bodystart="235" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_cron_expression_1a4f4fbc29abf038c074c2b0db835be262" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::chrono::system_clock::time_point &gt;</type>
+        <definition>std::optional&lt; std::chrono::system_clock::time_point &gt; themis::CronExpression::getNextExecution</definition>
+        <argsstring>(const std::chrono::system_clock::time_point &amp;from, std::chrono::seconds tz_offset_seconds) const</argsstring>
+        <name>getNextExecution</name>
+        <qualifiedname>themis::CronExpression::getNextExecution</qualifiedname>
+        <param>
+          <type>const std::chrono::system_clock::time_point &amp;</type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>tz_offset_seconds</declname>
+        </param>
+        <briefdescription>
+<para>Calculate the next execution time interpreted in a fixed-offset timezone. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The cron expression fields are evaluated in the timezone defined by <computeroutput>tz_offset_seconds</computeroutput> (positive = east of UTC, e.g. +3600 for UTC+1). The returned time point is always in UTC.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Starting time point (UTC) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tz_offset_seconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UTC offset of the target timezone in seconds </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Next execution time (UTC), or nullopt if no valid next time exists </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cron_parser.h" line="70" column="19" bodyfile="src/utils/cron_parser.cpp" bodystart="261" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_cron_expression_1ac9281e7f1efea4d289b6bfb1b141fa9f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::CronExpression::matches</definition>
+        <argsstring>(const std::chrono::system_clock::time_point &amp;time) const</argsstring>
+        <name>matches</name>
+        <qualifiedname>themis::CronExpression::matches</qualifiedname>
+        <param>
+          <type>const std::chrono::system_clock::time_point &amp;</type>
+          <declname>time</declname>
+        </param>
+        <briefdescription>
+<para>Check if a given time matches the cron expression (local time). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>time</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Time point to check </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if time matches the expression </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cron_parser.h" line="79" column="10" bodyfile="src/utils/cron_parser.cpp" bodystart="347" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_cron_expression_1a94184ccd23fc0297fbd317cd2099e829" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::CronExpression::hasYearConstraint</definition>
+        <argsstring>() const</argsstring>
+        <name>hasYearConstraint</name>
+        <qualifiedname>themis::CronExpression::hasYearConstraint</qualifiedname>
+        <briefdescription>
+<para>Returns true if this expression was parsed with a year constraint (6-field form). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cron_parser.h" line="84" column="10" bodyfile="include/utils/cron_parser.h" bodystart="84" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_cron_expression_1ac89e64fbd32d2cfb4583cb8ce8ad6295" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::CronExpression::describe</definition>
+        <argsstring>() const</argsstring>
+        <name>describe</name>
+        <qualifiedname>themis::CronExpression::describe</qualifiedname>
+        <briefdescription>
+<para>Get human-readable description of the cron expression. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Description string (e.g., &quot;Every 15 minutes&quot;) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cron_parser.h" line="90" column="17" bodyfile="src/utils/cron_parser.cpp" bodystart="409" bodyend="458"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_cron_expression_1adb903363c5ad3b2b67626fa5f0b46e6f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::CronExpression::getExpression</definition>
+        <argsstring>() const</argsstring>
+        <name>getExpression</name>
+        <qualifiedname>themis::CronExpression::getExpression</qualifiedname>
+        <briefdescription>
+<para>Get the original cron expression string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Original expression </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cron_parser.h" line="96" column="23" bodyfile="include/utils/cron_parser.h" bodystart="96" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_cron_expression_1abadc705683ff9fc758e542dc9dd63e30" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::CronExpression::CronExpression</definition>
+        <argsstring>(const std::string &amp;expression, std::set&lt; int &gt; minutes, std::set&lt; int &gt; hours, std::set&lt; int &gt; days, std::set&lt; int &gt; months, std::set&lt; int &gt; weekdays)</argsstring>
+        <name>CronExpression</name>
+        <qualifiedname>themis::CronExpression::CronExpression</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expression</declname>
+        </param>
+        <param>
+          <type>std::set&lt; int &gt;</type>
+          <declname>minutes</declname>
+        </param>
+        <param>
+          <type>std::set&lt; int &gt;</type>
+          <declname>hours</declname>
+        </param>
+        <param>
+          <type>std::set&lt; int &gt;</type>
+          <declname>days</declname>
+        </param>
+        <param>
+          <type>std::set&lt; int &gt;</type>
+          <declname>months</declname>
+        </param>
+        <param>
+          <type>std::set&lt; int &gt;</type>
+          <declname>weekdays</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cron_parser.h" line="100" column="5" bodyfile="src/utils/cron_parser.cpp" bodystart="25" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_cron_expression_1a111e1ddc404a4d247486ac485b28c4cf" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::CronExpression::CronExpression</definition>
+        <argsstring>(const std::string &amp;expression, std::set&lt; int &gt; minutes, std::set&lt; int &gt; hours, std::set&lt; int &gt; days, std::set&lt; int &gt; months, std::set&lt; int &gt; weekdays, std::set&lt; int &gt; years)</argsstring>
+        <name>CronExpression</name>
+        <qualifiedname>themis::CronExpression::CronExpression</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expression</declname>
+        </param>
+        <param>
+          <type>std::set&lt; int &gt;</type>
+          <declname>minutes</declname>
+        </param>
+        <param>
+          <type>std::set&lt; int &gt;</type>
+          <declname>hours</declname>
+        </param>
+        <param>
+          <type>std::set&lt; int &gt;</type>
+          <declname>days</declname>
+        </param>
+        <param>
+          <type>std::set&lt; int &gt;</type>
+          <declname>months</declname>
+        </param>
+        <param>
+          <type>std::set&lt; int &gt;</type>
+          <declname>weekdays</declname>
+        </param>
+        <param>
+          <type>std::set&lt; int &gt;</type>
+          <declname>years</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cron_parser.h" line="108" column="5" bodyfile="src/utils/cron_parser.cpp" bodystart="38" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1_cron_expression_1a1eef9e37e20c600c8686c7e54023ea80" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::set&lt; int &gt; &gt;</type>
+        <definition>std::optional&lt; std::set&lt; int &gt; &gt; themis::CronExpression::parseField</definition>
+        <argsstring>(const std::string &amp;field, int min_value, int max_value)</argsstring>
+        <name>parseField</name>
+        <qualifiedname>themis::CronExpression::parseField</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>min_value</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_value</declname>
+        </param>
+        <briefdescription>
+<para>Parse Field. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">min_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), find(), parseList(), parseStep(), parseRange(), parseWildcard(), parseToken(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cron_parser.h" line="125" column="26" bodyfile="src/utils/cron_parser.cpp" bodystart="582" bodyend="617"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_cron_expression_1ad7cd901fbb2f6e11e4873407bf60bca7" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::set&lt; int &gt; &gt;</type>
+        <definition>std::optional&lt; std::set&lt; int &gt; &gt; themis::CronExpression::parseWildcard</definition>
+        <argsstring>(int min_value, int max_value)</argsstring>
+        <name>parseWildcard</name>
+        <qualifiedname>themis::CronExpression::parseWildcard</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>min_value</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_value</declname>
+        </param>
+        <briefdescription>
+<para>Parse Wildcard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">min_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: insert(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cron_parser.h" line="127" column="26" bodyfile="src/utils/cron_parser.cpp" bodystart="626" bodyend="633"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_cron_expression_1acf46781ff6339124181bc7cf627aa2a2" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::set&lt; int &gt; &gt;</type>
+        <definition>std::optional&lt; std::set&lt; int &gt; &gt; themis::CronExpression::parseRange</definition>
+        <argsstring>(const std::string &amp;range, int min_value, int max_value)</argsstring>
+        <name>parseRange</name>
+        <qualifiedname>themis::CronExpression::parseRange</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>range</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>min_value</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_value</declname>
+        </param>
+        <briefdescription>
+<para>Parse Range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">min_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), length(), parseToken(), substr(), insert(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cron_parser.h" line="128" column="26" bodyfile="src/utils/cron_parser.cpp" bodystart="643" bodyend="670"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_cron_expression_1a99f3177c3fcc37cda4da6f9053b71e0a" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::set&lt; int &gt; &gt;</type>
+        <definition>std::optional&lt; std::set&lt; int &gt; &gt; themis::CronExpression::parseList</definition>
+        <argsstring>(const std::string &amp;list, int min_value, int max_value)</argsstring>
+        <name>parseList</name>
+        <qualifiedname>themis::CronExpression::parseList</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>list</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>min_value</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_value</declname>
+        </param>
+        <briefdescription>
+<para>Parse List. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">list</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">min_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: iss(), std::getline(), empty(), find(), parseStep(), parseRange(), parseWildcard(), parseToken(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cron_parser.h" line="130" column="26" bodyfile="src/utils/cron_parser.cpp" bodystart="680" bodyend="712"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_cron_expression_1a16dc00ae10d8e5d6fa61e89de555122b" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::set&lt; int &gt; &gt;</type>
+        <definition>std::optional&lt; std::set&lt; int &gt; &gt; themis::CronExpression::parseStep</definition>
+        <argsstring>(const std::string &amp;step, int min_value, int max_value)</argsstring>
+        <name>parseStep</name>
+        <qualifiedname>themis::CronExpression::parseStep</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>step</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>min_value</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_value</declname>
+        </param>
+        <briefdescription>
+<para>Parse Step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">min_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), length(), substr(), std::stoi(), insert(), parseRange(), begin(), rbegin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cron_parser.h" line="132" column="26" bodyfile="src/utils/cron_parser.cpp" bodystart="722" bodyend="781"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_cron_expression_1acd3218d8baceee8946549f76ee4e28c6" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::CronExpression::advanceToNextMinute</definition>
+        <argsstring>(const std::chrono::system_clock::time_point &amp;time)</argsstring>
+        <name>advanceToNextMinute</name>
+        <qualifiedname>themis::CronExpression::advanceToNextMinute</qualifiedname>
+        <param>
+          <type>const std::chrono::system_clock::time_point &amp;</type>
+          <declname>time</declname>
+        </param>
+        <briefdescription>
+<para>Advance To Next Minute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">time</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::minutes(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cron_parser.h" line="136" column="50" bodyfile="src/utils/cron_parser.cpp" bodystart="790" bodyend="793"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_cron_expression_1a81663a83e6235f8f6f909aa1bd534ecc" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::CronExpression::advanceToNextHour</definition>
+        <argsstring>(const std::chrono::system_clock::time_point &amp;time)</argsstring>
+        <name>advanceToNextHour</name>
+        <qualifiedname>themis::CronExpression::advanceToNextHour</qualifiedname>
+        <param>
+          <type>const std::chrono::system_clock::time_point &amp;</type>
+          <declname>time</declname>
+        </param>
+        <briefdescription>
+<para>Advance To Next Hour. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">time</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::hours(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cron_parser.h" line="138" column="50" bodyfile="src/utils/cron_parser.cpp" bodystart="801" bodyend="804"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_cron_expression_1aa1a238dbc26884e4fd164c3792f1220d" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::CronExpression::advanceToNextDay</definition>
+        <argsstring>(const std::chrono::system_clock::time_point &amp;time)</argsstring>
+        <name>advanceToNextDay</name>
+        <qualifiedname>themis::CronExpression::advanceToNextDay</qualifiedname>
+        <param>
+          <type>const std::chrono::system_clock::time_point &amp;</type>
+          <declname>time</declname>
+        </param>
+        <briefdescription>
+<para>Advance To Next Day. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">time</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::hours(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cron_parser.h" line="140" column="50" bodyfile="src/utils/cron_parser.cpp" bodystart="812" bodyend="815"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_cron_expression_1a58180c895f8bba89c1f6f59b869b860b" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::CronExpression::advanceToNextMonth</definition>
+        <argsstring>(const std::chrono::system_clock::time_point &amp;time)</argsstring>
+        <name>advanceToNextMonth</name>
+        <qualifiedname>themis::CronExpression::advanceToNextMonth</qualifiedname>
+        <param>
+          <type>const std::chrono::system_clock::time_point &amp;</type>
+          <declname>time</declname>
+        </param>
+        <briefdescription>
+<para>Advance To Next Month. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">time</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::to_time_t(), localtime_s(), localtime_r(), std::mktime(), std::chrono::system_clock::from_time_t(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cron_parser.h" line="142" column="50" bodyfile="src/utils/cron_parser.cpp" bodystart="823" bodyend="845"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Parsed representation of a cron expression. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/cron_parser.h" line="34" column="1" bodyfile="include/utils/cron_parser.h" bodystart="34" bodyend="144"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_cron_expression_1aa1a238dbc26884e4fd164c3792f1220d" prot="private" virt="non-virtual"><scope>themis::CronExpression</scope><name>advanceToNextDay</name></member>
+      <member refid="classthemis_1_1_cron_expression_1a81663a83e6235f8f6f909aa1bd534ecc" prot="private" virt="non-virtual"><scope>themis::CronExpression</scope><name>advanceToNextHour</name></member>
+      <member refid="classthemis_1_1_cron_expression_1acd3218d8baceee8946549f76ee4e28c6" prot="private" virt="non-virtual"><scope>themis::CronExpression</scope><name>advanceToNextMinute</name></member>
+      <member refid="classthemis_1_1_cron_expression_1a58180c895f8bba89c1f6f59b869b860b" prot="private" virt="non-virtual"><scope>themis::CronExpression</scope><name>advanceToNextMonth</name></member>
+      <member refid="classthemis_1_1_cron_expression_1abadc705683ff9fc758e542dc9dd63e30" prot="private" virt="non-virtual"><scope>themis::CronExpression</scope><name>CronExpression</name></member>
+      <member refid="classthemis_1_1_cron_expression_1a111e1ddc404a4d247486ac485b28c4cf" prot="private" virt="non-virtual"><scope>themis::CronExpression</scope><name>CronExpression</name></member>
+      <member refid="classthemis_1_1_cron_expression_1a79bca91d23c196f9530fe9f02b2fa8f7" prot="private" virt="non-virtual"><scope>themis::CronExpression</scope><name>days_</name></member>
+      <member refid="classthemis_1_1_cron_expression_1ac89e64fbd32d2cfb4583cb8ce8ad6295" prot="public" virt="non-virtual"><scope>themis::CronExpression</scope><name>describe</name></member>
+      <member refid="classthemis_1_1_cron_expression_1ac69a5d95f3202ff10836b62709344d0d" prot="private" virt="non-virtual"><scope>themis::CronExpression</scope><name>expression_</name></member>
+      <member refid="classthemis_1_1_cron_expression_1adb903363c5ad3b2b67626fa5f0b46e6f" prot="public" virt="non-virtual"><scope>themis::CronExpression</scope><name>getExpression</name></member>
+      <member refid="classthemis_1_1_cron_expression_1a70ff049752f74fd88eb202cab874d2e4" prot="public" virt="non-virtual"><scope>themis::CronExpression</scope><name>getNextExecution</name></member>
+      <member refid="classthemis_1_1_cron_expression_1a4f4fbc29abf038c074c2b0db835be262" prot="public" virt="non-virtual"><scope>themis::CronExpression</scope><name>getNextExecution</name></member>
+      <member refid="classthemis_1_1_cron_expression_1a94184ccd23fc0297fbd317cd2099e829" prot="public" virt="non-virtual"><scope>themis::CronExpression</scope><name>hasYearConstraint</name></member>
+      <member refid="classthemis_1_1_cron_expression_1ab1912206b6b243df33ac752559e872f2" prot="private" virt="non-virtual"><scope>themis::CronExpression</scope><name>hours_</name></member>
+      <member refid="classthemis_1_1_cron_expression_1ac9281e7f1efea4d289b6bfb1b141fa9f" prot="public" virt="non-virtual"><scope>themis::CronExpression</scope><name>matches</name></member>
+      <member refid="classthemis_1_1_cron_expression_1ab53825425c514a447f5782d13493cc17" prot="private" virt="non-virtual"><scope>themis::CronExpression</scope><name>minutes_</name></member>
+      <member refid="classthemis_1_1_cron_expression_1a5f92592aae77521c9cea2d1a7fcf22a8" prot="private" virt="non-virtual"><scope>themis::CronExpression</scope><name>months_</name></member>
+      <member refid="classthemis_1_1_cron_expression_1a28bdddc78c81ab1203b5f3083724549c" prot="public" virt="non-virtual"><scope>themis::CronExpression</scope><name>parse</name></member>
+      <member refid="classthemis_1_1_cron_expression_1a1eef9e37e20c600c8686c7e54023ea80" prot="private" virt="non-virtual"><scope>themis::CronExpression</scope><name>parseField</name></member>
+      <member refid="classthemis_1_1_cron_expression_1a99f3177c3fcc37cda4da6f9053b71e0a" prot="private" virt="non-virtual"><scope>themis::CronExpression</scope><name>parseList</name></member>
+      <member refid="classthemis_1_1_cron_expression_1acf46781ff6339124181bc7cf627aa2a2" prot="private" virt="non-virtual"><scope>themis::CronExpression</scope><name>parseRange</name></member>
+      <member refid="classthemis_1_1_cron_expression_1a16dc00ae10d8e5d6fa61e89de555122b" prot="private" virt="non-virtual"><scope>themis::CronExpression</scope><name>parseStep</name></member>
+      <member refid="classthemis_1_1_cron_expression_1ad7cd901fbb2f6e11e4873407bf60bca7" prot="private" virt="non-virtual"><scope>themis::CronExpression</scope><name>parseWildcard</name></member>
+      <member refid="classthemis_1_1_cron_expression_1a7a4a2297552754fe7d5f8f61ea79ada2" prot="public" virt="non-virtual"><scope>themis::CronExpression</scope><name>validate</name></member>
+      <member refid="classthemis_1_1_cron_expression_1ac22e4e2a3773ed0cf241177ba47040b1" prot="private" virt="non-virtual"><scope>themis::CronExpression</scope><name>weekdays_</name></member>
+      <member refid="classthemis_1_1_cron_expression_1ae9e71637cec94e6d5954880557fb4355" prot="private" virt="non-virtual"><scope>themis::CronExpression</scope><name>years_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

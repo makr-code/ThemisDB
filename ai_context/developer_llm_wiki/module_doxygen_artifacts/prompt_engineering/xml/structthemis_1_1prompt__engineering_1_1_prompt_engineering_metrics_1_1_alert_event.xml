@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::PromptEngineeringMetrics::AlertEvent</compoundname>
+    <includes refid="prompt__engineering__metrics_8h" local="no">prompt_engineering_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_event_1a0b991108283651a8f2123cb60c364a6d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptEngineeringMetrics::AlertEvent::metric_name</definition>
+        <argsstring></argsstring>
+        <name>metric_name</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringMetrics::AlertEvent::metric_name</qualifiedname>
+        <briefdescription>
+<para>Which metric triggered the alert. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_metrics.h" line="57" column="21" bodyfile="include/prompt_engineering/prompt_engineering_metrics.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_event_1af5a83ba1d57e5d2139894cf0dfc4bf30" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::PromptEngineeringMetrics::AlertEvent::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringMetrics::AlertEvent::value</qualifiedname>
+        <briefdescription>
+<para>Current metric value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_metrics.h" line="58" column="16" bodyfile="include/prompt_engineering/prompt_engineering_metrics.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_event_1a6d072404973c0fc685d846a02b853f44" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::PromptEngineeringMetrics::AlertEvent::threshold</definition>
+        <argsstring></argsstring>
+        <name>threshold</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringMetrics::AlertEvent::threshold</qualifiedname>
+        <briefdescription>
+<para>The threshold that was breached. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_metrics.h" line="59" column="16" bodyfile="include/prompt_engineering/prompt_engineering_metrics.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_event_1ac4057efbcf61c9c8a0bf28f9bb387ddc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptEngineeringMetrics::AlertEvent::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringMetrics::AlertEvent::message</qualifiedname>
+        <briefdescription>
+<para>Human-readable description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_metrics.h" line="60" column="21" bodyfile="include/prompt_engineering/prompt_engineering_metrics.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Alert event passed to the alert callback. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_engineering_metrics.h" line="56" column="5" bodyfile="include/prompt_engineering/prompt_engineering_metrics.h" bodystart="56" bodyend="61"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_event_1ac4057efbcf61c9c8a0bf28f9bb387ddc" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringMetrics::AlertEvent</scope><name>message</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_event_1a0b991108283651a8f2123cb60c364a6d" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringMetrics::AlertEvent</scope><name>metric_name</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_event_1a6d072404973c0fc685d846a02b853f44" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringMetrics::AlertEvent</scope><name>threshold</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_event_1af5a83ba1d57e5d2139894cf0dfc4bf30" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringMetrics::AlertEvent</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

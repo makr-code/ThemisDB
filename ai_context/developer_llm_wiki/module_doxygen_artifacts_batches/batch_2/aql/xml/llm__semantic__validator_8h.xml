@@ -1,0 +1,230 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="llm__semantic__validator_8h" kind="file" language="C++">
+    <compoundname>llm_semantic_validator.h</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">unordered_set</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">chrono</includes>
+    <includes local="yes">query/aql_parser.h</includes>
+    <includes refid="llm__error__codes_8h" local="yes">aql/llm_error_codes.h</includes>
+    <includedby refid="llm__semantic__validator_8cpp" local="yes">src/aql/llm_semantic_validator.cpp</includedby>
+    <incdepgraph>
+      <node id="10">
+        <label>aql/llm_error_codes.h</label>
+        <link refid="llm__error__codes_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/aql/llm_semantic_validator.h</label>
+        <link refid="llm__semantic__validator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="9">
+        <label>query/aql_parser.h</label>
+      </node>
+      <node id="11">
+        <label>stdexcept</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>unordered_set</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/aql/llm_semantic_validator.h</label>
+        <link refid="llm__semantic__validator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/aql/llm_semantic_validator.cpp</label>
+        <link refid="llm__semantic__validator_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1aql_1_1_semantic_validation_result" prot="public">themis::aql::SemanticValidationResult</innerclass>
+    <innerclass refid="structthemis_1_1aql_1_1_attribute_type_info" prot="public">themis::aql::AttributeTypeInfo</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1_semantic_schema_context" prot="public">themis::aql::SemanticSchemaContext</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1_l_l_m_semantic_validator" prot="public">themis::aql::LLMSemanticValidator</innerclass>
+    <innerclass refid="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config" prot="public">themis::aql::LLMSemanticValidator::Config</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1aql">themis::aql</innernamespace>
+    <briefdescription>
+<para>Semantic validation layer for LLM-generated AQL queries. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0</para>
+</simplesect>
+Provides advanced semantic validation beyond syntax checking, including:<itemizedlist>
+<listitem><para>Type checking (attribute types vs. filter/projection operations)</para>
+</listitem><listitem><para>Cardinality estimation (join selectivity, aggregation impacts)</para>
+</listitem><listitem><para>Join order validation (circular dependencies, impossible joins)</para>
+</listitem><listitem><para>Function signature validation (parameter type compatibility)</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="note"><para>This validator operates on validated AQL ASTs (post-parser). </para>
+</simplesect>
+<simplesect kind="see"><para>src/aql/AQL_ARCHITECTURE_MASTER.md (Section 8.2: Semantic Validation) </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;query/aql_parser.h&quot;</highlight><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>AST<sp/>definitions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llm__error__codes_8h" kindref="compound">aql/llm_error_codes.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1aql_1_1_semantic_validation_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1aql_1_1_semantic_validation_result" kindref="compound">SemanticValidationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1aql_1_1_semantic_validation_result_1a65dea12d291f1fb8102fd757e7e03469" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_semantic_validation_result_1a65dea12d291f1fb8102fd757e7e03469" kindref="member">Status</ref><sp/>{</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1aql_1_1_semantic_validation_result_1a65dea12d291f1fb8102fd757e7e03469ac9f1a6384b1c466d4612f513bd8e13ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_semantic_validation_result_1a65dea12d291f1fb8102fd757e7e03469ac9f1a6384b1c466d4612f513bd8e13ea" kindref="member">VALID</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1aql_1_1_semantic_validation_result_1a65dea12d291f1fb8102fd757e7e03469a2f93918ef99e03b7b8e7230b2a28fb52" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_semantic_validation_result_1a65dea12d291f1fb8102fd757e7e03469a2f93918ef99e03b7b8e7230b2a28fb52" kindref="member">TYPE_MISMATCH</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1aql_1_1_semantic_validation_result_1a65dea12d291f1fb8102fd757e7e03469abe62392b9db7aff626b76a8a6e469a3f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_semantic_validation_result_1a65dea12d291f1fb8102fd757e7e03469abe62392b9db7aff626b76a8a6e469a3f" kindref="member">CARDINALITY_WARNING</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1aql_1_1_semantic_validation_result_1a65dea12d291f1fb8102fd757e7e03469a8473e68154756639573369bada697e26" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_semantic_validation_result_1a65dea12d291f1fb8102fd757e7e03469a8473e68154756639573369bada697e26" kindref="member">JOIN_IMPOSSIBLE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1aql_1_1_semantic_validation_result_1a65dea12d291f1fb8102fd757e7e03469a5ab77b0b7b8bbac3d5b4d5563524d709" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_semantic_validation_result_1a65dea12d291f1fb8102fd757e7e03469a5ab77b0b7b8bbac3d5b4d5563524d709" kindref="member">FUNCTION_SIGNATURE_ERROR</ref>,<sp/></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1aql_1_1_semantic_validation_result_1a65dea12d291f1fb8102fd757e7e03469a070a0fb40f6c308ab544b227660aadff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_semantic_validation_result_1a65dea12d291f1fb8102fd757e7e03469a070a0fb40f6c308ab544b227660aadff" kindref="member">TIMEOUT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1aql_1_1_semantic_validation_result_1a65dea12d291f1fb8102fd757e7e03469a9a10f345b0f755d461a8673a5e9ef6b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_semantic_validation_result_1a65dea12d291f1fb8102fd757e7e03469a9a10f345b0f755d461a8673a5e9ef6b4" kindref="member">UNKNOWN_ERROR</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1aql_1_1_semantic_validation_result_1afd3a254556a7516bc7177e39a5c599d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_semantic_validation_result_1a65dea12d291f1fb8102fd757e7e03469" kindref="member">Status</ref><sp/><ref refid="structthemis_1_1aql_1_1_semantic_validation_result_1afd3a254556a7516bc7177e39a5c599d4" kindref="member">status</ref><sp/>=<sp/><ref refid="structthemis_1_1aql_1_1_semantic_validation_result_1a65dea12d291f1fb8102fd757e7e03469ac9f1a6384b1c466d4612f513bd8e13ea" kindref="member">Status::VALID</ref>;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1aql_1_1_semantic_validation_result_1a8088c805a7e5a51e09bfc2304a3709a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1aql_1_1_semantic_validation_result_1a8088c805a7e5a51e09bfc2304a3709a4" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1aql_1_1_semantic_validation_result_1a48fac9fff404b359dddc784e71577a65" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1aql_1_1_semantic_validation_result_1a48fac9fff404b359dddc784e71577a65" kindref="member">warnings</ref>;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1aql_1_1_semantic_validation_result_1aa64a46598c13bd03c9ecb1fb5ef1b748" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_semantic_validation_result_1aa64a46598c13bd03c9ecb1fb5ef1b748" kindref="member">confidence_score</ref><sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1aql_1_1_semantic_validation_result_1ab77e4dd99b32338e502d3c6014a9dc11" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;size_t&gt;<sp/><ref refid="structthemis_1_1aql_1_1_semantic_validation_result_1ab77e4dd99b32338e502d3c6014a9dc11" kindref="member">estimated_output_rows</ref>;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1aql_1_1_semantic_validation_result_1ab957a4a38a6153467d97ecd1140acfdf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1aql_1_1_semantic_validation_result_1ab957a4a38a6153467d97ecd1140acfdf" kindref="member">validation_latency_ms</ref>{0};</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1aql_1_1_semantic_validation_result_1a832711518273b73ce19a37f1bc6f8882" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_semantic_validation_result_1a832711518273b73ce19a37f1bc6f8882" kindref="member">isValid</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_semantic_validation_result_1afd3a254556a7516bc7177e39a5c599d4" kindref="member">status</ref><sp/>==<sp/><ref refid="structthemis_1_1aql_1_1_semantic_validation_result_1a65dea12d291f1fb8102fd757e7e03469ac9f1a6384b1c466d4612f513bd8e13ea" kindref="member">Status::VALID</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1aql_1_1_attribute_type_info" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1aql_1_1_attribute_type_info" kindref="compound">AttributeTypeInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1aql_1_1_attribute_type_info_1a0346875e7dd0acd38869bd4d44f86c1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1aql_1_1_attribute_type_info_1a0346875e7dd0acd38869bd4d44f86c1b" kindref="member">collection_name</ref>;</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1aql_1_1_attribute_type_info_1adff46098e0540204f18cec90fbe8be11" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1aql_1_1_attribute_type_info_1adff46098e0540204f18cec90fbe8be11" kindref="member">attribute_name</ref>;</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1aql_1_1_attribute_type_info_1a0996c639d7be0b1497980fc85e0993c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1aql_1_1_attribute_type_info_1a0996c639d7be0b1497980fc85e0993c4" kindref="member">data_type</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e.g.,<sp/>&quot;string&quot;,<sp/>&quot;number&quot;,<sp/>&quot;boolean&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1aql_1_1_attribute_type_info_1aa19d118e82a09bb24d1c89cd205cc835" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_attribute_type_info_1aa19d118e82a09bb24d1c89cd205cc835" kindref="member">is_nullable</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1aql_1_1_attribute_type_info_1af4bc0625fff81ec9bbe9b3b638c582fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;size_t&gt;<sp/><ref refid="structthemis_1_1aql_1_1_attribute_type_info_1af4bc0625fff81ec9bbe9b3b638c582fc" kindref="member">cardinality</ref>;<sp/></highlight><highlight class="comment">//<sp/>Number<sp/>of<sp/>distinct<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="classthemis_1_1aql_1_1_semantic_schema_context" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1aql_1_1_semantic_schema_context" kindref="compound">SemanticSchemaContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="70" refid="classthemis_1_1aql_1_1_semantic_schema_context_1ab0273b462e63a7fd1afd520f2d61d717" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_semantic_schema_context_1ab0273b462e63a7fd1afd520f2d61d717" kindref="member">~SemanticSchemaContext</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="classthemis_1_1aql_1_1_semantic_schema_context_1a932afc86fc346d9bc337d05161591a6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::optional&lt;AttributeTypeInfo&gt;<sp/><ref refid="classthemis_1_1aql_1_1_semantic_schema_context_1a932afc86fc346d9bc337d05161591a6f" kindref="member">getAttributeType</ref>(</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection_name,</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>attribute_name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="classthemis_1_1aql_1_1_semantic_schema_context_1abbe33c10229f932bbe190fd0aa160295" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1aql_1_1_semantic_schema_context_1abbe33c10229f932bbe190fd0aa160295" kindref="member">listCollections</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="classthemis_1_1aql_1_1_semantic_schema_context_1af3f998b99775092939f7b38c4dd1383b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_semantic_schema_context_1af3f998b99775092939f7b38c4dd1383b" kindref="member">isFunctionDefined</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>function_name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="classthemis_1_1aql_1_1_semantic_schema_context_1a2e67ec2291e52c3540bbfd5537c85056" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::optional&lt;size_t&gt;<sp/><ref refid="classthemis_1_1aql_1_1_semantic_schema_context_1a2e67ec2291e52c3540bbfd5537c85056" kindref="member">getCollectionCardinality</ref>(</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection_name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="classthemis_1_1aql_1_1_l_l_m_semantic_validator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1aql_1_1_l_l_m_semantic_validator_1a1ba5a16c06702768ad1aaf82f292a701" kindref="member">LLMSemanticValidator</ref><sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config_1a17c38f983535e3f7eee6b61d96de2c61" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config_1a17c38f983535e3f7eee6b61d96de2c61" kindref="member">validation_timeout_ms</ref>{5000};</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config_1af19ff4ebbc202824f7611b73eab9920a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config_1af19ff4ebbc202824f7611b73eab9920a" kindref="member">cardinality_warning_threshold</ref><sp/>=<sp/>1000000;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config_1abf81b2767688fd55042e798ee5750ed6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config_1abf81b2767688fd55042e798ee5750ed6" kindref="member">enable_type_checking</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config_1a55b271052ba289d41a7711d3897fb8d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config_1a55b271052ba289d41a7711d3897fb8d1" kindref="member">enable_cardinality_estimation</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config_1a8f06abf93a0e00635bba99481ef3ebad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config_1a8f06abf93a0e00635bba99481ef3ebad" kindref="member">enable_join_validation</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config_1a1b98261850d04207a4af31250608487b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config_1a1b98261850d04207a4af31250608487b" kindref="member">enable_function_validation</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config_1af67a775313772360bd8cab6f9286a059" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config_1af67a775313772360bd8cab6f9286a059" kindref="member">min_confidence_score</ref><sp/>=<sp/>0.6;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_semantic_validator_1a1ba5a16c06702768ad1aaf82f292a701" kindref="member">LLMSemanticValidator</ref>(</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;SemanticSchemaContext&gt;<sp/>schema_context,</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config" kindref="compound">Config</ref>());</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="classthemis_1_1aql_1_1_l_l_m_semantic_validator_1a1b1c9fb9ca1a5a2d9f15f08be4ed8b4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_semantic_validator_1a1b1c9fb9ca1a5a2d9f15f08be4ed8b4e" kindref="member">~LLMSemanticValidator</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_semantic_validation_result" kindref="compound">SemanticValidationResult</ref><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_semantic_validator_1a50ad9306bb8be37aa18cb7101be4015b" kindref="member">validate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>query::ASTNode*<sp/>ast);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_semantic_validator_1a10484d7a44293150030fc0261568564b" kindref="member">configure</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config" kindref="compound">Config</ref>&amp;<sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_semantic_validator_1a394b8d3b771d0cda86ee312e2436474f" kindref="member">getConfig</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;SemanticSchemaContext&gt;<sp/>schema_context_;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_semantic_validator_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;spdlog::logger&gt;<sp/>logger_;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>checkAttributeTypes(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>query::ASTNode*<sp/>ast,<sp/><ref refid="structthemis_1_1aql_1_1_semantic_validation_result" kindref="compound">SemanticValidationResult</ref>&amp;<sp/>result);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>estimateCardinality(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>query::ASTNode*<sp/>ast,<sp/><ref refid="structthemis_1_1aql_1_1_semantic_validation_result" kindref="compound">SemanticValidationResult</ref>&amp;<sp/>result);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>validateJoins(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>query::ASTNode*<sp/>ast,<sp/><ref refid="structthemis_1_1aql_1_1_semantic_validation_result" kindref="compound">SemanticValidationResult</ref>&amp;<sp/>result);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>validateFunctionSignatures(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>query::ASTNode*<sp/>ast,<sp/><ref refid="structthemis_1_1aql_1_1_semantic_validation_result" kindref="compound">SemanticValidationResult</ref>&amp;<sp/>result);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>computeConfidenceScore(<ref refid="structthemis_1_1aql_1_1_semantic_validation_result" kindref="compound">SemanticValidationResult</ref>&amp;<sp/>result);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>aql</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/aql/llm_semantic_validator.h"/>
+  </compounddef>
+</doxygen>

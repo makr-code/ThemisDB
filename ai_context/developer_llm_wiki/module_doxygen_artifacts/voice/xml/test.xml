@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test" kind="page">
+    <compoundname>test</compoundname>
+    <title>Test List</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Member <ref refid="bench__voice__assistant__latency_8cpp_1a601047c25a188a3b5820abb88193844d" kindref="member">BENCHMARK_F</ref>  (AssistantLatencyFixture, VoiceAssistant_LLMResponseGeneration)(benchmark</term></varlistentry>
+<listitem><para><anchor id="test_1_test000032"/>BENCHMARK(VoiceAssistant, LLMResponseGeneration) Measure: prompt → response from LLM Assert: p95 &lt; 3s, p99 &lt; 10s GATE_LLM_LATENCY_P95 &lt;= 3000ms GATE_LLM_LATENCY_P99 &lt;= 10000ms  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="bench__voice__assistant__latency_8cpp_1a2c1546ac390545388b4952355544fc65" kindref="member">BENCHMARK_F</ref>  (AssistantLatencyFixture, VoiceAssistant_TTSSynthesis)(benchmark</term></varlistentry>
+<listitem><para><anchor id="test_1_test000033"/>BENCHMARK(VoiceAssistant, TTSSynthesis) Measure: text → audio from TTS Assert: &lt; 2s for 50 word response GATE_TTS_SYNTHESIS &lt;= 2000ms  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="bench__voice__assistant__latency_8cpp_1a079002e31888e815d66783173798d62d" kindref="member">BENCHMARK_F</ref>  (AssistantLatencyFixture, VoiceAssistant_EndToEndLatency)(benchmark</term></varlistentry>
+<listitem><para><anchor id="test_1_test000034"/>BENCHMARK(VoiceAssistant, EndToEndLatency) Measure: audio-in → audio-out (full assistant latency) Assert: p95 &lt; 6s (1s audio + 2s STT + 3s LLM/TTS) GATE_E2E_LATENCY_P95 &lt;= 6000ms  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="bench__voice__assistant__latency_8cpp_1a358aa122c7a9db58b49a123e14da799d" kindref="member">BENCHMARK_F</ref>  (AssistantLatencyFixture, VoiceAssistant_CommandParsingAndRouting)(benchmark</term></varlistentry>
+<listitem><para><anchor id="test_1_test000035"/>BENCHMARK(VoiceAssistant, CommandParsingAndRouting) Measure: identify command + route to handler Assert: &lt; 100ms GATE_COMMAND_PARSE &lt;= 100ms  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="bench__voice__assistant__latency_8cpp_1a8ab8e03d9c143332fb0533b35c74cdeb" kindref="member">BENCHMARK_F</ref>  (AssistantLatencyFixture, VoiceAssistant_CommandResponseGeneration)(benchmark</term></varlistentry>
+<listitem><para><anchor id="test_1_test000036"/>BENCHMARK(VoiceAssistant, CommandResponseGeneration) Measure: command → response generation (excluding TTS) Assert: &lt; 500ms  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="bench__voice__assistant__latency_8cpp_1a217b8e39d927676792f3e253b57351d8" kindref="member">BENCHMARK_F</ref>  (AssistantLatencyFixture, VoiceAssistant_MultiCommandSequence)(benchmark</term></varlistentry>
+<listitem><para><anchor id="test_1_test000037"/>BENCHMARK(VoiceAssistant, MultiCommandSequence) Measure: sequence of rapid commands (e.g., &quot;play&quot;, &quot;pause&quot;, &quot;next&quot;) Assert: &lt; 500ms each in sequence  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="bench__voice__audio__preprocessing_8cpp_1ad1d8d6820e58d5e5158d580ff23d26f6" kindref="member">BENCHMARK_F</ref>  (AudioPreprocessingFixture, VoiceAudio_ValidateAudioSmall)(benchmark</term></varlistentry>
+<listitem><para><anchor id="test_1_test000038"/>BENCHMARK(VoiceAudio, ValidateAudioSmall) Measure: validate 100KB audio Assert: &lt; 10ms GATE_AUDIO_VALIDATE_SMALL &lt;= 10ms  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="bench__voice__audio__preprocessing_8cpp_1af3f713c58f8c8f10d3c682680c7819c6" kindref="member">BENCHMARK_F</ref>  (AudioPreprocessingFixture, VoiceAudio_ValidateAudioLarge)(benchmark</term></varlistentry>
+<listitem><para><anchor id="test_1_test000039"/>BENCHMARK(VoiceAudio, ValidateAudioLarge) Measure: validate 512KB audio (60s audio) Assert: &lt; 50ms GATE_AUDIO_VALIDATE_LARGE &lt;= 50ms  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="bench__voice__audio__preprocessing_8cpp_1a5bdc992aead5f5faa19357803a314fa8" kindref="member">BENCHMARK_F</ref>  (AudioPreprocessingFixture, VoiceAudio_PreprocessChain)(benchmark</term></varlistentry>
+<listitem><para><anchor id="test_1_test000040"/>BENCHMARK(VoiceAudio, PreprocessChain) Measure: full preprocessing chain (normalize + resample + enhance + filter) Assert: &lt; 500ms for 5s audio GATE_AUDIO_PREPROCESS_LATENCY &lt;= 500ms (per 5s audio)  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="bench__voice__audio__preprocessing_8cpp_1a582ed0530087b7fd575c3394157ce60b" kindref="member">BENCHMARK_F</ref>  (AudioPreprocessingFixture, VoiceAudio_WakeWordDetection)(benchmark</term></varlistentry>
+<listitem><para><anchor id="test_1_test000041"/>BENCHMARK(VoiceAudio, WakeWordDetection) Measure: detect wake-word in 2s audio Assert: &lt; 1s (real-time or better) GATE_WAKEWORD_LATENCY &lt;= 1000ms  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="bench__voice__audio__preprocessing_8cpp_1a3a6bc962f0b979151fc10d3fc92e2f14" kindref="member">BENCHMARK_F</ref>  (AudioPreprocessingFixture, VoiceAudio_IntentDetection)(benchmark</term></varlistentry>
+<listitem><para><anchor id="test_1_test000042"/>BENCHMARK(VoiceAudio, IntentDetection) Measure: detect intent in preprocessed audio Assert: &lt; 500ms GATE_INTENT_LATENCY &lt;= 500ms  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="bench__voice__audio__preprocessing_8cpp_1a440c9e781e93a0fc047cf1cc459e4561" kindref="member">BENCHMARK_F</ref>  (AudioPreprocessingFixture, VoiceAudio_EmotionAnalysis)(benchmark</term></varlistentry>
+<listitem><para><anchor id="test_1_test000043"/>BENCHMARK(VoiceAudio, EmotionAnalysis) Measure: analyze emotion from audio (optional feature) Assert: &lt; 200ms  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="bench__voice__session__lifecycle_8cpp_1a3c33097d3b24abe0ca52b0483fbfdd82" kindref="member">BENCHMARK_F</ref>  (SessionLifecycleFixture, VoiceSession_CreateSession)(benchmark</term></varlistentry>
+<listitem><para><anchor id="test_1_test000044"/>BENCHMARK(VoiceSession, CreateSession) Measure: session creation time Assert: &lt; 100ms GATE_SESSION_CREATE &lt;= 100ms  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="bench__voice__session__lifecycle_8cpp_1a01bb011fe5fb536d976c17a4a6a4c16e" kindref="member">BENCHMARK_F</ref>  (SessionLifecycleFixture, VoiceSession_CreateSessionConcurrent10)(benchmark</term></varlistentry>
+<listitem><para><anchor id="test_1_test000045"/>BENCHMARK(VoiceSession, CreateSessionConcurrent10) Measure: time for 10 concurrent creates Assert: &lt; 500ms total  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="bench__voice__session__lifecycle_8cpp_1a251e33644d7fcd50dd732657a523e906" kindref="member">BENCHMARK_F</ref>  (SessionLifecycleFixture, VoiceSession_DeleteSession)(benchmark</term></varlistentry>
+<listitem><para><anchor id="test_1_test000046"/>BENCHMARK(VoiceSession, DeleteSession) Measure: session cleanup time Assert: &lt; 50ms GATE_SESSION_DELETE &lt;= 50ms  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="bench__voice__session__lifecycle_8cpp_1ae515773f5c4a585fd19cd4d1379fde66" kindref="member">BENCHMARK_F</ref>  (SessionLifecycleFixture, VoiceSession_ScalingTo100Sessions)(benchmark</term></varlistentry>
+<listitem><para><anchor id="test_1_test000047"/>BENCHMARK(VoiceSession, ScalingTo100Sessions) Measure: peak memory with 100 concurrent sessions Assert: &lt; 500MB GATE_SESSION_MEMORY_100 &lt;= 500MB  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="bench__voice__session__lifecycle_8cpp_1a635b2201f78263a32a9b6c195243bd83" kindref="member">BENCHMARK_F</ref>  (SessionLifecycleFixture, VoiceSession_ScalingTo1000Sessions)(benchmark</term></varlistentry>
+<listitem><para><anchor id="test_1_test000048"/>BENCHMARK(VoiceSession, ScalingTo1000Sessions) Measure: peak memory with 1000 concurrent sessions Assert: &lt; 2GB GATE_SESSION_MEMORY_1000 &lt;= 2GB  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="bench__voice__session__lifecycle_8cpp_1ab8d553c6dbb4c4eb233fee1276cd8f76" kindref="member">BENCHMARK_F</ref>  (SessionLifecycleFixture, VoiceSession_ResourceCleanupNoLeak)(benchmark</term></varlistentry>
+<listitem><para><anchor id="test_1_test000049"/>BENCHMARK(VoiceSession, ResourceCleanupNoLeak) Measure: peak - baseline after 1000 create/delete cycles Assert: leak &lt; 10MB GATE_SESSION_CLEANUP_LEAK &lt;= 10MB  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="bench__voice__streaming__throughput_8cpp_1a90f4ce1bfeaa6e81da1ebc6590f806a7" kindref="member">BENCHMARK_F</ref>  (StreamingThroughputFixture, VoiceStreaming_ChunkThroughput)(benchmark</term></varlistentry>
+<listitem><para><anchor id="test_1_test000050"/>BENCHMARK(VoiceStreaming, ChunkThroughput) Measure: N chunks through stream Assert: &gt;= 1000 chunks/sec GATE_STREAM_THROUGHPUT &gt;= 1000 chunks/sec  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="bench__voice__streaming__throughput_8cpp_1a647930e7a11e83fa09311bc769132913" kindref="member">BENCHMARK_F</ref>  (StreamingThroughputFixture, VoiceStreaming_ChunkLatency)(benchmark</term></varlistentry>
+<listitem><para><anchor id="test_1_test000051"/>BENCHMARK(VoiceStreaming, ChunkLatency) Measure: per-chunk latency (chunk arrival + processing) Assert: p95 &lt; 50ms per chunk GATE_STREAM_LATENCY_P95 &lt;= 50ms per chunk  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="bench__voice__streaming__throughput_8cpp_1a19e17469476f5ea40d052689aae1c30d" kindref="member">BENCHMARK_F</ref>  (StreamingThroughputFixture, VoiceStreaming_BufferOverhead)(benchmark</term></varlistentry>
+<listitem><para><anchor id="test_1_test000052"/>BENCHMARK(VoiceStreaming, BufferOverhead) Measure: buffer memory per session Assert: &lt; 10MB per active stream GATE_STREAM_MEMORY &lt;= 10MB per session  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="bench__voice__streaming__throughput_8cpp_1af5c2d82afdf71b219d6d32f3c8ad798a" kindref="member">BENCHMARK_F</ref>  (StreamingThroughputFixture, VoiceStreaming_MultipleStreamsThroughput)(benchmark</term></varlistentry>
+<listitem><para><anchor id="test_1_test000053"/>BENCHMARK(VoiceStreaming, MultipleStreamsThroughput) Measure: total throughput for 10 concurrent streams Assert: &gt;= 5000 chunks/sec combined  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="bench__voice__streaming__throughput_8cpp_1a463cee4fd41e461db04c217635ff16b8" kindref="member">BENCHMARK_F</ref>  (StreamingThroughputFixture, VoiceStreaming_StreamRebalancing)(benchmark</term></varlistentry>
+<listitem><para><anchor id="test_1_test000054"/>BENCHMARK(VoiceStreaming, StreamRebalancing) Measure: rebalance time for pause/resume operations Assert: &lt; 100ms rebalance time  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="bench__voice__streaming__throughput_8cpp_1ad49ed0d2dc1df0b2f5ecc4dd54555d4a" kindref="member">BENCHMARK_F</ref>  (StreamingThroughputFixture, VoiceStreaming_ConnectionLossRecovery)(benchmark</term></varlistentry>
+<listitem><para><anchor id="test_1_test000055"/>BENCHMARK(VoiceStreaming, ConnectionLossRecovery) Measure: time to recover from loss (reconnect latency) Assert: &lt; 500ms recovery time GATE_STREAM_RECOVERY &lt;= 500ms  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="bench__voice__stt__tts__latency_8cpp_1ad3a237aa803a51bfc62984e1641b3e19" kindref="member">BENCHMARK_F</ref>  (STTTTSLatencyFixture, VoiceSTT_SmallAudio100ms)(benchmark</term></varlistentry>
+<listitem><para><anchor id="test_1_test000056"/>BENCHMARK(VoiceSTT, SmallAudio100ms) Measure: audio-in → text-out for 100ms audio Assert: p95 &lt; 2s, p99 &lt; 5s GATE_STT_LATENCY_P95_100ms &lt;= 2000ms GATE_STT_LATENCY_P99_100ms &lt;= 5000ms  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="bench__voice__stt__tts__latency_8cpp_1a2b810aecb5befd9a4d57403507297c78" kindref="member">BENCHMARK_F</ref>  (STTTTSLatencyFixture, VoiceSTT_MediumAudio5s)(benchmark</term></varlistentry>
+<listitem><para><anchor id="test_1_test000057"/>BENCHMARK(VoiceSTT, MediumAudio5s) Measure: total latency for 5 second audio Assert: p95 &lt; 10s, p99 &lt; 15s GATE_STT_LATENCY_P95_5s &lt;= 10000ms GATE_STT_LATENCY_P99_5s &lt;= 15000ms  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="bench__voice__stt__tts__latency_8cpp_1a15977d845645707751dd95b1fe9f0647" kindref="member">BENCHMARK_F</ref>  (STTTTSLatencyFixture, VoiceSTT_LargeAudio60s)(benchmark</term></varlistentry>
+<listitem><para><anchor id="test_1_test000058"/>BENCHMARK(VoiceSTT, LargeAudio60s) Measure: total latency for 60 second audio Assert: p95 &lt; 60s, p99 &lt; 120s GATE_STT_LATENCY_P95_60s &lt;= 60000ms GATE_STT_LATENCY_P99_60s &lt;= 120000ms  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="bench__voice__stt__tts__latency_8cpp_1a4b4eb3f3f77d354bf4e5fc2703ca955a" kindref="member">BENCHMARK_F</ref>  (STTTTSLatencyFixture, VoiceSTT_NoiseAudio)(benchmark</term></varlistentry>
+<listitem><para><anchor id="test_1_test000059"/>BENCHMARK(VoiceSTT, NoiseAudio) Measure: latency + accuracy impact for noisy input (SNR 5dB) Assert: p95 &lt; 3s, accuracy &gt;= 95% Note: Accuracy simulation - real implementation would measure actual accuracy  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="bench__voice__stt__tts__latency_8cpp_1acb018dbb0db62c93bac4c8aa6369f127" kindref="member">BENCHMARK_F</ref>  (STTTTSLatencyFixture, VoiceTTS_ShortText)(benchmark</term></varlistentry>
+<listitem><para><anchor id="test_1_test000060"/>BENCHMARK(VoiceTTS, ShortText) Measure: text-in → audio-out for 10 word response Assert: p95 &lt; 1s, p99 &lt; 2s GATE_TTS_LATENCY_P95_ShortText &lt;= 1000ms GATE_TTS_LATENCY_P99_ShortText &lt;= 2000ms  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="bench__voice__stt__tts__latency_8cpp_1a5c6c58141ff8402949b8abe95c907c6d" kindref="member">BENCHMARK_F</ref>  (STTTTSLatencyFixture, VoiceTTS_MediumText)(benchmark</term></varlistentry>
+<listitem><para><anchor id="test_1_test000061"/>BENCHMARK(VoiceTTS, MediumText) Measure: total latency for 100 word response Assert: p95 &lt; 3s, p99 &lt; 5s GATE_TTS_LATENCY_P95_MediumText &lt;= 3000ms GATE_TTS_LATENCY_P99_MediumText &lt;= 5000ms  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="bench__voice__stt__tts__latency_8cpp_1aec49a31bc94a17a5a47f51eb54695494" kindref="member">BENCHMARK_F</ref>  (STTTTSLatencyFixture, VoiceTTS_LongText)(benchmark</term></varlistentry>
+<listitem><para><anchor id="test_1_test000062"/>BENCHMARK(VoiceTTS, LongText) Measure: total latency for 500 word response Assert: p95 &lt; 10s, p99 &lt; 15s  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="bench__voice__stt__tts__latency_8cpp_1a7e12c19fabbd3c98589809dafadd6835" kindref="member">BENCHMARK_F</ref>  (STTTTSLatencyFixture, VoiceTTS_RapidFire)(benchmark</term></varlistentry>
+<listitem><para><anchor id="test_1_test000063"/>BENCHMARK(VoiceTTS, RapidFire) Measure: throughput (calls/sec) for multiple rapid TTS calls Assert: throughput &gt;= 10 calls/sec  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__voice__highcardinality__stress_8cpp_1a116f55caa5bfdcee04afa7aa67cf5dc6" kindref="member">TEST</ref>  (HighCardinalityAudioChunk, ConcurrentPush)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000016"/>HighCardinalityAudioChunk Pushes 500 000 audio chunks across 8 concurrent threads into a bounded queue and verifies that the queue handles load without uncaught exceptions.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__voice__highcardinality__stress_8cpp_1acc313e2118b7b6d04ad39d1742938784" kindref="member">TEST</ref>  (ConcurrentSTTStress, MultiThreadedTranscription)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000017"/>ConcurrentSTTStress Runs 8 concurrent STT threads each processing 10 000 audio chunks and verifies total op count and no errors.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__voice__highcardinality__stress_8cpp_1af9ed4e8b429051b7585311c96d161a18" kindref="member">TEST</ref>  (TTSBacklogStress, MultiThreadedSynthesis)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000018"/>TTSBacklogStress Runs 8 concurrent TTS threads each synthesizing 10 000 text items to verify that the TTS path handles sustained backlog without errors.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__voice__assistant__generate_l_l_m_response__qw37_8cpp_1a80a4fb4b8973f87cf6483296644f9b79" kindref="member">TEST_F</ref>  (<ref refid="class_voice_assistant_generate_l_l_m_response_test" kindref="compound">VoiceAssistantGenerateLLMResponseTest</ref>, GenerateLLMResponseFailsClosedForEmptyInput)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000001"/>GenerateLLMResponseFailsClosedForEmptyInput </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__voice__assistant__generate_l_l_m_response__qw37_8cpp_1af602aabe40af1df2ef8f825ccaaaeabc" kindref="member">TEST_F</ref>  (<ref refid="class_voice_assistant_generate_l_l_m_response_test" kindref="compound">VoiceAssistantGenerateLLMResponseTest</ref>, GenerateLLMResponseAcceptsValidInput)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000002"/>GenerateLLMResponseAcceptsValidInput </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__voice__assistant__generate_l_l_m_response__qw37_8cpp_1a7e8f06c64f7ee0618ae1de318e140eb5" kindref="member">TEST_F</ref>  (<ref refid="class_voice_assistant_generate_l_l_m_response_test" kindref="compound">VoiceAssistantGenerateLLMResponseTest</ref>, GenerateLLMResponseWithSingleCharacter)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000003"/>GenerateLLMResponseWithSingleCharacter </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__voice__assistant__generate_l_l_m_response__qw37_8cpp_1a213e95e4d67a3a96a76263a51db47902" kindref="member">TEST_F</ref>  (<ref refid="class_voice_assistant_generate_l_l_m_response_test" kindref="compound">VoiceAssistantGenerateLLMResponseTest</ref>, GenerateLLMResponseWithWhitespaceOnly)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000004"/>GenerateLLMResponseWithWhitespaceOnly </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__voice__assistant__generate_l_l_m_response__qw37_8cpp_1a2f75526adbbec4fe70c00e6c330ad0b8" kindref="member">TEST_F</ref>  (<ref refid="class_voice_assistant_generate_l_l_m_response_test" kindref="compound">VoiceAssistantGenerateLLMResponseTest</ref>, FailClosedGuardsAreIndependent)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000005"/>FailClosedGuardsAreIndependent </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__voice__assistant__generate_l_l_m_response__qw37_8cpp_1a010d198a5c193e51b4e55ca477e49c2b" kindref="member">TEST_F</ref>  (<ref refid="class_voice_assistant_generate_l_l_m_response_test" kindref="compound">VoiceAssistantGenerateLLMResponseTest</ref>, SessionNotCorruptedByEmptyInputAttempt)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000006"/>SessionNotCorruptedByEmptyInputAttempt </para>
+</listitem>
+<varlistentry><term>File <ref refid="test__voice__audit__logging_8cpp" kindref="compound">test_voice_audit_logging.cpp</ref>  </term></varlistentry>
+<listitem><para><anchor id="test_1_test000015"/>Wave A Block 2: Verify audit logging closure with:<itemizedlist>
+<listitem><para>Audit callbacks on authenticate(), authorize(), createSession(), terminateSession()</para>
+</listitem><listitem><para>Audit fires before privilege escalation</para>
+</listitem><listitem><para>Persistent file storage (JSON format)</para>
+</listitem><listitem><para>Audit log verification (all events captured)</para>
+</listitem><listitem><para>Tamper detection (SHA-256 checksums) </para>
+</listitem></itemizedlist>
+</para>
+</listitem>
+<varlistentry><term>File <ref refid="test__voice__multi__session__teardown_8cpp" kindref="compound">test_voice_multi_session_teardown.cpp</ref>  </term></varlistentry>
+<listitem><para><anchor id="test_1_test000019"/>Wave A Block 2: Verify multi-session teardown safety with:<itemizedlist>
+<listitem><para>Concurrent session termination (≥10 sessions)</para>
+</listitem><listitem><para>Timeout guard enforcement (≤5s)</para>
+</listitem><listitem><para>Dangling reference elimination</para>
+</listitem><listitem><para>Reverse-dependency cleanup</para>
+</listitem><listitem><para>Fail-closed behavior on timeout </para>
+</listitem></itemizedlist>
+</para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1voice_1_1test_1a32406af605f04ff5806dc9ed5fc72af6" kindref="member">themis::voice::test::TEST_F</ref>  (<ref refid="classthemis_1_1voice_1_1test_1_1_voice_wave_a_chaos_test" kindref="compound">VoiceWaveAChaosTest</ref>, CHAOS_01_BackendFailure_SessionTeardownClean)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000020"/>VOICE-CHAOS-01  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1voice_1_1test_1aa0bc438167fb395839e03116e3adf2e6" kindref="member">themis::voice::test::TEST_F</ref>  (<ref refid="classthemis_1_1voice_1_1test_1_1_voice_wave_a_chaos_test" kindref="compound">VoiceWaveAChaosTest</ref>, CHAOS_02_SpoofingDetection_BackendFailure_Rejected)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000021"/>VOICE-CHAOS-02  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1voice_1_1test_1a84861be1f633fd41e7c39fc7b15efa5a" kindref="member">themis::voice::test::TEST_F</ref>  (<ref refid="classthemis_1_1voice_1_1test_1_1_voice_wave_a_chaos_test" kindref="compound">VoiceWaveAChaosTest</ref>, CHAOS_03_CascadingFailure_CircuitBreakerTrips)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000022"/>VOICE-CHAOS-03  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1voice_1_1test_1ab36aedf10354dd3499fb267e59a5d5f5" kindref="member">themis::voice::test::TEST_F</ref>  (<ref refid="classthemis_1_1voice_1_1test_1_1_voice_wave_a_chaos_test" kindref="compound">VoiceWaveAChaosTest</ref>, CHAOS_04_CircuitBreaker_Recovery_OpenHalfOpenClosed)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000023"/>VOICE-CHAOS-04  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1voice_1_1test_1a4a19c90be5900e794e5c2090f0432b4b" kindref="member">themis::voice::test::TEST_F</ref>  (<ref refid="classthemis_1_1voice_1_1test_1_1_voice_wave_a_chaos_test" kindref="compound">VoiceWaveAChaosTest</ref>, CHAOS_05_ConcurrentTeardowns_NoLeak)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000024"/>VOICE-CHAOS-05  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1voice_1_1test_1a3a324e1ee18d193482866c56463ea9f5" kindref="member">themis::voice::test::TEST_F</ref>  (<ref refid="classthemis_1_1voice_1_1test_1_1_voice_wave_a_chaos_test" kindref="compound">VoiceWaveAChaosTest</ref>, CHAOS_06_ReplayAttack_DegradedBackend_Rejected)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000025"/>VOICE-CHAOS-06  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1voice_1_1test_1ac9d10a1129e6e3615192222c8def56ab" kindref="member">themis::voice::test::TEST_F</ref>  (<ref refid="classthemis_1_1voice_1_1test_1_1_voice_wave_a_chaos_test" kindref="compound">VoiceWaveAChaosTest</ref>, CHAOS_07_OversizedChunk_BackendFailure_FailClosed)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000026"/>VOICE-CHAOS-07  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1voice_1_1test_1a9c5c994c46886a062e5815334b716c40" kindref="member">themis::voice::test::TEST_F</ref>  (<ref refid="classthemis_1_1voice_1_1test_1_1_voice_wave_a_chaos_test" kindref="compound">VoiceWaveAChaosTest</ref>, CHAOS_08_BackendUnavailable_StaleChallenge_FailsClosed)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000027"/>VOICE-CHAOS-08  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1voice_1_1test_1a7ebc7dad980204930bff5e67aacff594" kindref="member">themis::voice::test::TEST_F</ref>  (<ref refid="classthemis_1_1voice_1_1test_1_1_voice_wave_a_chaos_test" kindref="compound">VoiceWaveAChaosTest</ref>, CHAOS_09_MultiBackendCascade_SessionDemotedToError)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000028"/>VOICE-CHAOS-09  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1voice_1_1test_1aa7f27797be6a6dc3400edceed603317d" kindref="member">themis::voice::test::TEST_F</ref>  (<ref refid="classthemis_1_1voice_1_1test_1_1_voice_wave_a_chaos_test" kindref="compound">VoiceWaveAChaosTest</ref>, CHAOS_10_AuditCallback_FiresDuringBackendFailureTeardown)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000029"/>VOICE-CHAOS-10  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1voice_1_1test_1a7c78361d30605f37060424991ff5b2fb" kindref="member">themis::voice::test::TEST_F</ref>  (<ref refid="classthemis_1_1voice_1_1test_1_1_voice_wave_a_chaos_test" kindref="compound">VoiceWaveAChaosTest</ref>, CHAOS_11_NewSessionsBlocked_CircuitOpen)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000030"/>VOICE-CHAOS-11  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1voice_1_1test_1a607c172314e4cb42907cb936c868da39" kindref="member">themis::voice::test::TEST_F</ref>  (<ref refid="classthemis_1_1voice_1_1test_1_1_voice_wave_a_chaos_test" kindref="compound">VoiceWaveAChaosTest</ref>, CHAOS_12_FullLifecycle_StartFailTeardownReinit)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000031"/>VOICE-CHAOS-12 </para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+    <location file="test"/>
+  </compounddef>
+</doxygen>

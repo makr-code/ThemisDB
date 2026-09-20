@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_expression_evaluator" kind="class" language="C++" prot="public">
+    <compoundname>MockExpressionEvaluator</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">IExpressionEvaluator</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_expression_evaluator_1ad60066c1932cba9232c51f993b0af542" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool MockExpressionEvaluator::evaluate</definition>
+        <argsstring>(const std::string &amp;, const void *) const override</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>MockExpressionEvaluator::evaluate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const void *</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="107" column="10" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="107" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_expression_evaluator_1ab2a6b31b11221ee376ca799492144c86" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string MockExpressionEvaluator::get_expression_type</definition>
+        <argsstring>() const override</argsstring>
+        <name>get_expression_type</name>
+        <qualifiedname>MockExpressionEvaluator::get_expression_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="110" column="17" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="110" bodyend="110"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>IExpressionEvaluator</label>
+      </node>
+      <node id="1">
+        <label>MockExpressionEvaluator</label>
+        <link refid="class_mock_expression_evaluator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>IExpressionEvaluator</label>
+      </node>
+      <node id="1">
+        <label>MockExpressionEvaluator</label>
+        <link refid="class_mock_expression_evaluator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/base/test_base_interfaces.cpp" line="105" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="105" bodyend="111"/>
+    <listofallmembers>
+      <member refid="class_mock_expression_evaluator_1ad60066c1932cba9232c51f993b0af542" prot="public" virt="non-virtual"><scope>MockExpressionEvaluator</scope><name>evaluate</name></member>
+      <member refid="class_mock_expression_evaluator_1ab2a6b31b11221ee376ca799492144c86" prot="public" virt="non-virtual"><scope>MockExpressionEvaluator</scope><name>get_expression_type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

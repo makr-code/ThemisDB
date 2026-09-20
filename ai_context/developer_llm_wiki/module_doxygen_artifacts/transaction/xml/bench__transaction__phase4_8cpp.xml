@@ -1,0 +1,957 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__transaction__phase4_8cpp" kind="file" language="C++">
+    <compoundname>bench_transaction_phase4.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes local="no">array</includes>
+    <includes local="yes">cdc/cdc_metrics.h</includes>
+    <includes refid="transaction__manager_8h" local="yes">transaction/transaction_manager.h</includes>
+    <includes refid="distributed__transaction__manager_8h" local="yes">transaction/distributed_transaction_manager.h</includes>
+    <includes refid="isolation__level_8h" local="yes">transaction/isolation_level.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="yes">index/secondary_index.h</includes>
+    <includes local="yes">index/graph_index.h</includes>
+    <includes local="yes">index/vector_index.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">set</includes>
+    <includes local="no">sstream</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/transaction/bench_transaction_phase4.cpp</label>
+        <link refid="bench__transaction__phase4_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>transaction/crash_recovery_manager.h</label>
+        <link refid="crash__recovery__manager_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>transaction/deadlock_predictor.h</label>
+        <link refid="deadlock__predictor_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>transaction/distributed_transaction_manager.h</label>
+        <link refid="distributed__transaction__manager_8h"/>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>transaction/in_doubt_recovery_coordinator.h</label>
+        <link refid="in__doubt__recovery__coordinator_8h"/>
+        <childnode refid="32" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>transaction/isolation_level.h</label>
+        <link refid="isolation__level_8h"/>
+      </node>
+      <node id="21">
+        <label>transaction/lock_manager.h</label>
+        <link refid="lock__manager_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>transaction/recoverable_two_phase_coordinator.h</label>
+        <link refid="recoverable__two__phase__coordinator_8h"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>transaction/transaction_manager.h</label>
+        <link refid="transaction__manager_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>array</label>
+      </node>
+      <node id="14">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="4">
+        <label>cdc/cdc_metrics.h</label>
+      </node>
+      <node id="15">
+        <label>chrono</label>
+      </node>
+      <node id="17">
+        <label>condition_variable</label>
+      </node>
+      <node id="32">
+        <label>cstddef</label>
+      </node>
+      <node id="26">
+        <label>cstdint</label>
+      </node>
+      <node id="18">
+        <label>deque</label>
+      </node>
+      <node id="41">
+        <label>filesystem</label>
+      </node>
+      <node id="23">
+        <label>functional</label>
+      </node>
+      <node id="35">
+        <label>future</label>
+      </node>
+      <node id="39">
+        <label>index/graph_index.h</label>
+      </node>
+      <node id="38">
+        <label>index/secondary_index.h</label>
+      </node>
+      <node id="40">
+        <label>index/vector_index.h</label>
+      </node>
+      <node id="22">
+        <label>list</label>
+      </node>
+      <node id="36">
+        <label>map</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="13">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="37">
+        <label>queue</label>
+      </node>
+      <node id="28">
+        <label>set</label>
+      </node>
+      <node id="33">
+        <label>sharding/wal_manager.h</label>
+      </node>
+      <node id="42">
+        <label>sstream</label>
+      </node>
+      <node id="43">
+        <label>stdexcept</label>
+      </node>
+      <node id="20">
+        <label>storage/history_manager.h</label>
+      </node>
+      <node id="19">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>string_view</label>
+      </node>
+      <node id="16">
+        <label>thread</label>
+      </node>
+      <node id="10">
+        <label>unordered_map</label>
+      </node>
+      <node id="11">
+        <label>unordered_set</label>
+      </node>
+      <node id="34">
+        <label>utils/retry_contract.h</label>
+      </node>
+      <node id="12">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_bench_mock_participant" prot="public">BenchMockParticipant</innerclass>
+    <innerclass refid="class_transaction_phase4_fixture" prot="public">TransactionPhase4Fixture</innerclass>
+    <innerclass refid="class_distributed_phase4_fixture" prot="public">DistributedPhase4Fixture</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" prot="public" static="no" mutable="no">
+        <type>benchmark::State &amp;</type>
+        <definition>benchmark::State &amp; state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <initializer>{
+    themis::cdc::LatencyHistogram <ref refid="bench__transaction__phase4_8cpp_1a7a6362f5f6d1730622a94077758dbd33" kindref="member">histogram</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>@benchmark ThroughputBaseline_ReadCommitted @gate AC-14: Throughput Baseline @target Measures begin/commit round-trip with READ_COMMITTED isolation.</para>
+<para>@benchmark ThroughputBaseline_Rollback @gate AC-14: Rollback throughput</para>
+<para>@benchmark IsolationOverhead_ReadCommitted @gate AC-15: Isolation level baseline</para>
+<para>@benchmark IsolationOverhead_Serializable @gate AC-15: Isolation level comparison (SERIALIZABLE vs READ_COMMITTED) @target SSI overhead should not exceed 2× baseline.</para>
+<para>@benchmark AuditOverhead_Baseline @gate AC-16: Baseline (snapshot isolation)</para>
+<para>@benchmark AuditOverhead_Enabled @gate AC-16: SERIALIZABLE isolation overhead as audit-path proxy. <simplesect kind="note"><para>Full audit logging is exercised via the <ref refid="classthemis_1_1_transaction_auditor" kindref="compound">TransactionAuditor</ref> component (see <ref refid="bench__transaction__throughput_8cpp" kindref="compound">bench_transaction_throughput.cpp</ref>). This benchmark provides an isolation-level overhead proxy for the phase 4 gate.</para>
+</simplesect>
+@benchmark DistributedThroughput_2PC_3Participants @gate AC-17: Distributed 2PC throughput (begin → prepare → commit).</para>
+<para>@benchmark DistributedThroughput_AbortPath @gate AC-17: Distributed 2PC abort throughput. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_phase4.cpp" line="210" column="22" bodyfile="benchmarks/transaction/bench_transaction_phase4.cpp" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="bench__transaction__phase4_8cpp_1a246bad96ec8fb8fac0bdd59d359493be" prot="public" static="no" mutable="no">
+        <type>const auto</type>
+        <definition>const auto average_ms</definition>
+        <argsstring></argsstring>
+        <name>average_ms</name>
+        <initializer>= <ref refid="bench__transaction__phase4_8cpp_1a71f0a10b3434d05b3b6b2fba92029ae4" kindref="member">publishLatencyCounters</ref>(<ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>, <ref refid="bench__transaction__phase4_8cpp_1a7a6362f5f6d1730622a94077758dbd33" kindref="member">histogram</ref>)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_phase4.cpp" line="228" column="16" bodyfile="benchmarks/transaction/bench_transaction_phase4.cpp" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="bench__transaction__phase4_8cpp_1a7a6362f5f6d1730622a94077758dbd33" prot="public" static="no" mutable="no">
+        <type>themis::cdc::LatencyHistogram</type>
+        <definition>themis::cdc::LatencyHistogram histogram</definition>
+        <argsstring></argsstring>
+        <name>histogram</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_phase4.cpp" line="389" column="35" bodyfile="benchmarks/transaction/bench_transaction_phase4.cpp" bodystart="389" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__transaction__phase4_8cpp_1ad6a7b6b73caa2bc27f897bd23d8740ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>for</definition>
+        <argsstring>(auto _ :state)</argsstring>
+        <name>for</name>
+        <param>
+          <type>auto _ :<ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_phase4.cpp" line="213" column="5" bodyfile="benchmarks/transaction/bench_transaction_phase4.cpp" bodystart="213" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__transaction__phase4_8cpp_1ab66f823899ff34acba815a6fbbccf4ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref></type>
+        <definition>state SetItemsProcessed</definition>
+        <argsstring>(state.iterations())</argsstring>
+        <name>SetItemsProcessed</name>
+        <param>
+          <type>state.</type>
+          <declname>iterations</declname>
+          <array>()</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_phase4.cpp" line="227" column="10" declfile="benchmarks/transaction/bench_transaction_phase4.cpp" declline="227" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__transaction__phase4_8cpp_1a388bf7f1216dc7356411bcbadbca34a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>publishThroughputGate</definition>
+        <argsstring>(state, average_ms, kLocalThroughputGateTxnPerSec)</argsstring>
+        <name>publishThroughputGate</name>
+        <param>
+          <type><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref></type>
+        </param>
+        <param>
+          <type><ref refid="bench__transaction__phase4_8cpp_1a246bad96ec8fb8fac0bdd59d359493be" kindref="member">average_ms</ref></type>
+        </param>
+        <param>
+          <type>kLocalThroughputGateTxnPerSec</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_phase4.cpp" line="229" column="5" declfile="benchmarks/transaction/bench_transaction_phase4.cpp" declline="229" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__transaction__phase4_8cpp_1a03e1b722e23748e5c94867ba24b326db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>UseManualTime</definition>
+        <argsstring>() -&gt; Unit(benchmark::kMillisecond)</argsstring>
+        <name>UseManualTime</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_phase4.cpp" line="232" column="5" declfile="benchmarks/transaction/bench_transaction_phase4.cpp" declline="232" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__transaction__phase4_8cpp_1a71f0a10b3434d05b3b6b2fba92029ae4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>publishLatencyCounters</definition>
+        <argsstring>(state, histogram)</argsstring>
+        <name>publishLatencyCounters</name>
+        <param>
+          <type><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref></type>
+        </param>
+        <param>
+          <type><ref refid="bench__transaction__phase4_8cpp_1a7a6362f5f6d1730622a94077758dbd33" kindref="member">histogram</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_phase4.cpp" line="254" column="5" declfile="benchmarks/transaction/bench_transaction_phase4.cpp" declline="254" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__transaction__phase4_8cpp_1a89904682c0901005595b6ca080b798da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>publishLatencyGate</definition>
+        <argsstring>(state, kLatencyTailGateMs)</argsstring>
+        <name>publishLatencyGate</name>
+        <param>
+          <type><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref></type>
+        </param>
+        <param>
+          <type>kLatencyTailGateMs</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_phase4.cpp" line="255" column="5" declfile="benchmarks/transaction/bench_transaction_phase4.cpp" declline="255" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__transaction__phase4_8cpp_1a566d8aa43222d766ed121701b85b49a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>publishThroughputGate</definition>
+        <argsstring>(state, average_ms, kDistributedThroughputGateTxnPerSec)</argsstring>
+        <name>publishThroughputGate</name>
+        <param>
+          <type><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref></type>
+        </param>
+        <param>
+          <type><ref refid="bench__transaction__phase4_8cpp_1a246bad96ec8fb8fac0bdd59d359493be" kindref="member">average_ms</ref></type>
+        </param>
+        <param>
+          <type>kDistributedThroughputGateTxnPerSec</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_phase4.cpp" line="412" column="5" declfile="benchmarks/transaction/bench_transaction_phase4.cpp" declline="412" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__transaction__phase4_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_MAIN</definition>
+        <argsstring>()</argsstring>
+        <name>BENCHMARK_MAIN</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_phase4.cpp" line="450" column="1" declfile="benchmarks/transaction/bench_transaction_phase4.cpp" declline="450" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 4: Performance and Operational Hardening Benchmarks. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Phase 4 establishes performance baselines and operational limits for the transaction module under representative workloads. Benchmarks verify that hardening from Phases 1–3 does not regress throughput or latency.</para>
+<para>Performance Gates:<itemizedlist>
+<listitem><para>AC-14: Local throughput baseline (begin/commit round-trip)</para>
+</listitem><listitem><para>AC-15: Isolation level overhead comparison (READ_COMMITTED vs SERIALIZABLE)</para>
+</listitem><listitem><para>AC-16: Audit overhead (auditEnabled path vs baseline)</para>
+</listitem><listitem><para>AC-17: Distributed 2PC throughput (using in-process mock participants)</para>
+</listitem></itemizedlist>
+</para>
+<para>Benchmark Count: 8 benchmarks Workload Profiles: single-thread sequential, isolation comparison, distributed</para>
+<para>Date: 2026-08-08 Target: Q1 2027 </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;array&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;cdc/cdc_metrics.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="transaction__manager_8h" kindref="compound">transaction/transaction_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="distributed__transaction__manager_8h" kindref="compound">transaction/distributed_transaction_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="isolation__level_8h" kindref="compound">transaction/isolation_level.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/secondary_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/graph_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/vector_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1transaction" kindref="compound">themis::transaction</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::chrono_literals;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>kLocalThroughputGateTxnPerSec<sp/>=<sp/>10000.0;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>kDistributedThroughputGateTxnPerSec<sp/>=<sp/>5000.0;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>kLatencyTailGateMs<sp/>=<sp/>50.0;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="bench__transaction__phase4_8cpp_1a71f0a10b3434d05b3b6b2fba92029ae4" kindref="member">publishLatencyCounters</ref>(benchmark::State&amp;<sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>,</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>themis::cdc::LatencyHistogram&amp;<sp/><ref refid="bench__transaction__phase4_8cpp_1a7a6362f5f6d1730622a94077758dbd33" kindref="member">histogram</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;p50_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="bench__transaction__phase4_8cpp_1a7a6362f5f6d1730622a94077758dbd33" kindref="member">histogram</ref>.p50())<sp/>/<sp/>1000.0;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;p95_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="bench__transaction__phase4_8cpp_1a7a6362f5f6d1730622a94077758dbd33" kindref="member">histogram</ref>.p95())<sp/>/<sp/>1000.0;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;p99_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="bench__transaction__phase4_8cpp_1a7a6362f5f6d1730622a94077758dbd33" kindref="member">histogram</ref>.p99())<sp/>/<sp/>1000.0;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="bench__transaction__phase4_8cpp_1a246bad96ec8fb8fac0bdd59d359493be" kindref="member">average_ms</ref><sp/>=<sp/><ref refid="bench__transaction__phase4_8cpp_1a7a6362f5f6d1730622a94077758dbd33" kindref="member">histogram</ref>.average()<sp/>/<sp/>1000.0;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;avg_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="bench__transaction__phase4_8cpp_1a246bad96ec8fb8fac0bdd59d359493be" kindref="member">average_ms</ref>;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="bench__transaction__phase4_8cpp_1a246bad96ec8fb8fac0bdd59d359493be" kindref="member">average_ms</ref>;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="bench__transaction__phase4_8cpp_1a388bf7f1216dc7356411bcbadbca34a2" kindref="member">publishThroughputGate</ref>(benchmark::State&amp;<sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>,</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="bench__transaction__phase4_8cpp_1a246bad96ec8fb8fac0bdd59d359493be" kindref="member">average_ms</ref>,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>target_txn_per_sec)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>throughput<sp/>=<sp/><ref refid="bench__transaction__phase4_8cpp_1a246bad96ec8fb8fac0bdd59d359493be" kindref="member">average_ms</ref><sp/>&gt;<sp/>0.0<sp/>?<sp/>1000.0<sp/>/<sp/><ref refid="bench__transaction__phase4_8cpp_1a246bad96ec8fb8fac0bdd59d359493be" kindref="member">average_ms</ref><sp/>:<sp/>0.0;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;txns_per_sec&quot;</highlight><highlight class="normal">]<sp/>=<sp/>throughput;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;gate_target_txns_per_sec&quot;</highlight><highlight class="normal">]<sp/>=<sp/>target_txn_per_sec;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;gate_pass&quot;</highlight><highlight class="normal">]<sp/>=<sp/>throughput<sp/>&gt;=<sp/>target_txn_per_sec<sp/>?<sp/>1.0<sp/>:<sp/>0.0;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="bench__transaction__phase4_8cpp_1a89904682c0901005595b6ca080b798da" kindref="member">publishLatencyGate</ref>(benchmark::State&amp;<sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>threshold_ms)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;gate_target_p99_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/>threshold_ms;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;gate_pass&quot;</highlight><highlight class="normal">]<sp/>=</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;p99_ms&quot;</highlight><highlight class="normal">].value<sp/>&lt;=<sp/>threshold_ms<sp/>?<sp/>1.0<sp/>:<sp/>0.0;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Shared<sp/>in-process<sp/>mock<sp/>participant<sp/>(always<sp/>votes<sp/>COMMIT)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="class_bench_mock_participant" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_bench_mock_participant" kindref="compound">BenchMockParticipant</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback" kindref="compound">IDistributedParticipantCallback</ref><sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_bench_mock_participant_1aada577a7b174de3ec91063b877dd12c7" kindref="member">onPrepare</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::set&lt;std::string&gt;&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_bench_mock_participant_1a8aa7c35ee794d1e832c331687cb780d6" kindref="member">onCommit</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_bench_mock_participant_1a8812cbda325aecca34f7f1fd840c6019" kindref="member">onAbort</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TransactionBenchmarkFixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Sets<sp/>up<sp/>an<sp/>in-process<sp/>RocksDB<sp/>+<sp/>TransactionManager<sp/>for<sp/>local<sp/>txn<sp/>benchmarks.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="class_transaction_phase4_fixture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_transaction_phase4_fixture" kindref="compound">TransactionPhase4Fixture</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>benchmark::Fixture<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_transaction_phase4_fixture_1ad163181b9de66e289c48c442660f4408" kindref="member">SetUp</ref>(const<sp/>::benchmark::State&amp;<sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>unique_id<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::now().time_since_epoch().count());</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ostringstream<sp/>suffix<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>suffix<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;bench_txn_phase4_t&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.thread_index()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;_&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>unique_id;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>db_dir<sp/>=<sp/>std::filesystem::absolute(</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::path(</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">)<sp/>/<sp/>suffix.str());</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_transaction_phase4_fixture_1a9c2bf60391a7b160387cacb72111e6c8" kindref="member">test_db_path_</ref><sp/>=<sp/>db_dir.string();</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::filesystem::exists(<ref refid="class_transaction_phase4_fixture_1a9c2bf60391a7b160387cacb72111e6c8" kindref="member">test_db_path_</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="class_transaction_phase4_fixture_1a9c2bf60391a7b160387cacb72111e6c8" kindref="member">test_db_path_</ref>);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RocksDBWrapper::Config<sp/>config;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.db_path<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="class_transaction_phase4_fixture_1a9c2bf60391a7b160387cacb72111e6c8" kindref="member">test_db_path_</ref>;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.wal_dir<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>(db_dir<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;wal&quot;</highlight><highlight class="normal">).</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">();</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.memtable_size_mb<sp/><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.block_cache_size_mb<sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_transaction_phase4_fixture_1ab0627a227e419583c3af974d881e6288" kindref="member">db_</ref><sp/>=<sp/>std::make_unique&lt;RocksDBWrapper&gt;(config);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="class_transaction_phase4_fixture_1ab0627a227e419583c3af974d881e6288" kindref="member">db_</ref>-&gt;open())<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>open<sp/>benchmark<sp/>database&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_transaction_phase4_fixture_1a49de162fe317a1af8360a391472d7f6e" kindref="member">secondary_index_</ref><sp/>=<sp/>std::make_unique&lt;SecondaryIndexManager&gt;(*<ref refid="class_transaction_phase4_fixture_1ab0627a227e419583c3af974d881e6288" kindref="member">db_</ref>);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_transaction_phase4_fixture_1a193958d0bd43b201dc4c22b57088b362" kindref="member">graph_index_</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>std::make_unique&lt;GraphIndexManager&gt;(*<ref refid="class_transaction_phase4_fixture_1ab0627a227e419583c3af974d881e6288" kindref="member">db_</ref>);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_transaction_phase4_fixture_1a0fcfe94dff764c437281f690e30f7084" kindref="member">vector_index_</ref><sp/><sp/><sp/><sp/>=<sp/>std::make_unique&lt;VectorIndexManager&gt;(*<ref refid="class_transaction_phase4_fixture_1ab0627a227e419583c3af974d881e6288" kindref="member">db_</ref>);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_transaction_phase4_fixture_1a0ba6698c00f36ac981154d1e6783d57a" kindref="member">tx_manager_</ref><sp/>=<sp/>std::make_unique&lt;TransactionManager&gt;(</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<ref refid="class_transaction_phase4_fixture_1ab0627a227e419583c3af974d881e6288" kindref="member">db_</ref>,<sp/>*<ref refid="class_transaction_phase4_fixture_1a49de162fe317a1af8360a391472d7f6e" kindref="member">secondary_index_</ref>,<sp/>*<ref refid="class_transaction_phase4_fixture_1a193958d0bd43b201dc4c22b57088b362" kindref="member">graph_index_</ref>,<sp/>*<ref refid="class_transaction_phase4_fixture_1a0fcfe94dff764c437281f690e30f7084" kindref="member">vector_index_</ref>);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_transaction_phase4_fixture_1a69f1f7b66d0803a5a98ba685e985fdb8" kindref="member">TearDown</ref>(const<sp/>::benchmark::State&amp;<sp/></highlight><highlight class="comment">/*state*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_transaction_phase4_fixture_1a0ba6698c00f36ac981154d1e6783d57a" kindref="member">tx_manager_</ref>.reset();</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_transaction_phase4_fixture_1a0fcfe94dff764c437281f690e30f7084" kindref="member">vector_index_</ref>.reset();</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_transaction_phase4_fixture_1a193958d0bd43b201dc4c22b57088b362" kindref="member">graph_index_</ref>.reset();</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_transaction_phase4_fixture_1a49de162fe317a1af8360a391472d7f6e" kindref="member">secondary_index_</ref>.reset();</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="class_transaction_phase4_fixture_1ab0627a227e419583c3af974d881e6288" kindref="member">db_</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_transaction_phase4_fixture_1ab0627a227e419583c3af974d881e6288" kindref="member">db_</ref>-&gt;close();</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_transaction_phase4_fixture_1ab0627a227e419583c3af974d881e6288" kindref="member">db_</ref>.reset();</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::filesystem::exists(<ref refid="class_transaction_phase4_fixture_1a9c2bf60391a7b160387cacb72111e6c8" kindref="member">test_db_path_</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="class_transaction_phase4_fixture_1a9c2bf60391a7b160387cacb72111e6c8" kindref="member">test_db_path_</ref>);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_transaction_phase4_fixture_1a9c2bf60391a7b160387cacb72111e6c8" kindref="member">test_db_path_</ref>;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;RocksDBWrapper&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_transaction_phase4_fixture_1ab0627a227e419583c3af974d881e6288" kindref="member">db_</ref>;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;SecondaryIndexManager&gt;<sp/><sp/><sp/><ref refid="class_transaction_phase4_fixture_1a49de162fe317a1af8360a391472d7f6e" kindref="member">secondary_index_</ref>;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;GraphIndexManager&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_transaction_phase4_fixture_1a193958d0bd43b201dc4c22b57088b362" kindref="member">graph_index_</ref>;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;VectorIndexManager&gt;<sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_transaction_phase4_fixture_1a0fcfe94dff764c437281f690e30f7084" kindref="member">vector_index_</ref>;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;TransactionManager&gt;<sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_transaction_phase4_fixture_1a0ba6698c00f36ac981154d1e6783d57a" kindref="member">tx_manager_</ref>;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DistributedPhase4Fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Sets<sp/>up<sp/>a<sp/>DistributedTransactionManager<sp/>with<sp/>in-process<sp/>mock<sp/>participants.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="class_distributed_phase4_fixture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_distributed_phase4_fixture" kindref="compound">DistributedPhase4Fixture</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>benchmark::Fixture<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_distributed_phase4_fixture_1a8081f0f25ceddfe73d9682dfe7055989" kindref="member">SetUp</ref>(const<sp/>::benchmark::State&amp;<sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_distributed_txn_manager_config" kindref="compound">DistributedTxnManagerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1ad1940bd99c6e5cbf387c35786919a5e2" kindref="member">prepare_timeout</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>5000<ref refid="test__wave4c__t1t4__hardening_8cpp_1ac3a080cca78ca980a69d1cb9b76615eb" kindref="member">ms</ref>;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1a56bfcf6499a7ac185b49107c2f34294c" kindref="member">commit_timeout</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>5000<ref refid="test__wave4c__t1t4__hardening_8cpp_1ac3a080cca78ca980a69d1cb9b76615eb" kindref="member">ms</ref>;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1transaction_1_1_distributed_txn_manager_config_1a8bcf99ca08a2ea6f883810f40135a493" kindref="member">default_txn_timeout</ref><sp/>=<sp/>60s;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ostringstream<sp/>name<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>name<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;bench-phase4-coord-t&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.thread_index();</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_distributed_phase4_fixture_1a138a500b043c706865b6ed2a67920754" kindref="member">mgr_</ref><sp/>=<sp/>std::make_unique&lt;DistributedTransactionManager&gt;(name.str(),<sp/>cfg);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>p<sp/>:<sp/><ref refid="class_distributed_phase4_fixture_1ab7af2f46eef8c2254f9960738a7e119f" kindref="member">participants_</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p<sp/>=<sp/>std::make_unique&lt;BenchMockParticipant&gt;();</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_distributed_phase4_fixture_1a386f55ec22d0742b5ede3550d6274428" kindref="member">TearDown</ref>(const<sp/>::benchmark::State&amp;<sp/></highlight><highlight class="comment">/*state*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_distributed_phase4_fixture_1a138a500b043c706865b6ed2a67920754" kindref="member">mgr_</ref>.reset();</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;DistributedTransactionManager&gt;<sp/><ref refid="class_distributed_phase4_fixture_1a138a500b043c706865b6ed2a67920754" kindref="member">mgr_</ref>;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>std::array&lt;std::unique_ptr&lt;BenchMockParticipant&gt;,<sp/>3&gt;<sp/><ref refid="class_distributed_phase4_fixture_1ab7af2f46eef8c2254f9960738a7e119f" kindref="member">participants_</ref>;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Participant&gt;<sp/><ref refid="class_distributed_phase4_fixture_1a389fbe0fe7e11186f0fcd89899795a3c" kindref="member">makeParticipants</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Participant&gt;<sp/>ps<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_participant" kindref="compound">Participant</ref><sp/>p;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p.<ref refid="structthemis_1_1transaction_1_1_participant_1a596e804d51a380fa5366a2f154fa00af" kindref="member">node_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;bench-node-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p.<ref refid="structthemis_1_1transaction_1_1_participant_1a8931509e5baaa9692b4b00d874f00191" kindref="member">endpoint</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>p.<ref refid="structthemis_1_1transaction_1_1_participant_1a596e804d51a380fa5366a2f154fa00af" kindref="member">node_id</ref><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;:9090&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p.<ref refid="structthemis_1_1transaction_1_1_participant_1a48537208688d0ba20cd79ba0d1892f71" kindref="member">affected_keys</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;bench-key&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p.<ref refid="structthemis_1_1transaction_1_1_participant_1a7ac392d19bc67ba40ba20e709c0a300b" kindref="member">callback</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="class_distributed_phase4_fixture_1ab7af2f46eef8c2254f9960738a7e119f" kindref="member">participants_</ref>[i].get();</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ps.push_back(p);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ps;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AC-14:<sp/>Local<sp/>Throughput<sp/>Baseline</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><ref refid="namespacethemis_1_1transaction_1a7f4791cca41acbbfe7786bfec4cf908c" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_transaction_phase4_fixture" kindref="compound">TransactionPhase4Fixture</ref>,<sp/>ThroughputBaseline_ReadCommitted)</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>(benchmark::State&amp;<sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)</highlight></codeline>
+<codeline lineno="211"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::cdc::LatencyHistogram<sp/><ref refid="bench__transaction__phase4_8cpp_1a7a6362f5f6d1730622a94077758dbd33" kindref="member">histogram</ref>;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>txn_id<sp/>=<sp/>tx_manager_-&gt;beginTransaction(<ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7a1671fb17b5ce9bd0af0cf47f3f4ea337" kindref="member">IsolationLevel::READ_COMMITTED</ref>);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>status<sp/>=<sp/>tx_manager_-&gt;commitTransaction(txn_id);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!status.ok)<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SkipWithError(</highlight><highlight class="stringliteral">&quot;Commit<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed_us<sp/>=</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::duration_cast&lt;std::chrono::microseconds&gt;(end<sp/>-<sp/>start).count();</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a7a6362f5f6d1730622a94077758dbd33" kindref="member">histogram</ref>.record(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(elapsed_us));</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetIterationTime(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(elapsed_us)<sp/>*<sp/>1e-6);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetItemsProcessed(<ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.iterations());</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="bench__transaction__phase4_8cpp_1a246bad96ec8fb8fac0bdd59d359493be" kindref="member">average_ms</ref><sp/>=<sp/><ref refid="bench__transaction__phase4_8cpp_1a71f0a10b3434d05b3b6b2fba92029ae4" kindref="member">publishLatencyCounters</ref>(<ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>,<sp/><ref refid="bench__transaction__phase4_8cpp_1a7a6362f5f6d1730622a94077758dbd33" kindref="member">histogram</ref>);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a388bf7f1216dc7356411bcbadbca34a2" kindref="member">publishThroughputGate</ref>(<ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>,<sp/><ref refid="bench__transaction__phase4_8cpp_1a246bad96ec8fb8fac0bdd59d359493be" kindref="member">average_ms</ref>,<sp/>kLocalThroughputGateTxnPerSec);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><ref refid="namespacethemis_1_1transaction_1a87ceec897018fe786e669496a1b178a1" kindref="member">BENCHMARK_REGISTER_F</ref>(<ref refid="class_transaction_phase4_fixture" kindref="compound">TransactionPhase4Fixture</ref>,<sp/>ThroughputBaseline_ReadCommitted)</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseManualTime()</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><ref refid="namespacethemis_1_1transaction_1a7f4791cca41acbbfe7786bfec4cf908c" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_transaction_phase4_fixture" kindref="compound">TransactionPhase4Fixture</ref>,<sp/>ThroughputBaseline_Rollback)</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>(benchmark::State&amp;<sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)</highlight></codeline>
+<codeline lineno="241"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::cdc::LatencyHistogram<sp/><ref refid="bench__transaction__phase4_8cpp_1a7a6362f5f6d1730622a94077758dbd33" kindref="member">histogram</ref>;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>txn_id<sp/>=<sp/>tx_manager_-&gt;beginTransaction();</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(tx_manager_-&gt;rollbackTransaction(txn_id));</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed_us<sp/>=</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::duration_cast&lt;std::chrono::microseconds&gt;(end<sp/>-<sp/>start).count();</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a7a6362f5f6d1730622a94077758dbd33" kindref="member">histogram</ref>.record(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(elapsed_us));</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetIterationTime(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(elapsed_us)<sp/>*<sp/>1e-6);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetItemsProcessed(<ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.iterations());</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a71f0a10b3434d05b3b6b2fba92029ae4" kindref="member">publishLatencyCounters</ref>(<ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>,<sp/><ref refid="bench__transaction__phase4_8cpp_1a7a6362f5f6d1730622a94077758dbd33" kindref="member">histogram</ref>);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a89904682c0901005595b6ca080b798da" kindref="member">publishLatencyGate</ref>(<ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>,<sp/>kLatencyTailGateMs);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><ref refid="namespacethemis_1_1transaction_1a87ceec897018fe786e669496a1b178a1" kindref="member">BENCHMARK_REGISTER_F</ref>(<ref refid="class_transaction_phase4_fixture" kindref="compound">TransactionPhase4Fixture</ref>,<sp/>ThroughputBaseline_Rollback)</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseManualTime()</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AC-15:<sp/>Isolation<sp/>Level<sp/>Overhead<sp/>Comparison</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><ref refid="namespacethemis_1_1transaction_1a7f4791cca41acbbfe7786bfec4cf908c" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_transaction_phase4_fixture" kindref="compound">TransactionPhase4Fixture</ref>,<sp/>IsolationOverhead_ReadCommitted)</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>(benchmark::State&amp;<sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)</highlight></codeline>
+<codeline lineno="271"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::cdc::LatencyHistogram<sp/><ref refid="bench__transaction__phase4_8cpp_1a7a6362f5f6d1730622a94077758dbd33" kindref="member">histogram</ref>;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>txn_id<sp/>=<sp/>tx_manager_-&gt;beginTransaction(<ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7a1671fb17b5ce9bd0af0cf47f3f4ea337" kindref="member">IsolationLevel::READ_COMMITTED</ref>);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tx_manager_-&gt;commitTransaction(txn_id);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed_us<sp/>=</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::duration_cast&lt;std::chrono::microseconds&gt;(end<sp/>-<sp/>start).count();</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a7a6362f5f6d1730622a94077758dbd33" kindref="member">histogram</ref>.record(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(elapsed_us));</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetIterationTime(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(elapsed_us)<sp/>*<sp/>1e-6);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetItemsProcessed(<ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.iterations());</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a71f0a10b3434d05b3b6b2fba92029ae4" kindref="member">publishLatencyCounters</ref>(<ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>,<sp/><ref refid="bench__transaction__phase4_8cpp_1a7a6362f5f6d1730622a94077758dbd33" kindref="member">histogram</ref>);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a89904682c0901005595b6ca080b798da" kindref="member">publishLatencyGate</ref>(<ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>,<sp/>kLatencyTailGateMs);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><ref refid="namespacethemis_1_1transaction_1a87ceec897018fe786e669496a1b178a1" kindref="member">BENCHMARK_REGISTER_F</ref>(<ref refid="class_transaction_phase4_fixture" kindref="compound">TransactionPhase4Fixture</ref>,<sp/>IsolationOverhead_ReadCommitted)</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseManualTime()</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><ref refid="namespacethemis_1_1transaction_1a7f4791cca41acbbfe7786bfec4cf908c" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_transaction_phase4_fixture" kindref="compound">TransactionPhase4Fixture</ref>,<sp/>IsolationOverhead_Serializable)</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>(benchmark::State&amp;<sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)</highlight></codeline>
+<codeline lineno="298"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::cdc::LatencyHistogram<sp/><ref refid="bench__transaction__phase4_8cpp_1a7a6362f5f6d1730622a94077758dbd33" kindref="member">histogram</ref>;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>txn_id<sp/>=<sp/>tx_manager_-&gt;beginTransaction(<ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7aadfafde622c8622bb72e4ff73e295cdb" kindref="member">IsolationLevel::SERIALIZABLE</ref>);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tx_manager_-&gt;commitTransaction(txn_id);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed_us<sp/>=</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::duration_cast&lt;std::chrono::microseconds&gt;(end<sp/>-<sp/>start).count();</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a7a6362f5f6d1730622a94077758dbd33" kindref="member">histogram</ref>.record(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(elapsed_us));</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetIterationTime(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(elapsed_us)<sp/>*<sp/>1e-6);</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetItemsProcessed(<ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.iterations());</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a71f0a10b3434d05b3b6b2fba92029ae4" kindref="member">publishLatencyCounters</ref>(<ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>,<sp/><ref refid="bench__transaction__phase4_8cpp_1a7a6362f5f6d1730622a94077758dbd33" kindref="member">histogram</ref>);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a89904682c0901005595b6ca080b798da" kindref="member">publishLatencyGate</ref>(<ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>,<sp/>kLatencyTailGateMs);</highlight></codeline>
+<codeline lineno="313"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><ref refid="namespacethemis_1_1transaction_1a87ceec897018fe786e669496a1b178a1" kindref="member">BENCHMARK_REGISTER_F</ref>(<ref refid="class_transaction_phase4_fixture" kindref="compound">TransactionPhase4Fixture</ref>,<sp/>IsolationOverhead_Serializable)</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseManualTime()</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AC-16:<sp/>Audit<sp/>Overhead</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><ref refid="namespacethemis_1_1transaction_1a7f4791cca41acbbfe7786bfec4cf908c" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_transaction_phase4_fixture" kindref="compound">TransactionPhase4Fixture</ref>,<sp/>AuditOverhead_Baseline)</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>(benchmark::State&amp;<sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)</highlight></codeline>
+<codeline lineno="328"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::cdc::LatencyHistogram<sp/><ref refid="bench__transaction__phase4_8cpp_1a7a6362f5f6d1730622a94077758dbd33" kindref="member">histogram</ref>;</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>txn_id<sp/>=<sp/>tx_manager_-&gt;beginTransaction(<ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7ad4e2713d1b1725a1592f9268589f990d" kindref="member">IsolationLevel::Snapshot</ref>);</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tx_manager_-&gt;commitTransaction(txn_id);</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed_us<sp/>=</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::duration_cast&lt;std::chrono::microseconds&gt;(end<sp/>-<sp/>start).count();</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a7a6362f5f6d1730622a94077758dbd33" kindref="member">histogram</ref>.record(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(elapsed_us));</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetIterationTime(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(elapsed_us)<sp/>*<sp/>1e-6);</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetItemsProcessed(<ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.iterations());</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a71f0a10b3434d05b3b6b2fba92029ae4" kindref="member">publishLatencyCounters</ref>(<ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>,<sp/><ref refid="bench__transaction__phase4_8cpp_1a7a6362f5f6d1730622a94077758dbd33" kindref="member">histogram</ref>);</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a89904682c0901005595b6ca080b798da" kindref="member">publishLatencyGate</ref>(<ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>,<sp/>kLatencyTailGateMs);</highlight></codeline>
+<codeline lineno="343"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><ref refid="namespacethemis_1_1transaction_1a87ceec897018fe786e669496a1b178a1" kindref="member">BENCHMARK_REGISTER_F</ref>(<ref refid="class_transaction_phase4_fixture" kindref="compound">TransactionPhase4Fixture</ref>,<sp/>AuditOverhead_Baseline)</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseManualTime()</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond);</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><ref refid="namespacethemis_1_1transaction_1a7f4791cca41acbbfe7786bfec4cf908c" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_transaction_phase4_fixture" kindref="compound">TransactionPhase4Fixture</ref>,<sp/>AuditOverhead_Enabled)</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>(benchmark::State&amp;<sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)</highlight></codeline>
+<codeline lineno="357"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::cdc::LatencyHistogram<sp/><ref refid="bench__transaction__phase4_8cpp_1a7a6362f5f6d1730622a94077758dbd33" kindref="member">histogram</ref>;</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>txn_id<sp/>=<sp/>tx_manager_-&gt;beginTransaction(<ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7aadfafde622c8622bb72e4ff73e295cdb" kindref="member">IsolationLevel::SERIALIZABLE</ref>);</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tx_manager_-&gt;commitTransaction(txn_id);</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed_us<sp/>=</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::duration_cast&lt;std::chrono::microseconds&gt;(end<sp/>-<sp/>start).count();</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a7a6362f5f6d1730622a94077758dbd33" kindref="member">histogram</ref>.record(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(elapsed_us));</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetIterationTime(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(elapsed_us)<sp/>*<sp/>1e-6);</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetItemsProcessed(<ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.iterations());</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a71f0a10b3434d05b3b6b2fba92029ae4" kindref="member">publishLatencyCounters</ref>(<ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>,<sp/><ref refid="bench__transaction__phase4_8cpp_1a7a6362f5f6d1730622a94077758dbd33" kindref="member">histogram</ref>);</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a89904682c0901005595b6ca080b798da" kindref="member">publishLatencyGate</ref>(<ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>,<sp/>kLatencyTailGateMs);</highlight></codeline>
+<codeline lineno="372"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><ref refid="namespacethemis_1_1transaction_1a87ceec897018fe786e669496a1b178a1" kindref="member">BENCHMARK_REGISTER_F</ref>(<ref refid="class_transaction_phase4_fixture" kindref="compound">TransactionPhase4Fixture</ref>,<sp/>AuditOverhead_Enabled)</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseManualTime()</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond);</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AC-17:<sp/>Distributed<sp/>2PC<sp/>Throughput</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"></highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><ref refid="namespacethemis_1_1transaction_1a7f4791cca41acbbfe7786bfec4cf908c" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_distributed_phase4_fixture" kindref="compound">DistributedPhase4Fixture</ref>,<sp/>DistributedThroughput_2PC_3Participants)</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/>(benchmark::State&amp;<sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)</highlight></codeline>
+<codeline lineno="387"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>participants<sp/>=<sp/>makeParticipants();</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::cdc::LatencyHistogram<sp/><ref refid="bench__transaction__phase4_8cpp_1a7a6362f5f6d1730622a94077758dbd33" kindref="member">histogram</ref>;</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tid<sp/>=<sp/>mgr_-&gt;beginDistributed(participants);</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ps<sp/>=<sp/>mgr_-&gt;prepareDistributed(tid);</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!ps.ok)<sp/>{</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SkipWithError(</highlight><highlight class="stringliteral">&quot;Prepare<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cs<sp/>=<sp/>mgr_-&gt;commitDistributed(tid);</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!cs.ok)<sp/>{</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SkipWithError(</highlight><highlight class="stringliteral">&quot;Commit<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(tid);</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed_us<sp/>=</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::duration_cast&lt;std::chrono::microseconds&gt;(end<sp/>-<sp/>start).count();</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a7a6362f5f6d1730622a94077758dbd33" kindref="member">histogram</ref>.record(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(elapsed_us));</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetIterationTime(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(elapsed_us)<sp/>*<sp/>1e-6);</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetItemsProcessed(<ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.iterations());</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="bench__transaction__phase4_8cpp_1a246bad96ec8fb8fac0bdd59d359493be" kindref="member">average_ms</ref><sp/>=<sp/><ref refid="bench__transaction__phase4_8cpp_1a71f0a10b3434d05b3b6b2fba92029ae4" kindref="member">publishLatencyCounters</ref>(<ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>,<sp/><ref refid="bench__transaction__phase4_8cpp_1a7a6362f5f6d1730622a94077758dbd33" kindref="member">histogram</ref>);</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a388bf7f1216dc7356411bcbadbca34a2" kindref="member">publishThroughputGate</ref>(<ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>,<sp/><ref refid="bench__transaction__phase4_8cpp_1a246bad96ec8fb8fac0bdd59d359493be" kindref="member">average_ms</ref>,<sp/>kDistributedThroughputGateTxnPerSec);</highlight></codeline>
+<codeline lineno="413"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><ref refid="namespacethemis_1_1transaction_1a87ceec897018fe786e669496a1b178a1" kindref="member">BENCHMARK_REGISTER_F</ref>(<ref refid="class_distributed_phase4_fixture" kindref="compound">DistributedPhase4Fixture</ref>,<sp/>DistributedThroughput_2PC_3Participants)</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseManualTime()</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond);</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"></highlight></codeline>
+<codeline lineno="422"><highlight class="normal"><ref refid="namespacethemis_1_1transaction_1a7f4791cca41acbbfe7786bfec4cf908c" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_distributed_phase4_fixture" kindref="compound">DistributedPhase4Fixture</ref>,<sp/>DistributedThroughput_AbortPath)</highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/><sp/><sp/>(benchmark::State&amp;<sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)</highlight></codeline>
+<codeline lineno="424"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>participants<sp/>=<sp/>makeParticipants();</highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::cdc::LatencyHistogram<sp/><ref refid="bench__transaction__phase4_8cpp_1a7a6362f5f6d1730622a94077758dbd33" kindref="member">histogram</ref>;</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="428"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="429"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tid<sp/>=<sp/>mgr_-&gt;beginDistributed(participants);</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr_-&gt;abortDistributed(tid);</highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(tid);</highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed_us<sp/>=</highlight></codeline>
+<codeline lineno="434"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::duration_cast&lt;std::chrono::microseconds&gt;(end<sp/>-<sp/>start).count();</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a7a6362f5f6d1730622a94077758dbd33" kindref="member">histogram</ref>.record(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(elapsed_us));</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetIterationTime(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(elapsed_us)<sp/>*<sp/>1e-6);</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetItemsProcessed(<ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.iterations());</highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a71f0a10b3434d05b3b6b2fba92029ae4" kindref="member">publishLatencyCounters</ref>(<ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>,<sp/><ref refid="bench__transaction__phase4_8cpp_1a7a6362f5f6d1730622a94077758dbd33" kindref="member">histogram</ref>);</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__transaction__phase4_8cpp_1a89904682c0901005595b6ca080b798da" kindref="member">publishLatencyGate</ref>(<ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>,<sp/>kLatencyTailGateMs);</highlight></codeline>
+<codeline lineno="441"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><ref refid="namespacethemis_1_1transaction_1a87ceec897018fe786e669496a1b178a1" kindref="member">BENCHMARK_REGISTER_F</ref>(<ref refid="class_distributed_phase4_fixture" kindref="compound">DistributedPhase4Fixture</ref>,<sp/>DistributedThroughput_AbortPath)</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseManualTime()</highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond);</highlight></codeline>
+<codeline lineno="445"><highlight class="normal"></highlight></codeline>
+<codeline lineno="446"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="447"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Benchmark<sp/>main</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="448"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="449"><highlight class="normal"></highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><ref refid="bench__transaction__phase4_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kindref="member">BENCHMARK_MAIN</ref>();</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/transaction/bench_transaction_phase4.cpp"/>
+  </compounddef>
+</doxygen>

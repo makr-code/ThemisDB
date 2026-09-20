@@ -1,0 +1,700 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="consensus__module_8h" kind="file" language="C++">
+    <compoundname>consensus_module.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="consensus__factory_8h" local="yes">include/sharding/consensus_factory.h</includedby>
+    <includedby refid="cross__shard__transaction_8h" local="yes">include/sharding/cross_shard_transaction.h</includedby>
+    <includedby refid="distributed__time__coordinator_8h" local="yes">include/sharding/distributed_time_coordinator.h</includedby>
+    <includedby refid="dual__consensus__orchestrator_8h" local="yes">include/sharding/dual_consensus_orchestrator.h</includedby>
+    <includedby refid="gossip__consensus__adapter_8h" local="yes">include/sharding/gossip_consensus_adapter.h</includedby>
+    <includedby refid="metadata__shard_8h" local="yes">include/sharding/metadata_shard.h</includedby>
+    <includedby refid="paxos__consensus_8h" local="yes">include/sharding/paxos_consensus.h</includedby>
+    <includedby refid="paxos__snapshot_8h" local="yes">include/sharding/paxos_snapshot.h</includedby>
+    <includedby refid="paxos__wal_8h" local="yes">include/sharding/paxos_wal.h</includedby>
+    <includedby refid="raft__consensus__adapter_8h" local="yes">include/sharding/raft_consensus_adapter.h</includedby>
+    <includedby refid="raft__state_8h" local="yes">include/sharding/raft_state.h</includedby>
+    <includedby refid="raid__paxos__config_8h" local="yes">include/sharding/raid_paxos_config.h</includedby>
+    <includedby refid="test__sharding__cross__shard__fk_8cpp" local="yes">tests/sharding/test_sharding_cross_shard_fk.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/sharding/consensus_module.h</label>
+        <link refid="consensus__module_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="8">
+        <label>benchmarks/sharding/bench_distributed_coordinator.cpp</label>
+        <link refid="bench__distributed__coordinator_8cpp"/>
+      </node>
+      <node id="6">
+        <label>benchmarks/sharding/bench_sharding_performance.cpp</label>
+        <link refid="bench__sharding__performance_8cpp"/>
+      </node>
+      <node id="2">
+        <label>include/sharding/consensus_factory.h</label>
+        <link refid="consensus__factory_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/sharding/consensus_module.h</label>
+        <link refid="consensus__module_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/sharding/cross_shard_transaction.h</label>
+        <link refid="cross__shard__transaction_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/sharding/distributed_coordinator.h</label>
+        <link refid="distributed__coordinator_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>include/sharding/distributed_time_coordinator.h</label>
+        <link refid="distributed__time__coordinator_8h"/>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>include/sharding/dual_consensus_orchestrator.h</label>
+        <link refid="dual__consensus__orchestrator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>include/sharding/gossip_consensus_adapter.h</label>
+        <link refid="gossip__consensus__adapter_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>include/sharding/metadata_shard.h</label>
+        <link refid="metadata__shard_8h"/>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>include/sharding/metadata_snapshot.h</label>
+        <link refid="metadata__snapshot_8h"/>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>include/sharding/metadata_wal.h</label>
+        <link refid="metadata__wal_8h"/>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>include/sharding/orphan_detector.h</label>
+        <link refid="orphan__detector_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>include/sharding/paxos_consensus.h</label>
+        <link refid="paxos__consensus_8h"/>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+      </node>
+      <node id="39">
+        <label>include/sharding/paxos_snapshot.h</label>
+        <link refid="paxos__snapshot_8h"/>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+      </node>
+      <node id="40">
+        <label>include/sharding/paxos_state_persistence.h</label>
+        <link refid="paxos__state__persistence_8h"/>
+        <childnode refid="38" relation="include">
+        </childnode>
+      </node>
+      <node id="41">
+        <label>include/sharding/paxos_wal.h</label>
+        <link refid="paxos__wal_8h"/>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+      </node>
+      <node id="46">
+        <label>include/sharding/raft_consensus.h</label>
+        <link refid="raft__consensus_8h"/>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+      </node>
+      <node id="43">
+        <label>include/sharding/raft_consensus_adapter.h</label>
+        <link refid="raft__consensus__adapter_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+      </node>
+      <node id="47">
+        <label>include/sharding/raft_shard_manager.h</label>
+        <link refid="raft__shard__manager_8h"/>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+      </node>
+      <node id="45">
+        <label>include/sharding/raft_state.h</label>
+        <link refid="raft__state_8h"/>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+      </node>
+      <node id="52">
+        <label>include/sharding/raft_wal_integration.h</label>
+        <link refid="raft__wal__integration_8h"/>
+        <childnode refid="53" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>include/sharding/raid_paxos_config.h</label>
+        <link refid="raid__paxos__config_8h"/>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>include/sharding/raid_paxos_consensus.h</label>
+        <link refid="raid__paxos__consensus_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/sharding/consensus_factory.cpp</label>
+        <link refid="consensus__factory_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/sharding/cross_shard_transaction.cpp</label>
+        <link refid="cross__shard__transaction_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/sharding/distributed_coordinator.cpp</label>
+        <link refid="distributed__coordinator_8cpp"/>
+      </node>
+      <node id="21">
+        <label>src/sharding/distributed_time_coordinator.cpp</label>
+        <link refid="distributed__time__coordinator_8cpp"/>
+      </node>
+      <node id="23">
+        <label>src/sharding/dual_consensus_orchestrator.cpp</label>
+        <link refid="dual__consensus__orchestrator_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/sharding/gossip_consensus_adapter.cpp</label>
+        <link refid="gossip__consensus__adapter_8cpp"/>
+      </node>
+      <node id="27">
+        <label>src/sharding/metadata_shard.cpp</label>
+        <link refid="metadata__shard_8cpp"/>
+      </node>
+      <node id="28">
+        <label>src/sharding/metadata_snapshot.cpp</label>
+        <link refid="metadata__snapshot_8cpp"/>
+      </node>
+      <node id="30">
+        <label>src/sharding/metadata_wal.cpp</label>
+        <link refid="metadata__wal_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/sharding/orphan_detector.cpp</label>
+        <link refid="orphan__detector_8cpp"/>
+      </node>
+      <node id="36">
+        <label>src/sharding/paxos_consensus.cpp</label>
+        <link refid="paxos__consensus_8cpp"/>
+      </node>
+      <node id="37">
+        <label>src/sharding/paxos_snapshot.cpp</label>
+        <link refid="paxos__snapshot_8cpp"/>
+      </node>
+      <node id="38">
+        <label>src/sharding/paxos_state_persistence.cpp</label>
+        <link refid="paxos__state__persistence_8cpp"/>
+      </node>
+      <node id="42">
+        <label>src/sharding/paxos_wal.cpp</label>
+        <link refid="paxos__wal_8cpp"/>
+      </node>
+      <node id="50">
+        <label>src/sharding/raft_consensus.cpp</label>
+        <link refid="raft__consensus_8cpp"/>
+      </node>
+      <node id="44">
+        <label>src/sharding/raft_consensus_adapter.cpp</label>
+        <link refid="raft__consensus__adapter_8cpp"/>
+      </node>
+      <node id="48">
+        <label>src/sharding/raft_shard_manager.cpp</label>
+        <link refid="raft__shard__manager_8cpp"/>
+      </node>
+      <node id="54">
+        <label>src/sharding/raft_state.cpp</label>
+        <link refid="raft__state_8cpp"/>
+      </node>
+      <node id="53">
+        <label>src/sharding/raft_wal_integration.cpp</label>
+        <link refid="raft__wal__integration_8cpp"/>
+      </node>
+      <node id="34">
+        <label>src/sharding/raid_paxos_consensus.cpp</label>
+        <link refid="raid__paxos__consensus_8cpp"/>
+      </node>
+      <node id="49">
+        <label>src/sharding/redundancy_strategy.cpp</label>
+        <link refid="redundancy__strategy_8cpp"/>
+      </node>
+      <node id="24">
+        <label>tests/sharding/test_converged_chaos.cpp</label>
+        <link refid="test__converged__chaos_8cpp"/>
+      </node>
+      <node id="17">
+        <label>tests/sharding/test_cross_shard_fk_validator.cpp</label>
+        <link refid="test__cross__shard__fk__validator_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/sharding/test_dual_consensus.cpp</label>
+        <link refid="test__dual__consensus_8cpp"/>
+      </node>
+      <node id="35">
+        <label>tests/sharding/test_raid_paxos.cpp</label>
+        <link refid="test__raid__paxos_8cpp"/>
+      </node>
+      <node id="18">
+        <label>tests/sharding/test_sharding_cross_shard_fk.cpp</label>
+        <link refid="test__sharding__cross__shard__fk_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/sharding/test_sharding_phase2_hardening.cpp</label>
+        <link refid="test__sharding__phase2__hardening_8cpp"/>
+      </node>
+      <node id="51">
+        <label>tests/sharding/test_sharding_phase5.cpp</label>
+        <link refid="test__sharding__phase5_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/sharding/test_sharding_uncovered.cpp</label>
+        <link refid="test__sharding__uncovered_8cpp"/>
+      </node>
+      <node id="19">
+        <label>tests/sharding/test_three_phase_commit.cpp</label>
+        <link refid="test__three__phase__commit_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_consensus_log_entry" prot="public">themisdb::sharding::ConsensusLogEntry</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_vote_request" prot="public">themisdb::sharding::VoteRequest</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_vote_response" prot="public">themisdb::sharding::VoteResponse</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_replication_request" prot="public">themisdb::sharding::ReplicationRequest</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_replication_response" prot="public">themisdb::sharding::ReplicationResponse</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_consensus_stats" prot="public">themisdb::sharding::ConsensusStats</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_consensus_module" prot="public">themisdb::sharding::ConsensusModule</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_consensus_config" prot="public">themisdb::sharding::ConsensusConfig</innerclass>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1sharding">themisdb::sharding</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.9.0-beta </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Copyright<sp/>2025<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Licensed<sp/>under<sp/>MIT<sp/>License</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Licensed<sp/>under<sp/>MIT<sp/>License</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb" kindref="compound">themisdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding" kindref="compound">sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="namespacethemisdb_1_1sharding_1a9316f2eccc539fa5ed381b18bfdf205f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1sharding_1a9316f2eccc539fa5ed381b18bfdf205f" kindref="member">ConsensusState</ref><sp/>{</highlight></codeline>
+<codeline lineno="32" refid="namespacethemisdb_1_1sharding_1a9316f2eccc539fa5ed381b18bfdf205fa8026987f2531b5fa5178a851c108397c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1a9316f2eccc539fa5ed381b18bfdf205fa8026987f2531b5fa5178a851c108397c" kindref="member">FOLLOWER</ref>,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Node<sp/>is<sp/>following<sp/>a<sp/>leader</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="namespacethemisdb_1_1sharding_1a9316f2eccc539fa5ed381b18bfdf205fabea4821516973214973a70aea8337c38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1a9316f2eccc539fa5ed381b18bfdf205fabea4821516973214973a70aea8337c38" kindref="member">CANDIDATE</ref>,<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Node<sp/>is<sp/>running<sp/>for<sp/>leadership</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="namespacethemisdb_1_1sharding_1a9316f2eccc539fa5ed381b18bfdf205fab8058aa3ecd39b676ce80d6aaadc5e64" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1a9316f2eccc539fa5ed381b18bfdf205fab8058aa3ecd39b676ce80d6aaadc5e64" kindref="member">LEADER</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Node<sp/>is<sp/>the<sp/>current<sp/>leader</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="namespacethemisdb_1_1sharding_1a9316f2eccc539fa5ed381b18bfdf205faff728df6b722b64ac3eb9019959d716c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1a9316f2eccc539fa5ed381b18bfdf205faff728df6b722b64ac3eb9019959d716c" kindref="member">OBSERVER</ref><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Node<sp/>observes<sp/>but<sp/>doesn&apos;t<sp/>participate<sp/>in<sp/>voting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="namespacethemisdb_1_1sharding_1ac79adee074eab49343ada346bcc78dcf" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1sharding_1ac79adee074eab49343ada346bcc78dcf" kindref="member">ConsensusType</ref><sp/>{</highlight></codeline>
+<codeline lineno="42" refid="namespacethemisdb_1_1sharding_1ac79adee074eab49343ada346bcc78dcfaf831d834df040618e0117917ac0dcb62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1ac79adee074eab49343ada346bcc78dcfaf831d834df040618e0117917ac0dcb62" kindref="member">RAFT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Raft<sp/>consensus<sp/>(leader-based,<sp/>strongly<sp/>consistent)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="namespacethemisdb_1_1sharding_1ac79adee074eab49343ada346bcc78dcfa3d35b67f7532ad5204628c67a94d08d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1ac79adee074eab49343ada346bcc78dcfa3d35b67f7532ad5204628c67a94d08d6" kindref="member">GOSSIP</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gossip<sp/>protocol<sp/>(leaderless,<sp/>eventually<sp/>consistent)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="namespacethemisdb_1_1sharding_1ac79adee074eab49343ada346bcc78dcfaaa1968070500759fe3e25480f899282b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1ac79adee074eab49343ada346bcc78dcfaaa1968070500759fe3e25480f899282b" kindref="member">PAXOS</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Paxos<sp/>consensus<sp/>(quorum-based,<sp/>strongly<sp/>consistent)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="namespacethemisdb_1_1sharding_1ac79adee074eab49343ada346bcc78dcfa222ff8a3016a807c9be545154ee05ab4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1ac79adee074eab49343ada346bcc78dcfa222ff8a3016a807c9be545154ee05ab4" kindref="member">MULTI_PAXOS</ref>,<sp/><sp/></highlight><highlight class="comment">//<sp/>Multi-Paxos<sp/>(optimized<sp/>Paxos<sp/>for<sp/>multiple<sp/>rounds)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="namespacethemisdb_1_1sharding_1ac79adee074eab49343ada346bcc78dcfa2853c285bb9b31fa5b5f9e4a0b9052f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1ac79adee074eab49343ada346bcc78dcfa2853c285bb9b31fa5b5f9e4a0b9052f4" kindref="member">RAID_PAXOS</ref>,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RAID-aware<sp/>Paxos<sp/>consensus<sp/>for<sp/>RAID-Sharding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="namespacethemisdb_1_1sharding_1ac79adee074eab49343ada346bcc78dcfa0c8176468e3f53a7c4ef6c9619ee267e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1ac79adee074eab49343ada346bcc78dcfa0c8176468e3f53a7c4ef6c9619ee267e" kindref="member">DUAL_CONSENSUS</ref><sp/></highlight><highlight class="comment">//<sp/>Dual-layer<sp/>consensus<sp/>(Storage+Cache)<sp/>for<sp/>Converged<sp/>Storage-Inference</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemisdb_1_1sharding_1_1_consensus_log_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1sharding_1_1_consensus_log_entry" kindref="compound">ConsensusLogEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="54" refid="structthemisdb_1_1sharding_1_1_consensus_log_entry_1aa34b3027a9706324749e760ed35d3f1a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_log_entry_1aa34b3027a9706324749e760ed35d3f1a" kindref="member">index</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Log<sp/>entry<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemisdb_1_1sharding_1_1_consensus_log_entry_1a4ed8c95aaa0d22a795ebe1cad344814b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_log_entry_1a4ed8c95aaa0d22a795ebe1cad344814b" kindref="member">term</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Term/epoch<sp/>number</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemisdb_1_1sharding_1_1_consensus_log_entry_1a24919fec424e8407915f666deecfa752" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_log_entry_1a24919fec424e8407915f666deecfa752" kindref="member">operation</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Operation<sp/>type<sp/>(PUT,<sp/>DELETE,<sp/>etc.)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemisdb_1_1sharding_1_1_consensus_log_entry_1aabfca85b901e28828cbffd53f656704d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_log_entry_1aabfca85b901e28828cbffd53f656704d" kindref="member">data</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Operation<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemisdb_1_1sharding_1_1_consensus_log_entry_1a82f568bcf9f5ae45dd4ae1befa2d22f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_log_entry_1a82f568bcf9f5ae45dd4ae1befa2d22f4" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60" refid="structthemisdb_1_1sharding_1_1_consensus_log_entry_1a8887aaa39ce7ed4e9daa241eaf90b8ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_log_entry_1a8887aaa39ce7ed4e9daa241eaf90b8ca" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;index&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_log_entry_1aa34b3027a9706324749e760ed35d3f1a" kindref="member">index</ref>},</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;term&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_log_entry_1a4ed8c95aaa0d22a795ebe1cad344814b" kindref="member">term</ref>},</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;operation&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_log_entry_1a24919fec424e8407915f666deecfa752" kindref="member">operation</ref>},</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_log_entry_1aabfca85b901e28828cbffd53f656704d" kindref="member">data</ref>},</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;timestamp&quot;</highlight><highlight class="normal">,<sp/>std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_log_entry_1a82f568bcf9f5ae45dd4ae1befa2d22f4" kindref="member">timestamp</ref>.time_since_epoch()).count()}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemisdb_1_1sharding_1_1_vote_request" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1sharding_1_1_vote_request" kindref="compound">VoteRequest</ref><sp/>{</highlight></codeline>
+<codeline lineno="76" refid="structthemisdb_1_1sharding_1_1_vote_request_1a08ec6b24564ff7ba0f2e512167f119e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_vote_request_1a08ec6b24564ff7ba0f2e512167f119e8" kindref="member">candidate_id</ref>;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Candidate<sp/>requesting<sp/>vote</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemisdb_1_1sharding_1_1_vote_request_1a661d88269ac0f7da2e5530aa06496143" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_vote_request_1a661d88269ac0f7da2e5530aa06496143" kindref="member">term</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Candidate&apos;s<sp/>term</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemisdb_1_1sharding_1_1_vote_request_1a9af4f9b429134721a3d27fb0248b94fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_vote_request_1a9af4f9b429134721a3d27fb0248b94fc" kindref="member">last_log_index</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Index<sp/>of<sp/>candidate&apos;s<sp/>last<sp/>log<sp/>entry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemisdb_1_1sharding_1_1_vote_request_1af74b72f95ab95f2b50932f534d246d95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_vote_request_1af74b72f95ab95f2b50932f534d246d95" kindref="member">last_log_term</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Term<sp/>of<sp/>candidate&apos;s<sp/>last<sp/>log<sp/>entry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemisdb_1_1sharding_1_1_vote_response" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1sharding_1_1_vote_response" kindref="compound">VoteResponse</ref><sp/>{</highlight></codeline>
+<codeline lineno="86" refid="structthemisdb_1_1sharding_1_1_vote_response_1a9de067a9557d568d6fcbc9368ca69512" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_vote_response_1a9de067a9557d568d6fcbc9368ca69512" kindref="member">voter_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ID<sp/>of<sp/>the<sp/>voter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemisdb_1_1sharding_1_1_vote_response_1a370d1722d95267b630c51024afb0938e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_vote_response_1a370d1722d95267b630c51024afb0938e" kindref="member">term</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Current<sp/>term<sp/>of<sp/>voter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemisdb_1_1sharding_1_1_vote_response_1a72aec83cdd7906444b429af8c2cd3fca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_vote_response_1a72aec83cdd7906444b429af8c2cd3fca" kindref="member">vote_granted</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Whether<sp/>vote<sp/>was<sp/>granted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemisdb_1_1sharding_1_1_vote_response_1aacb1fa6a5887a692470d0ebde3c4a277" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_vote_response_1aacb1fa6a5887a692470d0ebde3c4a277" kindref="member">reason</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reason<sp/>for<sp/>denial<sp/>(if<sp/>applicable)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemisdb_1_1sharding_1_1_replication_request" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1sharding_1_1_replication_request" kindref="compound">ReplicationRequest</ref><sp/>{</highlight></codeline>
+<codeline lineno="96" refid="structthemisdb_1_1sharding_1_1_replication_request_1ad9db268cf156775be1510e6c4ad0ccc0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_replication_request_1ad9db268cf156775be1510e6c4ad0ccc0" kindref="member">leader_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Leader<sp/>sending<sp/>entries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemisdb_1_1sharding_1_1_replication_request_1a0bce91b76aaa8c06b5f071099ef52d47" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_replication_request_1a0bce91b76aaa8c06b5f071099ef52d47" kindref="member">term</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Leader&apos;s<sp/>term</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemisdb_1_1sharding_1_1_replication_request_1ad86f73fa0af63930ccce8a4846558d98" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_replication_request_1ad86f73fa0af63930ccce8a4846558d98" kindref="member">prev_log_index</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Index<sp/>of<sp/>log<sp/>entry<sp/>before<sp/>new<sp/>entries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="structthemisdb_1_1sharding_1_1_replication_request_1a4bf05e37f78f1b3ce36436ded83b9961" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_replication_request_1a4bf05e37f78f1b3ce36436ded83b9961" kindref="member">prev_log_term</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Term<sp/>of<sp/>prev_log_index<sp/>entry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="structthemisdb_1_1sharding_1_1_replication_request_1a0a7a0c692a35d69de6afb1fdf7dc7d07" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ConsensusLogEntry&gt;<sp/><ref refid="structthemisdb_1_1sharding_1_1_replication_request_1a0a7a0c692a35d69de6afb1fdf7dc7d07" kindref="member">entries</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Log<sp/>entries<sp/>to<sp/>replicate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="structthemisdb_1_1sharding_1_1_replication_request_1ad0908555109542862389cbbd35004830" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_replication_request_1ad0908555109542862389cbbd35004830" kindref="member">leader_commit</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Leader&apos;s<sp/>commit<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="structthemisdb_1_1sharding_1_1_replication_response" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1sharding_1_1_replication_response" kindref="compound">ReplicationResponse</ref><sp/>{</highlight></codeline>
+<codeline lineno="108" refid="structthemisdb_1_1sharding_1_1_replication_response_1a0d7981377523684e898b2a811d827ab8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_replication_response_1a0d7981377523684e898b2a811d827ab8" kindref="member">follower_id</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ID<sp/>of<sp/>the<sp/>follower</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="structthemisdb_1_1sharding_1_1_replication_response_1a1ee99b5851503e95e7e601e2642990ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_replication_response_1a1ee99b5851503e95e7e601e2642990ab" kindref="member">term</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Current<sp/>term<sp/>of<sp/>follower</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="structthemisdb_1_1sharding_1_1_replication_response_1a621ff6ae5e16b9d5e1642a903b0d2811" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_replication_response_1a621ff6ae5e16b9d5e1642a903b0d2811" kindref="member">success</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Whether<sp/>replication<sp/>succeeded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="structthemisdb_1_1sharding_1_1_replication_response_1aa181acbf01fc36bec48c6149cccc7719" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_replication_response_1aa181acbf01fc36bec48c6149cccc7719" kindref="member">match_index</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Highest<sp/>index<sp/>replicated<sp/>(for<sp/>leader)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="structthemisdb_1_1sharding_1_1_replication_response_1a50493a120b00663a5fb2e9b48f0c0ff9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_replication_response_1a50493a120b00663a5fb2e9b48f0c0ff9" kindref="member">error_message</ref>;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Error<sp/>message<sp/>(if<sp/>failed)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="structthemisdb_1_1sharding_1_1_consensus_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1sharding_1_1_consensus_stats" kindref="compound">ConsensusStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="119" refid="structthemisdb_1_1sharding_1_1_consensus_stats_1a95485dcd62906d68a526f89227906e5e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_stats_1a95485dcd62906d68a526f89227906e5e" kindref="member">current_term</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="120" refid="structthemisdb_1_1sharding_1_1_consensus_stats_1a90bf853450ee3b385ab6b9f16d6f6202" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_stats_1a90bf853450ee3b385ab6b9f16d6f6202" kindref="member">commit_index</ref>;</highlight></codeline>
+<codeline lineno="121" refid="structthemisdb_1_1sharding_1_1_consensus_stats_1af85572ab3888c8f409e7c97c488daf91" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_stats_1af85572ab3888c8f409e7c97c488daf91" kindref="member">last_applied</ref>;</highlight></codeline>
+<codeline lineno="122" refid="structthemisdb_1_1sharding_1_1_consensus_stats_1aa9ed52be1aef9a4243f59d0e6e6ee269" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1a9316f2eccc539fa5ed381b18bfdf205f" kindref="member">ConsensusState</ref><sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_stats_1aa9ed52be1aef9a4243f59d0e6e6ee269" kindref="member">state</ref>;</highlight></codeline>
+<codeline lineno="123" refid="structthemisdb_1_1sharding_1_1_consensus_stats_1a052c31c808f837daf8eccd7cd1a5d941" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_stats_1a052c31c808f837daf8eccd7cd1a5d941" kindref="member">current_leader</ref>;</highlight></codeline>
+<codeline lineno="124" refid="structthemisdb_1_1sharding_1_1_consensus_stats_1a743769cd04f90c2bc0217052af1090c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_stats_1a743769cd04f90c2bc0217052af1090c7" kindref="member">cluster_size</ref>;</highlight></codeline>
+<codeline lineno="125" refid="structthemisdb_1_1sharding_1_1_consensus_stats_1aaca741ab3fcb841b205a832fb32907bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_stats_1aaca741ab3fcb841b205a832fb32907bc" kindref="member">reachable_nodes</ref>;</highlight></codeline>
+<codeline lineno="126" refid="structthemisdb_1_1sharding_1_1_consensus_stats_1af124a041d2dc9918a718fa3df831bc74" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_stats_1af124a041d2dc9918a718fa3df831bc74" kindref="member">average_replication_latency</ref>;</highlight></codeline>
+<codeline lineno="127" refid="structthemisdb_1_1sharding_1_1_consensus_stats_1aec7bea46b239b92b87abac8c483ad360" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_stats_1aec7bea46b239b92b87abac8c483ad360" kindref="member">total_operations</ref>;</highlight></codeline>
+<codeline lineno="128" refid="structthemisdb_1_1sharding_1_1_consensus_stats_1a4eb4a98f0a49cc64545740a10c34446a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_stats_1a4eb4a98f0a49cc64545740a10c34446a" kindref="member">failed_operations</ref>;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="classthemisdb_1_1sharding_1_1_consensus_module" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1sharding_1_1_consensus_module" kindref="compound">ConsensusModule</ref><sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="140" refid="classthemisdb_1_1sharding_1_1_consensus_module_1aea7c50f32fbb821075e9854a52862816" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1aea7c50f32fbb821075e9854a52862816" kindref="member">~ConsensusModule</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="145" refid="classthemisdb_1_1sharding_1_1_consensus_module_1a7072331bf9ce83ff94e404e752d0ffcb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1sharding_1ac79adee074eab49343ada346bcc78dcf" kindref="member">ConsensusType</ref><sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a7072331bf9ce83ff94e404e752d0ffcb" kindref="member">getType</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153" refid="classthemisdb_1_1sharding_1_1_consensus_module_1a83a2c537c9426f7ee018c5ab143b0ed7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a83a2c537c9426f7ee018c5ab143b0ed7" kindref="member">initialize</ref>(</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id,</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>cluster_nodes</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="162" refid="classthemisdb_1_1sharding_1_1_consensus_module_1a5851d5f141f85e31b42f5fc0370bf723" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a5851d5f141f85e31b42f5fc0370bf723" kindref="member">start</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="167" refid="classthemisdb_1_1sharding_1_1_consensus_module_1afbcf4f19b90bb6ada83b36ad470f4488" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1afbcf4f19b90bb6ada83b36ad470f4488" kindref="member">stop</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="172" refid="classthemisdb_1_1sharding_1_1_consensus_module_1a383eaf86a69a5fc663436aaaa78aaea0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a383eaf86a69a5fc663436aaaa78aaea0" kindref="member">isLeader</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="178" refid="classthemisdb_1_1sharding_1_1_consensus_module_1a3421abadc4205d3daaeaf86d964e40a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a3421abadc4205d3daaeaf86d964e40a1" kindref="member">getLeaderId</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="183" refid="classthemisdb_1_1sharding_1_1_consensus_module_1ae8b42fa6c903fab2751e5603a477a278" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1sharding_1a9316f2eccc539fa5ed381b18bfdf205f" kindref="member">ConsensusState</ref><sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1ae8b42fa6c903fab2751e5603a477a278" kindref="member">getState</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="191" refid="classthemisdb_1_1sharding_1_1_consensus_module_1adaf2b0f967c4c635d78c8123fefe80fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::optional&lt;uint64_t&gt;<sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1adaf2b0f967c4c635d78c8123fefe80fc" kindref="member">propose</ref>(</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>operation,</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>data</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="202" refid="classthemisdb_1_1sharding_1_1_consensus_module_1a2c9b5927f506d55d5f6482046e771a39" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a2c9b5927f506d55d5f6482046e771a39" kindref="member">waitForCommit</ref>(</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>log_index,</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>timeout</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="213" refid="classthemisdb_1_1sharding_1_1_consensus_module_1adf94c2f9a7bba429c7d0faaaee55e763" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;ConsensusLogEntry&gt;<sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1adf94c2f9a7bba429c7d0faaaee55e763" kindref="member">readLog</ref>(</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>start_index,</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;uint64_t&gt;<sp/>end_index<sp/>=<sp/>std::nullopt</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="221" refid="classthemisdb_1_1sharding_1_1_consensus_module_1acd6b4da71aa70374b3780bc1d957eeef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1acd6b4da71aa70374b3780bc1d957eeef" kindref="member">getCommitIndex</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="227" refid="classthemisdb_1_1sharding_1_1_consensus_module_1a9549840aa654b3d6858f12e42bd7ec7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a9549840aa654b3d6858f12e42bd7ec7b" kindref="member">getLastLogIndex</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="235" refid="classthemisdb_1_1sharding_1_1_consensus_module_1aa3f3baf10ca603e105ffd09038868d2a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1aa3f3baf10ca603e105ffd09038868d2a" kindref="member">addNode</ref>(</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id,</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>endpoint</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="245" refid="classthemisdb_1_1sharding_1_1_consensus_module_1a0912ec311abb7769bcda991c9d042179" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a0912ec311abb7769bcda991c9d042179" kindref="member">removeNode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="252" refid="classthemisdb_1_1sharding_1_1_consensus_module_1ab5d1da4f19a6f003c8610833c6256413" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1ab5d1da4f19a6f003c8610833c6256413" kindref="member">transferLeadership</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target_node_id)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="259" refid="classthemisdb_1_1sharding_1_1_consensus_module_1aa6787d6aba6ba9b5d1c605ff8bf49b8f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1aa6787d6aba6ba9b5d1c605ff8bf49b8f" kindref="member">takeSnapshot</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>snapshot_data)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="266" refid="classthemisdb_1_1sharding_1_1_consensus_module_1a1fcfa30acb35b9d6976c4d880327d370" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a1fcfa30acb35b9d6976c4d880327d370" kindref="member">restoreSnapshot</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>snapshot_data)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="271" refid="classthemisdb_1_1sharding_1_1_consensus_module_1abbbbcfd0623ef2d7f77240a55663c1f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_stats" kindref="compound">ConsensusStats</ref><sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1abbbbcfd0623ef2d7f77240a55663c1f3" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="276" refid="classthemisdb_1_1sharding_1_1_consensus_module_1a872896a5ebf381b720a88448d0a31e07" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>nlohmann::json<sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a872896a5ebf381b720a88448d0a31e07" kindref="member">getStatus</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="282" refid="classthemisdb_1_1sharding_1_1_consensus_module_1aa6d7a8f5129bf1b2cc98a240537a0884" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1aa6d7a8f5129bf1b2cc98a240537a0884" kindref="member">onCommit</ref>(</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_log_entry" kindref="compound">ConsensusLogEntry</ref>&amp;)&gt;<sp/>callback</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="290" refid="classthemisdb_1_1sharding_1_1_consensus_module_1aee56e58061ad88aa336bc576227c62e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1aee56e58061ad88aa336bc576227c62e1" kindref="member">onStateChange</ref>(</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(<ref refid="namespacethemisdb_1_1sharding_1a9316f2eccc539fa5ed381b18bfdf205f" kindref="member">ConsensusState</ref>,<sp/><ref refid="namespacethemisdb_1_1sharding_1a9316f2eccc539fa5ed381b18bfdf205f" kindref="member">ConsensusState</ref>)&gt;<sp/>callback</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="298" refid="classthemisdb_1_1sharding_1_1_consensus_module_1af4e15a033c7c2064dfe930b0972406fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1af4e15a033c7c2064dfe930b0972406fd" kindref="member">onLeaderChange</ref>(</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;<sp/>callback</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306" refid="structthemisdb_1_1sharding_1_1_consensus_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1sharding_1_1_consensus_config" kindref="compound">ConsensusConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="307" refid="structthemisdb_1_1sharding_1_1_consensus_config_1aed1b47b471b6f3c04d5e78543af73127" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1ac79adee074eab49343ada346bcc78dcf" kindref="member">ConsensusType</ref><sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_config_1aed1b47b471b6f3c04d5e78543af73127" kindref="member">type</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1sharding_1ac79adee074eab49343ada346bcc78dcfaf831d834df040618e0117917ac0dcb62" kindref="member">ConsensusType::RAFT</ref>;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Common<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310" refid="structthemisdb_1_1sharding_1_1_consensus_config_1aaca1a059869f0f0a3d7e3a9b8e445c55" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_config_1aaca1a059869f0f0a3d7e3a9b8e445c55" kindref="member">node_id</ref>;</highlight></codeline>
+<codeline lineno="311" refid="structthemisdb_1_1sharding_1_1_consensus_config_1accf720e654faf5c0660dc61488c8baf8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_config_1accf720e654faf5c0660dc61488c8baf8" kindref="member">cluster_nodes</ref>;</highlight></codeline>
+<codeline lineno="312" refid="structthemisdb_1_1sharding_1_1_consensus_config_1a3e0064c54b2ab21d7e0896d39be179cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_config_1a3e0064c54b2ab21d7e0896d39be179cc" kindref="member">heartbeat_interval</ref>{500};</highlight></codeline>
+<codeline lineno="313" refid="structthemisdb_1_1sharding_1_1_consensus_config_1adf2a1c6d854904d2eaf142080a5b9209" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_config_1adf2a1c6d854904d2eaf142080a5b9209" kindref="member">election_timeout_min</ref>{1000};</highlight></codeline>
+<codeline lineno="314" refid="structthemisdb_1_1sharding_1_1_consensus_config_1ad2cb7031b2eeddab81b128c4842e4371" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_config_1ad2cb7031b2eeddab81b128c4842e4371" kindref="member">election_timeout_max</ref>{2000};</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Raft-specific<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317" refid="structthemisdb_1_1sharding_1_1_consensus_config_1a57487b28b31b3fb19c0c77bf4a049314" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_config_1a57487b28b31b3fb19c0c77bf4a049314" kindref="member">raft_log_max_entries</ref><sp/>=<sp/>10000;</highlight></codeline>
+<codeline lineno="318" refid="structthemisdb_1_1sharding_1_1_consensus_config_1a1f0ed266c7d812599fefc3d5e8794457" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_config_1a1f0ed266c7d812599fefc3d5e8794457" kindref="member">raft_enable_pipelining</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gossip-specific<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321" refid="structthemisdb_1_1sharding_1_1_consensus_config_1a0060209741b662f04873e28d7d726637" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_config_1a0060209741b662f04873e28d7d726637" kindref="member">gossip_fanout</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="322" refid="structthemisdb_1_1sharding_1_1_consensus_config_1a3f5017678d6635aa7fc059fba0cedb2c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_config_1a3f5017678d6635aa7fc059fba0cedb2c" kindref="member">gossip_interval</ref>{1000};</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Paxos-specific<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="325" refid="structthemisdb_1_1sharding_1_1_consensus_config_1a2e34db5ec6d2daa445421583b2f3904a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_config_1a2e34db5ec6d2daa445421583b2f3904a" kindref="member">paxos_quorum_size</ref><sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>0<sp/>=<sp/>auto-calculate<sp/>(n/2<sp/>+<sp/>1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326" refid="structthemisdb_1_1sharding_1_1_consensus_config_1a0f96d6c142b1c4d8ba709285bb1f46f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_config_1a0f96d6c142b1c4d8ba709285bb1f46f8" kindref="member">paxos_enable_fast_path</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="327" refid="structthemisdb_1_1sharding_1_1_consensus_config_1a15814d4753f9961a187afac0da7bbd6a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_config_1a15814d4753f9961a187afac0da7bbd6a" kindref="member">paxos_prepare_timeout</ref>{1000};</highlight></codeline>
+<codeline lineno="328" refid="structthemisdb_1_1sharding_1_1_consensus_config_1a61ed494b970acdedbaeb5216ac84cc8d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_config_1a61ed494b970acdedbaeb5216ac84cc8d" kindref="member">paxos_accept_timeout</ref>{500};</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Persistence<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="331" refid="structthemisdb_1_1sharding_1_1_consensus_config_1aafddc1131b1f4622b0ce2f0bdb82e263" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_config_1aafddc1131b1f4622b0ce2f0bdb82e263" kindref="member">data_dir</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;./consensus_data&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="332" refid="structthemisdb_1_1sharding_1_1_consensus_config_1ada6a6b8dc558e72d3a52e3b9717db2bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_config_1ada6a6b8dc558e72d3a52e3b9717db2bb" kindref="member">enable_persistence</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="333" refid="structthemisdb_1_1sharding_1_1_consensus_config_1a7b88d5de85de06edad682ba7eeea5219" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_config_1a7b88d5de85de06edad682ba7eeea5219" kindref="member">snapshot_interval</ref><sp/>=<sp/>1000;<sp/><sp/></highlight><highlight class="comment">//<sp/>Snapshot<sp/>every<sp/>N<sp/>entries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Network<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="336" refid="structthemisdb_1_1sharding_1_1_consensus_config_1a0e7d649ec877391be06404c6d1630cae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_config_1a0e7d649ec877391be06404c6d1630cae" kindref="member">max_batch_size</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="337" refid="structthemisdb_1_1sharding_1_1_consensus_config_1a769e6765f20c49210a7c77ac38fb50ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_config_1a769e6765f20c49210a7c77ac38fb50ac" kindref="member">rpc_timeout</ref>{5000};</highlight></codeline>
+<codeline lineno="338" refid="structthemisdb_1_1sharding_1_1_consensus_config_1a0aef100316de66798cc9b18e628c3a1a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_config_1a0aef100316de66798cc9b18e628c3a1a" kindref="member">enable_compression</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="340" refid="structthemisdb_1_1sharding_1_1_consensus_config_1a53a8e978e7da24a6be77f28a81985c2b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_config_1a53a8e978e7da24a6be77f28a81985c2b" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemisdb_1_1sharding_1_1_consensus_config_1aed1b47b471b6f3c04d5e78543af73127" kindref="member">type</ref>)},</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;node_id&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_config_1aaca1a059869f0f0a3d7e3a9b8e445c55" kindref="member">node_id</ref>},</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;cluster_nodes&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_config_1accf720e654faf5c0660dc61488c8baf8" kindref="member">cluster_nodes</ref>},</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;heartbeat_interval_ms&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_config_1a3e0064c54b2ab21d7e0896d39be179cc" kindref="member">heartbeat_interval</ref>.count()},</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;election_timeout_min_ms&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_config_1adf2a1c6d854904d2eaf142080a5b9209" kindref="member">election_timeout_min</ref>.count()},</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;election_timeout_max_ms&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_config_1ad2cb7031b2eeddab81b128c4842e4371" kindref="member">election_timeout_max</ref>.count()},</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;data_dir&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_config_1aafddc1131b1f4622b0ce2f0bdb82e263" kindref="member">data_dir</ref>},</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;enable_persistence&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_config_1ada6a6b8dc558e72d3a52e3b9717db2bb" kindref="member">enable_persistence</ref>}</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="352"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>sharding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/sharding/consensus_module.h"/>
+  </compounddef>
+</doxygen>

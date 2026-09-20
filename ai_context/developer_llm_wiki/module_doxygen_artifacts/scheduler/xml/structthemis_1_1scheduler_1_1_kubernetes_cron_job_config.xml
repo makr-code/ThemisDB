@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::scheduler::KubernetesCronJobConfig</compoundname>
+    <includes refid="external__scheduler__adapter_8h" local="no">external_scheduler_adapter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config_1ae1e285cd54539b5d367f1cc4e1f4d0d3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::KubernetesCronJobConfig::k8s_namespace</definition>
+        <argsstring></argsstring>
+        <name>k8s_namespace</name>
+        <qualifiedname>themis::scheduler::KubernetesCronJobConfig::k8s_namespace</qualifiedname>
+        <initializer>= &quot;default&quot;</initializer>
+        <briefdescription>
+<para>Kubernetes namespace (defaults to &quot;default&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/external_scheduler_adapter.h" line="41" column="17" bodyfile="include/scheduler/external_scheduler_adapter.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config_1aad2c22254bbade2acb54cd60e80932e5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::KubernetesCronJobConfig::job_image</definition>
+        <argsstring></argsstring>
+        <name>job_image</name>
+        <qualifiedname>themis::scheduler::KubernetesCronJobConfig::job_image</qualifiedname>
+        <initializer>= &quot;curlimages/curl:8.6.0&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Container image used inside the CronJob pod. The image must include curl or an equivalent HTTP client. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/external_scheduler_adapter.h" line="45" column="17" bodyfile="include/scheduler/external_scheduler_adapter.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config_1a0920d88dd4587238326d338e9c2e4844" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::KubernetesCronJobConfig::themisdb_base_url</definition>
+        <argsstring></argsstring>
+        <name>themisdb_base_url</name>
+        <qualifiedname>themis::scheduler::KubernetesCronJobConfig::themisdb_base_url</qualifiedname>
+        <briefdescription>
+<para>Base URL of the ThemisDB HTTP API, e.g. &quot;https://themisdb.example.com&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/external_scheduler_adapter.h" line="48" column="17" bodyfile="include/scheduler/external_scheduler_adapter.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config_1a0966e4cdf5aba20a088ae7ba730348e9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::KubernetesCronJobConfig::api_token_secret_name</definition>
+        <argsstring></argsstring>
+        <name>api_token_secret_name</name>
+        <qualifiedname>themis::scheduler::KubernetesCronJobConfig::api_token_secret_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Optional Bearer token for authenticating with the ThemisDB API. When set, the generated manifest references a Kubernetes Secret named &quot;themisdb-api-token&quot; and reads the token from the &quot;token&quot; key. Leave empty to generate an unauthenticated manifest. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/external_scheduler_adapter.h" line="54" column="17" bodyfile="include/scheduler/external_scheduler_adapter.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config_1ae1726dfe5471f9c319b88cb864165555" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::scheduler::KubernetesCronJobConfig::successful_jobs_history_limit</definition>
+        <argsstring></argsstring>
+        <name>successful_jobs_history_limit</name>
+        <qualifiedname>themis::scheduler::KubernetesCronJobConfig::successful_jobs_history_limit</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>How many completed Jobs to keep for inspection (successfulJobsHistoryLimit). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/external_scheduler_adapter.h" line="57" column="13" bodyfile="include/scheduler/external_scheduler_adapter.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config_1a265df0eeefe35f2fd0fe20a9bada3358" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::scheduler::KubernetesCronJobConfig::failed_jobs_history_limit</definition>
+        <argsstring></argsstring>
+        <name>failed_jobs_history_limit</name>
+        <qualifiedname>themis::scheduler::KubernetesCronJobConfig::failed_jobs_history_limit</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>How many failed Jobs to keep (failedJobsHistoryLimit). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/external_scheduler_adapter.h" line="60" column="13" bodyfile="include/scheduler/external_scheduler_adapter.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config_1a83c8f7f6dd7ead5d37584e1fd313aecd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::scheduler::KubernetesCronJobConfig::suspend</definition>
+        <argsstring></argsstring>
+        <name>suspend</name>
+        <qualifiedname>themis::scheduler::KubernetesCronJobConfig::suspend</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether to suspend new CronJob executions (spec.suspend). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/external_scheduler_adapter.h" line="63" column="10" bodyfile="include/scheduler/external_scheduler_adapter.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config_1a26208eaa0205eda9422888aed1e91f40" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, std::string&gt; &gt; themis::scheduler::KubernetesCronJobConfig::extra_labels</definition>
+        <argsstring></argsstring>
+        <name>extra_labels</name>
+        <qualifiedname>themis::scheduler::KubernetesCronJobConfig::extra_labels</qualifiedname>
+        <briefdescription>
+<para>Extra labels to add to the generated CronJob resource. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/external_scheduler_adapter.h" line="66" column="17" bodyfile="include/scheduler/external_scheduler_adapter.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration shared across all Kubernetes CronJob manifests generated from ThemisDB tasks. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/scheduler/external_scheduler_adapter.h" line="39" column="1" bodyfile="include/scheduler/external_scheduler_adapter.h" bodystart="39" bodyend="67"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config_1a0966e4cdf5aba20a088ae7ba730348e9" prot="public" virt="non-virtual"><scope>themis::scheduler::KubernetesCronJobConfig</scope><name>api_token_secret_name</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config_1a26208eaa0205eda9422888aed1e91f40" prot="public" virt="non-virtual"><scope>themis::scheduler::KubernetesCronJobConfig</scope><name>extra_labels</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config_1a265df0eeefe35f2fd0fe20a9bada3358" prot="public" virt="non-virtual"><scope>themis::scheduler::KubernetesCronJobConfig</scope><name>failed_jobs_history_limit</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config_1aad2c22254bbade2acb54cd60e80932e5" prot="public" virt="non-virtual"><scope>themis::scheduler::KubernetesCronJobConfig</scope><name>job_image</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config_1ae1e285cd54539b5d367f1cc4e1f4d0d3" prot="public" virt="non-virtual"><scope>themis::scheduler::KubernetesCronJobConfig</scope><name>k8s_namespace</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config_1ae1726dfe5471f9c319b88cb864165555" prot="public" virt="non-virtual"><scope>themis::scheduler::KubernetesCronJobConfig</scope><name>successful_jobs_history_limit</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config_1a83c8f7f6dd7ead5d37584e1fd313aecd" prot="public" virt="non-virtual"><scope>themis::scheduler::KubernetesCronJobConfig</scope><name>suspend</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config_1a0920d88dd4587238326d338e9c2e4844" prot="public" virt="non-virtual"><scope>themis::scheduler::KubernetesCronJobConfig</scope><name>themisdb_base_url</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

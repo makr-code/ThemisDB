@@ -1,0 +1,660 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="function__registry_8cpp" kind="file" language="C++">
+    <compoundname>function_registry.cpp</compoundname>
+    <includes refid="function__registry_8h" local="yes">query/functions/function_registry.h</includes>
+    <includes refid="string__functions_8h" local="yes">query/functions/string_functions.h</includes>
+    <includes refid="math__functions_8h" local="yes">query/functions/math_functions.h</includes>
+    <includes refid="array__functions_8h" local="yes">query/functions/array_functions.h</includes>
+    <includes refid="date__functions_8h" local="yes">query/functions/date_functions.h</includes>
+    <includes refid="document__functions_8h" local="yes">query/functions/document_functions.h</includes>
+    <includes refid="json__path__functions_8h" local="yes">query/functions/json_path_functions.h</includes>
+    <includes refid="geo__functions_8h" local="yes">query/functions/geo_functions.h</includes>
+    <includes refid="crs__functions_8h" local="yes">query/functions/crs_functions.h</includes>
+    <includes refid="vector__functions_8h" local="yes">query/functions/vector_functions.h</includes>
+    <includes refid="graph__functions_8h" local="yes">query/functions/graph_functions.h</includes>
+    <includes refid="graph__extensions_8h" local="yes">query/functions/graph_extensions.h</includes>
+    <includes refid="relational__functions_8h" local="yes">query/functions/relational_functions.h</includes>
+    <includes refid="file__functions_8h" local="yes">query/functions/file_functions.h</includes>
+    <includes refid="collection__functions_8h" local="yes">query/functions/collection_functions.h</includes>
+    <includes refid="security__functions_8h" local="yes">query/functions/security_functions.h</includes>
+    <includes refid="graphql__functions_8h" local="yes">query/functions/graphql_functions.h</includes>
+    <includes refid="ethics__functions_8h" local="yes">query/functions/ethics_functions.h</includes>
+    <includes refid="process__mining__functions_8h" local="yes">query/functions/process_mining_functions.h</includes>
+    <includes refid="fulltext__functions_8h" local="yes">query/functions/fulltext_functions.h</includes>
+    <includes refid="tensor__functions_8h" local="yes">query/functions/tensor_functions.h</includes>
+    <includes local="no">iostream</includes>
+    <includes local="no">stdexcept</includes>
+    <incdepgraph>
+      <node id="21">
+        <label>query/functions/array_functions.h</label>
+        <link refid="array__functions_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="43">
+        <label>query/functions/collection_functions.h</label>
+        <link refid="collection__functions_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>query/functions/crs_functions.h</label>
+        <link refid="crs__functions_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>query/functions/date_functions.h</label>
+        <link refid="date__functions_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>query/functions/document_functions.h</label>
+        <link refid="document__functions_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="53">
+        <label>query/functions/ethics_functions.h</label>
+        <link refid="ethics__functions_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="42">
+        <label>query/functions/file_functions.h</label>
+        <link refid="file__functions_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="57">
+        <label>query/functions/fulltext_functions.h</label>
+        <link refid="fulltext__functions_8h"/>
+      </node>
+      <node id="2">
+        <label>query/functions/function_registry.h</label>
+        <link refid="function__registry_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>query/functions/geo_functions.h</label>
+        <link refid="geo__functions_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="40">
+        <label>query/functions/graph_extensions.h</label>
+        <link refid="graph__extensions_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="36">
+        <label>query/functions/graph_functions.h</label>
+        <link refid="graph__functions_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="50">
+        <label>query/functions/graphql_functions.h</label>
+        <link refid="graphql__functions_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="44">
+        <label>query/functions/holiday_provider.h</label>
+        <link refid="holiday__provider_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>query/functions/json_path_functions.h</label>
+        <link refid="json__path__functions_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>query/functions/math_functions.h</label>
+        <link refid="math__functions_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="54">
+        <label>query/functions/process_mining_functions.h</label>
+        <link refid="process__mining__functions_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+      </node>
+      <node id="41">
+        <label>query/functions/relational_functions.h</label>
+        <link refid="relational__functions_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="49">
+        <label>query/functions/security_functions.h</label>
+        <link refid="security__functions_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>query/functions/string_functions.h</label>
+        <link refid="string__functions_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="58">
+        <label>query/functions/tensor_functions.h</label>
+        <link refid="tensor__functions_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>query/functions/vector_functions.h</label>
+        <link refid="vector__functions_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/query/functions/function_registry.cpp</label>
+        <link refid="function__registry_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>algorithm</label>
+      </node>
+      <node id="56">
+        <label>analytics/process_mining.h</label>
+      </node>
+      <node id="55">
+        <label>analytics/process_pattern_matcher.h</label>
+      </node>
+      <node id="51">
+        <label>api/graphql.h</label>
+      </node>
+      <node id="52">
+        <label>api/graphql_aql_resolver.h</label>
+      </node>
+      <node id="12">
+        <label>cctype</label>
+      </node>
+      <node id="24">
+        <label>chrono</label>
+      </node>
+      <node id="17">
+        <label>cmath</label>
+      </node>
+      <node id="35">
+        <label>cstddef</label>
+      </node>
+      <node id="16">
+        <label>cstdint</label>
+      </node>
+      <node id="25">
+        <label>ctime</label>
+      </node>
+      <node id="48">
+        <label>filesystem</label>
+      </node>
+      <node id="47">
+        <label>fstream</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="30">
+        <label>geo/spatial_backend.h</label>
+      </node>
+      <node id="26">
+        <label>iomanip</label>
+      </node>
+      <node id="59">
+        <label>iostream</label>
+      </node>
+      <node id="20">
+        <label>limits</label>
+      </node>
+      <node id="45">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="46">
+        <label>mutex</label>
+      </node>
+      <node id="3">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="19">
+        <label>numeric</label>
+      </node>
+      <node id="38">
+        <label>queue</label>
+      </node>
+      <node id="18">
+        <label>random</label>
+      </node>
+      <node id="14">
+        <label>regex</label>
+      </node>
+      <node id="22">
+        <label>set</label>
+      </node>
+      <node id="13">
+        <label>sstream</label>
+      </node>
+      <node id="39">
+        <label>stack</label>
+      </node>
+      <node id="9">
+        <label>stdexcept</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="33">
+        <label>tuple</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="37">
+        <label>unordered_set</label>
+      </node>
+      <node id="31">
+        <label>utils/geo/ewkb.h</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query_1_1functions">themis::query::functions</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="function__registry_8h" kindref="compound">query/functions/function_registry.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="string__functions_8h" kindref="compound">query/functions/string_functions.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="math__functions_8h" kindref="compound">query/functions/math_functions.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="array__functions_8h" kindref="compound">query/functions/array_functions.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="date__functions_8h" kindref="compound">query/functions/date_functions.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="document__functions_8h" kindref="compound">query/functions/document_functions.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="json__path__functions_8h" kindref="compound">query/functions/json_path_functions.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="geo__functions_8h" kindref="compound">query/functions/geo_functions.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="crs__functions_8h" kindref="compound">query/functions/crs_functions.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="vector__functions_8h" kindref="compound">query/functions/vector_functions.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="graph__functions_8h" kindref="compound">query/functions/graph_functions.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="graph__extensions_8h" kindref="compound">query/functions/graph_extensions.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="relational__functions_8h" kindref="compound">query/functions/relational_functions.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="file__functions_8h" kindref="compound">query/functions/file_functions.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="collection__functions_8h" kindref="compound">query/functions/collection_functions.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="security__functions_8h" kindref="compound">query/functions/security_functions.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="graphql__functions_8h" kindref="compound">query/functions/graphql_functions.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_LLM</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lora__functions_8h" kindref="compound">query/functions/lora_functions.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;aql/classify_bridge.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ethics__functions_8h" kindref="compound">query/functions/ethics_functions.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="process__mining__functions_8h" kindref="compound">query/functions/process_mining_functions.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="fulltext__functions_8h" kindref="compound">query/functions/fulltext_functions.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="tensor__functions_8h" kindref="compound">query/functions/tensor_functions.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query_1_1functions" kindref="compound">functions</ref><sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1_1functions_1af8ad580507df1f9d7f896e7c833e95a7" kindref="member">registerBuiltinFunctions</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>registry<sp/>=<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a78b3dc8d65e16781b09347f86702f33c" kindref="member">FunctionRegistry::instance</ref>();</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Core<sp/>data<sp/>manipulation<sp/>functions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a37b6f945a12a258f4abcf4b4b7a2860f" kindref="member">registerStringFunctions</ref>(registry);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a2bc5bd473c68f64f706a088b6dcfa2ae" kindref="member">registerMathFunctions</ref>(registry);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a426d214d2b0813a2ced9d9c143720ba6" kindref="member">registerArrayFunctions</ref>(registry);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1adc1002cbe0053c2adba1d333623ad7da" kindref="member">registerDateFunctions</ref>(registry);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ae26c3e3a19d080e0a578a37e149a2603" kindref="member">registerDocumentFunctions</ref>(registry);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1aee7cffbd2c087856232146b3e3c6d54f" kindref="member">registerJsonPathFunctions</ref>(registry);<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>JSONPath<sp/>query<sp/>functions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Multi-model<sp/>functions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1adbbc51a4b49079229f6c30c23f4b810b" kindref="member">registerGeoFunctions</ref>(registry);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Spatial/GIS<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a8d73af4482c1d1db09f5cbd99370d5f5" kindref="member">registerCrsFunctions</ref>(registry);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Coordinate<sp/>transformations<sp/>(ETRS89,<sp/>UTM,<sp/>etc.)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ac969629d17cd80effe7dd2e223cbfbb1" kindref="member">registerVectorFunctions</ref>(registry);<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ML<sp/>embeddings<sp/>&amp;<sp/>similarity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a99bab123faaf261aac0137b73ab1812f" kindref="member">registerGraphFunctions</ref>(registry);<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Graph<sp/>traversal<sp/>&amp;<sp/>analysis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ae4bc8ef97aa15ef05eb0217a99e5dfa7" kindref="member">registerGraphExtensions</ref>(registry);<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Advanced<sp/>graph<sp/>functions<sp/>(betweenness<sp/>centrality,<sp/>community<sp/>detection)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SQL-compatible<sp/>functions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a247a8c18ffd53533d2a1c8ce3aaf8ddf" kindref="member">registerRelationalFunctions</ref>(registry);<sp/><sp/></highlight><highlight class="comment">//<sp/>Joins,<sp/>aggregation,<sp/>window<sp/>functions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>File/storage<sp/>functions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a7ecf9e13ce908410dcdf90592c467448" kindref="member">registerFileFunctions</ref>(registry);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Path<sp/>manipulation,<sp/>MIME<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Collection<sp/>and<sp/>logical<sp/>functions<sp/>(JSON-native,<sp/>Excel-style)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Includes:<sp/>ARRAY,<sp/>DICT,<sp/>JSON,<sp/>HOLIDAYS,<sp/>AND,<sp/>OR,<sp/>IF,<sp/>SWITCH,<sp/>ALL,<sp/>ANY,<sp/>etc.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a9b7fe4d0fdf1e979d4a8d1c2a3429c0c" kindref="member">registerCollectionFunctions</ref>(registry);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Security<sp/>functions<sp/>(validation,<sp/>sanitization,<sp/>masking)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Includes:<sp/>IS_EMAIL,<sp/>IS_URL,<sp/>IS_UUID,<sp/>SANITIZE,<sp/>HAS_INJECTION,<sp/>MASK,<sp/>etc.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1add0c96e958303ec62fc4cb4b4dc55261" kindref="member">registerSecurityFunctions</ref>();</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GraphQL<sp/>integration<sp/>function</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Includes:<sp/>GRAPHQL(query,<sp/>variables?)<sp/>–<sp/>execute<sp/>embedded<sp/>GraphQL<sp/>documents</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cost:<sp/>CostComplexity::EXTERNAL<sp/>(base_cost=100)<sp/>–<sp/>treated<sp/>as<sp/>expensive<sp/>I/O</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>by<sp/>the<sp/>optimizer;<sp/>complexity<sp/>guard<sp/>rejects<sp/>queries<sp/>&gt;<sp/>kGraphQLMaxComplexity.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a14210737bd96007ce211cf4140f139ba" kindref="member">registerGraphQLFunctions</ref>(registry);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_LLM</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LoRA<sp/>functions<sp/>(LLM<sp/>adapter<sp/>management<sp/>and<sp/>operations)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Includes:<sp/>LORA_TRAIN,<sp/>LORA_QUERY,<sp/>LORA_SIMILAR,<sp/>LORA_PATH,<sp/>LORA_STATS,<sp/>LORA_RECOMMEND,<sp/>LORA_LINEAGE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a96a18a454540459f68498e5545929cf4" kindref="member">registerLoRAFunctions</ref>(registry);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wire<sp/>the<sp/>CLASSIFY<sp/>bridge<sp/>into<sp/>DocsAssistantFunctions<sp/>so<sp/>that</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>detectIntentWithNativeNLP()<sp/>uses<sp/>the<sp/>native<sp/>NLP<sp/>path<sp/>instead<sp/>of</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>always<sp/>falling<sp/>through<sp/>to<sp/>the<sp/>LLM<sp/>intent-detection<sp/>round-trip.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::aql::registerClassifyBridge();</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Ethics<sp/>AI<sp/>functions<sp/>(ethical<sp/>decision-making<sp/>and<sp/>evaluation)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Includes:<sp/>ETHICS_MAKE_DECISION,<sp/>ETHICS_EVALUATE,<sp/>ETHICS_GET_ARGUMENTS,<sp/>ETHICS_FIND_SIMILAR_DILEMMAS,<sp/>etc.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a1eb402bcd51af2edc9f4a462c9664216" kindref="member">registerEthicsFunctions</ref>(registry);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Process<sp/>Mining<sp/>functions<sp/>(process<sp/>discovery,<sp/>conformance<sp/>checking,<sp/>pattern<sp/>matching)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Includes:<sp/>PM_EXTRACT_LOG,<sp/>PM_DISCOVER_PROCESS,<sp/>PM_FIND_SIMILAR,<sp/>PM_COMPARE_IDEAL,<sp/>PM_CONFORMANCE,<sp/>etc.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1ad4498136ac81b91936c92696c4a12417" kindref="member">registerProcessMiningFunctions</ref>(registry);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tensor<sp/>Network<sp/>functions<sp/>(TT-compressed<sp/>domain<sp/>operations)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Includes:<sp/>TENSOR_SIMILARITY,<sp/>TENSOR_NORM,<sp/>TENSOR_SLICE,<sp/>TENSOR_COMPRESS,<sp/>TENSOR_INFO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Ref:<sp/>Oseledets<sp/>(2011)<sp/>TT-SVD;<sp/>Holtz<sp/>et<sp/>al.<sp/>(2012)<sp/>TT-format<sp/>algebra</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a3e09f2c1eb657a99cd7b3257a5f72479" kindref="member">registerTensorFunctions</ref>(registry);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fulltext<sp/>functions<sp/>(search,<sp/>phrase<sp/>matching,<sp/>fuzzy<sp/>search,<sp/>n-gram<sp/>similarity)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Includes:<sp/>FULLTEXT,<sp/>PHRASE,<sp/>FUZZY,<sp/>NGRAM_MATCH,<sp/>TOKENS,<sp/>SOUNDEX,<sp/>METAPHONE,<sp/>DOUBLE_METAPHONE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1aca5c3501e5d47138f3fbe2fb91d2e520" kindref="member">registerFulltextFunctions</ref>(registry);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>ex)<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Re-throw<sp/>with<sp/>more<sp/>context<sp/>-<sp/>will<sp/>be<sp/>caught<sp/>by<sp/>FunctionRegistryInitializer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;registerBuiltinFunctions()<sp/>exception:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>ex.what()<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(std::string(</highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>register<sp/>builtin<sp/>functions:<sp/>&quot;</highlight><highlight class="normal">)<sp/>+<sp/>ex.what());</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>functions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/query/functions/function_registry.cpp"/>
+  </compounddef>
+</doxygen>

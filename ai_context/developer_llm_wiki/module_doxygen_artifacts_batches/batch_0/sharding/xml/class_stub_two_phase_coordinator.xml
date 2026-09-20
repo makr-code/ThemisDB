@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_two_phase_coordinator" kind="class" language="C++" prot="public">
+    <compoundname>StubTwoPhaseCoordinator</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_two_phase_coordinator_1a587e4f24a896b0713faa7085743041c7" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="struct_stub_txn_record" kindref="compound">StubTxnRecord</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, StubTxnRecord&gt; StubTwoPhaseCoordinator::txns_</definition>
+        <argsstring></argsstring>
+        <name>txns_</name>
+        <qualifiedname>StubTwoPhaseCoordinator::txns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_contract_hardening_focused.cpp" line="167" column="24" bodyfile="tests/sharding/test_sharding_contract_hardening_focused.cpp" bodystart="167" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_two_phase_coordinator_1a39be649a9f4e573f653069b6cba118b2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62" kindref="member">ShardingErrorCode</ref></type>
+        <definition>ShardingErrorCode StubTwoPhaseCoordinator::prepare</definition>
+        <argsstring>(const std::string &amp;txn_id)</argsstring>
+        <name>prepare</name>
+        <qualifiedname>StubTwoPhaseCoordinator::prepare</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_contract_hardening_focused.cpp" line="110" column="23" bodyfile="tests/sharding/test_sharding_contract_hardening_focused.cpp" bodystart="110" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_two_phase_coordinator_1aeef2cba97ea8d79bd2fcf14312bd0472" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62" kindref="member">ShardingErrorCode</ref></type>
+        <definition>ShardingErrorCode StubTwoPhaseCoordinator::commit</definition>
+        <argsstring>(const std::string &amp;txn_id)</argsstring>
+        <name>commit</name>
+        <qualifiedname>StubTwoPhaseCoordinator::commit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_contract_hardening_focused.cpp" line="120" column="23" bodyfile="tests/sharding/test_sharding_contract_hardening_focused.cpp" bodystart="120" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_two_phase_coordinator_1aa95768a601dfd7ce6a141518e7bc9f28" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62" kindref="member">ShardingErrorCode</ref></type>
+        <definition>ShardingErrorCode StubTwoPhaseCoordinator::abort</definition>
+        <argsstring>(const std::string &amp;txn_id)</argsstring>
+        <name>abort</name>
+        <qualifiedname>StubTwoPhaseCoordinator::abort</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_contract_hardening_focused.cpp" line="136" column="23" bodyfile="tests/sharding/test_sharding_contract_hardening_focused.cpp" bodystart="136" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_two_phase_coordinator_1a1a97e2221694561a804a006499d9d00f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubTwoPhaseCoordinator::simulateCoordinatorCrash</definition>
+        <argsstring>()</argsstring>
+        <name>simulateCoordinatorCrash</name>
+        <qualifiedname>StubTwoPhaseCoordinator::simulateCoordinatorCrash</qualifiedname>
+        <briefdescription>
+<para>Simulate coordinator crash: put in-flight prepared txns into IN_DOUBT. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_contract_hardening_focused.cpp" line="150" column="10" bodyfile="tests/sharding/test_sharding_contract_hardening_focused.cpp" bodystart="150" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_two_phase_coordinator_1a4564d87e993ba4ac6c2961bd6ebabe52" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="test__sharding__contract__hardening__focused_8cpp_1abcd56509bf0772b91d88629447db0176" kindref="member">TxnState</ref></type>
+        <definition>TxnState StubTwoPhaseCoordinator::stateOf</definition>
+        <argsstring>(const std::string &amp;txn_id) const</argsstring>
+        <name>stateOf</name>
+        <qualifiedname>StubTwoPhaseCoordinator::stateOf</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_contract_hardening_focused.cpp" line="158" column="14" bodyfile="tests/sharding/test_sharding_contract_hardening_focused.cpp" bodystart="158" bodyend="164"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stub distributed coordinator implementing 2PC contract (§2). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_contract_hardening_focused.cpp" line="108" column="1" bodyfile="tests/sharding/test_sharding_contract_hardening_focused.cpp" bodystart="108" bodyend="168"/>
+    <listofallmembers>
+      <member refid="class_stub_two_phase_coordinator_1aa95768a601dfd7ce6a141518e7bc9f28" prot="public" virt="non-virtual"><scope>StubTwoPhaseCoordinator</scope><name>abort</name></member>
+      <member refid="class_stub_two_phase_coordinator_1aeef2cba97ea8d79bd2fcf14312bd0472" prot="public" virt="non-virtual"><scope>StubTwoPhaseCoordinator</scope><name>commit</name></member>
+      <member refid="class_stub_two_phase_coordinator_1a39be649a9f4e573f653069b6cba118b2" prot="public" virt="non-virtual"><scope>StubTwoPhaseCoordinator</scope><name>prepare</name></member>
+      <member refid="class_stub_two_phase_coordinator_1a1a97e2221694561a804a006499d9d00f" prot="public" virt="non-virtual"><scope>StubTwoPhaseCoordinator</scope><name>simulateCoordinatorCrash</name></member>
+      <member refid="class_stub_two_phase_coordinator_1a4564d87e993ba4ac6c2961bd6ebabe52" prot="public" virt="non-virtual"><scope>StubTwoPhaseCoordinator</scope><name>stateOf</name></member>
+      <member refid="class_stub_two_phase_coordinator_1a587e4f24a896b0713faa7085743041c7" prot="private" virt="non-virtual"><scope>StubTwoPhaseCoordinator</scope><name>txns_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

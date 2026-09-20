@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_incident_taxonomy_test" kind="class" language="C++" prot="public">
+    <compoundname>IncidentTaxonomyTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="class_incident_taxonomy_test_1a6b4dfa6270dafe0f9d1ecb6cadf2f338" prot="public" static="yes" mutable="no">
+        <type><ref refid="class_incident_taxonomy_test" kindref="compound">IncidentTaxonomyTest</ref> *</type>
+        <definition>IncidentTaxonomyTest * IncidentTaxonomyTest::s_active</definition>
+        <argsstring></argsstring>
+        <name>s_active</name>
+        <qualifiedname>IncidentTaxonomyTest::s_active</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_error_path_phase3.cpp" line="36" column="33" bodyfile="tests/timeseries/test_timeseries_error_path_phase3.cpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_incident_taxonomy_test_1a7b11562d03bbba77e9fedc39fbd412e0" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1timeseries_1_1_incident" kindref="compound">Incident</ref> &gt;</type>
+        <definition>std::vector&lt;Incident&gt; IncidentTaxonomyTest::captured_incidents</definition>
+        <argsstring></argsstring>
+        <name>captured_incidents</name>
+        <qualifiedname>IncidentTaxonomyTest::captured_incidents</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_error_path_phase3.cpp" line="52" column="17" bodyfile="tests/timeseries/test_timeseries_error_path_phase3.cpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_incident_taxonomy_test_1ad98fee8ecd08b0a2226032622fa4be49" prot="protected" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; IncidentTaxonomyTest::handler_call_count</definition>
+        <argsstring></argsstring>
+        <name>handler_call_count</name>
+        <qualifiedname>IncidentTaxonomyTest::handler_call_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_error_path_phase3.cpp" line="53" column="19" bodyfile="tests/timeseries/test_timeseries_error_path_phase3.cpp" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_incident_taxonomy_test_1abf82fb1f7c704fefac24fca234537509" prot="protected" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex IncidentTaxonomyTest::incidents_mutex_</definition>
+        <argsstring></argsstring>
+        <name>incidents_mutex_</name>
+        <qualifiedname>IncidentTaxonomyTest::incidents_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_error_path_phase3.cpp" line="54" column="27" bodyfile="tests/timeseries/test_timeseries_error_path_phase3.cpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_incident_taxonomy_test_1a2a38cc79f1f9826c08e15bd6f4b2d636" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void IncidentTaxonomyTest::staticHandler</definition>
+        <argsstring>(const Incident &amp;incident) noexcept</argsstring>
+        <name>staticHandler</name>
+        <qualifiedname>IncidentTaxonomyTest::staticHandler</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1timeseries_1_1_incident" kindref="compound">Incident</ref> &amp;</type>
+          <declname>incident</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_error_path_phase3.cpp" line="39" column="17" bodyfile="tests/timeseries/test_timeseries_error_path_phase3.cpp" bodystart="39" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_incident_taxonomy_test_1a55a35de7344709cf08930f64a5883b5b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void IncidentTaxonomyTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>IncidentTaxonomyTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_error_path_phase3.cpp" line="56" column="10" bodyfile="tests/timeseries/test_timeseries_error_path_phase3.cpp" bodystart="56" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="class_incident_taxonomy_test_1afef787a5a45351181756c204645ce033" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void IncidentTaxonomyTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>IncidentTaxonomyTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_error_path_phase3.cpp" line="63" column="10" bodyfile="tests/timeseries/test_timeseries_error_path_phase3.cpp" bodystart="63" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="class_incident_taxonomy_test_1a640fd09a4a2182f47dd6928c00598fe1" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1timeseries_1_1_incident" kindref="compound">Incident</ref></type>
+        <definition>Incident IncidentTaxonomyTest::lastIncident</definition>
+        <argsstring>() const</argsstring>
+        <name>lastIncident</name>
+        <qualifiedname>IncidentTaxonomyTest::lastIncident</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/timeseries/test_timeseries_error_path_phase3.cpp" line="69" column="14" bodyfile="tests/timeseries/test_timeseries_error_path_phase3.cpp" bodystart="69" bodyend="73"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>IncidentTaxonomyTest</label>
+        <link refid="class_incident_taxonomy_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>IncidentTaxonomyTest</label>
+        <link refid="class_incident_taxonomy_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="1" relation="usage">
+          <edgelabel>s_active</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/timeseries/test_timeseries_error_path_phase3.cpp" line="32" column="1" bodyfile="tests/timeseries/test_timeseries_error_path_phase3.cpp" bodystart="32" bodyend="74"/>
+    <listofallmembers>
+      <member refid="class_incident_taxonomy_test_1a7b11562d03bbba77e9fedc39fbd412e0" prot="protected" virt="non-virtual"><scope>IncidentTaxonomyTest</scope><name>captured_incidents</name></member>
+      <member refid="class_incident_taxonomy_test_1ad98fee8ecd08b0a2226032622fa4be49" prot="protected" virt="non-virtual"><scope>IncidentTaxonomyTest</scope><name>handler_call_count</name></member>
+      <member refid="class_incident_taxonomy_test_1abf82fb1f7c704fefac24fca234537509" prot="protected" virt="non-virtual"><scope>IncidentTaxonomyTest</scope><name>incidents_mutex_</name></member>
+      <member refid="class_incident_taxonomy_test_1a640fd09a4a2182f47dd6928c00598fe1" prot="protected" virt="non-virtual"><scope>IncidentTaxonomyTest</scope><name>lastIncident</name></member>
+      <member refid="class_incident_taxonomy_test_1a6b4dfa6270dafe0f9d1ecb6cadf2f338" prot="public" virt="non-virtual"><scope>IncidentTaxonomyTest</scope><name>s_active</name></member>
+      <member refid="class_incident_taxonomy_test_1a55a35de7344709cf08930f64a5883b5b" prot="protected" virt="non-virtual"><scope>IncidentTaxonomyTest</scope><name>SetUp</name></member>
+      <member refid="class_incident_taxonomy_test_1a2a38cc79f1f9826c08e15bd6f4b2d636" prot="public" virt="non-virtual"><scope>IncidentTaxonomyTest</scope><name>staticHandler</name></member>
+      <member refid="class_incident_taxonomy_test_1afef787a5a45351181756c204645ce033" prot="protected" virt="non-virtual"><scope>IncidentTaxonomyTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

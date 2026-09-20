@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_f4cfaa6d0a7333432a1713e607918a55" kind="dir">
+    <compoundname>tests/governance</compoundname>
+    <innerfile refid="test__audit__integrity_8cpp">test_audit_integrity.cpp</innerfile>
+    <innerfile refid="test__compliance__framework_8cpp">test_compliance_framework.cpp</innerfile>
+    <innerfile refid="test__governance__compliance__time__window_8cpp">test_governance_compliance_time_window.cpp</innerfile>
+    <innerfile refid="test__governance__contract__hardening__focused_8cpp">test_governance_contract_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__governance__highcardinality__stress_8cpp">test_governance_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__governance__llm__policy__focused_8cpp">test_governance_llm_policy_focused.cpp</innerfile>
+    <innerfile refid="test__governance__opa__adapter_8cpp">test_governance_opa_adapter.cpp</innerfile>
+    <innerfile refid="test__governance__phase2__phase3__focused_8cpp">test_governance_phase2_phase3_focused.cpp</innerfile>
+    <innerfile refid="test__governance__phase2b__phase3a__focused_8cpp">test_governance_phase2b_phase3a_focused.cpp</innerfile>
+    <innerfile refid="test__governance__phase2c__lineage__backpressure__focused_8cpp">test_governance_phase2c_lineage_backpressure_focused.cpp</innerfile>
+    <innerfile refid="test__governance__phase3b__extended__focused_8cpp">test_governance_phase3b_extended_focused.cpp</innerfile>
+    <innerfile refid="test__governance__policy__hot__reload_8cpp">test_governance_policy_hot_reload.cpp</innerfile>
+    <innerfile refid="test__governance__policy__simulation_8cpp">test_governance_policy_simulation.cpp</innerfile>
+    <innerfile refid="test__governance__review__scheduler_8cpp">test_governance_review_scheduler.cpp</innerfile>
+    <innerfile refid="test__operational__audit__evidence_8cpp">test_operational_audit_evidence.cpp</innerfile>
+    <innerfile refid="test__policy__versioning__and__approval_8cpp">test_policy_versioning_and_approval.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/governance/"/>
+  </compounddef>
+</doxygen>

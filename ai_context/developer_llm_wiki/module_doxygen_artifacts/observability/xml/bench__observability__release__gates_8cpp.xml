@@ -1,0 +1,521 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__observability__release__gates_8cpp" kind="file" language="C++">
+    <compoundname>bench_observability_release_gates.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes refid="observability__api__contract_8h" local="yes">observability/observability_api_contract.h</includes>
+    <includes refid="metrics__collector_8h" local="yes">observability/metrics_collector.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">random</includes>
+    <includes local="no">sstream</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/observability/bench_observability_release_gates.cpp</label>
+        <link refid="bench__observability__release__gates_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>observability/metrics_collector.h</label>
+        <link refid="metrics__collector_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>observability/observability_api_contract.h</label>
+        <link refid="observability__api__contract_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>algorithm</label>
+      </node>
+      <node id="12">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>map</label>
+      </node>
+      <node id="13">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="15">
+        <label>random</label>
+      </node>
+      <node id="11">
+        <label>shared_mutex</label>
+      </node>
+      <node id="16">
+        <label>sstream</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1bench_1_1org_1_1_bench_histogram" prot="public">themis::bench::org::BenchHistogram</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1org_1_1_bench_span" prot="public">themis::bench::org::BenchSpan</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1org_1_1_bench_slo_window" prot="public">themis::bench::org::BenchSloWindow</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1org_1_1_bench_metric" prot="public">themis::bench::org::BenchMetric</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1bench">themis::bench</innernamespace>
+    <innernamespace refid="namespacethemis_1_1bench_1_1org">themis::bench::org</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__observability__release__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_MAIN</definition>
+        <argsstring>()</argsstring>
+        <name>BENCHMARK_MAIN</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="380" column="1" declfile="benchmarks/observability/bench_observability_release_gates.cpp" declline="380" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 5 observability hot-path release-gate benchmarks (ORG-01..ORG-06). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides reproducible latency and throughput measurements for the observability hot paths identified in the observability module roadmap (Phase 5 — Performance and Hardening).</para>
+<sect1 id="bench__observability__release__gates_8cpp_1autotoc_md23_1s1"><sect2 id="bench__observability__release__gates_8cpp_1autotoc_md23">
+<title>Benchmark families</title><para><heading level="3">ORG-01 — Counter increment (atomic)</heading>
+</para>
+<para>≥ 10M ops/s</para>
+<para><heading level="3">ORG-02 — Histogram record</heading>
+</para>
+<para>p99 ≤ 100 ns</para>
+<para><heading level="3">ORG-03 — Trace span create</heading>
+</para>
+<para>p99 ≤ 10 µs</para>
+<para><heading level="3">ORG-04 — Log entry format (structured, no I/O)</heading>
+</para>
+<para>p99 ≤ 5 µs</para>
+<para><heading level="3">ORG-05 — SLO computation (single window)</heading>
+</para>
+<para>p99 ≤ 100 µs</para>
+<para><heading level="3">ORG-06 — Prometheus export scrape (100 metrics, in-memory)</heading>
+</para>
+<para>p99 ≤ 5 ms</para>
+</sect2></sect1>
+<sect1 id="bench__observability__release__gates_8cpp_1autotoc_md24_1s1"><sect2 id="bench__observability__release__gates_8cpp_1autotoc_md24">
+<title>Hard release gates</title><para><table rows="7" cols="3"><row>
+<entry thead="yes"><para>Gate ID  </para>
+</entry><entry thead="yes"><para>Benchmark  </para>
+</entry><entry thead="yes"><para>Threshold  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-ORG-01  </para>
+</entry><entry thead="no"><para>ORG-01  </para>
+</entry><entry thead="no"><para>≥ 10M ops/s  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-ORG-02  </para>
+</entry><entry thead="no"><para>ORG-02  </para>
+</entry><entry thead="no"><para>p99 ≤ 100 ns  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-ORG-03  </para>
+</entry><entry thead="no"><para>ORG-03  </para>
+</entry><entry thead="no"><para>p99 ≤ 10 µs  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-ORG-04  </para>
+</entry><entry thead="no"><para>ORG-04  </para>
+</entry><entry thead="no"><para>p99 ≤ 5 µs  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-ORG-05  </para>
+</entry><entry thead="no"><para>ORG-05  </para>
+</entry><entry thead="no"><para>p99 ≤ 100 µs  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-ORG-06  </para>
+</entry><entry thead="no"><para>ORG-06  </para>
+</entry><entry thead="no"><para>p99 ≤ 5 ms (RT)  </para>
+</entry></row>
+</table>
+</para>
+<para><simplesect kind="see"><para><ref refid="observability__api__contract_8h" kindref="compound">include/observability/observability_api_contract.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/observability/ROADMAP.md — Phase 5 item </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="observability__api__contract_8h" kindref="compound">observability/observability_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="metrics__collector_8h" kindref="compound">observability/metrics_collector.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability" kindref="compound">themis::observability</ref>;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::chrono_literals;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1_1bench" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1bench" kindref="compound">bench</ref><sp/>{</highlight></codeline>
+<codeline lineno="66" refid="namespacethemis_1_1bench_1_1org" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1bench_1_1org" kindref="compound">org</ref><sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Constants</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kObservabilityCanonicalSeed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>kRepetitions<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>kWarmupIterations<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>200;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Mock:<sp/>atomic<sp/>counter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::atomic&lt;std::int64_t&gt;<sp/>g_counter{0};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Mock:<sp/>fixed-size<sp/>histogram<sp/>with<sp/>8<sp/>buckets</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1bench_1_1org_1_1_bench_histogram" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1bench_1_1org_1_1_bench_histogram" kindref="compound">BenchHistogram</ref><sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="structthemis_1_1bench_1_1org_1_1_bench_histogram_1a7a03f501ca8da5ae1eef82f7bf8d6a28" kindref="member">kBuckets</ref><sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1bench_1_1org_1_1_bench_histogram_1a215587bab7866a29e827eea1a4962a2b" kindref="member">bounds</ref>[<ref refid="structthemis_1_1bench_1_1org_1_1_bench_histogram_1a7a03f501ca8da5ae1eef82f7bf8d6a28" kindref="member">kBuckets</ref>]<sp/>=<sp/>{1,<sp/>5,<sp/>10,<sp/>50,<sp/>100,<sp/>500,<sp/>1000,<sp/>5000};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/><sp/><sp/><ref refid="structthemis_1_1bench_1_1org_1_1_bench_histogram_1a5976a65a7cbe08f08e48a7062b4d9dd8" kindref="member">counts</ref>[<ref refid="structthemis_1_1bench_1_1org_1_1_bench_histogram_1a7a03f501ca8da5ae1eef82f7bf8d6a28" kindref="member">kBuckets</ref><sp/>+<sp/>1]<sp/>=<sp/>{};<sp/><sp/></highlight><highlight class="comment">//<sp/>+1<sp/>for<sp/>+Inf<sp/>bucket</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/><sp/><sp/><ref refid="structthemis_1_1bench_1_1org_1_1_bench_histogram_1a69877b8442af1607278a5a8b5d796a75" kindref="member">total_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1bench_1_1org_1_1_bench_histogram_1aa37ecf706021b8696e68e7ec1e8a1937" kindref="member">total_sum</ref><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1bench_1_1org_1_1_bench_histogram_1a574586fadb005968d2c33bbf8b986eaa" kindref="member">record</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>v)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++<ref refid="structthemis_1_1bench_1_1org_1_1_bench_histogram_1a69877b8442af1607278a5a8b5d796a75" kindref="member">total_count</ref>;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1bench_1_1org_1_1_bench_histogram_1aa37ecf706021b8696e68e7ec1e8a1937" kindref="member">total_sum</ref><sp/>+=<sp/>v;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/><ref refid="structthemis_1_1bench_1_1org_1_1_bench_histogram_1a7a03f501ca8da5ae1eef82f7bf8d6a28" kindref="member">kBuckets</ref>;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(v<sp/>&lt;=<sp/><ref refid="structthemis_1_1bench_1_1org_1_1_bench_histogram_1a215587bab7866a29e827eea1a4962a2b" kindref="member">bounds</ref>[i])<sp/>{<sp/>++<ref refid="structthemis_1_1bench_1_1org_1_1_bench_histogram_1a5976a65a7cbe08f08e48a7062b4d9dd8" kindref="member">counts</ref>[i];<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++<ref refid="structthemis_1_1bench_1_1org_1_1_bench_histogram_1a5976a65a7cbe08f08e48a7062b4d9dd8" kindref="member">counts</ref>[<ref refid="structthemis_1_1bench_1_1org_1_1_bench_histogram_1a7a03f501ca8da5ae1eef82f7bf8d6a28" kindref="member">kBuckets</ref>];</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Mock:<sp/>span<sp/>(in-memory,<sp/>no<sp/>I/O)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1bench_1_1org_1_1_bench_span" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1bench_1_1org_1_1_bench_span" kindref="compound">BenchSpan</ref><sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint64_t<sp/><ref refid="structthemis_1_1bench_1_1org_1_1_bench_span_1a24a1a5e0715d42730affc99efff0c055" kindref="member">trace_id_hi</ref>,<sp/><ref refid="structthemis_1_1bench_1_1org_1_1_bench_span_1a58b99c51aea8533c5c09bdb265db1585" kindref="member">trace_id_lo</ref>;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint64_t<sp/><ref refid="structthemis_1_1bench_1_1org_1_1_bench_span_1aa0875291c15ecaa55b7337a653b86a32" kindref="member">span_id</ref>;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint64_t<sp/><ref refid="structthemis_1_1bench_1_1org_1_1_bench_span_1aa124539a91428f36f5d5a27cdfe884c5" kindref="member">parent_span_id</ref>;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/><sp/><ref refid="structthemis_1_1bench_1_1org_1_1_bench_span_1a8a2fc946cc37694e08b93aab50dab408" kindref="member">start_ns</ref>;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1bench_1_1org_1_1_bench_span_1a6135bb0a25ef2b2fb15e0801d1bc7daf" kindref="member">finished</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1bench_1_1org_1_1_bench_span_1a3d356b6567c1b6ccbb591b4c1c9fcd8b" kindref="member">finish</ref>()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1bench_1_1org_1_1_bench_span_1a6135bb0a25ef2b2fb15e0801d1bc7daf" kindref="member">finished</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::atomic&lt;std::uint64_t&gt;<sp/>g_span_id_counter{1};</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>BenchSpan<sp/>createSpan(std::uint64_t<sp/>parent_id)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>42u,<sp/>0u,</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_span_id_counter.fetch_add(1u,<sp/>std::memory_order_relaxed),</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>parent_id,</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::now().time_since_epoch().count()),</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="130"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Mock:<sp/>structured<sp/>log<sp/>entry<sp/>formatter<sp/>(no<sp/>I/O<sp/>—<sp/>pure<sp/>in-memory)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>formatLogEntry(</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>level,</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>msg,</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uint64_t<sp/><sp/><sp/><sp/><sp/><sp/>req_id)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ostringstream<sp/>ss<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>ss<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;{\&quot;level\&quot;:\&quot;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>level</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\&quot;,\&quot;msg\&quot;:\&quot;&quot;</highlight><highlight class="normal"><sp/><sp/>&lt;&lt;<sp/>msg</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\&quot;,\&quot;req_id\&quot;:&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>req_id<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ss.str();</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Mock:<sp/>SLO<sp/>computation<sp/>(single<sp/>window)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151" refid="structthemis_1_1bench_1_1org_1_1_bench_slo_window" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1bench_1_1org_1_1_bench_slo_window" kindref="compound">BenchSloWindow</ref><sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1bench_1_1org_1_1_bench_slo_window_1a302d58e4b208b4815c948806f6656329" kindref="member">good_count</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1bench_1_1org_1_1_bench_slo_window_1a0ffe57260472f6f9d2e9c89387ad2cd4" kindref="member">total_count</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1bench_1_1org_1_1_bench_slo_window_1aa9e54173a1b796225a7cf4570dedf171" kindref="member">target</ref><sp/>=<sp/>0.99;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1bench_1_1org_1_1_bench_slo_window_1a5928887f805785c2e091cf8d1373dc97" kindref="member">recordRequest</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>good)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++<ref refid="structthemis_1_1bench_1_1org_1_1_bench_slo_window_1a0ffe57260472f6f9d2e9c89387ad2cd4" kindref="member">total_count</ref>;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(good)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++<ref refid="structthemis_1_1bench_1_1org_1_1_bench_slo_window_1a302d58e4b208b4815c948806f6656329" kindref="member">good_count</ref>;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1bench_1_1org_1_1_bench_slo_window_1a35239eac7f4af930385cc5555698b0b3" kindref="member">sli</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1bench_1_1org_1_1_bench_slo_window_1a0ffe57260472f6f9d2e9c89387ad2cd4" kindref="member">total_count</ref><sp/>&gt;<sp/>0.0)<sp/>?<sp/><ref refid="structthemis_1_1bench_1_1org_1_1_bench_slo_window_1a302d58e4b208b4815c948806f6656329" kindref="member">good_count</ref><sp/>/<sp/><ref refid="structthemis_1_1bench_1_1org_1_1_bench_slo_window_1a0ffe57260472f6f9d2e9c89387ad2cd4" kindref="member">total_count</ref><sp/>:<sp/>1.0;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1bench_1_1org_1_1_bench_slo_window_1a69f2b6c14e265e70efee3daac52ea8d6" kindref="member">isBreach</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1bench_1_1org_1_1_bench_slo_window_1a35239eac7f4af930385cc5555698b0b3" kindref="member">sli</ref>()<sp/>&lt;<sp/><ref refid="structthemis_1_1bench_1_1org_1_1_bench_slo_window_1aa9e54173a1b796225a7cf4570dedf171" kindref="member">target</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Mock:<sp/>Prometheus<sp/>scrape<sp/>(100<sp/>in-memory<sp/>metrics)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174" refid="structthemis_1_1bench_1_1org_1_1_bench_metric" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1bench_1_1org_1_1_bench_metric" kindref="compound">BenchMetric</ref><sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1bench_1_1org_1_1_bench_metric_1a795ecadd2ecac42ddbbe205a4a11ac7d" kindref="member">name</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1bench_1_1org_1_1_bench_metric_1a8c14383b49e5b8332fe00528ee0b5df2" kindref="member">value</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="177"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;BenchMetric&gt;<sp/>makeMetrics(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n)<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;BenchMetric&gt;<sp/>m;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>m.reserve(n);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>n;<sp/>++i)</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>m.push_back({</highlight><highlight class="stringliteral">&quot;metric_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/>static_cast&lt;std::int64_t&gt;(i)});</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>m;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>scrapeMetrics(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;BenchMetric&gt;&amp;<sp/>metrics)<sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ostringstream<sp/>ss<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>m<sp/>:<sp/>metrics)</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ss<sp/>&lt;&lt;<sp/>m.name<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>m.value<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ss.str();</highlight></codeline>
+<codeline lineno="192"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ORG-01<sp/>—<sp/>Counter<sp/>increment<sp/>(atomic)<sp/><sp/>(≥<sp/>10M<sp/>ops/s)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_ORG01_CounterIncrement(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kWarmupIterations;<sp/>++i)</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_counter.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/>ops<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_counter.fetch_add(1,<sp/>std::memory_order_relaxed));</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++ops;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(ops);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;GATE-ORG-01:<sp/>&gt;=<sp/>10M<sp/>ops/s&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><ref refid="bench__di__logging_8cpp_1a1a1d3a636837a34f5e865793981a761e" kindref="member">BENCHMARK</ref>(BM_ORG01_CounterIncrement)</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ORG-02<sp/>—<sp/>Histogram<sp/>record<sp/><sp/>(p99<sp/>≤<sp/>100<sp/>ns)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_ORG02_HistogramRecord(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1bench_1_1org_1_1_bench_histogram" kindref="compound">BenchHistogram</ref><sp/>h;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937_64<sp/>rng(kObservabilityCanonicalSeed);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uniform_real_distribution&lt;double&gt;<sp/>dist(0.0,<sp/>5000.0);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kWarmupIterations;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>h.record(dist(rng));</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>h.record(dist(rng));</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;GATE-ORG-02:<sp/>p99<sp/>&lt;=<sp/>100<sp/>ns&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><ref refid="bench__di__logging_8cpp_1a1a1d3a636837a34f5e865793981a761e" kindref="member">BENCHMARK</ref>(BM_ORG02_HistogramRecord)</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ORG-03<sp/>—<sp/>Trace<sp/>span<sp/>create<sp/><sp/>(p99<sp/>≤<sp/>10<sp/>µs)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_ORG03_TraceSpanCreate(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kWarmupIterations;<sp/>++i)</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(createSpan(0u));</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>span<sp/>=<sp/>createSpan(0u);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>span.finish();</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(span);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;GATE-ORG-03:<sp/>p99<sp/>&lt;=<sp/>10<sp/>us&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><ref refid="bench__di__logging_8cpp_1a1a1d3a636837a34f5e865793981a761e" kindref="member">BENCHMARK</ref>(BM_ORG03_TraceSpanCreate)</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ORG-03B<sp/>—<sp/>Invalid<sp/>telemetry<sp/>reject<sp/>path<sp/>(bounded<sp/>fail-closed<sp/>path)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_ORG03B_InvalidTelemetryReject(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>collector<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_metrics_collector_1a29d00492d1f8d32ba4deef797d8e4ea6" kindref="member">themis::observability::MetricsCollector::getInstance</ref>();</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>collector.reset();</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/>invalid_labels<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/><ref refid="namespacethemis_1_1observability_1a5e84387a19755866a0886c3684330880" kindref="member">kMaxMetricLabels</ref><sp/>+<sp/>1;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>invalid_labels.emplace(</highlight><highlight class="stringliteral">&quot;label_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/></highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>collector.addCounter(</highlight><highlight class="stringliteral">&quot;bench_invalid_metric_total&quot;</highlight><highlight class="normal">,<sp/>1,<sp/>invalid_labels);</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;bounded<sp/>invalid<sp/>telemetry<sp/>rejection&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><ref refid="bench__di__logging_8cpp_1a1a1d3a636837a34f5e865793981a761e" kindref="member">BENCHMARK</ref>(BM_ORG03B_InvalidTelemetryReject)</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ORG-04<sp/>—<sp/>Log<sp/>entry<sp/>format<sp/>(structured,<sp/>no<sp/>I/O)<sp/><sp/>(p99<sp/>≤<sp/>5<sp/>µs)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_ORG04_LogEntryFormat(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint64_t<sp/>req_id<sp/>=<sp/>1u;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kWarmupIterations;<sp/>++i)</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(formatLogEntry(</highlight><highlight class="stringliteral">&quot;INFO&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;benchmark<sp/>warmup&quot;</highlight><highlight class="normal">,<sp/>req_id++));</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(formatLogEntry(</highlight><highlight class="stringliteral">&quot;INFO&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;request<sp/>handled&quot;</highlight><highlight class="normal">,<sp/>req_id++));</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;GATE-ORG-04:<sp/>p99<sp/>&lt;=<sp/>5<sp/>us&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><ref refid="bench__di__logging_8cpp_1a1a1d3a636837a34f5e865793981a761e" kindref="member">BENCHMARK</ref>(BM_ORG04_LogEntryFormat)</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ORG-05<sp/>—<sp/>SLO<sp/>computation<sp/>(single<sp/>window)<sp/><sp/>(p99<sp/>≤<sp/>100<sp/>µs)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_ORG05_SloComputation(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1bench_1_1org_1_1_bench_slo_window" kindref="compound">BenchSloWindow</ref><sp/>w;</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937_64<sp/>rng(kObservabilityCanonicalSeed);</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>std::bernoulli_distribution<sp/>good_dist(0.995);</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pre-fill<sp/>window</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>1000;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>w.recordRequest(good_dist(rng));</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kWarmupIterations;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(w.sli());</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(w.isBreach());</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>w.recordRequest(good_dist(rng));</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(w.sli());</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(w.isBreach());</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;GATE-ORG-05:<sp/>p99<sp/>&lt;=<sp/>100<sp/>us&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="346"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><ref refid="bench__di__logging_8cpp_1a1a1d3a636837a34f5e865793981a761e" kindref="member">BENCHMARK</ref>(BM_ORG05_SloComputation)</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ORG-06<sp/>—<sp/>Prometheus<sp/>export<sp/>scrape<sp/>(100<sp/>metrics,<sp/>in-memory)<sp/><sp/>(p99<sp/>≤<sp/>5<sp/>ms)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_ORG06_PrometheusScrape(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>metrics<sp/>=<sp/>makeMetrics(100);</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kWarmupIterations;<sp/>++i)</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(scrapeMetrics(metrics));</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(scrapeMetrics(metrics));</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;GATE-ORG-06:<sp/>p99<sp/>&lt;=<sp/>5<sp/>ms&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="370"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><ref refid="bench__di__logging_8cpp_1a1a1d3a636837a34f5e865793981a761e" kindref="member">BENCHMARK</ref>(BM_ORG06_PrometheusScrape)</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseRealTime()</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kRepetitions)</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>org</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>bench</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="378"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><ref refid="bench__observability__release__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kindref="member">BENCHMARK_MAIN</ref>();</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/observability/bench_observability_release_gates.cpp"/>
+  </compounddef>
+</doxygen>

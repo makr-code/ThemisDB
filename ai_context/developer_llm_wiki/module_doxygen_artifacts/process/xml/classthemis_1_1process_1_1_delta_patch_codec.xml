@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_delta_patch_codec" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::DeltaPatchCodec</compoundname>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_delta_patch_codec_1a00135e247c9775d49f417970afeedcc7" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::process::DeltaPatchCodec::Encode</definition>
+        <argsstring>(const std::string &amp;before, const std::string &amp;after)</argsstring>
+        <name>Encode</name>
+        <qualifiedname>themis::process::DeltaPatchCodec::Encode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>before</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>after</declname>
+        </param>
+        <briefdescription>
+<para>Encode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">before</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">after</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::to_string(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_audit_logger.cpp" line="70" column="22" bodyfile="src/process/process_audit_logger.cpp" bodystart="70" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_delta_patch_codec_1aa87fe8c01a477f954d3b8391bbc1a1aa" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::process::DeltaPatchCodec::Decode</definition>
+        <argsstring>(const std::string &amp;base, const std::string &amp;patch)</argsstring>
+        <name>Decode</name>
+        <qualifiedname>themis::process::DeltaPatchCodec::Decode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>patch</declname>
+        </param>
+        <briefdescription>
+<para>Decode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">base</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">patch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements Decode without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_audit_logger.cpp" line="88" column="22" bodyfile="src/process/process_audit_logger.cpp" bodystart="88" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_delta_patch_codec_1a9e3454d9122813a1ce5ef5c87c9e34f4" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::process::DeltaPatchCodec::VerifyEquivalence</definition>
+        <argsstring>(const std::string &amp;original, const std::string &amp;replayed)</argsstring>
+        <name>VerifyEquivalence</name>
+        <qualifiedname>themis::process::DeltaPatchCodec::VerifyEquivalence</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>original</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>replayed</declname>
+        </param>
+        <briefdescription>
+<para>Verify Equivalence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">original</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">replayed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements VerifyEquivalence without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_audit_logger.cpp" line="102" column="15" bodyfile="src/process/process_audit_logger.cpp" bodystart="102" bodyend="107"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/process/process_audit_logger.cpp" line="61" column="1" bodyfile="src/process/process_audit_logger.cpp" bodystart="61" bodyend="108"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_delta_patch_codec_1aa87fe8c01a477f954d3b8391bbc1a1aa" prot="public" virt="non-virtual"><scope>themis::process::DeltaPatchCodec</scope><name>Decode</name></member>
+      <member refid="classthemis_1_1process_1_1_delta_patch_codec_1a00135e247c9775d49f417970afeedcc7" prot="public" virt="non-virtual"><scope>themis::process::DeltaPatchCodec</scope><name>Encode</name></member>
+      <member refid="classthemis_1_1process_1_1_delta_patch_codec_1a9e3454d9122813a1ce5ef5c87c9e34f4" prot="public" virt="non-virtual"><scope>themis::process::DeltaPatchCodec</scope><name>VerifyEquivalence</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

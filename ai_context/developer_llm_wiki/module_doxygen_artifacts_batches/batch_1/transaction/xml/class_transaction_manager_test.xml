@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_transaction_manager_test" kind="class" language="C++" prot="public">
+    <compoundname>TransactionManagerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_transaction_manager_test_1aba7471b0a6270e4620508517a990ae06" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string TransactionManagerTest::test_db_path_</definition>
+        <argsstring></argsstring>
+        <name>test_db_path_</name>
+        <qualifiedname>TransactionManagerTest::test_db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_manager.cpp" line="55" column="17" bodyfile="tests/transaction/test_transaction_manager.cpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_transaction_manager_test_1ab8968726fb8e39ed79ce92aeb5c75f76" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; TransactionManagerTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>TransactionManagerTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_manager.cpp" line="56" column="21" bodyfile="tests/transaction/test_transaction_manager.cpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_transaction_manager_test_1ae99094d1a11299424e8d5603665f7d67" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;SecondaryIndexManager&gt; TransactionManagerTest::secondary_index_</definition>
+        <argsstring></argsstring>
+        <name>secondary_index_</name>
+        <qualifiedname>TransactionManagerTest::secondary_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_manager.cpp" line="57" column="21" bodyfile="tests/transaction/test_transaction_manager.cpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_transaction_manager_test_1a34f00d2d7b9ecdef3dc1f37bc3674b8e" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; GraphIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;GraphIndexManager&gt; TransactionManagerTest::graph_index_</definition>
+        <argsstring></argsstring>
+        <name>graph_index_</name>
+        <qualifiedname>TransactionManagerTest::graph_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_manager.cpp" line="58" column="21" bodyfile="tests/transaction/test_transaction_manager.cpp" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_transaction_manager_test_1a9718fa5fc191845143865441fd3c7c3c" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; VectorIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;VectorIndexManager&gt; TransactionManagerTest::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>TransactionManagerTest::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_manager.cpp" line="59" column="21" bodyfile="tests/transaction/test_transaction_manager.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_transaction_manager_test_1acf283a15758a5d61fc15493d5d836511" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_transaction_manager" kindref="compound">TransactionManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;TransactionManager&gt; TransactionManagerTest::tx_manager_</definition>
+        <argsstring></argsstring>
+        <name>tx_manager_</name>
+        <qualifiedname>TransactionManagerTest::tx_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_manager.cpp" line="60" column="21" bodyfile="tests/transaction/test_transaction_manager.cpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_transaction_manager_test_1a960c0e2502f84b8454379936009c3e16" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TransactionManagerTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>TransactionManagerTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_manager.cpp" line="16" column="10" bodyfile="tests/transaction/test_transaction_manager.cpp" bodystart="16" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="class_transaction_manager_test_1a674d508b73411a8a9941e8fca3b7bc64" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TransactionManagerTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>TransactionManagerTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_manager.cpp" line="41" column="10" bodyfile="tests/transaction/test_transaction_manager.cpp" bodystart="41" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TransactionManagerTest</label>
+        <link refid="class_transaction_manager_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TransactionManagerTest</label>
+        <link refid="class_transaction_manager_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/transaction/test_transaction_manager.cpp" line="14" column="1" bodyfile="tests/transaction/test_transaction_manager.cpp" bodystart="14" bodyend="61"/>
+    <listofallmembers>
+      <member refid="class_transaction_manager_test_1ab8968726fb8e39ed79ce92aeb5c75f76" prot="protected" virt="non-virtual"><scope>TransactionManagerTest</scope><name>db_</name></member>
+      <member refid="class_transaction_manager_test_1a34f00d2d7b9ecdef3dc1f37bc3674b8e" prot="protected" virt="non-virtual"><scope>TransactionManagerTest</scope><name>graph_index_</name></member>
+      <member refid="class_transaction_manager_test_1ae99094d1a11299424e8d5603665f7d67" prot="protected" virt="non-virtual"><scope>TransactionManagerTest</scope><name>secondary_index_</name></member>
+      <member refid="class_transaction_manager_test_1a960c0e2502f84b8454379936009c3e16" prot="protected" virt="non-virtual"><scope>TransactionManagerTest</scope><name>SetUp</name></member>
+      <member refid="class_transaction_manager_test_1a674d508b73411a8a9941e8fca3b7bc64" prot="protected" virt="non-virtual"><scope>TransactionManagerTest</scope><name>TearDown</name></member>
+      <member refid="class_transaction_manager_test_1aba7471b0a6270e4620508517a990ae06" prot="protected" virt="non-virtual"><scope>TransactionManagerTest</scope><name>test_db_path_</name></member>
+      <member refid="class_transaction_manager_test_1acf283a15758a5d61fc15493d5d836511" prot="protected" virt="non-virtual"><scope>TransactionManagerTest</scope><name>tx_manager_</name></member>
+      <member refid="class_transaction_manager_test_1a9718fa5fc191845143865441fd3c7c3c" prot="protected" virt="non-virtual"><scope>TransactionManagerTest</scope><name>vector_index_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

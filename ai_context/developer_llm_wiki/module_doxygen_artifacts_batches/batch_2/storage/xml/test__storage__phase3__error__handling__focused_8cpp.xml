@@ -1,0 +1,1014 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__storage__phase3__error__handling__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_storage_phase3_error_handling_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="storage__api__contract_8h" local="yes">storage/storage_api_contract.h</includes>
+    <includes refid="storage__error__diagnostics_8h" local="yes">storage/storage_error_diagnostics.h</includes>
+    <includes refid="storage__recovery__fault__handler_8h" local="yes">storage/storage_recovery_fault_handler.h</includes>
+    <includes refid="storage__pressure__manager_8h" local="yes">storage/storage_pressure_manager.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>storage/storage_api_contract.h</label>
+        <link refid="storage__api__contract_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>storage/storage_error_diagnostics.h</label>
+        <link refid="storage__error__diagnostics_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>storage/storage_pressure_manager.h</label>
+        <link refid="storage__pressure__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>storage/storage_recovery_fault_handler.h</label>
+        <link refid="storage__recovery__fault__handler_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/storage/test_storage_phase3_error_handling_focused.cpp</label>
+        <link refid="test__storage__phase3__error__handling__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstddef</label>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="14">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>string_view</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_storage_error_diagnostics_test" prot="public">StorageErrorDiagnosticsTest</innerclass>
+    <innerclass refid="class_recovery_fault_handler_test" prot="public">RecoveryFaultHandlerTest</innerclass>
+    <innerclass refid="class_storage_pressure_manager_test" prot="public">StoragePressureManagerTest</innerclass>
+    <innerclass refid="class_storage_phase3_integration_test" prot="public">StoragePhase3IntegrationTest</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="test__storage__phase3__error__handling__focused_8cpp_1a896be8074bb0aaa344ccfe19482ec9f6" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t kPhase3TestSeed</definition>
+        <argsstring></argsstring>
+        <name>kPhase3TestSeed</name>
+        <initializer>= 2026</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_phase3_error_handling_focused.cpp" line="69" column="32" bodyfile="tests/storage/test_storage_phase3_error_handling_focused.cpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__storage__phase3__error__handling__focused_8cpp_1acbaabc2e3ad09b5e0fdba3c466c9c2ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageErrorDiagnosticsTest, SED01_ClassifyWalWriteFailed)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_error_diagnostics_test" kindref="compound">StorageErrorDiagnosticsTest</ref></type>
+        </param>
+        <param>
+          <type>SED01_ClassifyWalWriteFailed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_phase3_error_handling_focused.cpp" line="77" column="1" bodyfile="tests/storage/test_storage_phase3_error_handling_focused.cpp" bodystart="77" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__phase3__error__handling__focused_8cpp_1a63e35ba7314c9100c2b1d3bb73e8b9f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageErrorDiagnosticsTest, SED02_ClassifyTransactionConflict)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_error_diagnostics_test" kindref="compound">StorageErrorDiagnosticsTest</ref></type>
+        </param>
+        <param>
+          <type>SED02_ClassifyTransactionConflict</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_phase3_error_handling_focused.cpp" line="86" column="1" bodyfile="tests/storage/test_storage_phase3_error_handling_focused.cpp" bodystart="86" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__phase3__error__handling__focused_8cpp_1a1baa30ff6d65d99ab2a4fca952c133b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageErrorDiagnosticsTest, SED03_MapErrorMessageStorageExhausted)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_error_diagnostics_test" kindref="compound">StorageErrorDiagnosticsTest</ref></type>
+        </param>
+        <param>
+          <type>SED03_MapErrorMessageStorageExhausted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_phase3_error_handling_focused.cpp" line="95" column="1" bodyfile="tests/storage/test_storage_phase3_error_handling_focused.cpp" bodystart="95" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__phase3__error__handling__focused_8cpp_1a5d615808dd342d39cb9c9f0d4a263478" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageErrorDiagnosticsTest, SED04_MapErrorMessageCorruption)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_error_diagnostics_test" kindref="compound">StorageErrorDiagnosticsTest</ref></type>
+        </param>
+        <param>
+          <type>SED04_MapErrorMessageCorruption</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_phase3_error_handling_focused.cpp" line="106" column="1" bodyfile="tests/storage/test_storage_phase3_error_handling_focused.cpp" bodystart="106" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__phase3__error__handling__focused_8cpp_1afd91983582024f60d0702e1d3267cb94" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageErrorDiagnosticsTest, SED05_MapErrorMessageTimeout)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_error_diagnostics_test" kindref="compound">StorageErrorDiagnosticsTest</ref></type>
+        </param>
+        <param>
+          <type>SED05_MapErrorMessageTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_phase3_error_handling_focused.cpp" line="114" column="1" bodyfile="tests/storage/test_storage_phase3_error_handling_focused.cpp" bodystart="114" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__phase3__error__handling__focused_8cpp_1a692c671e24cd2cdb76130b5b619e976e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageErrorDiagnosticsTest, SED06_BuildErrorContextWithSuggestions)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_error_diagnostics_test" kindref="compound">StorageErrorDiagnosticsTest</ref></type>
+        </param>
+        <param>
+          <type>SED06_BuildErrorContextWithSuggestions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_phase3_error_handling_focused.cpp" line="119" column="1" bodyfile="tests/storage/test_storage_phase3_error_handling_focused.cpp" bodystart="119" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__phase3__error__handling__focused_8cpp_1ac1638b1ddc61ed777314a31046d071b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageErrorDiagnosticsTest, SED07_BuildErrorContextRecoveryIncomplete)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_error_diagnostics_test" kindref="compound">StorageErrorDiagnosticsTest</ref></type>
+        </param>
+        <param>
+          <type>SED07_BuildErrorContextRecoveryIncomplete</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_phase3_error_handling_focused.cpp" line="132" column="1" bodyfile="tests/storage/test_storage_phase3_error_handling_focused.cpp" bodystart="132" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__phase3__error__handling__focused_8cpp_1a9fc315f09a260aedd0cb3dd0ab5c672d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageErrorDiagnosticsTest, SED08_ErrorNameAndDescription)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_error_diagnostics_test" kindref="compound">StorageErrorDiagnosticsTest</ref></type>
+        </param>
+        <param>
+          <type>SED08_ErrorNameAndDescription</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_phase3_error_handling_focused.cpp" line="142" column="1" bodyfile="tests/storage/test_storage_phase3_error_handling_focused.cpp" bodystart="142" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__phase3__error__handling__focused_8cpp_1aee44d95e1b73dda6517fd3bf70d2d6d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RecoveryFaultHandlerTest, SRF01_HandleTornWalEntry)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_recovery_fault_handler_test" kindref="compound">RecoveryFaultHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>SRF01_HandleTornWalEntry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_phase3_error_handling_focused.cpp" line="159" column="1" bodyfile="tests/storage/test_storage_phase3_error_handling_focused.cpp" bodystart="159" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__phase3__error__handling__focused_8cpp_1a33b5dc61abf29e9b1727e687dd0af1c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RecoveryFaultHandlerTest, SRF02_HandleInvalidCheckpoint)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_recovery_fault_handler_test" kindref="compound">RecoveryFaultHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>SRF02_HandleInvalidCheckpoint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_phase3_error_handling_focused.cpp" line="172" column="1" bodyfile="tests/storage/test_storage_phase3_error_handling_focused.cpp" bodystart="172" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__phase3__error__handling__focused_8cpp_1a237a21f6f67cbb33bde31c1e4890842c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RecoveryFaultHandlerTest, SRF03_HandleRecoveryTimeout)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_recovery_fault_handler_test" kindref="compound">RecoveryFaultHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>SRF03_HandleRecoveryTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_phase3_error_handling_focused.cpp" line="184" column="1" bodyfile="tests/storage/test_storage_phase3_error_handling_focused.cpp" bodystart="184" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__phase3__error__handling__focused_8cpp_1a4e3d01014a7846fb5f1f313e4c575519" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RecoveryFaultHandlerTest, SRF04_HandleWalFileCorruption)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_recovery_fault_handler_test" kindref="compound">RecoveryFaultHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>SRF04_HandleWalFileCorruption</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_phase3_error_handling_focused.cpp" line="195" column="1" bodyfile="tests/storage/test_storage_phase3_error_handling_focused.cpp" bodystart="195" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__phase3__error__handling__focused_8cpp_1a2bf1599078383fbef81d6bed6c693d06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RecoveryFaultHandlerTest, SRF05_HandleWalReadErrorWithRetries)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_recovery_fault_handler_test" kindref="compound">RecoveryFaultHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>SRF05_HandleWalReadErrorWithRetries</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_phase3_error_handling_focused.cpp" line="206" column="1" bodyfile="tests/storage/test_storage_phase3_error_handling_focused.cpp" bodystart="206" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__phase3__error__handling__focused_8cpp_1a49c9e01dcd11fc29553b5ef63c804a2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RecoveryFaultHandlerTest, SRF06_HandleReplayEntryFailureNonCritical)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_recovery_fault_handler_test" kindref="compound">RecoveryFaultHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>SRF06_HandleReplayEntryFailureNonCritical</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_phase3_error_handling_focused.cpp" line="216" column="1" bodyfile="tests/storage/test_storage_phase3_error_handling_focused.cpp" bodystart="216" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__phase3__error__handling__focused_8cpp_1a19f011c6c662faabca47329e204d56ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RecoveryFaultHandlerTest, SRF07_HandleReplayEntryFailureCritical)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_recovery_fault_handler_test" kindref="compound">RecoveryFaultHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>SRF07_HandleReplayEntryFailureCritical</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_phase3_error_handling_focused.cpp" line="226" column="1" bodyfile="tests/storage/test_storage_phase3_error_handling_focused.cpp" bodystart="226" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__phase3__error__handling__focused_8cpp_1a99a2b9bb0fb250dd02b6d4d45b2f7008" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RecoveryFaultHandlerTest, SRF08_HandleRecoveryRetryExhausted)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_recovery_fault_handler_test" kindref="compound">RecoveryFaultHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>SRF08_HandleRecoveryRetryExhausted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_phase3_error_handling_focused.cpp" line="236" column="1" bodyfile="tests/storage/test_storage_phase3_error_handling_focused.cpp" bodystart="236" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__phase3__error__handling__focused_8cpp_1a6bc56fcd3a0771a4d833cd4cbc4da73d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StoragePressureManagerTest, SPM01_GetCapacityMetricsNormal)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_pressure_manager_test" kindref="compound">StoragePressureManagerTest</ref></type>
+        </param>
+        <param>
+          <type>SPM01_GetCapacityMetricsNormal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_phase3_error_handling_focused.cpp" line="256" column="1" bodyfile="tests/storage/test_storage_phase3_error_handling_focused.cpp" bodystart="256" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__phase3__error__handling__focused_8cpp_1aa45886ac69690aa51fee0b4e9437f383" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StoragePressureManagerTest, SPM02_CanAcceptWriteNormal)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_pressure_manager_test" kindref="compound">StoragePressureManagerTest</ref></type>
+        </param>
+        <param>
+          <type>SPM02_CanAcceptWriteNormal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_phase3_error_handling_focused.cpp" line="264" column="1" bodyfile="tests/storage/test_storage_phase3_error_handling_focused.cpp" bodystart="264" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__phase3__error__handling__focused_8cpp_1a1ffb0fef07d6a02f8b8c9ab21b4ba22f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StoragePressureManagerTest, SPM03_CanAcceptWriteWhenExhausted)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_pressure_manager_test" kindref="compound">StoragePressureManagerTest</ref></type>
+        </param>
+        <param>
+          <type>SPM03_CanAcceptWriteWhenExhausted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_phase3_error_handling_focused.cpp" line="269" column="1" bodyfile="tests/storage/test_storage_phase3_error_handling_focused.cpp" bodystart="269" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__phase3__error__handling__focused_8cpp_1ae4e6ffdff1080971ccda7b96b6da912f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StoragePressureManagerTest, SPM04_PressureEscalation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_pressure_manager_test" kindref="compound">StoragePressureManagerTest</ref></type>
+        </param>
+        <param>
+          <type>SPM04_PressureEscalation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_phase3_error_handling_focused.cpp" line="274" column="1" bodyfile="tests/storage/test_storage_phase3_error_handling_focused.cpp" bodystart="274" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__phase3__error__handling__focused_8cpp_1a187962d5bbaae81a7455c6f97b4ce4c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StoragePressureManagerTest, SPM05_ReportStorageExhausted)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_pressure_manager_test" kindref="compound">StoragePressureManagerTest</ref></type>
+        </param>
+        <param>
+          <type>SPM05_ReportStorageExhausted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_phase3_error_handling_focused.cpp" line="291" column="1" bodyfile="tests/storage/test_storage_phase3_error_handling_focused.cpp" bodystart="291" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__phase3__error__handling__focused_8cpp_1a66efb1853992aaef4e646060ed724174" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StoragePressureManagerTest, SPM06_CanStartBackupNormal)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_pressure_manager_test" kindref="compound">StoragePressureManagerTest</ref></type>
+        </param>
+        <param>
+          <type>SPM06_CanStartBackupNormal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_phase3_error_handling_focused.cpp" line="299" column="1" bodyfile="tests/storage/test_storage_phase3_error_handling_focused.cpp" bodystart="299" bodyend="302"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__phase3__error__handling__focused_8cpp_1a1e0173fa80f21e261f4ffee1044d0098" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StoragePressureManagerTest, SPM07_CanStartBackupLimitExceeded)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_pressure_manager_test" kindref="compound">StoragePressureManagerTest</ref></type>
+        </param>
+        <param>
+          <type>SPM07_CanStartBackupLimitExceeded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_phase3_error_handling_focused.cpp" line="304" column="1" bodyfile="tests/storage/test_storage_phase3_error_handling_focused.cpp" bodystart="304" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__phase3__error__handling__focused_8cpp_1a67a97d289deafc4eef93b3770a77f9fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StoragePressureManagerTest, SPM08_ReportBackupLimitExceeded)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_pressure_manager_test" kindref="compound">StoragePressureManagerTest</ref></type>
+        </param>
+        <param>
+          <type>SPM08_ReportBackupLimitExceeded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_phase3_error_handling_focused.cpp" line="309" column="1" bodyfile="tests/storage/test_storage_phase3_error_handling_focused.cpp" bodystart="309" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__phase3__error__handling__focused_8cpp_1a71fdf716457399c7390cefe5c44cc108" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StoragePhase3IntegrationTest, E2E_RecoveryFaultDiagnosticsFlow)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_phase3_integration_test" kindref="compound">StoragePhase3IntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>E2E_RecoveryFaultDiagnosticsFlow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_phase3_error_handling_focused.cpp" line="325" column="1" bodyfile="tests/storage/test_storage_phase3_error_handling_focused.cpp" bodystart="325" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__phase3__error__handling__focused_8cpp_1a84a5f4f15f2beae1c8e2aad0fbaa7414" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StoragePhase3IntegrationTest, E2E_CapacityManagementFlow)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_phase3_integration_test" kindref="compound">StoragePhase3IntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>E2E_CapacityManagementFlow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_phase3_error_handling_focused.cpp" line="349" column="1" bodyfile="tests/storage/test_storage_phase3_error_handling_focused.cpp" bodystart="349" bodyend="371"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 3 storage module error handling and edge case focused tests. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Validates Phase 3 implementation:<itemizedlist>
+<listitem><para>Standardized fail-safe behavior for replay faults</para>
+</listitem><listitem><para>Unified diagnostics across persistence and recovery layers</para>
+</listitem><listitem><para>Storage pressure mitigation and error handling</para>
+</listitem><listitem><para>Edge case coverage for all error paths</para>
+</listitem></itemizedlist>
+</para>
+<sect1 id="test__storage__phase3__error__handling__focused_8cpp_1autotoc_md31_1s1"><sect2 id="test__storage__phase3__error__handling__focused_8cpp_1autotoc_md31">
+<title>Test Cases</title><para><heading level="3">SED-01..SED-08 — Error Diagnostics Classification</heading>
+</para>
+<para>SED-01 <ref refid="namespacethemis_1_1storage_1a51600a11601864efd79ed59e3efd7012" kindref="member">classifyErrorIncident()</ref> maps error codes to incident types SED-02 <ref refid="namespacethemis_1_1storage_1a3e5a7a6033f523941e77c823ae4197df" kindref="member">mapErrorMessage()</ref> handles common error string patterns SED-03 <ref refid="namespacethemis_1_1storage_1a54a466461f596fa64eb438f915d52183" kindref="member">buildErrorContext()</ref> populates all context fields correctly SED-04 <ref refid="namespacethemis_1_1storage_1afb6fffc0cb8309ca619d816d3113c936" kindref="member">isDurabilityThreat()</ref> classification is accurate SED-05 Error severity levels are correctly assigned SED-06 Recovery suggestions are populated for each error type SED-07 <ref refid="namespacethemis_1_1storage_1a8f71e1f506990732a8d3ae67e3c01bf8" kindref="member">emitDiagnosticEvent()</ref> produces structured output SED-08 Error name and description utilities work correctly</para>
+<para><heading level="3">SRF-01..SRF-08 — Recovery Fault Handling</heading>
+</para>
+<para>SRF-01 handleTornWalEntry() emits RECOVERY_INCOMPLETE SRF-02 handleInvalidCheckpoint() suggests fallback checkpoint SRF-03 handleRecoveryTimeout() stops recovery with RECOVERY_TIMEOUT SRF-04 handleWalFileCorruption() emits CRITICAL severity SRF-05 handleWalReadError() respects retry limits SRF-06 handleReplayEntryFailure() classifies by criticality SRF-07 handleRecoveryRetryExhausted() triggers manual intervention SRF-08 Recovery fault reports contain actionable suggestions</para>
+<para><heading level="3">SPM-01..SPM-08 — Storage Pressure Management</heading>
+</para>
+<para>SPM-01 getCapacityMetrics() returns current usage snapshot SPM-02 canAcceptWrite() rejects writes when exhausted SPM-03 canStartBackup() respects concurrent backup limit SPM-04 updateCapacity() classifies pressure levels correctly SPM-05 reportStorageExhausted() emits CRITICAL diagnostic SPM-06 reportBackupLimitExceeded() emits HIGH diagnostic SPM-07 Pressure escalation triggers operator alerts SPM-08 Write rejection at configured utilization threshold</para>
+<para><simplesect kind="see"><para><ref refid="storage__error__diagnostics_8h" kindref="compound">include/storage/storage_error_diagnostics.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="storage__recovery__fault__handler_8h" kindref="compound">include/storage/storage_recovery_fault_handler.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="storage__pressure__manager_8h" kindref="compound">include/storage/storage_pressure_manager.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/storage/ROADMAP.md — Phase 3 items </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="storage__api__contract_8h" kindref="compound">storage/storage_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="storage__error__diagnostics_8h" kindref="compound">storage/storage_error_diagnostics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="storage__recovery__fault__handler_8h" kindref="compound">storage/storage_recovery_fault_handler.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="storage__pressure__manager_8h" kindref="compound">storage/storage_pressure_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1storage" kindref="compound">themis::storage</ref>;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::chrono_literals;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Seed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::uint64_t<sp/>kPhase3TestSeed<sp/>=<sp/>2026;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Error<sp/>Diagnostics<sp/>Classification<sp/>Tests<sp/>(SED-01..SED-08)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="class_storage_error_diagnostics_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_storage_error_diagnostics_test" kindref="compound">StorageErrorDiagnosticsTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{};</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><ref refid="test__storage__phase3__error__handling__focused_8cpp_1acbaabc2e3ad09b5e0fdba3c466c9c2ec" kindref="member">TEST_F</ref>(<ref refid="class_storage_error_diagnostics_test" kindref="compound">StorageErrorDiagnosticsTest</ref>,<sp/>SED01_ClassifyWalWriteFailed)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/><ref refid="namespacethemis_1_1storage_1a51600a11601864efd79ed59e3efd7012" kindref="member">classifyErrorIncident</ref>(<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aace96995212afa8424323bebea90ebf0c" kindref="member">StorageErrorCode::WAL_WRITE_FAILED</ref>);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.error_code,<sp/><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aace96995212afa8424323bebea90ebf0c" kindref="member">StorageErrorCode::WAL_WRITE_FAILED</ref>);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.incident_type,<sp/><ref refid="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260a77e8f4cb05d4131b38048e6be5772375" kindref="member">ErrorIncidentType::RECOVERY_FAULT</ref>);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.severity,<sp/><ref refid="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296a99cd1c61610c76a57cb8d10d6df6b870" kindref="member">ErrorSeverity::CRITICAL</ref>);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ctx.is_durability_threat);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ctx.is_retryable);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><ref refid="test__storage__phase3__error__handling__focused_8cpp_1acbaabc2e3ad09b5e0fdba3c466c9c2ec" kindref="member">TEST_F</ref>(<ref refid="class_storage_error_diagnostics_test" kindref="compound">StorageErrorDiagnosticsTest</ref>,<sp/>SED02_ClassifyTransactionConflict)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/><ref refid="namespacethemis_1_1storage_1a51600a11601864efd79ed59e3efd7012" kindref="member">classifyErrorIncident</ref>(<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aad8b5ed74e48bb7fa6430b97d0801380d" kindref="member">StorageErrorCode::TRANSACTION_CONFLICT</ref>);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.incident_type,<sp/><ref refid="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260ad8b5ed74e48bb7fa6430b97d0801380d" kindref="member">ErrorIncidentType::TRANSACTION_CONFLICT</ref>);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.severity,<sp/><ref refid="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296ac87f3be66ffc3c0d4249f1c2cc5f3cce" kindref="member">ErrorSeverity::MEDIUM</ref>);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ctx.is_durability_threat);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ctx.is_retryable);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.retry_count,<sp/>3);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><ref refid="test__storage__phase3__error__handling__focused_8cpp_1acbaabc2e3ad09b5e0fdba3c466c9c2ec" kindref="member">TEST_F</ref>(<ref refid="class_storage_error_diagnostics_test" kindref="compound">StorageErrorDiagnosticsTest</ref>,<sp/>SED03_MapErrorMessageStorageExhausted)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2a" kindref="member">StorageErrorCode</ref><sp/>code1<sp/>=<sp/><ref refid="namespacethemis_1_1storage_1a3e5a7a6033f523941e77c823ae4197df" kindref="member">mapErrorMessage</ref>(</highlight><highlight class="stringliteral">&quot;Disk<sp/>is<sp/>full&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(code1,<sp/><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa2c44c6a2b9b735053747bad5aef91e09" kindref="member">StorageErrorCode::STORAGE_EXHAUSTED</ref>);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2a" kindref="member">StorageErrorCode</ref><sp/>code2<sp/>=<sp/><ref refid="namespacethemis_1_1storage_1a3e5a7a6033f523941e77c823ae4197df" kindref="member">mapErrorMessage</ref>(</highlight><highlight class="stringliteral">&quot;NO<sp/>SPACE<sp/>LEFT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(code2,<sp/><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa2c44c6a2b9b735053747bad5aef91e09" kindref="member">StorageErrorCode::STORAGE_EXHAUSTED</ref>);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2a" kindref="member">StorageErrorCode</ref><sp/>code3<sp/>=<sp/><ref refid="namespacethemis_1_1storage_1a3e5a7a6033f523941e77c823ae4197df" kindref="member">mapErrorMessage</ref>(</highlight><highlight class="stringliteral">&quot;capacity<sp/>exhausted&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(code3,<sp/><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa2c44c6a2b9b735053747bad5aef91e09" kindref="member">StorageErrorCode::STORAGE_EXHAUSTED</ref>);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><ref refid="test__storage__phase3__error__handling__focused_8cpp_1acbaabc2e3ad09b5e0fdba3c466c9c2ec" kindref="member">TEST_F</ref>(<ref refid="class_storage_error_diagnostics_test" kindref="compound">StorageErrorDiagnosticsTest</ref>,<sp/>SED04_MapErrorMessageCorruption)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2a" kindref="member">StorageErrorCode</ref><sp/>code1<sp/>=<sp/><ref refid="namespacethemis_1_1storage_1a3e5a7a6033f523941e77c823ae4197df" kindref="member">mapErrorMessage</ref>(</highlight><highlight class="stringliteral">&quot;File<sp/>corrupted&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(code1,<sp/><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa9bba98ef8e9d6ba21c38206e323f92fd" kindref="member">StorageErrorCode::WAL_CORRUPTED</ref>);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2a" kindref="member">StorageErrorCode</ref><sp/>code2<sp/>=<sp/><ref refid="namespacethemis_1_1storage_1a3e5a7a6033f523941e77c823ae4197df" kindref="member">mapErrorMessage</ref>(</highlight><highlight class="stringliteral">&quot;Checksum<sp/>mismatch&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(code2,<sp/><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa9bba98ef8e9d6ba21c38206e323f92fd" kindref="member">StorageErrorCode::WAL_CORRUPTED</ref>);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><ref refid="test__storage__phase3__error__handling__focused_8cpp_1acbaabc2e3ad09b5e0fdba3c466c9c2ec" kindref="member">TEST_F</ref>(<ref refid="class_storage_error_diagnostics_test" kindref="compound">StorageErrorDiagnosticsTest</ref>,<sp/>SED05_MapErrorMessageTimeout)<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2a" kindref="member">StorageErrorCode</ref><sp/>code<sp/>=<sp/><ref refid="namespacethemis_1_1storage_1a3e5a7a6033f523941e77c823ae4197df" kindref="member">mapErrorMessage</ref>(</highlight><highlight class="stringliteral">&quot;Operation<sp/>timed<sp/>out&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(code,<sp/><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aafd7ff252215c3ea5e5e5b047b3ad9821" kindref="member">StorageErrorCode::RECOVERY_TIMEOUT</ref>);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><ref refid="test__storage__phase3__error__handling__focused_8cpp_1acbaabc2e3ad09b5e0fdba3c466c9c2ec" kindref="member">TEST_F</ref>(<ref refid="class_storage_error_diagnostics_test" kindref="compound">StorageErrorDiagnosticsTest</ref>,<sp/>SED06_BuildErrorContextWithSuggestions)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/><ref refid="namespacethemis_1_1storage_1a54a466461f596fa64eb438f915d52183" kindref="member">buildErrorContext</ref>(</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa2c44c6a2b9b735053747bad5aef91e09" kindref="member">StorageErrorCode::STORAGE_EXHAUSTED</ref>,</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;checkpoint()&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;/nvme/themis.wal&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.error_code,<sp/><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa2c44c6a2b9b735053747bad5aef91e09" kindref="member">StorageErrorCode::STORAGE_EXHAUSTED</ref>);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.operation_context,<sp/></highlight><highlight class="stringliteral">&quot;checkpoint()&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.affected_resource,<sp/></highlight><highlight class="stringliteral">&quot;/nvme/themis.wal&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ctx.recovery_suggestion.empty());</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ctx.recovery_suggestion.find(</highlight><highlight class="stringliteral">&quot;Free<sp/>disk<sp/>space&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><ref refid="test__storage__phase3__error__handling__focused_8cpp_1acbaabc2e3ad09b5e0fdba3c466c9c2ec" kindref="member">TEST_F</ref>(<ref refid="class_storage_error_diagnostics_test" kindref="compound">StorageErrorDiagnosticsTest</ref>,<sp/>SED07_BuildErrorContextRecoveryIncomplete)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/><ref refid="namespacethemis_1_1storage_1a54a466461f596fa64eb438f915d52183" kindref="member">buildErrorContext</ref>(</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa9c95f27f06d45e297578e07af65fdf91" kindref="member">StorageErrorCode::RECOVERY_INCOMPLETE</ref>,</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;recover()&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.severity,<sp/><ref refid="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296ab89de3b4b81c4facfac906edf29aec8c" kindref="member">ErrorSeverity::HIGH</ref>);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ctx.recovery_suggestion.find(</highlight><highlight class="stringliteral">&quot;backup&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos<sp/>||</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx.recovery_suggestion.find(</highlight><highlight class="stringliteral">&quot;Partial&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><ref refid="test__storage__phase3__error__handling__focused_8cpp_1acbaabc2e3ad09b5e0fdba3c466c9c2ec" kindref="member">TEST_F</ref>(<ref refid="class_storage_error_diagnostics_test" kindref="compound">StorageErrorDiagnosticsTest</ref>,<sp/>SED08_ErrorNameAndDescription)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1storage_1a8f4cdbc1b48a6e2a81fec7453b0f0fde" kindref="member">errorCodeName</ref>(<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aace96995212afa8424323bebea90ebf0c" kindref="member">StorageErrorCode::WAL_WRITE_FAILED</ref>),<sp/></highlight><highlight class="stringliteral">&quot;WAL_WRITE_FAILED&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1storage_1a8f4cdbc1b48a6e2a81fec7453b0f0fde" kindref="member">errorCodeName</ref>(<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa2c44c6a2b9b735053747bad5aef91e09" kindref="member">StorageErrorCode::STORAGE_EXHAUSTED</ref>),<sp/></highlight><highlight class="stringliteral">&quot;STORAGE_EXHAUSTED&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1storage_1ab784de5f4be846725985b732b04c8796" kindref="member">errorCodeDescription</ref>(<ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aace96995212afa8424323bebea90ebf0c" kindref="member">StorageErrorCode::WAL_WRITE_FAILED</ref>).empty());</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1storage_1a7080ad59ce8d0b5e6feb065b61db0b5b" kindref="member">incidentTypeName</ref>(<ref refid="namespacethemis_1_1storage_1a0a302f6d11bc1ce2d09eaeca1303d260a77e8f4cb05d4131b38048e6be5772375" kindref="member">ErrorIncidentType::RECOVERY_FAULT</ref>),<sp/></highlight><highlight class="stringliteral">&quot;RECOVERY_FAULT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1storage_1a469779c4fd6e2da45af656c2eed92917" kindref="member">severityName</ref>(<ref refid="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296a99cd1c61610c76a57cb8d10d6df6b870" kindref="member">ErrorSeverity::CRITICAL</ref>),<sp/></highlight><highlight class="stringliteral">&quot;CRITICAL&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>Recovery<sp/>Fault<sp/>Handler<sp/>Tests<sp/>(SRF-01..SRF-08)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154" refid="class_recovery_fault_handler_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_recovery_fault_handler_test" kindref="compound">RecoveryFaultHandlerTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_recovery_fault_handler" kindref="compound">RecoveryFaultHandler</ref><sp/><ref refid="class_recovery_fault_handler_test_1aebe9475c5412e98bad04e1e3cd310d24" kindref="member">handler</ref>;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><ref refid="test__storage__phase3__error__handling__focused_8cpp_1acbaabc2e3ad09b5e0fdba3c466c9c2ec" kindref="member">TEST_F</ref>(<ref refid="class_recovery_fault_handler_test" kindref="compound">RecoveryFaultHandlerTest</ref>,<sp/>SRF01_HandleTornWalEntry)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>report<sp/>=<sp/>handler.handleTornWalEntry(</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;/nvme/themis.wal&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>100,<sp/><sp/></highlight><highlight class="comment">//<sp/>checkpoint_seq</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>200,<sp/><sp/></highlight><highlight class="comment">//<sp/>fault_seq</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>99<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>entries_replayed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(report.fault_type,<sp/><ref refid="namespacethemis_1_1storage_1a20eaaf9f50e5c9d9fc5850c4bba1d5cfa0c7156b60e218ffc716456f21a9d28d4" kindref="member">RecoveryFaultType::TORN_WAL_ENTRY</ref>);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(report.error_code,<sp/><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa9c95f27f06d45e297578e07af65fdf91" kindref="member">StorageErrorCode::RECOVERY_INCOMPLETE</ref>);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(report.entries_replayed,<sp/>99);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(report.recovery_suggestion.empty());</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><ref refid="test__storage__phase3__error__handling__focused_8cpp_1acbaabc2e3ad09b5e0fdba3c466c9c2ec" kindref="member">TEST_F</ref>(<ref refid="class_recovery_fault_handler_test" kindref="compound">RecoveryFaultHandlerTest</ref>,<sp/>SRF02_HandleInvalidCheckpoint)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>report<sp/>=<sp/>handler.handleInvalidCheckpoint(</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>150,<sp/><sp/></highlight><highlight class="comment">//<sp/>checkpoint_seq<sp/>(invalid)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>120,<sp/><sp/></highlight><highlight class="comment">//<sp/>wal_tail_seq</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>100<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>recovery_start_seq<sp/>(fallback)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(report.fault_type,<sp/><ref refid="namespacethemis_1_1storage_1a20eaaf9f50e5c9d9fc5850c4bba1d5cfa85616a55008a70504f6969ceed24e7f9" kindref="member">RecoveryFaultType::CHECKPOINT_INVALID</ref>);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(report.error_code,<sp/><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa46a0a236c2516f889d1272e4dda2b58d" kindref="member">StorageErrorCode::CHECKPOINT_FAILED</ref>);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(report.should_stop_recovery);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(report.is_retryable);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><ref refid="test__storage__phase3__error__handling__focused_8cpp_1acbaabc2e3ad09b5e0fdba3c466c9c2ec" kindref="member">TEST_F</ref>(<ref refid="class_recovery_fault_handler_test" kindref="compound">RecoveryFaultHandlerTest</ref>,<sp/>SRF03_HandleRecoveryTimeout)<sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>report<sp/>=<sp/>handler.handleRecoveryTimeout(</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>600ms,<sp/><sp/></highlight><highlight class="comment">//<sp/>elapsed_time<sp/>exceeds<sp/>timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>5000,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>entries_replayed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>checkpoint_seq</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(report.error_code,<sp/><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aafd7ff252215c3ea5e5e5b047b3ad9821" kindref="member">StorageErrorCode::RECOVERY_TIMEOUT</ref>);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(report.should_stop_recovery);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(report.is_retryable);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><ref refid="test__storage__phase3__error__handling__focused_8cpp_1acbaabc2e3ad09b5e0fdba3c466c9c2ec" kindref="member">TEST_F</ref>(<ref refid="class_recovery_fault_handler_test" kindref="compound">RecoveryFaultHandlerTest</ref>,<sp/>SRF04_HandleWalFileCorruption)<sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>report<sp/>=<sp/>handler.handleWalFileCorruption(</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;/nvme/themis.wal&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;invalid_magic&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1000<sp/><sp/></highlight><highlight class="comment">//<sp/>bytes_verified</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(report.error_code,<sp/><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa9bba98ef8e9d6ba21c38206e323f92fd" kindref="member">StorageErrorCode::WAL_CORRUPTED</ref>);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(report.should_stop_recovery);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(report.is_retryable);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><ref refid="test__storage__phase3__error__handling__focused_8cpp_1acbaabc2e3ad09b5e0fdba3c466c9c2ec" kindref="member">TEST_F</ref>(<ref refid="class_recovery_fault_handler_test" kindref="compound">RecoveryFaultHandlerTest</ref>,<sp/>SRF05_HandleWalReadErrorWithRetries)<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>retry<sp/>should<sp/>be<sp/>accepted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>report1<sp/>=<sp/>handler.handleWalReadError(</highlight><highlight class="stringliteral">&quot;/nvme/themis.wal&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;permission<sp/>denied&quot;</highlight><highlight class="normal">,<sp/>0);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(report1.is_retryable);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>max<sp/>retries,<sp/>should<sp/>not<sp/>be<sp/>retryable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>report2<sp/>=<sp/>handler.handleWalReadError(</highlight><highlight class="stringliteral">&quot;/nvme/themis.wal&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;permission<sp/>denied&quot;</highlight><highlight class="normal">,<sp/>3);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(report2.is_retryable);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><ref refid="test__storage__phase3__error__handling__focused_8cpp_1acbaabc2e3ad09b5e0fdba3c466c9c2ec" kindref="member">TEST_F</ref>(<ref refid="class_recovery_fault_handler_test" kindref="compound">RecoveryFaultHandlerTest</ref>,<sp/>SRF06_HandleReplayEntryFailureNonCritical)<sp/>{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>report<sp/>=<sp/>handler.handleReplayEntryFailure(</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>500,</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;unknown<sp/>key<sp/>format&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>non-critical</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(report.should_stop_recovery);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(report.is_retryable);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><ref refid="test__storage__phase3__error__handling__focused_8cpp_1acbaabc2e3ad09b5e0fdba3c466c9c2ec" kindref="member">TEST_F</ref>(<ref refid="class_recovery_fault_handler_test" kindref="compound">RecoveryFaultHandlerTest</ref>,<sp/>SRF07_HandleReplayEntryFailureCritical)<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>report<sp/>=<sp/>handler.handleReplayEntryFailure(</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>500,</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;transaction<sp/>violates<sp/>invariant&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>critical</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(report.should_stop_recovery);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(report.is_retryable);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><ref refid="test__storage__phase3__error__handling__focused_8cpp_1acbaabc2e3ad09b5e0fdba3c466c9c2ec" kindref="member">TEST_F</ref>(<ref refid="class_recovery_fault_handler_test" kindref="compound">RecoveryFaultHandlerTest</ref>,<sp/>SRF08_HandleRecoveryRetryExhausted)<sp/>{</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>report<sp/>=<sp/>handler.handleRecoveryRetryExhausted(</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>100,</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>3,</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;persistent<sp/>I/O<sp/>errors&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(report.fault_type,<sp/><ref refid="namespacethemis_1_1storage_1a20eaaf9f50e5c9d9fc5850c4bba1d5cfa85c595fb6605e08c22403dec2eac8ca3" kindref="member">RecoveryFaultType::RECOVERY_RETRY_EXHAUSTED</ref>);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(report.should_stop_recovery);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(report.is_retryable);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>Storage<sp/>Pressure<sp/>Manager<sp/>Tests<sp/>(SPM-01..SPM-08)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251" refid="class_storage_pressure_manager_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_storage_pressure_manager_test" kindref="compound">StoragePressureManagerTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_storage_pressure_manager" kindref="compound">StoragePressureManager</ref><sp/><ref refid="class_storage_pressure_manager_test_1a6cf3f62dd3c91b4c0678b760effbb903" kindref="member">mgr</ref>;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><ref refid="test__storage__phase3__error__handling__focused_8cpp_1acbaabc2e3ad09b5e0fdba3c466c9c2ec" kindref="member">TEST_F</ref>(<ref refid="class_storage_pressure_manager_test" kindref="compound">StoragePressureManagerTest</ref>,<sp/>SPM01_GetCapacityMetricsNormal)<sp/>{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.updateCapacity(1000000,<sp/>500000);<sp/><sp/></highlight><highlight class="comment">//<sp/>50%<sp/>utilization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>metrics<sp/>=<sp/>mgr.getCapacityMetrics();</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.total_capacity_bytes,<sp/>1000000);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.used_bytes,<sp/>500000);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.escalation_level,<sp/><ref refid="namespacethemis_1_1storage_1aa9cdd7f61de78d5fe9de4e7930c9dc4ba1e23852820b9154316c7c06e2b7ba051" kindref="member">PressureEscalationLevel::NORMAL</ref>);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><ref refid="test__storage__phase3__error__handling__focused_8cpp_1acbaabc2e3ad09b5e0fdba3c466c9c2ec" kindref="member">TEST_F</ref>(<ref refid="class_storage_pressure_manager_test" kindref="compound">StoragePressureManagerTest</ref>,<sp/>SPM02_CanAcceptWriteNormal)<sp/>{</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.updateCapacity(1000000,<sp/>500000);<sp/><sp/></highlight><highlight class="comment">//<sp/>50%<sp/>utilization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.canAcceptWrite(100000));</highlight></codeline>
+<codeline lineno="267"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><ref refid="test__storage__phase3__error__handling__focused_8cpp_1acbaabc2e3ad09b5e0fdba3c466c9c2ec" kindref="member">TEST_F</ref>(<ref refid="class_storage_pressure_manager_test" kindref="compound">StoragePressureManagerTest</ref>,<sp/>SPM03_CanAcceptWriteWhenExhausted)<sp/>{</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.updateCapacity(1000000,<sp/>995000);<sp/><sp/></highlight><highlight class="comment">//<sp/>99.5%<sp/>utilization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(mgr.canAcceptWrite(1000));</highlight></codeline>
+<codeline lineno="272"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><ref refid="test__storage__phase3__error__handling__focused_8cpp_1acbaabc2e3ad09b5e0fdba3c466c9c2ec" kindref="member">TEST_F</ref>(<ref refid="class_storage_pressure_manager_test" kindref="compound">StoragePressureManagerTest</ref>,<sp/>SPM04_PressureEscalation)<sp/>{</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.updateCapacity(1000000,<sp/>700000);<sp/><sp/></highlight><highlight class="comment">//<sp/>70%<sp/>—<sp/>should<sp/>be<sp/>NORMAL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.getCapacityMetrics().escalation_level,<sp/><ref refid="namespacethemis_1_1storage_1aa9cdd7f61de78d5fe9de4e7930c9dc4ba1e23852820b9154316c7c06e2b7ba051" kindref="member">PressureEscalationLevel::NORMAL</ref>);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.updateCapacity(1000000,<sp/>800000);<sp/><sp/></highlight><highlight class="comment">//<sp/>80%<sp/>—<sp/>should<sp/>be<sp/>WARNING</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.getCapacityMetrics().escalation_level,<sp/><ref refid="namespacethemis_1_1storage_1aa9cdd7f61de78d5fe9de4e7930c9dc4ba059e9861e0400dfbe05c98a841f3f96b" kindref="member">PressureEscalationLevel::WARNING</ref>);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.updateCapacity(1000000,<sp/>900000);<sp/><sp/></highlight><highlight class="comment">//<sp/>90%<sp/>—<sp/>should<sp/>be<sp/>ALERT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.getCapacityMetrics().escalation_level,<sp/><ref refid="namespacethemis_1_1storage_1aa9cdd7f61de78d5fe9de4e7930c9dc4ba320f86f60f25459ba5550e000b2c3929" kindref="member">PressureEscalationLevel::ALERT</ref>);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.updateCapacity(1000000,<sp/>970000);<sp/><sp/></highlight><highlight class="comment">//<sp/>97%<sp/>—<sp/>should<sp/>be<sp/>CRITICAL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.getCapacityMetrics().escalation_level,<sp/><ref refid="namespacethemis_1_1storage_1aa9cdd7f61de78d5fe9de4e7930c9dc4ba99cd1c61610c76a57cb8d10d6df6b870" kindref="member">PressureEscalationLevel::CRITICAL</ref>);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.updateCapacity(1000000,<sp/>995000);<sp/><sp/></highlight><highlight class="comment">//<sp/>99.5%<sp/>—<sp/>should<sp/>be<sp/>EXHAUSTED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.getCapacityMetrics().escalation_level,<sp/><ref refid="namespacethemis_1_1storage_1aa9cdd7f61de78d5fe9de4e7930c9dc4bac30a2ebffd3127f9dc4bb1cff2e29cea" kindref="member">PressureEscalationLevel::EXHAUSTED</ref>);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><ref refid="test__storage__phase3__error__handling__focused_8cpp_1acbaabc2e3ad09b5e0fdba3c466c9c2ec" kindref="member">TEST_F</ref>(<ref refid="class_storage_pressure_manager_test" kindref="compound">StoragePressureManagerTest</ref>,<sp/>SPM05_ReportStorageExhausted)<sp/>{</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>mgr.reportStorageExhausted(</highlight><highlight class="stringliteral">&quot;write()&quot;</highlight><highlight class="normal">,<sp/>1000000,<sp/>995000);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.error_code,<sp/><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa2c44c6a2b9b735053747bad5aef91e09" kindref="member">StorageErrorCode::STORAGE_EXHAUSTED</ref>);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.severity,<sp/><ref refid="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296a99cd1c61610c76a57cb8d10d6df6b870" kindref="member">ErrorSeverity::CRITICAL</ref>);</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ctx.is_durability_threat);</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ctx.recovery_suggestion.empty());</highlight></codeline>
+<codeline lineno="297"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><ref refid="test__storage__phase3__error__handling__focused_8cpp_1acbaabc2e3ad09b5e0fdba3c466c9c2ec" kindref="member">TEST_F</ref>(<ref refid="class_storage_pressure_manager_test" kindref="compound">StoragePressureManagerTest</ref>,<sp/>SPM06_CanStartBackupNormal)<sp/>{</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.updateCapacity(1000000,<sp/>500000);<sp/><sp/></highlight><highlight class="comment">//<sp/>50%<sp/>utilization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.canStartBackup(100000,<sp/>0));<sp/><sp/></highlight><highlight class="comment">//<sp/>0<sp/>active<sp/>backups</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><ref refid="test__storage__phase3__error__handling__focused_8cpp_1acbaabc2e3ad09b5e0fdba3c466c9c2ec" kindref="member">TEST_F</ref>(<ref refid="class_storage_pressure_manager_test" kindref="compound">StoragePressureManagerTest</ref>,<sp/>SPM07_CanStartBackupLimitExceeded)<sp/>{</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.updateCapacity(1000000,<sp/>500000);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(mgr.canStartBackup(100000,<sp/><ref refid="namespacethemis_1_1storage_1adaf954e285073f157e5718c19a30ab04" kindref="member">kMaxConcurrentBackups</ref>));</highlight></codeline>
+<codeline lineno="307"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><ref refid="test__storage__phase3__error__handling__focused_8cpp_1acbaabc2e3ad09b5e0fdba3c466c9c2ec" kindref="member">TEST_F</ref>(<ref refid="class_storage_pressure_manager_test" kindref="compound">StoragePressureManagerTest</ref>,<sp/>SPM08_ReportBackupLimitExceeded)<sp/>{</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>mgr.reportBackupLimitExceeded(</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1adaf954e285073f157e5718c19a30ab04" kindref="member">kMaxConcurrentBackups</ref>,</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1adaf954e285073f157e5718c19a30ab04" kindref="member">kMaxConcurrentBackups</ref></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.error_code,<sp/><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa9b398b62604e996b474fa9dc9d4c162e" kindref="member">StorageErrorCode::BACKUP_LIMIT_EXCEEDED</ref>);</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.severity,<sp/><ref refid="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296ab89de3b4b81c4facfac906edf29aec8c" kindref="member">ErrorSeverity::HIGH</ref>);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ctx.is_retryable);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>4<sp/><sp/>Integration<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323" refid="class_storage_phase3_integration_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_storage_phase3_integration_test" kindref="compound">StoragePhase3IntegrationTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{};</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><ref refid="test__storage__phase3__error__handling__focused_8cpp_1acbaabc2e3ad09b5e0fdba3c466c9c2ec" kindref="member">TEST_F</ref>(<ref refid="class_storage_phase3_integration_test" kindref="compound">StoragePhase3IntegrationTest</ref>,<sp/>E2E_RecoveryFaultDiagnosticsFlow)<sp/>{</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_recovery_fault_handler" kindref="compound">RecoveryFaultHandler</ref><sp/>fault_handler;</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>torn<sp/>WAL<sp/>entry<sp/>during<sp/>recovery</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fault_report<sp/>=<sp/>fault_handler.<ref refid="classthemis_1_1storage_1_1_recovery_fault_handler_1a6e76c2402366e90d84c4f6841b112ddf" kindref="member">handleTornWalEntry</ref>(</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;/data/wal&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>100,</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>150,</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>100</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(fault_report.error_code,<sp/><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa9c95f27f06d45e297578e07af65fdf91" kindref="member">StorageErrorCode::RECOVERY_INCOMPLETE</ref>);</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>diagnostic<sp/>context</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>error_ctx<sp/>=<sp/><ref refid="namespacethemis_1_1storage_1a54a466461f596fa64eb438f915d52183" kindref="member">buildErrorContext</ref>(</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fault_report.error_code,</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fault_report.fault_message,</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;/data/wal&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(error_ctx.severity,<sp/><ref refid="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296ab89de3b4b81c4facfac906edf29aec8c" kindref="member">ErrorSeverity::HIGH</ref>);</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(error_ctx.is_durability_threat);</highlight></codeline>
+<codeline lineno="347"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><ref refid="test__storage__phase3__error__handling__focused_8cpp_1acbaabc2e3ad09b5e0fdba3c466c9c2ec" kindref="member">TEST_F</ref>(<ref refid="class_storage_phase3_integration_test" kindref="compound">StoragePhase3IntegrationTest</ref>,<sp/>E2E_CapacityManagementFlow)<sp/>{</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_storage_pressure_manager" kindref="compound">StoragePressureManager</ref><sp/>mgr;</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Start<sp/>with<sp/>normal<sp/>capacity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.<ref refid="classthemis_1_1storage_1_1_storage_pressure_manager_1ad54b75bd8d4ee48f27348c855dea8eca" kindref="member">updateCapacity</ref>(10000000,<sp/>5000000);<sp/><sp/></highlight><highlight class="comment">//<sp/>50%</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.<ref refid="classthemis_1_1storage_1_1_storage_pressure_manager_1a6235d10806cd7572e70e83de1943a05d" kindref="member">canAcceptWrite</ref>(1000000));</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gradually<sp/>increase<sp/>utilization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.<ref refid="classthemis_1_1storage_1_1_storage_pressure_manager_1ad54b75bd8d4ee48f27348c855dea8eca" kindref="member">updateCapacity</ref>(10000000,<sp/>8000000);<sp/><sp/></highlight><highlight class="comment">//<sp/>80%</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>metrics<sp/>=<sp/>mgr.<ref refid="classthemis_1_1storage_1_1_storage_pressure_manager_1a2e14bb774452d1b1e7718aaded70d765" kindref="member">getCapacityMetrics</ref>();</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.escalation_level,<sp/><ref refid="namespacethemis_1_1storage_1aa9cdd7f61de78d5fe9de4e7930c9dc4ba059e9861e0400dfbe05c98a841f3f96b" kindref="member">PressureEscalationLevel::WARNING</ref>);</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.<ref refid="classthemis_1_1storage_1_1_storage_pressure_manager_1a6235d10806cd7572e70e83de1943a05d" kindref="member">canAcceptWrite</ref>(100000));</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reach<sp/>critical<sp/>level</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.<ref refid="classthemis_1_1storage_1_1_storage_pressure_manager_1ad54b75bd8d4ee48f27348c855dea8eca" kindref="member">updateCapacity</ref>(10000000,<sp/>9600000);<sp/><sp/></highlight><highlight class="comment">//<sp/>96%</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics<sp/>=<sp/>mgr.<ref refid="classthemis_1_1storage_1_1_storage_pressure_manager_1a2e14bb774452d1b1e7718aaded70d765" kindref="member">getCapacityMetrics</ref>();</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.escalation_level,<sp/><ref refid="namespacethemis_1_1storage_1aa9cdd7f61de78d5fe9de4e7930c9dc4ba99cd1c61610c76a57cb8d10d6df6b870" kindref="member">PressureEscalationLevel::CRITICAL</ref>);</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Report<sp/>storage<sp/>exhausted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>mgr.<ref refid="classthemis_1_1storage_1_1_storage_pressure_manager_1ab15692f4a366bf319574dadbbecdb273" kindref="member">reportStorageExhausted</ref>(</highlight><highlight class="stringliteral">&quot;flush()&quot;</highlight><highlight class="normal">,<sp/>10000000,<sp/>9950000);</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.error_code,<sp/><ref refid="namespacethemis_1_1storage_1ac2b7a2a27d7018ca9b4d8d7882729f2aa2c44c6a2b9b735053747bad5aef91e09" kindref="member">StorageErrorCode::STORAGE_EXHAUSTED</ref>);</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.severity,<sp/><ref refid="namespacethemis_1_1storage_1a2f98c88c814e3e64076d85ec09a5d296a99cd1c61610c76a57cb8d10d6df6b870" kindref="member">ErrorSeverity::CRITICAL</ref>);</highlight></codeline>
+<codeline lineno="371"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Main</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/storage/test_storage_phase3_error_handling_focused.cpp"/>
+  </compounddef>
+</doxygen>

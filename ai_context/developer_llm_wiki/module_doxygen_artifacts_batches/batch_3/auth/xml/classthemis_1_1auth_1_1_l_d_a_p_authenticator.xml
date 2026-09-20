@@ -1,0 +1,673 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_l_d_a_p_authenticator" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::LDAPAuthenticator</compoundname>
+    <includes refid="ldap__authenticator_8h" local="no">ldap_authenticator.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1a0a92f02247b2555666943b90bf7653e7" prot="public" static="no">
+        <type>std::function&lt; <ref refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result" kindref="compound">LDAPAuthResult</ref>(const std::string &amp;username, const std::string &amp;dn, const std::string &amp;password)&gt;</type>
+        <definition>using themis::auth::LDAPAuthenticator::LdapBindFn = std::function&lt;LDAPAuthResult(const std::string&amp; username,
+                                                   const std::string&amp; dn,
+                                                   const std::string&amp; password)&gt;</definition>
+        <argsstring></argsstring>
+        <name>LdapBindFn</name>
+        <qualifiedname>themis::auth::LDAPAuthenticator::LdapBindFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="125" column="5" bodyfile="include/auth/ldap_authenticator.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1af0a992c5b0050c4e8e4476cc3d11a972" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::LDAPAuthenticator::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::auth::LDAPAuthenticator::initialized_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="206" column="18" bodyfile="include/auth/ldap_authenticator.h" bodystart="206" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1acecb2ea33efaefc0c98a44078a7b41a6" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1auth_1_1_l_d_a_p_config" kindref="compound">LDAPConfig</ref></type>
+        <definition>LDAPConfig themis::auth::LDAPAuthenticator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::auth::LDAPAuthenticator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="207" column="18" bodyfile="include/auth/ldap_authenticator.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1abc45df1e8bf070963b6e6035b7223f2e" prot="private" static="no" mutable="no">
+        <type>utils::AuditLogger *</type>
+        <definition>utils::AuditLogger* themis::auth::LDAPAuthenticator::audit_logger_</definition>
+        <argsstring></argsstring>
+        <name>audit_logger_</name>
+        <qualifiedname>themis::auth::LDAPAuthenticator::audit_logger_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+<para>Non-owning, optional. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="208" column="24" bodyfile="include/auth/ldap_authenticator.h" bodystart="208" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1aae58564c080d5ec8083e2fc5bca15b07" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1auth_1_1_l_d_a_p_connection_pool" kindref="compound">LDAPConnectionPool</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;LDAPConnectionPool&gt; themis::auth::LDAPAuthenticator::pool_</definition>
+        <argsstring></argsstring>
+        <name>pool_</name>
+        <qualifiedname>themis::auth::LDAPAuthenticator::pool_</qualifiedname>
+        <briefdescription>
+<para><ref refid="ldap__connection__pool_8h_1ae1d91d802fce48f28cb3fa636dc5bc1e" kindref="member">LDAP</ref> connection pool (optional). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="210" column="21" bodyfile="include/auth/ldap_authenticator.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1ad9fbf43d96f66b824d79676bd347b463" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1auth_1_1_auth_worker_thread_pool" kindref="compound">AuthWorkerThreadPool</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;AuthWorkerThreadPool&gt; themis::auth::LDAPAuthenticator::worker_pool_</definition>
+        <argsstring></argsstring>
+        <name>worker_pool_</name>
+        <qualifiedname>themis::auth::LDAPAuthenticator::worker_pool_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="211" column="21" bodyfile="include/auth/ldap_authenticator.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1adad9ec445e772ce2ea2b3d11c844b8a3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::LDAPAuthenticator::setLdapBindFn</definition>
+        <argsstring>(LdapBindFn fn)</argsstring>
+        <name>setLdapBindFn</name>
+        <qualifiedname>themis::auth::LDAPAuthenticator::setLdapBindFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1a0a92f02247b2555666943b90bf7653e7" kindref="member">LdapBindFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Ldap Bind Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="133" column="17" bodyfile="src/auth/ldap_authenticator.cpp" bodystart="243" bodyend="247"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1ada5a4d7f16e4ea4642ede2f25dc7042f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::LDAPAuthenticator::LDAPAuthenticator</definition>
+        <argsstring>()</argsstring>
+        <name>LDAPAuthenticator</name>
+        <qualifiedname>themis::auth::LDAPAuthenticator::LDAPAuthenticator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="135" column="5" bodyfile="src/auth/ldap_authenticator.cpp" bodystart="253" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1a44c486019bf5531de0246728fbc1f38c" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::LDAPAuthenticator::LDAPAuthenticator</definition>
+        <argsstring>(const LDAPConfig &amp;config)</argsstring>
+        <name>LDAPAuthenticator</name>
+        <qualifiedname>themis::auth::LDAPAuthenticator::LDAPAuthenticator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_l_d_a_p_config" kindref="compound">LDAPConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="137" column="14" bodyfile="include/auth/ldap_authenticator.h" bodystart="137" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1ac7409719eab6cfc68837c17f49a20844" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::LDAPAuthenticator::~LDAPAuthenticator</definition>
+        <argsstring>()</argsstring>
+        <name>~LDAPAuthenticator</name>
+        <qualifiedname>themis::auth::LDAPAuthenticator::~LDAPAuthenticator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="141" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1a8c0641f4ccb21f57842f9035fd618c86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::LDAPAuthenticator::LDAPAuthenticator</definition>
+        <argsstring>(const LDAPAuthenticator &amp;)=delete</argsstring>
+        <name>LDAPAuthenticator</name>
+        <qualifiedname>themis::auth::LDAPAuthenticator::LDAPAuthenticator</qualifiedname>
+        <param>
+          <type>const LDAPAuthenticator &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="144" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1a9895a11a3f2791c5a2de6c1e839fae8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1ada5a4d7f16e4ea4642ede2f25dc7042f" kindref="member">LDAPAuthenticator</ref> &amp;</type>
+        <definition>LDAPAuthenticator &amp; themis::auth::LDAPAuthenticator::operator=</definition>
+        <argsstring>(const LDAPAuthenticator &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::auth::LDAPAuthenticator::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1ada5a4d7f16e4ea4642ede2f25dc7042f" kindref="member">LDAPAuthenticator</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="145" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1adae57a3dcad1fea1f6257bdd1cd92ea4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::LDAPAuthenticator::LDAPAuthenticator</definition>
+        <argsstring>(LDAPAuthenticator &amp;&amp;)=delete</argsstring>
+        <name>LDAPAuthenticator</name>
+        <qualifiedname>themis::auth::LDAPAuthenticator::LDAPAuthenticator</qualifiedname>
+        <param>
+          <type>LDAPAuthenticator &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="146" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1a2eadff62b8be1d8f459d33e6308535fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1ada5a4d7f16e4ea4642ede2f25dc7042f" kindref="member">LDAPAuthenticator</ref> &amp;</type>
+        <definition>LDAPAuthenticator &amp; themis::auth::LDAPAuthenticator::operator=</definition>
+        <argsstring>(LDAPAuthenticator &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::auth::LDAPAuthenticator::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1ada5a4d7f16e4ea4642ede2f25dc7042f" kindref="member">LDAPAuthenticator</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="147" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1ad648e3d0ea6a5c88b43dd5e7af0851cd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::LDAPAuthenticator::setAuditLogger</definition>
+        <argsstring>(utils::AuditLogger *logger)</argsstring>
+        <name>setAuditLogger</name>
+        <qualifiedname>themis::auth::LDAPAuthenticator::setAuditLogger</qualifiedname>
+        <param>
+          <type>utils::AuditLogger *</type>
+          <declname>logger</declname>
+        </param>
+        <briefdescription>
+<para>Set Audit Logger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setAuditLogger without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="154" column="10" bodyfile="include/auth/ldap_authenticator.h" bodystart="154" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1ad4fbbef4ea00b3f65f8bf5c428714f2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::LDAPAuthenticator::initialize</definition>
+        <argsstring>(const LDAPConfig &amp;config)</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::auth::LDAPAuthenticator::initialize</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_l_d_a_p_config" kindref="compound">LDAPConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="161" column="10" bodyfile="src/auth/ldap_authenticator.cpp" bodystart="270" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1adaea6eb87a5ef213b32496e146f942c0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::LDAPAuthenticator::isInitialized</definition>
+        <argsstring>() const</argsstring>
+        <name>isInitialized</name>
+        <qualifiedname>themis::auth::LDAPAuthenticator::isInitialized</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="163" column="10" bodyfile="include/auth/ldap_authenticator.h" bodystart="163" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1ac759bfe2f377eb5aa01cea6a45255810" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result" kindref="compound">LDAPAuthResult</ref></type>
+        <definition>LDAPAuthResult themis::auth::LDAPAuthenticator::authenticate</definition>
+        <argsstring>(const std::string &amp;username, const std::string &amp;password)</argsstring>
+        <name>authenticate</name>
+        <qualifiedname>themis::auth::LDAPAuthenticator::authenticate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>username</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>password</declname>
+        </param>
+        <briefdescription>
+<para>Authenticate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">username</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">password</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Authentication result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Audit. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">audit_logger_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Audit. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">audit_logger_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="171" column="20" bodyfile="src/auth/ldap_authenticator.cpp" bodystart="372" bodyend="402"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1a3b5af05f51cb1af00a23b9659a7ad587" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::future&lt; <ref refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result" kindref="compound">LDAPAuthResult</ref> &gt;</type>
+        <definition>std::future&lt; LDAPAuthResult &gt; themis::auth::LDAPAuthenticator::authenticateAsync</definition>
+        <argsstring>(const std::string &amp;username, const std::string &amp;password)</argsstring>
+        <name>authenticateAsync</name>
+        <qualifiedname>themis::auth::LDAPAuthenticator::authenticateAsync</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>username</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>password</declname>
+        </param>
+        <briefdescription>
+<para>Authenticate Async. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">username</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">password</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="180" column="17" bodyfile="src/auth/ldap_authenticator.cpp" bodystart="410" bodyend="424"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1ad1a77cf57499e208143f61009ff252bb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1auth_1_1_l_d_a_p_config" kindref="compound">LDAPConfig</ref> &amp;</type>
+        <definition>const LDAPConfig &amp; themis::auth::LDAPAuthenticator::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::auth::LDAPAuthenticator::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="183" column="22" bodyfile="include/auth/ldap_authenticator.h" bodystart="183" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1af65b9f873563267c705b90ff50fdbc09" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1auth_1_1_l_d_a_p_connection_pool" kindref="compound">LDAPConnectionPool</ref> *</type>
+        <definition>const LDAPConnectionPool * themis::auth::LDAPAuthenticator::connectionPool</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>connectionPool</name>
+        <qualifiedname>themis::auth::LDAPAuthenticator::connectionPool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="185" column="30" bodyfile="include/auth/ldap_authenticator.h" bodystart="185" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1a82470349a5bded9fbacb334d6b93a0f3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::LDAPAuthenticator::buildUserDN</definition>
+        <argsstring>(const std::string &amp;username) const</argsstring>
+        <name>buildUserDN</name>
+        <qualifiedname>themis::auth::LDAPAuthenticator::buildUserDN</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>username</declname>
+        </param>
+        <briefdescription>
+<para>Build User DN. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">username</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="192" column="17" bodyfile="src/auth/ldap_authenticator.cpp" bodystart="321" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1a486f867f2c9b97471a6f6fbaa12781d8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::LDAPAuthenticator::buildGroupSearchFilter</definition>
+        <argsstring>(const std::string &amp;dn, const std::string &amp;username=&quot;&quot;) const</argsstring>
+        <name>buildGroupSearchFilter</name>
+        <qualifiedname>themis::auth::LDAPAuthenticator::buildGroupSearchFilter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dn</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>username</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="194" column="17" bodyfile="src/auth/ldap_authenticator.cpp" bodystart="353" bodyend="360"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1a549357a1fe29e7af797485a0b2c6b906" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::auth::LDAPAuthenticator::mapGroupsToRoles</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;groups) const</argsstring>
+        <name>mapGroupsToRoles</name>
+        <qualifiedname>themis::auth::LDAPAuthenticator::mapGroupsToRoles</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>groups</declname>
+        </param>
+        <briefdescription>
+<para>Map Groups To Roles. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">groups</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="202" column="17" bodyfile="src/auth/ldap_authenticator.cpp" bodystart="329" bodyend="351"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1ae40ee529fcfa8bb02fdbfb1fccc30bf6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result" kindref="compound">LDAPAuthResult</ref></type>
+        <definition>LDAPAuthResult themis::auth::LDAPAuthenticator::performBind</definition>
+        <argsstring>(const std::string &amp;username, const std::string &amp;dn, const std::string &amp;password)</argsstring>
+        <name>performBind</name>
+        <qualifiedname>themis::auth::LDAPAuthenticator::performBind</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>username</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dn</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>password</declname>
+        </param>
+        <briefdescription>
+<para>Perform Bind. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> PERMANENT FALLBACK NOTE: Purpose: Link-compatible <ref refid="ldap__connection__pool_8h_1ae1d91d802fce48f28cb3fa636dc5bc1e" kindref="member">LDAP</ref> fallback for builds without libldap.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">username</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">password</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">username</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">password</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Returns a hard-failure from performBind() so any LDAP-gated authentication request is explicitly rejected rather than accidentally allowed. This fallback is permanent for builds that intentionally omit libldap. Activation: Compiled when THEMIS_HAS_LDAP is NOT defined. Set via -DTHEMIS_ENABLE_LDAP=ON in CMake to enable the real implementation. Production Delta: All LDAP-based logins will fail with an explicit error message. No silent pass-through; the rejection is logged and audited. Real implementation: Install libldap and build with -DTHEMIS_ENABLE_LDAP=ON. The #if THEMIS_HAS_LDAP branch above handles TLS, paging, group membership, and attribute mapping. Roadmap ref: src/auth/FUTURE_ENHANCEMENTS.md § &quot;LDAP Group Membership (v1.6.0)&quot; ------------------------------------------------------------------------<mdash/> </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Audit. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">audit_logger_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="220" column="20" bodyfile="src/auth/ldap_authenticator.cpp" bodystart="955" bodyend="979"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/ldap_authenticator.h" line="123" column="1" bodyfile="include/auth/ldap_authenticator.h" bodystart="123" bodyend="227"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1abc45df1e8bf070963b6e6035b7223f2e" prot="private" virt="non-virtual"><scope>themis::auth::LDAPAuthenticator</scope><name>audit_logger_</name></member>
+      <member refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1ac759bfe2f377eb5aa01cea6a45255810" prot="public" virt="non-virtual"><scope>themis::auth::LDAPAuthenticator</scope><name>authenticate</name></member>
+      <member refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1a3b5af05f51cb1af00a23b9659a7ad587" prot="public" virt="non-virtual"><scope>themis::auth::LDAPAuthenticator</scope><name>authenticateAsync</name></member>
+      <member refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1a486f867f2c9b97471a6f6fbaa12781d8" prot="public" virt="non-virtual"><scope>themis::auth::LDAPAuthenticator</scope><name>buildGroupSearchFilter</name></member>
+      <member refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1a82470349a5bded9fbacb334d6b93a0f3" prot="public" virt="non-virtual"><scope>themis::auth::LDAPAuthenticator</scope><name>buildUserDN</name></member>
+      <member refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1acecb2ea33efaefc0c98a44078a7b41a6" prot="private" virt="non-virtual"><scope>themis::auth::LDAPAuthenticator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1af65b9f873563267c705b90ff50fdbc09" prot="public" virt="non-virtual"><scope>themis::auth::LDAPAuthenticator</scope><name>connectionPool</name></member>
+      <member refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1ad1a77cf57499e208143f61009ff252bb" prot="public" virt="non-virtual"><scope>themis::auth::LDAPAuthenticator</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1ad4fbbef4ea00b3f65f8bf5c428714f2f" prot="public" virt="non-virtual"><scope>themis::auth::LDAPAuthenticator</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1af0a992c5b0050c4e8e4476cc3d11a972" prot="private" virt="non-virtual"><scope>themis::auth::LDAPAuthenticator</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1adaea6eb87a5ef213b32496e146f942c0" prot="public" virt="non-virtual"><scope>themis::auth::LDAPAuthenticator</scope><name>isInitialized</name></member>
+      <member refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1ada5a4d7f16e4ea4642ede2f25dc7042f" prot="public" virt="non-virtual"><scope>themis::auth::LDAPAuthenticator</scope><name>LDAPAuthenticator</name></member>
+      <member refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1a44c486019bf5531de0246728fbc1f38c" prot="public" virt="non-virtual"><scope>themis::auth::LDAPAuthenticator</scope><name>LDAPAuthenticator</name></member>
+      <member refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1a8c0641f4ccb21f57842f9035fd618c86" prot="public" virt="non-virtual"><scope>themis::auth::LDAPAuthenticator</scope><name>LDAPAuthenticator</name></member>
+      <member refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1adae57a3dcad1fea1f6257bdd1cd92ea4" prot="public" virt="non-virtual"><scope>themis::auth::LDAPAuthenticator</scope><name>LDAPAuthenticator</name></member>
+      <member refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1a0a92f02247b2555666943b90bf7653e7" prot="public" virt="non-virtual"><scope>themis::auth::LDAPAuthenticator</scope><name>LdapBindFn</name></member>
+      <member refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1a549357a1fe29e7af797485a0b2c6b906" prot="public" virt="non-virtual"><scope>themis::auth::LDAPAuthenticator</scope><name>mapGroupsToRoles</name></member>
+      <member refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1a9895a11a3f2791c5a2de6c1e839fae8e" prot="public" virt="non-virtual"><scope>themis::auth::LDAPAuthenticator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1a2eadff62b8be1d8f459d33e6308535fb" prot="public" virt="non-virtual"><scope>themis::auth::LDAPAuthenticator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1ae40ee529fcfa8bb02fdbfb1fccc30bf6" prot="private" virt="non-virtual"><scope>themis::auth::LDAPAuthenticator</scope><name>performBind</name></member>
+      <member refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1aae58564c080d5ec8083e2fc5bca15b07" prot="private" virt="non-virtual"><scope>themis::auth::LDAPAuthenticator</scope><name>pool_</name></member>
+      <member refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1ad648e3d0ea6a5c88b43dd5e7af0851cd" prot="public" virt="non-virtual"><scope>themis::auth::LDAPAuthenticator</scope><name>setAuditLogger</name></member>
+      <member refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1adad9ec445e772ce2ea2b3d11c844b8a3" prot="public" virt="non-virtual"><scope>themis::auth::LDAPAuthenticator</scope><name>setLdapBindFn</name></member>
+      <member refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1ad9fbf43d96f66b824d79676bd347b463" prot="private" virt="non-virtual"><scope>themis::auth::LDAPAuthenticator</scope><name>worker_pool_</name></member>
+      <member refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1ac7409719eab6cfc68837c17f49a20844" prot="public" virt="non-virtual"><scope>themis::auth::LDAPAuthenticator</scope><name>~LDAPAuthenticator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

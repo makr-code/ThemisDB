@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_policy_engine_1_1_i_policy_evaluator" kind="struct" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::governance::PolicyEngine::IPolicyEvaluator</compoundname>
+    <derivedcompoundref refid="classthemis_1_1governance_1_1_opa_adapter" prot="public" virt="non-virtual">themis::governance::OpaAdapter</derivedcompoundref>
+    <includes refid="policy__engine_8h" local="no">policy_engine.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_policy_engine_1_1_i_policy_evaluator_1ae86099018349e7b645da68e03b3180ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::governance::PolicyEngine::IPolicyEvaluator::~IPolicyEvaluator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IPolicyEvaluator</name>
+        <qualifiedname>themis::governance::PolicyEngine::IPolicyEvaluator::~IPolicyEvaluator</qualifiedname>
+        <briefdescription>
+<para>IPolicy Evaluator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="116" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_policy_engine_1_1_i_policy_evaluator_1aeb1a647df9236310efc5e93e6a703364" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1governance_1_1_policy_decision" kindref="compound">PolicyDecision</ref> &gt;</type>
+        <definition>virtual std::optional&lt; PolicyDecision &gt; themis::governance::PolicyEngine::IPolicyEvaluator::evaluate</definition>
+        <argsstring>(const std::unordered_map&lt; std::string, std::string &gt; &amp;headers, const std::string &amp;route) const =0</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::governance::PolicyEngine::IPolicyEvaluator::evaluate</qualifiedname>
+        <reimplementedby refid="classthemis_1_1governance_1_1_opa_adapter_1a07adb18357d127b92bae7419cd674938">evaluate</reimplementedby>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>route</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="117" column="31"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::governance::OpaAdapter</label>
+        <link refid="classthemis_1_1governance_1_1_opa_adapter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::governance::PolicyEngine::IPolicyEvaluator</label>
+        <link refid="structthemis_1_1governance_1_1_policy_engine_1_1_i_policy_evaluator"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/governance/policy_engine.h" line="111" column="5" bodyfile="include/governance/policy_engine.h" bodystart="111" bodyend="120"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_policy_engine_1_1_i_policy_evaluator_1aeb1a647df9236310efc5e93e6a703364" prot="public" virt="pure-virtual"><scope>themis::governance::PolicyEngine::IPolicyEvaluator</scope><name>evaluate</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_engine_1_1_i_policy_evaluator_1ae86099018349e7b645da68e03b3180ef" prot="public" virt="virtual"><scope>themis::governance::PolicyEngine::IPolicyEvaluator</scope><name>~IPolicyEvaluator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,217 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1network_1_1_socket_timeout_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::network::SocketTimeoutGuard</compoundname>
+    <includes refid="socket__timeout__manager_8h" local="no">socket_timeout_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_socket_timeout_guard_1af517ae9d907f36948f329ad297db97e3" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1network_1_1_socket_timeout_manager" kindref="compound">SocketTimeoutManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;SocketTimeoutManager&gt; themis::network::SocketTimeoutGuard::manager_</definition>
+        <argsstring></argsstring>
+        <name>manager_</name>
+        <qualifiedname>themis::network::SocketTimeoutGuard::manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="314" column="21" bodyfile="include/network/socket_timeout_manager.h" bodystart="314" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_socket_timeout_guard_1a3fe132e1bb2f6670112cdb37d4a82e61" prot="private" static="no" mutable="no">
+        <type><ref refid="socket__timeout__manager_8h_1a30353f381f5fccbb956eea1f3a110b6c" kindref="member">socket_t</ref></type>
+        <definition>socket_t themis::network::SocketTimeoutGuard::socket_</definition>
+        <argsstring></argsstring>
+        <name>socket_</name>
+        <qualifiedname>themis::network::SocketTimeoutGuard::socket_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="315" column="14" bodyfile="include/network/socket_timeout_manager.h" bodystart="315" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_socket_timeout_guard_1aa7af362e29df37a9f61165d70aaf5fa4" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::SocketTimeoutGuard::owns_</definition>
+        <argsstring></argsstring>
+        <name>owns_</name>
+        <qualifiedname>themis::network::SocketTimeoutGuard::owns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="316" column="10" bodyfile="include/network/socket_timeout_manager.h" bodystart="316" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_socket_timeout_guard_1afba454de8e1ec1605d3f829228e1d6fe" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::SocketTimeoutGuard::SocketTimeoutGuard</definition>
+        <argsstring>(std::shared_ptr&lt; SocketTimeoutManager &gt; manager, socket_t socket)</argsstring>
+        <name>SocketTimeoutGuard</name>
+        <qualifiedname>themis::network::SocketTimeoutGuard::SocketTimeoutGuard</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1network_1_1_socket_timeout_manager" kindref="compound">SocketTimeoutManager</ref> &gt;</type>
+          <declname>manager</declname>
+        </param>
+        <param>
+          <type><ref refid="socket__timeout__manager_8h_1a30353f381f5fccbb956eea1f3a110b6c" kindref="member">socket_t</ref></type>
+          <declname>socket</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="287" column="5" bodyfile="include/network/socket_timeout_manager.h" bodystart="287" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_socket_timeout_guard_1aa0c221d6a980f554ab5e73c150b80d2b" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::SocketTimeoutGuard::~SocketTimeoutGuard</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~SocketTimeoutGuard</name>
+        <qualifiedname>themis::network::SocketTimeoutGuard::~SocketTimeoutGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="290" column="5" bodyfile="include/network/socket_timeout_manager.h" bodystart="290" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_socket_timeout_guard_1ab86ac292632d5ba2e638b5ef89e591ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::SocketTimeoutGuard::SocketTimeoutGuard</definition>
+        <argsstring>(const SocketTimeoutGuard &amp;)=delete</argsstring>
+        <name>SocketTimeoutGuard</name>
+        <qualifiedname>themis::network::SocketTimeoutGuard::SocketTimeoutGuard</qualifiedname>
+        <param>
+          <type>const SocketTimeoutGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="301" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_socket_timeout_guard_1af260f45a6bf24f3bff81083ad8a1b0b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_socket_timeout_guard_1afba454de8e1ec1605d3f829228e1d6fe" kindref="member">SocketTimeoutGuard</ref> &amp;</type>
+        <definition>SocketTimeoutGuard &amp; themis::network::SocketTimeoutGuard::operator=</definition>
+        <argsstring>(const SocketTimeoutGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::network::SocketTimeoutGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1network_1_1_socket_timeout_guard_1afba454de8e1ec1605d3f829228e1d6fe" kindref="member">SocketTimeoutGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="302" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_socket_timeout_guard_1ab77a2821661d3bbab50a651b62a5fca2" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::SocketTimeoutGuard::SocketTimeoutGuard</definition>
+        <argsstring>(SocketTimeoutGuard &amp;&amp;other) noexcept</argsstring>
+        <name>SocketTimeoutGuard</name>
+        <qualifiedname>themis::network::SocketTimeoutGuard::SocketTimeoutGuard</qualifiedname>
+        <param>
+          <type>SocketTimeoutGuard &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="304" column="5" bodyfile="include/network/socket_timeout_manager.h" bodystart="304" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_socket_timeout_guard_1af0aa35317ec81c69192198252f15246b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="socket__timeout__manager_8h_1a30353f381f5fccbb956eea1f3a110b6c" kindref="member">socket_t</ref></type>
+        <definition>socket_t themis::network::SocketTimeoutGuard::get</definition>
+        <argsstring>() const</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::network::SocketTimeoutGuard::get</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="309" column="14" bodyfile="include/network/socket_timeout_manager.h" bodystart="309" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_socket_timeout_guard_1aa3ac74060805b8a833f18bfa7c6843c2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="socket__timeout__manager_8h_1a30353f381f5fccbb956eea1f3a110b6c" kindref="member">socket_t</ref></type>
+        <definition>socket_t themis::network::SocketTimeoutGuard::release</definition>
+        <argsstring>()</argsstring>
+        <name>release</name>
+        <qualifiedname>themis::network::SocketTimeoutGuard::release</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="310" column="14" bodyfile="include/network/socket_timeout_manager.h" bodystart="310" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_socket_timeout_guard_1a97d59f64b801f7e6ab31e5febb3380c0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::SocketTimeoutGuard::valid</definition>
+        <argsstring>() const</argsstring>
+        <name>valid</name>
+        <qualifiedname>themis::network::SocketTimeoutGuard::valid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="311" column="10" bodyfile="include/network/socket_timeout_manager.h" bodystart="311" bodyend="311"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII guard for socket timeout operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Automatically closes socket on scope exit if not released.</para>
+<para>R14: Uses std::shared_ptr to safely manage <ref refid="classthemis_1_1network_1_1_socket_timeout_manager" kindref="compound">SocketTimeoutManager</ref> lifetime. Ensures destructor can safely call manager_.closeSocket() even if manager is destroyed during RAII cleanup (exception safety).</para>
+<para>Example usage: <programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>manager<sp/>=<sp/>std::make_shared&lt;SocketTimeoutManager&gt;(config);</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_guard_1afba454de8e1ec1605d3f829228e1d6fe" kindref="member">SocketTimeoutGuard</ref><sp/>guard(manager,<sp/>client_socket);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Do<sp/>operations<sp/>with<sp/>socket</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bytes<sp/>=<sp/>manager-&gt;readWithTimeout(guard.get(),<sp/>buffer,<sp/>size);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(success)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>guard.release();<sp/><sp/></highlight><highlight class="comment">//<sp/>Keep<sp/>socket<sp/>open</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Otherwise<sp/>socket<sp/>is<sp/>automatically<sp/>closed</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/network/socket_timeout_manager.h" line="285" column="1" bodyfile="include/network/socket_timeout_manager.h" bodystart="285" bodyend="317"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_guard_1af0aa35317ec81c69192198252f15246b" prot="public" virt="non-virtual"><scope>themis::network::SocketTimeoutGuard</scope><name>get</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_guard_1af517ae9d907f36948f329ad297db97e3" prot="private" virt="non-virtual"><scope>themis::network::SocketTimeoutGuard</scope><name>manager_</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_guard_1af260f45a6bf24f3bff81083ad8a1b0b9" prot="public" virt="non-virtual"><scope>themis::network::SocketTimeoutGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_guard_1aa7af362e29df37a9f61165d70aaf5fa4" prot="private" virt="non-virtual"><scope>themis::network::SocketTimeoutGuard</scope><name>owns_</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_guard_1aa3ac74060805b8a833f18bfa7c6843c2" prot="public" virt="non-virtual"><scope>themis::network::SocketTimeoutGuard</scope><name>release</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_guard_1a3fe132e1bb2f6670112cdb37d4a82e61" prot="private" virt="non-virtual"><scope>themis::network::SocketTimeoutGuard</scope><name>socket_</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_guard_1afba454de8e1ec1605d3f829228e1d6fe" prot="public" virt="non-virtual"><scope>themis::network::SocketTimeoutGuard</scope><name>SocketTimeoutGuard</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_guard_1ab86ac292632d5ba2e638b5ef89e591ae" prot="public" virt="non-virtual"><scope>themis::network::SocketTimeoutGuard</scope><name>SocketTimeoutGuard</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_guard_1ab77a2821661d3bbab50a651b62a5fca2" prot="public" virt="non-virtual"><scope>themis::network::SocketTimeoutGuard</scope><name>SocketTimeoutGuard</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_guard_1a97d59f64b801f7e6ab31e5febb3380c0" prot="public" virt="non-virtual"><scope>themis::network::SocketTimeoutGuard</scope><name>valid</name></member>
+      <member refid="classthemis_1_1network_1_1_socket_timeout_guard_1aa0c221d6a980f554ab5e73c150b80d2b" prot="public" virt="non-virtual"><scope>themis::network::SocketTimeoutGuard</scope><name>~SocketTimeoutGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

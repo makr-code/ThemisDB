@@ -1,0 +1,382 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1updates_1_1benchmark" kind="namespace" language="C++">
+    <compoundname>themis::updates::benchmark</compoundname>
+    <innerclass refid="classthemis_1_1updates_1_1benchmark_1_1_canary_rollout_benchmark" prot="public">themis::updates::benchmark::CanaryRolloutBenchmark</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1benchmark_1_1_coordinated_update_benchmark" prot="public">themis::updates::benchmark::CoordinatedUpdateBenchmark</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1benchmark_1_1_long_run_stability_benchmark" prot="public">themis::updates::benchmark::LongRunStabilityBenchmark</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1benchmark_1_1_schema_migration_benchmark" prot="public">themis::updates::benchmark::SchemaMigrationBenchmark</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1benchmark_1a8785fe8460027a55640c27d15be53a72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::benchmark::BENCHMARK_F</definition>
+        <argsstring>(CanaryRolloutBenchmark, NetworkDelayResilience)(</argsstring>
+        <name>BENCHMARK_F</name>
+        <qualifiedname>themis::updates::benchmark::BENCHMARK_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1benchmark_1_1_canary_rollout_benchmark" kindref="compound">CanaryRolloutBenchmark</ref></type>
+        </param>
+        <param>
+          <type>NetworkDelayResilience</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_canary_resilience.cpp" line="52" column="1" bodyfile="benchmarks/updates/bench_updates_canary_resilience.cpp" bodystart="52" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1benchmark_1ad655fed51cdbdf4c77b4b74d76c3ea5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::benchmark::BENCHMARK_F</definition>
+        <argsstring>(CanaryRolloutBenchmark, NodeFailureAtStages)(</argsstring>
+        <name>BENCHMARK_F</name>
+        <qualifiedname>themis::updates::benchmark::BENCHMARK_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1benchmark_1_1_canary_rollout_benchmark" kindref="compound">CanaryRolloutBenchmark</ref></type>
+        </param>
+        <param>
+          <type>NodeFailureAtStages</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_canary_resilience.cpp" line="92" column="1" bodyfile="benchmarks/updates/bench_updates_canary_resilience.cpp" bodystart="92" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1benchmark_1ae7f81e52343a09b6a4d22c0cdeeb0223" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::benchmark::BENCHMARK_F</definition>
+        <argsstring>(CanaryRolloutBenchmark, HealthCheckTimeout)(</argsstring>
+        <name>BENCHMARK_F</name>
+        <qualifiedname>themis::updates::benchmark::BENCHMARK_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1benchmark_1_1_canary_rollout_benchmark" kindref="compound">CanaryRolloutBenchmark</ref></type>
+        </param>
+        <param>
+          <type>HealthCheckTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_canary_resilience.cpp" line="154" column="1" bodyfile="benchmarks/updates/bench_updates_canary_resilience.cpp" bodystart="154" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1benchmark_1abca3098434c6f32306ce2e7284c2df33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::benchmark::BENCHMARK_F</definition>
+        <argsstring>(CanaryRolloutBenchmark, AutomaticRollbackOnFailure)(</argsstring>
+        <name>BENCHMARK_F</name>
+        <qualifiedname>themis::updates::benchmark::BENCHMARK_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1benchmark_1_1_canary_rollout_benchmark" kindref="compound">CanaryRolloutBenchmark</ref></type>
+        </param>
+        <param>
+          <type>AutomaticRollbackOnFailure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_canary_resilience.cpp" line="203" column="1" bodyfile="benchmarks/updates/bench_updates_canary_resilience.cpp" bodystart="203" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1benchmark_1aed378f9f2bc5baf2a3d09365567a9075" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::benchmark::BENCHMARK_F</definition>
+        <argsstring>(CoordinatedUpdateBenchmark, AllNodesSuccessPath)(</argsstring>
+        <name>BENCHMARK_F</name>
+        <qualifiedname>themis::updates::benchmark::BENCHMARK_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1benchmark_1_1_coordinated_update_benchmark" kindref="compound">CoordinatedUpdateBenchmark</ref></type>
+        </param>
+        <param>
+          <type>AllNodesSuccessPath</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_coordinated_hardening.cpp" line="56" column="1" bodyfile="benchmarks/updates/bench_updates_coordinated_hardening.cpp" bodystart="56" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1benchmark_1adaa06bfe23a13d42ffdd0f2cedfc85ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::benchmark::BENCHMARK_F</definition>
+        <argsstring>(CoordinatedUpdateBenchmark, SingleNodeFailurePlusRollback)(</argsstring>
+        <name>BENCHMARK_F</name>
+        <qualifiedname>themis::updates::benchmark::BENCHMARK_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1benchmark_1_1_coordinated_update_benchmark" kindref="compound">CoordinatedUpdateBenchmark</ref></type>
+        </param>
+        <param>
+          <type>SingleNodeFailurePlusRollback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_coordinated_hardening.cpp" line="83" column="1" bodyfile="benchmarks/updates/bench_updates_coordinated_hardening.cpp" bodystart="83" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1benchmark_1af9fcc15d94513282c9ffe24dcfa8475f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::benchmark::BENCHMARK_F</definition>
+        <argsstring>(CoordinatedUpdateBenchmark, CascadingFailures)(</argsstring>
+        <name>BENCHMARK_F</name>
+        <qualifiedname>themis::updates::benchmark::BENCHMARK_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1benchmark_1_1_coordinated_update_benchmark" kindref="compound">CoordinatedUpdateBenchmark</ref></type>
+        </param>
+        <param>
+          <type>CascadingFailures</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_coordinated_hardening.cpp" line="114" column="1" bodyfile="benchmarks/updates/bench_updates_coordinated_hardening.cpp" bodystart="114" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1benchmark_1a3c30304d56a4e8cfe901a25b4e77c41e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::benchmark::BENCHMARK_F</definition>
+        <argsstring>(CoordinatedUpdateBenchmark, LeaderElectionUnderFailure)(</argsstring>
+        <name>BENCHMARK_F</name>
+        <qualifiedname>themis::updates::benchmark::BENCHMARK_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1benchmark_1_1_coordinated_update_benchmark" kindref="compound">CoordinatedUpdateBenchmark</ref></type>
+        </param>
+        <param>
+          <type>LeaderElectionUnderFailure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_coordinated_hardening.cpp" line="146" column="1" bodyfile="benchmarks/updates/bench_updates_coordinated_hardening.cpp" bodystart="146" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1benchmark_1a57e86f34ed19fa922eae318fb4311b6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::benchmark::LongRunStability_1MOperations</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>LongRunStability_1MOperations</name>
+        <qualifiedname>themis::updates::benchmark::LongRunStability_1MOperations</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_long_run_stability.cpp" line="233" column="6" bodyfile="benchmarks/updates/bench_updates_long_run_stability.cpp" bodystart="233" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1benchmark_1a2b09fa39b5073d5ce14d6a8fed7a6489" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::benchmark::BENCHMARK</definition>
+        <argsstring>(LongRunStability_1MOperations)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::updates::benchmark::BENCHMARK</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1updates_1_1benchmark_1a57e86f34ed19fa922eae318fb4311b6b" kindref="member">LongRunStability_1MOperations</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_long_run_stability.cpp" line="260" column="1" declfile="benchmarks/updates/bench_updates_long_run_stability.cpp" declline="260" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1benchmark_1a9f914428551abff6a384f6c83a5ad73d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::benchmark::LongRunStability_10MOperations</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>LongRunStability_10MOperations</name>
+        <qualifiedname>themis::updates::benchmark::LongRunStability_10MOperations</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_long_run_stability.cpp" line="266" column="6" bodyfile="benchmarks/updates/bench_updates_long_run_stability.cpp" bodystart="266" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1benchmark_1abc4271fef1153fa727c4dc2f79c47229" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::benchmark::BENCHMARK</definition>
+        <argsstring>(LongRunStability_10MOperations)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::updates::benchmark::BENCHMARK</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1updates_1_1benchmark_1a9f914428551abff6a384f6c83a5ad73d" kindref="member">LongRunStability_10MOperations</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_long_run_stability.cpp" line="293" column="1" declfile="benchmarks/updates/bench_updates_long_run_stability.cpp" declline="293" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1benchmark_1a6da5d76da1124c744e63c7fde3c8c7dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::benchmark::LongRunStability_ConcurrentWorkload</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>LongRunStability_ConcurrentWorkload</name>
+        <qualifiedname>themis::updates::benchmark::LongRunStability_ConcurrentWorkload</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_long_run_stability.cpp" line="299" column="6" bodyfile="benchmarks/updates/bench_updates_long_run_stability.cpp" bodystart="299" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1benchmark_1a6a887cff6a5660f6f8bfe00b12841504" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::benchmark::Arg</definition>
+        <argsstring>(1) -&gt; Arg(2) -&gt;Arg(4) -&gt;Arg(8)</argsstring>
+        <name>Arg</name>
+        <qualifiedname>themis::updates::benchmark::Arg</qualifiedname>
+        <param>
+          <type>1</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_long_run_stability.cpp" line="342" column="5" declfile="benchmarks/updates/bench_updates_long_run_stability.cpp" declline="342" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1benchmark_1a6d1ccd73cbc84182c551ec53da0a30a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::benchmark::BENCHMARK_F</definition>
+        <argsstring>(SchemaMigrationBenchmark, AddColumn)(</argsstring>
+        <name>BENCHMARK_F</name>
+        <qualifiedname>themis::updates::benchmark::BENCHMARK_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1benchmark_1_1_schema_migration_benchmark" kindref="compound">SchemaMigrationBenchmark</ref></type>
+        </param>
+        <param>
+          <type>AddColumn</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_schema_diversity.cpp" line="59" column="1" bodyfile="benchmarks/updates/bench_updates_schema_diversity.cpp" bodystart="59" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1benchmark_1a1c41e94b84bfb7cf6b564775b3cd0615" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::benchmark::BENCHMARK_F</definition>
+        <argsstring>(SchemaMigrationBenchmark, AlterTableIndexes)(</argsstring>
+        <name>BENCHMARK_F</name>
+        <qualifiedname>themis::updates::benchmark::BENCHMARK_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1benchmark_1_1_schema_migration_benchmark" kindref="compound">SchemaMigrationBenchmark</ref></type>
+        </param>
+        <param>
+          <type>AlterTableIndexes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_schema_diversity.cpp" line="101" column="1" bodyfile="benchmarks/updates/bench_updates_schema_diversity.cpp" bodystart="101" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1benchmark_1af43360a143f324c37725f444f23c9d30" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::benchmark::BENCHMARK_F</definition>
+        <argsstring>(SchemaMigrationBenchmark, RenameColumnWithCrossReferences)(</argsstring>
+        <name>BENCHMARK_F</name>
+        <qualifiedname>themis::updates::benchmark::BENCHMARK_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1benchmark_1_1_schema_migration_benchmark" kindref="compound">SchemaMigrationBenchmark</ref></type>
+        </param>
+        <param>
+          <type>RenameColumnWithCrossReferences</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_schema_diversity.cpp" line="140" column="1" bodyfile="benchmarks/updates/bench_updates_schema_diversity.cpp" bodystart="140" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1benchmark_1a1162f881f1b9746844c615f9b3a9cf69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::benchmark::BENCHMARK_F</definition>
+        <argsstring>(SchemaMigrationBenchmark, DropColumnWithCascade)(</argsstring>
+        <name>BENCHMARK_F</name>
+        <qualifiedname>themis::updates::benchmark::BENCHMARK_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1benchmark_1_1_schema_migration_benchmark" kindref="compound">SchemaMigrationBenchmark</ref></type>
+        </param>
+        <param>
+          <type>DropColumnWithCascade</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_schema_diversity.cpp" line="189" column="1" bodyfile="benchmarks/updates/bench_updates_schema_diversity.cpp" bodystart="189" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1benchmark_1a992c1787bea972eb3a4beb22818ed093" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::benchmark::BENCHMARK_F</definition>
+        <argsstring>(SchemaMigrationBenchmark, MemoryUsageDuringMigration)(</argsstring>
+        <name>BENCHMARK_F</name>
+        <qualifiedname>themis::updates::benchmark::BENCHMARK_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1benchmark_1_1_schema_migration_benchmark" kindref="compound">SchemaMigrationBenchmark</ref></type>
+        </param>
+        <param>
+          <type>MemoryUsageDuringMigration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/updates/bench_updates_schema_diversity.cpp" line="245" column="1" bodyfile="benchmarks/updates/bench_updates_schema_diversity.cpp" bodystart="245" bodyend="293"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/updates/bench_updates_canary_resilience.cpp" line="27" column="1"/>
+  </compounddef>
+</doxygen>

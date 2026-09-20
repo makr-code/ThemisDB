@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__category__b__parity__bfs_8cpp" kind="file" language="C++">
+    <compoundname>test_category_b_parity_bfs.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">array</includes>
+    <includes local="no">vector</includes>
+    <includes local="yes">acceleration/cpu_backend.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/graph/test_category_b_parity_bfs.cpp</label>
+        <link refid="test__category__b__parity__bfs_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>acceleration/cpu_backend.h</label>
+      </node>
+      <node id="3">
+        <label>algorithm</label>
+      </node>
+      <node id="4">
+        <label>array</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis_1_1acceleration">themis::acceleration</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__category__b__parity__bfs_8cpp_1aa26d2aa27563c8f650838b5cf7a7a58f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CategoryBGraphParityBFS, CudaVsCpuParity_MultiStartDepthThree)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CategoryBGraphParityBFS</type>
+        </param>
+        <param>
+          <type>CudaVsCpuParity_MultiStartDepthThree</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_category_b_parity_bfs.cpp" line="24" column="1" bodyfile="tests/graph/test_category_b_parity_bfs.cpp" bodystart="24" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="test__category__b__parity__bfs_8cpp_1afe70689613630fa7d85f9a86d649fb91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CategoryBGraphParityBFS, CudaVsCpuParity_MaxDepthOneFrontierCutoff)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CategoryBGraphParityBFS</type>
+        </param>
+        <param>
+          <type>CudaVsCpuParity_MaxDepthOneFrontierCutoff</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_category_b_parity_bfs.cpp" line="66" column="1" bodyfile="tests/graph/test_category_b_parity_bfs.cpp" bodystart="66" bodyend="104"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;array&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;acceleration/cpu_backend.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_CUDA</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;acceleration/cuda_backend.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::acceleration;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal">std::vector&lt;uint32_t&gt;<sp/>sortedCopy(std::vector&lt;uint32_t&gt;<sp/>values)<sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>std::sort(values.begin(),<sp/>values.end());</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>values;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><ref refid="test__category__b__parity__bfs_8cpp_1aa26d2aa27563c8f650838b5cf7a7a58f" kindref="member">TEST</ref>(CategoryBGraphParityBFS,<sp/>CudaVsCpuParity_MultiStartDepthThree)<sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_ENABLE_CUDA</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;THEMIS_ENABLE_CUDA<sp/>is<sp/>disabled&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>CUDAGraphBackend<sp/>gpu_backend;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!gpu_backend.isAvailable())<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;No<sp/>CUDA-capable<sp/>GPU<sp/>available&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(gpu_backend.initialize());</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>CPUGraphBackend<sp/>cpu_backend;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(cpu_backend.initialize());</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kNumVertices<sp/>=<sp/>6;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint32_t&gt;<sp/>adjacency(kNumVertices<sp/>*<sp/>kNumVertices,<sp/>0u);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>adjacency[0<sp/>*<sp/>kNumVertices<sp/>+<sp/>1]<sp/>=<sp/>1u;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>adjacency[0<sp/>*<sp/>kNumVertices<sp/>+<sp/>2]<sp/>=<sp/>1u;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>adjacency[1<sp/>*<sp/>kNumVertices<sp/>+<sp/>3]<sp/>=<sp/>1u;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>adjacency[2<sp/>*<sp/>kNumVertices<sp/>+<sp/>4]<sp/>=<sp/>1u;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>adjacency[4<sp/>*<sp/>kNumVertices<sp/>+<sp/>5]<sp/>=<sp/>1u;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::array&lt;uint32_t,<sp/>2&gt;<sp/>starts<sp/>=<sp/>{0u,<sp/>2u};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/>kMaxDepth<sp/>=<sp/>3u;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cpu_result<sp/>=</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cpu_backend.batchBFS(adjacency.data(),<sp/>kNumVertices,<sp/>starts.data(),<sp/>starts.size(),<sp/>kMaxDepth);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>gpu_result<sp/>=</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gpu_backend.batchBFS(adjacency.data(),<sp/>kNumVertices,<sp/>starts.data(),<sp/>starts.size(),<sp/>kMaxDepth);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(cpu_result.size(),<sp/>starts.size());</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(gpu_result.size(),<sp/>starts.size());</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>starts.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(sortedCopy(gpu_result[i]),<sp/>sortedCopy(cpu_result[i]))</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;BFS<sp/>parity<sp/>mismatch<sp/>for<sp/>start<sp/>vertex<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>starts[i];</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>gpu_backend.shutdown();</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>cpu_backend.shutdown();</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><ref refid="test__category__b__parity__bfs_8cpp_1aa26d2aa27563c8f650838b5cf7a7a58f" kindref="member">TEST</ref>(CategoryBGraphParityBFS,<sp/>CudaVsCpuParity_MaxDepthOneFrontierCutoff)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_ENABLE_CUDA</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;THEMIS_ENABLE_CUDA<sp/>is<sp/>disabled&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>CUDAGraphBackend<sp/>gpu_backend;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!gpu_backend.isAvailable())<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;No<sp/>CUDA-capable<sp/>GPU<sp/>available&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(gpu_backend.initialize());</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>CPUGraphBackend<sp/>cpu_backend;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(cpu_backend.initialize());</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kNumVertices<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint32_t&gt;<sp/>adjacency(kNumVertices<sp/>*<sp/>kNumVertices,<sp/>0u);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>adjacency[0<sp/>*<sp/>kNumVertices<sp/>+<sp/>1]<sp/>=<sp/>1u;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>adjacency[0<sp/>*<sp/>kNumVertices<sp/>+<sp/>2]<sp/>=<sp/>1u;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>adjacency[1<sp/>*<sp/>kNumVertices<sp/>+<sp/>3]<sp/>=<sp/>1u;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>adjacency[2<sp/>*<sp/>kNumVertices<sp/>+<sp/>4]<sp/>=<sp/>1u;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::array&lt;uint32_t,<sp/>1&gt;<sp/>starts<sp/>=<sp/>{0u};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/>kMaxDepth<sp/>=<sp/>1u;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cpu_result<sp/>=</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cpu_backend.batchBFS(adjacency.data(),<sp/>kNumVertices,<sp/>starts.data(),<sp/>starts.size(),<sp/>kMaxDepth);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>gpu_result<sp/>=</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gpu_backend.batchBFS(adjacency.data(),<sp/>kNumVertices,<sp/>starts.data(),<sp/>starts.size(),<sp/>kMaxDepth);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(cpu_result.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(gpu_result.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint32_t&gt;<sp/>expected<sp/>=<sp/>{0u,<sp/>1u,<sp/>2u};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sortedCopy(cpu_result[0]),<sp/>expected);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sortedCopy(gpu_result[0]),<sp/>expected);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>gpu_backend.shutdown();</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>cpu_backend.shutdown();</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/graph/test_category_b_parity_bfs.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d036055323304043122231013321005101011236142116046" kind="namespace" language="C++">
+    <compoundname>@036055323304043122231013321005101011236142116046</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/failover/test_failover_wave_a_topology_versioning.cpp" line="29" column="1"/>
+  </compounddef>
+</doxygen>

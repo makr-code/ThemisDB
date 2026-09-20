@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1server_1_1test_1_1wave7" kind="namespace" language="C++">
+    <compoundname>themis::server::test::wave7</compoundname>
+    <innerclass refid="structthemis_1_1server_1_1test_1_1wave7_1_1_validation_result" prot="public">themis::server::test::wave7::ValidationResult</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1test_1_1wave7_1_1_o_o_m_callback_installer" prot="public">themis::server::test::wave7::OOMCallbackInstaller</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1test_1_1wave7_1_1_mock_model_entry" prot="public">themis::server::test::wave7::MockModelEntry</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1server_1_1test_1_1wave7_1a720255a55c680eaa96d99aba5d18a1c8" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ModelStatus</name>
+        <qualifiedname>themis::server::test::wave7::ModelStatus</qualifiedname>
+        <enumvalue id="namespacethemis_1_1server_1_1test_1_1wave7_1a720255a55c680eaa96d99aba5d18a1c8ac1a4d3eaa5e512053eb2894e21c4a2bf" prot="public">
+          <name>REGISTERED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1test_1_1wave7_1a720255a55c680eaa96d99aba5d18a1c8a0c9e3a54cbd75ba8e7eb8a386cdba610" prot="public">
+          <name>DEPLOYING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1test_1_1wave7_1a720255a55c680eaa96d99aba5d18a1c8a90ed2d7a17a0f9a3f787aac3f7c39608" prot="public">
+          <name>DEPLOYED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1test_1_1wave7_1a720255a55c680eaa96d99aba5d18a1c8adbd2e9556e489478954a3af93b797244" prot="public">
+          <name>UPDATING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1test_1_1wave7_1a720255a55c680eaa96d99aba5d18a1c8ab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1test_1_1wave7_1a720255a55c680eaa96d99aba5d18a1c8af509be1cc64421d5b60cb6458f99c352" prot="public">
+          <name>RETIRED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave7_server_llm_hardening.cpp" line="148" column="1" bodyfile="tests/server/test_wave7_server_llm_hardening.cpp" bodystart="148" bodyend="148"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1server_1_1test_1_1wave7_1a9f416248d338276223c7e14eba0f2088" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::server::test::wave7::kMaxPromptBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxPromptBytes</name>
+        <qualifiedname>themis::server::test::wave7::kMaxPromptBytes</qualifiedname>
+        <initializer>= 1ULL * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave7_server_llm_hardening.cpp" line="71" column="30" bodyfile="tests/server/test_wave7_server_llm_hardening.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1_1wave7_1a0ad691c2c46feed6bf38245dc5b7c554" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1test_1_1wave7_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>static ValidationResult themis::server::test::wave7::validateInferenceInput</definition>
+        <argsstring>(const std::string &amp;prompt, const std::string &amp;lora_id, int max_tokens, double temperature)</argsstring>
+        <name>validateInferenceInput</name>
+        <qualifiedname>themis::server::test::wave7::validateInferenceInput</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lora_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_tokens</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>temperature</declname>
+        </param>
+        <briefdescription>
+<para>Mirrors the B2 input-validation block in handleInference / handleRAG. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave7_server_llm_hardening.cpp" line="80" column="25" bodyfile="tests/server/test_wave7_server_llm_hardening.cpp" bodystart="80" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1_1wave7_1a0273584c1c6b8ad252904be7e6d34b4a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1test_1_1wave7_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>static ValidationResult themis::server::test::wave7::validateRAGInput</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;lora_id, int max_tokens, double temperature)</argsstring>
+        <name>validateRAGInput</name>
+        <qualifiedname>themis::server::test::wave7::validateRAGInput</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lora_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_tokens</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>temperature</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave7_server_llm_hardening.cpp" line="104" column="25" bodyfile="tests/server/test_wave7_server_llm_hardening.cpp" bodystart="104" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1_1wave7_1ac3801e5e93746bd8196172dc03974d3b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::server::test::wave7::deployModelWithExceptionSafety</definition>
+        <argsstring>(MockModelEntry &amp;entry, int num_instances, bool throw_on_instance)</argsstring>
+        <name>deployModelWithExceptionSafety</name>
+        <qualifiedname>themis::server::test::wave7::deployModelWithExceptionSafety</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1server_1_1test_1_1wave7_1_1_mock_model_entry" kindref="compound">MockModelEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>num_instances</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>throw_on_instance</declname>
+        </param>
+        <briefdescription>
+<para>Mirrors fixed deployModel exception-safety logic. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave7_server_llm_hardening.cpp" line="156" column="13" bodyfile="tests/server/test_wave7_server_llm_hardening.cpp" bodystart="156" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1test_1_1wave7_1a7914df7a0e97ca9fbe28dda6c1905d1f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::server::test::wave7::updateModelWithExceptionSafety</definition>
+        <argsstring>(MockModelEntry &amp;entry, int num_new_instances, bool throw_mid_update)</argsstring>
+        <name>updateModelWithExceptionSafety</name>
+        <qualifiedname>themis::server::test::wave7::updateModelWithExceptionSafety</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1server_1_1test_1_1wave7_1_1_mock_model_entry" kindref="compound">MockModelEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>num_new_instances</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>throw_mid_update</declname>
+        </param>
+        <briefdescription>
+<para>Mirrors fixed updateModel exception-safety logic. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_wave7_server_llm_hardening.cpp" line="183" column="13" bodyfile="tests/server/test_wave7_server_llm_hardening.cpp" bodystart="183" bodyend="210"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/server/test_wave7_server_llm_hardening.cpp" line="65" column="1"/>
+  </compounddef>
+</doxygen>

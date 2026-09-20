@@ -1,0 +1,353 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1training_1_1_self_improvement_module_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::training::SelfImprovementModule::Impl</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_self_improvement_module_1_1_impl_1ac1aa60dde83e24fab8fd3e2c3fbac6ea" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1training_1_1_self_improvement_config" kindref="compound">SelfImprovementConfig</ref></type>
+        <definition>SelfImprovementConfig themis::training::SelfImprovementModule::Impl::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::training::SelfImprovementModule::Impl::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="1645" column="27" bodyfile="src/training/lora_data_selection.cpp" bodystart="1645" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_self_improvement_module_1_1_impl_1addd06859d5986d1c059869862d956988" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::SelfImprovementModule::Impl::last_triggered_</definition>
+        <argsstring></argsstring>
+        <name>last_triggered_</name>
+        <qualifiedname>themis::training::SelfImprovementModule::Impl::last_triggered_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="1646" column="12" bodyfile="src/training/lora_data_selection.cpp" bodystart="1646" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_self_improvement_module_1_1_impl_1a77692d3bcb7d1277dec86d3716a85bc2" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::SelfImprovementModule::Impl::Impl</definition>
+        <argsstring>(const SelfImprovementConfig &amp;cfg)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::training::SelfImprovementModule::Impl::Impl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_self_improvement_config" kindref="compound">SelfImprovementConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="1455" column="14" bodyfile="src/training/lora_data_selection.cpp" bodystart="1455" bodyend="1455"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_self_improvement_module_1_1_impl_1a4ed1c4c432853014bf91320e36150e99" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_lo_r_a_data_selection_config" kindref="compound">LoRADataSelectionConfig</ref></type>
+        <definition>LoRADataSelectionConfig themis::training::SelfImprovementModule::Impl::applyAdaptiveRules</definition>
+        <argsstring>(const LoRADataSelectionConfig &amp;cfg, const DataSelectionMetrics &amp;metrics)</argsstring>
+        <name>applyAdaptiveRules</name>
+        <qualifiedname>themis::training::SelfImprovementModule::Impl::applyAdaptiveRules</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_lo_r_a_data_selection_config" kindref="compound">LoRADataSelectionConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_data_selection_metrics" kindref="compound">DataSelectionMetrics</ref> &amp;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+<para>Apply Adaptive Rules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1training_1_1_self_improvement_module_1_1_impl_1a174ea88abd9d5bb71ace491ec505982a" kindref="member">getMetric()</ref>, <ref refid="classthemis_1_1training_1_1_self_improvement_module_1_1_impl_1af7ab588d7f3d38bc2be450e049b6082e" kindref="member">evaluateCondition()</ref>, <ref refid="classthemis_1_1training_1_1_self_improvement_module_1_1_impl_1a6b52fe266c791499edacbe8f7265919b" kindref="member">applyAction()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="1583" column="29" bodyfile="src/training/lora_data_selection.cpp" bodystart="1583" bodyend="1599"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_self_improvement_module_1_1_impl_1a829dc2512b524f053804121ea2c50d28" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::training::SelfImprovementModule::Impl::needsRollback</definition>
+        <argsstring>(const DataSelectionMetrics &amp;metrics) const</argsstring>
+        <name>needsRollback</name>
+        <qualifiedname>themis::training::SelfImprovementModule::Impl::needsRollback</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_data_selection_metrics" kindref="compound">DataSelectionMetrics</ref> &amp;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="1601" column="10" bodyfile="src/training/lora_data_selection.cpp" bodystart="1601" bodyend="1624"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_self_improvement_module_1_1_impl_1aaf1d301951852ff8d26645b16ba7af9d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::training::SelfImprovementModule::Impl::needsReselection</definition>
+        <argsstring>(std::chrono::system_clock::time_point last_selection_time) const</argsstring>
+        <name>needsReselection</name>
+        <qualifiedname>themis::training::SelfImprovementModule::Impl::needsReselection</qualifiedname>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>last_selection_time</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="1626" column="10" bodyfile="src/training/lora_data_selection.cpp" bodystart="1626" bodyend="1633"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_self_improvement_module_1_1_impl_1ad53145ec8ccdf28f045657418a9e3ea4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::training::SelfImprovementModule::Impl::lastTriggeredRuleCount</definition>
+        <argsstring>() const</argsstring>
+        <name>lastTriggeredRuleCount</name>
+        <qualifiedname>themis::training::SelfImprovementModule::Impl::lastTriggeredRuleCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="1635" column="12" bodyfile="src/training/lora_data_selection.cpp" bodystart="1635" bodyend="1635"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_self_improvement_module_1_1_impl_1a10dcb447244b566197fa4b9941a15dfc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::SelfImprovementModule::Impl::setConfig</definition>
+        <argsstring>(const SelfImprovementConfig &amp;cfg)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::training::SelfImprovementModule::Impl::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_self_improvement_config" kindref="compound">SelfImprovementConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Set Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="1641" column="10" bodyfile="src/training/lora_data_selection.cpp" bodystart="1641" bodyend="1641"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_self_improvement_module_1_1_impl_1a1e885673038f77747f6ad5d86f40f274" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1training_1_1_self_improvement_config" kindref="compound">SelfImprovementConfig</ref> &amp;</type>
+        <definition>const SelfImprovementConfig &amp; themis::training::SelfImprovementModule::Impl::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::training::SelfImprovementModule::Impl::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="1642" column="33" bodyfile="src/training/lora_data_selection.cpp" bodystart="1642" bodyend="1642"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_self_improvement_module_1_1_impl_1af7ab588d7f3d38bc2be450e049b6082e" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::training::SelfImprovementModule::Impl::evaluateCondition</definition>
+        <argsstring>(const std::string &amp;condition, double metric_value)</argsstring>
+        <name>evaluateCondition</name>
+        <qualifiedname>themis::training::SelfImprovementModule::Impl::evaluateCondition</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>condition</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>metric_value</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate a single rule condition against observed metric value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">condition</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metric_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Supported conditions: &quot;&lt; N&quot;, &quot;&gt; N&quot;, &quot;&lt;= N&quot;, &quot;&gt;= N&quot;, &quot;== N&quot; Calls: size(), std::stod(), substr(), std::abs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="1464" column="17" bodyfile="src/training/lora_data_selection.cpp" bodystart="1464" bodyend="1506"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_self_improvement_module_1_1_impl_1a174ea88abd9d5bb71ace491ec505982a" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themis::training::SelfImprovementModule::Impl::getMetric</definition>
+        <argsstring>(const DataSelectionMetrics &amp;m, const std::string &amp;name)</argsstring>
+        <name>getMetric</name>
+        <qualifiedname>themis::training::SelfImprovementModule::Impl::getMetric</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_data_selection_metrics" kindref="compound">DataSelectionMetrics</ref> &amp;</type>
+          <declname>m</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve the monitored metric value by name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">m</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getMetric without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="1515" column="19" bodyfile="src/training/lora_data_selection.cpp" bodystart="1515" bodyend="1542"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_self_improvement_module_1_1_impl_1a6b52fe266c791499edacbe8f7265919b" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::training::SelfImprovementModule::Impl::applyAction</definition>
+        <argsstring>(LoRADataSelectionConfig &amp;cfg, const std::string &amp;action, double delta)</argsstring>
+        <name>applyAction</name>
+        <qualifiedname>themis::training::SelfImprovementModule::Impl::applyAction</qualifiedname>
+        <param>
+          <type><ref refid="struct_lo_r_a_data_selection_config" kindref="compound">LoRADataSelectionConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>action</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>delta</declname>
+        </param>
+        <briefdescription>
+<para>Apply a triggered rule action to the config copy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">action</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">delta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), contains(), std::clamp(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="1551" column="17" bodyfile="src/training/lora_data_selection.cpp" bodystart="1551" bodyend="1574"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/training/lora_data_selection.cpp" line="1453" column="1" bodyfile="src/training/lora_data_selection.cpp" bodystart="1453" bodyend="1647"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1training_1_1_self_improvement_module_1_1_impl_1a6b52fe266c791499edacbe8f7265919b" prot="public" virt="non-virtual"><scope>themis::training::SelfImprovementModule::Impl</scope><name>applyAction</name></member>
+      <member refid="classthemis_1_1training_1_1_self_improvement_module_1_1_impl_1a4ed1c4c432853014bf91320e36150e99" prot="public" virt="non-virtual"><scope>themis::training::SelfImprovementModule::Impl</scope><name>applyAdaptiveRules</name></member>
+      <member refid="classthemis_1_1training_1_1_self_improvement_module_1_1_impl_1ac1aa60dde83e24fab8fd3e2c3fbac6ea" prot="private" virt="non-virtual"><scope>themis::training::SelfImprovementModule::Impl</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1training_1_1_self_improvement_module_1_1_impl_1af7ab588d7f3d38bc2be450e049b6082e" prot="public" virt="non-virtual"><scope>themis::training::SelfImprovementModule::Impl</scope><name>evaluateCondition</name></member>
+      <member refid="classthemis_1_1training_1_1_self_improvement_module_1_1_impl_1a1e885673038f77747f6ad5d86f40f274" prot="public" virt="non-virtual"><scope>themis::training::SelfImprovementModule::Impl</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1training_1_1_self_improvement_module_1_1_impl_1a174ea88abd9d5bb71ace491ec505982a" prot="public" virt="non-virtual"><scope>themis::training::SelfImprovementModule::Impl</scope><name>getMetric</name></member>
+      <member refid="classthemis_1_1training_1_1_self_improvement_module_1_1_impl_1a77692d3bcb7d1277dec86d3716a85bc2" prot="public" virt="non-virtual"><scope>themis::training::SelfImprovementModule::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1training_1_1_self_improvement_module_1_1_impl_1addd06859d5986d1c059869862d956988" prot="private" virt="non-virtual"><scope>themis::training::SelfImprovementModule::Impl</scope><name>last_triggered_</name></member>
+      <member refid="classthemis_1_1training_1_1_self_improvement_module_1_1_impl_1ad53145ec8ccdf28f045657418a9e3ea4" prot="public" virt="non-virtual"><scope>themis::training::SelfImprovementModule::Impl</scope><name>lastTriggeredRuleCount</name></member>
+      <member refid="classthemis_1_1training_1_1_self_improvement_module_1_1_impl_1aaf1d301951852ff8d26645b16ba7af9d" prot="public" virt="non-virtual"><scope>themis::training::SelfImprovementModule::Impl</scope><name>needsReselection</name></member>
+      <member refid="classthemis_1_1training_1_1_self_improvement_module_1_1_impl_1a829dc2512b524f053804121ea2c50d28" prot="public" virt="non-virtual"><scope>themis::training::SelfImprovementModule::Impl</scope><name>needsRollback</name></member>
+      <member refid="classthemis_1_1training_1_1_self_improvement_module_1_1_impl_1a10dcb447244b566197fa4b9941a15dfc" prot="public" virt="non-virtual"><scope>themis::training::SelfImprovementModule::Impl</scope><name>setConfig</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

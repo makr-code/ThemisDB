@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1projects_1_1_delta_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::projects::DeltaEntry</compoundname>
+    <includes refid="project__diff_8h" local="no">project_diff.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_delta_entry_1a699168d80bc8976070751c94a29225c8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::DeltaEntry::field_path</definition>
+        <argsstring></argsstring>
+        <name>field_path</name>
+        <qualifiedname>themis::projects::DeltaEntry::field_path</qualifiedname>
+        <briefdescription>
+<para>JSON Pointer path of the changed field. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_diff.h" line="46" column="17" bodyfile="include/projects/project_diff.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_delta_entry_1ad97d061fb1c2c2c1384fe1e9e85553b5" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1projects_1a616ae74777e090a13dd6829945269ecc" kindref="member">DeltaType</ref></type>
+        <definition>DeltaType themis::projects::DeltaEntry::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::projects::DeltaEntry::type</qualifiedname>
+        <briefdescription>
+<para>Type of change. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_diff.h" line="47" column="17" bodyfile="include/projects/project_diff.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_delta_entry_1a82deab4854a693441f9fe43c76ab86ff" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1projects_1aa6ebfecbbf761b81a776c2845d5200d7" kindref="member">json</ref></type>
+        <definition>json themis::projects::DeltaEntry::old_value</definition>
+        <argsstring></argsstring>
+        <name>old_value</name>
+        <qualifiedname>themis::projects::DeltaEntry::old_value</qualifiedname>
+        <briefdescription>
+<para>Previous value (null for ADDED entries). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_diff.h" line="48" column="17" bodyfile="include/projects/project_diff.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_delta_entry_1aef98fdfeec380c36563642f92ffcd5ad" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1projects_1aa6ebfecbbf761b81a776c2845d5200d7" kindref="member">json</ref></type>
+        <definition>json themis::projects::DeltaEntry::new_value</definition>
+        <argsstring></argsstring>
+        <name>new_value</name>
+        <qualifiedname>themis::projects::DeltaEntry::new_value</qualifiedname>
+        <briefdescription>
+<para>New value (null for REMOVED entries). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_diff.h" line="49" column="17" bodyfile="include/projects/project_diff.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1projects_1_1_delta_entry_1a43e3333b9a47482d93250f14712d273d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1projects_1aa6ebfecbbf761b81a776c2845d5200d7" kindref="member">json</ref></type>
+        <definition>json themis::projects::DeltaEntry::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::projects::DeltaEntry::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_diff.h" line="51" column="10" bodyfile="src/projects/project_diff.cpp" bodystart="25" bodyend="35"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1projects_1_1_delta_entry_1ad4cdd89a584aa87bda5bc546c69304fa" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1projects_1_1_delta_entry" kindref="compound">DeltaEntry</ref></type>
+        <definition>DeltaEntry themis::projects::DeltaEntry::fromJson</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::projects::DeltaEntry::fromJson</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1projects_1aa6ebfecbbf761b81a776c2845d5200d7" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_diff.h" line="52" column="23" bodyfile="src/projects/project_diff.cpp" bodystart="43" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single field-level change between two project states. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><computeroutput>field_path</computeroutput> follows JSON Pointer syntax (RFC 6901), e.g. <computeroutput>&quot;/metadata/title&quot;</computeroutput>. For top-level document additions/removals the path is the document key (e.g. <computeroutput>&quot;/doc:&lt;uuid&gt;&quot;</computeroutput>). </para>
+    </detaileddescription>
+    <location file="include/projects/project_diff.h" line="45" column="1" bodyfile="include/projects/project_diff.h" bodystart="45" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1projects_1_1_delta_entry_1a699168d80bc8976070751c94a29225c8" prot="public" virt="non-virtual"><scope>themis::projects::DeltaEntry</scope><name>field_path</name></member>
+      <member refid="structthemis_1_1projects_1_1_delta_entry_1ad4cdd89a584aa87bda5bc546c69304fa" prot="public" virt="non-virtual"><scope>themis::projects::DeltaEntry</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1projects_1_1_delta_entry_1aef98fdfeec380c36563642f92ffcd5ad" prot="public" virt="non-virtual"><scope>themis::projects::DeltaEntry</scope><name>new_value</name></member>
+      <member refid="structthemis_1_1projects_1_1_delta_entry_1a82deab4854a693441f9fe43c76ab86ff" prot="public" virt="non-virtual"><scope>themis::projects::DeltaEntry</scope><name>old_value</name></member>
+      <member refid="structthemis_1_1projects_1_1_delta_entry_1a43e3333b9a47482d93250f14712d273d" prot="public" virt="non-virtual"><scope>themis::projects::DeltaEntry</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1projects_1_1_delta_entry_1ad97d061fb1c2c2c1384fe1e9e85553b5" prot="public" virt="non-virtual"><scope>themis::projects::DeltaEntry</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

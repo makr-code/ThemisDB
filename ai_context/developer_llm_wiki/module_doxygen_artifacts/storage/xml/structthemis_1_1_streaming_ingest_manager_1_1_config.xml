@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_streaming_ingest_manager_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::StreamingIngestManager::Config</compoundname>
+    <includes refid="streaming__ingest__manager_8h" local="no">streaming_ingest_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_streaming_ingest_manager_1_1_config_1af7d474af65a04e89925c920d93138944" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::StreamingIngestManager::Config::flush_interval</definition>
+        <argsstring></argsstring>
+        <name>flush_interval</name>
+        <qualifiedname>themis::StreamingIngestManager::Config::flush_interval</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>How often the flush thread drains the ring buffer to RocksDB. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="66" column="35" bodyfile="include/storage/streaming_ingest_manager.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_streaming_ingest_manager_1_1_config_1abbabbc466256f5a4144d92133f17b4ed" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::StreamingIngestManager::Config::max_buffer_events</definition>
+        <argsstring></argsstring>
+        <name>max_buffer_events</name>
+        <qualifiedname>themis::StreamingIngestManager::Config::max_buffer_events</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of buffered events before back-pressure kicks in. Must be ≥ 1. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="72" column="16" bodyfile="include/storage/streaming_ingest_manager.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_streaming_ingest_manager_1_1_config_1a3ae7e96d22c802a1c2de07ecb77340e8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::StreamingIngestManager::Config::max_batch_size</definition>
+        <argsstring></argsstring>
+        <name>max_batch_size</name>
+        <qualifiedname>themis::StreamingIngestManager::Config::max_batch_size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of events per RocksDB WriteBatch. Larger batches improve throughput; smaller batches reduce latency. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="78" column="16" bodyfile="include/storage/streaming_ingest_manager.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_streaming_ingest_manager_1_1_config_1a9eb0385e9beb3428abca1756e04ae82f" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::StreamingIngestManager::Config::backpressure_timeout</definition>
+        <argsstring></argsstring>
+        <name>backpressure_timeout</name>
+        <qualifiedname>themis::StreamingIngestManager::Config::backpressure_timeout</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When BLOCK: maximum time <ref refid="classthemis_1_1_streaming_ingest_manager_1a92b387539887f44ab11bbaaaee7084b0" kindref="member">ingest()</ref> waits for buffer space. When the timeout expires, ERR_STORAGE_LOG_FULL is returned. Zero means &quot;wait forever&quot;. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="85" column="35" bodyfile="include/storage/streaming_ingest_manager.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_streaming_ingest_manager_1_1_config_1ab244d2cb00c1d0577eb84116b0c68bdb" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_streaming_ingest_manager_1a113b75e4b672c6bce8fd019becc47313" kindref="member">OverflowPolicy</ref></type>
+        <definition>OverflowPolicy themis::StreamingIngestManager::Config::overflow_policy</definition>
+        <argsstring></argsstring>
+        <name>overflow_policy</name>
+        <qualifiedname>themis::StreamingIngestManager::Config::overflow_policy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Policy when the ring buffer is full. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="88" column="24" bodyfile="include/storage/streaming_ingest_manager.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_streaming_ingest_manager_1_1_config_1a8974b6a830a43f852ce855a1d70c2f3d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::StreamingIngestManager::Config::sync_wal</definition>
+        <argsstring></argsstring>
+        <name>sync_wal</name>
+        <qualifiedname>themis::StreamingIngestManager::Config::sync_wal</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When true (default), each WriteBatch is flushed to the WAL synchronously before the flush thread moves on. Set to false for maximum throughput at the cost of durability. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="95" column="14" bodyfile="include/storage/streaming_ingest_manager.h" bodystart="95" bodyend="95"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_streaming_ingest_manager_1_1_config_1a983adac531aec447c7a518664774f515" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::StreamingIngestManager::Config::Config</definition>
+        <argsstring>()</argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::StreamingIngestManager::Config::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="97" column="9" bodyfile="include/storage/streaming_ingest_manager.h" bodystart="97" bodyend="104"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/streaming_ingest_manager.h" line="64" column="5" bodyfile="include/storage/streaming_ingest_manager.h" bodystart="64" bodyend="105"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_streaming_ingest_manager_1_1_config_1a9eb0385e9beb3428abca1756e04ae82f" prot="public" virt="non-virtual"><scope>themis::StreamingIngestManager::Config</scope><name>backpressure_timeout</name></member>
+      <member refid="structthemis_1_1_streaming_ingest_manager_1_1_config_1a983adac531aec447c7a518664774f515" prot="public" virt="non-virtual"><scope>themis::StreamingIngestManager::Config</scope><name>Config</name></member>
+      <member refid="structthemis_1_1_streaming_ingest_manager_1_1_config_1af7d474af65a04e89925c920d93138944" prot="public" virt="non-virtual"><scope>themis::StreamingIngestManager::Config</scope><name>flush_interval</name></member>
+      <member refid="structthemis_1_1_streaming_ingest_manager_1_1_config_1a3ae7e96d22c802a1c2de07ecb77340e8" prot="public" virt="non-virtual"><scope>themis::StreamingIngestManager::Config</scope><name>max_batch_size</name></member>
+      <member refid="structthemis_1_1_streaming_ingest_manager_1_1_config_1abbabbc466256f5a4144d92133f17b4ed" prot="public" virt="non-virtual"><scope>themis::StreamingIngestManager::Config</scope><name>max_buffer_events</name></member>
+      <member refid="structthemis_1_1_streaming_ingest_manager_1_1_config_1ab244d2cb00c1d0577eb84116b0c68bdb" prot="public" virt="non-virtual"><scope>themis::StreamingIngestManager::Config</scope><name>overflow_policy</name></member>
+      <member refid="structthemis_1_1_streaming_ingest_manager_1_1_config_1a8974b6a830a43f852ce855a1d70c2f3d" prot="public" virt="non-virtual"><scope>themis::StreamingIngestManager::Config</scope><name>sync_wal</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_distributed_scope" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::DistributedScope</compoundname>
+    <includes refid="distributed__trainer_8h" local="no">distributed_trainer.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_distributed_scope_1a1070c7386051a1bc9763cb316975e0ec" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer" kindref="compound">DistributedTrainer</ref> *</type>
+        <definition>DistributedTrainer* themis::llm::lora::DistributedScope::trainer_</definition>
+        <argsstring></argsstring>
+        <name>trainer_</name>
+        <qualifiedname>themis::llm::lora::DistributedScope::trainer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="262" column="24" bodyfile="include/llm/lora_framework/distributed_trainer.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_distributed_scope_1a6e07ddf12a99e52e005fc5d460ad97d8" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::DistributedScope::DistributedScope</definition>
+        <argsstring>(DistributedTrainer *trainer)</argsstring>
+        <name>DistributedScope</name>
+        <qualifiedname>themis::llm::lora::DistributedScope::DistributedScope</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer" kindref="compound">DistributedTrainer</ref> *</type>
+          <declname>trainer</declname>
+        </param>
+        <briefdescription>
+<para>Distributed Scope. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">trainer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="246" column="14" bodyfile="include/llm/lora_framework/distributed_trainer.h" bodystart="246" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_distributed_scope_1a2b1e97d3271625702f83c7a16d03075e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::DistributedScope::~DistributedScope</definition>
+        <argsstring>()</argsstring>
+        <name>~DistributedScope</name>
+        <qualifiedname>themis::llm::lora::DistributedScope::~DistributedScope</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="253" column="5" bodyfile="include/llm/lora_framework/distributed_trainer.h" bodystart="253" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_distributed_scope_1a17ba5f45046a4484bc3492479bc4af9e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer" kindref="compound">DistributedTrainer</ref> *</type>
+        <definition>DistributedTrainer * themis::llm::lora::DistributedScope::trainer</definition>
+        <argsstring>() const</argsstring>
+        <name>trainer</name>
+        <qualifiedname>themis::llm::lora::DistributedScope::trainer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="259" column="24" bodyfile="include/llm/lora_framework/distributed_trainer.h" bodystart="259" bodyend="259"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/distributed_trainer.h" line="239" column="1" bodyfile="include/llm/lora_framework/distributed_trainer.h" bodystart="239" bodyend="263"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_scope_1a6e07ddf12a99e52e005fc5d460ad97d8" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedScope</scope><name>DistributedScope</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_scope_1a17ba5f45046a4484bc3492479bc4af9e" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedScope</scope><name>trainer</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_scope_1a1070c7386051a1bc9763cb316975e0ec" prot="private" virt="non-virtual"><scope>themis::llm::lora::DistributedScope</scope><name>trainer_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_scope_1a2b1e97d3271625702f83c7a16d03075e" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedScope</scope><name>~DistributedScope</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

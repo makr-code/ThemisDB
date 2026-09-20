@@ -1,0 +1,393 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_autocomplete_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::AutocompleteEngine</compoundname>
+    <includes refid="autocomplete_8h" local="no">autocomplete.h</includes>
+    <innerclass refid="structthemis_1_1_autocomplete_engine_1_1_config" prot="public">themis::AutocompleteEngine::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_autocomplete_engine_1a975186346e256e4a32f43fee34d7e7ea" prot="private" static="no" mutable="no">
+        <type>SecondaryIndexManager *</type>
+        <definition>SecondaryIndexManager* themis::AutocompleteEngine::index_</definition>
+        <argsstring></argsstring>
+        <name>index_</name>
+        <qualifiedname>themis::AutocompleteEngine::index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/autocomplete.h" line="149" column="27" bodyfile="include/search/autocomplete.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_autocomplete_engine_1a16e6b02748768f4c9c1a48cdc308cad7" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_search_analytics" kindref="compound">SearchAnalytics</ref> *</type>
+        <definition>SearchAnalytics* themis::AutocompleteEngine::analytics_</definition>
+        <argsstring></argsstring>
+        <name>analytics_</name>
+        <qualifiedname>themis::AutocompleteEngine::analytics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/autocomplete.h" line="150" column="21" bodyfile="include/search/autocomplete.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_autocomplete_engine_1aab1ed399ae51b4345d95d6a743c1fcad" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_autocomplete_engine_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::AutocompleteEngine::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::AutocompleteEngine::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/autocomplete.h" line="151" column="12" bodyfile="include/search/autocomplete.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_autocomplete_engine_1a3149be7f64843d1b9c9ec38e90c51696" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::AutocompleteEngine::AutocompleteEngine</definition>
+        <argsstring>(SecondaryIndexManager *index, SearchAnalytics *analytics=nullptr)</argsstring>
+        <name>AutocompleteEngine</name>
+        <qualifiedname>themis::AutocompleteEngine::AutocompleteEngine</qualifiedname>
+        <param>
+          <type>SecondaryIndexManager *</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_search_analytics" kindref="compound">SearchAnalytics</ref> *</type>
+          <declname>analytics</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-owning pointer to a SecondaryIndexManager (may be null if only popular-query suggestions are needed). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>analytics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional non-owning pointer to <ref refid="classthemis_1_1_search_analytics" kindref="compound">SearchAnalytics</ref> for popular query sourcing (may be null). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if max_suggestions == 0 or min_prefix_length == 0. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/autocomplete.h" line="83" column="14" bodyfile="src/search/autocomplete.cpp" bodystart="25" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_autocomplete_engine_1a32f27fc734105230dad33e4eeda5ca5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::AutocompleteEngine::AutocompleteEngine</definition>
+        <argsstring>(SecondaryIndexManager *index, SearchAnalytics *analytics, const Config &amp;config)</argsstring>
+        <name>AutocompleteEngine</name>
+        <qualifiedname>themis::AutocompleteEngine::AutocompleteEngine</qualifiedname>
+        <param>
+          <type>SecondaryIndexManager *</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_search_analytics" kindref="compound">SearchAnalytics</ref> *</type>
+          <declname>analytics</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_autocomplete_engine_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-owning pointer to a SecondaryIndexManager (may be null if only popular-query suggestions are needed). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>analytics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional non-owning pointer to <ref refid="classthemis_1_1_search_analytics" kindref="compound">SearchAnalytics</ref> for popular query sourcing (may be null). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Engine configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if max_suggestions == 0 or min_prefix_length == 0. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/autocomplete.h" line="93" column="5" bodyfile="src/search/autocomplete.cpp" bodystart="29" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_autocomplete_engine_1ae3f3b647f27f7b9641ed552cacc03a45" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_suggestion" kindref="compound">Suggestion</ref> &gt;</type>
+        <definition>std::vector&lt; Suggestion &gt; themis::AutocompleteEngine::suggest</definition>
+        <argsstring>(const std::string &amp;prefix, const std::string &amp;table=&quot;&quot;, const std::string &amp;column=&quot;&quot;) const</argsstring>
+        <name>suggest</name>
+        <qualifiedname>themis::AutocompleteEngine::suggest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>column</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Return combined prefix + popular suggestions for the given prefix. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Results are sorted by score descending, deduplicated (if <ref refid="structthemis_1_1_autocomplete_engine_1_1_config_1aff0a11430510083a4290f2ba4616c438" kindref="member">Config::deduplicate</ref>), and capped at <ref refid="structthemis_1_1_autocomplete_engine_1_1_config_1a35faeb207be873a396943170d25a3e16" kindref="member">Config::max_suggestions</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Incomplete query text entered by the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table name for prefix-index scan (ignored when index is null). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Column to scan for prefix matches. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ranked suggestion list. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/autocomplete.h" line="112" column="17" bodyfile="src/search/autocomplete.cpp" bodystart="45" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_autocomplete_engine_1a625644cb92194db9def11dd8557e6bc2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_suggestion" kindref="compound">Suggestion</ref> &gt;</type>
+        <definition>std::vector&lt; Suggestion &gt; themis::AutocompleteEngine::suggestByPrefix</definition>
+        <argsstring>(const std::string &amp;prefix, const std::string &amp;table, const std::string &amp;column, size_t limit=20) const</argsstring>
+        <name>suggestByPrefix</name>
+        <qualifiedname>themis::AutocompleteEngine::suggestByPrefix</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>column</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>20</defval>
+        </param>
+        <briefdescription>
+<para>Return prefix-based suggestions by scanning a secondary index column. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses <computeroutput>SecondaryIndexManager::scanKeysRange</computeroutput> with the prefix as lower bound and <computeroutput>prefix + &apos;\xff&apos;</computeroutput> as upper bound to collect field values.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prefix to match. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Column to scan. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum results. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>List of matching field values as <ref refid="structthemis_1_1_suggestion" kindref="compound">Suggestion</ref> objects. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/autocomplete.h" line="128" column="17" bodyfile="src/search/autocomplete.cpp" bodystart="102" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_autocomplete_engine_1ac307fce6968b83a121c6aa896cefb40c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_suggestion" kindref="compound">Suggestion</ref> &gt;</type>
+        <definition>std::vector&lt; Suggestion &gt; themis::AutocompleteEngine::suggestPopular</definition>
+        <argsstring>(const std::string &amp;prefix, size_t limit=20) const</argsstring>
+        <name>suggestPopular</name>
+        <qualifiedname>themis::AutocompleteEngine::suggestPopular</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>20</defval>
+        </param>
+        <briefdescription>
+<para>Return popular past queries that start with the given prefix. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses the <ref refid="classthemis_1_1_search_analytics" kindref="compound">SearchAnalytics</ref> instance (if non-null) to retrieve the most frequent queries whose text begins with <computeroutput>prefix</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prefix to match. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum results. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>List of <ref refid="structthemis_1_1_suggestion" kindref="compound">Suggestion</ref> objects with is_popular == true. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/autocomplete.h" line="143" column="17" bodyfile="src/search/autocomplete.cpp" bodystart="163" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_autocomplete_engine_1a13656d642ca35d0e785918322382842e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_autocomplete_engine_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::AutocompleteEngine::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::AutocompleteEngine::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/autocomplete.h" line="146" column="18" bodyfile="include/search/autocomplete.h" bodystart="146" bodyend="146"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Real-time query completion: prefix-based index suggestions, popular-query suggestions, and context-aware (recent-query) completion. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1_autocomplete_engine" kindref="compound">AutocompleteEngine</ref> is a lightweight, index-backed suggestion engine. It supports three complementary suggestion strategies:</para>
+<para><orderedlist>
+<listitem><para><bold>Prefix suggestions</bold> – scans a secondary index for field values that begin with the supplied prefix (<computeroutput><ref refid="classthemis_1_1_autocomplete_engine_1a625644cb92194db9def11dd8557e6bc2" kindref="member">suggestByPrefix</ref></computeroutput>).</para>
+</listitem><listitem><para><bold>Popular suggestions</bold> – surfaces the most-frequent past queries whose text starts with the prefix, using a <computeroutput><ref refid="classthemis_1_1_search_analytics" kindref="compound">SearchAnalytics</ref></computeroutput> instance (<computeroutput><ref refid="classthemis_1_1_autocomplete_engine_1ac307fce6968b83a121c6aa896cefb40c" kindref="member">suggestPopular</ref></computeroutput>).</para>
+</listitem><listitem><para><bold>Context-aware suggestions</bold> – combines both sources, deduplicated and ranked (<computeroutput><ref refid="classthemis_1_1_autocomplete_engine_1ae3f3b647f27f7b9641ed552cacc03a45" kindref="member">suggest</ref></computeroutput>).</para>
+</listitem></orderedlist>
+</para>
+<para><heading level="3">Usage</heading>
+</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">AutocompleteEngine::Config<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.max_suggestions<sp/>=<sp/>10;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1_autocomplete_engine_1a3149be7f64843d1b9c9ec38e90c51696" kindref="member">AutocompleteEngine</ref><sp/>ac(&amp;secondary_index,<sp/>&amp;analytics,<sp/>cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Get<sp/>up<sp/>to<sp/>10<sp/>suggestions<sp/>for<sp/>the<sp/>prefix<sp/>&quot;data&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>suggestions<sp/>=<sp/>ac.suggest(</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>s<sp/>:<sp/>suggestions)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/>s.text<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>(score=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>s.score<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;)\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="note"><para>Thread Safety: A single <ref refid="classthemis_1_1_autocomplete_engine" kindref="compound">AutocompleteEngine</ref> instance is NOT thread-safe. Callers sharing an instance across threads must synchronize externally.</para>
+</simplesect>
+<simplesect kind="note"><para>Exception Safety: All methods return empty/error results instead of throwing. The constructor throws <computeroutput>std::invalid_argument</computeroutput> on bad config. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/search/autocomplete.h" line="65" column="1" bodyfile="include/search/autocomplete.h" bodystart="65" bodyend="152"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_autocomplete_engine_1a16e6b02748768f4c9c1a48cdc308cad7" prot="private" virt="non-virtual"><scope>themis::AutocompleteEngine</scope><name>analytics_</name></member>
+      <member refid="classthemis_1_1_autocomplete_engine_1a3149be7f64843d1b9c9ec38e90c51696" prot="public" virt="non-virtual"><scope>themis::AutocompleteEngine</scope><name>AutocompleteEngine</name></member>
+      <member refid="classthemis_1_1_autocomplete_engine_1a32f27fc734105230dad33e4eeda5ca5e" prot="public" virt="non-virtual"><scope>themis::AutocompleteEngine</scope><name>AutocompleteEngine</name></member>
+      <member refid="classthemis_1_1_autocomplete_engine_1aab1ed399ae51b4345d95d6a743c1fcad" prot="private" virt="non-virtual"><scope>themis::AutocompleteEngine</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_autocomplete_engine_1a13656d642ca35d0e785918322382842e" prot="public" virt="non-virtual"><scope>themis::AutocompleteEngine</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1_autocomplete_engine_1a975186346e256e4a32f43fee34d7e7ea" prot="private" virt="non-virtual"><scope>themis::AutocompleteEngine</scope><name>index_</name></member>
+      <member refid="classthemis_1_1_autocomplete_engine_1ae3f3b647f27f7b9641ed552cacc03a45" prot="public" virt="non-virtual"><scope>themis::AutocompleteEngine</scope><name>suggest</name></member>
+      <member refid="classthemis_1_1_autocomplete_engine_1a625644cb92194db9def11dd8557e6bc2" prot="public" virt="non-virtual"><scope>themis::AutocompleteEngine</scope><name>suggestByPrefix</name></member>
+      <member refid="classthemis_1_1_autocomplete_engine_1ac307fce6968b83a121c6aa896cefb40c" prot="public" virt="non-virtual"><scope>themis::AutocompleteEngine</scope><name>suggestPopular</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

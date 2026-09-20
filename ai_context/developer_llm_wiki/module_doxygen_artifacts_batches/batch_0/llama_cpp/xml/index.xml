@@ -1,0 +1,336 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.17.0" xml:lang="en-US">
+  <compound refid="class_llama_cpp_bench_fixture" kind="class"><name>LlamaCppBenchFixture</name>
+    <member refid="class_llama_cpp_bench_fixture_1a1e6962dddb089d2295b86479d6d48061" kind="variable"><name>plugin</name></member>
+    <member refid="class_llama_cpp_bench_fixture_1ad6c0ebb926c0346b40fdf5876c4381de" kind="variable"><name>modelPath</name></member>
+    <member refid="class_llama_cpp_bench_fixture_1a0ce79219a19300e3bbf4553345f98735" kind="variable"><name>requestedGpuLayers</name></member>
+    <member refid="class_llama_cpp_bench_fixture_1abb10069b5911969c80ecfbb667ca6902" kind="variable"><name>warmupSucceeded</name></member>
+    <member refid="class_llama_cpp_bench_fixture_1a11489f4fff722d04b56f142d1ceb9758" kind="variable"><name>ready</name></member>
+    <member refid="class_llama_cpp_bench_fixture_1ac94346ae3fe596ab6779c1727e56ce04" kind="variable"><name>setupError</name></member>
+    <member refid="class_llama_cpp_bench_fixture_1aad994b224fa09b3e65312baa1dbab5cf" kind="variable"><name>memoryStats</name></member>
+    <member refid="class_llama_cpp_bench_fixture_1a3a030ced5a1a15cd7fa6eae351063360" kind="function"><name>SetUp</name></member>
+    <member refid="class_llama_cpp_bench_fixture_1a9aa09fac86bca472d02314d00f06abcf" kind="function"><name>TearDown</name></member>
+    <member refid="class_llama_cpp_bench_fixture_1a0fa661ec470df04f22b0295ee0cbd1d7" kind="function"><name>ensureReady</name></member>
+  </compound>
+  <compound refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin" kind="class"><name>themis::llamacpp::LlamaCppPlugin</name>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1affda5c0091f6055ee309f6d11e628440" kind="typedef"><name>EmbedFn</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1afbb7895787ecf8df2bc3e653867f5157" kind="typedef"><name>GenerateFn</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a913c598f26c7db62fec9c58b8e7e21dc" kind="typedef"><name>PolicyFn</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a791af0d86fbd703b5b048778645da6b0" kind="variable"><name>model_loaded_</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a474981f7370e8f62560b0bbd4975a03b" kind="variable"><name>model_path_</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1acec5852c2fc5db8959ac5a27aca0af65" kind="variable"><name>model_id_</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a1491e64aea47e524a9a6d39a1a61e4af" kind="variable"><name>context_length_</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a5c1c8f09912967c314b995e50a85e7ff" kind="variable"><name>mutex_</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ac635f31f9509aec260541ddd2e256173" kind="variable"><name>inference_count_</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ade676dc7cc525c5acea7fe69db7ff080" kind="variable"><name>error_count_</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a1f409647fb84fe579899ba1ae1afe160" kind="variable"><name>stream_retry_count_</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1aaf98a135bf56bca1a8892a7df378b301" kind="variable"><name>loras_</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ac3204edeca8f49a5dd309d2f85bd779b" kind="variable"><name>embed_fn_</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a90b7779948d7e62c65b570fff713e8be" kind="variable"><name>generate_fn_</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a9f1c9cbe0d02e1fc686c69125a292f5d" kind="variable"><name>policy_fn_</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a722e797e21d125e08f30c1371ea57354" kind="function"><name>LlamaCppPlugin</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ab1374cd1cc9b8719398999795b7d398e" kind="function"><name>~LlamaCppPlugin</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a2e46a05b01208aeb1c90a6e440632637" kind="function"><name>LlamaCppPlugin</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a44c87000ca6e21b652fd3513ad67f20f" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1aa354e3cdb0bb791604db9f458d87d3d8" kind="function"><name>loadModel</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ae7f1e8710640d51ee31ea107c202f6f6" kind="function"><name>unloadModel</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a8f534cc0ec95c5f096aee771b16b48d0" kind="function"><name>getModelInfo</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a22d9a8221aa08b351088748fb7aa4c79" kind="function"><name>isModelLoaded</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ab3a434c0cc074f3d8b965619508de256" kind="function"><name>loadLoRA</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ad2976f1860f2d31605a89b739ccb32af" kind="function"><name>unloadLoRA</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ad5a598a3040044fd652687eca96cff86" kind="function"><name>listLoRAs</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1accfdbc39f0a7d635c5822f1b1136eb85" kind="function"><name>generate</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a4cff202310f62ae2b77aeeec084670b8" kind="function"><name>generateRAG</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ac499d8495f22cc704db6fef24edf6aa6" kind="function"><name>embed</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a82a8907eda62350fc879fec59a79ea6a" kind="function"><name>generateDraftTokens</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a2af8b80e38d5337d8c7cfd638b124480" kind="function"><name>computeTargetLogitsForTokens</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a938d5477cae645ca726d51817662b42a" kind="function"><name>getCapabilities</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a80c1faf915713272bc0404c4a3ac09a9" kind="function"><name>getMemoryStats</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ab04245f847a220370ff95fe672e51abd" kind="function"><name>getPerformanceStats</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a0f28ab954179f4d4823342d41b2e21a0" kind="function"><name>exportLoRA</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a27da3db4470b3e553a0a32ff8a7e4076" kind="function"><name>importLoRA</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1ade3f201d7768608a8085ed233509ca43" kind="function"><name>setEmbedFn</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1af53191723c9e4d9f505cb6cb9b2b4528" kind="function"><name>setGenerateFn</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1acff523243db200edbfa8766cf7a1cb9d" kind="function"><name>setPolicyFn</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a4ad34032673417e1a5a16155a706b82c" kind="function"><name>generateStream</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a7ef1f23bdefc93bda6a7a8075c29d5cf" kind="function"><name>generateBatch</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a5914d338ecb0e883017cea83b9472a43" kind="function"><name>getPluginVersion</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1a4b56f4721d049c2ac51ca20dc827da76" kind="function"><name>getModelId</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_1aad2ed2185cbdc79e87f023969403727e" kind="function"><name>computeFileDigest</name></member>
+  </compound>
+  <compound refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar" kind="class"><name>themis::llamacpp::LlamaCppPluginRegistrar</name>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1a2ae253ecb15e79425472c99de1cc5314" kind="typedef"><name>ReloadCallback</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1acc92100bc4bcc6bb6bfdc170b7abe9d2" kind="function"><name>createPlugin</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1a1e573a0c67f5d4d7176a3dc3b1461429" kind="function"><name>createAdapter</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1a2974c5ba95d52a76f2b179e8cf5fddb7" kind="function"><name>registerWithLLMManager</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1aa08d118bf57c7c745e917c89e1e478c4" kind="function"><name>defaultReloadCallback</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1a437a4a0228ef438a9e809d8e6fac05a3" kind="function"><name>initFromServerConfig</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_llama_cpp_plugin_registrar_1a0029d6b3a0bad46f5b0256a6ce97ad72" kind="function"><name>LlamaCppPluginRegistrar</name></member>
+  </compound>
+  <compound refid="structthemis_1_1llamacpp_1_1_llama_cpp_plugin_1_1_lo_r_a_entry" kind="struct"><name>themis::llamacpp::LlamaCppPlugin::LoRAEntry</name>
+    <member refid="structthemis_1_1llamacpp_1_1_llama_cpp_plugin_1_1_lo_r_a_entry_1ac1b860d637243c240b6ad6ced407bf0d" kind="variable"><name>id</name></member>
+    <member refid="structthemis_1_1llamacpp_1_1_llama_cpp_plugin_1_1_lo_r_a_entry_1a5e0b839d0dde24d880ae9a2c0f9ed687" kind="variable"><name>path</name></member>
+    <member refid="structthemis_1_1llamacpp_1_1_llama_cpp_plugin_1_1_lo_r_a_entry_1a14a276a57c9c5dacb2905af54dca2334" kind="variable"><name>scale</name></member>
+  </compound>
+  <compound refid="classthemis_1_1llamacpp_1_1_model_loading_guard" kind="class"><name>themis::llamacpp::ModelLoadingGuard</name>
+    <member refid="classthemis_1_1llamacpp_1_1_model_loading_guard_1a27c8b008f754c5189e47108dd0411ea6" kind="variable"><name>model_id_</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_model_loading_guard_1a3055e2bb172a87041b4bef11f1da26f5" kind="variable"><name>timeout_seconds_</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_model_loading_guard_1a8d44b8010db440a47d3b3674e461e3c5" kind="variable"><name>start_time_</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_model_loading_guard_1aa347681de3f77bb6ca72e0f9107b3efc" kind="function"><name>ModelLoadingGuard</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_model_loading_guard_1ab7f65dfa6d99ecfeab4c6a4b004a4d07" kind="function"><name>~ModelLoadingGuard</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_model_loading_guard_1a7063c3f92a85e47b2eda27ef7e199277" kind="function"><name>isTimedOut</name></member>
+    <member refid="classthemis_1_1llamacpp_1_1_model_loading_guard_1acbcce4fd6d3307bab0065ab497fc753d" kind="function"><name>getRemainingSeconds</name></member>
+  </compound>
+  <compound refid="structthemis_1_1test_1_1wave__d_1_1_stub_llama_accel_guard" kind="struct"><name>themis::test::wave_d::StubLlamaAccelGuard</name>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_llama_accel_guard_1a1c9b5a174534ed3f3570deb76a53d78f" kind="variable"><name>available_</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_llama_accel_guard_1aa204062d3a7df80d61d993b3113da8f7" kind="variable"><name>attempts_</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_llama_accel_guard_1ae1e9846cce63a0c4df58239f23edb451" kind="variable"><name>accelerated_</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_llama_accel_guard_1a2a852417d6d5651ff60d5fb150f8fbd1" kind="variable"><name>fallbacks_</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_llama_accel_guard_1a0c614d3c062ad4dd4b5ea16c3623df54" kind="function"><name>StubLlamaAccelGuard</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_llama_accel_guard_1a0210b312ede38a6427a2b761c6c3ee7d" kind="function"><name>handleRequest</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_llama_accel_guard_1af41497e07a345052fbd1f114aec5a74c" kind="function"><name>attempts</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_llama_accel_guard_1a7ef9f2f8ec5a7087c2e33a95d89aa78c" kind="function"><name>accelerated</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_llama_accel_guard_1a3a57065eeb5dcaeec34251ee4affc706" kind="function"><name>fallbacks</name></member>
+  </compound>
+  <compound refid="structthemis_1_1test_1_1wave__d_1_1_stub_llama_registry" kind="struct"><name>themis::test::wave_d::StubLlamaRegistry</name>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_llama_registry_1aeec67e1773dd7a7e398c1833ddd570e7" kind="variable"><name>mu_</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_llama_registry_1a92de3a3638c0f80f9e60ae914db89463" kind="variable"><name>loaded_</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_llama_registry_1a2431a2f8d0711053d3ef2293e430d16e" kind="variable"><name>loads_</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_llama_registry_1a128cfe8cc719e90ec5ffad1c4764cb3c" kind="variable"><name>unloads_</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_llama_registry_1af4faef967ed249f26dc6fa027c8347cd" kind="function"><name>load</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_llama_registry_1a87234ba9fe1abd49b05225cd0fdb1b4c" kind="function"><name>unload</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_llama_registry_1abe06d982d344db00245ac1756f52e5a9" kind="function"><name>loads</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_llama_registry_1a65bbe88c4e3e3d8e6bf34301f46cf3d7" kind="function"><name>unloads</name></member>
+  </compound>
+  <compound refid="structthemis_1_1test_1_1wave__d_1_1_stub_token_store" kind="struct"><name>themis::test::wave_d::StubTokenStore</name>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_token_store_1ae89f6928d47d2869d3cdb77efadf8819" kind="variable"><name>mu_</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_token_store_1aedd6c13fab0eb4cb1dcb62be863eb70c" kind="variable"><name>store_</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_token_store_1a66bd6f5cb32abaafec4133923a884121" kind="variable"><name>writes_</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_token_store_1a9c4beeb6fe441de43fb7f831ffbcdd60" kind="function"><name>generate</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_token_store_1a8ed1c704ffba33c908a0a301f5f51f69" kind="function"><name>size</name></member>
+    <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_token_store_1a0cdac29254e928eaf883426271bf2e00" kind="function"><name>writes</name></member>
+  </compound>
+  <compound refid="namespacebenchmark" kind="namespace"><name>benchmark</name>
+  </compound>
+  <compound refid="namespacethemis" kind="namespace"><name>themis</name>
+  </compound>
+  <compound refid="namespacethemis_1_1llamacpp" kind="namespace"><name>themis::llamacpp</name>
+    <member refid="namespacethemis_1_1llamacpp_1a068067daafdc7e6be99aa175e7f9324f" kind="typedef"><name>json</name></member>
+    <member refid="namespacethemis_1_1llamacpp_1adda93201662d0e2afe2fde187677c6be" kind="typedef"><name>LlamaPluginValidator</name></member>
+    <member refid="namespacethemis_1_1llamacpp_1a2dcb816881c65a5fdb931e9e0d384f28" kind="function"><name>detectCudaAvailable</name></member>
+    <member refid="namespacethemis_1_1llamacpp_1a1a16629458aab5608eacf02271c3d54f" kind="function"><name>validateTokenLimits</name></member>
+    <member refid="namespacethemis_1_1llamacpp_1a14b52ae9bb8c8c7b8f8ae2c44471e676" kind="function"><name>validateModelInitialization</name></member>
+    <member refid="namespacethemis_1_1llamacpp_1a11cc4a4a81b863dde2ee1186375f8640" kind="function"><name>validateMemoryAllocation</name></member>
+    <member refid="namespacethemis_1_1llamacpp_1a8469e409379d91f7f2faaa49b08ac8aa" kind="function"><name>getLlamaPluginValidator</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1llamacpp_1_1_0d127237156063337153307251304233107314375357123362" kind="namespace"><name>themis::llamacpp::@127237156063337153307251304233107314375357123362</name>
+  </compound>
+  <compound refid="namespacethemis_1_1llamacpp_1_1_0d165270353314065163016077076374251231372042352256" kind="namespace"><name>themis::llamacpp::@165270353314065163016077076374251231372042352256</name>
+  </compound>
+  <compound refid="namespacethemis_1_1llm" kind="namespace"><name>themis::llm</name>
+  </compound>
+  <compound refid="namespacethemis_1_1test" kind="namespace"><name>themis::test</name>
+  </compound>
+  <compound refid="namespacethemis_1_1test_1_1wave__d" kind="namespace"><name>themis::test::wave_d</name>
+    <member refid="namespacethemis_1_1test_1_1wave__d_1a46134ef6c5dad0f580c254945b39d4fc" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1test_1_1wave__d_1ae34fb72e9a5a778c6d31b70bf3b95dba" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1test_1_1wave__d_1a455207b375e502e867df3a3c26fccaeb" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="bench__llama__cpp__inference_8cpp" kind="file"><name>bench_llama_cpp_inference.cpp</name>
+    <member refid="bench__llama__cpp__inference_8cpp_1a459c8c209283549d2e54692a7bfe82ee" kind="define"><name>THEMIS_BENCH_STRINGIFY_INNER</name></member>
+    <member refid="bench__llama__cpp__inference_8cpp_1ae0a43f617e38626029df8e19a2e85c83" kind="define"><name>THEMIS_BENCH_STRINGIFY</name></member>
+    <member refid="bench__llama__cpp__inference_8cpp_1a0e2b76705e441bd151d6b2879b117844" kind="function"><name>getEnvOrEmpty</name></member>
+    <member refid="bench__llama__cpp__inference_8cpp_1abc76342b3466e39c575ef5dbb77e6dd1" kind="function"><name>resolveCompileTimeModelPath</name></member>
+    <member refid="bench__llama__cpp__inference_8cpp_1aaa476ea8f12087a53daa4dcfa8b940bd" kind="function"><name>resolveModelPath</name></member>
+    <member refid="bench__llama__cpp__inference_8cpp_1a4b03d4a5b0914bc3bae68da3236d2697" kind="function"><name>resolveGpuLayers</name></member>
+    <member refid="bench__llama__cpp__inference_8cpp_1a01379702d26a0f49500fb3d3045b181e" kind="function"><name>fileExists</name></member>
+    <member refid="bench__llama__cpp__inference_8cpp_1a470fc1e3dcba18088aeb00ff82af6265" kind="function"><name>toLowerCopy</name></member>
+    <member refid="bench__llama__cpp__inference_8cpp_1aa75d0306582892088852064c87e60d6d" kind="function"><name>isGemmaArtifact</name></member>
+    <member refid="bench__llama__cpp__inference_8cpp_1a116d5920eab7e04b87801289f91d059f" kind="function"><name>parseArrayLength</name></member>
+    <member refid="bench__llama__cpp__inference_8cpp_1af5955e6ae288b7ede24aac13b44c80a4" kind="function"><name>extractTokenCount</name></member>
+    <member refid="bench__llama__cpp__inference_8cpp_1ad033c13224108a8ff08b95036d81bb35" kind="function"><name>findTensorByName</name></member>
+    <member refid="bench__llama__cpp__inference_8cpp_1acc26d3ce3c6091ed94d9e21574f26cde" kind="function"><name>runRealModelPreflight</name></member>
+    <member refid="bench__llama__cpp__inference_8cpp_1a40e68ea18013b2a6fb5156effff8b78d" kind="function"><name>setLlamaGpuEvidenceCounters</name></member>
+    <member refid="bench__llama__cpp__inference_8cpp_1a447313a47bd71f2af1fdb258af5cbf3b" kind="function"><name>makeRequest</name></member>
+    <member refid="bench__llama__cpp__inference_8cpp_1a4b2adec7b60e0be23d459d97926538c9" kind="function"><name>BENCHMARK_F</name></member>
+    <member refid="bench__llama__cpp__inference_8cpp_1afd75274292b6922f4e987cf9b79a69e2" kind="function"><name>BM_Generate_PromptSize</name></member>
+    <member refid="bench__llama__cpp__inference_8cpp_1a909ee6623c3c10405f0de9f46b8d7e71" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__llama__cpp__inference_8cpp_1abf06348f360e71d2e3b270479518bb99" kind="function"><name>BENCHMARK_F</name></member>
+    <member refid="bench__llama__cpp__inference_8cpp_1ae536a2b037f6309b1c2ba584943aeb9c" kind="function"><name>Arg</name></member>
+    <member refid="bench__llama__cpp__inference_8cpp_1add1ee36bcff8e089ee2b1019d828df1b" kind="function"><name>BENCHMARK_F</name></member>
+    <member refid="bench__llama__cpp__inference_8cpp_1accf8373e6e56e7d3d20627639bba7d5a" kind="function"><name>BENCHMARK_F</name></member>
+    <member refid="bench__llama__cpp__inference_8cpp_1a9c008133f40b6c39ca8184c2d545b647" kind="function"><name>BM_ConcurrentInference</name></member>
+    <member refid="bench__llama__cpp__inference_8cpp_1a1953c1bb7c0eca7b20ca2232b9a8d1d5" kind="function"><name>BENCHMARK_F</name></member>
+    <member refid="bench__llama__cpp__inference_8cpp_1ac9d152fb21d6470fc18e04819af933f1" kind="function"><name>BENCHMARK_F</name></member>
+    <member refid="bench__llama__cpp__inference_8cpp_1a55d0d487e750f34aa04f3753aad92689" kind="function"><name>BM_LlamaCpp_RealModel_GPUEvidence</name></member>
+    <member refid="bench__llama__cpp__inference_8cpp_1a12129e059ea4ddcbc5c95ed813ba64dc" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__llama__cpp__inference_8cpp_1ad3bc023ce02523e3522096d196df341b" kind="function"><name>LLCPG1_TTFT_Stub_Baseline</name></member>
+    <member refid="bench__llama__cpp__inference_8cpp_1a1e87287c44b1b0b33690c573a50a9bb3" kind="function"><name>Unit</name></member>
+    <member refid="bench__llama__cpp__inference_8cpp_1a61c6fae9c23b063c1870622825acef9a" kind="function"><name>LLCPG2_BatchEmbedding_Stub</name></member>
+    <member refid="bench__llama__cpp__inference_8cpp_1a6656eece49cf7a63f37add38f161be72" kind="function"><name>LLCPG3_LoRALoad_P99</name></member>
+    <member refid="bench__llama__cpp__inference_8cpp_1aabc58c7b983d5f2017eca28769e1c3f8" kind="function"><name>Unit</name></member>
+    <member refid="bench__llama__cpp__inference_8cpp_1ae5eff6856290dca442844cd5206e1547" kind="function"><name>LLCPG4_RegressionBaseline</name></member>
+  </compound>
+  <compound refid="llama__cpp__plugin_8h" kind="file"><name>llama_cpp_plugin.h</name>
+    <member refid="llama__cpp__plugin_8h_1abd3df5e104337622bede1e61cb58a20f" kind="function"><name>THEMIS_LLM_PLUGIN</name></member>
+  </compound>
+  <compound refid="llama__cpp__registrar_8h" kind="file"><name>llama_cpp_registrar.h</name>
+  </compound>
+  <compound refid="llama__cpp__plugin_8cpp" kind="file"><name>llama_cpp_plugin.cpp</name>
+  </compound>
+  <compound refid="llama__cpp__plugin__validation__gates_8cpp" kind="file"><name>llama_cpp_plugin_validation_gates.cpp</name>
+    <member refid="llama__cpp__plugin__validation__gates_8cpp_1adbadd4241321f991931c0644170863e4" kind="function"><name>GetLlamaCppPluginValidator</name></member>
+    <member refid="llama__cpp__plugin__validation__gates_8cpp_1a66ec093d4c244555f7645a0388c8f779" kind="function"><name>LlamaCppPluginValidationEnabled</name></member>
+  </compound>
+  <compound refid="llama__cpp__registrar_8cpp" kind="file"><name>llama_cpp_registrar.cpp</name>
+  </compound>
+  <compound refid="test__llama__cpp__inference__contract__focused_8cpp" kind="file"><name>test_llama_cpp_inference_contract_focused.cpp</name>
+    <member refid="test__llama__cpp__inference__contract__focused_8cpp_1ac755abffdf71d9c431acc35868e779a0" kind="function"><name>make_loaded_plugin</name></member>
+    <member refid="test__llama__cpp__inference__contract__focused_8cpp_1aa226b695b30700497cea32b3871f1a78" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__inference__contract__focused_8cpp_1ad18fc71d3186a88aa562a5bf7e58b235" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__inference__contract__focused_8cpp_1aee80ab7af0a321a805c516b6a26462cc" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__inference__contract__focused_8cpp_1aefda654d68c8a3ef89cc4e53cce23052" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__inference__contract__focused_8cpp_1a78dae41041beebf3cf76f26362a59cd9" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__inference__contract__focused_8cpp_1af39206141adb02837d19b4737b7a1598" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__inference__contract__focused_8cpp_1ac6d5585c5aa29fe99a23a2da4f43f1ab" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__inference__contract__focused_8cpp_1ab76e49dedad633b576062b84b501b4cc" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__inference__contract__focused_8cpp_1a08f11021f70e439614f5f2a79866ed44" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__inference__contract__focused_8cpp_1ad20728ebc81383b77a6392d4a1da2b9c" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__llama__cpp__plugin_8cpp" kind="file"><name>test_llama_cpp_plugin.cpp</name>
+    <member refid="test__llama__cpp__plugin_8cpp_1a966dae304711537fd42131b219c0e727" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a85c622c09aa9c6bb41906f125e3d2aaf" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a640bb660368540b9317491314b9ea4fa" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a1656188e706a1440608b0000db87100a" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a6e8fe6c41497de4c6e43a165ecfec4e1" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a993f75629d6c479f93e50e5f71196aba" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a013d7f5adfc55651c6feb24c4288f8a2" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a9fa745d1c78b66f8674a2d47cf856592" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1aed03ce012083ad0125a34caaaedfdc95" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a3be496ac63b91107633fb857bc337480" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a8cac328a8ceb1125f30e2888d59045c3" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1ad819cc6a762b4ab812df1024d945e7d8" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1ad84ac50c9101fcc55329283d45c5b358" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1ae4dc88bf4138fafde98a5ed704515585" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1afee8857a2f606b5473781293cbbd3a5a" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a0e16a6bd9f2beff6a9039266e966de9a" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a9c786282f6efb30a080e7691ce544c9e" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a4fe48a9a4ca060ed105c832a9fde8c65" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a69608a70c5da5b6a4a8e188f2d26e695" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a3ed26a8fca0ec6a2a386e129460dcff6" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a6cc8ccdc4ebefa9fcd5afcb37e9096ba" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a68493dbadc3763a496a34281a710c10d" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a8f6e1e16f365b64bbbcbd7ad812d2090" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a85648d1524d417471d97afd85c27a758" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1af95a479102223b756b7e64ab7661b45f" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a6b995927b65c6bf72df25370cb38e199" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1aed24dccc4b02fbd70438f9e0c02a0908" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a6823778c80a0696c9eaa19873e8a819a" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a1ff4afb487bf0112fe6861724d59cb24" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a3a2b06132ff2d53198031e65da76c2c6" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a936497623e37af5902e815e294f9638e" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a024280cdf9e37a4e19229bdae126d66a" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a76f8c343147e8224c50a4bd206b3e9c3" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a6138ff5b34dcb8ee05feb0802b82c73e" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a1af451bd4c2c2fc73f9a446320ff7030" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1acc65960cb31c2e6d92649de14e46e81e" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a693af2d68ee559aaf2bd23b00f44e1a3" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a9ace78e74ec688097d8b69a8669d074d" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1ab231e9efe6ecbb2bfe5f6afb76cac7d6" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a0fb3d23121473e64c7b474a69ae33cf9" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1abe6f57d0f4fba6a820110069259f38da" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a6f03762e1354d6f6c3950c944a64ff62" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a963a7dd2633c345773e52ecaca1c5777" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1aeb7f093975e9e5194f83547060d23850" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a6beea9cd253e7ad2a02215c89b64bd78" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1acdd718954aa95bb5eb07e1bfab66617e" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a6b1ea5883ea4e270140081306c410309" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a2c5ee6f2353e20e5c032795faf3e23f5" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1aa8ff32dbb9b61da2648793ee9fe54fbe" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1aa11fc269d25f445e18a01709b2834f43" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a4aaa32dd7677821e3ca6c99909e1d217" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a0feb8f03f64ee369d95c895623234059" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1ab00febd608840f061bbd9076219710f3" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1afb9b9ddbb8c84c8f9a5540e4386d47d4" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a6fe16c6a73b8ff0076115dae0a267ba0" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a6ccec21932497351b94817fcbe405c91" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a8f6339abf463139895d40c50f56acdb7" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1aa20171f6f42564459d952e1934858579" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1af6a1be630730bfab79caa39da6fc6a90" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1add6e618f4d3a7692096226d81d5c59a6" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a74f8632b718ac37081142181201c6ab7" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1ad7d9c8c916fed8b4525b6449c9c0ad40" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1ab62920779ce39d0e8e9c14c1f542e481" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1aaf4f04fb2dcda9b9b5f77abd3ef37171" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a99ab8d856cc5470960e17687239dc0a8" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a776f348c7db853b1ba39df2414196068" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a158a6fcdeb3b9063d0b6d3ddcb7b055e" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a2c1e190bfa719b79cf17c8ac66803872" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a120e3b83b1b15dde619474749ebd4dcd" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a58b106136395de60599cb64b5bed10cb" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a4535fae0e86a4e2802e7cf78239ec51c" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1abcc652c7387e17e780a673c1abd7057e" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1ab8ac0b3ba55069577746fc4756d414df" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a826b98048f74f1af1c430aad3b1e9d67" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a02157e99913864d4a16486fa21e7f0f6" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a877779874e0535cdd5ea2998b6fe5b96" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a9c529522785d1b6cdba25510972c1de8" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a4a82afce0445e25a1fda9536602288ae" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1ac1acfb5034485fedbb1cf5dcf8107e55" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1ad88097d0b4c65cace37185cc7137da96" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin_8cpp_1a59912c4c3ac2c34fe2816dc987caad07" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__llama__cpp__plugin__lifecycle__focused_8cpp" kind="file"><name>test_llama_cpp_plugin_lifecycle_focused.cpp</name>
+    <member refid="test__llama__cpp__plugin__lifecycle__focused_8cpp_1aec2a5b1861f3d748bfbed8f43bf505f6" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin__lifecycle__focused_8cpp_1a1ca7729928cbe0f04cfbb875b89755b6" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin__lifecycle__focused_8cpp_1a7fa5ff5187545b0dc98948bb4c2b0e12" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin__lifecycle__focused_8cpp_1ad6b55730ecc3e6a4c156b2659af893ae" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin__lifecycle__focused_8cpp_1a3b8cf870e773a94a905e304948235867" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin__lifecycle__focused_8cpp_1abfe49f1142b6ed77a98292666a8417bb" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin__lifecycle__focused_8cpp_1ae57a28ea64a36fbb420f33e102cb1ce5" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin__lifecycle__focused_8cpp_1a2c77e0275fc335061c24589d898d2fc0" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__plugin__lifecycle__focused_8cpp_1adb27b6726b32a1e11b92fbcb3c0a2f45" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__llama__cpp__registrar__integration__focused_8cpp" kind="file"><name>test_llama_cpp_registrar_integration_focused.cpp</name>
+    <member refid="test__llama__cpp__registrar__integration__focused_8cpp_1a770a64051e604c138bdde114f39b4f5b" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__registrar__integration__focused_8cpp_1a56f352d9b0604bb3c9a6dce7490f8cf0" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__registrar__integration__focused_8cpp_1a3caa0fc472751522885b67f3b4ba045b" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__registrar__integration__focused_8cpp_1a70450e2a747dea9b0d9057787abc1af2" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__registrar__integration__focused_8cpp_1a36ea4a3b0db59c99faa4400768246d95" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__registrar__integration__focused_8cpp_1a3f3728a141bc73c8c7c3841b4e33efe4" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__registrar__integration__focused_8cpp_1a15f65a212fe744241dde0a21c8279bb6" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__registrar__integration__focused_8cpp_1ac87e792509df6fc0d8b1906a875b7858" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__llama__cpp__validation__gates__focused_8cpp" kind="file"><name>test_llama_cpp_validation_gates_focused.cpp</name>
+    <member refid="test__llama__cpp__validation__gates__focused_8cpp_1af1520c2d2ce73a0796b97bba303e09e3" kind="function"><name>make_loaded</name></member>
+    <member refid="test__llama__cpp__validation__gates__focused_8cpp_1a4f61ddf18855419852836e378ec82ef8" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__validation__gates__focused_8cpp_1aed517ae3a2090ad529b84d30de8de344" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__validation__gates__focused_8cpp_1a150ef92d683db5f5682ad0d33c1ce25e" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__validation__gates__focused_8cpp_1a343c779a1697397bb01faf76df073294" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__validation__gates__focused_8cpp_1a9e1f2f3112952222ee4b3ef9f8a6639c" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__validation__gates__focused_8cpp_1af79c9eb38947e4e0756b3b1524c8906e" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__validation__gates__focused_8cpp_1ad5bda8546a9ba2185931186b2321582f" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__validation__gates__focused_8cpp_1a9a6d47ca8009225c298ef9fd2ee0ca69" kind="function"><name>TEST</name></member>
+    <member refid="test__llama__cpp__validation__gates__focused_8cpp_1a9d3accae53764c1ee4db455c533ee86c" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__llama__cpp__highcardinality__stress_8cpp" kind="file"><name>test_llama_cpp_highcardinality_stress.cpp</name>
+  </compound>
+  <compound refid="dir_13a41d9ad64fb9ae396cb953294783cf" kind="dir"><name>benchmarks</name>
+  </compound>
+  <compound refid="dir_d44c64559bbebec7f509842c48db8b23" kind="dir"><name>include</name>
+  </compound>
+  <compound refid="dir_6c411b8181638325c1bc162738aca0a7" kind="dir"><name>benchmarks/llama_cpp</name>
+  </compound>
+  <compound refid="dir_2d0cf42536a21d3c31c910bb42d42af8" kind="dir"><name>include/llama_cpp</name>
+  </compound>
+  <compound refid="dir_13a7acd87633b1010d1b7bb0019ed99d" kind="dir"><name>src/llama_cpp</name>
+  </compound>
+  <compound refid="dir_40b95b7c801a7215e05232e218643275" kind="dir"><name>tests/llama_cpp</name>
+  </compound>
+  <compound refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir"><name>src</name>
+  </compound>
+  <compound refid="dir_680e2aab7c1bf02ffaad8a8bc0c85773" kind="dir"><name>src/llama_cpp/tests</name>
+  </compound>
+  <compound refid="dir_59425e443f801f1f2fd8bbe4959a3ccf" kind="dir"><name>tests</name>
+  </compound>
+</doxygenindex>

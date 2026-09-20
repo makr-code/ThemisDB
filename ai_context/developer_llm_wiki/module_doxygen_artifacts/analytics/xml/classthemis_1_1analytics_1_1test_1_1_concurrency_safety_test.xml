@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1analytics_1_1test_1_1_concurrency_safety_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::analytics::test::ConcurrencySafetyTest</compoundname>
+    <basecompoundref refid="classtesting_1_1_test" prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1test_1_1_concurrency_safety_test_1a84bc653859414e1c253f1ef142172280" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1analytics_1_1test_1_1_lock_acquisition_tracker" kindref="compound">LockAcquisitionTracker</ref></type>
+        <definition>LockAcquisitionTracker themis::analytics::test::ConcurrencySafetyTest::tracker_</definition>
+        <argsstring></argsstring>
+        <name>tracker_</name>
+        <qualifiedname>themis::analytics::test::ConcurrencySafetyTest::tracker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_concurrency_safety_focused.cpp" line="128" column="28" bodyfile="tests/analytics/test_analytics_concurrency_safety_focused.cpp" bodystart="128" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1test_1_1_concurrency_safety_test_1a8575554c16b895db00657a4dce03adc7" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::analytics::test::ConcurrencySafetyTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::analytics::test::ConcurrencySafetyTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_concurrency_safety_focused.cpp" line="124" column="10" bodyfile="tests/analytics/test_analytics_concurrency_safety_focused.cpp" bodystart="124" bodyend="126"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+      <node id="1">
+        <label>themis::analytics::test::ConcurrencySafetyTest</label>
+        <link refid="classthemis_1_1analytics_1_1test_1_1_concurrency_safety_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+      <node id="1">
+        <label>themis::analytics::test::ConcurrencySafetyTest</label>
+        <link refid="classthemis_1_1analytics_1_1test_1_1_concurrency_safety_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>tracker_</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::analytics::test::LockAcquisitionTracker</label>
+        <link refid="classthemis_1_1analytics_1_1test_1_1_lock_acquisition_tracker"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/analytics/test_analytics_concurrency_safety_focused.cpp" line="122" column="1" bodyfile="tests/analytics/test_analytics_concurrency_safety_focused.cpp" bodystart="122" bodyend="129"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_concurrency_safety_test_1a8575554c16b895db00657a4dce03adc7" prot="protected" virt="non-virtual"><scope>themis::analytics::test::ConcurrencySafetyTest</scope><name>SetUp</name></member>
+      <member refid="classtesting_1_1_test_1a2889fd829b6c712d98fb3896d28f64a3" prot="protected" virt="non-virtual"><scope>themis::analytics::test::ConcurrencySafetyTest</scope><name>TearDown</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_concurrency_safety_test_1a84bc653859414e1c253f1ef142172280" prot="protected" virt="non-virtual"><scope>themis::analytics::test::ConcurrencySafetyTest</scope><name>tracker_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

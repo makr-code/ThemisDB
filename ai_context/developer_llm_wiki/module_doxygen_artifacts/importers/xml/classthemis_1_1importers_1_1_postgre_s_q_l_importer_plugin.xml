@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_plugin" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::PostgreSQLImporterPlugin</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">plugins::IThemisPlugin</basecompoundref>
+    <includes refid="postgres__importer_8h" local="no">postgres_importer.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_plugin_1ac75e56db12dcdfa91b12c37530813585" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer" kindref="compound">PostgreSQLImporter</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;PostgreSQLImporter&gt; themis::importers::PostgreSQLImporterPlugin::importer_</definition>
+        <argsstring></argsstring>
+        <name>importer_</name>
+        <qualifiedname>themis::importers::PostgreSQLImporterPlugin::importer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="563" column="21" bodyfile="include/importers/postgres_importer.h" bodystart="563" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_plugin_1a67261e2df2334ee6bb11edab8d5c19e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::PostgreSQLImporterPlugin::PostgreSQLImporterPlugin</definition>
+        <argsstring>()</argsstring>
+        <name>PostgreSQLImporterPlugin</name>
+        <qualifiedname>themis::importers::PostgreSQLImporterPlugin::PostgreSQLImporterPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="550" column="5" bodyfile="src/importers/postgres_importer.cpp" bodystart="3085" bodyend="3087"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_plugin_1a5bf37ddc54c17ce348c9eea176e9054e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::PostgreSQLImporterPlugin::~PostgreSQLImporterPlugin</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~PostgreSQLImporterPlugin</name>
+        <qualifiedname>themis::importers::PostgreSQLImporterPlugin::~PostgreSQLImporterPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="551" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_plugin_1aef396ef306f8092480ab627d83f35641" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::importers::PostgreSQLImporterPlugin::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::importers::PostgreSQLImporterPlugin::getName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="554" column="16" bodyfile="include/importers/postgres_importer.h" bodystart="554" bodyend="554"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_plugin_1af947d63ee554112bbb91778c4ee2dd8a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::importers::PostgreSQLImporterPlugin::getVersion</definition>
+        <argsstring>() const override</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>themis::importers::PostgreSQLImporterPlugin::getVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="555" column="16" bodyfile="include/importers/postgres_importer.h" bodystart="555" bodyend="555"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_plugin_1ac78580b8d00cdb96c698e538841af319" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>plugins::PluginType</type>
+        <definition>plugins::PluginType themis::importers::PostgreSQLImporterPlugin::getType</definition>
+        <argsstring>() const override</argsstring>
+        <name>getType</name>
+        <qualifiedname>themis::importers::PostgreSQLImporterPlugin::getType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="556" column="25" bodyfile="include/importers/postgres_importer.h" bodystart="556" bodyend="556"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_plugin_1a71fb05f65d1bd49146d2cd67197e0e61" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>plugins::PluginCapabilities</type>
+        <definition>plugins::PluginCapabilities themis::importers::PostgreSQLImporterPlugin::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>themis::importers::PostgreSQLImporterPlugin::getCapabilities</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="557" column="33" bodyfile="src/importers/postgres_importer.cpp" bodystart="3089" bodyend="3095"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_plugin_1a8607840708d81a61a3cf6dec8679fc93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::PostgreSQLImporterPlugin::initialize</definition>
+        <argsstring>(const char *config_json) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::importers::PostgreSQLImporterPlugin::initialize</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>config_json</declname>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements initialize without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="558" column="10" bodyfile="src/importers/postgres_importer.cpp" bodystart="3103" bodyend="3108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_plugin_1ae6191f7f5ef282575f1f1ca840def703" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::PostgreSQLImporterPlugin::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::importers::PostgreSQLImporterPlugin::shutdown</qualifiedname>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: cancel(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="559" column="10" bodyfile="src/importers/postgres_importer.cpp" bodystart="3114" bodyend="3118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_postgre_s_q_l_importer_plugin_1a3d7a2f974dce9fc236a0df10c72007cb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::importers::PostgreSQLImporterPlugin::getInstance</definition>
+        <argsstring>() override</argsstring>
+        <name>getInstance</name>
+        <qualifiedname>themis::importers::PostgreSQLImporterPlugin::getInstance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="560" column="10" bodyfile="include/importers/postgres_importer.h" bodystart="560" bodyend="560"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>plugins::IThemisPlugin</label>
+      </node>
+      <node id="1">
+        <label>themis::importers::PostgreSQLImporterPlugin</label>
+        <link refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>plugins::IThemisPlugin</label>
+      </node>
+      <node id="1">
+        <label>themis::importers::PostgreSQLImporterPlugin</label>
+        <link refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/importers/postgres_importer.h" line="548" column="1" bodyfile="include/importers/postgres_importer.h" bodystart="548" bodyend="564"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_plugin_1a71fb05f65d1bd49146d2cd67197e0e61" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporterPlugin</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_plugin_1a3d7a2f974dce9fc236a0df10c72007cb" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporterPlugin</scope><name>getInstance</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_plugin_1aef396ef306f8092480ab627d83f35641" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporterPlugin</scope><name>getName</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_plugin_1ac78580b8d00cdb96c698e538841af319" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporterPlugin</scope><name>getType</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_plugin_1af947d63ee554112bbb91778c4ee2dd8a" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporterPlugin</scope><name>getVersion</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_plugin_1ac75e56db12dcdfa91b12c37530813585" prot="private" virt="non-virtual"><scope>themis::importers::PostgreSQLImporterPlugin</scope><name>importer_</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_plugin_1a8607840708d81a61a3cf6dec8679fc93" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporterPlugin</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_plugin_1a67261e2df2334ee6bb11edab8d5c19e8" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporterPlugin</scope><name>PostgreSQLImporterPlugin</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_plugin_1ae6191f7f5ef282575f1f1ca840def703" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporterPlugin</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_plugin_1a5bf37ddc54c17ce348c9eea176e9054e" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporterPlugin</scope><name>~PostgreSQLImporterPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

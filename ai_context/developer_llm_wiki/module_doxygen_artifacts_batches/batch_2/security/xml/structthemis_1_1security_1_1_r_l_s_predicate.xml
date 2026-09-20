@@ -1,0 +1,190 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_r_l_s_predicate" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::RLSPredicate</compoundname>
+    <includes refid="row__level__security_8h" local="no">row_level_security.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_r_l_s_predicate_1a05ad2a8076318e587ab05788c535af50" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::RLSPredicate::field</definition>
+        <argsstring></argsstring>
+        <name>field</name>
+        <qualifiedname>themis::security::RLSPredicate::field</qualifiedname>
+        <briefdescription>
+<para>Row field name to test. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/row_level_security.h" line="28" column="17" bodyfile="include/security/row_level_security.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_r_l_s_predicate_1a9ff7bd26a64dc24cf9abb2f25f0e4508" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::RLSPredicate::op</definition>
+        <argsstring></argsstring>
+        <name>op</name>
+        <qualifiedname>themis::security::RLSPredicate::op</qualifiedname>
+        <briefdescription>
+<para>Comparison operator. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/row_level_security.h" line="29" column="17" bodyfile="include/security/row_level_security.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_r_l_s_predicate_1a3a3b1ac3930d77e230a212d7b8b7e5a7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::RLSPredicate::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::security::RLSPredicate::value</qualifiedname>
+        <briefdescription>
+<para>Static literal value (JSON-encoded scalar/array). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/row_level_security.h" line="30" column="17" bodyfile="include/security/row_level_security.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_r_l_s_predicate_1ae80762b42f5652ec56488578d4e2135a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::RLSPredicate::user_attr</definition>
+        <argsstring></argsstring>
+        <name>user_attr</name>
+        <qualifiedname>themis::security::RLSPredicate::user_attr</qualifiedname>
+        <briefdescription>
+<para><ref refid="structthemis_1_1security_1_1_security_context" kindref="compound">SecurityContext</ref> attribute key (mutually exclusive with value). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/row_level_security.h" line="31" column="17" bodyfile="include/security/row_level_security.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1security_1_1_r_l_s_predicate_1a309b022829c2e9fe7db112d4b96dbe7d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::RLSPredicate::evaluate</definition>
+        <argsstring>(const nlohmann::json &amp;row, const SecurityContext &amp;ctx) const</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::security::RLSPredicate::evaluate</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>row</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1security_1_1_security_context" kindref="compound">SecurityContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/row_level_security.h" line="39" column="10" bodyfile="src/security/row_level_security.cpp" bodystart="106" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1security_1_1_r_l_s_predicate_1a3c1fd0711283eb0c2e49b586daebbae5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::security::RLSPredicate::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::security::RLSPredicate::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/row_level_security.h" line="45" column="20" bodyfile="src/security/row_level_security.cpp" bodystart="155" bodyend="162"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1security_1_1_r_l_s_predicate_1aaf15361a249149122f9a8d8f8ee46d5a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_r_l_s_predicate" kindref="compound">RLSPredicate</ref></type>
+        <definition>RLSPredicate themis::security::RLSPredicate::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::security::RLSPredicate::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="structthemis_1_1security_1_1_r_l_s_predicate_1a3a3b1ac3930d77e230a212d7b8b7e5a7" kindref="member">value()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/row_level_security.h" line="51" column="25" bodyfile="src/security/row_level_security.cpp" bodystart="170" bodyend="177"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/row_level_security.h" line="27" column="1" bodyfile="include/security/row_level_security.h" bodystart="27" bodyend="52"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_r_l_s_predicate_1a309b022829c2e9fe7db112d4b96dbe7d" prot="public" virt="non-virtual"><scope>themis::security::RLSPredicate</scope><name>evaluate</name></member>
+      <member refid="structthemis_1_1security_1_1_r_l_s_predicate_1a05ad2a8076318e587ab05788c535af50" prot="public" virt="non-virtual"><scope>themis::security::RLSPredicate</scope><name>field</name></member>
+      <member refid="structthemis_1_1security_1_1_r_l_s_predicate_1aaf15361a249149122f9a8d8f8ee46d5a" prot="public" virt="non-virtual"><scope>themis::security::RLSPredicate</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1security_1_1_r_l_s_predicate_1a9ff7bd26a64dc24cf9abb2f25f0e4508" prot="public" virt="non-virtual"><scope>themis::security::RLSPredicate</scope><name>op</name></member>
+      <member refid="structthemis_1_1security_1_1_r_l_s_predicate_1a3c1fd0711283eb0c2e49b586daebbae5" prot="public" virt="non-virtual"><scope>themis::security::RLSPredicate</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1security_1_1_r_l_s_predicate_1ae80762b42f5652ec56488578d4e2135a" prot="public" virt="non-virtual"><scope>themis::security::RLSPredicate</scope><name>user_attr</name></member>
+      <member refid="structthemis_1_1security_1_1_r_l_s_predicate_1a3a3b1ac3930d77e230a212d7b8b7e5a7" prot="public" virt="non-virtual"><scope>themis::security::RLSPredicate</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

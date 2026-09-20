@@ -1,0 +1,519 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__rtree__cursor_8cpp" kind="file" language="C++">
+    <compoundname>test_rtree_cursor.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="rtree__cursor_8h" local="yes">geo/rtree_cursor.h</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>geo/rtree_cursor.h</label>
+        <link refid="rtree__cursor_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/geo/test_rtree_cursor.cpp</label>
+        <link refid="test__rtree__cursor_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>cmath</label>
+      </node>
+      <node id="5">
+        <label>cstddef</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>utils/geo/ewkb.h</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__rtree__cursor_8cpp_1aa9a1bf1548ee5dca6d543a273e4d457c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RTreeCursor, RTC01_EmptyIndex)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RTreeCursor</type>
+        </param>
+        <param>
+          <type>RTC01_EmptyIndex</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_rtree_cursor.cpp" line="62" column="1" bodyfile="tests/geo/test_rtree_cursor.cpp" bodystart="62" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rtree__cursor_8cpp_1abe3d11b6a5e792edbc7be777fe7954f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RTreeCursor, RTC02_Insert_RangeCursorFindsEntry)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RTreeCursor</type>
+        </param>
+        <param>
+          <type>RTC02_Insert_RangeCursorFindsEntry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_rtree_cursor.cpp" line="71" column="1" bodyfile="tests/geo/test_rtree_cursor.cpp" bodystart="71" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rtree__cursor_8cpp_1a032fb8f62fce02ea0c8a05d93b2c9de0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RTreeCursor, RTC03_BulkLoad_RangeCursorCoversAll)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RTreeCursor</type>
+        </param>
+        <param>
+          <type>RTC03_BulkLoad_RangeCursorCoversAll</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_rtree_cursor.cpp" line="91" column="1" bodyfile="tests/geo/test_rtree_cursor.cpp" bodystart="91" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rtree__cursor_8cpp_1acf82d546cd6963f2ff3b9c17b1e5466b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RTreeCursor, RTC04_RangeCursor_NoOverlap_End)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RTreeCursor</type>
+        </param>
+        <param>
+          <type>RTC04_RangeCursor_NoOverlap_End</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_rtree_cursor.cpp" line="116" column="1" bodyfile="tests/geo/test_rtree_cursor.cpp" bodystart="116" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rtree__cursor_8cpp_1a49b963f5b3469b07ef1e5ca0bb43a6fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RTreeCursor, RTC05_RangeCursor_EstimatedResultCount)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RTreeCursor</type>
+        </param>
+        <param>
+          <type>RTC05_RangeCursor_EstimatedResultCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_rtree_cursor.cpp" line="131" column="1" bodyfile="tests/geo/test_rtree_cursor.cpp" bodystart="131" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rtree__cursor_8cpp_1a471d862c2d4690d7d10bd7f163f886c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RTreeCursor, RTC06_RangeCursor_Stale_AfterInsert)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RTreeCursor</type>
+        </param>
+        <param>
+          <type>RTC06_RangeCursor_Stale_AfterInsert</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_rtree_cursor.cpp" line="157" column="1" bodyfile="tests/geo/test_rtree_cursor.cpp" bodystart="157" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rtree__cursor_8cpp_1ae96be19ce456127d644461a2f9c23ee6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RTreeCursor, RTC07_KNNCursor_Sorted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RTreeCursor</type>
+        </param>
+        <param>
+          <type>RTC07_KNNCursor_Sorted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_rtree_cursor.cpp" line="179" column="1" bodyfile="tests/geo/test_rtree_cursor.cpp" bodystart="179" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rtree__cursor_8cpp_1a682cac35cb7d17f00f783e19b44fe852" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RTreeCursor, RTC08_KNNCursor_KLargerThanIndex)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RTreeCursor</type>
+        </param>
+        <param>
+          <type>RTC08_KNNCursor_KLargerThanIndex</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_rtree_cursor.cpp" line="206" column="1" bodyfile="tests/geo/test_rtree_cursor.cpp" bodystart="206" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rtree__cursor_8cpp_1a123cc1a2697b4e46227c62464ce91bc2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RTreeCursor, RTC09_KNNCursor_Stale_AfterClear)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RTreeCursor</type>
+        </param>
+        <param>
+          <type>RTC09_KNNCursor_Stale_AfterClear</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_rtree_cursor.cpp" line="227" column="1" bodyfile="tests/geo/test_rtree_cursor.cpp" bodystart="227" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rtree__cursor_8cpp_1a8934d09ca1e8ab567ff4f7ea9ac86ff9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RTreeCursor, RTC10_Clear_ResetsIndex)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RTreeCursor</type>
+        </param>
+        <param>
+          <type>RTC10_Clear_ResetsIndex</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_rtree_cursor.cpp" line="249" column="1" bodyfile="tests/geo/test_rtree_cursor.cpp" bodystart="249" bodyend="260"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>Test<sp/>suite:<sp/>R-tree<sp/>Cursor<sp/>API<sp/>(rtree_cursor.h)</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*<sp/>Tests:<sp/>RTC-01<sp/>…<sp/>RTC-10</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*<sp/>RTC-01<sp/><sp/>GeoRTreeIndex:<sp/>empty<sp/>index<sp/>has<sp/>size<sp/>0</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/>*<sp/>RTC-02<sp/><sp/>GeoRTreeIndex:<sp/>insert()<sp/>increases<sp/>size,<sp/>range<sp/>cursor<sp/>finds<sp/>entry</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"><sp/>*<sp/>RTC-03<sp/><sp/>GeoRTreeIndex:<sp/>bulkLoad()<sp/>populates<sp/>index,<sp/>range<sp/>cursor<sp/>covers<sp/>all</highlight></codeline>
+<codeline lineno="9"><highlight class="comment"><sp/>*<sp/>RTC-04<sp/><sp/>RangeCursor:<sp/>non-overlapping<sp/>bbox<sp/>yields<sp/>END<sp/>immediately</highlight></codeline>
+<codeline lineno="10"><highlight class="comment"><sp/>*<sp/>RTC-05<sp/><sp/>RangeCursor:<sp/>estimatedResultCount()<sp/>matches<sp/>actual<sp/>hits</highlight></codeline>
+<codeline lineno="11"><highlight class="comment"><sp/>*<sp/>RTC-06<sp/><sp/>RangeCursor:<sp/>STALE<sp/>after<sp/>index<sp/>mutation<sp/>(insert)</highlight></codeline>
+<codeline lineno="12"><highlight class="comment"><sp/>*<sp/>RTC-07<sp/><sp/>KNNCursor:<sp/>k-NN<sp/>returns<sp/>k<sp/>results<sp/>sorted<sp/>ascending<sp/>by<sp/>distance</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"><sp/>*<sp/>RTC-08<sp/><sp/>KNNCursor:<sp/>k<sp/>&gt;<sp/>index<sp/>size<sp/>returns<sp/>all<sp/>entries</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/>*<sp/>RTC-09<sp/><sp/>KNNCursor:<sp/>STALE<sp/>after<sp/>index<sp/>mutation<sp/>(clear)</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"><sp/>*<sp/>RTC-10<sp/><sp/>GeoRTreeIndex:<sp/>clear()<sp/>resets<sp/>size;<sp/>subsequent<sp/>range<sp/>cursor<sp/>yields<sp/>END</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rtree__cursor_8h" kindref="compound">geo/rtree_cursor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1geo" kindref="compound">themis::geo</ref>;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal">GeometryInfo<sp/>makePoint(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lon,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lat,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*key*/</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>GeometryInfo<sp/>g;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>g.type<sp/>=<sp/>GeometryType::Point;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>g.coords.emplace_back(lon,<sp/>lat);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>g;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal">GeometryInfo<sp/>makeBox(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lon,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lat,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>half<sp/>=<sp/>0.5)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>GeometryInfo<sp/>g;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>g.type<sp/>=<sp/>GeometryType::Polygon;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Exterior<sp/>ring<sp/>(5<sp/>coords,<sp/>closed)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>g.rings.push_back({</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Coordinate{lon<sp/>-<sp/>half,<sp/>lat<sp/>-<sp/>half},</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Coordinate{lon<sp/>+<sp/>half,<sp/>lat<sp/>-<sp/>half},</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Coordinate{lon<sp/>+<sp/>half,<sp/>lat<sp/>+<sp/>half},</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Coordinate{lon<sp/>-<sp/>half,<sp/>lat<sp/>+<sp/>half},</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Coordinate{lon<sp/>-<sp/>half,<sp/>lat<sp/>-<sp/>half},</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>g;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RTC-01<sp/>Empty<sp/>index<sp/>has<sp/>size<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><ref refid="test__rtree__cursor_8cpp_1aa9a1bf1548ee5dca6d543a273e4d457c" kindref="member">TEST</ref>(RTreeCursor,<sp/>RTC01_EmptyIndex)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_r_tree_index" kindref="compound">GeoRTreeIndex</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(idx.<ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1ab83984cc4aed89915222dd96f9ff76d4" kindref="member">size</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RTC-02<sp/>insert()<sp/>—<sp/>range<sp/>cursor<sp/>finds<sp/>inserted<sp/>entry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><ref refid="test__rtree__cursor_8cpp_1aa9a1bf1548ee5dca6d543a273e4d457c" kindref="member">TEST</ref>(RTreeCursor,<sp/>RTC02_Insert_RangeCursorFindsEntry)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_r_tree_index" kindref="compound">GeoRTreeIndex</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1acf35e460c080c3134494f7c8c0749bb7" kindref="member">insert</ref>(</highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">,<sp/>makePoint(13.4050,<sp/>52.5200));</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(idx.<ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1ab83984cc4aed89915222dd96f9ff76d4" kindref="member">size</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>bbox<sp/>that<sp/>contains<sp/>Berlin</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>MBR<sp/>bbox{13.0,<sp/>52.0,<sp/>14.0,<sp/>53.0};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cursor<sp/>=<sp/>idx.<ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a67f526a34b5a622c70e81897df0b5d7e" kindref="member">openRangeCursor</ref>(bbox);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(cursor,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_geo_index_entry" kindref="compound">GeoIndexEntry</ref><sp/>e;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cursor-&gt;next(e),<sp/><ref refid="namespacethemis_1_1geo_1a8dd2d118e31fdcefe80a43a869eb83b5ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">CursorStatus::OK</ref>);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(e.<ref refid="structthemis_1_1geo_1_1_geo_index_entry_1a078ea3ba0844f5e961d843ab39363b0b" kindref="member">key</ref>,<sp/></highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cursor-&gt;next(e),<sp/><ref refid="namespacethemis_1_1geo_1a8dd2d118e31fdcefe80a43a869eb83b5ab1a326c06d88bf042f73d70f50197905" kindref="member">CursorStatus::END</ref>);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RTC-03<sp/>bulkLoad()<sp/>—<sp/>range<sp/>cursor<sp/>covers<sp/>all<sp/>entries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><ref refid="test__rtree__cursor_8cpp_1aa9a1bf1548ee5dca6d543a273e4d457c" kindref="member">TEST</ref>(RTreeCursor,<sp/>RTC03_BulkLoad_RangeCursorCoversAll)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_r_tree_index" kindref="compound">GeoRTreeIndex</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>GeometryInfo&gt;&gt;<sp/>entries<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;p1&quot;</highlight><highlight class="normal">,<sp/>makePoint(<sp/>2.3522,<sp/>48.8566)},<sp/><sp/></highlight><highlight class="comment">//<sp/>Paris</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;p2&quot;</highlight><highlight class="normal">,<sp/>makePoint(13.4050,<sp/>52.5200)},<sp/><sp/></highlight><highlight class="comment">//<sp/>Berlin</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;p3&quot;</highlight><highlight class="normal">,<sp/>makePoint(-0.1276,<sp/>51.5074)},<sp/><sp/></highlight><highlight class="comment">//<sp/>London</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a10f448598a7edb6617ef630af1713a0d" kindref="member">bulkLoad</ref>(entries);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(idx.<ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1ab83984cc4aed89915222dd96f9ff76d4" kindref="member">size</ref>(),<sp/>3u);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>World<sp/>bbox<sp/>—<sp/>must<sp/>catch<sp/>all</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>MBR<sp/>world{-180.0,<sp/>-90.0,<sp/>180.0,<sp/>90.0};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cursor<sp/>=<sp/>idx.<ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a67f526a34b5a622c70e81897df0b5d7e" kindref="member">openRangeCursor</ref>(world);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_geo_index_entry" kindref="compound">GeoIndexEntry</ref><sp/>e;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(cursor-&gt;next(e)<sp/>==<sp/><ref refid="namespacethemis_1_1geo_1a8dd2d118e31fdcefe80a43a869eb83b5ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">CursorStatus::OK</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>++count;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(count,<sp/>3);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RTC-04<sp/>RangeCursor:<sp/>non-overlapping<sp/>bbox<sp/>yields<sp/>END<sp/>immediately</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><ref refid="test__rtree__cursor_8cpp_1aa9a1bf1548ee5dca6d543a273e4d457c" kindref="member">TEST</ref>(RTreeCursor,<sp/>RTC04_RangeCursor_NoOverlap_End)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_r_tree_index" kindref="compound">GeoRTreeIndex</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1acf35e460c080c3134494f7c8c0749bb7" kindref="member">insert</ref>(</highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">,<sp/>makePoint(13.4050,<sp/>52.5200));</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Bbox<sp/>somewhere<sp/>in<sp/>the<sp/>Pacific</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>MBR<sp/>pacific{-180.0,<sp/>-10.0,<sp/>-100.0,<sp/>10.0};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cursor<sp/>=<sp/>idx.<ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a67f526a34b5a622c70e81897df0b5d7e" kindref="member">openRangeCursor</ref>(pacific);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_geo_index_entry" kindref="compound">GeoIndexEntry</ref><sp/>e;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cursor-&gt;next(e),<sp/><ref refid="namespacethemis_1_1geo_1a8dd2d118e31fdcefe80a43a869eb83b5ab1a326c06d88bf042f73d70f50197905" kindref="member">CursorStatus::END</ref>);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RTC-05<sp/>RangeCursor:<sp/>estimatedResultCount()<sp/>==<sp/>actual<sp/>hit<sp/>count</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><ref refid="test__rtree__cursor_8cpp_1aa9a1bf1548ee5dca6d543a273e4d457c" kindref="member">TEST</ref>(RTreeCursor,<sp/>RTC05_RangeCursor_EstimatedResultCount)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_r_tree_index" kindref="compound">GeoRTreeIndex</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1acf35e460c080c3134494f7c8c0749bb7" kindref="member">insert</ref>(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/>makePoint(1.0,<sp/>1.0));</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1acf35e460c080c3134494f7c8c0749bb7" kindref="member">insert</ref>(</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">,<sp/>makePoint(2.0,<sp/>2.0));</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1acf35e460c080c3134494f7c8c0749bb7" kindref="member">insert</ref>(</highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">,<sp/>makePoint(10.0,<sp/>10.0));</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Bbox<sp/>that<sp/>catches<sp/>a<sp/>and<sp/>b<sp/>but<sp/>not<sp/>c</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>MBR<sp/>bbox{0.0,<sp/>0.0,<sp/>3.0,<sp/>3.0};</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cursor<sp/>=<sp/>idx.<ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a67f526a34b5a622c70e81897df0b5d7e" kindref="member">openRangeCursor</ref>(bbox);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>estimate<sp/>=<sp/>cursor-&gt;estimatedResultCount();</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Drain<sp/>the<sp/>cursor<sp/>and<sp/>count<sp/>actual<sp/>hits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_geo_index_entry" kindref="compound">GeoIndexEntry</ref><sp/>e;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>actual<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(cursor-&gt;next(e)<sp/>==<sp/><ref refid="namespacethemis_1_1geo_1a8dd2d118e31fdcefe80a43a869eb83b5ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">CursorStatus::OK</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>++actual;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(estimate,<sp/>actual);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(actual,<sp/>2u);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RTC-06<sp/>RangeCursor:<sp/>STALE<sp/>after<sp/>index<sp/>mutation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><ref refid="test__rtree__cursor_8cpp_1aa9a1bf1548ee5dca6d543a273e4d457c" kindref="member">TEST</ref>(RTreeCursor,<sp/>RTC06_RangeCursor_Stale_AfterInsert)<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_r_tree_index" kindref="compound">GeoRTreeIndex</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1acf35e460c080c3134494f7c8c0749bb7" kindref="member">insert</ref>(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/>makePoint(1.0,<sp/>1.0));</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>MBR<sp/>world{-180.0,<sp/>-90.0,<sp/>180.0,<sp/>90.0};</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cursor<sp/>=<sp/>idx.<ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a67f526a34b5a622c70e81897df0b5d7e" kindref="member">openRangeCursor</ref>(world);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Drain<sp/>one<sp/>entry<sp/>normally</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_geo_index_entry" kindref="compound">GeoIndexEntry</ref><sp/>e;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cursor-&gt;next(e),<sp/><ref refid="namespacethemis_1_1geo_1a8dd2d118e31fdcefe80a43a869eb83b5ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">CursorStatus::OK</ref>);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mutate<sp/>the<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1acf35e460c080c3134494f7c8c0749bb7" kindref="member">insert</ref>(</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">,<sp/>makePoint(2.0,<sp/>2.0));</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Now<sp/>cursor<sp/>must<sp/>be<sp/>STALE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cursor-&gt;next(e),<sp/><ref refid="namespacethemis_1_1geo_1a8dd2d118e31fdcefe80a43a869eb83b5a4d855a061b3066dc14a3b12ed26b5456" kindref="member">CursorStatus::STALE</ref>);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RTC-07<sp/>KNNCursor:<sp/>returns<sp/>k<sp/>results<sp/>sorted<sp/>ascending<sp/>by<sp/>distance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><ref refid="test__rtree__cursor_8cpp_1aa9a1bf1548ee5dca6d543a273e4d457c" kindref="member">TEST</ref>(RTreeCursor,<sp/>RTC07_KNNCursor_Sorted)<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_r_tree_index" kindref="compound">GeoRTreeIndex</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>4<sp/>points<sp/>at<sp/>increasing<sp/>distances<sp/>from<sp/>(0,<sp/>0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1acf35e460c080c3134494f7c8c0749bb7" kindref="member">insert</ref>(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/>makePoint(0.0,<sp/><sp/>1.0));<sp/><sp/></highlight><highlight class="comment">//<sp/>closest</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1acf35e460c080c3134494f7c8c0749bb7" kindref="member">insert</ref>(</highlight><highlight class="stringliteral">&quot;d2&quot;</highlight><highlight class="normal">,<sp/>makePoint(0.0,<sp/><sp/>2.0));</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1acf35e460c080c3134494f7c8c0749bb7" kindref="member">insert</ref>(</highlight><highlight class="stringliteral">&quot;d3&quot;</highlight><highlight class="normal">,<sp/>makePoint(0.0,<sp/><sp/>3.0));</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1acf35e460c080c3134494f7c8c0749bb7" kindref="member">insert</ref>(</highlight><highlight class="stringliteral">&quot;d4&quot;</highlight><highlight class="normal">,<sp/>makePoint(0.0,<sp/>10.0));<sp/><sp/></highlight><highlight class="comment">//<sp/>farthest</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>Coordinate<sp/>origin{0.0,<sp/>0.0};</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cursor<sp/>=<sp/>idx.<ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a8e3382b6551cc72fa102ea4e866840e2" kindref="member">openKNNCursor</ref>(origin,<sp/>3);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(cursor,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cursor-&gt;estimatedResultCount(),<sp/>3u);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_geo_index_entry" kindref="compound">GeoIndexEntry</ref><sp/>prev;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_geo_index_entry" kindref="compound">GeoIndexEntry</ref><sp/>cur;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(cursor-&gt;next(prev),<sp/><ref refid="namespacethemis_1_1geo_1a8dd2d118e31fdcefe80a43a869eb83b5ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">CursorStatus::OK</ref>);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(cursor-&gt;next(cur),<sp/><sp/><ref refid="namespacethemis_1_1geo_1a8dd2d118e31fdcefe80a43a869eb83b5ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">CursorStatus::OK</ref>);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(prev.<ref refid="structthemis_1_1geo_1_1_geo_index_entry_1a1d64b3182834093c3f90846c1f5e9c3c" kindref="member">distance_m</ref>,<sp/>cur.<ref refid="structthemis_1_1geo_1_1_geo_index_entry_1a1d64b3182834093c3f90846c1f5e9c3c" kindref="member">distance_m</ref>)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Results<sp/>must<sp/>be<sp/>sorted<sp/>ascending&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(cursor-&gt;next(prev),<sp/><ref refid="namespacethemis_1_1geo_1a8dd2d118e31fdcefe80a43a869eb83b5ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">CursorStatus::OK</ref>);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(cur.<ref refid="structthemis_1_1geo_1_1_geo_index_entry_1a1d64b3182834093c3f90846c1f5e9c3c" kindref="member">distance_m</ref>,<sp/>prev.<ref refid="structthemis_1_1geo_1_1_geo_index_entry_1a1d64b3182834093c3f90846c1f5e9c3c" kindref="member">distance_m</ref>);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cursor-&gt;next(cur),<sp/><ref refid="namespacethemis_1_1geo_1a8dd2d118e31fdcefe80a43a869eb83b5ab1a326c06d88bf042f73d70f50197905" kindref="member">CursorStatus::END</ref>);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RTC-08<sp/>KNNCursor:<sp/>k<sp/>&gt;<sp/>index<sp/>size<sp/>returns<sp/>all<sp/>entries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><ref refid="test__rtree__cursor_8cpp_1aa9a1bf1548ee5dca6d543a273e4d457c" kindref="member">TEST</ref>(RTreeCursor,<sp/>RTC08_KNNCursor_KLargerThanIndex)<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_r_tree_index" kindref="compound">GeoRTreeIndex</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1acf35e460c080c3134494f7c8c0749bb7" kindref="member">insert</ref>(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/>makePoint(1.0,<sp/>1.0));</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1acf35e460c080c3134494f7c8c0749bb7" kindref="member">insert</ref>(</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">,<sp/>makePoint(2.0,<sp/>2.0));</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>Coordinate<sp/>origin{0.0,<sp/>0.0};</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cursor<sp/>=<sp/>idx.<ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a8e3382b6551cc72fa102ea4e866840e2" kindref="member">openKNNCursor</ref>(origin,<sp/>100);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cursor-&gt;estimatedResultCount(),<sp/>2u);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_geo_index_entry" kindref="compound">GeoIndexEntry</ref><sp/>e;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(cursor-&gt;next(e)<sp/>==<sp/><ref refid="namespacethemis_1_1geo_1a8dd2d118e31fdcefe80a43a869eb83b5ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">CursorStatus::OK</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>++count;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(count,<sp/>2);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RTC-09<sp/>KNNCursor:<sp/>STALE<sp/>after<sp/>index<sp/>mutation<sp/>(clear)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><ref refid="test__rtree__cursor_8cpp_1aa9a1bf1548ee5dca6d543a273e4d457c" kindref="member">TEST</ref>(RTreeCursor,<sp/>RTC09_KNNCursor_Stale_AfterClear)<sp/>{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_r_tree_index" kindref="compound">GeoRTreeIndex</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1acf35e460c080c3134494f7c8c0749bb7" kindref="member">insert</ref>(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/>makePoint(1.0,<sp/>1.0));</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>Coordinate<sp/>origin{0.0,<sp/>0.0};</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cursor<sp/>=<sp/>idx.<ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a8e3382b6551cc72fa102ea4e866840e2" kindref="member">openKNNCursor</ref>(origin,<sp/>1);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Read<sp/>first<sp/>entry<sp/>OK</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_geo_index_entry" kindref="compound">GeoIndexEntry</ref><sp/>e;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cursor-&gt;next(e),<sp/><ref refid="namespacethemis_1_1geo_1a8dd2d118e31fdcefe80a43a869eb83b5ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">CursorStatus::OK</ref>);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mutate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a36334ab979c28c68472a5e1a16593ed0" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Now<sp/>STALE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cursor-&gt;next(e),<sp/><ref refid="namespacethemis_1_1geo_1a8dd2d118e31fdcefe80a43a869eb83b5a4d855a061b3066dc14a3b12ed26b5456" kindref="member">CursorStatus::STALE</ref>);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RTC-10<sp/>clear()<sp/>resets<sp/>size;<sp/>subsequent<sp/>range<sp/>cursor<sp/>yields<sp/>END</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><ref refid="test__rtree__cursor_8cpp_1aa9a1bf1548ee5dca6d543a273e4d457c" kindref="member">TEST</ref>(RTreeCursor,<sp/>RTC10_Clear_ResetsIndex)<sp/>{</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_r_tree_index" kindref="compound">GeoRTreeIndex</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1acf35e460c080c3134494f7c8c0749bb7" kindref="member">insert</ref>(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/>makePoint(1.0,<sp/>1.0));</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(idx.<ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1ab83984cc4aed89915222dd96f9ff76d4" kindref="member">size</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a36334ab979c28c68472a5e1a16593ed0" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(idx.<ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1ab83984cc4aed89915222dd96f9ff76d4" kindref="member">size</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>MBR<sp/>world{-180.0,<sp/>-90.0,<sp/>180.0,<sp/>90.0};</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cursor<sp/>=<sp/>idx.<ref refid="classthemis_1_1geo_1_1_geo_r_tree_index_1a67f526a34b5a622c70e81897df0b5d7e" kindref="member">openRangeCursor</ref>(world);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_geo_index_entry" kindref="compound">GeoIndexEntry</ref><sp/>e;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cursor-&gt;next(e),<sp/><ref refid="namespacethemis_1_1geo_1a8dd2d118e31fdcefe80a43a869eb83b5ab1a326c06d88bf042f73d70f50197905" kindref="member">CursorStatus::END</ref>);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/geo/test_rtree_cursor.cpp"/>
+  </compounddef>
+</doxygen>

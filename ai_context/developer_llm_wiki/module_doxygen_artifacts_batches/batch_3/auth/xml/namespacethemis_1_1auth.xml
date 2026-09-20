@@ -1,0 +1,3064 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1auth" kind="namespace" language="C++">
+    <compoundname>themis::auth</compoundname>
+    <innerclass refid="classthemis_1_1auth_1_1_account_lockout_manager" prot="public">themis::auth::AccountLockoutManager</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_api_key_authenticator" prot="public">themis::auth::ApiKeyAuthenticator</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_api_key_claims" prot="public">themis::auth::ApiKeyClaims</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_api_key_credential" prot="public">themis::auth::ApiKeyCredential</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_async_h_t_t_p_auth" prot="public">themis::auth::AsyncHTTPAuth</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_auth_anomaly_event" prot="public">themis::auth::AuthAnomalyEvent</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_auth_audit_logger" prot="public">themis::auth::AuthAuditLogger</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_auth_duration_timer" prot="public">themis::auth::AuthDurationTimer</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_auth_error" prot="public">themis::auth::AuthError</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_auth_event" prot="public">themis::auth::AuthEvent</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_auth_exception" prot="public">themis::auth::AuthException</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_auth_metrics" prot="public">themis::auth::AuthMetrics</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_authn_request_params" prot="public">themis::auth::AuthnRequestParams</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_auth_rate_limit_config" prot="public">themis::auth::AuthRateLimitConfig</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_auth_rate_limiter" prot="public">themis::auth::AuthRateLimiter</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_auth_worker_thread_pool" prot="public">themis::auth::AuthWorkerThreadPool</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_cached_validation" prot="public">themis::auth::CachedValidation</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_certificate_utils" prot="public">themis::auth::CertificateUtils</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_channel_binding_generator" prot="public">themis::auth::ChannelBindingGenerator</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_cluster_node" prot="public">themis::auth::ClusterNode</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_default_auth_event_bus" prot="public">themis::auth::DefaultAuthEventBus</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_distributed_blacklist_config" prot="public">themis::auth::DistributedBlacklistConfig</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_distributed_token_blacklist" prot="public">themis::auth::DistributedTokenBlacklist</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_e_i_d_attribute" prot="public">themis::auth::EIDAttribute</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_e_i_d_auth_config" prot="public">themis::auth::EIDAuthConfig</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_e_i_d_auth_request" prot="public">themis::auth::EIDAuthRequest</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_e_i_d_auth_result" prot="public">themis::auth::EIDAuthResult</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_e_i_d_auth_session" prot="public">themis::auth::EIDAuthSession</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_e_i_d_identity" prot="public">themis::auth::EIDIdentity</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_environment_attributes" prot="public">themis::auth::EnvironmentAttributes</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_failed_attempt" prot="public">themis::auth::FailedAttempt</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_federated_identity_manager" prot="public">themis::auth::FederatedIdentityManager</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_federated_validation_result" prot="public">themis::auth::FederatedValidationResult</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator" prot="public">themis::auth::GSSAPIAuthenticator</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_g_s_s_a_p_i_auth_result" prot="public">themis::auth::GSSAPIAuthResult</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_h_t_t_p_auth_config" prot="public">themis::auth::HTTPAuthConfig</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_h_t_t_p_auth_response" prot="public">themis::auth::HTTPAuthResponse</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_i_auth_event_bus" prot="public">themis::auth::IAuthEventBus</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_i_auth_event_subscriber" prot="public">themis::auth::IAuthEventSubscriber</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_i_authorization_policy" prot="public">themis::auth::IAuthorizationPolicy</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_i_e_i_d_authenticator" prot="public">themis::auth::IEIDAuthenticator</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_in_memory_e_i_d_authenticator" prot="public">themis::auth::InMemoryEIDAuthenticator</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_in_memory_rate_limiter_backend" prot="public">themis::auth::InMemoryRateLimiterBackend</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_i_passkey_authenticator" prot="public">themis::auth::IPasskeyAuthenticator</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_i_rate_limiter_backend" prot="public">themis::auth::IRateLimiterBackend</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_i_token_blacklist" prot="public">themis::auth::ITokenBlacklist</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_j_w_k_key_info" prot="public">themis::auth::JWKKeyInfo</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_j_w_k_s_secure_fetcher" prot="public">themis::auth::JWKSSecureFetcher</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_j_w_k_s_security_config" prot="public">themis::auth::JWKSSecurityConfig</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_j_w_k_s_validator" prot="public">themis::auth::JWKSValidator</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_j_w_t_claims" prot="public">themis::auth::JWTClaims</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_j_w_t_key_rotation_manager" prot="public">themis::auth::JWTKeyRotationManager</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_j_w_t_validator" prot="public">themis::auth::JWTValidator</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_j_w_t_validator_config" prot="public">themis::auth::JWTValidatorConfig</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_kerberos_config" prot="public">themis::auth::KerberosConfig</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_kerberos_security_validator" prot="public">themis::auth::KerberosSecurityValidator</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator" prot="public">themis::auth::LDAPAuthenticator</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result" prot="public">themis::auth::LDAPAuthResult</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_l_d_a_p_config" prot="public">themis::auth::LDAPConfig</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_l_d_a_p_connection_pool" prot="public">themis::auth::LDAPConnectionPool</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_l_d_a_p_pool_config" prot="public">themis::auth::LDAPPoolConfig</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_lockout_info" prot="public">themis::auth::LockoutInfo</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_m_f_a_authenticator" prot="public">themis::auth::MFAAuthenticator</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_m_t_l_s_authenticator" prot="public">themis::auth::MTLSAuthenticator</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_m_t_l_s_claims" prot="public">themis::auth::MTLSClaims</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_o_auth_device_flow" prot="public">themis::auth::OAuthDeviceFlow</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_o_auth_p_k_c_e_flow" prot="public">themis::auth::OAuthPKCEFlow</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document" prot="public">themis::auth::OIDCDiscoveryDocument</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_o_i_d_c_provider" prot="public">themis::auth::OIDCProvider</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config" prot="public">themis::auth::OIDCProviderConfig</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_passkey_assertion_response" prot="public">themis::auth::PasskeyAssertionResponse</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_passkey_authenticator" prot="public">themis::auth::PasskeyAuthenticator</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_passkey_challenge" prot="public">themis::auth::PasskeyChallenge</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_passkey_credential" prot="public">themis::auth::PasskeyCredential</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_password_policy" prot="public">themis::auth::PasswordPolicy</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_policy_evaluation_result" prot="public">themis::auth::PolicyEvaluationResult</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_pooled_connection" prot="public">themis::auth::PooledConnection</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_principal_validator" prot="public">themis::auth::PrincipalValidator</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_principal_validator_presets" prot="public">themis::auth::PrincipalValidatorPresets</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend" prot="public">themis::auth::RedisRateLimiterBackend</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_redis_token_blacklist" prot="public">themis::auth::RedisTokenBlacklist</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_resource_attributes" prot="public">themis::auth::ResourceAttributes</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_rocks_d_b_token_blacklist" prot="public">themis::auth::RocksDBTokenBlacklist</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_s_a_m_l_authenticator" prot="public">themis::auth::SAMLAuthenticator</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_s_a_m_l_claims" prot="public">themis::auth::SAMLClaims</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_s_a_m_l_config" prot="public">themis::auth::SAMLConfig</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_secure_buffer" prot="public">themis::auth::SecureBuffer</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_secure_m_f_a_validator" prot="public">themis::auth::SecureMFAValidator</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_secure_string" prot="public">themis::auth::SecureString</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_session_manager" prot="public">themis::auth::SessionManager</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_subject_attributes" prot="public">themis::auth::SubjectAttributes</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_token_blacklist" prot="public">themis::auth::TokenBlacklist</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_token_exchange_result" prot="public">themis::auth::TokenExchangeResult</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache" prot="public">themis::auth::TOTPReplayCache</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_t_o_t_p_secret_encryption" prot="public">themis::auth::TOTPSecretEncryption</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_t_o_t_p_secret_rotation_manager" prot="public">themis::auth::TOTPSecretRotationManager</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_web_authn_authenticator" prot="public">themis::auth::WebAuthnAuthenticator</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_zero_trust_auth_verifier" prot="public">themis::auth::ZeroTrustAuthVerifier</innerclass>
+    <innernamespace refid="namespacethemis_1_1auth_1_1detail">themis::auth::detail</innernamespace>
+    <innernamespace refid="namespacethemis_1_1auth_1_1test">themis::auth::test</innernamespace>
+    <innernamespace refid="namespacethemis_1_1auth_1_1tests">themis::auth::tests</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1auth_1ab38da4f1f52839ea4d6930bc894afee0" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>PolicyDecision</name>
+        <qualifiedname>themis::auth::PolicyDecision</qualifiedname>
+        <enumvalue id="namespacethemis_1_1auth_1ab38da4f1f52839ea4d6930bc894afee0a40908e0f79c647b844c42f5babdc3feb" prot="public">
+          <name>ALLOW</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1ab38da4f1f52839ea4d6930bc894afee0a264ecc6e6542b05976cd28ae19093d0a" prot="public">
+          <name>DENY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1ab38da4f1f52839ea4d6930bc894afee0aeb7295999e22b161fe9136ac2a60c0d5" prot="public">
+          <name>NOT_APPLICABLE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/authorization_policy.h" line="66" column="1" bodyfile="include/auth/authorization_policy.h" bodystart="66" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1auth_1a14afa7a8c924ab7f41b667413b1c117b" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>DecisionClass</name>
+        <qualifiedname>themis::auth::DecisionClass</qualifiedname>
+        <enumvalue id="namespacethemis_1_1auth_1a14afa7a8c924ab7f41b667413b1c117bad415f0e30c471dfdd9bc4f827329ef48" prot="public">
+          <name>unspecified</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1a14afa7a8c924ab7f41b667413b1c117ba6fa691d2c07bea6ae78b7022c80e9d20" prot="public">
+          <name>authentication</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1a14afa7a8c924ab7f41b667413b1c117baf4af8b5789576c000ce9105b25609bd6" prot="public">
+          <name>policy</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1a14afa7a8c924ab7f41b667413b1c117badf99cee44099ff57acbf7932670614dd" prot="public">
+          <name>revocation</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1a14afa7a8c924ab7f41b667413b1c117bab153f2b8e34c0a72595c3da74b08067c" prot="public">
+          <name>federation</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_audit_logger.h" line="24" column="1" bodyfile="include/auth/auth_audit_logger.h" bodystart="24" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>AuthErrorCode</name>
+        <qualifiedname>themis::auth::AuthErrorCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a9ab633ea43ca0fdbdeb5a834564e3dc4" prot="public">
+          <name>AUTH_GENERAL_FAILURE</name>
+          <initializer>= 9300</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a81df923a75d4a7c657d5efcffab57a24" prot="public">
+          <name>AUTH_INVALID_CREDENTIALS</name>
+          <initializer>= 9301</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a215eae9aef2e9be836736b0280d8c116" prot="public">
+          <name>AUTH_TOKEN_INVALID</name>
+          <initializer>= 9302</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a9f169f017ccb41f5e097b0eb9a4b698f" prot="public">
+          <name>AUTH_TOKEN_EXPIRED</name>
+          <initializer>= 9303</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a80e49bf2408f0a3e4d78dcdf8b495da4" prot="public">
+          <name>AUTH_TOKEN_NOT_YET_VALID</name>
+          <initializer>= 9304</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874af2ac4d16358569e231ad9b51b41e8063" prot="public">
+          <name>AUTH_INSUFFICIENT_PERMISSIONS</name>
+          <initializer>= 9305</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a91eeb8641c503cfad8b4ba642246e1cd" prot="public">
+          <name>JWT_INVALID_FORMAT</name>
+          <initializer>= 9310</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a4995e3e18706374b61c569bc05bd8829" prot="public">
+          <name>JWT_INVALID_SIGNATURE</name>
+          <initializer>= 9311</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a960598a1df21b57f89fb741363be125e" prot="public">
+          <name>JWT_ISSUER_MISMATCH</name>
+          <initializer>= 9312</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a30aa516f9ec98caacfc3f636fa058a53" prot="public">
+          <name>JWT_AUDIENCE_MISMATCH</name>
+          <initializer>= 9313</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ad18829f939633bf58308521e1ceb805d" prot="public">
+          <name>JWT_TOKEN_TOO_LARGE</name>
+          <initializer>= 9314</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874abf0034c3a5a2b730ccdedeb85bed536a" prot="public">
+          <name>JWT_PRINCIPAL_TOO_LONG</name>
+          <initializer>= 9315</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ae8cac713b233c65073bc802daf0b3e24" prot="public">
+          <name>JWT_JWKS_FETCH_FAILED</name>
+          <initializer>= 9316</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a91b0c6c4acf4d673e7cbecf4957cf25b" prot="public">
+          <name>JWT_JWKS_INVALID</name>
+          <initializer>= 9317</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a2354af9662bc0b5a3b159783e094bc74" prot="public">
+          <name>JWT_KID_REVOKED</name>
+          <initializer>= 9318</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ae804c19d233b58a799769bd9a035c921" prot="public">
+          <name>JWT_UNSUPPORTED_ALGORITHM</name>
+          <initializer>= 9319</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a9be319a12f99f66a4dfaa09dae0d595b" prot="public">
+          <name>JWT_MISSING_REQUIRED_CLAIM</name>
+          <initializer>= 9320</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a79835a6c424a505ff1461efb5391da03" prot="public">
+          <name>GSSAPI_INITIALIZATION_FAILED</name>
+          <initializer>= 9330</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ae4a60e9f7ac1a162840aca510730bc62" prot="public">
+          <name>GSSAPI_TOKEN_INVALID</name>
+          <initializer>= 9331</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a0331c27cc60843ffd9d45a681028c2a3" prot="public">
+          <name>GSSAPI_TOKEN_TOO_LARGE</name>
+          <initializer>= 9332</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874abb57ea89b69948d076072e92a0ecf82a" prot="public">
+          <name>GSSAPI_PRINCIPAL_TOO_LONG</name>
+          <initializer>= 9333</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a3435e3efe9f032b96b19291264035a0e" prot="public">
+          <name>GSSAPI_SERVICE_PRINCIPAL_INVALID</name>
+          <initializer>= 9334</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a6f3601c2935b7942b24230fc3c07173b" prot="public">
+          <name>GSSAPI_KEYTAB_NOT_FOUND</name>
+          <initializer>= 9335</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a656c44d0bc7ddb33f1497ac15343a984" prot="public">
+          <name>GSSAPI_KEYTAB_INVALID</name>
+          <initializer>= 9336</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ac1f231c8f6fd956383038773e7458083" prot="public">
+          <name>GSSAPI_CONTEXT_EXPIRED</name>
+          <initializer>= 9337</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a57d2afa2ee8d3190a837913a0a7412d8" prot="public">
+          <name>GSSAPI_KDC_UNREACHABLE</name>
+          <initializer>= 9338</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a0bbe06062419c4ee457e2966030905a3" prot="public">
+          <name>GSSAPI_CLOCK_SKEW</name>
+          <initializer>= 9339</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a9869d9823b26d6ad0b4e39e4a250dfcc" prot="public">
+          <name>MFA_CODE_INVALID</name>
+          <initializer>= 9350</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a113f2852726cda578a53729bfcd1ad70" prot="public">
+          <name>MFA_CODE_EXPIRED</name>
+          <initializer>= 9351</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ad94deaa4b9db3c0daa4f73ba71247cc1" prot="public">
+          <name>MFA_SECRET_INVALID</name>
+          <initializer>= 9352</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a1612698daf4c120cc09ffe6310e0b036" prot="public">
+          <name>MFA_NOT_ENROLLED</name>
+          <initializer>= 9353</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a5aef7a6173c9c68d3553953f87ef005f" prot="public">
+          <name>MFA_ALREADY_ENROLLED</name>
+          <initializer>= 9354</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a546add2338f981d4590b321650c0ee48" prot="public">
+          <name>MFA_RECOVERY_CODE_INVALID</name>
+          <initializer>= 9355</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a5b6bc59dedeaaa6e443b6d60544c6d90" prot="public">
+          <name>MFA_RECOVERY_CODE_EXHAUSTED</name>
+          <initializer>= 9356</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ae4cb8fdc67aff1c7243a190a2e02f708" prot="public">
+          <name>AUTH_RATE_LIMIT_EXCEEDED</name>
+          <initializer>= 9370</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874aea92e5ae0d0cc7ef48cd6982abf13de8" prot="public">
+          <name>AUTH_ACCOUNT_LOCKED</name>
+          <initializer>= 9371</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ae83a2eb5c632ce653ccaabac7801be4e" prot="public">
+          <name>AUTH_IP_BLOCKED</name>
+          <initializer>= 9372</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a1075aa559e402038b6ed11918efa0cca" prot="public">
+          <name>AUTH_TOO_MANY_FAILURES</name>
+          <initializer>= 9373</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ab7460b141feee0480ca16d210d79ac91" prot="public">
+          <name>AUTH_CONFIG_INVALID</name>
+          <initializer>= 9380</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874aec40dcdfb0dd1cf7599ba7b8a23f6a38" prot="public">
+          <name>AUTH_CONFIG_MISSING</name>
+          <initializer>= 9381</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a4fea38c4b5d47b723c970f8b78357cdf" prot="public">
+          <name>SAML_INVALID_RESPONSE</name>
+          <initializer>= 9382</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a885c3501837065cf824ee4c7ba7e5621" prot="public">
+          <name>SAML_INVALID_SIGNATURE</name>
+          <initializer>= 9383</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a9707d67fe99a0342d7ef8f6d98b8a9c5" prot="public">
+          <name>SAML_CONDITIONS_FAILED</name>
+          <initializer>= 9384</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874aff93985c0393cbb938428bf2a0ed5828" prot="public">
+          <name>SAML_MISSING_ASSERTION</name>
+          <initializer>= 9385</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a08a383d4708232c1b9688464aec8e79e" prot="public">
+          <name>SAML_REPLAY_DETECTED</name>
+          <initializer>= 9386</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a6688ec2b26863940d41064ca1b7b1dda" prot="public">
+          <name>SAML_DESTINATION_MISMATCH</name>
+          <initializer>= 9387</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874aa4bf1e6af7c66ffc7d1fbcef274d22fe" prot="public">
+          <name>SAML_STATUS_FAILURE</name>
+          <initializer>= 9388</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ae360969fa399b7f45bc2ed829076b736" prot="public">
+          <name>SAML_ISSUER_MISMATCH</name>
+          <initializer>= 9389</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ac564a7084712396772f42a483cada8f8" prot="public">
+          <name>AUTH_INTERNAL_ERROR</name>
+          <initializer>= 9390</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874aff4619b4da8f6998d6e7ca29d288d755" prot="public">
+          <name>AUTH_NOT_IMPLEMENTED</name>
+          <initializer>= 9391</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874abfa32d8a27b9fe83fbe18ce42ccab2a2" prot="public">
+          <name>API_KEY_INVALID</name>
+          <initializer>= 9392</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ae33c8735a3313784364175d8ca82e0dd" prot="public">
+          <name>API_KEY_SECRET_MISMATCH</name>
+          <initializer>= 9393</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874af1386cd76bf9aab0a9acc80a1e612876" prot="public">
+          <name>API_KEY_EXPIRED</name>
+          <initializer>= 9394</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ae27190cc58d96b3c9fc94af60372c815" prot="public">
+          <name>API_KEY_INACTIVE</name>
+          <initializer>= 9395</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874aa0f462f69ee194a489e5f05cebebe608" prot="public">
+          <name>API_KEY_SCOPE_DENIED</name>
+          <initializer>= 9396</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874aa646ff961228ba4ad56e585ae74a60c0" prot="public">
+          <name>MTLS_CERT_INVALID</name>
+          <initializer>= 9397</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a83cdb01a411b2b2c9a0ee1dbdd96b6f8" prot="public">
+          <name>MTLS_CERT_EXPIRED</name>
+          <initializer>= 9398</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ae175196f571e03399096911d8b5f0558" prot="public">
+          <name>MTLS_CERT_REVOKED</name>
+          <initializer>= 9399</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ab1bb0edbdf8a93d85b4c0988799a92ae" prot="public">
+          <name>LDAP_CONNECTION_FAILED</name>
+          <initializer>= 9400</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ab0dea57cce0cb5dce0339cf304852bcf" prot="public">
+          <name>LDAP_BIND_FAILED</name>
+          <initializer>= 9401</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ae3f15dedcbb8504a46cbbdca16e10c6f" prot="public">
+          <name>LDAP_INVALID_CREDENTIALS</name>
+          <initializer>= 9402</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a9e40cece94bca3c106a928006b2c5d9c" prot="public">
+          <name>LDAP_SERVER_UNREACHABLE</name>
+          <initializer>= 9403</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a1483030419f1e851bd743ac7299e379a" prot="public">
+          <name>LDAP_SEARCH_FAILED</name>
+          <initializer>= 9404</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a7cec0ee03a9351e9fe8cc29939b7fadc" prot="public">
+          <name>LDAP_USER_NOT_FOUND</name>
+          <initializer>= 9405</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ac88cf82cf7e46ad946a179abe99ebcdf" prot="public">
+          <name>LDAP_TLS_FAILED</name>
+          <initializer>= 9406</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a591ac9c10233a151216f7cbc8c8de63c" prot="public">
+          <name>LDAP_NOT_INITIALIZED</name>
+          <initializer>= 9407</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ab1320b1d0b0827153b2d1c387b23b6b8" prot="public">
+          <name>LDAP_OPERATION_TIMEOUT</name>
+          <initializer>= 9408</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874abcbb55b415a9e6261a484d4f240e8e76" prot="public">
+          <name>LDAP_INVALID_DN</name>
+          <initializer>= 9409</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874aa839aff0400d6c882debb139ee9cdfe5" prot="public">
+          <name>PASSWORD_POLICY_VIOLATION</name>
+          <initializer>= 9410</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a24d6691176d043999171476ce71f7154" prot="public">
+          <name>SAML_DECRYPTION_FAILED</name>
+          <initializer>= 9411</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a860afb063abeaf83480d95e656778eaa" prot="public">
+          <name>PROVIDER_DEGRADED</name>
+          <initializer>= 9420</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a91e4da82c27048643c5f946fa2fe6cda" prot="public">
+          <name>PROVIDER_CAPABILITY_MISMATCH</name>
+          <initializer>= 9421</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a1684ddd7767a84ef65eee5a5422259f4" prot="public">
+          <name>FEDERATION_REALM_UNAVAILABLE</name>
+          <initializer>= 9422</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874aa37b236ed70a972921b55401bb8c2ca6" prot="public">
+          <name>FEDERATION_UNKNOWN_REALM</name>
+          <initializer>= 9423</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a5730414dd6e6a3a0a3d885384c2e11fb" prot="public">
+          <name>REVOCATION_BACKEND_UNAVAILABLE</name>
+          <initializer>= 9430</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a1626f546cd308ab699a5744695c7d944" prot="public">
+          <name>REVOCATION_ENTRY_INVALID</name>
+          <initializer>= 9431</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a60ce4ce63cb7917799a5cf30b029f9ba" prot="public">
+          <name>REVOCATION_CLUSTER_SYNC_FAILED</name>
+          <initializer>= 9432</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874af25ef2f4a5a66cd822cd29472262f614" prot="public">
+          <name>POLICY_EDGE_UNDEFINED</name>
+          <initializer>= 9440</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874af833cabf10e77270c4840f68f748b3be" prot="public">
+          <name>POLICY_MISSING_REQUIRED_CLAIM</name>
+          <initializer>= 9441</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a69d69d296e0e1b075c60a1a5bc138047" prot="public">
+          <name>ASYNC_PROVIDER_TIMEOUT</name>
+          <initializer>= 9450</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a0cc233b3716b75f81f5012cc056b6ee8" prot="public">
+          <name>ASYNC_POOL_EXHAUSTED</name>
+          <initializer>= 9451</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874abbf0208ef095e2bd53e9092b96c6d922" prot="public">
+          <name>ASYNC_PROVIDER_EXCEPTION</name>
+          <initializer>= 9452</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_error.h" line="23" column="1" bodyfile="include/auth/auth_error.h" bodystart="23" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>AuthEventType</name>
+        <qualifiedname>themis::auth::AuthEventType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a9ac54b2153a0c84dfaab1b1f104f1cc7" prot="public">
+          <name>LOGIN_SUCCESS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a442abaa57882f3196101a0885b9a5493" prot="public">
+          <name>LOGIN_FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a6b4ea69e17243db95f7b46c384d40370" prot="public">
+          <name>LOGOUT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a3f1cfbd8a557b63cb51f8540dc15d612" prot="public">
+          <name>MFA_REQUIRED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a89cad2041098c88924a69fbbced46d19" prot="public">
+          <name>MFA_SUCCESS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a864bfebfabe2a18f9625afa4e777ec9d" prot="public">
+          <name>MFA_FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16ae76c663111024fab343d428301a76848" prot="public">
+          <name>TOKEN_ISSUED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a55ff81ff5f89d85337bd554e2e0ef5c1" prot="public">
+          <name>TOKEN_REVOKED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16af176f376303fb90181de7f63f2b11a28" prot="public">
+          <name>TOKEN_EXPIRED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a255df50c140519133f1489ab44a389d9" prot="public">
+          <name>PERMISSION_DENIED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a744ca0bbe6b604bc462165f01338faeb" prot="public">
+          <name>PRIVILEGE_ESCALATION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16aad6947130c1cf6d4c683c62d01f13c17" prot="public">
+          <name>PASSKEY_REGISTERED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a55ca0cfc7aa08360a14dcefeea5524bf" prot="public">
+          <name>PASSKEY_REMOVED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16aa277f8d87d9a107141e9174e48e9a7ed" prot="public">
+          <name>PASSKEY_AUTH_SUCCESS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a0e0414accb0e9333d9be38994be0ca9b" prot="public">
+          <name>PASSKEY_AUTH_FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a2a3002193f53659e481dd493c6525fcb" prot="public">
+          <name>POLICY_UPDATED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1a59e7a2f4cae7a06bb43a09ac0823ca16a5733624677ab8affe203c9ee3ace4f2d" prot="public">
+          <name>ANOMALY_DETECTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_event_bus.h" line="26" column="1" bodyfile="include/auth/auth_event_bus.h" bodystart="26" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585c" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>AuthMethod</name>
+        <qualifiedname>themis::auth::AuthMethod</qualifiedname>
+        <enumvalue id="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585ca1d1fadbd9150349c135781140fffee9d" prot="public">
+          <name>JWT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585ca621b04bb09882ac1e15935fefa24aeee" prot="public">
+          <name>GSSAPI</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585ca01cdf5ed099749508a0758aaecca78f9" prot="public">
+          <name>MFA</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585cab80247699c847a4ef114780b7fa72a59" prot="public">
+          <name>OAUTH_DEVICE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585cab589580130990fa8d7f06ea268ea37d1" prot="public">
+          <name>API_KEY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1a579ef178e03fc07238eff1e80638585ca696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_metrics.h" line="43" column="1" bodyfile="include/auth/auth_metrics.h" bodystart="43" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1auth_1acf5e57c5bc25c67367c3f596e1d34f76" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>AuthFailureClass</name>
+        <qualifiedname>themis::auth::AuthFailureClass</qualifiedname>
+        <enumvalue id="namespacethemis_1_1auth_1acf5e57c5bc25c67367c3f596e1d34f76aa4474bfd52c4f49591938d19aa1c7aa6" prot="public">
+          <name>MalformedArtifact</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Input is structurally malformed (bad format, size violation, encoding). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1acf5e57c5bc25c67367c3f596e1d34f76a8cd8d61e59180e5a03eefcf8858b46b9" prot="public">
+          <name>InvalidCredential</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Credential is structurally valid but cryptographically invalid (bad signature, wrong key, untrusted issuer, revoked JTI, …). </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1acf5e57c5bc25c67367c3f596e1d34f76a83c988119fe084f4a9d815091308f794" prot="public">
+          <name>ExpiredCredential</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Credential has expired (exp/nbf check, session absolute timeout, …). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1acf5e57c5bc25c67367c3f596e1d34f76a40966a4dddde118e93866b4483478c82" prot="public">
+          <name>InsufficientPrivilege</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+<para>Caller lacks sufficient permissions for the requested resource. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1acf5e57c5bc25c67367c3f596e1d34f76a5d1ce65eb7e4dbdc17ace166d86f0d11" prot="public">
+          <name>ProviderDegraded</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Provider backend is unreachable or returned an unexpected error. Treated as fail-closed: access DENIED unless a cached positive is valid. </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1acf5e57c5bc25c67367c3f596e1d34f76a05f6ffa53682f5ecd6164f8a3524733a" prot="public">
+          <name>ConfigurationError</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>The auth module received an internally inconsistent configuration or state that prevents a deterministic decision. </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1acf5e57c5bc25c67367c3f596e1d34f76a8462b58246e70e5c83e5b939a9332cb5" prot="public">
+          <name>InternalError</name>
+          <initializer>= 7</initializer>
+          <briefdescription>
+<para>Unclassified internal error; always fail-closed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Canonical failure classes for auth provider errors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Every <ref refid="classthemis_1_1auth_1_1_auth_exception" kindref="compound">AuthException</ref> thrown by an auth component must carry one of these classes (encoded as the high-level <ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874" kindref="member">AuthErrorCode</ref> category) so that callers can apply uniform policy regardless of the underlying adapter. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_principal_contract.h" line="96" column="1" bodyfile="include/auth/auth_principal_contract.h" bodystart="96" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1auth_1a51e1f9b8e06a18ff69d6e69ecf04fcf9" prot="public" static="no" strong="yes">
+        <type>unsigned int</type>
+        <name>ProviderCapability</name>
+        <qualifiedname>themis::auth::ProviderCapability</qualifiedname>
+        <enumvalue id="namespacethemis_1_1auth_1a51e1f9b8e06a18ff69d6e69ecf04fcf9a6adf97f83acf6453d4a6a4b1070f3754" prot="public">
+          <name>None</name>
+          <initializer>= 0u</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1a51e1f9b8e06a18ff69d6e69ecf04fcf9a32d8a69e1cf034614cb0e15178c7d972" prot="public">
+          <name>NetworkTLS</name>
+          <initializer>= 1u &lt;&lt; 0</initializer>
+          <briefdescription>
+<para>Provider requires outbound HTTPS/TLS connectivity. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1a51e1f9b8e06a18ff69d6e69ecf04fcf9aa2be883cdcd47cfe7700c6d1ca20df6d" prot="public">
+          <name>JwksCache</name>
+          <initializer>= 1u &lt;&lt; 1</initializer>
+          <briefdescription>
+<para>Provider requires a valid, non-expired JWKS cache entry. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1a51e1f9b8e06a18ff69d6e69ecf04fcf9a374d2c5556a8bc26dd0ddd3e9a890906" prot="public">
+          <name>LdapPool</name>
+          <initializer>= 1u &lt;&lt; 2</initializer>
+          <briefdescription>
+<para>Provider requires an active <ref refid="ldap__connection__pool_8h_1ae1d91d802fce48f28cb3fa636dc5bc1e" kindref="member">LDAP</ref> connection from the pool. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1a51e1f9b8e06a18ff69d6e69ecf04fcf9a117ebd1c92353ebb431865592d232191" prot="public">
+          <name>RevocationBackend</name>
+          <initializer>= 1u &lt;&lt; 3</initializer>
+          <briefdescription>
+<para>Provider requires a reachable revocation backend (Redis / RocksDB cluster). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Capability flags that a provider adapter may require at runtime. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Flags are OR-combinable. Combine with bitwise-OR to declare a composite capability requirement. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_principal_contract.h" line="188" column="1" bodyfile="include/auth/auth_principal_contract.h" bodystart="188" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1auth_1ac7d6b4ac0ba21600479d41e737d954a4" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CredentialStuffingOutcome</name>
+        <qualifiedname>themis::auth::CredentialStuffingOutcome</qualifiedname>
+        <enumvalue id="namespacethemis_1_1auth_1ac7d6b4ac0ba21600479d41e737d954a4a9725825c796122ef40f01b2d8794f902" prot="public">
+          <name>ALLOWED</name>
+          <briefdescription>
+<para>No special action required. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1ac7d6b4ac0ba21600479d41e737d954a4ac273e1e603d457ed7774a9cd7775e3ce" prot="public">
+          <name>CAPTCHA_REQUIRED</name>
+          <briefdescription>
+<para>First breach: challenge with CAPTCHA. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1ac7d6b4ac0ba21600479d41e737d954a4aec5ca836e7993cd8770a788c04988b2e" prot="public">
+          <name>OTP_REQUIRED</name>
+          <briefdescription>
+<para>Second breach: require email OTP. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1ac7d6b4ac0ba21600479d41e737d954a4a732b7a76ae2476651eabcd9f1d03a960" prot="public">
+          <name>ACCOUNT_LOCKED_24H</name>
+          <briefdescription>
+<para>Third+ breach: lock account for 24 hours. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="35" column="1" bodyfile="include/auth/auth_rate_limiter.h" bodystart="35" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1auth_1adbe1819a1ce7e38755f5dbc3bb9fa980" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>EIDAttributeType</name>
+        <qualifiedname>themis::auth::EIDAttributeType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1auth_1adbe1819a1ce7e38755f5dbc3bb9fa980a3026bdc1392028d5423045dea2cdeacf" prot="public">
+          <name>DOCUMENT_TYPE</name>
+          <briefdescription>
+<para>&quot;ID&quot; for Personalausweis, &quot;AR&quot; for Aufenthaltstitel </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adbe1819a1ce7e38755f5dbc3bb9fa980af325ad7a64a480d803d28cda0c7581e2" prot="public">
+          <name>ISSUING_STATE</name>
+          <briefdescription>
+<para>ISO 3166-1 alpha-3 country code (e.g. &quot;DEU&quot;). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adbe1819a1ce7e38755f5dbc3bb9fa980ae6334d0a7617c740538be22c2b9520f0" prot="public">
+          <name>DATE_OF_EXPIRY</name>
+          <briefdescription>
+<para>YYYYMMDD expiry date of the document. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adbe1819a1ce7e38755f5dbc3bb9fa980a1f4aed0ecbd303eaba94bd96ad340dee" prot="public">
+          <name>GIVEN_NAMES</name>
+          <briefdescription>
+<para>Given name(s) as on the document. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adbe1819a1ce7e38755f5dbc3bb9fa980a92d9556d2994bd13771f9d39824a9bae" prot="public">
+          <name>FAMILY_NAMES</name>
+          <briefdescription>
+<para>Family name(s) as on the document. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adbe1819a1ce7e38755f5dbc3bb9fa980ad3d9980fd957eb7a0cddbf2e4c9ecad5" prot="public">
+          <name>NOM_DE_PLUME</name>
+          <briefdescription>
+<para>Artist / pseudonym name. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adbe1819a1ce7e38755f5dbc3bb9fa980a3b490ac59434a20b565f462844c015d6" prot="public">
+          <name>ACADEMIC_TITLE</name>
+          <briefdescription>
+<para>Academic title (Dr., Prof., …). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adbe1819a1ce7e38755f5dbc3bb9fa980ab790572f205f96c001ef492e2807c518" prot="public">
+          <name>DATE_OF_BIRTH</name>
+          <briefdescription>
+<para>YYYYMMDD date of birth. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adbe1819a1ce7e38755f5dbc3bb9fa980a54f82e4f0ccd97e7b06036154ec33861" prot="public">
+          <name>PLACE_OF_BIRTH</name>
+          <briefdescription>
+<para>Free-text birth place. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adbe1819a1ce7e38755f5dbc3bb9fa980ad5f66cfa4c3b06e789d7c4d04bd10ceb" prot="public">
+          <name>NATIONALITY</name>
+          <briefdescription>
+<para>ISO 3166-1 alpha-3 nationality code. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adbe1819a1ce7e38755f5dbc3bb9fa980a8ac70e46a3caa290f2637f19e7c2212f" prot="public">
+          <name>BIRTH_NAME</name>
+          <briefdescription>
+<para>Birth name if different from family name. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adbe1819a1ce7e38755f5dbc3bb9fa980a24a4705290612dd62787f7d74d4a0bf4" prot="public">
+          <name>PLACE_OF_RESIDENCE</name>
+          <briefdescription>
+<para>Structured address (XMELD format). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adbe1819a1ce7e38755f5dbc3bb9fa980a6769f6376f33c462008960d978f480d4" prot="public">
+          <name>MUNICIPALITY_ID</name>
+          <briefdescription>
+<para>AGS municipality identifier (Amtlicher Gemeindeschlüssel). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adbe1819a1ce7e38755f5dbc3bb9fa980a5bfcfa65104b2b1cc7882b3966005317" prot="public">
+          <name>RESIDENCE_PERMIT_I</name>
+          <briefdescription>
+<para>Aufenthaltstitel category I. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adbe1819a1ce7e38755f5dbc3bb9fa980af62b18dca29f04af33cee035a278f89d" prot="public">
+          <name>RESIDENCE_PERMIT_II</name>
+          <briefdescription>
+<para>Aufenthaltstitel category II. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adbe1819a1ce7e38755f5dbc3bb9fa980ab4c9fdfbdcbbef711bb3d4152e597068" prot="public">
+          <name>COMMUNITY_ID</name>
+          <briefdescription>
+<para>eID community identifier (pseudonymous per SP) </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adbe1819a1ce7e38755f5dbc3bb9fa980af6845dd7e3a926efe16ed18af5297f75" prot="public">
+          <name>ADDRESS_VERIFICATION</name>
+          <briefdescription>
+<para>Address verified flag (true/false). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adbe1819a1ce7e38755f5dbc3bb9fa980a4da30ea4cddd5f94891bcb267f9a46d0" prot="public">
+          <name>AGE_VERIFICATION</name>
+          <briefdescription>
+<para>Age-threshold verification result (true/false). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1adbe1819a1ce7e38755f5dbc3bb9fa980aafdea6c88f02b583901d07c3852b91fc" prot="public">
+          <name>RESTRICTED_ID</name>
+          <briefdescription>
+<para>Sector-specific pseudonymous identifier. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="73" column="1" bodyfile="include/auth/eid_authenticator.h" bodystart="73" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1auth_1a0bc27dea4311d86005a5329762696607" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>EIDAssuranceLevel</name>
+        <qualifiedname>themis::auth::EIDAssuranceLevel</qualifiedname>
+        <enumvalue id="namespacethemis_1_1auth_1a0bc27dea4311d86005a5329762696607a41bc94cbd8eebea13ce0491b2ac11b88" prot="public">
+          <name>LOW</name>
+          <briefdescription>
+<para>eIDAS LoA &quot;low&quot; </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1a0bc27dea4311d86005a5329762696607ae265a3eae4d74b0e937cfdf35b6b5863" prot="public">
+          <name>SUBSTANTIAL</name>
+          <briefdescription>
+<para>eIDAS LoA &quot;substantial&quot; </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1a0bc27dea4311d86005a5329762696607ab89de3b4b81c4facfac906edf29aec8c" prot="public">
+          <name>HIGH</name>
+          <briefdescription>
+<para>eIDAS LoA &quot;high&quot; — required for German Personalausweis </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="105" column="1" bodyfile="include/auth/eid_authenticator.h" bodystart="105" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1auth_1ae2619a6c6143fdacc53b17cb9d2d79dc" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>EIDAuthErrorCode</name>
+        <qualifiedname>themis::auth::EIDAuthErrorCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1auth_1ae2619a6c6143fdacc53b17cb9d2d79dcab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1ae2619a6c6143fdacc53b17cb9d2d79dca8c0d68af13898dae2b6cbbafd8fbac93" prot="public">
+          <name>INVALID_CONFIGURATION</name>
+          <briefdescription>
+<para>Missing or invalid <ref refid="structthemis_1_1auth_1_1_e_i_d_auth_config" kindref="compound">EIDAuthConfig</ref> field. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1ae2619a6c6143fdacc53b17cb9d2d79dcac77b2a1ac0bb520e75ed1cade0abe0bc" prot="public">
+          <name>EID_SERVER_UNREACHABLE</name>
+          <briefdescription>
+<para>Network error reaching the eID-Server. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1ae2619a6c6143fdacc53b17cb9d2d79dcaae82f28b217c8e4c80b127f2f5d78ce3" prot="public">
+          <name>EID_SERVER_REJECTED</name>
+          <briefdescription>
+<para>eID-Server returned an error response </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1ae2619a6c6143fdacc53b17cb9d2d79dca752f4982823b7a5cf639e30bb9db2a5b" prot="public">
+          <name>CHIP_ACCESS_FAILED</name>
+          <briefdescription>
+<para>PACE or EAC2 protocol failure on the chip. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1ae2619a6c6143fdacc53b17cb9d2d79dcad6f1630c8a87c1b2c152132ae04648b5" prot="public">
+          <name>CERTIFICATE_EXPIRED</name>
+          <briefdescription>
+<para>Terminal certificate has expired. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1ae2619a6c6143fdacc53b17cb9d2d79dcadf21509f1aa29b63f30453c9d4568631" prot="public">
+          <name>USER_CANCELLED</name>
+          <briefdescription>
+<para>Holder cancelled authentication in AusweisApp2. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1ae2619a6c6143fdacc53b17cb9d2d79dcab4170bbebb7a30f8bd81794c58d5c3ec" prot="public">
+          <name>CONSENT_DENIED</name>
+          <briefdescription>
+<para>Holder denied one or more requested attributes. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1ae2619a6c6143fdacc53b17cb9d2d79dca049bc3ee46b4def5a761add1c3eb85fa" prot="public">
+          <name>SAML_SIGNATURE_INVALID</name>
+          <briefdescription>
+<para>SAML assertion signature could not be verified. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1ae2619a6c6143fdacc53b17cb9d2d79dcae5daa5fbf96c73654d6b4cde109a74bc" prot="public">
+          <name>SESSION_TIMEOUT</name>
+          <briefdescription>
+<para>Authentication session timed out. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1ae2619a6c6143fdacc53b17cb9d2d79dcae8c0c70879b5895c615677261d64a1ee" prot="public">
+          <name>INTERNAL_ERROR</name>
+          <briefdescription>
+<para>Unexpected internal error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="175" column="1" bodyfile="include/auth/eid_authenticator.h" bodystart="175" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1auth_1a92826b515d1b46b97ab4f50b1ee5f432" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>EIDSessionStatus</name>
+        <qualifiedname>themis::auth::EIDSessionStatus</qualifiedname>
+        <enumvalue id="namespacethemis_1_1auth_1a92826b515d1b46b97ab4f50b1ee5f432ac69f06e1a9b016d133907b4e5f5864d2" prot="public">
+          <name>PENDING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1a92826b515d1b46b97ab4f50b1ee5f432a8f7afecbc8fbc4cd0f50a57d1172482e" prot="public">
+          <name>COMPLETED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1a92826b515d1b46b97ab4f50b1ee5f432ab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="287" column="1" bodyfile="include/auth/eid_authenticator.h" bodystart="287" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1auth_1aa5b76caa18858c8db6ca8195847688d7" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>PasskeyVerifyResult</name>
+        <qualifiedname>themis::auth::PasskeyVerifyResult</qualifiedname>
+        <enumvalue id="namespacethemis_1_1auth_1aa5b76caa18858c8db6ca8195847688d7ad0749aaba8b833466dfcbb0428e4f89c" prot="public">
+          <name>SUCCESS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1aa5b76caa18858c8db6ca8195847688d7ad0eb6b378baae0b4b64c2933674e61fc" prot="public">
+          <name>INVALID_SIGNATURE</name>
+          <briefdescription>
+<para>Cryptographic verification failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1aa5b76caa18858c8db6ca8195847688d7ad29f47cbc1aa79bb5a2fefba4cc91701" prot="public">
+          <name>INVALID_CHALLENGE</name>
+          <briefdescription>
+<para>Challenge expired, not found, or already consumed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1aa5b76caa18858c8db6ca8195847688d7ae5a98d99b205330abce4849887f59ffe" prot="public">
+          <name>CREDENTIAL_NOT_FOUND</name>
+          <briefdescription>
+<para>No registered credential matches the assertion. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1aa5b76caa18858c8db6ca8195847688d7a245aa5adeb6c6d6b15b3a582b4e68bd0" prot="public">
+          <name>REPLAY_ATTACK</name>
+          <briefdescription>
+<para>sign_count regression detected (cloned authenticator). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1auth_1aa5b76caa18858c8db6ca8195847688d7a3520338ae6eeb8cb2583ee2cf781d1f9" prot="public">
+          <name>USER_VERIFICATION_FAILED</name>
+          <briefdescription>
+<para>UV flag not set but user verification was required. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/passkey_authenticator.h" line="69" column="1" bodyfile="include/auth/passkey_authenticator.h" bodystart="69" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1auth_1a4fdebaf05c9d80c65b129546d399be81" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1auth_1_1_auth_anomaly_event" kindref="compound">AuthAnomalyEvent</ref> &amp;)&gt;</type>
+        <definition>using themis::auth::AuthAnomalyCallback = std::function&lt;void(const AuthAnomalyEvent&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>AuthAnomalyCallback</name>
+        <qualifiedname>themis::auth::AuthAnomalyCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="107" column="1" bodyfile="include/auth/auth_rate_limiter.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1auth_1a10e96f0c4282502ed3b98fa4a681dcd0" prot="public" static="no">
+        <type><ref refid="structthemis_1_1auth_1_1_l_d_a_p_config" kindref="compound">LDAPConfig</ref></type>
+        <definition>using themis::auth::LDAPAuthenticatorConfig = LDAPConfig</definition>
+        <argsstring></argsstring>
+        <name>LDAPAuthenticatorConfig</name>
+        <qualifiedname>themis::auth::LDAPAuthenticatorConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="85" column="1" bodyfile="include/auth/ldap_authenticator.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1auth_1adf6d6cfb1175cbf21a59f4c62a6c1eb5" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::auth::kMaxJwtTokenBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxJwtTokenBytes</name>
+        <qualifiedname>themis::auth::kMaxJwtTokenBytes</qualifiedname>
+        <initializer>= 16 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum accepted JWT token size in bytes. Tokens exceeding this limit are rejected before any cryptographic work, preventing memory-exhaustion attacks. Kept in sync with MAX_JWT_TOKEN_SIZE in <ref refid="jwt__validator_8h" kindref="compound">include/auth/jwt_validator.h</ref> (16 KiB). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_principal_contract.h" line="52" column="30" bodyfile="include/auth/auth_principal_contract.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1auth_1abbb2c24083788ad59c0c2bd1e7f42ec6" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::auth::kMaxPrincipalBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxPrincipalBytes</name>
+        <qualifiedname>themis::auth::kMaxPrincipalBytes</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+<para>Maximum subject / principal identifier length in UTF-8 bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_principal_contract.h" line="55" column="30" bodyfile="include/auth/auth_principal_contract.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1auth_1a2665488c2971b37a3a0c4016fe6db043" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::auth::kMaxJtiBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxJtiBytes</name>
+        <qualifiedname>themis::auth::kMaxJtiBytes</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum JTI (JWT ID) length in bytes accepted by all revocation backends. Kept in sync with kMaxJtiLen in <ref refid="distributed__token__blacklist_8cpp" kindref="compound">distributed_token_blacklist.cpp</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_principal_contract.h" line="59" column="30" bodyfile="include/auth/auth_principal_contract.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1auth_1a37f990b9baced7d776b607e62f63dd1d" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::auth::kMaxSessionIdBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxSessionIdBytes</name>
+        <qualifiedname>themis::auth::kMaxSessionIdBytes</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+<para>Maximum session identifier length in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_principal_contract.h" line="62" column="30" bodyfile="include/auth/auth_principal_contract.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1auth_1a17369c73023ed3d1c09ae690bab41fce" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::auth::kClockSkewTolerance</definition>
+        <argsstring></argsstring>
+        <name>kClockSkewTolerance</name>
+        <qualifiedname>themis::auth::kClockSkewTolerance</qualifiedname>
+        <initializer>{30}</initializer>
+        <briefdescription>
+<para>Allowed clock-skew tolerance for JWT nbf/exp comparisons (both directions). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_principal_contract.h" line="73" column="39" bodyfile="include/auth/auth_principal_contract.h" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1auth_1adcd14ae8ca177f92139f039458cce2e0" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::hours</type>
+        <definition>std::chrono::hours themis::auth::kMaxSessionLifetime</definition>
+        <argsstring></argsstring>
+        <name>kMaxSessionLifetime</name>
+        <qualifiedname>themis::auth::kMaxSessionLifetime</qualifiedname>
+        <initializer>{24 * 30}</initializer>
+        <briefdescription>
+<para>Maximum accepted absolute session lifetime (30 days). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_principal_contract.h" line="76" column="37" bodyfile="include/auth/auth_principal_contract.h" bodystart="76" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1auth_1a4af762c31a2d64411488ccb8bcc478b3" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::hours</type>
+        <definition>std::chrono::hours themis::auth::kMaxSessionIdleTimeout</definition>
+        <argsstring></argsstring>
+        <name>kMaxSessionIdleTimeout</name>
+        <qualifiedname>themis::auth::kMaxSessionIdleTimeout</qualifiedname>
+        <initializer>{8}</initializer>
+        <briefdescription>
+<para>Maximum idle timeout before a session is invalidated (8 hours). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_principal_contract.h" line="79" column="37" bodyfile="include/auth/auth_principal_contract.h" bodystart="79" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1auth_1ab924309ad4a4716fd95b42f8cba710e4" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::auth::kRevocationCacheMaxStaleness</definition>
+        <argsstring></argsstring>
+        <name>kRevocationCacheMaxStaleness</name>
+        <qualifiedname>themis::auth::kRevocationCacheMaxStaleness</qualifiedname>
+        <initializer>{120}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum staleness of a locally-cached revocation state that is still considered authoritative when the primary backend is unreachable. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_principal_contract.h" line="171" column="39" bodyfile="include/auth/auth_principal_contract.h" bodystart="171" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1auth_1a0a1f8e57cd724f6f58e4a014ce9b11ac" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::auth::kAsyncProviderDefaultTimeout</definition>
+        <argsstring></argsstring>
+        <name>kAsyncProviderDefaultTimeout</name>
+        <qualifiedname>themis::auth::kAsyncProviderDefaultTimeout</qualifiedname>
+        <initializer>{30&apos;000}</initializer>
+        <briefdescription>
+<para>Default per-request timeout for async provider calls. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_principal_contract.h" line="224" column="44" bodyfile="include/auth/auth_principal_contract.h" bodystart="224" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1auth_1af650853999e157565c6a8f082779d817" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::auth::kAsyncProviderMaxTimeout</definition>
+        <argsstring></argsstring>
+        <name>kAsyncProviderMaxTimeout</name>
+        <qualifiedname>themis::auth::kAsyncProviderMaxTimeout</qualifiedname>
+        <initializer>{120&apos;000}</initializer>
+        <briefdescription>
+<para>Hard maximum allowed async provider timeout (operator-configurable upper bound). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_principal_contract.h" line="227" column="44" bodyfile="include/auth/auth_principal_contract.h" bodystart="227" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1auth_1aa3b70ccf6dce1d5295e5cab8ebc44920" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::MAX_GSSAPI_TOKEN_SIZE</definition>
+        <argsstring></argsstring>
+        <name>MAX_GSSAPI_TOKEN_SIZE</name>
+        <qualifiedname>themis::auth::MAX_GSSAPI_TOKEN_SIZE</qualifiedname>
+        <initializer>= 64 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/gssapi_authenticator.h" line="52" column="18" bodyfile="include/auth/gssapi_authenticator.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1auth_1a503868caf45ea7eff701c8568956361d" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::MAX_KERBEROS_PRINCIPAL_LENGTH</definition>
+        <argsstring></argsstring>
+        <name>MAX_KERBEROS_PRINCIPAL_LENGTH</name>
+        <qualifiedname>themis::auth::MAX_KERBEROS_PRINCIPAL_LENGTH</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/gssapi_authenticator.h" line="53" column="18" bodyfile="include/auth/gssapi_authenticator.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1auth_1ab8c2a9ffe5fe3e97c295c8323e6ec8cf" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::DEFAULT_GSSAPI_CONTEXT_TIMEOUT</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_GSSAPI_CONTEXT_TIMEOUT</name>
+        <qualifiedname>themis::auth::DEFAULT_GSSAPI_CONTEXT_TIMEOUT</qualifiedname>
+        <initializer>= 30</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/gssapi_authenticator.h" line="54" column="15" bodyfile="include/auth/gssapi_authenticator.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1auth_1aa748999c8c5cf29436eb0ab10b356da1" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::MAX_JWT_TOKEN_SIZE</definition>
+        <argsstring></argsstring>
+        <name>MAX_JWT_TOKEN_SIZE</name>
+        <qualifiedname>themis::auth::MAX_JWT_TOKEN_SIZE</qualifiedname>
+        <initializer>= 16 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="55" column="18" bodyfile="include/auth/jwt_validator.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1auth_1a087bd4807c5ad42ce19d37377cc55f12" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::MAX_PRINCIPAL_NAME_LENGTH</definition>
+        <argsstring></argsstring>
+        <name>MAX_PRINCIPAL_NAME_LENGTH</name>
+        <qualifiedname>themis::auth::MAX_PRINCIPAL_NAME_LENGTH</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="56" column="18" bodyfile="include/auth/jwt_validator.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1auth_1a331373c23a91e0c74ff8139c41b1dc56" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::DEFAULT_JWKS_TIMEOUT_SECONDS</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_JWKS_TIMEOUT_SECONDS</name>
+        <qualifiedname>themis::auth::DEFAULT_JWKS_TIMEOUT_SECONDS</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="57" column="15" bodyfile="include/auth/jwt_validator.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1auth_1ac99a77fa1b1b0081dc02bbc4960784ab" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::MAX_JWKS_RETRY_ATTEMPTS</definition>
+        <argsstring></argsstring>
+        <name>MAX_JWKS_RETRY_ATTEMPTS</name>
+        <qualifiedname>themis::auth::MAX_JWKS_RETRY_ATTEMPTS</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="58" column="15" bodyfile="include/auth/jwt_validator.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1auth_1a8cd9758727e6a470c490e351b047a2a9" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::MAX_LDAP_USERNAME_LENGTH</definition>
+        <argsstring></argsstring>
+        <name>MAX_LDAP_USERNAME_LENGTH</name>
+        <qualifiedname>themis::auth::MAX_LDAP_USERNAME_LENGTH</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+<para>Maximum username length. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="32" column="18" bodyfile="include/auth/ldap_authenticator.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1auth_1a3804c7733adde1e4db3209bfc4ed8f83" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::MAX_LDAP_PASSWORD_LENGTH</definition>
+        <argsstring></argsstring>
+        <name>MAX_LDAP_PASSWORD_LENGTH</name>
+        <qualifiedname>themis::auth::MAX_LDAP_PASSWORD_LENGTH</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+<para>Maximum password length. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="33" column="18" bodyfile="include/auth/ldap_authenticator.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1auth_1a05e3e043d586be1ed5d6507b27e413b0" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::MAX_LDAP_DN_LENGTH</definition>
+        <argsstring></argsstring>
+        <name>MAX_LDAP_DN_LENGTH</name>
+        <qualifiedname>themis::auth::MAX_LDAP_DN_LENGTH</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+<para>Maximum Distinguished Name length. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="34" column="18" bodyfile="include/auth/ldap_authenticator.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1auth_1a329110f05f80a9b53dac7a1d9d7361a5" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::DEFAULT_LDAP_PORT</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_LDAP_PORT</name>
+        <qualifiedname>themis::auth::DEFAULT_LDAP_PORT</qualifiedname>
+        <initializer>= 389</initializer>
+        <briefdescription>
+<para>Default <ref refid="ldap__connection__pool_8h_1ae1d91d802fce48f28cb3fa636dc5bc1e" kindref="member">LDAP</ref> port (plain). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="35" column="18" bodyfile="include/auth/ldap_authenticator.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1auth_1a8860fc7f5b1bf795dd10dc4c356e9e70" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::DEFAULT_LDAPS_PORT</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_LDAPS_PORT</name>
+        <qualifiedname>themis::auth::DEFAULT_LDAPS_PORT</qualifiedname>
+        <initializer>= 636</initializer>
+        <briefdescription>
+<para>Default LDAPS port (TLS). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="36" column="18" bodyfile="include/auth/ldap_authenticator.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1auth_1a0cc7384647704f8b601bd9fbc00eb414" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::DEFAULT_LDAP_TIMEOUT</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_LDAP_TIMEOUT</name>
+        <qualifiedname>themis::auth::DEFAULT_LDAP_TIMEOUT</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Default connection/search timeout (s). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_authenticator.h" line="37" column="18" bodyfile="include/auth/ldap_authenticator.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1auth_1a16d2bbcb06eb69acada7cef4b8d69b1e" prot="public" static="yes" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1auth_1_1_i_auth_event_bus" kindref="compound">IAuthEventBus</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IAuthEventBus&gt; themis::auth::g_auth_event_bus</definition>
+        <argsstring></argsstring>
+        <name>g_auth_event_bus</name>
+        <qualifiedname>themis::auth::g_auth_event_bus</qualifiedname>
+        <initializer>                                    =
+std::make_shared&lt;<ref refid="classthemis_1_1auth_1_1_default_auth_event_bus" kindref="compound">DefaultAuthEventBus</ref>&gt;()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/auth/auth_event_bus.cpp" line="99" column="24" bodyfile="src/auth/auth_event_bus.cpp" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1auth_1ab5c8f5f25a843481d7ce67217ed06a38" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::kCsBreachKeyTtlSeconds</definition>
+        <argsstring></argsstring>
+        <name>kCsBreachKeyTtlSeconds</name>
+        <qualifiedname>themis::auth::kCsBreachKeyTtlSeconds</qualifiedname>
+        <initializer>= 25 * 3600</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/auth/auth_rate_limiter.cpp" line="634" column="23" bodyfile="src/auth/auth_rate_limiter.cpp" bodystart="634" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1auth_1a340ebf56188c4019eaaf7a08376de2f2" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::auth::kCsLockDuration</definition>
+        <argsstring></argsstring>
+        <name>kCsLockDuration</name>
+        <qualifiedname>themis::auth::kCsLockDuration</qualifiedname>
+        <initializer>= std::chrono::hours(24)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/auth/auth_rate_limiter.cpp" line="637" column="23" bodyfile="src/auth/auth_rate_limiter.cpp" bodystart="637" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1auth_1a7d3d7b547e0afdde5bcdce18c03af85c" prot="public" static="yes" mutable="no">
+        <type>const uint8_t</type>
+        <definition>const uint8_t themis::auth::kRpcMagic[4]</definition>
+        <argsstring>[4]</argsstring>
+        <name>kRpcMagic</name>
+        <qualifiedname>themis::auth::kRpcMagic</qualifiedname>
+        <initializer>= {0x54, 0x42, 0x4C, 0x4B}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/auth/distributed_token_blacklist.cpp" line="78" column="22" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1auth_1a972b515f81d3db790486f0d4cfb83a22" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::auth::kRpcVer</definition>
+        <argsstring></argsstring>
+        <name>kRpcVer</name>
+        <qualifiedname>themis::auth::kRpcVer</qualifiedname>
+        <initializer>= 0x01</initializer>
+        <briefdescription>
+<para>Protocol version. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/auth/distributed_token_blacklist.cpp" line="79" column="26" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1auth_1a503ac0cfa12e8dcde95b8686798cd4f6" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::auth::kMsgPush</definition>
+        <argsstring></argsstring>
+        <name>kMsgPush</name>
+        <qualifiedname>themis::auth::kMsgPush</qualifiedname>
+        <initializer>= 0x01</initializer>
+        <briefdescription>
+<para>Leader pushes entries to follower. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/auth/distributed_token_blacklist.cpp" line="80" column="26" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1auth_1ace7a341b2f27c7617c584060bd424aa2" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::auth::kMsgPullReq</definition>
+        <argsstring></argsstring>
+        <name>kMsgPullReq</name>
+        <qualifiedname>themis::auth::kMsgPullReq</qualifiedname>
+        <initializer>= 0x02</initializer>
+        <briefdescription>
+<para>Follower requests entries from leader. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/auth/distributed_token_blacklist.cpp" line="81" column="26" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1auth_1a7e05fb3e090c398bd05b5d933ea19469" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::auth::kMsgPullResp</definition>
+        <argsstring></argsstring>
+        <name>kMsgPullResp</name>
+        <qualifiedname>themis::auth::kMsgPullResp</qualifiedname>
+        <initializer>= 0x03</initializer>
+        <briefdescription>
+<para>Leader responds with entries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/auth/distributed_token_blacklist.cpp" line="82" column="26" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1auth_1af4044f39ecd8003254e6aaf1d1f97444" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::auth::kMsgAck</definition>
+        <argsstring></argsstring>
+        <name>kMsgAck</name>
+        <qualifiedname>themis::auth::kMsgAck</qualifiedname>
+        <initializer>= 0x04</initializer>
+        <briefdescription>
+<para>Acknowledgement. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/auth/distributed_token_blacklist.cpp" line="83" column="26" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1auth_1a4ad4f09c4ee378e8d44b2a6c06b45d0d" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::kHdrSize</definition>
+        <argsstring></argsstring>
+        <name>kHdrSize</name>
+        <qualifiedname>themis::auth::kHdrSize</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/auth/distributed_token_blacklist.cpp" line="84" column="26" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1auth_1a5e7c9df78e35ee1900c7837c0205e32c" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::auth::kMaxJtiLen</definition>
+        <argsstring></argsstring>
+        <name>kMaxJtiLen</name>
+        <qualifiedname>themis::auth::kMaxJtiLen</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/auth/distributed_token_blacklist.cpp" line="85" column="27" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1auth_1a4fa3a8a54f8c5af0a50e19369de11274" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::auth::kMaxEntries</definition>
+        <argsstring></argsstring>
+        <name>kMaxEntries</name>
+        <qualifiedname>themis::auth::kMaxEntries</qualifiedname>
+        <initializer>= 1&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/auth/distributed_token_blacklist.cpp" line="86" column="27" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1auth_1acd81eda6ffc86f65c50ff7680a91a008" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::auth::kTokenCacheMaxSize</definition>
+        <argsstring></argsstring>
+        <name>kTokenCacheMaxSize</name>
+        <qualifiedname>themis::auth::kTokenCacheMaxSize</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/auth/federated_identity_manager.cpp" line="46" column="30" bodyfile="src/auth/federated_identity_manager.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1auth_1a4c9e9c91a88a518ef1f4c60536d1e37c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>errors::ErrorCode</type>
+        <definition>errors::ErrorCode themis::auth::toErrorCode</definition>
+        <argsstring>(AuthErrorCode code)</argsstring>
+        <name>toErrorCode</name>
+        <qualifiedname>themis::auth::toErrorCode</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874" kindref="member">AuthErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>To Error Code. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements toErrorCode without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_error.h" line="147" column="26" bodyfile="include/auth/auth_error.h" bodystart="147" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1auth_1aa860719f6d7a813c864005df68f892b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::registerAuthErrors</definition>
+        <argsstring>()</argsstring>
+        <name>registerAuthErrors</name>
+        <qualifiedname>themis::auth::registerAuthErrors</qualifiedname>
+        <briefdescription>
+<para>Register Auth Errors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: errors::ErrorRegistry::getInstance(), registerError(), <ref refid="namespacethemis_1_1auth_1a4c9e9c91a88a518ef1f4c60536d1e37c" kindref="member">toErrorCode()</ref>, nlohmann::json::array(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/auth/auth_error.cpp" line="272" column="6" bodyfile="src/auth/auth_error.cpp" bodystart="272" bodyend="836" declfile="include/auth/auth_error.h" declline="278" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1auth_1a8b520a44924503d20d8fb9c44333d90c" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::isFailClosedClass</definition>
+        <argsstring>(AuthFailureClass fc) noexcept</argsstring>
+        <name>isFailClosedClass</name>
+        <qualifiedname>themis::auth::isFailClosedClass</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1auth_1acf5e57c5bc25c67367c3f596e1d34f76" kindref="member">AuthFailureClass</ref></type>
+          <declname>fc</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when the given failure class mandates fail-closed denial. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Use this predicate in catch blocks to decide whether to propagate the denial or attempt a fallback:</para>
+<para><programlisting><codeline><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>provider-&gt;validateToken(token);</highlight></codeline>
+<codeline><highlight class="normal">}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AuthException&amp;<sp/>ex)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="namespacethemis_1_1auth_1a8b520a44924503d20d8fb9c44333d90c" kindref="member">isFailClosedClass</ref>(classifyError(ex.error().code())))<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>hard<sp/>denial<sp/>—<sp/>no<sp/>fallback</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>structurally-invalid<sp/>input<sp/>—<sp/>also<sp/>deny<sp/>but<sp/>with<sp/>a<sp/>distinct<sp/>error<sp/>code</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_principal_contract.h" line="152" column="24" bodyfile="include/auth/auth_principal_contract.h" bodystart="152" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1auth_1ac68edb97635cbf665add3840ca3b5a7d" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1auth_1a51e1f9b8e06a18ff69d6e69ecf04fcf9" kindref="member">ProviderCapability</ref></type>
+        <definition>ProviderCapability themis::auth::operator|</definition>
+        <argsstring>(ProviderCapability a, ProviderCapability b) noexcept</argsstring>
+        <name>operator|</name>
+        <qualifiedname>themis::auth::operator|</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1auth_1a51e1f9b8e06a18ff69d6e69ecf04fcf9" kindref="member">ProviderCapability</ref></type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1auth_1a51e1f9b8e06a18ff69d6e69ecf04fcf9" kindref="member">ProviderCapability</ref></type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_principal_contract.h" line="200" column="38" bodyfile="include/auth/auth_principal_contract.h" bodystart="200" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1auth_1a53ea268f23db48ccf25c1c545d4d424d" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::hasCapability</definition>
+        <argsstring>(ProviderCapability set, ProviderCapability flag) noexcept</argsstring>
+        <name>hasCapability</name>
+        <qualifiedname>themis::auth::hasCapability</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1auth_1a51e1f9b8e06a18ff69d6e69ecf04fcf9" kindref="member">ProviderCapability</ref></type>
+          <declname>set</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1auth_1a51e1f9b8e06a18ff69d6e69ecf04fcf9" kindref="member">ProviderCapability</ref></type>
+          <declname>flag</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_principal_contract.h" line="205" column="24" bodyfile="include/auth/auth_principal_contract.h" bodystart="205" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1auth_1ab9effd55423626bbba5d05f86b6de424" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::redact</definition>
+        <argsstring>(std::string_view sensitive)</argsstring>
+        <name>redact</name>
+        <qualifiedname>themis::auth::redact</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>sensitive</declname>
+        </param>
+        <briefdescription>
+<para>Ersetzt einen sensiblen Wert durch eine sichere Platzhalter-Darstellung. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Die Ausgabe enthält nur die Länge des ursprünglichen Werts, nicht den Inhalt. Dies erlaubt es, bei Debugging-Zwecken die Existenz und Länge eines Werts zu prüfen, ohne den Klartext offenzulegen.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sensitive</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Der zu schwärzende sensible Wert. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Platzhalterstring der Form <computeroutput>&quot;[REDACTED:Nchars]&quot;</computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_redaction.h" line="38" column="21" bodyfile="include/auth/auth_redaction.h" bodystart="38" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1auth_1a05a2e85d03eb8ee9a6b34074c303711b" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::redactIfPresent</definition>
+        <argsstring>(std::string_view sensitive)</argsstring>
+        <name>redactIfPresent</name>
+        <qualifiedname>themis::auth::redactIfPresent</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>sensitive</declname>
+        </param>
+        <briefdescription>
+<para>Schwärzt einen Wert nur wenn er nicht leer ist; leere Werte bleiben leer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Nützlich für optionale Felder, bei denen ein leerer String kein Geheimnis enthält.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sensitive</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Der zu schwärzende sensible Wert. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Platzhalterstring oder leerer String. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_redaction.h" line="50" column="21" bodyfile="include/auth/auth_redaction.h" bodystart="50" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1auth_1abb23bc8212714769ad4fa56a46e2f379" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::redactPartial</definition>
+        <argsstring>(std::string_view sensitive, std::size_t prefix_len=4)</argsstring>
+        <name>redactPartial</name>
+        <qualifiedname>themis::auth::redactPartial</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>sensitive</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>prefix_len</declname>
+          <defval>4</defval>
+        </param>
+        <briefdescription>
+<para>Maskiert einen Wert partiell: Zeigt die ersten <computeroutput>prefix_len</computeroutput> Zeichen, schwärzt den Rest. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Nützlich für Key-IDs (z. B. JWT kid), bei denen ein kurzes Präfix zur Diagnose ausreicht (z. B. Algorithmus-Typ) ohne den vollständigen Namen zu offenbaren.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sensitive</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Der zu maskierende Wert. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>prefix_len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Anzahl der sichtbaren Zeichen am Anfang (max. <computeroutput>sensitive.size()</computeroutput>). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Partiell maskierter String, z. B. <computeroutput>&quot;rsa-[REDACTED:12chars]&quot;</computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_redaction.h" line="69" column="21" bodyfile="include/auth/auth_redaction.h" bodystart="69" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1auth_1ae58de75cea17687f66d8d6506ad04f4a" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::operator==</definition>
+        <argsstring>(const char *lhs, const SecureString &amp;rhs) noexcept</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::auth::operator==</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>lhs</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1auth_1_1_secure_string" kindref="compound">SecureString</ref> &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="210" column="13" bodyfile="include/auth/secure_memory.h" bodystart="210" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1auth_1a18db5eb7f538131c7d5399bf30c56083" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::operator==</definition>
+        <argsstring>(const std::string &amp;lhs, const SecureString &amp;rhs) noexcept</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::auth::operator==</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lhs</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1auth_1_1_secure_string" kindref="compound">SecureString</ref> &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="211" column="13" bodyfile="include/auth/secure_memory.h" bodystart="211" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1auth_1a9baded28604c5a6c35815501b3dcac4e" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::operator!=</definition>
+        <argsstring>(const char *lhs, const SecureString &amp;rhs) noexcept</argsstring>
+        <name>operator!=</name>
+        <qualifiedname>themis::auth::operator!=</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>lhs</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1auth_1_1_secure_string" kindref="compound">SecureString</ref> &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="212" column="13" bodyfile="include/auth/secure_memory.h" bodystart="212" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1auth_1a0a753b74c4b01a6b4d127f14a29b9ca4" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::operator!=</definition>
+        <argsstring>(const std::string &amp;lhs, const SecureString &amp;rhs) noexcept</argsstring>
+        <name>operator!=</name>
+        <qualifiedname>themis::auth::operator!=</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lhs</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1auth_1_1_secure_string" kindref="compound">SecureString</ref> &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="213" column="13" bodyfile="include/auth/secure_memory.h" bodystart="213" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1auth_1a4d5869ee88a6e6c37f909ffa06d088aa" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool themis::auth::operator==</definition>
+        <argsstring>(const std::vector&lt; T &gt; &amp;lhs, const SecureBuffer&lt; T &gt; &amp;rhs) noexcept</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::auth::operator==</qualifiedname>
+        <param>
+          <type>const std::vector&lt; T &gt; &amp;</type>
+          <declname>lhs</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1auth_1_1_secure_buffer" kindref="compound">SecureBuffer</ref>&lt; T &gt; &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="332" column="13" bodyfile="include/auth/secure_memory.h" bodystart="332" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1auth_1a27383eb010446cc0a32a8a468f92d0ee" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool themis::auth::operator!=</definition>
+        <argsstring>(const std::vector&lt; T &gt; &amp;lhs, const SecureBuffer&lt; T &gt; &amp;rhs) noexcept</argsstring>
+        <name>operator!=</name>
+        <qualifiedname>themis::auth::operator!=</qualifiedname>
+        <param>
+          <type>const std::vector&lt; T &gt; &amp;</type>
+          <declname>lhs</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1auth_1_1_secure_buffer" kindref="compound">SecureBuffer</ref>&lt; T &gt; &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/secure_memory.h" line="334" column="13" bodyfile="include/auth/secure_memory.h" bodystart="334" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1auth_1ac7a2d0ea573207a1096e3940aad07f36" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1auth_1_1_i_auth_event_bus" kindref="compound">IAuthEventBus</ref> &amp;</type>
+        <definition>IAuthEventBus &amp; themis::auth::getAuthEventBus</definition>
+        <argsstring>()</argsstring>
+        <name>getAuthEventBus</name>
+        <qualifiedname>themis::auth::getAuthEventBus</qualifiedname>
+        <briefdescription>
+<para>Get Auth Event Bus. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getAuthEventBus without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/auth/auth_event_bus.cpp" line="107" column="15" bodyfile="src/auth/auth_event_bus.cpp" bodystart="107" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1auth_1adfd5c105f23c7106ddf55fc774d6e6bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::setAuthEventBus</definition>
+        <argsstring>(std::shared_ptr&lt; IAuthEventBus &gt; bus)</argsstring>
+        <name>setAuthEventBus</name>
+        <qualifiedname>themis::auth::setAuthEventBus</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1auth_1_1_i_auth_event_bus" kindref="compound">IAuthEventBus</ref> &gt;</type>
+          <declname>bus</declname>
+        </param>
+        <briefdescription>
+<para>Set Auth Event Bus. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bus</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setAuthEventBus without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/auth/auth_event_bus.cpp" line="116" column="6" bodyfile="src/auth/auth_event_bus.cpp" bodystart="116" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1auth_1a72977c1a3fa5104ccb4a2f07dd653d49" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::auth::outcomeToString</definition>
+        <argsstring>(CredentialStuffingOutcome outcome)</argsstring>
+        <name>outcomeToString</name>
+        <qualifiedname>themis::auth::outcomeToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1auth_1ac7d6b4ac0ba21600479d41e737d954a4" kindref="member">CredentialStuffingOutcome</ref></type>
+          <declname>outcome</declname>
+        </param>
+        <briefdescription>
+<para>Convert a <ref refid="namespacethemis_1_1auth_1ac7d6b4ac0ba21600479d41e737d954a4" kindref="member">CredentialStuffingOutcome</ref> to the canonical string used as a Prometheus label value and in log messages. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">outcome</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements outcomeToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/auth/auth_rate_limiter.cpp" line="645" column="20" bodyfile="src/auth/auth_rate_limiter.cpp" bodystart="645" bodyend="656"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1auth_1a11c2c24389a69824fb99b34ba2c07802" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::auth::encodeU32</definition>
+        <argsstring>(uint32_t v, uint8_t *out) noexcept</argsstring>
+        <name>encodeU32</name>
+        <qualifiedname>themis::auth::encodeU32</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/auth/distributed_token_blacklist.cpp" line="92" column="13" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="92" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1auth_1aa30f8908ad3616f6389147130a36506a" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>static uint32_t themis::auth::decodeU32</definition>
+        <argsstring>(const uint8_t *in) noexcept</argsstring>
+        <name>decodeU32</name>
+        <qualifiedname>themis::auth::decodeU32</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>in</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/auth/distributed_token_blacklist.cpp" line="98" column="17" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="98" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1auth_1a365fdce235882b446f7c1ec5da7ee2ca" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::auth::encodeU16</definition>
+        <argsstring>(uint16_t v, uint8_t *out) noexcept</argsstring>
+        <name>encodeU16</name>
+        <qualifiedname>themis::auth::encodeU16</qualifiedname>
+        <param>
+          <type>uint16_t</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/auth/distributed_token_blacklist.cpp" line="104" column="13" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="104" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1auth_1ae71808583b100ffb72cb56c3dc0da42b" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>static uint16_t themis::auth::decodeU16</definition>
+        <argsstring>(const uint8_t *in) noexcept</argsstring>
+        <name>decodeU16</name>
+        <qualifiedname>themis::auth::decodeU16</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>in</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/auth/distributed_token_blacklist.cpp" line="108" column="17" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="108" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1auth_1a9e7424798e16f1fca63422e5f23df859" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::auth::encodeI64</definition>
+        <argsstring>(int64_t v, uint8_t *out) noexcept</argsstring>
+        <name>encodeI64</name>
+        <qualifiedname>themis::auth::encodeI64</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/auth/distributed_token_blacklist.cpp" line="112" column="13" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="112" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1auth_1a7a9b523a65303e3dc468f9098b24a06a" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>static int64_t themis::auth::decodeI64</definition>
+        <argsstring>(const uint8_t *in) noexcept</argsstring>
+        <name>decodeI64</name>
+        <qualifiedname>themis::auth::decodeI64</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>in</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/auth/distributed_token_blacklist.cpp" line="116" column="16" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="116" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1auth_1ab924e1fb6cf4fcfea02373a543021c45" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::auth::sockSetTimeout</definition>
+        <argsstring>(SockFd fd, int timeout_ms) noexcept</argsstring>
+        <name>sockSetTimeout</name>
+        <qualifiedname>themis::auth::sockSetTimeout</qualifiedname>
+        <param>
+          <type><ref refid="distributed__token__blacklist_8cpp_1ae39fc246720e8bba4485c30fb0db8999" kindref="member">SockFd</ref></type>
+          <declname>fd</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>timeout_ms</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/auth/distributed_token_blacklist.cpp" line="127" column="13" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="127" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1auth_1ad353e0badc5c52de032f12730389230d" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::auth::sendAll</definition>
+        <argsstring>(SockFd fd, const void *buf, size_t len) noexcept</argsstring>
+        <name>sendAll</name>
+        <qualifiedname>themis::auth::sendAll</qualifiedname>
+        <param>
+          <type><ref refid="distributed__token__blacklist_8cpp_1ae39fc246720e8bba4485c30fb0db8999" kindref="member">SockFd</ref></type>
+          <declname>fd</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/auth/distributed_token_blacklist.cpp" line="145" column="13" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="145" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1auth_1a9eab7017165305ec4b68a653d9c9921d" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::auth::recvAll</definition>
+        <argsstring>(SockFd fd, void *buf, size_t len) noexcept</argsstring>
+        <name>recvAll</name>
+        <qualifiedname>themis::auth::recvAll</qualifiedname>
+        <param>
+          <type><ref refid="distributed__token__blacklist_8cpp_1ae39fc246720e8bba4485c30fb0db8999" kindref="member">SockFd</ref></type>
+          <declname>fd</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/auth/distributed_token_blacklist.cpp" line="162" column="13" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="162" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1auth_1a60617ce51f22cc941b42650b80606188" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; std::string, int &gt;</type>
+        <definition>static std::pair&lt; std::string, int &gt; themis::auth::parseAddress</definition>
+        <argsstring>(const std::string &amp;addr)</argsstring>
+        <name>parseAddress</name>
+        <qualifiedname>themis::auth::parseAddress</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>addr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/auth/distributed_token_blacklist.cpp" line="179" column="18" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="179" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1auth_1a53638eb29ccd9affccee13103baf85ad" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="distributed__token__blacklist_8cpp_1ae39fc246720e8bba4485c30fb0db8999" kindref="member">SockFd</ref></type>
+        <definition>static SockFd themis::auth::connectWithTimeout</definition>
+        <argsstring>(const std::string &amp;host, int port, int timeout_ms)</argsstring>
+        <name>connectWithTimeout</name>
+        <qualifiedname>themis::auth::connectWithTimeout</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>host</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>port</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>timeout_ms</declname>
+        </param>
+        <briefdescription>
+<para>Connect With Timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">host</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">port</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::to_string(), getaddrinfo(), c_str(), sockValid(), socket(), ioctlsocket(), fcntl(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/auth/distributed_token_blacklist.cpp" line="197" column="15" bodyfile="src/auth/distributed_token_blacklist.cpp" bodystart="197" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1auth_1aade845cef6a0001ed967a6bcd491adc9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::auth::sha256Hex</definition>
+        <argsstring>(const std::string &amp;input)</argsstring>
+        <name>sha256Hex</name>
+        <qualifiedname>themis::auth::sha256Hex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Sha256 Hex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: EVP_Digest(), data(), size(), EVP_sha256(), std::string(), std::setfill(), std::setw(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/auth/federated_identity_manager.cpp" line="54" column="20" bodyfile="src/auth/federated_identity_manager.cpp" bodystart="54" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1auth_1afd48393948b0622510ee31bda7e68dc9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>static size_t themis::auth::writeCallback</definition>
+        <argsstring>(void *contents, size_t size, size_t nmemb, void *userp)</argsstring>
+        <name>writeCallback</name>
+        <qualifiedname>themis::auth::writeCallback</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>contents</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>nmemb</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>userp</declname>
+        </param>
+        <briefdescription>
+<para>Callback for writing data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">contents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">nmemb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">userp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: append(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/auth/jwks_security.cpp" line="263" column="15" bodyfile="src/auth/jwks_security.cpp" bodystart="263" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1auth_1a3edbfd3eb1ffc69b14ce206f82a84683" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::auth::formatDateTime</definition>
+        <argsstring>(std::chrono::system_clock::time_point tp)</argsstring>
+        <name>formatDateTime</name>
+        <qualifiedname>themis::auth::formatDateTime</qualifiedname>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>tp</declname>
+        </param>
+        <briefdescription>
+<para>Build ISO 8601 UTC timestamp from a time_point. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::to_time_t(), gmtime_s(), gmtime_r(), std::strftime(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/auth/saml_authenticator.cpp" line="161" column="20" bodyfile="src/auth/saml_authenticator.cpp" bodystart="161" bodyend="172"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/api_key_authenticator.h" line="25" column="1"/>
+  </compounddef>
+</doxygen>

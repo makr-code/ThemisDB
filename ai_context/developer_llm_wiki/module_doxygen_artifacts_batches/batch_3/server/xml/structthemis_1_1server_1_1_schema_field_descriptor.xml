@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_schema_field_descriptor" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::SchemaFieldDescriptor</compoundname>
+    <includes refid="api__version_8h" local="no">api_version.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_schema_field_descriptor_1a82e23be4ef897c42d5e21b6f55a5f96a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::SchemaFieldDescriptor::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::server::SchemaFieldDescriptor::name</qualifiedname>
+        <briefdescription>
+<para>Field name (must be stable across minor versions). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="182" column="17" bodyfile="include/server/api_version.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_schema_field_descriptor_1aa4fed647033c5f8c1ccd18f6b61aeff9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::SchemaFieldDescriptor::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::server::SchemaFieldDescriptor::type</qualifiedname>
+        <briefdescription>
+<para>Wire type string (e.g. &quot;int64&quot;, &quot;string&quot;, &quot;bool&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="183" column="17" bodyfile="include/server/api_version.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_schema_field_descriptor_1a2909c7656eacd1efa2ed92e9c937b59b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::SchemaFieldDescriptor::required</definition>
+        <argsstring></argsstring>
+        <name>required</name>
+        <qualifiedname>themis::server::SchemaFieldDescriptor::required</qualifiedname>
+        <briefdescription>
+<para>Whether the field is mandatory on the wire. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="184" column="17" bodyfile="include/server/api_version.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1server_1_1_schema_field_descriptor_1a8af35112df4599e52d90f50bde528b10" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::SchemaFieldDescriptor::operator==</definition>
+        <argsstring>(const SchemaFieldDescriptor &amp;other) const noexcept</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::server::SchemaFieldDescriptor::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_schema_field_descriptor" kindref="compound">SchemaFieldDescriptor</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_version.h" line="186" column="10" bodyfile="include/server/api_version.h" bodystart="186" bodyend="188"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/api_version.h" line="181" column="1" bodyfile="include/server/api_version.h" bodystart="181" bodyend="189"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_schema_field_descriptor_1a82e23be4ef897c42d5e21b6f55a5f96a" prot="public" virt="non-virtual"><scope>themis::server::SchemaFieldDescriptor</scope><name>name</name></member>
+      <member refid="structthemis_1_1server_1_1_schema_field_descriptor_1a8af35112df4599e52d90f50bde528b10" prot="public" virt="non-virtual"><scope>themis::server::SchemaFieldDescriptor</scope><name>operator==</name></member>
+      <member refid="structthemis_1_1server_1_1_schema_field_descriptor_1a2909c7656eacd1efa2ed92e9c937b59b" prot="public" virt="non-virtual"><scope>themis::server::SchemaFieldDescriptor</scope><name>required</name></member>
+      <member refid="structthemis_1_1server_1_1_schema_field_descriptor_1aa4fed647033c5f8c1ccd18f6b61aeff9" prot="public" virt="non-virtual"><scope>themis::server::SchemaFieldDescriptor</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

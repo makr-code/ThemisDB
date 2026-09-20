@@ -1,0 +1,271 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="api__transport__policy_8h" kind="file" language="C++">
+    <compoundname>api_transport_policy.h</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">cstddef</includes>
+    <includes refid="http__handler_8h" local="yes">api/http_handler.h</includes>
+    <includes refid="api__transport__contracts_8h" local="yes">api/api_transport_contracts.h</includes>
+    <includes refid="api__error__taxonomy_8h" local="yes">api/api_error_taxonomy.h</includes>
+    <includedby refid="bench__api__release__gates_8cpp" local="yes">benchmarks/api/bench_api_release_gates.cpp</includedby>
+    <includedby refid="api__transport__policy_8cpp" local="yes">src/api/api_transport_policy.cpp</includedby>
+    <includedby refid="test__api__degraded__mode_8cpp" local="yes">tests/api/test_api_degraded_mode.cpp</includedby>
+    <includedby refid="test__api__phase4__concurrency_8cpp" local="yes">tests/api/test_api_phase4_concurrency.cpp</includedby>
+    <incdepgraph>
+      <node id="14">
+        <label>api/api_error_taxonomy.h</label>
+        <link refid="api__error__taxonomy_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>api/api_transport_contracts.h</label>
+        <link refid="api__transport__contracts_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/api/api_transport_policy.h</label>
+        <link refid="api__transport__policy_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>api/http_handler.h</label>
+        <link refid="http__handler_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="13">
+        <label>cstdint</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>string_view</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="15">
+        <label>utils/error_registry.h</label>
+      </node>
+      <node id="10">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/api/bench_api_release_gates.cpp</label>
+        <link refid="bench__api__release__gates_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/api/api_transport_policy.h</label>
+        <link refid="api__transport__policy_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/api/api_transport_policy.cpp</label>
+        <link refid="api__transport__policy_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/api/test_api_degraded_mode.cpp</label>
+        <link refid="test__api__degraded__mode_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/api/test_api_phase4_concurrency.cpp</label>
+        <link refid="test__api__phase4__concurrency_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1api_1_1_transport_policy_config" prot="public">themis::api::TransportPolicyConfig</innerclass>
+    <innerclass refid="classthemis_1_1api_1_1_transport_policy_middleware" prot="public">themis::api::TransportPolicyMiddleware</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1api">themis::api</innernamespace>
+    <briefdescription>
+<para>Shared API transport policy enforcement middleware. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><computeroutput>TransportPolicyMiddleware</computeroutput> is an <computeroutput>IHttpHandler</computeroutput> decorator that enforces the canonical API transport policy rules (Phase 2 + Phase 3, Q4 2026) before dispatching to the wrapped application handler.</para>
+<para>Enforced rules (fail-closed on any violation):<orderedlist>
+<listitem><para>Method and path must be non-empty (<computeroutput>TransportFailureClass::MalformedRequest</computeroutput>).</para>
+</listitem><listitem><para>Request path must not exceed <computeroutput>kMaxPathBytes</computeroutput>.</para>
+</listitem><listitem><para>Request body must not exceed <computeroutput>kMaxPayloadBytes</computeroutput>.</para>
+</listitem><listitem><para>X-API-Version header, if present, must be in <computeroutput>kSupportedApiVersions</computeroutput>.</para>
+</listitem><listitem><para>POST / PUT / PATCH with a non-empty body must include a <computeroutput>Content-Type</computeroutput> header.</para>
+</listitem></orderedlist>
+</para>
+<para>All policy violations produce a structured error via <computeroutput>ApiErrorTaxonomy</computeroutput> so that the error code, HTTP status, and message are consistent across all transport adapters that use this middleware.</para>
+<para><heading level="3">Typical usage</heading>
+</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Default<sp/>bounds:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>policy<sp/>=<sp/>std::make_shared&lt;TransportPolicyMiddleware&gt;(inner_handler);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Optional:<sp/>override<sp/>bounds<sp/>from<sp/>the<sp/>default<sp/>config.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">TransportPolicyConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.max_payload_bytes<sp/>=<sp/>1<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/></highlight><highlight class="comment">//<sp/>1<sp/>MiB<sp/>for<sp/>this<sp/>endpoint</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>custom_policy<sp/>=<sp/>std::make_shared&lt;TransportPolicyMiddleware&gt;(inner_handler,<sp/>cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>policy-&gt;handle(request);</highlight></codeline>
+</programlisting></para>
+<para><heading level="3">Thread safety</heading>
+</para>
+<para><computeroutput>TransportPolicyMiddleware</computeroutput> is immutable after construction and safe to call concurrently from any number of threads. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="http__handler_8h" kindref="compound">api/http_handler.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="api__transport__contracts_8h" kindref="compound">api/api_transport_contracts.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="api__error__taxonomy_8h" kindref="compound">api/api_error_taxonomy.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1api" kindref="compound">api</ref><sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TransportPolicyConfig<sp/>—<sp/>runtime-configurable<sp/>bounds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1api_1_1_transport_policy_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1api_1_1_transport_policy_config" kindref="compound">TransportPolicyConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1api_1_1_transport_policy_config_1a9cae71cdc373f486c2c68156d9ca637d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1api_1_1_transport_policy_config_1a9cae71cdc373f486c2c68156d9ca637d" kindref="member">max_payload_bytes</ref><sp/>=<sp/><ref refid="namespacethemis_1_1api_1a6b221e453135400e65ad9b6077acc01b" kindref="member">kMaxPayloadBytes</ref>;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1api_1_1_transport_policy_config_1a04ddbca1ea90d4d1ea5376842b5937bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1api_1_1_transport_policy_config_1a04ddbca1ea90d4d1ea5376842b5937bc" kindref="member">max_path_bytes</ref><sp/>=<sp/><ref refid="namespacethemis_1_1api_1aa317a48d974bae0126f64073b1fb5316" kindref="member">kMaxPathBytes</ref>;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1api_1_1_transport_policy_config_1aefaec0f29db11bfa35fae2e89843be60" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1api_1_1_transport_policy_config_1aefaec0f29db11bfa35fae2e89843be60" kindref="member">enforce_content_type</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1api_1_1_transport_policy_config_1a87ad6ef374ee80d1ec64cb26e63e1454" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1api_1_1_transport_policy_config_1a87ad6ef374ee80d1ec64cb26e63e1454" kindref="member">enforce_api_version</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1api_1_1_transport_policy_config_1ae5de10e8d2e87ba320d526a10fef07d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1api_1_1_transport_policy_config" kindref="compound">TransportPolicyConfig</ref><sp/><ref refid="structthemis_1_1api_1_1_transport_policy_config_1ae5de10e8d2e87ba320d526a10fef07d9" kindref="member">normalized</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_transport_policy_config" kindref="compound">TransportPolicyConfig</ref><sp/>cfg<sp/>=<sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cfg.<ref refid="structthemis_1_1api_1_1_transport_policy_config_1a9cae71cdc373f486c2c68156d9ca637d" kindref="member">max_payload_bytes</ref><sp/>&gt;<sp/><ref refid="namespacethemis_1_1api_1a6b221e453135400e65ad9b6077acc01b" kindref="member">kMaxPayloadBytes</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1api_1_1_transport_policy_config_1a9cae71cdc373f486c2c68156d9ca637d" kindref="member">max_payload_bytes</ref><sp/>=<sp/><ref refid="namespacethemis_1_1api_1a6b221e453135400e65ad9b6077acc01b" kindref="member">kMaxPayloadBytes</ref>;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cfg.<ref refid="structthemis_1_1api_1_1_transport_policy_config_1a04ddbca1ea90d4d1ea5376842b5937bc" kindref="member">max_path_bytes</ref><sp/>&gt;<sp/><ref refid="namespacethemis_1_1api_1aa317a48d974bae0126f64073b1fb5316" kindref="member">kMaxPathBytes</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1api_1_1_transport_policy_config_1a04ddbca1ea90d4d1ea5376842b5937bc" kindref="member">max_path_bytes</ref><sp/>=<sp/><ref refid="namespacethemis_1_1api_1aa317a48d974bae0126f64073b1fb5316" kindref="member">kMaxPathBytes</ref>;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TransportPolicyMiddleware<sp/>—<sp/>policy<sp/>enforcement<sp/>decorator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="classthemis_1_1api_1_1_transport_policy_middleware" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1api_1_1_transport_policy_middleware_1a8836e76b0eb68cf06fcce082fa64fc2b" kindref="member">TransportPolicyMiddleware</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_i_http_handler" kindref="compound">IHttpHandler</ref>,</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_i_transport_contract" kindref="compound">ITransportContract</ref><sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_transport_policy_middleware_1a8836e76b0eb68cf06fcce082fa64fc2b" kindref="member">TransportPolicyMiddleware</ref>(std::shared_ptr&lt;IHttpHandler&gt;<sp/>inner);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1api_1_1_transport_policy_middleware_1a8836e76b0eb68cf06fcce082fa64fc2b" kindref="member">TransportPolicyMiddleware</ref>(std::shared_ptr&lt;IHttpHandler&gt;<sp/>inner,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1api_1_1_transport_policy_config" kindref="compound">TransportPolicyConfig</ref>&amp;<sp/><ref refid="classthemis_1_1api_1_1_transport_policy_middleware_1a7d6c3d722d5ec5be53b393298f5162ac" kindref="member">config</ref>);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="classthemis_1_1api_1_1_transport_policy_middleware_1acb05c23754a6e910b32985a1d1e36c92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1api_1_1_transport_policy_middleware_1acb05c23754a6e910b32985a1d1e36c92" kindref="member">~TransportPolicyMiddleware</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable;<sp/>movable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="classthemis_1_1api_1_1_transport_policy_middleware_1acf48384fecae7048b360bd697d291795" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1api_1_1_transport_policy_middleware_1acf48384fecae7048b360bd697d291795" kindref="member">TransportPolicyMiddleware</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_transport_policy_middleware_1a8836e76b0eb68cf06fcce082fa64fc2b" kindref="member">TransportPolicyMiddleware</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95" refid="classthemis_1_1api_1_1_transport_policy_middleware_1a7553bfd0a76e376971cff3f7c33d73b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1api_1_1_transport_policy_middleware_1a8836e76b0eb68cf06fcce082fa64fc2b" kindref="member">TransportPolicyMiddleware</ref>&amp;<sp/><ref refid="classthemis_1_1api_1_1_transport_policy_middleware_1a7553bfd0a76e376971cff3f7c33d73b2" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_transport_policy_middleware_1a8836e76b0eb68cf06fcce082fa64fc2b" kindref="member">TransportPolicyMiddleware</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1api_1_1_transport_policy_middleware_1aa77f1085a989f0c3a855369b5355b8f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1api_1_1_transport_policy_middleware_1aa77f1085a989f0c3a855369b5355b8f7" kindref="member">TransportPolicyMiddleware</ref>(<ref refid="classthemis_1_1api_1_1_transport_policy_middleware_1a8836e76b0eb68cf06fcce082fa64fc2b" kindref="member">TransportPolicyMiddleware</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="97" refid="classthemis_1_1api_1_1_transport_policy_middleware_1a4ded41511803c85f2ea1ace302a1bc6c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1api_1_1_transport_policy_middleware_1a8836e76b0eb68cf06fcce082fa64fc2b" kindref="member">TransportPolicyMiddleware</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1api_1_1_transport_policy_middleware_1a8836e76b0eb68cf06fcce082fa64fc2b" kindref="member">TransportPolicyMiddleware</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IHttpHandler<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="namespacethemis" kindref="compound">themis</ref>::Result&lt;<ref refid="structthemis_1_1api_1_1_http_response" kindref="compound">HttpResponse</ref>&gt;<sp/><ref refid="classthemis_1_1api_1_1_transport_policy_middleware_1aa1055c46c1a5139c837e3d41aa1c905b" kindref="member">handle</ref>(</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1api_1_1_http_request" kindref="compound">HttpRequest</ref>&amp;<sp/>request)<sp/>override;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_transport_policy_middleware_1a4e123c6573c05488697245b67d604d09" kindref="member">requiresAuthentication</ref>()<sp/>const<sp/>noexcept<sp/>override;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="namespacestd" kindref="compound">std</ref>::string_view<sp/><ref refid="classthemis_1_1api_1_1_transport_policy_middleware_1a385257d97abf265ec936e25dd93496f1" kindref="member">handlerName</ref>()<sp/>const<sp/>noexcept<sp/>override;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ITransportContract<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="namespacethemis_1_1api_1a0343d99372edab7f45df75439b391937" kindref="member">TransportCapability</ref><sp/><ref refid="classthemis_1_1api_1_1_transport_policy_middleware_1a87694d0ff51bfab1998783b9a873c76f" kindref="member">capabilities</ref>()<sp/>const<sp/>noexcept<sp/>override;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="namespacestd" kindref="compound">std</ref>::string_view<sp/><ref refid="classthemis_1_1api_1_1_transport_policy_middleware_1a5e3499732e2ba234db2f5606560e54fc" kindref="member">adapterName</ref>()<sp/>const<sp/>noexcept<sp/>override;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Accessors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="classthemis_1_1api_1_1_transport_policy_middleware_1a7d6c3d722d5ec5be53b393298f5162ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>const<sp/><ref refid="structthemis_1_1api_1_1_transport_policy_config" kindref="compound">TransportPolicyConfig</ref>&amp;<sp/><ref refid="classthemis_1_1api_1_1_transport_policy_middleware_1a7d6c3d722d5ec5be53b393298f5162ac" kindref="member">config</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;IHttpHandler&gt;<sp/>inner_;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_transport_policy_config" kindref="compound">TransportPolicyConfig</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config_;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="namespacethemis_1_1api_1a7725be3f5528117fdb79ccf1d6af0fe5" kindref="member">TransportFailureClass</ref><sp/>applyPolicy(</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1api_1_1_http_request" kindref="compound">HttpRequest</ref>&amp;<sp/>request)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>api</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/api/api_transport_policy.h"/>
+  </compounddef>
+</doxygen>

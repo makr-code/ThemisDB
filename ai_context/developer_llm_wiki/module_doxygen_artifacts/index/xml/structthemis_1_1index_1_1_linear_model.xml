@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1index_1_1_linear_model" kind="struct" language="C++" prot="public">
+    <compoundname>themis::index::LinearModel</compoundname>
+    <includes refid="learned__index_8h" local="no">learned_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_linear_model_1a0f431a67bbdc0b88d84deaaf0ad3cf06" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::index::LinearModel::slope</definition>
+        <argsstring></argsstring>
+        <name>slope</name>
+        <qualifiedname>themis::index::LinearModel::slope</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="83" column="12" bodyfile="include/index/learned_index.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_linear_model_1ad89011eac009ccbeb1fafd6e45901f90" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::index::LinearModel::intercept</definition>
+        <argsstring></argsstring>
+        <name>intercept</name>
+        <qualifiedname>themis::index::LinearModel::intercept</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="84" column="12" bodyfile="include/index/learned_index.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1index_1_1_linear_model_1a91249f999e6ff5c07c9283962325e4bc" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::index::LinearModel::predict</definition>
+        <argsstring>(double key) const noexcept</argsstring>
+        <name>predict</name>
+        <qualifiedname>themis::index::LinearModel::predict</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Predict a position from an encoded key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="87" column="12" bodyfile="include/index/learned_index.h" bodystart="87" bodyend="89"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Single-variable linear model: pos = slope * key + intercept. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/learned_index.h" line="82" column="1" bodyfile="include/index/learned_index.h" bodystart="82" bodyend="90"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1index_1_1_linear_model_1ad89011eac009ccbeb1fafd6e45901f90" prot="public" virt="non-virtual"><scope>themis::index::LinearModel</scope><name>intercept</name></member>
+      <member refid="structthemis_1_1index_1_1_linear_model_1a91249f999e6ff5c07c9283962325e4bc" prot="public" virt="non-virtual"><scope>themis::index::LinearModel</scope><name>predict</name></member>
+      <member refid="structthemis_1_1index_1_1_linear_model_1a0f431a67bbdc0b88d84deaaf0ad3cf06" prot="public" virt="non-virtual"><scope>themis::index::LinearModel</scope><name>slope</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_entity_linker_test" kind="class" language="C++" prot="public">
+    <compoundname>EntityLinkerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_entity_linker_test_1aceb6fcddc72a21b46c0fd95db6ed1440" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph" kindref="compound">KnowledgeGraph</ref></type>
+        <definition>KnowledgeGraph EntityLinkerTest::g</definition>
+        <argsstring></argsstring>
+        <name>g</name>
+        <qualifiedname>EntityLinkerTest::g</qualifiedname>
+        <initializer>= buildMLGraph()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_knowledge_graph_retriever.cpp" line="245" column="20" bodyfile="tests/rag/test_rag_knowledge_graph_retriever.cpp" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_entity_linker_test_1aae7fcae208b7095a08eebd59a50676df" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1kg_1_1_entity_linker_config" kindref="compound">EntityLinkerConfig</ref></type>
+        <definition>EntityLinkerConfig EntityLinkerTest::cfg</definition>
+        <argsstring></argsstring>
+        <name>cfg</name>
+        <qualifiedname>EntityLinkerTest::cfg</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_knowledge_graph_retriever.cpp" line="246" column="24" bodyfile="tests/rag/test_rag_knowledge_graph_retriever.cpp" bodystart="246" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>EntityLinkerTest</label>
+        <link refid="class_entity_linker_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>EntityLinkerTest</label>
+        <link refid="class_entity_linker_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>g</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>cfg</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="4">
+        <label>themis::rag::kg::EntityLinkerConfig</label>
+        <link refid="structthemis_1_1rag_1_1kg_1_1_entity_linker_config"/>
+      </node>
+      <node id="3">
+        <label>themis::rag::kg::KnowledgeGraph</label>
+        <link refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/rag/test_rag_knowledge_graph_retriever.cpp" line="243" column="1" bodyfile="tests/rag/test_rag_knowledge_graph_retriever.cpp" bodystart="243" bodyend="248"/>
+    <listofallmembers>
+      <member refid="class_entity_linker_test_1aae7fcae208b7095a08eebd59a50676df" prot="protected" virt="non-virtual"><scope>EntityLinkerTest</scope><name>cfg</name></member>
+      <member refid="class_entity_linker_test_1aceb6fcddc72a21b46c0fd95db6ed1440" prot="protected" virt="non-virtual"><scope>EntityLinkerTest</scope><name>g</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

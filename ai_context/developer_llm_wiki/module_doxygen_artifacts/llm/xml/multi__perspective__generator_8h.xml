@@ -1,0 +1,310 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="multi__perspective__generator_8h" kind="file" language="C++">
+    <compoundname>multi_perspective_generator.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">chrono</includes>
+    <includedby refid="multi__perspective__generator_8cpp" local="yes">src/llm/multi_perspective_generator.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm/multi_perspective_generator.h</label>
+        <link refid="multi__perspective__generator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/multi_perspective_generator.h</label>
+        <link refid="multi__perspective__generator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/llm/multi_perspective_generator.cpp</label>
+        <link refid="multi__perspective__generator_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1_ethical_perspective" prot="public">themis::llm::EthicalPerspective</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_perspective_response" prot="public">themis::llm::PerspectiveResponse</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_multi_perspective_result" prot="public">themis::llm::MultiPerspectiveResult</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_multi_perspective_config" prot="public">themis::llm::MultiPerspectiveConfig</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_multi_perspective_generator" prot="public">themis::llm::MultiPerspectiveGenerator</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_statistics" prot="public">themis::llm::MultiPerspectiveGenerator::Statistics</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_multi_perspective_generator_factory" prot="public">themis::llm::MultiPerspectiveGeneratorFactory</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_ethical_guidelines_manager" kindref="compound">EthicalGuidelinesManager</ref>;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1llm_1_1_ethical_perspective" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_ethical_perspective" kindref="compound">EthicalPerspective</ref><sp/>{</highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1llm_1_1_ethical_perspective_1a7047005344c7a27bc9895df204c12fcc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_ethical_perspective_1a7047005344c7a27bc9895df204c12fcc" kindref="member">id</ref>;</highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1llm_1_1_ethical_perspective_1ab4ab8692e1a737780b416dea8da2b873" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_ethical_perspective_1ab4ab8692e1a737780b416dea8da2b873" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1llm_1_1_ethical_perspective_1a501c7866d24ed809d46ab07ea2173dcf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_ethical_perspective_1a501c7866d24ed809d46ab07ea2173dcf" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1llm_1_1_ethical_perspective_1a0afd0485f85bf943d6afcea216171545" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_ethical_perspective_1a0afd0485f85bf943d6afcea216171545" kindref="member">tradition</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1llm_1_1_ethical_perspective_1a7999a2a7abf4d45b3d4deee433108e8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_ethical_perspective_1a7999a2a7abf4d45b3d4deee433108e8b" kindref="member">key_principles</ref>;</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1llm_1_1_ethical_perspective_1a0c42ec2f38410d99859c1f353c3e87fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_ethical_perspective_1a0c42ec2f38410d99859c1f353c3e87fe" kindref="member">prompt_template</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1llm_1_1_perspective_response" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_perspective_response" kindref="compound">PerspectiveResponse</ref><sp/>{</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1llm_1_1_perspective_response_1a20aa6d12e3454f8a332f0c31f69395c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_ethical_perspective" kindref="compound">EthicalPerspective</ref><sp/><ref refid="structthemis_1_1llm_1_1_perspective_response_1a20aa6d12e3454f8a332f0c31f69395c0" kindref="member">perspective</ref>;</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1llm_1_1_perspective_response_1ab2b32b9bbd8cbe8ba48730c196a6c06b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_perspective_response_1ab2b32b9bbd8cbe8ba48730c196a6c06b" kindref="member">response</ref>;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1llm_1_1_perspective_response_1a91ee9526a691a07473dc40363a971842" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_perspective_response_1a91ee9526a691a07473dc40363a971842" kindref="member">confidence</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1llm_1_1_perspective_response_1a51c4cd22be1f42916480d579e162888e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_perspective_response_1a51c4cd22be1f42916480d579e162888e" kindref="member">key_points</ref>;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1llm_1_1_perspective_response_1ac9156c22db770b9214342f8dc94fd5d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_perspective_response_1ac9156c22db770b9214342f8dc94fd5d6" kindref="member">reasoning</ref>;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1llm_1_1_multi_perspective_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_multi_perspective_result" kindref="compound">MultiPerspectiveResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1llm_1_1_multi_perspective_result_1a99822a2606409ca1297bad69dd617b63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_result_1a99822a2606409ca1297bad69dd617b63" kindref="member">~MultiPerspectiveResult</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Original<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1llm_1_1_multi_perspective_result_1a574f6ea565a4594934c10989de703960" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_result_1a574f6ea565a4594934c10989de703960" kindref="member">query</ref>;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Individual<sp/>perspectives</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1llm_1_1_multi_perspective_result_1a13993f7c8dc1dfebc2475e1a0dd80f0e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PerspectiveResponse&gt;<sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_result_1a13993f7c8dc1dfebc2475e1a0dd80f0e" kindref="member">perspectives</ref>;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Synthesized<sp/>response</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1llm_1_1_multi_perspective_result_1a91aa826889ad40ee04e3ba1b785efca2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_result_1a91aa826889ad40ee04e3ba1b785efca2" kindref="member">synthesized_response</ref>;</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1llm_1_1_multi_perspective_result_1a13a03ca4e472da38a7d117643fa208e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_result_1a13a03ca4e472da38a7d117643fa208e9" kindref="member">synthesis_reasoning</ref>;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Diversity<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1llm_1_1_multi_perspective_result_1a59cd9fac9ea8e96c4259bc61bd0650fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_result_1a59cd9fac9ea8e96c4259bc61bd0650fb" kindref="member">unique_perspectives_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1llm_1_1_multi_perspective_result_1a38899062bdcac37e7d364f8a7dda16f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_result_1a38899062bdcac37e7d364f8a7dda16f4" kindref="member">perspective_diversity_score</ref><sp/>=<sp/>0.0f;<sp/><sp/></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1llm_1_1_multi_perspective_result_1aece21da19d29707280d994de71afd2cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_result_1aece21da19d29707280d994de71afd2cb" kindref="member">shows_balanced_view</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Quality<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1llm_1_1_multi_perspective_result_1a1b49b39b62389f94c7a6f9f358281236" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_result_1a1b49b39b62389f94c7a6f9f358281236" kindref="member">meets_diversity_requirement</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1llm_1_1_multi_perspective_result_1a85ea441aeb37589869ebc64d4bd4def2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_result_1a85ea441aeb37589869ebc64d4bd4def2" kindref="member">common_themes</ref>;</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1llm_1_1_multi_perspective_result_1acb315adccbc91af356705892231d69ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_result_1acb315adccbc91af356705892231d69ca" kindref="member">disagreements</ref>;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1llm_1_1_multi_perspective_result_1a4b34f282b39344b84684ca3b63ccd6af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_result_1a4b34f282b39344b84684ca3b63ccd6af" kindref="member">generation_time</ref>;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1llm_1_1_multi_perspective_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_multi_perspective_config" kindref="compound">MultiPerspectiveConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Perspective<sp/>selection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1llm_1_1_multi_perspective_config_1a684e132b67976f8faf91cd29074049d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_config_1a684e132b67976f8faf91cd29074049d9" kindref="member">min_perspectives</ref><sp/>=<sp/>2;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1llm_1_1_multi_perspective_config_1a4e13ff804f59130fe0467cace65b745e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_config_1a4e13ff804f59130fe0467cace65b745e" kindref="member">max_perspectives</ref><sp/>=<sp/>4;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1llm_1_1_multi_perspective_config_1a44ddaf1aaaaf7f9ea33d0686971c0a69" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_config_1a44ddaf1aaaaf7f9ea33d0686971c0a69" kindref="member">auto_select_perspectives</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1llm_1_1_multi_perspective_config_1a5beaa6da73e3868e27086ea9c277e173" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_config_1a5beaa6da73e3868e27086ea9c277e173" kindref="member">required_perspectives</ref>;<sp/></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Diversity<sp/>requirements</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1llm_1_1_multi_perspective_config_1a7908dc458242fa20d0a5b28583548704" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_config_1a7908dc458242fa20d0a5b28583548704" kindref="member">min_diversity_score</ref><sp/>=<sp/>0.6f;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1llm_1_1_multi_perspective_config_1a468216e673a69ae3b5d42f426755de11" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_config_1a468216e673a69ae3b5d42f426755de11" kindref="member">require_contrasting_views</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Synthesis<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1llm_1_1_multi_perspective_config_1aa9d8a8b995da2db84813cdada83ee58e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_config_1aa9d8a8b995da2db84813cdada83ee58e" kindref="member">enable_synthesis</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1llm_1_1_multi_perspective_config_1a010f73000724d342a4061016bb8f2eb9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_config_1a010f73000724d342a4061016bb8f2eb9" kindref="member">preserve_all_perspectives</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1llm_1_1_multi_perspective_config_1a1d232aa6225a04f435afabb4fc43870f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_config_1a1d232aa6225a04f435afabb4fc43870f" kindref="member">highlight_disagreements</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Integration<sp/>with<sp/>existing<sp/>systems</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1llm_1_1_multi_perspective_config_1a755bc3b0beef9b4ff70c096d8813a40f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_config_1a755bc3b0beef9b4ff70c096d8813a40f" kindref="member">use_ethical_guidelines_manager</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Performance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1llm_1_1_multi_perspective_config_1a8c9d2e83904e9d595d21db0667933e36" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_config_1a8c9d2e83904e9d595d21db0667933e36" kindref="member">cache_perspectives</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1llm_1_1_multi_perspective_config_1a1570827a237f49d12017a7003ce97482" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_config_1a1570827a237f49d12017a7003ce97482" kindref="member">max_cache_size</ref><sp/>=<sp/>500;</highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1llm_1_1_multi_perspective_config_1a1f2c3eb6a1c416afa0b70fb58f5f9e44" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_config_1a1f2c3eb6a1c416afa0b70fb58f5f9e44" kindref="member">async_generation</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="classthemis_1_1llm_1_1_multi_perspective_generator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_multi_perspective_generator_1a275694278baca5aff9e657cbf5bdacf6" kindref="member">MultiPerspectiveGenerator</ref><sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_multi_perspective_generator_1a275694278baca5aff9e657cbf5bdacf6" kindref="member">MultiPerspectiveGenerator</ref>(</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_config" kindref="compound">MultiPerspectiveConfig</ref>&amp;<sp/>config<sp/>=<sp/>{},</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_ethical_guidelines_manager" kindref="compound">EthicalGuidelinesManager</ref>*<sp/>guidelines_manager<sp/>=<sp/>nullptr</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105" refid="classthemis_1_1llm_1_1_multi_perspective_generator_1a96f0323535f742f808dae8c6ef5fb6aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_multi_perspective_generator_1a96f0323535f742f808dae8c6ef5fb6aa" kindref="member">~MultiPerspectiveGenerator</ref>();</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Core<sp/>functionality</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_result" kindref="compound">MultiPerspectiveResult</ref><sp/><ref refid="classthemis_1_1llm_1_1_multi_perspective_generator_1a83cbab7a929483c67a07306c858612c1" kindref="member">generatePerspectives</ref>(</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query,</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>llm_wrapper,<sp/><sp/></highlight><highlight class="comment">//<sp/>LlamaWrapper*<sp/>-<sp/>forward<sp/>declared</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>context<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_perspective_response" kindref="compound">PerspectiveResponse</ref><sp/><ref refid="classthemis_1_1llm_1_1_multi_perspective_generator_1ab3de22f95239f007f1de3eafc865244b" kindref="member">generateSinglePerspective</ref>(</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query,</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_ethical_perspective" kindref="compound">EthicalPerspective</ref>&amp;<sp/>perspective,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>llm_wrapper</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1_multi_perspective_generator_1a74aaa162b687161aa0c4661b7237c1a2" kindref="member">synthesizePerspectives</ref>(</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;PerspectiveResponse&gt;&amp;<sp/>perspectives,</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_multi_perspective_generator_1a1a3c72a9017163768e539e1c28e54654" kindref="member">requiresMultiPerspective</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;EthicalPerspective&gt;<sp/><ref refid="classthemis_1_1llm_1_1_multi_perspective_generator_1a87a2056f65aca49b8a07f8aeeed40a63" kindref="member">selectPerspectives</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_multi_perspective_generator_1a80439e203eeaf4dd75354711cd7a9a09" kindref="member">addPerspective</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_ethical_perspective" kindref="compound">EthicalPerspective</ref>&amp;<sp/>perspective);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_multi_perspective_generator_1a86185b7319b3c273ebd3fbde3cf6041d" kindref="member">removePerspective</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>perspective_id);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;EthicalPerspective&gt;<sp/><ref refid="classthemis_1_1llm_1_1_multi_perspective_generator_1a5c778661f5f3fd2f8dafac3c52a2dc1e" kindref="member">getAvailablePerspectives</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_multi_perspective_generator_1aba26d368a653f11da59536308189901a" kindref="member">loadDefaultPerspectives</ref>();</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_multi_perspective_generator_1ae9fa4634cf9a2804c466f00bb064563e" kindref="member">calculateDiversityScore</ref>(</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;PerspectiveResponse&gt;&amp;<sp/>perspectives</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1llm_1_1_multi_perspective_generator_1add66c6fb9f74f72be243ef22d3fca0a0" kindref="member">findCommonThemes</ref>(</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;PerspectiveResponse&gt;&amp;<sp/>perspectives</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1llm_1_1_multi_perspective_generator_1a2d915a2a511b304a18e173b9655bbb23" kindref="member">findDisagreements</ref>(</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;PerspectiveResponse&gt;&amp;<sp/>perspectives</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_multi_perspective_generator_1a986bc459c0f49985e7ebbcfa2ed704f2" kindref="member">setConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_config" kindref="compound">MultiPerspectiveConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_config" kindref="compound">MultiPerspectiveConfig</ref><sp/><ref refid="classthemis_1_1llm_1_1_multi_perspective_generator_1a5a14a5d38cd7b7de608baa890a9ddfb9" kindref="member">getConfig</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_multi_perspective_generator_1a44980b622ecba184478b3d20fa7fd184" kindref="member">setEthicalGuidelinesManager</ref>(<ref refid="classthemis_1_1llm_1_1_ethical_guidelines_manager" kindref="compound">EthicalGuidelinesManager</ref>*<sp/>manager);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_multi_perspective_generator_1a3db46b5d53ab1570b5ec9ce926eef939" kindref="member">clearCache</ref>();</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="235" refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_statistics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_statistics" kindref="compound">Statistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="236" refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_statistics_1a758a5beb577d1817dfd63ee5efe5121e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_statistics_1a758a5beb577d1817dfd63ee5efe5121e" kindref="member">total_generations</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="237" refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_statistics_1a0865178e425ad5c985ed8dd159cbfac3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_statistics_1a0865178e425ad5c985ed8dd159cbfac3" kindref="member">multi_perspective_generated</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="238" refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_statistics_1aae6eaa504e24e5a9840b4a3eb6867959" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_statistics_1aae6eaa504e24e5a9840b4a3eb6867959" kindref="member">cache_hits</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="239" refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_statistics_1a6077a3d61c48248b5449f8f473eb8b4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_statistics_1a6077a3d61c48248b5449f8f473eb8b4e" kindref="member">cache_misses</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Perspective<sp/>usage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242" refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_statistics_1a12ea1ee77f057e27f3d216f71fb9bc05" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>uint64_t&gt;<sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_statistics_1a12ea1ee77f057e27f3d216f71fb9bc05" kindref="member">perspective_usage</ref>;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Diversity<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245" refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_statistics_1af45438d8f6af9190103bde2499f2af57" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_statistics_1af45438d8f6af9190103bde2499f2af57" kindref="member">avg_diversity_score</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="246" refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_statistics_1aab9f6a09192c10f72bb6b043d7e7e993" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_statistics_1aab9f6a09192c10f72bb6b043d7e7e993" kindref="member">avg_perspectives_per_query</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Timing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249" refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_statistics_1aeeb0304be813b96e569bd2c4995466bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_generator_1_1_statistics_1aeeb0304be813b96e569bd2c4995466bd" kindref="member">avg_generation_time</ref>{0};</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>Statistics<sp/><ref refid="classthemis_1_1llm_1_1_multi_perspective_generator_1a46d7f3bf3d7acdc99c0a7364abd7e654" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_multi_perspective_generator_1ae773633afde37d5cbdb34de38489c720" kindref="member">resetStatistics</ref>();</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_multi_perspective_generator_1acd86cbf7511333ab754150c9ed965cb3" kindref="member">setGenerationCallback</ref>(</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_result" kindref="compound">MultiPerspectiveResult</ref>&amp;)&gt;<sp/>callback</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">Impl;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>buildPerspectivePrompt(</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query,</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_ethical_perspective" kindref="compound">EthicalPerspective</ref>&amp;<sp/>perspective</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>buildSynthesisPrompt(</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;PerspectiveResponse&gt;&amp;<sp/>perspectives,</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>detectEthicalQuery(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>extractKeyPoints(</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>response,</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_ethical_perspective" kindref="compound">EthicalPerspective</ref>&amp;<sp/>perspective</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updateStatistics(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_result" kindref="compound">MultiPerspectiveResult</ref>&amp;<sp/>result);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319" refid="classthemis_1_1llm_1_1_multi_perspective_generator_factory" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_multi_perspective_generator_factory" kindref="compound">MultiPerspectiveGeneratorFactory</ref><sp/>{</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;MultiPerspectiveGenerator&gt;<sp/><ref refid="classthemis_1_1llm_1_1_multi_perspective_generator_factory_1a679bc59deb2001c846027af62fb0d492" kindref="member">createDefault</ref>();</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;MultiPerspectiveGenerator&gt;<sp/><ref refid="classthemis_1_1llm_1_1_multi_perspective_generator_factory_1ad036739c830704938d342fdd2830fc05" kindref="member">createHighDiversity</ref>();</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;MultiPerspectiveGenerator&gt;<sp/><ref refid="classthemis_1_1llm_1_1_multi_perspective_generator_factory_1a132f12f8fbcee4dbf0b3715c9ad489c9" kindref="member">createWithPerspectives</ref>(</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>required_perspectives</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;MultiPerspectiveGenerator&gt;<sp/><ref refid="classthemis_1_1llm_1_1_multi_perspective_generator_factory_1aff214f98bc2041210bdb735e313eb5a3" kindref="member">create</ref>(</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_perspective_config" kindref="compound">MultiPerspectiveConfig</ref>&amp;<sp/>config</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="350"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/multi_perspective_generator.h"/>
+  </compounddef>
+</doxygen>

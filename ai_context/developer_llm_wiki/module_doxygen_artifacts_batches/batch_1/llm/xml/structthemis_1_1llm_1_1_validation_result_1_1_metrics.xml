@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_validation_result_1_1_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::ValidationResult::Metrics</compoundname>
+    <includes refid="llamacpp__inference__engine_8h" local="no">llamacpp_inference_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_validation_result_1_1_metrics_1abeac5e48b9cf8f92d69f6546da691576" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::ValidationResult::Metrics::token_count</definition>
+        <argsstring></argsstring>
+        <name>token_count</name>
+        <qualifiedname>themis::llm::ValidationResult::Metrics::token_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_inference_engine.h" line="30" column="13" bodyfile="include/llm/llamacpp_inference_engine.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_validation_result_1_1_metrics_1ae93146c13fda901109aa31589a0b6b35" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::ValidationResult::Metrics::word_count</definition>
+        <argsstring></argsstring>
+        <name>word_count</name>
+        <qualifiedname>themis::llm::ValidationResult::Metrics::word_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_inference_engine.h" line="31" column="13" bodyfile="include/llm/llamacpp_inference_engine.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_validation_result_1_1_metrics_1ab54cbacea6ec6ba1dfb9bbe6baf120ad" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::ValidationResult::Metrics::char_count</definition>
+        <argsstring></argsstring>
+        <name>char_count</name>
+        <qualifiedname>themis::llm::ValidationResult::Metrics::char_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_inference_engine.h" line="32" column="13" bodyfile="include/llm/llamacpp_inference_engine.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_validation_result_1_1_metrics_1a240a9d672d6e046a9aeb2b8dd9a98ca7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::ValidationResult::Metrics::avg_word_length</definition>
+        <argsstring></argsstring>
+        <name>avg_word_length</name>
+        <qualifiedname>themis::llm::ValidationResult::Metrics::avg_word_length</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_inference_engine.h" line="33" column="16" bodyfile="include/llm/llamacpp_inference_engine.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_validation_result_1_1_metrics_1aaf53b260a482441dfadaed25a3b3d5f5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ValidationResult::Metrics::is_truncated</definition>
+        <argsstring></argsstring>
+        <name>is_truncated</name>
+        <qualifiedname>themis::llm::ValidationResult::Metrics::is_truncated</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_inference_engine.h" line="34" column="14" bodyfile="include/llm/llamacpp_inference_engine.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_validation_result_1_1_metrics_1acbd9df69d410e605631b194ec810a46c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ValidationResult::Metrics::is_utf8_valid</definition>
+        <argsstring></argsstring>
+        <name>is_utf8_valid</name>
+        <qualifiedname>themis::llm::ValidationResult::Metrics::is_utf8_valid</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_inference_engine.h" line="35" column="14" bodyfile="include/llm/llamacpp_inference_engine.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_validation_result_1_1_metrics_1a2d6e0ba1a0fbaf42a8cd109a3b24368e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::ValidationResult::Metrics::semantic_coherence</definition>
+        <argsstring></argsstring>
+        <name>semantic_coherence</name>
+        <qualifiedname>themis::llm::ValidationResult::Metrics::semantic_coherence</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_inference_engine.h" line="36" column="16" bodyfile="include/llm/llamacpp_inference_engine.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_validation_result_1_1_metrics_1a92a79e7d850d338ae5bdb6b45572e5d0" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::ValidationResult::Metrics::newline_count</definition>
+        <argsstring></argsstring>
+        <name>newline_count</name>
+        <qualifiedname>themis::llm::ValidationResult::Metrics::newline_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_inference_engine.h" line="37" column="13" bodyfile="include/llm/llamacpp_inference_engine.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_validation_result_1_1_metrics_1ab2f74958eb7c1ee587d994ac50bf79c3" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::ValidationResult::Metrics::sentence_count</definition>
+        <argsstring></argsstring>
+        <name>sentence_count</name>
+        <qualifiedname>themis::llm::ValidationResult::Metrics::sentence_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_inference_engine.h" line="38" column="13" bodyfile="include/llm/llamacpp_inference_engine.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llamacpp_inference_engine.h" line="29" column="5" bodyfile="include/llm/llamacpp_inference_engine.h" bodystart="29" bodyend="39"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_validation_result_1_1_metrics_1a240a9d672d6e046a9aeb2b8dd9a98ca7" prot="public" virt="non-virtual"><scope>themis::llm::ValidationResult::Metrics</scope><name>avg_word_length</name></member>
+      <member refid="structthemis_1_1llm_1_1_validation_result_1_1_metrics_1ab54cbacea6ec6ba1dfb9bbe6baf120ad" prot="public" virt="non-virtual"><scope>themis::llm::ValidationResult::Metrics</scope><name>char_count</name></member>
+      <member refid="structthemis_1_1llm_1_1_validation_result_1_1_metrics_1aaf53b260a482441dfadaed25a3b3d5f5" prot="public" virt="non-virtual"><scope>themis::llm::ValidationResult::Metrics</scope><name>is_truncated</name></member>
+      <member refid="structthemis_1_1llm_1_1_validation_result_1_1_metrics_1acbd9df69d410e605631b194ec810a46c" prot="public" virt="non-virtual"><scope>themis::llm::ValidationResult::Metrics</scope><name>is_utf8_valid</name></member>
+      <member refid="structthemis_1_1llm_1_1_validation_result_1_1_metrics_1a92a79e7d850d338ae5bdb6b45572e5d0" prot="public" virt="non-virtual"><scope>themis::llm::ValidationResult::Metrics</scope><name>newline_count</name></member>
+      <member refid="structthemis_1_1llm_1_1_validation_result_1_1_metrics_1a2d6e0ba1a0fbaf42a8cd109a3b24368e" prot="public" virt="non-virtual"><scope>themis::llm::ValidationResult::Metrics</scope><name>semantic_coherence</name></member>
+      <member refid="structthemis_1_1llm_1_1_validation_result_1_1_metrics_1ab2f74958eb7c1ee587d994ac50bf79c3" prot="public" virt="non-virtual"><scope>themis::llm::ValidationResult::Metrics</scope><name>sentence_count</name></member>
+      <member refid="structthemis_1_1llm_1_1_validation_result_1_1_metrics_1abeac5e48b9cf8f92d69f6546da691576" prot="public" virt="non-virtual"><scope>themis::llm::ValidationResult::Metrics</scope><name>token_count</name></member>
+      <member refid="structthemis_1_1llm_1_1_validation_result_1_1_metrics_1ae93146c13fda901109aa31589a0b6b35" prot="public" virt="non-virtual"><scope>themis::llm::ValidationResult::Metrics</scope><name>word_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

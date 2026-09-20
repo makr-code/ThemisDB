@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1exporters_1_1_arrow_i_p_c_export_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::exporters::ArrowIPCExportConfig</compoundname>
+    <includes refid="arrow__ipc__exporter_8h" local="no">arrow_ipc_exporter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_arrow_i_p_c_export_config_1a2cb084d69a10eb1c88f1ff61122ac7cd" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1exporters_1aeb2e7032d8f3f5b5d1e915d8afc65fce" kindref="member">ArrowIPCFormat</ref></type>
+        <definition>ArrowIPCFormat themis::exporters::ArrowIPCExportConfig::format</definition>
+        <argsstring></argsstring>
+        <name>format</name>
+        <qualifiedname>themis::exporters::ArrowIPCExportConfig::format</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1exporters_1aeb2e7032d8f3f5b5d1e915d8afc65fcea9fc5887c030f7a3e19821ebec457e719" kindref="member">ArrowIPCFormat::FILE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/arrow_ipc_exporter.h" line="31" column="20" bodyfile="include/exporters/arrow_ipc_exporter.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_arrow_i_p_c_export_config_1a56e74315466bab177be4a22c4f70daf3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::exporters::ArrowIPCExportConfig::auto_detect_schema</definition>
+        <argsstring></argsstring>
+        <name>auto_detect_schema</name>
+        <qualifiedname>themis::exporters::ArrowIPCExportConfig::auto_detect_schema</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/arrow_ipc_exporter.h" line="33" column="10" bodyfile="include/exporters/arrow_ipc_exporter.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_arrow_i_p_c_export_config_1a7395cbdf3a4b3fe487fefc05f37ae632" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::exporters::ArrowIPCExportConfig::include_columns</definition>
+        <argsstring></argsstring>
+        <name>include_columns</name>
+        <qualifiedname>themis::exporters::ArrowIPCExportConfig::include_columns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/arrow_ipc_exporter.h" line="35" column="17" bodyfile="include/exporters/arrow_ipc_exporter.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_arrow_i_p_c_export_config_1adee31f71bcd22232336e3ed5a6763867" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::exporters::ArrowIPCExportConfig::exclude_columns</definition>
+        <argsstring></argsstring>
+        <name>exclude_columns</name>
+        <qualifiedname>themis::exporters::ArrowIPCExportConfig::exclude_columns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/arrow_ipc_exporter.h" line="37" column="17" bodyfile="include/exporters/arrow_ipc_exporter.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_arrow_i_p_c_export_config_1a6cadb9e0138a324678c7bb7cc65c93bb" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::exporters::ArrowIPCExportConfig::schema_metadata</definition>
+        <argsstring></argsstring>
+        <name>schema_metadata</name>
+        <qualifiedname>themis::exporters::ArrowIPCExportConfig::schema_metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/arrow_ipc_exporter.h" line="39" column="14" bodyfile="include/exporters/arrow_ipc_exporter.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_arrow_i_p_c_export_config_1af6b38680050529122a04dd4e18d48c83" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::exporters::ArrowIPCExportConfig::track_nulls</definition>
+        <argsstring></argsstring>
+        <name>track_nulls</name>
+        <qualifiedname>themis::exporters::ArrowIPCExportConfig::track_nulls</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/arrow_ipc_exporter.h" line="41" column="10" bodyfile="include/exporters/arrow_ipc_exporter.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/exporters/arrow_ipc_exporter.h" line="30" column="1" bodyfile="include/exporters/arrow_ipc_exporter.h" bodystart="30" bodyend="42"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1exporters_1_1_arrow_i_p_c_export_config_1a56e74315466bab177be4a22c4f70daf3" prot="public" virt="non-virtual"><scope>themis::exporters::ArrowIPCExportConfig</scope><name>auto_detect_schema</name></member>
+      <member refid="structthemis_1_1exporters_1_1_arrow_i_p_c_export_config_1adee31f71bcd22232336e3ed5a6763867" prot="public" virt="non-virtual"><scope>themis::exporters::ArrowIPCExportConfig</scope><name>exclude_columns</name></member>
+      <member refid="structthemis_1_1exporters_1_1_arrow_i_p_c_export_config_1a2cb084d69a10eb1c88f1ff61122ac7cd" prot="public" virt="non-virtual"><scope>themis::exporters::ArrowIPCExportConfig</scope><name>format</name></member>
+      <member refid="structthemis_1_1exporters_1_1_arrow_i_p_c_export_config_1a7395cbdf3a4b3fe487fefc05f37ae632" prot="public" virt="non-virtual"><scope>themis::exporters::ArrowIPCExportConfig</scope><name>include_columns</name></member>
+      <member refid="structthemis_1_1exporters_1_1_arrow_i_p_c_export_config_1a6cadb9e0138a324678c7bb7cc65c93bb" prot="public" virt="non-virtual"><scope>themis::exporters::ArrowIPCExportConfig</scope><name>schema_metadata</name></member>
+      <member refid="structthemis_1_1exporters_1_1_arrow_i_p_c_export_config_1af6b38680050529122a04dd4e18d48c83" prot="public" virt="non-virtual"><scope>themis::exporters::ArrowIPCExportConfig</scope><name>track_nulls</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

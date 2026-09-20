@@ -1,0 +1,649 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__converged__chaos_8cpp" kind="file" language="C++">
+    <compoundname>test_converged_chaos.cpp</compoundname>
+    <includes refid="dual__consensus__orchestrator_8h" local="yes">sharding/dual_consensus_orchestrator.h</includes>
+    <includes refid="raid__paxos__consensus_8h" local="yes">sharding/raid_paxos_consensus.h</includes>
+    <includes refid="converged__slo__metrics_8h" local="yes">sharding/converged_slo_metrics.h</includes>
+    <includes local="yes">gtest/gtest.h</includes>
+    <includes local="yes">gmock/gmock.h</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">string</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">atomic</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>sharding/consensus_module.h</label>
+        <link refid="consensus__module_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>sharding/converged_slo_metrics.h</label>
+        <link refid="converged__slo__metrics_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sharding/dual_consensus_orchestrator.h</label>
+        <link refid="dual__consensus__orchestrator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>sharding/paxos_consensus.h</label>
+        <link refid="paxos__consensus_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>sharding/raid_paxos_config.h</label>
+        <link refid="raid__paxos__config_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>sharding/raid_paxos_consensus.h</label>
+        <link refid="raid__paxos__consensus_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>sharding/wal_manager.h</label>
+        <link refid="wal__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/sharding/test_converged_chaos.cpp</label>
+        <link refid="test__converged__chaos_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>atomic</label>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="21">
+        <label>condition_variable</label>
+      </node>
+      <node id="18">
+        <label>cstdint</label>
+      </node>
+      <node id="17">
+        <label>filesystem</label>
+      </node>
+      <node id="16">
+        <label>fstream</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="26">
+        <label>gmock/gmock.h</label>
+      </node>
+      <node id="25">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="19">
+        <label>map</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="15">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="20">
+        <label>set</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="22">
+        <label>thread</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_converged_chaos_test" prot="public">themisdb::sharding::ConvergedChaosTest</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module" prot="protected">themisdb::sharding::ConvergedChaosTest::MockConsensusModule</innerclass>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1sharding">themisdb::sharding</innernamespace>
+    <briefdescription>
+<para>Chaos engineering tests for Converged Storage-Inference topology. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY | Score: 95/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Tests unique failure scenarios: cross-shard KV-stale, inference-preemption </para>
+</simplesect>
+<simplesect kind="note"><para>Part of RAID-Sharding research: THEMIS_RAID_SHARDING_EVALUATION_AND_RISK.md </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Copyright<sp/>2025<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Licensed<sp/>under<sp/>MIT<sp/>License</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="dual__consensus__orchestrator_8h" kindref="compound">sharding/dual_consensus_orchestrator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="raid__paxos__consensus_8h" kindref="compound">sharding/raid_paxos_consensus.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="converged__slo__metrics_8h" kindref="compound">sharding/converged_slo_metrics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gtest/gtest.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gmock/gmock.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb" kindref="compound">themisdb</ref><sp/>{<sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding" kindref="compound">sharding</ref><sp/>{<sp/></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="classthemisdb_1_1sharding_1_1_converged_chaos_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test" kindref="compound">ConvergedChaosTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1ac6ddea4eccdfec235b95746c94972af9" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>RAID-Paxos<sp/>for<sp/>storage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config" kindref="compound">RAIDPaxosConfig</ref><sp/>raid_config;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>raid_config.<ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1a29ff338f020e01e18dcb5cb241fbc6f4" kindref="member">raid_mode</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1sharding_1a606871bd0eb72f1264d3e7d107eb083ca72a92ae9c1d172cdda196686278fbfc6" kindref="member">RAIDMode::MIRROR</ref>;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>raid_config.<ref refid="structthemisdb_1_1sharding_1_1_r_a_i_d_paxos_config_1ae4b9ff71a729ea06068b7f269a89d346" kindref="member">mirror_factor</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1a7fdc26dacb00cd45ffe680bcfb8e2eba" kindref="member">storage_consensus_</ref><sp/>=<sp/>std::make_unique&lt;RAIDPaxosConsensus&gt;(raid_config);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>Raft<sp/>for<sp/>cache<sp/>(using<sp/>mock<sp/>for<sp/>simplicity)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1a0a71b9e1c85bd8115ae296fb262cefec" kindref="member">cache_consensus_</ref><sp/>=<sp/>std::make_unique&lt;testing::NiceMock&lt;MockConsensusModule&gt;&gt;();</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>Dual-Consensus<sp/>Orchestrator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1af46c6c04915c04354043e273b0effe84" kindref="member">orchestrator_</ref><sp/>=<sp/>std::make_unique&lt;DualConsensusOrchestrator&gt;(</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::move(<ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1a7fdc26dacb00cd45ffe680bcfb8e2eba" kindref="member">storage_consensus_</ref>),</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::move(<ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1a0a71b9e1c85bd8115ae296fb262cefec" kindref="member">cache_consensus_</ref>)</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialize</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>nodes<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;node-2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;node-3&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1af46c6c04915c04354043e273b0effe84" kindref="member">orchestrator_</ref>-&gt;initialize(</highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">,<sp/>nodes);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1af46c6c04915c04354043e273b0effe84" kindref="member">orchestrator_</ref>-&gt;start();</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>SLO<sp/>Monitor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_monitor_1_1_config" kindref="compound">ConvergedSLOMonitor::Config</ref><sp/>slo_config;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1a95729e7cfe7ceff9995ac4228ce007b2" kindref="member">slo_monitor_</ref><sp/>=<sp/>std::make_unique&lt;ConvergedSLOMonitor&gt;(slo_config);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1a01bfd40f5b21c6ba90688da8ea246666" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1af46c6c04915c04354043e273b0effe84" kindref="member">orchestrator_</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1af46c6c04915c04354043e273b0effe84" kindref="member">orchestrator_</ref>-&gt;stop();</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1a95729e7cfe7ceff9995ac4228ce007b2" kindref="member">slo_monitor_</ref>.reset();</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mock<sp/>ConsensusModule<sp/>for<sp/>testing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module" kindref="compound">MockConsensusModule</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module" kindref="compound">ConsensusModule</ref><sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a285427346522722b1e157072ad7f3f02" kindref="member">MOCK_METHOD</ref>(<ref refid="namespacethemisdb_1_1sharding_1ac79adee074eab49343ada346bcc78dcf" kindref="member">ConsensusType</ref>,<sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a7072331bf9ce83ff94e404e752d0ffcb" kindref="member">getType</ref>,<sp/>(),<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a285427346522722b1e157072ad7f3f02" kindref="member">MOCK_METHOD</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">,<sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a83a2c537c9426f7ee018c5ab143b0ed7" kindref="member">initialize</ref>,<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;),<sp/>(</highlight><highlight class="keyword">override</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a285427346522722b1e157072ad7f3f02" kindref="member">MOCK_METHOD</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">,<sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a5851d5f141f85e31b42f5fc0370bf723" kindref="member">start</ref>,<sp/>(),<sp/>(</highlight><highlight class="keyword">override</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a285427346522722b1e157072ad7f3f02" kindref="member">MOCK_METHOD</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">,<sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1afbcf4f19b90bb6ada83b36ad470f4488" kindref="member">stop</ref>,<sp/>(),<sp/>(</highlight><highlight class="keyword">override</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a285427346522722b1e157072ad7f3f02" kindref="member">MOCK_METHOD</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">,<sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a383eaf86a69a5fc663436aaaa78aaea0" kindref="member">isLeader</ref>,<sp/>(),<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a285427346522722b1e157072ad7f3f02" kindref="member">MOCK_METHOD</ref>(std::string,<sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a3421abadc4205d3daaeaf86d964e40a1" kindref="member">getLeaderId</ref>,<sp/>(),<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a285427346522722b1e157072ad7f3f02" kindref="member">MOCK_METHOD</ref>(<ref refid="namespacethemisdb_1_1sharding_1a9316f2eccc539fa5ed381b18bfdf205f" kindref="member">ConsensusState</ref>,<sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1ae8b42fa6c903fab2751e5603a477a278" kindref="member">getState</ref>,<sp/>(),<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a285427346522722b1e157072ad7f3f02" kindref="member">MOCK_METHOD</ref>(std::optional&lt;uint64_t&gt;,<sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1adaf2b0f967c4c635d78c8123fefe80fc" kindref="member">propose</ref>,<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;),<sp/>(</highlight><highlight class="keyword">override</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a285427346522722b1e157072ad7f3f02" kindref="member">MOCK_METHOD</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">,<sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a2c9b5927f506d55d5f6482046e771a39" kindref="member">waitForCommit</ref>,<sp/>(uint64_t,<sp/>std::chrono::milliseconds),<sp/>(</highlight><highlight class="keyword">override</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a285427346522722b1e157072ad7f3f02" kindref="member">MOCK_METHOD</ref>(std::vector&lt;ConsensusLogEntry&gt;,<sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1adf94c2f9a7bba429c7d0faaaee55e763" kindref="member">readLog</ref>,<sp/>(uint64_t,<sp/>std::optional&lt;uint64_t&gt;),<sp/>(</highlight><highlight class="keyword">override</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a285427346522722b1e157072ad7f3f02" kindref="member">MOCK_METHOD</ref>(uint64_t,<sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1acd6b4da71aa70374b3780bc1d957eeef" kindref="member">getCommitIndex</ref>,<sp/>(),<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a285427346522722b1e157072ad7f3f02" kindref="member">MOCK_METHOD</ref>(uint64_t,<sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a9549840aa654b3d6858f12e42bd7ec7b" kindref="member">getLastLogIndex</ref>,<sp/>(),<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a285427346522722b1e157072ad7f3f02" kindref="member">MOCK_METHOD</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">,<sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1aa3f3baf10ca603e105ffd09038868d2a" kindref="member">addNode</ref>,<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;),<sp/>(</highlight><highlight class="keyword">override</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a285427346522722b1e157072ad7f3f02" kindref="member">MOCK_METHOD</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">,<sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a0912ec311abb7769bcda991c9d042179" kindref="member">removeNode</ref>,<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;),<sp/>(</highlight><highlight class="keyword">override</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a285427346522722b1e157072ad7f3f02" kindref="member">MOCK_METHOD</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">,<sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1ab5d1da4f19a6f003c8610833c6256413" kindref="member">transferLeadership</ref>,<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;),<sp/>(</highlight><highlight class="keyword">override</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a285427346522722b1e157072ad7f3f02" kindref="member">MOCK_METHOD</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">,<sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1aa6787d6aba6ba9b5d1c605ff8bf49b8f" kindref="member">takeSnapshot</ref>,<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;),<sp/>(</highlight><highlight class="keyword">override</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a285427346522722b1e157072ad7f3f02" kindref="member">MOCK_METHOD</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">,<sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a1fcfa30acb35b9d6976c4d880327d370" kindref="member">restoreSnapshot</ref>,<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;),<sp/>(</highlight><highlight class="keyword">override</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a285427346522722b1e157072ad7f3f02" kindref="member">MOCK_METHOD</ref>(<ref refid="structthemisdb_1_1sharding_1_1_consensus_stats" kindref="compound">ConsensusStats</ref>,<sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1abbbbcfd0623ef2d7f77240a55663c1f3" kindref="member">getStats</ref>,<sp/>(),<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a285427346522722b1e157072ad7f3f02" kindref="member">MOCK_METHOD</ref>(nlohmann::json,<sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a872896a5ebf381b720a88448d0a31e07" kindref="member">getStatus</ref>,<sp/>(),<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a285427346522722b1e157072ad7f3f02" kindref="member">MOCK_METHOD</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">,<sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1aa6d7a8f5129bf1b2cc98a240537a0884" kindref="member">onCommit</ref>,<sp/>(std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_consensus_log_entry" kindref="compound">ConsensusLogEntry</ref>&amp;)&gt;),<sp/>(</highlight><highlight class="keyword">override</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a285427346522722b1e157072ad7f3f02" kindref="member">MOCK_METHOD</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">,<sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1aee56e58061ad88aa336bc576227c62e1" kindref="member">onStateChange</ref>,<sp/>(std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(<ref refid="namespacethemisdb_1_1sharding_1a9316f2eccc539fa5ed381b18bfdf205f" kindref="member">ConsensusState</ref>,<sp/><ref refid="namespacethemisdb_1_1sharding_1a9316f2eccc539fa5ed381b18bfdf205f" kindref="member">ConsensusState</ref>)&gt;),<sp/>(</highlight><highlight class="keyword">override</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1_1_mock_consensus_module_1a285427346522722b1e157072ad7f3f02" kindref="member">MOCK_METHOD</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">,<sp/><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1af4e15a033c7c2064dfe930b0972406fd" kindref="member">onLeaderChange</ref>,<sp/>(std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;),<sp/>(</highlight><highlight class="keyword">override</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;DualConsensusOrchestrator&gt;<sp/><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1af46c6c04915c04354043e273b0effe84" kindref="member">orchestrator_</ref>;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;ConvergedSLOMonitor&gt;<sp/><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1a95729e7cfe7ceff9995ac4228ce007b2" kindref="member">slo_monitor_</ref>;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;ConsensusModule&gt;<sp/><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1a7fdc26dacb00cd45ffe680bcfb8e2eba" kindref="member">storage_consensus_</ref>;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;ConsensusModule&gt;<sp/><ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test_1a0a71b9e1c85bd8115ae296fb262cefec" kindref="member">cache_consensus_</ref>;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Cross-Shard<sp/>KV-Stale<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test" kindref="compound">ConvergedChaosTest</ref>,<sp/>CrossShardKVStaleDetection)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>a<sp/>cross-shard<sp/>KV-stale<sp/>scenario</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>happens<sp/>when<sp/>different<sp/>shards<sp/>have<sp/>different<sp/>versions<sp/>of<sp/>the<sp/>same<sp/>KV<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>a<sp/>KV-stale<sp/>error<sp/>in<sp/>SLO<sp/>monitor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>slo_monitor_-&gt;recordCrossShardKVStale(</highlight><highlight class="stringliteral">&quot;shard-1&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>105);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>error<sp/>was<sp/>recorded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>metrics<sp/>=<sp/>slo_monitor_-&gt;getCurrentMetrics();</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.cross_shard_kv_stale.load(),<sp/>1);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>error<sp/>rate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(slo_monitor_-&gt;getErrorBudgetRemaining(),<sp/>0.0);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(slo_monitor_-&gt;getErrorBudgetRemaining(),<sp/>1.0);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(ConvergedChaosTest,<sp/>MultipleCrossShardKVStale)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>multiple<sp/>KV-stale<sp/>errors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>slo_monitor_-&gt;recordCrossShardKVStale(</highlight><highlight class="stringliteral">&quot;shard-1&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>105);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>slo_monitor_-&gt;recordCrossShardKVStale(</highlight><highlight class="stringliteral">&quot;shard-2&quot;</highlight><highlight class="normal">,<sp/>200,<sp/>208);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>slo_monitor_-&gt;recordCrossShardKVStale(</highlight><highlight class="stringliteral">&quot;shard-3&quot;</highlight><highlight class="normal">,<sp/>300,<sp/>310);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>metrics<sp/>=<sp/>slo_monitor_-&gt;getCurrentMetrics();</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.cross_shard_kv_stale.load(),<sp/>3);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>error<sp/>rate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(metrics.getErrorRate(<ref refid="namespacethemisdb_1_1sharding_1ac46e7e08d4fe1244404757999de16da1a0ae4ce662bc01fa7e865e7b6e57b7aea" kindref="member">ConvergedErrorType::CROSS_SHARD_KV_STALE</ref>),<sp/>0.0);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Inference-Preemption<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(ConvergedChaosTest,<sp/>InferencePreemptionRecording)<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>inference<sp/>preemption<sp/>after<sp/>generating<sp/>some<sp/>tokens</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>slo_monitor_-&gt;recordInferencePreemption(50,<sp/>10);<sp/><sp/></highlight><highlight class="comment">//<sp/>50<sp/>tokens<sp/>generated,<sp/>10<sp/>lost</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>metrics<sp/>=<sp/>slo_monitor_-&gt;getCurrentMetrics();</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.inference_preemption.load(),<sp/>1);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.total_tokens_generated.load(),<sp/>50);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test" kindref="compound">ConvergedChaosTest</ref>,<sp/>MultipleInferencePreemptions)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>multiple<sp/>preemptions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>slo_monitor_-&gt;recordInferencePreemption(50,<sp/>10);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>slo_monitor_-&gt;recordInferencePreemption(100,<sp/>20);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>slo_monitor_-&gt;recordInferencePreemption(200,<sp/>50);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>metrics<sp/>=<sp/>slo_monitor_-&gt;getCurrentMetrics();</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.inference_preemption.load(),<sp/>3);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.total_tokens_generated.load(),<sp/>350);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Cross-Layer<sp/>Version<sp/>Mismatch<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test" kindref="compound">ConvergedChaosTest</ref>,<sp/>CrossLayerVersionMismatch)<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>version<sp/>mismatch<sp/>between<sp/>storage<sp/>and<sp/>cache<sp/>layers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_converged_operation_metrics" kindref="compound">ConvergedOperationMetrics</ref><sp/>metrics;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.<ref refid="structthemisdb_1_1sharding_1_1_converged_operation_metrics_1a442736a19ce38eee94f78817ca8742fa" kindref="member">operation_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;op-1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.operation_type<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.storage_version<sp/>=<sp/>105;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.cache_version<sp/>=<sp/>100;<sp/><sp/></highlight><highlight class="comment">//<sp/>Cache<sp/>is<sp/>behind</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.merged_version<sp/>=<sp/>105;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.version_spread<sp/>=<sp/>5.0;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.cross_layer_consistent<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Version<sp/>mismatch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.cross_shard_consistent<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.success<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Operation<sp/>succeeded<sp/>but<sp/>with<sp/>inconsistency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>slo_monitor_-&gt;recordOperation(metrics);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>current<sp/>=<sp/>slo_monitor_-&gt;getCurrentMetrics();</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(current.total_operations.load(),<sp/>1);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(current.inconsistent_operations.load(),<sp/>1);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(current.max_version_spread.load(),<sp/>5.0);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SLO<sp/>Compliance<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test" kindref="compound">ConvergedChaosTest</ref>,<sp/>SLOComplianceReport)<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>various<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>slo_monitor_-&gt;recordCrossShardKVStale(</highlight><highlight class="stringliteral">&quot;shard-1&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>105);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>slo_monitor_-&gt;recordInferencePreemption(50,<sp/>10);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>successful<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_converged_operation_metrics" kindref="compound">ConvergedOperationMetrics</ref><sp/>metrics;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.<ref refid="structthemisdb_1_1sharding_1_1_converged_operation_metrics_1a442736a19ce38eee94f78817ca8742fa" kindref="member">operation_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;op-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.operation_type<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.success<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.cross_layer_consistent<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.cross_shard_consistent<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.grounding_auditable<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>slo_monitor_-&gt;recordOperation(metrics);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>SLO<sp/>report</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>report<sp/>=<sp/>slo_monitor_-&gt;getSLOReport();</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>report<sp/>structure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(report.contains(</highlight><highlight class="stringliteral">&quot;slo_compliance&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(report.contains(</highlight><highlight class="stringliteral">&quot;current_metrics&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(report.contains(</highlight><highlight class="stringliteral">&quot;targets&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(report.contains(</highlight><highlight class="stringliteral">&quot;error_budget&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>SLO<sp/>compliance<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>compliance<sp/>=<sp/>report[</highlight><highlight class="stringliteral">&quot;slo_compliance&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(compliance.contains(</highlight><highlight class="stringliteral">&quot;system_available&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(compliance.contains(</highlight><highlight class="stringliteral">&quot;cross_shard_consistent&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(compliance.contains(</highlight><highlight class="stringliteral">&quot;inference_preemption_ok&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(compliance.contains(</highlight><highlight class="stringliteral">&quot;grounding_audit_ok&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(compliance.contains(</highlight><highlight class="stringliteral">&quot;overall_slo_met&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="215"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test" kindref="compound">ConvergedChaosTest</ref>,<sp/>SLOComplianceInitiallyMet)<sp/>{</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>With<sp/>no<sp/>errors,<sp/>SLO<sp/>should<sp/>be<sp/>met</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(slo_monitor_-&gt;isSLOMet());</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>report<sp/>=<sp/>slo_monitor_-&gt;getSLOReport();</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(report[</highlight><highlight class="stringliteral">&quot;slo_compliance&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;overall_slo_met&quot;</highlight><highlight class="normal">].get&lt;bool&gt;());</highlight></codeline>
+<codeline lineno="223"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Error<sp/>Budget<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test" kindref="compound">ConvergedChaosTest</ref>,<sp/>ErrorBudgetCalculation)<sp/>{</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initially,<sp/>error<sp/>budget<sp/>should<sp/>be<sp/>1.0<sp/>(100%)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(slo_monitor_-&gt;getErrorBudgetRemaining(),<sp/>1.0);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>some<sp/>failures<sp/>to<sp/>consume<sp/>error<sp/>budget</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>slo_monitor_-&gt;recordError(<ref refid="namespacethemisdb_1_1sharding_1ac46e7e08d4fe1244404757999de16da1a0ae4ce662bc01fa7e865e7b6e57b7aea" kindref="member">ConvergedErrorType::CROSS_SHARD_KV_STALE</ref>);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Error<sp/>budget<sp/>should<sp/>still<sp/>be<sp/>close<sp/>to<sp/>1.0<sp/>(depending<sp/>on<sp/>target)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>default<sp/>target<sp/>is<sp/>99.9%<sp/>availability,<sp/>so<sp/>10<sp/>failures<sp/>out<sp/>of<sp/>10<sp/>total</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>means<sp/>0%<sp/>availability,<sp/>which<sp/>consumes<sp/>the<sp/>budget</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>current<sp/>=<sp/>slo_monitor_-&gt;getCurrentMetrics();</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>availability<sp/>=<sp/>current.getAvailability();</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>With<sp/>10<sp/>failures<sp/>and<sp/>10<sp/>total,<sp/>availability<sp/>is<sp/>0%</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(availability,<sp/>0.0);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Error<sp/>budget<sp/>should<sp/>be<sp/>0<sp/>(all<sp/>consumed)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(slo_monitor_-&gt;getErrorBudgetRemaining(),<sp/>0.0);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Grounding<sp/>Audit<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test" kindref="compound">ConvergedChaosTest</ref>,<sp/>GroundingAuditCoverage)<sp/>{</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>operations<sp/>with<sp/>grounding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_converged_operation_metrics" kindref="compound">ConvergedOperationMetrics</ref><sp/>metrics;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.<ref refid="structthemisdb_1_1sharding_1_1_converged_operation_metrics_1a442736a19ce38eee94f78817ca8742fa" kindref="member">operation_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;op-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.operation_type<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;rag&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.success<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.grounding_auditable<sp/>=<sp/>(i<sp/>%<sp/>10<sp/>!=<sp/>0);<sp/><sp/></highlight><highlight class="comment">//<sp/>90%<sp/>auditable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.source_references<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;source-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)};</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>slo_monitor_-&gt;recordOperation(metrics);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>current<sp/>=<sp/>slo_monitor_-&gt;getCurrentMetrics();</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(current.auditable_operations.load(),<sp/>90);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(current.non_auditable_operations.load(),<sp/>10);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Coverage<sp/>should<sp/>be<sp/>90%</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(current.getGroundingAuditCoverage(),<sp/>0.9,<sp/>0.01);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test" kindref="compound">ConvergedChaosTest</ref>,<sp/>GroundingAuditFailure)<sp/>{</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>a<sp/>grounding<sp/>audit<sp/>failure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_converged_operation_metrics" kindref="compound">ConvergedOperationMetrics</ref><sp/>metrics;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.<ref refid="structthemisdb_1_1sharding_1_1_converged_operation_metrics_1a442736a19ce38eee94f78817ca8742fa" kindref="member">operation_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;op-audit-fail&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.operation_type<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;rag&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.error_type<sp/>=<sp/><ref refid="namespacethemisdb_1_1sharding_1ac46e7e08d4fe1244404757999de16da1abb9e892edabb717405939760d7ef6a81" kindref="member">ConvergedErrorType::GROUNDING_AUDIT_FAILED</ref>;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.error_message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>verify<sp/>source<sp/>references&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.success<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.grounding_auditable<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>slo_monitor_-&gt;recordOperation(metrics);</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>current<sp/>=<sp/>slo_monitor_-&gt;getCurrentMetrics();</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(current.grounding_audit_failed.load(),<sp/>1);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(current.non_auditable_operations.load(),<sp/>1);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Consistency<sp/>Ratio<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test" kindref="compound">ConvergedChaosTest</ref>,<sp/>ConsistencyRatioCalculation)<sp/>{</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>mix<sp/>of<sp/>consistent<sp/>and<sp/>inconsistent<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>90;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_converged_operation_metrics" kindref="compound">ConvergedOperationMetrics</ref><sp/>metrics;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.<ref refid="structthemisdb_1_1sharding_1_1_converged_operation_metrics_1a442736a19ce38eee94f78817ca8742fa" kindref="member">operation_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;op-consistent-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.operation_type<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.success<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.cross_layer_consistent<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.cross_shard_consistent<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>slo_monitor_-&gt;recordOperation(metrics);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_converged_operation_metrics" kindref="compound">ConvergedOperationMetrics</ref><sp/>metrics;</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.<ref refid="structthemisdb_1_1sharding_1_1_converged_operation_metrics_1a442736a19ce38eee94f78817ca8742fa" kindref="member">operation_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;op-inconsistent-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.operation_type<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.success<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.cross_layer_consistent<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.cross_shard_consistent<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>slo_monitor_-&gt;recordOperation(metrics);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>current<sp/>=<sp/>slo_monitor_-&gt;getCurrentMetrics();</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(current.getConsistencyRatio(),<sp/>0.9,<sp/>0.01);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Reset<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test" kindref="compound">ConvergedChaosTest</ref>,<sp/>ResetClearsAllMetrics)<sp/>{</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>various<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>slo_monitor_-&gt;recordCrossShardKVStale(</highlight><highlight class="stringliteral">&quot;shard-1&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>105);</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>slo_monitor_-&gt;recordInferencePreemption(50,<sp/>10);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>slo_monitor_-&gt;recordError(<ref refid="namespacethemisdb_1_1sharding_1ac46e7e08d4fe1244404757999de16da1abb9e892edabb717405939760d7ef6a81" kindref="member">ConvergedErrorType::GROUNDING_AUDIT_FAILED</ref>);</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_converged_operation_metrics" kindref="compound">ConvergedOperationMetrics</ref><sp/>metrics;</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.<ref refid="structthemisdb_1_1sharding_1_1_converged_operation_metrics_1a442736a19ce38eee94f78817ca8742fa" kindref="member">operation_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;op-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.operation_type<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.success<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>slo_monitor_-&gt;recordOperation(metrics);</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>metrics<sp/>are<sp/>non-zero</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>before<sp/>=<sp/>slo_monitor_-&gt;getCurrentMetrics();</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(before.total_operations.load(),<sp/>0);</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(before.cross_shard_kv_stale.load(),<sp/>0);</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reset</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>slo_monitor_-&gt;reset();</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>metrics<sp/>are<sp/>zero</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>after<sp/>=<sp/>slo_monitor_-&gt;getCurrentMetrics();</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(after.total_operations.load(),<sp/>0);</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(after.cross_shard_kv_stale.load(),<sp/>0);</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(after.inference_preemption.load(),<sp/>0);</highlight></codeline>
+<codeline lineno="354"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ConvergedErrorType<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test" kindref="compound">ConvergedChaosTest</ref>,<sp/>ConvergedErrorTypeValues)<sp/>{</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemisdb_1_1sharding_1ac46e7e08d4fe1244404757999de16da1ab50339a10e1de285ac99d4c3990b8693" kindref="member">ConvergedErrorType::NONE</ref>),<sp/>0);</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemisdb_1_1sharding_1ac46e7e08d4fe1244404757999de16da1a5c8e0b5fa4ac139645dc468a6a4991e3" kindref="member">ConvergedErrorType::CROSS_LAYER_VERSION_MISMATCH</ref>),<sp/>1);</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemisdb_1_1sharding_1ac46e7e08d4fe1244404757999de16da1ae9cc2575c59c7822757287bb40dea443" kindref="member">ConvergedErrorType::CROSS_LAYER_CONSENSUS_FAILED</ref>),<sp/>2);</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemisdb_1_1sharding_1ac46e7e08d4fe1244404757999de16da1a30dd21dfaeafaf3b3013fb572be1b11f" kindref="member">ConvergedErrorType::CROSS_LAYER_SYNC_TIMEOUT</ref>),<sp/>3);</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemisdb_1_1sharding_1ac46e7e08d4fe1244404757999de16da1a0ae4ce662bc01fa7e865e7b6e57b7aea" kindref="member">ConvergedErrorType::CROSS_SHARD_KV_STALE</ref>),<sp/>10);</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemisdb_1_1sharding_1ac46e7e08d4fe1244404757999de16da1a5b247a8b1fcdd87b180dfbcee1d56beb" kindref="member">ConvergedErrorType::CROSS_SHARD_INCONSISTENT_READ</ref>),<sp/>11);</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemisdb_1_1sharding_1ac46e7e08d4fe1244404757999de16da1a10285028ba7de4d1bcebaac076a7bd96" kindref="member">ConvergedErrorType::CROSS_SHARD_QUORUM_FAILED</ref>),<sp/>12);</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemisdb_1_1sharding_1ac46e7e08d4fe1244404757999de16da1a037ae53ba0c7deeb5da1ebfb5d3ad62e" kindref="member">ConvergedErrorType::INFERENCE_PREMPTION</ref>),<sp/>20);</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemisdb_1_1sharding_1ac46e7e08d4fe1244404757999de16da1ab2ace4f6c16e976f454c428f39101da6" kindref="member">ConvergedErrorType::INFERENCE_TIMEOUT</ref>),<sp/>21);</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemisdb_1_1sharding_1ac46e7e08d4fe1244404757999de16da1ad64332d0bba44d852e84b494fa6dd682" kindref="member">ConvergedErrorType::INFERENCE_OOM</ref>),<sp/>22);</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemisdb_1_1sharding_1ac46e7e08d4fe1244404757999de16da1a456043cc9ca6747a588ec5a3f667a5c6" kindref="member">ConvergedErrorType::INFERENCE_GPU_ERROR</ref>),<sp/>23);</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemisdb_1_1sharding_1ac46e7e08d4fe1244404757999de16da1abb9e892edabb717405939760d7ef6a81" kindref="member">ConvergedErrorType::GROUNDING_AUDIT_FAILED</ref>),<sp/>30);</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemisdb_1_1sharding_1ac46e7e08d4fe1244404757999de16da1a3dad658b9723ba54cba94ff9f175e9ca" kindref="member">ConvergedErrorType::GROUNDING_VERSION_GAP</ref>),<sp/>31);</highlight></codeline>
+<codeline lineno="374"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ConvergedSLOTarget<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1ac7b60859b4037071bce55ba2db7446e5" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1sharding_1_1_converged_chaos_test" kindref="compound">ConvergedChaosTest</ref>,<sp/>ConvergedSLOTargetValues)<sp/>{</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_converged_s_l_o_target" kindref="compound">ConvergedSLOTarget</ref><sp/>targets;</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Availability<sp/>targets</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(targets.system_availability_target,<sp/>0.999);</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(targets.storage_layer_availability,<sp/>0.9999);</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(targets.cache_layer_availability,<sp/>0.999);</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(targets.inference_layer_availability,<sp/>0.99);</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Latency<sp/>targets</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(targets.cross_layer_sync_p50_ms,<sp/>50.0);</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(targets.cross_layer_sync_p99_ms,<sp/>200.0);</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(targets.inference_request_p99_ms,<sp/>1000.0);</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(targets.rag_generation_p99_ms,<sp/>2000.0);</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Consistency<sp/>targets</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(targets.max_storage_cache_lag_ms,<sp/>100.0);</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(targets.max_cache_storage_lag_ms,<sp/>500.0);</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(targets.cross_shard_consistency_target,<sp/>0.999);</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Grounding<sp/>targets</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(targets.grounding_audit_coverage_target,<sp/>1.0);</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Inference<sp/>preemption<sp/>targets</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(targets.max_inference_preemption_rate,<sp/>0.01);</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(targets.preemption_recovery_time_target_s,<sp/>2.0);</highlight></codeline>
+<codeline lineno="406"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="407"><highlight class="normal">}<sp/>}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb::sharding</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/sharding/test_converged_chaos.cpp"/>
+  </compounddef>
+</doxygen>

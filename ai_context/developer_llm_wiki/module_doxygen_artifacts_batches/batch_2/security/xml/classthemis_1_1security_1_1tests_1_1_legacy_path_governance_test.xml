@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1tests_1_1_legacy_path_governance_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::tests::LegacyPathGovernanceTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1tests_1_1_legacy_path_governance_test_1ab2d733319f7c9ea12e1bb5fdae212e0f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::tests::LegacyPathGovernanceTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::security::tests::LegacyPathGovernanceTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_hardening_fixes.cpp" line="259" column="10" bodyfile="tests/security/test_security_hardening_fixes.cpp" bodystart="259" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1tests_1_1_legacy_path_governance_test_1a4aae31d39b5cb171ff93361506e01b21" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::tests::LegacyPathGovernanceTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::security::tests::LegacyPathGovernanceTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_hardening_fixes.cpp" line="260" column="10" bodyfile="tests/security/test_security_hardening_fixes.cpp" bodystart="260" bodyend="260"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::security::tests::LegacyPathGovernanceTest</label>
+        <link refid="classthemis_1_1security_1_1tests_1_1_legacy_path_governance_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::security::tests::LegacyPathGovernanceTest</label>
+        <link refid="classthemis_1_1security_1_1tests_1_1_legacy_path_governance_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_security_hardening_fixes.cpp" line="257" column="1" bodyfile="tests/security/test_security_hardening_fixes.cpp" bodystart="257" bodyend="261"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1tests_1_1_legacy_path_governance_test_1ab2d733319f7c9ea12e1bb5fdae212e0f" prot="protected" virt="non-virtual"><scope>themis::security::tests::LegacyPathGovernanceTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1security_1_1tests_1_1_legacy_path_governance_test_1a4aae31d39b5cb171ff93361506e01b21" prot="protected" virt="non-virtual"><scope>themis::security::tests::LegacyPathGovernanceTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

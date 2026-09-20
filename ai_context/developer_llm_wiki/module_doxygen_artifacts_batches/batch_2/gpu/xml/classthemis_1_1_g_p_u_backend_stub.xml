@@ -1,0 +1,221 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_g_p_u_backend_stub" kind="class" language="C++" prot="public">
+    <compoundname>themis::GPUBackendStub</compoundname>
+    <basecompoundref refid="classthemis_1_1_g_p_u_backend" prot="public" virt="non-virtual">themis::GPUBackend</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_g_p_u_backend_stub_1a9b758f4f7c8ba636553a1c41d8f2d292" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1a6dbb458a3fefe2f4b6c91dfecca33cee" kindref="member">GPUBackendType</ref></type>
+        <definition>GPUBackendType themis::GPUBackendStub::type_</definition>
+        <argsstring></argsstring>
+        <name>type_</name>
+        <qualifiedname>themis::GPUBackendStub::type_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="141" column="20" bodyfile="tests/gpu/test_gpu_stubs_comprehensive.cpp" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_g_p_u_backend_stub_1ad1a34c5c446e7b2ebac5a7f2caf6d2b6" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::GPUBackendStub::available_</definition>
+        <argsstring></argsstring>
+        <name>available_</name>
+        <qualifiedname>themis::GPUBackendStub::available_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="142" column="10" bodyfile="tests/gpu/test_gpu_stubs_comprehensive.cpp" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_g_p_u_backend_stub_1af2401dbc284cbe82a93a9eaa43199890" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::GPUBackendStub::device_count_</definition>
+        <argsstring></argsstring>
+        <name>device_count_</name>
+        <qualifiedname>themis::GPUBackendStub::device_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="143" column="9" bodyfile="tests/gpu/test_gpu_stubs_comprehensive.cpp" bodystart="143" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_g_p_u_backend_stub_1a5542d2c98589089ade314764eb14d29f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::GPUBackendStub::GPUBackendStub</definition>
+        <argsstring>(GPUBackendType type, bool available=true, int device_count=1)</argsstring>
+        <name>GPUBackendStub</name>
+        <qualifiedname>themis::GPUBackendStub::GPUBackendStub</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1a6dbb458a3fefe2f4b6c91dfecca33cee" kindref="member">GPUBackendType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>available</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>device_count</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="146" column="5" bodyfile="tests/gpu/test_gpu_stubs_comprehensive.cpp" bodystart="146" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_p_u_backend_stub_1aca0a57e72a4f9d80a2d544485bc3d43e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1a6dbb458a3fefe2f4b6c91dfecca33cee" kindref="member">GPUBackendType</ref></type>
+        <definition>GPUBackendType themis::GPUBackendStub::getType</definition>
+        <argsstring>() const override</argsstring>
+        <name>getType</name>
+        <qualifiedname>themis::GPUBackendStub::getType</qualifiedname>
+        <reimplements refid="classthemis_1_1_g_p_u_backend_1ac62746e62df47187bcdb4fb03f243fcb">getType</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="149" column="20" bodyfile="tests/gpu/test_gpu_stubs_comprehensive.cpp" bodystart="149" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_p_u_backend_stub_1a47ef2e0fe1f50d8fabc846700fb316cd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::GPUBackendStub::isAvailable</definition>
+        <argsstring>() const override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::GPUBackendStub::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1_g_p_u_backend_1aa3f33c53f8c62d4d19f70106a63fd901">isAvailable</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="150" column="10" bodyfile="tests/gpu/test_gpu_stubs_comprehensive.cpp" bodystart="150" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_p_u_backend_stub_1aa37a60f1b9bfc46e17aff3e39ab01d4b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::GPUBackendStub::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::GPUBackendStub::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1_g_p_u_backend_1a0f158995d749dd32febaf60f8a57140b">getName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="152" column="17" bodyfile="tests/gpu/test_gpu_stubs_comprehensive.cpp" bodystart="152" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_p_u_backend_stub_1ac337a85980646aaf182315978f58e812" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>int</type>
+        <definition>int themis::GPUBackendStub::getDeviceCount</definition>
+        <argsstring>() const override</argsstring>
+        <name>getDeviceCount</name>
+        <qualifiedname>themis::GPUBackendStub::getDeviceCount</qualifiedname>
+        <reimplements refid="classthemis_1_1_g_p_u_backend_1af9c4ad0a8b40ac26e5f570dee2c3cc95">getDeviceCount</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="164" column="9" bodyfile="tests/gpu/test_gpu_stubs_comprehensive.cpp" bodystart="164" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_p_u_backend_stub_1a71c46778b81b84f6e856872df92a9b2e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::GPUBackendStub::setAvailable</definition>
+        <argsstring>(bool available)</argsstring>
+        <name>setAvailable</name>
+        <qualifiedname>themis::GPUBackendStub::setAvailable</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>available</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="166" column="10" bodyfile="tests/gpu/test_gpu_stubs_comprehensive.cpp" bodystart="166" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_p_u_backend_stub_1a3daa6ba3c0a19f3ac15f3db4a1811ffd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::GPUBackendStub::setDeviceCount</definition>
+        <argsstring>(int count)</argsstring>
+        <name>setDeviceCount</name>
+        <qualifiedname>themis::GPUBackendStub::setDeviceCount</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="167" column="10" bodyfile="tests/gpu/test_gpu_stubs_comprehensive.cpp" bodystart="167" bodyend="167"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::GPUBackend</label>
+        <link refid="classthemis_1_1_g_p_u_backend"/>
+      </node>
+      <node id="1">
+        <label>themis::GPUBackendStub</label>
+        <link refid="classthemis_1_1_g_p_u_backend_stub"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::GPUBackend</label>
+        <link refid="classthemis_1_1_g_p_u_backend"/>
+      </node>
+      <node id="1">
+        <label>themis::GPUBackendStub</label>
+        <link refid="classthemis_1_1_g_p_u_backend_stub"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="139" column="1" bodyfile="tests/gpu/test_gpu_stubs_comprehensive.cpp" bodystart="139" bodyend="168"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_g_p_u_backend_stub_1ad1a34c5c446e7b2ebac5a7f2caf6d2b6" prot="private" virt="non-virtual"><scope>themis::GPUBackendStub</scope><name>available_</name></member>
+      <member refid="classthemis_1_1_g_p_u_backend_stub_1af2401dbc284cbe82a93a9eaa43199890" prot="private" virt="non-virtual"><scope>themis::GPUBackendStub</scope><name>device_count_</name></member>
+      <member refid="classthemis_1_1_g_p_u_backend_stub_1ac337a85980646aaf182315978f58e812" prot="public" virt="virtual"><scope>themis::GPUBackendStub</scope><name>getDeviceCount</name></member>
+      <member refid="classthemis_1_1_g_p_u_backend_stub_1aa37a60f1b9bfc46e17aff3e39ab01d4b" prot="public" virt="virtual"><scope>themis::GPUBackendStub</scope><name>getName</name></member>
+      <member refid="classthemis_1_1_g_p_u_backend_stub_1aca0a57e72a4f9d80a2d544485bc3d43e" prot="public" virt="virtual"><scope>themis::GPUBackendStub</scope><name>getType</name></member>
+      <member refid="classthemis_1_1_g_p_u_backend_stub_1a5542d2c98589089ade314764eb14d29f" prot="public" virt="non-virtual"><scope>themis::GPUBackendStub</scope><name>GPUBackendStub</name></member>
+      <member refid="classthemis_1_1_g_p_u_backend_stub_1a47ef2e0fe1f50d8fabc846700fb316cd" prot="public" virt="virtual"><scope>themis::GPUBackendStub</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1_g_p_u_backend_stub_1a71c46778b81b84f6e856872df92a9b2e" prot="public" virt="non-virtual"><scope>themis::GPUBackendStub</scope><name>setAvailable</name></member>
+      <member refid="classthemis_1_1_g_p_u_backend_stub_1a3daa6ba3c0a19f3ac15f3db4a1811ffd" prot="public" virt="non-virtual"><scope>themis::GPUBackendStub</scope><name>setDeviceCount</name></member>
+      <member refid="classthemis_1_1_g_p_u_backend_stub_1a9b758f4f7c8ba636553a1c41d8f2d292" prot="private" virt="non-virtual"><scope>themis::GPUBackendStub</scope><name>type_</name></member>
+      <member refid="classthemis_1_1_g_p_u_backend_1ab5c1ad8a81f20f4e5c6e82ec727f525c" prot="public" virt="virtual"><scope>themis::GPUBackendStub</scope><name>~GPUBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

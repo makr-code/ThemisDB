@@ -1,0 +1,430 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__query__dedicated__gates_8cpp" kind="file" language="C++">
+    <compoundname>bench_query_dedicated_gates.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/query/bench_query_dedicated_gates.cpp</label>
+        <link refid="bench__query__dedicated__gates_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>algorithm</label>
+      </node>
+      <node id="4">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>thread</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="bench__query__dedicated__gates_8cpp_1a7233e6f296515e2b28091249eda37b5a" prot="public" static="yes" mutable="no">
+        <type>const std::vector&lt; std::string &gt;</type>
+        <definition>const std::vector&lt;std::string&gt; kAqlTemplates</definition>
+        <argsstring></argsstring>
+        <name>kAqlTemplates</name>
+        <initializer>                                       = {
+    &quot;FOR doc IN users FILTER doc.age &gt; 18 RETURN doc&quot;,
+    &quot;FOR x IN orders FILTER x.status == &apos;pending&apos; SORT x.created_at RETURN x&quot;,
+    &quot;FOR p IN products FILTER p.price &lt; 100 LIMIT 50 RETURN p&quot;,
+    &quot;FOR u IN users FOR o IN orders FILTER u._id == o.user_id RETURN {u, o}&quot;,
+    &quot;FOR d IN documents SEARCH PHRASE(d.body, &apos;hello world&apos;) RETURN d&quot;,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/query/bench_query_dedicated_gates.cpp" line="40" column="26" bodyfile="benchmarks/query/bench_query_dedicated_gates.cpp" bodystart="40" bodyend="46"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__query__dedicated__gates_8cpp_1ad170ac6dd4bc667b5e65e472d39dce58" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>static uint64_t stub_parse</definition>
+        <argsstring>(const std::string &amp;aql)</argsstring>
+        <name>stub_parse</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/query/bench_query_dedicated_gates.cpp" line="48" column="24" bodyfile="benchmarks/query/bench_query_dedicated_gates.cpp" bodystart="48" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__query__dedicated__gates_8cpp_1aed3b64b89fa08a64dffb43982bca4a30" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>static uint32_t stub_plan</definition>
+        <argsstring>(uint64_t parse_hash)</argsstring>
+        <name>stub_plan</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>parse_hash</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/query/bench_query_dedicated_gates.cpp" line="53" column="24" bodyfile="benchmarks/query/bench_query_dedicated_gates.cpp" bodystart="53" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__query__dedicated__gates_8cpp_1ada86b39c354db28a47c11a1f607a83b0" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>static uint64_t stub_execute</definition>
+        <argsstring>(uint32_t cost)</argsstring>
+        <name>stub_execute</name>
+        <param>
+          <type>uint32_t</type>
+          <declname>cost</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/query/bench_query_dedicated_gates.cpp" line="58" column="24" bodyfile="benchmarks/query/bench_query_dedicated_gates.cpp" bodystart="58" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__query__dedicated__gates_8cpp_1a01df89c4ad0aed3608f60105cb5fc1f6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_QueryEngine_ParseP95</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_QueryEngine_ParseP95</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/query/bench_query_dedicated_gates.cpp" line="71" column="13" bodyfile="benchmarks/query/bench_query_dedicated_gates.cpp" bodystart="71" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__query__dedicated__gates_8cpp_1a89b35e11b97a24f3d57d35aa5ab411c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Name</definition>
+        <argsstring>(&quot;BM_QueryEngine_ParseP95&quot;) -&gt; Iterations(10000) -&gt;Unit(benchmark::kMicrosecond)</argsstring>
+        <name>Name</name>
+        <param>
+          <type>&quot;BM_QueryEngine_ParseP95&quot;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/query/bench_query_dedicated_gates.cpp" line="80" column="5" declfile="benchmarks/query/bench_query_dedicated_gates.cpp" declline="80" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__query__dedicated__gates_8cpp_1ac6c2992eed68d337d96eac83a29ebcd0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_QueryEngine_PlanP95</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_QueryEngine_PlanP95</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/query/bench_query_dedicated_gates.cpp" line="88" column="13" bodyfile="benchmarks/query/bench_query_dedicated_gates.cpp" bodystart="88" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__query__dedicated__gates_8cpp_1a36d4ce949f817084b2e0e0cc0cf7f909" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Name</definition>
+        <argsstring>(&quot;BM_QueryEngine_PlanP95&quot;) -&gt; Iterations(10000) -&gt;Unit(benchmark::kMicrosecond)</argsstring>
+        <name>Name</name>
+        <param>
+          <type>&quot;BM_QueryEngine_PlanP95&quot;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/query/bench_query_dedicated_gates.cpp" line="98" column="5" declfile="benchmarks/query/bench_query_dedicated_gates.cpp" declline="98" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__query__dedicated__gates_8cpp_1a20f733614c3200c16f233ccd6306592d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_QueryEngine_ExecuteP95</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_QueryEngine_ExecuteP95</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/query/bench_query_dedicated_gates.cpp" line="106" column="13" bodyfile="benchmarks/query/bench_query_dedicated_gates.cpp" bodystart="106" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__query__dedicated__gates_8cpp_1a52e8d5cccbb55b333c40a93fb1f54f02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Name</definition>
+        <argsstring>(&quot;BM_QueryEngine_ExecuteP95&quot;) -&gt; Iterations(5000) -&gt;Unit(benchmark::kMicrosecond)</argsstring>
+        <name>Name</name>
+        <param>
+          <type>&quot;BM_QueryEngine_ExecuteP95&quot;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/query/bench_query_dedicated_gates.cpp" line="117" column="5" declfile="benchmarks/query/bench_query_dedicated_gates.cpp" declline="117" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__query__dedicated__gates_8cpp_1add1b95fb26dc8d1a46231de64293fbca" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_QueryEngine_ConcurrentThroughput</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_QueryEngine_ConcurrentThroughput</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/query/bench_query_dedicated_gates.cpp" line="125" column="13" bodyfile="benchmarks/query/bench_query_dedicated_gates.cpp" bodystart="125" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__query__dedicated__gates_8cpp_1aab142981962c7f178ea3076034fbca91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Name</definition>
+        <argsstring>(&quot;BM_QueryEngine_ConcurrentThroughput&quot;) -&gt; Threads(8) -&gt;Iterations(1000) -&gt;Unit(benchmark::kMicrosecond)</argsstring>
+        <name>Name</name>
+        <param>
+          <type>&quot;BM_QueryEngine_ConcurrentThroughput&quot;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/query/bench_query_dedicated_gates.cpp" line="137" column="5" declfile="benchmarks/query/bench_query_dedicated_gates.cpp" declline="137" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__query__dedicated__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_MAIN</definition>
+        <argsstring>()</argsstring>
+        <name>BENCHMARK_MAIN</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/query/bench_query_dedicated_gates.cpp" line="142" column="1" declfile="benchmarks/query/bench_query_dedicated_gates.cpp" declline="142" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Wave D — Query Engine Dedicated Performance Benchmark Gates. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Four benchmark gates for the query engine hot paths using in-process stubs. Results are captured and compared against the thresholds below during the Wave D sign-off run.</para>
+<sect1 id="bench__query__dedicated__gates_8cpp_1autotoc_md10_1s1"><sect2 id="bench__query__dedicated__gates_8cpp_1autotoc_md10">
+<title>Gate definitions</title><para><itemizedlist>
+<listitem><para>QE-BM-01 : Parse p95 latency ≤ 500 µs per query</para>
+</listitem><listitem><para>QE-BM-02 : Plan p95 latency ≤ 2 000 µs per query</para>
+</listitem><listitem><para>QE-BM-03 : Execute p95 latency ≤ 5 000 µs per query</para>
+</listitem><listitem><para>QE-BM-04 : Concurrent throughput ≥ 2 000 queries/sec (8 threads)</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="bench__query__dedicated__gates_8cpp_1autotoc_md11_1s1"><sect2 id="bench__query__dedicated__gates_8cpp_1autotoc_md11">
+<title>Labels</title><para>wave_d;benchmark;not_release_critical</para>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="see"><para>docs/operability/RUNBOOK_QUERY_ENGINE.md </para>
+</simplesect>
+<simplesect kind="see"><para>src/query/ROADMAP.md — Wave D contribution </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>STUB<sp/>/<sp/>SIMULATION<sp/>NOTE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>In-process<sp/>stubs<sp/>simulate<sp/>parser,<sp/>planner,<sp/>and<sp/>executor<sp/>hot<sp/>paths<sp/>without</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>requiring<sp/>external<sp/>backends.<sp/><sp/>MUST<sp/>NOT<sp/>be<sp/>used<sp/>in<sp/>production<sp/>code<sp/>paths.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/>kAqlTemplates<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>doc<sp/>IN<sp/>users<sp/>FILTER<sp/>doc.age<sp/>&gt;<sp/>18<sp/>RETURN<sp/>doc&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>x<sp/>IN<sp/>orders<sp/>FILTER<sp/>x.status<sp/>==<sp/>&apos;pending&apos;<sp/>SORT<sp/>x.created_at<sp/>RETURN<sp/>x&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>p<sp/>IN<sp/>products<sp/>FILTER<sp/>p.price<sp/>&lt;<sp/>100<sp/>LIMIT<sp/>50<sp/>RETURN<sp/>p&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>FOR<sp/>o<sp/>IN<sp/>orders<sp/>FILTER<sp/>u._id<sp/>==<sp/>o.user_id<sp/>RETURN<sp/>{u,<sp/>o}&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>d<sp/>IN<sp/>documents<sp/>SEARCH<sp/>PHRASE(d.body,<sp/>&apos;hello<sp/>world&apos;)<sp/>RETURN<sp/>d&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>uint64_t<sp/>stub_parse(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>aql)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>parse<sp/>cost:<sp/>hash<sp/>of<sp/>the<sp/>AQL<sp/>string.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::hash&lt;std::string&gt;{}(aql);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>uint32_t<sp/>stub_plan(uint64_t<sp/>parse_hash)<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>planner<sp/>cost<sp/>model<sp/>evaluation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(parse_hash<sp/>%<sp/>1000<sp/>+<sp/>1);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>uint64_t<sp/>stub_execute(uint32_t<sp/>cost)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>executor<sp/>row<sp/>scan.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>rows<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(uint32_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>(cost<sp/>%<sp/>16<sp/>+<sp/>1);<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rows<sp/>+=<sp/>i<sp/>+<sp/>1;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>rows;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>QE-BM-01<sp/>—<sp/>Parse<sp/>p95<sp/>latency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gate:<sp/>≤<sp/>500<sp/>µs<sp/>per<sp/>query<sp/>on<sp/>representative<sp/>hardware.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_QueryEngine_ParseP95(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>i<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>aql<sp/>=<sp/>kAqlTemplates[i++<sp/>%<sp/>kAqlTemplates.size()];</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(stub_parse(aql));</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;QE-BM-01<sp/>gate=500us&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><ref refid="bench__adaptive__query__compilation_8cpp_1acfae08abbe2ed4adcfb794655385caab" kindref="member">BENCHMARK</ref>(BM_QueryEngine_ParseP95)</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Name(</highlight><highlight class="stringliteral">&quot;BM_QueryEngine_ParseP95&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(10000)</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>QE-BM-02<sp/>—<sp/>Plan<sp/>p95<sp/>latency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gate:<sp/>≤<sp/>2<sp/>000<sp/>µs<sp/>per<sp/>plan<sp/>on<sp/>representative<sp/>hardware.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_QueryEngine_PlanP95(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>i<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>aql<sp/>=<sp/>kAqlTemplates[i++<sp/>%<sp/>kAqlTemplates.size()];</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>hash<sp/>=<sp/>stub_parse(aql);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(stub_plan(hash));</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;QE-BM-02<sp/>gate=2000us&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><ref refid="bench__adaptive__query__compilation_8cpp_1acfae08abbe2ed4adcfb794655385caab" kindref="member">BENCHMARK</ref>(BM_QueryEngine_PlanP95)</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Name(</highlight><highlight class="stringliteral">&quot;BM_QueryEngine_PlanP95&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(10000)</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>QE-BM-03<sp/>—<sp/>Execute<sp/>p95<sp/>latency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gate:<sp/>≤<sp/>5<sp/>000<sp/>µs<sp/>per<sp/>execution<sp/>on<sp/>representative<sp/>hardware.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_QueryEngine_ExecuteP95(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>i<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>aql<sp/>=<sp/>kAqlTemplates[i++<sp/>%<sp/>kAqlTemplates.size()];</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>hash<sp/><sp/>=<sp/>stub_parse(aql);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>cost<sp/><sp/>=<sp/>stub_plan(hash);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(stub_execute(cost));</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;QE-BM-03<sp/>gate=5000us&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><ref refid="bench__adaptive__query__compilation_8cpp_1acfae08abbe2ed4adcfb794655385caab" kindref="member">BENCHMARK</ref>(BM_QueryEngine_ExecuteP95)</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Name(</highlight><highlight class="stringliteral">&quot;BM_QueryEngine_ExecuteP95&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(5000)</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>QE-BM-04<sp/>—<sp/>Concurrent<sp/>throughput<sp/>(8<sp/>threads)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gate:<sp/>≥<sp/>2<sp/>000<sp/>queries/sec<sp/>aggregate<sp/>throughput.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_QueryEngine_ConcurrentThroughput(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>i<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>aql<sp/>=<sp/>kAqlTemplates[i++<sp/>%<sp/>kAqlTemplates.size()];</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>hash<sp/><sp/>=<sp/>stub_parse(aql);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>cost<sp/><sp/>=<sp/>stub_plan(hash);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(stub_execute(cost));</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;QE-BM-04<sp/>gate=2000qps<sp/>threads=8&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.iterations()));</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><ref refid="bench__adaptive__query__compilation_8cpp_1acfae08abbe2ed4adcfb794655385caab" kindref="member">BENCHMARK</ref>(BM_QueryEngine_ConcurrentThroughput)</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Name(</highlight><highlight class="stringliteral">&quot;BM_QueryEngine_ConcurrentThroughput&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Threads(8)</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(1000)</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><ref refid="bench__query__dedicated__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kindref="member">BENCHMARK_MAIN</ref>();</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/query/bench_query_dedicated_gates.cpp"/>
+  </compounddef>
+</doxygen>

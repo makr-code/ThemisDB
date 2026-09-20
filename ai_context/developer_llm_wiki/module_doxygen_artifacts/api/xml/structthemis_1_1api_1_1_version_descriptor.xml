@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1api_1_1_version_descriptor" kind="struct" language="C++" prot="public">
+    <compoundname>themis::api::VersionDescriptor</compoundname>
+    <includes refid="api__version__router_8h" local="no">api_version_router.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_version_descriptor_1a48504b6da32f0a846b8e059e4d3f43ce" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::api::VersionDescriptor::major_version</definition>
+        <argsstring></argsstring>
+        <name>major_version</name>
+        <qualifiedname>themis::api::VersionDescriptor::major_version</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_version_router.h" line="34" column="9" bodyfile="include/api/api_version_router.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_version_descriptor_1a167a6bafa35f6d910b649096c60a61ca" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::api::VersionDescriptor::minor_version</definition>
+        <argsstring></argsstring>
+        <name>minor_version</name>
+        <qualifiedname>themis::api::VersionDescriptor::minor_version</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_version_router.h" line="36" column="9" bodyfile="include/api/api_version_router.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_version_descriptor_1a86bf03cad3a4d0781c219b74aded5d95" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::api::VersionDescriptor::label</definition>
+        <argsstring></argsstring>
+        <name>label</name>
+        <qualifiedname>themis::api::VersionDescriptor::label</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_version_router.h" line="38" column="17" bodyfile="include/api/api_version_router.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_version_descriptor_1af14adba452cbe164e13b3c7498489ed8" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::api::VersionDescriptor::deprecation_date</definition>
+        <argsstring></argsstring>
+        <name>deprecation_date</name>
+        <qualifiedname>themis::api::VersionDescriptor::deprecation_date</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_version_router.h" line="40" column="19" bodyfile="include/api/api_version_router.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_version_descriptor_1a47c806d5c24ecdc606b59e13f5773a48" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::api::VersionDescriptor::sunset_date</definition>
+        <argsstring></argsstring>
+        <name>sunset_date</name>
+        <qualifiedname>themis::api::VersionDescriptor::sunset_date</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_version_router.h" line="42" column="19" bodyfile="include/api/api_version_router.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_version_descriptor_1a0a330e0b94d1ae51786d0cf62cf5851a" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::api::VersionDescriptor::successor_url</definition>
+        <argsstring></argsstring>
+        <name>successor_url</name>
+        <qualifiedname>themis::api::VersionDescriptor::successor_url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_version_router.h" line="44" column="19" bodyfile="include/api/api_version_router.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1api_1_1_version_descriptor_1a14eb2d730aadfb660d452e8665eca519" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1api_1_1_version_descriptor" kindref="compound">VersionDescriptor</ref></type>
+        <definition>static VersionDescriptor themis::api::VersionDescriptor::current</definition>
+        <argsstring>(int major, int minor=0, std::string label={})</argsstring>
+        <name>current</name>
+        <qualifiedname>themis::api::VersionDescriptor::current</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>major</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>minor</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>label</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_version_router.h" line="46" column="30" bodyfile="include/api/api_version_router.h" bodystart="46" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1api_1_1_version_descriptor_1aabc6813ada4131caf46c7476f501b3bc" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1api_1_1_version_descriptor" kindref="compound">VersionDescriptor</ref></type>
+        <definition>static VersionDescriptor themis::api::VersionDescriptor::deprecated</definition>
+        <argsstring>(int major, int minor, std::string deprecation_date, std::string sunset_date={}, std::string successor_url={})</argsstring>
+        <name>deprecated</name>
+        <qualifiedname>themis::api::VersionDescriptor::deprecated</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>major</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>minor</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>deprecation_date</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>sunset_date</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>successor_url</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_version_router.h" line="50" column="30" bodyfile="include/api/api_version_router.h" bodystart="50" bodyend="65"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/api_version_router.h" line="33" column="1" bodyfile="include/api/api_version_router.h" bodystart="33" bodyend="66"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1api_1_1_version_descriptor_1a14eb2d730aadfb660d452e8665eca519" prot="public" virt="non-virtual"><scope>themis::api::VersionDescriptor</scope><name>current</name></member>
+      <member refid="structthemis_1_1api_1_1_version_descriptor_1aabc6813ada4131caf46c7476f501b3bc" prot="public" virt="non-virtual"><scope>themis::api::VersionDescriptor</scope><name>deprecated</name></member>
+      <member refid="structthemis_1_1api_1_1_version_descriptor_1af14adba452cbe164e13b3c7498489ed8" prot="public" virt="non-virtual"><scope>themis::api::VersionDescriptor</scope><name>deprecation_date</name></member>
+      <member refid="structthemis_1_1api_1_1_version_descriptor_1a86bf03cad3a4d0781c219b74aded5d95" prot="public" virt="non-virtual"><scope>themis::api::VersionDescriptor</scope><name>label</name></member>
+      <member refid="structthemis_1_1api_1_1_version_descriptor_1a48504b6da32f0a846b8e059e4d3f43ce" prot="public" virt="non-virtual"><scope>themis::api::VersionDescriptor</scope><name>major_version</name></member>
+      <member refid="structthemis_1_1api_1_1_version_descriptor_1a167a6bafa35f6d910b649096c60a61ca" prot="public" virt="non-virtual"><scope>themis::api::VersionDescriptor</scope><name>minor_version</name></member>
+      <member refid="structthemis_1_1api_1_1_version_descriptor_1a0a330e0b94d1ae51786d0cf62cf5851a" prot="public" virt="non-virtual"><scope>themis::api::VersionDescriptor</scope><name>successor_url</name></member>
+      <member refid="structthemis_1_1api_1_1_version_descriptor_1a47c806d5c24ecdc606b59e13f5773a48" prot="public" virt="non-virtual"><scope>themis::api::VersionDescriptor</scope><name>sunset_date</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

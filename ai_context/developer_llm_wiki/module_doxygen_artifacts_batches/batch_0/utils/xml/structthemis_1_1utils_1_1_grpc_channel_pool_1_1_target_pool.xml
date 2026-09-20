@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_target_pool" kind="struct" language="C++" prot="private">
+    <compoundname>themis::utils::GrpcChannelPool::TargetPool</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_target_pool_1aee2ce664df4ba3fcb151298afe93e033" prot="public" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::utils::GrpcChannelPool::TargetPool::mutex</definition>
+        <argsstring></argsstring>
+        <name>mutex</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::TargetPool::mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="245" column="20" bodyfile="include/utils/grpc_channel_pool.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_target_pool_1a29100c92baef3d6e052b7921145c8512" prot="public" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::utils::GrpcChannelPool::TargetPool::cv</definition>
+        <argsstring></argsstring>
+        <name>cv</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::TargetPool::cv</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="246" column="33" bodyfile="include/utils/grpc_channel_pool.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_target_pool_1aa5491190ad035357d0b0a39be7045497" prot="public" static="no" mutable="no">
+        <type>std::queue&lt; std::shared_ptr&lt; PooledChannel &gt; &gt;</type>
+        <definition>std::queue&lt;std::shared_ptr&lt;PooledChannel&gt; &gt; themis::utils::GrpcChannelPool::TargetPool::available</definition>
+        <argsstring></argsstring>
+        <name>available</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::TargetPool::available</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="247" column="20" bodyfile="include/utils/grpc_channel_pool.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_target_pool_1a52c50dd0b33777da5a5656d2cb5e5603" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::shared_ptr&lt; grpc::Channel &gt;, std::shared_ptr&lt; PooledChannel &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::shared_ptr&lt;grpc::Channel&gt;, std::shared_ptr&lt;PooledChannel&gt; &gt; themis::utils::GrpcChannelPool::TargetPool::all_channels</definition>
+        <argsstring></argsstring>
+        <name>all_channels</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::TargetPool::all_channels</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="248" column="28" bodyfile="include/utils/grpc_channel_pool.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-target channel pool. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/grpc_channel_pool.h" line="244" column="5" bodyfile="include/utils/grpc_channel_pool.h" bodystart="244" bodyend="249"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_target_pool_1a52c50dd0b33777da5a5656d2cb5e5603" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool::TargetPool</scope><name>all_channels</name></member>
+      <member refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_target_pool_1aa5491190ad035357d0b0a39be7045497" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool::TargetPool</scope><name>available</name></member>
+      <member refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_target_pool_1a29100c92baef3d6e052b7921145c8512" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool::TargetPool</scope><name>cv</name></member>
+      <member refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_target_pool_1aee2ce664df4ba3fcb151298afe93e033" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool::TargetPool</scope><name>mutex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

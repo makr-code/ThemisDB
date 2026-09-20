@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_inference_performance_test" kind="class" language="C++" prot="public">
+    <compoundname>InferencePerformanceTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_inference_performance_test_1a4b2b95ad2f030091d43e8766e2dd9199" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string InferencePerformanceTest::model_path_</definition>
+        <argsstring></argsstring>
+        <name>model_path_</name>
+        <qualifiedname>InferencePerformanceTest::model_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_inference_performance.cpp" line="130" column="17" bodyfile="tests/llm/test_inference_performance.cpp" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_inference_performance_test_1a9380ea8568c2f1cf0e59eaef26ce16c1" prot="protected" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool InferencePerformanceTest::model_available_</definition>
+        <argsstring></argsstring>
+        <name>model_available_</name>
+        <qualifiedname>InferencePerformanceTest::model_available_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_inference_performance.cpp" line="131" column="10" bodyfile="tests/llm/test_inference_performance.cpp" bodystart="131" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_inference_performance_test_1aeea10d74ce93dc8bdf62880360d7c88d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void InferencePerformanceTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>InferencePerformanceTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_inference_performance.cpp" line="57" column="10" bodyfile="tests/llm/test_inference_performance.cpp" bodystart="57" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="class_inference_performance_test_1a4f95a401bca48fe337c0c7f8275d8236" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void InferencePerformanceTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>InferencePerformanceTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_inference_performance.cpp" line="84" column="10" bodyfile="tests/llm/test_inference_performance.cpp" bodystart="84" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="class_inference_performance_test_1a69b10c7b961ea2e94f5f226f6af40846" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string InferencePerformanceTest::simulateGeneration</definition>
+        <argsstring>(size_t num_tokens)</argsstring>
+        <name>simulateGeneration</name>
+        <qualifiedname>InferencePerformanceTest::simulateGeneration</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>num_tokens</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Lightweight simulation fallback used by structural-only tests. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_inference_performance.cpp" line="89" column="17" bodyfile="tests/llm/test_inference_performance.cpp" bodystart="89" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Test fixture for inference performance tests.</para>
+<para>Model discovery (same pattern as <ref refid="class_real_embeddings_test" kindref="compound">RealEmbeddingsTest</ref>):<orderedlist>
+<listitem><para>THEMIS_TEST_MODEL_PATH env var</para>
+</listitem><listitem><para>Filesystem scan for well-known TinyLlama GGUF names</para>
+</listitem></orderedlist>
+</para>
+<para>When no model is found, model_available_ == false and every test that requires real inference will GTEST_SKIP(). This keeps CI green when no GGUF file is present while letting real-inference tests run automatically whenever a model is available. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>InferencePerformanceTest</label>
+        <link refid="class_inference_performance_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>InferencePerformanceTest</label>
+        <link refid="class_inference_performance_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_inference_performance.cpp" line="55" column="1" bodyfile="tests/llm/test_inference_performance.cpp" bodystart="55" bodyend="132"/>
+    <listofallmembers>
+      <member refid="class_inference_performance_test_1a9380ea8568c2f1cf0e59eaef26ce16c1" prot="protected" virt="non-virtual"><scope>InferencePerformanceTest</scope><name>model_available_</name></member>
+      <member refid="class_inference_performance_test_1a4b2b95ad2f030091d43e8766e2dd9199" prot="protected" virt="non-virtual"><scope>InferencePerformanceTest</scope><name>model_path_</name></member>
+      <member refid="class_inference_performance_test_1aeea10d74ce93dc8bdf62880360d7c88d" prot="protected" virt="non-virtual"><scope>InferencePerformanceTest</scope><name>SetUp</name></member>
+      <member refid="class_inference_performance_test_1a69b10c7b961ea2e94f5f226f6af40846" prot="protected" virt="non-virtual"><scope>InferencePerformanceTest</scope><name>simulateGeneration</name></member>
+      <member refid="class_inference_performance_test_1a4f95a401bca48fe337c0c7f8275d8236" prot="protected" virt="non-virtual"><scope>InferencePerformanceTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structstubs_1_1_dedup_graph" kind="struct" language="C++" prot="public">
+    <compoundname>stubs::DedupGraph</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structstubs_1_1_dedup_graph_1ae2a13dc1ca996a8e0450f04587e143c2" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; stubs::DedupGraph::replays</definition>
+        <argsstring></argsstring>
+        <name>replays</name>
+        <qualifiedname>stubs::DedupGraph::replays</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_highcardinality_stress.cpp" line="37" column="17" bodyfile="tests/tensor/test_tensor_highcardinality_stress.cpp" bodystart="37" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="variable" id="structstubs_1_1_dedup_graph_1a6e6d920aff77c0c200bfa88142d471b6" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; stubs::DedupGraph::dedup_hits</definition>
+        <argsstring></argsstring>
+        <name>dedup_hits</name>
+        <qualifiedname>stubs::DedupGraph::dedup_hits</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_highcardinality_stress.cpp" line="38" column="17" bodyfile="tests/tensor/test_tensor_highcardinality_stress.cpp" bodystart="38" bodyend="38"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structstubs_1_1_dedup_graph_1a4e0e24805c2b73367b3d9d122689b246" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool stubs::DedupGraph::replay</definition>
+        <argsstring>(uint64_t fp)</argsstring>
+        <name>replay</name>
+        <qualifiedname>stubs::DedupGraph::replay</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>fp</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_highcardinality_stress.cpp" line="40" column="10" bodyfile="tests/tensor/test_tensor_highcardinality_stress.cpp" bodystart="40" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/tensor/test_tensor_highcardinality_stress.cpp" line="36" column="1" bodyfile="tests/tensor/test_tensor_highcardinality_stress.cpp" bodystart="36" bodyend="46"/>
+    <listofallmembers>
+      <member refid="structstubs_1_1_dedup_graph_1a6e6d920aff77c0c200bfa88142d471b6" prot="public" virt="non-virtual"><scope>stubs::DedupGraph</scope><name>dedup_hits</name></member>
+      <member refid="structstubs_1_1_dedup_graph_1a4e0e24805c2b73367b3d9d122689b246" prot="public" virt="non-virtual"><scope>stubs::DedupGraph</scope><name>replay</name></member>
+      <member refid="structstubs_1_1_dedup_graph_1ae2a13dc1ca996a8e0450f04587e143c2" prot="public" virt="non-virtual"><scope>stubs::DedupGraph</scope><name>replays</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

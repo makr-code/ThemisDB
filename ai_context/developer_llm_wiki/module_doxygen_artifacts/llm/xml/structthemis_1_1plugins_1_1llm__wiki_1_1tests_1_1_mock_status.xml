@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::llm_wiki::tests::MockStatus</compoundname>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_status_1a9d4ce137445e039b79ed31fb417df4d9" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Code</name>
+        <qualifiedname>themis::plugins::llm_wiki::tests::MockStatus::Code</qualifiedname>
+        <enumvalue id="structthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_status_1a9d4ce137445e039b79ed31fb417df4d9aa60852f204ed8028c1c58808b746d115" prot="public">
+          <name>Ok</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_status_1a9d4ce137445e039b79ed31fb417df4d9a902b0d55fddef6f8d651fe1035b7d4bd" prot="public">
+          <name>Error</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" line="254" column="5" bodyfile="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" bodystart="254" bodyend="254"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_status_1af29416cb21af1298956fce67f5660e33" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_status_1a9d4ce137445e039b79ed31fb417df4d9" kindref="member">Code</ref></type>
+        <definition>Code themis::plugins::llm_wiki::tests::MockStatus::code</definition>
+        <argsstring></argsstring>
+        <name>code</name>
+        <qualifiedname>themis::plugins::llm_wiki::tests::MockStatus::code</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_status_1a9d4ce137445e039b79ed31fb417df4d9aa60852f204ed8028c1c58808b746d115" kindref="member">Code::Ok</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" line="255" column="17" bodyfile="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_status_1ab7f8294007209fcdbc987393fd305b29" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::llm_wiki::tests::MockStatus::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::plugins::llm_wiki::tests::MockStatus::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" line="256" column="17" bodyfile="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" bodystart="256" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_status_1a60c3d12ec509d9841f75f2b37ca7e49e" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::llm_wiki::tests::MockStatus::ok</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::plugins::llm_wiki::tests::MockStatus::ok</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" line="257" column="10" bodyfile="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" bodystart="257" bodyend="257"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_status_1a68d0ef873bf434efeacdc7068913409c" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_status" kindref="compound">MockStatus</ref></type>
+        <definition>static MockStatus themis::plugins::llm_wiki::tests::MockStatus::Ok</definition>
+        <argsstring>()</argsstring>
+        <name>Ok</name>
+        <qualifiedname>themis::plugins::llm_wiki::tests::MockStatus::Ok</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" line="258" column="23" bodyfile="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" bodystart="258" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_status_1a00f3fe54ca1a17b108e07b328285ccca" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_status" kindref="compound">MockStatus</ref></type>
+        <definition>static MockStatus themis::plugins::llm_wiki::tests::MockStatus::Error</definition>
+        <argsstring>(std::string msg)</argsstring>
+        <name>Error</name>
+        <qualifiedname>themis::plugins::llm_wiki::tests::MockStatus::Error</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" line="259" column="23" bodyfile="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" bodystart="259" bodyend="259"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" line="253" column="1" bodyfile="tests/llm/test_wave_next_llm_wiki_rocksdb.cpp" bodystart="253" bodyend="260"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_status_1a9d4ce137445e039b79ed31fb417df4d9" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::tests::MockStatus</scope><name>Code</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_status_1af29416cb21af1298956fce67f5660e33" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::tests::MockStatus</scope><name>code</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_status_1a00f3fe54ca1a17b108e07b328285ccca" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::tests::MockStatus</scope><name>Error</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_status_1ab7f8294007209fcdbc987393fd305b29" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::tests::MockStatus</scope><name>message</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_status_1a68d0ef873bf434efeacdc7068913409c" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::tests::MockStatus</scope><name>Ok</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1tests_1_1_mock_status_1a60c3d12ec509d9841f75f2b37ca7e49e" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::tests::MockStatus</scope><name>ok</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

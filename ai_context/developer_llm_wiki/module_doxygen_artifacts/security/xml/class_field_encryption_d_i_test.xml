@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_field_encryption_d_i_test" kind="class" language="C++" prot="public">
+    <compoundname>FieldEncryptionDITest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_field_encryption_d_i_test_1aa4f3e79418f52dcfb473e1a7dea75a07" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_mock_key_provider" kindref="compound">themis::MockKeyProvider</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;themis::MockKeyProvider&gt; FieldEncryptionDITest::real_mock_provider_</definition>
+        <argsstring></argsstring>
+        <name>real_mock_provider_</name>
+        <qualifiedname>FieldEncryptionDITest::real_mock_provider_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_di.cpp" line="27" column="21" bodyfile="tests/security/test_security_di.cpp" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_field_encryption_d_i_test_1ad5863bb9f7485e86e1e67c5a603d7f12" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_field_encryption" kindref="compound">FieldEncryption</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;FieldEncryption&gt; FieldEncryptionDITest::encryption_</definition>
+        <argsstring></argsstring>
+        <name>encryption_</name>
+        <qualifiedname>FieldEncryptionDITest::encryption_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_di.cpp" line="28" column="21" bodyfile="tests/security/test_security_di.cpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_field_encryption_d_i_test_1a48c689bff5d576deea9a2508540bdbb4" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void FieldEncryptionDITest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>FieldEncryptionDITest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_di.cpp" line="30" column="10" bodyfile="tests/security/test_security_di.cpp" bodystart="30" bodyend="33"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Test <ref refid="class_field_encryption" kindref="compound">FieldEncryption</ref> with Dependency Injection. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>FieldEncryptionDITest</label>
+        <link refid="class_field_encryption_d_i_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>FieldEncryptionDITest</label>
+        <link refid="class_field_encryption_d_i_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_security_di.cpp" line="25" column="1" bodyfile="tests/security/test_security_di.cpp" bodystart="25" bodyend="34"/>
+    <listofallmembers>
+      <member refid="class_field_encryption_d_i_test_1ad5863bb9f7485e86e1e67c5a603d7f12" prot="protected" virt="non-virtual"><scope>FieldEncryptionDITest</scope><name>encryption_</name></member>
+      <member refid="class_field_encryption_d_i_test_1aa4f3e79418f52dcfb473e1a7dea75a07" prot="protected" virt="non-virtual"><scope>FieldEncryptionDITest</scope><name>real_mock_provider_</name></member>
+      <member refid="class_field_encryption_d_i_test_1a48c689bff5d576deea9a2508540bdbb4" prot="protected" virt="non-virtual"><scope>FieldEncryptionDITest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

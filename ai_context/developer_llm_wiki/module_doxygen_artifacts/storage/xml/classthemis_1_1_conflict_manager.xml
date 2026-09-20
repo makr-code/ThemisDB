@@ -1,0 +1,445 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_conflict_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::ConflictManager</compoundname>
+    <includes refid="history__manager_8h" local="no">history_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_conflict_manager_1aa51d37375ea64d114d162e4311031e60" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">RocksDBWrapper</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::ConflictManager::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::ConflictManager::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="321" column="25" bodyfile="include/storage/history_manager.h" bodystart="321" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_conflict_manager_1a6d88067efe75a590299280be2c87da47" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_hybrid_logical_clock" kindref="compound">HybridLogicalClock</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;HybridLogicalClock&gt; themis::ConflictManager::clock_</definition>
+        <argsstring></argsstring>
+        <name>clock_</name>
+        <qualifiedname>themis::ConflictManager::clock_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="322" column="21" bodyfile="include/storage/history_manager.h" bodystart="322" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_conflict_manager_1a67fff7ae9902d9998b4c4e0f3f59d408" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ConflictManager::ConflictManager</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; db, std::shared_ptr&lt; HybridLogicalClock &gt; clock=nullptr)</argsstring>
+        <name>ConflictManager</name>
+        <qualifiedname>themis::ConflictManager::ConflictManager</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">RocksDBWrapper</ref> &gt;</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_hybrid_logical_clock" kindref="compound">HybridLogicalClock</ref> &gt;</type>
+          <declname>clock</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Construct a <ref refid="classthemis_1_1_conflict_manager" kindref="compound">ConflictManager</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Underlying RocksDB instance. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>clock</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>HLC clock for generating unique conflict IDs. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="239" column="14" bodyfile="src/storage/history_manager.cpp" bodystart="378" bodyend="388"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_conflict_manager_1ae8ec4043bcfa8366d56ac5460998de77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ConflictManager::storeConflict</definition>
+        <argsstring>(ConflictRecord &amp;record)</argsstring>
+        <name>storeConflict</name>
+        <qualifiedname>themis::ConflictManager::storeConflict</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_conflict_record" kindref="compound">ConflictRecord</ref> &amp;</type>
+          <declname>record</declname>
+        </param>
+        <briefdescription>
+<para>Persist a <ref refid="structthemis_1_1_conflict_record" kindref="compound">ConflictRecord</ref> using a fresh non-transactional write. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── Write ─────────────────────────────────────────────────────────────────────</para>
+<para>Assigns a unique conflict_id to <computeroutput>record</computeroutput> if it is empty, then writes it to the conflict keyspace.</para>
+<para><simplesect kind="return"><para>The assigned conflict_id.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), now(), std::to_string(), physical(), logical(), <ref refid="classthemis_1_1_conflict_manager_1a7d3174e6f342108c9e37a562a36915f1" kindref="member">conflictKey()</ref>, <ref refid="classthemis_1_1_conflict_manager_1afa69a2daebdea9eb6ca7c62331513b8c" kindref="member">serializeConflictRecord()</ref>, put(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="270" column="17" bodyfile="src/storage/history_manager.cpp" bodystart="480" bodyend="492"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_conflict_manager_1af76ed9eb64e2e0b40790559b1e616b56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ConflictManager::storeConflictSet</definition>
+        <argsstring>(ConflictSet &amp;set)</argsstring>
+        <name>storeConflictSet</name>
+        <qualifiedname>themis::ConflictManager::storeConflictSet</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_conflict_set" kindref="compound">ConflictSet</ref> &amp;</type>
+          <declname>set</declname>
+        </param>
+        <briefdescription>
+<para>Persist a <ref refid="structthemis_1_1_conflict_set" kindref="compound">ConflictSet</ref> using a fresh non-transactional write. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── <ref refid="structthemis_1_1_conflict_set" kindref="compound">ConflictSet</ref> write/read ────────────────────────────────────────────────────</para>
+<para>Assigns a unique conflict_set_id to <computeroutput>set</computeroutput> if it is empty, then writes it to the conflictset keyspace.</para>
+<para><simplesect kind="return"><para>The assigned conflict_set_id.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">set</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), now(), std::to_string(), physical(), logical(), <ref refid="classthemis_1_1_conflict_manager_1a069bb112e83feba314622a0bc6811cbd" kindref="member">conflictSetKey()</ref>, <ref refid="classthemis_1_1_conflict_manager_1a0a77261035cba08865087851cb4573b8" kindref="member">serializeConflictSet()</ref>, put(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="280" column="17" bodyfile="src/storage/history_manager.cpp" bodystart="574" bodyend="585"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_conflict_manager_1a809e73ae70d77b3c7b1a4e1a40ab3fc9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_conflict_record" kindref="compound">ConflictRecord</ref> &gt;</type>
+        <definition>std::optional&lt; ConflictRecord &gt; themis::ConflictManager::getConflict</definition>
+        <argsstring>(std::string_view conflict_id) const</argsstring>
+        <name>getConflict</name>
+        <qualifiedname>themis::ConflictManager::getConflict</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>conflict_id</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve a specific <ref refid="structthemis_1_1_conflict_record" kindref="compound">ConflictRecord</ref> by ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The record, or std::nullopt if not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="289" column="19" bodyfile="src/storage/history_manager.cpp" bodystart="496" bodyend="505"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_conflict_manager_1a28768170a378dc1e51f5b1bf47cd156b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_conflict_set" kindref="compound">ConflictSet</ref> &gt;</type>
+        <definition>std::optional&lt; ConflictSet &gt; themis::ConflictManager::getConflictSet</definition>
+        <argsstring>(std::string_view conflict_set_id) const</argsstring>
+        <name>getConflictSet</name>
+        <qualifiedname>themis::ConflictManager::getConflictSet</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>conflict_set_id</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve a specific <ref refid="structthemis_1_1_conflict_set" kindref="compound">ConflictSet</ref> by ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The set, or std::nullopt if not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="296" column="19" bodyfile="src/storage/history_manager.cpp" bodystart="587" bodyend="596"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_conflict_manager_1a545e0779a29895dd791d20720ba445e7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_conflict_record" kindref="compound">ConflictRecord</ref> &gt;</type>
+        <definition>std::vector&lt; ConflictRecord &gt; themis::ConflictManager::listConflicts</definition>
+        <argsstring>() const</argsstring>
+        <name>listConflicts</name>
+        <qualifiedname>themis::ConflictManager::listConflicts</qualifiedname>
+        <briefdescription>
+<para>List all stored conflict records, most-recent first. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Note: this is an O(N) scan over all conflict entries. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="303" column="17" bodyfile="src/storage/history_manager.cpp" bodystart="507" bodyend="517"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_conflict_manager_1a65cb62cb7c0e6b0eb8f5a745e14ace20" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_conflict_set" kindref="compound">ConflictSet</ref> &gt;</type>
+        <definition>std::vector&lt; ConflictSet &gt; themis::ConflictManager::listConflictSets</definition>
+        <argsstring>() const</argsstring>
+        <name>listConflictSets</name>
+        <qualifiedname>themis::ConflictManager::listConflictSets</qualifiedname>
+        <briefdescription>
+<para>List all stored conflict sets, most-recent first. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Note: this is an O(N) scan over all conflictset entries. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="310" column="17" bodyfile="src/storage/history_manager.cpp" bodystart="598" bodyend="608"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_conflict_manager_1a7d3174e6f342108c9e37a562a36915f1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ConflictManager::conflictKey</definition>
+        <argsstring>(std::string_view conflict_id)</argsstring>
+        <name>conflictKey</name>
+        <qualifiedname>themis::ConflictManager::conflictKey</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>conflict_id</declname>
+        </param>
+        <briefdescription>
+<para>Build the storage key for a conflict record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── Key encoding ──────────────────────────────────────────────────────────────</para>
+<para>Format: <computeroutput>conflict:&lt;conflict_id&gt;</computeroutput></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">conflict_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the conflict. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), append(), data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="251" column="24" bodyfile="src/storage/history_manager.cpp" bodystart="397" bodyend="403"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_conflict_manager_1a069bb112e83feba314622a0bc6811cbd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ConflictManager::conflictSetKey</definition>
+        <argsstring>(std::string_view conflict_set_id)</argsstring>
+        <name>conflictSetKey</name>
+        <qualifiedname>themis::ConflictManager::conflictSetKey</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>conflict_set_id</declname>
+        </param>
+        <briefdescription>
+<para>Build the storage key for a conflict set. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Conflict Set Key.</para>
+<para>Format: <computeroutput>conflictset:&lt;conflict_set_id&gt;</computeroutput></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">conflict_set_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the conflict set. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), append(), data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="258" column="24" bodyfile="src/storage/history_manager.cpp" bodystart="411" bodyend="417"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_conflict_manager_1afa69a2daebdea9eb6ca7c62331513b8c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::ConflictManager::serializeConflictRecord</definition>
+        <argsstring>(const ConflictRecord &amp;rec)</argsstring>
+        <name>serializeConflictRecord</name>
+        <qualifiedname>themis::ConflictManager::serializeConflictRecord</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_conflict_record" kindref="compound">ConflictRecord</ref> &amp;</type>
+          <declname>rec</declname>
+        </param>
+        <briefdescription>
+<para>── Serialization ───────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: bytesToHex(), dump(), buf(), begin(), end(), append_crc32(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="314" column="24" bodyfile="src/storage/history_manager.cpp" bodystart="426" bodyend="441"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_conflict_manager_1a3b7f6591c6ca1936ad8e44f8f2d0f2f7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_conflict_record" kindref="compound">ConflictRecord</ref> &gt;</type>
+        <definition>std::optional&lt; ConflictRecord &gt; themis::ConflictManager::deserializeConflictRecord</definition>
+        <argsstring>(std::string_view data)</argsstring>
+        <name>deserializeConflictRecord</name>
+        <qualifiedname>themis::ConflictManager::deserializeConflictRecord</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Deserialize Conflict Record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: verify_crc32(), nlohmann::json::parse(), begin(), end(), value(), HLCTimestamp(), hexToBytes(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="315" column="26" bodyfile="src/storage/history_manager.cpp" bodystart="449" bodyend="471"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_conflict_manager_1a0a77261035cba08865087851cb4573b8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::ConflictManager::serializeConflictSet</definition>
+        <argsstring>(const ConflictSet &amp;set)</argsstring>
+        <name>serializeConflictSet</name>
+        <qualifiedname>themis::ConflictManager::serializeConflictSet</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_conflict_set" kindref="compound">ConflictSet</ref> &amp;</type>
+          <declname>set</declname>
+        </param>
+        <briefdescription>
+<para>── <ref refid="structthemis_1_1_conflict_set" kindref="compound">ConflictSet</ref> serialization ───────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">set</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: dump(), buf(), begin(), end(), append_crc32(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="317" column="24" bodyfile="src/storage/history_manager.cpp" bodystart="526" bodyend="538"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_conflict_manager_1a9066da4c8a021752d9019988a2d87d42" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_conflict_set" kindref="compound">ConflictSet</ref> &gt;</type>
+        <definition>std::optional&lt; ConflictSet &gt; themis::ConflictManager::deserializeConflictSet</definition>
+        <argsstring>(std::string_view data)</argsstring>
+        <name>deserializeConflictSet</name>
+        <qualifiedname>themis::ConflictManager::deserializeConflictSet</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Deserialize Conflict Set. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: verify_crc32(), nlohmann::json::parse(), begin(), end(), value(), HLCTimestamp(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="318" column="26" bodyfile="src/storage/history_manager.cpp" bodystart="546" bodyend="565"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Persists and retrieves conflict artifacts. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Conflict keys are stored as: <computeroutput>conflict:&lt;conflict_id&gt;</computeroutput></para>
+<para>Writes use a non-transactional write batch so that they always succeed even after a transaction has failed.</para>
+<para>Thread-safety: Thread-safe for all operations. </para>
+    </detaileddescription>
+    <location file="include/storage/history_manager.h" line="231" column="1" bodyfile="include/storage/history_manager.h" bodystart="231" bodyend="323"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_conflict_manager_1a6d88067efe75a590299280be2c87da47" prot="private" virt="non-virtual"><scope>themis::ConflictManager</scope><name>clock_</name></member>
+      <member refid="classthemis_1_1_conflict_manager_1a7d3174e6f342108c9e37a562a36915f1" prot="public" virt="non-virtual"><scope>themis::ConflictManager</scope><name>conflictKey</name></member>
+      <member refid="classthemis_1_1_conflict_manager_1a67fff7ae9902d9998b4c4e0f3f59d408" prot="public" virt="non-virtual"><scope>themis::ConflictManager</scope><name>ConflictManager</name></member>
+      <member refid="classthemis_1_1_conflict_manager_1a069bb112e83feba314622a0bc6811cbd" prot="public" virt="non-virtual"><scope>themis::ConflictManager</scope><name>conflictSetKey</name></member>
+      <member refid="classthemis_1_1_conflict_manager_1aa51d37375ea64d114d162e4311031e60" prot="private" virt="non-virtual"><scope>themis::ConflictManager</scope><name>db_</name></member>
+      <member refid="classthemis_1_1_conflict_manager_1a3b7f6591c6ca1936ad8e44f8f2d0f2f7" prot="public" virt="non-virtual"><scope>themis::ConflictManager</scope><name>deserializeConflictRecord</name></member>
+      <member refid="classthemis_1_1_conflict_manager_1a9066da4c8a021752d9019988a2d87d42" prot="public" virt="non-virtual"><scope>themis::ConflictManager</scope><name>deserializeConflictSet</name></member>
+      <member refid="classthemis_1_1_conflict_manager_1a809e73ae70d77b3c7b1a4e1a40ab3fc9" prot="public" virt="non-virtual"><scope>themis::ConflictManager</scope><name>getConflict</name></member>
+      <member refid="classthemis_1_1_conflict_manager_1a28768170a378dc1e51f5b1bf47cd156b" prot="public" virt="non-virtual"><scope>themis::ConflictManager</scope><name>getConflictSet</name></member>
+      <member refid="classthemis_1_1_conflict_manager_1a545e0779a29895dd791d20720ba445e7" prot="public" virt="non-virtual"><scope>themis::ConflictManager</scope><name>listConflicts</name></member>
+      <member refid="classthemis_1_1_conflict_manager_1a65cb62cb7c0e6b0eb8f5a745e14ace20" prot="public" virt="non-virtual"><scope>themis::ConflictManager</scope><name>listConflictSets</name></member>
+      <member refid="classthemis_1_1_conflict_manager_1afa69a2daebdea9eb6ca7c62331513b8c" prot="public" virt="non-virtual"><scope>themis::ConflictManager</scope><name>serializeConflictRecord</name></member>
+      <member refid="classthemis_1_1_conflict_manager_1a0a77261035cba08865087851cb4573b8" prot="public" virt="non-virtual"><scope>themis::ConflictManager</scope><name>serializeConflictSet</name></member>
+      <member refid="classthemis_1_1_conflict_manager_1ae8ec4043bcfa8366d56ac5460998de77" prot="public" virt="non-virtual"><scope>themis::ConflictManager</scope><name>storeConflict</name></member>
+      <member refid="classthemis_1_1_conflict_manager_1af76ed9eb64e2e0b40790559b1e616b56" prot="public" virt="non-virtual"><scope>themis::ConflictManager</scope><name>storeConflictSet</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

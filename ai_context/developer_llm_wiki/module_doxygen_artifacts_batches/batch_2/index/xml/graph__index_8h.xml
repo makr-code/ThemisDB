@@ -1,0 +1,488 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="graph__index_8h" kind="file" language="C++">
+    <compoundname>graph_index.h</compoundname>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes refid="temporal__graph_8h" local="yes">index/temporal_graph.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">utility</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">unordered_set</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">shared_mutex</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="yes">themis/export.h</includes>
+    <includedby refid="graph__analytics_8h" local="yes">include/index/graph_analytics.h</includedby>
+    <includedby refid="graph__index_8cpp" local="yes">src/index/graph_index.cpp</includedby>
+    <includedby refid="index__manager_8cpp" local="yes">src/index/index_manager.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/index/graph_index.h</label>
+        <link refid="graph__index_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>index/temporal_graph.h</label>
+        <link refid="temporal__graph_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>atomic</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="16">
+        <label>functional</label>
+      </node>
+      <node id="17">
+        <label>memory</label>
+      </node>
+      <node id="14">
+        <label>mutex</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="15">
+        <label>shared_mutex</label>
+      </node>
+      <node id="2">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>string_view</label>
+      </node>
+      <node id="18">
+        <label>themis/export.h</label>
+      </node>
+      <node id="12">
+        <label>unordered_map</label>
+      </node>
+      <node id="11">
+        <label>unordered_set</label>
+      </node>
+      <node id="10">
+        <label>utility</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/index/graph_analytics.h</label>
+        <link refid="graph__analytics_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/index/graph_index.h</label>
+        <link refid="graph__index_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/index/graph_analytics.cpp</label>
+        <link refid="graph__analytics_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/index/graph_index.cpp</label>
+        <link refid="graph__index_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/index/index_manager.cpp</label>
+        <link refid="index__manager_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1_graph_index_manager" prot="public">themis::GraphIndexManager</innerclass>
+    <innerclass refid="structthemis_1_1_graph_index_manager_1_1_adjacency_info" prot="public">themis::GraphIndexManager::AdjacencyInfo</innerclass>
+    <innerclass refid="structthemis_1_1_graph_index_manager_1_1_status" prot="public">themis::GraphIndexManager::Status</innerclass>
+    <innerclass refid="structthemis_1_1_graph_index_manager_1_1_path_result" prot="public">themis::GraphIndexManager::PathResult</innerclass>
+    <innerclass refid="structthemis_1_1_graph_index_manager_1_1_path_constraints" prot="public">themis::GraphIndexManager::PathConstraints</innerclass>
+    <innerclass refid="structthemis_1_1_graph_index_manager_1_1_edge_info" prot="public">themis::GraphIndexManager::EdgeInfo</innerclass>
+    <innerclass refid="structthemis_1_1_graph_index_manager_1_1_temporal_aggregation_result" prot="public">themis::GraphIndexManager::TemporalAggregationResult</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils">themis::utils</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="temporal__graph_8h" kindref="compound">index/temporal_graph.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/export.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">BaseEntity;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">IExpressionEvaluator;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1utils" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">utils</ref><sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">AuditLogger;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="classthemis_1_1_graph_index_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_graph_index_manager_1add4708f8c43aa98f531acfd32d265bec" kindref="member">GraphIndexManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1_graph_index_manager_1_1_adjacency_info" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_graph_index_manager_1_1_adjacency_info" kindref="compound">AdjacencyInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1_graph_index_manager_1_1_adjacency_info_1aee3855a17cfba026699a2e13d85abcd3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_graph_index_manager_1_1_adjacency_info_1aee3855a17cfba026699a2e13d85abcd3" kindref="member">edgeId</ref>;</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1_graph_index_manager_1_1_adjacency_info_1a789dec9fd91e27482ee4f2078254963c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_graph_index_manager_1_1_adjacency_info_1a789dec9fd91e27482ee4f2078254963c" kindref="member">targetPk</ref>;</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1_graph_index_manager_1_1_adjacency_info_1a7f099b004ebd17580fe38a8c86bd57f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_graph_index_manager_1_1_adjacency_info_1a7f099b004ebd17580fe38a8c86bd57f1" kindref="member">graphId</ref>;<sp/></highlight><highlight class="comment">//<sp/>multi-graph<sp/>identifier</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1_graph_index_manager_1_1_status" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_graph_index_manager_1_1_status" kindref="compound">Status</ref><sp/>{</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1_graph_index_manager_1_1_status_1a0d4374cc226d7784dfd1ff5d489716c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_graph_index_manager_1_1_status_1a0d4374cc226d7784dfd1ff5d489716c7" kindref="member">ok</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1_graph_index_manager_1_1_status_1af4c3c204169bc76285959aacd80b83b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_graph_index_manager_1_1_status_1af4c3c204169bc76285959aacd80b83b1" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1_graph_index_manager_1_1_status_1ae25f491ecf8d6626221e431f1b53acca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_graph_index_manager_1_1_status" kindref="compound">Status</ref><sp/><ref refid="structthemis_1_1_graph_index_manager_1_1_status_1ae25f491ecf8d6626221e431f1b53acca" kindref="member">OK</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1_graph_index_manager_1_1_status_1a53929f944bce44937bc0ab7bfdaa621d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_graph_index_manager_1_1_status" kindref="compound">Status</ref><sp/><ref refid="structthemis_1_1_graph_index_manager_1_1_status_1a53929f944bce44937bc0ab7bfdaa621d" kindref="member">Error</ref>(std::string<sp/>msg)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_graph_index_manager_1_1_status" kindref="compound">Status</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>std::move(msg)};<sp/>}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_graph_index_manager_1add4708f8c43aa98f531acfd32d265bec" kindref="member">GraphIndexManager</ref>(RocksDBWrapper&amp;<sp/>db);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>optional<sp/>audit<sp/>logger<sp/>for<sp/>tracking<sp/>graph<sp/>operations<sp/>(Phase<sp/>1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_graph_index_manager_1af245f3731400b889c4c3c75beeff01c3" kindref="member">setAuditLogger</ref>(std::shared_ptr&lt;utils::AuditLogger&gt;<sp/>logger,<sp/>std::string<sp/>user_context<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;system&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>user<sp/>context<sp/>for<sp/>audit<sp/>logging</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_graph_index_manager_1afd19f3fff08af50595f1f75fe8474155" kindref="member">setUserContext</ref>(std::string<sp/>user_id);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>4:<sp/>Set<sp/>optional<sp/>expression<sp/>evaluator<sp/>for<sp/>advanced<sp/>filtering</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_graph_index_manager_1a30cd2456235f39e77cbf1af5c4d96ed8" kindref="member">setExpressionEvaluator</ref>(std::shared_ptr&lt;IExpressionEvaluator&gt;<sp/>evaluator);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>expression<sp/>evaluator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;IExpressionEvaluator&gt;<sp/><ref refid="classthemis_1_1_graph_index_manager_1a5cb0ac793406def76f9a4bd5c5d3c5a5" kindref="member">getExpressionEvaluator</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Topologie<sp/>aus<sp/>RocksDB<sp/>laden<sp/>(optional<sp/>beim<sp/>Start)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>Status<sp/><ref refid="classthemis_1_1_graph_index_manager_1a33f1b2f319c39567ca59211a89068071" kindref="member">rebuildTopology</ref>();</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>Status<sp/><ref refid="classthemis_1_1_graph_index_manager_1a888a48808644ed7e8a06cddf33795294" kindref="member">addEdge</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>BaseEntity&amp;<sp/>edge);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>Status<sp/><ref refid="classthemis_1_1_graph_index_manager_1a669ba9d6f8515dc90beda1fe876144e6" kindref="member">deleteEdge</ref>(std::string_view<sp/>edgeId);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Varianten<sp/>für<sp/>Transaktionen:<sp/>nutzen<sp/>bestehende<sp/>WriteBatch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>Status<sp/><ref refid="classthemis_1_1_graph_index_manager_1a888a48808644ed7e8a06cddf33795294" kindref="member">addEdge</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>BaseEntity&amp;<sp/>edge,<sp/>RocksDBWrapper::WriteBatchWrapper&amp;<sp/>batch);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>Status<sp/><ref refid="classthemis_1_1_graph_index_manager_1a669ba9d6f8515dc90beda1fe876144e6" kindref="member">deleteEdge</ref>(std::string_view<sp/>edgeId,<sp/>RocksDBWrapper::WriteBatchWrapper&amp;<sp/>batch);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>MVCC<sp/>Transaction<sp/>Varianten</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>Status<sp/><ref refid="classthemis_1_1_graph_index_manager_1a888a48808644ed7e8a06cddf33795294" kindref="member">addEdge</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>BaseEntity&amp;<sp/>edge,<sp/>RocksDBWrapper::TransactionWrapper&amp;<sp/>txn);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>Status<sp/><ref refid="classthemis_1_1_graph_index_manager_1a669ba9d6f8515dc90beda1fe876144e6" kindref="member">deleteEdge</ref>(std::string_view<sp/>edgeId,<sp/>RocksDBWrapper::TransactionWrapper&amp;<sp/>txn);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;RocksDBWrapper::WriteBatchWrapper&gt;<sp/><ref refid="classthemis_1_1_graph_index_manager_1a516ddad6aedcba29351f65f49a9c2bff" kindref="member">createWriteBatch</ref>();</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Nachbarschaftsabfragen<sp/>(nutzt<sp/>In-Memory<sp/>falls<sp/>verfügbar,<sp/>sonst<sp/>RocksDB)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;Status,<sp/>std::vector&lt;std::string&gt;&gt;<sp/><ref refid="classthemis_1_1_graph_index_manager_1a2039642b6cd391d8c64bbec0c3adf3de" kindref="member">outNeighbors</ref>(std::string_view<sp/>fromPk)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;Status,<sp/>std::vector&lt;std::string&gt;&gt;<sp/><ref refid="classthemis_1_1_graph_index_manager_1a1c93f35f7fc6503aa44bc5f89240a91e" kindref="member">inNeighbors</ref>(std::string_view<sp/>toPk)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Nachbarschaft<sp/>mit<sp/>Kanten-IDs<sp/>(für<sp/>RETURN<sp/>e/p)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;Status,<sp/>std::vector&lt;AdjacencyInfo&gt;&gt;<sp/><ref refid="classthemis_1_1_graph_index_manager_1af82d44c87cc08a24c231fc6bb095f1b7" kindref="member">outAdjacency</ref>(std::string_view<sp/>fromPk)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;Status,<sp/>std::vector&lt;AdjacencyInfo&gt;&gt;<sp/><ref refid="classthemis_1_1_graph_index_manager_1a873447493dd72fb49d56e44a3219fb45" kindref="member">inAdjacency</ref>(std::string_view<sp/>toPk)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Shortest-Path-Algorithmen<sp/>(gewichtete<sp/>Graphen)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Weight<sp/>wird<sp/>aus<sp/>Edge-Entity-Feld<sp/>&quot;_weight&quot;<sp/>gelesen<sp/>(default:<sp/>1.0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1_graph_index_manager_1_1_path_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_graph_index_manager_1_1_path_result" kindref="compound">PathResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1_graph_index_manager_1_1_path_result_1a6f14f807302b98987e54e1db2ed4efd6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_graph_index_manager_1_1_path_result_1a6f14f807302b98987e54e1db2ed4efd6" kindref="member">path</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Knoten<sp/>vom<sp/>Start<sp/>zum<sp/>Ziel</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1_graph_index_manager_1_1_path_result_1a4f01ae1109083f5a54be95678d48d98d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_graph_index_manager_1_1_path_result_1a4f01ae1109083f5a54be95678d48d98d" kindref="member">totalCost</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Path<sp/>Constraints<sp/>for<sp/>advanced<sp/>traversal<sp/>control</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1_graph_index_manager_1_1_path_constraints" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_graph_index_manager_1_1_path_constraints" kindref="compound">PathConstraints</ref><sp/>{</highlight></codeline>
+<codeline lineno="138" refid="structthemis_1_1_graph_index_manager_1_1_path_constraints_1a5fd2a1b2d29528c3e95db957016c2534" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_graph_index_manager_1_1_path_constraints_1a5fd2a1b2d29528c3e95db957016c2534" kindref="member">unique_vertices</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>vertex<sp/>visited<sp/>twice<sp/>(cycle<sp/>detection)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1_graph_index_manager_1_1_path_constraints_1a03815761ba7a5d1301586a42a266bdb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_graph_index_manager_1_1_path_constraints_1a03815761ba7a5d1301586a42a266bdb4" kindref="member">unique_edges</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>edge<sp/>traversed<sp/>twice</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1_graph_index_manager_1_1_path_constraints_1ac2b6664acf68ea337b076f176f70c51d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_graph_index_manager_1_1_path_constraints_1ac2b6664acf68ea337b076f176f70c51d" kindref="member">forbidden_vertices</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Blacklist<sp/>vertices</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="structthemis_1_1_graph_index_manager_1_1_path_constraints_1aa7005af1565abdf996ded1ad3f3dc485" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_graph_index_manager_1_1_path_constraints_1aa7005af1565abdf996ded1ad3f3dc485" kindref="member">forbidden_edges</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Blacklist<sp/>edges</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="structthemis_1_1_graph_index_manager_1_1_path_constraints_1a05f8c374d92e470fac6919733ce04756" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_graph_index_manager_1_1_path_constraints_1a05f8c374d92e470fac6919733ce04756" kindref="member">required_vertices</ref>;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must-visit<sp/>vertices</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143" refid="structthemis_1_1_graph_index_manager_1_1_path_constraints_1abb2d002c8667dfadd2c2b1035763735f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_graph_index_manager_1_1_path_constraints_1abb2d002c8667dfadd2c2b1035763735f" kindref="member">max_edge_count</ref><sp/>=<sp/>-1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Limit<sp/>edges<sp/>per<sp/>path<sp/>(-1<sp/>=<sp/>unlimited)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="structthemis_1_1_graph_index_manager_1_1_path_constraints_1a6af4691a0fb4c3edc602fc90fb34ee31" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_graph_index_manager_1_1_path_constraints_1a6af4691a0fb4c3edc602fc90fb34ee31" kindref="member">min_edge_count</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Minimum<sp/>edges<sp/>per<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sprint<sp/>B:<sp/>Temporal<sp/>Graph<sp/>Extensions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Traversal<sp/>with<sp/>temporal<sp/>filtering<sp/>(edges<sp/>must<sp/>be<sp/>valid<sp/>at<sp/>specified<sp/>timestamp)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;Status,<sp/>std::vector&lt;std::string&gt;&gt;<sp/><ref refid="classthemis_1_1_graph_index_manager_1a9b24c6b1fb1cb5970e623acf33408d0c" kindref="member">bfsAtTime</ref>(</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>startPk,</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>timestamp_ms,</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>maxDepth<sp/>=<sp/>3</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;Status,<sp/>PathResult&gt;<sp/><ref refid="classthemis_1_1_graph_index_manager_1a8b862c6550ca0937c1efc3261ae3983c" kindref="member">dijkstraAtTime</ref>(</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>startPk,</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>targetPk,</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>timestamp_ms</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sprint<sp/>B<sp/>Extended:<sp/>Time-Range<sp/>Queries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Find<sp/>all<sp/>edges<sp/>valid<sp/>during<sp/>a<sp/>time<sp/>window<sp/>(any<sp/>overlap)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163" refid="structthemis_1_1_graph_index_manager_1_1_edge_info" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_graph_index_manager_1_1_edge_info" kindref="compound">EdgeInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="164" refid="structthemis_1_1_graph_index_manager_1_1_edge_info_1a49999ca9fa7ef7fcce5086a50d5a9462" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_graph_index_manager_1_1_edge_info_1a49999ca9fa7ef7fcce5086a50d5a9462" kindref="member">edgeId</ref>;</highlight></codeline>
+<codeline lineno="165" refid="structthemis_1_1_graph_index_manager_1_1_edge_info_1a22cf678eacd797570de27f8f5417a8c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_graph_index_manager_1_1_edge_info_1a22cf678eacd797570de27f8f5417a8c4" kindref="member">fromPk</ref>;</highlight></codeline>
+<codeline lineno="166" refid="structthemis_1_1_graph_index_manager_1_1_edge_info_1a867decb0f98b112004172e99526b3192" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_graph_index_manager_1_1_edge_info_1a867decb0f98b112004172e99526b3192" kindref="member">toPk</ref>;</highlight></codeline>
+<codeline lineno="167" refid="structthemis_1_1_graph_index_manager_1_1_edge_info_1a03d0d708f86437098b70a64690493469" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;int64_t&gt;<sp/><ref refid="structthemis_1_1_graph_index_manager_1_1_edge_info_1a03d0d708f86437098b70a64690493469" kindref="member">valid_from</ref>;</highlight></codeline>
+<codeline lineno="168" refid="structthemis_1_1_graph_index_manager_1_1_edge_info_1ac4dc90b01cd056e3271e1c3f65629d72" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;int64_t&gt;<sp/><ref refid="structthemis_1_1_graph_index_manager_1_1_edge_info_1ac4dc90b01cd056e3271e1c3f65629d72" kindref="member">valid_to</ref>;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;Status,<sp/>std::vector&lt;EdgeInfo&gt;&gt;<sp/><ref refid="classthemis_1_1_graph_index_manager_1a3a98f87a1cc854b1969f52e2d22c77fd" kindref="member">getEdgesInTimeRange</ref>(</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>range_start_ms,</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>range_end_ms,</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>require_full_containment<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Find<sp/>edges<sp/>from<sp/>specific<sp/>node<sp/>valid<sp/>in<sp/>time<sp/>range</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;Status,<sp/>std::vector&lt;EdgeInfo&gt;&gt;<sp/><ref refid="classthemis_1_1_graph_index_manager_1ab25a13110c512f56ca3c7081a61383c6" kindref="member">getOutEdgesInTimeRange</ref>(</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>fromPk,</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>range_start_ms,</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>range_end_ms,</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>require_full_containment<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=====<sp/>Temporal<sp/>Aggregations<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186" refid="classthemis_1_1_graph_index_manager_1ab7647a25b0fb0e1355566097278083af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_graph_index_manager_1ab7647a25b0fb0e1355566097278083af" kindref="member">Aggregation</ref><sp/>{<sp/><ref refid="classthemis_1_1_graph_index_manager_1ab7647a25b0fb0e1355566097278083afa4905ac9d6a22bdfc1ae096094ce6248d" kindref="member">COUNT</ref>,<sp/><ref refid="classthemis_1_1_graph_index_manager_1ab7647a25b0fb0e1355566097278083afa6970bdc2201030b9c03fbdcf3973858a" kindref="member">SUM</ref>,<sp/><ref refid="classthemis_1_1_graph_index_manager_1ab7647a25b0fb0e1355566097278083afafcefd647d6a866603c627b11347c707a" kindref="member">AVG</ref>,<sp/><ref refid="classthemis_1_1_graph_index_manager_1ab7647a25b0fb0e1355566097278083aface31e2a082d17e038fcc6e3006166653" kindref="member">MIN</ref>,<sp/><ref refid="classthemis_1_1_graph_index_manager_1ab7647a25b0fb0e1355566097278083afa26a4b44a837bf97b972628509912b4a5" kindref="member">MAX</ref><sp/>};</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188" refid="structthemis_1_1_graph_index_manager_1_1_temporal_aggregation_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_graph_index_manager_1_1_temporal_aggregation_result" kindref="compound">TemporalAggregationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="189" refid="structthemis_1_1_graph_index_manager_1_1_temporal_aggregation_result_1ab20ad821f5301b30e02194ab7693de10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_graph_index_manager_1_1_temporal_aggregation_result_1ab20ad821f5301b30e02194ab7693de10" kindref="member">count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="190" refid="structthemis_1_1_graph_index_manager_1_1_temporal_aggregation_result_1a8fae664f51b7b5f646d99f57b7dce914" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_graph_index_manager_1_1_temporal_aggregation_result_1a8fae664f51b7b5f646d99f57b7dce914" kindref="member">value</ref><sp/>=<sp/>0.0;<sp/></highlight><highlight class="comment">//<sp/>SUM<sp/>for<sp/>SUM,<sp/>AVG<sp/>for<sp/>AVG,<sp/>MIN/MAX<sp/>as<sp/>appropriate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;Status,<sp/>TemporalAggregationResult&gt;<sp/><ref refid="classthemis_1_1_graph_index_manager_1a105fb7b44f675fc8a0101a96086beb68" kindref="member">aggregateEdgePropertyInTimeRange</ref>(</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>property,</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_graph_index_manager_1ab7647a25b0fb0e1355566097278083af" kindref="member">Aggregation</ref><sp/>agg,</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>range_start_ms,</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>range_end_ms,</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>require_full_containment<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::string_view&gt;<sp/>edge_type<sp/>=<sp/>std::nullopt</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Temporal<sp/>aggregations<sp/>over<sp/>time<sp/>ranges</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;Status,<sp/>TemporalStats&gt;<sp/><ref refid="classthemis_1_1_graph_index_manager_1a906656b1492ba3bdc07e4f684a18ed32" kindref="member">getTemporalStats</ref>(</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>range_start_ms,</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>range_end_ms,</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>require_full_containment<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Traversierungen</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;Status,<sp/>std::vector&lt;std::string&gt;&gt;<sp/><ref refid="classthemis_1_1_graph_index_manager_1a573f901735e72e7afcae0f0192a11897" kindref="member">bfs</ref>(</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>startPk,</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>maxDepth<sp/>=<sp/>3</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>BFS<sp/>with<sp/>edge<sp/>type<sp/>filtering<sp/>and<sp/>graph<sp/>scope<sp/>(server-side)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;Status,<sp/>std::vector&lt;std::string&gt;&gt;<sp/><ref refid="classthemis_1_1_graph_index_manager_1a573f901735e72e7afcae0f0192a11897" kindref="member">bfs</ref>(</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>startPk,</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>maxDepth,</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>edge_type,</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>graph_id</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Dijkstra:<sp/>Kürzester<sp/>Pfad<sp/>von<sp/>start<sp/>zu<sp/>target</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;Status,<sp/>PathResult&gt;<sp/><ref refid="classthemis_1_1_graph_index_manager_1aaa1d45605867c8bae5abb0598c7c2952" kindref="member">dijkstra</ref>(</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>startPk,</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>targetPk</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Dijkstra<sp/>with<sp/>edge<sp/>type<sp/>filtering<sp/>and<sp/>graph<sp/>scope<sp/>(server-side)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;Status,<sp/>PathResult&gt;<sp/><ref refid="classthemis_1_1_graph_index_manager_1aaa1d45605867c8bae5abb0598c7c2952" kindref="member">dijkstra</ref>(</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>startPk,</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>targetPk,</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>edge_type,</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>graph_id</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>BFS<sp/>with<sp/>path<sp/>constraints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;Status,<sp/>std::vector&lt;std::string&gt;&gt;<sp/><ref refid="classthemis_1_1_graph_index_manager_1a60d07ba57a0e5762fea59ffb7ecbf20b" kindref="member">bfsWithConstraints</ref>(</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>startPk,</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>maxDepth,</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_graph_index_manager_1_1_path_constraints" kindref="compound">PathConstraints</ref>&amp;<sp/>constraints,</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>edge_type<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>graph_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Dijkstra<sp/>with<sp/>path<sp/>constraints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;Status,<sp/>PathResult&gt;<sp/><ref refid="classthemis_1_1_graph_index_manager_1a6eaffe957dc2762eec4940c4e4c08659" kindref="member">dijkstraWithConstraints</ref>(</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>startPk,</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>targetPk,</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_graph_index_manager_1_1_path_constraints" kindref="compound">PathConstraints</ref>&amp;<sp/>constraints,</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>edge_type<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>graph_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A*:<sp/>Kürzester<sp/>Pfad<sp/>mit<sp/>Heuristik<sp/>(optional)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>heuristic:<sp/>Funktion<sp/>die<sp/>Schätzkosten<sp/>von<sp/>einem<sp/>Knoten<sp/>zum<sp/>Ziel<sp/>liefert</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263" refid="classthemis_1_1_graph_index_manager_1a7e732ddfdde38e4f5e3687f8383473ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_graph_index_manager_1a7e732ddfdde38e4f5e3687f8383473ff" kindref="member">HeuristicFunc</ref><sp/>=<sp/>std::function&lt;double(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node)&gt;;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;Status,<sp/>PathResult&gt;<sp/><ref refid="classthemis_1_1_graph_index_manager_1a0b89c2eb9b130f95624c10658dd96352" kindref="member">aStar</ref>(</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>startPk,</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>targetPk,</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_graph_index_manager_1a7e732ddfdde38e4f5e3687f8383473ff" kindref="member">HeuristicFunc</ref><sp/>heuristic<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistiken</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_graph_index_manager_1a328de5a60cff21a1e2506b9b87042e9e" kindref="member">getTopologyNodeCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_graph_index_manager_1aed70586afb62cb7666dadfec5b69cb72" kindref="member">getTopologyEdgeCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1_graph_index_manager_1a6e7ad8b8b1264bd6ba8c79901d4fe9eb" kindref="member">getAllVertices</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Edge<sp/>attribute<sp/>retrieval<sp/>(for<sp/>weighted<sp/>graph<sp/>algorithms)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Returns<sp/>edge<sp/>weight<sp/>from<sp/>specified<sp/>attribute<sp/>(default:<sp/>&quot;_weight&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Falls<sp/>back<sp/>to<sp/>1.0<sp/>if<sp/>attribute<sp/>doesn&apos;t<sp/>exist<sp/>or<sp/>edge<sp/>not<sp/>found</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_graph_index_manager_1afcc7ea0e8aa18d0271a282a824938c83" kindref="member">getEdgeWeight</ref>(std::string_view<sp/>graphId,<sp/>std::string_view<sp/>edgeId,<sp/></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>weightAttribute<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;_weight&quot;</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>General<sp/>string<sp/>field<sp/>accessor<sp/>for<sp/>edge<sp/>entities.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tries<sp/>key<sp/>formats:<sp/>&quot;edge:&lt;graphId&gt;:&lt;edgeId&gt;&quot;<sp/>and<sp/>&quot;edge:&lt;edgeId&gt;&quot;.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Returns<sp/>nullopt<sp/>if<sp/>the<sp/>edge<sp/>or<sp/>field<sp/>does<sp/>not<sp/>exist.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="classthemis_1_1_graph_index_manager_1abc2527a8ac198dff1a4facef5f70ade7" kindref="member">getEdgeField</ref>(std::string_view<sp/>edgeId,</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>fieldName)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>General<sp/>string<sp/>field<sp/>accessor<sp/>for<sp/>vertex<sp/>(node)<sp/>entities.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Uses<sp/>key<sp/>format:<sp/>&quot;node:&lt;vertexId&gt;&quot;<sp/>(KeySchema::makeGraphNodeKey).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Returns<sp/>nullopt<sp/>if<sp/>the<sp/>vertex<sp/>or<sp/>field<sp/>does<sp/>not<sp/>exist.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="classthemis_1_1_graph_index_manager_1af71fa902ac1a168dc6cb47b5c058aa22" kindref="member">getNodeField</ref>(std::string_view<sp/>vertexId,</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>fieldName)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional:<sp/>provide<sp/>FieldEncryption<sp/>for<sp/>encrypting<sp/>sensitive<sp/>edge<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298" refid="classthemis_1_1_graph_index_manager_1ac19781ac53ad650de8c06877b2ea5e9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_graph_index_manager_1ac19781ac53ad650de8c06877b2ea5e9b" kindref="member">setFieldEncryption</ref>(std::shared_ptr&lt;class<sp/>FieldEncryption&gt;<sp/>fe)<sp/>{<sp/>field_encryption_<sp/>=<sp/>fe;<sp/>}</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Returns<sp/>a<sp/>deduplicated<sp/>list<sp/>of<sp/>all<sp/>vertex<sp/>IDs<sp/>present<sp/>in<sp/>the<sp/>in-memory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>topology<sp/>(union<sp/>of<sp/>source<sp/>vertices<sp/>in<sp/>outEdges_<sp/>and<sp/>target<sp/>vertices<sp/>in</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>inEdges_).<sp/><sp/>Returns<sp/>an<sp/>empty<sp/>vector<sp/>when<sp/>the<sp/>topology<sp/>has<sp/>not<sp/>been</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>populated<sp/>yet.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;Status,<sp/>std::vector&lt;std::string&gt;&gt;<sp/><ref refid="classthemis_1_1_graph_index_manager_1a93c50394321cb99a105bf7623661964e" kindref="member">allVertices</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>RocksDBWrapper&amp;<sp/>db_;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Thread<sp/>Safety:<sp/>Lock<sp/>Hierarchy<sp/>(Phase<sp/>3<sp/>A-5<sp/>Circular<sp/>Lock<sp/>Ordering)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LOCK<sp/>HIERARCHY<sp/>(prevents<sp/>deadlocks<sp/>via<sp/>consistent<sp/>acquisition<sp/>order):</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>Tier<sp/>1<sp/>(Global):<sp/><sp/><sp/><sp/>topology_mutex_<sp/><sp/><sp/><sp/><sp/><sp/>←<sp/>Acquire<sp/>FIRST</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>Tier<sp/>2<sp/>(Partition):<sp/>[reserved<sp/>for<sp/>future<sp/>partition<sp/>locks]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>Tier<sp/>3<sp/>(Element):<sp/><sp/><sp/>[reserved<sp/>for<sp/>future<sp/>element-level<sp/>locks]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>INVARIANT:<sp/>All<sp/>code<sp/>paths<sp/>must<sp/>acquire<sp/>locks<sp/>in<sp/>order<sp/>Tier<sp/>1<sp/>→<sp/>Tier<sp/>2<sp/>→<sp/>Tier<sp/>3.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Violating<sp/>this<sp/>order<sp/>creates<sp/>deadlock<sp/>risk.<sp/>ThreadSanitizer<sp/>detects<sp/>violations.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>See:<sp/>https://github.com/google/sanitizers/wiki/ThreadSanitizerDeadlockDetector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>In-Memory<sp/>Adjazenzlisten<sp/>(thread-safe<sp/>via<sp/>topology_mutex_)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>topology_mutex_;<sp/><sp/></highlight><highlight class="comment">//<sp/>Tier<sp/>1:<sp/>Global<sp/>topology<sp/>lock</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::vector&lt;AdjacencyInfo&gt;&gt;<sp/>outEdges_;<sp/></highlight><highlight class="comment">//<sp/>fromPk<sp/>-&gt;<sp/>[(edgeId,<sp/>toPk)]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::vector&lt;AdjacencyInfo&gt;&gt;<sp/>inEdges_;<sp/><sp/></highlight><highlight class="comment">//<sp/>toPk<sp/>-&gt;<sp/>[(edgeId,<sp/>fromPk)]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>topologyLoaded_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Hilfsfunktionen</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>addEdgeToTopology_(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>edgeId,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>from,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>to,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>graphId<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>removeEdgeFromTopology_(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>edgeId,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>from,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>to,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>graphId<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>addEdgeToTopologyUnlocked_(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>edgeId,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>from,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>to,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>graphId<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>removeEdgeFromTopologyUnlocked_(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>edgeId,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>from,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>to,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>graphId<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Edge-Weight-Parsing<sp/>(liest<sp/>_weight<sp/>aus<sp/>Edge-Entity,<sp/>default<sp/>1.0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>getEdgeWeight_(std::string_view<sp/>graphId,<sp/>std::string_view<sp/>edgeId)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Edge-Type-Parsing<sp/>(liest<sp/>_type<sp/>aus<sp/>Edge-Entity,<sp/>empty<sp/>wenn<sp/>nicht<sp/>gesetzt)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>getEdgeType_(std::string_view<sp/>graphId,<sp/>std::string_view<sp/>edgeId)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Parse<sp/>keys:<sp/>graph:out:&lt;graph_id&gt;:&lt;fromPk&gt;:&lt;edgeId&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>parseOutKey_(std::string_view<sp/>key,<sp/>std::string&amp;<sp/>graphId,<sp/>std::string&amp;<sp/>fromPk,<sp/>std::string&amp;<sp/>edgeId);</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Parse<sp/>keys:<sp/>graph:in:&lt;graph_id&gt;:&lt;toPk&gt;:&lt;edgeId&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>parseInKey_(std::string_view<sp/>key,<sp/>std::string&amp;<sp/>graphId,<sp/>std::string&amp;<sp/>toPk,<sp/>std::string&amp;<sp/>edgeId);</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/>toBytes(std::string_view<sp/>sv);</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>FieldEncryption<sp/>instance<sp/>(not<sp/>owned)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;class<sp/>FieldEncryption&gt;<sp/>field_encryption_;</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>1:<sp/>Optional<sp/>AuditLogger<sp/>for<sp/>knowledge<sp/>graph<sp/>protection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;utils::AuditLogger&gt;<sp/>audit_logger_;</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>user_context_<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;system&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>user<sp/>context</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>4:<sp/>Optional<sp/>ExpressionEvaluator<sp/>for<sp/>advanced<sp/>filtering</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;IExpressionEvaluator&gt;<sp/>expression_evaluator_;</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper:<sp/>Log<sp/>audit<sp/>event<sp/>if<sp/>logger<sp/>is<sp/>set</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>logAuditEvent_(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>event_type,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>resource,<sp/></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>operation,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count<sp/>=<sp/>0,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>depth<sp/>=<sp/>0)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="360"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/index/graph_index.h"/>
+  </compounddef>
+</doxygen>

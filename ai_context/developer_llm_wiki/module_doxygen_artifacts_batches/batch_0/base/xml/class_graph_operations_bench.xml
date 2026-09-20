@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_graph_operations_bench" kind="class" language="C++" prot="public">
+    <compoundname>GraphOperationsBench</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_graph_operations_bench_1aa1ead1d6360ba5661061613e4b176118" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string GraphOperationsBench::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>GraphOperationsBench::db_path_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_comprehensive.cpp" line="548" column="17" bodyfile="benchmarks/base/bench_comprehensive.cpp" bodystart="548" bodyend="548"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_operations_bench_1adca5a7334268337efd3890df0de10858" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; GraphOperationsBench::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>GraphOperationsBench::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_comprehensive.cpp" line="549" column="21" bodyfile="benchmarks/base/bench_comprehensive.cpp" bodystart="549" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_operations_bench_1ae3cccad7108f387093af001fe44702ea" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; GraphIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;GraphIndexManager&gt; GraphOperationsBench::gim_</definition>
+        <argsstring></argsstring>
+        <name>gim_</name>
+        <qualifiedname>GraphOperationsBench::gim_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_comprehensive.cpp" line="550" column="21" bodyfile="benchmarks/base/bench_comprehensive.cpp" bodystart="550" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_graph_operations_bench_1adda2dd258ace0b2c31b3da8baf5ad204" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GraphOperationsBench::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GraphOperationsBench::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_comprehensive.cpp" line="528" column="10" bodyfile="benchmarks/base/bench_comprehensive.cpp" bodystart="528" bodyend="539"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_operations_bench_1a2f0612bdbd0c21656243b633b040c370" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GraphOperationsBench::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>GraphOperationsBench::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_comprehensive.cpp" line="541" column="10" bodyfile="benchmarks/base/bench_comprehensive.cpp" bodystart="541" bodyend="545"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GraphOperationsBench</label>
+        <link refid="class_graph_operations_bench"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GraphOperationsBench</label>
+        <link refid="class_graph_operations_bench"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/base/bench_comprehensive.cpp" line="526" column="1" bodyfile="benchmarks/base/bench_comprehensive.cpp" bodystart="526" bodyend="551"/>
+    <listofallmembers>
+      <member refid="class_graph_operations_bench_1adca5a7334268337efd3890df0de10858" prot="protected" virt="non-virtual"><scope>GraphOperationsBench</scope><name>db_</name></member>
+      <member refid="class_graph_operations_bench_1aa1ead1d6360ba5661061613e4b176118" prot="protected" virt="non-virtual"><scope>GraphOperationsBench</scope><name>db_path_</name></member>
+      <member refid="class_graph_operations_bench_1ae3cccad7108f387093af001fe44702ea" prot="protected" virt="non-virtual"><scope>GraphOperationsBench</scope><name>gim_</name></member>
+      <member refid="class_graph_operations_bench_1adda2dd258ace0b2c31b3da8baf5ad204" prot="public" virt="non-virtual"><scope>GraphOperationsBench</scope><name>SetUp</name></member>
+      <member refid="class_graph_operations_bench_1a2f0612bdbd0c21656243b633b040c370" prot="public" virt="non-virtual"><scope>GraphOperationsBench</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

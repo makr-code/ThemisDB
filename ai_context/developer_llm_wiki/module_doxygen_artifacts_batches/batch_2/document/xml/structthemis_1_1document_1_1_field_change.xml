@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1document_1_1_field_change" kind="struct" language="C++" prot="public">
+    <compoundname>themis::document::FieldChange</compoundname>
+    <includes refid="document__diff__merge_8h" local="no">document_diff_merge.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_field_change_1a419f0fd05252a5a41d9adcee8cd20b12" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::document::FieldChange::field_name</definition>
+        <argsstring></argsstring>
+        <name>field_name</name>
+        <qualifiedname>themis::document::FieldChange::field_name</qualifiedname>
+        <briefdescription>
+<para>JSON key that changed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_diff_merge.h" line="43" column="20" bodyfile="include/document/document_diff_merge.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_field_change_1a32c12d9d4ea3f3231568884ae22c46a1" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::document::FieldChange::old_value</definition>
+        <argsstring></argsstring>
+        <name>old_value</name>
+        <qualifiedname>themis::document::FieldChange::old_value</qualifiedname>
+        <briefdescription>
+<para>Value in the base document (null if added). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_diff_merge.h" line="44" column="20" bodyfile="include/document/document_diff_merge.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_field_change_1afd2cdca93634e6a6e06d9b0c543949d5" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::document::FieldChange::new_value</definition>
+        <argsstring></argsstring>
+        <name>new_value</name>
+        <qualifiedname>themis::document::FieldChange::new_value</qualifiedname>
+        <briefdescription>
+<para>Value in the target document (null if removed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_diff_merge.h" line="45" column="20" bodyfile="include/document/document_diff_merge.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/document/document_diff_merge.h" line="42" column="1" bodyfile="include/document/document_diff_merge.h" bodystart="42" bodyend="46"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1document_1_1_field_change_1a419f0fd05252a5a41d9adcee8cd20b12" prot="public" virt="non-virtual"><scope>themis::document::FieldChange</scope><name>field_name</name></member>
+      <member refid="structthemis_1_1document_1_1_field_change_1afd2cdca93634e6a6e06d9b0c543949d5" prot="public" virt="non-virtual"><scope>themis::document::FieldChange</scope><name>new_value</name></member>
+      <member refid="structthemis_1_1document_1_1_field_change_1a32c12d9d4ea3f3231568884ae22c46a1" prot="public" virt="non-virtual"><scope>themis::document::FieldChange</scope><name>old_value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,308 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="subagent__config_8h" kind="file" language="C++">
+    <compoundname>subagent_config.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">chrono</includes>
+    <includedby refid="subagent_8h" local="yes">include/llm/subagent.h</includedby>
+    <includedby refid="subagent__factory_8h" local="yes">include/llm/subagent_factory.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm/subagent_config.h</label>
+        <link refid="subagent__config_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="4">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/llm/subagent.h</label>
+        <link refid="subagent_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/subagent_config.h</label>
+        <link refid="subagent__config_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/llm/subagent_coordinator.h</label>
+        <link refid="subagent__coordinator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/llm/subagent_factory.h</label>
+        <link refid="subagent__factory_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/llm/subagent_coordinator_impl.cpp</label>
+        <link refid="subagent__coordinator__impl_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/llm/subagent_factory_impl.cpp</label>
+        <link refid="subagent__factory__impl_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/llm/test_subagent_orchestration_focused.cpp</label>
+        <link refid="test__subagent__orchestration__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1_subagent_quantization_config" prot="public">themis::llm::SubagentQuantizationConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_subagent_g_p_u_config" prot="public">themis::llm::SubagentGPUConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_subagent_policy_config" prot="public">themis::llm::SubagentPolicyConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_subagent_budget_config" prot="public">themis::llm::SubagentBudgetConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_subagent_config" prot="public">themis::llm::SubagentConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_subagent_metrics" prot="public">themis::llm::SubagentMetrics</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <briefdescription>
+<para>Subagent configuration and lifecycle contracts for independent LLM inference subagents with isolated model, adapter, and policy settings. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para><bold>Header-Only Configuration</bold>: Defines configuration struct and enums. Implementations use these structures for lifecycle management.</para>
+</simplesect>
+</para>
+<sect1 id="subagent__config_8h_1autotoc_md12_1s1"><sect2 id="subagent__config_8h_1autotoc_md12">
+<title>Purpose</title><para>ThemisDB&apos;s multi-subagent orchestration allows independent LLM inference instances to run in parallel while accessing shared database infrastructure. Each subagent is independently configured with:<itemizedlist>
+<listitem><para>Unique model_id + optional LoRA adapter_id</para>
+</listitem><listitem><para>Budget constraints (token quota, timeout)</para>
+</listitem><listitem><para>Policy gates (prompt policy, safety guardrails)</para>
+</listitem><listitem><para>Resource isolation (VRAM allocation, quota enforcement)</para>
+</listitem><listitem><para>Observability (correlation ID, audit trails)</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="subagent__config_8h_1autotoc_md13_1s1"><sect2 id="subagent__config_8h_1autotoc_md13">
+<title>Architecture</title><para>A subagent is a long-lived orchestration entity that:<orderedlist>
+<listitem><para>Loads/unloads an LLM model (via ModelLoader) + LoRA adapter (via <ref refid="class_multi_lo_r_a_manager" kindref="compound">MultiLoRAManager</ref>)</para>
+</listitem><listitem><para>Enforces independent policy gates (via PromptPolicy)</para>
+</listitem><listitem><para>Tracks token quota (via TokenQuotaManager)</para>
+</listitem><listitem><para>Submits inference requests (via AsyncInferenceEngine)</para>
+</listitem><listitem><para>Logs interactions (via LLMInteractionStore + audit trails)</para>
+</listitem></orderedlist>
+</para>
+<para>Multiple subagents can:<itemizedlist>
+<listitem><para>Read from shared database (WikiIndexStore, SSMStateRocksDBStore)</para>
+</listitem><listitem><para>Access shared caches (LLMResponseCache, LLMPrefixCache)</para>
+</listitem><listitem><para>Run in parallel via SharedWorkerPool</para>
+</listitem><listitem><para>Enforce independent quotas and policies</para>
+</listitem><listitem><para>Be coordinated by a SubagentCoordinator for fan-out inference</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="subagent__config_8h_1autotoc_md14_1s1"><sect2 id="subagent__config_8h_1autotoc_md14">
+<title>Non-Breaking Design</title><para>Subagent infrastructure is <bold>opt-in</bold> and does not modify existing AIOrchestrator, AsyncInferenceEngine, or <ref refid="class_multi_lo_r_a_manager" kindref="compound">MultiLoRAManager</ref> interfaces. Existing callers are unaffected; subagent orchestration is new surface area. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Subagent<sp/>Isolation<sp/>Levels</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="namespacethemis_1_1llm_1a11c329c706ce3f2abf36eca458626907" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1a11c329c706ce3f2abf36eca458626907" kindref="member">SubagentIsolationLevel</ref><sp/>{</highlight></codeline>
+<codeline lineno="60" refid="namespacethemis_1_1llm_1a11c329c706ce3f2abf36eca458626907ab50339a10e1de285ac99d4c3990b8693" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ad52f13f3b541d96c1742b95fd08cea47ab50339a10e1de285ac99d4c3990b8693" kindref="member">NONE</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="namespacethemis_1_1llm_1a11c329c706ce3f2abf36eca458626907a040229420d76868f24fae4859aaf0939" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a11c329c706ce3f2abf36eca458626907a040229420d76868f24fae4859aaf0939" kindref="member">ADVISORY</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="namespacethemis_1_1llm_1a11c329c706ce3f2abf36eca458626907a4c50b1af679a751969aaad2881a34bef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a11c329c706ce3f2abf36eca458626907a4c50b1af679a751969aaad2881a34bef" kindref="member">STRICT</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="namespacethemis_1_1llm_1a11c329c706ce3f2abf36eca458626907a62b5c37c7ca104ef7ac7ac1b12f5c518" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a11c329c706ce3f2abf36eca458626907a62b5c37c7ca104ef7ac7ac1b12f5c518" kindref="member">STRICT_WITH_PREEMPTION</ref><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>Subagent<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1llm_1_1_subagent_quantization_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_subagent_quantization_config" kindref="compound">SubagentQuantizationConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1llm_1_1_subagent_quantization_config_1a9c11509b63d4f175a4f982a5b16953b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_subagent_quantization_config_1a9c11509b63d4f175a4f982a5b16953b1" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1llm_1_1_subagent_quantization_config_1a8590b7c77e77020f9fd250bab5699731" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_subagent_quantization_config_1a8590b7c77e77020f9fd250bab5699731" kindref="member">mode</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;none&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1llm_1_1_subagent_quantization_config_1ad59ead4eeaaad8c8a74374e59de3cccc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_subagent_quantization_config_1ad59ead4eeaaad8c8a74374e59de3cccc" kindref="member">per_channel</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1llm_1_1_subagent_quantization_config_1a2d1e6de681e1c014741f075c88424ca3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_subagent_quantization_config_1a2d1e6de681e1c014741f075c88424ca3" kindref="member">group_size</ref><sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="namespacethemis_1_1llm_1a10ed8f27deb9ca2ebfa80439ed906b2e" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1a10ed8f27deb9ca2ebfa80439ed906b2e" kindref="member">SubagentMultiGPUStrategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="81" refid="namespacethemis_1_1llm_1a10ed8f27deb9ca2ebfa80439ed906b2eab50339a10e1de285ac99d4c3990b8693" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ad52f13f3b541d96c1742b95fd08cea47ab50339a10e1de285ac99d4c3990b8693" kindref="member">NONE</ref><sp/>=<sp/>0,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82" refid="namespacethemis_1_1llm_1a10ed8f27deb9ca2ebfa80439ed906b2ea1ebd8dbf8c34e255f5cbf28f35860b71" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ac97a4f1a11d739b2dd52142a3c24873da1ebd8dbf8c34e255f5cbf28f35860b71" kindref="member">ROUND_ROBIN</ref><sp/>=<sp/>1,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83" refid="namespacethemis_1_1llm_1a10ed8f27deb9ca2ebfa80439ed906b2ea37d2a3465f7cbf4ab60f4e79944d0638" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ac97a4f1a11d739b2dd52142a3c24873da37d2a3465f7cbf4ab60f4e79944d0638" kindref="member">DATA_PARALLEL</ref><sp/>=<sp/>2,<sp/><sp/></highlight></codeline>
+<codeline lineno="84" refid="namespacethemis_1_1llm_1a10ed8f27deb9ca2ebfa80439ed906b2eac94d7b0e44ab8bdcdad694a673cdeae0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ac97a4f1a11d739b2dd52142a3c24873dac94d7b0e44ab8bdcdad694a673cdeae0" kindref="member">MODEL_PARALLEL</ref><sp/>=<sp/>3,<sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1llm_1_1_subagent_g_p_u_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_subagent_g_p_u_config" kindref="compound">SubagentGPUConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1llm_1_1_subagent_g_p_u_config_1a4901e0dd6ef1b1df1433c8b60e91d640" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_subagent_g_p_u_config_1a4901e0dd6ef1b1df1433c8b60e91d640" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1llm_1_1_subagent_g_p_u_config_1a4392e0128de16a12c93d34e1813be70d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/><ref refid="structthemis_1_1llm_1_1_subagent_g_p_u_config_1a4392e0128de16a12c93d34e1813be70d" kindref="member">devices</ref>;</highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1llm_1_1_subagent_g_p_u_config_1a807d5b452fb1b8d6143add71ec552cf9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a10ed8f27deb9ca2ebfa80439ed906b2e" kindref="member">SubagentMultiGPUStrategy</ref><sp/><ref refid="structthemis_1_1llm_1_1_subagent_g_p_u_config_1a807d5b452fb1b8d6143add71ec552cf9" kindref="member">strategy</ref><sp/>=<sp/><ref refid="namespacethemis_1_1llm_1a10ed8f27deb9ca2ebfa80439ed906b2ea1ebd8dbf8c34e255f5cbf28f35860b71" kindref="member">SubagentMultiGPUStrategy::ROUND_ROBIN</ref>;</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1llm_1_1_subagent_g_p_u_config_1af311911b6ea499067c284941a3e64469" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_subagent_g_p_u_config_1af311911b6ea499067c284941a3e64469" kindref="member">enable_peer_transfer</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1llm_1_1_subagent_g_p_u_config_1a29b878d76f0e5453a82c1edc793584a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_subagent_g_p_u_config_1a29b878d76f0e5453a82c1edc793584a5" kindref="member">max_vram_per_gpu_mb</ref><sp/>=<sp/>24<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1llm_1_1_subagent_g_p_u_config_1ac7eaf821e06c399aff077de7c197a027" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_subagent_g_p_u_config_1ac7eaf821e06c399aff077de7c197a027" kindref="member">enable_load_balancing</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1llm_1_1_subagent_g_p_u_config_1a03ee1cb6ebe9f60474625c749ad0be3e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_subagent_g_p_u_config_1a03ee1cb6ebe9f60474625c749ad0be3e" kindref="member">load_balance_threshold</ref><sp/>=<sp/>0.8f;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1llm_1_1_subagent_policy_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_subagent_policy_config" kindref="compound">SubagentPolicyConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1llm_1_1_subagent_policy_config_1ac42c94b2260e151c073f949385a53771" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_subagent_policy_config_1ac42c94b2260e151c073f949385a53771" kindref="member">prompt_policy_id</ref>;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1llm_1_1_subagent_policy_config_1af42639a7143827bd787b6333194e012c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_subagent_policy_config_1af42639a7143827bd787b6333194e012c" kindref="member">ethics_profile_id</ref>;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1llm_1_1_subagent_policy_config_1a946094153adcceec5b1db5bb36722830" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_subagent_policy_config_1a946094153adcceec5b1db5bb36722830" kindref="member">max_retries</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1llm_1_1_subagent_policy_config_1a1a0a91cc72df5b58ef1466fd7e9f0fef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_subagent_policy_config_1a1a0a91cc72df5b58ef1466fd7e9f0fef" kindref="member">block_on_policy_violation</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1llm_1_1_subagent_policy_config_1a03c284a27d1d7da3fa3e295afceb5871" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_subagent_policy_config_1a03c284a27d1d7da3fa3e295afceb5871" kindref="member">block_on_quota_violation</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1llm_1_1_subagent_budget_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_subagent_budget_config" kindref="compound">SubagentBudgetConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1llm_1_1_subagent_budget_config_1a2c3076f7625ed2f8cb94ab5a14e96d45" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_subagent_budget_config_1a2c3076f7625ed2f8cb94ab5a14e96d45" kindref="member">max_tokens_per_minute</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1llm_1_1_subagent_budget_config_1a45a4f26a7dc4b115e4c79391933370a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_subagent_budget_config_1a45a4f26a7dc4b115e4c79391933370a8" kindref="member">max_tokens_per_request</ref><sp/>=<sp/>512;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1llm_1_1_subagent_budget_config_1ad221e774d3d7fc91832e2267e0106738" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_subagent_budget_config_1ad221e774d3d7fc91832e2267e0106738" kindref="member">timeout_ms</ref><sp/>=<sp/>30000;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1llm_1_1_subagent_budget_config_1a610f628bb8ebcaea33bff6be00991ad3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_subagent_budget_config_1a610f628bb8ebcaea33bff6be00991ad3" kindref="member">max_concurrent_requests</ref><sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1llm_1_1_subagent_budget_config_1aa2efe73815d0b6820c4610f9262b6a84" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_subagent_budget_config_1aa2efe73815d0b6820c4610f9262b6a84" kindref="member">priority</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1llm_1_1_subagent_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_subagent_config" kindref="compound">SubagentConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1llm_1_1_subagent_config_1a407094e762e6c3f3ea976103c29e9276" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1llm_1_1_subagent_config_1ac04964fff6df18d800e16bbda645299e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_subagent_config_1ac04964fff6df18d800e16bbda645299e" kindref="member">model_id</ref>;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1llm_1_1_subagent_config_1a1f3583557a07c1b85c4bc621b78ce14a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_subagent_config_1a1f3583557a07c1b85c4bc621b78ce14a" kindref="member">lora_adapter_id</ref>;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1llm_1_1_subagent_config_1a3017376d10b303d50b1cb171d13ca22a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_subagent_config_1a3017376d10b303d50b1cb171d13ca22a" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1llm_1_1_subagent_config_1a169bb6832d7f8f542c43a3de0413ac67" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a11c329c706ce3f2abf36eca458626907" kindref="member">SubagentIsolationLevel</ref><sp/><ref refid="structthemis_1_1llm_1_1_subagent_config_1a169bb6832d7f8f542c43a3de0413ac67" kindref="member">isolation_level</ref><sp/>=<sp/><ref refid="namespacethemis_1_1llm_1a11c329c706ce3f2abf36eca458626907a4c50b1af679a751969aaad2881a34bef" kindref="member">SubagentIsolationLevel::STRICT</ref>;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1llm_1_1_subagent_config_1a89a54fc034aafad06e209e0e17bb9625" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_subagent_budget_config" kindref="compound">SubagentBudgetConfig</ref><sp/><ref refid="structthemis_1_1llm_1_1_subagent_config_1a89a54fc034aafad06e209e0e17bb9625" kindref="member">budget</ref>;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1llm_1_1_subagent_config_1ad3decec0fdc1abc963f8aeb39167acf4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_subagent_policy_config" kindref="compound">SubagentPolicyConfig</ref><sp/><ref refid="structthemis_1_1llm_1_1_subagent_config_1ad3decec0fdc1abc963f8aeb39167acf4" kindref="member">policy</ref>;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1llm_1_1_subagent_config_1ae2e7a1293ec06b8bcc8d2a3c5806a794" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_subagent_g_p_u_config" kindref="compound">SubagentGPUConfig</ref><sp/><ref refid="structthemis_1_1llm_1_1_subagent_config_1ae2e7a1293ec06b8bcc8d2a3c5806a794" kindref="member">gpu</ref>;</highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1llm_1_1_subagent_config_1aa983cc530fba6be8a89e8043b5cb3c46" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_subagent_quantization_config" kindref="compound">SubagentQuantizationConfig</ref><sp/><ref refid="structthemis_1_1llm_1_1_subagent_config_1aa983cc530fba6be8a89e8043b5cb3c46" kindref="member">quantization</ref>;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1llm_1_1_subagent_config_1a090a3e2526c1ba59a6d52329cd2c772b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_subagent_config_1a090a3e2526c1ba59a6d52329cd2c772b" kindref="member">enable_audit_logging</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1llm_1_1_subagent_config_1a126124ff77ab96213cc24271936cff93" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_subagent_config_1a126124ff77ab96213cc24271936cff93" kindref="member">enable_metrics</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141" refid="structthemis_1_1llm_1_1_subagent_config_1aebe93650a5f7f46eb68a3b8887e4f7cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_subagent_config_1aebe93650a5f7f46eb68a3b8887e4f7cb" kindref="member">enable_tracing</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143" refid="structthemis_1_1llm_1_1_subagent_config_1a336193009c6cb195cb186bffeeacfa58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_subagent_config_1a336193009c6cb195cb186bffeeacfa58" kindref="member">tenant_id</ref>;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145" refid="structthemis_1_1llm_1_1_subagent_config_1a78bfd833b465015c30322d06ae6ef49b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_subagent_config_1a78bfd833b465015c30322d06ae6ef49b" kindref="member">tags</ref>;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>Subagent<sp/>Lifecycle<sp/>State</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152" refid="namespacethemis_1_1llm_1a77b279c60b23d5c639a3fd487647dee9" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1a77b279c60b23d5c639a3fd487647dee9" kindref="member">SubagentState</ref><sp/>{</highlight></codeline>
+<codeline lineno="153" refid="namespacethemis_1_1llm_1a77b279c60b23d5c639a3fd487647dee9a98690bf632c29c17c9e4c5a64069903c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a77b279c60b23d5c639a3fd487647dee9a98690bf632c29c17c9e4c5a64069903c" kindref="member">CREATED</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="154" refid="namespacethemis_1_1llm_1a77b279c60b23d5c639a3fd487647dee9af9f6955ebca09a484157c05f80acd65e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a6e9a2f3b302f5023ddacbdc166090401af9f6955ebca09a484157c05f80acd65e" kindref="member">LOADING</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="155" refid="namespacethemis_1_1llm_1a77b279c60b23d5c639a3fd487647dee9a2baa69eafc7204f3bd8648eba580c489" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a6e9a2f3b302f5023ddacbdc166090401a2baa69eafc7204f3bd8648eba580c489" kindref="member">READY</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="156" refid="namespacethemis_1_1llm_1a77b279c60b23d5c639a3fd487647dee9a99b2439e63f73ad515f7ab2447a80673" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a77b279c60b23d5c639a3fd487647dee9a99b2439e63f73ad515f7ab2447a80673" kindref="member">PAUSED</ref><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="157" refid="namespacethemis_1_1llm_1a77b279c60b23d5c639a3fd487647dee9a47a9a5e95b0b32bb9f2c74187c02bddd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a77b279c60b23d5c639a3fd487647dee9a47a9a5e95b0b32bb9f2c74187c02bddd" kindref="member">UNLOADING</ref><sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="158" refid="namespacethemis_1_1llm_1a77b279c60b23d5c639a3fd487647dee9a9d725163e44a2e9cf094059c0abfdef1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a77b279c60b23d5c639a3fd487647dee9a9d725163e44a2e9cf094059c0abfdef1" kindref="member">TERMINATED</ref><sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="159" refid="namespacethemis_1_1llm_1a77b279c60b23d5c639a3fd487647dee9abb1ca97ec761fc37101737ba0aa2e7c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a77b279c60b23d5c639a3fd487647dee9abb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">ERROR</ref><sp/>=<sp/>6,</highlight></codeline>
+<codeline lineno="160"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168" refid="namespacethemis_1_1llm_1aa35592c4aab34469913672bea060ffab" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1llm_1aa35592c4aab34469913672bea060ffab" kindref="member">subagentStateToString</ref>(<ref refid="namespacethemis_1_1llm_1a77b279c60b23d5c639a3fd487647dee9" kindref="member">SubagentState</ref><sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(state)<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1a77b279c60b23d5c639a3fd487647dee9a98690bf632c29c17c9e4c5a64069903c" kindref="member">SubagentState::CREATED</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;CREATED&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1a77b279c60b23d5c639a3fd487647dee9af9f6955ebca09a484157c05f80acd65e" kindref="member">SubagentState::LOADING</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LOADING&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1a77b279c60b23d5c639a3fd487647dee9a2baa69eafc7204f3bd8648eba580c489" kindref="member">SubagentState::READY</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;READY&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1a77b279c60b23d5c639a3fd487647dee9a99b2439e63f73ad515f7ab2447a80673" kindref="member">SubagentState::PAUSED</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;PAUSED&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1a77b279c60b23d5c639a3fd487647dee9a47a9a5e95b0b32bb9f2c74187c02bddd" kindref="member">SubagentState::UNLOADING</ref>:<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;UNLOADING&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1a77b279c60b23d5c639a3fd487647dee9a9d725163e44a2e9cf094059c0abfdef1" kindref="member">SubagentState::TERMINATED</ref>:<sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;TERMINATED&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1a77b279c60b23d5c639a3fd487647dee9abb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">SubagentState::ERROR</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;ERROR&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;UNKNOWN&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>4<sp/><sp/>Subagent<sp/>Resource<sp/>Metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185" refid="structthemis_1_1llm_1_1_subagent_metrics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_subagent_metrics" kindref="compound">SubagentMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="186" refid="structthemis_1_1llm_1_1_subagent_metrics_1a59ecc51cfa423df6c50679026da3a71f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1_subagent_metrics_1a59ecc51cfa423df6c50679026da3a71f" kindref="member">total_requests</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="187" refid="structthemis_1_1llm_1_1_subagent_metrics_1a1f9f7cfa3fdf1c111243fb3166f62b7a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1_subagent_metrics_1a1f9f7cfa3fdf1c111243fb3166f62b7a" kindref="member">successful_inferences</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="188" refid="structthemis_1_1llm_1_1_subagent_metrics_1a750e5ca374ac30a3160622d7c51d0393" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1_subagent_metrics_1a750e5ca374ac30a3160622d7c51d0393" kindref="member">failed_inferences</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="189" refid="structthemis_1_1llm_1_1_subagent_metrics_1a20a4e95269ea2127f57b2387f60d3719" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1_subagent_metrics_1a20a4e95269ea2127f57b2387f60d3719" kindref="member">policy_blocks</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="190" refid="structthemis_1_1llm_1_1_subagent_metrics_1a295e2c4b1de942b7820529c38366033d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1_subagent_metrics_1a295e2c4b1de942b7820529c38366033d" kindref="member">quota_blocks</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="191" refid="structthemis_1_1llm_1_1_subagent_metrics_1a264f5e377daf32f724623f42b70552ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_subagent_metrics_1a264f5e377daf32f724623f42b70552ba" kindref="member">tokens_consumed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="192" refid="structthemis_1_1llm_1_1_subagent_metrics_1ac963b8a2133bfacf4abb6108f125d5ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1_subagent_metrics_1ac963b8a2133bfacf4abb6108f125d5ba" kindref="member">vram_used_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="193" refid="structthemis_1_1llm_1_1_subagent_metrics_1a8cbf4c1dc6def27fc028ee17461ddd66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1_subagent_metrics_1a8cbf4c1dc6def27fc028ee17461ddd66" kindref="member">vram_peak_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="194" refid="structthemis_1_1llm_1_1_subagent_metrics_1ad78a96007e696c6a12dbcfd55f516ea5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1_subagent_metrics_1ad78a96007e696c6a12dbcfd55f516ea5" kindref="member">total_tokens_processed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="195" refid="structthemis_1_1llm_1_1_subagent_metrics_1a1887d87e2e6832364d0fcf83c09c5774" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/><ref refid="structthemis_1_1llm_1_1_subagent_metrics_1a1887d87e2e6832364d0fcf83c09c5774" kindref="member">last_request_time</ref>;</highlight></codeline>
+<codeline lineno="196" refid="structthemis_1_1llm_1_1_subagent_metrics_1ab7aa1c5c8e9105ebdc0422604e94cb90" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/><ref refid="structthemis_1_1llm_1_1_subagent_metrics_1ab7aa1c5c8e9105ebdc0422604e94cb90" kindref="member">load_time</ref>;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/subagent_config.h"/>
+  </compounddef>
+</doxygen>

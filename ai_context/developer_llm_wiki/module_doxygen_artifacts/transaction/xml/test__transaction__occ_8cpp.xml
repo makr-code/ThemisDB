@@ -1,0 +1,787 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__transaction__occ_8cpp" kind="file" language="C++">
+    <compoundname>test_transaction_occ.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="transaction__manager_8h" local="yes">transaction/transaction_manager.h</includes>
+    <includes refid="lock__manager_8h" local="yes">transaction/lock_manager.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="yes">storage/base_entity.h</includes>
+    <includes local="yes">index/secondary_index.h</includes>
+    <includes local="yes">index/graph_index.h</includes>
+    <includes local="yes">index/vector_index.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="23">
+        <label>transaction/crash_recovery_manager.h</label>
+        <link refid="crash__recovery__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>transaction/deadlock_predictor.h</label>
+        <link refid="deadlock__predictor_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>transaction/isolation_level.h</label>
+        <link refid="isolation__level_8h"/>
+      </node>
+      <node id="19">
+        <label>transaction/lock_manager.h</label>
+        <link refid="lock__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>transaction/transaction_manager.h</label>
+        <link refid="transaction__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/transaction/test_transaction_occ.cpp</label>
+        <link refid="test__transaction__occ_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>atomic</label>
+      </node>
+      <node id="13">
+        <label>chrono</label>
+      </node>
+      <node id="15">
+        <label>condition_variable</label>
+      </node>
+      <node id="24">
+        <label>cstdint</label>
+      </node>
+      <node id="16">
+        <label>deque</label>
+      </node>
+      <node id="31">
+        <label>filesystem</label>
+      </node>
+      <node id="21">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="29">
+        <label>index/graph_index.h</label>
+      </node>
+      <node id="28">
+        <label>index/secondary_index.h</label>
+      </node>
+      <node id="30">
+        <label>index/vector_index.h</label>
+      </node>
+      <node id="20">
+        <label>list</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="26">
+        <label>set</label>
+      </node>
+      <node id="27">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="18">
+        <label>storage/history_manager.h</label>
+      </node>
+      <node id="17">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>string_view</label>
+      </node>
+      <node id="14">
+        <label>thread</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="9">
+        <label>unordered_set</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_occ_test" prot="public">OccTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__transaction__occ_8cpp_1a8fc6c0f81c7cfd7e92c54b31a46a90ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OccTest, GetVersionNonExistentIsZero)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_occ_test" kindref="compound">OccTest</ref></type>
+        </param>
+        <param>
+          <type>GetVersionNonExistentIsZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_occ.cpp" line="60" column="1" bodyfile="tests/transaction/test_transaction_occ.cpp" bodystart="60" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__occ_8cpp_1a497494f1411dfd51014b68a09d97af43" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OccTest, GetVersionAfterOptimisticPutIsOne)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_occ_test" kindref="compound">OccTest</ref></type>
+        </param>
+        <param>
+          <type>GetVersionAfterOptimisticPutIsOne</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_occ.cpp" line="72" column="1" bodyfile="tests/transaction/test_transaction_occ.cpp" bodystart="72" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__occ_8cpp_1a341700f53fe2ad4ac7ce5e9607179e46" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OccTest, OptimisticPutCreateNewEntity)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_occ_test" kindref="compound">OccTest</ref></type>
+        </param>
+        <param>
+          <type>OptimisticPutCreateNewEntity</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_occ.cpp" line="92" column="1" bodyfile="tests/transaction/test_transaction_occ.cpp" bodystart="92" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__occ_8cpp_1aa29736d0e126fccd2d3a016b434b1a2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OccTest, OptimisticPutCreateFailsIfAlreadyExists)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_occ_test" kindref="compound">OccTest</ref></type>
+        </param>
+        <param>
+          <type>OptimisticPutCreateFailsIfAlreadyExists</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_occ.cpp" line="100" column="1" bodyfile="tests/transaction/test_transaction_occ.cpp" bodystart="100" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__occ_8cpp_1a0a6cc44e6c4adde336f7b1353bd4b89d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OccTest, OptimisticPutUpdateWithCorrectVersion)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_occ_test" kindref="compound">OccTest</ref></type>
+        </param>
+        <param>
+          <type>OptimisticPutUpdateWithCorrectVersion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_occ.cpp" line="117" column="1" bodyfile="tests/transaction/test_transaction_occ.cpp" bodystart="117" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__occ_8cpp_1a576820b0160ed1d5448de5160a15e0ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OccTest, OptimisticPutUpdateFailsOnVersionConflict)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_occ_test" kindref="compound">OccTest</ref></type>
+        </param>
+        <param>
+          <type>OptimisticPutUpdateFailsOnVersionConflict</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_occ.cpp" line="141" column="1" bodyfile="tests/transaction/test_transaction_occ.cpp" bodystart="141" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__occ_8cpp_1a5e32e2880e545846d41ad89328f8cec2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OccTest, OptimisticPutVersionConflictShowsExpectedAndActual)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_occ_test" kindref="compound">OccTest</ref></type>
+        </param>
+        <param>
+          <type>OptimisticPutVersionConflictShowsExpectedAndActual</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_occ.cpp" line="160" column="1" bodyfile="tests/transaction/test_transaction_occ.cpp" bodystart="160" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__occ_8cpp_1aa3fb2a6933a905b22cde1d1cf07362d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OccTest, OptimisticEraseSuccess)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_occ_test" kindref="compound">OccTest</ref></type>
+        </param>
+        <param>
+          <type>OptimisticEraseSuccess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_occ.cpp" line="185" column="1" bodyfile="tests/transaction/test_transaction_occ.cpp" bodystart="185" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__occ_8cpp_1a099095a806561a4df859e4dba3654133" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OccTest, OptimisticEraseFailsWhenEntityNotFound)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_occ_test" kindref="compound">OccTest</ref></type>
+        </param>
+        <param>
+          <type>OptimisticEraseFailsWhenEntityNotFound</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_occ.cpp" line="209" column="1" bodyfile="tests/transaction/test_transaction_occ.cpp" bodystart="209" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__occ_8cpp_1a104279931826a4d945c857e04fe37264" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OccTest, OptimisticEraseFailsOnVersionConflict)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_occ_test" kindref="compound">OccTest</ref></type>
+        </param>
+        <param>
+          <type>OptimisticEraseFailsOnVersionConflict</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_occ.cpp" line="217" column="1" bodyfile="tests/transaction/test_transaction_occ.cpp" bodystart="217" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__occ_8cpp_1abceeae1fc5962a56443527fdc78500b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OccTest, ReadVersionThenOptimisticPutPattern)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_occ_test" kindref="compound">OccTest</ref></type>
+        </param>
+        <param>
+          <type>ReadVersionThenOptimisticPutPattern</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_occ.cpp" line="234" column="1" bodyfile="tests/transaction/test_transaction_occ.cpp" bodystart="234" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__occ_8cpp_1a5e45289dc38e69caf033f0d86c0dfa72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OccTest, OccWorksWithAllIsolationLevels)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_occ_test" kindref="compound">OccTest</ref></type>
+        </param>
+        <param>
+          <type>OccWorksWithAllIsolationLevels</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_occ.cpp" line="264" column="1" bodyfile="tests/transaction/test_transaction_occ.cpp" bodystart="264" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__occ_8cpp_1a0921d33ebd8cab910e1017588b1ab219" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OccTest, GetVersionReturnsNulloptWhenFinished)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_occ_test" kindref="compound">OccTest</ref></type>
+        </param>
+        <param>
+          <type>GetVersionReturnsNulloptWhenFinished</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_occ.cpp" line="289" column="1" bodyfile="tests/transaction/test_transaction_occ.cpp" bodystart="289" bodyend="297"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="transaction__manager_8h" kindref="compound">transaction/transaction_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lock__manager_8h" kindref="compound">transaction/lock_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/base_entity.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/secondary_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/graph_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/vector_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Test<sp/>Fixture<sp/>─────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16" refid="class_occ_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_occ_test" kindref="compound">OccTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="class_occ_test_1ade0d7afb9e327088e978ef52cad51952" kindref="member">DB_PATH</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/themis_occ_test_db&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_occ_test_1aa796ec4700b3f67df3779e72ea52cfaa" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="class_occ_test_1ade0d7afb9e327088e978ef52cad51952" kindref="member">DB_PATH</ref>);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RocksDBWrapper::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.db_path<sp/>=<sp/><ref refid="class_occ_test_1ade0d7afb9e327088e978ef52cad51952" kindref="member">DB_PATH</ref>;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.enable_statistics<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_occ_test_1ac7fc5e8bc23e8cc5c09d0c4c19c03260" kindref="member">db_</ref><sp/>=<sp/>std::make_unique&lt;RocksDBWrapper&gt;(cfg);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_occ_test_1ac7fc5e8bc23e8cc5c09d0c4c19c03260" kindref="member">db_</ref>-&gt;open());</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_occ_test_1a9e04b5884be59524b51bc95e79e19e66" kindref="member">sec_idx_</ref><sp/>=<sp/>std::make_unique&lt;SecondaryIndexManager&gt;(*<ref refid="class_occ_test_1ac7fc5e8bc23e8cc5c09d0c4c19c03260" kindref="member">db_</ref>);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_occ_test_1a4ac764dbc36b982267cb48828b691fa5" kindref="member">graph_idx_</ref><sp/>=<sp/>std::make_unique&lt;GraphIndexManager&gt;(*<ref refid="class_occ_test_1ac7fc5e8bc23e8cc5c09d0c4c19c03260" kindref="member">db_</ref>);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_occ_test_1a6e1371cd2f5a19222b371e6b8f215907" kindref="member">vec_idx_</ref><sp/>=<sp/>std::make_unique&lt;VectorIndexManager&gt;(*<ref refid="class_occ_test_1ac7fc5e8bc23e8cc5c09d0c4c19c03260" kindref="member">db_</ref>);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_occ_test_1a95cb41674ba0612bf02c8c091991568f" kindref="member">mgr_</ref><sp/>=<sp/>std::make_unique&lt;TransactionManager&gt;(</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<ref refid="class_occ_test_1ac7fc5e8bc23e8cc5c09d0c4c19c03260" kindref="member">db_</ref>,<sp/>*<ref refid="class_occ_test_1a9e04b5884be59524b51bc95e79e19e66" kindref="member">sec_idx_</ref>,<sp/>*<ref refid="class_occ_test_1a4ac764dbc36b982267cb48828b691fa5" kindref="member">graph_idx_</ref>,<sp/>*<ref refid="class_occ_test_1a6e1371cd2f5a19222b371e6b8f215907" kindref="member">vec_idx_</ref>);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_occ_test_1a5a6a174a59aae9855c7fa8b10cee7073" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_occ_test_1a95cb41674ba0612bf02c8c091991568f" kindref="member">mgr_</ref>.reset();</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_occ_test_1a6e1371cd2f5a19222b371e6b8f215907" kindref="member">vec_idx_</ref>.reset();</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_occ_test_1a4ac764dbc36b982267cb48828b691fa5" kindref="member">graph_idx_</ref>.reset();</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_occ_test_1a9e04b5884be59524b51bc95e79e19e66" kindref="member">sec_idx_</ref>.reset();</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_occ_test_1ac7fc5e8bc23e8cc5c09d0c4c19c03260" kindref="member">db_</ref>.reset();</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="class_occ_test_1ade0d7afb9e327088e978ef52cad51952" kindref="member">DB_PATH</ref>);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>minimal<sp/>BaseEntity<sp/>with<sp/>a<sp/>given<sp/>primary<sp/>key</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>BaseEntity<sp/><ref refid="class_occ_test_1a4c81c844189358fc4d946bd643aa2860" kindref="member">makeEntity</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>pk,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BaseEntity<sp/>e;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e.setPrimaryKey(pk);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e.setField(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/>name.empty()<sp/>?<sp/>pk<sp/>:<sp/>name);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>e;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;RocksDBWrapper&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_occ_test_1ac7fc5e8bc23e8cc5c09d0c4c19c03260" kindref="member">db_</ref>;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;SecondaryIndexManager&gt;<sp/><sp/><ref refid="class_occ_test_1a9e04b5884be59524b51bc95e79e19e66" kindref="member">sec_idx_</ref>;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;GraphIndexManager&gt;<sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_occ_test_1a4ac764dbc36b982267cb48828b691fa5" kindref="member">graph_idx_</ref>;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;VectorIndexManager&gt;<sp/><sp/><sp/><sp/><sp/><ref refid="class_occ_test_1a6e1371cd2f5a19222b371e6b8f215907" kindref="member">vec_idx_</ref>;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;TransactionManager&gt;<sp/><sp/><sp/><sp/><sp/><ref refid="class_occ_test_1a95cb41674ba0612bf02c8c091991568f" kindref="member">mgr_</ref>;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>getEntityVersion<sp/>─────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="test__transaction__occ_8cpp_1a8fc6c0f81c7cfd7e92c54b31a46a90ba" kindref="member">TEST_F</ref>(<ref refid="class_occ_test" kindref="compound">OccTest</ref>,<sp/>GetVersionNonExistentIsZero)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>mgr_-&gt;beginTransaction();</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>txn<sp/>=<sp/>mgr_-&gt;getTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(txn,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ver<sp/>=<sp/>txn-&gt;getEntityVersion(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;u1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(ver.has_value());</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*ver,<sp/>0u);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr_-&gt;rollbackTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><ref refid="test__transaction__occ_8cpp_1a8fc6c0f81c7cfd7e92c54b31a46a90ba" kindref="member">TEST_F</ref>(<ref refid="class_occ_test" kindref="compound">OccTest</ref>,<sp/>GetVersionAfterOptimisticPutIsOne)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>via<sp/>optimisticPut<sp/>with<sp/>expected_version=0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>id1<sp/>=<sp/>mgr_-&gt;beginTransaction();</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>txn1<sp/>=<sp/>mgr_-&gt;getTransaction(id1);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(txn1,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>st<sp/>=<sp/>txn1-&gt;optimisticPut(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>makeEntity(</highlight><highlight class="stringliteral">&quot;u1&quot;</highlight><highlight class="normal">),<sp/>0);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(st.ok)<sp/>&lt;&lt;<sp/>st.message;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr_-&gt;commitTransaction(id1);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Now<sp/>read<sp/>the<sp/>version<sp/>in<sp/>a<sp/>new<sp/>transaction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>id2<sp/>=<sp/>mgr_-&gt;beginTransaction();</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>txn2<sp/>=<sp/>mgr_-&gt;getTransaction(id2);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ver<sp/>=<sp/>txn2-&gt;getEntityVersion(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;u1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(ver.has_value());</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*ver,<sp/>1u);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr_-&gt;rollbackTransaction(id2);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>optimisticPut<sp/>–<sp/>new<sp/>entity<sp/>────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><ref refid="test__transaction__occ_8cpp_1a8fc6c0f81c7cfd7e92c54b31a46a90ba" kindref="member">TEST_F</ref>(<ref refid="class_occ_test" kindref="compound">OccTest</ref>,<sp/>OptimisticPutCreateNewEntity)<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>mgr_-&gt;beginTransaction();</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>txn<sp/>=<sp/>mgr_-&gt;getTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>st<sp/>=<sp/>txn-&gt;optimisticPut(</highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">,<sp/>makeEntity(</highlight><highlight class="stringliteral">&quot;p42&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Widget&quot;</highlight><highlight class="normal">),<sp/>0);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(st.ok)<sp/>&lt;&lt;<sp/>st.message;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr_-&gt;commitTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">).ok,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><ref refid="test__transaction__occ_8cpp_1a8fc6c0f81c7cfd7e92c54b31a46a90ba" kindref="member">TEST_F</ref>(<ref refid="class_occ_test" kindref="compound">OccTest</ref>,<sp/>OptimisticPutCreateFailsIfAlreadyExists)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>insert</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>id1<sp/>=<sp/>mgr_-&gt;beginTransaction();</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr_-&gt;getTransaction(id1)-&gt;optimisticPut(</highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">,<sp/>makeEntity(</highlight><highlight class="stringliteral">&quot;p1&quot;</highlight><highlight class="normal">),<sp/>0);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr_-&gt;commitTransaction(id1);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>insert<sp/>with<sp/>expected_version=0<sp/>must<sp/>fail</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>id2<sp/>=<sp/>mgr_-&gt;beginTransaction();</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>txn2<sp/>=<sp/>mgr_-&gt;getTransaction(id2);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>st<sp/>=<sp/>txn2-&gt;optimisticPut(</highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">,<sp/>makeEntity(</highlight><highlight class="stringliteral">&quot;p1&quot;</highlight><highlight class="normal">),<sp/>0);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(st.ok);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(st.message.find(</highlight><highlight class="stringliteral">&quot;OCC<sp/>entity<sp/>already<sp/>exists&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)<sp/>&lt;&lt;<sp/>st.message;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr_-&gt;rollbackTransaction(id2);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>optimisticPut<sp/>–<sp/>update<sp/>entity<sp/>────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><ref refid="test__transaction__occ_8cpp_1a8fc6c0f81c7cfd7e92c54b31a46a90ba" kindref="member">TEST_F</ref>(<ref refid="class_occ_test" kindref="compound">OccTest</ref>,<sp/>OptimisticPutUpdateWithCorrectVersion)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>v1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>mgr_-&gt;beginTransaction();</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr_-&gt;getTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)-&gt;optimisticPut(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>makeEntity(</highlight><highlight class="stringliteral">&quot;u99&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">),<sp/>0);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr_-&gt;commitTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Update<sp/>to<sp/>v2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>mgr_-&gt;beginTransaction();</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>st<sp/>=<sp/>mgr_-&gt;getTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)-&gt;optimisticPut(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>makeEntity(</highlight><highlight class="stringliteral">&quot;u99&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Alice<sp/>Updated&quot;</highlight><highlight class="normal">),<sp/>1);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(st.ok)<sp/>&lt;&lt;<sp/>st.message;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr_-&gt;commitTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>version<sp/>is<sp/>now<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>mgr_-&gt;beginTransaction();</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ver<sp/>=<sp/>mgr_-&gt;getTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)-&gt;getEntityVersion(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;u99&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(ver.has_value());</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(*ver,<sp/>2u);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr_-&gt;rollbackTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><ref refid="test__transaction__occ_8cpp_1a8fc6c0f81c7cfd7e92c54b31a46a90ba" kindref="member">TEST_F</ref>(<ref refid="class_occ_test" kindref="compound">OccTest</ref>,<sp/>OptimisticPutUpdateFailsOnVersionConflict)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>entity<sp/>at<sp/>version<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>mgr_-&gt;beginTransaction();</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr_-&gt;getTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)-&gt;optimisticPut(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>makeEntity(</highlight><highlight class="stringliteral">&quot;u5&quot;</highlight><highlight class="normal">),<sp/>0);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr_-&gt;commitTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Try<sp/>to<sp/>update<sp/>with<sp/>a<sp/>stale<sp/>non-zero<sp/>expected_version<sp/>(expected=5,<sp/>actual=1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>exercises<sp/>the<sp/>&quot;OCC<sp/>version<sp/>conflict&quot;<sp/>code<sp/>path<sp/>(expected_version<sp/>!=<sp/>current_version</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>where<sp/>both<sp/>are<sp/>non-zero).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>mgr_-&gt;beginTransaction();</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>st<sp/>=<sp/>mgr_-&gt;getTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)-&gt;optimisticPut(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>makeEntity(</highlight><highlight class="stringliteral">&quot;u5&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Bob&quot;</highlight><highlight class="normal">),<sp/>5);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(st.ok);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(st.message.find(</highlight><highlight class="stringliteral">&quot;OCC<sp/>version<sp/>conflict&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)<sp/>&lt;&lt;<sp/>st.message;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(st.message.find(</highlight><highlight class="stringliteral">&quot;expected=5&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)<sp/>&lt;&lt;<sp/>st.message;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(st.message.find(</highlight><highlight class="stringliteral">&quot;actual=1&quot;</highlight><highlight class="normal">),<sp/><sp/><sp/>std::string::npos)<sp/>&lt;&lt;<sp/>st.message;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr_-&gt;rollbackTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><ref refid="test__transaction__occ_8cpp_1a8fc6c0f81c7cfd7e92c54b31a46a90ba" kindref="member">TEST_F</ref>(<ref refid="class_occ_test" kindref="compound">OccTest</ref>,<sp/>OptimisticPutVersionConflictShowsExpectedAndActual)<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>entity<sp/>(version<sp/>1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>mgr_-&gt;beginTransaction();</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr_-&gt;getTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)-&gt;optimisticPut(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>makeEntity(</highlight><highlight class="stringliteral">&quot;u10&quot;</highlight><highlight class="normal">),<sp/>0);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr_-&gt;commitTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Update<sp/>it<sp/>to<sp/>version<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>mgr_-&gt;beginTransaction();</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr_-&gt;getTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)-&gt;optimisticPut(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>makeEntity(</highlight><highlight class="stringliteral">&quot;u10&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;updated&quot;</highlight><highlight class="normal">),<sp/>1);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr_-&gt;commitTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Try<sp/>with<sp/>expected=1<sp/>(actual<sp/>is<sp/>2)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>mgr_-&gt;beginTransaction();</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>st<sp/>=<sp/>mgr_-&gt;getTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)-&gt;optimisticPut(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>makeEntity(</highlight><highlight class="stringliteral">&quot;u10&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;stale&quot;</highlight><highlight class="normal">),<sp/>1);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(st.ok);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Message<sp/>should<sp/>contain<sp/>expected<sp/>and<sp/>actual<sp/>version<sp/>numbers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(st.message.find(</highlight><highlight class="stringliteral">&quot;expected=1&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)<sp/>&lt;&lt;<sp/>st.message;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(st.message.find(</highlight><highlight class="stringliteral">&quot;actual=2&quot;</highlight><highlight class="normal">),<sp/><sp/><sp/>std::string::npos)<sp/>&lt;&lt;<sp/>st.message;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr_-&gt;rollbackTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>optimisticErase<sp/>───────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><ref refid="test__transaction__occ_8cpp_1a8fc6c0f81c7cfd7e92c54b31a46a90ba" kindref="member">TEST_F</ref>(<ref refid="class_occ_test" kindref="compound">OccTest</ref>,<sp/>OptimisticEraseSuccess)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>entity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>mgr_-&gt;beginTransaction();</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr_-&gt;getTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)-&gt;optimisticPut(</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">,<sp/>makeEntity(</highlight><highlight class="stringliteral">&quot;i1&quot;</highlight><highlight class="normal">),<sp/>0);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr_-&gt;commitTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Erase<sp/>with<sp/>correct<sp/>version</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>mgr_-&gt;beginTransaction();</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>st<sp/>=<sp/>mgr_-&gt;getTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)-&gt;optimisticErase(</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;i1&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(st.ok)<sp/>&lt;&lt;<sp/>st.message;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr_-&gt;commitTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Version<sp/>should<sp/>now<sp/>be<sp/>0<sp/>(entity<sp/>gone)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>mgr_-&gt;beginTransaction();</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ver<sp/>=<sp/>mgr_-&gt;getTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)-&gt;getEntityVersion(</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;i1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(ver.has_value());</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(*ver,<sp/>0u);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr_-&gt;rollbackTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="207"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><ref refid="test__transaction__occ_8cpp_1a8fc6c0f81c7cfd7e92c54b31a46a90ba" kindref="member">TEST_F</ref>(<ref refid="class_occ_test" kindref="compound">OccTest</ref>,<sp/>OptimisticEraseFailsWhenEntityNotFound)<sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>mgr_-&gt;beginTransaction();</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>st<sp/>=<sp/>mgr_-&gt;getTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)-&gt;optimisticErase(</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;nonexistent&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(st.ok);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(st.message.find(</highlight><highlight class="stringliteral">&quot;OCC<sp/>entity<sp/>not<sp/>found&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)<sp/>&lt;&lt;<sp/>st.message;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr_-&gt;rollbackTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><ref refid="test__transaction__occ_8cpp_1a8fc6c0f81c7cfd7e92c54b31a46a90ba" kindref="member">TEST_F</ref>(<ref refid="class_occ_test" kindref="compound">OccTest</ref>,<sp/>OptimisticEraseFailsOnVersionConflict)<sp/>{</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>entity<sp/>(version<sp/>1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>mgr_-&gt;beginTransaction();</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr_-&gt;getTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)-&gt;optimisticPut(</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">,<sp/>makeEntity(</highlight><highlight class="stringliteral">&quot;i2&quot;</highlight><highlight class="normal">),<sp/>0);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr_-&gt;commitTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Try<sp/>erase<sp/>with<sp/>wrong<sp/>version<sp/>(0<sp/>instead<sp/>of<sp/>1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>mgr_-&gt;beginTransaction();</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>st<sp/>=<sp/>mgr_-&gt;getTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)-&gt;optimisticErase(</highlight><highlight class="stringliteral">&quot;items&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;i2&quot;</highlight><highlight class="normal">,<sp/>0);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(st.ok);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(st.message.find(</highlight><highlight class="stringliteral">&quot;OCC<sp/>version<sp/>conflict&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)<sp/>&lt;&lt;<sp/>st.message;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr_-&gt;rollbackTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>OCC<sp/>retry<sp/>pattern<sp/>─────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><ref refid="test__transaction__occ_8cpp_1a8fc6c0f81c7cfd7e92c54b31a46a90ba" kindref="member">TEST_F</ref>(<ref refid="class_occ_test" kindref="compound">OccTest</ref>,<sp/>ReadVersionThenOptimisticPutPattern)<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>initial<sp/>entity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>mgr_-&gt;beginTransaction();</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr_-&gt;getTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)-&gt;optimisticPut(</highlight><highlight class="stringliteral">&quot;counters&quot;</highlight><highlight class="normal">,<sp/>makeEntity(</highlight><highlight class="stringliteral">&quot;c1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;0&quot;</highlight><highlight class="normal">),<sp/>0);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr_-&gt;commitTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Read-modify-write<sp/>pattern<sp/>(typical<sp/>OCC<sp/>usage)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>committed<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>attempt<sp/>=<sp/>0;<sp/>attempt<sp/>&lt;<sp/>3<sp/>&amp;&amp;<sp/>!committed;<sp/>++attempt)<sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>mgr_-&gt;beginTransaction();</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>txn<sp/>=<sp/>mgr_-&gt;getTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ver<sp/>=<sp/>txn-&gt;getEntityVersion(</highlight><highlight class="stringliteral">&quot;counters&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;c1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(ver.has_value());</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>st<sp/>=<sp/>txn-&gt;optimisticPut(</highlight><highlight class="stringliteral">&quot;counters&quot;</highlight><highlight class="normal">,<sp/>makeEntity(</highlight><highlight class="stringliteral">&quot;c1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1&quot;</highlight><highlight class="normal">),<sp/>*ver);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(st.ok)<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>commit_st<sp/>=<sp/>mgr_-&gt;commitTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>committed<sp/>=<sp/>commit_st.ok;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr_-&gt;rollbackTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(committed);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Isolation<sp/>level<sp/>interaction<sp/>───────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><ref refid="test__transaction__occ_8cpp_1a8fc6c0f81c7cfd7e92c54b31a46a90ba" kindref="member">TEST_F</ref>(<ref refid="class_occ_test" kindref="compound">OccTest</ref>,<sp/>OccWorksWithAllIsolationLevels)<sp/>{</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>iso<sp/>:<sp/>{<ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7a1671fb17b5ce9bd0af0cf47f3f4ea337" kindref="member">IsolationLevel::READ_COMMITTED</ref>,</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7aa4b37efaa1a6b533614ed81660dbf912" kindref="member">IsolationLevel::REPEATABLE_READ</ref>,</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7aadfafde622c8622bb72e4ff73e295cdb" kindref="member">IsolationLevel::SERIALIZABLE</ref>})<sp/>{</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>pk<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;iso_test_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(iso));</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>mgr_-&gt;beginTransaction(iso);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>txn<sp/>=<sp/>mgr_-&gt;getTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_NE(txn,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>getEntityVersion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ver<sp/>=<sp/>txn-&gt;getEntityVersion(</highlight><highlight class="stringliteral">&quot;iso_table&quot;</highlight><highlight class="normal">,<sp/>pk);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(ver.has_value());</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(*ver,<sp/>0u);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>optimisticPut</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>st<sp/>=<sp/>txn-&gt;optimisticPut(</highlight><highlight class="stringliteral">&quot;iso_table&quot;</highlight><highlight class="normal">,<sp/>makeEntity(pk),<sp/>0);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(st.ok)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;isolation=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(iso)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>err=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>st.message;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr_-&gt;commitTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="285"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>getEntityVersion<sp/>returns<sp/>nullopt<sp/>when<sp/>transaction<sp/>is<sp/>finished<sp/>─────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><ref refid="test__transaction__occ_8cpp_1a8fc6c0f81c7cfd7e92c54b31a46a90ba" kindref="member">TEST_F</ref>(<ref refid="class_occ_test" kindref="compound">OccTest</ref>,<sp/>GetVersionReturnsNulloptWhenFinished)<sp/>{</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>mgr_-&gt;beginTransaction();</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>txn<sp/>=<sp/>mgr_-&gt;getTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr_-&gt;rollbackTransaction(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Transaction<sp/>is<sp/>finished<sp/>—<sp/>mvcc_txn_<sp/>is<sp/>no<sp/>longer<sp/>active</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ver<sp/>=<sp/>txn-&gt;getEntityVersion(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;u1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ver.has_value());</highlight></codeline>
+<codeline lineno="297"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/transaction/test_transaction_occ.cpp"/>
+  </compounddef>
+</doxygen>

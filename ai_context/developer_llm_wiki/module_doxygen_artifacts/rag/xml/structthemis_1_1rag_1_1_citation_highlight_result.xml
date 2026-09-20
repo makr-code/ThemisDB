@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_citation_highlight_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::CitationHighlightResult</compoundname>
+    <includes refid="citation__highlighter_8h" local="no">citation_highlighter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_citation_highlight_result_1a0c5a6e73b0fe2d5ca2fe647c40981fdf" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1_sentence_citation_mapping" kindref="compound">SentenceCitationMapping</ref> &gt;</type>
+        <definition>std::vector&lt;SentenceCitationMapping&gt; themis::rag::CitationHighlightResult::mappings</definition>
+        <argsstring></argsstring>
+        <name>mappings</name>
+        <qualifiedname>themis::rag::CitationHighlightResult::mappings</qualifiedname>
+        <briefdescription>
+<para>Per-sentence citation mappings (same order as sentences in the answer). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/citation_highlighter.h" line="68" column="17" bodyfile="include/rag/citation_highlighter.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_citation_highlight_result_1a59940feac8f0c6afeb952bfd7d7a4a13" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::CitationHighlightResult::citation_coverage</definition>
+        <argsstring></argsstring>
+        <name>citation_coverage</name>
+        <qualifiedname>themis::rag::CitationHighlightResult::citation_coverage</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Fraction of answer sentences that received at least one citation [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/citation_highlighter.h" line="71" column="12" bodyfile="include/rag/citation_highlighter.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_citation_highlight_result_1ac5380b9e0d17446ebab1025e5b652429" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::CitationHighlightResult::mean_similarity</definition>
+        <argsstring></argsstring>
+        <name>mean_similarity</name>
+        <qualifiedname>themis::rag::CitationHighlightResult::mean_similarity</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Overall mean similarity across all cited sentences. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/citation_highlighter.h" line="74" column="12" bodyfile="include/rag/citation_highlighter.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_citation_highlight_result_1a283346c316da7fb60a232a49d349004a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::CitationHighlightResult::highlight_time_ms</definition>
+        <argsstring></argsstring>
+        <name>highlight_time_ms</name>
+        <qualifiedname>themis::rag::CitationHighlightResult::highlight_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Elapsed time for the highlight operation (milliseconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/citation_highlighter.h" line="77" column="12" bodyfile="include/rag/citation_highlighter.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Full citation-highlight result for one answer. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/citation_highlighter.h" line="66" column="1" bodyfile="include/rag/citation_highlighter.h" bodystart="66" bodyend="78"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_citation_highlight_result_1a59940feac8f0c6afeb952bfd7d7a4a13" prot="public" virt="non-virtual"><scope>themis::rag::CitationHighlightResult</scope><name>citation_coverage</name></member>
+      <member refid="structthemis_1_1rag_1_1_citation_highlight_result_1a283346c316da7fb60a232a49d349004a" prot="public" virt="non-virtual"><scope>themis::rag::CitationHighlightResult</scope><name>highlight_time_ms</name></member>
+      <member refid="structthemis_1_1rag_1_1_citation_highlight_result_1a0c5a6e73b0fe2d5ca2fe647c40981fdf" prot="public" virt="non-virtual"><scope>themis::rag::CitationHighlightResult</scope><name>mappings</name></member>
+      <member refid="structthemis_1_1rag_1_1_citation_highlight_result_1ac5380b9e0d17446ebab1025e5b652429" prot="public" virt="non-virtual"><scope>themis::rag::CitationHighlightResult</scope><name>mean_similarity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

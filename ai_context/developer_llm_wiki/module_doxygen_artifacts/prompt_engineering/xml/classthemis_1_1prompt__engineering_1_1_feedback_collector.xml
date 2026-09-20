@@ -1,0 +1,1317 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_feedback_collector" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::FeedbackCollector</compoundname>
+    <includes refid="feedback__collector_8h" local="no">feedback_collector.h</includes>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_feedback_collector_1_1_i_embedding_model" prot="public">themis::prompt_engineering::FeedbackCollector::IEmbeddingModel</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_feedback_collector_1ac70c1c24350b594f59ec38ae670689c7" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::prompt_engineering::FeedbackCollector::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackCollector::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="334" column="24" bodyfile="include/prompt_engineering/feedback_collector.h" bodystart="334" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a1c02f9f5a1e9b52d6e41882c7dcb24da" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_feedback_entry" kindref="compound">FeedbackEntry</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;FeedbackEntry&gt; &gt; themis::prompt_engineering::FeedbackCollector::feedback_</definition>
+        <argsstring></argsstring>
+        <name>feedback_</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackCollector::feedback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="337" column="24" bodyfile="include/prompt_engineering/feedback_collector.h" bodystart="337" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_feedback_collector_1afed671f37f58b03f84d91e214886b8b6" prot="private" static="no" mutable="no">
+        <type>RocksDBWrapper *</type>
+        <definition>RocksDBWrapper* themis::prompt_engineering::FeedbackCollector::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackCollector::db_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="340" column="20" bodyfile="include/prompt_engineering/feedback_collector.h" bodystart="340" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a6673e6dc4f2ecc895a899ca620e0a169" prot="private" static="no" mutable="no">
+        <type>rocksdb::ColumnFamilyHandle *</type>
+        <definition>rocksdb::ColumnFamilyHandle* themis::prompt_engineering::FeedbackCollector::cf_</definition>
+        <argsstring></argsstring>
+        <name>cf_</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackCollector::cf_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="341" column="33" bodyfile="include/prompt_engineering/feedback_collector.h" bodystart="341" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a3ce281ae3e265cdb326a9b918df7e5f2" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; distributed_knowledge::CrossShardFeedbackSync &gt;</type>
+        <definition>std::shared_ptr&lt;distributed_knowledge::CrossShardFeedbackSync&gt; themis::prompt_engineering::FeedbackCollector::cross_shard_sync_</definition>
+        <argsstring></argsstring>
+        <name>cross_shard_sync_</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackCollector::cross_shard_sync_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="344" column="21" bodyfile="include/prompt_engineering/feedback_collector.h" bodystart="344" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a24b03cc7aefbae445ad8aab4d87a1f5d" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_feedback_collector_1_1_i_embedding_model" kindref="compound">IEmbeddingModel</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IEmbeddingModel&gt; themis::prompt_engineering::FeedbackCollector::embedding_model_</definition>
+        <argsstring></argsstring>
+        <name>embedding_model_</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackCollector::embedding_model_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="345" column="51" bodyfile="include/prompt_engineering/feedback_collector.h" bodystart="345" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a2a17eeccfbc78364b4677f5356091609" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::prompt_engineering::FeedbackCollector::KEY_PREFIX</definition>
+        <argsstring></argsstring>
+        <name>KEY_PREFIX</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackCollector::KEY_PREFIX</qualifiedname>
+        <initializer>= &quot;feedback:&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="347" column="33" bodyfile="include/prompt_engineering/feedback_collector.h" bodystart="347" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a1cb59ffa275c777e54c21929e5c141ed" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::prompt_engineering::FeedbackCollector::IDX_TIME_PREFIX</definition>
+        <argsstring></argsstring>
+        <name>IDX_TIME_PREFIX</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackCollector::IDX_TIME_PREFIX</qualifiedname>
+        <initializer>= &quot;idx:time:&quot;</initializer>
+        <briefdescription>
+<para>Secondary time-based index prefix: &quot;idx:time:{prompt_id}:{ts_us}:{id}&quot; → entry_key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="349" column="33" bodyfile="include/prompt_engineering/feedback_collector.h" bodystart="349" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_feedback_collector_1aee82ec0cab27a0e41a49a63aca1fdee8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::FeedbackCollector::FeedbackCollector</definition>
+        <argsstring>()</argsstring>
+        <name>FeedbackCollector</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackCollector::FeedbackCollector</qualifiedname>
+        <briefdescription>
+<para>Constructor for in-memory collection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="137" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a36cbf6790f8ef6f921bf5f25fd876c04" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::FeedbackCollector::FeedbackCollector</definition>
+        <argsstring>(RocksDBWrapper *db, rocksdb::ColumnFamilyHandle *cf=nullptr)</argsstring>
+        <name>FeedbackCollector</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackCollector::FeedbackCollector</qualifiedname>
+        <param>
+          <type>RocksDBWrapper *</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>rocksdb::ColumnFamilyHandle *</type>
+          <declname>cf</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Constructor with RocksDB persistence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RocksDB wrapper (not owned) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Column family handle (optional, uses default if null) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="144" column="5" bodyfile="src/prompt_engineering/feedback_collector.cpp" bodystart="192" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a2b330048b544c621f0fca27a1a1ffb5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::FeedbackCollector::recordFeedback</definition>
+        <argsstring>(const std::string &amp;prompt_id, const std::string &amp;query, const std::string &amp;response, FeedbackType type, const std::string &amp;feedback_text=&quot;&quot;, double severity=0.5, const nlohmann::json &amp;metadata={})</argsstring>
+        <name>recordFeedback</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackCollector::recordFeedback</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469" kindref="member">FeedbackType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>feedback_text</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>severity</declname>
+          <defval>0.5</defval>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>metadata</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Record feedback about a prompt execution. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Feedback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt template ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original query/input </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>LLM response </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Type of feedback </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>feedback_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional feedback message </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>severity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Severity score (0.0-1.0, default 0.5) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Additional context </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Feedback entry ID</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the prompt. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">feedback_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">severity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), generateId(), std::max(), std::min(), std::chrono::system_clock::now(), computeChecksum(), push_back(), persist(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="157" column="17" bodyfile="src/prompt_engineering/feedback_collector.cpp" bodystart="211" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a1fd3b570116ef102d8dcabce31e8415e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_feedback_entry" kindref="compound">FeedbackEntry</ref> &gt;</type>
+        <definition>std::vector&lt; FeedbackEntry &gt; themis::prompt_engineering::FeedbackCollector::getFeedback</definition>
+        <argsstring>(const std::string &amp;prompt_id, size_t limit=0, std::optional&lt; FeedbackType &gt; type_filter=std::nullopt) const</argsstring>
+        <name>getFeedback</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackCollector::getFeedback</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469" kindref="member">FeedbackType</ref> &gt;</type>
+          <declname>type_filter</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Get feedback entries for a specific prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt template ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of entries to return (0 = all) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type_filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional filter by feedback type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of feedback entries </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="174" column="17" bodyfile="src/prompt_engineering/feedback_collector.cpp" bodystart="297" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a19c99e3d23fcaa5841f6e3be3ff5561f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_feedback_stats" kindref="compound">FeedbackStats</ref></type>
+        <definition>FeedbackStats themis::prompt_engineering::FeedbackCollector::getStats</definition>
+        <argsstring>(const std::string &amp;prompt_id) const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackCollector::getStats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_id</declname>
+        </param>
+        <briefdescription>
+<para>Get aggregated feedback statistics for a prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt template ID </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Feedback statistics </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="185" column="19" bodyfile="src/prompt_engineering/feedback_collector.cpp" bodystart="333" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_feedback_collector_1acd22b58271dec9303f5b5b5a0bc01a6e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::prompt_engineering::FeedbackCollector::getPromptsWithNegativeFeedback</definition>
+        <argsstring>(double threshold=0.3, size_t min_feedback=10) const</argsstring>
+        <name>getPromptsWithNegativeFeedback</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackCollector::getPromptsWithNegativeFeedback</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>threshold</declname>
+          <defval>0.3</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>min_feedback</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>Get all prompts with negative feedback above threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Minimum negative feedback ratio (default 0.3 = 30%) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>min_feedback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Minimum feedback count required (default 10) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of prompt IDs </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="193" column="17" bodyfile="src/prompt_engineering/feedback_collector.cpp" bodystart="351" bodyend="379"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_feedback_collector_1aa2b7b69ffc73f88914ed487d4f656ea9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::tuple&lt; std::string, std::string, <ref refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469" kindref="member">FeedbackType</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::tuple&lt; std::string, std::string, FeedbackType &gt; &gt; themis::prompt_engineering::FeedbackCollector::getFailedQueries</definition>
+        <argsstring>(const std::string &amp;prompt_id, size_t limit=100, std::optional&lt; FeedbackType &gt; type_filter=std::nullopt) const</argsstring>
+        <name>getFailedQueries</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackCollector::getFailedQueries</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>100</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469" kindref="member">FeedbackType</ref> &gt;</type>
+          <declname>type_filter</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Get failed queries for analysis. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt template ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of queries to return (default 100) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type_filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional filter by feedback type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of (query, response, feedback_type) tuples </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="206" column="5" bodyfile="src/prompt_engineering/feedback_collector.cpp" bodystart="382" bodyend="423"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a5c32f2f5e5781e0ee36f598005abc345" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_failed_query_pattern" kindref="compound">FailedQueryPattern</ref> &gt;</type>
+        <definition>std::vector&lt; FailedQueryPattern &gt; themis::prompt_engineering::FeedbackCollector::analyzeFailurePatterns</definition>
+        <argsstring>(const std::string &amp;prompt_id, size_t min_occurrences=3) const</argsstring>
+        <name>analyzeFailurePatterns</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackCollector::analyzeFailurePatterns</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>min_occurrences</declname>
+          <defval>3</defval>
+        </param>
+        <briefdescription>
+<para>Analyze failed query patterns. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt template ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>min_occurrences</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Minimum occurrences to be considered a pattern (default 3) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of identified patterns </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="218" column="17" bodyfile="src/prompt_engineering/feedback_collector.cpp" bodystart="425" bodyend="451"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a9983aba8788bd5f6eb66eb14ce0e3255" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_feedback_entry" kindref="compound">FeedbackEntry</ref> &gt;</type>
+        <definition>std::vector&lt; FeedbackEntry &gt; themis::prompt_engineering::FeedbackCollector::getFeedbackInTimeRange</definition>
+        <argsstring>(const std::string &amp;prompt_id, const std::chrono::system_clock::time_point &amp;start, const std::chrono::system_clock::time_point &amp;end) const</argsstring>
+        <name>getFeedbackInTimeRange</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackCollector::getFeedbackInTimeRange</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_id</declname>
+        </param>
+        <param>
+          <type>const std::chrono::system_clock::time_point &amp;</type>
+          <declname>start</declname>
+        </param>
+        <param>
+          <type>const std::chrono::system_clock::time_point &amp;</type>
+          <declname>end</declname>
+        </param>
+        <briefdescription>
+<para>Get feedback within a time range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt template ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Start time </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>End time </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of feedback entries </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="230" column="17" bodyfile="src/prompt_engineering/feedback_collector.cpp" bodystart="453" bodyend="504"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a290931b7081e28ac0942356ab8e31ebb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::FeedbackCollector::pruneOldFeedback</definition>
+        <argsstring>(const std::chrono::system_clock::time_point &amp;older_than)</argsstring>
+        <name>pruneOldFeedback</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackCollector::pruneOldFeedback</qualifiedname>
+        <param>
+          <type>const std::chrono::system_clock::time_point &amp;</type>
+          <declname>older_than</declname>
+        </param>
+        <briefdescription>
+<para>Delete old feedback entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Prune Old Feedback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>older_than</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Delete entries older than this </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of entries deleted</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">older_than</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), std::remove_if(), begin(), end(), std::distance(), erase(), scanPrefix(), nlohmann::json::parse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="241" column="12" bodyfile="src/prompt_engineering/feedback_collector.cpp" bodystart="512" bodyend="560"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a38057312f853c65ffd56882cc428ddd1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::FeedbackCollector::clearFeedback</definition>
+        <argsstring>(const std::string &amp;prompt_id)</argsstring>
+        <name>clearFeedback</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackCollector::clearFeedback</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_id</declname>
+        </param>
+        <briefdescription>
+<para>Clear all feedback for a specific prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Feedback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt template ID </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of entries deleted</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the prompt. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), size(), erase(), std::string(), scanPrefix(), nlohmann::json::parse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="248" column="12" bodyfile="src/prompt_engineering/feedback_collector.cpp" bodystart="568" bodyend="600"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_feedback_collector_1ae30a69e328c4e7f302976cbc94c43f7e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::FeedbackCollector::newEntryCount</definition>
+        <argsstring>() const</argsstring>
+        <name>newEntryCount</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackCollector::newEntryCount</qualifiedname>
+        <briefdescription>
+<para>Return the total number of feedback entries recorded since last clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used by Loop 4 (RLAIF) in ContinuousLearningOrchestrator to decide whether sufficient preference-pair data has accumulated to trigger a training round (threshold: &gt;= 100 entries).</para>
+<para><simplesect kind="return"><para>Total number of entries across all prompt IDs. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="259" column="13" bodyfile="src/prompt_engineering/feedback_collector.cpp" bodystart="1045" bodyend="1057"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a0c220773930551c2d6c10268b8eb386e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_feedback_entry" kindref="compound">FeedbackEntry</ref> &gt;</type>
+        <definition>std::vector&lt; FeedbackEntry &gt; themis::prompt_engineering::FeedbackCollector::getFeedbackPaged</definition>
+        <argsstring>(const std::string &amp;prompt_id, size_t offset, size_t page_size, std::optional&lt; FeedbackType &gt; type_filter=std::nullopt) const</argsstring>
+        <name>getFeedbackPaged</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackCollector::getFeedbackPaged</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>offset</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>page_size</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469" kindref="member">FeedbackType</ref> &gt;</type>
+          <declname>type_filter</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Get feedback entries for a specific prompt (paginated). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Supports efficient chunked access to large feedback archives.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt template ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of entries to skip (0-based) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>page_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum entries per page (0 = all remaining) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type_filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional filter by feedback type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of feedback entries for the requested page </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="272" column="17" bodyfile="src/prompt_engineering/feedback_collector.cpp" bodystart="602" bodyend="638"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_feedback_collector_1af5099e5447e32104bd4510f3b05fce78" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_feedback_entry" kindref="compound">FeedbackEntry</ref> &gt;</type>
+        <definition>std::vector&lt; FeedbackEntry &gt; themis::prompt_engineering::FeedbackCollector::detectOutliers</definition>
+        <argsstring>(const std::string &amp;prompt_id, double z_threshold=2.0) const</argsstring>
+        <name>detectOutliers</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackCollector::detectOutliers</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>z_threshold</declname>
+          <defval>2.0</defval>
+        </param>
+        <briefdescription>
+<para>Detect outlier feedback entries by severity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns entries whose severity deviates more than <computeroutput>z_threshold</computeroutput> standard deviations from the mean.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt template ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>z_threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Z-score threshold (default 2.0) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of outlier entries </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="289" column="17" bodyfile="src/prompt_engineering/feedback_collector.cpp" bodystart="640" bodyend="693"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_feedback_collector_1ae653bfcd540fca8a28382f594efe02b9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::prompt_engineering::FeedbackCollector::getSummary</definition>
+        <argsstring>() const</argsstring>
+        <name>getSummary</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackCollector::getSummary</qualifiedname>
+        <briefdescription>
+<para>Get summary across all prompts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON object with aggregate statistics </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="298" column="20" bodyfile="src/prompt_engineering/feedback_collector.cpp" bodystart="695" bodyend="739"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a04c4602d6729bd3cbd5895e68797749c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::FeedbackCollector::setCrossShardSync</definition>
+        <argsstring>(std::shared_ptr&lt; distributed_knowledge::CrossShardFeedbackSync &gt; sync)</argsstring>
+        <name>setCrossShardSync</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackCollector::setCrossShardSync</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; distributed_knowledge::CrossShardFeedbackSync &gt;</type>
+          <declname>sync</declname>
+        </param>
+        <briefdescription>
+<para>Inject a <computeroutput>CrossShardFeedbackSync</computeroutput> hook (DK-5 DI-setter). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── DK-5: DI setters ─────────────────────────────────────────────────────────</para>
+<para>When set together with an embedding model, <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a2b330048b544c621f0fca27a1a1ffb5e" kindref="member">recordFeedback()</ref></computeroutput> will publish an anonymised <computeroutput>FeedbackSummary</computeroutput> (embedding only, no raw text) to all peer shards via the sync component.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sync</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="321" column="10" bodyfile="src/prompt_engineering/feedback_collector.cpp" bodystart="270" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a2998ad64fc9a5652d3aba2099cb9e523" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::FeedbackCollector::setEmbeddingModel</definition>
+        <argsstring>(std::shared_ptr&lt; IEmbeddingModel &gt; model)</argsstring>
+        <name>setEmbeddingModel</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackCollector::setEmbeddingModel</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_feedback_collector_1_1_i_embedding_model" kindref="compound">IEmbeddingModel</ref> &gt;</type>
+          <declname>model</declname>
+        </param>
+        <briefdescription>
+<para>Inject an embedding model for cross-shard summary generation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Embedding Model.</para>
+<para>Required alongside <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a04c4602d6729bd3cbd5895e68797749c" kindref="member">setCrossShardSync()</ref></computeroutput> for the cross-shard publish path. When absent, cross-shard publish is silently skipped and a warning is logged.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="331" column="10" bodyfile="src/prompt_engineering/feedback_collector.cpp" bodystart="286" bodyend="295"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a406e04daba03e126e63ee79efbc8513c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::FeedbackCollector::generateId</definition>
+        <argsstring>() const</argsstring>
+        <name>generateId</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackCollector::generateId</qualifiedname>
+        <briefdescription>
+<para>Generate unique feedback ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="354" column="17" bodyfile="src/prompt_engineering/feedback_collector.cpp" bodystart="745" bodyend="757"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_feedback_collector_1ad7643c7a84192a71e5f9e0d07b74bac5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::FeedbackCollector::persist</definition>
+        <argsstring>(const FeedbackEntry &amp;entry)</argsstring>
+        <name>persist</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackCollector::persist</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_feedback_entry" kindref="compound">FeedbackEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Persist feedback to RocksDB (primary key + time-based secondary index). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Persist.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::string(), toJson(), dump(), bytes(), begin(), end(), put(), THEMIS_ERROR(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="359" column="10" bodyfile="src/prompt_engineering/feedback_collector.cpp" bodystart="781" bodyend="806"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_feedback_collector_1ac3e7f23bbc15cf449e1e7c964ff77c64" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::FeedbackCollector::deleteFromDB</definition>
+        <argsstring>(const FeedbackEntry &amp;entry)</argsstring>
+        <name>deleteFromDB</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackCollector::deleteFromDB</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_feedback_entry" kindref="compound">FeedbackEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Remove primary record and its secondary index entry from RocksDB. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Delete From DB.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::string(), del(), formatTimestampKey(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="364" column="10" bodyfile="src/prompt_engineering/feedback_collector.cpp" bodystart="813" bodyend="826"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a00185dda9cb50e9df1fcbd58553fcf70" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::FeedbackCollector::loadFromDB</definition>
+        <argsstring>()</argsstring>
+        <name>loadFromDB</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackCollector::loadFromDB</qualifiedname>
+        <briefdescription>
+<para>Load feedback from RocksDB. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load From DB.</para>
+<para>Calls: scanPrefix(), nlohmann::json::parse(), std::string(), <ref refid="structthemis_1_1prompt__engineering_1_1_feedback_entry_1a009572f1fc7def28409ddac66e9f50e0" kindref="member">FeedbackEntry::fromJson()</ref>, push_back(), THEMIS_WARN(), what(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="369" column="10" bodyfile="src/prompt_engineering/feedback_collector.cpp" bodystart="832" bodyend="853"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_feedback_collector_1abec9cdfa28f6dec4453f26ff623be97c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_feedback_stats" kindref="compound">FeedbackStats</ref></type>
+        <definition>FeedbackStats themis::prompt_engineering::FeedbackCollector::calculateStats</definition>
+        <argsstring>(const std::vector&lt; FeedbackEntry &gt; &amp;entries) const</argsstring>
+        <name>calculateStats</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackCollector::calculateStats</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_feedback_entry" kindref="compound">FeedbackEntry</ref> &gt; &amp;</type>
+          <declname>entries</declname>
+        </param>
+        <briefdescription>
+<para>Calculate feedback statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="382" column="19" bodyfile="src/prompt_engineering/feedback_collector.cpp" bodystart="855" bodyend="912"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_feedback_collector_1afa62f9ad67225f6f65faa6405a5f2f55" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_failed_query_pattern" kindref="compound">FailedQueryPattern</ref> &gt;</type>
+        <definition>std::vector&lt; FailedQueryPattern &gt; themis::prompt_engineering::FeedbackCollector::extractPatterns</definition>
+        <argsstring>(const std::vector&lt; FeedbackEntry &gt; &amp;entries, size_t min_occurrences) const</argsstring>
+        <name>extractPatterns</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackCollector::extractPatterns</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_feedback_entry" kindref="compound">FeedbackEntry</ref> &gt; &amp;</type>
+          <declname>entries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>min_occurrences</declname>
+        </param>
+        <briefdescription>
+<para>Extract query patterns using simple text analysis. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>per_entry_tokens[i] = token list for entries[i] <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">num_docs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="387" column="17" bodyfile="src/prompt_engineering/feedback_collector.cpp" bodystart="914" bodyend="1043"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a78e9b747201475d5d5d6c9f53b55a2c2" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::FeedbackCollector::formatTimestampKey</definition>
+        <argsstring>(const std::chrono::system_clock::time_point &amp;tp)</argsstring>
+        <name>formatTimestampKey</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackCollector::formatTimestampKey</qualifiedname>
+        <param>
+          <type>const std::chrono::system_clock::time_point &amp;</type>
+          <declname>tp</declname>
+        </param>
+        <briefdescription>
+<para>Build a zero-padded microsecond timestamp string for use in index keys. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para>The zero-padding ensures lexicographic order equals chronological order.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: time_since_epoch(), count(), std::setfill(), std::setw(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="376" column="24" bodyfile="src/prompt_engineering/feedback_collector.cpp" bodystart="765" bodyend="774"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Feedback collector. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Collects and analyzes feedback about prompt quality:<itemizedlist>
+<listitem><para>User feedback (positive/negative)</para>
+</listitem><listitem><para>System-detected issues (hallucinations, errors)</para>
+</listitem><listitem><para>Performance problems</para>
+</listitem><listitem><para>Failed query analysis</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-safe for concurrent feedback recording. </para>
+    </detaileddescription>
+    <location file="include/prompt_engineering/feedback_collector.h" line="132" column="1" bodyfile="include/prompt_engineering/feedback_collector.h" bodystart="132" bodyend="391"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a5c32f2f5e5781e0ee36f598005abc345" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackCollector</scope><name>analyzeFailurePatterns</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1abec9cdfa28f6dec4453f26ff623be97c" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackCollector</scope><name>calculateStats</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a6673e6dc4f2ecc895a899ca620e0a169" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackCollector</scope><name>cf_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a38057312f853c65ffd56882cc428ddd1" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackCollector</scope><name>clearFeedback</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a3ce281ae3e265cdb326a9b918df7e5f2" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackCollector</scope><name>cross_shard_sync_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1afed671f37f58b03f84d91e214886b8b6" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackCollector</scope><name>db_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1ac3e7f23bbc15cf449e1e7c964ff77c64" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackCollector</scope><name>deleteFromDB</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1af5099e5447e32104bd4510f3b05fce78" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackCollector</scope><name>detectOutliers</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a24b03cc7aefbae445ad8aab4d87a1f5d" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackCollector</scope><name>embedding_model_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1afa62f9ad67225f6f65faa6405a5f2f55" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackCollector</scope><name>extractPatterns</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a1c02f9f5a1e9b52d6e41882c7dcb24da" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackCollector</scope><name>feedback_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1aee82ec0cab27a0e41a49a63aca1fdee8" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackCollector</scope><name>FeedbackCollector</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a36cbf6790f8ef6f921bf5f25fd876c04" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackCollector</scope><name>FeedbackCollector</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a78e9b747201475d5d5d6c9f53b55a2c2" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackCollector</scope><name>formatTimestampKey</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a406e04daba03e126e63ee79efbc8513c" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackCollector</scope><name>generateId</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1aa2b7b69ffc73f88914ed487d4f656ea9" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackCollector</scope><name>getFailedQueries</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a1fd3b570116ef102d8dcabce31e8415e" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackCollector</scope><name>getFeedback</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a9983aba8788bd5f6eb66eb14ce0e3255" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackCollector</scope><name>getFeedbackInTimeRange</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a0c220773930551c2d6c10268b8eb386e" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackCollector</scope><name>getFeedbackPaged</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1acd22b58271dec9303f5b5b5a0bc01a6e" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackCollector</scope><name>getPromptsWithNegativeFeedback</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a19c99e3d23fcaa5841f6e3be3ff5561f" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackCollector</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1ae653bfcd540fca8a28382f594efe02b9" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackCollector</scope><name>getSummary</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a1cb59ffa275c777e54c21929e5c141ed" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackCollector</scope><name>IDX_TIME_PREFIX</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a2a17eeccfbc78364b4677f5356091609" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackCollector</scope><name>KEY_PREFIX</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a00185dda9cb50e9df1fcbd58553fcf70" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackCollector</scope><name>loadFromDB</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1ac70c1c24350b594f59ec38ae670689c7" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackCollector</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1ae30a69e328c4e7f302976cbc94c43f7e" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackCollector</scope><name>newEntryCount</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1ad7643c7a84192a71e5f9e0d07b74bac5" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackCollector</scope><name>persist</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a290931b7081e28ac0942356ab8e31ebb" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackCollector</scope><name>pruneOldFeedback</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a2b330048b544c621f0fca27a1a1ffb5e" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackCollector</scope><name>recordFeedback</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a04c4602d6729bd3cbd5895e68797749c" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackCollector</scope><name>setCrossShardSync</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a2998ad64fc9a5652d3aba2099cb9e523" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackCollector</scope><name>setEmbeddingModel</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

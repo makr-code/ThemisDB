@@ -1,0 +1,453 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1backpressure_1_1_backpressure_coordinator" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::backpressure::BackpressureCoordinator</compoundname>
+    <includes refid="backpressure__protocol_8h" local="no">backpressure_protocol.h</includes>
+    <innerclass refid="structthemisdb_1_1backpressure_1_1_backpressure_coordinator_1_1_stats" prot="public">themisdb::backpressure::BackpressureCoordinator::Stats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1a1614260ec288238256579e18c88ef5d2" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1backpressure_1_1_backpressure_config" kindref="compound">BackpressureConfig</ref></type>
+        <definition>BackpressureConfig themisdb::backpressure::BackpressureCoordinator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::backpressure::BackpressureCoordinator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="789" column="24" bodyfile="include/sharding/backpressure_protocol.h" bodystart="789" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1a2609e5f43d0c3ecf055b1ad44a823036" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1backpressure_1_1_system_load_monitor" kindref="compound">SystemLoadMonitor</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;SystemLoadMonitor&gt; themisdb::backpressure::BackpressureCoordinator::load_monitor_</definition>
+        <argsstring></argsstring>
+        <name>load_monitor_</name>
+        <qualifiedname>themisdb::backpressure::BackpressureCoordinator::load_monitor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="790" column="21" bodyfile="include/sharding/backpressure_protocol.h" bodystart="790" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1a3498440a955b59a44d4e0e9599ef7215" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1backpressure_1_1_deferred_sync_queue" kindref="compound">DeferredSyncQueue</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;DeferredSyncQueue&gt; themisdb::backpressure::BackpressureCoordinator::deferred_queue_</definition>
+        <argsstring></argsstring>
+        <name>deferred_queue_</name>
+        <qualifiedname>themisdb::backpressure::BackpressureCoordinator::deferred_queue_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="791" column="21" bodyfile="include/sharding/backpressure_protocol.h" bodystart="791" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1af8595f7e502a698f72ec506869f65d49" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::weak_ptr&lt; <ref refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session" kindref="compound">AdaptiveHandshakeSession</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::weak_ptr&lt;AdaptiveHandshakeSession&gt; &gt; themisdb::backpressure::BackpressureCoordinator::sessions_</definition>
+        <argsstring></argsstring>
+        <name>sessions_</name>
+        <qualifiedname>themisdb::backpressure::BackpressureCoordinator::sessions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="793" column="17" bodyfile="include/sharding/backpressure_protocol.h" bodystart="793" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1a452526cdd7917e9666c7e1988aad9372" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1backpressure_1_1_backpressure_coordinator_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themisdb::backpressure::BackpressureCoordinator::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themisdb::backpressure::BackpressureCoordinator::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="794" column="11" bodyfile="include/sharding/backpressure_protocol.h" bodystart="794" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1aa4c44b4bf1ecd5d49bd387ea29755364" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::backpressure::BackpressureCoordinator::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themisdb::backpressure::BackpressureCoordinator::initialized_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="796" column="17" bodyfile="include/sharding/backpressure_protocol.h" bodystart="796" bodyend="796"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1a2d7066f68af6f51853afcb7bee652227" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::backpressure::BackpressureCoordinator::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themisdb::backpressure::BackpressureCoordinator::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="797" column="17" bodyfile="include/sharding/backpressure_protocol.h" bodystart="797" bodyend="797"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1afdfeac8a7bc895cfbe6b52d73b83a7e0" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themisdb::backpressure::BackpressureCoordinator::replay_thread_</definition>
+        <argsstring></argsstring>
+        <name>replay_thread_</name>
+        <qualifiedname>themisdb::backpressure::BackpressureCoordinator::replay_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="798" column="17" bodyfile="include/sharding/backpressure_protocol.h" bodystart="798" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1a45d02bdaa52954f1027125b4579a147f" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::backpressure::BackpressureCoordinator::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::backpressure::BackpressureCoordinator::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="799" column="24" bodyfile="include/sharding/backpressure_protocol.h" bodystart="799" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1aeee985488cc9b308a153fb953819905f" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themisdb::backpressure::BackpressureCoordinator::replay_cv_</definition>
+        <argsstring></argsstring>
+        <name>replay_cv_</name>
+        <qualifiedname>themisdb::backpressure::BackpressureCoordinator::replay_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="800" column="29" bodyfile="include/sharding/backpressure_protocol.h" bodystart="800" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1af19346bfeec797021912c6cdb68d19cd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>BackpressureCoordinator &amp;</type>
+        <definition>static BackpressureCoordinator &amp; themisdb::backpressure::BackpressureCoordinator::getInstance</definition>
+        <argsstring>()</argsstring>
+        <name>getInstance</name>
+        <qualifiedname>themisdb::backpressure::BackpressureCoordinator::getInstance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="712" column="36"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1a6bba170a99fa66bf6d44fe7d2b8f5abc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::backpressure::BackpressureCoordinator::initialize</definition>
+        <argsstring>(const BackpressureConfig &amp;config)</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themisdb::backpressure::BackpressureCoordinator::initialize</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1backpressure_1_1_backpressure_config" kindref="compound">BackpressureConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize coordinator </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="717" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1a232aa4101fb5b5eda52d5ac71135bc4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::backpressure::BackpressureCoordinator::shutdown</definition>
+        <argsstring>()</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themisdb::backpressure::BackpressureCoordinator::shutdown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Shutdown coordinator </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="722" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1ae0c129961695d9f9319eb724e4fa78b0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::backpressure::BackpressureCoordinator::isInitialized</definition>
+        <argsstring>() const</argsstring>
+        <name>isInitialized</name>
+        <qualifiedname>themisdb::backpressure::BackpressureCoordinator::isInitialized</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if initialized </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="727" column="10" bodyfile="include/sharding/backpressure_protocol.h" bodystart="727" bodyend="727"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1ad1ae698a01d15ef5cd91c901b6456ab0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session" kindref="compound">AdaptiveHandshakeSession</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; AdaptiveHandshakeSession &gt; themisdb::backpressure::BackpressureCoordinator::createSession</definition>
+        <argsstring>(const std::string &amp;local_shard_id, const std::string &amp;remote_shard_id)</argsstring>
+        <name>createSession</name>
+        <qualifiedname>themisdb::backpressure::BackpressureCoordinator::createSession</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>local_shard_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>remote_shard_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create new handshake session </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="732" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1aad088a6d8d2b71fede06e72353345a60" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session" kindref="compound">AdaptiveHandshakeSession</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::shared_ptr&lt; AdaptiveHandshakeSession &gt; &gt; themisdb::backpressure::BackpressureCoordinator::getActiveSessions</definition>
+        <argsstring>() const</argsstring>
+        <name>getActiveSessions</name>
+        <qualifiedname>themisdb::backpressure::BackpressureCoordinator::getActiveSessions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get active sessions </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="739" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1a2437ed934c5c435e510194aef9da9e85" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1backpressure_1_1_system_load_metrics" kindref="compound">SystemLoadMetrics</ref></type>
+        <definition>SystemLoadMetrics themisdb::backpressure::BackpressureCoordinator::getCurrentLoad</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentLoad</name>
+        <qualifiedname>themisdb::backpressure::BackpressureCoordinator::getCurrentLoad</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get current system load </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="744" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1afab6cb8300246fbd4ffaf71a585aed49" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemisdb_1_1backpressure_1a3f28bd43c127c787264ce778078022a9" kindref="member">SyncStrategy</ref></type>
+        <definition>SyncStrategy themisdb::backpressure::BackpressureCoordinator::getRecommendedStrategy</definition>
+        <argsstring>() const</argsstring>
+        <name>getRecommendedStrategy</name>
+        <qualifiedname>themisdb::backpressure::BackpressureCoordinator::getRecommendedStrategy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get recommended sync strategy </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="749" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1a5f409e163d1b0a31d796881b90fe18c8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1backpressure_1_1_deferred_sync_queue" kindref="compound">DeferredSyncQueue</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; DeferredSyncQueue &gt; themisdb::backpressure::BackpressureCoordinator::getDeferredQueue</definition>
+        <argsstring>() const</argsstring>
+        <name>getDeferredQueue</name>
+        <qualifiedname>themisdb::backpressure::BackpressureCoordinator::getDeferredQueue</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get deferred queue </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="754" column="21" bodyfile="include/sharding/backpressure_protocol.h" bodystart="754" bodyend="756"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1a04cb5309e3566e46f3fe3207f9c93d63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::backpressure::BackpressureCoordinator::triggerReplay</definition>
+        <argsstring>()</argsstring>
+        <name>triggerReplay</name>
+        <qualifiedname>themisdb::backpressure::BackpressureCoordinator::triggerReplay</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Trigger manual replay </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="761" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1a3651987e7866bb76b77a6128c89bd846" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1backpressure_1_1_backpressure_coordinator_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themisdb::backpressure::BackpressureCoordinator::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themisdb::backpressure::BackpressureCoordinator::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="778" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1a562941a75ab8645d4740957a63859e53" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::backpressure::BackpressureCoordinator::toPrometheusFormat</definition>
+        <argsstring>() const</argsstring>
+        <name>toPrometheusFormat</name>
+        <qualifiedname>themisdb::backpressure::BackpressureCoordinator::toPrometheusFormat</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Export Prometheus metrics </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="783" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1a411e23386abb4d5556fe138eb052badf" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::backpressure::BackpressureCoordinator::BackpressureCoordinator</definition>
+        <argsstring>()=default</argsstring>
+        <name>BackpressureCoordinator</name>
+        <qualifiedname>themisdb::backpressure::BackpressureCoordinator::BackpressureCoordinator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="786" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1a36fa84c3c9c613833b8ca681aa59c925" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::backpressure::BackpressureCoordinator::~BackpressureCoordinator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~BackpressureCoordinator</name>
+        <qualifiedname>themisdb::backpressure::BackpressureCoordinator::~BackpressureCoordinator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="787" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1a4082e681efbb56456257c9333bb6af8f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::backpressure::BackpressureCoordinator::replayLoop</definition>
+        <argsstring>()</argsstring>
+        <name>replayLoop</name>
+        <qualifiedname>themisdb::backpressure::BackpressureCoordinator::replayLoop</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="802" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1a2d0cd8c2119da09e47fdd8569076d845" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::backpressure::BackpressureCoordinator::shouldReplay</definition>
+        <argsstring>() const</argsstring>
+        <name>shouldReplay</name>
+        <qualifiedname>themisdb::backpressure::BackpressureCoordinator::shouldReplay</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="803" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1a042a9c8d7bb006f1f4d469c49ceac3f8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::backpressure::BackpressureCoordinator::processReplayBatch</definition>
+        <argsstring>()</argsstring>
+        <name>processReplayBatch</name>
+        <qualifiedname>themisdb::backpressure::BackpressureCoordinator::processReplayBatch</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="804" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Global coordinator for backpressure-aware synchronization </para>
+    </detaileddescription>
+    <location file="include/sharding/backpressure_protocol.h" line="710" column="1" bodyfile="include/sharding/backpressure_protocol.h" bodystart="710" bodyend="805"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1a411e23386abb4d5556fe138eb052badf" prot="private" virt="non-virtual"><scope>themisdb::backpressure::BackpressureCoordinator</scope><name>BackpressureCoordinator</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1a1614260ec288238256579e18c88ef5d2" prot="private" virt="non-virtual"><scope>themisdb::backpressure::BackpressureCoordinator</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1ad1ae698a01d15ef5cd91c901b6456ab0" prot="public" virt="non-virtual"><scope>themisdb::backpressure::BackpressureCoordinator</scope><name>createSession</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1a3498440a955b59a44d4e0e9599ef7215" prot="private" virt="non-virtual"><scope>themisdb::backpressure::BackpressureCoordinator</scope><name>deferred_queue_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1aad088a6d8d2b71fede06e72353345a60" prot="public" virt="non-virtual"><scope>themisdb::backpressure::BackpressureCoordinator</scope><name>getActiveSessions</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1a2437ed934c5c435e510194aef9da9e85" prot="public" virt="non-virtual"><scope>themisdb::backpressure::BackpressureCoordinator</scope><name>getCurrentLoad</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1a5f409e163d1b0a31d796881b90fe18c8" prot="public" virt="non-virtual"><scope>themisdb::backpressure::BackpressureCoordinator</scope><name>getDeferredQueue</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1af19346bfeec797021912c6cdb68d19cd" prot="public" virt="non-virtual"><scope>themisdb::backpressure::BackpressureCoordinator</scope><name>getInstance</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1afab6cb8300246fbd4ffaf71a585aed49" prot="public" virt="non-virtual"><scope>themisdb::backpressure::BackpressureCoordinator</scope><name>getRecommendedStrategy</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1a3651987e7866bb76b77a6128c89bd846" prot="public" virt="non-virtual"><scope>themisdb::backpressure::BackpressureCoordinator</scope><name>getStats</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1a6bba170a99fa66bf6d44fe7d2b8f5abc" prot="public" virt="non-virtual"><scope>themisdb::backpressure::BackpressureCoordinator</scope><name>initialize</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1aa4c44b4bf1ecd5d49bd387ea29755364" prot="private" virt="non-virtual"><scope>themisdb::backpressure::BackpressureCoordinator</scope><name>initialized_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1ae0c129961695d9f9319eb724e4fa78b0" prot="public" virt="non-virtual"><scope>themisdb::backpressure::BackpressureCoordinator</scope><name>isInitialized</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1a2609e5f43d0c3ecf055b1ad44a823036" prot="private" virt="non-virtual"><scope>themisdb::backpressure::BackpressureCoordinator</scope><name>load_monitor_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1a45d02bdaa52954f1027125b4579a147f" prot="private" virt="non-virtual"><scope>themisdb::backpressure::BackpressureCoordinator</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1a042a9c8d7bb006f1f4d469c49ceac3f8" prot="private" virt="non-virtual"><scope>themisdb::backpressure::BackpressureCoordinator</scope><name>processReplayBatch</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1aeee985488cc9b308a153fb953819905f" prot="private" virt="non-virtual"><scope>themisdb::backpressure::BackpressureCoordinator</scope><name>replay_cv_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1afdfeac8a7bc895cfbe6b52d73b83a7e0" prot="private" virt="non-virtual"><scope>themisdb::backpressure::BackpressureCoordinator</scope><name>replay_thread_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1a4082e681efbb56456257c9333bb6af8f" prot="private" virt="non-virtual"><scope>themisdb::backpressure::BackpressureCoordinator</scope><name>replayLoop</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1a2d7066f68af6f51853afcb7bee652227" prot="private" virt="non-virtual"><scope>themisdb::backpressure::BackpressureCoordinator</scope><name>running_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1af8595f7e502a698f72ec506869f65d49" prot="private" virt="non-virtual"><scope>themisdb::backpressure::BackpressureCoordinator</scope><name>sessions_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1a2d0cd8c2119da09e47fdd8569076d845" prot="private" virt="non-virtual"><scope>themisdb::backpressure::BackpressureCoordinator</scope><name>shouldReplay</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1a232aa4101fb5b5eda52d5ac71135bc4b" prot="public" virt="non-virtual"><scope>themisdb::backpressure::BackpressureCoordinator</scope><name>shutdown</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1a452526cdd7917e9666c7e1988aad9372" prot="private" virt="non-virtual"><scope>themisdb::backpressure::BackpressureCoordinator</scope><name>stats_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1a562941a75ab8645d4740957a63859e53" prot="public" virt="non-virtual"><scope>themisdb::backpressure::BackpressureCoordinator</scope><name>toPrometheusFormat</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1a04cb5309e3566e46f3fe3207f9c93d63" prot="public" virt="non-virtual"><scope>themisdb::backpressure::BackpressureCoordinator</scope><name>triggerReplay</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_backpressure_coordinator_1a36fa84c3c9c613833b8ca681aa59c925" prot="private" virt="non-virtual"><scope>themisdb::backpressure::BackpressureCoordinator</scope><name>~BackpressureCoordinator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

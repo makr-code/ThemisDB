@@ -1,0 +1,239 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_plan_cache_1_1_cache_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::PlanCache::CacheStats</compoundname>
+    <includes refid="plan__cache_8h" local="no">plan_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_plan_cache_1_1_cache_stats_1a4031fc4c25c420d3f29b2a61657895dc" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::query::PlanCache::CacheStats::hits</definition>
+        <argsstring></argsstring>
+        <name>hits</name>
+        <qualifiedname>themis::query::PlanCache::CacheStats::hits</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="86" column="21" bodyfile="include/query/plan_cache.h" bodystart="86" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_plan_cache_1_1_cache_stats_1adf76439b2e037f76348395e4589eae6c" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::query::PlanCache::CacheStats::misses</definition>
+        <argsstring></argsstring>
+        <name>misses</name>
+        <qualifiedname>themis::query::PlanCache::CacheStats::misses</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="87" column="21" bodyfile="include/query/plan_cache.h" bodystart="87" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_plan_cache_1_1_cache_stats_1ae0c6d393bf8ac062b209225204fc0eff" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::query::PlanCache::CacheStats::invalidations</definition>
+        <argsstring></argsstring>
+        <name>invalidations</name>
+        <qualifiedname>themis::query::PlanCache::CacheStats::invalidations</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>entries removed by table invalidation </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="88" column="21" bodyfile="include/query/plan_cache.h" bodystart="88" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_plan_cache_1_1_cache_stats_1ab1f214d08aa5570e86c02913854dec58" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::query::PlanCache::CacheStats::evictions</definition>
+        <argsstring></argsstring>
+        <name>evictions</name>
+        <qualifiedname>themis::query::PlanCache::CacheStats::evictions</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>entries removed by age or capacity </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="89" column="21" bodyfile="include/query/plan_cache.h" bodystart="89" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_plan_cache_1_1_cache_stats_1a394c4310bae996ab1f36d8187ead42a6" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::query::PlanCache::CacheStats::stat_drifts</definition>
+        <argsstring></argsstring>
+        <name>stat_drifts</name>
+        <qualifiedname>themis::query::PlanCache::CacheStats::stat_drifts</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>entries rejected due to statistics drift </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="90" column="21" bodyfile="include/query/plan_cache.h" bodystart="90" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_plan_cache_1_1_cache_stats_1af1e08ecf393bb880a8e339632254ff8a" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::query::PlanCache::CacheStats::current_size</definition>
+        <argsstring></argsstring>
+        <name>current_size</name>
+        <qualifiedname>themis::query::PlanCache::CacheStats::current_size</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="91" column="23" bodyfile="include/query/plan_cache.h" bodystart="91" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_plan_cache_1_1_cache_stats_1a5ba1bac55562ee863409cb313d1b0b2c" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::query::PlanCache::CacheStats::current_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>current_memory_bytes</name>
+        <qualifiedname>themis::query::PlanCache::CacheStats::current_memory_bytes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="92" column="23" bodyfile="include/query/plan_cache.h" bodystart="92" bodyend="92"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_plan_cache_1_1_cache_stats_1a448ef3a1d2ca2dccda79b374be1ae524" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::PlanCache::CacheStats::CacheStats</definition>
+        <argsstring>()=default</argsstring>
+        <name>CacheStats</name>
+        <qualifiedname>themis::query::PlanCache::CacheStats::CacheStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="94" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_plan_cache_1_1_cache_stats_1aa8e61de4f76493e5c9d3adc978b11372" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::PlanCache::CacheStats::CacheStats</definition>
+        <argsstring>(const CacheStats &amp;other) noexcept</argsstring>
+        <name>CacheStats</name>
+        <qualifiedname>themis::query::PlanCache::CacheStats::CacheStats</qualifiedname>
+        <param>
+          <type>const CacheStats &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="96" column="9" bodyfile="include/query/plan_cache.h" bodystart="96" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_plan_cache_1_1_cache_stats_1a42df0b4142a30b3d798ffb227b0f049d" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_plan_cache_1_1_cache_stats_1a448ef3a1d2ca2dccda79b374be1ae524" kindref="member">CacheStats</ref> &amp;</type>
+        <definition>CacheStats &amp; themis::query::PlanCache::CacheStats::operator=</definition>
+        <argsstring>(const CacheStats &amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::query::PlanCache::CacheStats::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_plan_cache_1_1_cache_stats_1a448ef3a1d2ca2dccda79b374be1ae524" kindref="member">CacheStats</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="106" column="20" bodyfile="include/query/plan_cache.h" bodystart="106" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_plan_cache_1_1_cache_stats_1ab2e542bab219e2b6224f9e4cd3e67661" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::PlanCache::CacheStats::CacheStats</definition>
+        <argsstring>(CacheStats &amp;&amp;other) noexcept</argsstring>
+        <name>CacheStats</name>
+        <qualifiedname>themis::query::PlanCache::CacheStats::CacheStats</qualifiedname>
+        <param>
+          <type>CacheStats &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="120" column="9" bodyfile="include/query/plan_cache.h" bodystart="120" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_plan_cache_1_1_cache_stats_1a3268721722a02072d697aade4bbd4201" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_plan_cache_1_1_cache_stats_1a448ef3a1d2ca2dccda79b374be1ae524" kindref="member">CacheStats</ref> &amp;</type>
+        <definition>CacheStats &amp; themis::query::PlanCache::CacheStats::operator=</definition>
+        <argsstring>(CacheStats &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::query::PlanCache::CacheStats::operator=</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1query_1_1_plan_cache_1_1_cache_stats_1a448ef3a1d2ca2dccda79b374be1ae524" kindref="member">CacheStats</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="121" column="20" bodyfile="include/query/plan_cache.h" bodystart="121" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_plan_cache_1_1_cache_stats_1ad1463f28f4ca6b5d758e792cfec32e6f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::PlanCache::CacheStats::hitRate</definition>
+        <argsstring>() const</argsstring>
+        <name>hitRate</name>
+        <qualifiedname>themis::query::PlanCache::CacheStats::hitRate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="123" column="16" bodyfile="include/query/plan_cache.h" bodystart="123" bodyend="128"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/plan_cache.h" line="85" column="5" bodyfile="include/query/plan_cache.h" bodystart="85" bodyend="129"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_plan_cache_1_1_cache_stats_1a448ef3a1d2ca2dccda79b374be1ae524" prot="public" virt="non-virtual"><scope>themis::query::PlanCache::CacheStats</scope><name>CacheStats</name></member>
+      <member refid="structthemis_1_1query_1_1_plan_cache_1_1_cache_stats_1aa8e61de4f76493e5c9d3adc978b11372" prot="public" virt="non-virtual"><scope>themis::query::PlanCache::CacheStats</scope><name>CacheStats</name></member>
+      <member refid="structthemis_1_1query_1_1_plan_cache_1_1_cache_stats_1ab2e542bab219e2b6224f9e4cd3e67661" prot="public" virt="non-virtual"><scope>themis::query::PlanCache::CacheStats</scope><name>CacheStats</name></member>
+      <member refid="structthemis_1_1query_1_1_plan_cache_1_1_cache_stats_1a5ba1bac55562ee863409cb313d1b0b2c" prot="public" virt="non-virtual"><scope>themis::query::PlanCache::CacheStats</scope><name>current_memory_bytes</name></member>
+      <member refid="structthemis_1_1query_1_1_plan_cache_1_1_cache_stats_1af1e08ecf393bb880a8e339632254ff8a" prot="public" virt="non-virtual"><scope>themis::query::PlanCache::CacheStats</scope><name>current_size</name></member>
+      <member refid="structthemis_1_1query_1_1_plan_cache_1_1_cache_stats_1ab1f214d08aa5570e86c02913854dec58" prot="public" virt="non-virtual"><scope>themis::query::PlanCache::CacheStats</scope><name>evictions</name></member>
+      <member refid="structthemis_1_1query_1_1_plan_cache_1_1_cache_stats_1ad1463f28f4ca6b5d758e792cfec32e6f" prot="public" virt="non-virtual"><scope>themis::query::PlanCache::CacheStats</scope><name>hitRate</name></member>
+      <member refid="structthemis_1_1query_1_1_plan_cache_1_1_cache_stats_1a4031fc4c25c420d3f29b2a61657895dc" prot="public" virt="non-virtual"><scope>themis::query::PlanCache::CacheStats</scope><name>hits</name></member>
+      <member refid="structthemis_1_1query_1_1_plan_cache_1_1_cache_stats_1ae0c6d393bf8ac062b209225204fc0eff" prot="public" virt="non-virtual"><scope>themis::query::PlanCache::CacheStats</scope><name>invalidations</name></member>
+      <member refid="structthemis_1_1query_1_1_plan_cache_1_1_cache_stats_1adf76439b2e037f76348395e4589eae6c" prot="public" virt="non-virtual"><scope>themis::query::PlanCache::CacheStats</scope><name>misses</name></member>
+      <member refid="structthemis_1_1query_1_1_plan_cache_1_1_cache_stats_1a42df0b4142a30b3d798ffb227b0f049d" prot="public" virt="non-virtual"><scope>themis::query::PlanCache::CacheStats</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1query_1_1_plan_cache_1_1_cache_stats_1a3268721722a02072d697aade4bbd4201" prot="public" virt="non-virtual"><scope>themis::query::PlanCache::CacheStats</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1query_1_1_plan_cache_1_1_cache_stats_1a394c4310bae996ab1f36d8187ead42a6" prot="public" virt="non-virtual"><scope>themis::query::PlanCache::CacheStats</scope><name>stat_drifts</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

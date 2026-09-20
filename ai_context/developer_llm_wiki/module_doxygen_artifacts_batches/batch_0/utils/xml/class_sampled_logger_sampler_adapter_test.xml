@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_sampled_logger_sampler_adapter_test" kind="class" language="C++" prot="public">
+    <compoundname>SampledLoggerSamplerAdapterTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_sampled_logger_sampler_adapter_test_1ab2a361fc56cacbac4d9ce33575e7f0de" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1utils_1_1_sampled_logger_sampler_adapter" kindref="compound">SampledLoggerSamplerAdapter</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;SampledLoggerSamplerAdapter&gt; SampledLoggerSamplerAdapterTest::sampler_</definition>
+        <argsstring></argsstring>
+        <name>sampler_</name>
+        <qualifiedname>SampledLoggerSamplerAdapterTest::sampler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_interfaces.cpp" line="310" column="21" bodyfile="tests/utils/test_utils_interfaces.cpp" bodystart="310" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_sampled_logger_sampler_adapter_test_1a8961ef51ee51b4f2a7ecef5eb9e56d57" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SampledLoggerSamplerAdapterTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>SampledLoggerSamplerAdapterTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_interfaces.cpp" line="312" column="10" bodyfile="tests/utils/test_utils_interfaces.cpp" bodystart="312" bodyend="319"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>SampledLoggerSamplerAdapterTest</label>
+        <link refid="class_sampled_logger_sampler_adapter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>SampledLoggerSamplerAdapterTest</label>
+        <link refid="class_sampled_logger_sampler_adapter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/utils/test_utils_interfaces.cpp" line="308" column="1" bodyfile="tests/utils/test_utils_interfaces.cpp" bodystart="308" bodyend="320"/>
+    <listofallmembers>
+      <member refid="class_sampled_logger_sampler_adapter_test_1ab2a361fc56cacbac4d9ce33575e7f0de" prot="protected" virt="non-virtual"><scope>SampledLoggerSamplerAdapterTest</scope><name>sampler_</name></member>
+      <member refid="class_sampled_logger_sampler_adapter_test_1a8961ef51ee51b4f2a7ecef5eb9e56d57" prot="protected" virt="non-virtual"><scope>SampledLoggerSamplerAdapterTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

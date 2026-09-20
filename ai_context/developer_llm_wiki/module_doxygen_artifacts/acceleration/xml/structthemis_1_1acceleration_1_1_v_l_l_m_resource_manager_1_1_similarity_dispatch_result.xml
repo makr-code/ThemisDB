@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_similarity_dispatch_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::VLLMResourceManager::SimilarityDispatchResult</compoundname>
+    <includes refid="vllm__resource__manager_8h" local="no">vllm_resource_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_similarity_dispatch_result_1a8d60e60a9d30553616ccfa26523c16ba" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::VLLMResourceManager::SimilarityDispatchResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::acceleration::VLLMResourceManager::SimilarityDispatchResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true on successful dispatch </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vllm_resource_manager.h" line="88" column="14" bodyfile="include/acceleration/vllm_resource_manager.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_similarity_dispatch_result_1a493d1b9d8e1c8b1ade15fdca27b24e15" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::VLLMResourceManager::SimilarityDispatchResult::used_gpu</definition>
+        <argsstring></argsstring>
+        <name>used_gpu</name>
+        <qualifiedname>themis::acceleration::VLLMResourceManager::SimilarityDispatchResult::used_gpu</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true if CUDA path executed </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vllm_resource_manager.h" line="89" column="14" bodyfile="include/acceleration/vllm_resource_manager.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_similarity_dispatch_result_1a68b61c2463b2ba3831d64e173b43eceb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::VLLMResourceManager::SimilarityDispatchResult::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::acceleration::VLLMResourceManager::SimilarityDispatchResult::error</qualifiedname>
+        <briefdescription>
+<para>populated when success == false </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vllm_resource_manager.h" line="90" column="21" bodyfile="include/acceleration/vllm_resource_manager.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_similarity_dispatch_result_1a8400bd4f6e8687d5ce31f69a78be5239" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint32_t &gt;</type>
+        <definition>std::vector&lt;uint32_t&gt; themis::acceleration::VLLMResourceManager::SimilarityDispatchResult::topk_indices</definition>
+        <argsstring></argsstring>
+        <name>topk_indices</name>
+        <qualifiedname>themis::acceleration::VLLMResourceManager::SimilarityDispatchResult::topk_indices</qualifiedname>
+        <briefdescription>
+<para>nearest-neighbour indices </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vllm_resource_manager.h" line="91" column="21" bodyfile="include/acceleration/vllm_resource_manager.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_similarity_dispatch_result_1afe8debfebe9cd6f0abddb73f58626f76" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::acceleration::VLLMResourceManager::SimilarityDispatchResult::topk_distances</definition>
+        <argsstring></argsstring>
+        <name>topk_distances</name>
+        <qualifiedname>themis::acceleration::VLLMResourceManager::SimilarityDispatchResult::topk_distances</qualifiedname>
+        <briefdescription>
+<para>nearest-neighbour distances </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vllm_resource_manager.h" line="92" column="21" bodyfile="include/acceleration/vllm_resource_manager.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/vllm_resource_manager.h" line="87" column="5" bodyfile="include/acceleration/vllm_resource_manager.h" bodystart="87" bodyend="93"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_similarity_dispatch_result_1a68b61c2463b2ba3831d64e173b43eceb" prot="public" virt="non-virtual"><scope>themis::acceleration::VLLMResourceManager::SimilarityDispatchResult</scope><name>error</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_similarity_dispatch_result_1a8d60e60a9d30553616ccfa26523c16ba" prot="public" virt="non-virtual"><scope>themis::acceleration::VLLMResourceManager::SimilarityDispatchResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_similarity_dispatch_result_1afe8debfebe9cd6f0abddb73f58626f76" prot="public" virt="non-virtual"><scope>themis::acceleration::VLLMResourceManager::SimilarityDispatchResult</scope><name>topk_distances</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_similarity_dispatch_result_1a8400bd4f6e8687d5ce31f69a78be5239" prot="public" virt="non-virtual"><scope>themis::acceleration::VLLMResourceManager::SimilarityDispatchResult</scope><name>topk_indices</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_similarity_dispatch_result_1a493d1b9d8e1c8b1ade15fdca27b24e15" prot="public" virt="non-virtual"><scope>themis::acceleration::VLLMResourceManager::SimilarityDispatchResult</scope><name>used_gpu</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

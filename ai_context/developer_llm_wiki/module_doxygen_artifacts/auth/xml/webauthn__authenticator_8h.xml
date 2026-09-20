@@ -1,0 +1,348 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="webauthn__authenticator_8h" kind="file" language="C++">
+    <compoundname>webauthn_authenticator.h</compoundname>
+    <includes refid="auth__error_8h" local="yes">auth/auth_error.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">array</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="webauthn__authenticator_8cpp" local="yes">src/auth/webauthn_authenticator.cpp</includedby>
+    <includedby refid="test__webauthn__authenticator__focused_8cpp" local="yes">tests/auth/test_webauthn_authenticator_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>auth/auth_error.h</label>
+        <link refid="auth__error_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/auth/webauthn_authenticator.h</label>
+        <link refid="webauthn__authenticator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>array</label>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="13">
+        <label>cstdint</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="11">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>utils/error_registry.h</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/auth/webauthn_authenticator.h</label>
+        <link refid="webauthn__authenticator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/auth/webauthn_authenticator.cpp</label>
+        <link refid="webauthn__authenticator_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/auth/test_webauthn_authenticator_focused.cpp</label>
+        <link refid="test__webauthn__authenticator__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1auth_1_1_web_authn_authenticator" prot="public">themis::auth::WebAuthnAuthenticator</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_relying_party" prot="public">themis::auth::WebAuthnAuthenticator::RelyingParty</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_user" prot="public">themis::auth::WebAuthnAuthenticator::User</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_authenticator_selection" prot="public">themis::auth::WebAuthnAuthenticator::AuthenticatorSelection</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_credential_creation_options" prot="public">themis::auth::WebAuthnAuthenticator::CredentialCreationOptions</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_credential_request_options" prot="public">themis::auth::WebAuthnAuthenticator::CredentialRequestOptions</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_attestation_result" prot="public">themis::auth::WebAuthnAuthenticator::AttestationResult</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_assertion_result" prot="public">themis::auth::WebAuthnAuthenticator::AssertionResult</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_pending_entry" prot="private">themis::auth::WebAuthnAuthenticator::PendingEntry</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_client_data" prot="private">themis::auth::WebAuthnAuthenticator::ClientData</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_auth_data" prot="private">themis::auth::WebAuthnAuthenticator::AuthData</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils">themis::utils</innernamespace>
+    <innernamespace refid="namespacethemis_1_1auth">themis::auth</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="auth__error_8h" kindref="compound">auth/auth_error.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;array&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">utils</ref><sp/>{<sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">AuditLogger;<sp/>}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="classthemis_1_1auth_1_1_web_authn_authenticator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1_web_authn_authenticator_1a028fec060b03bd3bd6eb50f729209f72" kindref="member">WebAuthnAuthenticator</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration<sp/>/<sp/>data<sp/>structures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_relying_party" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_relying_party" kindref="compound">RelyingParty</ref><sp/>{</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_relying_party_1a1dfb4dd29ee221d6fb7dd1f1d97a7ae3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_relying_party_1a1dfb4dd29ee221d6fb7dd1f1d97a7ae3" kindref="member">id</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_relying_party_1a3b86231528f5892616491dca568c590f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_relying_party_1a3b86231528f5892616491dca568c590f" kindref="member">name</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_user" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_user" kindref="compound">User</ref><sp/>{</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_user_1a6d01f27a4ea96d8ab11be76ee7d9d572" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_user_1a6d01f27a4ea96d8ab11be76ee7d9d572" kindref="member">id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_user_1ae75d5c95b68773da9f525c57f1a81cd0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_user_1ae75d5c95b68773da9f525c57f1a81cd0" kindref="member">name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_user_1a86cefad69173b0f7f5caf79e4ad71e62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_user_1a86cefad69173b0f7f5caf79e4ad71e62" kindref="member">display_name</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_authenticator_selection" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_authenticator_selection" kindref="compound">AuthenticatorSelection</ref><sp/>{</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_authenticator_selection_1a487bd60eea8d8e49fe4c4f22137297a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_authenticator_selection_1a487bd60eea8d8e49fe4c4f22137297a8" kindref="member">authenticator_attachment</ref>;</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_authenticator_selection_1a954320f8f02c7dbebc340ca4e216e529" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_authenticator_selection_1a954320f8f02c7dbebc340ca4e216e529" kindref="member">require_resident_key</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_authenticator_selection_1aee0a1f19640b25fc0cdd52df298c8826" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_authenticator_selection_1aee0a1f19640b25fc0cdd52df298c8826" kindref="member">user_verification</ref>{</highlight><highlight class="stringliteral">&quot;preferred&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_credential_creation_options" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_credential_creation_options" kindref="compound">CredentialCreationOptions</ref><sp/>{</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_credential_creation_options_1ac432aaac3563ae7c6e526ef6c5129933" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_credential_creation_options_1ac432aaac3563ae7c6e526ef6c5129933" kindref="member">challenge</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_credential_creation_options_1a60f82829d2ee7e18ae3d27e4be9cef0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_relying_party" kindref="compound">RelyingParty</ref><sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_credential_creation_options_1a60f82829d2ee7e18ae3d27e4be9cef0f" kindref="member">rp</ref>;</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_credential_creation_options_1a47278438d4c21f039c0dacaba4673305" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_user" kindref="compound">User</ref><sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_credential_creation_options_1a47278438d4c21f039c0dacaba4673305" kindref="member">user</ref>;</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_credential_creation_options_1a8a1c9b376a8569edb5a83e610e95d3db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_credential_creation_options_1a8a1c9b376a8569edb5a83e610e95d3db" kindref="member">pub_key_cred_params</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_credential_creation_options_1add87e749b8cdf5aa05aa70c4beff1c4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;int&gt;<sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_credential_creation_options_1add87e749b8cdf5aa05aa70c4beff1c4b" kindref="member">timeout_ms</ref>;</highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_credential_creation_options_1ae718eacd0ef01922dfd7456e1bbeb8b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_credential_creation_options_1ae718eacd0ef01922dfd7456e1bbeb8b7" kindref="member">attestation</ref>{</highlight><highlight class="stringliteral">&quot;none&quot;</highlight><highlight class="normal">};<sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_credential_creation_options_1af077c039b8f4f8563efef38aa5f5101f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_authenticator_selection" kindref="compound">AuthenticatorSelection</ref><sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_credential_creation_options_1af077c039b8f4f8563efef38aa5f5101f" kindref="member">authenticator_selection</ref>;</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_credential_creation_options_1a60059711265141123b95ce8c73d94bce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_credential_creation_options_1a60059711265141123b95ce8c73d94bce" kindref="member">exclude_credentials</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_credential_creation_options_1a31769bc2a3c6b3db3e0781b683c64aa9" kindref="member">to_json</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_credential_request_options" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_credential_request_options" kindref="compound">CredentialRequestOptions</ref><sp/>{</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_credential_request_options_1a1448083e4dfcf9416e4b07eae256c8e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_credential_request_options_1a1448083e4dfcf9416e4b07eae256c8e0" kindref="member">challenge</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_credential_request_options_1af88ef87c8a1e8d33a9db9f5fd046f955" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_credential_request_options_1af88ef87c8a1e8d33a9db9f5fd046f955" kindref="member">rp_id</ref>;</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_credential_request_options_1a7763fa9bb847148ab3c65234e80bc93a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;int&gt;<sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_credential_request_options_1a7763fa9bb847148ab3c65234e80bc93a" kindref="member">timeout_ms</ref>;</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_credential_request_options_1a4598c604a94f72d2b4468ee5879bcda0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_credential_request_options_1a4598c604a94f72d2b4468ee5879bcda0" kindref="member">user_verification</ref>{</highlight><highlight class="stringliteral">&quot;preferred&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_credential_request_options_1a1de40f934e245b27710915d938a4483e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_credential_request_options_1a1de40f934e245b27710915d938a4483e" kindref="member">allow_credentials</ref>;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_credential_request_options_1aec9f60234334f923234e7d930aba5b7c" kindref="member">to_json</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_attestation_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_attestation_result" kindref="compound">AttestationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_attestation_result_1a1117618f9ae9d1e9768555ebb1fb2533" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_attestation_result_1a1117618f9ae9d1e9768555ebb1fb2533" kindref="member">credential_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_attestation_result_1aa0da55aac53763037d54682b33b973c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_attestation_result_1aa0da55aac53763037d54682b33b973c6" kindref="member">public_key</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_attestation_result_1a94ae0f6a16017c7365b91ffce6cf06f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_attestation_result_1a94ae0f6a16017c7365b91ffce6cf06f4" kindref="member">algorithm</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_attestation_result_1aaa3455ed32fe38caa82da8f41e0a09c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_attestation_result_1aaa3455ed32fe38caa82da8f41e0a09c4" kindref="member">sign_count</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_attestation_result_1ada0276319dfc63c2f5b8759d5e6ea4e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_attestation_result_1ada0276319dfc63c2f5b8759d5e6ea4e9" kindref="member">aaguid</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_assertion_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_assertion_result" kindref="compound">AssertionResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_assertion_result_1a971b329ba51defd7be31837cc3520ecd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_assertion_result_1a971b329ba51defd7be31837cc3520ecd" kindref="member">credential_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_assertion_result_1a48fb45c22f1e5ebd0579f3cb1a1cae7a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_assertion_result_1a48fb45c22f1e5ebd0579f3cb1a1cae7a" kindref="member">sign_count</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_assertion_result_1a74d88dbfe6a3a4e2433bd0683cec67ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_assertion_result_1a74d88dbfe6a3a4e2433bd0683cec67ef" kindref="member">user_handle</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lifecycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_web_authn_authenticator_1a028fec060b03bd3bd6eb50f729209f72" kindref="member">WebAuthnAuthenticator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_relying_party" kindref="compound">RelyingParty</ref>&amp;<sp/>rp);</highlight></codeline>
+<codeline lineno="109" refid="classthemis_1_1auth_1_1_web_authn_authenticator_1aee790a02309a8cc4eb1e54af27d4f876" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_web_authn_authenticator_1aee790a02309a8cc4eb1e54af27d4f876" kindref="member">~WebAuthnAuthenticator</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="classthemis_1_1auth_1_1_web_authn_authenticator_1aa7b218df2b0a151b73a3add4e3c6ba30" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_web_authn_authenticator_1aa7b218df2b0a151b73a3add4e3c6ba30" kindref="member">setAuditLogger</ref>(utils::AuditLogger*<sp/>logger)<sp/>{<sp/>audit_logger_<sp/>=<sp/>logger;<sp/>}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Registration<sp/>ceremony</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>CredentialCreationOptions<sp/><ref refid="classthemis_1_1auth_1_1_web_authn_authenticator_1a4200acc9519357669473547d9c0aad37" kindref="member">startRegistration</ref>(</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>User&amp;<sp/>user,</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>resident_key<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>AttestationResult<sp/><ref refid="classthemis_1_1auth_1_1_web_authn_authenticator_1a37ddfb58ce79c078b8edfb57740e8b3b" kindref="member">completeRegistration</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>credential_response);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Authentication<sp/>ceremony</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>CredentialRequestOptions<sp/><ref refid="classthemis_1_1auth_1_1_web_authn_authenticator_1ac31187121199fe640e9e6c7286c8fe18" kindref="member">startAuthentication</ref>(</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;std::string&gt;&amp;<sp/>user_id<sp/>=<sp/>std::nullopt</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>AssertionResult<sp/><ref refid="classthemis_1_1auth_1_1_web_authn_authenticator_1aa0f64e2257963b66c1423b3904162fa1" kindref="member">completeAuthentication</ref>(</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>credential_response,</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>stored_public_key,</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>stored_sign_count</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Testing<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_web_authn_authenticator_1a9b73a02ae9ec91832b9d2c1efac3a5eb" kindref="member">setRandBytesForTesting</ref>(</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>buf,<sp/>std::size_t<sp/>len)&gt;<sp/>fn</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_web_authn_authenticator_1a444eb60521c4422d252d541d473083e4" kindref="member">setExpectedOrigin</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>origin);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>RelyingParty<sp/>rp_;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/>expected_origin_;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>utils::AuditLogger*<sp/>audit_logger_{</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;void(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*,<sp/>std::size_t)&gt;<sp/>rand_bytes_fn_;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pending<sp/>challenges:<sp/>base64url<sp/>challenge<sp/>→<sp/>expiry<sp/>timestamp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">PendingEntry<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>expires_at;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>PendingEntry&gt;<sp/>pending_challenges_;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mutex<sp/>challenges_mutex_;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::seconds<sp/>kChallengeTTL{300};<sp/><sp/></highlight><highlight class="comment">//<sp/>5<sp/>minutes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>generateChallenge();</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>verifyAndConsumeChallenge(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>challenge_b64url);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>purgeExpiredChallenges();</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>fillRandomBytes(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>buf,<sp/>std::size_t<sp/>len);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cryptographic<sp/>primitives</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/>sha256(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/>sha256(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>data);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>base64UrlEncode(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/>base64UrlDecode(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>input);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Parsed<sp/>fields<sp/>from<sp/>the<sp/>clientDataJSON<sp/>byte<sp/>sequence</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">ClientData<sp/>{</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>type;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>challenge;<sp/><sp/></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>origin;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>ClientData<sp/>parseClientDataJSON(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>client_data_json);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Parsed<sp/>fields<sp/>from<sp/>the<sp/>binary<sp/>authenticatorData<sp/>structure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">AuthData<sp/>{</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::array&lt;uint8_t,<sp/>32&gt;<sp/>rp_id_hash{};</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint8_t<sp/><sp/>flags{0};</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>sign_count{0};</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>present<sp/>when<sp/>the<sp/>AT<sp/>flag<sp/>(bit<sp/>6)<sp/>is<sp/>set</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>has_attested_credential{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>aaguid;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>credential_id;<sp/><sp/></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>cose_key_bytes;<sp/></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>AuthData<sp/>parseAuthData(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>auth_data_bytes);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>parseAttestationObject(</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>cbor_bytes,</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string&amp;<sp/>fmt,</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>auth_data</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::pair&lt;std::vector&lt;uint8_t&gt;,<sp/>std::string&gt;<sp/>coseKeyToSpki(</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>cose_key_bytes</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>verifySignature(</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>auth_data_bytes,</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>client_data_hash,</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>signature_bytes,</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>spki_bytes</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>auth</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/auth/webauthn_authenticator.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1tensor_1_1_0d101320364221245075314076131204037012045076111242" kind="namespace" language="C++">
+    <compoundname>themis::tensor::@101320364221245075314076131204037012045076111242</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/tensor/tensor_mmap_bridge.cpp" line="40" column="1"/>
+  </compounddef>
+</doxygen>

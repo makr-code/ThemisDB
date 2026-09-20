@@ -1,0 +1,296 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_vector_index_sink_adapter" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::VectorIndexSinkAdapter</compoundname>
+    <basecompoundref refid="classthemis_1_1ingestion_1_1_i_vector_writer" prot="public" virt="non-virtual">themis::ingestion::IVectorWriter</basecompoundref>
+    <includes refid="ingestion__sinks_8h" local="no">ingestion_sinks.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_vector_index_sink_adapter_1a2790a2db1afeb09215c9f4a87dbed059" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::VectorIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::VectorIndexManager&gt; themis::ingestion::VectorIndexSinkAdapter::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>themis::ingestion::VectorIndexSinkAdapter::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="387" column="21" bodyfile="include/ingestion/ingestion_sinks.h" bodystart="387" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_vector_index_sink_adapter_1a2d3614329e0eba31f495bcf162ddb261" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::VectorIndexSinkAdapter::object_name_</definition>
+        <argsstring></argsstring>
+        <name>object_name_</name>
+        <qualifiedname>themis::ingestion::VectorIndexSinkAdapter::object_name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="388" column="17" bodyfile="include/ingestion/ingestion_sinks.h" bodystart="388" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_vector_index_sink_adapter_1ae0d1700500e88384294bb424993697fc" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::ingestion::VectorIndexSinkAdapter::dimension_</definition>
+        <argsstring></argsstring>
+        <name>dimension_</name>
+        <qualifiedname>themis::ingestion::VectorIndexSinkAdapter::dimension_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="389" column="17" bodyfile="include/ingestion/ingestion_sinks.h" bodystart="389" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_vector_index_sink_adapter_1a1a49900cde5bf2841bd8062e68160dff" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::VectorIndexSinkAdapter::vector_field_</definition>
+        <argsstring></argsstring>
+        <name>vector_field_</name>
+        <qualifiedname>themis::ingestion::VectorIndexSinkAdapter::vector_field_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="390" column="17" bodyfile="include/ingestion/ingestion_sinks.h" bodystart="390" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_vector_index_sink_adapter_1abfe7fae34b87c7c540a24028d5eefa1f" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::ingestion::VectorIndexSinkAdapter::mtx_</definition>
+        <argsstring></argsstring>
+        <name>mtx_</name>
+        <qualifiedname>themis::ingestion::VectorIndexSinkAdapter::mtx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="391" column="24" bodyfile="include/ingestion/ingestion_sinks.h" bodystart="391" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_vector_index_sink_adapter_1aa05e44b58bf3449f05a8b019077e7570" prot="private" static="no" mutable="yes">
+        <type>bool</type>
+        <definition>bool themis::ingestion::VectorIndexSinkAdapter::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::ingestion::VectorIndexSinkAdapter::initialized_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="392" column="18" bodyfile="include/ingestion/ingestion_sinks.h" bodystart="392" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_vector_index_sink_adapter_1a76f0ea2aa3a45fede8974195e21835dc" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1ingestion_1_1_vector_record" kindref="compound">VectorRecord</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, VectorRecord&gt; themis::ingestion::VectorIndexSinkAdapter::last_written_records_</definition>
+        <argsstring></argsstring>
+        <name>last_written_records_</name>
+        <qualifiedname>themis::ingestion::VectorIndexSinkAdapter::last_written_records_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="393" column="24" bodyfile="include/ingestion/ingestion_sinks.h" bodystart="393" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_vector_index_sink_adapter_1a350f3e9a1121135c73050400090d818e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::VectorIndexSinkAdapter::VectorIndexSinkAdapter</definition>
+        <argsstring>(std::shared_ptr&lt; themis::VectorIndexManager &gt; vector_index, std::string object_name, std::size_t dimension, std::string vector_field=&quot;embedding&quot;)</argsstring>
+        <name>VectorIndexSinkAdapter</name>
+        <qualifiedname>themis::ingestion::VectorIndexSinkAdapter::VectorIndexSinkAdapter</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; themis::VectorIndexManager &gt;</type>
+          <declname>vector_index</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>object_name</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>dimension</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>vector_field</declname>
+          <defval>&quot;embedding&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="375" column="5" bodyfile="src/ingestion/ingestion_sinks.cpp" bodystart="593" bodyend="611"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_vector_index_sink_adapter_1a22a9f95176b7b66e8b0a63ac41f8ba1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::ingestion::VectorIndexSinkAdapter::writeVectors</definition>
+        <argsstring>(const std::vector&lt; VectorRecord &gt; &amp;records) override</argsstring>
+        <name>writeVectors</name>
+        <qualifiedname>themis::ingestion::VectorIndexSinkAdapter::writeVectors</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_vector_writer_1a72c6318311c50c2b63c1fef7de33fee1">writeVectors</reimplements>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_vector_record" kindref="compound">VectorRecord</ref> &gt; &amp;</type>
+          <declname>records</declname>
+        </param>
+        <briefdescription>
+<para>Write Vectors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">records</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ensureInitialized(), lock(), size(), tl::make_unexpected(), Error(), addEntity(), toVectorEntity(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="380" column="12" bodyfile="src/ingestion/ingestion_sinks.cpp" bodystart="647" bodyend="668"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_vector_index_sink_adapter_1a9364359eca7b629f7659cf36f386859e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::ingestion::VectorIndexSinkAdapter::vectorCount</definition>
+        <argsstring>() const override</argsstring>
+        <name>vectorCount</name>
+        <qualifiedname>themis::ingestion::VectorIndexSinkAdapter::vectorCount</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_vector_writer_1a4b29b9a276336ecf177fb1bf767a5b1b">vectorCount</reimplements>
+        <briefdescription>
+<para>Returns the number of vectors currently indexed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="381" column="17" bodyfile="src/ingestion/ingestion_sinks.cpp" bodystart="670" bodyend="672"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_vector_index_sink_adapter_1a5c20db6e7d9514da6ea3294a237c5e06" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>const <ref refid="structthemis_1_1ingestion_1_1_vector_record" kindref="compound">VectorRecord</ref> *</type>
+        <definition>const VectorRecord * themis::ingestion::VectorIndexSinkAdapter::findByChunkId</definition>
+        <argsstring>(const std::string &amp;chunk_id) const override</argsstring>
+        <name>findByChunkId</name>
+        <qualifiedname>themis::ingestion::VectorIndexSinkAdapter::findByChunkId</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_vector_writer_1ab2b16e33a675776dc950bbca10a4ea91">findByChunkId</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>chunk_id</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve a stored vector record by chunk_id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns nullptr when not found. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mtx_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="382" column="24" bodyfile="src/ingestion/ingestion_sinks.cpp" bodystart="674" bodyend="683"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_vector_index_sink_adapter_1af657fb2b63e5ad97f24b6398c665cd09" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::ingestion::VectorIndexSinkAdapter::ensureInitialized</definition>
+        <argsstring>() const</argsstring>
+        <name>ensureInitialized</name>
+        <qualifiedname>themis::ingestion::VectorIndexSinkAdapter::ensureInitialized</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>ensureInitialized() is const because lazy initialization is logically const from the caller&apos;s perspective: the observable state of the adapter (the data it can write) does not change. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mtx_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Only the internal <computeroutput>initialized_</computeroutput> flag and the vector index registration are mutated, both of which are declared <computeroutput>mutable</computeroutput> in the header to allow this pattern.</para>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="385" column="12" bodyfile="src/ingestion/ingestion_sinks.cpp" bodystart="613" bodyend="639"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Production <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_vector_writer" kindref="compound">IVectorWriter</ref></computeroutput> backed by <computeroutput>VectorIndexManager</computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::ingestion::IVectorWriter</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_vector_writer"/>
+      </node>
+      <node id="1">
+        <label>themis::ingestion::VectorIndexSinkAdapter</label>
+        <link refid="classthemis_1_1ingestion_1_1_vector_index_sink_adapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::ingestion::IVectorWriter</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_vector_writer"/>
+      </node>
+      <node id="1">
+        <label>themis::ingestion::VectorIndexSinkAdapter</label>
+        <link refid="classthemis_1_1ingestion_1_1_vector_index_sink_adapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/ingestion/ingestion_sinks.h" line="373" column="1" bodyfile="include/ingestion/ingestion_sinks.h" bodystart="373" bodyend="394"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_vector_index_sink_adapter_1ae0d1700500e88384294bb424993697fc" prot="private" virt="non-virtual"><scope>themis::ingestion::VectorIndexSinkAdapter</scope><name>dimension_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_vector_index_sink_adapter_1af657fb2b63e5ad97f24b6398c665cd09" prot="private" virt="non-virtual"><scope>themis::ingestion::VectorIndexSinkAdapter</scope><name>ensureInitialized</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_vector_index_sink_adapter_1a5c20db6e7d9514da6ea3294a237c5e06" prot="public" virt="virtual"><scope>themis::ingestion::VectorIndexSinkAdapter</scope><name>findByChunkId</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_vector_index_sink_adapter_1aa05e44b58bf3449f05a8b019077e7570" prot="private" virt="non-virtual"><scope>themis::ingestion::VectorIndexSinkAdapter</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_vector_index_sink_adapter_1a76f0ea2aa3a45fede8974195e21835dc" prot="private" virt="non-virtual"><scope>themis::ingestion::VectorIndexSinkAdapter</scope><name>last_written_records_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_vector_index_sink_adapter_1abfe7fae34b87c7c540a24028d5eefa1f" prot="private" virt="non-virtual"><scope>themis::ingestion::VectorIndexSinkAdapter</scope><name>mtx_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_vector_index_sink_adapter_1a2d3614329e0eba31f495bcf162ddb261" prot="private" virt="non-virtual"><scope>themis::ingestion::VectorIndexSinkAdapter</scope><name>object_name_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_vector_index_sink_adapter_1a1a49900cde5bf2841bd8062e68160dff" prot="private" virt="non-virtual"><scope>themis::ingestion::VectorIndexSinkAdapter</scope><name>vector_field_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_vector_index_sink_adapter_1a2790a2db1afeb09215c9f4a87dbed059" prot="private" virt="non-virtual"><scope>themis::ingestion::VectorIndexSinkAdapter</scope><name>vector_index_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_vector_index_sink_adapter_1a9364359eca7b629f7659cf36f386859e" prot="public" virt="virtual"><scope>themis::ingestion::VectorIndexSinkAdapter</scope><name>vectorCount</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_vector_index_sink_adapter_1a350f3e9a1121135c73050400090d818e" prot="public" virt="non-virtual"><scope>themis::ingestion::VectorIndexSinkAdapter</scope><name>VectorIndexSinkAdapter</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_vector_index_sink_adapter_1a22a9f95176b7b66e8b0a63ac41f8ba1f" prot="public" virt="virtual"><scope>themis::ingestion::VectorIndexSinkAdapter</scope><name>writeVectors</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_vector_writer_1af9a420cc1a968e95d32f93041ccced49" prot="public" virt="virtual"><scope>themis::ingestion::VectorIndexSinkAdapter</scope><name>~IVectorWriter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

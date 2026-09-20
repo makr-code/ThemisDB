@@ -1,0 +1,356 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="multi__gpu__trainer_8h" kind="file" language="C++">
+    <compoundname>multi_gpu_trainer.h</compoundname>
+    <includes refid="multi__gpu__lora__layer_8h" local="yes">llm/lora_framework/multi_gpu_lora_layer.h</includes>
+    <includes refid="lora__layers_8h" local="yes">llm/lora_framework/lora_layers.h</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">functional</includes>
+    <includedby refid="multi__gpu__trainer_8cpp" local="yes">src/llm/lora_framework/multi_gpu_trainer.cpp</includedby>
+    <incdepgraph>
+      <node id="21">
+        <label>llm/lora_framework/custom_allreduce.h</label>
+        <link refid="custom__allreduce_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>llm/lora_framework/gpu_lora_layers.h</label>
+        <link refid="gpu__lora__layers_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>llm/lora_framework/gpu_memory.h</label>
+        <link refid="gpu__memory_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>llm/lora_framework/gpu_tensor.h</label>
+        <link refid="gpu__tensor_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>llm/lora_framework/lora_layers.h</label>
+        <link refid="lora__layers_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>llm/lora_framework/multi_gpu.h</label>
+        <link refid="multi__gpu_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>llm/lora_framework/multi_gpu_lora_layer.h</label>
+        <link refid="multi__gpu__lora__layer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/lora_framework/multi_gpu_trainer.h</label>
+        <link refid="multi__gpu__trainer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>llm/lora_framework/nccl_backend.h</label>
+        <link refid="nccl__backend_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>llm/lora_framework/rccl_backend.h</label>
+        <link refid="rccl__backend_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>llm/lora_framework/tensor_dtype.h</label>
+        <link refid="tensor__dtype_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>llm/lora_framework/vram_allocator.h</label>
+        <link refid="vram__allocator_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>acceleration/compute_backend.h</label>
+      </node>
+      <node id="7">
+        <label>cstddef</label>
+      </node>
+      <node id="15">
+        <label>cstdint</label>
+      </node>
+      <node id="16">
+        <label>cstring</label>
+      </node>
+      <node id="17">
+        <label>functional</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>mutex</label>
+      </node>
+      <node id="22">
+        <label>optional</label>
+      </node>
+      <node id="13">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>unordered_map</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/lora_framework/multi_gpu_trainer.h</label>
+        <link refid="multi__gpu__trainer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/llm/lora_framework/multi_gpu_trainer.cpp</label>
+        <link refid="multi__gpu__trainer_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer" prot="public">themis::llm::lora::MultiGPULoRATrainer</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_config" prot="public">themis::llm::lora::MultiGPULoRATrainer::Config</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_stats" prot="public">themis::llm::lora::MultiGPULoRATrainer::Stats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1lora">themis::llm::lora</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="multi__gpu__lora__layer_8h" kindref="compound">llm/lora_framework/multi_gpu_lora_layer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lora__layers_8h" kindref="compound">llm/lora_framework/lora_layers.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1lora" kindref="compound">lora</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1aa15d2061baa1bde70e1ee4c1b30ab286" kindref="member">MultiGPULoRATrainer</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_config_1a48d86bfa192d776925e21d8c7e37303a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_config_1a48d86bfa192d776925e21d8c7e37303a" kindref="member">learning_rate</ref><sp/>=<sp/>0.001f;</highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_config_1a93a421196ff2199cd664c4408a5fa961" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_config_1a93a421196ff2199cd664c4408a5fa961" kindref="member">gradient_accumulation_steps</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_config_1af18c461b7094db4ffa8e99e35462576b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_config_1af18c461b7094db4ffa8e99e35462576b" kindref="member">sync_every_step</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>false,<sp/>sync<sp/>after<sp/>accumulation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_config_1af742d77cf798476921e46845433577b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_config_1af742d77cf798476921e46845433577b3" kindref="member">checkpoint_every_n_steps</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_config_1af1d083d31f2169b61eca87cc0177a596" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_config_1af1d083d31f2169b61eca87cc0177a596" kindref="member">checkpoint_dir</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;./checkpoints&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_config_1a9516f0471233046331b6eca4869c5c6e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_config_1a9516f0471233046331b6eca4869c5c6e" kindref="member">enable_profiling</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1aa15d2061baa1bde70e1ee4c1b30ab286" kindref="member">MultiGPULoRATrainer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_context" kindref="compound">MultiGPUContext</ref>&amp;<sp/>ctx,<sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1aa15d2061baa1bde70e1ee4c1b30ab286" kindref="member">MultiGPULoRATrainer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_context" kindref="compound">MultiGPUContext</ref>&amp;<sp/>ctx);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50" refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1a82f5e71d08a022321eba672649618415" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1a82f5e71d08a022321eba672649618415" kindref="member">~MultiGPULoRATrainer</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;MultiGPULoRALayer&gt;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1ae29b0c1eff79377963bcaa337c1c3841" kindref="member">create_layer</ref>(</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>in_dim,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>out_dim,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>rank,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>scaling,</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a3aca1c489b10af17a3d8168627d3ff31" kindref="member">CommBackend</ref><sp/>backend<sp/>=<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a3aca1c489b10af17a3d8168627d3ff31ae1f2d5134ed2543d38a0de9751cf75d9" kindref="member">CommBackend::AUTO</ref>);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1a12a46f6e6d7105e1f05ea49cddfab4db" kindref="member">train_step</ref>(</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer" kindref="compound">MultiGPULoRALayer</ref>&amp;<sp/>layer,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;GPUTensor&gt;&amp;<sp/>inputs,</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;GPUTensor&gt;&amp;<sp/>targets);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1a3f152c7846810226436e0aa601bf3142" kindref="member">eval_step</ref>(</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer" kindref="compound">MultiGPULoRALayer</ref>&amp;<sp/>layer,</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;GPUTensor&gt;&amp;<sp/>inputs,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;GPUTensor&gt;&amp;<sp/>targets);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;GPUTensor&gt;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1af5ced99fa079d2eebfcc577a06dce171" kindref="member">shard_batch</ref>(</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref>&amp;<sp/>batch,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_context" kindref="compound">MultiGPUContext</ref>&amp;<sp/>ctx);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1adf83e8b8331f1251ac568c81ad21e092" kindref="member">gather_to_cpu</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;GPUTensor&gt;&amp;<sp/>tensors);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1a7bfda0d0c030794f7594da341bb7a332" kindref="member">save_checkpoint</ref>(</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer" kindref="compound">MultiGPULoRALayer</ref>&amp;<sp/>layer,</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path,</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>step);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1afe1a10a61c7c3fef3e7bfb92166db98c" kindref="member">load_checkpoint</ref>(</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer" kindref="compound">MultiGPULoRALayer</ref>&amp;<sp/>layer,</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_stats_1a8263357140989f47a373cb104d6368a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_stats_1a8263357140989f47a373cb104d6368a6" kindref="member">total_steps</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_stats_1af90e02677630ce6344f37d08bf05ef4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_stats_1af90e02677630ce6344f37d08bf05ef4b" kindref="member">avg_loss</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_stats_1ac4ab470636ec5ed8ca9facc07409357c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_stats_1ac4ab470636ec5ed8ca9facc07409357c" kindref="member">avg_step_time_ms</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_stats_1a793707edf607760094bdab7bc0f17ce0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_stats_1a793707edf607760094bdab7bc0f17ce0" kindref="member">avg_communication_time_ms</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_stats_1adf09569e8f9f004bd6b5cdae763f0f5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_stats_1adf09569e8f9f004bd6b5cdae763f0f5b" kindref="member">throughput_samples_per_sec</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_stats_1a7755d5a745e76f3e842daca549c167ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_stats_1a7755d5a745e76f3e842daca549c167ce" kindref="member">communication_overhead</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_stats_1a793707edf607760094bdab7bc0f17ce0" kindref="member">avg_communication_time_ms</ref><sp/>/<sp/>(<ref refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_stats_1ac4ab470636ec5ed8ca9facc07409357c" kindref="member">avg_step_time_ms</ref><sp/>+<sp/>1e-6f);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131" refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1abcb514912e779060a9564d9d7463e235" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1abcb514912e779060a9564d9d7463e235" kindref="member">get_stats</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>stats_;<sp/>}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1a67cee89638f0708ef458d781bd95103d" kindref="member">reset_stats</ref>();</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="137" refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1a1fde464c75f067c1b2b6c5065020d2b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_context" kindref="compound">MultiGPUContext</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_trainer_1a1fde464c75f067c1b2b6c5065020d2b7" kindref="member">context</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ctx_;<sp/>}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_context" kindref="compound">MultiGPUContext</ref>&amp;<sp/>ctx_;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/>config_;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>Stats<sp/>stats_;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>current_step_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>accumulation_counter_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>loss<sp/>(MSE)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>compute_loss(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref>&amp;<sp/>output,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref>&amp;<sp/>target);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gradient<sp/>descent<sp/>step</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>update_parameters(<ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer" kindref="compound">MultiGPULoRALayer</ref>&amp;<sp/>layer);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>lora</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/lora_framework/multi_gpu_trainer.h"/>
+  </compounddef>
+</doxygen>

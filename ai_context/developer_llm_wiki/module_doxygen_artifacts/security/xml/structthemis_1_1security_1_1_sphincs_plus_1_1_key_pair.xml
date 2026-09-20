@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_sphincs_plus_1_1_key_pair" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::SphincsPlus::KeyPair</compoundname>
+    <includes refid="post__quantum__crypto_8h" local="no">post_quantum_crypto.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_sphincs_plus_1_1_key_pair_1a4726aae0890aa34e4ad5ef89edbbf318" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::security::SphincsPlus::KeyPair::public_key</definition>
+        <argsstring></argsstring>
+        <name>public_key</name>
+        <qualifiedname>themis::security::SphincsPlus::KeyPair::public_key</qualifiedname>
+        <briefdescription>
+<para>Verification key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="437" column="21" bodyfile="include/security/post_quantum_crypto.h" bodystart="437" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_sphincs_plus_1_1_key_pair_1a3385e5d43972ef5a8e35d41af4d7ddce" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::security::SphincsPlus::KeyPair::secret_key</definition>
+        <argsstring></argsstring>
+        <name>secret_key</name>
+        <qualifiedname>themis::security::SphincsPlus::KeyPair::secret_key</qualifiedname>
+        <briefdescription>
+<para>Signing key (keep private). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/post_quantum_crypto.h" line="438" column="21" bodyfile="include/security/post_quantum_crypto.h" bodystart="438" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Asymmetric key pair for SPHINCS+ signing. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/post_quantum_crypto.h" line="436" column="5" bodyfile="include/security/post_quantum_crypto.h" bodystart="436" bodyend="439"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_sphincs_plus_1_1_key_pair_1a4726aae0890aa34e4ad5ef89edbbf318" prot="public" virt="non-virtual"><scope>themis::security::SphincsPlus::KeyPair</scope><name>public_key</name></member>
+      <member refid="structthemis_1_1security_1_1_sphincs_plus_1_1_key_pair_1a3385e5d43972ef5a8e35d41af4d7ddce" prot="public" virt="non-virtual"><scope>themis::security::SphincsPlus::KeyPair</scope><name>secret_key</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

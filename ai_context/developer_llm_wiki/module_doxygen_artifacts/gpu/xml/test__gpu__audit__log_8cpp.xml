@@ -1,0 +1,501 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__gpu__audit__log_8cpp" kind="file" language="C++">
+    <compoundname>test_gpu_audit_log.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">themis/gpu/audit_log.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/gpu/test_gpu_audit_log.cpp</label>
+        <link refid="test__gpu__audit__log_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>themis/gpu/audit_log.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__gpu__audit__log_8cpp_1a01b48006dacd951c40c34b89445fe680" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUAuditLogTest, InitialState_Empty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUAuditLogTest</type>
+        </param>
+        <param>
+          <type>InitialState_Empty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_audit_log.cpp" line="10" column="1" bodyfile="tests/gpu/test_gpu_audit_log.cpp" bodystart="10" bodyend="16"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__audit__log_8cpp_1af3f8effcf41741930a69285f3f2ecbb2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUAuditLogTest, Record_Single_AppearsInSnapshot)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUAuditLogTest</type>
+        </param>
+        <param>
+          <type>Record_Single_AppearsInSnapshot</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_audit_log.cpp" line="22" column="1" bodyfile="tests/gpu/test_gpu_audit_log.cpp" bodystart="22" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__audit__log_8cpp_1a1e35cd090e9e1be649793e5c49f33362" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUAuditLogTest, Record_Multiple_OrderIsOldestFirst)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUAuditLogTest</type>
+        </param>
+        <param>
+          <type>Record_Multiple_OrderIsOldestFirst</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_audit_log.cpp" line="34" column="1" bodyfile="tests/gpu/test_gpu_audit_log.cpp" bodystart="34" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__audit__log_8cpp_1ab295f00b12400bacb01b0e28bcc6743d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUAuditLogTest, RingBuffer_WrapAround_OldestEvicted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUAuditLogTest</type>
+        </param>
+        <param>
+          <type>RingBuffer_WrapAround_OldestEvicted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_audit_log.cpp" line="51" column="1" bodyfile="tests/gpu/test_gpu_audit_log.cpp" bodystart="51" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__audit__log_8cpp_1a8f3602428651f25dce0544e3427bd28c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUAuditLogTest, RingBuffer_TotalRecorded_ExceedsCapacity)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUAuditLogTest</type>
+        </param>
+        <param>
+          <type>RingBuffer_TotalRecorded_ExceedsCapacity</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_audit_log.cpp" line="71" column="1" bodyfile="tests/gpu/test_gpu_audit_log.cpp" bodystart="71" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__audit__log_8cpp_1af649047c9c6164eceee827a94f9eeec4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUAuditLogTest, RecordAllocFailGlobalLimit_HasMessage)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUAuditLogTest</type>
+        </param>
+        <param>
+          <type>RecordAllocFailGlobalLimit_HasMessage</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_audit_log.cpp" line="84" column="1" bodyfile="tests/gpu/test_gpu_audit_log.cpp" bodystart="84" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__audit__log_8cpp_1ab5e62100cc02a729ccbed4661dffb6e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUAuditLogTest, RecordAllocFailTenantQuota_HasMessage)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUAuditLogTest</type>
+        </param>
+        <param>
+          <type>RecordAllocFailTenantQuota_HasMessage</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_audit_log.cpp" line="94" column="1" bodyfile="tests/gpu/test_gpu_audit_log.cpp" bodystart="94" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__audit__log_8cpp_1a29d56b60f6bb6a49bf758721589ebe70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUAuditLogTest, RecordDeviceUnavailable_StoredCorrectly)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUAuditLogTest</type>
+        </param>
+        <param>
+          <type>RecordDeviceUnavailable_StoredCorrectly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_audit_log.cpp" line="103" column="1" bodyfile="tests/gpu/test_gpu_audit_log.cpp" bodystart="103" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__audit__log_8cpp_1a39946faab27d783d3b2a5dc55ccde371" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUAuditLogTest, RecordCircuitOpened_StoredCorrectly)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUAuditLogTest</type>
+        </param>
+        <param>
+          <type>RecordCircuitOpened_StoredCorrectly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_audit_log.cpp" line="112" column="1" bodyfile="tests/gpu/test_gpu_audit_log.cpp" bodystart="112" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__audit__log_8cpp_1a8407c822ba15a06b4e911091f34dd0c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUAuditLogTest, RecordCircuitReset_StoredCorrectly)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUAuditLogTest</type>
+        </param>
+        <param>
+          <type>RecordCircuitReset_StoredCorrectly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_audit_log.cpp" line="120" column="1" bodyfile="tests/gpu/test_gpu_audit_log.cpp" bodystart="120" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__audit__log_8cpp_1a1c5830f94a549a85674ead8cf135d854" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUAuditLogTest, Events_HaveTimestamp)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUAuditLogTest</type>
+        </param>
+        <param>
+          <type>Events_HaveTimestamp</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_audit_log.cpp" line="132" column="1" bodyfile="tests/gpu/test_gpu_audit_log.cpp" bodystart="132" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__audit__log_8cpp_1ae2e0b662a068f54a14769783d25e2e9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUAuditLogTest, Clear_RemovesEvents_PreservesTotal)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUAuditLogTest</type>
+        </param>
+        <param>
+          <type>Clear_RemovesEvents_PreservesTotal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_audit_log.cpp" line="148" column="1" bodyfile="tests/gpu/test_gpu_audit_log.cpp" bodystart="148" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__audit__log_8cpp_1a7a4435846c5a867f0f7cfc36995f69c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUAuditLogTest, ConcurrentWrites_NoDataRace)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUAuditLogTest</type>
+        </param>
+        <param>
+          <type>ConcurrentWrites_NoDataRace</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_audit_log.cpp" line="165" column="1" bodyfile="tests/gpu/test_gpu_audit_log.cpp" bodystart="165" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__audit__log_8cpp_1a65511c9bea5b1b6e133657aa0b05dc57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUAuditLogTest, CapacityOne_AlwaysHoldsLatestEvent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUAuditLogTest</type>
+        </param>
+        <param>
+          <type>CapacityOne_AlwaysHoldsLatestEvent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_audit_log.cpp" line="192" column="1" bodyfile="tests/gpu/test_gpu_audit_log.cpp" bodystart="192" bodyend="202"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/audit_log.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu" kindref="compound">themis::gpu</ref>;</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><ref refid="test__gpu__audit__log_8cpp_1a01b48006dacd951c40c34b89445fe680" kindref="member">TEST</ref>(GPUAuditLogTest,<sp/>InitialState_Empty)<sp/>{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAuditLog<sp/>log(32);</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(log.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(log.capacity(),<sp/>32u);</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(log.totalRecorded(),<sp/>0u);</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(log.snapshot().empty());</highlight></codeline>
+<codeline lineno="16"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>record<sp/>/<sp/>snapshot</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><ref refid="test__gpu__audit__log_8cpp_1a01b48006dacd951c40c34b89445fe680" kindref="member">TEST</ref>(GPUAuditLogTest,<sp/>Record_Single_AppearsInSnapshot)<sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAuditLog<sp/>log(16);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>log.recordAllocSuccess(4096,<sp/></highlight><highlight class="stringliteral">&quot;vector_index&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;tenant_a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>events<sp/>=<sp/>log.snapshot();</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(events.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(events[0].type,<sp/>GPUAuditLog::EventType::ALLOC_SUCCESS);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(events[0].size_bytes,<sp/>4096u);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(events[0].tag,<sp/></highlight><highlight class="stringliteral">&quot;vector_index&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(events[0].tenant_id,<sp/></highlight><highlight class="stringliteral">&quot;tenant_a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><ref refid="test__gpu__audit__log_8cpp_1a01b48006dacd951c40c34b89445fe680" kindref="member">TEST</ref>(GPUAuditLogTest,<sp/>Record_Multiple_OrderIsOldestFirst)<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAuditLog<sp/>log(16);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>log.recordAllocSuccess(100,<sp/></highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>log.recordDealloc(100,<sp/></highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>log.recordFallbackToCPU(</highlight><highlight class="stringliteral">&quot;OOM&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>events<sp/>=<sp/>log.snapshot();</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(events.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(events[0].type,<sp/>GPUAuditLog::EventType::ALLOC_SUCCESS);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(events[1].type,<sp/>GPUAuditLog::EventType::DEALLOC);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(events[2].type,<sp/>GPUAuditLog::EventType::FALLBACK_TO_CPU);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Ring-buffer<sp/>wrap-around</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><ref refid="test__gpu__audit__log_8cpp_1a01b48006dacd951c40c34b89445fe680" kindref="member">TEST</ref>(GPUAuditLogTest,<sp/>RingBuffer_WrapAround_OldestEvicted)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAuditLog<sp/>log(4);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fill<sp/>to<sp/>capacity.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>log.recordAllocSuccess(1,<sp/></highlight><highlight class="stringliteral">&quot;old_1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>log.recordAllocSuccess(2,<sp/></highlight><highlight class="stringliteral">&quot;old_2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>log.recordAllocSuccess(3,<sp/></highlight><highlight class="stringliteral">&quot;old_3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>log.recordAllocSuccess(4,<sp/></highlight><highlight class="stringliteral">&quot;old_4&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(log.size(),<sp/>4u);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Write<sp/>one<sp/>more<sp/>—<sp/>evicts<sp/>the<sp/>oldest.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>log.recordAllocSuccess(5,<sp/></highlight><highlight class="stringliteral">&quot;new&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(log.size(),<sp/>4u);<sp/><sp/></highlight><highlight class="comment">//<sp/>still<sp/>at<sp/>capacity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(log.totalRecorded(),<sp/>5u);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>events<sp/>=<sp/>log.snapshot();</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>oldest<sp/>&quot;old_1&quot;<sp/>must<sp/>be<sp/>gone;<sp/>&quot;new&quot;<sp/>must<sp/>be<sp/>present.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(events[0].tag,<sp/></highlight><highlight class="stringliteral">&quot;old_2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(events[3].tag,<sp/></highlight><highlight class="stringliteral">&quot;new&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><ref refid="test__gpu__audit__log_8cpp_1a01b48006dacd951c40c34b89445fe680" kindref="member">TEST</ref>(GPUAuditLogTest,<sp/>RingBuffer_TotalRecorded_ExceedsCapacity)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAuditLog<sp/>log(4);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>log.recordAllocSuccess(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i),<sp/></highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(log.totalRecorded(),<sp/>10u);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(log.size(),<sp/>4u);<sp/><sp/></highlight><highlight class="comment">//<sp/>only<sp/>4<sp/>kept</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Convenience<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><ref refid="test__gpu__audit__log_8cpp_1a01b48006dacd951c40c34b89445fe680" kindref="member">TEST</ref>(GPUAuditLogTest,<sp/>RecordAllocFailGlobalLimit_HasMessage)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAuditLog<sp/>log(8);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>log.recordAllocFailGlobalLimit(1024,<sp/></highlight><highlight class="stringliteral">&quot;index&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;t1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ev<sp/>=<sp/>log.snapshot();</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(ev.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev[0].type,<sp/>GPUAuditLog::EventType::ALLOC_FAIL_GLOBAL_LIMIT);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ev[0].message.empty());</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev[0].tenant_id,<sp/></highlight><highlight class="stringliteral">&quot;t1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><ref refid="test__gpu__audit__log_8cpp_1a01b48006dacd951c40c34b89445fe680" kindref="member">TEST</ref>(GPUAuditLogTest,<sp/>RecordAllocFailTenantQuota_HasMessage)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAuditLog<sp/>log(8);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>log.recordAllocFailTenantQuota(2048,<sp/></highlight><highlight class="stringliteral">&quot;cache&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;t2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ev<sp/>=<sp/>log.snapshot();</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(ev.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev[0].type,<sp/>GPUAuditLog::EventType::ALLOC_FAIL_TENANT_QUOTA);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ev[0].message.empty());</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><ref refid="test__gpu__audit__log_8cpp_1a01b48006dacd951c40c34b89445fe680" kindref="member">TEST</ref>(GPUAuditLogTest,<sp/>RecordDeviceUnavailable_StoredCorrectly)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAuditLog<sp/>log(8);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>log.recordDeviceUnavailable(</highlight><highlight class="stringliteral">&quot;no<sp/>GPU<sp/>found&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ev<sp/>=<sp/>log.snapshot();</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(ev.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev[0].type,<sp/>GPUAuditLog::EventType::DEVICE_UNAVAILABLE);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev[0].message,<sp/></highlight><highlight class="stringliteral">&quot;no<sp/>GPU<sp/>found&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><ref refid="test__gpu__audit__log_8cpp_1a01b48006dacd951c40c34b89445fe680" kindref="member">TEST</ref>(GPUAuditLogTest,<sp/>RecordCircuitOpened_StoredCorrectly)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAuditLog<sp/>log(8);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>log.recordCircuitOpened(</highlight><highlight class="stringliteral">&quot;3<sp/>consecutive<sp/>device<sp/>errors&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ev<sp/>=<sp/>log.snapshot();</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(ev.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev[0].type,<sp/>GPUAuditLog::EventType::CIRCUIT_OPENED);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><ref refid="test__gpu__audit__log_8cpp_1a01b48006dacd951c40c34b89445fe680" kindref="member">TEST</ref>(GPUAuditLogTest,<sp/>RecordCircuitReset_StoredCorrectly)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAuditLog<sp/>log(8);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>log.recordCircuitReset();</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ev<sp/>=<sp/>log.snapshot();</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(ev.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev[0].type,<sp/>GPUAuditLog::EventType::CIRCUIT_RESET);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Timestamps</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><ref refid="test__gpu__audit__log_8cpp_1a01b48006dacd951c40c34b89445fe680" kindref="member">TEST</ref>(GPUAuditLogTest,<sp/>Events_HaveTimestamp)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAuditLog<sp/>log(8);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>before<sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>log.recordAllocSuccess(512,<sp/></highlight><highlight class="stringliteral">&quot;ts_test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>after<sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ev<sp/>=<sp/>log.snapshot();</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(ev.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(ev[0].timestamp,<sp/>before);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(ev[0].timestamp,<sp/>after);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>clear</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><ref refid="test__gpu__audit__log_8cpp_1a01b48006dacd951c40c34b89445fe680" kindref="member">TEST</ref>(GPUAuditLogTest,<sp/>Clear_RemovesEvents_PreservesTotal)<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAuditLog<sp/>log(8);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>log.recordAllocSuccess(1,<sp/></highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>log.recordAllocSuccess(2,<sp/></highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(log.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(log.totalRecorded(),<sp/>2u);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>log.clear();</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(log.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(log.snapshot().empty());</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(log.totalRecorded(),<sp/>2u);<sp/><sp/></highlight><highlight class="comment">//<sp/>lifetime<sp/>count<sp/>preserved</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Thread<sp/>safety<sp/>—<sp/>concurrent<sp/>writes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><ref refid="test__gpu__audit__log_8cpp_1a01b48006dacd951c40c34b89445fe680" kindref="member">TEST</ref>(GPUAuditLogTest,<sp/>ConcurrentWrites_NoDataRace)<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAuditLog<sp/>log(256);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>THREADS<sp/>=<sp/>8,<sp/>OPS_PER_THREAD<sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>threads.reserve(THREADS);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>THREADS;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;log,<sp/>t]<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>OPS_PER_THREAD;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>log.recordAllocSuccess(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i),</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(t));</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>th<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>th.join();</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(log.totalRecorded(),</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(THREADS<sp/>*<sp/>OPS_PER_THREAD));</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(log.size(),<sp/>log.capacity());</highlight></codeline>
+<codeline lineno="186"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Capacity<sp/>=<sp/>1<sp/>edge<sp/>case</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><ref refid="test__gpu__audit__log_8cpp_1a01b48006dacd951c40c34b89445fe680" kindref="member">TEST</ref>(GPUAuditLogTest,<sp/>CapacityOne_AlwaysHoldsLatestEvent)<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUAuditLog<sp/>log(1);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>log.recordAllocSuccess(1,<sp/></highlight><highlight class="stringliteral">&quot;first&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>log.recordAllocSuccess(2,<sp/></highlight><highlight class="stringliteral">&quot;second&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>log.recordAllocSuccess(3,<sp/></highlight><highlight class="stringliteral">&quot;third&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(log.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ev<sp/>=<sp/>log.snapshot();</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ev[0].tag,<sp/></highlight><highlight class="stringliteral">&quot;third&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(log.totalRecorded(),<sp/>3u);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/gpu/test_gpu_audit_log.cpp"/>
+  </compounddef>
+</doxygen>

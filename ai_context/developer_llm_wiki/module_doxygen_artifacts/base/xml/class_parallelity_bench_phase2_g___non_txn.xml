@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_parallelity_bench_phase2_g___non_txn" kind="class" language="C++" prot="public">
+    <compoundname>ParallelityBenchPhase2G_NonTxn</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_parallelity_bench_phase2_g___non_txn_1a1cf420c30e56099e3f3def6bbfe45ca5" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; ParallelityBenchPhase2G_NonTxn::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>ParallelityBenchPhase2G_NonTxn::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="673" column="21" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="673" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parallelity_bench_phase2_g___non_txn_1a9f333180a96c7fc8e6b8fd0a9bcaaeab" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;SecondaryIndexManager&gt; ParallelityBenchPhase2G_NonTxn::sim_</definition>
+        <argsstring></argsstring>
+        <name>sim_</name>
+        <qualifiedname>ParallelityBenchPhase2G_NonTxn::sim_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="674" column="21" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="674" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parallelity_bench_phase2_g___non_txn_1a78b519341555d4071aee832ea24b2375" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ParallelityBenchPhase2G_NonTxn::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>ParallelityBenchPhase2G_NonTxn::db_path_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="675" column="17" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="675" bodyend="675"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_parallelity_bench_phase2_g___non_txn_1a9d693d95c961a6efe5c7a8c53219454a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ParallelityBenchPhase2G_NonTxn::SetUp</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ParallelityBenchPhase2G_NonTxn::SetUp</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="677" column="10" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="677" bodyend="696"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parallelity_bench_phase2_g___non_txn_1a86e5f03d4bfc6436c4b83089440fbf63" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ParallelityBenchPhase2G_NonTxn::TearDown</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ParallelityBenchPhase2G_NonTxn::TearDown</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="698" column="10" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="698" bodyend="702"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ParallelityBenchPhase2G_NonTxn</label>
+        <link refid="class_parallelity_bench_phase2_g___non_txn"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ParallelityBenchPhase2G_NonTxn</label>
+        <link refid="class_parallelity_bench_phase2_g___non_txn"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/base/bench_advanced_patterns.cpp" line="671" column="1" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="671" bodyend="703"/>
+    <listofallmembers>
+      <member refid="class_parallelity_bench_phase2_g___non_txn_1a1cf420c30e56099e3f3def6bbfe45ca5" prot="protected" virt="non-virtual"><scope>ParallelityBenchPhase2G_NonTxn</scope><name>db_</name></member>
+      <member refid="class_parallelity_bench_phase2_g___non_txn_1a78b519341555d4071aee832ea24b2375" prot="protected" virt="non-virtual"><scope>ParallelityBenchPhase2G_NonTxn</scope><name>db_path_</name></member>
+      <member refid="class_parallelity_bench_phase2_g___non_txn_1a9d693d95c961a6efe5c7a8c53219454a" prot="protected" virt="non-virtual"><scope>ParallelityBenchPhase2G_NonTxn</scope><name>SetUp</name></member>
+      <member refid="class_parallelity_bench_phase2_g___non_txn_1a9f333180a96c7fc8e6b8fd0a9bcaaeab" prot="protected" virt="non-virtual"><scope>ParallelityBenchPhase2G_NonTxn</scope><name>sim_</name></member>
+      <member refid="class_parallelity_bench_phase2_g___non_txn_1a86e5f03d4bfc6436c4b83089440fbf63" prot="protected" virt="non-virtual"><scope>ParallelityBenchPhase2G_NonTxn</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

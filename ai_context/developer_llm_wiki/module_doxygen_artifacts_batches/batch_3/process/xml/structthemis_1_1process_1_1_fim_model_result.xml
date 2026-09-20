@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_fim_model_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::FimModelResult</compoundname>
+    <includes refid="fim__importer_8h" local="no">fim_importer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_fim_model_result_1a41137e3267de51713aa1c71cfa62e064" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::FimModelResult::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::process::FimModelResult::ok</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>True if import succeeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/fim_importer.h" line="42" column="23" bodyfile="include/process/fim_importer.h" bodystart="42" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_fim_model_result_1a65024e2f209e927d39dcf3bb534f773f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::FimModelResult::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::process::FimModelResult::message</qualifiedname>
+        <briefdescription>
+<para>Error description on failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/fim_importer.h" line="43" column="23" bodyfile="include/process/fim_importer.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_fim_model_result_1aa3e620f660853f519cea53a55a85e16a" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref></type>
+        <definition>ProcessModelRecord themis::process::FimModelResult::record</definition>
+        <argsstring></argsstring>
+        <name>record</name>
+        <qualifiedname>themis::process::FimModelResult::record</qualifiedname>
+        <briefdescription>
+<para>Populated on success. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/fim_importer.h" line="44" column="24" bodyfile="include/process/fim_importer.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a single FIM model import operation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::process::FimModelResult</label>
+        <link refid="structthemis_1_1process_1_1_fim_model_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>record</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::process::ProcessModelRecord</label>
+        <link refid="structthemis_1_1process_1_1_process_model_record"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/process/fim_importer.h" line="41" column="1" bodyfile="include/process/fim_importer.h" bodystart="41" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_fim_model_result_1a65024e2f209e927d39dcf3bb534f773f" prot="public" virt="non-virtual"><scope>themis::process::FimModelResult</scope><name>message</name></member>
+      <member refid="structthemis_1_1process_1_1_fim_model_result_1a41137e3267de51713aa1c71cfa62e064" prot="public" virt="non-virtual"><scope>themis::process::FimModelResult</scope><name>ok</name></member>
+      <member refid="structthemis_1_1process_1_1_fim_model_result_1aa3e620f660853f519cea53a55a85e16a" prot="public" virt="non-virtual"><scope>themis::process::FimModelResult</scope><name>record</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

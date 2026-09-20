@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1build__info_1_1_build_configuration" kind="struct" language="C++" prot="public">
+    <compoundname>themis::build_info::BuildConfiguration</compoundname>
+    <includes refid="build__info_8h" local="no">build_info.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1build__info_1_1_build_configuration_1a4e8fb7a97094ffe39903ea84018b8905" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::build_info::BuildConfiguration::edition_name</definition>
+        <argsstring></argsstring>
+        <name>edition_name</name>
+        <qualifiedname>themis::build_info::BuildConfiguration::edition_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/build_info.h" line="45" column="17" bodyfile="include/themis/build_info.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1build__info_1_1_build_configuration_1addbc396a2f4a8062a34b85e12cd37dec" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::build_info::BuildConfiguration::edition_type</definition>
+        <argsstring></argsstring>
+        <name>edition_type</name>
+        <qualifiedname>themis::build_info::BuildConfiguration::edition_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/build_info.h" line="46" column="17" bodyfile="include/themis/build_info.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1build__info_1_1_build_configuration_1a89cb8c0afb0088113a431317d61d642d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::build_info::BuildConfiguration::gpu_max_vram_gb</definition>
+        <argsstring></argsstring>
+        <name>gpu_max_vram_gb</name>
+        <qualifiedname>themis::build_info::BuildConfiguration::gpu_max_vram_gb</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/build_info.h" line="47" column="9" bodyfile="include/themis/build_info.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1build__info_1_1_build_configuration_1abda909d3d9bfa453e099171b71ebab78" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::build_info::BuildConfiguration::sharding_max_nodes</definition>
+        <argsstring></argsstring>
+        <name>sharding_max_nodes</name>
+        <qualifiedname>themis::build_info::BuildConfiguration::sharding_max_nodes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/build_info.h" line="48" column="9" bodyfile="include/themis/build_info.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1build__info_1_1_build_configuration_1a7f6859e65339f39bd28765809e688409" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::build_info::BuildConfiguration::compiler</definition>
+        <argsstring></argsstring>
+        <name>compiler</name>
+        <qualifiedname>themis::build_info::BuildConfiguration::compiler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/build_info.h" line="51" column="17" bodyfile="include/themis/build_info.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1build__info_1_1_build_configuration_1a3dc53afa723dc4bb84e4700b61321fa1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::build_info::BuildConfiguration::compiler_version</definition>
+        <argsstring></argsstring>
+        <name>compiler_version</name>
+        <qualifiedname>themis::build_info::BuildConfiguration::compiler_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/build_info.h" line="52" column="17" bodyfile="include/themis/build_info.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1build__info_1_1_build_configuration_1a14ebdf146a9161e714bb159229bd124d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::build_info::BuildConfiguration::build_type</definition>
+        <argsstring></argsstring>
+        <name>build_type</name>
+        <qualifiedname>themis::build_info::BuildConfiguration::build_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/build_info.h" line="53" column="17" bodyfile="include/themis/build_info.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1build__info_1_1_build_configuration_1a21b4919ef0bc492262fcb95af629591e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::build_info::BuildConfiguration::build_timestamp</definition>
+        <argsstring></argsstring>
+        <name>build_timestamp</name>
+        <qualifiedname>themis::build_info::BuildConfiguration::build_timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/build_info.h" line="54" column="17" bodyfile="include/themis/build_info.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1build__info_1_1_build_configuration_1a7daae54aa1946b924eb575a33a1e6d9d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1build__info_1_1_module_info" kindref="compound">ModuleInfo</ref> &gt;</type>
+        <definition>std::vector&lt;ModuleInfo&gt; themis::build_info::BuildConfiguration::modules</definition>
+        <argsstring></argsstring>
+        <name>modules</name>
+        <qualifiedname>themis::build_info::BuildConfiguration::modules</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/build_info.h" line="57" column="17" bodyfile="include/themis/build_info.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1build__info_1_1_build_configuration_1ac5856e5a3843f7164a39728e633ffae7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, bool &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, bool&gt; &gt; themis::build_info::BuildConfiguration::compile_flags</definition>
+        <argsstring></argsstring>
+        <name>compile_flags</name>
+        <qualifiedname>themis::build_info::BuildConfiguration::compile_flags</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/build_info.h" line="60" column="17" bodyfile="include/themis/build_info.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/build_info.h" line="43" column="1" bodyfile="include/themis/build_info.h" bodystart="43" bodyend="61"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1build__info_1_1_build_configuration_1a21b4919ef0bc492262fcb95af629591e" prot="public" virt="non-virtual"><scope>themis::build_info::BuildConfiguration</scope><name>build_timestamp</name></member>
+      <member refid="structthemis_1_1build__info_1_1_build_configuration_1a14ebdf146a9161e714bb159229bd124d" prot="public" virt="non-virtual"><scope>themis::build_info::BuildConfiguration</scope><name>build_type</name></member>
+      <member refid="structthemis_1_1build__info_1_1_build_configuration_1ac5856e5a3843f7164a39728e633ffae7" prot="public" virt="non-virtual"><scope>themis::build_info::BuildConfiguration</scope><name>compile_flags</name></member>
+      <member refid="structthemis_1_1build__info_1_1_build_configuration_1a7f6859e65339f39bd28765809e688409" prot="public" virt="non-virtual"><scope>themis::build_info::BuildConfiguration</scope><name>compiler</name></member>
+      <member refid="structthemis_1_1build__info_1_1_build_configuration_1a3dc53afa723dc4bb84e4700b61321fa1" prot="public" virt="non-virtual"><scope>themis::build_info::BuildConfiguration</scope><name>compiler_version</name></member>
+      <member refid="structthemis_1_1build__info_1_1_build_configuration_1a4e8fb7a97094ffe39903ea84018b8905" prot="public" virt="non-virtual"><scope>themis::build_info::BuildConfiguration</scope><name>edition_name</name></member>
+      <member refid="structthemis_1_1build__info_1_1_build_configuration_1addbc396a2f4a8062a34b85e12cd37dec" prot="public" virt="non-virtual"><scope>themis::build_info::BuildConfiguration</scope><name>edition_type</name></member>
+      <member refid="structthemis_1_1build__info_1_1_build_configuration_1a89cb8c0afb0088113a431317d61d642d" prot="public" virt="non-virtual"><scope>themis::build_info::BuildConfiguration</scope><name>gpu_max_vram_gb</name></member>
+      <member refid="structthemis_1_1build__info_1_1_build_configuration_1a7daae54aa1946b924eb575a33a1e6d9d" prot="public" virt="non-virtual"><scope>themis::build_info::BuildConfiguration</scope><name>modules</name></member>
+      <member refid="structthemis_1_1build__info_1_1_build_configuration_1abda909d3d9bfa453e099171b71ebab78" prot="public" virt="non-virtual"><scope>themis::build_info::BuildConfiguration</scope><name>sharding_max_nodes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

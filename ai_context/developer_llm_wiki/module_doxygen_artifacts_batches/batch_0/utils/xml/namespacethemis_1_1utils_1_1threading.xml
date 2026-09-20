@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1utils_1_1threading" kind="namespace" language="C++">
+    <compoundname>themis::utils::threading</compoundname>
+    <innerclass refid="classthemis_1_1utils_1_1threading_1_1_synchronized" prot="public">themis::utils::threading::Synchronized</innerclass>
+    <innerclass refid="classthemis_1_1utils_1_1threading_1_1_shared_synchronized" prot="public">themis::utils::threading::SharedSynchronized</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1threading_1_1is__thread__safe" prot="public">themis::utils::threading::is_thread_safe</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1threading_1_1is__thread__safe_3_01std_1_1atomic_3_01_t_01_4_01_4" prot="public">themis::utils::threading::is_thread_safe&lt; std::atomic&lt; T &gt; &gt;</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1utils_1_1threading_1a7b9b4c831de226d9c9dc186dfcfd9285" prot="public" static="no" constexpr="yes" mutable="no">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool themis::utils::threading::is_thread_safe_v</definition>
+        <argsstring></argsstring>
+        <name>is_thread_safe_v</name>
+        <qualifiedname>themis::utils::threading::is_thread_safe_v</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1utils_1_1threading_1_1is__thread__safe" kindref="compound">is_thread_safe</ref>&lt;T&gt;::value</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_safety.h" line="149" column="23" bodyfile="include/utils/thread_safety.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/thread_safety.h" line="21" column="1"/>
+  </compounddef>
+</doxygen>

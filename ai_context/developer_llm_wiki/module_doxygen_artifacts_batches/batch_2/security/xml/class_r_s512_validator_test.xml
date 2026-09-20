@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_r_s512_validator_test" kind="class" language="C++" prot="public">
+    <compoundname>RS512ValidatorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_r_s512_validator_test_1a77d0cf153bf4be315e8ec148dda18e3d" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="struct_r_s_a_fixture" kindref="compound">RSAFixture</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;RSAFixture&gt; RS512ValidatorTest::fix_</definition>
+        <argsstring></argsstring>
+        <name>fix_</name>
+        <qualifiedname>RS512ValidatorTest::fix_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_ec_curves_comprehensive.cpp" line="611" column="23" bodyfile="tests/security/test_jwt_ec_curves_comprehensive.cpp" bodystart="611" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_r_s512_validator_test_1a50f73e0ab77da965cede302d9f993f12" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; JWTValidator &gt;</type>
+        <definition>std::unique_ptr&lt;JWTValidator&gt; RS512ValidatorTest::validator_</definition>
+        <argsstring></argsstring>
+        <name>validator_</name>
+        <qualifiedname>RS512ValidatorTest::validator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_ec_curves_comprehensive.cpp" line="612" column="21" bodyfile="tests/security/test_jwt_ec_curves_comprehensive.cpp" bodystart="612" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_r_s512_validator_test_1a3fdb2b1ad472a359cb63a12fcc45a1ae" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void RS512ValidatorTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>RS512ValidatorTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_ec_curves_comprehensive.cpp" line="600" column="10" bodyfile="tests/security/test_jwt_ec_curves_comprehensive.cpp" bodystart="600" bodyend="609"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>RS512ValidatorTest</label>
+        <link refid="class_r_s512_validator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>RS512ValidatorTest</label>
+        <link refid="class_r_s512_validator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_jwt_ec_curves_comprehensive.cpp" line="598" column="1" bodyfile="tests/security/test_jwt_ec_curves_comprehensive.cpp" bodystart="598" bodyend="613"/>
+    <listofallmembers>
+      <member refid="class_r_s512_validator_test_1a77d0cf153bf4be315e8ec148dda18e3d" prot="protected" virt="non-virtual"><scope>RS512ValidatorTest</scope><name>fix_</name></member>
+      <member refid="class_r_s512_validator_test_1a3fdb2b1ad472a359cb63a12fcc45a1ae" prot="protected" virt="non-virtual"><scope>RS512ValidatorTest</scope><name>SetUp</name></member>
+      <member refid="class_r_s512_validator_test_1a50f73e0ab77da965cede302d9f993f12" prot="protected" virt="non-virtual"><scope>RS512ValidatorTest</scope><name>validator_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

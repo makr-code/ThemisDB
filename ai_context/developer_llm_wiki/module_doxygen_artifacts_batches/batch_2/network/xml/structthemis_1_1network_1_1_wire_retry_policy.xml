@@ -1,0 +1,275 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_wire_retry_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::WireRetryPolicy</compoundname>
+    <includes refid="wire__retry__policy_8h" local="no">wire_retry_policy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_retry_policy_1a998d6369ffda72dfd745b214a06a90f7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::WireRetryPolicy::max_attempts</definition>
+        <argsstring></argsstring>
+        <name>max_attempts</name>
+        <qualifiedname>themis::network::WireRetryPolicy::max_attempts</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of retry attempts (0 = never retry; attempt the operation exactly once). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_retry_policy.h" line="66" column="14" bodyfile="include/network/wire_retry_policy.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_retry_policy_1ab65967344c914aec46641c0691651271" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::WireRetryPolicy::base_delay_ms</definition>
+        <argsstring></argsstring>
+        <name>base_delay_ms</name>
+        <qualifiedname>themis::network::WireRetryPolicy::base_delay_ms</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Base delay for the first retry interval in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_retry_policy.h" line="69" column="14" bodyfile="include/network/wire_retry_policy.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_retry_policy_1aae65971d41218c089800fd8075e2c26f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::WireRetryPolicy::max_delay_ms</definition>
+        <argsstring></argsstring>
+        <name>max_delay_ms</name>
+        <qualifiedname>themis::network::WireRetryPolicy::max_delay_ms</qualifiedname>
+        <initializer>= 30&apos;000</initializer>
+        <briefdescription>
+<para>Hard cap on the computed backoff delay (milliseconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_retry_policy.h" line="72" column="14" bodyfile="include/network/wire_retry_policy.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_retry_policy_1a16c65afbf8ec8258c0ecc983b3ecd3a6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::network::WireRetryPolicy::multiplier</definition>
+        <argsstring></argsstring>
+        <name>multiplier</name>
+        <qualifiedname>themis::network::WireRetryPolicy::multiplier</qualifiedname>
+        <initializer>= 2.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Exponential multiplier applied to the delay on each retry. <simplesect kind="note"><para>Must be &gt;= 1.0; values &lt; 1.0 are clamped to 1.0. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_retry_policy.h" line="76" column="12" bodyfile="include/network/wire_retry_policy.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_retry_policy_1a151e2f1d83c937573efb1914e4aac39e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::WireRetryPolicy::enable_jitter</definition>
+        <argsstring></argsstring>
+        <name>enable_jitter</name>
+        <qualifiedname>themis::network::WireRetryPolicy::enable_jitter</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When true, applies full-jitter: delay = random(0, computed_delay). This spreads reconnect storms across many clients/replicas. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_retry_policy.h" line="80" column="10" bodyfile="include/network/wire_retry_policy.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_retry_policy_1a65c43eb710c3fff4b91f03eabfc48105" prot="public" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themis::network::WireRetryPolicy::max_attempts</definition>
+        <argsstring></argsstring>
+        <name>max_attempts</name>
+        <qualifiedname>themis::network::WireRetryPolicy::max_attempts</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_transport_resilience_focused.cpp" line="77" column="19" bodyfile="tests/network/test_network_transport_resilience_focused.cpp" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_retry_policy_1a8f772ffcb54129262386e94d7230ae5b" prot="public" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themis::network::WireRetryPolicy::base_delay_ms</definition>
+        <argsstring></argsstring>
+        <name>base_delay_ms</name>
+        <qualifiedname>themis::network::WireRetryPolicy::base_delay_ms</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_transport_resilience_focused.cpp" line="78" column="19" bodyfile="tests/network/test_network_transport_resilience_focused.cpp" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_retry_policy_1a9e3833b045e55158462b74e39198df62" prot="public" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themis::network::WireRetryPolicy::max_delay_ms</definition>
+        <argsstring></argsstring>
+        <name>max_delay_ms</name>
+        <qualifiedname>themis::network::WireRetryPolicy::max_delay_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_transport_resilience_focused.cpp" line="79" column="19" bodyfile="tests/network/test_network_transport_resilience_focused.cpp" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_retry_policy_1aa8a036d185488ccef23c968cec5fee62" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::WireRetryPolicy::full_jitter</definition>
+        <argsstring></argsstring>
+        <name>full_jitter</name>
+        <qualifiedname>themis::network::WireRetryPolicy::full_jitter</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_transport_resilience_focused.cpp" line="80" column="19" bodyfile="tests/network/test_network_transport_resilience_focused.cpp" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1network_1_1_wire_retry_policy_1ae20695243b356e1078cb1fb7f27c5ef6" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1network_1_1_wire_retry_policy" kindref="compound">WireRetryPolicy</ref></type>
+        <definition>static WireRetryPolicy themis::network::WireRetryPolicy::forBindListen</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>forBindListen</name>
+        <qualifiedname>themis::network::WireRetryPolicy::forBindListen</qualifiedname>
+        <briefdescription>
+<para>Build a conservative policy suitable for bind/listen start-up. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If non-empty, only errors whose category matches this list are retried. An empty list means &quot;retry all transient + unknown errors&quot;. Currently unused reserved for future per-code filtering. </para>
+<para>3 attempts, 100 ms base, linear backoff (multiplier=2), max 2 s. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_retry_policy.h" line="92" column="29" bodyfile="include/network/wire_retry_policy.h" bodystart="92" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1network_1_1_wire_retry_policy_1a8dea51002d332b86b09d49907ee81583" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1network_1_1_wire_retry_policy" kindref="compound">WireRetryPolicy</ref></type>
+        <definition>static WireRetryPolicy themis::network::WireRetryPolicy::forConnectionIO</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>forConnectionIO</name>
+        <qualifiedname>themis::network::WireRetryPolicy::forConnectionIO</qualifiedname>
+        <briefdescription>
+<para>Build a policy for transient per-connection I/O errors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>5 attempts, 50 ms base, 10 s max, full jitter to prevent storm. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_retry_policy.h" line="107" column="29" bodyfile="include/network/wire_retry_policy.h" bodystart="107" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1network_1_1_wire_retry_policy_1a2e1b969ad4da58a865b6988587502994" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1network_1_1_wire_retry_policy" kindref="compound">WireRetryPolicy</ref></type>
+        <definition>static WireRetryPolicy themis::network::WireRetryPolicy::forTesting</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>forTesting</name>
+        <qualifiedname>themis::network::WireRetryPolicy::forTesting</qualifiedname>
+        <briefdescription>
+<para>Build an aggressive policy for unit tests (no real sleeping). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>max_attempts=3, base_delay_ms=0, no jitter. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_retry_policy.h" line="122" column="29" bodyfile="include/network/wire_retry_policy.h" bodystart="122" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1network_1_1_wire_retry_policy_1ae20695243b356e1078cb1fb7f27c5ef6" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1network_1_1_wire_retry_policy" kindref="compound">WireRetryPolicy</ref></type>
+        <definition>static WireRetryPolicy themis::network::WireRetryPolicy::forBindListen</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>forBindListen</name>
+        <qualifiedname>themis::network::WireRetryPolicy::forBindListen</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_transport_resilience_focused.cpp" line="82" column="28" bodyfile="tests/network/test_network_transport_resilience_focused.cpp" bodystart="82" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1network_1_1_wire_retry_policy_1a8dea51002d332b86b09d49907ee81583" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1network_1_1_wire_retry_policy" kindref="compound">WireRetryPolicy</ref></type>
+        <definition>static WireRetryPolicy themis::network::WireRetryPolicy::forConnectionIO</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>forConnectionIO</name>
+        <qualifiedname>themis::network::WireRetryPolicy::forConnectionIO</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_transport_resilience_focused.cpp" line="86" column="28" bodyfile="tests/network/test_network_transport_resilience_focused.cpp" bodystart="86" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1network_1_1_wire_retry_policy_1a2e1b969ad4da58a865b6988587502994" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1network_1_1_wire_retry_policy" kindref="compound">WireRetryPolicy</ref></type>
+        <definition>static WireRetryPolicy themis::network::WireRetryPolicy::forTesting</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>forTesting</name>
+        <qualifiedname>themis::network::WireRetryPolicy::forTesting</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_transport_resilience_focused.cpp" line="90" column="28" bodyfile="tests/network/test_network_transport_resilience_focused.cpp" bodystart="90" bodyend="93"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Policy parameters that govern exponential-backoff retry behaviour. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All delay values are in milliseconds. Instances are cheap to copy.</para>
+<para>Example (bind/listen retry — 3 attempts with 100 ms base): <programlisting><codeline><highlight class="normal">WireRetryPolicy<sp/>p;</highlight></codeline>
+<codeline><highlight class="normal">p.max_attempts<sp/><sp/><sp/>=<sp/>3;</highlight></codeline>
+<codeline><highlight class="normal">p.base_delay_ms<sp/><sp/>=<sp/>100;</highlight></codeline>
+<codeline><highlight class="normal">p.max_delay_ms<sp/><sp/><sp/>=<sp/>2000;</highlight></codeline>
+<codeline><highlight class="normal">p.multiplier<sp/><sp/><sp/><sp/><sp/>=<sp/>2.0;</highlight></codeline>
+<codeline><highlight class="normal">p.enable_jitter<sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/network/wire_retry_policy.h" line="63" column="1" bodyfile="include/network/wire_retry_policy.h" bodystart="63" bodyend="131"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_wire_retry_policy_1ab65967344c914aec46641c0691651271" prot="public" virt="non-virtual"><scope>themis::network::WireRetryPolicy</scope><name>base_delay_ms</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_retry_policy_1a8f772ffcb54129262386e94d7230ae5b" prot="public" virt="non-virtual"><scope>themis::network::WireRetryPolicy</scope><name>base_delay_ms</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_retry_policy_1a151e2f1d83c937573efb1914e4aac39e" prot="public" virt="non-virtual"><scope>themis::network::WireRetryPolicy</scope><name>enable_jitter</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_retry_policy_1ae20695243b356e1078cb1fb7f27c5ef6" prot="public" virt="non-virtual"><scope>themis::network::WireRetryPolicy</scope><name>forBindListen</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_retry_policy_1ae20695243b356e1078cb1fb7f27c5ef6" prot="public" virt="non-virtual"><scope>themis::network::WireRetryPolicy</scope><name>forBindListen</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_retry_policy_1a8dea51002d332b86b09d49907ee81583" prot="public" virt="non-virtual"><scope>themis::network::WireRetryPolicy</scope><name>forConnectionIO</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_retry_policy_1a8dea51002d332b86b09d49907ee81583" prot="public" virt="non-virtual"><scope>themis::network::WireRetryPolicy</scope><name>forConnectionIO</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_retry_policy_1a2e1b969ad4da58a865b6988587502994" prot="public" virt="non-virtual"><scope>themis::network::WireRetryPolicy</scope><name>forTesting</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_retry_policy_1a2e1b969ad4da58a865b6988587502994" prot="public" virt="non-virtual"><scope>themis::network::WireRetryPolicy</scope><name>forTesting</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_retry_policy_1aa8a036d185488ccef23c968cec5fee62" prot="public" virt="non-virtual"><scope>themis::network::WireRetryPolicy</scope><name>full_jitter</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_retry_policy_1a998d6369ffda72dfd745b214a06a90f7" prot="public" virt="non-virtual"><scope>themis::network::WireRetryPolicy</scope><name>max_attempts</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_retry_policy_1a65c43eb710c3fff4b91f03eabfc48105" prot="public" virt="non-virtual"><scope>themis::network::WireRetryPolicy</scope><name>max_attempts</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_retry_policy_1aae65971d41218c089800fd8075e2c26f" prot="public" virt="non-virtual"><scope>themis::network::WireRetryPolicy</scope><name>max_delay_ms</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_retry_policy_1a9e3833b045e55158462b74e39198df62" prot="public" virt="non-virtual"><scope>themis::network::WireRetryPolicy</scope><name>max_delay_ms</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_retry_policy_1a16c65afbf8ec8258c0ecc983b3ecd3a6" prot="public" virt="non-virtual"><scope>themis::network::WireRetryPolicy</scope><name>multiplier</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

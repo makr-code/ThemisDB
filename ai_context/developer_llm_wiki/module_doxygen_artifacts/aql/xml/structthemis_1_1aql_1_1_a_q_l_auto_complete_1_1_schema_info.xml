@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_a_q_l_auto_complete_1_1_schema_info" kind="struct" language="C++" prot="private">
+    <compoundname>themis::aql::AQLAutoComplete::SchemaInfo</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_auto_complete_1_1_schema_info_1a550bad60bea37157b7aa8b0eb849fc45" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLAutoComplete::SchemaInfo::collection_name</definition>
+        <argsstring></argsstring>
+        <name>collection_name</name>
+        <qualifiedname>themis::aql::AQLAutoComplete::SchemaInfo::collection_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_autocomplete.h" line="160" column="21" bodyfile="include/aql/aql_autocomplete.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_auto_complete_1_1_schema_info_1ae16d49e83bf0cf3056f5eb6739d26086" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::aql::AQLAutoComplete::SchemaInfo::fields</definition>
+        <argsstring></argsstring>
+        <name>fields</name>
+        <qualifiedname>themis::aql::AQLAutoComplete::SchemaInfo::fields</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_autocomplete.h" line="161" column="21" bodyfile="include/aql/aql_autocomplete.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_autocomplete.h" line="159" column="5" bodyfile="include/aql/aql_autocomplete.h" bodystart="159" bodyend="162"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_auto_complete_1_1_schema_info_1a550bad60bea37157b7aa8b0eb849fc45" prot="public" virt="non-virtual"><scope>themis::aql::AQLAutoComplete::SchemaInfo</scope><name>collection_name</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_auto_complete_1_1_schema_info_1ae16d49e83bf0cf3056f5eb6739d26086" prot="public" virt="non-virtual"><scope>themis::aql::AQLAutoComplete::SchemaInfo</scope><name>fields</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

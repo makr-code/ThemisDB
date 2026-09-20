@@ -1,0 +1,878 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cache_1_1_l_r_u_cache" kind="class" language="C++" prot="public">
+    <compoundname>themis::cache::LRUCache</compoundname>
+    <includes refid="lru__cache_8h" local="no">lru_cache.h</includes>
+    <innerclass refid="structthemis_1_1cache_1_1_l_r_u_cache_1_1_entry" prot="public">themis::cache::LRUCache::Entry</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_l_r_u_cache_1_1_stats" prot="private">themis::cache::LRUCache::Stats</innerclass>
+    <templateparamlist>
+      <param>
+        <type>typename Key</type>
+      </param>
+      <param>
+        <type>typename Value</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1cache_1_1_l_r_u_cache_1af30772e72e901ef3420b1632e2698c19" prot="public" static="no">
+        <type>std::function&lt; void(const Key &amp;, const Value &amp;)&gt;</type>
+        <definition>using themis::cache::LRUCache&lt; Key, Value &gt;::HitCallback = std::function&lt;void(const Key&amp;, const Value&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>HitCallback</name>
+        <qualifiedname>themis::cache::LRUCache::HitCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="39" column="5" bodyfile="include/cache/lru_cache.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1cache_1_1_l_r_u_cache_1af7471a17c63d693a8cc723021ca20da8" prot="public" static="no">
+        <type>std::function&lt; void(const Key &amp;)&gt;</type>
+        <definition>using themis::cache::LRUCache&lt; Key, Value &gt;::MissCallback = std::function&lt;void(const Key&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>MissCallback</name>
+        <qualifiedname>themis::cache::LRUCache::MissCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="40" column="5" bodyfile="include/cache/lru_cache.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1cache_1_1_l_r_u_cache_1a6f263af176169b159878a3d2c916ec25" prot="public" static="no">
+        <type>std::function&lt; void(const Key &amp;, const Value &amp;)&gt;</type>
+        <definition>using themis::cache::LRUCache&lt; Key, Value &gt;::EvictionCallback = std::function&lt;void(const Key&amp;, const Value&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>EvictionCallback</name>
+        <qualifiedname>themis::cache::LRUCache::EvictionCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="41" column="5" bodyfile="include/cache/lru_cache.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_l_r_u_cache_1aafcaf6f5e519a26ca6d0c894ed585016" prot="private" static="no" mutable="no">
+        <type>std::list&lt; Key &gt;</type>
+        <definition>std::list&lt;Key&gt; themis::cache::LRUCache&lt; Key, Value &gt;::lru_list_</definition>
+        <argsstring></argsstring>
+        <name>lru_list_</name>
+        <qualifiedname>themis::cache::LRUCache::lru_list_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="176" column="15" bodyfile="include/cache/lru_cache.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_l_r_u_cache_1a9240d88bbf9085712f633aeed6b55fef" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; Key, std::pair&lt; typename std::list&lt; Key &gt;::iterator, Value &gt; &gt;</type>
+        <definition>std::unordered_map&lt;Key, std::pair&lt;typename std::list&lt;Key&gt;::iterator, Value&gt; &gt; themis::cache::LRUCache&lt; Key, Value &gt;::map_</definition>
+        <argsstring></argsstring>
+        <name>map_</name>
+        <qualifiedname>themis::cache::LRUCache::map_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="178" column="25" bodyfile="include/cache/lru_cache.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_l_r_u_cache_1afea7841300d9c4cf17a8b3cedffd9823" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cache::LRUCache&lt; Key, Value &gt;::max_entries_</definition>
+        <argsstring></argsstring>
+        <name>max_entries_</name>
+        <qualifiedname>themis::cache::LRUCache::max_entries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="180" column="12" bodyfile="include/cache/lru_cache.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_l_r_u_cache_1a4631f35ee57b9d6e072adf2bf07b5bb5" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cache::LRUCache&lt; Key, Value &gt;::max_bytes_</definition>
+        <argsstring></argsstring>
+        <name>max_bytes_</name>
+        <qualifiedname>themis::cache::LRUCache::max_bytes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="181" column="12" bodyfile="include/cache/lru_cache.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_l_r_u_cache_1a20e4b6bcd931efafb76f6547c16c30af" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cache::LRUCache&lt; Key, Value &gt;::bytes_used_</definition>
+        <argsstring></argsstring>
+        <name>bytes_used_</name>
+        <qualifiedname>themis::cache::LRUCache::bytes_used_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="182" column="12" bodyfile="include/cache/lru_cache.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_l_r_u_cache_1a50b4ef315386e1bf56c273480d694a43" prot="private" static="no" mutable="no">
+        <type>Stats</type>
+        <definition>Stats themis::cache::LRUCache&lt; Key, Value &gt;::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::cache::LRUCache::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="184" column="11" bodyfile="include/cache/lru_cache.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_l_r_u_cache_1a5149df6b7ea85ecbe277a2855a33c2b4" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1cache_1_1_l_r_u_cache_1af30772e72e901ef3420b1632e2698c19" kindref="member">HitCallback</ref></type>
+        <definition>HitCallback themis::cache::LRUCache&lt; Key, Value &gt;::hit_callback_</definition>
+        <argsstring></argsstring>
+        <name>hit_callback_</name>
+        <qualifiedname>themis::cache::LRUCache::hit_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="185" column="17" bodyfile="include/cache/lru_cache.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_l_r_u_cache_1a2fd1b93b5e03ba20903f755096fd00a6" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1cache_1_1_l_r_u_cache_1af7471a17c63d693a8cc723021ca20da8" kindref="member">MissCallback</ref></type>
+        <definition>MissCallback themis::cache::LRUCache&lt; Key, Value &gt;::miss_callback_</definition>
+        <argsstring></argsstring>
+        <name>miss_callback_</name>
+        <qualifiedname>themis::cache::LRUCache::miss_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="186" column="18" bodyfile="include/cache/lru_cache.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_l_r_u_cache_1abe063fa02cab8fb46318ab224e3c0c95" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1cache_1_1_l_r_u_cache_1a6f263af176169b159878a3d2c916ec25" kindref="member">EvictionCallback</ref></type>
+        <definition>EvictionCallback themis::cache::LRUCache&lt; Key, Value &gt;::eviction_callback_</definition>
+        <argsstring></argsstring>
+        <name>eviction_callback_</name>
+        <qualifiedname>themis::cache::LRUCache::eviction_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="187" column="22" bodyfile="include/cache/lru_cache.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_l_r_u_cache_1a98c91d76f14e59ab085c9c69e7e12732" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::cache::LRUCache&lt; Key, Value &gt;::is_moved_from_</definition>
+        <argsstring></argsstring>
+        <name>is_moved_from_</name>
+        <qualifiedname>themis::cache::LRUCache::is_moved_from_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="189" column="10" bodyfile="include/cache/lru_cache.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_l_r_u_cache_1a3b8ddf7ed0539ddd2b5ab925284ea52d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::LRUCache&lt; Key, Value &gt;::LRUCache</definition>
+        <argsstring>(size_t max_entries, size_t max_bytes=0)</argsstring>
+        <name>LRUCache</name>
+        <qualifiedname>themis::cache::LRUCache::LRUCache</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>max_entries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_bytes</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="43" column="14" bodyfile="include/cache/lru_cache.hpp" bodystart="23" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_l_r_u_cache_1ac8564c879aa7a057d83c4271ac6d5f2d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::LRUCache&lt; Key, Value &gt;::~LRUCache</definition>
+        <argsstring>() noexcept=default</argsstring>
+        <name>~LRUCache</name>
+        <qualifiedname>themis::cache::LRUCache::~LRUCache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="45" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_l_r_u_cache_1a7f3bb3d94ad125a7c3364d00255fe706" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::LRUCache&lt; Key, Value &gt;::LRUCache</definition>
+        <argsstring>(LRUCache &amp;&amp;other) noexcept</argsstring>
+        <name>LRUCache</name>
+        <qualifiedname>themis::cache::LRUCache::LRUCache</qualifiedname>
+        <param>
+          <type>LRUCache &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="48" column="5" bodyfile="include/cache/lru_cache.hpp" bodystart="34" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_l_r_u_cache_1a877319b33928248891f9e78ad2454da1" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cache_1_1_l_r_u_cache_1a3b8ddf7ed0539ddd2b5ab925284ea52d" kindref="member">LRUCache</ref> &amp;</type>
+        <definition>LRUCache&lt; Key, Value &gt; &amp; themis::cache::LRUCache&lt; Key, Value &gt;::operator=</definition>
+        <argsstring>(LRUCache &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::cache::LRUCache::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_l_r_u_cache_1a3b8ddf7ed0539ddd2b5ab925284ea52d" kindref="member">LRUCache</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="50" column="14" bodyfile="include/cache/lru_cache.hpp" bodystart="52" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_l_r_u_cache_1ad4b59c2db8f4deee27ea3e7fcb8363d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::LRUCache&lt; Key, Value &gt;::LRUCache</definition>
+        <argsstring>(const LRUCache &amp;)=delete</argsstring>
+        <name>LRUCache</name>
+        <qualifiedname>themis::cache::LRUCache::LRUCache</qualifiedname>
+        <param>
+          <type>const LRUCache &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="53" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_l_r_u_cache_1a8e766da59b9ab1743d1b14a25567f659" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cache_1_1_l_r_u_cache_1a3b8ddf7ed0539ddd2b5ab925284ea52d" kindref="member">LRUCache</ref> &amp;</type>
+        <definition>LRUCache &amp; themis::cache::LRUCache&lt; Key, Value &gt;::operator=</definition>
+        <argsstring>(const LRUCache &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::cache::LRUCache::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1cache_1_1_l_r_u_cache_1a3b8ddf7ed0539ddd2b5ab925284ea52d" kindref="member">LRUCache</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="54" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_l_r_u_cache_1aa1b251a89b67da853df474e113653bc1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename V</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool themis::cache::LRUCache&lt; Key, Value &gt;::insert</definition>
+        <argsstring>(const Key &amp;key, V &amp;&amp;value)</argsstring>
+        <name>insert</name>
+        <qualifiedname>themis::cache::LRUCache::insert</qualifiedname>
+        <param>
+          <type>const Key &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>V &amp;&amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Insert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="65" column="10" bodyfile="include/cache/lru_cache.hpp" bodystart="79" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_l_r_u_cache_1a51926ade38db4386910a143296f8592e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; Value &gt;</type>
+        <definition>std::optional&lt; Value &gt; themis::cache::LRUCache&lt; Key, Value &gt;::get</definition>
+        <argsstring>(const Key &amp;key)</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::cache::LRUCache::get</qualifiedname>
+        <param>
+          <type>const Key &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="72" column="19" bodyfile="include/cache/lru_cache.hpp" bodystart="106" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_l_r_u_cache_1ab2b241e815feda6dcecb34546f89db4c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; const Value &gt;</type>
+        <definition>std::optional&lt; const Value &gt; themis::cache::LRUCache&lt; Key, Value &gt;::peek</definition>
+        <argsstring>(const Key &amp;key) const</argsstring>
+        <name>peek</name>
+        <qualifiedname>themis::cache::LRUCache::peek</qualifiedname>
+        <param>
+          <type>const Key &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Peek. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="79" column="19" bodyfile="include/cache/lru_cache.hpp" bodystart="129" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_l_r_u_cache_1a471dceab0fcde966966a8f52333dad19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::LRUCache&lt; Key, Value &gt;::erase</definition>
+        <argsstring>(const Key &amp;key)</argsstring>
+        <name>erase</name>
+        <qualifiedname>themis::cache::LRUCache::erase</qualifiedname>
+        <param>
+          <type>const Key &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Erase. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="86" column="10" bodyfile="include/cache/lru_cache.hpp" bodystart="138" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_l_r_u_cache_1afd0a5db8b5b76795ef5a8ca021174098" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::LRUCache&lt; Key, Value &gt;::contains</definition>
+        <argsstring>(const Key &amp;key) const</argsstring>
+        <name>contains</name>
+        <qualifiedname>themis::cache::LRUCache::contains</qualifiedname>
+        <param>
+          <type>const Key &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Contains. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="93" column="10" bodyfile="include/cache/lru_cache.hpp" bodystart="153" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_l_r_u_cache_1a44b35387e0c1a08fa5baf3fefc962b3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::LRUCache&lt; Key, Value &gt;::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::cache::LRUCache::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="98" column="10" bodyfile="include/cache/lru_cache.hpp" bodystart="158" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_l_r_u_cache_1a02d24c1cb8d118c144f62a2f23ed2274" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::LRUCache&lt; Key, Value &gt;::evict_lru</definition>
+        <argsstring>()</argsstring>
+        <name>evict_lru</name>
+        <qualifiedname>themis::cache::LRUCache::evict_lru</qualifiedname>
+        <briefdescription>
+<para>Evict lru. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="104" column="10" bodyfile="include/cache/lru_cache.hpp" bodystart="169" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_l_r_u_cache_1a02e6f9b98812344ef6952290d98dfd3e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::LRUCache&lt; Key, Value &gt;::on_hit</definition>
+        <argsstring>(HitCallback callback)</argsstring>
+        <name>on_hit</name>
+        <qualifiedname>themis::cache::LRUCache::on_hit</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_l_r_u_cache_1af30772e72e901ef3420b1632e2698c19" kindref="member">HitCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para><mdash/> Callbacks <mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements on_hit without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="112" column="10" bodyfile="include/cache/lru_cache.h" bodystart="112" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_l_r_u_cache_1aacc5da63040ec3248defc130b8f69af9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::LRUCache&lt; Key, Value &gt;::on_miss</definition>
+        <argsstring>(MissCallback callback)</argsstring>
+        <name>on_miss</name>
+        <qualifiedname>themis::cache::LRUCache::on_miss</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_l_r_u_cache_1af7471a17c63d693a8cc723021ca20da8" kindref="member">MissCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>On miss. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements on_miss without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="119" column="10" bodyfile="include/cache/lru_cache.h" bodystart="119" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_l_r_u_cache_1a22a3f92706c25f113e03d5659310ea7f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::LRUCache&lt; Key, Value &gt;::on_eviction</definition>
+        <argsstring>(EvictionCallback callback)</argsstring>
+        <name>on_eviction</name>
+        <qualifiedname>themis::cache::LRUCache::on_eviction</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_l_r_u_cache_1a6f263af176169b159878a3d2c916ec25" kindref="member">EvictionCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>On eviction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements on_eviction without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="126" column="10" bodyfile="include/cache/lru_cache.h" bodystart="126" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_l_r_u_cache_1a05545dc8eb3df0cd048c1763e24bdebf" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::cache::LRUCache&lt; Key, Value &gt;::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::cache::LRUCache::size</qualifiedname>
+        <briefdescription>
+<para><mdash/> Statistics <mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="134" column="12" bodyfile="include/cache/lru_cache.hpp" bodystart="194" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_l_r_u_cache_1a67c175d35bb1509df33453e1444ee75f" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::cache::LRUCache&lt; Key, Value &gt;::capacity</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>capacity</name>
+        <qualifiedname>themis::cache::LRUCache::capacity</qualifiedname>
+        <briefdescription>
+<para>Capacity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="141" column="12" bodyfile="include/cache/lru_cache.hpp" bodystart="199" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_l_r_u_cache_1adeefe77b067c3d90bd993730d097bd86" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::LRUCache&lt; Key, Value &gt;::hits</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>hits</name>
+        <qualifiedname>themis::cache::LRUCache::hits</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="143" column="14" bodyfile="include/cache/lru_cache.h" bodystart="143" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_l_r_u_cache_1a2aed803baa139a39d1bfa57c1b4b8ff0" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::LRUCache&lt; Key, Value &gt;::misses</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>misses</name>
+        <qualifiedname>themis::cache::LRUCache::misses</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="145" column="14" bodyfile="include/cache/lru_cache.h" bodystart="145" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_l_r_u_cache_1a320597405b67ed0aef98ddfab043db9e" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::cache::LRUCache&lt; Key, Value &gt;::hit_rate</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>hit_rate</name>
+        <qualifiedname>themis::cache::LRUCache::hit_rate</qualifiedname>
+        <briefdescription>
+<para>Hit rate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="152" column="12" bodyfile="include/cache/lru_cache.hpp" bodystart="204" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_l_r_u_cache_1a0742a108f7da9e65ca962e2cb45c3d2b" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::LRUCache&lt; Key, Value &gt;::evictions</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>evictions</name>
+        <qualifiedname>themis::cache::LRUCache::evictions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="154" column="14" bodyfile="include/cache/lru_cache.h" bodystart="154" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_l_r_u_cache_1a593a1abffceac63d00b28aabfe0380cf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1cache_1_1_l_r_u_cache_1_1_entry" kindref="compound">Entry</ref> &gt;</type>
+        <definition>std::optional&lt; typename LRUCache&lt; Key, Value &gt;::Entry &gt; themis::cache::LRUCache&lt; Key, Value &gt;::get_stats</definition>
+        <argsstring>(const Key &amp;key) const</argsstring>
+        <name>get_stats</name>
+        <qualifiedname>themis::cache::LRUCache::get_stats</qualifiedname>
+        <param>
+          <type>const Key &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Get stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="161" column="19" bodyfile="include/cache/lru_cache.hpp" bodystart="213" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_l_r_u_cache_1a05b198f10b4b73a777e4c4f4a598b38d" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::LRUCache&lt; Key, Value &gt;::is_moved_from</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>is_moved_from</name>
+        <qualifiedname>themis::cache::LRUCache::is_moved_from</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="165" column="10" bodyfile="include/cache/lru_cache.h" bodystart="165" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_l_r_u_cache_1a9730f9d82c4f89da033e8b38d7b09678" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::LRUCache&lt; Key, Value &gt;::is_valid</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>is_valid</name>
+        <qualifiedname>themis::cache::LRUCache::is_valid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="167" column="10" bodyfile="include/cache/lru_cache.h" bodystart="167" bodyend="167"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_l_r_u_cache_1a3127791706329815eb60237ba7192d50" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::LRUCache&lt; Key, Value &gt;::mark_accessed</definition>
+        <argsstring>(const Key &amp;key)</argsstring>
+        <name>mark_accessed</name>
+        <qualifiedname>themis::cache::LRUCache::mark_accessed</qualifiedname>
+        <param>
+          <type>const Key &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Mark accessed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="195" column="10" bodyfile="include/cache/lru_cache.hpp" bodystart="226" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_l_r_u_cache_1a348add0011f3d5474fdb07c4d9db507f" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::LRUCache&lt; Key, Value &gt;::would_exceed_limits</definition>
+        <argsstring>(size_t value_size) const noexcept</argsstring>
+        <name>would_exceed_limits</name>
+        <qualifiedname>themis::cache::LRUCache::would_exceed_limits</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>value_size</declname>
+        </param>
+        <briefdescription>
+<para>Would exceed limits. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/lru_cache.h" line="203" column="10" bodyfile="include/cache/lru_cache.hpp" bodystart="235" bodyend="243"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/lru_cache.h" line="30" column="1" bodyfile="include/cache/lru_cache.h" bodystart="30" bodyend="204"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1a20e4b6bcd931efafb76f6547c16c30af" prot="private" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>bytes_used_</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1a67c175d35bb1509df33453e1444ee75f" prot="public" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>capacity</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1a44b35387e0c1a08fa5baf3fefc962b3c" prot="public" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>clear</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1afd0a5db8b5b76795ef5a8ca021174098" prot="public" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>contains</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1a471dceab0fcde966966a8f52333dad19" prot="public" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>erase</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1a02d24c1cb8d118c144f62a2f23ed2274" prot="public" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>evict_lru</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1abe063fa02cab8fb46318ab224e3c0c95" prot="private" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>eviction_callback_</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1a6f263af176169b159878a3d2c916ec25" prot="public" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>EvictionCallback</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1a0742a108f7da9e65ca962e2cb45c3d2b" prot="public" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>evictions</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1a51926ade38db4386910a143296f8592e" prot="public" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>get</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1a593a1abffceac63d00b28aabfe0380cf" prot="public" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>get_stats</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1a5149df6b7ea85ecbe277a2855a33c2b4" prot="private" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>hit_callback_</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1a320597405b67ed0aef98ddfab043db9e" prot="public" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>hit_rate</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1af30772e72e901ef3420b1632e2698c19" prot="public" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>HitCallback</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1adeefe77b067c3d90bd993730d097bd86" prot="public" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>hits</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1aa1b251a89b67da853df474e113653bc1" prot="public" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>insert</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1a05b198f10b4b73a777e4c4f4a598b38d" prot="public" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>is_moved_from</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1a98c91d76f14e59ab085c9c69e7e12732" prot="private" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>is_moved_from_</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1a9730f9d82c4f89da033e8b38d7b09678" prot="public" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>is_valid</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1aafcaf6f5e519a26ca6d0c894ed585016" prot="private" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>lru_list_</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1a3b8ddf7ed0539ddd2b5ab925284ea52d" prot="public" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>LRUCache</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1a7f3bb3d94ad125a7c3364d00255fe706" prot="public" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>LRUCache</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1ad4b59c2db8f4deee27ea3e7fcb8363d9" prot="public" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>LRUCache</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1a9240d88bbf9085712f633aeed6b55fef" prot="private" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>map_</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1a3127791706329815eb60237ba7192d50" prot="private" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>mark_accessed</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1a4631f35ee57b9d6e072adf2bf07b5bb5" prot="private" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>max_bytes_</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1afea7841300d9c4cf17a8b3cedffd9823" prot="private" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>max_entries_</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1a2fd1b93b5e03ba20903f755096fd00a6" prot="private" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>miss_callback_</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1af7471a17c63d693a8cc723021ca20da8" prot="public" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>MissCallback</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1a2aed803baa139a39d1bfa57c1b4b8ff0" prot="public" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>misses</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1a22a3f92706c25f113e03d5659310ea7f" prot="public" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>on_eviction</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1a02e6f9b98812344ef6952290d98dfd3e" prot="public" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>on_hit</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1aacc5da63040ec3248defc130b8f69af9" prot="public" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>on_miss</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1a877319b33928248891f9e78ad2454da1" prot="public" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1a8e766da59b9ab1743d1b14a25567f659" prot="public" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1ab2b241e815feda6dcecb34546f89db4c" prot="public" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>peek</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1a05545dc8eb3df0cd048c1763e24bdebf" prot="public" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>size</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1a50b4ef315386e1bf56c273480d694a43" prot="private" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1a348add0011f3d5474fdb07c4d9db507f" prot="private" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>would_exceed_limits</name></member>
+      <member refid="classthemis_1_1cache_1_1_l_r_u_cache_1ac8564c879aa7a057d83c4271ac6d5f2d" prot="public" virt="non-virtual"><scope>themis::cache::LRUCache</scope><name>~LRUCache</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

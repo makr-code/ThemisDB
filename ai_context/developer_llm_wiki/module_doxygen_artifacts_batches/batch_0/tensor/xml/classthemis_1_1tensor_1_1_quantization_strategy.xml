@@ -1,0 +1,272 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_quantization_strategy" kind="class" language="C++" prot="public">
+    <compoundname>themis::tensor::QuantizationStrategy</compoundname>
+    <basecompoundref refid="classthemis_1_1tensor_1_1_i_compression_strategy" prot="public" virt="non-virtual">themis::tensor::ICompressionStrategy</basecompoundref>
+    <includes refid="compression__strategy_8h" local="no">compression_strategy.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_quantization_strategy_1aabe2aada900ca525272c1090e8dad7fb" prot="private" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::tensor::QuantizationStrategy::bits_</definition>
+        <argsstring></argsstring>
+        <name>bits_</name>
+        <qualifiedname>themis::tensor::QuantizationStrategy::bits_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/compression_strategy.h" line="220" column="13" bodyfile="include/tensor/compression_strategy.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_quantization_strategy_1ad0281e1eb7aa06617e10cbc07bb7ddb4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::QuantizationStrategy::QuantizationStrategy</definition>
+        <argsstring>(uint8_t bits=8)</argsstring>
+        <name>QuantizationStrategy</name>
+        <qualifiedname>themis::tensor::QuantizationStrategy::QuantizationStrategy</qualifiedname>
+        <param>
+          <type>uint8_t</type>
+          <declname>bits</declname>
+          <defval>8</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/compression_strategy.h" line="200" column="5" bodyfile="src/tensor/compression_strategy.cpp" bodystart="98" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_quantization_strategy_1a29cc40c29d924077ba1b727a2297a188" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::QuantizationStrategy::name</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::tensor::QuantizationStrategy::name</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_compression_strategy_1a034e76cf7a13b1ec33b7ab264bd0faeb">name</reimplements>
+        <briefdescription>
+<para>Get the name of this compression strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Human-readable strategy name (e.g., &quot;TT_DECOMPOSITION&quot;, &quot;QUANTIZE_INT8&quot;). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/compression_strategy.h" line="202" column="17" bodyfile="src/tensor/compression_strategy.cpp" bodystart="100" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_quantization_strategy_1a3184ed1a739638347f6098b80e121ba4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_compression_result" kindref="compound">CompressionResult</ref></type>
+        <definition>CompressionResult themis::tensor::QuantizationStrategy::compress</definition>
+        <argsstring>(const float *data, std::size_t dim, const std::vector&lt; size_t &gt; &amp;mode_sizes, const CompressionConfig &amp;config) const override</argsstring>
+        <name>compress</name>
+        <qualifiedname>themis::tensor::QuantizationStrategy::compress</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_compression_strategy_1aaa88d1aa11525f2666b42f855e626720">compress</reimplements>
+        <param>
+          <type>const float *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; size_t &gt; &amp;</type>
+          <declname>mode_sizes</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_compression_config" kindref="compound">CompressionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Compress a candidate represented as a flat vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Flat vector data (dim elements of float). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector dimension. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mode_sizes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tensor mode sizes (for reshape operations). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Compression configuration parameters. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Compression result with success flag and metrics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/compression_strategy.h" line="204" column="23" bodyfile="src/tensor/compression_strategy.cpp" bodystart="104" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_quantization_strategy_1a2701be0c794fd31b61e58717ffa2a220" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_compression_result" kindref="compound">CompressionResult</ref></type>
+        <definition>CompressionResult themis::tensor::QuantizationStrategy::compressTTTrain</definition>
+        <argsstring>(const storage::TTTrain &amp;train, const CompressionConfig &amp;config) const override</argsstring>
+        <name>compressTTTrain</name>
+        <qualifiedname>themis::tensor::QuantizationStrategy::compressTTTrain</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_compression_strategy_1a6b0d38e0f14137d0a154dfddfdb57d56">compressTTTrain</reimplements>
+        <param>
+          <type>const storage::TTTrain &amp;</type>
+          <declname>train</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_compression_config" kindref="compound">CompressionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Compress a Tensor-Train representation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>train</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>TT-format candidate. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Compression configuration parameters. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Compression result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/compression_strategy.h" line="210" column="23" bodyfile="src/tensor/compression_strategy.cpp" bodystart="130" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_quantization_strategy_1ace8a7c961a1da61c5eabfd728cbf2630" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>float</type>
+        <definition>float themis::tensor::QuantizationStrategy::estimateRatio</definition>
+        <argsstring>(const float *data, std::size_t dim, const CompressionConfig &amp;config) const override</argsstring>
+        <name>estimateRatio</name>
+        <qualifiedname>themis::tensor::QuantizationStrategy::estimateRatio</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_compression_strategy_1a701d7e2d1d0f7eac9ec6d9455b1b35a7">estimateRatio</reimplements>
+        <param>
+          <type>const float *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_compression_config" kindref="compound">CompressionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Estimate compression ratio without performing actual compression. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sample data (may be partial). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector dimension. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Compression configuration parameters. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Estimated compression ratio. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/compression_strategy.h" line="214" column="11" bodyfile="src/tensor/compression_strategy.cpp" bodystart="147" bodyend="159"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Quantization-based compression strategy. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Reduces bit-depth of floating-point values to 8, 16, or 32 bits, with optional per-channel or per-layer scaling for better accuracy. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::tensor::ICompressionStrategy</label>
+        <link refid="classthemis_1_1tensor_1_1_i_compression_strategy"/>
+      </node>
+      <node id="1">
+        <label>themis::tensor::QuantizationStrategy</label>
+        <link refid="classthemis_1_1tensor_1_1_quantization_strategy"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::tensor::ICompressionStrategy</label>
+        <link refid="classthemis_1_1tensor_1_1_i_compression_strategy"/>
+      </node>
+      <node id="1">
+        <label>themis::tensor::QuantizationStrategy</label>
+        <link refid="classthemis_1_1tensor_1_1_quantization_strategy"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/tensor/compression_strategy.h" line="198" column="1" bodyfile="include/tensor/compression_strategy.h" bodystart="198" bodyend="221"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_quantization_strategy_1aabe2aada900ca525272c1090e8dad7fb" prot="private" virt="non-virtual"><scope>themis::tensor::QuantizationStrategy</scope><name>bits_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_quantization_strategy_1a3184ed1a739638347f6098b80e121ba4" prot="public" virt="virtual"><scope>themis::tensor::QuantizationStrategy</scope><name>compress</name></member>
+      <member refid="classthemis_1_1tensor_1_1_quantization_strategy_1a2701be0c794fd31b61e58717ffa2a220" prot="public" virt="virtual"><scope>themis::tensor::QuantizationStrategy</scope><name>compressTTTrain</name></member>
+      <member refid="classthemis_1_1tensor_1_1_quantization_strategy_1ace8a7c961a1da61c5eabfd728cbf2630" prot="public" virt="virtual"><scope>themis::tensor::QuantizationStrategy</scope><name>estimateRatio</name></member>
+      <member refid="classthemis_1_1tensor_1_1_quantization_strategy_1a29cc40c29d924077ba1b727a2297a188" prot="public" virt="virtual"><scope>themis::tensor::QuantizationStrategy</scope><name>name</name></member>
+      <member refid="classthemis_1_1tensor_1_1_quantization_strategy_1ad0281e1eb7aa06617e10cbc07bb7ddb4" prot="public" virt="non-virtual"><scope>themis::tensor::QuantizationStrategy</scope><name>QuantizationStrategy</name></member>
+      <member refid="classthemis_1_1tensor_1_1_i_compression_strategy_1a484c45d1998b33b907273eda4216678a" prot="public" virt="virtual"><scope>themis::tensor::QuantizationStrategy</scope><name>~ICompressionStrategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

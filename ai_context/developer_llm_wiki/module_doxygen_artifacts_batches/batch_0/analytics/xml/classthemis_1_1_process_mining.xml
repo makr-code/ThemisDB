@@ -1,0 +1,852 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_process_mining" kind="class" language="C++" prot="public">
+    <compoundname>themis::ProcessMining</compoundname>
+    <includes refid="process__mining_8h" local="no">process_mining.h</includes>
+    <innerclass refid="structthemis_1_1_process_mining_1_1_status" prot="public">themis::ProcessMining::Status</innerclass>
+    <innerclass refid="structthemis_1_1_process_mining_1_1_variant_info" prot="public">themis::ProcessMining::VariantInfo</innerclass>
+    <innerclass refid="structthemis_1_1_process_mining_1_1_conformance_result" prot="public">themis::ProcessMining::ConformanceResult</innerclass>
+    <innerclass refid="structthemis_1_1_process_mining_1_1_alignment_result" prot="public">themis::ProcessMining::AlignmentResult</innerclass>
+    <innerclass refid="structthemis_1_1_process_mining_1_1_enhanced_process" prot="public">themis::ProcessMining::EnhancedProcess</innerclass>
+    <innerclass refid="structthemis_1_1_process_mining_1_1_similar_fragment" prot="public">themis::ProcessMining::SimilarFragment</innerclass>
+    <innerclass refid="structthemis_1_1_process_mining_1_1_geo_process_cluster" prot="public">themis::ProcessMining::GeoProcessCluster</innerclass>
+    <innerclass refid="structthemis_1_1_process_mining_1_1_process_evolution" prot="public">themis::ProcessMining::ProcessEvolution</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_process_mining_1a4aa8ee9b328527f5c141c46462fa4735" prot="private" static="no" mutable="no">
+        <type>RocksDBWrapper &amp;</type>
+        <definition>RocksDBWrapper&amp; themis::ProcessMining::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::ProcessMining::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="396" column="20" bodyfile="include/analytics/process_mining.h" bodystart="396" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_process_mining_1a264cf283339df01631caab5dfbc77b96" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ProcessMining::ProcessMining</definition>
+        <argsstring>(RocksDBWrapper &amp;db)</argsstring>
+        <name>ProcessMining</name>
+        <qualifiedname>themis::ProcessMining::ProcessMining</qualifiedname>
+        <param>
+          <type>RocksDBWrapper &amp;</type>
+          <declname>db</declname>
+        </param>
+        <briefdescription>
+<para>Process Mining. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="222" column="14" bodyfile="src/analytics/process_mining.cpp" bodystart="476" bodyend="476"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_mining_1aa7726d045e77cbe3acf9e116c6b365ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_mining_1_1_status" kindref="compound">Status</ref>, <ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref> &gt;</type>
+        <definition>std::pair&lt; ProcessMining::Status, EventLog &gt; themis::ProcessMining::extractEventLog</definition>
+        <argsstring>(std::string_view collection, const EventLogConfig &amp;config)</argsstring>
+        <name>extractEventLog</name>
+        <qualifiedname>themis::ProcessMining::extractEventLog</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_event_log_config" kindref="compound">EventLogConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Key Str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="226" column="15" bodyfile="src/analytics/process_mining.cpp" bodystart="480" bodyend="642"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_mining_1a5ca703d0cc62f23b9bab8cbbaed704ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_mining_1_1_status" kindref="compound">Status</ref>, <ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref> &gt;</type>
+        <definition>std::pair&lt; ProcessMining::Status, EventLog &gt; themis::ProcessMining::extractEventLogFromGraph</definition>
+        <argsstring>(std::string_view edge_collection, std::string_view case_id_field=&quot;case_id&quot;)</argsstring>
+        <name>extractEventLogFromGraph</name>
+        <qualifiedname>themis::ProcessMining::extractEventLogFromGraph</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>edge_collection</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>case_id_field</declname>
+          <defval>&quot;case_id&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Key Str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="231" column="15" bodyfile="src/analytics/process_mining.cpp" bodystart="644" bodyend="730"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_mining_1a1a4e5eabb69cc4bf277d8148394febfd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_mining_1_1_status" kindref="compound">Status</ref>, <ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref> &gt;</type>
+        <definition>std::pair&lt; ProcessMining::Status, EventLog &gt; themis::ProcessMining::extractEventLogFromReferences</definition>
+        <argsstring>(std::string_view start_collection, const std::vector&lt; std::string &gt; &amp;reference_fields, std::string_view activity_field=&quot;_type&quot;)</argsstring>
+        <name>extractEventLogFromReferences</name>
+        <qualifiedname>themis::ProcessMining::extractEventLogFromReferences</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_collection</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>reference_fields</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>activity_field</declname>
+          <defval>&quot;_type&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Key Str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="236" column="15" bodyfile="src/analytics/process_mining.cpp" bodystart="733" bodyend="851"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_mining_1ac46d1341abf5025237f505c1477ec76b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_mining_1_1_status" kindref="compound">Status</ref>, <ref refid="structthemis_1_1_directly_follows_graph" kindref="compound">DirectlyFollowsGraph</ref> &gt;</type>
+        <definition>std::pair&lt; ProcessMining::Status, DirectlyFollowsGraph &gt; themis::ProcessMining::createDFG</definition>
+        <argsstring>(const EventLog &amp;log)</argsstring>
+        <name>createDFG</name>
+        <qualifiedname>themis::ProcessMining::createDFG</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref> &amp;</type>
+          <declname>log</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="244" column="15" bodyfile="src/analytics/process_mining.cpp" bodystart="855" bodyend="927"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_mining_1a00d6e46d5b930c9b0bb050e81b77cf67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_mining_1_1_status" kindref="compound">Status</ref>, <ref refid="structthemis_1_1_discovered_process" kindref="compound">DiscoveredProcess</ref> &gt;</type>
+        <definition>std::pair&lt; ProcessMining::Status, DiscoveredProcess &gt; themis::ProcessMining::discoverProcess</definition>
+        <argsstring>(const EventLog &amp;log, const MiningConfig &amp;config={})</argsstring>
+        <name>discoverProcess</name>
+        <qualifiedname>themis::ProcessMining::discoverProcess</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref> &amp;</type>
+          <declname>log</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_mining_config" kindref="compound">MiningConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="246" column="15" bodyfile="src/analytics/process_mining.cpp" bodystart="929" bodyend="943"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_mining_1a2d8dc1b9cd0b0b2b73dc930f847b4601" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_mining_1_1_status" kindref="compound">Status</ref>, <ref refid="structthemis_1_1_discovered_process" kindref="compound">DiscoveredProcess</ref> &gt;</type>
+        <definition>std::pair&lt; ProcessMining::Status, DiscoveredProcess &gt; themis::ProcessMining::discoverProcessFromCollection</definition>
+        <argsstring>(std::string_view collection, const EventLogConfig &amp;log_config, const MiningConfig &amp;mining_config={})</argsstring>
+        <name>discoverProcessFromCollection</name>
+        <qualifiedname>themis::ProcessMining::discoverProcessFromCollection</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_event_log_config" kindref="compound">EventLogConfig</ref> &amp;</type>
+          <declname>log_config</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_mining_config" kindref="compound">MiningConfig</ref> &amp;</type>
+          <declname>mining_config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="251" column="15" bodyfile="src/analytics/process_mining.cpp" bodystart="946" bodyend="953"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_mining_1ac2fd865c54caa7599d0275fc76ab8d9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_mining_1_1_status" kindref="compound">Status</ref>, std::vector&lt; <ref refid="structthemis_1_1_process_mining_1_1_variant_info" kindref="compound">VariantInfo</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; ProcessMining::Status, std::vector&lt; ProcessMining::VariantInfo &gt; &gt; themis::ProcessMining::analyzeVariants</definition>
+        <argsstring>(const EventLog &amp;log, int top_n=20)</argsstring>
+        <name>analyzeVariants</name>
+        <qualifiedname>themis::ProcessMining::analyzeVariants</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref> &amp;</type>
+          <declname>log</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>top_n</declname>
+          <defval>20</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="267" column="15" bodyfile="src/analytics/process_mining.cpp" bodystart="2104" bodyend="2144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_mining_1aab92bded32aa4e8ba32582e3702df78a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_mining_1_1_status" kindref="compound">Status</ref>, std::map&lt; int, std::vector&lt; int &gt; &gt; &gt;</type>
+        <definition>std::pair&lt; ProcessMining::Status, std::map&lt; int, std::vector&lt; int &gt; &gt; &gt; themis::ProcessMining::clusterVariants</definition>
+        <argsstring>(const EventLog &amp;log, int num_clusters=5)</argsstring>
+        <name>clusterVariants</name>
+        <qualifiedname>themis::ProcessMining::clusterVariants</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref> &amp;</type>
+          <declname>log</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>num_clusters</declname>
+          <defval>5</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="272" column="15" bodyfile="src/analytics/process_mining.cpp" bodystart="2489" bodyend="2644"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_mining_1add3648ef6b181576b51e364459d6bd00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_mining_1_1_status" kindref="compound">Status</ref>, <ref refid="structthemis_1_1_process_mining_1_1_conformance_result" kindref="compound">ConformanceResult</ref> &gt;</type>
+        <definition>std::pair&lt; ProcessMining::Status, ProcessMining::ConformanceResult &gt; themis::ProcessMining::checkConformance</definition>
+        <argsstring>(const EventLog &amp;log, const DiscoveredProcess &amp;model)</argsstring>
+        <name>checkConformance</name>
+        <qualifiedname>themis::ProcessMining::checkConformance</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref> &amp;</type>
+          <declname>log</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_discovered_process" kindref="compound">DiscoveredProcess</ref> &amp;</type>
+          <declname>model</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="289" column="15" bodyfile="src/analytics/process_mining.cpp" bodystart="2149" bodyend="2328"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_mining_1af518dabdaf135783928fe12165ec4692" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_mining_1_1_status" kindref="compound">Status</ref>, <ref refid="structthemis_1_1_process_mining_1_1_alignment_result" kindref="compound">AlignmentResult</ref> &gt;</type>
+        <definition>std::pair&lt; ProcessMining::Status, ProcessMining::AlignmentResult &gt; themis::ProcessMining::computeAlignment</definition>
+        <argsstring>(const EventLog &amp;log, const DiscoveredProcess &amp;model)</argsstring>
+        <name>computeAlignment</name>
+        <qualifiedname>themis::ProcessMining::computeAlignment</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref> &amp;</type>
+          <declname>log</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_discovered_process" kindref="compound">DiscoveredProcess</ref> &amp;</type>
+          <declname>model</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="305" column="15" bodyfile="src/analytics/process_mining.cpp" bodystart="2664" bodyend="2886"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_mining_1aeb82171f5a2fff80fac9bad72bec2193" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_mining_1_1_status" kindref="compound">Status</ref>, <ref refid="structthemis_1_1_process_mining_1_1_enhanced_process" kindref="compound">EnhancedProcess</ref> &gt;</type>
+        <definition>std::pair&lt; ProcessMining::Status, ProcessMining::EnhancedProcess &gt; themis::ProcessMining::enhanceWithPerformance</definition>
+        <argsstring>(const DiscoveredProcess &amp;model, const EventLog &amp;log)</argsstring>
+        <name>enhanceWithPerformance</name>
+        <qualifiedname>themis::ProcessMining::enhanceWithPerformance</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_discovered_process" kindref="compound">DiscoveredProcess</ref> &amp;</type>
+          <declname>model</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref> &amp;</type>
+          <declname>log</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="327" column="15" bodyfile="src/analytics/process_mining.cpp" bodystart="2889" bodyend="2916"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_mining_1a7479d9e30200317aac8742d278046e6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_mining_1_1_status" kindref="compound">Status</ref>, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::pair&lt; ProcessMining::Status, std::vector&lt; std::string &gt; &gt; themis::ProcessMining::detectBottlenecks</definition>
+        <argsstring>(const EnhancedProcess &amp;process, double threshold_percentile=0.9)</argsstring>
+        <name>detectBottlenecks</name>
+        <qualifiedname>themis::ProcessMining::detectBottlenecks</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_process_mining_1_1_enhanced_process" kindref="compound">EnhancedProcess</ref> &amp;</type>
+          <declname>process</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>threshold_percentile</declname>
+          <defval>0.9</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="332" column="15" bodyfile="src/analytics/process_mining.cpp" bodystart="2919" bodyend="2949"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_mining_1a4f2bbcf558fa892a7f2befe4ceaae215" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_mining_1_1_status" kindref="compound">Status</ref>, std::string &gt;</type>
+        <definition>std::pair&lt; ProcessMining::Status, std::string &gt; themis::ProcessMining::exportToBPMN</definition>
+        <argsstring>(const DiscoveredProcess &amp;model)</argsstring>
+        <name>exportToBPMN</name>
+        <qualifiedname>themis::ProcessMining::exportToBPMN</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_discovered_process" kindref="compound">DiscoveredProcess</ref> &amp;</type>
+          <declname>model</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="339" column="15" bodyfile="src/analytics/process_mining.cpp" bodystart="2332" bodyend="2374"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_mining_1ac259e708d54de11c52d329be08eea49b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_mining_1_1_status" kindref="compound">Status</ref>, std::string &gt;</type>
+        <definition>std::pair&lt; ProcessMining::Status, std::string &gt; themis::ProcessMining::exportToPNML</definition>
+        <argsstring>(const DiscoveredProcess &amp;model)</argsstring>
+        <name>exportToPNML</name>
+        <qualifiedname>themis::ProcessMining::exportToPNML</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_discovered_process" kindref="compound">DiscoveredProcess</ref> &amp;</type>
+          <declname>model</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="341" column="15" bodyfile="src/analytics/process_mining.cpp" bodystart="2951" bodyend="2982"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_mining_1a1a848dd90d7d70e5b0fb180965fd17f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_process_mining_1_1_status" kindref="compound">Status</ref></type>
+        <definition>ProcessMining::Status themis::ProcessMining::saveAsProcessDefinition</definition>
+        <argsstring>(const DiscoveredProcess &amp;model, std::string_view process_id)</argsstring>
+        <name>saveAsProcessDefinition</name>
+        <qualifiedname>themis::ProcessMining::saveAsProcessDefinition</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_discovered_process" kindref="compound">DiscoveredProcess</ref> &amp;</type>
+          <declname>model</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>process_id</declname>
+        </param>
+        <briefdescription>
+<para>Save As Process Definition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">process_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the process. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">process_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the process. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(), std::chrono::system_clock::now(), time_since_epoch(), count(), defEntity(), serialize(), <ref refid="lru__cache_8h_1a5b5ac2b4ae69561fd54dbc79db8222a3" kindref="member">put()</ref>, <ref refid="structthemis_1_1_process_mining_1_1_status_1a2f20f08cc247816a4f1b70e9c99efae2" kindref="member">Status::Error()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="349" column="12" bodyfile="src/analytics/process_mining.cpp" bodystart="2383" bodyend="2438"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_mining_1a036cc252a164af69560200aa4a5e4ad7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_mining_1_1_status" kindref="compound">Status</ref>, std::vector&lt; <ref refid="structthemis_1_1_process_mining_1_1_similar_fragment" kindref="compound">SimilarFragment</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; ProcessMining::Status, std::vector&lt; ProcessMining::SimilarFragment &gt; &gt; themis::ProcessMining::findSimilarPatterns</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;pattern, const EventLog &amp;log, int k=10)</argsstring>
+        <name>findSimilarPatterns</name>
+        <qualifiedname>themis::ProcessMining::findSimilarPatterns</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>pattern</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref> &amp;</type>
+          <declname>log</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>k</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="361" column="15" bodyfile="src/analytics/process_mining.cpp" bodystart="2985" bodyend="3029"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_mining_1a3dcd3038cd67ce7e4fa522efb8c4302c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_mining_1_1_status" kindref="compound">Status</ref>, std::vector&lt; <ref refid="structthemis_1_1_process_mining_1_1_geo_process_cluster" kindref="compound">GeoProcessCluster</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; ProcessMining::Status, std::vector&lt; ProcessMining::GeoProcessCluster &gt; &gt; themis::ProcessMining::discoverGeoVariants</definition>
+        <argsstring>(const EventLog &amp;log, double cluster_radius_km=50.0)</argsstring>
+        <name>discoverGeoVariants</name>
+        <qualifiedname>themis::ProcessMining::discoverGeoVariants</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref> &amp;</type>
+          <declname>log</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>cluster_radius_km</declname>
+          <defval>50.0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="374" column="15" bodyfile="src/analytics/process_mining.cpp" bodystart="3032" bodyend="3062"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_mining_1a8b164f65689a9840db0f073b4bb3ff92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_process_mining_1_1_status" kindref="compound">Status</ref>, <ref refid="structthemis_1_1_process_mining_1_1_process_evolution" kindref="compound">ProcessEvolution</ref> &gt;</type>
+        <definition>std::pair&lt; ProcessMining::Status, ProcessMining::ProcessEvolution &gt; themis::ProcessMining::analyzeEvolution</definition>
+        <argsstring>(const EventLog &amp;log, int num_periods=12)</argsstring>
+        <name>analyzeEvolution</name>
+        <qualifiedname>themis::ProcessMining::analyzeEvolution</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref> &amp;</type>
+          <declname>log</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>num_periods</declname>
+          <defval>12</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="390" column="15" bodyfile="src/analytics/process_mining.cpp" bodystart="3064" bodyend="3095"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_process_mining_1ad5e6ff407803a95de655cca22dee9836" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_discovered_process" kindref="compound">DiscoveredProcess</ref></type>
+        <definition>DiscoveredProcess themis::ProcessMining::runAlphaMiner</definition>
+        <argsstring>(const EventLog &amp;log, const MiningConfig &amp;config)</argsstring>
+        <name>runAlphaMiner</name>
+        <qualifiedname>themis::ProcessMining::runAlphaMiner</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref> &amp;</type>
+          <declname>log</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_mining_config" kindref="compound">MiningConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Run Alpha Miner. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>===== Mining Algorithms =====</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">log</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">log</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_process_mining_1ac46d1341abf5025237f505c1477ec76b" kindref="member">createDFG()</ref>, operator(), insert(), push_back(), std::to_string(), find(), end(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="405" column="23" bodyfile="src/analytics/process_mining.cpp" bodystart="963" bodyend="1261"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_mining_1a611772f51ce17c5412e904c9c1be6b9d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_discovered_process" kindref="compound">DiscoveredProcess</ref></type>
+        <definition>DiscoveredProcess themis::ProcessMining::runHeuristicMiner</definition>
+        <argsstring>(const EventLog &amp;log, const MiningConfig &amp;config)</argsstring>
+        <name>runHeuristicMiner</name>
+        <qualifiedname>themis::ProcessMining::runHeuristicMiner</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref> &amp;</type>
+          <declname>log</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_mining_config" kindref="compound">MiningConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Run Heuristic Miner. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">log</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">log</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_process_mining_1ac46d1341abf5025237f505c1477ec76b" kindref="member">createDFG()</ref>, insert(), push_back(), std::to_string(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="412" column="23" bodyfile="src/analytics/process_mining.cpp" bodystart="1270" bodyend="1397"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_mining_1a2a402a79223dafed55dbd080b8520a33" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_discovered_process" kindref="compound">DiscoveredProcess</ref></type>
+        <definition>DiscoveredProcess themis::ProcessMining::runInductiveMiner</definition>
+        <argsstring>(const EventLog &amp;log, const MiningConfig &amp;config)</argsstring>
+        <name>runInductiveMiner</name>
+        <qualifiedname>themis::ProcessMining::runInductiveMiner</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref> &amp;</type>
+          <declname>log</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_mining_config" kindref="compound">MiningConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Run Inductive Miner. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">log</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">log</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), insert(), push_back(), inductiveMinerRecurse(), std::min(), size(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="419" column="23" bodyfile="src/analytics/process_mining.cpp" bodystart="2049" bodyend="2099"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_mining_1aa80471a746c41851da27b8c8cdb8b89a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ProcessMining::computeVariantSignature</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;activities)</argsstring>
+        <name>computeVariantSignature</name>
+        <qualifiedname>themis::ProcessMining::computeVariantSignature</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>activities</declname>
+        </param>
+        <briefdescription>
+<para>Compute Variant Signature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>===== Helper Functions =====</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">activities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">activities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="427" column="17" bodyfile="src/analytics/process_mining.cpp" bodystart="2447" bodyend="2456"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_process_mining_1a49edefb2940c6079ee54cacb923b4bc5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::ProcessMining::embedActivities</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;activities)</argsstring>
+        <name>embedActivities</name>
+        <qualifiedname>themis::ProcessMining::embedActivities</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>activities</declname>
+        </param>
+        <briefdescription>
+<para>Embed Activities. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">activities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">activities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: hasher(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="433" column="17" bodyfile="src/analytics/process_mining.cpp" bodystart="2464" bodyend="2477"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/process_mining.h" line="197" column="1" bodyfile="include/analytics/process_mining.h" bodystart="197" bodyend="434"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_process_mining_1a8b164f65689a9840db0f073b4bb3ff92" prot="public" virt="non-virtual"><scope>themis::ProcessMining</scope><name>analyzeEvolution</name></member>
+      <member refid="classthemis_1_1_process_mining_1ac2fd865c54caa7599d0275fc76ab8d9d" prot="public" virt="non-virtual"><scope>themis::ProcessMining</scope><name>analyzeVariants</name></member>
+      <member refid="classthemis_1_1_process_mining_1add3648ef6b181576b51e364459d6bd00" prot="public" virt="non-virtual"><scope>themis::ProcessMining</scope><name>checkConformance</name></member>
+      <member refid="classthemis_1_1_process_mining_1aab92bded32aa4e8ba32582e3702df78a" prot="public" virt="non-virtual"><scope>themis::ProcessMining</scope><name>clusterVariants</name></member>
+      <member refid="classthemis_1_1_process_mining_1af518dabdaf135783928fe12165ec4692" prot="public" virt="non-virtual"><scope>themis::ProcessMining</scope><name>computeAlignment</name></member>
+      <member refid="classthemis_1_1_process_mining_1aa80471a746c41851da27b8c8cdb8b89a" prot="private" virt="non-virtual"><scope>themis::ProcessMining</scope><name>computeVariantSignature</name></member>
+      <member refid="classthemis_1_1_process_mining_1ac46d1341abf5025237f505c1477ec76b" prot="public" virt="non-virtual"><scope>themis::ProcessMining</scope><name>createDFG</name></member>
+      <member refid="classthemis_1_1_process_mining_1a4aa8ee9b328527f5c141c46462fa4735" prot="private" virt="non-virtual"><scope>themis::ProcessMining</scope><name>db_</name></member>
+      <member refid="classthemis_1_1_process_mining_1a7479d9e30200317aac8742d278046e6c" prot="public" virt="non-virtual"><scope>themis::ProcessMining</scope><name>detectBottlenecks</name></member>
+      <member refid="classthemis_1_1_process_mining_1a3dcd3038cd67ce7e4fa522efb8c4302c" prot="public" virt="non-virtual"><scope>themis::ProcessMining</scope><name>discoverGeoVariants</name></member>
+      <member refid="classthemis_1_1_process_mining_1a00d6e46d5b930c9b0bb050e81b77cf67" prot="public" virt="non-virtual"><scope>themis::ProcessMining</scope><name>discoverProcess</name></member>
+      <member refid="classthemis_1_1_process_mining_1a2d8dc1b9cd0b0b2b73dc930f847b4601" prot="public" virt="non-virtual"><scope>themis::ProcessMining</scope><name>discoverProcessFromCollection</name></member>
+      <member refid="classthemis_1_1_process_mining_1a49edefb2940c6079ee54cacb923b4bc5" prot="private" virt="non-virtual"><scope>themis::ProcessMining</scope><name>embedActivities</name></member>
+      <member refid="classthemis_1_1_process_mining_1aeb82171f5a2fff80fac9bad72bec2193" prot="public" virt="non-virtual"><scope>themis::ProcessMining</scope><name>enhanceWithPerformance</name></member>
+      <member refid="classthemis_1_1_process_mining_1a4f2bbcf558fa892a7f2befe4ceaae215" prot="public" virt="non-virtual"><scope>themis::ProcessMining</scope><name>exportToBPMN</name></member>
+      <member refid="classthemis_1_1_process_mining_1ac259e708d54de11c52d329be08eea49b" prot="public" virt="non-virtual"><scope>themis::ProcessMining</scope><name>exportToPNML</name></member>
+      <member refid="classthemis_1_1_process_mining_1aa7726d045e77cbe3acf9e116c6b365ac" prot="public" virt="non-virtual"><scope>themis::ProcessMining</scope><name>extractEventLog</name></member>
+      <member refid="classthemis_1_1_process_mining_1a5ca703d0cc62f23b9bab8cbbaed704ca" prot="public" virt="non-virtual"><scope>themis::ProcessMining</scope><name>extractEventLogFromGraph</name></member>
+      <member refid="classthemis_1_1_process_mining_1a1a4e5eabb69cc4bf277d8148394febfd" prot="public" virt="non-virtual"><scope>themis::ProcessMining</scope><name>extractEventLogFromReferences</name></member>
+      <member refid="classthemis_1_1_process_mining_1a036cc252a164af69560200aa4a5e4ad7" prot="public" virt="non-virtual"><scope>themis::ProcessMining</scope><name>findSimilarPatterns</name></member>
+      <member refid="classthemis_1_1_process_mining_1a264cf283339df01631caab5dfbc77b96" prot="public" virt="non-virtual"><scope>themis::ProcessMining</scope><name>ProcessMining</name></member>
+      <member refid="classthemis_1_1_process_mining_1ad5e6ff407803a95de655cca22dee9836" prot="private" virt="non-virtual"><scope>themis::ProcessMining</scope><name>runAlphaMiner</name></member>
+      <member refid="classthemis_1_1_process_mining_1a611772f51ce17c5412e904c9c1be6b9d" prot="private" virt="non-virtual"><scope>themis::ProcessMining</scope><name>runHeuristicMiner</name></member>
+      <member refid="classthemis_1_1_process_mining_1a2a402a79223dafed55dbd080b8520a33" prot="private" virt="non-virtual"><scope>themis::ProcessMining</scope><name>runInductiveMiner</name></member>
+      <member refid="classthemis_1_1_process_mining_1a1a848dd90d7d70e5b0fb180965fd17f2" prot="public" virt="non-virtual"><scope>themis::ProcessMining</scope><name>saveAsProcessDefinition</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

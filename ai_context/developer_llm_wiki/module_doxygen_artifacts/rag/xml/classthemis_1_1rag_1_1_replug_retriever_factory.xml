@@ -1,0 +1,269 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_replug_retriever_factory" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::ReplugRetrieverFactory</compoundname>
+    <includes refid="replug__retriever_8h" local="no">replug_retriever.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_replug_retriever_factory_1a1a1d6006dff82cdb2a6155ab7a60c215" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1_replug_retriever" kindref="compound">ReplugRetriever</ref></type>
+        <definition>ReplugRetriever themis::rag::ReplugRetrieverFactory::createBalanced</definition>
+        <argsstring>(std::shared_ptr&lt; ILLMScorer &gt; scorer=nullptr, size_t top_k=10)</argsstring>
+        <name>createBalanced</name>
+        <qualifiedname>themis::rag::ReplugRetrieverFactory::createBalanced</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1_i_l_l_m_scorer" kindref="compound">ILLMScorer</ref> &gt;</type>
+          <declname>scorer</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>top_k</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>Balanced fusion: equal retrieval and LLM weight (λ=0.5). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Balanced.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>scorer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional LLM scorer; nullptr uses heuristic. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>top_k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Result list length.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scorer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">top_k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ReplugRetriever(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/replug_retriever.h" line="312" column="28" bodyfile="src/rag/replug_retriever.cpp" bodystart="421" bodyend="429"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_replug_retriever_factory_1aaaae77d31b6aa35eca201e0537301cfd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1_replug_retriever" kindref="compound">ReplugRetriever</ref></type>
+        <definition>ReplugRetriever themis::rag::ReplugRetrieverFactory::createLLMDominant</definition>
+        <argsstring>(std::shared_ptr&lt; ILLMScorer &gt; scorer=nullptr, size_t top_k=10)</argsstring>
+        <name>createLLMDominant</name>
+        <qualifiedname>themis::rag::ReplugRetrieverFactory::createLLMDominant</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1_i_l_l_m_scorer" kindref="compound">ILLMScorer</ref> &gt;</type>
+          <declname>scorer</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>top_k</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>LLM-dominant fusion: retrieval as coarse filter (λ=0.8). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create LLMDominant.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>scorer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional LLM scorer; nullptr uses heuristic. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>top_k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Result list length.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scorer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">top_k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ReplugRetriever(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/replug_retriever.h" line="321" column="28" bodyfile="src/rag/replug_retriever.cpp" bodystart="438" bodyend="446"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_replug_retriever_factory_1a7a1bb843d1c2e6d4b5fd78ceaa92d081" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1_replug_retriever" kindref="compound">ReplugRetriever</ref></type>
+        <definition>ReplugRetriever themis::rag::ReplugRetrieverFactory::createRetrievalDominant</definition>
+        <argsstring>(std::shared_ptr&lt; ILLMScorer &gt; scorer=nullptr, size_t top_k=10)</argsstring>
+        <name>createRetrievalDominant</name>
+        <qualifiedname>themis::rag::ReplugRetrieverFactory::createRetrievalDominant</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1_i_l_l_m_scorer" kindref="compound">ILLMScorer</ref> &gt;</type>
+          <declname>scorer</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>top_k</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>Retrieval-dominant fusion: LLM as light re-ranker (λ=0.2). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Retrieval Dominant.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>scorer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional LLM scorer; nullptr uses heuristic. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>top_k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Result list length.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scorer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">top_k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ReplugRetriever(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/replug_retriever.h" line="330" column="28" bodyfile="src/rag/replug_retriever.cpp" bodystart="455" bodyend="463"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_replug_retriever_factory_1a64673ba6a7ab9f773ace8bdf71f30dc8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1_replug_retriever" kindref="compound">ReplugRetriever</ref></type>
+        <definition>ReplugRetriever themis::rag::ReplugRetrieverFactory::createLSR</definition>
+        <argsstring>(std::shared_ptr&lt; ILLMScorer &gt; scorer=nullptr, size_t top_k=10)</argsstring>
+        <name>createLSR</name>
+        <qualifiedname>themis::rag::ReplugRetrieverFactory::createLSR</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1_i_l_l_m_scorer" kindref="compound">ILLMScorer</ref> &gt;</type>
+          <declname>scorer</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>top_k</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>REPLUG-LSR mode: balanced fusion + weight update enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create LSR.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>scorer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional LLM scorer; nullptr uses heuristic. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>top_k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Result list length.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scorer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">top_k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ReplugRetriever(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/replug_retriever.h" line="339" column="28" bodyfile="src/rag/replug_retriever.cpp" bodystart="472" bodyend="481"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Factory helpers for common <ref refid="classthemis_1_1rag_1_1_replug_retriever" kindref="compound">ReplugRetriever</ref> configurations. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/replug_retriever.h" line="305" column="1" bodyfile="include/rag/replug_retriever.h" bodystart="305" bodyend="342"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_replug_retriever_factory_1a1a1d6006dff82cdb2a6155ab7a60c215" prot="public" virt="non-virtual"><scope>themis::rag::ReplugRetrieverFactory</scope><name>createBalanced</name></member>
+      <member refid="classthemis_1_1rag_1_1_replug_retriever_factory_1aaaae77d31b6aa35eca201e0537301cfd" prot="public" virt="non-virtual"><scope>themis::rag::ReplugRetrieverFactory</scope><name>createLLMDominant</name></member>
+      <member refid="classthemis_1_1rag_1_1_replug_retriever_factory_1a64673ba6a7ab9f773ace8bdf71f30dc8" prot="public" virt="non-virtual"><scope>themis::rag::ReplugRetrieverFactory</scope><name>createLSR</name></member>
+      <member refid="classthemis_1_1rag_1_1_replug_retriever_factory_1a7a1bb843d1c2e6d4b5fd78ceaa92d081" prot="public" virt="non-virtual"><scope>themis::rag::ReplugRetrieverFactory</scope><name>createRetrievalDominant</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

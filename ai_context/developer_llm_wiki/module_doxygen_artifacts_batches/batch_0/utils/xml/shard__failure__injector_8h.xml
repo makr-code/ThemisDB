@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="shard__failure__injector_8h" kind="file" language="C++">
+    <compoundname>shard_failure_injector.h</compoundname>
+    <includes local="no">vector</includes>
+    <includes local="no">string</includes>
+    <includes local="no">map</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includedby refid="shard__failure__injector_8cpp" local="yes">tests/utils/shard_failure_injector.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/utils/shard_failure_injector.h</label>
+        <link refid="shard__failure__injector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="2">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>tests/utils/shard_failure_injector.cpp</label>
+        <link refid="shard__failure__injector_8cpp"/>
+      </node>
+      <node id="1">
+        <label>tests/utils/shard_failure_injector.h</label>
+        <link refid="shard__failure__injector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1test_1_1_shard_failure_injector" prot="public">themis::test::ShardFailureInjector</innerclass>
+    <innerclass refid="structthemis_1_1test_1_1_shard_failure_injector_1_1_failure_scenario" prot="public">themis::test::ShardFailureInjector::FailureScenario</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1test">themis::test</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1test" kindref="compound">test</ref><sp/>{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="classthemis_1_1test_1_1_shard_failure_injector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1test_1_1_shard_failure_injector_1a4e889d994cde53ea885f3165a0174907" kindref="member">ShardFailureInjector</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="26" refid="classthemis_1_1test_1_1_shard_failure_injector_1a11f805c4fb835fd7c2db521bf06fe5dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1test_1_1_shard_failure_injector_1a11f805c4fb835fd7c2db521bf06fe5dc" kindref="member">FailureType</ref><sp/>{</highlight></codeline>
+<codeline lineno="27" refid="classthemis_1_1test_1_1_shard_failure_injector_1a11f805c4fb835fd7c2db521bf06fe5dca18a0316e7c30cc56acf083d96de6c386" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1test_1_1_shard_failure_injector_1a11f805c4fb835fd7c2db521bf06fe5dca18a0316e7c30cc56acf083d96de6c386" kindref="member">TRANSIENT</ref>,<sp/><sp/></highlight><highlight class="comment">//<sp/>Temporary<sp/>failure<sp/>(auto-recovers)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="classthemis_1_1test_1_1_shard_failure_injector_1a11f805c4fb835fd7c2db521bf06fe5dca54bcf9b291726b4cf8343f61681a5cfd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1test_1_1_shard_failure_injector_1a11f805c4fb835fd7c2db521bf06fe5dca54bcf9b291726b4cf8343f61681a5cfd" kindref="member">PERMANENT</ref>,<sp/><sp/></highlight><highlight class="comment">//<sp/>Permanent<sp/>failure<sp/>(manual<sp/>recovery<sp/>required)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="classthemis_1_1test_1_1_shard_failure_injector_1a11f805c4fb835fd7c2db521bf06fe5dca0e3066cbbd284dce8b76e7c4620d6d75" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1test_1_1_shard_failure_injector_1a11f805c4fb835fd7c2db521bf06fe5dca0e3066cbbd284dce8b76e7c4620d6d75" kindref="member">SLOW</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Slow<sp/>response<sp/>(high<sp/>latency)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="classthemis_1_1test_1_1_shard_failure_injector_1a11f805c4fb835fd7c2db521bf06fe5dcafad2f4d832184f8b063e736cac40012b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1test_1_1_shard_failure_injector_1a11f805c4fb835fd7c2db521bf06fe5dcafad2f4d832184f8b063e736cac40012b" kindref="member">CORRUPT</ref><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Data<sp/>corruption</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1test_1_1_shard_failure_injector_1_1_failure_scenario" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1test_1_1_shard_failure_injector_1_1_failure_scenario" kindref="compound">FailureScenario</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1test_1_1_shard_failure_injector_1_1_failure_scenario_1a9d74b27dd96bda6a92e9a788391b771a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1test_1_1_shard_failure_injector_1a11f805c4fb835fd7c2db521bf06fe5dc" kindref="member">FailureType</ref><sp/><ref refid="structthemis_1_1test_1_1_shard_failure_injector_1_1_failure_scenario_1a9d74b27dd96bda6a92e9a788391b771a" kindref="member">type</ref>;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1test_1_1_shard_failure_injector_1_1_failure_scenario_1a06732fd918402e751c5880dd1cc1698b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1test_1_1_shard_failure_injector_1_1_failure_scenario_1a06732fd918402e751c5880dd1cc1698b" kindref="member">shard_id</ref>;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1test_1_1_shard_failure_injector_1_1_failure_scenario_1a078a0b21158e7a342800b32020cdde6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1test_1_1_shard_failure_injector_1_1_failure_scenario_1a078a0b21158e7a342800b32020cdde6f" kindref="member">duration</ref>;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1test_1_1_shard_failure_injector_1_1_failure_scenario_1aac474a0f66322168edafdc89eb2750b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1test_1_1_shard_failure_injector_1_1_failure_scenario_1aac474a0f66322168edafdc89eb2750b4" kindref="member">probability</ref><sp/>=<sp/>1.0f;<sp/><sp/></highlight><highlight class="comment">//<sp/>0.0<sp/>-<sp/>1.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1test_1_1_shard_failure_injector_1_1_failure_scenario_1aed35409717f8dc8ded2c17fc540d3df9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1test_1_1_shard_failure_injector_1_1_failure_scenario_1aed35409717f8dc8ded2c17fc540d3df9" kindref="member">active</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1test_1_1_shard_failure_injector_1_1_failure_scenario_1a22edd6ec1581f33bfc11538d564bfd1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/><ref refid="structthemis_1_1test_1_1_shard_failure_injector_1_1_failure_scenario_1a22edd6ec1581f33bfc11538d564bfd1b" kindref="member">start_time</ref>;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="classthemis_1_1test_1_1_shard_failure_injector_1a53e27e03c4a43f29962eaa8be3df1ec9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1test_1_1_shard_failure_injector_1a53e27e03c4a43f29962eaa8be3df1ec9" kindref="member">FailureCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>shard_id,<sp/><ref refid="classthemis_1_1test_1_1_shard_failure_injector_1a11f805c4fb835fd7c2db521bf06fe5dc" kindref="member">FailureType</ref><sp/>type)&gt;;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="classthemis_1_1test_1_1_shard_failure_injector_1ad5f099e935d6b5230f432bd02f7f53b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1test_1_1_shard_failure_injector_1ad5f099e935d6b5230f432bd02f7f53b8" kindref="member">RecoveryCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>shard_id)&gt;;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1test_1_1_shard_failure_injector_1a4e889d994cde53ea885f3165a0174907" kindref="member">ShardFailureInjector</ref>();</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="classthemis_1_1test_1_1_shard_failure_injector_1a0c72467aed40bdd8f08a9d071b491710" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1test_1_1_shard_failure_injector_1a0c72467aed40bdd8f08a9d071b491710" kindref="member">~ShardFailureInjector</ref>();</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Failure<sp/>Injection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1test_1_1_shard_failure_injector_1a7af15e132e203c633b5561aa146630a9" kindref="member">injectFailure</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>shard_id,<sp/><ref refid="classthemis_1_1test_1_1_shard_failure_injector_1a11f805c4fb835fd7c2db521bf06fe5dc" kindref="member">FailureType</ref><sp/>type,</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>duration<sp/>=<sp/>std::chrono::milliseconds{0});</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/><ref refid="classthemis_1_1test_1_1_shard_failure_injector_1a73c4dedf90a8a9b4fe24285db8c55496" kindref="member">injectRandomFailures</ref>(</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>num_failures,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_shard_id,</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>transient<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>max_duration<sp/>=<sp/>std::chrono::seconds{30});</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/><ref refid="classthemis_1_1test_1_1_shard_failure_injector_1a87519c43b13632eccba6f0452a22d4ec" kindref="member">injectCascadingFailures</ref>(</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>initial_shard,</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>cascade_count,</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>cascade_delay);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1test_1_1_shard_failure_injector_1a53934c8b7d5a56dfad495c5a46b1d95d" kindref="member">clearAllFailures</ref>();</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1test_1_1_shard_failure_injector_1a6ef8eda3ac0693812e40880255f71b0f" kindref="member">recoverScenario</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>scenario_id);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Status<sp/>Queries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1test_1_1_shard_failure_injector_1a9772f199c70f4328ad5641781a41997f" kindref="member">isShardFailed</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>shard_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;FailureType&gt;<sp/><ref refid="classthemis_1_1test_1_1_shard_failure_injector_1a6e35383f062487254467380a22416a1e" kindref="member">getActiveFailures</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>shard_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/><ref refid="classthemis_1_1test_1_1_shard_failure_injector_1ae722db8bc33a3587f2365d10808c2b78" kindref="member">getActiveScenarios</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>FailureScenario*<sp/><ref refid="classthemis_1_1test_1_1_shard_failure_injector_1a68293ab7044915b1116fe4321efdd1fb" kindref="member">getScenario</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>scenario_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Callbacks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1test_1_1_shard_failure_injector_1a911964c595caa29a4a26944bb02fc07c" kindref="member">setFailureCallback</ref>(<ref refid="classthemis_1_1test_1_1_shard_failure_injector_1a53e27e03c4a43f29962eaa8be3df1ec9" kindref="member">FailureCallback</ref><sp/>callback);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1test_1_1_shard_failure_injector_1a25b0e4d0652fc7ef0cfe91771a6a5790" kindref="member">setRecoveryCallback</ref>(<ref refid="classthemis_1_1test_1_1_shard_failure_injector_1ad5f099e935d6b5230f432bd02f7f53b8" kindref="member">RecoveryCallback</ref><sp/>callback);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Maintenance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1test_1_1_shard_failure_injector_1a6d96e469837fca9aa28dbdb464cb82cc" kindref="member">update</ref>();</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>int&gt;<sp/><ref refid="classthemis_1_1test_1_1_shard_failure_injector_1aaa7d2367fd41f3451eb7ba4d5d8071ef" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;int,<sp/>FailureScenario&gt;<sp/>scenarios_;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>next_scenario_id_;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1test_1_1_shard_failure_injector_1a53e27e03c4a43f29962eaa8be3df1ec9" kindref="member">FailureCallback</ref><sp/>failure_callback_;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1test_1_1_shard_failure_injector_1ad5f099e935d6b5230f432bd02f7f53b8" kindref="member">RecoveryCallback</ref><sp/>recovery_callback_;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>generateScenarioId();</highlight></codeline>
+<codeline lineno="191"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/utils/shard_failure_injector.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1observability_1_1reason__codes_1_1tensor__rag" kind="namespace" language="C++">
+    <compoundname>themis::observability::reason_codes::tensor_rag</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1tensor__rag_1adb2efe974320509d1a3f352c025ef175" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::tensor_rag::kTriggerBoth</definition>
+        <argsstring></argsstring>
+        <name>kTriggerBoth</name>
+        <qualifiedname>themis::observability::reason_codes::tensor_rag::kTriggerBoth</qualifiedname>
+        <initializer>= &quot;TENSOR_RAG_TRIGGER_BOTH&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="39" column="35" bodyfile="include/observability/reason_codes.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1tensor__rag_1ab3745ace5d5d8a8c1ab1579743e08944" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::tensor_rag::kTriggerFlare</definition>
+        <argsstring></argsstring>
+        <name>kTriggerFlare</name>
+        <qualifiedname>themis::observability::reason_codes::tensor_rag::kTriggerFlare</qualifiedname>
+        <initializer>= &quot;TENSOR_RAG_TRIGGER_FLARE&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="40" column="35" bodyfile="include/observability/reason_codes.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1tensor__rag_1a5c1e288dd0958fa91fcf5f53b787058e" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::tensor_rag::kTriggerTarg</definition>
+        <argsstring></argsstring>
+        <name>kTriggerTarg</name>
+        <qualifiedname>themis::observability::reason_codes::tensor_rag::kTriggerTarg</qualifiedname>
+        <initializer>= &quot;TENSOR_RAG_TRIGGER_TARG&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="41" column="35" bodyfile="include/observability/reason_codes.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1tensor__rag_1adefc17c974ab3b48048d82f0ccd4c6e4" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::tensor_rag::kNoRetrieval</definition>
+        <argsstring></argsstring>
+        <name>kNoRetrieval</name>
+        <qualifiedname>themis::observability::reason_codes::tensor_rag::kNoRetrieval</qualifiedname>
+        <initializer>= &quot;TENSOR_RAG_NO_RETRIEVAL&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="42" column="35" bodyfile="include/observability/reason_codes.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1tensor__rag_1a4e9788a7c669efd6fa653fb56de242dc" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::tensor_rag::kFallbackEmbeddingFnThrow</definition>
+        <argsstring></argsstring>
+        <name>kFallbackEmbeddingFnThrow</name>
+        <qualifiedname>themis::observability::reason_codes::tensor_rag::kFallbackEmbeddingFnThrow</qualifiedname>
+        <initializer>= &quot;EMBEDDING_FN_THROW&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="44" column="35" bodyfile="include/observability/reason_codes.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1tensor__rag_1a5cabb2e73fea3b3ea81ccf0c6c7c613d" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::tensor_rag::kFallbackTensorSummaryEmpty</definition>
+        <argsstring></argsstring>
+        <name>kFallbackTensorSummaryEmpty</name>
+        <qualifiedname>themis::observability::reason_codes::tensor_rag::kFallbackTensorSummaryEmpty</qualifiedname>
+        <initializer>= &quot;TENSOR_SUMMARY_EMPTY&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="45" column="35" bodyfile="include/observability/reason_codes.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1tensor__rag_1ae2b3c8022bf80140f6b2cd6ed6703992" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::tensor_rag::kThresholdKeyNone</definition>
+        <argsstring></argsstring>
+        <name>kThresholdKeyNone</name>
+        <qualifiedname>themis::observability::reason_codes::tensor_rag::kThresholdKeyNone</qualifiedname>
+        <initializer>= &quot;tensor_rag:none&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="47" column="35" bodyfile="include/observability/reason_codes.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1tensor__rag_1aba4d742160ef0b809f6739ad1594bcec" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::tensor_rag::kThresholdKeyFlare</definition>
+        <argsstring></argsstring>
+        <name>kThresholdKeyFlare</name>
+        <qualifiedname>themis::observability::reason_codes::tensor_rag::kThresholdKeyFlare</qualifiedname>
+        <initializer>= &quot;flare.default&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="48" column="35" bodyfile="include/observability/reason_codes.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1tensor__rag_1aa09e243c4422136fe5afe2800424811f" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::tensor_rag::kThresholdKeyTarg</definition>
+        <argsstring></argsstring>
+        <name>kThresholdKeyTarg</name>
+        <qualifiedname>themis::observability::reason_codes::tensor_rag::kThresholdKeyTarg</qualifiedname>
+        <initializer>= &quot;targ.default&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="49" column="35" bodyfile="include/observability/reason_codes.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1tensor__rag_1aa240c55e7403d32d3088f19a4d42f9db" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::tensor_rag::kThresholdKeyBoth</definition>
+        <argsstring></argsstring>
+        <name>kThresholdKeyBoth</name>
+        <qualifiedname>themis::observability::reason_codes::tensor_rag::kThresholdKeyBoth</qualifiedname>
+        <initializer>= &quot;tensor_rag:flare+targ&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="50" column="35" bodyfile="include/observability/reason_codes.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/reason_codes.h" line="38" column="1"/>
+  </compounddef>
+</doxygen>

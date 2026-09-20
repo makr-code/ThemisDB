@@ -1,0 +1,1295 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_auth_rate_limiter" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::AuthRateLimiter</compoundname>
+    <includes refid="auth__rate__limiter_8h" local="no">auth_rate_limiter.h</includes>
+    <innerclass refid="structthemis_1_1auth_1_1_auth_rate_limiter_1_1_statistics" prot="public">themis::auth::AuthRateLimiter::Statistics</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_auth_rate_limiter_1_1_credential_stuffing_entry" prot="private">themis::auth::AuthRateLimiter::CredentialStuffingEntry</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_rate_limiter_1a638ebac11b203329cee22060c200829b" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config" kindref="compound">AuthRateLimitConfig</ref></type>
+        <definition>AuthRateLimitConfig themis::auth::AuthRateLimiter::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="346" column="25" bodyfile="include/auth/auth_rate_limiter.h" bodystart="346" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_rate_limiter_1ae1d75a7d83304a53089d2836bf906dee" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; server::RateLimiter &gt;</type>
+        <definition>std::unique_ptr&lt;server::RateLimiter&gt; themis::auth::AuthRateLimiter::ip_rate_limiter_</definition>
+        <argsstring></argsstring>
+        <name>ip_rate_limiter_</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::ip_rate_limiter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="349" column="21" bodyfile="include/auth/auth_rate_limiter.h" bodystart="349" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_rate_limiter_1a5ec9414efc876270a4a51c58b8beb124" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; server::RateLimiter &gt;</type>
+        <definition>std::unique_ptr&lt;server::RateLimiter&gt; themis::auth::AuthRateLimiter::user_rate_limiter_</definition>
+        <argsstring></argsstring>
+        <name>user_rate_limiter_</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::user_rate_limiter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="352" column="21" bodyfile="include/auth/auth_rate_limiter.h" bodystart="352" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_rate_limiter_1a73db97f511426e6d6e77fe91ee74c456" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1auth_1_1_account_lockout_manager" kindref="compound">AccountLockoutManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;AccountLockoutManager&gt; themis::auth::AuthRateLimiter::lockout_manager_</definition>
+        <argsstring></argsstring>
+        <name>lockout_manager_</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::lockout_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="355" column="21" bodyfile="include/auth/auth_rate_limiter.h" bodystart="355" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_rate_limiter_1a20e1f33d540626fcd230dca995bf3da7" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1auth_1_1_i_rate_limiter_backend" kindref="compound">IRateLimiterBackend</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IRateLimiterBackend&gt; themis::auth::AuthRateLimiter::backend_</definition>
+        <argsstring></argsstring>
+        <name>backend_</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::backend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="360" column="21" bodyfile="include/auth/auth_rate_limiter.h" bodystart="360" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_rate_limiter_1a2030912c0cc3b83e3e51a30e86c65585" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, CredentialStuffingEntry &gt;</type>
+        <definition>std::unordered_map&lt;std::string, CredentialStuffingEntry&gt; themis::auth::AuthRateLimiter::stuffing_state_</definition>
+        <argsstring></argsstring>
+        <name>stuffing_state_</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::stuffing_state_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="369" column="24" bodyfile="include/auth/auth_rate_limiter.h" bodystart="369" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_rate_limiter_1a3b0670d934952db1e32c5feb1a0b986d" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::auth::AuthRateLimiter::callback_mutex_</definition>
+        <argsstring></argsstring>
+        <name>callback_mutex_</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::callback_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="373" column="31" bodyfile="include/auth/auth_rate_limiter.h" bodystart="373" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_rate_limiter_1a9dee68a22c1ed60673544a96eb3c56a7" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1auth_1a4fdebaf05c9d80c65b129546d399be81" kindref="member">AuthAnomalyCallback</ref></type>
+        <definition>AuthAnomalyCallback themis::auth::AuthRateLimiter::anomaly_callback_</definition>
+        <argsstring></argsstring>
+        <name>anomaly_callback_</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::anomaly_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="374" column="25" bodyfile="include/auth/auth_rate_limiter.h" bodystart="374" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_rate_limiter_1ac4234d0d0729535ecc874c39adc7f00c" prot="private" static="no" mutable="no">
+        <type>utils::AuditLogger *</type>
+        <definition>utils::AuditLogger* themis::auth::AuthRateLimiter::audit_logger_</definition>
+        <argsstring></argsstring>
+        <name>audit_logger_</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::audit_logger_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Non-owning; may be nullptr. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="375" column="24" bodyfile="include/auth/auth_rate_limiter.h" bodystart="375" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_rate_limiter_1a5d8d9e9ef957f3785dcd52ff0f2c492e" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1auth_1_1_auth_metrics" kindref="compound">AuthMetrics</ref> *</type>
+        <definition>AuthMetrics* themis::auth::AuthRateLimiter::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::metrics_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Non-owning; may be nullptr. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="376" column="24" bodyfile="include/auth/auth_rate_limiter.h" bodystart="376" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_rate_limiter_1a9569a0a0f43f9c1a8715edcd2b03f7cb" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, uint32_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, uint32_t&gt; themis::auth::AuthRateLimiter::cs_breach_count_</definition>
+        <argsstring></argsstring>
+        <name>cs_breach_count_</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::cs_breach_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="430" column="24" bodyfile="include/auth/auth_rate_limiter.h" bodystart="430" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_rate_limiter_1a9c15b465bed864e8a07eb23de1ac2a05" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::auth::AuthRateLimiter::cs_breach_mutex_</definition>
+        <argsstring></argsstring>
+        <name>cs_breach_mutex_</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::cs_breach_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="431" column="24" bodyfile="include/auth/auth_rate_limiter.h" bodystart="431" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_rate_limiter_1a377afd23fde1e5043111a1ff66c706cc" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::auth::AuthRateLimiter::stat_total_auth_attempts_</definition>
+        <argsstring></argsstring>
+        <name>stat_total_auth_attempts_</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::stat_total_auth_attempts_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="448" column="25" bodyfile="include/auth/auth_rate_limiter.h" bodystart="448" bodyend="448"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_rate_limiter_1ab95637da60d0fc296bd2e4d8358212a2" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::auth::AuthRateLimiter::stat_allowed_attempts_</definition>
+        <argsstring></argsstring>
+        <name>stat_allowed_attempts_</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::stat_allowed_attempts_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="449" column="25" bodyfile="include/auth/auth_rate_limiter.h" bodystart="449" bodyend="449"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_rate_limiter_1a7382fc9026716374a15b729787f19803" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::auth::AuthRateLimiter::stat_rate_limited_attempts_</definition>
+        <argsstring></argsstring>
+        <name>stat_rate_limited_attempts_</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::stat_rate_limited_attempts_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="450" column="25" bodyfile="include/auth/auth_rate_limiter.h" bodystart="450" bodyend="450"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_rate_limiter_1af78188cc440c839b28d8098e82518dab" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::auth::AuthRateLimiter::stat_lockout_blocked_attempts_</definition>
+        <argsstring></argsstring>
+        <name>stat_lockout_blocked_attempts_</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::stat_lockout_blocked_attempts_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="451" column="25" bodyfile="include/auth/auth_rate_limiter.h" bodystart="451" bodyend="451"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_rate_limiter_1aa2c4cc5b51279a13363347aa04487f1b" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::auth::AuthRateLimiter::stat_successful_auths_</definition>
+        <argsstring></argsstring>
+        <name>stat_successful_auths_</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::stat_successful_auths_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="452" column="25" bodyfile="include/auth/auth_rate_limiter.h" bodystart="452" bodyend="452"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_rate_limiter_1a3ea532fa19453e534e9866eb7bfd00e1" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::auth::AuthRateLimiter::stat_failed_auths_</definition>
+        <argsstring></argsstring>
+        <name>stat_failed_auths_</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::stat_failed_auths_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="453" column="25" bodyfile="include/auth/auth_rate_limiter.h" bodystart="453" bodyend="453"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_rate_limiter_1a050964426a9110d4f7c73f2623aa614f" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::auth::AuthRateLimiter::stat_currently_locked_accounts_</definition>
+        <argsstring></argsstring>
+        <name>stat_currently_locked_accounts_</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::stat_currently_locked_accounts_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="454" column="25" bodyfile="include/auth/auth_rate_limiter.h" bodystart="454" bodyend="454"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_rate_limiter_1a386ba9e86cb7f54d0ec68f27d8bb7885" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::auth::AuthRateLimiter::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="460" column="31" bodyfile="include/auth/auth_rate_limiter.h" bodystart="460" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_rate_limiter_1a3f8698b103edaf4ada128b55132013f0" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::auth::AuthRateLimiter::stuffing_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stuffing_mutex_</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::stuffing_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="464" column="24" bodyfile="include/auth/auth_rate_limiter.h" bodystart="464" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_rate_limiter_1ad0f6006222b0af1506718c7fee03d3b7" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::AuthRateLimiter::AuthRateLimiter</definition>
+        <argsstring>(const AuthRateLimitConfig &amp;config=AuthRateLimitConfig())</argsstring>
+        <name>AuthRateLimiter</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::AuthRateLimiter</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config" kindref="compound">AuthRateLimitConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config" kindref="compound">AuthRateLimitConfig</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="225" column="14" bodyfile="src/auth/auth_rate_limiter.cpp" bodystart="306" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_rate_limiter_1a69a4de3f12141b02b235419b4745250d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::AuthRateLimiter::allowAuthAttempt</definition>
+        <argsstring>(const std::string &amp;ip_address, const std::string &amp;user_id=&quot;&quot;)</argsstring>
+        <name>allowAuthAttempt</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::allowAuthAttempt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ip_address</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Allow Auth Attempt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ip_address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: fetch_add(), lock(), <ref refid="classthemis_1_1auth_1_1_auth_rate_limiter_1af50dfdf1c1ff0328e25ac392cf58ec62" kindref="member">isWhitelisted()</ref>, empty(), <ref refid="classthemis_1_1auth_1_1_auth_rate_limiter_1a7106f63c5d062e81a17a6965d3482a24" kindref="member">isAccountLocked()</ref>, utils::Logger::warn(), increment(), allowRequest(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="227" column="10" bodyfile="src/auth/auth_rate_limiter.cpp" bodystart="365" bodyend="449"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_rate_limiter_1a85e8069711fd4251b6d2c0b25dd9a8de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthRateLimiter::recordFailedAuth</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;ip_address, const std::string &amp;reason)</argsstring>
+        <name>recordFailedAuth</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::recordFailedAuth</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ip_address</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Record Failed Auth. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ip_address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ip_address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fetch_add(), lock(), empty(), slock(), trackCredentialStuffing(), recordFailedAttempt(), store(), getLockedAccountCount(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="238" column="10" bodyfile="src/auth/auth_rate_limiter.cpp" bodystart="458" bodyend="510"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_rate_limiter_1ab7172bf0be540264d887fe98d323c193" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthRateLimiter::recordSuccessfulAuth</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;ip_address)</argsstring>
+        <name>recordSuccessfulAuth</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::recordSuccessfulAuth</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ip_address</declname>
+        </param>
+        <briefdescription>
+<para>Record Successful Auth. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ip_address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ip_address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fetch_add(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="249" column="10" bodyfile="src/auth/auth_rate_limiter.cpp" bodystart="518" bodyend="525"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_rate_limiter_1a7106f63c5d062e81a17a6965d3482a24" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::AuthRateLimiter::isAccountLocked</definition>
+        <argsstring>(const std::string &amp;user_id) const</argsstring>
+        <name>isAccountLocked</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::isAccountLocked</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Is Account Locked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="259" column="10" bodyfile="src/auth/auth_rate_limiter.cpp" bodystart="527" bodyend="529"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_rate_limiter_1a269e12d5ee81c9a0d6adfcb0fd262f73" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1auth_1_1_lockout_info" kindref="compound">LockoutInfo</ref> &gt;</type>
+        <definition>std::optional&lt; LockoutInfo &gt; themis::auth::AuthRateLimiter::getLockoutInfo</definition>
+        <argsstring>(const std::string &amp;user_id) const</argsstring>
+        <name>getLockoutInfo</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::getLockoutInfo</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Lockout Info. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="266" column="19" bodyfile="src/auth/auth_rate_limiter.cpp" bodystart="531" bodyend="533"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_rate_limiter_1ad10779127d99c2a74454d980a31e8cd4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::AuthRateLimiter::unlockAccount</definition>
+        <argsstring>(const std::string &amp;user_id)</argsstring>
+        <name>unlockAccount</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::unlockAccount</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Unlock Account. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: store(), getLockedAccountCount(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="273" column="10" bodyfile="src/auth/auth_rate_limiter.cpp" bodystart="541" bodyend="547"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_rate_limiter_1ac70f56fbd0e92637944c2bcb7ba1c68f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::auth::AuthRateLimiter::getRetryAfter</definition>
+        <argsstring>(const std::string &amp;ip_address) const</argsstring>
+        <name>getRetryAfter</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::getRetryAfter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ip_address</declname>
+        </param>
+        <briefdescription>
+<para>Get Retry After. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ip_address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="280" column="14" bodyfile="src/auth/auth_rate_limiter.cpp" bodystart="549" bodyend="570"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_rate_limiter_1af50dfdf1c1ff0328e25ac392cf58ec62" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::AuthRateLimiter::isWhitelisted</definition>
+        <argsstring>(const std::string &amp;ip_address) const</argsstring>
+        <name>isWhitelisted</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::isWhitelisted</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ip_address</declname>
+        </param>
+        <briefdescription>
+<para>Is Whitelisted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ip_address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="287" column="10" bodyfile="src/auth/auth_rate_limiter.cpp" bodystart="572" bodyend="574"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_rate_limiter_1acbcb849c2e5a6f948a5d269ae88ef523" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthRateLimiter::setAnomalyCallback</definition>
+        <argsstring>(AuthAnomalyCallback callback)</argsstring>
+        <name>setAnomalyCallback</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::setAnomalyCallback</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1auth_1a4fdebaf05c9d80c65b129546d399be81" kindref="member">AuthAnomalyCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Set Anomaly Callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="293" column="10" bodyfile="src/auth/auth_rate_limiter.cpp" bodystart="581" bodyend="584"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_rate_limiter_1a1821a250f33e5a411c8b324fe4892783" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthRateLimiter::setAuditLogger</definition>
+        <argsstring>(utils::AuditLogger *logger)</argsstring>
+        <name>setAuditLogger</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::setAuditLogger</qualifiedname>
+        <param>
+          <type>utils::AuditLogger *</type>
+          <declname>logger</declname>
+        </param>
+        <briefdescription>
+<para>Set Audit Logger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="299" column="10" bodyfile="src/auth/auth_rate_limiter.cpp" bodystart="591" bodyend="594"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_rate_limiter_1ab6a46f48cd33a53838453ffe5f96ca57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthRateLimiter::setBackend</definition>
+        <argsstring>(std::shared_ptr&lt; IRateLimiterBackend &gt; backend)</argsstring>
+        <name>setBackend</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::setBackend</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1auth_1_1_i_rate_limiter_backend" kindref="compound">IRateLimiterBackend</ref> &gt;</type>
+          <declname>backend</declname>
+        </param>
+        <briefdescription>
+<para>Set Backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="305" column="10" bodyfile="src/auth/auth_rate_limiter.cpp" bodystart="601" bodyend="604"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_rate_limiter_1a02c8c08ddf9c330ddd2b19454653b88a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthRateLimiter::setMetrics</definition>
+        <argsstring>(AuthMetrics *metrics)</argsstring>
+        <name>setMetrics</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::setMetrics</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1auth_1_1_auth_metrics" kindref="compound">AuthMetrics</ref> *</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+<para>Set Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="311" column="10" bodyfile="src/auth/auth_rate_limiter.cpp" bodystart="611" bodyend="614"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_rate_limiter_1aacc95694b067e2e0d14f60eb30562708" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthRateLimiter::updateConfig</definition>
+        <argsstring>(const AuthRateLimitConfig &amp;config)</argsstring>
+        <name>updateConfig</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::updateConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config" kindref="compound">AuthRateLimitConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update the access control configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New access control configuration.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New access control configuration.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), slock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="317" column="10" bodyfile="src/auth/auth_rate_limiter.cpp" bodystart="906" bodyend="932"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_rate_limiter_1a3e592090c45d56c2648782d4facc80c3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_auth_rate_limiter_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>AuthRateLimiter::Statistics themis::auth::AuthRateLimiter::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return access control statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Access control statistics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="333" column="16" bodyfile="src/auth/auth_rate_limiter.cpp" bodystart="934" bodyend="944"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_rate_limiter_1ae31eb48166f031343cef846072942b2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthRateLimiter::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: slock(), clear(), store(), mlock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="338" column="10" bodyfile="src/auth/auth_rate_limiter.cpp" bodystart="950" bodyend="976"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_rate_limiter_1ace070acc973b43d1ef52b5239263072f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthRateLimiter::cleanup</definition>
+        <argsstring>()</argsstring>
+        <name>cleanup</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::cleanup</qualifiedname>
+        <briefdescription>
+<para>Cleanup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), std::chrono::steady_clock::now(), std::chrono::seconds(), slock(), begin(), end(), std::lower_bound(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="343" column="10" bodyfile="src/auth/auth_rate_limiter.cpp" bodystart="982" bodyend="1009"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_rate_limiter_1a7715fb052de8c2e07216c052f2e15ff5" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthRateLimiter::fireAuthAnomaly</definition>
+        <argsstring>(AuthAnomalyEvent::Type type, const std::string &amp;ip, const std::string &amp;user_id, const std::string &amp;detail, CredentialStuffingOutcome cs_outcome=CredentialStuffingOutcome::ALLOWED) const</argsstring>
+        <name>fireAuthAnomaly</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::fireAuthAnomaly</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1auth_1_1_auth_anomaly_event_1adad5c3fc6ae8ffb7ec4f138e5e91685e" kindref="member">AuthAnomalyEvent::Type</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ip</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>detail</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1auth_1ac7d6b4ac0ba21600479d41e737d954a4" kindref="member">CredentialStuffingOutcome</ref></type>
+          <declname>cs_outcome</declname>
+          <defval><ref refid="namespacethemis_1_1auth_1ac7d6b4ac0ba21600479d41e737d954a4a9725825c796122ef40f01b2d8794f902" kindref="member">CredentialStuffingOutcome::ALLOWED</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Audit. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">al</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="377" column="10" bodyfile="src/auth/auth_rate_limiter.cpp" bodystart="809" bodyend="851"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_rate_limiter_1ad2c0874d1fab443360be9fe3aa558a2a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::AuthRateLimiter::trackCredentialStuffing</definition>
+        <argsstring>(const std::string &amp;ip, const std::string &amp;user_id, const AuthRateLimitConfig &amp;cfg)</argsstring>
+        <name>trackCredentialStuffing</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::trackCredentialStuffing</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ip</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_auth_rate_limit_config" kindref="compound">AuthRateLimitConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Track credential-stuffing for a given (ip, user_id) pair. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Track Credential Stuffing.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Returns true if the credential-stuffing alert threshold was just crossed. Must be called with stuffing_mutex_ held.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), std::chrono::steady_clock::now(), std::chrono::seconds(), std::lower_bound(), begin(), end(), erase(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="392" column="10" bodyfile="src/auth/auth_rate_limiter.cpp" bodystart="861" bodyend="899"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_rate_limiter_1ad1a282af591aef3425dde79dc3b19d01" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::auth::AuthRateLimiter::incrementAndGetBreachCount</definition>
+        <argsstring>(const std::string &amp;user_id)</argsstring>
+        <name>incrementAndGetBreachCount</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::incrementAndGetBreachCount</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Atomically increment the daily breach counter for user_id and return the new count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Increment And Get Breach Count.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Uses Redis when available; otherwise falls back to the in-process map. Must NOT be called with stats_mutex_ held (may block on network I/O).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: csBreachKey(), rlock(), connectCsRedis(), redisCommand(), c_str(), freeReplyObject(), redisFree(), utils::Logger::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="409" column="14" bodyfile="src/auth/auth_rate_limiter.cpp" bodystart="677" bodyend="732"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_rate_limiter_1ae199d4a4d63eb85c664a519a3d7061b3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1auth_1ac7d6b4ac0ba21600479d41e737d954a4" kindref="member">CredentialStuffingOutcome</ref></type>
+        <definition>CredentialStuffingOutcome themis::auth::AuthRateLimiter::escalateCredentialStuffing</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;ip)</argsstring>
+        <name>escalateCredentialStuffing</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::escalateCredentialStuffing</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ip</declname>
+        </param>
+        <briefdescription>
+<para>Called after the IP-level stuffing threshold fires. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Escalate Credential Stuffing.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Increments the per-user daily breach counter and fires the appropriate escalation response (CAPTCHA / OTP / 24h lock). Returns the outcome. Must NOT be called with stats_mutex_ held.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), incrementAndGetBreachCount(), outcomeFromBreachCount(), forceLockAccount(), utils::Logger::warn(), std::to_string(), store(), getLockedAccountCount(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="425" column="31" bodyfile="src/auth/auth_rate_limiter.cpp" bodystart="741" bodyend="764"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_rate_limiter_1a0ae6ee4db8369e538a157cd6db1c381b" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::AuthRateLimiter::csBreachKey</definition>
+        <argsstring>(const std::string &amp;user_id)</argsstring>
+        <name>csBreachKey</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::csBreachKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>── Per-user persistent breach-count tracking ──────────────────────── Build the Redis/in-memory key for a user on the current UTC day. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Format: &quot;cs:{user_id}:{YYYYMMDD}&quot; </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="401" column="24" bodyfile="src/auth/auth_rate_limiter.cpp" bodystart="618" bodyend="630"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_rate_limiter_1aedc1a65cfdb0b5b9cd1244962e9330b5" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1auth_1ac7d6b4ac0ba21600479d41e737d954a4" kindref="member">CredentialStuffingOutcome</ref></type>
+        <definition>CredentialStuffingOutcome themis::auth::AuthRateLimiter::outcomeFromBreachCount</definition>
+        <argsstring>(uint32_t count)</argsstring>
+        <name>outcomeFromBreachCount</name>
+        <qualifiedname>themis::auth::AuthRateLimiter::outcomeFromBreachCount</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Determine the escalation outcome from a raw breach count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="416" column="38" bodyfile="src/auth/auth_rate_limiter.cpp" bodystart="658" bodyend="669"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/auth_rate_limiter.h" line="223" column="1" bodyfile="include/auth/auth_rate_limiter.h" bodystart="223" bodyend="465"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1a69a4de3f12141b02b235419b4745250d" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>allowAuthAttempt</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1a9dee68a22c1ed60673544a96eb3c56a7" prot="private" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>anomaly_callback_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1ac4234d0d0729535ecc874c39adc7f00c" prot="private" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>audit_logger_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1ad0f6006222b0af1506718c7fee03d3b7" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>AuthRateLimiter</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1a20e1f33d540626fcd230dca995bf3da7" prot="private" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>backend_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1a3b0670d934952db1e32c5feb1a0b986d" prot="private" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>callback_mutex_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1ace070acc973b43d1ef52b5239263072f" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>cleanup</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1a638ebac11b203329cee22060c200829b" prot="private" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>config_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1a9569a0a0f43f9c1a8715edcd2b03f7cb" prot="private" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>cs_breach_count_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1a9c15b465bed864e8a07eb23de1ac2a05" prot="private" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>cs_breach_mutex_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1a0ae6ee4db8369e538a157cd6db1c381b" prot="private" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>csBreachKey</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1ae199d4a4d63eb85c664a519a3d7061b3" prot="private" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>escalateCredentialStuffing</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1a7715fb052de8c2e07216c052f2e15ff5" prot="private" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>fireAuthAnomaly</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1a269e12d5ee81c9a0d6adfcb0fd262f73" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>getLockoutInfo</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1ac70f56fbd0e92637944c2bcb7ba1c68f" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>getRetryAfter</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1a3e592090c45d56c2648782d4facc80c3" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1ad1a282af591aef3425dde79dc3b19d01" prot="private" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>incrementAndGetBreachCount</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1ae1d75a7d83304a53089d2836bf906dee" prot="private" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>ip_rate_limiter_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1a7106f63c5d062e81a17a6965d3482a24" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>isAccountLocked</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1af50dfdf1c1ff0328e25ac392cf58ec62" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>isWhitelisted</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1a73db97f511426e6d6e77fe91ee74c456" prot="private" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>lockout_manager_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1a5d8d9e9ef957f3785dcd52ff0f2c492e" prot="private" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1aedc1a65cfdb0b5b9cd1244962e9330b5" prot="private" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>outcomeFromBreachCount</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1a85e8069711fd4251b6d2c0b25dd9a8de" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>recordFailedAuth</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1ab7172bf0be540264d887fe98d323c193" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>recordSuccessfulAuth</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1ae31eb48166f031343cef846072942b2a" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>reset</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1acbcb849c2e5a6f948a5d269ae88ef523" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>setAnomalyCallback</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1a1821a250f33e5a411c8b324fe4892783" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>setAuditLogger</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1ab6a46f48cd33a53838453ffe5f96ca57" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>setBackend</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1a02c8c08ddf9c330ddd2b19454653b88a" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>setMetrics</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1ab95637da60d0fc296bd2e4d8358212a2" prot="private" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>stat_allowed_attempts_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1a050964426a9110d4f7c73f2623aa614f" prot="private" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>stat_currently_locked_accounts_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1a3ea532fa19453e534e9866eb7bfd00e1" prot="private" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>stat_failed_auths_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1af78188cc440c839b28d8098e82518dab" prot="private" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>stat_lockout_blocked_attempts_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1a7382fc9026716374a15b729787f19803" prot="private" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>stat_rate_limited_attempts_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1aa2c4cc5b51279a13363347aa04487f1b" prot="private" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>stat_successful_auths_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1a377afd23fde1e5043111a1ff66c706cc" prot="private" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>stat_total_auth_attempts_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1a386ba9e86cb7f54d0ec68f27d8bb7885" prot="private" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>stats_mutex_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1a3f8698b103edaf4ada128b55132013f0" prot="private" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>stuffing_mutex_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1a2030912c0cc3b83e3e51a30e86c65585" prot="private" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>stuffing_state_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1ad2c0874d1fab443360be9fe3aa558a2a" prot="private" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>trackCredentialStuffing</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1ad10779127d99c2a74454d980a31e8cd4" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>unlockAccount</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1aacc95694b067e2e0d14f60eb30562708" prot="public" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>updateConfig</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_rate_limiter_1a5ec9414efc876270a4a51c58b8beb124" prot="private" virt="non-virtual"><scope>themis::auth::AuthRateLimiter</scope><name>user_rate_limiter_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

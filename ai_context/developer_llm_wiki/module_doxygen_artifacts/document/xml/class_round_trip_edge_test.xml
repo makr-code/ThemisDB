@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_round_trip_edge_test" kind="class" language="C++" prot="public">
+    <compoundname>RoundTripEdgeTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_round_trip_edge_test_1a523ded3dad2852e4c786f89e226f04d5" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1document_1_1_in_memory_document_store" kindref="compound">InMemoryDocumentStore</ref></type>
+        <definition>InMemoryDocumentStore RoundTripEdgeTest::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>RoundTripEdgeTest::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_schema_hardening_focused.cpp" line="534" column="32" bodyfile="tests/document/test_document_schema_hardening_focused.cpp" bodystart="534" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_round_trip_edge_test_1ae02b6680ce6fcc665da3f58b9a625b4e" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1document_1_1_store_backed_round_trip_editor" kindref="compound">StoreBackedRoundTripEditor</ref></type>
+        <definition>StoreBackedRoundTripEditor RoundTripEdgeTest::editor_</definition>
+        <argsstring></argsstring>
+        <name>editor_</name>
+        <qualifiedname>RoundTripEdgeTest::editor_</qualifiedname>
+        <initializer>{<ref refid="class_round_trip_edge_test_1a523ded3dad2852e4c786f89e226f04d5" kindref="member">store_</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_schema_hardening_focused.cpp" line="535" column="32" bodyfile="tests/document/test_document_schema_hardening_focused.cpp" bodystart="535" bodyend="535"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Test fixture for round-trip persistence edge cases. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Uses a <ref refid="classthemis_1_1document_1_1_store_backed_round_trip_editor" kindref="compound">StoreBackedRoundTripEditor</ref> backed by an in-memory store. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>RoundTripEdgeTest</label>
+        <link refid="class_round_trip_edge_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>RoundTripEdgeTest</label>
+        <link refid="class_round_trip_edge_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>store_</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>editor_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="4">
+        <label>themis::document::IDocumentStore</label>
+        <link refid="classthemis_1_1document_1_1_i_document_store"/>
+      </node>
+      <node id="6">
+        <label>themis::document::IRoundTripEditor</label>
+        <link refid="classthemis_1_1document_1_1_i_round_trip_editor"/>
+      </node>
+      <node id="3">
+        <label>themis::document::InMemoryDocumentStore</label>
+        <link refid="classthemis_1_1document_1_1_in_memory_document_store"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::document::StoreBackedRoundTripEditor</label>
+        <link refid="classthemis_1_1document_1_1_store_backed_round_trip_editor"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/document/test_document_schema_hardening_focused.cpp" line="532" column="1" bodyfile="tests/document/test_document_schema_hardening_focused.cpp" bodystart="532" bodyend="536"/>
+    <listofallmembers>
+      <member refid="class_round_trip_edge_test_1ae02b6680ce6fcc665da3f58b9a625b4e" prot="protected" virt="non-virtual"><scope>RoundTripEdgeTest</scope><name>editor_</name></member>
+      <member refid="class_round_trip_edge_test_1a523ded3dad2852e4c786f89e226f04d5" prot="protected" virt="non-virtual"><scope>RoundTripEdgeTest</scope><name>store_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

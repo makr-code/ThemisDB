@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_lock_free_batch_queue" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::LockFreeBatchQueue</compoundname>
+    <includes refid="lock__free__linker__contract_8h" local="no">lock_free_linker_contract.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_lock_free_batch_queue_1ac7a0da27bcc7ace628ba8e96d0577032" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::LockFreeBatchQueue::LockFreeBatchQueue</definition>
+        <argsstring>(size_t capacity)</argsstring>
+        <name>LockFreeBatchQueue</name>
+        <qualifiedname>themis::process::LockFreeBatchQueue::LockFreeBatchQueue</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>capacity</declname>
+        </param>
+        <briefdescription>
+<para>Create batch queue with capacity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>capacity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum entries before blocking (or backoff) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="407" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_lock_free_batch_queue_1a1c2c2d9c0c921d0fd598b28953638fb6" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::LockFreeBatchQueue::tryEnqueue</definition>
+        <argsstring>(const BatchQueueEntry &amp;entry) noexcept</argsstring>
+        <name>tryEnqueue</name>
+        <qualifiedname>themis::process::LockFreeBatchQueue::tryEnqueue</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_batch_queue_entry" kindref="compound">BatchQueueEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Try to enqueue an entry (non-blocking). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Entry to enqueue </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if enqueued; false if queue full (caller should retry/backoff) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="415" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_lock_free_batch_queue_1a1678ac0ace6cbba6856d9e25fd477775" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1process_1_1_batch_queue_entry" kindref="compound">BatchQueueEntry</ref> &gt;</type>
+        <definition>std::vector&lt; BatchQueueEntry &gt; themis::process::LockFreeBatchQueue::drain</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>drain</name>
+        <qualifiedname>themis::process::LockFreeBatchQueue::drain</qualifiedname>
+        <briefdescription>
+<para>Dequeue all buffered entries (atomic swap). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Called by consumer thread; atomically swaps current buffer with new empty buffer. Returns snapshot of entries; consumer can process without blocking producers.</para>
+<para><simplesect kind="return"><para>Vector of entries to process </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="425" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_lock_free_batch_queue_1ac3cf3daa008ad60e3240a9a38ad07c77" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::process::LockFreeBatchQueue::depth</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>depth</name>
+        <qualifiedname>themis::process::LockFreeBatchQueue::depth</qualifiedname>
+        <briefdescription>
+<para>Get approximate queue depth (may be stale). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Approximate number of buffered entries </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="431" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_lock_free_batch_queue_1a6d43104045f51023add3d344889f1adf" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::process::LockFreeBatchQueue::capacity</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>capacity</name>
+        <qualifiedname>themis::process::LockFreeBatchQueue::capacity</qualifiedname>
+        <briefdescription>
+<para>Get queue capacity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Maximum entries before blocking </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="437" column="12"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Ring buffer for batch queue (multi-producer, single-consumer). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>MPMC-friendly: multiple producers can append concurrently; single consumer drains buffer. </para>
+    </detaileddescription>
+    <location file="include/process/lock_free_linker_contract.h" line="401" column="1" bodyfile="include/process/lock_free_linker_contract.h" bodystart="401" bodyend="438"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_lock_free_batch_queue_1a6d43104045f51023add3d344889f1adf" prot="public" virt="non-virtual"><scope>themis::process::LockFreeBatchQueue</scope><name>capacity</name></member>
+      <member refid="classthemis_1_1process_1_1_lock_free_batch_queue_1ac3cf3daa008ad60e3240a9a38ad07c77" prot="public" virt="non-virtual"><scope>themis::process::LockFreeBatchQueue</scope><name>depth</name></member>
+      <member refid="classthemis_1_1process_1_1_lock_free_batch_queue_1a1678ac0ace6cbba6856d9e25fd477775" prot="public" virt="non-virtual"><scope>themis::process::LockFreeBatchQueue</scope><name>drain</name></member>
+      <member refid="classthemis_1_1process_1_1_lock_free_batch_queue_1ac7a0da27bcc7ace628ba8e96d0577032" prot="public" virt="non-virtual"><scope>themis::process::LockFreeBatchQueue</scope><name>LockFreeBatchQueue</name></member>
+      <member refid="classthemis_1_1process_1_1_lock_free_batch_queue_1a1c2c2d9c0c921d0fd598b28953638fb6" prot="public" virt="non-virtual"><scope>themis::process::LockFreeBatchQueue</scope><name>tryEnqueue</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,393 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::metrics::SSMDriftMetrics</compoundname>
+    <includes refid="ssm__drift__metrics_8h" local="no">ssm_drift_metrics.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1ac0cf6df44896a39cfac1ad628989a2a9" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::llm::metrics::SSMDriftMetrics::total_checkpoints_</definition>
+        <argsstring></argsstring>
+        <name>total_checkpoints_</name>
+        <qualifiedname>themis::llm::metrics::SSMDriftMetrics::total_checkpoints_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_drift_metrics.h" line="72" column="17" bodyfile="include/llm/ssm_drift_metrics.h" bodystart="72" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1a1ede17407fe0d88174540c7e692810d8" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::llm::metrics::SSMDriftMetrics::checkpoint_size_sum_</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_size_sum_</name>
+        <qualifiedname>themis::llm::metrics::SSMDriftMetrics::checkpoint_size_sum_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_drift_metrics.h" line="73" column="17" bodyfile="include/llm/ssm_drift_metrics.h" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1a0341a122c67effc0df92ef1e59e599b7" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::llm::metrics::SSMDriftMetrics::router_transformer_count_</definition>
+        <argsstring></argsstring>
+        <name>router_transformer_count_</name>
+        <qualifiedname>themis::llm::metrics::SSMDriftMetrics::router_transformer_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_drift_metrics.h" line="76" column="17" bodyfile="include/llm/ssm_drift_metrics.h" bodystart="76" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1a1915297b266d54eec27c890e47ed3b0d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::llm::metrics::SSMDriftMetrics::router_infini_count_</definition>
+        <argsstring></argsstring>
+        <name>router_infini_count_</name>
+        <qualifiedname>themis::llm::metrics::SSMDriftMetrics::router_infini_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_drift_metrics.h" line="77" column="17" bodyfile="include/llm/ssm_drift_metrics.h" bodystart="77" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1a10978f5628e0f8ef4532230c30349174" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::llm::metrics::SSMDriftMetrics::router_ssm_count_</definition>
+        <argsstring></argsstring>
+        <name>router_ssm_count_</name>
+        <qualifiedname>themis::llm::metrics::SSMDriftMetrics::router_ssm_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_drift_metrics.h" line="78" column="17" bodyfile="include/llm/ssm_drift_metrics.h" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1a70e27546ff18aa9b2d0e51bfafcea48d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; double &gt;</type>
+        <definition>std::atomic&lt;double&gt; themis::llm::metrics::SSMDriftMetrics::global_drift_ema_</definition>
+        <argsstring></argsstring>
+        <name>global_drift_ema_</name>
+        <qualifiedname>themis::llm::metrics::SSMDriftMetrics::global_drift_ema_</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_drift_metrics.h" line="81" column="17" bodyfile="include/llm/ssm_drift_metrics.h" bodystart="81" bodyend="81"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1ac48909d9c32eedc39c2a875c83aa64eb" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>SSMDriftMetrics &amp;</type>
+        <definition>SSMDriftMetrics &amp; themis::llm::metrics::SSMDriftMetrics::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::llm::metrics::SSMDriftMetrics::instance</qualifiedname>
+        <briefdescription>
+<para>Instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements instance without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_drift_metrics.h" line="23" column="28" bodyfile="include/llm/ssm_drift_metrics.h" bodystart="94" bodyend="97"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1a4eba87f7abc788200b9933394bf3a12b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::metrics::SSMDriftMetrics::recordFactualDriftScore</definition>
+        <argsstring>(const std::string &amp;session_id, double drift_value)</argsstring>
+        <name>recordFactualDriftScore</name>
+        <qualifiedname>themis::llm::metrics::SSMDriftMetrics::recordFactualDriftScore</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>drift_value</declname>
+        </param>
+        <briefdescription>
+<para>Record Factual Drift Score. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">drift_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">drift_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: load(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_drift_metrics.h" line="30" column="10" bodyfile="include/llm/ssm_drift_metrics.h" bodystart="105" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1a84b13b65a2a355b860671104a0eec3e5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::metrics::SSMDriftMetrics::recordSSMStateCheckpoint</definition>
+        <argsstring>(const std::string &amp;session_id, uint64_t snapshot_size_bytes)</argsstring>
+        <name>recordSSMStateCheckpoint</name>
+        <qualifiedname>themis::llm::metrics::SSMDriftMetrics::recordSSMStateCheckpoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>snapshot_size_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Record SSMState Checkpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot_size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot_size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_drift_metrics.h" line="38" column="10" bodyfile="include/llm/ssm_drift_metrics.h" bodystart="118" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1ae5dd512814eb490b00140108906db5a1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::metrics::SSMDriftMetrics::recordHybridRouterDecision</definition>
+        <argsstring>(const std::string &amp;architecture_path)</argsstring>
+        <name>recordHybridRouterDecision</name>
+        <qualifiedname>themis::llm::metrics::SSMDriftMetrics::recordHybridRouterDecision</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>architecture_path</declname>
+        </param>
+        <briefdescription>
+<para>Record Hybrid Router Decision. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">architecture_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the architecture.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">architecture_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the architecture.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_drift_metrics.h" line="45" column="10" bodyfile="include/llm/ssm_drift_metrics.h" bodystart="128" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1a06a389f920a0ebea17940ea4781cb3d8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::llm::metrics::SSMDriftMetrics::getFactualDriftScore</definition>
+        <argsstring>(const std::string &amp;session_id) const</argsstring>
+        <name>getFactualDriftScore</name>
+        <qualifiedname>themis::llm::metrics::SSMDriftMetrics::getFactualDriftScore</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Factual Drift Score. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_drift_metrics.h" line="52" column="12" bodyfile="include/llm/ssm_drift_metrics.h" bodystart="136" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1a678098051db89d883fadbbe49d67aa2c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::metrics::SSMDriftMetrics::getTotalCheckpoints</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalCheckpoints</name>
+        <qualifiedname>themis::llm::metrics::SSMDriftMetrics::getTotalCheckpoints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_drift_metrics.h" line="54" column="14" bodyfile="include/llm/ssm_drift_metrics.h" bodystart="54" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1abafdab03016c90ec4d24de11d32c3716" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::metrics::SSMDriftMetrics::getRouterDecisionStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getRouterDecisionStats</name>
+        <qualifiedname>themis::llm::metrics::SSMDriftMetrics::getRouterDecisionStats</qualifiedname>
+        <briefdescription>
+<para>Get Router Decision Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_drift_metrics.h" line="60" column="17" bodyfile="include/llm/ssm_drift_metrics.h" bodystart="140" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1ac1fd2acc9fd49ff510220cc881d24d29" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::metrics::SSMDriftMetrics::exportPrometheus</definition>
+        <argsstring>() const</argsstring>
+        <name>exportPrometheus</name>
+        <qualifiedname>themis::llm::metrics::SSMDriftMetrics::exportPrometheus</qualifiedname>
+        <briefdescription>
+<para>Export Prometheus. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_drift_metrics.h" line="66" column="17" bodyfile="include/llm/ssm_drift_metrics.h" bodystart="146" bodyend="157"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1a93469673803330b7f0d08d224dbee290" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::metrics::SSMDriftMetrics::SSMDriftMetrics</definition>
+        <argsstring>()=default</argsstring>
+        <name>SSMDriftMetrics</name>
+        <qualifiedname>themis::llm::metrics::SSMDriftMetrics::SSMDriftMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_drift_metrics.h" line="69" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/ssm_drift_metrics.h" line="17" column="1" bodyfile="include/llm/ssm_drift_metrics.h" bodystart="17" bodyend="82"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1a1ede17407fe0d88174540c7e692810d8" prot="private" virt="non-virtual"><scope>themis::llm::metrics::SSMDriftMetrics</scope><name>checkpoint_size_sum_</name></member>
+      <member refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1ac1fd2acc9fd49ff510220cc881d24d29" prot="public" virt="non-virtual"><scope>themis::llm::metrics::SSMDriftMetrics</scope><name>exportPrometheus</name></member>
+      <member refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1a06a389f920a0ebea17940ea4781cb3d8" prot="public" virt="non-virtual"><scope>themis::llm::metrics::SSMDriftMetrics</scope><name>getFactualDriftScore</name></member>
+      <member refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1abafdab03016c90ec4d24de11d32c3716" prot="public" virt="non-virtual"><scope>themis::llm::metrics::SSMDriftMetrics</scope><name>getRouterDecisionStats</name></member>
+      <member refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1a678098051db89d883fadbbe49d67aa2c" prot="public" virt="non-virtual"><scope>themis::llm::metrics::SSMDriftMetrics</scope><name>getTotalCheckpoints</name></member>
+      <member refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1a70e27546ff18aa9b2d0e51bfafcea48d" prot="private" virt="non-virtual"><scope>themis::llm::metrics::SSMDriftMetrics</scope><name>global_drift_ema_</name></member>
+      <member refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1ac48909d9c32eedc39c2a875c83aa64eb" prot="public" virt="non-virtual"><scope>themis::llm::metrics::SSMDriftMetrics</scope><name>instance</name></member>
+      <member refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1a4eba87f7abc788200b9933394bf3a12b" prot="public" virt="non-virtual"><scope>themis::llm::metrics::SSMDriftMetrics</scope><name>recordFactualDriftScore</name></member>
+      <member refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1ae5dd512814eb490b00140108906db5a1" prot="public" virt="non-virtual"><scope>themis::llm::metrics::SSMDriftMetrics</scope><name>recordHybridRouterDecision</name></member>
+      <member refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1a84b13b65a2a355b860671104a0eec3e5" prot="public" virt="non-virtual"><scope>themis::llm::metrics::SSMDriftMetrics</scope><name>recordSSMStateCheckpoint</name></member>
+      <member refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1a1915297b266d54eec27c890e47ed3b0d" prot="private" virt="non-virtual"><scope>themis::llm::metrics::SSMDriftMetrics</scope><name>router_infini_count_</name></member>
+      <member refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1a10978f5628e0f8ef4532230c30349174" prot="private" virt="non-virtual"><scope>themis::llm::metrics::SSMDriftMetrics</scope><name>router_ssm_count_</name></member>
+      <member refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1a0341a122c67effc0df92ef1e59e599b7" prot="private" virt="non-virtual"><scope>themis::llm::metrics::SSMDriftMetrics</scope><name>router_transformer_count_</name></member>
+      <member refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1a93469673803330b7f0d08d224dbee290" prot="private" virt="non-virtual"><scope>themis::llm::metrics::SSMDriftMetrics</scope><name>SSMDriftMetrics</name></member>
+      <member refid="classthemis_1_1llm_1_1metrics_1_1_s_s_m_drift_metrics_1ac0cf6df44896a39cfac1ad628989a2a9" prot="private" virt="non-virtual"><scope>themis::llm::metrics::SSMDriftMetrics</scope><name>total_checkpoints_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

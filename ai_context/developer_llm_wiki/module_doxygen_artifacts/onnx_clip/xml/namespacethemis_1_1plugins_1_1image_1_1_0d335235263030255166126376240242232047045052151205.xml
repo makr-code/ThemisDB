@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1plugins_1_1image_1_1_0d335235263030255166126376240242232047045052151205" kind="namespace" language="C++">
+    <compoundname>themis::plugins::image::@335235263030255166126376240242232047045052151205</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/onnx_clip/onnx_clip_plugin.cpp" line="45" column="1"/>
+  </compounddef>
+</doxygen>

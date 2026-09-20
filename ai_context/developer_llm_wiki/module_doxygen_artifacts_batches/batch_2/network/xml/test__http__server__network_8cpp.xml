@@ -1,0 +1,775 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__http__server__network_8cpp" kind="file" language="C++">
+    <compoundname>test_http_server_network.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">server/http_server.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/network/test_http_server_network.cpp</label>
+        <link refid="test__http__server__network_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>server/http_server.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="test__http__server__network_8cpp_1abbae112e09a650b420da55146a2ca8b1" prot="public" static="no">
+        <type>themis::server::HttpServer::Config</type>
+        <definition>using Config = themis::server::HttpServer::Config</definition>
+        <argsstring></argsstring>
+        <name>Config</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_server_network.cpp" line="13" column="1" bodyfile="tests/network/test_http_server_network.cpp" bodystart="13" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__http__server__network_8cpp_1ad9eef28034538fc1083b79d7582259c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpServerNetworkConfig, DefaultHostIsAllInterfaces)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpServerNetworkConfig</type>
+        </param>
+        <param>
+          <type>DefaultHostIsAllInterfaces</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_server_network.cpp" line="19" column="1" bodyfile="tests/network/test_http_server_network.cpp" bodystart="19" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__server__network_8cpp_1a5883707430a47c234074ac46bdab48ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpServerNetworkConfig, DefaultPortIs8080)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpServerNetworkConfig</type>
+        </param>
+        <param>
+          <type>DefaultPortIs8080</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_server_network.cpp" line="24" column="1" bodyfile="tests/network/test_http_server_network.cpp" bodystart="24" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__server__network_8cpp_1a726078a69c8ad40cfbe98db1583ecd8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpServerNetworkConfig, DefaultThreadCountIsPositive)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpServerNetworkConfig</type>
+        </param>
+        <param>
+          <type>DefaultThreadCountIsPositive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_server_network.cpp" line="29" column="1" bodyfile="tests/network/test_http_server_network.cpp" bodystart="29" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__server__network_8cpp_1a670a76f30c1ee3f99fcba26750738d0c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpServerNetworkConfig, ThreadCountCanBeOverridden)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpServerNetworkConfig</type>
+        </param>
+        <param>
+          <type>ThreadCountCanBeOverridden</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_server_network.cpp" line="34" column="1" bodyfile="tests/network/test_http_server_network.cpp" bodystart="34" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__server__network_8cpp_1aea6e305385d870861ff704b2d59b09e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpServerNetworkConfig, HostCanBeOverridden)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpServerNetworkConfig</type>
+        </param>
+        <param>
+          <type>HostCanBeOverridden</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_server_network.cpp" line="40" column="1" bodyfile="tests/network/test_http_server_network.cpp" bodystart="40" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__server__network_8cpp_1a8c27018a09fe35e31d34f89de2f99d62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpServerNetworkConfig, PortCanBeOverridden)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpServerNetworkConfig</type>
+        </param>
+        <param>
+          <type>PortCanBeOverridden</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_server_network.cpp" line="46" column="1" bodyfile="tests/network/test_http_server_network.cpp" bodystart="46" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__server__network_8cpp_1abf5451935d5208785bb44df4a81fda8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpServerTlsConfig, TlsDisabledByDefault)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpServerTlsConfig</type>
+        </param>
+        <param>
+          <type>TlsDisabledByDefault</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_server_network.cpp" line="56" column="1" bodyfile="tests/network/test_http_server_network.cpp" bodystart="56" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__server__network_8cpp_1a8082252e5130185ec6acb42e854f0594" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpServerTlsConfig, DefaultMinVersionIsTls13)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpServerTlsConfig</type>
+        </param>
+        <param>
+          <type>DefaultMinVersionIsTls13</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_server_network.cpp" line="61" column="1" bodyfile="tests/network/test_http_server_network.cpp" bodystart="61" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__server__network_8cpp_1a9307c5bac57912054bd18b34e64ea3d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpServerTlsConfig, TlsCanBeEnabled)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpServerTlsConfig</type>
+        </param>
+        <param>
+          <type>TlsCanBeEnabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_server_network.cpp" line="66" column="1" bodyfile="tests/network/test_http_server_network.cpp" bodystart="66" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__server__network_8cpp_1a2ee3508284633fc2e48d01d60402f4ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpServerTlsConfig, MutualTlsDisabledByDefault)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpServerTlsConfig</type>
+        </param>
+        <param>
+          <type>MutualTlsDisabledByDefault</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_server_network.cpp" line="76" column="1" bodyfile="tests/network/test_http_server_network.cpp" bodystart="76" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__server__network_8cpp_1a6e66971db9bdc2043814959ef1bc7131" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpServerTlsConfig, MutualTlsCanBeEnabled)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpServerTlsConfig</type>
+        </param>
+        <param>
+          <type>MutualTlsCanBeEnabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_server_network.cpp" line="81" column="1" bodyfile="tests/network/test_http_server_network.cpp" bodystart="81" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__server__network_8cpp_1a9e742f208ef7b2356ce8a567e5d3d1f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpServerTlsConfig, CipherListDefaultIsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpServerTlsConfig</type>
+        </param>
+        <param>
+          <type>CipherListDefaultIsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_server_network.cpp" line="89" column="1" bodyfile="tests/network/test_http_server_network.cpp" bodystart="89" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__server__network_8cpp_1a356c7ff599122b568973b3ac285ae2e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpServerTlsConfig, MinVersionCanBeSetToTls12)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpServerTlsConfig</type>
+        </param>
+        <param>
+          <type>MinVersionCanBeSetToTls12</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_server_network.cpp" line="95" column="1" bodyfile="tests/network/test_http_server_network.cpp" bodystart="95" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__server__network_8cpp_1ae2b0ccc932dbab1f423ec5f847a3fe86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpServerConnectionConfig, MaxRequestSizeMbIsPositive)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpServerConnectionConfig</type>
+        </param>
+        <param>
+          <type>MaxRequestSizeMbIsPositive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_server_network.cpp" line="105" column="1" bodyfile="tests/network/test_http_server_network.cpp" bodystart="105" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__server__network_8cpp_1a28a65c3ac9b26897e37816d0a890b9d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpServerConnectionConfig, MaxHeaderSizeBytesIsPositive)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpServerConnectionConfig</type>
+        </param>
+        <param>
+          <type>MaxHeaderSizeBytesIsPositive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_server_network.cpp" line="110" column="1" bodyfile="tests/network/test_http_server_network.cpp" bodystart="110" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__server__network_8cpp_1a38522000ac1bdc6d2d25b1802e306a4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpServerConnectionConfig, RequestTimeoutMsIsPositive)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpServerConnectionConfig</type>
+        </param>
+        <param>
+          <type>RequestTimeoutMsIsPositive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_server_network.cpp" line="115" column="1" bodyfile="tests/network/test_http_server_network.cpp" bodystart="115" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__server__network_8cpp_1a018172a5cef529b2b4637e9301d3cb42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpServerConnectionConfig, GracefulShutdownTimeoutIsPositive)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpServerConnectionConfig</type>
+        </param>
+        <param>
+          <type>GracefulShutdownTimeoutIsPositive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_server_network.cpp" line="120" column="1" bodyfile="tests/network/test_http_server_network.cpp" bodystart="120" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__server__network_8cpp_1a6044bb7226f1618b65fdeac63ca7e699" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpServerHttp2Config, Http2DisabledByDefault)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpServerHttp2Config</type>
+        </param>
+        <param>
+          <type>Http2DisabledByDefault</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_server_network.cpp" line="129" column="1" bodyfile="tests/network/test_http_server_network.cpp" bodystart="129" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__server__network_8cpp_1a7585fb70c4c0b8fd656e68b60b21c37b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpServerHttp2Config, Http2MaxConcurrentStreamsDefaultIsReasonable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpServerHttp2Config</type>
+        </param>
+        <param>
+          <type>Http2MaxConcurrentStreamsDefaultIsReasonable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_server_network.cpp" line="134" column="1" bodyfile="tests/network/test_http_server_network.cpp" bodystart="134" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__server__network_8cpp_1a4c4f3390ff65165e8f665a024bd6e117" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpServerHttp2Config, Http2InitialWindowSizeIsPositive)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpServerHttp2Config</type>
+        </param>
+        <param>
+          <type>Http2InitialWindowSizeIsPositive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_server_network.cpp" line="140" column="1" bodyfile="tests/network/test_http_server_network.cpp" bodystart="140" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__server__network_8cpp_1a67b2b36e58747f2057310e96a870516b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpServerWebSocketConfig, WebSocketDisabledByDefault)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpServerWebSocketConfig</type>
+        </param>
+        <param>
+          <type>WebSocketDisabledByDefault</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_server_network.cpp" line="149" column="1" bodyfile="tests/network/test_http_server_network.cpp" bodystart="149" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__server__network_8cpp_1a8710b555b004a080f2fe31365a58304f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpServerWebSocketConfig, WebSocketMaxMessageSizeIsPositive)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpServerWebSocketConfig</type>
+        </param>
+        <param>
+          <type>WebSocketMaxMessageSizeIsPositive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_server_network.cpp" line="154" column="1" bodyfile="tests/network/test_http_server_network.cpp" bodystart="154" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__server__network_8cpp_1af2155991149536a13a36ff420961a9d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpServerHealthConfig, HealthServiceEnabledByDefault)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpServerHealthConfig</type>
+        </param>
+        <param>
+          <type>HealthServiceEnabledByDefault</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_server_network.cpp" line="163" column="1" bodyfile="tests/network/test_http_server_network.cpp" bodystart="163" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__server__network_8cpp_1a3ba24e5abd0dbfb38c8d6332d3c68fff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpServerHealthConfig, DefaultHealthServicePort)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpServerHealthConfig</type>
+        </param>
+        <param>
+          <type>DefaultHealthServicePort</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_server_network.cpp" line="168" column="1" bodyfile="tests/network/test_http_server_network.cpp" bodystart="168" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__server__network_8cpp_1a48e428009d419fcb76cc61a7cb2efb1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpServerHealthConfig, DefaultHealthServiceBindAddress)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpServerHealthConfig</type>
+        </param>
+        <param>
+          <type>DefaultHealthServiceBindAddress</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_server_network.cpp" line="173" column="1" bodyfile="tests/network/test_http_server_network.cpp" bodystart="173" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__server__network_8cpp_1a611a7de8d83c46ba892ad5c7026c4af8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpServerHealthConfig, HealthServicePortCanBeOverridden)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpServerHealthConfig</type>
+        </param>
+        <param>
+          <type>HealthServicePortCanBeOverridden</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_server_network.cpp" line="179" column="1" bodyfile="tests/network/test_http_server_network.cpp" bodystart="179" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__server__network_8cpp_1ac45bf4401ae3a57fed6ec317095814c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpServerNetworkConfig, ConstructorWithHostPort)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpServerNetworkConfig</type>
+        </param>
+        <param>
+          <type>ConstructorWithHostPort</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_server_network.cpp" line="189" column="1" bodyfile="tests/network/test_http_server_network.cpp" bodystart="189" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__server__network_8cpp_1a9064e060ef7cff20f44360186c78fe4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(HttpServerNetworkConfig, ConstructorWithHostPortAndThreads)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>HttpServerNetworkConfig</type>
+        </param>
+        <param>
+          <type>ConstructorWithHostPortAndThreads</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_server_network.cpp" line="195" column="1" bodyfile="tests/network/test_http_server_network.cpp" bodystart="195" bodyend="200"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tests for HttpServer network stack configuration and defaults. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Validates the network configuration and feature flags of HttpServer::Config introduced/hardened as part of the Server Production Readiness initiative. Tests do not require a running server; they validate configuration semantics. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;server/http_server.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="struct_config" kindref="compound">Config</ref><sp/>=<sp/>themis::server::HttpServer::Config;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Default<sp/>Network<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><ref refid="test__http__server__network_8cpp_1ad9eef28034538fc1083b79d7582259c7" kindref="member">TEST</ref>(HttpServerNetworkConfig,<sp/>DefaultHostIsAllInterfaces)<sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.host,<sp/></highlight><highlight class="stringliteral">&quot;0.0.0.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><ref refid="test__http__server__network_8cpp_1ad9eef28034538fc1083b79d7582259c7" kindref="member">TEST</ref>(HttpServerNetworkConfig,<sp/>DefaultPortIs8080)<sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.port,<sp/>8080);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><ref refid="test__http__server__network_8cpp_1ad9eef28034538fc1083b79d7582259c7" kindref="member">TEST</ref>(HttpServerNetworkConfig,<sp/>DefaultThreadCountIsPositive)<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cfg.num_threads,<sp/>0u);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><ref refid="test__http__server__network_8cpp_1ad9eef28034538fc1083b79d7582259c7" kindref="member">TEST</ref>(HttpServerNetworkConfig,<sp/>ThreadCountCanBeOverridden)<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.num_threads<sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.num_threads,<sp/>4u);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><ref refid="test__http__server__network_8cpp_1ad9eef28034538fc1083b79d7582259c7" kindref="member">TEST</ref>(HttpServerNetworkConfig,<sp/>HostCanBeOverridden)<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.host<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;127.0.0.1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.host,<sp/></highlight><highlight class="stringliteral">&quot;127.0.0.1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><ref refid="test__http__server__network_8cpp_1ad9eef28034538fc1083b79d7582259c7" kindref="member">TEST</ref>(HttpServerNetworkConfig,<sp/>PortCanBeOverridden)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.port<sp/>=<sp/>9090;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.port,<sp/>9090);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TLS<sp/>/<sp/>SSL<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><ref refid="test__http__server__network_8cpp_1ad9eef28034538fc1083b79d7582259c7" kindref="member">TEST</ref>(HttpServerTlsConfig,<sp/>TlsDisabledByDefault)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cfg.enable_tls);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><ref refid="test__http__server__network_8cpp_1ad9eef28034538fc1083b79d7582259c7" kindref="member">TEST</ref>(HttpServerTlsConfig,<sp/>DefaultMinVersionIsTls13)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.tls_min_version,<sp/></highlight><highlight class="stringliteral">&quot;TLSv1.3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><ref refid="test__http__server__network_8cpp_1ad9eef28034538fc1083b79d7582259c7" kindref="member">TEST</ref>(HttpServerTlsConfig,<sp/>TlsCanBeEnabled)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_tls<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.tls_cert_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/path/to/cert.pem&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.tls_key_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/path/to/key.pem&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.enable_tls);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cfg.tls_cert_path.empty());</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cfg.tls_key_path.empty());</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><ref refid="test__http__server__network_8cpp_1ad9eef28034538fc1083b79d7582259c7" kindref="member">TEST</ref>(HttpServerTlsConfig,<sp/>MutualTlsDisabledByDefault)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cfg.tls_require_client_cert);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><ref refid="test__http__server__network_8cpp_1ad9eef28034538fc1083b79d7582259c7" kindref="member">TEST</ref>(HttpServerTlsConfig,<sp/>MutualTlsCanBeEnabled)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.tls_require_client_cert<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.tls_ca_cert_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/path/to/ca.pem&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.tls_require_client_cert);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cfg.tls_ca_cert_path.empty());</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><ref refid="test__http__server__network_8cpp_1ad9eef28034538fc1083b79d7582259c7" kindref="member">TEST</ref>(HttpServerTlsConfig,<sp/>CipherListDefaultIsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Empty<sp/>cipher<sp/>list<sp/>means<sp/>server<sp/>uses<sp/>secure<sp/>defaults</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.tls_cipher_list.empty());</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><ref refid="test__http__server__network_8cpp_1ad9eef28034538fc1083b79d7582259c7" kindref="member">TEST</ref>(HttpServerTlsConfig,<sp/>MinVersionCanBeSetToTls12)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.tls_min_version<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;TLSv1.2&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.tls_min_version,<sp/></highlight><highlight class="stringliteral">&quot;TLSv1.2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Connection<sp/>Limits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><ref refid="test__http__server__network_8cpp_1ad9eef28034538fc1083b79d7582259c7" kindref="member">TEST</ref>(HttpServerConnectionConfig,<sp/>MaxRequestSizeMbIsPositive)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cfg.max_request_size_mb,<sp/>0u);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><ref refid="test__http__server__network_8cpp_1ad9eef28034538fc1083b79d7582259c7" kindref="member">TEST</ref>(HttpServerConnectionConfig,<sp/>MaxHeaderSizeBytesIsPositive)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cfg.max_header_size_bytes,<sp/>0u);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><ref refid="test__http__server__network_8cpp_1ad9eef28034538fc1083b79d7582259c7" kindref="member">TEST</ref>(HttpServerConnectionConfig,<sp/>RequestTimeoutMsIsPositive)<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cfg.<ref refid="struct_config_1afd4034f4e577637067c3a33e802c1670" kindref="member">request_timeout_ms</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><ref refid="test__http__server__network_8cpp_1ad9eef28034538fc1083b79d7582259c7" kindref="member">TEST</ref>(HttpServerConnectionConfig,<sp/>GracefulShutdownTimeoutIsPositive)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cfg.<ref refid="struct_config_1a789443d176f323166ac5418e318e5b96" kindref="member">graceful_shutdown_timeout_ms</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>HTTP/2<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><ref refid="test__http__server__network_8cpp_1ad9eef28034538fc1083b79d7582259c7" kindref="member">TEST</ref>(HttpServerHttp2Config,<sp/>Http2DisabledByDefault)<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cfg.enable_http2);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><ref refid="test__http__server__network_8cpp_1ad9eef28034538fc1083b79d7582259c7" kindref="member">TEST</ref>(HttpServerHttp2Config,<sp/>Http2MaxConcurrentStreamsDefaultIsReasonable)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cfg.http2_max_concurrent_streams,<sp/>0u);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(cfg.http2_max_concurrent_streams,<sp/>10000u);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><ref refid="test__http__server__network_8cpp_1ad9eef28034538fc1083b79d7582259c7" kindref="member">TEST</ref>(HttpServerHttp2Config,<sp/>Http2InitialWindowSizeIsPositive)<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cfg.http2_initial_window_size,<sp/>0u);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WebSocket<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><ref refid="test__http__server__network_8cpp_1ad9eef28034538fc1083b79d7582259c7" kindref="member">TEST</ref>(HttpServerWebSocketConfig,<sp/>WebSocketDisabledByDefault)<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cfg.enable_websocket);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><ref refid="test__http__server__network_8cpp_1ad9eef28034538fc1083b79d7582259c7" kindref="member">TEST</ref>(HttpServerWebSocketConfig,<sp/>WebSocketMaxMessageSizeIsPositive)<sp/>{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cfg.websocket_max_message_size,<sp/>0u);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Health/Error<sp/>Service<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><ref refid="test__http__server__network_8cpp_1ad9eef28034538fc1083b79d7582259c7" kindref="member">TEST</ref>(HttpServerHealthConfig,<sp/>HealthServiceEnabledByDefault)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.health_error_service_enabled);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><ref refid="test__http__server__network_8cpp_1ad9eef28034538fc1083b79d7582259c7" kindref="member">TEST</ref>(HttpServerHealthConfig,<sp/>DefaultHealthServicePort)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.health_error_service_port,<sp/>9090);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><ref refid="test__http__server__network_8cpp_1ad9eef28034538fc1083b79d7582259c7" kindref="member">TEST</ref>(HttpServerHealthConfig,<sp/>DefaultHealthServiceBindAddress)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>default<sp/>to<sp/>localhost-only<sp/>for<sp/>security</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.health_error_service_bind_address,<sp/></highlight><highlight class="stringliteral">&quot;127.0.0.1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><ref refid="test__http__server__network_8cpp_1ad9eef28034538fc1083b79d7582259c7" kindref="member">TEST</ref>(HttpServerHealthConfig,<sp/>HealthServicePortCanBeOverridden)<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.health_error_service_port<sp/>=<sp/>19090;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.health_error_service_port,<sp/>19090);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Constructor<sp/>from<sp/>Host/Port</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><ref refid="test__http__server__network_8cpp_1ad9eef28034538fc1083b79d7582259c7" kindref="member">TEST</ref>(HttpServerNetworkConfig,<sp/>ConstructorWithHostPort)<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>cfg{</highlight><highlight class="stringliteral">&quot;127.0.0.1&quot;</highlight><highlight class="normal">,<sp/>9999};</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.host,<sp/></highlight><highlight class="stringliteral">&quot;127.0.0.1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.port,<sp/>9999);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><ref refid="test__http__server__network_8cpp_1ad9eef28034538fc1083b79d7582259c7" kindref="member">TEST</ref>(HttpServerNetworkConfig,<sp/>ConstructorWithHostPortAndThreads)<sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>cfg{</highlight><highlight class="stringliteral">&quot;127.0.0.1&quot;</highlight><highlight class="normal">,<sp/>9999,<sp/>4};</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.host,<sp/></highlight><highlight class="stringliteral">&quot;127.0.0.1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.port,<sp/>9999);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.num_threads,<sp/>4u);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/network/test_http_server_network.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_signal_bus" kind="class" language="C++" prot="public">
+    <compoundname>StubSignalBus</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_signal_bus_1ad5b5ace20c7ace3deb9f40b0cc6c4b33" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubSignalBus::sent_</definition>
+        <argsstring></argsstring>
+        <name>sent_</name>
+        <qualifiedname>StubSignalBus::sent_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_highcardinality_stress.cpp" line="108" column="17" bodyfile="tests/process/test_process_highcardinality_stress.cpp" bodystart="108" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_signal_bus_1a0716759c7aab0a31c651e20c231aa094" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubSignalBus::delivered_</definition>
+        <argsstring></argsstring>
+        <name>delivered_</name>
+        <qualifiedname>StubSignalBus::delivered_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_highcardinality_stress.cpp" line="109" column="17" bodyfile="tests/process/test_process_highcardinality_stress.cpp" bodystart="109" bodyend="109"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_signal_bus_1a97685233afff932fff82c308170cddea" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubSignalBus::send</definition>
+        <argsstring>(uint64_t pid, int signum)</argsstring>
+        <name>send</name>
+        <qualifiedname>StubSignalBus::send</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>pid</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>signum</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_highcardinality_stress.cpp" line="100" column="10" bodyfile="tests/process/test_process_highcardinality_stress.cpp" bodystart="100" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_signal_bus_1a9231569eb0e42d5af90cffb797ed1e98" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubSignalBus::sent</definition>
+        <argsstring>() const</argsstring>
+        <name>sent</name>
+        <qualifiedname>StubSignalBus::sent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_highcardinality_stress.cpp" line="105" column="14" bodyfile="tests/process/test_process_highcardinality_stress.cpp" bodystart="105" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_signal_bus_1a8ef4e69c0597b984cba51a79554ee22d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubSignalBus::delivered</definition>
+        <argsstring>() const</argsstring>
+        <name>delivered</name>
+        <qualifiedname>StubSignalBus::delivered</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_highcardinality_stress.cpp" line="106" column="14" bodyfile="tests/process/test_process_highcardinality_stress.cpp" bodystart="106" bodyend="106"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/process/test_process_highcardinality_stress.cpp" line="98" column="1" bodyfile="tests/process/test_process_highcardinality_stress.cpp" bodystart="98" bodyend="110"/>
+    <listofallmembers>
+      <member refid="class_stub_signal_bus_1a8ef4e69c0597b984cba51a79554ee22d" prot="public" virt="non-virtual"><scope>StubSignalBus</scope><name>delivered</name></member>
+      <member refid="class_stub_signal_bus_1a0716759c7aab0a31c651e20c231aa094" prot="private" virt="non-virtual"><scope>StubSignalBus</scope><name>delivered_</name></member>
+      <member refid="class_stub_signal_bus_1a97685233afff932fff82c308170cddea" prot="public" virt="non-virtual"><scope>StubSignalBus</scope><name>send</name></member>
+      <member refid="class_stub_signal_bus_1a9231569eb0e42d5af90cffb797ed1e98" prot="public" virt="non-virtual"><scope>StubSignalBus</scope><name>sent</name></member>
+      <member refid="class_stub_signal_bus_1ad5b5ace20c7ace3deb9f40b0cc6c4b33" prot="private" virt="non-virtual"><scope>StubSignalBus</scope><name>sent_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

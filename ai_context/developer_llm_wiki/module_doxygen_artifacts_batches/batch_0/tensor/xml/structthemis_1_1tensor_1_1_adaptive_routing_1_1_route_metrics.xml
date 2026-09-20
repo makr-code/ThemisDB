@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_adaptive_routing_1_1_route_metrics" kind="struct" language="C++" prot="private">
+    <compoundname>themis::tensor::AdaptiveRouting::RouteMetrics</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_adaptive_routing_1_1_route_metrics_1a9536aa750e0be6175c4c1fd07026c7ef" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::tensor::AdaptiveRouting::RouteMetrics::success_rate</definition>
+        <argsstring></argsstring>
+        <name>success_rate</name>
+        <qualifiedname>themis::tensor::AdaptiveRouting::RouteMetrics::success_rate</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="345" column="15" bodyfile="include/tensor/tensor_routing_strategy.h" bodystart="345" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_adaptive_routing_1_1_route_metrics_1a5fb5254fd9c27cf5ea376df56ca0c0f9" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::tensor::AdaptiveRouting::RouteMetrics::avg_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_latency_ms</name>
+        <qualifiedname>themis::tensor::AdaptiveRouting::RouteMetrics::avg_latency_ms</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="346" column="15" bodyfile="include/tensor/tensor_routing_strategy.h" bodystart="346" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_adaptive_routing_1_1_route_metrics_1a69492623ec43bf0a5132cecc0552d8a9" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::tensor::AdaptiveRouting::RouteMetrics::observation_count</definition>
+        <argsstring></argsstring>
+        <name>observation_count</name>
+        <qualifiedname>themis::tensor::AdaptiveRouting::RouteMetrics::observation_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="347" column="13" bodyfile="include/tensor/tensor_routing_strategy.h" bodystart="347" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/tensor/tensor_routing_strategy.h" line="344" column="5" bodyfile="include/tensor/tensor_routing_strategy.h" bodystart="344" bodyend="348"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_adaptive_routing_1_1_route_metrics_1a5fb5254fd9c27cf5ea376df56ca0c0f9" prot="public" virt="non-virtual"><scope>themis::tensor::AdaptiveRouting::RouteMetrics</scope><name>avg_latency_ms</name></member>
+      <member refid="structthemis_1_1tensor_1_1_adaptive_routing_1_1_route_metrics_1a69492623ec43bf0a5132cecc0552d8a9" prot="public" virt="non-virtual"><scope>themis::tensor::AdaptiveRouting::RouteMetrics</scope><name>observation_count</name></member>
+      <member refid="structthemis_1_1tensor_1_1_adaptive_routing_1_1_route_metrics_1a9536aa750e0be6175c4c1fd07026c7ef" prot="public" virt="non-virtual"><scope>themis::tensor::AdaptiveRouting::RouteMetrics</scope><name>success_rate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

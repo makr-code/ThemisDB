@@ -1,0 +1,289 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="paxos__wal_8h" kind="file" language="C++">
+    <compoundname>paxos_wal.h</compoundname>
+    <includes refid="wal__manager_8h" local="yes">sharding/wal_manager.h</includes>
+    <includes refid="consensus__module_8h" local="yes">sharding/consensus_module.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="paxos__state__persistence_8h" local="yes">include/sharding/paxos_state_persistence.h</includedby>
+    <includedby refid="paxos__consensus_8cpp" local="yes">src/sharding/paxos_consensus.cpp</includedby>
+    <includedby refid="paxos__wal_8cpp" local="yes">src/sharding/paxos_wal.cpp</includedby>
+    <includedby refid="raid__paxos__consensus_8cpp" local="yes">src/sharding/raid_paxos_consensus.cpp</includedby>
+    <incdepgraph>
+      <node id="14">
+        <label>sharding/consensus_module.h</label>
+        <link refid="consensus__module_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/sharding/paxos_wal.h</label>
+        <link refid="paxos__wal_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sharding/wal_manager.h</label>
+        <link refid="wal__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="15">
+        <label>chrono</label>
+      </node>
+      <node id="12">
+        <label>cstdint</label>
+      </node>
+      <node id="10">
+        <label>filesystem</label>
+      </node>
+      <node id="9">
+        <label>fstream</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="13">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="11">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/sharding/paxos_state_persistence.h</label>
+        <link refid="paxos__state__persistence_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/sharding/paxos_wal.h</label>
+        <link refid="paxos__wal_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/sharding/paxos_consensus.cpp</label>
+        <link refid="paxos__consensus_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/sharding/paxos_state_persistence.cpp</label>
+        <link refid="paxos__state__persistence_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/sharding/paxos_wal.cpp</label>
+        <link refid="paxos__wal_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/sharding/raid_paxos_consensus.cpp</label>
+        <link refid="raid__paxos__consensus_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1sharding_1_1_paxos_w_a_l_entry" prot="public">themis::sharding::PaxosWALEntry</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_paxos_w_a_l_config" prot="public">themis::sharding::PaxosWALConfig</innerclass>
+    <innerclass refid="classthemis_1_1sharding_1_1_paxos_w_a_l" prot="public">themis::sharding::PaxosWAL</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1sharding">themis::sharding</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>2026<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Licensed<sp/>under<sp/>MIT<sp/>License</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="wal__manager_8h" kindref="compound">sharding/wal_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="consensus__module_8h" kindref="compound">sharding/consensus_module.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding" kindref="compound">sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding_1a346da5d5acb806b2d86dac7e0f741161" kindref="member">ConsensusLogEntry</ref><sp/>=<sp/><ref refid="namespacethemis_1_1sharding_1a346da5d5acb806b2d86dac7e0f741161" kindref="member">themisdb::sharding::ConsensusLogEntry</ref>;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1sharding_1a1d31565639d078d05e596f77a1b0a7e9" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1a1d31565639d078d05e596f77a1b0a7e9" kindref="member">PaxosWALEntryType</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1sharding_1a1d31565639d078d05e596f77a1b0a7e9ab205205bc58adbefd02d8ba357b9c57f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a1d31565639d078d05e596f77a1b0a7e9ab205205bc58adbefd02d8ba357b9c57f" kindref="member">PREPARE</ref><sp/>=<sp/>10,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>1a:<sp/>Prepare<sp/>request</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1sharding_1a1d31565639d078d05e596f77a1b0a7e9ad5273b5b232a3d9ad77068148c7abe3d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a1d31565639d078d05e596f77a1b0a7e9ad5273b5b232a3d9ad77068148c7abe3d" kindref="member">PROMISE</ref><sp/>=<sp/>11,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>1b:<sp/>Promise<sp/>response</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1sharding_1a1d31565639d078d05e596f77a1b0a7e9a1fd72e016e8fbf2cf1f0c918dcd9bad3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a1d31565639d078d05e596f77a1b0a7e9a1fd72e016e8fbf2cf1f0c918dcd9bad3" kindref="member">ACCEPT</ref><sp/>=<sp/>12,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>2a:<sp/>Accept<sp/>request</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1sharding_1a1d31565639d078d05e596f77a1b0a7e9aa806f1d2c42338ef5fa6497b66153e79" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a1d31565639d078d05e596f77a1b0a7e9aa806f1d2c42338ef5fa6497b66153e79" kindref="member">ACCEPTED</ref><sp/>=<sp/>13,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>2b:<sp/>Accepted<sp/>response</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1sharding_1a1d31565639d078d05e596f77a1b0a7e9a1d0ba376e273b9d622641124d8c59264" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a1d31565639d078d05e596f77a1b0a7e9a1d0ba376e273b9d622641124d8c59264" kindref="member">COMMIT</ref><sp/>=<sp/>14,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Value<sp/>committed<sp/>to<sp/>log</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1sharding_1a1d31565639d078d05e596f77a1b0a7e9a46b8744c6bc840d2cb241fa165f3e204" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a1d31565639d078d05e596f77a1b0a7e9a46b8744c6bc840d2cb241fa165f3e204" kindref="member">SNAPSHOT</ref><sp/>=<sp/>15,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Snapshot<sp/>marker</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1sharding_1a1d31565639d078d05e596f77a1b0a7e9aba003118ab3d7676b6ce507fd14cb96c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a1d31565639d078d05e596f77a1b0a7e9aba003118ab3d7676b6ce507fd14cb96c" kindref="member">CONFIG_CHANGE</ref><sp/>=<sp/>16<sp/></highlight><highlight class="comment">//<sp/>Configuration<sp/>change</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1sharding_1_1_paxos_w_a_l_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_paxos_w_a_l_entry" kindref="compound">PaxosWALEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1sharding_1_1_paxos_w_a_l_entry_1a55275c2b47594b9a009afb73960e7945" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref><sp/><ref refid="structthemis_1_1sharding_1_1_paxos_w_a_l_entry_1a55275c2b47594b9a009afb73960e7945" kindref="member">lsn</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Log<sp/>sequence<sp/>number</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1sharding_1_1_paxos_w_a_l_entry_1afecd3b2124a8ea7b923b5c7f8fdfbb05" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a1d31565639d078d05e596f77a1b0a7e9" kindref="member">PaxosWALEntryType</ref><sp/><ref refid="structthemis_1_1sharding_1_1_paxos_w_a_l_entry_1afecd3b2124a8ea7b923b5c7f8fdfbb05" kindref="member">type</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Entry<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1sharding_1_1_paxos_w_a_l_entry_1aeb434154666df6999e95d0949fbc65cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_paxos_w_a_l_entry_1aeb434154666df6999e95d0949fbc65cb" kindref="member">timestamp</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Timestamp<sp/>(ms<sp/>since<sp/>epoch)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1sharding_1_1_paxos_w_a_l_entry_1a7ff1bff1b4402ab870ec856d4c0877ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_paxos_w_a_l_entry_1a7ff1bff1b4402ab870ec856d4c0877ab" kindref="member">slot</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Paxos<sp/>slot<sp/>number</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1sharding_1_1_paxos_w_a_l_entry_1aae0ad1ce3aca246fbb474e7510b089f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_paxos_w_a_l_entry_1aae0ad1ce3aca246fbb474e7510b089f8" kindref="member">round</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Proposal<sp/>round</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1sharding_1_1_paxos_w_a_l_entry_1a0ef2ea27e12a0c4992bd502c59432e0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_paxos_w_a_l_entry_1a0ef2ea27e12a0c4992bd502c59432e0f" kindref="member">node_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Node<sp/>that<sp/>created<sp/>this<sp/>entry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1sharding_1_1_paxos_w_a_l_entry_1a859952ec39d0a5696a9a2d02f0f40d78" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1sharding_1_1_paxos_w_a_l_entry_1a859952ec39d0a5696a9a2d02f0f40d78" kindref="member">data</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Operation<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Serialize<sp/>to<sp/>WALEntry<sp/>for<sp/>storage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_entry" kindref="compound">WALEntry</ref><sp/><ref refid="structthemis_1_1sharding_1_1_paxos_w_a_l_entry_1affcc840d9c098ffab296755b9b12e3cf" kindref="member">toWALEntry</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Deserialize<sp/>from<sp/>WALEntry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_paxos_w_a_l_entry" kindref="compound">PaxosWALEntry</ref><sp/><ref refid="structthemis_1_1sharding_1_1_paxos_w_a_l_entry_1adbf28ae41b6b5797d6236aabdc0726e0" kindref="member">fromWALEntry</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_entry" kindref="compound">WALEntry</ref>&amp;<sp/>entry);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>size<sp/>in<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_paxos_w_a_l_entry_1a055a5c30a9968562524f10fe5b7409d0" kindref="member">size</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1sharding_1_1_paxos_w_a_l_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_paxos_w_a_l_config" kindref="compound">PaxosWALConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1sharding_1_1_paxos_w_a_l_config_1ac473e746a3d0cb6cda43f83c06bb5869" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_paxos_w_a_l_config_1ac473e746a3d0cb6cda43f83c06bb5869" kindref="member">wal_directory</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;./wal/paxos&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1sharding_1_1_paxos_w_a_l_config_1a3ba0921225b0e54dd2207ab2b86971e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_paxos_w_a_l_config_1a3ba0921225b0e54dd2207ab2b86971e2" kindref="member">segment_size</ref><sp/>=<sp/>16<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>16<sp/>MB<sp/>per<sp/>segment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1sharding_1_1_paxos_w_a_l_config_1a88bd0deba5b8ee807e19cb3815470d39" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_paxos_w_a_l_config_1a88bd0deba5b8ee807e19cb3815470d39" kindref="member">max_segments</ref><sp/>=<sp/>100;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>segments<sp/>before<sp/>compaction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1sharding_1_1_paxos_w_a_l_config_1a3ed055992730f4f0ff8f3b2dac801616" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_paxos_w_a_l_config_1a3ed055992730f4f0ff8f3b2dac801616" kindref="member">sync_on_write</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>fsync<sp/>after<sp/>each<sp/>write</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1sharding_1_1_paxos_w_a_l_config_1a3d3e162af925dc1c0f5dd19ffb859964" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_paxos_w_a_l_config_1a3d3e162af925dc1c0f5dd19ffb859964" kindref="member">write_buffer_size</ref><sp/>=<sp/>64<sp/>*<sp/>1024;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>64<sp/>KB<sp/>buffer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Snapshot<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1sharding_1_1_paxos_w_a_l_config_1aa1ff842eae680c4ee90b9975b2a324ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_paxos_w_a_l_config_1aa1ff842eae680c4ee90b9975b2a324ed" kindref="member">snapshot_interval</ref><sp/>=<sp/>10000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Snapshot<sp/>every<sp/>10K<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1sharding_1_1_paxos_w_a_l_config_1ad21a26cb6d384a0f88940062298b44cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_paxos_w_a_l_config_1ad21a26cb6d384a0f88940062298b44cb" kindref="member">snapshot_directory</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;./snapshots/paxos&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1sharding_1_1_paxos_w_a_l_config_1ad839286ddb4bb99f28104807aab26ad9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_paxos_w_a_l_config_1ad839286ddb4bb99f28104807aab26ad9" kindref="member">max_snapshots</ref><sp/>=<sp/>10;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Keep<sp/>last<sp/>10<sp/>snapshots</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="classthemis_1_1sharding_1_1_paxos_w_a_l" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_paxos_w_a_l_1a1eb212ba8075abbfb463a3078235d964" kindref="member">PaxosWAL</ref><sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_paxos_w_a_l_1a1eb212ba8075abbfb463a3078235d964" kindref="member">PaxosWAL</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_paxos_w_a_l_config" kindref="compound">PaxosWALConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_paxos_w_a_l_1a4ca3ef6c416d357383cc08c85c7d9667" kindref="member">~PaxosWAL</ref>();</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_paxos_w_a_l_1a2cb9d913879984bb8f49154bbc25938e" kindref="member">initialize</ref>();</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref><sp/><ref refid="classthemis_1_1sharding_1_1_paxos_w_a_l_1ac869161a72bc27778ad72a6b9d44bf5c" kindref="member">logEntry</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_paxos_w_a_l_entry" kindref="compound">PaxosWALEntry</ref>&amp;<sp/>entry);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref><sp/><ref refid="classthemis_1_1sharding_1_1_paxos_w_a_l_1a7c9d86bcb3e6865c063608e84d8fc445" kindref="member">logPrepare</ref>(uint64_t<sp/>slot,<sp/>uint64_t<sp/>round,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref><sp/><ref refid="classthemis_1_1sharding_1_1_paxos_w_a_l_1a3293f76fd4458aea348d341ab1955853" kindref="member">logPromise</ref>(uint64_t<sp/>slot,<sp/>uint64_t<sp/>round,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id,</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>accepted_round,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>accepted_value);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref><sp/><ref refid="classthemis_1_1sharding_1_1_paxos_w_a_l_1a651f7f32fc7a6d3582dcc264ebf5dbb5" kindref="member">logAccept</ref>(uint64_t<sp/>slot,<sp/>uint64_t<sp/>round,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id,</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1a346da5d5acb806b2d86dac7e0f741161" kindref="member">ConsensusLogEntry</ref>&amp;<sp/>value);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref><sp/><ref refid="classthemis_1_1sharding_1_1_paxos_w_a_l_1a3954f7da10557f9d27db4f08b779d350" kindref="member">logAccepted</ref>(uint64_t<sp/>slot,<sp/>uint64_t<sp/>round,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref><sp/><ref refid="classthemis_1_1sharding_1_1_paxos_w_a_l_1a77023f42d19c36ff8ed89695703fdbbf" kindref="member">logCommit</ref>(uint64_t<sp/>slot,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1a346da5d5acb806b2d86dac7e0f741161" kindref="member">ConsensusLogEntry</ref>&amp;<sp/>value);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PaxosWALEntry&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_paxos_w_a_l_1a07fb2f868ab07c9e9f6ed37ed39d0c90" kindref="member">readEntries</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref>&amp;<sp/>start_lsn,</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;LSN&gt;&amp;<sp/>end_lsn<sp/>=<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref><sp/><ref refid="classthemis_1_1sharding_1_1_paxos_w_a_l_1a3cc5b07046e44fa4be3d7501675a8324" kindref="member">getCurrentLSN</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref><sp/><ref refid="classthemis_1_1sharding_1_1_paxos_w_a_l_1a2dd6dc012943332d98064378a6dbbca6" kindref="member">getOldestLSN</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_paxos_w_a_l_1a898c491fbe83edcc91aa632cd9ba3112" kindref="member">flush</ref>();</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_paxos_w_a_l_1a448340f8b29354373aa3a73f86721a42" kindref="member">shouldCreateSnapshot</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>operations_since_last)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_paxos_w_a_l_1ad1f16384c9c296dedf4ad97ad204989f" kindref="member">compact</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref>&amp;<sp/>up_to_lsn,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223" refid="classthemis_1_1sharding_1_1_paxos_w_a_l_1a7d1d9468473351c2e39a3f45003d886f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1sharding_1_1_paxos_w_a_l_1a7d1d9468473351c2e39a3f45003d886f" kindref="member">getSnapshotDirectory</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_.snapshot_directory;<sp/>}</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="228" refid="classthemis_1_1sharding_1_1_paxos_w_a_l_1aea98ec2848ee28821b970976383a2d5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1sharding_1_1_paxos_w_a_l_1aea98ec2848ee28821b970976383a2d5b" kindref="member">getWALDirectory</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_.wal_directory;<sp/>}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="233" refid="classthemis_1_1sharding_1_1_paxos_w_a_l_1af7a1a456ef4a8bb792584a317f030daa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_paxos_w_a_l_config" kindref="compound">PaxosWALConfig</ref>&amp;<sp/><ref refid="classthemis_1_1sharding_1_1_paxos_w_a_l_1af7a1a456ef4a8bb792584a317f030daa" kindref="member">getConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_paxos_w_a_l_config" kindref="compound">PaxosWALConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;WALManager&gt;<sp/>wal_manager_;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>to<sp/>create<sp/>WAL<sp/>entry<sp/>with<sp/>timestamp<sp/>and<sp/>LSN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_paxos_w_a_l_entry" kindref="compound">PaxosWALEntry</ref><sp/>createEntry(<ref refid="namespacethemis_1_1sharding_1a1d31565639d078d05e596f77a1b0a7e9" kindref="member">PaxosWALEntryType</ref><sp/>type,<sp/>uint64_t<sp/>slot,</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>round,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id,</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>data);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>sharding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/sharding/paxos_wal.h"/>
+  </compounddef>
+</doxygen>

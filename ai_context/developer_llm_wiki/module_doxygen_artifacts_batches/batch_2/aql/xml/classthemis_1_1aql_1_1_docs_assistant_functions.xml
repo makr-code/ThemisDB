@@ -1,0 +1,880 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1_docs_assistant_functions" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::DocsAssistantFunctions</compoundname>
+    <includes refid="docs__assistant__functions_8h" local="no">docs_assistant_functions.h</includes>
+    <innerclass refid="classthemis_1_1aql_1_1_docs_assistant_functions_1_1_impl" prot="public">themis::aql::DocsAssistantFunctions::Impl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1aql_1_1_docs_assistant_functions_1ad0b469a647aacf206a398231f815a994" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DegradedReason</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::DegradedReason</qualifiedname>
+        <enumvalue id="classthemis_1_1aql_1_1_docs_assistant_functions_1ad0b469a647aacf206a398231f815a994ae0aa021e21dddbd6d8cecec71e9cf564" prot="public">
+          <name>OK</name>
+          <briefdescription>
+<para>All components loaded successfully. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1aql_1_1_docs_assistant_functions_1ad0b469a647aacf206a398231f815a994a49b0ebc9d191ab046c453d8292773cc3" prot="public">
+          <name>DATABASE_NOT_FOUND</name>
+          <briefdescription>
+<para>Documentation database file could not be located. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1aql_1_1_docs_assistant_functions_1ad0b469a647aacf206a398231f815a994a7ea647f3d58679383ef592beb80910ac" prot="public">
+          <name>DATABASE_LOAD_FAILED</name>
+          <briefdescription>
+<para>Database found but failed to load. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1aql_1_1_docs_assistant_functions_1ad0b469a647aacf206a398231f815a994a817c3a6e3a7800c536d3080a03c65d8f" prot="public">
+          <name>LORA_LOAD_FAILED</name>
+          <briefdescription>
+<para>LoRA adapter initialisation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/docs_assistant_functions.h" line="34" column="5" bodyfile="include/aql/docs_assistant_functions.h" bodystart="34" bodyend="39"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_docs_assistant_functions_1a1b6dc66d85ccebed779cbadd7c18198c" prot="private" static="no" mutable="yes">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1aql_1_1_docs_assistant_functions_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::aql::DocsAssistantFunctions::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/docs_assistant_functions.h" line="136" column="27" bodyfile="include/aql/docs_assistant_functions.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_docs_assistant_functions_1aea09c45b7e9323b109e02f1ddab25fdb" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1aql_1_1_i_classify_fn" kindref="compound">IClassifyFn</ref> *</type>
+        <definition>IClassifyFn* themis::aql::DocsAssistantFunctions::classifier_</definition>
+        <argsstring></argsstring>
+        <name>classifier_</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::classifier_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/docs_assistant_functions.h" line="138" column="17" bodyfile="include/aql/docs_assistant_functions.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_docs_assistant_functions_1a39820435ed40df9f58623fdafcd5ff03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::DocsAssistantFunctions::DocsAssistantFunctions</definition>
+        <argsstring>()</argsstring>
+        <name>DocsAssistantFunctions</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::DocsAssistantFunctions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/docs_assistant_functions.h" line="40" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_docs_assistant_functions_1a5e23aa82237ab62088f7ee91a7480f73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::DocsAssistantFunctions::~DocsAssistantFunctions</definition>
+        <argsstring>()</argsstring>
+        <name>~DocsAssistantFunctions</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::~DocsAssistantFunctions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/docs_assistant_functions.h" line="42" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_docs_assistant_functions_1aaabcd6eda335f5c5c1668400c25d6334" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::DocsAssistantFunctions::help</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;user_id=&quot;anonymous&quot;)</argsstring>
+        <name>help</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::help</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+          <defval>&quot;anonymous&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Help. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: ensureImpl(), getAssistant(), std::chrono::high_resolution_clock::now(), isLoRAAvailable(), getLoRA(), spdlog::debug(), query(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/docs_assistant_functions.h" line="44" column="17" bodyfile="src/aql/docs_assistant_functions.cpp" bodystart="144" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_docs_assistant_functions_1a81116d2a994b07830ae6aa1e1dc7c238" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::DocsAssistantFunctions::docsQuery</definition>
+        <argsstring>(const std::string &amp;query)</argsstring>
+        <name>docsQuery</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::docsQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Docs Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: ensureImpl(), getAssistant(), query(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/docs_assistant_functions.h" line="51" column="17" bodyfile="src/aql/docs_assistant_functions.cpp" bodystart="436" bodyend="444"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_docs_assistant_functions_1a84d6f3fb8ef2f3fc1287080b228913aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1aql_1a33b74478135fa9f5b404669fed4bb549" kindref="member">json</ref></type>
+        <definition>json themis::aql::DocsAssistantFunctions::docsSearch</definition>
+        <argsstring>(const std::string &amp;query, int limit=5)</argsstring>
+        <name>docsSearch</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::docsSearch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>limit</declname>
+          <defval>5</defval>
+        </param>
+        <briefdescription>
+<para>Docs Search. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: ensureImpl(), getAssistant(), searchDocs(), json::array(), length(), substr(), empty(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/docs_assistant_functions.h" line="53" column="10" bodyfile="src/aql/docs_assistant_functions.cpp" bodystart="454" bodyend="487"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_docs_assistant_functions_1a33b792ec11cc4bda1a5411cabdcc845d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::DocsAssistantFunctions::docsConfigHelp</definition>
+        <argsstring>(const std::string &amp;topic)</argsstring>
+        <name>docsConfigHelp</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::docsConfigHelp</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>topic</declname>
+        </param>
+        <briefdescription>
+<para>Docs Config Help. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">topic</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">topic</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: ensureImpl(), getAssistant(), getConfigHelp(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/docs_assistant_functions.h" line="60" column="17" bodyfile="src/aql/docs_assistant_functions.cpp" bodystart="496" bodyend="504"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_docs_assistant_functions_1a9d8abdcbc8c002e9f43ceba00672de8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::DocsAssistantFunctions::docsTroubleshoot</definition>
+        <argsstring>(const std::string &amp;error_description)</argsstring>
+        <name>docsTroubleshoot</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::docsTroubleshoot</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_description</declname>
+        </param>
+        <briefdescription>
+<para>Docs Troubleshoot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error_description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error_description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: ensureImpl(), getAssistant(), getTroubleshootingHelp(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/docs_assistant_functions.h" line="67" column="17" bodyfile="src/aql/docs_assistant_functions.cpp" bodystart="513" bodyend="521"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_docs_assistant_functions_1a68b471336a66780e3e6d42754b51e7a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1aql_1a33b74478135fa9f5b404669fed4bb549" kindref="member">json</ref></type>
+        <definition>json themis::aql::DocsAssistantFunctions::docsStats</definition>
+        <argsstring>()</argsstring>
+        <name>docsStats</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::docsStats</qualifiedname>
+        <briefdescription>
+<para>Docs Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: ensureImpl(), getAssistant(), getStats(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/docs_assistant_functions.h" line="73" column="10" bodyfile="src/aql/docs_assistant_functions.cpp" bodystart="529" bodyend="536"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_docs_assistant_functions_1a334b97b8e825796608cf742f79c7cce8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::aql::DocsAssistantFunctions::isReady</definition>
+        <argsstring>() const</argsstring>
+        <name>isReady</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::isReady</qualifiedname>
+        <briefdescription>
+<para>Is Ready. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/docs_assistant_functions.h" line="79" column="10" bodyfile="src/aql/docs_assistant_functions.cpp" bodystart="538" bodyend="541"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_docs_assistant_functions_1ac1367616b67d17ca18159261e4e9d513" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::aql::DocsAssistantFunctions::isFullyReady</definition>
+        <argsstring>() const</argsstring>
+        <name>isFullyReady</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::isFullyReady</qualifiedname>
+        <briefdescription>
+<para>Is Fully Ready. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/docs_assistant_functions.h" line="85" column="10" bodyfile="src/aql/docs_assistant_functions.cpp" bodystart="543" bodyend="546"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_docs_assistant_functions_1a4696aa6b3f9cb67a66c77542ac0b11ce" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::DocsAssistantFunctions::degradedReason</definition>
+        <argsstring>() const</argsstring>
+        <name>degradedReason</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::degradedReason</qualifiedname>
+        <briefdescription>
+<para>Degraded Reason. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/docs_assistant_functions.h" line="91" column="17" bodyfile="src/aql/docs_assistant_functions.cpp" bodystart="548" bodyend="555"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_docs_assistant_functions_1a941b86171f4a0d64598fab433210a60a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::DocsAssistantFunctions::clearCache</definition>
+        <argsstring>()</argsstring>
+        <name>clearCache</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::clearCache</qualifiedname>
+        <briefdescription>
+<para>Clear Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: ensureImpl(), getAssistant(), isLoRAAvailable(), spdlog::info(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/docs_assistant_functions.h" line="96" column="10" bodyfile="src/aql/docs_assistant_functions.cpp" bodystart="562" bodyend="575"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_docs_assistant_functions_1aac1325d0fa88362126044a8f148dee82" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::aql::DocsAssistantFunctions::isLoRAActive</definition>
+        <argsstring>() const</argsstring>
+        <name>isLoRAActive</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::isLoRAActive</qualifiedname>
+        <briefdescription>
+<para>Is Lo RAActive. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/docs_assistant_functions.h" line="102" column="10" bodyfile="src/aql/docs_assistant_functions.cpp" bodystart="577" bodyend="580"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_docs_assistant_functions_1aab63efa828627771d32fc1e947790dc7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1aql_1a33b74478135fa9f5b404669fed4bb549" kindref="member">json</ref></type>
+        <definition>json themis::aql::DocsAssistantFunctions::getPerformanceMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getPerformanceMetrics</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::getPerformanceMetrics</qualifiedname>
+        <briefdescription>
+<para>Get Performance Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/docs_assistant_functions.h" line="108" column="10" bodyfile="src/aql/docs_assistant_functions.cpp" bodystart="582" bodyend="631"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_docs_assistant_functions_1abeb00aebf98203e1e33f74d3b44d1703" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::DocsAssistantFunctions::setClassifier</definition>
+        <argsstring>(IClassifyFn *classifier)</argsstring>
+        <name>setClassifier</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::setClassifier</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1_i_classify_fn" kindref="compound">IClassifyFn</ref> *</type>
+          <declname>classifier</declname>
+        </param>
+        <briefdescription>
+<para>Set Classifier. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">classifier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">classifier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setClassifier without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/docs_assistant_functions.h" line="114" column="10" bodyfile="src/aql/docs_assistant_functions.cpp" bodystart="257" bodyend="259"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_docs_assistant_functions_1a96fc006f58b9cb6080816c0d6b97ff9b" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::DocsAssistantFunctions::detectIntentWithNativeNLP</definition>
+        <argsstring>(const std::string &amp;query)</argsstring>
+        <name>detectIntentWithNativeNLP</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::detectIntentWithNativeNLP</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Detect Intent With Native NLP. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: classify(), empty(), std::find(), begin(), end(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/docs_assistant_functions.h" line="122" column="17" bodyfile="src/aql/docs_assistant_functions.cpp" bodystart="223" bodyend="250"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_docs_assistant_functions_1a2a51bef038625d395336c037dbce92b0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1_docs_assistant_functions_1_1_impl" kindref="compound">Impl</ref> &amp;</type>
+        <definition>DocsAssistantFunctions::Impl &amp; themis::aql::DocsAssistantFunctions::ensureImpl</definition>
+        <argsstring>()</argsstring>
+        <name>ensureImpl</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::ensureImpl</qualifiedname>
+        <briefdescription>
+<para>Ensure <ref refid="classthemis_1_1aql_1_1_docs_assistant_functions_1_1_impl" kindref="compound">Impl</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/docs_assistant_functions.h" line="130" column="8" bodyfile="src/aql/docs_assistant_functions.cpp" bodystart="125" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_docs_assistant_functions_1a8e82a46727303bf1da034f056af1c0be" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1_docs_assistant_functions_1_1_impl" kindref="compound">Impl</ref> *</type>
+        <definition>DocsAssistantFunctions::Impl * themis::aql::DocsAssistantFunctions::tryGetImpl</definition>
+        <argsstring>() const</argsstring>
+        <name>tryGetImpl</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::tryGetImpl</qualifiedname>
+        <briefdescription>
+<para>Try Get <ref refid="classthemis_1_1aql_1_1_docs_assistant_functions_1_1_impl" kindref="compound">Impl</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/docs_assistant_functions.h" line="135" column="8" bodyfile="src/aql/docs_assistant_functions.cpp" bodystart="132" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_docs_assistant_functions_1ae2b2470cdeb0093cd83f81ae5e58118c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::DocsAssistantFunctions::detectIntentWithLLM</definition>
+        <argsstring>(const std::string &amp;query)</argsstring>
+        <name>detectIntentWithLLM</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::detectIntentWithLLM</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Detect Intent With LLM. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: generate(), str(), erase(), find_first_not_of(), find_last_not_of(), std::transform(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/docs_assistant_functions.h" line="145" column="17" bodyfile="src/aql/docs_assistant_functions.cpp" bodystart="267" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_docs_assistant_functions_1af4035cf18cb68fa78d0eac3045d4ed5b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::DocsAssistantFunctions::detectIntentWithRegex</definition>
+        <argsstring>(const std::string &amp;query)</argsstring>
+        <name>detectIntentWithRegex</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::detectIntentWithRegex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Detect Intent With Regex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/docs_assistant_functions.h" line="152" column="17" bodyfile="src/aql/docs_assistant_functions.cpp" bodystart="311" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_docs_assistant_functions_1ab825285b839bfb0f26e551e7e5f81d5b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::DocsAssistantFunctions::extractTopicFromQuery</definition>
+        <argsstring>(const std::string &amp;query)</argsstring>
+        <name>extractTopicFromQuery</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::extractTopicFromQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Extract Topic From Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/docs_assistant_functions.h" line="159" column="17" bodyfile="src/aql/docs_assistant_functions.cpp" bodystart="347" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_docs_assistant_functions_1a0dc3fa07150483cd32fa3c28d34456a8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::DocsAssistantFunctions::extractSearchQuery</definition>
+        <argsstring>(const std::string &amp;query)</argsstring>
+        <name>extractSearchQuery</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::extractSearchQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Extract Search Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(), find(), substr(), erase(), find_first_not_of(), find_last_not_of(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/docs_assistant_functions.h" line="166" column="17" bodyfile="src/aql/docs_assistant_functions.cpp" bodystart="380" bodyend="401"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_docs_assistant_functions_1a09a18b1228c68529a9fe3eab53d949d1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::DocsAssistantFunctions::formatSearchResults</definition>
+        <argsstring>(const std::vector&lt; llm::DocumentEntry &gt; &amp;docs)</argsstring>
+        <name>formatSearchResults</name>
+        <qualifiedname>themis::aql::DocsAssistantFunctions::formatSearchResults</qualifiedname>
+        <param>
+          <type>const std::vector&lt; llm::DocumentEntry &gt; &amp;</type>
+          <declname>docs</declname>
+        </param>
+        <briefdescription>
+<para>Format Search Results. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">docs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">docs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), std::setprecision(), length(), substr(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/docs_assistant_functions.h" line="173" column="17" bodyfile="src/aql/docs_assistant_functions.cpp" bodystart="409" bodyend="427"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/docs_assistant_functions.h" line="32" column="1" bodyfile="include/aql/docs_assistant_functions.h" bodystart="32" bodyend="174"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1aea09c45b7e9323b109e02f1ddab25fdb" prot="private" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions</scope><name>classifier_</name></member>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1a941b86171f4a0d64598fab433210a60a" prot="public" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions</scope><name>clearCache</name></member>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1ad0b469a647aacf206a398231f815a994" prot="public" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions</scope><name>DegradedReason</name></member>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1a4696aa6b3f9cb67a66c77542ac0b11ce" prot="public" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions</scope><name>degradedReason</name></member>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1ae2b2470cdeb0093cd83f81ae5e58118c" prot="private" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions</scope><name>detectIntentWithLLM</name></member>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1a96fc006f58b9cb6080816c0d6b97ff9b" prot="protected" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions</scope><name>detectIntentWithNativeNLP</name></member>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1af4035cf18cb68fa78d0eac3045d4ed5b" prot="private" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions</scope><name>detectIntentWithRegex</name></member>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1a39820435ed40df9f58623fdafcd5ff03" prot="public" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions</scope><name>DocsAssistantFunctions</name></member>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1a33b792ec11cc4bda1a5411cabdcc845d" prot="public" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions</scope><name>docsConfigHelp</name></member>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1a81116d2a994b07830ae6aa1e1dc7c238" prot="public" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions</scope><name>docsQuery</name></member>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1a84d6f3fb8ef2f3fc1287080b228913aa" prot="public" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions</scope><name>docsSearch</name></member>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1a68b471336a66780e3e6d42754b51e7a3" prot="public" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions</scope><name>docsStats</name></member>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1a9d8abdcbc8c002e9f43ceba00672de8e" prot="public" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions</scope><name>docsTroubleshoot</name></member>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1a2a51bef038625d395336c037dbce92b0" prot="private" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions</scope><name>ensureImpl</name></member>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1a0dc3fa07150483cd32fa3c28d34456a8" prot="private" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions</scope><name>extractSearchQuery</name></member>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1ab825285b839bfb0f26e551e7e5f81d5b" prot="private" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions</scope><name>extractTopicFromQuery</name></member>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1a09a18b1228c68529a9fe3eab53d949d1" prot="private" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions</scope><name>formatSearchResults</name></member>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1aab63efa828627771d32fc1e947790dc7" prot="public" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions</scope><name>getPerformanceMetrics</name></member>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1aaabcd6eda335f5c5c1668400c25d6334" prot="public" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions</scope><name>help</name></member>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1a1b6dc66d85ccebed779cbadd7c18198c" prot="private" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1ac1367616b67d17ca18159261e4e9d513" prot="public" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions</scope><name>isFullyReady</name></member>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1aac1325d0fa88362126044a8f148dee82" prot="public" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions</scope><name>isLoRAActive</name></member>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1a334b97b8e825796608cf742f79c7cce8" prot="public" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions</scope><name>isReady</name></member>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1abeb00aebf98203e1e33f74d3b44d1703" prot="public" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions</scope><name>setClassifier</name></member>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1a8e82a46727303bf1da034f056af1c0be" prot="private" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions</scope><name>tryGetImpl</name></member>
+      <member refid="classthemis_1_1aql_1_1_docs_assistant_functions_1a5e23aa82237ab62088f7ee91a7480f73" prot="public" virt="non-virtual"><scope>themis::aql::DocsAssistantFunctions</scope><name>~DocsAssistantFunctions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,463 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1_c_d_c_manager" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::CDCManager</compoundname>
+    <basecompoundref refid="classthemisdb_1_1replication_1_1_i_replication_listener" prot="public" virt="non-virtual">themisdb::replication::IReplicationListener</basecompoundref>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <innerclass refid="structthemisdb_1_1replication_1_1_c_d_c_manager_1_1_subscription" prot="private">themisdb::replication::CDCManager::Subscription</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemisdb_1_1replication_1_1_c_d_c_manager_1aa4d8facc35d492f3bf02f17d6cbf46ed" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> &amp;)&gt;</type>
+        <definition>using themisdb::replication::CDCManager::CDCCallback = std::function&lt;void(const WALEntry&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>CDCCallback</name>
+        <qualifiedname>themisdb::replication::CDCManager::CDCCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1581" column="5" bodyfile="include/replication/replication_manager.h" bodystart="1581" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_c_d_c_manager_1ade1b11336ac8762594b1e5ac0c4e7b3f" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themisdb::replication::CDCManager::subs_mutex_</definition>
+        <argsstring></argsstring>
+        <name>subs_mutex_</name>
+        <qualifiedname>themisdb::replication::CDCManager::subs_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1618" column="31" bodyfile="include/replication/replication_manager.h" bodystart="1618" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_c_d_c_manager_1a37a668c1c8af2d7c7c7b629356e3d19e" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; Subscription &gt;</type>
+        <definition>std::vector&lt;Subscription&gt; themisdb::replication::CDCManager::subscriptions_</definition>
+        <argsstring></argsstring>
+        <name>subscriptions_</name>
+        <qualifiedname>themisdb::replication::CDCManager::subscriptions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1619" column="17" bodyfile="include/replication/replication_manager.h" bodystart="1619" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_c_d_c_manager_1a4841217930866c80d817fe1eee9dff75" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::CDCManager::next_id_</definition>
+        <argsstring></argsstring>
+        <name>next_id_</name>
+        <qualifiedname>themisdb::replication::CDCManager::next_id_</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1620" column="21" bodyfile="include/replication/replication_manager.h" bodystart="1620" bodyend="1620"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_c_d_c_manager_1a8d99ac5d8202cfa5c4c62ea66ed1dc55" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::CDCManager::CDCManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>CDCManager</name>
+        <qualifiedname>themisdb::replication::CDCManager::CDCManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1583" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_c_d_c_manager_1a51846b559137375f8fdf70f4a29bf310" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::CDCManager::subscribe</definition>
+        <argsstring>(const std::string &amp;collection, CDCCallback callback)</argsstring>
+        <name>subscribe</name>
+        <qualifiedname>themisdb::replication::CDCManager::subscribe</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1_c_d_c_manager_1aa4d8facc35d492f3bf02f17d6cbf46ed" kindref="member">CDCCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>============================================================================ <ref refid="classthemisdb_1_1replication_1_1_c_d_c_manager" kindref="compound">CDCManager</ref> Implementation (v1. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+6.0) ============================================================================ Calls: fetch_add(), lock(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1586" column="14" bodyfile="src/replication/replication_manager.cpp" bodystart="6359" bodyend="6364"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_c_d_c_manager_1ade02215fd0ee6f5c541207e20247a73d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::CDCManager::unsubscribe</definition>
+        <argsstring>(uint64_t subscription_id)</argsstring>
+        <name>unsubscribe</name>
+        <qualifiedname>themisdb::replication::CDCManager::unsubscribe</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>subscription_id</declname>
+        </param>
+        <briefdescription>
+<para>Unsubscribe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subscription_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the subscription.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(), std::remove_if(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1589" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="6371" bodyend="6379"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_c_d_c_manager_1af693526a92865b7382c6c2bfee3fdb99" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::replication::CDCManager::subscriptionCount</definition>
+        <argsstring>() const</argsstring>
+        <name>subscriptionCount</name>
+        <qualifiedname>themisdb::replication::CDCManager::subscriptionCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subs_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1592" column="12" bodyfile="src/replication/replication_manager.cpp" bodystart="6381" bodyend="6389"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_c_d_c_manager_1a258fbe68da730999eab65d2f715444f5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::CDCManager::onRoleChange</definition>
+        <argsstring>(ReplicationRole, ReplicationRole) override</argsstring>
+        <name>onRoleChange</name>
+        <qualifiedname>themisdb::replication::CDCManager::onRoleChange</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a2cdbbc2a8a075ed4a4285542d16b3c7a">onRoleChange</reimplements>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3" kindref="member">ReplicationRole</ref></type>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3" kindref="member">ReplicationRole</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1597" column="10" bodyfile="include/replication/replication_manager.h" bodystart="1597" bodyend="1597"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_c_d_c_manager_1ac6a147f77a26ada7bbcea1322c65f285" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::CDCManager::onLeaderElected</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>onLeaderElected</name>
+        <qualifiedname>themisdb::replication::CDCManager::onLeaderElected</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a3fcbfce08a82f5f74f1b060a5a6d082f">onLeaderElected</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1598" column="10" bodyfile="include/replication/replication_manager.h" bodystart="1598" bodyend="1598"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_c_d_c_manager_1aaffee5daaa2bb0e08b619336ce80f77f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::CDCManager::onReplicaAdded</definition>
+        <argsstring>(const ReplicaInfo &amp;) override</argsstring>
+        <name>onReplicaAdded</name>
+        <qualifiedname>themisdb::replication::CDCManager::onReplicaAdded</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a16aa55efb52c2495bf50b719e7497b43">onReplicaAdded</reimplements>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1599" column="10" bodyfile="include/replication/replication_manager.h" bodystart="1599" bodyend="1599"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_c_d_c_manager_1a19c0a90ea1dd12e3b5f99fec0bf76da8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::CDCManager::onReplicaRemoved</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>onReplicaRemoved</name>
+        <qualifiedname>themisdb::replication::CDCManager::onReplicaRemoved</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a4303b3ab155bb1c2df41f89069b02931">onReplicaRemoved</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1600" column="10" bodyfile="include/replication/replication_manager.h" bodystart="1600" bodyend="1600"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_c_d_c_manager_1aa1eb5ebafdd1572a464e3e370c7042c3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::CDCManager::onConflictDetected</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>onConflictDetected</name>
+        <qualifiedname>themisdb::replication::CDCManager::onConflictDetected</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a261c025241caa1597f4ae8cb0f20947f">onConflictDetected</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1601" column="10" bodyfile="include/replication/replication_manager.h" bodystart="1601" bodyend="1601"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_c_d_c_manager_1a315acb7516620f35412bdfe71c17aea7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::CDCManager::onReplicationLagWarning</definition>
+        <argsstring>(int64_t) override</argsstring>
+        <name>onReplicationLagWarning</name>
+        <qualifiedname>themisdb::replication::CDCManager::onReplicationLagWarning</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a5f00cb59d9e5f4286dbee3f8418c1375">onReplicationLagWarning</reimplements>
+        <param>
+          <type>int64_t</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1602" column="10" bodyfile="include/replication/replication_manager.h" bodystart="1602" bodyend="1602"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_c_d_c_manager_1abaa710656a2a6d8f6a0a5d7299b73e41" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::CDCManager::onReplicaHealthChanged</definition>
+        <argsstring>(const std::string &amp;, HealthStatus, HealthStatus) override</argsstring>
+        <name>onReplicaHealthChanged</name>
+        <qualifiedname>themisdb::replication::CDCManager::onReplicaHealthChanged</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1ace538bfc02cb257542fb2b11d55e7139">onReplicaHealthChanged</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1a22bb381941cf06c4c30110c4ba7f60aa" kindref="member">HealthStatus</ref></type>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1a22bb381941cf06c4c30110c4ba7f60aa" kindref="member">HealthStatus</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1603" column="10" bodyfile="include/replication/replication_manager.h" bodystart="1603" bodyend="1603"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_c_d_c_manager_1a09659f876d7317eeed953baf9ba21d53" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::CDCManager::onFailoverStarted</definition>
+        <argsstring>(const std::string &amp;, const std::string &amp;) override</argsstring>
+        <name>onFailoverStarted</name>
+        <qualifiedname>themisdb::replication::CDCManager::onFailoverStarted</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a03c09e34da59b2594d79810c33b2420d">onFailoverStarted</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1604" column="10" bodyfile="include/replication/replication_manager.h" bodystart="1604" bodyend="1604"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_c_d_c_manager_1aae85d59f0a5ee89daceab89cfc4a9aa5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::CDCManager::onFailoverCompleted</definition>
+        <argsstring>(const std::string &amp;, bool) override</argsstring>
+        <name>onFailoverCompleted</name>
+        <qualifiedname>themisdb::replication::CDCManager::onFailoverCompleted</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a68c566bb34bb71967ab672e492b4024f">onFailoverCompleted</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>bool</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1605" column="10" bodyfile="include/replication/replication_manager.h" bodystart="1605" bodyend="1605"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_c_d_c_manager_1ae817e6fa2fc083c0c73988d2e11a59b7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::CDCManager::onNetworkPartitionDetected</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;) override</argsstring>
+        <name>onNetworkPartitionDetected</name>
+        <qualifiedname>themisdb::replication::CDCManager::onNetworkPartitionDetected</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a1e9909fe6f6bc69a4fd284819647ff7c">onNetworkPartitionDetected</reimplements>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1606" column="10" bodyfile="include/replication/replication_manager.h" bodystart="1606" bodyend="1606"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_c_d_c_manager_1a8117a933d976f3ffce656edbcf6ad485" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::CDCManager::onWALEntryApplied</definition>
+        <argsstring>(const WALEntry &amp;entry) override</argsstring>
+        <name>onWALEntryApplied</name>
+        <qualifiedname>themisdb::replication::CDCManager::onWALEntryApplied</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1af5af59bfb9d4a5136514552f110de9c8">onWALEntryApplied</reimplements>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>On <ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> Applied. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), empty(), callback(), THEMIS_ERROR(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1609" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="6396" bodyend="6410"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemisdb_1_1replication_1_1_c_d_c_manager" kindref="compound">CDCManager</ref></para>
+<para>Captures every WAL entry that passes through the replication pipeline and delivers it to registered consumer callbacks. Consumers can filter by collection name or receive every change.</para>
+<para>Usage: auto cdc = std::make_shared&lt;CDCManager&gt;(); cdc-&gt;subscribe(&quot;users&quot;, [](const <ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry" kindref="compound">WALEntry</ref>&amp; e){ ... }); repl_mgr.addListener(cdc); </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themisdb::replication::CDCManager</label>
+        <link refid="classthemisdb_1_1replication_1_1_c_d_c_manager"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::replication::IReplicationListener</label>
+        <link refid="classthemisdb_1_1replication_1_1_i_replication_listener"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themisdb::replication::CDCManager</label>
+        <link refid="classthemisdb_1_1replication_1_1_c_d_c_manager"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::replication::IReplicationListener</label>
+        <link refid="classthemisdb_1_1replication_1_1_i_replication_listener"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/replication/replication_manager.h" line="1578" column="1" bodyfile="include/replication/replication_manager.h" bodystart="1578" bodyend="1621"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1_c_d_c_manager_1aa4d8facc35d492f3bf02f17d6cbf46ed" prot="public" virt="non-virtual"><scope>themisdb::replication::CDCManager</scope><name>CDCCallback</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_c_d_c_manager_1a8d99ac5d8202cfa5c4c62ea66ed1dc55" prot="public" virt="non-virtual"><scope>themisdb::replication::CDCManager</scope><name>CDCManager</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_c_d_c_manager_1a4841217930866c80d817fe1eee9dff75" prot="private" virt="non-virtual"><scope>themisdb::replication::CDCManager</scope><name>next_id_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_c_d_c_manager_1aa1eb5ebafdd1572a464e3e370c7042c3" prot="public" virt="virtual"><scope>themisdb::replication::CDCManager</scope><name>onConflictDetected</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_c_d_c_manager_1aae85d59f0a5ee89daceab89cfc4a9aa5" prot="public" virt="virtual"><scope>themisdb::replication::CDCManager</scope><name>onFailoverCompleted</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_c_d_c_manager_1a09659f876d7317eeed953baf9ba21d53" prot="public" virt="virtual"><scope>themisdb::replication::CDCManager</scope><name>onFailoverStarted</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_c_d_c_manager_1ac6a147f77a26ada7bbcea1322c65f285" prot="public" virt="virtual"><scope>themisdb::replication::CDCManager</scope><name>onLeaderElected</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_c_d_c_manager_1ae817e6fa2fc083c0c73988d2e11a59b7" prot="public" virt="virtual"><scope>themisdb::replication::CDCManager</scope><name>onNetworkPartitionDetected</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_c_d_c_manager_1aaffee5daaa2bb0e08b619336ce80f77f" prot="public" virt="virtual"><scope>themisdb::replication::CDCManager</scope><name>onReplicaAdded</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_c_d_c_manager_1abaa710656a2a6d8f6a0a5d7299b73e41" prot="public" virt="virtual"><scope>themisdb::replication::CDCManager</scope><name>onReplicaHealthChanged</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_c_d_c_manager_1a19c0a90ea1dd12e3b5f99fec0bf76da8" prot="public" virt="virtual"><scope>themisdb::replication::CDCManager</scope><name>onReplicaRemoved</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_c_d_c_manager_1a315acb7516620f35412bdfe71c17aea7" prot="public" virt="virtual"><scope>themisdb::replication::CDCManager</scope><name>onReplicationLagWarning</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_c_d_c_manager_1a258fbe68da730999eab65d2f715444f5" prot="public" virt="virtual"><scope>themisdb::replication::CDCManager</scope><name>onRoleChange</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_c_d_c_manager_1a8117a933d976f3ffce656edbcf6ad485" prot="public" virt="virtual"><scope>themisdb::replication::CDCManager</scope><name>onWALEntryApplied</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_c_d_c_manager_1ade1b11336ac8762594b1e5ac0c4e7b3f" prot="private" virt="non-virtual"><scope>themisdb::replication::CDCManager</scope><name>subs_mutex_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_c_d_c_manager_1a51846b559137375f8fdf70f4a29bf310" prot="public" virt="non-virtual"><scope>themisdb::replication::CDCManager</scope><name>subscribe</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_c_d_c_manager_1af693526a92865b7382c6c2bfee3fdb99" prot="public" virt="non-virtual"><scope>themisdb::replication::CDCManager</scope><name>subscriptionCount</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_c_d_c_manager_1a37a668c1c8af2d7c7c7b629356e3d19e" prot="private" virt="non-virtual"><scope>themisdb::replication::CDCManager</scope><name>subscriptions_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_c_d_c_manager_1ade02215fd0ee6f5c541207e20247a73d" prot="public" virt="non-virtual"><scope>themisdb::replication::CDCManager</scope><name>unsubscribe</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_i_replication_listener_1acb88cf6198e73097f327c58dbbe23d67" prot="public" virt="virtual"><scope>themisdb::replication::CDCManager</scope><name>~IReplicationListener</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

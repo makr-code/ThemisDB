@@ -1,0 +1,1231 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__onnx__clip__golden__embeddings__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_onnx_clip_golden_embeddings_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="onnx__clip__plugin_8h" local="yes">onnx_clip/onnx_clip_plugin.h</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">string</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">mutex</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>onnx_clip/onnx_clip_plugin.h</label>
+        <link refid="onnx__clip__plugin_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp</label>
+        <link refid="test__onnx__clip__golden__embeddings__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>algorithm</label>
+      </node>
+      <node id="11">
+        <label>atomic</label>
+      </node>
+      <node id="13">
+        <label>cmath</label>
+      </node>
+      <node id="12">
+        <label>condition_variable</label>
+      </node>
+      <node id="10">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="4">
+        <label>plugins/image_analysis_interface.h</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="15">
+        <label>thread</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_onnx_clip_golden_embeddings_test" prot="public">OnnxClipGoldenEmbeddingsTest</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="test__onnx__clip__golden__embeddings__focused_8cpp_1a2bf37d8e14fbf2873bb7cc29ad5c8335" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t kClipGoldenSeed</definition>
+        <argsstring></argsstring>
+        <name>kClipGoldenSeed</name>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Golden seed for deterministic embedding generation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" line="20" column="27" bodyfile="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="test__onnx__clip__golden__embeddings__focused_8cpp_1ada87649442aba43c261b57156c9e7653" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t kExpectedDimensionViTB32</definition>
+        <argsstring></argsstring>
+        <name>kExpectedDimensionViTB32</name>
+        <initializer>= 512</initializer>
+        <briefdescription>
+<para>Expected dimensions for ViT-B/32 model. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" line="23" column="25" bodyfile="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="test__onnx__clip__golden__embeddings__focused_8cpp_1a2cd8081337a5f9219954f404f74dadde" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t kExpectedDimensionViTL14</definition>
+        <argsstring></argsstring>
+        <name>kExpectedDimensionViTL14</name>
+        <initializer>= 768</initializer>
+        <briefdescription>
+<para>Expected dimensions for ViT-L/14 model. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" line="26" column="25" bodyfile="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="test__onnx__clip__golden__embeddings__focused_8cpp_1a4b0173f4ccc093be41d0628f4a8dcaa2" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t kDefaultImageSize</definition>
+        <argsstring></argsstring>
+        <name>kDefaultImageSize</name>
+        <initializer>= 256</initializer>
+        <briefdescription>
+<para>Default small image size for testing (in bytes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" line="29" column="25" bodyfile="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="test__onnx__clip__golden__embeddings__focused_8cpp_1ab99c3daa880a158c312d2714f383a131" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double kL2NormTolerance</definition>
+        <argsstring></argsstring>
+        <name>kL2NormTolerance</name>
+        <initializer>= 1e-4</initializer>
+        <briefdescription>
+<para>L2 norm tolerance for normalized embeddings (1.0 ± this value). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" line="32" column="25" bodyfile="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="test__onnx__clip__golden__embeddings__focused_8cpp_1a1913ecc1f7a8fb840bdbe242ef6d191e" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double kReproducibilityTolerance</definition>
+        <argsstring></argsstring>
+        <name>kReproducibilityTolerance</name>
+        <initializer>= 1e-6</initializer>
+        <briefdescription>
+<para>L2 distance tolerance for reproducibility tests. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" line="35" column="25" bodyfile="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__onnx__clip__golden__embeddings__focused_8cpp_1ada862aa7fc69bb71853cc10c4a29d606" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OnnxClipGoldenEmbeddingsTest, OCP_IT_01_InitializeViTB32Config)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_onnx_clip_golden_embeddings_test" kindref="compound">OnnxClipGoldenEmbeddingsTest</ref></type>
+        </param>
+        <param>
+          <type>OCP_IT_01_InitializeViTB32Config</type>
+        </param>
+        <briefdescription>
+<para>OCP-IT-01: Plugin initialization with ViT-B/32 config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that the ONNX CLIP plugin correctly initializes with ViT-B/32 configuration (512-dimensional embeddings).</para>
+<para>Acceptance Criteria:<itemizedlist>
+<listitem><para><ref refid="bench__onnx__clip__cpu_8cpp_1a039e985393e1b06de015f75d17081446" kindref="member">initialize()</ref> returns true</para>
+</listitem><listitem><para>isReady() returns true after initialization</para>
+</listitem><listitem><para>getBackend() returns CPU backend</para>
+</listitem><listitem><para>Model variant is set correctly </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" line="312" column="1" bodyfile="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" bodystart="312" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="function" id="test__onnx__clip__golden__embeddings__focused_8cpp_1ad289080f35f365234dde8c2dd11c0284" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OnnxClipGoldenEmbeddingsTest, OCP_IT_02_InitializeViTL14Config)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_onnx_clip_golden_embeddings_test" kindref="compound">OnnxClipGoldenEmbeddingsTest</ref></type>
+        </param>
+        <param>
+          <type>OCP_IT_02_InitializeViTL14Config</type>
+        </param>
+        <briefdescription>
+<para>OCP-IT-02: Plugin initialization with ViT-L/14 config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that the ONNX CLIP plugin correctly initializes with ViT-L/14 configuration (768-dimensional embeddings).</para>
+<para>Acceptance Criteria:<itemizedlist>
+<listitem><para><ref refid="bench__onnx__clip__cpu_8cpp_1a039e985393e1b06de015f75d17081446" kindref="member">initialize()</ref> returns true</para>
+</listitem><listitem><para>isReady() returns true after initialization</para>
+</listitem><listitem><para>getBackend() returns CPU backend</para>
+</listitem><listitem><para>Model variant is set correctly </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" line="342" column="1" bodyfile="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" bodystart="342" bodyend="358"/>
+      </memberdef>
+      <memberdef kind="function" id="test__onnx__clip__golden__embeddings__focused_8cpp_1a9eecd894017152759ae871daf7592fe0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OnnxClipGoldenEmbeddingsTest, OCP_IT_03_SingleImageEmbeddingDeterministic)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_onnx_clip_golden_embeddings_test" kindref="compound">OnnxClipGoldenEmbeddingsTest</ref></type>
+        </param>
+        <param>
+          <type>OCP_IT_03_SingleImageEmbeddingDeterministic</type>
+        </param>
+        <briefdescription>
+<para>OCP-IT-03: Single image embedding generation (deterministic seed). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that the plugin generates valid embeddings for a single image using a deterministic seed. The embedding should have the correct dimensionality and be L2-normalized.</para>
+<para>Acceptance Criteria:<itemizedlist>
+<listitem><para>generateEmbedding() returns success=true</para>
+</listitem><listitem><para>Embedding dimension matches expected (512 for ViT-B/32)</para>
+</listitem><listitem><para>Embedding is L2-normalized (norm ≈ 1.0)</para>
+</listitem><listitem><para>Embedding vector is not all zeros </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" line="377" column="1" bodyfile="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" bodystart="377" bodyend="409"/>
+      </memberdef>
+      <memberdef kind="function" id="test__onnx__clip__golden__embeddings__focused_8cpp_1af7a8e0968f87969f4e770deb1dcf9b23" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OnnxClipGoldenEmbeddingsTest, OCP_IT_04_BatchEmbeddingGenerationDeterministic)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_onnx_clip_golden_embeddings_test" kindref="compound">OnnxClipGoldenEmbeddingsTest</ref></type>
+        </param>
+        <param>
+          <type>OCP_IT_04_BatchEmbeddingGenerationDeterministic</type>
+        </param>
+        <briefdescription>
+<para>OCP-IT-04: Batch embedding generation (deterministic seed). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that the plugin generates valid embeddings for a batch of images using deterministic seeds. Each embedding should have the correct dimensionality and be L2-normalized.</para>
+<para>Acceptance Criteria:<itemizedlist>
+<listitem><para>generateEmbeddingBatch() returns one result per input image</para>
+</listitem><listitem><para>All results have success=true</para>
+</listitem><listitem><para>All embeddings have correct dimension (512 for ViT-B/32)</para>
+</listitem><listitem><para>All embeddings are L2-normalized </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" line="424" column="1" bodyfile="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" bodystart="424" bodyend="453"/>
+      </memberdef>
+      <memberdef kind="function" id="test__onnx__clip__golden__embeddings__focused_8cpp_1a0ebbe15857db8a7f638dc79bcecef9f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OnnxClipGoldenEmbeddingsTest, OCP_IT_05_L2NormalizationVerification)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_onnx_clip_golden_embeddings_test" kindref="compound">OnnxClipGoldenEmbeddingsTest</ref></type>
+        </param>
+        <param>
+          <type>OCP_IT_05_L2NormalizationVerification</type>
+        </param>
+        <briefdescription>
+<para>OCP-IT-05: L2 normalization verification. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that all generated embeddings are properly L2-normalized. Tests both ViT-B/32 (512-dim) and ViT-L/14 (768-dim) variants.</para>
+<para>Acceptance Criteria:<itemizedlist>
+<listitem><para>ViT-B/32 embedding norm ≈ 1.0 (within 1e-4)</para>
+</listitem><listitem><para>ViT-L/14 embedding norm ≈ 1.0 (within 1e-4)</para>
+</listitem><listitem><para>All batch embeddings are normalized </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" line="470" column="1" bodyfile="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" bodystart="470" bodyend="498"/>
+      </memberdef>
+      <memberdef kind="function" id="test__onnx__clip__golden__embeddings__focused_8cpp_1af7ca2bc60d91ed605255546398d78e1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OnnxClipGoldenEmbeddingsTest, OCP_IT_06_EmbeddingDimensionCorrectness)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_onnx_clip_golden_embeddings_test" kindref="compound">OnnxClipGoldenEmbeddingsTest</ref></type>
+        </param>
+        <param>
+          <type>OCP_IT_06_EmbeddingDimensionCorrectness</type>
+        </param>
+        <briefdescription>
+<para>OCP-IT-06: Embedding dimension correctness. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that embeddings have the correct dimensionality for their respective model variants (512 for ViT-B/32, 768 for ViT-L/14).</para>
+<para>Acceptance Criteria:<itemizedlist>
+<listitem><para>ViT-B/32: embedding.size() == 512 and dimension == 512</para>
+</listitem><listitem><para>ViT-L/14: embedding.size() == 768 and dimension == 768</para>
+</listitem><listitem><para>Batch embeddings preserve correct dimensionality </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" line="511" column="1" bodyfile="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" bodystart="511" bodyend="559"/>
+      </memberdef>
+      <memberdef kind="function" id="test__onnx__clip__golden__embeddings__focused_8cpp_1a9691dde0fb225c2a5ca7d6c32525feb7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OnnxClipGoldenEmbeddingsTest, OCP_IT_07_ReproducibilityIdenticalInputs)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_onnx_clip_golden_embeddings_test" kindref="compound">OnnxClipGoldenEmbeddingsTest</ref></type>
+        </param>
+        <param>
+          <type>OCP_IT_07_ReproducibilityIdenticalInputs</type>
+        </param>
+        <briefdescription>
+<para>OCP-IT-07: Reproducibility — identical inputs produce identical embeddings. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that the same input image produces identical embeddings across multiple calls. This ensures the implementation is deterministic.</para>
+<para>Acceptance Criteria:<itemizedlist>
+<listitem><para>Multiple calls with identical input produce L2 distance &lt; 1e-6</para>
+</listitem><listitem><para>Single-image and batch-of-1 produce identical results (L2 &lt; 1e-6)</para>
+</listitem><listitem><para>Reproducibility holds across different batches </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" line="576" column="1" bodyfile="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" bodystart="576" bodyend="617"/>
+      </memberdef>
+      <memberdef kind="function" id="test__onnx__clip__golden__embeddings__focused_8cpp_1a2d14b7cc856ce5ef877cf24b217f241e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OnnxClipGoldenEmbeddingsTest, OCP_IT_08_HealthCheckAndStatistics)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_onnx_clip_golden_embeddings_test" kindref="compound">OnnxClipGoldenEmbeddingsTest</ref></type>
+        </param>
+        <param>
+          <type>OCP_IT_08_HealthCheckAndStatistics</type>
+        </param>
+        <briefdescription>
+<para>OCP-IT-08: Health check and statistics retrieval. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that health checks work correctly and statistics can be retrieved successfully after initialization and embedding generation.</para>
+<para>Acceptance Criteria:<itemizedlist>
+<listitem><para>healthCheck() returns true after initialization</para>
+</listitem><listitem><para>healthCheck() returns false before initialization</para>
+</listitem><listitem><para>healthCheck() returns false after shutdown</para>
+</listitem><listitem><para>getStatistics() returns valid JSON with expected keys</para>
+</listitem><listitem><para>Statistics include call counts, backend info, and model info </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" line="632" column="1" bodyfile="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" bodystart="632" bodyend="668"/>
+      </memberdef>
+      <memberdef kind="function" id="test__onnx__clip__golden__embeddings__focused_8cpp_1ae2b9f08f1467b05d8d6a0ef71b2d70eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OnnxClipGoldenEmbeddingsTest, OCP_IT_09_BatchOf4VsSequentialEquivalence)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_onnx_clip_golden_embeddings_test" kindref="compound">OnnxClipGoldenEmbeddingsTest</ref></type>
+        </param>
+        <param>
+          <type>OCP_IT_09_BatchOf4VsSequentialEquivalence</type>
+        </param>
+        <briefdescription>
+<para>OCP-IT-09: Batch-of-4 vs 4 sequential calls produce identical embeddings. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that generating 4 images in a single batch call produces results identical to generating the same 4 images sequentially with individual calls. This ensures batch processing does not introduce numerical differences or affect the deterministic behavior.</para>
+<para>Acceptance Criteria:<itemizedlist>
+<listitem><para>Batch-of-4 results match sequential results (L2 distance &lt; 1e-6)</para>
+</listitem><listitem><para>All 4 embeddings have correct dimension</para>
+</listitem><listitem><para>All 4 embeddings are L2-normalized</para>
+</listitem><listitem><para>success flag is true for all results </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" line="688" column="1" bodyfile="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" bodystart="688" bodyend="725"/>
+      </memberdef>
+      <memberdef kind="function" id="test__onnx__clip__golden__embeddings__focused_8cpp_1ab9d72ffbfb0413cfd88835f595c12468" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OnnxClipGoldenEmbeddingsTest, OCP_IT_10_BatchOf16VsSequentialEquivalence)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_onnx_clip_golden_embeddings_test" kindref="compound">OnnxClipGoldenEmbeddingsTest</ref></type>
+        </param>
+        <param>
+          <type>OCP_IT_10_BatchOf16VsSequentialEquivalence</type>
+        </param>
+        <briefdescription>
+<para>OCP-IT-10: Batch-of-16 vs 16 sequential calls produce identical embeddings. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that generating 16 images in a single batch call produces results identical to generating the same 16 images sequentially with individual calls. This tests batch processing correctness at a larger scale.</para>
+<para>Acceptance Criteria:<itemizedlist>
+<listitem><para>Batch-of-16 results match sequential results (L2 distance &lt; 1e-6)</para>
+</listitem><listitem><para>All 16 embeddings have correct dimension</para>
+</listitem><listitem><para>All 16 embeddings are L2-normalized</para>
+</listitem><listitem><para>success flag is true for all results </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" line="740" column="1" bodyfile="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" bodystart="740" bodyend="776"/>
+      </memberdef>
+      <memberdef kind="function" id="test__onnx__clip__golden__embeddings__focused_8cpp_1ac2577e1d17b9ae9867c4350eb4148ce1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OnnxClipGoldenEmbeddingsTest, OCP_IT_11_CrossRunReproducibilityIndependentInstances)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_onnx_clip_golden_embeddings_test" kindref="compound">OnnxClipGoldenEmbeddingsTest</ref></type>
+        </param>
+        <param>
+          <type>OCP_IT_11_CrossRunReproducibilityIndependentInstances</type>
+        </param>
+        <briefdescription>
+<para>OCP-IT-11: Cross-run reproducibility with independent plugin instances. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that the same embedding can be generated consistently across multiple independent plugin instances. This tests that the deterministic behavior is not dependent on plugin state persistence.</para>
+<para>Acceptance Criteria:<itemizedlist>
+<listitem><para>Create 3 independent plugin instances</para>
+</listitem><listitem><para>All 3 generate identical embeddings for the same input (L2 distance &lt; 1e-6)</para>
+</listitem><listitem><para>All pairwise comparisons (1-2, 2-3, 1-3) show L2 &lt; 1e-6</para>
+</listitem><listitem><para>Batch results are also identical across instances </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" line="795" column="1" bodyfile="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" bodystart="795" bodyend="896"/>
+      </memberdef>
+      <memberdef kind="function" id="test__onnx__clip__golden__embeddings__focused_8cpp_1a20b25ffb6d7c4eb4462cc98616bc92ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(OnnxClipGoldenEmbeddingsTest, OCP_IT_12_ConcurrentInferenceSafety)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_onnx_clip_golden_embeddings_test" kindref="compound">OnnxClipGoldenEmbeddingsTest</ref></type>
+        </param>
+        <param>
+          <type>OCP_IT_12_ConcurrentInferenceSafety</type>
+        </param>
+        <briefdescription>
+<para>OCP-IT-12: Concurrent inference safety with 4 threads. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that concurrent inference operations on the same plugin instance do not introduce race conditions, data corruption, or segmentation faults. Each thread generates embeddings independently, and all results must be valid and properly normalized.</para>
+<para>Acceptance Criteria:<itemizedlist>
+<listitem><para>4 concurrent threads all complete without errors</para>
+</listitem><listitem><para>All generated embeddings are valid (success=true)</para>
+</listitem><listitem><para>All embeddings are L2-normalized</para>
+</listitem><listitem><para>No race conditions detected</para>
+</listitem><listitem><para>No segmentation faults or undefined behavior </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" line="917" column="1" bodyfile="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp" bodystart="917" bodyend="930"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="onnx__clip__plugin_8h" kindref="compound">onnx_clip/onnx_clip_plugin.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1image" kindref="compound">themis::plugins::image</ref>;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Constants<sp/>and<sp/>Golden<sp/>Data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/>kClipGoldenSeed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kExpectedDimensionViTB32<sp/>=<sp/>512;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kExpectedDimensionViTL14<sp/>=<sp/>768;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kDefaultImageSize<sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>kL2NormTolerance<sp/>=<sp/>1e-4;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>kReproducibilityTolerance<sp/>=<sp/>1e-6;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="class_onnx_clip_golden_embeddings_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_onnx_clip_golden_embeddings_test" kindref="compound">OnnxClipGoldenEmbeddingsTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="class_onnx_clip_golden_embeddings_test_1afba829540f812034fa1904c695a70b8e" kindref="member">makeImageBytes</ref>(</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size<sp/>=<sp/>kDefaultImageSize,</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>seed<sp/>=<sp/>kClipGoldenSeed</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>data(size);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref><sp/>=<sp/>seed;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>size;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LCG:<sp/>x_{n+1}<sp/>=<sp/>(a<sp/>*<sp/>x_n<sp/>+<sp/>c)<sp/>mod<sp/>2^32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref><sp/>=<sp/>(<ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref><sp/>*<sp/>1664525u<sp/>+<sp/>1013904223u)<sp/>&amp;<sp/>0xffffffffu;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>data[i]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">((<ref refid="bench__onnx__clip__cpu_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref><sp/>&gt;&gt;<sp/>16)<sp/>&amp;<sp/>0xff);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>data;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_onnx_clip_golden_embeddings_test_1a73e57bb3fd67f0e8fd0f15412bff23c0" kindref="member">computeL2Norm</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>embedding)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>l2_squared<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>v<sp/>:<sp/>embedding)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>d<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(v);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>l2_squared<sp/>+=<sp/>d<sp/>*<sp/>d;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::sqrt(l2_squared);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_onnx_clip_golden_embeddings_test_1a531b08cf5e0136900ee96e4c3ecc7534" kindref="member">computeL2Distance</ref>(</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>a,</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>b</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(a.size()<sp/>!=<sp/>b.size())<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>-1.0;<sp/></highlight><highlight class="comment">//<sp/>Invalid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>dist_squared<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>a.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>d<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(a[i])<sp/>-<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(b[i]);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dist_squared<sp/>+=<sp/>d<sp/>*<sp/>d;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::sqrt(dist_squared);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_onnx_clip_golden_embeddings_test_1adc9def8c499c70b109957c30ff272f4e" kindref="member">isL2Normalized</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>embedding)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>norm<sp/>=<sp/><ref refid="class_onnx_clip_golden_embeddings_test_1a73e57bb3fd67f0e8fd0f15412bff23c0" kindref="member">computeL2Norm</ref>(embedding);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::abs(norm<sp/>-<sp/>1.0)<sp/>&lt;<sp/>kL2NormTolerance;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>PluginConfig<sp/><ref refid="class_onnx_clip_golden_embeddings_test_1a5decc0bfbd0a1d194126e58337d03f1b" kindref="member">makeViTB32Config</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>settings;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>settings[</highlight><highlight class="stringliteral">&quot;model&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;variant&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ViT-B/32&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>settings[</highlight><highlight class="stringliteral">&quot;model&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;embedding_dim&quot;</highlight><highlight class="normal">]<sp/>=<sp/>kExpectedDimensionViTB32;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>PluginConfig(settings);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>PluginConfig<sp/><ref refid="class_onnx_clip_golden_embeddings_test_1a9aa02933a8b4889cdd406b674ab7ad36" kindref="member">makeViTL14Config</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>settings;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>settings[</highlight><highlight class="stringliteral">&quot;model&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;variant&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ViT-L/14&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>settings[</highlight><highlight class="stringliteral">&quot;model&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;embedding_dim&quot;</highlight><highlight class="normal">]<sp/>=<sp/>kExpectedDimensionViTL14;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>PluginConfig(settings);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_onnx_clip_golden_embeddings_test_1a5e8ab3b09eb3772539ed56d939ed98ef" kindref="member">compareBatchVsSequential</ref>(</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin" kindref="compound">ONNXClipPlugin</ref>&amp;<sp/>plugin,</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint32_t&gt;&amp;<sp/>imageSeeds,</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>tolerance<sp/>=<sp/>kReproducibilityTolerance</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Generate<sp/>batch<sp/>results</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;uint8_t&gt;&gt;<sp/>images;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(uint32_t<sp/>seed<sp/>:<sp/>imageSeeds)<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>images.push_back(<ref refid="class_onnx_clip_golden_embeddings_test_1afba829540f812034fa1904c695a70b8e" kindref="member">makeImageBytes</ref>(kDefaultImageSize,<sp/>seed));</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>batchResults<sp/>=<sp/>plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a79faf1a6557b341fb0add52c9a596a98" kindref="member">generateEmbeddingBatch</ref>(images);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Generate<sp/>sequential<sp/>results</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;EmbeddingResult&gt;<sp/>sequentialResults<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(uint32_t<sp/>seed<sp/>:<sp/>imageSeeds)<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>imageBytes<sp/>=<sp/><ref refid="class_onnx_clip_golden_embeddings_test_1afba829540f812034fa1904c695a70b8e" kindref="member">makeImageBytes</ref>(kDefaultImageSize,<sp/>seed);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sequentialResults.push_back(plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a057c3335fdfc139110c4ab374161f4f4" kindref="member">generateEmbedding</ref>(imageBytes));</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compare<sp/>results</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(batchResults.size()<sp/>!=<sp/>sequentialResults.size())<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>batchResults.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>success<sp/>status</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(batchResults[i].success<sp/>!=<sp/>sequentialResults[i].success)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>dimensions<sp/>match</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(batchResults[i].embedding.size()<sp/>!=<sp/>sequentialResults[i].embedding.size())<sp/>{</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>L2<sp/>distance<sp/>is<sp/>within<sp/>tolerance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>distance<sp/>=<sp/><ref refid="class_onnx_clip_golden_embeddings_test_1a531b08cf5e0136900ee96e4c3ecc7534" kindref="member">computeL2Distance</ref>(</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>batchResults[i].embedding,</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sequentialResults[i].embedding</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(distance<sp/>&gt;=<sp/>tolerance)<sp/>{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_onnx_clip_golden_embeddings_test_1af18547c946eccc3eaf79f1981ecd3ec8" kindref="member">verifyConcurrentInference</ref>(</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin" kindref="compound">ONNXClipPlugin</ref>&amp;<sp/>plugin,</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>threadCount<sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>imagesPerThread<sp/>=<sp/>2</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">ThreadResult<sp/>{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;EmbeddingResult&gt;<sp/>embeddings;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>success<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>error;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;ThreadResult&gt;<sp/>results(threadCount);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::mutex<sp/>resultsMutex<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lambda<sp/>to<sp/>run<sp/>concurrent<sp/>inference</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>workerThread<sp/>=<sp/>[&amp;,<sp/></highlight><highlight class="keyword">this</highlight><highlight class="normal">](</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>threadId)<sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ThreadResult&amp;<sp/>result<sp/>=<sp/>results[threadId];</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>imagesPerThread;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>seed<sp/>=<sp/>kClipGoldenSeed<sp/>+<sp/>(threadId<sp/>*<sp/>100)<sp/>+<sp/>i;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>imageBytes<sp/>=<sp/><ref refid="class_onnx_clip_golden_embeddings_test_1afba829540f812034fa1904c695a70b8e" kindref="member">makeImageBytes</ref>(kDefaultImageSize,<sp/>seed);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>embedding<sp/>=<sp/>plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a057c3335fdfc139110c4ab374161f4f4" kindref="member">generateEmbedding</ref>(imageBytes);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validate<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!embedding.success<sp/>||<sp/>embedding.embedding.empty())<sp/>{</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.error<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>generate<sp/>embedding&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validate<sp/>normalization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="class_onnx_clip_golden_embeddings_test_1adc9def8c499c70b109957c30ff272f4e" kindref="member">isL2Normalized</ref>(embedding.embedding))<sp/>{</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.error<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Embedding<sp/>not<sp/>properly<sp/>normalized&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.embeddings.push_back(embedding);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.success<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.error<sp/>=<sp/>std::string(</highlight><highlight class="stringliteral">&quot;Exception:<sp/>&quot;</highlight><highlight class="normal">)<sp/>+<sp/>e.what();</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Spawn<sp/>threads</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>threadCount;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back(workerThread,<sp/>i);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wait<sp/>for<sp/>all<sp/>threads</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>t.join();</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>all<sp/>threads<sp/>succeeded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>threadCount;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!results[i].success)<sp/>{</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(results[i].embeddings.size()<sp/>!=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(imagesPerThread))<sp/>{</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="294"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OCP-IT-01..02<sp/>—<sp/>Plugin<sp/>Initialization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><ref refid="test__onnx__clip__golden__embeddings__focused_8cpp_1ada862aa7fc69bb71853cc10c4a29d606" kindref="member">TEST_F</ref>(<ref refid="class_onnx_clip_golden_embeddings_test" kindref="compound">OnnxClipGoldenEmbeddingsTest</ref>,<sp/>OCP_IT_01_InitializeViTB32Config)<sp/>{</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin" kindref="compound">ONNXClipPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>makeViTB32Config();</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a9dc045f138314232c587ecde122b4a06" kindref="member">initialize</ref>(config,<sp/>BackendType::CPU))</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-01:<sp/>ViT-B/32<sp/>initialization<sp/>must<sp/>succeed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a6ec89d6dc14e1d6eb0c0367d25501231" kindref="member">isReady</ref>())</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-01:<sp/>Plugin<sp/>must<sp/>be<sp/>ready<sp/>after<sp/>initialization&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(BackendType::CPU,<sp/>plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1adddb25ff94994e6acc8c915b2a7306b9" kindref="member">getBackend</ref>())</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-01:<sp/>Backend<sp/>must<sp/>be<sp/>CPU&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>health<sp/>check<sp/>passes<sp/>after<sp/>initialization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1ac35848b861534e5c434a235a279943c4" kindref="member">healthCheck</ref>())</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-01:<sp/>Health<sp/>check<sp/>must<sp/>pass<sp/>after<sp/>initialization&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="328"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><ref refid="test__onnx__clip__golden__embeddings__focused_8cpp_1ada862aa7fc69bb71853cc10c4a29d606" kindref="member">TEST_F</ref>(<ref refid="class_onnx_clip_golden_embeddings_test" kindref="compound">OnnxClipGoldenEmbeddingsTest</ref>,<sp/>OCP_IT_02_InitializeViTL14Config)<sp/>{</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin" kindref="compound">ONNXClipPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>makeViTL14Config();</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a9dc045f138314232c587ecde122b4a06" kindref="member">initialize</ref>(config,<sp/>BackendType::CPU))</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-02:<sp/>ViT-L/14<sp/>initialization<sp/>must<sp/>succeed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a6ec89d6dc14e1d6eb0c0367d25501231" kindref="member">isReady</ref>())</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-02:<sp/>Plugin<sp/>must<sp/>be<sp/>ready<sp/>after<sp/>initialization&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(BackendType::CPU,<sp/>plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1adddb25ff94994e6acc8c915b2a7306b9" kindref="member">getBackend</ref>())</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-02:<sp/>Backend<sp/>must<sp/>be<sp/>CPU&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>health<sp/>check<sp/>passes<sp/>after<sp/>initialization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1ac35848b861534e5c434a235a279943c4" kindref="member">healthCheck</ref>())</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-02:<sp/>Health<sp/>check<sp/>must<sp/>pass<sp/>after<sp/>initialization&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="358"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OCP-IT-03..04<sp/>—<sp/>Deterministic<sp/>Embedding<sp/>Generation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><ref refid="test__onnx__clip__golden__embeddings__focused_8cpp_1ada862aa7fc69bb71853cc10c4a29d606" kindref="member">TEST_F</ref>(<ref refid="class_onnx_clip_golden_embeddings_test" kindref="compound">OnnxClipGoldenEmbeddingsTest</ref>,<sp/>OCP_IT_03_SingleImageEmbeddingDeterministic)<sp/>{</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin" kindref="compound">ONNXClipPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>makeViTB32Config();</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a9dc045f138314232c587ecde122b4a06" kindref="member">initialize</ref>(config,<sp/>BackendType::CPU));</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>imageBytes<sp/>=<sp/>makeImageBytes(kDefaultImageSize,<sp/>kClipGoldenSeed);</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a057c3335fdfc139110c4ab374161f4f4" kindref="member">generateEmbedding</ref>(imageBytes);</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.success)</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-03:<sp/>Embedding<sp/>generation<sp/>must<sp/>succeed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"></highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(kExpectedDimensionViTB32,<sp/>result.dimension)</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-03:<sp/>Embedding<sp/>dimension<sp/>must<sp/>be<sp/>512<sp/>for<sp/>ViT-B/32&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"></highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(kExpectedDimensionViTB32,<sp/>result.embedding.size())</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-03:<sp/>Embedding<sp/>vector<sp/>size<sp/>must<sp/>match<sp/>dimension&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"></highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>embedding<sp/>is<sp/>not<sp/>all<sp/>zeros</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>hasNonZero<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>v<sp/>:<sp/>result.embedding)<sp/>{</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(v<sp/>!=<sp/>0.0f)<sp/>{</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hasNonZero<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasNonZero)</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-03:<sp/>Embedding<sp/>must<sp/>not<sp/>be<sp/>all<sp/>zeros&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"></highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>L2<sp/>normalization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(isL2Normalized(result.embedding))</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-03:<sp/>Embedding<sp/>must<sp/>be<sp/>L2-normalized&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="409"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"></highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><ref refid="test__onnx__clip__golden__embeddings__focused_8cpp_1ada862aa7fc69bb71853cc10c4a29d606" kindref="member">TEST_F</ref>(<ref refid="class_onnx_clip_golden_embeddings_test" kindref="compound">OnnxClipGoldenEmbeddingsTest</ref>,<sp/>OCP_IT_04_BatchEmbeddingGenerationDeterministic)<sp/>{</highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin" kindref="compound">ONNXClipPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>makeViTB32Config();</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a9dc045f138314232c587ecde122b4a06" kindref="member">initialize</ref>(config,<sp/>BackendType::CPU));</highlight></codeline>
+<codeline lineno="428"><highlight class="normal"></highlight></codeline>
+<codeline lineno="429"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Generate<sp/>batch<sp/>of<sp/>4<sp/>images<sp/>with<sp/>different<sp/>seeds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="430"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;uint8_t&gt;&gt;<sp/>batch;</highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>4;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>batch.push_back(makeImageBytes(kDefaultImageSize,<sp/>kClipGoldenSeed<sp/>+<sp/>i));</highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="434"><highlight class="normal"></highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a79faf1a6557b341fb0add52c9a596a98" kindref="member">generateEmbeddingBatch</ref>(batch);</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"></highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(4u,<sp/>results.size())</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-04:<sp/>Must<sp/>return<sp/>one<sp/>result<sp/>per<sp/>input<sp/>image&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="439"><highlight class="normal"></highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>results.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(results[i].success)</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-04:<sp/>Embedding<sp/>generation<sp/>must<sp/>succeed<sp/>for<sp/>image<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i;</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"></highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(kExpectedDimensionViTB32,<sp/>results[i].dimension)</highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-04:<sp/>Embedding<sp/>dimension<sp/>must<sp/>be<sp/>512<sp/>for<sp/>image<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i;</highlight></codeline>
+<codeline lineno="446"><highlight class="normal"></highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(kExpectedDimensionViTB32,<sp/>results[i].embedding.size())</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-04:<sp/>Embedding<sp/>vector<sp/>size<sp/>must<sp/>match<sp/>dimension<sp/>for<sp/>image<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i;</highlight></codeline>
+<codeline lineno="449"><highlight class="normal"></highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(isL2Normalized(results[i].embedding))</highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-04:<sp/>Embedding<sp/>must<sp/>be<sp/>L2-normalized<sp/>for<sp/>image<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i;</highlight></codeline>
+<codeline lineno="452"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="453"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="454"><highlight class="normal"></highlight></codeline>
+<codeline lineno="455"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="456"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OCP-IT-05..06<sp/>—<sp/>Embedding<sp/>Quality<sp/>Verification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="457"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="458"><highlight class="normal"></highlight></codeline>
+<codeline lineno="470"><highlight class="normal"><ref refid="test__onnx__clip__golden__embeddings__focused_8cpp_1ada862aa7fc69bb71853cc10c4a29d606" kindref="member">TEST_F</ref>(<ref refid="class_onnx_clip_golden_embeddings_test" kindref="compound">OnnxClipGoldenEmbeddingsTest</ref>,<sp/>OCP_IT_05_L2NormalizationVerification)<sp/>{</highlight></codeline>
+<codeline lineno="471"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>ViT-B/32<sp/>normalization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="472"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="473"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin" kindref="compound">ONNXClipPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="474"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>makeViTB32Config();</highlight></codeline>
+<codeline lineno="475"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a9dc045f138314232c587ecde122b4a06" kindref="member">initialize</ref>(config,<sp/>BackendType::CPU));</highlight></codeline>
+<codeline lineno="476"><highlight class="normal"></highlight></codeline>
+<codeline lineno="477"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a057c3335fdfc139110c4ab374161f4f4" kindref="member">generateEmbedding</ref>(makeImageBytes(kDefaultImageSize,<sp/>kClipGoldenSeed));</highlight></codeline>
+<codeline lineno="478"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.success);</highlight></codeline>
+<codeline lineno="479"><highlight class="normal"></highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>norm<sp/>=<sp/>computeL2Norm(result.embedding);</highlight></codeline>
+<codeline lineno="481"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NEAR(1.0,<sp/>norm,<sp/>kL2NormTolerance)</highlight></codeline>
+<codeline lineno="482"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-05:<sp/>ViT-B/32<sp/>embedding<sp/>norm<sp/>should<sp/>be<sp/>approximately<sp/>1.0,<sp/>got<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>norm;</highlight></codeline>
+<codeline lineno="483"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="484"><highlight class="normal"></highlight></codeline>
+<codeline lineno="485"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>ViT-L/14<sp/>normalization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="486"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="487"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin" kindref="compound">ONNXClipPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="488"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>makeViTL14Config();</highlight></codeline>
+<codeline lineno="489"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a9dc045f138314232c587ecde122b4a06" kindref="member">initialize</ref>(config,<sp/>BackendType::CPU));</highlight></codeline>
+<codeline lineno="490"><highlight class="normal"></highlight></codeline>
+<codeline lineno="491"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a057c3335fdfc139110c4ab374161f4f4" kindref="member">generateEmbedding</ref>(makeImageBytes(kDefaultImageSize,<sp/>kClipGoldenSeed<sp/>+<sp/>1));</highlight></codeline>
+<codeline lineno="492"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.success);</highlight></codeline>
+<codeline lineno="493"><highlight class="normal"></highlight></codeline>
+<codeline lineno="494"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>norm<sp/>=<sp/>computeL2Norm(result.embedding);</highlight></codeline>
+<codeline lineno="495"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NEAR(1.0,<sp/>norm,<sp/>kL2NormTolerance)</highlight></codeline>
+<codeline lineno="496"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-05:<sp/>ViT-L/14<sp/>embedding<sp/>norm<sp/>should<sp/>be<sp/>approximately<sp/>1.0,<sp/>got<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>norm;</highlight></codeline>
+<codeline lineno="497"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="498"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="499"><highlight class="normal"></highlight></codeline>
+<codeline lineno="511"><highlight class="normal"><ref refid="test__onnx__clip__golden__embeddings__focused_8cpp_1ada862aa7fc69bb71853cc10c4a29d606" kindref="member">TEST_F</ref>(<ref refid="class_onnx_clip_golden_embeddings_test" kindref="compound">OnnxClipGoldenEmbeddingsTest</ref>,<sp/>OCP_IT_06_EmbeddingDimensionCorrectness)<sp/>{</highlight></codeline>
+<codeline lineno="512"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>ViT-B/32<sp/>dimension</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="513"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="514"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin" kindref="compound">ONNXClipPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="515"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>makeViTB32Config();</highlight></codeline>
+<codeline lineno="516"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a9dc045f138314232c587ecde122b4a06" kindref="member">initialize</ref>(config,<sp/>BackendType::CPU));</highlight></codeline>
+<codeline lineno="517"><highlight class="normal"></highlight></codeline>
+<codeline lineno="518"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a057c3335fdfc139110c4ab374161f4f4" kindref="member">generateEmbedding</ref>(makeImageBytes());</highlight></codeline>
+<codeline lineno="519"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.success);</highlight></codeline>
+<codeline lineno="520"><highlight class="normal"></highlight></codeline>
+<codeline lineno="521"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(kExpectedDimensionViTB32,<sp/>result.dimension)</highlight></codeline>
+<codeline lineno="522"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-06:<sp/>ViT-B/32<sp/>dimension<sp/>field<sp/>must<sp/>be<sp/>512&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="523"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(kExpectedDimensionViTB32,<sp/>result.embedding.size())</highlight></codeline>
+<codeline lineno="524"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-06:<sp/>ViT-B/32<sp/>embedding.size()<sp/>must<sp/>be<sp/>512&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="525"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="526"><highlight class="normal"></highlight></codeline>
+<codeline lineno="527"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>ViT-L/14<sp/>dimension</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="528"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="529"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin" kindref="compound">ONNXClipPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="530"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>makeViTL14Config();</highlight></codeline>
+<codeline lineno="531"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a9dc045f138314232c587ecde122b4a06" kindref="member">initialize</ref>(config,<sp/>BackendType::CPU));</highlight></codeline>
+<codeline lineno="532"><highlight class="normal"></highlight></codeline>
+<codeline lineno="533"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a057c3335fdfc139110c4ab374161f4f4" kindref="member">generateEmbedding</ref>(makeImageBytes());</highlight></codeline>
+<codeline lineno="534"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.success);</highlight></codeline>
+<codeline lineno="535"><highlight class="normal"></highlight></codeline>
+<codeline lineno="536"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(kExpectedDimensionViTL14,<sp/>result.dimension)</highlight></codeline>
+<codeline lineno="537"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-06:<sp/>ViT-L/14<sp/>dimension<sp/>field<sp/>must<sp/>be<sp/>768&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="538"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(kExpectedDimensionViTL14,<sp/>result.embedding.size())</highlight></codeline>
+<codeline lineno="539"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-06:<sp/>ViT-L/14<sp/>embedding.size()<sp/>must<sp/>be<sp/>768&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="540"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="541"><highlight class="normal"></highlight></codeline>
+<codeline lineno="542"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>batch<sp/>preserves<sp/>dimensions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="543"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="544"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin" kindref="compound">ONNXClipPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="545"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>makeViTB32Config();</highlight></codeline>
+<codeline lineno="546"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a9dc045f138314232c587ecde122b4a06" kindref="member">initialize</ref>(config,<sp/>BackendType::CPU));</highlight></codeline>
+<codeline lineno="547"><highlight class="normal"></highlight></codeline>
+<codeline lineno="548"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;uint8_t&gt;&gt;<sp/>batch<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="549"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeImageBytes(256,<sp/>kClipGoldenSeed),</highlight></codeline>
+<codeline lineno="550"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeImageBytes(256,<sp/>kClipGoldenSeed<sp/>+<sp/>1)</highlight></codeline>
+<codeline lineno="551"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="552"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a79faf1a6557b341fb0add52c9a596a98" kindref="member">generateEmbeddingBatch</ref>(batch);</highlight></codeline>
+<codeline lineno="553"><highlight class="normal"></highlight></codeline>
+<codeline lineno="554"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>result<sp/>:<sp/>results)<sp/>{</highlight></codeline>
+<codeline lineno="555"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(kExpectedDimensionViTB32,<sp/>result.dimension)</highlight></codeline>
+<codeline lineno="556"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-06:<sp/>Batch<sp/>embeddings<sp/>must<sp/>preserve<sp/>ViT-B/32<sp/>dimension<sp/>(512)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="557"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="558"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="559"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="560"><highlight class="normal"></highlight></codeline>
+<codeline lineno="561"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="562"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OCP-IT-07..08<sp/>—<sp/>Reproducibility<sp/>and<sp/>Health</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="563"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="564"><highlight class="normal"></highlight></codeline>
+<codeline lineno="576"><highlight class="normal"><ref refid="test__onnx__clip__golden__embeddings__focused_8cpp_1ada862aa7fc69bb71853cc10c4a29d606" kindref="member">TEST_F</ref>(<ref refid="class_onnx_clip_golden_embeddings_test" kindref="compound">OnnxClipGoldenEmbeddingsTest</ref>,<sp/>OCP_IT_07_ReproducibilityIdenticalInputs)<sp/>{</highlight></codeline>
+<codeline lineno="577"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin" kindref="compound">ONNXClipPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="578"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>makeViTB32Config();</highlight></codeline>
+<codeline lineno="579"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a9dc045f138314232c587ecde122b4a06" kindref="member">initialize</ref>(config,<sp/>BackendType::CPU));</highlight></codeline>
+<codeline lineno="580"><highlight class="normal"></highlight></codeline>
+<codeline lineno="581"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>imageBytes<sp/>=<sp/>makeImageBytes(kDefaultImageSize,<sp/>kClipGoldenSeed);</highlight></codeline>
+<codeline lineno="582"><highlight class="normal"></highlight></codeline>
+<codeline lineno="583"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>1:<sp/>Multiple<sp/>calls<sp/>with<sp/>identical<sp/>input</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="584"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="585"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result1<sp/>=<sp/>plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a057c3335fdfc139110c4ab374161f4f4" kindref="member">generateEmbedding</ref>(imageBytes);</highlight></codeline>
+<codeline lineno="586"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(result1.success);</highlight></codeline>
+<codeline lineno="587"><highlight class="normal"></highlight></codeline>
+<codeline lineno="588"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result2<sp/>=<sp/>plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a057c3335fdfc139110c4ab374161f4f4" kindref="member">generateEmbedding</ref>(imageBytes);</highlight></codeline>
+<codeline lineno="589"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(result2.success);</highlight></codeline>
+<codeline lineno="590"><highlight class="normal"></highlight></codeline>
+<codeline lineno="591"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_EQ(result1.embedding.size(),<sp/>result2.embedding.size());</highlight></codeline>
+<codeline lineno="592"><highlight class="normal"></highlight></codeline>
+<codeline lineno="593"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>distance<sp/>=<sp/>computeL2Distance(result1.embedding,<sp/>result2.embedding);</highlight></codeline>
+<codeline lineno="594"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LT(distance,<sp/>kReproducibilityTolerance)</highlight></codeline>
+<codeline lineno="595"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-07:<sp/>Repeated<sp/>calls<sp/>must<sp/>produce<sp/>identical<sp/>embeddings<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="596"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;(L2<sp/>distance<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>distance<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>must<sp/>be<sp/>&lt;<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>kReproducibilityTolerance<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="597"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="598"><highlight class="normal"></highlight></codeline>
+<codeline lineno="599"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>2:<sp/>Single-image<sp/>vs<sp/>batch-of-1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="600"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="601"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>single<sp/>=<sp/>plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a057c3335fdfc139110c4ab374161f4f4" kindref="member">generateEmbedding</ref>(imageBytes);</highlight></codeline>
+<codeline lineno="602"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(single.success);</highlight></codeline>
+<codeline lineno="603"><highlight class="normal"></highlight></codeline>
+<codeline lineno="604"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;uint8_t&gt;&gt;<sp/>batch<sp/>=<sp/>{imageBytes};</highlight></codeline>
+<codeline lineno="605"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>batchResults<sp/>=<sp/>plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a79faf1a6557b341fb0add52c9a596a98" kindref="member">generateEmbeddingBatch</ref>(batch);</highlight></codeline>
+<codeline lineno="606"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_EQ(1u,<sp/>batchResults.size());</highlight></codeline>
+<codeline lineno="607"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>batchSingle<sp/>=<sp/>batchResults[0];</highlight></codeline>
+<codeline lineno="608"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(batchSingle.success);</highlight></codeline>
+<codeline lineno="609"><highlight class="normal"></highlight></codeline>
+<codeline lineno="610"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_EQ(single.embedding.size(),<sp/>batchSingle.embedding.size());</highlight></codeline>
+<codeline lineno="611"><highlight class="normal"></highlight></codeline>
+<codeline lineno="612"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>distance<sp/>=<sp/>computeL2Distance(single.embedding,<sp/>batchSingle.embedding);</highlight></codeline>
+<codeline lineno="613"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LT(distance,<sp/>kReproducibilityTolerance)</highlight></codeline>
+<codeline lineno="614"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-07:<sp/>Single-image<sp/>and<sp/>batch-of-1<sp/>must<sp/>be<sp/>identical<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="615"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;(L2<sp/>distance<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>distance<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>must<sp/>be<sp/>&lt;<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>kReproducibilityTolerance<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="616"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="617"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="618"><highlight class="normal"></highlight></codeline>
+<codeline lineno="632"><highlight class="normal"><ref refid="test__onnx__clip__golden__embeddings__focused_8cpp_1ada862aa7fc69bb71853cc10c4a29d606" kindref="member">TEST_F</ref>(<ref refid="class_onnx_clip_golden_embeddings_test" kindref="compound">OnnxClipGoldenEmbeddingsTest</ref>,<sp/>OCP_IT_08_HealthCheckAndStatistics)<sp/>{</highlight></codeline>
+<codeline lineno="633"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin" kindref="compound">ONNXClipPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="634"><highlight class="normal"></highlight></codeline>
+<codeline lineno="635"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Before<sp/>initialization:<sp/>health<sp/>check<sp/>should<sp/>fail</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="636"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1ac35848b861534e5c434a235a279943c4" kindref="member">healthCheck</ref>())</highlight></codeline>
+<codeline lineno="637"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-08:<sp/>Health<sp/>check<sp/>must<sp/>fail<sp/>before<sp/>initialization&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="638"><highlight class="normal"></highlight></codeline>
+<codeline lineno="639"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>makeViTB32Config();</highlight></codeline>
+<codeline lineno="640"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a9dc045f138314232c587ecde122b4a06" kindref="member">initialize</ref>(config,<sp/>BackendType::CPU));</highlight></codeline>
+<codeline lineno="641"><highlight class="normal"></highlight></codeline>
+<codeline lineno="642"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>initialization:<sp/>health<sp/>check<sp/>should<sp/>pass</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="643"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1ac35848b861534e5c434a235a279943c4" kindref="member">healthCheck</ref>())</highlight></codeline>
+<codeline lineno="644"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-08:<sp/>Health<sp/>check<sp/>must<sp/>pass<sp/>after<sp/>initialization&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="645"><highlight class="normal"></highlight></codeline>
+<codeline lineno="646"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Generate<sp/>some<sp/>embeddings<sp/>to<sp/>populate<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="647"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>imageBytes<sp/>=<sp/>makeImageBytes(kDefaultImageSize,<sp/>kClipGoldenSeed);</highlight></codeline>
+<codeline lineno="648"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result1<sp/>=<sp/>plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a057c3335fdfc139110c4ab374161f4f4" kindref="member">generateEmbedding</ref>(imageBytes);</highlight></codeline>
+<codeline lineno="649"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result1.success);</highlight></codeline>
+<codeline lineno="650"><highlight class="normal"></highlight></codeline>
+<codeline lineno="651"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;uint8_t&gt;&gt;<sp/>batch<sp/>=<sp/>{imageBytes,<sp/>makeImageBytes(256,<sp/>kClipGoldenSeed<sp/>+<sp/>1)};</highlight></codeline>
+<codeline lineno="652"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>batchResults<sp/>=<sp/>plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a79faf1a6557b341fb0add52c9a596a98" kindref="member">generateEmbeddingBatch</ref>(batch);</highlight></codeline>
+<codeline lineno="653"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(2u,<sp/>batchResults.size());</highlight></codeline>
+<codeline lineno="654"><highlight class="normal"></highlight></codeline>
+<codeline lineno="655"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Retrieve<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="656"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a8bd704d1aa4d28e3c7279b1918f7d68e" kindref="member">getStatistics</ref>();</highlight></codeline>
+<codeline lineno="657"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stats.is_object())</highlight></codeline>
+<codeline lineno="658"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-08:<sp/>Statistics<sp/>must<sp/>be<sp/>a<sp/>JSON<sp/>object&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="659"><highlight class="normal"></highlight></codeline>
+<codeline lineno="660"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>expected<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="661"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stats.contains(</highlight><highlight class="stringliteral">&quot;backend&quot;</highlight><highlight class="normal">)<sp/>||<sp/>stats.contains(</highlight><highlight class="stringliteral">&quot;calls&quot;</highlight><highlight class="normal">)<sp/>||<sp/>stats.contains(</highlight><highlight class="stringliteral">&quot;model_variant&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="662"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-08:<sp/>Statistics<sp/>must<sp/>contain<sp/>backend,<sp/>calls,<sp/>or<sp/>model_variant<sp/>information&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="663"><highlight class="normal"></highlight></codeline>
+<codeline lineno="664"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Shutdown<sp/>and<sp/>verify<sp/>health<sp/>check<sp/>fails</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="665"><highlight class="normal"><sp/><sp/><sp/><sp/>plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a2baaa69f3fc2f00f3304c80d5cc3bb42" kindref="member">shutdown</ref>();</highlight></codeline>
+<codeline lineno="666"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1ac35848b861534e5c434a235a279943c4" kindref="member">healthCheck</ref>())</highlight></codeline>
+<codeline lineno="667"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-08:<sp/>Health<sp/>check<sp/>must<sp/>fail<sp/>after<sp/>shutdown&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="668"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="669"><highlight class="normal"></highlight></codeline>
+<codeline lineno="670"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="671"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OCP-IT-09..10<sp/>—<sp/>Batch<sp/>vs<sp/>Sequential<sp/>Equivalence</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="672"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="673"><highlight class="normal"></highlight></codeline>
+<codeline lineno="688"><highlight class="normal"><ref refid="test__onnx__clip__golden__embeddings__focused_8cpp_1ada862aa7fc69bb71853cc10c4a29d606" kindref="member">TEST_F</ref>(<ref refid="class_onnx_clip_golden_embeddings_test" kindref="compound">OnnxClipGoldenEmbeddingsTest</ref>,<sp/>OCP_IT_09_BatchOf4VsSequentialEquivalence)<sp/>{</highlight></codeline>
+<codeline lineno="689"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin" kindref="compound">ONNXClipPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="690"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>makeViTB32Config();</highlight></codeline>
+<codeline lineno="691"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a9dc045f138314232c587ecde122b4a06" kindref="member">initialize</ref>(config,<sp/>BackendType::CPU))</highlight></codeline>
+<codeline lineno="692"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-09:<sp/>Plugin<sp/>initialization<sp/>must<sp/>succeed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="693"><highlight class="normal"></highlight></codeline>
+<codeline lineno="694"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>batch<sp/>of<sp/>4</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="695"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint32_t&gt;<sp/>seeds<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="696"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>kClipGoldenSeed,</highlight></codeline>
+<codeline lineno="697"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>kClipGoldenSeed<sp/>+<sp/>1,</highlight></codeline>
+<codeline lineno="698"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>kClipGoldenSeed<sp/>+<sp/>2,</highlight></codeline>
+<codeline lineno="699"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>kClipGoldenSeed<sp/>+<sp/>3</highlight></codeline>
+<codeline lineno="700"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="701"><highlight class="normal"></highlight></codeline>
+<codeline lineno="702"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(compareBatchVsSequential(plugin,<sp/>seeds))</highlight></codeline>
+<codeline lineno="703"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-09:<sp/>Batch-of-4<sp/>must<sp/>produce<sp/>identical<sp/>results<sp/>to<sp/>sequential<sp/>calls&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="704"><highlight class="normal"></highlight></codeline>
+<codeline lineno="705"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>all<sp/>results<sp/>have<sp/>correct<sp/>properties</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="706"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;uint8_t&gt;&gt;<sp/>images;</highlight></codeline>
+<codeline lineno="707"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(uint32_t<sp/>seed<sp/>:<sp/>seeds)<sp/>{</highlight></codeline>
+<codeline lineno="708"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>images.push_back(makeImageBytes(kDefaultImageSize,<sp/>seed));</highlight></codeline>
+<codeline lineno="709"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="710"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>batchResults<sp/>=<sp/>plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a79faf1a6557b341fb0add52c9a596a98" kindref="member">generateEmbeddingBatch</ref>(images);</highlight></codeline>
+<codeline lineno="711"><highlight class="normal"></highlight></codeline>
+<codeline lineno="712"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(4u,<sp/>batchResults.size())</highlight></codeline>
+<codeline lineno="713"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-09:<sp/>Batch<sp/>must<sp/>return<sp/>exactly<sp/>4<sp/>results&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="714"><highlight class="normal"></highlight></codeline>
+<codeline lineno="715"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>batchResults.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="716"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(batchResults[i].success)</highlight></codeline>
+<codeline lineno="717"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-09:<sp/>Batch<sp/>result<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>must<sp/>have<sp/>success=true&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="718"><highlight class="normal"></highlight></codeline>
+<codeline lineno="719"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(kExpectedDimensionViTB32,<sp/>batchResults[i].dimension)</highlight></codeline>
+<codeline lineno="720"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-09:<sp/>Batch<sp/>result<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>must<sp/>have<sp/>correct<sp/>dimension&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="721"><highlight class="normal"></highlight></codeline>
+<codeline lineno="722"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(isL2Normalized(batchResults[i].embedding))</highlight></codeline>
+<codeline lineno="723"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-09:<sp/>Batch<sp/>result<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>must<sp/>be<sp/>L2-normalized&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="724"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="725"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="726"><highlight class="normal"></highlight></codeline>
+<codeline lineno="740"><highlight class="normal"><ref refid="test__onnx__clip__golden__embeddings__focused_8cpp_1ada862aa7fc69bb71853cc10c4a29d606" kindref="member">TEST_F</ref>(<ref refid="class_onnx_clip_golden_embeddings_test" kindref="compound">OnnxClipGoldenEmbeddingsTest</ref>,<sp/>OCP_IT_10_BatchOf16VsSequentialEquivalence)<sp/>{</highlight></codeline>
+<codeline lineno="741"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin" kindref="compound">ONNXClipPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="742"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>makeViTB32Config();</highlight></codeline>
+<codeline lineno="743"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a9dc045f138314232c587ecde122b4a06" kindref="member">initialize</ref>(config,<sp/>BackendType::CPU))</highlight></codeline>
+<codeline lineno="744"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-10:<sp/>Plugin<sp/>initialization<sp/>must<sp/>succeed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="745"><highlight class="normal"></highlight></codeline>
+<codeline lineno="746"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>batch<sp/>of<sp/>16</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="747"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint32_t&gt;<sp/>seeds<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="748"><highlight class="normal"></highlight></codeline>
+<codeline lineno="749"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>16;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="750"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>seeds.push_back(kClipGoldenSeed<sp/>+<sp/>i);</highlight></codeline>
+<codeline lineno="751"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="752"><highlight class="normal"></highlight></codeline>
+<codeline lineno="753"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(compareBatchVsSequential(plugin,<sp/>seeds))</highlight></codeline>
+<codeline lineno="754"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-10:<sp/>Batch-of-16<sp/>must<sp/>produce<sp/>identical<sp/>results<sp/>to<sp/>sequential<sp/>calls&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="755"><highlight class="normal"></highlight></codeline>
+<codeline lineno="756"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>all<sp/>results<sp/>have<sp/>correct<sp/>properties</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="757"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;uint8_t&gt;&gt;<sp/>images;</highlight></codeline>
+<codeline lineno="758"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(uint32_t<sp/>seed<sp/>:<sp/>seeds)<sp/>{</highlight></codeline>
+<codeline lineno="759"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>images.push_back(makeImageBytes(kDefaultImageSize,<sp/>seed));</highlight></codeline>
+<codeline lineno="760"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="761"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>batchResults<sp/>=<sp/>plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a79faf1a6557b341fb0add52c9a596a98" kindref="member">generateEmbeddingBatch</ref>(images);</highlight></codeline>
+<codeline lineno="762"><highlight class="normal"></highlight></codeline>
+<codeline lineno="763"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(16u,<sp/>batchResults.size())</highlight></codeline>
+<codeline lineno="764"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-10:<sp/>Batch<sp/>must<sp/>return<sp/>exactly<sp/>16<sp/>results&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="765"><highlight class="normal"></highlight></codeline>
+<codeline lineno="766"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>batchResults.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="767"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(batchResults[i].success)</highlight></codeline>
+<codeline lineno="768"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-10:<sp/>Batch<sp/>result<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>must<sp/>have<sp/>success=true&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="769"><highlight class="normal"></highlight></codeline>
+<codeline lineno="770"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(kExpectedDimensionViTB32,<sp/>batchResults[i].dimension)</highlight></codeline>
+<codeline lineno="771"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-10:<sp/>Batch<sp/>result<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>must<sp/>have<sp/>correct<sp/>dimension&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="772"><highlight class="normal"></highlight></codeline>
+<codeline lineno="773"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(isL2Normalized(batchResults[i].embedding))</highlight></codeline>
+<codeline lineno="774"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-10:<sp/>Batch<sp/>result<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>must<sp/>be<sp/>L2-normalized&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="775"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="776"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="777"><highlight class="normal"></highlight></codeline>
+<codeline lineno="778"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="779"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OCP-IT-11<sp/>—<sp/>Cross-Run<sp/>Reproducibility</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="780"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="781"><highlight class="normal"></highlight></codeline>
+<codeline lineno="795"><highlight class="normal"><ref refid="test__onnx__clip__golden__embeddings__focused_8cpp_1ada862aa7fc69bb71853cc10c4a29d606" kindref="member">TEST_F</ref>(<ref refid="class_onnx_clip_golden_embeddings_test" kindref="compound">OnnxClipGoldenEmbeddingsTest</ref>,<sp/>OCP_IT_11_CrossRunReproducibilityIndependentInstances)<sp/>{</highlight></codeline>
+<codeline lineno="796"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>image</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="797"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>imageBytes<sp/>=<sp/>makeImageBytes(kDefaultImageSize,<sp/>kClipGoldenSeed);</highlight></codeline>
+<codeline lineno="798"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>batchImages<sp/>=<sp/>std::vector&lt;std::vector&lt;uint8_t&gt;&gt;{</highlight></codeline>
+<codeline lineno="799"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeImageBytes(kDefaultImageSize,<sp/>kClipGoldenSeed),</highlight></codeline>
+<codeline lineno="800"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeImageBytes(kDefaultImageSize,<sp/>kClipGoldenSeed<sp/>+<sp/>1)</highlight></codeline>
+<codeline lineno="801"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="802"><highlight class="normal"></highlight></codeline>
+<codeline lineno="803"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;<sp/>embeddings1,<sp/>embeddings2,<sp/>embeddings3;</highlight></codeline>
+<codeline lineno="804"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;<sp/>batchEmbeddings1,<sp/>batchEmbeddings2,<sp/>batchEmbeddings3;</highlight></codeline>
+<codeline lineno="805"><highlight class="normal"></highlight></codeline>
+<codeline lineno="806"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Instance<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="807"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="808"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin" kindref="compound">ONNXClipPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="809"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>makeViTB32Config();</highlight></codeline>
+<codeline lineno="810"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a9dc045f138314232c587ecde122b4a06" kindref="member">initialize</ref>(config,<sp/>BackendType::CPU))</highlight></codeline>
+<codeline lineno="811"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-11:<sp/>Instance<sp/>1<sp/>initialization<sp/>must<sp/>succeed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="812"><highlight class="normal"></highlight></codeline>
+<codeline lineno="813"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a057c3335fdfc139110c4ab374161f4f4" kindref="member">generateEmbedding</ref>(imageBytes);</highlight></codeline>
+<codeline lineno="814"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.success);</highlight></codeline>
+<codeline lineno="815"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>embeddings1.push_back(result.embedding);</highlight></codeline>
+<codeline lineno="816"><highlight class="normal"></highlight></codeline>
+<codeline lineno="817"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>batchResults<sp/>=<sp/>plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a79faf1a6557b341fb0add52c9a596a98" kindref="member">generateEmbeddingBatch</ref>(batchImages);</highlight></codeline>
+<codeline lineno="818"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>r<sp/>:<sp/>batchResults)<sp/>{</highlight></codeline>
+<codeline lineno="819"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(r.success);</highlight></codeline>
+<codeline lineno="820"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>batchEmbeddings1.push_back(r.embedding);</highlight></codeline>
+<codeline lineno="821"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="822"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="823"><highlight class="normal"></highlight></codeline>
+<codeline lineno="824"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Instance<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="825"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="826"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin" kindref="compound">ONNXClipPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="827"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>makeViTB32Config();</highlight></codeline>
+<codeline lineno="828"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a9dc045f138314232c587ecde122b4a06" kindref="member">initialize</ref>(config,<sp/>BackendType::CPU))</highlight></codeline>
+<codeline lineno="829"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-11:<sp/>Instance<sp/>2<sp/>initialization<sp/>must<sp/>succeed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="830"><highlight class="normal"></highlight></codeline>
+<codeline lineno="831"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a057c3335fdfc139110c4ab374161f4f4" kindref="member">generateEmbedding</ref>(imageBytes);</highlight></codeline>
+<codeline lineno="832"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.success);</highlight></codeline>
+<codeline lineno="833"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>embeddings2.push_back(result.embedding);</highlight></codeline>
+<codeline lineno="834"><highlight class="normal"></highlight></codeline>
+<codeline lineno="835"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>batchResults<sp/>=<sp/>plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a79faf1a6557b341fb0add52c9a596a98" kindref="member">generateEmbeddingBatch</ref>(batchImages);</highlight></codeline>
+<codeline lineno="836"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>r<sp/>:<sp/>batchResults)<sp/>{</highlight></codeline>
+<codeline lineno="837"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(r.success);</highlight></codeline>
+<codeline lineno="838"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>batchEmbeddings2.push_back(r.embedding);</highlight></codeline>
+<codeline lineno="839"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="840"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="841"><highlight class="normal"></highlight></codeline>
+<codeline lineno="842"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Instance<sp/>3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="843"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="844"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin" kindref="compound">ONNXClipPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="845"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>makeViTB32Config();</highlight></codeline>
+<codeline lineno="846"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a9dc045f138314232c587ecde122b4a06" kindref="member">initialize</ref>(config,<sp/>BackendType::CPU))</highlight></codeline>
+<codeline lineno="847"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-11:<sp/>Instance<sp/>3<sp/>initialization<sp/>must<sp/>succeed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="848"><highlight class="normal"></highlight></codeline>
+<codeline lineno="849"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a057c3335fdfc139110c4ab374161f4f4" kindref="member">generateEmbedding</ref>(imageBytes);</highlight></codeline>
+<codeline lineno="850"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.success);</highlight></codeline>
+<codeline lineno="851"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>embeddings3.push_back(result.embedding);</highlight></codeline>
+<codeline lineno="852"><highlight class="normal"></highlight></codeline>
+<codeline lineno="853"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>batchResults<sp/>=<sp/>plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a79faf1a6557b341fb0add52c9a596a98" kindref="member">generateEmbeddingBatch</ref>(batchImages);</highlight></codeline>
+<codeline lineno="854"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>r<sp/>:<sp/>batchResults)<sp/>{</highlight></codeline>
+<codeline lineno="855"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(r.success);</highlight></codeline>
+<codeline lineno="856"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>batchEmbeddings3.push_back(r.embedding);</highlight></codeline>
+<codeline lineno="857"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="858"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="859"><highlight class="normal"></highlight></codeline>
+<codeline lineno="860"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>all<sp/>single-call<sp/>results<sp/>are<sp/>identical</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="861"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(embeddings1.size(),<sp/>embeddings2.size());</highlight></codeline>
+<codeline lineno="862"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(embeddings2.size(),<sp/>embeddings3.size());</highlight></codeline>
+<codeline lineno="863"><highlight class="normal"></highlight></codeline>
+<codeline lineno="864"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>dist12<sp/>=<sp/>computeL2Distance(embeddings1[0],<sp/>embeddings2[0]);</highlight></codeline>
+<codeline lineno="865"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>dist23<sp/>=<sp/>computeL2Distance(embeddings2[0],<sp/>embeddings3[0]);</highlight></codeline>
+<codeline lineno="866"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>dist13<sp/>=<sp/>computeL2Distance(embeddings1[0],<sp/>embeddings3[0]);</highlight></codeline>
+<codeline lineno="867"><highlight class="normal"></highlight></codeline>
+<codeline lineno="868"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(dist12,<sp/>kReproducibilityTolerance)</highlight></codeline>
+<codeline lineno="869"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-11:<sp/>Instance<sp/>1<sp/>vs<sp/>Instance<sp/>2<sp/>L2<sp/>distance<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>dist12</highlight></codeline>
+<codeline lineno="870"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>must<sp/>be<sp/>&lt;<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>kReproducibilityTolerance;</highlight></codeline>
+<codeline lineno="871"><highlight class="normal"></highlight></codeline>
+<codeline lineno="872"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(dist23,<sp/>kReproducibilityTolerance)</highlight></codeline>
+<codeline lineno="873"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-11:<sp/>Instance<sp/>2<sp/>vs<sp/>Instance<sp/>3<sp/>L2<sp/>distance<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>dist23</highlight></codeline>
+<codeline lineno="874"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>must<sp/>be<sp/>&lt;<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>kReproducibilityTolerance;</highlight></codeline>
+<codeline lineno="875"><highlight class="normal"></highlight></codeline>
+<codeline lineno="876"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(dist13,<sp/>kReproducibilityTolerance)</highlight></codeline>
+<codeline lineno="877"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-11:<sp/>Instance<sp/>1<sp/>vs<sp/>Instance<sp/>3<sp/>L2<sp/>distance<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>dist13</highlight></codeline>
+<codeline lineno="878"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>must<sp/>be<sp/>&lt;<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>kReproducibilityTolerance;</highlight></codeline>
+<codeline lineno="879"><highlight class="normal"></highlight></codeline>
+<codeline lineno="880"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>batch<sp/>results<sp/>are<sp/>also<sp/>identical<sp/>across<sp/>instances</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="881"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(batchEmbeddings1.size(),<sp/>batchEmbeddings2.size());</highlight></codeline>
+<codeline lineno="882"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(batchEmbeddings2.size(),<sp/>batchEmbeddings3.size());</highlight></codeline>
+<codeline lineno="883"><highlight class="normal"></highlight></codeline>
+<codeline lineno="884"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>batchEmbeddings1.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="885"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>batchDist12<sp/>=<sp/>computeL2Distance(batchEmbeddings1[i],<sp/>batchEmbeddings2[i]);</highlight></codeline>
+<codeline lineno="886"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>batchDist23<sp/>=<sp/>computeL2Distance(batchEmbeddings2[i],<sp/>batchEmbeddings3[i]);</highlight></codeline>
+<codeline lineno="887"><highlight class="normal"></highlight></codeline>
+<codeline lineno="888"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LT(batchDist12,<sp/>kReproducibilityTolerance)</highlight></codeline>
+<codeline lineno="889"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-11:<sp/>Batch<sp/>result<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>-<sp/>Instance<sp/>1<sp/>vs<sp/>2<sp/>L2<sp/>distance<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>batchDist12</highlight></codeline>
+<codeline lineno="890"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>must<sp/>be<sp/>&lt;<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>kReproducibilityTolerance;</highlight></codeline>
+<codeline lineno="891"><highlight class="normal"></highlight></codeline>
+<codeline lineno="892"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LT(batchDist23,<sp/>kReproducibilityTolerance)</highlight></codeline>
+<codeline lineno="893"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-11:<sp/>Batch<sp/>result<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>-<sp/>Instance<sp/>2<sp/>vs<sp/>3<sp/>L2<sp/>distance<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>batchDist23</highlight></codeline>
+<codeline lineno="894"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>must<sp/>be<sp/>&lt;<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>kReproducibilityTolerance;</highlight></codeline>
+<codeline lineno="895"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="896"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="897"><highlight class="normal"></highlight></codeline>
+<codeline lineno="898"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="899"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OCP-IT-12<sp/>—<sp/>Concurrent<sp/>Inference<sp/>Safety</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="900"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="901"><highlight class="normal"></highlight></codeline>
+<codeline lineno="917"><highlight class="normal"><ref refid="test__onnx__clip__golden__embeddings__focused_8cpp_1ada862aa7fc69bb71853cc10c4a29d606" kindref="member">TEST_F</ref>(<ref refid="class_onnx_clip_golden_embeddings_test" kindref="compound">OnnxClipGoldenEmbeddingsTest</ref>,<sp/>OCP_IT_12_ConcurrentInferenceSafety)<sp/>{</highlight></codeline>
+<codeline lineno="918"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin" kindref="compound">ONNXClipPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="919"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>config<sp/>=<sp/>makeViTB32Config();</highlight></codeline>
+<codeline lineno="920"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1a9dc045f138314232c587ecde122b4a06" kindref="member">initialize</ref>(config,<sp/>BackendType::CPU))</highlight></codeline>
+<codeline lineno="921"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-12:<sp/>Plugin<sp/>initialization<sp/>must<sp/>succeed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="922"><highlight class="normal"></highlight></codeline>
+<codeline lineno="923"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>concurrent<sp/>inference<sp/>with<sp/>4<sp/>threads,<sp/>2<sp/>images<sp/>per<sp/>thread</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="924"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(verifyConcurrentInference(plugin,<sp/>4,<sp/>2))</highlight></codeline>
+<codeline lineno="925"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-12:<sp/>Concurrent<sp/>inference<sp/>must<sp/>complete<sp/>without<sp/>errors&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="926"><highlight class="normal"></highlight></codeline>
+<codeline lineno="927"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>health<sp/>check<sp/>still<sp/>passes<sp/>after<sp/>concurrent<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="928"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(plugin.<ref refid="classthemis_1_1plugins_1_1image_1_1_o_n_n_x_clip_plugin_1ac35848b861534e5c434a235a279943c4" kindref="member">healthCheck</ref>())</highlight></codeline>
+<codeline lineno="929"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;OCP-IT-12:<sp/>Health<sp/>check<sp/>must<sp/>still<sp/>pass<sp/>after<sp/>concurrent<sp/>operations&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="930"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp"/>
+  </compounddef>
+</doxygen>

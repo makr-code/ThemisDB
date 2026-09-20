@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_llama_wrapper_1_1_stats" kind="struct" language="C++" prot="private">
+    <compoundname>themis::llm::LlamaWrapper::Stats</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_llama_wrapper_1_1_stats_1aefc0b7347fe2ba2da8e598462bf53035" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LlamaWrapper::Stats::total_inferences</definition>
+        <argsstring></argsstring>
+        <name>total_inferences</name>
+        <qualifiedname>themis::llm::LlamaWrapper::Stats::total_inferences</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="494" column="16" bodyfile="include/llm/llama_wrapper.h" bodystart="494" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_llama_wrapper_1_1_stats_1af7299adefe1fc0bac7b2d744969f5cba" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LlamaWrapper::Stats::total_tokens_generated</definition>
+        <argsstring></argsstring>
+        <name>total_tokens_generated</name>
+        <qualifiedname>themis::llm::LlamaWrapper::Stats::total_tokens_generated</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="495" column="16" bodyfile="include/llm/llama_wrapper.h" bodystart="495" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_llama_wrapper_1_1_stats_1a7df88b79e9c109691fa8076376ce1ca5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::LlamaWrapper::Stats::total_inference_time_ms</definition>
+        <argsstring></argsstring>
+        <name>total_inference_time_ms</name>
+        <qualifiedname>themis::llm::LlamaWrapper::Stats::total_inference_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="496" column="16" bodyfile="include/llm/llama_wrapper.h" bodystart="496" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llama_wrapper.h" line="493" column="5" bodyfile="include/llm/llama_wrapper.h" bodystart="493" bodyend="497"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_llama_wrapper_1_1_stats_1a7df88b79e9c109691fa8076376ce1ca5" prot="public" virt="non-virtual"><scope>themis::llm::LlamaWrapper::Stats</scope><name>total_inference_time_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_llama_wrapper_1_1_stats_1aefc0b7347fe2ba2da8e598462bf53035" prot="public" virt="non-virtual"><scope>themis::llm::LlamaWrapper::Stats</scope><name>total_inferences</name></member>
+      <member refid="structthemis_1_1llm_1_1_llama_wrapper_1_1_stats_1af7299adefe1fc0bac7b2d744969f5cba" prot="public" virt="non-virtual"><scope>themis::llm::LlamaWrapper::Stats</scope><name>total_tokens_generated</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

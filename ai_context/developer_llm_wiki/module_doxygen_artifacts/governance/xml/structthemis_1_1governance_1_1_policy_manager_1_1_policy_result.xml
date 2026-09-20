@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_policy_manager_1_1_policy_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::PolicyManager::PolicyResult</compoundname>
+    <includes refid="policy__manager_8h" local="no">policy_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_manager_1_1_policy_result_1a515347cae3edb553a19e669faa309b6e" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1governance_1_1_policy_manager_1ae6f421d32f2dd2bfcebd6bf307b354b2" kindref="member">PolicyError</ref></type>
+        <definition>PolicyError themis::governance::PolicyManager::PolicyResult::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::governance::PolicyManager::PolicyResult::error</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1governance_1_1_policy_manager_1ae6f421d32f2dd2bfcebd6bf307b354b2a8c632159fa131f09d04f94e3cbcd8782" kindref="member">PolicyError::kSuccess</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="138" column="21" bodyfile="include/governance/policy_manager.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_manager_1_1_policy_result_1aac5910ab132d48436aa34c0f15617af4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyManager::PolicyResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::governance::PolicyManager::PolicyResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="139" column="21" bodyfile="include/governance/policy_manager.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_manager_1_1_policy_result_1aa14b9aeeeb8735b364e3d61d3a5833bd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyManager::PolicyResult::rule_version</definition>
+        <argsstring></argsstring>
+        <name>rule_version</name>
+        <qualifiedname>themis::governance::PolicyManager::PolicyResult::rule_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="140" column="21" bodyfile="include/governance/policy_manager.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/policy_manager.h" line="137" column="5" bodyfile="include/governance/policy_manager.h" bodystart="137" bodyend="141"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_policy_manager_1_1_policy_result_1a515347cae3edb553a19e669faa309b6e" prot="public" virt="non-virtual"><scope>themis::governance::PolicyManager::PolicyResult</scope><name>error</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_manager_1_1_policy_result_1aac5910ab132d48436aa34c0f15617af4" prot="public" virt="non-virtual"><scope>themis::governance::PolicyManager::PolicyResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_manager_1_1_policy_result_1aa14b9aeeeb8735b364e3d61d3a5833bd" prot="public" virt="non-virtual"><scope>themis::governance::PolicyManager::PolicyResult</scope><name>rule_version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

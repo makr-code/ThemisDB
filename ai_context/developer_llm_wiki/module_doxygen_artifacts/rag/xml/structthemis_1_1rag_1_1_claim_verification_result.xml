@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_claim_verification_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::ClaimVerificationResult</compoundname>
+    <includes refid="claim__extractor_8h" local="no">claim_extractor.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1rag_1_1_claim_verification_result_1a7a1a28c475424454b63ea9b914e9aa3f" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Verdict</name>
+        <qualifiedname>themis::rag::ClaimVerificationResult::Verdict</qualifiedname>
+        <enumvalue id="structthemis_1_1rag_1_1_claim_verification_result_1a7a1a28c475424454b63ea9b914e9aa3fa38e00e00fd4b081268cb0d9083899116" prot="public">
+          <name>SUPPORTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1rag_1_1_claim_verification_result_1a7a1a28c475424454b63ea9b914e9aa3fad43587aa29f10d482c31e28a097a1fd5" prot="public">
+          <name>CONTRADICTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1rag_1_1_claim_verification_result_1a7a1a28c475424454b63ea9b914e9aa3fa8c02547a8a3b02382bac3557bcb2280d" prot="public">
+          <name>NOT_FOUND</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1rag_1_1_claim_verification_result_1a7a1a28c475424454b63ea9b914e9aa3faadf55ea19987db546c3bc985a1ca5d69" prot="public">
+          <name>INSUFFICIENT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/claim_extractor.h" line="34" column="5" bodyfile="include/rag/claim_extractor.h" bodystart="34" bodyend="39"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_claim_verification_result_1a35726f8502925563c53f294e18064bcf" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1_claim" kindref="compound">Claim</ref></type>
+        <definition>Claim themis::rag::ClaimVerificationResult::claim</definition>
+        <argsstring></argsstring>
+        <name>claim</name>
+        <qualifiedname>themis::rag::ClaimVerificationResult::claim</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/claim_extractor.h" line="33" column="11" bodyfile="include/rag/claim_extractor.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_claim_verification_result_1a0679f4ae75bd81f96fa7bb493a00f970" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1_claim_verification_result_1a7a1a28c475424454b63ea9b914e9aa3f" kindref="member">Verdict</ref></type>
+        <definition>Verdict themis::rag::ClaimVerificationResult::verdict</definition>
+        <argsstring></argsstring>
+        <name>verdict</name>
+        <qualifiedname>themis::rag::ClaimVerificationResult::verdict</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/claim_extractor.h" line="40" column="13" bodyfile="include/rag/claim_extractor.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_claim_verification_result_1a05eb0f35a35f9d9f1468a137483b1ec9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::ClaimVerificationResult::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::rag::ClaimVerificationResult::confidence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/claim_extractor.h" line="41" column="12" bodyfile="include/rag/claim_extractor.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_claim_verification_result_1a90fb7d740727f768ffa94401008741ab" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::ClaimVerificationResult::evidence</definition>
+        <argsstring></argsstring>
+        <name>evidence</name>
+        <qualifiedname>themis::rag::ClaimVerificationResult::evidence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/claim_extractor.h" line="42" column="17" bodyfile="include/rag/claim_extractor.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_claim_verification_result_1a4d1193c76c29490baee18caab706158c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::ClaimVerificationResult::document_id</definition>
+        <argsstring></argsstring>
+        <name>document_id</name>
+        <qualifiedname>themis::rag::ClaimVerificationResult::document_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/claim_extractor.h" line="43" column="17" bodyfile="include/rag/claim_extractor.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of claim verification against documents. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::rag::Claim</label>
+        <link refid="structthemis_1_1rag_1_1_claim"/>
+      </node>
+      <node id="1">
+        <label>themis::rag::ClaimVerificationResult</label>
+        <link refid="structthemis_1_1rag_1_1_claim_verification_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>claim</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/rag/claim_extractor.h" line="32" column="1" bodyfile="include/rag/claim_extractor.h" bodystart="32" bodyend="44"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_claim_verification_result_1a35726f8502925563c53f294e18064bcf" prot="public" virt="non-virtual"><scope>themis::rag::ClaimVerificationResult</scope><name>claim</name></member>
+      <member refid="structthemis_1_1rag_1_1_claim_verification_result_1a05eb0f35a35f9d9f1468a137483b1ec9" prot="public" virt="non-virtual"><scope>themis::rag::ClaimVerificationResult</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1rag_1_1_claim_verification_result_1a4d1193c76c29490baee18caab706158c" prot="public" virt="non-virtual"><scope>themis::rag::ClaimVerificationResult</scope><name>document_id</name></member>
+      <member refid="structthemis_1_1rag_1_1_claim_verification_result_1a90fb7d740727f768ffa94401008741ab" prot="public" virt="non-virtual"><scope>themis::rag::ClaimVerificationResult</scope><name>evidence</name></member>
+      <member refid="structthemis_1_1rag_1_1_claim_verification_result_1a7a1a28c475424454b63ea9b914e9aa3f" prot="public" virt="non-virtual"><scope>themis::rag::ClaimVerificationResult</scope><name>Verdict</name></member>
+      <member refid="structthemis_1_1rag_1_1_claim_verification_result_1a0679f4ae75bd81f96fa7bb493a00f970" prot="public" virt="non-virtual"><scope>themis::rag::ClaimVerificationResult</scope><name>verdict</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

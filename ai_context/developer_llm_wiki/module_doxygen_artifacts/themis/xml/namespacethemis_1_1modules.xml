@@ -1,0 +1,671 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1modules" kind="namespace" language="C++">
+    <compoundname>themis::modules</compoundname>
+    <innerclass refid="classthemis_1_1modules_1_1_abi_checker" prot="public">themis::modules::AbiChecker</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_abi_check_result" prot="public">themis::modules::AbiCheckResult</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_a_b_module_test_config" prot="public">themis::modules::ABModuleTestConfig</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_a_b_module_test_result" prot="public">themis::modules::ABModuleTestResult</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_a_b_test_manager" prot="public">themis::modules::ABTestManager</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_a_b_test_metric_row" prot="public">themis::modules::ABTestMetricRow</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_a_b_variant_metrics" prot="public">themis::modules::ABVariantMetrics</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_dependency_resolution_result" prot="public">themis::modules::DependencyResolutionResult</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_health_check_result" prot="public">themis::modules::HealthCheckResult</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_hot_reload_manager" prot="public">themis::modules::HotReloadManager</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_hot_reload_result" prot="public">themis::modules::HotReloadResult</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_i_wasm_runtime" prot="public">themis::modules::IWasmRuntime</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_loaded_module" prot="public">themis::modules::LoadedModule</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_module_dependency" prot="public">themis::modules::ModuleDependency</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_module_dependency_resolver" prot="public">themis::modules::ModuleDependencyResolver</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_module_failure_history" prot="public">themis::modules::ModuleFailureHistory</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_module_hash_verification_result" prot="public">themis::modules::ModuleHashVerificationResult</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_module_hash_verifier" prot="public">themis::modules::ModuleHashVerifier</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_module_loader" prot="public">themis::modules::ModuleLoader</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_module_metadata" prot="public">themis::modules::ModuleMetadata</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_module_metrics" prot="public">themis::modules::ModuleMetrics</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_module_registry" prot="public">themis::modules::ModuleRegistry</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_module_sandbox" prot="public">themis::modules::ModuleSandbox</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_module_security_verifier" prot="public">themis::modules::ModuleSecurityVerifier</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_module_signature_verification_result" prot="public">themis::modules::ModuleSignatureVerificationResult</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_module_signature_verifier" prot="public">themis::modules::ModuleSignatureVerifier</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_module_verification_result" prot="public">themis::modules::ModuleVerificationResult</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_module_version" prot="public">themis::modules::ModuleVersion</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_plugin_bundle_loader" prot="public">themis::modules::PluginBundleLoader</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_plugin_bundle_load_result" prot="public">themis::modules::PluginBundleLoadResult</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_plugin_bundle_manifest" prot="public">themis::modules::PluginBundleManifest</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_plugin_dependency_graph" prot="public">themis::modules::PluginDependencyGraph</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_plugin_download_result" prot="public">themis::modules::PluginDownloadResult</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_registry_config" prot="public">themis::modules::RegistryConfig</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_registry_plugin_entry" prot="public">themis::modules::RegistryPluginEntry</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_remote_registry_client" prot="public">themis::modules::RemoteRegistryClient</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_request_stats" prot="public">themis::modules::RequestStats</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_sandbox_stats" prot="public">themis::modules::SandboxStats</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_scoped_span" prot="public">themis::modules::ScopedSpan</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_span_event" prot="public">themis::modules::SpanEvent</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_trace_context" prot="public">themis::modules::TraceContext</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_wasm_call_result" prot="public">themis::modules::WasmCallResult</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_wasm_host_function" prot="public">themis::modules::WasmHostFunction</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_wasm_module_info" prot="public">themis::modules::WasmModuleInfo</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_wasm_module_validator" prot="public">themis::modules::WasmModuleValidator</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox" prot="public">themis::modules::WasmPluginSandbox</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_wasm_runtime" prot="public">themis::modules::WasmRuntime</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_wasm_runtime_descriptor" prot="public">themis::modules::WasmRuntimeDescriptor</innerclass>
+    <innerclass refid="classthemis_1_1modules_1_1_wasm_runtime_injector" prot="public">themis::modules::WasmRuntimeInjector</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_watchdog_config" prot="public">themis::modules::WatchdogConfig</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_watchdog_module_stats" prot="public">themis::modules::WatchdogModuleStats</innerclass>
+    <innernamespace refid="namespacethemis_1_1modules_1_1_base_error_taxonomy">themis::modules::BaseErrorTaxonomy</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1modules_1ad3905b5fe67ae8739bc992c9309b9f0b" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ABTestStatus</name>
+        <qualifiedname>themis::modules::ABTestStatus</qualifiedname>
+        <enumvalue id="namespacethemis_1_1modules_1ad3905b5fe67ae8739bc992c9309b9f0ba18ff74f43da410c5529f7d6fca84f115" prot="public">
+          <name>ACTIVE</name>
+          <briefdescription>
+<para>Test running: traffic is being split. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1ad3905b5fe67ae8739bc992c9309b9f0ba1a204e059a0d2f4356c999877d8e5cce" prot="public">
+          <name>PROMOTED</name>
+          <briefdescription>
+<para>Treatment was promoted to production via hot-reload. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1ad3905b5fe67ae8739bc992c9309b9f0baed701d1c3d474e00c7a2f416f8d6858c" prot="public">
+          <name>ROLLED_BACK</name>
+          <briefdescription>
+<para>Treatment was unloaded; control remains in place. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1ad3905b5fe67ae8739bc992c9309b9f0ba9f935beb31030ad0d4d26126c0f39bf2" prot="public">
+          <name>CANCELLED</name>
+          <briefdescription>
+<para>Test was manually cancelled. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Lifecycle status of one A/B module test. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="73" column="1" bodyfile="include/themis/base/ab_test_manager.h" bodystart="73" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1modules_1a69b3d03cad22e237a2a7220befd57fed" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>LoadStage</name>
+        <qualifiedname>themis::modules::LoadStage</qualifiedname>
+        <enumvalue id="namespacethemis_1_1modules_1a69b3d03cad22e237a2a7220befd57feda795b8a51556d0b2cf4fbc11a896f6269" prot="public">
+          <name>UNLOADED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a69b3d03cad22e237a2a7220befd57feda4ea687957de9caaad1e098e3e95aae9e" prot="public">
+          <name>VERIFYING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a69b3d03cad22e237a2a7220befd57feda2778dde25400a8e3df508c90229d2657" prot="public">
+          <name>VERIFIED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a69b3d03cad22e237a2a7220befd57fedaff9726ecf722ce2a076e7cf705a073f7" prot="public">
+          <name>VALIDATING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a69b3d03cad22e237a2a7220befd57feda4d6154fe02ac9bf42fd2aacfa49310b0" prot="public">
+          <name>VALIDATED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a69b3d03cad22e237a2a7220befd57fedab8a1431064f351dbef92871d02bab8cf" prot="public">
+          <name>STAGING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a69b3d03cad22e237a2a7220befd57fedaeed342b6b3210e5c4952b8eb7ae33ede" prot="public">
+          <name>STAGED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a69b3d03cad22e237a2a7220befd57fedaf0e310ac027b783acc3f0772af161652" prot="public">
+          <name>ACTIVATING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a69b3d03cad22e237a2a7220befd57feda18ff74f43da410c5529f7d6fca84f115" prot="public">
+          <name>ACTIVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a69b3d03cad22e237a2a7220befd57fedab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a69b3d03cad22e237a2a7220befd57feda47a9a5e95b0b32bb9f2c74187c02bddd" prot="public">
+          <name>UNLOADING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Module load stage for staged loading. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="45" column="1" bodyfile="include/themis/base/module_loader.h" bodystart="45" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1modules_1a1dc6402cd67a74fddd0228330bc56783" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ModuleErrorCode</name>
+        <qualifiedname>themis::modules::ModuleErrorCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1modules_1a1dc6402cd67a74fddd0228330bc56783ad0749aaba8b833466dfcbb0428e4f89c" prot="public">
+          <name>SUCCESS</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a1dc6402cd67a74fddd0228330bc56783ab9ec21ac6382427994d3b997cecf4ab8" prot="public">
+          <name>MODULE_NOT_FOUND</name>
+          <initializer>= 100</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a1dc6402cd67a74fddd0228330bc56783aaef0e86a69ccb05578f1c27c565ea006" prot="public">
+          <name>MODULE_ALREADY_LOADED</name>
+          <initializer>= 101</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a1dc6402cd67a74fddd0228330bc56783aafa89c54e2080395a3aff16162129d25" prot="public">
+          <name>MODULE_DIRECTORY_NOT_FOUND</name>
+          <initializer>= 102</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a1dc6402cd67a74fddd0228330bc56783a46bb98b74243b3db52c5428399232447" prot="public">
+          <name>MODULE_ACCESS_DENIED</name>
+          <initializer>= 103</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a1dc6402cd67a74fddd0228330bc56783a387d68a54f752b6bd0d114b30b2f10b3" prot="public">
+          <name>DEPENDENCY_NOT_FOUND</name>
+          <initializer>= 110</initializer>
+          <briefdescription>
+<para>Required dependency not registered or missing. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a1dc6402cd67a74fddd0228330bc56783a937082784b1939c50b44ea01f8c4ace8" prot="public">
+          <name>DEPENDENCY_CIRCULAR</name>
+          <initializer>= 111</initializer>
+          <briefdescription>
+<para>Circular dependency detected in module graph. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a1dc6402cd67a74fddd0228330bc56783a503e61f18bdf7654d86d1ee487d5a324" prot="public">
+          <name>DEPENDENCY_VERSION_MISMATCH</name>
+          <initializer>= 112</initializer>
+          <briefdescription>
+<para>Dependency version constraint not satisfied. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a1dc6402cd67a74fddd0228330bc56783a4eed0177f2593a164543593202187281" prot="public">
+          <name>VERIFICATION_FAILED</name>
+          <initializer>= 200</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a1dc6402cd67a74fddd0228330bc56783aead67fe5414f8130ba3c2a35c4934622" prot="public">
+          <name>SIGNATURE_INVALID</name>
+          <initializer>= 201</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a1dc6402cd67a74fddd0228330bc56783ac93ebf8fbedbcb375e9368dcfde5e59d" prot="public">
+          <name>HASH_MISMATCH</name>
+          <initializer>= 202</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a1dc6402cd67a74fddd0228330bc56783a5842db91f5afd5fc198e4b36cd92e82f" prot="public">
+          <name>CERTIFICATE_REVOKED</name>
+          <initializer>= 203</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a1dc6402cd67a74fddd0228330bc56783ad6f1630c8a87c1b2c152132ae04648b5" prot="public">
+          <name>CERTIFICATE_EXPIRED</name>
+          <initializer>= 204</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a1dc6402cd67a74fddd0228330bc56783a7f4b3e003086b96dbce8a5df9ef7158f" prot="public">
+          <name>UNTRUSTED_SIGNER</name>
+          <initializer>= 205</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a1dc6402cd67a74fddd0228330bc56783a1a5b011f5fb05d123281ed14a1e7667f" prot="public">
+          <name>LOAD_LIBRARY_FAILED</name>
+          <initializer>= 300</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a1dc6402cd67a74fddd0228330bc56783a7e154a753690fd4e3fe5d08566431cb0" prot="public">
+          <name>SYMBOL_NOT_FOUND</name>
+          <initializer>= 301</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a1dc6402cd67a74fddd0228330bc56783afdd2c3274e42cbf32d77a90e764f1faf" prot="public">
+          <name>INITIALIZATION_FAILED</name>
+          <initializer>= 302</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a1dc6402cd67a74fddd0228330bc56783a60aa272283adc6e0fba42b681e0d77ba" prot="public">
+          <name>HEALTH_CHECK_FAILED</name>
+          <initializer>= 303</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a1dc6402cd67a74fddd0228330bc56783a5f73d922dff1adc1aa099b4005a391c6" prot="public">
+          <name>STAGING_FAILED</name>
+          <initializer>= 304</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a1dc6402cd67a74fddd0228330bc56783a694861adef63d1f4fa342369fee9c679" prot="public">
+          <name>ACTIVATION_FAILED</name>
+          <initializer>= 305</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a1dc6402cd67a74fddd0228330bc56783a21a28bbb92f88d2b8eca1c45517d4479" prot="public">
+          <name>VERSION_INCOMPATIBLE</name>
+          <initializer>= 400</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a1dc6402cd67a74fddd0228330bc56783aac379ec4bed74eb6af303077693fa47d" prot="public">
+          <name>ABI_INCOMPATIBLE</name>
+          <initializer>= 401</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a1dc6402cd67a74fddd0228330bc56783af556c73a8073d6170ff711de35198aca" prot="public">
+          <name>METADATA_MISSING</name>
+          <initializer>= 402</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a1dc6402cd67a74fddd0228330bc56783abf99ecd5f85e36aab32cf7cd5e0f11a9" prot="public">
+          <name>METADATA_CORRUPTED</name>
+          <initializer>= 403</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a1dc6402cd67a74fddd0228330bc56783a169cb04bda558347b02294770e4b9e0c" prot="public">
+          <name>POLICY_VIOLATION</name>
+          <initializer>= 500</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a1dc6402cd67a74fddd0228330bc56783adfed2f41a09f71d0705289cad9f862ff" prot="public">
+          <name>BLACKLISTED</name>
+          <initializer>= 501</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a1dc6402cd67a74fddd0228330bc56783ac4872f92bf14c05903111e517c396031" prot="public">
+          <name>QUARANTINED</name>
+          <initializer>= 502</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a1dc6402cd67a74fddd0228330bc56783a33864313fc2d381f2de776c420cda4c4" prot="public">
+          <name>ZONE_ID_BLOCKED</name>
+          <initializer>= 503</initializer>
+          <briefdescription>
+<para>Windows Zone.Identifier marks file as Internet/Restricted zone. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a1dc6402cd67a74fddd0228330bc56783ae8c0c70879b5895c615677261d64a1ee" prot="public">
+          <name>INTERNAL_ERROR</name>
+          <initializer>= 900</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1a1dc6402cd67a74fddd0228330bc56783a9a10f345b0f755d461a8673a5e9ef6b4" prot="public">
+          <name>UNKNOWN_ERROR</name>
+          <initializer>= 999</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Module error codes for structured error handling. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="100" column="1" bodyfile="include/themis/base/module_loader.h" bodystart="100" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1modules_1ac67f7d9ae6bcf0b03d4763ddfcb75626" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ErrorCategory</name>
+        <qualifiedname>themis::modules::ErrorCategory</qualifiedname>
+        <enumvalue id="namespacethemis_1_1modules_1ac67f7d9ae6bcf0b03d4763ddfcb75626ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1ac67f7d9ae6bcf0b03d4763ddfcb75626a18a0316e7c30cc56acf083d96de6c386" prot="public">
+          <name>TRANSIENT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1ac67f7d9ae6bcf0b03d4763ddfcb75626a54bcf9b291726b4cf8343f61681a5cfd" prot="public">
+          <name>PERMANENT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1ac67f7d9ae6bcf0b03d4763ddfcb75626a8a0a1750ad19273cd6ee6e418573ee62" prot="public">
+          <name>RECOVERABLE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1ac67f7d9ae6bcf0b03d4763ddfcb75626a19da7170bea36556dde582519795f3fc" prot="public">
+          <name>FATAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Error category for error handling strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="150" column="1" bodyfile="include/themis/base/module_loader.h" bodystart="150" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1modules_1ad24edb733d3224421e96cc51f2f1217a" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>GraphExportFormat</name>
+        <qualifiedname>themis::modules::GraphExportFormat</qualifiedname>
+        <enumvalue id="namespacethemis_1_1modules_1ad24edb733d3224421e96cc51f2f1217aa40679521b5da0954b705341a2859f782" prot="public">
+          <name>DOT</name>
+          <briefdescription>
+<para>Graphviz DOT language (suitable for dot/neato/fdp rendering). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1ad24edb733d3224421e96cc51f2f1217aa0ecd11c1d7a287401d148a23bbd7a2f8" prot="public">
+          <name>JSON</name>
+          <briefdescription>
+<para>JSON object with &quot;nodes&quot; and &quot;edges&quot; arrays. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1modules_1ad24edb733d3224421e96cc51f2f1217aad2cd8253361a9c732d21ca1d336599cc" prot="public">
+          <name>ASCII</name>
+          <briefdescription>
+<para>Human-readable ASCII dependency tree. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Output format for <ref refid="classthemis_1_1modules_1_1_plugin_dependency_graph_1a1baa862bfd1b7dfefa1de87852bf434a" kindref="member">PluginDependencyGraph::exportTo()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/plugin_dependency_graph.h" line="40" column="1" bodyfile="include/themis/base/plugin_dependency_graph.h" bodystart="40" bodyend="44"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1modules_1a247a06ddf27e20bcdd99cb9339b9114a" prot="public" static="no">
+        <type>std::function&lt; <ref refid="structthemis_1_1modules_1_1_health_check_result" kindref="compound">HealthCheckResult</ref>(void *moduleHandle, const std::string &amp;moduleName)&gt;</type>
+        <definition>using themis::modules::HealthCheckFunction = std::function&lt;HealthCheckResult(void* moduleHandle, const std::string&amp; moduleName)&gt;</definition>
+        <argsstring></argsstring>
+        <name>HealthCheckFunction</name>
+        <qualifiedname>themis::modules::HealthCheckFunction</qualifiedname>
+        <briefdescription>
+<para>Health check function type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Health check functions are called before module activation. They can verify module initialization, resource availability, etc.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>moduleHandle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>OS-specific module handle </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>moduleName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the module being checked </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Health check result </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="95" column="1" bodyfile="include/themis/base/module_loader.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1modules_1aeaed24bd4fe681b9068c80da5239c1f3" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1modules_1_1_span_event" kindref="compound">SpanEvent</ref> &amp;)&gt;</type>
+        <definition>using themis::modules::SpanEmitter = std::function&lt;void(const SpanEvent&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>SpanEmitter</name>
+        <qualifiedname>themis::modules::SpanEmitter</qualifiedname>
+        <briefdescription>
+<para>Injectable span emitter callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Callers receive span events via the <computeroutput>operator()</computeroutput> overload. The default type alias accepts <computeroutput>std::function&lt;void(const SpanEvent&amp;)&gt;</computeroutput> so any lambda, function pointer, or callable can be used.</para>
+<para>Thread safety: implementations shared across threads must be internally synchronized. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/trace_context.h" line="165" column="1" bodyfile="include/themis/base/trace_context.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1modules_1aa45ebba1f9a95604ec5cc5daa94d92e1" prot="public" static="no">
+        <type>std::function&lt; bool( uint8_t * linear_memory, size_t memory_size, const std::vector&lt; uint8_t &gt; &amp;args, std::vector&lt; uint8_t &gt; &amp; out)&gt;</type>
+        <definition>using themis::modules::WasmHostFn = std::function&lt;bool(
+   uint8_t*           linear_memory,
+   size_t             memory_size,
+   const std::vector&lt;uint8_t&gt;&amp; args,
+   std::vector&lt;uint8_t&gt;&amp;       out)&gt;</definition>
+        <argsstring></argsstring>
+        <name>WasmHostFn</name>
+        <qualifiedname>themis::modules::WasmHostFn</qualifiedname>
+        <briefdescription>
+<para>Describes one host function that a WASM plugin may call. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The function receives a pointer to the plugin&apos;s linear memory (so it can read/write plugin-owned data safely) and an opaque argument blob that the WASM module passes via its stack.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>linear_memory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the plugin&apos;s linear memory region. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>memory_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Byte size of the linear memory. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Serialised argument blob (caller-defined format). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output blob (caller-defined format); may be empty. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success; false signals a trap. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="89" column="1" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1modules_1a6dcd72a9734611892082713aec7796e6" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1modules_1aeaed24bd4fe681b9068c80da5239c1f3" kindref="member">SpanEmitter</ref></type>
+        <definition>SpanEmitter themis::modules::noOpSpanEmitter</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>noOpSpanEmitter</name>
+        <qualifiedname>themis::modules::noOpSpanEmitter</qualifiedname>
+        <briefdescription>
+<para>Return a no-op <computeroutput><ref refid="namespacethemis_1_1modules_1aeaed24bd4fe681b9068c80da5239c1f3" kindref="member">SpanEmitter</ref></computeroutput> that discards all events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used as the default emitter when tracing is not configured, ensuring zero overhead from tracing instrumentation in production paths. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/trace_context.h" line="173" column="20" bodyfile="include/themis/base/trace_context.h" bodystart="173" bodyend="175"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/module_hash_verifier.h" line="27" column="1"/>
+  </compounddef>
+</doxygen>

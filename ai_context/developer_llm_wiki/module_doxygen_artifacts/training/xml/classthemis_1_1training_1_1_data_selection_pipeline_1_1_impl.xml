@@ -1,0 +1,263 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1training_1_1_data_selection_pipeline_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::training::DataSelectionPipeline::Impl</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_data_selection_pipeline_1_1_impl_1aea07f15dc31ed6e13a7a0ceb8b965147" prot="private" static="no" mutable="no">
+        <type><ref refid="struct_lo_r_a_data_selection_config" kindref="compound">LoRADataSelectionConfig</ref></type>
+        <definition>LoRADataSelectionConfig themis::training::DataSelectionPipeline::Impl::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::training::DataSelectionPipeline::Impl::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="801" column="29" bodyfile="src/training/lora_data_selection.cpp" bodystart="801" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_data_selection_pipeline_1_1_impl_1a917ddf093e201079ab972a94d2f993da" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::DataSelectionPipeline::Impl::Impl</definition>
+        <argsstring>(const LoRADataSelectionConfig &amp;config)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::training::DataSelectionPipeline::Impl::Impl</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_lo_r_a_data_selection_config" kindref="compound">LoRADataSelectionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="404" column="14" bodyfile="src/training/lora_data_selection.cpp" bodystart="404" bodyend="404"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_data_selection_pipeline_1_1_impl_1ae7bd485e312010dfe8962e006891ff64" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="struct_data_sample" kindref="compound">DataSample</ref> &gt;</type>
+        <definition>std::vector&lt; DataSample &gt; themis::training::DataSelectionPipeline::Impl::filterByQuality</definition>
+        <argsstring>(const std::vector&lt; DataSample &gt; &amp;samples) const</argsstring>
+        <name>filterByQuality</name>
+        <qualifiedname>themis::training::DataSelectionPipeline::Impl::filterByQuality</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="struct_data_sample" kindref="compound">DataSample</ref> &gt; &amp;</type>
+          <declname>samples</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="407" column="17" bodyfile="src/training/lora_data_selection.cpp" bodystart="407" bodyend="463"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_data_selection_pipeline_1_1_impl_1a9b20557d70ff7cb621a2d5798237f4d3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="struct_data_sample" kindref="compound">DataSample</ref> &gt;</type>
+        <definition>std::vector&lt; DataSample &gt; themis::training::DataSelectionPipeline::Impl::deduplicate</definition>
+        <argsstring>(const std::vector&lt; DataSample &gt; &amp;samples) const</argsstring>
+        <name>deduplicate</name>
+        <qualifiedname>themis::training::DataSelectionPipeline::Impl::deduplicate</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="struct_data_sample" kindref="compound">DataSample</ref> &gt; &amp;</type>
+          <declname>samples</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="466" column="17" bodyfile="src/training/lora_data_selection.cpp" bodystart="466" bodyend="503"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_data_selection_pipeline_1_1_impl_1a047be1cf402976273158bfb64f0322e3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="struct_data_sample" kindref="compound">DataSample</ref> &gt;</type>
+        <definition>std::vector&lt; DataSample &gt; themis::training::DataSelectionPipeline::Impl::clusterAndSample</definition>
+        <argsstring>(const std::vector&lt; DataSample &gt; &amp;samples, size_t k) const</argsstring>
+        <name>clusterAndSample</name>
+        <qualifiedname>themis::training::DataSelectionPipeline::Impl::clusterAndSample</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="struct_data_sample" kindref="compound">DataSample</ref> &gt; &amp;</type>
+          <declname>samples</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Selected. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">false</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="506" column="17" bodyfile="src/training/lora_data_selection.cpp" bodystart="506" bodyend="625"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_data_selection_pipeline_1_1_impl_1ac18e574c262ebc367859dbcfaef7c173" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::DataSelectionPipeline::Impl::scoreQualityAndDifficulty</definition>
+        <argsstring>(std::vector&lt; DataSample &gt; &amp;samples) const</argsstring>
+        <name>scoreQualityAndDifficulty</name>
+        <qualifiedname>themis::training::DataSelectionPipeline::Impl::scoreQualityAndDifficulty</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="struct_data_sample" kindref="compound">DataSample</ref> &gt; &amp;</type>
+          <declname>samples</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="628" column="10" bodyfile="src/training/lora_data_selection.cpp" bodystart="628" bodyend="652"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_data_selection_pipeline_1_1_impl_1a0b075cb5eae16acf5515ddb7bfd47596" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="struct_data_sample" kindref="compound">DataSample</ref> &gt;</type>
+        <definition>std::vector&lt; DataSample &gt; themis::training::DataSelectionPipeline::Impl::stratifiedSample</definition>
+        <argsstring>(const std::vector&lt; DataSample &gt; &amp;scored, size_t target) const</argsstring>
+        <name>stratifiedSample</name>
+        <qualifiedname>themis::training::DataSelectionPipeline::Impl::stratifiedSample</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="struct_data_sample" kindref="compound">DataSample</ref> &gt; &amp;</type>
+          <declname>scored</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="655" column="17" bodyfile="src/training/lora_data_selection.cpp" bodystart="655" bodyend="713"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_data_selection_pipeline_1_1_impl_1aa2c721e28d287429e5c7687025a5b512" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_data_selection_result" kindref="compound">DataSelectionResult</ref></type>
+        <definition>DataSelectionResult themis::training::DataSelectionPipeline::Impl::run</definition>
+        <argsstring>(const std::vector&lt; DataSample &gt; &amp;input, SelectionProgressCallback cb)</argsstring>
+        <name>run</name>
+        <qualifiedname>themis::training::DataSelectionPipeline::Impl::run</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="struct_data_sample" kindref="compound">DataSample</ref> &gt; &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1training_1ab62c68864316cf850af982b4c5370ee3" kindref="member">SelectionProgressCallback</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>-<mdash/> Full pipeline run ----------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: DataSelectionResult(), std::chrono::steady_clock::now(), <ref refid="classthemis_1_1training_1_1_data_selection_pipeline_1_1_impl_1ae7bd485e312010dfe8962e006891ff64" kindref="member">filterByQuality()</ref>, cb(), size(), <ref refid="classthemis_1_1training_1_1_data_selection_pipeline_1_1_impl_1a9b20557d70ff7cb621a2d5798237f4d3" kindref="member">deduplicate()</ref>, <ref refid="classthemis_1_1training_1_1_data_selection_pipeline_1_1_impl_1a047be1cf402976273158bfb64f0322e3" kindref="member">clusterAndSample()</ref>, <ref refid="classthemis_1_1training_1_1_data_selection_pipeline_1_1_impl_1ac18e574c262ebc367859dbcfaef7c173" kindref="member">scoreQualityAndDifficulty()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="722" column="25" bodyfile="src/training/lora_data_selection.cpp" bodystart="722" bodyend="790"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_data_selection_pipeline_1_1_impl_1ac4369c6c69e3015db07d4b7ef585481e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::DataSelectionPipeline::Impl::setConfig</definition>
+        <argsstring>(const LoRADataSelectionConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::training::DataSelectionPipeline::Impl::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_lo_r_a_data_selection_config" kindref="compound">LoRADataSelectionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="797" column="10" bodyfile="src/training/lora_data_selection.cpp" bodystart="797" bodyend="797"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_data_selection_pipeline_1_1_impl_1a2007445dc27c1951b2d367bac66a83cb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="struct_lo_r_a_data_selection_config" kindref="compound">LoRADataSelectionConfig</ref> &amp;</type>
+        <definition>const LoRADataSelectionConfig &amp; themis::training::DataSelectionPipeline::Impl::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::training::DataSelectionPipeline::Impl::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_data_selection.cpp" line="798" column="35" bodyfile="src/training/lora_data_selection.cpp" bodystart="798" bodyend="798"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/training/lora_data_selection.cpp" line="402" column="1" bodyfile="src/training/lora_data_selection.cpp" bodystart="402" bodyend="802"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1training_1_1_data_selection_pipeline_1_1_impl_1a047be1cf402976273158bfb64f0322e3" prot="public" virt="non-virtual"><scope>themis::training::DataSelectionPipeline::Impl</scope><name>clusterAndSample</name></member>
+      <member refid="classthemis_1_1training_1_1_data_selection_pipeline_1_1_impl_1aea07f15dc31ed6e13a7a0ceb8b965147" prot="private" virt="non-virtual"><scope>themis::training::DataSelectionPipeline::Impl</scope><name>config_</name></member>
+      <member refid="classthemis_1_1training_1_1_data_selection_pipeline_1_1_impl_1a9b20557d70ff7cb621a2d5798237f4d3" prot="public" virt="non-virtual"><scope>themis::training::DataSelectionPipeline::Impl</scope><name>deduplicate</name></member>
+      <member refid="classthemis_1_1training_1_1_data_selection_pipeline_1_1_impl_1ae7bd485e312010dfe8962e006891ff64" prot="public" virt="non-virtual"><scope>themis::training::DataSelectionPipeline::Impl</scope><name>filterByQuality</name></member>
+      <member refid="classthemis_1_1training_1_1_data_selection_pipeline_1_1_impl_1a2007445dc27c1951b2d367bac66a83cb" prot="public" virt="non-virtual"><scope>themis::training::DataSelectionPipeline::Impl</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1training_1_1_data_selection_pipeline_1_1_impl_1a917ddf093e201079ab972a94d2f993da" prot="public" virt="non-virtual"><scope>themis::training::DataSelectionPipeline::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1training_1_1_data_selection_pipeline_1_1_impl_1aa2c721e28d287429e5c7687025a5b512" prot="public" virt="non-virtual"><scope>themis::training::DataSelectionPipeline::Impl</scope><name>run</name></member>
+      <member refid="classthemis_1_1training_1_1_data_selection_pipeline_1_1_impl_1ac18e574c262ebc367859dbcfaef7c173" prot="public" virt="non-virtual"><scope>themis::training::DataSelectionPipeline::Impl</scope><name>scoreQualityAndDifficulty</name></member>
+      <member refid="classthemis_1_1training_1_1_data_selection_pipeline_1_1_impl_1ac4369c6c69e3015db07d4b7ef585481e" prot="public" virt="non-virtual"><scope>themis::training::DataSelectionPipeline::Impl</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1training_1_1_data_selection_pipeline_1_1_impl_1a0b075cb5eae16acf5515ddb7bfd47596" prot="public" virt="non-virtual"><scope>themis::training::DataSelectionPipeline::Impl</scope><name>stratifiedSample</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

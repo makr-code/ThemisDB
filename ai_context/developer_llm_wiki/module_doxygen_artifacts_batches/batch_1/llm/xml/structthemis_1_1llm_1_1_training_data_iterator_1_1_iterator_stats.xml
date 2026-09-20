@@ -1,0 +1,181 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_training_data_iterator_1_1_iterator_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::TrainingDataIterator::IteratorStats</compoundname>
+    <includes refid="training__data__iterator_8h" local="no">training_data_iterator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_training_data_iterator_1_1_iterator_stats_1a3ca2fa783ccc56a8e2ca25fe4c79b6f9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::TrainingDataIterator::IteratorStats::total_samples</definition>
+        <argsstring></argsstring>
+        <name>total_samples</name>
+        <qualifiedname>themis::llm::TrainingDataIterator::IteratorStats::total_samples</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/training_data_iterator.h" line="157" column="16" bodyfile="include/llm/training_data_iterator.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_training_data_iterator_1_1_iterator_stats_1adefb5ff6005b05ac06c6c2a654154a63" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::TrainingDataIterator::IteratorStats::processed_samples</definition>
+        <argsstring></argsstring>
+        <name>processed_samples</name>
+        <qualifiedname>themis::llm::TrainingDataIterator::IteratorStats::processed_samples</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/training_data_iterator.h" line="158" column="16" bodyfile="include/llm/training_data_iterator.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_training_data_iterator_1_1_iterator_stats_1aa1d696a069f6f08f5f4b062f4236b2f0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::TrainingDataIterator::IteratorStats::skipped_samples</definition>
+        <argsstring></argsstring>
+        <name>skipped_samples</name>
+        <qualifiedname>themis::llm::TrainingDataIterator::IteratorStats::skipped_samples</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/training_data_iterator.h" line="159" column="16" bodyfile="include/llm/training_data_iterator.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_training_data_iterator_1_1_iterator_stats_1a0027ddb27f664d5898cb78f1ebd96dd6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::TrainingDataIterator::IteratorStats::total_batches</definition>
+        <argsstring></argsstring>
+        <name>total_batches</name>
+        <qualifiedname>themis::llm::TrainingDataIterator::IteratorStats::total_batches</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/training_data_iterator.h" line="160" column="16" bodyfile="include/llm/training_data_iterator.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_training_data_iterator_1_1_iterator_stats_1ac220a5b7dc3ff77e570ee12fa494901d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::TrainingDataIterator::IteratorStats::processed_batches</definition>
+        <argsstring></argsstring>
+        <name>processed_batches</name>
+        <qualifiedname>themis::llm::TrainingDataIterator::IteratorStats::processed_batches</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/training_data_iterator.h" line="161" column="16" bodyfile="include/llm/training_data_iterator.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_training_data_iterator_1_1_iterator_stats_1ac61370b283d325a84b0715710e906e93" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::TrainingDataIterator::IteratorStats::avg_samples_per_batch</definition>
+        <argsstring></argsstring>
+        <name>avg_samples_per_batch</name>
+        <qualifiedname>themis::llm::TrainingDataIterator::IteratorStats::avg_samples_per_batch</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/training_data_iterator.h" line="162" column="16" bodyfile="include/llm/training_data_iterator.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_training_data_iterator_1_1_iterator_stats_1a30b4e5ecaa78ddced8a85665aeb27e09" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::TrainingDataIterator::IteratorStats::avg_tokens_per_sample</definition>
+        <argsstring></argsstring>
+        <name>avg_tokens_per_sample</name>
+        <qualifiedname>themis::llm::TrainingDataIterator::IteratorStats::avg_tokens_per_sample</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/training_data_iterator.h" line="163" column="16" bodyfile="include/llm/training_data_iterator.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_training_data_iterator_1_1_iterator_stats_1a29c2cf781440e9ed68a248c2fba93dbf" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::TrainingDataIterator::IteratorStats::total_tokens</definition>
+        <argsstring></argsstring>
+        <name>total_tokens</name>
+        <qualifiedname>themis::llm::TrainingDataIterator::IteratorStats::total_tokens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/training_data_iterator.h" line="164" column="16" bodyfile="include/llm/training_data_iterator.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_training_data_iterator_1_1_iterator_stats_1a94e5b59754df1f46c90ace76af026ab1" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::llm::TrainingDataIterator::IteratorStats::iteration_time</definition>
+        <argsstring></argsstring>
+        <name>iteration_time</name>
+        <qualifiedname>themis::llm::TrainingDataIterator::IteratorStats::iteration_time</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/training_data_iterator.h" line="165" column="35" bodyfile="include/llm/training_data_iterator.h" bodystart="165" bodyend="165"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_training_data_iterator_1_1_iterator_stats_1a66e686e88b07762fb68e3481a35a2b09" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::llm::TrainingDataIterator::IteratorStats::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::llm::TrainingDataIterator::IteratorStats::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/training_data_iterator.h" line="171" column="24"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/training_data_iterator.h" line="156" column="5" bodyfile="include/llm/training_data_iterator.h" bodystart="156" bodyend="172"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_training_data_iterator_1_1_iterator_stats_1ac61370b283d325a84b0715710e906e93" prot="public" virt="non-virtual"><scope>themis::llm::TrainingDataIterator::IteratorStats</scope><name>avg_samples_per_batch</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_data_iterator_1_1_iterator_stats_1a30b4e5ecaa78ddced8a85665aeb27e09" prot="public" virt="non-virtual"><scope>themis::llm::TrainingDataIterator::IteratorStats</scope><name>avg_tokens_per_sample</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_data_iterator_1_1_iterator_stats_1a94e5b59754df1f46c90ace76af026ab1" prot="public" virt="non-virtual"><scope>themis::llm::TrainingDataIterator::IteratorStats</scope><name>iteration_time</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_data_iterator_1_1_iterator_stats_1ac220a5b7dc3ff77e570ee12fa494901d" prot="public" virt="non-virtual"><scope>themis::llm::TrainingDataIterator::IteratorStats</scope><name>processed_batches</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_data_iterator_1_1_iterator_stats_1adefb5ff6005b05ac06c6c2a654154a63" prot="public" virt="non-virtual"><scope>themis::llm::TrainingDataIterator::IteratorStats</scope><name>processed_samples</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_data_iterator_1_1_iterator_stats_1aa1d696a069f6f08f5f4b062f4236b2f0" prot="public" virt="non-virtual"><scope>themis::llm::TrainingDataIterator::IteratorStats</scope><name>skipped_samples</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_data_iterator_1_1_iterator_stats_1a66e686e88b07762fb68e3481a35a2b09" prot="public" virt="non-virtual"><scope>themis::llm::TrainingDataIterator::IteratorStats</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_data_iterator_1_1_iterator_stats_1a0027ddb27f664d5898cb78f1ebd96dd6" prot="public" virt="non-virtual"><scope>themis::llm::TrainingDataIterator::IteratorStats</scope><name>total_batches</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_data_iterator_1_1_iterator_stats_1a3ca2fa783ccc56a8e2ca25fe4c79b6f9" prot="public" virt="non-virtual"><scope>themis::llm::TrainingDataIterator::IteratorStats</scope><name>total_samples</name></member>
+      <member refid="structthemis_1_1llm_1_1_training_data_iterator_1_1_iterator_stats_1a29c2cf781440e9ed68a248c2fba93dbf" prot="public" virt="non-virtual"><scope>themis::llm::TrainingDataIterator::IteratorStats</scope><name>total_tokens</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

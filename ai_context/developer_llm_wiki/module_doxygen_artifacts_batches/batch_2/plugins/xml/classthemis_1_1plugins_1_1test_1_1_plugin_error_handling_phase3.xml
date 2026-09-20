@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1test_1_1_plugin_error_handling_phase3" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::test::PluginErrorHandlingPhase3</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1test_1_1_plugin_error_handling_phase3_1ae5e64e5e79fbd3a7d192179128879552" prot="protected" static="no" mutable="no">
+        <type><ref refid="class_plugin_manager" kindref="compound">PluginManager</ref></type>
+        <definition>PluginManager themis::plugins::test::PluginErrorHandlingPhase3::manager_</definition>
+        <argsstring></argsstring>
+        <name>manager_</name>
+        <qualifiedname>themis::plugins::test::PluginErrorHandlingPhase3::manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_error_handling_phase3.cpp" line="99" column="19" bodyfile="tests/plugins/test_plugin_error_handling_phase3.cpp" bodystart="99" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1test_1_1_plugin_error_handling_phase3_1a14eaeea118d0b4e001964208ceb0cb7f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::test::PluginErrorHandlingPhase3::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::plugins::test::PluginErrorHandlingPhase3::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_error_handling_phase3.cpp" line="101" column="10" bodyfile="tests/plugins/test_plugin_error_handling_phase3.cpp" bodystart="101" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1test_1_1_plugin_error_handling_phase3_1ab7752f7def9512dcdb442b3304053cbc" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::test::PluginErrorHandlingPhase3::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::plugins::test::PluginErrorHandlingPhase3::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_error_handling_phase3.cpp" line="105" column="10" bodyfile="tests/plugins/test_plugin_error_handling_phase3.cpp" bodystart="105" bodyend="108"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::plugins::test::PluginErrorHandlingPhase3</label>
+        <link refid="classthemis_1_1plugins_1_1test_1_1_plugin_error_handling_phase3"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::plugins::PluginManager</label>
+        <link refid="classthemis_1_1plugins_1_1_plugin_manager"/>
+      </node>
+      <node id="1">
+        <label>themis::plugins::test::PluginErrorHandlingPhase3</label>
+        <link refid="classthemis_1_1plugins_1_1test_1_1_plugin_error_handling_phase3"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>manager_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/plugins/test_plugin_error_handling_phase3.cpp" line="97" column="1" bodyfile="tests/plugins/test_plugin_error_handling_phase3.cpp" bodystart="97" bodyend="109"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1test_1_1_plugin_error_handling_phase3_1ae5e64e5e79fbd3a7d192179128879552" prot="protected" virt="non-virtual"><scope>themis::plugins::test::PluginErrorHandlingPhase3</scope><name>manager_</name></member>
+      <member refid="classthemis_1_1plugins_1_1test_1_1_plugin_error_handling_phase3_1a14eaeea118d0b4e001964208ceb0cb7f" prot="protected" virt="non-virtual"><scope>themis::plugins::test::PluginErrorHandlingPhase3</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1plugins_1_1test_1_1_plugin_error_handling_phase3_1ab7752f7def9512dcdb442b3304053cbc" prot="protected" virt="non-virtual"><scope>themis::plugins::test::PluginErrorHandlingPhase3</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

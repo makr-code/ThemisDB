@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_distributed_vector_index_test" kind="class" language="C++" prot="public">
+    <compoundname>DistributedVectorIndexTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_distributed_vector_index_test_1afe455002a5d39c34e06c336e8ed15daa" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t DistributedVectorIndexTest::N</definition>
+        <argsstring></argsstring>
+        <name>N</name>
+        <qualifiedname>DistributedVectorIndexTest::N</qualifiedname>
+        <initializer>= 500</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_distributed_vector_index.cpp" line="146" column="29" bodyfile="tests/index/test_distributed_vector_index.cpp" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_distributed_vector_index_test_1af2e04a99caf2d294b5ad017f19695d8c" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t DistributedVectorIndexTest::DIM</definition>
+        <argsstring></argsstring>
+        <name>DIM</name>
+        <qualifiedname>DistributedVectorIndexTest::DIM</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_distributed_vector_index.cpp" line="147" column="29" bodyfile="tests/index/test_distributed_vector_index.cpp" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_distributed_vector_index_test_1ae58864adb925f187aefe23901ad1b021" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int DistributedVectorIndexTest::K</definition>
+        <argsstring></argsstring>
+        <name>K</name>
+        <qualifiedname>DistributedVectorIndexTest::K</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_distributed_vector_index.cpp" line="148" column="29" bodyfile="tests/index/test_distributed_vector_index.cpp" bodystart="148" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_distributed_vector_index_test_1aeb2fe57cb1ff013adc619289c1d5cdbc" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;float&gt; &gt; DistributedVectorIndexTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>DistributedVectorIndexTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_distributed_vector_index.cpp" line="150" column="17" bodyfile="tests/index/test_distributed_vector_index.cpp" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_distributed_vector_index_test_1ad638248ba2a78681fa0f1c7d57deb3c7" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; DistributedVectorIndexTest::pks_</definition>
+        <argsstring></argsstring>
+        <name>pks_</name>
+        <qualifiedname>DistributedVectorIndexTest::pks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_distributed_vector_index.cpp" line="151" column="24" bodyfile="tests/index/test_distributed_vector_index.cpp" bodystart="151" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_distributed_vector_index_test_1a4832add0acf25342352d3856cbc63fb9" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DistributedVectorIndexTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>DistributedVectorIndexTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_distributed_vector_index.cpp" line="153" column="10" bodyfile="tests/index/test_distributed_vector_index.cpp" bodystart="153" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="class_distributed_vector_index_test_1aeecdbea8b021f38ead0c9a3cbfe5988a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1index_1_1_distributed_vector_index" kindref="compound">DistributedVectorIndex</ref></type>
+        <definition>DistributedVectorIndex DistributedVectorIndexTest::buildIndex</definition>
+        <argsstring>(const DistributedVectorIndexConfig &amp;cfg)</argsstring>
+        <name>buildIndex</name>
+        <qualifiedname>DistributedVectorIndexTest::buildIndex</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1index_1_1_distributed_vector_index_config" kindref="compound">DistributedVectorIndexConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Build a <ref refid="classthemis_1_1index_1_1_distributed_vector_index" kindref="compound">DistributedVectorIndex</ref> with <computeroutput>cfg</computeroutput> and insert all db_ vectors. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_distributed_vector_index.cpp" line="161" column="28" bodyfile="tests/index/test_distributed_vector_index.cpp" bodystart="161" bodyend="166"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>DistributedVectorIndexTest</label>
+        <link refid="class_distributed_vector_index_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>DistributedVectorIndexTest</label>
+        <link refid="class_distributed_vector_index_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/index/test_distributed_vector_index.cpp" line="144" column="1" bodyfile="tests/index/test_distributed_vector_index.cpp" bodystart="144" bodyend="166"/>
+    <listofallmembers>
+      <member refid="class_distributed_vector_index_test_1aeecdbea8b021f38ead0c9a3cbfe5988a" prot="protected" virt="non-virtual"><scope>DistributedVectorIndexTest</scope><name>buildIndex</name></member>
+      <member refid="class_distributed_vector_index_test_1aeb2fe57cb1ff013adc619289c1d5cdbc" prot="protected" virt="non-virtual"><scope>DistributedVectorIndexTest</scope><name>db_</name></member>
+      <member refid="class_distributed_vector_index_test_1af2e04a99caf2d294b5ad017f19695d8c" prot="protected" virt="non-virtual"><scope>DistributedVectorIndexTest</scope><name>DIM</name></member>
+      <member refid="class_distributed_vector_index_test_1ae58864adb925f187aefe23901ad1b021" prot="protected" virt="non-virtual"><scope>DistributedVectorIndexTest</scope><name>K</name></member>
+      <member refid="class_distributed_vector_index_test_1afe455002a5d39c34e06c336e8ed15daa" prot="protected" virt="non-virtual"><scope>DistributedVectorIndexTest</scope><name>N</name></member>
+      <member refid="class_distributed_vector_index_test_1ad638248ba2a78681fa0f1c7d57deb3c7" prot="protected" virt="non-virtual"><scope>DistributedVectorIndexTest</scope><name>pks_</name></member>
+      <member refid="class_distributed_vector_index_test_1a4832add0acf25342352d3856cbc63fb9" prot="protected" virt="non-virtual"><scope>DistributedVectorIndexTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

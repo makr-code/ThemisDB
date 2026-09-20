@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1tbb" kind="namespace" language="C++">
+    <compoundname>themis::tbb</compoundname>
+    <innerclass refid="classthemis_1_1tbb_1_1task__group" prot="public">themis::tbb::task_group</innerclass>
+    <innerclass refid="classthemis_1_1tbb_1_1task__arena" prot="public">themis::tbb::task_arena</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/query/parallel_executor.cpp" line="52" column="1"/>
+  </compounddef>
+</doxygen>

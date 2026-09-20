@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_load_aware_shard_selector" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::graph::test::phase3::lbs::LoadAwareShardSelector</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_load_aware_shard_selector_1a0afc0e29f24341159d704de55380dfda" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::graph::test::phase3::lbs::LoadAwareShardSelector::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themisdb::graph::test::phase3::lbs::LoadAwareShardSelector::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2046" column="31" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2046" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_load_aware_shard_selector_1af6a97d8d755f0532eebc7815d251e3b1" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_shard_metrics" kindref="compound">ShardMetrics</ref> &gt;</type>
+        <definition>std::vector&lt;ShardMetrics&gt; themisdb::graph::test::phase3::lbs::LoadAwareShardSelector::shards_</definition>
+        <argsstring></argsstring>
+        <name>shards_</name>
+        <qualifiedname>themisdb::graph::test::phase3::lbs::LoadAwareShardSelector::shards_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2047" column="17" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2047" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_load_aware_shard_selector_1a3f4c203005a1428c50e1e93d7fc26f22" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::lbs::LoadAwareShardSelector::LoadAwareShardSelector</definition>
+        <argsstring>(std::vector&lt; ShardMetrics &gt; shards)</argsstring>
+        <name>LoadAwareShardSelector</name>
+        <qualifiedname>themisdb::graph::test::phase3::lbs::LoadAwareShardSelector::LoadAwareShardSelector</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_shard_metrics" kindref="compound">ShardMetrics</ref> &gt;</type>
+          <declname>shards</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2001" column="14" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2001" bodyend="2002"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_load_aware_shard_selector_1a43703cfd777b1088e7a31d88fb0bffcd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::graph::test::phase3::lbs::LoadAwareShardSelector::selectShard</definition>
+        <argsstring>() const</argsstring>
+        <name>selectShard</name>
+        <qualifiedname>themisdb::graph::test::phase3::lbs::LoadAwareShardSelector::selectShard</qualifiedname>
+        <briefdescription>
+<para>Return the ID of the least-loaded shard. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2005" column="17" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2005" bodyend="2014"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_load_aware_shard_selector_1a2e63a0801d7eed8a75b38367da333374" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::graph::test::phase3::lbs::LoadAwareShardSelector::updateMetrics</definition>
+        <argsstring>(const std::string &amp;id, ShardMetrics m)</argsstring>
+        <name>updateMetrics</name>
+        <qualifiedname>themisdb::graph::test::phase3::lbs::LoadAwareShardSelector::updateMetrics</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_shard_metrics" kindref="compound">ShardMetrics</ref></type>
+          <declname>m</declname>
+        </param>
+        <briefdescription>
+<para>Update metrics for a given shard. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2017" column="10" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2017" bodyend="2021"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_load_aware_shard_selector_1a1130f90505e836517f750c14dbd6c970" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::graph::test::phase3::lbs::LoadAwareShardSelector::shardCount</definition>
+        <argsstring>() const</argsstring>
+        <name>shardCount</name>
+        <qualifiedname>themisdb::graph::test::phase3::lbs::LoadAwareShardSelector::shardCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2023" column="12" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2023" bodyend="2025"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_load_aware_shard_selector_1ab8f6c4a0afa07e916be37b9e7c6724f1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themisdb::graph::test::phase3::lbs::LoadAwareShardSelector::latencyVariance</definition>
+        <argsstring>() const</argsstring>
+        <name>latencyVariance</name>
+        <qualifiedname>themisdb::graph::test::phase3::lbs::LoadAwareShardSelector::latencyVariance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2027" column="12" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2027" bodyend="2043"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Load-aware shard selector — picks the shard with minimum load score. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1999" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1999" bodyend="2048"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_load_aware_shard_selector_1ab8f6c4a0afa07e916be37b9e7c6724f1" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::lbs::LoadAwareShardSelector</scope><name>latencyVariance</name></member>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_load_aware_shard_selector_1a3f4c203005a1428c50e1e93d7fc26f22" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::lbs::LoadAwareShardSelector</scope><name>LoadAwareShardSelector</name></member>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_load_aware_shard_selector_1a0afc0e29f24341159d704de55380dfda" prot="private" virt="non-virtual"><scope>themisdb::graph::test::phase3::lbs::LoadAwareShardSelector</scope><name>mu_</name></member>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_load_aware_shard_selector_1a43703cfd777b1088e7a31d88fb0bffcd" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::lbs::LoadAwareShardSelector</scope><name>selectShard</name></member>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_load_aware_shard_selector_1a1130f90505e836517f750c14dbd6c970" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::lbs::LoadAwareShardSelector</scope><name>shardCount</name></member>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_load_aware_shard_selector_1af6a97d8d755f0532eebc7815d251e3b1" prot="private" virt="non-virtual"><scope>themisdb::graph::test::phase3::lbs::LoadAwareShardSelector</scope><name>shards_</name></member>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_load_aware_shard_selector_1a2e63a0801d7eed8a75b38367da333374" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::lbs::LoadAwareShardSelector</scope><name>updateMetrics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_b3a4a1e9a994d45bd8f63a82dd87b8ce" kind="dir">
+    <compoundname>benchmarks/image_analysis</compoundname>
+    <innerfile refid="bench__image__analysis_8cpp">bench_image_analysis.cpp</innerfile>
+    <innerfile refid="bench__image__analysis__latency_8cpp">bench_image_analysis_latency.cpp</innerfile>
+    <innerfile refid="benchmark__image__analysis_8cpp">benchmark_image_analysis.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/image_analysis/"/>
+  </compounddef>
+</doxygen>

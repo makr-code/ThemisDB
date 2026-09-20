@@ -1,0 +1,281 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1streaming_1_1_context_window_filler" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::streaming::ContextWindowFiller</compoundname>
+    <includes refid="streaming__retriever_8h" local="no">streaming_retriever.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1streaming_1_1_context_window_filler_1ac97208939a7e769b383954216bb7db66" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::streaming::ContextWindowFiller::max_tokens_</definition>
+        <argsstring></argsstring>
+        <name>max_tokens_</name>
+        <qualifiedname>themis::rag::streaming::ContextWindowFiller::max_tokens_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="174" column="12" bodyfile="include/rag/streaming_retriever.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1streaming_1_1_context_window_filler_1a85ba93e01ae7a403ab35eaeebb5f0e3a" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::streaming::ContextWindowFiller::chars_per_token_</definition>
+        <argsstring></argsstring>
+        <name>chars_per_token_</name>
+        <qualifiedname>themis::rag::streaming::ContextWindowFiller::chars_per_token_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="175" column="12" bodyfile="include/rag/streaming_retriever.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1streaming_1_1_context_window_filler_1aeeae32fc6f8db5ac2797b7c3f0ec091d" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::streaming::ContextWindowFiller::tokens_used_</definition>
+        <argsstring></argsstring>
+        <name>tokens_used_</name>
+        <qualifiedname>themis::rag::streaming::ContextWindowFiller::tokens_used_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="176" column="12" bodyfile="include/rag/streaming_retriever.h" bodystart="176" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1streaming_1_1_context_window_filler_1a769f3b0f253d510a4c88c8a994b61356" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document" kindref="compound">StreamedDocument</ref> &gt;</type>
+        <definition>std::vector&lt;StreamedDocument&gt; themis::rag::streaming::ContextWindowFiller::documents_</definition>
+        <argsstring></argsstring>
+        <name>documents_</name>
+        <qualifiedname>themis::rag::streaming::ContextWindowFiller::documents_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="177" column="17" bodyfile="include/rag/streaming_retriever.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1streaming_1_1_context_window_filler_1a4223c924916aa162784bcfe1ab6ca98c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::streaming::ContextWindowFiller::ContextWindowFiller</definition>
+        <argsstring>(size_t max_tokens, double chars_per_token=4.0)</argsstring>
+        <name>ContextWindowFiller</name>
+        <qualifiedname>themis::rag::streaming::ContextWindowFiller::ContextWindowFiller</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>max_tokens</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>chars_per_token</declname>
+          <defval>4.0</defval>
+        </param>
+        <briefdescription>
+<para>Construct with a token budget. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>max_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum tokens the window may hold. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>chars_per_token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Conversion factor for estimating token counts. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="135" column="14" bodyfile="src/rag/streaming_retriever.cpp" bodystart="74" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1streaming_1_1_context_window_filler_1a5785aec64b81d21672e52e963b1d88f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::streaming::ContextWindowFiller::tryAdd</definition>
+        <argsstring>(const StreamedDocument &amp;doc)</argsstring>
+        <name>tryAdd</name>
+        <qualifiedname>themis::rag::streaming::ContextWindowFiller::tryAdd</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document" kindref="compound">StreamedDocument</ref> &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <briefdescription>
+<para>Attempt to add a document to the window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Try Add.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The candidate document. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the document was accepted, false if it did not fit.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1rag_1_1streaming_1_1_context_window_filler_1a1b319b18ec706a550b86cdd8cdeda513" kindref="member">estimateTokens()</ref>, push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="143" column="10" bodyfile="src/rag/streaming_retriever.cpp" bodystart="95" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1streaming_1_1_context_window_filler_1a069f1df70a55b17936c4c579a8c951d6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::streaming::ContextWindowFiller::hasCapacity</definition>
+        <argsstring>(size_t min_tokens=1) const</argsstring>
+        <name>hasCapacity</name>
+        <qualifiedname>themis::rag::streaming::ContextWindowFiller::hasCapacity</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>min_tokens</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+<para>Check whether there is still room for at least <computeroutput>min_tokens</computeroutput> more. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>min_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Minimum tokens needed (default 1). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="149" column="10" bodyfile="src/rag/streaming_retriever.cpp" bodystart="115" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1streaming_1_1_context_window_filler_1a429f7b77b90a9b90c42aaf54f1f12de5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1streaming_1_1_context_window_state" kindref="compound">ContextWindowState</ref></type>
+        <definition>ContextWindowState themis::rag::streaming::ContextWindowFiller::snapshot</definition>
+        <argsstring>() const</argsstring>
+        <name>snapshot</name>
+        <qualifiedname>themis::rag::streaming::ContextWindowFiller::snapshot</qualifiedname>
+        <briefdescription>
+<para>Return a snapshot of the current context window state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="154" column="24" bodyfile="src/rag/streaming_retriever.cpp" bodystart="120" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1streaming_1_1_context_window_filler_1a86c71fee1195f3853d422f962ea57145" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document" kindref="compound">StreamedDocument</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; StreamedDocument &gt; &amp; themis::rag::streaming::ContextWindowFiller::documents</definition>
+        <argsstring>() const</argsstring>
+        <name>documents</name>
+        <qualifiedname>themis::rag::streaming::ContextWindowFiller::documents</qualifiedname>
+        <briefdescription>
+<para>Return only the documents currently in the window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="159" column="23" bodyfile="src/rag/streaming_retriever.cpp" bodystart="132" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1streaming_1_1_context_window_filler_1acfca5ece7fe2c805b94f6abb6a4903d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::streaming::ContextWindowFiller::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::rag::streaming::ContextWindowFiller::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the window to empty (keep the same token budget). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset the modification detection flag.</para>
+<para>Calls: clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="164" column="10" bodyfile="src/rag/streaming_retriever.cpp" bodystart="140" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1streaming_1_1_context_window_filler_1a1b319b18ec706a550b86cdd8cdeda513" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::rag::streaming::ContextWindowFiller::estimateTokens</definition>
+        <argsstring>(const std::string &amp;text) const</argsstring>
+        <name>estimateTokens</name>
+        <qualifiedname>themis::rag::streaming::ContextWindowFiller::estimateTokens</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Estimate token count for a string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input text. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Estimated number of tokens. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="171" column="12" bodyfile="src/rag/streaming_retriever.cpp" bodystart="79" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Manages the bounded token budget for an incremental context window. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tracks which documents have been added, enforces the token budget, and provides a snapshot of the current window state at any time. </para>
+    </detaileddescription>
+    <location file="include/rag/streaming_retriever.h" line="128" column="1" bodyfile="include/rag/streaming_retriever.h" bodystart="128" bodyend="178"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1streaming_1_1_context_window_filler_1a85ba93e01ae7a403ab35eaeebb5f0e3a" prot="private" virt="non-virtual"><scope>themis::rag::streaming::ContextWindowFiller</scope><name>chars_per_token_</name></member>
+      <member refid="classthemis_1_1rag_1_1streaming_1_1_context_window_filler_1a4223c924916aa162784bcfe1ab6ca98c" prot="public" virt="non-virtual"><scope>themis::rag::streaming::ContextWindowFiller</scope><name>ContextWindowFiller</name></member>
+      <member refid="classthemis_1_1rag_1_1streaming_1_1_context_window_filler_1a86c71fee1195f3853d422f962ea57145" prot="public" virt="non-virtual"><scope>themis::rag::streaming::ContextWindowFiller</scope><name>documents</name></member>
+      <member refid="classthemis_1_1rag_1_1streaming_1_1_context_window_filler_1a769f3b0f253d510a4c88c8a994b61356" prot="private" virt="non-virtual"><scope>themis::rag::streaming::ContextWindowFiller</scope><name>documents_</name></member>
+      <member refid="classthemis_1_1rag_1_1streaming_1_1_context_window_filler_1a1b319b18ec706a550b86cdd8cdeda513" prot="public" virt="non-virtual"><scope>themis::rag::streaming::ContextWindowFiller</scope><name>estimateTokens</name></member>
+      <member refid="classthemis_1_1rag_1_1streaming_1_1_context_window_filler_1a069f1df70a55b17936c4c579a8c951d6" prot="public" virt="non-virtual"><scope>themis::rag::streaming::ContextWindowFiller</scope><name>hasCapacity</name></member>
+      <member refid="classthemis_1_1rag_1_1streaming_1_1_context_window_filler_1ac97208939a7e769b383954216bb7db66" prot="private" virt="non-virtual"><scope>themis::rag::streaming::ContextWindowFiller</scope><name>max_tokens_</name></member>
+      <member refid="classthemis_1_1rag_1_1streaming_1_1_context_window_filler_1acfca5ece7fe2c805b94f6abb6a4903d6" prot="public" virt="non-virtual"><scope>themis::rag::streaming::ContextWindowFiller</scope><name>reset</name></member>
+      <member refid="classthemis_1_1rag_1_1streaming_1_1_context_window_filler_1a429f7b77b90a9b90c42aaf54f1f12de5" prot="public" virt="non-virtual"><scope>themis::rag::streaming::ContextWindowFiller</scope><name>snapshot</name></member>
+      <member refid="classthemis_1_1rag_1_1streaming_1_1_context_window_filler_1aeeae32fc6f8db5ac2797b7c3f0ec091d" prot="private" virt="non-virtual"><scope>themis::rag::streaming::ContextWindowFiller</scope><name>tokens_used_</name></member>
+      <member refid="classthemis_1_1rag_1_1streaming_1_1_context_window_filler_1a5785aec64b81d21672e52e963b1d88f7" prot="public" virt="non-virtual"><scope>themis::rag::streaming::ContextWindowFiller</scope><name>tryAdd</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

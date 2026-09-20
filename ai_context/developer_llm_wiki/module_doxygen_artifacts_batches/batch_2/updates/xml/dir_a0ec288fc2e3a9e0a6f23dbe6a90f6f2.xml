@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_a0ec288fc2e3a9e0a6f23dbe6a90f6f2" kind="dir">
+    <compoundname>include/updates</compoundname>
+    <innerfile refid="batch5__safety__helpers_8h">batch5_safety_helpers.h</innerfile>
+    <innerfile refid="blue__green__deployment_8h">blue_green_deployment.h</innerfile>
+    <innerfile refid="build__verifier_8h">build_verifier.h</innerfile>
+    <innerfile refid="canary__rollout_8h">canary_rollout.h</innerfile>
+    <innerfile refid="cluster__update__manager_8h">cluster_update_manager.h</innerfile>
+    <innerfile refid="coordinated__update__manager_8h">coordinated_update_manager.h</innerfile>
+    <innerfile refid="delta__update__engine_8h">delta_update_engine.h</innerfile>
+    <innerfile refid="dependency__resolver_8h">dependency_resolver.h</innerfile>
+    <innerfile refid="hardware__telemetry_8h">hardware_telemetry.h</innerfile>
+    <innerfile refid="hot__reload__engine_8h">hot_reload_engine.h</innerfile>
+    <innerfile refid="in__place__schema__migrator_8h">in_place_schema_migrator.h</innerfile>
+    <innerfile refid="manifest__database_8h">manifest_database.h</innerfile>
+    <innerfile refid="notification__webhook_8h">notification_webhook.h</innerfile>
+    <innerfile refid="parallel__downloader_8h">parallel_downloader.h</innerfile>
+    <innerfile refid="preflight__health__check_8h">preflight_health_check.h</innerfile>
+    <innerfile refid="release__manifest_8h">release_manifest.h</innerfile>
+    <innerfile refid="schema__migration_8h">schema_migration.h</innerfile>
+    <innerfile refid="schema__migration__tester_8h">schema_migration_tester.h</innerfile>
+    <innerfile refid="tenant__update__scheduler_8h">tenant_update_scheduler.h</innerfile>
+    <innerfile refid="update__history__logger_8h">update_history_logger.h</innerfile>
+    <innerfile refid="update__state__machine_8h">update_state_machine.h</innerfile>
+    <innerfile refid="updates__api__contract_8h">updates_api_contract.h</innerfile>
+    <innerfile refid="updates__config_8h">updates_config.h</innerfile>
+    <innerfile refid="updates__diagnostic__emitter_8h">updates_diagnostic_emitter.h</innerfile>
+    <innerfile refid="updates__diagnostics_8h">updates_diagnostics.h</innerfile>
+    <innerfile refid="updates__edge__case__handler_8h">updates_edge_case_handler.h</innerfile>
+    <innerfile refid="updates__operator__diagnostics_8h">updates_operator_diagnostics.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/updates/"/>
+  </compounddef>
+</doxygen>

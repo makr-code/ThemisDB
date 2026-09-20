@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_process_trace" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ProcessTrace</compoundname>
+    <includes refid="process__mining_8h" local="no">process_mining.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_process_trace_1ae3f34617d3364225219fa59a1ea50db3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ProcessTrace::case_id</definition>
+        <argsstring></argsstring>
+        <name>case_id</name>
+        <qualifiedname>themis::ProcessTrace::case_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="54" column="17" bodyfile="include/analytics/process_mining.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_trace_1a776a0141cc4d4b2201b9d23ec53eced2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_process_event" kindref="compound">ProcessEvent</ref> &gt;</type>
+        <definition>std::vector&lt;ProcessEvent&gt; themis::ProcessTrace::events</definition>
+        <argsstring></argsstring>
+        <name>events</name>
+        <qualifiedname>themis::ProcessTrace::events</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="55" column="17" bodyfile="include/analytics/process_mining.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_trace_1a0e26f3a70ade6be6d010b90c009eaa9a" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::ProcessTrace::start_time_ms</definition>
+        <argsstring></argsstring>
+        <name>start_time_ms</name>
+        <qualifiedname>themis::ProcessTrace::start_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="58" column="13" bodyfile="include/analytics/process_mining.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_trace_1a9f920605f392775c7b005c3e8146e847" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::ProcessTrace::end_time_ms</definition>
+        <argsstring></argsstring>
+        <name>end_time_ms</name>
+        <qualifiedname>themis::ProcessTrace::end_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="59" column="13" bodyfile="include/analytics/process_mining.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_trace_1a4d0eef13d4001cf87bb7e69e108be092" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::ProcessTrace::duration_ms</definition>
+        <argsstring></argsstring>
+        <name>duration_ms</name>
+        <qualifiedname>themis::ProcessTrace::duration_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="60" column="13" bodyfile="include/analytics/process_mining.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_trace_1a9e0fc310a2a4400b6fa340bbca37297d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ProcessTrace::is_complete</definition>
+        <argsstring></argsstring>
+        <name>is_complete</name>
+        <qualifiedname>themis::ProcessTrace::is_complete</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="61" column="10" bodyfile="include/analytics/process_mining.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_trace_1a4d4b3d15e98e9986a7f80ea5945ff340" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ProcessTrace::variant_signature</definition>
+        <argsstring></argsstring>
+        <name>variant_signature</name>
+        <qualifiedname>themis::ProcessTrace::variant_signature</qualifiedname>
+        <briefdescription>
+<para>Hash der Aktivitätssequenz. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="64" column="17" bodyfile="include/analytics/process_mining.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_trace_1a514d0813cde72275fd79d475f769744d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ProcessTrace::variant_id</definition>
+        <argsstring></argsstring>
+        <name>variant_id</name>
+        <qualifiedname>themis::ProcessTrace::variant_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="65" column="9" bodyfile="include/analytics/process_mining.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/process_mining.h" line="53" column="1" bodyfile="include/analytics/process_mining.h" bodystart="53" bodyend="66"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_process_trace_1ae3f34617d3364225219fa59a1ea50db3" prot="public" virt="non-virtual"><scope>themis::ProcessTrace</scope><name>case_id</name></member>
+      <member refid="structthemis_1_1_process_trace_1a4d0eef13d4001cf87bb7e69e108be092" prot="public" virt="non-virtual"><scope>themis::ProcessTrace</scope><name>duration_ms</name></member>
+      <member refid="structthemis_1_1_process_trace_1a9f920605f392775c7b005c3e8146e847" prot="public" virt="non-virtual"><scope>themis::ProcessTrace</scope><name>end_time_ms</name></member>
+      <member refid="structthemis_1_1_process_trace_1a776a0141cc4d4b2201b9d23ec53eced2" prot="public" virt="non-virtual"><scope>themis::ProcessTrace</scope><name>events</name></member>
+      <member refid="structthemis_1_1_process_trace_1a9e0fc310a2a4400b6fa340bbca37297d" prot="public" virt="non-virtual"><scope>themis::ProcessTrace</scope><name>is_complete</name></member>
+      <member refid="structthemis_1_1_process_trace_1a0e26f3a70ade6be6d010b90c009eaa9a" prot="public" virt="non-virtual"><scope>themis::ProcessTrace</scope><name>start_time_ms</name></member>
+      <member refid="structthemis_1_1_process_trace_1a514d0813cde72275fd79d475f769744d" prot="public" virt="non-virtual"><scope>themis::ProcessTrace</scope><name>variant_id</name></member>
+      <member refid="structthemis_1_1_process_trace_1a4d4b3d15e98e9986a7f80ea5945ff340" prot="public" virt="non-virtual"><scope>themis::ProcessTrace</scope><name>variant_signature</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

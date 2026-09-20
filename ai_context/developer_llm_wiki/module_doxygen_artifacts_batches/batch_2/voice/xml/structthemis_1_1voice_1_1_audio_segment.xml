@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_audio_segment" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::AudioSegment</compoundname>
+    <includes refid="emotion__analyzer_8h" local="no">emotion_analyzer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_audio_segment_1aca15eccc2966a38433f5428c9be8db64" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::voice::AudioSegment::audio_data</definition>
+        <argsstring></argsstring>
+        <name>audio_data</name>
+        <qualifiedname>themis::voice::AudioSegment::audio_data</qualifiedname>
+        <briefdescription>
+<para>Raw PCM bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/emotion_analyzer.h" line="133" column="17" bodyfile="include/voice/emotion_analyzer.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_audio_segment_1a9df2c377100e05bbf851b650b7efba50" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::AudioSegment::start_ms</definition>
+        <argsstring></argsstring>
+        <name>start_ms</name>
+        <qualifiedname>themis::voice::AudioSegment::start_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Start offset in the conversation (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/emotion_analyzer.h" line="134" column="13" bodyfile="include/voice/emotion_analyzer.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_audio_segment_1a510ee7dc17182a2fca8c369a6eaf2886" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::AudioSegment::end_ms</definition>
+        <argsstring></argsstring>
+        <name>end_ms</name>
+        <qualifiedname>themis::voice::AudioSegment::end_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>End offset in the conversation (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/emotion_analyzer.h" line="135" column="13" bodyfile="include/voice/emotion_analyzer.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_audio_segment_1a1cc973e98abb36a96f5c5c1e1f1ac2d3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::AudioSegment::speaker_id</definition>
+        <argsstring></argsstring>
+        <name>speaker_id</name>
+        <qualifiedname>themis::voice::AudioSegment::speaker_id</qualifiedname>
+        <briefdescription>
+<para>Optional speaker label. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/emotion_analyzer.h" line="136" column="17" bodyfile="include/voice/emotion_analyzer.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Audio segment with position metadata, used for timeline analysis. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/emotion_analyzer.h" line="132" column="1" bodyfile="include/voice/emotion_analyzer.h" bodystart="132" bodyend="137"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_audio_segment_1aca15eccc2966a38433f5428c9be8db64" prot="public" virt="non-virtual"><scope>themis::voice::AudioSegment</scope><name>audio_data</name></member>
+      <member refid="structthemis_1_1voice_1_1_audio_segment_1a510ee7dc17182a2fca8c369a6eaf2886" prot="public" virt="non-virtual"><scope>themis::voice::AudioSegment</scope><name>end_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_audio_segment_1a1cc973e98abb36a96f5c5c1e1f1ac2d3" prot="public" virt="non-virtual"><scope>themis::voice::AudioSegment</scope><name>speaker_id</name></member>
+      <member refid="structthemis_1_1voice_1_1_audio_segment_1a9df2c377100e05bbf851b650b7efba50" prot="public" virt="non-virtual"><scope>themis::voice::AudioSegment</scope><name>start_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

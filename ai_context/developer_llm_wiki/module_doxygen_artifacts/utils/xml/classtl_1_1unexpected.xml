@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classtl_1_1unexpected" kind="class" language="C++" prot="public">
+    <compoundname>tl::unexpected</compoundname>
+    <includes refid="expected_8h" local="no">expected.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename E</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classtl_1_1unexpected_1ac808764dcd8e23e65e3c12181701423c" prot="public" static="no">
+        <type>E</type>
+        <definition>using tl::unexpected&lt; E &gt;::error_type = E</definition>
+        <argsstring></argsstring>
+        <name>error_type</name>
+        <qualifiedname>tl::unexpected::error_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="33" column="5" bodyfile="include/utils/expected.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classtl_1_1unexpected_1ac0140bdf7b623b05d7746c98e629ea5e" prot="private" static="no" mutable="no">
+        <type>E</type>
+        <definition>E tl::unexpected&lt; E &gt;::error_</definition>
+        <argsstring></argsstring>
+        <name>error_</name>
+        <qualifiedname>tl::unexpected::error_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="46" column="7" bodyfile="include/utils/expected.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classtl_1_1unexpected_1aa22080372b28e0da321ff07d69cdcb63" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>tl::unexpected&lt; E &gt;::unexpected</definition>
+        <argsstring>(const E &amp;e)</argsstring>
+        <name>unexpected</name>
+        <qualifiedname>tl::unexpected::unexpected</qualifiedname>
+        <param>
+          <type>const E &amp;</type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="35" column="5" bodyfile="include/utils/expected.h" bodystart="35" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classtl_1_1unexpected_1a0e2f940a1b6b210fdcb0dbbdb96265ce" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>tl::unexpected&lt; E &gt;::unexpected</definition>
+        <argsstring>(E &amp;&amp;e)</argsstring>
+        <name>unexpected</name>
+        <qualifiedname>tl::unexpected::unexpected</qualifiedname>
+        <param>
+          <type>E &amp;&amp;</type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="38" column="5" bodyfile="include/utils/expected.h" bodystart="38" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classtl_1_1unexpected_1a7861bc40f248941bc53cc09aa75727d4" prot="public" static="no" const="yes" explicit="no" inline="yes" refqual="lvalue" virt="non-virtual">
+        <type>const E &amp;</type>
+        <definition>const E &amp; tl::unexpected&lt; E &gt;::value</definition>
+        <argsstring>() const &amp;</argsstring>
+        <name>value</name>
+        <qualifiedname>tl::unexpected::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="41" column="13" bodyfile="include/utils/expected.h" bodystart="41" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classtl_1_1unexpected_1a9d5217e428c288d57a9f79bc8cc3af24" prot="public" static="no" const="no" explicit="no" inline="yes" refqual="lvalue" virt="non-virtual">
+        <type>E &amp;</type>
+        <definition>E &amp; tl::unexpected&lt; E &gt;::value</definition>
+        <argsstring>() &amp;</argsstring>
+        <name>value</name>
+        <qualifiedname>tl::unexpected::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="42" column="7" bodyfile="include/utils/expected.h" bodystart="42" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classtl_1_1unexpected_1a001cd01d39adc50e6bfd416e9d361819" prot="public" static="no" const="no" explicit="no" inline="yes" refqual="rvalue" virt="non-virtual">
+        <type>E &amp;&amp;</type>
+        <definition>E &amp;&amp; tl::unexpected&lt; E &gt;::value</definition>
+        <argsstring>() &amp;&amp;</argsstring>
+        <name>value</name>
+        <qualifiedname>tl::unexpected::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="43" column="7" bodyfile="include/utils/expected.h" bodystart="43" bodyend="43"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unexpected. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/expected.h" line="31" column="1" bodyfile="include/utils/expected.h" bodystart="31" bodyend="47"/>
+    <listofallmembers>
+      <member refid="classtl_1_1unexpected_1ac0140bdf7b623b05d7746c98e629ea5e" prot="private" virt="non-virtual"><scope>tl::unexpected</scope><name>error_</name></member>
+      <member refid="classtl_1_1unexpected_1ac808764dcd8e23e65e3c12181701423c" prot="public" virt="non-virtual"><scope>tl::unexpected</scope><name>error_type</name></member>
+      <member refid="classtl_1_1unexpected_1aa22080372b28e0da321ff07d69cdcb63" prot="public" virt="non-virtual"><scope>tl::unexpected</scope><name>unexpected</name></member>
+      <member refid="classtl_1_1unexpected_1a0e2f940a1b6b210fdcb0dbbdb96265ce" prot="public" virt="non-virtual"><scope>tl::unexpected</scope><name>unexpected</name></member>
+      <member refid="classtl_1_1unexpected_1a7861bc40f248941bc53cc09aa75727d4" prot="public" virt="non-virtual"><scope>tl::unexpected</scope><name>value</name></member>
+      <member refid="classtl_1_1unexpected_1a9d5217e428c288d57a9f79bc8cc3af24" prot="public" virt="non-virtual"><scope>tl::unexpected</scope><name>value</name></member>
+      <member refid="classtl_1_1unexpected_1a001cd01d39adc50e6bfd416e9d361819" prot="public" virt="non-virtual"><scope>tl::unexpected</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

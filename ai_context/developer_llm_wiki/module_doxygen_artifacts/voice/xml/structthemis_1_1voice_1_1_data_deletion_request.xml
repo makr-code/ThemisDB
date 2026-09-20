@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_data_deletion_request" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::DataDeletionRequest</compoundname>
+    <includes refid="voice__security_8h" local="no">voice_security.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_data_deletion_request_1a54792762d46c222ca8ff69fbd064d876" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::DataDeletionRequest::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::voice::DataDeletionRequest::user_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="129" column="17" bodyfile="include/voice/voice_security.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_data_deletion_request_1a06715e6c63b4ba8087eae0307a2b35d9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::DataDeletionRequest::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::voice::DataDeletionRequest::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="130" column="17" bodyfile="include/voice/voice_security.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_data_deletion_request_1a284d347d1bdf191ef95c811a8cc3e251" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::DataDeletionRequest::delete_recordings</definition>
+        <argsstring></argsstring>
+        <name>delete_recordings</name>
+        <qualifiedname>themis::voice::DataDeletionRequest::delete_recordings</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="131" column="10" bodyfile="include/voice/voice_security.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_data_deletion_request_1a158711cc6f69487d54f2cfff88a27a6d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::DataDeletionRequest::delete_transcripts</definition>
+        <argsstring></argsstring>
+        <name>delete_transcripts</name>
+        <qualifiedname>themis::voice::DataDeletionRequest::delete_transcripts</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="132" column="10" bodyfile="include/voice/voice_security.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_data_deletion_request_1ac6c838ec5567001368e579345af0d317" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::DataDeletionRequest::delete_sessions</definition>
+        <argsstring></argsstring>
+        <name>delete_sessions</name>
+        <qualifiedname>themis::voice::DataDeletionRequest::delete_sessions</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="133" column="10" bodyfile="include/voice/voice_security.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_data_deletion_request_1a539313868e1e9f120e866bc3b23bd34b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::DataDeletionRequest::delete_analytics</definition>
+        <argsstring></argsstring>
+        <name>delete_analytics</name>
+        <qualifiedname>themis::voice::DataDeletionRequest::delete_analytics</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="134" column="10" bodyfile="include/voice/voice_security.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_data_deletion_request_1a533bd8a32f0046ddd78e7be59b29698b" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::DataDeletionRequest::request_timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>request_timestamp_ms</name>
+        <qualifiedname>themis::voice::DataDeletionRequest::request_timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="135" column="13" bodyfile="include/voice/voice_security.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_security.h" line="128" column="1" bodyfile="include/voice/voice_security.h" bodystart="128" bodyend="136"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_data_deletion_request_1a539313868e1e9f120e866bc3b23bd34b" prot="public" virt="non-virtual"><scope>themis::voice::DataDeletionRequest</scope><name>delete_analytics</name></member>
+      <member refid="structthemis_1_1voice_1_1_data_deletion_request_1a284d347d1bdf191ef95c811a8cc3e251" prot="public" virt="non-virtual"><scope>themis::voice::DataDeletionRequest</scope><name>delete_recordings</name></member>
+      <member refid="structthemis_1_1voice_1_1_data_deletion_request_1ac6c838ec5567001368e579345af0d317" prot="public" virt="non-virtual"><scope>themis::voice::DataDeletionRequest</scope><name>delete_sessions</name></member>
+      <member refid="structthemis_1_1voice_1_1_data_deletion_request_1a158711cc6f69487d54f2cfff88a27a6d" prot="public" virt="non-virtual"><scope>themis::voice::DataDeletionRequest</scope><name>delete_transcripts</name></member>
+      <member refid="structthemis_1_1voice_1_1_data_deletion_request_1a06715e6c63b4ba8087eae0307a2b35d9" prot="public" virt="non-virtual"><scope>themis::voice::DataDeletionRequest</scope><name>reason</name></member>
+      <member refid="structthemis_1_1voice_1_1_data_deletion_request_1a533bd8a32f0046ddd78e7be59b29698b" prot="public" virt="non-virtual"><scope>themis::voice::DataDeletionRequest</scope><name>request_timestamp_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_data_deletion_request_1a54792762d46c222ca8ff69fbd064d876" prot="public" virt="non-virtual"><scope>themis::voice::DataDeletionRequest</scope><name>user_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

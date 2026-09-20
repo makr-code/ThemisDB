@@ -1,0 +1,283 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_immutable_audit_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::ImmutableAuditEntry</compoundname>
+    <includes refid="governance__audit__integrity_8h" local="no">governance_audit_integrity.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_immutable_audit_entry_1aa23f4fb4b9c19e689ed128a7332877b9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ImmutableAuditEntry::entry_id</definition>
+        <argsstring></argsstring>
+        <name>entry_id</name>
+        <qualifiedname>themis::governance::ImmutableAuditEntry::entry_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="66" column="17" bodyfile="include/governance/governance_audit_integrity.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_immutable_audit_entry_1a3cbafc26c38422a060298ea350de98db" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ImmutableAuditEntry::rule_id</definition>
+        <argsstring></argsstring>
+        <name>rule_id</name>
+        <qualifiedname>themis::governance::ImmutableAuditEntry::rule_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="67" column="17" bodyfile="include/governance/governance_audit_integrity.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_immutable_audit_entry_1a379fc026776e53538fff5c397d3981e9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ImmutableAuditEntry::operation</definition>
+        <argsstring></argsstring>
+        <name>operation</name>
+        <qualifiedname>themis::governance::ImmutableAuditEntry::operation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="68" column="17" bodyfile="include/governance/governance_audit_integrity.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_immutable_audit_entry_1ac0d831d0cb4e934b9d4522e98c154a6a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ImmutableAuditEntry::user</definition>
+        <argsstring></argsstring>
+        <name>user</name>
+        <qualifiedname>themis::governance::ImmutableAuditEntry::user</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="69" column="17" bodyfile="include/governance/governance_audit_integrity.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_immutable_audit_entry_1a95d79c18d91503c25def9261e6d693e9" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::ImmutableAuditEntry::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::governance::ImmutableAuditEntry::timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="70" column="13" bodyfile="include/governance/governance_audit_integrity.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_immutable_audit_entry_1afcabed3f48ecf21dfb7798dc3a1bacbd" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::ImmutableAuditEntry::details</definition>
+        <argsstring></argsstring>
+        <name>details</name>
+        <qualifiedname>themis::governance::ImmutableAuditEntry::details</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="71" column="20" bodyfile="include/governance/governance_audit_integrity.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_immutable_audit_entry_1aa1fc03aa8178813169f519a7e129fdaa" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1governance_1_1_signature_info" kindref="compound">SignatureInfo</ref></type>
+        <definition>SignatureInfo themis::governance::ImmutableAuditEntry::signature_info</definition>
+        <argsstring></argsstring>
+        <name>signature_info</name>
+        <qualifiedname>themis::governance::ImmutableAuditEntry::signature_info</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="74" column="19" bodyfile="include/governance/governance_audit_integrity.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_immutable_audit_entry_1a063dec5e8d8024daf312662658330355" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::ImmutableAuditEntry::entry_sequence_number</definition>
+        <argsstring></argsstring>
+        <name>entry_sequence_number</name>
+        <qualifiedname>themis::governance::ImmutableAuditEntry::entry_sequence_number</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="75" column="13" bodyfile="include/governance/governance_audit_integrity.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_immutable_audit_entry_1adb5896fe76584aad4f38072941bde4f0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::ImmutableAuditEntry::is_archived</definition>
+        <argsstring></argsstring>
+        <name>is_archived</name>
+        <qualifiedname>themis::governance::ImmutableAuditEntry::is_archived</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="76" column="10" bodyfile="include/governance/governance_audit_integrity.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_immutable_audit_entry_1a69ef163028fef0a5f98fe40ba51631b7" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::ImmutableAuditEntry::archive_timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>archive_timestamp_ms</name>
+        <qualifiedname>themis::governance::ImmutableAuditEntry::archive_timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="77" column="13" bodyfile="include/governance/governance_audit_integrity.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_immutable_audit_entry_1ae1b644b71d8559c5158afbb0d2760ebc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ImmutableAuditEntry::archive_hash</definition>
+        <argsstring></argsstring>
+        <name>archive_hash</name>
+        <qualifiedname>themis::governance::ImmutableAuditEntry::archive_hash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="78" column="17" bodyfile="include/governance/governance_audit_integrity.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_immutable_audit_entry_1a4ca466e1e4ca504e440ca478d80b8b6b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::ImmutableAuditEntry::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::ImmutableAuditEntry::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="84" column="20" bodyfile="src/governance/governance_audit_integrity.cpp" bodystart="125" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_immutable_audit_entry_1adeb8f56699d3365d8427dbead165a11c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::ImmutableAuditEntry::verifyIntegrity</definition>
+        <argsstring>() const</argsstring>
+        <name>verifyIntegrity</name>
+        <qualifiedname>themis::governance::ImmutableAuditEntry::verifyIntegrity</qualifiedname>
+        <briefdescription>
+<para>Verify Integrity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="96" column="10" bodyfile="src/governance/governance_audit_integrity.cpp" bodystart="185" bodyend="197"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_immutable_audit_entry_1a4738d589b7228593216b9eb459399fdb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref></type>
+        <definition>ImmutableAuditEntry themis::governance::ImmutableAuditEntry::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::governance::ImmutableAuditEntry::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="90" column="32" bodyfile="src/governance/governance_audit_integrity.cpp" bodystart="147" bodyend="183"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::governance::ImmutableAuditEntry</label>
+        <link refid="structthemis_1_1governance_1_1_immutable_audit_entry"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>signature_info</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::governance::SignatureInfo</label>
+        <link refid="structthemis_1_1governance_1_1_signature_info"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/governance/governance_audit_integrity.h" line="64" column="1" bodyfile="include/governance/governance_audit_integrity.h" bodystart="64" bodyend="97"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_immutable_audit_entry_1ae1b644b71d8559c5158afbb0d2760ebc" prot="public" virt="non-virtual"><scope>themis::governance::ImmutableAuditEntry</scope><name>archive_hash</name></member>
+      <member refid="structthemis_1_1governance_1_1_immutable_audit_entry_1a69ef163028fef0a5f98fe40ba51631b7" prot="public" virt="non-virtual"><scope>themis::governance::ImmutableAuditEntry</scope><name>archive_timestamp_ms</name></member>
+      <member refid="structthemis_1_1governance_1_1_immutable_audit_entry_1afcabed3f48ecf21dfb7798dc3a1bacbd" prot="public" virt="non-virtual"><scope>themis::governance::ImmutableAuditEntry</scope><name>details</name></member>
+      <member refid="structthemis_1_1governance_1_1_immutable_audit_entry_1aa23f4fb4b9c19e689ed128a7332877b9" prot="public" virt="non-virtual"><scope>themis::governance::ImmutableAuditEntry</scope><name>entry_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_immutable_audit_entry_1a063dec5e8d8024daf312662658330355" prot="public" virt="non-virtual"><scope>themis::governance::ImmutableAuditEntry</scope><name>entry_sequence_number</name></member>
+      <member refid="structthemis_1_1governance_1_1_immutable_audit_entry_1a4738d589b7228593216b9eb459399fdb" prot="public" virt="non-virtual"><scope>themis::governance::ImmutableAuditEntry</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1governance_1_1_immutable_audit_entry_1adb5896fe76584aad4f38072941bde4f0" prot="public" virt="non-virtual"><scope>themis::governance::ImmutableAuditEntry</scope><name>is_archived</name></member>
+      <member refid="structthemis_1_1governance_1_1_immutable_audit_entry_1a379fc026776e53538fff5c397d3981e9" prot="public" virt="non-virtual"><scope>themis::governance::ImmutableAuditEntry</scope><name>operation</name></member>
+      <member refid="structthemis_1_1governance_1_1_immutable_audit_entry_1a3cbafc26c38422a060298ea350de98db" prot="public" virt="non-virtual"><scope>themis::governance::ImmutableAuditEntry</scope><name>rule_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_immutable_audit_entry_1aa1fc03aa8178813169f519a7e129fdaa" prot="public" virt="non-virtual"><scope>themis::governance::ImmutableAuditEntry</scope><name>signature_info</name></member>
+      <member refid="structthemis_1_1governance_1_1_immutable_audit_entry_1a95d79c18d91503c25def9261e6d693e9" prot="public" virt="non-virtual"><scope>themis::governance::ImmutableAuditEntry</scope><name>timestamp_ms</name></member>
+      <member refid="structthemis_1_1governance_1_1_immutable_audit_entry_1a4ca466e1e4ca504e440ca478d80b8b6b" prot="public" virt="non-virtual"><scope>themis::governance::ImmutableAuditEntry</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1governance_1_1_immutable_audit_entry_1ac0d831d0cb4e934b9d4522e98c154a6a" prot="public" virt="non-virtual"><scope>themis::governance::ImmutableAuditEntry</scope><name>user</name></member>
+      <member refid="structthemis_1_1governance_1_1_immutable_audit_entry_1adeb8f56699d3365d8427dbead165a11c" prot="public" virt="non-virtual"><scope>themis::governance::ImmutableAuditEntry</scope><name>verifyIntegrity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

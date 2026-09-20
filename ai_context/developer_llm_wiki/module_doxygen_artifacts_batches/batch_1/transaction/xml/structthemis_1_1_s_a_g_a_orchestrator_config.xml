@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_s_a_g_a_orchestrator_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::SAGAOrchestratorConfig</compoundname>
+    <includes refid="saga__orchestrator_8h" local="no">saga_orchestrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_s_a_g_a_orchestrator_config_1ab5521be25b9e9b45c91ee9f16cb5fd65" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::SAGAOrchestratorConfig::enable_parallel</definition>
+        <argsstring></argsstring>
+        <name>enable_parallel</name>
+        <qualifiedname>themis::SAGAOrchestratorConfig::enable_parallel</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="124" column="10" bodyfile="include/transaction/saga_orchestrator.h" bodystart="124" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_s_a_g_a_orchestrator_config_1a8c889986dce5a01e66b814d6dc3dbe7b" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::SAGAOrchestratorConfig::default_timeout</definition>
+        <argsstring></argsstring>
+        <name>default_timeout</name>
+        <qualifiedname>themis::SAGAOrchestratorConfig::default_timeout</qualifiedname>
+        <initializer>{std::chrono::milliseconds(5000)}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="126" column="31" bodyfile="include/transaction/saga_orchestrator.h" bodystart="126" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_s_a_g_a_orchestrator_config_1abbb1010e08cf2f7a4285c238c4389b37" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::SAGAOrchestratorConfig::default_retry_delay</definition>
+        <argsstring></argsstring>
+        <name>default_retry_delay</name>
+        <qualifiedname>themis::SAGAOrchestratorConfig::default_retry_delay</qualifiedname>
+        <initializer>{std::chrono::milliseconds(1000)}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="128" column="31" bodyfile="include/transaction/saga_orchestrator.h" bodystart="128" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_s_a_g_a_orchestrator_config_1a0be8e9215a72b5e3621d8e32d2d5aebe" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::SAGAOrchestratorConfig::journal_path</definition>
+        <argsstring></argsstring>
+        <name>journal_path</name>
+        <qualifiedname>themis::SAGAOrchestratorConfig::journal_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="130" column="17" bodyfile="include/transaction/saga_orchestrator.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_s_a_g_a_orchestrator_config_1a330061f2630fdba9272dc0a7fc07615a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::SAGAOrchestratorConfig::circuit_breaker_threshold</definition>
+        <argsstring></argsstring>
+        <name>circuit_breaker_threshold</name>
+        <qualifiedname>themis::SAGAOrchestratorConfig::circuit_breaker_threshold</qualifiedname>
+        <initializer>{5}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="133" column="14" bodyfile="include/transaction/saga_orchestrator.h" bodystart="133" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_s_a_g_a_orchestrator_config_1af1c673e9a3b8908ff0f1d8789cbdd685" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::SAGAOrchestratorConfig::circuit_breaker_timeout</definition>
+        <argsstring></argsstring>
+        <name>circuit_breaker_timeout</name>
+        <qualifiedname>themis::SAGAOrchestratorConfig::circuit_breaker_timeout</qualifiedname>
+        <initializer>{std::chrono::milliseconds(30000)}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="135" column="31" bodyfile="include/transaction/saga_orchestrator.h" bodystart="135" bodyend="135"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/saga_orchestrator.h" line="123" column="1" bodyfile="include/transaction/saga_orchestrator.h" bodystart="123" bodyend="136"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_s_a_g_a_orchestrator_config_1a330061f2630fdba9272dc0a7fc07615a" prot="public" virt="non-virtual"><scope>themis::SAGAOrchestratorConfig</scope><name>circuit_breaker_threshold</name></member>
+      <member refid="structthemis_1_1_s_a_g_a_orchestrator_config_1af1c673e9a3b8908ff0f1d8789cbdd685" prot="public" virt="non-virtual"><scope>themis::SAGAOrchestratorConfig</scope><name>circuit_breaker_timeout</name></member>
+      <member refid="structthemis_1_1_s_a_g_a_orchestrator_config_1abbb1010e08cf2f7a4285c238c4389b37" prot="public" virt="non-virtual"><scope>themis::SAGAOrchestratorConfig</scope><name>default_retry_delay</name></member>
+      <member refid="structthemis_1_1_s_a_g_a_orchestrator_config_1a8c889986dce5a01e66b814d6dc3dbe7b" prot="public" virt="non-virtual"><scope>themis::SAGAOrchestratorConfig</scope><name>default_timeout</name></member>
+      <member refid="structthemis_1_1_s_a_g_a_orchestrator_config_1ab5521be25b9e9b45c91ee9f16cb5fd65" prot="public" virt="non-virtual"><scope>themis::SAGAOrchestratorConfig</scope><name>enable_parallel</name></member>
+      <member refid="structthemis_1_1_s_a_g_a_orchestrator_config_1a0be8e9215a72b5e3621d8e32d2d5aebe" prot="public" virt="non-virtual"><scope>themis::SAGAOrchestratorConfig</scope><name>journal_path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

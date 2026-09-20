@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_query_execution_outcome" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::learning::ContinuousLearningOrchestrator::QueryExecutionOutcome</compoundname>
+    <includes refid="continuous__learning__orchestrator_8h" local="no">continuous_learning_orchestrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_query_execution_outcome_1aa8c41e2567728beed4b362946bbb8660" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::learning::ContinuousLearningOrchestrator::QueryExecutionOutcome::query_id</definition>
+        <argsstring></argsstring>
+        <name>query_id</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::QueryExecutionOutcome::query_id</qualifiedname>
+        <briefdescription>
+<para>Stable query fingerprint / request-id. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="233" column="21" bodyfile="include/rag/continuous_learning_orchestrator.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_query_execution_outcome_1ad0ff4650a6327b5aebc5d0e7818b17c2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::ContinuousLearningOrchestrator::QueryExecutionOutcome::latency_ms</definition>
+        <argsstring></argsstring>
+        <name>latency_ms</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::QueryExecutionOutcome::latency_ms</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Observed end-to-end latency in ms. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="234" column="21" bodyfile="include/rag/continuous_learning_orchestrator.h" bodystart="234" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_query_execution_outcome_1a1250259bfa0e2769b0ade54ab3507960" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::learning::ContinuousLearningOrchestrator::QueryExecutionOutcome::explain_plan_json</definition>
+        <argsstring></argsstring>
+        <name>explain_plan_json</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::QueryExecutionOutcome::explain_plan_json</qualifiedname>
+        <briefdescription>
+<para>JSON-serialised EXPLAIN / BaoOptimizer plan. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="235" column="21" bodyfile="include/rag/continuous_learning_orchestrator.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_query_execution_outcome_1ad8e8a23d63d6cdf0c8176657fbc329c7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::learning::ContinuousLearningOrchestrator::QueryExecutionOutcome::used_index</definition>
+        <argsstring></argsstring>
+        <name>used_index</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::QueryExecutionOutcome::used_index</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Whether an index was selected for execution. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="236" column="21" bodyfile="include/rag/continuous_learning_orchestrator.h" bodystart="236" bodyend="236"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Typed outcome from a single query execution, used by Loop 1. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Carries the raw signal that <computeroutput><ref refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a21fdcfac8946895dd7d766535e423af3" kindref="member">triggerLoop1QueryExecution()</ref></computeroutput> passes to the BaoOptimizer hint-update path. </para>
+    </detaileddescription>
+    <location file="include/rag/continuous_learning_orchestrator.h" line="232" column="5" bodyfile="include/rag/continuous_learning_orchestrator.h" bodystart="232" bodyend="237"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_query_execution_outcome_1a1250259bfa0e2769b0ade54ab3507960" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::QueryExecutionOutcome</scope><name>explain_plan_json</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_query_execution_outcome_1ad0ff4650a6327b5aebc5d0e7818b17c2" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::QueryExecutionOutcome</scope><name>latency_ms</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_query_execution_outcome_1aa8c41e2567728beed4b362946bbb8660" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::QueryExecutionOutcome</scope><name>query_id</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_query_execution_outcome_1ad8e8a23d63d6cdf0c8176657fbc329c7" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::QueryExecutionOutcome</scope><name>used_index</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis" kind="namespace" language="C++">
+    <compoundname>themis</compoundname>
+    <innernamespace refid="namespacethemis_1_1bench">themis::bench</innernamespace>
+    <innernamespace refid="namespacethemis_1_1importers">themis::importers</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins">themis::plugins</innernamespace>
+    <briefdescription>
+<para>URI-scheme plugin registering MySQLImporter with ImporterSchemeRegistry. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Handles &quot;mysql://&quot; and &quot;mariadb://&quot; source URIs. Registered at static-init time via REGISTER_IMPORTER_PLUGIN so that the process-wide IImporterPluginRegistry::instance() can resolve MySQL/MariaDB sources without any manual wiring.</para>
+<para>The admin import API route POST /api/v1/import/mysql uses this plugin to create a fresh MySQLImporter for each request.</para>
+<para>ThemisDB — OZG Service Schema Registry</para>
+<para>Registry for Onlinezugangsgesetz (OZG) service schemas, providing structured access to the German federal OZG service catalog (Leistungskatalog). Each entry describes a digitised administrative service (Verwaltungsleistung) with its required data-fields, legal basis, responsible authority type, and compliance tags.</para>
+<para>Implementations shipped in this header-only file:<itemizedlist>
+<listitem><para>OZGServiceEntry — value type for a single service record</para>
+</listitem><listitem><para>IOZGServiceRegistry — abstract registry interface</para>
+</listitem><listitem><para>InMemoryOZGServiceRegistry — thread-safe in-memory registry</para>
+</listitem></itemizedlist>
+</para>
+<para>Standards references:<itemizedlist>
+<listitem><para>OZG 2.0 (2024), BGBl. I — Onlinezugangsgesetz (Neufassung)</para>
+</listitem><listitem><para>FITKO OZG-Umsetzungskatalog 2024</para>
+</listitem><listitem><para>EU Single Digital Gateway Regulation (SDGR) 2018/1724</para>
+</listitem><listitem><para>FIM (Föderales Informationsmanagement) — FITKO, 2024</para>
+</listitem></itemizedlist>
+</para>
+<para>Copyright (c) 2026 ThemisDB Contributors SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB — XÖV Data Model Importer / Exporter</para>
+<para>Import and export support for XÖV (XML in der öffentlichen Verwaltung) data models — the German federal standard for machine-readable data exchange between public-administration systems. Covers the most widely used XÖV sub-standards:</para>
+<para>XPersonenstand — civil-registry data (births, deaths, marriages) XMeld — resident-registration data (Meldewesen) XBau — construction-permit data (Bauwesen) XKfz — vehicle-registration data (KFZ-Zulassung) XFinanz — financial / tax data (Finanzamt) XGewerbeanmeldung — business-registration data</para>
+<para>Implementations shipped in this header-only file:<itemizedlist>
+<listitem><para>XOEVRecord — in-memory representation of one XÖV record</para>
+</listitem><listitem><para>XOEVImportResult — result of an import operation</para>
+</listitem><listitem><para>XOEVExportResult — result of an export operation</para>
+</listitem><listitem><para>IXOEVImporter — abstract import / export interface</para>
+</listitem><listitem><para>InMemoryXOEVImporter — thread-safe in-memory implementation</para>
+</listitem></itemizedlist>
+</para>
+<para>Standards references:<itemizedlist>
+<listitem><para>XÖV-Rahmenwerk, Version 3.0 — KoSIT (Koordinierungsstelle für IT-Standards), <ulink url="https://www.xoev.de">https://www.xoev.de</ulink></para>
+</listitem><listitem><para>DIN SPEC 91379:2022-03 — Characters and defined character sequences in Unicode for the processing of names and address data</para>
+</listitem><listitem><para>BSI TR-03137 — Anforderungen an XÖV-konforme Schnittstellen</para>
+</listitem></itemizedlist>
+</para>
+<para>Copyright (c) 2026 ThemisDB Contributors SPDX-License-Identifier: Apache-2.0 </para>
+    </detaileddescription>
+    <location file="include/importers/adaptive_import.h" line="20" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1observability_1_1detail" kind="namespace" language="C++">
+    <compoundname>themis::observability::detail</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1detail_1a0e9c105da5f81890e6b60120e006f151" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::detail::gmtime_utc</definition>
+        <argsstring>(std::time_t tt, std::tm &amp;result) noexcept</argsstring>
+        <name>gmtime_utc</name>
+        <qualifiedname>themis::observability::detail::gmtime_utc</qualifiedname>
+        <param>
+          <type>std::time_t</type>
+          <declname>tt</declname>
+        </param>
+        <param>
+          <type>std::tm &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Thread-safe UTC breakdown of a <computeroutput>time_t</computeroutput> value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><computeroutput>std::gmtime()</computeroutput> returns a pointer to static storage that is not protected by any lock, making it unsafe to call concurrently. This wrapper uses the POSIX <computeroutput>gmtime_r()</computeroutput> on non-Windows platforms, and the Windows-specific <computeroutput>gmtime_s()</computeroutput> on MSVC/MinGW.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input POSIX timestamp. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output <computeroutput>std::tm</computeroutput> structure filled in UTC. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>true</computeroutput> on success; <computeroutput>false</computeroutput> if the platform call fails. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/field_diagnostics_schema.h" line="45" column="13" bodyfile="include/utils/field_diagnostics_schema.h" bodystart="45" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1detail_1a9b3a2fa88bd570718f02d3a99913b74c" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::time_t</type>
+        <definition>std::time_t themis::observability::detail::mktime_utc</definition>
+        <argsstring>(std::tm &amp;tm) noexcept</argsstring>
+        <name>mktime_utc</name>
+        <qualifiedname>themis::observability::detail::mktime_utc</qualifiedname>
+        <param>
+          <type>std::tm &amp;</type>
+          <declname>tm</declname>
+        </param>
+        <briefdescription>
+<para>Inverse of <computeroutput><ref refid="namespacethemis_1_1observability_1_1detail_1a0e9c105da5f81890e6b60120e006f151" kindref="member">gmtime_utc()</ref></computeroutput>: convert a UTC <computeroutput>std::tm</computeroutput> to <computeroutput>time_t</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><computeroutput>std::mktime()</computeroutput> interprets its argument as <emphasis>local</emphasis> time, which produces incorrect results for UTC timestamps when the host timezone differs from UTC. This wrapper uses POSIX <computeroutput>timegm()</computeroutput> on non-Windows platforms and the Windows-specific <computeroutput>_mkgmtime()</computeroutput> on MSVC/MinGW.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UTC-based <computeroutput>std::tm</computeroutput> structure. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Corresponding POSIX <computeroutput>time_t</computeroutput>, or <computeroutput>(time_t)-1</computeroutput> on failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/field_diagnostics_schema.h" line="64" column="20" bodyfile="include/utils/field_diagnostics_schema.h" bodystart="64" bodyend="70"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/field_diagnostics_schema.h" line="31" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1test_1_1_conflict_context_test" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::test::ConflictContextTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1test_1_1_conflict_context_test_1a94b202215969b86343f9bf13aed4687f" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_three_way_merge_resolver" kindref="compound">ThreeWayMergeResolver</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ThreeWayMergeResolver&gt; themisdb::replication::test::ConflictContextTest::resolver_</definition>
+        <argsstring></argsstring>
+        <name>resolver_</name>
+        <qualifiedname>themisdb::replication::test::ConflictContextTest::resolver_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_conflict_focused.cpp" line="278" column="21" bodyfile="tests/replication/test_replication_conflict_focused.cpp" bodystart="278" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1test_1_1_conflict_context_test_1a7abcc409bf96c69aa01edae40e3158e0" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::test::ConflictContextTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themisdb::replication::test::ConflictContextTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_conflict_focused.cpp" line="280" column="10" bodyfile="tests/replication/test_replication_conflict_focused.cpp" bodystart="280" bodyend="282"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1test_1_1_conflict_context_test_1ab7e72e142ece0abadb671db2cf8f9eae" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref></type>
+        <definition>static MMWriteEntry themisdb::replication::test::ConflictContextTest::createTestWrite</definition>
+        <argsstring>(const std::string &amp;write_id, const std::string &amp;doc_id, const std::string &amp;collection)</argsstring>
+        <name>createTestWrite</name>
+        <qualifiedname>themisdb::replication::test::ConflictContextTest::createTestWrite</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>write_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_conflict_focused.cpp" line="284" column="25" bodyfile="tests/replication/test_replication_conflict_focused.cpp" bodystart="284" bodyend="297"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>RCS-03: Conflict Context Semantics Tests</para>
+<para>Tests validate that the resolver respects and processes resolution context (collection, document_id, metadata, user_roles, client_ip, request_time). </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themisdb::replication::test::ConflictContextTest</label>
+        <link refid="classthemisdb_1_1replication_1_1test_1_1_conflict_context_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themisdb::replication::test::ConflictContextTest</label>
+        <link refid="classthemisdb_1_1replication_1_1test_1_1_conflict_context_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/replication/test_replication_conflict_focused.cpp" line="276" column="1" bodyfile="tests/replication/test_replication_conflict_focused.cpp" bodystart="276" bodyend="298"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1test_1_1_conflict_context_test_1ab7e72e142ece0abadb671db2cf8f9eae" prot="protected" virt="non-virtual"><scope>themisdb::replication::test::ConflictContextTest</scope><name>createTestWrite</name></member>
+      <member refid="classthemisdb_1_1replication_1_1test_1_1_conflict_context_test_1a94b202215969b86343f9bf13aed4687f" prot="protected" virt="non-virtual"><scope>themisdb::replication::test::ConflictContextTest</scope><name>resolver_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1test_1_1_conflict_context_test_1a7abcc409bf96c69aa01edae40e3158e0" prot="protected" virt="non-virtual"><scope>themisdb::replication::test::ConflictContextTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

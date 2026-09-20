@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1geo_1_1_tile_layer_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::geo::TileLayerConfig</compoundname>
+    <includes refid="tile__server_8h" local="no">tile_server.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_tile_layer_config_1a4a0c960b246ee7b7680314126da1fc74" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::geo::TileLayerConfig::url_template</definition>
+        <argsstring></argsstring>
+        <name>url_template</name>
+        <qualifiedname>themis::geo::TileLayerConfig::url_template</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/tile_server.h" line="34" column="17" bodyfile="include/geo/tile_server.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_tile_layer_config_1a384642d3c9d9378d3fdd517c6a4a5cec" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::geo::TileLayerConfig::attribution</definition>
+        <argsstring></argsstring>
+        <name>attribution</name>
+        <qualifiedname>themis::geo::TileLayerConfig::attribution</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/tile_server.h" line="36" column="17" bodyfile="include/geo/tile_server.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_tile_layer_config_1a614b969dd4ba141bb01beb622a4960b7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::geo::TileLayerConfig::min_zoom</definition>
+        <argsstring></argsstring>
+        <name>min_zoom</name>
+        <qualifiedname>themis::geo::TileLayerConfig::min_zoom</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/tile_server.h" line="38" column="14" bodyfile="include/geo/tile_server.h" bodystart="38" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_tile_layer_config_1a4a2bfd8edf3e1f940874c810b9aeed28" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::geo::TileLayerConfig::max_zoom</definition>
+        <argsstring></argsstring>
+        <name>max_zoom</name>
+        <qualifiedname>themis::geo::TileLayerConfig::max_zoom</qualifiedname>
+        <initializer>{19}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/tile_server.h" line="40" column="14" bodyfile="include/geo/tile_server.h" bodystart="40" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_tile_layer_config_1a6960b0d82de7939090c35644a4467af3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::geo::TileLayerConfig::tile_size</definition>
+        <argsstring></argsstring>
+        <name>tile_size</name>
+        <qualifiedname>themis::geo::TileLayerConfig::tile_size</qualifiedname>
+        <initializer>{256}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/tile_server.h" line="42" column="14" bodyfile="include/geo/tile_server.h" bodystart="42" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/geo/tile_server.h" line="33" column="1" bodyfile="include/geo/tile_server.h" bodystart="33" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1geo_1_1_tile_layer_config_1a384642d3c9d9378d3fdd517c6a4a5cec" prot="public" virt="non-virtual"><scope>themis::geo::TileLayerConfig</scope><name>attribution</name></member>
+      <member refid="structthemis_1_1geo_1_1_tile_layer_config_1a4a2bfd8edf3e1f940874c810b9aeed28" prot="public" virt="non-virtual"><scope>themis::geo::TileLayerConfig</scope><name>max_zoom</name></member>
+      <member refid="structthemis_1_1geo_1_1_tile_layer_config_1a614b969dd4ba141bb01beb622a4960b7" prot="public" virt="non-virtual"><scope>themis::geo::TileLayerConfig</scope><name>min_zoom</name></member>
+      <member refid="structthemis_1_1geo_1_1_tile_layer_config_1a6960b0d82de7939090c35644a4467af3" prot="public" virt="non-virtual"><scope>themis::geo::TileLayerConfig</scope><name>tile_size</name></member>
+      <member refid="structthemis_1_1geo_1_1_tile_layer_config_1a4a0c960b246ee7b7680314126da1fc74" prot="public" virt="non-virtual"><scope>themis::geo::TileLayerConfig</scope><name>url_template</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

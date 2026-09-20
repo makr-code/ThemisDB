@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1backpressure_1_1_backpressure_coordinator_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::backpressure::BackpressureCoordinator::Stats</compoundname>
+    <includes refid="backpressure__protocol_8h" local="no">backpressure_protocol.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_backpressure_coordinator_1_1_stats_1ae54fabf7e6333b62e03be3118917859d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::backpressure::BackpressureCoordinator::Stats::sessions_total</definition>
+        <argsstring></argsstring>
+        <name>sessions_total</name>
+        <qualifiedname>themisdb::backpressure::BackpressureCoordinator::Stats::sessions_total</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="767" column="18" bodyfile="include/sharding/backpressure_protocol.h" bodystart="767" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_backpressure_coordinator_1_1_stats_1a48f87faaa78bee5ee128621489e75688" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::backpressure::BackpressureCoordinator::Stats::sessions_active</definition>
+        <argsstring></argsstring>
+        <name>sessions_active</name>
+        <qualifiedname>themisdb::backpressure::BackpressureCoordinator::Stats::sessions_active</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="768" column="18" bodyfile="include/sharding/backpressure_protocol.h" bodystart="768" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_backpressure_coordinator_1_1_stats_1ac3dcec776515bc49db61910803461e23" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::backpressure::BackpressureCoordinator::Stats::syncs_immediate</definition>
+        <argsstring></argsstring>
+        <name>syncs_immediate</name>
+        <qualifiedname>themisdb::backpressure::BackpressureCoordinator::Stats::syncs_immediate</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="769" column="18" bodyfile="include/sharding/backpressure_protocol.h" bodystart="769" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_backpressure_coordinator_1_1_stats_1ae37251371aaecc9011b022b1425653d9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::backpressure::BackpressureCoordinator::Stats::syncs_throttled</definition>
+        <argsstring></argsstring>
+        <name>syncs_throttled</name>
+        <qualifiedname>themisdb::backpressure::BackpressureCoordinator::Stats::syncs_throttled</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="770" column="18" bodyfile="include/sharding/backpressure_protocol.h" bodystart="770" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_backpressure_coordinator_1_1_stats_1ae69d913413a283db2ae33724cab36393" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::backpressure::BackpressureCoordinator::Stats::syncs_deferred</definition>
+        <argsstring></argsstring>
+        <name>syncs_deferred</name>
+        <qualifiedname>themisdb::backpressure::BackpressureCoordinator::Stats::syncs_deferred</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="771" column="18" bodyfile="include/sharding/backpressure_protocol.h" bodystart="771" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_backpressure_coordinator_1_1_stats_1a53126e0154b30436886c6a1fad55c4a0" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::backpressure::BackpressureCoordinator::Stats::syncs_rejected</definition>
+        <argsstring></argsstring>
+        <name>syncs_rejected</name>
+        <qualifiedname>themisdb::backpressure::BackpressureCoordinator::Stats::syncs_rejected</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="772" column="18" bodyfile="include/sharding/backpressure_protocol.h" bodystart="772" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_backpressure_coordinator_1_1_stats_1a71feb80ed14a78667803a9be865aad13" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::backpressure::BackpressureCoordinator::Stats::replays_total</definition>
+        <argsstring></argsstring>
+        <name>replays_total</name>
+        <qualifiedname>themisdb::backpressure::BackpressureCoordinator::Stats::replays_total</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="773" column="18" bodyfile="include/sharding/backpressure_protocol.h" bodystart="773" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_backpressure_coordinator_1_1_stats_1ae126b00ff1d84ee38965443fecb72346" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::backpressure::BackpressureCoordinator::Stats::replays_successful</definition>
+        <argsstring></argsstring>
+        <name>replays_successful</name>
+        <qualifiedname>themisdb::backpressure::BackpressureCoordinator::Stats::replays_successful</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="774" column="18" bodyfile="include/sharding/backpressure_protocol.h" bodystart="774" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_backpressure_coordinator_1_1_stats_1ad5aa5c279b5b10d7d0deeacc3a1e6acf" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::backpressure::BackpressureCoordinator::Stats::bytes_transferred</definition>
+        <argsstring></argsstring>
+        <name>bytes_transferred</name>
+        <qualifiedname>themisdb::backpressure::BackpressureCoordinator::Stats::bytes_transferred</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="775" column="18" bodyfile="include/sharding/backpressure_protocol.h" bodystart="775" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_backpressure_coordinator_1_1_stats_1a28f7626a22db10416fe0415433ce2c09" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themisdb::backpressure::BackpressureCoordinator::Stats::last_replay</definition>
+        <argsstring></argsstring>
+        <name>last_replay</name>
+        <qualifiedname>themisdb::backpressure::BackpressureCoordinator::Stats::last_replay</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="776" column="47" bodyfile="include/sharding/backpressure_protocol.h" bodystart="776" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Get statistics </para>
+    </detaileddescription>
+    <location file="include/sharding/backpressure_protocol.h" line="766" column="5" bodyfile="include/sharding/backpressure_protocol.h" bodystart="766" bodyend="777"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1backpressure_1_1_backpressure_coordinator_1_1_stats_1ad5aa5c279b5b10d7d0deeacc3a1e6acf" prot="public" virt="non-virtual"><scope>themisdb::backpressure::BackpressureCoordinator::Stats</scope><name>bytes_transferred</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_backpressure_coordinator_1_1_stats_1a28f7626a22db10416fe0415433ce2c09" prot="public" virt="non-virtual"><scope>themisdb::backpressure::BackpressureCoordinator::Stats</scope><name>last_replay</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_backpressure_coordinator_1_1_stats_1ae126b00ff1d84ee38965443fecb72346" prot="public" virt="non-virtual"><scope>themisdb::backpressure::BackpressureCoordinator::Stats</scope><name>replays_successful</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_backpressure_coordinator_1_1_stats_1a71feb80ed14a78667803a9be865aad13" prot="public" virt="non-virtual"><scope>themisdb::backpressure::BackpressureCoordinator::Stats</scope><name>replays_total</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_backpressure_coordinator_1_1_stats_1a48f87faaa78bee5ee128621489e75688" prot="public" virt="non-virtual"><scope>themisdb::backpressure::BackpressureCoordinator::Stats</scope><name>sessions_active</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_backpressure_coordinator_1_1_stats_1ae54fabf7e6333b62e03be3118917859d" prot="public" virt="non-virtual"><scope>themisdb::backpressure::BackpressureCoordinator::Stats</scope><name>sessions_total</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_backpressure_coordinator_1_1_stats_1ae69d913413a283db2ae33724cab36393" prot="public" virt="non-virtual"><scope>themisdb::backpressure::BackpressureCoordinator::Stats</scope><name>syncs_deferred</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_backpressure_coordinator_1_1_stats_1ac3dcec776515bc49db61910803461e23" prot="public" virt="non-virtual"><scope>themisdb::backpressure::BackpressureCoordinator::Stats</scope><name>syncs_immediate</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_backpressure_coordinator_1_1_stats_1a53126e0154b30436886c6a1fad55c4a0" prot="public" virt="non-virtual"><scope>themisdb::backpressure::BackpressureCoordinator::Stats</scope><name>syncs_rejected</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_backpressure_coordinator_1_1_stats_1ae37251371aaecc9011b022b1425653d9" prot="public" virt="non-virtual"><scope>themisdb::backpressure::BackpressureCoordinator::Stats</scope><name>syncs_throttled</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

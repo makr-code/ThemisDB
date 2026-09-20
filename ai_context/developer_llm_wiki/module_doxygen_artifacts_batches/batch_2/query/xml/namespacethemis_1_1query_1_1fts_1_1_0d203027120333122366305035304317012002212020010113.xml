@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1query_1_1fts_1_1_0d203027120333122366305035304317012002212020010113" kind="namespace" language="C++">
+    <compoundname>themis::query::fts::@203027120333122366305035304317012002212020010113</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/query/test_fts_bm25_scorer.cpp" line="6" column="1"/>
+  </compounddef>
+</doxygen>

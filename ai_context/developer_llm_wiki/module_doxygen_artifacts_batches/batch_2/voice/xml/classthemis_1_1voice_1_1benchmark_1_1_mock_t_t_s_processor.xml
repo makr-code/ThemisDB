@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1benchmark_1_1_mock_t_t_s_processor" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::benchmark::MockTTSProcessor</compoundname>
+    <includes refid="benchmark__fixtures_8h" local="no">benchmark_fixtures.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1benchmark_1_1_mock_t_t_s_processor_1a0a9bf15ec55bc9eacae512b1112cb2ed" prot="private" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::benchmark::MockTTSProcessor::base_latency_us_</definition>
+        <argsstring></argsstring>
+        <name>base_latency_us_</name>
+        <qualifiedname>themis::voice::benchmark::MockTTSProcessor::base_latency_us_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="151" column="13" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1benchmark_1_1_mock_t_t_s_processor_1a38eeb5ed374de4e06e3e9eefb26e65f0" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::benchmark::MockTTSProcessor::MockTTSProcessor</definition>
+        <argsstring>(int64_t base_latency_us=kMockTTSLatencyMicroseconds)</argsstring>
+        <name>MockTTSProcessor</name>
+        <qualifiedname>themis::voice::benchmark::MockTTSProcessor::MockTTSProcessor</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>base_latency_us</declname>
+          <defval>kMockTTSLatencyMicroseconds</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="137" column="14" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="137" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1benchmark_1_1_mock_t_t_s_processor_1a5d50a6706ad635fdce6c8595ae3ee478" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::voice::benchmark::MockTTSProcessor::synthesize</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>synthesize</name>
+        <qualifiedname>themis::voice::benchmark::MockTTSProcessor::synthesize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="141" column="17" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="141" bodyend="148"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Mock TTS processor with deterministic latency based on text length. </para>
+    </detaileddescription>
+    <location file="benchmarks/voice/benchmark_fixtures.h" line="135" column="1" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="135" bodyend="152"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1benchmark_1_1_mock_t_t_s_processor_1a0a9bf15ec55bc9eacae512b1112cb2ed" prot="private" virt="non-virtual"><scope>themis::voice::benchmark::MockTTSProcessor</scope><name>base_latency_us_</name></member>
+      <member refid="classthemis_1_1voice_1_1benchmark_1_1_mock_t_t_s_processor_1a38eeb5ed374de4e06e3e9eefb26e65f0" prot="public" virt="non-virtual"><scope>themis::voice::benchmark::MockTTSProcessor</scope><name>MockTTSProcessor</name></member>
+      <member refid="classthemis_1_1voice_1_1benchmark_1_1_mock_t_t_s_processor_1a5d50a6706ad635fdce6c8595ae3ee478" prot="public" virt="non-virtual"><scope>themis::voice::benchmark::MockTTSProcessor</scope><name>synthesize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

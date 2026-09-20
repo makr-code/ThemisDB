@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_q_l_rollback_suggester_test" kind="class" language="C++" prot="public">
+    <compoundname>AQLRollbackSuggesterTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_q_l_rollback_suggester_test_1a7a2b224aa0bdde519ae21159ceba0129" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1aql_1_1_a_q_l_rollback_suggester" kindref="compound">AQLRollbackSuggester</ref></type>
+        <definition>AQLRollbackSuggester AQLRollbackSuggesterTest::suggester</definition>
+        <argsstring></argsstring>
+        <name>suggester</name>
+        <qualifiedname>AQLRollbackSuggesterTest::suggester</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_rollback_suggester.cpp" line="26" column="26" bodyfile="tests/aql/test_aql_rollback_suggester.cpp" bodystart="26" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AQLRollbackSuggesterTest</label>
+        <link refid="class_a_q_l_rollback_suggester_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AQLRollbackSuggesterTest</label>
+        <link refid="class_a_q_l_rollback_suggester_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>suggester</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::aql::AQLRollbackSuggester</label>
+        <link refid="classthemis_1_1aql_1_1_a_q_l_rollback_suggester"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::aql::IAQLRollbackSuggester</label>
+        <link refid="classthemis_1_1aql_1_1_i_a_q_l_rollback_suggester"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/aql/test_aql_rollback_suggester.cpp" line="24" column="1" bodyfile="tests/aql/test_aql_rollback_suggester.cpp" bodystart="24" bodyend="27"/>
+    <listofallmembers>
+      <member refid="class_a_q_l_rollback_suggester_test_1a7a2b224aa0bdde519ae21159ceba0129" prot="protected" virt="non-virtual"><scope>AQLRollbackSuggesterTest</scope><name>suggester</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

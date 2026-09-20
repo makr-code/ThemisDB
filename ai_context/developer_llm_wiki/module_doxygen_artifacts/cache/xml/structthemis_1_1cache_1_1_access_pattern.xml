@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_access_pattern" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::AccessPattern</compoundname>
+    <includes refid="cache__interfaces_8h" local="no">cache_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_access_pattern_1a693979c2547ab1dcb31c926f220b7ba4" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::AccessPattern::access_frequency</definition>
+        <argsstring></argsstring>
+        <name>access_frequency</name>
+        <qualifiedname>themis::cache::AccessPattern::access_frequency</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Accesses per second (smoothed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="196" column="14" bodyfile="include/cache/cache_interfaces.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_access_pattern_1a930bdc32ea6db42415a45996e592f432" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::AccessPattern::last_access_age_ms</definition>
+        <argsstring></argsstring>
+        <name>last_access_age_ms</name>
+        <qualifiedname>themis::cache::AccessPattern::last_access_age_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Milliseconds since the last access. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="197" column="14" bodyfile="include/cache/cache_interfaces.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_access_pattern_1a8df87da9b835cc9fe60a0287ad5084a0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::cache::AccessPattern::write_ratio</definition>
+        <argsstring></argsstring>
+        <name>write_ratio</name>
+        <qualifiedname>themis::cache::AccessPattern::write_ratio</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Fraction of operations that are writes [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="198" column="14" bodyfile="include/cache/cache_interfaces.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/cache_interfaces.h" line="195" column="1" bodyfile="include/cache/cache_interfaces.h" bodystart="195" bodyend="199"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_access_pattern_1a693979c2547ab1dcb31c926f220b7ba4" prot="public" virt="non-virtual"><scope>themis::cache::AccessPattern</scope><name>access_frequency</name></member>
+      <member refid="structthemis_1_1cache_1_1_access_pattern_1a930bdc32ea6db42415a45996e592f432" prot="public" virt="non-virtual"><scope>themis::cache::AccessPattern</scope><name>last_access_age_ms</name></member>
+      <member refid="structthemis_1_1cache_1_1_access_pattern_1a8df87da9b835cc9fe60a0287ad5084a0" prot="public" virt="non-virtual"><scope>themis::cache::AccessPattern</scope><name>write_ratio</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

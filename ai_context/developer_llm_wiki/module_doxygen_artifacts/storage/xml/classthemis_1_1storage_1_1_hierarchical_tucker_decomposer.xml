@@ -1,0 +1,560 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_hierarchical_tucker_decomposer" kind="class" language="C++" prot="public">
+    <compoundname>themis::storage::HierarchicalTuckerDecomposer</compoundname>
+    <includes refid="hierarchical__tucker__decomposer_8h" local="no">hierarchical_tucker_decomposer.h</includes>
+    <innerclass refid="structthemis_1_1storage_1_1_hierarchical_tucker_decomposer_1_1_stats" prot="public">themis::storage::HierarchicalTuckerDecomposer::Stats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_hierarchical_tucker_decomposer_1a1631619bde16c2ba0f0f9b43fe047edd" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1storage_1_1_h_t_config" kindref="compound">HTConfig</ref></type>
+        <definition>HTConfig themis::storage::HierarchicalTuckerDecomposer::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::storage::HierarchicalTuckerDecomposer::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hierarchical_tucker_decomposer.h" line="81" column="14" bodyfile="include/storage/hierarchical_tucker_decomposer.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_hierarchical_tucker_decomposer_1ab6bb2b8cb8409c085185bf4b03739d54" prot="public" static="no" const="no" explicit="yes" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::HierarchicalTuckerDecomposer::HierarchicalTuckerDecomposer</definition>
+        <argsstring>(HTConfig cfg={}) noexcept</argsstring>
+        <name>HierarchicalTuckerDecomposer</name>
+        <qualifiedname>themis::storage::HierarchicalTuckerDecomposer::HierarchicalTuckerDecomposer</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1storage_1_1_h_t_config" kindref="compound">HTConfig</ref></type>
+          <declname>cfg</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hierarchical_tucker_decomposer.h" line="50" column="14" bodyfile="src/storage/hierarchical_tucker_decomposer.cpp" bodystart="685" bodyend="686"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_hierarchical_tucker_decomposer_1a0f8f0bb1c15e854899da38357ddbf89a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; tensor::HTTrain, <ref refid="structthemis_1_1storage_1_1_hierarchical_tucker_decomposer_1_1_stats" kindref="compound">Stats</ref> &gt;</type>
+        <definition>std::pair&lt; tensor::HTTrain, HierarchicalTuckerDecomposer::Stats &gt; themis::storage::HierarchicalTuckerDecomposer::decompose</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;data, const std::vector&lt; std::size_t &gt; &amp;shape) const</argsstring>
+        <name>decompose</name>
+        <qualifiedname>themis::storage::HierarchicalTuckerDecomposer::decompose</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::size_t &gt; &amp;</type>
+          <declname>shape</declname>
+        </param>
+        <briefdescription>
+<para>Decompose a flat dense tensor into HT format. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Flat row-major tensor data (length = ∏ shape[k]). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>shape</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Mode sizes; length d ≥ 2; each shape[k] ≥ 1. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>{HTTrain, <ref refid="structthemis_1_1storage_1_1_hierarchical_tucker_decomposer_1_1_stats" kindref="compound">Stats</ref>}</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if data.size() != ∏ shape[k], d &lt; 2, or any shape[k] == 0.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Stub #287 resolved: HOOI alternating optimization loop added after HOSVD initialization in <computeroutput><ref refid="classthemis_1_1storage_1_1_hierarchical_tucker_decomposer_1a0f8f0bb1c15e854899da38357ddbf89a" kindref="member">decompose()</ref></computeroutput> (see <computeroutput><ref refid="hierarchical__tucker__decomposer_8cpp" kindref="compound">hierarchical_tucker_decomposer.cpp</ref></computeroutput>, Step 2b). Iterates until ‖G‖_F converges (rel. change &lt; 1e-6) or 20 sweeps complete. Long-term plan (Q2 2028): extend <computeroutput>ITensorIndex</computeroutput> to support HT directly. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>── Step 1: HOSVD — compute mode-k SVDs for leaf bases ──────────────────── <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">d</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Ranks. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">d</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/hierarchical_tucker_decomposer.h" line="77" column="5" bodyfile="src/storage/hierarchical_tucker_decomposer.cpp" bodystart="1032" bodyend="1276"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_hierarchical_tucker_decomposer_1ae9f8cc7da3574bc529ca2f337f4b0895" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::storage::HierarchicalTuckerDecomposer::modeKUnfolding</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;data, const std::vector&lt; std::size_t &gt; &amp;shape, std::size_t mode_k)</argsstring>
+        <name>modeKUnfolding</name>
+        <qualifiedname>themis::storage::HierarchicalTuckerDecomposer::modeKUnfolding</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::size_t &gt; &amp;</type>
+          <declname>shape</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>mode_k</declname>
+        </param>
+        <briefdescription>
+<para>Mode-k unfolding of a flat tensor: returns matrix T_(k) ∈ ℝ^{n_k × (N/n_k)}. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── Mode-k unfolding ──────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shape</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mode_k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>T_(k)[j, s] where j = mode-k index, s = combined other-mode index s runs over: outer blocks then inner stride blocks <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">N_other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/hierarchical_tucker_decomposer.h" line="86" column="24" bodyfile="src/storage/hierarchical_tucker_decomposer.cpp" bodystart="696" bodyend="733"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_hierarchical_tucker_decomposer_1a7989ce1c61b47ba1bbfe30a695f3cd7a" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::HierarchicalTuckerDecomposer::truncatedSVD</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;mat, std::size_t m, std::size_t n, double delta, std::size_t max_rank_cap, std::vector&lt; float &gt; &amp;U_out, std::vector&lt; float &gt; &amp;S_out, std::vector&lt; float &gt; &amp;Vt_out, std::size_t &amp;rank_out)</argsstring>
+        <name>truncatedSVD</name>
+        <qualifiedname>themis::storage::HierarchicalTuckerDecomposer::truncatedSVD</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>mat</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>m</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>delta</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>max_rank_cap</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; float &gt; &amp;</type>
+          <declname>U_out</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; float &gt; &amp;</type>
+          <declname>S_out</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; float &gt; &amp;</type>
+          <declname>Vt_out</declname>
+        </param>
+        <param>
+          <type>std::size_t &amp;</type>
+          <declname>rank_out</declname>
+        </param>
+        <briefdescription>
+<para>Truncated SVD of an m×n matrix A. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── Truncated SVD ─────────────────────────────────────────────────────────────</para>
+<para>Returns U (m × r), S (r), Vt (r × n) where r is chosen such that sigma[r] &lt; delta (or r = max_rank if the threshold is never reached).</para>
+<para>Uses the shared <computeroutput>TensorTrainDecomposer::truncatedSVD()</computeroutput> backend.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mat</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">m</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">delta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_rank_cap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">U_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">S_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">Vt_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">rank_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hierarchical_tucker_decomposer.h" line="99" column="17" bodyfile="src/storage/hierarchical_tucker_decomposer.cpp" bodystart="798" bodyend="819"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_hierarchical_tucker_decomposer_1afb07671228e8a66f729ddfdcb26c3764" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::storage::HierarchicalTuckerDecomposer::modeKProduct</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;data, const std::vector&lt; std::size_t &gt; &amp;shape, std::size_t mode_k, const std::vector&lt; float &gt; &amp;U, std::size_t n_k, std::size_t r)</argsstring>
+        <name>modeKProduct</name>
+        <qualifiedname>themis::storage::HierarchicalTuckerDecomposer::modeKProduct</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::size_t &gt; &amp;</type>
+          <declname>shape</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>mode_k</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>U</declname>
+          <briefdescription><para>[n_k × r] row-major </para>
+</briefdescription>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>n_k</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>r</declname>
+        </param>
+        <briefdescription>
+<para>── Mode-k product: T ×_k U^T ──────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Mode-k product: applies U^T (r × n_k) to mode k of tensor <computeroutput>data</computeroutput>. Returns a tensor with shape[k] replaced by r.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shape</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mode_k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">U</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">n_k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">r</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hierarchical_tucker_decomposer.h" line="112" column="24" bodyfile="src/storage/hierarchical_tucker_decomposer.cpp" bodystart="746" bodyend="783"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_hierarchical_tucker_decomposer_1a9bad40c171d597576abe3a8bc8400473" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; tensor::HTNode &gt;</type>
+        <definition>std::unique_ptr&lt; tensor::HTNode &gt; themis::storage::HierarchicalTuckerDecomposer::buildHTNode</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;core, const std::vector&lt; std::size_t &gt; &amp;core_shape, std::size_t L, std::size_t R, const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;U_cache, const std::vector&lt; std::size_t &gt; &amp;T_shape) const</argsstring>
+        <name>buildHTNode</name>
+        <qualifiedname>themis::storage::HierarchicalTuckerDecomposer::buildHTNode</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>core</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::size_t &gt; &amp;</type>
+          <declname>core_shape</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>L</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>R</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;</type>
+          <declname>U_cache</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::size_t &gt; &amp;</type>
+          <declname>T_shape</declname>
+        </param>
+        <briefdescription>
+<para>Recursive top-down HT node construction from a &quot;core&quot; tensor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>core</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Flat core tensor of shape [phys_{L},...,phys_{R-1}, r_out] (row-major). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>core_shape</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shape of <computeroutput>core</computeroutput> (length = (R-L) + 1, last elem = r_out). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>L</parametername>
+<parametername>R</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Mode range [L, R) covered by this subtree. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>U_cache</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>HOSVD leaf bases indexed by physical mode. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>T_shape</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original tensor shape (for leaf n_k). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>G_left[i_left, gamma_inner] = U1[i_left, gamma_inner] * sqrt(S1[gamma_inner]) Shape: [n_left, r_inner] → will be reshaped to [phys_L,. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">r_inner</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+..,phys_{M-1}, r_inner]</para>
+<para>G_right_raw[i_right_out, gamma_inner] = Vt1^T[i_right_out, gamma_inner] * sqrt(S1) Vt1 is [r_inner × n_right_out], so Vt1^T is [n_right_out × r_inner] G_right_raw shape: [n_right, r_out, r_inner] → reshaped as [n_right, r_out * r_inner] <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">r_inner</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+G right. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">r_23</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+B_node_raw: Vt2^T [r_out * r_inner, r_23] → Vt2 [r_23, r_out * r_inner] B_node_raw[j, g23] = Vt2[g23, j] * sqrt(S2[g23]) Reshape to [r_out, r_inner, r_23] Then permute to [r_inner, r_23, r_out]: B_node[g_inner, g23, g_out] = B_node_raw_reshaped[g_out, g_inner, g23] = Vt2[g23, g_out * r_inner + g_inner] * sqrt(S2[g23]) <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">r_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/hierarchical_tucker_decomposer.h" line="130" column="21" bodyfile="src/storage/hierarchical_tucker_decomposer.cpp" bodystart="851" bodyend="1027"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Decomposes a dense tensor into Hierarchical Tucker (HT) format. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Thread-safe: all methods are <computeroutput>const</computeroutput> and stateless after construction. </para>
+    </detaileddescription>
+    <location file="include/storage/hierarchical_tucker_decomposer.h" line="48" column="1" bodyfile="include/storage/hierarchical_tucker_decomposer.h" bodystart="48" bodyend="137"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_hierarchical_tucker_decomposer_1a9bad40c171d597576abe3a8bc8400473" prot="private" virt="non-virtual"><scope>themis::storage::HierarchicalTuckerDecomposer</scope><name>buildHTNode</name></member>
+      <member refid="classthemis_1_1storage_1_1_hierarchical_tucker_decomposer_1a1631619bde16c2ba0f0f9b43fe047edd" prot="private" virt="non-virtual"><scope>themis::storage::HierarchicalTuckerDecomposer</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1storage_1_1_hierarchical_tucker_decomposer_1a0f8f0bb1c15e854899da38357ddbf89a" prot="public" virt="non-virtual"><scope>themis::storage::HierarchicalTuckerDecomposer</scope><name>decompose</name></member>
+      <member refid="classthemis_1_1storage_1_1_hierarchical_tucker_decomposer_1ab6bb2b8cb8409c085185bf4b03739d54" prot="public" virt="non-virtual"><scope>themis::storage::HierarchicalTuckerDecomposer</scope><name>HierarchicalTuckerDecomposer</name></member>
+      <member refid="classthemis_1_1storage_1_1_hierarchical_tucker_decomposer_1afb07671228e8a66f729ddfdcb26c3764" prot="private" virt="non-virtual"><scope>themis::storage::HierarchicalTuckerDecomposer</scope><name>modeKProduct</name></member>
+      <member refid="classthemis_1_1storage_1_1_hierarchical_tucker_decomposer_1ae9f8cc7da3574bc529ca2f337f4b0895" prot="private" virt="non-virtual"><scope>themis::storage::HierarchicalTuckerDecomposer</scope><name>modeKUnfolding</name></member>
+      <member refid="classthemis_1_1storage_1_1_hierarchical_tucker_decomposer_1a7989ce1c61b47ba1bbfe30a695f3cd7a" prot="private" virt="non-virtual"><scope>themis::storage::HierarchicalTuckerDecomposer</scope><name>truncatedSVD</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

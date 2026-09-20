@@ -1,0 +1,535 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_l_l_m_generate_operator" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::LLMGenerateOperator</compoundname>
+    <includes refid="llm__generate__operator_8h" local="no">llm_generate_operator.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_l_l_m_generate_operator_1a6c0dd55835b7b8c64725ec9e1b7a647d" prot="private" static="no" mutable="no">
+        <type>aql::LLMQueryContext</type>
+        <definition>aql::LLMQueryContext themis::query::LLMGenerateOperator::context_</definition>
+        <argsstring></argsstring>
+        <name>context_</name>
+        <qualifiedname>themis::query::LLMGenerateOperator::context_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/llm_generate_operator.h" line="283" column="26" bodyfile="include/query/llm_generate_operator.h" bodystart="283" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_l_l_m_generate_operator_1aada57f0eaebabe960ee434ca76be0825" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_l_l_m_operator_cost" kindref="compound">LLMOperatorCost</ref></type>
+        <definition>LLMOperatorCost themis::query::LLMGenerateOperator::cost_</definition>
+        <argsstring></argsstring>
+        <name>cost_</name>
+        <qualifiedname>themis::query::LLMGenerateOperator::cost_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/llm_generate_operator.h" line="284" column="26" bodyfile="include/query/llm_generate_operator.h" bodystart="284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_l_l_m_generate_operator_1af21d3e4bb8de1e8381a32e0d97b9d6e8" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::LLMGenerateOperator::model_id_</definition>
+        <argsstring></argsstring>
+        <name>model_id_</name>
+        <qualifiedname>themis::query::LLMGenerateOperator::model_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/llm_generate_operator.h" line="285" column="26" bodyfile="include/query/llm_generate_operator.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_l_l_m_generate_operator_1a051ec99a86b2e9c6193b3540e2d807bb" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1a1e5f3bbef481ddc1aada2342ef439a9b" kindref="member">LLMFallbackPolicy</ref></type>
+        <definition>LLMFallbackPolicy themis::query::LLMGenerateOperator::fallback_policy_</definition>
+        <argsstring></argsstring>
+        <name>fallback_policy_</name>
+        <qualifiedname>themis::query::LLMGenerateOperator::fallback_policy_</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1query_1a1e5f3bbef481ddc1aada2342ef439a9ba9b467d5d8a798eaa507e24e2c5578b92" kindref="member">LLMFallbackPolicy::ReturnRetrievalOnly</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/llm_generate_operator.h" line="286" column="26" bodyfile="include/query/llm_generate_operator.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_l_l_m_generate_operator_1a33aabf69182f21a847bc740d8f2a0cac" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::LLMGenerateOperator::require_snapshot_context_</definition>
+        <argsstring></argsstring>
+        <name>require_snapshot_context_</name>
+        <qualifiedname>themis::query::LLMGenerateOperator::require_snapshot_context_</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/llm_generate_operator.h" line="287" column="26" bodyfile="include/query/llm_generate_operator.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_l_l_m_generate_operator_1a480e9cba07cf848aac19c947ee113f38" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::LLMGenerateOperator::audit_enabled_</definition>
+        <argsstring></argsstring>
+        <name>audit_enabled_</name>
+        <qualifiedname>themis::query::LLMGenerateOperator::audit_enabled_</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/llm_generate_operator.h" line="288" column="26" bodyfile="include/query/llm_generate_operator.h" bodystart="288" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_l_l_m_generate_operator_1a2394d3bf301f11323ff6a1dce6be8444" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::LLMGenerateOperator::allow_cached_result_</definition>
+        <argsstring></argsstring>
+        <name>allow_cached_result_</name>
+        <qualifiedname>themis::query::LLMGenerateOperator::allow_cached_result_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/llm_generate_operator.h" line="289" column="26" bodyfile="include/query/llm_generate_operator.h" bodystart="289" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_l_l_m_generate_operator_1aa82280717d81f8fc1045a07471e95966" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::LLMGenerateOperator::LLMGenerateOperator</definition>
+        <argsstring>()=default</argsstring>
+        <name>LLMGenerateOperator</name>
+        <qualifiedname>themis::query::LLMGenerateOperator::LLMGenerateOperator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/llm_generate_operator.h" line="144" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_l_l_m_generate_operator_1afd303f61f847a183a0f1d90daffc5301" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::LLMGenerateOperator::LLMGenerateOperator</definition>
+        <argsstring>(aql::LLMQueryContext ctx, LLMOperatorCost cost, std::string model_id)</argsstring>
+        <name>LLMGenerateOperator</name>
+        <qualifiedname>themis::query::LLMGenerateOperator::LLMGenerateOperator</qualifiedname>
+        <param>
+          <type>aql::LLMQueryContext</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1query_1_1_l_l_m_operator_cost" kindref="compound">LLMOperatorCost</ref></type>
+          <declname>cost</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Construct with explicit context and cost model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>MVCC snapshot context (see <computeroutput>LLMQueryContext</computeroutput>). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cost</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Cost model parameters. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical model identifier (e.g. &quot;llama-3-8b-q4&quot;). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/llm_generate_operator.h" line="153" column="5" bodyfile="include/query/llm_generate_operator.h" bodystart="153" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_l_l_m_generate_operator_1a951ff9ece574d208e6f464cbc7a1eedd" prot="public" static="no" nodiscard="yes" constexpr="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::LLMGenerateOperator::isDeterministic</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isDeterministic</name>
+        <qualifiedname>themis::query::LLMGenerateOperator::isDeterministic</qualifiedname>
+        <briefdescription>
+<para>LLM operators are always non-deterministic. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Planner and executor must not assume that re-running the operator with identical inputs produces identical outputs. Caching and result reuse require explicit opt-in via <computeroutput>allow_cached_result</computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/llm_generate_operator.h" line="173" column="21" bodyfile="include/query/llm_generate_operator.h" bodystart="173" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_l_l_m_generate_operator_1a12b1db7d9e127bf18b848219781aedb4" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::LLMGenerateOperator::requiresSnapshotContext</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>requiresSnapshotContext</name>
+        <qualifiedname>themis::query::LLMGenerateOperator::requiresSnapshotContext</qualifiedname>
+        <briefdescription>
+<para>Whether a consistent MVCC snapshot is required for the upstream retrieval operators that feed this LLM step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Defaults to <computeroutput>true</computeroutput> (P1.1 requirement). May be relaxed to <computeroutput>false</computeroutput> for fire-and-forget analytics queries where consistency is not critical. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/llm_generate_operator.h" line="182" column="11" bodyfile="include/query/llm_generate_operator.h" bodystart="182" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_l_l_m_generate_operator_1a645f21aefdf46df5a28f7c13678bc0fd" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::LLMGenerateOperator::setRequireSnapshotContext</definition>
+        <argsstring>(bool required) noexcept</argsstring>
+        <name>setRequireSnapshotContext</name>
+        <qualifiedname>themis::query::LLMGenerateOperator::setRequireSnapshotContext</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>required</declname>
+        </param>
+        <briefdescription>
+<para>Set snapshot requirement (override for non-critical queries). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>required</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>true = enforce snapshot; false = allow no-snapshot path. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/llm_generate_operator.h" line="190" column="10" bodyfile="include/query/llm_generate_operator.h" bodystart="190" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_l_l_m_generate_operator_1a6a626fafdec23347e6ba91116c95bdcd" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1query_1_1_l_l_m_operator_cost" kindref="compound">LLMOperatorCost</ref> &amp;</type>
+        <definition>const LLMOperatorCost &amp; themis::query::LLMGenerateOperator::cost</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>cost</name>
+        <qualifiedname>themis::query::LLMGenerateOperator::cost</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Immutable cost model parameters. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/llm_generate_operator.h" line="199" column="28" bodyfile="include/query/llm_generate_operator.h" bodystart="199" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_l_l_m_generate_operator_1a359a37a91a48dca6c2bf100327b8777b" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_l_l_m_operator_cost" kindref="compound">LLMOperatorCost</ref> &amp;</type>
+        <definition>LLMOperatorCost &amp; themis::query::LLMGenerateOperator::cost</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>cost</name>
+        <qualifiedname>themis::query::LLMGenerateOperator::cost</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Mutable reference for in-place calibration by the optimizer. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/llm_generate_operator.h" line="202" column="21" bodyfile="include/query/llm_generate_operator.h" bodystart="202" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_l_l_m_generate_operator_1a11dd1ae3810b5062f2db0907f7d90a49" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const aql::LLMQueryContext &amp;</type>
+        <definition>const aql::LLMQueryContext &amp; themis::query::LLMGenerateOperator::context</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>context</name>
+        <qualifiedname>themis::query::LLMGenerateOperator::context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The MVCC snapshot context for this request. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/llm_generate_operator.h" line="209" column="33" bodyfile="include/query/llm_generate_operator.h" bodystart="209" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_l_l_m_generate_operator_1a2eef476bfef6f216be0f74de5d588bcb" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::query::LLMGenerateOperator::modelId</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>modelId</name>
+        <qualifiedname>themis::query::LLMGenerateOperator::modelId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The logical model identifier. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/llm_generate_operator.h" line="212" column="24" bodyfile="include/query/llm_generate_operator.h" bodystart="212" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_l_l_m_generate_operator_1ac807bfbe6ae63286960e9c38fd8601b8" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1query_1a1e5f3bbef481ddc1aada2342ef439a9b" kindref="member">LLMFallbackPolicy</ref></type>
+        <definition>LLMFallbackPolicy themis::query::LLMGenerateOperator::fallbackPolicy</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>fallbackPolicy</name>
+        <qualifiedname>themis::query::LLMGenerateOperator::fallbackPolicy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Current fallback policy. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/llm_generate_operator.h" line="219" column="24" bodyfile="include/query/llm_generate_operator.h" bodystart="219" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_l_l_m_generate_operator_1afc46d640a84b9a6ca357d2a3db80b5ca" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::LLMGenerateOperator::setFallbackPolicy</definition>
+        <argsstring>(LLMFallbackPolicy p) noexcept</argsstring>
+        <name>setFallbackPolicy</name>
+        <qualifiedname>themis::query::LLMGenerateOperator::setFallbackPolicy</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1query_1a1e5f3bbef481ddc1aada2342ef439a9b" kindref="member">LLMFallbackPolicy</ref></type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+<para>Override the fallback policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New fallback policy. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/llm_generate_operator.h" line="225" column="10" bodyfile="include/query/llm_generate_operator.h" bodystart="225" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_l_l_m_generate_operator_1ac6862f7c58e374db8aae5daa1abe0e6f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::LLMGenerateOperator::withinBudget</definition>
+        <argsstring>(std::chrono::milliseconds elapsed) const noexcept</argsstring>
+        <name>withinBudget</name>
+        <qualifiedname>themis::query::LLMGenerateOperator::withinBudget</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>elapsed</declname>
+        </param>
+        <briefdescription>
+<para>Check whether the operator is within its latency budget. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>elapsed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Wall-clock time elapsed since inference started. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when elapsed &lt; latency_budget_ms (or budget is zero/unlimited). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/llm_generate_operator.h" line="233" column="11" bodyfile="include/query/llm_generate_operator.h" bodystart="233" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_l_l_m_generate_operator_1acad96439f8b0a7828402977376ee325a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::LLMGenerateOperator::auditEnabled</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>auditEnabled</name>
+        <qualifiedname>themis::query::LLMGenerateOperator::auditEnabled</qualifiedname>
+        <briefdescription>
+<para>Whether an <computeroutput>AIDecisionAudit</computeroutput> record should be persisted for this invocation. Defaults to true for production builds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/llm_generate_operator.h" line="248" column="11" bodyfile="include/query/llm_generate_operator.h" bodystart="248" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_l_l_m_generate_operator_1aa52aafa0d15868a6f2c568c7cf079fde" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::LLMGenerateOperator::setAuditEnabled</definition>
+        <argsstring>(bool enabled) noexcept</argsstring>
+        <name>setAuditEnabled</name>
+        <qualifiedname>themis::query::LLMGenerateOperator::setAuditEnabled</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Set to false to disable audit for this operator. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/llm_generate_operator.h" line="251" column="10" bodyfile="include/query/llm_generate_operator.h" bodystart="251" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_l_l_m_generate_operator_1adb7aae9d2e6455dad7158389372d797c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::LLMGenerateOperator::allowCachedResult</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>allowCachedResult</name>
+        <qualifiedname>themis::query::LLMGenerateOperator::allowCachedResult</qualifiedname>
+        <briefdescription>
+<para>Whether a cached result may be returned instead of re-running inference. Off by default because LLM outputs are probabilistic. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/llm_generate_operator.h" line="261" column="11" bodyfile="include/query/llm_generate_operator.h" bodystart="261" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_l_l_m_generate_operator_1abfc5b3259d679a21caf8262581e65879" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::LLMGenerateOperator::setAllowCachedResult</definition>
+        <argsstring>(bool allowed) noexcept</argsstring>
+        <name>setAllowCachedResult</name>
+        <qualifiedname>themis::query::LLMGenerateOperator::setAllowCachedResult</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>allowed</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>allowed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Set to true to allow result reuse from the response cache. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/llm_generate_operator.h" line="264" column="10" bodyfile="include/query/llm_generate_operator.h" bodystart="264" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_l_l_m_generate_operator_1a6575ebf0c5800e2cd7385d80b07168b7" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::LLMGenerateOperator::toExplainString</definition>
+        <argsstring>() const</argsstring>
+        <name>toExplainString</name>
+        <qualifiedname>themis::query::LLMGenerateOperator::toExplainString</qualifiedname>
+        <briefdescription>
+<para>Return a human-readable summary for EXPLAIN plan output. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Example: <programlisting><codeline><highlight class="normal"><ref refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21ca80f4f5fcd235fb25ddc95a5f772ab8f0" kindref="member">LLMGenerate</ref><sp/>[model=llama-3-8b-q4,<sp/>est_cost=5000,<sp/>budget=10000ms,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>deterministic=</highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>snapshot=snapshot-isolated,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fallback=<ref refid="namespacethemis_1_1query_1a1e5f3bbef481ddc1aada2342ef439a9ba9b467d5d8a798eaa507e24e2c5578b92" kindref="member">ReturnRetrievalOnly</ref>,<sp/>audit=on]</highlight></codeline>
+</programlisting> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/llm_generate_operator.h" line="280" column="18" bodyfile="include/query/llm_generate_operator.h" bodystart="296" bodyend="310"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>First-class query plan operator representing an LLM generation step. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><computeroutput><ref refid="classthemis_1_1query_1_1_l_l_m_generate_operator" kindref="compound">LLMGenerateOperator</ref></computeroutput> wraps one LLM inference call as a typed operator node that participates in the query plan. It carries:<itemizedlist>
+<listitem><para>The MVCC snapshot context that binds upstream retrieval reads.</para>
+</listitem><listitem><para>Cost model parameters for budget enforcement and EXPLAIN output.</para>
+</listitem><listitem><para>Fallback policy for budget/availability failures.</para>
+</listitem><listitem><para>Determinism annotation (always false for LLM).</para>
+</listitem><listitem><para>Audit mode flag for governance compliance.</para>
+</listitem></itemizedlist>
+</para>
+<para>Instances are created by <computeroutput>LLMAQLHandler</computeroutput> for LLM_INFER / LLM_RAG commands and are attached to the <computeroutput><ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan" kindref="compound">QueryOptimizer::Plan</ref></computeroutput> before execution begins.</para>
+<para><heading level="3">Thread safety</heading>
+</para>
+<para><computeroutput><ref refid="classthemis_1_1query_1_1_l_l_m_generate_operator" kindref="compound">LLMGenerateOperator</ref></computeroutput> is a value type; it is not shared between threads. Callers must synchronise access if the same instance is used concurrently. </para>
+    </detaileddescription>
+    <location file="include/query/llm_generate_operator.h" line="138" column="1" bodyfile="include/query/llm_generate_operator.h" bodystart="138" bodyend="290"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1a2394d3bf301f11323ff6a1dce6be8444" prot="private" virt="non-virtual"><scope>themis::query::LLMGenerateOperator</scope><name>allow_cached_result_</name></member>
+      <member refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1adb7aae9d2e6455dad7158389372d797c" prot="public" virt="non-virtual"><scope>themis::query::LLMGenerateOperator</scope><name>allowCachedResult</name></member>
+      <member refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1a480e9cba07cf848aac19c947ee113f38" prot="private" virt="non-virtual"><scope>themis::query::LLMGenerateOperator</scope><name>audit_enabled_</name></member>
+      <member refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1acad96439f8b0a7828402977376ee325a" prot="public" virt="non-virtual"><scope>themis::query::LLMGenerateOperator</scope><name>auditEnabled</name></member>
+      <member refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1a11dd1ae3810b5062f2db0907f7d90a49" prot="public" virt="non-virtual"><scope>themis::query::LLMGenerateOperator</scope><name>context</name></member>
+      <member refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1a6c0dd55835b7b8c64725ec9e1b7a647d" prot="private" virt="non-virtual"><scope>themis::query::LLMGenerateOperator</scope><name>context_</name></member>
+      <member refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1a6a626fafdec23347e6ba91116c95bdcd" prot="public" virt="non-virtual"><scope>themis::query::LLMGenerateOperator</scope><name>cost</name></member>
+      <member refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1a359a37a91a48dca6c2bf100327b8777b" prot="public" virt="non-virtual"><scope>themis::query::LLMGenerateOperator</scope><name>cost</name></member>
+      <member refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1aada57f0eaebabe960ee434ca76be0825" prot="private" virt="non-virtual"><scope>themis::query::LLMGenerateOperator</scope><name>cost_</name></member>
+      <member refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1a051ec99a86b2e9c6193b3540e2d807bb" prot="private" virt="non-virtual"><scope>themis::query::LLMGenerateOperator</scope><name>fallback_policy_</name></member>
+      <member refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1ac807bfbe6ae63286960e9c38fd8601b8" prot="public" virt="non-virtual"><scope>themis::query::LLMGenerateOperator</scope><name>fallbackPolicy</name></member>
+      <member refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1a951ff9ece574d208e6f464cbc7a1eedd" prot="public" virt="non-virtual"><scope>themis::query::LLMGenerateOperator</scope><name>isDeterministic</name></member>
+      <member refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1aa82280717d81f8fc1045a07471e95966" prot="public" virt="non-virtual"><scope>themis::query::LLMGenerateOperator</scope><name>LLMGenerateOperator</name></member>
+      <member refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1afd303f61f847a183a0f1d90daffc5301" prot="public" virt="non-virtual"><scope>themis::query::LLMGenerateOperator</scope><name>LLMGenerateOperator</name></member>
+      <member refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1af21d3e4bb8de1e8381a32e0d97b9d6e8" prot="private" virt="non-virtual"><scope>themis::query::LLMGenerateOperator</scope><name>model_id_</name></member>
+      <member refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1a2eef476bfef6f216be0f74de5d588bcb" prot="public" virt="non-virtual"><scope>themis::query::LLMGenerateOperator</scope><name>modelId</name></member>
+      <member refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1a33aabf69182f21a847bc740d8f2a0cac" prot="private" virt="non-virtual"><scope>themis::query::LLMGenerateOperator</scope><name>require_snapshot_context_</name></member>
+      <member refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1a12b1db7d9e127bf18b848219781aedb4" prot="public" virt="non-virtual"><scope>themis::query::LLMGenerateOperator</scope><name>requiresSnapshotContext</name></member>
+      <member refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1abfc5b3259d679a21caf8262581e65879" prot="public" virt="non-virtual"><scope>themis::query::LLMGenerateOperator</scope><name>setAllowCachedResult</name></member>
+      <member refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1aa52aafa0d15868a6f2c568c7cf079fde" prot="public" virt="non-virtual"><scope>themis::query::LLMGenerateOperator</scope><name>setAuditEnabled</name></member>
+      <member refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1afc46d640a84b9a6ca357d2a3db80b5ca" prot="public" virt="non-virtual"><scope>themis::query::LLMGenerateOperator</scope><name>setFallbackPolicy</name></member>
+      <member refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1a645f21aefdf46df5a28f7c13678bc0fd" prot="public" virt="non-virtual"><scope>themis::query::LLMGenerateOperator</scope><name>setRequireSnapshotContext</name></member>
+      <member refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1a6575ebf0c5800e2cd7385d80b07168b7" prot="public" virt="non-virtual"><scope>themis::query::LLMGenerateOperator</scope><name>toExplainString</name></member>
+      <member refid="classthemis_1_1query_1_1_l_l_m_generate_operator_1ac6862f7c58e374db8aae5daa1abe0e6f" prot="public" virt="non-virtual"><scope>themis::query::LLMGenerateOperator</scope><name>withinBudget</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

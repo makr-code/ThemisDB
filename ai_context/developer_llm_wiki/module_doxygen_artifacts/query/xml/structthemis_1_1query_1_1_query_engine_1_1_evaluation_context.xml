@@ -1,0 +1,310 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_query_engine_1_1_evaluation_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::QueryEngine::EvaluationContext</compoundname>
+    <includes refid="query__engine_8h" local="no">query_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_engine_1_1_evaluation_context_1a8d6945e09329e214e57eb272d265fc0a" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, nlohmann::json &gt;</type>
+        <definition>std::unordered_map&lt;std::string, nlohmann::json&gt; themis::query::QueryEngine::EvaluationContext::bindings</definition>
+        <argsstring></argsstring>
+        <name>bindings</name>
+        <qualifiedname>themis::query::QueryEngine::EvaluationContext::bindings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="798" column="24" bodyfile="include/query/query_engine.h" bodystart="798" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_engine_1_1_evaluation_context_1aa69b79e9af39809e0893518538f59aa2" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; std::unordered_map&lt; std::string, double &gt; &gt;</type>
+        <definition>std::shared_ptr&lt;std::unordered_map&lt;std::string, double&gt; &gt; themis::query::QueryEngine::EvaluationContext::bm25_scores</definition>
+        <argsstring></argsstring>
+        <name>bm25_scores</name>
+        <qualifiedname>themis::query::QueryEngine::EvaluationContext::bm25_scores</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="800" column="21" bodyfile="include/query/query_engine.h" bodystart="800" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_engine_1_1_evaluation_context_1a6347c6598e708e3b2147a5aaf1c8916b" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; nlohmann::json &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;nlohmann::json&gt; &gt; themis::query::QueryEngine::EvaluationContext::cte_results</definition>
+        <argsstring></argsstring>
+        <name>cte_results</name>
+        <qualifiedname>themis::query::QueryEngine::EvaluationContext::cte_results</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="803" column="24" bodyfile="include/query/query_engine.h" bodystart="803" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_engine_1_1_evaluation_context_1a370d6faec4abf7c70e842d679f833bff" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1query_1_1_c_t_e_cache" kindref="compound">query::CTECache</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;query::CTECache&gt; themis::query::QueryEngine::EvaluationContext::cte_cache</definition>
+        <argsstring></argsstring>
+        <name>cte_cache</name>
+        <qualifiedname>themis::query::QueryEngine::EvaluationContext::cte_cache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="806" column="21" bodyfile="include/query/query_engine.h" bodystart="806" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_engine_1_1_evaluation_context_1a907eff705cfa4323e0b5d720467b8599" prot="public" static="no" mutable="no">
+        <type>const <ref refid="structthemis_1_1query_1_1_query_engine_1_1_evaluation_context" kindref="compound">EvaluationContext</ref> *</type>
+        <definition>const EvaluationContext* themis::query::QueryEngine::EvaluationContext::parent</definition>
+        <argsstring></argsstring>
+        <name>parent</name>
+        <qualifiedname>themis::query::QueryEngine::EvaluationContext::parent</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="809" column="29" bodyfile="include/query/query_engine.h" bodystart="809" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_query_engine_1_1_evaluation_context_1aed8cf45a5ac0dc10ded44aab3f4e7025" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::QueryEngine::EvaluationContext::bind</definition>
+        <argsstring>(const std::string &amp;var, nlohmann::json value)</argsstring>
+        <name>bind</name>
+        <qualifiedname>themis::query::QueryEngine::EvaluationContext::bind</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>var</declname>
+        </param>
+        <param>
+          <type>nlohmann::json</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Bind. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">var</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="817" column="10" bodyfile="include/query/query_engine.h" bodystart="817" bodyend="819"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_query_engine_1_1_evaluation_context_1a18bd6f200a5c8f8df22a84806a34151e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; nlohmann::json &gt;</type>
+        <definition>std::optional&lt; nlohmann::json &gt; themis::query::QueryEngine::EvaluationContext::get</definition>
+        <argsstring>(const std::string &amp;var) const</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::query::QueryEngine::EvaluationContext::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>var</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="821" column="19" bodyfile="include/query/query_engine.h" bodystart="821" bodyend="834"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_query_engine_1_1_evaluation_context_1afff374f2ad51ef90e9da93822756e682" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::QueryEngine::EvaluationContext::setBm25Scores</definition>
+        <argsstring>(std::shared_ptr&lt; std::unordered_map&lt; std::string, double &gt; &gt; scores)</argsstring>
+        <name>setBm25Scores</name>
+        <qualifiedname>themis::query::QueryEngine::EvaluationContext::setBm25Scores</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; std::unordered_map&lt; std::string, double &gt; &gt;</type>
+          <declname>scores</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="836" column="10" bodyfile="include/query/query_engine.h" bodystart="836" bodyend="838"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_query_engine_1_1_evaluation_context_1ac7abb8205373becaf8c15d5be7a899b3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::QueryEngine::EvaluationContext::getBm25ScoreForPk</definition>
+        <argsstring>(const std::string &amp;pk) const</argsstring>
+        <name>getBm25ScoreForPk</name>
+        <qualifiedname>themis::query::QueryEngine::EvaluationContext::getBm25ScoreForPk</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pk</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="839" column="12" bodyfile="include/query/query_engine.h" bodystart="839" bodyend="848"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_query_engine_1_1_evaluation_context_1a305faf7f5451da9c2b1163975169a698" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::QueryEngine::EvaluationContext::storeCTE</definition>
+        <argsstring>(const std::string &amp;name, std::vector&lt; nlohmann::json &gt; results)</argsstring>
+        <name>storeCTE</name>
+        <qualifiedname>themis::query::QueryEngine::EvaluationContext::storeCTE</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; nlohmann::json &gt;</type>
+          <declname>results</declname>
+        </param>
+        <briefdescription>
+<para>Phase 4. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Store CTE.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+3: CTE access with cache fallback (out-of-line to avoid incomplete <ref refid="classthemis_1_1query_1_1_c_t_e_cache" kindref="compound">CTECache</ref>)</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: store(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="856" column="10" bodyfile="src/query/query_engine.cpp" bodystart="1719" bodyend="1727"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_query_engine_1_1_evaluation_context_1abecf314bdaa789e3b1f0fee4001e1f9e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; nlohmann::json &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; nlohmann::json &gt; &gt; themis::query::QueryEngine::EvaluationContext::getCTE</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>getCTE</name>
+        <qualifiedname>themis::query::QueryEngine::EvaluationContext::getCTE</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Get CTE. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="862" column="19" bodyfile="src/query/query_engine.cpp" bodystart="1729" bodyend="1748"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_query_engine_1_1_evaluation_context_1af0b9480a315450dc4b026556b08a39aa" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_query_engine_1_1_evaluation_context" kindref="compound">EvaluationContext</ref></type>
+        <definition>EvaluationContext themis::query::QueryEngine::EvaluationContext::createChild</definition>
+        <argsstring>() const</argsstring>
+        <name>createChild</name>
+        <qualifiedname>themis::query::QueryEngine::EvaluationContext::createChild</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="865" column="23" bodyfile="include/query/query_engine.h" bodystart="865" bodyend="872"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::query::QueryEngine::EvaluationContext</label>
+        <link refid="structthemis_1_1query_1_1_query_engine_1_1_evaluation_context"/>
+        <childnode refid="1" relation="usage">
+          <edgelabel>parent</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/query_engine.h" line="797" column="1" bodyfile="include/query/query_engine.h" bodystart="797" bodyend="873"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_query_engine_1_1_evaluation_context_1aed8cf45a5ac0dc10ded44aab3f4e7025" prot="public" virt="non-virtual"><scope>themis::query::QueryEngine::EvaluationContext</scope><name>bind</name></member>
+      <member refid="structthemis_1_1query_1_1_query_engine_1_1_evaluation_context_1a8d6945e09329e214e57eb272d265fc0a" prot="public" virt="non-virtual"><scope>themis::query::QueryEngine::EvaluationContext</scope><name>bindings</name></member>
+      <member refid="structthemis_1_1query_1_1_query_engine_1_1_evaluation_context_1aa69b79e9af39809e0893518538f59aa2" prot="public" virt="non-virtual"><scope>themis::query::QueryEngine::EvaluationContext</scope><name>bm25_scores</name></member>
+      <member refid="structthemis_1_1query_1_1_query_engine_1_1_evaluation_context_1af0b9480a315450dc4b026556b08a39aa" prot="public" virt="non-virtual"><scope>themis::query::QueryEngine::EvaluationContext</scope><name>createChild</name></member>
+      <member refid="structthemis_1_1query_1_1_query_engine_1_1_evaluation_context_1a370d6faec4abf7c70e842d679f833bff" prot="public" virt="non-virtual"><scope>themis::query::QueryEngine::EvaluationContext</scope><name>cte_cache</name></member>
+      <member refid="structthemis_1_1query_1_1_query_engine_1_1_evaluation_context_1a6347c6598e708e3b2147a5aaf1c8916b" prot="public" virt="non-virtual"><scope>themis::query::QueryEngine::EvaluationContext</scope><name>cte_results</name></member>
+      <member refid="structthemis_1_1query_1_1_query_engine_1_1_evaluation_context_1a18bd6f200a5c8f8df22a84806a34151e" prot="public" virt="non-virtual"><scope>themis::query::QueryEngine::EvaluationContext</scope><name>get</name></member>
+      <member refid="structthemis_1_1query_1_1_query_engine_1_1_evaluation_context_1ac7abb8205373becaf8c15d5be7a899b3" prot="public" virt="non-virtual"><scope>themis::query::QueryEngine::EvaluationContext</scope><name>getBm25ScoreForPk</name></member>
+      <member refid="structthemis_1_1query_1_1_query_engine_1_1_evaluation_context_1abecf314bdaa789e3b1f0fee4001e1f9e" prot="public" virt="non-virtual"><scope>themis::query::QueryEngine::EvaluationContext</scope><name>getCTE</name></member>
+      <member refid="structthemis_1_1query_1_1_query_engine_1_1_evaluation_context_1a907eff705cfa4323e0b5d720467b8599" prot="public" virt="non-virtual"><scope>themis::query::QueryEngine::EvaluationContext</scope><name>parent</name></member>
+      <member refid="structthemis_1_1query_1_1_query_engine_1_1_evaluation_context_1afff374f2ad51ef90e9da93822756e682" prot="public" virt="non-virtual"><scope>themis::query::QueryEngine::EvaluationContext</scope><name>setBm25Scores</name></member>
+      <member refid="structthemis_1_1query_1_1_query_engine_1_1_evaluation_context_1a305faf7f5451da9c2b1163975169a698" prot="public" virt="non-virtual"><scope>themis::query::QueryEngine::EvaluationContext</scope><name>storeCTE</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

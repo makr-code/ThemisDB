@@ -1,0 +1,405 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="aql__runner_8h" kind="file" language="C++">
+    <compoundname>aql_runner.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">utility</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes refid="aql__parser_8h" local="yes">query/aql_parser.h</includes>
+    <includes refid="aql__translator_8h" local="yes">query/aql_translator.h</includes>
+    <includes refid="result__type__annotation_8h" local="yes">query/result_type_annotation.h</includes>
+    <includes refid="query__resource__limits_8h" local="yes">query/query_resource_limits.h</includes>
+    <includes refid="query__canceller_8h" local="yes">query/query_canceller.h</includes>
+    <includes refid="sql__parser_8h" local="yes">query/sql_parser.h</includes>
+    <includes refid="mutation__executor_8h" local="yes">query/mutation_executor.h</includes>
+    <includes refid="query__engine_8h" local="yes">query_engine.h</includes>
+    <includes local="yes">utils/expected.h</includes>
+    <includedby refid="aql__runner_8cpp" local="yes">src/query/aql_runner.cpp</includedby>
+    <includedby refid="test__query__cancellation_8cpp" local="yes">tests/query/test_query_cancellation.cpp</includedby>
+    <includedby refid="test__query__resource__limits_8cpp" local="yes">tests/query/test_query_resource_limits.cpp</includedby>
+    <incdepgraph>
+      <node id="5">
+        <label>query/aql_parser.h</label>
+        <link refid="aql__parser_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/query/aql_runner.h</label>
+        <link refid="aql__runner_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>query/aql_translator.h</label>
+        <link refid="aql__translator_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>query/mutation_execution_plan.h</label>
+        <link refid="mutation__execution__plan_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>query/mutation_executor.h</label>
+        <link refid="mutation__executor_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>query/query_canceller.h</label>
+        <link refid="query__canceller_8h"/>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>query_engine.h</label>
+        <link refid="query__engine_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>query/query_resource_limits.h</label>
+        <link refid="query__resource__limits_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>query/result_type_annotation.h</label>
+        <link refid="result__type__annotation_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>query/sql_parser.h</label>
+        <link refid="sql__parser_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>atomic</label>
+      </node>
+      <node id="22">
+        <label>chrono</label>
+      </node>
+      <node id="30">
+        <label>condition_variable</label>
+      </node>
+      <node id="28">
+        <label>cstddef</label>
+      </node>
+      <node id="14">
+        <label>cstdint</label>
+      </node>
+      <node id="17">
+        <label>functional</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="20">
+        <label>mutex</label>
+      </node>
+      <node id="4">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="15">
+        <label>optional</label>
+      </node>
+      <node id="9">
+        <label>set</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="18">
+        <label>string_view</label>
+      </node>
+      <node id="24">
+        <label>themis/base/interfaces/index_interface.h</label>
+      </node>
+      <node id="25">
+        <label>themis/base/interfaces/query_interface.h</label>
+      </node>
+      <node id="23">
+        <label>themis/base/interfaces/storage_interface.h</label>
+      </node>
+      <node id="19">
+        <label>unordered_map</label>
+      </node>
+      <node id="10">
+        <label>unordered_set</label>
+      </node>
+      <node id="3">
+        <label>utility</label>
+      </node>
+      <node id="11">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="8">
+        <label>variant</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/query/aql_runner.h</label>
+        <link refid="aql__runner_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/query/aql_runner.cpp</label>
+        <link refid="aql__runner_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/query/test_query_cancellation.cpp</label>
+        <link refid="test__query__cancellation_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/query/test_query_resource_limits.cpp</label>
+        <link refid="test__query__resource__limits_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1security">themis::security</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="aql__parser_8h" kindref="compound">query/aql_parser.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="aql__translator_8h" kindref="compound">query/aql_translator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="result__type__annotation_8h" kindref="compound">query/result_type_annotation.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="query__resource__limits_8h" kindref="compound">query/query_resource_limits.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="query__canceller_8h" kindref="compound">query/query_canceller.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="sql__parser_8h" kindref="compound">query/sql_parser.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="mutation__executor_8h" kindref="compound">query/mutation_executor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="query__engine_8h" kindref="compound">query_engine.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/expected.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations<sp/>for<sp/>RLS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1security" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1security" kindref="compound">security</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">RLSManager;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">SecurityContext;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>security</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1a1b5f7c341aaf7b073902cab31b34e273" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_conjunctive_query" kindref="compound">ConjunctiveQuery</ref><sp/>=<sp/><ref refid="structthemis_1_1query_1_1_conjunctive_query" kindref="compound">::themis::query::ConjunctiveQuery</ref>;</highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1a8ab1a521499f03be39c91b19954ba4f2" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_recursive_path_query" kindref="compound">RecursivePathQuery</ref><sp/>=<sp/><ref refid="structthemis_1_1query_1_1_recursive_path_query" kindref="compound">::themis::query::RecursivePathQuery</ref>;</highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1a9ea8a823d187ac1c4a5556c0b05f48af" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa9bec15a44ddab7c0ba464cfe5b63d26" kindref="member">TraversalDirection</ref><sp/>=<sp/><ref refid="namespacethemis_1_1query_1aa9bec15a44ddab7c0ba464cfe5b63d26" kindref="member">::themis::query::TraversalDirection</ref>;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal">Result&lt;nlohmann::json&gt;<sp/><ref refid="namespacethemis_1aa59fe790689e845ff334c32870feb98a" kindref="member">executeAql</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>aql,<sp/><ref refid="classthemis_1_1query_1_1_query_engine" kindref="compound">query::QueryEngine</ref>&amp;<sp/>engine);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal">Result&lt;nlohmann::json&gt;<sp/><ref refid="namespacethemis_1a1fc2a58de257991c13e877c525120602" kindref="member">executeSQL</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>sql,<sp/><ref refid="classthemis_1_1query_1_1_query_engine" kindref="compound">query::QueryEngine</ref>&amp;<sp/>engine);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal">Result&lt;nlohmann::json&gt;<sp/><ref refid="namespacethemis_1ad9a55c7da63256af453bee8ca8d2d4e5" kindref="member">executeAqlWithLimits</ref>(</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>aql,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_engine" kindref="compound">query::QueryEngine</ref>&amp;<sp/>engine,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_resource_limits" kindref="compound">query::QueryResourceLimits</ref>&amp;<sp/>limits</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Query<sp/>plan<sp/>visualisation<sp/>(EXPLAIN<sp/>/<sp/>EXPLAIN<sp/>ANALYZE)<sp/>─────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>three<sp/>functions<sp/>parse<sp/>and<sp/>translate<sp/>the<sp/>AQL<sp/>query<sp/>but<sp/>stop<sp/>before<sp/>execution;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>they<sp/>return<sp/>the<sp/>optimised<sp/>query<sp/>plan<sp/>instead.<sp/><sp/>Non-conjunctive<sp/>query<sp/>forms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>(graph<sp/>traversal,<sp/>vector+geo,<sp/>OR<sp/>queries,<sp/>…)<sp/>fall<sp/>back<sp/>to<sp/>a<sp/>single<sp/>SeqScan<sp/>node</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>that<sp/>describes<sp/>the<sp/>query<sp/>type.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal">Result&lt;nlohmann::json&gt;<sp/><ref refid="namespacethemis_1a48a22a87f201570ac9c99bd15f0b4167" kindref="member">explainAql</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>aql,<sp/><ref refid="classthemis_1_1query_1_1_query_engine" kindref="compound">query::QueryEngine</ref>&amp;<sp/>engine,</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>analyze<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal">Result&lt;std::string&gt;<sp/><ref refid="namespacethemis_1ab048e170c322861027bc7c166faecb36" kindref="member">explainAqlText</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>aql,<sp/><ref refid="classthemis_1_1query_1_1_query_engine" kindref="compound">query::QueryEngine</ref>&amp;<sp/>engine,</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>analyze<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal">Result&lt;std::string&gt;<sp/><ref refid="namespacethemis_1adf795444c23ccc6d14dd954d97a6967c" kindref="member">explainAqlDot</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>aql,<sp/><ref refid="classthemis_1_1query_1_1_query_engine" kindref="compound">query::QueryEngine</ref>&amp;<sp/>engine);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal">Result&lt;nlohmann::json&gt;<sp/><ref refid="namespacethemis_1af7074a3d4f1cdb0f487999309f7b212b" kindref="member">executeMultiStatementAql</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>aql,<sp/><ref refid="classthemis_1_1query_1_1_query_engine" kindref="compound">query::QueryEngine</ref>&amp;<sp/>engine);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal">Result&lt;nlohmann::json&gt;<sp/><ref refid="namespacethemis_1af7074a3d4f1cdb0f487999309f7b212b" kindref="member">executeMultiStatementAql</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aql,</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_engine" kindref="compound">query::QueryEngine</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>engine,</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_mutation_executor_1_1_storage_context" kindref="compound">query::MutationExecutor::StorageContext</ref>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/>storage);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal">Result&lt;nlohmann::json&gt;<sp/><ref refid="namespacethemis_1a1b9fad095b370407f7bbd5d626c804da" kindref="member">executeAqlWithRLS</ref>(</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>aql,</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_engine" kindref="compound">query::QueryEngine</ref>&amp;<sp/>engine,</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>security::RLSManager&amp;<sp/>rls,</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>security::SecurityContext&amp;<sp/>ctx</highlight></codeline>
+<codeline lineno="126"><highlight class="normal">);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal">Result&lt;query::AnnotatedQueryResult&gt;<sp/><ref refid="namespacethemis_1a683f91557d114660002a4872f528b44c" kindref="member">executeAqlAnnotated</ref>(</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>aql,</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_engine" kindref="compound">query::QueryEngine</ref>&amp;<sp/>engine</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal">Result&lt;nlohmann::json&gt;<sp/><ref refid="namespacethemis_1a103b7b3495e7632a7c3faaba793191a9" kindref="member">executeAqlCancellable</ref>(</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>aql,</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_engine" kindref="compound">query::QueryEngine</ref>&amp;<sp/>engine,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>request_id,</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_canceller" kindref="compound">query::QueryCanceller</ref>&amp;<sp/>canceller<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_query_canceller_1ac325e371562c57842b2d477788fa552b" kindref="member">query::QueryCanceller::instance</ref>()</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/query/aql_runner.h"/>
+  </compounddef>
+</doxygen>

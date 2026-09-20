@@ -1,0 +1,278 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="adaptive__rate__limiter_8h" kind="file" language="C++">
+    <compoundname>adaptive_rate_limiter.h</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="adaptive__rate__limiter_8cpp" local="yes">src/ingestion/adaptive_rate_limiter.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/ingestion/adaptive_rate_limiter.h</label>
+        <link refid="adaptive__rate__limiter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>unordered_map</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/ingestion/adaptive_rate_limiter.h</label>
+        <link refid="adaptive__rate__limiter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/ingestion/adaptive_rate_limiter.cpp</label>
+        <link refid="adaptive__rate__limiter_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1ingestion_1_1_rate_limit_info" prot="public">themis::ingestion::RateLimitInfo</innerclass>
+    <innerclass refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config" prot="public">themis::ingestion::AdaptiveRateLimiterConfig</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter" prot="public">themis::ingestion::AdaptiveRateLimiter</innerclass>
+    <innerclass refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_1_1_stats" prot="public">themis::ingestion::AdaptiveRateLimiter::Stats</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1_rate_limiter_pool" prot="public">themis::ingestion::RateLimiterPool</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1ingestion">themis::ingestion</innernamespace>
+    <briefdescription>
+<para>Adaptive rate limiting for API connectors with backpressure support. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Phase 2.9 (Bounded Resources + Stress Tests) — ING-IMPL-008</para>
+<para>Provides:<itemizedlist>
+<listitem><para>Rate limit header parsing (RateLimit-Limit, RateLimit-Remaining, Retry-After)</para>
+</listitem><listitem><para>Adaptive throttling based on API responses</para>
+</listitem><listitem><para>Graceful degradation when rate limits are exceeded</para>
+</listitem><listitem><para>Per-connector rate limit tracking</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para>src/ingestion/ROADMAP.md — Phase 2.9 item </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1ingestion" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1ingestion" kindref="compound">ingestion</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Rate<sp/>limit<sp/>header<sp/>parsing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1ingestion_1_1_rate_limit_info" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1ingestion_1_1_rate_limit_info" kindref="compound">RateLimitInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1ingestion_1_1_rate_limit_info_1a5fc3051a4bb17f5205d76bf54a0ea78e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_rate_limit_info_1a5fc3051a4bb17f5205d76bf54a0ea78e" kindref="member">is_rate_limited</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1ingestion_1_1_rate_limit_info_1a1f48c26b36b056af8d77ced35724cb2a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint64_t<sp/><ref refid="structthemis_1_1ingestion_1_1_rate_limit_info_1a1f48c26b36b056af8d77ced35724cb2a" kindref="member">limit_per_window</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1ingestion_1_1_rate_limit_info_1a9b8db3f6d9a6ed6e9add05d1c36d8b81" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint64_t<sp/><ref refid="structthemis_1_1ingestion_1_1_rate_limit_info_1a9b8db3f6d9a6ed6e9add05d1c36d8b81" kindref="member">remaining_in_window</ref><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1ingestion_1_1_rate_limit_info_1a605434f6be5c4763ad56dbd03de83ade" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint64_t<sp/><ref refid="structthemis_1_1ingestion_1_1_rate_limit_info_1a605434f6be5c4763ad56dbd03de83ade" kindref="member">reset_timestamp</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1ingestion_1_1_rate_limit_info_1a6715c9d36326ba1b154846718c50897c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1ingestion_1_1_rate_limit_info_1a6715c9d36326ba1b154846718c50897c" kindref="member">retry_after</ref>{0};<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1ingestion_1_1_rate_limit_info_1aae9f4a2d4207c056f6c249c3fd027969" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1ingestion_1_1_rate_limit_info_1aae9f4a2d4207c056f6c249c3fd027969" kindref="member">header_source</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><ref refid="structthemis_1_1ingestion_1_1_rate_limit_info" kindref="compound">RateLimitInfo</ref><sp/><ref refid="namespacethemis_1_1ingestion_1acf173f858db3d098270f0ff3d5cbbc63" kindref="member">parseRateLimitHeaders</ref>(</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>response_headers);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Adaptive<sp/>rate<sp/>limiter<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config" kindref="compound">AdaptiveRateLimiterConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config_1a826c3a54ae03f5f705d1c68b1e032582" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config_1a826c3a54ae03f5f705d1c68b1e032582" kindref="member">initial_requests_per_sec</ref><sp/>=<sp/>10.0;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config_1ad80c5f75a1ae0084743c4d6ac0e80d09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config_1ad80c5f75a1ae0084743c4d6ac0e80d09" kindref="member">min_requests_per_sec</ref><sp/>=<sp/>0.1;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config_1a7defe8c6408037e7937cf442a03c9aa8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config_1a7defe8c6408037e7937cf442a03c9aa8" kindref="member">max_requests_per_sec</ref><sp/>=<sp/>100.0;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config_1a16ed02c7cb3cba585a2a986bf43e1889" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config_1a16ed02c7cb3cba585a2a986bf43e1889" kindref="member">backoff_multiplier</ref><sp/>=<sp/>0.5;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config_1a907b3eb0c4b28e28239c37880cd7763b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config_1a907b3eb0c4b28e28239c37880cd7763b" kindref="member">speedup_multiplier</ref><sp/>=<sp/>1.1;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config_1acd228228d0d5c9398da1593bfb5ef829" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config_1acd228228d0d5c9398da1593bfb5ef829" kindref="member">measurement_window</ref>{60};</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config_1a1be8520937eec7b0eabca4c60a377772" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config_1a1be8520937eec7b0eabca4c60a377772" kindref="member">honor_retry_after</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config_1aecbbcbc95873b286ac5a1bca3ffe2cdb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config_1aecbbcbc95873b286ac5a1bca3ffe2cdb" kindref="member">max_consecutive_throttles</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Adaptive<sp/>rate<sp/>limiter<sp/>for<sp/>HTTP-based<sp/>connectors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179" refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1ab7d3b41ad725a939b32a4e52a9e84b1a" kindref="member">AdaptiveRateLimiter</ref><sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="184" refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="185" refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_1_1_stats_1acc8031701ae71aab94eabef5ddb26e07" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_1_1_stats_1acc8031701ae71aab94eabef5ddb26e07" kindref="member">current_rate_limit</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="186" refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_1_1_stats_1a62a13cdb3960481b2fd2007af8801ed8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_1_1_stats_1a62a13cdb3960481b2fd2007af8801ed8" kindref="member">observed_success_rate</ref><sp/>=<sp/>0.0;<sp/><sp/></highlight></codeline>
+<codeline lineno="187" refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_1_1_stats_1a468b647ecfd0b118ce9b01eae526b083" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uint64_t<sp/><ref refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_1_1_stats_1a468b647ecfd0b118ce9b01eae526b083" kindref="member">total_requests</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="188" refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_1_1_stats_1ad9c10687884028a0eb25f5bd73c9cd8e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uint64_t<sp/><ref refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_1_1_stats_1ad9c10687884028a0eb25f5bd73c9cd8e" kindref="member">successful_requests</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="189" refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_1_1_stats_1a8d745454b10152ff9387a915c9808b08" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uint64_t<sp/><ref refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_1_1_stats_1a8d745454b10152ff9387a915c9808b08" kindref="member">throttled_requests</ref><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="190" refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_1_1_stats_1a8da3d0dc87126f9a595aa2c657aaf7f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_1_1_stats_1a8da3d0dc87126f9a595aa2c657aaf7f0" kindref="member">consecutive_throttles</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198" refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1ab7d3b41ad725a939b32a4e52a9e84b1a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1ab7d3b41ad725a939b32a4e52a9e84b1a" kindref="member">AdaptiveRateLimiter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>connector_name,</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config" kindref="compound">AdaptiveRateLimiterConfig</ref>&amp;<sp/>config<sp/>=<sp/>{})</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>connector_name_(connector_name),<sp/>config_(config),</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>current_rate_limit_(config.initial_requests_per_sec)<sp/>{}</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203" refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a93c9d990ad3f53c6b171f83648270b63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a93c9d990ad3f53c6b171f83648270b63" kindref="member">~AdaptiveRateLimiter</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Delete<sp/>copy/move</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206" refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1aad93fcf5eb6245045e7cfb154e7349e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1aad93fcf5eb6245045e7cfb154e7349e7" kindref="member">AdaptiveRateLimiter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1ab7d3b41ad725a939b32a4e52a9e84b1a" kindref="member">AdaptiveRateLimiter</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="207" refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a6c457e1b6f45aa02c7bd006163b85dd5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1ab7d3b41ad725a939b32a4e52a9e84b1a" kindref="member">AdaptiveRateLimiter</ref>&amp;<sp/><ref refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a6c457e1b6f45aa02c7bd006163b85dd5" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1ab7d3b41ad725a939b32a4e52a9e84b1a" kindref="member">AdaptiveRateLimiter</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Token<sp/>bucket<sp/>rate<sp/>control<sp/>───────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1adbe4451e6318b187220bed519dd1bc4c" kindref="member">tryAcquireToken</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>allow_wait<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228" refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1abaa258708c237368caf75aa8a841891a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1abaa258708c237368caf75aa8a841891a" kindref="member">acquireToken</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(!<ref refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1adbe4451e6318b187220bed519dd1bc4c" kindref="member">tryAcquireToken</ref>(</highlight><highlight class="keyword">true</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Retry<sp/>until<sp/>successful</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Response<sp/>feedback<sp/>───────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1af3d98a356e6314611645a5c2bd75ff43" kindref="member">recordResponse</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>http_status_code,</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>response_headers<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Configuration<sp/>and<sp/>state<sp/>─────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>Stats<sp/><ref refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a7cd8dcf1421f1d0b874c076de440736b" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1ac41eccfda771b1f98fda9ec20dd6d6ee" kindref="member">setRateLimit</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>requests_per_sec);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1acc0bc2e5cd4cee30b2d34b5d0c573ea9" kindref="member">getRateLimit</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a671f84ffd2e530f7111406490ae5706c" kindref="member">resetToInitial</ref>();</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278" refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a141131e7ecd35ff1a76c175b1c3b77d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a141131e7ecd35ff1a76c175b1c3b77d9" kindref="member">getConnectorName</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>connector_name_;<sp/>}</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283" refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a0e42b55ce2a2b71d60a7a2203d4782e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a0e42b55ce2a2b71d60a7a2203d4782e6" kindref="member">setConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config" kindref="compound">AdaptiveRateLimiterConfig</ref>&amp;<sp/>new_config)<sp/>{</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(mutex_);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config_<sp/>=<sp/>new_config;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291" refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a147ccd37216834758b49acf5f05c90d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config" kindref="compound">AdaptiveRateLimiterConfig</ref><sp/><ref refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a147ccd37216834758b49acf5f05c90d4" kindref="member">getConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(mutex_);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>connector_name_;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config" kindref="compound">AdaptiveRateLimiterConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>current_rate_limit_;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Token<sp/>bucket<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>last_token_time_;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>tokens_available_<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>Stats<sp/>stats_;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>measurement_window_start_;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>refillTokens();</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updateStatsSuccess();</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updateStatsThrottle();</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>adjustRateLimit(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_rate_limit_info" kindref="compound">RateLimitInfo</ref>&amp;<sp/>info);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Rate<sp/>limiter<sp/>pool<sp/>for<sp/>managing<sp/>multiple<sp/>connectors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343" refid="classthemis_1_1ingestion_1_1_rate_limiter_pool" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_rate_limiter_pool_1a7b977e77f96bfa5109a42b9ba64a5516" kindref="member">RateLimiterPool</ref><sp/>{</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="348" refid="classthemis_1_1ingestion_1_1_rate_limiter_pool_1a7b977e77f96bfa5109a42b9ba64a5516" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_rate_limiter_pool_1a7b977e77f96bfa5109a42b9ba64a5516" kindref="member">RateLimiterPool</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight></codeline>
+<codeline lineno="350" refid="classthemis_1_1ingestion_1_1_rate_limiter_pool_1a988e0ab64429f5dec780075d56616a4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_rate_limiter_pool_1a988e0ab64429f5dec780075d56616a4e" kindref="member">~RateLimiterPool</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter" kindref="compound">AdaptiveRateLimiter</ref>&amp;<sp/><ref refid="classthemis_1_1ingestion_1_1_rate_limiter_pool_1a60454cfd39c27078eb0060693f1f98e1" kindref="member">registerLimiter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>connector_name,</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config" kindref="compound">AdaptiveRateLimiterConfig</ref>&amp;<sp/>config<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter" kindref="compound">AdaptiveRateLimiter</ref>*<sp/><ref refid="classthemis_1_1ingestion_1_1_rate_limiter_pool_1a81db483825178faf3634daca9a23bae8" kindref="member">getLimiter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>connector_name);</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter" kindref="compound">AdaptiveRateLimiter</ref>*<sp/><ref refid="classthemis_1_1ingestion_1_1_rate_limiter_pool_1a81db483825178faf3634daca9a23bae8" kindref="member">getLimiter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>connector_name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_rate_limiter_pool_1a70332e08c72ef099b89017e347586fef" kindref="member">unregisterLimiter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>connector_name);</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1ingestion_1_1_rate_limiter_pool_1a443a4b9361ee68215c53d646768e1735" kindref="member">listLimiters</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_rate_limiter_pool_1a5db0f183e989a70bda71a7c6705ab4c1" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"></highlight></codeline>
+<codeline lineno="389"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::unique_ptr&lt;AdaptiveRateLimiter&gt;&gt;<sp/>limiters_;</highlight></codeline>
+<codeline lineno="392"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"></highlight></codeline>
+<codeline lineno="394"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ingestion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="395"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"></highlight></codeline>
+<codeline lineno="397"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/></highlight><highlight class="comment">//<sp/>THEMISDB_INCLUDE_INGESTION_ADAPTIVE_RATE_LIMITER_H</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/ingestion/adaptive_rate_limiter.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,300 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="modality__parser_8h" kind="file" language="C++">
+    <compoundname>modality_parser.h</compoundname>
+    <includes refid="auto__labeler_8h" local="yes">training/auto_labeler.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">utility</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="auto__labeler_8cpp" local="yes">src/training/auto_labeler.cpp</includedby>
+    <includedby refid="modality__parser_8cpp" local="yes">src/training/modality_parser.cpp</includedby>
+    <includedby refid="test__training__convergence_8cpp" local="yes">tests/training/test_training_convergence.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>training/auto_labeler.h</label>
+        <link refid="auto__labeler_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/training/modality_parser.h</label>
+        <link refid="modality__parser_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>training/training_error_codes.h</label>
+        <link refid="training__error__codes_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>training/training_exceptions.h</label>
+        <link refid="training__exceptions_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>stdexcept</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>unordered_map</label>
+      </node>
+      <node id="12">
+        <label>utility</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/training/modality_parser.h</label>
+        <link refid="modality__parser_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/training/auto_labeler.cpp</label>
+        <link refid="auto__labeler_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/training/modality_parser.cpp</label>
+        <link refid="modality__parser_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/training/test_training_convergence.cpp</label>
+        <link refid="test__training__convergence_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1training_1_1_modality_parser_config" prot="public">themis::training::ModalityParserConfig</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_modality_parse_stats" prot="public">themis::training::ModalityParseStats</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_modality_parse_result" prot="public">themis::training::ModalityParseResult</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_text_clause_extractor" prot="public">themis::training::TextClauseExtractor</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_table_extractor" prot="public">themis::training::TableExtractor</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_citation_extractor" prot="public">themis::training::CitationExtractor</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_o_c_r_extractor" prot="public">themis::training::OCRExtractor</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_modality_detector" prot="public">themis::training::ModalityDetector</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1training">themis::training</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="auto__labeler_8h" kindref="compound">training/auto_labeler.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1training" kindref="compound">training</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1training_1_1_modality_parser_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1training_1_1_modality_parser_config_1a178ffc46121478204a54d2f8891a580b" kindref="member">ModalityParserConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1training_1_1_modality_parser_config_1a335ef99befb9f9d166a638f3d3e7ed74" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1training_1_1_modality_parser_config_1a335ef99befb9f9d166a638f3d3e7ed74" kindref="member">language_code</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;de&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1training_1_1_modality_parser_config_1a3aaa937d52614163753536671a89da2e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_modality_parser_config_1a3aaa937d52614163753536671a89da2e" kindref="member">text_clause_min_length</ref><sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1training_1_1_modality_parser_config_1a46d93d4207fb4e4e84c4960b3e4e6dad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_modality_parser_config_1a46d93d4207fb4e4e84c4960b3e4e6dad" kindref="member">max_table_rows</ref><sp/>=<sp/>500;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1training_1_1_modality_parser_config_1a3ec47b090518c2f5174178eae0c6c358" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_modality_parser_config_1a3ec47b090518c2f5174178eae0c6c358" kindref="member">max_citations_per_document</ref><sp/>=<sp/>200;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1training_1_1_modality_parser_config_1a473204c00f337810e86763d8244ef236" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_modality_parser_config_1a473204c00f337810e86763d8244ef236" kindref="member">text_clause_base_confidence</ref><sp/>=<sp/>0.80f;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1training_1_1_modality_parser_config_1a3f7b20665b57fd5af560bf71c335f908" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_modality_parser_config_1a3f7b20665b57fd5af560bf71c335f908" kindref="member">table_base_confidence</ref><sp/>=<sp/>0.75f;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1training_1_1_modality_parser_config_1a36e5d918b8dc2b627285437bf437082d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_modality_parser_config_1a36e5d918b8dc2b627285437bf437082d" kindref="member">citation_base_confidence</ref><sp/>=<sp/>0.85f;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1training_1_1_modality_parser_config_1a2597093aecdffe0cc00f0f86a76e1d18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_modality_parser_config_1a2597093aecdffe0cc00f0f86a76e1d18" kindref="member">ocr_base_confidence</ref><sp/>=<sp/>0.60f;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1training_1_1_modality_parser_config_1a13ddb90ebb8d39e49538302769a5130b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_modality_parser_config_1a13ddb90ebb8d39e49538302769a5130b" kindref="member">enable_ocr</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1training_1_1_modality_parser_config_1a178ffc46121478204a54d2f8891a580b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_modality_parser_config_1a178ffc46121478204a54d2f8891a580b" kindref="member">ModalityParserConfig</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Result<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1training_1_1_modality_parse_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1training_1_1_modality_parse_stats_1a5e90d104abe2e797e8ea6500f6262052" kindref="member">ModalityParseStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1training_1_1_modality_parse_stats_1a6285fcadfae22c9d8b3c4d0bc4aff416" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_modality_parse_stats_1a6285fcadfae22c9d8b3c4d0bc4aff416" kindref="member">documents_processed</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1training_1_1_modality_parse_stats_1a8af0b829573742132a9198641871ff5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_modality_parse_stats_1a8af0b829573742132a9198641871ff5b" kindref="member">text_clauses_extracted</ref><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1training_1_1_modality_parse_stats_1aed81c09545d08ea92909c80acbe37c9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_modality_parse_stats_1aed81c09545d08ea92909c80acbe37c9c" kindref="member">tables_extracted</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1training_1_1_modality_parse_stats_1a31bd4ddc58525006c4e3ea95c82422ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_modality_parse_stats_1a31bd4ddc58525006c4e3ea95c82422ac" kindref="member">citations_extracted</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1training_1_1_modality_parse_stats_1aa22d65daa819b638dd3d87265062f4a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_modality_parse_stats_1aa22d65daa819b638dd3d87265062f4a3" kindref="member">ocr_pages_processed</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1training_1_1_modality_parse_stats_1aae38d468d84527b39a1b28da09e28398" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_modality_parse_stats_1aae38d468d84527b39a1b28da09e28398" kindref="member">samples_total</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1training_1_1_modality_parse_stats_1a1f38f894a53779589b3e15c4578bf27e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_modality_parse_stats_1a1f38f894a53779589b3e15c4578bf27e" kindref="member">elapsed_seconds</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1training_1_1_modality_parse_stats_1a5e90d104abe2e797e8ea6500f6262052" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_modality_parse_stats_1a5e90d104abe2e797e8ea6500f6262052" kindref="member">ModalityParseStats</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1training_1_1_modality_parse_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1training_1_1_modality_parse_result_1a5ed20652b689e3224d1dcc89bd1fbd01" kindref="member">ModalityParseResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1training_1_1_modality_parse_result_1aa2c3be2d01fe09652a3bd5f092fc0c5e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1training_1_1_modality_parse_result_1aa2c3be2d01fe09652a3bd5f092fc0c5e" kindref="member">document_id</ref>;</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1training_1_1_modality_parse_result_1afcf8f1aefd82163242bb735f7fa564f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;TrainingSample&gt;<sp/><ref refid="structthemis_1_1training_1_1_modality_parse_result_1afcf8f1aefd82163242bb735f7fa564f2" kindref="member">samples</ref>;<sp/></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1training_1_1_modality_parse_result_1a1858b8fe27b4824accb9cdc20ed57d04" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_modality_parse_stats" kindref="compound">ModalityParseStats</ref><sp/><ref refid="structthemis_1_1training_1_1_modality_parse_result_1a1858b8fe27b4824accb9cdc20ed57d04" kindref="member">stats</ref>;</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1training_1_1_modality_parse_result_1a056cf2f48c07d2680d8136540c860373" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_modality_parse_result_1a056cf2f48c07d2680d8136540c860373" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1training_1_1_modality_parse_result_1a0d59374735a01a40a3c3256a185bc0b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1training_1_1_modality_parse_result_1a0d59374735a01a40a3c3256a185bc0b8" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1training_1_1_modality_parse_result_1a5ed20652b689e3224d1dcc89bd1fbd01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_modality_parse_result_1a5ed20652b689e3224d1dcc89bd1fbd01" kindref="member">ModalityParseResult</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Per-modality<sp/>extractors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="classthemis_1_1training_1_1_text_clause_extractor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1training_1_1_text_clause_extractor_1a93b88346583581d4abad542b404792c1" kindref="member">TextClauseExtractor</ref><sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_text_clause_extractor_1a93b88346583581d4abad542b404792c1" kindref="member">TextClauseExtractor</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_modality_parser_config" kindref="compound">ModalityParserConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;TrainingSample&gt;<sp/><ref refid="classthemis_1_1training_1_1_text_clause_extractor_1afd9b378dfa6a371c9786aee85b2f2bd9" kindref="member">extract</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text,</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>document_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_modality_parser_config" kindref="compound">ModalityParserConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>----------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="classthemis_1_1training_1_1_table_extractor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1training_1_1_table_extractor_1aa261afbdf22a2acd885c429dd0980083" kindref="member">TableExtractor</ref><sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_table_extractor_1aa261afbdf22a2acd885c429dd0980083" kindref="member">TableExtractor</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_modality_parser_config" kindref="compound">ModalityParserConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;TrainingSample&gt;<sp/><ref refid="classthemis_1_1training_1_1_table_extractor_1a544f067ca2639d32c45e21d35570965e" kindref="member">extract</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text,</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>document_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_modality_parser_config" kindref="compound">ModalityParserConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>----------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171" refid="classthemis_1_1training_1_1_citation_extractor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1training_1_1_citation_extractor_1a902d96ee994cec78970256711bef8a57" kindref="member">CitationExtractor</ref><sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_citation_extractor_1a902d96ee994cec78970256711bef8a57" kindref="member">CitationExtractor</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_modality_parser_config" kindref="compound">ModalityParserConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;TrainingSample&gt;<sp/><ref refid="classthemis_1_1training_1_1_citation_extractor_1adc98d8f37fba2953d26eb4bb6e9b8706" kindref="member">extract</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text,</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>document_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_modality_parser_config" kindref="compound">ModalityParserConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>----------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207" refid="classthemis_1_1training_1_1_o_c_r_extractor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1training_1_1_o_c_r_extractor_1aba71abc826955be05dd88a3faedc63f1" kindref="member">OCRExtractor</ref><sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_o_c_r_extractor_1aba71abc826955be05dd88a3faedc63f1" kindref="member">OCRExtractor</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_modality_parser_config" kindref="compound">ModalityParserConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_o_c_r_extractor_1a5549866f18ca6471b7737bafee77a86f" kindref="member">isAvailable</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;TrainingSample&gt;<sp/><ref refid="classthemis_1_1training_1_1_o_c_r_extractor_1aa02e98d0be278712a0a25e62158bc92a" kindref="member">extract</ref>([[maybe_unused]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>image_path,</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[maybe_unused]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>document_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_modality_parser_config" kindref="compound">ModalityParserConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>available_;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ModalityDetector<sp/>–<sp/>main<sp/>orchestrator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247" refid="classthemis_1_1training_1_1_modality_detector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1training_1_1_modality_detector_1a18268584cf4f671aa7f4e3dedac2c3ae" kindref="member">ModalityDetector</ref><sp/>{</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_modality_detector_1a18268584cf4f671aa7f4e3dedac2c3ae" kindref="member">ModalityDetector</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_modality_parser_config" kindref="compound">ModalityParserConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255" refid="classthemis_1_1training_1_1_modality_detector_1a76944ddf2a85966bedf4ea4cca932709" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_modality_detector_1a76944ddf2a85966bedf4ea4cca932709" kindref="member">~ModalityDetector</ref>();</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258" refid="classthemis_1_1training_1_1_modality_detector_1a07069194461c3b0627c99a9bfe68a584" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_modality_detector_1a07069194461c3b0627c99a9bfe68a584" kindref="member">ModalityDetector</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_modality_detector_1a18268584cf4f671aa7f4e3dedac2c3ae" kindref="member">ModalityDetector</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="259" refid="classthemis_1_1training_1_1_modality_detector_1af4ccb8d48e15f6f4931bb1a7bc36238e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_modality_detector_1a18268584cf4f671aa7f4e3dedac2c3ae" kindref="member">ModalityDetector</ref>&amp;<sp/><ref refid="classthemis_1_1training_1_1_modality_detector_1af4ccb8d48e15f6f4931bb1a7bc36238e" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_modality_detector_1a18268584cf4f671aa7f4e3dedac2c3ae" kindref="member">ModalityDetector</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="260" refid="classthemis_1_1training_1_1_modality_detector_1acee9566647cf246d69f665884b090ccf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_modality_detector_1acee9566647cf246d69f665884b090ccf" kindref="member">ModalityDetector</ref>(<ref refid="classthemis_1_1training_1_1_modality_detector_1a18268584cf4f671aa7f4e3dedac2c3ae" kindref="member">ModalityDetector</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="261" refid="classthemis_1_1training_1_1_modality_detector_1afacfce7a37989dbb4978fc05c510fb92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_modality_detector_1a18268584cf4f671aa7f4e3dedac2c3ae" kindref="member">ModalityDetector</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1training_1_1_modality_detector_1a18268584cf4f671aa7f4e3dedac2c3ae" kindref="member">ModalityDetector</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1training_1a42b3986090b456e4c741a98b9ca1c430" kindref="member">ContentModality</ref><sp/><ref refid="classthemis_1_1training_1_1_modality_detector_1ac6cfeca6ff672fe293e93d85ce8e376f" kindref="member">detectModality</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>content,</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>mime_hint<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/>const;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_modality_parse_result" kindref="compound">ModalityParseResult</ref><sp/><ref refid="classthemis_1_1training_1_1_modality_detector_1a878997059a6130e75a40a13811d791f3" kindref="member">parseDocument</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>content,</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>document_id,</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>mime_hint<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/>const;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_modality_parse_stats" kindref="compound">ModalityParseStats</ref><sp/><ref refid="classthemis_1_1training_1_1_modality_detector_1ac99222c6bbfc5396fb9548ef0fd99d09" kindref="member">parseBatch</ref>(</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;std::pair&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;&gt;&amp;<sp/>documents,</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1training_1_1_training_sample" kindref="compound">TrainingSample</ref>&gt;&amp;<sp/>out_samples)<sp/>const;</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>class<sp/><ref refid="classthemis_1_1training_1_1_modality_detector_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;<ref refid="classthemis_1_1training_1_1_modality_detector_1_1_impl" kindref="compound">Impl</ref>&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>training</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/training/modality_parser.h"/>
+  </compounddef>
+</doxygen>

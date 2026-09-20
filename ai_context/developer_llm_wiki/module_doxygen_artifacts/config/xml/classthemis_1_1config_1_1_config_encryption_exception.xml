@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1config_1_1_config_encryption_exception" kind="class" language="C++" prot="public">
+    <compoundname>themis::config::ConfigEncryptionException</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::runtime_error</basecompoundref>
+    <includes refid="config__encrypted__store_8h" local="no">config_encrypted_store.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_encryption_exception_1aa82ffc3f24fa175e113e556c385a65d8" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::config::ConfigEncryptionException::ConfigEncryptionException</definition>
+        <argsstring>(const std::string &amp;msg)</argsstring>
+        <name>ConfigEncryptionException</name>
+        <qualifiedname>themis::config::ConfigEncryptionException::ConfigEncryptionException</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+<para>Config Encryption Exception. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_encrypted_store.h" line="35" column="14" bodyfile="include/config/config_encrypted_store.h" bodystart="35" bodyend="36"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::config::ConfigEncryptionException</label>
+        <link refid="classthemis_1_1config_1_1_config_encryption_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::config::ConfigEncryptionException</label>
+        <link refid="classthemis_1_1config_1_1_config_encryption_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/config/config_encrypted_store.h" line="28" column="1" bodyfile="include/config/config_encrypted_store.h" bodystart="28" bodyend="37"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1config_1_1_config_encryption_exception_1aa82ffc3f24fa175e113e556c385a65d8" prot="public" virt="non-virtual"><scope>themis::config::ConfigEncryptionException</scope><name>ConfigEncryptionException</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

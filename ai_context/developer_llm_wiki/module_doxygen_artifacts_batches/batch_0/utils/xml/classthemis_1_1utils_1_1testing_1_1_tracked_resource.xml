@@ -1,0 +1,263 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1testing_1_1_tracked_resource" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::testing::TrackedResource</compoundname>
+    <includes refid="resource__leak__detector_8h" local="no">resource_leak_detector.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1testing_1_1_tracked_resource_1a5c4f0099a7bcc9a028aa8a31a5ff8a12" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1utils_1_1testing_1_1_resource_counter" kindref="compound">ResourceCounter</ref> *</type>
+        <definition>ResourceCounter* themis::utils::testing::TrackedResource&lt; T &gt;::counter_</definition>
+        <argsstring></argsstring>
+        <name>counter_</name>
+        <qualifiedname>themis::utils::testing::TrackedResource::counter_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/resource_leak_detector.h" line="183" column="21" bodyfile="include/utils/resource_leak_detector.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1testing_1_1_tracked_resource_1abe37755ed4664fa2fe06f70c3ed39a2b" prot="private" static="no" mutable="no">
+        <type>T</type>
+        <definition>T themis::utils::testing::TrackedResource&lt; T &gt;::value_</definition>
+        <argsstring></argsstring>
+        <name>value_</name>
+        <qualifiedname>themis::utils::testing::TrackedResource::value_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/resource_leak_detector.h" line="184" column="7" bodyfile="include/utils/resource_leak_detector.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1testing_1_1_tracked_resource_1a21d6cd7a4a4c7849464ec040c6744647" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename...</type>
+            <declname>Args</declname>
+            <defname>Args</defname>
+          </param>
+        </templateparamlist>
+        <type></type>
+        <definition>themis::utils::testing::TrackedResource&lt; T &gt;::TrackedResource</definition>
+        <argsstring>(ResourceCounter *counter, Args &amp;&amp;... args)</argsstring>
+        <name>TrackedResource</name>
+        <qualifiedname>themis::utils::testing::TrackedResource::TrackedResource</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1utils_1_1testing_1_1_resource_counter" kindref="compound">ResourceCounter</ref> *</type>
+          <declname>counter</declname>
+        </param>
+        <param>
+          <type>Args &amp;&amp;...</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+<para>Construct and record allocation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>counter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to <ref refid="classthemis_1_1utils_1_1testing_1_1_resource_counter" kindref="compound">ResourceCounter</ref> (must outlive this object) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Arguments to construct T </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/resource_leak_detector.h" line="129" column="14" bodyfile="include/utils/resource_leak_detector.h" bodystart="129" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1testing_1_1_tracked_resource_1a8e15e7411b1170143f413c1c7613c95b" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::testing::TrackedResource&lt; T &gt;::~TrackedResource</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~TrackedResource</name>
+        <qualifiedname>themis::utils::testing::TrackedResource::~TrackedResource</qualifiedname>
+        <briefdescription>
+<para>Destruct and record deallocation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/resource_leak_detector.h" line="141" column="5" bodyfile="include/utils/resource_leak_detector.h" bodystart="141" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1testing_1_1_tracked_resource_1a2485d197c216cc5812bbad256d8b97ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::testing::TrackedResource&lt; T &gt;::TrackedResource</definition>
+        <argsstring>(const TrackedResource &amp;)=delete</argsstring>
+        <name>TrackedResource</name>
+        <qualifiedname>themis::utils::testing::TrackedResource::TrackedResource</qualifiedname>
+        <param>
+          <type>const TrackedResource &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/resource_leak_detector.h" line="148" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1testing_1_1_tracked_resource_1a9204fcb7aa48d36018a8a3d612a66040" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1utils_1_1testing_1_1_tracked_resource_1a21d6cd7a4a4c7849464ec040c6744647" kindref="member">TrackedResource</ref> &amp;</type>
+        <definition>TrackedResource &amp; themis::utils::testing::TrackedResource&lt; T &gt;::operator=</definition>
+        <argsstring>(const TrackedResource &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::utils::testing::TrackedResource::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1utils_1_1testing_1_1_tracked_resource_1a21d6cd7a4a4c7849464ec040c6744647" kindref="member">TrackedResource</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/resource_leak_detector.h" line="149" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1testing_1_1_tracked_resource_1a4c0100991508f4fbe95d7d1dd79e5d4d" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::testing::TrackedResource&lt; T &gt;::TrackedResource</definition>
+        <argsstring>(TrackedResource &amp;&amp;other) noexcept</argsstring>
+        <name>TrackedResource</name>
+        <qualifiedname>themis::utils::testing::TrackedResource::TrackedResource</qualifiedname>
+        <param>
+          <type>TrackedResource &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/resource_leak_detector.h" line="152" column="5" bodyfile="include/utils/resource_leak_detector.h" bodystart="152" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1testing_1_1_tracked_resource_1aca83e8aaf4faaed684633f2d1f67d3ca" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1utils_1_1testing_1_1_tracked_resource_1a21d6cd7a4a4c7849464ec040c6744647" kindref="member">TrackedResource</ref> &amp;</type>
+        <definition>TrackedResource &amp; themis::utils::testing::TrackedResource&lt; T &gt;::operator=</definition>
+        <argsstring>(TrackedResource &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::utils::testing::TrackedResource::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1utils_1_1testing_1_1_tracked_resource_1a21d6cd7a4a4c7849464ec040c6744647" kindref="member">TrackedResource</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/resource_leak_detector.h" line="159" column="21" bodyfile="include/utils/resource_leak_detector.h" bodystart="159" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1testing_1_1_tracked_resource_1af1915cb95b092bcf1e62dd32ace3a55f" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>T &amp;</type>
+        <definition>T &amp; themis::utils::testing::TrackedResource&lt; T &gt;::operator*</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>operator*</name>
+        <qualifiedname>themis::utils::testing::TrackedResource::operator*</qualifiedname>
+        <briefdescription>
+<para>Access the wrapped value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/resource_leak_detector.h" line="176" column="7" bodyfile="include/utils/resource_leak_detector.h" bodystart="176" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1testing_1_1_tracked_resource_1afd95bbbdc997ad5e919c46b2ee68039b" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const T &amp;</type>
+        <definition>const T &amp; themis::utils::testing::TrackedResource&lt; T &gt;::operator*</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>operator*</name>
+        <qualifiedname>themis::utils::testing::TrackedResource::operator*</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/resource_leak_detector.h" line="177" column="13" bodyfile="include/utils/resource_leak_detector.h" bodystart="177" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1testing_1_1_tracked_resource_1ac1fcb244063ac9904190b38248e8f99d" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>T *</type>
+        <definition>T * themis::utils::testing::TrackedResource&lt; T &gt;::operator-&gt;</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>operator-&gt;</name>
+        <qualifiedname>themis::utils::testing::TrackedResource::operator-&gt;</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/resource_leak_detector.h" line="179" column="7" bodyfile="include/utils/resource_leak_detector.h" bodystart="179" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1testing_1_1_tracked_resource_1a36da263d4dd6ee3ebb1c84aed2b8f65e" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const T *</type>
+        <definition>const T * themis::utils::testing::TrackedResource&lt; T &gt;::operator-&gt;</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>operator-&gt;</name>
+        <qualifiedname>themis::utils::testing::TrackedResource::operator-&gt;</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/resource_leak_detector.h" line="180" column="13" bodyfile="include/utils/resource_leak_detector.h" bodystart="180" bodyend="180"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII wrapper for tracked resources. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Automatically increments/decrements counters for RAII testing.</para>
+<para>Example: <programlisting filename=".cpp"><codeline><highlight class="normal">ResourceCounter<sp/>counter;</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1testing_1_1_tracked_resource_1a21d6cd7a4a4c7849464ec040c6744647" kindref="member">TrackedResource&lt;int&gt;</ref><sp/>res(&amp;counter);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(counter.allocations(),<sp/>1);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_EQ(counter.deallocations(),<sp/>1);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/utils/resource_leak_detector.h" line="120" column="1" bodyfile="include/utils/resource_leak_detector.h" bodystart="120" bodyend="185"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1testing_1_1_tracked_resource_1a5c4f0099a7bcc9a028aa8a31a5ff8a12" prot="private" virt="non-virtual"><scope>themis::utils::testing::TrackedResource</scope><name>counter_</name></member>
+      <member refid="classthemis_1_1utils_1_1testing_1_1_tracked_resource_1af1915cb95b092bcf1e62dd32ace3a55f" prot="public" virt="non-virtual"><scope>themis::utils::testing::TrackedResource</scope><name>operator*</name></member>
+      <member refid="classthemis_1_1utils_1_1testing_1_1_tracked_resource_1afd95bbbdc997ad5e919c46b2ee68039b" prot="public" virt="non-virtual"><scope>themis::utils::testing::TrackedResource</scope><name>operator*</name></member>
+      <member refid="classthemis_1_1utils_1_1testing_1_1_tracked_resource_1ac1fcb244063ac9904190b38248e8f99d" prot="public" virt="non-virtual"><scope>themis::utils::testing::TrackedResource</scope><name>operator-&gt;</name></member>
+      <member refid="classthemis_1_1utils_1_1testing_1_1_tracked_resource_1a36da263d4dd6ee3ebb1c84aed2b8f65e" prot="public" virt="non-virtual"><scope>themis::utils::testing::TrackedResource</scope><name>operator-&gt;</name></member>
+      <member refid="classthemis_1_1utils_1_1testing_1_1_tracked_resource_1a9204fcb7aa48d36018a8a3d612a66040" prot="public" virt="non-virtual"><scope>themis::utils::testing::TrackedResource</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1utils_1_1testing_1_1_tracked_resource_1aca83e8aaf4faaed684633f2d1f67d3ca" prot="public" virt="non-virtual"><scope>themis::utils::testing::TrackedResource</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1utils_1_1testing_1_1_tracked_resource_1a21d6cd7a4a4c7849464ec040c6744647" prot="public" virt="non-virtual"><scope>themis::utils::testing::TrackedResource</scope><name>TrackedResource</name></member>
+      <member refid="classthemis_1_1utils_1_1testing_1_1_tracked_resource_1a2485d197c216cc5812bbad256d8b97ff" prot="public" virt="non-virtual"><scope>themis::utils::testing::TrackedResource</scope><name>TrackedResource</name></member>
+      <member refid="classthemis_1_1utils_1_1testing_1_1_tracked_resource_1a4c0100991508f4fbe95d7d1dd79e5d4d" prot="public" virt="non-virtual"><scope>themis::utils::testing::TrackedResource</scope><name>TrackedResource</name></member>
+      <member refid="classthemis_1_1utils_1_1testing_1_1_tracked_resource_1abe37755ed4664fa2fe06f70c3ed39a2b" prot="private" virt="non-virtual"><scope>themis::utils::testing::TrackedResource</scope><name>value_</name></member>
+      <member refid="classthemis_1_1utils_1_1testing_1_1_tracked_resource_1a8e15e7411b1170143f413c1c7613c95b" prot="public" virt="non-virtual"><scope>themis::utils::testing::TrackedResource</scope><name>~TrackedResource</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

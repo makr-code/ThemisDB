@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_7a851fe282c2dc33ce16204337102c0e" kind="dir">
+    <compoundname>tests/server</compoundname>
+    <innerfile refid="test__api__gateway_8cpp">test_api_gateway.cpp</innerfile>
+    <innerfile refid="test__api__gateway__enhancements_8cpp">test_api_gateway_enhancements.cpp</innerfile>
+    <innerfile refid="test__api__integration_8cpp">test_api_integration.cpp</innerfile>
+    <innerfile refid="test__grpc__core__service_8cpp">test_grpc_core_service.cpp</innerfile>
+    <innerfile refid="test__lora__api__handler__focused_8cpp">test_lora_api_handler_focused.cpp</innerfile>
+    <innerfile refid="test__mcp__kg__tools_8cpp">test_mcp_kg_tools.cpp</innerfile>
+    <innerfile refid="test__mcp__search__tools_8cpp">test_mcp_search_tools.cpp</innerfile>
+    <innerfile refid="test__model__integrity__wave2_8cpp">test_model_integrity_wave2.cpp</innerfile>
+    <innerfile refid="test__query__iterator__safety_8cpp">test_query_iterator_safety.cpp</innerfile>
+    <innerfile refid="test__server__activation__profile_8cpp">test_server_activation_profile.cpp</innerfile>
+    <innerfile refid="test__server__compat__contract__focused_8cpp">test_server_compat_contract_focused.cpp</innerfile>
+    <innerfile refid="test__server__contract__hardening__focused_8cpp">test_server_contract_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__server__gateway__resilience__focused_8cpp">test_server_gateway_resilience_focused.cpp</innerfile>
+    <innerfile refid="test__server__highcardinality__stress_8cpp">test_server_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__server__http3__stress__focused_8cpp">test_server_http3_stress_focused.cpp</innerfile>
+    <innerfile refid="test__server__integration__complete_8cpp">test_server_integration_complete.cpp</innerfile>
+    <innerfile refid="test__server__openapi__drift__focused_8cpp">test_server_openapi_drift_focused.cpp</innerfile>
+    <innerfile refid="test__server__phase1__hardening_8cpp">test_server_phase1_hardening.cpp</innerfile>
+    <innerfile refid="test__server__phase2__focused_8cpp">test_server_phase2_focused.cpp</innerfile>
+    <innerfile refid="test__server__phase5__hardening_8cpp">test_server_phase5_hardening.cpp</innerfile>
+    <innerfile refid="test__wave1__critical__gaps_8cpp">test_wave1_critical_gaps.cpp</innerfile>
+    <innerfile refid="test__wave4a__server__hardening_8cpp">test_wave4a_server_hardening.cpp</innerfile>
+    <innerfile refid="test__wave4a__server__hardening2_8cpp">test_wave4a_server_hardening2.cpp</innerfile>
+    <innerfile refid="test__wave7__server__llm__hardening_8cpp">test_wave7_server_llm_hardening.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/server/"/>
+  </compounddef>
+</doxygen>

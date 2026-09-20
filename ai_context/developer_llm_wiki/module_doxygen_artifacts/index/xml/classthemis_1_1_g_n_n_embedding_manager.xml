@@ -1,0 +1,1208 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_g_n_n_embedding_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::GNNEmbeddingManager</compoundname>
+    <includes refid="gnn__embeddings_8h" local="no">gnn_embeddings.h</includes>
+    <innerclass refid="structthemis_1_1_g_n_n_embedding_manager_1_1_status" prot="public">themis::GNNEmbeddingManager::Status</innerclass>
+    <innerclass refid="structthemis_1_1_g_n_n_embedding_manager_1_1_embedding_info" prot="public">themis::GNNEmbeddingManager::EmbeddingInfo</innerclass>
+    <innerclass refid="structthemis_1_1_g_n_n_embedding_manager_1_1_similarity_result" prot="public">themis::GNNEmbeddingManager::SimilarityResult</innerclass>
+    <innerclass refid="structthemis_1_1_g_n_n_embedding_manager_1_1_model_info" prot="public">themis::GNNEmbeddingManager::ModelInfo</innerclass>
+    <innerclass refid="structthemis_1_1_g_n_n_embedding_manager_1_1_embedding_stats" prot="public">themis::GNNEmbeddingManager::EmbeddingStats</innerclass>
+    <innerclass refid="structthemis_1_1_g_n_n_embedding_manager_1_1_embedding_key_parts" prot="private">themis::GNNEmbeddingManager::EmbeddingKeyParts</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1_g_n_n_embedding_manager_1a1d6666d9e113a1606fbaee22126a1453" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>AggregationStrategy</name>
+        <qualifiedname>themis::GNNEmbeddingManager::AggregationStrategy</qualifiedname>
+        <enumvalue id="classthemis_1_1_g_n_n_embedding_manager_1a1d6666d9e113a1606fbaee22126a1453a3d9f3300ccd82f5570d35458ea714ba9" prot="public">
+          <name>MEAN_POOLING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_g_n_n_embedding_manager_1a1d6666d9e113a1606fbaee22126a1453a41b3878bc339c7bc2ff3758abd355e71" prot="public">
+          <name>MAX_POOLING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_g_n_n_embedding_manager_1a1d6666d9e113a1606fbaee22126a1453a66f1a3ab0972c2f1aa65fb1ad1f922b8" prot="public">
+          <name>SUM_POOLING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_g_n_n_embedding_manager_1a1d6666d9e113a1606fbaee22126a1453a097cc86b24ec939a19f8783e64fbb4ee" prot="public">
+          <name>ATTENTION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gnn_embeddings.h" line="149" column="5" bodyfile="include/index/gnn_embeddings.h" bodystart="149" bodyend="154"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_g_n_n_embedding_manager_1afef2981bb183beecb5a53457ba1b1864" prot="private" static="no" mutable="no">
+        <type>RocksDBWrapper &amp;</type>
+        <definition>RocksDBWrapper&amp; themis::GNNEmbeddingManager::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::GNNEmbeddingManager::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gnn_embeddings.h" line="214" column="20" bodyfile="include/index/gnn_embeddings.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_g_n_n_embedding_manager_1a7a58c537b7f4bed9f4f10d368e8c01a4" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_property_graph_manager" kindref="compound">PropertyGraphManager</ref> &amp;</type>
+        <definition>PropertyGraphManager&amp; themis::GNNEmbeddingManager::pgm_</definition>
+        <argsstring></argsstring>
+        <name>pgm_</name>
+        <qualifiedname>themis::GNNEmbeddingManager::pgm_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gnn_embeddings.h" line="215" column="26" bodyfile="include/index/gnn_embeddings.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_g_n_n_embedding_manager_1a865e0d18a3daaa51930ad8aabe18e094" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_vector_index_manager" kindref="compound">VectorIndexManager</ref> &amp;</type>
+        <definition>VectorIndexManager&amp; themis::GNNEmbeddingManager::vim_</definition>
+        <argsstring></argsstring>
+        <name>vim_</name>
+        <qualifiedname>themis::GNNEmbeddingManager::vim_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gnn_embeddings.h" line="216" column="24" bodyfile="include/index/gnn_embeddings.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_g_n_n_embedding_manager_1a436b6247fc577608ccb4b34d58cd148d" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1_g_n_n_embedding_manager_1_1_model_info" kindref="compound">ModelInfo</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, ModelInfo&gt; themis::GNNEmbeddingManager::models_</definition>
+        <argsstring></argsstring>
+        <name>models_</name>
+        <qualifiedname>themis::GNNEmbeddingManager::models_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gnn_embeddings.h" line="219" column="24" bodyfile="include/index/gnn_embeddings.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_g_n_n_embedding_manager_1a1bf2e098d8bbcbb4ac82d907e9f74ca3" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::GNNEmbeddingManager::GNNEmbeddingManager</definition>
+        <argsstring>(RocksDBWrapper &amp;db, PropertyGraphManager &amp;pgm, VectorIndexManager &amp;vim)</argsstring>
+        <name>GNNEmbeddingManager</name>
+        <qualifiedname>themis::GNNEmbeddingManager::GNNEmbeddingManager</qualifiedname>
+        <param>
+          <type>RocksDBWrapper &amp;</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_property_graph_manager" kindref="compound">PropertyGraphManager</ref> &amp;</type>
+          <declname>pgm</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_vector_index_manager" kindref="compound">VectorIndexManager</ref> &amp;</type>
+          <declname>vim</declname>
+        </param>
+        <briefdescription>
+<para>GNNEmbedding Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">pgm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">vim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gnn_embeddings.h" line="71" column="14" bodyfile="src/index/gnn_embeddings.cpp" bodystart="47" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_n_n_embedding_manager_1a8c7f0723b3e409f1a9538884dadad425" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_g_n_n_embedding_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>GNNEmbeddingManager::Status themis::GNNEmbeddingManager::generateNodeEmbeddings</definition>
+        <argsstring>(std::string_view graph_id, std::string_view label, std::string_view model_name, const std::vector&lt; std::string &gt; &amp;feature_fields={})</argsstring>
+        <name>generateNodeEmbeddings</name>
+        <qualifiedname>themis::GNNEmbeddingManager::generateNodeEmbeddings</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>label</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>feature_fields</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>===== Node Embedding Generation ===== </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">graph_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the graph. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">label</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isOpen(), <ref refid="structthemis_1_1_g_n_n_embedding_manager_1_1_status_1a4d65cba7430b70d679fa8fdfba28c1e8" kindref="member">Status::Error()</ref>, getNodesByLabel(), empty(), <ref refid="structthemis_1_1_g_n_n_embedding_manager_1_1_status_1a31f685b497ca231b9f9b6e2745cf7a53" kindref="member">Status::OK()</ref>, <ref refid="classthemis_1_1_g_n_n_embedding_manager_1a649ce9c3536fff137baa617aeebbefe3" kindref="member">generateNodeEmbeddingsBatch()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gnn_embeddings.h" line="79" column="12" bodyfile="src/index/gnn_embeddings.cpp" bodystart="443" bodyend="465"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_n_n_embedding_manager_1ab0d622e07e44492324ea1a458ab8873d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_g_n_n_embedding_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>GNNEmbeddingManager::Status themis::GNNEmbeddingManager::updateNodeEmbedding</definition>
+        <argsstring>(std::string_view node_pk, std::string_view graph_id, std::string_view model_name, const std::vector&lt; std::string &gt; &amp;feature_fields={})</argsstring>
+        <name>updateNodeEmbedding</name>
+        <qualifiedname>themis::GNNEmbeddingManager::updateNodeEmbedding</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>node_pk</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>feature_fields</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Update Node Embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">graph_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the graph. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">feature_fields</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isOpen(), <ref refid="structthemis_1_1_g_n_n_embedding_manager_1_1_status_1a4d65cba7430b70d679fa8fdfba28c1e8" kindref="member">Status::Error()</ref>, str(), get(), has_value(), deserializeEntitySafe(), std::move(), extractFeatures_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gnn_embeddings.h" line="86" column="12" bodyfile="src/index/gnn_embeddings.cpp" bodystart="476" bodyend="536"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_n_n_embedding_manager_1a563e71ce2f84aa3f9a74c90646951042" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_g_n_n_embedding_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>GNNEmbeddingManager::Status themis::GNNEmbeddingManager::generateEdgeEmbeddings</definition>
+        <argsstring>(std::string_view graph_id, std::string_view edge_type, std::string_view model_name, const std::vector&lt; std::string &gt; &amp;feature_fields={})</argsstring>
+        <name>generateEdgeEmbeddings</name>
+        <qualifiedname>themis::GNNEmbeddingManager::generateEdgeEmbeddings</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>edge_type</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>feature_fields</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>===== Edge Embedding Generation ===== </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">graph_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the graph. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">edge_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isOpen(), <ref refid="structthemis_1_1_g_n_n_embedding_manager_1_1_status_1a4d65cba7430b70d679fa8fdfba28c1e8" kindref="member">Status::Error()</ref>, getEdgesByType(), empty(), <ref refid="structthemis_1_1_g_n_n_embedding_manager_1_1_status_1a31f685b497ca231b9f9b6e2745cf7a53" kindref="member">Status::OK()</ref>, reserve(), size(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gnn_embeddings.h" line="95" column="12" bodyfile="src/index/gnn_embeddings.cpp" bodystart="548" bodyend="578"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_n_n_embedding_manager_1adec340da2ad5a47b0c2987d16712b4e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_g_n_n_embedding_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>GNNEmbeddingManager::Status themis::GNNEmbeddingManager::updateEdgeEmbedding</definition>
+        <argsstring>(std::string_view edge_id, std::string_view graph_id, std::string_view model_name, const std::vector&lt; std::string &gt; &amp;feature_fields={})</argsstring>
+        <name>updateEdgeEmbedding</name>
+        <qualifiedname>themis::GNNEmbeddingManager::updateEdgeEmbedding</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>edge_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>feature_fields</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Update Edge Embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">edge_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the edge. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">graph_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the graph. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">feature_fields</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isOpen(), <ref refid="structthemis_1_1_g_n_n_embedding_manager_1_1_status_1a4d65cba7430b70d679fa8fdfba28c1e8" kindref="member">Status::Error()</ref>, str(), get(), has_value(), deserializeEntitySafe(), std::move(), extractFeatures_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gnn_embeddings.h" line="102" column="12" bodyfile="src/index/gnn_embeddings.cpp" bodystart="589" bodyend="658"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_n_n_embedding_manager_1a632531c229b65437f064233d569b1c49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_g_n_n_embedding_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; float &gt; &gt;</type>
+        <definition>std::pair&lt; GNNEmbeddingManager::Status, std::vector&lt; float &gt; &gt; themis::GNNEmbeddingManager::generateGraphEmbedding</definition>
+        <argsstring>(std::string_view graph_id, std::string_view model_name, std::string_view aggregation_method=&quot;mean&quot;)</argsstring>
+        <name>generateGraphEmbedding</name>
+        <qualifiedname>themis::GNNEmbeddingManager::generateGraphEmbedding</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_name</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>aggregation_method</declname>
+          <defval>&quot;mean&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Key Str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/gnn_embeddings.h" line="111" column="15" bodyfile="src/index/gnn_embeddings.cpp" bodystart="663" bodyend="739"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_n_n_embedding_manager_1a0c69e43071d407088b90222ae49be40f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_g_n_n_embedding_manager_1_1_status" kindref="compound">Status</ref>, <ref refid="structthemis_1_1_g_n_n_embedding_manager_1_1_embedding_info" kindref="compound">EmbeddingInfo</ref> &gt;</type>
+        <definition>std::pair&lt; GNNEmbeddingManager::Status, GNNEmbeddingManager::EmbeddingInfo &gt; themis::GNNEmbeddingManager::getNodeEmbedding</definition>
+        <argsstring>(std::string_view node_pk, std::string_view graph_id, std::string_view model_name) const</argsstring>
+        <name>getNodeEmbedding</name>
+        <qualifiedname>themis::GNNEmbeddingManager::getNodeEmbedding</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>node_pk</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gnn_embeddings.h" line="119" column="15" bodyfile="src/index/gnn_embeddings.cpp" bodystart="744" bodyend="778"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_n_n_embedding_manager_1a33355690fc71a2da5805c831ed7a5b75" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_g_n_n_embedding_manager_1_1_status" kindref="compound">Status</ref>, <ref refid="structthemis_1_1_g_n_n_embedding_manager_1_1_embedding_info" kindref="compound">EmbeddingInfo</ref> &gt;</type>
+        <definition>std::pair&lt; GNNEmbeddingManager::Status, GNNEmbeddingManager::EmbeddingInfo &gt; themis::GNNEmbeddingManager::getEdgeEmbedding</definition>
+        <argsstring>(std::string_view edge_id, std::string_view graph_id, std::string_view model_name) const</argsstring>
+        <name>getEdgeEmbedding</name>
+        <qualifiedname>themis::GNNEmbeddingManager::getEdgeEmbedding</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>edge_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gnn_embeddings.h" line="125" column="15" bodyfile="src/index/gnn_embeddings.cpp" bodystart="781" bodyend="815"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_n_n_embedding_manager_1ac3e8499d366182b3d4dbf314d8fcfcbe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_g_n_n_embedding_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; <ref refid="structthemis_1_1_g_n_n_embedding_manager_1_1_similarity_result" kindref="compound">SimilarityResult</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; GNNEmbeddingManager::Status, std::vector&lt; GNNEmbeddingManager::SimilarityResult &gt; &gt; themis::GNNEmbeddingManager::findSimilarNodes</definition>
+        <argsstring>(std::string_view node_pk, std::string_view graph_id, int k, std::string_view model_name) const</argsstring>
+        <name>findSimilarNodes</name>
+        <qualifiedname>themis::GNNEmbeddingManager::findSimilarNodes</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>node_pk</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gnn_embeddings.h" line="133" column="15" bodyfile="src/index/gnn_embeddings.cpp" bodystart="820" bodyend="873"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_n_n_embedding_manager_1a7a5e8dd899087fa85c78f7d28c75c58f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_g_n_n_embedding_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; <ref refid="structthemis_1_1_g_n_n_embedding_manager_1_1_similarity_result" kindref="compound">SimilarityResult</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; GNNEmbeddingManager::Status, std::vector&lt; GNNEmbeddingManager::SimilarityResult &gt; &gt; themis::GNNEmbeddingManager::findSimilarEdges</definition>
+        <argsstring>(std::string_view edge_id, std::string_view graph_id, int k, std::string_view model_name) const</argsstring>
+        <name>findSimilarEdges</name>
+        <qualifiedname>themis::GNNEmbeddingManager::findSimilarEdges</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>edge_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gnn_embeddings.h" line="140" column="15" bodyfile="src/index/gnn_embeddings.cpp" bodystart="876" bodyend="923"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_n_n_embedding_manager_1a0b0a66b79261845e90f36d46b00c9a37" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_g_n_n_embedding_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>GNNEmbeddingManager::Status themis::GNNEmbeddingManager::registerModel</definition>
+        <argsstring>(std::string_view model_name, std::string_view model_type, int embedding_dim, std::string_view config=&quot;{}&quot;)</argsstring>
+        <name>registerModel</name>
+        <qualifiedname>themis::GNNEmbeddingManager::registerModel</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_name</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_type</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>embedding_dim</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>config</declname>
+          <defval>&quot;{}&quot;</defval>
+        </param>
+        <briefdescription>
+<para>===== Model Management ===== </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">embedding_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(), std::chrono::system_clock::now(), time_since_epoch(), count(), <ref refid="structthemis_1_1_g_n_n_embedding_manager_1_1_status_1a31f685b497ca231b9f9b6e2745cf7a53" kindref="member">Status::OK()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gnn_embeddings.h" line="156" column="12" bodyfile="src/index/gnn_embeddings.cpp" bodystart="935" bodyend="951"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_n_n_embedding_manager_1a12c194d82f6a287cb5b2220b9ab5e1f4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_g_n_n_embedding_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::pair&lt; GNNEmbeddingManager::Status, std::vector&lt; std::string &gt; &gt; themis::GNNEmbeddingManager::listModels</definition>
+        <argsstring>() const</argsstring>
+        <name>listModels</name>
+        <qualifiedname>themis::GNNEmbeddingManager::listModels</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gnn_embeddings.h" line="163" column="15" bodyfile="src/index/gnn_embeddings.cpp" bodystart="954" bodyend="962"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_n_n_embedding_manager_1a777d3789ca1ad848256d733e4044c36a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_g_n_n_embedding_manager_1_1_status" kindref="compound">Status</ref>, <ref refid="structthemis_1_1_g_n_n_embedding_manager_1_1_model_info" kindref="compound">ModelInfo</ref> &gt;</type>
+        <definition>std::pair&lt; GNNEmbeddingManager::Status, GNNEmbeddingManager::ModelInfo &gt; themis::GNNEmbeddingManager::getModelInfo</definition>
+        <argsstring>(std::string_view model_name) const</argsstring>
+        <name>getModelInfo</name>
+        <qualifiedname>themis::GNNEmbeddingManager::getModelInfo</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gnn_embeddings.h" line="173" column="15" bodyfile="src/index/gnn_embeddings.cpp" bodystart="965" bodyend="971"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_n_n_embedding_manager_1a5c321eed2f621b3c44f7b94581d918a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_g_n_n_embedding_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>GNNEmbeddingManager::Status themis::GNNEmbeddingManager::setAggregationStrategy</definition>
+        <argsstring>(std::string_view model_name, AggregationStrategy strategy)</argsstring>
+        <name>setAggregationStrategy</name>
+        <qualifiedname>themis::GNNEmbeddingManager::setAggregationStrategy</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_name</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_g_n_n_embedding_manager_1a1d6666d9e113a1606fbaee22126a1453" kindref="member">AggregationStrategy</ref></type>
+          <declname>strategy</declname>
+        </param>
+        <briefdescription>
+<para>Set Aggregation Strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), std::string(), end(), <ref refid="structthemis_1_1_g_n_n_embedding_manager_1_1_status_1a4d65cba7430b70d679fa8fdfba28c1e8" kindref="member">Status::Error()</ref>, <ref refid="structthemis_1_1_g_n_n_embedding_manager_1_1_status_1a31f685b497ca231b9f9b6e2745cf7a53" kindref="member">Status::OK()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gnn_embeddings.h" line="181" column="12" bodyfile="src/index/gnn_embeddings.cpp" bodystart="980" bodyend="991"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_n_n_embedding_manager_1a649ce9c3536fff137baa617aeebbefe3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_g_n_n_embedding_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>GNNEmbeddingManager::Status themis::GNNEmbeddingManager::generateNodeEmbeddingsBatch</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;node_pks, std::string_view graph_id, std::string_view model_name, size_t batch_size=32)</argsstring>
+        <name>generateNodeEmbeddingsBatch</name>
+        <qualifiedname>themis::GNNEmbeddingManager::generateNodeEmbeddingsBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>node_pks</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_name</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>batch_size</declname>
+          <defval>32</defval>
+        </param>
+        <briefdescription>
+<para>===== Batch Operations ===== </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_pks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">graph_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the graph. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="structthemis_1_1_g_n_n_embedding_manager_1_1_status_1a4d65cba7430b70d679fa8fdfba28c1e8" kindref="member">Status::Error()</ref>, size(), std::min(), <ref refid="classthemis_1_1_g_n_n_embedding_manager_1ab0d622e07e44492324ea1a458ab8873d" kindref="member">updateNodeEmbedding()</ref>, <ref refid="structthemis_1_1_g_n_n_embedding_manager_1_1_status_1a31f685b497ca231b9f9b6e2745cf7a53" kindref="member">Status::OK()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gnn_embeddings.h" line="188" column="12" bodyfile="src/index/gnn_embeddings.cpp" bodystart="1003" bodyend="1022"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_n_n_embedding_manager_1a936a544fe9d56942a6dcc888a9be1f32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_g_n_n_embedding_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>GNNEmbeddingManager::Status themis::GNNEmbeddingManager::generateEdgeEmbeddingsBatch</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;edge_ids, std::string_view graph_id, std::string_view model_name, size_t batch_size=32)</argsstring>
+        <name>generateEdgeEmbeddingsBatch</name>
+        <qualifiedname>themis::GNNEmbeddingManager::generateEdgeEmbeddingsBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>edge_ids</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_name</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>batch_size</declname>
+          <defval>32</defval>
+        </param>
+        <briefdescription>
+<para>Generate Edge Embeddings Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">edge_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">graph_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the graph. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="structthemis_1_1_g_n_n_embedding_manager_1_1_status_1a4d65cba7430b70d679fa8fdfba28c1e8" kindref="member">Status::Error()</ref>, size(), std::min(), <ref refid="classthemis_1_1_g_n_n_embedding_manager_1adec340da2ad5a47b0c2987d16712b4e8" kindref="member">updateEdgeEmbedding()</ref>, <ref refid="structthemis_1_1_g_n_n_embedding_manager_1_1_status_1a31f685b497ca231b9f9b6e2745cf7a53" kindref="member">Status::OK()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gnn_embeddings.h" line="195" column="12" bodyfile="src/index/gnn_embeddings.cpp" bodystart="1033" bodyend="1052"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_n_n_embedding_manager_1aa1fbd73ca702f5c69a782a7eb92af3a4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_g_n_n_embedding_manager_1_1_status" kindref="compound">Status</ref>, <ref refid="structthemis_1_1_g_n_n_embedding_manager_1_1_embedding_stats" kindref="compound">EmbeddingStats</ref> &gt;</type>
+        <definition>std::pair&lt; GNNEmbeddingManager::Status, GNNEmbeddingManager::EmbeddingStats &gt; themis::GNNEmbeddingManager::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::GNNEmbeddingManager::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Key Str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Iss. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">keyStr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/gnn_embeddings.h" line="211" column="15" bodyfile="src/index/gnn_embeddings.cpp" bodystart="1057" bodyend="1104"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_g_n_n_embedding_manager_1a5663af6311c3370d9670a1cd83834667" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::GNNEmbeddingManager::extractFeatures_</definition>
+        <argsstring>(const BaseEntity &amp;entity, const std::vector&lt; std::string &gt; &amp;feature_fields) const</argsstring>
+        <name>extractFeatures_</name>
+        <qualifiedname>themis::GNNEmbeddingManager::extractFeatures_</qualifiedname>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>feature_fields</declname>
+        </param>
+        <briefdescription>
+<para>Helper: Extract feature vector from entity fields. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">feature_fields</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gnn_embeddings.h" line="227" column="17" bodyfile="src/index/gnn_embeddings.cpp" bodystart="55" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_n_n_embedding_manager_1a913b06fee69ee7b746b2e22e36ffdb5d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::GNNEmbeddingManager::makeEmbeddingKey_</definition>
+        <argsstring>(std::string_view entity_type, std::string_view graph_id, std::string_view entity_id, std::string_view model_name) const</argsstring>
+        <name>makeEmbeddingKey_</name>
+        <qualifiedname>themis::GNNEmbeddingManager::makeEmbeddingKey_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>entity_type</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>entity_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_name</declname>
+        </param>
+        <briefdescription>
+<para>Helper: Build embedding key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">graph_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the graph. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entity_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the entity. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gnn_embeddings.h" line="240" column="17" bodyfile="src/index/gnn_embeddings.cpp" bodystart="101" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_n_n_embedding_manager_1a6d3bb2098eac657b3c1431b937d8d3c7" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; EmbeddingKeyParts &gt;</type>
+        <definition>std::optional&lt; GNNEmbeddingManager::EmbeddingKeyParts &gt; themis::GNNEmbeddingManager::parseEmbeddingKey_</definition>
+        <argsstring>(std::string_view key) const</argsstring>
+        <name>parseEmbeddingKey_</name>
+        <qualifiedname>themis::GNNEmbeddingManager::parseEmbeddingKey_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Parse Embedding Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Parse key: gnn_emb:&lt;entity_type&gt;:&lt;graph_id&gt;:&lt;model_name&gt;:&lt;entity_id&gt; <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Iss. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">keyStr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/gnn_embeddings.h" line="259" column="19" bodyfile="src/index/gnn_embeddings.cpp" bodystart="113" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_n_n_embedding_manager_1a9a0f233e9ce9461315afc1d1d5499dcf" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_g_n_n_embedding_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; float &gt; &gt;</type>
+        <definition>std::pair&lt; GNNEmbeddingManager::Status, std::vector&lt; float &gt; &gt; themis::GNNEmbeddingManager::computeEmbedding_</definition>
+        <argsstring>(std::string_view model_name, const std::vector&lt; float &gt; &amp;features, const std::vector&lt; std::string &gt; &amp;neighbor_ids, std::string_view graph_id) const</argsstring>
+        <name>computeEmbedding_</name>
+        <qualifiedname>themis::GNNEmbeddingManager::computeEmbedding_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>features</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>neighbor_ids</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gnn_embeddings.h" line="264" column="15" bodyfile="src/index/gnn_embeddings.cpp" bodystart="225" bodyend="431"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_n_n_embedding_manager_1aee32dca5a2e714e2f2dcb6a952eea4ff" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::GNNEmbeddingManager::getNeighbors_</definition>
+        <argsstring>(std::string_view node_pk, std::string_view graph_id, int hop_count=1) const</argsstring>
+        <name>getNeighbors_</name>
+        <qualifiedname>themis::GNNEmbeddingManager::getNeighbors_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>node_pk</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>hop_count</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Neighbor. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Neighbor. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/gnn_embeddings.h" line="272" column="17" bodyfile="src/index/gnn_embeddings.cpp" bodystart="153" bodyend="222"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/gnn_embeddings.h" line="28" column="1" bodyfile="include/index/gnn_embeddings.h" bodystart="28" bodyend="277"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_g_n_n_embedding_manager_1a1d6666d9e113a1606fbaee22126a1453" prot="public" virt="non-virtual"><scope>themis::GNNEmbeddingManager</scope><name>AggregationStrategy</name></member>
+      <member refid="classthemis_1_1_g_n_n_embedding_manager_1a9a0f233e9ce9461315afc1d1d5499dcf" prot="private" virt="non-virtual"><scope>themis::GNNEmbeddingManager</scope><name>computeEmbedding_</name></member>
+      <member refid="classthemis_1_1_g_n_n_embedding_manager_1afef2981bb183beecb5a53457ba1b1864" prot="private" virt="non-virtual"><scope>themis::GNNEmbeddingManager</scope><name>db_</name></member>
+      <member refid="classthemis_1_1_g_n_n_embedding_manager_1a5663af6311c3370d9670a1cd83834667" prot="private" virt="non-virtual"><scope>themis::GNNEmbeddingManager</scope><name>extractFeatures_</name></member>
+      <member refid="classthemis_1_1_g_n_n_embedding_manager_1a7a5e8dd899087fa85c78f7d28c75c58f" prot="public" virt="non-virtual"><scope>themis::GNNEmbeddingManager</scope><name>findSimilarEdges</name></member>
+      <member refid="classthemis_1_1_g_n_n_embedding_manager_1ac3e8499d366182b3d4dbf314d8fcfcbe" prot="public" virt="non-virtual"><scope>themis::GNNEmbeddingManager</scope><name>findSimilarNodes</name></member>
+      <member refid="classthemis_1_1_g_n_n_embedding_manager_1a563e71ce2f84aa3f9a74c90646951042" prot="public" virt="non-virtual"><scope>themis::GNNEmbeddingManager</scope><name>generateEdgeEmbeddings</name></member>
+      <member refid="classthemis_1_1_g_n_n_embedding_manager_1a936a544fe9d56942a6dcc888a9be1f32" prot="public" virt="non-virtual"><scope>themis::GNNEmbeddingManager</scope><name>generateEdgeEmbeddingsBatch</name></member>
+      <member refid="classthemis_1_1_g_n_n_embedding_manager_1a632531c229b65437f064233d569b1c49" prot="public" virt="non-virtual"><scope>themis::GNNEmbeddingManager</scope><name>generateGraphEmbedding</name></member>
+      <member refid="classthemis_1_1_g_n_n_embedding_manager_1a8c7f0723b3e409f1a9538884dadad425" prot="public" virt="non-virtual"><scope>themis::GNNEmbeddingManager</scope><name>generateNodeEmbeddings</name></member>
+      <member refid="classthemis_1_1_g_n_n_embedding_manager_1a649ce9c3536fff137baa617aeebbefe3" prot="public" virt="non-virtual"><scope>themis::GNNEmbeddingManager</scope><name>generateNodeEmbeddingsBatch</name></member>
+      <member refid="classthemis_1_1_g_n_n_embedding_manager_1a33355690fc71a2da5805c831ed7a5b75" prot="public" virt="non-virtual"><scope>themis::GNNEmbeddingManager</scope><name>getEdgeEmbedding</name></member>
+      <member refid="classthemis_1_1_g_n_n_embedding_manager_1a777d3789ca1ad848256d733e4044c36a" prot="public" virt="non-virtual"><scope>themis::GNNEmbeddingManager</scope><name>getModelInfo</name></member>
+      <member refid="classthemis_1_1_g_n_n_embedding_manager_1aee32dca5a2e714e2f2dcb6a952eea4ff" prot="private" virt="non-virtual"><scope>themis::GNNEmbeddingManager</scope><name>getNeighbors_</name></member>
+      <member refid="classthemis_1_1_g_n_n_embedding_manager_1a0c69e43071d407088b90222ae49be40f" prot="public" virt="non-virtual"><scope>themis::GNNEmbeddingManager</scope><name>getNodeEmbedding</name></member>
+      <member refid="classthemis_1_1_g_n_n_embedding_manager_1aa1fbd73ca702f5c69a782a7eb92af3a4" prot="public" virt="non-virtual"><scope>themis::GNNEmbeddingManager</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1_g_n_n_embedding_manager_1a1bf2e098d8bbcbb4ac82d907e9f74ca3" prot="public" virt="non-virtual"><scope>themis::GNNEmbeddingManager</scope><name>GNNEmbeddingManager</name></member>
+      <member refid="classthemis_1_1_g_n_n_embedding_manager_1a12c194d82f6a287cb5b2220b9ab5e1f4" prot="public" virt="non-virtual"><scope>themis::GNNEmbeddingManager</scope><name>listModels</name></member>
+      <member refid="classthemis_1_1_g_n_n_embedding_manager_1a913b06fee69ee7b746b2e22e36ffdb5d" prot="private" virt="non-virtual"><scope>themis::GNNEmbeddingManager</scope><name>makeEmbeddingKey_</name></member>
+      <member refid="classthemis_1_1_g_n_n_embedding_manager_1a436b6247fc577608ccb4b34d58cd148d" prot="private" virt="non-virtual"><scope>themis::GNNEmbeddingManager</scope><name>models_</name></member>
+      <member refid="classthemis_1_1_g_n_n_embedding_manager_1a6d3bb2098eac657b3c1431b937d8d3c7" prot="private" virt="non-virtual"><scope>themis::GNNEmbeddingManager</scope><name>parseEmbeddingKey_</name></member>
+      <member refid="classthemis_1_1_g_n_n_embedding_manager_1a7a58c537b7f4bed9f4f10d368e8c01a4" prot="private" virt="non-virtual"><scope>themis::GNNEmbeddingManager</scope><name>pgm_</name></member>
+      <member refid="classthemis_1_1_g_n_n_embedding_manager_1a0b0a66b79261845e90f36d46b00c9a37" prot="public" virt="non-virtual"><scope>themis::GNNEmbeddingManager</scope><name>registerModel</name></member>
+      <member refid="classthemis_1_1_g_n_n_embedding_manager_1a5c321eed2f621b3c44f7b94581d918a3" prot="public" virt="non-virtual"><scope>themis::GNNEmbeddingManager</scope><name>setAggregationStrategy</name></member>
+      <member refid="classthemis_1_1_g_n_n_embedding_manager_1adec340da2ad5a47b0c2987d16712b4e8" prot="public" virt="non-virtual"><scope>themis::GNNEmbeddingManager</scope><name>updateEdgeEmbedding</name></member>
+      <member refid="classthemis_1_1_g_n_n_embedding_manager_1ab0d622e07e44492324ea1a458ab8873d" prot="public" virt="non-virtual"><scope>themis::GNNEmbeddingManager</scope><name>updateNodeEmbedding</name></member>
+      <member refid="classthemis_1_1_g_n_n_embedding_manager_1a865e0d18a3daaa51930ad8aabe18e094" prot="private" virt="non-virtual"><scope>themis::GNNEmbeddingManager</scope><name>vim_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

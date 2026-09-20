@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_evaluation_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::EvaluationMetrics</compoundname>
+    <includes refid="prompt__evaluator_8h" local="no">prompt_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_evaluation_metrics_1ad6f4f9ea82a616fed16e5789568a200e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::EvaluationMetrics::semantic_similarity</definition>
+        <argsstring></argsstring>
+        <name>semantic_similarity</name>
+        <qualifiedname>themis::llm::EvaluationMetrics::semantic_similarity</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Semantic similarity score (0.0-1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_evaluator.h" line="22" column="12" bodyfile="include/llm/prompt_evaluator.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_evaluation_metrics_1acfeae08e302764595fbfa0e45a5f2148" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::EvaluationMetrics::exact_match</definition>
+        <argsstring></argsstring>
+        <name>exact_match</name>
+        <qualifiedname>themis::llm::EvaluationMetrics::exact_match</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Exact match score (0.0 or 1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_evaluator.h" line="23" column="12" bodyfile="include/llm/prompt_evaluator.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_evaluation_metrics_1a2027277d9381c08e4db153c4907fa689" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::EvaluationMetrics::partial_match</definition>
+        <argsstring></argsstring>
+        <name>partial_match</name>
+        <qualifiedname>themis::llm::EvaluationMetrics::partial_match</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Partial match score (0.0-1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_evaluator.h" line="24" column="12" bodyfile="include/llm/prompt_evaluator.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_evaluation_metrics_1a1ee37f1e53571494e9fb3dc4a7295b49" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::EvaluationMetrics::relevance</definition>
+        <argsstring></argsstring>
+        <name>relevance</name>
+        <qualifiedname>themis::llm::EvaluationMetrics::relevance</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Relevance score (0.0-1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_evaluator.h" line="25" column="12" bodyfile="include/llm/prompt_evaluator.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_evaluation_metrics_1ae73859d2f536b49c192870d1e870d09f" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::llm::EvaluationMetrics::details</definition>
+        <argsstring></argsstring>
+        <name>details</name>
+        <qualifiedname>themis::llm::EvaluationMetrics::details</qualifiedname>
+        <briefdescription>
+<para>Additional metric details. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_evaluator.h" line="26" column="20" bodyfile="include/llm/prompt_evaluator.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/prompt_evaluator.h" line="21" column="1" bodyfile="include/llm/prompt_evaluator.h" bodystart="21" bodyend="27"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_evaluation_metrics_1ae73859d2f536b49c192870d1e870d09f" prot="public" virt="non-virtual"><scope>themis::llm::EvaluationMetrics</scope><name>details</name></member>
+      <member refid="structthemis_1_1llm_1_1_evaluation_metrics_1acfeae08e302764595fbfa0e45a5f2148" prot="public" virt="non-virtual"><scope>themis::llm::EvaluationMetrics</scope><name>exact_match</name></member>
+      <member refid="structthemis_1_1llm_1_1_evaluation_metrics_1a2027277d9381c08e4db153c4907fa689" prot="public" virt="non-virtual"><scope>themis::llm::EvaluationMetrics</scope><name>partial_match</name></member>
+      <member refid="structthemis_1_1llm_1_1_evaluation_metrics_1a1ee37f1e53571494e9fb3dc4a7295b49" prot="public" virt="non-virtual"><scope>themis::llm::EvaluationMetrics</scope><name>relevance</name></member>
+      <member refid="structthemis_1_1llm_1_1_evaluation_metrics_1ad6f4f9ea82a616fed16e5789568a200e" prot="public" virt="non-virtual"><scope>themis::llm::EvaluationMetrics</scope><name>semantic_similarity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_f72204972820199c338573a353ab5e66" kind="dir">
+    <compoundname>include/geo</compoundname>
+    <innerfile refid="device__detector_8h">device_detector.h</innerfile>
+    <innerfile refid="geo__api__contract_8h">geo_api_contract.h</innerfile>
+    <innerfile refid="geo__backend__dispatch_8h">geo_backend_dispatch.h</innerfile>
+    <innerfile refid="geo__clustering_8h">geo_clustering.h</innerfile>
+    <innerfile refid="geo__edge__case__handler_8h">geo_edge_case_handler.h</innerfile>
+    <innerfile refid="geo__faiss__knn_8h">geo_faiss_knn.h</innerfile>
+    <innerfile refid="geo__json__geometry_8h">geo_json_geometry.h</innerfile>
+    <innerfile refid="geo__math_8h">geo_math.h</innerfile>
+    <innerfile refid="geo__operator__diagnostics_8h">geo_operator_diagnostics.h</innerfile>
+    <innerfile refid="geo__ops__ext_8h">geo_ops_ext.h</innerfile>
+    <innerfile refid="geo__policy_8h">geo_policy.h</innerfile>
+    <innerfile refid="geo__rtree_8h">geo_rtree.h</innerfile>
+    <innerfile refid="gpu__buffer__guard_8h">gpu_buffer_guard.h</innerfile>
+    <innerfile refid="gpu__kernel__dispatcher_8h">gpu_kernel_dispatcher.h</innerfile>
+    <innerfile refid="phase2__phase3__hardening_8h">phase2_phase3_hardening.h</innerfile>
+    <innerfile refid="raster_8h">raster.h</innerfile>
+    <innerfile refid="raster__query__interface_8h">raster_query_interface.h</innerfile>
+    <innerfile refid="rtree__cursor_8h">rtree_cursor.h</innerfile>
+    <innerfile refid="spatial__backend_8h">spatial_backend.h</innerfile>
+    <innerfile refid="spatial__join_8h">spatial_join.h</innerfile>
+    <innerfile refid="spatial__join__filter_8h">spatial_join_filter.h</innerfile>
+    <innerfile refid="temporal__spatial__query_8h">temporal_spatial_query.h</innerfile>
+    <innerfile refid="temporal__spatial__query__builder_8h">temporal_spatial_query_builder.h</innerfile>
+    <innerfile refid="tile__server_8h">tile_server.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/geo/"/>
+  </compounddef>
+</doxygen>

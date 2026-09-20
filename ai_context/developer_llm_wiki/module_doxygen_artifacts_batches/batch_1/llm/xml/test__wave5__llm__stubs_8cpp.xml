@@ -1,0 +1,883 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__wave5__llm__stubs_8cpp" kind="file" language="C++">
+    <compoundname>test_wave5_llm_stubs.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="inference__engine__enhanced_8h" local="yes">llm/inference_engine_enhanced.h</includes>
+    <includes refid="llm__plugin__interface_8h" local="yes">llm/llm_plugin_interface.h</includes>
+    <includes refid="llm__plugin__manager_8h" local="yes">llm/llm_plugin_manager.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="54">
+        <label>llm/active_vram_allocator.h</label>
+        <link refid="active__vram__allocator_8h"/>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>llm/adapter_registry.h</label>
+        <link refid="adapter__registry_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>llm/block_table.h</label>
+        <link refid="block__table_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>llm/continuous_batch_scheduler.h</label>
+        <link refid="continuous__batch__scheduler_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>llm/grafana_metrics.h</label>
+        <link refid="grafana__metrics_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>llm/i_federated_inference_backend.h</label>
+        <link refid="i__federated__inference__backend_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="56">
+        <label>llm/i_ssm_plugin.h</label>
+        <link refid="i__ssm__plugin_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>llm/inference_engine_enhanced.h</label>
+        <link refid="inference__engine__enhanced_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="35">
+        <label>llm/inference_handle.h</label>
+        <link refid="inference__handle_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>llm/json_schema_converter.h</label>
+        <link refid="json__schema__converter_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>llm/llm_plugin_interface.h</label>
+        <link refid="llm__plugin__interface_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="52">
+        <label>llm/llm_plugin_manager.h</label>
+        <link refid="llm__plugin__manager_8h"/>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="38">
+        <label>llm/llm_prefix_cache.h</label>
+        <link refid="llm__prefix__cache_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+      </node>
+      <node id="47">
+        <label>llm/lookup_decoder.h</label>
+        <link refid="lookup__decoder_8h"/>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>llm/lora_framework/lora_provenance.h</label>
+        <link refid="lora__provenance_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="40">
+        <label>llm/model_router.h</label>
+        <link refid="model__router_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>llm/paged_block_manager.h</label>
+        <link refid="paged__block__manager_8h"/>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>llm/paged_kv_cache.h</label>
+        <link refid="paged__kv__cache_8h"/>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="42">
+        <label>llm/shared_worker_pool.h</label>
+        <link refid="shared__worker__pool_8h"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="44">
+        <label>llm/speculative_decoder.h</label>
+        <link refid="speculative__decoder_8h"/>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="55">
+        <label>llm/ssm_state_store.h</label>
+        <link refid="ssm__state__store_8h"/>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>llm/token_quota_manager.h</label>
+        <link refid="token__quota__manager_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/llm/test_wave5_llm_stubs.cpp</label>
+        <link refid="test__wave5__llm__stubs_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="45">
+        <label>algorithm</label>
+      </node>
+      <node id="20">
+        <label>atomic</label>
+      </node>
+      <node id="30">
+        <label>chrono</label>
+      </node>
+      <node id="33">
+        <label>condition_variable</label>
+      </node>
+      <node id="57">
+        <label>core/timestamp.h</label>
+      </node>
+      <node id="48">
+        <label>cstddef</label>
+      </node>
+      <node id="19">
+        <label>cstdint</label>
+      </node>
+      <node id="43">
+        <label>deque</label>
+      </node>
+      <node id="53">
+        <label>distributed_knowledge/adapter_capability_announcement.h</label>
+      </node>
+      <node id="59">
+        <label>filesystem</label>
+      </node>
+      <node id="13">
+        <label>functional</label>
+      </node>
+      <node id="36">
+        <label>future</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="28">
+        <label>list</label>
+      </node>
+      <node id="10">
+        <label>map</label>
+      </node>
+      <node id="11">
+        <label>memory</label>
+      </node>
+      <node id="21">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="18">
+        <label>plugins/plugin_interface.h</label>
+      </node>
+      <node id="26">
+        <label>queue</label>
+      </node>
+      <node id="49">
+        <label>rag/self_rag.h</label>
+      </node>
+      <node id="46">
+        <label>random</label>
+      </node>
+      <node id="41">
+        <label>regex</label>
+      </node>
+      <node id="50">
+        <label>sharding/remote_executor.h</label>
+      </node>
+      <node id="14">
+        <label>shared_mutex</label>
+      </node>
+      <node id="58">
+        <label>storage/hlc.h</label>
+      </node>
+      <node id="5">
+        <label>storage/security_signature_manager.h</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="51">
+        <label>string_view</label>
+      </node>
+      <node id="31">
+        <label>thread</label>
+      </node>
+      <node id="27">
+        <label>unordered_map</label>
+      </node>
+      <node id="37">
+        <label>utility</label>
+      </node>
+      <node id="39">
+        <label>utils/clock.h</label>
+      </node>
+      <node id="25">
+        <label>utils/concurrent_cache.h</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1llm_1_1tests_1_1_minimal_plugin" prot="public">themis::llm::tests::MinimalPlugin</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1tests_1_1_wave5_state_store_test" prot="public">themis::llm::tests::Wave5StateStoreTest</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1tests_1_1_wave5_draft_tokens_test" prot="public">themis::llm::tests::Wave5DraftTokensTest</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1tests_1_1_wave5_target_logits_fn_test" prot="public">themis::llm::tests::Wave5TargetLogitsFnTest</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1tests">themis::llm::tests</innernamespace>
+    <briefdescription>
+<para>Wave 5 Phase 1 stub-gap coverage tests. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Covers the three Wave-5 Phase-1 gaps resolved in this delivery:</para>
+<para>W5-SS-01 initializeStateStore() with a valid rocksdb_path opens a TransactionDB and creates the directory. W5-SS-02 initializeStateStore() returns false (not throws) when disabled. W5-SS-03 initializeStateStore() returns false (not throws) when path is empty. W5-DT-01 ILLMPlugin::generateDraftTokens() uses the injected GenerateDraftTokensFn when one is set. W5-DT-02 ILLMPlugin::generateDraftTokens() falls back to the byte-modulo heuristic when no fn is set and returns k tokens. W5-DT-03 Clearing the GenerateDraftTokensFn (nullptr) restores the heuristic without throwing. W5-TL-01 InferenceEngineEnhanced::setTargetLogitsFn() accepts a callable without throwing. W5-TL-02 setTargetLogitsFn(nullptr) clears the fn without throwing.</para>
+<para>Tests are deterministic and do not require a real LLM backend or GPU.</para>
+<para><simplesect kind="version"><para>1.0.0-beta </para>
+</simplesect>
+<simplesect kind="note"><para>CTest labels: llm;wave5;stubs </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="inference__engine__enhanced_8h" kindref="compound">llm/inference_engine_enhanced.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llm__plugin__interface_8h" kindref="compound">llm/llm_plugin_interface.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llm__plugin__manager_8h" kindref="compound">llm/llm_plugin_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{<sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{<sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1tests" kindref="compound">tests</ref><sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="classthemis_1_1llm_1_1tests_1_1_minimal_plugin" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1tests_1_1_minimal_plugin" kindref="compound">MinimalPlugin</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a5570aa4f4dec749da0d2d0b9a5d7e549" kindref="member">ILLMPlugin</ref><sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1tests_1_1_minimal_plugin_1a6b397fcbb0b8c7968217322fbea5119e" kindref="member">loadModel</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*path*/</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref>&amp;<sp/></highlight><highlight class="comment">/*config*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1tests_1_1_minimal_plugin_1acfc7772fbfa8226c1ef2c9c1596a163b" kindref="member">unloadModel</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::optional&lt;ModelInfo&gt;<sp/><ref refid="classthemis_1_1llm_1_1tests_1_1_minimal_plugin_1a719122a7d2689fe90b39f7ab4c7de662" kindref="member">getModelInfo</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_model_info" kindref="compound">ModelInfo</ref><sp/>info;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>info.<ref refid="structthemis_1_1llm_1_1_model_info_1adb5deea22fcafb6f314d9c64933b1894" kindref="member">model_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;minimal&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>info.<ref refid="structthemis_1_1llm_1_1_model_info_1a7d448c8893c2c527b2d74a91958036ed" kindref="member">is_loaded</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>info;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1tests_1_1_minimal_plugin_1ace90753d315e5bfbb677b3695ff31462" kindref="member">isModelLoaded</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1tests_1_1_minimal_plugin_1a25f55d15e7cca59272c6ca34bc3c3ea6" kindref="member">loadLoRA</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1tests_1_1_minimal_plugin_1a6e5fe1651715725e6eb236271d7b287a" kindref="member">unloadLoRA</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;LoRAInfo&gt;<sp/><ref refid="classthemis_1_1llm_1_1tests_1_1_minimal_plugin_1a956e2c39855b4e389125140fcb0f9f3f" kindref="member">listLoRAs</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1llm_1_1tests_1_1_minimal_plugin_1a6a87ba48773d6dc157c0afe68509207b" kindref="member">exportLoRA</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1tests_1_1_minimal_plugin_1a25400528079f2fc255fa2765f8ce6265" kindref="member">importLoRA</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1llm_1_1_inference_response" kindref="compound">InferenceResponse</ref><sp/><ref refid="classthemis_1_1llm_1_1tests_1_1_minimal_plugin_1af7d9793a3dc93cd9588788c0feb37dd3" kindref="member">generate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_inference_request" kindref="compound">InferenceRequest</ref>&amp;<sp/></highlight><highlight class="comment">/*request*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_inference_response" kindref="compound">InferenceResponse</ref><sp/>r;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1llm_1_1_inference_response_1ac666692ca58c1a61fc42c100d1119d05" kindref="member">text</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1llm_1_1_inference_response_1a51071f8284be608eecbef79ced9ac85d" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1llm_1_1_inference_response" kindref="compound">InferenceResponse</ref><sp/><ref refid="classthemis_1_1llm_1_1tests_1_1_minimal_plugin_1aeeac303996ca3e11f2f29012512ab79c" kindref="member">generateRAG</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_r_a_g_context" kindref="compound">RAGContext</ref>&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_inference_request" kindref="compound">InferenceRequest</ref>&amp;<sp/>req)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1tests_1_1_minimal_plugin_1af7d9793a3dc93cd9588788c0feb37dd3" kindref="member">generate</ref>(req);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;float&gt;<sp/><ref refid="classthemis_1_1llm_1_1tests_1_1_minimal_plugin_1ad4b2919b79c2afcf1f78bebe7cfb44f4" kindref="member">embed</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{0.0f};<sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1llm_1_1_l_l_m_capabilities" kindref="compound">LLMCapabilities</ref><sp/><ref refid="classthemis_1_1llm_1_1tests_1_1_minimal_plugin_1afabddeb276eacb736f41385899e63c53" kindref="member">getCapabilities</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref><sp/><ref refid="classthemis_1_1llm_1_1tests_1_1_minimal_plugin_1a1ecf8e35ac55f0f72014211f570c4fb7" kindref="member">getMemoryStats</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref><sp/><ref refid="classthemis_1_1llm_1_1tests_1_1_minimal_plugin_1aadbf17e8d43de2901fa9e35e370f795f" kindref="member">getPerformanceStats</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W5-SS:<sp/>initializeStateStore<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="classthemis_1_1llm_1_1tests_1_1_wave5_state_store_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1tests_1_1_wave5_state_store_test" kindref="compound">Wave5StateStoreTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1tests_1_1_wave5_state_store_test_1a04bf718c0a1907ae77a2f4cd1aa19dbb" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1tests_1_1_wave5_state_store_test_1acded233684158c10ce91225cc0316fe5" kindref="member">db_path_</ref><sp/>=<sp/>fs::temp_directory_path()<sp/>/</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;themis_wave5_test_db&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="classthemis_1_1llm_1_1tests_1_1_wave5_state_store_test_1acded233684158c10ce91225cc0316fe5" kindref="member">db_path_</ref>);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1tests_1_1_wave5_state_store_test_1a3a5f9a8732458b8ee60bbcf92755bfb1" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Release<sp/>manager<sp/>(and<sp/>owned<sp/>DB)<sp/>before<sp/>removing<sp/>the<sp/>directory.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1tests_1_1_wave5_state_store_test_1a043c957ca24be179ba8d64ca86cad754" kindref="member">mgr_</ref>.reset();</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="classthemis_1_1llm_1_1tests_1_1_wave5_state_store_test_1acded233684158c10ce91225cc0316fe5" kindref="member">db_path_</ref>);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;LLMPluginManager&gt;<sp/><ref refid="classthemis_1_1llm_1_1tests_1_1_wave5_state_store_test_1a043c957ca24be179ba8d64ca86cad754" kindref="member">mgr_</ref><sp/>=</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::make_unique&lt;LLMPluginManager&gt;();</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::path<sp/><ref refid="classthemis_1_1llm_1_1tests_1_1_wave5_state_store_test_1acded233684158c10ce91225cc0316fe5" kindref="member">db_path_</ref>;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1tests_1aefe11408af69f87b3594c42634c94d75" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1llm_1_1tests_1_1_wave5_state_store_test" kindref="compound">Wave5StateStoreTest</ref>,<sp/>DisabledConfigReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_l_l_m_plugin_manager_1_1_s_s_m_state_store_config" kindref="compound">LLMPluginManager::SSMStateStoreConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1llm_1_1_l_l_m_plugin_manager_1_1_s_s_m_state_store_config_1a51ccdd4d0a6dcc544b5a4b733607c53c" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(mgr_-&gt;initializeStateStore(cfg));</highlight></codeline>
+<codeline lineno="109"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1tests_1aefe11408af69f87b3594c42634c94d75" kindref="member">TEST_F</ref>(Wave5StateStoreTest,<sp/>EmptyPathReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_l_l_m_plugin_manager_1_1_s_s_m_state_store_config" kindref="compound">LLMPluginManager::SSMStateStoreConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1llm_1_1_l_l_m_plugin_manager_1_1_s_s_m_state_store_config_1a51ccdd4d0a6dcc544b5a4b733607c53c" kindref="member">enabled</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1llm_1_1_l_l_m_plugin_manager_1_1_s_s_m_state_store_config_1acfef3bd63a454cb5e0f992603c884f91" kindref="member">rocksdb_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>invalid<sp/>—<sp/>must<sp/>throw<sp/>internally<sp/>→<sp/>caught<sp/>→<sp/>false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(mgr_-&gt;initializeStateStore(cfg));</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1tests_1aefe11408af69f87b3594c42634c94d75" kindref="member">TEST_F</ref>(Wave5StateStoreTest,<sp/>ValidPathCreatesDirectoryAndStore)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_l_l_m_plugin_manager_1_1_s_s_m_state_store_config" kindref="compound">LLMPluginManager::SSMStateStoreConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="struct_l_l_m_plugin_manager_1_1_s_s_m_state_store_config_1a51ccdd4d0a6dcc544b5a4b733607c53c" kindref="member">enabled</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="struct_l_l_m_plugin_manager_1_1_s_s_m_state_store_config_1acfef3bd63a454cb5e0f992603c884f91" kindref="member">rocksdb_path</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>db_path_.string();</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="struct_l_l_m_plugin_manager_1_1_s_s_m_state_store_config_1afca50321ef2ad0eee7f946280866d5d7" kindref="member">retention_window_ms</ref><sp/><sp/>=<sp/>3600<sp/>*<sp/>1000;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="struct_l_l_m_plugin_manager_1_1_s_s_m_state_store_config_1ad5f33a82d92593a329bbff721a97582c" kindref="member">max_snapshots_per_session</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="struct_l_l_m_plugin_manager_1_1_s_s_m_state_store_config_1af517d47d47c4e5bbf37d19c1d551cf3a" kindref="member">enable_compression</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="struct_l_l_m_plugin_manager_1_1_s_s_m_state_store_config_1a18ea57c5db5e76d89ca7da4971fbe109" kindref="member">sync_on_checkpoint</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>call<sp/>must<sp/>succeed:<sp/>it<sp/>opens<sp/>a<sp/>TransactionDB<sp/>and<sp/>creates<sp/>the<sp/>store.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>mgr_-&gt;initializeStateStore(cfg);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ok)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;initializeStateStore()<sp/>failed<sp/>for<sp/>path:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>db_path_;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>directory<sp/>must<sp/>exist<sp/>(created<sp/>by<sp/>create_directories<sp/>or<sp/>by<sp/>RocksDB).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fs::exists(db_path_))</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;RocksDB<sp/>directory<sp/>was<sp/>not<sp/>created<sp/>at:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>db_path_;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1tests_1aefe11408af69f87b3594c42634c94d75" kindref="member">TEST_F</ref>(Wave5StateStoreTest,<sp/>SecondCallWithSamePathIsIdempotent)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_l_l_m_plugin_manager_1_1_s_s_m_state_store_config" kindref="compound">LLMPluginManager::SSMStateStoreConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="struct_l_l_m_plugin_manager_1_1_s_s_m_state_store_config_1a51ccdd4d0a6dcc544b5a4b733607c53c" kindref="member">enabled</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="struct_l_l_m_plugin_manager_1_1_s_s_m_state_store_config_1acfef3bd63a454cb5e0f992603c884f91" kindref="member">rocksdb_path</ref><sp/>=<sp/>db_path_.string();</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="struct_l_l_m_plugin_manager_1_1_s_s_m_state_store_config_1af517d47d47c4e5bbf37d19c1d551cf3a" kindref="member">enable_compression</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>first<sp/>=<sp/>mgr_-&gt;initializeStateStore(cfg);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>call<sp/>on<sp/>the<sp/>same<sp/>manager<sp/>replaces<sp/>the<sp/>owned<sp/>DB;<sp/>should<sp/>not<sp/>crash.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(The<sp/>existing<sp/>owned_state_db_<sp/>is<sp/>reset<sp/>before<sp/>re-opening.)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(first)<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>We<sp/>only<sp/>call<sp/>again<sp/>if<sp/>the<sp/>first<sp/>succeeded<sp/>to<sp/>avoid<sp/>interference.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(mgr_-&gt;initializeStateStore(cfg));</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W5-DT:<sp/>generateDraftTokens<sp/>/<sp/>STUB<sp/>#261<sp/>bridge<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="classthemis_1_1llm_1_1tests_1_1_wave5_draft_tokens_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1tests_1_1_wave5_draft_tokens_test" kindref="compound">Wave5DraftTokensTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1tests_1_1_wave5_draft_tokens_test_1a775f69746699cc1069fc69f2bf1e22ce" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Always<sp/>start<sp/>with<sp/>no<sp/>injected<sp/>fn<sp/>so<sp/>tests<sp/>are<sp/>isolated.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1abbcb81e46949a1afe9c567de3f8f6d61" kindref="member">ILLMPlugin::setDefaultGenerateDraftTokensFn</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1tests_1_1_wave5_draft_tokens_test_1a565f38a0774d590f5f67f14f058aaae3" kindref="member">plugin_</ref><sp/>=<sp/>std::make_unique&lt;MinimalPlugin&gt;();</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1tests_1_1_wave5_draft_tokens_test_1ab0200186c690aa5f3632ca3602e81df5" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1abbcb81e46949a1afe9c567de3f8f6d61" kindref="member">ILLMPlugin::setDefaultGenerateDraftTokensFn</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;MinimalPlugin&gt;<sp/><ref refid="classthemis_1_1llm_1_1tests_1_1_wave5_draft_tokens_test_1a565f38a0774d590f5f67f14f058aaae3" kindref="member">plugin_</ref>;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1tests_1aefe11408af69f87b3594c42634c94d75" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1llm_1_1tests_1_1_wave5_draft_tokens_test" kindref="compound">Wave5DraftTokensTest</ref>,<sp/>InjectedFnIsUsed)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>called<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kK<sp/><sp/><sp/><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kVsz<sp/><sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1abbcb81e46949a1afe9c567de3f8f6d61" kindref="member">ILLMPlugin::setDefaultGenerateDraftTokensFn</ref>(</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_inference_request" kindref="compound">InferenceRequest</ref>&amp;<sp/></highlight><highlight class="comment">/*req*/</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>k,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>vocab)<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>called<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_i_l_l_m_plugin_1_1_draft_tokens_result" kindref="compound">ILLMPlugin::DraftTokensResult</ref><sp/>r;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1llm_1_1_i_l_l_m_plugin_1_1_draft_tokens_result_1a27c743012c9c3c4d6413ebeaba6c5066" kindref="member">vocab_size</ref><sp/>=<sp/>vocab;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>k;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1llm_1_1_i_l_l_m_plugin_1_1_draft_tokens_result_1a53d1c185363741197d9177b7526926dd" kindref="member">tokens</ref>.push_back(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>+<sp/>1));</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1llm_1_1_i_l_l_m_plugin_1_1_draft_tokens_result_1aef20213ac65b80fc64fe57688ccaceb4" kindref="member">logits</ref>.push_back(std::vector&lt;float&gt;(vocab,<sp/>0.0f));</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="struct_inference_request_1a6aef9170dd4ee9e3c4181e73da8dba14" kindref="member">prompt</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>req.max_tokens<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(kK);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>plugin_-&gt;generateDraftTokens(req,<sp/>kK,<sp/>kVsz);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(called);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result.tokens.size(),<sp/>kK);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.vocab_size,<sp/>kVsz);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1tests_1aefe11408af69f87b3594c42634c94d75" kindref="member">TEST_F</ref>(Wave5DraftTokensTest,<sp/>HeuristicFallbackProducesKTokens)<sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kK<sp/><sp/><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kVsz<sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>generate()<sp/>on<sp/>MinimalPlugin<sp/>returns<sp/>&quot;hello&quot;<sp/>(5<sp/>chars).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="struct_inference_request_1a6aef9170dd4ee9e3c4181e73da8dba14" kindref="member">prompt</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="struct_inference_request_1aa328461ee7286c7f9b0afee1be7dd21a" kindref="member">max_tokens</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(kK);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>plugin_-&gt;generateDraftTokens(req,<sp/>kK,<sp/>kVsz);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result.tokens.size(),<sp/>kK)</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Heuristic<sp/>must<sp/>produce<sp/>exactly<sp/>k=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>kK<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>token<sp/>IDs&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result.logits.size(),<sp/>kK)</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Heuristic<sp/>must<sp/>produce<sp/>exactly<sp/>k=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>kK<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>logit<sp/>rows&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.vocab_size,<sp/>kVsz);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Each<sp/>token<sp/>ID<sp/>must<sp/>be<sp/>in<sp/>[0,<sp/>vocab_size).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>tok<sp/>:<sp/>result.tokens)<sp/>{</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(tok,<sp/>0);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LT(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(tok),<sp/>kVsz);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Each<sp/>logit<sp/>row<sp/>must<sp/>have<sp/>exactly<sp/>vocab_size<sp/>entries.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>row<sp/>:<sp/>result.logits)<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(row.size(),<sp/>kVsz);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1tests_1aefe11408af69f87b3594c42634c94d75" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1llm_1_1tests_1_1_wave5_draft_tokens_test" kindref="compound">Wave5DraftTokensTest</ref>,<sp/>ClearingFnRestoresHeuristic)<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1abbcb81e46949a1afe9c567de3f8f6d61" kindref="member">ILLMPlugin::setDefaultGenerateDraftTokensFn</ref>(</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>InferenceRequest&amp;,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>k,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>v)<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ILLMPlugin::DraftTokensResult<sp/>r;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1llm_1_1_i_l_l_m_plugin_1_1_draft_tokens_result_1a27c743012c9c3c4d6413ebeaba6c5066" kindref="member">vocab_size</ref><sp/>=<sp/>v;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.tokens.assign(k,<sp/>99);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.logits.assign(k,<sp/>std::vector&lt;float&gt;(v,<sp/>0.0f));</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(<ref refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1abbcb81e46949a1afe9c567de3f8f6d61" kindref="member">ILLMPlugin::setDefaultGenerateDraftTokensFn</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>clearing,<sp/>heuristic<sp/>runs<sp/>again<sp/>—<sp/>token<sp/>IDs<sp/>must<sp/>not<sp/>all<sp/>be<sp/>99.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>InferenceRequest<sp/>req;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="struct_inference_request_1a6aef9170dd4ee9e3c4181e73da8dba14" kindref="member">prompt</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;abc&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="struct_inference_request_1aa328461ee7286c7f9b0afee1be7dd21a" kindref="member">max_tokens</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>plugin_-&gt;generateDraftTokens(req,<sp/>3u,<sp/>128u);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result.tokens.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>At<sp/>least<sp/>the<sp/>first<sp/>token<sp/>should<sp/>differ<sp/>from<sp/>99<sp/>(heuristic<sp/>uses<sp/>&apos;a&apos;=97<sp/>%<sp/>128<sp/>=<sp/>97).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.tokens[0],<sp/>99);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W5-TL:<sp/>setTargetLogitsFn<sp/>/<sp/>STUB<sp/>#262<sp/>bridge<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258" refid="classthemis_1_1llm_1_1tests_1_1_wave5_target_logits_fn_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1tests_1_1_wave5_target_logits_fn_test" kindref="compound">Wave5TargetLogitsFnTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1tests_1_1_wave5_target_logits_fn_test_1a91cf42fecb2e5bebccd29b2604be4522" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config" kindref="compound">InferenceEngineEnhanced::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1aebfce81c19ceb9e532eed77488c4da0b" kindref="member">num_worker_threads</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1a99a45c4a913b53336968d06a055d5a5f" kindref="member">enable_batch_processing</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1a0806ca69628e3b0830f85da63fd52eda" kindref="member">enable_context_caching</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1a35b9baa90e664da766401fd416c30378" kindref="member">enable_speculative_decoding</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1tests_1_1_wave5_target_logits_fn_test_1aa97577b78f0bd1f1cd4f7a1444ef00bd" kindref="member">engine_</ref><sp/>=<sp/>std::make_unique&lt;InferenceEngineEnhanced&gt;(cfg);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1tests_1_1_wave5_target_logits_fn_test_1a5273346e36d36e968edee4ae54e6d2a9" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Clear<sp/>fn<sp/>before<sp/>destroying<sp/>engine<sp/>to<sp/>avoid<sp/>dangling<sp/>capture<sp/>refs.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1tests_1_1_wave5_target_logits_fn_test_1aa97577b78f0bd1f1cd4f7a1444ef00bd" kindref="member">engine_</ref>-&gt;setTargetLogitsFn(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1tests_1_1_wave5_target_logits_fn_test_1aa97577b78f0bd1f1cd4f7a1444ef00bd" kindref="member">engine_</ref>.reset();</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;InferenceEngineEnhanced&gt;<sp/><ref refid="classthemis_1_1llm_1_1tests_1_1_wave5_target_logits_fn_test_1aa97577b78f0bd1f1cd4f7a1444ef00bd" kindref="member">engine_</ref>;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1tests_1aefe11408af69f87b3594c42634c94d75" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1llm_1_1tests_1_1_wave5_target_logits_fn_test" kindref="compound">Wave5TargetLogitsFnTest</ref>,<sp/>RegisteringFnDoesNotThrow)<sp/>{</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_inference_engine_enhanced_1ab4b4d94dd8a95b8c9d4d25f6ee37ef8c" kindref="member">InferenceEngineEnhanced::TargetLogitsFn</ref><sp/>fn<sp/>=</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_inference_request" kindref="compound">InferenceRequest</ref>&amp;,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>K,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>vocab,</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ILLMPlugin&gt;<sp/></highlight><highlight class="comment">/*target*/</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;<sp/>mat(</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>K<sp/>+<sp/>1,<sp/>std::vector&lt;float&gt;(vocab,<sp/>0.0f));</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>mat;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(engine_-&gt;setTargetLogitsFn(std::move(fn)));</highlight></codeline>
+<codeline lineno="289"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1tests_1aefe11408af69f87b3594c42634c94d75" kindref="member">TEST_F</ref>(Wave5TargetLogitsFnTest,<sp/>ClearingFnWithNullptrDoesNotThrow)<sp/>{</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Register<sp/>then<sp/>clear.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>engine_-&gt;setTargetLogitsFn(</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref>&amp;,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>K,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>v,<sp/>std::shared_ptr&lt;ILLMPlugin&gt;)<sp/>{</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;(</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>K<sp/>+<sp/>1,<sp/>std::vector&lt;float&gt;(v,<sp/>0.0f));</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(engine_-&gt;setTargetLogitsFn(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="301"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1tests_1aefe11408af69f87b3594c42634c94d75" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1llm_1_1tests_1_1_wave5_target_logits_fn_test" kindref="compound">Wave5TargetLogitsFnTest</ref>,<sp/>ReplacingFnDoesNotThrow)<sp/>{</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>engine_-&gt;setTargetLogitsFn(</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>InferenceRequest&amp;,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>K,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>v,<sp/>std::shared_ptr&lt;ILLMPlugin&gt;)<sp/>{</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;(K<sp/>+<sp/>1,<sp/>std::vector&lt;float&gt;(v,<sp/>0.0f));</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(engine_-&gt;setTargetLogitsFn(</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>InferenceRequest&amp;,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>K,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>v,<sp/>std::shared_ptr&lt;ILLMPlugin&gt;)<sp/>{</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>std::vector&lt;std::vector&lt;float&gt;&gt;(K<sp/>+<sp/>1,<sp/>std::vector&lt;float&gt;(v,<sp/>1.0f));</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}));</highlight></codeline>
+<codeline lineno="314"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal">}}}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::llm::tests</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/llm/test_wave5_llm_stubs.cpp"/>
+  </compounddef>
+</doxygen>

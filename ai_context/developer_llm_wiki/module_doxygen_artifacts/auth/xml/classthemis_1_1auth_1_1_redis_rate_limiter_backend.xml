@@ -1,0 +1,647 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_redis_rate_limiter_backend" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::auth::RedisRateLimiterBackend</compoundname>
+    <basecompoundref refid="classthemis_1_1auth_1_1_i_rate_limiter_backend" prot="public" virt="non-virtual">themis::auth::IRateLimiterBackend</basecompoundref>
+    <includes refid="rate__limiter__backend_8h" local="no">rate_limiter_backend.h</includes>
+    <innerclass refid="structthemis_1_1auth_1_1_redis_rate_limiter_backend_1_1_config" prot="public">themis::auth::RedisRateLimiterBackend::Config</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1ae4eb07e27d192f92430e8cb66a81843e" prot="public" static="no">
+        <type>std::function&lt; int64_t(const std::string &amp;, uint32_t)&gt;</type>
+        <definition>using themis::auth::RedisRateLimiterBackend::IncrementFn = std::function&lt;int64_t(const std::string&amp;, uint32_t)&gt;</definition>
+        <argsstring></argsstring>
+        <name>IncrementFn</name>
+        <qualifiedname>themis::auth::RedisRateLimiterBackend::IncrementFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/rate_limiter_backend.h" line="83" column="5" bodyfile="include/auth/rate_limiter_backend.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a3d747ba5aa23113356b0bfe068ff422a" prot="public" static="no">
+        <type>std::function&lt; int64_t(const std::string &amp;, uint32_t)&gt;</type>
+        <definition>using themis::auth::RedisRateLimiterBackend::GetCountFn = std::function&lt;int64_t(const std::string&amp;, uint32_t)&gt;</definition>
+        <argsstring></argsstring>
+        <name>GetCountFn</name>
+        <qualifiedname>themis::auth::RedisRateLimiterBackend::GetCountFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/rate_limiter_backend.h" line="84" column="5" bodyfile="include/auth/rate_limiter_backend.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a82049808339ac1695a2d565a1ad574d4" prot="public" static="no">
+        <type>std::function&lt; void(const std::string &amp;)&gt;</type>
+        <definition>using themis::auth::RedisRateLimiterBackend::ResetFn = std::function&lt;void(const std::string&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ResetFn</name>
+        <qualifiedname>themis::auth::RedisRateLimiterBackend::ResetFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/rate_limiter_backend.h" line="85" column="5" bodyfile="include/auth/rate_limiter_backend.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1ada7cb999338cc4978ae8b9f111e7d750" prot="public" static="no">
+        <type>std::function&lt; bool()&gt;</type>
+        <definition>using themis::auth::RedisRateLimiterBackend::IsConnectedFn = std::function&lt;bool()&gt;</definition>
+        <argsstring></argsstring>
+        <name>IsConnectedFn</name>
+        <qualifiedname>themis::auth::RedisRateLimiterBackend::IsConnectedFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/rate_limiter_backend.h" line="86" column="5" bodyfile="include/auth/rate_limiter_backend.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a95e8eba00aed438172b482bdb10a4fe4" prot="public" static="no">
+        <type>std::function&lt; bool()&gt;</type>
+        <definition>using themis::auth::RedisRateLimiterBackend::ReconnectFn = std::function&lt;bool()&gt;</definition>
+        <argsstring></argsstring>
+        <name>ReconnectFn</name>
+        <qualifiedname>themis::auth::RedisRateLimiterBackend::ReconnectFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/rate_limiter_backend.h" line="87" column="5" bodyfile="include/auth/rate_limiter_backend.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a112132cd50b7a18c2ae4b29530ec64be" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1auth_1_1_redis_rate_limiter_backend_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::auth::RedisRateLimiterBackend::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::auth::RedisRateLimiterBackend::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/rate_limiter_backend.h" line="163" column="12" bodyfile="include/auth/rate_limiter_backend.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1af36158ba8bc87ea2ce3671839b00a250" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::auth::RedisRateLimiterBackend::kIncrScript</definition>
+        <argsstring></argsstring>
+        <name>kIncrScript</name>
+        <qualifiedname>themis::auth::RedisRateLimiterBackend::kIncrScript</qualifiedname>
+        <initializer>                                    =
+&quot;local key = KEYS[1]\n&quot;
+&quot;local now_us = tonumber(ARGV[1])\n&quot;
+&quot;local window_us = tonumber(ARGV[2])\n&quot;
+&quot;local window_seconds = tonumber(ARGV[3])\n&quot;
+&quot;local member = ARGV[4]\n&quot;
+&quot;redis.call(&apos;ZREMRANGEBYSCORE&apos;, key, &apos;-inf&apos;, now_us - window_us)\n&quot;
+&quot;redis.call(&apos;ZADD&apos;, key, now_us, member)\n&quot;
+&quot;redis.call(&apos;EXPIRE&apos;, key, window_seconds + 1)\n&quot;
+&quot;return redis.call(&apos;ZCARD&apos;, key)\n&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/rate_limiter_backend.h" line="168" column="33" bodyfile="include/auth/rate_limiter_backend.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1ab12ad5e3f28614c1a8bef263dafac586" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::auth::RedisRateLimiterBackend::kCountScript</definition>
+        <argsstring></argsstring>
+        <name>kCountScript</name>
+        <qualifiedname>themis::auth::RedisRateLimiterBackend::kCountScript</qualifiedname>
+        <initializer>                                     =
+&quot;local key = KEYS[1]\n&quot;
+&quot;local now_us = tonumber(ARGV[1])\n&quot;
+&quot;local window_us = tonumber(ARGV[2])\n&quot;
+&quot;redis.call(&apos;ZREMRANGEBYSCORE&apos;, key, &apos;-inf&apos;, now_us - window_us)\n&quot;
+&quot;return redis.call(&apos;ZCARD&apos;, key)\n&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/rate_limiter_backend.h" line="181" column="33" bodyfile="include/auth/rate_limiter_backend.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1ad9f569a4583fe91c245281ed3d842e6e" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::RedisRateLimiterBackend::RedisRateLimiterBackend</definition>
+        <argsstring>(const Config &amp;config=Config::defaults())</argsstring>
+        <name>RedisRateLimiterBackend</name>
+        <qualifiedname>themis::auth::RedisRateLimiterBackend::RedisRateLimiterBackend</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_redis_rate_limiter_backend_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1auth_1_1_redis_rate_limiter_backend_1_1_config_1abdad4f3aba44b30e4017001eca5b2bcb" kindref="member">Config::defaults</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/rate_limiter_backend.h" line="104" column="14" bodyfile="src/auth/rate_limiter_backend.cpp" bodystart="442" bodyend="449"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a3a4977859e9bf35a1f4967e53c330e4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::RedisRateLimiterBackend::~RedisRateLimiterBackend</definition>
+        <argsstring>() override</argsstring>
+        <name>~RedisRateLimiterBackend</name>
+        <qualifiedname>themis::auth::RedisRateLimiterBackend::~RedisRateLimiterBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/rate_limiter_backend.h" line="105" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1aaa82a7fea967e32299041ffba613fb7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::RedisRateLimiterBackend::RedisRateLimiterBackend</definition>
+        <argsstring>(const RedisRateLimiterBackend &amp;)=delete</argsstring>
+        <name>RedisRateLimiterBackend</name>
+        <qualifiedname>themis::auth::RedisRateLimiterBackend::RedisRateLimiterBackend</qualifiedname>
+        <param>
+          <type>const RedisRateLimiterBackend &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/rate_limiter_backend.h" line="107" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a5787707dc2dfa7ba29c7a07342bfd7df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1ad9f569a4583fe91c245281ed3d842e6e" kindref="member">RedisRateLimiterBackend</ref> &amp;</type>
+        <definition>RedisRateLimiterBackend &amp; themis::auth::RedisRateLimiterBackend::operator=</definition>
+        <argsstring>(const RedisRateLimiterBackend &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::auth::RedisRateLimiterBackend::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1ad9f569a4583fe91c245281ed3d842e6e" kindref="member">RedisRateLimiterBackend</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/rate_limiter_backend.h" line="108" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a39efda64e0d9e25933a0e37dd7be2b36" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::auth::RedisRateLimiterBackend::increment</definition>
+        <argsstring>(const std::string &amp;key, uint32_t window_seconds) override</argsstring>
+        <name>increment</name>
+        <qualifiedname>themis::auth::RedisRateLimiterBackend::increment</qualifiedname>
+        <reimplements refid="classthemis_1_1auth_1_1_i_rate_limiter_backend_1a0c9aad8a75f5f0c44ee12e56c0faf414">increment</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>window_seconds</declname>
+        </param>
+        <briefdescription>
+<para>Increment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">window_seconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s_redis_rate_bridge_mutex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/rate_limiter_backend.h" line="114" column="13" bodyfile="src/auth/rate_limiter_backend.cpp" bodystart="459" bodyend="482"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a95ff0cba98c82a79928178e69d1f79fa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::auth::RedisRateLimiterBackend::getCount</definition>
+        <argsstring>(const std::string &amp;key, uint32_t window_seconds) const override</argsstring>
+        <name>getCount</name>
+        <qualifiedname>themis::auth::RedisRateLimiterBackend::getCount</qualifiedname>
+        <reimplements refid="classthemis_1_1auth_1_1_i_rate_limiter_backend_1abefa51780becda17ec5d4d0854d8fc7c">getCount</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>window_seconds</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s_redis_rate_bridge_mutex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/rate_limiter_backend.h" line="116" column="13" bodyfile="src/auth/rate_limiter_backend.cpp" bodystart="484" bodyend="507"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a6719adf7b6d3395d5bf069546be7aa47" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::auth::RedisRateLimiterBackend::reset</definition>
+        <argsstring>(const std::string &amp;key) override</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::auth::RedisRateLimiterBackend::reset</qualifiedname>
+        <reimplements refid="classthemis_1_1auth_1_1_i_rate_limiter_backend_1a7bf0f37dae0d7fb6b4b42cae158f415a">reset</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s_redis_rate_bridge_mutex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/rate_limiter_backend.h" line="118" column="10" bodyfile="src/auth/rate_limiter_backend.cpp" bodystart="513" bodyend="536"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a6f45b13dd08792ede6819826210e2788" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::RedisRateLimiterBackend::isConnected</definition>
+        <argsstring>() const</argsstring>
+        <name>isConnected</name>
+        <qualifiedname>themis::auth::RedisRateLimiterBackend::isConnected</qualifiedname>
+        <briefdescription>
+<para>Is Connected. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s_redis_rate_bridge_mutex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/rate_limiter_backend.h" line="128" column="10" bodyfile="src/auth/rate_limiter_backend.cpp" bodystart="538" bodyend="562"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a859e95126c541e20841de70d11bf2d37" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::RedisRateLimiterBackend::reconnect</definition>
+        <argsstring>()</argsstring>
+        <name>reconnect</name>
+        <qualifiedname>themis::auth::RedisRateLimiterBackend::reconnect</qualifiedname>
+        <briefdescription>
+<para>Reconnect. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s_redis_rate_bridge_mutex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/rate_limiter_backend.h" line="134" column="10" bodyfile="src/auth/rate_limiter_backend.cpp" bodystart="568" bodyend="592"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a22bee7cfd9f8be59a2ab755f07b43943" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::RedisRateLimiterBackend::setIncrementFn</definition>
+        <argsstring>(IncrementFn fn)</argsstring>
+        <name>setIncrementFn</name>
+        <qualifiedname>themis::auth::RedisRateLimiterBackend::setIncrementFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1ae4eb07e27d192f92430e8cb66a81843e" kindref="member">IncrementFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Increment Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/rate_limiter_backend.h" line="140" column="17" bodyfile="src/auth/rate_limiter_backend.cpp" bodystart="40" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1ae2d49549f43c65f3f73bed7fec6e991e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::RedisRateLimiterBackend::setGetCountFn</definition>
+        <argsstring>(GetCountFn fn)</argsstring>
+        <name>setGetCountFn</name>
+        <qualifiedname>themis::auth::RedisRateLimiterBackend::setGetCountFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a3d747ba5aa23113356b0bfe068ff422a" kindref="member">GetCountFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Get Count Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/rate_limiter_backend.h" line="145" column="17" bodyfile="src/auth/rate_limiter_backend.cpp" bodystart="50" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1ad89fc829606ec279afbceb4f3d144efd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::RedisRateLimiterBackend::setResetFn</definition>
+        <argsstring>(ResetFn fn)</argsstring>
+        <name>setResetFn</name>
+        <qualifiedname>themis::auth::RedisRateLimiterBackend::setResetFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a82049808339ac1695a2d565a1ad574d4" kindref="member">ResetFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Reset Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/rate_limiter_backend.h" line="150" column="17" bodyfile="src/auth/rate_limiter_backend.cpp" bodystart="60" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a0a6618bf39dfbb6348a83bc33503e73f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::RedisRateLimiterBackend::setIsConnectedFn</definition>
+        <argsstring>(IsConnectedFn fn)</argsstring>
+        <name>setIsConnectedFn</name>
+        <qualifiedname>themis::auth::RedisRateLimiterBackend::setIsConnectedFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1ada7cb999338cc4978ae8b9f111e7d750" kindref="member">IsConnectedFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Is Connected Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/rate_limiter_backend.h" line="155" column="17" bodyfile="src/auth/rate_limiter_backend.cpp" bodystart="70" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a5fdb131099fd384fca957af9e7f5474d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::RedisRateLimiterBackend::setReconnectFn</definition>
+        <argsstring>(ReconnectFn fn)</argsstring>
+        <name>setReconnectFn</name>
+        <qualifiedname>themis::auth::RedisRateLimiterBackend::setReconnectFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a95e8eba00aed438172b482bdb10a4fe4" kindref="member">ReconnectFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Reconnect Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/rate_limiter_backend.h" line="160" column="17" bodyfile="src/auth/rate_limiter_backend.cpp" bodystart="80" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::auth::IRateLimiterBackend</label>
+        <link refid="classthemis_1_1auth_1_1_i_rate_limiter_backend"/>
+      </node>
+      <node id="1">
+        <label>themis::auth::RedisRateLimiterBackend</label>
+        <link refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::auth::IRateLimiterBackend</label>
+        <link refid="classthemis_1_1auth_1_1_i_rate_limiter_backend"/>
+      </node>
+      <node id="1">
+        <label>themis::auth::RedisRateLimiterBackend</label>
+        <link refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/auth/rate_limiter_backend.h" line="81" column="1" bodyfile="include/auth/rate_limiter_backend.h" bodystart="81" bodyend="212"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a112132cd50b7a18c2ae4b29530ec64be" prot="private" virt="non-virtual"><scope>themis::auth::RedisRateLimiterBackend</scope><name>config_</name></member>
+      <member refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a95ff0cba98c82a79928178e69d1f79fa" prot="public" virt="virtual"><scope>themis::auth::RedisRateLimiterBackend</scope><name>getCount</name></member>
+      <member refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a3d747ba5aa23113356b0bfe068ff422a" prot="public" virt="non-virtual"><scope>themis::auth::RedisRateLimiterBackend</scope><name>GetCountFn</name></member>
+      <member refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a39efda64e0d9e25933a0e37dd7be2b36" prot="public" virt="virtual"><scope>themis::auth::RedisRateLimiterBackend</scope><name>increment</name></member>
+      <member refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1ae4eb07e27d192f92430e8cb66a81843e" prot="public" virt="non-virtual"><scope>themis::auth::RedisRateLimiterBackend</scope><name>IncrementFn</name></member>
+      <member refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a6f45b13dd08792ede6819826210e2788" prot="public" virt="non-virtual"><scope>themis::auth::RedisRateLimiterBackend</scope><name>isConnected</name></member>
+      <member refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1ada7cb999338cc4978ae8b9f111e7d750" prot="public" virt="non-virtual"><scope>themis::auth::RedisRateLimiterBackend</scope><name>IsConnectedFn</name></member>
+      <member refid="classthemis_1_1auth_1_1_i_rate_limiter_backend_1a4cabe99a9275eebd10bf04dd786ec4e6" prot="public" virt="non-virtual"><scope>themis::auth::RedisRateLimiterBackend</scope><name>kBackendUnavailable</name></member>
+      <member refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1ab12ad5e3f28614c1a8bef263dafac586" prot="private" virt="non-virtual"><scope>themis::auth::RedisRateLimiterBackend</scope><name>kCountScript</name></member>
+      <member refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1af36158ba8bc87ea2ce3671839b00a250" prot="private" virt="non-virtual"><scope>themis::auth::RedisRateLimiterBackend</scope><name>kIncrScript</name></member>
+      <member refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a5787707dc2dfa7ba29c7a07342bfd7df" prot="public" virt="non-virtual"><scope>themis::auth::RedisRateLimiterBackend</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a859e95126c541e20841de70d11bf2d37" prot="public" virt="non-virtual"><scope>themis::auth::RedisRateLimiterBackend</scope><name>reconnect</name></member>
+      <member refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a95e8eba00aed438172b482bdb10a4fe4" prot="public" virt="non-virtual"><scope>themis::auth::RedisRateLimiterBackend</scope><name>ReconnectFn</name></member>
+      <member refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1ad9f569a4583fe91c245281ed3d842e6e" prot="public" virt="non-virtual"><scope>themis::auth::RedisRateLimiterBackend</scope><name>RedisRateLimiterBackend</name></member>
+      <member refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1aaa82a7fea967e32299041ffba613fb7a" prot="public" virt="non-virtual"><scope>themis::auth::RedisRateLimiterBackend</scope><name>RedisRateLimiterBackend</name></member>
+      <member refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a6719adf7b6d3395d5bf069546be7aa47" prot="public" virt="virtual"><scope>themis::auth::RedisRateLimiterBackend</scope><name>reset</name></member>
+      <member refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a82049808339ac1695a2d565a1ad574d4" prot="public" virt="non-virtual"><scope>themis::auth::RedisRateLimiterBackend</scope><name>ResetFn</name></member>
+      <member refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1ae2d49549f43c65f3f73bed7fec6e991e" prot="public" virt="non-virtual"><scope>themis::auth::RedisRateLimiterBackend</scope><name>setGetCountFn</name></member>
+      <member refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a22bee7cfd9f8be59a2ab755f07b43943" prot="public" virt="non-virtual"><scope>themis::auth::RedisRateLimiterBackend</scope><name>setIncrementFn</name></member>
+      <member refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a0a6618bf39dfbb6348a83bc33503e73f" prot="public" virt="non-virtual"><scope>themis::auth::RedisRateLimiterBackend</scope><name>setIsConnectedFn</name></member>
+      <member refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a5fdb131099fd384fca957af9e7f5474d" prot="public" virt="non-virtual"><scope>themis::auth::RedisRateLimiterBackend</scope><name>setReconnectFn</name></member>
+      <member refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1ad89fc829606ec279afbceb4f3d144efd" prot="public" virt="non-virtual"><scope>themis::auth::RedisRateLimiterBackend</scope><name>setResetFn</name></member>
+      <member refid="classthemis_1_1auth_1_1_i_rate_limiter_backend_1a11da8b57fd176e70d3afde135bee6319" prot="public" virt="virtual"><scope>themis::auth::RedisRateLimiterBackend</scope><name>~IRateLimiterBackend</name></member>
+      <member refid="classthemis_1_1auth_1_1_redis_rate_limiter_backend_1a3a4977859e9bf35a1f4967e53c330e4b" prot="public" virt="non-virtual"><scope>themis::auth::RedisRateLimiterBackend</scope><name>~RedisRateLimiterBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

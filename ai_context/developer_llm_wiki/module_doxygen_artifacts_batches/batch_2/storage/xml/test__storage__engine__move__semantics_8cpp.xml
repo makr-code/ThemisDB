@@ -1,0 +1,632 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__storage__engine__move__semantics_8cpp" kind="file" language="C++">
+    <compoundname>test_storage_engine_move_semantics.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="storage__engine_8h" local="yes">storage/storage_engine.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">utility</includes>
+    <includes local="no">chrono</includes>
+    <incdepgraph>
+      <node id="19">
+        <label>storage/nvme_manager.h</label>
+        <link refid="nvme__manager_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>storage/rocksdb_wrapper.h</label>
+        <link refid="rocksdb__wrapper_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>storage/storage_engine.h</label>
+        <link refid="storage__engine_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/storage/test_storage_engine_move_semantics.cpp</label>
+        <link refid="test__storage__engine__move__semantics_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>atomic</label>
+      </node>
+      <node id="24">
+        <label>chrono</label>
+      </node>
+      <node id="17">
+        <label>condition_variable</label>
+      </node>
+      <node id="20">
+        <label>cstddef</label>
+      </node>
+      <node id="21">
+        <label>cstdint</label>
+      </node>
+      <node id="22">
+        <label>filesystem</label>
+      </node>
+      <node id="14">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="16">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>optional</label>
+      </node>
+      <node id="10">
+        <label>string</label>
+      </node>
+      <node id="11">
+        <label>string_view</label>
+      </node>
+      <node id="7">
+        <label>themis/base/interfaces/index_interface.h</label>
+      </node>
+      <node id="5">
+        <label>themis/base/interfaces/query_interface.h</label>
+      </node>
+      <node id="6">
+        <label>themis/base/interfaces/security_interface.h</label>
+      </node>
+      <node id="4">
+        <label>themis/base/interfaces/storage_interface.h</label>
+      </node>
+      <node id="23">
+        <label>utility</label>
+      </node>
+      <node id="18">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="13">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_storage_engine_move_semantic_test" prot="public">StorageEngineMoveSemanticTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__storage__engine__move__semantics_8cpp_1af5199f5fded5258f135ceca0c5efaec6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageEngineMoveSemanticTest, MoveConstructor_TransfersState)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_engine_move_semantic_test" kindref="compound">StorageEngineMoveSemanticTest</ref></type>
+        </param>
+        <param>
+          <type>MoveConstructor_TransfersState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_engine_move_semantics.cpp" line="48" column="1" bodyfile="tests/storage/test_storage_engine_move_semantics.cpp" bodystart="48" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__engine__move__semantics_8cpp_1a326635197cade01ca4dcb2703c1e72fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageEngineMoveSemanticTest, MoveAssignmentOperator_TransfersState)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_engine_move_semantic_test" kindref="compound">StorageEngineMoveSemanticTest</ref></type>
+        </param>
+        <param>
+          <type>MoveAssignmentOperator_TransfersState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_engine_move_semantics.cpp" line="73" column="1" bodyfile="tests/storage/test_storage_engine_move_semantics.cpp" bodystart="73" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__engine__move__semantics_8cpp_1a13f87702387d27b2884c3ed2153ec146" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageEngineMoveSemanticTest, MovedFrom_ObjectInValidState)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_engine_move_semantic_test" kindref="compound">StorageEngineMoveSemanticTest</ref></type>
+        </param>
+        <param>
+          <type>MovedFrom_ObjectInValidState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_engine_move_semantics.cpp" line="105" column="1" bodyfile="tests/storage/test_storage_engine_move_semantics.cpp" bodystart="105" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__engine__move__semantics_8cpp_1a022af0396d385600dcbbd36951d8e308" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageEngineMoveSemanticTest, EncryptField_ReturnsVectorByMove)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_engine_move_semantic_test" kindref="compound">StorageEngineMoveSemanticTest</ref></type>
+        </param>
+        <param>
+          <type>EncryptField_ReturnsVectorByMove</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_engine_move_semantics.cpp" line="134" column="1" bodyfile="tests/storage/test_storage_engine_move_semantics.cpp" bodystart="134" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__engine__move__semantics_8cpp_1a0ba21660b7d4ebae86c5d63fd0992a8c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageEngineMoveSemanticTest, DecryptField_ReturnsVectorByMove)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_engine_move_semantic_test" kindref="compound">StorageEngineMoveSemanticTest</ref></type>
+        </param>
+        <param>
+          <type>DecryptField_ReturnsVectorByMove</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_engine_move_semantics.cpp" line="158" column="1" bodyfile="tests/storage/test_storage_engine_move_semantics.cpp" bodystart="158" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__engine__move__semantics_8cpp_1ab1402dd5cde7ee1237b9258dcbf5f76a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageEngineMoveSemanticTest, IOMetrics_ReturnsStructByMove)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_engine_move_semantic_test" kindref="compound">StorageEngineMoveSemanticTest</ref></type>
+        </param>
+        <param>
+          <type>IOMetrics_ReturnsStructByMove</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_engine_move_semantics.cpp" line="182" column="1" bodyfile="tests/storage/test_storage_engine_move_semantics.cpp" bodystart="182" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__engine__move__semantics_8cpp_1a809e3b2839d719597758dc008f11cf14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageEngineMoveSemanticTest, ScanCounters_ReturnsStructByMove)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_engine_move_semantic_test" kindref="compound">StorageEngineMoveSemanticTest</ref></type>
+        </param>
+        <param>
+          <type>ScanCounters_ReturnsStructByMove</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_engine_move_semantics.cpp" line="209" column="1" bodyfile="tests/storage/test_storage_engine_move_semantics.cpp" bodystart="209" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__engine__move__semantics_8cpp_1a1ce74be3ee846c77b7e0dc943f28a11a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageEngineMoveSemanticTest, CopyConstructor_IsDeleted)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_engine_move_semantic_test" kindref="compound">StorageEngineMoveSemanticTest</ref></type>
+        </param>
+        <param>
+          <type>CopyConstructor_IsDeleted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_engine_move_semantics.cpp" line="239" column="1" bodyfile="tests/storage/test_storage_engine_move_semantics.cpp" bodystart="239" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="test__storage__engine__move__semantics_8cpp_1aad8cf36711a539c78fa17140a7aa585c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StorageEngineMoveSemanticTest, MultipleMetricsReturns_NoDoubleFreeSS)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_storage_engine_move_semantic_test" kindref="compound">StorageEngineMoveSemanticTest</ref></type>
+        </param>
+        <param>
+          <type>MultipleMetricsReturns_NoDoubleFreeSS</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_engine_move_semantics.cpp" line="259" column="1" bodyfile="tests/storage/test_storage_engine_move_semantics.cpp" bodystart="259" bodyend="283"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="storage__engine_8h" kindref="compound">storage/storage_engine.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixture<sp/>for<sp/>Move<sp/>Semantics<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18" refid="class_storage_engine_move_semantic_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_storage_engine_move_semantic_test" kindref="compound">StorageEngineMoveSemanticTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_storage_engine_move_semantic_test_1ab349bf8953d6b2947c16a77c838fa099" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_storage_engine_move_semantic_test_1a350aeb81f11bf4142453f764b566121e" kindref="member">db_path1_</ref><sp/>=<sp/>(fs::temp_directory_path()<sp/>/</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&quot;themis_move_test1_&quot;</highlight><highlight class="normal"><sp/>+</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::to_string(</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::now().time_since_epoch().count())))</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.string();</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_storage_engine_move_semantic_test_1ae1f623ab0b8547446b16c261648052c0" kindref="member">db_path2_</ref><sp/>=<sp/>(fs::temp_directory_path()<sp/>/</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&quot;themis_move_test2_&quot;</highlight><highlight class="normal"><sp/>+</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::to_string(</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::now().time_since_epoch().count()<sp/>+<sp/>1)))</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.string();</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_storage_engine_move_semantic_test_1a350aeb81f11bf4142453f764b566121e" kindref="member">db_path1_</ref>);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_storage_engine_move_semantic_test_1ae1f623ab0b8547446b16c261648052c0" kindref="member">db_path2_</ref>);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_storage_engine_move_semantic_test_1a086eb4f6cd1608da0dac2d1a26181a30" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_storage_engine_move_semantic_test_1a350aeb81f11bf4142453f764b566121e" kindref="member">db_path1_</ref>);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_storage_engine_move_semantic_test_1ae1f623ab0b8547446b16c261648052c0" kindref="member">db_path2_</ref>);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_storage_engine_move_semantic_test_1a350aeb81f11bf4142453f764b566121e" kindref="member">db_path1_</ref>;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_storage_engine_move_semantic_test_1ae1f623ab0b8547446b16c261648052c0" kindref="member">db_path2_</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Move<sp/>Constructor<sp/>(CWE-457<sp/>Remediation)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><ref refid="test__storage__engine__move__semantics_8cpp_1af5199f5fded5258f135ceca0c5efaec6" kindref="member">TEST_F</ref>(<ref refid="class_storage_engine_move_semantic_test" kindref="compound">StorageEngineMoveSemanticTest</ref>,<sp/>MoveConstructor_TransfersState)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>an<sp/>engine<sp/>and<sp/>open<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>engine1<sp/>=<sp/><ref refid="classthemis_1_1_storage_engine_1a0693d09f31d001e06bee6d1dae94f527" kindref="member">StorageEngine::createDefault</ref>();</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(engine1-&gt;open(db_path1_).has_value());</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Put<sp/>some<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(engine1-&gt;put(</highlight><highlight class="stringliteral">&quot;key1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;value1&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(engine1-&gt;put(</highlight><highlight class="stringliteral">&quot;key2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;value2&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Move<sp/>construct<sp/>into<sp/>engine2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>engine2<sp/>=<sp/>std::move(engine1);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>engine2<sp/>should<sp/>work<sp/>correctly<sp/>with<sp/>the<sp/>transferred<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine2-&gt;get(</highlight><highlight class="stringliteral">&quot;key1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.value(),<sp/></highlight><highlight class="stringliteral">&quot;value1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cleanup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>engine2-&gt;close();</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Move<sp/>Assignment<sp/>Operator<sp/>(CWE-457,<sp/>CWE-672<sp/>Remediation)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><ref refid="test__storage__engine__move__semantics_8cpp_1af5199f5fded5258f135ceca0c5efaec6" kindref="member">TEST_F</ref>(<ref refid="class_storage_engine_move_semantic_test" kindref="compound">StorageEngineMoveSemanticTest</ref>,<sp/>MoveAssignmentOperator_TransfersState)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>and<sp/>initialize<sp/>two<sp/>engines</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>engine1<sp/>=<sp/><ref refid="classthemis_1_1_storage_engine_1a0693d09f31d001e06bee6d1dae94f527" kindref="member">StorageEngine::createDefault</ref>();</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>engine2<sp/>=<sp/><ref refid="classthemis_1_1_storage_engine_1a0693d09f31d001e06bee6d1dae94f527" kindref="member">StorageEngine::createDefault</ref>();</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(engine1-&gt;open(db_path1_).has_value());</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(engine2-&gt;open(db_path2_).has_value());</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Put<sp/>different<sp/>data<sp/>in<sp/>each</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(engine1-&gt;put(</highlight><highlight class="stringliteral">&quot;key1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;from_engine1&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(engine2-&gt;put(</highlight><highlight class="stringliteral">&quot;key2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;from_engine2&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Move<sp/>assign<sp/>engine1<sp/>into<sp/>engine2<sp/>(engine2&apos;s<sp/>old<sp/>db_path2<sp/>should<sp/>be<sp/>closed)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>engine2<sp/>=<sp/>std::move(engine1);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>engine2<sp/>should<sp/>now<sp/>have<sp/>engine1&apos;s<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine2-&gt;get(</highlight><highlight class="stringliteral">&quot;key1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.value(),<sp/></highlight><highlight class="stringliteral">&quot;from_engine1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>And<sp/>should<sp/>not<sp/>have<sp/>engine2&apos;s<sp/>old<sp/>data<sp/>anymore</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result2<sp/>=<sp/>engine2-&gt;get(</highlight><highlight class="stringliteral">&quot;key2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result2.has_value());<sp/></highlight><highlight class="comment">//<sp/>key2<sp/>is<sp/>in<sp/>db_path2,<sp/>not<sp/>db_path1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cleanup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>engine2-&gt;close();</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Moved-from<sp/>Object<sp/>State<sp/>Validity<sp/>(CWE-672<sp/>Remediation)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><ref refid="test__storage__engine__move__semantics_8cpp_1af5199f5fded5258f135ceca0c5efaec6" kindref="member">TEST_F</ref>(<ref refid="class_storage_engine_move_semantic_test" kindref="compound">StorageEngineMoveSemanticTest</ref>,<sp/>MovedFrom_ObjectInValidState)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>an<sp/>engine<sp/>and<sp/>open<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>engine1<sp/>=<sp/><ref refid="classthemis_1_1_storage_engine_1a0693d09f31d001e06bee6d1dae94f527" kindref="member">StorageEngine::createDefault</ref>();</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(engine1-&gt;open(db_path1_).has_value());</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(engine1-&gt;put(</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Move<sp/>construct:<sp/>engine1<sp/>should<sp/>still<sp/>be<sp/>in<sp/>a<sp/>valid<sp/>(though<sp/>unspecified)<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>engine2<sp/>=<sp/>std::move(engine1);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Calling<sp/>close()<sp/>on<sp/>moved-from<sp/>object<sp/>should<sp/>be<sp/>safe<sp/>(idempotent)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>shared_ptr<sp/>semantics<sp/>the<sp/>moved-from<sp/>pointer<sp/>may<sp/>be<sp/>null;<sp/>handle<sp/>both<sp/>cases.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(engine1)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({<sp/>engine1-&gt;close();<sp/>});</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SUCCEED()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;engine1<sp/>is<sp/>null<sp/>after<sp/>move<sp/>(shared_ptr);<sp/>nothing<sp/>to<sp/>close&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>engine2<sp/>should<sp/>still<sp/>work</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine2-&gt;get(</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cleanup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>engine2-&gt;close();</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Encrypt<sp/>Field<sp/>Vector<sp/>Return<sp/>Uses<sp/>Move<sp/>Semantics<sp/>(CWE-457<sp/>Remediation)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><ref refid="test__storage__engine__move__semantics_8cpp_1af5199f5fded5258f135ceca0c5efaec6" kindref="member">TEST_F</ref>(<ref refid="class_storage_engine_move_semantic_test" kindref="compound">StorageEngineMoveSemanticTest</ref>,<sp/>EncryptField_ReturnsVectorByMove)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>engine<sp/>=<sp/><ref refid="classthemis_1_1_storage_engine_1a0693d09f31d001e06bee6d1dae94f527" kindref="member">StorageEngine::createDefault</ref>();</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(engine-&gt;open(db_path1_).has_value());</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>plaintext<sp/>vector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>plaintext<sp/>=<sp/>{0x01,<sp/>0x02,<sp/>0x03,<sp/>0x04,<sp/>0x05};</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Encrypt<sp/>field<sp/>should<sp/>return<sp/>by<sp/>move<sp/>(no<sp/>unnecessary<sp/>copy)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ciphertext<sp/>=<sp/>engine-&gt;encrypt_field(</highlight><highlight class="stringliteral">&quot;test_field&quot;</highlight><highlight class="normal">,<sp/>plaintext);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>that<sp/>ciphertext<sp/>contains<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(ciphertext.empty());</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>With<sp/>default<sp/>(no-op)<sp/>encryption,<sp/>should<sp/>match<sp/>plaintext</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ciphertext.size(),<sp/>plaintext.size());</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cleanup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>engine-&gt;close();</highlight></codeline>
+<codeline lineno="152"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Decrypt<sp/>Field<sp/>Vector<sp/>Return<sp/>Uses<sp/>Move<sp/>Semantics<sp/>(CWE-457<sp/>Remediation)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><ref refid="test__storage__engine__move__semantics_8cpp_1af5199f5fded5258f135ceca0c5efaec6" kindref="member">TEST_F</ref>(<ref refid="class_storage_engine_move_semantic_test" kindref="compound">StorageEngineMoveSemanticTest</ref>,<sp/>DecryptField_ReturnsVectorByMove)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>engine<sp/>=<sp/><ref refid="classthemis_1_1_storage_engine_1a0693d09f31d001e06bee6d1dae94f527" kindref="member">StorageEngine::createDefault</ref>();</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(engine-&gt;open(db_path1_).has_value());</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>encrypted<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>ciphertext<sp/>=<sp/>{0x01,<sp/>0x02,<sp/>0x03,<sp/>0x04,<sp/>0x05};</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Decrypt<sp/>field<sp/>should<sp/>return<sp/>by<sp/>move<sp/>(no<sp/>unnecessary<sp/>copy)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plaintext<sp/>=<sp/>engine-&gt;decrypt_field(</highlight><highlight class="stringliteral">&quot;test_field&quot;</highlight><highlight class="normal">,<sp/>ciphertext);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>that<sp/>plaintext<sp/>contains<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(plaintext.empty());</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>With<sp/>default<sp/>(no-op)<sp/>encryption,<sp/>should<sp/>match<sp/>ciphertext</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(plaintext.size(),<sp/>ciphertext.size());</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cleanup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>engine-&gt;close();</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>IOMetrics<sp/>Return<sp/>Uses<sp/>Move<sp/>Semantics<sp/>(CWE-457<sp/>Remediation)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><ref refid="test__storage__engine__move__semantics_8cpp_1af5199f5fded5258f135ceca0c5efaec6" kindref="member">TEST_F</ref>(<ref refid="class_storage_engine_move_semantic_test" kindref="compound">StorageEngineMoveSemanticTest</ref>,<sp/>IOMetrics_ReturnsStructByMove)<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>engine<sp/>=<sp/><ref refid="classthemis_1_1_storage_engine_1a0693d09f31d001e06bee6d1dae94f527" kindref="member">StorageEngine::createDefault</ref>();</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(engine-&gt;open(db_path1_).has_value());</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Perform<sp/>some<sp/>I/O<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>engine-&gt;put(</highlight><highlight class="stringliteral">&quot;key_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/></highlight><highlight class="stringliteral">&quot;value_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>engine-&gt;get(</highlight><highlight class="stringliteral">&quot;key_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>metrics<sp/>(should<sp/>use<sp/>move<sp/>semantics)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>metrics<sp/>=<sp/>engine-&gt;ioMetrics();</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>metrics<sp/>are<sp/>populated</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(metrics.put_ops,<sp/>0);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(metrics.get_ops,<sp/>0);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.put_errors,<sp/>0);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.get_errors,<sp/>0);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cleanup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>engine-&gt;close();</highlight></codeline>
+<codeline lineno="203"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>ScanCounters<sp/>Return<sp/>Uses<sp/>Move<sp/>Semantics<sp/>(CWE-457<sp/>Remediation)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><ref refid="test__storage__engine__move__semantics_8cpp_1af5199f5fded5258f135ceca0c5efaec6" kindref="member">TEST_F</ref>(<ref refid="class_storage_engine_move_semantic_test" kindref="compound">StorageEngineMoveSemanticTest</ref>,<sp/>ScanCounters_ReturnsStructByMove)<sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>engine<sp/>=<sp/><ref refid="classthemis_1_1_storage_engine_1a0693d09f31d001e06bee6d1dae94f527" kindref="member">StorageEngine::createDefault</ref>();</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(engine-&gt;open(db_path1_).has_value());</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Populate<sp/>some<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>engine-&gt;put(</highlight><highlight class="stringliteral">&quot;key_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/></highlight><highlight class="stringliteral">&quot;value_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Perform<sp/>scan<sp/>operations<sp/>over<sp/>the<sp/>inserted<sp/>keys<sp/>using<sp/>prefix<sp/>scan</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(scanRange<sp/>with<sp/>empty<sp/>start/end<sp/>may<sp/>be<sp/>treated<sp/>as<sp/>empty<sp/>range<sp/>by<sp/>backend)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>engine-&gt;scanPrefix(</highlight><highlight class="stringliteral">&quot;key_&quot;</highlight><highlight class="normal">,<sp/>[](std::string_view,<sp/>std::string_view)<sp/>{</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>scan<sp/>counters<sp/>(should<sp/>use<sp/>move<sp/>semantics)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>counters<sp/>=<sp/>engine-&gt;scanCounters();</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>counters<sp/>are<sp/>populated</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(counters.scan_calls,<sp/>0);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(counters.keys_examined,<sp/>0);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cleanup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>engine-&gt;close();</highlight></codeline>
+<codeline lineno="233"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>No<sp/>Copy<sp/>Operations<sp/>(Deleted<sp/>Copy<sp/>Constructor)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><ref refid="test__storage__engine__move__semantics_8cpp_1af5199f5fded5258f135ceca0c5efaec6" kindref="member">TEST_F</ref>(<ref refid="class_storage_engine_move_semantic_test" kindref="compound">StorageEngineMoveSemanticTest</ref>,<sp/>CopyConstructor_IsDeleted)<sp/>{</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>verifies<sp/>that<sp/>copy<sp/>operations<sp/>are<sp/>explicitly<sp/>deleted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Attempting<sp/>to<sp/>copy<sp/>should<sp/>result<sp/>in<sp/>a<sp/>compile<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(We<sp/>can&apos;t<sp/>test<sp/>this<sp/>directly<sp/>in<sp/>a<sp/>runtime<sp/>test,<sp/>but<sp/>this<sp/>documents<sp/>the<sp/>intent)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>engine<sp/>=<sp/><ref refid="classthemis_1_1_storage_engine_1a0693d09f31d001e06bee6d1dae94f527" kindref="member">StorageEngine::createDefault</ref>();</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>following<sp/>would<sp/>be<sp/>a<sp/>compile<sp/>error:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>auto<sp/>engine_copy<sp/>=<sp/>engine;<sp/><sp/>//<sp/>ERROR:<sp/>copy<sp/>constructor<sp/>is<sp/>deleted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>is<sp/>intentional<sp/>to<sp/>prevent<sp/>accidental<sp/>copying<sp/>of<sp/>injected<sp/>dependencies</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>the<sp/>engine<sp/>is<sp/>move-constructible<sp/>instead</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>engine_moved<sp/>=<sp/>std::move(engine);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(&amp;engine_moved,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Return<sp/>Value<sp/>Optimization<sp/>(RVO)<sp/>-<sp/>Multiple<sp/>Returns</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><ref refid="test__storage__engine__move__semantics_8cpp_1af5199f5fded5258f135ceca0c5efaec6" kindref="member">TEST_F</ref>(<ref refid="class_storage_engine_move_semantic_test" kindref="compound">StorageEngineMoveSemanticTest</ref>,<sp/>MultipleMetricsReturns_NoDoubleFreeSS)<sp/>{</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>engine<sp/>=<sp/><ref refid="classthemis_1_1_storage_engine_1a0693d09f31d001e06bee6d1dae94f527" kindref="member">StorageEngine::createDefault</ref>();</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(engine-&gt;open(db_path1_).has_value());</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Perform<sp/>multiple<sp/>I/O<sp/>operations<sp/>to<sp/>generate<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>engine-&gt;put(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/></highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Call<sp/>ioMetrics<sp/>multiple<sp/>times<sp/>(tests<sp/>no<sp/>double-free<sp/>on<sp/>repeated<sp/>moves)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>metrics<sp/>=<sp/>engine-&gt;ioMetrics();</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(metrics.put_ops,<sp/>10);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Call<sp/>scanCounters<sp/>multiple<sp/>times</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>counters<sp/>=<sp/>engine-&gt;scanCounters();</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>be<sp/>valid<sp/>even<sp/>if<sp/>called<sp/>multiple<sp/>times</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(counters.keys_examined,<sp/>0);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cleanup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>engine-&gt;close();</highlight></codeline>
+<codeline lineno="283"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/storage/test_storage_engine_move_semantics.cpp"/>
+  </compounddef>
+</doxygen>

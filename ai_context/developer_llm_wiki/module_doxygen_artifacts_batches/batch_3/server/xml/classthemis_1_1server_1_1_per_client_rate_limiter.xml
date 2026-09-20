@@ -1,0 +1,278 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_per_client_rate_limiter" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::PerClientRateLimiter</compoundname>
+    <includes refid="rate__limiter__v2_8h" local="no">rate_limiter_v2.h</includes>
+    <innerclass refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_config" prot="public">themis::server::PerClientRateLimiter::Config</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_client_metrics" prot="public">themis::server::PerClientRateLimiter::ClientMetrics</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_client_bucket" prot="private">themis::server::PerClientRateLimiter::ClientBucket</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_per_client_rate_limiter_1aaa1d774c5407aac3e62d091fe3a48a27" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::server::PerClientRateLimiter::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::server::PerClientRateLimiter::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter_v2.h" line="316" column="12" bodyfile="include/server/rate_limiter_v2.h" bodystart="316" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_per_client_rate_limiter_1aa5e32db92016da50aa9b9f5942d6feb3" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::server::PerClientRateLimiter::clients_mutex_</definition>
+        <argsstring></argsstring>
+        <name>clients_mutex_</name>
+        <qualifiedname>themis::server::PerClientRateLimiter::clients_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter_v2.h" line="317" column="24" bodyfile="include/server/rate_limiter_v2.h" bodystart="317" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_per_client_rate_limiter_1a8a448954d86d2521fc88f43bda3a8559" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unique_ptr&lt; ClientBucket &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unique_ptr&lt;ClientBucket&gt; &gt; themis::server::PerClientRateLimiter::client_buckets_</definition>
+        <argsstring></argsstring>
+        <name>client_buckets_</name>
+        <qualifiedname>themis::server::PerClientRateLimiter::client_buckets_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter_v2.h" line="318" column="24" bodyfile="include/server/rate_limiter_v2.h" bodystart="318" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_per_client_rate_limiter_1a41f403d398f9416f9434d86d7bd30a34" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::server::PerClientRateLimiter::last_cleanup_</definition>
+        <argsstring></argsstring>
+        <name>last_cleanup_</name>
+        <qualifiedname>themis::server::PerClientRateLimiter::last_cleanup_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter_v2.h" line="319" column="43" bodyfile="include/server/rate_limiter_v2.h" bodystart="319" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_per_client_rate_limiter_1a508eaf3aadd20d53927302086cb196d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::PerClientRateLimiter::PerClientRateLimiter</definition>
+        <argsstring>()</argsstring>
+        <name>PerClientRateLimiter</name>
+        <qualifiedname>themis::server::PerClientRateLimiter::PerClientRateLimiter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter_v2.h" line="271" column="5" bodyfile="src/server/rate_limiter_v2.cpp" bodystart="567" bodyend="569"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_per_client_rate_limiter_1af41d8a9a8d8e6f651f19461ca587bdb6" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::PerClientRateLimiter::PerClientRateLimiter</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>PerClientRateLimiter</name>
+        <qualifiedname>themis::server::PerClientRateLimiter::PerClientRateLimiter</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Per Client Rate Limiter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter_v2.h" line="277" column="14" bodyfile="src/server/rate_limiter_v2.cpp" bodystart="571" bodyend="575"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_per_client_rate_limiter_1a7a4ee5cd8044a07bc73b87cbb081fe28" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::PerClientRateLimiter::allowRequest</definition>
+        <argsstring>(const std::string &amp;client_id, size_t tokens=1, TokenBucketRateLimiter::Priority prio=TokenBucketRateLimiter::Priority::NORMAL)</argsstring>
+        <name>allowRequest</name>
+        <qualifiedname>themis::server::PerClientRateLimiter::allowRequest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>client_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>tokens</declname>
+          <defval>1</defval>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a558a118ef3331b52863fa40bf5daab47" kindref="member">TokenBucketRateLimiter::Priority</ref></type>
+          <declname>prio</declname>
+          <defval><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a558a118ef3331b52863fa40bf5daab47a1e23852820b9154316c7c06e2b7ba051" kindref="member">TokenBucketRateLimiter::Priority::NORMAL</ref></defval>
+        </param>
+        <briefdescription>
+<para>Allow <ref refid="structthemis_1_1server_1_1_request" kindref="compound">Request</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">client_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the client. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prio</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), <ref refid="classthemis_1_1server_1_1_per_client_rate_limiter_1a87a29c0bcb2bd629dcef882fa9567fe9" kindref="member">cleanupIdleClients()</ref>, lock(), find(), end(), size(), THEMIS_WARN(), emplace(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter_v2.h" line="279" column="10" bodyfile="src/server/rate_limiter_v2.cpp" bodystart="585" bodyend="637"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_per_client_rate_limiter_1a7c269e1b357c1c56a88481f490d797c3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_client_metrics" kindref="compound">ClientMetrics</ref></type>
+        <definition>PerClientRateLimiter::ClientMetrics themis::server::PerClientRateLimiter::getClientMetrics</definition>
+        <argsstring>(const std::string &amp;client_id) const</argsstring>
+        <name>getClientMetrics</name>
+        <qualifiedname>themis::server::PerClientRateLimiter::getClientMetrics</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>client_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Client Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">client_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the client. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">clients_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/rate_limiter_v2.h" line="295" column="19" bodyfile="src/server/rate_limiter_v2.cpp" bodystart="640" bodyend="659"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_per_client_rate_limiter_1afc391724555a83e110d50809348f3b99" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::server::PerClientRateLimiter::getActiveClients</definition>
+        <argsstring>() const</argsstring>
+        <name>getActiveClients</name>
+        <qualifiedname>themis::server::PerClientRateLimiter::getActiveClients</qualifiedname>
+        <briefdescription>
+<para>Get Active Clients. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">clients_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/rate_limiter_v2.h" line="301" column="12" bodyfile="src/server/rate_limiter_v2.cpp" bodystart="661" bodyend="669"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_per_client_rate_limiter_1a87a29c0bcb2bd629dcef882fa9567fe9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::PerClientRateLimiter::cleanupIdleClients</definition>
+        <argsstring>()</argsstring>
+        <name>cleanupIdleClients</name>
+        <qualifiedname>themis::server::PerClientRateLimiter::cleanupIdleClients</qualifiedname>
+        <briefdescription>
+<para>Cleanup Idle Clients. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), std::chrono::steady_clock::now(), std::chrono::minutes(), begin(), end(), THEMIS_DEBUG(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter_v2.h" line="306" column="10" bodyfile="src/server/rate_limiter_v2.cpp" bodystart="675" bodyend="689"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/rate_limiter_v2.h" line="251" column="1" bodyfile="include/server/rate_limiter_v2.h" bodystart="251" bodyend="320"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_per_client_rate_limiter_1a7a4ee5cd8044a07bc73b87cbb081fe28" prot="public" virt="non-virtual"><scope>themis::server::PerClientRateLimiter</scope><name>allowRequest</name></member>
+      <member refid="classthemis_1_1server_1_1_per_client_rate_limiter_1a87a29c0bcb2bd629dcef882fa9567fe9" prot="public" virt="non-virtual"><scope>themis::server::PerClientRateLimiter</scope><name>cleanupIdleClients</name></member>
+      <member refid="classthemis_1_1server_1_1_per_client_rate_limiter_1a8a448954d86d2521fc88f43bda3a8559" prot="private" virt="non-virtual"><scope>themis::server::PerClientRateLimiter</scope><name>client_buckets_</name></member>
+      <member refid="classthemis_1_1server_1_1_per_client_rate_limiter_1aa5e32db92016da50aa9b9f5942d6feb3" prot="private" virt="non-virtual"><scope>themis::server::PerClientRateLimiter</scope><name>clients_mutex_</name></member>
+      <member refid="classthemis_1_1server_1_1_per_client_rate_limiter_1aaa1d774c5407aac3e62d091fe3a48a27" prot="private" virt="non-virtual"><scope>themis::server::PerClientRateLimiter</scope><name>config_</name></member>
+      <member refid="classthemis_1_1server_1_1_per_client_rate_limiter_1afc391724555a83e110d50809348f3b99" prot="public" virt="non-virtual"><scope>themis::server::PerClientRateLimiter</scope><name>getActiveClients</name></member>
+      <member refid="classthemis_1_1server_1_1_per_client_rate_limiter_1a7c269e1b357c1c56a88481f490d797c3" prot="public" virt="non-virtual"><scope>themis::server::PerClientRateLimiter</scope><name>getClientMetrics</name></member>
+      <member refid="classthemis_1_1server_1_1_per_client_rate_limiter_1a41f403d398f9416f9434d86d7bd30a34" prot="private" virt="non-virtual"><scope>themis::server::PerClientRateLimiter</scope><name>last_cleanup_</name></member>
+      <member refid="classthemis_1_1server_1_1_per_client_rate_limiter_1a508eaf3aadd20d53927302086cb196d5" prot="public" virt="non-virtual"><scope>themis::server::PerClientRateLimiter</scope><name>PerClientRateLimiter</name></member>
+      <member refid="classthemis_1_1server_1_1_per_client_rate_limiter_1af41d8a9a8d8e6f651f19461ca587bdb6" prot="public" virt="non-virtual"><scope>themis::server::PerClientRateLimiter</scope><name>PerClientRateLimiter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

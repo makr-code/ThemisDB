@@ -1,0 +1,321 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_k_v_cache_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::KVCacheStats</compoundname>
+    <includes refid="paged__kv__cache_8h" local="no">paged_kv_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a910d1eef31afcaf2efeedaa3c0ea3d49" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::KVCacheStats::total_blocks</definition>
+        <argsstring></argsstring>
+        <name>total_blocks</name>
+        <qualifiedname>themisdb::sharding::KVCacheStats::total_blocks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="123" column="14" bodyfile="include/sharding/paged_kv_cache.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a4d9edb7c8920388965c6904f76e9863e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::KVCacheStats::used_blocks</definition>
+        <argsstring></argsstring>
+        <name>used_blocks</name>
+        <qualifiedname>themisdb::sharding::KVCacheStats::used_blocks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="124" column="14" bodyfile="include/sharding/paged_kv_cache.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a8519853fb27797416d8421cf85437281" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::KVCacheStats::free_blocks</definition>
+        <argsstring></argsstring>
+        <name>free_blocks</name>
+        <qualifiedname>themisdb::sharding::KVCacheStats::free_blocks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="125" column="14" bodyfile="include/sharding/paged_kv_cache.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a9c633de4fa55f695a874ac52dd6feb5a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::KVCacheStats::reserved_blocks</definition>
+        <argsstring></argsstring>
+        <name>reserved_blocks</name>
+        <qualifiedname>themisdb::sharding::KVCacheStats::reserved_blocks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="126" column="14" bodyfile="include/sharding/paged_kv_cache.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a38b605ee8fbf899a7d6e89f4812e0a0d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::KVCacheStats::total_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_memory_bytes</name>
+        <qualifiedname>themisdb::sharding::KVCacheStats::total_memory_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="129" column="12" bodyfile="include/sharding/paged_kv_cache.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a8b3b5984a3e8edb38d6b3104dc807bc8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::KVCacheStats::used_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>used_memory_bytes</name>
+        <qualifiedname>themisdb::sharding::KVCacheStats::used_memory_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="130" column="12" bodyfile="include/sharding/paged_kv_cache.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a3982864460ead518260be6680d29174d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::KVCacheStats::free_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>free_memory_bytes</name>
+        <qualifiedname>themisdb::sharding::KVCacheStats::free_memory_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="131" column="12" bodyfile="include/sharding/paged_kv_cache.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a12d7c64621cee4eddcc61f595e1d4cbb" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::KVCacheStats::utilization</definition>
+        <argsstring></argsstring>
+        <name>utilization</name>
+        <qualifiedname>themisdb::sharding::KVCacheStats::utilization</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="132" column="12" bodyfile="include/sharding/paged_kv_cache.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1aa803ac39926f06d254a9c3452a72d1b3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::KVCacheStats::active_requests</definition>
+        <argsstring></argsstring>
+        <name>active_requests</name>
+        <qualifiedname>themisdb::sharding::KVCacheStats::active_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="135" column="14" bodyfile="include/sharding/paged_kv_cache.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a37a14c53d600b04f7d4d1d8f58bb82a4" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::KVCacheStats::total_requests</definition>
+        <argsstring></argsstring>
+        <name>total_requests</name>
+        <qualifiedname>themisdb::sharding::KVCacheStats::total_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="136" column="14" bodyfile="include/sharding/paged_kv_cache.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a92936f09b8e968a157c92dc0a10bce12" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::KVCacheStats::cache_hits</definition>
+        <argsstring></argsstring>
+        <name>cache_hits</name>
+        <qualifiedname>themisdb::sharding::KVCacheStats::cache_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="139" column="14" bodyfile="include/sharding/paged_kv_cache.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a30535e1b441ca8eb5e1816e4ea49f368" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::KVCacheStats::cache_misses</definition>
+        <argsstring></argsstring>
+        <name>cache_misses</name>
+        <qualifiedname>themisdb::sharding::KVCacheStats::cache_misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="140" column="14" bodyfile="include/sharding/paged_kv_cache.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a0282f78fe505ef4650d9a946c673cd55" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::KVCacheStats::blocks_evicted</definition>
+        <argsstring></argsstring>
+        <name>blocks_evicted</name>
+        <qualifiedname>themisdb::sharding::KVCacheStats::blocks_evicted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="141" column="14" bodyfile="include/sharding/paged_kv_cache.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a95f0e01fc59c1e1426f67cdb58fcce44" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::KVCacheStats::blocks_allocated</definition>
+        <argsstring></argsstring>
+        <name>blocks_allocated</name>
+        <qualifiedname>themisdb::sharding::KVCacheStats::blocks_allocated</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="142" column="14" bodyfile="include/sharding/paged_kv_cache.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1ad768823cde2b86054a6ca5af72cf259e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::KVCacheStats::blocks_freed</definition>
+        <argsstring></argsstring>
+        <name>blocks_freed</name>
+        <qualifiedname>themisdb::sharding::KVCacheStats::blocks_freed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="143" column="14" bodyfile="include/sharding/paged_kv_cache.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1ac6a9fbcfb9fc867ca903784aa4dd1efc" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::KVCacheStats::allocation_failures</definition>
+        <argsstring></argsstring>
+        <name>allocation_failures</name>
+        <qualifiedname>themisdb::sharding::KVCacheStats::allocation_failures</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="146" column="14" bodyfile="include/sharding/paged_kv_cache.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1ab362798e4ff1d6452f53d0823868b3ce" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::KVCacheStats::eviction_failures</definition>
+        <argsstring></argsstring>
+        <name>eviction_failures</name>
+        <qualifiedname>themisdb::sharding::KVCacheStats::eviction_failures</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="147" column="14" bodyfile="include/sharding/paged_kv_cache.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1ac94188d9a2438b262b0c9e1e1f34d199" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themisdb::sharding::KVCacheStats::cache_hit_rate</definition>
+        <argsstring>() const</argsstring>
+        <name>cache_hit_rate</name>
+        <qualifiedname>themisdb::sharding::KVCacheStats::cache_hit_rate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="149" column="12" bodyfile="include/sharding/paged_kv_cache.h" bodystart="149" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a1ac808e8687cffc79b8fa1d6358b8297" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::sharding::KVCacheStats::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themisdb::sharding::KVCacheStats::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paged_kv_cache.h" line="154" column="20" bodyfile="include/sharding/paged_kv_cache.h" bodystart="154" bodyend="175"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>KV Cache statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/paged_kv_cache.h" line="121" column="1" bodyfile="include/sharding/paged_kv_cache.h" bodystart="121" bodyend="176"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1aa803ac39926f06d254a9c3452a72d1b3" prot="public" virt="non-virtual"><scope>themisdb::sharding::KVCacheStats</scope><name>active_requests</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1ac6a9fbcfb9fc867ca903784aa4dd1efc" prot="public" virt="non-virtual"><scope>themisdb::sharding::KVCacheStats</scope><name>allocation_failures</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a95f0e01fc59c1e1426f67cdb58fcce44" prot="public" virt="non-virtual"><scope>themisdb::sharding::KVCacheStats</scope><name>blocks_allocated</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a0282f78fe505ef4650d9a946c673cd55" prot="public" virt="non-virtual"><scope>themisdb::sharding::KVCacheStats</scope><name>blocks_evicted</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1ad768823cde2b86054a6ca5af72cf259e" prot="public" virt="non-virtual"><scope>themisdb::sharding::KVCacheStats</scope><name>blocks_freed</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1ac94188d9a2438b262b0c9e1e1f34d199" prot="public" virt="non-virtual"><scope>themisdb::sharding::KVCacheStats</scope><name>cache_hit_rate</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a92936f09b8e968a157c92dc0a10bce12" prot="public" virt="non-virtual"><scope>themisdb::sharding::KVCacheStats</scope><name>cache_hits</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a30535e1b441ca8eb5e1816e4ea49f368" prot="public" virt="non-virtual"><scope>themisdb::sharding::KVCacheStats</scope><name>cache_misses</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1ab362798e4ff1d6452f53d0823868b3ce" prot="public" virt="non-virtual"><scope>themisdb::sharding::KVCacheStats</scope><name>eviction_failures</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a8519853fb27797416d8421cf85437281" prot="public" virt="non-virtual"><scope>themisdb::sharding::KVCacheStats</scope><name>free_blocks</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a3982864460ead518260be6680d29174d" prot="public" virt="non-virtual"><scope>themisdb::sharding::KVCacheStats</scope><name>free_memory_bytes</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a9c633de4fa55f695a874ac52dd6feb5a" prot="public" virt="non-virtual"><scope>themisdb::sharding::KVCacheStats</scope><name>reserved_blocks</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a1ac808e8687cffc79b8fa1d6358b8297" prot="public" virt="non-virtual"><scope>themisdb::sharding::KVCacheStats</scope><name>toJson</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a910d1eef31afcaf2efeedaa3c0ea3d49" prot="public" virt="non-virtual"><scope>themisdb::sharding::KVCacheStats</scope><name>total_blocks</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a38b605ee8fbf899a7d6e89f4812e0a0d" prot="public" virt="non-virtual"><scope>themisdb::sharding::KVCacheStats</scope><name>total_memory_bytes</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a37a14c53d600b04f7d4d1d8f58bb82a4" prot="public" virt="non-virtual"><scope>themisdb::sharding::KVCacheStats</scope><name>total_requests</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a4d9edb7c8920388965c6904f76e9863e" prot="public" virt="non-virtual"><scope>themisdb::sharding::KVCacheStats</scope><name>used_blocks</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a8b3b5984a3e8edb38d6b3104dc807bc8" prot="public" virt="non-virtual"><scope>themisdb::sharding::KVCacheStats</scope><name>used_memory_bytes</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_k_v_cache_stats_1a12d7c64621cee4eddcc61f595e1d4cbb" prot="public" virt="non-virtual"><scope>themisdb::sharding::KVCacheStats</scope><name>utilization</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

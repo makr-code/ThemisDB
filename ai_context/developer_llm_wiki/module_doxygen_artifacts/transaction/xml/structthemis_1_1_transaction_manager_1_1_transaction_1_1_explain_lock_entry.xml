@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_transaction_manager_1_1_transaction_1_1_explain_lock_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TransactionManager::Transaction::ExplainLockEntry</compoundname>
+    <includes refid="transaction__manager_8h" local="no">transaction_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_transaction_1_1_explain_lock_entry_1a6c216b5c60250a225bc2d284b1f8b287" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TransactionManager::Transaction::ExplainLockEntry::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::TransactionManager::Transaction::ExplainLockEntry::key</qualifiedname>
+        <briefdescription>
+<para>Storage key that is locked. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="360" column="25" bodyfile="include/transaction/transaction_manager.h" bodystart="360" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_transaction_1_1_explain_lock_entry_1a8647a3ad2305bed06656793915bb8c0a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TransactionManager::Transaction::ExplainLockEntry::lock_type</definition>
+        <argsstring></argsstring>
+        <name>lock_type</name>
+        <qualifiedname>themis::TransactionManager::Transaction::ExplainLockEntry::lock_type</qualifiedname>
+        <briefdescription>
+<para>&quot;SHARED&quot;, &quot;EXCLUSIVE&quot;, &quot;INTENT_SHARED&quot;, or &quot;INTENT_EXCLUSIVE&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="361" column="25" bodyfile="include/transaction/transaction_manager.h" bodystart="361" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/transaction_manager.h" line="359" column="9" bodyfile="include/transaction/transaction_manager.h" bodystart="359" bodyend="362"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_transaction_manager_1_1_transaction_1_1_explain_lock_entry_1a6c216b5c60250a225bc2d284b1f8b287" prot="public" virt="non-virtual"><scope>themis::TransactionManager::Transaction::ExplainLockEntry</scope><name>key</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_transaction_1_1_explain_lock_entry_1a8647a3ad2305bed06656793915bb8c0a" prot="public" virt="non-virtual"><scope>themis::TransactionManager::Transaction::ExplainLockEntry</scope><name>lock_type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,254 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_memory_pressure_monitor" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::MemoryPressureMonitor</compoundname>
+    <includes refid="gpu__safe__fail_8h" local="no">gpu_safe_fail.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_memory_pressure_monitor_1_1_memory_status" prot="public">themis::llm::MemoryPressureMonitor::MemoryStatus</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1llm_1_1_memory_pressure_monitor_1acd2dd8537632416a8d0496a463af5eaf" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>PressureLevel</name>
+        <qualifiedname>themis::llm::MemoryPressureMonitor::PressureLevel</qualifiedname>
+        <enumvalue id="classthemis_1_1llm_1_1_memory_pressure_monitor_1acd2dd8537632416a8d0496a463af5eafa1e23852820b9154316c7c06e2b7ba051" prot="public">
+          <name>NORMAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1_memory_pressure_monitor_1acd2dd8537632416a8d0496a463af5eafa5137485eff3ff278d233d993c8539599" prot="public">
+          <name>MODERATE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1_memory_pressure_monitor_1acd2dd8537632416a8d0496a463af5eafab89de3b4b81c4facfac906edf29aec8c" prot="public">
+          <name>HIGH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1_memory_pressure_monitor_1acd2dd8537632416a8d0496a463af5eafa99cd1c61610c76a57cb8d10d6df6b870" prot="public">
+          <name>CRITICAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_safe_fail.h" line="241" column="5" bodyfile="include/llm/gpu_safe_fail.h" bodystart="241" bodyend="246"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_memory_pressure_monitor_1aab9984fdc853d923c43aa2bd60599e1a" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::MemoryPressureMonitor::total_memory_bytes_</definition>
+        <argsstring></argsstring>
+        <name>total_memory_bytes_</name>
+        <qualifiedname>themis::llm::MemoryPressureMonitor::total_memory_bytes_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_safe_fail.h" line="292" column="12" bodyfile="include/llm/gpu_safe_fail.h" bodystart="292" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_memory_pressure_monitor_1aeff3589584c415fa7ca88a626d9d4170" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::llm::MemoryPressureMonitor::used_memory_bytes_</definition>
+        <argsstring></argsstring>
+        <name>used_memory_bytes_</name>
+        <qualifiedname>themis::llm::MemoryPressureMonitor::used_memory_bytes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_safe_fail.h" line="293" column="17" bodyfile="include/llm/gpu_safe_fail.h" bodystart="293" bodyend="293"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_memory_pressure_monitor_1a532350758d1e41db6ebef6a309aa13ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::MemoryPressureMonitor::~MemoryPressureMonitor</definition>
+        <argsstring>()=default</argsstring>
+        <name>~MemoryPressureMonitor</name>
+        <qualifiedname>themis::llm::MemoryPressureMonitor::~MemoryPressureMonitor</qualifiedname>
+        <briefdescription>
+<para>Memory Pressure Monitor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_safe_fail.h" line="240" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_memory_pressure_monitor_1a483212160f464368d3227c01b3b77dc2" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::MemoryPressureMonitor::MemoryPressureMonitor</definition>
+        <argsstring>(size_t total_memory_bytes)</argsstring>
+        <name>MemoryPressureMonitor</name>
+        <qualifiedname>themis::llm::MemoryPressureMonitor::MemoryPressureMonitor</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>total_memory_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Memory Pressure Monitor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">total_memory_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_safe_fail.h" line="263" column="14" bodyfile="src/llm/gpu_safe_fail.cpp" bodystart="416" bodyend="420"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_memory_pressure_monitor_1a26ea54062506b593e82da016308ab419" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::MemoryPressureMonitor::updateUsage</definition>
+        <argsstring>(size_t used_bytes)</argsstring>
+        <name>updateUsage</name>
+        <qualifiedname>themis::llm::MemoryPressureMonitor::updateUsage</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>used_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Update current memory usage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Usage.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">used_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">used_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_safe_fail.h" line="269" column="10" bodyfile="src/llm/gpu_safe_fail.cpp" bodystart="427" bodyend="429"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_memory_pressure_monitor_1a90cd851161c55f05ef94cd67b10d1389" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_memory_pressure_monitor_1_1_memory_status" kindref="compound">MemoryStatus</ref></type>
+        <definition>MemoryPressureMonitor::MemoryStatus themis::llm::MemoryPressureMonitor::getStatus</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatus</name>
+        <qualifiedname>themis::llm::MemoryPressureMonitor::getStatus</qualifiedname>
+        <briefdescription>
+<para>Get current memory status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_safe_fail.h" line="275" column="18" bodyfile="src/llm/gpu_safe_fail.cpp" bodystart="431" bodyend="461"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_memory_pressure_monitor_1a448a9f399361f355ec40b5903d1eca30" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::MemoryPressureMonitor::canAllocate</definition>
+        <argsstring>(size_t bytes) const</argsstring>
+        <name>canAllocate</name>
+        <qualifiedname>themis::llm::MemoryPressureMonitor::canAllocate</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Check if allocation would succeed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_safe_fail.h" line="282" column="10" bodyfile="src/llm/gpu_safe_fail.cpp" bodystart="463" bodyend="490"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_memory_pressure_monitor_1a926f001d0a6336aca60a2f2fc64f8da6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::MemoryPressureMonitor::getRecommendedAction</definition>
+        <argsstring>() const</argsstring>
+        <name>getRecommendedAction</name>
+        <qualifiedname>themis::llm::MemoryPressureMonitor::getRecommendedAction</qualifiedname>
+        <briefdescription>
+<para>Get Recommended Action. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_safe_fail.h" line="289" column="17" bodyfile="src/llm/gpu_safe_fail.cpp" bodystart="492" bodyend="507"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/gpu_safe_fail.h" line="234" column="1" bodyfile="include/llm/gpu_safe_fail.h" bodystart="234" bodyend="296"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_memory_pressure_monitor_1a448a9f399361f355ec40b5903d1eca30" prot="public" virt="non-virtual"><scope>themis::llm::MemoryPressureMonitor</scope><name>canAllocate</name></member>
+      <member refid="classthemis_1_1llm_1_1_memory_pressure_monitor_1a926f001d0a6336aca60a2f2fc64f8da6" prot="public" virt="non-virtual"><scope>themis::llm::MemoryPressureMonitor</scope><name>getRecommendedAction</name></member>
+      <member refid="classthemis_1_1llm_1_1_memory_pressure_monitor_1a90cd851161c55f05ef94cd67b10d1389" prot="public" virt="non-virtual"><scope>themis::llm::MemoryPressureMonitor</scope><name>getStatus</name></member>
+      <member refid="classthemis_1_1llm_1_1_memory_pressure_monitor_1a483212160f464368d3227c01b3b77dc2" prot="public" virt="non-virtual"><scope>themis::llm::MemoryPressureMonitor</scope><name>MemoryPressureMonitor</name></member>
+      <member refid="classthemis_1_1llm_1_1_memory_pressure_monitor_1acd2dd8537632416a8d0496a463af5eaf" prot="public" virt="non-virtual"><scope>themis::llm::MemoryPressureMonitor</scope><name>PressureLevel</name></member>
+      <member refid="classthemis_1_1llm_1_1_memory_pressure_monitor_1aab9984fdc853d923c43aa2bd60599e1a" prot="private" virt="non-virtual"><scope>themis::llm::MemoryPressureMonitor</scope><name>total_memory_bytes_</name></member>
+      <member refid="classthemis_1_1llm_1_1_memory_pressure_monitor_1a26ea54062506b593e82da016308ab419" prot="public" virt="non-virtual"><scope>themis::llm::MemoryPressureMonitor</scope><name>updateUsage</name></member>
+      <member refid="classthemis_1_1llm_1_1_memory_pressure_monitor_1aeff3589584c415fa7ca88a626d9d4170" prot="private" virt="non-virtual"><scope>themis::llm::MemoryPressureMonitor</scope><name>used_memory_bytes_</name></member>
+      <member refid="classthemis_1_1llm_1_1_memory_pressure_monitor_1a532350758d1e41db6ebef6a309aa13ab" prot="public" virt="virtual"><scope>themis::llm::MemoryPressureMonitor</scope><name>~MemoryPressureMonitor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

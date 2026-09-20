@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_4613d3c00635767f24970a537180c0cf" kind="dir">
+    <compoundname>include/performance/phase4</compoundname>
+    <innerfile refid="phase4_2feature__flags_8h">feature_flags.h</innerfile>
+    <innerfile refid="io__uring__zero__copy_8h">io_uring_zero_copy.h</innerfile>
+    <innerfile refid="pmem__storage_8h">pmem_storage.h</innerfile>
+    <innerfile refid="pmu__counters_8h">pmu_counters.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/phase4/"/>
+  </compounddef>
+</doxygen>

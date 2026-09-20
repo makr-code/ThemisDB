@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_vector_index_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::VectorIndexConfig</compoundname>
+    <includes refid="vector__index__backend_8h" local="no">vector_index_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_vector_index_config_1aa3e5e167a6b9723dfe5f8f23fff5ce90" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::storage::VectorIndexConfig::dim</definition>
+        <argsstring></argsstring>
+        <name>dim</name>
+        <qualifiedname>themis::storage::VectorIndexConfig::dim</qualifiedname>
+        <initializer>= 128</initializer>
+        <briefdescription>
+<para>Embedding dimensionality. Must be &gt; 0. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/vector_index_backend.h" line="49" column="17" bodyfile="include/storage/vector_index_backend.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_vector_index_config_1ae3b546a71293d880ce3a8643d6c5ef9b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1storage_1a14ccd13be69b5b4515e68e290815df3e" kindref="member">DistanceMetric</ref></type>
+        <definition>DistanceMetric themis::storage::VectorIndexConfig::metric</definition>
+        <argsstring></argsstring>
+        <name>metric</name>
+        <qualifiedname>themis::storage::VectorIndexConfig::metric</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1storage_1a14ccd13be69b5b4515e68e290815df3ea7e6aa2d53f6ee2b1a34b017fa403cb76" kindref="member">DistanceMetric::L2</ref></initializer>
+        <briefdescription>
+<para>Distance metric to use for similarity search. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/vector_index_backend.h" line="52" column="20" bodyfile="include/storage/vector_index_backend.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_vector_index_config_1a4d367db5b8992e2df49be7fca41f87bb" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::storage::VectorIndexConfig::max_elements</definition>
+        <argsstring></argsstring>
+        <name>max_elements</name>
+        <qualifiedname>themis::storage::VectorIndexConfig::max_elements</qualifiedname>
+        <initializer>= 100&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of elements the index is expected to hold (hint). Backends may grow beyond this; it is used for pre-allocation. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/vector_index_backend.h" line="56" column="17" bodyfile="include/storage/vector_index_backend.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_vector_index_config_1adbef8ddb6af7ae16b7c777bba8dbbca3" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::storage::VectorIndexConfig::hnsw_M</definition>
+        <argsstring></argsstring>
+        <name>hnsw_M</name>
+        <qualifiedname>themis::storage::VectorIndexConfig::hnsw_M</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>HNSW-class parameter M — controls graph connectivity (default 16). Ignored by backends that do not use HNSW. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/vector_index_backend.h" line="60" column="17" bodyfile="include/storage/vector_index_backend.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_vector_index_config_1abcc6d3374be8a8df9135d9ddd0085328" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::storage::VectorIndexConfig::hnsw_ef_construction</definition>
+        <argsstring></argsstring>
+        <name>hnsw_ef_construction</name>
+        <qualifiedname>themis::storage::VectorIndexConfig::hnsw_ef_construction</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>HNSW-class construction-time ef parameter (default 200). Higher values improve recall at the cost of build time. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/vector_index_backend.h" line="64" column="17" bodyfile="include/storage/vector_index_backend.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Construction parameters for a vector index backend. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/vector_index_backend.h" line="47" column="1" bodyfile="include/storage/vector_index_backend.h" bodystart="47" bodyend="65"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_vector_index_config_1aa3e5e167a6b9723dfe5f8f23fff5ce90" prot="public" virt="non-virtual"><scope>themis::storage::VectorIndexConfig</scope><name>dim</name></member>
+      <member refid="structthemis_1_1storage_1_1_vector_index_config_1abcc6d3374be8a8df9135d9ddd0085328" prot="public" virt="non-virtual"><scope>themis::storage::VectorIndexConfig</scope><name>hnsw_ef_construction</name></member>
+      <member refid="structthemis_1_1storage_1_1_vector_index_config_1adbef8ddb6af7ae16b7c777bba8dbbca3" prot="public" virt="non-virtual"><scope>themis::storage::VectorIndexConfig</scope><name>hnsw_M</name></member>
+      <member refid="structthemis_1_1storage_1_1_vector_index_config_1a4d367db5b8992e2df49be7fca41f87bb" prot="public" virt="non-virtual"><scope>themis::storage::VectorIndexConfig</scope><name>max_elements</name></member>
+      <member refid="structthemis_1_1storage_1_1_vector_index_config_1ae3b546a71293d880ce3a8643d6c5ef9b" prot="public" virt="non-virtual"><scope>themis::storage::VectorIndexConfig</scope><name>metric</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

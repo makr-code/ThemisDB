@@ -1,0 +1,221 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_dspy_module" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::DspyModule</compoundname>
+    <derivedcompoundref refid="classthemis_1_1prompt__engineering_1_1_dspy_chain_of_thought" prot="public" virt="non-virtual">themis::prompt_engineering::DspyChainOfThought</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1prompt__engineering_1_1_dspy_predict" prot="public" virt="non-virtual">themis::prompt_engineering::DspyPredict</derivedcompoundref>
+    <includes refid="dspy__module_8h" local="no">dspy_module.h</includes>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_dspy_module_1a30ce3e4c5ecdfcb8b68859aaf4c259a4" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_signature" kindref="compound">DspySignature</ref></type>
+        <definition>DspySignature themis::prompt_engineering::DspyModule::signature_</definition>
+        <argsstring></argsstring>
+        <name>signature_</name>
+        <qualifiedname>themis::prompt_engineering::DspyModule::signature_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/dspy_module.h" line="221" column="41" bodyfile="include/prompt_engineering/dspy_module.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_dspy_module_1ae9b129f89ac5cd0ae3c2128849e7ffc5" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_i_dspy_l_l_m_provider" kindref="compound">IDspyLLMProvider</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IDspyLLMProvider&gt; themis::prompt_engineering::DspyModule::llm_provider_</definition>
+        <argsstring></argsstring>
+        <name>llm_provider_</name>
+        <qualifiedname>themis::prompt_engineering::DspyModule::llm_provider_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/dspy_module.h" line="222" column="23" bodyfile="include/prompt_engineering/dspy_module.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_dspy_module_1ae2ecb1be85ed79d84fbd71f706f9d313" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::DspyModule::DspyModule</definition>
+        <argsstring>(DspySignature signature)</argsstring>
+        <name>DspyModule</name>
+        <qualifiedname>themis::prompt_engineering::DspyModule::DspyModule</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_signature" kindref="compound">DspySignature</ref></type>
+          <declname>signature</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/dspy_module.h" line="196" column="14" bodyfile="src/prompt_engineering/dspy_module.cpp" bodystart="247" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_dspy_module_1a842faebdf6d5f9bf1e301b62a5687f6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::prompt_engineering::DspyModule::~DspyModule</definition>
+        <argsstring>()=default</argsstring>
+        <name>~DspyModule</name>
+        <qualifiedname>themis::prompt_engineering::DspyModule::~DspyModule</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/dspy_module.h" line="197" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_dspy_module_1ac2714ba8b1850c11ce15eaf7ddb1ecbc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_module_1ae2ecb1be85ed79d84fbd71f706f9d313" kindref="member">DspyModule</ref> &amp;</type>
+        <definition>DspyModule &amp; themis::prompt_engineering::DspyModule::setLLMProvider</definition>
+        <argsstring>(std::shared_ptr&lt; IDspyLLMProvider &gt; provider)</argsstring>
+        <name>setLLMProvider</name>
+        <qualifiedname>themis::prompt_engineering::DspyModule::setLLMProvider</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_i_dspy_l_l_m_provider" kindref="compound">IDspyLLMProvider</ref> &gt;</type>
+          <declname>provider</declname>
+        </param>
+        <briefdescription>
+<para>Inject the LLM provider. Must be called before <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_module_1a56e42fe6bab1c4b145bda5615bf9be50" kindref="member">forward()</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set LLMProvider.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">provider</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/dspy_module.h" line="202" column="16" bodyfile="src/prompt_engineering/dspy_module.cpp" bodystart="256" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_dspy_module_1ad3f8e5e70b372a055fa081b8c05fd568" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1prompt__engineering_1_1_dspy_signature" kindref="compound">DspySignature</ref> &amp;</type>
+        <definition>const DspySignature &amp; themis::prompt_engineering::DspyModule::getSignature</definition>
+        <argsstring>() const</argsstring>
+        <name>getSignature</name>
+        <qualifiedname>themis::prompt_engineering::DspyModule::getSignature</qualifiedname>
+        <briefdescription>
+<para>Return the declared signature. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/dspy_module.h" line="207" column="25" bodyfile="src/prompt_engineering/dspy_module.cpp" bodystart="262" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_dspy_module_1a56e42fe6bab1c4b145bda5615bf9be50" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt; std::string, std::string &gt; themis::prompt_engineering::DspyModule::forward</definition>
+        <argsstring>(const std::unordered_map&lt; std::string, std::string &gt; &amp;context)</argsstring>
+        <name>forward</name>
+        <qualifiedname>themis::prompt_engineering::DspyModule::forward</qualifiedname>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_dspy_chain_of_thought_1af9c9135a2deb7df7bdc879c54fdca833">forward</reimplementedby>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Execute the module: build prompt → call LLM → parse outputs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input field values. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Map from output field name → extracted value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>when the LLM provider has not been injected. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>when a required input field is missing. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/dspy_module.h" line="217" column="32" bodyfile="src/prompt_engineering/dspy_module.cpp" bodystart="267" bodyend="282"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Base class for all DSPy-compatible modules. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>A module wraps a <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_signature" kindref="compound">DspySignature</ref></computeroutput> and a <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_dspy_l_l_m_provider" kindref="compound">IDspyLLMProvider</ref></computeroutput> and exposes a single <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_module_1a56e42fe6bab1c4b145bda5615bf9be50" kindref="member">forward()</ref></computeroutput> method that drives the full inference cycle:<orderedlist>
+<listitem><para>Build the prompt.</para>
+</listitem><listitem><para>Call the LLM provider.</para>
+</listitem><listitem><para>Parse the response. </para>
+</listitem></orderedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::prompt_engineering::DspyChainOfThought</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_dspy_chain_of_thought"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::DspyModule</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_dspy_module"/>
+      </node>
+      <node id="3">
+        <label>themis::prompt_engineering::DspyPredict</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_dspy_predict"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::prompt_engineering::DspyModule</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_dspy_module"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>signature_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::prompt_engineering::DspySignature</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_dspy_signature"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/prompt_engineering/dspy_module.h" line="194" column="1" bodyfile="include/prompt_engineering/dspy_module.h" bodystart="194" bodyend="223"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dspy_module_1ae2ecb1be85ed79d84fbd71f706f9d313" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::DspyModule</scope><name>DspyModule</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dspy_module_1a56e42fe6bab1c4b145bda5615bf9be50" prot="public" virt="virtual"><scope>themis::prompt_engineering::DspyModule</scope><name>forward</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dspy_module_1ad3f8e5e70b372a055fa081b8c05fd568" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::DspyModule</scope><name>getSignature</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dspy_module_1ae9b129f89ac5cd0ae3c2128849e7ffc5" prot="protected" virt="non-virtual"><scope>themis::prompt_engineering::DspyModule</scope><name>llm_provider_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dspy_module_1ac2714ba8b1850c11ce15eaf7ddb1ecbc" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::DspyModule</scope><name>setLLMProvider</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dspy_module_1a30ce3e4c5ecdfcb8b68859aaf4c259a4" prot="protected" virt="non-virtual"><scope>themis::prompt_engineering::DspyModule</scope><name>signature_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dspy_module_1a842faebdf6d5f9bf1e301b62a5687f6f" prot="public" virt="virtual"><scope>themis::prompt_engineering::DspyModule</scope><name>~DspyModule</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1governance_1_1iso27001_1_1operations__controls" kind="namespace" language="C++">
+    <compoundname>themis::governance::iso27001::operations_controls</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1iso27001_1_1operations__controls_1a172bcf50a8588a65e40dd833e5b671b0" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::iso27001::operations_controls::kOperationalProcedures</definition>
+        <argsstring></argsstring>
+        <name>kOperationalProcedures</name>
+        <qualifiedname>themis::governance::iso27001::operations_controls::kOperationalProcedures</qualifiedname>
+        <initializer>= &quot;A.12.1&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="161" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1iso27001_1_1operations__controls_1a6816a6d03f3c6558099c73a3746db62b" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::iso27001::operations_controls::kChangeManagement</definition>
+        <argsstring></argsstring>
+        <name>kChangeManagement</name>
+        <qualifiedname>themis::governance::iso27001::operations_controls::kChangeManagement</qualifiedname>
+        <initializer>= &quot;A.12.2&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="162" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1iso27001_1_1operations__controls_1a404e1d33878f523cbabd57db597f26a6" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::iso27001::operations_controls::kCapacityAndResourceManagement</definition>
+        <argsstring></argsstring>
+        <name>kCapacityAndResourceManagement</name>
+        <qualifiedname>themis::governance::iso27001::operations_controls::kCapacityAndResourceManagement</qualifiedname>
+        <initializer>= &quot;A.12.3&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="163" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1iso27001_1_1operations__controls_1a17b9457536ab6f7ad4994eee29431498" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::iso27001::operations_controls::kSeparationOfDevelopmentAndProduction</definition>
+        <argsstring></argsstring>
+        <name>kSeparationOfDevelopmentAndProduction</name>
+        <qualifiedname>themis::governance::iso27001::operations_controls::kSeparationOfDevelopmentAndProduction</qualifiedname>
+        <initializer>= &quot;A.12.4&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="164" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1iso27001_1_1operations__controls_1aa96ac5a43a6c75a092294229ca6becae" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::iso27001::operations_controls::kAccessControlToOperationalFacilities</definition>
+        <argsstring></argsstring>
+        <name>kAccessControlToOperationalFacilities</name>
+        <qualifiedname>themis::governance::iso27001::operations_controls::kAccessControlToOperationalFacilities</qualifiedname>
+        <initializer>= &quot;A.12.5&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="165" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1iso27001_1_1operations__controls_1a3f22819bca78a2ac5c3c714e3188312e" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::iso27001::operations_controls::kSegmentationOfNetworks</definition>
+        <argsstring></argsstring>
+        <name>kSegmentationOfNetworks</name>
+        <qualifiedname>themis::governance::iso27001::operations_controls::kSegmentationOfNetworks</qualifiedname>
+        <initializer>= &quot;A.12.6&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="166" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/compliance_mapping.h" line="160" column="1"/>
+  </compounddef>
+</doxygen>

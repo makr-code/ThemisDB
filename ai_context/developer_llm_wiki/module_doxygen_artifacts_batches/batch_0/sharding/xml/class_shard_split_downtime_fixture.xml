@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_shard_split_downtime_fixture" kind="class" language="C++" prot="public">
+    <compoundname>ShardSplitDowntimeFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_shard_split_downtime_fixture_1aa0831c5a85f7cb9336ad1ce3bffa1940" prot="protected" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t ShardSplitDowntimeFixture::keyspace_size_</definition>
+        <argsstring></argsstring>
+        <name>keyspace_size_</name>
+        <qualifiedname>ShardSplitDowntimeFixture::keyspace_size_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_performance.cpp" line="470" column="12" bodyfile="benchmarks/sharding/bench_sharding_performance.cpp" bodystart="470" bodyend="470"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_shard_split_downtime_fixture_1a8591f59c76b2940b60baa36795d4fb5b" prot="protected" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t ShardSplitDowntimeFixture::migration_chunk_size_</definition>
+        <argsstring></argsstring>
+        <name>migration_chunk_size_</name>
+        <qualifiedname>ShardSplitDowntimeFixture::migration_chunk_size_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_performance.cpp" line="471" column="12" bodyfile="benchmarks/sharding/bench_sharding_performance.cpp" bodystart="471" bodyend="471"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_shard_split_downtime_fixture_1a3c81feeb2009ca1f4ea1e0e1f6c4e28d" prot="protected" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t ShardSplitDowntimeFixture::split_index_</definition>
+        <argsstring></argsstring>
+        <name>split_index_</name>
+        <qualifiedname>ShardSplitDowntimeFixture::split_index_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_performance.cpp" line="472" column="12" bodyfile="benchmarks/sharding/bench_sharding_performance.cpp" bodystart="472" bodyend="472"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_shard_split_downtime_fixture_1aa6d13083d558e3aef0d432325e33d54b" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; ShardSplitDowntimeFixture::old_shard_</definition>
+        <argsstring></argsstring>
+        <name>old_shard_</name>
+        <qualifiedname>ShardSplitDowntimeFixture::old_shard_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_performance.cpp" line="473" column="17" bodyfile="benchmarks/sharding/bench_sharding_performance.cpp" bodystart="473" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_shard_split_downtime_fixture_1a60dcf98af704dbf4e20145679da789f6" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; ShardSplitDowntimeFixture::new_shard_</definition>
+        <argsstring></argsstring>
+        <name>new_shard_</name>
+        <qualifiedname>ShardSplitDowntimeFixture::new_shard_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_performance.cpp" line="474" column="17" bodyfile="benchmarks/sharding/bench_sharding_performance.cpp" bodystart="474" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_shard_split_downtime_fixture_1adac8fc4873ad4f9efbdc3d5af1ddc841" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ShardSplitDowntimeFixture::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ShardSplitDowntimeFixture::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_performance.cpp" line="444" column="10" bodyfile="benchmarks/sharding/bench_sharding_performance.cpp" bodystart="444" bodyend="451"/>
+      </memberdef>
+      <memberdef kind="function" id="class_shard_split_downtime_fixture_1a9cf0fe69f985ad7c095e9fb83cd11652" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ShardSplitDowntimeFixture::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ShardSplitDowntimeFixture::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_performance.cpp" line="453" column="10" bodyfile="benchmarks/sharding/bench_sharding_performance.cpp" bodystart="453" bodyend="456"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_shard_split_downtime_fixture_1aa282ad301746afaf4be8ee0b958f12fa" prot="protected" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ShardSplitDowntimeFixture::readAvailable</definition>
+        <argsstring>(size_t key, bool route_to_new) const</argsstring>
+        <name>readAvailable</name>
+        <qualifiedname>ShardSplitDowntimeFixture::readAvailable</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>route_to_new</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_performance.cpp" line="459" column="11" bodyfile="benchmarks/sharding/bench_sharding_performance.cpp" bodystart="459" bodyend="468"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ShardSplitDowntimeFixture</label>
+        <link refid="class_shard_split_downtime_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ShardSplitDowntimeFixture</label>
+        <link refid="class_shard_split_downtime_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/sharding/bench_sharding_performance.cpp" line="442" column="1" bodyfile="benchmarks/sharding/bench_sharding_performance.cpp" bodystart="442" bodyend="475"/>
+    <listofallmembers>
+      <member refid="class_shard_split_downtime_fixture_1aa0831c5a85f7cb9336ad1ce3bffa1940" prot="protected" virt="non-virtual"><scope>ShardSplitDowntimeFixture</scope><name>keyspace_size_</name></member>
+      <member refid="class_shard_split_downtime_fixture_1a8591f59c76b2940b60baa36795d4fb5b" prot="protected" virt="non-virtual"><scope>ShardSplitDowntimeFixture</scope><name>migration_chunk_size_</name></member>
+      <member refid="class_shard_split_downtime_fixture_1a60dcf98af704dbf4e20145679da789f6" prot="protected" virt="non-virtual"><scope>ShardSplitDowntimeFixture</scope><name>new_shard_</name></member>
+      <member refid="class_shard_split_downtime_fixture_1aa6d13083d558e3aef0d432325e33d54b" prot="protected" virt="non-virtual"><scope>ShardSplitDowntimeFixture</scope><name>old_shard_</name></member>
+      <member refid="class_shard_split_downtime_fixture_1aa282ad301746afaf4be8ee0b958f12fa" prot="protected" virt="non-virtual"><scope>ShardSplitDowntimeFixture</scope><name>readAvailable</name></member>
+      <member refid="class_shard_split_downtime_fixture_1adac8fc4873ad4f9efbdc3d5af1ddc841" prot="public" virt="non-virtual"><scope>ShardSplitDowntimeFixture</scope><name>SetUp</name></member>
+      <member refid="class_shard_split_downtime_fixture_1a3c81feeb2009ca1f4ea1e0e1f6c4e28d" prot="protected" virt="non-virtual"><scope>ShardSplitDowntimeFixture</scope><name>split_index_</name></member>
+      <member refid="class_shard_split_downtime_fixture_1a9cf0fe69f985ad7c095e9fb83cd11652" prot="public" virt="non-virtual"><scope>ShardSplitDowntimeFixture</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

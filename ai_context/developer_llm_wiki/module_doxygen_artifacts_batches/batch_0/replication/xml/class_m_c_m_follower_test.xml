@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_m_c_m_follower_test" kind="class" language="C++" prot="public">
+    <compoundname>MCMFollowerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_m_c_m_follower_test_1a4850b6af22907b7bdf5e2e68ebd9d767" prot="protected" static="no" mutable="no">
+        <type><ref refid="struct_temp_w_a_l_dir" kindref="compound">TempWALDir</ref></type>
+        <definition>TempWALDir MCMFollowerTest::wd_</definition>
+        <argsstring></argsstring>
+        <name>wd_</name>
+        <qualifiedname>MCMFollowerTest::wd_</qualifiedname>
+        <initializer>{&quot;/tmp/themis_raft_v2_follower_test&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_raft_v2.cpp" line="345" column="16" bodyfile="tests/replication/test_replication_raft_v2.cpp" bodystart="345" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_m_c_m_follower_test_1adfc6a42fa455d12edd731907eb5b0aef" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_raft_v2_cluster_config" kindref="compound">RaftV2ClusterConfig</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;RaftV2ClusterConfig&gt; MCMFollowerTest::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>MCMFollowerTest::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_raft_v2.cpp" line="346" column="21" bodyfile="tests/replication/test_replication_raft_v2.cpp" bodystart="346" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_m_c_m_follower_test_1a68b65c68d607f30c91f20dad133f9a91" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_membership_change_manager" kindref="compound">MembershipChangeManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;MembershipChangeManager&gt; MCMFollowerTest::follower_mgr_</definition>
+        <argsstring></argsstring>
+        <name>follower_mgr_</name>
+        <qualifiedname>MCMFollowerTest::follower_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_raft_v2.cpp" line="347" column="21" bodyfile="tests/replication/test_replication_raft_v2.cpp" bodystart="347" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_m_c_m_follower_test_1a81ba92f8257474eba3e964135bec13eb" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MCMFollowerTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>MCMFollowerTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_raft_v2.cpp" line="349" column="10" bodyfile="tests/replication/test_replication_raft_v2.cpp" bodystart="349" bodyend="355"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MCMFollowerTest</label>
+        <link refid="class_m_c_m_follower_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MCMFollowerTest</label>
+        <link refid="class_m_c_m_follower_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>wd_</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>TempWALDir</label>
+        <link refid="struct_temp_w_a_l_dir"/>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/replication/test_replication_raft_v2.cpp" line="343" column="1" bodyfile="tests/replication/test_replication_raft_v2.cpp" bodystart="343" bodyend="356"/>
+    <listofallmembers>
+      <member refid="class_m_c_m_follower_test_1adfc6a42fa455d12edd731907eb5b0aef" prot="protected" virt="non-virtual"><scope>MCMFollowerTest</scope><name>config_</name></member>
+      <member refid="class_m_c_m_follower_test_1a68b65c68d607f30c91f20dad133f9a91" prot="protected" virt="non-virtual"><scope>MCMFollowerTest</scope><name>follower_mgr_</name></member>
+      <member refid="class_m_c_m_follower_test_1a81ba92f8257474eba3e964135bec13eb" prot="protected" virt="non-virtual"><scope>MCMFollowerTest</scope><name>SetUp</name></member>
+      <member refid="class_m_c_m_follower_test_1a4850b6af22907b7bdf5e2e68ebd9d767" prot="protected" virt="non-virtual"><scope>MCMFollowerTest</scope><name>wd_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

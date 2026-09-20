@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_change_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::PostgreSQLCDC::ChangeEvent</compoundname>
+    <includes refid="postgres__cdc_8h" local="no">postgres_cdc.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_change_event_1ad5609a907195366eed23e67ec2efd3e3" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Operation</name>
+        <qualifiedname>themis::importers::PostgreSQLCDC::ChangeEvent::Operation</qualifiedname>
+        <enumvalue id="structthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_change_event_1ad5609a907195366eed23e67ec2efd3e3a61ee777e7f71dc466c3b2c685d8d313b" prot="public">
+          <name>INSERT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_change_event_1ad5609a907195366eed23e67ec2efd3e3a15a8022d0ed9cd9c2a2e756822703eb4" prot="public">
+          <name>UPDATE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_change_event_1ad5609a907195366eed23e67ec2efd3e3a32f68a60cef40faedbc6af20298c1a1e" prot="public">
+          <name>DELETE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_change_event_1ad5609a907195366eed23e67ec2efd3e3a0a83d15fde12983f199bdeb76667660f" prot="public">
+          <name>TRUNCATE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_cdc.h" line="41" column="9" bodyfile="include/importers/postgres_cdc.h" bodystart="41" bodyend="41"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_change_event_1a0a51a62755075d3de09b570a7858007a" prot="public" static="no" mutable="no">
+        <type>enum <ref refid="structthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_change_event_1ad5609a907195366eed23e67ec2efd3e3" kindref="member">themis::importers::PostgreSQLCDC::ChangeEvent::Operation</ref></type>
+        <definition>enum themis::importers::PostgreSQLCDC::ChangeEvent::Operation themis::importers::PostgreSQLCDC::ChangeEvent::op</definition>
+        <argsstring></argsstring>
+        <name>op</name>
+        <qualifiedname>themis::importers::PostgreSQLCDC::ChangeEvent::op</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_cdc.h" line="41" column="32"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_change_event_1ab838ebe26428c7f2fa27625960944312" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::PostgreSQLCDC::ChangeEvent::table_name</definition>
+        <argsstring></argsstring>
+        <name>table_name</name>
+        <qualifiedname>themis::importers::PostgreSQLCDC::ChangeEvent::table_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_cdc.h" line="42" column="21" bodyfile="include/importers/postgres_cdc.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_change_event_1a163c47d5ca5b4ef25f16baad273c61b6" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::PostgreSQLCDC::ChangeEvent::old_values</definition>
+        <argsstring></argsstring>
+        <name>old_values</name>
+        <qualifiedname>themis::importers::PostgreSQLCDC::ChangeEvent::old_values</qualifiedname>
+        <briefdescription>
+<para>Pre-image (UPDATE / DELETE only). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_cdc.h" line="43" column="14" bodyfile="include/importers/postgres_cdc.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_change_event_1a37f6ab33ad46b5898098508b20db93b4" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::PostgreSQLCDC::ChangeEvent::new_values</definition>
+        <argsstring></argsstring>
+        <name>new_values</name>
+        <qualifiedname>themis::importers::PostgreSQLCDC::ChangeEvent::new_values</qualifiedname>
+        <briefdescription>
+<para>Post-image (INSERT / UPDATE only). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_cdc.h" line="44" column="14" bodyfile="include/importers/postgres_cdc.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_change_event_1afcc61e5f15f43a537e171abe94ed6586" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::importers::PostgreSQLCDC::ChangeEvent::lsn</definition>
+        <argsstring></argsstring>
+        <name>lsn</name>
+        <qualifiedname>themis::importers::PostgreSQLCDC::ChangeEvent::lsn</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Log Sequence Number. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_cdc.h" line="45" column="18" bodyfile="include/importers/postgres_cdc.h" bodystart="45" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_change_event_1aa417fdaa59534abb3b7c3232768bec92" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::PostgreSQLCDC::ChangeEvent::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::importers::PostgreSQLCDC::ChangeEvent::timestamp</qualifiedname>
+        <briefdescription>
+<para>RFC 3339 commit timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_cdc.h" line="46" column="21" bodyfile="include/importers/postgres_cdc.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_change_event_1a6a13728c4e9203029784d46ee50724c3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::PostgreSQLCDC::ChangeEvent::replica_identity</definition>
+        <argsstring></argsstring>
+        <name>replica_identity</name>
+        <qualifiedname>themis::importers::PostgreSQLCDC::ChangeEvent::replica_identity</qualifiedname>
+        <briefdescription>
+<para>Which columns identify the row. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_cdc.h" line="47" column="21" bodyfile="include/importers/postgres_cdc.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/postgres_cdc.h" line="40" column="5" bodyfile="include/importers/postgres_cdc.h" bodystart="40" bodyend="48"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_change_event_1afcc61e5f15f43a537e171abe94ed6586" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLCDC::ChangeEvent</scope><name>lsn</name></member>
+      <member refid="structthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_change_event_1a37f6ab33ad46b5898098508b20db93b4" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLCDC::ChangeEvent</scope><name>new_values</name></member>
+      <member refid="structthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_change_event_1a163c47d5ca5b4ef25f16baad273c61b6" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLCDC::ChangeEvent</scope><name>old_values</name></member>
+      <member refid="structthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_change_event_1a0a51a62755075d3de09b570a7858007a" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLCDC::ChangeEvent</scope><name>op</name></member>
+      <member refid="structthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_change_event_1ad5609a907195366eed23e67ec2efd3e3" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLCDC::ChangeEvent</scope><name>Operation</name></member>
+      <member refid="structthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_change_event_1a6a13728c4e9203029784d46ee50724c3" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLCDC::ChangeEvent</scope><name>replica_identity</name></member>
+      <member refid="structthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_change_event_1ab838ebe26428c7f2fa27625960944312" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLCDC::ChangeEvent</scope><name>table_name</name></member>
+      <member refid="structthemis_1_1importers_1_1_postgre_s_q_l_c_d_c_1_1_change_event_1aa417fdaa59534abb3b7c3232768bec92" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLCDC::ChangeEvent</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

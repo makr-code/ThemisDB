@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1streaming_1_1_stream_chunk" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::streaming::StreamChunk</compoundname>
+    <includes refid="stream__protocol_8h" local="no">stream_protocol.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_chunk_1a075c97d104e4cecd28830cc29b412c00" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::streaming::StreamChunk::file_offset</definition>
+        <argsstring></argsstring>
+        <name>file_offset</name>
+        <qualifiedname>themisdb::streaming::StreamChunk::file_offset</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="245" column="14" bodyfile="include/sharding/stream_protocol.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_chunk_1a1c5fd3f1d7324e6e67493fdf2c6f904a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::streaming::StreamChunk::chunk_index</definition>
+        <argsstring></argsstring>
+        <name>chunk_index</name>
+        <qualifiedname>themisdb::streaming::StreamChunk::chunk_index</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="246" column="14" bodyfile="include/sharding/stream_protocol.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_chunk_1a2722ec34c400a157c46a97ae1528d986" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::streaming::StreamChunk::uncompressed_size</definition>
+        <argsstring></argsstring>
+        <name>uncompressed_size</name>
+        <qualifiedname>themisdb::streaming::StreamChunk::uncompressed_size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="247" column="14" bodyfile="include/sharding/stream_protocol.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_chunk_1a8f5fff3211e5ad643848977fea7ff4bf" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::streaming::StreamChunk::compressed_size</definition>
+        <argsstring></argsstring>
+        <name>compressed_size</name>
+        <qualifiedname>themisdb::streaming::StreamChunk::compressed_size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="248" column="14" bodyfile="include/sharding/stream_protocol.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_chunk_1a5980eca726d4983c280fd65fd1dd9636" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themisdb::streaming::StreamChunk::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themisdb::streaming::StreamChunk::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="249" column="17" bodyfile="include/sharding/stream_protocol.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_chunk_1abfb886688db32b066543153fc7e91f70" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::streaming::StreamChunk::checksum</definition>
+        <argsstring></argsstring>
+        <name>checksum</name>
+        <qualifiedname>themisdb::streaming::StreamChunk::checksum</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="250" column="14" bodyfile="include/sharding/stream_protocol.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1streaming_1_1_stream_chunk_1a73e61933f1955cdd3dc17f7c9f24e4fd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::streaming::StreamChunk::verify</definition>
+        <argsstring>() const</argsstring>
+        <name>verify</name>
+        <qualifiedname>themisdb::streaming::StreamChunk::verify</qualifiedname>
+        <briefdescription>
+<para>Verify chunk checksum/integrity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="253" column="10" bodyfile="src/sharding/stream_protocol.cpp" bodystart="256" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1streaming_1_1_stream_chunk_1ac87dab9a13c7081541558c2ecb905ea8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themisdb::streaming::StreamChunk::serialize</definition>
+        <argsstring>() const</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themisdb::streaming::StreamChunk::serialize</qualifiedname>
+        <briefdescription>
+<para>Serialize chunk header and payload. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="256" column="17" bodyfile="src/sharding/stream_protocol.cpp" bodystart="263" bodyend="302"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemisdb_1_1streaming_1_1_stream_chunk_1aee1869e84dc25f717e37838a84d2a09e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1streaming_1_1_stream_chunk" kindref="compound">StreamChunk</ref> &gt;</type>
+        <definition>std::optional&lt; StreamChunk &gt; themisdb::streaming::StreamChunk::deserialize</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>deserialize</name>
+        <qualifiedname>themisdb::streaming::StreamChunk::deserialize</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Parse chunk from serialized bytes with basic metadata checks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Deserialize.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), assign(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="259" column="26" bodyfile="src/sharding/stream_protocol.cpp" bodystart="310" bodyend="378"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Data chunk for transfer </para>
+    </detaileddescription>
+    <location file="include/sharding/stream_protocol.h" line="244" column="1" bodyfile="include/sharding/stream_protocol.h" bodystart="244" bodyend="260"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_chunk_1abfb886688db32b066543153fc7e91f70" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamChunk</scope><name>checksum</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_chunk_1a1c5fd3f1d7324e6e67493fdf2c6f904a" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamChunk</scope><name>chunk_index</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_chunk_1a8f5fff3211e5ad643848977fea7ff4bf" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamChunk</scope><name>compressed_size</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_chunk_1a5980eca726d4983c280fd65fd1dd9636" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamChunk</scope><name>data</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_chunk_1aee1869e84dc25f717e37838a84d2a09e" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamChunk</scope><name>deserialize</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_chunk_1a075c97d104e4cecd28830cc29b412c00" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamChunk</scope><name>file_offset</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_chunk_1ac87dab9a13c7081541558c2ecb905ea8" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamChunk</scope><name>serialize</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_chunk_1a2722ec34c400a157c46a97ae1528d986" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamChunk</scope><name>uncompressed_size</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_chunk_1a73e61933f1955cdd3dc17f7c9f24e4fd" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamChunk</scope><name>verify</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

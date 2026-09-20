@@ -1,0 +1,200 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="hkdf__cache_8h" kind="file" language="C++">
+    <compoundname>hkdf_cache.h</compoundname>
+    <includes local="no">array</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="utils__adapters_8h" local="yes">include/utils/utils_adapters.h</includedby>
+    <includedby refid="hkdf__cache_8cpp" local="yes">src/utils/hkdf_cache.cpp</includedby>
+    <includedby refid="test__utils__crypto__hardening_8cpp" local="yes">tests/utils/test_utils_crypto_hardening.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/utils/hkdf_cache.h</label>
+        <link refid="hkdf__cache_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>array</label>
+      </node>
+      <node id="3">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/utils/hkdf_cache.h</label>
+        <link refid="hkdf__cache_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/utils/utils_adapters.h</label>
+        <link refid="utils__adapters_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/utils/hkdf_cache.cpp</label>
+        <link refid="hkdf__cache_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/utils/utils_adapters.cpp</label>
+        <link refid="utils__adapters_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/utils/test_utils_crypto_hardening.cpp</label>
+        <link refid="test__utils__crypto__hardening_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/utils/test_utils_interfaces.cpp</label>
+        <link refid="test__utils__interfaces_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1utils_1_1_h_k_d_f_cache_config" prot="public">themis::utils::HKDFCacheConfig</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_h_k_d_f_cache_stats" prot="public">themis::utils::HKDFCacheStats</innerclass>
+    <innerclass refid="classthemis_1_1utils_1_1_h_k_d_f_cache" prot="public">themis::utils::HKDFCache</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils">themis::utils</innernamespace>
+    <briefdescription>
+<para>HKDF-based key derivation with caching and versioning. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Last Updated: 2026-08-08 </para>
+</simplesect>
+<simplesect kind="note"><para>Source: Level 0 - API Contract </para>
+</simplesect>
+<simplesect kind="note"><para>SOT Domain: crypto-key-management </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;array&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">utils</ref><sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1utils_1_1_h_k_d_f_cache_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_h_k_d_f_cache_config" kindref="compound">HKDFCacheConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1utils_1_1_h_k_d_f_cache_config_1a1949ea2abe6f9ad7600884ad5f2de7e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_h_k_d_f_cache_config_1a1949ea2abe6f9ad7600884ad5f2de7e6" kindref="member">max_entries</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1utils_1_1_h_k_d_f_cache_config_1ae63b81422af4e27dbd435a50666413d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1utils_1_1_h_k_d_f_cache_config_1ae63b81422af4e27dbd435a50666413d4" kindref="member">ttl</ref>{300};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1utils_1_1_h_k_d_f_cache_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_h_k_d_f_cache_stats" kindref="compound">HKDFCacheStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1utils_1_1_h_k_d_f_cache_stats_1a14b2610fe87a7dda3bb6db5960adc9fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_h_k_d_f_cache_stats_1a14b2610fe87a7dda3bb6db5960adc9fc" kindref="member">hits</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1utils_1_1_h_k_d_f_cache_stats_1a698f122d3a9f5e4b8735de717ee96a73" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_h_k_d_f_cache_stats_1a698f122d3a9f5e4b8735de717ee96a73" kindref="member">misses</ref><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1utils_1_1_h_k_d_f_cache_stats_1aa9baea446ccf35fbe6714b0adf85e78f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_h_k_d_f_cache_stats_1aa9baea446ccf35fbe6714b0adf85e78f" kindref="member">evictions</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="classthemis_1_1utils_1_1_h_k_d_f_cache" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1utils_1_1_h_k_d_f_cache_1a9c92937f98c41cc332fe93196dc11368" kindref="member">HKDFCache</ref><sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expose<sp/>config/stats<sp/>types<sp/>via<sp/>aliases<sp/>so<sp/>call<sp/>sites<sp/>can<sp/>use</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>HKDFCache::Config<sp/>and<sp/>HKDFCache::Stats<sp/>as<sp/>the<sp/>spec<sp/>requires.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="classthemis_1_1utils_1_1_h_k_d_f_cache_1a13350232a08e7d29a0f4aa594f99a00d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1utils_1_1_h_k_d_f_cache_1a13350232a08e7d29a0f4aa594f99a00d" kindref="member">Config</ref><sp/>=<sp/><ref refid="structthemis_1_1utils_1_1_h_k_d_f_cache_config" kindref="compound">HKDFCacheConfig</ref>;</highlight></codeline>
+<codeline lineno="99" refid="classthemis_1_1utils_1_1_h_k_d_f_cache_1a1403d6080361729acd7cc132095e95ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1utils_1_1_h_k_d_f_cache_1a1403d6080361729acd7cc132095e95ce" kindref="member">Stats</ref><sp/><sp/>=<sp/><ref refid="structthemis_1_1utils_1_1_h_k_d_f_cache_stats" kindref="compound">HKDFCacheStats</ref>;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_h_k_d_f_cache_1a9c92937f98c41cc332fe93196dc11368" kindref="member">HKDFCache</ref>(<ref refid="classthemis_1_1utils_1_1_h_k_d_f_cache_1a13350232a08e7d29a0f4aa594f99a00d" kindref="member">Config</ref><sp/>cfg<sp/>=<sp/><ref refid="classthemis_1_1utils_1_1_h_k_d_f_cache_1a13350232a08e7d29a0f4aa594f99a00d" kindref="member">Config</ref>{});</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130" refid="classthemis_1_1utils_1_1_h_k_d_f_cache_1a762849010c123a08ab37ad8703026301" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_h_k_d_f_cache_1a762849010c123a08ab37ad8703026301" kindref="member">~HKDFCache</ref>();</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_h_k_d_f_cache_1a9c92937f98c41cc332fe93196dc11368" kindref="member">HKDFCache</ref>&amp;<sp/><ref refid="classthemis_1_1utils_1_1_h_k_d_f_cache_1ad97e16356aa29826b9d9d519a43754ad" kindref="member">threadLocal</ref>();</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Core<sp/>API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1utils_1_1_h_k_d_f_cache_1ae5c177f498901a6107443351bd1a9b3e" kindref="member">derive_cached</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>ikm,</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>salt,</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>info,</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>output_length);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_h_k_d_f_cache_1a2b73e02059f96e3e9047b054f47078e1" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_h_k_d_f_cache_1ae0e994c51a8806abf8337ca41b4971ef" kindref="member">setCapacity</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>cap);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Extended<sp/>API<sp/>(Operational<sp/>and<sp/>Lifecycle<sp/>Management)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_h_k_d_f_cache_1a148b1a9af62f36fdc32fbf90fa465825" kindref="member">purge_by_ikm_hash</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>ikm_hash);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_h_k_d_f_cache_1a1403d6080361729acd7cc132095e95ce" kindref="member">Stats</ref><sp/><ref refid="classthemis_1_1utils_1_1_h_k_d_f_cache_1a48ec353dae1b48b49f8cabb78e0c1763" kindref="member">stats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_h_k_d_f_cache_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>utils</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/utils/hkdf_cache.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,833 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__oauth__device__flow_8cpp" kind="file" language="C++">
+    <compoundname>test_oauth_device_flow.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">auth/oauth_device_flow.h</includes>
+    <includes local="yes">auth/auth_error.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/security/test_oauth_device_flow.cpp</label>
+        <link refid="test__oauth__device__flow_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>auth/auth_error.h</label>
+      </node>
+      <node id="3">
+        <label>auth/oauth_device_flow.h</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="5">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__oauth__device__flow_8cpp_1a198f6752c59f6e830bdd8ea1169fe0b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OAuthDeviceFlowTest, ConstructorRejectsEmptyEndpoint)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OAuthDeviceFlowTest</type>
+        </param>
+        <param>
+          <type>ConstructorRejectsEmptyEndpoint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_oauth_device_flow.cpp" line="64" column="1" bodyfile="tests/security/test_oauth_device_flow.cpp" bodystart="64" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="test__oauth__device__flow_8cpp_1a35b761e6437b39782ea308c0e4678c06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OAuthDeviceFlowTest, ConstructorRejectsEmptyTokenEndpoint)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OAuthDeviceFlowTest</type>
+        </param>
+        <param>
+          <type>ConstructorRejectsEmptyTokenEndpoint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_oauth_device_flow.cpp" line="70" column="1" bodyfile="tests/security/test_oauth_device_flow.cpp" bodystart="70" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="test__oauth__device__flow_8cpp_1a313f02fb11c7b25dbb53e5f4c10db18b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OAuthDeviceFlowTest, ConstructorRejectsEmptyClientId)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OAuthDeviceFlowTest</type>
+        </param>
+        <param>
+          <type>ConstructorRejectsEmptyClientId</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_oauth_device_flow.cpp" line="76" column="1" bodyfile="tests/security/test_oauth_device_flow.cpp" bodystart="76" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="test__oauth__device__flow_8cpp_1ab2e0ed9a54f333cab7485fc3eb342597" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OAuthDeviceFlowTest, RequestDeviceCode_Success)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OAuthDeviceFlowTest</type>
+        </param>
+        <param>
+          <type>RequestDeviceCode_Success</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_oauth_device_flow.cpp" line="86" column="1" bodyfile="tests/security/test_oauth_device_flow.cpp" bodystart="86" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="test__oauth__device__flow_8cpp_1aaf0f971fcd6e4d6427c639058a530f7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OAuthDeviceFlowTest, RequestDeviceCode_MissingVerificationUri)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OAuthDeviceFlowTest</type>
+        </param>
+        <param>
+          <type>RequestDeviceCode_MissingVerificationUri</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_oauth_device_flow.cpp" line="104" column="1" bodyfile="tests/security/test_oauth_device_flow.cpp" bodystart="104" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="test__oauth__device__flow_8cpp_1af011b99acf51b5dbb91ecb7a9a7acded" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OAuthDeviceFlowTest, RequestDeviceCode_ServerError)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OAuthDeviceFlowTest</type>
+        </param>
+        <param>
+          <type>RequestDeviceCode_ServerError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_oauth_device_flow.cpp" line="117" column="1" bodyfile="tests/security/test_oauth_device_flow.cpp" bodystart="117" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="test__oauth__device__flow_8cpp_1a46bf7015d8b4709003a1b5355b72614c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OAuthDeviceFlowTest, RequestDeviceCode_InvalidJson)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OAuthDeviceFlowTest</type>
+        </param>
+        <param>
+          <type>RequestDeviceCode_InvalidJson</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_oauth_device_flow.cpp" line="126" column="1" bodyfile="tests/security/test_oauth_device_flow.cpp" bodystart="126" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="test__oauth__device__flow_8cpp_1aab6fdbf28ab5d19394983f4ea5ac4f38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OAuthDeviceFlowTest, RequestDeviceCode_TransportError)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OAuthDeviceFlowTest</type>
+        </param>
+        <param>
+          <type>RequestDeviceCode_TransportError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_oauth_device_flow.cpp" line="135" column="1" bodyfile="tests/security/test_oauth_device_flow.cpp" bodystart="135" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="test__oauth__device__flow_8cpp_1a8212de1bb5a030c04e3cf339a50d9459" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OAuthDeviceFlowTest, RequestDeviceCode_MissingVerificationUriComplete_DefaultsToVerificationUri)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OAuthDeviceFlowTest</type>
+        </param>
+        <param>
+          <type>RequestDeviceCode_MissingVerificationUriComplete_DefaultsToVerificationUri</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_oauth_device_flow.cpp" line="144" column="1" bodyfile="tests/security/test_oauth_device_flow.cpp" bodystart="144" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="test__oauth__device__flow_8cpp_1ad70a8b26ab3b12e354064f6d173af1ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OAuthDeviceFlowTest, PollForToken_Authorized)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OAuthDeviceFlowTest</type>
+        </param>
+        <param>
+          <type>PollForToken_Authorized</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_oauth_device_flow.cpp" line="165" column="1" bodyfile="tests/security/test_oauth_device_flow.cpp" bodystart="165" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="test__oauth__device__flow_8cpp_1a429ccff2fc60f623f161c90ed4248312" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OAuthDeviceFlowTest, PollForToken_AuthorizationPending)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OAuthDeviceFlowTest</type>
+        </param>
+        <param>
+          <type>PollForToken_AuthorizationPending</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_oauth_device_flow.cpp" line="181" column="1" bodyfile="tests/security/test_oauth_device_flow.cpp" bodystart="181" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="test__oauth__device__flow_8cpp_1ae837057b83fa7e2cf41b95c24021a17f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OAuthDeviceFlowTest, PollForToken_SlowDown)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OAuthDeviceFlowTest</type>
+        </param>
+        <param>
+          <type>PollForToken_SlowDown</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_oauth_device_flow.cpp" line="192" column="1" bodyfile="tests/security/test_oauth_device_flow.cpp" bodystart="192" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="test__oauth__device__flow_8cpp_1a04163359c7d771b4f8d19c70f26ae0de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OAuthDeviceFlowTest, PollForToken_AccessDenied_Throws)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OAuthDeviceFlowTest</type>
+        </param>
+        <param>
+          <type>PollForToken_AccessDenied_Throws</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_oauth_device_flow.cpp" line="203" column="1" bodyfile="tests/security/test_oauth_device_flow.cpp" bodystart="203" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="test__oauth__device__flow_8cpp_1a583857ebdbaa385eca826567ea5e49be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OAuthDeviceFlowTest, PollForToken_ExpiredToken_Throws)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OAuthDeviceFlowTest</type>
+        </param>
+        <param>
+          <type>PollForToken_ExpiredToken_Throws</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_oauth_device_flow.cpp" line="214" column="1" bodyfile="tests/security/test_oauth_device_flow.cpp" bodystart="214" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="test__oauth__device__flow_8cpp_1ac31feb076ec1bd51b7dd7282231e2a9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OAuthDeviceFlowTest, PollForToken_UnknownError_Throws)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OAuthDeviceFlowTest</type>
+        </param>
+        <param>
+          <type>PollForToken_UnknownError_Throws</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_oauth_device_flow.cpp" line="225" column="1" bodyfile="tests/security/test_oauth_device_flow.cpp" bodystart="225" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="test__oauth__device__flow_8cpp_1aba5a6d66d1656f43fa508b3013ea8eb7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OAuthDeviceFlowTest, PollForToken_MissingAccessToken_Throws)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OAuthDeviceFlowTest</type>
+        </param>
+        <param>
+          <type>PollForToken_MissingAccessToken_Throws</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_oauth_device_flow.cpp" line="236" column="1" bodyfile="tests/security/test_oauth_device_flow.cpp" bodystart="236" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="test__oauth__device__flow_8cpp_1afbfa348fb3f4ef938a601cb1ed62405e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OAuthDeviceFlowTest, PollForToken_TransportError_SetsErrorStatus)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OAuthDeviceFlowTest</type>
+        </param>
+        <param>
+          <type>PollForToken_TransportError_SetsErrorStatus</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_oauth_device_flow.cpp" line="250" column="1" bodyfile="tests/security/test_oauth_device_flow.cpp" bodystart="250" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="test__oauth__device__flow_8cpp_1ac601925f2f147146f391a34c41943282" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OAuthDeviceFlowTest, ValidateIdToken_EmptyIdToken_Throws)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OAuthDeviceFlowTest</type>
+        </param>
+        <param>
+          <type>ValidateIdToken_EmptyIdToken_Throws</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_oauth_device_flow.cpp" line="265" column="1" bodyfile="tests/security/test_oauth_device_flow.cpp" bodystart="265" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="test__oauth__device__flow_8cpp_1a250ff542418ae363113d95b9195a0f07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OAuthDeviceFlowTest, ValidateIdToken_MissingJwksUrl_Throws)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OAuthDeviceFlowTest</type>
+        </param>
+        <param>
+          <type>ValidateIdToken_MissingJwksUrl_Throws</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_oauth_device_flow.cpp" line="275" column="1" bodyfile="tests/security/test_oauth_device_flow.cpp" bodystart="275" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="test__oauth__device__flow_8cpp_1adeb34f6e3d4d8cf988abaeb9faf15840" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OAuthDeviceFlowTest, Authenticate_ProgressCallbackInvoked)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OAuthDeviceFlowTest</type>
+        </param>
+        <param>
+          <type>Authenticate_ProgressCallbackInvoked</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_oauth_device_flow.cpp" line="290" column="1" bodyfile="tests/security/test_oauth_device_flow.cpp" bodystart="290" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="test__oauth__device__flow_8cpp_1a144507a499c4af2088801dba7d56bc74" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OAuthDeviceFlowTest, RequestDeviceCode_ScopesEncodedInBody)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OAuthDeviceFlowTest</type>
+        </param>
+        <param>
+          <type>RequestDeviceCode_ScopesEncodedInBody</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_oauth_device_flow.cpp" line="327" column="1" bodyfile="tests/security/test_oauth_device_flow.cpp" bodystart="327" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="test__oauth__device__flow_8cpp_1a6b8ff30df483044ff8137de849bb1061" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(OAuthDeviceFlowTest, PollForToken_ClientSecretIncludedWhenSet)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>OAuthDeviceFlowTest</type>
+        </param>
+        <param>
+          <type>PollForToken_ClientSecretIncludedWhenSet</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_oauth_device_flow.cpp" line="344" column="1" bodyfile="tests/security/test_oauth_device_flow.cpp" bodystart="344" bodyend="364"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;auth/oauth_device_flow.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;auth/auth_error.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth" kindref="compound">themis::auth</ref>;</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal">OAuthDeviceFlow::Config<sp/>makeConfig()<sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthDeviceFlow::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.device_authorization_endpoint<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;https://auth.example.com/device_authorization&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.token_endpoint<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;https://auth.example.com/token&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.client_id<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test-client&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.scopes<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;openid&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal">std::string<sp/>makeDeviceCodeJson(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>interval<sp/>=<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref><sp/>j;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;device_code&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;device-code-abc&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;user_code&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;BDWP-HQMF&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;verification_uri&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;https://auth.example.com/activate&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;verification_uri_complete&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;https://auth.example.com/activate?user_code=BDWP-HQMF&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;expires_in&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>600;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;interval&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>interval;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>j.dump();</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal">std::string<sp/>makeTokenJson()<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref><sp/>j;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;access_token&quot;</highlight><highlight class="normal">]<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;access-token-xyz&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;token_type&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Bearer&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;expires_in&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/>=<sp/>3600;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;refresh_token&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;refresh-token-xyz&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;scope&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;openid<sp/>email&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>id_token<sp/>is<sp/>intentionally<sp/>omitted<sp/>in<sp/>some<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>j.dump();</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal">std::string<sp/>makeErrorJson(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>error,</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>description<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref><sp/>j;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">]<sp/>=<sp/>error;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!description.empty())<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;error_description&quot;</highlight><highlight class="normal">]<sp/>=<sp/>description;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>j.dump();</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Construction<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><ref refid="test__oauth__device__flow_8cpp_1a198f6752c59f6e830bdd8ea1169fe0b7" kindref="member">TEST</ref>(OAuthDeviceFlowTest,<sp/>ConstructorRejectsEmptyEndpoint)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthDeviceFlow::Config<sp/>cfg<sp/>=<sp/>makeConfig();</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.device_authorization_endpoint.clear();</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW((</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)OAuthDeviceFlow{cfg},<sp/>AuthException);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><ref refid="test__oauth__device__flow_8cpp_1a198f6752c59f6e830bdd8ea1169fe0b7" kindref="member">TEST</ref>(OAuthDeviceFlowTest,<sp/>ConstructorRejectsEmptyTokenEndpoint)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthDeviceFlow::Config<sp/>cfg<sp/>=<sp/>makeConfig();</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.token_endpoint.clear();</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW((</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)OAuthDeviceFlow{cfg},<sp/>AuthException);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><ref refid="test__oauth__device__flow_8cpp_1a198f6752c59f6e830bdd8ea1169fe0b7" kindref="member">TEST</ref>(OAuthDeviceFlowTest,<sp/>ConstructorRejectsEmptyClientId)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthDeviceFlow::Config<sp/>cfg<sp/>=<sp/>makeConfig();</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.client_id.clear();</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW((</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)OAuthDeviceFlow{cfg},<sp/>AuthException);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>requestDeviceCode()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><ref refid="test__oauth__device__flow_8cpp_1a198f6752c59f6e830bdd8ea1169fe0b7" kindref="member">TEST</ref>(OAuthDeviceFlowTest,<sp/>RequestDeviceCode_Success)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthDeviceFlow<sp/>flow(makeConfig());</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>flow.setHttpPostForTesting([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*url*/</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*body*/</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeDeviceCodeJson();</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resp<sp/>=<sp/>flow.requestDeviceCode();</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(resp.device_code,<sp/></highlight><highlight class="stringliteral">&quot;device-code-abc&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(resp.user_code,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;BDWP-HQMF&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(resp.verification_uri,<sp/></highlight><highlight class="stringliteral">&quot;https://auth.example.com/activate&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(resp.verification_uri_complete,</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;https://auth.example.com/activate?user_code=BDWP-HQMF&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(resp.expires_in,<sp/>600);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(resp.interval,<sp/><sp/><sp/>1);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><ref refid="test__oauth__device__flow_8cpp_1a198f6752c59f6e830bdd8ea1169fe0b7" kindref="member">TEST</ref>(OAuthDeviceFlowTest,<sp/>RequestDeviceCode_MissingVerificationUri)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthDeviceFlow<sp/>flow(makeConfig());</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>flow.setHttpPostForTesting([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref><sp/>j;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;device_code&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;user_code&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;X&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>verification_uri<sp/>intentionally<sp/>missing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>j.dump();</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(flow.requestDeviceCode(),<sp/>AuthException);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><ref refid="test__oauth__device__flow_8cpp_1a198f6752c59f6e830bdd8ea1169fe0b7" kindref="member">TEST</ref>(OAuthDeviceFlowTest,<sp/>RequestDeviceCode_ServerError)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthDeviceFlow<sp/>flow(makeConfig());</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>flow.setHttpPostForTesting([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeErrorJson(</highlight><highlight class="stringliteral">&quot;invalid_client&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Unknown<sp/>client_id&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(flow.requestDeviceCode(),<sp/>AuthException);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><ref refid="test__oauth__device__flow_8cpp_1a198f6752c59f6e830bdd8ea1169fe0b7" kindref="member">TEST</ref>(OAuthDeviceFlowTest,<sp/>RequestDeviceCode_InvalidJson)<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthDeviceFlow<sp/>flow(makeConfig());</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>flow.setHttpPostForTesting([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;not-valid-json{{{&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(flow.requestDeviceCode(),<sp/>AuthException);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><ref refid="test__oauth__device__flow_8cpp_1a198f6752c59f6e830bdd8ea1169fe0b7" kindref="member">TEST</ref>(OAuthDeviceFlowTest,<sp/>RequestDeviceCode_TransportError)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthDeviceFlow<sp/>flow(makeConfig());</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>flow.setHttpPostForTesting([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>-&gt;<sp/>std::string<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;Connection<sp/>refused&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(flow.requestDeviceCode(),<sp/>AuthException);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><ref refid="test__oauth__device__flow_8cpp_1a198f6752c59f6e830bdd8ea1169fe0b7" kindref="member">TEST</ref>(OAuthDeviceFlowTest,<sp/>RequestDeviceCode_MissingVerificationUriComplete_DefaultsToVerificationUri)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthDeviceFlow<sp/>flow(makeConfig());</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>flow.setHttpPostForTesting([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref><sp/>j;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;device_code&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;dc&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;user_code&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;UC&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;verification_uri&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;https://auth.example.com/activate&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;expires_in&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>300;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;interval&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>verification_uri_complete</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>j.dump();</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resp<sp/>=<sp/>flow.requestDeviceCode();</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(resp.verification_uri_complete,<sp/>resp.verification_uri);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>pollForToken()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><ref refid="test__oauth__device__flow_8cpp_1a198f6752c59f6e830bdd8ea1169fe0b7" kindref="member">TEST</ref>(OAuthDeviceFlowTest,<sp/>PollForToken_Authorized)<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthDeviceFlow<sp/>flow(makeConfig());</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>flow.setHttpPostForTesting([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeTokenJson();</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthDeviceFlow::PollStatus<sp/>status;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>token<sp/>=<sp/>flow.pollForToken(</highlight><highlight class="stringliteral">&quot;dc-xyz&quot;</highlight><highlight class="normal">,<sp/>status);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(status,<sp/>OAuthDeviceFlow::PollStatus::Authorized);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(token.access_token,<sp/><sp/></highlight><highlight class="stringliteral">&quot;access-token-xyz&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(token.token_type,<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Bearer&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(token.refresh_token,<sp/></highlight><highlight class="stringliteral">&quot;refresh-token-xyz&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(token.expires_in,<sp/><sp/><sp/><sp/>3600);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><ref refid="test__oauth__device__flow_8cpp_1a198f6752c59f6e830bdd8ea1169fe0b7" kindref="member">TEST</ref>(OAuthDeviceFlowTest,<sp/>PollForToken_AuthorizationPending)<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthDeviceFlow<sp/>flow(makeConfig());</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>flow.setHttpPostForTesting([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeErrorJson(</highlight><highlight class="stringliteral">&quot;authorization_pending&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthDeviceFlow::PollStatus<sp/>status;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>flow.pollForToken(</highlight><highlight class="stringliteral">&quot;dc&quot;</highlight><highlight class="normal">,<sp/>status);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(status,<sp/>OAuthDeviceFlow::PollStatus::AuthorizationPending);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><ref refid="test__oauth__device__flow_8cpp_1a198f6752c59f6e830bdd8ea1169fe0b7" kindref="member">TEST</ref>(OAuthDeviceFlowTest,<sp/>PollForToken_SlowDown)<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthDeviceFlow<sp/>flow(makeConfig());</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>flow.setHttpPostForTesting([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeErrorJson(</highlight><highlight class="stringliteral">&quot;slow_down&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthDeviceFlow::PollStatus<sp/>status;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>flow.pollForToken(</highlight><highlight class="stringliteral">&quot;dc&quot;</highlight><highlight class="normal">,<sp/>status);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(status,<sp/>OAuthDeviceFlow::PollStatus::SlowDown);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><ref refid="test__oauth__device__flow_8cpp_1a198f6752c59f6e830bdd8ea1169fe0b7" kindref="member">TEST</ref>(OAuthDeviceFlowTest,<sp/>PollForToken_AccessDenied_Throws)<sp/>{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthDeviceFlow<sp/>flow(makeConfig());</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>flow.setHttpPostForTesting([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeErrorJson(</highlight><highlight class="stringliteral">&quot;access_denied&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthDeviceFlow::PollStatus<sp/>status;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(flow.pollForToken(</highlight><highlight class="stringliteral">&quot;dc&quot;</highlight><highlight class="normal">,<sp/>status),<sp/>AuthException);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(status,<sp/>OAuthDeviceFlow::PollStatus::AccessDenied);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><ref refid="test__oauth__device__flow_8cpp_1a198f6752c59f6e830bdd8ea1169fe0b7" kindref="member">TEST</ref>(OAuthDeviceFlowTest,<sp/>PollForToken_ExpiredToken_Throws)<sp/>{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthDeviceFlow<sp/>flow(makeConfig());</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>flow.setHttpPostForTesting([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeErrorJson(</highlight><highlight class="stringliteral">&quot;expired_token&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthDeviceFlow::PollStatus<sp/>status;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(flow.pollForToken(</highlight><highlight class="stringliteral">&quot;dc&quot;</highlight><highlight class="normal">,<sp/>status),<sp/>AuthException);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(status,<sp/>OAuthDeviceFlow::PollStatus::ExpiredToken);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><ref refid="test__oauth__device__flow_8cpp_1a198f6752c59f6e830bdd8ea1169fe0b7" kindref="member">TEST</ref>(OAuthDeviceFlowTest,<sp/>PollForToken_UnknownError_Throws)<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthDeviceFlow<sp/>flow(makeConfig());</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>flow.setHttpPostForTesting([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeErrorJson(</highlight><highlight class="stringliteral">&quot;server_error&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Internal<sp/>server<sp/>error&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthDeviceFlow::PollStatus<sp/>status;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(flow.pollForToken(</highlight><highlight class="stringliteral">&quot;dc&quot;</highlight><highlight class="normal">,<sp/>status),<sp/>AuthException);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(status,<sp/>OAuthDeviceFlow::PollStatus::Error);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><ref refid="test__oauth__device__flow_8cpp_1a198f6752c59f6e830bdd8ea1169fe0b7" kindref="member">TEST</ref>(OAuthDeviceFlowTest,<sp/>PollForToken_MissingAccessToken_Throws)<sp/>{</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthDeviceFlow<sp/>flow(makeConfig());</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>flow.setHttpPostForTesting([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Missing<sp/>access_token</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref><sp/>j;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;token_type&quot;</highlight><highlight class="normal">]<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Bearer&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;expires_in&quot;</highlight><highlight class="normal">]<sp/><sp/>=<sp/>3600;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>j.dump();</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthDeviceFlow::PollStatus<sp/>status;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(flow.pollForToken(</highlight><highlight class="stringliteral">&quot;dc&quot;</highlight><highlight class="normal">,<sp/>status),<sp/>AuthException);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><ref refid="test__oauth__device__flow_8cpp_1a198f6752c59f6e830bdd8ea1169fe0b7" kindref="member">TEST</ref>(OAuthDeviceFlowTest,<sp/>PollForToken_TransportError_SetsErrorStatus)<sp/>{</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthDeviceFlow<sp/>flow(makeConfig());</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>flow.setHttpPostForTesting([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>-&gt;<sp/>std::string<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;Network<sp/>unreachable&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthDeviceFlow::PollStatus<sp/>status;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>flow.pollForToken(</highlight><highlight class="stringliteral">&quot;dc&quot;</highlight><highlight class="normal">,<sp/>status);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(status,<sp/>OAuthDeviceFlow::PollStatus::Error);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight><highlight class="comment">//<sp/>validateIdToken()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><ref refid="test__oauth__device__flow_8cpp_1a198f6752c59f6e830bdd8ea1169fe0b7" kindref="member">TEST</ref>(OAuthDeviceFlowTest,<sp/>ValidateIdToken_EmptyIdToken_Throws)<sp/>{</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthDeviceFlow<sp/>flow(makeConfig());</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthDeviceFlow::TokenResponse<sp/>token;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>token.access_token<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;at&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>id_token<sp/>intentionally<sp/>empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(flow.validateIdToken(token),<sp/>AuthException);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><ref refid="test__oauth__device__flow_8cpp_1a198f6752c59f6e830bdd8ea1169fe0b7" kindref="member">TEST</ref>(OAuthDeviceFlowTest,<sp/>ValidateIdToken_MissingJwksUrl_Throws)<sp/>{</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthDeviceFlow::Config<sp/>cfg<sp/>=<sp/>makeConfig();</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.jwks_url.clear();</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthDeviceFlow<sp/>flow(cfg);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthDeviceFlow::TokenResponse<sp/>token;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>token.id_token<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;header.payload.signature&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(flow.validateIdToken(token),<sp/>AuthException);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight><highlight class="comment">//<sp/>authenticate()<sp/>–<sp/>progress<sp/>callback<sp/>and<sp/>scope<sp/>encoding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><ref refid="test__oauth__device__flow_8cpp_1a198f6752c59f6e830bdd8ea1169fe0b7" kindref="member">TEST</ref>(OAuthDeviceFlowTest,<sp/>Authenticate_ProgressCallbackInvoked)<sp/>{</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate:<sp/>1<sp/>authorization_pending<sp/>poll,<sp/>then<sp/>authorized</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>call_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthDeviceFlow<sp/>flow(makeConfig());</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>flow.setHttpPostForTesting([&amp;call_count](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>url,</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*body*/</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(url.find(</highlight><highlight class="stringliteral">&quot;device_authorization&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos)<sp/>{</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>interval=1<sp/>so<sp/>the<sp/>test<sp/>completes<sp/>quickly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeDeviceCodeJson(1);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Token<sp/>endpoint:<sp/>first<sp/>call<sp/>pending,<sp/>second<sp/>authorized</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++call_count;</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(call_count<sp/>==<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeErrorJson(</highlight><highlight class="stringliteral">&quot;authorization_pending&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Return<sp/>a<sp/>token<sp/>without<sp/>id_token;<sp/>validateIdToken<sp/>should<sp/>throw<sp/>(no<sp/>jwks_url).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>We<sp/>only<sp/>test<sp/>the<sp/>callback<sp/>side<sp/>here.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeTokenJson();</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>callback_invoked<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthDeviceFlow::DeviceCodeResponse<sp/>captured_resp;</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>authenticate()<sp/>will<sp/>throw<sp/>because<sp/>id_token<sp/>is<sp/>missing<sp/>/<sp/>jwks_url<sp/>unset,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>but<sp/>the<sp/>progress<sp/>callback<sp/>must<sp/>be<sp/>called<sp/>before<sp/>the<sp/>first<sp/>poll.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>flow.authenticate([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>OAuthDeviceFlow::DeviceCodeResponse&amp;<sp/>r)<sp/>{</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>callback_invoked<sp/>=<sp/>true;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>captured_resp<sp/><sp/><sp/><sp/>=<sp/>r;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}),</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AuthException</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(callback_invoked);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(captured_resp.user_code,<sp/></highlight><highlight class="stringliteral">&quot;BDWP-HQMF&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="325"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><ref refid="test__oauth__device__flow_8cpp_1a198f6752c59f6e830bdd8ea1169fe0b7" kindref="member">TEST</ref>(OAuthDeviceFlowTest,<sp/>RequestDeviceCode_ScopesEncodedInBody)<sp/>{</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>captured_body<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthDeviceFlow<sp/>flow(makeConfig());</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>flow.setHttpPostForTesting([&amp;captured_body](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>body)<sp/>{</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>captured_body<sp/>=<sp/>body;</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeDeviceCodeJson();</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>flow.requestDeviceCode();</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(captured_body.find(</highlight><highlight class="stringliteral">&quot;scope=&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;openid<sp/>email&quot;<sp/>should<sp/>appear<sp/>URL-encoded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(captured_body.find(</highlight><highlight class="stringliteral">&quot;openid&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(captured_body.find(</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">),<sp/><sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="342"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><ref refid="test__oauth__device__flow_8cpp_1a198f6752c59f6e830bdd8ea1169fe0b7" kindref="member">TEST</ref>(OAuthDeviceFlowTest,<sp/>PollForToken_ClientSecretIncludedWhenSet)<sp/>{</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthDeviceFlow::Config<sp/>cfg<sp/>=<sp/>makeConfig();</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.client_secret<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;my-secret&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>captured_body<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthDeviceFlow<sp/>flow(cfg);</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>flow.setHttpPostForTesting([&amp;captured_body](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>url,</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>body)<sp/>{</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(url.find(</highlight><highlight class="stringliteral">&quot;device_authorization&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos)<sp/>{</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeDeviceCodeJson();</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>captured_body<sp/>=<sp/>body;</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeTokenJson();</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>OAuthDeviceFlow::PollStatus<sp/>status;</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>flow.pollForToken(</highlight><highlight class="stringliteral">&quot;dc&quot;</highlight><highlight class="normal">,<sp/>status);</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(captured_body.find(</highlight><highlight class="stringliteral">&quot;client_secret&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(captured_body.find(</highlight><highlight class="stringliteral">&quot;my-secret&quot;</highlight><highlight class="normal">),<sp/><sp/><sp/><sp/><sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="364"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/security/test_oauth_device_flow.cpp"/>
+  </compounddef>
+</doxygen>

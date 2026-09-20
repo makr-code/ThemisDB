@@ -1,0 +1,207 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1index_1_1_matryoshka_truncation" kind="class" language="C++" prot="public">
+    <compoundname>themis::index::MatryoshkaTruncation</compoundname>
+    <includes refid="matryoshka__truncation_8h" local="no">matryoshka_truncation.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_matryoshka_truncation_1a6e7b2a3140b9e5e8fdb4cfbd5a12f065" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::MatryoshkaTruncation::trunc_dim_</definition>
+        <argsstring></argsstring>
+        <name>trunc_dim_</name>
+        <qualifiedname>themis::index::MatryoshkaTruncation::trunc_dim_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/matryoshka_truncation.h" line="146" column="12" bodyfile="include/index/matryoshka_truncation.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_matryoshka_truncation_1a98f9c667a059c145eb2455a61b402193" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::index::MatryoshkaTruncation::normalize_</definition>
+        <argsstring></argsstring>
+        <name>normalize_</name>
+        <qualifiedname>themis::index::MatryoshkaTruncation::normalize_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/matryoshka_truncation.h" line="147" column="12" bodyfile="include/index/matryoshka_truncation.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1_matryoshka_truncation_1a88b68677ce6be681992918ab52805732" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::MatryoshkaTruncation::MatryoshkaTruncation</definition>
+        <argsstring>(size_t trunc_dim, bool normalize=true)</argsstring>
+        <name>MatryoshkaTruncation</name>
+        <qualifiedname>themis::index::MatryoshkaTruncation::MatryoshkaTruncation</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>trunc_dim</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>normalize</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>trunc_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target dimensionality after truncation (must be &gt; 0). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>normalize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If true (default), L2-normalise the truncated vector so that cosine similarity == dot product on the result. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/matryoshka_truncation.h" line="85" column="14" bodyfile="include/index/matryoshka_truncation.h" bodystart="85" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_matryoshka_truncation_1abab87c367c5fc240686e429697e3d61f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::index::MatryoshkaTruncation::truncate</definition>
+        <argsstring>(const float *vector, size_t full_dim) const</argsstring>
+        <name>truncate</name>
+        <qualifiedname>themis::index::MatryoshkaTruncation::truncate</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>vector</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>full_dim</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Truncate <computeroutput>vector</computeroutput> (raw array of length <computeroutput>full_dim</computeroutput>) to a vector of length trunc_dim_. If <computeroutput>full_dim</computeroutput> &gt;= trunc_dim_, only the first trunc_dim_ elements are kept. If <computeroutput>full_dim</computeroutput> &lt; trunc_dim_, all available elements are copied and the remaining positions are zero-padded up to trunc_dim_, regardless of normalize_. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/matryoshka_truncation.h" line="98" column="18" bodyfile="include/index/matryoshka_truncation.h" bodystart="98" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_matryoshka_truncation_1a06d7fb0bc4e9ed7bc39cf7b63bbc02d6" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::index::MatryoshkaTruncation::truncate</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;vector) const</argsstring>
+        <name>truncate</name>
+        <qualifiedname>themis::index::MatryoshkaTruncation::truncate</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>vector</declname>
+        </param>
+        <briefdescription>
+<para>Convenience overload for std::vector input. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/matryoshka_truncation.h" line="121" column="18" bodyfile="include/index/matryoshka_truncation.h" bodystart="121" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_matryoshka_truncation_1a106bf9092b814ac44fbce84c80e84bd5" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::index::MatryoshkaTruncation::truncateAndNormalize</definition>
+        <argsstring>(const float *vector, size_t full_dim) const</argsstring>
+        <name>truncateAndNormalize</name>
+        <qualifiedname>themis::index::MatryoshkaTruncation::truncateAndNormalize</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>vector</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>full_dim</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/matryoshka_truncation.h" line="128" column="18" bodyfile="include/index/matryoshka_truncation.h" bodystart="128" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_matryoshka_truncation_1ad4ca2eec2fce168e216ad4fe14696252" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::index::MatryoshkaTruncation::truncateAndNormalize</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;vector) const</argsstring>
+        <name>truncateAndNormalize</name>
+        <qualifiedname>themis::index::MatryoshkaTruncation::truncateAndNormalize</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>vector</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/matryoshka_truncation.h" line="136" column="18" bodyfile="include/index/matryoshka_truncation.h" bodystart="136" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_matryoshka_truncation_1a0ce99a2b79053833f1fe2a3b1fbe3909" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::index::MatryoshkaTruncation::trunc_dim</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>trunc_dim</name>
+        <qualifiedname>themis::index::MatryoshkaTruncation::trunc_dim</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/matryoshka_truncation.h" line="142" column="12" bodyfile="include/index/matryoshka_truncation.h" bodystart="142" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_matryoshka_truncation_1aa65d51ba18b45b21969b81936f82c06d" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::MatryoshkaTruncation::normalize</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>normalize</name>
+        <qualifiedname>themis::index::MatryoshkaTruncation::normalize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/matryoshka_truncation.h" line="143" column="12" bodyfile="include/index/matryoshka_truncation.h" bodystart="143" bodyend="143"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stateless Matryoshka prefix-truncation helper. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/matryoshka_truncation.h" line="80" column="1" bodyfile="include/index/matryoshka_truncation.h" bodystart="80" bodyend="148"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1index_1_1_matryoshka_truncation_1a88b68677ce6be681992918ab52805732" prot="public" virt="non-virtual"><scope>themis::index::MatryoshkaTruncation</scope><name>MatryoshkaTruncation</name></member>
+      <member refid="classthemis_1_1index_1_1_matryoshka_truncation_1aa65d51ba18b45b21969b81936f82c06d" prot="public" virt="non-virtual"><scope>themis::index::MatryoshkaTruncation</scope><name>normalize</name></member>
+      <member refid="classthemis_1_1index_1_1_matryoshka_truncation_1a98f9c667a059c145eb2455a61b402193" prot="private" virt="non-virtual"><scope>themis::index::MatryoshkaTruncation</scope><name>normalize_</name></member>
+      <member refid="classthemis_1_1index_1_1_matryoshka_truncation_1a0ce99a2b79053833f1fe2a3b1fbe3909" prot="public" virt="non-virtual"><scope>themis::index::MatryoshkaTruncation</scope><name>trunc_dim</name></member>
+      <member refid="classthemis_1_1index_1_1_matryoshka_truncation_1a6e7b2a3140b9e5e8fdb4cfbd5a12f065" prot="private" virt="non-virtual"><scope>themis::index::MatryoshkaTruncation</scope><name>trunc_dim_</name></member>
+      <member refid="classthemis_1_1index_1_1_matryoshka_truncation_1abab87c367c5fc240686e429697e3d61f" prot="public" virt="non-virtual"><scope>themis::index::MatryoshkaTruncation</scope><name>truncate</name></member>
+      <member refid="classthemis_1_1index_1_1_matryoshka_truncation_1a06d7fb0bc4e9ed7bc39cf7b63bbc02d6" prot="public" virt="non-virtual"><scope>themis::index::MatryoshkaTruncation</scope><name>truncate</name></member>
+      <member refid="classthemis_1_1index_1_1_matryoshka_truncation_1a106bf9092b814ac44fbce84c80e84bd5" prot="public" virt="non-virtual"><scope>themis::index::MatryoshkaTruncation</scope><name>truncateAndNormalize</name></member>
+      <member refid="classthemis_1_1index_1_1_matryoshka_truncation_1ad4ca2eec2fce168e216ad4fe14696252" prot="public" virt="non-virtual"><scope>themis::index::MatryoshkaTruncation</scope><name>truncateAndNormalize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_jti_revocation_test" kind="class" language="C++" prot="public">
+    <compoundname>JtiRevocationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_jti_revocation_test_1ab8527857e7c47c04f5ca2598e909b401" prot="protected" static="no" mutable="no">
+        <type>ECKey</type>
+        <definition>ECKey JtiRevocationTest::key_</definition>
+        <argsstring></argsstring>
+        <name>key_</name>
+        <qualifiedname>JtiRevocationTest::key_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_token_revocation_integration.cpp" line="216" column="11" bodyfile="tests/security/test_jwt_token_revocation_integration.cpp" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_jti_revocation_test_1a8ea7b5008d70cc4dfde9348e78960b18" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; JWTValidator &gt;</type>
+        <definition>std::unique_ptr&lt;JWTValidator&gt; JtiRevocationTest::val_</definition>
+        <argsstring></argsstring>
+        <name>val_</name>
+        <qualifiedname>JtiRevocationTest::val_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_token_revocation_integration.cpp" line="217" column="21" bodyfile="tests/security/test_jwt_token_revocation_integration.cpp" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_jti_revocation_test_1af9b3063b850dc5b2127c594686cc67cb" prot="protected" static="no" mutable="no">
+        <type>TokenBlacklist</type>
+        <definition>TokenBlacklist JtiRevocationTest::blacklist_</definition>
+        <argsstring></argsstring>
+        <name>blacklist_</name>
+        <qualifiedname>JtiRevocationTest::blacklist_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_token_revocation_integration.cpp" line="218" column="20" bodyfile="tests/security/test_jwt_token_revocation_integration.cpp" bodystart="218" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_jti_revocation_test_1aeb1ed7169106d98ff8830ed80d508f69" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void JtiRevocationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>JtiRevocationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_token_revocation_integration.cpp" line="212" column="10" bodyfile="tests/security/test_jwt_token_revocation_integration.cpp" bodystart="212" bodyend="215"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>JtiRevocationTest</label>
+        <link refid="class_jti_revocation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>JtiRevocationTest</label>
+        <link refid="class_jti_revocation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>key_</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>anonymous:key_</label>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_jwt_token_revocation_integration.cpp" line="210" column="1" bodyfile="tests/security/test_jwt_token_revocation_integration.cpp" bodystart="210" bodyend="219"/>
+    <listofallmembers>
+      <member refid="class_jti_revocation_test_1af9b3063b850dc5b2127c594686cc67cb" prot="protected" virt="non-virtual"><scope>JtiRevocationTest</scope><name>blacklist_</name></member>
+      <member refid="class_jti_revocation_test_1ab8527857e7c47c04f5ca2598e909b401" prot="protected" virt="non-virtual"><scope>JtiRevocationTest</scope><name>key_</name></member>
+      <member refid="class_jti_revocation_test_1aeb1ed7169106d98ff8830ed80d508f69" prot="protected" virt="non-virtual"><scope>JtiRevocationTest</scope><name>SetUp</name></member>
+      <member refid="class_jti_revocation_test_1a8ea7b5008d70cc4dfde9348e78960b18" prot="protected" virt="non-virtual"><scope>JtiRevocationTest</scope><name>val_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

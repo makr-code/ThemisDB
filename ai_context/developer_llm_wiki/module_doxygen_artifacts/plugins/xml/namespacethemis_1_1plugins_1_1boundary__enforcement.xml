@@ -1,0 +1,269 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1plugins_1_1boundary__enforcement" kind="namespace" language="C++">
+    <compoundname>themis::plugins::boundary_enforcement</compoundname>
+    <innerclass refid="classthemis_1_1plugins_1_1boundary__enforcement_1_1_credential_scanner" prot="public">themis::plugins::boundary_enforcement::CredentialScanner</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1boundary__enforcement_1_1_s_b_o_m_verifier" prot="public">themis::plugins::boundary_enforcement::SBOMVerifier</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1boundary__enforcement_1_1_scoped_checkout_validator" prot="public">themis::plugins::boundary_enforcement::ScopedCheckoutValidator</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1boundary__enforcement_1_1_boundary_enforcement_test" prot="public">themis::plugins::boundary_enforcement::BoundaryEnforcementTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1boundary__enforcement_1a4d484c917082b274dd8bb4569e988b3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::boundary_enforcement::TEST_F</definition>
+        <argsstring>(BoundaryEnforcementTest, WAVE_C_B3_001_ScopedCheckoutRejectsPrivateSubmodules)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::boundary_enforcement::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1boundary__enforcement_1_1_boundary_enforcement_test" kindref="compound">BoundaryEnforcementTest</ref></type>
+        </param>
+        <param>
+          <type>WAVE_C_B3_001_ScopedCheckoutRejectsPrivateSubmodules</type>
+        </param>
+        <briefdescription>
+<para>TEST-1: Community build rejects private submodules (scoped-checkout test). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" line="292" column="1" bodyfile="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" bodystart="292" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1boundary__enforcement_1aedbfa64bf604642ac52e47a3251d2529" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::boundary_enforcement::TEST_F</definition>
+        <argsstring>(BoundaryEnforcementTest, WAVE_C_B3_002_CredentialScannerDetectsAWSKeys)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::boundary_enforcement::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1boundary__enforcement_1_1_boundary_enforcement_test" kindref="compound">BoundaryEnforcementTest</ref></type>
+        </param>
+        <param>
+          <type>WAVE_C_B3_002_CredentialScannerDetectsAWSKeys</type>
+        </param>
+        <briefdescription>
+<para>TEST-2: Private credential scanner detects leaked AWS keys. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" line="308" column="1" bodyfile="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" bodystart="308" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1boundary__enforcement_1a75ef646a5fc1efc376ada6ffb2ede8db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::boundary_enforcement::TEST_F</definition>
+        <argsstring>(BoundaryEnforcementTest, WAVE_C_B3_003_CredentialScannerDetectsAzureKeys)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::boundary_enforcement::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1boundary__enforcement_1_1_boundary_enforcement_test" kindref="compound">BoundaryEnforcementTest</ref></type>
+        </param>
+        <param>
+          <type>WAVE_C_B3_003_CredentialScannerDetectsAzureKeys</type>
+        </param>
+        <briefdescription>
+<para>TEST-3: Private credential scanner detects leaked Azure keys. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" line="318" column="1" bodyfile="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" bodystart="318" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1boundary__enforcement_1a166a1dfeca167c1f6261477249b9c1e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::boundary_enforcement::TEST_F</definition>
+        <argsstring>(BoundaryEnforcementTest, WAVE_C_B3_004_CredentialScannerDetectsOAuthTokens)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::boundary_enforcement::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1boundary__enforcement_1_1_boundary_enforcement_test" kindref="compound">BoundaryEnforcementTest</ref></type>
+        </param>
+        <param>
+          <type>WAVE_C_B3_004_CredentialScannerDetectsOAuthTokens</type>
+        </param>
+        <briefdescription>
+<para>TEST-4: Private credential scanner detects leaked OAuth tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" line="328" column="1" bodyfile="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" bodystart="328" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1boundary__enforcement_1a0b47537cfa3aa2df4ba20dcb002c02d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::boundary_enforcement::TEST_F</definition>
+        <argsstring>(BoundaryEnforcementTest, WAVE_C_B3_005_CredentialScannerDetectsSSHPGPKeys)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::boundary_enforcement::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1boundary__enforcement_1_1_boundary_enforcement_test" kindref="compound">BoundaryEnforcementTest</ref></type>
+        </param>
+        <param>
+          <type>WAVE_C_B3_005_CredentialScannerDetectsSSHPGPKeys</type>
+        </param>
+        <briefdescription>
+<para>TEST-5: Private credential scanner detects leaked SSH/PGP keys. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" line="338" column="1" bodyfile="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" bodystart="338" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1boundary__enforcement_1a0acbcbaa8aed00b2785934779599c7cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::boundary_enforcement::TEST_F</definition>
+        <argsstring>(BoundaryEnforcementTest, WAVE_C_B3_006_EnterpriseLaneCanLoadPrivatePlugins)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::boundary_enforcement::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1boundary__enforcement_1_1_boundary_enforcement_test" kindref="compound">BoundaryEnforcementTest</ref></type>
+        </param>
+        <param>
+          <type>WAVE_C_B3_006_EnterpriseLaneCanLoadPrivatePlugins</type>
+        </param>
+        <briefdescription>
+<para>TEST-6: Enterprise lane can load private plugins, community cannot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" line="348" column="1" bodyfile="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" bodystart="348" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1boundary__enforcement_1af840870e0e1906e57e1dfcc9747d2ab6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::boundary_enforcement::TEST_F</definition>
+        <argsstring>(BoundaryEnforcementTest, WAVE_C_B3_007_SBOMHashVerificationPassesOnMatch)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::boundary_enforcement::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1boundary__enforcement_1_1_boundary_enforcement_test" kindref="compound">BoundaryEnforcementTest</ref></type>
+        </param>
+        <param>
+          <type>WAVE_C_B3_007_SBOMHashVerificationPassesOnMatch</type>
+        </param>
+        <briefdescription>
+<para>TEST-7: SBOM hash verification passes when hashes match. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" line="364" column="1" bodyfile="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" bodystart="364" bodyend="373"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1boundary__enforcement_1a2bb503906195a134c4d1f52b7132c907" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::boundary_enforcement::TEST_F</definition>
+        <argsstring>(BoundaryEnforcementTest, WAVE_C_B3_008_SBOMHashVerificationFailsOnMissingSBOM)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::boundary_enforcement::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1boundary__enforcement_1_1_boundary_enforcement_test" kindref="compound">BoundaryEnforcementTest</ref></type>
+        </param>
+        <param>
+          <type>WAVE_C_B3_008_SBOMHashVerificationFailsOnMissingSBOM</type>
+        </param>
+        <briefdescription>
+<para>TEST-8: SBOM hash verification fails (fail-closed) when SBOM missing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" line="376" column="1" bodyfile="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" bodystart="376" bodyend="383"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1boundary__enforcement_1aa9739bd1086b6a3fcb96547e1a47b3f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::boundary_enforcement::TEST_F</definition>
+        <argsstring>(BoundaryEnforcementTest, WAVE_C_B3_009_SBOMHashVerificationFailsOnMismatch)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::boundary_enforcement::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1boundary__enforcement_1_1_boundary_enforcement_test" kindref="compound">BoundaryEnforcementTest</ref></type>
+        </param>
+        <param>
+          <type>WAVE_C_B3_009_SBOMHashVerificationFailsOnMismatch</type>
+        </param>
+        <briefdescription>
+<para>TEST-9: SBOM hash verification fails (fail-closed) when hash mismatches. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" line="386" column="1" bodyfile="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" bodystart="386" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1boundary__enforcement_1a3c9169d7132fdbf9f61799120614653d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::boundary_enforcement::TEST_F</definition>
+        <argsstring>(BoundaryEnforcementTest, WAVE_C_B3_010_SBOMContainsNoPrivateDependencies)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::boundary_enforcement::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1boundary__enforcement_1_1_boundary_enforcement_test" kindref="compound">BoundaryEnforcementTest</ref></type>
+        </param>
+        <param>
+          <type>WAVE_C_B3_010_SBOMContainsNoPrivateDependencies</type>
+        </param>
+        <briefdescription>
+<para>TEST-10: Verify dependency list in SBOM contains no private sources. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" line="398" column="1" bodyfile="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" bodystart="398" bodyend="415"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1boundary__enforcement_1abde2c3a96f04bfee3550de8c77f79307" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::boundary_enforcement::TEST_F</definition>
+        <argsstring>(BoundaryEnforcementTest, WAVE_C_B3_011_NegativeTestScannerCatchesInjected)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::boundary_enforcement::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1boundary__enforcement_1_1_boundary_enforcement_test" kindref="compound">BoundaryEnforcementTest</ref></type>
+        </param>
+        <param>
+          <type>WAVE_C_B3_011_NegativeTestScannerCatchesInjected</type>
+        </param>
+        <briefdescription>
+<para>TEST-11: Negative test: verify scanner catches injected private credentials. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" line="418" column="1" bodyfile="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" bodystart="418" bodyend="445"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1boundary__enforcement_1a4c32d9ccd5c21e9d75d229036e593b57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::boundary_enforcement::TEST_F</definition>
+        <argsstring>(BoundaryEnforcementTest, WAVE_C_B3_012_ScopedCheckoutBlocksPrivateInCommunity)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::plugins::boundary_enforcement::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1boundary__enforcement_1_1_boundary_enforcement_test" kindref="compound">BoundaryEnforcementTest</ref></type>
+        </param>
+        <param>
+          <type>WAVE_C_B3_012_ScopedCheckoutBlocksPrivateInCommunity</type>
+        </param>
+        <briefdescription>
+<para>TEST-12: Scoped-checkout validation blocks private submodules in community PR. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" line="448" column="1" bodyfile="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" bodystart="448" bodyend="468"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" line="31" column="1"/>
+  </compounddef>
+</doxygen>

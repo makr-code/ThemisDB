@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1index_1_1_hnsw_production_defaults_1_1_hnsw_params" kind="struct" language="C++" prot="public">
+    <compoundname>themis::index::HnswProductionDefaults::HnswParams</compoundname>
+    <includes refid="hnsw__production__defaults_8h" local="no">hnsw_production_defaults.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_hnsw_production_defaults_1_1_hnsw_params_1a4a567f9bd24d6e957c9f50122de4b441" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::index::HnswProductionDefaults::HnswParams::M</definition>
+        <argsstring></argsstring>
+        <name>M</name>
+        <qualifiedname>themis::index::HnswProductionDefaults::HnswParams::M</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_production_defaults.h" line="52" column="13" bodyfile="include/index/hnsw_production_defaults.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_hnsw_production_defaults_1_1_hnsw_params_1adf40e96fefbf59e9038bc14495baf938" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::index::HnswProductionDefaults::HnswParams::ef_construction</definition>
+        <argsstring></argsstring>
+        <name>ef_construction</name>
+        <qualifiedname>themis::index::HnswProductionDefaults::HnswParams::ef_construction</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_production_defaults.h" line="53" column="13" bodyfile="include/index/hnsw_production_defaults.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_hnsw_production_defaults_1_1_hnsw_params_1aa9072d559b0347586fdd56911ed9c350" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::index::HnswProductionDefaults::HnswParams::ef_search</definition>
+        <argsstring></argsstring>
+        <name>ef_search</name>
+        <qualifiedname>themis::index::HnswProductionDefaults::HnswParams::ef_search</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_production_defaults.h" line="54" column="13" bodyfile="include/index/hnsw_production_defaults.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_hnsw_production_defaults_1_1_hnsw_params_1a2dd187e62eb9e632eda3dce80283b419" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::index::HnswProductionDefaults::HnswParams::max_M</definition>
+        <argsstring></argsstring>
+        <name>max_M</name>
+        <qualifiedname>themis::index::HnswProductionDefaults::HnswParams::max_M</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_production_defaults.h" line="57" column="13" bodyfile="include/index/hnsw_production_defaults.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_hnsw_production_defaults_1_1_hnsw_params_1a3feb0413be96dccbb0e1bc1c4f564253" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::index::HnswProductionDefaults::HnswParams::max_M0</definition>
+        <argsstring></argsstring>
+        <name>max_M0</name>
+        <qualifiedname>themis::index::HnswProductionDefaults::HnswParams::max_M0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_production_defaults.h" line="58" column="13" bodyfile="include/index/hnsw_production_defaults.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_hnsw_production_defaults_1_1_hnsw_params_1a0c6ca17436a0f9bfb324d03311cd4289" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::index::HnswProductionDefaults::HnswParams::ml</definition>
+        <argsstring></argsstring>
+        <name>ml</name>
+        <qualifiedname>themis::index::HnswProductionDefaults::HnswParams::ml</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_production_defaults.h" line="59" column="16" bodyfile="include/index/hnsw_production_defaults.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_hnsw_production_defaults_1_1_hnsw_params_1a8274f1d46a41d8a6b4380ecc0aa8d6f5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::HnswProductionDefaults::HnswParams::initial_capacity</definition>
+        <argsstring></argsstring>
+        <name>initial_capacity</name>
+        <qualifiedname>themis::index::HnswProductionDefaults::HnswParams::initial_capacity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_production_defaults.h" line="62" column="16" bodyfile="include/index/hnsw_production_defaults.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_hnsw_production_defaults_1_1_hnsw_params_1a43df419a1e4798295c1d624509fd65a5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::index::HnswProductionDefaults::HnswParams::use_prefetch</definition>
+        <argsstring></argsstring>
+        <name>use_prefetch</name>
+        <qualifiedname>themis::index::HnswProductionDefaults::HnswParams::use_prefetch</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_production_defaults.h" line="63" column="14" bodyfile="include/index/hnsw_production_defaults.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_hnsw_production_defaults_1_1_hnsw_params_1afd4c21c881c41853b4ae25814b05069a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::index::HnswProductionDefaults::HnswParams::numa_aware</definition>
+        <argsstring></argsstring>
+        <name>numa_aware</name>
+        <qualifiedname>themis::index::HnswProductionDefaults::HnswParams::numa_aware</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_production_defaults.h" line="64" column="14" bodyfile="include/index/hnsw_production_defaults.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/hnsw_production_defaults.h" line="51" column="5" bodyfile="include/index/hnsw_production_defaults.h" bodystart="51" bodyend="65"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1index_1_1_hnsw_production_defaults_1_1_hnsw_params_1adf40e96fefbf59e9038bc14495baf938" prot="public" virt="non-virtual"><scope>themis::index::HnswProductionDefaults::HnswParams</scope><name>ef_construction</name></member>
+      <member refid="structthemis_1_1index_1_1_hnsw_production_defaults_1_1_hnsw_params_1aa9072d559b0347586fdd56911ed9c350" prot="public" virt="non-virtual"><scope>themis::index::HnswProductionDefaults::HnswParams</scope><name>ef_search</name></member>
+      <member refid="structthemis_1_1index_1_1_hnsw_production_defaults_1_1_hnsw_params_1a8274f1d46a41d8a6b4380ecc0aa8d6f5" prot="public" virt="non-virtual"><scope>themis::index::HnswProductionDefaults::HnswParams</scope><name>initial_capacity</name></member>
+      <member refid="structthemis_1_1index_1_1_hnsw_production_defaults_1_1_hnsw_params_1a4a567f9bd24d6e957c9f50122de4b441" prot="public" virt="non-virtual"><scope>themis::index::HnswProductionDefaults::HnswParams</scope><name>M</name></member>
+      <member refid="structthemis_1_1index_1_1_hnsw_production_defaults_1_1_hnsw_params_1a2dd187e62eb9e632eda3dce80283b419" prot="public" virt="non-virtual"><scope>themis::index::HnswProductionDefaults::HnswParams</scope><name>max_M</name></member>
+      <member refid="structthemis_1_1index_1_1_hnsw_production_defaults_1_1_hnsw_params_1a3feb0413be96dccbb0e1bc1c4f564253" prot="public" virt="non-virtual"><scope>themis::index::HnswProductionDefaults::HnswParams</scope><name>max_M0</name></member>
+      <member refid="structthemis_1_1index_1_1_hnsw_production_defaults_1_1_hnsw_params_1a0c6ca17436a0f9bfb324d03311cd4289" prot="public" virt="non-virtual"><scope>themis::index::HnswProductionDefaults::HnswParams</scope><name>ml</name></member>
+      <member refid="structthemis_1_1index_1_1_hnsw_production_defaults_1_1_hnsw_params_1afd4c21c881c41853b4ae25814b05069a" prot="public" virt="non-virtual"><scope>themis::index::HnswProductionDefaults::HnswParams</scope><name>numa_aware</name></member>
+      <member refid="structthemis_1_1index_1_1_hnsw_production_defaults_1_1_hnsw_params_1a43df419a1e4798295c1d624509fd65a5" prot="public" virt="non-virtual"><scope>themis::index::HnswProductionDefaults::HnswParams</scope><name>use_prefetch</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

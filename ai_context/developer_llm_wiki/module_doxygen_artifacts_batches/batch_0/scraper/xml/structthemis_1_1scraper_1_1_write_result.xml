@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1scraper_1_1_write_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::scraper::WriteResult</compoundname>
+    <includes refid="scraper__metadata__writer_8h" local="no">scraper_metadata_writer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_write_result_1ac8d5419895cff81b10324e289e76d4f0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::scraper::WriteResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::scraper::WriteResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when all layers wrote without error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_metadata_writer.h" line="111" column="17" bodyfile="include/scraper/scraper_metadata_writer.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_write_result_1ad14ad3faf39465f8985463dadd7ae85c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::WriteResult::doc_id</definition>
+        <argsstring></argsstring>
+        <name>doc_id</name>
+        <qualifiedname>themis::scraper::WriteResult::doc_id</qualifiedname>
+        <briefdescription>
+<para>doc_id of the written record (from <ref refid="structthemis_1_1scraper_1_1_scraper_relational_record" kindref="compound">ScraperRelationalRecord</ref>) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_metadata_writer.h" line="112" column="17" bodyfile="include/scraper/scraper_metadata_writer.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_write_result_1a4b7029034b357bf38f7c69b4806d9e5b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::WriteResult::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::scraper::WriteResult::error</qualifiedname>
+        <briefdescription>
+<para>Non-empty when success == false. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_metadata_writer.h" line="113" column="17" bodyfile="include/scraper/scraper_metadata_writer.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_write_result_1a1780c762c2f2e99114e5deab4d407c4e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::scraper::WriteResult::relational_written</definition>
+        <argsstring></argsstring>
+        <name>relational_written</name>
+        <qualifiedname>themis::scraper::WriteResult::relational_written</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Relational layer write succeeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_metadata_writer.h" line="114" column="17" bodyfile="include/scraper/scraper_metadata_writer.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_write_result_1a6b475485331817058400be93a3844b02" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::scraper::WriteResult::graph_written</definition>
+        <argsstring></argsstring>
+        <name>graph_written</name>
+        <qualifiedname>themis::scraper::WriteResult::graph_written</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Property-graph layer write succeeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_metadata_writer.h" line="115" column="17" bodyfile="include/scraper/scraper_metadata_writer.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_write_result_1a67c8055b94fd3b085efd6c161c0f8e72" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::scraper::WriteResult::vector_written</definition>
+        <argsstring></argsstring>
+        <name>vector_written</name>
+        <qualifiedname>themis::scraper::WriteResult::vector_written</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Vector / ANN layer write succeeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_metadata_writer.h" line="116" column="17" bodyfile="include/scraper/scraper_metadata_writer.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Outcome of a single <ref refid="classthemis_1_1scraper_1_1_i_scraper_metadata_writer_1aa161e6904418a9f39b70ef089127463d" kindref="member">IScraperMetadataWriter::write()</ref> call. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Inspect the individual <computeroutput>*_written</computeroutput> flags to determine which storage layers succeeded. When <computeroutput><ref refid="structthemis_1_1scraper_1_1_write_result_1ac8d5419895cff81b10324e289e76d4f0" kindref="member">success</ref> == false</computeroutput>, <computeroutput><ref refid="structthemis_1_1scraper_1_1_write_result_1a4b7029034b357bf38f7c69b4806d9e5b" kindref="member">error</ref></computeroutput> contains a diagnostic message. </para>
+    </detaileddescription>
+    <location file="include/scraper/scraper_metadata_writer.h" line="110" column="1" bodyfile="include/scraper/scraper_metadata_writer.h" bodystart="110" bodyend="117"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1scraper_1_1_write_result_1ad14ad3faf39465f8985463dadd7ae85c" prot="public" virt="non-virtual"><scope>themis::scraper::WriteResult</scope><name>doc_id</name></member>
+      <member refid="structthemis_1_1scraper_1_1_write_result_1a4b7029034b357bf38f7c69b4806d9e5b" prot="public" virt="non-virtual"><scope>themis::scraper::WriteResult</scope><name>error</name></member>
+      <member refid="structthemis_1_1scraper_1_1_write_result_1a6b475485331817058400be93a3844b02" prot="public" virt="non-virtual"><scope>themis::scraper::WriteResult</scope><name>graph_written</name></member>
+      <member refid="structthemis_1_1scraper_1_1_write_result_1a1780c762c2f2e99114e5deab4d407c4e" prot="public" virt="non-virtual"><scope>themis::scraper::WriteResult</scope><name>relational_written</name></member>
+      <member refid="structthemis_1_1scraper_1_1_write_result_1ac8d5419895cff81b10324e289e76d4f0" prot="public" virt="non-virtual"><scope>themis::scraper::WriteResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1scraper_1_1_write_result_1a67c8055b94fd3b085efd6c161c0f8e72" prot="public" virt="non-virtual"><scope>themis::scraper::WriteResult</scope><name>vector_written</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

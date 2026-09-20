@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="cms__signing_8h" kind="file" language="C++">
+    <compoundname>cms_signing.h</compoundname>
+    <includes refid="signing_8h" local="yes">security/signing.h</includes>
+    <includes local="no">openssl/x509.h</includes>
+    <includes local="no">openssl/evp.h</includes>
+    <includes local="no">memory</includes>
+    <includedby refid="cms__signing_8cpp" local="yes">src/security/cms_signing.cpp</includedby>
+    <includedby refid="keyprovider__signing_8cpp" local="yes">src/security/keyprovider_signing.cpp</includedby>
+    <includedby refid="test__keyprovider__signing_8cpp" local="yes">tests/security/test_keyprovider_signing.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/security/cms_signing.h</label>
+        <link refid="cms__signing_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>security/signing.h</label>
+        <link refid="signing_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>openssl/evp.h</label>
+      </node>
+      <node id="7">
+        <label>openssl/x509.h</label>
+      </node>
+      <node id="6">
+        <label>security/key_provider.h</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/security/cms_signing.h</label>
+        <link refid="cms__signing_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/security/cms_signing.cpp</label>
+        <link refid="cms__signing_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/security/keyprovider_signing.cpp</label>
+        <link refid="keyprovider__signing_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/security/test_keyprovider_signing.cpp</label>
+        <link refid="test__keyprovider__signing_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1_c_m_s_signing_service" prot="public">themis::CMSSigningService</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="signing_8h" kindref="compound">security/signing.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/x509.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/evp.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22" refid="classthemis_1_1_c_m_s_signing_service" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_c_m_s_signing_service_1a40032969b69a9e4ee0f7d642a5b1d4c5" kindref="member">CMSSigningService</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_signing_service" kindref="compound">SigningService</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Construct<sp/>from<sp/>existing<sp/>X509<sp/>cert<sp/>and<sp/>private<sp/>key<sp/>(shared<sp/>ownership)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_c_m_s_signing_service_1a40032969b69a9e4ee0f7d642a5b1d4c5" kindref="member">CMSSigningService</ref>(std::shared_ptr&lt;X509&gt;<sp/>cert,<sp/>std::shared_ptr&lt;EVP_PKEY&gt;<sp/>pkey);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Construct<sp/>by<sp/>taking<sp/>ownership<sp/>of<sp/>raw<sp/>OpenSSL<sp/>pointers<sp/>(cert/pkey<sp/>may<sp/>be<sp/>nullptr)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_c_m_s_signing_service_1a40032969b69a9e4ee0f7d642a5b1d4c5" kindref="member">CMSSigningService</ref>(X509*<sp/>cert,<sp/>EVP_PKEY*<sp/>pkey);</highlight></codeline>
+<codeline lineno="28" refid="classthemis_1_1_c_m_s_signing_service_1ad506ad1749f47db5859288cd0589c011" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_c_m_s_signing_service_1ad506ad1749f47db5859288cd0589c011" kindref="member">~CMSSigningService</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_signing_result" kindref="compound">SigningResult</ref><sp/><ref refid="classthemis_1_1_c_m_s_signing_service_1a83796966dba1806aea34e1dcfe784e30" kindref="member">sign</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_id)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_c_m_s_signing_service_1a0bf7ff83d559fdf43445ff92e72deb64" kindref="member">verify</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data,</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>signature,</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_id)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;X509&gt;<sp/>cert_;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;EVP_PKEY&gt;<sp/>pkey_;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/security/cms_signing.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1imrg_1_1_import_quota" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::imrg::ImportQuota</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1imrg_1_1_import_quota_1a5c86f9b87425f47842f56acd6903c1a5" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::bench::imrg::ImportQuota::max_rows</definition>
+        <argsstring></argsstring>
+        <name>max_rows</name>
+        <qualifiedname>themis::bench::imrg::ImportQuota::max_rows</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importers_release_gates.cpp" line="166" column="19" bodyfile="benchmarks/importers/bench_importers_release_gates.cpp" bodystart="166" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1imrg_1_1_import_quota_1aeaa0d50a66b9cfc1113789c94af7be6c" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; std::uint64_t &gt;</type>
+        <definition>std::atomic&lt;std::uint64_t&gt; themis::bench::imrg::ImportQuota::used</definition>
+        <argsstring></argsstring>
+        <name>used</name>
+        <qualifiedname>themis::bench::imrg::ImportQuota::used</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importers_release_gates.cpp" line="167" column="17" bodyfile="benchmarks/importers/bench_importers_release_gates.cpp" bodystart="167" bodyend="167"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1bench_1_1imrg_1_1_import_quota_1a96499781b196718f9b73809d9415f4b3" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1ac72fd64dd2a30cf907537658ae046dee" kindref="member">ImporterErrorCode</ref></type>
+        <definition>ImporterErrorCode themis::bench::imrg::ImportQuota::check</definition>
+        <argsstring>(std::uint64_t n) noexcept</argsstring>
+        <name>check</name>
+        <qualifiedname>themis::bench::imrg::ImportQuota::check</qualifiedname>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importers_release_gates.cpp" line="169" column="23" bodyfile="benchmarks/importers/bench_importers_release_gates.cpp" bodystart="169" bodyend="175"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/importers/bench_importers_release_gates.cpp" line="165" column="1" bodyfile="benchmarks/importers/bench_importers_release_gates.cpp" bodystart="165" bodyend="176"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1imrg_1_1_import_quota_1a96499781b196718f9b73809d9415f4b3" prot="public" virt="non-virtual"><scope>themis::bench::imrg::ImportQuota</scope><name>check</name></member>
+      <member refid="structthemis_1_1bench_1_1imrg_1_1_import_quota_1a5c86f9b87425f47842f56acd6903c1a5" prot="public" virt="non-virtual"><scope>themis::bench::imrg::ImportQuota</scope><name>max_rows</name></member>
+      <member refid="structthemis_1_1bench_1_1imrg_1_1_import_quota_1aeaa0d50a66b9cfc1113789c94af7be6c" prot="public" virt="non-virtual"><scope>themis::bench::imrg::ImportQuota</scope><name>used</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_kernel_validator_test" kind="class" language="C++" prot="public">
+    <compoundname>KernelValidatorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_kernel_validator_test_1a4dc0f331075d457bfe46878873ff9e7f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void KernelValidatorTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>KernelValidatorTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_kernel_validator.cpp" line="12" column="10" bodyfile="tests/gpu/test_gpu_kernel_validator.cpp" bodystart="12" bodyend="12"/>
+      </memberdef>
+      <memberdef kind="function" id="class_kernel_validator_test_1a57cd12871ee1f15583eea2e2a74e14c4" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void KernelValidatorTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>KernelValidatorTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_kernel_validator.cpp" line="13" column="10" bodyfile="tests/gpu/test_gpu_kernel_validator.cpp" bodystart="13" bodyend="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>KernelValidatorTest</label>
+        <link refid="class_kernel_validator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>KernelValidatorTest</label>
+        <link refid="class_kernel_validator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_kernel_validator.cpp" line="10" column="1" bodyfile="tests/gpu/test_gpu_kernel_validator.cpp" bodystart="10" bodyend="14"/>
+    <listofallmembers>
+      <member refid="class_kernel_validator_test_1a4dc0f331075d457bfe46878873ff9e7f" prot="protected" virt="non-virtual"><scope>KernelValidatorTest</scope><name>SetUp</name></member>
+      <member refid="class_kernel_validator_test_1a57cd12871ee1f15583eea2e2a74e14c4" prot="protected" virt="non-virtual"><scope>KernelValidatorTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

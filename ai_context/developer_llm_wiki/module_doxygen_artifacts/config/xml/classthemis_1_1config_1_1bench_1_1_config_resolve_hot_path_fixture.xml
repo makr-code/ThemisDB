@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1config_1_1bench_1_1_config_resolve_hot_path_fixture" kind="class" language="C++" prot="public">
+    <compoundname>themis::config::bench::ConfigResolveHotPathFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1config_1_1bench_1_1_config_resolve_hot_path_fixture_1a56de2e75134659e5ff607c1983230931" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path themis::config::bench::ConfigResolveHotPathFixture::original_cwd_</definition>
+        <argsstring></argsstring>
+        <name>original_cwd_</name>
+        <qualifiedname>themis::config::bench::ConfigResolveHotPathFixture::original_cwd_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_release_gates.cpp" line="79" column="14" bodyfile="benchmarks/config/bench_config_release_gates.cpp" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1bench_1_1_config_resolve_hot_path_fixture_1af6388033c7e33f1daa9c7ec946d600f5" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path themis::config::bench::ConfigResolveHotPathFixture::temp_root_</definition>
+        <argsstring></argsstring>
+        <name>temp_root_</name>
+        <qualifiedname>themis::config::bench::ConfigResolveHotPathFixture::temp_root_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_release_gates.cpp" line="80" column="14" bodyfile="benchmarks/config/bench_config_release_gates.cpp" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1bench_1_1_config_resolve_hot_path_fixture_1a19801595417e9ec3097b952a39616e12" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::config::bench::ConfigResolveHotPathFixture::test_path_</definition>
+        <argsstring></argsstring>
+        <name>test_path_</name>
+        <qualifiedname>themis::config::bench::ConfigResolveHotPathFixture::test_path_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_release_gates.cpp" line="81" column="17" bodyfile="benchmarks/config/bench_config_release_gates.cpp" bodystart="81" bodyend="81"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1config_1_1bench_1_1_config_resolve_hot_path_fixture_1afb40c5bdee323f37235a70adc3ff31f8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::bench::ConfigResolveHotPathFixture::SetUp</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::config::bench::ConfigResolveHotPathFixture::SetUp</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_release_gates.cpp" line="50" column="10" bodyfile="benchmarks/config/bench_config_release_gates.cpp" bodystart="50" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1bench_1_1_config_resolve_hot_path_fixture_1adfbce5eb2ecb0acd729525813d72968c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::bench::ConfigResolveHotPathFixture::TearDown</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::config::bench::ConfigResolveHotPathFixture::TearDown</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_release_gates.cpp" line="72" column="10" bodyfile="benchmarks/config/bench_config_release_gates.cpp" bodystart="72" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+      <node id="1">
+        <label>themis::config::bench::ConfigResolveHotPathFixture</label>
+        <link refid="classthemis_1_1config_1_1bench_1_1_config_resolve_hot_path_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+      <node id="1">
+        <label>themis::config::bench::ConfigResolveHotPathFixture</label>
+        <link refid="classthemis_1_1config_1_1bench_1_1_config_resolve_hot_path_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/config/bench_config_release_gates.cpp" line="48" column="1" bodyfile="benchmarks/config/bench_config_release_gates.cpp" bodystart="48" bodyend="82"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1config_1_1bench_1_1_config_resolve_hot_path_fixture_1a56de2e75134659e5ff607c1983230931" prot="protected" virt="non-virtual"><scope>themis::config::bench::ConfigResolveHotPathFixture</scope><name>original_cwd_</name></member>
+      <member refid="classthemis_1_1config_1_1bench_1_1_config_resolve_hot_path_fixture_1afb40c5bdee323f37235a70adc3ff31f8" prot="public" virt="non-virtual"><scope>themis::config::bench::ConfigResolveHotPathFixture</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1config_1_1bench_1_1_config_resolve_hot_path_fixture_1adfbce5eb2ecb0acd729525813d72968c" prot="public" virt="non-virtual"><scope>themis::config::bench::ConfigResolveHotPathFixture</scope><name>TearDown</name></member>
+      <member refid="classthemis_1_1config_1_1bench_1_1_config_resolve_hot_path_fixture_1af6388033c7e33f1daa9c7ec946d600f5" prot="protected" virt="non-virtual"><scope>themis::config::bench::ConfigResolveHotPathFixture</scope><name>temp_root_</name></member>
+      <member refid="classthemis_1_1config_1_1bench_1_1_config_resolve_hot_path_fixture_1a19801595417e9ec3097b952a39616e12" prot="protected" virt="non-virtual"><scope>themis::config::bench::ConfigResolveHotPathFixture</scope><name>test_path_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

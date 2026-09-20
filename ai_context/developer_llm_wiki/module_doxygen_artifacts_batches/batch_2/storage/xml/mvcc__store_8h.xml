@@ -1,0 +1,351 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="mvcc__store_8h" kind="file" language="C++">
+    <compoundname>mvcc_store.h</compoundname>
+    <includes refid="hlc_8h" local="yes">storage/hlc.h</includes>
+    <includes refid="rocksdb__wrapper_8h" local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">shared_mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includedby refid="mvcc__chain__pruner_8h" local="yes">include/storage/mvcc_chain_pruner.h</includedby>
+    <includedby refid="raft__mvcc__bridge_8h" local="yes">include/storage/raft_mvcc_bridge.h</includedby>
+    <includedby refid="history__manager_8cpp" local="yes">src/storage/history_manager.cpp</includedby>
+    <includedby refid="mvcc__store_8cpp" local="yes">src/storage/mvcc_store.cpp</includedby>
+    <includedby refid="test__mvcc__chain__pruner_8cpp" local="yes">tests/storage/test_mvcc_chain_pruner.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>storage/hlc.h</label>
+        <link refid="hlc_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/storage/mvcc_store.h</label>
+        <link refid="mvcc__store_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>storage/nvme_manager.h</label>
+        <link refid="nvme__manager_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>storage/rocksdb_wrapper.h</label>
+        <link refid="rocksdb__wrapper_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="14">
+        <label>condition_variable</label>
+      </node>
+      <node id="17">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="12">
+        <label>functional</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="13">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="18">
+        <label>shared_mutex</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>string_view</label>
+      </node>
+      <node id="19">
+        <label>unordered_map</label>
+      </node>
+      <node id="15">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/storage/mvcc_chain_pruner.h</label>
+        <link refid="mvcc__chain__pruner_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/storage/mvcc_store.h</label>
+        <link refid="mvcc__store_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/storage/raft_mvcc_bridge.h</label>
+        <link refid="raft__mvcc__bridge_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>src/storage/history_manager.cpp</label>
+        <link refid="history__manager_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/storage/mvcc_chain_pruner.cpp</label>
+        <link refid="mvcc__chain__pruner_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/storage/mvcc_store.cpp</label>
+        <link refid="mvcc__store_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/storage/raft_mvcc_bridge.cpp</label>
+        <link refid="raft__mvcc__bridge_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/storage/test_mvcc_chain_pruner.cpp</label>
+        <link refid="test__mvcc__chain__pruner_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1_m_v_c_c_store" prot="public">themis::MVCCStore</innerclass>
+    <innerclass refid="structthemis_1_1_m_v_c_c_store_1_1_version_entry" prot="public">themis::MVCCStore::VersionEntry</innerclass>
+    <innerclass refid="structthemis_1_1_m_v_c_c_store_1_1_g_c_options" prot="public">themis::MVCCStore::GCOptions</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>2025<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Licensed<sp/>under<sp/>MIT<sp/>License</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="hlc_8h" kindref="compound">storage/hlc.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rocksdb__wrapper_8h" kindref="compound">storage/rocksdb_wrapper.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="classthemis_1_1_m_v_c_c_store" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_m_v_c_c_store_1ad660cd28fdff311ff0880d08b0339cc1" kindref="member">MVCCStore</ref><sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1_m_v_c_c_store_1_1_version_entry" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_m_v_c_c_store_1_1_version_entry" kindref="compound">VersionEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1_m_v_c_c_store_1_1_version_entry_1ac4f6d070610c85650851dee090690365" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref><sp/><sp/><ref refid="structthemis_1_1_m_v_c_c_store_1_1_version_entry_1ac4f6d070610c85650851dee090690365" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1_m_v_c_c_store_1_1_version_entry_1a17f8af3d8001b29f19100bd36028df2f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1_m_v_c_c_store_1_1_version_entry_1a17f8af3d8001b29f19100bd36028df2f" kindref="member">value</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1_m_v_c_c_store_1_1_g_c_options" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_m_v_c_c_store_1_1_g_c_options" kindref="compound">GCOptions</ref><sp/>{</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1_m_v_c_c_store_1_1_g_c_options_1a6545c84279fef20fe901f3302833ee5e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1_m_v_c_c_store_1_1_g_c_options_1a6545c84279fef20fe901f3302833ee5e" kindref="member">min_versions_to_keep</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_m_v_c_c_store_1ad660cd28fdff311ff0880d08b0339cc1" kindref="member">MVCCStore</ref>(</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;RocksDBWrapper&gt;<sp/>db,</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;HybridLogicalClock&gt;<sp/>clock<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Write<sp/>────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref><sp/><ref refid="classthemis_1_1_m_v_c_c_store_1ace7f23b7def5df90dca58b3b722351a7" kindref="member">put</ref>(std::string_view<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>value);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref><sp/><ref refid="classthemis_1_1_m_v_c_c_store_1aa70279b8c52eb934f3cf8821b92dc5a6" kindref="member">putInTxn</ref>(</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper" kindref="compound">RocksDBWrapper::TransactionWrapper</ref>&amp;<sp/>txn,</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>key,</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>value</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref><sp/><ref refid="classthemis_1_1_m_v_c_c_store_1ae7c444afa544777daabc5258c587718d" kindref="member">delInTxn</ref>(</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper" kindref="compound">RocksDBWrapper::TransactionWrapper</ref>&amp;<sp/>txn,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>key</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_m_v_c_c_store_1a7149c634e395b1581f423adbccd18968" kindref="member">putWithTimestamp</ref>(</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>key,</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>value,</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref><sp/>ts</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Read<sp/>─────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::vector&lt;uint8_t&gt;&gt;<sp/><ref refid="classthemis_1_1_m_v_c_c_store_1ade338f367ebcd1730e0b37361776e61f" kindref="member">getLatest</ref>(std::string_view<sp/>key);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::vector&lt;uint8_t&gt;&gt;<sp/><ref refid="classthemis_1_1_m_v_c_c_store_1a5d4696c10a5d34994f5823595acbc17c" kindref="member">getAtTimestamp</ref>(</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>key,</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref><sp/>ts</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Version<sp/>history<sp/>──────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_m_v_c_c_store_1ad13c5998b9ef3bbc0b12644689675d52" kindref="member">scanVersions</ref>(</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>key,</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_m_v_c_c_store_1_1_version_entry" kindref="compound">VersionEntry</ref>&amp;)&gt;<sp/>callback</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Garbage<sp/>collection<sp/>───────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1_m_v_c_c_store_1a02130143255aced885032b4ffc79825f" kindref="member">gcVersionsBefore</ref>(</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>key,</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref><sp/>min_ts,</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_m_v_c_c_store_1_1_g_c_options" kindref="compound">GCOptions</ref><sp/>opts</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210" refid="classthemis_1_1_m_v_c_c_store_1adf60e934df39657c6d27480899dc6354" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1_m_v_c_c_store_1adf60e934df39657c6d27480899dc6354" kindref="member">gcVersionsBefore</ref>(std::string_view<sp/>key,<sp/><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref><sp/>min_ts)<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_m_v_c_c_store_1a02130143255aced885032b4ffc79825f" kindref="member">gcVersionsBefore</ref>(key,<sp/>min_ts,<sp/><ref refid="structthemis_1_1_m_v_c_c_store_1_1_g_c_options" kindref="compound">GCOptions</ref>{});</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1_m_v_c_c_store_1a7ce1b12bd53f4a61180c3389010dc446" kindref="member">gcAllBefore</ref>(<ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref><sp/>min_ts,<sp/>GCOptions<sp/>opts);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225" refid="classthemis_1_1_m_v_c_c_store_1a2fc3062185059fa1a782a586a9e288df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1_m_v_c_c_store_1a2fc3062185059fa1a782a586a9e288df" kindref="member">gcAllBefore</ref>(<ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref><sp/>min_ts)<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_m_v_c_c_store_1a7ce1b12bd53f4a61180c3389010dc446" kindref="member">gcAllBefore</ref>(min_ts,<sp/><ref refid="structthemis_1_1_m_v_c_c_store_1_1_g_c_options" kindref="compound">GCOptions</ref>{});</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_m_v_c_c_store_1a619a921d0d5bd9a72f2c14c22f5dac10" kindref="member">scanBaseKeys</ref>(std::function&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">(std::string_view<sp/>base_key)&gt;<sp/>callback);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Clock<sp/>access<sp/>─────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref><sp/><ref refid="classthemis_1_1_m_v_c_c_store_1a711cbf11108d495f1e9b8b5d403ca9de" kindref="member">currentTimestamp</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref><sp/><ref refid="classthemis_1_1_m_v_c_c_store_1a4e9d29f741fd31411206d90cf77a8c21" kindref="member">updateClock</ref>(<ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref><sp/>received);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Key<sp/>encoding<sp/>helpers<sp/>(public<sp/>for<sp/>testing)<sp/>────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1_m_v_c_c_store_1a8190bf183a0cdd5053af949666202598" kindref="member">encodeVersionedKey</ref>(std::string_view<sp/>base_key,<sp/><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref><sp/>ts);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1_m_v_c_c_store_1a31147a67261939008f3f10a132216ea1" kindref="member">encodeVersionPrefix</ref>(std::string_view<sp/>base_key);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref><sp/><ref refid="classthemis_1_1_m_v_c_c_store_1aa707b914a01f384801ed8e951268fd52" kindref="member">decodeTimestamp</ref>(std::string_view<sp/>versioned_key);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;RocksDBWrapper&gt;<sp/><sp/><sp/><sp/><sp/>db_;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;HybridLogicalClock&gt;<sp/>clock_;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>F-010:<sp/>Latest-version<sp/>cache<sp/>—<sp/>maps<sp/>base<sp/>key<sp/>→<sp/>HLC<sp/>timestamp<sp/>of<sp/>the<sp/>most</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>recent<sp/>non-transactional<sp/>write.<sp/><sp/>Allows<sp/>getLatest()<sp/>to<sp/>perform<sp/>a<sp/>direct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>db_-&gt;get()<sp/>point-read<sp/>instead<sp/>of<sp/>creating<sp/>a<sp/>RocksDB<sp/>iterator<sp/>every<sp/>time.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Invariant:<sp/>latest_ts_map_[key]<sp/>==<sp/>ts<sp/>of<sp/>the<sp/>last<sp/>put()/putWithTimestamp()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>call<sp/>for<sp/>that<sp/>key,<sp/>provided<sp/>ts<sp/>&gt;=<sp/>any<sp/>previous<sp/>value<sp/>in<sp/>the<sp/>map.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Keys<sp/>written<sp/>exclusively<sp/>via<sp/>putInTxn()/delInTxn()<sp/>will<sp/>NOT<sp/>be<sp/>in<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>map;<sp/>getLatest()<sp/>falls<sp/>back<sp/>to<sp/>the<sp/>iterator<sp/>path<sp/>for<sp/>those<sp/>(safe).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>latest_mu_;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>HLCTimestamp&gt;<sp/>latest_ts_map_;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/storage/mvcc_store.h"/>
+  </compounddef>
+</doxygen>

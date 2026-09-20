@@ -1,0 +1,304 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graphql_1_1_persisted_query_registry" kind="class" language="C++" prot="public">
+    <compoundname>themis::graphql::PersistedQueryRegistry</compoundname>
+    <includes refid="persisted__queries_8h" local="no">persisted_queries.h</includes>
+    <innerclass refid="structthemis_1_1graphql_1_1_persisted_query_registry_1_1_persisted_query" prot="public">themis::graphql::PersistedQueryRegistry::PersistedQuery</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graphql_1_1_persisted_query_registry_1a449711091ae1e9049c0ef630b562de52" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::graphql::PersistedQueryRegistry::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::graphql::PersistedQueryRegistry::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/persisted_queries.h" line="193" column="24" bodyfile="include/api/persisted_queries.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graphql_1_1_persisted_query_registry_1ad77b23a079473fd0d4c488305d356446" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1graphql_1_1_persisted_query_registry_1_1_persisted_query" kindref="compound">PersistedQuery</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, PersistedQuery&gt; themis::graphql::PersistedQueryRegistry::queries_</definition>
+        <argsstring></argsstring>
+        <name>queries_</name>
+        <qualifiedname>themis::graphql::PersistedQueryRegistry::queries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/persisted_queries.h" line="194" column="24" bodyfile="include/api/persisted_queries.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_persisted_query_registry_1ad0f9bbf212a0d380c48aca2dff9e9a7b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graphql::PersistedQueryRegistry::registerQuery</definition>
+        <argsstring>(const std::string &amp;query_id, const std::string &amp;query_text, const std::string &amp;description=&quot;&quot;)</argsstring>
+        <name>registerQuery</name>
+        <qualifiedname>themis::graphql::PersistedQueryRegistry::registerQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>description</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/api/persisted_queries.h" line="76" column="10" bodyfile="include/api/persisted_queries.h" bodystart="76" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_persisted_query_registry_1a3fd295c27153943fcb9dcaf0752bf5de" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1graphql_1_1_persisted_query_registry_1_1_persisted_query" kindref="compound">PersistedQuery</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; PersistedQuery &gt; themis::graphql::PersistedQueryRegistry::getQuery</definition>
+        <argsstring>(const std::string &amp;query_id) const</argsstring>
+        <name>getQuery</name>
+        <qualifiedname>themis::graphql::PersistedQueryRegistry::getQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/api/persisted_queries.h" line="101" column="21" bodyfile="include/api/persisted_queries.h" bodystart="101" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_persisted_query_registry_1a58da4d9babbdb91b6f97ec7ac7883315" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graphql::PersistedQueryRegistry::deprecateQuery</definition>
+        <argsstring>(const std::string &amp;query_id, const std::string &amp;reason)</argsstring>
+        <name>deprecateQuery</name>
+        <qualifiedname>themis::graphql::PersistedQueryRegistry::deprecateQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Deprecate Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/persisted_queries.h" line="123" column="10" bodyfile="include/api/persisted_queries.h" bodystart="123" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_persisted_query_registry_1af7bba916663194501392d1c1d14a4c5b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graphql::PersistedQueryRegistry::isRegistered</definition>
+        <argsstring>(const std::string &amp;query_id) const</argsstring>
+        <name>isRegistered</name>
+        <qualifiedname>themis::graphql::PersistedQueryRegistry::isRegistered</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/api/persisted_queries.h" line="135" column="10" bodyfile="include/api/persisted_queries.h" bodystart="135" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_persisted_query_registry_1adc6c04758611fb4db7be9ebdf1a187c4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::graphql::PersistedQueryRegistry::getAllQueryIds</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllQueryIds</name>
+        <qualifiedname>themis::graphql::PersistedQueryRegistry::getAllQueryIds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/api/persisted_queries.h" line="145" column="17" bodyfile="include/api/persisted_queries.h" bodystart="145" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_persisted_query_registry_1a41fd739d3dd0d8e467ab0c936b14b4e8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graphql::PersistedQueryRegistry::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::graphql::PersistedQueryRegistry::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/persisted_queries.h" line="165" column="10" bodyfile="include/api/persisted_queries.h" bodystart="165" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_persisted_query_registry_1a01830614e5383cfe50071d5383ac1f14" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graphql::PersistedQueryRegistry::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::graphql::PersistedQueryRegistry::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/api/persisted_queries.h" line="170" column="12" bodyfile="include/api/persisted_queries.h" bodystart="170" bodyend="178"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_persisted_query_registry_1a0a6dfc4a843a6ac1dcde8e47c6500881" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>PersistedQueryRegistry &amp;</type>
+        <definition>static PersistedQueryRegistry &amp; themis::graphql::PersistedQueryRegistry::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::graphql::PersistedQueryRegistry::instance</qualifiedname>
+        <briefdescription>
+<para>Instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements instance without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/persisted_queries.h" line="185" column="35" bodyfile="include/api/persisted_queries.h" bodystart="185" bodyend="188"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_persisted_query_registry_1af60b20d61a2e6319a6a80ab95aca867e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graphql::PersistedQueryRegistry::PersistedQueryRegistry</definition>
+        <argsstring>()=default</argsstring>
+        <name>PersistedQueryRegistry</name>
+        <qualifiedname>themis::graphql::PersistedQueryRegistry::PersistedQueryRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/persisted_queries.h" line="191" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/persisted_queries.h" line="66" column="1" bodyfile="include/api/persisted_queries.h" bodystart="66" bodyend="195"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graphql_1_1_persisted_query_registry_1a41fd739d3dd0d8e467ab0c936b14b4e8" prot="public" virt="non-virtual"><scope>themis::graphql::PersistedQueryRegistry</scope><name>clear</name></member>
+      <member refid="classthemis_1_1graphql_1_1_persisted_query_registry_1a58da4d9babbdb91b6f97ec7ac7883315" prot="public" virt="non-virtual"><scope>themis::graphql::PersistedQueryRegistry</scope><name>deprecateQuery</name></member>
+      <member refid="classthemis_1_1graphql_1_1_persisted_query_registry_1adc6c04758611fb4db7be9ebdf1a187c4" prot="public" virt="non-virtual"><scope>themis::graphql::PersistedQueryRegistry</scope><name>getAllQueryIds</name></member>
+      <member refid="classthemis_1_1graphql_1_1_persisted_query_registry_1a3fd295c27153943fcb9dcaf0752bf5de" prot="public" virt="non-virtual"><scope>themis::graphql::PersistedQueryRegistry</scope><name>getQuery</name></member>
+      <member refid="classthemis_1_1graphql_1_1_persisted_query_registry_1a0a6dfc4a843a6ac1dcde8e47c6500881" prot="public" virt="non-virtual"><scope>themis::graphql::PersistedQueryRegistry</scope><name>instance</name></member>
+      <member refid="classthemis_1_1graphql_1_1_persisted_query_registry_1af7bba916663194501392d1c1d14a4c5b" prot="public" virt="non-virtual"><scope>themis::graphql::PersistedQueryRegistry</scope><name>isRegistered</name></member>
+      <member refid="classthemis_1_1graphql_1_1_persisted_query_registry_1a449711091ae1e9049c0ef630b562de52" prot="private" virt="non-virtual"><scope>themis::graphql::PersistedQueryRegistry</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1graphql_1_1_persisted_query_registry_1af60b20d61a2e6319a6a80ab95aca867e" prot="private" virt="non-virtual"><scope>themis::graphql::PersistedQueryRegistry</scope><name>PersistedQueryRegistry</name></member>
+      <member refid="classthemis_1_1graphql_1_1_persisted_query_registry_1ad77b23a079473fd0d4c488305d356446" prot="private" virt="non-virtual"><scope>themis::graphql::PersistedQueryRegistry</scope><name>queries_</name></member>
+      <member refid="classthemis_1_1graphql_1_1_persisted_query_registry_1ad0f9bbf212a0d380c48aca2dff9e9a7b" prot="public" virt="non-virtual"><scope>themis::graphql::PersistedQueryRegistry</scope><name>registerQuery</name></member>
+      <member refid="classthemis_1_1graphql_1_1_persisted_query_registry_1a01830614e5383cfe50071d5383ac1f14" prot="public" virt="non-virtual"><scope>themis::graphql::PersistedQueryRegistry</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

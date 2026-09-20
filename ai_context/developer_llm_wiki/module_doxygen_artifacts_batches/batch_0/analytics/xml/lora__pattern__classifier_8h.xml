@@ -1,0 +1,258 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="lora__pattern__classifier_8h" kind="file" language="C++">
+    <compoundname>lora_pattern_classifier.h</compoundname>
+    <includes local="no">functional</includes>
+    <includes local="no">future</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes refid="anomaly__detection_8h" local="yes">analytics/anomaly_detection.h</includes>
+    <includedby refid="lora__pattern__classifier_8cpp" local="yes">src/analytics/lora_pattern_classifier.cpp</includedby>
+    <includedby refid="test__lora__pattern__classifier_8cpp" local="yes">tests/analytics/test_lora_pattern_classifier.cpp</includedby>
+    <incdepgraph>
+      <node id="7">
+        <label>analytics/anomaly_detection.h</label>
+        <link refid="anomaly__detection_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/analytics/lora_pattern_classifier.h</label>
+        <link refid="lora__pattern__classifier_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>algorithm</label>
+      </node>
+      <node id="9">
+        <label>atomic</label>
+      </node>
+      <node id="10">
+        <label>chrono</label>
+      </node>
+      <node id="11">
+        <label>deque</label>
+      </node>
+      <node id="2">
+        <label>functional</label>
+      </node>
+      <node id="3">
+        <label>future</label>
+      </node>
+      <node id="12">
+        <label>map</label>
+      </node>
+      <node id="13">
+        <label>memory</label>
+      </node>
+      <node id="4">
+        <label>mutex</label>
+      </node>
+      <node id="14">
+        <label>optional</label>
+      </node>
+      <node id="15">
+        <label>shared_mutex</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="16">
+        <label>variant</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/analytics/lora_pattern_classifier.h</label>
+        <link refid="lora__pattern__classifier_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/analytics/lora_pattern_classifier.cpp</label>
+        <link refid="lora__pattern__classifier_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/analytics/test_lora_pattern_classifier.cpp</label>
+        <link refid="test__lora__pattern__classifier_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_pattern_result" prot="public">themisdb::analytics::PatternResult</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_adapter_domain" prot="public">themisdb::analytics::AdapterDomain</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_config" prot="public">themisdb::analytics::LoRAPatternClassifierConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier" prot="public">themisdb::analytics::LoRAPatternClassifier</innerclass>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1analytics">themisdb::analytics</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;future&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="anomaly__detection_8h" kindref="compound">analytics/anomaly_detection.h</ref>&quot;</highlight><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>DataPoint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb" kindref="compound">themisdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics" kindref="compound">analytics</ref><sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PatternResult</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemisdb_1_1analytics_1_1_pattern_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_pattern_result" kindref="compound">PatternResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="45" refid="structthemisdb_1_1analytics_1_1_pattern_result_1a50ed383e6695da748acf2d0a097a04df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1analytics_1_1_pattern_result_1a50ed383e6695da748acf2d0a097a04df" kindref="member">label</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46" refid="structthemisdb_1_1analytics_1_1_pattern_result_1a51e06e9d8c77f3bb4ce1cb7c3ee3cbd9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_pattern_result_1a51e06e9d8c77f3bb4ce1cb7c3ee3cbd9" kindref="member">confidence</ref><sp/>=<sp/>0.0;<sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="structthemisdb_1_1analytics_1_1_pattern_result_1a9f8f987b52a8b4603c167c60fe746b10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1analytics_1_1_pattern_result_1a9f8f987b52a8b4603c167c60fe746b10" kindref="member">adapter_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="structthemisdb_1_1analytics_1_1_pattern_result_1ac8858a669f8f367cb5fb3201e28787c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_pattern_result_1ac8858a669f8f367cb5fb3201e28787c9" kindref="member">used_fallback</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AdapterDomain</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemisdb_1_1analytics_1_1_adapter_domain" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_adapter_domain" kindref="compound">AdapterDomain</ref><sp/>{</highlight></codeline>
+<codeline lineno="56" refid="structthemisdb_1_1analytics_1_1_adapter_domain_1aaf477b817d096bec4b43c7adf9b97d41" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_adapter_domain_1aaf477b817d096bec4b43c7adf9b97d41" kindref="member">adapter_id</ref>;</highlight></codeline>
+<codeline lineno="57" refid="structthemisdb_1_1analytics_1_1_adapter_domain_1ae40bc82bbbbe6fb4780685bab6481a1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_adapter_domain_1ae40bc82bbbbe6fb4780685bab6481a1d" kindref="member">domain</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58" refid="structthemisdb_1_1analytics_1_1_adapter_domain_1a772aa65d6b4acce327c011c2ba5cd803" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/><ref refid="structthemisdb_1_1analytics_1_1_adapter_domain_1a772aa65d6b4acce327c011c2ba5cd803" kindref="member">embedding</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LoRAPatternClassifierConfig<sp/>(hoisted<sp/>outside<sp/>class<sp/>for<sp/>default-arg<sp/>use)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_config" kindref="compound">LoRAPatternClassifierConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="65" refid="structthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_config_1afcd6eb8a6c40e505adb9006bff361e57" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_config_1afcd6eb8a6c40e505adb9006bff361e57" kindref="member">max_parallel_workers</ref><sp/>=<sp/>4;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66" refid="structthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_config_1ae796717d8eb837755f8704223990ce2d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_config_1ae796717d8eb837755f8704223990ce2d" kindref="member">fallback_confidence</ref><sp/><sp/>=<sp/>0.5;<sp/></highlight></codeline>
+<codeline lineno="67"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LoRAPatternClassifier</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1ac13dbb3cc83c54be20454399f314efae" kindref="member">LoRAPatternClassifier</ref><sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="75" refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a4c622498f622a03d6c0fb04f3803e8c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a4c622498f622a03d6c0fb04f3803e8c0" kindref="member">Config</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_config" kindref="compound">LoRAPatternClassifierConfig</ref>;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a7f61901fb05aabdff23e183fc527cd78" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a7f61901fb05aabdff23e183fc527cd78" kindref="member">InferenceFn</ref><sp/>=<sp/>std::function&lt;std::string(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt)&gt;;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a40257f21fde607c318252f2611be03ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a40257f21fde607c318252f2611be03ba" kindref="member">EmbeddingFn</ref><sp/>=<sp/>std::function&lt;std::vector&lt;double&gt;(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)&gt;;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1ac13dbb3cc83c54be20454399f314efae" kindref="member">LoRAPatternClassifier</ref>(<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a4c622498f622a03d6c0fb04f3803e8c0" kindref="member">Config</ref><sp/>cfg<sp/>=<sp/><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a4c622498f622a03d6c0fb04f3803e8c0" kindref="member">Config</ref>{});</highlight></codeline>
+<codeline lineno="83" refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a13da0edd43a5cbba4aa4e951a5ea8080" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a13da0edd43a5cbba4aa4e951a5ea8080" kindref="member">~LoRAPatternClassifier</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1ac5380ca63fceec3714d8b625ec7af6fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1ac5380ca63fceec3714d8b625ec7af6fd" kindref="member">LoRAPatternClassifier</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1ac13dbb3cc83c54be20454399f314efae" kindref="member">LoRAPatternClassifier</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86" refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a99dfb009e71450889c96592efd24a74a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1ac13dbb3cc83c54be20454399f314efae" kindref="member">LoRAPatternClassifier</ref>&amp;<sp/><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a99dfb009e71450889c96592efd24a74a" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1ac13dbb3cc83c54be20454399f314efae" kindref="member">LoRAPatternClassifier</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1acfb294a538b4c35cb56707d8e5977603" kindref="member">setInferenceFn</ref>(<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a7f61901fb05aabdff23e183fc527cd78" kindref="member">InferenceFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a8ec71bb3b79abf80ec1d15009b686b20" kindref="member">setEmbeddingFn</ref>(<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a40257f21fde607c318252f2611be03ba" kindref="member">EmbeddingFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a7eedccea29705ed09066e5c5f8d7fa98" kindref="member">registerAdapterDomain</ref>(<ref refid="structthemisdb_1_1analytics_1_1_adapter_domain" kindref="compound">AdapterDomain</ref><sp/>domain);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Classification<sp/>────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemisdb_1_1analytics_1_1_pattern_result" kindref="compound">PatternResult</ref><sp/><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1ae23e668fc09afd1579143f83db659758" kindref="member">classify</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;DataPoint&gt;&amp;<sp/>events,</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;PatternResult&gt;<sp/><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a8a27f160e931ce603f323c22691b9549" kindref="member">batchClassify</ref>(</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;DataPoint&gt;&amp;<sp/>events);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string<sp/><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1aed5621b5dd81d5130e6056f59085708a" kindref="member">selectAdapter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>context);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>State<sp/>queries<sp/>─────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::size_t<sp/><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a1fe5c33f2bc5864b96b7f44b3904e9dc" kindref="member">registeredAdapterCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a36ef4fec9f3743590b2b4ab200b660d3" kindref="member">hasInferenceFn</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>buildPrompt(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;DataPoint&gt;&amp;<sp/>events,</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemisdb_1_1analytics_1_1_pattern_result" kindref="compound">PatternResult</ref><sp/>parseInferenceResponse(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>json,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemisdb_1_1analytics_1_1_pattern_result" kindref="compound">PatternResult</ref><sp/>automlFallback(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;DataPoint&gt;&amp;<sp/>events,</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>cosineSimilarity(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;&amp;<sp/>a,</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;&amp;<sp/>b);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a4c622498f622a03d6c0fb04f3803e8c0" kindref="member">Config</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg_;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a7f61901fb05aabdff23e183fc527cd78" kindref="member">InferenceFn</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>inference_fn_;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a40257f21fde607c318252f2611be03ba" kindref="member">EmbeddingFn</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>embedding_fn_;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AdapterDomain&gt;<sp/>domains_;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mutex_;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>analytics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/analytics/lora_pattern_classifier.h"/>
+  </compounddef>
+</doxygen>

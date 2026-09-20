@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_power_point_info_1_1_slide" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::PowerPointInfo::Slide</compoundname>
+    <includes refid="office__processor_8h" local="no">office_processor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_power_point_info_1_1_slide_1a9cb301e16c3238c5420d8da0b1799ca8" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::PowerPointInfo::Slide::slide_number</definition>
+        <argsstring></argsstring>
+        <name>slide_number</name>
+        <qualifiedname>themis::content::PowerPointInfo::Slide::slide_number</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>1-based slide index (CON-021) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="63" column="13" bodyfile="include/content/office_processor.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_power_point_info_1_1_slide_1a3d7a69a5d0e6bf38def23c81f720cf16" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::PowerPointInfo::Slide::title</definition>
+        <argsstring></argsstring>
+        <name>title</name>
+        <qualifiedname>themis::content::PowerPointInfo::Slide::title</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="64" column="21" bodyfile="include/content/office_processor.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_power_point_info_1_1_slide_1a0f3027bbe4cee37536edd83bc5319317" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::PowerPointInfo::Slide::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::content::PowerPointInfo::Slide::text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="65" column="21" bodyfile="include/content/office_processor.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_power_point_info_1_1_slide_1a201d319c4e698519d206bfc800397c14" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::content::PowerPointInfo::Slide::notes</definition>
+        <argsstring></argsstring>
+        <name>notes</name>
+        <qualifiedname>themis::content::PowerPointInfo::Slide::notes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/office_processor.h" line="66" column="21" bodyfile="include/content/office_processor.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/office_processor.h" line="62" column="5" bodyfile="include/content/office_processor.h" bodystart="62" bodyend="67"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_power_point_info_1_1_slide_1a201d319c4e698519d206bfc800397c14" prot="public" virt="non-virtual"><scope>themis::content::PowerPointInfo::Slide</scope><name>notes</name></member>
+      <member refid="structthemis_1_1content_1_1_power_point_info_1_1_slide_1a9cb301e16c3238c5420d8da0b1799ca8" prot="public" virt="non-virtual"><scope>themis::content::PowerPointInfo::Slide</scope><name>slide_number</name></member>
+      <member refid="structthemis_1_1content_1_1_power_point_info_1_1_slide_1a0f3027bbe4cee37536edd83bc5319317" prot="public" virt="non-virtual"><scope>themis::content::PowerPointInfo::Slide</scope><name>text</name></member>
+      <member refid="structthemis_1_1content_1_1_power_point_info_1_1_slide_1a3d7a69a5d0e6bf38def23c81f720cf16" prot="public" virt="non-virtual"><scope>themis::content::PowerPointInfo::Slide</scope><name>title</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

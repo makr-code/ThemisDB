@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d216146374275270222016040321372147024001340214137" kind="namespace" language="C++">
+    <compoundname>@216146374275270222016040321372147024001340214137</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/security/test_pki_client.cpp" line="17" column="1"/>
+  </compounddef>
+</doxygen>

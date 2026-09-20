@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_throwing_backend" kind="class" language="C++" prot="public">
+    <compoundname>ThrowingBackend</compoundname>
+    <basecompoundref refid="classthemis_1_1ingestion_1_1_i_text_generation_backend" prot="public" virt="non-virtual">themis::ingestion::ITextGenerationBackend</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_throwing_backend_1a354d1d457b221c63e629cabf82e2ecd4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string ThrowingBackend::generate</definition>
+        <argsstring>(const std::string &amp;, int, double, const std::string &amp;) override</argsstring>
+        <name>generate</name>
+        <qualifiedname>ThrowingBackend::generate</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_text_generation_backend_1a01b400d97ed57231d367aa2b6ed6f9f5">generate</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_tokens</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>temperature</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lora_adapter</declname>
+        </param>
+        <briefdescription>
+<para>Generate text from a prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The full prompt string (already assembled by caller). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of tokens to generate. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>temperature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sampling temperature (lower = more deterministic). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lora_adapter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional LoRA adapter identifier / path. Empty string means no adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Generated text. On unrecoverable error, implementations SHOULD return an empty string rather than throwing, so the ingestion pipeline can degrade gracefully. Exceptions are caught and wrapped by <computeroutput><ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter" kindref="compound">LegalLlmAdapter</ref></computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_inference_backend.cpp" line="75" column="17" bodyfile="tests/ingestion/test_ingestion_inference_backend.cpp" bodystart="75" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="class_throwing_backend_1a243597237a703dd489677c0fc5b9a169" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool ThrowingBackend::isAvailable</definition>
+        <argsstring>() const override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>ThrowingBackend::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_text_generation_backend_1adfb52bcdcfe752d7580e884926c74046">isAvailable</reimplements>
+        <briefdescription>
+<para>Check whether a real backend is available at this moment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns <computeroutput>true</computeroutput> when the underlying backend is configured and ready for inference (e.g. model loaded, GPU memory available). Returns <computeroutput>false</computeroutput> during warm-up or when the model has not been configured. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_inference_backend.cpp" line="78" column="17" bodyfile="tests/ingestion/test_ingestion_inference_backend.cpp" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="class_throwing_backend_1a751a1e44b7dc5b007b45151cbd59480e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string ThrowingBackend::description</definition>
+        <argsstring>() const override</argsstring>
+        <name>description</name>
+        <qualifiedname>ThrowingBackend::description</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_text_generation_backend_1abcb7e4ed1be01bc9debb32afebde93ae">description</reimplements>
+        <briefdescription>
+<para>Human-readable description of the backend for logging. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Example: &quot;llama.cpp/mistral-7b-Q4_K_M + legal-lora-v2&quot; </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_inference_backend.cpp" line="79" column="17" bodyfile="tests/ingestion/test_ingestion_inference_backend.cpp" bodystart="79" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A backend that always throws on <ref refid="class_throwing_backend_1a354d1d457b221c63e629cabf82e2ecd4" kindref="member">generate()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ThrowingBackend</label>
+        <link refid="class_throwing_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::ingestion::ITextGenerationBackend</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_text_generation_backend"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ThrowingBackend</label>
+        <link refid="class_throwing_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::ingestion::ITextGenerationBackend</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_text_generation_backend"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/ingestion/test_ingestion_inference_backend.cpp" line="73" column="1" bodyfile="tests/ingestion/test_ingestion_inference_backend.cpp" bodystart="73" bodyend="80"/>
+    <listofallmembers>
+      <member refid="class_throwing_backend_1a751a1e44b7dc5b007b45151cbd59480e" prot="public" virt="virtual"><scope>ThrowingBackend</scope><name>description</name></member>
+      <member refid="class_throwing_backend_1a354d1d457b221c63e629cabf82e2ecd4" prot="public" virt="virtual"><scope>ThrowingBackend</scope><name>generate</name></member>
+      <member refid="class_throwing_backend_1a243597237a703dd489677c0fc5b9a169" prot="public" virt="virtual"><scope>ThrowingBackend</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_text_generation_backend_1a79f5d95e68a8300ac610d45b26fce9bd" prot="public" virt="virtual"><scope>ThrowingBackend</scope><name>~ITextGenerationBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

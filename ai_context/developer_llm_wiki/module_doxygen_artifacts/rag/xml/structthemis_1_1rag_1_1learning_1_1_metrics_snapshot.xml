@@ -1,0 +1,209 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::learning::MetricsSnapshot</compoundname>
+    <includes refid="learning__metrics_8h" local="no">learning_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1a53a079f322d74043a9b3246f5424ad30" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::MetricsSnapshot::mean_accuracy</definition>
+        <argsstring></argsstring>
+        <name>mean_accuracy</name>
+        <qualifiedname>themis::rag::learning::MetricsSnapshot::mean_accuracy</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="159" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1aa51e2b95877a6849ee474be2433763d9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::MetricsSnapshot::mean_faithfulness</definition>
+        <argsstring></argsstring>
+        <name>mean_faithfulness</name>
+        <qualifiedname>themis::rag::learning::MetricsSnapshot::mean_faithfulness</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="160" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1a1f5bd495e816dcc8de2af88e1d9526cd" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::MetricsSnapshot::mean_relevance</definition>
+        <argsstring></argsstring>
+        <name>mean_relevance</name>
+        <qualifiedname>themis::rag::learning::MetricsSnapshot::mean_relevance</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="161" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1a643641396f373bb8d6dcc5ce8a92e41c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::MetricsSnapshot::mean_completeness</definition>
+        <argsstring></argsstring>
+        <name>mean_completeness</name>
+        <qualifiedname>themis::rag::learning::MetricsSnapshot::mean_completeness</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="162" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1a40789c3ab5780b7f14e97ba2c8a46a52" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::MetricsSnapshot::mean_coherence</definition>
+        <argsstring></argsstring>
+        <name>mean_coherence</name>
+        <qualifiedname>themis::rag::learning::MetricsSnapshot::mean_coherence</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="163" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1a3d3bbcd1304ef6b377b1ab549837b36e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::MetricsSnapshot::std_accuracy</definition>
+        <argsstring></argsstring>
+        <name>std_accuracy</name>
+        <qualifiedname>themis::rag::learning::MetricsSnapshot::std_accuracy</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="165" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1ae5e30eb792d13d463b7fcdbf33f975da" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::MetricsSnapshot::std_faithfulness</definition>
+        <argsstring></argsstring>
+        <name>std_faithfulness</name>
+        <qualifiedname>themis::rag::learning::MetricsSnapshot::std_faithfulness</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="166" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1a91ce3af1d059835cb9faf85f393e776b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::MetricsSnapshot::min_accuracy</definition>
+        <argsstring></argsstring>
+        <name>min_accuracy</name>
+        <qualifiedname>themis::rag::learning::MetricsSnapshot::min_accuracy</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="168" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1ab14f34890577b9b620c9c72366635064" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::MetricsSnapshot::max_accuracy</definition>
+        <argsstring></argsstring>
+        <name>max_accuracy</name>
+        <qualifiedname>themis::rag::learning::MetricsSnapshot::max_accuracy</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="169" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1a406c992c75cfbd57df54cbcceda7111c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::MetricsSnapshot::trend_accuracy</definition>
+        <argsstring></argsstring>
+        <name>trend_accuracy</name>
+        <qualifiedname>themis::rag::learning::MetricsSnapshot::trend_accuracy</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Linear regression slope over window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="171" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1acfe80536c459ac4f73f84ff004a50de2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::MetricsSnapshot::trend_faithfulness</definition>
+        <argsstring></argsstring>
+        <name>trend_faithfulness</name>
+        <qualifiedname>themis::rag::learning::MetricsSnapshot::trend_faithfulness</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="172" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1a25251eb75d2c00d6b52d2a70b50610c1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::learning::MetricsSnapshot::num_evaluations</definition>
+        <argsstring></argsstring>
+        <name>num_evaluations</name>
+        <qualifiedname>themis::rag::learning::MetricsSnapshot::num_evaluations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="174" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/learning_metrics.h" line="158" column="1" bodyfile="include/rag/learning_metrics.h" bodystart="158" bodyend="175"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1ab14f34890577b9b620c9c72366635064" prot="public" virt="non-virtual"><scope>themis::rag::learning::MetricsSnapshot</scope><name>max_accuracy</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1a53a079f322d74043a9b3246f5424ad30" prot="public" virt="non-virtual"><scope>themis::rag::learning::MetricsSnapshot</scope><name>mean_accuracy</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1a40789c3ab5780b7f14e97ba2c8a46a52" prot="public" virt="non-virtual"><scope>themis::rag::learning::MetricsSnapshot</scope><name>mean_coherence</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1a643641396f373bb8d6dcc5ce8a92e41c" prot="public" virt="non-virtual"><scope>themis::rag::learning::MetricsSnapshot</scope><name>mean_completeness</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1aa51e2b95877a6849ee474be2433763d9" prot="public" virt="non-virtual"><scope>themis::rag::learning::MetricsSnapshot</scope><name>mean_faithfulness</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1a1f5bd495e816dcc8de2af88e1d9526cd" prot="public" virt="non-virtual"><scope>themis::rag::learning::MetricsSnapshot</scope><name>mean_relevance</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1a91ce3af1d059835cb9faf85f393e776b" prot="public" virt="non-virtual"><scope>themis::rag::learning::MetricsSnapshot</scope><name>min_accuracy</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1a25251eb75d2c00d6b52d2a70b50610c1" prot="public" virt="non-virtual"><scope>themis::rag::learning::MetricsSnapshot</scope><name>num_evaluations</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1a3d3bbcd1304ef6b377b1ab549837b36e" prot="public" virt="non-virtual"><scope>themis::rag::learning::MetricsSnapshot</scope><name>std_accuracy</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1ae5e30eb792d13d463b7fcdbf33f975da" prot="public" virt="non-virtual"><scope>themis::rag::learning::MetricsSnapshot</scope><name>std_faithfulness</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1a406c992c75cfbd57df54cbcceda7111c" prot="public" virt="non-virtual"><scope>themis::rag::learning::MetricsSnapshot</scope><name>trend_accuracy</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_metrics_snapshot_1acfe80536c459ac4f73f84ff004a50de2" prot="public" virt="non-virtual"><scope>themis::rag::learning::MetricsSnapshot</scope><name>trend_faithfulness</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

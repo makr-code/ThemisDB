@@ -1,0 +1,409 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__wave3c__index__raii_8cpp" kind="file" language="C++">
+    <compoundname>test_wave3c_index_raii.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">list</includes>
+    <includes local="no">string</includes>
+    <includes local="no">type_traits</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includes refid="graph__auto__buffer_8h" local="yes">index/graph_auto_buffer.h</includes>
+    <includes refid="vector__auto__buffer_8h" local="yes">index/vector_auto_buffer.h</includes>
+    <incdepgraph>
+      <node id="27">
+        <label>index/ann_index.h</label>
+        <link refid="ann__index_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>index/graph_auto_buffer.h</label>
+        <link refid="graph__auto__buffer_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>index/property_graph.h</label>
+        <link refid="property__graph_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>index/vector_auto_buffer.h</label>
+        <link refid="vector__auto__buffer_8h"/>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>index/vector_index.h</label>
+        <link refid="vector__index_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/index/test_wave3c_index_raii.cpp</label>
+        <link refid="test__wave3c__index__raii_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>algorithm</label>
+      </node>
+      <node id="20">
+        <label>atomic</label>
+      </node>
+      <node id="23">
+        <label>chrono</label>
+      </node>
+      <node id="22">
+        <label>condition_variable</label>
+      </node>
+      <node id="29">
+        <label>cstddef</label>
+      </node>
+      <node id="28">
+        <label>cstdint</label>
+      </node>
+      <node id="17">
+        <label>deque</label>
+      </node>
+      <node id="16">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="31">
+        <label>limits</label>
+      </node>
+      <node id="4">
+        <label>list</label>
+      </node>
+      <node id="18">
+        <label>map</label>
+      </node>
+      <node id="24">
+        <label>memory</label>
+      </node>
+      <node id="19">
+        <label>mutex</label>
+      </node>
+      <node id="15">
+        <label>optional</label>
+      </node>
+      <node id="30">
+        <label>stdexcept</label>
+      </node>
+      <node id="12">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="11">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="13">
+        <label>string_view</label>
+      </node>
+      <node id="21">
+        <label>thread</label>
+      </node>
+      <node id="6">
+        <label>type_traits</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="14">
+        <label>unordered_set</label>
+      </node>
+      <node id="32">
+        <label>utility</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1index">themis::index</innernamespace>
+    <innernamespace refid="namespacethemis_1_1index_1_1tests">themis::index::tests</innernamespace>
+    <briefdescription>
+<para>Wave 3-C closure tests for index RAII and noexcept destructor fixes. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Validates the Wave 3-C gap fixes in src/index/:<orderedlist>
+<listitem><para>Compile-time noexcept trait checks for GraphAutoBuffer and VectorAutoBuffer destructors (Fix 1 &amp; Fix 2 — exception_in_destructor).</para>
+</listitem><listitem><para>Iterator invalidation: verify that container iteration + erase does not corrupt results using small representative collections (Fix 5).</para>
+</listitem><listitem><para>CUDA error path: fallback path compiles and behaves correctly when THEMIS_ENABLE_CUDA is absent (Fix 6 / Fix 4 — CPU-only build check).</para>
+</listitem></orderedlist>
+</para>
+<para><simplesect kind="note"><para>Tests are intentionally CPU-only (no CUDA runtime required). </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;list&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;type_traits&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>Headers<sp/>under<sp/>test<sp/>────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="graph__auto__buffer_8h" kindref="compound">index/graph_auto_buffer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="vector__auto__buffer_8h" kindref="compound">index/vector_auto_buffer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1index_1_1tests" kindref="compound">themis::index::tests</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fix<sp/>1<sp/>&amp;<sp/>Fix<sp/>2<sp/>—<sp/>Compile-time<sp/>noexcept<sp/>trait<sp/>checks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><ref refid="namespacethemis_1_1index_1_1tests_1a4edd723ff44e71a18c443cf2f6058e80" kindref="member">TEST</ref>(Wave3cIndexRaii,<sp/>GraphAutoBufferDestructorIsNoexcept)<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::is_nothrow_destructible&lt;themis::GraphAutoBuffer&gt;::value,</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;GraphAutoBuffer::~GraphAutoBuffer()<sp/>must<sp/>be<sp/>noexcept<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;(Wave<sp/>3-C<sp/>Fix<sp/>1<sp/>—<sp/>exception_in_destructor)&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><ref refid="namespacethemis_1_1index_1_1tests_1a4edd723ff44e71a18c443cf2f6058e80" kindref="member">TEST</ref>(Wave3cIndexRaii,<sp/>VectorAutoBufferDestructorIsNoexcept)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::is_nothrow_destructible&lt;themis::VectorAutoBuffer&gt;::value,</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;VectorAutoBuffer::~VectorAutoBuffer()<sp/>must<sp/>be<sp/>noexcept<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;(Wave<sp/>3-C<sp/>Fix<sp/>2<sp/>—<sp/>exception_in_destructor)&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fix<sp/>5<sp/>—<sp/>Iterator<sp/>invalidation:<sp/>erase-during-iteration<sp/>patterns</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="namespacethemis_1_1index_1_1tests_1a4edd723ff44e71a18c443cf2f6058e80" kindref="member">TEST</ref>(Wave3cIndexRaii,<sp/>UnorderedMapEraseByKeyCollectionIsCorrect)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>int&gt;<sp/>m<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;alpha&quot;</highlight><highlight class="normal">,<sp/>1},<sp/>{</highlight><highlight class="stringliteral">&quot;beta&quot;</highlight><highlight class="normal">,<sp/>2},<sp/>{</highlight><highlight class="stringliteral">&quot;gamma&quot;</highlight><highlight class="normal">,<sp/>3},<sp/>{</highlight><highlight class="stringliteral">&quot;delta&quot;</highlight><highlight class="normal">,<sp/>4}};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Collect<sp/>keys<sp/>to<sp/>remove<sp/>(simulates<sp/>the<sp/>pre-collection<sp/>pass).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>to_remove<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[k,<sp/>v]<sp/>:<sp/>m)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(v<sp/>%<sp/>2<sp/>==<sp/>0)<sp/>{<sp/><sp/></highlight><highlight class="comment">//<sp/>remove<sp/>even<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>to_remove.push_back(k);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>pass:<sp/>safe<sp/>mutation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>k<sp/>:<sp/>to_remove)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>m.erase(k);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[k,<sp/>v]<sp/>:<sp/>m)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(v<sp/>%<sp/>2,<sp/>0)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Key<sp/>&apos;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>k<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;&apos;<sp/>with<sp/>even<sp/>value<sp/>was<sp/>not<sp/>removed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><ref refid="namespacethemis_1_1index_1_1tests_1a4edd723ff44e71a18c443cf2f6058e80" kindref="member">TEST</ref>(Wave3cIndexRaii,<sp/>ListEraseAndPushFrontPatternIsCorrect)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>std::list&lt;size_t&gt;<sp/>lru_list<sp/>=<sp/>{4,<sp/>3,<sp/>2,<sp/>1};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;size_t,<sp/>std::list&lt;size_t&gt;::iterator&gt;<sp/>lru_map;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>map.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/>lru_list.begin();<sp/>it<sp/>!=<sp/>lru_list.end();<sp/>++it)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lru_map[*it]<sp/>=<sp/>it;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Touch<sp/>element<sp/>3<sp/>(move<sp/>to<sp/>front<sp/>—<sp/>mirrors<sp/>touchLRULocked).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>touched<sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>map_it<sp/>=<sp/>lru_map.find(touched);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(map_it,<sp/>lru_map.end());</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>lru_list.erase(map_it-&gt;second);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>only<sp/>invalidates<sp/>the<sp/>erased<sp/>iterator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>lru_list.push_front(touched);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>does<sp/>not<sp/>invalidate<sp/>remaining<sp/>iterators</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>lru_map[touched]<sp/>=<sp/>lru_list.begin();<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>update<sp/>to<sp/>new<sp/>position</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>order:<sp/>3<sp/>→<sp/>4<sp/>→<sp/>2<sp/>→<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;size_t&gt;<sp/>expected<sp/>=<sp/>{3,<sp/>4,<sp/>2,<sp/>1};</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;size_t&gt;<sp/>actual(lru_list.begin(),<sp/>lru_list.end());</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(actual,<sp/>expected);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>map<sp/>entries<sp/>still<sp/>point<sp/>to<sp/>valid<sp/>list<sp/>nodes.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>it]<sp/>:<sp/>lru_map)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(*it,<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;lru_map[&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;]<sp/>points<sp/>to<sp/>wrong<sp/>element&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><ref refid="namespacethemis_1_1index_1_1tests_1a4edd723ff44e71a18c443cf2f6058e80" kindref="member">TEST</ref>(Wave3cIndexRaii,<sp/>VectorEraseRemoveIdiomIsCorrect)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/>v<sp/>=<sp/>{1,<sp/>2,<sp/>3,<sp/>4,<sp/>5,<sp/>6,<sp/>7,<sp/>8};</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Remove<sp/>all<sp/>even<sp/>elements<sp/>with<sp/>erase-remove<sp/>(no<sp/>iterator<sp/>invalidation).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>v.erase(std::remove_if(v.begin(),<sp/>v.end(),</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>x)<sp/>{<sp/>return<sp/>x<sp/>%<sp/>2<sp/>==<sp/>0;<sp/>}),</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>v.end());</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/>expected<sp/>=<sp/>{1,<sp/>3,<sp/>5,<sp/>7};</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(v,<sp/>expected);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><ref refid="namespacethemis_1_1index_1_1tests_1a4edd723ff44e71a18c443cf2f6058e80" kindref="member">TEST</ref>(Wave3cIndexRaii,<sp/>IndexBasedIterationWithPushBackIsCorrect)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>csv<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;<sp/>alpha<sp/>,<sp/>beta,gamma<sp/>,<sp/><sp/>delta<sp/>&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>result;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(start<sp/>&lt;<sp/>csv.size())<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pos<sp/><sp/><sp/>=<sp/>csv.find(</highlight><highlight class="charliteral">&apos;,&apos;</highlight><highlight class="normal">,<sp/>start);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>part<sp/>=<sp/>(pos<sp/>==<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>?<sp/>csv.substr(start)</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>csv.substr(start,<sp/>pos<sp/>-<sp/>start);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Trim<sp/>whitespace.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>l<sp/>=<sp/>part.find_first_not_of(</highlight><highlight class="stringliteral">&quot;<sp/>\t&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>part.find_last_not_of(</highlight><highlight class="stringliteral">&quot;<sp/>\t&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(l<sp/>!=<sp/>std::string::npos<sp/>&amp;&amp;<sp/>r<sp/>!=<sp/>std::string::npos)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.push_back(part.substr(l,<sp/>r<sp/>-<sp/>l<sp/>+<sp/>1));<sp/><sp/></highlight><highlight class="comment">//<sp/>safe:<sp/>index-based</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(pos<sp/>==<sp/>std::string::npos)<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>start<sp/>=<sp/>pos<sp/>+<sp/>1;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result.size(),<sp/>4u);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[0],<sp/></highlight><highlight class="stringliteral">&quot;alpha&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[1],<sp/></highlight><highlight class="stringliteral">&quot;beta&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[2],<sp/></highlight><highlight class="stringliteral">&quot;gamma&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[3],<sp/></highlight><highlight class="stringliteral">&quot;delta&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fix<sp/>3<sp/>&amp;<sp/>Fix<sp/>4<sp/>—<sp/>CPU<sp/>fallback<sp/>compile<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><ref refid="namespacethemis_1_1index_1_1tests_1a4edd723ff44e71a18c443cf2f6058e80" kindref="member">TEST</ref>(Wave3cIndexRaii,<sp/>CpuFallbackPathCompilesAndIsActive)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(THEMIS_ENABLE_CUDA)<sp/>&amp;&amp;<sp/>THEMIS_ENABLE_CUDA</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CUDA<sp/>is<sp/>present<sp/>—<sp/>GPU<sp/>path<sp/>is<sp/>primary;<sp/>CPU<sp/>fallback<sp/>exists<sp/>but<sp/>is<sp/>not</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>exercised<sp/>here<sp/>(avoids<sp/>need<sp/>for<sp/>a<sp/>live<sp/>CUDA<sp/>device<sp/>in<sp/>CI).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;CUDA<sp/>build:<sp/>GPU<sp/>path<sp/>active;<sp/>CPU<sp/>fallback<sp/>not<sp/>tested<sp/>here&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CPU-only<sp/>build:<sp/>verify<sp/>the<sp/>fallback<sp/>sentinel<sp/>value<sp/>is<sp/>correct.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>mirrors<sp/>the<sp/>`#else`<sp/>branch<sp/>in<sp/>cuda_hnsw_graph_traversal.cpp<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>gpu_memory_oversubscription.cpp<sp/>where<sp/>p.vram_ptr<sp/>aliases<sp/>host_data.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>host_data<sp/>=<sp/>{1.0f,<sp/>2.0f,<sp/>3.0f};</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>vram_ptr<sp/>=<sp/>host_data.data();<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CPU-only<sp/>alias<sp/>—<sp/>no<sp/>cudaMalloc</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(vram_ptr,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(host_data.data()))</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;CPU<sp/>fallback:<sp/>vram_ptr<sp/>must<sp/>alias<sp/>host_data.data()&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(vram_ptr,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::index::tests</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/index/test_wave3c_index_raii.cpp"/>
+  </compounddef>
+</doxygen>

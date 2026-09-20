@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_request_info" kind="struct" language="C++" prot="private">
+    <compoundname>themis::llm::VisionResourceMonitor::RequestInfo</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_request_info_1a8ecebaefe55696c6823bfbf59a129503" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::VisionResourceMonitor::RequestInfo::request_id</definition>
+        <argsstring></argsstring>
+        <name>request_id</name>
+        <qualifiedname>themis::llm::VisionResourceMonitor::RequestInfo::request_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="332" column="18" bodyfile="include/llm/vision_resource_monitor.h" bodystart="332" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_request_info_1aea90af8e559fb67dfa5f4ff8014e36bc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::VisionResourceMonitor::RequestInfo::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::llm::VisionResourceMonitor::RequestInfo::user_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="333" column="21" bodyfile="include/llm/vision_resource_monitor.h" bodystart="333" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_request_info_1a72beca4c7f7f8d2c6db1a3f38c666353" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::VisionResourceMonitor::RequestInfo::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::llm::VisionResourceMonitor::RequestInfo::model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="334" column="21" bodyfile="include/llm/vision_resource_monitor.h" bodystart="334" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_request_info_1a725007ce787e05fbce6658d9eb416281" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::llm::VisionResourceMonitor::RequestInfo::start_time</definition>
+        <argsstring></argsstring>
+        <name>start_time</name>
+        <qualifiedname>themis::llm::VisionResourceMonitor::RequestInfo::start_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="335" column="47" bodyfile="include/llm/vision_resource_monitor.h" bodystart="335" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_request_info_1a8fb1ed89df24413779b08a51c265fb6b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::VisionResourceMonitor::RequestInfo::memory_allocated_mb</definition>
+        <argsstring></argsstring>
+        <name>memory_allocated_mb</name>
+        <qualifiedname>themis::llm::VisionResourceMonitor::RequestInfo::memory_allocated_mb</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="336" column="16" bodyfile="include/llm/vision_resource_monitor.h" bodystart="336" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/vision_resource_monitor.h" line="331" column="5" bodyfile="include/llm/vision_resource_monitor.h" bodystart="331" bodyend="337"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_request_info_1a8fb1ed89df24413779b08a51c265fb6b" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceMonitor::RequestInfo</scope><name>memory_allocated_mb</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_request_info_1a72beca4c7f7f8d2c6db1a3f38c666353" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceMonitor::RequestInfo</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_request_info_1a8ecebaefe55696c6823bfbf59a129503" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceMonitor::RequestInfo</scope><name>request_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_request_info_1a725007ce787e05fbce6658d9eb416281" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceMonitor::RequestInfo</scope><name>start_time</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_request_info_1aea90af8e559fb67dfa5f4ff8014e36bc" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceMonitor::RequestInfo</scope><name>user_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

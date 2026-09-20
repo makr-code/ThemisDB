@@ -1,0 +1,890 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_transaction_batcher" kind="class" language="C++" prot="public">
+    <compoundname>themis::TransactionBatcher</compoundname>
+    <includes refid="transaction__batcher_8h" local="no">transaction_batcher.h</includes>
+    <innerclass refid="structthemis_1_1_transaction_batcher_1_1_status" prot="public">themis::TransactionBatcher::Status</innerclass>
+    <innerclass refid="structthemis_1_1_transaction_batcher_1_1_batch_config" prot="public">themis::TransactionBatcher::BatchConfig</innerclass>
+    <innerclass refid="structthemis_1_1_transaction_batcher_1_1_batch_policy" prot="public">themis::TransactionBatcher::BatchPolicy</innerclass>
+    <innerclass refid="structthemis_1_1_transaction_batcher_1_1_stats" prot="public">themis::TransactionBatcher::Stats</innerclass>
+    <innerclass refid="structthemis_1_1_transaction_batcher_1_1_pending_entry" prot="private">themis::TransactionBatcher::PendingEntry</innerclass>
+    <innerclass refid="structthemis_1_1_transaction_batcher_1_1_effective_policy" prot="private">themis::TransactionBatcher::EffectivePolicy</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_transaction_batcher_1af8c3e1f128bfa7f37de1cd11e617070e" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::TransactionBatcher::config_mutex_</definition>
+        <argsstring></argsstring>
+        <name>config_mutex_</name>
+        <qualifiedname>themis::TransactionBatcher::config_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="190" column="27" bodyfile="include/transaction/transaction_batcher.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_batcher_1a9112099a5ed3c097f22aad58d04459ec" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_transaction_batcher_1_1_batch_config" kindref="compound">BatchConfig</ref></type>
+        <definition>BatchConfig themis::TransactionBatcher::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::TransactionBatcher::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="191" column="27" bodyfile="include/transaction/transaction_batcher.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_batcher_1afd1895b0c5c6440e7ebdb68838c8b91a" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1_transaction_batcher_1_1_batch_policy" kindref="compound">BatchPolicy</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, BatchPolicy&gt; themis::TransactionBatcher::table_policies_</definition>
+        <argsstring></argsstring>
+        <name>table_policies_</name>
+        <qualifiedname>themis::TransactionBatcher::table_policies_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="192" column="24" bodyfile="include/transaction/transaction_batcher.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_batcher_1abeb039178b5bf8b1af8c752d89d31276" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::TransactionBatcher::queue_mutex_</definition>
+        <argsstring></argsstring>
+        <name>queue_mutex_</name>
+        <qualifiedname>themis::TransactionBatcher::queue_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="194" column="37" bodyfile="include/transaction/transaction_batcher.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_batcher_1a84a292ec32ca5b87f31db77cd69e4223" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::TransactionBatcher::queue_cv_</definition>
+        <argsstring></argsstring>
+        <name>queue_cv_</name>
+        <qualifiedname>themis::TransactionBatcher::queue_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="195" column="37" bodyfile="include/transaction/transaction_batcher.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_batcher_1ae9f9956313fc5ab1b718cbc4db976bf1" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::TransactionBatcher::flush_cv_</definition>
+        <argsstring></argsstring>
+        <name>flush_cv_</name>
+        <qualifiedname>themis::TransactionBatcher::flush_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="196" column="37" bodyfile="include/transaction/transaction_batcher.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_batcher_1a3d380114aac55399877f099a236e1962" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; PendingEntry &gt;</type>
+        <definition>std::deque&lt;PendingEntry&gt; themis::TransactionBatcher::queue_</definition>
+        <argsstring></argsstring>
+        <name>queue_</name>
+        <qualifiedname>themis::TransactionBatcher::queue_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="197" column="23" bodyfile="include/transaction/transaction_batcher.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_batcher_1a37012301c7b86685f59e3cc8ee8b0e78" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TransactionBatcher::flush_requested_</definition>
+        <argsstring></argsstring>
+        <name>flush_requested_</name>
+        <qualifiedname>themis::TransactionBatcher::flush_requested_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="198" column="37" bodyfile="include/transaction/transaction_batcher.h" bodystart="198" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_batcher_1a0005d89885ed62a98fbdea445b398094" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TransactionBatcher::batch_in_progress_</definition>
+        <argsstring></argsstring>
+        <name>batch_in_progress_</name>
+        <qualifiedname>themis::TransactionBatcher::batch_in_progress_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="199" column="37" bodyfile="include/transaction/transaction_batcher.h" bodystart="199" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_batcher_1a64ce9c38459caba4005c02c546e2bb86" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::TransactionBatcher::flush_thread_</definition>
+        <argsstring></argsstring>
+        <name>flush_thread_</name>
+        <qualifiedname>themis::TransactionBatcher::flush_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="201" column="31" bodyfile="include/transaction/transaction_batcher.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_batcher_1a199c7c56b9661b742ef164c693db4016" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::TransactionBatcher::stopping_</definition>
+        <argsstring></argsstring>
+        <name>stopping_</name>
+        <qualifiedname>themis::TransactionBatcher::stopping_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="202" column="25" bodyfile="include/transaction/transaction_batcher.h" bodystart="202" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_batcher_1ae87b6a38eed8d702c451609afe09ea4b" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::TransactionBatcher::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themis::TransactionBatcher::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="204" column="31" bodyfile="include/transaction/transaction_batcher.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_batcher_1ae8ed97fb580e1c9daffe34723e9f8bc1" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_transaction_batcher_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::TransactionBatcher::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::TransactionBatcher::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="205" column="31" bodyfile="include/transaction/transaction_batcher.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_batcher_1ac982ae63de927c28831db4fa5bae5ccd" prot="private" static="no" mutable="no">
+        <type>std::chrono::microseconds</type>
+        <definition>std::chrono::microseconds themis::TransactionBatcher::adaptive_window_</definition>
+        <argsstring></argsstring>
+        <name>adaptive_window_</name>
+        <qualifiedname>themis::TransactionBatcher::adaptive_window_</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="208" column="31" bodyfile="include/transaction/transaction_batcher.h" bodystart="208" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_transaction_batcher_1ac5ce53599a9d182fefbc4541cbf52517" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; double &gt;</type>
+        <definition>std::deque&lt;double&gt; themis::TransactionBatcher::recent_throughputs_</definition>
+        <argsstring></argsstring>
+        <name>recent_throughputs_</name>
+        <qualifiedname>themis::TransactionBatcher::recent_throughputs_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="209" column="23" bodyfile="include/transaction/transaction_batcher.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_transaction_batcher_1a85c7cb90af1c651968783b34e0ec0412" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::TransactionBatcher::TransactionBatcher</definition>
+        <argsstring>()</argsstring>
+        <name>TransactionBatcher</name>
+        <qualifiedname>themis::TransactionBatcher::TransactionBatcher</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="91" column="5" bodyfile="src/transaction/transaction_batcher.cpp" bodystart="36" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_batcher_1a6aefa5c33feeb04bf34c1d6547211ef0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::TransactionBatcher::~TransactionBatcher</definition>
+        <argsstring>()</argsstring>
+        <name>~TransactionBatcher</name>
+        <qualifiedname>themis::TransactionBatcher::~TransactionBatcher</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queue_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="93" column="5" bodyfile="src/transaction/transaction_batcher.cpp" bodystart="43" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_batcher_1a77d8e155890dddba5cf65d42c4e2fcc7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::TransactionBatcher::TransactionBatcher</definition>
+        <argsstring>(const TransactionBatcher &amp;)=delete</argsstring>
+        <name>TransactionBatcher</name>
+        <qualifiedname>themis::TransactionBatcher::TransactionBatcher</qualifiedname>
+        <param>
+          <type>const TransactionBatcher &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="96" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_batcher_1a8bd7e7f23d40707a0601a633b77fb85a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_transaction_batcher_1a85c7cb90af1c651968783b34e0ec0412" kindref="member">TransactionBatcher</ref> &amp;</type>
+        <definition>TransactionBatcher &amp; themis::TransactionBatcher::operator=</definition>
+        <argsstring>(const TransactionBatcher &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::TransactionBatcher::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_transaction_batcher_1a85c7cb90af1c651968783b34e0ec0412" kindref="member">TransactionBatcher</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="97" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_batcher_1a4ddac9d5cd5b17bb5c26a70073467b8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::TransactionBatcher::TransactionBatcher</definition>
+        <argsstring>(TransactionBatcher &amp;&amp;)=delete</argsstring>
+        <name>TransactionBatcher</name>
+        <qualifiedname>themis::TransactionBatcher::TransactionBatcher</qualifiedname>
+        <param>
+          <type>TransactionBatcher &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="98" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_batcher_1a1937f9c1c277a88d7ff7e0dcc896a6ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_transaction_batcher_1a85c7cb90af1c651968783b34e0ec0412" kindref="member">TransactionBatcher</ref> &amp;</type>
+        <definition>TransactionBatcher &amp; themis::TransactionBatcher::operator=</definition>
+        <argsstring>(TransactionBatcher &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::TransactionBatcher::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_transaction_batcher_1a85c7cb90af1c651968783b34e0ec0412" kindref="member">TransactionBatcher</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="99" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_batcher_1a56b7035d92bab50bc5731f53dbb25145" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TransactionBatcher::setBatchConfig</definition>
+        <argsstring>(const BatchConfig &amp;config)</argsstring>
+        <name>setBatchConfig</name>
+        <qualifiedname>themis::TransactionBatcher::setBatchConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_transaction_batcher_1_1_batch_config" kindref="compound">BatchConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set Batch Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="106" column="10" bodyfile="src/transaction/transaction_batcher.cpp" bodystart="71" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_batcher_1a7ad52b9098e5296648136d690f07c190" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_transaction_batcher_1_1_batch_config" kindref="compound">BatchConfig</ref></type>
+        <definition>TransactionBatcher::BatchConfig themis::TransactionBatcher::getBatchConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getBatchConfig</name>
+        <qualifiedname>themis::TransactionBatcher::getBatchConfig</qualifiedname>
+        <briefdescription>
+<para>Get Batch Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="112" column="17" bodyfile="src/transaction/transaction_batcher.cpp" bodystart="103" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_batcher_1a3d145508268d75bf257a9bea5e4139bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TransactionBatcher::setTablePolicy</definition>
+        <argsstring>(const std::string &amp;table, const BatchPolicy &amp;policy)</argsstring>
+        <name>setTablePolicy</name>
+        <qualifiedname>themis::TransactionBatcher::setTablePolicy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_transaction_batcher_1_1_batch_policy" kindref="compound">BatchPolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Set Table Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="119" column="10" bodyfile="src/transaction/transaction_batcher.cpp" bodystart="119" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_batcher_1a1d9dd78ffcb13dd25f491c5a7962e48b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_transaction_batcher_1_1_batch_policy" kindref="compound">BatchPolicy</ref></type>
+        <definition>TransactionBatcher::BatchPolicy themis::TransactionBatcher::getTablePolicy</definition>
+        <argsstring>(const std::string &amp;table) const</argsstring>
+        <name>getTablePolicy</name>
+        <qualifiedname>themis::TransactionBatcher::getTablePolicy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <briefdescription>
+<para>Get Table Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="126" column="17" bodyfile="src/transaction/transaction_batcher.cpp" bodystart="132" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_batcher_1a29f4e887a6407f8d7a2b7dd333a429c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::future&lt; <ref refid="structthemis_1_1_transaction_batcher_1_1_status" kindref="compound">Status</ref> &gt;</type>
+        <definition>std::future&lt; TransactionBatcher::Status &gt; themis::TransactionBatcher::submitAsync</definition>
+        <argsstring>(std::function&lt; Status()&gt; commit_fn, const std::string &amp;table_hint=&quot;&quot;)</argsstring>
+        <name>submitAsync</name>
+        <qualifiedname>themis::TransactionBatcher::submitAsync</qualifiedname>
+        <param>
+          <type>std::function&lt; <ref refid="structthemis_1_1_transaction_batcher_1_1_status" kindref="compound">Status</ref>()&gt;</type>
+          <declname>commit_fn</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_hint</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Cfg lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queue_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="130" column="17" bodyfile="src/transaction/transaction_batcher.cpp" bodystart="212" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_batcher_1a3b1fee3f32f7061afb5c2f0750d701cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TransactionBatcher::flush</definition>
+        <argsstring>()</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::TransactionBatcher::flush</qualifiedname>
+        <briefdescription>
+<para>Flush. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queue_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Wait until the queue is empty AND the in-flight batch (if any) has finished. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queue_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+This ensures all items submitted before <ref refid="classthemis_1_1_transaction_batcher_1a3b1fee3f32f7061afb5c2f0750d701cc" kindref="member">flush()</ref> was called are fully resolved. Use a 30-second timeout to prevent indefinite blocking.</para>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="136" column="10" bodyfile="src/transaction/transaction_batcher.cpp" bodystart="282" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_batcher_1a8e2b0480df5115ff90eff6ca70d06d32" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_transaction_batcher_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>TransactionBatcher::Stats themis::TransactionBatcher::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::TransactionBatcher::getStats</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1_transaction_batcher_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="142" column="11" bodyfile="src/transaction/transaction_batcher.cpp" bodystart="316" bodyend="325"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_transaction_batcher_1aeb96ba83bf4cb0775e896ca4edcb9a3a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>EffectivePolicy</type>
+        <definition>TransactionBatcher::EffectivePolicy themis::TransactionBatcher::effectivePolicyFor</definition>
+        <argsstring>(const std::string &amp;table) const</argsstring>
+        <name>effectivePolicyFor</name>
+        <qualifiedname>themis::TransactionBatcher::effectivePolicyFor</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <briefdescription>
+<para>Effective Policy For. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="167" column="21" bodyfile="src/transaction/transaction_batcher.cpp" bodystart="152" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_batcher_1ab9d44b9853fd18f80f492e0b08983b2d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TransactionBatcher::flushLoop</definition>
+        <argsstring>()</argsstring>
+        <name>flushLoop</name>
+        <qualifiedname>themis::TransactionBatcher::flushLoop</qualifiedname>
+        <briefdescription>
+<para>Flush Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Cfg lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queue_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queue_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queue_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queue_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queue_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="173" column="10" bodyfile="src/transaction/transaction_batcher.cpp" bodystart="334" bodyend="457"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_batcher_1ac29da52a604d90e6696f3ceca8a67253" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TransactionBatcher::executeBatch</definition>
+        <argsstring>(std::vector&lt; PendingEntry &gt; &amp;batch)</argsstring>
+        <name>executeBatch</name>
+        <qualifiedname>themis::TransactionBatcher::executeBatch</qualifiedname>
+        <param>
+          <type>std::vector&lt; PendingEntry &gt; &amp;</type>
+          <declname>batch</declname>
+        </param>
+        <briefdescription>
+<para>Execute Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Slk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Slk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Cfg lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="179" column="10" bodyfile="src/transaction/transaction_batcher.cpp" bodystart="467" bodyend="550"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_transaction_batcher_1a8c11850803e6f41b4c08492d81943f38" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TransactionBatcher::adaptWindow</definition>
+        <argsstring>(size_t batch_size, std::chrono::microseconds elapsed)</argsstring>
+        <name>adaptWindow</name>
+        <qualifiedname>themis::TransactionBatcher::adaptWindow</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>batch_size</declname>
+        </param>
+        <param>
+          <type>std::chrono::microseconds</type>
+          <declname>elapsed</declname>
+        </param>
+        <briefdescription>
+<para>Adapt Window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">elapsed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Slk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="186" column="10" bodyfile="src/transaction/transaction_batcher.cpp" bodystart="561" bodyend="620"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/transaction_batcher.h" line="28" column="1" bodyfile="include/transaction/transaction_batcher.h" bodystart="28" bodyend="210"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_transaction_batcher_1ac982ae63de927c28831db4fa5bae5ccd" prot="private" virt="non-virtual"><scope>themis::TransactionBatcher</scope><name>adaptive_window_</name></member>
+      <member refid="classthemis_1_1_transaction_batcher_1a8c11850803e6f41b4c08492d81943f38" prot="private" virt="non-virtual"><scope>themis::TransactionBatcher</scope><name>adaptWindow</name></member>
+      <member refid="classthemis_1_1_transaction_batcher_1a0005d89885ed62a98fbdea445b398094" prot="private" virt="non-virtual"><scope>themis::TransactionBatcher</scope><name>batch_in_progress_</name></member>
+      <member refid="classthemis_1_1_transaction_batcher_1a9112099a5ed3c097f22aad58d04459ec" prot="private" virt="non-virtual"><scope>themis::TransactionBatcher</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_transaction_batcher_1af8c3e1f128bfa7f37de1cd11e617070e" prot="private" virt="non-virtual"><scope>themis::TransactionBatcher</scope><name>config_mutex_</name></member>
+      <member refid="classthemis_1_1_transaction_batcher_1aeb96ba83bf4cb0775e896ca4edcb9a3a" prot="private" virt="non-virtual"><scope>themis::TransactionBatcher</scope><name>effectivePolicyFor</name></member>
+      <member refid="classthemis_1_1_transaction_batcher_1ac29da52a604d90e6696f3ceca8a67253" prot="private" virt="non-virtual"><scope>themis::TransactionBatcher</scope><name>executeBatch</name></member>
+      <member refid="classthemis_1_1_transaction_batcher_1a3b1fee3f32f7061afb5c2f0750d701cc" prot="public" virt="non-virtual"><scope>themis::TransactionBatcher</scope><name>flush</name></member>
+      <member refid="classthemis_1_1_transaction_batcher_1ae9f9956313fc5ab1b718cbc4db976bf1" prot="private" virt="non-virtual"><scope>themis::TransactionBatcher</scope><name>flush_cv_</name></member>
+      <member refid="classthemis_1_1_transaction_batcher_1a37012301c7b86685f59e3cc8ee8b0e78" prot="private" virt="non-virtual"><scope>themis::TransactionBatcher</scope><name>flush_requested_</name></member>
+      <member refid="classthemis_1_1_transaction_batcher_1a64ce9c38459caba4005c02c546e2bb86" prot="private" virt="non-virtual"><scope>themis::TransactionBatcher</scope><name>flush_thread_</name></member>
+      <member refid="classthemis_1_1_transaction_batcher_1ab9d44b9853fd18f80f492e0b08983b2d" prot="private" virt="non-virtual"><scope>themis::TransactionBatcher</scope><name>flushLoop</name></member>
+      <member refid="classthemis_1_1_transaction_batcher_1a7ad52b9098e5296648136d690f07c190" prot="public" virt="non-virtual"><scope>themis::TransactionBatcher</scope><name>getBatchConfig</name></member>
+      <member refid="classthemis_1_1_transaction_batcher_1a8e2b0480df5115ff90eff6ca70d06d32" prot="public" virt="non-virtual"><scope>themis::TransactionBatcher</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1_transaction_batcher_1a1d9dd78ffcb13dd25f491c5a7962e48b" prot="public" virt="non-virtual"><scope>themis::TransactionBatcher</scope><name>getTablePolicy</name></member>
+      <member refid="classthemis_1_1_transaction_batcher_1a8bd7e7f23d40707a0601a633b77fb85a" prot="public" virt="non-virtual"><scope>themis::TransactionBatcher</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_transaction_batcher_1a1937f9c1c277a88d7ff7e0dcc896a6ad" prot="public" virt="non-virtual"><scope>themis::TransactionBatcher</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_transaction_batcher_1a3d380114aac55399877f099a236e1962" prot="private" virt="non-virtual"><scope>themis::TransactionBatcher</scope><name>queue_</name></member>
+      <member refid="classthemis_1_1_transaction_batcher_1a84a292ec32ca5b87f31db77cd69e4223" prot="private" virt="non-virtual"><scope>themis::TransactionBatcher</scope><name>queue_cv_</name></member>
+      <member refid="classthemis_1_1_transaction_batcher_1abeb039178b5bf8b1af8c752d89d31276" prot="private" virt="non-virtual"><scope>themis::TransactionBatcher</scope><name>queue_mutex_</name></member>
+      <member refid="classthemis_1_1_transaction_batcher_1ac5ce53599a9d182fefbc4541cbf52517" prot="private" virt="non-virtual"><scope>themis::TransactionBatcher</scope><name>recent_throughputs_</name></member>
+      <member refid="classthemis_1_1_transaction_batcher_1a56b7035d92bab50bc5731f53dbb25145" prot="public" virt="non-virtual"><scope>themis::TransactionBatcher</scope><name>setBatchConfig</name></member>
+      <member refid="classthemis_1_1_transaction_batcher_1a3d145508268d75bf257a9bea5e4139bd" prot="public" virt="non-virtual"><scope>themis::TransactionBatcher</scope><name>setTablePolicy</name></member>
+      <member refid="classthemis_1_1_transaction_batcher_1ae8ed97fb580e1c9daffe34723e9f8bc1" prot="private" virt="non-virtual"><scope>themis::TransactionBatcher</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1_transaction_batcher_1ae87b6a38eed8d702c451609afe09ea4b" prot="private" virt="non-virtual"><scope>themis::TransactionBatcher</scope><name>stats_mutex_</name></member>
+      <member refid="classthemis_1_1_transaction_batcher_1a199c7c56b9661b742ef164c693db4016" prot="private" virt="non-virtual"><scope>themis::TransactionBatcher</scope><name>stopping_</name></member>
+      <member refid="classthemis_1_1_transaction_batcher_1a29f4e887a6407f8d7a2b7dd333a429c2" prot="public" virt="non-virtual"><scope>themis::TransactionBatcher</scope><name>submitAsync</name></member>
+      <member refid="classthemis_1_1_transaction_batcher_1afd1895b0c5c6440e7ebdb68838c8b91a" prot="private" virt="non-virtual"><scope>themis::TransactionBatcher</scope><name>table_policies_</name></member>
+      <member refid="classthemis_1_1_transaction_batcher_1a85c7cb90af1c651968783b34e0ec0412" prot="public" virt="non-virtual"><scope>themis::TransactionBatcher</scope><name>TransactionBatcher</name></member>
+      <member refid="classthemis_1_1_transaction_batcher_1a77d8e155890dddba5cf65d42c4e2fcc7" prot="public" virt="non-virtual"><scope>themis::TransactionBatcher</scope><name>TransactionBatcher</name></member>
+      <member refid="classthemis_1_1_transaction_batcher_1a4ddac9d5cd5b17bb5c26a70073467b8f" prot="public" virt="non-virtual"><scope>themis::TransactionBatcher</scope><name>TransactionBatcher</name></member>
+      <member refid="classthemis_1_1_transaction_batcher_1a6aefa5c33feeb04bf34c1d6547211ef0" prot="public" virt="non-virtual"><scope>themis::TransactionBatcher</scope><name>~TransactionBatcher</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

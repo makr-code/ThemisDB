@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_batch_item_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::BatchItemResult</compoundname>
+    <includes refid="voice__batch__processor_8h" local="no">voice_batch_processor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_batch_item_result_1a4e46083be46964259bc61fed944cce13" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::BatchItemResult::item_id</definition>
+        <argsstring></argsstring>
+        <name>item_id</name>
+        <qualifiedname>themis::voice::BatchItemResult::item_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="40" column="17" bodyfile="include/voice/voice_batch_processor.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_batch_item_result_1a7d3b966c286265fe5bfd221e5d001212" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::BatchItemResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::voice::BatchItemResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="41" column="10" bodyfile="include/voice/voice_batch_processor.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_batch_item_result_1a489fc4ebda7c7ca4a21c41e13e28d9a7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::BatchItemResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::voice::BatchItemResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="42" column="17" bodyfile="include/voice/voice_batch_processor.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_batch_item_result_1a571a5aa2888586c187cb87bc0189899a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::BatchItemResult::transcript</definition>
+        <argsstring></argsstring>
+        <name>transcript</name>
+        <qualifiedname>themis::voice::BatchItemResult::transcript</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="43" column="17" bodyfile="include/voice/voice_batch_processor.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_batch_item_result_1abb9d3d4c119c5cf54753144e18e89998" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::BatchItemResult::wer_score</definition>
+        <argsstring></argsstring>
+        <name>wer_score</name>
+        <qualifiedname>themis::voice::BatchItemResult::wer_score</qualifiedname>
+        <initializer>= -1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="44" column="11" bodyfile="include/voice/voice_batch_processor.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_batch_item_result_1ae423abca506f678d8c208e2735ce2a4b" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::BatchItemResult::pesq_score</definition>
+        <argsstring></argsstring>
+        <name>pesq_score</name>
+        <qualifiedname>themis::voice::BatchItemResult::pesq_score</qualifiedname>
+        <initializer>= -1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="45" column="11" bodyfile="include/voice/voice_batch_processor.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_batch_item_result_1a7fb5be2f52057d2787c7d8ab9a407761" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::BatchItemResult::processing_time_ms</definition>
+        <argsstring></argsstring>
+        <name>processing_time_ms</name>
+        <qualifiedname>themis::voice::BatchItemResult::processing_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="46" column="13" bodyfile="include/voice/voice_batch_processor.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_batch_item_result_1a66bf774ad3c5e664a10aa4f0a5b6f79e" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1voice_1_1_preprocessing_result" kindref="compound">PreprocessingResult</ref></type>
+        <definition>PreprocessingResult themis::voice::BatchItemResult::preprocessing</definition>
+        <argsstring></argsstring>
+        <name>preprocessing</name>
+        <qualifiedname>themis::voice::BatchItemResult::preprocessing</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="47" column="25" bodyfile="include/voice/voice_batch_processor.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="3">
+        <label>themis::voice::AudioFrame</label>
+        <link refid="structthemis_1_1voice_1_1_audio_frame"/>
+      </node>
+      <node id="1">
+        <label>themis::voice::BatchItemResult</label>
+        <link refid="structthemis_1_1voice_1_1_batch_item_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>preprocessing</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::voice::PreprocessingResult</label>
+        <link refid="structthemis_1_1voice_1_1_preprocessing_result"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>processed_audio</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/voice/voice_batch_processor.h" line="39" column="1" bodyfile="include/voice/voice_batch_processor.h" bodystart="39" bodyend="48"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_batch_item_result_1a489fc4ebda7c7ca4a21c41e13e28d9a7" prot="public" virt="non-virtual"><scope>themis::voice::BatchItemResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1voice_1_1_batch_item_result_1a4e46083be46964259bc61fed944cce13" prot="public" virt="non-virtual"><scope>themis::voice::BatchItemResult</scope><name>item_id</name></member>
+      <member refid="structthemis_1_1voice_1_1_batch_item_result_1ae423abca506f678d8c208e2735ce2a4b" prot="public" virt="non-virtual"><scope>themis::voice::BatchItemResult</scope><name>pesq_score</name></member>
+      <member refid="structthemis_1_1voice_1_1_batch_item_result_1a66bf774ad3c5e664a10aa4f0a5b6f79e" prot="public" virt="non-virtual"><scope>themis::voice::BatchItemResult</scope><name>preprocessing</name></member>
+      <member refid="structthemis_1_1voice_1_1_batch_item_result_1a7fb5be2f52057d2787c7d8ab9a407761" prot="public" virt="non-virtual"><scope>themis::voice::BatchItemResult</scope><name>processing_time_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_batch_item_result_1a7d3b966c286265fe5bfd221e5d001212" prot="public" virt="non-virtual"><scope>themis::voice::BatchItemResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1voice_1_1_batch_item_result_1a571a5aa2888586c187cb87bc0189899a" prot="public" virt="non-virtual"><scope>themis::voice::BatchItemResult</scope><name>transcript</name></member>
+      <member refid="structthemis_1_1voice_1_1_batch_item_result_1abb9d3d4c119c5cf54753144e18e89998" prot="public" virt="non-virtual"><scope>themis::voice::BatchItemResult</scope><name>wer_score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

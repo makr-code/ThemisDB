@@ -1,0 +1,896 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1_cluster_update_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::updates::ClusterUpdateManager</compoundname>
+    <includes refid="cluster__update__manager_8h" local="no">cluster_update_manager.h</includes>
+    <innerclass refid="structthemis_1_1updates_1_1_cluster_update_manager_1_1_config" prot="public">themis::updates::ClusterUpdateManager::Config</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1updates_1_1_cluster_update_manager_1abe48401f0bfd1c8b4cda6d5cba892ce4" prot="public" static="no">
+        <type>std::function&lt; bool(const <ref refid="structthemis_1_1updates_1_1_cluster_node" kindref="compound">ClusterNode</ref> &amp; node, const std::string &amp; version, const <ref refid="structthemis_1_1updates_1_1_cluster_update_options" kindref="compound">ClusterUpdateOptions</ref> &amp;opts)&gt;</type>
+        <definition>using themis::updates::ClusterUpdateManager::NodeUpdateFunc = 
+std::function&lt;bool(const ClusterNode&amp;        node,
+                   const std::string&amp;        version,
+                   const ClusterUpdateOptions&amp; opts)&gt;</definition>
+        <argsstring></argsstring>
+        <name>NodeUpdateFunc</name>
+        <qualifiedname>themis::updates::ClusterUpdateManager::NodeUpdateFunc</qualifiedname>
+        <briefdescription>
+<para>Injected callback that performs the actual update on a single remote (or local) node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Description of the node to update. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target version string. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Update options. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the update succeeded on that node. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="225" column="5" bodyfile="include/updates/cluster_update_manager.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1updates_1_1_cluster_update_manager_1a0a2040daf1e8aaa76b4a32dfdfa52e6b" prot="public" static="no">
+        <type>std::function&lt; bool(const <ref refid="structthemis_1_1updates_1_1_cluster_node" kindref="compound">ClusterNode</ref> &amp; node, std::chrono::seconds timeout)&gt;</type>
+        <definition>using themis::updates::ClusterUpdateManager::NodeHealthCheckFunc = 
+std::function&lt;bool(const ClusterNode&amp;              node,
+                   std::chrono::seconds             timeout)&gt;</definition>
+        <argsstring></argsstring>
+        <name>NodeHealthCheckFunc</name>
+        <qualifiedname>themis::updates::ClusterUpdateManager::NodeHealthCheckFunc</qualifiedname>
+        <briefdescription>
+<para>Injected callback that checks whether a node is healthy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node to health-check. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum time to wait for a healthy response. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when the node passes the health check. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="237" column="5" bodyfile="include/updates/cluster_update_manager.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1updates_1_1_cluster_update_manager_1aa1e2e78fdbfa26dc8f1d9fce132fac87" prot="public" static="no">
+        <type>std::function&lt; bool(const <ref refid="structthemis_1_1updates_1_1_cluster_node" kindref="compound">ClusterNode</ref> &amp;node, const std::string &amp;applied_version)&gt;</type>
+        <definition>using themis::updates::ClusterUpdateManager::NodeRollbackFunc = 
+std::function&lt;bool(const ClusterNode&amp; node,
+                   const std::string&amp; applied_version)&gt;</definition>
+        <argsstring></argsstring>
+        <name>NodeRollbackFunc</name>
+        <qualifiedname>themis::updates::ClusterUpdateManager::NodeRollbackFunc</qualifiedname>
+        <briefdescription>
+<para>Injected callback that rolls back an update on a single node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Invoked by <ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1ad300e2f371876179d27163198ee57258" kindref="member">updateCluster()</ref> when a node fails its update or post-update health check and <computeroutput>rollback_on_failure</computeroutput> is true.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node to roll back. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>applied_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The version string that was applied (from <ref refid="structthemis_1_1updates_1_1_cluster_node_status_1a43b0287062c361d0ab22cbb119d7d087" kindref="member">ClusterNodeStatus::applied_version</ref>), which can be used to identify what to undo. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the rollback succeeded. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="253" column="5" bodyfile="include/updates/cluster_update_manager.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1updates_1_1_cluster_update_manager_1a73609694fd96109a99f57de1ffd3c854" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1updates_1_1_cluster_update_progress" kindref="compound">ClusterUpdateProgress</ref> &amp;)&gt;</type>
+        <definition>using themis::updates::ClusterUpdateManager::ProgressCallback = 
+std::function&lt;void(const ClusterUpdateProgress&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ProgressCallback</name>
+        <qualifiedname>themis::updates::ClusterUpdateManager::ProgressCallback</qualifiedname>
+        <briefdescription>
+<para>Progress callback invoked after each significant state change. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="260" column="5" bodyfile="include/updates/cluster_update_manager.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_cluster_update_manager_1a54f1bdc17b993447c90ac5b576fdeb1a" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::updates::ClusterUpdateManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::updates::ClusterUpdateManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="395" column="24" bodyfile="include/updates/cluster_update_manager.h" bodystart="395" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_cluster_update_manager_1a2ef1b2c0196cfab6acc9553499560dd4" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1updates_1_1_cluster_update_manager_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::updates::ClusterUpdateManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::updates::ClusterUpdateManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="397" column="35" bodyfile="include/updates/cluster_update_manager.h" bodystart="397" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_cluster_update_manager_1a05e15bc62562d6927ef794e47f75bcb1" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1updates_1_1_cluster_node" kindref="compound">ClusterNode</ref> &gt;</type>
+        <definition>std::vector&lt;ClusterNode&gt; themis::updates::ClusterUpdateManager::sorted_nodes_</definition>
+        <argsstring></argsstring>
+        <name>sorted_nodes_</name>
+        <qualifiedname>themis::updates::ClusterUpdateManager::sorted_nodes_</qualifiedname>
+        <briefdescription>
+<para>leader last </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="398" column="22" bodyfile="include/updates/cluster_update_manager.h" bodystart="398" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_cluster_update_manager_1aa4cf5624612e2bb76ea59a9ba136c88d" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1updates_1_1_cluster_node_status" kindref="compound">ClusterNodeStatus</ref> &gt;</type>
+        <definition>std::vector&lt;ClusterNodeStatus&gt; themis::updates::ClusterUpdateManager::node_statuses_</definition>
+        <argsstring></argsstring>
+        <name>node_statuses_</name>
+        <qualifiedname>themis::updates::ClusterUpdateManager::node_statuses_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="399" column="17" bodyfile="include/updates/cluster_update_manager.h" bodystart="399" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_cluster_update_manager_1a13d66dd50c794bfe6f8b1da473ad5abd" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::updates::ClusterUpdateManager::cancelled_</definition>
+        <argsstring></argsstring>
+        <name>cancelled_</name>
+        <qualifiedname>themis::updates::ClusterUpdateManager::cancelled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="401" column="17" bodyfile="include/updates/cluster_update_manager.h" bodystart="401" bodyend="401"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_cluster_update_manager_1a39f8ea89507ac38ed507db2e84792e55" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1abe48401f0bfd1c8b4cda6d5cba892ce4" kindref="member">NodeUpdateFunc</ref></type>
+        <definition>NodeUpdateFunc themis::updates::ClusterUpdateManager::node_update_fn_</definition>
+        <argsstring></argsstring>
+        <name>node_update_fn_</name>
+        <qualifiedname>themis::updates::ClusterUpdateManager::node_update_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="403" column="25" bodyfile="include/updates/cluster_update_manager.h" bodystart="403" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_cluster_update_manager_1aed7151729cb6618b0bfcc0996db50f10" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1a0a2040daf1e8aaa76b4a32dfdfa52e6b" kindref="member">NodeHealthCheckFunc</ref></type>
+        <definition>NodeHealthCheckFunc themis::updates::ClusterUpdateManager::node_health_check_fn_</definition>
+        <argsstring></argsstring>
+        <name>node_health_check_fn_</name>
+        <qualifiedname>themis::updates::ClusterUpdateManager::node_health_check_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="404" column="25" bodyfile="include/updates/cluster_update_manager.h" bodystart="404" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_cluster_update_manager_1ac30ee1dfcfd93a6e4a4a08a697affdcd" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1aa1e2e78fdbfa26dc8f1d9fce132fac87" kindref="member">NodeRollbackFunc</ref></type>
+        <definition>NodeRollbackFunc themis::updates::ClusterUpdateManager::node_rollback_fn_</definition>
+        <argsstring></argsstring>
+        <name>node_rollback_fn_</name>
+        <qualifiedname>themis::updates::ClusterUpdateManager::node_rollback_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="405" column="25" bodyfile="include/updates/cluster_update_manager.h" bodystart="405" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_cluster_update_manager_1a556727766d9cc5e4ede75d5b6e7cec5e" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1a73609694fd96109a99f57de1ffd3c854" kindref="member">ProgressCallback</ref></type>
+        <definition>ProgressCallback themis::updates::ClusterUpdateManager::progress_cb_</definition>
+        <argsstring></argsstring>
+        <name>progress_cb_</name>
+        <qualifiedname>themis::updates::ClusterUpdateManager::progress_cb_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="406" column="25" bodyfile="include/updates/cluster_update_manager.h" bodystart="406" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_cluster_update_manager_1aa2d20ded2231e24e6004af3fcd9494a4" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::ClusterUpdateManager::ClusterUpdateManager</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>ClusterUpdateManager</name>
+        <qualifiedname>themis::updates::ClusterUpdateManager::ClusterUpdateManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_cluster_update_manager_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct a <ref refid="classthemis_1_1updates_1_1_cluster_update_manager" kindref="compound">ClusterUpdateManager</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Cluster topology and default options. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if the node list is empty. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="288" column="14" bodyfile="src/updates/cluster_update_manager.cpp" bodystart="32" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_cluster_update_manager_1ad9e0c88753f7af707162a6d93e1e1917" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::ClusterUpdateManager::~ClusterUpdateManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ClusterUpdateManager</name>
+        <qualifiedname>themis::updates::ClusterUpdateManager::~ClusterUpdateManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="290" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_cluster_update_manager_1a54dfb5cd1fc2e7eb2e78f584d779681f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::ClusterUpdateManager::ClusterUpdateManager</definition>
+        <argsstring>(const ClusterUpdateManager &amp;)=delete</argsstring>
+        <name>ClusterUpdateManager</name>
+        <qualifiedname>themis::updates::ClusterUpdateManager::ClusterUpdateManager</qualifiedname>
+        <param>
+          <type>const ClusterUpdateManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="292" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_cluster_update_manager_1a485f4199548bd46f4f33187517b69484" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1aa2d20ded2231e24e6004af3fcd9494a4" kindref="member">ClusterUpdateManager</ref> &amp;</type>
+        <definition>ClusterUpdateManager &amp; themis::updates::ClusterUpdateManager::operator=</definition>
+        <argsstring>(const ClusterUpdateManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::updates::ClusterUpdateManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1aa2d20ded2231e24e6004af3fcd9494a4" kindref="member">ClusterUpdateManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="293" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_cluster_update_manager_1ad300e2f371876179d27163198ee57258" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1updates_1_1_cluster_update_result" kindref="compound">ClusterUpdateResult</ref></type>
+        <definition>ClusterUpdateResult themis::updates::ClusterUpdateManager::updateCluster</definition>
+        <argsstring>(const std::string &amp;version, const ClusterUpdateOptions &amp;opts)</argsstring>
+        <name>updateCluster</name>
+        <qualifiedname>themis::updates::ClusterUpdateManager::updateCluster</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_cluster_update_options" kindref="compound">ClusterUpdateOptions</ref> &amp;</type>
+          <declname>opts</declname>
+        </param>
+        <briefdescription>
+<para>Initiate a cluster-wide update to <computeroutput>version</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Cluster.</para>
+<para>This call blocks until all nodes have been updated (or failed). Use <ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1a6c66ab3c0930d3ef070e5c58287dd433" kindref="member">setProgressCallback()</ref> to receive incremental progress.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target version string (e.g. &quot;1.7.0&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Override the per-update options. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1updates_1_1_cluster_update_result" kindref="compound">ClusterUpdateResult</ref> describing the final outcome.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="309" column="25" bodyfile="src/updates/cluster_update_manager.cpp" bodystart="319" bodyend="427"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_cluster_update_manager_1a6c8a4a8b4933fdae0d7d366666476660" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1updates_1_1_cluster_update_result" kindref="compound">ClusterUpdateResult</ref></type>
+        <definition>ClusterUpdateResult themis::updates::ClusterUpdateManager::updateCluster</definition>
+        <argsstring>(const std::string &amp;version)</argsstring>
+        <name>updateCluster</name>
+        <qualifiedname>themis::updates::ClusterUpdateManager::updateCluster</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Initiate a cluster-wide update using default options. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Cluster.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="316" column="25" bodyfile="src/updates/cluster_update_manager.cpp" bodystart="434" bodyend="438"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_cluster_update_manager_1a9e4e71349c75aa9933e43f36e847a96c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::ClusterUpdateManager::cancelUpdate</definition>
+        <argsstring>()</argsstring>
+        <name>cancelUpdate</name>
+        <qualifiedname>themis::updates::ClusterUpdateManager::cancelUpdate</qualifiedname>
+        <briefdescription>
+<para>Cancel an in-progress cluster update. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cancel Update.</para>
+<para>Sets an internal cancellation flag. The current node&apos;s update is allowed to finish; subsequent nodes will be skipped.</para>
+<para>Calls: store(), <ref refid="batch5__safety__helpers_8h_1add82efa459e0af380b68522c29b9fd44" kindref="member">LOG_WARN()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="324" column="10" bodyfile="src/updates/cluster_update_manager.cpp" bodystart="448" bodyend="451"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_cluster_update_manager_1a07f49b97ae1a7f17eb040611c8a69442" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1updates_1_1_cluster_node_status" kindref="compound">ClusterNodeStatus</ref> &gt;</type>
+        <definition>std::vector&lt; ClusterNodeStatus &gt; themis::updates::ClusterUpdateManager::nodeStatuses</definition>
+        <argsstring>() const</argsstring>
+        <name>nodeStatuses</name>
+        <qualifiedname>themis::updates::ClusterUpdateManager::nodeStatuses</qualifiedname>
+        <briefdescription>
+<para>Return a snapshot of all known node statuses. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="333" column="17" bodyfile="src/updates/cluster_update_manager.cpp" bodystart="453" bodyend="461"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_cluster_update_manager_1a52f5af38bbaf4520c807812302028b55" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::ClusterUpdateManager::isCancelled</definition>
+        <argsstring>() const</argsstring>
+        <name>isCancelled</name>
+        <qualifiedname>themis::updates::ClusterUpdateManager::isCancelled</qualifiedname>
+        <briefdescription>
+<para>Return true when a cancellation has been requested. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="338" column="10" bodyfile="src/updates/cluster_update_manager.cpp" bodystart="463" bodyend="465"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_cluster_update_manager_1a4fe5db5ba834ad5a41f4ff17f98db521" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::updates::ClusterUpdateManager::totalNodes</definition>
+        <argsstring>() const</argsstring>
+        <name>totalNodes</name>
+        <qualifiedname>themis::updates::ClusterUpdateManager::totalNodes</qualifiedname>
+        <briefdescription>
+<para>Return the total number of nodes in the cluster. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="343" column="12" bodyfile="src/updates/cluster_update_manager.cpp" bodystart="467" bodyend="469"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_cluster_update_manager_1ac5c782fd197a40f32d048d06d55d4855" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::ClusterUpdateManager::setNodeUpdateFunc</definition>
+        <argsstring>(NodeUpdateFunc fn)</argsstring>
+        <name>setNodeUpdateFunc</name>
+        <qualifiedname>themis::updates::ClusterUpdateManager::setNodeUpdateFunc</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1abe48401f0bfd1c8b4cda6d5cba892ce4" kindref="member">NodeUpdateFunc</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Register the callback that performs the per-node update. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Node Update Func.</para>
+<para>When not set, the manager uses a no-op that returns true (useful for dry-run or unit-test scenarios).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="355" column="10" bodyfile="src/updates/cluster_update_manager.cpp" bodystart="480" bodyend="483"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_cluster_update_manager_1a224174083a83edb5d32e42539371b596" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::ClusterUpdateManager::setNodeHealthCheckFunc</definition>
+        <argsstring>(NodeHealthCheckFunc fn)</argsstring>
+        <name>setNodeHealthCheckFunc</name>
+        <qualifiedname>themis::updates::ClusterUpdateManager::setNodeHealthCheckFunc</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1a0a2040daf1e8aaa76b4a32dfdfa52e6b" kindref="member">NodeHealthCheckFunc</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Register the callback that performs per-node health checks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Node Health Check Func.</para>
+<para>When not set, the manager assumes the node is healthy immediately after the <ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1abe48401f0bfd1c8b4cda6d5cba892ce4" kindref="member">NodeUpdateFunc</ref> succeeds.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="363" column="10" bodyfile="src/updates/cluster_update_manager.cpp" bodystart="490" bodyend="493"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_cluster_update_manager_1af1249523da4f06aa4ff38495e6c0f550" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::ClusterUpdateManager::setNodeRollbackFunc</definition>
+        <argsstring>(NodeRollbackFunc fn)</argsstring>
+        <name>setNodeRollbackFunc</name>
+        <qualifiedname>themis::updates::ClusterUpdateManager::setNodeRollbackFunc</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1aa1e2e78fdbfa26dc8f1d9fce132fac87" kindref="member">NodeRollbackFunc</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Register the callback that performs per-node rollbacks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Node Rollback Func.</para>
+<para>Called when a node&apos;s update or health check fails and <computeroutput>rollback_on_failure</computeroutput> is true. When not set, the node is marked ROLLED_BACK in state but no remote action is taken.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="372" column="10" bodyfile="src/updates/cluster_update_manager.cpp" bodystart="500" bodyend="503"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_cluster_update_manager_1a6c66ab3c0930d3ef070e5c58287dd433" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::ClusterUpdateManager::setProgressCallback</definition>
+        <argsstring>(ProgressCallback fn)</argsstring>
+        <name>setProgressCallback</name>
+        <qualifiedname>themis::updates::ClusterUpdateManager::setProgressCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1a73609694fd96109a99f57de1ffd3c854" kindref="member">ProgressCallback</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Register a progress callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Progress Callback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="377" column="10" bodyfile="src/updates/cluster_update_manager.cpp" bodystart="510" bodyend="513"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_cluster_update_manager_1ae363f8747a4cbf6f1c67486b9ff47905" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::updates::ClusterUpdateManager::findNodeIndex</definition>
+        <argsstring>(const std::string &amp;node_id) const</argsstring>
+        <name>findNodeIndex</name>
+        <qualifiedname>themis::updates::ClusterUpdateManager::findNodeIndex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Returns index into node_statuses_ for the given node_id, or -1. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="383" column="9" bodyfile="src/updates/cluster_update_manager.cpp" bodystart="77" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_cluster_update_manager_1a8e2519e2e434d421760fcdb10ee3e963" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::ClusterUpdateManager::emitProgress</definition>
+        <argsstring>(const std::string &amp;current_node, const std::string &amp;status_msg)</argsstring>
+        <name>emitProgress</name>
+        <qualifiedname>themis::updates::ClusterUpdateManager::emitProgress</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>current_node</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>status_msg</declname>
+        </param>
+        <briefdescription>
+<para>Emit a progress snapshot to the registered callback (if any). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Emit Progress.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">current_node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">status_msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), size(), cb(), <ref refid="batch5__safety__helpers_8h_1add82efa459e0af380b68522c29b9fd44" kindref="member">LOG_WARN()</ref>, what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="386" column="10" bodyfile="src/updates/cluster_update_manager.cpp" bodystart="92" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_cluster_update_manager_1a0ae10afb511d8902a2cbc06b0acee38f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::ClusterUpdateManager::updateSingleNode</definition>
+        <argsstring>(const ClusterNode &amp;node, const std::string &amp;version, const ClusterUpdateOptions &amp;opts)</argsstring>
+        <name>updateSingleNode</name>
+        <qualifiedname>themis::updates::ClusterUpdateManager::updateSingleNode</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_cluster_node" kindref="compound">ClusterNode</ref> &amp;</type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_cluster_update_options" kindref="compound">ClusterUpdateOptions</ref> &amp;</type>
+          <declname>opts</declname>
+        </param>
+        <briefdescription>
+<para>Update Single Node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Apply the update to a single node and update its status entry. Returns true on success.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), findNodeIndex(), emitProgress(), load(), update_fn(), <ref refid="batch5__safety__helpers_8h_1ad4a9117ce894e3319e903142347a0f63" kindref="member">LOG_ERROR()</ref>, rollback_fn(), <ref refid="batch5__safety__helpers_8h_1add82efa459e0af380b68522c29b9fd44" kindref="member">LOG_WARN()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="391" column="10" bodyfile="src/updates/cluster_update_manager.cpp" bodystart="128" bodyend="307"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Orchestrates a rolling update across all nodes of a ThemisDB cluster. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The manager is transport-agnostic: actual per-node update execution, health checks, and rollbacks are injected as callbacks. This keeps the class independently testable and decoupled from any particular cluster transport (gRPC, Raft RPC, …).</para>
+<sect1 id="classthemis_1_1updates_1_1_cluster_update_manager_1autotoc_md0_1s1"><sect2 id="classthemis_1_1updates_1_1_cluster_update_manager_1autotoc_md0">
+<title>Update procedure (always sequential / rolling)</title><para><orderedlist>
+<listitem><para>For each non-leader node (in the order supplied), then for each leader node: a. Mark DRAINING — emit progress. b. Invoke <ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1abe48401f0bfd1c8b4cda6d5cba892ce4" kindref="member">NodeUpdateFunc</ref> (→ APPLYING). c. Invoke <ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1a0a2040daf1e8aaa76b4a32dfdfa52e6b" kindref="member">NodeHealthCheckFunc</ref> (→ HEALTH_CHECK). d. On pass: REJOINING → COMPLETED. e. On fail (rollback_on_failure=true):<itemizedlist>
+<listitem><para>Invoke <ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1aa1e2e78fdbfa26dc8f1d9fce132fac87" kindref="member">NodeRollbackFunc</ref> (if registered).</para>
+</listitem><listitem><para>Mark ROLLED_BACK; abort update of remaining nodes.</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para>Emit final progress snapshot.</para>
+</listitem></orderedlist>
+</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1updates_1_1_cluster_update_manager_1autotoc_md1_1s1"><sect2 id="classthemis_1_1updates_1_1_cluster_update_manager_1autotoc_md1">
+<title>Usage example</title><para><programlisting><codeline><highlight class="normal">ClusterUpdateManager::Config<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.nodes<sp/>=<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;node-a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;host-a:6543&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1.6.0&quot;</highlight><highlight class="normal"><sp/>},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;node-b&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;host-b:6543&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1.6.0&quot;</highlight><highlight class="normal"><sp/>},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;node-c&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;host-c:6543&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="stringliteral">&quot;1.6.0&quot;</highlight><highlight class="normal"><sp/>},<sp/><sp/></highlight><highlight class="comment">//<sp/>leader</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1aa2d20ded2231e24e6004af3fcd9494a4" kindref="member">ClusterUpdateManager</ref><sp/>mgr(cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">mgr.setNodeUpdateFunc([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ClusterNode&amp;<sp/>node,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>version,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ClusterUpdateOptions&amp;<sp/>opts)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>my_rpc_client.updateNode(node.node_id,<sp/>version);</highlight></codeline>
+<codeline><highlight class="normal">});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">mgr.setNodeRollbackFunc([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ClusterNode&amp;<sp/>node,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>applied_version)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>my_rpc_client.rollbackNode(node.node_id,<sp/>applied_version);</highlight></codeline>
+<codeline><highlight class="normal">});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">mgr.setProgressCallback([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ClusterUpdateProgress&amp;<sp/>p)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/>p.nodes_updated<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;/&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>p.total_nodes</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>–<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>p.status<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr.updateCluster(</highlight><highlight class="stringliteral">&quot;1.7.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!result.success)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="batch5__safety__helpers_8h_1ad4a9117ce894e3319e903142347a0f63" kindref="member">LOG_ERROR</ref>(</highlight><highlight class="stringliteral">&quot;Cluster<sp/>update<sp/>failed:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>result.error_message);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/updates/cluster_update_manager.h" line="210" column="1" bodyfile="include/updates/cluster_update_manager.h" bodystart="210" bodyend="407"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1updates_1_1_cluster_update_manager_1a13d66dd50c794bfe6f8b1da473ad5abd" prot="private" virt="non-virtual"><scope>themis::updates::ClusterUpdateManager</scope><name>cancelled_</name></member>
+      <member refid="classthemis_1_1updates_1_1_cluster_update_manager_1a9e4e71349c75aa9933e43f36e847a96c" prot="public" virt="non-virtual"><scope>themis::updates::ClusterUpdateManager</scope><name>cancelUpdate</name></member>
+      <member refid="classthemis_1_1updates_1_1_cluster_update_manager_1aa2d20ded2231e24e6004af3fcd9494a4" prot="public" virt="non-virtual"><scope>themis::updates::ClusterUpdateManager</scope><name>ClusterUpdateManager</name></member>
+      <member refid="classthemis_1_1updates_1_1_cluster_update_manager_1a54dfb5cd1fc2e7eb2e78f584d779681f" prot="public" virt="non-virtual"><scope>themis::updates::ClusterUpdateManager</scope><name>ClusterUpdateManager</name></member>
+      <member refid="classthemis_1_1updates_1_1_cluster_update_manager_1a2ef1b2c0196cfab6acc9553499560dd4" prot="private" virt="non-virtual"><scope>themis::updates::ClusterUpdateManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1updates_1_1_cluster_update_manager_1a8e2519e2e434d421760fcdb10ee3e963" prot="private" virt="non-virtual"><scope>themis::updates::ClusterUpdateManager</scope><name>emitProgress</name></member>
+      <member refid="classthemis_1_1updates_1_1_cluster_update_manager_1ae363f8747a4cbf6f1c67486b9ff47905" prot="private" virt="non-virtual"><scope>themis::updates::ClusterUpdateManager</scope><name>findNodeIndex</name></member>
+      <member refid="classthemis_1_1updates_1_1_cluster_update_manager_1a52f5af38bbaf4520c807812302028b55" prot="public" virt="non-virtual"><scope>themis::updates::ClusterUpdateManager</scope><name>isCancelled</name></member>
+      <member refid="classthemis_1_1updates_1_1_cluster_update_manager_1a54f1bdc17b993447c90ac5b576fdeb1a" prot="private" virt="non-virtual"><scope>themis::updates::ClusterUpdateManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1updates_1_1_cluster_update_manager_1aed7151729cb6618b0bfcc0996db50f10" prot="private" virt="non-virtual"><scope>themis::updates::ClusterUpdateManager</scope><name>node_health_check_fn_</name></member>
+      <member refid="classthemis_1_1updates_1_1_cluster_update_manager_1ac30ee1dfcfd93a6e4a4a08a697affdcd" prot="private" virt="non-virtual"><scope>themis::updates::ClusterUpdateManager</scope><name>node_rollback_fn_</name></member>
+      <member refid="classthemis_1_1updates_1_1_cluster_update_manager_1aa4cf5624612e2bb76ea59a9ba136c88d" prot="private" virt="non-virtual"><scope>themis::updates::ClusterUpdateManager</scope><name>node_statuses_</name></member>
+      <member refid="classthemis_1_1updates_1_1_cluster_update_manager_1a39f8ea89507ac38ed507db2e84792e55" prot="private" virt="non-virtual"><scope>themis::updates::ClusterUpdateManager</scope><name>node_update_fn_</name></member>
+      <member refid="classthemis_1_1updates_1_1_cluster_update_manager_1a0a2040daf1e8aaa76b4a32dfdfa52e6b" prot="public" virt="non-virtual"><scope>themis::updates::ClusterUpdateManager</scope><name>NodeHealthCheckFunc</name></member>
+      <member refid="classthemis_1_1updates_1_1_cluster_update_manager_1aa1e2e78fdbfa26dc8f1d9fce132fac87" prot="public" virt="non-virtual"><scope>themis::updates::ClusterUpdateManager</scope><name>NodeRollbackFunc</name></member>
+      <member refid="classthemis_1_1updates_1_1_cluster_update_manager_1a07f49b97ae1a7f17eb040611c8a69442" prot="public" virt="non-virtual"><scope>themis::updates::ClusterUpdateManager</scope><name>nodeStatuses</name></member>
+      <member refid="classthemis_1_1updates_1_1_cluster_update_manager_1abe48401f0bfd1c8b4cda6d5cba892ce4" prot="public" virt="non-virtual"><scope>themis::updates::ClusterUpdateManager</scope><name>NodeUpdateFunc</name></member>
+      <member refid="classthemis_1_1updates_1_1_cluster_update_manager_1a485f4199548bd46f4f33187517b69484" prot="public" virt="non-virtual"><scope>themis::updates::ClusterUpdateManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1updates_1_1_cluster_update_manager_1a556727766d9cc5e4ede75d5b6e7cec5e" prot="private" virt="non-virtual"><scope>themis::updates::ClusterUpdateManager</scope><name>progress_cb_</name></member>
+      <member refid="classthemis_1_1updates_1_1_cluster_update_manager_1a73609694fd96109a99f57de1ffd3c854" prot="public" virt="non-virtual"><scope>themis::updates::ClusterUpdateManager</scope><name>ProgressCallback</name></member>
+      <member refid="classthemis_1_1updates_1_1_cluster_update_manager_1a224174083a83edb5d32e42539371b596" prot="public" virt="non-virtual"><scope>themis::updates::ClusterUpdateManager</scope><name>setNodeHealthCheckFunc</name></member>
+      <member refid="classthemis_1_1updates_1_1_cluster_update_manager_1af1249523da4f06aa4ff38495e6c0f550" prot="public" virt="non-virtual"><scope>themis::updates::ClusterUpdateManager</scope><name>setNodeRollbackFunc</name></member>
+      <member refid="classthemis_1_1updates_1_1_cluster_update_manager_1ac5c782fd197a40f32d048d06d55d4855" prot="public" virt="non-virtual"><scope>themis::updates::ClusterUpdateManager</scope><name>setNodeUpdateFunc</name></member>
+      <member refid="classthemis_1_1updates_1_1_cluster_update_manager_1a6c66ab3c0930d3ef070e5c58287dd433" prot="public" virt="non-virtual"><scope>themis::updates::ClusterUpdateManager</scope><name>setProgressCallback</name></member>
+      <member refid="classthemis_1_1updates_1_1_cluster_update_manager_1a05e15bc62562d6927ef794e47f75bcb1" prot="private" virt="non-virtual"><scope>themis::updates::ClusterUpdateManager</scope><name>sorted_nodes_</name></member>
+      <member refid="classthemis_1_1updates_1_1_cluster_update_manager_1a4fe5db5ba834ad5a41f4ff17f98db521" prot="public" virt="non-virtual"><scope>themis::updates::ClusterUpdateManager</scope><name>totalNodes</name></member>
+      <member refid="classthemis_1_1updates_1_1_cluster_update_manager_1ad300e2f371876179d27163198ee57258" prot="public" virt="non-virtual"><scope>themis::updates::ClusterUpdateManager</scope><name>updateCluster</name></member>
+      <member refid="classthemis_1_1updates_1_1_cluster_update_manager_1a6c8a4a8b4933fdae0d7d366666476660" prot="public" virt="non-virtual"><scope>themis::updates::ClusterUpdateManager</scope><name>updateCluster</name></member>
+      <member refid="classthemis_1_1updates_1_1_cluster_update_manager_1a0ae10afb511d8902a2cbc06b0acee38f" prot="private" virt="non-virtual"><scope>themis::updates::ClusterUpdateManager</scope><name>updateSingleNode</name></member>
+      <member refid="classthemis_1_1updates_1_1_cluster_update_manager_1ad9e0c88753f7af707162a6d93e1e1917" prot="public" virt="non-virtual"><scope>themis::updates::ClusterUpdateManager</scope><name>~ClusterUpdateManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

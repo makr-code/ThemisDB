@@ -1,0 +1,295 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="ontology__manager_8h" kind="file" language="C++">
+    <compoundname>ontology_manager.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">list</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">unordered_set</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">shared_mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">utility</includes>
+    <includes local="no">functional</includes>
+    <includedby refid="path__constraints_8h" local="yes">include/graph/path_constraints.h</includedby>
+    <includedby refid="ontology__manager_8cpp" local="yes">src/graph/ontology_manager.cpp</includedby>
+    <includedby refid="test__entity__type__constraints_8cpp" local="yes">tests/graph/test_entity_type_constraints.cpp</includedby>
+    <includedby refid="test__ontology__manager_8cpp" local="yes">tests/graph/test_ontology_manager.cpp</includedby>
+    <includedby refid="test__path__constraints__semantic_8cpp" local="yes">tests/graph/test_path_constraints_semantic.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/graph/ontology_manager.h</label>
+        <link refid="ontology__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>list</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="9">
+        <label>shared_mutex</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>string_view</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="7">
+        <label>unordered_set</label>
+      </node>
+      <node id="11">
+        <label>utility</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/graph/ontology_manager.h</label>
+        <link refid="ontology__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/graph/path_constraints.h</label>
+        <link refid="path__constraints_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/graph/graph_query_optimizer.cpp</label>
+        <link refid="graph__query__optimizer_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/graph/ontology_manager.cpp</label>
+        <link refid="ontology__manager_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/graph/path_constraints.cpp</label>
+        <link refid="path__constraints_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/graph/test_entity_type_constraints.cpp</label>
+        <link refid="test__entity__type__constraints_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/graph/test_graph_advanced_features.cpp</label>
+        <link refid="test__graph__advanced__features_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/graph/test_graph_query_optimizer.cpp</label>
+        <link refid="test__graph__query__optimizer_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/graph/test_ontology_manager.cpp</label>
+        <link refid="test__ontology__manager_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/graph/test_path_constraints_semantic.cpp</label>
+        <link refid="test__path__constraints__semantic_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/graph/test_query_explain.cpp</label>
+        <link refid="test__query__explain_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1graph_1_1_ontology_manager" prot="public">themis::graph::OntologyManager</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_ontology_manager_1_1_concept_node" prot="public">themis::graph::OntologyManager::ConceptNode</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_ontology_manager_1_1_axiom" prot="public">themis::graph::OntologyManager::Axiom</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1graph">themis::graph</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;list&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1graph" kindref="compound">graph</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="classthemis_1_1graph_1_1_ontology_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1graph_1_1_ontology_manager_1a397989b7ca3cd519260bfbefdc3efc10" kindref="member">OntologyManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Tuning<sp/>constants<sp/>────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="classthemis_1_1graph_1_1_ontology_manager_1ac089bfd0eea5d6e7dd76c688c083ec4c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager_1ac089bfd0eea5d6e7dd76c688c083ec4c" kindref="member">kMaxIsADepth</ref><sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="33" refid="classthemis_1_1graph_1_1_ontology_manager_1ac23784b15787c876974b06e503b60d8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager_1ac23784b15787c876974b06e503b60d8b" kindref="member">kIsACacheCapacity</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Ruleset<sp/>modes<sp/>───────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="classthemis_1_1graph_1_1_ontology_manager_1a2ac5b51c29204dfaf0761ee050339cf8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager_1a2ac5b51c29204dfaf0761ee050339cf8" kindref="member">Ruleset</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="classthemis_1_1graph_1_1_ontology_manager_1a2ac5b51c29204dfaf0761ee050339cf8a2e979835dd62324f5bfe217449ba4974" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager_1a2ac5b51c29204dfaf0761ee050339cf8a2e979835dd62324f5bfe217449ba4974" kindref="member">Strict</ref>,</highlight></codeline>
+<codeline lineno="38" refid="classthemis_1_1graph_1_1_ontology_manager_1a2ac5b51c29204dfaf0761ee050339cf8a56525ae64d370c0b448ac0d60710ef17" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager_1a2ac5b51c29204dfaf0761ee050339cf8a56525ae64d370c0b448ac0d60710ef17" kindref="member">Warn</ref></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Internal<sp/>data<sp/>structures<sp/>────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1graph_1_1_ontology_manager_1_1_concept_node" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1graph_1_1_ontology_manager_1_1_concept_node" kindref="compound">ConceptNode</ref><sp/>{</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1graph_1_1_ontology_manager_1_1_concept_node_1a94576aa79d74dfc85090aa9012649604" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_ontology_manager_1_1_concept_node_1a94576aa79d74dfc85090aa9012649604" kindref="member">id</ref>;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1graph_1_1_ontology_manager_1_1_concept_node_1aff0873bbc776d13860366e94877fee25" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1graph_1_1_ontology_manager_1_1_concept_node_1aff0873bbc776d13860366e94877fee25" kindref="member">parents</ref>;</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1graph_1_1_ontology_manager_1_1_concept_node_1a34f364dcae47fb18ab5cb9e0d5f0eaa6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;<sp/><ref refid="structthemis_1_1graph_1_1_ontology_manager_1_1_concept_node_1a34f364dcae47fb18ab5cb9e0d5f0eaa6" kindref="member">allowed_edge_types_as_source</ref>;</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1graph_1_1_ontology_manager_1_1_concept_node_1acf9fcd78f24c507810b3ec13b72c0df7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;<sp/><ref refid="structthemis_1_1graph_1_1_ontology_manager_1_1_concept_node_1acf9fcd78f24c507810b3ec13b72c0df7" kindref="member">allowed_edge_types_as_target</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1graph_1_1_ontology_manager_1_1_axiom" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1graph_1_1_ontology_manager_1_1_axiom" kindref="compound">Axiom</ref><sp/>{</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1graph_1_1_ontology_manager_1_1_axiom_1ad5f9a48ca609587e9fc8095cf63dbc56" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_ontology_manager_1_1_axiom_1ad5f9a48ca609587e9fc8095cf63dbc56" kindref="member">source_class</ref>;</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1graph_1_1_ontology_manager_1_1_axiom_1a0700cda171e718187970f17f0a7e72cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_ontology_manager_1_1_axiom_1a0700cda171e718187970f17f0a7e72cd" kindref="member">edge_type</ref>;</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1graph_1_1_ontology_manager_1_1_axiom_1ab6b0578abbf571cc8f4dfaa8583f33c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_ontology_manager_1_1_axiom_1ab6b0578abbf571cc8f4dfaa8583f33c4" kindref="member">target_class</ref>;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Life-cycle<sp/>──────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="classthemis_1_1graph_1_1_ontology_manager_1a397989b7ca3cd519260bfbefdc3efc10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager_1a397989b7ca3cd519260bfbefdc3efc10" kindref="member">OntologyManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="classthemis_1_1graph_1_1_ontology_manager_1a9fc4a550505ba59b856bf2d35e898912" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager_1a9fc4a550505ba59b856bf2d35e898912" kindref="member">OntologyManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager_1a397989b7ca3cd519260bfbefdc3efc10" kindref="member">OntologyManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59" refid="classthemis_1_1graph_1_1_ontology_manager_1a8380b1e433618a036c9277857c21057e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager_1a397989b7ca3cd519260bfbefdc3efc10" kindref="member">OntologyManager</ref>&amp;<sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager_1a8380b1e433618a036c9277857c21057e" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager_1a397989b7ca3cd519260bfbefdc3efc10" kindref="member">OntologyManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="classthemis_1_1graph_1_1_ontology_manager_1a6e080e6f5344f3ea17197e74b5a07231" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager_1a6e080e6f5344f3ea17197e74b5a07231" kindref="member">OntologyManager</ref>(<ref refid="classthemis_1_1graph_1_1_ontology_manager_1a397989b7ca3cd519260bfbefdc3efc10" kindref="member">OntologyManager</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="62" refid="classthemis_1_1graph_1_1_ontology_manager_1ab7560b67c48a0e2802da2ecb79f8f033" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager_1a397989b7ca3cd519260bfbefdc3efc10" kindref="member">OntologyManager</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1graph_1_1_ontology_manager_1a397989b7ca3cd519260bfbefdc3efc10" kindref="member">OntologyManager</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="classthemis_1_1graph_1_1_ontology_manager_1aca3f78c3891e9ca1173105d2189e0bd2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>~<ref refid="classthemis_1_1graph_1_1_ontology_manager_1a397989b7ca3cd519260bfbefdc3efc10" kindref="member">OntologyManager</ref>()<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager_1aba51e52a45ca3826838383c4174c6bb1" kindref="member">loadFromJson</ref>(std::string_view<sp/>path);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager_1a2fda13ef5ca4bff98d55419de6d2092d" kindref="member">loadFromYaml</ref>(std::string_view<sp/>path);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager_1a0f1456cfa3326b6f020eaf51062f4d36" kindref="member">loadFromJsonString</ref>(std::string_view<sp/>json_text);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager_1afe1bb0b0e4c75f05115e2316ea6c8bfb" kindref="member">addConcept</ref>(std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>std::vector&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;<sp/>parents<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager_1a697c6f0bd59119bef5654a57a51affa1" kindref="member">addAxiom</ref>(std::string<sp/>source_class,<sp/>std::string<sp/>edge_type,<sp/>std::string<sp/>target_class);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager_1ad3f36c86cd2e8c479fd6c7273e9bf6b7" kindref="member">build</ref>();</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager_1aebae0989cc5fab8fe231cdc34035a304" kindref="member">isA</ref>(std::string_view<sp/>conceptName,<sp/>std::string_view<sp/>superConcept)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::unordered_set&lt;std::string&gt;<sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager_1a8d79c11a54fa734b0d8fe5f5544588c2" kindref="member">allowedEdgeTypes</ref>(</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>sourceClass,</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>targetClass)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager_1a8c3e2c80f5e0ffcea47d6faa1b11a834" kindref="member">isEdgeTypeAllowed</ref>(std::string_view<sp/>sourceClass,</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>targetClass,</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>edgeType)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Serialisation<sp/>───────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string<sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager_1a8d0a8e89df093cc89dfac0977dd74b54" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string<sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager_1af59e59afe4afd2e05a769d8c2b7b4193" kindref="member">toYaml</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Introspection<sp/>───────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="classthemis_1_1graph_1_1_ontology_manager_1aac1c160994bf0c030f2218ec07ad90ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager_1aac1c160994bf0c030f2218ec07ad90ba" kindref="member">isBuilt</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>built_;<sp/>}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="classthemis_1_1graph_1_1_ontology_manager_1acb5312f066a29dd23c8526ccf8328404" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::size_t<sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager_1acb5312f066a29dd23c8526ccf8328404" kindref="member">conceptCount</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>concepts_.size();<sp/>}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="classthemis_1_1graph_1_1_ontology_manager_1a86bdc69323f082d7ac0273b0ef48dd65" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::size_t<sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager_1a86bdc69323f082d7ac0273b0ef48dd65" kindref="member">axiomCount</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>axioms_.size();<sp/>}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager_1ab290ec102da91421fb39bf9d2c2519d9" kindref="member">hasConcept</ref>(std::string_view<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ConceptNode*<sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager_1a1f0d2e830c343e02ea33d49227872a13" kindref="member">getConcept</ref>(std::string_view<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Storage<sp/>─────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>ConceptNode&gt;<sp/>concepts_;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Axiom&gt;<sp/>axioms_;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>built_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>isA<sp/>LRU<sp/>cache<sp/>────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Key:<sp/>&quot;concept\0superConcept&quot;<sp/>(null-byte<sp/>separator<sp/>avoids<sp/>ambiguity)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>bool&gt;<sp/>isa_cache_;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::list&lt;std::string&gt;<sp/>isa_cache_lru_;<sp/><sp/></highlight><highlight class="comment">//<sp/>front<sp/>=<sp/>oldest;<sp/>O(1)<sp/>eviction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>isa_cache_mutex_;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isAUncached(std::string_view<sp/>conceptName,<sp/>std::string_view<sp/>superConcept)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>evictIsACacheEntry()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>parseJson(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>parseYaml(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>graph</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/graph/ontology_manager.h"/>
+  </compounddef>
+</doxygen>

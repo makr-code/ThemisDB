@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_99ad68e594f8acb2f841adfaa779e917" kind="dir">
+    <compoundname>src/aql</compoundname>
+    <innerfile refid="aql__agent_8cpp">aql_agent.cpp</innerfile>
+    <innerfile refid="aql__autocomplete_8cpp">aql_autocomplete.cpp</innerfile>
+    <innerfile refid="aql__confidence__scorer_8cpp">aql_confidence_scorer.cpp</innerfile>
+    <innerfile refid="aql__conversation__context_8cpp">aql_conversation_context.cpp</innerfile>
+    <innerfile refid="aql__fewshot__example__library_8cpp">aql_fewshot_example_library.cpp</innerfile>
+    <innerfile refid="aql__ingestion__bridge_8cpp">aql_ingestion_bridge.cpp</innerfile>
+    <innerfile refid="aql__lora__finetuner_8cpp">aql_lora_finetuner.cpp</innerfile>
+    <innerfile refid="aql__migration__assistant_8cpp">aql_migration_assistant.cpp</innerfile>
+    <innerfile refid="aql__model__router_8cpp">aql_model_router.cpp</innerfile>
+    <innerfile refid="aql__optimizer__advisor_8cpp">aql_optimizer_advisor.cpp</innerfile>
+    <innerfile refid="aql__query__builder_8cpp">aql_query_builder.cpp</innerfile>
+    <innerfile refid="aql__query__diff__explainer_8cpp">aql_query_diff_explainer.cpp</innerfile>
+    <innerfile refid="aql__query__template__library_8cpp">aql_query_template_library.cpp</innerfile>
+    <innerfile refid="aql__query__validator_8cpp">aql_query_validator.cpp</innerfile>
+    <innerfile refid="aql__rollback__suggester_8cpp">aql_rollback_suggester.cpp</innerfile>
+    <innerfile refid="aql__schema__provider_8cpp">aql_schema_provider.cpp</innerfile>
+    <innerfile refid="aql__syntax__highlighter_8cpp">aql_syntax_highlighter.cpp</innerfile>
+    <innerfile refid="classify__bridge_8cpp">classify_bridge.cpp</innerfile>
+    <innerfile refid="docs__assistant__functions_8cpp">docs_assistant_functions.cpp</innerfile>
+    <innerfile refid="llm__aql__embedding__bridge_8cpp">llm_aql_embedding_bridge.cpp</innerfile>
+    <innerfile refid="llm__aql__handler_8cpp">llm_aql_handler.cpp</innerfile>
+    <innerfile refid="llm__extractive__compressor_8cpp">llm_extractive_compressor.cpp</innerfile>
+    <innerfile refid="llm__metrics__collector_8cpp">llm_metrics_collector.cpp</innerfile>
+    <innerfile refid="llm__semantic__validator_8cpp">llm_semantic_validator.cpp</innerfile>
+    <innerfile refid="llm__validation__pipeline_8cpp">llm_validation_pipeline.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/aql/"/>
+  </compounddef>
+</doxygen>

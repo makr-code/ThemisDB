@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1_1_memory_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::GPUDataLoader::MemoryStats</compoundname>
+    <includes refid="gpu__data__loader_8h" local="no">gpu_data_loader.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1_1_memory_stats_1af1590ae97300a41bdb9a9618760cad80" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::GPUDataLoader::MemoryStats::cpu_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>cpu_memory_bytes</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoader::MemoryStats::cpu_memory_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="118" column="16" bodyfile="include/llm/lora_framework/gpu_data_loader.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1_1_memory_stats_1a47777f39150761306d41ff6351e5eeb9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::GPUDataLoader::MemoryStats::gpu_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>gpu_memory_bytes</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoader::MemoryStats::gpu_memory_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="119" column="16" bodyfile="include/llm/lora_framework/gpu_data_loader.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1_1_memory_stats_1a1225a349e3ad9df61c03fde7130f3f15" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::GPUDataLoader::MemoryStats::pinned_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>pinned_memory_bytes</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoader::MemoryStats::pinned_memory_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="120" column="16" bodyfile="include/llm/lora_framework/gpu_data_loader.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1_1_memory_stats_1a53106aa1989921d06592a8b4d283649b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::GPUDataLoader::MemoryStats::prefetch_buffer_bytes</definition>
+        <argsstring></argsstring>
+        <name>prefetch_buffer_bytes</name>
+        <qualifiedname>themis::llm::lora::GPUDataLoader::MemoryStats::prefetch_buffer_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_data_loader.h" line="121" column="16" bodyfile="include/llm/lora_framework/gpu_data_loader.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/gpu_data_loader.h" line="117" column="5" bodyfile="include/llm/lora_framework/gpu_data_loader.h" bodystart="117" bodyend="122"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1_1_memory_stats_1af1590ae97300a41bdb9a9618760cad80" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoader::MemoryStats</scope><name>cpu_memory_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1_1_memory_stats_1a47777f39150761306d41ff6351e5eeb9" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoader::MemoryStats</scope><name>gpu_memory_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1_1_memory_stats_1a1225a349e3ad9df61c03fde7130f3f15" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoader::MemoryStats</scope><name>pinned_memory_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader_1_1_memory_stats_1a53106aa1989921d06592a8b4d283649b" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUDataLoader::MemoryStats</scope><name>prefetch_buffer_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

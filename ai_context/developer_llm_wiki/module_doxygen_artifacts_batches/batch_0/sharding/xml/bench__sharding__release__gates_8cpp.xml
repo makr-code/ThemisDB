@@ -1,0 +1,440 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__sharding__release__gates_8cpp" kind="file" language="C++">
+    <compoundname>bench_sharding_release_gates.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes refid="sharding__api__contract_8h" local="yes">sharding/sharding_api_contract.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">random</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/sharding/bench_sharding_release_gates.cpp</label>
+        <link refid="bench__sharding__release__gates_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sharding/sharding_api_contract.h</label>
+        <link refid="sharding__api__contract_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>algorithm</label>
+      </node>
+      <node id="8">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstddef</label>
+      </node>
+      <node id="9">
+        <label>cstdint</label>
+      </node>
+      <node id="10">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>random</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="13">
+        <label>unordered_map</label>
+      </node>
+      <node id="14">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1bench_1_1srg_1_1_stub_hash_ring" prot="public">themis::bench::srg::StubHashRing</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant" prot="public">themis::bench::srg::StubTxnParticipant</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1srg_1_1_stub_in_memory_wal" prot="public">themis::bench::srg::StubInMemoryWal</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1srg_1_1_stub_in_memory_wal_1_1_entry" prot="public">themis::bench::srg::StubInMemoryWal::Entry</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1srg_1_1_stub_shard_health" prot="public">themis::bench::srg::StubShardHealth</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1bench">themis::bench</innernamespace>
+    <innernamespace refid="namespacethemis_1_1bench_1_1srg">themis::bench::srg</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__sharding__release__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_MAIN</definition>
+        <argsstring>()</argsstring>
+        <name>BENCHMARK_MAIN</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_release_gates.cpp" line="327" column="1" declfile="benchmarks/sharding/bench_sharding_release_gates.cpp" declline="327" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 5 sharding release-gate benchmarks. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides reproducible latency measurements for the sharding module&apos;s hot paths identified in src/sharding/ROADMAP.md (Phase 5 — Performance and Hardening). Complements the existing <ref refid="bench__sharding__performance_8cpp" kindref="compound">bench_sharding_performance.cpp</ref>.</para>
+<sect1 id="bench__sharding__release__gates_8cpp_1autotoc_md5_1s1"><sect2 id="bench__sharding__release__gates_8cpp_1autotoc_md5">
+<title>Benchmark families</title><para><heading level="3">SRG-01 — Consistent-Hash Routing</heading>
+</para>
+<para>SRG-01 Consistent-hash ring lookup (1K shards, warm)</para>
+<para><heading level="3">SRG-02 — 2PC Prepare</heading>
+</para>
+<para>SRG-02 Two-phase commit prepare() overhead (single participant, mock)</para>
+<para><heading level="3">SRG-03 — 2PC Commit</heading>
+</para>
+<para>SRG-03 Two-phase commit commit() overhead (single participant, mock)</para>
+<para><heading level="3">SRG-04 — WAL Append</heading>
+</para>
+<para>SRG-04 WAL append (in-memory mock, no fsync)</para>
+<para><heading level="3">SRG-05 — Shard Health Check</heading>
+</para>
+<para>SRG-05 Shard health check (no network, local state)</para>
+<para><heading level="3">SRG-06 — Route Lookup</heading>
+</para>
+<para>SRG-06 Hash ring lookup (64-shard warm cache)</para>
+</sect2></sect1>
+<sect1 id="bench__sharding__release__gates_8cpp_1autotoc_md6_1s1"><sect2 id="bench__sharding__release__gates_8cpp_1autotoc_md6">
+<title>Hard release gates</title><para><table rows="7" cols="3"><row>
+<entry thead="yes"><para>Gate ID  </para>
+</entry><entry thead="yes"><para>Benchmark  </para>
+</entry><entry thead="yes"><para>Threshold  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-SRG-01  </para>
+</entry><entry thead="no"><para>SRG-01  </para>
+</entry><entry thead="no"><para>p99 ≤ 50 µs  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-SRG-02  </para>
+</entry><entry thead="no"><para>SRG-02  </para>
+</entry><entry thead="no"><para>p99 ≤ 1 ms  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-SRG-03  </para>
+</entry><entry thead="no"><para>SRG-03  </para>
+</entry><entry thead="no"><para>p99 ≤ 500 µs  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-SRG-04  </para>
+</entry><entry thead="no"><para>SRG-04  </para>
+</entry><entry thead="no"><para>p99 ≤ 100 µs  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-SRG-05  </para>
+</entry><entry thead="no"><para>SRG-05  </para>
+</entry><entry thead="no"><para>p99 ≤ 50 µs  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-SRG-06  </para>
+</entry><entry thead="no"><para>SRG-06  </para>
+</entry><entry thead="no"><para>p99 ≤ 20 µs  </para>
+</entry></row>
+</table>
+</para>
+<para>All benchmarks:<itemizedlist>
+<listitem><para>Use kShardCanonicalSeed = 42 for deterministic key/ID generation.</para>
+</listitem><listitem><para>Warm up for kShardWarmupIterations before measurement.</para>
+</listitem><listitem><para>Run with Repetitions(kShardRepetitions) to capture variance.</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para>src/sharding/ROADMAP.md — Phase 5 items </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="sharding__api__contract_8h" kindref="compound">include/sharding/sharding_api_contract.h</ref> — contract constants </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="bench__sharding__performance_8cpp" kindref="compound">benchmarks/sharding/bench_sharding_performance.cpp</ref> — complementary benchmarks </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="sharding__api__contract_8h" kindref="compound">sharding/sharding_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding" kindref="compound">themis::sharding</ref>;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="71" refid="namespacethemis_1_1bench" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1bench" kindref="compound">bench</ref><sp/>{</highlight></codeline>
+<codeline lineno="72" refid="namespacethemis_1_1bench_1_1srg" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1bench_1_1srg" kindref="compound">srg</ref><sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Constants</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kShardCanonicalSeed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kShardWarmupIterations<sp/>=<sp/>200;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kShardRepetitions<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Minimal<sp/>stubs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="classthemis_1_1bench_1_1srg_1_1_stub_hash_ring" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_hash_ring_1a772d9d36b33c0ec58e82e60274b79142" kindref="member">StubHashRing</ref><sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_hash_ring_1a772d9d36b33c0ec58e82e60274b79142" kindref="member">StubHashRing</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>num_shards)<sp/>:<sp/>num_shards_(num_shards)<sp/>{}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_hash_ring_1ac1b3bbdb97aa3bcc6b468ec9c241db7c" kindref="member">lookup</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(num_shards_<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>-1;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>h<sp/>=<sp/>std::hash&lt;std::string&gt;{}(key);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(h<sp/>%<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(num_shards_));</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>num_shards_;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant" kindref="compound">StubTxnParticipant</ref><sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1a050118ab3e3d2881983ab7690e160720" kindref="member">State</ref><sp/>{<sp/><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1a050118ab3e3d2881983ab7690e160720aa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">IDLE</ref>,<sp/><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1a050118ab3e3d2881983ab7690e160720a6bbfc22048d63183dd626a026e63e497" kindref="member">PREPARED</ref>,<sp/><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1a050118ab3e3d2881983ab7690e160720a1c372d13f50af5ca9a935ebc78006e82" kindref="member">COMMITTED</ref>,<sp/><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1a050118ab3e3d2881983ab7690e160720a4e6c860e5da10e31c5fd9cb76ddc2025" kindref="member">ABORTED</ref><sp/>};</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1a050118ab3e3d2881983ab7690e160720" kindref="member">State</ref><sp/><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1a1b2c90841b3d5c9b7efb7d518f442d48" kindref="member">state</ref>{<ref refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1a050118ab3e3d2881983ab7690e160720aa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">State::IDLE</ref>};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1ae3425d301e5fa5286193a6855a6668bf" kindref="member">current_txn</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62" kindref="member">ShardingErrorCode</ref><sp/><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1a0789b8559d3218b89e68c0f042672729" kindref="member">prepare</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>txn_id)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1ae3425d301e5fa5286193a6855a6668bf" kindref="member">current_txn</ref><sp/>=<sp/>txn_id;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1a1b2c90841b3d5c9b7efb7d518f442d48" kindref="member">state</ref><sp/>=<sp/><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1a050118ab3e3d2881983ab7690e160720a6bbfc22048d63183dd626a026e63e497" kindref="member">State::PREPARED</ref>;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">ShardingErrorCode::OK</ref>;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62" kindref="member">ShardingErrorCode</ref><sp/><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1a344afc0e425b629d0474fd375b95a655" kindref="member">commit</ref>()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1a1b2c90841b3d5c9b7efb7d518f442d48" kindref="member">state</ref><sp/>==<sp/><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1a050118ab3e3d2881983ab7690e160720a1c372d13f50af5ca9a935ebc78006e82" kindref="member">State::COMMITTED</ref>)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">ShardingErrorCode::OK</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>idempotent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1a1b2c90841b3d5c9b7efb7d518f442d48" kindref="member">state</ref><sp/>=<sp/><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1a050118ab3e3d2881983ab7690e160720a1c372d13f50af5ca9a935ebc78006e82" kindref="member">State::COMMITTED</ref>;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">ShardingErrorCode::OK</ref>;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1a02ac0cbfa30d3d984a54b6fb3d7ceef7" kindref="member">reset</ref>()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{<sp/><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1a1b2c90841b3d5c9b7efb7d518f442d48" kindref="member">state</ref><sp/>=<sp/><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1a050118ab3e3d2881983ab7690e160720aa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">State::IDLE</ref>;<sp/><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1ae3425d301e5fa5286193a6855a6668bf" kindref="member">current_txn</ref>.clear();<sp/>}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="classthemis_1_1bench_1_1srg_1_1_stub_in_memory_wal" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_in_memory_wal" kindref="compound">StubInMemoryWal</ref><sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1bench_1_1srg_1_1_stub_in_memory_wal_1_1_entry" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1bench_1_1srg_1_1_stub_in_memory_wal_1_1_entry" kindref="compound">Entry</ref><sp/>{<sp/>uint64_t<sp/><ref refid="structthemis_1_1bench_1_1srg_1_1_stub_in_memory_wal_1_1_entry_1a83e082a5dc62df6e9807157a76db70d6" kindref="member">lsn</ref>;<sp/>std::string<sp/><ref refid="structthemis_1_1bench_1_1srg_1_1_stub_in_memory_wal_1_1_entry_1a89fd5fd5f7963ca93e446c9bedb1ba3a" kindref="member">data</ref>;<sp/>};</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62" kindref="member">ShardingErrorCode</ref><sp/><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_in_memory_wal_1af97e6c83dd26ad5b06f073ad0f3912e1" kindref="member">append</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>data)<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entries_.push_back({next_lsn_++,<sp/>data});</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">ShardingErrorCode::OK</ref>;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_in_memory_wal_1a34536eb4b7e5f4cf9d8e5094db1b19e8" kindref="member">clear</ref>()<sp/>noexcept<sp/>{<sp/>entries_.clear();<sp/>next_lsn_<sp/>=<sp/>0;<sp/>}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Entry&gt;<sp/>entries_;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>next_lsn_{0};</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="classthemis_1_1bench_1_1srg_1_1_stub_shard_health" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_shard_health_1aec6e5c32187acfd2c8676803c89d4be2" kindref="member">StubShardHealth</ref><sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_shard_health_1aec6e5c32187acfd2c8676803c89d4be2" kindref="member">StubShardHealth</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>num_shards)<sp/>:<sp/>health_(num_shards,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/>{}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_shard_health_1a5665ca9d079c732e76464c37675b33ab" kindref="member">isHealthy</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>shard_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(shard_id<sp/>&lt;<sp/>0<sp/>||<sp/>shard_id<sp/>&gt;=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(health_.size()))<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>health_[</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(shard_id)];</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;bool&gt;<sp/>health_;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SRG-01<sp/>—<sp/>Consistent-hash<sp/>routing<sp/>(1K<sp/>shards,<sp/>warm)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_SRG01_ConsistentHashRouting1K(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(0));</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_hash_ring" kindref="compound">StubHashRing</ref><sp/>ring(n);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Warm<sp/>up</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kShardWarmupIterations;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(ring.lookup(</highlight><highlight class="stringliteral">&quot;warm-key-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)));</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937_64<sp/>rng_engine(kShardCanonicalSeed);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uniform_int_distribution&lt;uint64_t&gt;<sp/>dist<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>key<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;key-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(dist(rng_engine));</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(ring.lookup(key));</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;GATE-SRG-01:<sp/>p99<sp/>&lt;=<sp/>50<sp/>us&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><ref refid="bench__distributed__coordinator_8cpp_1a1aa02841b6be43ba236054662529e32f" kindref="member">BENCHMARK</ref>(BM_SRG01_ConsistentHashRouting1K)</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(1024)</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kShardRepetitions)</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SRG-02<sp/>—<sp/>2PC<sp/>prepare<sp/>(single<sp/>participant,<sp/>mock)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_SRG02_TwoPhaseCommitPrepare(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant" kindref="compound">StubTxnParticipant</ref><sp/>participant;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>counter<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kShardWarmupIterations;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>participant.reset();</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>participant.prepare(</highlight><highlight class="stringliteral">&quot;warm-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>participant.reset();</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>txn<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;txn-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(counter++);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(participant.prepare(txn));</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;GATE-SRG-02:<sp/>p99<sp/>&lt;=<sp/>1<sp/>ms&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><ref refid="bench__distributed__coordinator_8cpp_1a1aa02841b6be43ba236054662529e32f" kindref="member">BENCHMARK</ref>(BM_SRG02_TwoPhaseCommitPrepare)</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kShardRepetitions)</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SRG-03<sp/>—<sp/>2PC<sp/>commit<sp/>(single<sp/>participant,<sp/>mock)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_SRG03_TwoPhaseCommitCommit(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant" kindref="compound">StubTxnParticipant</ref><sp/>participant;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pre-prepare</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>participant.<ref refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1a0789b8559d3218b89e68c0f042672729" kindref="member">prepare</ref>(</highlight><highlight class="stringliteral">&quot;bench-txn&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kShardWarmupIterations;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>participant.state<sp/>=<sp/><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1a050118ab3e3d2881983ab7690e160720a6bbfc22048d63183dd626a026e63e497" kindref="member">StubTxnParticipant::State::PREPARED</ref>;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>participant.commit();</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>participant.state<sp/>=<sp/><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1a050118ab3e3d2881983ab7690e160720a6bbfc22048d63183dd626a026e63e497" kindref="member">StubTxnParticipant::State::PREPARED</ref>;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(participant.commit());</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;GATE-SRG-03:<sp/>p99<sp/>&lt;=<sp/>500<sp/>us&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><ref refid="bench__distributed__coordinator_8cpp_1a1aa02841b6be43ba236054662529e32f" kindref="member">BENCHMARK</ref>(BM_SRG03_TwoPhaseCommitCommit)</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kShardRepetitions)</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SRG-04<sp/>—<sp/>WAL<sp/>append<sp/>(in-memory<sp/>mock)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_SRG04_WalAppend(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_in_memory_wal" kindref="compound">StubInMemoryWal</ref><sp/>wal;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kShardWarmupIterations;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>wal.append(</highlight><highlight class="stringliteral">&quot;warmup-entry-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>wal.<ref refid="classthemis_1_1bench_1_1srg_1_1_stub_in_memory_wal_1a34536eb4b7e5f4cf9d8e5094db1b19e8" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>entry_data<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;bench-wal-entry-data&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(wal.append(entry_data));</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;GATE-SRG-04:<sp/>p99<sp/>&lt;=<sp/>100<sp/>us&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><ref refid="bench__distributed__coordinator_8cpp_1a1aa02841b6be43ba236054662529e32f" kindref="member">BENCHMARK</ref>(BM_SRG04_WalAppend)</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kShardRepetitions)</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SRG-05<sp/>—<sp/>Shard<sp/>health<sp/>check<sp/>(no<sp/>network,<sp/>local<sp/>state)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_SRG05_ShardHealthCheck(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(0));</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_shard_health" kindref="compound">StubShardHealth</ref><sp/>health(n);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kShardWarmupIterations;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(health.isHealthy(i<sp/>%<sp/>n));</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937_64<sp/>rng_engine(kShardCanonicalSeed);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uniform_int_distribution&lt;int&gt;<sp/>dist(0,<sp/>n<sp/>-<sp/>1);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(health.isHealthy(dist(rng_engine)));</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;GATE-SRG-05:<sp/>p99<sp/>&lt;=<sp/>50<sp/>us&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><ref refid="bench__distributed__coordinator_8cpp_1a1aa02841b6be43ba236054662529e32f" kindref="member">BENCHMARK</ref>(BM_SRG05_ShardHealthCheck)</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(64)</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kShardRepetitions)</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SRG-06<sp/>—<sp/>Route<sp/>lookup<sp/>(hash<sp/>ring,<sp/>64-shard<sp/>warm<sp/>cache)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_SRG06_RouteLookup64ShardWarm(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_hash_ring" kindref="compound">StubHashRing</ref><sp/>ring(64);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kShardWarmupIterations;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(ring.lookup(</highlight><highlight class="stringliteral">&quot;warm-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)));</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937_64<sp/>rng_engine(kShardCanonicalSeed);</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uniform_int_distribution&lt;uint64_t&gt;<sp/>dist<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>key<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;k-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(dist(rng_engine));</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(ring.lookup(key));</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;GATE-SRG-06:<sp/>p99<sp/>&lt;=<sp/>20<sp/>us&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><ref refid="bench__distributed__coordinator_8cpp_1a1aa02841b6be43ba236054662529e32f" kindref="member">BENCHMARK</ref>(BM_SRG06_RouteLookup64ShardWarm)</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(kShardRepetitions)</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>srg</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>bench</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><ref refid="bench__sharding__release__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kindref="member">BENCHMARK_MAIN</ref>();</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/sharding/bench_sharding_release_gates.cpp"/>
+  </compounddef>
+</doxygen>

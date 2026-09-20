@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1vector" kind="namespace" language="C++">
+    <compoundname>themis::vector</compoundname>
+    <innerclass refid="classthemis_1_1vector_1_1_approximate_radius_search" prot="public">themis::vector::ApproximateRadiusSearch</innerclass>
+    <innerclass refid="classthemis_1_1vector_1_1_multi_vector_search" prot="public">themis::vector::MultiVectorSearch</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1vector_1a7cda1914467f5317f7f401765511bb12" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>tl::unexpected&lt; Error &gt;</type>
+        <definition>tl::unexpected&lt; Error &gt; themis::vector::makeError</definition>
+        <argsstring>(errors::ErrorCode code, std::string message)</argsstring>
+        <name>makeError</name>
+        <qualifiedname>themis::vector::makeError</qualifiedname>
+        <param>
+          <type>errors::ErrorCode</type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Make Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: tl::unexpected(), Error(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/approximate_radius_search.cpp" line="29" column="23" bodyfile="src/index/approximate_radius_search.cpp" bodystart="29" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1vector_1ab91d24e14b0b01fcba38857d00cd0f2b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_vector_index_manager_1ada22e2538f6a532b164ec9aeeb231a97" kindref="member">VectorIndexManager::Metric</ref></type>
+        <definition>static VectorIndexManager::Metric themis::vector::convertMetric</definition>
+        <argsstring>(ApproximateRadiusSearch::Metric metric)</argsstring>
+        <name>convertMetric</name>
+        <qualifiedname>themis::vector::convertMetric</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1vector_1_1_approximate_radius_search_1a7238b44bd080fbe590bf135a11ac3f31" kindref="member">ApproximateRadiusSearch::Metric</ref></type>
+          <declname>metric</declname>
+        </param>
+        <briefdescription>
+<para>Helper function to convert metric types. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements convertMetric without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/approximate_radius_search.cpp" line="43" column="35" bodyfile="src/index/approximate_radius_search.cpp" bodystart="43" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/approximate_radius_search.h" line="24" column="1"/>
+  </compounddef>
+</doxygen>

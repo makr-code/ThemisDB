@@ -1,0 +1,352 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_signed_request_verifier" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::SignedRequestVerifier</compoundname>
+    <includes refid="signed__request_8h" local="no">signed_request.h</includes>
+    <innerclass refid="structthemis_1_1sharding_1_1_signed_request_verifier_1_1_config" prot="public">themis::sharding::SignedRequestVerifier::Config</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_signed_request_verifier_1_1_nonce_entry" prot="private">themis::sharding::SignedRequestVerifier::NonceEntry</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_signed_request_verifier_1a53ebc072d224e8f42ddcae283a8ebffb" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_signed_request_verifier_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::sharding::SignedRequestVerifier::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::sharding::SignedRequestVerifier::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="180" column="12" bodyfile="include/sharding/signed_request.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_signed_request_verifier_1aa8e21280498d387c4027178d3c6271be" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; uint64_t, uint64_t &gt;</type>
+        <definition>std::unordered_map&lt;uint64_t, uint64_t&gt; themis::sharding::SignedRequestVerifier::seen_nonces_</definition>
+        <argsstring></argsstring>
+        <name>seen_nonces_</name>
+        <qualifiedname>themis::sharding::SignedRequestVerifier::seen_nonces_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="187" column="24" bodyfile="include/sharding/signed_request.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_signed_request_verifier_1a7ffd0ec74cbc37018535a50dc33701ba" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; NonceEntry &gt;</type>
+        <definition>std::deque&lt;NonceEntry&gt; themis::sharding::SignedRequestVerifier::nonce_fifo_</definition>
+        <argsstring></argsstring>
+        <name>nonce_fifo_</name>
+        <qualifiedname>themis::sharding::SignedRequestVerifier::nonce_fifo_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="188" column="16" bodyfile="include/sharding/signed_request.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_signed_request_verifier_1a87b08b91474f281e3fac629467ca8b77" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::SignedRequestVerifier::nonce_mutex_</definition>
+        <argsstring></argsstring>
+        <name>nonce_mutex_</name>
+        <qualifiedname>themis::sharding::SignedRequestVerifier::nonce_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="189" column="24" bodyfile="include/sharding/signed_request.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_signed_request_verifier_1adf6bee0597397445e5125ddf46b39034" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::SignedRequestVerifier::SignedRequestVerifier</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>SignedRequestVerifier</name>
+        <qualifiedname>themis::sharding::SignedRequestVerifier::SignedRequestVerifier</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_signed_request_verifier_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct verifier. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Verification configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="165" column="14" bodyfile="src/sharding/signed_request.cpp" bodystart="376" bodyend="378"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_signed_request_verifier_1a1d9923a8407705051fbd1188c975e8f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::SignedRequestVerifier::verify</definition>
+        <argsstring>(const SignedRequest &amp;request, const std::string &amp;expected_shard_id=&quot;&quot;)</argsstring>
+        <name>verify</name>
+        <qualifiedname>themis::sharding::SignedRequestVerifier::verify</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_signed_request" kindref="compound">SignedRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expected_shard_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Verify freshness, replay state, identity and signature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify identity and enforce network policies for a request.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Signed request to verify. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>expected_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional expected sender shard identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when request passes all checks; false otherwise.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expected_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the expected shard. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Verification result.</para>
+</simplesect>
+Calls: rejectWithAuditCode(), empty(), std::regex_match(), keyIdPattern(), verifyTimestamp(), std::to_string(), verifyNonce(), verifySignature(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="173" column="10" bodyfile="src/sharding/signed_request.cpp" bodystart="387" bodyend="424"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_signed_request_verifier_1afd2c65cd6cee1deb01889bcba1ee8ff8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::SignedRequestVerifier::cleanupExpiredNonces</definition>
+        <argsstring>()</argsstring>
+        <name>cleanupExpiredNonces</name>
+        <qualifiedname>themis::sharding::SignedRequestVerifier::cleanupExpiredNonces</qualifiedname>
+        <briefdescription>
+<para>Remove expired nonces from replay cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cleanup Expired Nonces.</para>
+<para>Calls: lock(), purgeExpiredNoncesLocked(), getCurrentTimestampMs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="177" column="10" bodyfile="src/sharding/signed_request.cpp" bodystart="430" bodyend="433"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_signed_request_verifier_1a2eb716fae0ebe6e98be22d02ad709d07" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::SignedRequestVerifier::verifyTimestamp</definition>
+        <argsstring>(uint64_t timestamp_ms) const</argsstring>
+        <name>verifyTimestamp</name>
+        <qualifiedname>themis::sharding::SignedRequestVerifier::verifyTimestamp</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>timestamp_ms</declname>
+        </param>
+        <briefdescription>
+<para>Check request timestamp skew against configured limit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="192" column="10" bodyfile="src/sharding/signed_request.cpp" bodystart="435" bodyend="441"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_signed_request_verifier_1a1b48aeb37dd7cc59d1f7df314a6dd617" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::SignedRequestVerifier::verifyNonce</definition>
+        <argsstring>(uint64_t nonce, uint64_t timestamp_ms)</argsstring>
+        <name>verifyNonce</name>
+        <qualifiedname>themis::sharding::SignedRequestVerifier::verifyNonce</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>nonce</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>timestamp_ms</declname>
+        </param>
+        <briefdescription>
+<para>Validate nonce uniqueness within replay window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify Nonce.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">nonce</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timestamp_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), getCurrentTimestampMs(), purgeExpiredNoncesLocked(), find(), end(), rejectWithAuditCode(), std::to_string(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="195" column="10" bodyfile="src/sharding/signed_request.cpp" bodystart="450" bodyend="489"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_signed_request_verifier_1a605a632268f281b55cfa8a9edddd96cf" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::SignedRequestVerifier::verifySignature</definition>
+        <argsstring>(const SignedRequest &amp;request)</argsstring>
+        <name>verifySignature</name>
+        <qualifiedname>themis::sharding::SignedRequestVerifier::verifySignature</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_signed_request" kindref="compound">SignedRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Verify signature using trust-store certificate material. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify Signature.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: isStrictBase64(), rejectWithAuditCode(), base64DecodeBytes(), empty(), std::call_once(), spdlog::warn(), std::regex_match(), keyIdPattern(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="198" column="10" bodyfile="src/sharding/signed_request.cpp" bodystart="497" bodyend="659"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_signed_request_verifier_1af29de49b83142c9cc734cc2f13bfef7a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::SignedRequestVerifier::purgeExpiredNoncesLocked</definition>
+        <argsstring>(uint64_t now_ms)</argsstring>
+        <name>purgeExpiredNoncesLocked</name>
+        <qualifiedname>themis::sharding::SignedRequestVerifier::purgeExpiredNoncesLocked</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>now_ms</declname>
+        </param>
+        <briefdescription>
+<para>Purge replay-cache entries older than configured expiry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Purge Expired Nonces Locked.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>now_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current timestamp in milliseconds. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Caller must hold nonce_mutex_.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">now_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), front(), pop_front(), find(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="205" column="10" bodyfile="src/sharding/signed_request.cpp" bodystart="666" bodyend="682"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_signed_request_verifier_1ac427468ad6af2bbc61acbd368f011345" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::SignedRequestVerifier::getCurrentTimestampMs</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentTimestampMs</name>
+        <qualifiedname>themis::sharding::SignedRequestVerifier::getCurrentTimestampMs</qualifiedname>
+        <briefdescription>
+<para>Return current wall-clock time in milliseconds since epoch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="208" column="14" bodyfile="src/sharding/signed_request.cpp" bodystart="684" bodyend="688"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Verifies request authenticity and replay safety. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/signed_request.h" line="147" column="1" bodyfile="include/sharding/signed_request.h" bodystart="147" bodyend="209"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_signed_request_verifier_1afd2c65cd6cee1deb01889bcba1ee8ff8" prot="public" virt="non-virtual"><scope>themis::sharding::SignedRequestVerifier</scope><name>cleanupExpiredNonces</name></member>
+      <member refid="classthemis_1_1sharding_1_1_signed_request_verifier_1a53ebc072d224e8f42ddcae283a8ebffb" prot="private" virt="non-virtual"><scope>themis::sharding::SignedRequestVerifier</scope><name>config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_signed_request_verifier_1ac427468ad6af2bbc61acbd368f011345" prot="private" virt="non-virtual"><scope>themis::sharding::SignedRequestVerifier</scope><name>getCurrentTimestampMs</name></member>
+      <member refid="classthemis_1_1sharding_1_1_signed_request_verifier_1a7ffd0ec74cbc37018535a50dc33701ba" prot="private" virt="non-virtual"><scope>themis::sharding::SignedRequestVerifier</scope><name>nonce_fifo_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_signed_request_verifier_1a87b08b91474f281e3fac629467ca8b77" prot="private" virt="non-virtual"><scope>themis::sharding::SignedRequestVerifier</scope><name>nonce_mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_signed_request_verifier_1af29de49b83142c9cc734cc2f13bfef7a" prot="private" virt="non-virtual"><scope>themis::sharding::SignedRequestVerifier</scope><name>purgeExpiredNoncesLocked</name></member>
+      <member refid="classthemis_1_1sharding_1_1_signed_request_verifier_1aa8e21280498d387c4027178d3c6271be" prot="private" virt="non-virtual"><scope>themis::sharding::SignedRequestVerifier</scope><name>seen_nonces_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_signed_request_verifier_1adf6bee0597397445e5125ddf46b39034" prot="public" virt="non-virtual"><scope>themis::sharding::SignedRequestVerifier</scope><name>SignedRequestVerifier</name></member>
+      <member refid="classthemis_1_1sharding_1_1_signed_request_verifier_1a1d9923a8407705051fbd1188c975e8f5" prot="public" virt="non-virtual"><scope>themis::sharding::SignedRequestVerifier</scope><name>verify</name></member>
+      <member refid="classthemis_1_1sharding_1_1_signed_request_verifier_1a1b48aeb37dd7cc59d1f7df314a6dd617" prot="private" virt="non-virtual"><scope>themis::sharding::SignedRequestVerifier</scope><name>verifyNonce</name></member>
+      <member refid="classthemis_1_1sharding_1_1_signed_request_verifier_1a605a632268f281b55cfa8a9edddd96cf" prot="private" virt="non-virtual"><scope>themis::sharding::SignedRequestVerifier</scope><name>verifySignature</name></member>
+      <member refid="classthemis_1_1sharding_1_1_signed_request_verifier_1a2eb716fae0ebe6e98be22d02ad709d07" prot="private" virt="non-virtual"><scope>themis::sharding::SignedRequestVerifier</scope><name>verifyTimestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

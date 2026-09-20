@@ -1,0 +1,349 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="task__audit__manager_8h" kind="file" language="C++">
+    <compoundname>task_audit_manager.h</compoundname>
+    <includes refid="task__audit__event_8h" local="yes">scheduler/task_audit_event.h</includes>
+    <includes refid="task__anomaly__detector_8h" local="yes">scheduler/task_anomaly_detector.h</includes>
+    <includes refid="scheduler__api__contract_8h" local="yes">scheduler/scheduler_api_contract.h</includes>
+    <includes local="yes">utils/audit_logger.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">shared_mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includedby refid="task__audit__manager_8cpp" local="yes">src/scheduler/task_audit_manager.cpp</includedby>
+    <includedby refid="task__scheduler_8cpp" local="yes">src/scheduler/task_scheduler.cpp</includedby>
+    <incdepgraph>
+      <node id="16">
+        <label>scheduler/scheduler_api_contract.h</label>
+        <link refid="scheduler__api__contract_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>scheduler/task_anomaly_detector.h</label>
+        <link refid="task__anomaly__detector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>scheduler/task_audit_event.h</label>
+        <link refid="task__audit__event_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/scheduler/task_audit_manager.h</label>
+        <link refid="task__audit__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="13">
+        <label>condition_variable</label>
+      </node>
+      <node id="17">
+        <label>cstdint</label>
+      </node>
+      <node id="9">
+        <label>deque</label>
+      </node>
+      <node id="15">
+        <label>functional</label>
+      </node>
+      <node id="8">
+        <label>map</label>
+      </node>
+      <node id="14">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>mutex</label>
+      </node>
+      <node id="6">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="10">
+        <label>queue</label>
+      </node>
+      <node id="19">
+        <label>shared_mutex</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="11">
+        <label>thread</label>
+      </node>
+      <node id="18">
+        <label>utils/audit_logger.h</label>
+      </node>
+      <node id="20">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/scheduler/task_audit_manager.h</label>
+        <link refid="task__audit__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/scheduler/task_audit_manager.cpp</label>
+        <link refid="task__audit__manager_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/scheduler/task_scheduler.cpp</label>
+        <link refid="task__scheduler_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1scheduler_1_1_task_audit_config" prot="public">themis::scheduler::TaskAuditConfig</innerclass>
+    <innerclass refid="structthemis_1_1scheduler_1_1_audit_query_params" prot="public">themis::scheduler::AuditQueryParams</innerclass>
+    <innerclass refid="classthemis_1_1scheduler_1_1_task_audit_manager" prot="public">themis::scheduler::TaskAuditManager</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1scheduler">themis::scheduler</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="task__audit__event_8h" kindref="compound">scheduler/task_audit_event.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="task__anomaly__detector_8h" kindref="compound">scheduler/task_anomaly_detector.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="scheduler__api__contract_8h" kindref="compound">scheduler/scheduler_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/audit_logger.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1scheduler" kindref="compound">scheduler</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1scheduler_1_1_task_audit_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1scheduler_1_1_task_audit_config" kindref="compound">TaskAuditConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Audit<sp/>logging</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1scheduler_1_1_task_audit_config_1ad5f1e40337e9f7cd75e8e194ca4a3aed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_audit_config_1ad5f1e40337e9f7cd75e8e194ca4a3aed" kindref="member">enable_audit_logging</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1scheduler_1_1_task_audit_config_1a9fc7e9abd7a5990eb52be7fb283ee66d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scheduler_1_1_task_audit_config_1a9fc7e9abd7a5990eb52be7fb283ee66d" kindref="member">audit_log_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;data/logs/task_audit.jsonl&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1scheduler_1_1_task_audit_config_1a1750e84a9e7db20392b6bc6da1d1870c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_audit_config_1a1750e84a9e7db20392b6bc6da1d1870c" kindref="member">enable_gdpr_mode</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>GDPR-compliant<sp/>masking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Security<sp/>event<sp/>logging</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1scheduler_1_1_task_audit_config_1a6dec00593ed9bc84ed5acd058896ffc8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_audit_config_1a6dec00593ed9bc84ed5acd058896ffc8" kindref="member">enable_security_logging</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1scheduler_1_1_task_audit_config_1a8686f1d65f09f8208c9840a8e7a18e12" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scheduler_1_1_task_audit_config_1a8686f1d65f09f8208c9840a8e7a18e12" kindref="member">security_log_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;data/logs/task_security.jsonl&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Anomaly<sp/>detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1scheduler_1_1_task_audit_config_1aeb2fbdcf7e0759f3fafbe8033518d03c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_audit_config_1aeb2fbdcf7e0759f3fafbe8033518d03c" kindref="member">enable_anomaly_detection</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1scheduler_1_1_task_audit_config_1a7e304546afa1a91455189782c4b3c9cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scheduler_1_1_anomaly_detector_config" kindref="compound">AnomalyDetectorConfig</ref><sp/><ref refid="structthemis_1_1scheduler_1_1_task_audit_config_1a7e304546afa1a91455189782c4b3c9cd" kindref="member">anomaly_config</ref>;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Export/query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1scheduler_1_1_task_audit_config_1adcfdb2cca4e8d282f440c7c5fbed3ab0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_audit_config_1adcfdb2cca4e8d282f440c7c5fbed3ab0" kindref="member">max_query_results</ref><sp/>=<sp/>1000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Maximum<sp/>results<sp/>per<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1scheduler_1_1_task_audit_config_1a8b85daae56acbdd205a5634773f821b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_audit_config_1a8b85daae56acbdd205a5634773f821b7" kindref="member">enable_export_api</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GAP<sp/>1<sp/>FIX:<sp/>Immutable<sp/>audit<sp/>log<sp/>enforcement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1scheduler_1_1_task_audit_config_1a5ccf50e530174cd0baaf617fe74e2aa3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_audit_config_1a5ccf50e530174cd0baaf617fe74e2aa3" kindref="member">enable_audit_hmac</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>HMAC<sp/>for<sp/>tamper<sp/>detection;<sp/>requires<sp/>audit_hmac_key<sp/>to<sp/>be<sp/>set</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1scheduler_1_1_task_audit_config_1a57071ce7ed02e35f75ae48b55cb6e318" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scheduler_1_1_task_audit_config_1a57071ce7ed02e35f75ae48b55cb6e318" kindref="member">audit_hmac_key</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>be<sp/>set<sp/>to<sp/>a<sp/>secure<sp/>random<sp/>value<sp/>per<sp/>deployment;<sp/>no<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GAP<sp/>2<sp/>FIX:<sp/>Retention<sp/>policy<sp/>enforcement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1scheduler_1_1_task_audit_config_1ad8815d3ff14ecf9d9d27aa30a9973346" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::days<sp/><ref refid="structthemis_1_1scheduler_1_1_task_audit_config_1ad8815d3ff14ecf9d9d27aa30a9973346" kindref="member">audit_retention_days</ref>{90};<sp/></highlight><highlight class="comment">//<sp/>Retain<sp/>audit<sp/>logs<sp/>for<sp/>90<sp/>days</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1scheduler_1_1_task_audit_config_1a1635dabda6670bfd70d933399a8ee70c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_audit_config_1a1635dabda6670bfd70d933399a8ee70c" kindref="member">enable_archival</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Archive<sp/>old<sp/>entries<sp/>instead<sp/>of<sp/>delete</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1scheduler_1_1_task_audit_config_1a138ec20c20adcdaa42ec2f138e0c67fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scheduler_1_1_task_audit_config_1a138ec20c20adcdaa42ec2f138e0c67fb" kindref="member">archive_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;data/logs/audit_archive&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GAP<sp/>3<sp/>FIX:<sp/>Corruption<sp/>recovery</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1scheduler_1_1_task_audit_config_1a2fc0bf39b5bcf2c743efb8f4d19bb4e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_audit_config_1a2fc0bf39b5bcf2c743efb8f4d19bb4e0" kindref="member">enable_corruption_recovery</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Auto-repair<sp/>corrupted<sp/>entries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Callbacks<sp/>(optional)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1scheduler_1_1_task_audit_config_1aaf9e790565fb0ec8f6ff39a4b53a7a67" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_audit_event" kindref="compound">TaskAuditEvent</ref>&amp;)&gt;<sp/><ref refid="structthemis_1_1scheduler_1_1_task_audit_config_1aaf9e790565fb0ec8f6ff39a4b53a7a67" kindref="member">on_audit_event</ref>;</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1scheduler_1_1_task_audit_config_1acb53d6034f88870991f18ad3cc28f876" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_security_event" kindref="compound">TaskSecurityEvent</ref>&amp;)&gt;<sp/><ref refid="structthemis_1_1scheduler_1_1_task_audit_config_1acb53d6034f88870991f18ad3cc28f876" kindref="member">on_security_event</ref>;</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1scheduler_1_1_task_audit_config_1a70aae510c49bc91f1df48de934424cde" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>task_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_anomaly_metrics" kindref="compound">AnomalyMetrics</ref>&amp;)&gt;<sp/><ref refid="structthemis_1_1scheduler_1_1_task_audit_config_1a70aae510c49bc91f1df48de934424cde" kindref="member">on_anomaly_detected</ref>;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1scheduler_1_1_audit_query_params" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1scheduler_1_1_audit_query_params" kindref="compound">AuditQueryParams</ref><sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Time<sp/>range</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1scheduler_1_1_audit_query_params_1ad03a05e3cda2c3384a0a4836b7cdc477" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::chrono::system_clock::time_point&gt;<sp/><ref refid="structthemis_1_1scheduler_1_1_audit_query_params_1ad03a05e3cda2c3384a0a4836b7cdc477" kindref="member">start_time</ref>;</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1scheduler_1_1_audit_query_params_1abe3dfef072ebb6ca5047d0df7dd91047" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::chrono::system_clock::time_point&gt;<sp/><ref refid="structthemis_1_1scheduler_1_1_audit_query_params_1abe3dfef072ebb6ca5047d0df7dd91047" kindref="member">end_time</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Filters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1scheduler_1_1_audit_query_params_1ac696f9c32d9dfa61665fa537888edcbe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1scheduler_1_1_audit_query_params_1ac696f9c32d9dfa61665fa537888edcbe" kindref="member">task_id</ref>;</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1scheduler_1_1_audit_query_params_1ab0a595580132b700acf9f18bb3973089" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1scheduler_1_1_audit_query_params_1ab0a595580132b700acf9f18bb3973089" kindref="member">user_id</ref>;</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1scheduler_1_1_audit_query_params_1a112a3423cef4e9774aa8e54fe9ac6458" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;TaskEventType&gt;<sp/><ref refid="structthemis_1_1scheduler_1_1_audit_query_params_1a112a3423cef4e9774aa8e54fe9ac6458" kindref="member">event_type</ref>;</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1scheduler_1_1_audit_query_params_1a622b77dbe45057fa1df69957eee5729d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1scheduler_1_1_audit_query_params_1a622b77dbe45057fa1df69957eee5729d" kindref="member">trigger_type</ref>;</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1scheduler_1_1_audit_query_params_1a0e9d954f423b2cc25a3c4811aa603292" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;bool&gt;<sp/><ref refid="structthemis_1_1scheduler_1_1_audit_query_params_1a0e9d954f423b2cc25a3c4811aa603292" kindref="member">success</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Filter<sp/>by<sp/>success/failure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1scheduler_1_1_audit_query_params_1a35adf9ecdb1e50970accd93784ccb4fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;bool&gt;<sp/><ref refid="structthemis_1_1scheduler_1_1_audit_query_params_1a35adf9ecdb1e50970accd93784ccb4fa" kindref="member">anomalous_only</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>return<sp/>anomalous<sp/>events</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pagination</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1scheduler_1_1_audit_query_params_1a868a89e5222825f6c9eee08fe57f7067" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_audit_query_params_1a868a89e5222825f6c9eee08fe57f7067" kindref="member">offset</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1scheduler_1_1_audit_query_params_1a451fc159fabddd5031a5da3ef4fe6bf3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_audit_query_params_1a451fc159fabddd5031a5da3ef4fe6bf3" kindref="member">limit</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sorting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1scheduler_1_1_audit_query_params_1a4499a41933630e22d7d1a6b33bb6a4f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_audit_query_params_1a4499a41933630e22d7d1a6b33bb6a4f2" kindref="member">SortBy</ref><sp/>{</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1scheduler_1_1_audit_query_params_1a4499a41933630e22d7d1a6b33bb6a4f2ab10d6234ebe840855027d9a38945f7cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scheduler_1_1_audit_query_params_1a4499a41933630e22d7d1a6b33bb6a4f2ab10d6234ebe840855027d9a38945f7cb" kindref="member">TIMESTAMP_ASC</ref>,</highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1scheduler_1_1_audit_query_params_1a4499a41933630e22d7d1a6b33bb6a4f2ac5195a00e6327f3dc694cc4f82d28cef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scheduler_1_1_audit_query_params_1a4499a41933630e22d7d1a6b33bb6a4f2ac5195a00e6327f3dc694cc4f82d28cef" kindref="member">TIMESTAMP_DESC</ref>,</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1scheduler_1_1_audit_query_params_1a4499a41933630e22d7d1a6b33bb6a4f2a4ce4f3534a80d6cd533dc683b66a010e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scheduler_1_1_audit_query_params_1a4499a41933630e22d7d1a6b33bb6a4f2a4ce4f3534a80d6cd533dc683b66a010e" kindref="member">DURATION_ASC</ref>,</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1scheduler_1_1_audit_query_params_1a4499a41933630e22d7d1a6b33bb6a4f2aa0e4d1c8c69458c8f67ab9a17fe302f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scheduler_1_1_audit_query_params_1a4499a41933630e22d7d1a6b33bb6a4f2aa0e4d1c8c69458c8f67ab9a17fe302f9" kindref="member">DURATION_DESC</ref>,</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1scheduler_1_1_audit_query_params_1a4499a41933630e22d7d1a6b33bb6a4f2a6e69861977e7ef1c253570d66cbf400f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scheduler_1_1_audit_query_params_1a4499a41933630e22d7d1a6b33bb6a4f2a6e69861977e7ef1c253570d66cbf400f" kindref="member">ANOMALY_SCORE_DESC</ref></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1scheduler_1_1_audit_query_params_1a1218b35601e51233215d73496aa6f7b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/><ref refid="structthemis_1_1scheduler_1_1_audit_query_params_1a1218b35601e51233215d73496aa6f7b6" kindref="member">sort_by</ref><sp/>=<sp/><ref refid="structthemis_1_1scheduler_1_1_audit_query_params_1a4499a41933630e22d7d1a6b33bb6a4f2ac5195a00e6327f3dc694cc4f82d28cef" kindref="member">SortBy::TIMESTAMP_DESC</ref>;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="namespacethemis_1_1scheduler_1a7cd06f37614e76348a73ffb35f6c58a3" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1scheduler_1a7cd06f37614e76348a73ffb35f6c58a3" kindref="member">ExportFormat</ref><sp/>{</highlight></codeline>
+<codeline lineno="101" refid="namespacethemis_1_1scheduler_1a7cd06f37614e76348a73ffb35f6c58a3a0ecd11c1d7a287401d148a23bbd7a2f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scheduler_1a7cd06f37614e76348a73ffb35f6c58a3a0ecd11c1d7a287401d148a23bbd7a2f8" kindref="member">JSON</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Standard<sp/>JSON<sp/>array</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="namespacethemis_1_1scheduler_1a7cd06f37614e76348a73ffb35f6c58a3ad63dd5a11b7bfad43a474d4ca471dc9f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scheduler_1a7cd06f37614e76348a73ffb35f6c58a3ad63dd5a11b7bfad43a474d4ca471dc9f" kindref="member">JSONL</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>JSON<sp/>Lines<sp/>format</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="namespacethemis_1_1scheduler_1a7cd06f37614e76348a73ffb35f6c58a3a078710aec914075619cd9d893b1cb38c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scheduler_1a7cd06f37614e76348a73ffb35f6c58a3a078710aec914075619cd9d893b1cb38c" kindref="member">CEF</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Common<sp/>Event<sp/>Format</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="namespacethemis_1_1scheduler_1a7cd06f37614e76348a73ffb35f6c58a3acc8d68c551c4a9a6d5313e07de4deafd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scheduler_1a7cd06f37614e76348a73ffb35f6c58a3acc8d68c551c4a9a6d5313e07de4deafd" kindref="member">CSV</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Comma-separated<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="classthemis_1_1scheduler_1_1_task_audit_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a5357163bb22f86de71dd886f0704debd" kindref="member">TaskAuditManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a5357163bb22f86de71dd886f0704debd" kindref="member">TaskAuditManager</ref>(</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;utils::AuditLogger&gt;<sp/>audit_logger,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_audit_config" kindref="compound">TaskAuditConfig</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1scheduler_1_1_task_audit_config" kindref="compound">TaskAuditConfig</ref>()</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scheduler_1_1_anomaly_metrics" kindref="compound">AnomalyMetrics</ref><sp/><ref refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a76c56777af6dbb0eeca75c76f365dc7f" kindref="member">logAuditEvent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_audit_event" kindref="compound">TaskAuditEvent</ref>&amp;<sp/>event);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a1e3acbc259f92cf01fec5790cb9f21af" kindref="member">logSecurityEvent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_security_event" kindref="compound">TaskSecurityEvent</ref>&amp;<sp/>event);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;TaskAuditEvent&gt;<sp/><ref refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a7712e1e9ba49773ff945e4b58a8745ce" kindref="member">queryAuditEvents</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_audit_query_params" kindref="compound">AuditQueryParams</ref>&amp;<sp/>params)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;TaskSecurityEvent&gt;<sp/><ref refid="classthemis_1_1scheduler_1_1_task_audit_manager_1ad1ae69430a437be4ef851a214d5fb263" kindref="member">querySecurityEvents</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_audit_query_params" kindref="compound">AuditQueryParams</ref>&amp;<sp/>params)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a47c05d43c527222e3b5f162fe2156047" kindref="member">exportAuditEvents</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_audit_query_params" kindref="compound">AuditQueryParams</ref>&amp;<sp/>params,</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>output_path,</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scheduler_1a7cd06f37614e76348a73ffb35f6c58a3" kindref="member">ExportFormat</ref><sp/>format)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;TaskStatistics&gt;<sp/><ref refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a77fba12c09b55c8d560d5097d1991e3e" kindref="member">getTaskStatistics</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>task_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>TaskStatistics&gt;<sp/><ref refid="classthemis_1_1scheduler_1_1_task_audit_manager_1aeeadc0e52b3eba25e7b7deae18d70dfd" kindref="member">getAllStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scheduler_1_1_task_audit_manager_1acb95af389ac75fe438aa21426b230343" kindref="member">hasAnomalies</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>task_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scheduler_1_1_task_audit_manager_1aea018d5b7053126dec0b8d4163830372" kindref="member">resetTaskStatistics</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>task_id);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scheduler_1_1_task_audit_config" kindref="compound">TaskAuditConfig</ref><sp/><ref refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a7c7e7febf7042d45c10f5013a205b783" kindref="member">getConfig</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scheduler_1_1_task_audit_manager_1aa78e7f5da8f5448be8f4ab5c075693f9" kindref="member">updateConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_audit_config" kindref="compound">TaskAuditConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scheduler_1_1_task_audit_manager_1ac00744ad48bbfb56de130d8a757bf98e" kindref="member">flush</ref>();</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="213" refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a7de450924c08b40300f19e27e29076b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a7de450924c08b40300f19e27e29076b8" kindref="member">getAuditLogPath</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_.audit_log_path;<sp/>}</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="218" refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a9af9c86687e665e036f536201ea1490d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a9af9c86687e665e036f536201ea1490d" kindref="member">getSecurityLogPath</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_.security_log_path;<sp/>}</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a46b6b40a8b5e437914a4476f6c96f8a1" kindref="member">exportAnomalyStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a6a0a98371bae43c927ffa3af6be2e221" kindref="member">importAnomalyStatistics</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>data);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a9d28febd35829dfac6e72b778d750334" kindref="member">generateAuditEntryHMAC</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_audit_event" kindref="compound">TaskAuditEvent</ref>&amp;<sp/>event)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a3729144ead0c9b6facf40be8725559f5" kindref="member">verifyAuditEntryIntegrity</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_audit_event" kindref="compound">TaskAuditEvent</ref>&amp;<sp/>event,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>stored_hmac)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a514e4f591d2068e37ecbd16025d6b270" kindref="member">enforceRetentionPolicy</ref>();</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scheduler_1_1_task_audit_manager_1a04db4ce17ded3a03a74830dcdded2601" kindref="member">detectAndRecoverCorruption</ref>();</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;utils::AuditLogger&gt;<sp/>audit_logger_;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scheduler_1_1_task_audit_config" kindref="compound">TaskAuditConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;TaskAnomalyDetector&gt;<sp/>anomaly_detector_;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>In-memory<sp/>cache<sp/>for<sp/>recent<sp/>events<sp/>(for<sp/>querying)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>std::deque&lt;TaskAuditEvent&gt;<sp/>recent_audit_events_;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>std::deque&lt;TaskSecurityEvent&gt;<sp/>recent_security_events_;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>MAX_CACHE_SIZE<sp/>=<sp/>10000;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>cacheAuditEvent(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_audit_event" kindref="compound">TaskAuditEvent</ref>&amp;<sp/>event);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>cacheSecurityEvent(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_security_event" kindref="compound">TaskSecurityEvent</ref>&amp;<sp/>event);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>writeToAuditLog(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_audit_event" kindref="compound">TaskAuditEvent</ref>&amp;<sp/>event);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>writeToSecurityLog(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_security_event" kindref="compound">TaskSecurityEvent</ref>&amp;<sp/>event);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>matchesQuery(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_audit_event" kindref="compound">TaskAuditEvent</ref>&amp;<sp/>event,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_audit_query_params" kindref="compound">AuditQueryParams</ref>&amp;<sp/>params)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;TaskAuditEvent&gt;<sp/>loadEventsFromFile(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>file_path,</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_audit_query_params" kindref="compound">AuditQueryParams</ref>&amp;<sp/>params)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;TaskSecurityEvent&gt;<sp/>loadSecurityEventsFromFile(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>file_path,</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_audit_query_params" kindref="compound">AuditQueryParams</ref>&amp;<sp/>params)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>scheduler</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/scheduler/task_audit_manager.h"/>
+  </compounddef>
+</doxygen>

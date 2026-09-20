@@ -1,0 +1,500 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1_markdown_processor" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::MarkdownProcessor</compoundname>
+    <basecompoundref refid="classthemis_1_1content_1_1_i_content_processor" prot="public" virt="non-virtual">themis::content::IContentProcessor</basecompoundref>
+    <includes refid="markdown__processor_8h" local="no">markdown_processor.h</includes>
+    <innerclass refid="structthemis_1_1content_1_1_markdown_processor_1_1_config" prot="public">themis::content::MarkdownProcessor::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_markdown_processor_1a6afbde5269a2b9abb238af85596e9389" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1content_1_1_markdown_processor_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::content::MarkdownProcessor::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::content::MarkdownProcessor::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/markdown_processor.h" line="72" column="12" bodyfile="include/content/markdown_processor.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_markdown_processor_1a3dfc6cc6d17afb974ac9c20a21a0b443" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::MarkdownProcessor::MarkdownProcessor</definition>
+        <argsstring>()</argsstring>
+        <name>MarkdownProcessor</name>
+        <qualifiedname>themis::content::MarkdownProcessor::MarkdownProcessor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/markdown_processor.h" line="29" column="5" bodyfile="src/content/markdown_processor.cpp" bodystart="24" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_markdown_processor_1adcdde401be219f42b782dd2db1c53505" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::MarkdownProcessor::MarkdownProcessor</definition>
+        <argsstring>(Config config)</argsstring>
+        <name>MarkdownProcessor</name>
+        <qualifiedname>themis::content::MarkdownProcessor::MarkdownProcessor</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1content_1_1_markdown_processor_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Markdown Processor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/markdown_processor.h" line="35" column="14" bodyfile="src/content/markdown_processor.cpp" bodystart="28" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_markdown_processor_1ab67dbebcf38b4aa4e0f4cfcfedd298bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::MarkdownProcessor::~MarkdownProcessor</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~MarkdownProcessor</name>
+        <qualifiedname>themis::content::MarkdownProcessor::~MarkdownProcessor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/markdown_processor.h" line="36" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_markdown_processor_1a4fe15de7b3ff89ce4a2f4776f790fee7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1content_1_1_extraction_result" kindref="compound">ExtractionResult</ref></type>
+        <definition>ExtractionResult themis::content::MarkdownProcessor::extract</definition>
+        <argsstring>(const std::string &amp;blob, const ContentType &amp;content_type) override</argsstring>
+        <name>extract</name>
+        <qualifiedname>themis::content::MarkdownProcessor::extract</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1a638d82433a5fd1e4cc50bba304ffcd32">extract</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_content_type" kindref="compound">ContentType</ref> &amp;</type>
+          <declname>content_type</declname>
+        </param>
+        <briefdescription>
+<para>Extract. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">content_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), json::object(), <ref refid="classthemis_1_1content_1_1_markdown_processor_1a20b2e870a3860328d056bd93e37685dd" kindref="member">parseFrontmatter()</ref>, <ref refid="classthemis_1_1content_1_1_markdown_processor_1af53eccc11a292ec5466eaaee6438e386" kindref="member">stripMarkdown()</ref>, normalizeWhitespace(), size(), substr(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/markdown_processor.h" line="38" column="22" bodyfile="src/content/markdown_processor.cpp" bodystart="550" bodyend="594"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_markdown_processor_1aed64836fe65097c3e523bfdf4f0820f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &gt;</type>
+        <definition>std::vector&lt; json &gt; themis::content::MarkdownProcessor::chunk</definition>
+        <argsstring>(const ExtractionResult &amp;extraction_result, int chunk_size, int overlap) override</argsstring>
+        <name>chunk</name>
+        <qualifiedname>themis::content::MarkdownProcessor::chunk</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1ad7a72eb8186023fc9ee450906d9fb632">chunk</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_extraction_result" kindref="compound">ExtractionResult</ref> &amp;</type>
+          <declname>extraction_result</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>chunk_size</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>overlap</declname>
+        </param>
+        <briefdescription>
+<para>Chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">extraction_result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">overlap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), ss(), std::getline(), trimCopy(), push_back(), clear(), json::object(), countTokens(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/markdown_processor.h" line="43" column="17" bodyfile="src/content/markdown_processor.cpp" bodystart="604" bodyend="697"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_markdown_processor_1ac5f3aa0033ffc278b6bfbf481ba843c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::content::MarkdownProcessor::generateEmbedding</definition>
+        <argsstring>(const std::string &amp;chunk_data) override</argsstring>
+        <name>generateEmbedding</name>
+        <qualifiedname>themis::content::MarkdownProcessor::generateEmbedding</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1a84aba018f92d394ed51094bba497de8c">generateEmbedding</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>chunk_data</declname>
+        </param>
+        <briefdescription>
+<para>Generate Embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: embedding(), empty(), iss(), push_back(), size(), hasher(), std::sin(), std::sqrt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/markdown_processor.h" line="49" column="17" bodyfile="src/content/markdown_processor.cpp" bodystart="705" bodyend="753"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_markdown_processor_1adc5830d5c8401f0550556daf2e880b25" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::MarkdownProcessor::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::content::MarkdownProcessor::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1a893353e264c76ec1bcc9b4f4a375f37a">getName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/markdown_processor.h" line="51" column="17" bodyfile="include/content/markdown_processor.h" bodystart="51" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_markdown_processor_1ad5c1e88ee1ea7be36bdfeb394969ed69" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1_content_category" kindref="compound">ContentCategory</ref> &gt;</type>
+        <definition>std::vector&lt; ContentCategory &gt; themis::content::MarkdownProcessor::getSupportedCategories</definition>
+        <argsstring>() const override</argsstring>
+        <name>getSupportedCategories</name>
+        <qualifiedname>themis::content::MarkdownProcessor::getSupportedCategories</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1ab2b446811cbac33cecb30d3fa55680f0">getSupportedCategories</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/markdown_processor.h" line="53" column="17" bodyfile="include/content/markdown_processor.h" bodystart="53" bodyend="55"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_markdown_processor_1a20b2e870a3860328d056bd93e37685dd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::MarkdownProcessor::parseFrontmatter</definition>
+        <argsstring>(const std::string &amp;markdown, std::string &amp;body_out)</argsstring>
+        <name>parseFrontmatter</name>
+        <qualifiedname>themis::content::MarkdownProcessor::parseFrontmatter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>markdown</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>body_out</declname>
+        </param>
+        <briefdescription>
+<para>Parse Frontmatter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">markdown</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">body_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">markdown</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">body_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: json::object(), size(), substr(), find(), trimCopy(), ss(), std::getline(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/markdown_processor.h" line="64" column="17" bodyfile="src/content/markdown_processor.cpp" bodystart="60" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_markdown_processor_1af53eccc11a292ec5466eaaee6438e386" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::MarkdownProcessor::stripMarkdown</definition>
+        <argsstring>(const std::string &amp;markdown, bool preserve_headings=false, bool strip_code=false)</argsstring>
+        <name>stripMarkdown</name>
+        <qualifiedname>themis::content::MarkdownProcessor::stripMarkdown</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>markdown</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>preserve_headings</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>strip_code</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Strip Markdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">markdown</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">preserve_headings</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">strip_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: in(), std::getline(), trimCopy(), size(), substr(), clear(), find_first_not_of(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/markdown_processor.h" line="67" column="24" bodyfile="src/content/markdown_processor.cpp" bodystart="168" bodyend="468"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_markdown_processor_1a340ff8efd726f31b2a0c0201f894bbc6" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::MarkdownProcessor::normalizeWhitespace</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>normalizeWhitespace</name>
+        <qualifiedname>themis::content::MarkdownProcessor::normalizeWhitespace</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Normalize Whitespace. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), find_first_not_of(), find_last_not_of(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/markdown_processor.h" line="79" column="24" bodyfile="src/content/markdown_processor.cpp" bodystart="480" bodyend="518"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_markdown_processor_1acf38b4d793d81e41453b77b8d22eaa96" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::content::MarkdownProcessor::countTokens</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>countTokens</name>
+        <qualifiedname>themis::content::MarkdownProcessor::countTokens</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Count Tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), iss(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/markdown_processor.h" line="86" column="16" bodyfile="src/content/markdown_processor.cpp" bodystart="526" bodyend="537"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::content::IContentProcessor</label>
+        <link refid="classthemis_1_1content_1_1_i_content_processor"/>
+      </node>
+      <node id="1">
+        <label>themis::content::MarkdownProcessor</label>
+        <link refid="classthemis_1_1content_1_1_markdown_processor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::content::IContentProcessor</label>
+        <link refid="classthemis_1_1content_1_1_i_content_processor"/>
+      </node>
+      <node id="1">
+        <label>themis::content::MarkdownProcessor</label>
+        <link refid="classthemis_1_1content_1_1_markdown_processor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/content/markdown_processor.h" line="20" column="1" bodyfile="include/content/markdown_processor.h" bodystart="20" bodyend="87"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1_markdown_processor_1aed64836fe65097c3e523bfdf4f0820f9" prot="public" virt="virtual"><scope>themis::content::MarkdownProcessor</scope><name>chunk</name></member>
+      <member refid="classthemis_1_1content_1_1_markdown_processor_1a6afbde5269a2b9abb238af85596e9389" prot="private" virt="non-virtual"><scope>themis::content::MarkdownProcessor</scope><name>config_</name></member>
+      <member refid="classthemis_1_1content_1_1_markdown_processor_1acf38b4d793d81e41453b77b8d22eaa96" prot="private" virt="non-virtual"><scope>themis::content::MarkdownProcessor</scope><name>countTokens</name></member>
+      <member refid="classthemis_1_1content_1_1_markdown_processor_1a4fe15de7b3ff89ce4a2f4776f790fee7" prot="public" virt="virtual"><scope>themis::content::MarkdownProcessor</scope><name>extract</name></member>
+      <member refid="classthemis_1_1content_1_1_markdown_processor_1ac5f3aa0033ffc278b6bfbf481ba843c1" prot="public" virt="virtual"><scope>themis::content::MarkdownProcessor</scope><name>generateEmbedding</name></member>
+      <member refid="classthemis_1_1content_1_1_markdown_processor_1adc5830d5c8401f0550556daf2e880b25" prot="public" virt="virtual"><scope>themis::content::MarkdownProcessor</scope><name>getName</name></member>
+      <member refid="classthemis_1_1content_1_1_markdown_processor_1ad5c1e88ee1ea7be36bdfeb394969ed69" prot="public" virt="virtual"><scope>themis::content::MarkdownProcessor</scope><name>getSupportedCategories</name></member>
+      <member refid="classthemis_1_1content_1_1_markdown_processor_1a3dfc6cc6d17afb974ac9c20a21a0b443" prot="public" virt="non-virtual"><scope>themis::content::MarkdownProcessor</scope><name>MarkdownProcessor</name></member>
+      <member refid="classthemis_1_1content_1_1_markdown_processor_1adcdde401be219f42b782dd2db1c53505" prot="public" virt="non-virtual"><scope>themis::content::MarkdownProcessor</scope><name>MarkdownProcessor</name></member>
+      <member refid="classthemis_1_1content_1_1_markdown_processor_1a340ff8efd726f31b2a0c0201f894bbc6" prot="private" virt="non-virtual"><scope>themis::content::MarkdownProcessor</scope><name>normalizeWhitespace</name></member>
+      <member refid="classthemis_1_1content_1_1_markdown_processor_1a20b2e870a3860328d056bd93e37685dd" prot="public" virt="non-virtual"><scope>themis::content::MarkdownProcessor</scope><name>parseFrontmatter</name></member>
+      <member refid="classthemis_1_1content_1_1_markdown_processor_1af53eccc11a292ec5466eaaee6438e386" prot="public" virt="non-virtual"><scope>themis::content::MarkdownProcessor</scope><name>stripMarkdown</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_1a134e78148633727400cd4d1a1466eedc" prot="public" virt="virtual"><scope>themis::content::MarkdownProcessor</scope><name>~IContentProcessor</name></member>
+      <member refid="classthemis_1_1content_1_1_markdown_processor_1ab67dbebcf38b4aa4e0f4cfcfedd298bd" prot="public" virt="non-virtual"><scope>themis::content::MarkdownProcessor</scope><name>~MarkdownProcessor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

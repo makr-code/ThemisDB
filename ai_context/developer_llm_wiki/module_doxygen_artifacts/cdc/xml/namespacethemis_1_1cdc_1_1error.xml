@@ -1,0 +1,414 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1cdc_1_1error" kind="namespace" language="C++">
+    <compoundname>themis::cdc::error</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1cdc_1_1error_1ae862da91cba1a896b1445326c96058fe" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cdc_1_1_c_d_c_exception" kindref="compound">CDCException</ref></type>
+        <definition>CDCException themis::cdc::error::sequenceGenerationFailed</definition>
+        <argsstring>(const std::string &amp;details)</argsstring>
+        <name>sequenceGenerationFailed</name>
+        <qualifiedname>themis::cdc::error::sequenceGenerationFailed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>details</declname>
+        </param>
+        <briefdescription>
+<para>Sequence Generation Failed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">details</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: CDCException(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_error.h" line="252" column="25" bodyfile="include/cdc/cdc_error.h" bodystart="252" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cdc_1_1error_1a3c98fe6b2c5db4cf3047dbf83f703b63" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cdc_1_1_c_d_c_exception" kindref="compound">CDCException</ref></type>
+        <definition>CDCException themis::cdc::error::eventRecordFailed</definition>
+        <argsstring>(const std::string &amp;details)</argsstring>
+        <name>eventRecordFailed</name>
+        <qualifiedname>themis::cdc::error::eventRecordFailed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>details</declname>
+        </param>
+        <briefdescription>
+<para>Event Record Failed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">details</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: CDCException(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_error.h" line="265" column="25" bodyfile="include/cdc/cdc_error.h" bodystart="265" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cdc_1_1error_1a09445084d365deaf6fb163e9bae41f7f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cdc_1_1_c_d_c_exception" kindref="compound">CDCException</ref></type>
+        <definition>CDCException themis::cdc::error::bufferOverflow</definition>
+        <argsstring>(size_t currentSize, size_t maxSize)</argsstring>
+        <name>bufferOverflow</name>
+        <qualifiedname>themis::cdc::error::bufferOverflow</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>currentSize</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>maxSize</declname>
+        </param>
+        <briefdescription>
+<para>Buffer Overflow. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">currentSize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">maxSize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: CDCException(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_error.h" line="279" column="25" bodyfile="include/cdc/cdc_error.h" bodystart="279" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cdc_1_1error_1a3c17f41e96cc092c4e427179bac69430" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cdc_1_1_c_d_c_exception" kindref="compound">CDCException</ref></type>
+        <definition>CDCException themis::cdc::error::compressionFailed</definition>
+        <argsstring>(const std::string &amp;details)</argsstring>
+        <name>compressionFailed</name>
+        <qualifiedname>themis::cdc::error::compressionFailed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>details</declname>
+        </param>
+        <briefdescription>
+<para>Compression Failed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">details</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: CDCException(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_error.h" line="293" column="25" bodyfile="include/cdc/cdc_error.h" bodystart="293" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cdc_1_1error_1ad20fe8d2ac2043fec3906e4886e74151" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cdc_1_1_c_d_c_exception" kindref="compound">CDCException</ref></type>
+        <definition>CDCException themis::cdc::error::decompressionFailed</definition>
+        <argsstring>(const std::string &amp;details)</argsstring>
+        <name>decompressionFailed</name>
+        <qualifiedname>themis::cdc::error::decompressionFailed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>details</declname>
+        </param>
+        <briefdescription>
+<para>Decompression Failed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">details</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: CDCException(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_error.h" line="306" column="25" bodyfile="include/cdc/cdc_error.h" bodystart="306" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cdc_1_1error_1a5022532a73f1a0a9e382e5324d20d403" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cdc_1_1_c_d_c_exception" kindref="compound">CDCException</ref></type>
+        <definition>CDCException themis::cdc::error::retryExhausted</definition>
+        <argsstring>(int attempts, const std::string &amp;lastError)</argsstring>
+        <name>retryExhausted</name>
+        <qualifiedname>themis::cdc::error::retryExhausted</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>attempts</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lastError</declname>
+        </param>
+        <briefdescription>
+<para>Retry Exhausted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">attempts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lastError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: CDCException(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_error.h" line="320" column="25" bodyfile="include/cdc/cdc_error.h" bodystart="320" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cdc_1_1error_1af563773853314579e0046f82bb4be4bd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cdc_1_1_c_d_c_exception" kindref="compound">CDCException</ref></type>
+        <definition>CDCException themis::cdc::error::rateLimitExceeded</definition>
+        <argsstring>(size_t current, size_t limit)</argsstring>
+        <name>rateLimitExceeded</name>
+        <qualifiedname>themis::cdc::error::rateLimitExceeded</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>current</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+        </param>
+        <briefdescription>
+<para>Rate Limit Exceeded. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">current</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: CDCException(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_error.h" line="335" column="25" bodyfile="include/cdc/cdc_error.h" bodystart="335" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cdc_1_1error_1ad1401136633bea6c7d810e00001757c4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cdc_1_1_c_d_c_exception" kindref="compound">CDCException</ref></type>
+        <definition>CDCException themis::cdc::error::dbOperationFailed</definition>
+        <argsstring>(const std::string &amp;operation, const std::string &amp;details)</argsstring>
+        <name>dbOperationFailed</name>
+        <qualifiedname>themis::cdc::error::dbOperationFailed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>details</declname>
+        </param>
+        <briefdescription>
+<para>Db Operation Failed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">details</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: CDCException(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_error.h" line="350" column="25" bodyfile="include/cdc/cdc_error.h" bodystart="350" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cdc_1_1error_1a76a648ffe6fc7914c3e53d2872eb6ac0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cdc_1_1_c_d_c_exception" kindref="compound">CDCException</ref></type>
+        <definition>CDCException themis::cdc::error::invalidArgument</definition>
+        <argsstring>(const std::string &amp;argName, const std::string &amp;reason)</argsstring>
+        <name>invalidArgument</name>
+        <qualifiedname>themis::cdc::error::invalidArgument</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>argName</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Invalid Argument. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">argName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: CDCException(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_error.h" line="364" column="25" bodyfile="include/cdc/cdc_error.h" bodystart="364" bodyend="369"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cdc_1_1error_1a7bb488c0eeb5610b8880ee6d9021ad6b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cdc_1_1_c_d_c_exception" kindref="compound">CDCException</ref></type>
+        <definition>CDCException themis::cdc::error::invalidArgument</definition>
+        <argsstring>(const std::string &amp;message)</argsstring>
+        <name>invalidArgument</name>
+        <qualifiedname>themis::cdc::error::invalidArgument</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Invalid Argument. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: CDCException(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_error.h" line="377" column="25" bodyfile="include/cdc/cdc_error.h" bodystart="377" bodyend="382"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cdc_1_1error_1a61c6e7f6bd3712fcca34f85503a209cf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cdc_1_1_c_d_c_exception" kindref="compound">CDCException</ref></type>
+        <definition>CDCException themis::cdc::error::internalError</definition>
+        <argsstring>(const std::string &amp;message)</argsstring>
+        <name>internalError</name>
+        <qualifiedname>themis::cdc::error::internalError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Internal Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: CDCException(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_error.h" line="390" column="25" bodyfile="include/cdc/cdc_error.h" bodystart="390" bodyend="395"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/cdc_error.h" line="245" column="1"/>
+  </compounddef>
+</doxygen>

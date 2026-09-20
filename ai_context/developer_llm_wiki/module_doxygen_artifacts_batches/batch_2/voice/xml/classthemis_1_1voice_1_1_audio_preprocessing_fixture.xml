@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_audio_preprocessing_fixture" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::AudioPreprocessingFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_audio_preprocessing_fixture_1a2611e3d99b33c0c46cece774ba71ecd1" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1voice_1_1_audio_preprocessor" kindref="compound">AudioPreprocessor</ref></type>
+        <definition>AudioPreprocessor themis::voice::AudioPreprocessingFixture::preprocessor_</definition>
+        <argsstring></argsstring>
+        <name>preprocessor_</name>
+        <qualifiedname>themis::voice::AudioPreprocessingFixture::preprocessor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_audio_preprocessing_focused.cpp" line="96" column="23" bodyfile="tests/voice/test_voice_audio_preprocessing_focused.cpp" bodystart="96" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_audio_preprocessing_fixture_1a675a11b51d7bf4b46c9cf314a581d727" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1_audio_frame" kindref="compound">AudioFrame</ref></type>
+        <definition>AudioFrame themis::voice::AudioPreprocessingFixture::createValidFrame</definition>
+        <argsstring>()</argsstring>
+        <name>createValidFrame</name>
+        <qualifiedname>themis::voice::AudioPreprocessingFixture::createValidFrame</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_audio_preprocessing_focused.cpp" line="98" column="16" bodyfile="tests/voice/test_voice_audio_preprocessing_focused.cpp" bodystart="98" bodyend="105"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::voice::AudioPreprocessingFixture</label>
+        <link refid="classthemis_1_1voice_1_1_audio_preprocessing_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::voice::AudioPreprocessingFixture</label>
+        <link refid="classthemis_1_1voice_1_1_audio_preprocessing_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>preprocessor_</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::voice::AudioPreprocessor</label>
+        <link refid="classthemis_1_1voice_1_1_audio_preprocessor"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/voice/test_voice_audio_preprocessing_focused.cpp" line="94" column="1" bodyfile="tests/voice/test_voice_audio_preprocessing_focused.cpp" bodystart="94" bodyend="106"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_audio_preprocessing_fixture_1a675a11b51d7bf4b46c9cf314a581d727" prot="protected" virt="non-virtual"><scope>themis::voice::AudioPreprocessingFixture</scope><name>createValidFrame</name></member>
+      <member refid="classthemis_1_1voice_1_1_audio_preprocessing_fixture_1a2611e3d99b33c0c46cece774ba71ecd1" prot="protected" virt="non-virtual"><scope>themis::voice::AudioPreprocessingFixture</scope><name>preprocessor_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

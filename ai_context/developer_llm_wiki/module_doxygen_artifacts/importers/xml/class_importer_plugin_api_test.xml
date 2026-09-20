@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_importer_plugin_api_test" kind="class" language="C++" prot="public">
+    <compoundname>ImporterPluginApiTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_importer_plugin_api_test_1a4f23127eaadb11d009a12c07c8075097" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ImporterPluginApiTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ImporterPluginApiTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_plugin_api.cpp" line="106" column="10" bodyfile="tests/importers/test_importer_plugin_api.cpp" bodystart="106" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="class_importer_plugin_api_test_1a05832c088bb2809be7220563e41f0cae" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ImporterPluginApiTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ImporterPluginApiTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_plugin_api.cpp" line="109" column="10" bodyfile="tests/importers/test_importer_plugin_api.cpp" bodystart="109" bodyend="111"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ImporterPluginApiTest</label>
+        <link refid="class_importer_plugin_api_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ImporterPluginApiTest</label>
+        <link refid="class_importer_plugin_api_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/importers/test_importer_plugin_api.cpp" line="104" column="1" bodyfile="tests/importers/test_importer_plugin_api.cpp" bodystart="104" bodyend="112"/>
+    <listofallmembers>
+      <member refid="class_importer_plugin_api_test_1a4f23127eaadb11d009a12c07c8075097" prot="protected" virt="non-virtual"><scope>ImporterPluginApiTest</scope><name>SetUp</name></member>
+      <member refid="class_importer_plugin_api_test_1a05832c088bb2809be7220563e41f0cae" prot="protected" virt="non-virtual"><scope>ImporterPluginApiTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

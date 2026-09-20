@@ -1,0 +1,237 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="lora__enhanced__retriever_8h" kind="file" language="C++">
+    <compoundname>lora_enhanced_retriever.h</compoundname>
+    <includes refid="rag__judge_8h" local="yes">rag/rag_judge.h</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="lora__enhanced__retriever_8cpp" local="yes">src/rag/lora_enhanced_retriever.cpp</includedby>
+    <includedby refid="test__lora__enhanced__retriever_8cpp" local="yes">tests/rag/test_lora_enhanced_retriever.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/rag/lora_enhanced_retriever.h</label>
+        <link refid="lora__enhanced__retriever_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>rag/rag_judge.h</label>
+        <link refid="rag__judge_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>cmath</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/rag/lora_enhanced_retriever.h</label>
+        <link refid="lora__enhanced__retriever_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/rag/lora_enhanced_retriever.cpp</label>
+        <link refid="lora__enhanced__retriever_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/rag/test_lora_enhanced_retriever.cpp</label>
+        <link refid="test__lora__enhanced__retriever_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1rag_1_1_i_lo_r_a_scorer" prot="public">themis::rag::ILoRAScorer</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_heuristic_lo_r_a_scorer" prot="public">themis::rag::HeuristicLoRAScorer</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_lo_r_a_retriever_config" prot="public">themis::rag::LoRARetrieverConfig</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever" prot="public">themis::rag::LoRAEnhancedRetriever</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_factory" prot="public">themis::rag::LoRAEnhancedRetrieverFactory</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag">themis::rag</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rag__judge_8h" kindref="compound">rag/rag_judge.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag" kindref="compound">themis::rag</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ILoRAScorer<sp/>—<sp/>plugin<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="classthemis_1_1rag_1_1_i_lo_r_a_scorer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1_i_lo_r_a_scorer" kindref="compound">ILoRAScorer</ref><sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="39" refid="classthemis_1_1rag_1_1_i_lo_r_a_scorer_1a22c6579041c72bd77aae4f1e68f80026" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_i_lo_r_a_scorer_1a22c6579041c72bd77aae4f1e68f80026" kindref="member">~ILoRAScorer</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="classthemis_1_1rag_1_1_i_lo_r_a_scorer_1a6dd7e3e8c22fa8ab4669ef55ad968d26" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_i_lo_r_a_scorer_1a6dd7e3e8c22fa8ab4669ef55ad968d26" kindref="member">score</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content,</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1rag_1_1_i_lo_r_a_scorer_1ab6c21b232929e1101bcfdfd408288582" kindref="member">domain</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="classthemis_1_1rag_1_1_i_lo_r_a_scorer_1ab6c21b232929e1101bcfdfd408288582" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1rag_1_1_i_lo_r_a_scorer_1ab6c21b232929e1101bcfdfd408288582" kindref="member">domain</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>HeuristicLoRAScorer<sp/>—<sp/>lightweight<sp/>baseline</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="classthemis_1_1rag_1_1_heuristic_lo_r_a_scorer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1_heuristic_lo_r_a_scorer_1ae01a6852addf2b19b1eaa4c392196e1f" kindref="member">HeuristicLoRAScorer</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_i_lo_r_a_scorer" kindref="compound">ILoRAScorer</ref><sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_heuristic_lo_r_a_scorer_1ae01a6852addf2b19b1eaa4c392196e1f" kindref="member">HeuristicLoRAScorer</ref>(std::string<sp/>domain_hint<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_heuristic_lo_r_a_scorer_1af5a199834f2b4f91464179526ae40b74" kindref="member">score</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content,</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1rag_1_1_heuristic_lo_r_a_scorer_1a76b839769081d8bfcee1a07e2c9ae58e" kindref="member">domain</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1rag_1_1_heuristic_lo_r_a_scorer_1a76b839769081d8bfcee1a07e2c9ae58e" kindref="member">domain</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>domain_;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LoRAEnhancedRetrieverConfig</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1rag_1_1_lo_r_a_retriever_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1_lo_r_a_retriever_config" kindref="compound">LoRARetrieverConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1rag_1_1_lo_r_a_retriever_config_1aa1650b4b64113c62a75e0897af068a68" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1rag_1_1_lo_r_a_retriever_config_1aa1650b4b64113c62a75e0897af068a68" kindref="member">top_k_rerank</ref><sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1rag_1_1_lo_r_a_retriever_config_1a45397730db972c0b70bf0f6ab3a673ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_lo_r_a_retriever_config_1a45397730db972c0b70bf0f6ab3a673ed" kindref="member">lora_weight</ref><sp/>=<sp/>0.4;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1rag_1_1_lo_r_a_retriever_config_1a9ab7f1057082533e7bb461f9cba1d915" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_lo_r_a_retriever_config_1a9ab7f1057082533e7bb461f9cba1d915" kindref="member">domain</ref>;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1rag_1_1_lo_r_a_retriever_config_1a68eec293d16deb9d5f405ceebdf175f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_lo_r_a_retriever_config_1a68eec293d16deb9d5f405ceebdf175f2" kindref="member">min_lora_score</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LoRAEnhancedRetriever</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1aba8566e56ae33f3492ffe97eb5356aa1" kindref="member">LoRAEnhancedRetriever</ref><sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1aba8566e56ae33f3492ffe97eb5356aa1" kindref="member">LoRAEnhancedRetriever</ref>(std::shared_ptr&lt;ILoRAScorer&gt;<sp/>scorer,</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_lo_r_a_retriever_config" kindref="compound">LoRARetrieverConfig</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1ab31aa8d52708f9ad2047d8e5d6c31dfb" kindref="member">config</ref><sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1a5a7ce9401c087215a61f838d6b72fab2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1a5a7ce9401c087215a61f838d6b72fab2" kindref="member">~LoRAEnhancedRetriever</ref>();</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1aed82531b864d2c5017863521b46dae84" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1aed82531b864d2c5017863521b46dae84" kindref="member">LoRAEnhancedRetriever</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1aba8566e56ae33f3492ffe97eb5356aa1" kindref="member">LoRAEnhancedRetriever</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158" refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1a02f36897251f74b4b4f3a80568374b17" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1aba8566e56ae33f3492ffe97eb5356aa1" kindref="member">LoRAEnhancedRetriever</ref>&amp;<sp/><ref refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1a02f36897251f74b4b4f3a80568374b17" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1aba8566e56ae33f3492ffe97eb5356aa1" kindref="member">LoRAEnhancedRetriever</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159" refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1a594eddbd9aaadb69d20a336b87040c59" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1a594eddbd9aaadb69d20a336b87040c59" kindref="member">LoRAEnhancedRetriever</ref>(<ref refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1aba8566e56ae33f3492ffe97eb5356aa1" kindref="member">LoRAEnhancedRetriever</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="160" refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1a344e9d098f14404f2200dd1b6ed583e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1aba8566e56ae33f3492ffe97eb5356aa1" kindref="member">LoRAEnhancedRetriever</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1aba8566e56ae33f3492ffe97eb5356aa1" kindref="member">LoRAEnhancedRetriever</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;<ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>::RetrievedDocument&gt;<sp/><ref refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1a6a92b2701d9df6e77168c6fbcf3a3fb1" kindref="member">rerank</ref>(</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>::RetrievedDocument&gt;&amp;<sp/>candidates)<sp/>const;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1rag_1_1_lo_r_a_retriever_config" kindref="compound">LoRARetrieverConfig</ref>&amp;<sp/><ref refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1ab31aa8d52708f9ad2047d8e5d6c31dfb" kindref="member">config</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1a149ed26a898d026a64a2f5ab0de75990" kindref="member">setConfig</ref>(const<sp/><ref refid="structthemis_1_1rag_1_1_lo_r_a_retriever_config" kindref="compound">LoRARetrieverConfig</ref>&amp;<sp/><ref refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1ab31aa8d52708f9ad2047d8e5d6c31dfb" kindref="member">config</ref>);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1a8a7fa4949fcabfa39923e8c7f1ff3b88" kindref="member">setScorer</ref>(std::shared_ptr&lt;<ref refid="classthemis_1_1rag_1_1_i_lo_r_a_scorer" kindref="compound">ILoRAScorer</ref>&gt;<sp/>scorer);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;<ref refid="classthemis_1_1rag_1_1_i_lo_r_a_scorer" kindref="compound">ILoRAScorer</ref>&gt;<sp/>scorer_;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_lo_r_a_retriever_config" kindref="compound">LoRARetrieverConfig</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config_;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state_mutex_;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Factory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205" refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_factory" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_factory" kindref="compound">LoRAEnhancedRetrieverFactory</ref><sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;LoRAEnhancedRetriever&gt;<sp/><ref refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_factory_1a9f98c9573209c4ec98549a83134a9601" kindref="member">createLightweight</ref>();</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;LoRAEnhancedRetriever&gt;<sp/><ref refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_factory_1aa41c4a60c47a9861b975b84f1ab585b7" kindref="member">createBalanced</ref>(</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>domain<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;LoRAEnhancedRetriever&gt;<sp/><ref refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_factory_1ab5de5dd8a11d51a67c739d01fdb34bee" kindref="member">createDomainSpecific</ref>(</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>domain);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::rag</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/rag/lora_enhanced_retriever.h"/>
+  </compounddef>
+</doxygen>

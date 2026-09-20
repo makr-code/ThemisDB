@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__wave3b__query__timeout__fixes_8cpp" kind="file" language="C++">
+    <compoundname>test_wave3b_query_timeout_fixes.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="query__compiler_8h" local="yes">query/query_compiler.h</includes>
+    <includes local="yes">utils/expected.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>query/query_compiler.h</label>
+        <link refid="query__compiler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/query/test_wave3b_query_timeout_fixes.cpp</label>
+        <link refid="test__wave3b__query__timeout__fixes_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>unordered_map</label>
+      </node>
+      <node id="13">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__wave3b__query__timeout__fixes_8cpp_1a314729f6e71ecfaaaa8ce3ca8d50bb61" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryCompilerWave3BContract, ExecuteReturnsErrorWhenExecutorThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryCompilerWave3BContract</type>
+        </param>
+        <param>
+          <type>ExecuteReturnsErrorWhenExecutorThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_wave3b_query_timeout_fixes.cpp" line="14" column="1" bodyfile="tests/query/test_wave3b_query_timeout_fixes.cpp" bodystart="14" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave3b__query__timeout__fixes_8cpp_1a240372a26b1693ed29398106134e7807" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryCompilerWave3BContract, ColdPathWorksWithDeterministicExecutor)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryCompilerWave3BContract</type>
+        </param>
+        <param>
+          <type>ColdPathWorksWithDeterministicExecutor</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_wave3b_query_timeout_fixes.cpp" line="32" column="1" bodyfile="tests/query/test_wave3b_query_timeout_fixes.cpp" bodystart="32" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Contract tests for query compiler timeout/error hardening. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="query__compiler_8h" kindref="compound">query/query_compiler.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/expected.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">themis::query</ref>;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><ref refid="test__wave3b__query__timeout__fixes_8cpp_1a314729f6e71ecfaaaa8ce3ca8d50bb61" kindref="member">TEST</ref>(QueryCompilerWave3BContract,<sp/>ExecuteReturnsErrorWhenExecutorThrows)<sp/>{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_compiler_1_1_config" kindref="compound">QueryCompiler::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1query_1_1_query_compiler_1_1_config_1aec8bdba05639907d367c5a6e750d080f" kindref="member">hot_threshold</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1query_1_1_query_compiler_1_1_config_1a92a993e000ce38ddf9a8e7a25568c141" kindref="member">enable_jit</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1query_1_1_query_compiler_1_1_config_1a8654d71b836204f2917811465893416a" kindref="member">compilation_timeout_ms</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_compiler" kindref="compound">QueryCompiler</ref><sp/>compiler(cfg);</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_compiler_1a7215d058f55050d62a9decb4a67de3c2" kindref="member">QueryCompiler::ExecuteFn</ref><sp/>throwing_executor<sp/>=</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1af593ea9779d47cd0c30578e9c0595ae0" kindref="member">QueryParams</ref>&amp;)<sp/>-&gt;<sp/>Result&lt;QueryResult&gt;<sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;wave3b<sp/>test<sp/>throw&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>compiled<sp/>=<sp/>compiler.compile(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>1&quot;</highlight><highlight class="normal">,<sp/>{},<sp/>throwing_executor);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>compiler.execute(compiled,<sp/>{});</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.has_value());</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(compiler.stats().total_calls,<sp/>0u);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><ref refid="test__wave3b__query__timeout__fixes_8cpp_1a314729f6e71ecfaaaa8ce3ca8d50bb61" kindref="member">TEST</ref>(QueryCompilerWave3BContract,<sp/>ColdPathWorksWithDeterministicExecutor)<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_compiler_1_1_config" kindref="compound">QueryCompiler::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1query_1_1_query_compiler_1_1_config_1aec8bdba05639907d367c5a6e750d080f" kindref="member">hot_threshold</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1query_1_1_query_compiler_1_1_config_1a92a993e000ce38ddf9a8e7a25568c141" kindref="member">enable_jit</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_compiler" kindref="compound">QueryCompiler</ref><sp/>compiler(cfg);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_compiler_1a7215d058f55050d62a9decb4a67de3c2" kindref="member">QueryCompiler::ExecuteFn</ref><sp/>executor<sp/>=</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1af593ea9779d47cd0c30578e9c0595ae0" kindref="member">QueryParams</ref>&amp;)<sp/>-&gt;<sp/>Result&lt;QueryResult&gt;<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_result" kindref="compound">QueryResult</ref><sp/>r;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1query_1_1_query_result_1ac95d1fe26195a288a02d754ad4f2df80" kindref="member">rows</ref>.push_back(nlohmann::json{{</highlight><highlight class="stringliteral">&quot;ok&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1query_1_1_query_result_1a928b3cbe63c8636e21d722e864299e61" kindref="member">rows_examined</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1query_1_1_query_result_1adcafd728d6d2819b73e0f00c7e93a653" kindref="member">used_compiled_path</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>compiled<sp/>=<sp/>compiler.compile(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>1&quot;</highlight><highlight class="normal">,<sp/>{},<sp/>executor);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>compiler.execute(compiled,<sp/>{});</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result-&gt;rows.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result-&gt;used_compiled_path);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/query/test_wave3b_query_timeout_fixes.cpp"/>
+  </compounddef>
+</doxygen>

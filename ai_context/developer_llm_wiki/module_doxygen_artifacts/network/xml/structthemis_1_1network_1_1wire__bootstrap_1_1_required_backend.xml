@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1wire__bootstrap_1_1_required_backend" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::wire_bootstrap::RequiredBackend</compoundname>
+    <includes refid="wire__bootstrap__validation_8h" local="no">wire_bootstrap_validation.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1wire__bootstrap_1_1_required_backend_1a4db73f169d93983fa6d62e864660c6d4" prot="public" static="no" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::network::wire_bootstrap::RequiredBackend::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::network::wire_bootstrap::RequiredBackend::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_bootstrap_validation.h" line="23" column="16" bodyfile="include/network/wire_bootstrap_validation.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1wire__bootstrap_1_1_required_backend_1a49a4e1443e814df5d4632079e0372d8a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::wire_bootstrap::RequiredBackend::available</definition>
+        <argsstring></argsstring>
+        <name>available</name>
+        <qualifiedname>themis::network::wire_bootstrap::RequiredBackend::available</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_bootstrap_validation.h" line="24" column="10" bodyfile="include/network/wire_bootstrap_validation.h" bodystart="24" bodyend="24"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Named startup dependency used by Wire bootstrap validation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/wire_bootstrap_validation.h" line="22" column="1" bodyfile="include/network/wire_bootstrap_validation.h" bodystart="22" bodyend="25"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1wire__bootstrap_1_1_required_backend_1a49a4e1443e814df5d4632079e0372d8a" prot="public" virt="non-virtual"><scope>themis::network::wire_bootstrap::RequiredBackend</scope><name>available</name></member>
+      <member refid="structthemis_1_1network_1_1wire__bootstrap_1_1_required_backend_1a4db73f169d93983fa6d62e864660c6d4" prot="public" virt="non-virtual"><scope>themis::network::wire_bootstrap::RequiredBackend</scope><name>name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,329 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1judge_1_1_completeness_evaluator" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::judge::CompletenessEvaluator</compoundname>
+    <includes refid="completeness__evaluator_8h" local="no">completeness_evaluator.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_config" prot="public">themis::rag::judge::CompletenessEvaluator::Config</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_impl" prot="public">themis::rag::judge::CompletenessEvaluator::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1acbf475e47f9e7de1fadda9df51181c2a" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::rag::judge::CompletenessEvaluator::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::rag::judge::CompletenessEvaluator::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/completeness_evaluator.h" line="129" column="21" bodyfile="include/rag/completeness_evaluator.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1abf8e565ff1bbb4db3dd0fe77bbf44a70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::CompletenessEvaluator::CompletenessEvaluator</definition>
+        <argsstring>()</argsstring>
+        <name>CompletenessEvaluator</name>
+        <qualifiedname>themis::rag::judge::CompletenessEvaluator::CompletenessEvaluator</qualifiedname>
+        <briefdescription>
+<para>Construct evaluator with configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/completeness_evaluator.h" line="77" column="5" bodyfile="src/rag/completeness_evaluator.cpp" bodystart="168" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1a76f365142d2858f8a219d0aa90b5d6bd" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::CompletenessEvaluator::CompletenessEvaluator</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>CompletenessEvaluator</name>
+        <qualifiedname>themis::rag::judge::CompletenessEvaluator::CompletenessEvaluator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/completeness_evaluator.h" line="78" column="14" bodyfile="src/rag/completeness_evaluator.cpp" bodystart="172" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1a6f2d9bd0bcf81d87a935af0d4e1b9ff4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::CompletenessEvaluator::~CompletenessEvaluator</definition>
+        <argsstring>()</argsstring>
+        <name>~CompletenessEvaluator</name>
+        <qualifiedname>themis::rag::judge::CompletenessEvaluator::~CompletenessEvaluator</qualifiedname>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/completeness_evaluator.h" line="83" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1a2fb24d2691a6b1a96581625e10f86b69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_completeness_result" kindref="compound">CompletenessResult</ref></type>
+        <definition>CompletenessResult themis::rag::judge::CompletenessEvaluator::evaluate</definition>
+        <argsstring>(const std::string &amp;answer, const std::string &amp;query)</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::rag::judge::CompletenessEvaluator::evaluate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate completeness of an answer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Evaluate.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Generated answer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original query </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Completeness evaluation result</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), <ref refid="classthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1a0663dd052d8f1188f8c9f54c7250b19a" kindref="member">extractQueryAspects()</ref>, size(), extractAnswerWords(), isAspectCoveredOptimized(), calculateCoverageScoreOptimized(), <ref refid="classthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1a22b649a658c05b0c27ff5e3099b71e11" kindref="member">assessDepth()</ref>, <ref refid="classthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1ae92178c1a2feae7639c81c259b19c489" kindref="member">detectMissingInformation()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/completeness_evaluator.h" line="91" column="24" bodyfile="src/rag/completeness_evaluator.cpp" bodystart="357" bodyend="479"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1a0663dd052d8f1188f8c9f54c7250b19a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_query_aspect" kindref="compound">QueryAspect</ref> &gt;</type>
+        <definition>std::vector&lt; QueryAspect &gt; themis::rag::judge::CompletenessEvaluator::extractQueryAspects</definition>
+        <argsstring>(const std::string &amp;query)</argsstring>
+        <name>extractQueryAspects</name>
+        <qualifiedname>themis::rag::judge::CompletenessEvaluator::extractQueryAspects</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Extract aspects from query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Extract Query Aspects.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query to analyze </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>List of query aspects</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), empty(), evaluateDimension(), parseJSONResponse(), contains(), is_array(), value(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/completeness_evaluator.h" line="101" column="17" bodyfile="src/rag/completeness_evaluator.cpp" bodystart="194" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1a22b649a658c05b0c27ff5e3099b71e11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="namespacethemis_1_1rag_1_1judge_1a39c94c98e8bf51c2b32898a6ac7bd9de" kindref="member">DepthLevel</ref>, double &gt;</type>
+        <definition>std::pair&lt; DepthLevel, double &gt; themis::rag::judge::CompletenessEvaluator::assessDepth</definition>
+        <argsstring>(const std::string &amp;answer, const std::vector&lt; QueryAspect &gt; &amp;aspects)</argsstring>
+        <name>assessDepth</name>
+        <qualifiedname>themis::rag::judge::CompletenessEvaluator::assessDepth</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_query_aspect" kindref="compound">QueryAspect</ref> &gt; &amp;</type>
+          <declname>aspects</declname>
+        </param>
+        <briefdescription>
+<para>Assess depth of answer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Generated answer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aspects</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query aspects </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Depth level and score </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/completeness_evaluator.h" line="109" column="15" bodyfile="src/rag/completeness_evaluator.cpp" bodystart="250" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1ae92178c1a2feae7639c81c259b19c489" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::rag::judge::CompletenessEvaluator::detectMissingInformation</definition>
+        <argsstring>(const std::string &amp;answer, const std::string &amp;query, const std::vector&lt; QueryAspect &gt; &amp;aspects)</argsstring>
+        <name>detectMissingInformation</name>
+        <qualifiedname>themis::rag::judge::CompletenessEvaluator::detectMissingInformation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_query_aspect" kindref="compound">QueryAspect</ref> &gt; &amp;</type>
+          <declname>aspects</declname>
+        </param>
+        <briefdescription>
+<para>Detect missing information. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Detect Missing Information.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Generated answer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original query </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aspects</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identified query aspects </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>List of missing information items</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">aspects</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: push_back(), THEMIS_DEBUG(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/completeness_evaluator.h" line="121" column="17" bodyfile="src/rag/completeness_evaluator.cpp" bodystart="326" bodyend="348"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Completeness evaluator. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Evaluates answer completeness through:<orderedlist>
+<listitem><para>Aspect coverage analysis</para>
+</listitem><listitem><para>Depth assessment</para>
+</listitem><listitem><para>Missing information detection </para>
+</listitem></orderedlist>
+</para>
+    </detaileddescription>
+    <location file="include/rag/completeness_evaluator.h" line="62" column="1" bodyfile="include/rag/completeness_evaluator.h" bodystart="62" bodyend="130"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1a22b649a658c05b0c27ff5e3099b71e11" prot="public" virt="non-virtual"><scope>themis::rag::judge::CompletenessEvaluator</scope><name>assessDepth</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1abf8e565ff1bbb4db3dd0fe77bbf44a70" prot="public" virt="non-virtual"><scope>themis::rag::judge::CompletenessEvaluator</scope><name>CompletenessEvaluator</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1a76f365142d2858f8a219d0aa90b5d6bd" prot="public" virt="non-virtual"><scope>themis::rag::judge::CompletenessEvaluator</scope><name>CompletenessEvaluator</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1ae92178c1a2feae7639c81c259b19c489" prot="public" virt="non-virtual"><scope>themis::rag::judge::CompletenessEvaluator</scope><name>detectMissingInformation</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1a2fb24d2691a6b1a96581625e10f86b69" prot="public" virt="non-virtual"><scope>themis::rag::judge::CompletenessEvaluator</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1a0663dd052d8f1188f8c9f54c7250b19a" prot="public" virt="non-virtual"><scope>themis::rag::judge::CompletenessEvaluator</scope><name>extractQueryAspects</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1acbf475e47f9e7de1fadda9df51181c2a" prot="private" virt="non-virtual"><scope>themis::rag::judge::CompletenessEvaluator</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_completeness_evaluator_1a6f2d9bd0bcf81d87a935af0d4e1b9ff4" prot="public" virt="non-virtual"><scope>themis::rag::judge::CompletenessEvaluator</scope><name>~CompletenessEvaluator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

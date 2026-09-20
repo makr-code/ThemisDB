@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1temporal_1_1_validation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::temporal::ValidationResult</compoundname>
+    <includes refid="temporal__migrator_8h" local="no">temporal_migrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_validation_result_1ad13800539b0b8f2ab716caaf969b4613" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::ValidationResult::check_name</definition>
+        <argsstring></argsstring>
+        <name>check_name</name>
+        <qualifiedname>themisdb::temporal::ValidationResult::check_name</qualifiedname>
+        <briefdescription>
+<para>Human-readable name of the check. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="178" column="17" bodyfile="include/temporal/temporal_migrator.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_validation_result_1a59ec2045ed6185259101301a01d0827c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::ValidationResult::passed</definition>
+        <argsstring></argsstring>
+        <name>passed</name>
+        <qualifiedname>themisdb::temporal::ValidationResult::passed</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="179" column="17" bodyfile="include/temporal/temporal_migrator.h" bodystart="179" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_validation_result_1a71660ee3c541336776bb405d8a995e81" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::ValidationResult::detail</definition>
+        <argsstring></argsstring>
+        <name>detail</name>
+        <qualifiedname>themisdb::temporal::ValidationResult::detail</qualifiedname>
+        <briefdescription>
+<para>Explanation (especially on failure). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="180" column="17" bodyfile="include/temporal/temporal_migrator.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1temporal_1_1_validation_result_1a787ead0f4fd84ba56449f30e552166a1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::temporal::ValidationResult::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themisdb::temporal::ValidationResult::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="182" column="20" bodyfile="include/temporal/temporal_migrator.h" bodystart="182" bodyend="184"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>A single data-integrity check result produced by verifyMigration(). </para>
+    </detaileddescription>
+    <location file="include/temporal/temporal_migrator.h" line="177" column="1" bodyfile="include/temporal/temporal_migrator.h" bodystart="177" bodyend="185"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1temporal_1_1_validation_result_1ad13800539b0b8f2ab716caaf969b4613" prot="public" virt="non-virtual"><scope>themisdb::temporal::ValidationResult</scope><name>check_name</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_validation_result_1a71660ee3c541336776bb405d8a995e81" prot="public" virt="non-virtual"><scope>themisdb::temporal::ValidationResult</scope><name>detail</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_validation_result_1a59ec2045ed6185259101301a01d0827c" prot="public" virt="non-virtual"><scope>themisdb::temporal::ValidationResult</scope><name>passed</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_validation_result_1a787ead0f4fd84ba56449f30e552166a1" prot="public" virt="non-virtual"><scope>themisdb::temporal::ValidationResult</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1_health_monitor_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::HealthMonitorConfig</compoundname>
+    <includes refid="plugin__health__monitor_8h" local="no">plugin_health_monitor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_health_monitor_config_1a14b32f0448050c2b142144270da05463" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::plugins::HealthMonitorConfig::check_interval</definition>
+        <argsstring></argsstring>
+        <name>check_interval</name>
+        <qualifiedname>themis::plugins::HealthMonitorConfig::check_interval</qualifiedname>
+        <initializer>{30}</initializer>
+        <briefdescription>
+<para>Interval between health checks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="35" column="26" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="35" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_health_monitor_config_1a6cf8adc8a288a151419c440ca0a18f30" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::plugins::HealthMonitorConfig::max_recovery_attempts</definition>
+        <argsstring></argsstring>
+        <name>max_recovery_attempts</name>
+        <qualifiedname>themis::plugins::HealthMonitorConfig::max_recovery_attempts</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Maximum recovery attempts before giving up. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="38" column="14" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_health_monitor_config_1a3b55361e29c95b2b04e841bc4a4b39f2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::HealthMonitorConfig::backoff_strategy</definition>
+        <argsstring></argsstring>
+        <name>backoff_strategy</name>
+        <qualifiedname>themis::plugins::HealthMonitorConfig::backoff_strategy</qualifiedname>
+        <initializer>= &quot;exponential&quot;</initializer>
+        <briefdescription>
+<para>Backoff strategy: &quot;none&quot;, &quot;linear&quot;, &quot;exponential&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="41" column="17" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_health_monitor_config_1ab057cab8e419eaaa558fe5d17f0a8315" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::plugins::HealthMonitorConfig::initial_backoff</definition>
+        <argsstring></argsstring>
+        <name>initial_backoff</name>
+        <qualifiedname>themis::plugins::HealthMonitorConfig::initial_backoff</qualifiedname>
+        <initializer>{5}</initializer>
+        <briefdescription>
+<para>Initial backoff duration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="44" column="26" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="44" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_health_monitor_config_1a3a8b48889199ddce8e9651671d38b260" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::plugins::HealthMonitorConfig::max_backoff</definition>
+        <argsstring></argsstring>
+        <name>max_backoff</name>
+        <qualifiedname>themis::plugins::HealthMonitorConfig::max_backoff</qualifiedname>
+        <initializer>{300}</initializer>
+        <briefdescription>
+<para>Maximum backoff duration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="47" column="26" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="47" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_health_monitor_config_1a77f337637f94c51e04b7ec6474e23dd1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::HealthMonitorConfig::notify_on_critical</definition>
+        <argsstring></argsstring>
+        <name>notify_on_critical</name>
+        <qualifiedname>themis::plugins::HealthMonitorConfig::notify_on_critical</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Notify administrators on critical failures. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="50" column="10" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_health_monitor_config_1a3b3b7f03751aa16cb257e160154004ca" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::HealthMonitorConfig::auto_disable_on_failure</definition>
+        <argsstring></argsstring>
+        <name>auto_disable_on_failure</name>
+        <qualifiedname>themis::plugins::HealthMonitorConfig::auto_disable_on_failure</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Automatically disable plugin after max failed recoveries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="53" column="10" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_health_monitor_config_1ac050033184d96675559cb8389a72350a" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::plugins::HealthMonitorConfig::health_check_timeout</definition>
+        <argsstring></argsstring>
+        <name>health_check_timeout</name>
+        <qualifiedname>themis::plugins::HealthMonitorConfig::health_check_timeout</qualifiedname>
+        <initializer>{10}</initializer>
+        <briefdescription>
+<para>Health check timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="56" column="26" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_health_monitor_config_1adf6cda273fb3c2699943e34cca3fcdd1" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::plugins::HealthMonitorConfig::recovery_timeout</definition>
+        <argsstring></argsstring>
+        <name>recovery_timeout</name>
+        <qualifiedname>themis::plugins::HealthMonitorConfig::recovery_timeout</qualifiedname>
+        <initializer>{30}</initializer>
+        <briefdescription>
+<para>Recovery timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="59" column="26" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="59" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for health monitoring. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/plugins/plugin_health_monitor.h" line="33" column="1" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="33" bodyend="60"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1_health_monitor_config_1a3b3b7f03751aa16cb257e160154004ca" prot="public" virt="non-virtual"><scope>themis::plugins::HealthMonitorConfig</scope><name>auto_disable_on_failure</name></member>
+      <member refid="structthemis_1_1plugins_1_1_health_monitor_config_1a3b55361e29c95b2b04e841bc4a4b39f2" prot="public" virt="non-virtual"><scope>themis::plugins::HealthMonitorConfig</scope><name>backoff_strategy</name></member>
+      <member refid="structthemis_1_1plugins_1_1_health_monitor_config_1a14b32f0448050c2b142144270da05463" prot="public" virt="non-virtual"><scope>themis::plugins::HealthMonitorConfig</scope><name>check_interval</name></member>
+      <member refid="structthemis_1_1plugins_1_1_health_monitor_config_1ac050033184d96675559cb8389a72350a" prot="public" virt="non-virtual"><scope>themis::plugins::HealthMonitorConfig</scope><name>health_check_timeout</name></member>
+      <member refid="structthemis_1_1plugins_1_1_health_monitor_config_1ab057cab8e419eaaa558fe5d17f0a8315" prot="public" virt="non-virtual"><scope>themis::plugins::HealthMonitorConfig</scope><name>initial_backoff</name></member>
+      <member refid="structthemis_1_1plugins_1_1_health_monitor_config_1a3a8b48889199ddce8e9651671d38b260" prot="public" virt="non-virtual"><scope>themis::plugins::HealthMonitorConfig</scope><name>max_backoff</name></member>
+      <member refid="structthemis_1_1plugins_1_1_health_monitor_config_1a6cf8adc8a288a151419c440ca0a18f30" prot="public" virt="non-virtual"><scope>themis::plugins::HealthMonitorConfig</scope><name>max_recovery_attempts</name></member>
+      <member refid="structthemis_1_1plugins_1_1_health_monitor_config_1a77f337637f94c51e04b7ec6474e23dd1" prot="public" virt="non-virtual"><scope>themis::plugins::HealthMonitorConfig</scope><name>notify_on_critical</name></member>
+      <member refid="structthemis_1_1plugins_1_1_health_monitor_config_1adf6cda273fb3c2699943e34cca3fcdd1" prot="public" virt="non-virtual"><scope>themis::plugins::HealthMonitorConfig</scope><name>recovery_timeout</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

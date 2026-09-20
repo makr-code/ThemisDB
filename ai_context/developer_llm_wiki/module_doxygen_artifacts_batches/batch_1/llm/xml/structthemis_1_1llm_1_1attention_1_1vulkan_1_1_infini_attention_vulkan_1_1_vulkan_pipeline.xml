@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_vulkan_pipeline" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::attention::vulkan::InfiniAttentionVulkan::VulkanPipeline</compoundname>
+    <includes refid="infini__attention__vulkan_8h" local="no">infini_attention_vulkan.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_vulkan_pipeline_1a1584b9bee1df7769c49209268bf95a54" prot="public" static="no" mutable="no">
+        <type>VkPipeline</type>
+        <definition>VkPipeline themis::llm::attention::vulkan::InfiniAttentionVulkan::VulkanPipeline::pipeline</definition>
+        <argsstring></argsstring>
+        <name>pipeline</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::VulkanPipeline::pipeline</qualifiedname>
+        <initializer>= VK_NULL_HANDLE</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="37" column="20" bodyfile="include/llm/attention/vulkan/infini_attention_vulkan.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_vulkan_pipeline_1a6d1d41386a21a1a8fa0ccaa9d0801fb1" prot="public" static="no" mutable="no">
+        <type>VkPipelineLayout</type>
+        <definition>VkPipelineLayout themis::llm::attention::vulkan::InfiniAttentionVulkan::VulkanPipeline::layout</definition>
+        <argsstring></argsstring>
+        <name>layout</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::VulkanPipeline::layout</qualifiedname>
+        <initializer>= VK_NULL_HANDLE</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="38" column="26" bodyfile="include/llm/attention/vulkan/infini_attention_vulkan.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_vulkan_pipeline_1a3731054b79713d276f3f1ae09fc15748" prot="public" static="no" mutable="no">
+        <type>VkDescriptorSetLayout</type>
+        <definition>VkDescriptorSetLayout themis::llm::attention::vulkan::InfiniAttentionVulkan::VulkanPipeline::descriptor_set_layout</definition>
+        <argsstring></argsstring>
+        <name>descriptor_set_layout</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::VulkanPipeline::descriptor_set_layout</qualifiedname>
+        <initializer>= VK_NULL_HANDLE</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="39" column="31" bodyfile="include/llm/attention/vulkan/infini_attention_vulkan.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_vulkan_pipeline_1a64e6b849cfbd34ae9ff7dd2086703a76" prot="public" static="no" mutable="no">
+        <type>VkShaderModule</type>
+        <definition>VkShaderModule themis::llm::attention::vulkan::InfiniAttentionVulkan::VulkanPipeline::shader_module</definition>
+        <argsstring></argsstring>
+        <name>shader_module</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::VulkanPipeline::shader_module</qualifiedname>
+        <initializer>= VK_NULL_HANDLE</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="40" column="24" bodyfile="include/llm/attention/vulkan/infini_attention_vulkan.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="36" column="5" bodyfile="include/llm/attention/vulkan/infini_attention_vulkan.h" bodystart="36" bodyend="41"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_vulkan_pipeline_1a3731054b79713d276f3f1ae09fc15748" prot="public" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan::VulkanPipeline</scope><name>descriptor_set_layout</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_vulkan_pipeline_1a6d1d41386a21a1a8fa0ccaa9d0801fb1" prot="public" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan::VulkanPipeline</scope><name>layout</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_vulkan_pipeline_1a1584b9bee1df7769c49209268bf95a54" prot="public" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan::VulkanPipeline</scope><name>pipeline</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_vulkan_pipeline_1a64e6b849cfbd34ae9ff7dd2086703a76" prot="public" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan::VulkanPipeline</scope><name>shader_module</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

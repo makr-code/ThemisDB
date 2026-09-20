@@ -1,0 +1,223 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1security_1_1_prompt_injection_detector" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::security::PromptInjectionDetector</compoundname>
+    <includes refid="prompt__injection__detector_8h" local="no">prompt_injection_detector.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1security_1_1_prompt_injection_detector_1_1_impl" prot="public">themis::rag::security::PromptInjectionDetector::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1security_1_1_prompt_injection_detector_1a13a43b8d7be542659f199b22eb42e963" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1rag_1_1security_1_1_prompt_injection_detector_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::rag::security::PromptInjectionDetector::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::rag::security::PromptInjectionDetector::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="134" column="21" bodyfile="include/rag/prompt_injection_detector.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1security_1_1_prompt_injection_detector_1a442286b644ea7ce7fa8f46062025f411" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::security::PromptInjectionDetector::PromptInjectionDetector</definition>
+        <argsstring>(const DetectorConfig &amp;config=DetectorConfig{})</argsstring>
+        <name>PromptInjectionDetector</name>
+        <qualifiedname>themis::rag::security::PromptInjectionDetector::PromptInjectionDetector</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1security_1_1_detector_config" kindref="compound">DetectorConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1rag_1_1security_1_1_detector_config" kindref="compound">DetectorConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="104" column="14" bodyfile="src/rag/prompt_injection_detector.cpp" bodystart="239" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1security_1_1_prompt_injection_detector_1a8947b0297337cf01bcd2d3dd1e18c537" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::security::PromptInjectionDetector::~PromptInjectionDetector</definition>
+        <argsstring>()</argsstring>
+        <name>~PromptInjectionDetector</name>
+        <qualifiedname>themis::rag::security::PromptInjectionDetector::~PromptInjectionDetector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="105" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1security_1_1_prompt_injection_detector_1a04d75746af7c5618727a98f0573603ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::security::PromptInjectionDetector::PromptInjectionDetector</definition>
+        <argsstring>(const PromptInjectionDetector &amp;)=delete</argsstring>
+        <name>PromptInjectionDetector</name>
+        <qualifiedname>themis::rag::security::PromptInjectionDetector::PromptInjectionDetector</qualifiedname>
+        <param>
+          <type>const PromptInjectionDetector &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="107" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1security_1_1_prompt_injection_detector_1ab4626e6bfa0e07c1c7d68d3989b6a846" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1security_1_1_prompt_injection_detector_1a442286b644ea7ce7fa8f46062025f411" kindref="member">PromptInjectionDetector</ref> &amp;</type>
+        <definition>PromptInjectionDetector &amp; themis::rag::security::PromptInjectionDetector::operator=</definition>
+        <argsstring>(const PromptInjectionDetector &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::security::PromptInjectionDetector::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1rag_1_1security_1_1_prompt_injection_detector_1a442286b644ea7ce7fa8f46062025f411" kindref="member">PromptInjectionDetector</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="108" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1security_1_1_prompt_injection_detector_1a095f07d02f51d3ac753896b20cbb6430" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::security::PromptInjectionDetector::PromptInjectionDetector</definition>
+        <argsstring>(PromptInjectionDetector &amp;&amp;) noexcept=default</argsstring>
+        <name>PromptInjectionDetector</name>
+        <qualifiedname>themis::rag::security::PromptInjectionDetector::PromptInjectionDetector</qualifiedname>
+        <param>
+          <type>PromptInjectionDetector &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="109" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1security_1_1_prompt_injection_detector_1ab15761e3f34990f22f82f6a947d2c754" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1security_1_1_prompt_injection_detector_1a442286b644ea7ce7fa8f46062025f411" kindref="member">PromptInjectionDetector</ref> &amp;</type>
+        <definition>PromptInjectionDetector &amp; themis::rag::security::PromptInjectionDetector::operator=</definition>
+        <argsstring>(PromptInjectionDetector &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::security::PromptInjectionDetector::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1security_1_1_prompt_injection_detector_1a442286b644ea7ce7fa8f46062025f411" kindref="member">PromptInjectionDetector</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="110" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1security_1_1_prompt_injection_detector_1ae90bcd3f809a8bfcc13078563cd24bca" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1security_1_1_injection_scan_result" kindref="compound">InjectionScanResult</ref></type>
+        <definition>InjectionScanResult themis::rag::security::PromptInjectionDetector::scan</definition>
+        <argsstring>(const std::string &amp;text) const</argsstring>
+        <name>scan</name>
+        <qualifiedname>themis::rag::security::PromptInjectionDetector::scan</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Scan a single text fragment for injection patterns. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw text to inspect (document content or answer). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Scan result containing all findings and max severity. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="117" column="25" bodyfile="src/rag/prompt_injection_detector.cpp" bodystart="252" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1security_1_1_prompt_injection_detector_1ada2bd10baf4f7ef6a4c7390f54c059cc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1security_1_1_injection_scan_result" kindref="compound">InjectionScanResult</ref> &gt;</type>
+        <definition>std::vector&lt; InjectionScanResult &gt; themis::rag::security::PromptInjectionDetector::scanDocuments</definition>
+        <argsstring>(const judge::EvaluationInput &amp;input) const</argsstring>
+        <name>scanDocuments</name>
+        <qualifiedname>themis::rag::security::PromptInjectionDetector::scanDocuments</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input" kindref="compound">judge::EvaluationInput</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Scan all retrieved documents in an EvaluationInput. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Full evaluation input. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Per-document scan results indexed by document position. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="125" column="5" bodyfile="src/rag/prompt_injection_detector.cpp" bodystart="325" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1security_1_1_prompt_injection_detector_1a9ab45f61bedf46fb2e78b576e386f86b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1security_1_1_detector_config" kindref="compound">DetectorConfig</ref></type>
+        <definition>DetectorConfig themis::rag::security::PromptInjectionDetector::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::rag::security::PromptInjectionDetector::getConfig</qualifiedname>
+        <briefdescription>
+<para>Return the current detector configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="130" column="20" bodyfile="src/rag/prompt_injection_detector.cpp" bodystart="247" bodyend="250"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Heuristic prompt-injection detector for retrieved RAG context. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Thread-safe for concurrent <computeroutput><ref refid="classthemis_1_1rag_1_1security_1_1_prompt_injection_detector_1ae90bcd3f809a8bfcc13078563cd24bca" kindref="member">scan()</ref></computeroutput> calls after construction. </para>
+    </detaileddescription>
+    <location file="include/rag/prompt_injection_detector.h" line="102" column="1" bodyfile="include/rag/prompt_injection_detector.h" bodystart="102" bodyend="135"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1security_1_1_prompt_injection_detector_1a9ab45f61bedf46fb2e78b576e386f86b" prot="public" virt="non-virtual"><scope>themis::rag::security::PromptInjectionDetector</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1security_1_1_prompt_injection_detector_1a13a43b8d7be542659f199b22eb42e963" prot="private" virt="non-virtual"><scope>themis::rag::security::PromptInjectionDetector</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1rag_1_1security_1_1_prompt_injection_detector_1ab4626e6bfa0e07c1c7d68d3989b6a846" prot="public" virt="non-virtual"><scope>themis::rag::security::PromptInjectionDetector</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1security_1_1_prompt_injection_detector_1ab15761e3f34990f22f82f6a947d2c754" prot="public" virt="non-virtual"><scope>themis::rag::security::PromptInjectionDetector</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1security_1_1_prompt_injection_detector_1a442286b644ea7ce7fa8f46062025f411" prot="public" virt="non-virtual"><scope>themis::rag::security::PromptInjectionDetector</scope><name>PromptInjectionDetector</name></member>
+      <member refid="classthemis_1_1rag_1_1security_1_1_prompt_injection_detector_1a04d75746af7c5618727a98f0573603ba" prot="public" virt="non-virtual"><scope>themis::rag::security::PromptInjectionDetector</scope><name>PromptInjectionDetector</name></member>
+      <member refid="classthemis_1_1rag_1_1security_1_1_prompt_injection_detector_1a095f07d02f51d3ac753896b20cbb6430" prot="public" virt="non-virtual"><scope>themis::rag::security::PromptInjectionDetector</scope><name>PromptInjectionDetector</name></member>
+      <member refid="classthemis_1_1rag_1_1security_1_1_prompt_injection_detector_1ae90bcd3f809a8bfcc13078563cd24bca" prot="public" virt="non-virtual"><scope>themis::rag::security::PromptInjectionDetector</scope><name>scan</name></member>
+      <member refid="classthemis_1_1rag_1_1security_1_1_prompt_injection_detector_1ada2bd10baf4f7ef6a4c7390f54c059cc" prot="public" virt="non-virtual"><scope>themis::rag::security::PromptInjectionDetector</scope><name>scanDocuments</name></member>
+      <member refid="classthemis_1_1rag_1_1security_1_1_prompt_injection_detector_1a8947b0297337cf01bcd2d3dd1e18c537" prot="public" virt="non-virtual"><scope>themis::rag::security::PromptInjectionDetector</scope><name>~PromptInjectionDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

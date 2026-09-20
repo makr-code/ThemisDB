@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1testing_1_1_mock_schema_validator_1_1_validation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::testing::MockSchemaValidator::ValidationResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_mock_schema_validator_1_1_validation_result_1a37a202848fa97398a29e23318ad3be02" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::aql::testing::MockSchemaValidator::ValidationResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::aql::testing::MockSchemaValidator::ValidationResult::success</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_schema_edge_cases.cpp" line="50" column="14" bodyfile="tests/aql/test_aql_schema_edge_cases.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_mock_schema_validator_1_1_validation_result_1a50006106ef762a4dfeb72b9797e5e5e0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::testing::MockSchemaValidator::ValidationResult::error_category</definition>
+        <argsstring></argsstring>
+        <name>error_category</name>
+        <qualifiedname>themis::aql::testing::MockSchemaValidator::ValidationResult::error_category</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_schema_edge_cases.cpp" line="51" column="21" bodyfile="tests/aql/test_aql_schema_edge_cases.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_mock_schema_validator_1_1_validation_result_1ae1bff7c5f101bf0615ffd3b644fe1870" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::testing::MockSchemaValidator::ValidationResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::aql::testing::MockSchemaValidator::ValidationResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_schema_edge_cases.cpp" line="52" column="21" bodyfile="tests/aql/test_aql_schema_edge_cases.cpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_mock_schema_validator_1_1_validation_result_1acf58f59d0b0747f2d76d797fd56aad3e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::testing::MockSchemaValidator::ValidationResult::schema_field</definition>
+        <argsstring></argsstring>
+        <name>schema_field</name>
+        <qualifiedname>themis::aql::testing::MockSchemaValidator::ValidationResult::schema_field</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_schema_edge_cases.cpp" line="53" column="21" bodyfile="tests/aql/test_aql_schema_edge_cases.cpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_mock_schema_validator_1_1_validation_result_1a9c4398cb07fa825697f4bd0251c3de34" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::testing::MockSchemaValidator::ValidationResult::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themis::aql::testing::MockSchemaValidator::ValidationResult::collection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_schema_edge_cases.cpp" line="54" column="21" bodyfile="tests/aql/test_aql_schema_edge_cases.cpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/aql/test_aql_schema_edge_cases.cpp" line="49" column="5" bodyfile="tests/aql/test_aql_schema_edge_cases.cpp" bodystart="49" bodyend="55"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_mock_schema_validator_1_1_validation_result_1a9c4398cb07fa825697f4bd0251c3de34" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockSchemaValidator::ValidationResult</scope><name>collection</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_mock_schema_validator_1_1_validation_result_1a50006106ef762a4dfeb72b9797e5e5e0" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockSchemaValidator::ValidationResult</scope><name>error_category</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_mock_schema_validator_1_1_validation_result_1ae1bff7c5f101bf0615ffd3b644fe1870" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockSchemaValidator::ValidationResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_mock_schema_validator_1_1_validation_result_1acf58f59d0b0747f2d76d797fd56aad3e" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockSchemaValidator::ValidationResult</scope><name>schema_field</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_mock_schema_validator_1_1_validation_result_1a37a202848fa97398a29e23318ad3be02" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockSchemaValidator::ValidationResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

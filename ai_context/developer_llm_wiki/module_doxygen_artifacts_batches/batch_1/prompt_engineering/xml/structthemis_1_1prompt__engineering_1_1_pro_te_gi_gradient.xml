@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_pro_te_gi_gradient" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::ProTeGiGradient</compoundname>
+    <includes refid="protegi__optimizer_8h" local="no">protegi_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_pro_te_gi_gradient_1ab768e6828bbf16679121b6f4e518e014" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::ProTeGiGradient::critique</definition>
+        <argsstring></argsstring>
+        <name>critique</name>
+        <qualifiedname>themis::prompt_engineering::ProTeGiGradient::critique</qualifiedname>
+        <briefdescription>
+<para>High-level explanation of current prompt failures. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/protegi_optimizer.h" line="50" column="17" bodyfile="include/prompt_engineering/protegi_optimizer.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_pro_te_gi_gradient_1a0e00370f7fd546e1516b151959fd8f34" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::prompt_engineering::ProTeGiGradient::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::prompt_engineering::ProTeGiGradient::errors</qualifiedname>
+        <briefdescription>
+<para>Per-example failure descriptions from the mini-batch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/protegi_optimizer.h" line="51" column="17" bodyfile="include/prompt_engineering/protegi_optimizer.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_pro_te_gi_gradient_1a214384c04917f8599e2a6fb63a227d30" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::ProTeGiGradient::error_rate</definition>
+        <argsstring></argsstring>
+        <name>error_rate</name>
+        <qualifiedname>themis::prompt_engineering::ProTeGiGradient::error_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Fraction of mini-batch examples that failed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/protegi_optimizer.h" line="52" column="12" bodyfile="include/prompt_engineering/protegi_optimizer.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Natural-language gradient produced by the critique step. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Mirrors the concept of a numeric gradient: it describes in natural language why the current prompt failed on the mini-batch and what to change. </para>
+    </detaileddescription>
+    <location file="include/prompt_engineering/protegi_optimizer.h" line="49" column="1" bodyfile="include/prompt_engineering/protegi_optimizer.h" bodystart="49" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_pro_te_gi_gradient_1ab768e6828bbf16679121b6f4e518e014" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ProTeGiGradient</scope><name>critique</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_pro_te_gi_gradient_1a214384c04917f8599e2a6fb63a227d30" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ProTeGiGradient</scope><name>error_rate</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_pro_te_gi_gradient_1a0e00370f7fd546e1516b151959fd8f34" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ProTeGiGradient</scope><name>errors</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

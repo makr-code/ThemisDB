@@ -1,0 +1,519 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__adapter__signing__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_adapter_signing_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="adapter__metadata_8h" local="yes">core/concerns/adapter_metadata.h</includes>
+    <includes refid="adapter__registry_8h" local="yes">core/concerns/adapter_registry.h</includes>
+    <includes refid="adapter__signing_8h" local="yes">core/concerns/adapter_signing.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>core/concerns/adapter_metadata.h</label>
+        <link refid="adapter__metadata_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>core/concerns/adapter_registry.h</label>
+        <link refid="adapter__registry_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>core/concerns/adapter_signing.h</label>
+        <link refid="adapter__signing_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>core/concerns/plugin_api.h</label>
+        <link refid="plugin__api_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/core/test_adapter_signing_focused.cpp</label>
+        <link refid="test__adapter__signing__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="17">
+        <label>iostream</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="13">
+        <label>shared_mutex</label>
+      </node>
+      <node id="16">
+        <label>stdexcept</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="19">
+        <label>string_view</label>
+      </node>
+      <node id="15">
+        <label>thread</label>
+      </node>
+      <node id="10">
+        <label>typeindex</label>
+      </node>
+      <node id="11">
+        <label>typeinfo</label>
+      </node>
+      <node id="12">
+        <label>unordered_map</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="struct_i_fake_adapter" prot="public">IFakeAdapter</innerclass>
+    <innerclass refid="struct_fake_adapter_impl" prot="public">FakeAdapterImpl</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__adapter__signing__focused_8cpp_1a2f9e74ed31936186931e69b484a9b823" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AdapterSigningTest, SGN_01_EmptySignatureNotPresent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AdapterSigningTest</type>
+        </param>
+        <param>
+          <type>SGN_01_EmptySignatureNotPresent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_adapter_signing_focused.cpp" line="11" column="1" bodyfile="tests/core/test_adapter_signing_focused.cpp" bodystart="11" bodyend="14"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adapter__signing__focused_8cpp_1a6d90d64d6a0253d7b28a6cace28ff88a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AdapterSigningTest, SGN_02_PopulatedSignatureIsPresent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AdapterSigningTest</type>
+        </param>
+        <param>
+          <type>SGN_02_PopulatedSignatureIsPresent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_adapter_signing_focused.cpp" line="19" column="1" bodyfile="tests/core/test_adapter_signing_focused.cpp" bodystart="19" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adapter__signing__focused_8cpp_1ae84302fbe9a5c07b1bc70f31686353b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AdapterSigningTest, SGN_03_Sha256HexEmptyInput)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AdapterSigningTest</type>
+        </param>
+        <param>
+          <type>SGN_03_Sha256HexEmptyInput</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_adapter_signing_focused.cpp" line="29" column="1" bodyfile="tests/core/test_adapter_signing_focused.cpp" bodystart="29" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adapter__signing__focused_8cpp_1af06ddc310a6225ae74bd6e6be427fbfb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AdapterSigningTest, SGN_04_CanonicalStringFormat)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AdapterSigningTest</type>
+        </param>
+        <param>
+          <type>SGN_04_CanonicalStringFormat</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_adapter_signing_focused.cpp" line="39" column="1" bodyfile="tests/core/test_adapter_signing_focused.cpp" bodystart="39" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adapter__signing__focused_8cpp_1a18c260e62dd04e82dcbfb73bfe7e2bf0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AdapterSigningTest, SGN_04b_CanonicalStringEmptyDescription)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AdapterSigningTest</type>
+        </param>
+        <param>
+          <type>SGN_04b_CanonicalStringEmptyDescription</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_adapter_signing_focused.cpp" line="49" column="1" bodyfile="tests/core/test_adapter_signing_focused.cpp" bodystart="49" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adapter__signing__focused_8cpp_1ac65274a2397d2043b6c83c9620750512" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AdapterSigningTest, SGN_05_MatchingDigestAccepted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AdapterSigningTest</type>
+        </param>
+        <param>
+          <type>SGN_05_MatchingDigestAccepted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_adapter_signing_focused.cpp" line="61" column="1" bodyfile="tests/core/test_adapter_signing_focused.cpp" bodystart="61" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adapter__signing__focused_8cpp_1aef5361749fb887c1cc50ec1a93fcb8be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AdapterSigningTest, SGN_06_MismatchedDigestRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AdapterSigningTest</type>
+        </param>
+        <param>
+          <type>SGN_06_MismatchedDigestRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_adapter_signing_focused.cpp" line="80" column="1" bodyfile="tests/core/test_adapter_signing_focused.cpp" bodystart="80" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adapter__signing__focused_8cpp_1a4f3abce01070bb16bb18c460aa83929b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AdapterSigningTest, SGN_07_EmptySignatureRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AdapterSigningTest</type>
+        </param>
+        <param>
+          <type>SGN_07_EmptySignatureRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_adapter_signing_focused.cpp" line="96" column="1" bodyfile="tests/core/test_adapter_signing_focused.cpp" bodystart="96" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adapter__signing__focused_8cpp_1a5bc6277de750442db6c3551eb8f994a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AdapterSigningTest, SGN_08_UnknownAlgorithmRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AdapterSigningTest</type>
+        </param>
+        <param>
+          <type>SGN_08_UnknownAlgorithmRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_adapter_signing_focused.cpp" line="110" column="1" bodyfile="tests/core/test_adapter_signing_focused.cpp" bodystart="110" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adapter__signing__focused_8cpp_1a0007f4dc167456bdc648c83996f8797b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AdapterSigningTest, SGN_09_RegisterAdapterPassesWithValidSignature)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AdapterSigningTest</type>
+        </param>
+        <param>
+          <type>SGN_09_RegisterAdapterPassesWithValidSignature</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_adapter_signing_focused.cpp" line="136" column="1" bodyfile="tests/core/test_adapter_signing_focused.cpp" bodystart="136" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="test__adapter__signing__focused_8cpp_1acbe6c50624c637e514586492092d97a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AdapterSigningTest, SGN_10_RegisterAdapterThrowsWithWrongSignature)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AdapterSigningTest</type>
+        </param>
+        <param>
+          <type>SGN_10_RegisterAdapterThrowsWithWrongSignature</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_adapter_signing_focused.cpp" line="163" column="1" bodyfile="tests/core/test_adapter_signing_focused.cpp" bodystart="163" bodyend="179"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="adapter__metadata_8h" kindref="compound">core/concerns/adapter_metadata.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="adapter__registry_8h" kindref="compound">core/concerns/adapter_registry.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="adapter__signing_8h" kindref="compound">core/concerns/adapter_signing.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1core_1_1concerns" kindref="compound">themis::core::concerns</ref>;</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SGN_01<sp/>—<sp/>AdapterSignature::present()<sp/>returns<sp/>false<sp/>when<sp/>both<sp/>fields<sp/>empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><ref refid="test__adapter__signing__focused_8cpp_1a2f9e74ed31936186931e69b484a9b823" kindref="member">TEST</ref>(AdapterSigningTest,<sp/>SGN_01_EmptySignatureNotPresent)<sp/>{</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_signature" kindref="compound">AdapterSignature</ref><sp/>sig;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(sig.<ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_signature_1ac5dc08597b3a9e8f2e50716489cf7313" kindref="member">present</ref>());</highlight></codeline>
+<codeline lineno="14"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SGN_02<sp/>—<sp/>AdapterSignature::present()<sp/>returns<sp/>true<sp/>when<sp/>both<sp/>fields<sp/>set</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><ref refid="test__adapter__signing__focused_8cpp_1a2f9e74ed31936186931e69b484a9b823" kindref="member">TEST</ref>(AdapterSigningTest,<sp/>SGN_02_PopulatedSignatureIsPresent)<sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_signature" kindref="compound">AdapterSignature</ref><sp/>sig{</highlight><highlight class="stringliteral">&quot;sha256&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;deadbeef&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sig.<ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_signature_1ac5dc08597b3a9e8f2e50716489cf7313" kindref="member">present</ref>());</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SGN_03<sp/>—<sp/>sha256Hex<sp/>produces<sp/>correct<sp/>digest<sp/>for<sp/>empty<sp/>string</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SHA-256(&quot;&quot;)<sp/>==<sp/>e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><ref refid="test__adapter__signing__focused_8cpp_1a2f9e74ed31936186931e69b484a9b823" kindref="member">TEST</ref>(AdapterSigningTest,<sp/>SGN_03_Sha256HexEmptyInput)<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>hash<sp/>=<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator_1a98adb3e44d6ece5e7cda65ca60fe0804" kindref="member">SignedAdapterValidator::sha256Hex</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(hash.size(),<sp/>64u);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(hash,</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SGN_04<sp/>—<sp/>canonicalString<sp/>format:<sp/>id:apiVersion:description</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><ref refid="test__adapter__signing__focused_8cpp_1a2f9e74ed31936186931e69b484a9b823" kindref="member">TEST</ref>(AdapterSigningTest,<sp/>SGN_04_CanonicalStringFormat)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref><sp/>m;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata_1a3032b94bcc75388c16754b27ac59bcee" kindref="member">id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;my_logger&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata_1aba1e1b0560f539d2381555203fec8cae" kindref="member">apiVersion</ref><sp/><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata_1ac8475a42e8a3e41debb30483d4c85365" kindref="member">description</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;custom<sp/>logger&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>cs<sp/>=<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator_1a7a7bbd3c94c196686110bd2976120c7b" kindref="member">SignedAdapterValidator::canonicalString</ref>(m);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cs,<sp/></highlight><highlight class="stringliteral">&quot;my_logger:2:custom<sp/>logger&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><ref refid="test__adapter__signing__focused_8cpp_1a2f9e74ed31936186931e69b484a9b823" kindref="member">TEST</ref>(AdapterSigningTest,<sp/>SGN_04b_CanonicalStringEmptyDescription)<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref><sp/>m;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata_1a3032b94bcc75388c16754b27ac59bcee" kindref="member">id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;tracer&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata_1aba1e1b0560f539d2381555203fec8cae" kindref="member">apiVersion</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>description<sp/>intentionally<sp/>empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator_1a7a7bbd3c94c196686110bd2976120c7b" kindref="member">SignedAdapterValidator::canonicalString</ref>(m),<sp/></highlight><highlight class="stringliteral">&quot;tracer:1:&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SGN_05<sp/>—<sp/>SignedAdapterValidator<sp/>accepts<sp/>matching<sp/>digest</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><ref refid="test__adapter__signing__focused_8cpp_1a2f9e74ed31936186931e69b484a9b823" kindref="member">TEST</ref>(AdapterSigningTest,<sp/>SGN_05_MatchingDigestAccepted)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref><sp/>m;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata_1a3032b94bcc75388c16754b27ac59bcee" kindref="member">id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;alpha&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata_1aba1e1b0560f539d2381555203fec8cae" kindref="member">apiVersion</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata_1ac8475a42e8a3e41debb30483d4c85365" kindref="member">description</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>canonical<sp/>=<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator_1a7a7bbd3c94c196686110bd2976120c7b" kindref="member">SignedAdapterValidator::canonicalString</ref>(m);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>digest<sp/><sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator_1a98adb3e44d6ece5e7cda65ca60fe0804" kindref="member">SignedAdapterValidator::sha256Hex</ref>(canonical);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(digest.empty());</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_signature" kindref="compound">AdapterSignature</ref><sp/>sig{</highlight><highlight class="stringliteral">&quot;sha256&quot;</highlight><highlight class="normal">,<sp/>digest};</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator" kindref="compound">SignedAdapterValidator</ref><sp/>validator{sig};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(validator.<ref refid="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator_1a7d6b769b0b4df959eceac644d661c754" kindref="member">validate</ref>(m));</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SGN_06<sp/>—<sp/>SignedAdapterValidator<sp/>rejects<sp/>mismatched<sp/>digest</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><ref refid="test__adapter__signing__focused_8cpp_1a2f9e74ed31936186931e69b484a9b823" kindref="member">TEST</ref>(AdapterSigningTest,<sp/>SGN_06_MismatchedDigestRejected)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref><sp/>m;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata_1a3032b94bcc75388c16754b27ac59bcee" kindref="member">id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;beta&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata_1aba1e1b0560f539d2381555203fec8cae" kindref="member">apiVersion</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_signature" kindref="compound">AdapterSignature</ref><sp/>sig{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;sha256&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;0000000000000000000000000000000000000000000000000000000000000000&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator" kindref="compound">SignedAdapterValidator</ref><sp/>validator{sig};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(validator.<ref refid="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator_1a7d6b769b0b4df959eceac644d661c754" kindref="member">validate</ref>(m));</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SGN_07<sp/>—<sp/>SignedAdapterValidator<sp/>rejects<sp/>empty<sp/>signature</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="test__adapter__signing__focused_8cpp_1a2f9e74ed31936186931e69b484a9b823" kindref="member">TEST</ref>(AdapterSigningTest,<sp/>SGN_07_EmptySignatureRejected)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref><sp/>m;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata_1a3032b94bcc75388c16754b27ac59bcee" kindref="member">id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;gamma&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata_1aba1e1b0560f539d2381555203fec8cae" kindref="member">apiVersion</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_signature" kindref="compound">AdapterSignature</ref><sp/>sig;<sp/></highlight><highlight class="comment">//<sp/>empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator" kindref="compound">SignedAdapterValidator</ref><sp/>validator{sig};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(validator.<ref refid="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator_1a7d6b769b0b4df959eceac644d661c754" kindref="member">validate</ref>(m));</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SGN_08<sp/>—<sp/>SignedAdapterValidator<sp/>rejects<sp/>unknown<sp/>algorithm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><ref refid="test__adapter__signing__focused_8cpp_1a2f9e74ed31936186931e69b484a9b823" kindref="member">TEST</ref>(AdapterSigningTest,<sp/>SGN_08_UnknownAlgorithmRejected)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref><sp/>m;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata_1a3032b94bcc75388c16754b27ac59bcee" kindref="member">id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;delta&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata_1aba1e1b0560f539d2381555203fec8cae" kindref="member">apiVersion</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_signature" kindref="compound">AdapterSignature</ref><sp/>sig{</highlight><highlight class="stringliteral">&quot;md5&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;d41d8cd98f00b204e9800998ecf8427e&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator" kindref="compound">SignedAdapterValidator</ref><sp/>validator{sig};</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(validator.<ref refid="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator_1a7d6b769b0b4df959eceac644d661c754" kindref="member">validate</ref>(m));</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SGN_09<sp/>—<sp/>Integration:<sp/>registerAdapter<sp/>passes<sp/>when<sp/>digest<sp/>matches</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="struct_i_fake_adapter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_i_fake_adapter" kindref="compound">IFakeAdapter</ref><sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="struct_i_fake_adapter_1a234773930c3062412a12e82973269c12" kindref="member">~IFakeAdapter</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_i_fake_adapter_1a08119290ed998adeaeae66aa67af6728" kindref="member">value</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="struct_fake_adapter_impl" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_fake_adapter_impl_1a4a8c1d48bd2a2047c77fecef194d1ef7" kindref="member">FakeAdapterImpl</ref><sp/>:<sp/><ref refid="struct_i_fake_adapter" kindref="compound">IFakeAdapter</ref><sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="struct_fake_adapter_impl_1a4a8c1d48bd2a2047c77fecef194d1ef7" kindref="member">FakeAdapterImpl</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>v)<sp/>:<sp/><ref refid="struct_fake_adapter_impl_1ac36a13366a330e6621c109df2168acc7" kindref="member">v_</ref>(v)<sp/>{}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_fake_adapter_impl_1a3e1c58d85d5f6ad19c06625a57e179da" kindref="member">value</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="struct_fake_adapter_impl_1ac36a13366a330e6621c109df2168acc7" kindref="member">v_</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_fake_adapter_impl_1ac36a13366a330e6621c109df2168acc7" kindref="member">v_</ref>;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><ref refid="test__adapter__signing__focused_8cpp_1a2f9e74ed31936186931e69b484a9b823" kindref="member">TEST</ref>(AdapterSigningTest,<sp/>SGN_09_RegisterAdapterPassesWithValidSignature)<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref><sp/>meta;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata_1a3032b94bcc75388c16754b27ac59bcee" kindref="member">id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;signed_adapter&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata_1aba1e1b0560f539d2381555203fec8cae" kindref="member">apiVersion</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata_1ac8475a42e8a3e41debb30483d4c85365" kindref="member">description</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>canonical<sp/>=<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator_1a7a7bbd3c94c196686110bd2976120c7b" kindref="member">SignedAdapterValidator::canonicalString</ref>(meta);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>digest<sp/><sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator_1a98adb3e44d6ece5e7cda65ca60fe0804" kindref="member">SignedAdapterValidator::sha256Hex</ref>(canonical);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_signature" kindref="compound">AdapterSignature</ref><sp/>sig{</highlight><highlight class="stringliteral">&quot;sha256&quot;</highlight><highlight class="normal">,<sp/>digest};</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator" kindref="compound">SignedAdapterValidator</ref><sp/>validator{sig};</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry" kindref="compound">AdapterRegistry</ref><sp/>reg;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>adapter<sp/>=<sp/>std::make_shared&lt;FakeAdapterImpl&gt;(99);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>NOT<sp/>throw</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a30e37c633be5c2c4c72c96db933ad48c" kindref="member">registerAdapter</ref>&lt;<ref refid="struct_i_fake_adapter" kindref="compound">IFakeAdapter</ref>&gt;(</highlight><highlight class="stringliteral">&quot;signed_adapter&quot;</highlight><highlight class="normal">,<sp/>adapter,<sp/>&amp;validator,<sp/>meta));</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resolved<sp/>=<sp/>reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1aa3fdc9365fa08763b690cff199708b4d" kindref="member">resolve</ref>&lt;<ref refid="struct_i_fake_adapter" kindref="compound">IFakeAdapter</ref>&gt;();</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(resolved,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(resolved-&gt;value(),<sp/>99);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SGN_10<sp/>—<sp/>Integration:<sp/>registerAdapter<sp/>throws<sp/>with<sp/>wrong<sp/>signature</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><ref refid="test__adapter__signing__focused_8cpp_1a2f9e74ed31936186931e69b484a9b823" kindref="member">TEST</ref>(AdapterSigningTest,<sp/>SGN_10_RegisterAdapterThrowsWithWrongSignature)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref><sp/>meta;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata_1a3032b94bcc75388c16754b27ac59bcee" kindref="member">id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;bad_sig_adapter&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata_1aba1e1b0560f539d2381555203fec8cae" kindref="member">apiVersion</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_signature" kindref="compound">AdapterSignature</ref><sp/>sig{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;sha256&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator" kindref="compound">SignedAdapterValidator</ref><sp/>validator{sig};</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry" kindref="compound">AdapterRegistry</ref><sp/>reg;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>adapter<sp/>=<sp/>std::make_shared&lt;FakeAdapterImpl&gt;(1);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>reg.<ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a30e37c633be5c2c4c72c96db933ad48c" kindref="member">registerAdapter</ref>&lt;<ref refid="struct_i_fake_adapter" kindref="compound">IFakeAdapter</ref>&gt;(</highlight><highlight class="stringliteral">&quot;bad_sig_adapter&quot;</highlight><highlight class="normal">,<sp/>adapter,<sp/>&amp;validator,<sp/>meta),</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/core/test_adapter_signing_focused.cpp"/>
+  </compounddef>
+</doxygen>

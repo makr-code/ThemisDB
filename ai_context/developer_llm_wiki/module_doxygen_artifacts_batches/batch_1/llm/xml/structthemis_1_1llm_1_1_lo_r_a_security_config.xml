@@ -1,0 +1,222 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_lo_r_a_security_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::LoRASecurityConfig</compoundname>
+    <includes refid="lora__security__validator_8h" local="no">lora_security_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_security_config_1ac3b59166b84bc1537d47711b314d992e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LoRASecurityConfig::require_signature</definition>
+        <argsstring></argsstring>
+        <name>require_signature</name>
+        <qualifiedname>themis::llm::LoRASecurityConfig::require_signature</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="49" column="10" bodyfile="include/llm/lora_security_validator.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_security_config_1a141651005a6280e06bfcd3c09ae455d5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::LoRASecurityConfig::trusted_signers</definition>
+        <argsstring></argsstring>
+        <name>trusted_signers</name>
+        <qualifiedname>themis::llm::LoRASecurityConfig::trusted_signers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="50" column="17" bodyfile="include/llm/lora_security_validator.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_security_config_1af0698bcb61a0e354f0e960208e330c19" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LoRASecurityConfig::enforce_cert_validity</definition>
+        <argsstring></argsstring>
+        <name>enforce_cert_validity</name>
+        <qualifiedname>themis::llm::LoRASecurityConfig::enforce_cert_validity</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="51" column="10" bodyfile="include/llm/lora_security_validator.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_security_config_1aefbe5d02bfb45bca18d19e34660b9eb4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LoRASecurityConfig::cert_store_path</definition>
+        <argsstring></argsstring>
+        <name>cert_store_path</name>
+        <qualifiedname>themis::llm::LoRASecurityConfig::cert_store_path</qualifiedname>
+        <initializer>= &quot;config/<ref refid="namespacethemis_1_1llm_1_1security" kindref="compound">security</ref>/lora_certs/&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="55" column="17" bodyfile="include/llm/lora_security_validator.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_security_config_1a79ad7ae8d72d7d162d8a8e8a9dc36f09" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LoRASecurityConfig::system_cert_store_path</definition>
+        <argsstring></argsstring>
+        <name>system_cert_store_path</name>
+        <qualifiedname>themis::llm::LoRASecurityConfig::system_cert_store_path</qualifiedname>
+        <initializer>= &quot;/etc/ssl/certs&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="57" column="17" bodyfile="include/llm/lora_security_validator.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_security_config_1ab9f743721d3124330bae77ee871f19d4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LoRASecurityConfig::verify_checksum</definition>
+        <argsstring></argsstring>
+        <name>verify_checksum</name>
+        <qualifiedname>themis::llm::LoRASecurityConfig::verify_checksum</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="60" column="10" bodyfile="include/llm/lora_security_validator.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_security_config_1acf25664d29e4de39faa656921999a918" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LoRASecurityConfig::detect_weight_anomalies</definition>
+        <argsstring></argsstring>
+        <name>detect_weight_anomalies</name>
+        <qualifiedname>themis::llm::LoRASecurityConfig::detect_weight_anomalies</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="61" column="10" bodyfile="include/llm/lora_security_validator.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_security_config_1ab80150e2f3250d7a51f6b943d874feab" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::LoRASecurityConfig::anomaly_threshold</definition>
+        <argsstring></argsstring>
+        <name>anomaly_threshold</name>
+        <qualifiedname>themis::llm::LoRASecurityConfig::anomaly_threshold</qualifiedname>
+        <initializer>= 0.95f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="62" column="11" bodyfile="include/llm/lora_security_validator.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_security_config_1af9960eeb19318f8b86aaf80718f8403c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LoRASecurityConfig::validate_metadata</definition>
+        <argsstring></argsstring>
+        <name>validate_metadata</name>
+        <qualifiedname>themis::llm::LoRASecurityConfig::validate_metadata</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="65" column="10" bodyfile="include/llm/lora_security_validator.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_security_config_1a6b1d36558b57e52350d6ec6b7eca13fe" prot="public" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::llm::LoRASecurityConfig::allowed_base_models</definition>
+        <argsstring></argsstring>
+        <name>allowed_base_models</name>
+        <qualifiedname>themis::llm::LoRASecurityConfig::allowed_base_models</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="66" column="24" bodyfile="include/llm/lora_security_validator.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_security_config_1ad10a95db13ff4c66117b2d1692cc2c7b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LoRASecurityConfig::max_adapter_size_mb</definition>
+        <argsstring></argsstring>
+        <name>max_adapter_size_mb</name>
+        <qualifiedname>themis::llm::LoRASecurityConfig::max_adapter_size_mb</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="67" column="12" bodyfile="include/llm/lora_security_validator.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_security_config_1a5b01e245a793b0274c1b6fefb2f25110" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LoRASecurityConfig::min_rank</definition>
+        <argsstring></argsstring>
+        <name>min_rank</name>
+        <qualifiedname>themis::llm::LoRASecurityConfig::min_rank</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="68" column="12" bodyfile="include/llm/lora_security_validator.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_security_config_1a872bbc3726ad9919d1c9225b65a372b0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LoRASecurityConfig::max_rank</definition>
+        <argsstring></argsstring>
+        <name>max_rank</name>
+        <qualifiedname>themis::llm::LoRASecurityConfig::max_rank</qualifiedname>
+        <initializer>= 128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="69" column="12" bodyfile="include/llm/lora_security_validator.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_security_validator.h" line="47" column="1" bodyfile="include/llm/lora_security_validator.h" bodystart="47" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_security_config_1a6b1d36558b57e52350d6ec6b7eca13fe" prot="public" virt="non-virtual"><scope>themis::llm::LoRASecurityConfig</scope><name>allowed_base_models</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_security_config_1ab80150e2f3250d7a51f6b943d874feab" prot="public" virt="non-virtual"><scope>themis::llm::LoRASecurityConfig</scope><name>anomaly_threshold</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_security_config_1aefbe5d02bfb45bca18d19e34660b9eb4" prot="public" virt="non-virtual"><scope>themis::llm::LoRASecurityConfig</scope><name>cert_store_path</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_security_config_1acf25664d29e4de39faa656921999a918" prot="public" virt="non-virtual"><scope>themis::llm::LoRASecurityConfig</scope><name>detect_weight_anomalies</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_security_config_1af0698bcb61a0e354f0e960208e330c19" prot="public" virt="non-virtual"><scope>themis::llm::LoRASecurityConfig</scope><name>enforce_cert_validity</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_security_config_1ad10a95db13ff4c66117b2d1692cc2c7b" prot="public" virt="non-virtual"><scope>themis::llm::LoRASecurityConfig</scope><name>max_adapter_size_mb</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_security_config_1a872bbc3726ad9919d1c9225b65a372b0" prot="public" virt="non-virtual"><scope>themis::llm::LoRASecurityConfig</scope><name>max_rank</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_security_config_1a5b01e245a793b0274c1b6fefb2f25110" prot="public" virt="non-virtual"><scope>themis::llm::LoRASecurityConfig</scope><name>min_rank</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_security_config_1ac3b59166b84bc1537d47711b314d992e" prot="public" virt="non-virtual"><scope>themis::llm::LoRASecurityConfig</scope><name>require_signature</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_security_config_1a79ad7ae8d72d7d162d8a8e8a9dc36f09" prot="public" virt="non-virtual"><scope>themis::llm::LoRASecurityConfig</scope><name>system_cert_store_path</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_security_config_1a141651005a6280e06bfcd3c09ae455d5" prot="public" virt="non-virtual"><scope>themis::llm::LoRASecurityConfig</scope><name>trusted_signers</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_security_config_1af9960eeb19318f8b86aaf80718f8403c" prot="public" virt="non-virtual"><scope>themis::llm::LoRASecurityConfig</scope><name>validate_metadata</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_security_config_1ab9f743721d3124330bae77ee871f19d4" prot="public" virt="non-virtual"><scope>themis::llm::LoRASecurityConfig</scope><name>verify_checksum</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,359 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_pipeline_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::PipelineConfig</compoundname>
+    <includes refid="training__pipeline_8h" local="no">training_pipeline.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_pipeline_config_1a037b7b2066117af06e4dc3a38bc16a6b" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1training_1_1_auto_label_config" kindref="compound">AutoLabelConfig</ref></type>
+        <definition>AutoLabelConfig themis::training::PipelineConfig::labeler_config</definition>
+        <argsstring></argsstring>
+        <name>labeler_config</name>
+        <qualifiedname>themis::training::PipelineConfig::labeler_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="274" column="30" bodyfile="include/training/training_pipeline.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_pipeline_config_1a368ca60cb935b7c82e04998c2f17fa19" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1training_1_1_enrichment_config" kindref="compound">EnrichmentConfig</ref></type>
+        <definition>EnrichmentConfig themis::training::PipelineConfig::enricher_config</definition>
+        <argsstring></argsstring>
+        <name>enricher_config</name>
+        <qualifiedname>themis::training::PipelineConfig::enricher_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="275" column="30" bodyfile="include/training/training_pipeline.h" bodystart="275" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_pipeline_config_1affe4e22dca07dffd4513ee0af4a7f9bf" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1training_1_1_incremental_training_config" kindref="compound">IncrementalTrainingConfig</ref></type>
+        <definition>IncrementalTrainingConfig themis::training::PipelineConfig::trainer_config</definition>
+        <argsstring></argsstring>
+        <name>trainer_config</name>
+        <qualifiedname>themis::training::PipelineConfig::trainer_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="276" column="31" bodyfile="include/training/training_pipeline.h" bodystart="276" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_pipeline_config_1a3c529f2bce7556b9b1b58892623b42da" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_lo_r_a_data_selection_config" kindref="compound">LoRADataSelectionConfig</ref></type>
+        <definition>LoRADataSelectionConfig themis::training::PipelineConfig::data_selection_config</definition>
+        <argsstring></argsstring>
+        <name>data_selection_config</name>
+        <qualifiedname>themis::training::PipelineConfig::data_selection_config</qualifiedname>
+        <briefdescription>
+<para>Automated data selection settings. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="277" column="30" bodyfile="include/training/training_pipeline.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_pipeline_config_1a30a019d814810319f6d9156702bf1474" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1training_1_1_provenance_tracker_config" kindref="compound">ProvenanceTrackerConfig</ref></type>
+        <definition>ProvenanceTrackerConfig themis::training::PipelineConfig::provenance_config</definition>
+        <argsstring></argsstring>
+        <name>provenance_config</name>
+        <qualifiedname>themis::training::PipelineConfig::provenance_config</qualifiedname>
+        <briefdescription>
+<para>Provenance tracker settings. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="280" column="30" bodyfile="include/training/training_pipeline.h" bodystart="280" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_pipeline_config_1a8f028ac6b1490cc7f96c5aa15ec816af" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::PipelineConfig::enable_provenance</definition>
+        <argsstring></argsstring>
+        <name>enable_provenance</name>
+        <qualifiedname>themis::training::PipelineConfig::enable_provenance</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Write provenance records after labeling (Phase 3). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="281" column="10" bodyfile="include/training/training_pipeline.h" bodystart="281" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_pipeline_config_1a663328ff34c49853b6548a6984fefdd4" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1training_1_1_checkpoint_manager_config" kindref="compound">CheckpointManagerConfig</ref></type>
+        <definition>CheckpointManagerConfig themis::training::PipelineConfig::checkpoint_manager_config</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_manager_config</name>
+        <qualifiedname>themis::training::PipelineConfig::checkpoint_manager_config</qualifiedname>
+        <briefdescription>
+<para>Checkpoint manager settings. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="284" column="30" bodyfile="include/training/training_pipeline.h" bodystart="284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_pipeline_config_1ad98a1e31c9f00bbfee4929ac0f95161f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::PipelineConfig::enable_checkpoint_manager</definition>
+        <argsstring></argsstring>
+        <name>enable_checkpoint_manager</name>
+        <qualifiedname>themis::training::PipelineConfig::enable_checkpoint_manager</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Enable checkpoint manager for calibration manifest. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="285" column="10" bodyfile="include/training/training_pipeline.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_pipeline_config_1af709380de82e22c05ecb6de9f6196ced" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::PipelineConfig::enable_labeling</definition>
+        <argsstring></argsstring>
+        <name>enable_labeling</name>
+        <qualifiedname>themis::training::PipelineConfig::enable_labeling</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Run auto-labeling stage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="287" column="10" bodyfile="include/training/training_pipeline.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_pipeline_config_1aa3d9a4eb2d28cdafc89dc497406c237a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::PipelineConfig::enable_enrichment</definition>
+        <argsstring></argsstring>
+        <name>enable_enrichment</name>
+        <qualifiedname>themis::training::PipelineConfig::enable_enrichment</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Run graph enrichment stage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="288" column="10" bodyfile="include/training/training_pipeline.h" bodystart="288" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_pipeline_config_1a7ab018626c92ee4cb9acb7d70314a655" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::PipelineConfig::enable_data_selection</definition>
+        <argsstring></argsstring>
+        <name>enable_data_selection</name>
+        <qualifiedname>themis::training::PipelineConfig::enable_data_selection</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Run automated data selection stage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="289" column="10" bodyfile="include/training/training_pipeline.h" bodystart="289" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_pipeline_config_1a5818a6a7051c694ee0aa3069d1064d5d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::PipelineConfig::enable_training</definition>
+        <argsstring></argsstring>
+        <name>enable_training</name>
+        <qualifiedname>themis::training::PipelineConfig::enable_training</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Run LoRA training stage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="290" column="10" bodyfile="include/training/training_pipeline.h" bodystart="290" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_pipeline_config_1a83ec84be7d53a1d176d77ec046d030d0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::PipelineConfig::enable_quality_checks</definition>
+        <argsstring></argsstring>
+        <name>enable_quality_checks</name>
+        <qualifiedname>themis::training::PipelineConfig::enable_quality_checks</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Run data-quality checks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="291" column="10" bodyfile="include/training/training_pipeline.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_pipeline_config_1ad4b59fdc45734fc6c911dd7ee8237b46" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::PipelineConfig::enable_drift_detection</definition>
+        <argsstring></argsstring>
+        <name>enable_drift_detection</name>
+        <qualifiedname>themis::training::PipelineConfig::enable_drift_detection</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Run label-drift detection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="292" column="10" bodyfile="include/training/training_pipeline.h" bodystart="292" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_pipeline_config_1aaf441f6683f24042af4c8ace083a2be8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::PipelineConfig::min_quality_score</definition>
+        <argsstring></argsstring>
+        <name>min_quality_score</name>
+        <qualifiedname>themis::training::PipelineConfig::min_quality_score</qualifiedname>
+        <initializer>= 0.7</initializer>
+        <briefdescription>
+<para>Minimum overall quality score [0..1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="294" column="12" bodyfile="include/training/training_pipeline.h" bodystart="294" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_pipeline_config_1a5d4e170c218243a85510c2142b52752d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::PipelineConfig::drift_threshold</definition>
+        <argsstring></argsstring>
+        <name>drift_threshold</name>
+        <qualifiedname>themis::training::PipelineConfig::drift_threshold</qualifiedname>
+        <initializer>= 0.2</initializer>
+        <briefdescription>
+<para>Maximum acceptable drift score [0..1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="295" column="12" bodyfile="include/training/training_pipeline.h" bodystart="295" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_pipeline_config_1af3b2a6b60425c3219526f6342b23bf74" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::PipelineConfig::PipelineConfig</definition>
+        <argsstring>()=default</argsstring>
+        <name>PipelineConfig</name>
+        <qualifiedname>themis::training::PipelineConfig::PipelineConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="297" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Full training pipeline configuration (Phase 7). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::training::AutoLabelConfig</label>
+        <link refid="structthemis_1_1training_1_1_auto_label_config"/>
+      </node>
+      <node id="9">
+        <label>themis::training::CheckpointManagerConfig</label>
+        <link refid="structthemis_1_1training_1_1_checkpoint_manager_config"/>
+      </node>
+      <node id="4">
+        <label>themis::training::EnrichmentCacheConfig</label>
+        <link refid="structthemis_1_1training_1_1_enrichment_cache_config"/>
+      </node>
+      <node id="3">
+        <label>themis::training::EnrichmentConfig</label>
+        <link refid="structthemis_1_1training_1_1_enrichment_config"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>cache</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::training::IncrementalTrainingConfig</label>
+        <link refid="structthemis_1_1training_1_1_incremental_training_config"/>
+        <childnode refid="6" relation="usage">
+          <edgelabel>quantization</edgelabel>
+        </childnode>
+      </node>
+      <node id="7">
+        <label>themis::training::LoRADataSelectionConfig</label>
+        <link refid="structthemis_1_1training_1_1_lo_r_a_data_selection_config"/>
+      </node>
+      <node id="1">
+        <label>themis::training::PipelineConfig</label>
+        <link refid="structthemis_1_1training_1_1_pipeline_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>labeler_config</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>enricher_config</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>trainer_config</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>data_selection_config</edgelabel>
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>provenance_config</edgelabel>
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>checkpoint_manager_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="8">
+        <label>themis::training::ProvenanceTrackerConfig</label>
+        <link refid="structthemis_1_1training_1_1_provenance_tracker_config"/>
+      </node>
+      <node id="6">
+        <label>themis::training::QuantizationConfig</label>
+        <link refid="structthemis_1_1training_1_1_quantization_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/training/training_pipeline.h" line="273" column="1" bodyfile="include/training/training_pipeline.h" bodystart="273" bodyend="298"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_pipeline_config_1a663328ff34c49853b6548a6984fefdd4" prot="public" virt="non-virtual"><scope>themis::training::PipelineConfig</scope><name>checkpoint_manager_config</name></member>
+      <member refid="structthemis_1_1training_1_1_pipeline_config_1a3c529f2bce7556b9b1b58892623b42da" prot="public" virt="non-virtual"><scope>themis::training::PipelineConfig</scope><name>data_selection_config</name></member>
+      <member refid="structthemis_1_1training_1_1_pipeline_config_1a5d4e170c218243a85510c2142b52752d" prot="public" virt="non-virtual"><scope>themis::training::PipelineConfig</scope><name>drift_threshold</name></member>
+      <member refid="structthemis_1_1training_1_1_pipeline_config_1ad98a1e31c9f00bbfee4929ac0f95161f" prot="public" virt="non-virtual"><scope>themis::training::PipelineConfig</scope><name>enable_checkpoint_manager</name></member>
+      <member refid="structthemis_1_1training_1_1_pipeline_config_1a7ab018626c92ee4cb9acb7d70314a655" prot="public" virt="non-virtual"><scope>themis::training::PipelineConfig</scope><name>enable_data_selection</name></member>
+      <member refid="structthemis_1_1training_1_1_pipeline_config_1ad4b59fdc45734fc6c911dd7ee8237b46" prot="public" virt="non-virtual"><scope>themis::training::PipelineConfig</scope><name>enable_drift_detection</name></member>
+      <member refid="structthemis_1_1training_1_1_pipeline_config_1aa3d9a4eb2d28cdafc89dc497406c237a" prot="public" virt="non-virtual"><scope>themis::training::PipelineConfig</scope><name>enable_enrichment</name></member>
+      <member refid="structthemis_1_1training_1_1_pipeline_config_1af709380de82e22c05ecb6de9f6196ced" prot="public" virt="non-virtual"><scope>themis::training::PipelineConfig</scope><name>enable_labeling</name></member>
+      <member refid="structthemis_1_1training_1_1_pipeline_config_1a8f028ac6b1490cc7f96c5aa15ec816af" prot="public" virt="non-virtual"><scope>themis::training::PipelineConfig</scope><name>enable_provenance</name></member>
+      <member refid="structthemis_1_1training_1_1_pipeline_config_1a83ec84be7d53a1d176d77ec046d030d0" prot="public" virt="non-virtual"><scope>themis::training::PipelineConfig</scope><name>enable_quality_checks</name></member>
+      <member refid="structthemis_1_1training_1_1_pipeline_config_1a5818a6a7051c694ee0aa3069d1064d5d" prot="public" virt="non-virtual"><scope>themis::training::PipelineConfig</scope><name>enable_training</name></member>
+      <member refid="structthemis_1_1training_1_1_pipeline_config_1a368ca60cb935b7c82e04998c2f17fa19" prot="public" virt="non-virtual"><scope>themis::training::PipelineConfig</scope><name>enricher_config</name></member>
+      <member refid="structthemis_1_1training_1_1_pipeline_config_1a037b7b2066117af06e4dc3a38bc16a6b" prot="public" virt="non-virtual"><scope>themis::training::PipelineConfig</scope><name>labeler_config</name></member>
+      <member refid="structthemis_1_1training_1_1_pipeline_config_1aaf441f6683f24042af4c8ace083a2be8" prot="public" virt="non-virtual"><scope>themis::training::PipelineConfig</scope><name>min_quality_score</name></member>
+      <member refid="structthemis_1_1training_1_1_pipeline_config_1af3b2a6b60425c3219526f6342b23bf74" prot="public" virt="non-virtual"><scope>themis::training::PipelineConfig</scope><name>PipelineConfig</name></member>
+      <member refid="structthemis_1_1training_1_1_pipeline_config_1a30a019d814810319f6d9156702bf1474" prot="public" virt="non-virtual"><scope>themis::training::PipelineConfig</scope><name>provenance_config</name></member>
+      <member refid="structthemis_1_1training_1_1_pipeline_config_1affe4e22dca07dffd4513ee0af4a7f9bf" prot="public" virt="non-virtual"><scope>themis::training::PipelineConfig</scope><name>trainer_config</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

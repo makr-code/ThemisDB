@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_2f6ec0b1060e5745ae67b88b8c2e5f45" kind="dir">
+    <compoundname>benchmarks/storage</compoundname>
+    <innerfile refid="bench__batch__insert_8cpp">bench_batch_insert.cpp</innerfile>
+    <innerfile refid="bench__blob__zstd_8cpp">bench_blob_zstd.cpp</innerfile>
+    <innerfile refid="bench__crud_8cpp">bench_crud.cpp</innerfile>
+    <innerfile refid="bench__insert__profiling_8cpp">bench_insert_profiling.cpp</innerfile>
+    <innerfile refid="bench__mvcc_8cpp">bench_mvcc.cpp</innerfile>
+    <innerfile refid="bench__simple__insert__test_8cpp">bench_simple_insert_test.cpp</innerfile>
+    <innerfile refid="bench__ssm__phase0__baseline_8cpp">bench_ssm_phase0_baseline.cpp</innerfile>
+    <innerfile refid="bench__storage__dedicated__gates_8cpp">bench_storage_dedicated_gates.cpp</innerfile>
+    <innerfile refid="bench__storage__performance_8cpp">bench_storage_performance.cpp</innerfile>
+    <innerfile refid="bench__storage__release__gates_8cpp">bench_storage_release_gates.cpp</innerfile>
+    <innerfile refid="bench__wal__stress_8cpp">bench_wal_stress.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/storage/"/>
+  </compounddef>
+</doxygen>

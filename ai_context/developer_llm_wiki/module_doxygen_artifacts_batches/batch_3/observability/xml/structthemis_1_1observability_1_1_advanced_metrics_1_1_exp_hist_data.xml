@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_advanced_metrics_1_1_exp_hist_data" kind="struct" language="C++" prot="private">
+    <compoundname>themis::observability::AdvancedMetrics::ExpHistData</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_advanced_metrics_1_1_exp_hist_data_1a73aa6c8dbc2f0ee8cf2948fe4cbe6e19" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::AdvancedMetrics::ExpHistData::scale</definition>
+        <argsstring></argsstring>
+        <name>scale</name>
+        <qualifiedname>themis::observability::AdvancedMetrics::ExpHistData::scale</qualifiedname>
+        <initializer>{2.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="262" column="16" bodyfile="include/observability/advanced_metrics.h" bodystart="262" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_advanced_metrics_1_1_exp_hist_data_1a3d1f5d90828d0af946a9606175793378" prot="public" static="no" mutable="no">
+        <type>std::deque&lt; double &gt;</type>
+        <definition>std::deque&lt;double&gt; themis::observability::AdvancedMetrics::ExpHistData::values</definition>
+        <argsstring></argsstring>
+        <name>values</name>
+        <qualifiedname>themis::observability::AdvancedMetrics::ExpHistData::values</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="263" column="20" bodyfile="include/observability/advanced_metrics.h" bodystart="263" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_advanced_metrics_1_1_exp_hist_data_1a8e84ad11610954f451c956ea588607b8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::AdvancedMetrics::ExpHistData::sum</definition>
+        <argsstring></argsstring>
+        <name>sum</name>
+        <qualifiedname>themis::observability::AdvancedMetrics::ExpHistData::sum</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="264" column="16" bodyfile="include/observability/advanced_metrics.h" bodystart="264" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_advanced_metrics_1_1_exp_hist_data_1abc4428af752eb298011ff26d4ef3434d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::observability::AdvancedMetrics::ExpHistData::zero_count</definition>
+        <argsstring></argsstring>
+        <name>zero_count</name>
+        <qualifiedname>themis::observability::AdvancedMetrics::ExpHistData::zero_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="265" column="18" bodyfile="include/observability/advanced_metrics.h" bodystart="265" bodyend="265"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/advanced_metrics.h" line="261" column="5" bodyfile="include/observability/advanced_metrics.h" bodystart="261" bodyend="266"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_advanced_metrics_1_1_exp_hist_data_1a73aa6c8dbc2f0ee8cf2948fe4cbe6e19" prot="public" virt="non-virtual"><scope>themis::observability::AdvancedMetrics::ExpHistData</scope><name>scale</name></member>
+      <member refid="structthemis_1_1observability_1_1_advanced_metrics_1_1_exp_hist_data_1a8e84ad11610954f451c956ea588607b8" prot="public" virt="non-virtual"><scope>themis::observability::AdvancedMetrics::ExpHistData</scope><name>sum</name></member>
+      <member refid="structthemis_1_1observability_1_1_advanced_metrics_1_1_exp_hist_data_1a3d1f5d90828d0af946a9606175793378" prot="public" virt="non-virtual"><scope>themis::observability::AdvancedMetrics::ExpHistData</scope><name>values</name></member>
+      <member refid="structthemis_1_1observability_1_1_advanced_metrics_1_1_exp_hist_data_1abc4428af752eb298011ff26d4ef3434d" prot="public" virt="non-virtual"><scope>themis::observability::AdvancedMetrics::ExpHistData</scope><name>zero_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

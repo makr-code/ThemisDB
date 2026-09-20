@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_ingestion_coordinator_1_1_coordinator_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::IngestionCoordinator::CoordinatorMetrics</compoundname>
+    <includes refid="ingestion__coordinator_8h" local="no">ingestion_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_coordinator_1_1_coordinator_metrics_1aede219a944e6304f7c29fa45950df8a1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::IngestionCoordinator::CoordinatorMetrics::nodes_active</definition>
+        <argsstring></argsstring>
+        <name>nodes_active</name>
+        <qualifiedname>themis::ingestion::IngestionCoordinator::CoordinatorMetrics::nodes_active</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Active worker nodes at last run. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_coordinator.h" line="530" column="16" bodyfile="include/ingestion/ingestion_coordinator.h" bodystart="530" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_coordinator_1_1_coordinator_metrics_1a62f4676a9ec7299c9bf57aebfa57749c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::IngestionCoordinator::CoordinatorMetrics::tasks_submitted</definition>
+        <argsstring></argsstring>
+        <name>tasks_submitted</name>
+        <qualifiedname>themis::ingestion::IngestionCoordinator::CoordinatorMetrics::tasks_submitted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Source partitions dispatched. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_coordinator.h" line="531" column="16" bodyfile="include/ingestion/ingestion_coordinator.h" bodystart="531" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_coordinator_1_1_coordinator_metrics_1ab905521344029a0182f66e92cc08bb84" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::IngestionCoordinator::CoordinatorMetrics::tasks_completed</definition>
+        <argsstring></argsstring>
+        <name>tasks_completed</name>
+        <qualifiedname>themis::ingestion::IngestionCoordinator::CoordinatorMetrics::tasks_completed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Partitions completed (incl. empties). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_coordinator.h" line="532" column="16" bodyfile="include/ingestion/ingestion_coordinator.h" bodystart="532" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_coordinator_1_1_coordinator_metrics_1aecd0eabf3eab78948e39ef3b8220947b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::IngestionCoordinator::CoordinatorMetrics::leader_elections</definition>
+        <argsstring></argsstring>
+        <name>leader_elections</name>
+        <qualifiedname>themis::ingestion::IngestionCoordinator::CoordinatorMetrics::leader_elections</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Times leader lease was acquired. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_coordinator.h" line="533" column="16" bodyfile="include/ingestion/ingestion_coordinator.h" bodystart="533" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_coordinator_1_1_coordinator_metrics_1ab43afedd0f2d021d0c67acf6c962d5a2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::IngestionCoordinator::CoordinatorMetrics::last_run_seconds</definition>
+        <argsstring></argsstring>
+        <name>last_run_seconds</name>
+        <qualifiedname>themis::ingestion::IngestionCoordinator::CoordinatorMetrics::last_run_seconds</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Wall-clock time of the most recent run. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_coordinator.h" line="534" column="16" bodyfile="include/ingestion/ingestion_coordinator.h" bodystart="534" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-run coordinator metrics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ingestion/ingestion_coordinator.h" line="529" column="5" bodyfile="include/ingestion/ingestion_coordinator.h" bodystart="529" bodyend="535"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_coordinator_1_1_coordinator_metrics_1ab43afedd0f2d021d0c67acf6c962d5a2" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionCoordinator::CoordinatorMetrics</scope><name>last_run_seconds</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_coordinator_1_1_coordinator_metrics_1aecd0eabf3eab78948e39ef3b8220947b" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionCoordinator::CoordinatorMetrics</scope><name>leader_elections</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_coordinator_1_1_coordinator_metrics_1aede219a944e6304f7c29fa45950df8a1" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionCoordinator::CoordinatorMetrics</scope><name>nodes_active</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_coordinator_1_1_coordinator_metrics_1ab905521344029a0182f66e92cc08bb84" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionCoordinator::CoordinatorMetrics</scope><name>tasks_completed</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_coordinator_1_1_coordinator_metrics_1a62f4676a9ec7299c9bf57aebfa57749c" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionCoordinator::CoordinatorMetrics</scope><name>tasks_submitted</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

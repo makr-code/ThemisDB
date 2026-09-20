@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_telemetry_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::TelemetryConfig</compoundname>
+    <includes refid="hardware__telemetry_8h" local="no">hardware_telemetry.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_telemetry_config_1a1ccb1ebb0dd59e3bd559d328adbf59b3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::TelemetryConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::updates::TelemetryConfig::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Master on/off switch – must be explicitly set to <computeroutput>true</computeroutput> to enable. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="36" column="10" bodyfile="include/updates/hardware_telemetry.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_telemetry_config_1aa7f42360dec2395ffbf9ceae0499ebba" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::TelemetryConfig::endpoint_url</definition>
+        <argsstring></argsstring>
+        <name>endpoint_url</name>
+        <qualifiedname>themis::updates::TelemetryConfig::endpoint_url</qualifiedname>
+        <initializer>= &quot;https://api.themisdb.org/telemetry.php&quot;</initializer>
+        <briefdescription>
+<para>HTTP(S) endpoint receiving the JSON telemetry payload. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="39" column="17" bodyfile="include/updates/hardware_telemetry.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_telemetry_config_1ac29bbbbc93cdc2518a909041501aedc9" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::updates::TelemetryConfig::send_interval_seconds</definition>
+        <argsstring></argsstring>
+        <name>send_interval_seconds</name>
+        <qualifiedname>themis::updates::TelemetryConfig::send_interval_seconds</qualifiedname>
+        <initializer>= 86400</initializer>
+        <briefdescription>
+<para>How often to send a report (seconds). Minimum enforced: 86400 (24 h). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="42" column="9" bodyfile="include/updates/hardware_telemetry.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_telemetry_config_1a46c6e4c60a9a00e99f20bd192a430fc6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::TelemetryConfig::include_cpu_model</definition>
+        <argsstring></argsstring>
+        <name>include_cpu_model</name>
+        <qualifiedname>themis::updates::TelemetryConfig::include_cpu_model</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Include CPU model string (e.g. &quot;Intel Core i7-12700K&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="47" column="10" bodyfile="include/updates/hardware_telemetry.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_telemetry_config_1a46ba9d3c4db161d8c8f2322e183c197e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::TelemetryConfig::include_cpu_cores</definition>
+        <argsstring></argsstring>
+        <name>include_cpu_cores</name>
+        <qualifiedname>themis::updates::TelemetryConfig::include_cpu_cores</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Include logical CPU core count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="50" column="10" bodyfile="include/updates/hardware_telemetry.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_telemetry_config_1afae709a71861003cdf4d451d91bead7c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::TelemetryConfig::include_ram_mb</definition>
+        <argsstring></argsstring>
+        <name>include_ram_mb</name>
+        <qualifiedname>themis::updates::TelemetryConfig::include_ram_mb</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Include total RAM in megabytes (rounded down to nearest 1024 MiB bucket). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="53" column="10" bodyfile="include/updates/hardware_telemetry.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_telemetry_config_1a9efee29ab8500db84a2267521af90366" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::TelemetryConfig::include_os</definition>
+        <argsstring></argsstring>
+        <name>include_os</name>
+        <qualifiedname>themis::updates::TelemetryConfig::include_os</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Include OS family string (e.g. &quot;Linux&quot;, &quot;Windows&quot;, &quot;macOS&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="56" column="10" bodyfile="include/updates/hardware_telemetry.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_telemetry_config_1a3a94142ec8a4083680349203dad6c01b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::TelemetryConfig::include_arch</definition>
+        <argsstring></argsstring>
+        <name>include_arch</name>
+        <qualifiedname>themis::updates::TelemetryConfig::include_arch</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Include CPU architecture string (e.g. &quot;x86_64&quot;, &quot;aarch64&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="59" column="10" bodyfile="include/updates/hardware_telemetry.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_telemetry_config_1a71af21c99071c0b453b20514673f4df5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::TelemetryConfig::include_performance</definition>
+        <argsstring></argsstring>
+        <name>include_performance</name>
+        <qualifiedname>themis::updates::TelemetryConfig::include_performance</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Include anonymous runtime performance metrics (query latency, QPS, cache hit rate, process memory, uptime, connections). Requires a <ref refid="classthemis_1_1updates_1_1_i_performance_metrics_provider" kindref="compound">IPerformanceMetricsProvider</ref> to be wired via <ref refid="classthemis_1_1updates_1_1_hardware_telemetry_reporter_1aeb6d9c18abda749b404ca42f901e4c40" kindref="member">HardwareTelemetryReporter::setPerformanceProvider()</ref>. All values are coarse/bucketed – no query content is ever included. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="68" column="10" bodyfile="include/updates/hardware_telemetry.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_telemetry_config_1a9ef4c3f9c396903f28bef39f42258f0a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::updates::TelemetryConfig::http_timeout_seconds</definition>
+        <argsstring></argsstring>
+        <name>http_timeout_seconds</name>
+        <qualifiedname>themis::updates::TelemetryConfig::http_timeout_seconds</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>HTTP timeout per send attempt (seconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="73" column="9" bodyfile="include/updates/hardware_telemetry.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_telemetry_config_1a389c1263e510769724fff57c16ad2b0c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::updates::TelemetryConfig::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::updates::TelemetryConfig::max_retries</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of consecutive send failures before giving up until the next scheduled interval. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="77" column="9" bodyfile="include/updates/hardware_telemetry.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the anonymous hardware + performance telemetry. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All fields carry safe defaults. The feature is <bold>disabled</bold> by default. </para>
+    </detaileddescription>
+    <location file="include/updates/hardware_telemetry.h" line="34" column="1" bodyfile="include/updates/hardware_telemetry.h" bodystart="34" bodyend="78"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_telemetry_config_1a1ccb1ebb0dd59e3bd559d328adbf59b3" prot="public" virt="non-virtual"><scope>themis::updates::TelemetryConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1updates_1_1_telemetry_config_1aa7f42360dec2395ffbf9ceae0499ebba" prot="public" virt="non-virtual"><scope>themis::updates::TelemetryConfig</scope><name>endpoint_url</name></member>
+      <member refid="structthemis_1_1updates_1_1_telemetry_config_1a9ef4c3f9c396903f28bef39f42258f0a" prot="public" virt="non-virtual"><scope>themis::updates::TelemetryConfig</scope><name>http_timeout_seconds</name></member>
+      <member refid="structthemis_1_1updates_1_1_telemetry_config_1a3a94142ec8a4083680349203dad6c01b" prot="public" virt="non-virtual"><scope>themis::updates::TelemetryConfig</scope><name>include_arch</name></member>
+      <member refid="structthemis_1_1updates_1_1_telemetry_config_1a46ba9d3c4db161d8c8f2322e183c197e" prot="public" virt="non-virtual"><scope>themis::updates::TelemetryConfig</scope><name>include_cpu_cores</name></member>
+      <member refid="structthemis_1_1updates_1_1_telemetry_config_1a46c6e4c60a9a00e99f20bd192a430fc6" prot="public" virt="non-virtual"><scope>themis::updates::TelemetryConfig</scope><name>include_cpu_model</name></member>
+      <member refid="structthemis_1_1updates_1_1_telemetry_config_1a9efee29ab8500db84a2267521af90366" prot="public" virt="non-virtual"><scope>themis::updates::TelemetryConfig</scope><name>include_os</name></member>
+      <member refid="structthemis_1_1updates_1_1_telemetry_config_1a71af21c99071c0b453b20514673f4df5" prot="public" virt="non-virtual"><scope>themis::updates::TelemetryConfig</scope><name>include_performance</name></member>
+      <member refid="structthemis_1_1updates_1_1_telemetry_config_1afae709a71861003cdf4d451d91bead7c" prot="public" virt="non-virtual"><scope>themis::updates::TelemetryConfig</scope><name>include_ram_mb</name></member>
+      <member refid="structthemis_1_1updates_1_1_telemetry_config_1a389c1263e510769724fff57c16ad2b0c" prot="public" virt="non-virtual"><scope>themis::updates::TelemetryConfig</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1updates_1_1_telemetry_config_1ac29bbbbc93cdc2518a909041501aedc9" prot="public" virt="non-virtual"><scope>themis::updates::TelemetryConfig</scope><name>send_interval_seconds</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

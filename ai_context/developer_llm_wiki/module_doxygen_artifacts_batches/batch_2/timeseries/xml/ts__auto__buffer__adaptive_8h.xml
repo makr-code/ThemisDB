@@ -1,0 +1,274 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="ts__auto__buffer__adaptive_8h" kind="file" language="C++">
+    <compoundname>ts_auto_buffer_adaptive.h</compoundname>
+    <includes refid="ts__auto__buffer_8h" local="yes">timeseries/ts_auto_buffer.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">condition_variable</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">mutex</includes>
+    <includedby refid="bench__timeseries__adaptive__flush_8cpp" local="yes">benchmarks/timeseries/bench_timeseries_adaptive_flush.cpp</includedby>
+    <includedby refid="ts__auto__buffer__adaptive_8cpp" local="yes">src/timeseries/ts_auto_buffer_adaptive.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>timeseries/ts_auto_buffer.h</label>
+        <link refid="ts__auto__buffer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/timeseries/ts_auto_buffer_adaptive.h</label>
+        <link refid="ts__auto__buffer__adaptive_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>timeseries/tsstore.h</label>
+        <link refid="tsstore_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>algorithm</label>
+      </node>
+      <node id="10">
+        <label>atomic</label>
+      </node>
+      <node id="19">
+        <label>chrono</label>
+      </node>
+      <node id="18">
+        <label>condition_variable</label>
+      </node>
+      <node id="20">
+        <label>cstddef</label>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="15">
+        <label>deque</label>
+      </node>
+      <node id="16">
+        <label>map</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>mutex</label>
+      </node>
+      <node id="13">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="7">
+        <label>span</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="17">
+        <label>thread</label>
+      </node>
+      <node id="12">
+        <label>unordered_map</label>
+      </node>
+      <node id="14">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/timeseries/bench_timeseries_adaptive_flush.cpp</label>
+        <link refid="bench__timeseries__adaptive__flush_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/timeseries/ts_auto_buffer_adaptive.h</label>
+        <link refid="ts__auto__buffer__adaptive_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/timeseries/ts_auto_buffer_adaptive.cpp</label>
+        <link refid="ts__auto__buffer__adaptive_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1_flush_controller_config" prot="public">themis::FlushControllerConfig</innerclass>
+    <innerclass refid="structthemis_1_1_flush_controller_stats" prot="public">themis::FlushControllerStats</innerclass>
+    <innerclass refid="classthemis_1_1_flush_controller" prot="public">themis::FlushController</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ts__auto__buffer_8h" kindref="compound">timeseries/ts_auto_buffer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;condition_variable&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FlushControllerConfig</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1_flush_controller_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_flush_controller_config" kindref="compound">FlushControllerConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1_flush_controller_config_1a9c084c711a95b5b4536e18d05b857395" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_flush_controller_config_1a9c084c711a95b5b4536e18d05b857395" kindref="member">slo_threshold_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>50.0;</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1_flush_controller_config_1a0589d94232dff09262b73e453d70c9e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_flush_controller_config_1a0589d94232dff09262b73e453d70c9e2" kindref="member">ewma_alpha</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.25;</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1_flush_controller_config_1ac073f1c7ba1e0c518401724e2671b9fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_flush_controller_config_1ac073f1c7ba1e0c518401724e2671b9fc" kindref="member">headroom_factor</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.7;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1_flush_controller_config_1a3cb4d4092d534433d91bbeae4699e324" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_flush_controller_config_1a3cb4d4092d534433d91bbeae4699e324" kindref="member">grow_factor</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1.25;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1_flush_controller_config_1a3f23ece30d7a1faa8d4a6d72785054af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_flush_controller_config_1a3f23ece30d7a1faa8d4a6d72785054af" kindref="member">shrink_factor</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.75;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1_flush_controller_config_1a9dfff89e2348860268e75a3a6f69a12a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_flush_controller_config_1a9dfff89e2348860268e75a3a6f69a12a" kindref="member">min_batch_size</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1_flush_controller_config_1a187b3781fd2d54a8aeb066868fcb7c33" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_flush_controller_config_1a187b3781fd2d54a8aeb066868fcb7c33" kindref="member">max_batch_size</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1_flush_controller_config_1aae7bca7251c731b35eefe53d1defe120" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_flush_controller_config_1aae7bca7251c731b35eefe53d1defe120" kindref="member">initial_batch_size</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>500;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1_flush_controller_config_1abd30262a00a3459521a52f551e105b61" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_flush_controller_config_1abd30262a00a3459521a52f551e105b61" kindref="member">low_water_mark</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1_flush_controller_config_1ad44a699bf43a330f4d0dc732cf63cd2b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_flush_controller_config_1ad44a699bf43a330f4d0dc732cf63cd2b" kindref="member">warmup_samples</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FlushControllerStats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1_flush_controller_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_flush_controller_stats" kindref="compound">FlushControllerStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1_flush_controller_stats_1a655edb39638e9868de73760709263412" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1_flush_controller_stats_1a655edb39638e9868de73760709263412" kindref="member">ewma_latency_ms</ref><sp/><sp/>=<sp/>0.0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1_flush_controller_stats_1aebfe0d46eadc115fa4cf290e6d32aea7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1_flush_controller_stats_1aebfe0d46eadc115fa4cf290e6d32aea7" kindref="member">current_batch_sz</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1_flush_controller_stats_1aeafd756b3963e291b700ac5dfef5b0ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_flush_controller_stats_1aeafd756b3963e291b700ac5dfef5b0ff" kindref="member">backpressure_events</ref><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1_flush_controller_stats_1a0e89a7e0c99d2c8d8b5cf88d06bf45a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_flush_controller_stats_1a0e89a7e0c99d2c8d8b5cf88d06bf45a6" kindref="member">samples</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1_flush_controller_stats_1ab5a70144b9c9b0420ffbb2d88063607b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_flush_controller_stats_1ab5a70144b9c9b0420ffbb2d88063607b" kindref="member">in_backpressure</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="69"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FlushController</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="classthemis_1_1_flush_controller" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_flush_controller_1a2145c8c3ff03f20bc9c0bcfd87b38d8f" kindref="member">FlushController</ref><sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_flush_controller_1a2145c8c3ff03f20bc9c0bcfd87b38d8f" kindref="member">FlushController</ref>(<ref refid="structthemis_1_1_flush_controller_config" kindref="compound">FlushControllerConfig</ref><sp/><ref refid="classthemis_1_1_flush_controller_1ad38a823d2e798c77ea1b9401508a886e" kindref="member">config</ref><sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Feedback<sp/>──────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_flush_controller_1ab791580a54167495158ceb73ce7c1cc2" kindref="member">reportFlushLatency</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>latency_ms);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Producer-side<sp/>backpressure<sp/>────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_flush_controller_1a4ca0513c0b37fd8c80940e2e89469824" kindref="member">checkBackpressure</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>buffered_points,</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><sp/>timeout<sp/>=<sp/>std::chrono::seconds{5});</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_flush_controller_1ace6ea5d4127d13977b3f5c1d87033457" kindref="member">notifyDrained</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>remaining_points);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Query<sp/>─────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_flush_controller_1a46f0e86ac8efd544d9b711fbd31f9e82" kindref="member">recommendedBatchSize</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_flush_controller_1a4b1f2c8d2fd5684a9629995504cb3633" kindref="member">ewmaLatencyMs</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_flush_controller_stats" kindref="compound">FlushControllerStats</ref><sp/><ref refid="classthemis_1_1_flush_controller_1a4bf0b0e41b118a2a5b1f301401159e7d" kindref="member">stats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_flush_controller_1a3f874e457a71ba9782d096381f8b0652" kindref="member">isBackpressureActive</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151" refid="classthemis_1_1_flush_controller_1ad38a823d2e798c77ea1b9401508a886e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_flush_controller_config" kindref="compound">FlushControllerConfig</ref>&amp;<sp/><ref refid="classthemis_1_1_flush_controller_1ad38a823d2e798c77ea1b9401508a886e" kindref="member">config</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_flush_controller_config" kindref="compound">FlushControllerConfig</ref><sp/><sp/><sp/>config_;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/>mutex_;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>std::condition_variable<sp/>cv_;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/>ewma_latency_ms_<sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/>batch_size_<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>sample_count_<sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>backpressure_events_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>backpressure_<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/>current_buffered_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updateBatchSize();</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/timeseries/ts_auto_buffer_adaptive.h"/>
+  </compounddef>
+</doxygen>

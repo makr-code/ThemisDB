@@ -1,0 +1,1579 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::DistributedTransactionCoordinator</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">themis::transaction::IRecoverableTwoPhaseCoordinator</basecompoundref>
+    <includes refid="distributed__transaction_8h" local="no">distributed_transaction.h</includes>
+    <innerclass refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config" prot="public">themis::sharding::DistributedTransactionCoordinator::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a45d964d7f868a650ce4fe66ea9314b0c" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_true_time" kindref="compound">TrueTime</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TrueTime&gt; themis::sharding::DistributedTransactionCoordinator::truetime_</definition>
+        <argsstring></argsstring>
+        <name>truetime_</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::truetime_</qualifiedname>
+        <briefdescription>
+<para><ref refid="classthemis_1_1sharding_1_1_true_time" kindref="compound">TrueTime</ref> source used for timestamp assignment and waits. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="269" column="21" bodyfile="include/sharding/distributed_transaction.h" bodystart="269" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a758d74a6e636f8cf4a2b3f496740c1b6" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::sharding::DistributedTransactionCoordinator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::config_</qualifiedname>
+        <briefdescription>
+<para>Runtime coordinator configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="270" column="12" bodyfile="include/sharding/distributed_transaction.h" bodystart="270" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1aabdce5f6f4cef782a113e5f6fe827a5a" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::sharding::DistributedTransactionCoordinator::shard_endpoint_map_</definition>
+        <argsstring></argsstring>
+        <name>shard_endpoint_map_</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::shard_endpoint_map_</qualifiedname>
+        <briefdescription>
+<para>Registered shard endpoint map. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="273" column="24" bodyfile="include/sharding/distributed_transaction.h" bodystart="273" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a7f5b341ee5c2548d1326ba276aefa5ca" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_w_a_l_manager" kindref="compound">WALManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;WALManager&gt; themis::sharding::DistributedTransactionCoordinator::wal_manager_</definition>
+        <argsstring></argsstring>
+        <name>wal_manager_</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::wal_manager_</qualifiedname>
+        <briefdescription>
+<para>Optional WAL manager for in-doubt recovery. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="276" column="21" bodyfile="include/sharding/distributed_transaction.h" bodystart="276" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1ac9dd6588e15658734b65db3b7216d1a7" prot="private" static="no" mutable="yes">
+        <type>std::timed_mutex</type>
+        <definition>std::timed_mutex themis::sharding::DistributedTransactionCoordinator::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::mutex_</qualifiedname>
+        <briefdescription>
+<para>Protects transactions and endpoint map. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="292" column="30" bodyfile="include/sharding/distributed_transaction.h" bodystart="292" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1accf61a9fbf60bc38f8958686645ee3a0" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1sharding_1_1_distributed_transaction" kindref="compound">DistributedTransaction</ref> &gt;</type>
+        <definition>std::map&lt;std::string, DistributedTransaction&gt; themis::sharding::DistributedTransactionCoordinator::transactions_</definition>
+        <argsstring></argsstring>
+        <name>transactions_</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::transactions_</qualifiedname>
+        <briefdescription>
+<para>Active and recent transaction registry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="293" column="14" bodyfile="include/sharding/distributed_transaction.h" bodystart="293" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a3f111188d6d46296f6b5d24ad7aa6676" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::DistributedTransactionCoordinator::total_transactions_</definition>
+        <argsstring></argsstring>
+        <name>total_transactions_</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::total_transactions_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total begun transactions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="296" column="17" bodyfile="include/sharding/distributed_transaction.h" bodystart="296" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a713cd066d6aee3655dc7657a8378a8bc" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::DistributedTransactionCoordinator::committed_transactions_</definition>
+        <argsstring></argsstring>
+        <name>committed_transactions_</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::committed_transactions_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Successfully committed transactions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="297" column="17" bodyfile="include/sharding/distributed_transaction.h" bodystart="297" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a029287c007358340773f41f95f52db83" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::DistributedTransactionCoordinator::aborted_transactions_</definition>
+        <argsstring></argsstring>
+        <name>aborted_transactions_</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::aborted_transactions_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Aborted transactions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="298" column="17" bodyfile="include/sharding/distributed_transaction.h" bodystart="298" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1acf7a4309dd3270063bf1b8a569fca33f" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::DistributedTransactionCoordinator::readonly_transactions_</definition>
+        <argsstring></argsstring>
+        <name>readonly_transactions_</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::readonly_transactions_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Executed read-only transactions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="299" column="17" bodyfile="include/sharding/distributed_transaction.h" bodystart="299" bodyend="299"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a7369e74576bd9af987b2acaa99108187" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::DistributedTransactionCoordinator::DistributedTransactionCoordinator</definition>
+        <argsstring>(std::shared_ptr&lt; TrueTime &gt; truetime, const Config &amp;config)</argsstring>
+        <name>DistributedTransactionCoordinator</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::DistributedTransactionCoordinator</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_true_time" kindref="compound">TrueTime</ref> &gt;</type>
+          <declname>truetime</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct coordinator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>truetime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classthemis_1_1sharding_1_1_true_time" kindref="compound">TrueTime</ref> instance for timestamping </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Coordinator configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="141" column="14" bodyfile="src/sharding/distributed_transaction.cpp" bodystart="100" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a6a350cb94addef1d17df679a77479739" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::DistributedTransactionCoordinator::~DistributedTransactionCoordinator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~DistributedTransactionCoordinator</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::~DistributedTransactionCoordinator</qualifiedname>
+        <briefdescription>
+<para>Default destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="147" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a6878823a41a90cd0f21cc3945c61badb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::DistributedTransactionCoordinator::beginTransaction</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;shard_ids, DistributedIsolationLevel isolation_level=DistributedIsolationLevel::SNAPSHOT_ISOLATION)</argsstring>
+        <name>beginTransaction</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::beginTransaction</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>shard_ids</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1sharding_1a6a8320a2f534d50dc5711db9421e3299" kindref="member">DistributedIsolationLevel</ref></type>
+          <declname>isolation_level</declname>
+          <defval><ref refid="namespacethemis_1_1sharding_1a6a8320a2f534d50dc5711db9421e3299a9eb39169b7db6ecee4ee0980284659bd" kindref="member">DistributedIsolationLevel::SNAPSHOT_ISOLATION</ref></defval>
+        </param>
+        <briefdescription>
+<para>Begin a new distributed transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Begin Transaction.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>List of participating shards </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>isolation_level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Desired isolation level (default: SNAPSHOT_ISOLATION) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Transaction ID</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">isolation_level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), generateTransactionId(), now(), empty(), THEMIS_ERROR(), find(), end(), isUsableShardEndpoint(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="155" column="17" bodyfile="src/sharding/distributed_transaction.cpp" bodystart="128" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a19650eefb7d0cb2ea1c60db3765fcadb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::DistributedTransactionCoordinator::addOperation</definition>
+        <argsstring>(const std::string &amp;txn_id, const std::string &amp;shard_id, const nlohmann::json &amp;operation)</argsstring>
+        <name>addOperation</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::addOperation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <briefdescription>
+<para>Add an operation to the transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Operation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target shard </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Operation to perform </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if added successfully</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), empty(), THEMIS_ERROR(), is_object(), is_array(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="167" column="10" bodyfile="src/sharding/distributed_transaction.cpp" bodystart="192" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1ae4f4d2aadbab222db6ab50792b500bab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::DistributedTransactionCoordinator::commit</definition>
+        <argsstring>(const std::string &amp;txn_id)</argsstring>
+        <name>commit</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::commit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Commit a distributed transaction (two-phase commit). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Commit.</para>
+<para>Phase 1: Prepare<itemizedlist>
+<listitem><para>Send prepare requests to all participants</para>
+</listitem><listitem><para>Wait for all to respond with prepared or timeout</para>
+</listitem></itemizedlist>
+</para>
+<para>Phase 2: Commit<itemizedlist>
+<listitem><para>Assign commit timestamp using <ref refid="classthemis_1_1sharding_1_1_true_time" kindref="compound">TrueTime</ref></para>
+</listitem><listitem><para>Wait until commit_timestamp is definitely in the past</para>
+</listitem><listitem><para>Send commit requests to all participants</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction ID </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if committed successfully</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), coordinatorLabel(), THEMIS_DEBUG(), unlock(), percolatorCommit(), THEMIS_ERROR(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="188" column="10" bodyfile="src/sharding/distributed_transaction.cpp" bodystart="247" bodyend="520"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1af98d7fdd33e33e13329efe689d5e7de5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::DistributedTransactionCoordinator::abort</definition>
+        <argsstring>(const std::string &amp;txn_id)</argsstring>
+        <name>abort</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::abort</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Abort a distributed transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Abort.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction ID </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if aborted successfully</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), logDecisionStateForRecovery(), sendAbort(), fetch_add(), logTransactionForRecovery(), coordinatorLabel(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="195" column="10" bodyfile="src/sharding/distributed_transaction.cpp" bodystart="528" bodyend="561"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a51b8edd68e4d872189ec1487fce6b43b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::DistributedTransactionCoordinator::executeReadOnly</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;shard_ids, const nlohmann::json &amp;operations)</argsstring>
+        <name>executeReadOnly</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::executeReadOnly</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>shard_ids</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>operations</declname>
+        </param>
+        <briefdescription>
+<para>Execute a read-only transaction (wait-free with <ref refid="classthemis_1_1sharding_1_1_true_time" kindref="compound">TrueTime</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute Read Only.</para>
+<para>Read-only transactions don&apos;t need 2PC:<orderedlist>
+<listitem><para>Get timestamp t = TT.now().latest</para>
+</listitem><listitem><para>Read from snapshot at timestamp t</para>
+</listitem><listitem><para>No locks needed, no waiting</para>
+</listitem></orderedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shards to read from </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>operations</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Read operations </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Results from all shards</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operations</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: now(), nlohmann::json::object(), find(), end(), isUsableShardEndpoint(), THEMIS_ERROR(), client(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="209" column="20" bodyfile="src/sharding/distributed_transaction.cpp" bodystart="570" bodyend="625"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1adac6edb86305ff0527ac37c374d9a27f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1sharding_1a9bdbfde18f5ac23b8dd425b98a4ae9a9" kindref="member">TransactionState</ref> &gt;</type>
+        <definition>std::optional&lt; TransactionState &gt; themis::sharding::DistributedTransactionCoordinator::getTransactionState</definition>
+        <argsstring>(const std::string &amp;txn_id) const</argsstring>
+        <name>getTransactionState</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::getTransactionState</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Get transaction status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction ID </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Transaction state or nullopt if not found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="219" column="19" bodyfile="src/sharding/distributed_transaction.cpp" bodystart="627" bodyend="643"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1aa33e8a5821da31fdc95e43c3a7c58bf8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::DistributedTransactionCoordinator::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Get statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON with coordinator stats </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="225" column="20" bodyfile="src/sharding/distributed_transaction.cpp" bodystart="645" bodyend="653"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a242cd83d052c3c69e21d4ffa14639555" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::DistributedTransactionCoordinator::recoverInDoubtTransactions</definition>
+        <argsstring>() override</argsstring>
+        <name>recoverInDoubtTransactions</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::recoverInDoubtTransactions</qualifiedname>
+        <briefdescription>
+<para>Recover and re-drive in-doubt transactions from the WAL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Recover In Doubt Transactions.</para>
+<para>Transactions with a durable COMMIT decision are re-driven with COMMIT. Transactions that reached PREPARED without a durable final decision are conservatively re-driven with ABORT.</para>
+<para><simplesect kind="return"><para>Number of transactions resolved to a final state by this pass.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: recoverTransactions(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="236" column="13" bodyfile="src/sharding/distributed_transaction.cpp" bodystart="660" bodyend="662"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a69108797d9222b247d365a6264644930" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::DistributedTransactionCoordinator::recoveryCoordinatorName</definition>
+        <argsstring>() const override</argsstring>
+        <name>recoveryCoordinatorName</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::recoveryCoordinatorName</qualifiedname>
+        <briefdescription>
+<para>Return the canonical coordinator name for global recovery reports. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Stable coordinator type name. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="242" column="18" bodyfile="src/sharding/distributed_transaction.cpp" bodystart="664" bodyend="666"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a3fa9001134d7b4f6775dd45dcbe2682d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::DistributedTransactionCoordinator::recoveryBackendName</definition>
+        <argsstring>() const override</argsstring>
+        <name>recoveryBackendName</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::recoveryBackendName</qualifiedname>
+        <briefdescription>
+<para>Return the durable backend used by this coordinator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>&quot;WAL&quot; when recovery logging is enabled, otherwise &quot;disabled&quot;. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="248" column="18" bodyfile="src/sharding/distributed_transaction.cpp" bodystart="668" bodyend="670"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a8a7707708555fcfbd75170050da3ecc9" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; themis::transaction::RecoverableTwoPhaseTransaction &gt;</type>
+        <definition>std::vector&lt; themis::transaction::RecoverableTwoPhaseTransaction &gt; themis::sharding::DistributedTransactionCoordinator::getRecoverableTransactions</definition>
+        <argsstring>() const override</argsstring>
+        <name>getRecoverableTransactions</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::getRecoverableTransactions</qualifiedname>
+        <briefdescription>
+<para>Snapshot current in-doubt transactions using the shared state model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Normalized non-final transaction list for global recovery orchestration. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="255" column="5" bodyfile="src/sharding/distributed_transaction.cpp" bodystart="673" bodyend="721"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a38366abf7058117edd5bf00424070cb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::DistributedTransactionCoordinator::setShardEndpointMap</definition>
+        <argsstring>(std::unordered_map&lt; std::string, std::string &gt; map)</argsstring>
+        <name>setShardEndpointMap</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::setShardEndpointMap</qualifiedname>
+        <param>
+          <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+          <declname>map</declname>
+        </param>
+        <briefdescription>
+<para>Register real gRPC endpoints for shard IDs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Injects a shard_id → network-address mapping so that <ref refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a6878823a41a90cd0f21cc3945c61badb" kindref="member">beginTransaction()</ref> can populate participant endpoints with real addresses instead of the placeholder &quot;shard://&lt;id&gt;&quot; URIs.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>map</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Map of shard_id to gRPC address (e.g. &quot;host:port&quot;) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="266" column="10" bodyfile="src/sharding/distributed_transaction.cpp" bodystart="723" bodyend="742"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a7fcd30eb07f5aef56c06317ad2caabff" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::DistributedTransactionCoordinator::preparePhase</definition>
+        <argsstring>(DistributedTransaction &amp;txn)</argsstring>
+        <name>preparePhase</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::preparePhase</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1sharding_1_1_distributed_transaction" kindref="compound">DistributedTransaction</ref> &amp;</type>
+          <declname>txn</declname>
+        </param>
+        <briefdescription>
+<para>Phase 1: Send prepare requests to all participants. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Prepare Phase.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Distributed transaction </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if all participants prepared successfully</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: reserve(), size(), push_back(), std::async(), sendPrepare(), store(), lock(), THEMIS_ERROR(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="306" column="10" bodyfile="src/sharding/distributed_transaction.cpp" bodystart="750" bodyend="811"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a76a2695d0df851c4bf8a58e1d638db53" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::DistributedTransactionCoordinator::commitPhase</definition>
+        <argsstring>(DistributedTransaction &amp;txn)</argsstring>
+        <name>commitPhase</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::commitPhase</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1sharding_1_1_distributed_transaction" kindref="compound">DistributedTransaction</ref> &amp;</type>
+          <declname>txn</declname>
+        </param>
+        <briefdescription>
+<para>Phase 2: Send commit requests to all participants. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Commit Phase.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Distributed transaction </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if all participants committed successfully</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: reserve(), size(), push_back(), std::async(), sendCommit(), store(), lock(), THEMIS_ERROR(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="313" column="10" bodyfile="src/sharding/distributed_transaction.cpp" bodystart="819" bodyend="880"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1ac5f9991ae748a10fd7195ccca4530bf3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::DistributedTransactionCoordinator::sendPrepare</definition>
+        <argsstring>(TransactionParticipant &amp;participant, const std::string &amp;txn_id)</argsstring>
+        <name>sendPrepare</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::sendPrepare</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1sharding_1_1_transaction_participant" kindref="compound">TransactionParticipant</ref> &amp;</type>
+          <declname>participant</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Send prepare request to a participant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Send Prepare.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>participant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Participant to prepare </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction ID </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if prepared successfully</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">participant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: isUsableShardEndpoint(), THEMIS_ERROR(), client(), nlohmann::json::array(), find(), end(), contains(), prepare(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="321" column="10" bodyfile="src/sharding/distributed_transaction.cpp" bodystart="889" bodyend="932"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1acfb2db8734fa5cea9f5541eae0b8f324" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::DistributedTransactionCoordinator::sendCommit</definition>
+        <argsstring>(TransactionParticipant &amp;participant, const std::string &amp;txn_id, std::chrono::nanoseconds commit_timestamp)</argsstring>
+        <name>sendCommit</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::sendCommit</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1sharding_1_1_transaction_participant" kindref="compound">TransactionParticipant</ref> &amp;</type>
+          <declname>participant</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>std::chrono::nanoseconds</type>
+          <declname>commit_timestamp</declname>
+        </param>
+        <briefdescription>
+<para>Send commit request to a participant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Send Commit.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>participant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Participant to commit </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>commit_timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Commit timestamp </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if committed successfully</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">participant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">commit_timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: isUsableShardEndpoint(), THEMIS_ERROR(), client(), <ref refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1ae4f4d2aadbab222db6ab50792b500bab" kindref="member">commit()</ref>, count(), THEMIS_DEBUG(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="330" column="10" bodyfile="src/sharding/distributed_transaction.cpp" bodystart="942" bodyend="976"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a84adb4a18d69b342c94f4554b7a9c07f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::DistributedTransactionCoordinator::sendAbort</definition>
+        <argsstring>(TransactionParticipant &amp;participant, const std::string &amp;txn_id)</argsstring>
+        <name>sendAbort</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::sendAbort</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1sharding_1_1_transaction_participant" kindref="compound">TransactionParticipant</ref> &amp;</type>
+          <declname>participant</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Send abort request to a participant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Send Abort.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>participant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Participant to abort </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction ID </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if aborted successfully</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">participant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: isUsableShardEndpoint(), THEMIS_ERROR(), client(), <ref refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1af98d7fdd33e33e13329efe689d5e7de5" kindref="member">abort()</ref>, THEMIS_DEBUG(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="342" column="10" bodyfile="src/sharding/distributed_transaction.cpp" bodystart="985" bodyend="1019"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a6e96daf1f414bb556ef6ca842b2d992f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::DistributedTransactionCoordinator::generateTransactionId</definition>
+        <argsstring>()</argsstring>
+        <name>generateTransactionId</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::generateTransactionId</qualifiedname>
+        <briefdescription>
+<para>Generate unique transaction ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Generate Transaction Id.</para>
+<para><simplesect kind="return"><para>Transaction ID</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: gen(), rd(), std::setfill(), std::setw(), dis(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="348" column="17" bodyfile="src/sharding/distributed_transaction.cpp" bodystart="1026" bodyend="1034"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1ac489ff527c08fa0c3fb0966de5f4ab3d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::DistributedTransactionCoordinator::cleanupOldTransactions</definition>
+        <argsstring>()</argsstring>
+        <name>cleanupOldTransactions</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::cleanupOldTransactions</qualifiedname>
+        <briefdescription>
+<para>Clean up old transactions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cleanup Old Transactions.</para>
+<para>Calls: lock(), now(), std::chrono::hours(), begin(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="353" column="10" bodyfile="src/sharding/distributed_transaction.cpp" bodystart="1040" bodyend="1057"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a67dc1305d59ca4d8ebf7cdab556d27f8" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::DistributedTransactionCoordinator::calculateBackoffDelay</definition>
+        <argsstring>(uint32_t retry_count) const</argsstring>
+        <name>calculateBackoffDelay</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::calculateBackoffDelay</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>retry_count</declname>
+        </param>
+        <briefdescription>
+<para>Calculate backoff delay for retries using exponential backoff. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>retry_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current retry attempt count </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Delay in milliseconds </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="360" column="14" bodyfile="src/sharding/distributed_transaction.cpp" bodystart="1059" bodyend="1063"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a4ecb8a71c9f0be7fd4c98a85706db2f0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::DistributedTransactionCoordinator::retryCommitPhase</definition>
+        <argsstring>(DistributedTransaction &amp;txn)</argsstring>
+        <name>retryCommitPhase</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::retryCommitPhase</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1sharding_1_1_distributed_transaction" kindref="compound">DistributedTransaction</ref> &amp;</type>
+          <declname>txn</declname>
+        </param>
+        <briefdescription>
+<para>Retry commit operation with exponential backoff. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Retry Commit Phase.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Distributed transaction </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if committed successfully after retries</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: commitPhase(), calculateBackoffDelay(), THEMIS_WARN(), std::this_thread::sleep_for(), std::chrono::milliseconds(), THEMIS_INFO(), THEMIS_ERROR(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="367" column="10" bodyfile="src/sharding/distributed_transaction.cpp" bodystart="1071" bodyend="1107"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a10e2673583b27b04757b3bab4654e921" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::DistributedTransactionCoordinator::logBeginStateForRecovery</definition>
+        <argsstring>(const DistributedTransaction &amp;txn)</argsstring>
+        <name>logBeginStateForRecovery</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::logBeginStateForRecovery</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_distributed_transaction" kindref="compound">DistributedTransaction</ref> &amp;</type>
+          <declname>txn</declname>
+        </param>
+        <briefdescription>
+<para>Log transaction state for recovery. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log Begin State For Recovery.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Distributed transaction</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: count(), nlohmann::json::array(), push_back(), <ref refid="namespacethemis_1_1sharding_1_1_w_a_l_logging_helper_1adbf5106c97df32fe17730e7fe42196c7" kindref="member">WALLoggingHelper::appendEntry()</ref>, get(), recoveryWalComponentId(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="373" column="10" bodyfile="src/sharding/distributed_transaction.cpp" bodystart="1114" bodyend="1144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a153a68d684b9db92257919dfea694192" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::DistributedTransactionCoordinator::logOperationAddedForRecovery</definition>
+        <argsstring>(const std::string &amp;txn_id, const std::string &amp;shard_id, const nlohmann::json &amp;operation)</argsstring>
+        <name>logOperationAddedForRecovery</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::logOperationAddedForRecovery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <briefdescription>
+<para>Log operation append event for transaction recovery replay. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log Operation Added For Recovery.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Participant shard identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Operation payload appended to transaction state.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="namespacethemis_1_1sharding_1_1_w_a_l_logging_helper_1ae8eac816bb8dfae8fa26d99bb3702e9f" kindref="member">WALLoggingHelper::appendEntryWithResult()</ref>, get(), recoveryWalComponentId(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="381" column="10" bodyfile="src/sharding/distributed_transaction.cpp" bodystart="1153" bodyend="1178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1abae347e8d819f25ae023491e655b3e66" prot="private" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::DistributedTransactionCoordinator::logDecisionStateForRecovery</definition>
+        <argsstring>(const DistributedTransaction &amp;txn, bool commit, std::string_view phase, std::string_view reason={})</argsstring>
+        <name>logDecisionStateForRecovery</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::logDecisionStateForRecovery</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_distributed_transaction" kindref="compound">DistributedTransaction</ref> &amp;</type>
+          <declname>txn</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>commit</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>phase</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>reason</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Log a durable 2PC decision or completion marker for recovery. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log Decision State For Recovery.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Distributed transaction </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>commit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>True for COMMIT, false for ABORT. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>phase</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Either &quot;decision&quot; or &quot;complete&quot;. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional diagnostic reason for ABORT/error paths.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">commit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">phase</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::string(), count(), nlohmann::json::array(), empty(), push_back(), <ref refid="namespacethemis_1_1sharding_1_1_w_a_l_logging_helper_1ae8eac816bb8dfae8fa26d99bb3702e9f" kindref="member">WALLoggingHelper::appendEntryWithResult()</ref>, get(), recoveryWalComponentId(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="394" column="11" bodyfile="src/sharding/distributed_transaction.cpp" bodystart="1189" bodyend="1229"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a2a46beae277c6b8a8057f4b15dc77930" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::DistributedTransactionCoordinator::logTransactionForRecovery</definition>
+        <argsstring>(const DistributedTransaction &amp;txn)</argsstring>
+        <name>logTransactionForRecovery</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::logTransactionForRecovery</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_distributed_transaction" kindref="compound">DistributedTransaction</ref> &amp;</type>
+          <declname>txn</declname>
+        </param>
+        <briefdescription>
+<para>Log terminal COMMIT/ABORT completion state for recovery. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log Transaction For Recovery.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Distributed transaction</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: count(), nlohmann::json::array(), push_back(), <ref refid="namespacethemis_1_1sharding_1_1_w_a_l_logging_helper_1ae8eac816bb8dfae8fa26d99bb3702e9f" kindref="member">WALLoggingHelper::appendEntryWithResult()</ref>, get(), recoveryWalComponentId(), has_value(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="405" column="10" bodyfile="src/sharding/distributed_transaction.cpp" bodystart="1236" bodyend="1277"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a700235fef1235d3e00c04c2e52c15c3f" prot="private" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::DistributedTransactionCoordinator::logPreparedStateForRecovery</definition>
+        <argsstring>(const DistributedTransaction &amp;txn)</argsstring>
+        <name>logPreparedStateForRecovery</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::logPreparedStateForRecovery</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_distributed_transaction" kindref="compound">DistributedTransaction</ref> &amp;</type>
+          <declname>txn</declname>
+        </param>
+        <briefdescription>
+<para>Log prepared state for recovery (for in-doubt transaction handling). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log <ref refid="structthemis_1_1sharding_1_1_prepared" kindref="compound">Prepared</ref> State For Recovery.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Distributed transaction</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: count(), nlohmann::json::array(), push_back(), <ref refid="namespacethemis_1_1sharding_1_1_w_a_l_logging_helper_1ae8eac816bb8dfae8fa26d99bb3702e9f" kindref="member">WALLoggingHelper::appendEntryWithResult()</ref>, get(), recoveryWalComponentId(), has_value(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="411" column="11" bodyfile="src/sharding/distributed_transaction.cpp" bodystart="1285" bodyend="1326"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1af89627ae1d01caa43ff88e37341a15c7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::DistributedTransactionCoordinator::recoverTransactions</definition>
+        <argsstring>()</argsstring>
+        <name>recoverTransactions</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::recoverTransactions</qualifiedname>
+        <briefdescription>
+<para>Recover in-doubt transactions from log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Recover Transactions.</para>
+<para><simplesect kind="return"><para>Number of transactions resolved to a final state.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_INFO(), getOldestLSN(), getCurrentLSN(), readRange(), size(), themis::transaction::TwoPhaseCommitWALRecovery::reconstruct(), has_value(), std::chrono::nanoseconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="417" column="12" bodyfile="src/sharding/distributed_transaction.cpp" bodystart="1333" bodyend="1456"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a4f38f7ded1bf42cae9bf5e8aec559986" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::DistributedTransactionCoordinator::percolatorCommit</definition>
+        <argsstring>(DistributedTransaction &amp;txn)</argsstring>
+        <name>percolatorCommit</name>
+        <qualifiedname>themis::sharding::DistributedTransactionCoordinator::percolatorCommit</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1sharding_1_1_distributed_transaction" kindref="compound">DistributedTransaction</ref> &amp;</type>
+          <declname>txn</declname>
+        </param>
+        <briefdescription>
+<para>Percolator-style commit for SNAPSHOT_ISOLATION transactions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> Percolator-style commit path (used for SNAPSHOT_ISOLATION transactions) ------------------------------------------------------------------------<mdash/></para>
+<para>Executes cross-shard conflict detection and TrueTime-anchored commit for snapshot-isolated transactions. The full sequence is:<orderedlist>
+<listitem><para>Prepare phase — all participants vote COMMIT or ABORT (conflict check). Any ABORT vote triggers abort of all prepared participants and returns false.</para>
+</listitem><listitem><para>Derive commit timestamp via <ref refid="classthemis_1_1sharding_1_1_true_time_1a6f7dc701bd5145d4f9148d941a31854c" kindref="member">TrueTime::now_with_uncertainty()</ref>.latest.</para>
+</listitem><listitem><para>Perform commit-wait: spin until TT.now().earliest &gt; commit_ts.</para>
+</listitem><listitem><para>Send COMMIT to all participants with the agreed timestamp.</para>
+</listitem></orderedlist>
+</para>
+<para>This path is chosen when <ref refid="structthemis_1_1sharding_1_1_distributed_transaction_coordinator_1_1_config_1a276ce1158b0616e408607cc5b6cd289e" kindref="member">Config::use_percolator_for_snapshot</ref> == true and the transaction&apos;s isolation_level == SNAPSHOT_ISOLATION.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Distributed transaction (state mutated in-place). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if all participants prepared and committed successfully.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: preparePhase(), THEMIS_WARN(), sendAbort(), now_with_uncertainty(), THEMIS_DEBUG(), count(), waitUntil(), emplace_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_transaction.h" line="436" column="10" bodyfile="src/sharding/distributed_transaction.cpp" bodystart="1464" bodyend="1546"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Manages distributed transactions across shards using <ref refid="classthemis_1_1sharding_1_1_true_time" kindref="compound">TrueTime</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This coordinator implements a two-phase commit protocol enhanced with <ref refid="classthemis_1_1sharding_1_1_true_time" kindref="compound">TrueTime</ref> for:<itemizedlist>
+<listitem><para>Snapshot isolation across shards</para>
+</listitem><listitem><para>Strict serializability guarantees</para>
+</listitem><listitem><para>Wait-free read-only transactions </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::sharding::DistributedTransactionCoordinator</label>
+        <link refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::transaction::IRecoverableTwoPhaseCoordinator</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::sharding::DistributedTransactionCoordinator</label>
+        <link refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::transaction::IRecoverableTwoPhaseCoordinator</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/distributed_transaction.h" line="97" column="1" bodyfile="include/sharding/distributed_transaction.h" bodystart="98" bodyend="437"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1af98d7fdd33e33e13329efe689d5e7de5" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>abort</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a029287c007358340773f41f95f52db83" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>aborted_transactions_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a19650eefb7d0cb2ea1c60db3765fcadb" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>addOperation</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a6878823a41a90cd0f21cc3945c61badb" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>beginTransaction</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a67dc1305d59ca4d8ebf7cdab556d27f8" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>calculateBackoffDelay</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1ac489ff527c08fa0c3fb0966de5f4ab3d" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>cleanupOldTransactions</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1ae4f4d2aadbab222db6ab50792b500bab" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>commit</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a76a2695d0df851c4bf8a58e1d638db53" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>commitPhase</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a713cd066d6aee3655dc7657a8378a8bc" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>committed_transactions_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a758d74a6e636f8cf4a2b3f496740c1b6" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a7369e74576bd9af987b2acaa99108187" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>DistributedTransactionCoordinator</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a51b8edd68e4d872189ec1487fce6b43b" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>executeReadOnly</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a6e96daf1f414bb556ef6ca842b2d992f" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>generateTransactionId</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a8a7707708555fcfbd75170050da3ecc9" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>getRecoverableTransactions</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1aa33e8a5821da31fdc95e43c3a7c58bf8" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1adac6edb86305ff0527ac37c374d9a27f" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>getTransactionState</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a10e2673583b27b04757b3bab4654e921" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>logBeginStateForRecovery</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1abae347e8d819f25ae023491e655b3e66" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>logDecisionStateForRecovery</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a153a68d684b9db92257919dfea694192" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>logOperationAddedForRecovery</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a700235fef1235d3e00c04c2e52c15c3f" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>logPreparedStateForRecovery</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a2a46beae277c6b8a8057f4b15dc77930" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>logTransactionForRecovery</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1ac9dd6588e15658734b65db3b7216d1a7" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a4f38f7ded1bf42cae9bf5e8aec559986" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>percolatorCommit</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a7fcd30eb07f5aef56c06317ad2caabff" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>preparePhase</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1acf7a4309dd3270063bf1b8a569fca33f" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>readonly_transactions_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a242cd83d052c3c69e21d4ffa14639555" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>recoverInDoubtTransactions</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1af89627ae1d01caa43ff88e37341a15c7" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>recoverTransactions</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a3fa9001134d7b4f6775dd45dcbe2682d" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>recoveryBackendName</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a69108797d9222b247d365a6264644930" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>recoveryCoordinatorName</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a4ecb8a71c9f0be7fd4c98a85706db2f0" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>retryCommitPhase</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a84adb4a18d69b342c94f4554b7a9c07f" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>sendAbort</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1acfb2db8734fa5cea9f5541eae0b8f324" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>sendCommit</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1ac5f9991ae748a10fd7195ccca4530bf3" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>sendPrepare</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a38366abf7058117edd5bf00424070cb8" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>setShardEndpointMap</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1aabdce5f6f4cef782a113e5f6fe827a5a" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>shard_endpoint_map_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a3f111188d6d46296f6b5d24ad7aa6676" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>total_transactions_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1accf61a9fbf60bc38f8958686645ee3a0" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>transactions_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a45d964d7f868a650ce4fe66ea9314b0c" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>truetime_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a7f5b341ee5c2548d1326ba276aefa5ca" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>wal_manager_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_transaction_coordinator_1a6a350cb94addef1d17df679a77479739" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedTransactionCoordinator</scope><name>~DistributedTransactionCoordinator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_time_series_bucket" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::TimeSeriesBucket</compoundname>
+    <includes refid="wire__protocol__helpers_8h" local="no">wire_protocol_helpers.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_time_series_bucket_1af8281be67f22b039f32d1d0d3f9e7c71" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::TimeSeriesBucket::timestamp_ns</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ns</name>
+        <qualifiedname>themis::network::TimeSeriesBucket::timestamp_ns</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="141" column="14" bodyfile="include/network/wire_protocol_helpers.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_time_series_bucket_1abd5541a4213afa000466292b578319ab" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::network::TimeSeriesBucket::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::network::TimeSeriesBucket::value</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="142" column="12" bodyfile="include/network/wire_protocol_helpers.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_time_series_bucket_1a48ea2968c83180d3b5ace66e3c605900" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::TimeSeriesBucket::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <qualifiedname>themis::network::TimeSeriesBucket::count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="143" column="14" bodyfile="include/network/wire_protocol_helpers.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_time_series_bucket_1af9e52fdd975e89cfc11f1100b047dd08" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::network::TimeSeriesBucket::min</definition>
+        <argsstring></argsstring>
+        <name>min</name>
+        <qualifiedname>themis::network::TimeSeriesBucket::min</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="144" column="12" bodyfile="include/network/wire_protocol_helpers.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_time_series_bucket_1ad819b1d56eacd1675feb05fbd31e203c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::network::TimeSeriesBucket::max</definition>
+        <argsstring></argsstring>
+        <name>max</name>
+        <qualifiedname>themis::network::TimeSeriesBucket::max</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="145" column="12" bodyfile="include/network/wire_protocol_helpers.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1network_1_1_time_series_bucket_1a1cdf7dae492af4f2fbf92384befc34dc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::network::TimeSeriesBucket::serialize</definition>
+        <argsstring>() const</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themis::network::TimeSeriesBucket::serialize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_helpers.h" line="148" column="17" bodyfile="src/network/wire_protocol_helpers.cpp" bodystart="348" bodyend="372"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="structthemis_1_1network_1_1_time_series_query_response" kindref="compound">TimeSeriesQueryResponse</ref> serializer. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Serializes protobuf message: message <ref refid="structthemis_1_1network_1_1_time_series_query_response" kindref="compound">TimeSeriesQueryResponse</ref> { repeated <ref refid="structthemis_1_1network_1_1_time_series_bucket" kindref="compound">TimeSeriesBucket</ref> buckets = 1; uint64 query_time_us = 2; <ref refid="structthemis_1_1network_1_1_time_series_stats" kindref="compound">TimeSeriesStats</ref> stats = 3; } </para>
+    </detaileddescription>
+    <location file="include/network/wire_protocol_helpers.h" line="140" column="1" bodyfile="include/network/wire_protocol_helpers.h" bodystart="140" bodyend="149"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_time_series_bucket_1a48ea2968c83180d3b5ace66e3c605900" prot="public" virt="non-virtual"><scope>themis::network::TimeSeriesBucket</scope><name>count</name></member>
+      <member refid="structthemis_1_1network_1_1_time_series_bucket_1ad819b1d56eacd1675feb05fbd31e203c" prot="public" virt="non-virtual"><scope>themis::network::TimeSeriesBucket</scope><name>max</name></member>
+      <member refid="structthemis_1_1network_1_1_time_series_bucket_1af9e52fdd975e89cfc11f1100b047dd08" prot="public" virt="non-virtual"><scope>themis::network::TimeSeriesBucket</scope><name>min</name></member>
+      <member refid="structthemis_1_1network_1_1_time_series_bucket_1a1cdf7dae492af4f2fbf92384befc34dc" prot="public" virt="non-virtual"><scope>themis::network::TimeSeriesBucket</scope><name>serialize</name></member>
+      <member refid="structthemis_1_1network_1_1_time_series_bucket_1af8281be67f22b039f32d1d0d3f9e7c71" prot="public" virt="non-virtual"><scope>themis::network::TimeSeriesBucket</scope><name>timestamp_ns</name></member>
+      <member refid="structthemis_1_1network_1_1_time_series_bucket_1abd5541a4213afa000466292b578319ab" prot="public" virt="non-virtual"><scope>themis::network::TimeSeriesBucket</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

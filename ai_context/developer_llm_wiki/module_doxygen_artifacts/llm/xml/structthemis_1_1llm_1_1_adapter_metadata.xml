@@ -1,0 +1,589 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_adapter_metadata" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::AdapterMetadata</compoundname>
+    <includes refid="adapter__registry_8h" local="no">adapter_registry.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1llm_1_1_adapter_metadata_1a983aa7d267d364d451971dd502f54bd2" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Status</name>
+        <qualifiedname>themis::llm::AdapterMetadata::Status</qualifiedname>
+        <enumvalue id="structthemis_1_1llm_1_1_adapter_metadata_1a983aa7d267d364d451971dd502f54bd2a7c95c63fdc6550e5b33eed35360778c3" prot="public">
+          <name>TRAINING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm_1_1_adapter_metadata_1a983aa7d267d364d451971dd502f54bd2a0c12e59ba7e96065fc19b2fc605d11af" prot="public">
+          <name>TRAINED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm_1_1_adapter_metadata_1a983aa7d267d364d451971dd502f54bd2a90ed2d7a17a0f9a3f787aac3f7c39608" prot="public">
+          <name>DEPLOYED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm_1_1_adapter_metadata_1a983aa7d267d364d451971dd502f54bd2af0d9e10417deacee308b91a46ddc1746" prot="public">
+          <name>DEPRECATED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm_1_1_adapter_metadata_1a983aa7d267d364d451971dd502f54bd2ab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="220" column="5" bodyfile="include/llm/adapter_registry.h" bodystart="220" bodyend="226"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_metadata_1a3d4814c2b2a6fda9b5aa00652102524c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AdapterMetadata::adapter_id</definition>
+        <argsstring></argsstring>
+        <name>adapter_id</name>
+        <qualifiedname>themis::llm::AdapterMetadata::adapter_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="189" column="17" bodyfile="include/llm/adapter_registry.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_metadata_1a214a508d4a3c9d189c1b1ba9a00d2649" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_adapter_version" kindref="compound">AdapterVersion</ref></type>
+        <definition>AdapterVersion themis::llm::AdapterMetadata::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::llm::AdapterMetadata::version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="190" column="20" bodyfile="include/llm/adapter_registry.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_metadata_1a58fb518695ce835dfda052494869f650" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AdapterMetadata::task_type</definition>
+        <argsstring></argsstring>
+        <name>task_type</name>
+        <qualifiedname>themis::llm::AdapterMetadata::task_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="191" column="17" bodyfile="include/llm/adapter_registry.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_metadata_1a4d88c56aec3534d4c8d903cd85292bd8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AdapterMetadata::domain</definition>
+        <argsstring></argsstring>
+        <name>domain</name>
+        <qualifiedname>themis::llm::AdapterMetadata::domain</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="192" column="17" bodyfile="include/llm/adapter_registry.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_metadata_1adbc2a948a2d545037eecf79be158604d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AdapterMetadata::language</definition>
+        <argsstring></argsstring>
+        <name>language</name>
+        <qualifiedname>themis::llm::AdapterMetadata::language</qualifiedname>
+        <initializer>= &quot;en&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="193" column="17" bodyfile="include/llm/adapter_registry.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_metadata_1a4d134332f37bbe0e3d8dc772a2c4362e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1a9f604bf28b2d7f38ea021637b73ee781" kindref="member">AdapterRole</ref></type>
+        <definition>AdapterRole themis::llm::AdapterMetadata::role</definition>
+        <argsstring></argsstring>
+        <name>role</name>
+        <qualifiedname>themis::llm::AdapterMetadata::role</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1llm_1a9f604bf28b2d7f38ea021637b73ee781ab61773b9b3968a9988d765d728985862" kindref="member">AdapterRole::GENERAL</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="195" column="17" bodyfile="include/llm/adapter_registry.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_metadata_1aae21bd296d9bea5b1cc74858e267a09f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AdapterMetadata::base_model_name</definition>
+        <argsstring></argsstring>
+        <name>base_model_name</name>
+        <qualifiedname>themis::llm::AdapterMetadata::base_model_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="198" column="17" bodyfile="include/llm/adapter_registry.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_metadata_1a6a194e155fe0db005bd0feda40a21676" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AdapterMetadata::base_model_version</definition>
+        <argsstring></argsstring>
+        <name>base_model_version</name>
+        <qualifiedname>themis::llm::AdapterMetadata::base_model_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="199" column="17" bodyfile="include/llm/adapter_registry.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_metadata_1af687e136f5916b6812a3f4dd4b29b926" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AdapterMetadata::architecture</definition>
+        <argsstring></argsstring>
+        <name>architecture</name>
+        <qualifiedname>themis::llm::AdapterMetadata::architecture</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="200" column="17" bodyfile="include/llm/adapter_registry.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_metadata_1a5b24328285743b04dc33df97b0c682fb" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::AdapterMetadata::hidden_size</definition>
+        <argsstring></argsstring>
+        <name>hidden_size</name>
+        <qualifiedname>themis::llm::AdapterMetadata::hidden_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="201" column="9" bodyfile="include/llm/adapter_registry.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_metadata_1afd0f3fc14a035d10d0d072ce1bb73f84" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::AdapterMetadata::ffn_dimension</definition>
+        <argsstring></argsstring>
+        <name>ffn_dimension</name>
+        <qualifiedname>themis::llm::AdapterMetadata::ffn_dimension</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="202" column="9" bodyfile="include/llm/adapter_registry.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_metadata_1aa676111416241147b8cd7a2395cf64ab" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AdapterMetadata::tokenizer_name</definition>
+        <argsstring></argsstring>
+        <name>tokenizer_name</name>
+        <qualifiedname>themis::llm::AdapterMetadata::tokenizer_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="203" column="17" bodyfile="include/llm/adapter_registry.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_metadata_1ab3dfbda9a0941007bf1988dd03be7650" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_training_config" kindref="compound">TrainingConfig</ref></type>
+        <definition>TrainingConfig themis::llm::AdapterMetadata::training_config</definition>
+        <argsstring></argsstring>
+        <name>training_config</name>
+        <qualifiedname>themis::llm::AdapterMetadata::training_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="206" column="20" bodyfile="include/llm/adapter_registry.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_metadata_1ace019c35b4dee718a38a6e701d03d403" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_adapter_provenance" kindref="compound">AdapterProvenance</ref></type>
+        <definition>AdapterProvenance themis::llm::AdapterMetadata::provenance</definition>
+        <argsstring></argsstring>
+        <name>provenance</name>
+        <qualifiedname>themis::llm::AdapterMetadata::provenance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="207" column="23" bodyfile="include/llm/adapter_registry.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_metadata_1a19fda9559af7c8a3cc5ba95c9c03ea85" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_quality_metrics" kindref="compound">QualityMetrics</ref></type>
+        <definition>QualityMetrics themis::llm::AdapterMetadata::quality_metrics</definition>
+        <argsstring></argsstring>
+        <name>quality_metrics</name>
+        <qualifiedname>themis::llm::AdapterMetadata::quality_metrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="208" column="20" bodyfile="include/llm/adapter_registry.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_metadata_1a9f37fa786be4980f16142f09dcc5dab9" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_adapter_signature" kindref="compound">AdapterSignature</ref></type>
+        <definition>AdapterSignature themis::llm::AdapterMetadata::signature</definition>
+        <argsstring></argsstring>
+        <name>signature</name>
+        <qualifiedname>themis::llm::AdapterMetadata::signature</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="211" column="22" bodyfile="include/llm/adapter_registry.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_metadata_1ad57e9222e77b798adf2df1524385cc55" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AdapterMetadata::storage_path</definition>
+        <argsstring></argsstring>
+        <name>storage_path</name>
+        <qualifiedname>themis::llm::AdapterMetadata::storage_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="214" column="17" bodyfile="include/llm/adapter_registry.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_metadata_1adc063b9dcb325afcc0f934f15e3ee3ab" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::AdapterMetadata::file_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>file_size_bytes</name>
+        <qualifiedname>themis::llm::AdapterMetadata::file_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="215" column="12" bodyfile="include/llm/adapter_registry.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_metadata_1a149065972141b7009a2d5f7beae041b8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AdapterMetadata::format</definition>
+        <argsstring></argsstring>
+        <name>format</name>
+        <qualifiedname>themis::llm::AdapterMetadata::format</qualifiedname>
+        <initializer>= &quot;GGUF-ST&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="216" column="17" bodyfile="include/llm/adapter_registry.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_metadata_1aaebbd8a3b4b8d63ee821781d1c21b738" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AdapterMetadata::quantization</definition>
+        <argsstring></argsstring>
+        <name>quantization</name>
+        <qualifiedname>themis::llm::AdapterMetadata::quantization</qualifiedname>
+        <initializer>= &quot;Q4_K_M&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="217" column="17" bodyfile="include/llm/adapter_registry.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_metadata_1a16820ee57145af3d6d38de54beab8531" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_adapter_metadata_1a983aa7d267d364d451971dd502f54bd2" kindref="member">Status</ref></type>
+        <definition>Status themis::llm::AdapterMetadata::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::llm::AdapterMetadata::status</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1llm_1_1_adapter_metadata_1a983aa7d267d364d451971dd502f54bd2a0c12e59ba7e96065fc19b2fc605d11af" kindref="member">Status::TRAINED</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="227" column="12" bodyfile="include/llm/adapter_registry.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_metadata_1aad526b7dd151da650b6be46fd3b98cc4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AdapterMetadata::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::llm::AdapterMetadata::created_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="229" column="17" bodyfile="include/llm/adapter_registry.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_metadata_1abb2e4cc2542d0337a0c70802b60eb4d3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AdapterMetadata::updated_at</definition>
+        <argsstring></argsstring>
+        <name>updated_at</name>
+        <qualifiedname>themis::llm::AdapterMetadata::updated_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="230" column="17" bodyfile="include/llm/adapter_registry.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_adapter_metadata_1a3ceea1a0672227d047b42e8b2f9acba4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::AdapterMetadata::~AdapterMetadata</definition>
+        <argsstring>()=default</argsstring>
+        <name>~AdapterMetadata</name>
+        <qualifiedname>themis::llm::AdapterMetadata::~AdapterMetadata</qualifiedname>
+        <briefdescription>
+<para>Adapter Metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="187" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_adapter_metadata_1a1ce5271cf197fbef20b18e757f70d6b2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::AdapterMetadata::isCompatibleWith</definition>
+        <argsstring>(const std::string &amp;base_model, const std::string &amp;model_version) const</argsstring>
+        <name>isCompatibleWith</name>
+        <qualifiedname>themis::llm::AdapterMetadata::isCompatibleWith</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_model</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_version</declname>
+        </param>
+        <briefdescription>
+<para>Is Compatible With. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">base_model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="239" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_adapter_metadata_1a79f7b0dd971856837edc7bbf562314a1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::llm::AdapterMetadata::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::llm::AdapterMetadata::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="245" column="20" bodyfile="src/llm/adapter_registry.cpp" bodystart="108" bodyend="130"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_adapter_metadata_1ad4080929762b9d075627a1a6b9a01c8d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref></type>
+        <definition>AdapterMetadata themis::llm::AdapterMetadata::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::llm::AdapterMetadata::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(), statusFromString(), contains(), is_object(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="251" column="28" bodyfile="src/llm/adapter_registry.cpp" bodystart="138" bodyend="166"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::llm::AdapterMetadata</label>
+        <link refid="structthemis_1_1llm_1_1_adapter_metadata"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>version</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>training_config</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>provenance</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>quality_metrics</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>signature</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::llm::AdapterProvenance</label>
+        <link refid="structthemis_1_1llm_1_1_adapter_provenance"/>
+      </node>
+      <node id="6">
+        <label>themis::llm::AdapterSignature</label>
+        <link refid="structthemis_1_1llm_1_1_adapter_signature"/>
+      </node>
+      <node id="2">
+        <label>themis::llm::AdapterVersion</label>
+        <link refid="structthemis_1_1llm_1_1_adapter_version"/>
+      </node>
+      <node id="5">
+        <label>themis::llm::QualityMetrics</label>
+        <link refid="structthemis_1_1llm_1_1_quality_metrics"/>
+      </node>
+      <node id="3">
+        <label>themis::llm::TrainingConfig</label>
+        <link refid="structthemis_1_1llm_1_1_training_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/adapter_registry.h" line="182" column="1" bodyfile="include/llm/adapter_registry.h" bodystart="182" bodyend="252"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_adapter_metadata_1a3d4814c2b2a6fda9b5aa00652102524c" prot="public" virt="non-virtual"><scope>themis::llm::AdapterMetadata</scope><name>adapter_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_metadata_1af687e136f5916b6812a3f4dd4b29b926" prot="public" virt="non-virtual"><scope>themis::llm::AdapterMetadata</scope><name>architecture</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_metadata_1aae21bd296d9bea5b1cc74858e267a09f" prot="public" virt="non-virtual"><scope>themis::llm::AdapterMetadata</scope><name>base_model_name</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_metadata_1a6a194e155fe0db005bd0feda40a21676" prot="public" virt="non-virtual"><scope>themis::llm::AdapterMetadata</scope><name>base_model_version</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_metadata_1aad526b7dd151da650b6be46fd3b98cc4" prot="public" virt="non-virtual"><scope>themis::llm::AdapterMetadata</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_metadata_1a4d88c56aec3534d4c8d903cd85292bd8" prot="public" virt="non-virtual"><scope>themis::llm::AdapterMetadata</scope><name>domain</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_metadata_1afd0f3fc14a035d10d0d072ce1bb73f84" prot="public" virt="non-virtual"><scope>themis::llm::AdapterMetadata</scope><name>ffn_dimension</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_metadata_1adc063b9dcb325afcc0f934f15e3ee3ab" prot="public" virt="non-virtual"><scope>themis::llm::AdapterMetadata</scope><name>file_size_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_metadata_1a149065972141b7009a2d5f7beae041b8" prot="public" virt="non-virtual"><scope>themis::llm::AdapterMetadata</scope><name>format</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_metadata_1ad4080929762b9d075627a1a6b9a01c8d" prot="public" virt="non-virtual"><scope>themis::llm::AdapterMetadata</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_metadata_1a5b24328285743b04dc33df97b0c682fb" prot="public" virt="non-virtual"><scope>themis::llm::AdapterMetadata</scope><name>hidden_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_metadata_1a1ce5271cf197fbef20b18e757f70d6b2" prot="public" virt="non-virtual"><scope>themis::llm::AdapterMetadata</scope><name>isCompatibleWith</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_metadata_1adbc2a948a2d545037eecf79be158604d" prot="public" virt="non-virtual"><scope>themis::llm::AdapterMetadata</scope><name>language</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_metadata_1ace019c35b4dee718a38a6e701d03d403" prot="public" virt="non-virtual"><scope>themis::llm::AdapterMetadata</scope><name>provenance</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_metadata_1a19fda9559af7c8a3cc5ba95c9c03ea85" prot="public" virt="non-virtual"><scope>themis::llm::AdapterMetadata</scope><name>quality_metrics</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_metadata_1aaebbd8a3b4b8d63ee821781d1c21b738" prot="public" virt="non-virtual"><scope>themis::llm::AdapterMetadata</scope><name>quantization</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_metadata_1a4d134332f37bbe0e3d8dc772a2c4362e" prot="public" virt="non-virtual"><scope>themis::llm::AdapterMetadata</scope><name>role</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_metadata_1a9f37fa786be4980f16142f09dcc5dab9" prot="public" virt="non-virtual"><scope>themis::llm::AdapterMetadata</scope><name>signature</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_metadata_1a983aa7d267d364d451971dd502f54bd2" prot="public" virt="non-virtual"><scope>themis::llm::AdapterMetadata</scope><name>Status</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_metadata_1a16820ee57145af3d6d38de54beab8531" prot="public" virt="non-virtual"><scope>themis::llm::AdapterMetadata</scope><name>status</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_metadata_1ad57e9222e77b798adf2df1524385cc55" prot="public" virt="non-virtual"><scope>themis::llm::AdapterMetadata</scope><name>storage_path</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_metadata_1a58fb518695ce835dfda052494869f650" prot="public" virt="non-virtual"><scope>themis::llm::AdapterMetadata</scope><name>task_type</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_metadata_1a79f7b0dd971856837edc7bbf562314a1" prot="public" virt="non-virtual"><scope>themis::llm::AdapterMetadata</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_metadata_1aa676111416241147b8cd7a2395cf64ab" prot="public" virt="non-virtual"><scope>themis::llm::AdapterMetadata</scope><name>tokenizer_name</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_metadata_1ab3dfbda9a0941007bf1988dd03be7650" prot="public" virt="non-virtual"><scope>themis::llm::AdapterMetadata</scope><name>training_config</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_metadata_1abb2e4cc2542d0337a0c70802b60eb4d3" prot="public" virt="non-virtual"><scope>themis::llm::AdapterMetadata</scope><name>updated_at</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_metadata_1a214a508d4a3c9d189c1b1ba9a00d2649" prot="public" virt="non-virtual"><scope>themis::llm::AdapterMetadata</scope><name>version</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_metadata_1a3ceea1a0672227d047b42e8b2f9acba4" prot="public" virt="virtual"><scope>themis::llm::AdapterMetadata</scope><name>~AdapterMetadata</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

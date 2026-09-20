@@ -1,0 +1,225 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1storage_1_1disk__utils" kind="namespace" language="C++">
+    <compoundname>themis::storage::disk_utils</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1storage_1_1disk__utils_1a78ac210e7529f3de29c25e7920aa36cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::disk_utils::getDiskSpace</definition>
+        <argsstring>(const std::string &amp;path, size_t &amp;total_bytes, size_t &amp;free_bytes, size_t &amp;available_bytes)</argsstring>
+        <name>getDiskSpace</name>
+        <qualifiedname>themis::storage::disk_utils::getDiskSpace</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>size_t &amp;</type>
+          <declname>total_bytes</declname>
+        </param>
+        <param>
+          <type>size_t &amp;</type>
+          <declname>free_bytes</declname>
+        </param>
+        <param>
+          <type>size_t &amp;</type>
+          <declname>available_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Get disk space info for a path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Disk Space.</para>
+<para>Platform-independent disk space query</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to query (file or directory) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">total_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total disk space </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">free_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Free disk space </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">available_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Available space (may differ from free on some systems) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if query successful</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">total_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">free_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">available_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: fs::absolute(), fs::path(), empty(), fs::current_path(), fs::exists(), parent_path(), wstring(), GetDiskFreeSpaceExW(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/disk_space_monitor.cpp" line="625" column="6" bodyfile="src/storage/disk_space_monitor.cpp" bodystart="625" bodyend="695" declfile="include/storage/disk_space_monitor.h" declline="299" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1_1disk__utils_1ace98df33d729500f0312b577a6314f48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::storage::disk_utils::formatBytes</definition>
+        <argsstring>(size_t bytes)</argsstring>
+        <name>formatBytes</name>
+        <qualifiedname>themis::storage::disk_utils::formatBytes</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Format bytes as human-readable string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Format Bytes.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Byte count </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Formatted string (e.g., &quot;1.5 GB&quot;)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::setprecision(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/disk_space_monitor.cpp" line="703" column="13" bodyfile="src/storage/disk_space_monitor.cpp" bodystart="703" bodyend="716" declfile="include/storage/disk_space_monitor.h" declline="312" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1_1disk__utils_1ae634709383b5b1156307093777f7b735" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::disk_utils::pathExists</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>pathExists</name>
+        <qualifiedname>themis::storage::disk_utils::pathExists</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Check if path exists. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Path Exists.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: GetFileAttributesA(), c_str(), stat(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/disk_space_monitor.cpp" line="724" column="6" bodyfile="src/storage/disk_space_monitor.cpp" bodystart="724" bodyend="732" declfile="include/storage/disk_space_monitor.h" declline="317" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1_1disk__utils_1a35542dbc9c7306f4c1cd9fb6b815409a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::storage::disk_utils::getDirectory</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>getDirectory</name>
+        <qualifiedname>themis::storage::disk_utils::getDirectory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Get directory of a file path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Directory.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find_last_of(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/disk_space_monitor.cpp" line="740" column="13" bodyfile="src/storage/disk_space_monitor.cpp" bodystart="740" bodyend="746" declfile="include/storage/disk_space_monitor.h" declline="322" declcolumn="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Utility functions for disk space operations. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/disk_space_monitor.h" line="286" column="1"/>
+  </compounddef>
+</doxygen>

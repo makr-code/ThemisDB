@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1safety_1_1_placement_handle" kind="struct" language="C++" prot="public">
+    <compoundname>themis::safety::PlacementHandle</compoundname>
+    <includes refid="move__safety__helpers_8h" local="no">move_safety_helpers.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1safety_1_1_placement_handle_1a26ecf95676f4bc2e39d4ca926742ee17" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::safety::PlacementHandle::decision_id</definition>
+        <argsstring></argsstring>
+        <name>decision_id</name>
+        <qualifiedname>themis::safety::PlacementHandle::decision_id</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/move_safety_helpers.h" line="240" column="17" bodyfile="include/security/move_safety_helpers.h" bodystart="240" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1safety_1_1_placement_handle_1a0fd6812ae3d2221463744142d1ce5a27" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::safety::PlacementHandle::assigned_shards</definition>
+        <argsstring></argsstring>
+        <name>assigned_shards</name>
+        <qualifiedname>themis::safety::PlacementHandle::assigned_shards</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/move_safety_helpers.h" line="241" column="17" bodyfile="include/security/move_safety_helpers.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1safety_1_1_placement_handle_1a3da369d1948be77b5b577b7f85f17cac" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, double &gt;</type>
+        <definition>std::map&lt;std::string, double&gt; themis::safety::PlacementHandle::shard_load</definition>
+        <argsstring></argsstring>
+        <name>shard_load</name>
+        <qualifiedname>themis::safety::PlacementHandle::shard_load</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/move_safety_helpers.h" line="242" column="14" bodyfile="include/security/move_safety_helpers.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1safety_1_1_placement_handle_1a5b1d5500743153b247e87359e5b40d35" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::safety::PlacementHandle::total_cost</definition>
+        <argsstring></argsstring>
+        <name>total_cost</name>
+        <qualifiedname>themis::safety::PlacementHandle::total_cost</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/move_safety_helpers.h" line="243" column="12" bodyfile="include/security/move_safety_helpers.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1safety_1_1_placement_handle_1a9309c74f7b299eecad4a285a385daa3e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::safety::PlacementHandle::is_balanced</definition>
+        <argsstring></argsstring>
+        <name>is_balanced</name>
+        <qualifiedname>themis::safety::PlacementHandle::is_balanced</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/move_safety_helpers.h" line="244" column="10" bodyfile="include/security/move_safety_helpers.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1safety_1_1_placement_handle_1a1499f31f10b5e796e5752acb237a60a7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::safety::PlacementHandle::isValid</definition>
+        <argsstring>() const</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::safety::PlacementHandle::isValid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/move_safety_helpers.h" line="246" column="10" bodyfile="include/security/move_safety_helpers.h" bodystart="246" bodyend="248"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="structthemis_1_1safety_1_1_placement_handle" kindref="compound">PlacementHandle</ref> - Safe reference to placement decision after move. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Captures placement decision (shard IDs, load) before move Allows safe queries by decision ID after move </para>
+    </detaileddescription>
+    <location file="include/security/move_safety_helpers.h" line="239" column="1" bodyfile="include/security/move_safety_helpers.h" bodystart="239" bodyend="249"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1safety_1_1_placement_handle_1a0fd6812ae3d2221463744142d1ce5a27" prot="public" virt="non-virtual"><scope>themis::safety::PlacementHandle</scope><name>assigned_shards</name></member>
+      <member refid="structthemis_1_1safety_1_1_placement_handle_1a26ecf95676f4bc2e39d4ca926742ee17" prot="public" virt="non-virtual"><scope>themis::safety::PlacementHandle</scope><name>decision_id</name></member>
+      <member refid="structthemis_1_1safety_1_1_placement_handle_1a9309c74f7b299eecad4a285a385daa3e" prot="public" virt="non-virtual"><scope>themis::safety::PlacementHandle</scope><name>is_balanced</name></member>
+      <member refid="structthemis_1_1safety_1_1_placement_handle_1a1499f31f10b5e796e5752acb237a60a7" prot="public" virt="non-virtual"><scope>themis::safety::PlacementHandle</scope><name>isValid</name></member>
+      <member refid="structthemis_1_1safety_1_1_placement_handle_1a3da369d1948be77b5b577b7f85f17cac" prot="public" virt="non-virtual"><scope>themis::safety::PlacementHandle</scope><name>shard_load</name></member>
+      <member refid="structthemis_1_1safety_1_1_placement_handle_1a5b1d5500743153b247e87359e5b40d35" prot="public" virt="non-virtual"><scope>themis::safety::PlacementHandle</scope><name>total_cost</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

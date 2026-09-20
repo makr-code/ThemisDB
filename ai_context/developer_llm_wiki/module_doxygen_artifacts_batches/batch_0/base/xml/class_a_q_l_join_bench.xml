@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_q_l_join_bench" kind="class" language="C++" prot="public">
+    <compoundname>AQLJoinBench</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_q_l_join_bench_1abfce045f4f363dece7bb4f33322aedcd" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AQLJoinBench::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>AQLJoinBench::db_path_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_comprehensive.cpp" line="394" column="17" bodyfile="benchmarks/base/bench_comprehensive.cpp" bodystart="394" bodyend="394"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_q_l_join_bench_1af185819f4e511eb446dcf69a5b3f76c1" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; AQLJoinBench::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>AQLJoinBench::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_comprehensive.cpp" line="395" column="21" bodyfile="benchmarks/base/bench_comprehensive.cpp" bodystart="395" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_q_l_join_bench_1a19e39a1a17ac2939b6613a5d7aa1736f" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; GraphIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;GraphIndexManager&gt; AQLJoinBench::gim_</definition>
+        <argsstring></argsstring>
+        <name>gim_</name>
+        <qualifiedname>AQLJoinBench::gim_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_comprehensive.cpp" line="396" column="21" bodyfile="benchmarks/base/bench_comprehensive.cpp" bodystart="396" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_q_l_join_bench_1a870b20311074c4e43bbb373127ec7c04" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;SecondaryIndexManager&gt; AQLJoinBench::sim_</definition>
+        <argsstring></argsstring>
+        <name>sim_</name>
+        <qualifiedname>AQLJoinBench::sim_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_comprehensive.cpp" line="397" column="21" bodyfile="benchmarks/base/bench_comprehensive.cpp" bodystart="397" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_q_l_join_bench_1a1582c6294867b81aaf2eb633358842a9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AQLJoinBench::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AQLJoinBench::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_comprehensive.cpp" line="371" column="10" bodyfile="benchmarks/base/bench_comprehensive.cpp" bodystart="371" bodyend="384"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_q_l_join_bench_1ab5ecaa67a8b076281141540fd9875d8e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AQLJoinBench::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>AQLJoinBench::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_comprehensive.cpp" line="386" column="10" bodyfile="benchmarks/base/bench_comprehensive.cpp" bodystart="386" bodyend="391"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AQLJoinBench</label>
+        <link refid="class_a_q_l_join_bench"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AQLJoinBench</label>
+        <link refid="class_a_q_l_join_bench"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/base/bench_comprehensive.cpp" line="369" column="1" bodyfile="benchmarks/base/bench_comprehensive.cpp" bodystart="369" bodyend="398"/>
+    <listofallmembers>
+      <member refid="class_a_q_l_join_bench_1af185819f4e511eb446dcf69a5b3f76c1" prot="protected" virt="non-virtual"><scope>AQLJoinBench</scope><name>db_</name></member>
+      <member refid="class_a_q_l_join_bench_1abfce045f4f363dece7bb4f33322aedcd" prot="protected" virt="non-virtual"><scope>AQLJoinBench</scope><name>db_path_</name></member>
+      <member refid="class_a_q_l_join_bench_1a19e39a1a17ac2939b6613a5d7aa1736f" prot="protected" virt="non-virtual"><scope>AQLJoinBench</scope><name>gim_</name></member>
+      <member refid="class_a_q_l_join_bench_1a1582c6294867b81aaf2eb633358842a9" prot="public" virt="non-virtual"><scope>AQLJoinBench</scope><name>SetUp</name></member>
+      <member refid="class_a_q_l_join_bench_1a870b20311074c4e43bbb373127ec7c04" prot="protected" virt="non-virtual"><scope>AQLJoinBench</scope><name>sim_</name></member>
+      <member refid="class_a_q_l_join_bench_1ab5ecaa67a8b076281141540fd9875d8e" prot="public" virt="non-virtual"><scope>AQLJoinBench</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

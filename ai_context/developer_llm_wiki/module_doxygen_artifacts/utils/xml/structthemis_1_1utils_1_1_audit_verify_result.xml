@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_audit_verify_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::AuditVerifyResult</compoundname>
+    <includes refid="audit__logger_8h" local="no">audit_logger.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_verify_result_1abd4b6cdbae0fa9ea228bd008120929e8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::AuditVerifyResult::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::utils::AuditVerifyResult::ok</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>true when chain is intact </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="640" column="14" bodyfile="include/utils/audit_logger.h" bodystart="640" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_verify_result_1ab56e6bebf34c37fe756402f52441cc31" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::utils::AuditVerifyResult::entries_ok</definition>
+        <argsstring></argsstring>
+        <name>entries_ok</name>
+        <qualifiedname>themis::utils::AuditVerifyResult::entries_ok</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>number of entries with valid chain links </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="641" column="14" bodyfile="include/utils/audit_logger.h" bodystart="641" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_verify_result_1a91de693bc91b143e77be535c6504a577" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::utils::AuditVerifyResult::entries_total</definition>
+        <argsstring></argsstring>
+        <name>entries_total</name>
+        <qualifiedname>themis::utils::AuditVerifyResult::entries_total</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>total non-empty lines inspected </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="642" column="14" bodyfile="include/utils/audit_logger.h" bodystart="642" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_verify_result_1a37d72613e23d9fc60169692dc4eed5d8" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::utils::AuditVerifyResult::first_bad_seq</definition>
+        <argsstring></argsstring>
+        <name>first_bad_seq</name>
+        <qualifiedname>themis::utils::AuditVerifyResult::first_bad_seq</qualifiedname>
+        <initializer>= UINT64_MAX</initializer>
+        <briefdescription>
+<para>sequence number of first tampered entry (if any) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="643" column="14" bodyfile="include/utils/audit_logger.h" bodystart="643" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_verify_result_1a36b411cfbeb8fa9cd97affeb0d75e1c6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::AuditVerifyResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::utils::AuditVerifyResult::error_message</qualifiedname>
+        <briefdescription>
+<para>human-readable description of first failure </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="644" column="17" bodyfile="include/utils/audit_logger.h" bodystart="644" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref> of a hash-chain verification pass. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/audit_logger.h" line="639" column="1" bodyfile="include/utils/audit_logger.h" bodystart="639" bodyend="645"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_audit_verify_result_1ab56e6bebf34c37fe756402f52441cc31" prot="public" virt="non-virtual"><scope>themis::utils::AuditVerifyResult</scope><name>entries_ok</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_verify_result_1a91de693bc91b143e77be535c6504a577" prot="public" virt="non-virtual"><scope>themis::utils::AuditVerifyResult</scope><name>entries_total</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_verify_result_1a36b411cfbeb8fa9cd97affeb0d75e1c6" prot="public" virt="non-virtual"><scope>themis::utils::AuditVerifyResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_verify_result_1a37d72613e23d9fc60169692dc4eed5d8" prot="public" virt="non-virtual"><scope>themis::utils::AuditVerifyResult</scope><name>first_bad_seq</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_verify_result_1abd4b6cdbae0fa9ea228bd008120929e8" prot="public" virt="non-virtual"><scope>themis::utils::AuditVerifyResult</scope><name>ok</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

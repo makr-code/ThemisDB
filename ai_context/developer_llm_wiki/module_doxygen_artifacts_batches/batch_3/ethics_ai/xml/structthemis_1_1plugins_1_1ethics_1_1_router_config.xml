@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_router_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::RouterConfig</compoundname>
+    <includes refid="ethics__selection__router_8h" local="no">ethics_selection_router.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_router_config_1aa81d26f1791c32723f82398211cf5fb2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::RouterConfig::taxonomy_yaml_path</definition>
+        <argsstring></argsstring>
+        <name>taxonomy_yaml_path</name>
+        <qualifiedname>themis::plugins::ethics::RouterConfig::taxonomy_yaml_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_selection_router.h" line="52" column="17" bodyfile="include/ethics_ai/ethics_selection_router.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a9bd5967899748c93e59bb920bdfab357" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::plugins::ethics::RouterConfig::top_n</definition>
+        <argsstring></argsstring>
+        <name>top_n</name>
+        <qualifiedname>themis::plugins::ethics::RouterConfig::top_n</qualifiedname>
+        <initializer>{5}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_selection_router.h" line="54" column="12" bodyfile="include/ethics_ai/ethics_selection_router.h" bodystart="54" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a2b691b35592c7fc0b45f055b966b72f4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::plugins::ethics::RouterConfig::stage2_top_k</definition>
+        <argsstring></argsstring>
+        <name>stage2_top_k</name>
+        <qualifiedname>themis::plugins::ethics::RouterConfig::stage2_top_k</qualifiedname>
+        <initializer>{10}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_selection_router.h" line="56" column="12" bodyfile="include/ethics_ai/ethics_selection_router.h" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a3f9632ec6c3bb9f19cd9d30d54512e6e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::RouterConfig::weight_semantic</definition>
+        <argsstring></argsstring>
+        <name>weight_semantic</name>
+        <qualifiedname>themis::plugins::ethics::RouterConfig::weight_semantic</qualifiedname>
+        <initializer>{0.40}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_selection_router.h" line="58" column="12" bodyfile="include/ethics_ai/ethics_selection_router.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_router_config_1addf1d8262e76c8c5b4caab2aa2b08e27" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::RouterConfig::weight_precedent</definition>
+        <argsstring></argsstring>
+        <name>weight_precedent</name>
+        <qualifiedname>themis::plugins::ethics::RouterConfig::weight_precedent</qualifiedname>
+        <initializer>{0.40}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_selection_router.h" line="59" column="12" bodyfile="include/ethics_ai/ethics_selection_router.h" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_router_config_1aecc57958978efba473f95b141b5d91a4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::RouterConfig::weight_taxonomy</definition>
+        <argsstring></argsstring>
+        <name>weight_taxonomy</name>
+        <qualifiedname>themis::plugins::ethics::RouterConfig::weight_taxonomy</qualifiedname>
+        <initializer>{0.20}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_selection_router.h" line="60" column="12" bodyfile="include/ethics_ai/ethics_selection_router.h" bodystart="60" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a29adce80e3f648c910ff1f0166894e9a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::RouterConfig::deployment_context</definition>
+        <argsstring></argsstring>
+        <name>deployment_context</name>
+        <qualifiedname>themis::plugins::ethics::RouterConfig::deployment_context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_selection_router.h" line="62" column="17" bodyfile="include/ethics_ai/ethics_selection_router.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a1ce2979af390385176deb95cf22b2af4" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1plugins_1_1ethics_1a68dc9ecd8a3b7e4dc570002cc5527de1" kindref="member">DiscourseMode</ref></type>
+        <definition>DiscourseMode themis::plugins::ethics::RouterConfig::discourse_mode</definition>
+        <argsstring></argsstring>
+        <name>discourse_mode</name>
+        <qualifiedname>themis::plugins::ethics::RouterConfig::discourse_mode</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1plugins_1_1ethics_1a68dc9ecd8a3b7e4dc570002cc5527de1a0282fee2140132ea4e4dfa14f6998688" kindref="member">DiscourseMode::SELECTION_ONLY</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_selection_router.h" line="68" column="19" bodyfile="include/ethics_ai/ethics_selection_router.h" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a4c5f5bfb8fc08dfb3dc57870f3fbab59" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, double &gt;</type>
+        <definition>std::map&lt;std::string, double&gt; themis::plugins::ethics::RouterConfig::school_bias</definition>
+        <argsstring></argsstring>
+        <name>school_bias</name>
+        <qualifiedname>themis::plugins::ethics::RouterConfig::school_bias</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_selection_router.h" line="70" column="14" bodyfile="include/ethics_ai/ethics_selection_router.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a196c7caa400e3af5b7e9d59a9d7c82ac" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::RouterConfig::chain_visualizer_output_path</definition>
+        <argsstring></argsstring>
+        <name>chain_visualizer_output_path</name>
+        <qualifiedname>themis::plugins::ethics::RouterConfig::chain_visualizer_output_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_selection_router.h" line="72" column="17" bodyfile="include/ethics_ai/ethics_selection_router.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a1a33a12fbb0e380b0a1e195f3ff6c1f8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::RouterConfig::conflict_threshold_ratio</definition>
+        <argsstring></argsstring>
+        <name>conflict_threshold_ratio</name>
+        <qualifiedname>themis::plugins::ethics::RouterConfig::conflict_threshold_ratio</qualifiedname>
+        <initializer>{0.6}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_selection_router.h" line="78" column="12" bodyfile="include/ethics_ai/ethics_selection_router.h" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a05834fc597e9632774af574aeb10f95b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::ethics::RouterConfig::snapshot_profile_on_round_start</definition>
+        <argsstring></argsstring>
+        <name>snapshot_profile_on_round_start</name>
+        <qualifiedname>themis::plugins::ethics::RouterConfig::snapshot_profile_on_round_start</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_selection_router.h" line="80" column="10" bodyfile="include/ethics_ai/ethics_selection_router.h" bodystart="80" bodyend="80"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/ethics_selection_router.h" line="51" column="1" bodyfile="include/ethics_ai/ethics_selection_router.h" bodystart="51" bodyend="81"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a196c7caa400e3af5b7e9d59a9d7c82ac" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RouterConfig</scope><name>chain_visualizer_output_path</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a1a33a12fbb0e380b0a1e195f3ff6c1f8" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RouterConfig</scope><name>conflict_threshold_ratio</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a29adce80e3f648c910ff1f0166894e9a" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RouterConfig</scope><name>deployment_context</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a1ce2979af390385176deb95cf22b2af4" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RouterConfig</scope><name>discourse_mode</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a4c5f5bfb8fc08dfb3dc57870f3fbab59" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RouterConfig</scope><name>school_bias</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a05834fc597e9632774af574aeb10f95b" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RouterConfig</scope><name>snapshot_profile_on_round_start</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a2b691b35592c7fc0b45f055b966b72f4" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RouterConfig</scope><name>stage2_top_k</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1aa81d26f1791c32723f82398211cf5fb2" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RouterConfig</scope><name>taxonomy_yaml_path</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a9bd5967899748c93e59bb920bdfab357" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RouterConfig</scope><name>top_n</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1addf1d8262e76c8c5b4caab2aa2b08e27" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RouterConfig</scope><name>weight_precedent</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a3f9632ec6c3bb9f19cd9d30d54512e6e" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RouterConfig</scope><name>weight_semantic</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1aecc57958978efba473f95b141b5d91a4" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RouterConfig</scope><name>weight_taxonomy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

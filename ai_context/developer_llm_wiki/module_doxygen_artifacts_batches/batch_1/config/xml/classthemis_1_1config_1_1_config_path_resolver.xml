@@ -1,0 +1,1400 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1config_1_1_config_path_resolver" kind="class" language="C++" prot="public">
+    <compoundname>themis::config::ConfigPathResolver</compoundname>
+    <includes refid="config__path__resolver_8h" local="no">config_path_resolver.h</includes>
+    <innerclass refid="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics" prot="public">themis::config::ConfigPathResolver::Metrics</innerclass>
+    <innerclass refid="structthemis_1_1config_1_1_config_path_resolver_1_1_cache_config" prot="public">themis::config::ConfigPathResolver::CacheConfig</innerclass>
+    <innerclass refid="structthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_entry" prot="public">themis::config::ConfigPathResolver::DeprecationEntry</innerclass>
+    <innerclass refid="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator" prot="public">themis::config::ConfigPathResolver::DeprecationAggregator</innerclass>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_config_path_resolver_1aef8669278806ff3746f01e744c0cb82a" prot="public" static="yes" mutable="no">
+        <type>const int</type>
+        <definition>const int themis::config::ConfigPathResolver::kCacheTtlSeconds</definition>
+        <argsstring></argsstring>
+        <name>kCacheTtlSeconds</name>
+        <qualifiedname>themis::config::ConfigPathResolver::kCacheTtlSeconds</qualifiedname>
+        <initializer>= readCacheTtlFromEnv()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="156" column="22" bodyfile="include/config/config_path_resolver.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_config_path_resolver_1a200b44c15a1961515ac2f4182fbeb23d" prot="public" static="yes" mutable="no">
+        <type>const size_t</type>
+        <definition>const size_t themis::config::ConfigPathResolver::kCacheSize</definition>
+        <argsstring></argsstring>
+        <name>kCacheSize</name>
+        <qualifiedname>themis::config::ConfigPathResolver::kCacheSize</qualifiedname>
+        <initializer>= readCacheSizeFromEnv()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="158" column="25" bodyfile="include/config/config_path_resolver.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_config_path_resolver_1a6e08cb1f9e97f430781a73996144c3fb" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::config::ConfigPathResolver::kDefaultCacheTtlSeconds</definition>
+        <argsstring></argsstring>
+        <name>kDefaultCacheTtlSeconds</name>
+        <qualifiedname>themis::config::ConfigPathResolver::kDefaultCacheTtlSeconds</qualifiedname>
+        <initializer>= 300</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="160" column="26" bodyfile="include/config/config_path_resolver.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_config_path_resolver_1a3ed9ea443552ed22efd7a88b754ced01" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::config::ConfigPathResolver::kDefaultCacheSize</definition>
+        <argsstring></argsstring>
+        <name>kDefaultCacheSize</name>
+        <qualifiedname>themis::config::ConfigPathResolver::kDefaultCacheSize</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="162" column="29" bodyfile="include/config/config_path_resolver.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_config_path_resolver_1ac83afba817f012cdad8f201853c74bc4" prot="private" static="yes" mutable="no">
+        <type>const std::map&lt; std::string, std::string &gt;</type>
+        <definition>const std::map&lt; std::string, std::string &gt; themis::config::ConfigPathResolver::PATH_MAPPING</definition>
+        <argsstring></argsstring>
+        <name>PATH_MAPPING</name>
+        <qualifiedname>themis::config::ConfigPathResolver::PATH_MAPPING</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="230" column="27" bodyfile="include/config/config_path_resolver.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_config_path_resolver_1ae6a972bcacc09db32a6f8e5804c336f8" prot="private" static="yes" mutable="no">
+        <type>const std::map&lt; std::string, <ref refid="structthemis_1_1config_1_1_path_mapping_metadata" kindref="compound">PathMappingMetadata</ref> &gt;</type>
+        <definition>const std::map&lt; std::string, PathMappingMetadata &gt; themis::config::ConfigPathResolver::METADATA_TABLE</definition>
+        <argsstring></argsstring>
+        <name>METADATA_TABLE</name>
+        <qualifiedname>themis::config::ConfigPathResolver::METADATA_TABLE</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="233" column="27" bodyfile="include/config/config_path_resolver.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_config_path_resolver_1a0258022c1b00e9b9843fd83ea16e89ec" prot="private" static="yes" mutable="no">
+        <type><ref refid="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics" kindref="compound">Metrics</ref></type>
+        <definition>ConfigPathResolver::Metrics themis::config::ConfigPathResolver::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::config::ConfigPathResolver::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="236" column="20" bodyfile="include/config/config_path_resolver.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_config_path_resolver_1a98e0855fcdcd66b228d1af76aec1d6b9" prot="private" static="yes" mutable="no">
+        <type><ref refid="classthemis_1_1config_1_1_l_r_u_cache_with_t_t_l" kindref="compound">LRUCacheWithTTL</ref>&lt; std::string, std::string &gt;</type>
+        <definition>LRUCacheWithTTL&lt; std::string, std::string &gt; themis::config::ConfigPathResolver::cache_</definition>
+        <argsstring></argsstring>
+        <name>cache_</name>
+        <qualifiedname>themis::config::ConfigPathResolver::cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="240" column="28" bodyfile="include/config/config_path_resolver.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_config_path_resolver_1af881cbc798dfa714d2e2e0a3a58f6ce9" prot="private" static="yes" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt; bool &gt; themis::config::ConfigPathResolver::caching_enabled_</definition>
+        <argsstring></argsstring>
+        <name>caching_enabled_</name>
+        <qualifiedname>themis::config::ConfigPathResolver::caching_enabled_</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="241" column="24" bodyfile="include/config/config_path_resolver.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_config_path_resolver_1a67e570dde2bcf81ccc4485cd4c28f6d2" prot="private" static="yes" mutable="no">
+        <type><ref refid="structthemis_1_1config_1_1_config_path_resolver_1_1_cache_config" kindref="compound">CacheConfig</ref></type>
+        <definition>ConfigPathResolver::CacheConfig themis::config::ConfigPathResolver::cache_config_</definition>
+        <argsstring></argsstring>
+        <name>cache_config_</name>
+        <qualifiedname>themis::config::ConfigPathResolver::cache_config_</qualifiedname>
+        <initializer>{
+    <ref refid="classthemis_1_1config_1_1_config_path_resolver_1a200b44c15a1961515ac2f4182fbeb23d" kindref="member">ConfigPathResolver::kCacheSize</ref>,
+    <ref refid="classthemis_1_1config_1_1_config_path_resolver_1aef8669278806ff3746f01e744c0cb82a" kindref="member">ConfigPathResolver::kCacheTtlSeconds</ref>
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="244" column="24" bodyfile="include/config/config_path_resolver.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_config_path_resolver_1aacc874c9407e010d8d8c03dd4473bab3" prot="private" static="yes" mutable="no">
+        <type>std::map&lt; std::string, std::atomic&lt; uint64_t &gt; &gt;</type>
+        <definition>std::map&lt; std::string, std::atomic&lt; uint64_t &gt; &gt; themis::config::ConfigPathResolver::legacy_fallbacks_by_category_</definition>
+        <argsstring></argsstring>
+        <name>legacy_fallbacks_by_category_</name>
+        <qualifiedname>themis::config::ConfigPathResolver::legacy_fallbacks_by_category_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="247" column="21" bodyfile="include/config/config_path_resolver.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_config_path_resolver_1a992bc628dfc3e78d40f7e07553bbf0bc" prot="private" static="yes" mutable="no">
+        <type>std::once_flag</type>
+        <definition>std::once_flag themis::config::ConfigPathResolver::category_init_flag_</definition>
+        <argsstring></argsstring>
+        <name>category_init_flag_</name>
+        <qualifiedname>themis::config::ConfigPathResolver::category_init_flag_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="248" column="27" bodyfile="include/config/config_path_resolver.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_config_path_resolver_1a7af0b7a69a8a80e1598dd1a93af59cc9" prot="private" static="yes" mutable="no">
+        <type><ref refid="classthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_aggregator" kindref="compound">DeprecationAggregator</ref></type>
+        <definition>ConfigPathResolver::DeprecationAggregator themis::config::ConfigPathResolver::aggregator_</definition>
+        <argsstring></argsstring>
+        <name>aggregator_</name>
+        <qualifiedname>themis::config::ConfigPathResolver::aggregator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="277" column="34" bodyfile="include/config/config_path_resolver.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_config_path_resolver_1a543c2abb236bf3dc31b648bb9c433fdf" prot="private" static="yes" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt; bool &gt; themis::config::ConfigPathResolver::aggregation_enabled_</definition>
+        <argsstring></argsstring>
+        <name>aggregation_enabled_</name>
+        <qualifiedname>themis::config::ConfigPathResolver::aggregation_enabled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="278" column="24" bodyfile="include/config/config_path_resolver.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_config_path_resolver_1a05e6ca76a6c7862ba622b709ecaa825a" prot="private" static="yes" mutable="no">
+        <type>std::atomic&lt; <ref refid="namespacethemis_1_1config_1ac7bb41ee0a08682d2a2fa2a83153c0b0" kindref="member">ConfigEnvironment</ref> &gt;</type>
+        <definition>std::atomic&lt; ConfigEnvironment &gt; themis::config::ConfigPathResolver::current_env_</definition>
+        <argsstring></argsstring>
+        <name>current_env_</name>
+        <qualifiedname>themis::config::ConfigPathResolver::current_env_</qualifiedname>
+        <initializer>{
+    ConfigPathResolver::envFromEnvironmentVariable()}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="281" column="24" bodyfile="include/config/config_path_resolver.h" bodystart="281" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_config_path_resolver_1a715745aac2c7a18cf78b7b10db3c2be7" prot="private" static="yes" mutable="no">
+        <type>volatile sig_atomic_t</type>
+        <definition>volatile sig_atomic_t themis::config::ConfigPathResolver::sighup_pending_</definition>
+        <argsstring></argsstring>
+        <name>sighup_pending_</name>
+        <qualifiedname>themis::config::ConfigPathResolver::sighup_pending_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="284" column="34" bodyfile="include/config/config_path_resolver.h" bodystart="284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_config_path_resolver_1ae3af38dfce5d482216b170be678b445b" prot="private" static="yes" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1config_1_1_config_file_watcher" kindref="compound">ConfigFileWatcher</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; ConfigFileWatcher &gt; themis::config::ConfigPathResolver::file_watcher_</definition>
+        <argsstring></argsstring>
+        <name>file_watcher_</name>
+        <qualifiedname>themis::config::ConfigPathResolver::file_watcher_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="294" column="28" bodyfile="include/config/config_path_resolver.h" bodystart="294" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_config_path_resolver_1a8f5590cce9ac64bef645d5ae18b7b73d" prot="private" static="yes" mutable="no">
+        <type><ref refid="classthemis_1_1config_1_1_config_audit_log" kindref="compound">ConfigAuditLog</ref></type>
+        <definition>ConfigAuditLog themis::config::ConfigPathResolver::audit_log_</definition>
+        <argsstring></argsstring>
+        <name>audit_log_</name>
+        <qualifiedname>themis::config::ConfigPathResolver::audit_log_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="309" column="27" bodyfile="include/config/config_path_resolver.h" bodystart="309" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_config_path_resolver_1a34020f3ac193dfa2ea733e53b568d9d2" prot="private" static="yes" mutable="no">
+        <type>std::atomic&lt; double &gt;</type>
+        <definition>std::atomic&lt; double &gt; themis::config::ConfigPathResolver::legacy_fallback_threshold_</definition>
+        <argsstring></argsstring>
+        <name>legacy_fallback_threshold_</name>
+        <qualifiedname>themis::config::ConfigPathResolver::legacy_fallback_threshold_</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="311" column="24" bodyfile="include/config/config_path_resolver.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_config_path_resolver_1a2ef9dcde7c8acf547d1784fdca0cf2da" prot="private" static="yes" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt; uint64_t &gt; themis::config::ConfigPathResolver::last_threshold_warn_count_</definition>
+        <argsstring></argsstring>
+        <name>last_threshold_warn_count_</name>
+        <qualifiedname>themis::config::ConfigPathResolver::last_threshold_warn_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="314" column="24" bodyfile="include/config/config_path_resolver.h" bodystart="314" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1a65c9c6d4d1fed674e739f1d4065983d9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::config::ConfigPathResolver::resolve</definition>
+        <argsstring>(const std::string &amp;legacy_path)</argsstring>
+        <name>resolve</name>
+        <qualifiedname>themis::config::ConfigPathResolver::resolve</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>legacy_path</declname>
+        </param>
+        <briefdescription>
+<para>Resolve. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Public API Implementation ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">legacy_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the legacy. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">legacy_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the legacy. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>ConfigNotFoundException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1config_1_1_config_path_resolver_1a851d6398e166e0dcd7bfe9d30f9d871b" kindref="member">tryResolve()</ref>, normalizePath(), <ref refid="classthemis_1_1config_1_1_config_path_resolver_1a04974f526edee118e51b1bdfa3ebb0f0" kindref="member">mapLegacyToNew()</ref>, load(), empty(), starts_with(), substr(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="49" column="24" bodyfile="src/config/config_path_resolver.cpp" bodystart="1266" bodyend="1294"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1a851d6398e166e0dcd7bfe9d30f9d871b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::config::ConfigPathResolver::tryResolve</definition>
+        <argsstring>(const std::string &amp;legacy_path)</argsstring>
+        <name>tryResolve</name>
+        <qualifiedname>themis::config::ConfigPathResolver::tryResolve</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>legacy_path</declname>
+        </param>
+        <briefdescription>
+<para>Try Resolve. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">legacy_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the legacy. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">legacy_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the legacy. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: normalizePath(), validatePath(), load(), envToString(), clear(), spdlog::info(), get(), <ref refid="classthemis_1_1config_1_1_config_path_resolver_1a83b8fd9f8906fbdb1218b37123307783" kindref="member">isLegacyPath()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="56" column="26" bodyfile="src/config/config_path_resolver.cpp" bodystart="1302" bodyend="1416"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1a04974f526edee118e51b1bdfa3ebb0f0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::config::ConfigPathResolver::mapLegacyToNew</definition>
+        <argsstring>(const std::string &amp;legacy_path)</argsstring>
+        <name>mapLegacyToNew</name>
+        <qualifiedname>themis::config::ConfigPathResolver::mapLegacyToNew</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>legacy_path</declname>
+        </param>
+        <briefdescription>
+<para>Map Legacy To New. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">legacy_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the legacy. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">legacy_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the legacy. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: normalizePath(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="63" column="24" bodyfile="src/config/config_path_resolver.cpp" bodystart="1424" bodyend="1434"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1a83b8fd9f8906fbdb1218b37123307783" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::config::ConfigPathResolver::isLegacyPath</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>isLegacyPath</name>
+        <qualifiedname>themis::config::ConfigPathResolver::isLegacyPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Is Legacy Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: normalizePath(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="70" column="17" bodyfile="src/config/config_path_resolver.cpp" bodystart="1442" bodyend="1445"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1afb6cf18d528bdc7105b1cd7d748e80f6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1config_1_1_path_mapping_metadata" kindref="compound">PathMappingMetadata</ref> &gt;</type>
+        <definition>std::optional&lt; PathMappingMetadata &gt; themis::config::ConfigPathResolver::getMetadata</definition>
+        <argsstring>(const std::string &amp;legacy_path)</argsstring>
+        <name>getMetadata</name>
+        <qualifiedname>themis::config::ConfigPathResolver::getMetadata</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>legacy_path</declname>
+        </param>
+        <briefdescription>
+<para>Get Metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">legacy_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the legacy. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">legacy_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the legacy. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: normalizePath(), find(), end(), inferCategory(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="77" column="26" bodyfile="src/config/config_path_resolver.cpp" bodystart="1457" bodyend="1478"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1abee95c2fd3ceb9e4ec5c64396bd0684d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+        <definition>const std::map&lt; std::string, std::string &gt; &amp; themis::config::ConfigPathResolver::legacyPathMappings</definition>
+        <argsstring>()</argsstring>
+        <name>legacyPathMappings</name>
+        <qualifiedname>themis::config::ConfigPathResolver::legacyPathMappings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="79" column="27" bodyfile="src/config/config_path_resolver.cpp" bodystart="1447" bodyend="1449"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1a624c1a7c4e6970dc4f9702c0bf63cecb" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics" kindref="compound">Metrics</ref> &amp;</type>
+        <definition>static const Metrics &amp; themis::config::ConfigPathResolver::metrics</definition>
+        <argsstring>()</argsstring>
+        <name>metrics</name>
+        <qualifiedname>themis::config::ConfigPathResolver::metrics</qualifiedname>
+        <briefdescription>
+<para><ref refid="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics" kindref="compound">Metrics</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements metrics without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="96" column="26" bodyfile="include/config/config_path_resolver.h" bodystart="96" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1a3a4163acbee47af1da5c4ef3a6930cb0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; std::string, uint64_t &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; std::string, uint64_t &gt; &gt; themis::config::ConfigPathResolver::legacyFallbacksByCategory</definition>
+        <argsstring>()</argsstring>
+        <name>legacyFallbacksByCategory</name>
+        <qualifiedname>themis::config::ConfigPathResolver::legacyFallbacksByCategory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="98" column="24" bodyfile="src/config/config_path_resolver.cpp" bodystart="1661" bodyend="1669"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1aa2b8aa9ffdde9640653af3592247ef61" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::config::ConfigPathResolver::legacyFallbackCategories</definition>
+        <argsstring>()</argsstring>
+        <name>legacyFallbackCategories</name>
+        <qualifiedname>themis::config::ConfigPathResolver::legacyFallbackCategories</qualifiedname>
+        <briefdescription>
+<para>Legacy Fallback Categories. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: initLegacyFallbackCategoryCounters(), reserve(), size(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="104" column="24" bodyfile="src/config/config_path_resolver.cpp" bodystart="1676" bodyend="1685"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1afc91909f31597538572a335cc278fc3b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::ConfigPathResolver::resetMetrics</definition>
+        <argsstring>()</argsstring>
+        <name>resetMetrics</name>
+        <qualifiedname>themis::config::ConfigPathResolver::resetMetrics</qualifiedname>
+        <briefdescription>
+<para>Reset <ref refid="structthemis_1_1config_1_1_config_path_resolver_1_1_metrics" kindref="compound">Metrics</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: reset(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="109" column="17" bodyfile="src/config/config_path_resolver.cpp" bodystart="1646" bodyend="1659"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1a0b30a5c78d16059e6b3e0679570ee60a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::ConfigPathResolver::setCachingEnabled</definition>
+        <argsstring>(bool enabled)</argsstring>
+        <name>setCachingEnabled</name>
+        <qualifiedname>themis::config::ConfigPathResolver::setCachingEnabled</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+<para>Set Caching Enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: store(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="115" column="17" bodyfile="src/config/config_path_resolver.cpp" bodystart="1692" bodyend="1697"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1a5561e56d34035da609eaf035071c70cf" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>auto</type>
+        <definition>static auto themis::config::ConfigPathResolver::cacheStats</definition>
+        <argsstring>()</argsstring>
+        <name>cacheStats</name>
+        <qualifiedname>themis::config::ConfigPathResolver::cacheStats</qualifiedname>
+        <briefdescription>
+<para>Cache Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: stats(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="122" column="17" bodyfile="include/config/config_path_resolver.h" bodystart="122" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1a836ab0ed0c1bf3bf0f24380fdaa30ced" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::config::ConfigPathResolver::clearCache</definition>
+        <argsstring>()</argsstring>
+        <name>clearCache</name>
+        <qualifiedname>themis::config::ConfigPathResolver::clearCache</qualifiedname>
+        <briefdescription>
+<para>Clear Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="128" column="17" bodyfile="include/config/config_path_resolver.h" bodystart="128" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1ad85b3db67f6b52d6efb3b61c28c0b67b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::ConfigPathResolver::setEnvironment</definition>
+        <argsstring>(ConfigEnvironment env)</argsstring>
+        <name>setEnvironment</name>
+        <qualifiedname>themis::config::ConfigPathResolver::setEnvironment</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1config_1ac7bb41ee0a08682d2a2fa2a83153c0b0" kindref="member">ConfigEnvironment</ref></type>
+          <declname>env</declname>
+        </param>
+        <briefdescription>
+<para>Set Environment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">env</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">env</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: store(), clear(), spdlog::info(), envToString(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="134" column="17" bodyfile="src/config/config_path_resolver.cpp" bodystart="1842" bodyend="1846"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1a905e4f76315255d0ec4c6c6859b81d9d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1config_1ac7bb41ee0a08682d2a2fa2a83153c0b0" kindref="member">ConfigEnvironment</ref></type>
+        <definition>ConfigEnvironment themis::config::ConfigPathResolver::getEnvironment</definition>
+        <argsstring>()</argsstring>
+        <name>getEnvironment</name>
+        <qualifiedname>themis::config::ConfigPathResolver::getEnvironment</qualifiedname>
+        <briefdescription>
+<para>Get Environment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: load(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="140" column="30" bodyfile="src/config/config_path_resolver.cpp" bodystart="1853" bodyend="1855"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1a93dbdd271a0baf05f106cdf8ce12fdc8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::ConfigPathResolver::registerSighupHandler</definition>
+        <argsstring>()</argsstring>
+        <name>registerSighupHandler</name>
+        <qualifiedname>themis::config::ConfigPathResolver::registerSighupHandler</qualifiedname>
+        <briefdescription>
+<para>Register Sighup Handler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: defined(), spdlog::debug(), sigemptyset(), sigaction(), spdlog::warn(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="145" column="17" bodyfile="src/config/config_path_resolver.cpp" bodystart="1912" bodyend="1928"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1a7efcdea72973dc06fbefe14c34b735aa" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::config::ConfigPathResolver::startHotReload</definition>
+        <argsstring>(const std::string &amp;watch_dir=&quot;config&quot;, std::chrono::milliseconds debounce=std::chrono::milliseconds(200))</argsstring>
+        <name>startHotReload</name>
+        <qualifiedname>themis::config::ConfigPathResolver::startHotReload</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>watch_dir</declname>
+          <defval>&quot;config&quot;</defval>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>debounce</declname>
+          <defval>std::chrono::milliseconds(200)</defval>
+        </param>
+        <briefdescription>
+<para>── inotify/kqueue/ReadDirectoryChangesW hot-reload ───────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">watch_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">debounce</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: isRunning(), spdlog::debug(), watchPath(), clear(), spdlog::info(), start(), reset(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="147" column="17" bodyfile="src/config/config_path_resolver.cpp" bodystart="1938" bodyend="1962"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1ac707898b4c3c9bd92be8e8bc3a9171fc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::ConfigPathResolver::stopHotReload</definition>
+        <argsstring>()</argsstring>
+        <name>stopHotReload</name>
+        <qualifiedname>themis::config::ConfigPathResolver::stopHotReload</qualifiedname>
+        <briefdescription>
+<para>Stop Hot Reload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: stop(), reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="154" column="17" bodyfile="src/config/config_path_resolver.cpp" bodystart="1968" bodyend="1973"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1a861f65c057f9cacfd8da7f4d4e575e9d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1config_1_1_config_path_resolver_1_1_cache_config" kindref="compound">CacheConfig</ref></type>
+        <definition>ConfigPathResolver::CacheConfig themis::config::ConfigPathResolver::currentCacheConfig</definition>
+        <argsstring>()</argsstring>
+        <name>currentCacheConfig</name>
+        <qualifiedname>themis::config::ConfigPathResolver::currentCacheConfig</qualifiedname>
+        <briefdescription>
+<para>Current Cache Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements currentCacheConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="173" column="24" bodyfile="src/config/config_path_resolver.cpp" bodystart="1704" bodyend="1706"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1a1adddf0d8309ef48010133d66c9393c9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::ConfigPathResolver::setAggregationEnabled</definition>
+        <argsstring>(bool enabled, int interval_seconds=300)</argsstring>
+        <name>setAggregationEnabled</name>
+        <qualifiedname>themis::config::ConfigPathResolver::setAggregationEnabled</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>interval_seconds</declname>
+          <defval>300</defval>
+        </param>
+        <briefdescription>
+<para>Set Aggregation Enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">interval_seconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: store(), start(), stop(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="184" column="17" bodyfile="src/config/config_path_resolver.cpp" bodystart="1714" bodyend="1721"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1abd5bd2b60b799b1f2c7101f39c4b2b8f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::ConfigPathResolver::setLegacyFallbackRateThreshold</definition>
+        <argsstring>(double threshold)</argsstring>
+        <name>setLegacyFallbackRateThreshold</name>
+        <qualifiedname>themis::config::ConfigPathResolver::setLegacyFallbackRateThreshold</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>threshold</declname>
+        </param>
+        <briefdescription>
+<para>Set Legacy Fallback Rate Threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="190" column="17" bodyfile="src/config/config_path_resolver.cpp" bodystart="1728" bodyend="1737"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1ae38ba36cb178c894ee61eeb10edaf1c3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::config::ConfigPathResolver::getLegacyFallbackRateThreshold</definition>
+        <argsstring>()</argsstring>
+        <name>getLegacyFallbackRateThreshold</name>
+        <qualifiedname>themis::config::ConfigPathResolver::getLegacyFallbackRateThreshold</qualifiedname>
+        <briefdescription>
+<para>Get Legacy Fallback Rate Threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: load(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="196" column="19" bodyfile="src/config/config_path_resolver.cpp" bodystart="1744" bodyend="1746"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1a05e70a4727bc294449ad2326e1ff16ab" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1config_1_1_config_path_resolver_1_1_deprecation_entry" kindref="compound">DeprecationEntry</ref> &gt;</type>
+        <definition>std::vector&lt; ConfigPathResolver::DeprecationEntry &gt; themis::config::ConfigPathResolver::deprecationReport</definition>
+        <argsstring>()</argsstring>
+        <name>deprecationReport</name>
+        <qualifiedname>themis::config::ConfigPathResolver::deprecationReport</qualifiedname>
+        <briefdescription>
+<para>Deprecation Report. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getReport(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="202" column="24" bodyfile="src/config/config_path_resolver.cpp" bodystart="1485" bodyend="1487"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1aedaf250d6a0918a5f16fd5471b936076" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::ConfigPathResolver::setAuditLogEnabled</definition>
+        <argsstring>(bool enabled)</argsstring>
+        <name>setAuditLogEnabled</name>
+        <qualifiedname>themis::config::ConfigPathResolver::setAuditLogEnabled</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+<para>── Audit log API ──────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Audit Log Enabled.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: enable(), disable(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="209" column="17" bodyfile="src/config/config_path_resolver.cpp" bodystart="1862" bodyend="1868"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1a13cca944821e634ee809c791d23a5f30" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1config_1_1_audit_entry" kindref="compound">AuditEntry</ref> &gt;</type>
+        <definition>std::vector&lt; AuditEntry &gt; themis::config::ConfigPathResolver::auditLog</definition>
+        <argsstring>()</argsstring>
+        <name>auditLog</name>
+        <qualifiedname>themis::config::ConfigPathResolver::auditLog</qualifiedname>
+        <briefdescription>
+<para>Audit Log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getEntries(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="215" column="24" bodyfile="src/config/config_path_resolver.cpp" bodystart="1875" bodyend="1877"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1aae58aa4d70f2314e0bdc6920a50ff691" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::ConfigPathResolver::clearAuditLog</definition>
+        <argsstring>()</argsstring>
+        <name>clearAuditLog</name>
+        <qualifiedname>themis::config::ConfigPathResolver::clearAuditLog</qualifiedname>
+        <briefdescription>
+<para>Clear Audit Log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="220" column="17" bodyfile="src/config/config_path_resolver.cpp" bodystart="1883" bodyend="1885"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1a6a2a99446d26493d862dffa6b39c6073" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::ConfigPathResolver::setAuditLogMaxEntries</definition>
+        <argsstring>(std::size_t max)</argsstring>
+        <name>setAuditLogMaxEntries</name>
+        <qualifiedname>themis::config::ConfigPathResolver::setAuditLogMaxEntries</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>max</declname>
+        </param>
+        <briefdescription>
+<para>Set Audit Log Max Entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">max</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: setMaxEntries(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="226" column="17" bodyfile="src/config/config_path_resolver.cpp" bodystart="1892" bodyend="1894"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1a921bc23b642928d3c22062030ecd632a" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::ConfigPathResolver::initLegacyFallbackCategoryCounters</definition>
+        <argsstring>()</argsstring>
+        <name>initLegacyFallbackCategoryCounters</name>
+        <qualifiedname>themis::config::ConfigPathResolver::initLegacyFallbackCategoryCounters</qualifiedname>
+        <briefdescription>
+<para>Init Legacy Fallback Category Counters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::call_once(), clear(), emplace(), inferCategory(), try_emplace(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="252" column="17" bodyfile="src/config/config_path_resolver.cpp" bodystart="1627" bodyend="1640"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1a32a4326e1a5159b605ab17f57f63a79f" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::config::ConfigPathResolver::normalizePath</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>normalizePath</name>
+        <qualifiedname>themis::config::ConfigPathResolver::normalizePath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Helper to normalize path separators. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Private Helper Methods ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::replace(), begin(), end(), starts_with(), substr(), ends_with(), length(), pop_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="259" column="24" bodyfile="src/config/config_path_resolver.cpp" bodystart="1522" bodyend="1539"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1a094026a99da5305f19d3723b962bce1b" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::ConfigPathResolver::validatePath</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>validatePath</name>
+        <qualifiedname>themis::config::ConfigPathResolver::validatePath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Validate Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>InvalidPathException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), fs_path(), is_absolute(), std::replace(), begin(), end(), size(), compare(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="266" column="17" bodyfile="src/config/config_path_resolver.cpp" bodystart="1547" bodyend="1621"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1a936f575e8a273f593e6b58ec00a5e4d3" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::config::ConfigPathResolver::inferCategory</definition>
+        <argsstring>(const std::string &amp;new_path)</argsstring>
+        <name>inferCategory</name>
+        <qualifiedname>themis::config::ConfigPathResolver::inferCategory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>new_path</declname>
+        </param>
+        <briefdescription>
+<para>Get category from new path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Infer Category.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">new_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the new. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">new_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the new. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: normalizePath(), starts_with(), substr(), size(), find(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="273" column="24" bodyfile="src/config/config_path_resolver.cpp" bodystart="1495" bodyend="1513"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1ae0e4a42a5f69cf222c01f5f035438ae1" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::ConfigPathResolver::handleSighup</definition>
+        <argsstring>(int sig)</argsstring>
+        <name>handleSighup</name>
+        <qualifiedname>themis::config::ConfigPathResolver::handleSighup</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>sig</declname>
+        </param>
+        <briefdescription>
+<para>Handle Sighup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Static signal handler – must be async-signal-safe; only sets a flag.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sig</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">int</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements handleSighup without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="289" column="17" bodyfile="src/config/config_path_resolver.cpp" bodystart="1904" bodyend="1906"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1a0d0091d6a79b514b664d26b2f85613de" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::config::ConfigPathResolver::envToString</definition>
+        <argsstring>(ConfigEnvironment env)</argsstring>
+        <name>envToString</name>
+        <qualifiedname>themis::config::ConfigPathResolver::envToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1config_1ac7bb41ee0a08682d2a2fa2a83153c0b0" kindref="member">ConfigEnvironment</ref></type>
+          <declname>env</declname>
+        </param>
+        <briefdescription>
+<para>Converts a <ref refid="namespacethemis_1_1config_1ac7bb41ee0a08682d2a2fa2a83153c0b0" kindref="member">ConfigEnvironment</ref> to its lowercase string name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Env To String.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">env</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">env</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements envToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="301" column="24" bodyfile="src/config/config_path_resolver.cpp" bodystart="1787" bodyend="1798"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1a4052b9a3ca2acaa02fafa71c51ffc096" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1config_1ac7bb41ee0a08682d2a2fa2a83153c0b0" kindref="member">ConfigEnvironment</ref></type>
+        <definition>ConfigEnvironment themis::config::ConfigPathResolver::envFromEnvironmentVariable</definition>
+        <argsstring>()</argsstring>
+        <name>envFromEnvironmentVariable</name>
+        <qualifiedname>themis::config::ConfigPathResolver::envFromEnvironmentVariable</qualifiedname>
+        <briefdescription>
+<para>Reads and validates THEMIS_CONFIG_ENV at initialisation time. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Env From Environment Variable.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::getenv(), val(), spdlog::warn(), std::transform(), begin(), end(), std::tolower(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="307" column="30" bodyfile="src/config/config_path_resolver.cpp" bodystart="1805" bodyend="1835"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_path_resolver_1a8fc31677b3b43968aa43c606987ad185" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::ConfigPathResolver::checkFallbackRateThreshold</definition>
+        <argsstring>()</argsstring>
+        <name>checkFallbackRateThreshold</name>
+        <qualifiedname>themis::config::ConfigPathResolver::checkFallbackRateThreshold</qualifiedname>
+        <briefdescription>
+<para>Check whether the current fallback rate has crossed the threshold and, if so, emit a rate-limited spdlog::warn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Check Fallback Rate Threshold.</para>
+<para>Calls: load(), compare_exchange_strong(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_path_resolver.h" line="319" column="17" bodyfile="src/config/config_path_resolver.cpp" bodystart="1752" bodyend="1779"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/config/config_path_resolver.h" line="42" column="1" bodyfile="include/config/config_path_resolver.h" bodystart="42" bodyend="320"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1a543c2abb236bf3dc31b648bb9c433fdf" prot="private" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>aggregation_enabled_</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1a7af0b7a69a8a80e1598dd1a93af59cc9" prot="private" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>aggregator_</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1a8f5590cce9ac64bef645d5ae18b7b73d" prot="private" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>audit_log_</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1a13cca944821e634ee809c791d23a5f30" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>auditLog</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1a98e0855fcdcd66b228d1af76aec1d6b9" prot="private" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>cache_</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1a67e570dde2bcf81ccc4485cd4c28f6d2" prot="private" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>cache_config_</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1a5561e56d34035da609eaf035071c70cf" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>cacheStats</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1af881cbc798dfa714d2e2e0a3a58f6ce9" prot="private" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>caching_enabled_</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1a992bc628dfc3e78d40f7e07553bbf0bc" prot="private" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>category_init_flag_</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1a8fc31677b3b43968aa43c606987ad185" prot="private" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>checkFallbackRateThreshold</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1aae58aa4d70f2314e0bdc6920a50ff691" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>clearAuditLog</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1a836ab0ed0c1bf3bf0f24380fdaa30ced" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>clearCache</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1a05e6ca76a6c7862ba622b709ecaa825a" prot="private" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>current_env_</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1a861f65c057f9cacfd8da7f4d4e575e9d" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>currentCacheConfig</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1a05e70a4727bc294449ad2326e1ff16ab" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>deprecationReport</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1a4052b9a3ca2acaa02fafa71c51ffc096" prot="private" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>envFromEnvironmentVariable</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1a0d0091d6a79b514b664d26b2f85613de" prot="private" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>envToString</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1ae3af38dfce5d482216b170be678b445b" prot="private" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>file_watcher_</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1a905e4f76315255d0ec4c6c6859b81d9d" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>getEnvironment</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1ae38ba36cb178c894ee61eeb10edaf1c3" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>getLegacyFallbackRateThreshold</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1afb6cf18d528bdc7105b1cd7d748e80f6" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>getMetadata</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1ae0e4a42a5f69cf222c01f5f035438ae1" prot="private" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>handleSighup</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1a936f575e8a273f593e6b58ec00a5e4d3" prot="private" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>inferCategory</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1a921bc23b642928d3c22062030ecd632a" prot="private" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>initLegacyFallbackCategoryCounters</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1a83b8fd9f8906fbdb1218b37123307783" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>isLegacyPath</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1a200b44c15a1961515ac2f4182fbeb23d" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>kCacheSize</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1aef8669278806ff3746f01e744c0cb82a" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>kCacheTtlSeconds</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1a3ed9ea443552ed22efd7a88b754ced01" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>kDefaultCacheSize</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1a6e08cb1f9e97f430781a73996144c3fb" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>kDefaultCacheTtlSeconds</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1a2ef9dcde7c8acf547d1784fdca0cf2da" prot="private" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>last_threshold_warn_count_</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1a34020f3ac193dfa2ea733e53b568d9d2" prot="private" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>legacy_fallback_threshold_</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1aacc874c9407e010d8d8c03dd4473bab3" prot="private" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>legacy_fallbacks_by_category_</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1aa2b8aa9ffdde9640653af3592247ef61" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>legacyFallbackCategories</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1a3a4163acbee47af1da5c4ef3a6930cb0" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>legacyFallbacksByCategory</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1abee95c2fd3ceb9e4ec5c64396bd0684d" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>legacyPathMappings</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1a04974f526edee118e51b1bdfa3ebb0f0" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>mapLegacyToNew</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1ae6a972bcacc09db32a6f8e5804c336f8" prot="private" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>METADATA_TABLE</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1a624c1a7c4e6970dc4f9702c0bf63cecb" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>metrics</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1a0258022c1b00e9b9843fd83ea16e89ec" prot="private" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1a32a4326e1a5159b605ab17f57f63a79f" prot="private" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>normalizePath</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1ac83afba817f012cdad8f201853c74bc4" prot="private" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>PATH_MAPPING</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1a93dbdd271a0baf05f106cdf8ce12fdc8" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>registerSighupHandler</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1afc91909f31597538572a335cc278fc3b" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>resetMetrics</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1a65c9c6d4d1fed674e739f1d4065983d9" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>resolve</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1a1adddf0d8309ef48010133d66c9393c9" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>setAggregationEnabled</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1aedaf250d6a0918a5f16fd5471b936076" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>setAuditLogEnabled</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1a6a2a99446d26493d862dffa6b39c6073" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>setAuditLogMaxEntries</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1a0b30a5c78d16059e6b3e0679570ee60a" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>setCachingEnabled</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1ad85b3db67f6b52d6efb3b61c28c0b67b" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>setEnvironment</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1abd5bd2b60b799b1f2c7101f39c4b2b8f" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>setLegacyFallbackRateThreshold</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1a715745aac2c7a18cf78b7b10db3c2be7" prot="private" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>sighup_pending_</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1a7efcdea72973dc06fbefe14c34b735aa" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>startHotReload</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1ac707898b4c3c9bd92be8e8bc3a9171fc" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>stopHotReload</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1a851d6398e166e0dcd7bfe9d30f9d871b" prot="public" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>tryResolve</name></member>
+      <member refid="classthemis_1_1config_1_1_config_path_resolver_1a094026a99da5305f19d3723b962bce1b" prot="private" virt="non-virtual"><scope>themis::config::ConfigPathResolver</scope><name>validatePath</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

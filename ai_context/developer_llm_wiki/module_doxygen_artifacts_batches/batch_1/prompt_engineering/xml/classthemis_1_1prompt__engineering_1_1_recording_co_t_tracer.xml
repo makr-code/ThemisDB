@@ -1,0 +1,379 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_recording_co_t_tracer" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::prompt_engineering::RecordingCoTTracer</compoundname>
+    <basecompoundref refid="classthemis_1_1prompt__engineering_1_1_i_chain_of_thought_tracer" prot="public" virt="non-virtual">themis::prompt_engineering::IChainOfThoughtTracer</basecompoundref>
+    <includes refid="cot__tracer_8h" local="no">cot_tracer.h</includes>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_recording_co_t_tracer_1_1_pending_begin" prot="private">themis::prompt_engineering::RecordingCoTTracer::PendingBegin</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_recording_co_t_tracer_1abebb7991b1fe463d1b7997c27d127539" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::prompt_engineering::RecordingCoTTracer::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::prompt_engineering::RecordingCoTTracer::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/cot_tracer.h" line="147" column="33" bodyfile="include/prompt_engineering/cot_tracer.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_recording_co_t_tracer_1a9603511ed50805a465281b4e34c1dd88" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_co_t_span_record" kindref="compound">CoTSpanRecord</ref> &gt;</type>
+        <definition>std::vector&lt;CoTSpanRecord&gt; themis::prompt_engineering::RecordingCoTTracer::spans_</definition>
+        <argsstring></argsstring>
+        <name>spans_</name>
+        <qualifiedname>themis::prompt_engineering::RecordingCoTTracer::spans_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/cot_tracer.h" line="148" column="18" bodyfile="include/prompt_engineering/cot_tracer.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_recording_co_t_tracer_1a2eb32bd48154e67fd9f65b0783addb57" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; PendingBegin &gt;</type>
+        <definition>std::vector&lt;PendingBegin&gt; themis::prompt_engineering::RecordingCoTTracer::pending_</definition>
+        <argsstring></argsstring>
+        <name>pending_</name>
+        <qualifiedname>themis::prompt_engineering::RecordingCoTTracer::pending_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/cot_tracer.h" line="155" column="19" bodyfile="include/prompt_engineering/cot_tracer.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_recording_co_t_tracer_1a2d70c6f7c3a619ae87226ce458837558" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::RecordingCoTTracer::RecordingCoTTracer</definition>
+        <argsstring>()=default</argsstring>
+        <name>RecordingCoTTracer</name>
+        <qualifiedname>themis::prompt_engineering::RecordingCoTTracer::RecordingCoTTracer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/cot_tracer.h" line="116" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_recording_co_t_tracer_1a199ecfdb3ff20a1c5e770b4fb0745411" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::RecordingCoTTracer::onStepBegin</definition>
+        <argsstring>(StepId step_index, const std::string &amp;label) noexcept override</argsstring>
+        <name>onStepBegin</name>
+        <qualifiedname>themis::prompt_engineering::RecordingCoTTracer::onStepBegin</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_chain_of_thought_tracer_1ae5bf66df9be5df2a1fdbcc5dd4c04a5c">onStepBegin</reimplements>
+        <param>
+          <type><ref refid="namespacethemis_1_1prompt__engineering_1ac6e6b01dd412c7044c3297dbeb3ead9a" kindref="member">StepId</ref></type>
+          <declname>step_index</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>label</declname>
+        </param>
+        <briefdescription>
+<para>Called immediately before a reasoning step is rendered into the prompt string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>step_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>0-based index of the step being rendered. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>label</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Step label (auto-numbered or explicit). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/cot_tracer.h" line="118" column="10" bodyfile="src/prompt_engineering/cot_tracer.cpp" bodystart="40" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_recording_co_t_tracer_1afffc9df3de4d6bc5350f05a2cd375a1c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::RecordingCoTTracer::onStepEnd</definition>
+        <argsstring>(StepId step_index, const std::string &amp;content, std::chrono::microseconds duration) noexcept override</argsstring>
+        <name>onStepEnd</name>
+        <qualifiedname>themis::prompt_engineering::RecordingCoTTracer::onStepEnd</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_chain_of_thought_tracer_1aed9dfb55d3afd870aa31b0e56183856d">onStepEnd</reimplements>
+        <param>
+          <type><ref refid="namespacethemis_1_1prompt__engineering_1ac6e6b01dd412c7044c3297dbeb3ead9a" kindref="member">StepId</ref></type>
+          <declname>step_index</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <param>
+          <type>std::chrono::microseconds</type>
+          <declname>duration</declname>
+        </param>
+        <briefdescription>
+<para>Called immediately after a reasoning step has been appended to the output buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>step_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Same index as the corresponding <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_recording_co_t_tracer_1a199ecfdb3ff20a1c5e770b4fb0745411" kindref="member">onStepBegin</ref></computeroutput> call. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The step content that was appended. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>duration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Wall-clock time elapsed since <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_recording_co_t_tracer_1a199ecfdb3ff20a1c5e770b4fb0745411" kindref="member">onStepBegin</ref></computeroutput> for this step (precision: microseconds). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/cot_tracer.h" line="121" column="10" bodyfile="src/prompt_engineering/cot_tracer.cpp" bodystart="56" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_recording_co_t_tracer_1aa52325d7a14aae519ad88074746d20dd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::RecordingCoTTracer::name</definition>
+        <argsstring>() const override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::prompt_engineering::RecordingCoTTracer::name</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_chain_of_thought_tracer_1a4a9bbd60a5aafa317fbf01e12ccb255e">name</reimplements>
+        <briefdescription>
+<para>Human-readable name of this tracer implementation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Tracer name string, e.g. <computeroutput>&quot;recording-cot-tracer&quot;</computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/cot_tracer.h" line="125" column="17" bodyfile="include/prompt_engineering/cot_tracer.h" bodystart="125" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_recording_co_t_tracer_1a4eeb7f67c139bc47dc08ad6be4202ea2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_co_t_span_record" kindref="compound">CoTSpanRecord</ref> &gt;</type>
+        <definition>std::vector&lt; CoTSpanRecord &gt; themis::prompt_engineering::RecordingCoTTracer::spans</definition>
+        <argsstring>() const</argsstring>
+        <name>spans</name>
+        <qualifiedname>themis::prompt_engineering::RecordingCoTTracer::spans</qualifiedname>
+        <briefdescription>
+<para>Return a snapshot of all recorded spans. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/cot_tracer.h" line="132" column="17" bodyfile="src/prompt_engineering/cot_tracer.cpp" bodystart="83" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_recording_co_t_tracer_1a05b4d7dc14d04b8d4a95068ea6be3698" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::prompt_engineering::RecordingCoTTracer::spanCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>spanCount</name>
+        <qualifiedname>themis::prompt_engineering::RecordingCoTTracer::spanCount</qualifiedname>
+        <briefdescription>
+<para>Return the number of complete spans recorded so far. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/cot_tracer.h" line="135" column="17" bodyfile="src/prompt_engineering/cot_tracer.cpp" bodystart="93" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_recording_co_t_tracer_1acde3d29de406752bc356506912756998" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::RecordingCoTTracer::hasSpans</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>hasSpans</name>
+        <qualifiedname>themis::prompt_engineering::RecordingCoTTracer::hasSpans</qualifiedname>
+        <briefdescription>
+<para>Return <computeroutput>true</computeroutput> when at least one span has been recorded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/cot_tracer.h" line="138" column="10" bodyfile="src/prompt_engineering/cot_tracer.cpp" bodystart="103" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_recording_co_t_tracer_1a54a300c54148e98576ecfd56d6fc7e4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::RecordingCoTTracer::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::prompt_engineering::RecordingCoTTracer::reset</qualifiedname>
+        <briefdescription>
+<para>Remove all recorded spans. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset the modification detection flag.</para>
+<para>Calls: lk(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/cot_tracer.h" line="141" column="10" bodyfile="src/prompt_engineering/cot_tracer.cpp" bodystart="117" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_recording_co_t_tracer_1a93de2a4020112e986e4fe84cf69da299" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::prompt_engineering::RecordingCoTTracer::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::prompt_engineering::RecordingCoTTracer::toJson</qualifiedname>
+        <briefdescription>
+<para>Serialise all recorded spans to a JSON array. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/cot_tracer.h" line="144" column="20" bodyfile="src/prompt_engineering/cot_tracer.cpp" bodystart="123" bodyend="135"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Concrete <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_chain_of_thought_tracer" kindref="compound">IChainOfThoughtTracer</ref></computeroutput> that records all spans in memory. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Intended for unit testing and offline analysis. Thread-safe: internal storage is protected by a mutex so the same instance can be shared by concurrent builders (though that is unusual in practice). </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::prompt_engineering::IChainOfThoughtTracer</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_chain_of_thought_tracer"/>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::RecordingCoTTracer</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_recording_co_t_tracer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::prompt_engineering::IChainOfThoughtTracer</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_chain_of_thought_tracer"/>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::RecordingCoTTracer</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_recording_co_t_tracer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/prompt_engineering/cot_tracer.h" line="114" column="1" bodyfile="include/prompt_engineering/cot_tracer.h" bodystart="114" bodyend="156"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_recording_co_t_tracer_1acde3d29de406752bc356506912756998" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RecordingCoTTracer</scope><name>hasSpans</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_recording_co_t_tracer_1abebb7991b1fe463d1b7997c27d127539" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::RecordingCoTTracer</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_recording_co_t_tracer_1aa52325d7a14aae519ad88074746d20dd" prot="public" virt="virtual"><scope>themis::prompt_engineering::RecordingCoTTracer</scope><name>name</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_recording_co_t_tracer_1a199ecfdb3ff20a1c5e770b4fb0745411" prot="public" virt="virtual"><scope>themis::prompt_engineering::RecordingCoTTracer</scope><name>onStepBegin</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_recording_co_t_tracer_1afffc9df3de4d6bc5350f05a2cd375a1c" prot="public" virt="virtual"><scope>themis::prompt_engineering::RecordingCoTTracer</scope><name>onStepEnd</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_recording_co_t_tracer_1a2eb32bd48154e67fd9f65b0783addb57" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::RecordingCoTTracer</scope><name>pending_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_recording_co_t_tracer_1a2d70c6f7c3a619ae87226ce458837558" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RecordingCoTTracer</scope><name>RecordingCoTTracer</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_recording_co_t_tracer_1a54a300c54148e98576ecfd56d6fc7e4a" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RecordingCoTTracer</scope><name>reset</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_recording_co_t_tracer_1a05b4d7dc14d04b8d4a95068ea6be3698" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RecordingCoTTracer</scope><name>spanCount</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_recording_co_t_tracer_1a4eeb7f67c139bc47dc08ad6be4202ea2" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RecordingCoTTracer</scope><name>spans</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_recording_co_t_tracer_1a9603511ed50805a465281b4e34c1dd88" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::RecordingCoTTracer</scope><name>spans_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_recording_co_t_tracer_1a93de2a4020112e986e4fe84cf69da299" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RecordingCoTTracer</scope><name>toJson</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_chain_of_thought_tracer_1a5cd27c95f56b8cda33a5d7149497d907" prot="public" virt="virtual"><scope>themis::prompt_engineering::RecordingCoTTracer</scope><name>~IChainOfThoughtTracer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

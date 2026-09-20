@@ -1,0 +1,374 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1index_1_1tests" kind="namespace" language="C++">
+    <compoundname>themis::index::tests</compoundname>
+    <innerclass refid="classthemis_1_1index_1_1tests_1_1_graph_edge_empty_fields_test" prot="public">themis::index::tests::GraphEdgeEmptyFieldsTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1ab3e4106cc1f1bc6ab99ba8c610e9c7e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(GraphEdgeEmptyFieldsTest, EmptyFieldValidation_EmptyFromFieldRejected)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_graph_edge_empty_fields_test" kindref="compound">GraphEdgeEmptyFieldsTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyFieldValidation_EmptyFromFieldRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_edge_empty_fields_qw45.cpp" line="65" column="1" bodyfile="tests/graph/test_graph_edge_empty_fields_qw45.cpp" bodystart="65" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1a8efdbaa6d6f06072b5dab7fade96107b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(GraphEdgeEmptyFieldsTest, EmptyFieldValidation_EmptyToFieldRejected)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_graph_edge_empty_fields_test" kindref="compound">GraphEdgeEmptyFieldsTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyFieldValidation_EmptyToFieldRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_edge_empty_fields_qw45.cpp" line="76" column="1" bodyfile="tests/graph/test_graph_edge_empty_fields_qw45.cpp" bodystart="76" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1a2c21441d49925d97ca09b5c50fd2f371" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(GraphEdgeEmptyFieldsTest, EmptyFieldValidation_BothEmptyFieldsRejected)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_graph_edge_empty_fields_test" kindref="compound">GraphEdgeEmptyFieldsTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyFieldValidation_BothEmptyFieldsRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_edge_empty_fields_qw45.cpp" line="87" column="1" bodyfile="tests/graph/test_graph_edge_empty_fields_qw45.cpp" bodystart="87" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1a7aed7bcb8d2e791e5cde0d3477c7437b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(GraphEdgeEmptyFieldsTest, EmptyFieldValidation_ValidEdgeAccepted)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_graph_edge_empty_fields_test" kindref="compound">GraphEdgeEmptyFieldsTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyFieldValidation_ValidEdgeAccepted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_edge_empty_fields_qw45.cpp" line="96" column="1" bodyfile="tests/graph/test_graph_edge_empty_fields_qw45.cpp" bodystart="96" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1a46c71e370aad679b3c16e5947e3a844f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(GraphEdgeEmptyFieldsTest, EmptyFieldValidation_WhitespaceOnlyFromRejected)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_graph_edge_empty_fields_test" kindref="compound">GraphEdgeEmptyFieldsTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyFieldValidation_WhitespaceOnlyFromRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_edge_empty_fields_qw45.cpp" line="105" column="1" bodyfile="tests/graph/test_graph_edge_empty_fields_qw45.cpp" bodystart="105" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1ab97fac903e5774149ff14b0bbe4f35fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(GraphEdgeEmptyFieldsTest, EmptyFieldValidation_SingleCharNodeIDAccepted)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_graph_edge_empty_fields_test" kindref="compound">GraphEdgeEmptyFieldsTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyFieldValidation_SingleCharNodeIDAccepted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_edge_empty_fields_qw45.cpp" line="117" column="1" bodyfile="tests/graph/test_graph_edge_empty_fields_qw45.cpp" bodystart="117" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1af14a598991717031ad298c8aef826452" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(GraphEdgeEmptyFieldsTest, EmptyFieldValidation_LongNodeIDAccepted)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_graph_edge_empty_fields_test" kindref="compound">GraphEdgeEmptyFieldsTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyFieldValidation_LongNodeIDAccepted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_edge_empty_fields_qw45.cpp" line="126" column="1" bodyfile="tests/graph/test_graph_edge_empty_fields_qw45.cpp" bodystart="126" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1a980fd1b551128ed7457083ba8c5ff620" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(GraphEdgeEmptyFieldsTest, EmptyFieldValidation_SpecialCharsInNodeIDAccepted)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_graph_edge_empty_fields_test" kindref="compound">GraphEdgeEmptyFieldsTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyFieldValidation_SpecialCharsInNodeIDAccepted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_edge_empty_fields_qw45.cpp" line="136" column="1" bodyfile="tests/graph/test_graph_edge_empty_fields_qw45.cpp" bodystart="136" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1a8812590687ccad2825378372403ff319" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(GraphEdgeEmptyFieldsTest, EmptyFieldValidation_NumericNodeIDAccepted)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_graph_edge_empty_fields_test" kindref="compound">GraphEdgeEmptyFieldsTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyFieldValidation_NumericNodeIDAccepted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_edge_empty_fields_qw45.cpp" line="145" column="1" bodyfile="tests/graph/test_graph_edge_empty_fields_qw45.cpp" bodystart="145" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1a6cfcf44db04990c812de85be5b4cb3de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(GraphEdgeEmptyFieldsTest, EmptyFieldValidation_EdgeIDEmptyStillRejected)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_graph_edge_empty_fields_test" kindref="compound">GraphEdgeEmptyFieldsTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyFieldValidation_EdgeIDEmptyStillRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_edge_empty_fields_qw45.cpp" line="154" column="1" bodyfile="tests/graph/test_graph_edge_empty_fields_qw45.cpp" bodystart="154" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1a3c509f54443beb5094172114d6b19f48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(GraphEdgeEmptyFieldsTest, EmptyFieldValidation_WriteBatchEmptyFromRejected)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_graph_edge_empty_fields_test" kindref="compound">GraphEdgeEmptyFieldsTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyFieldValidation_WriteBatchEmptyFromRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_edge_empty_fields_qw45.cpp" line="170" column="1" bodyfile="tests/graph/test_graph_edge_empty_fields_qw45.cpp" bodystart="170" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1a838f306f033ab3b0179bb87f3fea5a22" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(GraphEdgeEmptyFieldsTest, EmptyFieldValidation_WriteBatchEmptyToRejected)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_graph_edge_empty_fields_test" kindref="compound">GraphEdgeEmptyFieldsTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyFieldValidation_WriteBatchEmptyToRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_edge_empty_fields_qw45.cpp" line="181" column="1" bodyfile="tests/graph/test_graph_edge_empty_fields_qw45.cpp" bodystart="181" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1a08a539a329020ffed3125dbbde0c8f83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(GraphEdgeEmptyFieldsTest, EmptyFieldValidation_WriteBatchValidEdgeAccepted)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_graph_edge_empty_fields_test" kindref="compound">GraphEdgeEmptyFieldsTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyFieldValidation_WriteBatchValidEdgeAccepted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_edge_empty_fields_qw45.cpp" line="192" column="1" bodyfile="tests/graph/test_graph_edge_empty_fields_qw45.cpp" bodystart="192" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1a54fb14fe83aca486b682e7c8c77cf603" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(GraphEdgeEmptyFieldsTest, EmptyFieldValidation_TransactionEmptyFromRejected)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_graph_edge_empty_fields_test" kindref="compound">GraphEdgeEmptyFieldsTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyFieldValidation_TransactionEmptyFromRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_edge_empty_fields_qw45.cpp" line="207" column="1" bodyfile="tests/graph/test_graph_edge_empty_fields_qw45.cpp" bodystart="207" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1a4ba09dd2bafed394c1be78d80f0083e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(GraphEdgeEmptyFieldsTest, EmptyFieldValidation_TransactionEmptyToRejected)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_graph_edge_empty_fields_test" kindref="compound">GraphEdgeEmptyFieldsTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyFieldValidation_TransactionEmptyToRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_edge_empty_fields_qw45.cpp" line="223" column="1" bodyfile="tests/graph/test_graph_edge_empty_fields_qw45.cpp" bodystart="223" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1aa353f80815abc339a62465a5518fcee4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(GraphEdgeEmptyFieldsTest, EmptyFieldValidation_TopologyCorruptionPrevention)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_graph_edge_empty_fields_test" kindref="compound">GraphEdgeEmptyFieldsTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyFieldValidation_TopologyCorruptionPrevention</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_edge_empty_fields_qw45.cpp" line="242" column="1" bodyfile="tests/graph/test_graph_edge_empty_fields_qw45.cpp" bodystart="242" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1aae2ac0d1a00d00a514e12905c519fde8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(GraphEdgeEmptyFieldsTest, EmptyFieldValidation_FailClosedBehavior)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_graph_edge_empty_fields_test" kindref="compound">GraphEdgeEmptyFieldsTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyFieldValidation_FailClosedBehavior</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_edge_empty_fields_qw45.cpp" line="263" column="1" bodyfile="tests/graph/test_graph_edge_empty_fields_qw45.cpp" bodystart="263" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1_1tests_1aad700586d75c14befdad6b81eefb2b9e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::tests::TEST_F</definition>
+        <argsstring>(GraphEdgeEmptyFieldsTest, EmptyFieldValidation_ErrorMessageIndicatesEmptyField)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::index::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1tests_1_1_graph_edge_empty_fields_test" kindref="compound">GraphEdgeEmptyFieldsTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyFieldValidation_ErrorMessageIndicatesEmptyField</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_edge_empty_fields_qw45.cpp" line="295" column="1" bodyfile="tests/graph/test_graph_edge_empty_fields_qw45.cpp" bodystart="295" bodyend="307"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/graph/test_graph_edge_empty_fields_qw45.cpp" line="13" column="1"/>
+  </compounddef>
+</doxygen>

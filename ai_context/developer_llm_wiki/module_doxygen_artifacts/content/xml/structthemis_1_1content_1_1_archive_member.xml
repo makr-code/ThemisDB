@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_archive_member" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::ArchiveMember</compoundname>
+    <includes refid="archive__processor_8h" local="no">archive_processor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_archive_member_1a3263e3ceac777c885b66d14e894b7279" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ArchiveMember::path</definition>
+        <argsstring></argsstring>
+        <name>path</name>
+        <qualifiedname>themis::content::ArchiveMember::path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="49" column="17" bodyfile="include/content/archive_processor.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_archive_member_1a8d83397cc34e07c75d88153f664a8681" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::content::ArchiveMember::uncompressed_size</definition>
+        <argsstring></argsstring>
+        <name>uncompressed_size</name>
+        <qualifiedname>themis::content::ArchiveMember::uncompressed_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Uncompressed size in bytes (CON-019). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="50" column="14" bodyfile="include/content/archive_processor.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_archive_member_1ab4b84936e6564e55b5508a202799add0" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::content::ArchiveMember::compressed_size</definition>
+        <argsstring></argsstring>
+        <name>compressed_size</name>
+        <qualifiedname>themis::content::ArchiveMember::compressed_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Compressed size in bytes (CON-019). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="51" column="14" bodyfile="include/content/archive_processor.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_archive_member_1aff0f31ea8c5a45a3e20b92cf879773fe" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ArchiveMember::is_directory</definition>
+        <argsstring></argsstring>
+        <name>is_directory</name>
+        <qualifiedname>themis::content::ArchiveMember::is_directory</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True if this is a directory entry (CON-019). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="52" column="10" bodyfile="include/content/archive_processor.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_archive_member_1aee61eae2930775d1b77396c37991ea10" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ArchiveMember::is_encrypted</definition>
+        <argsstring></argsstring>
+        <name>is_encrypted</name>
+        <qualifiedname>themis::content::ArchiveMember::is_encrypted</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True if this member is encrypted (CON-019). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="53" column="10" bodyfile="include/content/archive_processor.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/archive_processor.h" line="48" column="1" bodyfile="include/content/archive_processor.h" bodystart="48" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_archive_member_1ab4b84936e6564e55b5508a202799add0" prot="public" virt="non-virtual"><scope>themis::content::ArchiveMember</scope><name>compressed_size</name></member>
+      <member refid="structthemis_1_1content_1_1_archive_member_1aff0f31ea8c5a45a3e20b92cf879773fe" prot="public" virt="non-virtual"><scope>themis::content::ArchiveMember</scope><name>is_directory</name></member>
+      <member refid="structthemis_1_1content_1_1_archive_member_1aee61eae2930775d1b77396c37991ea10" prot="public" virt="non-virtual"><scope>themis::content::ArchiveMember</scope><name>is_encrypted</name></member>
+      <member refid="structthemis_1_1content_1_1_archive_member_1a3263e3ceac777c885b66d14e894b7279" prot="public" virt="non-virtual"><scope>themis::content::ArchiveMember</scope><name>path</name></member>
+      <member refid="structthemis_1_1content_1_1_archive_member_1a8d83397cc34e07c75d88153f664a8681" prot="public" virt="non-virtual"><scope>themis::content::ArchiveMember</scope><name>uncompressed_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

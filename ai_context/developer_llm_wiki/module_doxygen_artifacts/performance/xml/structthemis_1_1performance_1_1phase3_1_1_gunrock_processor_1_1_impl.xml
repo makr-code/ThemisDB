@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::phase3::GunrockProcessor::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1_1_impl_1aea8c6d5bd4acdbf90bbd1cbd0f343105" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; <ref refid="namespacethemis_1_1performance_1_1phase3_1a7972261ddb484882ae477c58301436ec" kindref="member">NodeID</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;NodeID&gt; &gt; themis::performance::phase3::GunrockProcessor::Impl::adj_list</definition>
+        <argsstring></argsstring>
+        <name>adj_list</name>
+        <qualifiedname>themis::performance::phase3::GunrockProcessor::Impl::adj_list</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/phase3/gunrock.cpp" line="27" column="17" bodyfile="src/performance/phase3/gunrock.cpp" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1_1_impl_1ab2ea76f147f88017be9c4fcf3cbb572b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase3::GunrockProcessor::Impl::num_vertices</definition>
+        <argsstring></argsstring>
+        <name>num_vertices</name>
+        <qualifiedname>themis::performance::phase3::GunrockProcessor::Impl::num_vertices</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/phase3/gunrock.cpp" line="28" column="12" bodyfile="src/performance/phase3/gunrock.cpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1_1_impl_1af39210c98b3bcedca8fd0b0997b0b31c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase3::GunrockProcessor::Impl::num_edges</definition>
+        <argsstring></argsstring>
+        <name>num_edges</name>
+        <qualifiedname>themis::performance::phase3::GunrockProcessor::Impl::num_edges</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/phase3/gunrock.cpp" line="29" column="12" bodyfile="src/performance/phase3/gunrock.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1_1_impl_1a00fc9c6abdf2d23cb5d37b6de99bbbc6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1performance_1_1phase3_1a7972261ddb484882ae477c58301436ec" kindref="member">NodeID</ref> &gt;</type>
+        <definition>std::vector&lt;NodeID&gt; themis::performance::phase3::GunrockProcessor::Impl::row_offsets</definition>
+        <argsstring></argsstring>
+        <name>row_offsets</name>
+        <qualifiedname>themis::performance::phase3::GunrockProcessor::Impl::row_offsets</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/phase3/gunrock.cpp" line="32" column="17" bodyfile="src/performance/phase3/gunrock.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1_1_impl_1aa38007dcb37ce377773285056aee3bca" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1performance_1_1phase3_1a7972261ddb484882ae477c58301436ec" kindref="member">NodeID</ref> &gt;</type>
+        <definition>std::vector&lt;NodeID&gt; themis::performance::phase3::GunrockProcessor::Impl::column_indices</definition>
+        <argsstring></argsstring>
+        <name>column_indices</name>
+        <qualifiedname>themis::performance::phase3::GunrockProcessor::Impl::column_indices</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/phase3/gunrock.cpp" line="33" column="17" bodyfile="src/performance/phase3/gunrock.cpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/performance/phase3/gunrock.cpp" line="26" column="1" bodyfile="src/performance/phase3/gunrock.cpp" bodystart="26" bodyend="34"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1_1_impl_1aea8c6d5bd4acdbf90bbd1cbd0f343105" prot="public" virt="non-virtual"><scope>themis::performance::phase3::GunrockProcessor::Impl</scope><name>adj_list</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1_1_impl_1aa38007dcb37ce377773285056aee3bca" prot="public" virt="non-virtual"><scope>themis::performance::phase3::GunrockProcessor::Impl</scope><name>column_indices</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1_1_impl_1af39210c98b3bcedca8fd0b0997b0b31c" prot="public" virt="non-virtual"><scope>themis::performance::phase3::GunrockProcessor::Impl</scope><name>num_edges</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1_1_impl_1ab2ea76f147f88017be9c4fcf3cbb572b" prot="public" virt="non-virtual"><scope>themis::performance::phase3::GunrockProcessor::Impl</scope><name>num_vertices</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_gunrock_processor_1_1_impl_1a00fc9c6abdf2d23cb5d37b6de99bbbc6" prot="public" virt="non-virtual"><scope>themis::performance::phase3::GunrockProcessor::Impl</scope><name>row_offsets</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

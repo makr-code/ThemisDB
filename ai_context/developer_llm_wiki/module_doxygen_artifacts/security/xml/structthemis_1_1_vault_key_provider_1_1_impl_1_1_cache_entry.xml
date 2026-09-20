@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_vault_key_provider_1_1_impl_1_1_cache_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::VaultKeyProvider::Impl::CacheEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_vault_key_provider_1_1_impl_1_1_cache_entry_1acea1d535043db95010a354e1292a6a03" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::VaultKeyProvider::Impl::CacheEntry::key_bytes</definition>
+        <argsstring></argsstring>
+        <name>key_bytes</name>
+        <qualifiedname>themis::VaultKeyProvider::Impl::CacheEntry::key_bytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/vault_key_provider.cpp" line="240" column="21" bodyfile="src/security/vault_key_provider.cpp" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vault_key_provider_1_1_impl_1_1_cache_entry_1a875f76d722a99fcbdfdd227c36af07f2" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::VaultKeyProvider::Impl::CacheEntry::expiry_ms</definition>
+        <argsstring></argsstring>
+        <name>expiry_ms</name>
+        <qualifiedname>themis::VaultKeyProvider::Impl::CacheEntry::expiry_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/vault_key_provider.cpp" line="241" column="17" bodyfile="src/security/vault_key_provider.cpp" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vault_key_provider_1_1_impl_1_1_cache_entry_1a5c3a6a3133e3520936c148a0388c0a45" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::VaultKeyProvider::Impl::CacheEntry::last_access_ms</definition>
+        <argsstring></argsstring>
+        <name>last_access_ms</name>
+        <qualifiedname>themis::VaultKeyProvider::Impl::CacheEntry::last_access_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/vault_key_provider.cpp" line="242" column="17" bodyfile="src/security/vault_key_provider.cpp" bodystart="242" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/security/vault_key_provider.cpp" line="239" column="5" bodyfile="src/security/vault_key_provider.cpp" bodystart="239" bodyend="243"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_vault_key_provider_1_1_impl_1_1_cache_entry_1a875f76d722a99fcbdfdd227c36af07f2" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider::Impl::CacheEntry</scope><name>expiry_ms</name></member>
+      <member refid="structthemis_1_1_vault_key_provider_1_1_impl_1_1_cache_entry_1acea1d535043db95010a354e1292a6a03" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider::Impl::CacheEntry</scope><name>key_bytes</name></member>
+      <member refid="structthemis_1_1_vault_key_provider_1_1_impl_1_1_cache_entry_1a5c3a6a3133e3520936c148a0388c0a45" prot="public" virt="non-virtual"><scope>themis::VaultKeyProvider::Impl::CacheEntry</scope><name>last_access_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

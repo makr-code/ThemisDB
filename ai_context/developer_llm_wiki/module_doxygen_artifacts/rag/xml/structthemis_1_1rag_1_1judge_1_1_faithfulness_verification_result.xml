@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_faithfulness_verification_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::FaithfulnessVerificationResult</compoundname>
+    <includes refid="nli__faithfulness__verifier_8h" local="no">nli_faithfulness_verifier.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_faithfulness_verification_result_1a974c31889dee3ed3306fd922a40fdb4b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::FaithfulnessVerificationResult::faithfulness_score</definition>
+        <argsstring></argsstring>
+        <name>faithfulness_score</name>
+        <qualifiedname>themis::rag::judge::FaithfulnessVerificationResult::faithfulness_score</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Overall score (0-1). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/nli_faithfulness_verifier.h" line="60" column="12" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_faithfulness_verification_result_1a149f7b10812eff086953b4f3fda2ec0c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::FaithfulnessVerificationResult::is_faithful</definition>
+        <argsstring></argsstring>
+        <name>is_faithful</name>
+        <qualifiedname>themis::rag::judge::FaithfulnessVerificationResult::is_faithful</qualifiedname>
+        <briefdescription>
+<para>Meets threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/nli_faithfulness_verifier.h" line="61" column="10" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_faithfulness_verification_result_1ae4df79cff771ed5f436594bf3c6946fb" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::FaithfulnessVerificationResult::total_claims</definition>
+        <argsstring></argsstring>
+        <name>total_claims</name>
+        <qualifiedname>themis::rag::judge::FaithfulnessVerificationResult::total_claims</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/nli_faithfulness_verifier.h" line="64" column="12" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_faithfulness_verification_result_1a9634d271f5a0391ae107b02a9166ce4d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::FaithfulnessVerificationResult::supported_claims</definition>
+        <argsstring></argsstring>
+        <name>supported_claims</name>
+        <qualifiedname>themis::rag::judge::FaithfulnessVerificationResult::supported_claims</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/nli_faithfulness_verifier.h" line="65" column="12" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_faithfulness_verification_result_1a0943be117aa2efecffff673cfff1d7ab" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::FaithfulnessVerificationResult::partially_supported_claims</definition>
+        <argsstring></argsstring>
+        <name>partially_supported_claims</name>
+        <qualifiedname>themis::rag::judge::FaithfulnessVerificationResult::partially_supported_claims</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/nli_faithfulness_verifier.h" line="66" column="12" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_faithfulness_verification_result_1a5f7895cd8c1541d741c4b060ced9fc23" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::FaithfulnessVerificationResult::unsupported_claims</definition>
+        <argsstring></argsstring>
+        <name>unsupported_claims</name>
+        <qualifiedname>themis::rag::judge::FaithfulnessVerificationResult::unsupported_claims</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/nli_faithfulness_verifier.h" line="67" column="12" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_faithfulness_verification_result_1a3c3721a76c1f4313abf77270f475e974" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::FaithfulnessVerificationResult::contradicted_claims</definition>
+        <argsstring></argsstring>
+        <name>contradicted_claims</name>
+        <qualifiedname>themis::rag::judge::FaithfulnessVerificationResult::contradicted_claims</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/nli_faithfulness_verifier.h" line="68" column="12" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_faithfulness_verification_result_1a5edc6c9e15845b919061f5b16dc7e518" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_claim_verification" kindref="compound">ClaimVerification</ref> &gt;</type>
+        <definition>std::vector&lt;ClaimVerification&gt; themis::rag::judge::FaithfulnessVerificationResult::claims</definition>
+        <argsstring></argsstring>
+        <name>claims</name>
+        <qualifiedname>themis::rag::judge::FaithfulnessVerificationResult::claims</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/nli_faithfulness_verifier.h" line="70" column="17" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_faithfulness_verification_result_1af2d297d478e62d52ad29783b150f0262" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::FaithfulnessVerificationResult::explanation</definition>
+        <argsstring></argsstring>
+        <name>explanation</name>
+        <qualifiedname>themis::rag::judge::FaithfulnessVerificationResult::explanation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/nli_faithfulness_verifier.h" line="71" column="17" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_faithfulness_verification_result_1a0789f856dde5d91d3c1339bb702e1de2" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::rag::judge::FaithfulnessVerificationResult::verification_time</definition>
+        <argsstring></argsstring>
+        <name>verification_time</name>
+        <qualifiedname>themis::rag::judge::FaithfulnessVerificationResult::verification_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/nli_faithfulness_verifier.h" line="72" column="31" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1rag_1_1judge_1_1_faithfulness_verification_result_1a80c7a92168a3e48b6f6770f31d0c1eaf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::FaithfulnessVerificationResult::FaithfulnessVerificationResult</definition>
+        <argsstring>()</argsstring>
+        <name>FaithfulnessVerificationResult</name>
+        <qualifiedname>themis::rag::judge::FaithfulnessVerificationResult::FaithfulnessVerificationResult</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/nli_faithfulness_verifier.h" line="74" column="5" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="74" bodyend="78"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Complete faithfulness verification result. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/nli_faithfulness_verifier.h" line="59" column="1" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="59" bodyend="79"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_verification_result_1a5edc6c9e15845b919061f5b16dc7e518" prot="public" virt="non-virtual"><scope>themis::rag::judge::FaithfulnessVerificationResult</scope><name>claims</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_verification_result_1a3c3721a76c1f4313abf77270f475e974" prot="public" virt="non-virtual"><scope>themis::rag::judge::FaithfulnessVerificationResult</scope><name>contradicted_claims</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_verification_result_1af2d297d478e62d52ad29783b150f0262" prot="public" virt="non-virtual"><scope>themis::rag::judge::FaithfulnessVerificationResult</scope><name>explanation</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_verification_result_1a974c31889dee3ed3306fd922a40fdb4b" prot="public" virt="non-virtual"><scope>themis::rag::judge::FaithfulnessVerificationResult</scope><name>faithfulness_score</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_verification_result_1a80c7a92168a3e48b6f6770f31d0c1eaf" prot="public" virt="non-virtual"><scope>themis::rag::judge::FaithfulnessVerificationResult</scope><name>FaithfulnessVerificationResult</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_verification_result_1a149f7b10812eff086953b4f3fda2ec0c" prot="public" virt="non-virtual"><scope>themis::rag::judge::FaithfulnessVerificationResult</scope><name>is_faithful</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_verification_result_1a0943be117aa2efecffff673cfff1d7ab" prot="public" virt="non-virtual"><scope>themis::rag::judge::FaithfulnessVerificationResult</scope><name>partially_supported_claims</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_verification_result_1a9634d271f5a0391ae107b02a9166ce4d" prot="public" virt="non-virtual"><scope>themis::rag::judge::FaithfulnessVerificationResult</scope><name>supported_claims</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_verification_result_1ae4df79cff771ed5f436594bf3c6946fb" prot="public" virt="non-virtual"><scope>themis::rag::judge::FaithfulnessVerificationResult</scope><name>total_claims</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_verification_result_1a5f7895cd8c1541d741c4b060ced9fc23" prot="public" virt="non-virtual"><scope>themis::rag::judge::FaithfulnessVerificationResult</scope><name>unsupported_claims</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_verification_result_1a0789f856dde5d91d3c1339bb702e1de2" prot="public" virt="non-virtual"><scope>themis::rag::judge::FaithfulnessVerificationResult</scope><name>verification_time</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1ana__bm_1_1_tumbling_window_stub" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::ana_bm::TumblingWindowStub</compoundname>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1ana__bm_1_1_tumbling_window_stub_1ab4d950fca3cb770b05b7cf8d9213d008" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::bench::ana_bm::TumblingWindowStub::kWindowSize</definition>
+        <argsstring></argsstring>
+        <name>kWindowSize</name>
+        <qualifiedname>themis::bench::ana_bm::TumblingWindowStub::kWindowSize</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_dedicated_gates.cpp" line="86" column="34" bodyfile="benchmarks/analytics/bench_analytics_dedicated_gates.cpp" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1ana__bm_1_1_tumbling_window_stub_1a2843ed5cf3d3d70578c08b6d5658f241" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::bench::ana_bm::TumblingWindowStub::partial_sum</definition>
+        <argsstring></argsstring>
+        <name>partial_sum</name>
+        <qualifiedname>themis::bench::ana_bm::TumblingWindowStub::partial_sum</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_dedicated_gates.cpp" line="88" column="14" bodyfile="benchmarks/analytics/bench_analytics_dedicated_gates.cpp" bodystart="88" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1ana__bm_1_1_tumbling_window_stub_1af5b5f986b3f419371c3d36f7ca2f2c4a" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::bench::ana_bm::TumblingWindowStub::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <qualifiedname>themis::bench::ana_bm::TumblingWindowStub::count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_dedicated_gates.cpp" line="89" column="17" bodyfile="benchmarks/analytics/bench_analytics_dedicated_gates.cpp" bodystart="89" bodyend="89"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1bench_1_1ana__bm_1_1_tumbling_window_stub_1a6ff929bc5ac5478cca6ae9cc3dd4340b" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::bench::ana_bm::TumblingWindowStub::add</definition>
+        <argsstring>(double value) noexcept</argsstring>
+        <name>add</name>
+        <qualifiedname>themis::bench::ana_bm::TumblingWindowStub::add</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Add one event value; returns true if window boundary reached. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_dedicated_gates.cpp" line="92" column="10" bodyfile="benchmarks/analytics/bench_analytics_dedicated_gates.cpp" bodystart="92" bodyend="101"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Single-slot accumulator for a 64-event tumbling window. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/analytics/bench_analytics_dedicated_gates.cpp" line="85" column="1" bodyfile="benchmarks/analytics/bench_analytics_dedicated_gates.cpp" bodystart="85" bodyend="102"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1ana__bm_1_1_tumbling_window_stub_1a6ff929bc5ac5478cca6ae9cc3dd4340b" prot="public" virt="non-virtual"><scope>themis::bench::ana_bm::TumblingWindowStub</scope><name>add</name></member>
+      <member refid="structthemis_1_1bench_1_1ana__bm_1_1_tumbling_window_stub_1af5b5f986b3f419371c3d36f7ca2f2c4a" prot="public" virt="non-virtual"><scope>themis::bench::ana_bm::TumblingWindowStub</scope><name>count</name></member>
+      <member refid="structthemis_1_1bench_1_1ana__bm_1_1_tumbling_window_stub_1ab4d950fca3cb770b05b7cf8d9213d008" prot="public" virt="non-virtual"><scope>themis::bench::ana_bm::TumblingWindowStub</scope><name>kWindowSize</name></member>
+      <member refid="structthemis_1_1bench_1_1ana__bm_1_1_tumbling_window_stub_1a2843ed5cf3d3d70578c08b6d5658f241" prot="public" virt="non-virtual"><scope>themis::bench::ana_bm::TumblingWindowStub</scope><name>partial_sum</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

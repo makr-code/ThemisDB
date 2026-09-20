@@ -1,0 +1,842 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1geo_1_1_cpu_exact_backend" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::geo::CpuExactBackend</compoundname>
+    <basecompoundref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" prot="public" virt="non-virtual">themis::geo::ISpatialComputeBackend</basecompoundref>
+    <innerclass refid="structthemis_1_1geo_1_1_cpu_exact_backend_1_1_g_h_vert" prot="private">themis::geo::CpuExactBackend::GHVert</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_cpu_exact_backend_1a3d2f300cf492eeda889cf4bb962b19ce" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::geo::CpuExactBackend::containment_fn_mtx_</definition>
+        <argsstring></argsstring>
+        <name>containment_fn_mtx_</name>
+        <qualifiedname>themis::geo::CpuExactBackend::containment_fn_mtx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/cpu_backend.cpp" line="1192" column="24" bodyfile="src/geo/cpu_backend.cpp" bodystart="1192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_cpu_exact_backend_1aff055c4034843f5e15246ab418ad9565" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1geo_1a3e78f805175c11314831c4cff033a072" kindref="member">GeoContainmentFn</ref></type>
+        <definition>GeoContainmentFn themis::geo::CpuExactBackend::containment_fn_</definition>
+        <argsstring></argsstring>
+        <name>containment_fn_</name>
+        <qualifiedname>themis::geo::CpuExactBackend::containment_fn_</qualifiedname>
+        <briefdescription>
+<para>Injected point-in-polygon; null → ray-casting fallback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/cpu_backend.cpp" line="1193" column="22" bodyfile="src/geo/cpu_backend.cpp" bodystart="1193" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_cpu_exact_backend_1aa81938839b9d12cbf090d2db10621b7c" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * themis::geo::CpuExactBackend::name</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::geo::CpuExactBackend::name</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a1c4449a6016a5eb97a9103d5db3d3e48">name</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/cpu_backend.cpp" line="302" column="16" bodyfile="src/geo/cpu_backend.cpp" bodystart="302" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_cpu_exact_backend_1a749d9f4eab8bdeea3c884e495b990257" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::CpuExactBackend::isAvailable</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::geo::CpuExactBackend::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a9425c0b8acfa7591052b641da875de6b">isAvailable</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/cpu_backend.cpp" line="305" column="10" bodyfile="src/geo/cpu_backend.cpp" bodystart="305" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_cpu_exact_backend_1aa83faaacbc0a47cad36c2e9d0003e746" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::geo::CpuExactBackend::setContainmentFn</definition>
+        <argsstring>(GeoContainmentFn fn)</argsstring>
+        <name>setContainmentFn</name>
+        <qualifiedname>themis::geo::CpuExactBackend::setContainmentFn</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1geo_1a3e78f805175c11314831c4cff033a072" kindref="member">GeoContainmentFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Containment Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/cpu_backend.cpp" line="314" column="10" bodyfile="src/geo/cpu_backend.cpp" bodystart="314" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_cpu_exact_backend_1aea57f88d9903e45b27781c8f0271f9ed" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1geo_1_1_spatial_batch_results" kindref="compound">SpatialBatchResults</ref></type>
+        <definition>SpatialBatchResults themis::geo::CpuExactBackend::batchIntersects</definition>
+        <argsstring>(const SpatialBatchInputs &amp;in) override</argsstring>
+        <name>batchIntersects</name>
+        <qualifiedname>themis::geo::CpuExactBackend::batchIntersects</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1af47ef704007f683b97adc804495d41ca">batchIntersects</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs" kindref="compound">SpatialBatchInputs</ref> &amp;</type>
+          <declname>in</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/cpu_backend.cpp" line="319" column="25" bodyfile="src/geo/cpu_backend.cpp" bodystart="319" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_cpu_exact_backend_1a2ae3cf799adc06a90d3e98bcef510099" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::CpuExactBackend::exactIntersects</definition>
+        <argsstring>(const GeometryInfo &amp;geom1, const GeometryInfo &amp;geom2) override</argsstring>
+        <name>exactIntersects</name>
+        <qualifiedname>themis::geo::CpuExactBackend::exactIntersects</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a84c6d241e0607e0fae2033d7a94489f8">exactIntersects</reimplements>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>geom1</declname>
+        </param>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>geom2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">containment_fn_mtx_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/geo/cpu_backend.cpp" line="341" column="10" bodyfile="src/geo/cpu_backend.cpp" bodystart="341" bodyend="458"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_cpu_exact_backend_1a1dab6556e5f6cc93c6282343d98ca06f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>double</type>
+        <definition>double themis::geo::CpuExactBackend::geodesicDistance</definition>
+        <argsstring>(double lat1, double lon1, double lat2, double lon2) const override</argsstring>
+        <name>geodesicDistance</name>
+        <qualifiedname>themis::geo::CpuExactBackend::geodesicDistance</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a6f7d1da128cc4b93dd3d1345f56b329e">geodesicDistance</reimplements>
+        <param>
+          <type>double</type>
+          <declname>lat1</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lon1</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lat2</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lon2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/cpu_backend.cpp" line="465" column="12" bodyfile="src/geo/cpu_backend.cpp" bodystart="465" bodyend="546"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_cpu_exact_backend_1a43895c82a065c03f0c7821378c44a761" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>GeometryInfo</type>
+        <definition>GeometryInfo themis::geo::CpuExactBackend::stBuffer</definition>
+        <argsstring>(const GeometryInfo &amp;geom, double distance_m, int arc_points) override</argsstring>
+        <name>stBuffer</name>
+        <qualifiedname>themis::geo::CpuExactBackend::stBuffer</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a6cee7527b53f693b1f8eeb255488d19e">stBuffer</reimplements>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>geom</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>distance_m</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>arc_points</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Result. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">Polygon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Result. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">Polygon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/geo/cpu_backend.cpp" line="551" column="18" bodyfile="src/geo/cpu_backend.cpp" bodystart="551" bodyend="602"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_cpu_exact_backend_1affbd245f059dc85133a47104c8574edc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>GeometryInfo</type>
+        <definition>GeometryInfo themis::geo::CpuExactBackend::stUnion</definition>
+        <argsstring>(const GeometryInfo &amp;geom1, const GeometryInfo &amp;geom2) override</argsstring>
+        <name>stUnion</name>
+        <qualifiedname>themis::geo::CpuExactBackend::stUnion</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a75a0a61492e8bf2755c3307e901206d7">stUnion</reimplements>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>geom1</declname>
+        </param>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>geom2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Col. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">GeometryCollection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Col. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">GeometryCollection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/geo/cpu_backend.cpp" line="605" column="18" bodyfile="src/geo/cpu_backend.cpp" bodystart="605" bodyend="658"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_cpu_exact_backend_1aabcafaf0bd29d016ccb6f4f8c762352f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>GeometryInfo</type>
+        <definition>GeometryInfo themis::geo::CpuExactBackend::stDifference</definition>
+        <argsstring>(const GeometryInfo &amp;geom1, const GeometryInfo &amp;geom2) override</argsstring>
+        <name>stDifference</name>
+        <qualifiedname>themis::geo::CpuExactBackend::stDifference</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a1e4ba225af0b839f94b1f4877b9af33b">stDifference</reimplements>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>geom1</declname>
+        </param>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>geom2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/cpu_backend.cpp" line="660" column="18" bodyfile="src/geo/cpu_backend.cpp" bodystart="660" bodyend="698"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_cpu_exact_backend_1abd1f908b8e31501b4ba3263d5b5567cc" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; GHVert &gt;</type>
+        <definition>static std::vector&lt; GHVert &gt; themis::geo::CpuExactBackend::ghChain</definition>
+        <argsstring>(const std::vector&lt; Coordinate &gt; &amp;ring)</argsstring>
+        <name>ghChain</name>
+        <qualifiedname>themis::geo::CpuExactBackend::ghChain</qualifiedname>
+        <param>
+          <type>const std::vector&lt; Coordinate &gt; &amp;</type>
+          <declname>ring</declname>
+        </param>
+        <briefdescription>
+<para>Build an open chain from a ring (drops the closing duplicate vertex). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ring</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), std::abs(), v(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/cpu_backend.cpp" line="726" column="24" bodyfile="src/geo/cpu_backend.cpp" bodystart="726" bodyend="739"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_cpu_exact_backend_1a7c26b403c1c8351037fd28c6501ce9dc" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::geo::CpuExactBackend::ghSegIsect</definition>
+        <argsstring>(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4, double &amp;t, double &amp;s)</argsstring>
+        <name>ghSegIsect</name>
+        <qualifiedname>themis::geo::CpuExactBackend::ghSegIsect</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>x1</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>y1</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>x2</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>y2</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>x3</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>y3</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>x4</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>y4</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Strict interior segment intersection: t,s ∈ (eps, 1-eps). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">x1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">y1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">x2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">y2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">x3</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">y3</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">x4</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">y4</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::abs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/cpu_backend.cpp" line="756" column="17" bodyfile="src/geo/cpu_backend.cpp" bodystart="756" bodyend="768"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_cpu_exact_backend_1ace6f0b4c3ab3ada526554aecdb0b1831" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::geo::CpuExactBackend::ghPhase1</definition>
+        <argsstring>(std::vector&lt; GHVert &gt; &amp;A, std::vector&lt; GHVert &gt; &amp;B)</argsstring>
+        <name>ghPhase1</name>
+        <qualifiedname>themis::geo::CpuExactBackend::ghPhase1</qualifiedname>
+        <param>
+          <type>std::vector&lt; GHVert &gt; &amp;</type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; GHVert &gt; &amp;</type>
+          <declname>B</declname>
+        </param>
+        <briefdescription>
+<para>Phase 1: find all edge-edge intersections; insert and sort; cross-link. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), reserve(), std::min(), ghSegIsect(), push_back(), empty(), std::stable_sort(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/cpu_backend.cpp" line="776" column="17" bodyfile="src/geo/cpu_backend.cpp" bodystart="776" bodyend="838"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_cpu_exact_backend_1ada46a132c39e7a38f6899f55358c1749" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::geo::CpuExactBackend::ghPhase2A</definition>
+        <argsstring>(std::vector&lt; GHVert &gt; &amp;A, const std::vector&lt; Coordinate &gt; &amp;b_ring)</argsstring>
+        <name>ghPhase2A</name>
+        <qualifiedname>themis::geo::CpuExactBackend::ghPhase2A</qualifiedname>
+        <param>
+          <type>std::vector&lt; GHVert &gt; &amp;</type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; Coordinate &gt; &amp;</type>
+          <declname>b_ring</declname>
+        </param>
+        <briefdescription>
+<para>Phase 2A: label each A intersection as entering (ent_B) or exiting B. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b_ring</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="namespacethemis_1_1geo_1a4544062dd67b5ae893870f0a28c1be90" kindref="member">pointInPolygon()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/cpu_backend.cpp" line="846" column="17" bodyfile="src/geo/cpu_backend.cpp" bodystart="846" bodyend="861"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_cpu_exact_backend_1accc8455f038cd44d05cc9d1861c47c31" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::geo::CpuExactBackend::ghPhase2B</definition>
+        <argsstring>(std::vector&lt; GHVert &gt; &amp;B, const std::vector&lt; Coordinate &gt; &amp;a_ring)</argsstring>
+        <name>ghPhase2B</name>
+        <qualifiedname>themis::geo::CpuExactBackend::ghPhase2B</qualifiedname>
+        <param>
+          <type>std::vector&lt; GHVert &gt; &amp;</type>
+          <declname>B</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; Coordinate &gt; &amp;</type>
+          <declname>a_ring</declname>
+        </param>
+        <briefdescription>
+<para>Phase 2B: label each B intersection as entering (ent_A) or exiting A. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">a_ring</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="namespacethemis_1_1geo_1a4544062dd67b5ae893870f0a28c1be90" kindref="member">pointInPolygon()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/cpu_backend.cpp" line="869" column="17" bodyfile="src/geo/cpu_backend.cpp" bodystart="869" bodyend="884"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_cpu_exact_backend_1a6b7da676d71025a5adc4a9e8202b9f5f" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; Coordinate &gt;</type>
+        <definition>static std::vector&lt; Coordinate &gt; themis::geo::CpuExactBackend::ghTraverseUnion</definition>
+        <argsstring>(std::vector&lt; GHVert &gt; &amp;A, std::vector&lt; GHVert &gt; &amp;B)</argsstring>
+        <name>ghTraverseUnion</name>
+        <qualifiedname>themis::geo::CpuExactBackend::ghTraverseUnion</qualifiedname>
+        <param>
+          <type>std::vector&lt; GHVert &gt; &amp;</type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; GHVert &gt; &amp;</type>
+          <declname>B</declname>
+        </param>
+        <briefdescription>
+<para>Collect one union polygon ring starting from an unvisited A-exiting intersection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Returns an empty vector if no suitable start vertex is found. Calls: size(), reserve(), push_back(), std::abs(), back(), front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/cpu_backend.cpp" line="893" column="24" bodyfile="src/geo/cpu_backend.cpp" bodystart="893" bodyend="956"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_cpu_exact_backend_1a94c5f3543ae50b300b37705c974acda8" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; Coordinate &gt;</type>
+        <definition>static std::vector&lt; Coordinate &gt; themis::geo::CpuExactBackend::ghTraverseDiff</definition>
+        <argsstring>(std::vector&lt; GHVert &gt; &amp;A, std::vector&lt; GHVert &gt; &amp;B)</argsstring>
+        <name>ghTraverseDiff</name>
+        <qualifiedname>themis::geo::CpuExactBackend::ghTraverseDiff</qualifiedname>
+        <param>
+          <type>std::vector&lt; GHVert &gt; &amp;</type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; GHVert &gt; &amp;</type>
+          <declname>B</declname>
+        </param>
+        <briefdescription>
+<para>Collect one difference polygon ring starting from an unvisited A-exiting intersection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Returns an empty vector if none is found. Calls: size(), reserve(), push_back(), std::abs(), back(), front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/cpu_backend.cpp" line="965" column="24" bodyfile="src/geo/cpu_backend.cpp" bodystart="965" bodyend="1029"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_cpu_exact_backend_1ac8067f1ec5d42b7edf472cee8516b9c0" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; Coordinate &gt; &amp;</type>
+        <definition>static const std::vector&lt; Coordinate &gt; &amp; themis::geo::CpuExactBackend::outerRing</definition>
+        <argsstring>(const GeometryInfo &amp;g)</argsstring>
+        <name>outerRing</name>
+        <qualifiedname>themis::geo::CpuExactBackend::outerRing</qualifiedname>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>g</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/cpu_backend.cpp" line="1032" column="30" bodyfile="src/geo/cpu_backend.cpp" bodystart="1032" bodyend="1034"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_cpu_exact_backend_1a3f1e5f3e8c81af12e72a078040e85dee" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>GeometryInfo</type>
+        <definition>static GeometryInfo themis::geo::CpuExactBackend::cpuPolyUnion</definition>
+        <argsstring>(const GeometryInfo &amp;geom1, const GeometryInfo &amp;geom2)</argsstring>
+        <name>cpuPolyUnion</name>
+        <qualifiedname>themis::geo::CpuExactBackend::cpuPolyUnion</qualifiedname>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>geom1</declname>
+        </param>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>geom2</declname>
+        </param>
+        <briefdescription>
+<para>Polygon-Polygon union using Greiner-Hormann. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">geom1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">geom2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: outerRing(), size(), polygonIntersects(), <ref refid="namespacethemis_1_1geo_1a4544062dd67b5ae893870f0a28c1be90" kindref="member">pointInPolygon()</ref>, col(), push_back(), ghChain(), ghPhase1(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/cpu_backend.cpp" line="1043" column="25" bodyfile="src/geo/cpu_backend.cpp" bodystart="1043" bodyend="1112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_cpu_exact_backend_1a3ad7cb8c591eab29803feafa5264217d" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>GeometryInfo</type>
+        <definition>static GeometryInfo themis::geo::CpuExactBackend::cpuPolyDiff</definition>
+        <argsstring>(const GeometryInfo &amp;geom1, const GeometryInfo &amp;geom2)</argsstring>
+        <name>cpuPolyDiff</name>
+        <qualifiedname>themis::geo::CpuExactBackend::cpuPolyDiff</qualifiedname>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>geom1</declname>
+        </param>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>geom2</declname>
+        </param>
+        <briefdescription>
+<para>Polygon-Polygon difference (geom1 \ geom2) using Greiner-Hormann. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">geom1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">geom2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: outerRing(), size(), polygonIntersects(), <ref refid="namespacethemis_1_1geo_1a4544062dd67b5ae893870f0a28c1be90" kindref="member">pointInPolygon()</ref>, empty(), result(), push_back(), ghChain(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/cpu_backend.cpp" line="1121" column="25" bodyfile="src/geo/cpu_backend.cpp" bodystart="1121" bodyend="1189"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::geo::CpuExactBackend</label>
+        <link refid="classthemis_1_1geo_1_1_cpu_exact_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::geo::ISpatialComputeBackend</label>
+        <link refid="classthemis_1_1geo_1_1_i_spatial_compute_backend"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::geo::CpuExactBackend</label>
+        <link refid="classthemis_1_1geo_1_1_cpu_exact_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::geo::ISpatialComputeBackend</label>
+        <link refid="classthemis_1_1geo_1_1_i_spatial_compute_backend"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/geo/cpu_backend.cpp" line="300" column="1" bodyfile="src/geo/cpu_backend.cpp" bodystart="300" bodyend="1194"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1geo_1_1_cpu_exact_backend_1aea57f88d9903e45b27781c8f0271f9ed" prot="public" virt="virtual"><scope>themis::geo::CpuExactBackend</scope><name>batchIntersects</name></member>
+      <member refid="classthemis_1_1geo_1_1_cpu_exact_backend_1aff055c4034843f5e15246ab418ad9565" prot="private" virt="non-virtual"><scope>themis::geo::CpuExactBackend</scope><name>containment_fn_</name></member>
+      <member refid="classthemis_1_1geo_1_1_cpu_exact_backend_1a3d2f300cf492eeda889cf4bb962b19ce" prot="private" virt="non-virtual"><scope>themis::geo::CpuExactBackend</scope><name>containment_fn_mtx_</name></member>
+      <member refid="classthemis_1_1geo_1_1_cpu_exact_backend_1a3ad7cb8c591eab29803feafa5264217d" prot="private" virt="non-virtual"><scope>themis::geo::CpuExactBackend</scope><name>cpuPolyDiff</name></member>
+      <member refid="classthemis_1_1geo_1_1_cpu_exact_backend_1a3f1e5f3e8c81af12e72a078040e85dee" prot="private" virt="non-virtual"><scope>themis::geo::CpuExactBackend</scope><name>cpuPolyUnion</name></member>
+      <member refid="classthemis_1_1geo_1_1_cpu_exact_backend_1a2ae3cf799adc06a90d3e98bcef510099" prot="public" virt="virtual"><scope>themis::geo::CpuExactBackend</scope><name>exactIntersects</name></member>
+      <member refid="classthemis_1_1geo_1_1_cpu_exact_backend_1a1dab6556e5f6cc93c6282343d98ca06f" prot="public" virt="virtual"><scope>themis::geo::CpuExactBackend</scope><name>geodesicDistance</name></member>
+      <member refid="classthemis_1_1geo_1_1_cpu_exact_backend_1abd1f908b8e31501b4ba3263d5b5567cc" prot="private" virt="non-virtual"><scope>themis::geo::CpuExactBackend</scope><name>ghChain</name></member>
+      <member refid="classthemis_1_1geo_1_1_cpu_exact_backend_1ace6f0b4c3ab3ada526554aecdb0b1831" prot="private" virt="non-virtual"><scope>themis::geo::CpuExactBackend</scope><name>ghPhase1</name></member>
+      <member refid="classthemis_1_1geo_1_1_cpu_exact_backend_1ada46a132c39e7a38f6899f55358c1749" prot="private" virt="non-virtual"><scope>themis::geo::CpuExactBackend</scope><name>ghPhase2A</name></member>
+      <member refid="classthemis_1_1geo_1_1_cpu_exact_backend_1accc8455f038cd44d05cc9d1861c47c31" prot="private" virt="non-virtual"><scope>themis::geo::CpuExactBackend</scope><name>ghPhase2B</name></member>
+      <member refid="classthemis_1_1geo_1_1_cpu_exact_backend_1a7c26b403c1c8351037fd28c6501ce9dc" prot="private" virt="non-virtual"><scope>themis::geo::CpuExactBackend</scope><name>ghSegIsect</name></member>
+      <member refid="classthemis_1_1geo_1_1_cpu_exact_backend_1a94c5f3543ae50b300b37705c974acda8" prot="private" virt="non-virtual"><scope>themis::geo::CpuExactBackend</scope><name>ghTraverseDiff</name></member>
+      <member refid="classthemis_1_1geo_1_1_cpu_exact_backend_1a6b7da676d71025a5adc4a9e8202b9f5f" prot="private" virt="non-virtual"><scope>themis::geo::CpuExactBackend</scope><name>ghTraverseUnion</name></member>
+      <member refid="classthemis_1_1geo_1_1_cpu_exact_backend_1a749d9f4eab8bdeea3c884e495b990257" prot="public" virt="virtual"><scope>themis::geo::CpuExactBackend</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1geo_1_1_cpu_exact_backend_1aa81938839b9d12cbf090d2db10621b7c" prot="public" virt="virtual"><scope>themis::geo::CpuExactBackend</scope><name>name</name></member>
+      <member refid="classthemis_1_1geo_1_1_cpu_exact_backend_1ac8067f1ec5d42b7edf472cee8516b9c0" prot="private" virt="non-virtual"><scope>themis::geo::CpuExactBackend</scope><name>outerRing</name></member>
+      <member refid="classthemis_1_1geo_1_1_cpu_exact_backend_1aa83faaacbc0a47cad36c2e9d0003e746" prot="public" virt="non-virtual"><scope>themis::geo::CpuExactBackend</scope><name>setContainmentFn</name></member>
+      <member refid="classthemis_1_1geo_1_1_cpu_exact_backend_1a43895c82a065c03f0c7821378c44a761" prot="public" virt="virtual"><scope>themis::geo::CpuExactBackend</scope><name>stBuffer</name></member>
+      <member refid="classthemis_1_1geo_1_1_cpu_exact_backend_1aabcafaf0bd29d016ccb6f4f8c762352f" prot="public" virt="virtual"><scope>themis::geo::CpuExactBackend</scope><name>stDifference</name></member>
+      <member refid="classthemis_1_1geo_1_1_cpu_exact_backend_1affbd245f059dc85133a47104c8574edc" prot="public" virt="virtual"><scope>themis::geo::CpuExactBackend</scope><name>stUnion</name></member>
+      <member refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1ac73e2531ea40978af133460e88a1a242" prot="public" virt="virtual"><scope>themis::geo::CpuExactBackend</scope><name>~ISpatialComputeBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

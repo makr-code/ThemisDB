@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_c_1_2_projects_2_themis_d_b_2include_2utils_2hkdf_helper_8h-example" kind="example">
+    <compoundname>C:/Projects/ThemisDB/include/utils/hkdf_helper.h</compoundname>
+    <briefdescription>
+<para>Derive key using HKDF-SHA256 with full RFC 5869 parameters. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Derive key using HKDF-SHA256 with full RFC 5869 parameters.Implements HKDF-SHA256 key derivation per RFC 5869. The derivation process is deterministic: identical inputs always produce identical outputs.</para>
+<para>Process:<orderedlist>
+<listitem><para><bold>Extract phase</bold>: Compress IKM using HMAC-SHA256(salt, IKM) → PRK</para>
+</listitem><listitem><para><bold>Expand phase</bold>: Stretch PRK to desired length using info context → OKM</para>
+</listitem></orderedlist>
+</para>
+<para>Parameters:<itemizedlist>
+<listitem><para><bold>ikm</bold> (Input Key Material): Cryptographic secret material<itemizedlist>
+<listitem><para>Can be output from another KDF, random entropy, or master key</para>
+</listitem><listitem><para>Should be at least 16 bytes; longer is better (e.g., 32 bytes)</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para><bold>salt</bold>: Random value to prevent rainbow table attacks<itemizedlist>
+<listitem><para>Optional (can be empty), but strongly recommended</para>
+</listitem><listitem><para>Should be at least 16 bytes if provided (per RFC 5869)</para>
+</listitem><listitem><para>Different salts with same IKM produce different outputs</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para><bold>info</bold>: Application-specific domain separation string<itemizedlist>
+<listitem><para>Example: &quot;encryption.session.v1&quot;, &quot;auth.token.refresh&quot;</para>
+</listitem><listitem><para>Different info with same (ikm, salt) produces different outputs</para>
+</listitem><listitem><para>Allows same key material for multiple purposes</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para><bold>output_length</bold>: Desired output key length in bytes<itemizedlist>
+<listitem><para>Valid range: 1 to 255*32 (8160 bytes max for SHA256)</para>
+</listitem><listitem><para>Typical values: 16 (AES-128), 32 (AES-256), 64 (SHA-512 equivalent)</para>
+</listitem></itemizedlist>
+</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ikm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input Key Material – must be cryptographically strong </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>salt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Salt value; at least 16 bytes recommended, empty is allowed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Application-specific context string; can be empty </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>output_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Desired output length in bytes</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Derived key material (OKM) of length output_length</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if output_length exceeds RFC 5869 limit (8160 bytes) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if OpenSSL HKDF fails (fail-closed: no fallback key)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+@error_contract <table rows="3" cols="5"><row>
+<entry thead="yes"><para>Condition  </para>
+</entry><entry thead="yes"><para>ErrorCode  </para>
+</entry><entry thead="yes"><para>Severity  </para>
+</entry><entry thead="yes"><para>Logging  </para>
+</entry><entry thead="yes"><para>Recovery  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>OpenSSL HKDF provider unavailable (EVP_KDF_fetch fails)  </para>
+</entry><entry thead="no"><para>CRYPTO_KEY_DERIVATION_FAILED (9050)  </para>
+</entry><entry thead="no"><para>Critical  </para>
+</entry><entry thead="no"><para>output_length  </para>
+</entry><entry thead="no"><para>Throw (fail-closed)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Key derivation operation fails (EVP_KDF_derive / EVP_PKEY_derive)  </para>
+</entry><entry thead="no"><para>CRYPTO_KEY_DERIVATION_FAILED (9050)  </para>
+</entry><entry thead="no"><para>Critical  </para>
+</entry><entry thead="no"><para>output_length, ikm_size  </para>
+</entry><entry thead="no"><para>Throw (fail-closed)  </para>
+</entry></row>
+</table>
+</para>
+<para>@degradation fail-closed – no default/weak key is ever silently produced <simplesect kind="note"><para>Thread-Safe: Fully thread-safe, stateless operation </para>
+</simplesect>
+<simplesect kind="note"><para>Deterministic: Same inputs → same output </para>
+</simplesect>
+<simplesect kind="note"><para>Key zeroization: Caller is responsible for OPENSSL_cleanse() on result</para>
+</simplesect>
+<simplesect kind="see"><para>RFC 5869 for specification </para>
+</simplesect>
+<simplesect kind="see"><para>HKDFCache for cached key derivation (better performance) </para>
+</simplesect>
+<simplesect kind="see"><para>ErrorCode 9050-9059 for crypto error taxonomy</para>
+</simplesect>
+<programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Derive<sp/>session<sp/>key<sp/>from<sp/>master<sp/>key</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">std::vector&lt;uint8_t&gt;<sp/>master_key<sp/>=<sp/>...;</highlight></codeline>
+<codeline><highlight class="normal">std::vector&lt;uint8_t&gt;<sp/>salt<sp/>=<sp/>generateRandomBytes(32);</highlight></codeline>
+<codeline><highlight class="normal">std::string<sp/>info<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;auth.session.v1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>session_key<sp/>=<sp/>HKDFHelper::derive(master_key,<sp/>salt,<sp/>info,<sp/>32);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Use<sp/>session_key...</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">OPENSSL_cleanse(session_key.data(),<sp/>session_key.size());</highlight></codeline>
+</programlisting> <programlisting filename="C:/Projects/ThemisDB/include/utils/hkdf_helper.h"><codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">utils</ref><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1utils_1_1_h_k_d_f_helper" kindref="compound">HKDFHelper</ref><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1utils_1_1_h_k_d_f_helper_1a0006f9a3bb62c09b4b58b9108162facf" kindref="member">derive</ref>(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>ikm,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>salt,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>info,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>output_length);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1utils_1_1_h_k_d_f_helper_1a9a7623e930d575abc5c3eb04d394bb87" kindref="member">deriveFromString</ref>(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>ikm_str,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>info,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>output_length<sp/>=<sp/>32);</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>utils</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/utils/hkdf_helper.h"/>
+  </compounddef>
+</doxygen>

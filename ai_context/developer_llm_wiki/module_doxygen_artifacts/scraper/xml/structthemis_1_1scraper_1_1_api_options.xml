@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1scraper_1_1_api_options" kind="struct" language="C++" prot="public">
+    <compoundname>themis::scraper::ApiOptions</compoundname>
+    <includes refid="scraper__config_8h" local="no">scraper_config.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_api_options_1ac63d47f4560ccf7e04a755dedfbb2d78" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ApiOptions::pagination_mode</definition>
+        <argsstring></argsstring>
+        <name>pagination_mode</name>
+        <qualifiedname>themis::scraper::ApiOptions::pagination_mode</qualifiedname>
+        <initializer>= &quot;page&quot;</initializer>
+        <briefdescription>
+<para>&quot;page&quot; | &quot;cursor&quot; | &quot;offset&quot; | &quot;none&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="86" column="17" bodyfile="include/scraper/scraper_config.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_api_options_1ae24d369b19023b57d9733f5447760772" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ApiOptions::page_param</definition>
+        <argsstring></argsstring>
+        <name>page_param</name>
+        <qualifiedname>themis::scraper::ApiOptions::page_param</qualifiedname>
+        <initializer>= &quot;p&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="87" column="17" bodyfile="include/scraper/scraper_config.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_api_options_1ac441f2fe7e09a5b539a5512c46e982f2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ApiOptions::cursor_field</definition>
+        <argsstring></argsstring>
+        <name>cursor_field</name>
+        <qualifiedname>themis::scraper::ApiOptions::cursor_field</qualifiedname>
+        <initializer>= &quot;next_cursor&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="88" column="17" bodyfile="include/scraper/scraper_config.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_api_options_1a7b8855d9c3b113e404464214c9f16e33" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ApiOptions::results_field</definition>
+        <argsstring></argsstring>
+        <name>results_field</name>
+        <qualifiedname>themis::scraper::ApiOptions::results_field</qualifiedname>
+        <initializer>= &quot;results&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="89" column="17" bodyfile="include/scraper/scraper_config.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_api_options_1a6f239cd670c2f4fae34411a8d0e1355d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::scraper::ApiOptions::max_pages</definition>
+        <argsstring></argsstring>
+        <name>max_pages</name>
+        <qualifiedname>themis::scraper::ApiOptions::max_pages</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="90" column="17" bodyfile="include/scraper/scraper_config.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_api_options_1a30b807d766b22046a47e06a518d05284" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::scraper::ApiOptions::headers</definition>
+        <argsstring></argsstring>
+        <name>headers</name>
+        <qualifiedname>themis::scraper::ApiOptions::headers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="91" column="14" bodyfile="include/scraper/scraper_config.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_api_options_1a4b9e57a573268f53130bd893ebbc0bea" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ApiOptions::body_template</definition>
+        <argsstring></argsstring>
+        <name>body_template</name>
+        <qualifiedname>themis::scraper::ApiOptions::body_template</qualifiedname>
+        <briefdescription>
+<para>POST body template; {{QUERY}} and {{PAGE}} are replaced at runtime. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="93" column="17" bodyfile="include/scraper/scraper_config.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/scraper/scraper_config.h" line="84" column="1" bodyfile="include/scraper/scraper_config.h" bodystart="84" bodyend="94"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1scraper_1_1_api_options_1a4b9e57a573268f53130bd893ebbc0bea" prot="public" virt="non-virtual"><scope>themis::scraper::ApiOptions</scope><name>body_template</name></member>
+      <member refid="structthemis_1_1scraper_1_1_api_options_1ac441f2fe7e09a5b539a5512c46e982f2" prot="public" virt="non-virtual"><scope>themis::scraper::ApiOptions</scope><name>cursor_field</name></member>
+      <member refid="structthemis_1_1scraper_1_1_api_options_1a30b807d766b22046a47e06a518d05284" prot="public" virt="non-virtual"><scope>themis::scraper::ApiOptions</scope><name>headers</name></member>
+      <member refid="structthemis_1_1scraper_1_1_api_options_1a6f239cd670c2f4fae34411a8d0e1355d" prot="public" virt="non-virtual"><scope>themis::scraper::ApiOptions</scope><name>max_pages</name></member>
+      <member refid="structthemis_1_1scraper_1_1_api_options_1ae24d369b19023b57d9733f5447760772" prot="public" virt="non-virtual"><scope>themis::scraper::ApiOptions</scope><name>page_param</name></member>
+      <member refid="structthemis_1_1scraper_1_1_api_options_1ac63d47f4560ccf7e04a755dedfbb2d78" prot="public" virt="non-virtual"><scope>themis::scraper::ApiOptions</scope><name>pagination_mode</name></member>
+      <member refid="structthemis_1_1scraper_1_1_api_options_1a7b8855d9c3b113e404464214c9f16e33" prot="public" virt="non-virtual"><scope>themis::scraper::ApiOptions</scope><name>results_field</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

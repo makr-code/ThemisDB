@@ -1,0 +1,225 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1api_1_1_correlation_id" kind="class" language="C++" prot="public">
+    <compoundname>themis::api::CorrelationId</compoundname>
+    <includes refid="correlation__id_8h" local="no">correlation_id.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1api_1_1_correlation_id_1abbb3f29a4cc0a5d81648d292ff6823a6" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::api::CorrelationId::kByteSize</definition>
+        <argsstring></argsstring>
+        <name>kByteSize</name>
+        <qualifiedname>themis::api::CorrelationId::kByteSize</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/correlation_id.h" line="70" column="34" bodyfile="include/api/correlation_id.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1api_1_1_correlation_id_1a9534462833c2225c92bac2b12cb251dc" prot="private" static="no" mutable="no">
+        <type>std::array&lt; uint8_t, <ref refid="classthemis_1_1api_1_1_correlation_id_1abbb3f29a4cc0a5d81648d292ff6823a6" kindref="member">kByteSize</ref> &gt;</type>
+        <definition>std::array&lt;uint8_t, kByteSize&gt; themis::api::CorrelationId::bytes_</definition>
+        <argsstring></argsstring>
+        <name>bytes_</name>
+        <qualifiedname>themis::api::CorrelationId::bytes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/correlation_id.h" line="112" column="16" bodyfile="include/api/correlation_id.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1api_1_1_correlation_id_1a65323b1d383c0e44b677583b499259df" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::api::CorrelationId::CorrelationId</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>CorrelationId</name>
+        <qualifiedname>themis::api::CorrelationId::CorrelationId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/correlation_id.h" line="72" column="5" bodyfile="include/api/correlation_id.h" bodystart="72" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_correlation_id_1afa4be5b4c9fe7ccd932ead0e4b868191" prot="public" static="no" const="no" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::api::CorrelationId::CorrelationId</definition>
+        <argsstring>(const std::array&lt; uint8_t, kByteSize &gt; &amp;bytes) noexcept</argsstring>
+        <name>CorrelationId</name>
+        <qualifiedname>themis::api::CorrelationId::CorrelationId</qualifiedname>
+        <param>
+          <type>const std::array&lt; uint8_t, <ref refid="classthemis_1_1api_1_1_correlation_id_1abbb3f29a4cc0a5d81648d292ff6823a6" kindref="member">kByteSize</ref> &gt; &amp;</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/correlation_id.h" line="74" column="14" bodyfile="include/api/correlation_id.h" bodystart="74" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_correlation_id_1a276aba83dbd3dd78bbfa0c2236bbb6a0" prot="public" static="no" const="no" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::api::CorrelationId::CorrelationId</definition>
+        <argsstring>(const uint8_t *bytes) noexcept</argsstring>
+        <name>CorrelationId</name>
+        <qualifiedname>themis::api::CorrelationId::CorrelationId</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/correlation_id.h" line="77" column="14" bodyfile="include/api/correlation_id.h" bodystart="77" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_correlation_id_1abfc97fc0ec86eddd817364c01db3cb63" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::api::CorrelationId::toString</definition>
+        <argsstring>() const</argsstring>
+        <name>toString</name>
+        <qualifiedname>themis::api::CorrelationId::toString</qualifiedname>
+        <briefdescription>
+<para>To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/correlation_id.h" line="92" column="17" bodyfile="include/api/correlation_id.h" bodystart="173" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_correlation_id_1a6de954d8600804ffb0554324115e513a" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::array&lt; uint8_t, <ref refid="classthemis_1_1api_1_1_correlation_id_1abbb3f29a4cc0a5d81648d292ff6823a6" kindref="member">kByteSize</ref> &gt; &amp;</type>
+        <definition>const std::array&lt; uint8_t, kByteSize &gt; &amp; themis::api::CorrelationId::bytes</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>bytes</name>
+        <qualifiedname>themis::api::CorrelationId::bytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/correlation_id.h" line="94" column="22" bodyfile="include/api/correlation_id.h" bodystart="94" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_correlation_id_1a104fc9a1aa4e0fe1033fc36e91a372a1" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::api::CorrelationId::isNil</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isNil</name>
+        <qualifiedname>themis::api::CorrelationId::isNil</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/correlation_id.h" line="96" column="10" bodyfile="include/api/correlation_id.h" bodystart="96" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_correlation_id_1aff085a83c147e1195eea33ecc2400620" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::api::CorrelationId::operator==</definition>
+        <argsstring>(const CorrelationId &amp;other) const noexcept</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::api::CorrelationId::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1api_1_1_correlation_id_1a65323b1d383c0e44b677583b499259df" kindref="member">CorrelationId</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/correlation_id.h" line="103" column="10" bodyfile="include/api/correlation_id.h" bodystart="103" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_correlation_id_1a7f0a374dd37a8e71286bd72a69a070f0" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::api::CorrelationId::operator!=</definition>
+        <argsstring>(const CorrelationId &amp;other) const noexcept</argsstring>
+        <name>operator!=</name>
+        <qualifiedname>themis::api::CorrelationId::operator!=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1api_1_1_correlation_id_1a65323b1d383c0e44b677583b499259df" kindref="member">CorrelationId</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/correlation_id.h" line="107" column="10" bodyfile="include/api/correlation_id.h" bodystart="107" bodyend="109"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1api_1_1_correlation_id_1ad45ea0deaf31a40f1e3dcf7007eb9e62" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1api_1_1_correlation_id_1a65323b1d383c0e44b677583b499259df" kindref="member">CorrelationId</ref></type>
+        <definition>CorrelationId themis::api::CorrelationId::parse</definition>
+        <argsstring>(std::string_view s)</argsstring>
+        <name>parse</name>
+        <qualifiedname>themis::api::CorrelationId::parse</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Parse. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/correlation_id.h" line="86" column="26" bodyfile="include/api/correlation_id.h" bodystart="124" bodyend="171"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/correlation_id.h" line="68" column="1" bodyfile="include/api/correlation_id.h" bodystart="68" bodyend="113"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1api_1_1_correlation_id_1a6de954d8600804ffb0554324115e513a" prot="public" virt="non-virtual"><scope>themis::api::CorrelationId</scope><name>bytes</name></member>
+      <member refid="classthemis_1_1api_1_1_correlation_id_1a9534462833c2225c92bac2b12cb251dc" prot="private" virt="non-virtual"><scope>themis::api::CorrelationId</scope><name>bytes_</name></member>
+      <member refid="classthemis_1_1api_1_1_correlation_id_1a65323b1d383c0e44b677583b499259df" prot="public" virt="non-virtual"><scope>themis::api::CorrelationId</scope><name>CorrelationId</name></member>
+      <member refid="classthemis_1_1api_1_1_correlation_id_1afa4be5b4c9fe7ccd932ead0e4b868191" prot="public" virt="non-virtual"><scope>themis::api::CorrelationId</scope><name>CorrelationId</name></member>
+      <member refid="classthemis_1_1api_1_1_correlation_id_1a276aba83dbd3dd78bbfa0c2236bbb6a0" prot="public" virt="non-virtual"><scope>themis::api::CorrelationId</scope><name>CorrelationId</name></member>
+      <member refid="classthemis_1_1api_1_1_correlation_id_1a104fc9a1aa4e0fe1033fc36e91a372a1" prot="public" virt="non-virtual"><scope>themis::api::CorrelationId</scope><name>isNil</name></member>
+      <member refid="classthemis_1_1api_1_1_correlation_id_1abbb3f29a4cc0a5d81648d292ff6823a6" prot="public" virt="non-virtual"><scope>themis::api::CorrelationId</scope><name>kByteSize</name></member>
+      <member refid="classthemis_1_1api_1_1_correlation_id_1a7f0a374dd37a8e71286bd72a69a070f0" prot="public" virt="non-virtual"><scope>themis::api::CorrelationId</scope><name>operator!=</name></member>
+      <member refid="classthemis_1_1api_1_1_correlation_id_1aff085a83c147e1195eea33ecc2400620" prot="public" virt="non-virtual"><scope>themis::api::CorrelationId</scope><name>operator==</name></member>
+      <member refid="classthemis_1_1api_1_1_correlation_id_1ad45ea0deaf31a40f1e3dcf7007eb9e62" prot="public" virt="non-virtual"><scope>themis::api::CorrelationId</scope><name>parse</name></member>
+      <member refid="classthemis_1_1api_1_1_correlation_id_1abfc97fc0ec86eddd817364c01db3cb63" prot="public" virt="non-virtual"><scope>themis::api::CorrelationId</scope><name>toString</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

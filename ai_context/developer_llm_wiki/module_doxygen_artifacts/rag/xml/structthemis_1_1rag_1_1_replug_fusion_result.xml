@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_replug_fusion_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::ReplugFusionResult</compoundname>
+    <includes refid="replug__retriever_8h" local="no">replug_retriever.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_replug_fusion_result_1a7049b334548fbb85d9ab44f0c9522fd5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">judge::RetrievedDocument</ref> &gt;</type>
+        <definition>std::vector&lt;judge::RetrievedDocument&gt; themis::rag::ReplugFusionResult::documents</definition>
+        <argsstring></argsstring>
+        <name>documents</name>
+        <qualifiedname>themis::rag::ReplugFusionResult::documents</qualifiedname>
+        <briefdescription>
+<para>Documents sorted by descending fused_score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/replug_retriever.h" line="130" column="17" bodyfile="include/rag/replug_retriever.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_replug_fusion_result_1a17b3d81ef0ebfce2daec1ecf15d81be6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1_replug_score" kindref="compound">ReplugScore</ref> &gt;</type>
+        <definition>std::vector&lt;ReplugScore&gt; themis::rag::ReplugFusionResult::scores</definition>
+        <argsstring></argsstring>
+        <name>scores</name>
+        <qualifiedname>themis::rag::ReplugFusionResult::scores</qualifiedname>
+        <briefdescription>
+<para>Per-document breakdown in the same order as <ref refid="structthemis_1_1rag_1_1_replug_fusion_result_1a7049b334548fbb85d9ab44f0c9522fd5" kindref="member">documents</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/replug_retriever.h" line="133" column="17" bodyfile="include/rag/replug_retriever.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_replug_fusion_result_1ae9cef16b4c86659ed27cc2ec18c90365" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::ReplugFusionResult::scorer_name</definition>
+        <argsstring></argsstring>
+        <name>scorer_name</name>
+        <qualifiedname>themis::rag::ReplugFusionResult::scorer_name</qualifiedname>
+        <briefdescription>
+<para>Name of the <ref refid="classthemis_1_1rag_1_1_i_l_l_m_scorer" kindref="compound">ILLMScorer</ref> used. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/replug_retriever.h" line="136" column="17" bodyfile="include/rag/replug_retriever.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_replug_fusion_result_1aeadc1817ef9d347cde5e6761bd7582df" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::ReplugFusionResult::total_candidates</definition>
+        <argsstring></argsstring>
+        <name>total_candidates</name>
+        <qualifiedname>themis::rag::ReplugFusionResult::total_candidates</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of candidates before top_k truncation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/replug_retriever.h" line="139" column="12" bodyfile="include/rag/replug_retriever.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a single <ref refid="classthemis_1_1rag_1_1_replug_retriever_1a2be88f7e71e829383578ba28b17ac868" kindref="member">ReplugRetriever::fuse()</ref> call. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/replug_retriever.h" line="128" column="1" bodyfile="include/rag/replug_retriever.h" bodystart="128" bodyend="140"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_replug_fusion_result_1a7049b334548fbb85d9ab44f0c9522fd5" prot="public" virt="non-virtual"><scope>themis::rag::ReplugFusionResult</scope><name>documents</name></member>
+      <member refid="structthemis_1_1rag_1_1_replug_fusion_result_1ae9cef16b4c86659ed27cc2ec18c90365" prot="public" virt="non-virtual"><scope>themis::rag::ReplugFusionResult</scope><name>scorer_name</name></member>
+      <member refid="structthemis_1_1rag_1_1_replug_fusion_result_1a17b3d81ef0ebfce2daec1ecf15d81be6" prot="public" virt="non-virtual"><scope>themis::rag::ReplugFusionResult</scope><name>scores</name></member>
+      <member refid="structthemis_1_1rag_1_1_replug_fusion_result_1aeadc1817ef9d347cde5e6761bd7582df" prot="public" virt="non-virtual"><scope>themis::rag::ReplugFusionResult</scope><name>total_candidates</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,366 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="database__connection__manager_8h" kind="file" language="C++">
+    <compoundname>database_connection_manager.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">condition_variable</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">queue</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">random</includes>
+    <includedby refid="database__connection__manager_8cpp" local="yes">src/storage/database_connection_manager.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/storage/database_connection_manager.h</label>
+        <link refid="database__connection__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>condition_variable</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>queue</label>
+      </node>
+      <node id="12">
+        <label>random</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>thread</label>
+      </node>
+      <node id="11">
+        <label>unordered_map</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/storage/database_connection_manager.h</label>
+        <link refid="database__connection__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/storage/database_connection_manager.cpp</label>
+        <link refid="database__connection__manager_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1storage_1_1_database_connection_manager" prot="public">themis::storage::DatabaseConnectionManager</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config" prot="public">themis::storage::DatabaseConnectionManager::ConnectionConfig</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_health" prot="public">themis::storage::DatabaseConnectionManager::ConnectionHealth</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_stats" prot="public">themis::storage::DatabaseConnectionManager::ConnectionStats</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection" prot="public">themis::storage::DatabaseConnectionManager::Connection</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_exponential_backoff" prot="public">themis::storage::ExponentialBackoff</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_exponential_backoff_1_1_config" prot="public">themis::storage::ExponentialBackoff::Config</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_connection_keepalive" prot="public">themis::storage::ConnectionKeepalive</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_connection_timeout_guard" prot="public">themis::storage::ConnectionTimeoutGuard</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1storage">themis::storage</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;condition_variable&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;queue&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="classthemis_1_1storage_1_1_database_connection_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1storage_1_1_database_connection_manager_1a053c50ed640b510483dda10638a3c451" kindref="member">DatabaseConnectionManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="49" refid="classthemis_1_1storage_1_1_database_connection_manager_1a944e80e3c620d3a69ed5a032ca75e616" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_database_connection_manager_1a944e80e3c620d3a69ed5a032ca75e616" kindref="member">ConnectionState</ref><sp/>{</highlight></codeline>
+<codeline lineno="50" refid="classthemis_1_1storage_1_1_database_connection_manager_1a944e80e3c620d3a69ed5a032ca75e616af068ebe4133e3e6563080836268ea979" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_database_connection_manager_1a944e80e3c620d3a69ed5a032ca75e616af068ebe4133e3e6563080836268ea979" kindref="member">HEALTHY</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Connection<sp/>is<sp/>operational</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="classthemis_1_1storage_1_1_database_connection_manager_1a944e80e3c620d3a69ed5a032ca75e616a0021017005f0e5134b204c2e69d3d4ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_database_connection_manager_1a944e80e3c620d3a69ed5a032ca75e616a0021017005f0e5134b204c2e69d3d4ed" kindref="member">DEGRADED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Connection<sp/>experiencing<sp/>issues</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="classthemis_1_1storage_1_1_database_connection_manager_1a944e80e3c620d3a69ed5a032ca75e616ab9e14d9b2886bcff408b85aefa780419" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_database_connection_manager_1a944e80e3c620d3a69ed5a032ca75e616ab9e14d9b2886bcff408b85aefa780419" kindref="member">FAILED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Connection<sp/>has<sp/>failed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="classthemis_1_1storage_1_1_database_connection_manager_1a944e80e3c620d3a69ed5a032ca75e616adb972eb9aae14fd469f2a622acb2148d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_database_connection_manager_1a944e80e3c620d3a69ed5a032ca75e616adb972eb9aae14fd469f2a622acb2148d" kindref="member">RECONNECTING</ref>,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Attempting<sp/>to<sp/>reconnect</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="classthemis_1_1storage_1_1_database_connection_manager_1a944e80e3c620d3a69ed5a032ca75e616a130389aec25aa182cd466b2a2a7890e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_database_connection_manager_1a944e80e3c620d3a69ed5a032ca75e616a130389aec25aa182cd466b2a2a7890e0" kindref="member">CIRCUIT_OPEN</ref><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Circuit<sp/>breaker<sp/>open</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config" kindref="compound">ConnectionConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Connection<sp/>pool<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1abf0d72f1bef8011964e40368f38ec82b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1abf0d72f1bef8011964e40368f38ec82b" kindref="member">min_connections</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1aa9f4478a9db8c7a564e2de9b25cdba08" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1aa9f4478a9db8c7a564e2de9b25cdba08" kindref="member">max_connections</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1ab4407d8983dcc09dda305d9d02dee4bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1ab4407d8983dcc09dda305d9d02dee4bc" kindref="member">idle_timeout</ref>{300};<sp/><sp/></highlight><highlight class="comment">//<sp/>5<sp/>minutes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a4154071b3ec4de8f4f1ff33e8bff7267" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a4154071b3ec4de8f4f1ff33e8bff7267" kindref="member">max_connection_age</ref>{3600};<sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>hour</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Health<sp/>check<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a0aceba22d44ff7be100bc29096ea3488" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a0aceba22d44ff7be100bc29096ea3488" kindref="member">enable_health_checks</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a8beef89981da3708b719bf18772d15b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a8beef89981da3708b719bf18772d15b9" kindref="member">health_check_interval</ref>{30};</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a430fe4e666bef9ec89960b88369a13ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a430fe4e666bef9ec89960b88369a13ec" kindref="member">connection_timeout</ref>{10};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Retry<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a4b52c4b32a9960362678e88fb806e92a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a4b52c4b32a9960362678e88fb806e92a" kindref="member">max_retry_attempts</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a30a6264053b1128526a393f2c586e53f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a30a6264053b1128526a393f2c586e53f" kindref="member">initial_retry_delay</ref>{100};</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a29af25f9d105bd961ca842d024af4ede" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a29af25f9d105bd961ca842d024af4ede" kindref="member">max_retry_delay</ref>{30000};<sp/><sp/></highlight><highlight class="comment">//<sp/>30<sp/>seconds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a81b6b2b23a7c98b196dc8485fc4c6e63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a81b6b2b23a7c98b196dc8485fc4c6e63" kindref="member">backoff_multiplier</ref><sp/>=<sp/>2.0;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Circuit<sp/>breaker<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a6d7fa898d98cbead4cf33217472747d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a6d7fa898d98cbead4cf33217472747d3" kindref="member">failure_threshold</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1af29426ea0d58ff922267934e40c0189b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1af29426ea0d58ff922267934e40c0189b" kindref="member">success_threshold</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a9b3c1f34210d471fb69e380fa1e9531a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a9b3c1f34210d471fb69e380fa1e9531a" kindref="member">circuit_reset_timeout</ref>{60};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Keepalive<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a759643c93c9a2efbf33d583d709a670b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a759643c93c9a2efbf33d583d709a670b" kindref="member">enable_keepalive</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a17d9fae0df353dcfc096dca87526cbd2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a17d9fae0df353dcfc096dca87526cbd2" kindref="member">keepalive_interval</ref>{30};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_health" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_health" kindref="compound">ConnectionHealth</ref><sp/>{</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_health_1af36a4be7d33e80789b9bf89e8896e96d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_database_connection_manager_1a944e80e3c620d3a69ed5a032ca75e616" kindref="member">ConnectionState</ref><sp/><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_health_1af36a4be7d33e80789b9bf89e8896e96d" kindref="member">state</ref>;</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_health_1a767bcdbdedc13a33112c64befc8d207a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_health_1a767bcdbdedc13a33112c64befc8d207a" kindref="member">total_operations</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_health_1af002c9c79246158afaeb096ade27aea8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_health_1af002c9c79246158afaeb096ade27aea8" kindref="member">failed_operations</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_health_1aa2b0394bbd1df34a7b37a542c718deeb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_health_1aa2b0394bbd1df34a7b37a542c718deeb" kindref="member">reconnect_attempts</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_health_1af2ef07c973a0609e49b08fa60a36a7fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_health_1af2ef07c973a0609e49b08fa60a36a7fb" kindref="member">created_at</ref>;</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_health_1ab56f86eed4fd37c81826986204aa124c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_health_1ab56f86eed4fd37c81826986204aa124c" kindref="member">last_used_at</ref>;</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_health_1a7f85121b89b01c959bce96b15eb14229" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_health_1a7f85121b89b01c959bce96b15eb14229" kindref="member">last_health_check</ref>;</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_health_1ac25fbab5c3d58f91582436cd0a909cc1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_health_1ac25fbab5c3d58f91582436cd0a909cc1" kindref="member">last_error</ref>;</highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_health_1ae4dc780029e6be0e86f8540a84461e08" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_health_1ae4dc780029e6be0e86f8540a84461e08" kindref="member">error_rate</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_health_1a8fb92c4985200c0fdc76fe1a4321e1d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_health_1a8fb92c4985200c0fdc76fe1a4321e1d3" kindref="member">is_stale</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_stats" kindref="compound">ConnectionStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_stats_1aaf30afff6d2dd6d2d9f692c74867cae7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_stats_1aaf30afff6d2dd6d2d9f692c74867cae7" kindref="member">total_connections</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_stats_1a84bdeafba7dbd1001b7268718d6737be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_stats_1a84bdeafba7dbd1001b7268718d6737be" kindref="member">active_connections</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_stats_1a0ea1dab5d9d0ee93ece4311b4c98a31d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_stats_1a0ea1dab5d9d0ee93ece4311b4c98a31d" kindref="member">idle_connections</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_stats_1a6221cfa4a5ad148dc8f08155e669c981" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_stats_1a6221cfa4a5ad148dc8f08155e669c981" kindref="member">failed_connections</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_stats_1acf48177d6f906d1074302f2d3e58a418" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_stats_1acf48177d6f906d1074302f2d3e58a418" kindref="member">total_reconnects</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_stats_1a23208fcaaa2c5e80695ee047f5604c4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_stats_1a23208fcaaa2c5e80695ee047f5604c4e" kindref="member">circuit_breaker_trips</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_stats_1a86261d83ad71f1e47b8f293cbe269e64" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_stats_1a86261d83ad71f1e47b8f293cbe269e64" kindref="member">average_error_rate</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Connection<sp/>handle<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection" kindref="compound">Connection</ref><sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="112" refid="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection_1a42bbad7778825d10105fea1b144549db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection_1a42bbad7778825d10105fea1b144549db" kindref="member">~Connection</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114" refid="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection_1a77f02148ca2d5c716caf2a12570c7dfe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection_1a77f02148ca2d5c716caf2a12570c7dfe" kindref="member">isValid</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="115" refid="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection_1a8d1698b31a1eb4995e454c9eceed8eee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection_1a8d1698b31a1eb4995e454c9eceed8eee" kindref="member">ping</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="116" refid="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection_1a7af9e75e4b9a1444d10c9a4b19dac6c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection_1a7af9e75e4b9a1444d10c9a4b19dac6c9" kindref="member">getError</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="117" refid="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection_1a430314bd01a54d8a498464312fbd0ea8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection_1a430314bd01a54d8a498464312fbd0ea8" kindref="member">close</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Connection<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection_1afdc3594746e886b49693171faae1ad85" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection_1afdc3594746e886b49693171faae1ad85" kindref="member">created_at</ref>;</highlight></codeline>
+<codeline lineno="121" refid="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection_1ae41aa55de06094627e2887c2ff56612a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection_1ae41aa55de06094627e2887c2ff56612a" kindref="member">last_used_at</ref>;</highlight></codeline>
+<codeline lineno="122" refid="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection_1ad2bf1e590bdd58edc99eb1ddd0693459" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection_1ad2bf1e590bdd58edc99eb1ddd0693459" kindref="member">operation_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="123" refid="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection_1ae2d7ad42d37eb1659ab7f48ae29262cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection_1ae2d7ad42d37eb1659ab7f48ae29262cb" kindref="member">error_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_database_connection_manager_1a053c50ed640b510483dda10638a3c451" kindref="member">DatabaseConnectionManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config" kindref="compound">ConnectionConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_database_connection_manager_1a79f5bab309ce1c258b1fcd35b9684b3f" kindref="member">~DatabaseConnectionManager</ref>();</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;Connection&gt;<sp/><ref refid="classthemis_1_1storage_1_1_database_connection_manager_1a4cd95616d3d195f40079d643c7e05c49" kindref="member">acquireConnection</ref>(</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>blocking<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/>timeout<sp/>=<sp/>std::chrono::seconds(10)</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_database_connection_manager_1aabce907a61e317df8ccd948bbdcf9e68" kindref="member">releaseConnection</ref>(</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;Connection&gt;<sp/>conn,</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>error_occurred<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>ResultType&gt;</highlight></codeline>
+<codeline lineno="167" refid="classthemis_1_1storage_1_1_database_connection_manager_1ad25ff702ceee477ba878ee82acf35fed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_database_connection_manager_1ad25ff702ceee477ba878ee82acf35fed" kindref="member">executeWithRetry</ref>(</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;ResultType(std::shared_ptr&lt;Connection&gt;)&gt;<sp/>operation,</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ResultType&amp;<sp/>result</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_database_connection_manager_1afc1a2bc08e2dac0e5b3b6fe2e13e7fa9" kindref="member">performHealthCheck</ref>();</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_stats" kindref="compound">ConnectionStats</ref><sp/><ref refid="classthemis_1_1storage_1_1_database_connection_manager_1a711c463388e7cde4562ea1f5a41d7a4c" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ConnectionHealth&gt;<sp/><ref refid="classthemis_1_1storage_1_1_database_connection_manager_1a6ba2985ad5af3739a8e8ef640aa7a458" kindref="member">getConnectionHealth</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_database_connection_manager_1a1a3c2ddce2751078915c232ce9b70b2a" kindref="member">isHealthy</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_database_connection_manager_1aaa9567862c2ab8168569e7920f9c67a7" kindref="member">reconnectAll</ref>();</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_database_connection_manager_1ab2eab6d701a6c5a4e2224a6ae66bab55" kindref="member">closeAll</ref>();</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Factory<sp/>method<sp/>-<sp/>override<sp/>in<sp/>subclass<sp/>for<sp/>specific<sp/>connection<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206" refid="classthemis_1_1storage_1_1_database_connection_manager_1ae5fd38d28a733b7ccf364b2c4be8ed62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;Connection&gt;<sp/><ref refid="classthemis_1_1storage_1_1_database_connection_manager_1ae5fd38d28a733b7ccf364b2c4be8ed62" kindref="member">createConnection</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reconnection<sp/>helper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;Connection&gt;<sp/><ref refid="classthemis_1_1storage_1_1_database_connection_manager_1adae297ada0296028a78846bde4188662" kindref="member">reconnect</ref>(</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;Connection&gt;<sp/>old_conn</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config" kindref="compound">ConnectionConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Connection<sp/>pools</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>std::queue&lt;std::shared_ptr&lt;Connection&gt;&gt;<sp/>idle_connections_;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;Connection*,<sp/>std::shared_ptr&lt;Connection&gt;&gt;<sp/>active_connections_;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Health<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;Connection*,<sp/>ConnectionHealth&gt;<sp/>connection_health_;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Circuit<sp/>breaker<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;ConnectionState&gt;<sp/>circuit_state_{<ref refid="classthemis_1_1storage_1_1_database_connection_manager_1a944e80e3c620d3a69ed5a032ca75e616af068ebe4133e3e6563080836268ea979" kindref="member">ConnectionState::HEALTHY</ref>};</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>consecutive_failures_{0};</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>consecutive_successes_{0};</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>circuit_opened_at_;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>total_reconnects_{0};</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>circuit_trips_{0};</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isConnectionStale(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection" kindref="compound">Connection</ref>*<sp/>conn)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>shouldRemoveConnection(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection" kindref="compound">Connection</ref>*<sp/>conn)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updateCircuitBreaker(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>success);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>canAttemptConnection()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>calculateBackoffDelay(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>attempt)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247" refid="classthemis_1_1storage_1_1_exponential_backoff" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1storage_1_1_exponential_backoff_1acb87e0b6a4260f4bbceb4b69ab7f4d21" kindref="member">ExponentialBackoff</ref><sp/>{</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="249" refid="structthemis_1_1storage_1_1_exponential_backoff_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_exponential_backoff_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="250" refid="structthemis_1_1storage_1_1_exponential_backoff_1_1_config_1a484e112ebe8fe527ddfa0e7e6afef83b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1storage_1_1_exponential_backoff_1_1_config_1a484e112ebe8fe527ddfa0e7e6afef83b" kindref="member">initial_delay</ref>{100};</highlight></codeline>
+<codeline lineno="251" refid="structthemis_1_1storage_1_1_exponential_backoff_1_1_config_1aa792cfc542dfe78579b6ace0fb154a98" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1storage_1_1_exponential_backoff_1_1_config_1aa792cfc542dfe78579b6ace0fb154a98" kindref="member">max_delay</ref>{30000};</highlight></codeline>
+<codeline lineno="252" refid="structthemis_1_1storage_1_1_exponential_backoff_1_1_config_1a7e1a33ae96e95ebe89fdc6d57db61d47" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_exponential_backoff_1_1_config_1a7e1a33ae96e95ebe89fdc6d57db61d47" kindref="member">multiplier</ref><sp/>=<sp/>2.0;</highlight></codeline>
+<codeline lineno="253" refid="structthemis_1_1storage_1_1_exponential_backoff_1_1_config_1a0dae988d7a37f34ddd4e56673f0752c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_exponential_backoff_1_1_config_1a0dae988d7a37f34ddd4e56673f0752c8" kindref="member">jitter_factor</ref><sp/>=<sp/>0.2;<sp/><sp/></highlight><highlight class="comment">//<sp/>20%<sp/>random<sp/>jitter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_exponential_backoff_1acb87e0b6a4260f4bbceb4b69ab7f4d21" kindref="member">ExponentialBackoff</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_exponential_backoff_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="classthemis_1_1storage_1_1_exponential_backoff_1a348ac4719d805c4991d4978ca0e580a9" kindref="member">calculateDelay</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>attempt)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_exponential_backoff_1a4a8db3568880931c54010794fac167a0" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_exponential_backoff_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mt19937<sp/>rng_;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281" refid="classthemis_1_1storage_1_1_connection_keepalive" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1storage_1_1_connection_keepalive_1a07a998bcf472024074014581e19ffb84" kindref="member">ConnectionKeepalive</ref><sp/>{</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_connection_keepalive_1a07a998bcf472024074014581e19ffb84" kindref="member">ConnectionKeepalive</ref>(</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/>interval,</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">()&gt;<sp/>keepalive_fn</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_connection_keepalive_1abc71127548c050693ab1cbe1ec8c7eb0" kindref="member">~ConnectionKeepalive</ref>();</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_connection_keepalive_1a603e5b89a0c602d17a59d7c5d7526b44" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_connection_keepalive_1ae8e27bad7edb081b9dc715f3e44e55ee" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_connection_keepalive_1acccf365675d1e6cdc191cad26b433f85" kindref="member">isRunning</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_connection_keepalive_1a56cbd90a6783b887285dad1666637377" kindref="member">getKeepaliveCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_connection_keepalive_1a9f03d9c14aba148a33b7a8a4c73cf9fe" kindref="member">getFailureCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/>interval_;</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;bool()&gt;<sp/>keepalive_fn_;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>running_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>should_stop_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>keepalive_thread_;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>stop_mutex_;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>std::condition_variable<sp/>stop_cv_;</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>keepalive_count_{0};</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>failure_count_{0};</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>keepaliveLoop();</highlight></codeline>
+<codeline lineno="327"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="334" refid="classthemis_1_1storage_1_1_connection_timeout_guard" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1storage_1_1_connection_timeout_guard_1ae6cc6e3b6c0b2d9d8cf5d5e77d825983" kindref="member">ConnectionTimeoutGuard</ref><sp/>{</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_connection_timeout_guard_1ae6cc6e3b6c0b2d9d8cf5d5e77d825983" kindref="member">ConnectionTimeoutGuard</ref>(</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/>timeout,</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>operation_name</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_connection_timeout_guard_1accc4aa2384194bcd692382bb85b4a6f4" kindref="member">~ConnectionTimeoutGuard</ref>();</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_connection_timeout_guard_1ac112a3dbf00be78eb59a6f93464287e3" kindref="member">hasTimedOut</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_connection_timeout_guard_1a32ce62f965c42134c8b08b51412b2973" kindref="member">cancel</ref>();</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="classthemis_1_1storage_1_1_connection_timeout_guard_1aa0804a96fb6dd2643e95992e8d2eedff" kindref="member">getElapsedTime</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/>timeout_;</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>operation_name_;</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>start_time_;</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>cancelled_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;bool&gt;<sp/>timed_out_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="364"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>storage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/storage/database_connection_manager.h"/>
+  </compounddef>
+</doxygen>

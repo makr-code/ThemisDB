@@ -1,0 +1,379 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_workflow_loader" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::WorkflowLoader</compoundname>
+    <includes refid="workflow__definition_8h" local="no">workflow_definition.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_workflow_loader_1ae89d7cba4a90a04930c4ca2bc624838d" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_workflow_definition" kindref="compound">WorkflowDefinition</ref></type>
+        <definition>WorkflowDefinition themis::llm::WorkflowLoader::loadFromFile</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>loadFromFile</name>
+        <qualifiedname>themis::llm::WorkflowLoader::loadFromFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Load From File. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: f(), rdbuf(), str(), rfind(), substr(), std::transform(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/workflow_definition.h" line="137" column="32" bodyfile="src/llm/task_decomposer.cpp" bodystart="631" bodyend="656"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_workflow_loader_1a2eacd11df34e8ae034d700f901cd0c19" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_workflow_definition" kindref="compound">WorkflowDefinition</ref></type>
+        <definition>WorkflowDefinition themis::llm::WorkflowLoader::loadFromString</definition>
+        <argsstring>(const std::string &amp;content, const std::string &amp;format_hint, const std::string &amp;source_label=&quot;&lt;string&gt;&quot;)</argsstring>
+        <name>loadFromString</name>
+        <qualifiedname>themis::llm::WorkflowLoader::loadFromString</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>format_hint</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_label</declname>
+          <defval>&quot;&lt;string&gt;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Load From String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">format_hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">source_label</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::transform(), begin(), end(), std::tolower(), parseYaml(), parseJson(), parseBpmn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/workflow_definition.h" line="139" column="32" bodyfile="src/llm/task_decomposer.cpp" bodystart="605" bodyend="622"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_workflow_loader_1a56b366dea6c698460d9691213a7452d5" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_workflow_validation_result" kindref="compound">WorkflowValidationResult</ref></type>
+        <definition>WorkflowValidationResult themis::llm::WorkflowLoader::validate</definition>
+        <argsstring>(const WorkflowDefinition &amp;def)</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::llm::WorkflowLoader::validate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_workflow_definition" kindref="compound">WorkflowDefinition</ref> &amp;</type>
+          <declname>def</declname>
+        </param>
+        <briefdescription>
+<para>Validate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">def</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), addError(), insert(), has_value(), is_object(), contains(), is_string(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/workflow_definition.h" line="144" column="38" bodyfile="src/llm/task_decomposer.cpp" bodystart="668" bodyend="715"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_workflow_loader_1afad81d5da33a53339edb060b560744a4" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::WorkflowLoader::toJson</definition>
+        <argsstring>(const WorkflowDefinition &amp;def)</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::llm::WorkflowLoader::toJson</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_workflow_definition" kindref="compound">WorkflowDefinition</ref> &amp;</type>
+          <declname>def</declname>
+        </param>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">def</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1llm_1a3551b5cdc4734f53002dbcbac1f0f68a" kindref="member">workflowStepModeToString()</ref>, is_null(), json::object(), json::array(), has_value(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/workflow_definition.h" line="146" column="18" bodyfile="src/llm/task_decomposer.cpp" bodystart="147" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_workflow_loader_1ad4c7de3492d10b3a09a58b1e15c17cc3" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_workflow_definition" kindref="compound">WorkflowDefinition</ref></type>
+        <definition>WorkflowDefinition themis::llm::WorkflowLoader::fromJson</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::llm::WorkflowLoader::fromJson</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: contains(), std::string(), at(), req(), value(), <ref refid="namespacethemis_1_1llm_1ad398dbcac591c66965c2d0daf055a06f" kindref="member">workflowStepModeFromString()</ref>, is_object(), items(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/workflow_definition.h" line="148" column="32" bodyfile="src/llm/task_decomposer.cpp" bodystart="194" bodyend="250"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_workflow_loader_1af420557c51ed1a364ec18d8a4e4f2d03" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_workflow_definition" kindref="compound">WorkflowDefinition</ref></type>
+        <definition>WorkflowDefinition themis::llm::WorkflowLoader::parseYaml</definition>
+        <argsstring>(const std::string &amp;content, const std::string &amp;label)</argsstring>
+        <name>parseYaml</name>
+        <qualifiedname>themis::llm::WorkflowLoader::parseYaml</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>label</declname>
+        </param>
+        <briefdescription>
+<para>Parse Yaml. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: simpleYamlToJson(), <ref refid="classthemis_1_1llm_1_1_workflow_loader_1ad4c7de3492d10b3a09a58b1e15c17cc3" kindref="member">fromJson()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/workflow_definition.h" line="151" column="32" bodyfile="src/llm/task_decomposer.cpp" bodystart="466" bodyend="472"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_workflow_loader_1af48f7902605ae8672158bac1372b2678" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_workflow_definition" kindref="compound">WorkflowDefinition</ref></type>
+        <definition>WorkflowDefinition themis::llm::WorkflowLoader::parseJson</definition>
+        <argsstring>(const std::string &amp;content, const std::string &amp;label)</argsstring>
+        <name>parseJson</name>
+        <qualifiedname>themis::llm::WorkflowLoader::parseJson</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>label</declname>
+        </param>
+        <briefdescription>
+<para>Parse Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">label</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: json::parse(), what(), <ref refid="classthemis_1_1llm_1_1_workflow_loader_1ad4c7de3492d10b3a09a58b1e15c17cc3" kindref="member">fromJson()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/workflow_definition.h" line="153" column="32" bodyfile="src/llm/task_decomposer.cpp" bodystart="482" bodyend="491"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_workflow_loader_1a190688f0db757dea4dda9b79229e9aa9" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_workflow_definition" kindref="compound">WorkflowDefinition</ref></type>
+        <definition>WorkflowDefinition themis::llm::WorkflowLoader::parseBpmn</definition>
+        <argsstring>(const std::string &amp;content, const std::string &amp;label)</argsstring>
+        <name>parseBpmn</name>
+        <qualifiedname>themis::llm::WorkflowLoader::parseBpmn</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>label</declname>
+        </param>
+        <briefdescription>
+<para>Parse Bpmn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">label</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), size(), substr(), extractAttr(), empty(), <ref refid="namespacethemis_1_1llm_1ad398dbcac591c66965c2d0daf055a06f" kindref="member">workflowStepModeFromString()</ref>, push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/workflow_definition.h" line="155" column="32" bodyfile="src/llm/task_decomposer.cpp" bodystart="500" bodyend="594"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/workflow_definition.h" line="135" column="1" bodyfile="include/llm/workflow_definition.h" bodystart="135" bodyend="157"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_workflow_loader_1ad4c7de3492d10b3a09a58b1e15c17cc3" prot="public" virt="non-virtual"><scope>themis::llm::WorkflowLoader</scope><name>fromJson</name></member>
+      <member refid="classthemis_1_1llm_1_1_workflow_loader_1ae89d7cba4a90a04930c4ca2bc624838d" prot="public" virt="non-virtual"><scope>themis::llm::WorkflowLoader</scope><name>loadFromFile</name></member>
+      <member refid="classthemis_1_1llm_1_1_workflow_loader_1a2eacd11df34e8ae034d700f901cd0c19" prot="public" virt="non-virtual"><scope>themis::llm::WorkflowLoader</scope><name>loadFromString</name></member>
+      <member refid="classthemis_1_1llm_1_1_workflow_loader_1a190688f0db757dea4dda9b79229e9aa9" prot="private" virt="non-virtual"><scope>themis::llm::WorkflowLoader</scope><name>parseBpmn</name></member>
+      <member refid="classthemis_1_1llm_1_1_workflow_loader_1af48f7902605ae8672158bac1372b2678" prot="private" virt="non-virtual"><scope>themis::llm::WorkflowLoader</scope><name>parseJson</name></member>
+      <member refid="classthemis_1_1llm_1_1_workflow_loader_1af420557c51ed1a364ec18d8a4e4f2d03" prot="private" virt="non-virtual"><scope>themis::llm::WorkflowLoader</scope><name>parseYaml</name></member>
+      <member refid="classthemis_1_1llm_1_1_workflow_loader_1afad81d5da33a53339edb060b560744a4" prot="public" virt="non-virtual"><scope>themis::llm::WorkflowLoader</scope><name>toJson</name></member>
+      <member refid="classthemis_1_1llm_1_1_workflow_loader_1a56b366dea6c698460d9691213a7452d5" prot="public" virt="non-virtual"><scope>themis::llm::WorkflowLoader</scope><name>validate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

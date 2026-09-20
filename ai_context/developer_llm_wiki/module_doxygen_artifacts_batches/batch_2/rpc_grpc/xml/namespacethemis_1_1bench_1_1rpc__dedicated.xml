@@ -1,0 +1,276 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1rpc__dedicated" kind="namespace" language="C++">
+    <compoundname>themis::bench::rpc_dedicated</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1rpc__dedicated_1a2a6b6b713bd18ca5943306cd5e1818dc" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::rpc_dedicated::kCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kCanonicalSeed</name>
+        <qualifiedname>themis::bench::rpc_dedicated::kCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/rpc_grpc/bench_rpc_grpc_dedicated_gates.cpp" line="51" column="27" bodyfile="benchmarks/rpc_grpc/bench_rpc_grpc_dedicated_gates.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1rpc__dedicated_1a1643c850b0e2f4a8f3bb2e6873163a5b" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::rpc_dedicated::kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <qualifiedname>themis::bench::rpc_dedicated::kRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/rpc_grpc/bench_rpc_grpc_dedicated_gates.cpp" line="52" column="27" bodyfile="benchmarks/rpc_grpc/bench_rpc_grpc_dedicated_gates.cpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1rpc__dedicated_1af16b5f94ff6cfaefe2b2fe2722023f2c" prot="public" static="yes" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::bench::rpc_dedicated::g_stub_reg_count</definition>
+        <argsstring></argsstring>
+        <name>g_stub_reg_count</name>
+        <qualifiedname>themis::bench::rpc_dedicated::g_stub_reg_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/rpc_grpc/bench_rpc_grpc_dedicated_gates.cpp" line="56" column="20" bodyfile="benchmarks/rpc_grpc/bench_rpc_grpc_dedicated_gates.cpp" bodystart="56" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rpc__dedicated_1a056cd9ecb7cadf186906c98230c6d11a" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::bench::rpc_dedicated::stubRegisterService</definition>
+        <argsstring>(const std::string &amp;name) noexcept</argsstring>
+        <name>stubRegisterService</name>
+        <qualifiedname>themis::bench::rpc_dedicated::stubRegisterService</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/rpc_grpc/bench_rpc_grpc_dedicated_gates.cpp" line="58" column="13" bodyfile="benchmarks/rpc_grpc/bench_rpc_grpc_dedicated_gates.cpp" bodystart="58" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rpc__dedicated_1a7a2b51d307b22fe87e89e3bff66b5ad3" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::bench::rpc_dedicated::stubStreamSend</definition>
+        <argsstring>(uint32_t stream_id, uint64_t payload) noexcept</argsstring>
+        <name>stubStreamSend</name>
+        <qualifiedname>themis::bench::rpc_dedicated::stubStreamSend</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>stream_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/rpc_grpc/bench_rpc_grpc_dedicated_gates.cpp" line="64" column="13" bodyfile="benchmarks/rpc_grpc/bench_rpc_grpc_dedicated_gates.cpp" bodystart="64" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rpc__dedicated_1a81e6ab99358e32822c1526c76d6a8c03" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::bench::rpc_dedicated::stubReloadCredential</definition>
+        <argsstring>(const std::string &amp;path) noexcept</argsstring>
+        <name>stubReloadCredential</name>
+        <qualifiedname>themis::bench::rpc_dedicated::stubReloadCredential</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/rpc_grpc/bench_rpc_grpc_dedicated_gates.cpp" line="69" column="13" bodyfile="benchmarks/rpc_grpc/bench_rpc_grpc_dedicated_gates.cpp" bodystart="69" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rpc__dedicated_1ad05a5e3f9f9833f8d9cc221fbe50ee12" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::bench::rpc_dedicated::stubServiceCall</definition>
+        <argsstring>(uint64_t call_id) noexcept</argsstring>
+        <name>stubServiceCall</name>
+        <qualifiedname>themis::bench::rpc_dedicated::stubServiceCall</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>call_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/rpc_grpc/bench_rpc_grpc_dedicated_gates.cpp" line="74" column="13" bodyfile="benchmarks/rpc_grpc/bench_rpc_grpc_dedicated_gates.cpp" bodystart="74" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rpc__dedicated_1ae62457d4e129166769027555cd56a501" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::rpc_dedicated::BM_GRPC_ServiceRegistration</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_GRPC_ServiceRegistration</name>
+        <qualifiedname>themis::bench::rpc_dedicated::BM_GRPC_ServiceRegistration</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/rpc_grpc/bench_rpc_grpc_dedicated_gates.cpp" line="82" column="13" bodyfile="benchmarks/rpc_grpc/bench_rpc_grpc_dedicated_gates.cpp" bodystart="82" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rpc__dedicated_1aa5e6205661254b397f9d693d466cf8dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::rpc_dedicated::Name</definition>
+        <argsstring>(&quot;GRPC-BM-01/ServiceRegistration&quot;) -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>Name</name>
+        <qualifiedname>themis::bench::rpc_dedicated::Name</qualifiedname>
+        <param>
+          <type>&quot;GRPC-BM-01/ServiceRegistration&quot;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/rpc_grpc/bench_rpc_grpc_dedicated_gates.cpp" line="91" column="5" declfile="benchmarks/rpc_grpc/bench_rpc_grpc_dedicated_gates.cpp" declline="91" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rpc__dedicated_1a26407c0c63c741ef3d3ab91018d311a2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::rpc_dedicated::BM_GRPC_StreamAdapterSend</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_GRPC_StreamAdapterSend</name>
+        <qualifiedname>themis::bench::rpc_dedicated::BM_GRPC_StreamAdapterSend</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/rpc_grpc/bench_rpc_grpc_dedicated_gates.cpp" line="98" column="13" bodyfile="benchmarks/rpc_grpc/bench_rpc_grpc_dedicated_gates.cpp" bodystart="98" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rpc__dedicated_1a405354ba74249f618ab49696faa28ea7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::rpc_dedicated::Name</definition>
+        <argsstring>(&quot;GRPC-BM-02/StreamAdapterSend&quot;) -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>Name</name>
+        <qualifiedname>themis::bench::rpc_dedicated::Name</qualifiedname>
+        <param>
+          <type>&quot;GRPC-BM-02/StreamAdapterSend&quot;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/rpc_grpc/bench_rpc_grpc_dedicated_gates.cpp" line="108" column="5" declfile="benchmarks/rpc_grpc/bench_rpc_grpc_dedicated_gates.cpp" declline="108" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rpc__dedicated_1a87130e32b0dc9b4d97be7c6c5b1bc142" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::rpc_dedicated::BM_GRPC_CredentialReload</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_GRPC_CredentialReload</name>
+        <qualifiedname>themis::bench::rpc_dedicated::BM_GRPC_CredentialReload</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/rpc_grpc/bench_rpc_grpc_dedicated_gates.cpp" line="115" column="13" bodyfile="benchmarks/rpc_grpc/bench_rpc_grpc_dedicated_gates.cpp" bodystart="115" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rpc__dedicated_1a00d6848fae0a328401ff5a6e21d06ce9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::rpc_dedicated::Name</definition>
+        <argsstring>(&quot;GRPC-BM-03/CredentialReload&quot;) -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>Name</name>
+        <qualifiedname>themis::bench::rpc_dedicated::Name</qualifiedname>
+        <param>
+          <type>&quot;GRPC-BM-03/CredentialReload&quot;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/rpc_grpc/bench_rpc_grpc_dedicated_gates.cpp" line="124" column="5" declfile="benchmarks/rpc_grpc/bench_rpc_grpc_dedicated_gates.cpp" declline="124" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rpc__dedicated_1ae5fbe65ad6ba76adbe12fb57b0be8ba7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::rpc_dedicated::BM_GRPC_BatchServiceCall</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_GRPC_BatchServiceCall</name>
+        <qualifiedname>themis::bench::rpc_dedicated::BM_GRPC_BatchServiceCall</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/rpc_grpc/bench_rpc_grpc_dedicated_gates.cpp" line="131" column="13" bodyfile="benchmarks/rpc_grpc/bench_rpc_grpc_dedicated_gates.cpp" bodystart="131" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1rpc__dedicated_1af843ab6be55b013ca337e8b1c8fe6433" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::rpc_dedicated::Name</definition>
+        <argsstring>(&quot;GRPC-BM-04/BatchServiceCall1000&quot;) -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>Name</name>
+        <qualifiedname>themis::bench::rpc_dedicated::Name</qualifiedname>
+        <param>
+          <type>&quot;GRPC-BM-04/BatchServiceCall1000&quot;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/rpc_grpc/bench_rpc_grpc_dedicated_gates.cpp" line="143" column="5" declfile="benchmarks/rpc_grpc/bench_rpc_grpc_dedicated_gates.cpp" declline="143" declcolumn="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/rpc_grpc/bench_rpc_grpc_dedicated_gates.cpp" line="49" column="1"/>
+  </compounddef>
+</doxygen>

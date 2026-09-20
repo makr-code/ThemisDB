@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace__config_8h" kind="file" language="C++">
+    <compoundname>namespace_config.h</compoundname>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="namespace__config_8h_1a7bd1027512e4fd48c1505a90eca93fe2" prot="public" static="no">
+        <name>THEMIS_NS_OPEN</name>
+        <param></param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/namespace_config.h" line="45" column="13" bodyfile="include/graph/namespace_config.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="namespace__config_8h_1a9d5931ea794ab1923460b3763def9fcd" prot="public" static="no">
+        <name>THEMIS_NS_CLOSE</name>
+        <param></param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/namespace_config.h" line="46" column="13" bodyfile="include/graph/namespace_config.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="namespace__config_8h_1ac3ca59c73b8fe07f2698ed9ed6bee853" prot="public" static="no">
+        <name>THEMIS_NS_MID_FILE_OPEN</name>
+        <param></param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/namespace_config.h" line="47" column="13" bodyfile="include/graph/namespace_config.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="namespace__config_8h_1ac67618a0a110eb5590308afb2d7578a9" prot="public" static="no">
+        <name>THEMIS_NS_MID_FILE_CLOSE</name>
+        <param></param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/namespace_config.h" line="48" column="13" bodyfile="include/graph/namespace_config.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="namespace__config_8h_1a96193b440ae65538974549bab8bfb876" prot="public" static="no">
+        <name>SUPPRESS_REDUNDANT_NS</name>
+        <initializer>namespace <ref refid="namespacethemis" kindref="compound">themis</ref> { namespace graph</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>For mid-files (2-20), use this helper to suppress redundant namespace opens at the file level, while preserving internal scoping if needed.</para>
+<para>Example usage in <ref refid="graph__query__optimizer_8cpp" kindref="compound">graph_query_optimizer.cpp</ref> (File 10):</para>
+<para>// OLD: namespace themis { namespace graph { ... } } // NEW: SUPPRESS_REDUNDANT_NS { ... }</para>
+<para>Where SUPPRESS_REDUNDANT_NS is empty in Unity mode, but defines local scope for standalone builds. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/namespace_config.h" line="70" column="14" bodyfile="include/graph/namespace_config.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Namespace wrapper macros for Unity build consistency. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>When MSVC_UNITY_BUILD=ON, all themis_graph sources are concatenated into a single compilation unit. To maintain namespace consistency across all 21 files:</para>
+<para><itemizedlist>
+<listitem><para>File 1 (ai_hardware_dispatcher.cpp): Opens <ref refid="namespace__config_8h_1a7bd1027512e4fd48c1505a90eca93fe2" kindref="member">THEMIS_NS_OPEN()</ref></para>
+</listitem><listitem><para>Files 2-20: Use NO namespace macros (implicit inheritance from File 1)</para>
+</listitem><listitem><para>File 21 (<ref refid="graph__query__rewriter_8cpp" kindref="compound">graph_query_rewriter.cpp</ref>): Closes <ref refid="namespace__config_8h_1a9d5931ea794ab1923460b3763def9fcd" kindref="member">THEMIS_NS_CLOSE()</ref></para>
+</listitem></itemizedlist>
+</para>
+<para>Each file still includes their own headers which may be in different namespaces for standalone compilation, but the macro wrapper ensures Unity mode consistency. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Namespace<sp/>configuration<sp/>for<sp/>Unity<sp/>builds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(THEMIS_UNITY_BUILD_FIRST_FILE)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>File<sp/>1<sp/>only:<sp/>Open<sp/>all<sp/>namespaces</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_NS_OPEN()<sp/><sp/>namespace<sp/>themis<sp/>{<sp/>namespace<sp/>graph<sp/>{</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_NS_CLOSE()<sp/>}<sp/></highlight><highlight class="comment">/*<sp/>namespace<sp/>graph<sp/>*/</highlight><highlight class="preprocessor"><sp/>}<sp/></highlight><highlight class="comment">/*<sp/>namespace<sp/>themis<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_NS_MID_FILE_OPEN()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_NS_MID_FILE_CLOSE()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#elif<sp/>defined(THEMIS_UNITY_BUILD_LAST_FILE)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>File<sp/>21<sp/>only:<sp/>Close<sp/>all<sp/>namespaces</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_NS_OPEN()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_NS_CLOSE()<sp/>}<sp/></highlight><highlight class="comment">/*<sp/>namespace<sp/>graph<sp/>*/</highlight><highlight class="preprocessor"><sp/>}<sp/></highlight><highlight class="comment">/*<sp/>namespace<sp/>themis<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_NS_MID_FILE_OPEN()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_NS_MID_FILE_CLOSE()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#elif<sp/>defined(THEMIS_UNITY_BUILD_MID_FILE)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Files<sp/>2-20:<sp/>No-op<sp/>macros<sp/>(implicit<sp/>namespace<sp/>inheritance)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_NS_OPEN()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_NS_CLOSE()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_NS_MID_FILE_OPEN()<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>cleanup<sp/>of<sp/>any<sp/>redundant<sp/>opens</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_NS_MID_FILE_CLOSE()<sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>cleanup<sp/>of<sp/>any<sp/>redundant<sp/>closes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Standalone<sp/>compilation:<sp/>Each<sp/>file<sp/>uses<sp/>its<sp/>own<sp/>namespace<sp/>pattern</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="namespace__config_8h_1a7bd1027512e4fd48c1505a90eca93fe2" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_NS_OPEN()<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Override<sp/>per-file<sp/>if<sp/>needed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="namespace__config_8h_1a9d5931ea794ab1923460b3763def9fcd" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_NS_CLOSE()<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Override<sp/>per-file<sp/>if<sp/>needed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="namespace__config_8h_1ac3ca59c73b8fe07f2698ed9ed6bee853" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_NS_MID_FILE_OPEN()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="namespace__config_8h_1ac67618a0a110eb5590308afb2d7578a9" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_NS_MID_FILE_CLOSE()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper<sp/>for<sp/>removing<sp/>redundant<sp/>namespace<sp/>declarations<sp/>in<sp/>mid-files</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(THEMIS_UNITY_BUILD_MID_FILE)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>SUPPRESS_REDUNDANT_NS<sp/><sp/></highlight><highlight class="comment">//<sp/>Empty<sp/>in<sp/>Unity<sp/>mode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="namespace__config_8h_1a96193b440ae65538974549bab8bfb876" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>SUPPRESS_REDUNDANT_NS<sp/><sp/>namespace<sp/>themis<sp/>{<sp/>namespace<sp/>graph</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/graph/namespace_config.h"/>
+  </compounddef>
+</doxygen>

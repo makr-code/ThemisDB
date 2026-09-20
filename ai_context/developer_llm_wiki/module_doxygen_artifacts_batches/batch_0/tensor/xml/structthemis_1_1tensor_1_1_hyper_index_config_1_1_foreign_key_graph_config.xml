@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_hyper_index_config_1_1_foreign_key_graph_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::HyperIndexConfig::ForeignKeyGraphConfig</compoundname>
+    <includes refid="hyper__index__builder_8h" local="no">hyper_index_builder.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_hyper_index_config_1_1_foreign_key_graph_config_1a5eecf9474288b67622583054687f3ffd" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1tensor_1_1_hyper_index_config_1_1_foreign_key_edge" kindref="compound">ForeignKeyEdge</ref> &gt;</type>
+        <definition>std::vector&lt;ForeignKeyEdge&gt; themis::tensor::HyperIndexConfig::ForeignKeyGraphConfig::edges</definition>
+        <argsstring></argsstring>
+        <name>edges</name>
+        <qualifiedname>themis::tensor::HyperIndexConfig::ForeignKeyGraphConfig::edges</qualifiedname>
+        <briefdescription>
+<para>FK relationships. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hyper_index_builder.h" line="113" column="21" bodyfile="include/tensor/hyper_index_builder.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_hyper_index_config_1_1_foreign_key_graph_config_1a90fd0a633b3cdf29b1e4887dd313fbf7" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::HyperIndexConfig::ForeignKeyGraphConfig::max_hops</definition>
+        <argsstring></argsstring>
+        <name>max_hops</name>
+        <qualifiedname>themis::tensor::HyperIndexConfig::ForeignKeyGraphConfig::max_hops</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+<para>Min-clamped to 1 during traversal. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hyper_index_builder.h" line="114" column="21" bodyfile="include/tensor/hyper_index_builder.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_hyper_index_config_1_1_foreign_key_graph_config_1adb73d84ef7b90253b9cfe6d2059a65a3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::tensor::HyperIndexConfig::ForeignKeyGraphConfig::propagation_decay</definition>
+        <argsstring></argsstring>
+        <name>propagation_decay</name>
+        <qualifiedname>themis::tensor::HyperIndexConfig::ForeignKeyGraphConfig::propagation_decay</qualifiedname>
+        <initializer>= 0.8</initializer>
+        <briefdescription>
+<para>Clamped to [0,1]; starts at hop 2. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hyper_index_builder.h" line="115" column="16" bodyfile="include/tensor/hyper_index_builder.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_hyper_index_config_1_1_foreign_key_graph_config_1a782325d406861dccd9c51060152d01ca" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::tensor::HyperIndexConfig::ForeignKeyGraphConfig::signal_blend_weight</definition>
+        <argsstring></argsstring>
+        <name>signal_blend_weight</name>
+        <qualifiedname>themis::tensor::HyperIndexConfig::ForeignKeyGraphConfig::signal_blend_weight</qualifiedname>
+        <initializer>= 0.5</initializer>
+        <briefdescription>
+<para>Clamped to [0,1] for base vs FK blend. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hyper_index_builder.h" line="116" column="16" bodyfile="include/tensor/hyper_index_builder.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_hyper_index_config_1_1_foreign_key_graph_config_1a5a14d95c484b5e93981903dd9fd6d633" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::tensor::HyperIndexConfig::ForeignKeyGraphConfig::default_join_strength</definition>
+        <argsstring></argsstring>
+        <name>default_join_strength</name>
+        <qualifiedname>themis::tensor::HyperIndexConfig::ForeignKeyGraphConfig::default_join_strength</qualifiedname>
+        <initializer>= 0.5</initializer>
+        <briefdescription>
+<para>Used only for USE_DEFAULT_WEIGHT. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hyper_index_builder.h" line="117" column="16" bodyfile="include/tensor/hyper_index_builder.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_hyper_index_config_1_1_foreign_key_graph_config_1a5ae15293d15c1814ab2ca851d10e5a31" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1tensor_1_1_hyper_index_config_1a74f6326b37b300cc79add5558ef392fc" kindref="member">MissingFkStatsFallback</ref></type>
+        <definition>MissingFkStatsFallback themis::tensor::HyperIndexConfig::ForeignKeyGraphConfig::missing_stats_fallback</definition>
+        <argsstring></argsstring>
+        <name>missing_stats_fallback</name>
+        <qualifiedname>themis::tensor::HyperIndexConfig::ForeignKeyGraphConfig::missing_stats_fallback</qualifiedname>
+        <initializer>                                          =
+<ref refid="structthemis_1_1tensor_1_1_hyper_index_config_1a74f6326b37b300cc79add5558ef392fca0602701637c98eaab2faefbc8f34b3ab" kindref="member">MissingFkStatsFallback::USE_DEFAULT_WEIGHT</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hyper_index_builder.h" line="118" column="32" bodyfile="include/tensor/hyper_index_builder.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/tensor/hyper_index_builder.h" line="112" column="5" bodyfile="include/tensor/hyper_index_builder.h" bodystart="112" bodyend="120"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_hyper_index_config_1_1_foreign_key_graph_config_1a5a14d95c484b5e93981903dd9fd6d633" prot="public" virt="non-virtual"><scope>themis::tensor::HyperIndexConfig::ForeignKeyGraphConfig</scope><name>default_join_strength</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hyper_index_config_1_1_foreign_key_graph_config_1a5eecf9474288b67622583054687f3ffd" prot="public" virt="non-virtual"><scope>themis::tensor::HyperIndexConfig::ForeignKeyGraphConfig</scope><name>edges</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hyper_index_config_1_1_foreign_key_graph_config_1a90fd0a633b3cdf29b1e4887dd313fbf7" prot="public" virt="non-virtual"><scope>themis::tensor::HyperIndexConfig::ForeignKeyGraphConfig</scope><name>max_hops</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hyper_index_config_1_1_foreign_key_graph_config_1a5ae15293d15c1814ab2ca851d10e5a31" prot="public" virt="non-virtual"><scope>themis::tensor::HyperIndexConfig::ForeignKeyGraphConfig</scope><name>missing_stats_fallback</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hyper_index_config_1_1_foreign_key_graph_config_1adb73d84ef7b90253b9cfe6d2059a65a3" prot="public" virt="non-virtual"><scope>themis::tensor::HyperIndexConfig::ForeignKeyGraphConfig</scope><name>propagation_decay</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hyper_index_config_1_1_foreign_key_graph_config_1a782325d406861dccd9c51060152d01ca" prot="public" virt="non-virtual"><scope>themis::tensor::HyperIndexConfig::ForeignKeyGraphConfig</scope><name>signal_blend_weight</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

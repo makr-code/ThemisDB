@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1access__model_1_1_trace_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::access_model::TraceContext</compoundname>
+    <includes refid="access__model__trace_8h" local="no">access_model_trace.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1_trace_context_1a00b3f700e6d13eb237d0e71548e17414" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1access__model_1ab01a4801866919f23f947fd47e2a6619" kindref="member">CorrelationID</ref></type>
+        <definition>CorrelationID themis::access_model::TraceContext::correlation_id</definition>
+        <argsstring></argsstring>
+        <name>correlation_id</name>
+        <qualifiedname>themis::access_model::TraceContext::correlation_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_model_trace.h" line="48" column="19" bodyfile="include/access_model/access_model_trace.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1_trace_context_1a85bda62e1bcd68494d01bf03bc565a14" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::access_model::TraceContext::parent_span_id</definition>
+        <argsstring></argsstring>
+        <name>parent_span_id</name>
+        <qualifiedname>themis::access_model::TraceContext::parent_span_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_model_trace.h" line="50" column="19" bodyfile="include/access_model/access_model_trace.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1_trace_context_1aa7969dd397c77997d67663e9721e9d29" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::access_model::TraceContext::start_time</definition>
+        <argsstring></argsstring>
+        <name>start_time</name>
+        <qualifiedname>themis::access_model::TraceContext::start_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_model_trace.h" line="52" column="43" bodyfile="include/access_model/access_model_trace.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1access__model_1_1_trace_context_1ac1890b083f907bc5f0cbea5133ad5af0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TraceContext::TraceContext</definition>
+        <argsstring>()</argsstring>
+        <name>TraceContext</name>
+        <qualifiedname>themis::access_model::TraceContext::TraceContext</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_model_trace.h" line="54" column="5" bodyfile="include/access_model/access_model_trace.h" bodystart="54" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1access__model_1_1_trace_context_1aca105c005a15a6da9bd5647ae37af639" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TraceContext::TraceContext</definition>
+        <argsstring>(const CorrelationID &amp;id)</argsstring>
+        <name>TraceContext</name>
+        <qualifiedname>themis::access_model::TraceContext::TraceContext</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1access__model_1ab01a4801866919f23f947fd47e2a6619" kindref="member">CorrelationID</ref> &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Trace Context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_model_trace.h" line="64" column="14" bodyfile="include/access_model/access_model_trace.h" bodystart="64" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1access__model_1_1_trace_context_1ac28bf3acb89cb5ef86f4a290a1918de5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TraceContext::TraceContext</definition>
+        <argsstring>(const CorrelationID &amp;id, const std::string &amp;parent_id)</argsstring>
+        <name>TraceContext</name>
+        <qualifiedname>themis::access_model::TraceContext::TraceContext</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1access__model_1ab01a4801866919f23f947fd47e2a6619" kindref="member">CorrelationID</ref> &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>parent_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_model_trace.h" line="69" column="5" bodyfile="include/access_model/access_model_trace.h" bodystart="69" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/access_model/access_model_trace.h" line="47" column="1" bodyfile="include/access_model/access_model_trace.h" bodystart="47" bodyend="73"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1access__model_1_1_trace_context_1a00b3f700e6d13eb237d0e71548e17414" prot="public" virt="non-virtual"><scope>themis::access_model::TraceContext</scope><name>correlation_id</name></member>
+      <member refid="structthemis_1_1access__model_1_1_trace_context_1a85bda62e1bcd68494d01bf03bc565a14" prot="public" virt="non-virtual"><scope>themis::access_model::TraceContext</scope><name>parent_span_id</name></member>
+      <member refid="structthemis_1_1access__model_1_1_trace_context_1aa7969dd397c77997d67663e9721e9d29" prot="public" virt="non-virtual"><scope>themis::access_model::TraceContext</scope><name>start_time</name></member>
+      <member refid="structthemis_1_1access__model_1_1_trace_context_1ac1890b083f907bc5f0cbea5133ad5af0" prot="public" virt="non-virtual"><scope>themis::access_model::TraceContext</scope><name>TraceContext</name></member>
+      <member refid="structthemis_1_1access__model_1_1_trace_context_1aca105c005a15a6da9bd5647ae37af639" prot="public" virt="non-virtual"><scope>themis::access_model::TraceContext</scope><name>TraceContext</name></member>
+      <member refid="structthemis_1_1access__model_1_1_trace_context_1ac28bf3acb89cb5ef86f4a290a1918de5" prot="public" virt="non-virtual"><scope>themis::access_model::TraceContext</scope><name>TraceContext</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

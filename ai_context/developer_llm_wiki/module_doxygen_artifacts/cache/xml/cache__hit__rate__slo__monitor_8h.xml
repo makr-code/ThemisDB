@@ -1,0 +1,428 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="cache__hit__rate__slo__monitor_8h" kind="file" language="C++">
+    <compoundname>cache_hit_rate_slo_monitor.h</compoundname>
+    <includes local="no">array</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes refid="cache__metrics_8h" local="yes">cache/cache_metrics.h</includes>
+    <includes local="yes">observability/alertmanager.h</includes>
+    <includedby refid="cache__hit__rate__slo__monitor_8cpp" local="yes">src/cache/cache_hit_rate_slo_monitor.cpp</includedby>
+    <includedby refid="test__cache__hit__rate__slo__monitor_8cpp" local="yes">tests/cache/test_cache_hit_rate_slo_monitor.cpp</includedby>
+    <includedby refid="test__phase4__cache__hardening_8cpp" local="yes">tests/cache/test_phase4_cache_hardening.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/cache/cache_hit_rate_slo_monitor.h</label>
+        <link refid="cache__hit__rate__slo__monitor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>cache/cache_metrics.h</label>
+        <link refid="cache__metrics_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>array</label>
+      </node>
+      <node id="3">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="12">
+        <label>observability/alertmanager.h</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/cache/cache_hit_rate_slo_monitor.h</label>
+        <link refid="cache__hit__rate__slo__monitor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/cache/cache_hit_rate_slo_monitor.cpp</label>
+        <link refid="cache__hit__rate__slo__monitor_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/cache/test_cache_hit_rate_slo_monitor.cpp</label>
+        <link refid="test__cache__hit__rate__slo__monitor_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/cache/test_phase4_cache_hardening.cpp</label>
+        <link refid="test__phase4__cache__hardening_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor" prot="public">themis::cache::CacheHitRateSloMonitor</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config" prot="public">themis::cache::CacheHitRateSloMonitor::Config</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result" prot="public">themis::cache::CacheHitRateSloMonitor::EvaluationResult</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_latency_histogram" prot="private">themis::cache::CacheHitRateSloMonitor::LatencyHistogram</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1cache">themis::cache</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;array&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="cache__metrics_8h" kindref="compound">cache/cache_metrics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;observability/alertmanager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a12a1b64408758375a623ad5830e3a62a" kindref="member">CacheHitRateSloMonitor</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86" kindref="member">ViolationLevel</ref><sp/>{</highlight></codeline>
+<codeline lineno="36" refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86ab50339a10e1de285ac99d4c3990b8693" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86ab50339a10e1de285ac99d4c3990b8693" kindref="member">NONE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86a059e9861e0400dfbe05c98a841f3f96b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86a059e9861e0400dfbe05c98a841f3f96b" kindref="member">WARNING</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86a99cd1c61610c76a57cb8d10d6df6b870" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86a99cd1c61610c76a57cb8d10d6df6b870" kindref="member">CRITICAL</ref><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1ae6feebfb748252b172275e28c5d330f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1ae6feebfb748252b172275e28c5d330f9" kindref="member">Tier</ref><sp/>:<sp/>std::size_t<sp/>{</highlight></codeline>
+<codeline lineno="42" refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1ae6feebfb748252b172275e28c5d330f9a9ec4c0afd450ceac7adb81c3bcfc9732" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1ae6feebfb748252b172275e28c5d330f9a9ec4c0afd450ceac7adb81c3bcfc9732" kindref="member">L1</ref><sp/>=<sp/>0,<sp/></highlight></codeline>
+<codeline lineno="43" refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1ae6feebfb748252b172275e28c5d330f9a7e6aa2d53f6ee2b1a34b017fa403cb76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1ae6feebfb748252b172275e28c5d330f9a7e6aa2d53f6ee2b1a34b017fa403cb76" kindref="member">L2</ref><sp/>=<sp/>1,<sp/></highlight></codeline>
+<codeline lineno="44" refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1ae6feebfb748252b172275e28c5d330f9a842ce6eb510f7e7047da883915ec90e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1ae6feebfb748252b172275e28c5d330f9a842ce6eb510f7e7047da883915ec90e0" kindref="member">L3</ref><sp/>=<sp/>2,<sp/></highlight></codeline>
+<codeline lineno="45" refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1ae6feebfb748252b172275e28c5d330f9a4905ac9d6a22bdfc1ae096094ce6248d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1ae6feebfb748252b172275e28c5d330f9a4905ac9d6a22bdfc1ae096094ce6248d" kindref="member">COUNT</ref><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1a2d0a7d9277008e033730ecb723456fbe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1a2d0a7d9277008e033730ecb723456fbe" kindref="member">warning_threshold</ref><sp/>=<sp/>0.60;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1a8908fa0e042913e31288feb372d78554" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1a8908fa0e042913e31288feb372d78554" kindref="member">critical_threshold</ref><sp/>=<sp/>0.40;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1ab0c270f9e1c94b0e373d65b67efa85d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1ab0c270f9e1c94b0e373d65b67efa85d1" kindref="member">min_requests</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1ac8e41e1a08bc4b00f5b85f6046c90bd5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1ac8e41e1a08bc4b00f5b85f6046c90bd5" kindref="member">alert_cooldown_seconds</ref><sp/>=<sp/>300;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1a127dbc3ca101a3e1bea8e0a313003852" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1a127dbc3ca101a3e1bea8e0a313003852" kindref="member">cache_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;adaptive_query_cache&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1ae1f517064b62ea28a0e1375be6b59305" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1ae1f517064b62ea28a0e1375be6b59305" kindref="member">p99_warn_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1a300c88c5534960c9874cd57f344fe4a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1a300c88c5534960c9874cd57f344fe4a4" kindref="member">p99_critical_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1ac481e9138fd6949b978a0b635c1b2a9f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1ac481e9138fd6949b978a0b635c1b2a9f" kindref="member">validate</ref>(std::string*<sp/>error_msg<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1a8908fa0e042913e31288feb372d78554" kindref="member">critical_threshold</ref><sp/>&gt;=<sp/><ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1a2d0a7d9277008e033730ecb723456fbe" kindref="member">warning_threshold</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(error_msg)<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*error_msg<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;critical_threshold<sp/>(&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(<ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1a8908fa0e042913e31288feb372d78554" kindref="member">critical_threshold</ref>)<sp/>+</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;)<sp/>must<sp/>be<sp/>less<sp/>than<sp/>warning_threshold<sp/>(&quot;</highlight><highlight class="normal"><sp/>+</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::to_string(<ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1a2d0a7d9277008e033730ecb723456fbe" kindref="member">warning_threshold</ref>)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1a8908fa0e042913e31288feb372d78554" kindref="member">critical_threshold &lt; 0.0 || critical_threshold &gt;</ref><sp/>1.0)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(error_msg)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*error_msg<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;critical_threshold<sp/>must<sp/>be<sp/>in<sp/>[0.0,<sp/>1.0],<sp/>got<sp/>&quot;</highlight><highlight class="normal"><sp/>+</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::to_string(<ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1a8908fa0e042913e31288feb372d78554" kindref="member">critical_threshold</ref>);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1a2d0a7d9277008e033730ecb723456fbe" kindref="member">warning_threshold &lt; 0.0 || warning_threshold &gt;</ref><sp/>1.0)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(error_msg)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*error_msg<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;warning_threshold<sp/>must<sp/>be<sp/>in<sp/>[0.0,<sp/>1.0],<sp/>got<sp/>&quot;</highlight><highlight class="normal"><sp/>+</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::to_string(<ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1a2d0a7d9277008e033730ecb723456fbe" kindref="member">warning_threshold</ref>);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1ac8e41e1a08bc4b00f5b85f6046c90bd5" kindref="member">alert_cooldown_seconds</ref><sp/>&lt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(error_msg)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*error_msg<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;alert_cooldown_seconds<sp/>must<sp/>be<sp/>&gt;=<sp/>0,<sp/>got<sp/>&quot;</highlight><highlight class="normal"><sp/>+</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::to_string(<ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1ac8e41e1a08bc4b00f5b85f6046c90bd5" kindref="member">alert_cooldown_seconds</ref>);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1ae1f517064b62ea28a0e1375be6b59305" kindref="member">p99_warn_ms</ref><sp/>&lt;<sp/>0.0)<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(error_msg)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*error_msg<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;p99_warn_ms<sp/>must<sp/>be<sp/>&gt;=<sp/>0,<sp/>got<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(<ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1ae1f517064b62ea28a0e1375be6b59305" kindref="member">p99_warn_ms</ref>);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1a300c88c5534960c9874cd57f344fe4a4" kindref="member">p99_critical_ms</ref><sp/>&lt;<sp/>0.0)<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(error_msg)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*error_msg<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;p99_critical_ms<sp/>must<sp/>be<sp/>&gt;=<sp/>0,<sp/>got<sp/>&quot;</highlight><highlight class="normal"><sp/>+</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::to_string(<ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1a300c88c5534960c9874cd57f344fe4a4" kindref="member">p99_critical_ms</ref>);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1ae1f517064b62ea28a0e1375be6b59305" kindref="member">p99_warn_ms</ref><sp/>&gt;<sp/>0.0<sp/>&amp;&amp;<sp/><ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1a300c88c5534960c9874cd57f344fe4a4" kindref="member">p99_critical_ms</ref><sp/>&gt;<sp/>0.0<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1a300c88c5534960c9874cd57f344fe4a4" kindref="member">p99_critical_ms</ref><sp/>&lt;=<sp/><ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1ae1f517064b62ea28a0e1375be6b59305" kindref="member">p99_warn_ms</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(error_msg)<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*error_msg<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;p99_critical_ms<sp/>(&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(<ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1a300c88c5534960c9874cd57f344fe4a4" kindref="member">p99_critical_ms</ref>)<sp/>+</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;)<sp/>must<sp/>be<sp/>greater<sp/>than<sp/>p99_warn_ms<sp/>(&quot;</highlight><highlight class="normal"><sp/>+</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::to_string(<ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config_1ae1f517064b62ea28a0e1375be6b59305" kindref="member">p99_warn_ms</ref>)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result" kindref="compound">EvaluationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1a378e28b2da6e4697ee94437ace1f27f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1a378e28b2da6e4697ee94437ace1f27f7" kindref="member">hit_rate</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1a195b31814773da2e9a1071ee2eaa42f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1a195b31814773da2e9a1071ee2eaa42f3" kindref="member">total_requests</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1a1a283d3bd1e3ef4113166177844671e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86" kindref="member">ViolationLevel</ref><sp/><ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1a1a283d3bd1e3ef4113166177844671e4" kindref="member">level</ref><sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86ab50339a10e1de285ac99d4c3990b8693" kindref="member">ViolationLevel::NONE</ref>;<sp/></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1aa0e2c37512b590bc742a43cfac012034" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1aa0e2c37512b590bc742a43cfac012034" kindref="member">alert_fired</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1a61833487e218b5c2d2cc453b9e0ad4a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1a61833487e218b5c2d2cc453b9e0ad4a7" kindref="member">alert_resolved</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Latency<sp/>percentiles<sp/>(milliseconds)<sp/>computed<sp/>across<sp/>all<sp/>tiers<sp/>at<sp/>evaluation<sp/>time.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Zero<sp/>when<sp/>no<sp/>latency<sp/>samples<sp/>have<sp/>been<sp/>recorded<sp/>yet.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1afcda49078543bfd67a6a286d757372ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1afcda49078543bfd67a6a286d757372ce" kindref="member">p50_latency_ms</ref><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1a4c52bbd56eef12d126ecc98eebfcedad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1a4c52bbd56eef12d126ecc98eebfcedad" kindref="member">p95_latency_ms</ref><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1a0bc968b5d2cabf01b4d1f9e3f8469e3f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1a0bc968b5d2cabf01b4d1f9e3f8469e3f" kindref="member">p99_latency_ms</ref><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1ad91be1b77adb47afa4d0d97c2f588029" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86" kindref="member">ViolationLevel</ref><sp/><ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1ad91be1b77adb47afa4d0d97c2f588029" kindref="member">latency_level</ref><sp/><sp/>=<sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86ab50339a10e1de285ac99d4c3990b8693" kindref="member">ViolationLevel::NONE</ref>;<sp/></highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1a847d971999a65304456bcd74f9c29eca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1a847d971999a65304456bcd74f9c29eca" kindref="member">latency_alert_fired</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1a88b87ef3928d45c4e2d797ddced7bfd3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result_1a88b87ef3928d45c4e2d797ddced7bfd3" kindref="member">latency_alert_resolved</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a12a1b64408758375a623ad5830e3a62a" kindref="member">CacheHitRateSloMonitor</ref>(</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;observability::Alertmanager&gt;<sp/>alertmanager<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a12a1b64408758375a623ad5830e3a62a" kindref="member">CacheHitRateSloMonitor</ref>(</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config,</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;observability::Alertmanager&gt;<sp/>alertmanager<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1adac6839089b75850bdd08e2b95f2d100" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1adac6839089b75850bdd08e2b95f2d100" kindref="member">~CacheHitRateSloMonitor</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>moveable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a7bb27a06430b62f35199ec7137981fc3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a7bb27a06430b62f35199ec7137981fc3" kindref="member">CacheHitRateSloMonitor</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a12a1b64408758375a623ad5830e3a62a" kindref="member">CacheHitRateSloMonitor</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151" refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a64c479a5571c092a903172af912e38d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a12a1b64408758375a623ad5830e3a62a" kindref="member">CacheHitRateSloMonitor</ref>&amp;<sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a64c479a5571c092a903172af912e38d4" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a12a1b64408758375a623ad5830e3a62a" kindref="member">CacheHitRateSloMonitor</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152" refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1adad6bd9adb74ca6c0d280ce4dce54d51" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1adad6bd9adb74ca6c0d280ce4dce54d51" kindref="member">CacheHitRateSloMonitor</ref>(<ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a12a1b64408758375a623ad5830e3a62a" kindref="member">CacheHitRateSloMonitor</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="153" refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a668662e0d35f0c08cf1e09b7d01af11a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a12a1b64408758375a623ad5830e3a62a" kindref="member">CacheHitRateSloMonitor</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a12a1b64408758375a623ad5830e3a62a" kindref="member">CacheHitRateSloMonitor</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Core<sp/>API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result" kindref="compound">EvaluationResult</ref><sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1aab976f240d9ee3aa412288e1a643e6da" kindref="member">evaluate</ref>(const<sp/><ref refid="structthemis_1_1cache_1_1_cache_metrics" kindref="compound">CacheMetrics</ref>&amp;<sp/>metrics);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a67045d332ffa322c8b75ade8f50b282e" kindref="member">recordLatency</ref>(<ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1ae6feebfb748252b172275e28c5d330f9" kindref="member">Tier</ref><sp/>tier,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>latency_ms);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Status<sp/>&amp;<sp/>Inspection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_evaluation_result" kindref="compound">EvaluationResult</ref><sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1ab32922996b952433fece6bf2a082c64b" kindref="member">getLastResult</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86" kindref="member">ViolationLevel</ref><sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a88b017ab2a3de822382cb35a29419715" kindref="member">getCurrentViolationLevel</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a8dc5eb1e0c7ded8fb6c7059cc73ea2e1" kindref="member">isSloViolated</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::<ref refid="test__cache__admin__api__handler_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a005d796ce2461643ec15ffdb18ef41e8" kindref="member">getStatus</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;<sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a7f55d422e2fd2931da6b779f57378178" kindref="member">getActiveAlertIds</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a373065267f7ce5418a250a8ecc2e3c4e" kindref="member">recordTenantEvictionRate</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>tenant_id,</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>eviction_rate,</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>threshold);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a29360b402b169e97eacc72de7b76dfb3" kindref="member">setAlertmanager</ref>(std::shared_ptr&lt;observability::Alertmanager&gt;<sp/>alertmanager);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a7f7fb60e8322aff9dbcba26889a15e34" kindref="member">violationLevelToString</ref>(<ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86" kindref="member">ViolationLevel</ref><sp/>level);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rolling<sp/>latency<sp/>histogram<sp/>(lock-free<sp/>per-bucket<sp/>atomics)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/>LatencyHistogram<sp/>{</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Bucket<sp/>upper<sp/>bounds<sp/>(exclusive)<sp/>in<sp/>milliseconds.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Values<sp/>&gt;=<sp/>last<sp/>bound<sp/>go<sp/>into<sp/>the<sp/>overflow<sp/>(last)<sp/>bucket.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Buckets:<sp/>&lt;0.1,<sp/>0.1-0.5,<sp/>0.5-1,<sp/>1-2,<sp/>2-5,<sp/>5-10,<sp/>10-25,<sp/>25-50,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>50-100,<sp/>100-250,<sp/>250-500,<sp/>&gt;=500</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/>kNumBuckets<sp/>=<sp/>12;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>kBucketBoundsMs[kNumBuckets]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.1,<sp/>0.5,<sp/>1.0,<sp/>2.0,<sp/>5.0,<sp/>10.0,<sp/>25.0,<sp/>50.0,<sp/>100.0,<sp/>250.0,<sp/>500.0,</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>last<sp/>bucket<sp/>is<sp/>the<sp/>overflow<sp/>–<sp/>no<sp/>upper<sp/>bound</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.0</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Representative<sp/>midpoint<sp/>(ms)<sp/>returned<sp/>for<sp/>each<sp/>bucket.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>kMidpointsMs[kNumBuckets]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.05,<sp/>0.3,<sp/>0.75,<sp/>1.5,<sp/>3.5,<sp/>7.5,<sp/>17.5,<sp/>37.5,<sp/>75.0,<sp/>175.0,<sp/>375.0,<sp/>750.0</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::array&lt;std::atomic&lt;uint64_t&gt;,<sp/>kNumBuckets&gt;<sp/>buckets{};</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>count{0};</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LatencyHistogram()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>b<sp/>:<sp/>buckets)<sp/>{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>b.store(0,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>count.store(0,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>non-movable<sp/>(atomics)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LatencyHistogram(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>LatencyHistogram&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LatencyHistogram&amp;<sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a64c479a5571c092a903172af912e38d4" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>LatencyHistogram&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>record(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>latency_ms)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>count.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>idx<sp/>=<sp/>kNumBuckets<sp/>-<sp/>1;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kNumBuckets<sp/>-<sp/>1;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(latency_ms<sp/>&lt;<sp/>kBucketBoundsMs[i])<sp/>{</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>idx<sp/>=<sp/>i;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>buckets[idx].fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>percentileMs(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>p)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>total<sp/>=<sp/>count.load(std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(total<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0.0;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>target<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(total)<sp/>*<sp/>p);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(target<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>target<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>cumulative<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kNumBuckets;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cumulative<sp/>+=<sp/>buckets[i].load(std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cumulative<sp/>&gt;=<sp/>target)<sp/>{</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>kMidpointsMs[i];</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>kMidpointsMs[kNumBuckets<sp/>-<sp/>1];</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internals</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/>config_;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;observability::Alertmanager&gt;<sp/>alertmanager_;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Last<sp/>evaluation<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>EvaluationResult<sp/>last_result_;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Hit-rate<sp/>alert<sp/>state<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86" kindref="member">ViolationLevel</ref><sp/>active_violation_<sp/>=<sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86ab50339a10e1de285ac99d4c3990b8693" kindref="member">ViolationLevel::NONE</ref>;</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>active_warning_alert_id_;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>active_critical_alert_id_;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>last_warning_alert_time_;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>last_critical_alert_time_;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-tier<sp/>latency<sp/>histograms<sp/>(lock-free;<sp/>no<sp/>mutex<sp/>needed<sp/>for<sp/>record())</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>LatencyHistogram<sp/>latency_hist_[</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1ae6feebfb748252b172275e28c5d330f9a4905ac9d6a22bdfc1ae096094ce6248d" kindref="member">Tier::COUNT</ref>)];</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Latency<sp/>SLO<sp/>alert<sp/>state<sp/>(guarded<sp/>by<sp/>mutex_)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86" kindref="member">ViolationLevel</ref><sp/>active_latency_violation_<sp/>=<sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86ab50339a10e1de285ac99d4c3990b8693" kindref="member">ViolationLevel::NONE</ref>;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>active_latency_warning_alert_id_;</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>active_latency_critical_alert_id_;</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>last_latency_warning_alert_time_;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>last_latency_critical_alert_time_;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>fireAlert(<ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86" kindref="member">ViolationLevel</ref><sp/>level,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>hit_rate,<sp/>uint64_t<sp/>total_requests,<sp/>EvaluationResult&amp;<sp/>result);</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>resolveActiveAlerts(EvaluationResult&amp;<sp/>result);</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>observability::Alert<sp/>buildAlert(<ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86" kindref="member">ViolationLevel</ref><sp/>level,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>hit_rate,<sp/>uint64_t<sp/>total_requests)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isCooldownExpired(<ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86" kindref="member">ViolationLevel</ref><sp/>level)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>makeAlertId(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>cache_name,<sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86" kindref="member">ViolationLevel</ref><sp/>level);</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Latency<sp/>alert<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>fireLatencyAlert(<ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86" kindref="member">ViolationLevel</ref><sp/>level,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>p99_ms,<sp/>EvaluationResult&amp;<sp/>result);</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>resolveLatencyAlerts(EvaluationResult&amp;<sp/>result);</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/>observability::Alert<sp/>buildLatencyAlert(<ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86" kindref="member">ViolationLevel</ref><sp/>level,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>p99_ms)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isLatencyCooldownExpired(<ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86" kindref="member">ViolationLevel</ref><sp/>level)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>makeLatencyAlertId(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>cache_name,<sp/><ref refid="classthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1a5ebef9df70beed703d21807d0c317a86" kindref="member">ViolationLevel</ref><sp/>level);</highlight></codeline>
+<codeline lineno="396"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"></highlight></codeline>
+<codeline lineno="398"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="399"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/cache/cache_hit_rate_slo_monitor.h"/>
+  </compounddef>
+</doxygen>

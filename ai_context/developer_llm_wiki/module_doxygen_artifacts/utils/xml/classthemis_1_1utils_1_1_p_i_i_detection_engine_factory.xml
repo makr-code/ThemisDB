@@ -1,0 +1,271 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_p_i_i_detection_engine_factory" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::PIIDetectionEngineFactory</compoundname>
+    <includes refid="pii__detection__engine_8h" local="no">pii_detection_engine.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_p_i_i_detection_engine_factory_1aaccdb111a5c6b2ddacfe5af6b1d18458" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref>&lt; std::unique_ptr&lt; <ref refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine" kindref="compound">IPIIDetectionEngine</ref> &gt; &gt;</type>
+        <definition>Result&lt; std::unique_ptr&lt; IPIIDetectionEngine &gt; &gt; themis::utils::PIIDetectionEngineFactory::createSigned</definition>
+        <argsstring>(const std::string &amp;engine_type, const nlohmann::json &amp;config, const VCCPKIClient &amp;pki_client)</argsstring>
+        <name>createSigned</name>
+        <qualifiedname>themis::utils::PIIDetectionEngineFactory::createSigned</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>engine_type</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1utils_1_1_v_c_c_p_k_i_client" kindref="compound">VCCPKIClient</ref> &amp;</type>
+          <declname>pki_client</declname>
+        </param>
+        <briefdescription>
+<para>Create detection engine with PKI verification. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Signed.</para>
+<para>Security flow:<orderedlist>
+<listitem><para>Extract signature from config</para>
+</listitem><listitem><para>Compute config hash</para>
+</listitem><listitem><para>Verify signature with PKI client</para>
+</listitem><listitem><para>Create and initialize engine only if signature valid</para>
+</listitem></orderedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>engine_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Engine type (&quot;regex&quot;, &quot;ner&quot;, &quot;embedding&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Engine configuration with signature metadata </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pki_client</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PKI client for signature verification </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref> containing unique pointer to engine, or error on failure</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">engine_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pki_client</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(), spdlog::error(), value(), std::string(), what(), verify(), spdlog::info(), <ref refid="classthemis_1_1utils_1_1_p_i_i_detection_engine_factory_1aef630ee11bb99b6df76f68c408ea6729" kindref="member">createUnsigned()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_detection_engine.h" line="232" column="19" bodyfile="src/utils/pii_detection_engine.cpp" bodystart="311" bodyend="376"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_p_i_i_detection_engine_factory_1aef630ee11bb99b6df76f68c408ea6729" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref>&lt; std::unique_ptr&lt; <ref refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine" kindref="compound">IPIIDetectionEngine</ref> &gt; &gt;</type>
+        <definition>Result&lt; std::unique_ptr&lt; IPIIDetectionEngine &gt; &gt; themis::utils::PIIDetectionEngineFactory::createUnsigned</definition>
+        <argsstring>(const std::string &amp;engine_type)</argsstring>
+        <name>createUnsigned</name>
+        <qualifiedname>themis::utils::PIIDetectionEngineFactory::createUnsigned</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>engine_type</declname>
+        </param>
+        <briefdescription>
+<para>Create detection engine WITHOUT signature verification. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Unsigned.</para>
+<para>⚠️ SECURITY WARNING: Only use for embedded/trusted engines! This method bypasses PKI verification and should only be used for:<itemizedlist>
+<listitem><para>Built-in engines (e.g., embedded regex patterns)</para>
+</listitem><listitem><para>Development/testing environments</para>
+</listitem><listitem><para>Fallback when PKI is unavailable</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>engine_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Engine type (&quot;regex&quot;, &quot;ner&quot;, &quot;embedding&quot;) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref> containing unique pointer to engine, or error if type unknown</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">engine_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1a7de2875c9f12d270dce73873e3d0d5e1" kindref="member">Ok()</ref>, <ref refid="namespacethemis_1_1utils_1a431c7c9caa5ba012a3bcef8b40a87e8e" kindref="member">createRegexEngine()</ref>, <ref refid="namespacethemis_1_1utils_1a28b0685b5aa11480180dc0d0b2e1b6fc" kindref="member">createNEREngine()</ref>, spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_detection_engine.h" line="249" column="19" bodyfile="src/utils/pii_detection_engine.cpp" bodystart="384" bodyend="402"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_p_i_i_detection_engine_factory_1aed7f76d0259c0d5bfa35c8d84e341ad7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::utils::PIIDetectionEngineFactory::getAvailableEngines</definition>
+        <argsstring>()</argsstring>
+        <name>getAvailableEngines</name>
+        <qualifiedname>themis::utils::PIIDetectionEngineFactory::getAvailableEngines</qualifiedname>
+        <briefdescription>
+<para>Get list of available engine types. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Available Engines.</para>
+<para><simplesect kind="return"><para>Vector of supported engine type names</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_detection_engine.h" line="257" column="24" bodyfile="src/utils/pii_detection_engine.cpp" bodystart="409" bodyend="420"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_p_i_i_detection_engine_factory_1a1800c9ef1c009041c92519a156b5963c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::PIIDetectionEngineFactory::verifyPluginSignature</definition>
+        <argsstring>(const nlohmann::json &amp;config, const VCCPKIClient &amp;pki_client, std::string &amp;error_msg)</argsstring>
+        <name>verifyPluginSignature</name>
+        <qualifiedname>themis::utils::PIIDetectionEngineFactory::verifyPluginSignature</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1utils_1_1_v_c_c_p_k_i_client" kindref="compound">VCCPKIClient</ref> &amp;</type>
+          <declname>pki_client</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error_msg</declname>
+        </param>
+        <briefdescription>
+<para>Verify plugin signature without creating engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify Plugin Signature.</para>
+<para>Useful for pre-validation of configuration files.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Engine configuration with signature metadata </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pki_client</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PKI client for signature verification </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error_msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output parameter for error details </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if signature is valid</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pki_client</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error_msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: contains(), value(), std::string(), what(), verify(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_detection_engine.h" line="269" column="17" bodyfile="src/utils/pii_detection_engine.cpp" bodystart="430" bodyend="459"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Factory for creating and verifying detection engines. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Enforces PKI-based plugin security:<itemizedlist>
+<listitem><para>Verifies plugin signatures before instantiation</para>
+</listitem><listitem><para>Rejects unsigned or tampered configurations</para>
+</listitem><listitem><para>Logs all verification attempts for audit trail </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/utils/pii_detection_engine.h" line="216" column="1" bodyfile="include/utils/pii_detection_engine.h" bodystart="216" bodyend="273"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_p_i_i_detection_engine_factory_1aaccdb111a5c6b2ddacfe5af6b1d18458" prot="public" virt="non-virtual"><scope>themis::utils::PIIDetectionEngineFactory</scope><name>createSigned</name></member>
+      <member refid="classthemis_1_1utils_1_1_p_i_i_detection_engine_factory_1aef630ee11bb99b6df76f68c408ea6729" prot="public" virt="non-virtual"><scope>themis::utils::PIIDetectionEngineFactory</scope><name>createUnsigned</name></member>
+      <member refid="classthemis_1_1utils_1_1_p_i_i_detection_engine_factory_1aed7f76d0259c0d5bfa35c8d84e341ad7" prot="public" virt="non-virtual"><scope>themis::utils::PIIDetectionEngineFactory</scope><name>getAvailableEngines</name></member>
+      <member refid="classthemis_1_1utils_1_1_p_i_i_detection_engine_factory_1a1800c9ef1c009041c92519a156b5963c" prot="public" virt="non-virtual"><scope>themis::utils::PIIDetectionEngineFactory</scope><name>verifyPluginSignature</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

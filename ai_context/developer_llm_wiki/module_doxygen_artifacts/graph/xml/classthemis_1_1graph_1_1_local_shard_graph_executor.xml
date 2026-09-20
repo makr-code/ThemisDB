@@ -1,0 +1,282 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graph_1_1_local_shard_graph_executor" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::graph::LocalShardGraphExecutor</compoundname>
+    <basecompoundref refid="classthemis_1_1graph_1_1_shard_graph_executor" prot="public" virt="non-virtual">themis::graph::ShardGraphExecutor</basecompoundref>
+    <includes refid="distributed__graph_8h" local="no">distributed_graph.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_local_shard_graph_executor_1ac7a0498669050baca0ab0edd5432ffb3" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::LocalShardGraphExecutor::shard_id_</definition>
+        <argsstring></argsstring>
+        <name>shard_id_</name>
+        <qualifiedname>themis::graph::LocalShardGraphExecutor::shard_id_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/distributed_graph.h" line="116" column="17" bodyfile="include/graph/distributed_graph.h" bodystart="116" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_local_shard_graph_executor_1a7a7e0afed8de40eaff838da2642f1e7e" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1graph_1_1_graph_query_optimizer" kindref="compound">GraphQueryOptimizer</ref></type>
+        <definition>GraphQueryOptimizer themis::graph::LocalShardGraphExecutor::optimizer_</definition>
+        <argsstring></argsstring>
+        <name>optimizer_</name>
+        <qualifiedname>themis::graph::LocalShardGraphExecutor::optimizer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/distributed_graph.h" line="117" column="25" bodyfile="include/graph/distributed_graph.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_local_shard_graph_executor_1a0e05782c55c8e4a70f233219868e3ea9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::LocalShardGraphExecutor::LocalShardGraphExecutor</definition>
+        <argsstring>(std::string shard_id, GraphIndexManager &amp;graph_mgr)</argsstring>
+        <name>LocalShardGraphExecutor</name>
+        <qualifiedname>themis::graph::LocalShardGraphExecutor::LocalShardGraphExecutor</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>GraphIndexManager &amp;</type>
+          <declname>graph_mgr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/distributed_graph.h" line="94" column="5" bodyfile="src/graph/distributed_graph.cpp" bodystart="94" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_local_shard_graph_executor_1a54fd5d12a20563402bff4634ce7a0a16" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::LocalShardGraphExecutor::LocalShardGraphExecutor</definition>
+        <argsstring>(LocalShardGraphExecutor &amp;&amp;) noexcept=default</argsstring>
+        <name>LocalShardGraphExecutor</name>
+        <qualifiedname>themis::graph::LocalShardGraphExecutor::LocalShardGraphExecutor</qualifiedname>
+        <param>
+          <type>LocalShardGraphExecutor &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/distributed_graph.h" line="96" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_local_shard_graph_executor_1a21c5a387e4120edd1375131db4195374" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1graph_1_1_local_shard_graph_executor_1a0e05782c55c8e4a70f233219868e3ea9" kindref="member">LocalShardGraphExecutor</ref> &amp;</type>
+        <definition>LocalShardGraphExecutor &amp; themis::graph::LocalShardGraphExecutor::operator=</definition>
+        <argsstring>(LocalShardGraphExecutor &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::graph::LocalShardGraphExecutor::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_local_shard_graph_executor_1a0e05782c55c8e4a70f233219868e3ea9" kindref="member">LocalShardGraphExecutor</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/distributed_graph.h" line="98" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_local_shard_graph_executor_1a88000cb98e63833e108241764748e413" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::LocalShardGraphExecutor::LocalShardGraphExecutor</definition>
+        <argsstring>(const LocalShardGraphExecutor &amp;)=delete</argsstring>
+        <name>LocalShardGraphExecutor</name>
+        <qualifiedname>themis::graph::LocalShardGraphExecutor::LocalShardGraphExecutor</qualifiedname>
+        <param>
+          <type>const LocalShardGraphExecutor &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/distributed_graph.h" line="100" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_local_shard_graph_executor_1a0aedef4e64c851205916d4a4ba55396d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1graph_1_1_local_shard_graph_executor_1a0e05782c55c8e4a70f233219868e3ea9" kindref="member">LocalShardGraphExecutor</ref> &amp;</type>
+        <definition>LocalShardGraphExecutor &amp; themis::graph::LocalShardGraphExecutor::operator=</definition>
+        <argsstring>(const LocalShardGraphExecutor &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::graph::LocalShardGraphExecutor::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1graph_1_1_local_shard_graph_executor_1a0e05782c55c8e4a70f233219868e3ea9" kindref="member">LocalShardGraphExecutor</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/distributed_graph.h" line="101" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_local_shard_graph_executor_1a337ae41d33a816240332bdbdb68e7d85" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::graph::LocalShardGraphExecutor::shardId</definition>
+        <argsstring>() const override</argsstring>
+        <name>shardId</name>
+        <qualifiedname>themis::graph::LocalShardGraphExecutor::shardId</qualifiedname>
+        <reimplements refid="classthemis_1_1graph_1_1_shard_graph_executor_1ae55148424f227bf12ada68410c234b08">shardId</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/distributed_graph.h" line="103" column="17" bodyfile="include/graph/distributed_graph.h" bodystart="103" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_local_shard_graph_executor_1ad740c93eb1fd17a9efb8d45d07564ec2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>Result&lt; std::vector&lt; std::string &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; std::string &gt; &gt; themis::graph::LocalShardGraphExecutor::executeBFS</definition>
+        <argsstring>(const std::string &amp;start_vertex, int max_depth, const GraphQueryOptimizer::QueryConstraints &amp;constraints) override</argsstring>
+        <name>executeBFS</name>
+        <qualifiedname>themis::graph::LocalShardGraphExecutor::executeBFS</qualifiedname>
+        <reimplements refid="classthemis_1_1graph_1_1_shard_graph_executor_1af89bfbf41f8983b0a03f9d7477446dd9">executeBFS</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>start_vertex</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_depth</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">GraphQueryOptimizer::QueryConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/distributed_graph.h" line="105" column="12" bodyfile="src/graph/distributed_graph.cpp" bodystart="106" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_local_shard_graph_executor_1afc886c3d1c6c4668329ee909d3009500" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>Result&lt; GraphIndexManager::PathResult &gt;</type>
+        <definition>Result&lt; GraphIndexManager::PathResult &gt; themis::graph::LocalShardGraphExecutor::executeDijkstra</definition>
+        <argsstring>(const std::string &amp;start_vertex, const std::string &amp;target_vertex, const GraphQueryOptimizer::QueryConstraints &amp;constraints) override</argsstring>
+        <name>executeDijkstra</name>
+        <qualifiedname>themis::graph::LocalShardGraphExecutor::executeDijkstra</qualifiedname>
+        <reimplements refid="classthemis_1_1graph_1_1_shard_graph_executor_1a5aa46aa913a83f6b544213c023a93559">executeDijkstra</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>start_vertex</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_vertex</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">GraphQueryOptimizer::QueryConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/distributed_graph.h" line="110" column="12" bodyfile="src/graph/distributed_graph.cpp" bodystart="124" bodyend="139"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_local_shard_graph_executor_1a926023d533e76854ecb831f5094b8ce0" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::graph::LocalShardGraphExecutor::qualify</definition>
+        <argsstring>(const std::string &amp;vertex_id) const</argsstring>
+        <name>qualify</name>
+        <qualifiedname>themis::graph::LocalShardGraphExecutor::qualify</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>vertex_id</declname>
+        </param>
+        <briefdescription>
+<para>Qualify. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">vertex_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the vertex. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/distributed_graph.h" line="124" column="17" bodyfile="src/graph/distributed_graph.cpp" bodystart="97" bodyend="103"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::graph::LocalShardGraphExecutor</label>
+        <link refid="classthemis_1_1graph_1_1_local_shard_graph_executor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::graph::ShardGraphExecutor</label>
+        <link refid="classthemis_1_1graph_1_1_shard_graph_executor"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::graph::LocalShardGraphExecutor</label>
+        <link refid="classthemis_1_1graph_1_1_local_shard_graph_executor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::graph::ShardGraphExecutor</label>
+        <link refid="classthemis_1_1graph_1_1_shard_graph_executor"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/graph/distributed_graph.h" line="92" column="1" bodyfile="include/graph/distributed_graph.h" bodystart="92" bodyend="125"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graph_1_1_local_shard_graph_executor_1ad740c93eb1fd17a9efb8d45d07564ec2" prot="public" virt="virtual"><scope>themis::graph::LocalShardGraphExecutor</scope><name>executeBFS</name></member>
+      <member refid="classthemis_1_1graph_1_1_local_shard_graph_executor_1afc886c3d1c6c4668329ee909d3009500" prot="public" virt="virtual"><scope>themis::graph::LocalShardGraphExecutor</scope><name>executeDijkstra</name></member>
+      <member refid="classthemis_1_1graph_1_1_shard_graph_executor_1a09337af08e486135af27629b31c8159a" prot="public" virt="virtual"><scope>themis::graph::LocalShardGraphExecutor</scope><name>isHealthy</name></member>
+      <member refid="classthemis_1_1graph_1_1_local_shard_graph_executor_1a0e05782c55c8e4a70f233219868e3ea9" prot="public" virt="non-virtual"><scope>themis::graph::LocalShardGraphExecutor</scope><name>LocalShardGraphExecutor</name></member>
+      <member refid="classthemis_1_1graph_1_1_local_shard_graph_executor_1a54fd5d12a20563402bff4634ce7a0a16" prot="public" virt="non-virtual"><scope>themis::graph::LocalShardGraphExecutor</scope><name>LocalShardGraphExecutor</name></member>
+      <member refid="classthemis_1_1graph_1_1_local_shard_graph_executor_1a88000cb98e63833e108241764748e413" prot="public" virt="non-virtual"><scope>themis::graph::LocalShardGraphExecutor</scope><name>LocalShardGraphExecutor</name></member>
+      <member refid="classthemis_1_1graph_1_1_local_shard_graph_executor_1a21c5a387e4120edd1375131db4195374" prot="public" virt="non-virtual"><scope>themis::graph::LocalShardGraphExecutor</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1graph_1_1_local_shard_graph_executor_1a0aedef4e64c851205916d4a4ba55396d" prot="public" virt="non-virtual"><scope>themis::graph::LocalShardGraphExecutor</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1graph_1_1_shard_graph_executor_1a58674a4327d0aee8fe1cd9cf00919530" prot="public" virt="non-virtual" ambiguityscope="themis::graph::ShardGraphExecutor::"><scope>themis::graph::LocalShardGraphExecutor</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1graph_1_1_shard_graph_executor_1a8baf968fa2bed845f1ddf481122c1db6" prot="public" virt="non-virtual" ambiguityscope="themis::graph::ShardGraphExecutor::"><scope>themis::graph::LocalShardGraphExecutor</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1graph_1_1_local_shard_graph_executor_1a7a7e0afed8de40eaff838da2642f1e7e" prot="private" virt="non-virtual"><scope>themis::graph::LocalShardGraphExecutor</scope><name>optimizer_</name></member>
+      <member refid="classthemis_1_1graph_1_1_local_shard_graph_executor_1a926023d533e76854ecb831f5094b8ce0" prot="private" virt="non-virtual"><scope>themis::graph::LocalShardGraphExecutor</scope><name>qualify</name></member>
+      <member refid="classthemis_1_1graph_1_1_local_shard_graph_executor_1ac7a0498669050baca0ab0edd5432ffb3" prot="private" virt="non-virtual"><scope>themis::graph::LocalShardGraphExecutor</scope><name>shard_id_</name></member>
+      <member refid="classthemis_1_1graph_1_1_shard_graph_executor_1a4d3585b367a5b6b6667e186f082a5f68" prot="public" virt="non-virtual"><scope>themis::graph::LocalShardGraphExecutor</scope><name>ShardGraphExecutor</name></member>
+      <member refid="classthemis_1_1graph_1_1_shard_graph_executor_1a09b817d06fdc909c79a948d1014dedfc" prot="public" virt="non-virtual"><scope>themis::graph::LocalShardGraphExecutor</scope><name>ShardGraphExecutor</name></member>
+      <member refid="classthemis_1_1graph_1_1_shard_graph_executor_1a5a6c753b033fd11edd5e7001662d56c4" prot="protected" virt="non-virtual"><scope>themis::graph::LocalShardGraphExecutor</scope><name>ShardGraphExecutor</name></member>
+      <member refid="classthemis_1_1graph_1_1_local_shard_graph_executor_1a337ae41d33a816240332bdbdb68e7d85" prot="public" virt="virtual"><scope>themis::graph::LocalShardGraphExecutor</scope><name>shardId</name></member>
+      <member refid="classthemis_1_1graph_1_1_shard_graph_executor_1ac0ad66db21ec1fdf57a01dc308c10340" prot="public" virt="virtual"><scope>themis::graph::LocalShardGraphExecutor</scope><name>~ShardGraphExecutor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

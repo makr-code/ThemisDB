@@ -1,0 +1,517 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__cdc__pipeline_8cpp" kind="file" language="C++">
+    <compoundname>bench_cdc_pipeline.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes refid="consumer__group_8h" local="yes">cdc/consumer_group.h</includes>
+    <includes refid="changefeed_8h" local="yes">cdc/changefeed.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">atomic</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/cdc/bench_cdc_pipeline.cpp</label>
+        <link refid="bench__cdc__pipeline_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>cdc/cdc_error.h</label>
+        <link refid="cdc__error_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>cdc/changefeed.h</label>
+        <link refid="changefeed_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cdc/consumer_group.h</label>
+        <link refid="consumer__group_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="14">
+        <label>chrono</label>
+      </node>
+      <node id="12">
+        <label>condition_variable</label>
+      </node>
+      <node id="9">
+        <label>cstdint</label>
+      </node>
+      <node id="22">
+        <label>filesystem</label>
+      </node>
+      <node id="16">
+        <label>functional</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="18">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="15">
+        <label>set</label>
+      </node>
+      <node id="20">
+        <label>stdexcept</label>
+      </node>
+      <node id="21">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="11">
+        <label>thread</label>
+      </node>
+      <node id="17">
+        <label>unordered_map</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_cdc_pipeline_bench_fixture" prot="public">CdcPipelineBenchFixture</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__cdc__pipeline_8cpp_1afa9db3226eaa848ca027afb95871054c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_DEFINE_F</definition>
+        <argsstring>(CdcPipelineBenchFixture, CreateDeleteGroup)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <param>
+          <type><ref refid="class_cdc_pipeline_bench_fixture" kindref="compound">CdcPipelineBenchFixture</ref></type>
+        </param>
+        <param>
+          <type>CreateDeleteGroup</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_cdc_pipeline.cpp" line="87" column="1" bodyfile="benchmarks/cdc/bench_cdc_pipeline.cpp" bodystart="87" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__cdc__pipeline_8cpp_1a58c95887f2f6d16da50f05027492a168" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Unit</definition>
+        <argsstring>(benchmark::kMicrosecond) -&gt; Iterations(2000)</argsstring>
+        <name>Unit</name>
+        <param>
+          <type>benchmark::kMicrosecond</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_cdc_pipeline.cpp" line="104" column="5" declfile="benchmarks/cdc/bench_cdc_pipeline.cpp" declline="104" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__cdc__pipeline_8cpp_1adb619089ac5b44040aa23aaea0fea35d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_DEFINE_F</definition>
+        <argsstring>(CdcPipelineBenchFixture, FetchEventsAtLeastOnce)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <param>
+          <type><ref refid="class_cdc_pipeline_bench_fixture" kindref="compound">CdcPipelineBenchFixture</ref></type>
+        </param>
+        <param>
+          <type>FetchEventsAtLeastOnce</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_cdc_pipeline.cpp" line="111" column="1" bodyfile="benchmarks/cdc/bench_cdc_pipeline.cpp" bodystart="111" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__cdc__pipeline_8cpp_1a42930fe83ad7b7eec056de9bfc9a8cec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Arg</definition>
+        <argsstring>(10) -&gt; Arg(50) -&gt;Arg(100) -&gt;Unit(benchmark::kMillisecond) -&gt;Iterations(200)</argsstring>
+        <name>Arg</name>
+        <param>
+          <type>10</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_cdc_pipeline.cpp" line="131" column="5" declfile="benchmarks/cdc/bench_cdc_pipeline.cpp" declline="131" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__cdc__pipeline_8cpp_1a7b82c530f3895083d6680f56a233ed40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_DEFINE_F</definition>
+        <argsstring>(CdcPipelineBenchFixture, AcknowledgeEvents)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <param>
+          <type><ref refid="class_cdc_pipeline_bench_fixture" kindref="compound">CdcPipelineBenchFixture</ref></type>
+        </param>
+        <param>
+          <type>AcknowledgeEvents</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_cdc_pipeline.cpp" line="141" column="1" bodyfile="benchmarks/cdc/bench_cdc_pipeline.cpp" bodystart="141" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__cdc__pipeline_8cpp_1a06a8570b846bf668a992435746bfe351" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_DEFINE_F</definition>
+        <argsstring>(CdcPipelineBenchFixture, ConcurrentFetch)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <param>
+          <type><ref refid="class_cdc_pipeline_bench_fixture" kindref="compound">CdcPipelineBenchFixture</ref></type>
+        </param>
+        <param>
+          <type>ConcurrentFetch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_cdc_pipeline.cpp" line="180" column="1" bodyfile="benchmarks/cdc/bench_cdc_pipeline.cpp" bodystart="180" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__cdc__pipeline_8cpp_1a2a6963a81a76802eeef36b4e85319622" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Arg</definition>
+        <argsstring>(1) -&gt; Arg(2) -&gt;Arg(4) -&gt;Unit(benchmark::kMillisecond) -&gt;Threads(1) -&gt;Iterations(100)</argsstring>
+        <name>Arg</name>
+        <param>
+          <type>1</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_cdc_pipeline.cpp" line="208" column="5" declfile="benchmarks/cdc/bench_cdc_pipeline.cpp" declline="208" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__cdc__pipeline_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_MAIN</definition>
+        <argsstring>()</argsstring>
+        <name>BENCHMARK_MAIN</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/cdc/bench_cdc_pipeline.cpp" line="215" column="1" declfile="benchmarks/cdc/bench_cdc_pipeline.cpp" declline="215" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Performance benchmarks for the CDC pipeline beyond raw changefeed event recording (which is covered by bench_changefeed_throughput). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Covers:<itemizedlist>
+<listitem><para><ref refid="classthemis_1_1cdc_1_1_consumer_group_manager_1a87c6ce8e1144edef9c24ab876caccf7d" kindref="member">ConsumerGroupManager::createGroup</ref> / deleteGroup latency</para>
+</listitem><listitem><para><ref refid="classthemis_1_1cdc_1_1_consumer_group_manager_1a2b15aff82d410b64c79254b704cb0553" kindref="member">ConsumerGroupManager::fetchEventsAtLeastOnce</ref> throughput</para>
+</listitem><listitem><para><ref refid="classthemis_1_1cdc_1_1_consumer_group_manager_1a4326164ab4393c242baadda2a68ddeaf" kindref="member">ConsumerGroupManager::acknowledgeEvents</ref> throughput</para>
+</listitem><listitem><para>Partition-fan-out: N consumers fetching in parallel</para>
+</listitem></itemizedlist>
+</para>
+<para>Performance targets (src/cdc/ROADMAP.md):<itemizedlist>
+<listitem><para>createGroup: &lt; 1 ms</para>
+</listitem><listitem><para>fetchEventsAtLeastOnce (100 events, 1 consumer): &lt; 5 ms</para>
+</listitem><listitem><para>acknowledgeEvents (100 events): &lt; 2 ms </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="consumer__group_8h" kindref="compound">cdc/consumer_group.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="changefeed_8h" kindref="compound">cdc/changefeed.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1cdc" kindref="compound">themis::cdc</ref>;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="class_cdc_pipeline_bench_fixture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_cdc_pipeline_bench_fixture" kindref="compound">CdcPipelineBenchFixture</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>benchmark::Fixture<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_cdc_pipeline_bench_fixture_1ae32d15ffe2b9de74041815a3de863c37" kindref="member">SetUp</ref>(const<sp/>::benchmark::State&amp;<sp/></highlight><highlight class="comment">/*state*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_cdc_pipeline_bench_fixture_1a5d794dbffdf5716b1d27eea614be57cb" kindref="member">db_path_</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;./data/bench_cdc_pipeline_tmp&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::filesystem::exists(<ref refid="class_cdc_pipeline_bench_fixture_1a5d794dbffdf5716b1d27eea614be57cb" kindref="member">db_path_</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="class_cdc_pipeline_bench_fixture_1a5d794dbffdf5716b1d27eea614be57cb" kindref="member">db_path_</ref>);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RocksDBWrapper::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.db_path<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="class_cdc_pipeline_bench_fixture_1a5d794dbffdf5716b1d27eea614be57cb" kindref="member">db_path_</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.memtable_size_mb<sp/><sp/><sp/><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.block_cache_size_mb<sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_cdc_pipeline_bench_fixture_1a765d403bc69e73d61fb38bea04e433eb" kindref="member">db_</ref><sp/>=<sp/>std::make_unique&lt;RocksDBWrapper&gt;(cfg);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_cdc_pipeline_bench_fixture_1a765d403bc69e73d61fb38bea04e433eb" kindref="member">db_</ref>-&gt;open();</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>raw_db<sp/>=<sp/><ref refid="class_cdc_pipeline_bench_fixture_1a765d403bc69e73d61fb38bea04e433eb" kindref="member">db_</ref>-&gt;getDB();</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_changefeed_1_1_retention_policy" kindref="compound">Changefeed::RetentionPolicy</ref><sp/>ret;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret.<ref refid="struct_changefeed_1_1_retention_policy_1adad3321cce00e385353ca28ad5b50398" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_cdc_pipeline_bench_fixture_1a5c9dce4edbdea9b3337303ef2faa6ec0" kindref="member">changefeed_</ref><sp/>=<sp/>std::make_unique&lt;Changefeed&gt;(raw_db,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>ret);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_cdc_pipeline_bench_fixture_1a65074c0cc15e7615ee520975c51cd199" kindref="member">manager_</ref><sp/><sp/><sp/><sp/>=<sp/>std::make_unique&lt;ConsumerGroupManager&gt;(raw_db,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_cdc_pipeline_bench_fixture_1a7bf07f6c98526a2ae5c56a72c584aa8d" kindref="member">TearDown</ref>(const<sp/>::benchmark::State&amp;<sp/></highlight><highlight class="comment">/*state*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_cdc_pipeline_bench_fixture_1a65074c0cc15e7615ee520975c51cd199" kindref="member">manager_</ref>.reset();</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_cdc_pipeline_bench_fixture_1a5c9dce4edbdea9b3337303ef2faa6ec0" kindref="member">changefeed_</ref>.reset();</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_cdc_pipeline_bench_fixture_1a765d403bc69e73d61fb38bea04e433eb" kindref="member">db_</ref>-&gt;close();</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_cdc_pipeline_bench_fixture_1a765d403bc69e73d61fb38bea04e433eb" kindref="member">db_</ref>.reset();</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::filesystem::exists(<ref refid="class_cdc_pipeline_bench_fixture_1a5d794dbffdf5716b1d27eea614be57cb" kindref="member">db_path_</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="class_cdc_pipeline_bench_fixture_1a5d794dbffdf5716b1d27eea614be57cb" kindref="member">db_path_</ref>);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_cdc_pipeline_bench_fixture_1ae6c62aede1db13ec4d7a5b659ed1df51" kindref="member">seedEvents</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n)<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>n;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref><sp/>ev;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a883b176a3fb4c5abc1dc20e30eb608a9" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0a6cb4b5ef33ab335211f73af9fbd56d3b" kindref="member">Changefeed::ChangeEventType::EVENT_PUT</ref>;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a3a217971c867a92b478cb1b593bec7f7" kindref="member">key</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;key:&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1ad2d3a461fdb9d4deefc9935feb9d8c50" kindref="member">value</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;v&quot;:)&quot;<sp/>+<sp/>std::to_string(i)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1aa6cfc276ad4f8bd518cb0f27278905ae" kindref="member">timestamp_ms</ref><sp/>=<sp/>1700000000000LL<sp/>+<sp/>i;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_cdc_pipeline_bench_fixture_1a5c9dce4edbdea9b3337303ef2faa6ec0" kindref="member">changefeed_</ref>-&gt;recordEvent(ev);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_cdc_pipeline_bench_fixture_1a5d794dbffdf5716b1d27eea614be57cb" kindref="member">db_path_</ref>;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;RocksDBWrapper&gt;<sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_cdc_pipeline_bench_fixture_1a765d403bc69e73d61fb38bea04e433eb" kindref="member">db_</ref>;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Changefeed&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_cdc_pipeline_bench_fixture_1a5c9dce4edbdea9b3337303ef2faa6ec0" kindref="member">changefeed_</ref>;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;ConsumerGroupManager&gt;<sp/><ref refid="class_cdc_pipeline_bench_fixture_1a65074c0cc15e7615ee520975c51cd199" kindref="member">manager_</ref>;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>createGroup<sp/>/<sp/>deleteGroup<sp/>latency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><ref refid="bench__cdc__pipeline_8cpp_1afa9db3226eaa848ca027afb95871054c" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_cdc_pipeline_bench_fixture" kindref="compound">CdcPipelineBenchFixture</ref>,<sp/>CreateDeleteGroup)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>counter{0};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>counter.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>gid<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;bench_grp_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_consumer_group_config" kindref="compound">ConsumerGroupConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1cdc_1_1_consumer_group_config_1a886c470318a748072ddb420ba50a82b8" kindref="member">group_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>gid;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1cdc_1_1_consumer_group_config_1a2e412b45966bda830ab6868cb99d2750" kindref="member">consumer_count</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>manager_-&gt;createGroup(cfg);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>manager_-&gt;deleteGroup(gid);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_cdc_pipeline_bench_fixture" kindref="compound">CdcPipelineBenchFixture</ref>,<sp/>CreateDeleteGroup)</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond)</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(2000);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>fetchEventsAtLeastOnce<sp/>–<sp/>throughput<sp/>vs.<sp/>batch<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><ref refid="bench__cdc__pipeline_8cpp_1afa9db3226eaa848ca027afb95871054c" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_cdc_pipeline_bench_fixture" kindref="compound">CdcPipelineBenchFixture</ref>,<sp/>FetchEventsAtLeastOnce)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>batch<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(0));</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>seedEvents(batch);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_consumer_group_config" kindref="compound">ConsumerGroupConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1cdc_1_1_consumer_group_config_1a886c470318a748072ddb420ba50a82b8" kindref="member">group_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;bench_fetch_grp&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1cdc_1_1_consumer_group_config_1a2e412b45966bda830ab6868cb99d2750" kindref="member">consumer_count</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;createGroup(cfg);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>events<sp/>=<sp/>manager_-&gt;fetchEventsAtLeastOnce(</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;bench_fetch_grp&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;consumer_0&quot;</highlight><highlight class="normal">,<sp/>*changefeed_,<sp/>batch);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(events);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations()<sp/>*<sp/>batch);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_cdc_pipeline_bench_fixture" kindref="compound">CdcPipelineBenchFixture</ref>,<sp/>FetchEventsAtLeastOnce)</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(10)</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(50)</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(100)</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond)</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(200);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>acknowledgeEvents<sp/>throughput</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><ref refid="bench__cdc__pipeline_8cpp_1afa9db3226eaa848ca027afb95871054c" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_cdc_pipeline_bench_fixture" kindref="compound">CdcPipelineBenchFixture</ref>,<sp/>AcknowledgeEvents)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>batch<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(0));</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>seedEvents(batch);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_consumer_group_config" kindref="compound">ConsumerGroupConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1cdc_1_1_consumer_group_config_1a886c470318a748072ddb420ba50a82b8" kindref="member">group_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;bench_ack_grp&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1cdc_1_1_consumer_group_config_1a2e412b45966bda830ab6868cb99d2750" kindref="member">consumer_count</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;createGroup(cfg);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>events<sp/>=<sp/>manager_-&gt;fetchEventsAtLeastOnce(</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;bench_ack_grp&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;consumer_0&quot;</highlight><highlight class="normal">,<sp/>*changefeed_,<sp/>batch);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>max_seq<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>e<sp/>:<sp/>events)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(e.sequence<sp/>&gt;<sp/>max_seq)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>max_seq<sp/>=<sp/>e.sequence;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>manager_-&gt;acknowledgeEvents(</highlight><highlight class="stringliteral">&quot;bench_ack_grp&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;consumer_0&quot;</highlight><highlight class="normal">,<sp/>max_seq);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(max_seq);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations()<sp/>*<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(events.size()));</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_cdc_pipeline_bench_fixture" kindref="compound">CdcPipelineBenchFixture</ref>,<sp/>AcknowledgeEvents)</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(10)</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(50)</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(100)</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond)</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(500);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Concurrent<sp/>fetch<sp/>–<sp/>N<sp/>consumers<sp/>in<sp/>parallel<sp/>(fan-out)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><ref refid="bench__cdc__pipeline_8cpp_1afa9db3226eaa848ca027afb95871054c" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_cdc_pipeline_bench_fixture" kindref="compound">CdcPipelineBenchFixture</ref>,<sp/>ConcurrentFetch)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>consumers<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(0));</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>batch<sp/><sp/><sp/><sp/><sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>seedEvents(batch<sp/>*<sp/>consumers);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_consumer_group_config" kindref="compound">ConsumerGroupConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1cdc_1_1_consumer_group_config_1a886c470318a748072ddb420ba50a82b8" kindref="member">group_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;bench_concurrent_grp&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1cdc_1_1_consumer_group_config_1a2e412b45966bda830ab6868cb99d2750" kindref="member">consumer_count</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(consumers);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>manager_-&gt;createGroup(cfg);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>total<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>c<sp/>=<sp/>0;<sp/>c<sp/>&lt;<sp/>consumers;<sp/>++c)<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>events<sp/>=<sp/>manager_-&gt;fetchEventsAtLeastOnce(</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;bench_concurrent_grp&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;consumer_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(c),</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*changefeed_,</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>batch);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total<sp/>+=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(events.size());</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(total);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations()<sp/>*<sp/>consumers<sp/>*<sp/>batch);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_cdc_pipeline_bench_fixture" kindref="compound">CdcPipelineBenchFixture</ref>,<sp/>ConcurrentFetch)</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(1)</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(2)</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(4)</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMillisecond)</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Threads(1)</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(100);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><ref refid="bench__cdc__pipeline_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kindref="member">BENCHMARK_MAIN</ref>();</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/cdc/bench_cdc_pipeline.cpp"/>
+  </compounddef>
+</doxygen>

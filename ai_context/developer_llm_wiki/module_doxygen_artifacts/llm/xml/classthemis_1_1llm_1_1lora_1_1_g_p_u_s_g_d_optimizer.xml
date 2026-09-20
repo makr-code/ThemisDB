@@ -1,0 +1,348 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_g_p_u_s_g_d_optimizer" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::GPUSGDOptimizer</compoundname>
+    <includes refid="gpu__lora__layers_8h" local="no">gpu_lora_layers.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_s_g_d_optimizer_1ac3f6dc05c9dc9083cca3e39be99a26ba" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::GPUSGDOptimizer::learning_rate_</definition>
+        <argsstring></argsstring>
+        <name>learning_rate_</name>
+        <qualifiedname>themis::llm::lora::GPUSGDOptimizer::learning_rate_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="221" column="11" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_s_g_d_optimizer_1acae25b34769721b2218ca4d64b5efcbe" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::GPUSGDOptimizer::momentum_</definition>
+        <argsstring></argsstring>
+        <name>momentum_</name>
+        <qualifiedname>themis::llm::lora::GPUSGDOptimizer::momentum_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="222" column="11" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_s_g_d_optimizer_1a59ce846738169139a48ba286fe012801" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::GPUSGDOptimizer::weight_decay_</definition>
+        <argsstring></argsstring>
+        <name>weight_decay_</name>
+        <qualifiedname>themis::llm::lora::GPUSGDOptimizer::weight_decay_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="223" column="11" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_s_g_d_optimizer_1ac14b05ccb4ae3926cfe52fbe06db93c8" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> * &gt;</type>
+        <definition>std::vector&lt;GPUTensor*&gt; themis::llm::lora::GPUSGDOptimizer::parameters_</definition>
+        <argsstring></argsstring>
+        <name>parameters_</name>
+        <qualifiedname>themis::llm::lora::GPUSGDOptimizer::parameters_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="224" column="17" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_s_g_d_optimizer_1a0edf9028cd26ea6bc70c8a39493f1357" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;GPUTensor&gt; &gt; themis::llm::lora::GPUSGDOptimizer::momentum_buffers_</definition>
+        <argsstring></argsstring>
+        <name>momentum_buffers_</name>
+        <qualifiedname>themis::llm::lora::GPUSGDOptimizer::momentum_buffers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="227" column="17" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_s_g_d_optimizer_1aa85e4f025cee4d3665edd3efd7f98160" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::GPUSGDOptimizer::GPUSGDOptimizer</definition>
+        <argsstring>(float learning_rate=0.001f, float momentum=0.0f, float weight_decay=0.0f)</argsstring>
+        <name>GPUSGDOptimizer</name>
+        <qualifiedname>themis::llm::lora::GPUSGDOptimizer::GPUSGDOptimizer</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>learning_rate</declname>
+          <defval>0.001f</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>momentum</declname>
+          <defval>0.0f</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>weight_decay</declname>
+          <defval>0.0f</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="172" column="14" bodyfile="src/llm/lora_framework/gpu_lora_layers.cpp" bodystart="599" bodyend="616"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_s_g_d_optimizer_1ad8a314c0139510b5b631552af513c315" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUSGDOptimizer::add_parameters</definition>
+        <argsstring>(const std::vector&lt; GPUTensor * &gt; &amp;params)</argsstring>
+        <name>add_parameters</name>
+        <qualifiedname>themis::llm::lora::GPUSGDOptimizer::add_parameters</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> * &gt; &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Add parameters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: insert(), end(), begin(), <ref refid="namespacethemis_1_1llm_1_1lora_1_1gpu__tensor__utils_1a09e0e355f50eeffb9393e81f88556a86" kindref="member">gpu_tensor_utils::zeros()</ref>, shape(), device(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="180" column="10" bodyfile="src/llm/lora_framework/gpu_lora_layers.cpp" bodystart="623" bodyend="637"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_s_g_d_optimizer_1a5e06484f4a1abbb619824fe07d1e9e46" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUSGDOptimizer::step</definition>
+        <argsstring>()</argsstring>
+        <name>step</name>
+        <qualifiedname>themis::llm::lora::GPUSGDOptimizer::step</qualifiedname>
+        <briefdescription>
+<para>Step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: size(), spdlog::warn(), device(), data(), cuda::fused::launch_fused_sgd_step(), hip::fused::launch_fused_sgd_step(), clone(), get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="185" column="10" bodyfile="src/llm/lora_framework/gpu_lora_layers.cpp" bodystart="643" bodyend="723"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_s_g_d_optimizer_1a7d1130104a262f3e35060007882d3aa0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUSGDOptimizer::zero_grad</definition>
+        <argsstring>()</argsstring>
+        <name>zero_grad</name>
+        <qualifiedname>themis::llm::lora::GPUSGDOptimizer::zero_grad</qualifiedname>
+        <briefdescription>
+<para>Zero grad. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: zero(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="190" column="10" bodyfile="src/llm/lora_framework/gpu_lora_layers.cpp" bodystart="729" bodyend="735"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_s_g_d_optimizer_1a561aaa81f5305be44e9e9309036f6a96" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::lora::GPUSGDOptimizer::learning_rate</definition>
+        <argsstring>() const</argsstring>
+        <name>learning_rate</name>
+        <qualifiedname>themis::llm::lora::GPUSGDOptimizer::learning_rate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="194" column="11" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="194" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_s_g_d_optimizer_1a5ee3c30d751350f9ca1a728646e357a9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUSGDOptimizer::set_learning_rate</definition>
+        <argsstring>(float lr)</argsstring>
+        <name>set_learning_rate</name>
+        <qualifiedname>themis::llm::lora::GPUSGDOptimizer::set_learning_rate</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>lr</declname>
+        </param>
+        <briefdescription>
+<para>Set learning rate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements set_learning_rate without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="200" column="10" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="200" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_s_g_d_optimizer_1a876d456a9572c7ecb008ef5dd9436e4e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::lora::GPUSGDOptimizer::momentum</definition>
+        <argsstring>() const</argsstring>
+        <name>momentum</name>
+        <qualifiedname>themis::llm::lora::GPUSGDOptimizer::momentum</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="202" column="11" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="202" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_s_g_d_optimizer_1a2667fb8d0afc9085c3d141dd803e1829" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUSGDOptimizer::set_momentum</definition>
+        <argsstring>(float m)</argsstring>
+        <name>set_momentum</name>
+        <qualifiedname>themis::llm::lora::GPUSGDOptimizer::set_momentum</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>m</declname>
+        </param>
+        <briefdescription>
+<para>Set momentum. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">m</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements set_momentum without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="208" column="10" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="208" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_s_g_d_optimizer_1acc92e9fde2bb6ab1bb5aa9e4e231af58" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::lora::GPUSGDOptimizer::weight_decay</definition>
+        <argsstring>() const</argsstring>
+        <name>weight_decay</name>
+        <qualifiedname>themis::llm::lora::GPUSGDOptimizer::weight_decay</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="210" column="11" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="210" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_s_g_d_optimizer_1a510076d061f3fbfbdb65426ca8e3a9ed" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUSGDOptimizer::set_weight_decay</definition>
+        <argsstring>(float wd)</argsstring>
+        <name>set_weight_decay</name>
+        <qualifiedname>themis::llm::lora::GPUSGDOptimizer::set_weight_decay</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>wd</declname>
+        </param>
+        <briefdescription>
+<para>Set weight decay. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">wd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements set_weight_decay without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="216" column="10" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="216" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_s_g_d_optimizer_1a48f28c9b4bb55ceb52e05bf037b141dd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::GPUSGDOptimizer::num_parameters</definition>
+        <argsstring>() const</argsstring>
+        <name>num_parameters</name>
+        <qualifiedname>themis::llm::lora::GPUSGDOptimizer::num_parameters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="218" column="12" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="218" bodyend="218"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/gpu_lora_layers.h" line="170" column="1" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="170" bodyend="228"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_s_g_d_optimizer_1ad8a314c0139510b5b631552af513c315" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUSGDOptimizer</scope><name>add_parameters</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_s_g_d_optimizer_1aa85e4f025cee4d3665edd3efd7f98160" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUSGDOptimizer</scope><name>GPUSGDOptimizer</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_s_g_d_optimizer_1a561aaa81f5305be44e9e9309036f6a96" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUSGDOptimizer</scope><name>learning_rate</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_s_g_d_optimizer_1ac3f6dc05c9dc9083cca3e39be99a26ba" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUSGDOptimizer</scope><name>learning_rate_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_s_g_d_optimizer_1a876d456a9572c7ecb008ef5dd9436e4e" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUSGDOptimizer</scope><name>momentum</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_s_g_d_optimizer_1acae25b34769721b2218ca4d64b5efcbe" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUSGDOptimizer</scope><name>momentum_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_s_g_d_optimizer_1a0edf9028cd26ea6bc70c8a39493f1357" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUSGDOptimizer</scope><name>momentum_buffers_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_s_g_d_optimizer_1a48f28c9b4bb55ceb52e05bf037b141dd" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUSGDOptimizer</scope><name>num_parameters</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_s_g_d_optimizer_1ac14b05ccb4ae3926cfe52fbe06db93c8" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUSGDOptimizer</scope><name>parameters_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_s_g_d_optimizer_1a5ee3c30d751350f9ca1a728646e357a9" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUSGDOptimizer</scope><name>set_learning_rate</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_s_g_d_optimizer_1a2667fb8d0afc9085c3d141dd803e1829" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUSGDOptimizer</scope><name>set_momentum</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_s_g_d_optimizer_1a510076d061f3fbfbdb65426ca8e3a9ed" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUSGDOptimizer</scope><name>set_weight_decay</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_s_g_d_optimizer_1a5e06484f4a1abbb619824fe07d1e9e46" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUSGDOptimizer</scope><name>step</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_s_g_d_optimizer_1acc92e9fde2bb6ab1bb5aa9e4e231af58" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUSGDOptimizer</scope><name>weight_decay</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_s_g_d_optimizer_1a59ce846738169139a48ba286fe012801" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUSGDOptimizer</scope><name>weight_decay_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_s_g_d_optimizer_1a7d1130104a262f3e35060007882d3aa0" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUSGDOptimizer</scope><name>zero_grad</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

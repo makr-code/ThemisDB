@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_rollback_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::RollbackResult</compoundname>
+    <includes refid="schema__migration_8h" local="no">schema_migration.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_rollback_result_1aff59807df7f1a08890fb4db1e91e5be9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::RollbackResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::updates::RollbackResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true if rollback completed cleanly. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="117" column="17" bodyfile="include/updates/schema_migration.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_rollback_result_1a0001808865eb1211b410b1d16681c41f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::RollbackResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::updates::RollbackResult::error_message</qualifiedname>
+        <briefdescription>
+<para>Non-empty when success == false. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="118" column="17" bodyfile="include/updates/schema_migration.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_rollback_result_1a132dcac090948edc1c9fe392d2633345" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1updates_1a2dd1953b5da3cfd4ecc79c252b294dfc" kindref="member">OnlineDDLPhase</ref></type>
+        <definition>OnlineDDLPhase themis::updates::RollbackResult::rolled_back_from</definition>
+        <argsstring></argsstring>
+        <name>rolled_back_from</name>
+        <qualifiedname>themis::updates::RollbackResult::rolled_back_from</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1updates_1a2dd1953b5da3cfd4ecc79c252b294dfcaa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">OnlineDDLPhase::IDLE</ref></initializer>
+        <briefdescription>
+<para>Phase that was unwound. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="119" column="20" bodyfile="include/updates/schema_migration.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result returned by <ref refid="classthemis_1_1updates_1_1_schema_migration_1a42dc29aac9fe5fe252890b9b80c35842" kindref="member">SchemaMigration::rollback()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/updates/schema_migration.h" line="116" column="1" bodyfile="include/updates/schema_migration.h" bodystart="116" bodyend="120"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_rollback_result_1a0001808865eb1211b410b1d16681c41f" prot="public" virt="non-virtual"><scope>themis::updates::RollbackResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1updates_1_1_rollback_result_1a132dcac090948edc1c9fe392d2633345" prot="public" virt="non-virtual"><scope>themis::updates::RollbackResult</scope><name>rolled_back_from</name></member>
+      <member refid="structthemis_1_1updates_1_1_rollback_result_1aff59807df7f1a08890fb4db1e91e5be9" prot="public" virt="non-virtual"><scope>themis::updates::RollbackResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

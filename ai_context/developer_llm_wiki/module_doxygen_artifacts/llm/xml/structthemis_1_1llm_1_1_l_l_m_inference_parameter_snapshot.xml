@@ -1,0 +1,369 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::LLMInferenceParameterSnapshot</compoundname>
+    <includes refid="llm__reproducibility_8h" local="no">llm_reproducibility.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot_1a017b303aaaff72d80f936fb9e7907208" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1ac98d8fb587c654094b0b79b383075d30" kindref="member">LLMReproducibilityMode</ref></type>
+        <definition>LLMReproducibilityMode themis::llm::LLMInferenceParameterSnapshot::mode</definition>
+        <argsstring></argsstring>
+        <name>mode</name>
+        <qualifiedname>themis::llm::LLMInferenceParameterSnapshot::mode</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1llm_1ac98d8fb587c654094b0b79b383075d30ac6589f5236c0c434d0c63dc5f9a856f2" kindref="member">LLMReproducibilityMode::Balanced</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_reproducibility.h" line="137" column="28" bodyfile="include/llm/llm_reproducibility.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot_1a98d1b531e51614c4020ff24cb4770789" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::LLMInferenceParameterSnapshot::temperature</definition>
+        <argsstring></argsstring>
+        <name>temperature</name>
+        <qualifiedname>themis::llm::LLMInferenceParameterSnapshot::temperature</qualifiedname>
+        <initializer>= 0.7f</initializer>
+        <briefdescription>
+<para>Sampling temperature (0.0 = greedy). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_reproducibility.h" line="139" column="14" bodyfile="include/llm/llm_reproducibility.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot_1add2d3ad89512469fab11b11f6a8ac64c" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::LLMInferenceParameterSnapshot::top_p</definition>
+        <argsstring></argsstring>
+        <name>top_p</name>
+        <qualifiedname>themis::llm::LLMInferenceParameterSnapshot::top_p</qualifiedname>
+        <initializer>= 0.9f</initializer>
+        <briefdescription>
+<para>Nucleus sampling probability. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_reproducibility.h" line="140" column="14" bodyfile="include/llm/llm_reproducibility.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot_1a7386c74b21320661afa5286ede1209ef" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::LLMInferenceParameterSnapshot::top_k</definition>
+        <argsstring></argsstring>
+        <name>top_k</name>
+        <qualifiedname>themis::llm::LLMInferenceParameterSnapshot::top_k</qualifiedname>
+        <initializer>= 40</initializer>
+        <briefdescription>
+<para>Top-K sampling limit (0 = disabled). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_reproducibility.h" line="141" column="14" bodyfile="include/llm/llm_reproducibility.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot_1a9fbf6dfe0c7b1f148e1c5bfb2f90ffdb" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::LLMInferenceParameterSnapshot::repetition_penalty</definition>
+        <argsstring></argsstring>
+        <name>repetition_penalty</name>
+        <qualifiedname>themis::llm::LLMInferenceParameterSnapshot::repetition_penalty</qualifiedname>
+        <initializer>= 1.1f</initializer>
+        <briefdescription>
+<para>Repetition penalty factor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_reproducibility.h" line="142" column="14" bodyfile="include/llm/llm_reproducibility.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot_1a6bdb42d494d4c0e3551aef0683ce299f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::LLMInferenceParameterSnapshot::max_tokens</definition>
+        <argsstring></argsstring>
+        <name>max_tokens</name>
+        <qualifiedname>themis::llm::LLMInferenceParameterSnapshot::max_tokens</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+<para>Maximum generated tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_reproducibility.h" line="143" column="14" bodyfile="include/llm/llm_reproducibility.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot_1a52d49147b76ee047ce7996bab4d9a631" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; uint64_t &gt;</type>
+        <definition>std::optional&lt;uint64_t&gt; themis::llm::LLMInferenceParameterSnapshot::rng_seed</definition>
+        <argsstring></argsstring>
+        <name>rng_seed</name>
+        <qualifiedname>themis::llm::LLMInferenceParameterSnapshot::rng_seed</qualifiedname>
+        <briefdescription>
+<para>RNG seed for reproducible sampling. Must be set for Deterministic/Audit modes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_reproducibility.h" line="146" column="19" bodyfile="include/llm/llm_reproducibility.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot_1a885deaa9f0c2408462028af42f81d208" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMInferenceParameterSnapshot::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::llm::LLMInferenceParameterSnapshot::model_id</qualifiedname>
+        <briefdescription>
+<para>Model identifier used (e.g. &quot;qwen2.5-coder:14b&quot; or a GGUF path hash). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_reproducibility.h" line="149" column="17" bodyfile="include/llm/llm_reproducibility.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot_1a6888601bd3f17e318578fb5d1a306cb9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMInferenceParameterSnapshot::mode_name</definition>
+        <argsstring></argsstring>
+        <name>mode_name</name>
+        <qualifiedname>themis::llm::LLMInferenceParameterSnapshot::mode_name</qualifiedname>
+        <briefdescription>
+<para>The mode name string — matches <computeroutput>reproducibilityModeName(mode)</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_reproducibility.h" line="152" column="17" bodyfile="include/llm/llm_reproducibility.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot_1a526c2137f2d8f9048f51ea0bf138552b" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot" kindref="compound">LLMInferenceParameterSnapshot</ref></type>
+        <definition>static LLMInferenceParameterSnapshot themis::llm::LLMInferenceParameterSnapshot::makeDeterministic</definition>
+        <argsstring>(uint64_t seed, const std::string &amp;model={})</argsstring>
+        <name>makeDeterministic</name>
+        <qualifiedname>themis::llm::LLMInferenceParameterSnapshot::makeDeterministic</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>seed</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Build a Deterministic snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>seed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Mandatory RNG seed for full reproducibility. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Model identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_reproducibility.h" line="163" column="43" bodyfile="include/llm/llm_reproducibility.h" bodystart="163" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot_1a2eb2cff2b867d5d33f95e53d6c98e70e" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot" kindref="compound">LLMInferenceParameterSnapshot</ref></type>
+        <definition>static LLMInferenceParameterSnapshot themis::llm::LLMInferenceParameterSnapshot::makeAudit</definition>
+        <argsstring>(uint64_t seed, const std::string &amp;model={})</argsstring>
+        <name>makeAudit</name>
+        <qualifiedname>themis::llm::LLMInferenceParameterSnapshot::makeAudit</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>seed</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Build an Audit snapshot (low temperature, mandatory seed). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>seed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Mandatory RNG seed. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Model identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_reproducibility.h" line="184" column="43" bodyfile="include/llm/llm_reproducibility.h" bodystart="184" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot_1a11637d16672e30a0196969ae486806af" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot" kindref="compound">LLMInferenceParameterSnapshot</ref></type>
+        <definition>static LLMInferenceParameterSnapshot themis::llm::LLMInferenceParameterSnapshot::makeBalanced</definition>
+        <argsstring>(const std::string &amp;model={})</argsstring>
+        <name>makeBalanced</name>
+        <qualifiedname>themis::llm::LLMInferenceParameterSnapshot::makeBalanced</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Build a Balanced (default production) snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Model identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_reproducibility.h" line="204" column="43" bodyfile="include/llm/llm_reproducibility.h" bodystart="204" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot_1af2b4f9351f69f5a8e14f62f5848de04e" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot" kindref="compound">LLMInferenceParameterSnapshot</ref></type>
+        <definition>static LLMInferenceParameterSnapshot themis::llm::LLMInferenceParameterSnapshot::fromJson</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::llm::LLMInferenceParameterSnapshot::fromJson</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Deserialise a snapshot from a JSON object (tolerates missing keys). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>nlohmann::json::exception</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on type mismatches. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_reproducibility.h" line="286" column="43" bodyfile="include/llm/llm_reproducibility.h" bodystart="286" bodyend="301"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot_1adafd133a5e1bffd14db5cd096ec9f85a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LLMInferenceParameterSnapshot::validate</definition>
+        <argsstring>() const</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::llm::LLMInferenceParameterSnapshot::validate</qualifiedname>
+        <briefdescription>
+<para>Validate invariants. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if any invariant is violated. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_reproducibility.h" line="222" column="10" bodyfile="include/llm/llm_reproducibility.h" bodystart="222" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot_1a811f404bdd71568a0a741b5f9de1af28" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::LLMInferenceParameterSnapshot::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::llm::LLMInferenceParameterSnapshot::toJson</qualifiedname>
+        <briefdescription>
+<para>Serialise the snapshot to JSON for audit storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The JSON object is self-describing: all fields are present so the snapshot can be replayed without any additional context. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_reproducibility.h" line="263" column="11" bodyfile="include/llm/llm_reproducibility.h" bodystart="263" bodyend="280"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Immutable snapshot of all sampler parameters used for one inference call. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Stored alongside <computeroutput><ref refid="structthemis_1_1llm_1_1_a_i_decision_audit" kindref="compound">AIDecisionAudit</ref></computeroutput> to enable post-hoc audit and replay.</para>
+<sect1 id="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot_1autotoc_md7_1s1"><sect2 id="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot_1autotoc_md7">
+<title>Invariants</title><para><itemizedlist>
+<listitem><para><computeroutput><ref refid="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot_1a017b303aaaff72d80f936fb9e7907208" kindref="member">mode</ref> == Deterministic</computeroutput> implies <computeroutput><ref refid="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot_1a98d1b531e51614c4020ff24cb4770789" kindref="member">temperature</ref> == 0.0f &amp;&amp; <ref refid="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot_1a7386c74b21320661afa5286ede1209ef" kindref="member">top_k</ref> == 1 &amp;&amp; rng_seed.has_value()</computeroutput>.</para>
+</listitem><listitem><para><computeroutput><ref refid="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot_1a017b303aaaff72d80f936fb9e7907208" kindref="member">mode</ref> == Audit</computeroutput> implies <computeroutput>rng_seed.has_value()</computeroutput>.</para>
+</listitem><listitem><para>All float values are finite (no NaN/Inf). </para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/llm/llm_reproducibility.h" line="136" column="1" bodyfile="include/llm/llm_reproducibility.h" bodystart="136" bodyend="302"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot_1af2b4f9351f69f5a8e14f62f5848de04e" prot="public" virt="non-virtual"><scope>themis::llm::LLMInferenceParameterSnapshot</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot_1a2eb2cff2b867d5d33f95e53d6c98e70e" prot="public" virt="non-virtual"><scope>themis::llm::LLMInferenceParameterSnapshot</scope><name>makeAudit</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot_1a11637d16672e30a0196969ae486806af" prot="public" virt="non-virtual"><scope>themis::llm::LLMInferenceParameterSnapshot</scope><name>makeBalanced</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot_1a526c2137f2d8f9048f51ea0bf138552b" prot="public" virt="non-virtual"><scope>themis::llm::LLMInferenceParameterSnapshot</scope><name>makeDeterministic</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot_1a6bdb42d494d4c0e3551aef0683ce299f" prot="public" virt="non-virtual"><scope>themis::llm::LLMInferenceParameterSnapshot</scope><name>max_tokens</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot_1a017b303aaaff72d80f936fb9e7907208" prot="public" virt="non-virtual"><scope>themis::llm::LLMInferenceParameterSnapshot</scope><name>mode</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot_1a6888601bd3f17e318578fb5d1a306cb9" prot="public" virt="non-virtual"><scope>themis::llm::LLMInferenceParameterSnapshot</scope><name>mode_name</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot_1a885deaa9f0c2408462028af42f81d208" prot="public" virt="non-virtual"><scope>themis::llm::LLMInferenceParameterSnapshot</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot_1a9fbf6dfe0c7b1f148e1c5bfb2f90ffdb" prot="public" virt="non-virtual"><scope>themis::llm::LLMInferenceParameterSnapshot</scope><name>repetition_penalty</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot_1a52d49147b76ee047ce7996bab4d9a631" prot="public" virt="non-virtual"><scope>themis::llm::LLMInferenceParameterSnapshot</scope><name>rng_seed</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot_1a98d1b531e51614c4020ff24cb4770789" prot="public" virt="non-virtual"><scope>themis::llm::LLMInferenceParameterSnapshot</scope><name>temperature</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot_1a811f404bdd71568a0a741b5f9de1af28" prot="public" virt="non-virtual"><scope>themis::llm::LLMInferenceParameterSnapshot</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot_1a7386c74b21320661afa5286ede1209ef" prot="public" virt="non-virtual"><scope>themis::llm::LLMInferenceParameterSnapshot</scope><name>top_k</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot_1add2d3ad89512469fab11b11f6a8ac64c" prot="public" virt="non-virtual"><scope>themis::llm::LLMInferenceParameterSnapshot</scope><name>top_p</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_inference_parameter_snapshot_1adafd133a5e1bffd14db5cd096ec9f85a" prot="public" virt="non-virtual"><scope>themis::llm::LLMInferenceParameterSnapshot</scope><name>validate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

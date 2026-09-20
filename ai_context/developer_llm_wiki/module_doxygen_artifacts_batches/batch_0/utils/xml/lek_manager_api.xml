@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="lek_manager_api" kind="page">
+    <compoundname>lek_manager_api</compoundname>
+    <title>LEK Manager API</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="lek_manager_api_1autotoc_md10_1s1"><sect2 id="lek_manager_api_1autotoc_md10">
+<title>Purpose</title><para>The LEKManager implements key hierarchy and rotation for secure log encryption:<itemizedlist>
+<listitem><para><bold>KEK (Key Encryption Key)</bold>: Derived from PKI certificate via HKDF; used to encrypt/decrypt LEKs</para>
+</listitem><listitem><para><bold>LEK (Log Encryption Key)</bold>: Random 256-bit AES key created daily; used to encrypt log messages</para>
+</listitem><listitem><para><bold>Versioning</bold>: Each LEK is uniquely identified by date (YYYY-MM-DD) to support multi-key decryption</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="lek_manager_api_1autotoc_md11_1s1"><sect2 id="lek_manager_api_1autotoc_md11">
+<title>Key Hierarchy</title><para><programlisting><codeline><highlight class="normal">PKI<sp/>Certificate<sp/>→<sp/>HKDF<sp/>Derivation<sp/>→<sp/>KEK<sp/>(256-bit)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>↓</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Encrypts/Decrypts</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>↓</highlight></codeline>
+<codeline><highlight class="normal">Random<sp/>Entropy<sp/>→<sp/>AES<sp/>Key<sp/>Generation<sp/>→<sp/>LEK<sp/>(256-bit,<sp/>per<sp/>day)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>↓</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Encrypts<sp/>Log<sp/>Data</highlight></codeline>
+</programlisting></para>
+</sect2></sect1>
+<sect1 id="lek_manager_api_1autotoc_md12_1s1"><sect2 id="lek_manager_api_1autotoc_md12">
+<title>Key Lifecycle Phases</title><para><orderedlist>
+<listitem><para><bold>Generation</bold>: New LEK created at UTC midnight or via force rotation</para>
+</listitem><listitem><para><bold>Storage</bold>: LEK encrypted with KEK and stored in RocksDB: <computeroutput>lek:encrypted:&lt;YYYY-MM-DD&gt; = AES-GCM(KEK, LEK)</computeroutput></para>
+</listitem><listitem><para><bold>Usage</bold>: Current LEK used for encrypting new log messages</para>
+</listitem><listitem><para><bold>Rotation</bold>: Automatic daily rotation triggered by background worker</para>
+</listitem><listitem><para><bold>Revocation</bold>: Explicit revocation prevents further use (for security incidents)</para>
+</listitem><listitem><para><bold>Migration</bold>: Key relabeling for compliance operations</para>
+</listitem></orderedlist>
+</para>
+</sect2></sect1>
+<sect1 id="lek_manager_api_1autotoc_md13_1s1"><sect2 id="lek_manager_api_1autotoc_md13">
+<title>Thread Safety</title><para><itemizedlist>
+<listitem><para>All public methods are thread-safe via internal locking</para>
+</listitem><listitem><para>Background rotation worker runs independently</para>
+</listitem><listitem><para>Multiple concurrent encrypt/decrypt operations are safe</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="lek_manager_api_1autotoc_md14_1s1"><sect2 id="lek_manager_api_1autotoc_md14">
+<title>Audit Integration</title><para><itemizedlist>
+<listitem><para>Optional AuditLogger for tracking rotation events</para>
+</listitem><listitem><para>KEY_ROTATED events logged with old/new key details</para>
+</listitem><listitem><para>KEY_REVOKED events logged for compliance</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="lek_manager_api_1autotoc_md15_1s1"><sect2 id="lek_manager_api_1autotoc_md15">
+<title>Compliance &amp; Security</title><para><itemizedlist>
+<listitem><para>Compliant with NIST SP 800-38D (AES-GCM)</para>
+</listitem><listitem><para>Compliant with RFC 5869 (HKDF key derivation)</para>
+</listitem><listitem><para>Supports key versioning for audit trail</para>
+</listitem><listitem><para>Memory-safe key material handling (RAII, zero-wiping)</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="lek_manager_api_1autotoc_md16_1s1"><sect2 id="lek_manager_api_1autotoc_md16">
+<title>Bounded Resource Constraints</title><para>The LEKManager enforces strict resource bounds to prevent unbounded memory growth:<itemizedlist>
+<listitem><para><bold>Key Cache</bold>: In-memory LEK cache limited to 90 entries (approximately 90 days of keys)</para>
+</listitem><listitem><para><bold>Revocation List</bold>: In-memory revocation tracking limited to 1000 entries</para>
+</listitem><listitem><para><bold>Key Derivation</bold>: HKDF derivation timeout set to 30 seconds (fail-closed if exceeded)</para>
+</listitem><listitem><para><bold>Rotation Worker</bold>: Check interval configurable; default 1 hour (minimum 10 seconds)</para>
+</listitem><listitem><para><bold>Database Keys</bold>: Each LEK stored in RocksDB under deterministic key: <computeroutput>lek:encrypted:&lt;YYYY-MM-DD&gt;</computeroutput></para>
+</listitem><listitem><para><bold>Encryption Overhead</bold>: LEK encrypted with KEK using AES-GCM (16-byte nonce + ciphertext)</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para>HKDFHelper for key derivation implementation </para>
+</simplesect>
+<simplesect kind="see"><para>AuditLogger for rotation event tracking </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/utils/lek_manager.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1transaction_1_1test_1_1_partial_failure_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::transaction::test::PartialFailureTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1test_1_1_partial_failure_test_1a4acc43230bc26c2aec3eb94835cd4c37" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_s_a_g_a_orchestrator" kindref="compound">SAGAOrchestrator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;SAGAOrchestrator&gt; themis::transaction::test::PartialFailureTest::saga_orchestrator_</definition>
+        <argsstring></argsstring>
+        <name>saga_orchestrator_</name>
+        <qualifiedname>themis::transaction::test::PartialFailureTest::saga_orchestrator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_saga_orchestration_hardening.cpp" line="370" column="19" bodyfile="tests/transaction/test_saga_orchestration_hardening.cpp" bodystart="370" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1test_1_1_partial_failure_test_1a5eb10d5351d66c2f5ed04808c89f4144" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::test::PartialFailureTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::transaction::test::PartialFailureTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_saga_orchestration_hardening.cpp" line="362" column="8" bodyfile="tests/transaction/test_saga_orchestration_hardening.cpp" bodystart="362" bodyend="364"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1test_1_1_partial_failure_test_1a3e2833a3048bc7fdd388b688221cfd9d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::test::PartialFailureTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::transaction::test::PartialFailureTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_saga_orchestration_hardening.cpp" line="366" column="8" bodyfile="tests/transaction/test_saga_orchestration_hardening.cpp" bodystart="366" bodyend="368"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::transaction::test::PartialFailureTest</label>
+        <link refid="classthemis_1_1transaction_1_1test_1_1_partial_failure_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::transaction::test::PartialFailureTest</label>
+        <link refid="classthemis_1_1transaction_1_1test_1_1_partial_failure_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/transaction/test_saga_orchestration_hardening.cpp" line="360" column="1" bodyfile="tests/transaction/test_saga_orchestration_hardening.cpp" bodystart="360" bodyend="371"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_partial_failure_test_1a4acc43230bc26c2aec3eb94835cd4c37" prot="protected" virt="non-virtual"><scope>themis::transaction::test::PartialFailureTest</scope><name>saga_orchestrator_</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_partial_failure_test_1a5eb10d5351d66c2f5ed04808c89f4144" prot="protected" virt="non-virtual"><scope>themis::transaction::test::PartialFailureTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_partial_failure_test_1a3e2833a3048bc7fdd388b688221cfd9d" prot="protected" virt="non-virtual"><scope>themis::transaction::test::PartialFailureTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

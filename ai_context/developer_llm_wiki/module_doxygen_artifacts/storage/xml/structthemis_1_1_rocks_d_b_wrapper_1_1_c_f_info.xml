@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_rocks_d_b_wrapper_1_1_c_f_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::RocksDBWrapper::CFInfo</compoundname>
+    <includes refid="rocksdb__wrapper_8h" local="no">rocksdb_wrapper.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_c_f_info_1a494c26f3774d5ec819016dc4f49c1315" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::RocksDBWrapper::CFInfo::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::RocksDBWrapper::CFInfo::name</qualifiedname>
+        <briefdescription>
+<para>Column family name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="776" column="21" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="776" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_c_f_info_1a5d1480d2d78bf01e5c026d04f5ac2495" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::RocksDBWrapper::CFInfo::estimated_keys</definition>
+        <argsstring></argsstring>
+        <name>estimated_keys</name>
+        <qualifiedname>themis::RocksDBWrapper::CFInfo::estimated_keys</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>rocksdb.estimate-num-keys </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="777" column="18" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="777" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rocks_d_b_wrapper_1_1_c_f_info_1aa249397e49ef7d52f8c39ac7d3f9548c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::RocksDBWrapper::CFInfo::approx_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>approx_size_bytes</name>
+        <qualifiedname>themis::RocksDBWrapper::CFInfo::approx_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>rocksdb.total-sst-files-size </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="778" column="18" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="778" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Lightweight metadata snapshot for one column family. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/rocksdb_wrapper.h" line="775" column="5" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="775" bodyend="779"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_c_f_info_1aa249397e49ef7d52f8c39ac7d3f9548c" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::CFInfo</scope><name>approx_size_bytes</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_c_f_info_1a5d1480d2d78bf01e5c026d04f5ac2495" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::CFInfo</scope><name>estimated_keys</name></member>
+      <member refid="structthemis_1_1_rocks_d_b_wrapper_1_1_c_f_info_1a494c26f3774d5ec819016dc4f49c1315" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::CFInfo</scope><name>name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1aql_1_1_validation_limits" kind="namespace" language="C++">
+    <compoundname>themis::aql::ValidationLimits</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1aql_1_1_validation_limits_1a26e729d5393f7c72f0f7ce5714e71159" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::aql::ValidationLimits::MAX_PROMPT_LENGTH</definition>
+        <argsstring></argsstring>
+        <name>MAX_PROMPT_LENGTH</name>
+        <qualifiedname>themis::aql::ValidationLimits::MAX_PROMPT_LENGTH</qualifiedname>
+        <initializer>= 128000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_error_codes.h" line="184" column="22" bodyfile="include/aql/llm_error_codes.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1aql_1_1_validation_limits_1a8cf9c099245b3e62abcadd999fe7bc0f" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::aql::ValidationLimits::MAX_COLLECTION_NAME_LENGTH</definition>
+        <argsstring></argsstring>
+        <name>MAX_COLLECTION_NAME_LENGTH</name>
+        <qualifiedname>themis::aql::ValidationLimits::MAX_COLLECTION_NAME_LENGTH</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_error_codes.h" line="187" column="22" bodyfile="include/aql/llm_error_codes.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1aql_1_1_validation_limits_1a3472aa2d775c9932e34ab6b129c5b573" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::aql::ValidationLimits::MAX_ID_LENGTH</definition>
+        <argsstring></argsstring>
+        <name>MAX_ID_LENGTH</name>
+        <qualifiedname>themis::aql::ValidationLimits::MAX_ID_LENGTH</qualifiedname>
+        <initializer>= 128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_error_codes.h" line="190" column="22" bodyfile="include/aql/llm_error_codes.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1aql_1_1_validation_limits_1a4d0715f67eeb8dd075d96ae0f02011d9" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::aql::ValidationLimits::MAX_RAG_TOP_K</definition>
+        <argsstring></argsstring>
+        <name>MAX_RAG_TOP_K</name>
+        <qualifiedname>themis::aql::ValidationLimits::MAX_RAG_TOP_K</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_error_codes.h" line="193" column="19" bodyfile="include/aql/llm_error_codes.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1aql_1_1_validation_limits_1a29cf8283aaa042aeb1c3565520ed9c9f" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::aql::ValidationLimits::MIN_RAG_TOP_K</definition>
+        <argsstring></argsstring>
+        <name>MIN_RAG_TOP_K</name>
+        <qualifiedname>themis::aql::ValidationLimits::MIN_RAG_TOP_K</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_error_codes.h" line="196" column="19" bodyfile="include/aql/llm_error_codes.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1aql_1_1_validation_limits_1a6884cec21a93f5e67ca278cd97006bd5" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::aql::ValidationLimits::DEFAULT_TIMEOUT_SECONDS</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_TIMEOUT_SECONDS</name>
+        <qualifiedname>themis::aql::ValidationLimits::DEFAULT_TIMEOUT_SECONDS</qualifiedname>
+        <initializer>= 300</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_error_codes.h" line="199" column="19" bodyfile="include/aql/llm_error_codes.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1aql_1_1_validation_limits_1a8d569744ab237f009740da8139c1d766" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::aql::ValidationLimits::MAX_NL_QUERY_LENGTH</definition>
+        <argsstring></argsstring>
+        <name>MAX_NL_QUERY_LENGTH</name>
+        <qualifiedname>themis::aql::ValidationLimits::MAX_NL_QUERY_LENGTH</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_error_codes.h" line="203" column="22" bodyfile="include/aql/llm_error_codes.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1aql_1_1_validation_limits_1a49e45d1335a3d59cca48241dc6f08397" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::aql::ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH</definition>
+        <argsstring></argsstring>
+        <name>MAX_SCHEMA_CONTEXT_LENGTH</name>
+        <qualifiedname>themis::aql::ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH</qualifiedname>
+        <initializer>= 32768</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_error_codes.h" line="207" column="22" bodyfile="include/aql/llm_error_codes.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/llm_error_codes.h" line="182" column="1"/>
+  </compounddef>
+</doxygen>

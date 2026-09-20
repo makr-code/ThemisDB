@@ -1,0 +1,610 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="semantic__validator_8h" kind="file" language="C++">
+    <compoundname>semantic_validator.h</compoundname>
+    <includes refid="deontic__extractor_8h" local="yes">ingestion/deontic_extractor.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">functional</includes>
+    <includedby refid="ingestion__manager_8h" local="yes">include/ingestion/ingestion_manager.h</includedby>
+    <includedby refid="semantic__validator_8cpp" local="yes">src/ingestion/semantic_validator.cpp</includedby>
+    <includedby refid="test__ingestion__inference__backend_8cpp" local="yes">tests/ingestion/test_ingestion_inference_backend.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>ingestion/deontic_extractor.h</label>
+        <link refid="deontic__extractor_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/ingestion/semantic_validator.h</label>
+        <link refid="semantic__validator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>benchmarks/ingestion/bench_ingestion_extraction.cpp</label>
+        <link refid="bench__ingestion__extraction_8cpp"/>
+      </node>
+      <node id="4">
+        <label>include/ingestion/api_connector.h</label>
+        <link refid="api__connector_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>include/ingestion/cdc_connector.h</label>
+        <link refid="cdc__connector_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>include/ingestion/database_connector.h</label>
+        <link refid="database__connector_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>include/ingestion/filesystem_ingester.h</label>
+        <link refid="filesystem__ingester_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>include/ingestion/huggingface_connector.h</label>
+        <link refid="huggingface__connector_8h"/>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>include/ingestion/ingestion_coordinator.h</label>
+        <link refid="ingestion__coordinator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/ingestion/ingestion_manager.h</label>
+        <link refid="ingestion__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>include/ingestion/kafka_connector.h</label>
+        <link refid="kafka__connector_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>include/ingestion/oauth_token_manager.h</label>
+        <link refid="oauth__token__manager_8h"/>
+        <childnode refid="34" relation="include">
+        </childnode>
+      </node>
+      <node id="35">
+        <label>include/ingestion/object_storage_connector.h</label>
+        <link refid="object__storage__connector_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+      </node>
+      <node id="38">
+        <label>include/ingestion/s3_connector.h</label>
+        <link refid="s3__connector_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/ingestion/semantic_validator.h</label>
+        <link refid="semantic__validator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+      </node>
+      <node id="39">
+        <label>include/ingestion/web_crawler_connector.h</label>
+        <link refid="web__crawler__connector_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/ingestion/api_connector.cpp</label>
+        <link refid="api__connector_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/ingestion/cdc_connector.cpp</label>
+        <link refid="cdc__connector_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/ingestion/database_connector.cpp</label>
+        <link refid="database__connector_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/ingestion/filesystem_ingester.cpp</label>
+        <link refid="filesystem__ingester_8cpp"/>
+      </node>
+      <node id="26">
+        <label>src/ingestion/huggingface_connector.cpp</label>
+        <link refid="huggingface__connector_8cpp"/>
+      </node>
+      <node id="28">
+        <label>src/ingestion/ingestion_coordinator.cpp</label>
+        <link refid="ingestion__coordinator_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/ingestion/ingestion_manager.cpp</label>
+        <link refid="ingestion__manager_8cpp"/>
+      </node>
+      <node id="31">
+        <label>src/ingestion/kafka_connector.cpp</label>
+        <link refid="kafka__connector_8cpp"/>
+      </node>
+      <node id="34">
+        <label>src/ingestion/oauth_token_manager.cpp</label>
+        <link refid="oauth__token__manager_8cpp"/>
+      </node>
+      <node id="36">
+        <label>src/ingestion/object_storage_connector.cpp</label>
+        <link refid="object__storage__connector_8cpp"/>
+      </node>
+      <node id="19">
+        <label>src/ingestion/s3_connector.cpp</label>
+        <link refid="s3__connector_8cpp"/>
+      </node>
+      <node id="47">
+        <label>src/ingestion/semantic_validator.cpp</label>
+        <link refid="semantic__validator_8cpp"/>
+      </node>
+      <node id="40">
+        <label>src/ingestion/web_crawler_connector.cpp</label>
+        <link refid="web__crawler__connector_8cpp"/>
+      </node>
+      <node id="20">
+        <label>tests/ingestion/test_ingestion_builder.cpp</label>
+        <link refid="test__ingestion__builder_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/ingestion/test_ingestion_cdc.cpp</label>
+        <link refid="test__ingestion__cdc_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/ingestion/test_ingestion_checkpoint.cpp</label>
+        <link refid="test__ingestion__checkpoint_8cpp"/>
+      </node>
+      <node id="29">
+        <label>tests/ingestion/test_ingestion_coordinator.cpp</label>
+        <link refid="test__ingestion__coordinator_8cpp"/>
+      </node>
+      <node id="16">
+        <label>tests/ingestion/test_ingestion_database.cpp</label>
+        <link refid="test__ingestion__database_8cpp"/>
+      </node>
+      <node id="21">
+        <label>tests/ingestion/test_ingestion_errors.cpp</label>
+        <link refid="test__ingestion__errors_8cpp"/>
+      </node>
+      <node id="22">
+        <label>tests/ingestion/test_ingestion_features.cpp</label>
+        <link refid="test__ingestion__features_8cpp"/>
+      </node>
+      <node id="42">
+        <label>tests/ingestion/test_ingestion_inference_backend.cpp</label>
+        <link refid="test__ingestion__inference__backend_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/ingestion/test_ingestion_integration.cpp</label>
+        <link refid="test__ingestion__integration_8cpp"/>
+      </node>
+      <node id="32">
+        <label>tests/ingestion/test_ingestion_kafka.cpp</label>
+        <link refid="test__ingestion__kafka_8cpp"/>
+      </node>
+      <node id="43">
+        <label>tests/ingestion/test_ingestion_lineage.cpp</label>
+        <link refid="test__ingestion__lineage_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/ingestion/test_ingestion_oauth.cpp</label>
+        <link refid="test__ingestion__oauth_8cpp"/>
+      </node>
+      <node id="37">
+        <label>tests/ingestion/test_ingestion_object_storage.cpp</label>
+        <link refid="test__ingestion__object__storage_8cpp"/>
+      </node>
+      <node id="44">
+        <label>tests/ingestion/test_ingestion_plugin_api.cpp</label>
+        <link refid="test__ingestion__plugin__api_8cpp"/>
+      </node>
+      <node id="45">
+        <label>tests/ingestion/test_ingestion_quality_judge.cpp</label>
+        <link refid="test__ingestion__quality__judge_8cpp"/>
+      </node>
+      <node id="46">
+        <label>tests/ingestion/test_ingestion_reconfig.cpp</label>
+        <link refid="test__ingestion__reconfig_8cpp"/>
+      </node>
+      <node id="23">
+        <label>tests/ingestion/test_ingestion_resilience.cpp</label>
+        <link refid="test__ingestion__resilience_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/ingestion/test_ingestion_schema_validation.cpp</label>
+        <link refid="test__ingestion__schema__validation_8cpp"/>
+      </node>
+      <node id="24">
+        <label>tests/ingestion/test_ingestion_security.cpp</label>
+        <link refid="test__ingestion__security_8cpp"/>
+      </node>
+      <node id="41">
+        <label>tests/ingestion/test_ingestion_web_crawler.cpp</label>
+        <link refid="test__ingestion__web__crawler_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1ingestion_1_1_quality_gate_config" prot="public">themis::ingestion::QualityGateConfig</innerclass>
+    <innerclass refid="structthemis_1_1ingestion_1_1_legal_quality_gates" prot="public">themis::ingestion::LegalQualityGates</innerclass>
+    <innerclass refid="structthemis_1_1ingestion_1_1_quality_gate_result" prot="public">themis::ingestion::QualityGateResult</innerclass>
+    <innerclass refid="structthemis_1_1ingestion_1_1_semantic_validation_result" prot="public">themis::ingestion::SemanticValidationResult</innerclass>
+    <innerclass refid="structthemis_1_1ingestion_1_1_legal_provision" prot="public">themis::ingestion::LegalProvision</innerclass>
+    <innerclass refid="structthemis_1_1ingestion_1_1_legal_extraction_result" prot="public">themis::ingestion::LegalExtractionResult</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1_semantic_validator" prot="public">themis::ingestion::SemanticValidator</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1ingestion">themis::ingestion</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="deontic__extractor_8h" kindref="compound">ingestion/deontic_extractor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1ingestion" kindref="compound">ingestion</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Quality<sp/>gate<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1ingestion_1_1_quality_gate_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1ingestion_1_1_quality_gate_config_1a7e78084cad27f47ffe053d03b4a5168a" kindref="member">QualityGateConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1ingestion_1_1_quality_gate_config_1ab333e5e93ddb49e5a141beb2c9682d4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1ingestion_1_1_quality_gate_config_1ab333e5e93ddb49e5a141beb2c9682d4e" kindref="member">name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1ingestion_1_1_quality_gate_config_1a18090c0716b5b2b2ad7c3ccc0e1cc49d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1ingestion_1_1_quality_gate_config_1a18090c0716b5b2b2ad7c3ccc0e1cc49d" kindref="member">description</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1ingestion_1_1_quality_gate_config_1af27b138f59eeacc590dd9dcd1424374d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_quality_gate_config_1af27b138f59eeacc590dd9dcd1424374d" kindref="member">threshold</ref><sp/>=<sp/>0.0;<sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1ingestion_1_1_quality_gate_config_1a4351608e0143556d18b5f82867ff4a63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_quality_gate_config_1a4351608e0143556d18b5f82867ff4a63" kindref="member">required</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1ingestion_1_1_quality_gate_config_1a7e78084cad27f47ffe053d03b4a5168a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_quality_gate_config_1a7e78084cad27f47ffe053d03b4a5168a" kindref="member">QualityGateConfig</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1ingestion_1_1_quality_gate_config_1a3710f157740d42c55c460789cb2c1f8d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_quality_gate_config_1a3710f157740d42c55c460789cb2c1f8d" kindref="member">QualityGateConfig</ref>(std::string<sp/>name_,<sp/>std::string<sp/>desc,</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>thresh,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>req<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="structthemis_1_1ingestion_1_1_quality_gate_config_1ab333e5e93ddb49e5a141beb2c9682d4e" kindref="member">name</ref>(std::move(name_)),<sp/><ref refid="structthemis_1_1ingestion_1_1_quality_gate_config_1a18090c0716b5b2b2ad7c3ccc0e1cc49d" kindref="member">description</ref>(std::move(desc)),</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_quality_gate_config_1af27b138f59eeacc590dd9dcd1424374d" kindref="member">threshold</ref>(thresh),<sp/><ref refid="structthemis_1_1ingestion_1_1_quality_gate_config_1a4351608e0143556d18b5f82867ff4a63" kindref="member">required</ref>(req)<sp/>{}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1ingestion_1_1_legal_quality_gates" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1ingestion_1_1_legal_quality_gates" kindref="compound">LegalQualityGates</ref><sp/>{</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1ingestion_1_1_legal_quality_gates_1a0ce0fa53b16fe90478da9cfe969fca1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_quality_gates_1a0ce0fa53b16fe90478da9cfe969fca1d" kindref="member">kMinConfidence</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.80;</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1ingestion_1_1_legal_quality_gates_1a3d7692adcf526eab95a6419c6c5a79e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_quality_gates_1a3d7692adcf526eab95a6419c6c5a79e6" kindref="member">kDeonticConfidence</ref><sp/><sp/>=<sp/>0.75;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1ingestion_1_1_legal_quality_gates_1a4e1cab7c13c7773db175ef29d3a9869e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_quality_gate_config" kindref="compound">QualityGateConfig</ref><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_quality_gates_1a4e1cab7c13c7773db175ef29d3a9869e" kindref="member">min_confidence</ref><sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;min_confidence&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Overall<sp/>extraction<sp/>confidence<sp/>must<sp/>meet<sp/>threshold&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_quality_gates_1a0ce0fa53b16fe90478da9cfe969fca1d" kindref="member">kMinConfidence</ref>,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1ingestion_1_1_legal_quality_gates_1a0d323710b89c2ff337a38cc76bdc4fa5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_quality_gate_config" kindref="compound">QualityGateConfig</ref><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_quality_gates_1a0d323710b89c2ff337a38cc76bdc4fa5" kindref="member">deontic_confidence</ref><sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;deontic_confidence&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Deontic<sp/>extraction<sp/>confidence<sp/>must<sp/>meet<sp/>threshold&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_quality_gates_1a3d7692adcf526eab95a6419c6c5a79e6" kindref="member">kDeonticConfidence</ref>,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1ingestion_1_1_legal_quality_gates_1a58141923a2557513a22ad75c0209c63a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_quality_gate_config" kindref="compound">QualityGateConfig</ref><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_quality_gates_1a58141923a2557513a22ad75c0209c63a" kindref="member">section_hierarchy</ref><sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;section_hierarchy&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Document<sp/>must<sp/>have<sp/>detectable<sp/>section<sp/>structure&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.0,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1ingestion_1_1_legal_quality_gates_1ad47df2d1ed1a665a7f9bfeb2775d7801" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_quality_gate_config" kindref="compound">QualityGateConfig</ref><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_quality_gates_1ad47df2d1ed1a665a7f9bfeb2775d7801" kindref="member">temporal_present</ref><sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;temporal_present&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Document<sp/>should<sp/>contain<sp/>at<sp/>least<sp/>one<sp/>temporal<sp/>expression&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.0,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1ingestion_1_1_legal_quality_gates_1adfe999fb483723d81ed8211aed0d7f73" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_quality_gate_config" kindref="compound">QualityGateConfig</ref><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_quality_gates_1adfe999fb483723d81ed8211aed0d7f73" kindref="member">no_dangling_refs</ref><sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;no_dangling_refs&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;All<sp/>cross-references<sp/>should<sp/>resolve<sp/>in<sp/>the<sp/>knowledge<sp/>base&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.0,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Quality<sp/>gate<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1ingestion_1_1_quality_gate_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1ingestion_1_1_quality_gate_result_1a0262f35ce15b1d3e38ae91d4866b69a2" kindref="member">QualityGateResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1ingestion_1_1_quality_gate_result_1aa2b4ee618c74bc92f22d503440e1b2ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1ingestion_1_1_quality_gate_result_1aa2b4ee618c74bc92f22d503440e1b2ae" kindref="member">name</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1ingestion_1_1_quality_gate_result_1a6f66c38a593979074fea4d3bec5ab590" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_quality_gate_result_1a6f66c38a593979074fea4d3bec5ab590" kindref="member">passed</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1ingestion_1_1_quality_gate_result_1a414bc98a2cf8aef57d7b205e8b300704" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1ingestion_1_1_quality_gate_result_1a414bc98a2cf8aef57d7b205e8b300704" kindref="member">reason</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1ingestion_1_1_quality_gate_result_1a0262f35ce15b1d3e38ae91d4866b69a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_quality_gate_result_1a0262f35ce15b1d3e38ae91d4866b69a2" kindref="member">QualityGateResult</ref>()<sp/>:<sp/><ref refid="structthemis_1_1ingestion_1_1_quality_gate_result_1a6f66c38a593979074fea4d3bec5ab590" kindref="member">passed</ref>(true)<sp/>{}</highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1ingestion_1_1_quality_gate_result_1a991370bc9dd3cadc0c22ae7784a710bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_quality_gate_result_1a991370bc9dd3cadc0c22ae7784a710bd" kindref="member">QualityGateResult</ref>(std::string<sp/>n,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>p,<sp/>std::string<sp/>r<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="structthemis_1_1ingestion_1_1_quality_gate_result_1aa2b4ee618c74bc92f22d503440e1b2ae" kindref="member">name</ref>(std::move(n)),<sp/><ref refid="structthemis_1_1ingestion_1_1_quality_gate_result_1a6f66c38a593979074fea4d3bec5ab590" kindref="member">passed</ref>(p),<sp/><ref refid="structthemis_1_1ingestion_1_1_quality_gate_result_1a414bc98a2cf8aef57d7b205e8b300704" kindref="member">reason</ref>(std::move(r))<sp/>{}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Semantic<sp/>validation<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1ingestion_1_1_semantic_validation_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1ingestion_1_1_semantic_validation_result_1a116476fff893ef98b9383616f4800345" kindref="member">SemanticValidationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1ingestion_1_1_semantic_validation_result_1ae26a9e59d138a7bc0c1b73a18d86e29f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_semantic_validation_result_1ae26a9e59d138a7bc0c1b73a18d86e29f" kindref="member">is_valid</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1ingestion_1_1_semantic_validation_result_1a657d68a1e3fb5f0202fc3897017b54cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_semantic_validation_result_1a657d68a1e3fb5f0202fc3897017b54cc" kindref="member">semantic_score</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1ingestion_1_1_semantic_validation_result_1a7c6bd06a427f21bf55251f36e6bd75eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_semantic_validation_result_1a7c6bd06a427f21bf55251f36e6bd75eb" kindref="member">inconsistencies</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1ingestion_1_1_semantic_validation_result_1aeb0ae5d4d17b123f39f392ec02cbc902" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_semantic_validation_result_1aeb0ae5d4d17b123f39f392ec02cbc902" kindref="member">suggestions</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1ingestion_1_1_semantic_validation_result_1ac63f462f013ad72e512a044d4c3e3c28" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_semantic_validation_result_1ac63f462f013ad72e512a044d4c3e3c28" kindref="member">warnings</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1ingestion_1_1_semantic_validation_result_1aff4dd7f6a3b27d99cbd0ef60fa351854" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;QualityGateResult&gt;<sp/><ref refid="structthemis_1_1ingestion_1_1_semantic_validation_result_1aff4dd7f6a3b27d99cbd0ef60fa351854" kindref="member">gate_results</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1ingestion_1_1_semantic_validation_result_1a116476fff893ef98b9383616f4800345" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_semantic_validation_result_1a116476fff893ef98b9383616f4800345" kindref="member">SemanticValidationResult</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1ingestion_1_1_semantic_validation_result_1ad7e597a9c4ba4db0c1fab1f64310b24a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;QualityGateResult&gt;<sp/><ref refid="structthemis_1_1ingestion_1_1_semantic_validation_result_1ad7e597a9c4ba4db0c1fab1f64310b24a" kindref="member">failedGates</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;QualityGateResult&gt;<sp/>out<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>g<sp/>:<sp/><ref refid="structthemis_1_1ingestion_1_1_semantic_validation_result_1aff4dd7f6a3b27d99cbd0ef60fa351854" kindref="member">gate_results</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!g.passed)<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out.push_back(g);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>out;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1ingestion_1_1_semantic_validation_result_1a3c89c18e2b23da3de458176ee69d1be0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;QualityGateResult&gt;<sp/><ref refid="structthemis_1_1ingestion_1_1_semantic_validation_result_1a3c89c18e2b23da3de458176ee69d1be0" kindref="member">passedGates</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;QualityGateResult&gt;<sp/>out<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>g<sp/>:<sp/><ref refid="structthemis_1_1ingestion_1_1_semantic_validation_result_1aff4dd7f6a3b27d99cbd0ef60fa351854" kindref="member">gate_results</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(g.passed)<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out.push_back(g);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>out;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Legal<sp/>extraction<sp/>result<sp/>(document-level)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="structthemis_1_1ingestion_1_1_legal_provision" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1ingestion_1_1_legal_provision_1a616aeb4d001cf9ce99735e0a3fbe2744" kindref="member">LegalProvision</ref><sp/>{</highlight></codeline>
+<codeline lineno="159" refid="structthemis_1_1ingestion_1_1_legal_provision_1a322c6a6c031f9703e8a11188bc8a430b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_provision_1a322c6a6c031f9703e8a11188bc8a430b" kindref="member">provision_id</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160" refid="structthemis_1_1ingestion_1_1_legal_provision_1aa66d52e9ced1e946ef7cb86a448ef88a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_provision_1aa66d52e9ced1e946ef7cb86a448ef88a" kindref="member">section_ref</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="161" refid="structthemis_1_1ingestion_1_1_legal_provision_1ad0cf09cc1a4caab75e775bce386c6b16" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_provision_1ad0cf09cc1a4caab75e775bce386c6b16" kindref="member">text</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="162" refid="structthemis_1_1ingestion_1_1_legal_provision_1ada50897ae0c32c5a18f3bc2b68bf1851" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a2890f8ebe686fa2e83d096cce9ce0ac4" kindref="member">DeonticCategory</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_provision_1ada50897ae0c32c5a18f3bc2b68bf1851" kindref="member">deontic_category</ref>;<sp/></highlight></codeline>
+<codeline lineno="163" refid="structthemis_1_1ingestion_1_1_legal_provision_1abf271fce3346840f9db579c7a0c3d283" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_provision_1abf271fce3346840f9db579c7a0c3d283" kindref="member">category_confidence</ref>;<sp/></highlight></codeline>
+<codeline lineno="164" refid="structthemis_1_1ingestion_1_1_legal_provision_1a6211e88074a293dd48ed2f3efdc7b696" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ExtractedEntity&gt;<sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_provision_1a6211e88074a293dd48ed2f3efdc7b696" kindref="member">entities</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="165" refid="structthemis_1_1ingestion_1_1_legal_provision_1a673f654563ed085d26b6c57c09f9c4bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;DeonticObligation&gt;<sp/><ref refid="structthemis_1_1ingestion_1_1_legal_provision_1a673f654563ed085d26b6c57c09f9c4bd" kindref="member">obligations</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166" refid="structthemis_1_1ingestion_1_1_legal_provision_1a7b09bc10da8081def6da7b74e6362a1c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_provision_1a7b09bc10da8081def6da7b74e6362a1c" kindref="member">references_to</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="167" refid="structthemis_1_1ingestion_1_1_legal_provision_1a15f1ec5f4e14d4b1cef2d118d0e118b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_provision_1a15f1ec5f4e14d4b1cef2d118d0e118b3" kindref="member">effective_from</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="168" refid="structthemis_1_1ingestion_1_1_legal_provision_1a18b587aa9c23b82976e49d6790fd1337" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_provision_1a18b587aa9c23b82976e49d6790fd1337" kindref="member">effective_to</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170" refid="structthemis_1_1ingestion_1_1_legal_provision_1a616aeb4d001cf9ce99735e0a3fbe2744" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_provision_1a616aeb4d001cf9ce99735e0a3fbe2744" kindref="member">LegalProvision</ref>()<sp/>:<sp/><ref refid="structthemis_1_1ingestion_1_1_legal_provision_1ada50897ae0c32c5a18f3bc2b68bf1851" kindref="member">deontic_category</ref>(<ref refid="namespacethemis_1_1ingestion_1a2890f8ebe686fa2e83d096cce9ce0ac4" kindref="member">DeonticCategory</ref>::<ref refid="namespacethemis_1_1ingestion_1ae04298a858e7b070d9a53732876210ffa696b031073e74bf2cb98e5ef201d4aa3" kindref="member">UNKNOWN</ref>),</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_provision_1abf271fce3346840f9db579c7a0c3d283" kindref="member">category_confidence</ref>(0.0)<sp/>{}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177" refid="structthemis_1_1ingestion_1_1_legal_extraction_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1ingestion_1_1_legal_extraction_result_1ac7bc595c35d646274d6e8ced17bd6340" kindref="member">LegalExtractionResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="178" refid="structthemis_1_1ingestion_1_1_legal_extraction_result_1a556c90f708b175d39c4622f3be8d6f93" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_extraction_result_1a556c90f708b175d39c4622f3be8d6f93" kindref="member">document_id</ref>;</highlight></codeline>
+<codeline lineno="179" refid="structthemis_1_1ingestion_1_1_legal_extraction_result_1a94637f875b275d1fdde120b8fc26217f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_extraction_result_1a94637f875b275d1fdde120b8fc26217f" kindref="member">effective_from</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="180" refid="structthemis_1_1ingestion_1_1_legal_extraction_result_1aca75a490d7a85e02f9ff9f251d68abda" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_extraction_result_1aca75a490d7a85e02f9ff9f251d68abda" kindref="member">effective_to</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="181" refid="structthemis_1_1ingestion_1_1_legal_extraction_result_1a5ab6ed8da3286e44489e934d7db6e996" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;LegalProvision&gt;<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_extraction_result_1a5ab6ed8da3286e44489e934d7db6e996" kindref="member">provisions</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="182" refid="structthemis_1_1ingestion_1_1_legal_extraction_result_1a01c0a374b6802c351c09d09397ba417e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_extraction_result_1a01c0a374b6802c351c09d09397ba417e" kindref="member">quality_score</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="183" refid="structthemis_1_1ingestion_1_1_legal_extraction_result_1aee22beb6380ce0c157e5fcf27ee6254a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_semantic_validation_result" kindref="compound">SemanticValidationResult</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_extraction_result_1aee22beb6380ce0c157e5fcf27ee6254a" kindref="member">validation</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="184" refid="structthemis_1_1ingestion_1_1_legal_extraction_result_1aa869cb5df99688c60ff2b840f65bc8f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_extraction_result_1aa869cb5df99688c60ff2b840f65bc8f2" kindref="member">warnings</ref>;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186" refid="structthemis_1_1ingestion_1_1_legal_extraction_result_1ac7bc595c35d646274d6e8ced17bd6340" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_extraction_result_1ac7bc595c35d646274d6e8ced17bd6340" kindref="member">LegalExtractionResult</ref>()<sp/>:<sp/><ref refid="structthemis_1_1ingestion_1_1_legal_extraction_result_1a01c0a374b6802c351c09d09397ba417e" kindref="member">quality_score</ref>(0.0)<sp/>{}</highlight></codeline>
+<codeline lineno="187"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SemanticValidator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216" refid="classthemis_1_1ingestion_1_1_semantic_validator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_semantic_validator_1a30413f7e00cb2be95a27fcdf76d73820" kindref="member">SemanticValidator</ref><sp/>{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="219" refid="classthemis_1_1ingestion_1_1_semantic_validator_1acfd61d2e68863ff172ab73def2f65e9e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_semantic_validator_1acfd61d2e68863ff172ab73def2f65e9e" kindref="member">ValidatorFn</ref><sp/>=<sp/>std::function&lt;<ref refid="structthemis_1_1ingestion_1_1_semantic_validation_result" kindref="compound">SemanticValidationResult</ref>(</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_deontic_extraction" kindref="compound">DeonticExtraction</ref>&amp;<sp/>extraction,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)&gt;;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222" refid="classthemis_1_1ingestion_1_1_semantic_validator_1a30413f7e00cb2be95a27fcdf76d73820" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_semantic_validator_1a30413f7e00cb2be95a27fcdf76d73820" kindref="member">SemanticValidator</ref>();</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_semantic_validation_result" kindref="compound">SemanticValidationResult</ref><sp/><ref refid="classthemis_1_1ingestion_1_1_semantic_validator_1a29291ecb798469d80e6cc62984060faf" kindref="member">validate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_deontic_extraction" kindref="compound">DeonticExtraction</ref>&amp;<sp/>extraction,</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_extraction_result" kindref="compound">LegalExtractionResult</ref><sp/><ref refid="classthemis_1_1ingestion_1_1_semantic_validator_1ae4fbeebfbd78f1654fe4697504038266" kindref="member">extractDocument</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>document_id,</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>full_text)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_semantic_validator_1a51ba0a45ea9f421d8274c5b8808ead6d" kindref="member">setQualityGates</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_quality_gates" kindref="compound">LegalQualityGates</ref>&amp;<sp/>gates);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_semantic_validator_1a122cfb57a45924bc8bbbae73c2e11d68" kindref="member">setValidatorFn</ref>(<ref refid="classthemis_1_1ingestion_1_1_semantic_validator_1acfd61d2e68863ff172ab73def2f65e9e" kindref="member">ValidatorFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_semantic_validator_1aaa93a7832279d805370d4ddccd6e9bec" kindref="member">setExtractor</ref>(<ref refid="classthemis_1_1ingestion_1_1_deontic_extractor" kindref="compound">DeonticExtractor</ref><sp/>extractor);</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_semantic_validation_result" kindref="compound">SemanticValidationResult</ref><sp/>validateBuiltin(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_deontic_extraction" kindref="compound">DeonticExtraction</ref>&amp;<sp/>extraction,</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>hasSection(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>hasTemporal(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>computeScore(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_deontic_extraction" kindref="compound">DeonticExtraction</ref>&amp;<sp/>extraction,</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_quality_gates" kindref="compound">LegalQualityGates</ref><sp/>gates_;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_semantic_validator_1acfd61d2e68863ff172ab73def2f65e9e" kindref="member">ValidatorFn</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>validator_fn_;<sp/><sp/></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_deontic_extractor" kindref="compound">DeonticExtractor</ref><sp/><sp/>extractor_;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="305"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ingestion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/ingestion/semantic_validator.h"/>
+  </compounddef>
+</doxygen>

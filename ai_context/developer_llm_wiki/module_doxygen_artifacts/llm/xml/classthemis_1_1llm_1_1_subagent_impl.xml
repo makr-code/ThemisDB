@@ -1,0 +1,943 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_subagent_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::SubagentImpl</compoundname>
+    <basecompoundref refid="classthemis_1_1llm_1_1_subagent" prot="public" virt="non-virtual">themis::llm::Subagent</basecompoundref>
+    <basecompoundref prot="public" virt="non-virtual">std::enable_shared_from_this&lt; SubagentImpl &gt;</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_subagent_impl_1a238b2f1cf6b741d5d6b1ed17cab58a57" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_subagent_config" kindref="compound">SubagentConfig</ref></type>
+        <definition>SubagentConfig themis::llm::SubagentImpl::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::SubagentImpl::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/subagent_factory_impl.cpp" line="518" column="20" bodyfile="src/llm/subagent_factory_impl.cpp" bodystart="518" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_subagent_impl_1a3466088b52be85548507e81371f830c6" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; ILLMPlugin &gt;</type>
+        <definition>std::shared_ptr&lt;ILLMPlugin&gt; themis::llm::SubagentImpl::plugin_</definition>
+        <argsstring></argsstring>
+        <name>plugin_</name>
+        <qualifiedname>themis::llm::SubagentImpl::plugin_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/subagent_factory_impl.cpp" line="519" column="21" bodyfile="src/llm/subagent_factory_impl.cpp" bodystart="519" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_subagent_impl_1a4f8b92d79c34ab84c3b9a6c65d2cfe14" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_async_inference_engine" kindref="compound">AsyncInferenceEngine</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;AsyncInferenceEngine&gt; themis::llm::SubagentImpl::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>themis::llm::SubagentImpl::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/subagent_factory_impl.cpp" line="520" column="21" bodyfile="src/llm/subagent_factory_impl.cpp" bodystart="520" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_subagent_impl_1a28a33733772cf7dcb8d3aba963d14b89" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_token_quota_manager" kindref="compound">TokenQuotaManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TokenQuotaManager&gt; themis::llm::SubagentImpl::quota_mgr_</definition>
+        <argsstring></argsstring>
+        <name>quota_mgr_</name>
+        <qualifiedname>themis::llm::SubagentImpl::quota_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/subagent_factory_impl.cpp" line="521" column="21" bodyfile="src/llm/subagent_factory_impl.cpp" bodystart="521" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_subagent_impl_1a28fa8284d7db6f63418bc6f1929dc90f" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_prompt_policy" kindref="compound">PromptPolicy</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PromptPolicy&gt; themis::llm::SubagentImpl::prompt_policy_</definition>
+        <argsstring></argsstring>
+        <name>prompt_policy_</name>
+        <qualifiedname>themis::llm::SubagentImpl::prompt_policy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/subagent_factory_impl.cpp" line="522" column="21" bodyfile="src/llm/subagent_factory_impl.cpp" bodystart="522" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_subagent_impl_1a18c4980b511af45d45e3fdfd3878fe3e" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::llm::SubagentImpl::state_mutex_</definition>
+        <argsstring></argsstring>
+        <name>state_mutex_</name>
+        <qualifiedname>themis::llm::SubagentImpl::state_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/subagent_factory_impl.cpp" line="524" column="31" bodyfile="src/llm/subagent_factory_impl.cpp" bodystart="524" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_subagent_impl_1a4e71971caa6b8ac077829092f38b19d2" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1a77b279c60b23d5c639a3fd487647dee9" kindref="member">SubagentState</ref></type>
+        <definition>SubagentState themis::llm::SubagentImpl::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>themis::llm::SubagentImpl::state_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/subagent_factory_impl.cpp" line="525" column="19" bodyfile="src/llm/subagent_factory_impl.cpp" bodystart="525" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_subagent_impl_1a06c219da5a6cfa841d98185c6c3e72c1" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::SubagentImpl::last_error_</definition>
+        <argsstring></argsstring>
+        <name>last_error_</name>
+        <qualifiedname>themis::llm::SubagentImpl::last_error_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/subagent_factory_impl.cpp" line="526" column="17" bodyfile="src/llm/subagent_factory_impl.cpp" bodystart="526" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_subagent_impl_1a9918b98db4b092fe4835a5c473948723" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_subagent_metrics" kindref="compound">SubagentMetrics</ref></type>
+        <definition>SubagentMetrics themis::llm::SubagentImpl::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::llm::SubagentImpl::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/subagent_factory_impl.cpp" line="527" column="21" bodyfile="src/llm/subagent_factory_impl.cpp" bodystart="527" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_subagent_impl_1a0767b2eb0caa94c0588b57e26e660139" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::SubagentImpl::inflight_mutex_</definition>
+        <argsstring></argsstring>
+        <name>inflight_mutex_</name>
+        <qualifiedname>themis::llm::SubagentImpl::inflight_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/subagent_factory_impl.cpp" line="528" column="16" bodyfile="src/llm/subagent_factory_impl.cpp" bodystart="528" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_subagent_impl_1a03af69b5ff78253f6676436a110c2206" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::llm::SubagentImpl::inflight_cv_</definition>
+        <argsstring></argsstring>
+        <name>inflight_cv_</name>
+        <qualifiedname>themis::llm::SubagentImpl::inflight_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/subagent_factory_impl.cpp" line="529" column="29" bodyfile="src/llm/subagent_factory_impl.cpp" bodystart="529" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_subagent_impl_1a809de54cfd1426495e41d57a4e4a2238" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::SubagentImpl::inflight_requests_</definition>
+        <argsstring></argsstring>
+        <name>inflight_requests_</name>
+        <qualifiedname>themis::llm::SubagentImpl::inflight_requests_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/subagent_factory_impl.cpp" line="530" column="12" bodyfile="src/llm/subagent_factory_impl.cpp" bodystart="530" bodyend="530"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_impl_1a504a39a6b9cde1adf7ce9f85b3db64bf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::SubagentImpl::SubagentImpl</definition>
+        <argsstring>(const SubagentConfig &amp;config, std::shared_ptr&lt; ILLMPlugin &gt; plugin, std::shared_ptr&lt; AsyncInferenceEngine &gt; engine, std::shared_ptr&lt; TokenQuotaManager &gt; quota_mgr, std::shared_ptr&lt; PromptPolicy &gt; prompt_policy)</argsstring>
+        <name>SubagentImpl</name>
+        <qualifiedname>themis::llm::SubagentImpl::SubagentImpl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_subagent_config" kindref="compound">SubagentConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; ILLMPlugin &gt;</type>
+          <declname>plugin</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_async_inference_engine" kindref="compound">AsyncInferenceEngine</ref> &gt;</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_token_quota_manager" kindref="compound">TokenQuotaManager</ref> &gt;</type>
+          <declname>quota_mgr</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_prompt_policy" kindref="compound">PromptPolicy</ref> &gt;</type>
+          <declname>prompt_policy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/subagent_factory_impl.cpp" line="35" column="5" bodyfile="src/llm/subagent_factory_impl.cpp" bodystart="35" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_impl_1a93735b7b0fac50961638cc7416085b3d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::SubagentImpl::~SubagentImpl</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~SubagentImpl</name>
+        <qualifiedname>themis::llm::SubagentImpl::~SubagentImpl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/subagent_factory_impl.cpp" line="52" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_impl_1a621d5a6435a7f03a32b7e753e06eba70" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::llm::SubagentImpl::id</definition>
+        <argsstring>() const override</argsstring>
+        <name>id</name>
+        <qualifiedname>themis::llm::SubagentImpl::id</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_subagent_1a2e433c646338db7fa5ae32d916f8a4a5">id</reimplements>
+        <briefdescription>
+<para>Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/subagent_factory_impl.cpp" line="58" column="23" bodyfile="src/llm/subagent_factory_impl.cpp" bodystart="58" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_impl_1aa858318c96f5b4edf6dfa72c54637af2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>const <ref refid="structthemis_1_1llm_1_1_subagent_config" kindref="compound">SubagentConfig</ref> &amp;</type>
+        <definition>const SubagentConfig &amp; themis::llm::SubagentImpl::config</definition>
+        <argsstring>() const override</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::llm::SubagentImpl::config</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_subagent_1af34ea1d14d9624e4b4d15858f6bf83ef">config</reimplements>
+        <briefdescription>
+<para>Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/subagent_factory_impl.cpp" line="62" column="26" bodyfile="src/llm/subagent_factory_impl.cpp" bodystart="62" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_impl_1a9904d4f7bc3a8d376679fecb1daaec92" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1llm_1a77b279c60b23d5c639a3fd487647dee9" kindref="member">SubagentState</ref></type>
+        <definition>SubagentState themis::llm::SubagentImpl::getState</definition>
+        <argsstring>() const override</argsstring>
+        <name>getState</name>
+        <qualifiedname>themis::llm::SubagentImpl::getState</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_subagent_1a2f834a65621adfd48cc7164f784936fd">getState</reimplements>
+        <briefdescription>
+<para>Get State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/llm/subagent_factory_impl.cpp" line="70" column="19" bodyfile="src/llm/subagent_factory_impl.cpp" bodystart="70" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_impl_1af11ab4342130468076b5eda7ad9d2b70" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1llm_1affb49433a33d1b60bbdf7f3a1d8d381d" kindref="member">SubagentResult</ref>&lt; void &gt;</type>
+        <definition>SubagentResult&lt; void &gt; themis::llm::SubagentImpl::load</definition>
+        <argsstring>(int timeout_ms) override</argsstring>
+        <name>load</name>
+        <qualifiedname>themis::llm::SubagentImpl::load</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_subagent_1ac0d2457b817ae268dc00a25316577715">load</reimplements>
+        <param>
+          <type>int</type>
+          <declname>timeout_ms</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/llm/subagent_factory_impl.cpp" line="80" column="20" bodyfile="src/llm/subagent_factory_impl.cpp" bodystart="80" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_impl_1ab4a04f215e280245731f6481f9d4a965" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1llm_1affb49433a33d1b60bbdf7f3a1d8d381d" kindref="member">SubagentResult</ref>&lt; void &gt;</type>
+        <definition>SubagentResult&lt; void &gt; themis::llm::SubagentImpl::warm</definition>
+        <argsstring>(int timeout_ms) override</argsstring>
+        <name>warm</name>
+        <qualifiedname>themis::llm::SubagentImpl::warm</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_subagent_1a239203f73e376911264437e3bf395918">warm</reimplements>
+        <param>
+          <type>int</type>
+          <declname>timeout_ms</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/llm/subagent_factory_impl.cpp" line="111" column="20" bodyfile="src/llm/subagent_factory_impl.cpp" bodystart="111" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_impl_1a877c1553cbe07757390340f2fce2bdc8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1llm_1affb49433a33d1b60bbdf7f3a1d8d381d" kindref="member">SubagentResult</ref>&lt; void &gt;</type>
+        <definition>SubagentResult&lt; void &gt; themis::llm::SubagentImpl::unload</definition>
+        <argsstring>(int timeout_ms) override</argsstring>
+        <name>unload</name>
+        <qualifiedname>themis::llm::SubagentImpl::unload</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_subagent_1ae9da5d6e0673dfb327f7c93f23e8a2bc">unload</reimplements>
+        <param>
+          <type>int</type>
+          <declname>timeout_ms</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Wait for in-flight requests to complete. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">inflight_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/llm/subagent_factory_impl.cpp" line="131" column="20" bodyfile="src/llm/subagent_factory_impl.cpp" bodystart="131" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_impl_1a80c3fa73d1c75ee9c5668f540e472e68" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_subagent_inference_result" kindref="compound">SubagentInferenceResult</ref></type>
+        <definition>SubagentInferenceResult themis::llm::SubagentImpl::infer</definition>
+        <argsstring>(const InferenceRequest &amp;request, const std::optional&lt; LLMCorrelationContext &gt; &amp;ctx) override</argsstring>
+        <name>infer</name>
+        <qualifiedname>themis::llm::SubagentImpl::infer</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_subagent_1a3eea30488306849d02e34532ee5a1fe4">infer</reimplements>
+        <param>
+          <type>const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="struct_l_l_m_correlation_context" kindref="compound">LLMCorrelationContext</ref> &gt; &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/llm/subagent_factory_impl.cpp" line="179" column="29" bodyfile="src/llm/subagent_factory_impl.cpp" bodystart="179" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_impl_1af280ea6cebbe67c8747bfc52f8541ff7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::future&lt; <ref refid="structthemis_1_1llm_1_1_subagent_inference_result" kindref="compound">SubagentInferenceResult</ref> &gt;</type>
+        <definition>std::future&lt; SubagentInferenceResult &gt; themis::llm::SubagentImpl::inferAsync</definition>
+        <argsstring>(const InferenceRequest &amp;request, const std::optional&lt; LLMCorrelationContext &gt; &amp;ctx) override</argsstring>
+        <name>inferAsync</name>
+        <qualifiedname>themis::llm::SubagentImpl::inferAsync</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_subagent_1a00b1f31bae8f6525cd3327f5b1a4dd90">inferAsync</reimplements>
+        <param>
+          <type>const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="struct_l_l_m_correlation_context" kindref="compound">LLMCorrelationContext</ref> &gt; &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/subagent_factory_impl.cpp" line="323" column="17" bodyfile="src/llm/subagent_factory_impl.cpp" bodystart="323" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_impl_1a536c1b39eaeaa7012040760935a67afc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_subagent_inference_result" kindref="compound">SubagentInferenceResult</ref></type>
+        <definition>SubagentInferenceResult themis::llm::SubagentImpl::inferStream</definition>
+        <argsstring>(const InferenceRequest &amp;request, std::function&lt; void(const std::string &amp;)&gt; on_token, const std::optional&lt; LLMCorrelationContext &gt; &amp;ctx) override</argsstring>
+        <name>inferStream</name>
+        <qualifiedname>themis::llm::SubagentImpl::inferStream</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_subagent_1aa0f540ce9abe4a386f16bdd237728d7d">inferStream</reimplements>
+        <param>
+          <type>const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>std::function&lt; void(const std::string &amp;)&gt;</type>
+          <declname>on_token</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="struct_l_l_m_correlation_context" kindref="compound">LLMCorrelationContext</ref> &gt; &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/subagent_factory_impl.cpp" line="397" column="29" bodyfile="src/llm/subagent_factory_impl.cpp" bodystart="397" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_impl_1a71a836b84fb5a570c6b5f23b48321248" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_subagent_inference_result" kindref="compound">SubagentInferenceResult</ref> &gt;</type>
+        <definition>std::vector&lt; SubagentInferenceResult &gt; themis::llm::SubagentImpl::inferBatch</definition>
+        <argsstring>(const std::vector&lt; InferenceRequest &gt; &amp;requests, const std::optional&lt; LLMCorrelationContext &gt; &amp;ctx) override</argsstring>
+        <name>inferBatch</name>
+        <qualifiedname>themis::llm::SubagentImpl::inferBatch</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_subagent_1a162ef72ce31446989061cae1c4aeb1d7">inferBatch</reimplements>
+        <param>
+          <type>const std::vector&lt; <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &gt; &amp;</type>
+          <declname>requests</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="struct_l_l_m_correlation_context" kindref="compound">LLMCorrelationContext</ref> &gt; &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/subagent_factory_impl.cpp" line="409" column="17" bodyfile="src/llm/subagent_factory_impl.cpp" bodystart="409" bodyend="418"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_impl_1ae64f328f314f6c0c5801533813fae632" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_subagent_metrics" kindref="compound">SubagentMetrics</ref></type>
+        <definition>SubagentMetrics themis::llm::SubagentImpl::getMetrics</definition>
+        <argsstring>() const override</argsstring>
+        <name>getMetrics</name>
+        <qualifiedname>themis::llm::SubagentImpl::getMetrics</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_subagent_1ae147c31dc1b2af3c2f6297520f6c13df">getMetrics</reimplements>
+        <briefdescription>
+<para>Get Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/llm/subagent_factory_impl.cpp" line="424" column="21" bodyfile="src/llm/subagent_factory_impl.cpp" bodystart="424" bodyend="432"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_impl_1a57f137e2386097224da7a59d03a9a96e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::llm::SubagentImpl::resetMetrics</definition>
+        <argsstring>() override</argsstring>
+        <name>resetMetrics</name>
+        <qualifiedname>themis::llm::SubagentImpl::resetMetrics</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_subagent_1a4276f04f18c192925d90bc65f667b7d0">resetMetrics</reimplements>
+        <briefdescription>
+<para>Reset Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/llm/subagent_factory_impl.cpp" line="434" column="10" bodyfile="src/llm/subagent_factory_impl.cpp" bodystart="434" bodyend="444"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_impl_1a5a65659cb0a1651aa65b6095d8fcf147" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::SubagentImpl::getLastError</definition>
+        <argsstring>() const override</argsstring>
+        <name>getLastError</name>
+        <qualifiedname>themis::llm::SubagentImpl::getLastError</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_subagent_1a7d1560902108432e8013d70e122987b6">getLastError</reimplements>
+        <briefdescription>
+<para>Get Last Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/llm/subagent_factory_impl.cpp" line="446" column="17" bodyfile="src/llm/subagent_factory_impl.cpp" bodystart="446" bodyend="454"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_impl_1a8af64482215284f0779c9d7cd1883eaf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::SubagentImpl::isReady</definition>
+        <argsstring>() const override</argsstring>
+        <name>isReady</name>
+        <qualifiedname>themis::llm::SubagentImpl::isReady</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_subagent_1a35253514c92e4e6d6a2619ab470c23ea">isReady</reimplements>
+        <briefdescription>
+<para>Is Ready. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/llm/subagent_factory_impl.cpp" line="460" column="10" bodyfile="src/llm/subagent_factory_impl.cpp" bodystart="460" bodyend="468"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_impl_1ad2eecd5cbed97a85f97e916470c13ead" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1llm_1affb49433a33d1b60bbdf7f3a1d8d381d" kindref="member">SubagentResult</ref>&lt; void &gt;</type>
+        <definition>SubagentResult&lt; void &gt; themis::llm::SubagentImpl::pause</definition>
+        <argsstring>() override</argsstring>
+        <name>pause</name>
+        <qualifiedname>themis::llm::SubagentImpl::pause</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_subagent_1a7ed540bf43a5eb66affc26ce6bbe9754">pause</reimplements>
+        <briefdescription>
+<para>Pause. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/llm/subagent_factory_impl.cpp" line="470" column="20" bodyfile="src/llm/subagent_factory_impl.cpp" bodystart="470" bodyend="482"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_impl_1adfa4f5702e61b6900bcd90a673d95b77" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1llm_1affb49433a33d1b60bbdf7f3a1d8d381d" kindref="member">SubagentResult</ref>&lt; void &gt;</type>
+        <definition>SubagentResult&lt; void &gt; themis::llm::SubagentImpl::resume</definition>
+        <argsstring>() override</argsstring>
+        <name>resume</name>
+        <qualifiedname>themis::llm::SubagentImpl::resume</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_subagent_1a9072e117190627aa324480e7f7ae16a1">resume</reimplements>
+        <briefdescription>
+<para>Resume. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/llm/subagent_factory_impl.cpp" line="484" column="20" bodyfile="src/llm/subagent_factory_impl.cpp" bodystart="484" bodyend="496"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_impl_1ad9af327d7e92e1f52ba44c0496b024eb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_quota_check_result" kindref="compound">QuotaCheckResult</ref></type>
+        <definition>QuotaCheckResult themis::llm::SubagentImpl::checkQuota</definition>
+        <argsstring>(size_t estimated_tokens) const override</argsstring>
+        <name>checkQuota</name>
+        <qualifiedname>themis::llm::SubagentImpl::checkQuota</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_subagent_1abf40939571ce57f7de6826b26ad57416">checkQuota</reimplements>
+        <param>
+          <type>size_t</type>
+          <declname>estimated_tokens</declname>
+        </param>
+        <briefdescription>
+<para>Check Quota. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">estimated_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/subagent_factory_impl.cpp" line="498" column="22" bodyfile="src/llm/subagent_factory_impl.cpp" bodystart="498" bodyend="503"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_impl_1adcd7ba934f09e2384fc1191bd965e386" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_quota_check_result" kindref="compound">QuotaCheckResult</ref></type>
+        <definition>QuotaCheckResult themis::llm::SubagentImpl::consumeQuota</definition>
+        <argsstring>(size_t tokens) override</argsstring>
+        <name>consumeQuota</name>
+        <qualifiedname>themis::llm::SubagentImpl::consumeQuota</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_subagent_1afab18109aa952ab2c1438cad641a21ad">consumeQuota</reimplements>
+        <param>
+          <type>size_t</type>
+          <declname>tokens</declname>
+        </param>
+        <briefdescription>
+<para>Consume Quota. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/subagent_factory_impl.cpp" line="505" column="22" bodyfile="src/llm/subagent_factory_impl.cpp" bodystart="505" bodyend="511"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_impl_1abdb723538842e05858661ff57fa48324" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::llm::SubagentImpl::resetQuota</definition>
+        <argsstring>() override</argsstring>
+        <name>resetQuota</name>
+        <qualifiedname>themis::llm::SubagentImpl::resetQuota</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_subagent_1a4a832919032fa7fcd11a72a5240782ea">resetQuota</reimplements>
+        <briefdescription>
+<para>Reset Quota. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/subagent_factory_impl.cpp" line="513" column="10" bodyfile="src/llm/subagent_factory_impl.cpp" bodystart="513" bodyend="515"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_impl_1aa7d9f64216ee5f176d86bdbe3f44ac4f" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::SubagentImpl::beginInference</definition>
+        <argsstring>(std::string *error)</argsstring>
+        <name>beginInference</name>
+        <qualifiedname>themis::llm::SubagentImpl::beginInference</qualifiedname>
+        <param>
+          <type>std::string *</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+<para>Begin Inference. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), endInference(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/subagent_factory_impl.cpp" line="354" column="10" bodyfile="src/llm/subagent_factory_impl.cpp" bodystart="354" bodyend="379"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_impl_1a26515ebc55b099101befd77db34ada36" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::SubagentImpl::endInference</definition>
+        <argsstring>()</argsstring>
+        <name>endInference</name>
+        <qualifiedname>themis::llm::SubagentImpl::endInference</qualifiedname>
+        <briefdescription>
+<para>End Inference. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), notify_all(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/subagent_factory_impl.cpp" line="385" column="10" bodyfile="src/llm/subagent_factory_impl.cpp" bodystart="385" bodyend="393"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>std::enable_shared_from_this&lt; SubagentImpl &gt;</label>
+      </node>
+      <node id="2">
+        <label>themis::llm::Subagent</label>
+        <link refid="classthemis_1_1llm_1_1_subagent"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::SubagentImpl</label>
+        <link refid="classthemis_1_1llm_1_1_subagent_impl"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>std::enable_shared_from_this&lt; SubagentImpl &gt;</label>
+      </node>
+      <node id="2">
+        <label>themis::llm::Subagent</label>
+        <link refid="classthemis_1_1llm_1_1_subagent"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::SubagentImpl</label>
+        <link refid="classthemis_1_1llm_1_1_subagent_impl"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/llm/subagent_factory_impl.cpp" line="33" column="1" bodyfile="src/llm/subagent_factory_impl.cpp" bodystart="33" bodyend="531"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_subagent_impl_1aa7d9f64216ee5f176d86bdbe3f44ac4f" prot="private" virt="non-virtual"><scope>themis::llm::SubagentImpl</scope><name>beginInference</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_impl_1ad9af327d7e92e1f52ba44c0496b024eb" prot="public" virt="virtual"><scope>themis::llm::SubagentImpl</scope><name>checkQuota</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_impl_1aa858318c96f5b4edf6dfa72c54637af2" prot="public" virt="virtual"><scope>themis::llm::SubagentImpl</scope><name>config</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_impl_1a238b2f1cf6b741d5d6b1ed17cab58a57" prot="private" virt="non-virtual"><scope>themis::llm::SubagentImpl</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_impl_1adcd7ba934f09e2384fc1191bd965e386" prot="public" virt="virtual"><scope>themis::llm::SubagentImpl</scope><name>consumeQuota</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_impl_1a26515ebc55b099101befd77db34ada36" prot="private" virt="non-virtual"><scope>themis::llm::SubagentImpl</scope><name>endInference</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_impl_1a4f8b92d79c34ab84c3b9a6c65d2cfe14" prot="private" virt="non-virtual"><scope>themis::llm::SubagentImpl</scope><name>engine_</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_impl_1a5a65659cb0a1651aa65b6095d8fcf147" prot="public" virt="virtual"><scope>themis::llm::SubagentImpl</scope><name>getLastError</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_impl_1ae64f328f314f6c0c5801533813fae632" prot="public" virt="virtual"><scope>themis::llm::SubagentImpl</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_impl_1a9904d4f7bc3a8d376679fecb1daaec92" prot="public" virt="virtual"><scope>themis::llm::SubagentImpl</scope><name>getState</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_impl_1a621d5a6435a7f03a32b7e753e06eba70" prot="public" virt="virtual"><scope>themis::llm::SubagentImpl</scope><name>id</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_impl_1a80c3fa73d1c75ee9c5668f540e472e68" prot="public" virt="virtual"><scope>themis::llm::SubagentImpl</scope><name>infer</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_impl_1af280ea6cebbe67c8747bfc52f8541ff7" prot="public" virt="virtual"><scope>themis::llm::SubagentImpl</scope><name>inferAsync</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_impl_1a71a836b84fb5a570c6b5f23b48321248" prot="public" virt="virtual"><scope>themis::llm::SubagentImpl</scope><name>inferBatch</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_impl_1a536c1b39eaeaa7012040760935a67afc" prot="public" virt="virtual"><scope>themis::llm::SubagentImpl</scope><name>inferStream</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_impl_1a03af69b5ff78253f6676436a110c2206" prot="private" virt="non-virtual"><scope>themis::llm::SubagentImpl</scope><name>inflight_cv_</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_impl_1a0767b2eb0caa94c0588b57e26e660139" prot="private" virt="non-virtual"><scope>themis::llm::SubagentImpl</scope><name>inflight_mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_impl_1a809de54cfd1426495e41d57a4e4a2238" prot="private" virt="non-virtual"><scope>themis::llm::SubagentImpl</scope><name>inflight_requests_</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_impl_1a8af64482215284f0779c9d7cd1883eaf" prot="public" virt="virtual"><scope>themis::llm::SubagentImpl</scope><name>isReady</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_impl_1a06c219da5a6cfa841d98185c6c3e72c1" prot="private" virt="non-virtual"><scope>themis::llm::SubagentImpl</scope><name>last_error_</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_impl_1af11ab4342130468076b5eda7ad9d2b70" prot="public" virt="virtual"><scope>themis::llm::SubagentImpl</scope><name>load</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_impl_1a9918b98db4b092fe4835a5c473948723" prot="private" virt="non-virtual"><scope>themis::llm::SubagentImpl</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_impl_1ad2eecd5cbed97a85f97e916470c13ead" prot="public" virt="virtual"><scope>themis::llm::SubagentImpl</scope><name>pause</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_impl_1a3466088b52be85548507e81371f830c6" prot="private" virt="non-virtual"><scope>themis::llm::SubagentImpl</scope><name>plugin_</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_impl_1a28fa8284d7db6f63418bc6f1929dc90f" prot="private" virt="non-virtual"><scope>themis::llm::SubagentImpl</scope><name>prompt_policy_</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_impl_1a28a33733772cf7dcb8d3aba963d14b89" prot="private" virt="non-virtual"><scope>themis::llm::SubagentImpl</scope><name>quota_mgr_</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_impl_1a57f137e2386097224da7a59d03a9a96e" prot="public" virt="virtual"><scope>themis::llm::SubagentImpl</scope><name>resetMetrics</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_impl_1abdb723538842e05858661ff57fa48324" prot="public" virt="virtual"><scope>themis::llm::SubagentImpl</scope><name>resetQuota</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_impl_1adfa4f5702e61b6900bcd90a673d95b77" prot="public" virt="virtual"><scope>themis::llm::SubagentImpl</scope><name>resume</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_impl_1a4e71971caa6b8ac077829092f38b19d2" prot="private" virt="non-virtual"><scope>themis::llm::SubagentImpl</scope><name>state_</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_impl_1a18c4980b511af45d45e3fdfd3878fe3e" prot="private" virt="non-virtual"><scope>themis::llm::SubagentImpl</scope><name>state_mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_impl_1a504a39a6b9cde1adf7ce9f85b3db64bf" prot="public" virt="non-virtual"><scope>themis::llm::SubagentImpl</scope><name>SubagentImpl</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_impl_1a877c1553cbe07757390340f2fce2bdc8" prot="public" virt="virtual"><scope>themis::llm::SubagentImpl</scope><name>unload</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_impl_1ab4a04f215e280245731f6481f9d4a965" prot="public" virt="virtual"><scope>themis::llm::SubagentImpl</scope><name>warm</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_1a2ebec8fa53552f525df81a28ef922bfe" prot="public" virt="virtual"><scope>themis::llm::SubagentImpl</scope><name>~Subagent</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_impl_1a93735b7b0fac50961638cc7416085b3d" prot="public" virt="non-virtual"><scope>themis::llm::SubagentImpl</scope><name>~SubagentImpl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_request_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::rpc::RPCRequestContext</compoundname>
+    <includes refid="rpc__plugin__interface_8h" local="no">rpc_plugin_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_request_context_1af042478a3bc1c39d944b996b867bc69e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::rpc::RPCRequestContext::client_address</definition>
+        <argsstring></argsstring>
+        <name>client_address</name>
+        <qualifiedname>themis::plugins::rpc::RPCRequestContext::client_address</qualifiedname>
+        <briefdescription>
+<para>Client IP address. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="318" column="17" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="318" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_request_context_1aa59b54f157f4a2677009d8e8a86dfdbd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::rpc::RPCRequestContext::username</definition>
+        <argsstring></argsstring>
+        <name>username</name>
+        <qualifiedname>themis::plugins::rpc::RPCRequestContext::username</qualifiedname>
+        <briefdescription>
+<para>Authenticated username. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="319" column="17" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="319" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_request_context_1a86b69b619e97d9309fe47986b186dbac" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::rpc::RPCRequestContext::namespace_name</definition>
+        <argsstring></argsstring>
+        <name>namespace_name</name>
+        <qualifiedname>themis::plugins::rpc::RPCRequestContext::namespace_name</qualifiedname>
+        <briefdescription>
+<para>Namespace. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="320" column="17" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="320" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_request_context_1a980c269a8c6e1a4615a330d206cbc2ac" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::plugins::rpc::RPCRequestContext::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::plugins::rpc::RPCRequestContext::metadata</qualifiedname>
+        <briefdescription>
+<para>Request metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="321" column="14" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="321" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_request_context_1a80fa2e4abdf564db9e481953fc5373ca" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::plugins::rpc::RPCRequestContext::request_id</definition>
+        <argsstring></argsstring>
+        <name>request_id</name>
+        <qualifiedname>themis::plugins::rpc::RPCRequestContext::request_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Unique request ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="322" column="14" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="322" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_request_context_1ad6c426d76a66d0f094e432a819270876" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::plugins::rpc::RPCRequestContext::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::plugins::rpc::RPCRequestContext::timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Request timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="323" column="14" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="323" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RPC Request Context. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Contains metadata about the current RPC request. Used for authentication, authorization, and logging. </para>
+    </detaileddescription>
+    <location file="include/plugins/rpc_plugin_interface.h" line="317" column="1" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="317" bodyend="324"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_request_context_1af042478a3bc1c39d944b996b867bc69e" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCRequestContext</scope><name>client_address</name></member>
+      <member refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_request_context_1a980c269a8c6e1a4615a330d206cbc2ac" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCRequestContext</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_request_context_1a86b69b619e97d9309fe47986b186dbac" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCRequestContext</scope><name>namespace_name</name></member>
+      <member refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_request_context_1a80fa2e4abdf564db9e481953fc5373ca" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCRequestContext</scope><name>request_id</name></member>
+      <member refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_request_context_1ad6c426d76a66d0f094e432a819270876" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCRequestContext</scope><name>timestamp_ms</name></member>
+      <member refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_request_context_1aa59b54f157f4a2677009d8e8a86dfdbd" prot="public" virt="non-virtual"><scope>themis::plugins::rpc::RPCRequestContext</scope><name>username</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

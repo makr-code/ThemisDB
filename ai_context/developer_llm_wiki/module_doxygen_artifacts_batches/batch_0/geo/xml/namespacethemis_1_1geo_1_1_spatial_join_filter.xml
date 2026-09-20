@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1geo_1_1_spatial_join_filter" kind="namespace" language="C++">
+    <compoundname>themis::geo::SpatialJoinFilter</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1_spatial_join_filter_1a119a42d309fb2d265ec65913db837805" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1geo_1_1_i_spatial_join_filter" kindref="compound">ISpatialJoinFilter</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ISpatialJoinFilter &gt; themis::geo::SpatialJoinFilter::intersects</definition>
+        <argsstring>()</argsstring>
+        <name>intersects</name>
+        <qualifiedname>themis::geo::SpatialJoinFilter::intersects</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/spatial_join_filter.h" line="143" column="25" bodyfile="include/geo/spatial_join_filter.h" bodystart="143" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1_spatial_join_filter_1a635a4c0e39bf8247466f957db95f872b" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1geo_1_1_i_spatial_join_filter" kindref="compound">ISpatialJoinFilter</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ISpatialJoinFilter &gt; themis::geo::SpatialJoinFilter::contains</definition>
+        <argsstring>()</argsstring>
+        <name>contains</name>
+        <qualifiedname>themis::geo::SpatialJoinFilter::contains</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/spatial_join_filter.h" line="147" column="25" bodyfile="include/geo/spatial_join_filter.h" bodystart="147" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1_spatial_join_filter_1a55a69b5bb41b96b9d0b0c3def425d63f" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1geo_1_1_i_spatial_join_filter" kindref="compound">ISpatialJoinFilter</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ISpatialJoinFilter &gt; themis::geo::SpatialJoinFilter::within</definition>
+        <argsstring>()</argsstring>
+        <name>within</name>
+        <qualifiedname>themis::geo::SpatialJoinFilter::within</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/spatial_join_filter.h" line="151" column="25" bodyfile="include/geo/spatial_join_filter.h" bodystart="151" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1_spatial_join_filter_1a287071235d89fb424c2584f9930703cd" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1geo_1_1_i_spatial_join_filter" kindref="compound">ISpatialJoinFilter</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ISpatialJoinFilter &gt; themis::geo::SpatialJoinFilter::touches</definition>
+        <argsstring>()</argsstring>
+        <name>touches</name>
+        <qualifiedname>themis::geo::SpatialJoinFilter::touches</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/spatial_join_filter.h" line="155" column="25" bodyfile="include/geo/spatial_join_filter.h" bodystart="155" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1_spatial_join_filter_1a3d57f78b9e79c5d6235d757655bb49db" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1geo_1_1_i_spatial_join_filter" kindref="compound">ISpatialJoinFilter</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ISpatialJoinFilter &gt; themis::geo::SpatialJoinFilter::dWithin</definition>
+        <argsstring>(double radius_m)</argsstring>
+        <name>dWithin</name>
+        <qualifiedname>themis::geo::SpatialJoinFilter::dWithin</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>radius_m</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/spatial_join_filter.h" line="159" column="25" bodyfile="include/geo/spatial_join_filter.h" bodystart="159" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1_spatial_join_filter_1a09f0664904cec43b7399e8f24d8954d7" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1geo_1_1_i_spatial_join_filter" kindref="compound">ISpatialJoinFilter</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ISpatialJoinFilter &gt; themis::geo::SpatialJoinFilter::and_</definition>
+        <argsstring>(std::shared_ptr&lt; ISpatialJoinFilter &gt; a, std::shared_ptr&lt; ISpatialJoinFilter &gt; b)</argsstring>
+        <name>and_</name>
+        <qualifiedname>themis::geo::SpatialJoinFilter::and_</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1geo_1_1_i_spatial_join_filter" kindref="compound">ISpatialJoinFilter</ref> &gt;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1geo_1_1_i_spatial_join_filter" kindref="compound">ISpatialJoinFilter</ref> &gt;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/spatial_join_filter.h" line="163" column="25" bodyfile="include/geo/spatial_join_filter.h" bodystart="163" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1_spatial_join_filter_1a7f27e110afaf214e40f787b07549962a" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1geo_1_1_i_spatial_join_filter" kindref="compound">ISpatialJoinFilter</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ISpatialJoinFilter &gt; themis::geo::SpatialJoinFilter::or_</definition>
+        <argsstring>(std::shared_ptr&lt; ISpatialJoinFilter &gt; a, std::shared_ptr&lt; ISpatialJoinFilter &gt; b)</argsstring>
+        <name>or_</name>
+        <qualifiedname>themis::geo::SpatialJoinFilter::or_</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1geo_1_1_i_spatial_join_filter" kindref="compound">ISpatialJoinFilter</ref> &gt;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1geo_1_1_i_spatial_join_filter" kindref="compound">ISpatialJoinFilter</ref> &gt;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/spatial_join_filter.h" line="169" column="25" bodyfile="include/geo/spatial_join_filter.h" bodystart="169" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1geo_1_1_spatial_join_filter_1aeaa7a0004e342c542fae47ccfec32e32" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1geo_1_1_i_spatial_join_filter" kindref="compound">ISpatialJoinFilter</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ISpatialJoinFilter &gt; themis::geo::SpatialJoinFilter::not_</definition>
+        <argsstring>(std::shared_ptr&lt; ISpatialJoinFilter &gt; f)</argsstring>
+        <name>not_</name>
+        <qualifiedname>themis::geo::SpatialJoinFilter::not_</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1geo_1_1_i_spatial_join_filter" kindref="compound">ISpatialJoinFilter</ref> &gt;</type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/spatial_join_filter.h" line="175" column="25" bodyfile="include/geo/spatial_join_filter.h" bodystart="175" bodyend="178"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/geo/spatial_join_filter.h" line="141" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,314 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1exporters_1_1_hugging_face_exporter_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::exporters::HuggingFaceExporterConfig</compoundname>
+    <includes refid="huggingface__exporter_8h" local="no">huggingface_exporter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a68ae35322b0fcd80095543f029f66996" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::HuggingFaceExporterConfig::dataset_name</definition>
+        <argsstring></argsstring>
+        <name>dataset_name</name>
+        <qualifiedname>themis::exporters::HuggingFaceExporterConfig::dataset_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_exporter.h" line="33" column="17" bodyfile="include/exporters/huggingface_exporter.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a1484dad01d6c217579ea5c18972ea372" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::HuggingFaceExporterConfig::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::exporters::HuggingFaceExporterConfig::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_exporter.h" line="34" column="17" bodyfile="include/exporters/huggingface_exporter.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a61406464de23f6e191e1dd14a3929674" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::HuggingFaceExporterConfig::license</definition>
+        <argsstring></argsstring>
+        <name>license</name>
+        <qualifiedname>themis::exporters::HuggingFaceExporterConfig::license</qualifiedname>
+        <initializer>= &quot;other&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_exporter.h" line="35" column="17" bodyfile="include/exporters/huggingface_exporter.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a5ad19caf017516d188e38b8b942ec4d8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::HuggingFaceExporterConfig::homepage</definition>
+        <argsstring></argsstring>
+        <name>homepage</name>
+        <qualifiedname>themis::exporters::HuggingFaceExporterConfig::homepage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_exporter.h" line="36" column="17" bodyfile="include/exporters/huggingface_exporter.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a56c98a5ea4b239964036809017c5be28" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::HuggingFaceExporterConfig::citation</definition>
+        <argsstring></argsstring>
+        <name>citation</name>
+        <qualifiedname>themis::exporters::HuggingFaceExporterConfig::citation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_exporter.h" line="37" column="17" bodyfile="include/exporters/huggingface_exporter.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1abca1d0a367f8c8aa559067ce6b7bd410" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::HuggingFaceExporterConfig::split_name</definition>
+        <argsstring></argsstring>
+        <name>split_name</name>
+        <qualifiedname>themis::exporters::HuggingFaceExporterConfig::split_name</qualifiedname>
+        <initializer>= &quot;train&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_exporter.h" line="40" column="17" bodyfile="include/exporters/huggingface_exporter.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a6e43be30a632660e64a1252cd713dd49" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1exporters_1_1_hugging_face_feature" kindref="compound">HuggingFaceFeature</ref> &gt;</type>
+        <definition>std::vector&lt;HuggingFaceFeature&gt; themis::exporters::HuggingFaceExporterConfig::features</definition>
+        <argsstring></argsstring>
+        <name>features</name>
+        <qualifiedname>themis::exporters::HuggingFaceExporterConfig::features</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_exporter.h" line="44" column="17" bodyfile="include/exporters/huggingface_exporter.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1aa9c2ad1ee461a4a6436d84d413e337c1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::exporters::HuggingFaceExporterConfig::infer_features</definition>
+        <argsstring></argsstring>
+        <name>infer_features</name>
+        <qualifiedname>themis::exporters::HuggingFaceExporterConfig::infer_features</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_exporter.h" line="45" column="10" bodyfile="include/exporters/huggingface_exporter.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a97cfc8288441262227053695726d46c6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::exporters::HuggingFaceExporterConfig::generate_dataset_card</definition>
+        <argsstring></argsstring>
+        <name>generate_dataset_card</name>
+        <qualifiedname>themis::exporters::HuggingFaceExporterConfig::generate_dataset_card</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_exporter.h" line="48" column="10" bodyfile="include/exporters/huggingface_exporter.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a1653107cccfabd6aab5b356a1511e2f5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::HuggingFaceExporterConfig::dataset_card_template</definition>
+        <argsstring></argsstring>
+        <name>dataset_card_template</name>
+        <qualifiedname>themis::exporters::HuggingFaceExporterConfig::dataset_card_template</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_exporter.h" line="49" column="17" bodyfile="include/exporters/huggingface_exporter.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a23dcb55f3bb914dff0ed316ab7e9e3d3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::exporters::HuggingFaceExporterConfig::tags</definition>
+        <argsstring></argsstring>
+        <name>tags</name>
+        <qualifiedname>themis::exporters::HuggingFaceExporterConfig::tags</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_exporter.h" line="52" column="17" bodyfile="include/exporters/huggingface_exporter.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a401c8aee3fa09b05a248e50b2f9d3e5b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::HuggingFaceExporterConfig::language</definition>
+        <argsstring></argsstring>
+        <name>language</name>
+        <qualifiedname>themis::exporters::HuggingFaceExporterConfig::language</qualifiedname>
+        <initializer>= &quot;en&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_exporter.h" line="53" column="17" bodyfile="include/exporters/huggingface_exporter.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1ae52c4a10590039dc254b5ea51d7a82e1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::HuggingFaceExporterConfig::task_category</definition>
+        <argsstring></argsstring>
+        <name>task_category</name>
+        <qualifiedname>themis::exporters::HuggingFaceExporterConfig::task_category</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_exporter.h" line="54" column="17" bodyfile="include/exporters/huggingface_exporter.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1ac7ef2b31cb01dc43efecf2c8d94cb289" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config" kindref="compound">JSONLLLMConfig</ref></type>
+        <definition>JSONLLLMConfig themis::exporters::HuggingFaceExporterConfig::jsonl_config</definition>
+        <argsstring></argsstring>
+        <name>jsonl_config</name>
+        <qualifiedname>themis::exporters::HuggingFaceExporterConfig::jsonl_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_exporter.h" line="57" column="20" bodyfile="include/exporters/huggingface_exporter.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="12">
+        <label>themis::exporters::FormatTemplateFieldMapping</label>
+        <link refid="structthemis_1_1exporters_1_1_format_template_field_mapping"/>
+      </node>
+      <node id="1">
+        <label>themis::exporters::HuggingFaceExporterConfig</label>
+        <link refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>jsonl_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::exporters::JSONLLLMConfig</label>
+        <link refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>field_mapping</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>weighting</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>quality</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>structured_gen</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>adapter_metadata</edgelabel>
+        </childnode>
+        <childnode refid="10" relation="usage">
+          <edgelabel>quality_metrics</edgelabel>
+        </childnode>
+        <childnode refid="11" relation="usage">
+          <edgelabel>pii_config</edgelabel>
+        </childnode>
+        <childnode refid="12" relation="usage">
+          <edgelabel>template_field_mapping</edgelabel>
+        </childnode>
+      </node>
+      <node id="7">
+        <label>themis::exporters::JSONLLLMConfig::AdapterMetadata</label>
+        <link refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_adapter_metadata"/>
+        <childnode refid="8" relation="usage">
+          <edgelabel>vllm_config</edgelabel>
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>training_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="9">
+        <label>themis::exporters::JSONLLLMConfig::AdapterMetadata::TrainingConfig</label>
+        <link refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_adapter_metadata_1_1_training_config"/>
+      </node>
+      <node id="8">
+        <label>themis::exporters::JSONLLLMConfig::AdapterMetadata::VLLMConfig</label>
+        <link refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_adapter_metadata_1_1_v_l_l_m_config"/>
+      </node>
+      <node id="3">
+        <label>themis::exporters::JSONLLLMConfig::FieldMapping</label>
+        <link refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_field_mapping"/>
+      </node>
+      <node id="11">
+        <label>themis::exporters::JSONLLLMConfig::PIIConfig</label>
+        <link refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_p_i_i_config"/>
+      </node>
+      <node id="5">
+        <label>themis::exporters::JSONLLLMConfig::QualityFilter</label>
+        <link refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_quality_filter"/>
+      </node>
+      <node id="10">
+        <label>themis::exporters::JSONLLLMConfig::QualityMetrics</label>
+        <link refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_quality_metrics"/>
+      </node>
+      <node id="6">
+        <label>themis::exporters::JSONLLLMConfig::StructuredGeneration</label>
+        <link refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_structured_generation"/>
+      </node>
+      <node id="4">
+        <label>themis::exporters::JSONLLLMConfig::WeightConfig</label>
+        <link refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_weight_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/exporters/huggingface_exporter.h" line="31" column="1" bodyfile="include/exporters/huggingface_exporter.h" bodystart="31" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a56c98a5ea4b239964036809017c5be28" prot="public" virt="non-virtual"><scope>themis::exporters::HuggingFaceExporterConfig</scope><name>citation</name></member>
+      <member refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a1653107cccfabd6aab5b356a1511e2f5" prot="public" virt="non-virtual"><scope>themis::exporters::HuggingFaceExporterConfig</scope><name>dataset_card_template</name></member>
+      <member refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a68ae35322b0fcd80095543f029f66996" prot="public" virt="non-virtual"><scope>themis::exporters::HuggingFaceExporterConfig</scope><name>dataset_name</name></member>
+      <member refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a1484dad01d6c217579ea5c18972ea372" prot="public" virt="non-virtual"><scope>themis::exporters::HuggingFaceExporterConfig</scope><name>description</name></member>
+      <member refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a6e43be30a632660e64a1252cd713dd49" prot="public" virt="non-virtual"><scope>themis::exporters::HuggingFaceExporterConfig</scope><name>features</name></member>
+      <member refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a97cfc8288441262227053695726d46c6" prot="public" virt="non-virtual"><scope>themis::exporters::HuggingFaceExporterConfig</scope><name>generate_dataset_card</name></member>
+      <member refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a5ad19caf017516d188e38b8b942ec4d8" prot="public" virt="non-virtual"><scope>themis::exporters::HuggingFaceExporterConfig</scope><name>homepage</name></member>
+      <member refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1aa9c2ad1ee461a4a6436d84d413e337c1" prot="public" virt="non-virtual"><scope>themis::exporters::HuggingFaceExporterConfig</scope><name>infer_features</name></member>
+      <member refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1ac7ef2b31cb01dc43efecf2c8d94cb289" prot="public" virt="non-virtual"><scope>themis::exporters::HuggingFaceExporterConfig</scope><name>jsonl_config</name></member>
+      <member refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a401c8aee3fa09b05a248e50b2f9d3e5b" prot="public" virt="non-virtual"><scope>themis::exporters::HuggingFaceExporterConfig</scope><name>language</name></member>
+      <member refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a61406464de23f6e191e1dd14a3929674" prot="public" virt="non-virtual"><scope>themis::exporters::HuggingFaceExporterConfig</scope><name>license</name></member>
+      <member refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1abca1d0a367f8c8aa559067ce6b7bd410" prot="public" virt="non-virtual"><scope>themis::exporters::HuggingFaceExporterConfig</scope><name>split_name</name></member>
+      <member refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a23dcb55f3bb914dff0ed316ab7e9e3d3" prot="public" virt="non-virtual"><scope>themis::exporters::HuggingFaceExporterConfig</scope><name>tags</name></member>
+      <member refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1ae52c4a10590039dc254b5ea51d7a82e1" prot="public" virt="non-virtual"><scope>themis::exporters::HuggingFaceExporterConfig</scope><name>task_category</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

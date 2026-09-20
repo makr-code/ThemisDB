@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_compute_graph_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::ComputeGraphConfig</compoundname>
+    <includes refid="compute__graph_8h" local="no">compute_graph.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_compute_graph_config_1ab3ed5908c2472b2a25e885e93db25327" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::ComputeGraphConfig::graph_id</definition>
+        <argsstring></argsstring>
+        <name>graph_id</name>
+        <qualifiedname>themis::acceleration::ComputeGraphConfig::graph_id</qualifiedname>
+        <briefdescription>
+<para>Unique identifier for this graph. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_graph.h" line="43" column="17" bodyfile="include/acceleration/compute_graph.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_compute_graph_config_1aa94bb356869f25835c295189637d1a4e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::ComputeGraphConfig::enable_fusion</definition>
+        <argsstring></argsstring>
+        <name>enable_fusion</name>
+        <qualifiedname>themis::acceleration::ComputeGraphConfig::enable_fusion</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable kernel fusion optimization (combines compatible ops). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_graph.h" line="44" column="10" bodyfile="include/acceleration/compute_graph.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_compute_graph_config_1aee94a7192fe3f597421721146db47378" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::ComputeGraphConfig::enable_memory_reuse</definition>
+        <argsstring></argsstring>
+        <name>enable_memory_reuse</name>
+        <qualifiedname>themis::acceleration::ComputeGraphConfig::enable_memory_reuse</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable buffer aliasing for memory efficiency. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_graph.h" line="45" column="10" bodyfile="include/acceleration/compute_graph.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_compute_graph_config_1af3f8ce3124a5e1c8c60aa95152c26662" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::acceleration::ComputeGraphConfig::max_parallel_nodes</definition>
+        <argsstring></argsstring>
+        <name>max_parallel_nodes</name>
+        <qualifiedname>themis::acceleration::ComputeGraphConfig::max_parallel_nodes</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+<para>Maximum number of nodes to run in parallel. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_graph.h" line="46" column="9" bodyfile="include/acceleration/compute_graph.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_compute_graph_config_1a1ff81a93318fadcdb5bb2d11fb258fc9" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::acceleration::ComputeGraphConfig::timeout</definition>
+        <argsstring></argsstring>
+        <name>timeout</name>
+        <qualifiedname>themis::acceleration::ComputeGraphConfig::timeout</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+<para>Execution timeout for the entire graph. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_graph.h" line="47" column="31" bodyfile="include/acceleration/compute_graph.h" bodystart="47" bodyend="47"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/compute_graph.h" line="42" column="1" bodyfile="include/acceleration/compute_graph.h" bodystart="42" bodyend="48"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_compute_graph_config_1aa94bb356869f25835c295189637d1a4e" prot="public" virt="non-virtual"><scope>themis::acceleration::ComputeGraphConfig</scope><name>enable_fusion</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_compute_graph_config_1aee94a7192fe3f597421721146db47378" prot="public" virt="non-virtual"><scope>themis::acceleration::ComputeGraphConfig</scope><name>enable_memory_reuse</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_compute_graph_config_1ab3ed5908c2472b2a25e885e93db25327" prot="public" virt="non-virtual"><scope>themis::acceleration::ComputeGraphConfig</scope><name>graph_id</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_compute_graph_config_1af3f8ce3124a5e1c8c60aa95152c26662" prot="public" virt="non-virtual"><scope>themis::acceleration::ComputeGraphConfig</scope><name>max_parallel_nodes</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_compute_graph_config_1a1ff81a93318fadcdb5bb2d11fb258fc9" prot="public" virt="non-virtual"><scope>themis::acceleration::ComputeGraphConfig</scope><name>timeout</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

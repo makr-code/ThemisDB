@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_request_coalescing_manager_1_1_in_flight" kind="struct" language="C++" prot="private">
+    <compoundname>themis::server::RequestCoalescingManager::InFlight</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_request_coalescing_manager_1_1_in_flight_1adedb8f167d2ecd5d57fbdd316dc6149a" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; std::promise&lt; http::response&lt; http::string_body &gt; &gt; &gt;</type>
+        <definition>std::shared_ptr&lt;std::promise&lt;http::response&lt;http::string_body&gt; &gt; &gt; themis::server::RequestCoalescingManager::InFlight::promise</definition>
+        <argsstring></argsstring>
+        <name>promise</name>
+        <qualifiedname>themis::server::RequestCoalescingManager::InFlight::promise</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_coalescing.h" line="134" column="25" bodyfile="include/server/request_coalescing.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_request_coalescing_manager_1_1_in_flight_1a358a8e640bd5b4ee5ac01ef820b2e3c1" prot="public" static="no" mutable="no">
+        <type>std::shared_future&lt; http::response&lt; http::string_body &gt; &gt;</type>
+        <definition>std::shared_future&lt;http::response&lt;http::string_body&gt; &gt; themis::server::RequestCoalescingManager::InFlight::future</definition>
+        <argsstring></argsstring>
+        <name>future</name>
+        <qualifiedname>themis::server::RequestCoalescingManager::InFlight::future</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_coalescing.h" line="135" column="28" bodyfile="include/server/request_coalescing.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_request_coalescing_manager_1_1_in_flight_1ae4c1d74835aa6825439bf413a89dd623" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::RequestCoalescingManager::InFlight::waiter_count</definition>
+        <argsstring></argsstring>
+        <name>waiter_count</name>
+        <qualifiedname>themis::server::RequestCoalescingManager::InFlight::waiter_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_coalescing.h" line="136" column="18" bodyfile="include/server/request_coalescing.h" bodystart="136" bodyend="136"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/request_coalescing.h" line="133" column="5" bodyfile="include/server/request_coalescing.h" bodystart="133" bodyend="137"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_request_coalescing_manager_1_1_in_flight_1a358a8e640bd5b4ee5ac01ef820b2e3c1" prot="public" virt="non-virtual"><scope>themis::server::RequestCoalescingManager::InFlight</scope><name>future</name></member>
+      <member refid="structthemis_1_1server_1_1_request_coalescing_manager_1_1_in_flight_1adedb8f167d2ecd5d57fbdd316dc6149a" prot="public" virt="non-virtual"><scope>themis::server::RequestCoalescingManager::InFlight</scope><name>promise</name></member>
+      <member refid="structthemis_1_1server_1_1_request_coalescing_manager_1_1_in_flight_1ae4c1d74835aa6825439bf413a89dd623" prot="public" virt="non-virtual"><scope>themis::server::RequestCoalescingManager::InFlight</scope><name>waiter_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

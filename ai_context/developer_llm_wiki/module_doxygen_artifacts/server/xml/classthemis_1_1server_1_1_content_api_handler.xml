@@ -1,0 +1,960 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_content_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::ContentApiHandler</compoundname>
+    <includes refid="content__api__handler_8h" local="no">content_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_content_api_handler_1a828e0fe515d3520fea0edb3e618eedd0" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::server::ContentApiHandler::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>themis::server::ContentApiHandler::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/content_api_handler.h" line="154" column="21" bodyfile="include/server/content_api_handler.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_content_api_handler_1af0743a6ee306bef1b561c240d6d25d5c" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; content::ContentManager &gt;</type>
+        <definition>std::shared_ptr&lt;content::ContentManager&gt; themis::server::ContentApiHandler::content_manager_</definition>
+        <argsstring></argsstring>
+        <name>content_manager_</name>
+        <qualifiedname>themis::server::ContentApiHandler::content_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/content_api_handler.h" line="155" column="21" bodyfile="include/server/content_api_handler.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_content_api_handler_1a23104bd7085e72ce3a12b9f21b792548" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; content::ContentProcessor &gt;</type>
+        <definition>std::shared_ptr&lt;content::ContentProcessor&gt; themis::server::ContentApiHandler::content_processor_</definition>
+        <argsstring></argsstring>
+        <name>content_processor_</name>
+        <qualifiedname>themis::server::ContentApiHandler::content_processor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/content_api_handler.h" line="156" column="21" bodyfile="include/server/content_api_handler.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_content_api_handler_1a377930f6e2414591151112e89bce5269" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;themis::AuthMiddleware&gt; themis::server::ContentApiHandler::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>themis::server::ContentApiHandler::auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/content_api_handler.h" line="157" column="21" bodyfile="include/server/content_api_handler.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_content_api_handler_1ac72a14d615e448b14fd5bda7c59eac60" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;SecondaryIndexManager&gt; themis::server::ContentApiHandler::secondary_index_</definition>
+        <argsstring></argsstring>
+        <name>secondary_index_</name>
+        <qualifiedname>themis::server::ContentApiHandler::secondary_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/content_api_handler.h" line="158" column="21" bodyfile="include/server/content_api_handler.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_content_api_handler_1a34fe5d6332fb9924ac9907d34d87097f" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; VectorIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;VectorIndexManager&gt; themis::server::ContentApiHandler::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>themis::server::ContentApiHandler::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/content_api_handler.h" line="159" column="21" bodyfile="include/server/content_api_handler.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_content_api_handler_1a72119e7944fb412a91c716ce5c7387e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::ContentApiHandler::ContentApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; storage, std::shared_ptr&lt; content::ContentManager &gt; content_manager, std::shared_ptr&lt; content::ContentProcessor &gt; content_processor, std::shared_ptr&lt; themis::AuthMiddleware &gt; auth, std::shared_ptr&lt; SecondaryIndexManager &gt; secondary_index, std::shared_ptr&lt; VectorIndexManager &gt; vector_index)</argsstring>
+        <name>ContentApiHandler</name>
+        <qualifiedname>themis::server::ContentApiHandler::ContentApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+          <declname>storage</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; content::ContentManager &gt;</type>
+          <declname>content_manager</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; content::ContentProcessor &gt;</type>
+          <declname>content_processor</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+          <declname>auth</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; SecondaryIndexManager &gt;</type>
+          <declname>secondary_index</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; VectorIndexManager &gt;</type>
+          <declname>vector_index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/content_api_handler.h" line="39" column="5" bodyfile="src/server/content_api_handler.cpp" bodystart="36" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_content_api_handler_1a84b190d0eb889e6c7d42999b014c87bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ContentApiHandler::handleImport</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleImport</name>
+        <qualifiedname>themis::server::ContentApiHandler::handleImport</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Import. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeErrorResponse(), nlohmann::json::parse(), body(), contains(), reserve(), size(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/content_api_handler.h" line="53" column="20" bodyfile="src/server/content_api_handler.cpp" bodystart="111" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_content_api_handler_1a59c2b4d5d2e5c0e04fdd9278c8cdfba1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ContentApiHandler::handleGet</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGet</name>
+        <qualifiedname>themis::server::ContentApiHandler::handleGet</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeErrorResponse(), extractPathParam(), std::string(), target(), empty(), getContentMeta(), makeResponse(), toJson(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/content_api_handler.h" line="60" column="20" bodyfile="src/server/content_api_handler.cpp" bodystart="197" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_content_api_handler_1acaafc92265f2fa67efe95ffcf3eb211f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ContentApiHandler::handleGetBlob</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGetBlob</name>
+        <qualifiedname>themis::server::ContentApiHandler::handleGetBlob</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Blob. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeErrorResponse(), std::string(), target(), find(), substr(), size(), extractUserId(), getContentBlob(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/content_api_handler.h" line="67" column="20" bodyfile="src/server/content_api_handler.cpp" bodystart="225" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_content_api_handler_1abc5040ae32566e2b4f7973971ad2b13f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ContentApiHandler::handleGetChunks</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGetChunks</name>
+        <qualifiedname>themis::server::ContentApiHandler::handleGetChunks</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Chunks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeErrorResponse(), std::string(), target(), find(), substr(), size(), getContentChunks(), nlohmann::json::array(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/content_api_handler.h" line="74" column="20" bodyfile="src/server/content_api_handler.cpp" bodystart="267" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_content_api_handler_1a859d25086b6537d6ccc8802636572177" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ContentApiHandler::handleHybridSearch</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleHybridSearch</name>
+        <qualifiedname>themis::server::ContentApiHandler::handleHybridSearch</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Hybrid Search. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeErrorResponse(), nlohmann::json::parse(), body(), value(), contains(), is_object(), nlohmann::json::object(), searchWithExpansion(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/content_api_handler.h" line="81" column="20" bodyfile="src/server/content_api_handler.cpp" bodystart="306" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_content_api_handler_1a1eaad09a93852c57ae7a207e6d5d41a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ContentApiHandler::handleFusionSearch</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleFusionSearch</name>
+        <qualifiedname>themis::server::ContentApiHandler::handleFusionSearch</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Fusion Search. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeErrorResponse(), nlohmann::json::parse(), body(), contains(), is_string(), validateStringLength(), validatePathSegment(), THEMIS_ERROR(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/content_api_handler.h" line="88" column="20" bodyfile="src/server/content_api_handler.cpp" bodystart="353" bodyend="551"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_content_api_handler_1a7733ca471c97c9df2fb3a0f61f998bef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ContentApiHandler::handleFulltextSearch</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleFulltextSearch</name>
+        <qualifiedname>themis::server::ContentApiHandler::handleFulltextSearch</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Fulltext Search. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeErrorResponse(), nlohmann::json::parse(), body(), contains(), is_string(), validateStringLength(), validatePathSegment(), THEMIS_ERROR(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/content_api_handler.h" line="95" column="20" bodyfile="src/server/content_api_handler.cpp" bodystart="559" bodyend="637"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_content_api_handler_1af83eeef0f42a153591202aea47e2581d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ContentApiHandler::handleConfigGet</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleConfigGet</name>
+        <qualifiedname>themis::server::ContentApiHandler::handleConfigGet</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle <ref refid="test__server__integration__complete_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref> Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), get(), s(), begin(), end(), nlohmann::json::parse(), nlohmann::json::array(), setStatus(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/content_api_handler.h" line="102" column="20" bodyfile="src/server/content_api_handler.cpp" bodystart="645" bodyend="673"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_content_api_handler_1ac299176340c4b5fe03d96692a9f208ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ContentApiHandler::handleConfigPut</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleConfigPut</name>
+        <qualifiedname>themis::server::ContentApiHandler::handleConfigPut</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle <ref refid="test__server__integration__complete_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref> Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), nlohmann::json::parse(), body(), get(), s(), begin(), end(), nlohmann::json::array(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/content_api_handler.h" line="109" column="20" bodyfile="src/server/content_api_handler.cpp" bodystart="681" bodyend="772"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_content_api_handler_1afd6d0f739e60b872270b62a2a01e472e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ContentApiHandler::handleContentFilterSchemaGet</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleContentFilterSchemaGet</name>
+        <qualifiedname>themis::server::ContentApiHandler::handleContentFilterSchemaGet</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Content Filter Schema Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: get(), s(), begin(), end(), nlohmann::json::parse(), nlohmann::json::object(), makeResponse(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/content_api_handler.h" line="116" column="20" bodyfile="src/server/content_api_handler.cpp" bodystart="780" bodyend="799"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_content_api_handler_1a3343ffe2ad80066c28026a3d4b01f523" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ContentApiHandler::handleContentFilterSchemaPut</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleContentFilterSchemaPut</name>
+        <qualifiedname>themis::server::ContentApiHandler::handleContentFilterSchemaPut</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Content Filter Schema Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: nlohmann::json::parse(), body(), is_object(), contains(), makeErrorResponse(), dump(), bytes(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/content_api_handler.h" line="123" column="20" bodyfile="src/server/content_api_handler.cpp" bodystart="807" bodyend="828"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_content_api_handler_1ade07ddcdccfb9febd1c3f75ebf0d2946" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ContentApiHandler::handleEdgeWeightConfigGet</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleEdgeWeightConfigGet</name>
+        <qualifiedname>themis::server::ContentApiHandler::handleEdgeWeightConfigGet</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Edge Weight <ref refid="test__server__integration__complete_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref> Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: get(), s(), begin(), end(), nlohmann::json::parse(), makeResponse(), dump(), makeErrorResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/content_api_handler.h" line="130" column="20" bodyfile="src/server/content_api_handler.cpp" bodystart="836" bodyend="855"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_content_api_handler_1a0ea03dd25fad7a401bd9e4d2aa135970" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ContentApiHandler::handleEdgeWeightConfigPut</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleEdgeWeightConfigPut</name>
+        <qualifiedname>themis::server::ContentApiHandler::handleEdgeWeightConfigPut</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Edge Weight <ref refid="test__server__integration__complete_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref> Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: nlohmann::json::parse(), body(), is_object(), contains(), makeErrorResponse(), begin(), end(), value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/content_api_handler.h" line="137" column="20" bodyfile="src/server/content_api_handler.cpp" bodystart="863" bodyend="890"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_content_api_handler_1a9f333ce942d5e15a35db1b57bd2edbf0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ContentApiHandler::handleEncryptionSchemaGet</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleEncryptionSchemaGet</name>
+        <qualifiedname>themis::server::ContentApiHandler::handleEncryptionSchemaGet</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Encryption Schema Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: get(), nlohmann::json::object(), makeResponse(), dump(), schema_json(), begin(), end(), nlohmann::json::parse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/content_api_handler.h" line="144" column="20" bodyfile="src/server/content_api_handler.cpp" bodystart="898" bodyend="924"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_content_api_handler_1a1cbd8d98df10e6eb2900a890ad40bcc9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ContentApiHandler::handleEncryptionSchemaPut</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleEncryptionSchemaPut</name>
+        <qualifiedname>themis::server::ContentApiHandler::handleEncryptionSchemaPut</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Encryption Schema Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: nlohmann::json::parse(), body(), contains(), is_object(), makeErrorResponse(), items(), validateStringLength(), validatePathSegment(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/content_api_handler.h" line="151" column="20" bodyfile="src/server/content_api_handler.cpp" bodystart="932" bodyend="1037"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_content_api_handler_1a89a5f563b0ffac40ab1987b4b2d0e026" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ContentApiHandler::makeErrorResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;message, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeErrorResponse</name>
+        <qualifiedname>themis::server::ContentApiHandler::makeErrorResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make Error <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeResponse(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/content_api_handler.h" line="168" column="20" bodyfile="src/server/content_api_handler.cpp" bodystart="1047" bodyend="1056"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_content_api_handler_1aca2fe6fa100713cdc27873b516c3af03" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ContentApiHandler::makeResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;body, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeResponse</name>
+        <qualifiedname>themis::server::ContentApiHandler::makeResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: version(), set(), keep_alive(), body(), prepare_payload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/content_api_handler.h" line="177" column="20" bodyfile="src/server/content_api_handler.cpp" bodystart="1066" bodyend="1076"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/content_api_handler.h" line="37" column="1" bodyfile="include/server/content_api_handler.h" bodystart="37" bodyend="179"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_content_api_handler_1a377930f6e2414591151112e89bce5269" prot="private" virt="non-virtual"><scope>themis::server::ContentApiHandler</scope><name>auth_</name></member>
+      <member refid="classthemis_1_1server_1_1_content_api_handler_1af0743a6ee306bef1b561c240d6d25d5c" prot="private" virt="non-virtual"><scope>themis::server::ContentApiHandler</scope><name>content_manager_</name></member>
+      <member refid="classthemis_1_1server_1_1_content_api_handler_1a23104bd7085e72ce3a12b9f21b792548" prot="private" virt="non-virtual"><scope>themis::server::ContentApiHandler</scope><name>content_processor_</name></member>
+      <member refid="classthemis_1_1server_1_1_content_api_handler_1a72119e7944fb412a91c716ce5c7387e3" prot="public" virt="non-virtual"><scope>themis::server::ContentApiHandler</scope><name>ContentApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_content_api_handler_1af83eeef0f42a153591202aea47e2581d" prot="public" virt="non-virtual"><scope>themis::server::ContentApiHandler</scope><name>handleConfigGet</name></member>
+      <member refid="classthemis_1_1server_1_1_content_api_handler_1ac299176340c4b5fe03d96692a9f208ca" prot="public" virt="non-virtual"><scope>themis::server::ContentApiHandler</scope><name>handleConfigPut</name></member>
+      <member refid="classthemis_1_1server_1_1_content_api_handler_1afd6d0f739e60b872270b62a2a01e472e" prot="public" virt="non-virtual"><scope>themis::server::ContentApiHandler</scope><name>handleContentFilterSchemaGet</name></member>
+      <member refid="classthemis_1_1server_1_1_content_api_handler_1a3343ffe2ad80066c28026a3d4b01f523" prot="public" virt="non-virtual"><scope>themis::server::ContentApiHandler</scope><name>handleContentFilterSchemaPut</name></member>
+      <member refid="classthemis_1_1server_1_1_content_api_handler_1ade07ddcdccfb9febd1c3f75ebf0d2946" prot="public" virt="non-virtual"><scope>themis::server::ContentApiHandler</scope><name>handleEdgeWeightConfigGet</name></member>
+      <member refid="classthemis_1_1server_1_1_content_api_handler_1a0ea03dd25fad7a401bd9e4d2aa135970" prot="public" virt="non-virtual"><scope>themis::server::ContentApiHandler</scope><name>handleEdgeWeightConfigPut</name></member>
+      <member refid="classthemis_1_1server_1_1_content_api_handler_1a9f333ce942d5e15a35db1b57bd2edbf0" prot="public" virt="non-virtual"><scope>themis::server::ContentApiHandler</scope><name>handleEncryptionSchemaGet</name></member>
+      <member refid="classthemis_1_1server_1_1_content_api_handler_1a1cbd8d98df10e6eb2900a890ad40bcc9" prot="public" virt="non-virtual"><scope>themis::server::ContentApiHandler</scope><name>handleEncryptionSchemaPut</name></member>
+      <member refid="classthemis_1_1server_1_1_content_api_handler_1a7733ca471c97c9df2fb3a0f61f998bef" prot="public" virt="non-virtual"><scope>themis::server::ContentApiHandler</scope><name>handleFulltextSearch</name></member>
+      <member refid="classthemis_1_1server_1_1_content_api_handler_1a1eaad09a93852c57ae7a207e6d5d41a5" prot="public" virt="non-virtual"><scope>themis::server::ContentApiHandler</scope><name>handleFusionSearch</name></member>
+      <member refid="classthemis_1_1server_1_1_content_api_handler_1a59c2b4d5d2e5c0e04fdd9278c8cdfba1" prot="public" virt="non-virtual"><scope>themis::server::ContentApiHandler</scope><name>handleGet</name></member>
+      <member refid="classthemis_1_1server_1_1_content_api_handler_1acaafc92265f2fa67efe95ffcf3eb211f" prot="public" virt="non-virtual"><scope>themis::server::ContentApiHandler</scope><name>handleGetBlob</name></member>
+      <member refid="classthemis_1_1server_1_1_content_api_handler_1abc5040ae32566e2b4f7973971ad2b13f" prot="public" virt="non-virtual"><scope>themis::server::ContentApiHandler</scope><name>handleGetChunks</name></member>
+      <member refid="classthemis_1_1server_1_1_content_api_handler_1a859d25086b6537d6ccc8802636572177" prot="public" virt="non-virtual"><scope>themis::server::ContentApiHandler</scope><name>handleHybridSearch</name></member>
+      <member refid="classthemis_1_1server_1_1_content_api_handler_1a84b190d0eb889e6c7d42999b014c87bb" prot="public" virt="non-virtual"><scope>themis::server::ContentApiHandler</scope><name>handleImport</name></member>
+      <member refid="classthemis_1_1server_1_1_content_api_handler_1a89a5f563b0ffac40ab1987b4b2d0e026" prot="private" virt="non-virtual"><scope>themis::server::ContentApiHandler</scope><name>makeErrorResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_content_api_handler_1aca2fe6fa100713cdc27873b516c3af03" prot="private" virt="non-virtual"><scope>themis::server::ContentApiHandler</scope><name>makeResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_content_api_handler_1ac72a14d615e448b14fd5bda7c59eac60" prot="private" virt="non-virtual"><scope>themis::server::ContentApiHandler</scope><name>secondary_index_</name></member>
+      <member refid="classthemis_1_1server_1_1_content_api_handler_1a828e0fe515d3520fea0edb3e618eedd0" prot="private" virt="non-virtual"><scope>themis::server::ContentApiHandler</scope><name>storage_</name></member>
+      <member refid="classthemis_1_1server_1_1_content_api_handler_1a34fe5d6332fb9924ac9907d34d87097f" prot="private" virt="non-virtual"><scope>themis::server::ContentApiHandler</scope><name>vector_index_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

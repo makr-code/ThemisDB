@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="kernel__registry_8h" kind="file" language="C++">
+    <compoundname>kernel_registry.h</compoundname>
+    <includes refid="compute__backend_8h" local="yes">acceleration/compute_backend.h</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>acceleration/compute_backend.h</label>
+        <link refid="compute__backend_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>acceleration/compute_future.h</label>
+        <link refid="compute__future_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>acceleration/error_codes.h</label>
+        <link refid="error__codes_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>acceleration/error_context.h</label>
+        <link refid="error__context_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>acceleration/kernel_invocation.h</label>
+        <link refid="kernel__invocation_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/acceleration/kernel_registry.h</label>
+        <link refid="kernel__registry_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>algorithm</label>
+      </node>
+      <node id="8">
+        <label>atomic</label>
+      </node>
+      <node id="14">
+        <label>chrono</label>
+      </node>
+      <node id="16">
+        <label>cstddef</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="18">
+        <label>functional</label>
+      </node>
+      <node id="19">
+        <label>future</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="13">
+        <label>optional</label>
+      </node>
+      <node id="10">
+        <label>shared_mutex</label>
+      </node>
+      <node id="20">
+        <label>stdexcept</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <briefdescription>
+<para>Convenience header for the central kernel registry. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Issue: #5382 — GPU/VRAM Layer: Refactor, vereinheitlichen und Shader-Vollständigkeit sichern</para>
+<para>This header provides the complete KernelRegistry, KernelCoverage, and ValidationReport API. All declarations live in <ref refid="compute__backend_8h" kindref="compound">compute_backend.h</ref> alongside the other acceleration module types; this header simply re-exports them for callers that want to include only the kernel-registry surface.</para>
+<para>Usage: <programlisting><codeline><highlight class="preprocessor">#include<sp/>&quot;<ref refid="kernel__registry_8h" kindref="compound">acceleration/kernel_registry.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1acceleration" kindref="compound">themis::acceleration</ref>;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Register<sp/>a<sp/>dispatch<sp/>table<sp/>(typically<sp/>called<sp/>once<sp/>per<sp/>backend<sp/>at<sp/>startup):</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1acceleration_1_1_kernel_registry" kindref="compound">KernelRegistry</ref><sp/>reg;</highlight></codeline>
+<codeline><highlight class="normal">reg.<ref refid="classthemis_1_1acceleration_1_1_kernel_registry_1a0986aa5315bafa5f5559ccf327453aca" kindref="member">registerANNDispatch</ref>(<ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5aa33b7755e5f9b504d2d038eaca4ff28d" kindref="member">BackendType::CUDA</ref>,<sp/>cudaANNDispatch);</highlight></codeline>
+<codeline><highlight class="normal">reg.<ref refid="classthemis_1_1acceleration_1_1_kernel_registry_1ae38ff1a04ec336c702e79809f59810e7" kindref="member">registerGeoDispatch</ref>(<ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5aa33b7755e5f9b504d2d038eaca4ff28d" kindref="member">BackendType::CUDA</ref>,<sp/>cudaGeoDispatch);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Validate<sp/>completeness<sp/>(CI<sp/>assertion):</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="structthemis_1_1acceleration_1_1_validation_report" kindref="compound">ValidationReport</ref><sp/>r<sp/>=<sp/>reg.<ref refid="classthemis_1_1acceleration_1_1_kernel_registry_1a88decbe84361db55a40c2c74178488a0" kindref="member">validate</ref>();</highlight></codeline>
+<codeline><highlight class="normal">assert(r.<ref refid="structthemis_1_1acceleration_1_1_validation_report_1a67711cde750e98858957854ecdfdd42f" kindref="member">allComplete</ref>());</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Resolve<sp/>with<sp/>CPU<sp/>fallback:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch" kindref="compound">ANNKernelDispatch</ref><sp/>d<sp/>=<sp/>reg.<ref refid="classthemis_1_1acceleration_1_1_kernel_registry_1a238adf01f13aca81701c77c1cea44f6e" kindref="member">lookupANNWithFallback</ref>(<ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5aa33b7755e5f9b504d2d038eaca4ff28d" kindref="member">BackendType::CUDA</ref>);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Per<sp/>BackendRegistry<sp/>singleton<sp/>(after<sp/>initializeRuntime()):</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="structthemis_1_1acceleration_1_1_validation_report" kindref="compound">ValidationReport</ref><sp/>report<sp/>=<sp/><ref refid="classthemis_1_1acceleration_1_1_backend_registry_1ab225f74fe152c04f629b98ab0f7631cf" kindref="member">BackendRegistry::instance</ref>().validateKernels();</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="compute__backend_8h" kindref="compound">acceleration/compute_backend.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/acceleration/kernel_registry.h"/>
+  </compounddef>
+</doxygen>

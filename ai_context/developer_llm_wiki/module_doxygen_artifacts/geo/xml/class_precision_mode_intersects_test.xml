@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_precision_mode_intersects_test" kind="class" language="C++" prot="public">
+    <compoundname>PrecisionModeIntersectsTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::TestWithParam&lt; ISpatialComputeBackend * &gt;</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_precision_mode_intersects_test_1adc40d440fcebea7cef9eafe3024c8b19" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" kindref="compound">ISpatialComputeBackend</ref> *</type>
+        <definition>ISpatialComputeBackend * PrecisionModeIntersectsTest::backend</definition>
+        <argsstring>()</argsstring>
+        <name>backend</name>
+        <qualifiedname>PrecisionModeIntersectsTest::backend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_precision_mode.cpp" line="71" column="28" bodyfile="tests/geo/test_geo_precision_mode.cpp" bodystart="71" bodyend="71"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>PrecisionModeIntersectsTest</label>
+        <link refid="class_precision_mode_intersects_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::TestWithParam&lt; ISpatialComputeBackend * &gt;</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>PrecisionModeIntersectsTest</label>
+        <link refid="class_precision_mode_intersects_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::TestWithParam&lt; ISpatialComputeBackend * &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/geo/test_geo_precision_mode.cpp" line="68" column="1" bodyfile="tests/geo/test_geo_precision_mode.cpp" bodystart="69" bodyend="72"/>
+    <listofallmembers>
+      <member refid="class_precision_mode_intersects_test_1adc40d440fcebea7cef9eafe3024c8b19" prot="protected" virt="non-virtual"><scope>PrecisionModeIntersectsTest</scope><name>backend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

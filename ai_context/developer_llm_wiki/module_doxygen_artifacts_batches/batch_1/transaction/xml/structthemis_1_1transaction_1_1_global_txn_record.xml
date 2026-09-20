@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1transaction_1_1_global_txn_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::transaction::GlobalTxnRecord</compoundname>
+    <includes refid="global__transaction__manager_8h" local="no">global_transaction_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_global_txn_record_1a5a2cbbc2a340519e879768e5d0a2209e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::GlobalTxnRecord::transaction_id</definition>
+        <argsstring></argsstring>
+        <name>transaction_id</name>
+        <qualifiedname>themis::transaction::GlobalTxnRecord::transaction_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="129" column="34" bodyfile="include/transaction/global_transaction_manager.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_global_txn_record_1a01eda976b6272f6283a54ce9f4d90299" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1transaction_1a94650c9bb9025f850c17018f28761faf" kindref="member">GlobalTxnState</ref></type>
+        <definition>GlobalTxnState themis::transaction::GlobalTxnRecord::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::transaction::GlobalTxnRecord::state</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1transaction_1a94650c9bb9025f850c17018f28761fafa18ff74f43da410c5529f7d6fca84f115" kindref="member">GlobalTxnState::ACTIVE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="130" column="34" bodyfile="include/transaction/global_transaction_manager.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_global_txn_record_1a1b8c02db7443252f2f03e1d79d930fb9" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::transaction::GlobalTxnRecord::started_at</definition>
+        <argsstring></argsstring>
+        <name>started_at</name>
+        <qualifiedname>themis::transaction::GlobalTxnRecord::started_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="131" column="43" bodyfile="include/transaction/global_transaction_manager.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_global_txn_record_1ac5cb71ffc7d675088b89bc860178047a" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, nlohmann::json &gt;</type>
+        <definition>std::map&lt;std::string, nlohmann::json&gt; themis::transaction::GlobalTxnRecord::region_ops</definition>
+        <argsstring></argsstring>
+        <name>region_ops</name>
+        <qualifiedname>themis::transaction::GlobalTxnRecord::region_ops</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="133" column="14" bodyfile="include/transaction/global_transaction_manager.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_global_txn_record_1a142f5039fcb7b5e02634dd19c25d474e" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1transaction_1_1_region_txn_record" kindref="compound">RegionTxnRecord</ref> &gt;</type>
+        <definition>std::map&lt;std::string, RegionTxnRecord&gt; themis::transaction::GlobalTxnRecord::region_records</definition>
+        <argsstring></argsstring>
+        <name>region_records</name>
+        <qualifiedname>themis::transaction::GlobalTxnRecord::region_records</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="135" column="14" bodyfile="include/transaction/global_transaction_manager.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_global_txn_record_1a5169ca09a472030a19d26907c4a20d8b" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::transaction::GlobalTxnRecord::commit_timestamp_ns</definition>
+        <argsstring></argsstring>
+        <name>commit_timestamp_ns</name>
+        <qualifiedname>themis::transaction::GlobalTxnRecord::commit_timestamp_ns</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="137" column="13" bodyfile="include/transaction/global_transaction_manager.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/global_transaction_manager.h" line="128" column="1" bodyfile="include/transaction/global_transaction_manager.h" bodystart="128" bodyend="138"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1transaction_1_1_global_txn_record_1a5169ca09a472030a19d26907c4a20d8b" prot="public" virt="non-virtual"><scope>themis::transaction::GlobalTxnRecord</scope><name>commit_timestamp_ns</name></member>
+      <member refid="structthemis_1_1transaction_1_1_global_txn_record_1ac5cb71ffc7d675088b89bc860178047a" prot="public" virt="non-virtual"><scope>themis::transaction::GlobalTxnRecord</scope><name>region_ops</name></member>
+      <member refid="structthemis_1_1transaction_1_1_global_txn_record_1a142f5039fcb7b5e02634dd19c25d474e" prot="public" virt="non-virtual"><scope>themis::transaction::GlobalTxnRecord</scope><name>region_records</name></member>
+      <member refid="structthemis_1_1transaction_1_1_global_txn_record_1a1b8c02db7443252f2f03e1d79d930fb9" prot="public" virt="non-virtual"><scope>themis::transaction::GlobalTxnRecord</scope><name>started_at</name></member>
+      <member refid="structthemis_1_1transaction_1_1_global_txn_record_1a01eda976b6272f6283a54ce9f4d90299" prot="public" virt="non-virtual"><scope>themis::transaction::GlobalTxnRecord</scope><name>state</name></member>
+      <member refid="structthemis_1_1transaction_1_1_global_txn_record_1a5a2cbbc2a340519e879768e5d0a2209e" prot="public" virt="non-virtual"><scope>themis::transaction::GlobalTxnRecord</scope><name>transaction_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

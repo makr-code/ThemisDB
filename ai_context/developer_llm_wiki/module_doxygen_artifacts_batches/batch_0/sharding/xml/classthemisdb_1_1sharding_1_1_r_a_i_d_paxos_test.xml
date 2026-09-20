@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::RAIDPaxosTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test_1ad96498083bfc6f12ed114d324e0d948f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RAIDPaxosTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themisdb::sharding::RAIDPaxosTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_raid_paxos.cpp" line="23" column="10" bodyfile="tests/sharding/test_raid_paxos.cpp" bodystart="23" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test_1a87b1985e11c5bc0918450bd15fc328d0" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RAIDPaxosTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themisdb::sharding::RAIDPaxosTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_raid_paxos.cpp" line="24" column="10" bodyfile="tests/sharding/test_raid_paxos.cpp" bodystart="24" bodyend="24"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themisdb::sharding::RAIDPaxosTest</label>
+        <link refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themisdb::sharding::RAIDPaxosTest</label>
+        <link refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/sharding/test_raid_paxos.cpp" line="21" column="1" bodyfile="tests/sharding/test_raid_paxos.cpp" bodystart="21" bodyend="25"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test_1ad96498083bfc6f12ed114d324e0d948f" prot="protected" virt="non-virtual"><scope>themisdb::sharding::RAIDPaxosTest</scope><name>SetUp</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_r_a_i_d_paxos_test_1a87b1985e11c5bc0918450bd15fc328d0" prot="protected" virt="non-virtual"><scope>themisdb::sharding::RAIDPaxosTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

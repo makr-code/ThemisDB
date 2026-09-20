@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_replica_lag_tracker_1_1_lag_quantiles" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::ReplicaLagTracker::LagQuantiles</compoundname>
+    <includes refid="wave__d__high__cardinality__metrics_8h" local="no">wave_d_high_cardinality_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_replica_lag_tracker_1_1_lag_quantiles_1aca174156e79aedd6dac88d6b87512ff9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::ReplicaLagTracker::LagQuantiles::p50</definition>
+        <argsstring></argsstring>
+        <name>p50</name>
+        <qualifiedname>themis::observability::ReplicaLagTracker::LagQuantiles::p50</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="130" column="16" bodyfile="include/observability/wave_d_high_cardinality_metrics.h" bodystart="130" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_replica_lag_tracker_1_1_lag_quantiles_1ad382bcf81754905d83a5a2ad9b1f3dfa" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::ReplicaLagTracker::LagQuantiles::p95</definition>
+        <argsstring></argsstring>
+        <name>p95</name>
+        <qualifiedname>themis::observability::ReplicaLagTracker::LagQuantiles::p95</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="131" column="16" bodyfile="include/observability/wave_d_high_cardinality_metrics.h" bodystart="131" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_replica_lag_tracker_1_1_lag_quantiles_1aa0037fae9b8e40515af6199d76869e23" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::ReplicaLagTracker::LagQuantiles::p99</definition>
+        <argsstring></argsstring>
+        <name>p99</name>
+        <qualifiedname>themis::observability::ReplicaLagTracker::LagQuantiles::p99</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="132" column="16" bodyfile="include/observability/wave_d_high_cardinality_metrics.h" bodystart="132" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_replica_lag_tracker_1_1_lag_quantiles_1abad2b210d2efbc8a03c8ba57b2e9e43b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::ReplicaLagTracker::LagQuantiles::max</definition>
+        <argsstring></argsstring>
+        <name>max</name>
+        <qualifiedname>themis::observability::ReplicaLagTracker::LagQuantiles::max</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/wave_d_high_cardinality_metrics.h" line="133" column="16" bodyfile="include/observability/wave_d_high_cardinality_metrics.h" bodystart="133" bodyend="133"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Get lag quantiles for a specific replica. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>replica_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Replica identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Struct with p50, p95, p99 lag values (in milliseconds). </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/observability/wave_d_high_cardinality_metrics.h" line="129" column="5" bodyfile="include/observability/wave_d_high_cardinality_metrics.h" bodystart="129" bodyend="134"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_replica_lag_tracker_1_1_lag_quantiles_1abad2b210d2efbc8a03c8ba57b2e9e43b" prot="public" virt="non-virtual"><scope>themis::observability::ReplicaLagTracker::LagQuantiles</scope><name>max</name></member>
+      <member refid="structthemis_1_1observability_1_1_replica_lag_tracker_1_1_lag_quantiles_1aca174156e79aedd6dac88d6b87512ff9" prot="public" virt="non-virtual"><scope>themis::observability::ReplicaLagTracker::LagQuantiles</scope><name>p50</name></member>
+      <member refid="structthemis_1_1observability_1_1_replica_lag_tracker_1_1_lag_quantiles_1ad382bcf81754905d83a5a2ad9b1f3dfa" prot="public" virt="non-virtual"><scope>themis::observability::ReplicaLagTracker::LagQuantiles</scope><name>p95</name></member>
+      <member refid="structthemis_1_1observability_1_1_replica_lag_tracker_1_1_lag_quantiles_1aa0037fae9b8e40515af6199d76869e23" prot="public" virt="non-virtual"><scope>themis::observability::ReplicaLagTracker::LagQuantiles</scope><name>p99</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

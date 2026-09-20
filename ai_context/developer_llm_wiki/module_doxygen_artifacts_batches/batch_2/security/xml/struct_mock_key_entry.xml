@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_mock_key_entry" kind="struct" language="C++" prot="public">
+    <compoundname>MockKeyEntry</compoundname>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="struct_mock_key_entry_1a85287867561231f51c966a2915dccdd5" prot="public" static="no" strong="no">
+        <type></type>
+        <name>Status</name>
+        <qualifiedname>MockKeyEntry::Status</qualifiedname>
+        <enumvalue id="struct_mock_key_entry_1a85287867561231f51c966a2915dccdd5ab9f5dbc50efb5ef1d3265a57fa033513" prot="public">
+          <name>ACTIVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="struct_mock_key_entry_1a85287867561231f51c966a2915dccdd5a5ae81f464ebd6dd409f9283dc9a98716" prot="public">
+          <name>ROTATING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="struct_mock_key_entry_1a85287867561231f51c966a2915dccdd5a360ce14d8801323b95248f2830446b36" prot="public">
+          <name>REVOKED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_phase2_crypto_gates.cpp" line="36" column="5" bodyfile="benchmarks/security/bench_security_phase2_crypto_gates.cpp" bodystart="36" bodyend="36"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_mock_key_entry_1aea5577cc86a32a736c95b8b7d4c991d0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; MockKeyEntry::material</definition>
+        <argsstring></argsstring>
+        <name>material</name>
+        <qualifiedname>MockKeyEntry::material</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_phase2_crypto_gates.cpp" line="35" column="17" bodyfile="benchmarks/security/bench_security_phase2_crypto_gates.cpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mock_key_entry_1a01ff6e2879ad1d86dca79b5b875c2cde" prot="public" static="no" mutable="no">
+        <type>enum MockKeyEntry::Status</type>
+        <definition>enum MockKeyEntry::Status MockKeyEntry::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>MockKeyEntry::status</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_phase2_crypto_gates.cpp" line="36" column="23"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mock_key_entry_1a9633a7d8db217ebf0c7757c24589d15b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t MockKeyEntry::rotation_epoch</definition>
+        <argsstring></argsstring>
+        <name>rotation_epoch</name>
+        <qualifiedname>MockKeyEntry::rotation_epoch</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_phase2_crypto_gates.cpp" line="37" column="14" bodyfile="benchmarks/security/bench_security_phase2_crypto_gates.cpp" bodystart="37" bodyend="37"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/security/bench_security_phase2_crypto_gates.cpp" line="34" column="1" bodyfile="benchmarks/security/bench_security_phase2_crypto_gates.cpp" bodystart="34" bodyend="38"/>
+    <listofallmembers>
+      <member refid="struct_mock_key_entry_1a85287867561231f51c966a2915dccdd5ab9f5dbc50efb5ef1d3265a57fa033513" prot="public" virt="non-virtual"><scope>MockKeyEntry</scope><name>ACTIVE</name></member>
+      <member refid="struct_mock_key_entry_1aea5577cc86a32a736c95b8b7d4c991d0" prot="public" virt="non-virtual"><scope>MockKeyEntry</scope><name>material</name></member>
+      <member refid="struct_mock_key_entry_1a85287867561231f51c966a2915dccdd5a360ce14d8801323b95248f2830446b36" prot="public" virt="non-virtual"><scope>MockKeyEntry</scope><name>REVOKED</name></member>
+      <member refid="struct_mock_key_entry_1a85287867561231f51c966a2915dccdd5a5ae81f464ebd6dd409f9283dc9a98716" prot="public" virt="non-virtual"><scope>MockKeyEntry</scope><name>ROTATING</name></member>
+      <member refid="struct_mock_key_entry_1a9633a7d8db217ebf0c7757c24589d15b" prot="public" virt="non-virtual"><scope>MockKeyEntry</scope><name>rotation_epoch</name></member>
+      <member refid="struct_mock_key_entry_1a85287867561231f51c966a2915dccdd5" prot="public" virt="non-virtual"><scope>MockKeyEntry</scope><name>Status</name></member>
+      <member refid="struct_mock_key_entry_1a01ff6e2879ad1d86dca79b5b875c2cde" prot="public" virt="non-virtual"><scope>MockKeyEntry</scope><name>status</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
